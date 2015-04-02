@@ -52,13 +52,13 @@ public class SSServImplClientStartA extends SSServImplStartA implements Runnable
 
       par = new SSServPar(clientMsg);
 
-      SSServA.regClientRequest(
+      SSServA.inst.regClientRequest(
         par.op, 
         par.user, 
         servImpl);
       
       servImpl = 
-        SSServA.callServViaClient(
+        SSServA.inst.callServViaClient(
           clientCon,
           par,
           useCloud);
@@ -91,7 +91,7 @@ public class SSServImplClientStartA extends SSServImplStartA implements Runnable
     
     finalizeThread(false);
     
-    SSServA.unregClientRequest(par.op, par.user , servImpl);
+    SSServA.inst.unregClientRequest(par.op, par.user , servImpl);
   }
 
   public static void regServImplUsedByThread(final SSServImplA servImpl){
@@ -105,15 +105,10 @@ public class SSServImplClientStartA extends SSServImplStartA implements Runnable
     servImplUsedList.add(servImpl);
   }
   
-  @Override
-  protected void finalizeThread(){
-    finalizeThread(false);
-  }
-  
-  @Override
-  protected void finalizeThread(final Boolean log){
+   @Override
+   protected void finalizeThread(final Boolean log){
     
-    List<SSServImplA> usedServs = new ArrayList<>();
+    final List<SSServImplA> usedServs = new ArrayList<>();
     
     try{
       servImplsUsedByThread.get().remove(this);
@@ -127,24 +122,7 @@ public class SSServImplClientStartA extends SSServImplStartA implements Runnable
     }catch(Exception error){
       SSServErrReg.regErr(error);
     }finally{
-      SSServErrReg.logServImplErrors(log);
+      SSServErrReg.logServImplErrors();
     }
-  }
-  
-  @Override
-  public void handleClientOp(
-    final Class       servImplClientInteraceClass, 
-    final SSSocketCon sSCon, 
-    final SSServPar   par) throws Exception{
-    
-    throw new UnsupportedOperationException(SSStrU.empty);
-  }
-  
-  @Override
-  public Object handleServerOp(
-    final Class     servImplServerInteraceClass, 
-    final SSServPar par) throws Exception{
-    
-    throw new UnsupportedOperationException(SSStrU.empty);
   }
 }

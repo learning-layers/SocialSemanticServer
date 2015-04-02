@@ -25,15 +25,16 @@ import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSCoreConfA;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSServA;
+import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServImplA;
 import java.util.List;
 import sss.serv.eval.api.SSEvalClientI;
 import sss.serv.eval.api.SSEvalServerI;
 import sss.serv.eval.impl.SSEvalImpl;
 
-public class SSEvalServ extends SSServA{
+public class SSEvalServ extends SSServContainerI{
   
-  public static final SSServA  inst = new SSEvalServ(SSEvalClientI.class, SSEvalServerI.class);
+  public static final SSEvalServ inst = new SSEvalServ(SSEvalClientI.class, SSEvalServerI.class);
   
   protected SSEvalServ(
     final Class servImplClientInteraceClass, 
@@ -44,13 +45,13 @@ public class SSEvalServ extends SSServA{
   
   @Override
   protected SSServImplA createServImplForThread() throws Exception{
-    return new SSEvalImpl(servConf, (SSDBSQLI)SSDBSQL.inst.serv());
+    return new SSEvalImpl(conf, (SSDBSQLI)SSDBSQL.inst.serv());
   }
 
   @Override
-  public SSServA regServ(final SSConfA conf) throws Exception{
+  public SSServContainerI regServ(final SSConfA conf) throws Exception{
     
-    super.regServ(conf);
+    super.regServ(conf); SSServA.inst.regServ(this);
     
     return this;
   }
@@ -58,7 +59,7 @@ public class SSEvalServ extends SSServA{
   @Override
   public void initServ() throws Exception{
     
-    if(!servConf.use){
+    if(!conf.use){
       return;
     }
     

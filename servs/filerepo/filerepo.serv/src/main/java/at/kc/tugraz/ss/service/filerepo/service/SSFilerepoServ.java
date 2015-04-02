@@ -31,11 +31,12 @@ import at.kc.tugraz.ss.service.filerepo.api.SSFileRepoClientI;
 import at.kc.tugraz.ss.service.filerepo.api.SSFileRepoServerI;
 import at.kc.tugraz.ss.service.filerepo.datatypes.SSFileRepoFileAccessProperty;
 import at.kc.tugraz.ss.service.filerepo.service.task.SSFileRepoWritingMinutesUpdateTask;
+import at.tugraz.sss.serv.SSServContainerI;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SSFilerepoServ extends SSServA{
+public class SSFilerepoServ extends SSServContainerI{
   
   public  static final SSFilerepoServ                            inst            = new SSFilerepoServ(SSFileRepoClientI.class, SSFileRepoServerI.class);
   private static final Map<String, SSFileRepoFileAccessProperty> fileAccessProps = new HashMap<>();
@@ -49,13 +50,13 @@ public class SSFilerepoServ extends SSServA{
   
   @Override
   protected SSServImplA createServImplForThread() throws Exception{
-    return new SSFilerepoImpl((SSFileRepoConf)servConf, fileAccessProps);
+    return new SSFilerepoImpl((SSFileRepoConf)conf, fileAccessProps);
   }
   
   @Override
   public void schedule() throws Exception{
     
-    if(servConf.use){
+    if(conf.use){
       
       SSDateU.scheduleAtFixedRate(
         new SSFileRepoWritingMinutesUpdateTask(),
@@ -65,12 +66,14 @@ public class SSFilerepoServ extends SSServA{
   }
   
   @Override
-  public SSServA regServ(final SSConfA conf) throws Exception{
+  public SSServContainerI regServ(final SSConfA conf) throws Exception{
     
-    super.regServ(conf);
+    super.regServ(conf); 
     
-    regServForManagingEntities   ();
-    regServForDescribingEntities ();
+    SSServA.inst.regServ(this);
+    
+    SSServA.inst.regServForManagingEntities   (this);
+    SSServA.inst.regServForDescribingEntities (this);
     
     return this;
   }

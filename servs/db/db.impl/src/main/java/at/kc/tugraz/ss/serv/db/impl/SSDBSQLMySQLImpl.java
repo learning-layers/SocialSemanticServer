@@ -32,6 +32,7 @@ import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServImplDBA;
+import at.tugraz.sss.serv.SSServParI;
 import com.mysql.jdbc.exceptions.jdbc4.CommunicationsException;
 import com.mysql.jdbc.exceptions.jdbc4.MySQLNonTransientConnectionException;
 import com.mysql.jdbc.exceptions.jdbc4.MySQLTransactionRollbackException;
@@ -887,12 +888,12 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
   }
   
   @Override
-  public Boolean rollBack(final SSServPar parA){
+  public Boolean rollBack(final SSServParI par){
     
     try{
       
       if(
-        !parA.shouldCommit        ||
+        !((SSServPar)par).shouldCommit        ||
         connector == null         ||
         connector.getAutoCommit() ||
         connector.isClosed()){
@@ -901,8 +902,8 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
       
       connector.rollback();
       
-      if(parA.tryAgain){
-        parA.tryAgain = false;
+      if(((SSServPar)par).tryAgain){
+        ((SSServPar)par).tryAgain = false;
         return true;
       }
       

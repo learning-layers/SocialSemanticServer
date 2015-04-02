@@ -20,305 +20,265 @@
   */
 package at.tugraz.sss.serv;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public abstract class SSServA{
+public class SSServA implements SSServRegI{
   
-  public                 SSConfA                                         servConf                        = null;
-  protected        final Class                                           servImplClientInteraceClass;
-  protected        final Class                                           servImplServerInteraceClass;
-  protected              Exception                                       servImplCreationError           = null;
-  private   static final Map<SSServOpE, SSServA>                         servs                           = new EnumMap<>(SSServOpE.class);
-  private   static final Map<SSServOpE, SSServA>                         servsForClientOps               = new EnumMap<>(SSServOpE.class);
-  private   static final Map<SSServOpE, SSServA>                         servsForServerOps               = new EnumMap<>(SSServOpE.class);
-  private   static final List<SSServA>                                   servsForUpdatingEntities        = new ArrayList<>();
-  private   static final List<SSServA>                                   servsForManagingEntities        = new ArrayList<>();
-  private   static final List<SSServA>                                   servsForDescribingEntities      = new ArrayList<>();
-  private   static final List<SSServA>                                   servsForGatheringUserRelations  = new ArrayList<>();
-  private   static final List<SSServA>                                   servsForGatheringUsersResources = new ArrayList<>();
+  public static final SSServA inst = new SSServA();
   
-  protected SSServA(
-    final Class servImplClientInteraceClass,
-    final Class servImplServerInteraceClass){
-    
-    this.servImplClientInteraceClass = servImplClientInteraceClass;
-    this.servImplServerInteraceClass = servImplServerInteraceClass;
-  }
-  
-  private final ThreadLocal<SSServImplA> servImplsByServByThread = new ThreadLocal<SSServImplA>(){
-    
-    @Override protected SSServImplA initialValue() {
-      
-      try{
-        return createServImplForThread();
-      }catch (Exception error){
-        SSServErrReg.regErr(error);
-        servImplCreationError = error;
-        return null;
-      }
-    }
-  };
-  
-  protected abstract SSServImplA  createServImplForThread   () throws Exception;
-  public    abstract void         initServ                  () throws Exception;
-  public    abstract void         schedule                  () throws Exception;
-  public    abstract SSCoreConfA  getConfForCloudDeployment (final SSCoreConfA coreConfA, final List<Class> configuredServs) throws Exception;
-  
-  protected SSCoreConfA getConfForCloudDeployment(
-    final Class       servI,
-    final SSCoreConfA coreConf,
-    final List<Class> configuredServs) throws Exception{
-    
-    if(configuredServs.contains(servI)){
-      return coreConf;
-    }
-    
-    for(SSServA serv : servs.values()){
-      
-      if(servI.isInstance(serv)){
-        
-        configuredServs.add(servI);
-        
-        return serv.getConfForCloudDeployment(coreConf, configuredServs);
-      }
-    }
-    
-    throw new Exception("service not registered");
-  }
-  
-  public static void regClientRequest(
+  @Override
+  public void regClientRequest(
     final SSServOpE     op,
     final SSUri         user,
     final SSServImplA   servImpl) throws Exception{
     
-    SSServClientOpRequsTracker.addClientRequ(op, user, servImpl);
+    if(!requsLimitsForClientOpsPerUser.containsKey(op)){
+      return;
+    }
+    
+    Map<String, List<SSServImplA>> servImplsForUser;
+    List<SSServImplA>              servImpls;
+    
+    synchronized(currentRequsForClientOpsPerUser){
+      
+      if(
+        !currentRequsForClientOpsPerUser.containsKey(op) ||
+        currentRequsForClientOpsPerUser.get(op).get(SSStrU.toStr(user)) == null){
+        
+        servImplsForUser = new HashMap<>();
+        servImpls        = new ArrayList<>();
+        
+        servImplsForUser.put(SSStrU.toStr(user), servImpls);
+        
+        currentRequsForClientOpsPerUser.put(op, servImplsForUser);
+      }else{
+        
+        servImpls = currentRequsForClientOpsPerUser.get(op).get(SSStrU.toStr(user));
+        
+        if(
+          servImpls.size() == requsLimitsForClientOpsPerUser.get(op)){
+          throw new SSErr(SSErrE.maxNumClientConsForOpReached);
+        }
+      }
+      
+      servImpls.add(servImpl);
+    }
   }
   
-  public static void unregClientRequest(
+  @Override
+  public void unregClientRequest(
     final SSServOpE     op,
     final SSUri         user,
     final SSServImplA   servImpl) throws Exception{
-    
-    SSServClientOpRequsTracker.removeClientRequ(op, user, servImpl);
-  }
-  
-  protected void regClientRequestLimit(
-    final Map<SSServOpE, Integer> maxRequsPerOps) throws Exception{
-    
-    SSServClientOpRequsTracker.regClientRequestLimit(servImplClientInteraceClass, maxRequsPerOps);
-  }
-  
-  private void regServOps() throws Exception{
     
     try{
-      
-      synchronized(servsForClientOps){
-        
-        for(SSServOpE op : this.publishClientOps()){
-          
-          if(servsForClientOps.containsKey(op)){
-            throw new Exception("op for client service already registered");
-          }
-          
-          servsForClientOps.put(op, this);
-        }
+      if(!requsLimitsForClientOpsPerUser.containsKey(op)){
+        return;
       }
       
-      synchronized(servsForServerOps){
+      synchronized(currentRequsForClientOpsPerUser){
         
-        for(SSServOpE op : this.publishServerOps()){
-          
-          if(servsForServerOps.containsKey(op)){
-            throw new Exception("op for server service already registered");
-          }
-          
-          servsForServerOps.put(op, this);
+        if(
+          !currentRequsForClientOpsPerUser.containsKey(op) ||
+          currentRequsForClientOpsPerUser.get(op).isEmpty() ||
+          currentRequsForClientOpsPerUser.get(op).get(SSStrU.toStr(user)).isEmpty()){
+          return;
         }
+        
+        currentRequsForClientOpsPerUser.get(op).get(SSStrU.toStr(user)).remove(servImpl);
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
   }
   
-  protected void regServForUpdatingEntities() throws Exception{
+  @Override
+  public void regClientRequestLimit(
+    final Class                   servImplClientInteraceClass,
+    final Map<SSServOpE, Integer> maxRequsPerOps) throws Exception{
+    
+    for(Map.Entry<SSServOpE, Integer> maxRequestPerOp : maxRequsPerOps.entrySet()){
+      
+      try{
+        servImplClientInteraceClass.getMethod(SSStrU.toStr(maxRequestPerOp.getKey()));
+      }catch(Exception error){
+        SSServErrReg.regErrThrow(new Exception("client operation to register not available for this service"));
+        return;
+      }
+      
+      if(requsLimitsForClientOpsPerUser.containsKey(maxRequestPerOp.getKey())){
+        SSServErrReg.regErrThrow(new Exception("client operation already registered for this service"));
+        return;
+      }
+      
+      requsLimitsForClientOpsPerUser.put(maxRequestPerOp.getKey(), maxRequestPerOp.getValue());
+    }
+  }
+  
+  @Override
+  public void regServForUpdatingEntities(
+    final SSServContainerI servContainer) throws Exception{
     
     try{
       
-      if(!servConf.use){
+      if(!servContainer.conf.use){
         return;
       }
       
       synchronized(servsForUpdatingEntities){
         
-        if(servsForUpdatingEntities.contains(this)){
+        if(servsForUpdatingEntities.contains(servContainer)){
           throw new Exception("service for updating entities already registered");
         }
         
-        servsForUpdatingEntities.add(this);
+        servsForUpdatingEntities.add(servContainer);
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
   }
   
-  protected void regServForManagingEntities() throws Exception{
+  @Override
+  public void regServForManagingEntities(
+    final SSServContainerI servContainer) throws Exception{
     
     try{
       
-      if(!servConf.use){
+      if(!servContainer.conf.use){
         return;
       }
       
       synchronized(servsForManagingEntities){
         
-        if(servsForManagingEntities.contains(this)){
+        if(servsForManagingEntities.contains(servContainer)){
           throw new Exception("service already registered");
         }
         
-        servsForManagingEntities.add(this);
+        servsForManagingEntities.add(servContainer);
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
   }
   
-  protected void regServForDescribingEntities() throws Exception{
+  @Override
+  public void regServForDescribingEntities(
+    final SSServContainerI servContainer) throws Exception{
     
     try{
       
-      if(!servConf.use){
+      if(!servContainer.conf.use){
         return;
       }
       
       synchronized(servsForDescribingEntities){
         
-        if(servsForDescribingEntities.contains(this)){
+        if(servsForDescribingEntities.contains(servContainer)){
           throw new Exception("service for describing entities already registered");
         }
         
-        servsForDescribingEntities.add(this);
+        servsForDescribingEntities.add(servContainer);
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
   }
   
-  protected void regServForGatheringUserRelations() throws Exception{
+  @Override
+  public void regServForGatheringUserRelations(
+    final SSServContainerI servContainer) throws Exception{
     
     try{
       
-      if(!servConf.use){
+      if(!servContainer.conf.use){
         return;
       }
       
       synchronized(servsForGatheringUserRelations){
         
-        if(servsForGatheringUserRelations.contains(this)){
+        if(servsForGatheringUserRelations.contains(servContainer)){
           throw new Exception("service for gathering user relations already registered");
         }
         
-        servsForGatheringUserRelations.add(this);
+        servsForGatheringUserRelations.add(servContainer);
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
   }
   
-  protected void regServForGatheringUsersResources() throws Exception{
+  @Override
+  public void regServForGatheringUsersResources(
+    final SSServContainerI servContainer) throws Exception{
     
     try{
       
-      if(!servConf.use){
+      if(!servContainer.conf.use){
         return;
       }
       
       synchronized(servsForGatheringUsersResources){
         
-        if(servsForGatheringUsersResources.contains(this)){
+        if(servsForGatheringUsersResources.contains(servContainer)){
           throw new Exception("service for gathering users resources already registered");
         }
         
-        servsForGatheringUsersResources.add(this);
+        servsForGatheringUsersResources.add(servContainer);
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
   }
   
-  public SSServA regServ(
-    final SSConfA conf) throws Exception{
+  @Override
+  public SSServContainerI regServ(
+    final SSServContainerI servContainer) throws Exception{
     
     try{
       
-      this.servConf = conf;
-      
       synchronized(servs){
         
-        for(SSServOpE op : this.publishClientOps()){
+        for(SSServOpE op : servContainer.publishClientOps()){
           
           if(servs.containsKey(op)){
             throw new Exception("op for service already registered");
           }
           
-          servs.put(op, this);
+          servs.put(op, servContainer);
         }
       }
       
-      if(!servConf.use){
+      if(!servContainer.conf.use){
         return null;
       }
       
-      regServOps();
+      regServOps(servContainer);
       
-      return this;
+      return servContainer;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }
   }
   
-  public SSServImplA serv() throws Exception{
+  @Override
+  public SSServImplA callServViaClient(
+    final SSSocketCon  sSCon,
+    final SSServParI   par,
+    final Boolean      useCloud) throws Exception{
     
     try{
       
-      if(!servConf.use){
-        return null;
-      }
-      
-      final SSServImplA servTmp = servImplsByServByThread.get();
-      
-      if(servImplCreationError != null){
-        throw servImplCreationError;
-      }
-      
-      SSServImplStartA.regServImplUsedByThread (servTmp);
-      
-      return servTmp;
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
-  public static SSServImplA callServViaClient(
-    final SSSocketCon sSCon,
-    final SSServPar   parA,
-    final Boolean     useCloud) throws Exception{
-    
-    try{
-      
-      final SSServA     serv     = getClientServAvailableOnMachine(parA);
-      final SSServImplA servImpl = serv.serv();
+      final SSServContainerI     serv     = getClientServAvailableOnMachine(par);
+      final SSServImplA          servImpl = serv.serv();
       
       servImpl.handleClientOp(
         serv.servImplClientInteraceClass, 
         sSCon, 
-        parA);
+        par);
       
       return servImpl;
       
@@ -332,8 +292,8 @@ public abstract class SSServA{
         
         deployServNode(
           sSCon,
-          parA,
-          getClientServAvailableOnNodes(parA));
+          par,
+          getClientServAvailableOnNodes(par));
         
         return null; //TODO to be tested
       }
@@ -342,76 +302,14 @@ public abstract class SSServA{
     }
   }
   
-  private static void deployServNode(
-    final SSSocketCon sSCon,
-    final SSServPar   parA,
-    final SSServA     serv) throws Exception{
+  @Override
+  public Object callServViaServer(final SSServParI par) throws Exception{
     
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarU.user, parA.user);
-    opPars.put(SSVarU.serv, serv);
-    
-    sSCon.writeRetFullToClient(callServViaServer(new SSServPar(SSServOpE.cloudPublishService, opPars)), parA.op);
-  }
-  
-  private static SSServA getClientServAvailableOnNodes(
-    final SSServPar par) throws Exception{
-    
-    try{
-      final SSServA serv = servs.get(par.op);
-      
-      if(serv == null){
-        throw new SSErr(SSErrE.noClientServiceForOpAvailableOnNodes);
-      }
-      
-      return serv;
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case noClientServiceForOpAvailableOnNodes: throw error;
-        default: SSServErrReg.regErrThrow(error);
-      }
-      
-      return null;
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
-  private static SSServA getClientServAvailableOnMachine(
-    final SSServPar par) throws Exception{
-    
-    try{
-      final SSServA serv = servsForClientOps.get(par.op);
-      
-      if(serv == null){
-        throw new SSErr(SSErrE.noClientServiceForOpAvailableOnMachine);
-      }
-      
-      return serv;
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case noClientServiceForOpAvailableOnMachine: throw error;
-        default: SSServErrReg.regErrThrow(error);
-      }
-      
-      return null;
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
-  public static Object callServViaServer(final SSServPar par) throws Exception{
-    
-    SSServA serv;
+    SSServContainerI serv;
     
     try{
       
-      serv = servsForServerOps.get(par.op);
+      serv = servsForServerOps.get(par.getOpE());
       
       if(serv == null){
         throw new SSErr(SSErrE.notServerServiceForOpAvailable);
@@ -437,58 +335,125 @@ public abstract class SSServA{
     }
   }
   
-  public static List<SSServA> getServsUpdatingEntities(){
+  @Override
+  public List<SSServContainerI> getServsUpdatingEntities(){
     return new ArrayList<>(servsForUpdatingEntities);
   }
   
-  public static List<SSServA> getServsManagingEntities(){
+  @Override
+  public List<SSServContainerI> getServsManagingEntities(){
     return new ArrayList<>(servsForManagingEntities);
   }
   
-  public static List<SSServA> getServsDescribingEntities(){
+  @Override
+  public List<SSServContainerI> getServsDescribingEntities(){
     return new ArrayList<>(servsForDescribingEntities);
   }
   
-  public static List<SSServA> getServsGatheringUserRelations(){
+  @Override
+  public List<SSServContainerI> getServsGatheringUserRelations(){
     return new ArrayList<>(servsForGatheringUserRelations);
   }
   
-  public static List<SSServA> getServsGatheringUsersResources(){
+  @Override
+  public List<SSServContainerI> getServsGatheringUsersResources(){
     return new ArrayList<>(servsForGatheringUsersResources);
   }
   
-  private List<SSServOpE> publishClientOps() throws Exception{
+  private void deployServNode(
+    final SSSocketCon        sSCon,
+    final SSServParI         par,
+    final SSServContainerI   serv) throws Exception{
     
-    final List<SSServOpE> clientOps = new ArrayList<>();
+    final Map<String, Object> opPars = new HashMap<>();
     
-    if(servImplClientInteraceClass == null){
-      return clientOps;
-    }
+    opPars.put(SSVarU.user, par.getUserUri());
+    opPars.put(SSVarU.serv, serv);
     
-    final Method[]      methods   = servImplClientInteraceClass.getMethods();
-    
-    for(Method method : methods){
-      clientOps.add(SSServOpE.get(method.getName()));
-    }
-    
-    return clientOps;
+    sSCon.writeRetFullToClient(callServViaServer(new SSServPar(SSServOpE.cloudPublishService, opPars)), par.getOpE());
   }
   
-  private List<SSServOpE> publishServerOps() throws Exception{
+  private SSServContainerI getClientServAvailableOnNodes(
+    final SSServParI par) throws Exception{
     
-    final List<SSServOpE> serverOps = new ArrayList<>();
+    try{
+      final SSServContainerI serv = servs.get(par.getOpE());
+      
+      if(serv == null){
+        throw new SSErr(SSErrE.noClientServiceForOpAvailableOnNodes);
+      }
+      
+      return serv;
+    }catch(SSErr error){
+      
+      switch(error.code){
+        case noClientServiceForOpAvailableOnNodes: throw error;
+        default: SSServErrReg.regErrThrow(error);
+      }
+      
+      return null;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  private SSServContainerI getClientServAvailableOnMachine(
+    final SSServParI par) throws Exception{
     
-    if(servImplServerInteraceClass == null){
-      return serverOps;
+    try{
+      final SSServContainerI serv = servsForClientOps.get(par.getOpE());
+      
+      if(serv == null){
+        throw new SSErr(SSErrE.noClientServiceForOpAvailableOnMachine);
+      }
+      
+      return serv;
+    }catch(SSErr error){
+      
+      switch(error.code){
+        case noClientServiceForOpAvailableOnMachine: throw error;
+        default: SSServErrReg.regErrThrow(error);
+      }
+      
+      return null;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  private void regServOps(
+    final SSServContainerI servContainer) throws Exception{
+    try{
+      
+      synchronized(servsForClientOps){
+        
+        for(SSServOpE op : servContainer.publishClientOps()){
+          
+          if(servsForClientOps.containsKey(op)){
+            throw new Exception("op for client service already registered");
+          }
+          
+          servsForClientOps.put(op, servContainer);
+        }
+      }
+      
+      synchronized(servsForServerOps){
+        
+        for(SSServOpE op : servContainer.publishServerOps()){
+          
+          if(servsForServerOps.containsKey(op)){
+            throw new Exception("op for server service already registered");
+          }
+          
+          servsForServerOps.put(op, servContainer);
+        }
+      }
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
     }
     
-    final Method[]      methods   = servImplServerInteraceClass.getMethods();
-    
-    for(Method method : methods){
-      serverOps.add(SSServOpE.get(method.getName()));
-    }
-    
-    return serverOps;
   }
 }
 

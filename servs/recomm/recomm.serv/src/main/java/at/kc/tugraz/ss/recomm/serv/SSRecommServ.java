@@ -32,13 +32,13 @@ import at.kc.tugraz.ss.recomm.impl.SSRecommImpl;
 import at.kc.tugraz.ss.recomm.serv.task.SSRecommUpdateBulkTask;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.kc.tugraz.ss.serv.db.serv.SSDBSQL;
-import at.tugraz.sss.serv.SSServA;
 import at.tugraz.sss.serv.SSServImplA;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
+import at.tugraz.sss.serv.SSServContainerI;
 import java.util.List;
 
-public class SSRecommServ extends SSServA{
+public class SSRecommServ extends SSServContainerI{
   
   public static final SSRecommServ inst = new SSRecommServ(SSRecommClientI.class, SSRecommServerI.class);
   
@@ -51,13 +51,13 @@ public class SSRecommServ extends SSServA{
   
   @Override
   protected SSServImplA createServImplForThread() throws Exception{
-    return new SSRecommImpl(servConf, (SSDBSQLI)SSDBSQL.inst.serv());
+    return new SSRecommImpl(conf, (SSDBSQLI)SSDBSQL.inst.serv());
   }
   
   @Override
   public void initServ() throws Exception{
     
-    final SSRecommConf recommConf = (SSRecommConf)servConf;
+    final SSRecommConf recommConf = (SSRecommConf)conf;
     
     if(!recommConf.use){
       return;
@@ -96,7 +96,7 @@ public class SSRecommServ extends SSServA{
   @Override
   public void schedule() throws Exception{
     
-    final SSRecommConf recommConf = (SSRecommConf)servConf;
+    final SSRecommConf recommConf = (SSRecommConf)conf;
     
     if(
       !recommConf.use ||

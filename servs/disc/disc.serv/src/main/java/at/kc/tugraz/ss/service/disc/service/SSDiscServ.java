@@ -28,13 +28,13 @@ import at.kc.tugraz.ss.service.disc.impl.*;
 import at.tugraz.sss.serv.SSServA;
 import at.tugraz.sss.serv.SSServImplA;
 import at.kc.tugraz.ss.service.disc.api.SSDiscClientI;
-import at.kc.tugraz.ss.service.disc.api.SSDiscServContainerI;
 import at.kc.tugraz.ss.service.disc.api.SSDiscServerI;
+import at.tugraz.sss.serv.SSServContainerI;
 import java.util.List;
 
-public class SSDiscServ extends SSServA implements SSDiscServContainerI{
+public class SSDiscServ extends SSServContainerI{
   
-  public static final SSServA inst = new SSDiscServ(SSDiscClientI.class, SSDiscServerI.class);
+  public static final SSDiscServ inst = new SSDiscServ(SSDiscClientI.class, SSDiscServerI.class);
   
   protected SSDiscServ(
     final Class servImplClientInteraceClass, 
@@ -45,18 +45,20 @@ public class SSDiscServ extends SSServA implements SSDiscServContainerI{
   
   @Override
   protected SSServImplA createServImplForThread() throws Exception{
-    return new SSDiscImpl(servConf, (SSDBSQLI)SSDBSQL.inst.serv());
+    return new SSDiscImpl(conf, (SSDBSQLI)SSDBSQL.inst.serv());
   } 
 
   @Override
-  public SSServA regServ(final SSConfA conf) throws Exception{
+  public SSServContainerI regServ(final SSConfA conf) throws Exception{
     
-    super.regServ(conf);
+    super.regServ(conf); 
     
-    regServForManagingEntities        ();
-    regServForDescribingEntities      ();
-    regServForGatheringUserRelations  ();
-    regServForGatheringUsersResources ();
+    SSServA.inst.regServ(this);
+    
+    SSServA.inst.regServForManagingEntities        (this);
+    SSServA.inst.regServForDescribingEntities      (this);
+    SSServA.inst.regServForGatheringUserRelations  (this);
+    SSServA.inst.regServForGatheringUsersResources (this);
     
     return this;
   }

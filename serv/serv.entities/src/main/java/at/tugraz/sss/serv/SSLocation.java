@@ -20,10 +20,6 @@
 */
 package at.tugraz.sss.serv;
 
-import at.tugraz.sss.serv.SSEntity;
-import at.tugraz.sss.serv.SSEntityE;
-import at.tugraz.sss.serv.SSUri;
-
 public class SSLocation extends SSEntity{
   
   public Double latitude    = null;

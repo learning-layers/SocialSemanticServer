@@ -148,7 +148,7 @@ public class SSFileUploader extends SSServImplStartA{
   
   @Override
   protected void finalizeImpl() throws Exception{
-    finalizeThread();
+    finalizeThread(true);
   }
   
   private void sendAnswer() throws Exception{

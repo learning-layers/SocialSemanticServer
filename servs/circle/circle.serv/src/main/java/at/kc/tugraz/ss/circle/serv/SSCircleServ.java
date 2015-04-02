@@ -26,11 +26,11 @@ import at.kc.tugraz.ss.circle.impl.SSCircleImpl;
 import at.tugraz.sss.serv.SSCoreConfA;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.kc.tugraz.ss.serv.db.serv.SSDBSQL;
-import at.tugraz.sss.serv.SSServA;
+import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServImplA;
 import java.util.List;
 
-public class SSCircleServ extends SSServA{
+public class SSCircleServ extends SSServContainerI{
   
   public static final SSCircleServ inst = new SSCircleServ(SSCircleClientI.class, SSCircleServerI.class);
   
@@ -43,7 +43,7 @@ public class SSCircleServ extends SSServA{
   
   @Override
   protected SSServImplA createServImplForThread() throws Exception{
-    return new SSCircleImpl(servConf, (SSDBSQLI)SSDBSQL.inst.serv());
+    return new SSCircleImpl(conf, (SSDBSQLI)SSDBSQL.inst.serv());
   }
   
   @Override

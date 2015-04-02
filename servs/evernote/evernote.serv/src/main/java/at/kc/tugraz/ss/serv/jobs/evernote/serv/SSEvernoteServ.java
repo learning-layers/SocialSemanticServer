@@ -28,12 +28,13 @@ import at.kc.tugraz.ss.serv.jobs.evernote.api.SSEvernoteServerI;
 import at.kc.tugraz.ss.serv.jobs.evernote.impl.SSEvernoteImpl;
 import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSServA;
+import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServImplA;
 import java.util.List;
 
-public class SSEvernoteServ extends SSServA{
+public class SSEvernoteServ extends SSServContainerI{
   
-  public static final SSServA  inst = new SSEvernoteServ(SSEvernoteClientI.class, SSEvernoteServerI.class);
+  public static final SSEvernoteServ inst = new SSEvernoteServ(SSEvernoteClientI.class, SSEvernoteServerI.class);
   
   protected SSEvernoteServ(
     final Class servImplClientInteraceClass, 
@@ -44,16 +45,18 @@ public class SSEvernoteServ extends SSServA{
   
   @Override
   protected SSServImplA createServImplForThread() throws Exception{
-    return new SSEvernoteImpl(servConf, (SSDBSQLI) SSDBSQL.inst.serv());
+    return new SSEvernoteImpl(conf, (SSDBSQLI) SSDBSQL.inst.serv());
   }
 
   @Override
-  public SSServA regServ(final SSConfA conf) throws Exception{
+  public SSServContainerI regServ(final SSConfA conf) throws Exception{
     
-    super.regServ(conf);
+    super.regServ(conf); 
     
-    regServForManagingEntities();
-    regServForDescribingEntities();
+    SSServA.inst.regServ(this);
+    
+    SSServA.inst.regServForManagingEntities(this);
+    SSServA.inst.regServForDescribingEntities(this);
     
     return this;
   }

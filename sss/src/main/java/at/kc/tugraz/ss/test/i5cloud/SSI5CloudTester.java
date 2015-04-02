@@ -28,7 +28,7 @@ public class SSI5CloudTester extends Thread{
   @Override
   public void run(){
     
-    final SSI5CloudConf  i5CloudConf   = (SSI5CloudConf)   SSI5CloudServ.inst.servConf;
+    final SSI5CloudConf  i5CloudConf   = (SSI5CloudConf)   SSI5CloudServ.inst.conf;
     
     if(!i5CloudConf.executeOpAtStartUp){
       return;

@@ -48,6 +48,7 @@ import java.util.ArrayList;
 import java.util.List;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSServParI;
 
 public class SSAppStackLayoutImpl extends SSServImplWithDBA implements SSAppStackLayoutClientI, SSAppStackLayoutServerI, SSEntityDescriberI{
   
@@ -76,7 +77,7 @@ public class SSAppStackLayoutImpl extends SSServImplWithDBA implements SSAppStac
   
   @Override
   public SSEntity getDescForEntity(
-    final SSServPar parA,
+    final SSServParI parA,
     final SSEntity           desc) throws Exception{
     
    /* if(par.getApps){

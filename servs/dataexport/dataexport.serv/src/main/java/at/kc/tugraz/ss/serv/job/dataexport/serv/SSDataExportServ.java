@@ -24,13 +24,13 @@ import at.tugraz.sss.serv.SSCoreConfA;
 import at.kc.tugraz.ss.serv.job.dataexport.api.SSDataExportClientI;
 import at.kc.tugraz.ss.serv.job.dataexport.api.SSDataExportServerI;
 import at.kc.tugraz.ss.serv.job.dataexport.impl.SSDataExportImpl;
-import at.tugraz.sss.serv.SSServA;
+import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServImplA;
 import java.util.List;
 
-public class SSDataExportServ extends SSServA{
+public class SSDataExportServ extends SSServContainerI{
   
-  public static final SSServA  inst = new SSDataExportServ(SSDataExportClientI.class, SSDataExportServerI.class);
+  public static final SSDataExportServ inst = new SSDataExportServ(SSDataExportClientI.class, SSDataExportServerI.class);
   
   protected SSDataExportServ(
     final Class servImplClientInteraceClass,
@@ -41,7 +41,7 @@ public class SSDataExportServ extends SSServA{
   
   @Override
   protected SSServImplA createServImplForThread() throws Exception{
-    return new SSDataExportImpl(servConf);
+    return new SSDataExportImpl(conf);
   }
   
   @Override

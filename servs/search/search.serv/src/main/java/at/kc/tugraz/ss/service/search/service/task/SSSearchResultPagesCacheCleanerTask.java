@@ -65,7 +65,7 @@ public class SSSearchResultPagesCacheCleanerTask extends TimerTask {
     
     @Override
     protected void finalizeImpl() throws Exception{
-      finalizeThread();
+      finalizeThread(true);
     }
   }
 }

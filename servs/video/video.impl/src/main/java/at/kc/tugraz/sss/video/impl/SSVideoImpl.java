@@ -51,6 +51,7 @@ import java.util.ArrayList;
 import java.util.List;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSServParI;
 
 public class SSVideoImpl 
 extends SSServImplWithDBA 
@@ -197,7 +198,8 @@ implements
   }
   
   @Override
-  public void updateEntity(final SSServPar parA) throws Exception{
+  public void updateEntity(
+    final SSServParI parA) throws Exception{
 
     final SSEntityUpdatePar par = (SSEntityUpdatePar)parA;
     
@@ -217,8 +219,8 @@ implements
   
   @Override
   public SSEntity getDescForEntity(
-    final SSServPar parA,
-    final SSEntity  desc) throws Exception{
+    final SSServParI parA,
+    final SSEntity   desc) throws Exception{
     
     final SSEntityDescGetPar par = (SSEntityDescGetPar)parA;
       

@@ -29,7 +29,7 @@ public class SSEntityTester extends Thread{
   @Override
   public void run(){
     
-    final SSEntityConf entityConf = (SSEntityConf) SSEntityServ.inst.servConf;
+    final SSEntityConf entityConf = (SSEntityConf) SSEntityServ.inst.conf;
     
     if(!entityConf.executeOpAtStartUp){
       return;

@@ -32,15 +32,17 @@ import at.tugraz.sss.serv.SSDBSQLI;
 import at.kc.tugraz.ss.serv.db.serv.SSDBSQL;
 import at.kc.tugraz.ss.serv.dataimport.impl.SSDataImportImpl;
 import at.kc.tugraz.ss.serv.dataimport.serv.task.SSDataImportEvernoteTask;
+import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSServA;
+import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServImplA;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
-public class SSDataImportServ extends SSServA{
+public class SSDataImportServ extends SSServContainerI{
   
-  public static final SSServA  inst = new SSDataImportServ(SSDataImportClientI.class, SSDataImportServerI.class);
+  public static final SSDataImportServ inst = new SSDataImportServ(SSDataImportClientI.class, SSDataImportServerI.class);
   
   protected SSDataImportServ(
     final Class servImplClientInteraceClass,
@@ -51,23 +53,33 @@ public class SSDataImportServ extends SSServA{
   
   @Override
   protected SSServImplA createServImplForThread() throws Exception{
-    return new SSDataImportImpl(servConf, (SSDBSQLI) SSDBSQL.inst.serv());
+    return new SSDataImportImpl(conf, (SSDBSQLI) SSDBSQL.inst.serv());
   }
   
   @Override
-  public void initServ() throws Exception{
+  public SSServContainerI regServ(final SSConfA conf) throws Exception{
     
-    final SSDataImportConf dataImportConf = (SSDataImportConf)servConf;
+    super.regServ(conf);
     
-    if(!dataImportConf.use){
-      return;
-    }
+    SSServA.inst.regServ(this);
     
     final Map<SSServOpE, Integer> maxRequestsForOps = new EnumMap<>(SSServOpE.class);
     
     maxRequestsForOps.put(SSServOpE.dataImportEvernote, 1);
     
-    regClientRequestLimit(maxRequestsForOps);
+    SSServA.inst.regClientRequestLimit(servImplClientInteraceClass, maxRequestsForOps);
+    
+    return this;
+  }
+  
+  @Override
+  public void initServ() throws Exception{
+    
+    final SSDataImportConf dataImportConf = (SSDataImportConf)conf;
+    
+    if(!dataImportConf.use){
+      return;
+    }
     
     if(!dataImportConf.initAtStartUp){
       return;
@@ -100,7 +112,7 @@ public class SSDataImportServ extends SSServA{
   @Override
   public void schedule() throws Exception{
     
-    final SSDataImportConf dataImportConf = (SSDataImportConf)servConf;
+    final SSDataImportConf dataImportConf = (SSDataImportConf)conf;
     
     if(
       !dataImportConf.use ||

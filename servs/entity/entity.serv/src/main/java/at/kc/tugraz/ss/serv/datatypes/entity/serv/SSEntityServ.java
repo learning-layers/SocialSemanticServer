@@ -29,15 +29,16 @@ import at.tugraz.sss.serv.SSDBSQLI;
 import at.kc.tugraz.ss.serv.db.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSServA;
+import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServImplA;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
-public class SSEntityServ extends SSServA{
+public class SSEntityServ extends SSServContainerI{
   
-  public static final SSServA  inst = new SSEntityServ(SSEntityClientI.class, SSEntityServerI.class);
+  public static final SSEntityServ inst = new SSEntityServ(SSEntityClientI.class, SSEntityServerI.class);
   
   protected SSEntityServ(
     final Class servImplClientInteraceClass, 
@@ -48,13 +49,25 @@ public class SSEntityServ extends SSServA{
   
   @Override
   protected SSServImplA createServImplForThread() throws Exception{
-    return new SSEntityImpl(servConf, (SSDBSQLI)SSDBSQL.inst.serv());
+    return new SSEntityImpl(conf, (SSDBSQLI)SSDBSQL.inst.serv());
   }
   
   @Override
-  public SSServA regServ(final SSConfA conf) throws Exception{
+  public SSServContainerI regServ(final SSConfA conf) throws Exception{
     
-    super.regServ(conf);
+    super.regServ(conf); 
+    
+    SSServA.inst.regServ(this);
+    
+    SSServA.inst.regServForGatheringUserRelations(this);
+    SSServA.inst.regServForGatheringUsersResources(this);
+    
+    final Map<SSServOpE, Integer> maxRequestsForOps = new EnumMap<>(SSServOpE.class);
+    
+    maxRequestsForOps.put(SSServOpE.entityDescsGet, 15);
+    maxRequestsForOps.put(SSServOpE.entityDescGet,  20);
+    
+    SSServA.inst.regClientRequestLimit(servImplClientInteraceClass, maxRequestsForOps);
     
     return this;
   }
@@ -62,21 +75,11 @@ public class SSEntityServ extends SSServA{
   @Override
   public void initServ() throws Exception{
     
-    if(!servConf.use){
+    if(!conf.use){
       return;
     }
     
     SSServCaller.circlePubURIGet(true);    
-    
-    regServForGatheringUserRelations();
-    regServForGatheringUsersResources();
-    
-    final Map<SSServOpE, Integer> maxRequestsForOps = new EnumMap<>(SSServOpE.class);
-    
-    maxRequestsForOps.put(SSServOpE.entityDescsGet, 15);
-    maxRequestsForOps.put(SSServOpE.entityDescGet,  20);
-    
-    regClientRequestLimit(maxRequestsForOps);
   }
   
   @Override

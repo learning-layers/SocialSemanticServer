@@ -22,17 +22,17 @@
 
 import at.tugraz.sss.serv.SSDateU;
 import at.tugraz.sss.serv.SSCoreConfA;
-import at.tugraz.sss.serv.SSServA;
 import at.tugraz.sss.serv.SSServImplA;
 import at.kc.tugraz.ss.service.search.api.SSSearchClientI;
 import at.kc.tugraz.ss.service.search.api.SSSearchServerI;
 import at.kc.tugraz.ss.service.search.impl.SSSearchImpl;
 import at.kc.tugraz.ss.service.search.service.task.SSSearchResultPagesCacheCleanerTask;
+import at.tugraz.sss.serv.SSServContainerI;
 import java.util.List;
 
-public class SSSearchServ extends SSServA{
+public class SSSearchServ extends SSServContainerI{
   
-  public static final SSSearchServ  inst = new SSSearchServ(SSSearchClientI.class, SSSearchServerI.class);
+  public static final SSSearchServ inst = new SSSearchServ(SSSearchClientI.class, SSSearchServerI.class);
   
   protected SSSearchServ(
     final Class servImplClientInteraceClass, 
@@ -43,7 +43,7 @@ public class SSSearchServ extends SSServA{
   
   @Override
   protected SSServImplA createServImplForThread() throws Exception{
-    return new SSSearchImpl(servConf);
+    return new SSSearchImpl(conf);
   }
 
   @Override
@@ -52,7 +52,7 @@ public class SSSearchServ extends SSServA{
   
   public void schedule() throws Exception{
     
-    if(!servConf.use){
+    if(!conf.use){
       return;
     }
     

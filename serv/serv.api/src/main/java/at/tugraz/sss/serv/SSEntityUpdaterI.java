@@ -20,10 +20,6 @@
 */
 package at.tugraz.sss.serv;
 
-import at.tugraz.sss.serv.SSServPar;
-
 public interface SSEntityUpdaterI{
-  
-  public void updateEntity(
-    final SSServPar par) throws Exception;
+  public void updateEntity(final SSServParI par) throws Exception;
 }

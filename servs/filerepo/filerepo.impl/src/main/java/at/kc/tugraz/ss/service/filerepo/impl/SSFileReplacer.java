@@ -137,7 +137,7 @@ public class SSFileReplacer extends SSServImplStartA{
   
   @Override
   protected void finalizeImpl() throws Exception{
-    finalizeThread();
+    finalizeThread(true);
   }
   
   private void moveFileToLocalRepo() throws Exception{

@@ -28,7 +28,7 @@ public class SSFlagTester extends Thread{
   @Override
   public void run(){
     
-    final SSFlagConf flagConf = (SSFlagConf) SSFlagServ.inst.servConf;
+    final SSFlagConf flagConf = (SSFlagConf) SSFlagServ.inst.conf;
     
     if(!flagConf.executeOpAtStartUp){
       return;

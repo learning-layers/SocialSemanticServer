@@ -65,7 +65,7 @@ public class SSModelUEUpdateTask extends TimerTask{
     
     @Override
     protected void finalizeImpl() throws Exception{
-      finalizeThread();
+      finalizeThread(true);
     }
   }
 }

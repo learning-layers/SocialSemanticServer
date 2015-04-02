@@ -28,12 +28,13 @@ import at.tugraz.sss.serv.SSDBSQLI;
 import at.kc.tugraz.ss.serv.db.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSServA;
+import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServImplA;
 import java.util.List;
 
-public class SSActivityServ extends SSServA{
+public class SSActivityServ extends SSServContainerI{
   
- public static final SSServA  inst = new SSActivityServ(SSActivityClientI.class, SSActivityServerI.class);
+ public static final SSActivityServ  inst = new SSActivityServ(SSActivityClientI.class, SSActivityServerI.class);
   
  protected SSActivityServ(
     final Class servImplClientInteraceClass, 
@@ -44,15 +45,17 @@ public class SSActivityServ extends SSServA{
   
   @Override
   protected SSServImplA createServImplForThread() throws Exception{
-    return new SSActivityImpl(servConf, (SSDBSQLI) SSDBSQL.inst.serv());
+    return new SSActivityImpl(conf, (SSDBSQLI) SSDBSQL.inst.serv());
   }
   
   @Override 
-  public SSServA regServ(final SSConfA conf) throws Exception{
+  public SSServContainerI regServ(final SSConfA conf) throws Exception{
     
-    super.regServ(conf);
+    super.regServ(conf); 
     
-    regServForManagingEntities();
+    SSServA.inst.regServ(this);
+    
+    SSServA.inst.regServForManagingEntities(this);
     
     return this;
   }

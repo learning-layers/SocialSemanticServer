@@ -27,14 +27,14 @@ import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSServA;
 import at.tugraz.sss.serv.SSServImplA;
 import at.kc.tugraz.ss.service.user.api.SSUserClientI;
-import at.kc.tugraz.ss.service.user.api.SSUserServContainerI;
 import at.kc.tugraz.ss.service.user.api.SSUserServerI;
 import at.kc.tugraz.ss.service.user.impl.*;
+import at.tugraz.sss.serv.SSServContainerI;
 import java.util.List;
 
-public class SSUserServ extends SSServA implements SSUserServContainerI{
+public class SSUserServ extends SSServContainerI{
   
-  public static final SSServA inst = new SSUserServ(SSUserClientI.class, SSUserServerI.class);
+  public static final SSUserServ inst = new SSUserServ(SSUserClientI.class, SSUserServerI.class);
     
   protected SSUserServ(
     final Class servImplClientInteraceClass, 
@@ -45,16 +45,18 @@ public class SSUserServ extends SSServA implements SSUserServContainerI{
   
   @Override
   protected SSServImplA createServImplForThread() throws Exception{
-    return new SSUserImpl(servConf, (SSDBSQLI)SSDBSQL.inst.serv());
+    return new SSUserImpl(conf, (SSDBSQLI)SSDBSQL.inst.serv());
   }
 
   @Override
-  public SSServA regServ(final SSConfA conf) throws Exception{
+  public SSServContainerI regServ(final SSConfA conf) throws Exception{
     
-    super.regServ(conf);
+    super.regServ(conf); 
     
-    regServForManagingEntities();
-    regServForDescribingEntities();
+    SSServA.inst.regServ(this);
+    
+    SSServA.inst.regServForManagingEntities   (this);
+    SSServA.inst.regServForDescribingEntities (this);
     
     return this;
   }

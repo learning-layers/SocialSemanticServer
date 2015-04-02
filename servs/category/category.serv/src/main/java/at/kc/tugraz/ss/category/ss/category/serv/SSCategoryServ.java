@@ -32,11 +32,12 @@ import at.tugraz.sss.serv.SSServA;
 import at.tugraz.sss.serv.SSServImplA;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
+import at.tugraz.sss.serv.SSServContainerI;
 import java.util.List;
 
-public class SSCategoryServ extends SSServA{
+public class SSCategoryServ extends SSServContainerI{
   
-  public static final SSServA  inst = new SSCategoryServ(SSCategoryClientI.class, SSCategoryServerI.class);
+  public static final SSCategoryServ inst = new SSCategoryServ(SSCategoryClientI.class, SSCategoryServerI.class);
   
   protected SSCategoryServ(
     final Class servImplClientInteraceClass, 
@@ -47,15 +48,17 @@ public class SSCategoryServ extends SSServA{
   
   @Override
   protected SSServImplA createServImplForThread() throws Exception{
-    return new SSCategoryImpl(servConf, (SSDBSQLI) SSDBSQL.inst.serv());
+    return new SSCategoryImpl(conf, (SSDBSQLI) SSDBSQL.inst.serv());
   }
   
   @Override
-  public SSServA regServ(final SSConfA conf) throws Exception{
+  public SSServContainerI regServ(final SSConfA conf) throws Exception{
     
-    super.regServ(conf);
+    super.regServ(conf); 
     
-    regServForManagingEntities();
+    SSServA.inst.regServ(this);
+    
+    SSServA.inst.regServForManagingEntities(this);
     
     return this;
   }
@@ -63,15 +66,15 @@ public class SSCategoryServ extends SSServA{
   @Override
   public void initServ() throws Exception{
     
-    if(!servConf.use){
+    if(!conf.use){
       return;
     }
     
-    if(((SSCategoryConf)servConf).initAtStartUp){
+    if(((SSCategoryConf)conf).initAtStartUp){
       
       SSServCaller.categoriesPredefinedAdd(
         SSVoc.systemUserUri,
-        ((SSCategoryConf)servConf).predefinedCategories,
+        ((SSCategoryConf)conf).predefinedCategories,
         true);
     }
   }

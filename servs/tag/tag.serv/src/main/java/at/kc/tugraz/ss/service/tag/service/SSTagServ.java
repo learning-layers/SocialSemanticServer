@@ -29,14 +29,14 @@ import at.tugraz.sss.serv.SSServA;
 import at.tugraz.sss.serv.SSServImplA;
 import at.kc.tugraz.ss.serv.tag.conf.SSTagConf;
 import at.kc.tugraz.ss.service.tag.api.SSTagClientI;
-import at.kc.tugraz.ss.service.tag.api.SSTagServContainerI;
 import at.kc.tugraz.ss.service.tag.api.SSTagServerI;
 import at.kc.tugraz.ss.service.tag.impl.*;
+import at.tugraz.sss.serv.SSServContainerI;
 import java.util.List;
 
-public class SSTagServ extends SSServA implements SSTagServContainerI{
+public class SSTagServ extends SSServContainerI{
   
-  public static final SSServA  inst = new SSTagServ(SSTagClientI.class, SSTagServerI.class);
+  public static final SSTagServ inst = new SSTagServ(SSTagClientI.class, SSTagServerI.class);
   
   protected SSTagServ(
     final Class servImplClientInteraceClass, 
@@ -47,18 +47,20 @@ public class SSTagServ extends SSServA implements SSTagServContainerI{
   
   @Override
   protected SSServImplA createServImplForThread() throws Exception{
-    return new SSTagImpl(servConf, (SSDBSQLI) SSDBSQL.inst.serv());
+    return new SSTagImpl(conf, (SSDBSQLI) SSDBSQL.inst.serv());
   }
 
   @Override
-  public SSServA regServ(final SSConfA conf) throws Exception{
+  public SSServContainerI regServ(final SSConfA conf) throws Exception{
     
-    super.regServ(conf);
+    super.regServ(conf); 
     
-    regServForManagingEntities       ();
-    regServForDescribingEntities     ();
-    regServForGatheringUserRelations ();
-    regServForGatheringUsersResources();
+    SSServA.inst.regServ(this);
+    
+    SSServA.inst.regServForManagingEntities       (this);
+    SSServA.inst.regServForDescribingEntities     (this);
+    SSServA.inst.regServForGatheringUserRelations (this);
+    SSServA.inst.regServForGatheringUsersResources(this);
     
     return this;
   }

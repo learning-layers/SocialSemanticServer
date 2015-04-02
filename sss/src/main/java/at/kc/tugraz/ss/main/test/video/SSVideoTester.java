@@ -28,7 +28,7 @@ public class SSVideoTester extends Thread{
   @Override
   public void run(){
     
-    SSVideoConf videoConf = (SSVideoConf) SSVideoServ.inst.servConf;
+    SSVideoConf videoConf = (SSVideoConf) SSVideoServ.inst.conf;
     
     if(!videoConf.executeOpAtStartUp){
       return;

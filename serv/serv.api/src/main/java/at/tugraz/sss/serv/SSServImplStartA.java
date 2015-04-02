@@ -34,7 +34,7 @@ public abstract class SSServImplStartA extends SSServImplA implements Runnable{
       try{
         return new ArrayList<>();
       }catch (Exception error){
-        SSServErrReg.regErr(error);
+        SSLogU.err(error);
         return null;
       }
     }
@@ -57,25 +57,6 @@ public abstract class SSServImplStartA extends SSServImplA implements Runnable{
     servImplUsedList.add(servImpl);
   }
   
-  protected void finalizeThread(){
-    
-    List<SSServImplA> usedServs = new ArrayList<>();
-    
-    try{
-      servImplsUsedByThread.get().remove(this);
-
-      usedServs.addAll(servImplsUsedByThread.get());
-
-      for(SSServImplA servImpl : usedServs){
-        servImpl.finalizeImpl();
-      }
-    }catch(Exception error){
-      SSServErrReg.regErr(error);
-    }finally{
-      SSServErrReg.logServImplErrors();
-    }
-  }
-  
   protected void finalizeThread(final Boolean log){
     
     List<SSServImplA> usedServs = new ArrayList<>();
@@ -89,25 +70,24 @@ public abstract class SSServImplStartA extends SSServImplA implements Runnable{
         servImpl.finalizeImpl();
       }
     }catch(Exception error){
-      SSServErrReg.regErr(error);
+      SSLogU.err(error);
     }finally{
-      SSServErrReg.logServImplErrors(log);
     }
   }
   
   @Override
   public void handleClientOp(
-    final Class       servImplClientInteraceClass, 
-    final SSSocketCon sSCon, 
-    final SSServPar   par) throws Exception{
+    final Class        servImplClientInteraceClass, 
+    final SSSocketCon  sSCon, 
+    final SSServParI   par) throws Exception{
     
     throw new UnsupportedOperationException(SSStrU.empty);
   }
   
   @Override
   public Object handleServerOp(
-    final Class     servImplServerInteraceClass, 
-    final SSServPar par) throws Exception{
+    final Class      servImplServerInteraceClass, 
+    final SSServParI par) throws Exception{
     
     throw new UnsupportedOperationException(SSStrU.empty);
   }

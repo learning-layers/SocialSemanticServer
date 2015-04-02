@@ -24,13 +24,12 @@ import at.tugraz.sss.serv.SSJSONU;
 import at.tugraz.sss.serv.SSObjU;
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSVarU;
 import org.codehaus.jackson.JsonParser;
 
 public class SSClientPar{
   
-  private SSServOpE              op                       = null;
+  private SSServOpE            op                       = null;
   private SSUri                user                     = null;
   private String               key                      = null;
   public  String               sssNodeHost              = null;

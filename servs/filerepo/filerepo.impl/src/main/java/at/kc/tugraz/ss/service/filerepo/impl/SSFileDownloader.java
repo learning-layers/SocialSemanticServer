@@ -133,7 +133,7 @@ public class SSFileDownloader extends SSServImplStartA{
   
   @Override
   protected void finalizeImpl() throws Exception{
-    finalizeThread();
+    finalizeThread(true);
   }
 
 //  private void saveActivity() throws Exception{

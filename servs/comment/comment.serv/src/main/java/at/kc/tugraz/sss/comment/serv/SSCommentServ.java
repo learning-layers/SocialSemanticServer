@@ -30,11 +30,12 @@ import at.kc.tugraz.sss.comment.api.SSCommentClientI;
 import at.kc.tugraz.sss.comment.api.SSCommentServI;
 import at.kc.tugraz.sss.comment.api.SSCommentServerI;
 import at.kc.tugraz.sss.comment.impl.SSCommentImpl;
+import at.tugraz.sss.serv.SSServContainerI;
 import java.util.List;
 
-public class SSCommentServ extends SSServA implements SSCommentServI{
+public class SSCommentServ extends SSServContainerI implements SSCommentServI{
   
- public static final SSServA  inst = new SSCommentServ(SSCommentClientI.class, SSCommentServerI.class);
+ public static final SSCommentServ inst = new SSCommentServ(SSCommentClientI.class, SSCommentServerI.class);
   
  protected SSCommentServ(
     final Class servImplClientInteraceClass, 
@@ -45,17 +46,19 @@ public class SSCommentServ extends SSServA implements SSCommentServI{
   
   @Override
   protected SSServImplA createServImplForThread() throws Exception{
-    return new SSCommentImpl(servConf, (SSDBSQLI) SSDBSQL.inst.serv());
+    return new SSCommentImpl(conf, (SSDBSQLI) SSDBSQL.inst.serv());
   }
 
   @Override
-  public SSServA regServ(final SSConfA conf) throws Exception{
+  public SSServContainerI regServ(final SSConfA conf) throws Exception{
     
-    super.regServ(conf);
+    super.regServ(conf); 
     
-    regServForDescribingEntities();
-    regServForUpdatingEntities();
-    regServForGatheringUserRelations();
+    SSServA.inst.regServ(this);
+    
+    SSServA.inst.regServForDescribingEntities(this);
+    SSServA.inst.regServForUpdatingEntities(this);
+    SSServA.inst.regServForGatheringUserRelations(this);
     
     return this;
   }

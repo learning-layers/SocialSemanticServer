@@ -27,7 +27,7 @@ public class SSCollTester {
 
   public static void run() throws Exception{
     
-    SSCollConf collConf = (SSCollConf) SSCollServ.inst.servConf;
+    SSCollConf collConf = (SSCollConf) SSCollServ.inst.conf;
     
     if(!collConf.executeOpAtStartUp){
       return;

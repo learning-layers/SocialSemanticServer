@@ -18,10 +18,25 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
+package at.tugraz.sss.serv;
 
-package at.kc.tugraz.ss.service.tag.api;
+import at.tugraz.sss.serv.SSConfA;
+import at.tugraz.sss.serv.SSDBSQLI;
+import at.tugraz.sss.serv.SSServImplA;
 
-import at.tugraz.sss.serv.SSServContainerI;
+public abstract class SSServImplWithDBA extends SSServImplA{
+  
+  public final SSDBSQLI   dbSQL;
 
-public interface SSTagServContainerI extends SSServContainerI{
+  public SSServImplWithDBA(final SSConfA conf, final SSDBSQLI dbSQL){
+    
+    super(conf);
+    
+    this.dbSQL   = dbSQL;
+  }
+  
+  @Override
+  protected void finalizeImpl() throws Exception{
+//    ((SSServImplDBA)dbSQL).finalizeImpl();
+  }
 }

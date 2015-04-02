@@ -25,12 +25,13 @@ import at.kc.tugraz.ss.serv.job.i5cloud.api.SSI5CloudClientI;
 import at.kc.tugraz.ss.serv.job.i5cloud.api.SSI5CloudServerI;
 import at.kc.tugraz.ss.serv.job.i5cloud.impl.SSI5CloudImpl;
 import at.tugraz.sss.serv.SSServA;
+import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServImplA;
 import java.util.List;
 
-public class SSI5CloudServ extends SSServA{
+public class SSI5CloudServ extends SSServContainerI{
   
- public static final SSServA inst = new SSI5CloudServ(SSI5CloudClientI.class, SSI5CloudServerI.class);
+ public static final SSI5CloudServ inst = new SSI5CloudServ(SSI5CloudClientI.class, SSI5CloudServerI.class);
   
  protected SSI5CloudServ(
     final Class servImplClientInteraceClass, 
@@ -41,7 +42,7 @@ public class SSI5CloudServ extends SSServA{
   
   @Override
   protected SSServImplA createServImplForThread() throws Exception{
-    return new SSI5CloudImpl(servConf);
+    return new SSI5CloudImpl(conf);
   }
 
   @Override

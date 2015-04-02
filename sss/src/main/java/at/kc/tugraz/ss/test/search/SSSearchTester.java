@@ -28,7 +28,7 @@ public class SSSearchTester extends Thread{
   @Override
   public void run(){
     
-    SSSearchConf searchConf = (SSSearchConf) SSSearchServ.inst.servConf;
+    SSSearchConf searchConf = (SSSearchConf) SSSearchServ.inst.conf;
     
     if(!searchConf.executeOpAtStartUp){
       return;

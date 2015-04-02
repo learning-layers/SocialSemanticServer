@@ -28,7 +28,7 @@ public class SSDiscTester extends Thread{
   @Override
   public void run(){
     
-    final SSDiscConf discConf = (SSDiscConf) SSDiscServ.inst.servConf;
+    final SSDiscConf discConf = (SSDiscConf) SSDiscServ.inst.conf;
     
     if(!discConf.executeOpAtStartUp){
       return;

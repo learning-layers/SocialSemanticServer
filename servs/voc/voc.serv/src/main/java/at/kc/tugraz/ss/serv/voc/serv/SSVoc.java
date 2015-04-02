@@ -29,11 +29,12 @@ import at.tugraz.sss.serv.SSServA;
 import at.tugraz.sss.serv.SSServImplA;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.voc.api.SSVocI;
+import at.tugraz.sss.serv.SSServContainerI;
 import java.util.List;
 
-public class SSVoc extends SSServA{
+public class SSVoc extends SSServContainerI{
   
-  public static final SSServA inst                           = new SSVoc(null, SSVocI.class);
+  public static final SSVoc inst                           = new SSVoc(null, SSVocI.class);
   public static SSUri         systemUserUri                  = null;
 
   protected SSVoc(
@@ -45,13 +46,13 @@ public class SSVoc extends SSServA{
   
   @Override
   protected SSServImplA createServImplForThread() throws Exception{
-    return new SSVocImpl((SSVocConf) servConf);
+    return new SSVocImpl((SSVocConf) conf);
   }
   
   @Override
-  public SSServA regServ(final SSConfA conf) throws Exception{
+  public SSServContainerI regServ(final SSConfA conf) throws Exception{
     
-    super.regServ(conf);
+    super.regServ(conf); SSServA.inst.regServ(this);
     
     systemUserUri   = SSServCaller.vocURICreateFromId(SSVocConf.systemUserLabel);
     

@@ -18,9 +18,18 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
+package at.tugraz.sss.serv;
 
-package at.kc.tugraz.sss.flag.api;
+import at.tugraz.sss.serv.SSConfA;
+import at.tugraz.sss.serv.SSServImplA;
 
-public interface SSFlagServI{
+public abstract class SSServImplMiscA extends SSServImplA{
+
+  public SSServImplMiscA(final SSConfA conf) throws Exception{
+    super(conf);
+  }
   
+  @Override
+  protected void finalizeImpl() throws Exception{
+  }
 }

@@ -11,8 +11,13 @@
   <packaging>jar</packaging>
   <name>serv.api</name>
   
-  
   <dependencies>
+    
+    <dependency>
+      <groupId>sss.serv</groupId>
+      <artifactId>serv.conf</artifactId>
+      <version>${project.version}</version>
+    </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
@@ -32,7 +37,14 @@
       <version>${project.version}</version>
     </dependency>
     
-<!--    <dependency>
+    <dependency>
+      <groupId>com.wordnik</groupId>
+      <artifactId>swagger-jersey2-jaxrs_2.10</artifactId>
+      <scope>compile</scope>
+      <version>${ssSwaggerVersion}</version>
+    </dependency>  
+    
+    <!--    <dependency>
       <groupId>sss.serv</groupId>
       <artifactId>serv.entities</artifactId>
       <version>${project.version}</version>

@@ -28,7 +28,7 @@ public class SSTagTester extends Thread{
   @Override
   public void run(){
     
-    final SSTagConf tagConf = (SSTagConf) SSTagServ.inst.servConf;
+    final SSTagConf tagConf = (SSTagConf) SSTagServ.inst.conf;
     
     if(!tagConf.executeOpAtStartUp){
       return;

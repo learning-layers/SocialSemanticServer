@@ -234,6 +234,6 @@ public class SSSInitializer extends SSServImplStartA{
   
   @Override
   protected void finalizeImpl() throws Exception{
-    finalizeThread();
+    finalizeThread(true);
   }
 }

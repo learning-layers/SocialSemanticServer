@@ -20,10 +20,6 @@
 */
 package at.tugraz.sss.serv;
 
-import at.tugraz.sss.serv.SSEntity;
-import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSUri;
-
 public interface SSEntityDescriberI{
   
   public SSEntity getUserEntity(
@@ -31,6 +27,6 @@ public interface SSEntityDescriberI{
     final SSEntity           entity) throws Exception;
   
   public SSEntity getDescForEntity(
-    final SSServPar    par,
-    final SSEntity     desc) throws Exception;
+    final SSServParI    par,
+    final SSEntity      desc) throws Exception;
 }

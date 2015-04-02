@@ -51,6 +51,7 @@ import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import at.tugraz.sss.serv.SSErr;
+import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServErrReg;
 
 public class SSDataExportImpl extends SSServImplMiscA implements SSDataExportClientI, SSDataExportServerI{
@@ -91,7 +92,7 @@ public class SSDataExportImpl extends SSServImplMiscA implements SSDataExportCli
         }
       }
       
-      for(SSServA serv : SSServA.getServsGatheringUsersResources()){
+      for(SSServContainerI serv : SSServA.inst.getServsGatheringUsersResources()){
         ((SSUsersResourcesGathererI) serv.serv()).getUsersResources(allUsers, usersResources);
       }
       
@@ -239,7 +240,7 @@ public class SSDataExportImpl extends SSServImplMiscA implements SSDataExportCli
         }
       }
       
-      for(SSServA serv : SSServA.getServsGatheringUserRelations()){
+      for(SSServContainerI serv : SSServA.inst.getServsGatheringUserRelations()){
         ((SSUserRelationGathererI) serv.serv()).getUserRelations(allUsers, userRelations);
       }
       

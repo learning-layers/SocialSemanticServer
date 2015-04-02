@@ -32,6 +32,7 @@ import at.kc.tugraz.ss.serv.auth.conf.SSAuthConf;
 
 import at.tugraz.sss.serv.SSServA;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServErrReg;
 import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.ChannelExec;
@@ -53,8 +54,8 @@ public class SSCloudPublishServiceFct{
   }
   
   public static void publishServiceFromWindowsToWindowsLocally(
-    final SSServA serv,
-    final String  localWorkTmpDirPath) throws Exception{
+    final SSServContainerI serv,
+    final String           localWorkTmpDirPath) throws Exception{
     
     try{
       
@@ -76,8 +77,8 @@ public class SSCloudPublishServiceFct{
   }
   
   public static void publishServiceFromWindowsToUnixRemotely(
-    final SSServA serv, 
-    final String  localWorkTmpDirPath) throws Exception{
+    final SSServContainerI serv, 
+    final String           localWorkTmpDirPath) throws Exception{
     
     try{
       
@@ -316,14 +317,14 @@ public class SSCloudPublishServiceFct{
   }
 
   private static void setAndSaveServiceConf(
-    final SSServA     servToStart,
-    final String      localWorkTmpDirPath,
-    final String      serviceDestDirTmpPath,
-    final String      host,
-    final Integer     port) throws Exception{
+    final SSServContainerI       servToStart,
+    final String                 localWorkTmpDirPath,
+    final String                 serviceDestDirTmpPath,
+    final String                 host,
+    final Integer                port) throws Exception{
     
     try{
-      final SSCoreConfA              confForServ        = servToStart.getConfForCloudDeployment(SSCoreConf.copy(), new ArrayList<Class>());
+      final SSCoreConfA              confForServ        = servToStart.getConfForCloudDeployment(SSCoreConf.copy(), new ArrayList<>());
       final SSCloudConf              cloudConf          = ((SSCoreConf)confForServ).getCloud();
       final SSConf                   ssConf             = ((SSCoreConf)confForServ).getSs();
       final SSAuthConf               authConf           = ((SSCoreConf)confForServ).getAuth();

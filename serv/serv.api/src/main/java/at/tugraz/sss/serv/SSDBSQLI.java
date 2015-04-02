@@ -20,7 +20,6 @@
 */
 package at.tugraz.sss.serv;
 
-import at.tugraz.sss.serv.SSServPar;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.util.List;
@@ -37,7 +36,7 @@ public interface SSDBSQLI{
   public void       closeCon  ()   throws Exception;
   
   public Boolean rollBack(
-    final SSServPar parA);
+    final SSServParI parA);
 
   public ResultSet select(
     final List<String>                         tables,

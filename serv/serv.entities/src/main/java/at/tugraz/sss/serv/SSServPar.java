@@ -23,7 +23,6 @@ package at.tugraz.sss.serv;
 import at.tugraz.sss.serv.SSObjU;
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSVarU;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.wordnik.swagger.annotations.ApiModelProperty;
@@ -34,23 +33,23 @@ import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
 
 @XmlRootElement
-public class SSServPar{
+public class SSServPar implements SSServParI{
   
-  @XmlElement 
-  @ApiModelProperty( 
-    value = "operation to be executed", 
+  @XmlElement
+  @ApiModelProperty(
+    value = "operation to be executed",
     required = true)
   public        SSServOpE              op            = null;
   
-  @XmlElement 
-  @ApiModelProperty( 
-    value = "the user's identifier", 
+  @XmlElement
+  @ApiModelProperty(
+    value = "the user's identifier",
     required = true)
   public        SSUri                user          = null;
   
-  @XmlElement 
-  @ApiModelProperty( 
-    value = "the user's access tocken", 
+  @XmlElement
+  @ApiModelProperty(
+    value = "the user's access tocken",
     required = true)
   public String key                    = null;
   
@@ -238,15 +237,25 @@ public class SSServPar{
   
   protected SSServPar(){}
   
+  @Override
+  public SSServOpE getOpE(){
+    return op;
+  }
+  
+  @Override
+  public SSUri getUserUri(){
+    return user;
+  }
+  
   /* json getters */
   public String getOp(){
     return SSStrU.toStr(op);
   }
-
+  
   public String getUser(){
     return SSStrU.removeTrailingSlash(user);
   }
-
+  
   public String getKey(){
     return key;
   }

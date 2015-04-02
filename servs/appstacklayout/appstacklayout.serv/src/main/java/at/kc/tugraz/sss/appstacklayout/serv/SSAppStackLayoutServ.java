@@ -27,14 +27,14 @@ import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSServA;
 import at.tugraz.sss.serv.SSServImplA;
 import at.kc.tugraz.sss.appstacklayout.api.SSAppStackLayoutClientI;
-import at.kc.tugraz.sss.appstacklayout.api.SSAppStackLayoutServI;
 import at.kc.tugraz.sss.appstacklayout.api.SSAppStackLayoutServerI;
 import at.kc.tugraz.sss.appstacklayout.impl.SSAppStackLayoutImpl;
+import at.tugraz.sss.serv.SSServContainerI;
 import java.util.List;
 
-public class SSAppStackLayoutServ extends SSServA implements SSAppStackLayoutServI{
+public class SSAppStackLayoutServ extends SSServContainerI{
   
- public static final SSServA  inst = new SSAppStackLayoutServ(SSAppStackLayoutClientI.class, SSAppStackLayoutServerI.class);
+ public static final SSAppStackLayoutServ  inst = new SSAppStackLayoutServ(SSAppStackLayoutClientI.class, SSAppStackLayoutServerI.class);
   
  protected SSAppStackLayoutServ(
     final Class servImplClientInteraceClass, 
@@ -45,15 +45,17 @@ public class SSAppStackLayoutServ extends SSServA implements SSAppStackLayoutSer
   
   @Override
   protected SSServImplA createServImplForThread() throws Exception{
-    return new SSAppStackLayoutImpl(servConf, (SSDBSQLI) SSDBSQL.inst.serv());
+    return new SSAppStackLayoutImpl(conf, (SSDBSQLI) SSDBSQL.inst.serv());
   }
 
   @Override
-  public SSServA regServ(final SSConfA conf) throws Exception{
+  public SSServContainerI regServ(final SSConfA conf) throws Exception{
     
-    super.regServ(conf);
+    super.regServ(conf); 
     
-    regServForDescribingEntities();
+    SSServA.inst.regServ(this);
+    
+    SSServA.inst.regServForDescribingEntities(this);
     
     return this;
   }

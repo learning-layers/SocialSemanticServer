@@ -26,12 +26,13 @@ import at.kc.tugraz.ss.serv.jsonld.api.SSJSONLDServerI;
 import at.kc.tugraz.ss.serv.jsonld.conf.SSJSONLDConf;
 import at.kc.tugraz.ss.serv.jsonld.impl.SSJSONLDImpl;
 import at.tugraz.sss.serv.SSServA;
+import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServImplA;
 import java.util.List;
 
-public class SSJSONLD extends SSServA{
+public class SSJSONLD extends SSServContainerI{
   
-  public  static final SSServA inst = new SSJSONLD(SSJSONLDClientI.class, SSJSONLDServerI.class);
+  public static final SSJSONLD inst = new SSJSONLD(SSJSONLDClientI.class, SSJSONLDServerI.class);
   
   protected SSJSONLD(
     final Class servImplClientInteraceClass, 
@@ -42,7 +43,7 @@ public class SSJSONLD extends SSServA{
   
   @Override
   protected SSServImplA createServImplForThread() throws Exception{
-    return new SSJSONLDImpl((SSJSONLDConf) servConf);
+    return new SSJSONLDImpl((SSJSONLDConf) conf);
   }
 
   @Override

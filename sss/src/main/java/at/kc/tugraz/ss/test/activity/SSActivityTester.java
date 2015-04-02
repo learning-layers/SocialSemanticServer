@@ -28,7 +28,7 @@ public class SSActivityTester extends Thread{
   @Override
   public void run(){
     
-    SSActivityConf activityConf = (SSActivityConf) SSActivityServ.inst.servConf;
+    SSActivityConf activityConf = (SSActivityConf) SSActivityServ.inst.conf;
     
     if(!activityConf.executeOpAtStartUp){
       return;

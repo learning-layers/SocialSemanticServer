@@ -22,7 +22,7 @@ package at.tugraz.sss.serv;
 
 public abstract class SSServImplA{
 
-  protected SSConfA                        conf         = null;
+  protected SSConfA conf = null;
   
   protected abstract void finalizeImpl      ()    throws Exception;
   
@@ -31,28 +31,28 @@ public abstract class SSServImplA{
   }
   
   public void handleClientOp(
-    final Class       clientInterfaceClass, 
-    final SSSocketCon sSCon, 
-    final SSServPar   par) throws Exception{
+    final Class        clientInterfaceClass, 
+    final SSSocketCon  sSCon, 
+    final SSServParI   par) throws Exception{
     
     if(clientInterfaceClass == null){
-      SSServErrReg.regErr(new Exception("service op shouldnt be instantiated this way"));
+      SSLogU.err(new Exception("service op shouldnt be instantiated this way"));
       return;
     }
     
-    clientInterfaceClass.getMethod(SSStrU.toStr(par.op), SSSocketCon.class, SSServPar.class).invoke(this, sSCon, par);
+    clientInterfaceClass.getMethod(SSStrU.toStr(par.getOpE()), SSSocketCon.class, SSServParI.class).invoke(this, sSCon, par);
   }
 
   public Object handleServerOp(
-    final Class     serverInterfaceClass, 
-    final SSServPar par) throws Exception{
+    final Class      serverInterfaceClass, 
+    final SSServParI par) throws Exception{
     
     if(serverInterfaceClass == null){
-      SSServErrReg.regErr(new Exception("service op shouldnt be instantiated this way"));
+      SSLogU.err(new Exception("service op shouldnt be instantiated this way"));
       return null;
     }
     
-    return serverInterfaceClass.getMethod(SSStrU.toStr(par.op), SSServPar.class).invoke(this, par);
+    return serverInterfaceClass.getMethod(SSStrU.toStr(par.getOpE()), SSServParI.class).invoke(this, par);
   }
 }
 

@@ -23,23 +23,18 @@ package at.tugraz.sss.serv;
 import at.tugraz.sss.serv.SSEntityA;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarU;
-import at.tugraz.sss.serv.SSVarU;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SSLabel extends SSEntityA{
+public class SSTextComment extends SSEntityA {
 
-  public static SSLabel get(final String str) throws Exception{
-    return new SSLabel(str);
+  public static SSTextComment get(final String comment) throws Exception{
+    return new SSTextComment(SSStrU.replaceAllLineFeedsWithTextualRepr(comment));
   }
   
-  public static SSLabel get(final SSEntityA entity) throws Exception{
-    return new SSLabel(SSStrU.toStr(entity));
-  }
-  
-  public static List<SSLabel> get(final List<String> strings) throws Exception{
+  public static List<SSTextComment> get(final List<String> strings) throws Exception{
     
-    final List<SSLabel> result = new ArrayList<>();
+    final List<SSTextComment> result = new ArrayList<>();
     
     for(String string : strings){
       result.add(get(string));
@@ -47,23 +42,36 @@ public class SSLabel extends SSEntityA{
     
     return result;
   }
+
+  public static Boolean isTextComment(final String string) throws Exception{
+    return string != null;
+  }
   
-  public static Boolean isLabel(final String string) throws Exception{
+  public static List<SSTextComment> asListWithoutNullAndEmpty(final SSTextComment... comments){
     
-    if(string == null){
-      return false;
+    final List<SSTextComment> result = new ArrayList<>();
+    
+    if(comments == null){
+      return result;
     }
     
-    return true;
+    for(SSTextComment comment : comments){
+      
+      if(SSStrU.isEmpty(comment)){
+        continue;
+      }
+      
+      result.add(comment);
+    }
+    
+    return result;
   }
+
+  private SSTextComment(final String value) throws Exception{
+    super(value);
     
-   
-  protected SSLabel(final String string) throws Exception{
-    
-    super(string);
-    
-    if(!isLabel(string)){
-      throw new Exception("invalid label " + string);
+    if(!isTextComment(value)){
+      throw new Exception("invalid text comment " + value);
     }
   }
   

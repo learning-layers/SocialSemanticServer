@@ -34,12 +34,13 @@ import at.tugraz.sss.serv.SSServImplA;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
+import at.tugraz.sss.serv.SSServContainerI;
 
 import java.util.List;
 
-public class SSAuthServ extends SSServA{
+public class SSAuthServ extends SSServContainerI{
   
-  public static final SSServA inst = new SSAuthServ(SSAuthClientI.class, SSAuthServerI.class);
+  public static final SSAuthServ inst = new SSAuthServ(SSAuthClientI.class, SSAuthServerI.class);
 
   protected SSAuthServ(
     final Class servImplClientInteraceClass, 
@@ -50,19 +51,19 @@ public class SSAuthServ extends SSServA{
   
   @Override
   protected SSServImplA createServImplForThread() throws Exception{
-    return new SSAuthImpl((SSAuthConf)servConf, (SSDBSQLI) SSDBSQL.inst.serv());
+    return new SSAuthImpl((SSAuthConf)conf, (SSDBSQLI) SSDBSQL.inst.serv());
   }
   
   @Override
-  public SSServA regServ(final SSConfA conf) throws Exception{
+  public SSServContainerI regServ(final SSConfA conf) throws Exception{
     
-    super.regServ(conf);
+    super.regServ(conf); SSServA.inst.regServ(this);
     
     SSServCaller.authRegisterUser(
       SSVoc.systemUserUri,
       SSLabel.get(SSVocConf.systemUserLabel),
       SSVocConf.systemUserEmail,
-      ((SSAuthConf)servConf).systemUserPassword,
+      ((SSAuthConf)conf).systemUserPassword,
       true,
       true,
       true);
@@ -73,13 +74,13 @@ public class SSAuthServ extends SSServA{
   @Override
   public void initServ() throws Exception{
     
-    if(!servConf.use){
+    if(!conf.use){
       return;
     }
     
-    if(((SSAuthConf)servConf).initAtStartUp){
+    if(((SSAuthConf)conf).initAtStartUp){
       
-      switch(((SSAuthConf)servConf).authType){
+      switch(((SSAuthConf)conf).authType){
         case csvFileAuth: SSServCaller.authUsersFromCSVFileAdd(true); break;
       }
     }

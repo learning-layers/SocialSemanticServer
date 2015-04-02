@@ -28,7 +28,7 @@ public class SSLearnEpTester extends Thread{
   @Override
   public void run(){
     
-    final SSLearnEpConf learnEpConf = (SSLearnEpConf) SSLearnEpServ.inst.servConf;
+    final SSLearnEpConf learnEpConf = (SSLearnEpConf) SSLearnEpServ.inst.conf;
     
     if(!learnEpConf.executeOpAtStartUp){
       return;

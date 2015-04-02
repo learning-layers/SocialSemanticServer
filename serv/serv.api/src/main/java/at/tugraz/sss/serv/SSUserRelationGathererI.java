@@ -20,7 +20,6 @@
 */
 package at.tugraz.sss.serv;
 
-import at.tugraz.sss.serv.SSUri;
 import java.util.List;
 import java.util.Map;
 

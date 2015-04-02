@@ -32,14 +32,15 @@ import at.tugraz.sss.serv.SSDBSQLI;
 import at.kc.tugraz.ss.serv.db.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSServA;
+import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServImplA;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
-public class SSLearnEpServ extends SSServA{
+public class SSLearnEpServ extends SSServContainerI{
   
-  public static final SSServA  inst = new SSLearnEpServ(SSLearnEpClientI.class, SSLearnEpServerI.class);
+  public static final SSLearnEpServ inst = new SSLearnEpServ(SSLearnEpClientI.class, SSLearnEpServerI.class);
   
   protected SSLearnEpServ(
     final Class servImplClientInteraceClass, 
@@ -50,16 +51,25 @@ public class SSLearnEpServ extends SSServA{
   
   @Override
   protected SSServImplA createServImplForThread() throws Exception{
-    return new SSLearnEpImpl(servConf, (SSDBSQLI)SSDBSQL.inst.serv());
+    return new SSLearnEpImpl(conf, (SSDBSQLI)SSDBSQL.inst.serv());
   }
 
   @Override
-  public SSServA regServ(final SSConfA conf) throws Exception{
+  public SSServContainerI regServ(final SSConfA conf) throws Exception{
     
-    super.regServ(conf);
+    super.regServ(conf); 
     
-    regServForManagingEntities();
-    regServForGatheringUsersResources ();
+    SSServA.inst.regServ(this);
+    
+    SSServA.inst.regServForManagingEntities        (this);
+    SSServA.inst.regServForGatheringUsersResources (this);
+    
+    final Map<SSServOpE, Integer> maxRequestsForOps = new EnumMap<>(SSServOpE.class);
+    
+    maxRequestsForOps.put(SSServOpE.learnEpVersionGetTimelineState, 10);
+    maxRequestsForOps.put(SSServOpE.learnEpVersionSetTimelineState, 10);
+    
+    SSServA.inst.regClientRequestLimit(servImplClientInteraceClass, maxRequestsForOps);
     
     return this;
   }
@@ -67,16 +77,9 @@ public class SSLearnEpServ extends SSServA{
   @Override
   public void initServ() throws Exception{
     
-    if(!servConf.use){
+    if(!conf.use){
       return;
     }
-    
-    final Map<SSServOpE, Integer> maxRequestsForOps = new EnumMap<>(SSServOpE.class);
-    
-    maxRequestsForOps.put(SSServOpE.learnEpVersionGetTimelineState, 10);
-    maxRequestsForOps.put(SSServOpE.learnEpVersionSetTimelineState, 10);
-    
-    regClientRequestLimit(maxRequestsForOps);
   }
   
   @Override
@@ -89,9 +92,9 @@ public class SSLearnEpServ extends SSServA{
   @Override
   public void schedule() throws Exception{
     
-    if(servConf.use){
+    if(conf.use){
       
-      if(((SSLearnEpConf)servConf).useEpisodeLocking){
+      if(((SSLearnEpConf)conf).useEpisodeLocking){
         
         SSDateU.scheduleAtFixedRate(
           new SSLearnEpRemainingTimeTask(),

@@ -25,7 +25,7 @@ import at.tugraz.sss.serv.SSStrU;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SSErrForClient {
+public class SSErrForClient extends Exception{
 
   public final String    id;
   public final String    className;

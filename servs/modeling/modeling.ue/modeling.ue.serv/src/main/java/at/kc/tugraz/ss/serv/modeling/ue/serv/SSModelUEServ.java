@@ -29,14 +29,14 @@ import at.kc.tugraz.ss.serv.modeling.ue.conf.SSModelUEConf;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.SSModelUEEntity;
 import at.kc.tugraz.ss.serv.modeling.ue.serv.task.SSModelUEUpdateTask;
 import at.kc.tugraz.ss.serv.modeling.ue.utils.SSModelUEU;
-import at.tugraz.sss.serv.SSServA;
+import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServImplA;
 import at.tugraz.sss.serv.caller.SSServCaller;
 
 import java.util.HashMap;
 import java.util.List;
 
-public class SSModelUEServ extends SSServA{
+public class SSModelUEServ extends SSServContainerI{
   
   public static final HashMap<String, SSModelUEEntity> resources = new HashMap<>();
   public static final SSModelUEServ                      inst      = new SSModelUEServ(SSModelUEClientI.class, SSModelUEServerI.class);
@@ -50,19 +50,19 @@ public class SSModelUEServ extends SSServA{
   
   @Override
   protected SSServImplA createServImplForThread() throws Exception{
-    return new SSModelUEImpl((SSModelUEConf) servConf, resources);
+    return new SSModelUEImpl((SSModelUEConf) conf, resources);
   }
   
   public void schedule() throws Exception{
     
-    if(!servConf.use){
+    if(!conf.use){
       return;
     }
     
-    if(!((SSModelUEConf)servConf).initAtStartUp){
+    if(!((SSModelUEConf)conf).initAtStartUp){
       SSModelUEU.init();
       
-      SSModelUEU.lastUpdateTime = SSDateU.dateAsLong() - (SSDateU.dayInMilliSeconds * ((SSModelUEConf)servConf).daysToRetrieveEvents);
+      SSModelUEU.lastUpdateTime = SSDateU.dateAsLong() - (SSDateU.dayInMilliSeconds * ((SSModelUEConf)conf).daysToRetrieveEvents);
     }
 
     SSDateU.scheduleAtFixedRate(
@@ -75,14 +75,14 @@ public class SSModelUEServ extends SSServA{
   public void initServ() throws Exception{
     
     if(
-      !servConf.use ||
-      !((SSModelUEConf)servConf).initAtStartUp){
+      !conf.use ||
+      !((SSModelUEConf)conf).initAtStartUp){
       return;
     }
     
     SSModelUEU.init();
 
-    SSModelUEU.lastUpdateTime = SSDateU.dateAsLong() - (SSDateU.dayInMilliSeconds * ((SSModelUEConf)servConf).daysToRetrieveEvents);
+    SSModelUEU.lastUpdateTime = SSDateU.dateAsLong() - (SSDateU.dayInMilliSeconds * ((SSModelUEConf)conf).daysToRetrieveEvents);
     
     SSServCaller.modelUEUpdate();
   }

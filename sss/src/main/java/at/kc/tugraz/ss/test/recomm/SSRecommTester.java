@@ -28,7 +28,7 @@ public class SSRecommTester extends Thread{
   @Override
   public void run(){
     
-    final SSRecommConf recommConf = (SSRecommConf) SSRecommServ.inst.servConf;
+    final SSRecommConf recommConf = (SSRecommConf) SSRecommServ.inst.conf;
     
     if(!recommConf.executeOpAtStartUp){
       return;

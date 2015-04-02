@@ -29,11 +29,12 @@ import at.tugraz.sss.serv.SSServA;
 import at.tugraz.sss.serv.SSServImplA;
 import at.kc.tugraz.ss.service.rating.api.SSRatingClientI;
 import at.kc.tugraz.ss.service.rating.api.SSRatingServerI;
+import at.tugraz.sss.serv.SSServContainerI;
 import java.util.List;
 
-public class SSRatingServ extends SSServA{
+public class SSRatingServ extends SSServContainerI{
   
-  public static final SSServA  inst = new SSRatingServ(SSRatingClientI.class, SSRatingServerI.class);
+  public static final SSRatingServ inst = new SSRatingServ(SSRatingClientI.class, SSRatingServerI.class);
   
   protected SSRatingServ(
     final Class servImplClientInteraceClass, 
@@ -44,17 +45,19 @@ public class SSRatingServ extends SSServA{
   
   @Override
   protected SSServImplA createServImplForThread() throws Exception{
-    return new SSRatingImpl(servConf, (SSDBSQLI)SSDBSQL.inst.serv());
+    return new SSRatingImpl(conf, (SSDBSQLI)SSDBSQL.inst.serv());
   }
 
   @Override
-  public SSServA regServ(final SSConfA conf) throws Exception{
+  public SSServContainerI regServ(final SSConfA conf) throws Exception{
     
-    super.regServ(conf);
+    super.regServ(conf); 
     
-    regServForManagingEntities       ();
-    regServForDescribingEntities     ();
-    regServForGatheringUserRelations ();
+    SSServA.inst.regServ(this);
+    
+    SSServA.inst.regServForManagingEntities       (this);
+    SSServA.inst.regServForDescribingEntities     (this);
+    SSServA.inst.regServForGatheringUserRelations (this);
     
     return this;
   }

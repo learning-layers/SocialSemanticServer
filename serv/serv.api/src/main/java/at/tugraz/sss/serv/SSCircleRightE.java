@@ -22,8 +22,11 @@ package at.tugraz.sss.serv;
 
 import at.tugraz.sss.serv.SSJSONLDPropI;
 import at.tugraz.sss.serv.SSJSONLDPropI;
+import at.tugraz.sss.serv.SSJSONLDPropI;
 import at.tugraz.sss.serv.SSObjU;
 import at.tugraz.sss.serv.SSObjU;
+import at.tugraz.sss.serv.SSObjU;
+import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSStrU;
 import java.util.List;

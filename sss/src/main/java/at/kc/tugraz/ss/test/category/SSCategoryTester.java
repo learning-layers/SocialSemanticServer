@@ -28,7 +28,7 @@ public class SSCategoryTester extends Thread{
   @Override
   public void run(){
     
-    final SSCategoryConf categoryConf = (SSCategoryConf) SSCategoryServ.inst.servConf;
+    final SSCategoryConf categoryConf = (SSCategoryConf) SSCategoryServ.inst.conf;
     
     if(!categoryConf.executeOpAtStartUp){
       return;

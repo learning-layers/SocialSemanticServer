@@ -24,13 +24,13 @@ import at.kc.tugraz.ss.cloud.api.SSCloudClientI;
 import at.kc.tugraz.ss.cloud.api.SSCloudServerI;
 import at.kc.tugraz.ss.cloud.impl.SSCloudImpl;
 import at.tugraz.sss.serv.SSCoreConfA;
-import at.tugraz.sss.serv.SSServA;
+import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServImplA;
 import java.util.List;
 
-public class SSCloudServ extends SSServA{
+public class SSCloudServ extends SSServContainerI{
   
- public static final SSServA  inst = new SSCloudServ(SSCloudClientI.class, SSCloudServerI.class);
+ public static final SSCloudServ  inst = new SSCloudServ(SSCloudClientI.class, SSCloudServerI.class);
   
  protected SSCloudServ(
     final Class servImplClientInteraceClass, 
@@ -41,7 +41,7 @@ public class SSCloudServ extends SSServA{
   
   @Override
   protected SSServImplA createServImplForThread() throws Exception{
-    return new SSCloudImpl(servConf);
+    return new SSCloudImpl(conf);
   }
 
   @Override

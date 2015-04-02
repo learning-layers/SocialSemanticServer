@@ -30,8 +30,8 @@ public class SSDataImportTester extends Thread{
   @Override
   public void run(){
     
-    final SSEvernoteConf   evernoteConf   = (SSEvernoteConf)   SSEvernoteServ.inst.servConf;
-    final SSDataImportConf dataImportConf = (SSDataImportConf) SSDataImportServ.inst.servConf;
+    final SSEvernoteConf   evernoteConf   = (SSEvernoteConf)   SSEvernoteServ.inst.conf;
+    final SSDataImportConf dataImportConf = (SSDataImportConf) SSDataImportServ.inst.conf;
     
     if(!dataImportConf.executeOpAtStartUp){
       return;

@@ -21,7 +21,6 @@
 package at.tugraz.sss.serv;
 
 import at.tugraz.sss.serv.SSEncodingU;
-import at.tugraz.sss.serv.SSErrForClient;
 import at.tugraz.sss.serv.SSJSONU;
 import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSObjU;
@@ -279,27 +278,27 @@ public class SSSocketCon{
   }
   
   public void writeErrorFullToClient(
-    final List<SSErrForClient> errors, 
-    final SSServOpE              op) throws Exception{
+    final List<? extends Exception> errors, 
+    final SSServOpE                 op) throws Exception{
     
     writeMsgFullToClient(prepErrorToClient(errors, op));
   }
   
   public String prepErrorToClient(
-    final List<SSErrForClient> errors, 
-    final SSServOpE              op) throws Exception{
+    final List<? extends Exception> errors, 
+    final SSServOpE                 op) throws Exception{
     
     final Map<String, Object> ret           = new HashMap<>();
-    final List<String>        errorMessages = SSErrForClient.messages           (errors);
+//    final List<String>        errorMessages = SSErrForClient.messages           (errors);
     
     ret.put(SSVarU.op,                      SSStrU.toStr(op));
     ret.put(SSVarU.error,                   true);
-    ret.put(SSVarU.errorMsg,                errorMessages);
-    ret.put(SSVarU.errorClassNames,         SSErrForClient.classNames         (errors));
-    ret.put(SSVarU.errorClassesWhereThrown, SSErrForClient.classesWhereThrown (errors));
-    ret.put(SSVarU.errorMethodsWhereThrown, SSErrForClient.methodsWhereThrown (errors));
-    ret.put(SSVarU.errorLinesWhereThrown,   SSErrForClient.linesWhereThrown   (errors));
-    ret.put(SSVarU.errorThreadsWhereThrown, SSErrForClient.threadsWhereThrown (errors));
+//    ret.put(SSVarU.errorMsg,                errorMessages);
+//    ret.put(SSVarU.errorClassNames,         SSErrForClient.classNames         (errors));
+//    ret.put(SSVarU.errorClassesWhereThrown, SSErrForClient.classesWhereThrown (errors));
+//    ret.put(SSVarU.errorMethodsWhereThrown, SSErrForClient.methodsWhereThrown (errors));
+//    ret.put(SSVarU.errorLinesWhereThrown,   SSErrForClient.linesWhereThrown   (errors));
+//    ret.put(SSVarU.errorThreadsWhereThrown, SSErrForClient.threadsWhereThrown (errors));
     
 //    ret.put(SSJSONLDU.context, SSJSONLDU.jsonLDContext());
     ret.put(SSStrU.toStr(op), null);
@@ -308,15 +307,16 @@ public class SSSocketCon{
     
     if(!errors.isEmpty()){
       
-      ret.put(SSVarU.message, errorMessages.get(0));
+      ret.put(SSVarU.id,      errors.get(0).getMessage());
+      ret.put(SSVarU.message, errors.get(0).getMessage());
       
-      for(SSErrForClient error : errors){
-        
-        if(error.id != null){
-          ret.put(SSVarU.id, error.id);
-          break;
-        }
-      }
+//      for(Exception error : errors){
+//        
+//        if(error.id != null){
+//          ret.put(SSVarU.id, error.id);
+//          break;
+//        }
+//      }
     }
     
     

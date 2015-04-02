@@ -46,6 +46,7 @@ import java.util.List;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSServParI;
 
 public class SSAppImpl extends SSServImplWithDBA implements SSAppClientI, SSAppServerI, SSEntityDescriberI{
   
@@ -73,7 +74,7 @@ public class SSAppImpl extends SSServImplWithDBA implements SSAppClientI, SSAppS
   
   @Override
   public SSEntity getDescForEntity(
-    final SSServPar par,
+    final SSServParI par,
     final SSEntity           desc) throws Exception{
     
    /* if(par.getApps){

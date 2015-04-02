@@ -27,14 +27,14 @@ import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSServA;
 import at.tugraz.sss.serv.SSServImplA;
 import at.kc.tugraz.sss.flag.api.SSFlagClientI;
-import at.kc.tugraz.sss.flag.api.SSFlagServI;
 import at.kc.tugraz.sss.flag.api.SSFlagServerI;
 import at.kc.tugraz.sss.flag.impl.SSFlagImpl;
+import at.tugraz.sss.serv.SSServContainerI;
 import java.util.List;
 
-public class SSFlagServ extends SSServA implements SSFlagServI{
+public class SSFlagServ extends SSServContainerI{
   
- public static final SSServA  inst = new SSFlagServ(SSFlagClientI.class, SSFlagServerI.class);
+ public static final SSFlagServ inst = new SSFlagServ(SSFlagClientI.class, SSFlagServerI.class);
   
  protected SSFlagServ(
     final Class servImplClientInteraceClass, 
@@ -45,15 +45,17 @@ public class SSFlagServ extends SSServA implements SSFlagServI{
   
   @Override
   protected SSServImplA createServImplForThread() throws Exception{
-    return new SSFlagImpl(servConf, (SSDBSQLI) SSDBSQL.inst.serv());
+    return new SSFlagImpl(conf, (SSDBSQLI) SSDBSQL.inst.serv());
   }
 
   @Override
-  public SSServA regServ(final SSConfA conf) throws Exception{
+  public SSServContainerI regServ(final SSConfA conf) throws Exception{
     
-    super.regServ(conf);
+    super.regServ(conf); 
     
-    regServForDescribingEntities();
+    SSServA.inst.regServ(this);
+    
+    SSServA.inst.regServForDescribingEntities(this);
     
     return this;
   }

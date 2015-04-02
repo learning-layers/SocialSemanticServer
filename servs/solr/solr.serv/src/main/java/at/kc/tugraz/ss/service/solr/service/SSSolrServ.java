@@ -21,18 +21,18 @@
  package at.kc.tugraz.ss.service.solr.service;
 
 import at.tugraz.sss.serv.SSCoreConfA;
-import at.tugraz.sss.serv.SSServA;
 import at.tugraz.sss.serv.SSServImplA;
 import at.kc.tugraz.ss.service.filerepo.conf.SSFileRepoConf;
 import at.kc.tugraz.ss.service.solr.api.SSSolrClientI;
 import at.kc.tugraz.ss.service.solr.api.SSSolrServerI;
 import at.kc.tugraz.ss.service.solr.impl.*;
+import at.tugraz.sss.serv.SSServContainerI;
 import java.util.List;
 import org.apache.solr.client.solrj.impl.ConcurrentUpdateSolrServer;
 
-public class SSSolrServ extends SSServA{
+public class SSSolrServ extends SSServContainerI{
   
-  public    static final SSServA              inst       = new SSSolrServ(SSSolrClientI.class, SSSolrServerI.class);
+  public static final SSSolrServ inst = new SSSolrServ(SSSolrClientI.class, SSSolrServerI.class);
   protected static ConcurrentUpdateSolrServer solrServer = null;
   
   protected SSSolrServ(
@@ -44,17 +44,17 @@ public class SSSolrServ extends SSServA{
   
   @Override
   protected SSServImplA createServImplForThread() throws Exception{
-    return new SSSolrImpl((SSFileRepoConf)servConf, solrServer);
+    return new SSSolrImpl((SSFileRepoConf)conf, solrServer);
   }
 
   @Override
   public void initServ() throws Exception{
      
-    if(!servConf.use){
+    if(!conf.use){
       return;
     }
     
-    solrServer = new ConcurrentUpdateSolrServer(((SSFileRepoConf)servConf).getPath(), 1, 10);
+    solrServer = new ConcurrentUpdateSolrServer(((SSFileRepoConf)conf).getPath(), 1, 10);
   }
   
   @Override

@@ -28,7 +28,7 @@ public class SSLikeTester extends Thread{
   @Override
   public void run(){
     
-    SSLikeConf likeConf = (SSLikeConf) SSLikeServ.inst.servConf;
+    SSLikeConf likeConf = (SSLikeConf) SSLikeServ.inst.conf;
     
     if(!likeConf.executeOpAtStartUp){
       return;

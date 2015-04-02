@@ -27,14 +27,14 @@ import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSServA;
 import at.tugraz.sss.serv.SSServImplA;
 import at.kc.tugraz.sss.app.api.SSAppClientI;
-import at.kc.tugraz.sss.app.api.SSAppServI;
 import at.kc.tugraz.sss.app.api.SSAppServerI;
 import at.kc.tugraz.sss.app.impl.SSAppImpl;
+import at.tugraz.sss.serv.SSServContainerI;
 import java.util.List;
 
-public class SSAppServ extends SSServA implements SSAppServI{
+public class SSAppServ extends SSServContainerI{
   
- public static final SSServA  inst = new SSAppServ(SSAppClientI.class, SSAppServerI.class);
+ public static final SSAppServ  inst = new SSAppServ(SSAppClientI.class, SSAppServerI.class);
   
  protected SSAppServ(
     final Class servImplClientInteraceClass, 
@@ -45,15 +45,17 @@ public class SSAppServ extends SSServA implements SSAppServI{
   
   @Override
   protected SSServImplA createServImplForThread() throws Exception{
-    return new SSAppImpl(servConf, (SSDBSQLI) SSDBSQL.inst.serv());
+    return new SSAppImpl(conf, (SSDBSQLI) SSDBSQL.inst.serv());
   }
 
   @Override
-  public SSServA regServ(final SSConfA conf) throws Exception{
+  public SSServContainerI regServ(final SSConfA conf) throws Exception{
     
-    super.regServ(conf);
+    super.regServ(conf); 
     
-    regServForDescribingEntities();
+    SSServA.inst.regServ(this);
+    
+    SSServA.inst.regServForDescribingEntities(this);
     
     return this;
   }

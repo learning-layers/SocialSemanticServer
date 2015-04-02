@@ -21,7 +21,10 @@
 package at.tugraz.sss.serv;
 
 import at.tugraz.sss.serv.SSJSONLDPropI;
+import at.tugraz.sss.serv.SSJSONLDPropI;
 import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.SSVarU;
 import at.tugraz.sss.serv.SSVarU;
 import java.util.ArrayList;
 import java.util.List;

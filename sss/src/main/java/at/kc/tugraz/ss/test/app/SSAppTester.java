@@ -28,7 +28,7 @@ public class SSAppTester extends Thread{
   @Override
   public void run(){
     
-    SSAppConf appConf = (SSAppConf) SSAppServ.inst.servConf;
+    SSAppConf appConf = (SSAppConf) SSAppServ.inst.conf;
     
     if(!appConf.executeOpAtStartUp){
       return;

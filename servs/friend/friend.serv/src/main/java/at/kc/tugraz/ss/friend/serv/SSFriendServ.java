@@ -26,11 +26,11 @@ import at.kc.tugraz.ss.friend.api.SSFriendServerI;
 import at.kc.tugraz.ss.friend.impl.SSFriendImpl;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.kc.tugraz.ss.serv.db.serv.SSDBSQL;
-import at.tugraz.sss.serv.SSServA;
+import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServImplA;
 import java.util.List;
 
-public class SSFriendServ extends SSServA{
+public class SSFriendServ extends SSServContainerI{
   
   public static final SSFriendServ inst = new SSFriendServ(SSFriendClientI.class, SSFriendServerI.class);
   
@@ -43,7 +43,7 @@ public class SSFriendServ extends SSServA{
   
   @Override
   protected SSServImplA createServImplForThread() throws Exception{
-    return new SSFriendImpl(servConf, (SSDBSQLI)SSDBSQL.inst.serv());
+    return new SSFriendImpl(conf, (SSDBSQLI)SSDBSQL.inst.serv());
   }
   
   @Override

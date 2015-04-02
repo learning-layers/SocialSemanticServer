@@ -54,6 +54,7 @@ import java.util.List;
 import java.util.Map;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSServParI;
 
 public class SSRatingImpl 
 extends SSServImplWithDBA 
@@ -196,7 +197,7 @@ implements
   
   @Override
   public SSEntity getDescForEntity(
-    final SSServPar   parA,
+    final SSServParI   parA,
     final SSEntity           desc) throws Exception{
     
     final SSEntityDescGetPar par = (SSEntityDescGetPar)parA;

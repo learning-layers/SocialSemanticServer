@@ -27,13 +27,13 @@ import at.kc.tugraz.socialserver.service.broadcast.conf.SSBroadcasterConf;
 import at.tugraz.sss.serv.SSDateU;
 import at.tugraz.sss.serv.SSCoreConfA;
 import at.kc.tugraz.ss.serv.broadcast.impl.SSBroadcastUpdateTask;
-import at.tugraz.sss.serv.SSServA;
+import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServImplA;
 import java.util.List;
 
-public class SSBroadcasterServ extends SSServA{
+public class SSBroadcasterServ extends SSServContainerI{
   
- public static final SSServA  inst = new SSBroadcasterServ(SSBroadcasterClientI.class, SSBroadcasterServerI.class);
+ public static final SSBroadcasterServ inst = new SSBroadcasterServ(SSBroadcasterClientI.class, SSBroadcasterServerI.class);
   
  protected SSBroadcasterServ(
     final Class servImplClientInteraceClass, 
@@ -44,7 +44,7 @@ public class SSBroadcasterServ extends SSServA{
   
   @Override
   protected SSServImplA createServImplForThread() throws Exception{
-    return new SSBroadcasterImpl((SSBroadcasterConf)servConf);
+    return new SSBroadcasterImpl((SSBroadcasterConf)conf);
   }
 
   @Override
@@ -61,7 +61,7 @@ public class SSBroadcasterServ extends SSServA{
   @Override
   public void schedule() throws Exception{
     
-    if(servConf.use){
+    if(conf.use){
       
       SSDateU.scheduleAtFixedRate(
         new SSBroadcastUpdateTask(),

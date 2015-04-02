@@ -3,7 +3,7 @@
 * http://www.learning-layers.eu
 * Development is partly funded by the FP7 Programme of the European Commission under
 * Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+* Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
 * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,13 +20,8 @@
 */
 package at.tugraz.sss.serv;
 
-public abstract class SSServImplMiscA extends SSServImplA{
-
-  public SSServImplMiscA(final SSConfA conf) throws Exception{
-    super(conf);
-  }
+public interface SSServParI{
   
-  @Override
-  protected void finalizeImpl() throws Exception{
-  }
+  public SSServOpE getOpE();
+  public SSUri     getUserUri();
 }

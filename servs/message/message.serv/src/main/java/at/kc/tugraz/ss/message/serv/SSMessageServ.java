@@ -26,11 +26,11 @@ import at.kc.tugraz.ss.message.api.SSMessageServerI;
 import at.kc.tugraz.ss.message.impl.SSMessageImpl;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.kc.tugraz.ss.serv.db.serv.SSDBSQL;
-import at.tugraz.sss.serv.SSServA;
+import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServImplA;
 import java.util.List;
 
-public class SSMessageServ extends SSServA{
+public class SSMessageServ extends SSServContainerI{
   
   public static final SSMessageServ inst = new SSMessageServ(SSMessageClientI.class, SSMessageServerI.class);
   
@@ -43,7 +43,7 @@ public class SSMessageServ extends SSServA{
   
   @Override
   protected SSServImplA createServImplForThread() throws Exception{
-    return new SSMessageImpl(servConf, (SSDBSQLI)SSDBSQL.inst.serv());
+    return new SSMessageImpl(conf, (SSDBSQLI)SSDBSQL.inst.serv());
   }
   
   @Override

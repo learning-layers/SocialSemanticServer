@@ -20,24 +20,23 @@
 */
  package at.kc.tugraz.ss.service.coll.service;
 
-import at.tugraz.sss.serv.SSCoreConfA;
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
+import at.tugraz.sss.serv.SSCoreConfA;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.kc.tugraz.ss.serv.db.serv.SSDBSQL;
-import at.kc.tugraz.ss.serv.coll.conf.SSCollConf;
 import at.tugraz.sss.serv.SSConfA;
 import at.kc.tugraz.ss.service.coll.impl.*;
 import at.tugraz.sss.serv.SSServA;
 import at.tugraz.sss.serv.SSServImplA;
 import at.kc.tugraz.ss.service.coll.api.SSCollClientI;
-import at.kc.tugraz.ss.service.coll.api.SSCollServContainerI;
 import at.kc.tugraz.ss.service.coll.api.SSCollServerI;
-import at.kc.tugraz.ss.service.tag.api.SSTagServContainerI;
+import at.kc.tugraz.ss.service.tag.api.SSTagServerI;
+import at.tugraz.sss.serv.SSServContainerI;
 import java.util.List;
 
-public class SSCollServ extends SSServA implements SSCollServContainerI{
+public class SSCollServ extends SSServContainerI{
   
- public static final SSServA  inst = new SSCollServ(SSCollClientI.class, SSCollServerI.class);
+ public static final SSCollServ inst = new SSCollServ(SSCollClientI.class, SSCollServerI.class);
   
  protected SSCollServ(
     final Class servImplClientInteraceClass, 
@@ -48,16 +47,18 @@ public class SSCollServ extends SSServA implements SSCollServContainerI{
   
   @Override
   protected SSServImplA createServImplForThread() throws Exception{
-    return new SSCollImpl(servConf, (SSDBSQLI) SSDBSQL.inst.serv());
+    return new SSCollImpl(conf, (SSDBSQLI) SSDBSQL.inst.serv());
   }
 
   @Override
-  public SSServA regServ(final SSConfA conf) throws Exception{
+  public SSServContainerI regServ(final SSConfA conf) throws Exception{
     
-    super.regServ(conf);
+    super.regServ(conf); 
+    
+    SSServA.inst.regServ(this);
 
-    regServForManagingEntities       ();
-    regServForGatheringUserRelations ();
+    SSServA.inst.regServForManagingEntities       (this);
+    SSServA.inst.regServForGatheringUserRelations (this);
     
     return this;
   }
@@ -72,13 +73,13 @@ public class SSCollServ extends SSServA implements SSCollServContainerI{
     final List<Class> configuredServs) throws Exception{
    
     //TODO dtheiler: check whether to deploy service calls itself here once in getConfForCloudDeployment
-    final SSCoreConf coreConf = (SSCoreConf) getConfForCloudDeployment(SSTagServContainerI.class, coreConfA, configuredServs);
-    final SSCollConf collConf = coreConf.getColl();
-    
-    collConf.use                = true;
-    collConf.executeOpAtStartUp = false;
-//    collConf.op                 = null;
-    
+    final SSCoreConf coreConf = (SSCoreConf) getConfForCloudDeployment(SSTagServerI.class /* TODO wrong class here */, coreConfA, configuredServs);
+//    final SSCollConf collConf = coreConf.getColl();
+//    
+//    collConf.use                = true;
+//    collConf.executeOpAtStartUp = false;
+////    collConf.op                 = null;
+//    
     return coreConf;
   }
 

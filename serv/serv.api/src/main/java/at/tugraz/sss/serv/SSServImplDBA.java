@@ -20,19 +20,32 @@
 */
 package at.tugraz.sss.serv;
 
-public abstract class SSServImplWithDBA extends SSServImplA{
-  
-  public final SSDBSQLI   dbSQL;
+import at.tugraz.sss.serv.SSConfA;
+import at.tugraz.sss.serv.SSServImplA;
+import at.tugraz.sss.serv.SSServParI;
+import at.tugraz.sss.serv.SSSocketCon;
+import at.tugraz.sss.serv.SSStrU;
 
-  public SSServImplWithDBA(final SSConfA conf, final SSDBSQLI dbSQL){
-    
+public abstract class SSServImplDBA extends SSServImplA{
+  
+  public SSServImplDBA(final SSConfA conf) throws Exception{
     super(conf);
-    
-    this.dbSQL   = dbSQL;
   }
   
   @Override
-  protected void finalizeImpl() throws Exception{
-//    ((SSServImplDBA)dbSQL).finalizeImpl();
+  public void handleClientOp(
+    final Class       servImplClientInteraceClass, 
+    final SSSocketCon sSCon, 
+    final SSServParI  par) throws Exception{
+    
+    throw new UnsupportedOperationException(SSStrU.empty);
+  }
+  
+  @Override
+  public Object handleServerOp(
+    final Class      servImplServerInteraceClass, 
+    final SSServParI par) throws Exception{
+    
+    throw new UnsupportedOperationException(SSStrU.empty);
   }
 }

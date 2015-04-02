@@ -23,13 +23,13 @@ package at.kc.tugraz.ss.serv.db.serv;
 import at.kc.tugraz.ss.serv.db.conf.SSDBSQLConf;
 import at.kc.tugraz.ss.serv.db.impl.SSDBSQLMySQLImpl;
 import at.tugraz.sss.serv.SSCoreConfA;
-import at.tugraz.sss.serv.SSServA;
+import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServImplA;
 import java.util.List;
 
-public class SSDBSQL extends SSServA{
+public class SSDBSQL extends SSServContainerI{
   
-  public static final SSServA inst = new SSDBSQL(null, null);
+  public static final SSDBSQL inst = new SSDBSQL(null, null);
   
   protected SSDBSQL(
     final Class servImplClientInteraceClass, 
@@ -40,7 +40,7 @@ public class SSDBSQL extends SSServA{
   
   @Override
   protected SSServImplA createServImplForThread() throws Exception{
-    return new SSDBSQLMySQLImpl((SSDBSQLConf) servConf);
+    return new SSDBSQLMySQLImpl((SSDBSQLConf) conf);
   }
 
   @Override

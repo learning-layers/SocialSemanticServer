@@ -28,7 +28,7 @@ public class SSDataExportTester extends Thread{
   @Override
   public void run(){
     
-    final SSDataExportConf dataExportConf = (SSDataExportConf) SSDataExportServ.inst.servConf;
+    final SSDataExportConf dataExportConf = (SSDataExportConf) SSDataExportServ.inst.conf;
     
     if(!dataExportConf.executeOpAtStartUp){
       return;

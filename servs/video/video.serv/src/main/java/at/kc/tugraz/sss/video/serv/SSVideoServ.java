@@ -27,14 +27,14 @@ import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSServA;
 import at.tugraz.sss.serv.SSServImplA;
 import at.kc.tugraz.sss.video.api.SSVideoClientI;
-import at.kc.tugraz.sss.video.api.SSVideoServI;
 import at.kc.tugraz.sss.video.api.SSVideoServerI;
 import at.kc.tugraz.sss.video.impl.SSVideoImpl;
+import at.tugraz.sss.serv.SSServContainerI;
 import java.util.List;
 
-public class SSVideoServ extends SSServA implements SSVideoServI{
+public class SSVideoServ extends SSServContainerI{
   
- public static final SSServA  inst = new SSVideoServ(SSVideoClientI.class, SSVideoServerI.class);
+ public static final SSVideoServ  inst = new SSVideoServ(SSVideoClientI.class, SSVideoServerI.class);
   
  protected SSVideoServ(
     final Class servImplClientInteraceClass, 
@@ -45,17 +45,19 @@ public class SSVideoServ extends SSServA implements SSVideoServI{
   
   @Override
   protected SSServImplA createServImplForThread() throws Exception{
-    return new SSVideoImpl(servConf, (SSDBSQLI) SSDBSQL.inst.serv());
+    return new SSVideoImpl(conf, (SSDBSQLI) SSDBSQL.inst.serv());
   }
 
   @Override
-  public SSServA regServ(final SSConfA conf) throws Exception{
+  public SSServContainerI regServ(final SSConfA conf) throws Exception{
     
-    super.regServ(conf);
+    super.regServ(conf); 
     
-    regServForDescribingEntities();
-    regServForUpdatingEntities();
-    regServForManagingEntities();
+    SSServA.inst.regServ(this);
+    
+    SSServA.inst.regServForDescribingEntities(this);
+    SSServA.inst.regServForUpdatingEntities(this);
+    SSServA.inst.regServForManagingEntities(this);
     
     return this;
   }

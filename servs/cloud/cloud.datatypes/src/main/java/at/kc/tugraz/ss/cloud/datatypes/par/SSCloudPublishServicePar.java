@@ -23,11 +23,11 @@ package at.kc.tugraz.ss.cloud.datatypes.par;
 import at.tugraz.sss.serv.SSVarU;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServErrReg;
-import at.tugraz.sss.serv.SSServA;
+import at.tugraz.sss.serv.SSServContainerI;
 
 public class SSCloudPublishServicePar extends SSServPar{
 
-  public SSServA    serv   = null;
+  public SSServContainerI    serv   = null;
   
   public SSCloudPublishServicePar(final SSServPar par) throws Exception{
     
@@ -36,7 +36,7 @@ public class SSCloudPublishServicePar extends SSServPar{
     try{
     
       if(pars != null){
-        serv    = (SSServA) pars.get(SSVarU.serv);
+        serv    = (SSServContainerI) pars.get(SSVarU.serv);
       }
       
     }catch(Exception error){
