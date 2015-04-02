@@ -23,7 +23,9 @@
 import at.kc.tugraz.ss.cloud.api.SSCloudClientI;
 import at.kc.tugraz.ss.cloud.api.SSCloudServerI;
 import at.kc.tugraz.ss.cloud.impl.SSCloudImpl;
+import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSCoreConfA;
+import at.tugraz.sss.serv.SSServA;
 import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServImplA;
 import java.util.List;
@@ -44,6 +46,16 @@ public class SSCloudServ extends SSServContainerI{
     return new SSCloudImpl(conf);
   }
 
+    @Override
+  public SSServContainerI regServ(final SSConfA conf) throws Exception{
+    
+    this.conf = conf;
+    
+      SSServA.inst.regServ(this);
+    
+    return this;
+  }
+  
   @Override
   public void initServ() throws Exception{
   }

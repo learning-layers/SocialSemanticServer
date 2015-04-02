@@ -26,6 +26,8 @@ import at.kc.tugraz.ss.message.api.SSMessageServerI;
 import at.kc.tugraz.ss.message.impl.SSMessageImpl;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.kc.tugraz.ss.serv.db.serv.SSDBSQL;
+import at.tugraz.sss.serv.SSConfA;
+import at.tugraz.sss.serv.SSServA;
 import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServImplA;
 import java.util.List;
@@ -46,6 +48,15 @@ public class SSMessageServ extends SSServContainerI{
     return new SSMessageImpl(conf, (SSDBSQLI)SSDBSQL.inst.serv());
   }
   
+    @Override
+  public SSServContainerI regServ(final SSConfA conf) throws Exception{
+    
+    this.conf = conf;
+    
+      SSServA.inst.regServ(this);
+    
+    return this;
+  }
   @Override
   public void initServ() throws Exception{
 

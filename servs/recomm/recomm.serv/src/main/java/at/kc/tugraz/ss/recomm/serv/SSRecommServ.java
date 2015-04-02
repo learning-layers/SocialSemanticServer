@@ -35,6 +35,8 @@ import at.kc.tugraz.ss.serv.db.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSServImplA;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
+import at.tugraz.sss.serv.SSConfA;
+import at.tugraz.sss.serv.SSServA;
 import at.tugraz.sss.serv.SSServContainerI;
 import java.util.List;
 
@@ -52,6 +54,16 @@ public class SSRecommServ extends SSServContainerI{
   @Override
   protected SSServImplA createServImplForThread() throws Exception{
     return new SSRecommImpl(conf, (SSDBSQLI)SSDBSQL.inst.serv());
+  }
+  
+    @Override
+  public SSServContainerI regServ(final SSConfA conf) throws Exception{
+    
+    this.conf = conf;
+    
+      SSServA.inst.regServ(this);
+    
+    return this;
   }
   
   @Override

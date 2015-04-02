@@ -68,7 +68,7 @@ public class SSFilerepoServ extends SSServContainerI{
   @Override
   public SSServContainerI regServ(final SSConfA conf) throws Exception{
     
-    super.regServ(conf); 
+    this.conf = conf;
     
     SSServA.inst.regServ(this);
     

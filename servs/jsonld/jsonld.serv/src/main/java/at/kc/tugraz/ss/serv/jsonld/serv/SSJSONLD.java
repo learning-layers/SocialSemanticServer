@@ -25,6 +25,7 @@ import at.kc.tugraz.ss.serv.jsonld.api.SSJSONLDClientI;
 import at.kc.tugraz.ss.serv.jsonld.api.SSJSONLDServerI;
 import at.kc.tugraz.ss.serv.jsonld.conf.SSJSONLDConf;
 import at.kc.tugraz.ss.serv.jsonld.impl.SSJSONLDImpl;
+import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSServA;
 import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServImplA;
@@ -46,6 +47,15 @@ public class SSJSONLD extends SSServContainerI{
     return new SSJSONLDImpl((SSJSONLDConf) conf);
   }
 
+    @Override
+  public SSServContainerI regServ(final SSConfA conf) throws Exception{
+    
+    this.conf = conf;
+    
+    SSServA.inst.regServ(this);
+    
+    return this;
+  }
   @Override
   public void initServ() throws Exception{
   }

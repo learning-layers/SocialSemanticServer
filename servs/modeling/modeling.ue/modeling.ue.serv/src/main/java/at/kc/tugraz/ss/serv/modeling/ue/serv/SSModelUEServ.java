@@ -29,6 +29,8 @@ import at.kc.tugraz.ss.serv.modeling.ue.conf.SSModelUEConf;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.SSModelUEEntity;
 import at.kc.tugraz.ss.serv.modeling.ue.serv.task.SSModelUEUpdateTask;
 import at.kc.tugraz.ss.serv.modeling.ue.utils.SSModelUEU;
+import at.tugraz.sss.serv.SSConfA;
+import at.tugraz.sss.serv.SSServA;
 import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServImplA;
 import at.tugraz.sss.serv.caller.SSServCaller;
@@ -71,6 +73,15 @@ public class SSModelUEServ extends SSServContainerI{
       SSDateU.dayInMilliSeconds);
   }
 
+    @Override
+  public SSServContainerI regServ(final SSConfA conf) throws Exception{
+    
+    this.conf = conf;
+    
+      SSServA.inst.regServ(this);
+    
+    return this;
+  }
   @Override
   public void initServ() throws Exception{
     

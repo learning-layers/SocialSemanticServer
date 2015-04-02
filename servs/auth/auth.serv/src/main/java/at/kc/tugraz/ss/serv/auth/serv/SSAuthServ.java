@@ -57,7 +57,9 @@ public class SSAuthServ extends SSServContainerI{
   @Override
   public SSServContainerI regServ(final SSConfA conf) throws Exception{
     
-    super.regServ(conf); SSServA.inst.regServ(this);
+    this.conf = conf;
+    
+    SSServA.inst.regServ(this);
     
     SSServCaller.authRegisterUser(
       SSVoc.systemUserUri,

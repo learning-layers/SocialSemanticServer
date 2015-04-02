@@ -38,6 +38,7 @@ public abstract class SSServContainerI{
   public    abstract SSCoreConfA      getConfForCloudDeployment (final SSCoreConfA coreConfA, final List<Class> configuredServs) throws Exception;
   public    abstract void             initServ                  () throws Exception;
   public    abstract void             schedule                  () throws Exception;
+  public    abstract SSServContainerI regServ                   (final SSConfA conf) throws Exception;
   
   protected SSCoreConfA getConfForCloudDeployment(
     final Class       servI,
@@ -116,11 +117,5 @@ public abstract class SSServContainerI{
       SSLogU.err(error);
       throw error;
     }
-  }
-  
-  public SSServContainerI regServ(final SSConfA conf) throws Exception{
-    this.conf = conf;
-    
-    return this;
   }
 }

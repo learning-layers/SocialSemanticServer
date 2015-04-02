@@ -51,8 +51,10 @@ public class SSVoc extends SSServContainerI{
   
   @Override
   public SSServContainerI regServ(final SSConfA conf) throws Exception{
+
+    this.conf = conf;
     
-    super.regServ(conf); SSServA.inst.regServ(this);
+    SSServA.inst.regServ(this);
     
     systemUserUri   = SSServCaller.vocURICreateFromId(SSVocConf.systemUserLabel);
     
