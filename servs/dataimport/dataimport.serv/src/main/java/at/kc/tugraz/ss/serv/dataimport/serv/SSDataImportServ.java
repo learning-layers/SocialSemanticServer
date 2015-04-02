@@ -34,8 +34,9 @@ import at.kc.tugraz.ss.serv.dataimport.impl.SSDataImportImpl;
 import at.kc.tugraz.ss.serv.dataimport.serv.task.SSDataImportEvernoteTask;
 import at.tugraz.sss.serv.SSServA;
 import at.tugraz.sss.serv.SSServImplA;
-import java.lang.reflect.Method;
+import java.util.EnumMap;
 import java.util.List;
+import java.util.Map;
 
 public class SSDataImportServ extends SSServA{
   
@@ -62,7 +63,11 @@ public class SSDataImportServ extends SSServA{
       return;
     }
     
-    setMaxRequsForClientOps();
+    final Map<SSServOpE, Integer> maxRequestsForOps = new EnumMap<>(SSServOpE.class);
+    
+    maxRequestsForOps.put(SSServOpE.dataImportEvernote, 1);
+    
+    regClientRequestLimit(maxRequestsForOps);
     
     if(!dataImportConf.initAtStartUp){
       return;
@@ -156,19 +161,5 @@ public class SSDataImportServ extends SSServA{
     final SSCoreConfA coreConfA,
     final List<Class> configuredServs) throws Exception{
     throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-  }
-  
-  private void setMaxRequsForClientOps() throws Exception{
-    
-    SSServOpE op;
-    
-    for(Method method : servImplClientInteraceClass.getMethods()){
-      
-      op = SSServOpE.get(method.getName());
-      
-      switch(op){
-        case dataImportEvernote: maxRequsForClientOpsPerUser.put(op, 1);
-      }
-    }
   }
 }

@@ -1104,8 +1104,6 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
     SSServCallerU.checkKey(parA);
 
     sSCon.writeRetFullToClient(SSLearnEpVersionSetTimelineStateRet.get(learnEpVersionSetTimelineState(parA), parA.op));
-    
-    SSServA.removeClientRequ(parA.op, SSStrU.toStr(parA.user), this);
   }
   
   @Override
@@ -1185,8 +1183,6 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
     SSServCallerU.checkKey(parA);
 
     sSCon.writeRetFullToClient(SSLearnEpVersionGetTimelineStateRet.get(learnEpVersionGetTimelineState(parA), parA.op));
-    
-    SSServA.removeClientRequ(parA.op, SSStrU.toStr(parA.user), this);
   }
   
   @Override

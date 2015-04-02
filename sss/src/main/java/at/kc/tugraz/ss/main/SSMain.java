@@ -22,6 +22,9 @@ package at.kc.tugraz.ss.main;
 
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.tugraz.sss.serv.SSLogU;
+import at.tugraz.sss.serv.SSServImplClientStartA;
+import java.net.ServerSocket;
 
 public class SSMain{
 
@@ -54,10 +57,25 @@ public class SSMain{
     
     /* socket adapter */
     if(SSCoreConf.instGet().getSs().use){
-      new SSServerSocket().run();
+      
+      try {
+        SSLogU.info("Starting server on port " + SSCoreConf.instGet().getSs().port);
+        
+        final ServerSocket server = new ServerSocket(SSCoreConf.instGet().getSs().port);
+        
+        while(true){
+          new Thread(
+            new SSServImplClientStartA(
+              server.accept(),
+              SSCoreConf.instGet().getCloud().use)).start();
+        }
+      }catch(Exception error){
+        SSLogU.err(error);
+      }
     }
   }
-  
+}
+
 //  private void initJmx() throws Exception {
 //    
 //    MBeanServer  mBeanServer  = ManagementFactory.getPlatformMBeanServer();
@@ -165,7 +183,6 @@ public class SSMain{
 //      socketServer.setRun(false);
 //    }
 //  } // end of class ShutdownHook
-}
 
 //    if(args.length > 0){
 //      

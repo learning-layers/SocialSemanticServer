@@ -31,8 +31,9 @@ import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSServA;
 import at.tugraz.sss.serv.SSServImplA;
 import at.tugraz.sss.serv.caller.SSServCaller;
-import java.lang.reflect.Method;
+import java.util.EnumMap;
 import java.util.List;
+import java.util.Map;
 
 public class SSEntityServ extends SSServA{
   
@@ -70,7 +71,12 @@ public class SSEntityServ extends SSServA{
     regServForGatheringUserRelations();
     regServForGatheringUsersResources();
     
-    setMaxRequsForClientOps();
+    final Map<SSServOpE, Integer> maxRequestsForOps = new EnumMap<>(SSServOpE.class);
+    
+    maxRequestsForOps.put(SSServOpE.entityDescsGet, 15);
+    maxRequestsForOps.put(SSServOpE.entityDescGet,  20);
+    
+    regClientRequestLimit(maxRequestsForOps);
   }
   
   @Override
@@ -80,21 +86,6 @@ public class SSEntityServ extends SSServA{
     throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
   }
   
-  private void setMaxRequsForClientOps() throws Exception{
-    
-    SSServOpE op;
-    
-    for(Method method : servImplClientInteraceClass.getMethods()){
-      
-      op = SSServOpE.get(method.getName());
-      
-      switch(op){
-        case entityDescsGet: maxRequsForClientOpsPerUser.put(op, 15);
-        case entityDescGet:  maxRequsForClientOpsPerUser.put(op, 20);
-      }
-    }
-  }
-
   @Override
   public void schedule() throws Exception{
     throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

@@ -371,8 +371,6 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
     SSServCallerU.checkKey(parA);
     
     sSCon.writeRetFullToClient(SSEntityDescsGetRet.get(entityDescsGet(parA), parA.op));
-    
-    SSServA.removeClientRequ(parA.op, SSStrU.toStr(parA.user), this);
   }
   
   @Override
@@ -422,8 +420,6 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
     SSServCallerU.checkKey(parA);
     
     sSCon.writeRetFullToClient(SSEntityDescGetRet.get(entityDescGet(parA), parA.op));
-    
-    SSServA.removeClientRequ(parA.op, SSStrU.toStr(parA.user), this);
   }
   
   @Override

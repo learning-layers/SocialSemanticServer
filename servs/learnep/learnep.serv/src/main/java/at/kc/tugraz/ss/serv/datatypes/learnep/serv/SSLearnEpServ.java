@@ -33,8 +33,9 @@ import at.kc.tugraz.ss.serv.db.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSServA;
 import at.tugraz.sss.serv.SSServImplA;
-import java.lang.reflect.Method;
+import java.util.EnumMap;
 import java.util.List;
+import java.util.Map;
 
 public class SSLearnEpServ extends SSServA{
   
@@ -70,7 +71,12 @@ public class SSLearnEpServ extends SSServA{
       return;
     }
     
-    setMaxRequsForClientOps();
+    final Map<SSServOpE, Integer> maxRequestsForOps = new EnumMap<>(SSServOpE.class);
+    
+    maxRequestsForOps.put(SSServOpE.learnEpVersionGetTimelineState, 10);
+    maxRequestsForOps.put(SSServOpE.learnEpVersionSetTimelineState, 10);
+    
+    regClientRequestLimit(maxRequestsForOps);
   }
   
   @Override
@@ -80,21 +86,6 @@ public class SSLearnEpServ extends SSServA{
     throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
   }
   
-  private void setMaxRequsForClientOps() throws Exception{
-    
-    SSServOpE op;
-      
-    for(Method method : servImplClientInteraceClass.getMethods()){
-      
-      op = SSServOpE.get(method.getName());
-
-      switch(op){
-        case learnEpVersionGetTimelineState: maxRequsForClientOpsPerUser.put(op, 10);
-        case learnEpVersionSetTimelineState: maxRequsForClientOpsPerUser.put(op, 10);
-      }
-    }
-  }
-
   @Override
   public void schedule() throws Exception{
     

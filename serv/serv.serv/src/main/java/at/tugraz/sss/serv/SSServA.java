@@ -29,95 +29,18 @@ import java.util.Map;
 
 public abstract class SSServA{
   
-  public                 SSConfA                                      servConf                        = null;
-  protected        final Class                                        servImplClientInteraceClass;
-  protected        final Class                                        servImplServerInteraceClass;
-  protected              Exception                                    servImplCreationError           = null;
-  private   static final Map<SSServOpE, SSServA>                        servs                           = new EnumMap<>(SSServOpE.class);
-  private   static final Map<SSServOpE, SSServA>                        servsForClientOps               = new EnumMap<>(SSServOpE.class);
-  private   static final Map<SSServOpE, SSServA>                        servsForServerOps               = new EnumMap<>(SSServOpE.class);
-  private   static final List<SSServA>                                servsForUpdatingEntities        = new ArrayList<>();
-  private   static final List<SSServA>                                servsForManagingEntities        = new ArrayList<>();
-  private   static final List<SSServA>                                servsForDescribingEntities      = new ArrayList<>();
-  private   static final List<SSServA>                                servsForGatheringUserRelations  = new ArrayList<>();
-  private   static final List<SSServA>                                servsForGatheringUsersResources = new ArrayList<>();
-  protected static final Map<SSServOpE, Integer>                        maxRequsForClientOpsPerUser     = new HashMap<>();
-  private   static final Map<SSServOpE, Map<String, List<SSServImplA>>> actualRequsForClientOpsForUser  = new HashMap<>();
-  
-  private static void addClientRequ(
-    final SSServOpE     op,
-    final String      user,
-    final SSServImplA servImpl) throws Exception{
-    
-    try{
-      if(servImpl instanceof SSServImplWithDBA){
-        
-        if(((SSServImplWithDBA)servImpl).dbSQL.getActive() > ((SSServImplWithDBA)servImpl).dbSQL.getMaxActive() - 30){
-          throw new SSErr(SSErrE.maxNumDBConsReached);
-        }
-      }
-      
-      if(!maxRequsForClientOpsPerUser.containsKey(op)){
-        return;
-      }
-      
-      Map<String, List<SSServImplA>> servImplsForUser;
-      List<SSServImplA>              servImpls;
-      
-      synchronized(actualRequsForClientOpsForUser){
-        
-        if(
-          !actualRequsForClientOpsForUser.containsKey(op) ||
-          actualRequsForClientOpsForUser.get(op).get(user) == null){
-          
-          servImplsForUser = new HashMap<>();
-          servImpls        = new ArrayList<>();
-          
-          servImplsForUser.put(user, servImpls);
-          
-          actualRequsForClientOpsForUser.put(op, servImplsForUser);
-        }else{
-          
-          servImpls = actualRequsForClientOpsForUser.get(op).get(user);
-          
-          if(
-            servImpls.size() == maxRequsForClientOpsPerUser.get(op)){
-            throw new SSErr(SSErrE.maxNumClientConsForOpReached);
-          }
-        }
-        
-        servImpls.add(servImpl);
-      }
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
-  public static void removeClientRequ(
-    final SSServOpE     op,
-    final String      user,
-    final SSServImplA servImpl) throws Exception{
-    
-    try{
-      if(!maxRequsForClientOpsPerUser.containsKey(op)){
-        return;
-      }
-      
-      synchronized(actualRequsForClientOpsForUser){
-        
-        if(
-          !actualRequsForClientOpsForUser.containsKey(op) ||
-          actualRequsForClientOpsForUser.get(op).isEmpty() ||
-          actualRequsForClientOpsForUser.get(op).get(user).isEmpty()){
-          return;
-        }
-        
-        actualRequsForClientOpsForUser.get(op).get(user).remove(servImpl);
-      }
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
+  public                 SSConfA                                         servConf                        = null;
+  protected        final Class                                           servImplClientInteraceClass;
+  protected        final Class                                           servImplServerInteraceClass;
+  protected              Exception                                       servImplCreationError           = null;
+  private   static final Map<SSServOpE, SSServA>                         servs                           = new EnumMap<>(SSServOpE.class);
+  private   static final Map<SSServOpE, SSServA>                         servsForClientOps               = new EnumMap<>(SSServOpE.class);
+  private   static final Map<SSServOpE, SSServA>                         servsForServerOps               = new EnumMap<>(SSServOpE.class);
+  private   static final List<SSServA>                                   servsForUpdatingEntities        = new ArrayList<>();
+  private   static final List<SSServA>                                   servsForManagingEntities        = new ArrayList<>();
+  private   static final List<SSServA>                                   servsForDescribingEntities      = new ArrayList<>();
+  private   static final List<SSServA>                                   servsForGatheringUserRelations  = new ArrayList<>();
+  private   static final List<SSServA>                                   servsForGatheringUsersResources = new ArrayList<>();
   
   protected SSServA(
     final Class servImplClientInteraceClass,
@@ -166,6 +89,28 @@ public abstract class SSServA{
     }
     
     throw new Exception("service not registered");
+  }
+  
+  public static void regClientRequest(
+    final SSServOpE     op,
+    final SSUri         user,
+    final SSServImplA   servImpl) throws Exception{
+    
+    SSServClientOpRequsTracker.addClientRequ(op, user, servImpl);
+  }
+  
+  public static void unregClientRequest(
+    final SSServOpE     op,
+    final SSUri         user,
+    final SSServImplA   servImpl) throws Exception{
+    
+    SSServClientOpRequsTracker.removeClientRequ(op, user, servImpl);
+  }
+  
+  protected void regClientRequestLimit(
+    final Map<SSServOpE, Integer> maxRequsPerOps) throws Exception{
+    
+    SSServClientOpRequsTracker.regClientRequestLimit(servImplClientInteraceClass, maxRequsPerOps);
   }
   
   private void regServOps() throws Exception{
@@ -360,7 +305,7 @@ public abstract class SSServA{
     }
   }
   
-  public static void callServViaClient(
+  public static SSServImplA callServViaClient(
     final SSSocketCon sSCon,
     final SSServPar   parA,
     final Boolean     useCloud) throws Exception{
@@ -370,9 +315,12 @@ public abstract class SSServA{
       final SSServA     serv     = getClientServAvailableOnMachine(parA);
       final SSServImplA servImpl = serv.serv();
       
-      addClientRequ(parA.op, SSStrU.toStr(parA.user), servImpl);
+      servImpl.handleClientOp(
+        serv.servImplClientInteraceClass, 
+        sSCon, 
+        parA);
       
-      servImpl.handleClientOp(serv.servImplClientInteraceClass, sSCon, parA);
+      return servImpl;
       
     }catch(Exception error){
       
@@ -387,7 +335,7 @@ public abstract class SSServA{
           parA,
           getClientServAvailableOnNodes(parA));
         
-        return;
+        return null; //TODO to be tested
       }
       
       throw error;
@@ -560,3 +508,12 @@ public abstract class SSServA{
 //          if(SSStrU.contains(requestBuffer.toString(), SSRegistryServ.policyFile)){
 //            SSServOpE.toStr(op)"policy file serving not supported anymore"); //sScon.writeStringToClient("<?xml version=\"1.0\" ?><cross-domain-policy><allow-access-from domain=\"*\" to-ports=\"" + sScon.port + "\"/></cross-domain-policy>");
 //          }
+
+
+
+//      if(servImpl instanceof SSServImplWithDBA){
+//        
+//        if(((SSServImplWithDBA)servImpl).dbSQL.getActive() > ((SSServImplWithDBA)servImpl).dbSQL.getMaxActive() - 30){
+//          throw new SSErr(SSErrE.maxNumDBConsReached);
+//        }
+//      }
