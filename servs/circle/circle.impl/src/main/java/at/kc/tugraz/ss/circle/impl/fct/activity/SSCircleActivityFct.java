@@ -150,10 +150,6 @@ public class SSCircleActivityFct{
     final SSCircleEntitySharePar par,
     final SSUri                  circle) throws Exception{
     
-    if(!par.saveActivity){
-      return;
-    }
-    
     try{
       
       SSServCaller.activityAdd(
@@ -180,10 +176,6 @@ public class SSCircleActivityFct{
   
   public static void shareEntityWithCircles(
     final SSCircleEntitySharePar par) throws Exception{
-    
-    if(!par.saveActivity){
-      return;
-    }
     
     try{
       

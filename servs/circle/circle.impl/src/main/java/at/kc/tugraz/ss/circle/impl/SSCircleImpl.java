@@ -1017,8 +1017,7 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
           par.user,
           par.users,
           par.entity,
-          circleUri,
-          par.saveActivity);
+          circleUri);
         
         SSCircleActivityFct.shareEntityWithUsers(par, circleUri);
       }

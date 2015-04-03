@@ -90,7 +90,6 @@ public class SSCircleEntitySharePar extends SSServPar{
       
       if(par.clientJSONObj != null){
         
-        saveActivity = true;
         entity       = SSUri.get        (par.clientJSONObj.get(SSVarU.entity).getTextValue());
         
         try{

@@ -385,15 +385,14 @@ public class SSCircleMiscFct{
     final SSUri        userUri, 
     final List<SSUri>  userUris,
     final SSUri        entityUri,
-    final SSUri        circleUri,
-    final Boolean      saveActivity) throws Exception{
+    final SSUri        circleUri) throws Exception{
     
     try{
       
       final SSEntityE entityType = SSServCaller.entityGet(entityUri).type;
       
       for(SSServContainerI serv : SSServReg.inst.getServsManagingEntities()){
-        ((SSEntityHandlerImplI) serv.serv()).shareUserEntity(userUri, userUris, entityUri, circleUri, entityType, saveActivity);
+        ((SSEntityHandlerImplI) serv.serv()).shareUserEntity(userUri, userUris, entityUri, circleUri, entityType, true);
       }
       
     }catch(Exception error){

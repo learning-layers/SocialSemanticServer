@@ -893,7 +893,7 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
     try{
       
       if(
-        !((SSServPar)par).shouldCommit        ||
+        !par.shouldCommit         ||
         connector == null         ||
         connector.getAutoCommit() ||
         connector.isClosed()){
@@ -901,13 +901,9 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
       }
       
       connector.rollback();
+
+      return true;
       
-      if(((SSServPar)par).tryAgain){
-        ((SSServPar)par).tryAgain = false;
-        return true;
-      }
-      
-      return false;
     }catch(Exception error){
       SSServErrReg.regErr(error);
       return null;

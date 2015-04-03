@@ -34,7 +34,6 @@ public class SSServPar{
   public SSUri                user                = null;
   public String               key                 = null;
   public Boolean              withUserRestriction = true;
-  public Boolean              saveActivity        = false;
 
   @JsonIgnore
   public SSSocketCon          clientCon           = null;
@@ -45,9 +44,6 @@ public class SSServPar{
   @JsonIgnore
   public Boolean              shouldCommit        = true;
 
-  @JsonIgnore
-  public Boolean              tryAgain            = true;
-  
   @JsonIgnore
   public String               clientJSONRequ      = null;
   
@@ -77,11 +73,6 @@ public class SSServPar{
     this.withUserRestriction = withUserRestriction;
   }
 
-  @XmlElement
-  public void setSaveActivity(final Boolean saveActivity){
-    this.saveActivity = saveActivity;
-  }
-  
   public String getOp(){
     return SSStrU.toStr(op);
   }
@@ -152,10 +143,6 @@ public class SSServPar{
     try{
       logErr = (Boolean) pars.get(SSVarU.logErr);
     }catch(Exception error){}
-      
-    try{
-      saveActivity = (Boolean) pars.get(SSVarU.saveActivity);
-    }catch(Exception error){}
   }
   
   protected SSServPar(
@@ -179,10 +166,6 @@ public class SSServPar{
       this.shouldCommit = par.shouldCommit;
     }
     
-    if(par.tryAgain != null){
-      this.tryAgain = par.tryAgain;
-    }
-    
     if(par.withUserRestriction != null){
       this.withUserRestriction = par.withUserRestriction;
     }
@@ -191,12 +174,7 @@ public class SSServPar{
       this.logErr = par.logErr;
     }
     
-    if(par.saveActivity != null){
-      this.saveActivity = par.saveActivity;
-    }
-    
     this.pars         = par.pars;
-//    this.clientPars   = par.clientPars;
   }
 }
 //public class SSRequ {
