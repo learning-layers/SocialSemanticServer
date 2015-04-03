@@ -24,42 +24,39 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SSServImplClientStartA extends SSServImplStartA implements Runnable{
+public class SSServImplClient extends SSServImplStartA implements Runnable{
 
-  private final SSSocketCon clientCon;
   private final Boolean     useCloud;
-  private String            clientMsg   = null;
-  private SSServPar         par         = null;
+  private final SSServPar   par;
   private SSServImplA       servImpl    = null;
   
-  public SSServImplClientStartA(
+  public SSServImplClient(
     final Socket clientSocket,
     final Boolean useCloud) throws Exception{
     
     super(null, null);
     
-    this.clientCon  = new SSSocketCon(clientSocket);
-    this.useCloud   = useCloud;
+    this.par           = new SSServPar();
+    this.par.clientCon = new SSSocketCon(clientSocket);
+    this.useCloud      = useCloud;
   }
   
   @Override
   public void run(){
     
     try{
-      clientMsg = clientCon.readMsgFullFromClient();
-
-      SSLogU.info(clientMsg);
-
-      par = new SSServPar(clientMsg);
-
+      
+      par.clientJSONRequ = par.clientCon.readMsgFullFromClient();
+      par.op             = SSServOpE.get(SSJSONU.getValueFromJSON(par.clientJSONRequ, SSVarU.op));
+      
+      SSLogU.info(par.clientJSONRequ);
+      
       SSServA.inst.regClientRequest(
-        par.op, 
-        par.user, 
+        par,
         servImpl);
       
       servImpl = 
         SSServA.inst.callServViaClient(
-          clientCon,
           par,
           useCloud);
       
@@ -72,7 +69,7 @@ public class SSServImplClientStartA extends SSServImplStartA implements Runnable
       }
       
       try{
-        clientCon.writeErrorFullToClient(SSServErrReg.getServiceImplErrors(), par.op);
+        par.clientCon.writeErrorFullToClient(SSServErrReg.getServiceImplErrors(), par.op);
       }catch(Exception error2){
         SSServErrReg.regErr(error2, true);
       }

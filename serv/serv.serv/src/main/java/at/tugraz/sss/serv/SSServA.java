@@ -31,11 +31,10 @@ public class SSServA implements SSServRegI{
   
   @Override
   public void regClientRequest(
-    final SSServOpE     op,
-    final SSUri         user,
+    final SSServPar     par,
     final SSServImplA   servImpl) throws Exception{
     
-    if(!requsLimitsForClientOpsPerUser.containsKey(op)){
+    if(!requsLimitsForClientOpsPerUser.containsKey(par.op)){
       return;
     }
     
@@ -45,21 +44,21 @@ public class SSServA implements SSServRegI{
     synchronized(currentRequsForClientOpsPerUser){
       
       if(
-        !currentRequsForClientOpsPerUser.containsKey(op) ||
-        currentRequsForClientOpsPerUser.get(op).get(SSStrU.toStr(user)) == null){
+        !currentRequsForClientOpsPerUser.containsKey(par.op) ||
+        currentRequsForClientOpsPerUser.get(par.op).get(SSStrU.toStr(par.user)) == null){
         
         servImplsForUser = new HashMap<>();
         servImpls        = new ArrayList<>();
         
-        servImplsForUser.put(SSStrU.toStr(user), servImpls);
+        servImplsForUser.put(SSStrU.toStr(par.user), servImpls);
         
-        currentRequsForClientOpsPerUser.put(op, servImplsForUser);
+        currentRequsForClientOpsPerUser.put(par.op, servImplsForUser);
       }else{
         
-        servImpls = currentRequsForClientOpsPerUser.get(op).get(SSStrU.toStr(user));
+        servImpls = currentRequsForClientOpsPerUser.get(par.op).get(SSStrU.toStr(par.user));
         
         if(
-          servImpls.size() == requsLimitsForClientOpsPerUser.get(op)){
+          servImpls.size() == requsLimitsForClientOpsPerUser.get(par.op)){
           throw new SSErr(SSErrE.maxNumClientConsForOpReached);
         }
       }
@@ -103,7 +102,7 @@ public class SSServA implements SSServRegI{
     for(Map.Entry<SSServOpE, Integer> maxRequestPerOp : maxRequsPerOps.entrySet()){
       
       try{
-        servImplClientInteraceClass.getMethod(SSStrU.toStr(maxRequestPerOp.getKey()));
+        servImplClientInteraceClass.getMethod(SSStrU.toStr(maxRequestPerOp.getKey()), SSSocketCon.class, SSServPar.class);
       }catch(Exception error){
         SSServErrReg.regErrThrow(new Exception("client operation to register not available for this service"));
         return;
@@ -266,8 +265,7 @@ public class SSServA implements SSServRegI{
   
   @Override
   public SSServImplA callServViaClient(
-    final SSSocketCon  sSCon,
-    final SSServPar   par,
+    final SSServPar    par,
     final Boolean      useCloud) throws Exception{
     
     try{
@@ -277,7 +275,6 @@ public class SSServA implements SSServRegI{
       
       servImpl.handleClientOp(
         serv.servImplClientInteraceClass,
-        sSCon,
         par);
       
       return servImpl;
@@ -291,7 +288,6 @@ public class SSServA implements SSServRegI{
       if(useCloud){
         
         deployServNode(
-          sSCon,
           par,
           getClientServAvailableOnNodes(par));
         
@@ -361,8 +357,7 @@ public class SSServA implements SSServRegI{
   }
   
   private void deployServNode(
-    final SSSocketCon        sSCon,
-    final SSServPar         par,
+    final SSServPar          par,
     final SSServContainerI   serv) throws Exception{
     
     final Map<String, Object> opPars = new HashMap<>();
@@ -370,7 +365,7 @@ public class SSServA implements SSServRegI{
     opPars.put(SSVarU.user, par.user);
     opPars.put(SSVarU.serv, serv);
     
-    sSCon.writeRetFullToClient(callServViaServer(new SSServPar(SSServOpE.cloudPublishService, opPars)), par.op);
+    par.clientCon.writeRetFullToClient(callServViaServer(new SSServPar(SSServOpE.cloudPublishService, opPars)), par.op);
   }
   
   private SSServContainerI getClientServAvailableOnNodes(

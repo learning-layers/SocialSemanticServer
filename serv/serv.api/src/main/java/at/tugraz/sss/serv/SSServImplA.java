@@ -32,19 +32,18 @@ public abstract class SSServImplA{
   
   public void handleClientOp(
     final Class        clientInterfaceClass, 
-    final SSSocketCon  sSCon, 
-    final SSServPar   par) throws Exception{
+    final SSServPar    par) throws Exception{
     
     if(clientInterfaceClass == null){
       SSLogU.err(new Exception("service op shouldnt be instantiated this way"));
       return;
     }
     
-    clientInterfaceClass.getMethod(SSStrU.toStr(par.op), SSSocketCon.class, SSServPar.class).invoke(this, sSCon, par);
+    clientInterfaceClass.getMethod(SSStrU.toStr(par.op), SSSocketCon.class, SSServPar.class).invoke(this, par.clientCon, par);
   }
 
   public Object handleServerOp(
-    final Class      serverInterfaceClass, 
+    final Class     serverInterfaceClass, 
     final SSServPar par) throws Exception{
     
     if(serverInterfaceClass == null){

@@ -20,63 +20,79 @@
 */
 package at.tugraz.sss.serv;
 
-import at.tugraz.sss.serv.SSObjU;
-import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSVarU;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.wordnik.swagger.annotations.ApiModelProperty;
 import java.util.Map;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.map.ObjectMapper;
 
 @XmlRootElement
 public class SSServPar{
   
-  @XmlElement
-  @ApiModelProperty(
-    value = "operation to be executed",
-    required = true)
-  public        SSServOpE              op            = null;
+  public SSServOpE            op                  = null;
+  public SSUri                user                = null;
+  public String               key                 = null;
+  public Boolean              withUserRestriction = true;
+  public Boolean              saveActivity        = false;
+
+  @JsonIgnore
+  public SSSocketCon          clientCon           = null;
+  
+  @JsonIgnore
+  public Map<String, Object>  pars                = null;
+  
+  @JsonIgnore
+  public Boolean              shouldCommit        = true;
+
+  @JsonIgnore
+  public Boolean              tryAgain            = true;
+  
+  @JsonIgnore
+  public String               clientJSONRequ      = null;
+  
+  @JsonIgnore
+  public JsonNode             clientJSONObj       = null;
+  
+  @JsonIgnore
+  public Boolean              logErr              = true;
   
   @XmlElement
-  @ApiModelProperty(
-    value = "the user's identifier",
-    required = true)
-  public        SSUri                user          = null;
+  public void setOp(final String op) throws Exception{
+    this.op = SSServOpE.get(op);
+  }
   
   @XmlElement
-  @ApiModelProperty(
-    value = "the user's access tocken",
-    required = true)
-  public String key                    = null;
+  public void setUser(final String user) throws Exception{
+    try{ this.user = SSUri.get(user); }catch(Exception error){}
+  }
   
-  @JsonIgnore (value = true)
-  public        Map<String, Object>  pars          = null;
+  @XmlElement
+  public void setKey(final String key){
+    this.key = key;
+  }
   
-//  @JsonIgnore (value = true)
-//  public        Map<String, String>  clientPars    = null;
+  @XmlElement
+  public void setWithUserRestriction(final Boolean withUserRestriction){
+    this.withUserRestriction = withUserRestriction;
+  }
+
+  @XmlElement
+  public void setSaveActivity(final Boolean saveActivity){
+    this.saveActivity = saveActivity;
+  }
   
-  @JsonIgnore (value = true)
-  public        Boolean              shouldCommit  = true;
+  public String getOp(){
+    return SSStrU.toStr(op);
+  }
   
-  @JsonIgnore (value = true)
-  public        Boolean              withUserRestriction = true;
+  public String getUser(){
+    return SSStrU.removeTrailingSlash(user);
+  }
   
-  @JsonIgnore (value = true)
-  public        Boolean              saveActivity  = false;
-  
-  @JsonIgnore (value = true)
-  public        Boolean              tryAgain      = true;
-  
-  @JsonIgnore (value = true)
-  public        JsonNode             clientJSONObj = null;
-  
-  @JsonIgnore (value = true)
-  public        Boolean              logErr        = true;
+  public String getKey(){
+    return key;
+  }
   
   protected SSServPar(
     final SSServOpE op,
@@ -88,12 +104,12 @@ public class SSServPar{
     this.user = user;
   }
   
-  public SSServPar(final String jsonRequ) throws Exception{
+  public SSServPar(final String clientJSONRequ) throws Exception{
     
     try{
       
       final ObjectMapper mapper       = new ObjectMapper();
-      final JsonNode     jsonRootNode = mapper.readTree(jsonRequ);
+      final JsonNode     jsonRootNode = mapper.readTree(clientJSONRequ);
 
       op   = SSServOpE.get      (jsonRootNode.get(SSVarU.op).getTextValue());
       key  = jsonRootNode.get (SSVarU.key).getTextValue();
@@ -108,7 +124,8 @@ public class SSServPar{
         throw new Exception("op or key is empty");
       }
       
-      this.clientJSONObj = jsonRootNode;
+      this.clientJSONRequ = clientJSONRequ;
+      this.clientJSONObj  = jsonRootNode;
       
 //      JsonParser jp = null;
 //      String     jKey;
@@ -167,6 +184,7 @@ public class SSServPar{
 //      }
 //    }
   }
+  public SSServPar(){}
   
   public SSServPar(
     final SSServOpE                      op,
@@ -234,21 +252,6 @@ public class SSServPar{
     
     this.pars         = par.pars;
 //    this.clientPars   = par.clientPars;
-  }
-  
-  protected SSServPar(){}
-  
-  /* json getters */
-  public String getOp(){
-    return SSStrU.toStr(op);
-  }
-  
-  public String getUser(){
-    return SSStrU.removeTrailingSlash(user);
-  }
-  
-  public String getKey(){
-    return key;
   }
 }
 //public class SSRequ {

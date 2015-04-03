@@ -64,8 +64,7 @@ public interface SSServRegI{
   public List<SSServContainerI> getServsGatheringUsersResources();
     
   public void regClientRequest(
-    final SSServOpE   op,
-    final SSUri       user,
+    final SSServPar   par,
     final SSServImplA servImpl) throws Exception;
   
   public void unregClientRequest(
@@ -81,7 +80,6 @@ public interface SSServRegI{
     final SSServPar par) throws Exception;
   
   public SSServImplA callServViaClient(
-    final SSSocketCon  sSCon,
-    final SSServPar   par,
+    final SSServPar    par,
     final Boolean      useCloud) throws Exception;
 }

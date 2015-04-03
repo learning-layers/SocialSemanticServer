@@ -49,7 +49,7 @@ public class SSRestMainV2 extends Application {
 
   public SSRestMainV2() throws Exception{
    
-    SSAdapterRestConf.instSet (SSFileU.dirCatalinaBase() + SSVocConf.dirNameConf + "sss.adapter.rest.v2.conf.ld.yaml");
+    SSAdapterRestConf.instSet (SSFileU.dirCatalinaBase() + SSVocConf.dirNameConf + "sss.adapter.rest.v2.conf.yaml");
     
     conf = SSAdapterRestConf.instGet();
     
@@ -98,7 +98,7 @@ public class SSRestMainV2 extends Application {
     }
     
     try{
-      restObj.sssRequestMessage = SSJSONU.jsonStr(restObj.par);
+      restObj.sssRequestMessage = SSJSONU.jsonStr(restObj.par, true);
     }catch(Exception error){
       
       restObj.response = 
@@ -171,7 +171,7 @@ public class SSRestMainV2 extends Application {
         }else{
           restObj.response =
             Response.status(200).entity(
-              SSJSONU.jsonStr(sssJSONResponseRootNode.get(restObj.par.op.toString()))).build();
+              SSJSONU.jsonStr(sssJSONResponseRootNode.get(restObj.par.op.toString()), true)).build();
         }
         
       }catch(Exception error){
@@ -222,7 +222,7 @@ public class SSRestMainV2 extends Application {
     }
     
     try{
-      return SSJSONU.jsonStr(jsonObj);
+      return SSJSONU.jsonStr(jsonObj, true);
     } catch(Exception error){
       return null;
     }
@@ -252,7 +252,7 @@ public class SSRestMainV2 extends Application {
     }
     
     try{
-      return SSJSONU.jsonStr(jsonObj);
+      return SSJSONU.jsonStr(jsonObj, true);
     } catch(Exception error){
       return null;
     }

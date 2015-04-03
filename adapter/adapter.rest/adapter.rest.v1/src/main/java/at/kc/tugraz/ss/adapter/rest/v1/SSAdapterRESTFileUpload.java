@@ -83,7 +83,7 @@ public class SSAdapterRESTFileUpload{
       
       sSCon = new SSSocketCon(SSRestMainV1.conf.ss.host, SSRestMainV1.conf.ss.port);
       
-      sSCon.writeRequFullToSS  (SSJSONU.jsonStr(par));
+      sSCon.writeRequFullToSS  (SSJSONU.jsonStr(par, false));
       sSCon.readMsgFullFromSS  ();
       
       while ((read = fileHandle.read(bytes)) != -1) {

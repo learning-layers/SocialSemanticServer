@@ -185,7 +185,7 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
   public SSAuthCheckCredRet authCheckCred(final SSServPar parA) throws Exception {
     
     try{
-      final SSAuthCheckCredPar par = new SSAuthCheckCredPar(parA);
+      final SSAuthCheckCredPar par = SSAuthCheckCredPar.get(parA);
 
       switch(((SSAuthConf)conf).authType){
 

@@ -99,7 +99,7 @@ public class SSRestMainV1 extends Application {
       
       input.op = op;
       
-      return handleStandardJSONRESTCall(SSJSONU.jsonStr(input), op);
+      return handleStandardJSONRESTCall(SSJSONU.jsonStr(input, false), op);
     }catch(Exception error){
       SSServErrReg.regErr(error);
       return null;
@@ -257,7 +257,7 @@ public class SSRestMainV1 extends Application {
       if(jsonRootNode.get(SSVarU.error).getBooleanValue()){
         return Response.status(500).entity(getJSONStrForError(jsonRootNode.get(SSVarU.id).getTextValue(), jsonRootNode.get(SSVarU.message).getTextValue())).build();
       }else{
-        return Response.status(200).entity(SSJSONU.jsonStr(jsonRootNode.get(par.op.toString()))).build();
+        return Response.status(200).entity(SSJSONU.jsonStr(jsonRootNode.get(par.op.toString()), false)).build();
       }
       
     }catch(Exception error){
@@ -296,7 +296,7 @@ public class SSRestMainV1 extends Application {
       if(jsonRootNode.get(SSVarU.error).getBooleanValue()){
         return Response.status(500).entity(getJSONStrForError(jsonRootNode.get(SSVarU.id).getTextValue(), jsonRootNode.get(SSVarU.message).getTextValue())).build();
       }else{
-        return Response.status(200).entity(SSJSONU.jsonStr(jsonRootNode.get(par.op.toString()))).build();
+        return Response.status(200).entity(SSJSONU.jsonStr(jsonRootNode.get(par.op.toString()), false)).build();
       }
       
     }catch(Exception error){
@@ -329,7 +329,7 @@ public class SSRestMainV1 extends Application {
       if(jsonRootNode.get(SSVarU.error).getBooleanValue()){
         return Response.status(500).entity(getJSONStrForError(jsonRootNode.get(SSVarU.id).getTextValue(), jsonRootNode.get(SSVarU.message).getTextValue())).build();
       }else{
-        return Response.status(201).entity(SSJSONU.jsonStr(jsonRootNode.get(par.op.toString()))).build();
+        return Response.status(201).entity(SSJSONU.jsonStr(jsonRootNode.get(par.op.toString()), false)).build();
       }
       
     }catch(Exception error){
@@ -362,7 +362,7 @@ public class SSRestMainV1 extends Application {
       if(jsonRootNode.get(SSVarU.error).getBooleanValue()){
         return Response.status(500).entity(getJSONStrForError(jsonRootNode.get(SSVarU.id).getTextValue(), jsonRootNode.get(SSVarU.message).getTextValue())).build();
       }else{
-        return Response.status(201).entity(SSJSONU.jsonStr(jsonRootNode.get(par.op.toString()))).build();
+        return Response.status(201).entity(SSJSONU.jsonStr(jsonRootNode.get(par.op.toString()), false)).build();
       }
       
     }catch(Exception error){
@@ -394,7 +394,7 @@ public class SSRestMainV1 extends Application {
     }
     
     try{
-      return SSJSONU.jsonStr(jsonObj);
+      return SSJSONU.jsonStr(jsonObj, false);
     } catch(Exception error){
       return null;
     }
@@ -424,7 +424,7 @@ public class SSRestMainV1 extends Application {
     }
     
     try{
-      return SSJSONU.jsonStr(jsonObj);
+      return SSJSONU.jsonStr(jsonObj, false);
     } catch(Exception error){
       return null;
     }

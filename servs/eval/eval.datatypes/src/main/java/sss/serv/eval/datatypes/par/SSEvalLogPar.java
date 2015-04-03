@@ -39,6 +39,10 @@ import org.codehaus.jackson.JsonNode;
 @ApiModel(value = "evalLog request parameter")
 public class SSEvalLogPar extends SSServPar{
 
+  public static SSEvalLogPar get(SSServPar parA){
+    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+  }
+
   @XmlElement
   @ApiModelProperty(
     required = false,

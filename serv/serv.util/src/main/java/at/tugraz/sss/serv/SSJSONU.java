@@ -20,12 +20,15 @@
 */
 package at.tugraz.sss.serv;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import org.codehaus.jackson.JsonFactory;
 import org.codehaus.jackson.JsonParser;
 import org.codehaus.jackson.JsonToken;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.map.SerializationConfig;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.codehaus.jackson.type.JavaType;
 import org.codehaus.jackson.type.TypeReference;
 
@@ -33,11 +36,47 @@ public class SSJSONU{
 
   public static final JsonToken jsonEnd = JsonToken.END_OBJECT;
   
-  public static String jsonStr(Object obj) throws Exception{
+  public static String getValueFromJSON(
+    final String jsonStr,
+    final String name) throws Exception{
+    
+    final ObjectMapper mapper = new ObjectMapper();
+    
+    return mapper.readTree(jsonStr).get(name).getTextValue();
+  }
+  
+  public static Object obj(
+    final String  jsonStr, 
+    final Class   customClass,
+    final Boolean excludeNull) throws Exception{
+    
+    final ObjectMapper objectMapper = new ObjectMapper();
+    
+    if(excludeNull){
+      objectMapper.setSerializationInclusion(JsonSerialize.Inclusion.NON_NULL);
+    }
+    
+    objectMapper.configure(SerializationConfig.Feature.WRITE_NULL_MAP_VALUES, true);
+    
+    return objectMapper.readValue(jsonStr, customClass);
+  }
+  
+  public static String jsonStr(
+    final Object  obj,
+    final Boolean excludeNull) throws Exception{
+    
+    final ObjectMapper objectMapper = new ObjectMapper();
+    
+    if(excludeNull){
+      objectMapper.setSerializationInclusion(JsonSerialize.Inclusion.NON_NULL);
+    }
+    
+    objectMapper.configure(SerializationConfig.Feature.WRITE_NULL_MAP_VALUES, true);
+    
     return new ObjectMapper().writeValueAsString(obj);
   }
   
-  public static List<String> jsonArrayList(String jsonStr) throws Exception {
+  public static List<String> jsonArrayList(final String jsonStr) throws Exception {
     
     ObjectMapper mapper = new ObjectMapper();
     

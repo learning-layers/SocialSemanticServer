@@ -78,8 +78,7 @@ public abstract class SSServImplStartA extends SSServImplA implements Runnable{
   @Override
   public void handleClientOp(
     final Class        servImplClientInteraceClass, 
-    final SSSocketCon  sSCon, 
-    final SSServPar   par) throws Exception{
+    final SSServPar    par) throws Exception{
     
     throw new UnsupportedOperationException(SSStrU.empty);
   }
@@ -87,7 +86,7 @@ public abstract class SSServImplStartA extends SSServImplA implements Runnable{
   @Override
   public Object handleServerOp(
     final Class      servImplServerInteraceClass, 
-    final SSServPar par) throws Exception{
+    final SSServPar  par) throws Exception{
     
     throw new UnsupportedOperationException(SSStrU.empty);
   }

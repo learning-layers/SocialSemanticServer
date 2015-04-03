@@ -20,14 +20,6 @@
 */
 package at.tugraz.sss.serv;
 
-import at.tugraz.sss.serv.SSEncodingU;
-import at.tugraz.sss.serv.SSJSONU;
-import at.tugraz.sss.serv.SSLogU;
-import at.tugraz.sss.serv.SSObjU;
-import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.serv.SSSocketU;
-import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
 import java.io.BufferedWriter;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -263,7 +255,7 @@ public class SSSocketCon{
     ret.put(SSVarU.error,     false);
     ret.put(SSStrU.toStr(op), result);
     
-    return SSJSONU.jsonStr(ret) + SSSocketU.endOfRequest;
+    return SSJSONU.jsonStr(ret, true) + SSSocketU.endOfRequest;
 }
   
   public void writeRetFullToClient(
@@ -301,7 +293,7 @@ public class SSSocketCon{
 //    ret.put(SSVarU.errorThreadsWhereThrown, SSErrForClient.threadsWhereThrown (errors));
     
 //    ret.put(SSJSONLDU.context, SSJSONLDU.jsonLDContext());
-    ret.put(SSStrU.toStr(op), null);
+//    ret.put(SSStrU.toStr(op), null);
 
     ret.put(SSVarU.id, null);
     
@@ -320,7 +312,7 @@ public class SSSocketCon{
     }
     
     
-    return SSJSONU.jsonStr(ret) + SSSocketU.endOfRequest;
+    return SSJSONU.jsonStr(ret, true) + SSSocketU.endOfRequest;
   }
 }
 

@@ -61,9 +61,9 @@ public class SSAdapterRESTFileDownload{
     try{
       sSCon = new SSSocketCon(SSRestMainV1.conf.ss.host, SSRestMainV1.conf.ss.port);
       
-      sSCon.writeRequFullToSS   (SSJSONU.jsonStr(input));
+      sSCon.writeRequFullToSS   (SSJSONU.jsonStr(input, false));
       sSCon.readMsgFullFromSS   ();
-      sSCon.writeRequFullToSS   (SSJSONU.jsonStr(input));
+      sSCon.writeRequFullToSS   (SSJSONU.jsonStr(input, false));
 
       stream = new StreamingOutput(){
 

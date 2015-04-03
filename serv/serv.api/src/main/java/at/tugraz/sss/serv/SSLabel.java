@@ -60,7 +60,6 @@ public class SSLabel extends SSEntityA{
     return true;
   }
     
-   
   protected SSLabel(final String string) throws Exception{
     
     super(string);

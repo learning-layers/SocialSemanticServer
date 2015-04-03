@@ -23,7 +23,7 @@ package at.kc.tugraz.ss.main;
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.tugraz.sss.serv.SSLogU;
-import at.tugraz.sss.serv.SSServImplClientStartA;
+import at.tugraz.sss.serv.SSServImplClient;
 import java.net.ServerSocket;
 
 public class SSMain{
@@ -65,7 +65,7 @@ public class SSMain{
         
         while(true){
           new Thread(
-            new SSServImplClientStartA(
+            new SSServImplClient(
               server.accept(),
               SSCoreConf.instGet().getCloud().use)).start();
         }
