@@ -18,7 +18,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
- package at.kc.tugraz.ss.serv.auth.impl;
+package at.kc.tugraz.ss.serv.auth.impl;
 
 import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSServOpE;
@@ -34,7 +34,6 @@ import at.kc.tugraz.ss.serv.auth.impl.fct.oidc.SSAuthOIDC;
 import at.kc.tugraz.ss.serv.auth.impl.fct.sql.SSAuthSQLFct;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSDBSQLI;
-
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthCheckCredPar;

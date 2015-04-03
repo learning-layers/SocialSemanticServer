@@ -64,7 +64,7 @@ public class SSServPar{
   
   @XmlElement
   public void setUser(final String user) throws Exception{
-    try{ this.user = SSUri.get(user); }catch(Exception error){}
+    this.user = SSUri.get(user);
   }
   
   @XmlElement
@@ -94,105 +94,45 @@ public class SSServPar{
     return key;
   }
   
-  protected SSServPar(
-    final SSServOpE op,
-    final String  key,
-    final SSUri   user){
-    
-    this.op   = op;
-    this.key  = key;
-    this.user = user;
-  }
-  
-  public SSServPar(final String clientJSONRequ) throws Exception{
-    
-    try{
-      
-      final ObjectMapper mapper       = new ObjectMapper();
-      final JsonNode     jsonRootNode = mapper.readTree(clientJSONRequ);
-
-      op   = SSServOpE.get      (jsonRootNode.get(SSVarU.op).getTextValue());
-      key  = jsonRootNode.get (SSVarU.key).getTextValue();
-      
-      try{
-        user = SSUri.get        (jsonRootNode.get(SSVarU.user).getTextValue());
-      }catch(Exception error){}
-      
-      if(
-        SSObjU.isNull  (this.op)||
-        SSStrU.isEmpty (this.key)){
-        throw new Exception("op or key is empty");
-      }
-      
-      this.clientJSONRequ = clientJSONRequ;
-      this.clientJSONObj  = jsonRootNode;
-      
-//      JsonParser jp = null;
-//      String     jKey;
-//      String     jValue;
-//      clientPars = new HashMap<>();
-//      
-//      jp = SSJSONU.jsonParser(jsonRequ);
-//      
-//      jp.nextToken();
-//      
-//      while(jp.nextToken() != SSJSONU.jsonEnd) {
-//        
-//        jKey = jp.getCurrentName();
-//        
-//        jp.nextToken();
-//        
-//        jValue = jp.getText();
-//        
-//        if(SSStrU.equals(jKey, SSVarU.op)){
-//          op = SSServOpE.get(jValue);
-//          continue;
-//        }
-//        
-//        if(SSStrU.equals(jKey, SSVarU.user)){
-//          user = SSUri.get(jValue);
-//          clientPars.put(jKey, jValue);
-//          continue;
-//        }
-//        
-//        if(SSStrU.equals(jKey, SSVarU.key)){
-//          key         = jValue;
-//          clientPars.put(jKey, jValue);
-//          continue;
-//        }
-//        
-//        if(SSStrU.isEmpty(jValue)){
-//          clientPars.put(jKey, null);
-//        }else{
-//          clientPars.put(jKey, jValue);
-//        }
-//      }
-//      
-//      if(
-//        SSObjU.isNull  (this.op, this.user)||
-//        SSStrU.isEmpty (this.key)){
-//        throw new Exception("op, user or key is empty");
-//      }
-      
-    }catch(Exception error){
-      throw error;
-    }
-//    finally{
-//      
-//      if(jp != null){
-//        jp.close();
-//      }
-//    }
-  }
   public SSServPar(){}
   
   public SSServPar(
-    final SSServOpE                      op,
-    final Map<String, Object>          pars) throws Exception{
+    final SSSocketCon clientCon,
+    final String      clientJSONRequ) throws Exception{
+    
+    this.clientCon      = clientCon;
+    this.clientJSONRequ = clientJSONRequ;
+    
+    setOp (SSJSONU.getValueFromJSON(clientJSONRequ, SSVarU.op));
+    setKey(SSJSONU.getValueFromJSON(clientJSONRequ, SSVarU.key));
+    
+    //TODO for anchient use of serv par
+    setUser(SSJSONU.getValueFromJSON(clientJSONRequ, SSVarU.user));
+    
+    if(
+      SSObjU.isNull  (op)||
+      SSStrU.isEmpty (key)){
+      throw new Exception("op or key is empty");
+    }
+
+    //TODO for anchient use of serv par
+    clientJSONObj = new ObjectMapper().readTree(clientJSONRequ);
+  }
+
+  public SSServPar(
+    final SSServOpE            op,
+    final Map<String, Object>  pars) throws Exception{
     
     this.op            = op;
     this.pars          = pars;
     
+    if(
+      this.op   == null ||
+      this.pars == null){
+      throw new Exception("op or pars is/are empty");
+    }
+    
+    //TODO code below for anchient serv par use
     try{
       user = (SSUri) pars.get(SSVarU.user);
     }catch(Exception error){}
@@ -216,14 +156,19 @@ public class SSServPar{
     try{
       saveActivity = (Boolean) pars.get(SSVarU.saveActivity);
     }catch(Exception error){}
-    
-    if(
-      this.op   == null ||
-      this.pars == null){
-      throw new Exception("op or pars is/are empty");
-    }
   }
   
+  protected SSServPar(
+    final SSServOpE op,
+    final String  key,
+    final SSUri   user){
+    
+    this.op   = op;
+    this.key  = key;
+    this.user = user;
+  }
+  
+  //TODO constructor for anchient serv par use
   protected SSServPar(final SSServPar par) throws Exception{
     
     this.op           = par.op;
@@ -305,3 +250,58 @@ public class SSServPar{
 //    this.op = op;
 //    this.pars.addAll(Arrays.asList(pars));
 // }
+
+
+      
+      //      JsonParser jp = null;
+//      String     jKey;
+//      String     jValue;
+//      clientPars = new HashMap<>();
+//      
+//      jp = SSJSONU.jsonParser(jsonRequ);
+//      
+//      jp.nextToken();
+//      
+//      while(jp.nextToken() != SSJSONU.jsonEnd) {
+//        
+//        jKey = jp.getCurrentName();
+//        
+//        jp.nextToken();
+//        
+//        jValue = jp.getText();
+//        
+//        if(SSStrU.equals(jKey, SSVarU.op)){
+//          op = SSServOpE.get(jValue);
+//          continue;
+//        }
+//        
+//        if(SSStrU.equals(jKey, SSVarU.user)){
+//          user = SSUri.get(jValue);
+//          clientPars.put(jKey, jValue);
+//          continue;
+//        }
+//        
+//        if(SSStrU.equals(jKey, SSVarU.key)){
+//          key         = jValue;
+//          clientPars.put(jKey, jValue);
+//          continue;
+//        }
+//        
+//        if(SSStrU.isEmpty(jValue)){
+//          clientPars.put(jKey, null);
+//        }else{
+//          clientPars.put(jKey, jValue);
+//        }
+//      }
+//      
+//      if(
+//        SSObjU.isNull  (this.op, this.user)||
+//        SSStrU.isEmpty (this.key)){
+//        throw new Exception("op, user or key is empty");
+//      }
+//    finally{
+//      
+//      if(jp != null){
+//        jp.close();
+//      }
+//    }

@@ -73,7 +73,7 @@ public class SSJSONU{
     
     objectMapper.configure(SerializationConfig.Feature.WRITE_NULL_MAP_VALUES, true);
     
-    return new ObjectMapper().writeValueAsString(obj);
+    return objectMapper.writeValueAsString(obj);
   }
   
   public static List<String> jsonArrayList(final String jsonStr) throws Exception {

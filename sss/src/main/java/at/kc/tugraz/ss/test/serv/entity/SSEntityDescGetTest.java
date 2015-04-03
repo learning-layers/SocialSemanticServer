@@ -60,25 +60,25 @@ public class SSEntityDescGetTest extends SSServOpTestCaseA{
   @Override
   protected void testFromClient() throws Exception{
 
-    jsonRequ                                   = 
-      "{\"op\":\"entityDescGet\",\"user\":\"http://m.domi/user/domi\",\"entityUri\":\"http://bbb.com\",\"getTags\":true,\"getOverallRating\":true,\"getDiscUris\":true,\"key\":\"681V454J1P3H4W3B367BB79615U184N22356I3E\"}";
-    clientServPar                              = new SSServPar          (jsonRequ);
-    final SSEntityDescGetPar  serverServPar    = new SSEntityDescGetPar (clientServPar);
-    final SSEntity            serverServResult = 
-      SSServCaller.entityDescGet(
-      serverServPar.user, 
-      serverServPar.entity,
-      true, 
-      true, 
-      true, 
-      true,
-      true,
-      true, 
-      false);
-    
-    createJSONClientRetStr(SSEntityDescGetRet.get(serverServResult, op));
-      
-    System.out.println (op + " test from client end");
+//    jsonRequ                                   = 
+//      "{\"op\":\"entityDescGet\",\"user\":\"http://m.domi/user/domi\",\"entityUri\":\"http://bbb.com\",\"getTags\":true,\"getOverallRating\":true,\"getDiscUris\":true,\"key\":\"681V454J1P3H4W3B367BB79615U184N22356I3E\"}";
+//    clientServPar                              = new SSServPar          (jsonRequ);
+//    final SSEntityDescGetPar  serverServPar    = new SSEntityDescGetPar (clientServPar);
+//    final SSEntity            serverServResult = 
+//      SSServCaller.entityDescGet(
+//      serverServPar.user, 
+//      serverServPar.entity,
+//      true, 
+//      true, 
+//      true, 
+//      true,
+//      true,
+//      true, 
+//      false);
+//    
+//    createJSONClientRetStr(SSEntityDescGetRet.get(serverServResult, op));
+//      
+//    System.out.println (op + " test from client end");
   }
   
   @Override

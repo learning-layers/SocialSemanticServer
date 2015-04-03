@@ -36,9 +36,7 @@ import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSServA;
 import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServImplA;
-import java.util.EnumMap;
 import java.util.List;
-import java.util.Map;
 
 public class SSDataImportServ extends SSServContainerI{
   
@@ -62,12 +60,6 @@ public class SSDataImportServ extends SSServContainerI{
     this.conf = conf;
     
     SSServA.inst.regServ(this);
-    
-    final Map<SSServOpE, Integer> maxRequestsForOps = new EnumMap<>(SSServOpE.class);
-    
-    maxRequestsForOps.put(SSServOpE.dataImportEvernote, 1);
-    
-    SSServA.inst.regClientRequestLimit(servImplClientInteraceClass, maxRequestsForOps);
     
     return this;
   }

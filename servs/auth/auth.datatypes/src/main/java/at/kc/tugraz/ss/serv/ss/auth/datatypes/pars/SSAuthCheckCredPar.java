@@ -66,21 +66,16 @@ public class SSAuthCheckCredPar extends SSServPar{
   
   public static SSAuthCheckCredPar get(final SSServPar par) throws Exception{
     
-    if(par.pars != null){
-      
-      return new SSAuthCheckCredPar(
-        par.op,
-        par.key,
-        par.user,
-        (SSLabel) par.pars.get(SSVarU.label),
-        (String)  par.pars.get(SSVarU.password));
-    }
-    
-    if(par.clientJSONObj != null){
+    if(par.clientCon != null){
       return (SSAuthCheckCredPar) SSJSONU.obj(par.clientJSONRequ, SSAuthCheckCredPar.class, true);
     }
     
-    return null;
+    return new SSAuthCheckCredPar(
+      par.op,
+      par.key,
+      par.user,
+      (SSLabel) par.pars.get(SSVarU.label),
+      (String)  par.pars.get(SSVarU.password));
   }
   
 //  public SSAuthCheckCredPar(final SSServPar par) throws Exception{

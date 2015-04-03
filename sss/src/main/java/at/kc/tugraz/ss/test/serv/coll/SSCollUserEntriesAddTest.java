@@ -67,22 +67,22 @@ public class SSCollUserEntriesAddTest extends SSServOpTestCaseA{
   @Override
   protected void testFromClient() throws Exception{
     
-    jsonRequ            = 
-      "{\"op\":\"collUserEntriesAdd\",\"user\":\"http://eval.bp/user/domi\",\"coll\":\"http://eval.bp/coll/156429620336965611\",\"entries\":\"http://eval.bp/file/15643192983658651.pdf,http://eval.bp/file/15643192983936052.pdf,http://eval.bp/file/15643234366971803.pdf,http://eval.bp/file/15643238295416004.pdf,http://eval.bp/file/15643262129184815.pdf,http://eval.bp/file/15643269770083966.pdf,http://eval.bp/file/15643282063142977.pdf,http://eval.bp/file/15643289814828958.pdf,http://eval.bp/file/15643296164379459.pdf\",\"entryLabels\":\"Aufgabenblatt-08.pdf,Aufgabenblatt-05.pdf,Aufgabenblatt-01.pdf,Aufgabenblatt-04.pdf,Aufgaben-Regeln.pdf,Aufgabenblatt-07.pdf,Aufgabenblatt-06.pdf,Aufgabenblatt-02.pdf,Aufgabenblatt-03.pdf\",\"circleUris\":\"null,null,null,null,null,null,null,null,null\",\"key\":\"681V454J1P3H4W3B367BB79615U184N22356I3E\"}";    
-    clientServPar                                   = new SSServPar          (jsonRequ);
-    final SSCollUserEntriesAddPar  serverServPar    = new SSCollUserEntriesAddPar (clientServPar);
-    final Boolean                  serverServResult =
-      SSServCaller.collUserEntriesAdd(
-        serverServPar.user,
-        serverServPar.coll,
-        serverServPar.entries,
-        serverServPar.labels,
-        true,
-        true);
-    
-    createJSONClientRetStr(SSCollUserEntriesAddRet.get(serverServResult, op));
-      
-    System.out.println (op + " test from client end");
+//    jsonRequ            = 
+//      "{\"op\":\"collUserEntriesAdd\",\"user\":\"http://eval.bp/user/domi\",\"coll\":\"http://eval.bp/coll/156429620336965611\",\"entries\":\"http://eval.bp/file/15643192983658651.pdf,http://eval.bp/file/15643192983936052.pdf,http://eval.bp/file/15643234366971803.pdf,http://eval.bp/file/15643238295416004.pdf,http://eval.bp/file/15643262129184815.pdf,http://eval.bp/file/15643269770083966.pdf,http://eval.bp/file/15643282063142977.pdf,http://eval.bp/file/15643289814828958.pdf,http://eval.bp/file/15643296164379459.pdf\",\"entryLabels\":\"Aufgabenblatt-08.pdf,Aufgabenblatt-05.pdf,Aufgabenblatt-01.pdf,Aufgabenblatt-04.pdf,Aufgaben-Regeln.pdf,Aufgabenblatt-07.pdf,Aufgabenblatt-06.pdf,Aufgabenblatt-02.pdf,Aufgabenblatt-03.pdf\",\"circleUris\":\"null,null,null,null,null,null,null,null,null\",\"key\":\"681V454J1P3H4W3B367BB79615U184N22356I3E\"}";    
+//    clientServPar                                   = new SSServPar          (jsonRequ);
+//    final SSCollUserEntriesAddPar  serverServPar    = new SSCollUserEntriesAddPar (clientServPar);
+//    final Boolean                  serverServResult =
+//      SSServCaller.collUserEntriesAdd(
+//        serverServPar.user,
+//        serverServPar.coll,
+//        serverServPar.entries,
+//        serverServPar.labels,
+//        true,
+//        true);
+//    
+//    createJSONClientRetStr(SSCollUserEntriesAddRet.get(serverServResult, op));
+//      
+//    System.out.println (op + " test from client end");
   }
   
   @Override
