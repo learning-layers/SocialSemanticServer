@@ -26,7 +26,7 @@ import at.tugraz.sss.serv.SSDBSQLI;
 import at.kc.tugraz.ss.serv.db.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSConfA;
 import at.kc.tugraz.ss.service.coll.impl.*;
-import at.tugraz.sss.serv.SSServA;
+import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSServImplA;
 import at.kc.tugraz.ss.service.coll.api.SSCollClientI;
 import at.kc.tugraz.ss.service.coll.api.SSCollServerI;
@@ -55,10 +55,10 @@ public class SSCollServ extends SSServContainerI{
     
     this.conf = conf;
     
-    SSServA.inst.regServ(this);
+    SSServReg.inst.regServ(this);
 
-    SSServA.inst.regServForManagingEntities       (this);
-    SSServA.inst.regServForGatheringUserRelations (this);
+    SSServReg.inst.regServForManagingEntities       (this);
+    SSServReg.inst.regServForGatheringUserRelations (this);
     
     return this;
   }

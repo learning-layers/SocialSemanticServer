@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.serv.db.serv;
 
 import at.tugraz.sss.serv.SSCoreConfA;
-import at.tugraz.sss.serv.SSServA;
+import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSServImplA;
 import java.util.List;
 

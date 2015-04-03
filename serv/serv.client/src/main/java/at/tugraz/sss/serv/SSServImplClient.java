@@ -20,6 +20,13 @@
 */
 package at.tugraz.sss.serv;
 
+import at.tugraz.sss.serv.SSLogU;
+import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSServImplA;
+import at.tugraz.sss.serv.SSServImplStartA;
+import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServReg;
+import at.tugraz.sss.serv.SSSocketCon;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
@@ -53,12 +60,12 @@ public class SSServImplClient extends SSServImplStartA implements Runnable{
       
       SSLogU.info(par.clientJSONRequ);
       
-      SSServA.inst.regClientRequest(
+      SSServReg.inst.regClientRequest(
         par,
         servImpl);
       
       servImpl = 
-        SSServA.inst.callServViaClient(
+        SSServReg.inst.callServViaClient(
           par,
           useCloud);
       
@@ -90,7 +97,7 @@ public class SSServImplClient extends SSServImplStartA implements Runnable{
     
     finalizeThread(false);
     
-    SSServA.inst.unregClientRequest(par.op, par.user , servImpl);
+    SSServReg.inst.unregClientRequest(par.op, par.user , servImpl);
   }
 
   public static void regServImplUsedByThread(final SSServImplA servImpl){

@@ -25,7 +25,7 @@ import at.kc.tugraz.ss.serv.job.i5cloud.api.SSI5CloudClientI;
 import at.kc.tugraz.ss.serv.job.i5cloud.api.SSI5CloudServerI;
 import at.kc.tugraz.ss.serv.job.i5cloud.impl.SSI5CloudImpl;
 import at.tugraz.sss.serv.SSConfA;
-import at.tugraz.sss.serv.SSServA;
+import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServImplA;
 import java.util.List;
@@ -51,7 +51,7 @@ public class SSI5CloudServ extends SSServContainerI{
     
     this.conf = conf;
     
-      SSServA.inst.regServ(this);
+      SSServReg.inst.regServ(this);
     
     return this;
   }

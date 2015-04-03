@@ -25,7 +25,7 @@ import at.tugraz.sss.serv.SSDBSQLI;
 import at.kc.tugraz.ss.serv.db.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSConfA;
 import at.kc.tugraz.ss.service.disc.impl.*;
-import at.tugraz.sss.serv.SSServA;
+import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSServImplA;
 import at.kc.tugraz.ss.service.disc.api.SSDiscClientI;
 import at.kc.tugraz.ss.service.disc.api.SSDiscServerI;
@@ -53,12 +53,12 @@ public class SSDiscServ extends SSServContainerI{
     
     this.conf = conf;
     
-    SSServA.inst.regServ(this);
+    SSServReg.inst.regServ(this);
     
-    SSServA.inst.regServForManagingEntities        (this);
-    SSServA.inst.regServForDescribingEntities      (this);
-    SSServA.inst.regServForGatheringUserRelations  (this);
-    SSServA.inst.regServForGatheringUsersResources (this);
+    SSServReg.inst.regServForManagingEntities        (this);
+    SSServReg.inst.regServForDescribingEntities      (this);
+    SSServReg.inst.regServForGatheringUserRelations  (this);
+    SSServReg.inst.regServForGatheringUsersResources (this);
     
     return this;
   }

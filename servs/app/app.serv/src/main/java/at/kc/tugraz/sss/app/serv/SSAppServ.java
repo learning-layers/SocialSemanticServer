@@ -24,7 +24,7 @@ import at.tugraz.sss.serv.SSCoreConfA;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.kc.tugraz.ss.serv.db.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSConfA;
-import at.tugraz.sss.serv.SSServA;
+import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSServImplA;
 import at.kc.tugraz.sss.app.api.SSAppClientI;
 import at.kc.tugraz.sss.app.api.SSAppServerI;
@@ -53,9 +53,9 @@ public class SSAppServ extends SSServContainerI{
     
     this.conf = conf;
     
-    SSServA.inst.regServ(this);
+    SSServReg.inst.regServ(this);
     
-    SSServA.inst.regServForDescribingEntities(this);
+    SSServReg.inst.regServForDescribingEntities(this);
     
     return this;
   }

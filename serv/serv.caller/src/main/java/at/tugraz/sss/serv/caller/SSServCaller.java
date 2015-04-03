@@ -60,7 +60,7 @@ import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.SSLocation;
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSMimeTypeE;
-import at.tugraz.sss.serv.SSServA;
+import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSSpaceE;
 import at.tugraz.sss.serv.SSStrU;
@@ -104,7 +104,7 @@ public class SSServCaller {
     opPars.put(SSVarU.entities,        entities);
     opPars.put(SSVarU.users,           users);
     
-    SSServA.inst.callServViaServer(new SSServPar(SSServOpE.evalLog, opPars));
+    SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.evalLog, opPars));
   }
   
   /* like */
@@ -120,7 +120,7 @@ public class SSServCaller {
     opPars.put(SSVarU.entity,     entity);
     opPars.put(SSVarU.forUser,    forUser);
     
-    return (SSLikes) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.likesUserGet, opPars));
+    return (SSLikes) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.likesUserGet, opPars));
   }
   
   public static SSUri likeUserSet(
@@ -134,7 +134,7 @@ public class SSServCaller {
     opPars.put(SSVarU.entity,    entity);
     opPars.put(SSVarU.value,     value);
     
-    return (SSUri) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.likeUserSet, opPars));
+    return (SSUri) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.likeUserSet, opPars));
   }
     
   /* friends */
@@ -146,7 +146,7 @@ public class SSServCaller {
     
     opPars.put(SSVarU.user,                    user);
     
-    return (List<? extends SSEntity>) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.friendsUserGet, opPars));
+    return (List<? extends SSEntity>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.friendsUserGet, opPars));
   }
   
    /* appStackLayout */
@@ -166,7 +166,7 @@ public class SSServCaller {
     opPars.put(SSVarU.label,                   label);
     opPars.put(SSVarU.description,             description);
 
-    return (SSUri) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.appStackLayoutCreate, opPars));
+    return (SSUri) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.appStackLayoutCreate, opPars));
   }
   
   public static List<? extends SSEntity> appStackLayoutsGet(
@@ -176,7 +176,7 @@ public class SSServCaller {
     
     opPars.put(SSVarU.user,      user);
     
-    return (List<? extends SSEntity>) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.appStackLayoutsGet, opPars));
+    return (List<? extends SSEntity>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.appStackLayoutsGet, opPars));
   }
   
   /* app */
@@ -210,7 +210,7 @@ public class SSServCaller {
     opPars.put(SSVarU.images,                  images);
     opPars.put(SSVarU.videos,                  videos);
     
-    return (SSUri) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.appAdd, opPars));
+    return (SSUri) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.appAdd, opPars));
   }
   
   public static List<? extends SSEntity> appsGet(
@@ -220,7 +220,7 @@ public class SSServCaller {
     
     opPars.put(SSVarU.user,      user);
     
-    return (List<? extends SSEntity>) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.appsGet, opPars));
+    return (List<? extends SSEntity>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.appsGet, opPars));
   }
    
    /* comment */
@@ -234,7 +234,7 @@ public class SSServCaller {
     opPars.put(SSVarU.user,      user);
     opPars.put(SSVarU.forUser,   forUser);
     
-    return (List<SSUri>) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.commentEntitiesCommentedGet, opPars));
+    return (List<SSUri>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.commentEntitiesCommentedGet, opPars));
   }
   
   public static List<SSTextComment> commentsGet(
@@ -248,7 +248,7 @@ public class SSServCaller {
     opPars.put(SSVarU.forUser,   forUser);
     opPars.put(SSVarU.entity,    entity);
     
-    return (List<SSTextComment>) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.commentsGet, opPars));
+    return (List<SSTextComment>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.commentsGet, opPars));
   }
   
   public static List<SSTextComment> commentsUserGet(
@@ -262,7 +262,7 @@ public class SSServCaller {
     opPars.put(SSVarU.forUser,   forUser);
     opPars.put(SSVarU.entity,    entity);
     
-    return (List<SSTextComment>) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.commentsUserGet, opPars));
+    return (List<SSTextComment>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.commentsUserGet, opPars));
   }
   
   /* flag */
@@ -282,7 +282,7 @@ public class SSServCaller {
     opPars.put(SSVarU.startTime,         startTime);
     opPars.put(SSVarU.endTime,           endTime);
     
-    return (List<SSFlag>) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.flagsGet, opPars));
+    return (List<SSFlag>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.flagsGet, opPars));
   }
   
   public static Boolean flagsUserSet(
@@ -300,7 +300,7 @@ public class SSServCaller {
     opPars.put(SSVarU.endTime,           endTime);
     opPars.put(SSVarU.value,             value);
     
-    return (Boolean) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.flagsUserSet, opPars)); 
+    return (Boolean) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.flagsUserSet, opPars)); 
   }
   
   public static List<SSFlag> flagsUserGet(
@@ -318,7 +318,7 @@ public class SSServCaller {
     opPars.put(SSVarU.startTime,         startTime);
     opPars.put(SSVarU.endTime,           endTime);
     
-    return (List<SSFlag>) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.flagsUserGet, opPars)); 
+    return (List<SSFlag>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.flagsUserGet, opPars)); 
   }
   
   /* learn ep */
@@ -334,7 +334,7 @@ public class SSServCaller {
     opPars.put(SSVarU.learnEp,             learnEp);
     opPars.put(SSVarU.withUserRestriction, withUserRestriction);
     
-    return (SSLearnEpLockHoldRet) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.learnEpLockHold, opPars)); 
+    return (SSLearnEpLockHoldRet) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.learnEpLockHold, opPars)); 
   }
   
   public static Boolean learnEpLockRemove(
@@ -352,7 +352,7 @@ public class SSServCaller {
     opPars.put(SSVarU.withUserRestriction, withUserRestriction);
     opPars.put(SSVarU.shouldCommit,        shouldCommit);
     
-    return (Boolean) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.learnEpLockRemove, opPars)); 
+    return (Boolean) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.learnEpLockRemove, opPars)); 
   }
   
   public static Boolean learnEpLockSet(
@@ -370,7 +370,7 @@ public class SSServCaller {
     opPars.put(SSVarU.withUserRestriction, withUserRestriction);
     opPars.put(SSVarU.shouldCommit,        shouldCommit);
     
-    return (Boolean) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.learnEpLockSet, opPars)); 
+    return (Boolean) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.learnEpLockSet, opPars)); 
   }
   
   public static SSUri learnEpUserCopyForUser(
@@ -388,7 +388,7 @@ public class SSServCaller {
     opPars.put(SSVarU.entitiesToExclude,  entitiesToExclude);
     opPars.put(SSVarU.shouldCommit,       shouldCommit);
     
-    return (SSUri) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.learnEpUserCopyForUser, opPars)); 
+    return (SSUri) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.learnEpUserCopyForUser, opPars)); 
   }
   
   public static SSUri learnEpCreate(
@@ -404,7 +404,7 @@ public class SSServCaller {
     opPars.put(SSVarU.label,         label);
     opPars.put(SSVarU.description,   description);
     
-    return (SSUri) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.learnEpCreate, opPars));
+    return (SSUri) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.learnEpCreate, opPars));
   }
   
   public static SSUri learnEpVersionAddCircle(
@@ -432,7 +432,7 @@ public class SSServCaller {
     opPars.put(SSVarU.xC,                xC);
     opPars.put(SSVarU.yC,                yC);
     
-    return (SSUri) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.learnEpVersionAddCircle, opPars));
+    return (SSUri) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.learnEpVersionAddCircle, opPars));
   }
   
   public static SSUri learnEpVersionAddEntity(
@@ -452,7 +452,7 @@ public class SSServCaller {
     opPars.put(SSVarU.x,                 x);
     opPars.put(SSVarU.y,                 y);
     
-    return (SSUri) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.learnEpVersionAddEntity, opPars));
+    return (SSUri) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.learnEpVersionAddEntity, opPars));
   }
   
   public static void learnEpVersionCurrentSet(
@@ -466,7 +466,7 @@ public class SSServCaller {
     opPars.put(SSVarU.user,              user);
     opPars.put(SSVarU.learnEpVersion,    learnEpVersion);
     
-    SSServA.inst.callServViaServer(new SSServPar(SSServOpE.learnEpVersionCurrentSet, opPars));
+    SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.learnEpVersionCurrentSet, opPars));
   }
   
   public static SSUri learnEpVersionSetTimelineState(
@@ -484,7 +484,7 @@ public class SSServCaller {
     opPars.put(SSVarU.startTime,         startTime);
     opPars.put(SSVarU.endTime,           endTime);
     
-    return (SSUri) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.learnEpVersionSetTimelineState, opPars));
+    return (SSUri) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.learnEpVersionSetTimelineState, opPars));
   }
   
   public static SSLearnEpTimelineState learnEpVersionGetTimelineState(
@@ -496,7 +496,7 @@ public class SSServCaller {
     opPars.put(SSVarU.user,              user);
     opPars.put(SSVarU.learnEpVersion,    learnEpVersion);
     
-    return (SSLearnEpTimelineState) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.learnEpVersionGetTimelineState, opPars));
+    return (SSLearnEpTimelineState) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.learnEpVersionGetTimelineState, opPars));
   }
   
   public static SSUri learnEpVersionCreate(
@@ -510,7 +510,7 @@ public class SSServCaller {
     opPars.put(SSVarU.user,          user);
     opPars.put(SSVarU.learnEp,       learnEp);
     
-    return (SSUri) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.learnEpVersionCreate, opPars));
+    return (SSUri) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.learnEpVersionCreate, opPars));
   }
   
   public static SSLearnEpVersion learnEpVersionCurrentGet(SSUri user) throws Exception{
@@ -519,7 +519,7 @@ public class SSServCaller {
     
     opPars.put(SSVarU.user, user);
     
-    return (SSLearnEpVersion) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.learnEpVersionCurrentGet, opPars));
+    return (SSLearnEpVersion) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.learnEpVersionCurrentGet, opPars));
   }
   
   public static Integer uECountGet(
@@ -539,7 +539,7 @@ public class SSServCaller {
     opPars.put(SSVarU.startTime, startTime);
     opPars.put(SSVarU.endTime,   endTime);
     
-    return (Integer) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.uECountGet, opPars));
+    return (Integer) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.uECountGet, opPars));
   }
   
   public static List<SSUE> uEsGet(
@@ -559,7 +559,7 @@ public class SSServCaller {
     opPars.put(SSVarU.startTime, startTime);
     opPars.put(SSVarU.endTime,   endTime);
     
-    return (List<SSUE>) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.uEsGet, opPars));
+    return (List<SSUE>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.uEsGet, opPars));
   }
   
   /* evernote */ 
@@ -577,7 +577,7 @@ public class SSServCaller {
     opPars.put(SSVarU.noteGUID,       noteGUID);
     opPars.put(SSVarU.resourceHash,   resourceHash);
     
-    return (Resource) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.evernoteResourceByHashGet, opPars));
+    return (Resource) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.evernoteResourceByHashGet, opPars));
   }
     
   public static Boolean evernoteResourceAdd(
@@ -593,7 +593,7 @@ public class SSServCaller {
     opPars.put(SSVarU.resource,       resource);
     opPars.put(SSVarU.shouldCommit,   shouldCommit);
     
-    return (Boolean) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.evernoteResourceAdd, opPars));
+    return (Boolean) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.evernoteResourceAdd, opPars));
   }
   
   public static Boolean evernoteUSNSet(
@@ -609,7 +609,7 @@ public class SSServCaller {
     opPars.put(SSVarU.usn,            usn);
     opPars.put(SSVarU.shouldCommit,   shouldCommit);
     
-    return (Boolean) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.evernoteUSNSet, opPars));
+    return (Boolean) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.evernoteUSNSet, opPars));
   }
     
   public static Boolean evernoteNoteAdd(
@@ -625,7 +625,7 @@ public class SSServCaller {
     opPars.put(SSVarU.note,           note);
     opPars.put(SSVarU.shouldCommit,   shouldCommit);
     
-    return (Boolean) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.evernoteNoteAdd, opPars));
+    return (Boolean) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.evernoteNoteAdd, opPars));
   }
     
   public static String evernoteUsersAuthTokenGet(
@@ -635,7 +635,7 @@ public class SSServCaller {
     
     opPars.put(SSVarU.user,           user);
     
-    return (String) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.evernoteUsersAuthTokenGet, opPars));
+    return (String) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.evernoteUsersAuthTokenGet, opPars));
   }
   
   public static Boolean evernoteUserAdd(
@@ -649,7 +649,7 @@ public class SSServCaller {
     opPars.put(SSVarU.authToken,      authToken);
     opPars.put(SSVarU.shouldCommit,   shouldCommit);
     
-    return (Boolean) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.evernoteUserAdd, opPars));
+    return (Boolean) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.evernoteUserAdd, opPars));
   }
   
   public static Resource evernoteResourceGet(
@@ -663,7 +663,7 @@ public class SSServCaller {
     opPars.put(SSVarU.resourceGUID,     resourceGUID);
     opPars.put(SSVarU.includeContent,   includeContent);
     
-    return (Resource) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.evernoteResourceGet, opPars));
+    return (Resource) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.evernoteResourceGet, opPars));
   }
   
   public static List<SharedNotebook> evernoteNotebooksSharedGet(
@@ -673,7 +673,7 @@ public class SSServCaller {
 
     opPars.put(SSVarU.noteStore,     noteStore);
       
-    return (List<SharedNotebook>) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.evernoteNotebooksSharedGet, opPars));
+    return (List<SharedNotebook>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.evernoteNotebooksSharedGet, opPars));
   }
   
    public static Notebook evernoteNotebookGet(
@@ -685,7 +685,7 @@ public class SSServCaller {
     opPars.put(SSVarU.noteStore,     noteStore);
     opPars.put(SSVarU.notebookGUID,  notebookGUID);
     
-    return (Notebook) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.evernoteNotebookGet, opPars));
+    return (Notebook) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.evernoteNotebookGet, opPars));
   }
   
   public static Note evernoteNoteGet(
@@ -699,7 +699,7 @@ public class SSServCaller {
     opPars.put(SSVarU.noteGUID,        noteGUID);
     opPars.put(SSVarU.includeContent,  includeContent);
     
-    return (Note) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.evernoteNoteGet, opPars));
+    return (Note) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.evernoteNoteGet, opPars));
   }
   
   public static SSEvernoteInfo evernoteNoteStoreGet(
@@ -711,7 +711,7 @@ public class SSServCaller {
     opPars.put(SSVarU.user,      user);
     opPars.put(SSVarU.authToken, authToken);
     
-    return (SSEvernoteInfo) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.evernoteNoteStoreGet, opPars));
+    return (SSEvernoteInfo) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.evernoteNoteStoreGet, opPars));
   }
   
    public static List<String> evernoteNoteTagNamesGet(
@@ -723,7 +723,7 @@ public class SSServCaller {
     opPars.put(SSVarU.noteStore,      noteStore);
     opPars.put(SSVarU.noteGUID,       noteGUID);
     
-    return (List<String>) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.evernoteNoteTagNamesGet, opPars));
+    return (List<String>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.evernoteNoteTagNamesGet, opPars));
   }
    
   public static void uEAddAtCreationTime(
@@ -743,7 +743,7 @@ public class SSServCaller {
     opPars.put(SSVarU.content,      content);
     opPars.put(SSVarU.creationTime, creationTime);
     
-    SSServA.inst.callServViaServer(new SSServPar(SSServOpE.uEAddAtCreationTime, opPars));
+    SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.uEAddAtCreationTime, opPars));
   }
   
   public static SSLearnEpVersion learnEpVersionGet(
@@ -755,7 +755,7 @@ public class SSServCaller {
     opPars.put(SSVarU.user,              user);
     opPars.put(SSVarU.learnEpVersion,    learnEpVersion);
     
-    return (SSLearnEpVersion) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.learnEpVersionGet, opPars));
+    return (SSLearnEpVersion) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.learnEpVersionGet, opPars));
   }  
   
   public static void learnEpVersionUpdateCircle(
@@ -783,7 +783,7 @@ public class SSServCaller {
     opPars.put(SSVarU.xC,                xC);
     opPars.put(SSVarU.yC,                yC);
     
-    SSServA.inst.callServViaServer(new SSServPar(SSServOpE.learnEpVersionUpdateCircle, opPars));
+    SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.learnEpVersionUpdateCircle, opPars));
   }
   
   public static void learnEpVersionUpdateEntity(
@@ -803,7 +803,7 @@ public class SSServCaller {
     opPars.put(SSVarU.x,                 x);
     opPars.put(SSVarU.y,                 y);
     
-    SSServA.inst.callServViaServer(new SSServPar(SSServOpE.learnEpVersionUpdateEntity, opPars));
+    SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.learnEpVersionUpdateEntity, opPars));
   }
   
   public static void learnEpVersionRemoveCircle(
@@ -817,7 +817,7 @@ public class SSServCaller {
     opPars.put(SSVarU.user,              user);
     opPars.put(SSVarU.learnEpCircle,  learnEpCircle);
     
-    SSServA.inst.callServViaServer(new SSServPar(SSServOpE.learnEpVersionRemoveCircle, opPars));
+    SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.learnEpVersionRemoveCircle, opPars));
   }
   
   public static void learnEpVersionRemoveEntity(
@@ -831,7 +831,7 @@ public class SSServCaller {
     opPars.put(SSVarU.user,              user);
     opPars.put(SSVarU.learnEpEntity,     learnEpEntity);
     
-    SSServA.inst.callServViaServer(new SSServPar(SSServOpE.learnEpVersionRemoveEntity, opPars));
+    SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.learnEpVersionRemoveEntity, opPars));
   }
   
   public static List<SSLearnEp> learnEpsGet(
@@ -841,7 +841,7 @@ public class SSServCaller {
     
     opPars.put(SSVarU.user, user);
     
-    return (List<SSLearnEp>) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.learnEpsGet, opPars));
+    return (List<SSLearnEp>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.learnEpsGet, opPars));
   }
   
   public static List<SSLearnEpVersion> learnEpVersionsGet(
@@ -853,11 +853,11 @@ public class SSServCaller {
     opPars.put(SSVarU.user,    user);
     opPars.put(SSVarU.learnEp, learnEp);
     
-    return (List<SSLearnEpVersion>) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.learnEpVersionsGet, opPars));
+    return (List<SSLearnEpVersion>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.learnEpVersionsGet, opPars));
   }
   
   public static void broadcastUpdate() throws Exception{
-    SSServA.inst.callServViaServer(new SSServPar(SSServOpE.broadcastUpdate, new HashMap<>()));
+    SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.broadcastUpdate, new HashMap<>()));
   } 
   
   public static Boolean broadcastAdd(
@@ -873,7 +873,7 @@ public class SSServCaller {
     opPars.put(SSVarU.type,         type);
     opPars.put(SSVarU.content,      content);
     
-    return (Boolean) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.broadcastAdd, opPars));
+    return (Boolean) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.broadcastAdd, opPars));
   }
   
   public static List<SSBroadcast> broadcastsGet(
@@ -883,7 +883,7 @@ public class SSServCaller {
     
     opPars.put(SSVarU.user,         user);
     
-    return (List<SSBroadcast>) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.broadcastsGet, opPars));
+    return (List<SSBroadcast>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.broadcastsGet, opPars));
   }
 
   private static SSUri vocURIPrefixGet() throws Exception{
@@ -913,7 +913,7 @@ public class SSServCaller {
     opPars.put(SSVarU.user, user);
     opPars.put(SSVarU.coll, coll);
     
-    return (SSColl) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.collUserWithEntries, opPars));
+    return (SSColl) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.collUserWithEntries, opPars));
   }
   
   public static SSColl collUserRootGet(final SSUri user) throws Exception{
@@ -922,7 +922,7 @@ public class SSServCaller {
     
     opPars.put(SSVarU.user, user);
     
-    return (SSColl) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.collUserRootGet, opPars));
+    return (SSColl) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.collUserRootGet, opPars));
   }
   
   public static List<SSColl> collsUserWithEntries(final SSUri user) throws Exception{
@@ -931,7 +931,7 @@ public class SSServCaller {
     
     opPars.put(SSVarU.user, user);
     
-    return (List<SSColl>) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.collsUserWithEntries, opPars));
+    return (List<SSColl>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.collsUserWithEntries, opPars));
   }
   
   public static Boolean collUserEntryDelete(
@@ -947,7 +947,7 @@ public class SSServCaller {
     opPars.put(SSVarU.coll,         parentColl);
     opPars.put(SSVarU.entry,        entry);
     
-    return (Boolean) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.collUserEntryDelete, opPars));
+    return (Boolean) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.collUserEntryDelete, opPars));
   }
   
   public static SSUri collUserEntryAdd(
@@ -967,7 +967,7 @@ public class SSServCaller {
     opPars.put(SSVarU.label,             label);
     opPars.put(SSVarU.addNewColl,        addNewColl);
     
-    return (SSUri) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.collUserEntryAdd, opPars));
+    return (SSUri) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.collUserEntryAdd, opPars));
   }
   
   public static Boolean collUserEntriesAdd(
@@ -987,7 +987,7 @@ public class SSServCaller {
     opPars.put(SSVarU.entries,      entries);
     opPars.put(SSVarU.labels,       labels);
     
-    return (Boolean) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.collUserEntriesAdd, opPars));
+    return (Boolean) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.collUserEntriesAdd, opPars));
   }
   
   public static void collUserRootAdd(
@@ -999,7 +999,7 @@ public class SSServCaller {
     opPars.put(SSVarU.shouldCommit, shouldCommit);
     opPars.put(SSVarU.user,         user);
     
-    SSServA.inst.callServViaServer(new SSServPar(SSServOpE.collUserRootAdd, opPars));
+    SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.collUserRootAdd, opPars));
   }
   
   public static List<SSColl> collUserHierarchyGet(
@@ -1011,7 +1011,7 @@ public class SSServCaller {
     opPars.put(SSVarU.user,      user);
     opPars.put(SSVarU.coll,      coll);
     
-    return (List<SSColl>) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.collUserHierarchyGet, opPars));
+    return (List<SSColl>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.collUserHierarchyGet, opPars));
   }
   
   public static List<SSTagFrequ> collUserCumulatedTagsGet(
@@ -1023,7 +1023,7 @@ public class SSServCaller {
     opPars.put(SSVarU.user,         user);
     opPars.put(SSVarU.coll,      coll);
     
-    return (List<SSTagFrequ>) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.collUserCumulatedTagsGet, opPars));
+    return (List<SSTagFrequ>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.collUserCumulatedTagsGet, opPars));
   }
   
   public static List<SSColl> collsUserEntityIsInGet(
@@ -1035,7 +1035,7 @@ public class SSServCaller {
     opPars.put(SSVarU.user,         user);
     opPars.put(SSVarU.entity,    entity);
     
-    return (List<SSColl>) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.collsUserEntityIsInGet, opPars));
+    return (List<SSColl>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.collsUserEntityIsInGet, opPars));
   }
   
   public static Boolean collUserEntriesDelete(
@@ -1051,7 +1051,7 @@ public class SSServCaller {
     opPars.put(SSVarU.coll,         coll);
     opPars.put(SSVarU.entries,  entries);
     
-    return (Boolean) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.collUserEntriesDelete, opPars));
+    return (Boolean) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.collUserEntriesDelete, opPars));
   }
   
   public static Boolean collsUserCouldSubscribeGet(
@@ -1061,13 +1061,13 @@ public class SSServCaller {
     
     opPars.put(SSVarU.user,         user);
     
-    return (Boolean) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.collsUserCouldSubscribeGet, opPars));
+    return (Boolean) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.collsUserCouldSubscribeGet, opPars));
   }
 
   /* search */
   
   public static void searchResultPagesCacheClean() throws Exception{
-    SSServA.inst.callServViaServer(new SSServPar(SSServOpE.searchResultPagesCacheClean, new HashMap<>()));
+    SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.searchResultPagesCacheClean, new HashMap<>()));
   }
   
   public static SSSearchRet search(
@@ -1117,7 +1117,7 @@ public class SSServCaller {
     opPars.put(SSVarU.localSearchOp,             localSearchOp);
     opPars.put(SSVarU.globalSearchOp,            globalSearchOp);
     
-    return (SSSearchRet) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.search, opPars));
+    return (SSSearchRet) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.search, opPars));
   }
   
   /* solr */
@@ -1131,7 +1131,7 @@ public class SSServCaller {
     opPars.put(SSVarU.keyword,    keyword);
     opPars.put(SSVarU.maxResults, maxResults);
     
-    return (List<String>) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.solrSearch, opPars));
+    return (List<String>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.solrSearch, opPars));
   }
   
   public static void solrAddDoc(
@@ -1147,7 +1147,7 @@ public class SSServCaller {
     opPars.put(SSVarU.id,              fileID);
     opPars.put(SSVarU.mimeType,        mimeType);
     
-    SSServA.inst.callServViaServer(new SSServPar(SSServOpE.solrAddDoc, opPars));
+    SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.solrAddDoc, opPars));
   }
   
   /* disc */
@@ -1161,7 +1161,7 @@ public class SSServCaller {
     opPars.put(SSVarU.user,             user);
     opPars.put(SSVarU.disc,             disc);
     
-    return (List<SSUri>) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.discEntryURIsGet, opPars)); 
+    return (List<SSUri>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.discEntryURIsGet, opPars)); 
   }
   
   public static SSDiscUserEntryAddRet discUserEntryAdd(
@@ -1193,7 +1193,7 @@ public class SSServCaller {
     opPars.put(SSVarU.entities,     entities);
     opPars.put(SSVarU.shouldCommit, shouldCommit);
     
-    return (SSDiscUserEntryAddRet) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.discUserEntryAdd, opPars));
+    return (SSDiscUserEntryAddRet) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.discUserEntryAdd, opPars));
   }
   
   public static List<SSDisc> discsUserAllGet(final SSUri user) throws Exception{
@@ -1202,7 +1202,7 @@ public class SSServCaller {
     
     opPars.put(SSVarU.user, user);
     
-    return (List<SSDisc>) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.discsUserAllGet, opPars));
+    return (List<SSDisc>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.discsUserAllGet, opPars));
   }
   
   public static List<SSUri> discUserDiscURIsForTargetGet(
@@ -1214,7 +1214,7 @@ public class SSServCaller {
     opPars.put(SSVarU.user,         user);
     opPars.put(SSVarU.entity,    entity);
     
-    return (List<SSUri>) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.discUserDiscURIsForTargetGet, opPars));
+    return (List<SSUri>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.discUserDiscURIsForTargetGet, opPars));
   }
   
   public static SSDisc discUserWithEntriesGet(
@@ -1230,7 +1230,7 @@ public class SSServCaller {
     opPars.put(SSVarU.maxEntries,      maxEntries);
     opPars.put(SSVarU.includeComments, includeComments);
     
-    return (SSDisc) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.discUserWithEntriesGet, opPars));
+    return (SSDisc) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.discUserWithEntriesGet, opPars));
   }
   
   public static void discUserRemove(
@@ -1242,7 +1242,7 @@ public class SSServCaller {
     opPars.put(SSVarU.user,         user);
     opPars.put(SSVarU.entity,    entity);
     
-    SSServA.inst.callServViaServer(new SSServPar(SSServOpE.discUserRemove, opPars));
+    SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.discUserRemove, opPars));
   }
   
   /* rating */
@@ -1256,7 +1256,7 @@ public class SSServCaller {
     opPars.put(SSVarU.user,        user);
     opPars.put(SSVarU.entity,    entity);
     
-    return (SSRatingOverall) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.ratingOverallGet, opPars));
+    return (SSRatingOverall) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.ratingOverallGet, opPars));
   }
   
   public static void ratingsUserRemove(
@@ -1270,7 +1270,7 @@ public class SSServCaller {
     opPars.put(SSVarU.user,         user);
     opPars.put(SSVarU.entity,    entity);
     
-    SSServA.inst.callServViaServer(new SSServPar(SSServOpE.ratingsUserRemove, opPars));
+    SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.ratingsUserRemove, opPars));
   }
   
   public static Integer ratingUserGet(
@@ -1282,7 +1282,7 @@ public class SSServCaller {
     opPars.put(SSVarU.user,        user);
     opPars.put(SSVarU.entity,      entity);
     
-    return (Integer) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.ratingUserGet, opPars));
+    return (Integer) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.ratingUserGet, opPars));
   }
   
   /* entity */
@@ -1306,7 +1306,7 @@ public class SSServCaller {
     opPars.put(SSVarU.creationTime,    creationTime);
     opPars.put(SSVarU.shouldCommit,    shouldCommit);
     
-    return (SSUri) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.entityAdd, opPars));
+    return (SSUri) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entityAdd, opPars));
   }
   
 //  public static List<SSEntity> entitiesUserGet(
@@ -1334,7 +1334,7 @@ public class SSServCaller {
     opPars.put(SSVarU.forUser,      forUser);
     opPars.put(SSVarU.logErr,       logErr);
     
-    return (SSEntity) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.entityUserGet, opPars));
+    return (SSEntity) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entityUserGet, opPars));
   }
     
   public static void entityUpdate(
@@ -1362,7 +1362,7 @@ public class SSServCaller {
     opPars.put(SSVarU.videos,       videos);
     opPars.put(SSVarU.shouldCommit, shouldCommit);
     
-    SSServA.inst.callServViaServer(new SSServPar(SSServOpE.entityUpdate, opPars));
+    SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entityUpdate, opPars));
   }
   
   public static void entityLocationsAdd(
@@ -1389,7 +1389,7 @@ public class SSServCaller {
     opPars.put(SSVarU.entity,       entity);
     opPars.put(SSVarU.locations,    locations);
     
-    SSServA.inst.callServViaServer(new SSServPar(SSServOpE.entityLocationsAdd, opPars));
+    SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entityLocationsAdd, opPars));
   }
   
   public static List<SSLocation> entityLocationsGet(
@@ -1401,7 +1401,7 @@ public class SSServCaller {
     opPars.put(SSVarU.user,         user);
     opPars.put(SSVarU.entity,       entity);
     
-    return (List<SSLocation>) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.entityLocationsGet, opPars));
+    return (List<SSLocation>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entityLocationsGet, opPars));
   }
   
   public static Boolean entityReadGet(
@@ -1413,7 +1413,7 @@ public class SSServCaller {
     opPars.put(SSVarU.user,   user);
     opPars.put(SSVarU.entity, entity);
     
-    return (Boolean) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.entityReadGet, opPars));
+    return (Boolean) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entityReadGet, opPars));
   }
   
   public static List<SSEntity> entityEntitiesAttachedGet(
@@ -1425,7 +1425,7 @@ public class SSServCaller {
     opPars.put(SSVarU.user,   user);
     opPars.put(SSVarU.entity, entity);
     
-    return (List<SSEntity>) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.entityEntitiesAttachedGet, opPars));
+    return (List<SSEntity>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entityEntitiesAttachedGet, opPars));
   }
     
   public static List<SSUri> entityUserEntitiesAttach(
@@ -1441,7 +1441,7 @@ public class SSServCaller {
     opPars.put(SSVarU.entities,         entities);
     opPars.put(SSVarU.shouldCommit,     shouldCommit);
     
-    return (List<SSUri>) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.entityUserEntitiesAttach, opPars));
+    return (List<SSUri>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entityUserEntitiesAttach, opPars));
   }
   
   public static List<SSUri> entityFilesGet(
@@ -1453,7 +1453,7 @@ public class SSServCaller {
     opPars.put(SSVarU.user,         user);
     opPars.put(SSVarU.entity,       entity);
     
-    return (List<SSUri>) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.entityFilesGet, opPars));
+    return (List<SSUri>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entityFilesGet, opPars));
   }
   
   public static List<SSUri> entityDownloadURIsGet(
@@ -1465,7 +1465,7 @@ public class SSServCaller {
     opPars.put(SSVarU.user,         user);
     opPars.put(SSVarU.entity,       entity);
     
-    return (List<SSUri>) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.entityDownloadURIsGet, opPars));
+    return (List<SSUri>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entityDownloadURIsGet, opPars));
   }
   
   public static List<? extends SSEntity> entityScreenShotsGet(
@@ -1477,7 +1477,7 @@ public class SSServCaller {
     opPars.put(SSVarU.user,         user);
     opPars.put(SSVarU.entity,       entity);
     
-    return (List<? extends SSEntity>) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.entityScreenShotsGet, opPars));
+    return (List<? extends SSEntity>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entityScreenShotsGet, opPars));
   }
   
   public static void entityFileAdd(
@@ -1493,7 +1493,7 @@ public class SSServCaller {
     opPars.put(SSVarU.file,         file);
     opPars.put(SSVarU.shouldCommit, shouldCommit);
     
-    SSServA.inst.callServViaServer(new SSServPar(SSServOpE.entityFileAdd, opPars));
+    SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entityFileAdd, opPars));
   }
   
   public static List<SSUri> entityThumbsGet(
@@ -1505,7 +1505,7 @@ public class SSServCaller {
     opPars.put(SSVarU.user,         user);
     opPars.put(SSVarU.entity,       entity);
     
-    return (List<SSUri>) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.entityThumbsGet, opPars));
+    return (List<SSUri>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entityThumbsGet, opPars));
   }
   
   public static void entityThumbAdd(
@@ -1521,7 +1521,7 @@ public class SSServCaller {
     opPars.put(SSVarU.thumb,        thumb);
     opPars.put(SSVarU.shouldCommit, shouldCommit);
     
-    SSServA.inst.callServViaServer(new SSServPar(SSServOpE.entityThumbAdd, opPars));
+    SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entityThumbAdd, opPars));
   }
   
   public static List<SSEntity> entitiesForLabelsAndDescriptionsGet(
@@ -1535,7 +1535,7 @@ public class SSServCaller {
     opPars.put(SSVarU.absents,   absents);
     opPars.put(SSVarU.eithers,   eithers);
     
-    return (List<SSEntity>) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.entitiesForLabelsAndDescriptionsGet, opPars));
+    return (List<SSEntity>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entitiesForLabelsAndDescriptionsGet, opPars));
   }
   
   public static List<SSEntity> entitiesForLabelsGet(
@@ -1549,7 +1549,7 @@ public class SSServCaller {
     opPars.put(SSVarU.absents,   absents);
     opPars.put(SSVarU.eithers,   eithers);
     
-    return (List<SSEntity>) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.entitiesForLabelsGet, opPars));
+    return (List<SSEntity>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entitiesForLabelsGet, opPars));
   }
   
   public static List<SSEntity> entitiesForDescriptionsGet(
@@ -1563,7 +1563,7 @@ public class SSServCaller {
     opPars.put(SSVarU.absents,   absents);
     opPars.put(SSVarU.eithers,   eithers);
     
-    return (List<SSEntity>) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.entitiesForDescriptionsGet, opPars));
+    return (List<SSEntity>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entitiesForDescriptionsGet, opPars));
   }
   
   public static Boolean entityExists(
@@ -1575,7 +1575,7 @@ public class SSServCaller {
     opPars.put(SSVarU.type,      null);
     opPars.put(SSVarU.label,     null);
     
-    return (Boolean) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.entityExists, opPars));
+    return (Boolean) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entityExists, opPars));
   }
   
   public static Boolean entityExists(
@@ -1588,7 +1588,7 @@ public class SSServCaller {
     opPars.put(SSVarU.type,      type);
     opPars.put(SSVarU.label,     label);
     
-    return (Boolean) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.entityExists, opPars));
+    return (Boolean) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entityExists, opPars));
   }
   
   public static SSEntity entityGet(
@@ -1601,7 +1601,7 @@ public class SSServCaller {
     opPars.put(SSVarU.type,      type);
     opPars.put(SSVarU.label,     label);
     
-    return (SSEntity) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.entityGet, opPars));
+    return (SSEntity) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entityGet, opPars));
   }
   
   public static SSEntity entityGet(
@@ -1613,7 +1613,7 @@ public class SSServCaller {
     opPars.put(SSVarU.type,      null);
     opPars.put(SSVarU.label,     null);
     
-    return (SSEntity) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.entityGet, opPars));
+    return (SSEntity) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entityGet, opPars));
   }
     
   public static List<SSUri> entityUserParentEntitiesGet(
@@ -1625,7 +1625,7 @@ public class SSServCaller {
     opPars.put(SSVarU.user,      user);
     opPars.put(SSVarU.entity,    entity);
     
-    return (List<SSUri>) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.entityUserParentEntitiesGet, opPars));
+    return (List<SSUri>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entityUserParentEntitiesGet, opPars));
   }
   
   public static List<SSUri> entityUserSubEntitiesGet(
@@ -1637,7 +1637,7 @@ public class SSServCaller {
     opPars.put(SSVarU.user,      user);
     opPars.put(SSVarU.entity,    entity);
     
-    return (List<SSUri>) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.entityUserSubEntitiesGet, opPars));
+    return (List<SSUri>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entityUserSubEntitiesGet, opPars));
   }
   
   public static SSUri entityUserDirectlyAdjoinedEntitiesRemove(
@@ -1659,7 +1659,7 @@ public class SSServCaller {
     opPars.put(SSVarU.removeUserLocations,   removeUserLocations);
     opPars.put(SSVarU.shouldCommit,          shouldCommit);
     
-    return (SSUri) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.entityUserDirectlyAdjoinedEntitiesRemove, opPars));
+    return (SSUri) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entityUserDirectlyAdjoinedEntitiesRemove, opPars));
   }
   
   public static List<SSEntity> entityDescsGet(
@@ -1685,7 +1685,7 @@ public class SSServCaller {
     opPars.put(SSVarU.getThumb,         getThumb);
     opPars.put(SSVarU.getFlags,         getFlags);
     
-    return (List<SSEntity>) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.entityDescsGet, opPars));
+    return (List<SSEntity>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entityDescsGet, opPars));
   }
   
   public static SSEntity entityDescGet(
@@ -1711,7 +1711,7 @@ public class SSServCaller {
     opPars.put(SSVarU.getFlags,         getFlags);
     opPars.put(SSVarU.getCircles,       getCircles);
     
-    return (SSEntity) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.entityDescGet, opPars));
+    return (SSEntity) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entityDescGet, opPars));
   }
   
   public static void entityRemove(
@@ -1723,7 +1723,7 @@ public class SSServCaller {
     opPars.put(SSVarU.entity,       entity);
     opPars.put(SSVarU.shouldCommit, shouldCommit);
     
-    SSServA.inst.callServViaServer(new SSServPar(SSServOpE.entityRemove, opPars));
+    SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entityRemove, opPars));
   }
   
   public static Boolean entityUserCopy(
@@ -1743,7 +1743,7 @@ public class SSServCaller {
     opPars.put(SSVarU.comment,            comment);
     opPars.put(SSVarU.shouldCommit,       shouldCommit);
     
-    return (Boolean) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.entityUserCopy, opPars));
+    return (Boolean) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entityUserCopy, opPars));
   }
   
   /* circle */
@@ -1763,7 +1763,7 @@ public class SSServCaller {
     opPars.put(SSVarU.withUserRestriction, withUserRestriction);
     opPars.put(SSVarU.shouldCommit,        shouldCommit);
     
-    return (List<SSUri>) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.circleEntitiesRemove, opPars));
+    return (List<SSUri>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.circleEntitiesRemove, opPars));
   }
   
   public static SSEntity circleUserCan(
@@ -1777,7 +1777,7 @@ public class SSServCaller {
     opPars.put(SSVarU.entity,      entity);
     opPars.put(SSVarU.accessRight, accessRight);
     
-    return (SSEntity) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.circleUserCan, opPars));
+    return (SSEntity) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.circleUserCan, opPars));
   }
   
   public static SSEntity circleUserCan(
@@ -1793,7 +1793,7 @@ public class SSServCaller {
     opPars.put(SSVarU.accessRight, accessRight);
     opPars.put(SSVarU.logErr,      logErr);
     
-    return (SSEntity) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.circleUserCan, opPars));
+    return (SSEntity) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.circleUserCan, opPars));
   }
   
   public static void entityEntityToPrivCircleAdd(
@@ -1815,7 +1815,7 @@ public class SSServCaller {
     opPars.put(SSVarU.creationTime,     creationTime);
     opPars.put(SSVarU.shouldCommit,     shouldCommit);
     
-    SSServA.inst.callServViaServer(new SSServPar(SSServOpE.entityEntityToPrivCircleAdd, opPars));
+    SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entityEntityToPrivCircleAdd, opPars));
   }
   
   public static void entityEntityToPubCircleAdd(
@@ -1837,7 +1837,7 @@ public class SSServCaller {
     opPars.put(SSVarU.creationTime,     creationTime);
     opPars.put(SSVarU.shouldCommit,     shouldCommit);
     
-    SSServA.inst.callServViaServer(new SSServPar(SSServOpE.entityEntityToPubCircleAdd, opPars));
+    SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entityEntityToPubCircleAdd, opPars));
   }
   
   public static SSUri circleEntityShare(
@@ -1857,7 +1857,7 @@ public class SSServCaller {
     opPars.put(SSVarU.comment,       comment);
     opPars.put(SSVarU.shouldCommit,  shouldCommit);
     
-    return (SSUri) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.circleEntityShare, opPars));
+    return (SSUri) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.circleEntityShare, opPars));
   }
   
   public static SSEntityCircle circleGet(
@@ -1879,7 +1879,7 @@ public class SSServCaller {
     opPars.put(SSVarU.withUserRestriction,       withUserRestriction);
     opPars.put(SSVarU.invokeEntityHandlers,      invokeEntityHandlers);
     
-    return (SSEntityCircle) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.circleGet, opPars));
+    return (SSEntityCircle) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.circleGet, opPars));
   }
    
   public static List<SSEntityCircle> circlesGet(
@@ -1900,7 +1900,7 @@ public class SSServCaller {
     opPars.put(SSVarU.withUserRestriction,       withUserRestriction);
     opPars.put(SSVarU.invokeEntityHandlers,      invokeEntityHandlers);
     
-    return (List<SSEntityCircle>) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.circlesGet, opPars));
+    return (List<SSEntityCircle>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.circlesGet, opPars));
   }
   
   public static SSUri circleCreate(
@@ -1926,7 +1926,7 @@ public class SSServCaller {
     opPars.put(SSVarU.withUserRestriction,  withUserRestriction);
     opPars.put(SSVarU.invokeEntityHandlers, invokeEntityHandlers);
     
-    return (SSUri) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.circleCreate, opPars));
+    return (SSUri) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.circleCreate, opPars));
   }
   
   public static void circleEntitiesAdd(
@@ -1947,7 +1947,7 @@ public class SSServCaller {
     
     opPars.put(SSVarU.shouldCommit, shouldCommit);
     
-    SSServA.inst.callServViaServer(new SSServPar(SSServOpE.circleEntitiesAdd, opPars));
+    SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.circleEntitiesAdd, opPars));
   }
   
   public static SSUri circleUsersAdd(
@@ -1970,7 +1970,7 @@ public class SSServCaller {
     opPars.put(SSVarU.shouldCommit,          shouldCommit);    
     opPars.put(SSVarU.withUserRestriction,   withUserRestriction);    
     
-    return (SSUri) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.circleUsersAdd, opPars));
+    return (SSUri) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.circleUsersAdd, opPars));
   }
   
   public static SSUri circleUsersAdd(
@@ -1988,7 +1988,7 @@ public class SSServCaller {
     opPars.put(SSVarU.shouldCommit,         shouldCommit);    
     opPars.put(SSVarU.withUserRestriction,  withUserRestriction);    
     
-    return (SSUri) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.circleUsersAdd, opPars));
+    return (SSUri) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.circleUsersAdd, opPars));
   }
   
   public static SSUri circlePrivURIGet(
@@ -1998,7 +1998,7 @@ public class SSServCaller {
     
     opPars.put(SSVarU.user, user);
     
-    return (SSUri) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.circlePrivURIGet, opPars));
+    return (SSUri) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.circlePrivURIGet, opPars));
   }
   
   public static SSUri circlePubURIGet(
@@ -2008,7 +2008,7 @@ public class SSServCaller {
     
     opPars.put(SSVarU.shouldCommit, shouldCommit);
     
-    return (SSUri) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.circlePubURIGet, opPars));
+    return (SSUri) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.circlePubURIGet, opPars));
   }
   
   public static List<SSCircleE> circleTypesGet(
@@ -2024,7 +2024,7 @@ public class SSServCaller {
     opPars.put(SSVarU.entity,              entity);
     opPars.put(SSVarU.withUserRestriction, withUserRestriction);
     
-    return (List<SSCircleE>) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.circleTypesGet, opPars));
+    return (List<SSCircleE>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.circleTypesGet, opPars));
   }
   
   public static SSCircleE circleMostOpenCircleTypeGet(
@@ -2040,7 +2040,7 @@ public class SSServCaller {
     opPars.put(SSVarU.entity,              entity);
     opPars.put(SSVarU.withUserRestriction, withUserRestriction);
     
-    return (SSCircleE) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.circleMostOpenCircleTypeGet, opPars));
+    return (SSCircleE) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.circleMostOpenCircleTypeGet, opPars));
   }
 
   public static SSUri circleEntityPublicSet(
@@ -2054,7 +2054,7 @@ public class SSServCaller {
     opPars.put(SSVarU.entity,       entity);
     opPars.put(SSVarU.shouldCommit, shouldCommit);
     
-    return (SSUri) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.circleEntityPublicSet, opPars));
+    return (SSUri) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.circleEntityPublicSet, opPars));
   }
   
   public static List<SSEntity> circleEntitiesGet(
@@ -2074,7 +2074,7 @@ public class SSServCaller {
     opPars.put(SSVarU.withUserRestriction,  withUserRestriction);
     opPars.put(SSVarU.invokeEntityHandlers, invokeEntityHandlers);
     
-    return (List<SSEntity>) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.circleEntitiesGet, opPars));
+    return (List<SSEntity>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.circleEntitiesGet, opPars));
   }
   
   /* user event */
@@ -2094,7 +2094,7 @@ public class SSServCaller {
     opPars.put(SSVarU.type,    type);
     opPars.put(SSVarU.content,      content);
     
-    SSServA.inst.callServViaServer(new SSServPar(SSServOpE.uEAdd, opPars));
+    SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.uEAdd, opPars));
   }
   
   public static Boolean uEsRemove(
@@ -2108,7 +2108,7 @@ public class SSServCaller {
     opPars.put(SSVarU.user,         user);
     opPars.put(SSVarU.entity,       entity);
     
-    return (Boolean) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.uEsRemove, opPars));
+    return (Boolean) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.uEsRemove, opPars));
   }
   
   /* user */
@@ -2122,7 +2122,7 @@ public class SSServCaller {
     opPars.put(SSVarU.user,  user);
     opPars.put(SSVarU.email, email);
     
-    return (SSUri) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.userURIGet, opPars));
+    return (SSUri) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.userURIGet, opPars));
   }
   
   public static List<SSUser> userAll(
@@ -2132,7 +2132,7 @@ public class SSServCaller {
     
     opPars.put(SSVarU.setFriends,  setFriends);
     
-    return (List<SSUser>) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.userAll, opPars));
+    return (List<SSUser>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.userAll, opPars));
   }
   
   public static List<SSUser> usersGet(
@@ -2144,7 +2144,7 @@ public class SSServCaller {
     opPars.put(SSVarU.users,      users);
     opPars.put(SSVarU.setFriends, setFriends);
     
-    return (List<SSUser>) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.usersGet, opPars));
+    return (List<SSUser>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.usersGet, opPars));
   }
   
   public static Boolean userExists(
@@ -2156,7 +2156,7 @@ public class SSServCaller {
     opPars.put(SSVarU.user,         user);
     opPars.put(SSVarU.email,        email);
     
-    return (Boolean) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.userExists, opPars));
+    return (Boolean) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.userExists, opPars));
   }
   
   public static SSUri userAdd(
@@ -2174,7 +2174,7 @@ public class SSServCaller {
     opPars.put(SSVarU.isSystemUser, isSystemUser);
     opPars.put(SSVarU.shouldCommit, shouldCommit);
     
-    return (SSUri) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.userAdd, opPars));
+    return (SSUri) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.userAdd, opPars));
   }
   
   /* modeling user event */
@@ -2188,11 +2188,11 @@ public class SSServCaller {
     opPars.put(SSVarU.user, user);
     opPars.put(SSVarU.mi,   mi);
     
-    return (List<SSUri>) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.modelUEEntitiesForMiGet, opPars));
+    return (List<SSUri>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.modelUEEntitiesForMiGet, opPars));
   }
   
   public static void modelUEUpdate() throws Exception{
-    SSServA.inst.callServViaServer(new SSServPar(SSServOpE.modelUEUpdate, new HashMap<>()));
+    SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.modelUEUpdate, new HashMap<>()));
   }
   
   public static List<String> modelUEMIsForEntityGet(
@@ -2204,7 +2204,7 @@ public class SSServCaller {
     opPars.put(SSVarU.user,        user);
     opPars.put(SSVarU.entity,   entity);
     
-    return (List<String>) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.modelUEMIsForEntityGet, opPars));
+    return (List<String>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.modelUEMIsForEntityGet, opPars));
   }
   
   /* data export */
@@ -2216,7 +2216,7 @@ public class SSServCaller {
     
     opPars.put(SSVarU.user,                  user);
     
-    SSServA.inst.callServViaServer(new SSServPar(SSServOpE.dataExportUserRelations, opPars));
+    SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.dataExportUserRelations, opPars));
   }
   
   public static void dataExportUserEntityTagCategoryTimestamps(
@@ -2234,7 +2234,7 @@ public class SSServCaller {
     opPars.put(SSVarU.exportCategories,      exportCategories);
     opPars.put(SSVarU.user,                  user);
     
-    SSServA.inst.callServViaServer(new SSServPar(SSServOpE.dataExportUserEntityTagCategoryTimestamps, opPars));
+    SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.dataExportUserEntityTagCategoryTimestamps, opPars));
   }
   
   public static void dataExportAddTagsCategoriesTimestampsForUserEntity(
@@ -2254,7 +2254,7 @@ public class SSServCaller {
     opPars.put(SSVarU.categories,    categories);
     opPars.put(SSVarU.fileName,      fileName);
     
-    SSServA.inst.callServViaServer(new SSServPar(SSServOpE.dataExportAddTagsCategoriesTimestampsForUserEntity, opPars));
+    SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.dataExportAddTagsCategoriesTimestampsForUserEntity, opPars));
   }
   
   /* category */
@@ -2270,7 +2270,7 @@ public class SSServCaller {
     opPars.put(SSVarU.labels,       labels);
     opPars.put(SSVarU.shouldCommit, shouldCommit);
     
-    return (Boolean) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.categoriesPredefinedAdd, opPars));
+    return (Boolean) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.categoriesPredefinedAdd, opPars));
   }
     
   public static List<String> categoriesPredefinedGet(
@@ -2280,7 +2280,7 @@ public class SSServCaller {
     
     opPars.put(SSVarU.user, user);
     
-    return (List<String>) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.categoriesPredefinedGet, opPars));
+    return (List<String>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.categoriesPredefinedGet, opPars));
   }
 
   public static List<SSUri> categoryUserEntitiesForCategoriesGet(
@@ -2298,7 +2298,7 @@ public class SSServCaller {
     opPars.put(SSVarU.space,       space);
     opPars.put(SSVarU.startTime,   startTime);
     
-    return (List<SSUri>) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.categoryUserEntitiesForCategoriesGet, opPars));
+    return (List<SSUri>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.categoryUserEntitiesForCategoriesGet, opPars));
   }
   
   public static List<SSCategory> categoriesUserGet(
@@ -2318,7 +2318,7 @@ public class SSServCaller {
     opPars.put(SSVarU.space,       space);
     opPars.put(SSVarU.startTime,   startTime);
     
-    return (List<SSCategory>) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.categoriesUserGet, opPars));
+    return (List<SSCategory>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.categoriesUserGet, opPars));
   }
   
   public static List<SSCategoryFrequ> categoryUserFrequsGet(
@@ -2338,7 +2338,7 @@ public class SSServCaller {
     opPars.put(SSVarU.space,       space);
     opPars.put(SSVarU.startTime,   startTime);
     
-    return (List<SSCategoryFrequ>) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.categoryUserFrequsGet, opPars));
+    return (List<SSCategoryFrequ>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.categoryUserFrequsGet, opPars));
   }
   
   public static void categoriesRemove(
@@ -2356,7 +2356,7 @@ public class SSServCaller {
     opPars.put(SSVarU.label,        label);
     opPars.put(SSVarU.space,        space);
     
-    SSServA.inst.callServViaServer(new SSServPar(SSServOpE.categoriesRemove, opPars));
+    SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.categoriesRemove, opPars));
   }
   
   public static void categoriesUserRemove(
@@ -2374,7 +2374,7 @@ public class SSServCaller {
     opPars.put(SSVarU.label,        label);
     opPars.put(SSVarU.space,        space);
     
-    SSServA.inst.callServViaServer(new SSServPar(SSServOpE.categoriesUserRemove, opPars));
+    SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.categoriesUserRemove, opPars));
   }
   
   public static SSUri categoryAdd(
@@ -2394,7 +2394,7 @@ public class SSServCaller {
     opPars.put(SSVarU.label,        label);
     opPars.put(SSVarU.creationTime, creationTime);
     
-    return (SSUri) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.categoryAdd, opPars));
+    return (SSUri) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.categoryAdd, opPars));
   }
   
   public static List<SSUri> categoriesAdd(
@@ -2414,7 +2414,7 @@ public class SSServCaller {
     opPars.put(SSVarU.space,        space);
     opPars.put(SSVarU.creationTime, creationTime);
     
-    return (List<SSUri>) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.categoriesAdd, opPars));
+    return (List<SSUri>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.categoriesAdd, opPars));
   }
   
   /* tag */
@@ -2434,7 +2434,7 @@ public class SSServCaller {
     opPars.put(SSVarU.space,       space);
     opPars.put(SSVarU.startTime,   startTime);
     
-    return (List<SSUri>) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.tagUserEntitiesForTagsGet, opPars));
+    return (List<SSUri>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.tagUserEntitiesForTagsGet, opPars));
   }
   
   public static List<SSTag> tagsUserGet(
@@ -2454,7 +2454,7 @@ public class SSServCaller {
     opPars.put(SSVarU.space,       space);
     opPars.put(SSVarU.startTime,   startTime);
     
-    return (List<SSTag>) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.tagsUserGet, opPars));
+    return (List<SSTag>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.tagsUserGet, opPars));
   }
   
   public static List<SSTagFrequ> tagUserFrequsGet(
@@ -2476,7 +2476,7 @@ public class SSServCaller {
     opPars.put(SSVarU.startTime,            startTime);
     opPars.put(SSVarU.useUsersEntities,     useUsersEntities);
     
-    return (List<SSTagFrequ>) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.tagUserFrequsGet, opPars));
+    return (List<SSTagFrequ>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.tagUserFrequsGet, opPars));
   }
   
   public static void tagsRemove(
@@ -2494,7 +2494,7 @@ public class SSServCaller {
     opPars.put(SSVarU.label,        label);
     opPars.put(SSVarU.space,        space);
     
-    SSServA.inst.callServViaServer(new SSServPar(SSServOpE.tagsRemove, opPars));
+    SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.tagsRemove, opPars));
   }
   
   public static void tagsUserRemove(
@@ -2512,7 +2512,7 @@ public class SSServCaller {
     opPars.put(SSVarU.label,        label);
     opPars.put(SSVarU.space,        space);
     
-    SSServA.inst.callServViaServer(new SSServPar(SSServOpE.tagsUserRemove, opPars));
+    SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.tagsUserRemove, opPars));
   }
   
   public static SSUri tagAdd(
@@ -2532,7 +2532,7 @@ public class SSServCaller {
     opPars.put(SSVarU.label,        label);
     opPars.put(SSVarU.creationTime, creationTime);
     
-    return (SSUri) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.tagAdd, opPars));
+    return (SSUri) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.tagAdd, opPars));
   }
   
   public static List<SSUri> tagsAdd(
@@ -2552,7 +2552,7 @@ public class SSServCaller {
     opPars.put(SSVarU.space,        space);
     opPars.put(SSVarU.creationTime, creationTime);
     
-    return (List<SSUri>) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.tagsAdd, opPars));
+    return (List<SSUri>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.tagsAdd, opPars));
   }
   
   /* recomm */
@@ -2576,7 +2576,7 @@ public class SSServCaller {
     opPars.put(SSVarU.maxTags,        maxTags);
     opPars.put(SSVarU.includeOwn,     includeOwn);
     
-    return (Map<String, Double>) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.recommTags, opPars));
+    return (Map<String, Double>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.recommTags, opPars));
   }
   
 //  public static void recommUpdate(
@@ -2608,7 +2608,7 @@ public class SSServCaller {
     opPars.put(SSVarU.user,           user);
     opPars.put(SSVarU.realm,          realm);
     
-    SSServA.inst.callServViaServer(new SSServPar(SSServOpE.recommUpdateBulk, opPars));
+    SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.recommUpdateBulk, opPars));
   }
   
   public static Map<SSEntity, Double> recommResources(
@@ -2634,7 +2634,7 @@ public class SSServCaller {
     opPars.put(SSVarU.setCircleTypes,         setCircleTypes);
     opPars.put(SSVarU.includeOwn,             includeOwn);
     
-    return (Map<SSEntity, Double>) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.recommResources, opPars));
+    return (Map<SSEntity, Double>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.recommResources, opPars));
   }
   
   /* file */
@@ -2648,7 +2648,7 @@ public class SSServCaller {
     opPars.put(SSVarU.user,  user);
     opPars.put(SSVarU.file,  file);
     
-    return (String) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.fileThumbBase64Get, opPars));
+    return (String) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.fileThumbBase64Get, opPars));
   }
   
   public static SSFileCanWriteRet fileCanWrite(
@@ -2660,11 +2660,11 @@ public class SSServCaller {
     opPars.put(SSVarU.user,  user);
     opPars.put(SSVarU.file,  file);
     
-    return (SSFileCanWriteRet) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.fileCanWrite, opPars));
+    return (SSFileCanWriteRet) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.fileCanWrite, opPars));
   }
   
   public static void fileUpdateWritingMinutes() throws Exception {
-    SSServA.inst.callServViaServer(new SSServPar(SSServOpE.fileUpdateWritingMinutes, new HashMap<>()));
+    SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.fileUpdateWritingMinutes, new HashMap<>()));
   }
   
   public static SSFileExtE fileExtGet(
@@ -2676,7 +2676,7 @@ public class SSServCaller {
     opPars.put(SSVarU.user,    user);
     opPars.put(SSVarU.file,    file);
     
-    return (SSFileExtE) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.fileExtGet, opPars));
+    return (SSFileExtE) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.fileExtGet, opPars));
   }
     
   public static String fileIDFromURI(
@@ -2688,7 +2688,7 @@ public class SSServCaller {
     opPars.put(SSVarU.user,    user);
     opPars.put(SSVarU.file,    file);
     
-    return (String) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.fileIDFromURI, opPars));
+    return (String) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.fileIDFromURI, opPars));
   }
   
   public static void fileRemoveReaderOrWriter(
@@ -2704,7 +2704,7 @@ public class SSServCaller {
     opPars.put(SSVarU.file,          file);
     opPars.put(SSVarU.write,         write);
     
-    SSServA.inst.callServViaServer(new SSServPar(SSServOpE.fileRemoveReaderOrWriter, opPars));
+    SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.fileRemoveReaderOrWriter, opPars));
   }
   
   /* data import */
@@ -2718,7 +2718,7 @@ public class SSServCaller {
     opPars.put(SSVarU.shouldCommit,     shouldCommit);
     opPars.put(SSVarU.user,             user);
     
-    SSServA.inst.callServViaServer(new SSServPar(SSServOpE.dataImportAchso, opPars));
+    SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.dataImportAchso, opPars));
   }
   
   public static void dataImportUserResourceTagFromWikipedia(
@@ -2730,7 +2730,7 @@ public class SSServCaller {
     opPars.put(SSVarU.shouldCommit,     shouldCommit);
     opPars.put(SSVarU.user,             user);
     
-    SSServA.inst.callServViaServer(new SSServPar(SSServOpE.dataImportUserResourceTagFromWikipedia, opPars));
+    SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.dataImportUserResourceTagFromWikipedia, opPars));
   }
   
   public static Map<String, String> dataImportSSSUsersFromCSVFile( 
@@ -2740,7 +2740,7 @@ public class SSServCaller {
     
     opPars.put(SSVarU.fileName, fileName);
     
-    return (Map<String, String>) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.dataImportSSSUsersFromCSVFile, opPars));
+    return (Map<String, String>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.dataImportSSSUsersFromCSVFile, opPars));
   }
   
   public static void dataImportEvernote(
@@ -2756,7 +2756,7 @@ public class SSServCaller {
     opPars.put(SSVarU.authToken,    authToken);
     opPars.put(SSVarU.authEmail,    authEmail);
     
-    SSServA.inst.callServViaServer(new SSServPar(SSServOpE.dataImportEvernote, opPars));
+    SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.dataImportEvernote, opPars));
   }
   
   public static void dataImportMediaWikiUser(
@@ -2768,7 +2768,7 @@ public class SSServCaller {
     opPars.put(SSVarU.user,        user);
     opPars.put(SSVarU.shouldCommit, shouldCommit);
     
-    SSServA.inst.callServViaServer(new SSServPar(SSServOpE.dataImportMediaWikiUser, opPars));
+    SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.dataImportMediaWikiUser, opPars));
   }
   
   /* auth */
@@ -2792,7 +2792,7 @@ public class SSServCaller {
     opPars.put(SSVarU.updatePassword,    updatePassword);
     opPars.put(SSVarU.shouldCommit,      shouldCommit);
     
-    return (SSUri) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.authRegisterUser, opPars));
+    return (SSUri) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.authRegisterUser, opPars));
   }
    
   public static void authUsersFromCSVFileAdd(
@@ -2802,7 +2802,7 @@ public class SSServCaller {
     
     opPars.put(SSVarU.shouldCommit,      shouldCommit);
     
-    SSServA.inst.callServViaServer(new SSServPar(SSServOpE.authUsersFromCSVFileAdd, opPars));
+    SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.authUsersFromCSVFileAdd, opPars));
   }
     
   public static SSUri checkKey(final SSServPar par) throws Exception{
@@ -2811,7 +2811,7 @@ public class SSServCaller {
     
     opPars.put(SSVarU.key, par.key);
     
-    return (SSUri) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.authCheckKey, opPars));
+    return (SSUri) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.authCheckKey, opPars));
   }
   
   public static SSAuthCheckCredRet authCheckCred(
@@ -2823,7 +2823,7 @@ public class SSServCaller {
     opPars.put(SSVarU.user, user);
     opPars.put(SSVarU.key, key);
     
-    return (SSAuthCheckCredRet) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.authCheckCred, opPars));
+    return (SSAuthCheckCredRet) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.authCheckCred, opPars));
   }
   
   /* i5Cloud */
@@ -2835,15 +2835,15 @@ public class SSServCaller {
     
     opPars.put(SSVarU.ids,   ids);
     
-    return (List<String>) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.i5CloudAchsoSemanticAnnotationsSetGet, opPars));
+    return (List<String>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.i5CloudAchsoSemanticAnnotationsSetGet, opPars));
   }
     
   public static String i5CloudAchsoVideoInformationGet() throws Exception{
-    return (String) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.i5CloudAchsoVideoInformationGet, new HashMap<>()));
+    return (String) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.i5CloudAchsoVideoInformationGet, new HashMap<>()));
   }
     
   public static Map<String, String> i5CloudAuth() throws Exception{
-    return (Map<String, String>) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.i5CloudAuth, new HashMap<>()));
+    return (Map<String, String>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.i5CloudAuth, new HashMap<>()));
   }
   
   public static Boolean i5CloudFileUpload(
@@ -2857,7 +2857,7 @@ public class SSServCaller {
     opPars.put(SSVarU.space,      containerSpace);
     opPars.put(SSVarU.authToken,  authToken);
     
-    return (Boolean) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.i5CloudFileUpload, opPars));
+    return (Boolean) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.i5CloudFileUpload, opPars));
   }
   
   public static Boolean i5CloudFileDownload(
@@ -2871,7 +2871,7 @@ public class SSServCaller {
     opPars.put(SSVarU.space,      containerSpace);
     opPars.put(SSVarU.authToken,  authToken);
     
-    return (Boolean) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.i5CloudFileDownload, opPars));
+    return (Boolean) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.i5CloudFileDownload, opPars));
   } 
 
   /* activity */
@@ -2885,7 +2885,7 @@ public class SSServCaller {
     opPars.put(SSVarU.user,          user);
     opPars.put(SSVarU.activity,      activity);
     
-    return (SSActivity) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.activityGet, opPars));
+    return (SSActivity) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.activityGet, opPars));
   }
   
   public static SSUri activityContentsAdd(
@@ -2903,7 +2903,7 @@ public class SSServCaller {
     opPars.put(SSVarU.contents,      contents);
     opPars.put(SSVarU.shouldCommit,  shouldCommit);
     
-    return (SSUri) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.activityContentsAdd, opPars));
+    return (SSUri) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.activityContentsAdd, opPars));
   }
   
   public static SSUri activityContentAdd(
@@ -2921,7 +2921,7 @@ public class SSServCaller {
     opPars.put(SSVarU.content,       content);
     opPars.put(SSVarU.shouldCommit,  shouldCommit);
     
-    return (SSUri) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.activityContentAdd, opPars));
+    return (SSUri) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.activityContentAdd, opPars));
   }
   
   public static SSUri activityAdd(
@@ -2945,7 +2945,7 @@ public class SSServCaller {
     opPars.put(SSVarU.creationTime,     creationTime);
     opPars.put(SSVarU.shouldCommit,     shouldCommit);
     
-    return (SSUri) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.activityAdd, opPars));
+    return (SSUri) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.activityAdd, opPars));
   }
   
   public static List<SSActivity> activitiesUserGet(
@@ -2969,7 +2969,7 @@ public class SSServCaller {
     opPars.put(SSVarU.endTime,                   endTime);
     opPars.put(SSVarU.includeOnlyLastActivities, includeOnlyLastActivities);
     
-    return (List<SSActivity>) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.activitiesUserGet, opPars));
+    return (List<SSActivity>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.activitiesUserGet, opPars));
   }
   
   /* video */
@@ -2985,7 +2985,7 @@ public class SSServCaller {
     opPars.put(SSVarU.forUser,      forUser);
     opPars.put(SSVarU.forEntity,    forEntity);
     
-    return (List<? extends SSEntity>) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.videosUserGet, opPars));
+    return (List<? extends SSEntity>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.videosUserGet, opPars));
   }
   
   public static SSEntity videoUserGet(
@@ -2997,7 +2997,7 @@ public class SSServCaller {
     opPars.put(SSVarU.user,             user);
     opPars.put(SSVarU.video,            video);
     
-    return (SSEntity) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.videoUserGet, opPars));
+    return (SSEntity) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.videoUserGet, opPars));
   }
   
   public static SSUri videoUserAdd(
@@ -3015,7 +3015,7 @@ public class SSServCaller {
     opPars.put(SSVarU.uuid,             uuid);
     opPars.put(SSVarU.forEntity,        forEntity);
     
-    return (SSUri) SSServA.inst.callServViaServer(new SSServPar(SSServOpE.videoUserAdd, opPars));
+    return (SSUri) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.videoUserAdd, opPars));
   }
 
   public static void recommLoadUserRealms(
@@ -3025,7 +3025,7 @@ public class SSServCaller {
     
     opPars.put(SSVarU.user,             user);
     
-    SSServA.inst.callServViaServer(new SSServPar(SSServOpE.recommLoadUserRealms, opPars));
+    SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.recommLoadUserRealms, opPars));
   }
 }
 

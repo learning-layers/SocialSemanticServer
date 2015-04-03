@@ -10,7 +10,6 @@
   <artifactId>serv</artifactId>
   <packaging>pom</packaging>
   <modules>
-    <module>serv.serv</module>
     <module>serv.caller</module>
     <module>serv.ops</module>
     <module>serv.util</module>
@@ -21,5 +20,7 @@
     <module>serv.api</module>
     <module>serv.socket</module>
     <module>serv.errreg</module>
+    <module>serv.reg</module>
+    <module>serv.client</module>
   </modules>
 </project>

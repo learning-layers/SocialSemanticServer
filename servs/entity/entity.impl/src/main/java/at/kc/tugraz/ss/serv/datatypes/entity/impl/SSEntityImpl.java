@@ -79,7 +79,7 @@ import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSEntityDescriberI;
 import at.tugraz.sss.serv.SSEntityHandlerImplI;
 import at.tugraz.sss.serv.SSEntityUpdaterI;
-import at.tugraz.sss.serv.SSServA;
+import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSUserRelationGathererI;
 import at.tugraz.sss.serv.SSUsersResourcesGathererI;
 import at.tugraz.sss.serv.caller.SSServCallerU;
@@ -190,7 +190,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
         
         default:{
           
-          for(SSServContainerI serv : SSServA.inst.getServsManagingEntities()){
+          for(SSServContainerI serv : SSServReg.inst.getServsManagingEntities()){
             if(((SSEntityHandlerImplI) serv.serv()).copyUserEntity(par.user, par.users, par.entity, par.entitiesToExclude, entityType)){
               break;
             }
@@ -338,7 +338,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
         sqlFct.attachEntity(par.entity, image);
       }
       
-      for(SSServContainerI serv : SSServA.inst.getServsUpdatingEntities()){
+      for(SSServContainerI serv : SSServReg.inst.getServsUpdatingEntities()){
         ((SSEntityUpdaterI) serv.serv()).updateEntity(par);
       }
       
@@ -400,7 +400,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
         
         setReadAndFileInformation(par.user, entity);
         
-        for(SSServContainerI serv : SSServA.inst.getServsDescribingEntities()){
+        for(SSServContainerI serv : SSServReg.inst.getServsDescribingEntities()){
           entity = ((SSEntityDescriberI) serv.serv()).getDescForEntity(entityDescGetPar, entity);
         }
         
@@ -433,7 +433,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       
       setReadAndFileInformation(par.user, entity);
       
-      for(SSServContainerI serv : SSServA.inst.getServsDescribingEntities()){
+      for(SSServContainerI serv : SSServReg.inst.getServsDescribingEntities()){
         entity = ((SSEntityDescriberI) serv.serv()).getDescForEntity(par, entity);
       }
       
@@ -495,7 +495,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
         }
         
         default:{
-          for(SSServContainerI serv : SSServA.inst.getServsDescribingEntities()){
+          for(SSServContainerI serv : SSServReg.inst.getServsDescribingEntities()){
             entity = ((SSEntityDescriberI) serv.serv()).getUserEntity(par.user, entity);
           }
           
@@ -526,7 +526,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       
       dbSQL.startTrans(par.shouldCommit);
       
-      for(SSServContainerI serv : SSServA.inst.getServsManagingEntities()){
+      for(SSServContainerI serv : SSServReg.inst.getServsManagingEntities()){
         
         ((SSEntityHandlerImplI) serv.serv()).removeDirectlyAdjoinedEntitiesForUser(
           par.user,
@@ -826,7 +826,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       final SSEntityE    entityType   = SSServCaller.entityGet(par.entity).type;
       final List<SSUri>  entities     = new ArrayList<>();
       
-      for(SSServContainerI serv : SSServA.inst.getServsManagingEntities()){
+      for(SSServContainerI serv : SSServReg.inst.getServsManagingEntities()){
         entities.addAll(((SSEntityHandlerImplI) serv.serv()).getParentEntities(par.user, par.entity, entityType));
       }
       
@@ -859,7 +859,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
         }
         
         default: {
-          for(SSServContainerI serv : SSServA.inst.getServsManagingEntities()){
+          for(SSServContainerI serv : SSServReg.inst.getServsManagingEntities()){
             
             entities = ((SSEntityHandlerImplI) serv.serv()).getSubEntities(par.user, par.entity, entityType);
             

@@ -36,7 +36,7 @@ import at.tugraz.sss.serv.SSServImplA;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 import at.tugraz.sss.serv.SSConfA;
-import at.tugraz.sss.serv.SSServA;
+import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSServContainerI;
 import java.util.List;
 
@@ -61,7 +61,7 @@ public class SSRecommServ extends SSServContainerI{
     
     this.conf = conf;
     
-      SSServA.inst.regServ(this);
+      SSServReg.inst.regServ(this);
     
     return this;
   }

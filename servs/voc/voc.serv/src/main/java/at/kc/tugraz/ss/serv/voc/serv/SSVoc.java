@@ -25,7 +25,7 @@ import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSConfA;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.kc.tugraz.ss.serv.voc.impl.SSVocImpl;
-import at.tugraz.sss.serv.SSServA;
+import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSServImplA;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.voc.api.SSVocI;
@@ -54,7 +54,7 @@ public class SSVoc extends SSServContainerI{
 
     this.conf = conf;
     
-    SSServA.inst.regServ(this);
+    SSServReg.inst.regServ(this);
     
     systemUserUri   = SSServCaller.vocURICreateFromId(SSVocConf.systemUserLabel);
     

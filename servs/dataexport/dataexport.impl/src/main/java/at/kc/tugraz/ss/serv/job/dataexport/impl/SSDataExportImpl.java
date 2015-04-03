@@ -36,7 +36,7 @@ import at.kc.tugraz.ss.serv.job.dataexport.datatypes.par.SSDataExportUserEntityT
 import at.kc.tugraz.ss.serv.job.dataexport.datatypes.par.SSDataExportUserRelationsPar;
 import at.kc.tugraz.ss.serv.job.dataexport.impl.fct.SSDataExportFct;
 import at.tugraz.sss.serv.SSConfA;
-import at.tugraz.sss.serv.SSServA;
+import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSServImplMiscA;
 import at.tugraz.sss.serv.SSUserRelationGathererI;
 import at.tugraz.sss.serv.SSUsersResourcesGathererI;
@@ -92,7 +92,7 @@ public class SSDataExportImpl extends SSServImplMiscA implements SSDataExportCli
         }
       }
       
-      for(SSServContainerI serv : SSServA.inst.getServsGatheringUsersResources()){
+      for(SSServContainerI serv : SSServReg.inst.getServsGatheringUsersResources()){
         ((SSUsersResourcesGathererI) serv.serv()).getUsersResources(allUsers, usersResources);
       }
       
@@ -240,7 +240,7 @@ public class SSDataExportImpl extends SSServImplMiscA implements SSDataExportCli
         }
       }
       
-      for(SSServContainerI serv : SSServA.inst.getServsGatheringUserRelations()){
+      for(SSServContainerI serv : SSServReg.inst.getServsGatheringUserRelations()){
         ((SSUserRelationGathererI) serv.serv()).getUserRelations(allUsers, userRelations);
       }
       

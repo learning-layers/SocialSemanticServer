@@ -27,7 +27,7 @@ import at.kc.tugraz.ss.like.impl.SSLikeImpl;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.kc.tugraz.ss.serv.db.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSConfA;
-import at.tugraz.sss.serv.SSServA;
+import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServImplA;
 import java.util.List;
@@ -53,7 +53,7 @@ public class SSLikeServ extends SSServContainerI{
     
     this.conf = conf;
     
-    SSServA.inst.regServ(this);
+    SSServReg.inst.regServ(this);
     
     return this;
   }

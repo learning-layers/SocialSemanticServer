@@ -7,7 +7,7 @@
     <version>1.0-SNAPSHOT</version>
   </parent>
   <groupId>sss.serv</groupId>
-  <artifactId>serv.serv</artifactId>
+  <artifactId>serv.reg</artifactId>
   <packaging>jar</packaging>
     
   <dependencies>
@@ -61,7 +61,7 @@
     </dependency>
     
   </dependencies>
-  
+    <name>serv.reg</name>
 </project>
 
     <!--    <dependency>

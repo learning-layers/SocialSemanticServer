@@ -25,9 +25,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SSServA implements SSServRegI{
+public class SSServReg implements SSServRegI{
   
-  public static final SSServA inst = new SSServA();
+  public static final SSServReg inst = new SSServReg();
   
   @Override
   public void regClientRequest(

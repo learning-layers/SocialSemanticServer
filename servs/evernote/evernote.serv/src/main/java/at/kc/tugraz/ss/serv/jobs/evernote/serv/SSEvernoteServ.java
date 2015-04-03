@@ -27,7 +27,7 @@ import at.kc.tugraz.ss.serv.jobs.evernote.api.SSEvernoteClientI;
 import at.kc.tugraz.ss.serv.jobs.evernote.api.SSEvernoteServerI;
 import at.kc.tugraz.ss.serv.jobs.evernote.impl.SSEvernoteImpl;
 import at.tugraz.sss.serv.SSConfA;
-import at.tugraz.sss.serv.SSServA;
+import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServImplA;
 import java.util.List;
@@ -53,10 +53,10 @@ public class SSEvernoteServ extends SSServContainerI{
     
     this.conf = conf;
     
-    SSServA.inst.regServ(this);
+    SSServReg.inst.regServ(this);
     
-    SSServA.inst.regServForManagingEntities(this);
-    SSServA.inst.regServForDescribingEntities(this);
+    SSServReg.inst.regServForManagingEntities(this);
+    SSServReg.inst.regServForDescribingEntities(this);
     
     return this;
   }

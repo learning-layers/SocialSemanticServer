@@ -24,7 +24,7 @@ import at.tugraz.sss.serv.SSCoreConfA;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.kc.tugraz.ss.serv.db.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSConfA;
-import at.tugraz.sss.serv.SSServA;
+import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSServImplA;
 import at.kc.tugraz.sss.comment.api.SSCommentClientI;
 import at.kc.tugraz.sss.comment.api.SSCommentServI;
@@ -54,11 +54,11 @@ public class SSCommentServ extends SSServContainerI implements SSCommentServI{
     
     this.conf = conf; 
     
-    SSServA.inst.regServ(this);
+    SSServReg.inst.regServ(this);
     
-    SSServA.inst.regServForDescribingEntities(this);
-    SSServA.inst.regServForUpdatingEntities(this);
-    SSServA.inst.regServForGatheringUserRelations(this);
+    SSServReg.inst.regServForDescribingEntities(this);
+    SSServReg.inst.regServForUpdatingEntities(this);
+    SSServReg.inst.regServForGatheringUserRelations(this);
     
     return this;
   }

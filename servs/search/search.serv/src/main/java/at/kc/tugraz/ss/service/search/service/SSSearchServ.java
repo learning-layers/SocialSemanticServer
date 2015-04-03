@@ -28,7 +28,7 @@ import at.kc.tugraz.ss.service.search.api.SSSearchServerI;
 import at.kc.tugraz.ss.service.search.impl.SSSearchImpl;
 import at.kc.tugraz.ss.service.search.service.task.SSSearchResultPagesCacheCleanerTask;
 import at.tugraz.sss.serv.SSConfA;
-import at.tugraz.sss.serv.SSServA;
+import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSServContainerI;
 import java.util.List;
 
@@ -53,7 +53,7 @@ public class SSSearchServ extends SSServContainerI{
     
     this.conf = conf;
     
-      SSServA.inst.regServ(this);
+      SSServReg.inst.regServ(this);
     
     return this;
   }

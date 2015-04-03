@@ -30,7 +30,7 @@ import at.kc.tugraz.ss.serv.modeling.ue.datatypes.SSModelUEEntity;
 import at.kc.tugraz.ss.serv.modeling.ue.serv.task.SSModelUEUpdateTask;
 import at.kc.tugraz.ss.serv.modeling.ue.utils.SSModelUEU;
 import at.tugraz.sss.serv.SSConfA;
-import at.tugraz.sss.serv.SSServA;
+import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServImplA;
 import at.tugraz.sss.serv.caller.SSServCaller;
@@ -78,7 +78,7 @@ public class SSModelUEServ extends SSServContainerI{
     
     this.conf = conf;
     
-      SSServA.inst.regServ(this);
+      SSServReg.inst.regServ(this);
     
     return this;
   }

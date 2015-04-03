@@ -25,7 +25,7 @@ import at.kc.tugraz.ss.cloud.api.SSCloudServerI;
 import at.kc.tugraz.ss.cloud.impl.SSCloudImpl;
 import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSCoreConfA;
-import at.tugraz.sss.serv.SSServA;
+import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServImplA;
 import java.util.List;
@@ -51,7 +51,7 @@ public class SSCloudServ extends SSServContainerI{
     
     this.conf = conf;
     
-      SSServA.inst.regServ(this);
+      SSServReg.inst.regServ(this);
     
     return this;
   }

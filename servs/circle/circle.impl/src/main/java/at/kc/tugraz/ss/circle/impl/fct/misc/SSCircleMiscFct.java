@@ -30,7 +30,7 @@ import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSEntityHandlerImplI;
-import at.tugraz.sss.serv.SSServA;
+import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 import java.util.ArrayList;
@@ -96,7 +96,7 @@ public class SSCircleMiscFct{
           continue;
         }
         
-        for(SSServContainerI serv : SSServA.inst.getServsManagingEntities()){
+        for(SSServContainerI serv : SSServReg.inst.getServsManagingEntities()){
           ((SSEntityHandlerImplI) serv.serv()).shareUserEntityWithCircle(userUri, circleUri, entityUri, entityType);
         }
       }
@@ -367,7 +367,7 @@ public class SSCircleMiscFct{
         return;
       }
       
-      for(SSServContainerI serv : SSServA.inst.getServsManagingEntities()){
+      for(SSServContainerI serv : SSServReg.inst.getServsManagingEntities()){
         
         if(((SSEntityHandlerImplI) serv.serv()).setUserEntityPublic(userUri, entityUri, entityType, pubCircleUri)){
           return;
@@ -392,7 +392,7 @@ public class SSCircleMiscFct{
       
       final SSEntityE entityType = SSServCaller.entityGet(entityUri).type;
       
-      for(SSServContainerI serv : SSServA.inst.getServsManagingEntities()){
+      for(SSServContainerI serv : SSServReg.inst.getServsManagingEntities()){
         ((SSEntityHandlerImplI) serv.serv()).shareUserEntity(userUri, userUris, entityUri, circleUri, entityType, saveActivity);
       }
       
