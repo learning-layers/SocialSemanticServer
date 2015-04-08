@@ -15,37 +15,43 @@ Please cite [the paper](https://github.com/learning-layers/SocialSemanticServer#
 The source-code can be directly checked-out through this repository. It contains a Maven project to edit and build it.
 
 ## Documentation
-* Swagger JSON-based REST API documentation
- * releases
-    * `sss.package/api-docs`
-* Swagger-UI-styled documentation from Swagger's JSON files
- * for apiVersion `v1` 
-    * adapt `swagger-maven-plugin` in `SSS/adapter/adapter.rest/adapter.rest.v1/pom.xml`
-	  * property `basePath` to `http://{your-host}:{your-port}/sss.adapter.rest.v1/SSAdapterRest`
-      * property `swaggerUIDocBasePath` to `http://{your-host}:{your-port}/sss.adapter.rest.v1/api-docs`
-    * adapt swagger property `url` of object `SwaggerUi` in `SSS/adapter/adapter.rest/adapter.rest.v1/src/main/webapp/swagger/index.html` to `http://{your-host}:{your-port}/sss.adapter.rest.v1/api-docs`
-  * for apiVersion `v2` 
-    * adapt `swagger-maven-plugin` in `SSS/adapter/adapter.rest/adapter.rest.v2/pom.xml`
-      * property `basePath` to `http://{your-host}:{your-port}/sss.adapter.rest.v2`
-      * property `swaggerUIDocBasePath` to `http://{your-host}:{your-port}/sss.adapter.rest.v2/api-docs`
-    * adapt swagger property `url` of object `SwaggerUi` in `SSS/adapter/adapter.rest/adapter.rest.v2/src/main/webapp/swagger/index.html` to `http://{your-host}:{your-port}/sss.adapter.rest.v2/api-docs` 
- * build and deploy web projects 
-    * `SSS/adapter/adapter.rest/adapter.rest.v1` 
-    * `SSS/adapter/adapter.rest/adapter.rest.v2`
- * access swagger docs via 
-    * `http://{your-host}:{your-port}/sss.adapter.rest.v1/swagger/index.html`
-    * `http://{your-host}:{your-port}/sss.adapter.rest.v2/index.html`
+* for REST API description please have a look at Swagger's JSON-based REST API documentation in releases (i.e. `sss.package/api-docs`)
+* for Swagger UI styled documention from Swagger's JSON files please deploy and access SSS's REST API (see below)
+	
+## SSS deployment from releases
+* follow instructions for Java 8, Apache Tomcat 7, [Apache Solr 4.9] and MySQL 5.6 in chapters below
+* download `sss.package` from respective release from within this repository (i.e. `https://github.com/learning-layers/SocialSemanticServer/releases`)
+* extract `sss.package.tar`
+* REST API Tomcat deployment
+ * copy "sss.package/sss.adapter.rest.v2.conf.yaml" to "Catalina Base/conf"
+ * adapt conf property "sss" 
+  * set "host" and "port" to the location at which SSS will be running
+ * copy "sss.package/sss.adapter.rest.v2" to "Catalina Base/webapps"
+ * start Tomcat
+ * access Swagger UI at "http://tomcatHost:tomcatPort/sss.adapter.rest.v2"
+* SSS deployment
+ * copy folder "sss.package/sss.app" to your desired destination (execution directory) and jump into
+ * adapt "log4j.properties" to your needs
+ * adapt "sss.conf.yaml" to your needs
+  * make sure "host" and "port" properties of "sss" in "sss.conf.yaml" match the same attributes in "sss.adapter.rest.v2.conf.yaml"
+  * make sure to set property "authType" of "auth" in "sss.conf.yaml" accordingly (either "csvFileAuth" or "oidc")
+  * for "csvFileAuth" make sure to have "users.csv" (in your execution directory) filled with combinations of users' emails and passwords (i.e. "email@email.com;password")
+ * start SSS with "java -jar -Dlog4j.configuration=file:log4j.properties ./sss.jar"
+* access Swagger UI from http://tomcatPort:tomcatHost/sss.adapter.rest.v2/
+* access the REST API via requests to `http://tomcatPort:tomcatHost/sss.adapter.rest.v2/{API}/{API}/{OP or ID}` 
+* `API` stands for the REST resource to be targeted
+* `OP or ID` respresents the path to the actual service call to be executed, e.g., GET to `http://tomcatPort:tomcatHost/sss.adapter.rest.v2/entities/entities/{entity}` gets information for a certain entity 
 
-## SSS for deployment
-* follow instructions for Java 8, Apache Tomcat 7, Apache Solr 4.9 and MySQL 5.6 in chapters below
-* download `sss.package` from respective release from within this repository
-* adjust `sss.package/sss.app/sss.conf.yaml` and `sss.package/sss.app/log4j.properties`
-* copy `sss.package/sss.app/` to custom SSS's execution dir
-* copy `sss.package/sss.adapter.rest.v1.war` and `sss.package/sss.adapter.rest.v2.war` to `tomcat webapps` dir
-* adjust and copy `sss.package/sss.adapter.rest.v1.conf.yaml` and `sss.package/sss.adapter.rest.v2.conf.yaml`to `tomcat conf` dir
-* run `runit.sh / .bat`
- 
-## SSS for development
+## SSS service usage via Swagger UI
+* to login use either GET or POST calls in ".../sss.adapter.rest.v2/#!/auth"
+ * for GET (i.e. OIDC authentication) set your OIDC token to be sent via input field on top saying "add auth key to be sent in header"
+ * for POST (i.e. CSV file based authentication) use provided template (click "Model" tab in the "Data Type" column)
+  * fill out "label" and "password" with your email address and password
+ * to use any other service operation 
+  * make sure to have the login key returned (from either "auth" service call in attribute "key") put to the input field on top saying "add auth key to be sent in header"
+  * when using, e.g., ".../sss.adapter.rest.v2/#!/recomm/recommUsersForEntity" (i.e. /recomm/recomm/users/entity/{entity}), setting required parameters either can be done with encoded URIs (i.e. encode("http://google.com") or with IDs directly (as long as the ID is one from SSS realm (i.e. created in / added to SSS))
+
+## SSS requirements
 
 ### Java 8
 * please use Java 8 or higher from [Java Site](https://java.com/en/download/index.jsp)
@@ -59,24 +65,24 @@ The source-code can be directly checked-out through this repository. It contains
 
 ### Apache Solr 4.9
 * this guide was derived from [Apache Solr Reference Guide](http://tweedo.com/mirror/apache/lucene/solr/ref-guide/apache-solr-ref-guide-4.9.pdf)
-* download Solr from, e.g. [Solr Mirror](http://mirror2.klaus-uwe.me/apache/lucene/solr/4.9.0/)
-* decompress solr package
+* download Solr from, e.g., [Solr Mirror](http://mirror2.klaus-uwe.me/apache/lucene/solr/4.9.0/)
+* decompress Solr package
 * rename folder for convenience to `solrPackage`
-* copy to `solr home dir` (e.g.: `/solr/`)
+* copy to `Solr Home` (e.g.: `/solr/`)
  * `/solrPackage/example/solr/`
-* copy to `solr home lib` dir (e.g.: `/solr/lib/`)
+* copy to `Solr Home` `Lib` directory (e.g.: `/solr/lib/`)
  * `/solrPackage/contrib/`
  * `/solrPackage/dist/`
  * for certain bug-fixes for PDF extraction and indexing 
-  * upgrade in `solr home lib/contrib/extraction/`
+  * upgrade in `Solr Home` `lib/contrib/extraction/`
     * `pdfbox-1.8.4.jar` to `pdfbox-1.8.6.jar`
     * `tika-core-1.5.jar` to tika-core-1.6.jar`
     * `tika-parsers-1.5.jar` to `tika-parsers-1.6.jar`
     * `tika-xmp-1.5.jar` to `tika-xmp-1.6.jar`
-* replace `schema.xml` and `solrconfig.xml` in `solr home core's conf` dir (e.g.: `/solr/collection1/conf`) with: 
- * `SSS/sss/src/main/resources/conf/solr_schema.xml`
- * `SSS/sss/src/main/resources/conf/solr_solrconfig.xml`
-* adjust `solrconfig.xml` to have directives pointing to `solr home lib subfolders`, e.g.:
+* replace `schema.xml` and `solrconfig.xml` in `Solr Home` `Core's Conf` directory (e.g.: `/solr/collection1/conf`) with: 
+ * `sss.package/sss.app/solr_schema.xml`
+ * `sss.package/sss.app/solr_solrconfig.xml`
+* adjust `solrconfig.xml` to have directives pointing to `Solr Home` `Lib` subfolders, e.g.:
  * `<lib dir="/solr/lib/contrib/extraction/lib" regex=".*\.jar" />`
  * `<lib dir="/solr/lib/dist/" regex="solr-cell-\d.*\.jar" />`
  * `<lib dir="/solr/lib/contrib/clustering/lib/" regex=".*\.jar" />`
@@ -85,20 +91,20 @@ The source-code can be directly checked-out through this repository. It contains
  * `<lib dir="/solr/lib/dist/" regex="solr-langid-\d.*\.jar" />`
  * `<lib dir="/solr/lib/contrib/velocity/lib" regex=".*\.jar" />`
  * `<lib dir="/solr/lib/dist/" regex="solr-velocity-\d.*\.jar" />`
-* set user `tomcat7` as owner for `solr home dir`
-* stop tomcat
-* edit tomcat's `catalina.sh` (e.g.: `/usr/share/tomcat7/bin/catalina.sh`) to point to `solr home dir` 
+* set user `tomcat7` as owner for `Solr Home` directory
+* stop Tomcat
+* edit Tomcat's `catalina.sh` (e.g.: `/usr/share/tomcat7/bin/catalina.sh`) to point to `Solr Home` directory
  * `export JAVA_OPTS="$JAVA_OPTS -Dsolr.solr.home=/solr"`
-* copy to `tomcat lib` dir: (e.g.: `/usr/share/tomcat7/lib`)
+* copy to `Tomcat` `Lib` dir: (e.g.: `/usr/share/tomcat7/lib`)
  * `/solrPackage/example/lib/ext/` contents
  * `/solrPackage/example/resources/log4j.properties`
 * adjust `log4j.properties` to your needs
-* copy to `tomcat webapps` dir (e.g.: `/var/lib/tomcat7/webapps/`)
+* copy to `Tomcat Webapps` directory (e.g.: `/var/lib/tomcat7/webapps/`)
  * `/solrPackage/example/webapps/solr.war`
-* start tomcat
+* start Tomcat
 
 ### MySQL 5.6
-* please use MySQL 5.6 or higher from [MySQL Site](http://www.mysql.com/downloads/)
+* please use `MySQL 5.6` or higher from [MySQL Site](http://www.mysql.com/downloads/)
 * have at least the following set in your `my.cnf` 
  * [client] 
    * default-character-set=utf8
@@ -107,30 +113,38 @@ The source-code can be directly checked-out through this repository. It contains
  * [mysqld] 
    * init-connect='SET NAMES utf8'
     * character-set-server = utf8
-* either import `SSS/sss/src/main/resources/conf/sss_schema.sql` to setup `sss` scheme or apply respective database migration script, e.g. `SSS/sss/src/main/resources/conf/sss_schema_upgrade_6.0.0_6.0.1.sql`
+* either import `sss.package/sss.app/sss_schema.sql` to setup `sss` scheme or apply respective database migration script, e.g., `sss.package/sss.app/sss_schema_upgrade_6.0.0_6.0.1.sql`
 
-### SSS and REST adapter
-* download SSS containing its REST adapter from this repository
-* import SSS as Maven project into, e.g. Netbeans or Eclipse
+## SSS deployment from source code
+* run `mvn clean install` on project `sss.root` to have 
+ * `sss/target/sss.app/`
+ * `adapter/adapter.rest/adapter.rest.vX/target/sss.adapter.rest.vX.X-SNAPSHOT.war`
+* run `sss/target/sss.app/sss.jar` with VM options `-Dlog4j.configuration=file:log4j.properties`
+* rename `sss.adapter.rest.vX.X-SNAPSHOT.war` to `sss.adapter.rest-vX.war` and copy to `Tomcat webapps` directory
 
-### Logging and Configuration
-* adjust `SSS/sss/src/main/resources/conf/log4j.properties` and copy to `SSS/sss/`
-* adjust `SSS/sss/src/main/resources/conf/sss.conf.yaml` and copy to `SSS/sss/`
-* adjust `SSS/adapter/adapter.rest/adapter.rest.v1/src/main/resources/sss.adapter.rest.v1.conf.yaml` and copy to `tomcat conf` dir or
-* adjust `SSS/adapter/adapter.rest/adapter.rest.v2/src/main/resources/sss.adapter.rest.v2.conf.yaml` and copy to `tomcat conf` dir
-
-### Run
-* run `mvn clean install` on project `SSS/sss.root` to have 
- * `SSS/sss/target/sss.app/`
- * `SSS/adapter/adapter.rest/adapter.rest.vX/target/sss.adapter.rest.vX.X-SNAPSHOT.war`
-* run `SSS/sss/target/sss.app/sss.jar` with VM options `-Dlog4j.configuration=file:log4j.properties`
-* rename `sss.adapter.rest.vX.X-SNAPSHOT.war` to `sss.adapter.rest-vX.war` and copy to `tomcat webapps` dir
-
-## SSS client-side libraries
+## SSS documentation from source code
+* for apiVersion `v2` 
+ * adapt `swagger-maven-plugin` in `adapter/adapter.rest/adapter.rest.v2/pom.xml`
+  * property `basePath` to `http://tomcatHost:tomcatPort/sss.adapter.rest.v2`
+  * property `swaggerUIDocBasePath` to `http://tomcatHost:tomcatPort/sss.adapter.rest.v2/api-docs`
+ * adapt Swagger property `url` of object `SwaggerUi` in `adapter/adapter.rest/adapter.rest.v2/src/main/webapp/swagger/index.html` to `http://tomcatHost:tomcatPort/sss.adapter.rest.v2/api-docs` 
+* (deprecated) for apiVersion `v1` 
+ * adapt `swagger-maven-plugin` in `adapter/adapter.rest/adapter.rest.v1/pom.xml`
+  * property `basePath` to `http://tomcatHost:tomcatPort/sss.adapter.rest.v1/SSAdapterRest`
+  * property `swaggerUIDocBasePath` to `http://tomcatHost:tomcatPort/sss.adapter.rest.v1/api-docs`
+ * adapt swagger property `url` of object `SwaggerUi` in `adapter/adapter.rest/adapter.rest.v1/src/main/webapp/swagger/index.html` to `http://tomcatHost:tomcatPort/sss.adapter.rest.v1/api-docs`
+* build and deploy Web projects 
+ * `adapter/adapter.rest/adapter.rest.v2`
+ * (deprecated) `SSS/adapter/adapter.rest/adapter.rest.v1` 
+* access Swagger docs
+ * `http://tomcatHost:tomcatPort/sss.adapter.rest.v2/index.html`
+ * (deprecated) `http://tomcatHost:tomcatPort/sss.adapter.rest.v1/swagger/index.html`	
+	
+## (deprecated) SSS client-side libraries
 * download [SSS Client Side](https://github.com/learning-layers/SocialSemanticServerClientSide/) libs to use with SSS API version 1
 * link Javascript projects `JSUtilities`, `SSClientInterfaceGlobals` and `SSSClientInterfaceREST` in your application to have access to SSS server-side operations via its REST interface
 
-## SSS plain REST API V1 access
+## (deprecated) SSS plain REST API V1 access
 * access the REST APIs via POST requests to `http://{your-sss-host}:{your-port}/sss.adapter.rest.v1/{API}/{yourOp}/` 
  * `your-sss-host` and `your-port` represents the host and port running the REST APIs
  * `API` stands for the name of the REST API to be targeted:
@@ -154,12 +168,6 @@ The source-code can be directly checked-out through this repository. It contains
  * `errorLinesWhereThrown` if error, line numbers where the errors got thrown
  * `errorThreadsWhereThrown` if error, id's of threads where the errors got thrown
  
-## SSS plain REST API V2 access
-* access the REST APIs via requests to `http://{your-sss-host}:{your-port}/sss.adapter.rest.v2/{API}/{OP or ID}` 
- * `your-sss-host` and `your-port` represents the host and port running the REST APIs
- * `API` stands for the REST resource to be targeted
- * `OP or ID` respresents the path to the actual service call to be executed, e.g. GET to `http://{your-sss-host}:{your-port}/sss.adapter.rest.v2/entities/entityID` gets information for a certain entity (please have a look at the swagger documention for more calls available for the SSS REST API V2)
-
 ## References
 * D. Kowald, S. Dennerlein, D. Theiler, S. Walk and C. Trattner.: [The Social Semantic Server - A Framework to Provide Services on Social Semantic Network Data](http://ceur-ws.org/Vol-1026/paper11.pdf), 2013. In S. Lohmann (ed.), I-SEMANTICS (Posters & Demos) (p./pp. 50-54), : CEUR-WS.org.
 * Dennerlein, S., Rella, M, Tomberg, V. Theiler, D., Treasure-Jones, T., Kerr, M., Ley, T., Al-Smadi, M. & Trattner, C. (2014). Making Sense of Bits and Pieces: A Sensemaking Tool for Informal Workplace Learning. In: Proceedings of EC-TEL 2014. In press.
