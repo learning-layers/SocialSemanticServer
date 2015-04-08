@@ -48,7 +48,7 @@ The source-code can be directly checked-out through this repository. It contains
    * fill out `label`and `password` with your email address and password
 * to use any other service operation 
  * make sure to have the login key returned (from either `auth` service call in attribute `key`) put to the input field on top saying `add auth key to be sent in header`
- * when using, e.g., `.../sss.adapter.rest.v2/#!/recomm/recommUsersForEntity` (i.e. `/recomm/recomm/users/entity/{entity}`), setting required parameters either can be done with encoded URIs (i.e. `encode('http://google.com')` or with IDs directly (as long as the ID is one from SSS's realm (i.e. created in / added to SSS))
+ * when using, e.g., `.../sss.adapter.rest.v2/#!/recomm/recommUsersForEntity` (i.e. `/recomm/recomm/users/entity/{entity}`), setting required parameters can be done either with encoded URIs (i.e. `encode('http://google.com')` or with IDs directly (as long as the ID is one from SSS's realm (i.e. created in / added to SSS)))
 
 ## SSS requirements
 
@@ -124,13 +124,13 @@ The source-code can be directly checked-out through this repository. It contains
 ## SSS documentation from source code
 * for apiVersion `v2` 
  * adapt `swagger-maven-plugin` in `adapter/adapter.rest/adapter.rest.v2/pom.xml`
-  * property `basePath` to `http://tomcatHost:tomcatPort/sss.adapter.rest.v2`
-  * property `swaggerUIDocBasePath` to `http://tomcatHost:tomcatPort/sss.adapter.rest.v2/api-docs`
+   * property `basePath` to `http://tomcatHost:tomcatPort/sss.adapter.rest.v2`
+   * property `swaggerUIDocBasePath` to `http://tomcatHost:tomcatPort/sss.adapter.rest.v2/api-docs`
  * adapt Swagger property `url` of object `SwaggerUi` in `adapter/adapter.rest/adapter.rest.v2/src/main/webapp/swagger/index.html` to `http://tomcatHost:tomcatPort/sss.adapter.rest.v2/api-docs` 
 * (deprecated) for apiVersion `v1` 
  * adapt `swagger-maven-plugin` in `adapter/adapter.rest/adapter.rest.v1/pom.xml`
-  * property `basePath` to `http://tomcatHost:tomcatPort/sss.adapter.rest.v1/SSAdapterRest`
-  * property `swaggerUIDocBasePath` to `http://tomcatHost:tomcatPort/sss.adapter.rest.v1/api-docs`
+   * property `basePath` to `http://tomcatHost:tomcatPort/sss.adapter.rest.v1/SSAdapterRest`
+   * property `swaggerUIDocBasePath` to `http://tomcatHost:tomcatPort/sss.adapter.rest.v1/api-docs`
  * adapt swagger property `url` of object `SwaggerUi` in `adapter/adapter.rest/adapter.rest.v1/src/main/webapp/swagger/index.html` to `http://tomcatHost:tomcatPort/sss.adapter.rest.v1/api-docs`
 * build and deploy Web projects 
  * `adapter/adapter.rest/adapter.rest.v2`
