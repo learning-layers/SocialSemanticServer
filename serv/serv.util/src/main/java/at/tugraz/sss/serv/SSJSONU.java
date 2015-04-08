@@ -20,10 +20,10 @@
 */
 package at.tugraz.sss.serv;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import org.codehaus.jackson.JsonFactory;
+import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.JsonParser;
 import org.codehaus.jackson.JsonToken;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -41,20 +41,22 @@ public class SSJSONU{
     final String name) throws Exception{
     
     final ObjectMapper mapper = new ObjectMapper();
+    final JsonNode     node   = mapper.readTree(jsonStr).get(name);
     
-    return mapper.readTree(jsonStr).get(name).getTextValue();
+    if(node ==  null){
+      return null;
+    }
+    
+    return node.getTextValue();
   }
   
   public static Object obj(
     final String  jsonStr, 
-    final Class   customClass,
-    final Boolean excludeNull) throws Exception{
+    final Class   customClass) throws Exception{
     
     final ObjectMapper objectMapper = new ObjectMapper();
     
-    if(excludeNull){
-      objectMapper.setSerializationInclusion(JsonSerialize.Inclusion.NON_NULL);
-    }
+    objectMapper.setSerializationInclusion(JsonSerialize.Inclusion.NON_NULL);
     
     objectMapper.configure(SerializationConfig.Feature.WRITE_NULL_MAP_VALUES, true);
     
@@ -62,14 +64,11 @@ public class SSJSONU{
   }
   
   public static String jsonStr(
-    final Object  obj,
-    final Boolean excludeNull) throws Exception{
+    final Object  obj) throws Exception{
     
     final ObjectMapper objectMapper = new ObjectMapper();
     
-    if(excludeNull){
-      objectMapper.setSerializationInclusion(JsonSerialize.Inclusion.NON_NULL);
-    }
+    objectMapper.setSerializationInclusion(JsonSerialize.Inclusion.NON_NULL);
     
     objectMapper.configure(SerializationConfig.Feature.WRITE_NULL_MAP_VALUES, true);
     

@@ -94,11 +94,13 @@ public class SSServPar{
     this.clientCon      = clientCon;
     this.clientJSONRequ = clientJSONRequ;
     
-    setOp (SSJSONU.getValueFromJSON(clientJSONRequ, SSVarU.op));
-    setKey(SSJSONU.getValueFromJSON(clientJSONRequ, SSVarU.key));
+    this.op  = SSServOpE.get(SSJSONU.getValueFromJSON(clientJSONRequ, SSVarU.op));
+    this.key = SSJSONU.getValueFromJSON(clientJSONRequ, SSVarU.key);
     
     //TODO for anchient use of serv par
-    setUser(SSJSONU.getValueFromJSON(clientJSONRequ, SSVarU.user));
+    try{
+      this.user = SSUri.get(SSJSONU.getValueFromJSON(clientJSONRequ, SSVarU.user));
+    }catch(Exception error){}
     
     if(
       SSObjU.isNull  (op)||

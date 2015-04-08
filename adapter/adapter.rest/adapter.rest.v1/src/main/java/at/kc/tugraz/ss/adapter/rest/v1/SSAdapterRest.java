@@ -855,10 +855,10 @@ public class SSAdapterRest{
 
     try{
       return new SSSocketCon(
-        SSRestMainV1.conf.ss.host,
-        SSRestMainV1.conf.ss.port).prepRetFullToClient(
+        SSRestMainV1.conf.sss.host,
+        SSRestMainV1.conf.sss.port).prepRetFullToClient(
           new SSSystemVersionGetRet(
-            SSRestMainV1.conf.ss.version,
+            SSRestMainV1.conf.sss.version,
             SSServOpE.systemVersionGet),
           SSServOpE.systemVersionGet);
       

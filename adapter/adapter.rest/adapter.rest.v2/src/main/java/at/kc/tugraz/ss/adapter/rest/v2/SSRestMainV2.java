@@ -98,7 +98,7 @@ public class SSRestMainV2 extends Application {
     }
     
     try{
-      restObj.sssRequestMessage = SSJSONU.jsonStr(restObj.par, true);
+      restObj.sssRequestMessage = SSJSONU.jsonStr(restObj.par);
     }catch(Exception error){
       
       restObj.response = 
@@ -115,8 +115,8 @@ public class SSRestMainV2 extends Application {
         
         restObj.sssCon =
           new SSSocketCon(
-            conf.ss.host,
-            conf.ss.port);
+            conf.sss.host,
+            conf.sss.port);
         
       }catch(Exception error){
         
@@ -171,7 +171,7 @@ public class SSRestMainV2 extends Application {
         }else{
           restObj.response =
             Response.status(200).entity(
-              SSJSONU.jsonStr(sssJSONResponseRootNode.get(restObj.par.op.toString()), true)).build();
+              SSJSONU.jsonStr(sssJSONResponseRootNode.get(restObj.par.op.toString()))).build();
         }
         
       }catch(Exception error){
@@ -222,7 +222,7 @@ public class SSRestMainV2 extends Application {
     }
     
     try{
-      return SSJSONU.jsonStr(jsonObj, true);
+      return SSJSONU.jsonStr(jsonObj);
     } catch(Exception error){
       return null;
     }
@@ -252,7 +252,7 @@ public class SSRestMainV2 extends Application {
     }
     
     try{
-      return SSJSONU.jsonStr(jsonObj, true);
+      return SSJSONU.jsonStr(jsonObj);
     } catch(Exception error){
       return null;
     }

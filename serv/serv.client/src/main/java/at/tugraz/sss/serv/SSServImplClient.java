@@ -20,13 +20,6 @@
 */
 package at.tugraz.sss.serv;
 
-import at.tugraz.sss.serv.SSLogU;
-import at.tugraz.sss.serv.SSServErrReg;
-import at.tugraz.sss.serv.SSServImplA;
-import at.tugraz.sss.serv.SSServImplStartA;
-import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServReg;
-import at.tugraz.sss.serv.SSSocketCon;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,7 +49,7 @@ public class SSServImplClient extends SSServImplStartA implements Runnable{
       par = 
         new SSServPar(
           clientCon, 
-          par.clientCon.readMsgFullFromClient());
+          clientCon.readMsgFullFromClient());
       
       SSLogU.info(par.clientJSONRequ);
       

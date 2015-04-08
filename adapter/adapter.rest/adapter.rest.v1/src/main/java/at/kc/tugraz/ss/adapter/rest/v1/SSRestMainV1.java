@@ -99,7 +99,7 @@ public class SSRestMainV1 extends Application {
       
       input.op = op;
       
-      return handleStandardJSONRESTCall(SSJSONU.jsonStr(input, false), op);
+      return handleStandardJSONRESTCall(SSJSONU.jsonStr(input), op);
     }catch(Exception error){
       SSServErrReg.regErr(error);
       return null;
@@ -126,22 +126,22 @@ public class SSRestMainV1 extends Application {
         tmp += ",\"op\":\"" + op.toString() + "\"}";
         
         try{
-          sSCon = new SSSocketCon(conf.ss.host, conf.ss.port);
+          sSCon = new SSSocketCon(conf.sss.host, conf.sss.port);
           
           message = tmp;
         }catch(Exception error){
           
-          SSLogU.info("couldnt connect to " + conf.ss.host + " " + conf.ss.port.toString());
+          SSLogU.info("couldnt connect to " + conf.sss.host + " " + conf.sss.port.toString());
           throw error;
         }
       }else{
         try{
-          sSCon = new SSSocketCon(conf.ss.host, conf.ss.port);
+          sSCon = new SSSocketCon(conf.sss.host, conf.sss.port);
           
           message = jsonRequ;
         }catch(Exception error){
           
-          SSLogU.info("couldnt connect to " + conf.ss.host + " " + conf.ss.port.toString());
+          SSLogU.info("couldnt connect to " + conf.sss.host + " " + conf.sss.port.toString());
           throw error;
         }
       }
@@ -150,7 +150,7 @@ public class SSRestMainV1 extends Application {
         sSCon.writeRequFullToSS (message);
       }catch(Exception error){
         
-        SSLogU.info("couldnt write to " + conf.ss.host + " " + conf.ss.port.toString());
+        SSLogU.info("couldnt write to " + conf.sss.host + " " + conf.sss.port.toString());
         throw error;
       }
       
@@ -158,7 +158,7 @@ public class SSRestMainV1 extends Application {
         readMsgFullFromSS = sSCon.readMsgFullFromSS ();
       }catch(Exception error){
         
-        SSLogU.info("couldnt read from " + conf.ss.host + " " + conf.ss.port.toString());
+        SSLogU.info("couldnt read from " + conf.sss.host + " " + conf.sss.port.toString());
         throw error;
       }
       
@@ -257,7 +257,7 @@ public class SSRestMainV1 extends Application {
       if(jsonRootNode.get(SSVarU.error).getBooleanValue()){
         return Response.status(500).entity(getJSONStrForError(jsonRootNode.get(SSVarU.id).getTextValue(), jsonRootNode.get(SSVarU.message).getTextValue())).build();
       }else{
-        return Response.status(200).entity(SSJSONU.jsonStr(jsonRootNode.get(par.op.toString()), false)).build();
+        return Response.status(200).entity(SSJSONU.jsonStr(jsonRootNode.get(par.op.toString()))).build();
       }
       
     }catch(Exception error){
@@ -296,7 +296,7 @@ public class SSRestMainV1 extends Application {
       if(jsonRootNode.get(SSVarU.error).getBooleanValue()){
         return Response.status(500).entity(getJSONStrForError(jsonRootNode.get(SSVarU.id).getTextValue(), jsonRootNode.get(SSVarU.message).getTextValue())).build();
       }else{
-        return Response.status(200).entity(SSJSONU.jsonStr(jsonRootNode.get(par.op.toString()), false)).build();
+        return Response.status(200).entity(SSJSONU.jsonStr(jsonRootNode.get(par.op.toString()))).build();
       }
       
     }catch(Exception error){
@@ -329,7 +329,7 @@ public class SSRestMainV1 extends Application {
       if(jsonRootNode.get(SSVarU.error).getBooleanValue()){
         return Response.status(500).entity(getJSONStrForError(jsonRootNode.get(SSVarU.id).getTextValue(), jsonRootNode.get(SSVarU.message).getTextValue())).build();
       }else{
-        return Response.status(201).entity(SSJSONU.jsonStr(jsonRootNode.get(par.op.toString()), false)).build();
+        return Response.status(201).entity(SSJSONU.jsonStr(jsonRootNode.get(par.op.toString()))).build();
       }
       
     }catch(Exception error){
@@ -362,7 +362,7 @@ public class SSRestMainV1 extends Application {
       if(jsonRootNode.get(SSVarU.error).getBooleanValue()){
         return Response.status(500).entity(getJSONStrForError(jsonRootNode.get(SSVarU.id).getTextValue(), jsonRootNode.get(SSVarU.message).getTextValue())).build();
       }else{
-        return Response.status(201).entity(SSJSONU.jsonStr(jsonRootNode.get(par.op.toString()), false)).build();
+        return Response.status(201).entity(SSJSONU.jsonStr(jsonRootNode.get(par.op.toString()))).build();
       }
       
     }catch(Exception error){
@@ -394,7 +394,7 @@ public class SSRestMainV1 extends Application {
     }
     
     try{
-      return SSJSONU.jsonStr(jsonObj, false);
+      return SSJSONU.jsonStr(jsonObj);
     } catch(Exception error){
       return null;
     }
@@ -424,7 +424,7 @@ public class SSRestMainV1 extends Application {
     }
     
     try{
-      return SSJSONU.jsonStr(jsonObj, false);
+      return SSJSONU.jsonStr(jsonObj);
     } catch(Exception error){
       return null;
     }

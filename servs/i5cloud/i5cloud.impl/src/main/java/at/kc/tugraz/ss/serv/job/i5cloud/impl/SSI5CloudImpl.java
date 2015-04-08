@@ -76,7 +76,7 @@ public class SSI5CloudImpl extends SSServImplMiscA implements SSI5CloudClientI, 
       
       out = con.getOutputStream();
       
-      out.write(SSJSONU.jsonStr(messageBody, true).getBytes(SSEncodingU.utf8.toString()));
+      out.write(SSJSONU.jsonStr(messageBody).getBytes(SSEncodingU.utf8.toString()));
       
       return SSJSONU.jsonMap(SSFileU.readStreamText(con.getInputStream()));
       

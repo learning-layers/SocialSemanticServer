@@ -20,8 +20,8 @@
  */
 package at.tugraz.sss.serv;
 
-import at.tugraz.sss.serv.SSFileExtE;
 import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.Map;
 
 public enum SSMimeTypeE {
@@ -67,11 +67,12 @@ public enum SSMimeTypeE {
   audioMpeg                                                  ("audio/mpeg"),
   audioWav                                                   ("audio/wav");
   
+  public static Map<String, SSMimeTypeE>       mimeTypes           = new HashMap<>();
   public static Map<SSMimeTypeE, SSFileExtE>   fileExtPerMimeType  = new EnumMap<>(SSMimeTypeE.class);
   public static Map<SSFileExtE,  SSMimeTypeE>  mimeTypePerFileExt  = new EnumMap<>(SSFileExtE.class);
   private final String                         value;
   
-  private SSMimeTypeE(String newValue) {
+  private SSMimeTypeE(final String newValue) {
     value = newValue;
   }
   
@@ -80,7 +81,57 @@ public enum SSMimeTypeE {
     return value;
   }
   
+  public static SSMimeTypeE get(final String value) throws Exception{
+    
+    if(!mimeTypes.containsKey(value)){
+      throw new Exception("mime type not found for value");
+    }
+    
+    return mimeTypes.get(value);
+  }
+  
   public static synchronized void init() throws Exception{
+    
+    mimeTypes.put(applicationZip.toString(),                   applicationZip);
+    mimeTypes.put(applicationBin.toString(),                   applicationBin);
+    mimeTypes.put(applicationOpenOfficeDoc.toString(),         applicationOpenOfficeDoc);
+    mimeTypes.put(applicationPdf.toString(),                   applicationPdf);
+    mimeTypes.put(applicationMsword.toString(),                applicationMsword);
+    mimeTypes.put(applicationMsaccess.toString(),              applicationMsaccess);
+    mimeTypes.put(applicationMsexcel.toString(),               applicationMsexcel);
+    mimeTypes.put(applicationMspowerpoint.toString(),          applicationMspowerpoint);
+    mimeTypes.put(applicationMspowerpoint2007.toString(),      applicationMspowerpoint2007);
+    mimeTypes.put(applicationMsword2007.toString(),            applicationMsword2007);
+    mimeTypes.put(applicationMsaccess2007.toString(),          applicationMsaccess2007);
+    mimeTypes.put(applicationMsexcel2007.toString(),           applicationMsexcel2007);
+    mimeTypes.put(applicationMsexcelBinary.toString(),         applicationMsexcelBinary);
+    mimeTypes.put(applicationAtom.toString(),                  applicationAtom);
+    mimeTypes.put(applicationLatex.toString(),                 applicationLatex);
+    mimeTypes.put(applicationRdf.toString(),                   applicationRdf);
+    mimeTypes.put(applicationOgg.toString(),                   applicationOgg);
+    mimeTypes.put(applicationJson.toString(),                  applicationJson);
+    mimeTypes.put(multipartFormData.toString(),                multipartFormData);
+    mimeTypes.put(textPlain.toString(),                        textPlain);
+    mimeTypes.put(textHtml.toString(),                         textHtml);
+    mimeTypes.put(textCss.toString(),                          textCss);
+    mimeTypes.put(textVcard.toString(),                        textVcard);
+    mimeTypes.put(imageJpeg.toString(),                        imageJpeg);
+    mimeTypes.put(imagePng.toString(),                         imagePng);
+    mimeTypes.put(imageIcon.toString(),                        imageIcon);
+    mimeTypes.put(imageGif.toString(),                         imageGif);
+    mimeTypes.put(imageSvg.toString(),                         imageSvg);
+    mimeTypes.put(imageBmp.toString(),                         imageBmp);
+    mimeTypes.put(imageTiff.toString(),                        imageTiff);
+    mimeTypes.put(videoAvi.toString(),                         videoAvi);
+    mimeTypes.put(videoMp4.toString(),                         videoMp4);
+    mimeTypes.put(videoMpeg.toString(),                        videoMpeg);
+    mimeTypes.put(videoQuicktime.toString(),                   videoQuicktime);
+    mimeTypes.put(audioMp3.toString(),                         audioMp3);
+    mimeTypes.put(audioMidi.toString(),                        audioMidi);
+    mimeTypes.put(audioMpeg4.toString(),                       audioMpeg4);
+    mimeTypes.put(audioAmr.toString(),                         audioAmr);
+    mimeTypes.put(audioMpeg.toString(),                        audioMpeg);
+    mimeTypes.put(audioWav.toString(),                         audioWav);
     
     fileExtPerMimeType.put(applicationZip,               SSFileExtE.zip);
     fileExtPerMimeType.put(applicationBin,               SSFileExtE.bin);
@@ -176,7 +227,7 @@ public enum SSMimeTypeE {
     SSMimeTypeE mime;
     
     try{
-      mime = SSMimeTypeE.valueOf(mimeType);
+      mime = get(mimeType);
     }catch(Exception error){
       throw new Exception("mime type not found for mime: " + mimeType);
     }

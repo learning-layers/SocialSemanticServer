@@ -25,11 +25,11 @@ public class SSAdapterRestConf extends SSCoreConfA{
   
   private static SSAdapterRestConf inst;
   
-  public SSConf       ss      = null;
+  public SSConf       sss      = null;
   public SSJSONLDConf jsonLD  = null;
 
-  public SSConf getSs(){
-    return ss;
+  public SSConf getSss(){
+    return sss;
   }
 
   public static synchronized SSAdapterRestConf instSet(final String pathToFile) throws Exception{
@@ -53,8 +53,8 @@ public class SSAdapterRestConf extends SSCoreConfA{
     return inst;
   }
   
-  public void setSs(SSConf ss){
-    this.ss = ss;
+  public void setSss(SSConf ss){
+    this.sss = sss;
   }
   
   public SSJSONLDConf getJsonLD(){

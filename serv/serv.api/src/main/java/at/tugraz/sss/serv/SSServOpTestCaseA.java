@@ -52,7 +52,7 @@ public abstract class SSServOpTestCaseA extends SSServImplStartA{
       ret.put(SSStrU.toStr(op),                     clientServResult);
       ret.put(SSJSONLDU.context,                    SSJSONLDU.jsonLDContext(clientServResult.jsonLDDesc()));
 
-      SSJSONU.jsonStr(ret, true);
+      SSJSONU.jsonStr(ret);
     }catch(Exception error){
       SSLogU.err(error);
       throw error;

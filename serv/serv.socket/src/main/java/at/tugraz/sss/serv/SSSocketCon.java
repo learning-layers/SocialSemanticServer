@@ -255,7 +255,7 @@ public class SSSocketCon{
     ret.put(SSVarU.error,     false);
     ret.put(SSStrU.toStr(op), result);
     
-    return SSJSONU.jsonStr(ret, true) + SSSocketU.endOfRequest;
+    return SSJSONU.jsonStr(ret) + SSSocketU.endOfRequest;
 }
   
   public void writeRetFullToClient(
@@ -312,7 +312,7 @@ public class SSSocketCon{
     }
     
     
-    return SSJSONU.jsonStr(ret, true) + SSSocketU.endOfRequest;
+    return SSJSONU.jsonStr(ret) + SSSocketU.endOfRequest;
   }
 }
 

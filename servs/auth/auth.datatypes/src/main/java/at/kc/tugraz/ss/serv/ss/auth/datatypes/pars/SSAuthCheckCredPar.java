@@ -67,7 +67,7 @@ public class SSAuthCheckCredPar extends SSServPar{
   public static SSAuthCheckCredPar get(final SSServPar par) throws Exception{
     
     if(par.clientCon != null){
-      return (SSAuthCheckCredPar) SSJSONU.obj(par.clientJSONRequ, SSAuthCheckCredPar.class, true);
+      return (SSAuthCheckCredPar) SSJSONU.obj(par.clientJSONRequ, SSAuthCheckCredPar.class);
     }
     
     return new SSAuthCheckCredPar(

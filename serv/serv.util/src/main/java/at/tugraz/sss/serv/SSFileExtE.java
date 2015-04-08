@@ -18,10 +18,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package at.tugraz.sss.serv;
 
-import at.tugraz.sss.serv.SSStrU;
 import java.util.ArrayList;
 import java.util.List;
 

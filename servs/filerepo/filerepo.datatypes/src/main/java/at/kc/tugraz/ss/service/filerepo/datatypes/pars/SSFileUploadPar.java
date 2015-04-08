@@ -62,7 +62,7 @@ public class SSFileUploadPar extends SSServPar{
       }
       
       if(par.clientJSONObj != null){
-        mimeType =              SSMimeTypeE.valueOf(par.clientJSONObj.get(SSVarU.mimeType).getTextValue());
+        mimeType = SSMimeTypeE.get(par.clientJSONObj.get(SSVarU.mimeType).getTextValue());
         label    = SSLabel.get (par.clientJSONObj.get(SSVarU.label).getTextValue());
       }
     }catch(Exception error){
@@ -73,5 +73,9 @@ public class SSFileUploadPar extends SSServPar{
   /* json getters */
   public String getLabel(){
     return SSStrU.toStr(label);
+  }
+  
+  public String getMimeType(){
+    return SSStrU.toStr(mimeType);
   }
 }

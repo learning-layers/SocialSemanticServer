@@ -80,9 +80,9 @@ public class SSAdapterRESTFileReplace{
       par.key      = key;
       par.file     = SSUri.get(file);
       
-      sSCon = new SSSocketCon(SSRestMainV1.conf.ss.host, SSRestMainV1.conf.ss.port);
+      sSCon = new SSSocketCon(SSRestMainV1.conf.sss.host, SSRestMainV1.conf.sss.port);
       
-      sSCon.writeRequFullToSS (SSJSONU.jsonStr(par, false));
+      sSCon.writeRequFullToSS (SSJSONU.jsonStr(par));
       sSCon.readMsgFullFromSS();
       
       while ((read = fileHandle.read(bytes)) != -1){
