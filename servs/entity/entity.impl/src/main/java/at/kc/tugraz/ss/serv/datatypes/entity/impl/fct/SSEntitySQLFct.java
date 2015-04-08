@@ -21,6 +21,7 @@
 package at.kc.tugraz.ss.serv.datatypes.entity.impl.fct;
 
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLFct;
+import at.kc.tugraz.ss.service.search.datatypes.SSSearchOpE;
 import at.tugraz.sss.serv.SSDateU;
 import at.tugraz.sss.serv.SSSQLVarU;
 import at.tugraz.sss.serv.SSStrU;
@@ -677,6 +678,109 @@ public class SSEntitySQLFct extends SSDBSQLFct{
         
         entities.add(entityObj);
       }
+      
+      return entities;
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
+    }
+  }
+  
+  public List<SSEntity> getEntitiesForLabelsAndDescriptionsWithSQLLike(
+    final List<String> labelStrings,
+    final List<String> descStrings,
+    final SSSearchOpE  searchOp) throws Exception{
+  
+    ResultSet resultSet = null;
+    
+    try{
+      final List<SSEntity>                       entities  = new ArrayList<>();
+      final List<MultivaluedMap<String, String>> likes     = new ArrayList<>();
+      final List<String>                         columns   = new ArrayList<>();
+      final List<String>                         tables    = new ArrayList<>();
+      final List<String>                         tableCons  = new ArrayList<>();
+      SSEntity                                   entityObj;
+      
+      column (columns, SSSQLVarU.id);
+      column (columns, SSSQLVarU.label);
+      column (columns, SSSQLVarU.type);
+      column (columns, SSSQLVarU.description);
+      
+      table(tables, entityTable);
+      
+      if(searchOp == null){
+        throw new Exception("search for labels search operation null");
+      }
+      
+      MultivaluedMap<String, String> likeContents = new MultivaluedHashMap<>();
+      
+      switch(searchOp){
+        
+        case or:{
+          
+          if(
+            labelStrings != null &&
+            !labelStrings.isEmpty()){
+            
+            for(String labelString : labelStrings){
+              where(likeContents, entityTable, SSSQLVarU.label, labelString);
+            }
+          }
+          
+          if(
+            descStrings != null &&
+            !descStrings.isEmpty()){
+            
+            for(String descString : descStrings){
+              where(likeContents, entityTable, SSSQLVarU.description, descString);
+            }
+          }
+          
+          likes.add(likeContents);
+          break;
+        }
+        
+        case and:{
+          
+          for(String labelString : labelStrings){
+            
+            likeContents = new MultivaluedHashMap<>();
+            
+            where(likeContents, entityTable, SSSQLVarU.label, labelString);
+            
+            likes.add(likeContents);
+          }
+          
+          for(String descString : descStrings){
+            
+            likeContents = new MultivaluedHashMap<>();
+            
+            where(likeContents, entityTable, SSSQLVarU.description, descString);
+            
+            likes.add(likeContents);
+          }
+          
+          break;
+        }
+      }
+      
+      resultSet = dbSQL.selectLike(tables, columns, likes, tableCons, null, null, null);
+      
+      while(resultSet.next()){
+        
+        entityObj =
+          SSEntity.get(
+            bindingStrToUri        (resultSet, SSSQLVarU.id),
+            bindingStrToEntityType (resultSet, SSSQLVarU.type),
+            bindingStrToLabel      (resultSet, SSSQLVarU.label));
+         
+         entityObj.description = bindingStrToTextComment(resultSet, SSSQLVarU.description);
+         
+         entities.add(entityObj);
+      }      
       
       return entities;
       

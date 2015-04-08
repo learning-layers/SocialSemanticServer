@@ -82,6 +82,15 @@ public interface SSDBSQLI{
     final List<String>        absents,
     final List<String>        eithers) throws Exception;
   
+  public ResultSet selectLike(
+    final List<String>                         tables,
+    final List<String>                         columns,
+    final List<MultivaluedMap<String, String>> likes,
+    final List<String>                         tableCons,
+    final String                               orderByColumn, 
+    final String                               sortType, 
+    final Integer                              limit) throws Exception;
+  
   public void insert(
     final String              table, 
     final Map<String, String> inserts) throws Exception;

@@ -149,6 +149,7 @@ public enum SSMimeTypeE {
     fileExtPerMimeType.put(textPlain,                    SSFileExtE.txt);
     fileExtPerMimeType.put(textHtml,                     SSFileExtE.html);
     fileExtPerMimeType.put(textVcard,                    SSFileExtE.vcf);
+    fileExtPerMimeType.put(textCss,                      SSFileExtE.css);
     fileExtPerMimeType.put(imageJpeg,                    SSFileExtE.jpg);
     fileExtPerMimeType.put(imagePng,                     SSFileExtE.png);
     fileExtPerMimeType.put(videoAvi,                     SSFileExtE.avi);

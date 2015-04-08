@@ -60,6 +60,7 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserUpdateRet
 import at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.SSEntityActivityFct;
 import at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.SSEntitySQLFct;
 import at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.SSEntityUserRelationsGatherFct;
+import at.kc.tugraz.ss.service.search.datatypes.SSSearchOpE;
 import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSObjU;
 import at.tugraz.sss.serv.SSStrU;
@@ -568,10 +569,21 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
     try{
       final SSEntitiesForLabelsAndDescriptionsGetPar  par = new SSEntitiesForLabelsAndDescriptionsGetPar(parA);
       
-      return sqlFct.getEntitiesForLabelsAndDescriptions(
-        SSStrU.distinctWithoutEmptyAndNull(par.requireds),
-        SSStrU.distinctWithoutEmptyAndNull(par.absents),
-        SSStrU.distinctWithoutEmptyAndNull(par.eithers));
+      //TODO a lot of improvement and error handling here
+      
+      if(!par.requireds.isEmpty()){
+        return sqlFct.getEntitiesForLabelsAndDescriptionsWithSQLLike(par.requireds, par.requireds, SSSearchOpE.and);
+      }
+      
+      if(!par.eithers.isEmpty()){
+        return sqlFct.getEntitiesForLabelsAndDescriptionsWithSQLLike(par.eithers, par.eithers, SSSearchOpE.or);
+      }
+      
+      if(!par.absents.isEmpty()){
+        throw new UnsupportedOperationException("absents not suppported yet");
+      }
+      
+      return new ArrayList<>();
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -585,10 +597,25 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
     try{
       final SSEntitiesForLabelsGetPar  par      = new SSEntitiesForLabelsGetPar(parA);
 
-      return sqlFct.getEntitiesForLabels(
-        SSStrU.distinctWithoutEmptyAndNull(par.requireds),
-        SSStrU.distinctWithoutEmptyAndNull(par.absents),
-        SSStrU.distinctWithoutEmptyAndNull(par.eithers));
+      //TODO a lot of improvment and error handling here
+      
+      if(!par.requireds.isEmpty()){
+        return sqlFct.getEntitiesForLabelsAndDescriptionsWithSQLLike(par.requireds, new ArrayList<>(), SSSearchOpE.and);
+        //TODO could also use public List<SSEntity> getEntitiesForLabelsAndDescriptions(final List<String> requireds,final List<String> absents,final List<String> eithers);
+        //here, although it depends on the innodb_ft_min_token_size setting for InnoDB MYSQL tables then, and stopwords and so on
+        //see http://dba.stackexchange.com/questions/51144/mysql-match-against-boolean-mode and http://dev.mysql.com/doc/refman/5.6/en/fulltext-stopwords.html
+        //please consider that the actual version doesnt exploit MYSQL indexes on labels and descriptions
+      }
+      
+      if(!par.eithers.isEmpty()){
+        return sqlFct.getEntitiesForLabelsAndDescriptionsWithSQLLike(par.eithers, new ArrayList<>(), SSSearchOpE.or);
+      }
+      
+      if(!par.absents.isEmpty()){
+        throw new UnsupportedOperationException("absents not suppported yet");
+      }
+      
+      return new ArrayList<>();
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -600,12 +627,23 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
   public List<SSEntity> entitiesForDescriptionsGet(final SSServPar parA) throws Exception{
     
     try{
-      final SSEntitiesForDescriptionsGetPar  par      = new SSEntitiesForDescriptionsGetPar(parA);
+      final SSEntitiesForDescriptionsGetPar  par = new SSEntitiesForDescriptionsGetPar(parA);
       
-      return sqlFct.getEntitiesForDescriptions(
-        SSStrU.distinctWithoutEmptyAndNull(par.requireds),
-        SSStrU.distinctWithoutEmptyAndNull(par.absents),
-        SSStrU.distinctWithoutEmptyAndNull(par.eithers));
+      //TODO a lot of improvement and error handling here
+      
+      if(!par.requireds.isEmpty()){
+        return sqlFct.getEntitiesForLabelsAndDescriptionsWithSQLLike(new ArrayList<>(), par.requireds, SSSearchOpE.and);
+      }
+      
+      if(!par.eithers.isEmpty()){
+        return sqlFct.getEntitiesForLabelsAndDescriptionsWithSQLLike(new ArrayList<>(), par.eithers, SSSearchOpE.or);
+      }
+      
+      if(!par.absents.isEmpty()){
+        throw new UnsupportedOperationException("absents not suppported yet");
+      }
+      
+      return new ArrayList<>();
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
