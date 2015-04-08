@@ -26,16 +26,15 @@ The source-code can be directly checked-out through this repository. It contains
  * copy `sss.package/sss.adapter.rest.v2.conf.yaml` to `Catalina Base/conf`
  * adapt conf property `sss` 
   * set `host` and `port` to the location at which SSS will be running
- * copy `sss.package/sss.adapter.rest.v2` to `Catalina Base/webapps`
+ * copy `sss.package/sss.adapter.rest.v2.war` to `Catalina Base/webapps`
  * start Tomcat
- * access Swagger UI at `http://tomcatHost:tomcatPort/sss.adapter.rest.v2`
 * SSS deployment
  * copy folder `sss.package/sss.app` to your desired destination (execution directory) and jump into
  * adapt `log4j.properties` to your needs
  * adapt `sss.conf.yaml` to your needs
-  * make sure `host` and `port` properties of `sss` in `sss.conf.yaml` match the same attributes in `sss.adapter.rest.v2.conf.yaml`
-  * make sure to set property `authType` of `auth` in `sss.conf.yaml` accordingly (either `csvFileAuth`or `oidc`)
-  * for `csvFileAuth` make sure to have `users.csv` (in your execution directory) filled with combinations of users' emails and passwords (i.e. "email@email.com;password")
+   * make sure `host` and `port` properties of `sss` in `sss.conf.yaml` match the same attributes in `sss.adapter.rest.v2.conf.yaml`
+   * make sure to set property `authType` of `auth` in `sss.conf.yaml` accordingly (either `csvFileAuth`or `oidc`)
+     * for `csvFileAuth` make sure to have `users.csv` (in your execution directory) filled with combinations of users' emails and passwords (i.e. "email@email.com;password")
  * start SSS with `java -jar -Dlog4j.configuration=file:log4j.properties ./sss.jar`
 * access Swagger UI from `http://tomcatPort:tomcatHost/sss.adapter.rest.v2/`
 * access the REST API via requests to `http://tomcatPort:tomcatHost/sss.adapter.rest.v2/{API}/{API}/{OP or ID}` 
@@ -46,10 +45,10 @@ The source-code can be directly checked-out through this repository. It contains
 * to login use either GET or POST calls in `.../sss.adapter.rest.v2/#!/auth`
  * for GET (i.e. `OIDC` authentication) set your OIDC token to be sent via input field on top saying `add auth key to be sent in header`
  * for POST (i.e. `CSV` file based authentication) use provided template (click `Model` tab in the `Data Type` column)
-  * fill out `label`and `password` with your email address and password
- * to use any other service operation 
-  * make sure to have the login key returned (from either `auth` service call in attribute `key`) put to the input field on top saying `add auth key to be sent in header`
-  * when using, e.g., `.../sss.adapter.rest.v2/#!/recomm/recommUsersForEntity` (i.e. `/recomm/recomm/users/entity/{entity}`), setting required parameters either can be done with encoded URIs (i.e. `encode('http://google.com')` or with IDs directly (as long as the ID is one from SSS's realm (i.e. created in / added to SSS))
+   * fill out `label`and `password` with your email address and password
+* to use any other service operation 
+ * make sure to have the login key returned (from either `auth` service call in attribute `key`) put to the input field on top saying `add auth key to be sent in header`
+ * when using, e.g., `.../sss.adapter.rest.v2/#!/recomm/recommUsersForEntity` (i.e. `/recomm/recomm/users/entity/{entity}`), setting required parameters either can be done with encoded URIs (i.e. `encode('http://google.com')` or with IDs directly (as long as the ID is one from SSS's realm (i.e. created in / added to SSS))
 
 ## SSS requirements
 
