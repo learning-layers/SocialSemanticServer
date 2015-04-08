@@ -35,6 +35,7 @@ import at.kc.tugraz.ss.datatypes.datatypes.SSImageE;
 import at.kc.tugraz.ss.datatypes.datatypes.SSLocation;
 import at.kc.tugraz.ss.serv.db.api.SSDBSQLI;
 import at.kc.tugraz.ss.serv.serv.api.SSServImplWithDBA;
+import at.kc.tugraz.ss.service.search.datatypes.SSSearchOpE;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -642,138 +643,138 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     }
   }
   
-  public List<SSEntity> getEntitiesForLabelsAndDescriptions(
-    final List<String> requireds,
-    final List<String> absents,
-    final List<String> eithers) throws Exception{
-    
-    ResultSet resultSet = null;
-    
-    try{
-      final List<SSEntity>            entities  = new ArrayList<>();
-      final List<String>              columns   = new ArrayList<>();
-      final List<String>              matches   = new ArrayList<>();
-      SSEntity                        entityObj;
-      
-      column (columns, SSSQLVarU.id);
-      column (columns, SSSQLVarU.label);
-      column (columns, SSSQLVarU.description);
-      column (columns, SSSQLVarU.type);
-      match  (matches, SSSQLVarU.label);
-      match  (matches, SSSQLVarU.description);
-      
-      resultSet = dbSQL.select(entityTable, columns, matches, requireds, absents, eithers);
-      
-      while(resultSet.next()){
-      
-        entityObj =
-          SSEntity.get(
-            bindingStrToUri        (resultSet, SSSQLVarU.id),
-            bindingStrToEntityType (resultSet, SSSQLVarU.type),
-            bindingStrToLabel      (resultSet, SSSQLVarU.label));
-        
-        entityObj.description = bindingStrToTextComment(resultSet, SSSQLVarU.description);
-        
-        entities.add(entityObj);
-      }
-      
-      return entities;
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }finally{
-      dbSQL.closeStmt(resultSet);
-    }
-  }
+//  public List<SSEntity> getEntitiesForLabelsAndDescriptions(
+//    final List<String> requireds,
+//    final List<String> absents,
+//    final List<String> eithers) throws Exception{
+//    
+//    ResultSet resultSet = null;
+//    
+//    try{
+//      final List<SSEntity>            entities  = new ArrayList<>();
+//      final List<String>              columns   = new ArrayList<>();
+//      final List<String>              matches   = new ArrayList<>();
+//      SSEntity                        entityObj;
+//      
+//      column (columns, SSSQLVarU.id);
+//      column (columns, SSSQLVarU.label);
+//      column (columns, SSSQLVarU.description);
+//      column (columns, SSSQLVarU.type);
+//      match  (matches, SSSQLVarU.label);
+//      match  (matches, SSSQLVarU.description);
+//      
+//      resultSet = dbSQL.select(entityTable, columns, matches, requireds, absents, eithers);
+//      
+//      while(resultSet.next()){
+//      
+//        entityObj =
+//          SSEntity.get(
+//            bindingStrToUri        (resultSet, SSSQLVarU.id),
+//            bindingStrToEntityType (resultSet, SSSQLVarU.type),
+//            bindingStrToLabel      (resultSet, SSSQLVarU.label));
+//        
+//        entityObj.description = bindingStrToTextComment(resultSet, SSSQLVarU.description);
+//        
+//        entities.add(entityObj);
+//      }
+//      
+//      return entities;
+//      
+//    }catch(Exception error){
+//      SSServErrReg.regErrThrow(error);
+//      return null;
+//    }finally{
+//      dbSQL.closeStmt(resultSet);
+//    }
+//  }
   
-  public List<SSEntity> getEntitiesForLabels(
-    final List<String> requireds,
-    final List<String> absents,
-    final List<String> eithers) throws Exception{
-    
-    ResultSet resultSet = null;
-    
-    try{
-      final List<SSEntity>            entities  = new ArrayList<>();
-      final List<String>              columns   = new ArrayList<>();
-      final List<String>              matches   = new ArrayList<>();
-      SSEntity                        entityObj;
-      
-      column (columns, SSSQLVarU.id);
-      column (columns, SSSQLVarU.label);
-      column (columns, SSSQLVarU.type);
-      column (columns, SSSQLVarU.description);
-      match  (matches, SSSQLVarU.label);
-      
-      resultSet = dbSQL.select(entityTable, columns, matches, requireds, absents, eithers);
-      
-      while(resultSet.next()){
-        
-        entityObj =
-          SSEntity.get(
-            bindingStrToUri        (resultSet, SSSQLVarU.id),
-            bindingStrToEntityType (resultSet, SSSQLVarU.type),
-            bindingStrToLabel      (resultSet, SSSQLVarU.label));
-         
-         entityObj.description = bindingStrToTextComment(resultSet, SSSQLVarU.description);
-         
-         entities.add(entityObj);
-      }      
-      
-      return entities;
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }finally{
-      dbSQL.closeStmt(resultSet);
-    }
-  }
+//  public List<SSEntity> getEntitiesForLabels(
+//    final List<String> requireds,
+//    final List<String> absents,
+//    final List<String> eithers) throws Exception{
+//    
+//    ResultSet resultSet = null;
+//    
+//    try{
+//      final List<SSEntity>            entities  = new ArrayList<>();
+//      final List<String>              columns   = new ArrayList<>();
+//      final List<String>              matches   = new ArrayList<>();
+//      SSEntity                        entityObj;
+//      
+//      column (columns, SSSQLVarU.id);
+//      column (columns, SSSQLVarU.label);
+//      column (columns, SSSQLVarU.type);
+//      column (columns, SSSQLVarU.description);
+//      match  (matches, SSSQLVarU.label);
+//      
+//      resultSet = dbSQL.select(entityTable, columns, matches, requireds, absents, eithers);
+//      
+//      while(resultSet.next()){
+//        
+//        entityObj =
+//          SSEntity.get(
+//            bindingStrToUri        (resultSet, SSSQLVarU.id),
+//            bindingStrToEntityType (resultSet, SSSQLVarU.type),
+//            bindingStrToLabel      (resultSet, SSSQLVarU.label));
+//         
+//         entityObj.description = bindingStrToTextComment(resultSet, SSSQLVarU.description);
+//         
+//         entities.add(entityObj);
+//      }      
+//      
+//      return entities;
+//      
+//    }catch(Exception error){
+//      SSServErrReg.regErrThrow(error);
+//      return null;
+//    }finally{
+//      dbSQL.closeStmt(resultSet);
+//    }
+//  }
   
-  public List<SSEntity> getEntitiesForDescriptions(
-    final List<String> requireds,
-    final List<String> absents,
-    final List<String> eithers) throws Exception{
-    
-    ResultSet resultSet = null;
-    
-    try{
-      final List<SSEntity>            entities  = new ArrayList<>();
-      final List<String>              columns   = new ArrayList<>();
-      final List<String>              matches   = new ArrayList<>();
-      SSEntity                        entityObj;
-      
-      column (columns, SSSQLVarU.id);
-      column (columns, SSSQLVarU.label);
-      column (columns, SSSQLVarU.type);
-      column (columns, SSSQLVarU.description);
-      match  (matches, SSSQLVarU.description);
-      
-      resultSet = dbSQL.select(entityTable, columns, matches, requireds, absents, eithers);
-      
-      while(resultSet.next()){
-        
-        entityObj =
-          SSEntity.get(
-            bindingStrToUri        (resultSet, SSSQLVarU.id),
-            bindingStrToEntityType (resultSet, SSSQLVarU.type),
-            bindingStrToLabel      (resultSet, SSSQLVarU.label));
-         
-         entityObj.description = bindingStrToTextComment(resultSet, SSSQLVarU.description);
-         
-         entities.add(entityObj);
-      }
-      
-      return entities;
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }finally{
-      dbSQL.closeStmt(resultSet);
-    }
-  }
+//  public List<SSEntity> getEntitiesForDescriptions(
+//    final List<String> requireds,
+//    final List<String> absents,
+//    final List<String> eithers) throws Exception{
+//    
+//    ResultSet resultSet = null;
+//    
+//    try{
+//      final List<SSEntity>            entities  = new ArrayList<>();
+//      final List<String>              columns   = new ArrayList<>();
+//      final List<String>              matches   = new ArrayList<>();
+//      SSEntity                        entityObj;
+//      
+//      column (columns, SSSQLVarU.id);
+//      column (columns, SSSQLVarU.label);
+//      column (columns, SSSQLVarU.type);
+//      column (columns, SSSQLVarU.description);
+//      match  (matches, SSSQLVarU.description);
+//      
+//      resultSet = dbSQL.select(entityTable, columns, matches, requireds, absents, eithers);
+//      
+//      while(resultSet.next()){
+//        
+//        entityObj =
+//          SSEntity.get(
+//            bindingStrToUri        (resultSet, SSSQLVarU.id),
+//            bindingStrToEntityType (resultSet, SSSQLVarU.type),
+//            bindingStrToLabel      (resultSet, SSSQLVarU.label));
+//         
+//         entityObj.description = bindingStrToTextComment(resultSet, SSSQLVarU.description);
+//         
+//         entities.add(entityObj);
+//      }
+//      
+//      return entities;
+//      
+//    }catch(Exception error){
+//      SSServErrReg.regErrThrow(error);
+//      return null;
+//    }finally{
+//      dbSQL.closeStmt(resultSet);
+//    }
+//  }
 
   public Boolean getEntityRead(
     final SSUri user, 
@@ -980,6 +981,109 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       }      
       
       return locations;
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
+    }
+  }
+  
+  public List<SSEntity> getEntitiesForLabelsAndDescriptionsWithSQLLike(
+    final List<String> labelStrings,
+    final List<String> descStrings,
+    final SSSearchOpE  searchOp) throws Exception{
+  
+    ResultSet resultSet = null;
+    
+    try{
+      final List<SSEntity>                       entities  = new ArrayList<>();
+      final List<MultivaluedMap<String, String>> likes     = new ArrayList<>();
+      final List<String>                         columns   = new ArrayList<>();
+      final List<String>                         tables    = new ArrayList<>();
+      final List<String>                         tableCons  = new ArrayList<>();
+      SSEntity                                   entityObj;
+      
+      column (columns, SSSQLVarU.id);
+      column (columns, SSSQLVarU.label);
+      column (columns, SSSQLVarU.type);
+      column (columns, SSSQLVarU.description);
+      
+      table(tables, entityTable);
+      
+      if(searchOp == null){
+        throw new Exception("search for labels search operation null");
+      }
+      
+      MultivaluedMap<String, String> likeContents = new MultivaluedHashMap<>();
+      
+      switch(searchOp){
+        
+        case or:{
+          
+          if(
+            labelStrings != null &&
+            !labelStrings.isEmpty()){
+            
+            for(String labelString : labelStrings){
+              where(likeContents, entityTable, SSSQLVarU.label, labelString);
+            }
+          }
+          
+          if(
+            descStrings != null &&
+            !descStrings.isEmpty()){
+            
+            for(String descString : descStrings){
+              where(likeContents, entityTable, SSSQLVarU.description, descString);
+            }
+          }
+          
+          likes.add(likeContents);
+          break;
+        }
+        
+        case and:{
+          
+          for(String labelString : labelStrings){
+            
+            likeContents = new MultivaluedHashMap<>();
+            
+            where(likeContents, entityTable, SSSQLVarU.label, labelString);
+            
+            likes.add(likeContents);
+          }
+          
+          for(String descString : descStrings){
+            
+            likeContents = new MultivaluedHashMap<>();
+            
+            where(likeContents, entityTable, SSSQLVarU.description, descString);
+            
+            likes.add(likeContents);
+          }
+          
+          break;
+        }
+      }
+      
+      resultSet = dbSQL.selectLike(tables, columns, likes, tableCons, null, null, null);
+      
+      while(resultSet.next()){
+        
+        entityObj =
+          SSEntity.get(
+            bindingStrToUri        (resultSet, SSSQLVarU.id),
+            bindingStrToEntityType (resultSet, SSSQLVarU.type),
+            bindingStrToLabel      (resultSet, SSSQLVarU.label));
+         
+         entityObj.description = bindingStrToTextComment(resultSet, SSSQLVarU.description);
+         
+         entities.add(entityObj);
+      }      
+      
+      return entities;
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

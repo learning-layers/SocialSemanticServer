@@ -209,6 +209,109 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
   }
   
   @Override
+  public ResultSet selectLike(
+    final List<String>                         tables,
+    final List<String>                         columns,
+    final List<MultivaluedMap<String, String>> likes,
+    final List<String>                         tableCons,
+    final String                               orderByColumn, 
+    final String                               sortType, 
+    final Integer                              limit) throws Exception{
+    
+    String                                    query   = "SELECT DISTINCT "; //caution do not remove distinct here without checks
+    int                                       counter = 1;
+    PreparedStatement                         stmt;
+    Iterator<Map.Entry<String, List<String>>> iteratorMultiValue;
+    Map.Entry<String, List<String>>           entrySet;
+    
+    for(String columnName : columns){
+      query += columnName + SSStrU.comma;
+    }
+    
+    if(
+      columns == null ||
+      columns.isEmpty()){
+      
+      query += "*";
+    }
+    
+    query = SSStrU.removeTrailingString(query, SSStrU.comma) + " FROM ";
+    
+    for(String tableName : tables){
+      query += tableName + SSStrU.comma;
+    }
+    
+    if(
+      likes.isEmpty() &&
+      tableCons.isEmpty()){
+      query = SSStrU.removeTrailingString(query, SSStrU.comma);
+    }else{
+      query = SSStrU.removeTrailingString(query, SSStrU.comma) + " WHERE ";      
+    }
+      
+    for(MultivaluedMap<String, String> like : likes){
+      
+      query += "(";
+      
+      iteratorMultiValue = like.entrySet().iterator();
+
+      while(iteratorMultiValue.hasNext()){
+        
+        entrySet = iteratorMultiValue.next();
+
+        for(String value : entrySet.getValue()){
+          query += entrySet.getKey() + " LIKE " + SSStrU.questionMark + " OR ";
+        }
+      }
+      
+      query = SSStrU.removeTrailingString(query, " OR ") + ") AND ";
+    }
+    
+    query = SSStrU.removeTrailingString(query, " AND ");
+      
+    if(
+      !likes.isEmpty() &&
+      !tableCons.isEmpty()){
+      
+      query += " AND ";
+    }
+    
+    for(String tableCon : tableCons){
+      query += tableCon + " AND ";
+    }
+    
+    query          = SSStrU.removeTrailingString(query, " AND ");
+    
+    if(
+      orderByColumn != null &&
+      sortType      != null){
+      query         += " ORDER BY " + orderByColumn + SSStrU.blank + sortType;
+    }
+    
+    if(limit != null){
+      query += " LIMIT " + limit;
+    }
+    
+    stmt           = connector.prepareStatement(query);
+    
+    for(MultivaluedMap<String, String> like : likes){
+      
+      iteratorMultiValue = like.entrySet().iterator();
+      
+      while(iteratorMultiValue.hasNext()){
+        
+        entrySet = iteratorMultiValue.next();
+        
+        for(String value : entrySet.getValue()){
+          stmt.setObject(counter++, "%" + value + "%");
+        }
+      }
+    }
+
+    return stmt.executeQuery();
+  }
+  
+  @Override
   public ResultSet select(
     final List<String>                         tables,
     final List<String>                         columns,

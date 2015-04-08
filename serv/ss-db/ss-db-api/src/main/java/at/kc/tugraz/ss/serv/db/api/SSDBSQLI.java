@@ -58,6 +58,15 @@ public interface SSDBSQLI{
     final String                                                 sortType, 
     final Integer                                                limit) throws Exception;
   
+  public ResultSet selectLike(
+    final List<String>                         tables,
+    final List<String>                         columns,
+    final List<MultivaluedMap<String, String>> likes,
+    final List<String>                         tableCons,
+    final String                               orderByColumn, 
+    final String                               sortType, 
+    final Integer                              limit) throws Exception;
+  
   public ResultSet select(
     final List<String>        tables, 
     final List<String>        columns, 
