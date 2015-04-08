@@ -56,12 +56,12 @@ public class SSMain{
     new Thread(new SSTester()).start();
     
     /* socket adapter */
-    if(SSCoreConf.instGet().getSs().use){
+    if(SSCoreConf.instGet().getSss().use){
       
       try {
-        SSLogU.info("Starting server on port " + SSCoreConf.instGet().getSs().port);
+        SSLogU.info("Starting server on port " + SSCoreConf.instGet().getSss().port);
         
-        final ServerSocket server = new ServerSocket(SSCoreConf.instGet().getSs().port);
+        final ServerSocket server = new ServerSocket(SSCoreConf.instGet().getSss().port);
         
         while(true){
           new Thread(

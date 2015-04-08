@@ -31,7 +31,6 @@ import at.tugraz.sss.serv.SSObjU;
 import at.tugraz.sss.serv.SSServOpE;
 import at.kc.tugraz.ss.conf.conf.SSConf;
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
-import at.tugraz.sss.serv.*;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -56,7 +55,7 @@ public class SSInterfaceWebSocketHandler extends MessageInbound{
     
     SSCoreConf.instSet    (SSFileU.dirCatalinaHome() + SSVocConf.dirNameConf + SSVocConf.fileNameSSAdapterWebSocketConf);
     
-    sSConf =  SSCoreConf.instGet().getSs();
+    sSConf =  SSCoreConf.instGet().getSss();
   }
   
 	@Override

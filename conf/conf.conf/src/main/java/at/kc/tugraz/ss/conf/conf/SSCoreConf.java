@@ -62,7 +62,7 @@ public class SSCoreConf extends SSCoreConfA{
   private static       SSCoreConf        inst;
 //  private static final List<SSConfA>     confs = new ArrayList<SSConfA>();
   
-  private SSConf                ss             = null;
+  private SSConf                sss            = null;
   private SSJSONLDConf          jsonLD         = null;
   private SSDBSQLConf           dbSQL          = null;
   private SSModelUEConf         model          = null;
@@ -135,7 +135,7 @@ public class SSCoreConf extends SSCoreConfA{
       
       final SSCoreConf copy = new SSCoreConf();
       
-      copy.ss             = SSConf.copy(inst.ss);
+      copy.sss            = SSConf.copy(inst.sss);
       copy.jsonLD         = SSJSONLDConf.copy(inst.jsonLD);
       copy.dbSQL          = SSDBSQLConf.copy(inst.dbSQL);
       copy.model          = SSModelUEConf.copy(inst.model);
@@ -178,13 +178,13 @@ public class SSCoreConf extends SSCoreConfA{
       return null;
     }
   }
-  
-  public SSConf getSs(){
-    return ss;
+
+  public SSConf getSss(){
+    return sss;
   }
 
-  public void setSs(SSConf ss){
-    this.ss = ss;
+  public void setSss(SSConf sss){
+    this.sss = sss;
   }
 
   public SSJSONLDConf getJsonLD(){

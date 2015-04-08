@@ -111,7 +111,7 @@ solr:
   path: http://localhost:8084/solr/
   use: false
   user: null
-ss:
+sss:
   host: localhost
   localWorkPath:
   port: 7001

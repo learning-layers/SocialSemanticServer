@@ -52,7 +52,7 @@ public class SSSolrImpl extends SSServImplMiscA implements SSSolrClientI, SSSolr
     super(conf);
     
     solrUpdater    = solrCon;
-    localWorkPath  = SSCoreConf.instGet().getSs().getLocalWorkPath();
+    localWorkPath  = SSCoreConf.instGet().getSss().getLocalWorkPath();
     
     SSLogU.info("connected to Solr server @ " + ((SSFileRepoConf) conf).getPath() + ".");
   }

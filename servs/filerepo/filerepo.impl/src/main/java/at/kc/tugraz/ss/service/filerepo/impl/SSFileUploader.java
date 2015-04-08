@@ -67,7 +67,7 @@ public class SSFileUploader extends SSServImplStartA{
     
     this.sSCon             = sSCon;
     this.par               = new SSFileUploadPar(par);
-    this.localWorkPath     = SSCoreConf.instGet().getSs().getLocalWorkPath();
+    this.localWorkPath     = SSCoreConf.instGet().getSss().getLocalWorkPath();
     
     try{
       this.fileExt           = SSMimeTypeE.fileExtForMimeType             (this.par.mimeType);

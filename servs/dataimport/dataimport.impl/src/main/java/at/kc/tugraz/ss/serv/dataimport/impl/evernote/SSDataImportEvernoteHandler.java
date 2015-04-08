@@ -58,7 +58,7 @@ public class SSDataImportEvernoteHandler {
 //  private        long                    april01                  = new Date().getTime() - SSDateU.dayInMilliSeconds * 109;
   
   public SSDataImportEvernoteHandler(final SSDBSQLI dbSQL) throws Exception{
-    this.localWorkPath   = SSCoreConf.instGet().getSs().getLocalWorkPath();
+    this.localWorkPath   = SSCoreConf.instGet().getSss().getLocalWorkPath();
   }
   
   public void setBasicEvernoteInfo(final SSDataImportEvernotePar par) throws Exception{

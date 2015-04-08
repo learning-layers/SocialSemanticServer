@@ -1,5 +1,5 @@
 !!at.kc.tugraz.ss.adapter.rest.conf.SSAdapterRestConf
-ss:
+sss:
   host: localhost
   port: 8390
   localWorkPath:
