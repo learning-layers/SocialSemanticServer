@@ -124,13 +124,13 @@ The source-code can be directly checked-out through this repository. It contains
 ## SSS documentation from source code
 * for apiVersion `v2` 
  * adapt `swagger-maven-plugin` in `adapter/adapter.rest/adapter.rest.v2/pom.xml`
-   * property `basePath` to `http://tomcatHost:tomcatPort/sss.adapter.rest.v2`
-   * property `swaggerUIDocBasePath` to `http://tomcatHost:tomcatPort/sss.adapter.rest.v2/api-docs`
+    * property `basePath` to `http://tomcatHost:tomcatPort/sss.adapter.rest.v2`
+    * property `swaggerUIDocBasePath` to `http://tomcatHost:tomcatPort/sss.adapter.rest.v2/api-docs`
  * adapt Swagger property `url` of object `SwaggerUi` in `adapter/adapter.rest/adapter.rest.v2/src/main/webapp/swagger/index.html` to `http://tomcatHost:tomcatPort/sss.adapter.rest.v2/api-docs` 
 * (deprecated) for apiVersion `v1` 
  * adapt `swagger-maven-plugin` in `adapter/adapter.rest/adapter.rest.v1/pom.xml`
-   * property `basePath` to `http://tomcatHost:tomcatPort/sss.adapter.rest.v1/SSAdapterRest`
-   * property `swaggerUIDocBasePath` to `http://tomcatHost:tomcatPort/sss.adapter.rest.v1/api-docs`
+    * property `basePath` to `http://tomcatHost:tomcatPort/sss.adapter.rest.v1/SSAdapterRest`
+    * property `swaggerUIDocBasePath` to `http://tomcatHost:tomcatPort/sss.adapter.rest.v1/api-docs`
  * adapt swagger property `url` of object `SwaggerUi` in `adapter/adapter.rest/adapter.rest.v1/src/main/webapp/swagger/index.html` to `http://tomcatHost:tomcatPort/sss.adapter.rest.v1/api-docs`
 * build and deploy Web projects 
  * `adapter/adapter.rest/adapter.rest.v2`
