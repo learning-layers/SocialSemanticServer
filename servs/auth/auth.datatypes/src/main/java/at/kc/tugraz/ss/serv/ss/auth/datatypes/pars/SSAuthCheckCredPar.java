@@ -25,6 +25,7 @@ import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSVarU;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSLabel;
+import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSStrU;
 
@@ -66,16 +67,23 @@ public class SSAuthCheckCredPar extends SSServPar{
   
   public static SSAuthCheckCredPar get(final SSServPar par) throws Exception{
     
-    if(par.clientCon != null){
-      return (SSAuthCheckCredPar) SSJSONU.obj(par.clientJSONRequ, SSAuthCheckCredPar.class);
+    try{
+      
+      if(par.clientCon != null){
+        return (SSAuthCheckCredPar) par.getFromJSON(SSAuthCheckCredPar.class);
+      }
+      
+      return new SSAuthCheckCredPar(
+        par.op,
+        par.key,
+        par.user,
+        (SSLabel) par.pars.get(SSVarU.label),
+        (String)  par.pars.get(SSVarU.password));
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
-    
-    return new SSAuthCheckCredPar(
-      par.op,
-      par.key,
-      par.user,
-      (SSLabel) par.pars.get(SSVarU.label),
-      (String)  par.pars.get(SSVarU.password));
   }
   
 //  public SSAuthCheckCredPar(final SSServPar par) throws Exception{

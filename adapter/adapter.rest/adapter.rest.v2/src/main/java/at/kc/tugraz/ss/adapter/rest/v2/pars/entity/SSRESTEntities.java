@@ -27,13 +27,16 @@ import at.tugraz.sss.serv.SSUri;
 import at.kc.tugraz.ss.like.datatypes.par.SSLikeUserSetPar;
 import at.kc.tugraz.ss.like.datatypes.ret.SSLikeUserSetRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserGetPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserUpdatePar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserGetRet;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserUpdateRet;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -70,6 +73,154 @@ public class SSRESTEntities {
           null,
           SSUri.get(entity, SSVocConf.sssUri),
           null);
+      
+    }catch(Exception error){
+      return Response.status(422).build();
+    }
+    
+    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path("/{entity}/comments")
+  @ApiOperation(
+    value = "adds comments to given entity",
+    response = SSEntityUserUpdateRet.class)
+  public Response entityCommentsAdd(
+    @Context
+      final HttpHeaders headers,
+    
+    @PathParam (SSVarU.entity)
+      final String entity,
+    
+    final SSEntityCommentsAddRESTAPIV2Par input){
+    
+    final SSEntityUserUpdatePar par;
+    
+    try{
+      par =
+        new SSEntityUserUpdatePar(
+          SSServOpE.entityUpdate, 
+          null, //key 
+          null, //user
+          SSUri.get(entity, SSVocConf.sssUri), //entity
+          null, //label 
+          null, //description,
+          input.comments,  //comments
+          null); //read
+      
+    }catch(Exception error){
+      return Response.status(422).build();
+    }
+    
+    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+  }
+  
+  @PUT
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path("/{entity}/label")
+  @ApiOperation(
+    value = "updates the name / title to given entity",
+    response = SSEntityUserUpdateRet.class)
+  public Response entityLabelUpdate(
+    @Context
+      final HttpHeaders headers,
+    
+    @PathParam (SSVarU.entity)
+      final String entity,
+    
+    final SSEntityLabelUpdateRESTAPIV2Par input){
+    
+    final SSEntityUserUpdatePar par;
+    
+    try{
+      par =
+        new SSEntityUserUpdatePar(
+          SSServOpE.entityUpdate, 
+          null, //key 
+          null, //user
+          SSUri.get(entity, SSVocConf.sssUri), //entity
+          input.label, //label 
+          null, //description,
+          null,  //comments
+          null); //read
+      
+    }catch(Exception error){
+      return Response.status(422).build();
+    }
+    
+    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+  }
+  
+  @PUT
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path("/{entity}/description")
+  @ApiOperation(
+    value = "updates the description of given entity",
+    response = SSEntityUserUpdateRet.class)
+  public Response entityDescriptionUpdate(
+    @Context
+      final HttpHeaders headers,
+    
+    @PathParam (SSVarU.entity)
+      final String entity,
+    
+    final SSEntityDescriptionUpdateRESTAPIV2Par input){
+    
+    final SSEntityUserUpdatePar par;
+    
+    try{
+      par =
+        new SSEntityUserUpdatePar(
+          SSServOpE.entityUpdate, 
+          null, //key 
+          null, //user
+          SSUri.get(entity, SSVocConf.sssUri), //entity
+          null, //label 
+          input.description, //description,
+          null,  //comments
+          null); //read
+      
+    }catch(Exception error){
+      return Response.status(422).build();
+    }
+    
+    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+  }
+  
+  @PUT
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path("/{entity}/update")
+  @ApiOperation(
+    value = "updates / adds given properties for given entity",
+    response = SSEntityUserUpdateRet.class)
+  public Response entityUpdate(
+    @Context
+      final HttpHeaders headers,
+    
+    @PathParam (SSVarU.entity)
+      final String entity,
+    
+    final SSEntityUpdateRESTAPIV2Par input){
+    
+    final SSEntityUserUpdatePar par;
+    
+    try{
+      par =
+        new SSEntityUserUpdatePar(
+          SSServOpE.entityUpdate, 
+          null, //key 
+          null, //user
+          SSUri.get(entity, SSVocConf.sssUri), //entity
+          input.label, //label
+          input.description, //description
+          null,  //comments
+          null); //read
       
     }catch(Exception error){
       return Response.status(422).build();

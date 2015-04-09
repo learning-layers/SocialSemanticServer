@@ -135,13 +135,23 @@ public enum SSFileExtE{
       if(
         SSStrU.isEmpty       (fileName) ||
         fileName.lastIndexOf (SSStrU.dot) == -1){
-        return null;
+        throw new Exception("fileName is null or doesnt contain dot with succeeding file extension");
       }
       
-      return SSFileExtE.valueOf(fileName.substring(fileName.lastIndexOf(SSStrU.dot) + 1));
+      return get(fileName.substring(fileName.lastIndexOf(SSStrU.dot) + 1));
       
     }catch(Exception error){
       throw new Exception("file ext not found for fileName: " + fileName);
+    }
+  }
+
+  public static SSFileExtE get(final String value) throws Exception {
+    
+    try{
+      
+      return valueOf(value);
+    }catch(Exception error){
+      throw new Exception("file ext not available for: " + value);
     }
   }
 }

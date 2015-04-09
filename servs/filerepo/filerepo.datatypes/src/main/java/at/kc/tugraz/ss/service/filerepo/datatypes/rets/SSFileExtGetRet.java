@@ -20,6 +20,7 @@
 */
 package at.kc.tugraz.ss.service.filerepo.datatypes.rets;
 
+import at.tugraz.sss.serv.SSFileExtE;
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarU;
@@ -29,9 +30,9 @@ import java.util.Map;
 
 public class SSFileExtGetRet extends SSServRetI{
 
-	public String fileExt = null;
+	public SSFileExtE fileExt = null;
 	
-	public SSFileExtGetRet(final String fileExt, final SSServOpE op){
+	public SSFileExtGetRet(final SSFileExtE fileExt, final SSServOpE op){
     
     super(op);
     
@@ -51,6 +52,6 @@ public class SSFileExtGetRet extends SSServRetI{
   /* getters to allow for json enconding */
   
   public String getFileExt(){
-		return fileExt;
+		return SSStrU.toStr(fileExt);
 	}
 }

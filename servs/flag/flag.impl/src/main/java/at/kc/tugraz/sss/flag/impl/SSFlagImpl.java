@@ -77,20 +77,25 @@ public class SSFlagImpl extends SSServImplWithDBA implements SSFlagClientI, SSFl
     final SSServPar  parA,
     final SSEntity           desc) throws Exception{
     
-    final SSEntityDescGetPar par = (SSEntityDescGetPar)parA;
-    
-    if(par.getFlags){
+    try{
+      final SSEntityDescGetPar par = (SSEntityDescGetPar)parA;
       
-      desc.flags.addAll(
-        SSServCaller.flagsGet(
-          par.user,
-          SSUri.asListWithoutNullAndEmpty(par.entity),
-          SSStrU.toStrWithoutEmptyAndNull(),
-          null,
-          null));
+      if(par.getFlags){
+        
+        desc.flags.addAll(
+          SSServCaller.flagsGet(
+            par.user,
+            SSUri.asListWithoutNullAndEmpty(par.entity),
+            SSStrU.toStrWithoutEmptyAndNull(),
+            null,
+            null));
+      }
+      
+      return desc;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
-    
-    return desc;
   }
   
   @Override

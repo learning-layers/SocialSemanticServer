@@ -2667,18 +2667,6 @@ public class SSServCaller {
     SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.fileUpdateWritingMinutes, new HashMap<>()));
   }
   
-  public static SSFileExtE fileExtGet(
-    final SSUri  user,
-    final SSUri  file) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarU.user,    user);
-    opPars.put(SSVarU.file,    file);
-    
-    return (SSFileExtE) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.fileExtGet, opPars));
-  }
-    
   public static String fileIDFromURI(
     final SSUri user, 
     final SSUri file) throws Exception{

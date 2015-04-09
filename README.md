@@ -44,7 +44,7 @@ The source-code can be directly checked-out through this repository. It contains
 ## SSS service usage via Swagger UI
 * to login use either GET or POST calls in `.../sss.adapter.rest.v2/#!/auth`
  * for GET (i.e. `OIDC` authentication) set your OIDC token to be sent via input field on top saying `add auth key to be sent in header`
- * for POST (i.e. `CSV` file based authentication) use provided template (click `Model` tab in the `Data Type` column)
+ * for POST (i.e. `CSV` file based authentication) use provided template (click `Model Schema` tab in the `Data Type` column)
    * fill out `label`and `password` with your email address and password
 * to use any other service operation 
  * make sure to have the login key returned (from either `auth` service call in attribute `key`) put to the input field on top saying `add auth key to be sent in header`

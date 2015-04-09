@@ -29,7 +29,6 @@ import at.tugraz.sss.serv.SSServPar;
 
 public interface SSFileRepoServerI{
 
-  public String                                    fileExtGet               (final SSServPar parA) throws Exception;
   public void                                      fileUpdateWritingMinutes (final SSServPar parA) throws Exception;
   public SSFileCanWriteRet                         fileCanWrite             (final SSServPar parA) throws Exception;
   public SSFileSetReaderOrWriterRet                fileSetReaderOrWriter    (final SSServPar parA) throws Exception;

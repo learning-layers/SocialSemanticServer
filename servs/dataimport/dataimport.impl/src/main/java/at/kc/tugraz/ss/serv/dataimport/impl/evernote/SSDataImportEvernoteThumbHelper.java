@@ -102,7 +102,7 @@ public class SSDataImportEvernoteThumbHelper{
     try{
     
       final String      filePath          = localWorkPath + SSServCaller.fileIDFromURI (user, fileURI);
-      final SSFileExtE  fileExt           = SSServCaller.fileExtGet                    (user, fileURI);
+      final SSFileExtE  fileExt           = SSFileExtE.ext(SSStrU.removeTrailingSlash(fileURI));
       final SSUri       thumbnailFileURI  = SSServCaller.vocURICreate                  (SSFileExtE.png);
       final String      thumbnailPath     = localWorkPath + SSServCaller.fileIDFromURI (user, thumbnailFileURI);
 

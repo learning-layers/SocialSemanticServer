@@ -82,40 +82,45 @@ public class SSUserImpl extends SSServImplWithDBA implements SSUserClientI, SSUs
     final SSServPar parA,
     final SSEntity           desc) throws Exception{
     
-    final SSEntityDescGetPar par = (SSEntityDescGetPar)parA;
+    try{
+      final SSEntityDescGetPar par = (SSEntityDescGetPar)parA;
       
-    switch(desc.type){
-      
-      case user:{
-      
-        final SSUser user = 
-          SSUser.get(
-            sqlFct.getUser(desc.id), 
-            desc);
-      
-        user.friends.addAll(
+      switch(desc.type){
+        
+        case user:{
+          
+          final SSUser user =
+            SSUser.get(
+              sqlFct.getUser(desc.id),
+              desc);
+          
+          user.friends.addAll(
             SSServCaller.friendsUserGet(
               desc.id));
-        
-        if(par.getCircles){
           
-          user.circles.addAll(
-            SSServCaller.circlesGet(
-              par.user, 
-              par.user, 
-              null, 
-              SSEntityE.asListWithoutNullAndEmpty(),
-              false, 
-              true, 
-              false));
+          if(par.getCircles){
+            
+            user.circles.addAll(
+              SSServCaller.circlesGet(
+                par.user,
+                par.user,
+                null,
+                SSEntityE.asListWithoutNullAndEmpty(),
+                false,
+                true,
+                false));
+          }
+          
+          return user;
         }
-          
-        return user;
+        
+        default:{
+          return desc;
+        }
       }
-      
-      default:{
-        return desc;
-      }
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   

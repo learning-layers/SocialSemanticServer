@@ -43,24 +43,22 @@ public class SSServReg implements SSServRegI{
     
     synchronized(currentRequsForClientOpsPerUser){
       
-      if(
-        !currentRequsForClientOpsPerUser.containsKey(par.op) ||
-        currentRequsForClientOpsPerUser.get(par.op).get(SSStrU.toStr(par.user)) == null){
+      if(!currentRequsForClientOpsPerUser.containsKey(par.op)){
         
         servImplsForUser = new HashMap<>();
-        servImpls        = new ArrayList<>();
-        
-        servImplsForUser.put(SSStrU.toStr(par.user), servImpls);
-        
+
         currentRequsForClientOpsPerUser.put(par.op, servImplsForUser);
-      }else{
+      }
+      
+      if(currentRequsForClientOpsPerUser.get(par.op).get(SSStrU.toStr(par.user)) == null){
+        currentRequsForClientOpsPerUser.get(par.op).put(SSStrU.toStr(par.user), new ArrayList<>());
+      }
         
-        servImpls = currentRequsForClientOpsPerUser.get(par.op).get(SSStrU.toStr(par.user));
-        
-        if(
-          servImpls.size() == requsLimitsForClientOpsPerUser.get(par.op)){
-          throw new SSErr(SSErrE.maxNumClientConsForOpReached);
-        }
+      servImpls = currentRequsForClientOpsPerUser.get(par.op).get(SSStrU.toStr(par.user));
+      
+      if(
+        servImpls.size() == requsLimitsForClientOpsPerUser.get(par.op)){
+        throw new SSErr(SSErrE.maxNumClientConsForOpReached);
       }
       
       servImpls.add(servImpl);

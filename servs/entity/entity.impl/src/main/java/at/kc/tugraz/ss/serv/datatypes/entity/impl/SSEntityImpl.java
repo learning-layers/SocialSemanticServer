@@ -239,7 +239,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
     
     try{
       
-      final SSEntityUserUpdatePar par = new SSEntityUserUpdatePar(parA);
+      final SSEntityUserUpdatePar par = SSEntityUserUpdatePar.get(parA);
 
       SSServCallerU.canUserEditEntity(par.user, par.entity);
       
@@ -382,6 +382,12 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       
       final SSEntityDescsGetPar  par      = new SSEntityDescsGetPar(parA);
       final List<SSEntityA>      entities = new ArrayList<>();
+      
+      if(
+        par.entities.isEmpty() &&
+        par.types.isEmpty()){
+        return entities;
+      }
       
       final SSEntityDescGetPar entityDescGetPar = 
         new SSEntityDescGetPar(

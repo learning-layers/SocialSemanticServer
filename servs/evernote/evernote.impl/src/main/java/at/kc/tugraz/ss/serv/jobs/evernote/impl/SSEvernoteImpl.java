@@ -97,61 +97,67 @@ public class SSEvernoteImpl extends SSServImplWithDBA implements SSEvernoteClien
     final SSServPar parA,
     final SSEntity   desc) throws Exception{
     
-    final SSEntityDescGetPar par = (SSEntityDescGetPar)parA;
-    
-    switch(desc.type){
-      case evernoteNote:
-      case evernoteResource:
-        
-        if(par.getThumb){
-          
-          desc.thumb =
-            SSServCaller.fileThumbBase64Get(
-              par.user,
-              par.entity);
-        }
-    }
-    
-    switch(desc.type){
+    try{
+      final SSEntityDescGetPar par = (SSEntityDescGetPar)parA;
       
-      case evernoteNote:{
-        
-        return SSEvernoteNote.get(
-          desc,
-          sqlFct.getNote(par.entity).notebook);
+      switch(desc.type){
+        case evernoteNote:
+        case evernoteResource:
+          
+          if(par.getThumb){
+            
+            desc.thumb =
+              SSServCaller.fileThumbBase64Get(
+                par.user,
+                par.entity);
+          }
       }
       
-      case evernoteResource:{
+      switch(desc.type){
         
-        SSFileExtE      fileExt  = null;
-        SSMimeTypeE     mimeType = null;
-        
-        try{
+        case evernoteNote:{
           
+          return SSEvernoteNote.get(
+            desc,
+            sqlFct.getNote(par.entity).notebook);
+        }
+        
+        case evernoteResource:{
+          
+          SSFileExtE      fileExt  = null;
+          SSMimeTypeE     mimeType = null;
+          
+          try{
+            
 //          final List<SSUri> filesForEntity = SSServCaller.entityFilesGet    (par.user, par.entity);
-          
-          if(desc.file != null){
-            fileExt        = SSServCaller.fileExtGet        (par.user, desc.file);
-            mimeType       = SSMimeTypeE.mimeTypeForFileExt (fileExt);
-          }else{
+            
+            if(desc.file != null){
+              fileExt        = SSFileExtE.ext(SSStrU.removeTrailingSlash(desc.file));
+              mimeType       = SSMimeTypeE.mimeTypeForFileExt (fileExt);
+            }else{
+              SSLogU.warn("mime type cannot be retrieved from evernoteResource as it has no file attached");
+            }
+            
+          }catch(Exception error){
             SSLogU.warn("mime type cannot be retrieved from evernoteResource as it has no file attached");
+            
+            SSServErrReg.reset();
           }
           
-        }catch(Exception error){
-          SSLogU.warn("mime type cannot be retrieved from evernoteResource as it has no file attached");
-          
-          SSServErrReg.reset();
+          return SSEvernoteResource.get(
+            desc,
+            sqlFct.getResource(par.entity).note,
+            fileExt,
+            mimeType);
         }
-        
-        return SSEvernoteResource.get(
-          desc,
-          sqlFct.getResource(par.entity).note,
-          fileExt,
-          mimeType);
       }
+      
+      return desc;
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
-    
-    return desc;
   }
   
   @Override

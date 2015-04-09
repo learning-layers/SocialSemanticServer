@@ -96,15 +96,22 @@ implements
     final SSServPar parA, 
     SSEntity         desc) throws Exception{
     
-    final SSEntityDescGetPar par = (SSEntityDescGetPar)parA;
-    
-    desc.comments.addAll(
-      SSServCaller.commentsGet(
-        par.user, 
-        null, 
-        desc.id));
-    
-    return desc;
+    try{
+      
+      final SSEntityDescGetPar par = (SSEntityDescGetPar)parA;
+
+      desc.comments.addAll(
+        SSServCaller.commentsGet(
+          par.user, 
+          null, 
+          desc.id));
+
+      return desc;
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
   }
   
   @Override

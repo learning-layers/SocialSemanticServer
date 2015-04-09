@@ -205,20 +205,26 @@ implements
     final SSServPar   parA,
     final SSEntity           desc) throws Exception{
     
-    final SSEntityDescGetPar par = (SSEntityDescGetPar)parA;
-    if(par.getUEs){
+    try{
+      final SSEntityDescGetPar par = (SSEntityDescGetPar)parA;
       
-      desc.uEs.addAll(
-        SSServCaller.uEsGet(
-          par.user, 
-          par.user, 
-          par.entity, 
-          null, 
-          null,
-          null));
+      if(par.getUEs){
+        
+        desc.uEs.addAll(
+          SSServCaller.uEsGet(
+            par.user,
+            par.user,
+            par.entity,
+            null,
+            null,
+            null));
+      }
+      
+      return desc;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
-    
-    return desc;
   }
   
   @Override

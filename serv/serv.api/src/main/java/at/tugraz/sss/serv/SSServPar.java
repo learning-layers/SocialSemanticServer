@@ -178,6 +178,17 @@ public class SSServPar{
     
     this.pars         = par.pars;
   }
+  
+  public SSServPar getFromJSON(final Class subClass) throws Exception{
+    
+    final SSServPar result = (SSServPar) SSJSONU.obj(clientJSONRequ, subClass);
+    
+    result.op   = op;
+    result.key  = key;
+    result.user = user;
+
+    return result;
+  }
 }
 //public class SSRequ {
 //

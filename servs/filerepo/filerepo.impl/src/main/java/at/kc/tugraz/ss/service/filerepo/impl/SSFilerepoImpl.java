@@ -43,7 +43,6 @@ import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileGetEditingFilesRet;
 import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileWritingMinutesLeftRet;
 import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileRemoveReaderOrWriterRet;
 import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileSetReaderOrWriterRet;
-import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSEntityDescriberI;
 import at.tugraz.sss.serv.SSEntityHandlerImplI;
@@ -52,9 +51,7 @@ import at.tugraz.sss.serv.caller.SSServCaller;
 import at.tugraz.sss.serv.caller.SSServCallerU;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileDownloadPar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileIDFromURIPar;
-import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileExtGetPar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileThumbBase64GetPar;
-import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileExtGetRet;
 import at.kc.tugraz.ss.service.filerepo.impl.fct.SSFileFct;
 import at.kc.tugraz.ss.service.filerepo.impl.fct.activity.SSFileRepoActivityFct;
 import at.tugraz.sss.serv.SSServErrReg;
@@ -172,30 +169,36 @@ implements
   public SSEntity getDescForEntity(
     final SSServPar parA,
     final SSEntity      desc) throws Exception{
-
-    final SSEntityDescGetPar par = (SSEntityDescGetPar) parA;
     
-    switch(desc.type){
-      case file:{
-        
-        final SSFileExtE  fileExt  = SSServCaller.fileExtGet        (par.user, par.entity);
-        final SSMimeTypeE mimeType = SSMimeTypeE.mimeTypeForFileExt (fileExt);
-        
-        if(par.getThumb){
+    try{
+      final SSEntityDescGetPar par = (SSEntityDescGetPar) parA;
+      
+      switch(desc.type){
+        case file:{
           
-          desc.thumb =
-            SSServCaller.fileThumbBase64Get(
-              par.user,
-              par.entity);
+          final SSFileExtE  fileExt  = SSFileExtE.ext(SSStrU.removeTrailingSlash(par.entity));
+          final SSMimeTypeE mimeType = SSMimeTypeE.mimeTypeForFileExt (fileExt);
+          
+          if(par.getThumb){
+            
+            desc.thumb =
+              SSServCaller.fileThumbBase64Get(
+                par.user,
+                par.entity);
+          }
+          
+          return SSFile.get(
+            desc,
+            fileExt,
+            mimeType);
         }
         
-        return SSFile.get(
-          desc,
-          fileExt,
-          mimeType);
+        default: return desc;
       }
       
-      default: return desc;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -271,39 +274,6 @@ implements
     SSServCallerU.checkKey(parA);
 
     new Thread(new SSFileUploader((SSFileRepoConf)conf, sSCon, parA)).start();
-  }
-
-  @Override
-  public void fileExtGet(SSSocketCon sSCon, SSServPar parA) throws Exception{
-        
-    SSServCallerU.checkKey(parA);
-
-    sSCon.writeRetFullToClient(new SSFileExtGetRet(fileExtGet(parA), parA.op), parA.op);
-  }
-
-  /* SSFileRepoServerI */
-
-  @Override
-  public String fileExtGet(final SSServPar parA) throws Exception{
-
-    final SSFileExtGetPar par = new SSFileExtGetPar(parA);
-    String                result;
-    
-    try{
-      
-      result = SSServCaller.fileIDFromURI(par.user, par.file);
-      
-      if(
-        result                         == null ||
-        result.lastIndexOf(SSStrU.dot) == -1){
-        throw new Exception("file id from uri not found");
-      }
-      
-      return result.substring(result.lastIndexOf(SSStrU.dot) + 1, result.length());
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
   }
 
   @Override

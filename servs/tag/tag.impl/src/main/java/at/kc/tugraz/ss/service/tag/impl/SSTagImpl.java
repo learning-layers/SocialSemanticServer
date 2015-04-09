@@ -263,22 +263,27 @@ implements
     final SSServPar parA,
     final SSEntity   desc) throws Exception{
     
-    final SSEntityDescGetPar par = (SSEntityDescGetPar)parA;
-    
-    if(par.getTags){
+    try{
+      final SSEntityDescGetPar par = (SSEntityDescGetPar)parA;
       
-      desc.tags.addAll(
-        SSStrU.toStr(
-          SSServCaller.tagsUserGet(
-            par.user, 
-            null,
-            SSUri.asListWithoutNullAndEmpty(par.entity), 
-            new ArrayList<>(), 
-            null, 
-            null)));
+      if(par.getTags){
+        
+        desc.tags.addAll(
+          SSStrU.toStr(
+            SSServCaller.tagsUserGet(
+              par.user,
+              null,
+              SSUri.asListWithoutNullAndEmpty(par.entity),
+              new ArrayList<>(),
+              null,
+              null)));
+      }
+      
+      return desc;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
-    
-    return desc;
   }
     
   @Override

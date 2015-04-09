@@ -265,6 +265,13 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       table  (tables,  entityTable);
       
       if(
+        (entityURIs == null || entityURIs.isEmpty()) &&
+        (types      == null || types.isEmpty())){
+        
+        throw new Exception("at least one parameter has to be set");
+      }
+      
+      if(
         entityURIs != null &&
         !entityURIs.isEmpty()){
         
@@ -288,10 +295,6 @@ public class SSEntitySQLFct extends SSDBSQLFct{
         }
         
         wheres.add(whereTypes);
-      }
-      
-      if(wheres.isEmpty()){
-        throw new Exception("at least one parameter has to be set");
       }
       
       resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);

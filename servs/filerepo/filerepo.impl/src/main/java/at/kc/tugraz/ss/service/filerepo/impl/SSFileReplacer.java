@@ -105,7 +105,7 @@ public class SSFileReplacer extends SSServImplStartA{
             SSServCaller.fileRemoveReaderOrWriter(par.user, par.file, true, true);
             
             SSFileServCaller.replaceFileContentsInSolr(
-              par, 
+              par.user, 
               fileId,  
               true);
           }

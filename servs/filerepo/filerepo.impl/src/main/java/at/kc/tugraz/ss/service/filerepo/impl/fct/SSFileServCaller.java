@@ -29,7 +29,9 @@ import at.tugraz.sss.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileReplacePar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileUploadPar;
 import at.tugraz.sss.serv.SSErrE;
+import at.tugraz.sss.serv.SSFileExtE;
 import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSStrU;
 
 public class SSFileServCaller{
   
@@ -81,19 +83,16 @@ public class SSFileServCaller{
   }
   
   public static void replaceFileContentsInSolr(
-    final SSFileReplacePar par,
+    final SSUri            user, 
     final String           fileId,
     final Boolean          shouldCommit) throws Exception{
     
     try{
       
       SSServCaller.solrAddDoc(
-        par.user,
+        user,
         fileId,
-        SSMimeTypeE.mimeTypeForFileExt(
-          SSServCaller.fileExtGet(
-            par.user,
-            par.file)),
+        SSMimeTypeE.mimeTypeForFileExt(SSFileExtE.ext(fileId)), 
         shouldCommit);
       
     }catch(Exception error){

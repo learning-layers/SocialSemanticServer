@@ -30,6 +30,9 @@ import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileCanWriteRet;
 import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileExtGetRet;
 import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileGetEditingFilesRet;
 import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileSetReaderOrWriterRet;
+import at.tugraz.sss.serv.SSFileExtE;
+import at.tugraz.sss.serv.SSLogU;
+import at.tugraz.sss.serv.SSSocketCon;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import javax.ws.rs.Consumes;
@@ -42,6 +45,7 @@ import javax.ws.rs.core.MediaType;
 @Api( value = "SSAdapterRESTFile")
 public class SSAdapterRESTFile{
 
+  @Deprecated
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
@@ -50,7 +54,20 @@ public class SSAdapterRESTFile{
     value = "retrieve a file's extension",
     response = SSFileExtGetRet.class)
   public String fileExtGet(final SSFileExtGetPar input){
-    return SSRestMainV1.handleStandardJSONRESTCall(input, SSServOpE.fileExtGet);
+    
+    try{
+      return new SSSocketCon(
+        SSRestMainV1.conf.sss.host,
+        SSRestMainV1.conf.sss.port).prepRetFullToClient(
+          new SSFileExtGetRet(
+            SSFileExtE.ext(SSStrU.removeTrailingSlash(input.file)),
+            SSServOpE.fileExtGet),
+          SSServOpE.fileExtGet);
+      
+    }catch(Exception error){
+      SSLogU.err(error);
+      return null;
+    }
   }
   
   @POST

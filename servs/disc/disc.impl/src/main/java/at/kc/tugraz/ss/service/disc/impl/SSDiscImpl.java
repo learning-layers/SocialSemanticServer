@@ -317,17 +317,23 @@ implements
     final SSServPar    parA,
     final SSEntity           desc) throws Exception{
     
-    final SSEntityDescGetPar par = (SSEntityDescGetPar) parA;
-    
-    if(par.getDiscs){
+    try{
+      final SSEntityDescGetPar par = (SSEntityDescGetPar) parA;
       
-      desc.discs.addAll(
-        SSServCaller.discUserDiscURIsForTargetGet(
-          par.user, 
-          par.entity));
+      if(par.getDiscs){
+        
+        desc.discs.addAll(
+          SSServCaller.discUserDiscURIsForTargetGet(
+            par.user,
+            par.entity));
+      }
+      
+      return desc;
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
-    
-    return desc;
   }
   
   @Override 

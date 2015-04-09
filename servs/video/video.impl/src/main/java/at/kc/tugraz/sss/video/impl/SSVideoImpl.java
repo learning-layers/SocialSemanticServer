@@ -222,16 +222,21 @@ implements
     final SSServPar parA,
     final SSEntity   desc) throws Exception{
     
-    final SSEntityDescGetPar par = (SSEntityDescGetPar)parA;
+    try{
+      final SSEntityDescGetPar par = (SSEntityDescGetPar)parA;
       
-    switch(desc.type){
-      
-      case video:{
-        return SSServCaller.videoUserGet(par.user, desc.id);
+      switch(desc.type){
+        
+        case video:{
+          return SSServCaller.videoUserGet(par.user, desc.id);
+        }
+        
+        default: return desc;
       }
-      
-      default: return desc;
-    }	
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
   }
   
   @Override

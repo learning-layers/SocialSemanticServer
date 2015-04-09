@@ -3,7 +3,7 @@
 * http://www.learning-layers.eu
 * Development is partly funded by the FP7 Programme of the European Commission under
 * Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+* Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
 * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,132 +20,112 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par;
 
-import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarU;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSErr;
-import at.tugraz.sss.serv.SSErrE;
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
+import at.tugraz.sss.serv.SSJSONU;
 import java.util.ArrayList;
 import java.util.List;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import org.codehaus.jackson.JsonNode;
 import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSStrU;
 
-@XmlRootElement
-@ApiModel(value = "entityUserUpdate request parameter")
 public class SSEntityUserUpdatePar extends SSServPar{
   
-  @ApiModelProperty( 
-    required = true, 
-    value = "entity to update")
   public SSUri               entity        = null;
-  
-  @XmlElement
-  public void setEntity(final String entity) throws Exception{
-    this.entity = SSUri.get(entity);
-  }
-  
-  @XmlElement
-  @ApiModelProperty( 
-    required = false, 
-    value = "entity's updated name (optional)")
   public SSLabel             label         = null;
-  
-  @XmlElement
-  public void setLabel(final String label) throws Exception{
-    this.label = SSLabel.get(label);
-  }
-  
-  @XmlElement
-  @ApiModelProperty( 
-    required = false, 
-    value = "entity's updated description (optional)")
   public SSTextComment       description   = null;
-  
-  @XmlElement
-  public void setDescription(final String description) throws Exception{
-    this.description = SSTextComment.get(description);
-  }
-  
-  @XmlElement
-  @ApiModelProperty( 
-    required = false, 
-    value = "new textual annotations for the entity (optional)")
   public List<SSTextComment> comments      = new ArrayList<>();
-  
-  @XmlElement
-  public void setComments(final List<String> comments) throws Exception{
-    this.comments = SSTextComment.get(comments);
-  }
-  
-  @XmlElement
-  @ApiModelProperty( 
-    required = false, 
-    value = "whether the user has read the entity")
-   public Boolean read = null;
-  
-  public SSEntityUserUpdatePar(){}
-  
-  public SSEntityUserUpdatePar(SSServPar par) throws Exception{
-      
-    super(par);
-    
-    try{
-      
-      if(pars != null){
-        entity         = (SSUri)               pars.get(SSVarU.entity);
-        label          = (SSLabel)             pars.get(SSVarU.label);
-        description    = (SSTextComment)       pars.get(SSVarU.description);
-        comments       = (List<SSTextComment>) pars.get(SSVarU.comments);
-        read           = (Boolean)             pars.get(SSVarU.read);
-      }
-      
-      if(par.clientJSONObj != null){
-        entity       = SSUri.get      (par.clientJSONObj.get(SSVarU.entity).getTextValue());
-        
-        try{
-          label        = SSLabel.get (par.clientJSONObj.get(SSVarU.label).getTextValue());
-        }catch(Exception error){}
-        
-        try{
-          description  = SSTextComment.get(par.clientJSONObj.get(SSVarU.description).getTextValue());
-        }catch(Exception error){}
-        
-        try{
-          for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.comments)) {
-            comments.add(SSTextComment.get(objNode.getTextValue()));
-          }
-        }catch(Exception error){}
-        
-        try{
-          read        = par.clientJSONObj.get(SSVarU.read).getBooleanValue();
-        }catch(Exception error){}
-      }
-    }catch(Exception error){
-      throw new SSErr(SSErrE.servParCreationFailed);
-    }
-  }
-  
-  /* json getters */
+  public Boolean             read          = null;
+
   public String getEntity(){
     return SSStrU.removeTrailingSlash(entity);
+  }
+
+  public void setEntity(final String entity) throws Exception{
+    this.entity = SSUri.get(entity);
   }
 
   public String getLabel(){
     return SSStrU.toStr(label);
   }
 
+  public void setLabel(final String label){
+    try{ this.label = SSLabel.get(label); }catch(Exception error){}
+  }
+    
   public String getDescription(){
     return SSStrU.toStr(description);
   }
 
+  public void setDescription(final String description){
+    try{ this.description = SSTextComment.get(description); }catch(Exception error){}
+  }
+
   public List<String> getComments() throws Exception{
-    return SSStrU.toStr(comments);
+    return  SSStrU.toStr(comments);
+  }
+
+  public void setComments(final List<String> comments){
+    try{ this.comments = SSTextComment.get(comments); }catch(Exception error){}
+  }
+
+  public Boolean getRead(){
+    return read;
+  }
+
+  public void setRead(Boolean read){
+    this.read = read;
+  }
+  
+  public SSEntityUserUpdatePar(
+    final SSServOpE           op,
+    final String              key,
+    final SSUri               user,
+    final SSUri               entity,
+    final SSLabel             label,
+    final SSTextComment       description, 
+    final List<SSTextComment> comments,
+    final Boolean             read){
+    
+    super(op, key, user);
+    
+    this.entity        = entity;
+    this.label         = label;
+    this.description   = description;
+    
+    if(comments != null){
+      this.comments.addAll(comments);
+    }
+    
+    this.read = read;
+  }
+  
+  public SSEntityUserUpdatePar(){}
+  
+  public static SSEntityUserUpdatePar get(final SSServPar par) throws Exception{
+    
+    try{
+      
+      if(par.clientCon != null){
+        return (SSEntityUserUpdatePar) par.getFromJSON(SSEntityUserUpdatePar.class);
+      }
+      
+      return new SSEntityUserUpdatePar(
+        par.op,
+        par.key,
+        par.user,
+        (SSUri)               par.pars.get(SSVarU.entity),
+        (SSLabel)             par.pars.get(SSVarU.label),
+        (SSTextComment)       par.pars.get(SSVarU.description),
+        (List<SSTextComment>) par.pars.get(SSVarU.comments),
+        (Boolean)             par.pars.get(SSVarU.read));
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
   }
 }
