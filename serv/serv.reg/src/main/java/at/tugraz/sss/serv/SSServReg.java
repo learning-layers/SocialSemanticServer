@@ -30,38 +30,66 @@ public class SSServReg implements SSServRegI{
   public static final SSServReg inst = new SSServReg();
   
   @Override
-  public void regClientRequest(
-    final SSServPar     par,
-    final SSServImplA   servImpl) throws Exception{
+  public SSServImplA callServViaClient(
+    final SSServPar    par,
+    final Boolean      useCloud) throws Exception{
     
-    if(!requsLimitsForClientOpsPerUser.containsKey(par.op)){
-      return;
-    }
-    
-    Map<String, List<SSServImplA>> servImplsForUser;
-    List<SSServImplA>              servImpls;
-    
-    synchronized(currentRequsForClientOpsPerUser){
+    try{
       
-      if(!currentRequsForClientOpsPerUser.containsKey(par.op)){
+      final SSServContainerI     serv     = getClientServAvailableOnMachine(par);
+      final SSServImplA          servImpl = serv.serv();
+      
+      if(requsLimitsForClientOpsPerUser.containsKey(par.op)){
         
-        servImplsForUser = new HashMap<>();
-
-        currentRequsForClientOpsPerUser.put(par.op, servImplsForUser);
-      }
-      
-      if(currentRequsForClientOpsPerUser.get(par.op).get(SSStrU.toStr(par.user)) == null){
-        currentRequsForClientOpsPerUser.get(par.op).put(SSStrU.toStr(par.user), new ArrayList<>());
-      }
+        Map<String, List<SSServImplA>> servImplsForUser;
+        List<SSServImplA>              servImpls;
         
-      servImpls = currentRequsForClientOpsPerUser.get(par.op).get(SSStrU.toStr(par.user));
-      
-      if(
-        servImpls.size() == requsLimitsForClientOpsPerUser.get(par.op)){
-        throw new SSErr(SSErrE.maxNumClientConsForOpReached);
+        synchronized(currentRequsForClientOpsPerUser){
+          
+          if(!currentRequsForClientOpsPerUser.containsKey(par.op)){
+            
+            servImplsForUser = new HashMap<>();
+            
+            currentRequsForClientOpsPerUser.put(par.op, servImplsForUser);
+          }
+          
+          if(currentRequsForClientOpsPerUser.get(par.op).get(SSStrU.toStr(par.user)) == null){
+            currentRequsForClientOpsPerUser.get(par.op).put(SSStrU.toStr(par.user), new ArrayList<>());
+          }
+          
+          servImpls = currentRequsForClientOpsPerUser.get(par.op).get(SSStrU.toStr(par.user));
+          
+          if(
+            servImpls.size() == requsLimitsForClientOpsPerUser.get(par.op)){
+            throw new SSErr(SSErrE.maxNumClientConsForOpReached);
+          }
+          
+          servImpls.add(servImpl);
+        }
       }
       
-      servImpls.add(servImpl);
+      servImpl.handleClientOp(
+        serv.servImplClientInteraceClass,
+        par);
+      
+      return servImpl;
+      
+    }catch(Exception error){
+      
+      if(!SSServErrReg.containsErr(SSErrE.noClientServiceForOpAvailableOnMachine)){
+        throw error;
+      }
+      
+      if(useCloud){
+        
+        deployServNode(
+          par,
+          getClientServAvailableOnNodes(par));
+        
+        return null; //TODO to be tested
+      }
+      
+      throw error;
     }
   }
   
@@ -258,41 +286,6 @@ public class SSServReg implements SSServRegI{
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
-    }
-  }
-  
-  @Override
-  public SSServImplA callServViaClient(
-    final SSServPar    par,
-    final Boolean      useCloud) throws Exception{
-    
-    try{
-      
-      final SSServContainerI     serv     = getClientServAvailableOnMachine(par);
-      final SSServImplA          servImpl = serv.serv();
-      
-      servImpl.handleClientOp(
-        serv.servImplClientInteraceClass,
-        par);
-      
-      return servImpl;
-      
-    }catch(Exception error){
-      
-      if(!SSServErrReg.containsErr(SSErrE.noClientServiceForOpAvailableOnMachine)){
-        throw error;
-      }
-      
-      if(useCloud){
-        
-        deployServNode(
-          par,
-          getClientServAvailableOnNodes(par));
-        
-        return null; //TODO to be tested
-      }
-      
-      throw error;
     }
   }
   

@@ -63,10 +63,6 @@ public interface SSServRegI{
   public List<SSServContainerI> getServsGatheringUserRelations();
   public List<SSServContainerI> getServsGatheringUsersResources();
     
-  public void regClientRequest(
-    final SSServPar   par,
-    final SSServImplA servImpl) throws Exception;
-  
   public void unregClientRequest(
     final SSServOpE     op,
     final SSUri         user,

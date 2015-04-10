@@ -53,10 +53,6 @@ public class SSServImplClient extends SSServImplStartA implements Runnable{
       
       SSLogU.info(par.clientJSONRequ);
       
-      SSServReg.inst.regClientRequest(
-        par,
-        servImpl);
-      
       servImpl = 
         SSServReg.inst.callServViaClient(
           par,
@@ -90,7 +86,7 @@ public class SSServImplClient extends SSServImplStartA implements Runnable{
     
     finalizeThread(false);
     
-    SSServReg.inst.unregClientRequest(par.op, par.user , servImpl);
+    SSServReg.inst.unregClientRequest(par.op, par.user, servImpl);
   }
 
   public static void regServImplUsedByThread(final SSServImplA servImpl){
