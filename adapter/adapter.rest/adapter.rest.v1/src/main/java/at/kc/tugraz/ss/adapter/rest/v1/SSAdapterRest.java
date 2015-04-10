@@ -37,7 +37,6 @@ import at.kc.tugraz.ss.adapter.rest.v1.par.SSAppsGetRESTAPIV1Par;
 import at.kc.tugraz.ss.adapter.rest.v1.par.SSAuthCheckCredRESTAPIV1Par;
 import at.kc.tugraz.ss.adapter.rest.v1.par.SSCircleCreateRESTAPIV1Par;
 import at.kc.tugraz.ss.adapter.rest.v1.par.SSCircleGetRESTAPIV1Par;
-import at.kc.tugraz.ss.adapter.rest.v1.par.SSCirclesGetRESTAPIV1Par;
 import at.kc.tugraz.ss.adapter.rest.v1.par.SSCircleEntitiesAddRESTAPIV1Par;
 import at.kc.tugraz.ss.adapter.rest.v1.par.SSCircleEntitiesRemoveRESTAPIV1Par;
 import at.kc.tugraz.ss.adapter.rest.v1.par.SSEntityGetRESTAPIV1Par;
@@ -82,7 +81,6 @@ import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommTagsPar;
 import at.kc.tugraz.ss.recomm.datatypes.ret.SSRecommResourcesRet;
 import at.kc.tugraz.ss.recomm.datatypes.ret.SSRecommTagsRet;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleGetPar;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCirclesGetPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesAddPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesRemovePar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntityUsersGetPar;
@@ -92,7 +90,6 @@ import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitySharePar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleUsersAddPar;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleCreateRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleGetRet;
-import at.kc.tugraz.ss.circle.datatypes.ret.SSCirclesGetRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleEntitiesAddRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleEntitiesRemoveRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleEntityUsersGetRet;
@@ -106,14 +103,12 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserAddPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserCopyPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserDirectlyAdjoinedEntitiesRemovePar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserGetPar;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserUpdatePar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityDescGetRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityDescsGetRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserAddRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserCopyRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserDirectlyAdjoinedEntitiesRemoveRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserGetRet;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserUpdateRet;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.pars.SSModelUEEntityDetailsPar;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.rets.SSModelUEResourceDetailsRet;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthCheckCredPar;
@@ -461,30 +456,6 @@ public class SSAdapterRest{
         input.circle,
         input.entities,
         true);
-    
-    return SSRestMainV1.handleStandardJSONRESTCall(par, par.op);
-  }
-  
-  @Deprecated
-  @POST
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "circlesGet")
-  @ApiOperation(
-    value = "retrieve circles the user is in",
-    response = SSCirclesGetRet.class)
-  public String circlesGet(
-    final SSCirclesGetRESTAPIV1Par input) throws Exception{
-    
-    final SSCirclesGetPar par = 
-      new SSCirclesGetPar(
-        SSServOpE.circlesGet, 
-        input.key, 
-        input.user,
-        input.forUser, 
-        null,  //entity
-        input.entityTypesToIncludeOnly, //entityTypesToIncludeOnly
-        true); //invokeEntityHandlers
     
     return SSRestMainV1.handleStandardJSONRESTCall(par, par.op);
   }
@@ -1141,17 +1112,6 @@ public class SSAdapterRest{
     response = SSEntityDescGetRet.class)
   public String entityDescGet(final SSEntityDescGetPar input){
     return SSRestMainV1.handleStandardJSONRESTCall(input, SSServOpE.entityDescGet);
-  }
-  
-  @POST
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "entityUpdate")
-  @ApiOperation(
-    value = "updates/adds given properties for an entity",
-    response = SSEntityUserUpdateRet.class)
-  public String entityUpdate(final SSEntityUserUpdatePar input){
-    return SSRestMainV1.handleStandardJSONRESTCall(input, SSServOpE.entityUpdate);
   }
   
   @POST

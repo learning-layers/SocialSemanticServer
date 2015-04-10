@@ -498,7 +498,7 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
     
     try{
       
-      final SSCirclesGetPar                 par               = new SSCirclesGetPar(parA);
+      final SSCirclesGetPar                 par               = SSCirclesGetPar.get(parA);
       final List<SSEntityCircle>            circles           = new ArrayList<>();
       final List<SSUri>                     circleUris        = new ArrayList<>();
       

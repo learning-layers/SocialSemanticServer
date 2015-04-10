@@ -183,9 +183,10 @@ public class SSServPar{
     
     final SSServPar result = (SSServPar) SSJSONU.obj(clientJSONRequ, subClass);
     
-    result.op   = op;
-    result.key  = key;
-    result.user = user;
+    result.op                  = op;
+    result.key                 = key;
+    result.user                = user;
+    result.withUserRestriction = withUserRestriction;
 
     return result;
   }
