@@ -36,7 +36,6 @@ import at.kc.tugraz.ss.adapter.rest.v1.par.SSAppStackLayoutsGetRESTAPIV1Par;
 import at.kc.tugraz.ss.adapter.rest.v1.par.SSAppsGetRESTAPIV1Par;
 import at.kc.tugraz.ss.adapter.rest.v1.par.SSAuthCheckCredRESTAPIV1Par;
 import at.kc.tugraz.ss.adapter.rest.v1.par.SSCircleCreateRESTAPIV1Par;
-import at.kc.tugraz.ss.adapter.rest.v1.par.SSCircleGetRESTAPIV1Par;
 import at.kc.tugraz.ss.adapter.rest.v1.par.SSCircleEntitiesAddRESTAPIV1Par;
 import at.kc.tugraz.ss.adapter.rest.v1.par.SSCircleEntitiesRemoveRESTAPIV1Par;
 import at.kc.tugraz.ss.adapter.rest.v1.par.SSEntityGetRESTAPIV1Par;
@@ -456,30 +455,6 @@ public class SSAdapterRest{
         input.circle,
         input.entities,
         true);
-    
-    return SSRestMainV1.handleStandardJSONRESTCall(par, par.op);
-  }
-  
-  @Deprecated
-  @POST
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "circleGet")
-  @ApiOperation(
-    value = "retrieve a certain circle",
-    response = SSCircleGetRet.class)
-  public String circleGet(
-    final SSCircleGetRESTAPIV1Par input) throws Exception{
-    
-    final SSCircleGetPar par = 
-      new SSCircleGetPar(
-        SSServOpE.circleGet, 
-        input.key, 
-        input.user, 
-        input.forUser, 
-        input.circle,
-        input.entityTypesToIncludeOnly, //entityTypesToIncludeOnly
-        true); //invokeEntityHandlers
     
     return SSRestMainV1.handleStandardJSONRESTCall(par, par.op);
   }

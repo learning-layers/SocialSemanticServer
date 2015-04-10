@@ -95,7 +95,7 @@ public enum SSEntityE implements SSJSONLDPropI{
   //FAVORITES ("_favorites"),
   //EVENTS    ("_events"),
     
-  public static List<SSEntityE> get(final List<String> values){
+  public static List<SSEntityE> get(final List<String> values) throws Exception{
   
     final List<SSEntityE> result = new ArrayList<>();
     
@@ -106,8 +106,14 @@ public enum SSEntityE implements SSJSONLDPropI{
     return result;
   }
   
-  public static SSEntityE get(final String value) {
-    return SSEntityE.valueOf(value);
+  public static SSEntityE get(final String value) throws Exception{
+    
+    try{
+    
+      return SSEntityE.valueOf(value);
+    }catch(Exception error){
+      throw new Exception("entity type not available: " + value);
+    }
   }
     
   @Override

@@ -409,7 +409,7 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
   public SSEntityCircle circleGet(final SSServPar parA) throws Exception{
     
     try{
-      final SSCircleGetPar  par      = new SSCircleGetPar(parA);
+      final SSCircleGetPar  par      = SSCircleGetPar.get(parA);
       final List<SSEntity>  entities = new ArrayList<>();
       final List<SSEntity>  users    = new ArrayList<>();
       final SSEntityCircle  circle;

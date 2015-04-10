@@ -34,7 +34,6 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import org.codehaus.jackson.JsonNode;
-import at.tugraz.sss.serv.SSServErrReg;
 @XmlRootElement
 @ApiModel(value = "entityDescsGet request parameter")
 public class SSEntityDescsGetPar extends SSServPar{
@@ -53,7 +52,7 @@ public class SSEntityDescsGetPar extends SSServPar{
   
   @XmlElement
   public void setTypes(final List<String> types){
-    this.types = SSEntityE.get(types);
+    try{ this.types = SSEntityE.get(types); }catch(Exception error){}
   }
   
   @XmlElement
