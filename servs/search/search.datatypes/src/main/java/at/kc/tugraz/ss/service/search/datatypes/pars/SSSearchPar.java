@@ -1,23 +1,23 @@
 /**
-* Code contributed to the Learning Layers project
-* http://www.learning-layers.eu
-* Development is partly funded by the FP7 Programme of the European Commission under
-* Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
-* For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
-*
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-* http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*/
+ * Code contributed to the Learning Layers project
+ * http://www.learning-layers.eu
+ * Development is partly funded by the FP7 Programme of the European Commission under
+ * Grant Agreement FP7-ICT-318209.
+ * Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
+ * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package at.kc.tugraz.ss.service.search.datatypes.pars;
 
 import at.tugraz.sss.serv.SSServOpE;
@@ -31,7 +31,6 @@ import at.kc.tugraz.ss.service.search.datatypes.SSSearchLabel;
 import at.kc.tugraz.ss.service.search.datatypes.SSSearchOpE;
 import java.util.ArrayList;
 import java.util.List;
-import org.codehaus.jackson.JsonNode;
 
 public class SSSearchPar extends SSServPar{
   
@@ -55,9 +54,59 @@ public class SSSearchPar extends SSServPar{
   public Integer             maxRating                  = null;
   public SSSearchOpE         localSearchOp              = SSSearchOpE.or;
   public SSSearchOpE         globalSearchOp             = SSSearchOpE.or;
+
+  public void setLabelsToSearchFor(final List<String> labelsToSearchFor){
+    try{ this.labelsToSearchFor = SSSearchLabel.get(labelsToSearchFor); }catch(Exception error){}
+  }
+
+  public void setDescriptionsToSearchFor(final List<String> descriptionsToSearchFor){
+    try{ this.descriptionsToSearchFor = SSSearchLabel.get(descriptionsToSearchFor); }catch(Exception error){}
+  }
+
+  public void setTypesToSearchOnlyFor(final List<String> typesToSearchOnlyFor){
+    try{ this.typesToSearchOnlyFor = SSEntityE.get(typesToSearchOnlyFor); }catch(Exception error){}
+  }
+
+  public void setEntitiesToSearchWithin(final List<String> entitiesToSearchWithin){
+    try{ this.entitiesToSearchWithin = SSUri.get(entitiesToSearchWithin); }catch(Exception error){}
+  }
+
+  public void setLocalSearchOp(final String localSearchOp){
+    try{ this.localSearchOp = SSSearchOpE.get(localSearchOp); }catch(Exception error){}
+  }
+
+  public void setGlobalSearchOp(final String globalSearchOp){
+    try{ this.globalSearchOp = SSSearchOpE.get(globalSearchOp); }catch(Exception error){}
+  }
+  
+  public List<String> getLabelsToSearchFor() throws Exception{
+    return SSStrU.toStr(labelsToSearchFor);
+  }
+  
+  public List<String> getDescriptionsToSearchFor() throws Exception{
+    return SSStrU.toStr(descriptionsToSearchFor);
+  }
+  
+  public List<String> getTypesToSearchOnlyFor() throws Exception{
+    return SSStrU.toStr(typesToSearchOnlyFor);
+  }
+  
+  public List<String> getEntitiesToSearchWithin() throws Exception{
+    return SSStrU.removeTrailingSlash(entitiesToSearchWithin);
+  }
+  
+  public String getLocalSearchOp() throws Exception{
+    return SSStrU.toStr(localSearchOp);
+  }
+  
+  public String getGlobalSearchOp() throws Exception{
+    return SSStrU.toStr(globalSearchOp);
+  }
+  
+  public SSSearchPar(){}
   
   public SSSearchPar(
-    final SSServOpE             op,
+    final SSServOpE           op,
     final String              key,
     final SSUri               user,
     final Boolean             includeTextualContent      ,
@@ -128,119 +177,41 @@ public class SSSearchPar extends SSServPar{
     this.globalSearchOp             = globalSearchOp;
   }
   
-  public SSSearchPar(final SSServPar par) throws Exception{
+  public static SSSearchPar get(final SSServPar par) throws Exception{
     
-    super(par);
-      
     try{
-      
-      if(pars != null){
-        includeTextualContent      = (Boolean)                pars.get(SSVarU.includeTextualContent);
-        wordsToSearchFor           = (List<String>)           pars.get(SSVarU.wordsToSearchFor);
-        includeTags                = (Boolean)                pars.get(SSVarU.includeTags);
-        tagsToSearchFor            = (List<String>)           pars.get(SSVarU.tagsToSearchFor);
-        includeLabel               = (Boolean)                pars.get(SSVarU.includeLabel);
-        labelsToSearchFor          = SSSearchLabel.get((List<String>)pars.get(SSVarU.labelsToSearchFor));
-        includeDescription         = (Boolean)                pars.get(SSVarU.includeDescription);
-        descriptionsToSearchFor    = SSSearchLabel.get((List<String>)pars.get(SSVarU.descriptionsToSearchFor));
-        typesToSearchOnlyFor       = (List<SSEntityE>)        pars.get(SSVarU.typesToSearchOnlyFor);
-        includeOnlySubEntities     = (Boolean)                pars.get(SSVarU.includeOnlySubEntities);
-        entitiesToSearchWithin     = (List<SSUri>)            pars.get(SSVarU.entitiesToSearchWithin);
-        extendToParents            = (Boolean)                pars.get(SSVarU.extendToParents);
-        includeRecommendedResults  = (Boolean)                pars.get(SSVarU.includeRecommendedResults);
-        provideEntries             = (Boolean)                pars.get(SSVarU.provideEntries);
-        pagesID                    = (String)                 pars.get(SSVarU.pagesID);
-        pageNumber                 = (Integer)                pars.get(SSVarU.pageNumber);
-        minRating                  = (Integer)                pars.get(SSVarU.minRating);
-        maxRating                  = (Integer)                pars.get(SSVarU.maxRating);
-        localSearchOp              = (SSSearchOpE)            pars.get(SSVarU.localSearchOp);
+      if(par.clientCon != null){
+        return (SSSearchPar) par.getFromJSON(SSSearchPar.class);
       }
       
-      if(par.clientJSONObj != null){
-        
-        try{ includeTextualContent        = par.clientJSONObj.get(SSVarU.includeTextualContent).getBooleanValue();                                                       }catch(Exception error){}
-        
-        try{ 
-          for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.wordsToSearchFor)) {
-            wordsToSearchFor.add(objNode.getTextValue());
-          }
-        }catch(Exception error){}
-        
-        try{ includeTags                  = par.clientJSONObj.get(SSVarU.includeTags).getBooleanValue();                                                                       }catch(Exception error){}
-        
-        try{ 
-          for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.tagsToSearchFor)) {
-            tagsToSearchFor.add(objNode.getTextValue());
-          }
-        }catch(Exception error){}
-        
-        try{ includeLabel                 = par.clientJSONObj.get(SSVarU.includeLabel).getBooleanValue();                                                                       }catch(Exception error){}
-        
-        try{
-          for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.labelsToSearchFor)) {
-            labelsToSearchFor.add(SSSearchLabel.get(objNode.getTextValue()));
-          }
-        }catch(Exception error){}
-        
-        try{ includeDescription           = par.clientJSONObj.get(SSVarU.includeDescription).getBooleanValue();                                                                  }catch(Exception error){}
-        
-        try{ 
-          for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.descriptionsToSearchFor)) {
-            descriptionsToSearchFor.add(SSSearchLabel.get(objNode.getTextValue()));
-          }
-        }catch(Exception error){}
-        
-        try{ 
-          for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.typesToSearchOnlyFor)) {
-            typesToSearchOnlyFor.add(SSEntityE.get(objNode.getTextValue()));
-          }
-        }catch(Exception error){}
-        
-        try{ includeOnlySubEntities       = par.clientJSONObj.get(SSVarU.includeOnlySubEntities).getBooleanValue();                                                                }catch(Exception error){}
-        
-        try{
-          for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.entitiesToSearchWithin)) {
-            entitiesToSearchWithin.add(SSUri.get(objNode.getTextValue()));
-          }
-        }catch(Exception error){}
-        
-        try{ extendToParents              = par.clientJSONObj.get(SSVarU.extendToParents).getBooleanValue();                                                                       }catch(Exception error){}
-        try{ includeRecommendedResults    = par.clientJSONObj.get(SSVarU.includeRecommendedResults).getBooleanValue();                                                             }catch(Exception error){}
-        try{ provideEntries               = par.clientJSONObj.get(SSVarU.provideEntries).getBooleanValue();                                                                        }catch(Exception error){}
-        try{ pagesID                      = par.clientJSONObj.get(SSVarU.pagesID).getTextValue();                                                                                  }catch(Exception error){}
-        try{ pageNumber                   = par.clientJSONObj.get(SSVarU.pageNumber).getIntValue();                                                                                }catch(Exception error){}
-        try{ minRating                    = par.clientJSONObj.get(SSVarU.minRating).getIntValue();                                                                                 }catch(Exception error){}
-        try{ maxRating                    = par.clientJSONObj.get(SSVarU.maxRating).getIntValue();                                                                                 }catch(Exception error){}
-        try{ localSearchOp                = SSSearchOpE.valueOf(par.clientJSONObj.get(SSVarU.localSearchOp).getTextValue());                                                       }catch(Exception error){}
-        try{ globalSearchOp               = SSSearchOpE.valueOf(par.clientJSONObj.get(SSVarU.globalSearchOp).getTextValue());                                                       }catch(Exception error){}
-      }
+      return new SSSearchPar(
+        par.op,
+        par.key,
+        par.user,
+        (Boolean)                par.pars.get(SSVarU.includeTextualContent),
+        (List<String>)           par.pars.get(SSVarU.wordsToSearchFor),
+        (Boolean)                par.pars.get(SSVarU.includeTags),
+        (List<String>)           par.pars.get(SSVarU.tagsToSearchFor),
+        (Boolean)                par.pars.get(SSVarU.includeLabel),
+        (List<SSSearchLabel>)    par.pars.get(SSVarU.labelsToSearchFor),
+        (Boolean)                par.pars.get(SSVarU.includeDescription),
+        (List<SSSearchLabel>)    par.pars.get(SSVarU.descriptionsToSearchFor),
+        (List<SSEntityE>)        par.pars.get(SSVarU.typesToSearchOnlyFor),
+        (Boolean)                par.pars.get(SSVarU.includeOnlySubEntities),
+        (List<SSUri>)            par.pars.get(SSVarU.entitiesToSearchWithin),
+        (Boolean)                par.pars.get(SSVarU.extendToParents),
+        (Boolean)                par.pars.get(SSVarU.includeRecommendedResults),
+        (Boolean)                par.pars.get(SSVarU.provideEntries),
+        (String)                 par.pars.get(SSVarU.pagesID),
+        (Integer)                par.pars.get(SSVarU.pageNumber),
+        (Integer)                par.pars.get(SSVarU.minRating),
+        (Integer)                par.pars.get(SSVarU.maxRating),
+        (SSSearchOpE)            par.pars.get(SSVarU.localSearchOp), 
+        (SSSearchOpE)            par.pars.get(SSVarU.globalSearchOp));
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
-  }
-  
-  /* json getters */
-  public List<String> getLabelsToSearchFor() throws Exception{
-    return SSStrU.toStr(labelsToSearchFor);
-  }
-  
-  public List<String> getDescriptionsToSearchFor() throws Exception{
-    return SSStrU.toStr(descriptionsToSearchFor);
-  }
-  
-  public List<String> getTypesToSearchOnlyFor() throws Exception{
-    return SSStrU.toStr(typesToSearchOnlyFor);
-  }
-  
-  public List<String> getEntitiesToSearchWithin() throws Exception{
-    return SSStrU.removeTrailingSlash(entitiesToSearchWithin);
-  }
-  
-  public String getLocalSearchOp() throws Exception{
-    return SSStrU.toStr(localSearchOp);
-  }
-  
-  public String getGlobalSearchOp() throws Exception{
-    return SSStrU.toStr(globalSearchOp);
   }
 }

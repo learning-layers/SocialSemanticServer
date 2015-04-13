@@ -3,7 +3,7 @@
 * http://www.learning-layers.eu
 * Development is partly funded by the FP7 Programme of the European Commission under
 * Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+* Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
 * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,7 +18,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
- package at.kc.tugraz.ss.service.tag.datatypes.pars;
+package at.kc.tugraz.ss.service.tag.datatypes.pars;
 
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
@@ -27,10 +27,8 @@ import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSSpaceE;
 import at.tugraz.sss.serv.SSServPar;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
-import at.tugraz.sss.serv.SSServErrReg;
 import java.util.ArrayList;
 import java.util.List;
-import org.codehaus.jackson.JsonNode;
 import at.tugraz.sss.serv.SSServErrReg;
 
 public class SSTagsUserGetPar extends SSServPar{
@@ -40,9 +38,43 @@ public class SSTagsUserGetPar extends SSServPar{
   public List<SSTagLabel>   labels         = new ArrayList<>();
   public SSSpaceE           space          = null;
   public Long               startTime      = null;
+
+  public void setForUser(final String forUser){
+    try{ this.forUser = SSUri.get(forUser); }catch(Exception error){}
+  }
+
+  public void setEntities(final List<String> entities){
+    try{ this.entities = SSUri.get(entities); }catch(Exception error){}
+  }
+
+  public void setLabels(final List<String> labels){
+    try{ this.labels = SSTagLabel.get(labels);  }catch(Exception error){}
+  }
+
+  public void setSpace(final String space){
+    try{ this.space = SSSpaceE.get(space); }catch(Exception error){}
+  }
+  
+  public String getForUser(){
+    return SSStrU.removeTrailingSlash(forUser);
+  }
+
+  public List<String> getEntities() throws Exception{
+    return SSStrU.removeTrailingSlash(entities);
+  }
+
+  public List<String> getLabels() throws Exception{
+    return SSStrU.toStr(labels);
+  }
+
+  public String getSpace(){
+    return SSStrU.toStr(space);
+  }
+  
+  public SSTagsUserGetPar(){}
   
   public SSTagsUserGetPar(
-    final SSServOpE            op,
+    final SSServOpE          op,
     final String             key,
     final SSUri              user,
     final SSUri              forUser,
@@ -63,69 +95,31 @@ public class SSTagsUserGetPar extends SSServPar{
       this.labels.addAll(labels);
     }
     
-    this.space    = space;
+    this.space        = space;
     this.startTime    = startTime;
   }
     
-  public SSTagsUserGetPar(SSServPar par) throws Exception{
-    
-    super(par);
+  public static SSTagsUserGetPar get(final SSServPar par) throws Exception{
     
     try{
-      
-      if(pars != null){
-        forUser    = (SSUri)                       pars.get(SSVarU.forUser);
-        entities   = (List<SSUri>)                 pars.get(SSVarU.entities);
-        labels     = SSTagLabel.get((List<String>) pars.get(SSVarU.labels));
-        space      = (SSSpaceE)                    pars.get(SSVarU.space);
-        startTime  = (Long)                        pars.get(SSVarU.startTime);        
+
+      if(par.clientCon != null){
+        return (SSTagsUserGetPar) par.getFromJSON(SSTagsUserGetPar.class);
       }
+
+      return new SSTagsUserGetPar(
+        par.op,
+        par.key,
+        par.user,
+        (SSUri)                       par.pars.get(SSVarU.forUser),
+        (List<SSUri>)                 par.pars.get(SSVarU.entities),
+        (List<SSTagLabel>)            par.pars.get(SSVarU.labels),
+        (SSSpaceE)                    par.pars.get(SSVarU.space),
+        (Long)                        par.pars.get(SSVarU.startTime));        
       
-      if(par.clientJSONObj != null){
-        
-        try{
-          forUser   = SSUri.get (par.clientJSONObj.get(SSVarU.forUser).getTextValue());
-        }catch(Exception error){}
-        
-        try{
-          for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.entities)) {
-            entities.add(SSUri.get(objNode.getTextValue()));
-          }
-        }catch(Exception error){}
-        
-        try{
-          for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.labels)) {
-            labels.add(SSTagLabel.get(objNode.getTextValue()));
-          }
-        }catch(Exception error){}
-        
-        try{
-          space      = SSSpaceE.get  (par.clientJSONObj.get(SSVarU.space).getTextValue());
-        }catch(Exception error){}
-        
-        try{
-          startTime      = par.clientJSONObj.get(SSVarU.startTime).getLongValue();
-        }catch(Exception error){}
-      }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
-  }
-  
-  /* json getters */
-  public String getForUser(){
-    return SSStrU.removeTrailingSlash(forUser);
-  }
-
-  public List<String> getEntities() throws Exception{
-    return SSStrU.removeTrailingSlash(entities);
-  }
-
-  public List<String> getLabels() throws Exception{
-    return SSStrU.toStr(labels);
-  }
-
-  public String getSpace(){
-    return SSStrU.toStr(space);
   }
 }

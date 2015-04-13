@@ -88,7 +88,7 @@ public class SSLikeImpl extends SSServImplWithDBA implements SSLikeClientI, SSLi
   public SSUri likeUserSet(final SSServPar parA) throws Exception{
     
     try{
-      final SSLikeUserSetPar par = new SSLikeUserSetPar(parA);
+      final SSLikeUserSetPar par = SSLikeUserSetPar.get(parA);
       
       SSServCallerU.canUserReadEntity(par.user, par.entity);
       

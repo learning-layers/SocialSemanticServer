@@ -72,7 +72,7 @@ public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SS
     
     try{
       
-      final SSSearchPar             par                           = new SSSearchPar(parA);
+      final SSSearchPar             par                           = SSSearchPar.get(parA);
       final List<SSEntity>          results                       = new ArrayList<>();
       final List<SSUri>             uris                          = new ArrayList<>();
       final List<SSUri>             tagResultUris                 = new ArrayList<>();

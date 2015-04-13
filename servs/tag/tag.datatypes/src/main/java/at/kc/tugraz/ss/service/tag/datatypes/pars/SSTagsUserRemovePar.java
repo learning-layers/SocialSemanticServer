@@ -28,65 +28,25 @@ import at.tugraz.sss.serv.SSSpaceE;
 import at.tugraz.sss.serv.SSServPar;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.tugraz.sss.serv.SSServErrReg;
-import at.tugraz.sss.serv.SSServErrReg;
+
 public class SSTagsUserRemovePar extends SSServPar{
   
   public SSUri        entity     = null;
   public SSTagLabel   label      = null;
   public SSSpaceE     space      = null;
-  
-  public SSTagsUserRemovePar(
-    final SSServOpE      op,
-    final String       key,
-    final SSUri        user,
-    final SSUri        entity,
-    final SSTagLabel   label,
-    final SSSpaceE     space){
-  
-    super(op, key, user);
-  
-    this.entity = entity;
-    this.label  = label;
-    this.space  = space;
+
+  public void setEntity(final String entity){
+    try{ this.entity = SSUri.get(entity); }catch(Exception error){}
+  }
+
+  public void setLabel(final String label){
+    try{ this.label = SSTagLabel.get(label); }catch(Exception error){}
+  }
+
+  public void setSpace(final String space){
+    try{ this.space =  SSSpaceE.get(space); }catch(Exception error){} 
   }
   
-  public SSTagsUserRemovePar(final SSServPar par) throws Exception{
-    
-    super(par);
-    
-    try{
-      
-      if(pars != null){
-        entity   = (SSUri)        pars.get(SSVarU.entity);
-        
-        try{
-          label    = SSTagLabel.get((String) pars.get(SSVarU.label));
-        }catch(Exception error){}
-        
-        space    = (SSSpaceE)     pars.get(SSVarU.space);
-      }
-      
-      if(par.clientJSONObj != null){
-        
-        try{
-          entity   = SSUri.get        (par.clientJSONObj.get(SSVarU.entity).getTextValue());
-        }catch(Exception error){}
-        
-        try{
-          label  = SSTagLabel.get   (par.clientJSONObj.get(SSVarU.label).getTextValue());
-        }catch(Exception error){}
-        
-        try{
-          space      = SSSpaceE.get  (par.clientJSONObj.get(SSVarU.space).getTextValue());
-        }catch(Exception error){}
-      }
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
-  /* json getters */
   public String getEntity(){
     return SSStrU.removeTrailingSlash(entity);
   }
@@ -97,5 +57,47 @@ public class SSTagsUserRemovePar extends SSServPar{
   
   public String getSpace(){
     return SSStrU.toStr(space);
+  }
+  
+  public SSTagsUserRemovePar(){}
+  
+  public SSTagsUserRemovePar(
+    final SSServOpE    op,
+    final String       key,
+    final SSUri        user,
+    final SSUri        entity,
+    final SSTagLabel   label,
+    final SSSpaceE     space,
+    final Boolean      shouldCommit){
+  
+    super(op, key, user);
+  
+    this.entity       = entity;
+    this.label        = label;
+    this.space        = space;
+    this.shouldCommit = shouldCommit;
+  }
+  
+  public static SSTagsUserRemovePar get(final SSServPar par) throws Exception{
+    
+    try{
+      
+      if(par.clientCon != null){
+        return (SSTagsUserRemovePar) par.getFromJSON(SSTagsUserRemovePar.class);
+      }
+      
+      return new SSTagsUserRemovePar(
+        par.op,
+        par.key,
+        par.user,
+        (SSUri)                 par.pars.get(SSVarU.entity),
+        (SSTagLabel)            par.pars.get(SSVarU.label),
+        (SSSpaceE)              par.pars.get(SSVarU.space),
+        (Boolean)               par.pars.get(SSVarU.shouldCommit));
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
   }
 }

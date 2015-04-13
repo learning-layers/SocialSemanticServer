@@ -217,7 +217,7 @@ public class SSSearchFct {
     if(
       par.minRating == null && 
       par.maxRating == null){
-      return false;
+      return true;
     }
     
     try{

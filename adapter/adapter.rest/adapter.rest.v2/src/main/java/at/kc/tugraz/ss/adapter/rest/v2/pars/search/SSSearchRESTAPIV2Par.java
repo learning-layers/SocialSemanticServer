@@ -1,23 +1,23 @@
 /**
-* Code contributed to the Learning Layers project
-* http://www.learning-layers.eu
-* Development is partly funded by the FP7 Programme of the European Commission under
-* Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
-* For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
-*
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-* http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*/
+ * Code contributed to the Learning Layers project
+ * http://www.learning-layers.eu
+ * Development is partly funded by the FP7 Programme of the European Commission under
+ * Grant Agreement FP7-ICT-318209.
+ * Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
+ * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package at.kc.tugraz.ss.adapter.rest.v2.pars.search;
 
 import at.tugraz.sss.serv.SSUri;
@@ -45,7 +45,7 @@ public class SSSearchRESTAPIV2Par{
   @ApiModelProperty(
     value = "keywords to be used in textual content search",
     required = false)
-  public List<String>        wordsToSearchFor           = new ArrayList<>();
+  public List<String>        wordsToSearchFor           = null;
   
   @XmlElement
   @ApiModelProperty( 
@@ -57,7 +57,7 @@ public class SSSearchRESTAPIV2Par{
   @ApiModelProperty( 
     required = false, 
     value = "tags to be searched for" )
-  public List<String>        tagsToSearchFor            = new ArrayList<>();
+  public List<String>        tagsToSearchFor            = null;
   
   @XmlElement
   @ApiModelProperty(
@@ -69,7 +69,7 @@ public class SSSearchRESTAPIV2Par{
   @ApiModelProperty( 
     required = false, 
     value = "maturing indicators of entities to be matched" )
-  public List<String>        misToSearchFor             = new ArrayList<>();
+  public List<String>        misToSearchFor             = null;
   
   @XmlElement
   @ApiModelProperty( 
@@ -79,12 +79,12 @@ public class SSSearchRESTAPIV2Par{
   
   @ApiModelProperty( 
     required = false, 
-    value = "certain labels to be search for" )
-  public List<SSSearchLabel> labelsToSearchFor          = new ArrayList<>();
+    value = "certain labels to be searched for" )
+  public List<SSSearchLabel> labelsToSearchFor          = null;
   
   @XmlElement
   public void setLabelsToSearchFor(final List<String> labelsToSearchFor) throws Exception{
-    try{ this.labelsToSearchFor = SSSearchLabel.get(labelsToSearchFor); }catch(Exception error){}
+    this.labelsToSearchFor = SSSearchLabel.get(labelsToSearchFor);
   }
   
   @XmlElement
@@ -100,14 +100,18 @@ public class SSSearchRESTAPIV2Par{
   
   @XmlElement
   public void setDescriptionsToSearchFor(final List<String> descriptionsToSearchFor) throws Exception{
-    try{ this.descriptionsToSearchFor = SSSearchLabel.get(descriptionsToSearchFor); }catch(Exception error){}
+    this.descriptionsToSearchFor = SSSearchLabel.get(descriptionsToSearchFor);
   }
   
-  @XmlElement
   @ApiModelProperty( 
     required = false,
     value = "list of entity types to be considered for search exclusively " )
   public List<SSEntityE>     typesToSearchOnlyFor       = new ArrayList<>();
+  
+  @XmlElement
+  public void setTypesToSearchOnlyFor(final List<String> typesToSearchOnlyFor) throws Exception{
+    this.typesToSearchOnlyFor = SSEntityE.get(typesToSearchOnlyFor);
+  }
   
   @XmlElement
   @ApiModelProperty( 
@@ -119,11 +123,11 @@ public class SSSearchRESTAPIV2Par{
   @ApiModelProperty( 
     required = false, 
     value = "entities for whom only sub entities get search for")
-  public List<SSUri>         entitiesToSearchWithin     = new ArrayList<>();
+  public List<SSUri>         entitiesToSearchWithin     = null;
   
   @XmlElement
   public void setEntitiesToSearchWithin(final List<String> entitiesToSearchWithin) throws Exception{
-    try{ this.entitiesToSearchWithin = SSUri.get(entitiesToSearchWithin); }catch(Exception error){}
+    this.entitiesToSearchWithin = SSUri.get(entitiesToSearchWithin);
   }
   
   @XmlElement
@@ -168,17 +172,25 @@ public class SSSearchRESTAPIV2Par{
     value = "maximum overall star rating the entity must have to be returned")
   public Integer              maxRating             = null;
     
-  @XmlElement
   @ApiModelProperty(
     required = false,
     value = "how results will be comined for query parameter separately (i.e. or | and; e.g. and: results have to match for all tags given in tagsToSearchFor)")
   public SSSearchOpE              localSearchOp     = SSSearchOpE.or;
   
   @XmlElement
+  public void setLocalSearchOp(final String localSearchOp) throws Exception{
+    this.localSearchOp = SSSearchOpE.get(localSearchOp);
+  }
+  
   @ApiModelProperty(
     required = false,
     value = "how results will be comined overall (i.e. or | and; e.g. and: results have to match all given tags labels)")
   public SSSearchOpE              globalSearchOp     = SSSearchOpE.or;
+  
+  @XmlElement
+  public void setGlobalSearchOp(final String globalSearchOp) throws Exception{
+    this.globalSearchOp = SSSearchOpE.get(globalSearchOp);
+  }
     
   public SSSearchRESTAPIV2Par(){}
 }

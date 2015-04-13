@@ -24,8 +24,6 @@ import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSVarU;
 import at.kc.tugraz.ss.adapter.rest.v2.SSRestMainV2;
 import at.tugraz.sss.serv.SSUri;
-import at.kc.tugraz.ss.like.datatypes.par.SSLikeUserSetPar;
-import at.kc.tugraz.ss.like.datatypes.ret.SSLikeUserSetRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserUpdatePar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserGetRet;
@@ -109,7 +107,8 @@ public class SSRESTEntities {
           null, //label 
           null, //description,
           input.comments,  //comments
-          null); //read
+          null, //read
+          true); //shouldCommit
       
     }catch(Exception error){
       return Response.status(422).build();
@@ -144,9 +143,10 @@ public class SSRESTEntities {
           null, //user
           SSUri.get(entity, SSVocConf.sssUri), //entity
           input.label, //label 
-          null, //description,
+          null,  //description,
           null,  //comments
-          null); //read
+          null,  //read
+          true); //shouldCommit
       
     }catch(Exception error){
       return Response.status(422).build();
@@ -183,7 +183,8 @@ public class SSRESTEntities {
           null, //label 
           input.description, //description,
           null,  //comments
-          null); //read
+          null,  //read
+          true); //shouldCommit
       
     }catch(Exception error){
       return Response.status(422).build();
@@ -220,37 +221,8 @@ public class SSRESTEntities {
           input.label, //label
           input.description, //description
           null,  //comments
-          null); //read
-      
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
-  }
-  
-  @POST
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  @Path("/{entity}/likes")
-  @ApiOperation(
-    value = "like or dislike an entity",
-    response = SSLikeUserSetRet.class)
-  public Response likeSetPost(
-    @Context HttpHeaders               headers,
-    @PathParam(SSVarU.entity) String   entity,
-    final SSLikeSetRESTAPIV2Par        input){
-    
-    final SSLikeUserSetPar par;
-    
-    try{
-      par =
-        new SSLikeUserSetPar(
-          SSServOpE.likeSet,
-          null,
-          null,
-          SSUri.get(entity, SSVocConf.sssUri),
-          input.value);
+          null,  //read
+          true); //shouldCommit
       
     }catch(Exception error){
       return Response.status(422).build();

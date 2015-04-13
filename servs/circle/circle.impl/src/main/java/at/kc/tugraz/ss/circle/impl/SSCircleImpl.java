@@ -94,7 +94,7 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
     
     try{
       
-      final SSCircleEntitiesRemovePar par        = new SSCircleEntitiesRemovePar(parA);
+      final SSCircleEntitiesRemovePar par        = SSCircleEntitiesRemovePar.get(parA);
       
       if(par.withUserRestriction){
         SSServCallerU.canUserEditEntity(par.user, par.circle);
@@ -143,7 +143,7 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
     
     sSCon.writeRetFullToClient(SSCircleCreateRet.get(result, parA.op), parA.op);
     
-    SSCircleActivityFct.createCircle(new SSCircleCreatePar(parA), result);
+    SSCircleActivityFct.createCircle(SSCircleCreatePar.get(parA), result);
   }
   
   @Override
@@ -151,7 +151,7 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
     
     try{
       
-      final SSCircleCreatePar par        = new SSCircleCreatePar(parA);
+      final SSCircleCreatePar par        = SSCircleCreatePar.get(parA);
       final SSUri             circleUri  = SSServCaller.vocURICreate();
       
       if(par.withUserRestriction){
@@ -232,7 +232,7 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
     
     sSCon.writeRetFullToClient(SSCircleUsersAddRet.get(result, parA.op), parA.op);
     
-    SSCircleActivityFct.addUsersToCircle(new SSCircleUsersAddPar(parA));
+    SSCircleActivityFct.addUsersToCircle(SSCircleUsersAddPar.get(parA));
   }
   
   @Override
@@ -240,7 +240,7 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
     
     try{
       
-      final SSCircleUsersAddPar par = new SSCircleUsersAddPar(parA);
+      final SSCircleUsersAddPar par = SSCircleUsersAddPar.get(parA);
       
       if(par.withUserRestriction){
         SSCircleMiscFct.checkWhetherUserIsAllowedToEditCircle (sqlFct, par.user, par.circle);
@@ -285,7 +285,7 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
 
     sSCon.writeRetFullToClient(SSCircleEntitiesAddRet.get(circleEntitiesAdd(parA), parA.op), parA.op);
     
-    SSCircleActivityFct.addEntitiesToCircle(new SSCircleEntitiesAddPar(parA));
+    SSCircleActivityFct.addEntitiesToCircle(SSCircleEntitiesAddPar.get(parA));
   }
   
   @Override
@@ -293,7 +293,7 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
     
     try{
       
-      final SSCircleEntitiesAddPar par = new SSCircleEntitiesAddPar(parA);
+      final SSCircleEntitiesAddPar par = SSCircleEntitiesAddPar.get(parA);
       
       if(par.withUserRestriction){
         SSCircleMiscFct.checkWhetherUserIsAllowedToEditCircle (sqlFct,   par.user, par.circle);
@@ -446,8 +446,8 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
             SSServCaller.entityDescGet(
               par.user,
               entity.id, 
-              false, 
-              false, 
+              false, //getTags 
+              true,  //getOverallRating
               false, 
               false, 
               false, 

@@ -33,6 +33,8 @@ public class SSServPar{
   public SSServOpE            op                  = null;
   public SSUri                user                = null;
   public String               key                 = null;
+  
+  @XmlElement
   public Boolean              withUserRestriction = true;
 
   @JsonIgnore
@@ -68,11 +70,6 @@ public class SSServPar{
     this.key = key;
   }
   
-  @XmlElement
-  public void setWithUserRestriction(final Boolean withUserRestriction){
-    this.withUserRestriction = withUserRestriction;
-  }
-
   public String getOp(){
     return SSStrU.toStr(op);
   }

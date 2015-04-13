@@ -29,7 +29,6 @@ import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.SSServImplWithDBA;
-import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSConfA;
@@ -299,7 +298,7 @@ implements
     
     //TODO dtheiler: use start time for this call as well
     try{
-      final SSTagUserEntitiesForTagsGetPar par = new SSTagUserEntitiesForTagsGetPar(parA);
+      final SSTagUserEntitiesForTagsGetPar par = SSTagUserEntitiesForTagsGetPar.get(parA);
       
       if(par.user == null){
         throw new Exception("user null");
@@ -340,7 +339,7 @@ implements
     
     sSCon.writeRetFullToClient(SSTagAddRet.get(tagUri, parA.op), parA.op);
 
-    SSTagActivityFct.addTag(new SSTagAddPar(parA), tagUri);
+    SSTagActivityFct.addTag( SSTagAddPar.get(parA), tagUri);
   }
   
   @Override
@@ -348,7 +347,7 @@ implements
     
     try{
       
-      final SSTagAddPar par          = new SSTagAddPar(parA);
+      final SSTagAddPar par          =  SSTagAddPar.get(parA);
       final Boolean     existsTag;
       final Boolean     existsEntity = SSServCaller.entityExists(par.entity);
       final SSUri       tagUri;
@@ -483,7 +482,7 @@ implements
     
     try{
       
-      final SSTagUserEditPar par       = new SSTagUserEditPar (parA);
+      final SSTagUserEditPar par       =  SSTagUserEditPar.get(parA);
       SSUri                  newTagUri = null;
       
       if(par.user == null){
@@ -563,7 +562,7 @@ implements
     
     sSCon.writeRetFullToClient(SSTagsUserRemoveRet.get(tagsUserRemove(parA), parA.op), parA.op);
     
-    SSTagActivityFct.removeTags(new SSTagsUserRemovePar(parA));
+    SSTagActivityFct.removeTags( SSTagsUserRemovePar.get(parA));
   }
   
   @Override
@@ -571,7 +570,7 @@ implements
     
     try{
       
-      final SSTagsUserRemovePar par = new SSTagsUserRemovePar (parA);
+      final SSTagsUserRemovePar par =  SSTagsUserRemovePar.get (parA);
       
       if(par.user == null){
         throw new Exception("user null");
@@ -675,7 +674,7 @@ implements
     
     try{
       
-      final SSTagUserFrequsGetPar par = new SSTagUserFrequsGetPar (parA);
+      final SSTagUserFrequsGetPar par = SSTagUserFrequsGetPar.get (parA);
       
       if(
         !par.entities.isEmpty() &&
@@ -829,7 +828,7 @@ implements
     
     try{
       
-      final SSTagsUserGetPar par       = new SSTagsUserGetPar (parA);
+      final SSTagsUserGetPar par       =  SSTagsUserGetPar.get (parA);
       
       if(par.user == null){
         throw new Exception("user null");

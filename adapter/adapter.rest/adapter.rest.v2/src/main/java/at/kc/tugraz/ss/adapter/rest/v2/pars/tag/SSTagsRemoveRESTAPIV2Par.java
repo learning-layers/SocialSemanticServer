@@ -28,7 +28,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-@ApiModel(value = "tagsUserRemove request parameter")
+@ApiModel(value = "tagsRemove request parameter")
 public class SSTagsRemoveRESTAPIV2Par{
   
   @ApiModelProperty(
@@ -38,14 +38,18 @@ public class SSTagsRemoveRESTAPIV2Par{
   
   @XmlElement
   public void setLabel(final String label) throws Exception{
-    try{ this.label = SSTagLabel.get(label); }catch(Exception error){}
+    this.label = SSTagLabel.get(label);
   }
   
-  @XmlElement
   @ApiModelProperty(
     required = false,
     value = "access restriction (i.e. privateSpace, sharedSpace) for tag-assignments to be removed")
   public SSSpaceE     space      = null;
+
+  @XmlElement
+  public void setSpace(final String space) throws Exception{
+    this.space = SSSpaceE.get(space);
+  }
   
   public SSTagsRemoveRESTAPIV2Par(){}
 }

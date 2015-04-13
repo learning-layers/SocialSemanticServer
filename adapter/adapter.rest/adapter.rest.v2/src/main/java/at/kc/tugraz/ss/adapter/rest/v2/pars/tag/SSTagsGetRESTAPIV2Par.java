@@ -32,7 +32,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-@ApiModel(value = "tagsUserGet request parameter")
+@ApiModel(value = "tagsGet request parameter")
 public class SSTagsGetRESTAPIV2Par{
   
   @ApiModelProperty(
@@ -41,7 +41,7 @@ public class SSTagsGetRESTAPIV2Par{
   public SSUri              forUser        = null;
   
   @XmlElement
-  public void setForUser(final String forUser) throws Exception{
+  public void setForUser(final String forUser) {
     try{ this.forUser = SSUri.get(forUser, SSVocConf.sssUri); }catch(Exception error){}
   }
   
@@ -51,7 +51,7 @@ public class SSTagsGetRESTAPIV2Par{
   public List<SSUri>        entities       = new ArrayList<>();
   
   @XmlElement
-  public void setEntities(final List<String> entities) throws Exception{
+  public void setEntities(final List<String> entities) {
     try{ this.entities = SSUri.get(entities, SSVocConf.sssUri); }catch(Exception error){}
   }
   
@@ -62,16 +62,20 @@ public class SSTagsGetRESTAPIV2Par{
   public List<SSTagLabel>   labels         = new ArrayList<>();
   
     @XmlElement
-  public void setLabels(final List<String> labels) throws Exception{
+  public void setLabels(final List<String> labels){
     try{ this.labels = SSTagLabel.get(labels); }catch(Exception error){}
   }
   
-  @XmlElement
   @ApiModelProperty(
     required = false, 
     value = "access restriction for to be retrieved tag assignments (i.e. privateSpace, sharedSpace)")
   public SSSpaceE           space          = null;
-  
+      
+  @XmlElement
+  public void setSpace(final String space){
+    try{ this.space = SSSpaceE.get(space); }catch(Exception error){}
+  }
+
   @XmlElement
   @ApiModelProperty(
     required = false, 

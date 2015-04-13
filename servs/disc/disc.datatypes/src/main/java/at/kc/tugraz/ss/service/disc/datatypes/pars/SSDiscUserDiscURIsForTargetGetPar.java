@@ -3,7 +3,7 @@
 * http://www.learning-layers.eu
 * Development is partly funded by the FP7 Programme of the European Commission under
 * Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+* Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
 * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,18 +25,11 @@ import at.tugraz.sss.serv.SSVarU;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServErrReg;
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
+import at.tugraz.sss.serv.SSServOpE;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement
-@ApiModel(value = "discUserDiscURIsForTargetGet request parameter")
 public class SSDiscUserDiscURIsForTargetGetPar extends SSServPar{
   
-  @ApiModelProperty( 
-    required = true, 
-    value = "entity to retrieve discussions for")
   public SSUri entity  = null;
             
   @XmlElement
@@ -44,28 +37,40 @@ public class SSDiscUserDiscURIsForTargetGetPar extends SSServPar{
     this.entity = SSUri.get(entity);
   }
   
-  public SSDiscUserDiscURIsForTargetGetPar(){}
-    
-  public SSDiscUserDiscURIsForTargetGetPar(SSServPar par) throws Exception{
-      
-    super(par);
-    
-    try{
-      
-      if(pars != null){
-        entity        = (SSUri)              pars.get(SSVarU.entity);
-      }
-      
-      if(par.clientJSONObj != null){
-        entity        = SSUri.get             (par.clientJSONObj.get(SSVarU.entity).getTextValue());
-      }
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
-  /* json getters */
   public String getEntity(){
     return SSStrU.removeTrailingSlash(entity);
+  }
+  
+  public SSDiscUserDiscURIsForTargetGetPar(){}
+  
+  public SSDiscUserDiscURIsForTargetGetPar(
+    final SSServOpE op,
+    final String    key,
+    final SSUri     user,
+    final SSUri     entity){
+    
+    super(op, key, user);
+  
+    this.entity = entity;
+  }
+    
+  public static SSDiscUserDiscURIsForTargetGetPar get(final SSServPar par) throws Exception{
+      
+    try{
+      
+      if(par.clientCon != null){
+        return (SSDiscUserDiscURIsForTargetGetPar) par.getFromJSON(SSDiscUserDiscURIsForTargetGetPar.class);
+      }
+
+      return new SSDiscUserDiscURIsForTargetGetPar(
+        par.op,
+        par.key,
+        par.user,
+        (SSUri)   par.pars.get(SSVarU.entity));
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
   }
 }

@@ -41,11 +41,15 @@ public class SSTagAddRESTAPIV2Par{
     this.label = SSTagLabel.get(label);
   }
   
-  @XmlElement
   @ApiModelProperty(
     required = true,
     value = "access restriction for the tag (i.e. privateSpace, sharedSpace)")
   public SSSpaceE     space        = null;
+  
+  @XmlElement
+  public void setSpace(final String space) throws Exception{
+    this.space = SSSpaceE.get(space);
+  }
   
   @XmlElement
   @ApiModelProperty(

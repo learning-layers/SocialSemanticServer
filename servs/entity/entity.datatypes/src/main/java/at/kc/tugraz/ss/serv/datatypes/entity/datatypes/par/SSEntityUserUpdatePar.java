@@ -87,7 +87,8 @@ public class SSEntityUserUpdatePar extends SSServPar{
     final SSLabel             label,
     final SSTextComment       description, 
     final List<SSTextComment> comments,
-    final Boolean             read){
+    final Boolean             read,
+    final Boolean             shouldCommit){
     
     super(op, key, user);
     
@@ -99,7 +100,8 @@ public class SSEntityUserUpdatePar extends SSServPar{
       this.comments.addAll(comments);
     }
     
-    this.read = read;
+    this.read         = read;
+    this.shouldCommit = shouldCommit;
   }
   
   public SSEntityUserUpdatePar(){}
@@ -120,7 +122,8 @@ public class SSEntityUserUpdatePar extends SSServPar{
         (SSLabel)             par.pars.get(SSVarU.label),
         (SSTextComment)       par.pars.get(SSVarU.description),
         (List<SSTextComment>) par.pars.get(SSVarU.comments),
-        (Boolean)             par.pars.get(SSVarU.read));
+        (Boolean)             par.pars.get(SSVarU.read),
+        (Boolean)             par.pars.get(SSVarU.shouldCommit));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

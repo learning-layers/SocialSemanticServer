@@ -9,6 +9,27 @@
   <display-name>SSAdapterRestV2</display-name>
   
   <servlet>
+    <servlet-name>SSRESTLikes</servlet-name>
+    <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>  
+    <init-param>
+      <param-name>jersey.config.server.provider.packages</param-name>
+      <param-value>at.kc.tugraz.ss.adapter.rest.v2</param-value>
+    </init-param>
+    
+    <init-param>
+      <param-name>javax.ws.rs.Application</param-name>
+      <param-value>at.kc.tugraz.ss.adapter.rest.v2.SSRestMainV2</param-value>
+    </init-param>
+        
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>SSRESTLikes</servlet-name>
+    <url-pattern>/likes/*</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
     <servlet-name>SSRESTAppStackLayouts</servlet-name>
     <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>  
     <init-param>
@@ -177,6 +198,27 @@
   </servlet-mapping>
   
   <servlet>
+    <servlet-name>SSRESTDiscs</servlet-name>
+    <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>  
+    <init-param>
+      <param-name>jersey.config.server.provider.packages</param-name>
+      <param-value>at.kc.tugraz.ss.adapter.rest.v2</param-value>
+    </init-param>
+    
+    <init-param>
+      <param-name>javax.ws.rs.Application</param-name>
+      <param-value>at.kc.tugraz.ss.adapter.rest.v2.SSRestMainV2</param-value>
+    </init-param>
+        
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>SSRESTDiscs</servlet-name>
+    <url-pattern>/discs/*</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
     <servlet-name>SSRESTAuth</servlet-name>
     <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>    
     <init-param>
@@ -262,10 +304,12 @@
     <servlet-name>SSRESTEntities</servlet-name>
     <servlet-name>SSRESTFriends</servlet-name>
     <servlet-name>SSRESTCircles</servlet-name>
+    <servlet-name>SSRESTDiscs</servlet-name>
     <servlet-name>SSRESTVideos</servlet-name>
     <servlet-name>SSRESTApps</servlet-name>
     <servlet-name>SSRESTAppStackLayouts</servlet-name>
     <servlet-name>SSRESTRecomm</servlet-name>
+    <servlet-name>SSRESTLikes</servlet-name>
     
   </filter-mapping>
   

@@ -3,7 +3,7 @@
 * http://www.learning-layers.eu
 * Development is partly funded by the FP7 Programme of the European Commission under
 * Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+* Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
 * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -27,56 +27,25 @@ import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.tugraz.sss.serv.SSServErrReg;
-import at.tugraz.sss.serv.SSServErrReg;
+ 
 public class SSTagUserEditPar extends SSServPar{
   
   public SSTagLabel      tag     = null;
   public SSUri           entity  = null;
   public SSTagLabel      label   = null;
-  
-  public SSTagUserEditPar(
-    final SSServOpE    op,
-    final String     key, 
-    final SSUri      user, 
-    final SSTagLabel tag, 
-    final SSUri      entity,
-    final SSTagLabel label){
-    
-    super(op, key, user);
-    
-    this.tag    = tag;
-    this.entity = entity;
-    this.label  = label;
+
+  public void setTag(final String tag) throws Exception{
+    this.tag = SSTagLabel.get(tag);
+  }
+
+  public void setEntity(final String entity){
+    try{ this.entity = SSUri.get(entity); }catch(Exception error){}
+  }
+
+  public void setLabel(final String label) throws Exception{
+    this.label = SSTagLabel.get(label);
   }
   
-  public SSTagUserEditPar(SSServPar par) throws Exception{
-      
-    super(par);
-    
-    try{
-      
-      if(pars != null){
-        tag      = SSTagLabel.get((String)pars.get(SSVarU.tag));
-        label    = SSTagLabel.get((String)pars.get(SSVarU.label));
-        entity   = SSUri.get     ((String)pars.get(SSVarU.entity));
-      }
-      
-      if(par.clientJSONObj != null){
-        tag       = SSTagLabel.get   (par.clientJSONObj.get(SSVarU.tag).getTextValue());
-        
-        label     = SSTagLabel.get   (par.clientJSONObj.get(SSVarU.label).getTextValue());
-        
-        try{
-          entity   = SSUri.get     (par.clientJSONObj.get(SSVarU.entity).getTextValue());
-        }catch(Exception error){}
-      }
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
-  /* json getters */
   public String getTag(){
     return SSStrU.toStr(tag);
   }
@@ -87,5 +56,47 @@ public class SSTagUserEditPar extends SSServPar{
   
   public String getEntity(){
     return SSStrU.removeTrailingSlash(entity);
+  }
+  
+  public SSTagUserEditPar(){}
+  
+  public SSTagUserEditPar(
+    final SSServOpE  op,
+    final String     key, 
+    final SSUri      user, 
+    final SSTagLabel tag, 
+    final SSUri      entity,
+    final SSTagLabel label,
+    final Boolean    shouldCommit){
+    
+    super(op, key, user);
+    
+    this.tag          = tag;
+    this.entity       = entity;
+    this.label        = label;
+    this.shouldCommit = shouldCommit;
+  }
+  
+  public static SSTagUserEditPar get(final SSServPar par) throws Exception{
+      
+    try{
+      
+      if(par.clientCon != null){
+        return (SSTagUserEditPar) par.getFromJSON(SSTagUserEditPar.class);
+      }
+      
+      return new SSTagUserEditPar(
+        par.op,
+        par.key,
+        par.user,
+        (SSTagLabel) par.pars.get(SSVarU.tag), 
+        (SSUri)      par.pars.get(SSVarU.entity),
+        (SSTagLabel) par.pars.get(SSVarU.label),
+        (Boolean)    par.pars.get(SSVarU.shouldCommit));
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
   }
 }

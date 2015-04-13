@@ -3,7 +3,7 @@
 * http://www.learning-layers.eu
 * Development is partly funded by the FP7 Programme of the European Commission under
 * Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+* Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
 * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,49 +18,20 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.adapter.rest.v1.par;
+package at.kc.tugraz.ss.adapter.rest.v2.pars.disc;
 
-import at.tugraz.sss.serv.SSUri;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-@ApiModel(value = "entityUserUpdate request parameter")
-public class SSLikeSetRESTAPIV1Par{
-  
-  @ApiModelProperty( 
-    value = "the user's identifier", 
-    required = true)
-  public        SSUri                user          = null;
-  
-  @XmlElement 
-  public void setUser(final String user) throws Exception{
-    this.user = SSUri.get(user);
-  }
-  
-  @XmlElement 
-  @ApiModelProperty( 
-    value = "the user's access tocken", 
-    required = true)
-  public String key                    = null;
-  
-  @ApiModelProperty( 
-    required = true, 
-    value = "entity to like")
-  public SSUri               entity        = null;
-  
-  @XmlElement
-  public void setEntity(final String entity) throws Exception{
-    this.entity = SSUri.get(entity);
-  }
+@ApiModel(value = "discGet request parameter")
+public class SSDiscGetRESTAPIV2Par{
   
   @XmlElement
   @ApiModelProperty( 
-    required = true, 
-    value = "value of the like - 1, 0, -1 for like, neutral, dislike")
-  public Integer             value         = null;
-  
-  public SSLikeSetRESTAPIV1Par(){}
+    required = false, 
+    value = "whether comments of threads and entries shall be retrieved")
+  public Boolean    includeComments       = null;
 }

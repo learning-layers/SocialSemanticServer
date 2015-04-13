@@ -33,10 +33,8 @@ import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.kc.tugraz.ss.service.disc.api.*;
 import at.kc.tugraz.ss.service.disc.datatypes.*;
-import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSEntityCircle;
-
 import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSEntityDescriberI;
 import at.tugraz.sss.serv.SSEntityHandlerImplI;
@@ -358,7 +356,7 @@ implements
     
     final SSDiscUserEntryAddRet ret = discUserEntryAdd(parA);
     
-    SSDiscActivityFct.discEntryAdd(new SSDiscUserEntryAddPar(parA), ret);
+    SSDiscActivityFct.discEntryAdd(SSDiscUserEntryAddPar.get(parA), ret);
     
     sSCon.writeRetFullToClient(ret, parA.op);
   }
@@ -367,7 +365,7 @@ implements
   public SSDiscUserEntryAddRet discUserEntryAdd(final SSServPar parA) throws Exception{
     
     try{
-      final SSDiscUserEntryAddPar par          = new SSDiscUserEntryAddPar(parA);
+      final SSDiscUserEntryAddPar par          = SSDiscUserEntryAddPar.get(parA);
       SSUri                       discEntryUri = null;
       
       if(par.addNewDisc){
@@ -486,7 +484,7 @@ implements
   public List<SSDisc> discsUserAllGet(final SSServPar parA) throws Exception{
 
     try{
-      final SSDiscsUserAllGetPar par                 = new SSDiscsUserAllGetPar(parA);
+      final SSDiscsUserAllGetPar par                 = SSDiscsUserAllGetPar.get(parA);
       final List<SSDisc>         discsWithoutEntries = new ArrayList<>();
       SSDisc                     disc;
       
@@ -528,7 +526,7 @@ implements
   public SSDisc discUserWithEntriesGet(final SSServPar parA) throws Exception{
 
     try{
-      final SSDiscUserWithEntriesGetPar par = new SSDiscUserWithEntriesGetPar(parA);
+      final SSDiscUserWithEntriesGetPar par = SSDiscUserWithEntriesGetPar.get(parA);
       SSDiscEntry                       discEntry;
       
       SSServCallerU.canUserReadEntity(par.user, par.disc);
@@ -635,7 +633,7 @@ implements
   public List<SSUri> discUserDiscURIsForTargetGet(final SSServPar parA) throws Exception {
 
     try{
-      final SSDiscUserDiscURIsForTargetGetPar par = new SSDiscUserDiscURIsForTargetGetPar(parA);
+      final SSDiscUserDiscURIsForTargetGetPar par = SSDiscUserDiscURIsForTargetGetPar.get(parA);
 
       SSServCallerU.canUserReadEntity(par.user, par.entity);
       

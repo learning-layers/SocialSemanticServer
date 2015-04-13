@@ -3,7 +3,7 @@
 * http://www.learning-layers.eu
 * Development is partly funded by the FP7 Programme of the European Commission under
 * Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+* Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
 * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,17 +20,39 @@
 */
 package at.kc.tugraz.ss.service.disc.datatypes.pars;
 
-import at.tugraz.sss.serv.SSServPar;
-import com.wordnik.swagger.annotations.ApiModel;
-import javax.xml.bind.annotation.XmlRootElement;
 import at.tugraz.sss.serv.SSServErrReg;
-@XmlRootElement
-@ApiModel(value = "discsUserAllGet request parameter")
+import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSUri;
+
 public class SSDiscsUserAllGetPar extends SSServPar{
   
-  public SSDiscsUserAllGetPar(){}
+  public SSDiscsUserAllGetPar(
+    final SSServOpE op,
+    final String    key,
+    final SSUri     user){
+    
+    super(op, key, user);
+  }
   
-  public SSDiscsUserAllGetPar(SSServPar par) throws Exception{
-    super(par);
+  public SSDiscsUserAllGetPar(){}
+
+  public static SSDiscsUserAllGetPar get(final SSServPar par) throws Exception{
+    
+    try{
+      
+      if(par.clientCon != null){
+        return (SSDiscsUserAllGetPar) par.getFromJSON(SSDiscsUserAllGetPar.class);
+      }
+      
+      return new SSDiscsUserAllGetPar(
+        par.op,
+        par.key,
+        par.user);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
   }
 }

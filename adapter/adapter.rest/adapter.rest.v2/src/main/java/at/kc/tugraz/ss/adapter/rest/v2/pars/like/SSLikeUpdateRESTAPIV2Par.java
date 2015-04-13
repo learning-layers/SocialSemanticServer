@@ -18,23 +18,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package at.kc.tugraz.ss.service.search.datatypes;
+package at.kc.tugraz.ss.adapter.rest.v2.pars.like;
 
-import at.tugraz.sss.serv.SSServErrReg;
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
-public enum SSSearchOpE{
-  and,
-  or;
+@XmlRootElement
+@ApiModel(value = "likeUpdate request parameter")
+public class SSLikeUpdateRESTAPIV2Par{
   
-  public static SSSearchOpE get(final String value) throws Exception{
-    
-    try{
-      
-      return valueOf(value);
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(new Exception("search op not available " + value));
-      return null;
-    }
-  }
+  @XmlElement
+  @ApiModelProperty(
+    required = true,
+    value = "value like: 1, neutral: 0, dislike: -1")
+  public Integer value = null;
+  
+  public SSLikeUpdateRESTAPIV2Par(){}
 }

@@ -76,11 +76,11 @@ public class SSRESTTags{
           SSServOpE.tagsGet,
           null,
           null,
-          null,
-          null,
-          null,
-          null,
-          null);
+          null, //forUser
+          null, //entities
+          null, //labels
+          null, //space
+          null); //startTime
       
     }catch(Exception error){
       return Response.status(422).build();
@@ -97,7 +97,9 @@ public class SSRESTTags{
     value = "retrieve tag assignments",
     response = SSTagsUserGetRet.class)
   public Response tagsGetPost(
-    @Context HttpHeaders headers,
+    @Context 
+      final HttpHeaders headers,
+    
     final SSTagsGetRESTAPIV2Par input){
     
     final SSTagsUserGetPar par;
@@ -162,7 +164,9 @@ public class SSRESTTags{
     value = "retrieve tag frequencies",
     response = SSTagUserFrequsGetRet.class)
   public Response tagFrequsGetPost(
-    @Context HttpHeaders headers,
+    @Context 
+      final HttpHeaders headers,
+    
     final SSTagFrequsGetRESTAPIV2Par input){
     
     final SSTagUserFrequsGetPar par;
@@ -190,12 +194,14 @@ public class SSRESTTags{
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    ("/entities")
+  @Path    ("/entities/tags")
   @ApiOperation(
     value = "retrieve entities for tags (currently startTime is not used to retrieve entities)",
     response = SSTagUserEntitiesForTagsGetRet.class)
   public Response tagEntitiesGetPost(
-     @Context HttpHeaders                     headers,
+    @Context
+    final HttpHeaders headers,
+    
     final SSTagEntitiesForTagsGetRESTAPIV2Par input){
     
     final SSTagUserEntitiesForTagsGetPar par;
@@ -221,13 +227,17 @@ public class SSRESTTags{
   @DELETE
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    ("/{entity}")
+  @Path    ("/entities/{entity}")
   @ApiOperation(
     value = "remove tag, user, entity, space combinations",
     response = SSTagsUserRemoveRet.class)
-  public Response tagsRemoveDelete(
-    @Context HttpHeaders               headers,
-    @PathParam(SSVarU.entity) String   entity,
+  public Response tagsRemove(
+    @Context 
+      final HttpHeaders headers,
+    
+    @PathParam(SSVarU.entity) 
+      final String entity,
+    
     final SSTagsRemoveRESTAPIV2Par     input){
     
     final SSTagsUserRemovePar par;
@@ -238,9 +248,10 @@ public class SSRESTTags{
           SSServOpE.tagsRemove,
           null,
           null,
-          SSUri.get(entity, SSVocConf.sssUri),
-          input.label,
-          input.space);
+          SSUri.get(entity, SSVocConf.sssUri), //entity
+          input.label, //label
+          input.space, //space
+          true); 
       
     }catch(Exception error){
       return Response.status(422).build();
@@ -252,14 +263,18 @@ public class SSRESTTags{
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path("/{entity}")
+  @Path("/entities/{entity}")
   @ApiOperation(
     value = "add a tag for an entity within given space",
     response = SSTagAddRet.class)
-  public Response tagAddPost(
-    @Context HttpHeaders            headers,
-    @PathParam(SSVarU.entity)String entity,
-    final SSTagAddRESTAPIV2Par      input){
+  public Response tagAdd(
+    @Context 
+      final HttpHeaders headers,
+    
+    @PathParam(SSVarU.entity)
+      final String entity,
+    
+    final SSTagAddRESTAPIV2Par input){
     
     final SSTagAddPar par;
     
@@ -269,10 +284,11 @@ public class SSRESTTags{
           SSServOpE.tagAdd,
           null,
           null,
-          SSUri.get(entity, SSVocConf.sssUri),
-          input.label,
-          input.space,
-          input.creationTime);
+          SSUri.get(entity, SSVocConf.sssUri), //entity
+          input.label, //label
+          input.space, //space
+          input.creationTime,  //creationTime
+          true); //shouldCommit
       
     }catch(Exception error){
       return Response.status(422).build();
@@ -284,13 +300,20 @@ public class SSRESTTags{
   @PUT
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    ("/label/{tag}")
+  @Path    ("{tag}/entities/{entity}")
   @ApiOperation(
     value = "changes the label of the tag assigned to entities by given user",
     response = SSTagUserEditRet.class)
-  public Response tagEditPut(
-    @Context HttpHeaders            headers,
-    @PathParam(SSVarU.tag) String   tag,
+  public Response tagEdit(
+    @Context 
+      final HttpHeaders headers,
+    
+    @PathParam(SSVarU.tag) 
+      final String tag,
+    
+    @PathParam(SSVarU.entity) 
+      final String entity,
+    
     final SSTagEditRESTAPIV2Par     input) throws Exception{
     
     final SSTagUserEditPar par;
@@ -301,9 +324,10 @@ public class SSRESTTags{
           SSServOpE.tagEdit,
           null,
           null,
-          SSTagLabel.get(tag),
-          input.entity,
-          input.label);
+          SSTagLabel.get(tag), //tag
+          SSUri.get(entity, SSVocConf.sssUri),      //entity
+          input.label, //label
+          true);  //shouldCommit
       
     }catch(Exception error){
       return Response.status(422).build();

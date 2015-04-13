@@ -32,7 +32,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-@ApiModel(value = "tagUserEntitiesForTagsGet request parameter")
+@ApiModel(value = "tagEntitiesForTagsGet request parameter")
 public class SSTagEntitiesForTagsGetRESTAPIV2Par{
 
   @ApiModelProperty( 
@@ -55,11 +55,15 @@ public class SSTagEntitiesForTagsGetRESTAPIV2Par{
     this.labels = SSTagLabel.get(labels);
   }
   
-  @XmlElement
   @ApiModelProperty( 
     required = false, 
     value = "access restriction for tags to be considered (i.e. privateSpace, sharedSpace)")
   public SSSpaceE          space     = null;
+  
+  @XmlElement
+  public void setSpace(final String space) throws Exception{
+    this.space = SSSpaceE.get(space);
+  }
   
   @XmlElement
   @ApiModelProperty( 

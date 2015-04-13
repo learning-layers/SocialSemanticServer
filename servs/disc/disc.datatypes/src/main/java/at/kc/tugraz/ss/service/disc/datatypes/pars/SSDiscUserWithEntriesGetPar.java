@@ -3,7 +3,7 @@
 * http://www.learning-layers.eu
 * Development is partly funded by the FP7 Programme of the European Commission under
 * Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+* Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
 * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,73 +18,65 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
- package at.kc.tugraz.ss.service.disc.datatypes.pars;
+package at.kc.tugraz.ss.service.disc.datatypes.pars;
 
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarU;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServErrReg;
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import at.tugraz.sss.serv.SSServOpE;
 
-@XmlRootElement
-@ApiModel(value = "discUserWithEntriesGet request parameter")
 public class SSDiscUserWithEntriesGetPar extends SSServPar{
   
-  @ApiModelProperty( 
-    required = true, 
-    value = "discussion to retrieve")
-  public SSUri  disc             = null;
+  public SSUri      disc             = null;
+  public Integer    maxEntries       = 10;
+  public Boolean    includeComments  = null;
   
-  @XmlElement
   public void setDisc(final String disc) throws Exception{
     this.disc = SSUri.get(disc);
   }
   
-  @XmlElement
-  @ApiModelProperty( 
-    required = true, 
-    value = "max entries to retrieve")
-  public int    maxEntries       = 10;
+  public String getDisc(){
+    return SSStrU.removeTrailingSlash(disc);
+  }
   
-  @XmlElement
-  @ApiModelProperty( 
-    required = false, 
-    value = "whether comments of threads and entries shall be retrieved")
-  public Boolean    includeComments       = null;
-      
   public SSDiscUserWithEntriesGetPar(){}
+  
+  public SSDiscUserWithEntriesGetPar(
+    final SSServOpE op,
+    final String    key,
+    final SSUri     user,
+    final SSUri     disc,
+    final Integer   maxEntries,
+    final Boolean   includeComments){
     
-  public SSDiscUserWithEntriesGetPar(SSServPar par) throws Exception{
+    super(op, key, user);
     
-    super(par);
+    this.disc              = disc;
+    this.maxEntries        = maxEntries;
+    this.includeComments   = includeComments;
+  }
+  
+  public static SSDiscUserWithEntriesGetPar get(final SSServPar par) throws Exception{
     
     try{
       
-      if(pars != null){
-        disc            = (SSUri)   pars.get(SSVarU.disc);
-        maxEntries      = (Integer) pars.get(SSVarU.maxEntries);
-        includeComments = (Boolean) pars.get(SSVarU.includeComments);
+      if(par.clientCon != null){
+        return (SSDiscUserWithEntriesGetPar) par.getFromJSON(SSDiscUserWithEntriesGetPar.class);
       }
       
-      if(par.clientJSONObj != null){
-        disc         = SSUri.get       (par.clientJSONObj.get(SSVarU.disc).getTextValue());
-        maxEntries   = par.clientJSONObj.get(SSVarU.maxEntries).getIntValue();
-        
-        try{
-          includeComments = par.clientJSONObj.get(SSVarU.includeComments).getBooleanValue();
-        }catch(Exception error){}
-      }
+      return new SSDiscUserWithEntriesGetPar(
+        par.op,
+        par.key,
+        par.user,
+        (SSUri)   par.pars.get(SSVarU.disc),
+        (Integer) par.pars.get(SSVarU.maxEntries),
+        (Boolean) par.pars.get(SSVarU.includeComments));
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
-  }
-  
-  /* json getters */
-  public String getDisc(){
-    return SSStrU.removeTrailingSlash(disc);
   }
 }

@@ -248,9 +248,13 @@ public class SSRESTCircles{
   @ApiOperation(
     value = "add given users to a circle",
     response = SSCircleUsersAddRet.class)
-  public Response circleUsersAddPost(
-    @Context HttpHeaders                       headers,
-    @PathParam(SSVarU.circle) String           circle,
+  public Response circleUsersAdd(
+    @Context 
+      final HttpHeaders headers,
+    
+    @PathParam (SSVarU.circle) 
+      final String circle,
+    
     final SSCircleUsersAddRESTAPIV2Par input){
     
     final SSCircleUsersAddPar par;
@@ -261,9 +265,10 @@ public class SSRESTCircles{
           SSServOpE.circleUsersAdd,
           null,
           null,
-          SSUri.get(circle, SSVocConf.sssUri),
-          input.users, 
-          true);
+          SSUri.get(circle, SSVocConf.sssUri), //circle
+          input.users,  //users
+          true, //withUserRestriction
+          true); //shouldCommit
       
     }catch(Exception error){
       return Response.status(422).build();
@@ -279,9 +284,13 @@ public class SSRESTCircles{
   @ApiOperation(
     value = "add given entities to a circle",
     response = SSCircleEntitiesAddRet.class)
-  public Response circleEntitiesAddPost(
-    @Context HttpHeaders                          headers,
-    @PathParam(SSVarU.circle) String              circle,
+  public Response circleEntitiesAdd(
+    @Context 
+      final HttpHeaders headers,
+    
+    @PathParam (SSVarU.circle) 
+      final String circle,
+    
     final SSCircleEntitiesAddRESTAPIV2Par input){
     
     final SSCircleEntitiesAddPar par;
@@ -293,10 +302,11 @@ public class SSRESTCircles{
           SSServOpE.circleEntitiesAdd,
           null,
           null,
-          SSUri.get(circle, SSVocConf.sssUri),
-          input.entities, 
-          true,
-          true);
+          SSUri.get(circle, SSVocConf.sssUri), //circle
+          input.entities, //entities
+          true,  //withUserRestriction
+          true,  //invokeEntityHandlers
+          true); //shouldCommit
       
     }catch(Exception error){
       return Response.status(422).build();
@@ -313,8 +323,12 @@ public class SSRESTCircles{
     value = "remove given entities from circle",
     response = SSCircleEntitiesRemoveRet.class)
   public Response circleEntitiesDelete(
-    @Context HttpHeaders                          headers,
-    @PathParam(SSVarU.circle) String              circle,
+    @Context 
+      final HttpHeaders headers,
+    
+    @PathParam(SSVarU.circle) 
+      final String circle,
+    
     final SSCircleEntitiesRemoveRESTAPIV2Par input){
     
     final SSCircleEntitiesRemovePar par;
@@ -328,7 +342,8 @@ public class SSRESTCircles{
           null,
           SSUri.get(circle, SSVocConf.sssUri), //circle
           input.entities, //entities
-          true); //withUserRestriction
+          true, //withUserRestriction
+          true); //shouldCommit
       
     }catch(Exception error){
       return Response.status(422).build();
@@ -344,8 +359,10 @@ public class SSRESTCircles{
   @ApiOperation(
     value = "create a circle and add users / entities",
     response = SSCircleCreateRet.class)
-  public Response circleAddPost(
-    @Context HttpHeaders              headers,
+  public Response circleCreate(
+    @Context 
+      final HttpHeaders headers,
+    
     final SSCircleCreateRESTAPIV2Par input){
     
     final SSCircleCreatePar par;
@@ -357,13 +374,14 @@ public class SSRESTCircles{
           SSServOpE.circleCreate,
           null,
           null,
-          input.label,
-          input.entities,
-          input.users,
-          input.description,
-          false, 
-          true,
-          true);
+          input.label, //label
+          input.entities, //entities
+          input.users, //users
+          input.description, //description
+          false, //isSystemCircle
+          true, //withUserRestriction
+          true, //invokeEntityHandlers
+          true); //shouldCommit
       
     }catch(Exception error){
       return Response.status(422).build();

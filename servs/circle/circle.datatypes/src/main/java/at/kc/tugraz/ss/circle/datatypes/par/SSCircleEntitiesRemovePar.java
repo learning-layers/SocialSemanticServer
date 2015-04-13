@@ -28,20 +28,38 @@ import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServErrReg;
 import java.util.ArrayList;
 import java.util.List;
-import org.codehaus.jackson.JsonNode;
 
 public class SSCircleEntitiesRemovePar extends SSServPar{
   
   public SSUri                 circle               = null;
   public List<SSUri>           entities             = new ArrayList<>();
+
+  public void setCircle(final String circle) throws Exception{
+    this.circle = SSUri.get(circle);
+  }
+
+  public void setEntities(final List<String> entities) throws Exception{
+    this.entities = SSUri.get(entities); 
+  }
+  
+  public String getCircle() throws Exception{
+    return SSStrU.removeTrailingSlash(circle);
+  }
+  
+  public List<String> getEntities() throws Exception{
+    return SSStrU.removeTrailingSlash(entities);
+  }
+  
+  public SSCircleEntitiesRemovePar(){}
   
   public SSCircleEntitiesRemovePar(
     final SSServOpE      op,
-    final String       key,
-    final SSUri        user,
-    final SSUri        circle,
-    final List<SSUri>  entities,
-    final Boolean      withUserRestriction) throws Exception{
+    final String         key,
+    final SSUri          user,
+    final SSUri          circle,
+    final List<SSUri>    entities,
+    final Boolean        withUserRestriction,
+    final Boolean        shouldCommit) throws Exception{
     
     super(op, key, user);
     
@@ -52,41 +70,29 @@ public class SSCircleEntitiesRemovePar extends SSServPar{
     }
     
     this.withUserRestriction = withUserRestriction;
+    this.shouldCommit        = shouldCommit;
   }
   
-  public SSCircleEntitiesRemovePar(final SSServPar par) throws Exception{
-    
-    super(par);
+  public static SSCircleEntitiesRemovePar get(final SSServPar par) throws Exception{
     
     try{
       
-      if(pars != null){
-        
-        circle               = (SSUri)           pars.get(SSVarU.circle);
-        entities             = (List<SSUri>)     pars.get(SSVarU.entities);
+      if(par.clientCon != null){
+        return (SSCircleEntitiesRemovePar) par.getFromJSON(SSCircleEntitiesRemovePar.class);
       }
       
-      if(par.clientJSONObj != null){
-        
-        circle          = SSUri.get(  par.clientJSONObj.get(SSVarU.circle).getTextValue());
-        
-        try{
-          for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.entities)) {
-            entities.add(SSUri.get(objNode.getTextValue()));
-          }
-        }catch(Exception error){}
-      }
+      return new SSCircleEntitiesRemovePar(
+        par.op,
+        par.key,
+        par.user,        
+        (SSUri)           par.pars.get(SSVarU.circle),
+        (List<SSUri>)     par.pars.get(SSVarU.entities), 
+        (Boolean)         par.pars.get(SSVarU.withUserRestriction),
+        (Boolean)         par.pars.get(SSVarU.shouldCommit));
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
-  }
-  
-  /* json getters */
-  public List<String> getEntities() throws Exception{
-    return SSStrU.removeTrailingSlash(entities);
-  }
-  
-  public String getCircle() throws Exception{
-    return SSStrU.removeTrailingSlash(circle);
   }
 }

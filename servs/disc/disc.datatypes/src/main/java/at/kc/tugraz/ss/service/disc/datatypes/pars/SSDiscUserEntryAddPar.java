@@ -3,7 +3,7 @@
 * http://www.learning-layers.eu
 * Development is partly funded by the FP7 Programme of the European Commission under
 * Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+* Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
 * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -28,185 +28,59 @@ import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSLabel;
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
+import at.tugraz.sss.serv.SSServOpE;
 import java.util.ArrayList;
 import java.util.List;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import org.codehaus.jackson.JsonNode;
 
-@XmlRootElement
-@ApiModel(value = "discUserEntryAdd request parameter")
 public class SSDiscUserEntryAddPar extends SSServPar{
   
-  @ApiModelProperty( 
-    required = false, 
-    value = "discussion to add an entry for (optional in case of a new discussion)")
   public SSUri               disc           = null;
-  
-  @XmlElement
-  public void setDisc(final String disc) throws Exception{
-    this.disc = SSUri.get(disc);
-  }
-  
-  @ApiModelProperty( 
-    required = false, 
-    value = "entity to start a discussion for (optional)")
   public SSUri               entity         = null;
-  
-  @XmlElement
-  public void setEntity(final String entity) throws Exception{
-    this.entity = SSUri.get(entity);
-  }
-  
-  @ApiModelProperty( 
-    required = false, 
-    value = "text for the comment/answer/opinion (optional in case of a new discussion)")
   public SSTextComment       entry          = null;
-  
-  @XmlElement
-  public void setEntry(final String entry) throws Exception{
-    this.entry = SSTextComment.get(entry);
-  }
-  
-  @XmlElement
-  @ApiModelProperty( 
-    required = false, 
-    value = "whether a new disc should be created (optional)")
   public Boolean             addNewDisc     = null;
-  
-  @XmlElement
-  @ApiModelProperty( 
-    required = false, 
-    value = "discussion type: disc, qa or chat (optional in case of an existing discussion)")
   public SSEntityE           type           = null;
-  
-  @ApiModelProperty( 
-    required = false, 
-    value = "discussion name (optional in case of an existing discussion)")
   public SSLabel             label          = null;
-  
-  @XmlElement
-  public void setLabel(final String label) throws Exception{
-    this.label = SSLabel.get(label);
-  }
-  
-  @ApiModelProperty( 
-    required = false, 
-    value = "describes the discussion in more detail (optional, except in case of a new discussion of type qa)")
   public SSTextComment       description    = null;
-    
-  @XmlElement
-  public void setDescription(final String description) throws Exception{
-    this.description = SSTextComment.get(description);
-  }
-  
-  @ApiModelProperty( 
-    required = false, 
-    value = "users to share this discussion with upon creation of a new discussion (optional, though works only for a new discussion)")
   public List<SSUri>         users          = new ArrayList<>();
-  
-  @XmlElement
-  public void setUsers(final List<String> users) throws Exception{
-    this.users = SSUri.get(users);
-  }
-  
-  @ApiModelProperty( 
-    required = false, 
-    value = "circles to share this discussion with upon creation of a new discussion (optional, though works only for a new discussion)")
-  public List<SSUri>         circles          = new ArrayList<>();
-  
-  @XmlElement
-  public void setCircles(final List<String> circles) throws Exception{
-    this.circles = SSUri.get(circles);
-  }
-  
-  @ApiModelProperty( 
-    required = false, 
-    value = "provides entities to be attached either to corresponding discussion if new discussion to be added or to respective entry in the other case (optional)")
+  public List<SSUri>         circles        = new ArrayList<>();
   public List<SSUri>         entities       = new ArrayList<>();
-            
-  @XmlElement
-  public void setEntities(final List<String> entities) throws Exception{
-    this.entities = SSUri.get(entities);
+  
+  public void setDisc(final String disc){
+    try{ this.disc = SSUri.get(disc); }catch(Exception error){}
   }
   
-  public SSDiscUserEntryAddPar(){}
-    
-  public SSDiscUserEntryAddPar(SSServPar par) throws Exception{
-      
-    super(par);
-    
-    try{
-      
-      if(pars != null){
-        disc          = (SSUri)              pars.get(SSVarU.disc);
-        entity        = (SSUri)              pars.get(SSVarU.entity);
-        entry         = (SSTextComment)      pars.get(SSVarU.entry);
-        addNewDisc    = (Boolean)            pars.get(SSVarU.addNewDisc);
-        type          = (SSEntityE)          pars.get(SSVarU.type);
-        label         = (SSLabel)            pars.get(SSVarU.label);
-        description   = (SSTextComment)      pars.get(SSVarU.description);
-        users         = (List<SSUri>)        pars.get(SSVarU.users);
-        circles       = (List<SSUri>)        pars.get(SSVarU.circles);
-        entities      = (List<SSUri>)        pars.get(SSVarU.entities);
-      }
-      
-      if(par.clientJSONObj != null){
-        
-        try{
-          entity      = SSUri.get             (par.clientJSONObj.get(SSVarU.entity).getTextValue());
-        }catch(Exception error){}
-        
-        try{
-          disc        = SSUri.get             (par.clientJSONObj.get(SSVarU.disc).getTextValue());
-        }catch(Exception error){}
-        
-        try{
-          addNewDisc  = par.clientJSONObj.get(SSVarU.addNewDisc).getBooleanValue();
-        }catch(Exception error){}
-        
-        try{
-          entry     = SSTextComment.get(par.clientJSONObj.get(SSVarU.entry).getTextValue());
-        }catch(Exception error){}
-        
-        try{
-          type     = SSEntityE.get(par.clientJSONObj.get(SSVarU.type).getTextValue());
-        }catch(Exception error){}
-        
-        try{
-          label     = SSLabel.get(par.clientJSONObj.get(SSVarU.label).getTextValue());
-        }catch(Exception error){}
-        
-        try{
-          description   = SSTextComment.get(par.clientJSONObj.get(SSVarU.description).getTextValue());
-        }catch(Exception error){}
-        
-        try{
-          for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.users)) {
-            users.add(SSUri.get(objNode.getTextValue()));
-          }
-        }catch(Exception error){}
-        
-        try{
-          for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.circles)) {
-            circles.add(SSUri.get(objNode.getTextValue()));
-          }
-        }catch(Exception error){}
-        
-        try{
-          for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.entities)) {
-            entities.add(SSUri.get(objNode.getTextValue()));
-          }
-        }catch(Exception error){}
-      }
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
+  public void setEntity(final String entity){
+    try{ this.entity = SSUri.get(entity); }catch(Exception error){}
   }
   
-  /* json getters */
+  public void setEntry(final String entry){
+    try{ this.entry = SSTextComment.get(entry); }catch(Exception error){}
+  }
+  
+  public void setType(final String type){
+    try{ this.type = SSEntityE.get(type); }catch(Exception error){}
+  }
+  
+  public void setLabel(final String label){
+    try{ this.label = SSLabel.get(label); }catch(Exception error){}
+  }
+
+  public void setDescription(final String description){
+    try{ this.description = SSTextComment.get(description); }catch(Exception error){}
+  }
+  
+  public void setUsers(final List<String> users){
+    try{ this.users = SSUri.get(users); }catch(Exception error){}
+  }
+  
+  public void setCircles(final List<String> circles){
+    try{ this.circles = SSUri.get(circles); }catch(Exception error){}
+  }
+  
+  public void setEntities(final List<String> entities){
+    try{ this.entities = SSUri.get(entities); }catch(Exception error){}
+  }
+  
   public String getDisc(){
     return SSStrU.removeTrailingSlash(disc);
   }
@@ -237,5 +111,78 @@ public class SSDiscUserEntryAddPar extends SSServPar{
 
   public List<String> getEntities() throws Exception{
     return SSStrU.removeTrailingSlash(entities);
+  }
+  
+  public SSDiscUserEntryAddPar(){}
+    
+  public SSDiscUserEntryAddPar(
+    final SSServOpE     op,
+    final String        key,
+    final SSUri         user,
+    final SSUri         disc,
+    final SSUri         entity, 
+    final SSTextComment entry, 
+    final Boolean       addNewDisc,
+    final SSEntityE     type, 
+    final SSLabel       label, 
+    final SSTextComment description, 
+    final List<SSUri>   users, 
+    final List<SSUri>   circles, 
+    final List<SSUri>   entities, 
+    final Boolean       shouldCommit){
+    
+    super(op, key, user);
+  
+    this.disc        = disc;
+    this.entity      = entity;
+    this.entry       = entry;
+    this.addNewDisc  = addNewDisc;
+    this.type        = type;
+    this.label       = label;
+    this.description = description;
+    
+    if(users != null){
+      this.users.addAll(users);
+    }
+    
+    if(circles!= null){
+      this.circles.addAll(circles);
+    }
+    
+    if(entities != null){
+      this.entities.addAll(entities);
+    }
+    
+    this.shouldCommit = shouldCommit;
+  }
+  
+  public static SSDiscUserEntryAddPar get(final SSServPar par) throws Exception{
+      
+    try{
+
+      if(par.clientCon != null){
+        return (SSDiscUserEntryAddPar) par.getFromJSON(SSDiscUserEntryAddPar.class);
+      }
+      
+      return new SSDiscUserEntryAddPar(
+        par.op,
+        par.key,
+        par.user, 
+        (SSUri)              par.pars.get(SSVarU.disc),
+        (SSUri)              par.pars.get(SSVarU.entity),
+        (SSTextComment)      par.pars.get(SSVarU.entry), 
+        (Boolean)            par.pars.get(SSVarU.addNewDisc), 
+        (SSEntityE)          par.pars.get(SSVarU.type),
+        (SSLabel)            par.pars.get(SSVarU.label),
+        (SSTextComment)      par.pars.get(SSVarU.description),
+        (List<SSUri>)        par.pars.get(SSVarU.users),
+        (List<SSUri>)        par.pars.get(SSVarU.circles),
+        (List<SSUri>)        par.pars.get(SSVarU.entities),
+        (Boolean)            par.pars.get(SSVarU.shouldCommit));
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
   }
 }

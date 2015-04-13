@@ -25,10 +25,10 @@ import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSSpaceE;
 import at.tugraz.sss.serv.SSServPar;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
-import at.tugraz.sss.serv.SSServErrReg;
 import java.util.ArrayList;
 import java.util.List;
 import at.tugraz.sss.serv.SSServErrReg;
+ 
 public class SSTagsAddPar extends SSServPar{
   
   public SSUri             entity       = null;
@@ -43,7 +43,7 @@ public class SSTagsAddPar extends SSServPar{
     try{
       
       if(pars != null){
-        labels.addAll(SSTagLabel.get((List<String>) pars.get(SSVarU.labels)));
+        labels       =  (List<SSTagLabel>)          pars.get(SSVarU.labels);
         entity       =  (SSUri)                     pars.get(SSVarU.entity);
         space        =  (SSSpaceE)                  pars.get(SSVarU.space);
         creationTime =  (Long)                      pars.get(SSVarU.creationTime);

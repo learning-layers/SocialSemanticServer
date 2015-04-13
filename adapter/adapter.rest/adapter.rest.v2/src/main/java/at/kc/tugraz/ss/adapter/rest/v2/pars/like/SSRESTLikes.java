@@ -18,69 +18,59 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package at.kc.tugraz.ss.adapter.rest.v2.pars.search;
+package at.kc.tugraz.ss.adapter.rest.v2.pars.like;
 
-import at.tugraz.sss.serv.SSServOpE;
 import at.kc.tugraz.ss.adapter.rest.v2.SSRestMainV2;
-import at.kc.tugraz.ss.service.search.datatypes.pars.SSSearchPar;
-import at.kc.tugraz.ss.service.search.datatypes.ret.SSSearchRet;
+import at.kc.tugraz.ss.like.datatypes.par.SSLikeUserSetPar;
+import at.kc.tugraz.ss.like.datatypes.ret.SSLikeUserSetRet;
+import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.SSVarU;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-@Path("/search")
-@Api( value = "/search") // , basePath = "/search"
-public class SSRESTSearch{
-
-  @POST
+@Path("/likes")
+@Api( value = "/likes")
+public class SSRESTLikes{
+  
+  @PUT
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path("")
+  @Path("/entities/{entity}")
   @ApiOperation(
-    value = "search for entities",
-    response = SSSearchRet.class)
-  public Response search(
-    @Context 
-      final HttpHeaders headers,
+    value = "like / dislike / neutral an entity",
+    response = SSLikeUserSetRet.class)
+  public Response likeUpdate(
+    @Context                    
+      final HttpHeaders  headers,
     
-    final SSSearchRESTAPIV2Par input){
+    @PathParam (SSVarU.entity)  
+      final String entity, 
     
-    final SSSearchPar par;
+    final SSLikeUpdateRESTAPIV2Par input){
+    
+    final SSLikeUserSetPar par;
     
     try{
       
       par =
-        new SSSearchPar(
-          SSServOpE.search,
-          null,
-          null,
-          input.includeTextualContent,
-          input.wordsToSearchFor,
-          input.includeTags,
-          input.tagsToSearchFor,
-          input.includeLabel,
-          input.labelsToSearchFor,
-          input.includeDescription,
-          input.descriptionsToSearchFor,
-          input.typesToSearchOnlyFor,
-          input.includeOnlySubEntities,
-          input.entitiesToSearchWithin,
-          input.extendToParents,
-          input.includeRecommendedResults,
-          input.provideEntries,
-          input.pagesID,
-          input.pageNumber,
-          input.minRating,
-          input.maxRating,
-          input.localSearchOp,
-          input.globalSearchOp);
+        new SSLikeUserSetPar(
+          SSServOpE.likeSet, //op
+          null, //key
+          null, //user
+          SSUri.get(entity, SSVocConf.sssUri), //entity
+          input.value, //value
+          true);  //shouldCommit
       
     }catch(Exception error){
       return Response.status(422).build();

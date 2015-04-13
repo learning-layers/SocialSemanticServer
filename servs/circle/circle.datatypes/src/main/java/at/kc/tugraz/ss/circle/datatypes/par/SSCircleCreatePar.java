@@ -3,7 +3,7 @@
 * http://www.learning-layers.eu
 * Development is partly funded by the FP7 Programme of the European Commission under
 * Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+* Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
 * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,16 +21,15 @@
 package at.kc.tugraz.ss.circle.datatypes.par;
 
 import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarU;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSStrU;
 import java.util.ArrayList;
 import java.util.List;
-import org.codehaus.jackson.JsonNode;
 
 public class SSCircleCreatePar extends SSServPar{
   
@@ -40,18 +39,53 @@ public class SSCircleCreatePar extends SSServPar{
   public SSTextComment         description          = null;
   public Boolean               isSystemCircle       = false;
   public Boolean               invokeEntityHandlers = null;
+
+  public void setLabel(final String label) throws Exception{
+    this.label = SSLabel.get(label);
+  }
+
+  public void setEntities(final List<String> entities){
+    try{ this.entities = SSUri.get(entities); }catch(Exception error){}
+  }
+
+  public void setUsers(final List<String> users){
+    try{ this.users = SSUri.get(users); }catch(Exception error){}
+  }
+
+  public void setDescription(final String description){
+    try{ this.description = SSTextComment.get(description); }catch(Exception error){}
+  }
   
+  public String getLabel() throws Exception{
+    return SSStrU.toStr(label);
+  }
+  
+  public List<String> getEntities() throws Exception{
+    return SSStrU.removeTrailingSlash(entities);
+  }
+  
+  public List<String> getUsers() throws Exception{
+    return SSStrU.removeTrailingSlash(users);
+  }
+  
+  public String getDescription() throws Exception{
+    return SSStrU.toStr(description);
+  }
+  
+  public SSCircleCreatePar(){}
+    
   public SSCircleCreatePar(
     final SSServOpE       op,
-    final String        key,
-    final SSUri         user,
-    final SSLabel       label,
-    final List<SSUri>   entities,
-    final List<SSUri>   users,
-    final SSTextComment description,
-    final Boolean       isSystemCircle,
-    final Boolean       withUserRestriction, 
-    final Boolean       invokeEntityHandlers){
+    final String          key,
+    final SSUri           user,
+    final SSLabel         label,
+    final List<SSUri>     entities,
+    final List<SSUri>     users,
+    final SSTextComment   description,
+    final Boolean         isSystemCircle,
+    final Boolean         withUserRestriction, 
+    final Boolean         invokeEntityHandlers, 
+    final Boolean         shouldCommit){
     
     super(op, key, user);
     
@@ -69,70 +103,33 @@ public class SSCircleCreatePar extends SSServPar{
     this.isSystemCircle           = isSystemCircle;
     this.withUserRestriction      = withUserRestriction;
     this.invokeEntityHandlers     = invokeEntityHandlers;
+    this.shouldCommit             = shouldCommit;
   }
   
-  public SSCircleCreatePar(final SSServPar par) throws Exception{
-    
-    super(par);
+  public static SSCircleCreatePar get(final SSServPar par) throws Exception{
     
     try{
       
-      if(pars != null){
-        
-        label                = (SSLabel)         pars.get(SSVarU.label);
-        entities             = (List<SSUri>)     pars.get(SSVarU.entities);
-        users                = (List<SSUri>)     pars.get(SSVarU.users);
-        description          = (SSTextComment)   pars.get(SSVarU.description);
-        isSystemCircle       = (Boolean)         pars.get(SSVarU.isSystemCircle);
-        withUserRestriction  = (Boolean)         pars.get(SSVarU.withUserRestriction);
-        invokeEntityHandlers = (Boolean)         pars.get(SSVarU.invokeEntityHandlers);
+      if(par.clientCon != null){
+        return (SSCircleCreatePar) par.getFromJSON(SSCircleCreatePar.class);
       }
       
-      if(par.clientJSONObj != null){
-        
-        this.isSystemCircle = false;
-        
-        try{
-          invokeEntityHandlers = par.clientJSONObj.get(SSVarU.invokeEntityHandlers).getBooleanValue();
-        }catch(Exception error){}
-        
-        label          = SSLabel.get         (par.clientJSONObj.get(SSVarU.label).getTextValue());
-        
-        try{
-          for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.entities)) {
-            entities.add(SSUri.get(objNode.getTextValue()));
-          }
-        }catch(Exception error){}
-        
-        try{
-          for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.users)) {
-            users.add(SSUri.get(objNode.getTextValue()));
-          }
-        }catch(Exception error){}
-        
-        try{
-          description         = SSTextComment.get(par.clientJSONObj.get(SSVarU.description).getTextValue());
-        }catch(Exception error){}
-      }
+      return new SSCircleCreatePar(
+        par.op,
+        par.key,
+        par.user,
+        (SSLabel)         par.pars.get(SSVarU.label),
+        (List<SSUri>)     par.pars.get(SSVarU.entities),
+        (List<SSUri>)     par.pars.get(SSVarU.users),
+        (SSTextComment)   par.pars.get(SSVarU.description),
+        (Boolean)         par.pars.get(SSVarU.isSystemCircle),
+        (Boolean)         par.pars.get(SSVarU.withUserRestriction),
+        (Boolean)         par.pars.get(SSVarU.invokeEntityHandlers),
+        (Boolean)         par.pars.get(SSVarU.shouldCommit));
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
-  }
-  
-  /* json getters */
-  public List<String> getEntities() throws Exception{
-    return SSStrU.removeTrailingSlash(entities);
-  }
-  
-  public List<String> getUsers() throws Exception{
-    return SSStrU.removeTrailingSlash(users);
-  }
-  
-  public String getDescription() throws Exception{
-    return SSStrU.toStr(description);
-  }
-  
-  public String getLabel() throws Exception{
-    return SSStrU.toStr(label);
   }
 }

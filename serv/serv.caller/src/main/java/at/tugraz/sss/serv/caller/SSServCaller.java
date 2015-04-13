@@ -41,10 +41,12 @@ import at.kc.tugraz.ss.service.disc.datatypes.SSDisc;
 import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscUserEntryAddRet;
 import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileCanWriteRet;
 import at.kc.tugraz.ss.service.rating.datatypes.SSRatingOverall;
+import at.kc.tugraz.ss.service.search.datatypes.SSSearchLabel;
 import at.kc.tugraz.ss.service.search.datatypes.SSSearchOpE;
 import at.kc.tugraz.ss.service.search.datatypes.ret.SSSearchRet;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTag;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagFrequ;
+import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.kc.tugraz.ss.service.user.datatypes.SSUser;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUE;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUEE;
@@ -1101,9 +1103,9 @@ public class SSServCaller {
     opPars.put(SSVarU.includeTags,               includeTags);
     opPars.put(SSVarU.tagsToSearchFor,           tagsToSearchFor);
     opPars.put(SSVarU.includeLabel,              includeLabel);
-    opPars.put(SSVarU.labelsToSearchFor,         labelsToSearchFor);
+    opPars.put(SSVarU.labelsToSearchFor,         SSSearchLabel.get(labelsToSearchFor));
     opPars.put(SSVarU.includeDescription,        includeDescription);
-    opPars.put(SSVarU.descriptionsToSearchFor,   descriptionsToSearchFor);
+    opPars.put(SSVarU.descriptionsToSearchFor,   SSSearchLabel.get(descriptionsToSearchFor));
     opPars.put(SSVarU.typesToSearchOnlyFor,      typesToSearchOnlyFor);
     opPars.put(SSVarU.includeOnlySubEntities,    includeOnlySubEntities);
     opPars.put(SSVarU.entitiesToSearchWithin,    entitiesToSearchWithin);
@@ -1942,10 +1944,9 @@ public class SSServCaller {
     opPars.put(SSVarU.user,                 user);
     opPars.put(SSVarU.circle,               circle);
     opPars.put(SSVarU.entities,             entities);
-    opPars.put(SSVarU.invokeEntityHandlers, invokeEntityHandlers);
     opPars.put(SSVarU.withUserRestriction,  withUserRestriction);
-    
-    opPars.put(SSVarU.shouldCommit, shouldCommit);
+    opPars.put(SSVarU.invokeEntityHandlers, invokeEntityHandlers);
+    opPars.put(SSVarU.shouldCommit,         shouldCommit);
     
     SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.circleEntitiesAdd, opPars));
   }
@@ -2430,7 +2431,7 @@ public class SSServCaller {
     
     opPars.put(SSVarU.user,        user);
     opPars.put(SSVarU.forUser,     forUser);
-    opPars.put(SSVarU.labels,      labels);
+    opPars.put(SSVarU.labels,      SSTagLabel.get(labels));
     opPars.put(SSVarU.space,       space);
     opPars.put(SSVarU.startTime,   startTime);
     
@@ -2450,7 +2451,7 @@ public class SSServCaller {
     opPars.put(SSVarU.user,        user);
     opPars.put(SSVarU.forUser,     forUser);
     opPars.put(SSVarU.entities,    entities);
-    opPars.put(SSVarU.labels,      labels);
+    opPars.put(SSVarU.labels,      SSTagLabel.get(labels));
     opPars.put(SSVarU.space,       space);
     opPars.put(SSVarU.startTime,   startTime);
     
@@ -2471,7 +2472,7 @@ public class SSServCaller {
     opPars.put(SSVarU.user,                 user);
     opPars.put(SSVarU.forUser,              forUser);
     opPars.put(SSVarU.entities,             entities);
-    opPars.put(SSVarU.labels,               labels);
+    opPars.put(SSVarU.labels,               SSTagLabel.get(labels));
     opPars.put(SSVarU.space,                space);
     opPars.put(SSVarU.startTime,            startTime);
     opPars.put(SSVarU.useUsersEntities,     useUsersEntities);
@@ -2491,7 +2492,7 @@ public class SSServCaller {
     opPars.put(SSVarU.forUser,      forUser);
     opPars.put(SSVarU.shouldCommit, shouldCommit);
     opPars.put(SSVarU.entity,       entity);
-    opPars.put(SSVarU.label,        label);
+    opPars.put(SSVarU.label,        SSTagLabel.get(label));
     opPars.put(SSVarU.space,        space);
     
     SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.tagsRemove, opPars));
@@ -2509,7 +2510,7 @@ public class SSServCaller {
     opPars.put(SSVarU.user,         user);
     opPars.put(SSVarU.shouldCommit, shouldCommit);
     opPars.put(SSVarU.entity,       entity);
-    opPars.put(SSVarU.label,        label);
+    opPars.put(SSVarU.label,        SSTagLabel.get(label));
     opPars.put(SSVarU.space,        space);
     
     SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.tagsUserRemove, opPars));
@@ -2529,7 +2530,7 @@ public class SSServCaller {
     opPars.put(SSVarU.user,         user);
     opPars.put(SSVarU.entity,       entity);
     opPars.put(SSVarU.space,        space);
-    opPars.put(SSVarU.label,        label);
+    opPars.put(SSVarU.label,        SSTagLabel.get(label));
     opPars.put(SSVarU.creationTime, creationTime);
     
     return (SSUri) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.tagAdd, opPars));
@@ -2548,7 +2549,7 @@ public class SSServCaller {
     opPars.put(SSVarU.shouldCommit, shouldCommit);
     opPars.put(SSVarU.user,         user);
     opPars.put(SSVarU.entity,       entity);
-    opPars.put(SSVarU.labels,       labels);
+    opPars.put(SSVarU.labels,       SSTagLabel.get(labels));
     opPars.put(SSVarU.space,        space);
     opPars.put(SSVarU.creationTime, creationTime);
     

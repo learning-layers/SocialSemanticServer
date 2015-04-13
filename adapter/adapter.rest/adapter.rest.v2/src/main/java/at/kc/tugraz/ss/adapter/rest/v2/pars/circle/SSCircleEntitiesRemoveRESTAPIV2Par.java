@@ -35,12 +35,12 @@ public class SSCircleEntitiesRemoveRESTAPIV2Par{
   
   @ApiModelProperty(
     required = true,
-    value = "to remove from circle")
+    value = "entities to remove from circle")
   public List<SSUri> entities = new ArrayList<>();
   
   @XmlElement
   public void setEntities(final List<String> entities) throws Exception{
-    try{ this.entities = SSUri.get(entities, SSVocConf.sssUri); }catch(Exception error){}
+    this.entities = SSUri.get(entities, SSVocConf.sssUri);
   }
   
   public SSCircleEntitiesRemoveRESTAPIV2Par(){}
