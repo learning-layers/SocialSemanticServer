@@ -21,7 +21,6 @@
 package at.kc.tugraz.ss.adapter.rest.v2.pars.tag;
 
 import at.tugraz.sss.serv.SSSpaceE;
-import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 import javax.xml.bind.annotation.XmlElement;
@@ -30,16 +29,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @ApiModel(value = "tagAdd request parameter")
 public class SSTagAddRESTAPIV2Par{
-  
-  @ApiModelProperty(
-    required = true,
-    value = "label of the tag to add")
-  public SSTagLabel   label        = null;
-  
-  @XmlElement
-  public void setLabel(final String label) throws Exception{
-    this.label = SSTagLabel.get(label);
-  }
   
   @ApiModelProperty(
     required = true,

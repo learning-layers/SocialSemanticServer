@@ -263,13 +263,16 @@ public class SSRESTTags{
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path("/entities/{entity}")
+  @Path("/{tag}/entities/{entity}")
   @ApiOperation(
     value = "add a tag for an entity within given space",
     response = SSTagAddRet.class)
   public Response tagAdd(
     @Context 
       final HttpHeaders headers,
+    
+    @PathParam(SSVarU.tag)
+      final String tag,
     
     @PathParam(SSVarU.entity)
       final String entity,
@@ -285,7 +288,7 @@ public class SSRESTTags{
           null,
           null,
           SSUri.get(entity, SSVocConf.sssUri), //entity
-          input.label, //label
+          SSTagLabel.get(tag), //label
           input.space, //space
           input.creationTime,  //creationTime
           true); //shouldCommit
