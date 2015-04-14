@@ -20,7 +20,6 @@
 */
  package at.kc.tugraz.ss.service.rating.impl;
 
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityDescGetPar;
 import at.kc.tugraz.ss.service.rating.impl.fct.userraltionsgathering.SSRatingUserRelationGathererFct;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSSocketCon;
@@ -31,7 +30,6 @@ import at.kc.tugraz.ss.service.rating.datatypes.pars.SSRatingUserGetPar;
 import at.kc.tugraz.ss.service.rating.datatypes.pars.SSRatingUserSetPar;
 import at.kc.tugraz.ss.service.rating.api.*;
 import at.tugraz.sss.serv.SSServImplWithDBA;
-import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSConfA;
@@ -48,6 +46,7 @@ import at.kc.tugraz.ss.service.rating.datatypes.ret.SSRatingUserSetRet;
 import at.kc.tugraz.ss.service.rating.impl.fct.sql.SSRatingSQLFct;
 import at.kc.tugraz.ss.service.rating.datatypes.pars.SSRatingsUserRemovePar;
 import at.kc.tugraz.ss.service.rating.impl.fct.activity.SSRatingActivityFct;
+import at.tugraz.sss.serv.SSEntityDescriberPar;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -183,35 +182,19 @@ implements
   }
     
   @Override
-  public SSEntity getUserEntity(
-    final SSUri              user,
-    final SSEntity           entity) throws Exception{
-    
-    switch(entity.type){
-      case rating:
-//        return SSServCaller.videoUserGet(user, entity.id);
-    }
-    
-    return entity;
-  }
-  
-  @Override
-  public SSEntity getDescForEntity(
-    final SSServPar   parA,
-    final SSEntity           desc) throws Exception{
+  public SSEntity getUserEntity(final SSEntityDescriberPar par) throws Exception{
     
     try{
-      final SSEntityDescGetPar par = (SSEntityDescGetPar)parA;
       
-      if(par.getOverallRating){
+      if(par.setOverallRating){
         
-        desc.overallRating =
+        par.entity.overallRating =
           SSServCaller.ratingOverallGet(
             par.user,
-            par.entity);
+            par.entity.id);
       }
       
-      return desc;
+      return par.entity;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;

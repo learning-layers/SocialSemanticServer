@@ -30,7 +30,7 @@ import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import at.tugraz.sss.serv.SSServErrReg;
+
 @XmlRootElement
 @ApiModel(value = "entityDescGet request parameter")
 public class SSEntityDescGetPar extends SSServPar{

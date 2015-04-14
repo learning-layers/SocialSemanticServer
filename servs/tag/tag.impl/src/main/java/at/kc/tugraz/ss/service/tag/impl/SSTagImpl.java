@@ -20,7 +20,6 @@
 */
 package at.kc.tugraz.ss.service.tag.impl;
 
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityDescGetPar;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSSpaceE;
@@ -58,6 +57,7 @@ import at.kc.tugraz.ss.service.tag.impl.fct.activity.SSTagActivityFct;
 import at.kc.tugraz.ss.service.tag.impl.fct.misc.SSTagMiscFct;
 import at.kc.tugraz.ss.service.tag.impl.fct.sql.SSTagSQLFct;
 import at.kc.tugraz.ss.service.tag.impl.fct.userrelationgatherer.SSTagUserRelationGathererFct;
+import at.tugraz.sss.serv.SSEntityDescriberPar;
 import java.util.*;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
@@ -245,40 +245,24 @@ implements
   }
   
   @Override
-  public SSEntity getUserEntity(
-    final SSUri              user,
-    final SSEntity           entity) throws Exception{
-    
-    switch(entity.type){
-      case tag:
-//        return SSServCaller.videoUserGet(user, entity.id);
-    }
-    
-    return entity;
-  }
-  
-  @Override
-  public SSEntity getDescForEntity(
-    final SSServPar parA,
-    final SSEntity   desc) throws Exception{
+  public SSEntity getUserEntity(final SSEntityDescriberPar par) throws Exception{
     
     try{
-      final SSEntityDescGetPar par = (SSEntityDescGetPar)parA;
       
-      if(par.getTags){
+      if(par.setTags){
         
-        desc.tags.addAll(
+        par.entity.tags.addAll(
           SSStrU.toStr(
             SSServCaller.tagsUserGet(
               par.user,
               null,
-              SSUri.asListWithoutNullAndEmpty(par.entity),
+              SSUri.asListWithoutNullAndEmpty(par.entity.id),
               new ArrayList<>(),
               null,
               null)));
       }
       
-      return desc;
+      return par.entity;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;

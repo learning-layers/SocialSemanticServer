@@ -85,6 +85,7 @@ import at.tugraz.sss.serv.SSUserRelationGathererI;
 import at.tugraz.sss.serv.SSUsersResourcesGathererI;
 import at.tugraz.sss.serv.caller.SSServCallerU;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUEE;
+import at.tugraz.sss.serv.SSEntityDescriberPar;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -389,29 +390,31 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
         return entities;
       }
       
-      final SSEntityDescGetPar entityDescGetPar = 
-        new SSEntityDescGetPar(
-          par.user,
+      final SSEntityDescriberPar entityDescriberPar = 
+        SSEntityDescriberPar.get(
+          par.user, 
           null, 
-          par.getTags, 
-          par.getOverallRating, 
-          par.getDiscs, 
-          par.getUEs, 
-          par.getThumb, 
-          par.getFlags, 
           false);
+      
+      entityDescriberPar.setTags          = par.getTags;
+      entityDescriberPar.setOverallRating = par.getOverallRating;
+      entityDescriberPar.setDiscs         = par.getDiscs;
+      entityDescriberPar.setUEs           = par.getUEs;
+      entityDescriberPar.setThumb         = par.getThumb;
+      entityDescriberPar.setFlags         = par.getFlags;
+      entityDescriberPar.setCircles       = false;
       
       for(SSEntity entity : sqlFct.getEntities(par.entities, par.types)){
         
-        entityDescGetPar.entity = entity.id;
+        entityDescriberPar.entity = entity;
         
         setReadAndFileInformation(par.user, entity);
         
         for(SSServContainerI serv : SSServReg.inst.getServsDescribingEntities()){
-          entity = ((SSEntityDescriberI) serv.serv()).getDescForEntity(entityDescGetPar, entity);
+          entityDescriberPar.entity = ((SSEntityDescriberI) serv.serv()).getUserEntity(entityDescriberPar);
         }
         
-        entities.add(entity);
+        entities.add(entityDescriberPar.entity);
       }
         
       return entities;
@@ -435,16 +438,28 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
     
     try{
       
-      final SSEntityDescGetPar  par    = new SSEntityDescGetPar(parA);
-      SSEntity                  entity = sqlFct.getEntity     (par.entity);
+      final SSEntityDescGetPar   par                = new SSEntityDescGetPar(parA);
+      final SSEntityDescriberPar entityDescriberPar =
+        SSEntityDescriberPar.get(
+          par.user,
+          sqlFct.getEntity     (par.entity),
+          false);
       
-      setReadAndFileInformation(par.user, entity);
+      entityDescriberPar.setTags          = par.getTags;
+      entityDescriberPar.setOverallRating = par.getOverallRating;
+      entityDescriberPar.setDiscs         = par.getDiscs;
+      entityDescriberPar.setUEs           = par.getUEs;
+      entityDescriberPar.setThumb         = par.getThumb;
+      entityDescriberPar.setFlags         = par.getFlags;
+      entityDescriberPar.setCircles       = par.getCircles;
+      
+      setReadAndFileInformation(par.user, entityDescriberPar.entity);
       
       for(SSServContainerI serv : SSServReg.inst.getServsDescribingEntities()){
-        entity = ((SSEntityDescriberI) serv.serv()).getDescForEntity(par, entity);
+        entityDescriberPar.entity = ((SSEntityDescriberI) serv.serv()).getUserEntity(entityDescriberPar);
       }
       
-      return entity;
+      return entityDescriberPar.entity;
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -485,11 +500,18 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
         }
         
         default:{
+          
+          final SSEntityDescriberPar entityDescriberPar =
+            SSEntityDescriberPar.get(
+              par.user,
+              entity,
+              false);
+          
           for(SSServContainerI serv : SSServReg.inst.getServsDescribingEntities()){
-            entity = ((SSEntityDescriberI) serv.serv()).getUserEntity(par.user, entity);
+            entityDescriberPar.entity = ((SSEntityDescriberI) serv.serv()).getUserEntity(entityDescriberPar);
           }
           
-          return entity;
+          return entityDescriberPar.entity;
         }
       }
       

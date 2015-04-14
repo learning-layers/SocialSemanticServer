@@ -20,7 +20,6 @@
 */
 package at.kc.tugraz.sss.flag.impl;
 
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityDescGetPar;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSSocketCon;
 import at.tugraz.sss.serv.SSUri;
@@ -42,6 +41,7 @@ import at.kc.tugraz.sss.flag.datatypes.par.SSFlagsUserGetPar;
 import at.kc.tugraz.sss.flag.datatypes.par.SSFlagsUserSetPar;
 import at.kc.tugraz.sss.flag.datatypes.ret.SSFlagsUserSetRet;
 import at.kc.tugraz.sss.flag.impl.fct.sql.SSFlagSQLFct;
+import at.tugraz.sss.serv.SSEntityDescriberPar;
 import java.util.List;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
@@ -59,38 +59,22 @@ public class SSFlagImpl extends SSServImplWithDBA implements SSFlagClientI, SSFl
   }
   
   @Override
-  public SSEntity getUserEntity(
-    final SSUri              user,
-    final SSEntity           entity) throws Exception{
+  public SSEntity getUserEntity(final SSEntityDescriberPar par) throws Exception{
     
-    switch(entity.type){
-      case flag:
-//        return SSServCaller.videoUserGet(user, entity.id);
-    }
-    
-    return entity;
-  }
-  
-  @Override
-  public SSEntity getDescForEntity(
-    final SSServPar  parA,
-    final SSEntity           desc) throws Exception{
-    
-    try{
-      final SSEntityDescGetPar par = (SSEntityDescGetPar)parA;
-      
-      if(par.getFlags){
+     try{
+
+       if(par.setFlags){
         
-        desc.flags.addAll(
+        par.entity.flags.addAll(
           SSServCaller.flagsGet(
             par.user,
-            SSUri.asListWithoutNullAndEmpty(par.entity),
+            SSUri.asListWithoutNullAndEmpty(par.entity.id),
             SSStrU.toStrWithoutEmptyAndNull(),
             null,
             null));
       }
       
-      return desc;
+      return par.entity;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;

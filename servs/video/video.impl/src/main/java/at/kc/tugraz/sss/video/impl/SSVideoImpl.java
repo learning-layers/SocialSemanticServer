@@ -20,10 +20,8 @@
 */
 package at.kc.tugraz.sss.video.impl;
 
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityDescGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.tugraz.sss.serv.SSSocketCon;
-import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
@@ -47,6 +45,7 @@ import at.kc.tugraz.sss.video.datatypes.ret.SSVideoUserAddRet;
 import at.kc.tugraz.sss.video.datatypes.ret.SSVideoUserAnnotationAddRet;
 import at.kc.tugraz.sss.video.datatypes.ret.SSVideosUserGetRet;
 import at.kc.tugraz.sss.video.impl.fct.sql.SSVideoSQLFct;
+import at.tugraz.sss.serv.SSEntityDescriberPar;
 import java.util.ArrayList;
 import java.util.List;
 import at.tugraz.sss.serv.SSErrE;
@@ -217,39 +216,27 @@ implements
     }
   }
   
+  
   @Override
-  public SSEntity getDescForEntity(
-    final SSServPar parA,
-    final SSEntity   desc) throws Exception{
+  public SSEntity getUserEntity(final SSEntityDescriberPar par) throws Exception{
     
     try{
-      final SSEntityDescGetPar par = (SSEntityDescGetPar)parA;
-      
-      switch(desc.type){
+      switch(par.entity.type){
         
         case video:{
-          return SSServCaller.videoUserGet(par.user, desc.id);
+          
+          final SSVideo video = (SSVideo) SSServCaller.videoUserGet(par.user, par.entity.id);
+          
+          return SSVideo.get(video, par.entity);
         }
-        
-        default: return desc;
       }
+      
+      return par.entity;
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }
-  }
-  
-  @Override
-  public SSEntity getUserEntity(
-    final SSUri              user,
-    final SSEntity           entity) throws Exception{
-    
-    switch(entity.type){
-      case video:
-        return SSServCaller.videoUserGet(user, entity.id);
-    }	
-    
-    return entity;
   }
   
   @Override

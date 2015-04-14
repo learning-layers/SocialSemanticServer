@@ -20,7 +20,6 @@
 */
 package at.kc.tugraz.ss.service.user.impl;
 
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityDescGetPar;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSSocketCon;
@@ -45,6 +44,7 @@ import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserURIGetPar;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUsersGetPar;
 import at.kc.tugraz.ss.service.user.datatypes.ret.SSUserAllRet;
 import at.kc.tugraz.ss.service.user.impl.functions.sql.SSUserSQLFct;
+import at.tugraz.sss.serv.SSEntityDescriberPar;
 import java.util.*;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
@@ -64,40 +64,20 @@ public class SSUserImpl extends SSServImplWithDBA implements SSUserClientI, SSUs
   }
   
   @Override
-  public SSEntity getUserEntity(
-    final SSUri              user,
-    final SSEntity           entity) throws Exception{
-    
-    switch(entity.type){
-      case user:
-//        return SSServCaller.videoUserGet(user, entity.id);
-    }
-    
-    return entity;
-  }
-  
-  @Override
-  public SSEntity getDescForEntity(
-    final SSServPar parA,
-    final SSEntity           desc) throws Exception{
+  public SSEntity getUserEntity(final SSEntityDescriberPar par) throws Exception{
     
     try{
-      final SSEntityDescGetPar par = (SSEntityDescGetPar)parA;
-      
-      switch(desc.type){
+      switch(par.entity.type){
         
         case user:{
           
-          final SSUser user =
-            SSUser.get(
-              sqlFct.getUser(desc.id),
-              desc);
-          
+          final SSUser user = sqlFct.getUser(par.entity.id);
+
           user.friends.addAll(
             SSServCaller.friendsUserGet(
-              desc.id));
+              par.entity.id));
           
-          if(par.getCircles){
+          if(par.setCircles){
             
             user.circles.addAll(
               SSServCaller.circlesGet(
@@ -110,13 +90,17 @@ public class SSUserImpl extends SSServImplWithDBA implements SSUserClientI, SSUs
                 false));
           }
           
-          return user;
-        }
-        
-        default:{
-          return desc;
+          par.entity = 
+            SSUser.get(
+              user,
+              par.entity);
+          
+          break;
         }
       }
+      
+      return par.entity;
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;

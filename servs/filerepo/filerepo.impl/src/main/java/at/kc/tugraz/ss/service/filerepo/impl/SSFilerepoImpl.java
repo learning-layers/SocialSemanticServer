@@ -33,7 +33,6 @@ import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileWritingMinutesLeftP
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileCanWritePar;
 import at.tugraz.sss.serv.SSSocketCon;
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityDescGetPar;
 import at.tugraz.sss.serv.SSEntityE;
 import at.kc.tugraz.ss.service.filerepo.api.*;
 import at.kc.tugraz.ss.service.filerepo.conf.*;
@@ -54,6 +53,7 @@ import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileIDFromURIPar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileThumbBase64GetPar;
 import at.kc.tugraz.ss.service.filerepo.impl.fct.SSFileFct;
 import at.kc.tugraz.ss.service.filerepo.impl.fct.activity.SSFileRepoActivityFct;
+import at.tugraz.sss.serv.SSEntityDescriberPar;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServPar;
 import java.util.*;
@@ -153,48 +153,36 @@ implements
   }
   
   @Override
-  public SSEntity getUserEntity(
-    final SSUri              user,
-    final SSEntity           entity) throws Exception{
-    
-    switch(entity.type){
-      case file:
-//        return SSServCaller.videoUserGet(user, entity.id);
-    }
-    
-    return entity;
-  }
-  
-  @Override
-  public SSEntity getDescForEntity(
-    final SSServPar parA,
-    final SSEntity      desc) throws Exception{
+  public SSEntity getUserEntity(final SSEntityDescriberPar par) throws Exception{
     
     try{
-      final SSEntityDescGetPar par = (SSEntityDescGetPar) parA;
       
-      switch(desc.type){
+      switch(par.entity.type){
+        
         case file:{
           
           final SSFileExtE  fileExt  = SSFileExtE.ext(SSStrU.removeTrailingSlash(par.entity));
           final SSMimeTypeE mimeType = SSMimeTypeE.mimeTypeForFileExt (fileExt);
           
-          if(par.getThumb){
+          if(par.setThumb){
             
-            desc.thumb =
+            par.entity.thumb =
               SSServCaller.fileThumbBase64Get(
                 par.user,
-                par.entity);
+                par.entity.id);
           }
           
-          return SSFile.get(
-            desc,
-            fileExt,
-            mimeType);
+          par.entity =
+            SSFile.get(
+              par.entity,
+              fileExt,
+              mimeType);
+           
+           break;
         }
-        
-        default: return desc;
       }
+      
+      return par.entity;
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

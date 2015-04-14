@@ -20,14 +20,12 @@
 */
 package at.kc.tugraz.ss.serv.jobs.evernote.impl;
 
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityDescGetPar;
 import at.tugraz.sss.serv.SSDateU;
 import at.tugraz.sss.serv.SSFileExtE;
 import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSMimeTypeE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSEntityE;
-import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSDBSQLI;
@@ -51,6 +49,7 @@ import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteUsersAuthToken
 import at.kc.tugraz.ss.serv.jobs.evernote.impl.fct.sql.SSEvernoteSQLFct;
 import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSEntityDescriberI;
+import at.tugraz.sss.serv.SSEntityDescriberPar;
 import at.tugraz.sss.serv.SSEntityHandlerImplI;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.caller.SSServCaller;
@@ -85,74 +84,68 @@ public class SSEvernoteImpl extends SSServImplWithDBA implements SSEvernoteClien
   }
   
   @Override
-  public SSEntity getUserEntity(
-    final SSUri              user,
-    final SSEntity           entity) throws Exception{
-    
-    return entity;
-  }
-  
-  @Override
-  public SSEntity getDescForEntity(
-    final SSServPar parA,
-    final SSEntity   desc) throws Exception{
+  public SSEntity getUserEntity(final SSEntityDescriberPar par) throws Exception{
     
     try{
-      final SSEntityDescGetPar par = (SSEntityDescGetPar)parA;
       
-      switch(desc.type){
+      switch(par.entity.type){
+        
         case evernoteNote:
-        case evernoteResource:
+        case evernoteResource:{
           
-          if(par.getThumb){
+          if(par.setThumb){
             
-            desc.thumb =
+            par.entity.thumb =
               SSServCaller.fileThumbBase64Get(
                 par.user,
-                par.entity);
+                par.entity.id);
           }
+        }
       }
       
-      switch(desc.type){
+      switch(par.entity.type){
         
         case evernoteNote:{
           
-          return SSEvernoteNote.get(
-            desc,
-            sqlFct.getNote(par.entity).notebook);
+          final SSUri noteBook = sqlFct.getNote(par.entity.id).notebook;
+          
+          par.entity = SSEvernoteNote.get(par.entity, noteBook);
+          
+          break;
         }
         
         case evernoteResource:{
           
+          final SSUri     note;
           SSFileExtE      fileExt  = null;
           SSMimeTypeE     mimeType = null;
           
+          
           try{
-            
-//          final List<SSUri> filesForEntity = SSServCaller.entityFilesGet    (par.user, par.entity);
-            
-            if(desc.file != null){
-              fileExt        = SSFileExtE.ext(SSStrU.removeTrailingSlash(desc.file));
-              mimeType       = SSMimeTypeE.mimeTypeForFileExt (fileExt);
-            }else{
-              SSLogU.warn("mime type cannot be retrieved from evernoteResource as it has no file attached");
-            }
+            fileExt        = SSFileExtE.ext(SSStrU.removeTrailingSlash(par.entity.file));
+            mimeType       = SSMimeTypeE.mimeTypeForFileExt (fileExt);
             
           }catch(Exception error){
             SSLogU.warn("mime type cannot be retrieved from evernoteResource as it has no file attached");
-            
             SSServErrReg.reset();
           }
           
-          return SSEvernoteResource.get(
-            desc,
-            sqlFct.getResource(par.entity).note,
-            fileExt,
-            mimeType);
+          note = 
+            sqlFct.getResource(
+              par.entity.id).note;
+          
+          par.entity = 
+            SSEvernoteResource.get(
+              par.entity,
+              note,
+              fileExt,
+              mimeType);
+          
+          break;
         }
       }
       
-      return desc;
+      return par.entity;
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

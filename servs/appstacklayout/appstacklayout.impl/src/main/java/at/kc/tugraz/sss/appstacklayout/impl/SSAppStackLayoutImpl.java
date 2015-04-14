@@ -21,7 +21,6 @@
 package at.kc.tugraz.sss.appstacklayout.impl;
 
 import at.tugraz.sss.serv.SSSocketCon;
-import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
@@ -44,6 +43,7 @@ import at.kc.tugraz.sss.appstacklayout.datatypes.ret.SSAppStackLayoutDeleteRet;
 import at.kc.tugraz.sss.appstacklayout.datatypes.ret.SSAppStackLayoutUpdateRet;
 import at.kc.tugraz.sss.appstacklayout.datatypes.ret.SSAppStackLayoutsGetRet;
 import at.kc.tugraz.sss.appstacklayout.impl.fct.sql.SSAppStackLayoutSQLFct;
+import at.tugraz.sss.serv.SSEntityDescriberPar;
 import java.util.ArrayList;
 import java.util.List;
 import at.tugraz.sss.serv.SSErrE;
@@ -62,37 +62,14 @@ public class SSAppStackLayoutImpl extends SSServImplWithDBA implements SSAppStac
   }
   
   @Override
-  public SSEntity getUserEntity(
-    final SSUri              user,
-    final SSEntity           entity) throws Exception{
+  public SSEntity getUserEntity(final SSEntityDescriberPar par) throws Exception{
     
-    switch(entity.type){
-      case appStackLayout:
-      case appTile:
-//        return SSServCaller.videoUserGet(user, entity.id);
+    try{
+      return par.entity;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
-    
-    return entity;
-  }
-  
-  @Override
-  public SSEntity getDescForEntity(
-    final SSServPar parA,
-    final SSEntity           desc) throws Exception{
-    
-   /* if(par.getApps){
-      
-      desc.flags.addAll(
-        SSServCaller.flagsGet(
-          par.user,
-          SSUri.asListWithoutNullAndEmpty(par.entity),
-          SSStrU.toStrWithoutEmptyAndNull(),
-          null,
-          null));
-    }
-    */
-	
-    return desc;
   }
   
   @Override

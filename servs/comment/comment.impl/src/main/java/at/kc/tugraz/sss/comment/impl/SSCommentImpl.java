@@ -20,14 +20,12 @@
 */
 package at.kc.tugraz.sss.comment.impl;
 
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityDescGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSSocketCon;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
-import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSEntity;
 import at.kc.tugraz.sss.comment.datatypes.par.SSCommentEntitiesCommentedGetPar;
 import at.tugraz.sss.serv.SSDBSQLI;
@@ -45,6 +43,7 @@ import at.kc.tugraz.sss.comment.datatypes.par.SSCommentsUserGetPar;
 import at.kc.tugraz.sss.comment.datatypes.ret.SSCommentsUserGetRet;
 import at.kc.tugraz.sss.comment.impl.fct.sql.SSCommentSQLFct;
 import at.kc.tugraz.sss.comment.impl.fct.userrelationgather.SSCommentUserRelationGatherFct;
+import at.tugraz.sss.serv.SSEntityDescriberPar;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServPar;
 import java.util.List;
@@ -79,34 +78,17 @@ implements
   }
   
   @Override
-  public SSEntity getUserEntity(
-    final SSUri              user,
-    final SSEntity           entity) throws Exception{
-    
-    switch(entity.type){
-      case comment:
-//        return SSServCaller.videoUserGet(user, entity.id);
-    }
-    
-    return entity;
-  }
-  
-  @Override
-  public SSEntity getDescForEntity(
-    final SSServPar parA, 
-    SSEntity         desc) throws Exception{
-    
+  public SSEntity getUserEntity(final SSEntityDescriberPar par) throws Exception{
+
     try{
       
-      final SSEntityDescGetPar par = (SSEntityDescGetPar)parA;
-
-      desc.comments.addAll(
+      par.entity.comments.addAll(
         SSServCaller.commentsGet(
-          par.user, 
-          null, 
-          desc.id));
+          par.user,
+          null,
+          par.entity.id));
 
-      return desc;
+      return par.entity;
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

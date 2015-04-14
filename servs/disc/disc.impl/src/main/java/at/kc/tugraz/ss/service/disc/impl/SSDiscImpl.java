@@ -20,7 +20,6 @@
 */
 package at.kc.tugraz.ss.service.disc.impl;
 
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityDescGetPar;
 import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
@@ -55,6 +54,7 @@ import at.kc.tugraz.ss.service.disc.impl.fct.activity.SSDiscActivityFct;
 import at.kc.tugraz.ss.service.disc.impl.fct.misc.SSDiscMiscFct;
 import at.kc.tugraz.ss.service.disc.impl.fct.op.SSDiscUserEntryAddFct;
 import at.kc.tugraz.ss.service.disc.impl.fct.sql.SSDiscSQLFct;
+import at.tugraz.sss.serv.SSEntityDescriberPar;
 import java.util.*;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
@@ -293,40 +293,19 @@ implements
   }
   
   @Override
-  public SSEntity getUserEntity(
-    final SSUri              user,
-    final SSEntity           entity) throws Exception{
-    
-    switch(entity.type){
-      case disc:
-      case qa:
-      case chat:
-      case discEntry:
-      case qaEntry:
-      case chatEntry:
-//        return SSServCaller.videoUserGet(user, entity.id);
-    }
-    
-    return entity;
-  }
-  
-  @Override
-  public SSEntity getDescForEntity(
-    final SSServPar    parA,
-    final SSEntity           desc) throws Exception{
+  public SSEntity getUserEntity(final SSEntityDescriberPar par) throws Exception{
     
     try{
-      final SSEntityDescGetPar par = (SSEntityDescGetPar) parA;
       
-      if(par.getDiscs){
+      if(par.setDiscs){
         
-        desc.discs.addAll(
+        par.entity.discs.addAll(
           SSServCaller.discUserDiscURIsForTargetGet(
             par.user,
-            par.entity));
+            par.entity.id));
       }
       
-      return desc;
+      return par.entity;
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

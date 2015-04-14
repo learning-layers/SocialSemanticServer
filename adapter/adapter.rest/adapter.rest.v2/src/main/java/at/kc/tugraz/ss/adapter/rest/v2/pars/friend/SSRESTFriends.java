@@ -97,8 +97,8 @@ public class SSRESTFriends{
           SSServOpE.friendAdd,
           null,
           null,
-          SSUri.get(friend, SSVocConf.sssUri),
-          true); //friend
+          SSUri.get(friend, SSVocConf.sssUri),  //friend
+          true);
       
     }catch(Exception error){
       return Response.status(422).build();

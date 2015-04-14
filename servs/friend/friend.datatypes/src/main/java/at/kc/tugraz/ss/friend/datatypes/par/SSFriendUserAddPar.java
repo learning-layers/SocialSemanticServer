@@ -39,6 +39,8 @@ public class SSFriendUserAddPar extends SSServPar{
     return SSStrU.removeTrailingSlash(friend);
   }
   
+  public SSFriendUserAddPar(){}
+    
   public SSFriendUserAddPar(
     final SSServOpE op,
     final String    key,

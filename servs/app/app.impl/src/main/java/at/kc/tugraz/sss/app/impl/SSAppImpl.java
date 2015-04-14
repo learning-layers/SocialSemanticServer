@@ -22,7 +22,6 @@ package at.kc.tugraz.sss.app.impl;
 
 import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSSocketCon;
-import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
@@ -41,6 +40,7 @@ import at.kc.tugraz.sss.app.datatypes.par.SSAppsGetPar;
 import at.kc.tugraz.sss.app.datatypes.ret.SSAppAddRet;
 import at.kc.tugraz.sss.app.datatypes.ret.SSAppsGetRet;
 import at.kc.tugraz.sss.app.impl.fct.sql.SSAppSQLFct;
+import at.tugraz.sss.serv.SSEntityDescriberPar;
 import java.util.ArrayList;
 import java.util.List;
 import at.tugraz.sss.serv.SSErr;
@@ -60,36 +60,14 @@ public class SSAppImpl extends SSServImplWithDBA implements SSAppClientI, SSAppS
   }
   
   @Override
-  public SSEntity getUserEntity(
-    final SSUri              user,
-    final SSEntity           entity) throws Exception{
+  public SSEntity getUserEntity(final SSEntityDescriberPar par) throws Exception{
     
-    switch(entity.type){
-      case app:
-//        return SSServCaller.videoUserGet(user, entity.id);
+    try{
+      return par.entity;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
-    
-    return entity;
-  }
-  
-  @Override
-  public SSEntity getDescForEntity(
-    final SSServPar par,
-    final SSEntity           desc) throws Exception{
-    
-   /* if(par.getApps){
-      
-      desc.flags.addAll(
-        SSServCaller.flagsGet(
-          par.user,
-          SSUri.asListWithoutNullAndEmpty(par.entity),
-          SSStrU.toStrWithoutEmptyAndNull(),
-          null,
-          null));
-    }
-    */
-	
-    return desc;
   }
   
   @Override

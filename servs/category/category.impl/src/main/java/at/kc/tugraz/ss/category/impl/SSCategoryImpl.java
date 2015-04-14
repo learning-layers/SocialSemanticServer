@@ -57,6 +57,7 @@ import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSEntityDescriberI;
+import at.tugraz.sss.serv.SSEntityDescriberPar;
 import at.tugraz.sss.serv.SSEntityHandlerImplI;
 import at.tugraz.sss.serv.SSUserRelationGathererI;
 import at.tugraz.sss.serv.caller.SSServCaller;
@@ -196,37 +197,8 @@ implements
   }
   
   @Override
-  public SSEntity getUserEntity(
-    final SSUri              user,
-    final SSEntity           entity) throws Exception{
-    
-    switch(entity.type){
-      case category:
-//        return SSServCaller.videoUserGet(user, entity.id);
-    }
-    
-    return entity;
-  }
-  
-  @Override
-  public SSEntity getDescForEntity(
-    final SSServPar parA,
-    final SSEntity           desc) throws Exception{
-    
-//    if(par.getTags){
-//      
-//      desc.tags.addAll(
-//        SSStrU.toStr(
-//          SSServCaller.tagsUserGet(
-//            par.user, 
-//            par.user,
-//            SSUri.asListWithoutNullAndEmpty(par.entity), 
-//            new ArrayList<String>(), 
-//            null, 
-//            null)));
-//    }
-    
-    return desc;
+  public SSEntity getUserEntity(final SSEntityDescriberPar par) throws Exception{
+    return par.entity;
   }
   
   @Override
