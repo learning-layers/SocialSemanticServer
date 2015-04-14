@@ -75,18 +75,23 @@ public enum SSUEE implements SSJSONLDPropI{
   ;
   
   public static SSUEE get(
-    final String eventType){
+    final String value) throws Exception{
     
-    return SSUEE.valueOf(eventType);
+    try{
+      return valueOf(value);
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(new Exception("ue type not available: " + value));
+      return null;
+    }
   }
   
   public static List<SSUEE> get(
-    final List<String> eventTypes){
+    final List<String> values) throws Exception{
     
     final List<SSUEE> result = new ArrayList<>();
     
-    for (String eventType : eventTypes){
-      result.add(get(eventType));
+    for (String type : values){
+      result.add(get(type));
     }
     
     return result;

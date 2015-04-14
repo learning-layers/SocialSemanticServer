@@ -54,7 +54,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 @Path("/tags")
-@Api( value = "/tags") //, basePath = "/tags"
+@Api( value = "/tags")
 public class SSRESTTags{
   
   @GET
@@ -96,7 +96,7 @@ public class SSRESTTags{
   @ApiOperation(
     value = "retrieve tag assignments",
     response = SSTagsUserGetRet.class)
-  public Response tagsGetPost(
+  public Response tagsGetPOST(
     @Context 
       final HttpHeaders headers,
     
@@ -163,7 +163,7 @@ public class SSRESTTags{
   @ApiOperation(
     value = "retrieve tag frequencies",
     response = SSTagUserFrequsGetRet.class)
-  public Response tagFrequsGetPost(
+  public Response tagFrequsGetPOST(
     @Context 
       final HttpHeaders headers,
     
@@ -198,7 +198,7 @@ public class SSRESTTags{
   @ApiOperation(
     value = "retrieve entities for tags (currently startTime is not used to retrieve entities)",
     response = SSTagUserEntitiesForTagsGetRet.class)
-  public Response tagEntitiesGetPost(
+  public Response tagEntitiesGetPOST(
     @Context
     final HttpHeaders headers,
     

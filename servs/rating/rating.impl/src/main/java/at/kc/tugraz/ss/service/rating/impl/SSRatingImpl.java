@@ -227,14 +227,14 @@ implements
     
 //    saveRatingUserSetUE(par);
     
-    SSRatingActivityFct.rateEntity(new SSRatingUserSetPar(parA));
+    SSRatingActivityFct.rateEntity(SSRatingUserSetPar.get(parA));
   }
   
   @Override
   public Boolean ratingUserSet(SSServPar parA) throws Exception {
     
     try{
-      final SSRatingUserSetPar par          = new SSRatingUserSetPar(parA);
+      final SSRatingUserSetPar par          = SSRatingUserSetPar.get(parA);
       final Boolean            existsEntity = SSServCaller.entityExists(par.entity);
       final SSUri              ratingUri;
       
@@ -359,7 +359,7 @@ implements
   @Override
   public SSRatingOverall ratingOverallGet(SSServPar parI) throws Exception {
     
-    SSRatingOverallGetPar par     = new SSRatingOverallGetPar(parI);
+    SSRatingOverallGetPar par     = SSRatingOverallGetPar.get(parI);
     SSRatingOverall       result  = null;
     
     try{

@@ -3,7 +3,7 @@
 * http://www.learning-layers.eu
 * Development is partly funded by the FP7 Programme of the European Commission under
 * Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+* Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
 * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,33 +18,28 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.adapter.rest.v1.par;
+package at.kc.tugraz.ss.adapter.rest.v2.pars.message;
 
-import at.tugraz.sss.serv.SSUri;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-@ApiModel(value = "appStackLayoutsGet request parameter")
-public class SSAppStackLayoutsGetRESTAPIV1Par{
-
+@ApiModel(value = "messagesGet request parameter")
+public class SSMessagesGetRESTAPIV2Par{
+  
+  @XmlElement
   @ApiModelProperty( 
-    value = "the user's identifier", 
-    required = true)
-  public        SSUri                user          = null;
+    required = false, 
+    value = "whether also already read messages should be included")
+  public Boolean includeRead = false;
   
-  @XmlElement 
-  public void setUser(final String user) throws Exception{
-    this.user = SSUri.get(user);
-  }
-  
-  @XmlElement 
+  @XmlElement
   @ApiModelProperty( 
-    value = "the user's access tocken", 
-    required = true)
-  public String key                    = null;
+    required = false, 
+    value = "start time to retrieve messages")
+  public Long startTime = null;
   
-  public SSAppStackLayoutsGetRESTAPIV1Par(){}
+  public SSMessagesGetRESTAPIV2Par(){}
 }

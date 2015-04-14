@@ -155,7 +155,7 @@ public class SSRecommImpl extends SSServImplWithDBA implements SSRecommClientI, 
   public Map<String, Double> recommTags(final SSServPar parA) throws Exception{
     
     try{
-      final SSRecommTagsPar par  = new SSRecommTagsPar(parA);
+      final SSRecommTagsPar par  = SSRecommTagsPar.get(parA);
       final SSEntity        forUserEntity;
       Algorithm             algo = recommConf.recommTagAlgorithm;
       
@@ -214,7 +214,7 @@ public class SSRecommImpl extends SSServImplWithDBA implements SSRecommClientI, 
   public Map<SSEntity, Double> recommResources(final SSServPar parA) throws Exception{
     
     try{
-      final SSRecommResourcesPar   par           = new SSRecommResourcesPar(parA);
+      final SSRecommResourcesPar   par           = SSRecommResourcesPar.get(parA);
       final Map<SSEntity, Double>  entities      = new HashMap<>();
       Integer                      entityCounter = 0;
       SSEntity                     entity;

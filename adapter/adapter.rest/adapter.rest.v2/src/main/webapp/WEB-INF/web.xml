@@ -9,6 +9,111 @@
   <display-name>SSAdapterRestV2</display-name>
   
   <servlet>
+    <servlet-name>SSRESTMessages</servlet-name>
+    <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>  
+    <init-param>
+      <param-name>jersey.config.server.provider.packages</param-name>
+      <param-value>at.kc.tugraz.ss.adapter.rest.v2</param-value>
+    </init-param>
+    
+    <init-param>
+      <param-name>javax.ws.rs.Application</param-name>
+      <param-value>at.kc.tugraz.ss.adapter.rest.v2.SSRestMainV2</param-value>
+    </init-param>
+        
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>SSRESTMessages</servlet-name>
+    <url-pattern>/messages/*</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>SSRESTRatings</servlet-name>
+    <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>  
+    <init-param>
+      <param-name>jersey.config.server.provider.packages</param-name>
+      <param-value>at.kc.tugraz.ss.adapter.rest.v2</param-value>
+    </init-param>
+    
+    <init-param>
+      <param-name>javax.ws.rs.Application</param-name>
+      <param-value>at.kc.tugraz.ss.adapter.rest.v2.SSRestMainV2</param-value>
+    </init-param>
+        
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>SSRESTRatings</servlet-name>
+    <url-pattern>/ratings/*</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>SSRESTSystem</servlet-name>
+    <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>  
+    <init-param>
+      <param-name>jersey.config.server.provider.packages</param-name>
+      <param-value>at.kc.tugraz.ss.adapter.rest.v2</param-value>
+    </init-param>
+    
+    <init-param>
+      <param-name>javax.ws.rs.Application</param-name>
+      <param-value>at.kc.tugraz.ss.adapter.rest.v2.SSRestMainV2</param-value>
+    </init-param>
+        
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>SSRESTSystem</servlet-name>
+    <url-pattern>/system/*</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>SSRESTUsers</servlet-name>
+    <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>  
+    <init-param>
+      <param-name>jersey.config.server.provider.packages</param-name>
+      <param-value>at.kc.tugraz.ss.adapter.rest.v2</param-value>
+    </init-param>
+    
+    <init-param>
+      <param-name>javax.ws.rs.Application</param-name>
+      <param-value>at.kc.tugraz.ss.adapter.rest.v2.SSRestMainV2</param-value>
+    </init-param>
+        
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>SSRESTUsers</servlet-name>
+    <url-pattern>/users/*</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>SSRESTCategories</servlet-name>
+    <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>  
+    <init-param>
+      <param-name>jersey.config.server.provider.packages</param-name>
+      <param-value>at.kc.tugraz.ss.adapter.rest.v2</param-value>
+    </init-param>
+    
+    <init-param>
+      <param-name>javax.ws.rs.Application</param-name>
+      <param-value>at.kc.tugraz.ss.adapter.rest.v2.SSRestMainV2</param-value>
+    </init-param>
+        
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>SSRESTCategories</servlet-name>
+    <url-pattern>/categories/*</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
     <servlet-name>SSRESTLikes</servlet-name>
     <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>  
     <init-param>
@@ -310,6 +415,10 @@
     <servlet-name>SSRESTAppStackLayouts</servlet-name>
     <servlet-name>SSRESTRecomm</servlet-name>
     <servlet-name>SSRESTLikes</servlet-name>
+    <servlet-name>SSRESTCategories</servlet-name>
+    <servlet-name>SSRESTUsers</servlet-name>
+    <servlet-name>SSRESTSystem</servlet-name>
+    <servlet-name>SSRESTRatings</servlet-name>
     
   </filter-mapping>
   

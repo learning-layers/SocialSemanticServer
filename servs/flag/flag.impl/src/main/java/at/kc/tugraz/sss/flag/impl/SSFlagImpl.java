@@ -25,7 +25,6 @@ import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSSocketCon;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
-import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSConfA;
@@ -111,7 +110,7 @@ public class SSFlagImpl extends SSServImplWithDBA implements SSFlagClientI, SSFl
     
     try{
       
-      final SSFlagsUserSetPar par = new SSFlagsUserSetPar(parA);
+      final SSFlagsUserSetPar par = SSFlagsUserSetPar.get(parA);
       
       SSServCallerU.canUserEditEntities(par.user, par.entities);
       
@@ -230,7 +229,7 @@ public class SSFlagImpl extends SSServImplWithDBA implements SSFlagClientI, SSFl
     
     try{
       
-      final SSFlagsUserGetPar par = new SSFlagsUserGetPar(parA);
+      final SSFlagsUserGetPar par = SSFlagsUserGetPar.get(parA);
       
       SSServCallerU.canUserReadEntities(par.user, par.entities);
       

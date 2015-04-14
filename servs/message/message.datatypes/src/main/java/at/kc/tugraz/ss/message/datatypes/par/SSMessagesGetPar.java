@@ -23,51 +23,47 @@ package at.kc.tugraz.ss.message.datatypes.par;
 import at.tugraz.sss.serv.SSVarU;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServErrReg;
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSUri;
 
-@XmlRootElement
-@ApiModel(value = "messagesGet request parameter")
 public class SSMessagesGetPar extends SSServPar{
   
-  @XmlElement
-  @ApiModelProperty( 
-    required = false, 
-    value = "whether also already read messages should be included")
   public Boolean includeRead = false;
-  
-  @XmlElement
-  @ApiModelProperty( 
-    required = false, 
-    value = "startime to retrieve messages")
-  public Long startTime = null;
+  public Long    startTime = null;
   
   public SSMessagesGetPar(){}
+  
+  public SSMessagesGetPar(
+    final SSServOpE op,
+    final String    key,
+    final SSUri     user, 
+    final Boolean   includeRead, 
+    final Long      startTime){
     
-  public SSMessagesGetPar(final SSServPar par) throws Exception{
+    super(op, key, user);
     
-    super(par);
+    this.includeRead = includeRead;
+    this.startTime   = startTime;
+  }
+  
+  public static SSMessagesGetPar get(final SSServPar par) throws Exception{
     
     try{
-      if(pars != null){
-        this.includeRead  =  (Boolean)      pars.get(SSVarU.includeRead);
-        this.startTime    =  (Long)         pars.get(SSVarU.startTime);
+      
+      if(par.clientCon != null){
+        return (SSMessagesGetPar) par.getFromJSON(SSMessagesGetPar.class);
       }
       
-      if(par.clientJSONObj != null){
-        
-        try{
-          this.includeRead  = par.clientJSONObj.get(SSVarU.includeRead).getBooleanValue();
-        }catch(Exception error){}
-        
-        try{
-          this.startTime    = par.clientJSONObj.get(SSVarU.startTime).getLongValue();
-        }catch(Exception error){}
-      }
+      return new SSMessagesGetPar(
+        par.op,
+        par.key,
+        par.user,
+        (Boolean)      par.pars.get(SSVarU.includeRead),
+        (Long)         par.pars.get(SSVarU.startTime));
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
 }

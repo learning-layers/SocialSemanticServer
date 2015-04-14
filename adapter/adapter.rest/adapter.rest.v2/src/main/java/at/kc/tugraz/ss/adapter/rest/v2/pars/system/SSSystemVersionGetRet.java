@@ -18,33 +18,33 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.adapter.rest.v1.par;
+package at.kc.tugraz.ss.adapter.rest.v2.pars.system;
 
-import at.tugraz.sss.serv.SSUri;
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSServRetI;
+import java.util.HashMap;
+import java.util.Map;
 
-@XmlRootElement
-@ApiModel(value = "appsGet request parameter")
-public class SSAppsGetRESTAPIV1Par{
-
-  @ApiModelProperty( 
-    value = "the user's identifier", 
-    required = true)
-  public        SSUri                user          = null;
+public class SSSystemVersionGetRet extends SSServRetI{
   
-  @XmlElement 
-  public void setUser(final String user) throws Exception{
-    this.user = SSUri.get(user);
+  public String version = null;
+  
+  public SSSystemVersionGetRet(
+    final String  version,
+    final SSServOpE op){
+    
+    super(op);
+    
+    this.version = version;
   }
   
-  @XmlElement 
-  @ApiModelProperty( 
-    value = "the user's access tocken", 
-    required = true)
-  public String key                    = null;
+  @Override
+  public Map<String, Object> jsonLDDesc(){
+    return new HashMap<>();
+  }
   
-  public SSAppsGetRESTAPIV1Par(){}
+  /* json getters */
+  public String getVersion(){
+    return version;
+  }
 }

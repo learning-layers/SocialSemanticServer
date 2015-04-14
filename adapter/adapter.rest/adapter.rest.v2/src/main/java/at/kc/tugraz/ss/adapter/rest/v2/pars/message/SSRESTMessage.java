@@ -18,21 +18,20 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.adapter.rest.v2.pars.friend;
+package at.kc.tugraz.ss.adapter.rest.v2.pars.message;
 
-import at.tugraz.sss.serv.SSServOpE;
 import at.kc.tugraz.ss.adapter.rest.v2.SSRestMainV2;
-import at.kc.tugraz.ss.friend.datatypes.par.SSFriendUserAddPar;
-import at.kc.tugraz.ss.friend.datatypes.par.SSFriendsUserGetPar;
-import at.kc.tugraz.ss.friend.datatypes.ret.SSFriendUserAddRet;
-import at.kc.tugraz.ss.friend.datatypes.ret.SSFriendsUserGetRet;
+import at.kc.tugraz.ss.message.datatypes.par.SSMessageSendPar;
+import at.kc.tugraz.ss.message.datatypes.par.SSMessagesGetPar;
+import at.kc.tugraz.ss.message.datatypes.ret.SSMessageSendRet;
+import at.kc.tugraz.ss.message.datatypes.ret.SSMessagesGetRet;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSVarU;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -42,30 +41,34 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-@Path("/friends")
-@Api( value = "/friends") //, basePath = "/friends"
-public class SSRESTFriends{
+@Path("/messages")
+@Api( value = "/messages")
+public class SSRESTMessage{
   
-  @GET
+  @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    ("")
+  @Path("")
   @ApiOperation(
-    value = "get friends",
-    response = SSFriendsUserGetRet.class)
-  public Response friendsGet(
+    value = "retrieve messages for the user",
+    response = SSMessagesGetRet.class)
+  public Response messagesGetPOST(
     @Context 
-      final HttpHeaders headers){
+      final HttpHeaders headers, 
     
-    final SSFriendsUserGetPar par;
+    final SSMessagesGetRESTAPIV2Par input){
+    
+    final SSMessagesGetPar par;
     
     try{
       
       par =
-        new SSFriendsUserGetPar(
-          SSServOpE.friendsGet,
+        new SSMessagesGetPar(
+          SSServOpE.messagesGet,
           null,
-          null);
+          null,  
+          input.includeRead,
+          input.startTime);
       
     }catch(Exception error){
       return Response.status(422).build();
@@ -77,28 +80,31 @@ public class SSRESTFriends{
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    ("/{friend}")
+  @Path("/users/{forUser}")
   @ApiOperation(
-    value = "add a friend",
-    response = SSFriendUserAddRet.class)
-  public Response friendAddPost(
-    @Context
-    final HttpHeaders headers,
+    value = "send a message to a user",
+    response = SSMessageSendRet.class)
+  public Response messageSend(
+    @Context 
+      final HttpHeaders headers, 
     
-    @PathParam(SSVarU.friend)
-    final String friend){
+    @PathParam(SSVarU.forUser) 
+      final String forUser,
     
-    final SSFriendUserAddPar par;
+    final SSMessageSendRESTAPIV2Par input){
+    
+    final SSMessageSendPar par;
     
     try{
       
       par =
-        new SSFriendUserAddPar(
-          SSServOpE.friendAdd,
+        new SSMessageSendPar(
+          SSServOpE.messageSend,
           null,
           null,
-          SSUri.get(friend, SSVocConf.sssUri),
-          true); //friend
+          SSUri.get(forUser, SSVocConf.sssUri),
+          input.message,
+          true);
       
     }catch(Exception error){
       return Response.status(422).build();

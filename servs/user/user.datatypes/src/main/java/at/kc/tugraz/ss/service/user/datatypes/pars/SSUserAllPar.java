@@ -3,7 +3,7 @@
 * http://www.learning-layers.eu
 * Development is partly funded by the FP7 Programme of the European Commission under
 * Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+* Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
 * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,41 +22,44 @@ package at.kc.tugraz.ss.service.user.datatypes.pars;
 
 import at.tugraz.sss.serv.SSVarU;
 import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSUri;
 
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
- import at.tugraz.sss.serv.SSServErrReg;
- 
-@XmlRootElement
-@ApiModel(value = "userAll request parameter")
 public class SSUserAllPar extends SSServPar{
   
-  @XmlElement
-  @ApiModelProperty(
-    required = false,
-    value = "whether friends of returned users shall be set" )
-  public Boolean     setFriends     = false;
+  public Boolean setFriends = false;
   
   public SSUserAllPar(){}
   
-  public SSUserAllPar(SSServPar par) throws Exception{
+  public SSUserAllPar(
+    final SSServOpE op,
+    final String    key,
+    final SSUri     user, 
+    final Boolean   setFriends){
+  
+    super(op, key, user);
     
-    super(par);
+    this.setFriends = setFriends;
+  }
+  
+  public static SSUserAllPar get(final SSServPar par) throws Exception{
     
     try{
       
-      if(pars != null){
-        setFriends     = (Boolean)     pars.get(SSVarU.setFriends);
+      if(par.clientCon != null){
+        return (SSUserAllPar) par.getFromJSON(SSUserAllPar.class);
       }
       
-      if(par.clientJSONObj != null){
-        setFriends = par.clientJSONObj.get(SSVarU.setFriends).getBooleanValue();
-      }
+      return new SSUserAllPar(
+        par.op,
+        par.key,
+        par.user,
+        (Boolean) par.pars.get(SSVarU.setFriends));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
 }

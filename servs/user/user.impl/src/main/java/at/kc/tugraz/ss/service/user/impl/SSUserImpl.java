@@ -28,7 +28,6 @@ import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSLabel;
-import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSEntityDescriberI;
 import at.tugraz.sss.serv.SSEntityHandlerImplI;
@@ -238,7 +237,7 @@ public class SSUserImpl extends SSServImplWithDBA implements SSUserClientI, SSUs
     
     try{
       
-      final SSUserAllPar par = new SSUserAllPar(parA);
+      final SSUserAllPar par = SSUserAllPar.get(parA);
       
       return SSServCaller.usersGet(SSUri.asListWithoutNullAndEmpty(), par.setFriends);
     }catch(Exception error){

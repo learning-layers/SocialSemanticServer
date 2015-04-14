@@ -18,87 +18,49 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.adapter.rest.v2.pars.friend;
+package at.kc.tugraz.ss.adapter.rest.v2.pars.category;
 
-import at.tugraz.sss.serv.SSServOpE;
 import at.kc.tugraz.ss.adapter.rest.v2.SSRestMainV2;
-import at.kc.tugraz.ss.friend.datatypes.par.SSFriendUserAddPar;
-import at.kc.tugraz.ss.friend.datatypes.par.SSFriendsUserGetPar;
-import at.kc.tugraz.ss.friend.datatypes.ret.SSFriendUserAddRet;
-import at.kc.tugraz.ss.friend.datatypes.ret.SSFriendsUserGetRet;
-import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
-import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSVarU;
+import at.kc.tugraz.ss.category.datatypes.par.SSCategoriesPredefinedGetPar;
+import at.kc.tugraz.ss.category.datatypes.ret.SSCategoriesPredefinedGetRet;
+import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsUserGetPar;
+import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagsUserGetRet;
+import at.tugraz.sss.serv.SSServOpE;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-@Path("/friends")
-@Api( value = "/friends") //, basePath = "/friends"
-public class SSRESTFriends{
+@Path("/categories")
+@Api( value = "/categories")
+public class SSRESTCategories{
   
   @GET
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    ("")
+  @Path("/predefined")
   @ApiOperation(
-    value = "get friends",
-    response = SSFriendsUserGetRet.class)
-  public Response friendsGet(
+    value = "retrieve predefined categories",
+    response = SSCategoriesPredefinedGetRet.class)
+  public Response categoriesPredefinedGet(
     @Context 
       final HttpHeaders headers){
     
-    final SSFriendsUserGetPar par;
+    final SSCategoriesPredefinedGetPar par;
     
     try{
       
       par =
-        new SSFriendsUserGetPar(
-          SSServOpE.friendsGet,
+        new SSCategoriesPredefinedGetPar(
+          SSServOpE.categoriesPredefinedGet,
           null,
           null);
-      
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
-  }
-  
-  @POST
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  @Path    ("/{friend}")
-  @ApiOperation(
-    value = "add a friend",
-    response = SSFriendUserAddRet.class)
-  public Response friendAddPost(
-    @Context
-    final HttpHeaders headers,
-    
-    @PathParam(SSVarU.friend)
-    final String friend){
-    
-    final SSFriendUserAddPar par;
-    
-    try{
-      
-      par =
-        new SSFriendUserAddPar(
-          SSServOpE.friendAdd,
-          null,
-          null,
-          SSUri.get(friend, SSVocConf.sssUri),
-          true); //friend
       
     }catch(Exception error){
       return Response.status(422).build();

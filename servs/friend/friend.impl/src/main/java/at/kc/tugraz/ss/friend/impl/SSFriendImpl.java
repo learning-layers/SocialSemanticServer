@@ -63,7 +63,7 @@ public class SSFriendImpl extends SSServImplWithDBA implements SSFriendClientI, 
   public List<SSFriend> friendsUserGet(final SSServPar parA) throws Exception{
     
     try{
-      final SSFriendsUserGetPar  par         = new SSFriendsUserGetPar(parA);
+      final SSFriendsUserGetPar  par         = SSFriendsUserGetPar.get(parA);
       final List<SSFriend>       friends     = new ArrayList<>();
       
       for (SSFriend friend : sqlFct.getFriends(par.user)){
@@ -93,7 +93,7 @@ public class SSFriendImpl extends SSServImplWithDBA implements SSFriendClientI, 
   public SSUri friendUserAdd(final SSServPar parA) throws Exception{
     
     try{
-      final SSFriendUserAddPar  par        = new SSFriendUserAddPar(parA);
+      final SSFriendUserAddPar  par        = SSFriendUserAddPar.get(parA);
       
       dbSQL.startTrans(par.shouldCommit);
             

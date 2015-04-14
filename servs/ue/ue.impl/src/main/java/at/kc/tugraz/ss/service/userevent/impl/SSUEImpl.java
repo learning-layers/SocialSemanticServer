@@ -26,7 +26,6 @@ import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSSocketCon;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSEntityE;
-import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSConfA;
@@ -241,7 +240,7 @@ implements
     
     try{
       
-      final SSUECountGetPar par = new SSUECountGetPar(parA);
+      final SSUECountGetPar par = SSUECountGetPar.get(parA);
       
       return sqlFct.getUEs(
         par.forUser,
@@ -387,7 +386,7 @@ implements
     
     try{
       
-      final SSUEAddPar par   = new SSUEAddPar(parA);
+      final SSUEAddPar par   = SSUEAddPar.get(parA);
       final SSUri      ueUri = SSServCaller.vocURICreate();
       
       if(par.entity != null){
@@ -460,9 +459,9 @@ implements
   public SSUE uEGet(final SSServPar parA) throws Exception {
     
     try{
-      final SSUEGetPar par = new SSUEGetPar(parA);
+      final SSUEGetPar par = SSUEGetPar.get(parA);
       
-      return sqlFct.getUE(par.ue);
+      return sqlFct.getUE(par.uE);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -475,7 +474,7 @@ implements
     
     try{
       
-      final SSUEsGetPar par = new SSUEsGetPar(parA);
+      final SSUEsGetPar par = SSUEsGetPar.get(parA);
       
       return sqlFct.getUEs(
         par.forUser,

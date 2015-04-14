@@ -1,23 +1,23 @@
 /**
-* Code contributed to the Learning Layers project
-* http://www.learning-layers.eu
-* Development is partly funded by the FP7 Programme of the European Commission under
-* Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
-* For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
-*
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-* http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*/
+ * Code contributed to the Learning Layers project
+ * http://www.learning-layers.eu
+ * Development is partly funded by the FP7 Programme of the European Commission under
+ * Grant Agreement FP7-ICT-318209.
+ * Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
+ * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package at.kc.tugraz.sss.flag.datatypes.par;
 
 import at.tugraz.sss.serv.SSStrU;
@@ -26,94 +26,81 @@ import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.kc.tugraz.sss.flag.datatypes.SSFlagE;
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
+import at.tugraz.sss.serv.SSServOpE;
 import java.util.ArrayList;
 import java.util.List;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import org.codehaus.jackson.JsonNode;
 
-@XmlRootElement
-@ApiModel(value = "flagsUserSet request parameter")
 public class SSFlagsUserSetPar extends SSServPar{
   
-  @ApiModelProperty(
-    required = true, 
-    value = "")
   public List<SSUri>   entities       = new ArrayList<>();
-  
-  @XmlElement
-  public void setEntities(final List<String> entities) throws Exception{
-    this.entities = SSUri.get(entities);
-  }
-  
-  @ApiModelProperty( 
-    required = true, 
-    value = "" )
   public List<SSFlagE> types          = new ArrayList<>();
-  
-  @XmlElement
-  public void setTypes(final List<String> types) throws Exception{
-    this.types = SSFlagE.get(types);
-  }
-  
-  @XmlElement
-  @ApiModelProperty( 
-    required = false, 
-    value = "" )
   public Integer       value          = null;
-  
-  @XmlElement
-  @ApiModelProperty( 
-    required = false, 
-    value = "" )
   public Long          endTime        = null;
   
-  public SSFlagsUserSetPar(){}
-  
-  public SSFlagsUserSetPar(SSServPar par) throws Exception{
-    
-    super(par);
-    
-    try{
-      
-      if(pars != null){
-        entities  = (List<SSUri>)              pars.get(SSVarU.entities);
-        types     = SSFlagE.get((List<String>) pars.get(SSVarU.types));
-        value     = (Integer)                  pars.get(SSVarU.value);
-        endTime   = (Long)                     pars.get(SSVarU.endTime);
-      }
-      
-      if(par.clientJSONObj != null){
-        
-        for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.entities)) {
-          entities.add(SSUri.get(objNode.getTextValue()));
-        }
-        
-        for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.types)) {
-          types.add(SSFlagE.get(objNode.getTextValue()));
-        }
-        
-        try{
-          value = par.clientJSONObj.get(SSVarU.value).getIntValue();
-        }catch(Exception error){}
-        
-        try{
-          endTime = par.clientJSONObj.get(SSVarU.endTime).getLongValue();
-        }catch(Exception error){}
-      }
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
+  public void setEntities(final List<String> entities){
+    try{ this.entities = SSUri.get(entities); }catch(Exception error){}
   }
   
-  /* json getters */
+  public void setTypes(final List<String> types) throws Exception{
+    try{ this.types = SSFlagE.get(types); }catch(Exception error){}
+  }
+  
   public List<String> getEntities() throws Exception{
     return SSStrU.removeTrailingSlash(entities);
   }
   
   public List<String> getTypes() throws Exception{
     return SSStrU.toStr(types);
+  }
+  
+  public SSFlagsUserSetPar(){}
+  
+  public SSFlagsUserSetPar(
+    final SSServOpE      op,
+    final String         key,
+    final SSUri          user, 
+    final List<SSUri>    entities, 
+    final List<SSFlagE>  types, 
+    final Integer        value, 
+    final Long           endTime,
+    final Boolean        shouldCommit){
+    
+    super(op, key, user);
+    
+    if(entities != null){
+      this.entities.addAll(entities);
+    }
+    
+    if(types != null){
+      this.types.addAll(types);
+    }
+    
+    this.value        = value;
+    this.endTime      = endTime;
+    this.shouldCommit = shouldCommit;
+  }
+  
+  public static SSFlagsUserSetPar get(final SSServPar par) throws Exception{
+    
+    try{
+      
+      if(par.clientCon != null){
+        return (SSFlagsUserSetPar) par.getFromJSON(SSFlagsUserSetPar.class);
+      }
+      
+      return new SSFlagsUserSetPar(
+        par.op,
+        par.key,
+        par.user,
+        (List<SSUri>)              par.pars.get(SSVarU.entities),
+        (List<SSFlagE>)            par.pars.get(SSVarU.types),
+        (Integer)                  par.pars.get(SSVarU.value),
+        (Long)                     par.pars.get(SSVarU.endTime),
+        (Boolean)                  par.pars.get(SSVarU.shouldCommit));
+        
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
   }
 }

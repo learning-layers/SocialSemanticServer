@@ -18,15 +18,15 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.adapter.rest.v2.pars.friend;
+package at.kc.tugraz.ss.adapter.rest.v2.pars.rating;
 
-import at.tugraz.sss.serv.SSServOpE;
 import at.kc.tugraz.ss.adapter.rest.v2.SSRestMainV2;
-import at.kc.tugraz.ss.friend.datatypes.par.SSFriendUserAddPar;
-import at.kc.tugraz.ss.friend.datatypes.par.SSFriendsUserGetPar;
-import at.kc.tugraz.ss.friend.datatypes.ret.SSFriendUserAddRet;
-import at.kc.tugraz.ss.friend.datatypes.ret.SSFriendsUserGetRet;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.kc.tugraz.ss.service.rating.datatypes.pars.SSRatingOverallGetPar;
+import at.kc.tugraz.ss.service.rating.datatypes.pars.SSRatingUserSetPar;
+import at.kc.tugraz.ss.service.rating.datatypes.ret.SSRatingOverallGetRet;
+import at.kc.tugraz.ss.service.rating.datatypes.ret.SSRatingUserSetRet;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSVarU;
 import com.wordnik.swagger.annotations.Api;
@@ -42,30 +42,34 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-@Path("/friends")
-@Api( value = "/friends") //, basePath = "/friends"
-public class SSRESTFriends{
+@Path("/ratings")
+@Api( value = "/ratings") //, basePath = "/entities"
+public class SSRESTRatings{
   
   @GET
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    ("")
+  @Path("/entities/{entity}/overall")
   @ApiOperation(
-    value = "get friends",
-    response = SSFriendsUserGetRet.class)
-  public Response friendsGet(
+    value = "retrieve the overall rating (by all users) for given entity",
+    response = SSRatingOverallGetRet.class)
+  public Response ratingOverallGet(
     @Context 
-      final HttpHeaders headers){
+    final HttpHeaders headers,
     
-    final SSFriendsUserGetPar par;
+    @PathParam(SSVarU.entity)
+    final String entity){
+    
+    final SSRatingOverallGetPar par;
     
     try{
       
       par =
-        new SSFriendsUserGetPar(
-          SSServOpE.friendsGet,
+        new SSRatingOverallGetPar(
+          SSServOpE.ratingOverallGet,
           null,
-          null);
+          null,
+          SSUri.get(entity, SSVocConf.sssUri));
       
     }catch(Exception error){
       return Response.status(422).build();
@@ -77,28 +81,32 @@ public class SSRESTFriends{
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    ("/{friend}")
+  @Path("/entities/{entity}/value/{value}")
   @ApiOperation(
-    value = "add a friend",
-    response = SSFriendUserAddRet.class)
-  public Response friendAddPost(
-    @Context
+    value = "set the user's rating for given entity",
+    response = SSRatingUserSetRet.class)
+  public Response ratingOverallGet(
+    @Context 
     final HttpHeaders headers,
     
-    @PathParam(SSVarU.friend)
-    final String friend){
+    @PathParam(SSVarU.entity)
+    final String entity,
     
-    final SSFriendUserAddPar par;
+    @PathParam(SSVarU.value)
+    final String value){
+    
+    final SSRatingUserSetPar par;
     
     try{
       
       par =
-        new SSFriendUserAddPar(
-          SSServOpE.friendAdd,
+        new SSRatingUserSetPar(
+          SSServOpE.ratingSet,
           null,
           null,
-          SSUri.get(friend, SSVocConf.sssUri),
-          true); //friend
+          SSUri.get(entity, SSVocConf.sssUri),
+          Integer.valueOf(value), 
+          true);
       
     }catch(Exception error){
       return Response.status(422).build();

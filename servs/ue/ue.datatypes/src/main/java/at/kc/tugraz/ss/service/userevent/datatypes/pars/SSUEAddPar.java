@@ -3,7 +3,7 @@
  * http://www.learning-layers.eu
  * Development is partly funded by the FP7 Programme of the European Commission under
  * Grant Agreement FP7-ICT-318209.
- * Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+ * Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
  * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -26,67 +26,69 @@ import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUEE;
 import at.tugraz.sss.serv.SSServErrReg;
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import at.tugraz.sss.serv.SSServOpE;
 
-@XmlRootElement
-@ApiModel(value = "ueAddPar request parameter")
 public class SSUEAddPar extends SSServPar{
   
-  @ApiModelProperty(
-    required = true,
-    value = "entity with which some interaction shall be traced")
   public SSUri            entity     = null;
-  
-  @XmlElement
-  public void setEntity(final String entity) throws Exception{
-    this.entity = SSUri.get(entity);
-  }  
-  
-  @XmlElement
-  @ApiModelProperty(
-    required = true,
-    value = "type of the event")
   public SSUEE            type       = null;
-  
-  @XmlElement
-  @ApiModelProperty(
-    required = true,
-    value = "possible additional textual information of the trace")
   public String           content    = null;
   
-  public SSUEAddPar(){}
-  
-  public SSUEAddPar(SSServPar par) throws Exception{
-    
-    super(par);
-    
-    try{
-      
-      if(pars != null){
-        entity   = (SSUri)    pars.get(SSVarU.entity);
-        type     = (SSUEE)    pars.get(SSVarU.type);
-        content  = (String)   pars.get(SSVarU.content);
-      }
-      
-      if(par.clientJSONObj != null){
-        entity   = SSUri.get     (par.clientJSONObj.get(SSVarU.entity).getTextValue());
-        type     = SSUEE.get     (par.clientJSONObj.get(SSVarU.type).getTextValue());
-        content  =                par.clientJSONObj.get(SSVarU.content).getTextValue();
-      }
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
+  public void setEntity(final String entity) {
+    try{ this.entity = SSUri.get(entity); }catch(Exception error){}
+  }  
+
+  public void setType(final String type) throws Exception{
+    this.type = SSUEE.get(type);
   }
   
-  /* json getters */
   public String getEntity(){
     return SSStrU.removeTrailingSlash(entity);
   }
   
   public String getType(){
     return SSStrU.toStr(type);
+  }
+  
+  public SSUEAddPar(){}
+  
+  public SSUEAddPar(
+    final SSServOpE op,
+    final String    key,
+    final SSUri     user, 
+    final SSUri     entity, 
+    final SSUEE     type, 
+    final String    content, 
+    final Boolean   shouldCommit){
+    
+    super(op, key, user);
+    
+    this.entity       = entity;
+    this.type         = type;
+    this.content      = content;
+    this.shouldCommit = shouldCommit;
+  }
+  
+  public static SSUEAddPar get(final SSServPar par) throws Exception{
+    
+    try{
+      
+      if(par.clientCon != null){
+        return (SSUEAddPar) par.getFromJSON(SSUEAddPar.class);
+      }
+
+      return new SSUEAddPar(
+        par.op,
+        par.key,
+        par.user,
+        (SSUri)    par.pars.get(SSVarU.entity),
+        (SSUEE)    par.pars.get(SSVarU.type),
+        (String)   par.pars.get(SSVarU.content),
+        (Boolean)  par.pars.get(SSVarU.shouldCommit));
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
   }
 }

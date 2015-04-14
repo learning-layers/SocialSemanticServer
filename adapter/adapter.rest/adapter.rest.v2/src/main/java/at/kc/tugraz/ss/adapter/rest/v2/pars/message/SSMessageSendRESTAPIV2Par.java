@@ -3,7 +3,7 @@
 * http://www.learning-layers.eu
 * Development is partly funded by the FP7 Programme of the European Commission under
 * Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+* Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
 * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,22 +18,29 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.adapter.rest.v2.pars.entity;
+package at.kc.tugraz.ss.adapter.rest.v2.pars.message;
 
+import at.tugraz.sss.serv.SSTextComment;
+import at.tugraz.sss.serv.SSServPar;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-@ApiModel(value = "entityUserUpdate request parameter")
-public class SSLikeSetRESTAPIV2Par{
+@ApiModel(value = "messageSend request parameter")
+public class SSMessageSendRESTAPIV2Par extends SSServPar{
   
   @XmlElement
   @ApiModelProperty( 
     required = true, 
-    value = "value of the like - 1, 0, -1 for like, neutral, dislike")
-  public Integer             value         = null;
+    value = "message to send")
+  public SSTextComment       message   = null;
   
-  public SSLikeSetRESTAPIV2Par(){}
+  @XmlElement
+  public void setMessage(final String message) throws Exception{
+    this.message = SSTextComment.get(message);
+  }
+  
+  public SSMessageSendRESTAPIV2Par(){}
 }

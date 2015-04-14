@@ -499,3 +499,10 @@ org.eclipse.wst.jsdt.ui.superType.name
 /sss/sss.log
 /adapter/adapter.rest/adapter.rest.v2/src/main/webapp/api-docs/discs.json
 /adapter/adapter.rest/adapter.rest.v2/src/main/webapp/api-docs/likes.json
+/adapter/adapter.rest/adapter.rest.v2/src/main/webapp/api-docs/categories.json
+/adapter/adapter.rest/adapter.rest.v2/src/main/webapp/api-docs/flags.json
+/adapter/adapter.rest/adapter.rest.v2/src/main/webapp/api-docs/messages.json
+/adapter/adapter.rest/adapter.rest.v2/src/main/webapp/api-docs/ratings.json
+/adapter/adapter.rest/adapter.rest.v2/src/main/webapp/api-docs/system.json
+/adapter/adapter.rest/adapter.rest.v2/src/main/webapp/api-docs/ues.json
+/adapter/adapter.rest/adapter.rest.v2/src/main/webapp/api-docs/users.json

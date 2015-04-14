@@ -3,7 +3,7 @@
 * http://www.learning-layers.eu
 * Development is partly funded by the FP7 Programme of the European Commission under
 * Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+* Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
 * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,119 +25,73 @@ import at.tugraz.sss.serv.SSVarU;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServErrReg;
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
+import at.tugraz.sss.serv.SSServOpE;
 import java.util.ArrayList;
 import java.util.List;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import org.codehaus.jackson.JsonNode;
 
-@XmlRootElement
-@ApiModel(value = "recommTags request parameter")
 public class SSRecommTagsPar extends SSServPar{
   
-  @XmlElement
-  @ApiModelProperty(
-    required = false,
-    value = "recomm realm the user wants to query")
-  public String         realm    = null;
+  public String         realm      = null;
+  public SSUri          forUser    = null;
+  public SSUri          entity     = null;
+  public List<String>   categories = new ArrayList<>();
+  public Integer        maxTags    = 10;
+  public Boolean        includeOwn = true;
   
-  @ApiModelProperty( 
-    required = false, 
-    value = "user to be considered to retrieve recommendations for")
-  public SSUri         forUser    = null;
-  
-  @XmlElement
   public void setForUser(final String forUser) throws Exception{
     this.forUser = SSUri.get(forUser);
   }
   
-  @ApiModelProperty( 
-    required = false, 
-    value = "resource to be considered to retrieve recommendations for")
-  public SSUri         entity     = null;
-  
-  @XmlElement
   public void setEntity(final String entity) throws Exception{
     this.entity = SSUri.get(entity);
   }
   
-  @XmlElement
-  @ApiModelProperty( 
-    required = false, 
-    value = "additional information to be taken into account")
-  public List<String>  categories = new ArrayList<>();
-  
-  @XmlElement
-  @ApiModelProperty( 
-    required = false, 
-    value = "number of tags to be returned")
-  public Integer       maxTags    = 10;
-  
-  @XmlElement
-  @ApiModelProperty(
-    required = false,
-    value = "whether own tags should be included in the result")
-  public Boolean includeOwn = true;
-  
-  public SSRecommTagsPar(){}
-    
-  public SSRecommTagsPar(final SSServPar par) throws Exception{
-    
-    super(par);
-    
-    try{
-      if(pars != null){
-        
-        realm      = (String)         pars.get(SSVarU.realm);
-        forUser    =  (SSUri)         pars.get(SSVarU.forUser);
-        entity     =  (SSUri)         pars.get(SSVarU.entity);
-        categories =  (List<String>)  pars.get(SSVarU.categories);
-        maxTags    =  (Integer)       pars.get(SSVarU.maxTags);
-        includeOwn =  (Boolean)       pars.get(SSVarU.includeOwn);
-      }
-      
-      if(par.clientJSONObj != null){
-        
-        try{
-          this.realm   = par.clientJSONObj.get(SSVarU.realm).getTextValue();
-        }catch(Exception error){}
-        
-        try{
-          this.forUser   = SSUri.get         (par.clientJSONObj.get(SSVarU.forUser).getTextValue());
-        }catch(Exception error){}
-        
-        try{
-          this.entity = SSUri.get         (par.clientJSONObj.get(SSVarU.entity).getTextValue());
-        }catch(Exception error){}
-        
-        try{
-          for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.categories)) {
-            categories.add(objNode.getTextValue());
-          }
-        }catch(Exception error){}
-        
-        try{
-          this.maxTags   = par.clientJSONObj.get(SSVarU.maxTags).getIntValue();
-        }catch(Exception error){}
-        
-        try{
-          this.includeOwn  = par.clientJSONObj.get(SSVarU.includeOwn).getBooleanValue();
-        }catch(Exception error){}
-      }
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
-  /* json getters */
   public String getForUser(){
     return SSStrU.removeTrailingSlash(forUser);
   }
 
   public String getEntity(){
     return SSStrU.removeTrailingSlash(entity);
+  }
+  
+  public SSRecommTagsPar(){}
+  
+  public SSRecommTagsPar(
+    final SSServOpE     op,
+    final String        key,
+    final SSUri         user,
+    final String        realm,
+    final SSUri         forUser, 
+    final SSUri         entity, 
+    final List<String>  categories, 
+    final Integer       maxTags, 
+    final Boolean       includeOwn){
+    
+    super(op, key, user);
+  }
+    
+  public static SSRecommTagsPar get(final SSServPar par) throws Exception{
+    
+    try{
+      
+      if(par.clientCon != null){
+        return (SSRecommTagsPar) par.getFromJSON(SSRecommTagsPar.class);
+      }
+      
+      return new SSRecommTagsPar(
+        par.op,
+        par.key,
+        par.user,
+        (String)        par.pars.get(SSVarU.realm),
+        (SSUri)         par.pars.get(SSVarU.forUser),
+        (SSUri)         par.pars.get(SSVarU.entity),
+        (List<String>)  par.pars.get(SSVarU.categories),
+        (Integer)       par.pars.get(SSVarU.maxTags),
+        (Boolean)       par.pars.get(SSVarU.includeOwn));
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
   }
 }

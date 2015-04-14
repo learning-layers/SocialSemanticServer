@@ -51,6 +51,7 @@ import at.kc.tugraz.ss.service.user.datatypes.SSUser;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUE;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUEE;
 import at.kc.tugraz.sss.flag.datatypes.SSFlag;
+import at.kc.tugraz.sss.flag.datatypes.SSFlagE;
 import at.tugraz.sss.serv.SSCircleE;
 import at.tugraz.sss.serv.SSCircleRightE;
 import at.tugraz.sss.serv.SSEntity;
@@ -280,7 +281,7 @@ public class SSServCaller {
     
     opPars.put(SSVarU.user,              user);
     opPars.put(SSVarU.entities,          entities);
-    opPars.put(SSVarU.types,             types);
+    opPars.put(SSVarU.types,             SSFlagE.get(types));
     opPars.put(SSVarU.startTime,         startTime);
     opPars.put(SSVarU.endTime,           endTime);
     
@@ -298,7 +299,7 @@ public class SSServCaller {
     
     opPars.put(SSVarU.user,              user);
     opPars.put(SSVarU.entities,          entities);
-    opPars.put(SSVarU.types,             types);
+    opPars.put(SSVarU.types,             SSFlagE.get(types));
     opPars.put(SSVarU.endTime,           endTime);
     opPars.put(SSVarU.value,             value);
     
@@ -316,7 +317,7 @@ public class SSServCaller {
     
     opPars.put(SSVarU.user,              user);
     opPars.put(SSVarU.entities,          entities);
-    opPars.put(SSVarU.types,             types);
+    opPars.put(SSVarU.types,             SSFlagE.get(types));
     opPars.put(SSVarU.startTime,         startTime);
     opPars.put(SSVarU.endTime,           endTime);
     

@@ -3,7 +3,7 @@
  * http://www.learning-layers.eu
  * Development is partly funded by the FP7 Programme of the European Commission under
  * Grant Agreement FP7-ICT-318209.
- * Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+ * Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
  * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -26,97 +26,28 @@ import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUEE;
 import at.tugraz.sss.serv.SSServErrReg;
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import at.tugraz.sss.serv.SSServOpE;
 
-@XmlRootElement
-@ApiModel(value = "ueCountGetPar request parameter")
 public class SSUECountGetPar extends SSServPar{
   
-  @ApiModelProperty(
-    required = false,
-    value = "user to count user events for")
   public SSUri            forUser    = null;
-  
-  @XmlElement
-  public void setForUser(final String forUser) throws Exception{
-    this.forUser = SSUri.get(forUser);
-  }
-  
-  @ApiModelProperty(
-    required = false,
-    value = "entity to count user events for")
   public SSUri            entity     = null;
-  
-  @XmlElement
-  public void setEntity(final String entity) throws Exception{
-    this.entity = SSUri.get(entity);
-  }
-  
-  @XmlElement
-  @ApiModelProperty(
-    required = false,
-    value = "user event type to retrieve")
   public SSUEE            type       = null;
-  
-  @XmlElement
-  @ApiModelProperty(
-    required = false,
-    value = "begin for user event inclusion")
   public Long             startTime  = null;
-  
-  @XmlElement
-  @ApiModelProperty(
-    required = false,
-    value = "end for user event inclusion")
   public Long             endTime    = null;
   
-  public SSUECountGetPar(){}
-  
-  public SSUECountGetPar(SSServPar par) throws Exception{
-    
-    super(par);
-    
-    try{
-      
-      if(pars != null){
-        forUser    = (SSUri)    pars.get(SSVarU.forUser);
-        entity     = (SSUri)    pars.get(SSVarU.entity);
-        type       = (SSUEE)    pars.get(SSVarU.type);
-        startTime  = (Long)     pars.get(SSVarU.startTime);
-        endTime    = (Long)     pars.get(SSVarU.endTime);
-      }
-      
-      if(par.clientJSONObj != null){
-        
-        try{
-          forUser    = SSUri.get    (par.clientJSONObj.get(SSVarU.forUser).getTextValue());
-        }catch(Exception error){}
-        
-        try{
-          entity   = SSUri.get    (par.clientJSONObj.get(SSVarU.entity).getTextValue());
-        }catch(Exception error){}
-        
-        try{
-          type  = SSUEE.get (par.clientJSONObj.get(SSVarU.type).getTextValue());
-        }catch(Exception error){}
-        
-        try{
-          startTime  = par.clientJSONObj.get(SSVarU.startTime).getLongValue();
-        }catch(Exception error){}
-        
-        try{
-          endTime  = par.clientJSONObj.get(SSVarU.endTime).getLongValue();
-        }catch(Exception error){}
-      }
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
+  public void setForUser(final String forUser) {
+    try{ this.forUser = SSUri.get(forUser); }catch(Exception error){}
   }
   
-  /* json getters */
+  public void setEntity(final String entity){
+    try{ this.entity = SSUri.get(entity); }catch(Exception error){}
+  }
+
+  public void setType(final String type){
+    try{ this.type = SSUEE.get(type); }catch(Exception error){}
+  }
+  
   public String getForUser(){
     return SSStrU.removeTrailingSlash(forUser);
   }
@@ -128,4 +59,49 @@ public class SSUECountGetPar extends SSServPar{
   public String getType(){
     return SSStrU.toStr(type);
   }
+  
+  public SSUECountGetPar(){}
+  
+  public SSUECountGetPar(
+    final SSServOpE op,
+    final String    key,
+    final SSUri     user,
+    final SSUri     forUser, 
+    final SSUri     entity,
+    final SSUEE     type, 
+    final Long      startTime, 
+    final Long      endTime){
+    
+    super(op, key, user);
+  
+    this.forUser   = forUser;
+    this.entity    = entity;
+    this.type      = type;
+    this.startTime = startTime;
+    this.endTime   = endTime;
+  }
+  
+  public static SSUECountGetPar get(final SSServPar par) throws Exception{
+    
+     try{
+      
+      if(par.clientCon != null){
+        return (SSUECountGetPar) par.getFromJSON(SSUECountGetPar.class);
+      }
+      
+      return new SSUECountGetPar(
+        par.op,
+        par.key,
+        par.user,
+        (SSUri)    par.pars.get(SSVarU.forUser),
+        (SSUri)    par.pars.get(SSVarU.entity),
+        (SSUEE)    par.pars.get(SSVarU.type),
+        (Long)     par.pars.get(SSVarU.startTime),
+        (Long)     par.pars.get(SSVarU.endTime));
+        
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }  
 }

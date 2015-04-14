@@ -25,11 +25,15 @@ import at.tugraz.sss.serv.SSSocketU;
 import at.tugraz.sss.serv.SSVarU;
 import at.kc.tugraz.ss.adapter.rest.v2.SSRESTObject;
 import at.kc.tugraz.ss.adapter.rest.v2.SSRestMainV2;
+import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommResourcesPar;
+import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommTagsPar;
 import at.tugraz.sss.serv.SSUri;
 import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommUpdateBulkEntitiesPar;
 import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommUpdateBulkPar;
 import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommUpdatePar;
 import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommUsersPar;
+import at.kc.tugraz.ss.recomm.datatypes.ret.SSRecommResourcesRet;
+import at.kc.tugraz.ss.recomm.datatypes.ret.SSRecommTagsRet;
 import at.kc.tugraz.ss.recomm.datatypes.ret.SSRecommUpdateBulkRet;
 import at.kc.tugraz.ss.recomm.datatypes.ret.SSRecommUpdateRet;
 import at.kc.tugraz.ss.recomm.datatypes.ret.SSRecommUsersRet;
@@ -53,7 +57,7 @@ import org.glassfish.jersey.media.multipart.FormDataParam;
 import at.tugraz.sss.serv.SSErrE;
 
 @Path("/recomm")
-@Api( value = "/recomm") //, basePath = "/recomm"
+@Api( value = "/recomm")
 public class SSRESTRecomm{
   
   @PUT
@@ -259,7 +263,7 @@ public class SSRESTRecomm{
     
     return SSRestMainV2.handleRequest(headers, par, false, true).response;
   }
-  
+
   @GET
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
@@ -555,6 +559,80 @@ public class SSRESTRecomm{
           SSUri.get(entity, SSVocConf.sssUri), //entity
           null, //categories
           10);
+      
+    }catch(Exception error){
+      return Response.status(422).build();
+    }
+    
+    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    ("/resources")
+  @ApiOperation(
+    value = "retrieve resource recommendations",
+    response = SSRecommResourcesRet.class)
+  public Response recommResources(
+    @Context 
+      final HttpHeaders headers,
+    
+    final SSRecommResourcesRESTAPIV2Par input){
+    
+    final SSRecommResourcesPar par;
+    
+    try{
+      
+      par =
+        new SSRecommResourcesPar(
+          SSServOpE.recommResources,
+          null,
+          null, 
+          input.realm,  //realm
+          input.forUser,  //forUser
+          input.entity,  //entity
+          input.categories,  //categories
+          input.maxResources,    //maxResources
+          input.typesToRecommOnly,  //typesToRecommendOnly
+          input.setCircleTypes,  //setCircleTypes
+          input.includeOwn);  //includeOwn
+      
+    }catch(Exception error){
+      return Response.status(422).build();
+    }
+    
+    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    ("/tags")
+  @ApiOperation(
+    value = "retrieve tag recommendations based on user, entity, tag, time and category combinations",
+    response = SSRecommTagsRet.class)
+  public Response recommTags(
+    @Context 
+      final HttpHeaders headers,
+    
+    final SSRecommTagsRESTAPIV2Par input){
+    
+    final SSRecommTagsPar par;
+    
+    try{
+      
+      par =
+        new SSRecommTagsPar(
+          SSServOpE.recommTags,
+          null,
+          null, 
+          input.realm,  //realm
+          input.forUser,  //forUser
+          input.entity,  //entity
+          input.categories,  //categories
+          input.maxTags,    //maxTags
+          input.includeOwn);  //includeOwn
       
     }catch(Exception error){
       return Response.status(422).build();

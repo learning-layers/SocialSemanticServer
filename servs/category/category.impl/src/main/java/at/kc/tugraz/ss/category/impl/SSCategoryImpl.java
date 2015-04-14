@@ -53,7 +53,6 @@ import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSSpaceE;
 import at.tugraz.sss.serv.SSLabel;
-import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.SSConfA;
@@ -242,7 +241,7 @@ implements
   public List<String> categoriesPredefinedGet(final SSServPar parA) throws Exception {
     
     try{
-      final SSCategoriesPredefinedGetPar par = new SSCategoriesPredefinedGetPar(parA);
+      final SSCategoriesPredefinedGetPar par = SSCategoriesPredefinedGetPar.get(parA);
       
       return sqlFct.getCategories(true);
       

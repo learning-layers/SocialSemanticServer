@@ -103,7 +103,7 @@ public class SSVarU{
   public static final String types                                          = "types";
   public static final String files                                          = "files";
   public static final String accessRights                                   = "accessRights";
-  public static final String ue                                             = "ue";
+  public static final String uE                                             = "uE";
   public static final String learnEpEntity                                  = "learnEpEntity";
   public static final String learnEpCircle                                  = "learnEpCircle";
   public static final String learnEp                                        = "learnEp";
@@ -135,7 +135,6 @@ public class SSVarU{
   public static final String addNewDisc                                     = "addNewDisc";
   public static final String locations                                      = "locations";
   public static final String addNewColl                                     = "addNewColl";
-  public static final String uE                                             = "uE";
   public static final String authToken                                      = "authToken";
   public static final String usn                                            = "usn";
   public static final String authEmail                                      = "authEmail";

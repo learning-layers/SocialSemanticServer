@@ -66,7 +66,7 @@ public class SSMessageImpl extends SSServImplWithDBA implements SSMessageClientI
   public List<SSMessage> messagesGet(final SSServPar parA) throws Exception{
     
     try{
-      final SSMessagesGetPar  par         = new SSMessagesGetPar(parA);
+      final SSMessagesGetPar  par         = SSMessagesGetPar.get(parA);
       final List<SSMessage>   messages    = new ArrayList<>();
       final List<SSMessage>   tmpMessages = sqlFct.getMessages(par.user, par.startTime);
       
@@ -103,7 +103,7 @@ public class SSMessageImpl extends SSServImplWithDBA implements SSMessageClientI
   public SSUri messageSend(final SSServPar parA) throws Exception{
     
     try{
-      final SSMessageSendPar  par        = new SSMessageSendPar(parA);
+      final SSMessageSendPar  par        = SSMessageSendPar.get(parA);
       final SSUri             messageUri = SSServCaller.vocURICreate();
       
       dbSQL.startTrans(par.shouldCommit);

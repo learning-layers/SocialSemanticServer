@@ -452,24 +452,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
     }
   }
   
-  private void setReadAndFileInformation(
-    final SSUri    user, 
-    final SSEntity entity) throws Exception{
-    
-    try{
-      final List<SSUri> files = sqlFct.getFiles (entity.id);
-      
-      entity.read = sqlFct.getEntityRead (user, entity.id);
-      
-      if(!files.isEmpty()){
-        entity.file = files.get(0);
-      }
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
-  @Override
+    @Override
   public void entityGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
     
     SSServCallerU.checkKey(parA);
@@ -513,6 +496,24 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
     }catch(Exception error){
       SSServErrReg.regErrThrow(error, parA.logErr);
       return null;
+    }
+  }
+  
+  
+  private void setReadAndFileInformation(
+    final SSUri    user, 
+    final SSEntity entity) throws Exception{
+    
+    try{
+      final List<SSUri> files = sqlFct.getFiles (entity.id);
+      
+      entity.read = sqlFct.getEntityRead (user, entity.id);
+      
+      if(!files.isEmpty()){
+        entity.file = files.get(0);
+      }
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
     }
   }
   
