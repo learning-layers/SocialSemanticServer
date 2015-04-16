@@ -59,7 +59,7 @@ public class SSRESTUsers{
           SSServOpE.userAll,
           null,
           null,  
-          false);
+          true);
       
     }catch(Exception error){
       return Response.status(422).build();

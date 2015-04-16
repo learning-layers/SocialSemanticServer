@@ -2138,11 +2138,13 @@ public class SSServCaller {
   }
   
   public static List<SSUser> usersGet(
+    final SSUri       user, 
     final List<SSUri> users,
     final Boolean     setFriends) throws Exception{
     
     final Map<String, Object> opPars = new HashMap<>();
     
+    opPars.put(SSVarU.user,       user);
     opPars.put(SSVarU.users,      users);
     opPars.put(SSVarU.setFriends, setFriends);
     

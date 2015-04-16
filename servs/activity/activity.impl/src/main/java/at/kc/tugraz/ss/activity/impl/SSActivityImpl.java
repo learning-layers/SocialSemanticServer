@@ -511,6 +511,7 @@ public class SSActivityImpl extends SSServImplWithDBA implements SSActivityClien
       
       activity.users.addAll(
         SSServCaller.usersGet(
+          par.user, 
           sqlFct.getActivityUsers(activity.id),
           false));
       

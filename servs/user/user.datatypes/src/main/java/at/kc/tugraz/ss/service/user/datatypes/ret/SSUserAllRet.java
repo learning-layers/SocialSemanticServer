@@ -33,7 +33,7 @@ import java.util.Map;
 
 public class SSUserAllRet extends SSServRetI{
   
-  public List<SSUser> users = new ArrayList<SSUser>();
+  public List<SSUser> users = new ArrayList<>();
   
   public static SSUserAllRet get(
     final List<SSUser> users,

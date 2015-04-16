@@ -223,7 +223,11 @@ public class SSUserImpl extends SSServImplWithDBA implements SSUserClientI, SSUs
       
       final SSUserAllPar par = SSUserAllPar.get(parA);
       
-      return SSServCaller.usersGet(SSUri.asListWithoutNullAndEmpty(), par.setFriends);
+      return SSServCaller.usersGet(
+        par.user, 
+        SSUri.asListWithoutNullAndEmpty(), 
+        par.setFriends);
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
