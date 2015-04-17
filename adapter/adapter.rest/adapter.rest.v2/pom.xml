@@ -32,6 +32,58 @@
       
       <!-- MAVEN WAR end -->
       
+      <!-- MAVEEN resources start --> 
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>2.5</version>
+        <configuration>
+          <encoding>${project.build.sourceEncoding}</encoding>
+        </configuration>
+        
+        <executions>
+        
+          <execution>
+            <id>copy-docker-conf</id>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${project.build.directory}/docker/</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>${basedir}/src/main/resources/docker.rest/</directory>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+          
+          <execution>
+            <id>copy-conf</id>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${project.build.directory}/conf/</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>${basedir}/src/main/resources/</directory>
+                  <includes>
+                    <include>log4j.properties</include>
+                    <include>sss.adapter.rest.v2.conf.yaml</include>
+                  </includes>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+          
+        </executions>
+      </plugin>
+      
+      <!-- MAVEEN resources end --> 
+      
        <!-- SWAGGER start -->
       
       <plugin>
