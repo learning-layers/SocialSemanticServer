@@ -17,4 +17,4 @@ docker run \
 -e "SSS_TETHYS_OIDC_USER_END_POINT_URI=https://api.learning-layers.eu/o/oauth2/userinfo" \
 -p 8391:8390 \
 --name sss.sss \
-ssss/sss.sss
+dtheiler/sss.sss
