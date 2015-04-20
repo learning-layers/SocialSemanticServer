@@ -1,0 +1,178 @@
+!!at.kc.tugraz.ss.conf.conf.SSMainConf
+#core services 
+sss:
+  version: x.x.x
+  host: 127.0.0.1
+  port: 8390
+  localWorkPath: #leave empty for workingDir/tmp
+dbSQL: !!at.kc.tugraz.ss.serv.db.conf.SSDBSQLConf
+  host: SSS_MYSQL_HOST
+  port: SSS_MYSQL_PORT
+  username: SSS_MYSQL_USERNAME
+  password: SSS_MYSQL_PASSWORD
+  schema: SSS_MYSQL_SCHEME
+voc:
+  use: true
+auth: 
+  authType: SSS_AUTH_TYPE #noAuth, csvFileAuth, oidc
+  initAtStartUp: true
+  fileName: users.csv
+  systemUserPassword: 1234
+entity:
+  use: true
+circle:
+  use: true
+jsonLD:
+  uri: 
+eval:
+  tools:
+    #- leave empty for no tool usage to be traced
+    - bnp
+
+#services
+like:
+  use: true
+video:
+  use: true
+appStackLayout:
+  use: true
+friend:
+  use: true
+app:
+  use: true
+message:
+  use: true
+cloud:
+  use: false
+comment:
+  use: true  
+i5Cloud:
+  use: true
+  op: #i5CloudAuth, i5CloudUploadFile, i5CloudFileDownload
+  uri: #http://137.226.58.11:8081/i5Cloud/services/4/
+  userLabel: SSS_TETHYS_USER
+  pass: SSS_TETHYS_PASSSWORD
+  lasUser: SSS_TETHYS_LAS_USER
+  lasPass: SSS_TETHYS_LAS_PASSWORD
+  oidcConfURI: SSS_TETHYS_OIDC_CONF_URI #https://api.learning-layers.eu/o/oauth2/.well-known/openid-configuration #http://10.255.255.17/o/oauth2/.well-known/openid-configuration
+  oidcUserEndPointURI: SSS_TETHYS_OIDC_USER_END_POINT_URI #https://api.learning-layers.eu/o/oauth2/userinfo #http://10.255.255.17/o/oauth2/userinfo
+model:
+  use: false
+filerepo: 
+  use: true
+  path: #leave empty for workingDir/tmp; http://127.0.0.1:80/webdav/knowBrainWeb/
+  fileRepoType: fileSys #fileSys, webdav, solr, i5Cloud
+  user: #wduza
+  password: #w!123a scaff
+solr:
+  use: false
+  path: http://path_to_solr/solr/
+  fileRepoType: solr #fileSys, webdav, solr
+  user: 
+  password: 
+broadcaster:
+  use: true
+dataExport:
+  use: true
+  fileNameForUserRelationsExport: userRelations.txt
+user:
+  use: true
+coll:
+  use: true
+ue:
+  use: true
+rating:
+  use: true
+tag:
+  use: true 
+search:
+  use: true
+disc:
+  use: true
+learnEp: 
+  use: true
+  useEpisodeLocking: true
+recomm: #files have to be provided in sss's_working_dir/data/csv/
+  use: true
+  initAtStartUp: true
+  initAtStartUpOps:
+    - recommUpdate
+  schedule: true
+  executeScheduleAtStartUp: false
+  scheduleOps:
+    - recommUpdate
+  scheduleIntervals:
+    - 10
+  fileNameForRec: sss_recomm
+  usePrivateTagsToo: true
+  recommTagAlgorithm: BLL #BLL, BLLacMPr
+  recommResourceAlgorithm: RESOURCETAGCB #RESOURCECF, RESOURCETAGCB
+  recommUserAlgorithm: USERTAGCB #USERTAGCB
+  recommTagsGroups:
+#log:
+#  use: false
+#fileSysLocal:
+#  use: false
+#lomExtractor:
+#  use: false
+evernote:
+  use: true
+  companyName: TU Graz
+  appName: SSS
+  appVersion: 1.0
+  evernoteEnvironment: production #sandbox, production
+  authTokens:
+  authEmails: 
+dataImport:
+  use: true
+  initAtStartUp: false
+  initAtStartUpOps:
+  - dataImportEvernote 
+  schedule: false
+  executeScheduleAtStartUp: false
+  scheduleOps:
+    - dataImportEvernote
+  scheduleIntervals:
+    - 60
+  fileName: #ssRecommLanguageModelData.txt #file has to be provided in in SSS/ss/src/main/resources/data/csv/ or to be written in sss's_working_dir/data/csv/
+activity:
+  use: true
+  op: #activitiesUserGet
+category:
+  use: true
+  initAtStartUp: true
+  predefinedCategories:
+    - Knowledge, skills and performance
+    - Maintain your professional performance
+    - Apply knowledge and experience to practice 
+    - Ensure that all documentation formally recording your work is clear, accurate and legible
+    - Safety and quality
+    - Contribute to and comply with systems to protect patients
+    - Respond to risks to safety
+    - Protect patients and colleagues from any risk posed by your health
+    - Communication, partnership and teamwork
+    - Communicate effectively
+    - Work constructively with colleagues and delegate effectively
+    - Establish and maintain partnerships with patients
+    - Maintaining trust
+    - Show respect for patients
+    - Treat patients and colleagues fairly and without discrimination
+    - Act with honesty and integrity
+    - Respecting and involving people who use services
+    - Consent to care and treatment
+    - Care and welfare of people who use services
+    - Meeting nutritional needs
+    - Cooperating with other providers
+    - Safeguarding people who use services from abuse
+    - Cleanliness and infection control
+    - Management of medicines
+    - Safety and suitability of premises
+    - Safety, availability and suitability of equipment
+    - Requirements relating to workers
+    - Staffing
+    - Supporting workers
+    - Assessing and monitoring the quality of service provision
+    - Complaints
+    - Records
+flag:
+  use: true
