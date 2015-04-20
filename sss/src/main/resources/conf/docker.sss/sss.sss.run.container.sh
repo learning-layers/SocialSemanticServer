@@ -1,4 +1,4 @@
-echo run sss container
+echo start sss container...
 docker stop sss.sss
 docker rm sss.sss
 docker run \
@@ -18,3 +18,4 @@ docker run \
 -p 8391:8390 \
 --name sss.sss \
 dtheiler/sss.sss
+echo sss container started

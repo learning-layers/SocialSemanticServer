@@ -1,0 +1,7 @@
+!!at.kc.tugraz.ss.adapter.rest.conf.SSAdapterRestConf
+sss:
+  host: SSS_HOST
+  port: SSS_PORT
+  localWorkPath:
+jsonLD:
+  uri: #http://localhost:8080/ss-adapter-rest/
