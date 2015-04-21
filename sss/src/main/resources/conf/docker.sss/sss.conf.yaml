@@ -2,8 +2,8 @@
 #core services 
 sss:
   version: x.x.x
-  host: 127.0.0.1
-  port: 8390
+  host: SSS_HOST
+  port: SSS_PORT
   localWorkPath: #leave empty for workingDir/tmp
 dbSQL: !!at.kc.tugraz.ss.serv.db.conf.SSDBSQLConf
   host: SSS_MYSQL_HOST

@@ -4,4 +4,4 @@ sss:
   port: SSS_PORT
   localWorkPath:
 jsonLD:
-  uri: #http://localhost:8080/ss-adapter-rest/
+  uri: 
