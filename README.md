@@ -36,10 +36,10 @@ The source-code can be directly checked-out through this repository. It contains
    * make sure to set property `authType` of `auth` in `sss.conf.yaml` accordingly (either `csvFileAuth`or `oidc`)
      * for `csvFileAuth` make sure to have `users.csv` (in your execution directory) filled with combinations of users' emails and passwords (i.e. "email@email.com;password")
  * start SSS with `java -jar -Dlog4j.configuration=file:log4j.properties ./sss.jar`
-* access Swagger UI from `http://tomcatPort:tomcatHost/sss.adapter.rest.v2/`
-* access the REST API via requests to `http://tomcatPort:tomcatHost/sss.adapter.rest.v2/{API}/{API}/{OP or ID}` 
+* access Swagger UI from `http://localhost:8080/sss.adapter.rest.v2/`
+* access the REST API via requests to `http://localhost:8080/sss.adapter.rest.v2/{API}/{API}/{OP or ID}` 
  * `API`: REST resource to be targeted
- * `OP or ID`: path to the actual service call to be executed, e.g., GET to `http://tomcatPort:tomcatHost/sss.adapter.rest.v2/entities/entities/{entity}` gets information for a certain entity 
+ * `OP or ID`: path to the actual service call to be executed, e.g., GET to `http://localhost:8080/sss.adapter.rest.v2/entities/entities/{entity}` gets information for a certain entity 
 
 ## SSS service usage via Swagger UI
 * to login use either GET or POST calls in `.../sss.adapter.rest.v2/#!/auth`
@@ -117,9 +117,9 @@ The source-code can be directly checked-out through this repository. It contains
 ## SSS deployment from source code
 * run `mvn clean install` on project `sss.root` to have 
  * `sss/target/sss.app/`
- * `adapter/adapter.rest/adapter.rest.vX/target/sss.adapter.rest.vX.X-SNAPSHOT.war`
+ * `adapter/adapter.rest/adapter.rest.vX/target/adapter.rest.vX.X-SNAPSHOT.war`
 * run `sss/target/sss.app/sss.jar` with VM options `-Dlog4j.configuration=file:log4j.properties`
-* rename `sss.adapter.rest.vX.X-SNAPSHOT.war` to `sss.adapter.rest-vX.war` and copy to `Tomcat webapps` directory
+* rename `adapter.rest.vX.X-SNAPSHOT.war` to `sss.adapter.rest-vX.war` and copy to `Tomcat webapps` directory
 
 ## SSS documentation from source code
 * for apiVersion `v2` 
