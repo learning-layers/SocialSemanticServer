@@ -34,13 +34,11 @@ RUN { \
 # comment out a few problematic configuration values
 RUN sed -Ei 's/^(bind-address|log)/#&/' /etc/mysql/my.cnf
 
-VOLUME /var/lib/mysql
+VOLUME ["/var/lib/mysql"]
 
 EXPOSE 3306
 
-ADD sss.schema.sql /sss.schema.sql
-
-ADD sss.mysql.docker.entrypoint.sh /entrypoint.sh
+ADD entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
 ENTRYPOINT ["/entrypoint.sh"]

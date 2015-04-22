@@ -35,11 +35,6 @@ RUN curl -SL "$TOMCAT_TGZ_URL" -o tomcat.tar.gz \
 
 EXPOSE 8080
 
-ADD sss.adapter.rest.v2.conf.yaml /
-ADD sss.adapter.rest.v2.war /
-
-ADD sss.rest.docker.entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
-ENTRYPOINT ["/entrypoint.sh"]
+VOLUME ["/usr/local/tomcat/conf/","/usr/local/tomcat/webapps/"]
 
 CMD ["catalina.sh", "run"]
