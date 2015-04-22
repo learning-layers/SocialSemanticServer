@@ -21,7 +21,7 @@ The source-code can be directly checked-out through this repository. It contains
 ## SSS deployment from release packages
 * follow instructions for Java 8, Apache Tomcat 7, [Apache Solr 4.9] and MySQL 5.6 in chapters below
 * download desired release from within this repository (i.e. `https://github.com/learning-layers/SocialSemanticServer/releases`)
-* extract `sss.package.tar`
+* extract `sss.package.zip`
 * REST API Tomcat deployment
  * copy `sss.package/sss.adapter.rest.v2.conf.yaml` to `Catalina Base/conf`
  * adapt conf property `sss` 
