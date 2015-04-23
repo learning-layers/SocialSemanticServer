@@ -20,7 +20,7 @@
 */
 package sss.serv.eval.impl.fct.sql;
 
-import at.kc.tugraz.ss.serv.db.api.SSDBSQLFct;
+import at.tugraz.sss.serv.SSDBSQLFct;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 
 public class SSEvalSQLFct extends SSDBSQLFct{

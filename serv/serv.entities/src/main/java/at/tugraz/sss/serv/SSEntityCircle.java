@@ -15,9 +15,6 @@
  */
 package at.tugraz.sss.serv;
 
-import at.tugraz.sss.serv.SSJSONLDU;
-import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

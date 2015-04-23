@@ -121,7 +121,7 @@ public class SSLikeImpl extends SSServImplWithDBA implements SSLikeClientI, SSLi
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(dbSQL.rollBack(parA)){
+        if(dbSQL.rollBack(parA.shouldCommit)){
           
           SSServErrReg.reset();
           
@@ -132,7 +132,7 @@ public class SSLikeImpl extends SSServImplWithDBA implements SSLikeClientI, SSLi
         }
       }
       
-      dbSQL.rollBack(parA);
+      dbSQL.rollBack(parA.shouldCommit);
       SSServErrReg.regErrThrow(error);
       return null;
     }

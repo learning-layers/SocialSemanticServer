@@ -489,7 +489,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(dbSQL.rollBack(parA)){
+        if(dbSQL.rollBack(parA.shouldCommit)){
           
           SSServErrReg.reset();
           
@@ -500,7 +500,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
         }
       }
       
-      dbSQL.rollBack(parA);
+      dbSQL.rollBack(parA.shouldCommit);
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -570,7 +570,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(dbSQL.rollBack(parA)){
+        if(dbSQL.rollBack(parA.shouldCommit)){
           
           SSServErrReg.reset();
           
@@ -581,7 +581,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
         }
       }
       
-      dbSQL.rollBack(parA);
+      dbSQL.rollBack(parA.shouldCommit);
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -659,7 +659,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(dbSQL.rollBack(parA)){
+        if(dbSQL.rollBack(parA.shouldCommit)){
           
           SSServErrReg.reset();
           
@@ -670,7 +670,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
         }
       }
       
-      dbSQL.rollBack(parA);
+      dbSQL.rollBack(parA.shouldCommit);
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -760,7 +760,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(dbSQL.rollBack(parA)){
+        if(dbSQL.rollBack(parA.shouldCommit)){
           
           SSServErrReg.reset();
           
@@ -771,7 +771,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
         }
       }
       
-      dbSQL.rollBack(parA);
+      dbSQL.rollBack(parA.shouldCommit);
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -816,7 +816,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(dbSQL.rollBack(parA)){
+        if(dbSQL.rollBack(parA.shouldCommit)){
           
           SSServErrReg.reset();
           
@@ -827,7 +827,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
         }
       }
       
-      dbSQL.rollBack(parA);
+      dbSQL.rollBack(parA.shouldCommit);
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -884,7 +884,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(dbSQL.rollBack(parA)){
+        if(dbSQL.rollBack(parA.shouldCommit)){
           
           SSServErrReg.reset();
           
@@ -895,7 +895,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
         }
       }
       
-      dbSQL.rollBack(parA);
+      dbSQL.rollBack(parA.shouldCommit);
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -973,7 +973,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(dbSQL.rollBack(parA)){
+        if(dbSQL.rollBack(parA.shouldCommit)){
           
           SSServErrReg.reset();
           
@@ -984,7 +984,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
         }
       }
       
-      dbSQL.rollBack(parA);
+      dbSQL.rollBack(parA.shouldCommit);
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -1027,7 +1027,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(dbSQL.rollBack(parA)){
+        if(dbSQL.rollBack(parA.shouldCommit)){
           
           SSServErrReg.reset();
           
@@ -1038,7 +1038,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
         }
       }
       
-      dbSQL.rollBack(parA);
+      dbSQL.rollBack(parA.shouldCommit);
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -1081,7 +1081,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(dbSQL.rollBack(parA)){
+        if(dbSQL.rollBack(parA.shouldCommit)){
           
           SSServErrReg.reset();
           
@@ -1092,7 +1092,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
         }
       }
       
-      dbSQL.rollBack(parA);
+      dbSQL.rollBack(parA.shouldCommit);
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -1160,7 +1160,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(dbSQL.rollBack(parA)){
+        if(dbSQL.rollBack(parA.shouldCommit)){
           
           SSServErrReg.reset();
           
@@ -1171,7 +1171,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
         }
       }
       
-      dbSQL.rollBack(parA);
+      dbSQL.rollBack(parA.shouldCommit);
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -1280,7 +1280,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(dbSQL.rollBack(parA)){
+        if(dbSQL.rollBack(parA.shouldCommit)){
           
           SSServErrReg.reset();
           
@@ -1291,7 +1291,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
         }
       }
       
-      dbSQL.rollBack(parA);
+      dbSQL.rollBack(parA.shouldCommit);
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -1322,7 +1322,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(dbSQL.rollBack(parA)){
+        if(dbSQL.rollBack(parA.shouldCommit)){
           
           SSServErrReg.reset();
           
@@ -1333,7 +1333,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
         }
       }
       
-      dbSQL.rollBack(parA);
+      dbSQL.rollBack(parA.shouldCommit);
       SSServErrReg.regErrThrow(error);
       return null;
     }

@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.serv.dataimport.impl.fct.sql;
 
-import at.kc.tugraz.ss.serv.db.api.SSDBSQLFct;
+import at.tugraz.sss.serv.SSDBSQLFct;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSServErrReg;
 

@@ -117,7 +117,7 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(dbSQL.rollBack(parA)){
+        if(dbSQL.rollBack(parA.shouldCommit)){
           
           SSServErrReg.reset();
           
@@ -128,7 +128,7 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
         }
       }
       
-      dbSQL.rollBack(parA);
+      dbSQL.rollBack(parA.shouldCommit);
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -206,7 +206,7 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(dbSQL.rollBack(parA)){
+        if(dbSQL.rollBack(parA.shouldCommit)){
           
           SSServErrReg.reset();
           
@@ -217,7 +217,7 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
         }
       }
       
-      dbSQL.rollBack(parA);
+      dbSQL.rollBack(parA.shouldCommit);
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -261,7 +261,7 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(dbSQL.rollBack(parA)){
+        if(dbSQL.rollBack(parA.shouldCommit)){
           
           SSServErrReg.reset();
           
@@ -272,7 +272,7 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
         }
       }
       
-      dbSQL.rollBack(parA);
+      dbSQL.rollBack(parA.shouldCommit);
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -325,7 +325,7 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(dbSQL.rollBack(parA)){
+        if(dbSQL.rollBack(parA.shouldCommit)){
           
           SSServErrReg.reset();
           
@@ -336,7 +336,7 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
         }
       }
       
-      dbSQL.rollBack(parA);
+      dbSQL.rollBack(parA.shouldCommit);
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -663,7 +663,7 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(dbSQL.rollBack(parA)){
+        if(dbSQL.rollBack(parA.shouldCommit)){
           
           SSServErrReg.reset();
           
@@ -674,7 +674,7 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
         }
       }
       
-      dbSQL.rollBack(parA);
+      dbSQL.rollBack(parA.shouldCommit);
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -699,7 +699,7 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(dbSQL.rollBack(parA)){
+        if(dbSQL.rollBack(parA.shouldCommit)){
           
           SSServErrReg.reset();
           
@@ -710,7 +710,7 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
         }
       }
       
-      dbSQL.rollBack(parA);
+      dbSQL.rollBack(parA.shouldCommit);
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -748,7 +748,7 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(dbSQL.rollBack(parA)){
+        if(dbSQL.rollBack(parA.shouldCommit)){
           
           SSServErrReg.reset();
           
@@ -759,7 +759,7 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
         }
       }
       
-      dbSQL.rollBack(parA);
+      dbSQL.rollBack(parA.shouldCommit);
       SSServErrReg.regErrThrow(error);
     }
   }
@@ -796,7 +796,7 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(dbSQL.rollBack(parA)){
+        if(dbSQL.rollBack(parA.shouldCommit)){
           
           SSServErrReg.reset();
           
@@ -807,7 +807,7 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
         }
       }
       
-      dbSQL.rollBack(parA);
+      dbSQL.rollBack(parA.shouldCommit);
       SSServErrReg.regErrThrow(error);
     }
   }
@@ -884,7 +884,7 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(dbSQL.rollBack(parA)){
+        if(dbSQL.rollBack(parA.shouldCommit)){
           
           SSServErrReg.reset();
           
@@ -895,7 +895,7 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
         }
       }
       
-      dbSQL.rollBack(parA);
+      dbSQL.rollBack(parA.shouldCommit);
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -1059,7 +1059,7 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(dbSQL.rollBack(parA)){
+        if(dbSQL.rollBack(parA.shouldCommit)){
           
           SSServErrReg.reset();
           
@@ -1070,7 +1070,7 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
         }
       }
       
-      dbSQL.rollBack(parA);
+      dbSQL.rollBack(parA.shouldCommit);
       SSServErrReg.regErrThrow(error);
       return null;
     }

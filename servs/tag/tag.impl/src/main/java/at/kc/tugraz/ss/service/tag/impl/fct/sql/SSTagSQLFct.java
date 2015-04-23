@@ -22,7 +22,7 @@ package at.kc.tugraz.ss.service.tag.impl.fct.sql;
 
 import at.tugraz.sss.serv.SSDateU;
 import at.tugraz.sss.serv.SSSQLVarU;
-import at.kc.tugraz.ss.serv.db.api.SSDBSQLFct;
+import at.tugraz.sss.serv.SSDBSQLFct;
 import at.tugraz.sss.serv.SSSpaceE;
 import at.tugraz.sss.serv.SSUri;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTag;

@@ -162,7 +162,7 @@ public class SSFlagImpl extends SSServImplWithDBA implements SSFlagClientI, SSFl
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(dbSQL.rollBack(parA)){
+        if(dbSQL.rollBack(parA.shouldCommit)){
           
           SSServErrReg.reset();
           
@@ -173,7 +173,7 @@ public class SSFlagImpl extends SSServImplWithDBA implements SSFlagClientI, SSFl
         }
       }
       
-      dbSQL.rollBack(parA);
+      dbSQL.rollBack(parA.shouldCommit);
       SSServErrReg.regErrThrow(error);
       return null;
     }

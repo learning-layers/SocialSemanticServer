@@ -146,7 +146,7 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(dbSQL.rollBack(parA)){
+        if(dbSQL.rollBack(parA.shouldCommit)){
        
           SSServErrReg.reset();
           
@@ -159,7 +159,7 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
         }
       }
       
-      dbSQL.rollBack(parA);
+      dbSQL.rollBack(parA.shouldCommit);
       SSServErrReg.regErrThrow(error);
       return null;
     }finally{
@@ -245,7 +245,7 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(dbSQL.rollBack(parA)){
+        if(dbSQL.rollBack(parA.shouldCommit)){
           
           SSServErrReg.reset();
           
@@ -256,7 +256,7 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
         }
       }
       
-      dbSQL.rollBack(parA);
+      dbSQL.rollBack(parA.shouldCommit);
       SSServErrReg.regErrThrow(error);
     }
   }
@@ -422,7 +422,7 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(dbSQL.rollBack(parA)){
+        if(dbSQL.rollBack(parA.shouldCommit)){
           
           SSServErrReg.reset();
           
@@ -433,7 +433,7 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
         }
       }
       
-      dbSQL.rollBack(parA);
+      dbSQL.rollBack(parA.shouldCommit);
       SSServErrReg.regErrThrow(error);
       return null;
     }finally{

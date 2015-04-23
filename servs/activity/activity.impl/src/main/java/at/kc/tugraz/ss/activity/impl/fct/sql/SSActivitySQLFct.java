@@ -30,7 +30,7 @@ import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
-import at.kc.tugraz.ss.serv.db.api.SSDBSQLFct;
+import at.tugraz.sss.serv.SSDBSQLFct;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSServErrReg;
 

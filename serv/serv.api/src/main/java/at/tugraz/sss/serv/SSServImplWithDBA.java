@@ -21,7 +21,6 @@
 package at.tugraz.sss.serv;
 
 import at.tugraz.sss.serv.SSConfA;
-import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSServImplA;
 
 public abstract class SSServImplWithDBA extends SSServImplA{

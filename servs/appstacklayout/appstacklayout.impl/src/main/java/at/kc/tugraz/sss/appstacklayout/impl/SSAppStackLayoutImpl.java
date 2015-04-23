@@ -138,7 +138,7 @@ public class SSAppStackLayoutImpl extends SSServImplWithDBA implements SSAppStac
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(dbSQL.rollBack(parA)){
+        if(dbSQL.rollBack(parA.shouldCommit)){
           
           SSServErrReg.reset();
           
@@ -149,7 +149,7 @@ public class SSAppStackLayoutImpl extends SSServImplWithDBA implements SSAppStac
         }
       }
       
-      dbSQL.rollBack(parA);
+      dbSQL.rollBack(parA.shouldCommit);
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -215,7 +215,7 @@ public class SSAppStackLayoutImpl extends SSServImplWithDBA implements SSAppStac
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(dbSQL.rollBack(parA)){
+        if(dbSQL.rollBack(parA.shouldCommit)){
           
           SSServErrReg.reset();
           
@@ -226,7 +226,7 @@ public class SSAppStackLayoutImpl extends SSServImplWithDBA implements SSAppStac
         }
       }
       
-      dbSQL.rollBack(parA);
+      dbSQL.rollBack(parA.shouldCommit);
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -303,7 +303,7 @@ public class SSAppStackLayoutImpl extends SSServImplWithDBA implements SSAppStac
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(dbSQL.rollBack(parA)){
+        if(dbSQL.rollBack(parA.shouldCommit)){
           
           SSServErrReg.reset();
           
@@ -314,7 +314,7 @@ public class SSAppStackLayoutImpl extends SSServImplWithDBA implements SSAppStac
         }
       }
       
-      dbSQL.rollBack(parA);
+      dbSQL.rollBack(parA.shouldCommit);
       SSServErrReg.regErrThrow(error);
       return null;
     }

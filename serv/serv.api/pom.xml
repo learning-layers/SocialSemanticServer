@@ -38,6 +38,12 @@
     </dependency>
     
     <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>db.api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
       <groupId>com.wordnik</groupId>
       <artifactId>swagger-jersey2-jaxrs_2.10</artifactId>
       <scope>compile</scope>

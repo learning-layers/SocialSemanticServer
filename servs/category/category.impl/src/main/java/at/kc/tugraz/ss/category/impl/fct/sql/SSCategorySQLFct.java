@@ -24,7 +24,7 @@ import at.tugraz.sss.serv.SSDateU;
 import at.tugraz.sss.serv.SSSQLVarU;
 import at.kc.tugraz.ss.category.datatypes.SSCategory;
 import at.kc.tugraz.ss.category.datatypes.SSCategoryLabel;
-import at.kc.tugraz.ss.serv.db.api.SSDBSQLFct;
+import at.tugraz.sss.serv.SSDBSQLFct;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSSpaceE;
 import at.tugraz.sss.serv.SSUri;

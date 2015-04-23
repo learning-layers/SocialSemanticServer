@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.service.disc.impl.fct.sql;
 
 import at.tugraz.sss.serv.SSSQLVarU;
-import at.kc.tugraz.ss.serv.db.api.SSDBSQLFct;
+import at.tugraz.sss.serv.SSDBSQLFct;
 import at.tugraz.sss.serv.SSUri;
 
 import at.tugraz.sss.serv.SSServImplWithDBA;

@@ -208,7 +208,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(dbSQL.rollBack(parA)){
+        if(dbSQL.rollBack(parA.shouldCommit)){
           
           SSServErrReg.reset();
           
@@ -219,7 +219,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
         }
       }
       
-      dbSQL.rollBack(parA);
+      dbSQL.rollBack(parA.shouldCommit);
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -284,7 +284,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(dbSQL.rollBack(parA)){
+        if(dbSQL.rollBack(parA.shouldCommit)){
           
           SSServErrReg.reset();
           
@@ -295,7 +295,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
         }
       }
       
-      dbSQL.rollBack(parA);
+      dbSQL.rollBack(parA.shouldCommit);
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -351,7 +351,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(dbSQL.rollBack(parA)){
+        if(dbSQL.rollBack(parA.shouldCommit)){
           
           SSServErrReg.reset();
           
@@ -362,7 +362,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
         }
       }
       
-      dbSQL.rollBack(parA);
+      dbSQL.rollBack(parA.shouldCommit);
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -575,7 +575,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(dbSQL.rollBack(parA)){
+        if(dbSQL.rollBack(parA.shouldCommit)){
           
           SSServErrReg.reset();
           
@@ -586,7 +586,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
         }
       }
       
-      dbSQL.rollBack(parA);
+      dbSQL.rollBack(parA.shouldCommit);
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -797,7 +797,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(dbSQL.rollBack(parA)){
+        if(dbSQL.rollBack(parA.shouldCommit)){
           
           SSServErrReg.reset();
           
@@ -808,7 +808,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
         }
       }
       
-      dbSQL.rollBack(parA);
+      dbSQL.rollBack(parA.shouldCommit);
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -834,7 +834,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(dbSQL.rollBack(parA)){
+        if(dbSQL.rollBack(parA.shouldCommit)){
           
           SSServErrReg.reset();
           
@@ -845,7 +845,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
         }
       }
       
-      dbSQL.rollBack(parA);
+      dbSQL.rollBack(parA.shouldCommit);
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -865,7 +865,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(dbSQL.rollBack(parA)){
+        if(dbSQL.rollBack(parA.shouldCommit)){
           
           SSServErrReg.reset();
           
@@ -876,7 +876,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
         }
       }
       
-      dbSQL.rollBack(parA);
+      dbSQL.rollBack(parA.shouldCommit);
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -963,7 +963,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(dbSQL.rollBack(parA)){
+        if(dbSQL.rollBack(parA.shouldCommit)){
           
           SSServErrReg.reset();
           
@@ -974,7 +974,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
         }
       }
       
-      dbSQL.rollBack(parA);
+      dbSQL.rollBack(parA.shouldCommit);
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -1041,7 +1041,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(dbSQL.rollBack(parA)){
+        if(dbSQL.rollBack(parA.shouldCommit)){
           
           SSServErrReg.reset();
           
@@ -1052,7 +1052,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
         }
       }
       
-      dbSQL.rollBack(parA);
+      dbSQL.rollBack(parA.shouldCommit);
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -1105,7 +1105,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(dbSQL.rollBack(parA)){
+        if(dbSQL.rollBack(parA.shouldCommit)){
           
           SSServErrReg.reset();
           
@@ -1116,7 +1116,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
         }
       }
       
-      dbSQL.rollBack(parA);
+      dbSQL.rollBack(parA.shouldCommit);
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -1139,7 +1139,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(dbSQL.rollBack(parA)){
+        if(dbSQL.rollBack(parA.shouldCommit)){
           
           SSServErrReg.reset();
           
@@ -1150,7 +1150,7 @@ public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, 
         }
       }
       
-      dbSQL.rollBack(parA);
+      dbSQL.rollBack(parA.shouldCommit);
       SSServErrReg.regErrThrow(error);
       return null;
     }

@@ -305,7 +305,7 @@ public class SSUserImpl extends SSServImplWithDBA implements SSUserClientI, SSUs
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(dbSQL.rollBack(parA)){
+        if(dbSQL.rollBack(parA.shouldCommit)){
           
           SSServErrReg.reset();
           
@@ -316,7 +316,7 @@ public class SSUserImpl extends SSServImplWithDBA implements SSUserClientI, SSUs
         }
       }
       
-      dbSQL.rollBack(parA);
+      dbSQL.rollBack(parA.shouldCommit);
       SSServErrReg.regErrThrow(error);
       return null;
     }

@@ -23,7 +23,7 @@ package at.kc.tugraz.ss.friend.impl.fct.sql;
 import at.tugraz.sss.serv.SSSQLVarU;
 import at.tugraz.sss.serv.SSUri;
 import at.kc.tugraz.ss.friend.datatypes.SSFriend;
-import at.kc.tugraz.ss.serv.db.api.SSDBSQLFct;
+import at.tugraz.sss.serv.SSDBSQLFct;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSServErrReg;
 import java.sql.ResultSet;

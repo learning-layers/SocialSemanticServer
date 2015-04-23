@@ -23,7 +23,7 @@ package at.kc.tugraz.ss.service.userevent.impl.fct.sql;
 import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSSQLVarU;
 import at.tugraz.sss.serv.SSStrU;
-import at.kc.tugraz.ss.serv.db.api.SSDBSQLFct;
+import at.tugraz.sss.serv.SSDBSQLFct;
 import at.tugraz.sss.serv.SSUri;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUE;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUEE;

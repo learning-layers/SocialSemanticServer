@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.sss.video.impl.fct.sql;
 
-import at.kc.tugraz.ss.serv.db.api.SSDBSQLFct;
+import at.tugraz.sss.serv.SSDBSQLFct;
 import at.tugraz.sss.serv.SSSQLVarU;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;

@@ -12,7 +12,6 @@
   <packaging>pom</packaging>
   <name>servs</name>
   <modules>
-    <module>db</module>
     <module>voc</module>
     <module>jsonld</module>
     <module>filerepo</module>

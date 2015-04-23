@@ -392,7 +392,7 @@ public class SSActivityImpl extends SSServImplWithDBA implements SSActivityClien
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(dbSQL.rollBack(parA)){
+        if(dbSQL.rollBack(parA.shouldCommit)){
           
           SSServErrReg.reset();
           
@@ -403,7 +403,7 @@ public class SSActivityImpl extends SSServImplWithDBA implements SSActivityClien
         }
       }
       
-      dbSQL.rollBack(parA);
+      dbSQL.rollBack(parA.shouldCommit);
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -425,7 +425,7 @@ public class SSActivityImpl extends SSServImplWithDBA implements SSActivityClien
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(dbSQL.rollBack(parA)){
+        if(dbSQL.rollBack(parA.shouldCommit)){
           
           SSServErrReg.reset();
           
@@ -436,7 +436,7 @@ public class SSActivityImpl extends SSServImplWithDBA implements SSActivityClien
         }
       }
       
-      dbSQL.rollBack(parA);
+      dbSQL.rollBack(parA.shouldCommit);
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -463,7 +463,7 @@ public class SSActivityImpl extends SSServImplWithDBA implements SSActivityClien
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(dbSQL.rollBack(parA)){
+        if(dbSQL.rollBack(parA.shouldCommit)){
           
           SSServErrReg.reset();
           
@@ -475,7 +475,7 @@ public class SSActivityImpl extends SSServImplWithDBA implements SSActivityClien
         return;
       }
       
-      dbSQL.rollBack(parA);
+      dbSQL.rollBack(parA.shouldCommit);
       SSServErrReg.regErrThrow(error);
     }
   }

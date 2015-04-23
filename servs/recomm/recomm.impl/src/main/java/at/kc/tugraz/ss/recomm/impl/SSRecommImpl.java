@@ -351,7 +351,7 @@ public class SSRecommImpl extends SSServImplWithDBA implements SSRecommClientI, 
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(dbSQL.rollBack(parA)){
+        if(dbSQL.rollBack(parA.shouldCommit)){
           
           SSServErrReg.reset();
           
@@ -361,7 +361,7 @@ public class SSRecommImpl extends SSServImplWithDBA implements SSRecommClientI, 
         }
       }
       
-      dbSQL.rollBack(parA);
+      dbSQL.rollBack(parA.shouldCommit);
       SSServErrReg.regErrThrow(error);
     }
   }
@@ -407,7 +407,7 @@ public class SSRecommImpl extends SSServImplWithDBA implements SSRecommClientI, 
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(dbSQL.rollBack(parA)){
+        if(dbSQL.rollBack(parA.shouldCommit)){
           
           SSServErrReg.reset();
           
@@ -418,7 +418,7 @@ public class SSRecommImpl extends SSServImplWithDBA implements SSRecommClientI, 
         }
       }
       
-      dbSQL.rollBack(parA);
+      dbSQL.rollBack(parA.shouldCommit);
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -497,7 +497,7 @@ public class SSRecommImpl extends SSServImplWithDBA implements SSRecommClientI, 
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(dbSQL.rollBack(parA)){
+        if(dbSQL.rollBack(parA.shouldCommit)){
           
           SSServErrReg.reset();
           
@@ -508,7 +508,7 @@ public class SSRecommImpl extends SSServImplWithDBA implements SSRecommClientI, 
         }
       }
       
-      dbSQL.rollBack(parA);
+      dbSQL.rollBack(parA.shouldCommit);
       SSServErrReg.regErrThrow(error);
       return null;
     }

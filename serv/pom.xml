@@ -22,5 +22,7 @@
     <module>serv.errreg</module>
     <module>serv.reg</module>
     <module>serv.client</module>
+    <module>serv.db</module>
+    <module>serv.par</module>
   </modules>
 </project>

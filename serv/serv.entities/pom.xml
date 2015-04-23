@@ -12,12 +12,11 @@
   
   <dependencies>
     
-    <dependency>
+<!--    <dependency>
       <groupId>sss.serv</groupId>
       <artifactId>serv.api</artifactId>
       <version>${project.version}</version>
-    </dependency>
-    
+    </dependency>-->
     
     <dependency>
       <groupId>sss.serv</groupId>
@@ -36,6 +35,13 @@
       <artifactId>serv.util</artifactId>
       <version>${project.version}</version>
     </dependency>
+    
+    <dependency>
+      <groupId>com.wordnik</groupId>
+      <artifactId>swagger-jersey2-jaxrs_2.10</artifactId>
+      <scope>compile</scope>
+      <version>${ssSwaggerVersion}</version>
+    </dependency>  
     
   </dependencies>
 </project>

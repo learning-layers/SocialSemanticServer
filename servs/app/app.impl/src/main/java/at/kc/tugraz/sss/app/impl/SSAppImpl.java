@@ -151,7 +151,7 @@ public class SSAppImpl extends SSServImplWithDBA implements SSAppClientI, SSAppS
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(dbSQL.rollBack(parA)){
+        if(dbSQL.rollBack(parA.shouldCommit)){
           
           SSServErrReg.reset();
           
@@ -162,7 +162,7 @@ public class SSAppImpl extends SSServImplWithDBA implements SSAppClientI, SSAppS
         }
       }
       
-      dbSQL.rollBack(parA);
+      dbSQL.rollBack(parA.shouldCommit);
       SSServErrReg.regErrThrow(error);
       return null;
     }

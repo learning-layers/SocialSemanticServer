@@ -24,7 +24,7 @@ import at.tugraz.sss.serv.SSSQLVarU;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
-import at.kc.tugraz.ss.serv.db.api.SSDBSQLFct;
+import at.tugraz.sss.serv.SSDBSQLFct;
 import at.tugraz.sss.serv.SSDBSQLI;
 
 import at.kc.tugraz.sss.app.datatypes.SSApp;

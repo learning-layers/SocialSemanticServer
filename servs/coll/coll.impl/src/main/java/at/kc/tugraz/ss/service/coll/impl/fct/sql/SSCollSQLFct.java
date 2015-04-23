@@ -22,7 +22,7 @@ package at.kc.tugraz.ss.service.coll.impl.fct.sql;
 
 import at.tugraz.sss.serv.SSSQLVarU;
 import at.tugraz.sss.serv.SSStrU;
-import at.kc.tugraz.ss.serv.db.api.SSDBSQLFct;
+import at.tugraz.sss.serv.SSDBSQLFct;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSCircleE;
 import at.tugraz.sss.serv.SSDBSQLI;

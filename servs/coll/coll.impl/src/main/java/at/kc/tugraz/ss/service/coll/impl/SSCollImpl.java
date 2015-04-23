@@ -478,7 +478,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(dbSQL.rollBack(parA)){
+        if(dbSQL.rollBack(parA.shouldCommit)){
           
           SSServErrReg.reset();
           
@@ -489,7 +489,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
         }
       }
       
-      dbSQL.rollBack(parA);
+      dbSQL.rollBack(parA.shouldCommit);
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -556,7 +556,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(dbSQL.rollBack(parA)){
+        if(dbSQL.rollBack(parA.shouldCommit)){
           
           SSServErrReg.reset();
           
@@ -567,7 +567,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
         }
       }
       
-      dbSQL.rollBack(parA);
+      dbSQL.rollBack(parA.shouldCommit);
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -640,7 +640,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(dbSQL.rollBack(parA)){
+        if(dbSQL.rollBack(parA.shouldCommit)){
           
           SSServErrReg.reset();
           
@@ -651,7 +651,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
         }
       }
       
-      dbSQL.rollBack(parA);
+      dbSQL.rollBack(parA.shouldCommit);
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -694,7 +694,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(dbSQL.rollBack(parA)){
+        if(dbSQL.rollBack(parA.shouldCommit)){
           
           SSServErrReg.reset();
           
@@ -705,7 +705,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
         }
       }
       
-      dbSQL.rollBack(parA);
+      dbSQL.rollBack(parA.shouldCommit);
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -749,7 +749,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(dbSQL.rollBack(parA)){
+        if(dbSQL.rollBack(parA.shouldCommit)){
           
           SSServErrReg.reset();
           
@@ -760,7 +760,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
         }
       }
       
-      dbSQL.rollBack(parA);
+      dbSQL.rollBack(parA.shouldCommit);
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -1040,7 +1040,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(dbSQL.rollBack(parA)){
+        if(dbSQL.rollBack(parA.shouldCommit)){
           
           SSServErrReg.reset();
           
@@ -1051,7 +1051,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
         }
       }
       
-      dbSQL.rollBack(parA);
+      dbSQL.rollBack(parA.shouldCommit);
       SSServErrReg.regErrThrow(error);
       return null;
     }
