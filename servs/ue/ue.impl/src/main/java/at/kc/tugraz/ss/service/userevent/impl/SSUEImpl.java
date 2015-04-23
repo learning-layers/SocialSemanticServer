@@ -50,6 +50,9 @@ import at.kc.tugraz.ss.service.userevent.datatypes.ret.SSUEGetRet;
 import at.kc.tugraz.ss.service.userevent.datatypes.ret.SSUEsGetRet;
 import at.kc.tugraz.ss.service.userevent.impl.fct.misc.SSUEMiscFct;
 import at.kc.tugraz.ss.service.userevent.impl.fct.sql.SSUESQLFct;
+import at.tugraz.sss.serv.SSDBNoSQL;
+import at.tugraz.sss.serv.SSDBNoSQLI;
+import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
 import java.util.*;
 import at.tugraz.sss.serv.SSErrE;
@@ -68,9 +71,9 @@ implements
   private final SSUESQLFct   sqlFct;
   private final SSUEMiscFct  fct;
   
-  public SSUEImpl(final SSConfA conf, final SSDBSQLI dbSQL) throws Exception{
+  public SSUEImpl(final SSConfA conf) throws Exception{
     
-    super(conf, dbSQL);
+    super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
     
     this.sqlFct   = new SSUESQLFct  (this);
     this.fct      = new SSUEMiscFct ();

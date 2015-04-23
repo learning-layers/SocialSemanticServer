@@ -1,6 +1,5 @@
 package at.tugraz.sss.serv;
 
-import static at.tugraz.sss.serv.SSServRegI.servs;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
@@ -49,15 +48,16 @@ public abstract class SSServContainerI{
       return coreConf;
     }
     
-    for(SSServContainerI serv : servs.values()){
-      
-      if(servI.isInstance(serv)){
-        
-        configuredServs.add(servI);
-        
-        return serv.getConfForCloudDeployment(coreConf, configuredServs);
-      }
-    }
+    //TODO dtheiler: implementation missing here
+//    for(SSServContainerI serv : servs.values()){
+//      
+//      if(servI.isInstance(serv)){
+//        
+//        configuredServs.add(servI);
+//        
+//        return serv.getConfForCloudDeployment(coreConf, configuredServs);
+//      }
+//    }
     
     throw new Exception("service not registered");
   }

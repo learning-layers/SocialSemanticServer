@@ -28,6 +28,9 @@ import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpVersion;
 import at.tugraz.sss.serv.SSSocketCon;
 import at.tugraz.sss.serv.SSCircleE;
 import at.tugraz.sss.serv.SSConfA;
+import at.tugraz.sss.serv.SSDBNoSQL;
+import at.tugraz.sss.serv.SSDBNoSQLI;
+import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSServErrReg;
@@ -51,9 +54,9 @@ public class SSEvalImpl extends SSServImplWithDBA implements SSEvalClientI, SSEv
   private final SSEvalSQLFct sqlFct;
   private final SSEvalConf   evalConf;
 
-  public SSEvalImpl(final SSConfA conf, final SSDBSQLI dbSQL) throws Exception{
+  public SSEvalImpl(final SSConfA conf) throws Exception{
 
-    super(conf, dbSQL);
+    super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
 
     sqlFct     = new SSEvalSQLFct(this);
     evalConf   = (SSEvalConf) conf;

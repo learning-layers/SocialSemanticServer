@@ -25,8 +25,8 @@ import at.kc.tugraz.ss.like.api.SSLikeClientI;
 import at.kc.tugraz.ss.like.api.SSLikeServerI;
 import at.kc.tugraz.ss.like.impl.SSLikeImpl;
 import at.tugraz.sss.serv.SSDBSQLI;
-import at.kc.tugraz.ss.serv.db.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSConfA;
+import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServImplA;
@@ -45,7 +45,7 @@ public class SSLikeServ extends SSServContainerI{
   
   @Override
   protected SSServImplA createServImplForThread() throws Exception{
-    return new SSLikeImpl(conf, (SSDBSQLI)SSDBSQL.inst.serv());
+    return new SSLikeImpl(conf);
   }
   
   @Override

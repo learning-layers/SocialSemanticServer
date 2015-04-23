@@ -44,6 +44,9 @@ import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserURIGetPar;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUsersGetPar;
 import at.kc.tugraz.ss.service.user.datatypes.ret.SSUserAllRet;
 import at.kc.tugraz.ss.service.user.impl.functions.sql.SSUserSQLFct;
+import at.tugraz.sss.serv.SSDBNoSQL;
+import at.tugraz.sss.serv.SSDBNoSQLI;
+import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
 import java.util.*;
 import at.tugraz.sss.serv.SSErrE;
@@ -55,9 +58,9 @@ public class SSUserImpl extends SSServImplWithDBA implements SSUserClientI, SSUs
 //  private final SSUserGraphFct       graphFct;
   private final SSUserSQLFct         sqlFct;
   
-  public SSUserImpl(final SSConfA conf, final SSDBSQLI dbSQL) throws Exception{
+  public SSUserImpl(final SSConfA conf) throws Exception{
     
-    super(conf, dbSQL);
+    super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
     
 //    graphFct = new SSUserGraphFct (this);
     sqlFct   = new SSUserSQLFct   (this);

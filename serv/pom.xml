@@ -17,12 +17,14 @@
     <module>serv.jsonld</module>
     <module>serv.names</module>
     <module>serv.conf</module>
-    <module>serv.api</module>
     <module>serv.socket</module>
     <module>serv.errreg</module>
     <module>serv.reg</module>
     <module>serv.client</module>
     <module>serv.db</module>
     <module>serv.par</module>
+    <module>serv.impl</module>
+    <module>serv.container</module>
+    <module>serv.ret</module>
   </modules>
 </project>

@@ -3,7 +3,7 @@
 * http://www.learning-layers.eu
 * Development is partly funded by the FP7 Programme of the European Commission under
 * Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
+* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
 * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,6 +20,29 @@
 */
 package at.tugraz.sss.serv;
 
-public interface SSEntityDescriberI{
-  public SSEntity getUserEntity(final SSEntityDescriberPar par) throws Exception;
+import at.tugraz.sss.serv.SSConfA;
+import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSStrU;
+
+public abstract class SSServImplDBA extends SSServImplA{
+  
+  public SSServImplDBA(final SSConfA conf) throws Exception{
+    super(conf);
+  }
+  
+  @Override
+  public void handleClientOp(
+    final Class       servImplClientInteraceClass, 
+    final SSServPar  par) throws Exception{
+    
+    throw new UnsupportedOperationException(SSStrU.empty);
+  }
+  
+  @Override
+  public Object handleServerOp(
+    final Class      servImplServerInteraceClass, 
+    final SSServPar  par) throws Exception{
+    
+    throw new UnsupportedOperationException(SSStrU.empty);
+  }
 }

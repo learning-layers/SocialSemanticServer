@@ -21,15 +21,26 @@
 package at.tugraz.sss.serv;
 
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SSServReg implements SSServRegI{
+public class SSServReg{
   
+  public static final Map<SSServOpE, SSServContainerI> servs                           = new EnumMap<>(SSServOpE.class);
+  public static final Map<SSServOpE, SSServContainerI> servsForClientOps               = new EnumMap<>(SSServOpE.class);
+  public static final Map<SSServOpE, SSServContainerI> servsForServerOps               = new EnumMap<>(SSServOpE.class);
+  public static final List<SSServContainerI>           servsForUpdatingEntities        = new ArrayList<>();
+  public static final List<SSServContainerI>           servsForGatheringUsersResources = new ArrayList<>();
+  public static final List<SSServContainerI>           servsForGatheringUserRelations  = new ArrayList<>();
+  public static final List<SSServContainerI>           servsForDescribingEntities      = new ArrayList<>();
+  public static final List<SSServContainerI>           servsForManagingEntities        = new ArrayList<>();
+  
+  public static final Map<SSServOpE, Integer>                         requsLimitsForClientOpsPerUser  = new EnumMap<>(SSServOpE.class);
+  public static final Map<SSServOpE, Map<String, List<SSServImplA>>>  currentRequsForClientOpsPerUser = new EnumMap<>(SSServOpE.class);
   public static final SSServReg inst = new SSServReg();
   
-  @Override
   public SSServImplA callServViaClient(
     final SSServPar    par,
     final Boolean      useCloud) throws Exception{
@@ -93,7 +104,6 @@ public class SSServReg implements SSServRegI{
     }
   }
   
-  @Override
   public void unregClientRequest(
     final SSServOpE     op,
     final SSUri         user,
@@ -120,7 +130,6 @@ public class SSServReg implements SSServRegI{
     }
   }
   
-  @Override
   public void regClientRequestLimit(
     final Class                   servImplClientInteraceClass,
     final Map<SSServOpE, Integer> maxRequsPerOps) throws Exception{
@@ -143,7 +152,6 @@ public class SSServReg implements SSServRegI{
     }
   }
   
-  @Override
   public void regServForUpdatingEntities(
     final SSServContainerI servContainer) throws Exception{
     
@@ -166,7 +174,6 @@ public class SSServReg implements SSServRegI{
     }
   }
   
-  @Override
   public void regServForManagingEntities(
     final SSServContainerI servContainer) throws Exception{
     
@@ -189,7 +196,6 @@ public class SSServReg implements SSServRegI{
     }
   }
   
-  @Override
   public void regServForDescribingEntities(
     final SSServContainerI servContainer) throws Exception{
     
@@ -212,7 +218,6 @@ public class SSServReg implements SSServRegI{
     }
   }
   
-  @Override
   public void regServForGatheringUserRelations(
     final SSServContainerI servContainer) throws Exception{
     
@@ -235,7 +240,6 @@ public class SSServReg implements SSServRegI{
     }
   }
   
-  @Override
   public void regServForGatheringUsersResources(
     final SSServContainerI servContainer) throws Exception{
     
@@ -258,7 +262,6 @@ public class SSServReg implements SSServRegI{
     }
   }
   
-  @Override
   public SSServContainerI regServ(
     final SSServContainerI servContainer) throws Exception{
     
@@ -289,7 +292,6 @@ public class SSServReg implements SSServRegI{
     }
   }
   
-  @Override
   public Object callServViaServer(final SSServPar par) throws Exception{
     
     SSServContainerI serv;
@@ -322,27 +324,22 @@ public class SSServReg implements SSServRegI{
     }
   }
   
-  @Override
   public List<SSServContainerI> getServsUpdatingEntities(){
     return new ArrayList<>(servsForUpdatingEntities);
   }
   
-  @Override
   public List<SSServContainerI> getServsManagingEntities(){
     return new ArrayList<>(servsForManagingEntities);
   }
   
-  @Override
   public List<SSServContainerI> getServsDescribingEntities(){
     return new ArrayList<>(servsForDescribingEntities);
   }
   
-  @Override
   public List<SSServContainerI> getServsGatheringUserRelations(){
     return new ArrayList<>(servsForGatheringUserRelations);
   }
   
-  @Override
   public List<SSServContainerI> getServsGatheringUsersResources(){
     return new ArrayList<>(servsForGatheringUsersResources);
   }

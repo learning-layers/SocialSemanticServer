@@ -25,7 +25,7 @@ import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.impl.SSCircleImpl;
 import at.tugraz.sss.serv.SSCoreConfA;
 import at.tugraz.sss.serv.SSDBSQLI;
-import at.kc.tugraz.ss.serv.db.serv.SSDBSQL;
+import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSServContainerI;
@@ -45,7 +45,7 @@ public class SSCircleServ extends SSServContainerI{
   
   @Override
   protected SSServImplA createServImplForThread() throws Exception{
-    return new SSCircleImpl(conf, (SSDBSQLI)SSDBSQL.inst.serv());
+    return new SSCircleImpl(conf);
   }
   
   @Override

@@ -41,6 +41,9 @@ import at.kc.tugraz.sss.flag.datatypes.par.SSFlagsUserGetPar;
 import at.kc.tugraz.sss.flag.datatypes.par.SSFlagsUserSetPar;
 import at.kc.tugraz.sss.flag.datatypes.ret.SSFlagsUserSetRet;
 import at.kc.tugraz.sss.flag.impl.fct.sql.SSFlagSQLFct;
+import at.tugraz.sss.serv.SSDBNoSQL;
+import at.tugraz.sss.serv.SSDBNoSQLI;
+import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
 import java.util.List;
 import at.tugraz.sss.serv.SSErrE;
@@ -51,9 +54,9 @@ public class SSFlagImpl extends SSServImplWithDBA implements SSFlagClientI, SSFl
   
   private final SSFlagSQLFct sqlFct;
   
-  public SSFlagImpl(final SSConfA conf, final SSDBSQLI dbSQL) throws Exception{
+  public SSFlagImpl(final SSConfA conf) throws Exception{
 
-    super(conf, dbSQL);
+    super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
 
     this.sqlFct = new SSFlagSQLFct(dbSQL);
   }

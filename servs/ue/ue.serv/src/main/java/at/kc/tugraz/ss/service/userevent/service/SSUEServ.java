@@ -22,7 +22,7 @@ package at.kc.tugraz.ss.service.userevent.service;
 
 import at.tugraz.sss.serv.SSCoreConfA;
 import at.tugraz.sss.serv.SSDBSQLI;
-import at.kc.tugraz.ss.serv.db.serv.SSDBSQL;
+import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSServImplA;
@@ -45,7 +45,7 @@ public class SSUEServ extends SSServContainerI{
   
   @Override
   protected SSServImplA createServImplForThread() throws Exception{
-    return new SSUEImpl(conf, (SSDBSQLI) SSDBSQL.inst.serv());
+    return new SSUEImpl(conf);
   }
   
   @Override

@@ -187,8 +187,8 @@
     </dependency>
     
     <dependency>
-      <groupId>sss.servs</groupId>
-      <artifactId>db.conf</artifactId>
+      <groupId>sss.serv</groupId>
+      <artifactId>serv.db.conf</artifactId>
       <version>${project.version}</version>
     </dependency>
     

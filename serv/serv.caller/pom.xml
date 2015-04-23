@@ -12,11 +12,6 @@
   <name>serv.caller</name>
   
   <dependencies>
-    <dependency>
-      <groupId>sss.servs</groupId>
-      <artifactId>voc.conf</artifactId>
-      <version>${project.version}</version>
-    </dependency> 
       
     <dependency>
       <groupId>sss.servs</groupId>
@@ -44,15 +39,21 @@
     
     <dependency>
       <groupId>sss.serv</groupId>
+      <artifactId>serv.db.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.serv</groupId>
       <artifactId>serv.reg</artifactId>
       <version>${project.version}</version>
     </dependency> 
     
-    <dependency>
+<!--    <dependency>
       <groupId>sss.servs</groupId>
       <artifactId>user.api</artifactId>
       <version>${project.version}</version>
-    </dependency> 
+    </dependency> -->
     
     <dependency>
       <groupId>sss.servs</groupId>
@@ -105,6 +106,24 @@
     <dependency>
       <groupId>sss.servs</groupId>
       <artifactId>tag.datatypes</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>voc.conf</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>video.conf</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>user.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>
     

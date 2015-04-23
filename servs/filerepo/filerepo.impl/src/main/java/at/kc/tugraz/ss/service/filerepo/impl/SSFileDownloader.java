@@ -47,7 +47,7 @@ public class SSFileDownloader extends SSServImplStartA{
 //  private InputStream webdavInputStream;
   
   public SSFileDownloader(
-    final SSFileRepoConf fileRepoConf, 
+    final SSFileRepoConf    fileRepoConf, 
     final SSSocketCon       sSCon, 
     final SSFileDownloadPar par) throws Exception{
     

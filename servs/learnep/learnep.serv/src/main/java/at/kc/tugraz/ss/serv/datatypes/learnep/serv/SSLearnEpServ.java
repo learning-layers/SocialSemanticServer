@@ -29,7 +29,7 @@ import at.tugraz.sss.serv.SSDateU;
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSCoreConfA;
 import at.tugraz.sss.serv.SSDBSQLI;
-import at.kc.tugraz.ss.serv.db.serv.SSDBSQL;
+import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSServContainerI;
@@ -51,7 +51,7 @@ public class SSLearnEpServ extends SSServContainerI{
   
   @Override
   protected SSServImplA createServImplForThread() throws Exception{
-    return new SSLearnEpImpl(conf, (SSDBSQLI)SSDBSQL.inst.serv());
+    return new SSLearnEpImpl(conf);
   }
 
   @Override

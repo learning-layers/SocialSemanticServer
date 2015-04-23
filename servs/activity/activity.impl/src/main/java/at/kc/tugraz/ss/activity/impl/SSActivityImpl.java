@@ -44,8 +44,10 @@ import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSDBSQLI;
-
 import at.tugraz.sss.serv.SSConfA;
+import at.tugraz.sss.serv.SSDBNoSQL;
+import at.tugraz.sss.serv.SSDBNoSQLI;
+import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSEntityHandlerImplI;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.caller.SSServCaller;
@@ -62,9 +64,9 @@ public class SSActivityImpl extends SSServImplWithDBA implements SSActivityClien
   
   private final SSActivitySQLFct sqlFct;
   
-  public SSActivityImpl(final SSConfA conf, final SSDBSQLI dbSQL) throws Exception{
+  public SSActivityImpl(final SSConfA conf) throws Exception{
     
-    super(conf, dbSQL);
+    super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
     
     this.sqlFct = new SSActivitySQLFct(dbSQL);
   }

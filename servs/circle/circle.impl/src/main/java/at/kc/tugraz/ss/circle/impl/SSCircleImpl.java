@@ -62,6 +62,9 @@ import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleEntitiesRemoveRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleEntityShareRet;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSConfA;
+import at.tugraz.sss.serv.SSDBNoSQL;
+import at.tugraz.sss.serv.SSDBNoSQLI;
+import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.tugraz.sss.serv.caller.SSServCallerU;
@@ -75,8 +78,8 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
   
   private final SSCircleSQLFct sqlFct;
 
-  public SSCircleImpl(final SSConfA conf, final SSDBSQLI dbSQL) throws Exception{
-    super(conf, dbSQL);
+  public SSCircleImpl(final SSConfA conf) throws Exception{
+    super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
     
     this.sqlFct = new SSCircleSQLFct(dbSQL);
   }

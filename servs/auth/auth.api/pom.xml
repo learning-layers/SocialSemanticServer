@@ -17,8 +17,6 @@
   </properties>
   <dependencies>
     
-    
-    
     <dependency>
       <groupId>sss.servs</groupId>
       <artifactId>auth.datatypes</artifactId>
@@ -27,7 +25,7 @@
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>serv.reg</artifactId>
+      <artifactId>serv.caller</artifactId>
       <version>${project.version}</version>
     </dependency> 
     

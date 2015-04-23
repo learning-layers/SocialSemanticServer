@@ -35,8 +35,10 @@ import at.kc.tugraz.ss.message.impl.fct.activity.SSMessageActivityFct;
 import at.kc.tugraz.ss.message.impl.fct.sql.SSMessageSQLFct;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSDBSQLI;
-
 import at.tugraz.sss.serv.SSConfA;
+import at.tugraz.sss.serv.SSDBNoSQL;
+import at.tugraz.sss.serv.SSDBNoSQLI;
+import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.caller.SSServCaller;
@@ -48,8 +50,8 @@ public class SSMessageImpl extends SSServImplWithDBA implements SSMessageClientI
   
   private final SSMessageSQLFct sqlFct;
 
-  public SSMessageImpl(final SSConfA conf, final SSDBSQLI dbSQL) throws Exception{
-    super(conf, dbSQL);
+  public SSMessageImpl(final SSConfA conf) throws Exception{
+    super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
     
     this.sqlFct = new SSMessageSQLFct(dbSQL);
   }

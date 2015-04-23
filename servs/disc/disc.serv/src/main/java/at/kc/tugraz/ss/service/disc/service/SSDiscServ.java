@@ -22,7 +22,7 @@
 
 import at.tugraz.sss.serv.SSCoreConfA;
 import at.tugraz.sss.serv.SSDBSQLI;
-import at.kc.tugraz.ss.serv.db.serv.SSDBSQL;
+import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSConfA;
 import at.kc.tugraz.ss.service.disc.impl.*;
 import at.tugraz.sss.serv.SSServReg;
@@ -45,7 +45,7 @@ public class SSDiscServ extends SSServContainerI{
   
   @Override
   protected SSServImplA createServImplForThread() throws Exception{
-    return new SSDiscImpl(conf, (SSDBSQLI)SSDBSQL.inst.serv());
+    return new SSDiscImpl(conf);
   } 
 
   @Override

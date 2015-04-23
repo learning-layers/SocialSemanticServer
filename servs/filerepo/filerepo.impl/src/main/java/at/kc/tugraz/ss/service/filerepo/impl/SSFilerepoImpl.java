@@ -45,7 +45,6 @@ import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileSetReaderOrWriterRe
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSEntityDescriberI;
 import at.tugraz.sss.serv.SSEntityHandlerImplI;
-import at.tugraz.sss.serv.SSServImplMiscA;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.tugraz.sss.serv.caller.SSServCallerU;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileDownloadPar;
@@ -53,14 +52,19 @@ import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileIDFromURIPar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileThumbBase64GetPar;
 import at.kc.tugraz.ss.service.filerepo.impl.fct.SSFileFct;
 import at.kc.tugraz.ss.service.filerepo.impl.fct.activity.SSFileRepoActivityFct;
+import at.tugraz.sss.serv.SSDBNoSQL;
+import at.tugraz.sss.serv.SSDBNoSQLI;
+import at.tugraz.sss.serv.SSDBSQL;
+import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
 import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.SSServPar;
 import java.util.*;
 import java.util.List;
 
 public class SSFilerepoImpl 
-extends SSServImplMiscA
+extends SSServImplWithDBA
 implements 
   SSFileRepoClientI, 
   SSFileRepoServerI, 
@@ -73,7 +77,7 @@ implements
     final SSFileRepoConf                           conf, 
     final Map<String, SSFileRepoFileAccessProperty> fileAccessProps) throws Exception{
 
-    super(conf);
+    super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
 
     this.fileAccessProps = fileAccessProps;
   }

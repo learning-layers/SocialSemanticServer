@@ -21,7 +21,6 @@
 package at.tugraz.sss.serv;
 
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.List;
 
 public class SSServImplClient extends SSServImplStartA implements Runnable{
@@ -102,22 +101,6 @@ public class SSServImplClient extends SSServImplStartA implements Runnable{
   
    @Override
    protected void finalizeThread(final Boolean log){
-    
-    final List<SSServImplA> usedServs = new ArrayList<>();
-    
-    try{
-      servImplsUsedByThread.get().remove(this);
-
-      usedServs.addAll(servImplsUsedByThread.get());
-
-      for(SSServImplA servImpl : usedServs){
-        servImpl.finalizeImpl();
-      }
-
-    }catch(Exception error){
-      SSServErrReg.regErr(error);
-    }finally{
-      SSServErrReg.logServImplErrors();
-    }
+     super.finalizeThread(true);
   }
 }

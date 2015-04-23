@@ -28,17 +28,19 @@ import at.kc.tugraz.ss.cloud.datatypes.par.SSCloudPublishServicePar;
 import at.kc.tugraz.ss.cloud.datatypes.ret.SSCloudPublishServiceRet;
 import at.kc.tugraz.ss.cloud.impl.fct.op.SSCloudPublishServiceFct;
 import at.tugraz.sss.serv.SSServPar;
-
 import at.tugraz.sss.serv.SSConfA;
-import at.tugraz.sss.serv.SSServImplMiscA;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.tugraz.sss.serv.SSDBNoSQL;
+import at.tugraz.sss.serv.SSDBNoSQLI;
+import at.tugraz.sss.serv.SSDBSQL;
+import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSServImplWithDBA;
 
-public class SSCloudImpl extends SSServImplMiscA implements SSCloudClientI, SSCloudServerI{
+public class SSCloudImpl extends SSServImplWithDBA implements SSCloudClientI, SSCloudServerI{
 
   public SSCloudImpl(final SSConfA conf) throws Exception{
-
-    super(conf);
+    super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
   }
   
   /* SSCloudClientI */

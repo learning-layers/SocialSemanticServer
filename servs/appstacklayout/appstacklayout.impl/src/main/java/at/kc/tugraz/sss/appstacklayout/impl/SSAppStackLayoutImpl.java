@@ -43,6 +43,9 @@ import at.kc.tugraz.sss.appstacklayout.datatypes.ret.SSAppStackLayoutDeleteRet;
 import at.kc.tugraz.sss.appstacklayout.datatypes.ret.SSAppStackLayoutUpdateRet;
 import at.kc.tugraz.sss.appstacklayout.datatypes.ret.SSAppStackLayoutsGetRet;
 import at.kc.tugraz.sss.appstacklayout.impl.fct.sql.SSAppStackLayoutSQLFct;
+import at.tugraz.sss.serv.SSDBNoSQL;
+import at.tugraz.sss.serv.SSDBNoSQLI;
+import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
 import java.util.ArrayList;
 import java.util.List;
@@ -54,9 +57,9 @@ public class SSAppStackLayoutImpl extends SSServImplWithDBA implements SSAppStac
   
   private final SSAppStackLayoutSQLFct sqlFct;
   
-  public SSAppStackLayoutImpl(final SSConfA conf, final SSDBSQLI dbSQL) throws Exception{
+  public SSAppStackLayoutImpl(final SSConfA conf) throws Exception{
 
-    super(conf, dbSQL);
+    super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
 
     this.sqlFct = new SSAppStackLayoutSQLFct(dbSQL);
   }

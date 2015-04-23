@@ -45,6 +45,9 @@ import at.kc.tugraz.sss.video.datatypes.ret.SSVideoUserAddRet;
 import at.kc.tugraz.sss.video.datatypes.ret.SSVideoUserAnnotationAddRet;
 import at.kc.tugraz.sss.video.datatypes.ret.SSVideosUserGetRet;
 import at.kc.tugraz.sss.video.impl.fct.sql.SSVideoSQLFct;
+import at.tugraz.sss.serv.SSDBNoSQL;
+import at.tugraz.sss.serv.SSDBNoSQLI;
+import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
 import java.util.ArrayList;
 import java.util.List;
@@ -63,9 +66,9 @@ implements
   
   private final SSVideoSQLFct sqlFct;
   
-  public SSVideoImpl(final SSConfA conf, final SSDBSQLI dbSQL) throws Exception{
+  public SSVideoImpl(final SSConfA conf) throws Exception{
 
-    super(conf, dbSQL);
+    super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
 
     this.sqlFct = new SSVideoSQLFct(dbSQL);
   }

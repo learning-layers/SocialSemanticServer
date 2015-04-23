@@ -29,7 +29,7 @@ import at.kc.tugraz.ss.serv.dataimport.api.SSDataImportClientI;
 import at.kc.tugraz.ss.serv.dataimport.api.SSDataImportServerI;
 import at.kc.tugraz.ss.serv.dataimport.conf.SSDataImportConf;
 import at.tugraz.sss.serv.SSDBSQLI;
-import at.kc.tugraz.ss.serv.db.serv.SSDBSQL;
+import at.tugraz.sss.serv.SSDBSQL;
 import at.kc.tugraz.ss.serv.dataimport.impl.SSDataImportImpl;
 import at.kc.tugraz.ss.serv.dataimport.serv.task.SSDataImportEvernoteTask;
 import at.tugraz.sss.serv.SSConfA;
@@ -51,7 +51,7 @@ public class SSDataImportServ extends SSServContainerI{
   
   @Override
   protected SSServImplA createServImplForThread() throws Exception{
-    return new SSDataImportImpl(conf, (SSDBSQLI) SSDBSQL.inst.serv());
+    return new SSDataImportImpl(conf);
   }
   
   @Override

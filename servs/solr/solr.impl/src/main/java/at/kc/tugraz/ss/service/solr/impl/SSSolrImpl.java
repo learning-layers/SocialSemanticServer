@@ -23,9 +23,7 @@ package at.kc.tugraz.ss.service.solr.impl;
 import at.tugraz.sss.serv.SSLogU;
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import at.tugraz.sss.serv.SSServPar;
-
 import at.tugraz.sss.serv.SSConfA;
-import at.tugraz.sss.serv.SSServImplMiscA;
 import at.kc.tugraz.ss.serv.solr.datatypes.pars.SSSolrAddDocPar;
 import at.kc.tugraz.ss.serv.solr.datatypes.pars.SSSolrRemoveDocPar;
 import at.kc.tugraz.ss.serv.solr.datatypes.pars.SSSolrSearchPar;
@@ -34,7 +32,12 @@ import at.kc.tugraz.ss.service.solr.api.SSSolrClientI;
 import at.kc.tugraz.ss.service.solr.api.SSSolrServerI;
 import at.kc.tugraz.ss.service.solr.datatypes.*;
 import at.kc.tugraz.ss.service.solr.impl.fct.SSSolrFct;
+import at.tugraz.sss.serv.SSDBNoSQL;
+import at.tugraz.sss.serv.SSDBNoSQLI;
+import at.tugraz.sss.serv.SSDBSQL;
+import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSServImplWithDBA;
 import java.io.*;
 import java.util.*;
 import org.apache.solr.client.solrj.impl.*;
@@ -42,14 +45,14 @@ import org.apache.solr.client.solrj.request.*;
 import org.apache.solr.client.solrj.response.*;
 import org.apache.solr.common.util.*;
 
-public class SSSolrImpl extends SSServImplMiscA implements SSSolrClientI, SSSolrServerI{
+public class SSSolrImpl extends SSServImplWithDBA implements SSSolrClientI, SSSolrServerI{
   
   private final ConcurrentUpdateSolrServer solrUpdater;
   private final String                     localWorkPath;
   
   public SSSolrImpl(final SSConfA conf, final ConcurrentUpdateSolrServer solrCon) throws Exception{
     
-    super(conf);
+    super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
     
     solrUpdater    = solrCon;
     localWorkPath  = SSCoreConf.instGet().getSss().getLocalWorkPath();

@@ -28,16 +28,20 @@ import at.kc.tugraz.ss.serv.jsonld.api.SSJSONLDServerI;
 import at.kc.tugraz.ss.serv.jsonld.conf.SSJSONLDConf;
 import at.kc.tugraz.ss.serv.jsonld.datatypes.par.SSJSONLDPar;
 import at.kc.tugraz.ss.serv.jsonld.datatypes.par.ret.SSJSONLDDescRet;
+import at.tugraz.sss.serv.SSDBNoSQL;
+import at.tugraz.sss.serv.SSDBNoSQLI;
+import at.tugraz.sss.serv.SSDBSQL;
+import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSJSONLDPropI;
+import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServImplMiscA;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.caller.SSServCallerU;
 
-public class SSJSONLDImpl extends SSServImplMiscA implements SSJSONLDClientI, SSJSONLDServerI{
+public class SSJSONLDImpl extends SSServImplWithDBA implements SSJSONLDClientI, SSJSONLDServerI{
 
   public SSJSONLDImpl(final SSJSONLDConf conf) throws Exception{
-    super(conf);
+    super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
   }
   
   @Override

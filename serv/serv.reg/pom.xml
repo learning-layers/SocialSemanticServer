@@ -9,12 +9,19 @@
   <groupId>sss.serv</groupId>
   <artifactId>serv.reg</artifactId>
   <packaging>jar</packaging>
+  <name>serv.reg</name>
     
   <dependencies>
     
+<!--    <dependency>
+      <groupId>sss.serv</groupId>
+      <artifactId>serv.db.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>-->
+    
     <dependency>
-      <groupId>sss.servs</groupId>
-      <artifactId>db.api</artifactId>
+      <groupId>sss.serv</groupId>
+      <artifactId>serv.db.api</artifactId>
       <version>${project.version}</version>
     </dependency>
     
@@ -24,9 +31,15 @@
       <version>${project.version}</version>
     </dependency>
     
-    <dependency>
+<!--    <dependency>
       <groupId>sss.serv</groupId>
       <artifactId>serv.api</artifactId>
+      <version>${project.version}</version>
+    </dependency>-->
+    
+    <dependency>
+      <groupId>sss.serv</groupId>
+      <artifactId>serv.container</artifactId>
       <version>${project.version}</version>
     </dependency>
     
@@ -67,7 +80,7 @@
     </dependency>
     
   </dependencies>
-    <name>serv.reg</name>
+    
 </project>
 
     <!--    <dependency>

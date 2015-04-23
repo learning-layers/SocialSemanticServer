@@ -19,8 +19,8 @@
   <dependencies>
   
     <dependency>
-      <groupId>sss.servs</groupId>
-      <artifactId>db.serv</artifactId>
+      <groupId>sss.serv</groupId>
+      <artifactId>serv.caller</artifactId>
       <version>${project.version}</version>
     </dependency>
     
@@ -35,8 +35,6 @@
       <artifactId>like.api</artifactId>
       <version>${project.version}</version>
     </dependency>
-    
-    
     
     <dependency>
       <groupId>junit</groupId>

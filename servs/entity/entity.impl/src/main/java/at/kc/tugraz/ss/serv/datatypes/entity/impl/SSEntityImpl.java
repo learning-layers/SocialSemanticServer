@@ -85,6 +85,9 @@ import at.tugraz.sss.serv.SSUserRelationGathererI;
 import at.tugraz.sss.serv.SSUsersResourcesGathererI;
 import at.tugraz.sss.serv.caller.SSServCallerU;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUEE;
+import at.tugraz.sss.serv.SSDBNoSQL;
+import at.tugraz.sss.serv.SSDBNoSQLI;
+import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
 import java.util.ArrayList;
 import java.util.List;
@@ -94,13 +97,19 @@ import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServErrReg;
 
-public class SSEntityImpl extends SSServImplWithDBA implements SSEntityClientI, SSEntityServerI, SSUserRelationGathererI, SSUsersResourcesGathererI{
+public class SSEntityImpl 
+extends SSServImplWithDBA
+implements 
+  SSEntityClientI, 
+  SSEntityServerI,
+  SSUserRelationGathererI, 
+  SSUsersResourcesGathererI{
   
   private final SSEntitySQLFct         sqlFct;
   
-  public SSEntityImpl(final SSConfA conf, final SSDBSQLI dbSQL) throws Exception{
+  public SSEntityImpl(final SSConfA conf) throws Exception{
     
-    super(conf, dbSQL);
+    super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
     
     sqlFct = new SSEntitySQLFct   (this);
   }

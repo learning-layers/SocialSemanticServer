@@ -28,7 +28,6 @@ import at.tugraz.sss.serv.SSMimeTypeE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarU;
 import at.tugraz.sss.serv.SSServPar;
-
 import at.kc.tugraz.ss.serv.job.i5cloud.api.SSI5CloudClientI;
 import at.kc.tugraz.ss.serv.job.i5cloud.api.SSI5CloudServerI;
 import at.kc.tugraz.ss.serv.job.i5cloud.conf.SSI5CloudConf;
@@ -38,20 +37,24 @@ import at.kc.tugraz.ss.serv.job.i5cloud.datatypes.par.SSI5CloudFileDownloadPar;
 import at.kc.tugraz.ss.serv.job.i5cloud.datatypes.par.SSI5CloudFileUploadPar;
 import at.kc.tugraz.ss.serv.job.i5cloud.impl.las.SSI5CloudLASConnector;
 import at.tugraz.sss.serv.SSConfA;
+import at.tugraz.sss.serv.SSDBNoSQL;
+import at.tugraz.sss.serv.SSDBNoSQLI;
+import at.tugraz.sss.serv.SSDBSQL;
+import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSServErrReg;
-import at.tugraz.sss.serv.SSServImplMiscA;
+import at.tugraz.sss.serv.SSServImplWithDBA;
 import i5.las.httpConnector.client.TimeoutException;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.*;
 
-public class SSI5CloudImpl extends SSServImplMiscA implements SSI5CloudClientI, SSI5CloudServerI{
+public class SSI5CloudImpl extends SSServImplWithDBA implements SSI5CloudClientI, SSI5CloudServerI{
 
   private SSI5CloudLASConnector lasCon = null;
   
   public SSI5CloudImpl(final SSConfA conf) throws Exception{
-    super(conf);
+    super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
   }
   
    /*  SSI5CloudServerI */

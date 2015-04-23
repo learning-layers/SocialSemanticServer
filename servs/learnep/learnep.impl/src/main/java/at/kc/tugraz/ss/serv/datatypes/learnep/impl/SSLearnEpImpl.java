@@ -83,8 +83,10 @@ import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityCircle;
 import at.tugraz.sss.serv.SSConfA;
+import at.tugraz.sss.serv.SSDBNoSQL;
+import at.tugraz.sss.serv.SSDBNoSQLI;
+import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSEntityHandlerImplI;
-import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.SSUsersResourcesGathererI;
 import at.tugraz.sss.serv.caller.SSServCaller;
@@ -101,9 +103,9 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
   private final SSLearnEpSQLFct sqlFct;
   private final SSLearnEpConf   learnEpConf;
 
-  public SSLearnEpImpl(final SSConfA conf, final SSDBSQLI dbSQL) throws Exception{
+  public SSLearnEpImpl(final SSConfA conf) throws Exception{
 
-    super(conf, dbSQL);
+    super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
 
 //    graphFct  = new SSLearnEpGraphFct (this);
     sqlFct        = new SSLearnEpSQLFct(this);

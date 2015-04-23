@@ -80,9 +80,9 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
 
   private final SSCollSQLFct sqlFct;
 
-  public SSCollImpl(final SSConfA conf, final SSDBSQLI dbSQL) throws Exception{
+  public SSCollImpl(final SSConfA conf) throws Exception{
 
-    super(conf, dbSQL);
+    super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
 
     this.sqlFct = new SSCollSQLFct(dbSQL);
   }

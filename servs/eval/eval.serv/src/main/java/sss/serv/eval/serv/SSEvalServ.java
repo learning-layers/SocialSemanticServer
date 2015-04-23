@@ -20,12 +20,12 @@
 */
 package sss.serv.eval.serv;
 
-import at.kc.tugraz.ss.serv.db.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSCoreConfA;
 import at.tugraz.sss.serv.SSDBSQLI;
-import at.tugraz.sss.serv.SSServReg;
+import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSServContainerI;
+import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSServImplA;
 import java.util.List;
 import sss.serv.eval.api.SSEvalClientI;
@@ -45,7 +45,7 @@ public class SSEvalServ extends SSServContainerI{
   
   @Override
   protected SSServImplA createServImplForThread() throws Exception{
-    return new SSEvalImpl(conf, (SSDBSQLI)SSDBSQL.inst.serv());
+    return new SSEvalImpl(conf);
   }
 
   @Override

@@ -20,16 +20,6 @@
 */
 package at.tugraz.sss.serv;
 
-import at.tugraz.sss.serv.SSLogU;
-import at.tugraz.sss.serv.SSObjU;
-import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSDBSQLI;
-import at.kc.tugraz.ss.serv.db.conf.SSDBSQLConf;
-import at.tugraz.sss.serv.SSConfA;
-import at.tugraz.sss.serv.SSErr;
-import at.tugraz.sss.serv.SSErrE;
-import at.tugraz.sss.serv.SSServErrReg;
-import at.tugraz.sss.serv.SSServImplDBA;
 import com.mysql.jdbc.exceptions.jdbc4.CommunicationsException;
 import com.mysql.jdbc.exceptions.jdbc4.MySQLNonTransientConnectionException;
 import com.mysql.jdbc.exceptions.jdbc4.MySQLTransactionRollbackException;

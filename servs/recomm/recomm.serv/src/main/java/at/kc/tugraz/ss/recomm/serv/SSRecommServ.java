@@ -31,7 +31,7 @@ import at.kc.tugraz.ss.recomm.conf.SSRecommConf;
 import at.kc.tugraz.ss.recomm.impl.SSRecommImpl;
 import at.kc.tugraz.ss.recomm.serv.task.SSRecommUpdateBulkTask;
 import at.tugraz.sss.serv.SSDBSQLI;
-import at.kc.tugraz.ss.serv.db.serv.SSDBSQL;
+import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSServImplA;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
@@ -53,7 +53,7 @@ public class SSRecommServ extends SSServContainerI{
   
   @Override
   protected SSServImplA createServImplForThread() throws Exception{
-    return new SSRecommImpl(conf, (SSDBSQLI)SSDBSQL.inst.serv());
+    return new SSRecommImpl(conf);
   }
   
     @Override

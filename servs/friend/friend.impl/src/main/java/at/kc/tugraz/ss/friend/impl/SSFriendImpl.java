@@ -32,8 +32,10 @@ import at.kc.tugraz.ss.friend.datatypes.ret.SSFriendsUserGetRet;
 import at.kc.tugraz.ss.friend.impl.fct.sql.SSFriendSQLFct;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSDBSQLI;
-
 import at.tugraz.sss.serv.SSConfA;
+import at.tugraz.sss.serv.SSDBNoSQL;
+import at.tugraz.sss.serv.SSDBNoSQLI;
+import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.caller.SSServCaller;
@@ -45,8 +47,8 @@ public class SSFriendImpl extends SSServImplWithDBA implements SSFriendClientI, 
   
   private final SSFriendSQLFct sqlFct;
 
-  public SSFriendImpl(final SSConfA conf, final SSDBSQLI dbSQL) throws Exception{
-    super(conf, dbSQL);
+  public SSFriendImpl(final SSConfA conf) throws Exception{
+    super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
     
     this.sqlFct = new SSFriendSQLFct(dbSQL);
   }

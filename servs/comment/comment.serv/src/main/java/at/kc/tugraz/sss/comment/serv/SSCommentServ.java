@@ -22,7 +22,7 @@ package at.kc.tugraz.sss.comment.serv;
 
 import at.tugraz.sss.serv.SSCoreConfA;
 import at.tugraz.sss.serv.SSDBSQLI;
-import at.kc.tugraz.ss.serv.db.serv.SSDBSQL;
+import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSServImplA;
@@ -46,7 +46,7 @@ public class SSCommentServ extends SSServContainerI implements SSCommentServI{
   
   @Override
   protected SSServImplA createServImplForThread() throws Exception{
-    return new SSCommentImpl(conf, (SSDBSQLI) SSDBSQL.inst.serv());
+    return new SSCommentImpl(conf);
   }
 
   @Override

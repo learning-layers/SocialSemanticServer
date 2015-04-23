@@ -31,9 +31,7 @@ import at.tugraz.sss.serv.SSSpaceE;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSEntity;
-
 import at.tugraz.sss.serv.SSConfA;
-import at.tugraz.sss.serv.SSServImplMiscA;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.tugraz.sss.serv.caller.SSServCallerU;
 import at.kc.tugraz.ss.service.search.api.*;
@@ -44,17 +42,22 @@ import at.kc.tugraz.ss.service.search.datatypes.pars.SSSearchTagsWithinEntityPar
 import at.kc.tugraz.ss.service.search.datatypes.ret.SSSearchRet;
 import at.kc.tugraz.ss.service.search.impl.fct.SSSearchFct;
 import at.kc.tugraz.ss.service.search.impl.fct.misc.SSSearchMiscFct;
+import at.tugraz.sss.serv.SSDBNoSQL;
+import at.tugraz.sss.serv.SSDBNoSQLI;
+import at.tugraz.sss.serv.SSDBSQL;
+import at.tugraz.sss.serv.SSDBSQLI;
 import java.util.*;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSServImplWithDBA;
 
-public class SSSearchImpl extends SSServImplMiscA implements SSSearchClientI, SSSearchServerI{
+public class SSSearchImpl extends SSServImplWithDBA implements SSSearchClientI, SSSearchServerI{
   
   protected static final Map<String, SSSearchResultPages> searchResultPagesCache = new HashMap<>();
   
   public SSSearchImpl(final SSConfA conf) throws Exception{
-    super(conf);
+    super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
   }
   
   @Override

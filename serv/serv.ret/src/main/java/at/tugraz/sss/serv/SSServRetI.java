@@ -20,25 +20,16 @@
 */
 package at.tugraz.sss.serv;
 
-public abstract class SSServImplDBA extends SSServImplA{
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
+public abstract class SSServRetI implements SSJSONLDOpI{
   
-  public SSServImplDBA(final SSConfA conf) throws Exception{
-    super(conf);
-  }
-  
-  @Override
-  public void handleClientOp(
-    final Class       servImplClientInteraceClass, 
-    final SSServPar  par) throws Exception{
-    
-    throw new UnsupportedOperationException(SSStrU.empty);
-  }
-  
-  @Override
-  public Object handleServerOp(
-    final Class      servImplServerInteraceClass, 
-    final SSServPar  par) throws Exception{
-    
-    throw new UnsupportedOperationException(SSStrU.empty);
+  @ApiModelProperty(
+    required = true,
+    value = "service operation executed")
+  public final SSServOpE op;
+
+  public SSServRetI(SSServOpE op){
+    this.op = op;
   }
 }

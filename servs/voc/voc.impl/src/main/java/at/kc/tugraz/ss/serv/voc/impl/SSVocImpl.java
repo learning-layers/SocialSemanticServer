@@ -22,12 +22,16 @@ package at.kc.tugraz.ss.serv.voc.impl;
 
 import at.kc.tugraz.ss.serv.voc.api.SSVocI;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
-import at.tugraz.sss.serv.SSServImplMiscA;
+import at.tugraz.sss.serv.SSDBNoSQL;
+import at.tugraz.sss.serv.SSDBNoSQLI;
+import at.tugraz.sss.serv.SSDBSQL;
+import at.tugraz.sss.serv.SSDBSQLI;
+import at.tugraz.sss.serv.SSServImplWithDBA;
 
-public class SSVocImpl extends SSServImplMiscA implements SSVocI{
+public class SSVocImpl extends SSServImplWithDBA implements SSVocI{
  
   public SSVocImpl(final SSVocConf conf) throws Exception{
-    super(conf);
+    super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
   }
 }
 

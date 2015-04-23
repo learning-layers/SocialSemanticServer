@@ -46,6 +46,9 @@ import at.kc.tugraz.ss.service.rating.datatypes.ret.SSRatingUserSetRet;
 import at.kc.tugraz.ss.service.rating.impl.fct.sql.SSRatingSQLFct;
 import at.kc.tugraz.ss.service.rating.datatypes.pars.SSRatingsUserRemovePar;
 import at.kc.tugraz.ss.service.rating.impl.fct.activity.SSRatingActivityFct;
+import at.tugraz.sss.serv.SSDBNoSQL;
+import at.tugraz.sss.serv.SSDBNoSQLI;
+import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -66,9 +69,9 @@ implements
  
   private final SSRatingSQLFct   sqlFct;
     
-  public SSRatingImpl(final SSConfA conf, final SSDBSQLI dbSQL) throws Exception{
+  public SSRatingImpl(final SSConfA conf) throws Exception{
     
-    super(conf, dbSQL);
+    super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
     
     sqlFct   = new SSRatingSQLFct   (this);
   }

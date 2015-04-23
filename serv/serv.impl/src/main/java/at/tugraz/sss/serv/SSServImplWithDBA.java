@@ -20,20 +20,24 @@
 */
 package at.tugraz.sss.serv;
 
-import at.tugraz.sss.serv.SSJSONLDOpI;
-import at.tugraz.sss.serv.SSJSONLDOpI;
-import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.serv.SSServOpE;
-import com.wordnik.swagger.annotations.ApiModelProperty;
-
-public abstract class SSServRetI implements SSJSONLDOpI{
+public abstract class SSServImplWithDBA extends SSServImplA{
   
-  @ApiModelProperty(
-    required = true,
-    value = "service operation executed")
-  public final SSServOpE op;
+  public final SSDBSQLI   dbSQL;
+  public final SSDBNoSQLI dbNoSQL;
 
-  public SSServRetI(SSServOpE op){
-    this.op = op;
+  public SSServImplWithDBA(
+    final SSConfA    conf, 
+    final SSDBSQLI   dbSQL, 
+    final SSDBNoSQLI dbNoSQL){
+    
+    super(conf);
+    
+    this.dbSQL   = dbSQL;
+    this.dbNoSQL = dbNoSQL;
+  }
+  
+  @Override
+  protected void finalizeImpl() throws Exception{
+//    ((SSServImplDBA)dbSQL).finalizeImpl();
   }
 }

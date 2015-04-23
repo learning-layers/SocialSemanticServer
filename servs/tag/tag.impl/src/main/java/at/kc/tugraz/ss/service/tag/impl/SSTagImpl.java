@@ -57,6 +57,9 @@ import at.kc.tugraz.ss.service.tag.impl.fct.activity.SSTagActivityFct;
 import at.kc.tugraz.ss.service.tag.impl.fct.misc.SSTagMiscFct;
 import at.kc.tugraz.ss.service.tag.impl.fct.sql.SSTagSQLFct;
 import at.kc.tugraz.ss.service.tag.impl.fct.userrelationgatherer.SSTagUserRelationGathererFct;
+import at.tugraz.sss.serv.SSDBNoSQL;
+import at.tugraz.sss.serv.SSDBNoSQLI;
+import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
 import java.util.*;
 import at.tugraz.sss.serv.SSErrE;
@@ -75,9 +78,9 @@ implements
   
   private final SSTagSQLFct sqlFct;
   
-  public SSTagImpl(final SSConfA conf, final SSDBSQLI dbSQL) throws Exception{
+  public SSTagImpl(final SSConfA conf) throws Exception{
     
-    super(conf, dbSQL);
+    super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
     
     sqlFct = new SSTagSQLFct (this);
   }

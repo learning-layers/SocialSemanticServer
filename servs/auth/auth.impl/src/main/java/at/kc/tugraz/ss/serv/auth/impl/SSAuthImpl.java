@@ -42,6 +42,9 @@ import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthUsersFromCSVFileAddPar;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.ret.SSAuthCheckCredRet;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
+import at.tugraz.sss.serv.SSDBNoSQL;
+import at.tugraz.sss.serv.SSDBNoSQLI;
+import at.tugraz.sss.serv.SSDBSQL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -55,9 +58,9 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
   private final SSAuthSQLFct    sqlFct;
   private final List<String>    csvFileAuthKeys = new ArrayList<>();
   
-  public SSAuthImpl(final SSAuthConf conf, final SSDBSQLI dbSQL) throws Exception {
+  public SSAuthImpl(final SSAuthConf conf) throws Exception {
     
-    super(conf, dbSQL);
+    super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
     
     this.sqlFct = new SSAuthSQLFct(dbSQL);
     

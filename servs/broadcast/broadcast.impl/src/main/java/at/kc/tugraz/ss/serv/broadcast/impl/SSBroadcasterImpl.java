@@ -27,24 +27,27 @@ import at.kc.tugraz.socialserver.service.broadcast.datatypes.pars.SSBroadcastAdd
 import at.kc.tugraz.socialserver.service.broadcast.datatypes.rets.SSBroadcastServerTimeRet;
 import at.kc.tugraz.socialserver.service.broadcast.datatypes.rets.SSBroadcastAddRet;
 import at.kc.tugraz.socialserver.service.broadcast.datatypes.rets.SSBroadcastsGetRet;
+import at.tugraz.sss.serv.SSDBNoSQL;
+import at.tugraz.sss.serv.SSDBNoSQLI;
+import at.tugraz.sss.serv.SSDBSQL;
+import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSDateU;
 import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.SSSocketCon;
 import at.tugraz.sss.serv.SSServPar;
-
-import at.tugraz.sss.serv.SSServImplMiscA;
 import at.tugraz.sss.serv.caller.SSServCallerU;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-public class SSBroadcasterImpl extends SSServImplMiscA implements SSBroadcasterClientI, SSBroadcasterServerI{
+public class SSBroadcasterImpl extends SSServImplWithDBA implements SSBroadcasterClientI, SSBroadcasterServerI{
 
   private static final List<SSBroadcast>      updateList     = new ArrayList<>();
   private static final ReentrantReadWriteLock updateListLock = new ReentrantReadWriteLock();
   
   public SSBroadcasterImpl(final SSBroadcasterConf conf) throws Exception{
-    super(conf);
+    super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
   }
   
   @Override

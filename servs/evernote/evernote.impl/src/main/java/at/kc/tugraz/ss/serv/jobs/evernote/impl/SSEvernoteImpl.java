@@ -48,6 +48,9 @@ import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteUserAddPar;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteUsersAuthTokenGetPar;
 import at.kc.tugraz.ss.serv.jobs.evernote.impl.fct.sql.SSEvernoteSQLFct;
 import at.tugraz.sss.serv.SSConfA;
+import at.tugraz.sss.serv.SSDBNoSQL;
+import at.tugraz.sss.serv.SSDBNoSQLI;
+import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSEntityDescriberI;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
 import at.tugraz.sss.serv.SSEntityHandlerImplI;
@@ -76,9 +79,9 @@ public class SSEvernoteImpl extends SSServImplWithDBA implements SSEvernoteClien
   
   private final SSEvernoteSQLFct sqlFct;
   
-  public SSEvernoteImpl(final SSConfA conf, final SSDBSQLI dbSQL) throws Exception{
+  public SSEvernoteImpl(final SSConfA conf) throws Exception{
     
-    super(conf, dbSQL);
+    super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
     
     this.sqlFct = new SSEvernoteSQLFct(dbSQL);
   }

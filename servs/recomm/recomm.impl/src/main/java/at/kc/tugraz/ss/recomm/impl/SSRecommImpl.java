@@ -50,6 +50,9 @@ import at.kc.tugraz.ss.recomm.impl.fct.misc.SSRecommUserRealmKeeper;
 import at.kc.tugraz.ss.recomm.impl.fct.sql.SSRecommSQLFct;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSConfA;
+import at.tugraz.sss.serv.SSDBNoSQL;
+import at.tugraz.sss.serv.SSDBNoSQLI;
+import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.tugraz.sss.serv.caller.SSServCallerU;
@@ -68,9 +71,9 @@ public class SSRecommImpl extends SSServImplWithDBA implements SSRecommClientI, 
   private final SSRecommConf   recommConf;
   private final SSRecommSQLFct sqlFct;
   
-  public SSRecommImpl(final SSConfA conf, final SSDBSQLI dbSQL) throws Exception{
+  public SSRecommImpl(final SSConfA conf) throws Exception{
     
-    super(conf, dbSQL);
+    super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
     
     recommConf = ((SSRecommConf)conf);
     sqlFct     = new SSRecommSQLFct(this);

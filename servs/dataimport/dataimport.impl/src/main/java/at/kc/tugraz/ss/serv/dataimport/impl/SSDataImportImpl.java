@@ -48,6 +48,9 @@ import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.tugraz.sss.serv.SSDBNoSQL;
+import at.tugraz.sss.serv.SSDBNoSQLI;
+import at.tugraz.sss.serv.SSDBSQL;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
@@ -69,8 +72,8 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
   private final SSDataImportEvernoteHandler dataImpEvernoteHelper;
   
   
-  public SSDataImportImpl(final SSConfA conf, final SSDBSQLI dbSQL) throws Exception{
-    super(conf, dbSQL);
+  public SSDataImportImpl(final SSConfA conf) throws Exception{
+    super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
     
     this.sqlFct                = new SSDataImportSQLFct         (dbSQL);
     this.dataImpEvernoteHelper = new SSDataImportEvernoteHandler (dbSQL); 

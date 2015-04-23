@@ -158,12 +158,6 @@
     </dependency>
     
     <dependency>
-      <groupId>sss.serv</groupId>
-      <artifactId>serv.caller</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    
-    <dependency>
       <groupId>sss.servs</groupId>
       <artifactId>eval.serv</artifactId>
       <version>${project.version}</version>
@@ -238,12 +232,6 @@
     <dependency>
       <groupId>sss.servs</groupId>
       <artifactId>i5cloud.serv</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>sss.serv</groupId>
-      <artifactId>serv.reg</artifactId>
       <version>${project.version}</version>
     </dependency>
     
@@ -344,8 +332,8 @@
     </dependency>
     
     <dependency>
-      <groupId>sss.servs</groupId>
-      <artifactId>db.serv</artifactId>
+      <groupId>sss.serv</groupId>
+      <artifactId>serv.caller</artifactId>
       <version>${project.version}</version>
     </dependency>
     
@@ -374,8 +362,8 @@
     </dependency>
       
     <dependency>
-      <groupId>sss.servs</groupId>
-      <artifactId>db.conf</artifactId>
+      <groupId>sss.serv</groupId>
+      <artifactId>serv.db.conf</artifactId>
       <version>${project.version}</version>
     </dependency>
     

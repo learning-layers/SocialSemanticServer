@@ -13,12 +13,6 @@
     
     <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>db.serv</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>sss.servs</groupId>
       <artifactId>eval.impl</artifactId>
       <version>${project.version}</version>
     </dependency>
@@ -29,7 +23,11 @@
       <version>${project.version}</version>
     </dependency> 
     
-    
+    <dependency>
+      <groupId>sss.serv</groupId>
+      <artifactId>serv.caller</artifactId>
+      <version>${project.version}</version>
+    </dependency> 
     
     <dependency>
       <groupId>junit</groupId>

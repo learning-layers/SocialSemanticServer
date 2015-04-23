@@ -33,7 +33,7 @@ import at.tugraz.sss.serv.SSCoreConfA;
 import at.kc.tugraz.ss.like.conf.SSLikeConf;
 import at.kc.tugraz.ss.message.conf.SSMessageConf;
 import at.kc.tugraz.ss.recomm.conf.SSFriendConf;
-import at.kc.tugraz.ss.serv.db.conf.SSDBSQLConf;
+import at.tugraz.sss.serv.SSDBSQLConf;
 import at.kc.tugraz.ss.serv.coll.conf.SSCollConf;
 import at.kc.tugraz.ss.serv.dataimport.conf.SSDataImportConf;
 import at.kc.tugraz.ss.serv.serv.datatypes.entity.conf.SSEntityConf;

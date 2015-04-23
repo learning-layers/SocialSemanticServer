@@ -20,13 +20,6 @@
 */
 package at.tugraz.sss.serv;
 
-import at.kc.tugraz.ss.serv.db.conf.SSDBSQLConf;
-import at.kc.tugraz.ss.serv.db.impl.SSDBSQLMySQLImpl;
-import at.tugraz.sss.serv.SSConfA;
-import at.tugraz.sss.serv.SSCoreConfA;
-import at.tugraz.sss.serv.SSServContainerI;
-import at.tugraz.sss.serv.SSServImplA;
-import at.tugraz.sss.serv.SSServReg;
 import java.util.List;
 
 public class SSDBSQL extends SSServContainerI{

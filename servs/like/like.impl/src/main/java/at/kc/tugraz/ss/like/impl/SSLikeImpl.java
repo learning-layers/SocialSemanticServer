@@ -32,6 +32,9 @@ import at.kc.tugraz.ss.like.datatypes.par.SSLikesUserGetPar;
 import at.kc.tugraz.ss.like.datatypes.ret.SSLikeUserSetRet;
 import at.kc.tugraz.ss.like.impl.fct.sql.SSLikeSQLFct;
 import at.tugraz.sss.serv.SSConfA;
+import at.tugraz.sss.serv.SSDBNoSQL;
+import at.tugraz.sss.serv.SSDBNoSQLI;
+import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSErrE;
@@ -45,8 +48,8 @@ public class SSLikeImpl extends SSServImplWithDBA implements SSLikeClientI, SSLi
   
   private final SSLikeSQLFct sqlFct;
 
-  public SSLikeImpl(final SSConfA conf, final SSDBSQLI dbSQL) throws Exception{
-    super(conf, dbSQL);
+  public SSLikeImpl(final SSConfA conf) throws Exception{
+    super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
     
     this.sqlFct = new SSLikeSQLFct(dbSQL);
   }

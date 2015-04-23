@@ -6,12 +6,35 @@
     <artifactId>serv</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
-  <groupId>sss.serv</groupId>
-  <artifactId>serv.api</artifactId>
+  <artifactId>serv.impl</artifactId>
   <packaging>jar</packaging>
-  <name>serv.api</name>
-  
+    
+    
   <dependencies>
+    
+    <dependency>
+      <groupId>sss.serv</groupId>
+      <artifactId>serv.ret</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.serv</groupId>
+      <artifactId>serv.util</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.serv</groupId>
+      <artifactId>serv.db.api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>sss.serv</groupId>
+      <artifactId>serv.par</artifactId>
+      <version>${project.version}</version>
+    </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
@@ -19,42 +42,6 @@
       <version>${project.version}</version>
     </dependency>
     
-    <dependency>
-      <groupId>sss.serv</groupId>
-      <artifactId>serv.jsonld</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>sss.serv</groupId>
-      <artifactId>serv.ops</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>sss.serv</groupId>
-      <artifactId>serv.socket</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>sss.servs</groupId>
-      <artifactId>db.api</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>com.wordnik</groupId>
-      <artifactId>swagger-jersey2-jaxrs_2.10</artifactId>
-      <scope>compile</scope>
-      <version>${ssSwaggerVersion}</version>
-    </dependency>  
-    
-    <!--    <dependency>
-      <groupId>sss.serv</groupId>
-      <artifactId>serv.entities</artifactId>
-      <version>${project.version}</version>
-    </dependency>-->
-    
   </dependencies>
+  
 </project>

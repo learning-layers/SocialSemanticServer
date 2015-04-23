@@ -27,7 +27,6 @@ import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
-
 import at.kc.tugraz.ss.serv.job.dataexport.api.SSDataExportClientI;
 import at.kc.tugraz.ss.serv.job.dataexport.api.SSDataExportServerI;
 import at.kc.tugraz.ss.serv.job.dataexport.conf.SSDataExportConf;
@@ -36,8 +35,11 @@ import at.kc.tugraz.ss.serv.job.dataexport.datatypes.par.SSDataExportUserEntityT
 import at.kc.tugraz.ss.serv.job.dataexport.datatypes.par.SSDataExportUserRelationsPar;
 import at.kc.tugraz.ss.serv.job.dataexport.impl.fct.SSDataExportFct;
 import at.tugraz.sss.serv.SSConfA;
+import at.tugraz.sss.serv.SSDBNoSQL;
+import at.tugraz.sss.serv.SSDBNoSQLI;
+import at.tugraz.sss.serv.SSDBSQL;
+import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSServReg;
-import at.tugraz.sss.serv.SSServImplMiscA;
 import at.tugraz.sss.serv.SSUserRelationGathererI;
 import at.tugraz.sss.serv.SSUsersResourcesGathererI;
 import at.tugraz.sss.serv.caller.SSServCaller;
@@ -53,11 +55,12 @@ import org.apache.commons.lang3.StringUtils;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSServImplWithDBA;
 
-public class SSDataExportImpl extends SSServImplMiscA implements SSDataExportClientI, SSDataExportServerI{
+public class SSDataExportImpl extends SSServImplWithDBA implements SSDataExportClientI, SSDataExportServerI{
   
   public SSDataExportImpl(final SSConfA conf) throws Exception{
-    super(conf);
+    super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
   }
   
   @Override

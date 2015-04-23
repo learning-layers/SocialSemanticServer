@@ -25,7 +25,7 @@ import java.util.List;
 
 public abstract class SSServImplStartA extends SSServImplA implements Runnable{
 
-  public final SSDBSQLI   dbSQL;
+  public final SSDBSQLI dbSQL;
   
   protected static final ThreadLocal<List<SSServImplA>> servImplsUsedByThread = new ThreadLocal<List<SSServImplA>>(){
     
@@ -63,15 +63,18 @@ public abstract class SSServImplStartA extends SSServImplA implements Runnable{
     
     try{
       servImplsUsedByThread.get().remove(this);
-
+      
       usedServs.addAll(servImplsUsedByThread.get());
-
+      
       for(SSServImplA servImpl : usedServs){
         servImpl.finalizeImpl();
       }
     }catch(Exception error){
-      SSLogU.err(error);
+      
+      SSServErrReg.regErr(error);
+//      SSLogU.err(error);
     }finally{
+      SSServErrReg.logServImplErrors();
     }
   }
   

@@ -20,12 +20,6 @@
   
     <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>db.api</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>sss.servs</groupId>
       <artifactId>voc.serv</artifactId>
       <version>${project.version}</version>
     </dependency>
@@ -41,12 +35,6 @@
       <artifactId>circle.conf</artifactId>
       <version>${project.version}</version>
     </dependency>
-    
-    <dependency>
-      <groupId>sss.serv</groupId>
-      <artifactId>serv.reg</artifactId>
-      <version>${project.version}</version>
-    </dependency>    
     
     <dependency>
       <groupId>sss.servs</groupId>

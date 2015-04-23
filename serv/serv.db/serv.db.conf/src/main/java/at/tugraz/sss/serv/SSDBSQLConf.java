@@ -20,8 +20,6 @@
 */
  package at.tugraz.sss.serv;
 
-import at.tugraz.sss.serv.SSCoreServConfA;
-
 public class SSDBSQLConf extends SSCoreServConfA{
   
   public       String         host        = null;

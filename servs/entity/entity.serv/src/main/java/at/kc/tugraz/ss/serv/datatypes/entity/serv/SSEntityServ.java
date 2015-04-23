@@ -26,7 +26,7 @@ import at.kc.tugraz.ss.serv.datatypes.entity.impl.SSEntityImpl;
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSCoreConfA;
 import at.tugraz.sss.serv.SSDBSQLI;
-import at.kc.tugraz.ss.serv.db.serv.SSDBSQL;
+import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSServContainerI;
@@ -49,7 +49,7 @@ public class SSEntityServ extends SSServContainerI{
   
   @Override
   protected SSServImplA createServImplForThread() throws Exception{
-    return new SSEntityImpl(conf, (SSDBSQLI)SSDBSQL.inst.serv());
+    return new SSEntityImpl(conf);
   }
   
   @Override

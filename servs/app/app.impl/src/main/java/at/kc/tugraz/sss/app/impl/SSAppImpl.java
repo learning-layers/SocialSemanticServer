@@ -40,6 +40,9 @@ import at.kc.tugraz.sss.app.datatypes.par.SSAppsGetPar;
 import at.kc.tugraz.sss.app.datatypes.ret.SSAppAddRet;
 import at.kc.tugraz.sss.app.datatypes.ret.SSAppsGetRet;
 import at.kc.tugraz.sss.app.impl.fct.sql.SSAppSQLFct;
+import at.tugraz.sss.serv.SSDBNoSQL;
+import at.tugraz.sss.serv.SSDBNoSQLI;
+import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,9 +55,9 @@ public class SSAppImpl extends SSServImplWithDBA implements SSAppClientI, SSAppS
   
   private final SSAppSQLFct sqlFct;
   
-  public SSAppImpl(final SSConfA conf, final SSDBSQLI dbSQL) throws Exception{
+  public SSAppImpl(final SSConfA conf) throws Exception{
 
-    super(conf, dbSQL);
+    super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
 
     this.sqlFct = new SSAppSQLFct(dbSQL);
   }

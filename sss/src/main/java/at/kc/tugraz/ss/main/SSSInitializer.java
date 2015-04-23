@@ -31,7 +31,7 @@ import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import at.kc.tugraz.ss.friend.serv.SSFriendServ;
 import at.kc.tugraz.ss.like.serv.SSLikeServ;
 import at.kc.tugraz.ss.message.serv.SSMessageServ;
-import at.kc.tugraz.ss.serv.db.serv.SSDBSQL;
+import at.tugraz.sss.serv.SSDBSQL;
 import at.kc.tugraz.ss.serv.jsonld.serv.SSJSONLD;
 import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 import at.kc.tugraz.ss.serv.auth.serv.SSAuthServ;

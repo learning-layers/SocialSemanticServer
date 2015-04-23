@@ -36,23 +36,9 @@
       <version>${project.version}</version>
     </dependency>  
     
-   
-
     <dependency>
       <groupId>sss.serv</groupId>
       <artifactId>serv.caller</artifactId>
-      <version>${project.version}</version>
-    </dependency> 
-    
-<!--    <dependency>
-      <groupId>sss.servs</groupId>
-      <artifactId>entity.datatypes</artifactId>
-      <version>${project.version}</version>
-    </dependency> -->
-
-    <dependency>
-      <groupId>sss.serv</groupId>
-      <artifactId>serv.reg</artifactId>
       <version>${project.version}</version>
     </dependency> 
     

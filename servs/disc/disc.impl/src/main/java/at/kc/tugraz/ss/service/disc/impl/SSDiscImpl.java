@@ -54,6 +54,9 @@ import at.kc.tugraz.ss.service.disc.impl.fct.activity.SSDiscActivityFct;
 import at.kc.tugraz.ss.service.disc.impl.fct.misc.SSDiscMiscFct;
 import at.kc.tugraz.ss.service.disc.impl.fct.op.SSDiscUserEntryAddFct;
 import at.kc.tugraz.ss.service.disc.impl.fct.sql.SSDiscSQLFct;
+import at.tugraz.sss.serv.SSDBNoSQL;
+import at.tugraz.sss.serv.SSDBNoSQLI;
+import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
 import java.util.*;
 import at.tugraz.sss.serv.SSErrE;
@@ -73,9 +76,9 @@ implements
 
   private final SSDiscSQLFct sqlFct;
 
-  public SSDiscImpl(final SSConfA conf, final SSDBSQLI dbSQL) throws Exception {
+  public SSDiscImpl(final SSConfA conf) throws Exception {
 
-    super(conf, dbSQL);
+    super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
 
     sqlFct = new SSDiscSQLFct(this);
   }

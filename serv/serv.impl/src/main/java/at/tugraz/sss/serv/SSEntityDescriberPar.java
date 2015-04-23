@@ -20,6 +20,9 @@
 */
 package at.tugraz.sss.serv;
 
+import at.tugraz.sss.serv.SSEntity;
+import at.tugraz.sss.serv.SSUri;
+
 public class SSEntityDescriberPar{
   
   public SSUri       user                = null;

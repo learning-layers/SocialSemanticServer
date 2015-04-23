@@ -42,24 +42,22 @@ import at.kc.tugraz.ss.serv.modeling.ue.datatypes.pars.SSModelUETopicRecentPar;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.pars.SSModelUETopicScoresPar;
 import at.kc.tugraz.ss.serv.modeling.ue.utils.SSModelUEU;
 import at.tugraz.sss.serv.SSServPar;
-
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.enums.SSModelUEMIEnum;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.rets.SSModelUEMIsForEntityGetRet;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.rets.SSModelUERelatedPersonsRet;
 import at.tugraz.sss.serv.SSConfA;
-import at.tugraz.sss.serv.SSServImplMiscA;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.tugraz.sss.serv.caller.SSServCallerU;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUE;
 import java.util.*;
 
-public class SSModelUEImpl extends SSServImplMiscA implements SSModelUEClientI, SSModelUEServerI{
+public class SSModelUEImpl extends SSServImplWithDBA implements SSModelUEClientI, SSModelUEServerI{
   
   private final Map<String, SSModelUEEntity> resources;
   
   public SSModelUEImpl(final SSConfA conf, final Map<String, SSModelUEEntity> resources) throws Exception{
     
-    super(conf);
+    super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
     
     this.resources = resources;
   }

@@ -18,10 +18,10 @@
   <dependencies>
     
     <dependency>
-      <groupId>sss.servs</groupId>
-      <artifactId>db.serv</artifactId>
+      <groupId>sss.serv</groupId>
+      <artifactId>serv.caller</artifactId>
       <version>${project.version}</version>
-    </dependency> 
+    </dependency>
     
     <dependency>
       <groupId>sss.servs</groupId>
