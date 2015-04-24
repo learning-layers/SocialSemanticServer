@@ -22,7 +22,7 @@ package at.kc.tugraz.sss.video.datatypes.par;
 
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServErrReg;
@@ -51,18 +51,18 @@ public class SSVideosUserGetPar extends SSServPar{
     try{
       
       if(pars != null){
-        forEntity           = (SSUri)   pars.get(SSVarU.forEntity);
-        forUser             = (SSUri)   pars.get(SSVarU.forUser);
+        forEntity           = (SSUri)   pars.get(SSVarNames.forEntity);
+        forUser             = (SSUri)   pars.get(SSVarNames.forUser);
       }
       
       if(par.clientJSONObj != null){
         
          try{
-          forUser          = SSUri.get        (par.clientJSONObj.get(SSVarU.forUser).getTextValue());
+          forUser          = SSUri.get        (par.clientJSONObj.get(SSVarNames.forUser).getTextValue());
         }catch(Exception error){}
         
         try{
-          forEntity          = SSUri.get        (par.clientJSONObj.get(SSVarU.forEntity).getTextValue());
+          forEntity          = SSUri.get        (par.clientJSONObj.get(SSVarNames.forEntity).getTextValue());
         }catch(Exception error){}
       }
     }catch(Exception error){

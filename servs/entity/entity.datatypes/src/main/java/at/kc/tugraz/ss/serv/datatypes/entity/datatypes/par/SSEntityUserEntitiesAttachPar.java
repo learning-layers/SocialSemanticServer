@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par;
 
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSErr;
@@ -41,8 +41,8 @@ public class SSEntityUserEntitiesAttachPar extends SSServPar{
     try{
       
       if(pars != null){
-        entity       = (SSUri)       pars.get(SSVarU.entity);
-        entities     = (List<SSUri>) pars.get(SSVarU.entities);
+        entity       = (SSUri)       pars.get(SSVarNames.entity);
+        entities     = (List<SSUri>) pars.get(SSVarNames.entities);
       }
       
     }catch(Exception error){

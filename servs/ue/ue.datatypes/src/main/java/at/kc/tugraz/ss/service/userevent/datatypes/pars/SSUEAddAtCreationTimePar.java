@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.service.userevent.datatypes.pars;
 
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUEE;
@@ -40,10 +40,10 @@ public class SSUEAddAtCreationTimePar extends SSServPar{
     try{
       
       if(pars != null){
-        entity       = (SSUri)    pars.get(SSVarU.entity);
-        type         = (SSUEE)    pars.get(SSVarU.type);
-        content      = (String)   pars.get(SSVarU.content);
-        creationTime = (Long)     pars.get(SSVarU.creationTime);
+        entity       = (SSUri)    pars.get(SSVarNames.entity);
+        type         = (SSUEE)    pars.get(SSVarNames.type);
+        content      = (String)   pars.get(SSVarNames.content);
+        creationTime = (Long)     pars.get(SSVarNames.creationTime);
       }
       
     }catch(Exception error){

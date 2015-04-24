@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.recomm.datatypes.par;
 
 import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServErrReg;
@@ -48,11 +48,11 @@ public class SSRecommUpdateBulkPar extends SSServPar{
     try{
       
       if(pars != null){
-        realm      = (String)    pars.get(SSVarU.realm);
+        realm      = (String)    pars.get(SSVarNames.realm);
       }
       
       if(par.clientJSONObj != null){
-        realm    = par.clientJSONObj.get(SSVarU.realm).getTextValue();
+        realm    = par.clientJSONObj.get(SSVarNames.realm).getTextValue();
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

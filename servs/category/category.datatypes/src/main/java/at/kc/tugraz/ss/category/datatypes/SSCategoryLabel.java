@@ -111,6 +111,6 @@ public class SSCategoryLabel extends SSEntityA{
   
   @Override
   public Object jsonLDDesc() {
-    return SSVarU.xsd + SSStrU.colon + SSStrU.valueString;
+    return SSVarNames.xsd + SSStrU.colon + SSStrU.valueString;
   }
 }

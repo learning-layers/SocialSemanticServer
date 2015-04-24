@@ -25,7 +25,7 @@ import at.tugraz.sss.serv.SSFileU;
 import at.tugraz.sss.serv.SSJSONU;
 import at.tugraz.sss.serv.SSMimeTypeE;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.kc.tugraz.ss.adapter.rest.conf.SSAdapterRestConf;
 import at.tugraz.sss.serv.SSSocketCon;
 import at.tugraz.sss.serv.SSServPar;
@@ -160,13 +160,11 @@ public class SSRestMainV2 extends Application {
       try{
         sssJSONResponseRootNode = sssJSONResponseMapper.readTree(restObj.sssResponseMessage);
 
-        if(sssJSONResponseRootNode.get(SSVarU.error).getBooleanValue()){
+        if(sssJSONResponseRootNode.get(SSVarNames.error).getBooleanValue()){
 
           restObj.response =
-            Response.status(500).entity(
-              getJSONStrForError(
-                sssJSONResponseRootNode.get(SSVarU.id).getTextValue(),
-                sssJSONResponseRootNode.get(SSVarU.message).getTextValue())).build();
+            Response.status(500).entity(getJSONStrForError(sssJSONResponseRootNode.get(SSVarNames.id).getTextValue(),
+                sssJSONResponseRootNode.get(SSVarNames.message).getTextValue())).build();
 
         }else{
           restObj.response =
@@ -210,15 +208,15 @@ public class SSRestMainV2 extends Application {
     final Map<String, Object> jsonObj     = new HashMap<>();
     
     if(id == null){
-      jsonObj.put(SSVarU.id,                      null);
+      jsonObj.put(SSVarNames.id,                      null);
     }else{
-      jsonObj.put(SSVarU.id,                      id.toString());
+      jsonObj.put(SSVarNames.id,                      id.toString());
     }
     
     if(id == null){
-      jsonObj.put(SSVarU.message,               null);
+      jsonObj.put(SSVarNames.message,               null);
     }else{
-      jsonObj.put(SSVarU.message,               id.toString());
+      jsonObj.put(SSVarNames.message,               id.toString());
     }
     
     try{
@@ -235,20 +233,20 @@ public class SSRestMainV2 extends Application {
     final Map<String, Object> jsonObj     = new HashMap<>();
     
     if(id == null){
-      jsonObj.put(SSVarU.id,                      null);
+      jsonObj.put(SSVarNames.id,                      null);
     }else{
-      jsonObj.put(SSVarU.id,                      id);
+      jsonObj.put(SSVarNames.id,                      id);
     }
     
     if(message == null){
       
       if(id == null){
-        jsonObj.put(SSVarU.message,               null);
+        jsonObj.put(SSVarNames.message,               null);
       }else{
-        jsonObj.put(SSVarU.message,               id);
+        jsonObj.put(SSVarNames.message,               id);
       }
     }else{
-      jsonObj.put(SSVarU.message,               message);
+      jsonObj.put(SSVarNames.message,               message);
     }
     
     try{

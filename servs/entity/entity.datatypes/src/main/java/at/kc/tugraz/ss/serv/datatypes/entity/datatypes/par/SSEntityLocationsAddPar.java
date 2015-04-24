@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par;
 
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSLocation;
@@ -43,8 +43,8 @@ public class SSEntityLocationsAddPar extends SSServPar{
       
       
       if(pars != null){
-        entity         = (SSUri)               pars.get(SSVarU.entity);
-        locations      = (List<SSLocation>)    pars.get(SSVarU.locations);
+        entity         = (SSUri)               pars.get(SSVarNames.entity);
+        locations      = (List<SSLocation>)    pars.get(SSVarNames.locations);
       }
     }catch(Exception error){
       throw new SSErr(SSErrE.servParCreationFailed);

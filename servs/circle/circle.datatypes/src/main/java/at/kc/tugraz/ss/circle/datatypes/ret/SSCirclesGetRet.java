@@ -17,7 +17,7 @@ package at.kc.tugraz.ss.circle.datatypes.ret;
 
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServRetI;
 import at.tugraz.sss.serv.SSEntityCircle;
 import at.tugraz.sss.serv.SSJSONLDU;
@@ -54,10 +54,10 @@ public class SSCirclesGetRet extends SSServRetI{
     final Map<String, Object> ld           = new HashMap<>();
     final Map<String, Object> circlesObj   = new HashMap<>();
     
-    circlesObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSEntityCircle.class.getName());
+    circlesObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSEntityCircle.class.getName());
     circlesObj.put(SSJSONLDU.container, SSJSONLDU.set);
     
-    ld.put(SSVarU.circles, circlesObj);
+    ld.put(SSVarNames.circles, circlesObj);
     
     return ld;
   }

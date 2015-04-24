@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.adapter.rest.v2.pars.tag;
 
 import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.kc.tugraz.ss.adapter.rest.v2.SSRestMainV2;
 import at.tugraz.sss.serv.SSUri;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
@@ -235,7 +235,7 @@ public class SSRESTTags{
     @Context 
       final HttpHeaders headers,
     
-    @PathParam(SSVarU.entity) 
+    @PathParam(SSVarNames.entity) 
       final String entity,
     
     final SSTagsRemoveRESTAPIV2Par     input){
@@ -271,10 +271,10 @@ public class SSRESTTags{
     @Context 
       final HttpHeaders headers,
     
-    @PathParam(SSVarU.tag)
+    @PathParam(SSVarNames.tag)
       final String tag,
     
-    @PathParam(SSVarU.entity)
+    @PathParam(SSVarNames.entity)
       final String entity,
     
     final SSTagAddRESTAPIV2Par input){
@@ -311,10 +311,10 @@ public class SSRESTTags{
     @Context 
       final HttpHeaders headers,
     
-    @PathParam(SSVarU.tag) 
+    @PathParam(SSVarNames.tag) 
       final String tag,
     
-    @PathParam(SSVarU.entity) 
+    @PathParam(SSVarNames.entity) 
       final String entity,
     
     final SSTagEditRESTAPIV2Par     input) throws Exception{

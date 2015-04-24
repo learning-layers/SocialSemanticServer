@@ -20,7 +20,7 @@
 */
  package at.kc.tugraz.ss.service.user.datatypes.pars;
 
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServErrReg;
@@ -38,9 +38,9 @@ public class SSUserAddPar extends SSServPar{
     try{
       
       if(pars != null){
-        this.email         = (String)  pars.get(SSVarU.email);
-        this.label         = (SSLabel) pars.get(SSVarU.label);
-        this.isSystemUser  = (Boolean) pars.get(SSVarU.isSystemUser);
+        this.email         = (String)  pars.get(SSVarNames.email);
+        this.label         = (SSLabel) pars.get(SSVarNames.label);
+        this.isSystemUser  = (Boolean) pars.get(SSVarNames.isSystemUser);
       }
       
     }catch(Exception error){

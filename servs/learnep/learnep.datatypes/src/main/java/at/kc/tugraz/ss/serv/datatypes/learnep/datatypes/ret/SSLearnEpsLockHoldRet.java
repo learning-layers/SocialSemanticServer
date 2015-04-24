@@ -22,7 +22,7 @@ package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret;
 
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServRetI;
 import at.tugraz.sss.serv.SSJSONLDU;
 import java.util.ArrayList;
@@ -58,10 +58,10 @@ public class SSLearnEpsLockHoldRet extends SSServRetI{
     final Map<String, Object> ld                = new HashMap<>();
     final Map<String, Object> learnEpLocksObj   = new HashMap<>();
     
-    learnEpLocksObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSLearnEpLockHoldRet.class.getName());
+    learnEpLocksObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSLearnEpLockHoldRet.class.getName());
     learnEpLocksObj.put(SSJSONLDU.container, SSJSONLDU.set);
     
-    ld.put(SSVarU.colls, learnEpLocksObj);
+    ld.put(SSVarNames.colls, learnEpLocksObj);
     
     return ld;
   }

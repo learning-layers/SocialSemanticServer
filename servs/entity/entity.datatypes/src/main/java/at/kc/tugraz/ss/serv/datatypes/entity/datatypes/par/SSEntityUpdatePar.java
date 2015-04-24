@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par;
 
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.SSUri;
@@ -48,14 +48,14 @@ public class SSEntityUpdatePar extends SSServPar{
     try{
       
       if(pars != null){
-        entity         = (SSUri)               pars.get(SSVarU.entity);
-        label          = (SSLabel)             pars.get(SSVarU.label);
-        description    = (SSTextComment)       pars.get(SSVarU.description);
-        comments       = (List<SSTextComment>) pars.get(SSVarU.comments);
-        downloads      = (List<SSUri>) pars.get(SSVarU.downloads);
-        screenShots    = (List<SSUri>) pars.get(SSVarU.screenShots);
-        images         = (List<SSUri>) pars.get(SSVarU.images);
-        videos         = (List<SSUri>) pars.get(SSVarU.videos);
+        entity         = (SSUri)               pars.get(SSVarNames.entity);
+        label          = (SSLabel)             pars.get(SSVarNames.label);
+        description    = (SSTextComment)       pars.get(SSVarNames.description);
+        comments       = (List<SSTextComment>) pars.get(SSVarNames.comments);
+        downloads      = (List<SSUri>) pars.get(SSVarNames.downloads);
+        screenShots    = (List<SSUri>) pars.get(SSVarNames.screenShots);
+        images         = (List<SSUri>) pars.get(SSVarNames.images);
+        videos         = (List<SSUri>) pars.get(SSVarNames.videos);
       }
     }catch(Exception error){
       throw new SSErr(SSErrE.servParCreationFailed);

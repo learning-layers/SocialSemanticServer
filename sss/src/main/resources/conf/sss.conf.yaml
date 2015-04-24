@@ -11,6 +11,10 @@ dbSQL: !!at.kc.tugraz.ss.serv.db.conf.SSDBSQLConf
   username: SSS_MYSQL_USERNAME
   password: SSS_MYSQL_PASSWORD
   schema: SSS_MYSQL_SCHEME
+dbNoSQL: !!at.kc.tugraz.ss.serv.db.conf.SSDBNoSQLConf
+  uri: 
+  username: 
+  password: 
 voc:
   use: true
 auth: 

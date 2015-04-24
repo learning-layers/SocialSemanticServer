@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.adapter.rest.v2.pars.circle;
 
 import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.kc.tugraz.ss.adapter.rest.v2.SSRestMainV2;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleCreatePar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesAddPar;
@@ -103,7 +103,7 @@ public class SSRESTCircles{
     @Context                   
       final HttpHeaders headers,
     
-    @PathParam (SSVarU.user)   
+    @PathParam (SSVarNames.user)   
       final String user){
     
     final SSCirclesGetPar par;
@@ -140,7 +140,7 @@ public class SSRESTCircles{
     @Context                    
       final HttpHeaders  headers,
     
-    @PathParam (SSVarU.circle)  
+    @PathParam (SSVarNames.circle)  
       final String circle, 
     
     final SSCircleGetRESTAPIV2Par input){
@@ -179,10 +179,10 @@ public class SSRESTCircles{
     @Context                    
       final HttpHeaders  headers,
     
-    @PathParam (SSVarU.user)    
+    @PathParam (SSVarNames.user)    
       final String user,
     
-    @PathParam (SSVarU.circle)  
+    @PathParam (SSVarNames.circle)  
       final String circle, 
     
     final SSCircleGetRESTAPIV2Par input){
@@ -252,7 +252,7 @@ public class SSRESTCircles{
     @Context 
       final HttpHeaders headers,
     
-    @PathParam (SSVarU.circle) 
+    @PathParam (SSVarNames.circle) 
       final String circle,
     
     final SSCircleUsersAddRESTAPIV2Par input){
@@ -288,7 +288,7 @@ public class SSRESTCircles{
     @Context 
       final HttpHeaders headers,
     
-    @PathParam (SSVarU.circle) 
+    @PathParam (SSVarNames.circle) 
       final String circle,
     
     final SSCircleEntitiesAddRESTAPIV2Par input){
@@ -326,7 +326,7 @@ public class SSRESTCircles{
     @Context 
       final HttpHeaders headers,
     
-    @PathParam(SSVarU.circle) 
+    @PathParam(SSVarNames.circle) 
       final String circle,
     
     final SSCircleEntitiesRemoveRESTAPIV2Par input){

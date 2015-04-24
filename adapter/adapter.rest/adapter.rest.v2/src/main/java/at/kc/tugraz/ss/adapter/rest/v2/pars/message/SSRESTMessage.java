@@ -28,7 +28,7 @@ import at.kc.tugraz.ss.message.datatypes.ret.SSMessagesGetRet;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import javax.ws.rs.Consumes;
@@ -88,7 +88,7 @@ public class SSRESTMessage{
     @Context 
       final HttpHeaders headers, 
     
-    @PathParam(SSVarU.forUser) 
+    @PathParam(SSVarNames.forUser) 
       final String forUser,
     
     final SSMessageSendRESTAPIV2Par input){

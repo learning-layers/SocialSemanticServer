@@ -22,7 +22,7 @@ package at.kc.tugraz.ss.service.search.datatypes.pars;
 
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSServPar;
@@ -188,26 +188,26 @@ public class SSSearchPar extends SSServPar{
         par.op,
         par.key,
         par.user,
-        (Boolean)                par.pars.get(SSVarU.includeTextualContent),
-        (List<String>)           par.pars.get(SSVarU.wordsToSearchFor),
-        (Boolean)                par.pars.get(SSVarU.includeTags),
-        (List<String>)           par.pars.get(SSVarU.tagsToSearchFor),
-        (Boolean)                par.pars.get(SSVarU.includeLabel),
-        (List<SSSearchLabel>)    par.pars.get(SSVarU.labelsToSearchFor),
-        (Boolean)                par.pars.get(SSVarU.includeDescription),
-        (List<SSSearchLabel>)    par.pars.get(SSVarU.descriptionsToSearchFor),
-        (List<SSEntityE>)        par.pars.get(SSVarU.typesToSearchOnlyFor),
-        (Boolean)                par.pars.get(SSVarU.includeOnlySubEntities),
-        (List<SSUri>)            par.pars.get(SSVarU.entitiesToSearchWithin),
-        (Boolean)                par.pars.get(SSVarU.extendToParents),
-        (Boolean)                par.pars.get(SSVarU.includeRecommendedResults),
-        (Boolean)                par.pars.get(SSVarU.provideEntries),
-        (String)                 par.pars.get(SSVarU.pagesID),
-        (Integer)                par.pars.get(SSVarU.pageNumber),
-        (Integer)                par.pars.get(SSVarU.minRating),
-        (Integer)                par.pars.get(SSVarU.maxRating),
-        (SSSearchOpE)            par.pars.get(SSVarU.localSearchOp), 
-        (SSSearchOpE)            par.pars.get(SSVarU.globalSearchOp));
+        (Boolean)                par.pars.get(SSVarNames.includeTextualContent),
+        (List<String>)           par.pars.get(SSVarNames.wordsToSearchFor),
+        (Boolean)                par.pars.get(SSVarNames.includeTags),
+        (List<String>)           par.pars.get(SSVarNames.tagsToSearchFor),
+        (Boolean)                par.pars.get(SSVarNames.includeLabel),
+        (List<SSSearchLabel>)    par.pars.get(SSVarNames.labelsToSearchFor),
+        (Boolean)                par.pars.get(SSVarNames.includeDescription),
+        (List<SSSearchLabel>)    par.pars.get(SSVarNames.descriptionsToSearchFor),
+        (List<SSEntityE>)        par.pars.get(SSVarNames.typesToSearchOnlyFor),
+        (Boolean)                par.pars.get(SSVarNames.includeOnlySubEntities),
+        (List<SSUri>)            par.pars.get(SSVarNames.entitiesToSearchWithin),
+        (Boolean)                par.pars.get(SSVarNames.extendToParents),
+        (Boolean)                par.pars.get(SSVarNames.includeRecommendedResults),
+        (Boolean)                par.pars.get(SSVarNames.provideEntries),
+        (String)                 par.pars.get(SSVarNames.pagesID),
+        (Integer)                par.pars.get(SSVarNames.pageNumber),
+        (Integer)                par.pars.get(SSVarNames.minRating),
+        (Integer)                par.pars.get(SSVarNames.maxRating),
+        (SSSearchOpE)            par.pars.get(SSVarNames.localSearchOp), 
+        (SSSearchOpE)            par.pars.get(SSVarNames.globalSearchOp));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

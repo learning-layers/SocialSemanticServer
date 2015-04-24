@@ -21,7 +21,7 @@
 package at.kc.tugraz.sss.comment.impl.fct.sql;
 
 import at.tugraz.sss.serv.SSDBSQLFct;
-import at.tugraz.sss.serv.SSSQLVarU;
+import at.tugraz.sss.serv.SSSQLVarNames;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSDBSQLI;
@@ -49,20 +49,20 @@ public class SSCommentSQLFct extends SSDBSQLFct{
       final List<String>        tableCons         = new ArrayList<>();
       final Map<String, String> wheres            = new HashMap<>();
       
-      column(columns, commentsTable, SSSQLVarU.entityId);
+      column(columns, SSSQLVarNames.commentsTable, SSSQLVarNames.entityId);
       
-      table (tables, commentsTable);
+      table (tables, SSSQLVarNames.commentsTable);
       
       if(forUser != null){
         
-        where   (wheres,    entityTable, SSSQLVarU.author, forUser);
-        table   (tables,    entityTable);
-        tableCon(tableCons, entityTable,  SSSQLVarU.id,    commentsTable,  SSSQLVarU.commentId);
+        where   (wheres, SSSQLVarNames.entityTable, SSSQLVarNames.author, forUser);
+        table   (tables, SSSQLVarNames.entityTable);
+        tableCon(tableCons, SSSQLVarNames.entityTable,  SSSQLVarNames.id, SSSQLVarNames.commentsTable,  SSSQLVarNames.commentId);
       }
       
       resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
       
-      return getURIsFromResult(resultSet, SSSQLVarU.entityId);
+      return getURIsFromResult(resultSet, SSSQLVarNames.entityId);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -84,28 +84,28 @@ public class SSCommentSQLFct extends SSDBSQLFct{
       final List<String>        tableCons         = new ArrayList<>();
       final Map<String, String> wheres            = new HashMap<>();
       
-      column(columns, SSSQLVarU.commentContent);
+      column(columns, SSSQLVarNames.commentContent);
       
-      table(tables, commentTable);
-      table(tables, commentsTable);
+      table(tables, SSSQLVarNames.commentTable);
+      table(tables, SSSQLVarNames.commentsTable);
       
       if(entity != null){
-        where(wheres, commentsTable, SSSQLVarU.entityId, entity);
+        where(wheres, SSSQLVarNames.commentsTable, SSSQLVarNames.entityId, entity);
       }
       
       if(forUser != null){
         
-        column  (columns,   SSSQLVarU.author);
-        where   (wheres,    entityTable, SSSQLVarU.author, forUser);
-        table   (tables,    entityTable);
-        tableCon(tableCons, entityTable,  SSSQLVarU.id,        commentTable,  SSSQLVarU.commentId);
+        column  (columns,   SSSQLVarNames.author);
+        where   (wheres, SSSQLVarNames.entityTable, SSSQLVarNames.author, forUser);
+        table   (tables, SSSQLVarNames.entityTable);
+        tableCon(tableCons, SSSQLVarNames.entityTable,  SSSQLVarNames.id, SSSQLVarNames.commentTable,  SSSQLVarNames.commentId);
       }
       
-      tableCon(tableCons, commentTable, SSSQLVarU.commentId, commentsTable, SSSQLVarU.commentId);
+      tableCon(tableCons, SSSQLVarNames.commentTable, SSSQLVarNames.commentId, SSSQLVarNames.commentsTable, SSSQLVarNames.commentId);
       
       resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
       
-      return getTextCommentsFromResult(resultSet, SSSQLVarU.commentContent);
+      return getTextCommentsFromResult(resultSet, SSSQLVarNames.commentContent);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -122,10 +122,10 @@ public class SSCommentSQLFct extends SSDBSQLFct{
     try{
       final Map<String, String> inserts = new HashMap<>();
       
-      insert(inserts, SSSQLVarU.entityId,  entity);
-      insert(inserts, SSSQLVarU.commentId, commentUri);
+      insert(inserts, SSSQLVarNames.entityId,  entity);
+      insert(inserts, SSSQLVarNames.commentId, commentUri);
       
-      dbSQL.insert(commentsTable, inserts);
+      dbSQL.insert(SSSQLVarNames.commentsTable, inserts);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -139,10 +139,10 @@ public class SSCommentSQLFct extends SSDBSQLFct{
     try{
       final Map<String, String> inserts = new HashMap<>();
       
-      insert(inserts, SSSQLVarU.commentId,      commentUri);
-      insert(inserts, SSSQLVarU.commentContent, content);
+      insert(inserts, SSSQLVarNames.commentId,      commentUri);
+      insert(inserts, SSSQLVarNames.commentContent, content);
       
-      dbSQL.insert(commentTable, inserts);
+      dbSQL.insert(SSSQLVarNames.commentTable, inserts);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

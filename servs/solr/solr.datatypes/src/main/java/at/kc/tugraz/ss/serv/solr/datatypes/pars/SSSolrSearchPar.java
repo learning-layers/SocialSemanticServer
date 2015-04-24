@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.serv.solr.datatypes.pars;
 
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.kc.tugraz.ss.serv.solr.datatypes.SSSolrKeywordLabel;
@@ -36,8 +36,8 @@ public class SSSolrSearchPar extends SSServPar{
     
     try{
       if(pars != null){
-        keyword    = SSSolrKeywordLabel.get((String) pars.get(SSVarU.keyword));
-        maxResults = (Integer)             pars.get(SSVarU.maxResults);
+        keyword    = SSSolrKeywordLabel.get((String) pars.get(SSVarNames.keyword));
+        maxResults = (Integer)             pars.get(SSVarNames.maxResults);
       }
       
     }catch(Exception error){

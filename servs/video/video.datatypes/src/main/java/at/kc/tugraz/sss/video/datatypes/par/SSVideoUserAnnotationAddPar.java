@@ -22,7 +22,7 @@ package at.kc.tugraz.sss.video.datatypes.par;
 
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSLabel;
@@ -66,27 +66,27 @@ public class SSVideoUserAnnotationAddPar extends SSServPar{
     try{
       
       if(pars != null){
-        video               = (SSUri)          pars.get(SSVarU.video);
-        timePoint           = (Long)           pars.get(SSVarU.timePoint);
-        x                   = (Float)          pars.get(SSVarU.x);
-        y                   = (Float)          pars.get(SSVarU.y);
-        label               = (SSLabel)        pars.get(SSVarU.label);
-        description         = (SSTextComment)  pars.get(SSVarU.description);
+        video               = (SSUri)          pars.get(SSVarNames.video);
+        timePoint           = (Long)           pars.get(SSVarNames.timePoint);
+        x                   = (Float)          pars.get(SSVarNames.x);
+        y                   = (Float)          pars.get(SSVarNames.y);
+        label               = (SSLabel)        pars.get(SSVarNames.label);
+        description         = (SSTextComment)  pars.get(SSVarNames.description);
       }
       
       if(par.clientJSONObj != null){
         
-        video               = SSUri.get(par.clientJSONObj.get(SSVarU.video).getTextValue());
-        timePoint           =  par.clientJSONObj.get(SSVarU.timePoint).getLongValue();
-        x                   =  par.clientJSONObj.get(SSVarU.x).getNumberValue().floatValue();
-        y                   =  par.clientJSONObj.get(SSVarU.y).getNumberValue().floatValue();
+        video               = SSUri.get(par.clientJSONObj.get(SSVarNames.video).getTextValue());
+        timePoint           =  par.clientJSONObj.get(SSVarNames.timePoint).getLongValue();
+        x                   =  par.clientJSONObj.get(SSVarNames.x).getNumberValue().floatValue();
+        y                   =  par.clientJSONObj.get(SSVarNames.y).getNumberValue().floatValue();
         
         try{
-          label =  SSLabel.get(par.clientJSONObj.get(SSVarU.label).getTextValue());
+          label =  SSLabel.get(par.clientJSONObj.get(SSVarNames.label).getTextValue());
         }catch(Exception error){}
         
         try{
-          description =  SSTextComment.get(par.clientJSONObj.get(SSVarU.description).getTextValue());
+          description =  SSTextComment.get(par.clientJSONObj.get(SSVarNames.description).getTextValue());
         }catch(Exception error){}
       }
     }catch(Exception error){

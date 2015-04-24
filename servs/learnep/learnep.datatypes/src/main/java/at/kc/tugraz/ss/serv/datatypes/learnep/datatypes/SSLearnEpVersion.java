@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes;
 
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSJSONLDU;
 import at.tugraz.sss.serv.SSUri;
@@ -101,18 +101,18 @@ public class SSLearnEpVersion extends SSEntity{
     final Map<String, Object> learnEpCirclesObj  = new HashMap<>();
     final Map<String, Object> learnEpEntitiesObj = new HashMap<>();
     
-    ld.put(SSVarU.learnEp,                SSVarU.sss + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarU.learnEpTimelineState,   SSVarU.sss + SSStrU.colon + SSLearnEpTimelineState.class.getName());
+    ld.put(SSVarNames.learnEp,                SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarNames.learnEpTimelineState,   SSVarNames.sss + SSStrU.colon + SSLearnEpTimelineState.class.getName());
     
-    learnEpEntitiesObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSLearnEpEntity.class.getName());
+    learnEpEntitiesObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSLearnEpEntity.class.getName());
     learnEpEntitiesObj.put(SSJSONLDU.container, SSJSONLDU.set);
     
-    ld.put(SSVarU.learnEpEntities, learnEpEntitiesObj);
+    ld.put(SSVarNames.learnEpEntities, learnEpEntitiesObj);
     
-    learnEpCirclesObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSLearnEpCircle.class.getName());
+    learnEpCirclesObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSLearnEpCircle.class.getName());
     learnEpCirclesObj.put(SSJSONLDU.container, SSJSONLDU.set);
     
-    ld.put(SSVarU.learnEpCircles, learnEpCirclesObj);
+    ld.put(SSVarNames.learnEpCircles, learnEpCirclesObj);
     
     return ld;
   }

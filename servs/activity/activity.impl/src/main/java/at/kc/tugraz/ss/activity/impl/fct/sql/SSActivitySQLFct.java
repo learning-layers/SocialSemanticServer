@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.activity.impl.fct.sql;
 
-import at.tugraz.sss.serv.SSSQLVarU;
+import at.tugraz.sss.serv.SSSQLVarNames;
 import at.tugraz.sss.serv.SSStrU;
 import at.kc.tugraz.ss.activity.datatypes.SSActivity;
 import at.kc.tugraz.ss.activity.datatypes.SSActivityContent;
@@ -57,11 +57,11 @@ public class SSActivitySQLFct extends SSDBSQLFct{
       
       final Map<String, String> inserts = new HashMap<>();
       
-      insert(inserts, SSSQLVarU.activityId,     activity);
-      insert(inserts, SSSQLVarU.contentType,    contentType);
-      insert(inserts, SSSQLVarU.content,        content);
+      insert(inserts, SSSQLVarNames.activityId,     activity);
+      insert(inserts, SSSQLVarNames.contentType,    contentType);
+      insert(inserts, SSSQLVarNames.content,        content);
       
-      dbSQL.insert(activityContentsTable, inserts);
+      dbSQL.insert(SSSQLVarNames.activityContentsTable, inserts);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -78,16 +78,14 @@ public class SSActivitySQLFct extends SSDBSQLFct{
       final Map<String, String>       wheres         = new HashMap<>();
       final List<String>              columns        = new ArrayList<>();
       
-      column(columns, SSSQLVarU.content);
+      column(columns, SSSQLVarNames.content);
       
-      where(wheres, SSSQLVarU.activityId, activity);
+      where(wheres, SSSQLVarNames.activityId, activity);
       
-      resultSet = dbSQL.select(activityContentsTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(SSSQLVarNames.activityContentsTable, columns, wheres, null, null, null);
       
       while(resultSet.next()){
-        contents.add(
-          SSActivityContent.get(
-            bindingStr(resultSet, SSSQLVarU.content)));
+        contents.add(SSActivityContent.get(bindingStr(resultSet, SSSQLVarNames.content)));
       }
       
       return contents;
@@ -113,45 +111,45 @@ public class SSActivitySQLFct extends SSDBSQLFct{
       
       final Map<String, String> inserts = new HashMap<>();
       
-      insert(inserts, SSSQLVarU.activityId,     activity);
-      insert(inserts, SSSQLVarU.activityType,   type);
+      insert(inserts, SSSQLVarNames.activityId,     activity);
+      insert(inserts, SSSQLVarNames.activityType,   type);
       
       if(entity != null){
-        insert(inserts, SSSQLVarU.entityId,   entity);
+        insert(inserts, SSSQLVarNames.entityId,   entity);
       }else{
-        insert(inserts, SSSQLVarU.entityId,   SSStrU.empty);
+        insert(inserts, SSSQLVarNames.entityId,   SSStrU.empty);
       }
       
       if(!textComments.isEmpty()){
-        insert(inserts, SSSQLVarU.textComment,   textComments.get(0));
+        insert(inserts, SSSQLVarNames.textComment,   textComments.get(0));
       }else{
-        insert(inserts, SSSQLVarU.textComment,   SSStrU.empty);
+        insert(inserts, SSSQLVarNames.textComment,   SSStrU.empty);
       }
       
-      dbSQL.insert(activityTable, inserts);
+      dbSQL.insert(SSSQLVarNames.activityTable, inserts);
       
       inserts.clear();
-      insert(inserts, SSSQLVarU.activityId,     activity);
-      insert(inserts, SSSQLVarU.userId,         author);
+      insert(inserts, SSSQLVarNames.activityId,     activity);
+      insert(inserts, SSSQLVarNames.userId,         author);
       
-      dbSQL.insert(activityUsersTable, inserts);
+      dbSQL.insert(SSSQLVarNames.activityUsersTable, inserts);
         
       for(SSUri user : users){
 
         inserts.clear();
-        insert(inserts, SSSQLVarU.activityId,     activity);
-        insert(inserts, SSSQLVarU.userId,         user);
+        insert(inserts, SSSQLVarNames.activityId,     activity);
+        insert(inserts, SSSQLVarNames.userId,         user);
         
-        dbSQL.insert(activityUsersTable, inserts);
+        dbSQL.insert(SSSQLVarNames.activityUsersTable, inserts);
       }
       
       for(SSUri entityUri : entityUris){
 
         inserts.clear();
-        insert(inserts, SSSQLVarU.activityId,     activity);
-        insert(inserts, SSSQLVarU.entityId,       entityUri);
+        insert(inserts, SSSQLVarNames.activityId,     activity);
+        insert(inserts, SSSQLVarNames.entityId,       entityUri);
         
-        dbSQL.insert(activityEntitiesTable, inserts);
+        dbSQL.insert(SSSQLVarNames.activityEntitiesTable, inserts);
       }
       
     }catch(Exception error){
@@ -181,29 +179,29 @@ public class SSActivitySQLFct extends SSDBSQLFct{
       SSActivity                                                   activityObj;
       SSEntity                                                     activityEntity;
 
-      table    (tables,    activityTable);
-      table    (tables,    entityTable);
+      table    (tables, SSSQLVarNames.activityTable);
+      table    (tables, SSSQLVarNames.entityTable);
       
-      column   (columns,   entityTable,   SSSQLVarU.id);
-      column   (columns,   entityTable,   SSSQLVarU.author);
-      column   (columns,   activityTable, SSSQLVarU.activityType);
-      column   (columns,   activityTable, SSSQLVarU.entityId);
-      column   (columns,   entityTable,   SSSQLVarU.creationTime);
-      column   (columns,   activityTable, SSSQLVarU.textComment);
+      column   (columns, SSSQLVarNames.entityTable,   SSSQLVarNames.id);
+      column   (columns, SSSQLVarNames.entityTable,   SSSQLVarNames.author);
+      column   (columns, SSSQLVarNames.activityTable, SSSQLVarNames.activityType);
+      column   (columns, SSSQLVarNames.activityTable, SSSQLVarNames.entityId);
+      column   (columns, SSSQLVarNames.entityTable,   SSSQLVarNames.creationTime);
+      column   (columns, SSSQLVarNames.activityTable, SSSQLVarNames.textComment);
 
-      tableCon (tableCons, activityTable, SSSQLVarU.activityId, entityTable, SSSQLVarU.id);
+      tableCon (tableCons, SSSQLVarNames.activityTable, SSSQLVarNames.activityId, SSSQLVarNames.entityTable, SSSQLVarNames.id);
       
       if(
         users != null &&
         !users.isEmpty()){
         
-        table    (tables,    activityUsersTable);
-        tableCon (tableCons, activityUsersTable,    SSSQLVarU.activityId, entityTable, SSSQLVarU.id);
+        table    (tables, SSSQLVarNames.activityUsersTable);
+        tableCon (tableCons, SSSQLVarNames.activityUsersTable,    SSSQLVarNames.activityId, SSSQLVarNames.entityTable, SSSQLVarNames.id);
         
         final MultivaluedMap<String, String> whereUsers = new MultivaluedHashMap<>();
         
         for(SSUri user : users){
-          where(whereUsers, activityUsersTable, SSSQLVarU.userId, user);
+          where(whereUsers, SSSQLVarNames.activityUsersTable, SSSQLVarNames.userId, user);
         }
         
         wheres.add(whereUsers);
@@ -213,13 +211,13 @@ public class SSActivitySQLFct extends SSDBSQLFct{
         entities != null &&
         !entities.isEmpty()){
 
-        table    (tables,    activityEntitiesTable);
-        tableCon (tableCons, activityEntitiesTable, SSSQLVarU.activityId, entityTable, SSSQLVarU.id);
+        table    (tables, SSSQLVarNames.activityEntitiesTable);
+        tableCon (tableCons, SSSQLVarNames.activityEntitiesTable, SSSQLVarNames.activityId, SSSQLVarNames.entityTable, SSSQLVarNames.id);
       
         final MultivaluedMap<String, String> whereEntities = new MultivaluedHashMap<>();
         
         for(SSUri entity : entities){
-          where(whereEntities, activityEntitiesTable, SSSQLVarU.entityId, entity);
+          where(whereEntities, SSSQLVarNames.activityEntitiesTable, SSSQLVarNames.entityId, entity);
         }
         
         wheres.add(whereEntities);
@@ -232,7 +230,7 @@ public class SSActivitySQLFct extends SSDBSQLFct{
         final MultivaluedMap<String, String> whereTypes = new MultivaluedHashMap<>();
         
         for(SSActivityE type : types){
-          where(whereTypes, activityTable, SSSQLVarU.activityType, type);
+          where(whereTypes, SSSQLVarNames.activityTable, SSSQLVarNames.activityType, type);
         }
         
         wheres.add(whereTypes);
@@ -247,7 +245,7 @@ public class SSActivitySQLFct extends SSDBSQLFct{
         
         wheresNumeric.put(SSStrU.greaterThan, greaterWheres);
         
-        where(whereNumbericStartTimes, entityTable, SSSQLVarU.creationTime, startTime);
+        where(whereNumbericStartTimes, SSSQLVarNames.entityTable, SSSQLVarNames.creationTime, startTime);
         
         greaterWheres.add(whereNumbericStartTimes);
       }
@@ -261,7 +259,7 @@ public class SSActivitySQLFct extends SSDBSQLFct{
         
         wheresNumeric.put(SSStrU.lessThan,    lessWheres);
         
-        where(whereNumbericEndTimes, entityTable, SSSQLVarU.creationTime, endTime);
+        where(whereNumbericEndTimes, SSSQLVarNames.entityTable, SSSQLVarNames.creationTime, endTime);
         
         lessWheres.add(whereNumbericEndTimes);
       }
@@ -269,7 +267,7 @@ public class SSActivitySQLFct extends SSDBSQLFct{
       if(!wheresNumeric.isEmpty()){
         
         if(sortByTime){
-          resultSet = dbSQL.select(tables, columns, wheres, wheresNumeric, tableCons, SSSQLVarU.creationTime, "DESC", limit);
+          resultSet = dbSQL.select(tables, columns, wheres, wheresNumeric, tableCons, SSSQLVarNames.creationTime, "DESC", limit);
         }else{
           resultSet = dbSQL.select(tables, columns, wheres, wheresNumeric, tableCons, null, null, limit);
         }
@@ -277,7 +275,7 @@ public class SSActivitySQLFct extends SSDBSQLFct{
       }else{
         
         if(sortByTime){
-          resultSet = dbSQL.select(tables, columns, wheres, tableCons, SSSQLVarU.creationTime, "DESC", limit);
+          resultSet = dbSQL.select(tables, columns, wheres, tableCons, SSSQLVarNames.creationTime, "DESC", limit);
         }else{
           resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, limit);
         }
@@ -291,9 +289,9 @@ public class SSActivitySQLFct extends SSDBSQLFct{
         
       while(resultSet.next()){
         
-        author = bindingStrToUri  (resultSet, SSSQLVarU.author);
-        entity = bindingStrToUri  (resultSet, SSSQLVarU.entityId);
-        type   = SSActivityE.get  (bindingStr(resultSet, SSSQLVarU.activityType));
+        author = bindingStrToUri  (resultSet, SSSQLVarNames.author);
+        entity = bindingStrToUri  (resultSet, SSSQLVarNames.entityId);
+        type   = SSActivityE.get  (bindingStr(resultSet, SSSQLVarNames.activityType));
         
         if(
           includeOnlyLastActivities &&
@@ -319,18 +317,15 @@ public class SSActivitySQLFct extends SSDBSQLFct{
         }
         
         activityObj = 
-          SSActivity.get(
-            bindingStrToUri  (resultSet, SSSQLVarU.id),
+          SSActivity.get(bindingStrToUri  (resultSet, SSSQLVarNames.id),
             type,
             activityEntity, 
             new ArrayList<>());
 
-        activityObj.creationTime   = bindingStrToLong (resultSet, SSSQLVarU.creationTime);
+        activityObj.creationTime   = bindingStrToLong (resultSet, SSSQLVarNames.creationTime);
         activityObj.author         = author;
 
-        activityObj.comments.addAll(
-          SSTextComment.asListWithoutNullAndEmpty(
-            SSTextComment.get(bindingStr(resultSet, SSSQLVarU.textComment))));
+        activityObj.comments.addAll(SSTextComment.asListWithoutNullAndEmpty(SSTextComment.get(bindingStr(resultSet, SSSQLVarNames.textComment))));
         
         activities.add(activityObj);
       }
@@ -355,15 +350,15 @@ public class SSActivitySQLFct extends SSDBSQLFct{
       final Map<String, String>       wheres         = new HashMap<>();
       final List<String>              tableCons      = new ArrayList<>();
       
-      table    (tables,    activityTable);
-      table    (tables,    activityUsersTable);
-      column   (columns,   SSSQLVarU.userId);
-      where    (wheres,    activityTable,        SSSQLVarU.activityId, activity);
-      tableCon (tableCons, activityTable,        SSSQLVarU.activityId, activityUsersTable, SSSQLVarU.activityId);
+      table    (tables, SSSQLVarNames.activityTable);
+      table    (tables, SSSQLVarNames.activityUsersTable);
+      column   (columns,   SSSQLVarNames.userId);
+      where    (wheres, SSSQLVarNames.activityTable,        SSSQLVarNames.activityId, activity);
+      tableCon (tableCons, SSSQLVarNames.activityTable,        SSSQLVarNames.activityId, SSSQLVarNames.activityUsersTable, SSSQLVarNames.activityId);
       
       resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
       
-      return getURIsFromResult(resultSet, SSSQLVarU.userId);
+      return getURIsFromResult(resultSet, SSSQLVarNames.userId);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -383,15 +378,15 @@ public class SSActivitySQLFct extends SSDBSQLFct{
       final Map<String, String>       wheres         = new HashMap<>();
       final List<String>              tableCons      = new ArrayList<>();
       
-      table    (tables,    activityTable);
-      table    (tables,    activityEntitiesTable);
-      column   (columns,   activityEntitiesTable,  SSSQLVarU.entityId);
-      where    (wheres,    activityTable,          SSSQLVarU.activityId, activity);
-      tableCon (tableCons, activityTable,          SSSQLVarU.activityId, activityEntitiesTable, SSSQLVarU.activityId);
+      table    (tables, SSSQLVarNames.activityTable);
+      table    (tables, SSSQLVarNames.activityEntitiesTable);
+      column   (columns, SSSQLVarNames.activityEntitiesTable,  SSSQLVarNames.entityId);
+      where    (wheres, SSSQLVarNames.activityTable,          SSSQLVarNames.activityId, activity);
+      tableCon (tableCons, SSSQLVarNames.activityTable,          SSSQLVarNames.activityId, SSSQLVarNames.activityEntitiesTable, SSSQLVarNames.activityId);
       
       resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
       
-      return getURIsFromResult(resultSet, SSSQLVarU.entityId);
+      return getURIsFromResult(resultSet, SSSQLVarNames.entityId);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -412,35 +407,34 @@ public class SSActivitySQLFct extends SSDBSQLFct{
       final SSActivity                           activityObj;
       final SSUri                                entity;
 
-      column(columns, entityTable,   SSSQLVarU.id);
-      column(columns, entityTable,   SSSQLVarU.author);
-      column(columns, entityTable,   SSSQLVarU.creationTime);
-      column(columns, activityTable, SSSQLVarU.activityType);
-      column(columns, activityTable, SSSQLVarU.entityId);
-      column(columns, activityTable, SSSQLVarU.textComment);
+      column(columns, SSSQLVarNames.entityTable,   SSSQLVarNames.id);
+      column(columns, SSSQLVarNames.entityTable,   SSSQLVarNames.author);
+      column(columns, SSSQLVarNames.entityTable,   SSSQLVarNames.creationTime);
+      column(columns, SSSQLVarNames.activityTable, SSSQLVarNames.activityType);
+      column(columns, SSSQLVarNames.activityTable, SSSQLVarNames.entityId);
+      column(columns, SSSQLVarNames.activityTable, SSSQLVarNames.textComment);
       
-      table(tables, activityTable);
-      table(tables, entityTable);
+      table(tables, SSSQLVarNames.activityTable);
+      table(tables, SSSQLVarNames.entityTable);
       
-      where(wheres, SSSQLVarU.activityId, activity);
+      where(wheres, SSSQLVarNames.activityId, activity);
       
-      tableCon(tableCons, activityTable, SSSQLVarU.activityId, entityTable, SSSQLVarU.id);
+      tableCon(tableCons, SSSQLVarNames.activityTable, SSSQLVarNames.activityId, SSSQLVarNames.entityTable, SSSQLVarNames.id);
       
       resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
       
       checkFirstResult(resultSet);
       
       activityObj = 
-        SSActivity.get(
-          bindingStrToUri  (resultSet, SSSQLVarU.id), 
-          SSActivityE.get  (bindingStr(resultSet, SSSQLVarU.activityType)),
+        SSActivity.get(bindingStrToUri  (resultSet, SSSQLVarNames.id), 
+          SSActivityE.get  (bindingStr(resultSet, SSSQLVarNames.activityType)),
           null,
           new ArrayList<>());
         
-      activityObj.author       = bindingStrToUri  (resultSet, SSSQLVarU.author);
-      activityObj.creationTime = bindingStrToLong (resultSet, SSSQLVarU.creationTime);
+      activityObj.author       = bindingStrToUri  (resultSet, SSSQLVarNames.author);
+      activityObj.creationTime = bindingStrToLong (resultSet, SSSQLVarNames.creationTime);
       
-      entity = bindingStrToUri  (resultSet, SSSQLVarU.entityId);
+      entity = bindingStrToUri  (resultSet, SSSQLVarNames.entityId);
       
       if(entity != null){
         
@@ -452,9 +446,7 @@ public class SSActivitySQLFct extends SSDBSQLFct{
         activityObj.entity = null;
       }
       
-      activityObj.comments.addAll(
-        SSTextComment.asListWithoutNullAndEmpty(
-          SSTextComment.get(bindingStr(resultSet, SSSQLVarU.textComment))));
+      activityObj.comments.addAll(SSTextComment.asListWithoutNullAndEmpty(SSTextComment.get(bindingStr(resultSet, SSSQLVarNames.textComment))));
     
       return activityObj;
       

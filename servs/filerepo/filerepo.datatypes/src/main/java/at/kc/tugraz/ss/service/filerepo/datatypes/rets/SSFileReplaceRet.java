@@ -22,7 +22,7 @@
 
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServRetI;
 import at.tugraz.sss.serv.SSUri;
 import java.util.HashMap;
@@ -49,8 +49,8 @@ public class SSFileReplaceRet extends SSServRetI{
     
     final Map<String, Object> ld = new HashMap<>();
     
-    ld.put(SSVarU.file,    SSVarU.sss + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarU.user,    SSVarU.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarNames.file,    SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarNames.user,    SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
     
     return ld;
   }

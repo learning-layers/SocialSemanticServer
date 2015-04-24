@@ -23,7 +23,7 @@ package at.kc.tugraz.ss.category.datatypes.ret;
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSJSONLDU;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.kc.tugraz.ss.category.datatypes.SSCategoryFrequ;
 import at.tugraz.sss.serv.SSServRetI;
 import java.util.ArrayList;
@@ -59,10 +59,10 @@ public class SSCategoryUserFrequsGetRet extends SSServRetI{
     Map<String, Object> ld                    = new HashMap<>();
     Map<String, Object> categoryFrequsObj     = new HashMap<>();
     
-    categoryFrequsObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSCategoryFrequ.class.getName());
+    categoryFrequsObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSCategoryFrequ.class.getName());
     categoryFrequsObj.put(SSJSONLDU.container, SSJSONLDU.set);
     
-    ld.put(SSVarU.categoryFrequs, categoryFrequsObj);
+    ld.put(SSVarNames.categoryFrequs, categoryFrequsObj);
     
     return ld;
   }

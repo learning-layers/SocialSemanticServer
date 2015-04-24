@@ -23,7 +23,7 @@ package at.kc.tugraz.ss.service.user.datatypes.ret;
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSJSONLDU;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServRetI;
 import at.kc.tugraz.ss.service.user.datatypes.SSUser;
 import java.util.ArrayList;
@@ -59,10 +59,10 @@ public class SSUserAllRet extends SSServRetI{
     final Map<String, Object> ld         = new HashMap<>();
     final Map<String, Object> usersObj   = new HashMap<>();
     
-    usersObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSUser.class.getName());
+    usersObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSUser.class.getName());
     usersObj.put(SSJSONLDU.container, SSJSONLDU.set);
     
-    ld.put(SSVarU.users, usersObj);
+    ld.put(SSVarNames.users, usersObj);
     
     return ld;
   }

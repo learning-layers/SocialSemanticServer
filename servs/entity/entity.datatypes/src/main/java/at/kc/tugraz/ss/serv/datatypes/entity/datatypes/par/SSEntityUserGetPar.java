@@ -22,7 +22,7 @@ package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par;
 
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSErr;
@@ -53,15 +53,15 @@ public class SSEntityUserGetPar extends SSServPar{
     try{
       
       if(pars != null){
-        entity  = (SSUri)   pars.get(SSVarU.entity);
-        forUser = (SSUri)   pars.get(SSVarU.forUser);
+        entity  = (SSUri)   pars.get(SSVarNames.entity);
+        forUser = (SSUri)   pars.get(SSVarNames.forUser);
       }
       
       if(par.clientJSONObj != null){
-        entity = SSUri.get(par.clientJSONObj.get(SSVarU.entity).getTextValue());
+        entity = SSUri.get(par.clientJSONObj.get(SSVarNames.entity).getTextValue());
         
         try{
-          forUser = SSUri.get(par.clientJSONObj.get(SSVarU.forUser).getTextValue());
+          forUser = SSUri.get(par.clientJSONObj.get(SSVarNames.forUser).getTextValue());
         }catch(Exception error){}
       }
       

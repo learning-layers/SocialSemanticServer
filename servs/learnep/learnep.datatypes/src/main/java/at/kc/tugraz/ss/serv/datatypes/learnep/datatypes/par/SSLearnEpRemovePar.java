@@ -22,7 +22,7 @@ package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par;
 
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServErrReg;
@@ -49,12 +49,12 @@ public class SSLearnEpRemovePar extends SSServPar{
     try{
       
       if(pars != null){
-        learnEp    = (SSUri)  pars.get(SSVarU.learnEp);
+        learnEp    = (SSUri)  pars.get(SSVarNames.learnEp);
         
       }
       
       if(par.clientJSONObj != null){
-        learnEp   = SSUri.get (par.clientJSONObj.get(SSVarU.learnEp).getTextValue());
+        learnEp   = SSUri.get (par.clientJSONObj.get(SSVarNames.learnEp).getTextValue());
       }
       
     }catch(Exception error){

@@ -22,7 +22,7 @@ package at.kc.tugraz.ss.service.coll.datatypes.ret;
 
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServRetI;
 import at.tugraz.sss.serv.SSJSONLDU;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagFrequ;
@@ -54,10 +54,10 @@ public class SSCollUserCumulatedTagsGetRet extends SSServRetI{
     Map<String, Object> ld           = new HashMap<>();
     Map<String, Object> tagFrequsObj = new HashMap<>();
     
-    tagFrequsObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSTagFrequ.class.getName());
+    tagFrequsObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSTagFrequ.class.getName());
     tagFrequsObj.put(SSJSONLDU.container, SSJSONLDU.set);
     
-    ld.put(SSVarU.tagFrequs, tagFrequsObj);
+    ld.put(SSVarNames.tagFrequs, tagFrequsObj);
     
     return ld;
   }

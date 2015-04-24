@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par;
 
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServErrReg;
@@ -37,8 +37,8 @@ public class SSEvernoteResourceAddPar extends SSServPar{
     try{
       
       if(pars != null){
-        note      = (SSUri)   pars.get(SSVarU.note);
-        resource  = (SSUri)   pars.get(SSVarU.resource);
+        note      = (SSUri)   pars.get(SSVarNames.note);
+        resource  = (SSUri)   pars.get(SSVarNames.resource);
       }
       
     }catch(Exception error){

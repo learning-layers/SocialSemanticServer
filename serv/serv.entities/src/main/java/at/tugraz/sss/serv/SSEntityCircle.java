@@ -53,13 +53,13 @@ public class SSEntityCircle extends SSEntity{
     final Map<String, Object> ld              = (Map<String, Object>) super.jsonLDDesc();
     final Map<String, Object> accessRightsObj = new HashMap<>();
     
-    ld.put(SSVarU.circleType,      SSVarU.sss + SSStrU.colon + SSCircleE.class.getName());
-    ld.put(SSVarU.isSystemCircle,  SSVarU.xsd + SSStrU.colon + SSStrU.valueBoolean);
+    ld.put(SSVarNames.circleType,      SSVarNames.sss + SSStrU.colon + SSCircleE.class.getName());
+    ld.put(SSVarNames.isSystemCircle,  SSVarNames.xsd + SSStrU.colon + SSStrU.valueBoolean);
     
-    accessRightsObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSCircleRightE.class.getName());
+    accessRightsObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSCircleRightE.class.getName());
     accessRightsObj.put(SSJSONLDU.container, SSJSONLDU.set);
     
-    ld.put(SSVarU.accessRights, accessRightsObj);
+    ld.put(SSVarNames.accessRights, accessRightsObj);
     
     return ld;
   }

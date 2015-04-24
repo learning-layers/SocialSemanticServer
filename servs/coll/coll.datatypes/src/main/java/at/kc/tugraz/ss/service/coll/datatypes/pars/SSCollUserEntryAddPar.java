@@ -21,7 +21,7 @@
  package at.kc.tugraz.ss.service.coll.datatypes.pars;
 
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
@@ -80,22 +80,22 @@ public class SSCollUserEntryAddPar extends SSServPar{
     try{
       
       if(pars != null){
-        coll           = (SSUri)       pars.get(SSVarU.coll);
-        entry          = (SSUri)       pars.get(SSVarU.entry);
-        label          = (SSLabel)     pars.get(SSVarU.label);
-        addNewColl     = (Boolean)     pars.get(SSVarU.addNewColl);
+        coll           = (SSUri)       pars.get(SSVarNames.coll);
+        entry          = (SSUri)       pars.get(SSVarNames.entry);
+        label          = (SSLabel)     pars.get(SSVarNames.label);
+        addNewColl     = (Boolean)     pars.get(SSVarNames.addNewColl);
       }
       
       if(par.clientJSONObj != null){
-        coll  = SSUri.get       (par.clientJSONObj.get(SSVarU.coll).getTextValue());
-        label = SSLabel.get     (par.clientJSONObj.get(SSVarU.label).getTextValue());
+        coll  = SSUri.get       (par.clientJSONObj.get(SSVarNames.coll).getTextValue());
+        label = SSLabel.get     (par.clientJSONObj.get(SSVarNames.label).getTextValue());
         
         try{
-          addNewColl     = par.clientJSONObj.get(SSVarU.addNewColl).getBooleanValue();
+          addNewColl     = par.clientJSONObj.get(SSVarNames.addNewColl).getBooleanValue();
         }catch(Exception error){}
         
         try{
-          entry      = SSUri.get       (par.clientJSONObj.get(SSVarU.entry).getTextValue());
+          entry      = SSUri.get       (par.clientJSONObj.get(SSVarNames.entry).getTextValue());
         }catch(Exception error){}
       }
     }catch(Exception error){

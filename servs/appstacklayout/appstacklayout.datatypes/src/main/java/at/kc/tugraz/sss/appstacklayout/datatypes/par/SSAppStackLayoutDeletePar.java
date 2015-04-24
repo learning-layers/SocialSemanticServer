@@ -22,7 +22,7 @@ package at.kc.tugraz.sss.appstacklayout.datatypes.par;
 
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServErrReg;
@@ -49,11 +49,11 @@ public class SSAppStackLayoutDeletePar extends SSServPar{
     try{
       
       if(pars != null){
-        stack             = (SSUri)         pars.get(SSVarU.stack);
+        stack             = (SSUri)         pars.get(SSVarNames.stack);
       }
       
       if(par.clientJSONObj != null){
-        stack =  SSUri.get(par.clientJSONObj.get(SSVarU.stack).getTextValue());
+        stack =  SSUri.get(par.clientJSONObj.get(SSVarNames.stack).getTextValue());
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

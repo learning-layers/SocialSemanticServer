@@ -22,7 +22,7 @@ package at.kc.tugraz.ss.category.datatypes.par;
 
 import at.kc.tugraz.ss.category.datatypes.SSCategoryLabel;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSSpaceE;
 import at.tugraz.sss.serv.SSServPar;
@@ -80,30 +80,30 @@ public class SSCategoryUserEntitiesForCategoriesGetPar extends SSServPar{
     try{
      
       if(pars != null){
-        forUser     = (SSUri)                       pars.get(SSVarU.forUser);
-        labels      = SSCategoryLabel.get((List<String>) pars.get(SSVarU.labels));
-        space       = (SSSpaceE)                    pars.get(SSVarU.space);
-        startTime   = (Long)                        pars.get(SSVarU.startTime);
+        forUser     = (SSUri)                       pars.get(SSVarNames.forUser);
+        labels      = SSCategoryLabel.get((List<String>) pars.get(SSVarNames.labels));
+        space       = (SSSpaceE)                    pars.get(SSVarNames.space);
+        startTime   = (Long)                        pars.get(SSVarNames.startTime);
       }
       
       if(par.clientJSONObj != null){
         
         try{
-          for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.labels)) {
+          for (final JsonNode objNode : par.clientJSONObj.get(SSVarNames.labels)) {
             labels.add(SSCategoryLabel.get(objNode.getTextValue()));
           }
         }catch(Exception error){}
         
         try{
-          forUser      = SSUri.get(par.clientJSONObj.get(SSVarU.forUser).getTextValue());
+          forUser      = SSUri.get(par.clientJSONObj.get(SSVarNames.forUser).getTextValue());
         }catch(Exception error){}
         
         try{
-          space      = SSSpaceE.get  (par.clientJSONObj.get(SSVarU.space).getTextValue());
+          space      = SSSpaceE.get  (par.clientJSONObj.get(SSVarNames.space).getTextValue());
         }catch(Exception error){}
         
         try{
-          startTime      = par.clientJSONObj.get(SSVarU.startTime).getLongValue();
+          startTime      = par.clientJSONObj.get(SSVarNames.startTime).getLongValue();
         }catch(Exception error){}
       }
       

@@ -21,7 +21,7 @@
 package at.kc.tugraz.sss.comment.datatypes.par;
 
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServErrReg;
 
@@ -37,8 +37,8 @@ public class SSCommentsGetPar extends SSServPar{
     try{
       
       if(pars != null){
-        entity   = (SSUri)              pars.get(SSVarU.entity);
-        forUser  = (SSUri)              pars.get(SSVarU.forUser);
+        entity   = (SSUri)              pars.get(SSVarNames.entity);
+        forUser  = (SSUri)              pars.get(SSVarNames.forUser);
       }
       
     }catch(Exception error){

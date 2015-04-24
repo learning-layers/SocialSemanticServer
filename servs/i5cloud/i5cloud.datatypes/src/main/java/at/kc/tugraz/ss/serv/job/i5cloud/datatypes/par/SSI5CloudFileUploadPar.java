@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.serv.job.i5cloud.datatypes.par;
 
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServErrReg;
 
@@ -36,9 +36,9 @@ public class SSI5CloudFileUploadPar extends SSServPar{
     try{
       
       if(pars != null){
-        label           = (String) pars.get(SSVarU.label);
-        authToken       = (String) pars.get(SSVarU.authToken);
-        space           = (String) pars.get(SSVarU.space);
+        label           = (String) pars.get(SSVarNames.label);
+        authToken       = (String) pars.get(SSVarNames.authToken);
+        space           = (String) pars.get(SSVarNames.space);
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

@@ -20,7 +20,7 @@
 */
 package at.tugraz.sss.serv;
 
-public class SSSQLVarU{
+public class SSSQLVarNames{
 
   public static final String realm                                          = "realm";
   public static final String usn                                            = "usn";
@@ -63,9 +63,7 @@ public class SSSQLVarU{
   public static final String discEntryContent                               = "discEntryContent";
   public static final String discEntryId                                    = "discEntryId";
   public static final String discId                                         = "discId";
-//  public static final String discLabel                                      = "discLabel";
   public static final String learnEpEntityId                                = "learnEpEntityId";
-//  public static final String learnEpCircleLabel                             = "learnEpCircleLabel";
   public static final String xLabel                                         = "xLabel";
   public static final String yLabel                                         = "yLabel";
   public static final String xR                                             = "xR";
@@ -116,4 +114,119 @@ public class SSSQLVarU{
   public static final String label                                          = "label";
   public static final String pos                                            = "pos";
   public static final String friendId                                       = "friendId";
+  
+  //coll
+  public static final String collHierarchyTable = "collhierarchy";
+  public static final String collRootTable = "collroot";
+  public static final String collTable = "coll";
+  public static final String collSpecialTable = "collspecial";
+  public static final String collUserTable = "colluser";
+  public static final String collEntryPosTable = "collentrypos";
+
+//recomm
+  public static final String recommUserRealmsTable = "recommuserrealms";
+  
+  //likes
+  public static final String likesTable = "likes";
+  
+  //app
+  public static final String appTable = "app";
+  
+  //friend
+  public static final String friendsTable = "friends";
+  
+  //ue
+  public static final String uesTable = "ues";
+  
+  //file
+  public static final String filesTable = "files";
+
+  //image
+  public static final String imageTable = "image";
+  
+  //video
+  public static final String videoTable = "video";
+  public static final String videoAnnotationTable = "videoannotation";
+  public static final String userVideosTable = "uservideos";
+  public static final String videoAnnotationsTable = "videoannotations";
+  
+  //app stack
+  public static final String appStackLayoutTable = "appstacklayout";
+  public static final String appStackLayoutTileTable = "appstacklayouttile";
+  public static final String appStackLayoutTilesTable = "appstacklayouttiles";
+  
+  //message
+  public static final String messageTable = "message";
+
+  //thumb
+  public static final String thumbnailsTable = "thumbnails";
+  
+  //flag
+  public static final String flagTable = "flag";
+  public static final String flagsTable = "flags";
+  
+//learn ep
+  public static final String learnEpVersionsTable                           = "learnepversions";
+  public static final String learnEpVersionTable = "learnepversion";
+  public static final String learnEpUserTable = "learnepuser";
+  public static final String learnEpVersionCurrentTable = "learnepversioncurrent";
+  public static final String learnEpVersionTimelineStatesTable = "learnepversiontimelinestates";
+  public static final String learnEpVersionEntitiesTable = "learnepversionentities";
+  public static final String learnEpEntityTable = "learnepentity";
+  public static final String learnEpTimelineStateTable = "learneptimelinestate";
+  public static final String learnEpVersionCirclesTable = "learnepversioncircles";
+  public static final String learnEpCircleTable = "learnepcircle";
+  public static final String learnEpTable = "learnep";
+
+  //tag
+  public static final String tagAssTable = "tagass";
+  
+  //comment
+  public static final String commentTable = "comment";
+  public static final String commentsTable = "comments";
+  
+  //evernote
+  public static final String evernoteResourceTable = "evernoteresource";
+  public static final String evernoteNoteTable = "evernotenote";
+  public static final String evernoteUserTable = "evernoteuser";
+  
+  //disc
+  public static final String discUserTable = "discuser";
+  public static final String discTable = "disc";
+  public static final String discEntryTable = "discentry";
+  public static final String discEntriesTable = "discentries";
+  
+  //activity
+  public static final String activityContentsTable = "activitycontents";
+  public static final String activityTable = "activity";
+  public static final String activityUsersTable = "activityusers";
+  public static final String activityEntitiesTable = "activityentities";
+  
+  //entity
+  public static final String entityTable = "entity";
+  public static final String entityReadsTable = "entityreads";
+  public static final String entitiesTable = "entities";
+  
+  //user
+  public static final String userTable = "user";
+  
+  //circle
+  public static final String circleUsersTable = "circleusers";
+  public static final String circleEntitiesTable = "circleentities";
+  public static final String circleTable = "circle";
+  
+  //downloads
+  public static final String downloadsTable = "downloads";
+  
+  //auth
+  public static final String authTable = "auth";
+  
+  //category
+  public static final String categoryAssTable = "categoryass";
+  public static final String categoryTable = "category";
+  
+  
+  //location
+  public static final String locationTable = "location";
+  public static final String entityLocationsTable = "entitylocations";
 }

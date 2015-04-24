@@ -22,7 +22,7 @@ package at.kc.tugraz.ss.recomm.datatypes.par;
 
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServErrReg;
@@ -75,26 +75,26 @@ public class SSRecommUpdateBulkEntitiesPar extends SSServPar{
     try{
       
       if(pars != null){
-        realm       = (String)             pars.get(SSVarU.realm);
-        forUser     = (SSUri)              pars.get(SSVarU.forUser);
-        entities    = (List<SSUri>)        pars.get(SSVarU.entities);
-        tags        = (List<List<String>>) pars.get(SSVarU.tags);
-        categories  = (List<List<String>>) pars.get(SSVarU.categories);
+        realm       = (String)             pars.get(SSVarNames.realm);
+        forUser     = (SSUri)              pars.get(SSVarNames.forUser);
+        entities    = (List<SSUri>)        pars.get(SSVarNames.entities);
+        tags        = (List<List<String>>) pars.get(SSVarNames.tags);
+        categories  = (List<List<String>>) pars.get(SSVarNames.categories);
       }
       
       if(par.clientJSONObj != null){
         
-        realm      = par.clientJSONObj.get(SSVarU.realm).getTextValue();
-        forUser    = SSUri.get  (par.clientJSONObj.get(SSVarU.forUser).getTextValue());
+        realm      = par.clientJSONObj.get(SSVarNames.realm).getTextValue();
+        forUser    = SSUri.get  (par.clientJSONObj.get(SSVarNames.forUser).getTextValue());
         
-        for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.entities)) {
+        for (final JsonNode objNode : par.clientJSONObj.get(SSVarNames.entities)) {
           entities.add(SSUri.get(objNode.getTextValue()));
         }
         
         try{
           List<String> entityTags;
           
-          for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.tags)) {
+          for (final JsonNode objNode : par.clientJSONObj.get(SSVarNames.tags)) {
             
             entityTags = new ArrayList<>();
             
@@ -109,7 +109,7 @@ public class SSRecommUpdateBulkEntitiesPar extends SSServPar{
        try{
           List<String> entityCategories;
           
-          for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.categories)) {
+          for (final JsonNode objNode : par.clientJSONObj.get(SSVarNames.categories)) {
             
             entityCategories = new ArrayList<>();
             

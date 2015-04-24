@@ -21,7 +21,7 @@
 package at.kc.tugraz.sss.video.datatypes;
 
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSJSONLDPropI;
 import java.util.ArrayList;
 import java.util.List;
@@ -68,6 +68,6 @@ public enum SSVideoE implements SSJSONLDPropI{
   
   @Override
   public Object jsonLDDesc(){
-    return SSVarU.xsd + SSStrU.colon + SSStrU.valueString;
+    return SSVarNames.xsd + SSStrU.colon + SSStrU.valueString;
   }
 }

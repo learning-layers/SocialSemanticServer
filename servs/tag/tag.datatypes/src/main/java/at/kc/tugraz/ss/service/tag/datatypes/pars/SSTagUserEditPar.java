@@ -22,7 +22,7 @@
 
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
@@ -89,10 +89,10 @@ public class SSTagUserEditPar extends SSServPar{
         par.op,
         par.key,
         par.user,
-        (SSTagLabel) par.pars.get(SSVarU.tag), 
-        (SSUri)      par.pars.get(SSVarU.entity),
-        (SSTagLabel) par.pars.get(SSVarU.label),
-        (Boolean)    par.pars.get(SSVarU.shouldCommit));
+        (SSTagLabel) par.pars.get(SSVarNames.tag), 
+        (SSUri)      par.pars.get(SSVarNames.entity),
+        (SSTagLabel) par.pars.get(SSVarNames.label),
+        (Boolean)    par.pars.get(SSVarNames.shouldCommit));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

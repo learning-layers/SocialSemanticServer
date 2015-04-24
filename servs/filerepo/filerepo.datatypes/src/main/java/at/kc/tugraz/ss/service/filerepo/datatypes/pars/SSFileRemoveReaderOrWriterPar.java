@@ -20,7 +20,7 @@
 */
  package at.kc.tugraz.ss.service.filerepo.datatypes.pars;
 
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServErrReg;
@@ -37,8 +37,8 @@ public class SSFileRemoveReaderOrWriterPar extends SSServPar{
     try{
       
       if(pars != null){
-        file   = (SSUri)   pars.get(SSVarU.file);
-        write  = (Boolean) pars.get(SSVarU.write);
+        file   = (SSUri)   pars.get(SSVarNames.file);
+        write  = (Boolean) pars.get(SSVarNames.write);
       }
       
     }catch(Exception error){

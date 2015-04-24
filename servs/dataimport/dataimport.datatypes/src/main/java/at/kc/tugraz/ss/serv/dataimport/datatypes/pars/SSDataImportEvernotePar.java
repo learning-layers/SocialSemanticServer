@@ -20,7 +20,7 @@
 */
  package at.kc.tugraz.ss.serv.dataimport.datatypes.pars;
 
- import at.tugraz.sss.serv.SSVarU;
+ import at.tugraz.sss.serv.SSVarNames;
  import at.tugraz.sss.serv.SSServPar;
  
  import com.wordnik.swagger.annotations.ApiModel;
@@ -49,13 +49,13 @@ import javax.xml.bind.annotation.XmlElement;
     try{
       
       if(pars != null){
-        authToken       = (String)          pars.get(SSVarU.authToken);
-        authEmail       = (String)          pars.get(SSVarU.authEmail);
+        authToken       = (String)          pars.get(SSVarNames.authToken);
+        authEmail       = (String)          pars.get(SSVarNames.authEmail);
       }
       
       if(par.clientJSONObj != null){
-        authToken       = par.clientJSONObj.get(SSVarU.authToken).getTextValue();
-        authEmail       = par.clientJSONObj.get(SSVarU.authEmail).getTextValue();
+        authToken       = par.clientJSONObj.get(SSVarNames.authToken).getTextValue();
+        authEmail       = par.clientJSONObj.get(SSVarNames.authEmail).getTextValue();
       }
       
     }catch(Exception error){

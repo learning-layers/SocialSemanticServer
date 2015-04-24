@@ -22,7 +22,7 @@ package at.kc.tugraz.ss.service.coll.datatypes.ret;
 
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServRetI;
 import java.util.HashMap;
 import java.util.Map;
@@ -47,7 +47,7 @@ public class SSCollUserEntriesAddRet extends SSServRetI{
     
     Map<String, Object> ld  = new HashMap<>();
     
-    ld.put(SSVarU.worked, SSVarU.xsd + SSStrU.valueBoolean);
+    ld.put(SSVarNames.worked, SSVarNames.xsd + SSStrU.valueBoolean);
     
     return ld;
   }

@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.serv.ss.auth.datatypes.pars;
 
 import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.SSServErrReg;
@@ -76,8 +76,8 @@ public class SSAuthCheckCredPar extends SSServPar{
         par.op,
         par.key,
         par.user,
-        (SSLabel) par.pars.get(SSVarU.label),
-        (String)  par.pars.get(SSVarU.password));
+        (SSLabel) par.pars.get(SSVarNames.label),
+        (String)  par.pars.get(SSVarNames.password));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

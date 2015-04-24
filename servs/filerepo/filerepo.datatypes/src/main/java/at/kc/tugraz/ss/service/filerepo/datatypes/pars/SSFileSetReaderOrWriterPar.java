@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.service.filerepo.datatypes.pars;
 
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServErrReg;
@@ -59,13 +59,13 @@ public class SSFileSetReaderOrWriterPar extends SSServPar{
     try{
       
       if(pars != null){
-        file   = (SSUri)   pars.get(SSVarU.file);
-        write  = (Boolean) pars.get(SSVarU.write);
+        file   = (SSUri)   pars.get(SSVarNames.file);
+        write  = (Boolean) pars.get(SSVarNames.write);
       }
       
       if(par.clientJSONObj != null){
-        file   = SSUri.get       (par.clientJSONObj.get(SSVarU.file).getTextValue());
-        write  = par.clientJSONObj.get(SSVarU.write).getBooleanValue();
+        file   = SSUri.get       (par.clientJSONObj.get(SSVarNames.file).getTextValue());
+        write  = par.clientJSONObj.get(SSVarNames.write).getBooleanValue();
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

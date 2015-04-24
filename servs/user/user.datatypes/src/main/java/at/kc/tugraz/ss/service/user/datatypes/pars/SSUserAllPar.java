@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.service.user.datatypes.pars;
 
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServOpE;
@@ -55,7 +55,7 @@ public class SSUserAllPar extends SSServPar{
         par.op,
         par.key,
         par.user,
-        (Boolean) par.pars.get(SSVarU.setFriends));
+        (Boolean) par.pars.get(SSVarNames.setFriends));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

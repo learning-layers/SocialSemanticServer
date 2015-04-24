@@ -21,7 +21,7 @@
 
 package at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par;
 
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServErrReg;
 
@@ -36,7 +36,7 @@ public class SSEvernoteNoteStoreGetPar extends SSServPar{
     try{
       
       if(pars != null){
-        authToken     = (String)     pars.get(SSVarU.authToken);
+        authToken     = (String)     pars.get(SSVarNames.authToken);
       }
       
     }catch(Exception error){

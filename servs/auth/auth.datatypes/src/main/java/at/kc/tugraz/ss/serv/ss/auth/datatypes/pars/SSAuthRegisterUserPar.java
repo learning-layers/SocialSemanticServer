@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.serv.ss.auth.datatypes.pars;
 
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServPar;
@@ -41,11 +41,11 @@ public class SSAuthRegisterUserPar extends SSServPar{
     try{
       
       if(pars != null){
-        password           = (String)  pars.get(SSVarU.password);
-        email              = (String)  pars.get(SSVarU.email);
-        label              = (SSLabel) pars.get(SSVarU.label);
-        updatePassword     = (Boolean) pars.get(SSVarU.updatePassword);
-        isSystemUser       = (Boolean) pars.get(SSVarU.isSystemUser);
+        password           = (String)  pars.get(SSVarNames.password);
+        email              = (String)  pars.get(SSVarNames.email);
+        label              = (SSLabel) pars.get(SSVarNames.label);
+        updatePassword     = (Boolean) pars.get(SSVarNames.updatePassword);
+        isSystemUser       = (Boolean) pars.get(SSVarNames.isSystemUser);
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

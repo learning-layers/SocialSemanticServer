@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.category.impl.fct.sql;
 
 import at.tugraz.sss.serv.SSDateU;
-import at.tugraz.sss.serv.SSSQLVarU;
+import at.tugraz.sss.serv.SSSQLVarNames;
 import at.kc.tugraz.ss.category.datatypes.SSCategory;
 import at.kc.tugraz.ss.category.datatypes.SSCategoryLabel;
 import at.tugraz.sss.serv.SSDBSQLFct;
@@ -53,25 +53,25 @@ public class SSCategorySQLFct extends SSDBSQLFct{
       final Map<String, String> inserts    = new HashMap<>();
       final Map<String, String> uniqueKeys = new HashMap<>();
       
-      insert    (inserts,    SSSQLVarU.userId,        userUri);
-      insert    (inserts,    SSSQLVarU.entityId,      entityUri);
-      insert    (inserts,    SSSQLVarU.categoryId,    categoryUri);
-      insert    (inserts,    SSSQLVarU.categorySpace, space);
+      insert    (inserts,    SSSQLVarNames.userId,        userUri);
+      insert    (inserts,    SSSQLVarNames.entityId,      entityUri);
+      insert    (inserts,    SSSQLVarNames.categoryId,    categoryUri);
+      insert    (inserts,    SSSQLVarNames.categorySpace, space);
       
       if(
         creationTime == null ||
         creationTime == 0){
-        insert    (inserts,    SSSQLVarU.creationTime, SSDateU.dateAsLong());
+        insert    (inserts,    SSSQLVarNames.creationTime, SSDateU.dateAsLong());
       }else{
-        insert    (inserts,    SSSQLVarU.creationTime, creationTime);
+        insert    (inserts,    SSSQLVarNames.creationTime, creationTime);
       }
       
-      uniqueKey (uniqueKeys, SSSQLVarU.userId,        userUri);
-      uniqueKey (uniqueKeys, SSSQLVarU.entityId,      entityUri);
-      uniqueKey (uniqueKeys, SSSQLVarU.categoryId,    categoryUri);
-      uniqueKey (uniqueKeys, SSSQLVarU.categorySpace, space);
+      uniqueKey (uniqueKeys, SSSQLVarNames.userId,        userUri);
+      uniqueKey (uniqueKeys, SSSQLVarNames.entityId,      entityUri);
+      uniqueKey (uniqueKeys, SSSQLVarNames.categoryId,    categoryUri);
+      uniqueKey (uniqueKeys, SSSQLVarNames.categorySpace, space);
       
-      dbSQL.insertIfNotExists(categoryAssTable, inserts, uniqueKeys);
+      dbSQL.insertIfNotExists(SSSQLVarNames.categoryAssTable, inserts, uniqueKeys);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
@@ -85,17 +85,17 @@ public class SSCategorySQLFct extends SSDBSQLFct{
       final Map<String, String> inserts    = new HashMap<>();
       final Map<String, String> uniqueKeys = new HashMap<>();
       
-      insert    (inserts, SSSQLVarU.categoryId,     categoryUri);
+      insert    (inserts, SSSQLVarNames.categoryId,     categoryUri);
       
       if(isPredefined == null){
-        insert    (inserts, SSSQLVarU.isPredefined,   false);
+        insert    (inserts, SSSQLVarNames.isPredefined,   false);
       }else{
-        insert    (inserts, SSSQLVarU.isPredefined,   isPredefined);
+        insert    (inserts, SSSQLVarNames.isPredefined,   isPredefined);
       }
       
-      uniqueKey (uniqueKeys, SSSQLVarU.categoryId,  categoryUri);
+      uniqueKey (uniqueKeys, SSSQLVarNames.categoryId,  categoryUri);
       
-      dbSQL.insertIfNotExists(categoryTable, inserts, uniqueKeys);
+      dbSQL.insertIfNotExists(SSSQLVarNames.categoryTable, inserts, uniqueKeys);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -114,22 +114,22 @@ public class SSCategorySQLFct extends SSDBSQLFct{
       final List<String>        tables    = new ArrayList<>();
       final List<String>        tableCons = new ArrayList<>();
       
-      column(columns, SSSQLVarU.label);
+      column(columns, SSSQLVarNames.label);
       
-      table(tables, categoryTable);
-      table(tables, entityTable);
+      table(tables, SSSQLVarNames.categoryTable);
+      table(tables, SSSQLVarNames.entityTable);
       
       if(isPredefined == null){
-        where(wheres, SSSQLVarU.isPredefined, false);
+        where(wheres, SSSQLVarNames.isPredefined, false);
       }else{
-        where(wheres, SSSQLVarU.isPredefined, isPredefined);
+        where(wheres, SSSQLVarNames.isPredefined, isPredefined);
       }
       
-      tableCon(tableCons, entityTable, SSSQLVarU.id, categoryTable, SSSQLVarU.categoryId);
+      tableCon(tableCons, SSSQLVarNames.entityTable, SSSQLVarNames.id, SSSQLVarNames.categoryTable, SSSQLVarNames.categoryId);
       
       resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
       
-      return getStringsFromResult(resultSet, SSSQLVarU.label);
+      return getStringsFromResult(resultSet, SSSQLVarNames.label);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -148,16 +148,16 @@ public class SSCategorySQLFct extends SSDBSQLFct{
       final Map<String, String> inserts    = new HashMap<>();
       final Map<String, String> uniqueKeys = new HashMap<>();
       
-      insert    (inserts,    SSSQLVarU.userId,         userUri);
-      insert    (inserts,    SSSQLVarU.entityId,       entityUri);
-      insert    (inserts,    SSSQLVarU.categoryId,     categoryUri);
-      insert    (inserts,    SSSQLVarU.categorySpace,  space);
-      uniqueKey (uniqueKeys, SSSQLVarU.userId,         userUri);
-      uniqueKey (uniqueKeys, SSSQLVarU.entityId,       entityUri);
-      uniqueKey (uniqueKeys, SSSQLVarU.categoryId,     categoryUri);
-      uniqueKey (uniqueKeys, SSSQLVarU.categorySpace,  space);
+      insert    (inserts,    SSSQLVarNames.userId,         userUri);
+      insert    (inserts,    SSSQLVarNames.entityId,       entityUri);
+      insert    (inserts,    SSSQLVarNames.categoryId,     categoryUri);
+      insert    (inserts,    SSSQLVarNames.categorySpace,  space);
+      uniqueKey (uniqueKeys, SSSQLVarNames.userId,         userUri);
+      uniqueKey (uniqueKeys, SSSQLVarNames.entityId,       entityUri);
+      uniqueKey (uniqueKeys, SSSQLVarNames.categoryId,     categoryUri);
+      uniqueKey (uniqueKeys, SSSQLVarNames.categorySpace,  space);
       
-      dbSQL.insertIfNotExists(categoryAssTable, inserts, uniqueKeys);
+      dbSQL.insertIfNotExists(SSSQLVarNames.categoryAssTable, inserts, uniqueKeys);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
@@ -176,17 +176,17 @@ public class SSCategorySQLFct extends SSDBSQLFct{
       final List<String>        columns   = new ArrayList<>();
       final Map<String, String> wheres    = new HashMap<>();
       
-      column(columns, SSSQLVarU.categoryId);
-      column(columns, SSSQLVarU.userId);
-      column(columns, SSSQLVarU.tagId);
-      column(columns, SSSQLVarU.tagSpace);
+      column(columns, SSSQLVarNames.categoryId);
+      column(columns, SSSQLVarNames.userId);
+      column(columns, SSSQLVarNames.tagId);
+      column(columns, SSSQLVarNames.tagSpace);
       
-      where(wheres, SSSQLVarU.userId,       userUri);
-      where(wheres, SSSQLVarU.entityId,     entityUri);
-      where(wheres, SSSQLVarU.tagId,        categoryUri);
-      where(wheres, SSSQLVarU.tagSpace,     space);
+      where(wheres, SSSQLVarNames.userId,       userUri);
+      where(wheres, SSSQLVarNames.entityId,     entityUri);
+      where(wheres, SSSQLVarNames.tagId,        categoryUri);
+      where(wheres, SSSQLVarNames.tagSpace,     space);
       
-      resultSet = dbSQL.select(categoryAssTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(SSSQLVarNames.categoryAssTable, columns, wheres, null, null, null);
       
       return resultSet.first();
       
@@ -209,25 +209,25 @@ public class SSCategorySQLFct extends SSDBSQLFct{
       final Map<String, String> deletes      = new HashMap<>();
       
       if(space != null){
-        delete(deletes, SSSQLVarU.tagSpace, space);
+        delete(deletes, SSSQLVarNames.tagSpace, space);
       }
       
       if(userUri != null){
-        delete(deletes, SSSQLVarU.userId,     userUri);
+        delete(deletes, SSSQLVarNames.userId,     userUri);
       }
       
       if(entityUri != null){
-        delete(deletes, SSSQLVarU.entityId,    entityUri);
+        delete(deletes, SSSQLVarNames.entityId,    entityUri);
       }
       
       if(categoryUri != null){
-        delete(deletes, SSSQLVarU.categoryId,      categoryUri);
+        delete(deletes, SSSQLVarNames.categoryId,      categoryUri);
       }
       
       if(deletes.size() > 0){
-        dbSQL.delete(categoryAssTable, deletes);
+        dbSQL.delete(SSSQLVarNames.categoryAssTable, deletes);
       }else{
-        dbSQL.delete(categoryAssTable);
+        dbSQL.delete(SSSQLVarNames.categoryAssTable);
       }
       
     }catch(Exception error){
@@ -253,30 +253,30 @@ public class SSCategorySQLFct extends SSDBSQLFct{
       final List<String>        tableCons      = new ArrayList<>();
 //      final SSUri               categoryURI    = getOrCreateCategoryURI(existsCategoryLabel(categoryLabel), categoryLabel);
 
-      table    (tables,    categoryAssTable);
-      table    (tables,    entityTable);
-      column   (columns,   SSSQLVarU.categoryId);
-      column   (columns,   SSSQLVarU.entityId);
-      column   (columns,   SSSQLVarU.userId);
-      column   (columns,   SSSQLVarU.categorySpace);
-      column   (columns,   SSSQLVarU.label);
-      column   (columns,   categoryAssTable, SSSQLVarU.creationTime);
-      tableCon (tableCons, categoryAssTable, SSSQLVarU.categoryId, entityTable, SSSQLVarU.id);
+      table    (tables, SSSQLVarNames.categoryAssTable);
+      table    (tables, SSSQLVarNames.entityTable);
+      column   (columns,   SSSQLVarNames.categoryId);
+      column   (columns,   SSSQLVarNames.entityId);
+      column   (columns,   SSSQLVarNames.userId);
+      column   (columns,   SSSQLVarNames.categorySpace);
+      column   (columns,   SSSQLVarNames.label);
+      column   (columns, SSSQLVarNames.categoryAssTable, SSSQLVarNames.creationTime);
+      tableCon (tableCons, SSSQLVarNames.categoryAssTable, SSSQLVarNames.categoryId, SSSQLVarNames.entityTable, SSSQLVarNames.id);
       
       if(userUri != null){
-        where(wheres, SSSQLVarU.userId, userUri);
+        where(wheres, SSSQLVarNames.userId, userUri);
       }
       
       if(entity != null){
-        where(wheres, SSSQLVarU.entityId, entity);
+        where(wheres, SSSQLVarNames.entityId, entity);
       }
       
       if(categoryURI != null){
-        where(wheres, SSSQLVarU.categoryId, categoryURI);
+        where(wheres, SSSQLVarNames.categoryId, categoryURI);
       }
       
       if(categorySpace != null){
-        where(wheres, SSSQLVarU.categorySpace, categorySpace);
+        where(wheres, SSSQLVarNames.categorySpace, categorySpace);
       }
       
       resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
@@ -287,17 +287,15 @@ public class SSCategorySQLFct extends SSDBSQLFct{
         if(
           startTime != null &&
           startTime != 0    &&
-          bindingStrToLong(resultSet, SSSQLVarU.creationTime) < startTime){
+          bindingStrToLong(resultSet, SSSQLVarNames.creationTime) < startTime){
           continue;
         }
         
-        categoryAsss.add(
-          SSCategory.get(
-            bindingStrToUri  (resultSet, SSSQLVarU.categoryId),
-            bindingStrToUri  (resultSet, SSSQLVarU.entityId),
-            bindingStrToUri  (resultSet, SSSQLVarU.userId),
-            bindingStrToSpace(resultSet, SSSQLVarU.categorySpace),
-            SSCategoryLabel.get   (bindingStr(resultSet, SSSQLVarU.label))));
+        categoryAsss.add(SSCategory.get(bindingStrToUri  (resultSet, SSSQLVarNames.categoryId),
+            bindingStrToUri  (resultSet, SSSQLVarNames.entityId),
+            bindingStrToUri  (resultSet, SSSQLVarNames.userId),
+            bindingStrToSpace(resultSet, SSSQLVarNames.categorySpace),
+            SSCategoryLabel.get   (bindingStr(resultSet, SSSQLVarNames.label))));
       }
       
       return categoryAsss;
@@ -322,22 +320,22 @@ public class SSCategorySQLFct extends SSDBSQLFct{
       final List<String>        columns      = new ArrayList<>();
       
       if(space != null){
-        where(wheres, SSSQLVarU.categorySpace, space);
+        where(wheres, SSSQLVarNames.categorySpace, space);
       }
       
       if(user != null){
-        where(wheres, SSSQLVarU.userId, user);
+        where(wheres, SSSQLVarNames.userId, user);
       }
       
       if(category != null){
-        where(wheres, SSSQLVarU.categoryId, category);
+        where(wheres, SSSQLVarNames.categoryId, category);
       }
       
-      column(columns, SSSQLVarU.entityId);
+      column(columns, SSSQLVarNames.entityId);
       
-      resultSet = dbSQL.select(categoryAssTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(SSSQLVarNames.categoryAssTable, columns, wheres, null, null, null);
       
-      return getURIsFromResult(resultSet, SSSQLVarU.entityId);
+      return getURIsFromResult(resultSet, SSSQLVarNames.entityId);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

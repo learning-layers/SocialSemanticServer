@@ -20,9 +20,9 @@
 */
 package at.tugraz.sss.serv;
 
-public class SSVarU{
+public class SSVarNames{
   
-  private SSVarU(){}
+  private SSVarNames(){}
 
   public static final String code                                           = "code";
   public static final String errClass                                       = "errClass";

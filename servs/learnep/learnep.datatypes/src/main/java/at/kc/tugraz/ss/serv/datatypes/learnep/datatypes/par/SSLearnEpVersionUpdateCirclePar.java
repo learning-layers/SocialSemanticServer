@@ -20,7 +20,7 @@
   */
 package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par;
 
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSUri;
@@ -44,45 +44,45 @@ public class SSLearnEpVersionUpdateCirclePar extends SSServPar{
     try{
       
       if(pars != null){
-        learnEpCircle     = (SSUri)    pars.get(SSVarU.learnEpCircle);
-        label             = (SSLabel)  pars.get(SSVarU.label);
-        xLabel            = (Float)    pars.get(SSVarU.xLabel);
-        yLabel            = (Float)    pars.get(SSVarU.yLabel);
-        xR                = (Float)    pars.get(SSVarU.xR);
-        yR                = (Float)    pars.get(SSVarU.yR);
-        xC                = (Float)    pars.get(SSVarU.xC);
-        yC                = (Float)    pars.get(SSVarU.yC);
+        learnEpCircle     = (SSUri)    pars.get(SSVarNames.learnEpCircle);
+        label             = (SSLabel)  pars.get(SSVarNames.label);
+        xLabel            = (Float)    pars.get(SSVarNames.xLabel);
+        yLabel            = (Float)    pars.get(SSVarNames.yLabel);
+        xR                = (Float)    pars.get(SSVarNames.xR);
+        yR                = (Float)    pars.get(SSVarNames.yR);
+        xC                = (Float)    pars.get(SSVarNames.xC);
+        yC                = (Float)    pars.get(SSVarNames.yC);
       }
       
       if(par.clientJSONObj != null){
-        learnEpCircle     = SSUri.get        (par.clientJSONObj.get(SSVarU.learnEpCircle).getTextValue());
+        learnEpCircle     = SSUri.get        (par.clientJSONObj.get(SSVarNames.learnEpCircle).getTextValue());
         
         try{
-          label             = SSLabel.get      (par.clientJSONObj.get(SSVarU.label).getTextValue());
+          label             = SSLabel.get      (par.clientJSONObj.get(SSVarNames.label).getTextValue());
         }catch(Exception error){}
         
         try{
-          xLabel            = par.clientJSONObj.get(SSVarU.xLabel).getNumberValue().floatValue();
+          xLabel            = par.clientJSONObj.get(SSVarNames.xLabel).getNumberValue().floatValue();
         }catch(Exception error){}
         
         try{
-          yLabel            = par.clientJSONObj.get(SSVarU.yLabel).getNumberValue().floatValue();
+          yLabel            = par.clientJSONObj.get(SSVarNames.yLabel).getNumberValue().floatValue();
         }catch(Exception error){}
         
         try{
-          xR                = par.clientJSONObj.get(SSVarU.xR).getNumberValue().floatValue();
+          xR                = par.clientJSONObj.get(SSVarNames.xR).getNumberValue().floatValue();
         }catch(Exception error){}
         
         try{
-          yR                = par.clientJSONObj.get(SSVarU.yR).getNumberValue().floatValue();
+          yR                = par.clientJSONObj.get(SSVarNames.yR).getNumberValue().floatValue();
         }catch(Exception error){}
         
         try{
-          xC                = par.clientJSONObj.get(SSVarU.xC).getNumberValue().floatValue();
+          xC                = par.clientJSONObj.get(SSVarNames.xC).getNumberValue().floatValue();
         }catch(Exception error){}
         
         try{
-          yC                = par.clientJSONObj.get(SSVarU.yC).getNumberValue().floatValue();
+          yC                = par.clientJSONObj.get(SSVarNames.yC).getNumberValue().floatValue();
         }catch(Exception error){}
       }
       

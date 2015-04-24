@@ -21,7 +21,7 @@
  package at.kc.tugraz.ss.serv.modeling.ue.datatypes;
 
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSEntityA;
 import java.util.HashMap;
 import java.util.Map;
@@ -49,9 +49,9 @@ public class SSModelUETopicScore extends SSEntityA {
     
     Map<String, Object> ld = new HashMap<>();
     
-    ld.put(SSVarU.topic, SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
-    ld.put(SSVarU.level, SSVarU.xsd + SSStrU.colon + SSStrU.valueInteger);
-    ld.put(SSVarU.frequ, SSVarU.xsd + SSStrU.colon + SSStrU.valueInteger);
+    ld.put(SSVarNames.topic, SSVarNames.xsd + SSStrU.colon + SSStrU.valueString);
+    ld.put(SSVarNames.level, SSVarNames.xsd + SSStrU.colon + SSStrU.valueInteger);
+    ld.put(SSVarNames.frequ, SSVarNames.xsd + SSStrU.colon + SSStrU.valueInteger);
     
     return ld;
   }

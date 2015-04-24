@@ -21,7 +21,7 @@
  package at.kc.tugraz.ss.message.datatypes;
 
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
@@ -64,9 +64,9 @@ public class SSMessage extends SSEntity{
   
     final Map<String, Object> ld = (Map<String, Object>) super.jsonLDDesc();
     
-    ld.put(SSVarU.user,    SSVarU.sss + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarU.forUser, SSVarU.sss + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarU.content, SSVarU.sss + SSStrU.colon + SSTextComment.class.getName());
+    ld.put(SSVarNames.user,    SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarNames.forUser, SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarNames.content, SSVarNames.sss + SSStrU.colon + SSTextComment.class.getName());
     
     return ld;
   }  

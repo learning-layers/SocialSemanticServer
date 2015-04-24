@@ -23,7 +23,7 @@ package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpTimelineState;
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServRetI;
 import java.util.HashMap;
 import java.util.Map;
@@ -47,7 +47,7 @@ public class SSLearnEpVersionGetTimelineStateRet extends SSServRetI{
     
     Map<String, Object> ld = new HashMap<>();
     
-    ld.put(SSVarU.learnEpTimelineState, SSVarU.sss + SSStrU.colon + SSLearnEpTimelineState.class.getName());
+    ld.put(SSVarNames.learnEpTimelineState, SSVarNames.sss + SSStrU.colon + SSLearnEpTimelineState.class.getName());
     
     return ld;
   }

@@ -22,7 +22,7 @@
 
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServErrReg;
@@ -63,14 +63,14 @@ public class SSCollUserEntryChangePosPar extends SSServPar{
     try{
       
       if(pars != null){
-        coll       = (SSUri)        pars.get(SSVarU.coll);
-        order      = (List<String>) pars.get(SSVarU.order);
+        coll       = (SSUri)        pars.get(SSVarNames.coll);
+        order      = (List<String>) pars.get(SSVarNames.order);
       }
       
       if(par.clientJSONObj != null){
-        coll       = SSUri.get     (par.clientJSONObj.get(SSVarU.coll).getTextValue());
+        coll       = SSUri.get     (par.clientJSONObj.get(SSVarNames.coll).getTextValue());
         
-        for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.order)) {
+        for (final JsonNode objNode : par.clientJSONObj.get(SSVarNames.order)) {
           order.add(objNode.getTextValue());
         }
       }

@@ -21,7 +21,7 @@
  package at.kc.tugraz.ss.service.search.datatypes.pars;
 
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServErrReg;
@@ -41,9 +41,9 @@ public class SSSearchTagsWithinEntityPar extends SSServPar{
     
     try{
       if(pars != null){
-        entity       = (SSUri)                                          pars.get(SSVarU.entity);
-        tags         = SSStrU.splitDistinctWithoutEmptyAndNull((String) pars.get(SSVarU.tags), SSStrU.comma);
-        searchOp     = (SSSearchOpE)                                    pars.get(SSVarU.searchOp);
+        entity       = (SSUri)                                          pars.get(SSVarNames.entity);
+        tags         = SSStrU.splitDistinctWithoutEmptyAndNull((String) pars.get(SSVarNames.tags), SSStrU.comma);
+        searchOp     = (SSSearchOpE)                                    pars.get(SSVarNames.searchOp);
       }
       
     }catch(Exception error){

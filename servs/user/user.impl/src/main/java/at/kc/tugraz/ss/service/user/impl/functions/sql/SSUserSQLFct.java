@@ -20,7 +20,7 @@
   */
 package at.kc.tugraz.ss.service.user.impl.functions.sql;
 
-import at.tugraz.sss.serv.SSSQLVarU;
+import at.tugraz.sss.serv.SSSQLVarNames;
 import at.tugraz.sss.serv.SSDBSQLFct;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSUri;
@@ -52,15 +52,15 @@ public class SSUserSQLFct extends SSDBSQLFct{
       final Map<String, String> wheres           = new HashMap<>();
       final List<String>        tableCons        = new ArrayList<>();
       
-      column(columns, SSSQLVarU.id);
+      column(columns, SSSQLVarNames.id);
       
-      table(tables, entityTable);
-      table(tables, userTable);
+      table(tables, SSSQLVarNames.entityTable);
+      table(tables, SSSQLVarNames.userTable);
       
-      where(wheres, entityTable, SSSQLVarU.type,  SSEntityE.user);
-      where(wheres, userTable,   SSSQLVarU.email, email);
+      where(wheres, SSSQLVarNames.entityTable, SSSQLVarNames.type,  SSEntityE.user);
+      where(wheres, SSSQLVarNames.userTable,   SSSQLVarNames.email, email);
       
-      tableCon(tableCons, entityTable, SSSQLVarU.id, userTable, SSSQLVarU.userId);
+      tableCon(tableCons, SSSQLVarNames.entityTable, SSSQLVarNames.id, SSSQLVarNames.userTable, SSSQLVarNames.userId);
       
       resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
       
@@ -85,20 +85,20 @@ public class SSUserSQLFct extends SSDBSQLFct{
       final Map<String, String> wheres           = new HashMap<>();
       final List<String>        tableCons        = new ArrayList<>();
       
-      column(columns, SSSQLVarU.id);
+      column(columns, SSSQLVarNames.id);
       
-      table(tables, entityTable);
-      table(tables, userTable);
+      table(tables, SSSQLVarNames.entityTable);
+      table(tables, SSSQLVarNames.userTable);
       
-      where(wheres, userTable,   SSSQLVarU.email, email);
+      where(wheres, SSSQLVarNames.userTable,   SSSQLVarNames.email, email);
       
-      tableCon(tableCons, entityTable, SSSQLVarU.id, userTable, SSSQLVarU.userId);
+      tableCon(tableCons, SSSQLVarNames.entityTable, SSSQLVarNames.id, SSSQLVarNames.userTable, SSSQLVarNames.userId);
       
       resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
       
       checkFirstResult(resultSet);
       
-      return bindingStrToUri(resultSet, SSSQLVarU.id);
+      return bindingStrToUri(resultSet, SSSQLVarNames.id);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -118,25 +118,24 @@ public class SSUserSQLFct extends SSDBSQLFct{
       final Map<String, String> wheres           = new HashMap<>();
       final List<String>        tableCons        = new ArrayList<>();
       
-      column(columns, SSSQLVarU.id);
-      column(columns, SSSQLVarU.email);
-      column(columns, SSSQLVarU.label);
+      column(columns, SSSQLVarNames.id);
+      column(columns, SSSQLVarNames.email);
+      column(columns, SSSQLVarNames.label);
       
-      table(tables, entityTable);
-      table(tables, userTable);
+      table(tables, SSSQLVarNames.entityTable);
+      table(tables, SSSQLVarNames.userTable);
       
-      where(wheres, entityTable, SSSQLVarU.id, user);
+      where(wheres, SSSQLVarNames.entityTable, SSSQLVarNames.id, user);
       
-      tableCon(tableCons, entityTable, SSSQLVarU.id, userTable, SSSQLVarU.userId);
+      tableCon(tableCons, SSSQLVarNames.entityTable, SSSQLVarNames.id, SSSQLVarNames.userTable, SSSQLVarNames.userId);
       
       resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
       
       checkFirstResult(resultSet);
       
-      return SSUser.get(
-        user,
-        bindingStrToLabel(resultSet, SSSQLVarU.label),
-        bindingStr(resultSet, SSSQLVarU.email));
+      return SSUser.get(user,
+        bindingStrToLabel(resultSet, SSSQLVarNames.label),
+        bindingStr(resultSet, SSSQLVarNames.email));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -158,14 +157,14 @@ public class SSUserSQLFct extends SSDBSQLFct{
       final List<MultivaluedMap<String, String>> wheres           = new ArrayList<>();
       final List<String>                         tableCons        = new ArrayList<>();
       
-      column(columns, SSSQLVarU.id);
-      column(columns, SSSQLVarU.email);
-      column(columns, SSSQLVarU.label);
+      column(columns, SSSQLVarNames.id);
+      column(columns, SSSQLVarNames.email);
+      column(columns, SSSQLVarNames.label);
       
-      table(tables, entityTable);
-      table(tables, userTable);
+      table(tables, SSSQLVarNames.entityTable);
+      table(tables, SSSQLVarNames.userTable);
       
-      tableCon(tableCons, entityTable, SSSQLVarU.id, userTable, SSSQLVarU.userId);
+      tableCon(tableCons, SSSQLVarNames.entityTable, SSSQLVarNames.id, SSSQLVarNames.userTable, SSSQLVarNames.userId);
       
       if(
         userURIs != null &&
@@ -174,7 +173,7 @@ public class SSUserSQLFct extends SSDBSQLFct{
         final MultivaluedMap<String, String> whereUsers = new MultivaluedHashMap<>();
         
         for(SSUri userURI : userURIs){
-          where(whereUsers, entityTable, SSSQLVarU.id, userURI);
+          where(whereUsers, SSSQLVarNames.entityTable, SSSQLVarNames.id, userURI);
         }
         
         wheres.add(whereUsers);
@@ -184,11 +183,9 @@ public class SSUserSQLFct extends SSDBSQLFct{
       
       while(resultSet.next()){
         
-        users.add(
-          SSUser.get(
-            bindingStrToUri   (resultSet, SSSQLVarU.id),
-            bindingStrToLabel (resultSet, SSSQLVarU.label),
-            bindingStr        (resultSet, SSSQLVarU.email)));
+        users.add(SSUser.get(bindingStrToUri   (resultSet, SSSQLVarNames.id),
+            bindingStrToLabel (resultSet, SSSQLVarNames.label),
+            bindingStr        (resultSet, SSSQLVarNames.email)));
       }
       
       return users;
@@ -209,12 +206,12 @@ public class SSUserSQLFct extends SSDBSQLFct{
       final Map<String, String> inserts    = new HashMap<>();
       final Map<String, String> uniqueKeys = new HashMap<>();
       
-      insert(inserts, SSSQLVarU.userId, user);
-      insert(inserts, SSSQLVarU.email,  email);
+      insert(inserts, SSSQLVarNames.userId, user);
+      insert(inserts, SSSQLVarNames.email,  email);
       
-      uniqueKey(uniqueKeys, SSSQLVarU.userId, user);
+      uniqueKey(uniqueKeys, SSSQLVarNames.userId, user);
       
-      dbSQL.insertIfNotExists(userTable, inserts, uniqueKeys);
+      dbSQL.insertIfNotExists(SSSQLVarNames.userTable, inserts, uniqueKeys);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

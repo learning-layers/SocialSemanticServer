@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.category.datatypes.par;
 
 import at.kc.tugraz.ss.category.datatypes.SSCategoryLabel;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSSpaceE;
 import at.tugraz.sss.serv.SSServPar;
@@ -41,14 +41,14 @@ public class SSCategoriesRemovePar extends SSServPar{
     try{
       
       if(pars != null){
-        forUser  = (SSUri)        pars.get(SSVarU.forUser);
-        entity   = (SSUri)        pars.get(SSVarU.entity);
+        forUser  = (SSUri)        pars.get(SSVarNames.forUser);
+        entity   = (SSUri)        pars.get(SSVarNames.entity);
         
         try{
-          label    = SSCategoryLabel.get((String)pars.get(SSVarU.label));
+          label    = SSCategoryLabel.get((String)pars.get(SSVarNames.label));
         }catch(Exception error){}
         
-        space    = (SSSpaceE)     pars.get(SSVarU.space);
+        space    = (SSSpaceE)     pars.get(SSVarNames.space);
       }
       
     }catch(Exception error){

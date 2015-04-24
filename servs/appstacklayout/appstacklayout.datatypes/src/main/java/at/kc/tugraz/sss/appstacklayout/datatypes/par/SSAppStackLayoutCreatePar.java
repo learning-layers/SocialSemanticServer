@@ -22,7 +22,7 @@ package at.kc.tugraz.sss.appstacklayout.datatypes.par;
 
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSLabel;
@@ -61,27 +61,27 @@ public class SSAppStackLayoutCreatePar extends SSServPar{
       
       if(pars != null){
         
-        uuid              = (String)          pars.get(SSVarU.uuid);
-        label             = (SSLabel)         pars.get(SSVarU.label);
-        description       = (SSTextComment)   pars.get(SSVarU.description);
+        uuid              = (String)          pars.get(SSVarNames.uuid);
+        label             = (SSLabel)         pars.get(SSVarNames.label);
+        description       = (SSTextComment)   pars.get(SSVarNames.description);
       }
       
       if(par.clientJSONObj != null){
         
         try{
-          uuid =  par.clientJSONObj.get(SSVarU.uuid).getTextValue();
+          uuid =  par.clientJSONObj.get(SSVarNames.uuid).getTextValue();
         }catch(Exception error){}
         
         try{
-          app =  SSUri.get(par.clientJSONObj.get(SSVarU.app).getTextValue());
+          app =  SSUri.get(par.clientJSONObj.get(SSVarNames.app).getTextValue());
         }catch(Exception error){}
         
         try{
-          label =  SSLabel.get      (par.clientJSONObj.get(SSVarU.label).getTextValue());
+          label =  SSLabel.get      (par.clientJSONObj.get(SSVarNames.label).getTextValue());
         }catch(Exception error){}
         
         try{
-          description =  SSTextComment.get      (par.clientJSONObj.get(SSVarU.description).getTextValue());
+          description =  SSTextComment.get      (par.clientJSONObj.get(SSVarNames.description).getTextValue());
         }catch(Exception error){}
       
       }

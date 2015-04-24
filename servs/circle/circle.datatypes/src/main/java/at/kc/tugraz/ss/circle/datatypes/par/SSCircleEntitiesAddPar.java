@@ -22,7 +22,7 @@ package at.kc.tugraz.ss.circle.datatypes.par;
 
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSUri;
 import java.util.ArrayList;
@@ -88,11 +88,11 @@ public class SSCircleEntitiesAddPar extends SSServPar{
         par.op,
         par.key,
         par.user,
-        (SSUri)         par.pars.get(SSVarU.circle),
-        (List<SSUri>)   par.pars.get(SSVarU.entities),
-        (Boolean)       par.pars.get(SSVarU.withUserRestriction),
-        (Boolean)       par.pars.get(SSVarU.invokeEntityHandlers), 
-        (Boolean)       par.pars.get(SSVarU.shouldCommit));
+        (SSUri)         par.pars.get(SSVarNames.circle),
+        (List<SSUri>)   par.pars.get(SSVarNames.entities),
+        (Boolean)       par.pars.get(SSVarNames.withUserRestriction),
+        (Boolean)       par.pars.get(SSVarNames.invokeEntityHandlers), 
+        (Boolean)       par.pars.get(SSVarNames.shouldCommit));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

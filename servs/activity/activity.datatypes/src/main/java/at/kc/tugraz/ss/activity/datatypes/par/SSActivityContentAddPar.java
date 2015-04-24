@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.activity.datatypes.par;
 
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.kc.tugraz.ss.activity.datatypes.SSActivityContent;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityContentE;
 import at.tugraz.sss.serv.SSServPar;
@@ -41,9 +41,9 @@ public class SSActivityContentAddPar extends SSServPar{
       
       if(pars != null){
         
-        activity     = (SSUri)               pars.get(SSVarU.activity);
-        contentType  = (SSActivityContentE)  pars.get(SSVarU.contentType);
-        content      = (SSActivityContent)   pars.get(SSVarU.content);
+        activity     = (SSUri)               pars.get(SSVarNames.activity);
+        contentType  = (SSActivityContentE)  pars.get(SSVarNames.contentType);
+        content      = (SSActivityContent)   pars.get(SSVarNames.content);
       }
       
     }catch(Exception error){

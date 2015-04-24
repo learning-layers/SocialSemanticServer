@@ -20,7 +20,7 @@
 */
  package at.kc.tugraz.ss.service.tag.datatypes.pars;
 
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSSpaceE;
 import at.tugraz.sss.serv.SSServPar;
@@ -41,10 +41,10 @@ public class SSTagsRemovePar extends SSServPar{
     try{
       
       if(pars != null){
-        forUser  = (SSUri)        pars.get(SSVarU.forUser);
-        entity   = (SSUri)        pars.get(SSVarU.entity);
-        label    = (SSTagLabel)   pars.get(SSVarU.label);
-        space    = (SSSpaceE)     pars.get(SSVarU.space);
+        forUser  = (SSUri)        pars.get(SSVarNames.forUser);
+        entity   = (SSUri)        pars.get(SSVarNames.entity);
+        label    = (SSTagLabel)   pars.get(SSVarNames.label);
+        space    = (SSSpaceE)     pars.get(SSVarNames.space);
       }
       
     }catch(Exception error){

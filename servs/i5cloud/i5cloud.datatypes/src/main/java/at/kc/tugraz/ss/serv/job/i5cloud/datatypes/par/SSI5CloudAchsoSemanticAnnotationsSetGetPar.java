@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.serv.job.i5cloud.datatypes.par;
 
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServErrReg;
 import java.util.ArrayList;
@@ -36,7 +36,7 @@ public class SSI5CloudAchsoSemanticAnnotationsSetGetPar extends SSServPar{
     try{
       
       if(pars != null){
-        ids        = (List<String>) pars.get(SSVarU.ids);
+        ids        = (List<String>) pars.get(SSVarNames.ids);
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

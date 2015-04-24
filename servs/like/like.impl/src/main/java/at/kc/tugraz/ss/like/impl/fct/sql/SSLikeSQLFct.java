@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.like.impl.fct.sql;
 
-import at.tugraz.sss.serv.SSSQLVarU;
+import at.tugraz.sss.serv.SSSQLVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.kc.tugraz.ss.like.datatypes.SSLikes;
 import at.tugraz.sss.serv.SSDBSQLFct;
@@ -53,19 +53,19 @@ public class SSLikeSQLFct extends SSDBSQLFct{
       final Map<String, String> wheres    = new HashMap<>();
       
       if(forUser != null){
-        where(wheres, SSSQLVarU.userId, forUser);
+        where(wheres, SSSQLVarNames.userId, forUser);
       }
       
-      column(columns, SSSQLVarU.entityId);
-      column(columns, SSSQLVarU.value);
+      column(columns, SSSQLVarNames.entityId);
+      column(columns, SSSQLVarNames.value);
       
-      where (wheres,    SSSQLVarU.entityId, entity);
+      where (wheres,    SSSQLVarNames.entityId, entity);
       
-      resultSet = dbSQL.select(likesTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(SSSQLVarNames.likesTable, columns, wheres, null, null, null);
       
       while(resultSet.next()){
         
-        value = bindingStrToInteger(resultSet, SSSQLVarU.value);
+        value = bindingStrToInteger(resultSet, SSSQLVarNames.value);
         
         if(value == 1){
           likes.likes++;
@@ -110,22 +110,22 @@ public class SSLikeSQLFct extends SSDBSQLFct{
         
         final Map<String, String> inserts     = new HashMap<>();
         
-        insert(inserts, SSSQLVarU.userId,      user);
-        insert(inserts, SSSQLVarU.entityId,    entity);
-        insert(inserts, SSSQLVarU.value,       value);
+        insert(inserts, SSSQLVarNames.userId,      user);
+        insert(inserts, SSSQLVarNames.entityId,    entity);
+        insert(inserts, SSSQLVarNames.value,       value);
         
-        dbSQL.insert(likesTable, inserts);
+        dbSQL.insert(SSSQLVarNames.likesTable, inserts);
       }else{
         
         final Map<String, String> updates     = new HashMap<>();
         final Map<String, String> wheres      = new HashMap<>();
         
-        update(updates, SSSQLVarU.value, value);
+        update(updates, SSSQLVarNames.value, value);
         
-        where(wheres, SSSQLVarU.userId,   user);
-        where(wheres, SSSQLVarU.entityId, entity);
+        where(wheres, SSSQLVarNames.userId,   user);
+        where(wheres, SSSQLVarNames.entityId, entity);
         
-        dbSQL.update(likesTable, wheres, updates);
+        dbSQL.update(SSSQLVarNames.likesTable, wheres, updates);
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -143,16 +143,16 @@ public class SSLikeSQLFct extends SSDBSQLFct{
       final List<String>        columns   = new ArrayList<>();
       final Map<String, String> wheres    = new HashMap<>();
       
-      column    (columns,   SSSQLVarU.entityId);
-      column    (columns,   SSSQLVarU.value);
+      column    (columns,   SSSQLVarNames.entityId);
+      column    (columns,   SSSQLVarNames.value);
       
-      where     (wheres,    SSSQLVarU.entityId, entity);
-      where     (wheres,    SSSQLVarU.userId,   user);
+      where     (wheres,    SSSQLVarNames.entityId, entity);
+      where     (wheres,    SSSQLVarNames.userId,   user);
       
-      resultSet = dbSQL.select(likesTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(SSSQLVarNames.likesTable, columns, wheres, null, null, null);
       
       while(resultSet.next()){
-        return bindingStrToInteger(resultSet, SSSQLVarU.value);
+        return bindingStrToInteger(resultSet, SSSQLVarNames.value);
       }
       
       return null;

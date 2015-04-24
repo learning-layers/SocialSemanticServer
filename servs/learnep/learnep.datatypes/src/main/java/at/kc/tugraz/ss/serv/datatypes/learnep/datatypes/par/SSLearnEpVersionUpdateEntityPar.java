@@ -20,7 +20,7 @@
   */
 package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par;
 
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSUri;
 
@@ -39,25 +39,25 @@ public class SSLearnEpVersionUpdateEntityPar extends SSServPar{
     try{
       
       if(pars != null){
-        learnEpEntity      = (SSUri)    pars.get(SSVarU.learnEpEntity);
-        entity             = (SSUri)    pars.get(SSVarU.entity);
-        x                  = (Float)    pars.get(SSVarU.x);
-        y                  = (Float)    pars.get(SSVarU.y);
+        learnEpEntity      = (SSUri)    pars.get(SSVarNames.learnEpEntity);
+        entity             = (SSUri)    pars.get(SSVarNames.entity);
+        x                  = (Float)    pars.get(SSVarNames.x);
+        y                  = (Float)    pars.get(SSVarNames.y);
       }
       
       if(par.clientJSONObj != null){
-        learnEpEntity     = SSUri.get        (par.clientJSONObj.get(SSVarU.learnEpEntity).getTextValue());
+        learnEpEntity     = SSUri.get        (par.clientJSONObj.get(SSVarNames.learnEpEntity).getTextValue());
         
         try{
-          entity            = SSUri.get        (par.clientJSONObj.get(SSVarU.entity).getTextValue());
+          entity            = SSUri.get        (par.clientJSONObj.get(SSVarNames.entity).getTextValue());
         }catch(Exception error){}
         
         try{
-          x                 = par.clientJSONObj.get(SSVarU.x).getNumberValue().floatValue();
+          x                 = par.clientJSONObj.get(SSVarNames.x).getNumberValue().floatValue();
         }catch(Exception error){}
         
         try{
-          y                 = par.clientJSONObj.get(SSVarU.y).getNumberValue().floatValue();
+          y                 = par.clientJSONObj.get(SSVarNames.y).getNumberValue().floatValue();
         }catch(Exception error){}
       }
       

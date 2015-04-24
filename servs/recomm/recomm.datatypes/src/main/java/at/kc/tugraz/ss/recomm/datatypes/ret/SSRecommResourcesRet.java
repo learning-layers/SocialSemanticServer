@@ -23,7 +23,7 @@ package at.kc.tugraz.ss.recomm.datatypes.ret;
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSJSONLDU;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSEntity;
 import at.kc.tugraz.ss.recomm.datatypes.SSResourceLikelihood;
 import at.tugraz.sss.serv.SSServRetI;
@@ -64,10 +64,10 @@ public class SSRecommResourcesRet extends SSServRetI{
     final Map<String, Object> ld              = new HashMap<>();
     final Map<String, Object> resourcesObj    = new HashMap<>();
     
-    resourcesObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSResourceLikelihood.class.getName());
+    resourcesObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSResourceLikelihood.class.getName());
     resourcesObj.put(SSJSONLDU.container, SSJSONLDU.set);
     
-    ld.put(SSVarU.resources, resourcesObj);
+    ld.put(SSVarNames.resources, resourcesObj);
     
     return ld;
   }

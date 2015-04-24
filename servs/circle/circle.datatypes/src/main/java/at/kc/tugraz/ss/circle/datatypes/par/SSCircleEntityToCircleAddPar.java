@@ -15,7 +15,7 @@
  */
 package at.kc.tugraz.ss.circle.datatypes.par;
 
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSUri;
@@ -39,12 +39,12 @@ public class SSCircleEntityToCircleAddPar extends SSServPar{
     try{
     
       if(pars != null){
-        entity       = (SSUri)         pars.get(SSVarU.entity);
-        circle       = (SSUri)         pars.get(SSVarU.circle);
-        type         = (SSEntityE)     pars.get(SSVarU.type);
-        label        = (SSLabel)       pars.get(SSVarU.label);
-        description  = (SSTextComment) pars.get(SSVarU.description);
-        creationTime = (Long)          pars.get(SSVarU.creationTime);
+        entity       = (SSUri)         pars.get(SSVarNames.entity);
+        circle       = (SSUri)         pars.get(SSVarNames.circle);
+        type         = (SSEntityE)     pars.get(SSVarNames.type);
+        label        = (SSLabel)       pars.get(SSVarNames.label);
+        description  = (SSTextComment) pars.get(SSVarNames.description);
+        creationTime = (Long)          pars.get(SSVarNames.creationTime);
       }
       
     }catch(Exception error){

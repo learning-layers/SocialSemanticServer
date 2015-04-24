@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par;
 
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServErrReg;
@@ -39,13 +39,13 @@ public class SSLearnEpsLockHoldPar extends SSServPar{
     try{
       
       if(pars != null){
-        learnEps   = (List<SSUri>) pars.get(SSVarU.learnEps);
+        learnEps   = (List<SSUri>) pars.get(SSVarNames.learnEps);
       }
       
       if(par.clientJSONObj != null){
         
         try{
-          for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.learnEps)) {
+          for (final JsonNode objNode : par.clientJSONObj.get(SSVarNames.learnEps)) {
             learnEps.add(SSUri.get(objNode.getTextValue()));
           }
         }catch(Exception error){}

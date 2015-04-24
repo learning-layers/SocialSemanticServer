@@ -15,7 +15,7 @@
  */
 package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par;
 
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServErrReg;
@@ -35,9 +35,9 @@ public class SSLearnEpUserCopyForUserPar extends SSServPar{
     try{
       
       if(pars != null){
-        entity            = (SSUri)       pars.get(SSVarU.entity);
-        forUser           = (SSUri)       pars.get(SSVarU.forUser);
-        entitiesToExclude = (List<SSUri>) pars.get(SSVarU.entitiesToExclude);
+        entity            = (SSUri)       pars.get(SSVarNames.entity);
+        forUser           = (SSUri)       pars.get(SSVarNames.forUser);
+        entitiesToExclude = (List<SSUri>) pars.get(SSVarNames.entitiesToExclude);
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

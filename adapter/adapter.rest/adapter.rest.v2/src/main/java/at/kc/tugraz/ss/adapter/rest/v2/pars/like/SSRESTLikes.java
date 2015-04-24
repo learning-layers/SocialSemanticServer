@@ -26,7 +26,7 @@ import at.kc.tugraz.ss.like.datatypes.ret.SSLikeUserSetRet;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import javax.ws.rs.Consumes;
@@ -54,7 +54,7 @@ public class SSRESTLikes{
     @Context                    
       final HttpHeaders  headers,
     
-    @PathParam (SSVarU.entity)  
+    @PathParam (SSVarNames.entity)  
       final String entity, 
     
     final SSLikeUpdateRESTAPIV2Par input){

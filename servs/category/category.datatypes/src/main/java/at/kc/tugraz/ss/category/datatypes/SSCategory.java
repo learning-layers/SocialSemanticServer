@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.category.datatypes;
 
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
@@ -66,10 +66,10 @@ public class SSCategory extends SSEntity{
   
     final Map<String, Object> ld = (Map<String, Object>)super.jsonLDDesc();
     
-    ld.put(SSVarU.entity,     SSVarU.sss + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarU.user,       SSVarU.sss + SSStrU.colon + SSUri.class.getName());    
-    ld.put(SSVarU.space,      SSVarU.sss + SSStrU.colon + SSSpaceE.class.getName());
-    ld.put(SSVarU.label,      SSVarU.sss + SSStrU.colon + SSCategoryLabel.class.getName());
+    ld.put(SSVarNames.entity,     SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarNames.user,       SSVarNames.sss + SSStrU.colon + SSUri.class.getName());    
+    ld.put(SSVarNames.space,      SSVarNames.sss + SSStrU.colon + SSSpaceE.class.getName());
+    ld.put(SSVarNames.label,      SSVarNames.sss + SSStrU.colon + SSCategoryLabel.class.getName());
     
     return ld;
   } 

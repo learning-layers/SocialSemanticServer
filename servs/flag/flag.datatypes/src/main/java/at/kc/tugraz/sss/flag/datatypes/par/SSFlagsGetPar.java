@@ -21,7 +21,7 @@
  package at.kc.tugraz.sss.flag.datatypes.par;
 
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.kc.tugraz.sss.flag.datatypes.SSFlagE;
@@ -42,10 +42,10 @@ public class SSFlagsGetPar extends SSServPar{
     try{
       
       if(pars != null){
-        entities  = (List<SSUri>)              pars.get(SSVarU.entities);
-        types     = SSFlagE.get((List<String>) pars.get(SSVarU.types));
-        startTime = (Long)                     pars.get(SSVarU.startTime);
-        endTime   = (Long)                     pars.get(SSVarU.endTime);
+        entities  = (List<SSUri>)              pars.get(SSVarNames.entities);
+        types     = SSFlagE.get((List<String>) pars.get(SSVarNames.types));
+        startTime = (Long)                     pars.get(SSVarNames.startTime);
+        endTime   = (Long)                     pars.get(SSVarNames.endTime);
       }
       
     }catch(Exception error){

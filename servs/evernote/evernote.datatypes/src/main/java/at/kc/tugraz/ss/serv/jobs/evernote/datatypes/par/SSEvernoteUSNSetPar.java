@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par;
 
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServErrReg;
 
@@ -36,8 +36,8 @@ public class SSEvernoteUSNSetPar extends SSServPar{
     try{
       
       if(pars != null){
-        authToken     = (String)   pars.get(SSVarU.authToken);
-        usn           = (Integer)  pars.get(SSVarU.usn);
+        authToken     = (String)   pars.get(SSVarNames.authToken);
+        usn           = (Integer)  pars.get(SSVarNames.usn);
       }
       
     }catch(Exception error){

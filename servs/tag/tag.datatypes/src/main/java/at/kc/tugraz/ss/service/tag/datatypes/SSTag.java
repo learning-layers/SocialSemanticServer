@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.service.tag.datatypes;
 
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
@@ -67,10 +67,10 @@ public class SSTag extends SSEntity{
   
     final Map<String, Object> ld = (Map<String, Object>)super.jsonLDDesc();
     
-    ld.put(SSVarU.entity,     SSVarU.sss + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarU.user,       SSVarU.sss + SSStrU.colon + SSUri.class.getName());    
-    ld.put(SSVarU.space,      SSVarU.sss + SSStrU.colon + SSSpaceE.class.getName());    
-    ld.put(SSVarU.label,      SSVarU.sss + SSStrU.colon + SSTagLabel.class.getName());    
+    ld.put(SSVarNames.entity,     SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarNames.user,       SSVarNames.sss + SSStrU.colon + SSUri.class.getName());    
+    ld.put(SSVarNames.space,      SSVarNames.sss + SSStrU.colon + SSSpaceE.class.getName());    
+    ld.put(SSVarNames.label,      SSVarNames.sss + SSStrU.colon + SSTagLabel.class.getName());    
     
     return ld;
   } 

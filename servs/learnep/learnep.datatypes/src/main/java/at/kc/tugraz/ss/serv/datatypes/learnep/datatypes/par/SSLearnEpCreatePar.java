@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par;
 
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.SSServPar;
@@ -38,15 +38,15 @@ public class SSLearnEpCreatePar extends SSServPar{
     try{
       
       if(pars != null){
-        label         = (SSLabel)        pars.get(SSVarU.label);
-        description   = (SSTextComment)  pars.get(SSVarU.description);
+        label         = (SSLabel)        pars.get(SSVarNames.label);
+        description   = (SSTextComment)  pars.get(SSVarNames.description);
       }
       
       if(par.clientJSONObj != null){
-        label         = SSLabel.get       (par.clientJSONObj.get(SSVarU.label).getTextValue());
+        label         = SSLabel.get       (par.clientJSONObj.get(SSVarNames.label).getTextValue());
         
         try{
-          description   = SSTextComment.get (par.clientJSONObj.get(SSVarU.description).getTextValue());
+          description   = SSTextComment.get (par.clientJSONObj.get(SSVarNames.description).getTextValue());
         }catch(Exception error){}
       }
       

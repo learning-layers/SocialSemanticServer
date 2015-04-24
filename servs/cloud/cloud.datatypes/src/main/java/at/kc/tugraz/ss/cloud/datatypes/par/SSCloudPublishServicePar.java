@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.cloud.datatypes.par;
 
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServContainerI;
@@ -36,7 +36,7 @@ public class SSCloudPublishServicePar extends SSServPar{
     try{
     
       if(pars != null){
-        serv    = (SSServContainerI) pars.get(SSVarU.serv);
+        serv    = (SSServContainerI) pars.get(SSVarNames.serv);
       }
       
     }catch(Exception error){

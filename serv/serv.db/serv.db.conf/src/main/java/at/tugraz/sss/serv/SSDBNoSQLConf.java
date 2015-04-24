@@ -22,8 +22,7 @@
 
 public class SSDBNoSQLConf extends SSCoreServConfA{
   
-  public       String         host        = null;
-  public       Integer        port        = null;
+  public       String         path        = null;
   public       String         username    = null;
   public       String         password    = null;
   
@@ -31,8 +30,7 @@ public class SSDBNoSQLConf extends SSCoreServConfA{
     
     final SSDBNoSQLConf copy = (SSDBNoSQLConf) SSCoreServConfA.copy(orig, new SSDBNoSQLConf());
     
-    copy.host     = orig.host;
-    copy.port     = orig.port;
+    copy.path     = orig.path;
     copy.username = orig.username;
     copy.password = orig.password;
     

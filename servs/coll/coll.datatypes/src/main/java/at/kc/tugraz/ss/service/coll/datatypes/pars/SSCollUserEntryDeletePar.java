@@ -21,7 +21,7 @@
  package at.kc.tugraz.ss.service.coll.datatypes.pars;
 
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServErrReg;
@@ -63,13 +63,13 @@ public class SSCollUserEntryDeletePar extends SSServPar{
     try{
       
       if(pars != null){
-        coll   = (SSUri)       pars.get(SSVarU.coll);
-        entry  = (SSUri)       pars.get(SSVarU.entry);
+        coll   = (SSUri)       pars.get(SSVarNames.coll);
+        entry  = (SSUri)       pars.get(SSVarNames.entry);
       }
       
       if(par.clientJSONObj != null){
-        coll    = SSUri.get        (par.clientJSONObj.get(SSVarU.coll).getTextValue());
-        entry   = SSUri.get        (par.clientJSONObj.get(SSVarU.entry).getTextValue());
+        coll    = SSUri.get        (par.clientJSONObj.get(SSVarNames.coll).getTextValue());
+        entry   = SSUri.get        (par.clientJSONObj.get(SSVarNames.entry).getTextValue());
       }   
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

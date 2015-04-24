@@ -22,7 +22,7 @@ package at.kc.tugraz.ss.category.datatypes.par;
 
 import at.kc.tugraz.ss.category.datatypes.SSCategoryLabel;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSSpaceE;
 import at.tugraz.sss.serv.SSServPar;
@@ -71,27 +71,27 @@ public class SSCategoriesUserRemovePar extends SSServPar{
     try{
       
       if(pars != null){
-        entity   = (SSUri)        pars.get(SSVarU.entity);
+        entity   = (SSUri)        pars.get(SSVarNames.entity);
         
         try{
-          label    = SSCategoryLabel.get((String) pars.get(SSVarU.label));
+          label    = SSCategoryLabel.get((String) pars.get(SSVarNames.label));
         }catch(Exception error){}
         
-        space    = (SSSpaceE)     pars.get(SSVarU.space);
+        space    = (SSSpaceE)     pars.get(SSVarNames.space);
       }
       
       if(par.clientJSONObj != null){
         
         try{
-          entity   = SSUri.get        (par.clientJSONObj.get(SSVarU.entity).getTextValue());
+          entity   = SSUri.get        (par.clientJSONObj.get(SSVarNames.entity).getTextValue());
         }catch(Exception error){}
         
         try{
-          label  = SSCategoryLabel.get   (par.clientJSONObj.get(SSVarU.label).getTextValue());
+          label  = SSCategoryLabel.get   (par.clientJSONObj.get(SSVarNames.label).getTextValue());
         }catch(Exception error){}
         
         try{
-          space      = SSSpaceE.get  (par.clientJSONObj.get(SSVarU.space).getTextValue());
+          space      = SSSpaceE.get  (par.clientJSONObj.get(SSVarNames.space).getTextValue());
         }catch(Exception error){}
       }
       

@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.service.user.datatypes;
 
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSEntityE;
@@ -94,12 +94,12 @@ public class SSUser extends SSEntity{
     final Map<String, Object> ld         = (Map<String, Object>) super.jsonLDDesc();
     final Map<String, Object> friendsObj = new HashMap<>();
     
-    ld.put(SSVarU.email,   SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
+    ld.put(SSVarNames.email,   SSVarNames.xsd + SSStrU.colon + SSStrU.valueString);
     
-    friendsObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSEntity.class.getName());
+    friendsObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSEntity.class.getName());
     friendsObj.put(SSJSONLDU.container, SSJSONLDU.set);
     
-    ld.put(SSVarU.friends, friendsObj);
+    ld.put(SSVarNames.friends, friendsObj);
     
     return ld;
   }

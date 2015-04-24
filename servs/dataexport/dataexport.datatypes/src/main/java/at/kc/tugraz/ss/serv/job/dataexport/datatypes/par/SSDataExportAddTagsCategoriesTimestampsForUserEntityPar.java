@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.serv.job.dataexport.datatypes.par;
 
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServErrReg;
@@ -42,11 +42,11 @@ public class SSDataExportAddTagsCategoriesTimestampsForUserEntityPar extends SSS
     try{
       
       if(pars != null){
-        fileName              = (String)                   pars.get(SSVarU.fileName);
-        forUser               = (SSUri)                    pars.get(SSVarU.forUser);
-        entity                = (SSUri)                    pars.get(SSVarU.entity);
-        tags                  = (List<String>)             pars.get(SSVarU.tags);
-        categories            = (List<String>)             pars.get(SSVarU.categories);
+        fileName              = (String)                   pars.get(SSVarNames.fileName);
+        forUser               = (SSUri)                    pars.get(SSVarNames.forUser);
+        entity                = (SSUri)                    pars.get(SSVarNames.entity);
+        tags                  = (List<String>)             pars.get(SSVarNames.tags);
+        categories            = (List<String>)             pars.get(SSVarNames.categories);
       }
       
     }catch(Exception error){

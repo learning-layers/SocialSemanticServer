@@ -22,7 +22,7 @@ package at.kc.tugraz.ss.category.datatypes.par;
 
 import at.kc.tugraz.ss.category.datatypes.SSCategoryLabel;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServErrReg;
 import java.util.ArrayList;
@@ -39,7 +39,7 @@ public class SSCategoriesPredefinedAddPar extends SSServPar{
     try{
       
       if(pars != null){
-        labels  =  SSCategoryLabel.get(SSStrU.distinctWithoutEmptyAndNull((List<String>) pars.get(SSVarU.labels)));
+        labels  =  SSCategoryLabel.get(SSStrU.distinctWithoutEmptyAndNull((List<String>) pars.get(SSVarNames.labels)));
       }
       
     }catch(Exception error){

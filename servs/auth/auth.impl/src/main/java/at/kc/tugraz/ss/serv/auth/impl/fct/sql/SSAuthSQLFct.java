@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.serv.auth.impl.fct.sql;
 
-import at.tugraz.sss.serv.SSSQLVarU;
+import at.tugraz.sss.serv.SSSQLVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSDBSQLFct;
 import at.tugraz.sss.serv.SSDBSQLI;
@@ -48,11 +48,11 @@ public class SSAuthSQLFct extends SSDBSQLFct{
       final List<String>        columns = new ArrayList<>();
       final Map<String, String> wheres  = new HashMap<>();
       
-      column(columns, SSSQLVarU.userId);
+      column(columns, SSSQLVarNames.userId);
       
-      where(wheres, SSSQLVarU.userId, userUri);
+      where(wheres, SSSQLVarNames.userId, userUri);
       
-      resultSet = dbSQL.select(authTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(SSSQLVarNames.authTable, columns, wheres, null, null, null);
       
       checkFirstResult(resultSet);
       
@@ -82,15 +82,15 @@ public class SSAuthSQLFct extends SSDBSQLFct{
       final List<String>        columns = new ArrayList<>();
       final Map<String, String> wheres  = new HashMap<>();
       
-      column(columns, SSSQLVarU.authKey);
+      column(columns, SSSQLVarNames.authKey);
       
-      where(wheres, SSSQLVarU.userId, userUri);
+      where(wheres, SSSQLVarNames.userId, userUri);
       
-      resultSet = dbSQL.select(authTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(SSSQLVarNames.authTable, columns, wheres, null, null, null);
       
       checkFirstResult(resultSet);
       
-      return bindingStr(resultSet, SSSQLVarU.authKey);
+      return bindingStr(resultSet, SSSQLVarNames.authKey);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -109,15 +109,15 @@ public class SSAuthSQLFct extends SSDBSQLFct{
       final List<String>        columns = new ArrayList<>();
       final Map<String, String> wheres  = new HashMap<>();
       
-      column(columns, SSSQLVarU.userId);
+      column(columns, SSSQLVarNames.userId);
       
-      where(wheres, SSSQLVarU.authKey, key);
+      where(wheres, SSSQLVarNames.authKey, key);
       
-      resultSet = dbSQL.select(authTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(SSSQLVarNames.authTable, columns, wheres, null, null, null);
       
       checkFirstResult(resultSet);
       
-      return bindingStrToUri(resultSet, SSSQLVarU.userId);
+      return bindingStrToUri(resultSet, SSSQLVarNames.userId);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -134,10 +134,10 @@ public class SSAuthSQLFct extends SSDBSQLFct{
      try{
       final Map<String, String> inserts = new HashMap<>();
       
-      insert(inserts, SSSQLVarU.userId,  userUri);
-      insert(inserts, SSSQLVarU.authKey, authKey);
+      insert(inserts, SSSQLVarNames.userId,  userUri);
+      insert(inserts, SSSQLVarNames.authKey, authKey);
       
-      dbSQL.insert(authTable, inserts);
+      dbSQL.insert(SSSQLVarNames.authTable, inserts);
       
       return authKey;
     }catch(Exception error){
@@ -154,9 +154,9 @@ public class SSAuthSQLFct extends SSDBSQLFct{
     
     try{
       
-      resultSet = dbSQL.select(authTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(SSSQLVarNames.authTable, columns, wheres, null, null, null);
       
-      return getStringsFromResult(resultSet, SSSQLVarU.authKey);
+      return getStringsFromResult(resultSet, SSSQLVarNames.authKey);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -171,9 +171,9 @@ public class SSAuthSQLFct extends SSDBSQLFct{
     try{
       final Map<String, String> deletes = new HashMap<>();
       
-      delete(deletes, SSSQLVarU.userId, user);
+      delete(deletes, SSSQLVarNames.userId, user);
       
-      dbSQL.deleteIgnore(authTable, deletes);
+      dbSQL.deleteIgnore(SSSQLVarNames.authTable, deletes);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

@@ -20,7 +20,7 @@
 */
  package at.kc.tugraz.ss.serv.modeling.ue.datatypes.pars;
 
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.enums.SSModelUERelationEnum;
 import at.tugraz.sss.serv.SSServPar;
@@ -37,8 +37,8 @@ public class SSModelUEModelRelationsPar extends SSServPar{
     
     try{
       if(pars != null){
-        entity    = (SSUri)                 pars.get(SSVarU.entity);
-        type      = (SSModelUERelationEnum) pars.get(SSVarU.type);
+        entity    = (SSUri)                 pars.get(SSVarNames.entity);
+        type      = (SSModelUERelationEnum) pars.get(SSVarNames.type);
       }
       
     }catch(Exception error){

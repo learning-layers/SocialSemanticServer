@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.friend.impl.fct.sql;
 
-import at.tugraz.sss.serv.SSSQLVarU;
+import at.tugraz.sss.serv.SSSQLVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.kc.tugraz.ss.friend.datatypes.SSFriend;
 import at.tugraz.sss.serv.SSDBSQLFct;
@@ -46,24 +46,24 @@ public class SSFriendSQLFct extends SSDBSQLFct{
       final Map<String, String> inserts     = new HashMap<>();
       final Map<String, String> uniqueKeys  = new HashMap<>();
       
-      insert(inserts, SSSQLVarU.userId,      user);
-      insert(inserts, SSSQLVarU.friendId,    friend);
+      insert(inserts, SSSQLVarNames.userId,      user);
+      insert(inserts, SSSQLVarNames.friendId,    friend);
       
-      uniqueKey(uniqueKeys, SSSQLVarU.userId,   user);
-      uniqueKey(uniqueKeys, SSSQLVarU.friendId, friend);
+      uniqueKey(uniqueKeys, SSSQLVarNames.userId,   user);
+      uniqueKey(uniqueKeys, SSSQLVarNames.friendId, friend);
       
-      dbSQL.insertIfNotExists(friendsTable, inserts, uniqueKeys);
+      dbSQL.insertIfNotExists(SSSQLVarNames.friendsTable, inserts, uniqueKeys);
       
       inserts.clear();
       uniqueKeys.clear();
       
-      insert(inserts, SSSQLVarU.userId,      friend);
-      insert(inserts, SSSQLVarU.friendId,    user);
+      insert(inserts, SSSQLVarNames.userId,      friend);
+      insert(inserts, SSSQLVarNames.friendId,    user);
       
-      uniqueKey(uniqueKeys, SSSQLVarU.userId,   friend);
-      uniqueKey(uniqueKeys, SSSQLVarU.friendId, user);
+      uniqueKey(uniqueKeys, SSSQLVarNames.userId,   friend);
+      uniqueKey(uniqueKeys, SSSQLVarNames.friendId, user);
       
-      dbSQL.insertIfNotExists(friendsTable, inserts, uniqueKeys);
+      dbSQL.insertIfNotExists(SSSQLVarNames.friendsTable, inserts, uniqueKeys);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -81,18 +81,16 @@ public class SSFriendSQLFct extends SSDBSQLFct{
       final List<String>        columns   = new ArrayList<>();
       final Map<String, String> wheres    = new HashMap<>();
       
-      column(columns, SSSQLVarU.userId);
-      column(columns, SSSQLVarU.friendId);
+      column(columns, SSSQLVarNames.userId);
+      column(columns, SSSQLVarNames.friendId);
       
-      where     (wheres,    SSSQLVarU.userId, user);
+      where     (wheres,    SSSQLVarNames.userId, user);
       
-      resultSet = dbSQL.select(friendsTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(SSSQLVarNames.friendsTable, columns, wheres, null, null, null);
       
       while(resultSet.next()){
         
-        friends.add(
-          SSFriend.get(
-            bindingStrToUri(resultSet, SSSQLVarU.friendId)));
+        friends.add(SSFriend.get(bindingStrToUri(resultSet, SSSQLVarNames.friendId)));
       }
       
       return friends;

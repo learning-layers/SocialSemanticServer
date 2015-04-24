@@ -23,7 +23,7 @@
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSJSONLDU;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServRetI;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -55,15 +55,15 @@ public class SSFileGetEditingFilesRet extends SSServRetI{
     Map<String, Object> fileUrisObj  = new HashMap<>();
     Map<String, Object> fileNamesObj = new HashMap<>();
     
-    fileUrisObj.put(SSJSONLDU.id,        SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
+    fileUrisObj.put(SSJSONLDU.id,        SSVarNames.xsd + SSStrU.colon + SSStrU.valueString);
     fileUrisObj.put(SSJSONLDU.container, SSJSONLDU.set);
     
-    ld.put(SSVarU.files, fileUrisObj);
+    ld.put(SSVarNames.files, fileUrisObj);
     
-    fileNamesObj.put(SSJSONLDU.id,        SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
+    fileNamesObj.put(SSJSONLDU.id,        SSVarNames.xsd + SSStrU.colon + SSStrU.valueString);
     fileNamesObj.put(SSJSONLDU.container, SSJSONLDU.set);
     
-    ld.put(SSVarU.labels, fileNamesObj);
+    ld.put(SSVarNames.labels, fileNamesObj);
     
     return ld;
   }

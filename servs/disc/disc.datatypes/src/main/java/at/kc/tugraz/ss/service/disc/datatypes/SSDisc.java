@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.service.disc.datatypes;
 
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
@@ -65,7 +65,7 @@ public class SSDisc extends SSEntity {
    
     final Map<String, Object> ld = (Map<String, Object>) super.jsonLDDesc();
     
-    ld.put(SSVarU.entity, SSVarU.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarNames.entity, SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
     
     return ld;
   }

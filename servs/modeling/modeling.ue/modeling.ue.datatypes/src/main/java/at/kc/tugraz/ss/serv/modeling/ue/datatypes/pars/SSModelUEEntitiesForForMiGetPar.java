@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.serv.modeling.ue.datatypes.pars;
 
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.SSModelUEMILabel;
@@ -36,7 +36,7 @@ public class SSModelUEEntitiesForForMiGetPar extends SSServPar{
     try{
       
       if(pars != null){
-        mi   = SSModelUEMILabel.get((String) pars.get(SSVarU.mi));
+        mi   = SSModelUEMILabel.get((String) pars.get(SSVarNames.mi));
       }
       
     }catch(Exception error){

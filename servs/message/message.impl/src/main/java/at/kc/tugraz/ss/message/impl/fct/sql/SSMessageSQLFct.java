@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.message.impl.fct.sql;
 
-import at.tugraz.sss.serv.SSSQLVarU;
+import at.tugraz.sss.serv.SSSQLVarNames;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
@@ -52,12 +52,12 @@ public class SSMessageSQLFct extends SSDBSQLFct{
     try{
       final Map<String, String> inserts =  new HashMap<>();
       
-      insert(inserts, SSSQLVarU.messageId,      message);
-      insert(inserts, SSSQLVarU.userId,         user);
-      insert(inserts, SSSQLVarU.forEntityId,    forUser);
-      insert(inserts, SSSQLVarU.messageContent, messageContent);
+      insert(inserts, SSSQLVarNames.messageId,      message);
+      insert(inserts, SSSQLVarNames.userId,         user);
+      insert(inserts, SSSQLVarNames.forEntityId,    forUser);
+      insert(inserts, SSSQLVarNames.messageContent, messageContent);
       
-      dbSQL.insert(messageTable, inserts);
+      dbSQL.insert(SSSQLVarNames.messageTable, inserts);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -78,15 +78,15 @@ public class SSMessageSQLFct extends SSDBSQLFct{
       final List<String>                                           columns        = new ArrayList<>();
       final List<String>                                           tableCons      = new ArrayList<>();
       
-      column    (columns,   messageTable,       SSSQLVarU.userId);
-      column    (columns,   messageTable,       SSSQLVarU.messageId);
-      column    (columns,   messageTable,       SSSQLVarU.messageContent);
-      column    (columns,   entityTable,        SSSQLVarU.creationTime);
+      column    (columns, SSSQLVarNames.messageTable,       SSSQLVarNames.userId);
+      column    (columns, SSSQLVarNames.messageTable,       SSSQLVarNames.messageId);
+      column    (columns, SSSQLVarNames.messageTable,       SSSQLVarNames.messageContent);
+      column    (columns, SSSQLVarNames.entityTable,        SSSQLVarNames.creationTime);
 
-      table     (tables,    messageTable);
-      table     (tables,    entityTable);     
+      table     (tables, SSSQLVarNames.messageTable);
+      table     (tables, SSSQLVarNames.entityTable);     
       
-      tableCon  (tableCons, messageTable, SSSQLVarU.messageId, entityTable, SSSQLVarU.id);
+      tableCon  (tableCons, SSSQLVarNames.messageTable, SSSQLVarNames.messageId, SSSQLVarNames.entityTable, SSSQLVarNames.id);
 
       if(targetUserURI == null){
         throw new Exception("target user has to be given");
@@ -94,7 +94,7 @@ public class SSMessageSQLFct extends SSDBSQLFct{
        
       final MultivaluedMap<String, String> whereUsers = new MultivaluedHashMap<>();
       
-      where(whereUsers, messageTable, SSSQLVarU.forEntityId, targetUserURI);
+      where(whereUsers, SSSQLVarNames.messageTable, SSSQLVarNames.forEntityId, targetUserURI);
       
       wheres.add(whereUsers);
 
@@ -107,7 +107,7 @@ public class SSMessageSQLFct extends SSDBSQLFct{
 
         wheresNumeric.put(SSStrU.greaterThan, greaterWheres);
         
-        where(whereNumbericStartTimes, entityTable, SSSQLVarU.creationTime, startTime);
+        where(whereNumbericStartTimes, SSSQLVarNames.entityTable, SSSQLVarNames.creationTime, startTime);
         
         greaterWheres.add(whereNumbericStartTimes);
       }
@@ -120,13 +120,11 @@ public class SSMessageSQLFct extends SSDBSQLFct{
       
       while(resultSet.next()){
         
-        messages.add(
-          SSMessage.get(
-            bindingStrToUri(resultSet, SSSQLVarU.messageId), 
-            bindingStrToUri(resultSet, SSSQLVarU.userId), 
+        messages.add(SSMessage.get(bindingStrToUri(resultSet, SSSQLVarNames.messageId), 
+            bindingStrToUri(resultSet, SSSQLVarNames.userId), 
             targetUserURI, 
-            bindingStrToTextComment(resultSet, SSSQLVarU.messageContent),
-            bindingStrToLong(resultSet, SSSQLVarU.creationTime)));
+            bindingStrToTextComment(resultSet, SSSQLVarNames.messageContent),
+            bindingStrToLong(resultSet, SSSQLVarNames.creationTime)));
       }
       
       return messages;

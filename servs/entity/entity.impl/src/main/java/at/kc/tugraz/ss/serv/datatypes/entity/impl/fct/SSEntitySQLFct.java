@@ -23,7 +23,7 @@ package at.kc.tugraz.ss.serv.datatypes.entity.impl.fct;
 import at.tugraz.sss.serv.SSDBSQLFct;
 import at.kc.tugraz.ss.service.search.datatypes.SSSearchOpE;
 import at.tugraz.sss.serv.SSDateU;
-import at.tugraz.sss.serv.SSSQLVarU;
+import at.tugraz.sss.serv.SSSQLVarNames;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSEntityE;
@@ -63,11 +63,11 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       final List<String>        columns = new ArrayList<>();
       final Map<String, String> where   = new HashMap<>();
       
-      column(columns, SSSQLVarU.id);
+      column(columns, SSSQLVarNames.id);
       
-      where(where, SSSQLVarU.id, entity);
+      where(where, SSSQLVarNames.id, entity);
       
-      resultSet = dbSQL.select(entityTable, columns, where, null, null, null);
+      resultSet = dbSQL.select(SSSQLVarNames.entityTable, columns, where, null, null, null);
       
       try{
         checkFirstResult(resultSet);
@@ -101,28 +101,27 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       final Map<String, String> where   = new HashMap<>();
       final SSEntity            entityObj;
       
-      column(columns, SSSQLVarU.id);
-      column(columns, SSSQLVarU.type);
-      column(columns, SSSQLVarU.label);
-      column(columns, SSSQLVarU.creationTime);
-      column(columns, SSSQLVarU.author);
-      column(columns, SSSQLVarU.description);
+      column(columns, SSSQLVarNames.id);
+      column(columns, SSSQLVarNames.type);
+      column(columns, SSSQLVarNames.label);
+      column(columns, SSSQLVarNames.creationTime);
+      column(columns, SSSQLVarNames.author);
+      column(columns, SSSQLVarNames.description);
       
-      where(where, SSSQLVarU.id, entityUri);
+      where(where, SSSQLVarNames.id, entityUri);
       
-      resultSet = dbSQL.select(entityTable, columns, where, null, null, null);
+      resultSet = dbSQL.select(SSSQLVarNames.entityTable, columns, where, null, null, null);
       
       checkFirstResult(resultSet);
       
       entityObj =
-        SSEntity.get(
-          entityUri,
-          bindingStrToEntityType (resultSet, SSSQLVarU.type),
-          bindingStrToLabel      (resultSet, SSSQLVarU.label));
+        SSEntity.get(entityUri,
+          bindingStrToEntityType (resultSet, SSSQLVarNames.type),
+          bindingStrToLabel      (resultSet, SSSQLVarNames.label));
       
-      entityObj.creationTime = bindingStrToLong       (resultSet, SSSQLVarU.creationTime);
-      entityObj.author       = bindingStrToUri        (resultSet, SSSQLVarU.author);
-      entityObj.description  = bindingStrToTextComment(resultSet, SSSQLVarU.description);
+      entityObj.creationTime = bindingStrToLong       (resultSet, SSSQLVarNames.creationTime);
+      entityObj.author       = bindingStrToUri        (resultSet, SSSQLVarNames.author);
+      entityObj.description  = bindingStrToTextComment(resultSet, SSSQLVarNames.description);
 
       return entityObj;
     }catch(Exception error){
@@ -150,29 +149,28 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       final Map<String, String> where   = new HashMap<>();
       final SSEntity            entityObj;
       
-      column(columns, SSSQLVarU.id);
-      column(columns, SSSQLVarU.label);
-      column(columns, SSSQLVarU.type);
-      column(columns, SSSQLVarU.creationTime);
-      column(columns, SSSQLVarU.author);
-      column(columns, SSSQLVarU.description);
+      column(columns, SSSQLVarNames.id);
+      column(columns, SSSQLVarNames.label);
+      column(columns, SSSQLVarNames.type);
+      column(columns, SSSQLVarNames.creationTime);
+      column(columns, SSSQLVarNames.author);
+      column(columns, SSSQLVarNames.description);
       
-      where(where, SSSQLVarU.label, label);
-      where(where, SSSQLVarU.type,  type);
+      where(where, SSSQLVarNames.label, label);
+      where(where, SSSQLVarNames.type,  type);
       
-      resultSet = dbSQL.select(entityTable, columns, where, null, null, null);
+      resultSet = dbSQL.select(SSSQLVarNames.entityTable, columns, where, null, null, null);
       
       checkFirstResult(resultSet);
       
       entityObj =
-        SSEntity.get(
-          bindingStrToUri        (resultSet, SSSQLVarU.id),
+        SSEntity.get(bindingStrToUri        (resultSet, SSSQLVarNames.id),
           type,
           label);
       
-      entityObj.creationTime = bindingStrToLong       (resultSet, SSSQLVarU.creationTime);
-      entityObj.author       = bindingStrToUri        (resultSet, SSSQLVarU.author);
-      entityObj.description  = bindingStrToTextComment(resultSet, SSSQLVarU.description);
+      entityObj.creationTime = bindingStrToLong       (resultSet, SSSQLVarNames.creationTime);
+      entityObj.author       = bindingStrToUri        (resultSet, SSSQLVarNames.author);
+      entityObj.description  = bindingStrToTextComment(resultSet, SSSQLVarNames.description);
 
       return entityObj;
     }catch(Exception error){
@@ -202,9 +200,9 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       final List<String>                         tableCons  = new ArrayList<>();
       final List<MultivaluedMap<String, String>> wheres     = new ArrayList<>();
       
-      column (columns, SSSQLVarU.id);
+      column (columns, SSSQLVarNames.id);
       
-      table  (tables,  entityTable);
+      table  (tables, SSSQLVarNames.entityTable);
       
       if(author == null){
         throw new Exception("author has to be given");
@@ -212,7 +210,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       
       final MultivaluedMap<String, String> whereAuthors = new MultivaluedHashMap<>();
       
-      where(whereAuthors, entityTable, SSSQLVarU.author, author);
+      where(whereAuthors, SSSQLVarNames.entityTable, SSSQLVarNames.author, author);
       
       wheres.add(whereAuthors);
       
@@ -223,7 +221,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
         final MultivaluedMap<String, String> whereTypes = new MultivaluedHashMap<>();
         
         for(SSEntityE type : types){
-          where(whereTypes, entityTable, SSSQLVarU.type, type);
+          where(whereTypes, SSSQLVarNames.entityTable, SSSQLVarNames.type, type);
         }
         
         wheres.add(whereTypes);
@@ -231,7 +229,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       
       resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
       
-      return getURIsFromResult(resultSet, SSSQLVarU.id);
+      return getURIsFromResult(resultSet, SSSQLVarNames.id);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -255,14 +253,14 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       final List<SSEntity>                       entities   = new ArrayList<>();
       SSEntity                                   entity;
       
-      column (columns, SSSQLVarU.id);
-      column (columns, SSSQLVarU.type);
-      column (columns, SSSQLVarU.label);
-      column (columns, SSSQLVarU.creationTime);
-      column (columns, SSSQLVarU.author);
-      column (columns, SSSQLVarU.description);
+      column (columns, SSSQLVarNames.id);
+      column (columns, SSSQLVarNames.type);
+      column (columns, SSSQLVarNames.label);
+      column (columns, SSSQLVarNames.creationTime);
+      column (columns, SSSQLVarNames.author);
+      column (columns, SSSQLVarNames.description);
       
-      table  (tables,  entityTable);
+      table  (tables, SSSQLVarNames.entityTable);
       
       if(
         (entityURIs == null || entityURIs.isEmpty()) &&
@@ -278,7 +276,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
         final MultivaluedMap<String, String> whereEntities = new MultivaluedHashMap<>();
         
         for(SSUri entityURI : entityURIs){
-          where(whereEntities, entityTable, SSSQLVarU.id, entityURI);
+          where(whereEntities, SSSQLVarNames.entityTable, SSSQLVarNames.id, entityURI);
         }
         
         wheres.add(whereEntities);
@@ -291,7 +289,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
         final MultivaluedMap<String, String> whereTypes = new MultivaluedHashMap<>();
         
         for(SSEntityE type : types){
-          where(whereTypes, entityTable, SSSQLVarU.type, type);
+          where(whereTypes, SSSQLVarNames.entityTable, SSSQLVarNames.type, type);
         }
         
         wheres.add(whereTypes);
@@ -302,14 +300,13 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       while(resultSet.next()){
         
         entity =
-          SSEntity.get(
-            bindingStrToUri        (resultSet, SSSQLVarU.id),
-            bindingStrToEntityType (resultSet, SSSQLVarU.type),
-            bindingStrToLabel      (resultSet, SSSQLVarU.label));
+          SSEntity.get(bindingStrToUri        (resultSet, SSSQLVarNames.id),
+            bindingStrToEntityType (resultSet, SSSQLVarNames.type),
+            bindingStrToLabel      (resultSet, SSSQLVarNames.label));
         
-        entity.creationTime = bindingStrToLong       (resultSet, SSSQLVarU.creationTime);
-        entity.author       = bindingStrToUri        (resultSet, SSSQLVarU.author);
-        entity.description  = bindingStrToTextComment(resultSet, SSSQLVarU.description);
+        entity.creationTime = bindingStrToLong       (resultSet, SSSQLVarNames.creationTime);
+        entity.author       = bindingStrToUri        (resultSet, SSSQLVarNames.author);
+        entity.description  = bindingStrToTextComment(resultSet, SSSQLVarNames.description);
         
         entities.add(entity);
       }
@@ -335,62 +332,62 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       
       final Map<String, String> inserts    = new HashMap<>();
       
-      insert    (inserts,     SSSQLVarU.id, entity);
+      insert    (inserts,     SSSQLVarNames.id, entity);
       
       if(
         creationTime == null ||
         creationTime == 0){
-        insert(inserts, SSSQLVarU.creationTime, SSDateU.dateAsLong());
+        insert(inserts, SSSQLVarNames.creationTime, SSDateU.dateAsLong());
       }else{
-        insert(inserts, SSSQLVarU.creationTime, creationTime);
+        insert(inserts, SSSQLVarNames.creationTime, creationTime);
       }
       
       if(label == null){
-        insert(inserts, SSSQLVarU.label, SSStrU.empty);
+        insert(inserts, SSSQLVarNames.label, SSStrU.empty);
       }else{
-        insert(inserts, SSSQLVarU.label, SSStrU.trim(label, SSDBSQLI.entityLabelLength));
+        insert(inserts, SSSQLVarNames.label, SSStrU.trim(label, SSDBSQLI.entityLabelLength));
       }
       
       if(entityType == null){
-        insert(inserts, SSSQLVarU.type, SSEntityE.entity);
+        insert(inserts, SSSQLVarNames.type, SSEntityE.entity);
       }else{
-        insert(inserts, SSSQLVarU.type, entityType);
+        insert(inserts, SSSQLVarNames.type, entityType);
       }
       
       if(authorUri == null){
-        insert(inserts, SSSQLVarU.author, SSStrU.empty);
+        insert(inserts, SSSQLVarNames.author, SSStrU.empty);
       }else{
-        insert(inserts, SSSQLVarU.author, authorUri);
+        insert(inserts, SSSQLVarNames.author, authorUri);
       }
       
       if(description == null){
-        insert(inserts, SSSQLVarU.description, SSStrU.empty);
+        insert(inserts, SSSQLVarNames.description, SSStrU.empty);
       }else{
-        insert(inserts, SSSQLVarU.description, description);
+        insert(inserts, SSSQLVarNames.description, description);
       }
       
-      dbSQL.insert(entityTable, inserts);
+      dbSQL.insert(SSSQLVarNames.entityTable, inserts);
     }else{
       
       try{
         final Map<String, String>  wheres   = new HashMap<>();
         final Map<String, String>  updates  = new HashMap<>();
         
-        where(wheres, SSSQLVarU.id, entity);
+        where(wheres, SSSQLVarNames.id, entity);
         
         if(label != null){
-          update (updates, SSSQLVarU.label, label);
+          update (updates, SSSQLVarNames.label, label);
         }
         
         if(description != null){
-          update (updates, SSSQLVarU.description, description);
+          update (updates, SSSQLVarNames.description, description);
         }
         
         if(updates.isEmpty()){
           return;
         }
         
-        dbSQL.update(entityTable, wheres, updates);
+        dbSQL.update(SSSQLVarNames.entityTable, wheres, updates);
         
       }catch(Exception error){
         SSServErrReg.regErrThrow(error);
@@ -404,9 +401,9 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     try{
       final Map<String, String> deletes = new HashMap<>();
       
-      delete(deletes, SSSQLVarU.id, entityUri);
+      delete(deletes, SSSQLVarNames.id, entityUri);
       
-      dbSQL.deleteIgnore(entityTable, deletes);
+      dbSQL.deleteIgnore(SSSQLVarNames.entityTable, deletes);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
@@ -415,7 +412,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
   public void removeAllEntities() throws Exception {
     
     try{
-      dbSQL.delete(entityTable);
+      dbSQL.delete(SSSQLVarNames.entityTable);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
@@ -429,10 +426,10 @@ public class SSEntitySQLFct extends SSDBSQLFct{
 
       final Map<String, String> inserts = new HashMap<>();
       
-      insert(inserts, SSSQLVarU.entityId,   entity);
-      insert(inserts, SSSQLVarU.thumbId, thumb);
+      insert(inserts, SSSQLVarNames.entityId,   entity);
+      insert(inserts, SSSQLVarNames.thumbId, thumb);
       
-      dbSQL.insert(thumbnailsTable, inserts);
+      dbSQL.insert(SSSQLVarNames.thumbnailsTable, inserts);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -448,13 +445,13 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       final Map<String, String> inserts = new HashMap<>();
       final Map<String, String> uniqueKeys = new HashMap<>();
       
-      insert(inserts, SSSQLVarU.entityId,         entity);
-      insert(inserts, SSSQLVarU.attachedEntityId, entityToAttach);
+      insert(inserts, SSSQLVarNames.entityId,         entity);
+      insert(inserts, SSSQLVarNames.attachedEntityId, entityToAttach);
       
-      uniqueKey(uniqueKeys, SSSQLVarU.entityId,          entity);
-      uniqueKey(uniqueKeys, SSSQLVarU.attachedEntityId,  entityToAttach);
+      uniqueKey(uniqueKeys, SSSQLVarNames.entityId,          entity);
+      uniqueKey(uniqueKeys, SSSQLVarNames.attachedEntityId,  entityToAttach);
       
-      dbSQL.insertIfNotExists(entitiesTable, inserts, uniqueKeys);
+      dbSQL.insertIfNotExists(SSSQLVarNames.entitiesTable, inserts, uniqueKeys);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -474,33 +471,32 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       final List<String>        tableCons        = new ArrayList<>();
       SSEntity                  entityObj;
       
-      column(columns, SSSQLVarU.id);
-      column(columns, SSSQLVarU.label);
-      column(columns, SSSQLVarU.creationTime);
-      column(columns, SSSQLVarU.type);
-      column(columns, SSSQLVarU.author);
-      column(columns, SSSQLVarU.description);
+      column(columns, SSSQLVarNames.id);
+      column(columns, SSSQLVarNames.label);
+      column(columns, SSSQLVarNames.creationTime);
+      column(columns, SSSQLVarNames.type);
+      column(columns, SSSQLVarNames.author);
+      column(columns, SSSQLVarNames.description);
 
-      table(tables, entityTable);
-      table(tables, entitiesTable);
+      table(tables, SSSQLVarNames.entityTable);
+      table(tables, SSSQLVarNames.entitiesTable);
       
-      where(wheres, entitiesTable, SSSQLVarU.entityId, entity);
+      where(wheres, SSSQLVarNames.entitiesTable, SSSQLVarNames.entityId, entity);
       
-      tableCon(tableCons, entityTable, SSSQLVarU.id, entitiesTable, SSSQLVarU.attachedEntityId);
+      tableCon(tableCons, SSSQLVarNames.entityTable, SSSQLVarNames.id, SSSQLVarNames.entitiesTable, SSSQLVarNames.attachedEntityId);
       
       resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
       
       while(resultSet.next()){
         
         entityObj =
-          SSEntity.get(
-            bindingStrToUri           (resultSet, SSSQLVarU.id),
-            bindingStrToEntityType    (resultSet, SSSQLVarU.type),
-            bindingStrToLabel         (resultSet, SSSQLVarU.label));
+          SSEntity.get(bindingStrToUri           (resultSet, SSSQLVarNames.id),
+            bindingStrToEntityType    (resultSet, SSSQLVarNames.type),
+            bindingStrToLabel         (resultSet, SSSQLVarNames.label));
         
-        entityObj.creationTime = bindingStrToLong          (resultSet, SSSQLVarU.creationTime);
-        entityObj.author       = bindingStrToUri           (resultSet, SSSQLVarU.author);
-        entityObj.description  = bindingStrToTextComment   (resultSet, SSSQLVarU.description);
+        entityObj.creationTime = bindingStrToLong          (resultSet, SSSQLVarNames.creationTime);
+        entityObj.author       = bindingStrToUri           (resultSet, SSSQLVarNames.author);
+        entityObj.description  = bindingStrToTextComment   (resultSet, SSSQLVarNames.description);
 
         attachedEntities.add(entityObj);
       }
@@ -523,10 +519,10 @@ public class SSEntitySQLFct extends SSDBSQLFct{
 
       final Map<String, String> inserts = new HashMap<>();
       
-      insert(inserts, SSSQLVarU.entityId,   entity);
-      insert(inserts, SSSQLVarU.fileId,     file);
+      insert(inserts, SSSQLVarNames.entityId,   entity);
+      insert(inserts, SSSQLVarNames.fileId,     file);
       
-      dbSQL.insert(filesTable, inserts);
+      dbSQL.insert(SSSQLVarNames.filesTable, inserts);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -541,13 +537,13 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       final List<String>        columns = new ArrayList<>();
       final Map<String, String> wheres  = new HashMap<>();
       
-      column(columns, SSSQLVarU.thumbId);
+      column(columns, SSSQLVarNames.thumbId);
       
-      where(wheres, SSSQLVarU.entityId, entity);
+      where(wheres, SSSQLVarNames.entityId, entity);
       
-      resultSet = dbSQL.select(thumbnailsTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(SSSQLVarNames.thumbnailsTable, columns, wheres, null, null, null);
       
-      return getURIsFromResult(resultSet, SSSQLVarU.thumbId);
+      return getURIsFromResult(resultSet, SSSQLVarNames.thumbId);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -569,26 +565,26 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       final Map<String, String> wheres     = new HashMap<>();
       final List<String>        tableCons  = new ArrayList<>();
       
-      column (columns, imageTable, SSSQLVarU.imageId);
-      table  (tables, imageTable);
+      column (columns, SSSQLVarNames.imageTable, SSSQLVarNames.imageId);
+      table  (tables, SSSQLVarNames.imageTable);
       
       if(forEntity != null){
-        where   (wheres,    entitiesTable, SSSQLVarU.entityId, forEntity);
-        table   (tables,    entitiesTable);
-        tableCon(tableCons, imageTable, SSSQLVarU.imageId, entitiesTable, SSSQLVarU.attachedEntityId);
+        where   (wheres, SSSQLVarNames.entitiesTable, SSSQLVarNames.entityId, forEntity);
+        table   (tables, SSSQLVarNames.entitiesTable);
+        tableCon(tableCons, SSSQLVarNames.imageTable, SSSQLVarNames.imageId, SSSQLVarNames.entitiesTable, SSSQLVarNames.attachedEntityId);
       }
       
       if(type != null){
-        where(wheres, imageTable, SSSQLVarU.type, type);
+        where(wheres, SSSQLVarNames.imageTable, SSSQLVarNames.type, type);
       }
       
       if(!tableCons.isEmpty()){
         resultSet = dbSQL.select(tables,     columns, wheres, tableCons, null, null, null);
       }else{
-        resultSet = dbSQL.select(imageTable, columns, wheres, null, null, null);
+        resultSet = dbSQL.select(SSSQLVarNames.imageTable, columns, wheres, null, null, null);
       }
       
-      return getURIsFromResult(resultSet, SSSQLVarU.imageId);
+      return getURIsFromResult(resultSet, SSSQLVarNames.imageId);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -607,13 +603,13 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       final List<String>        columns           = new ArrayList<>();
       final Map<String, String> wheres            = new HashMap<>();
       
-      column(columns, SSSQLVarU.downloadId);
+      column(columns, SSSQLVarNames.downloadId);
       
-      where(wheres, SSSQLVarU.entityId, entity);
+      where(wheres, SSSQLVarNames.entityId, entity);
       
-      resultSet = dbSQL.select(downloadsTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(SSSQLVarNames.downloadsTable, columns, wheres, null, null, null);
       
-      return getURIsFromResult(resultSet, SSSQLVarU.downloadId);
+      return getURIsFromResult(resultSet, SSSQLVarNames.downloadId);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -631,13 +627,13 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       final List<String>        columns           = new ArrayList<>();
       final Map<String, String> wheres            = new HashMap<>();
       
-      column(columns, SSSQLVarU.fileId);
+      column(columns, SSSQLVarNames.fileId);
       
-      where(wheres, SSSQLVarU.entityId, entity);
+      where(wheres, SSSQLVarNames.entityId, entity);
       
-      resultSet = dbSQL.select(filesTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(SSSQLVarNames.filesTable, columns, wheres, null, null, null);
       
-      return getURIsFromResult(resultSet, SSSQLVarU.fileId);
+      return getURIsFromResult(resultSet, SSSQLVarNames.fileId);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -660,24 +656,23 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       final List<String>              matches   = new ArrayList<>();
       SSEntity                        entityObj;
       
-      column (columns, SSSQLVarU.id);
-      column (columns, SSSQLVarU.label);
-      column (columns, SSSQLVarU.description);
-      column (columns, SSSQLVarU.type);
-      match  (matches, SSSQLVarU.label);
-      match  (matches, SSSQLVarU.description);
+      column (columns, SSSQLVarNames.id);
+      column (columns, SSSQLVarNames.label);
+      column (columns, SSSQLVarNames.description);
+      column (columns, SSSQLVarNames.type);
+      match  (matches, SSSQLVarNames.label);
+      match  (matches, SSSQLVarNames.description);
       
-      resultSet = dbSQL.select(entityTable, columns, matches, requireds, absents, eithers);
+      resultSet = dbSQL.select(SSSQLVarNames.entityTable, columns, matches, requireds, absents, eithers);
       
       while(resultSet.next()){
       
         entityObj =
-          SSEntity.get(
-            bindingStrToUri        (resultSet, SSSQLVarU.id),
-            bindingStrToEntityType (resultSet, SSSQLVarU.type),
-            bindingStrToLabel      (resultSet, SSSQLVarU.label));
+          SSEntity.get(bindingStrToUri        (resultSet, SSSQLVarNames.id),
+            bindingStrToEntityType (resultSet, SSSQLVarNames.type),
+            bindingStrToLabel      (resultSet, SSSQLVarNames.label));
         
-        entityObj.description = bindingStrToTextComment(resultSet, SSSQLVarU.description);
+        entityObj.description = bindingStrToTextComment(resultSet, SSSQLVarNames.description);
         
         entities.add(entityObj);
       }
@@ -707,12 +702,12 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       final List<String>                         tableCons  = new ArrayList<>();
       SSEntity                                   entityObj;
       
-      column (columns, SSSQLVarU.id);
-      column (columns, SSSQLVarU.label);
-      column (columns, SSSQLVarU.type);
-      column (columns, SSSQLVarU.description);
+      column (columns, SSSQLVarNames.id);
+      column (columns, SSSQLVarNames.label);
+      column (columns, SSSQLVarNames.type);
+      column (columns, SSSQLVarNames.description);
       
-      table(tables, entityTable);
+      table(tables, SSSQLVarNames.entityTable);
       
       if(searchOp == null){
         throw new Exception("search for labels search operation null");
@@ -729,7 +724,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
             !labelStrings.isEmpty()){
             
             for(String labelString : labelStrings){
-              where(likeContents, entityTable, SSSQLVarU.label, labelString);
+              where(likeContents, SSSQLVarNames.entityTable, SSSQLVarNames.label, labelString);
             }
           }
           
@@ -738,7 +733,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
             !descStrings.isEmpty()){
             
             for(String descString : descStrings){
-              where(likeContents, entityTable, SSSQLVarU.description, descString);
+              where(likeContents, SSSQLVarNames.entityTable, SSSQLVarNames.description, descString);
             }
           }
           
@@ -752,7 +747,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
             
             likeContents = new MultivaluedHashMap<>();
             
-            where(likeContents, entityTable, SSSQLVarU.label, labelString);
+            where(likeContents, SSSQLVarNames.entityTable, SSSQLVarNames.label, labelString);
             
             likes.add(likeContents);
           }
@@ -761,7 +756,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
             
             likeContents = new MultivaluedHashMap<>();
             
-            where(likeContents, entityTable, SSSQLVarU.description, descString);
+            where(likeContents, SSSQLVarNames.entityTable, SSSQLVarNames.description, descString);
             
             likes.add(likeContents);
           }
@@ -775,12 +770,11 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       while(resultSet.next()){
         
         entityObj =
-          SSEntity.get(
-            bindingStrToUri        (resultSet, SSSQLVarU.id),
-            bindingStrToEntityType (resultSet, SSSQLVarU.type),
-            bindingStrToLabel      (resultSet, SSSQLVarU.label));
+          SSEntity.get(bindingStrToUri        (resultSet, SSSQLVarNames.id),
+            bindingStrToEntityType (resultSet, SSSQLVarNames.type),
+            bindingStrToLabel      (resultSet, SSSQLVarNames.label));
          
-         entityObj.description = bindingStrToTextComment(resultSet, SSSQLVarU.description);
+         entityObj.description = bindingStrToTextComment(resultSet, SSSQLVarNames.description);
          
          entities.add(entityObj);
       }      
@@ -808,23 +802,22 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       final List<String>              matches   = new ArrayList<>();
       SSEntity                        entityObj;
       
-      column (columns, SSSQLVarU.id);
-      column (columns, SSSQLVarU.label);
-      column (columns, SSSQLVarU.type);
-      column (columns, SSSQLVarU.description);
-      match  (matches, SSSQLVarU.label);
+      column (columns, SSSQLVarNames.id);
+      column (columns, SSSQLVarNames.label);
+      column (columns, SSSQLVarNames.type);
+      column (columns, SSSQLVarNames.description);
+      match  (matches, SSSQLVarNames.label);
       
-      resultSet = dbSQL.select(entityTable, columns, matches, requireds, absents, eithers);
+      resultSet = dbSQL.select(SSSQLVarNames.entityTable, columns, matches, requireds, absents, eithers);
       
       while(resultSet.next()){
         
         entityObj =
-          SSEntity.get(
-            bindingStrToUri        (resultSet, SSSQLVarU.id),
-            bindingStrToEntityType (resultSet, SSSQLVarU.type),
-            bindingStrToLabel      (resultSet, SSSQLVarU.label));
+          SSEntity.get(bindingStrToUri        (resultSet, SSSQLVarNames.id),
+            bindingStrToEntityType (resultSet, SSSQLVarNames.type),
+            bindingStrToLabel      (resultSet, SSSQLVarNames.label));
          
-         entityObj.description = bindingStrToTextComment(resultSet, SSSQLVarU.description);
+         entityObj.description = bindingStrToTextComment(resultSet, SSSQLVarNames.description);
          
          entities.add(entityObj);
       }      
@@ -852,23 +845,22 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       final List<String>              matches   = new ArrayList<>();
       SSEntity                        entityObj;
       
-      column (columns, SSSQLVarU.id);
-      column (columns, SSSQLVarU.label);
-      column (columns, SSSQLVarU.type);
-      column (columns, SSSQLVarU.description);
-      match  (matches, SSSQLVarU.description);
+      column (columns, SSSQLVarNames.id);
+      column (columns, SSSQLVarNames.label);
+      column (columns, SSSQLVarNames.type);
+      column (columns, SSSQLVarNames.description);
+      match  (matches, SSSQLVarNames.description);
       
-      resultSet = dbSQL.select(entityTable, columns, matches, requireds, absents, eithers);
+      resultSet = dbSQL.select(SSSQLVarNames.entityTable, columns, matches, requireds, absents, eithers);
       
       while(resultSet.next()){
         
         entityObj =
-          SSEntity.get(
-            bindingStrToUri        (resultSet, SSSQLVarU.id),
-            bindingStrToEntityType (resultSet, SSSQLVarU.type),
-            bindingStrToLabel      (resultSet, SSSQLVarU.label));
+          SSEntity.get(bindingStrToUri        (resultSet, SSSQLVarNames.id),
+            bindingStrToEntityType (resultSet, SSSQLVarNames.type),
+            bindingStrToLabel      (resultSet, SSSQLVarNames.label));
          
-         entityObj.description = bindingStrToTextComment(resultSet, SSSQLVarU.description);
+         entityObj.description = bindingStrToTextComment(resultSet, SSSQLVarNames.description);
          
          entities.add(entityObj);
       }
@@ -893,12 +885,12 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       final List<String>        columns   = new ArrayList<>();
       final Map<String, String> wheres    = new HashMap<>();
       
-      column(columns, SSSQLVarU.entityId);
+      column(columns, SSSQLVarNames.entityId);
       
-      where(wheres, SSSQLVarU.userId,   user);
-      where(wheres, SSSQLVarU.entityId, entity);
+      where(wheres, SSSQLVarNames.userId,   user);
+      where(wheres, SSSQLVarNames.entityId, entity);
       
-      resultSet = dbSQL.select(entityReadsTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(SSSQLVarNames.entityReadsTable, columns, wheres, null, null, null);
       
       return resultSet.first();
       
@@ -926,20 +918,20 @@ public class SSEntitySQLFct extends SSDBSQLFct{
         final Map<String, String> inserts    = new HashMap<>();
         final Map<String, String> uniqueKeys = new HashMap<>();
 
-        insert(inserts, SSSQLVarU.userId,       user);
-        insert(inserts, SSSQLVarU.entityId,     entity);
+        insert(inserts, SSSQLVarNames.userId,       user);
+        insert(inserts, SSSQLVarNames.entityId,     entity);
 
-        uniqueKey(uniqueKeys, SSSQLVarU.userId,   user);
-        uniqueKey(uniqueKeys, SSSQLVarU.entityId, entity);
+        uniqueKey(uniqueKeys, SSSQLVarNames.userId,   user);
+        uniqueKey(uniqueKeys, SSSQLVarNames.entityId, entity);
 
-        dbSQL.insertIfNotExists(entityReadsTable, inserts, uniqueKeys);
+        dbSQL.insertIfNotExists(SSSQLVarNames.entityReadsTable, inserts, uniqueKeys);
       }else{
         final Map<String, String> deletes = new HashMap<>();
         
-        delete(deletes, SSSQLVarU.userId,   user);
-        delete(deletes, SSSQLVarU.entityId, entity);
+        delete(deletes, SSSQLVarNames.userId,   user);
+        delete(deletes, SSSQLVarNames.entityId, entity);
         
-        dbSQL.deleteIgnore(entityReadsTable, deletes);
+        dbSQL.deleteIgnore(SSSQLVarNames.entityReadsTable, deletes);
       }
       
     }catch(Exception error){
@@ -956,13 +948,13 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       final Map<String, String> inserts    = new HashMap<>();
       final Map<String, String> uniqueKeys = new HashMap<>();
       
-      insert(inserts, SSSQLVarU.entityId,      entity);
-      insert(inserts, SSSQLVarU.downloadId,     download);
+      insert(inserts, SSSQLVarNames.entityId,      entity);
+      insert(inserts, SSSQLVarNames.downloadId,     download);
       
-      uniqueKey(uniqueKeys, SSSQLVarU.entityId,    entity);
-      uniqueKey(uniqueKeys, SSSQLVarU.downloadId,  download);
+      uniqueKey(uniqueKeys, SSSQLVarNames.entityId,    entity);
+      uniqueKey(uniqueKeys, SSSQLVarNames.downloadId,  download);
       
-      dbSQL.insertIfNotExists(downloadsTable, inserts, uniqueKeys);
+      dbSQL.insertIfNotExists(SSSQLVarNames.downloadsTable, inserts, uniqueKeys);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -1000,12 +992,12 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       final Map<String, String> inserts    = new HashMap<>();
       final Map<String, String> uniqueKeys = new HashMap<>();
       
-      insert(inserts, SSSQLVarU.imageId,    image);
-      insert(inserts, SSSQLVarU.type,       type);
+      insert(inserts, SSSQLVarNames.imageId,    image);
+      insert(inserts, SSSQLVarNames.type,       type);
       
-      uniqueKey(uniqueKeys, SSSQLVarU.imageId, image);
+      uniqueKey(uniqueKeys, SSSQLVarNames.imageId, image);
       
-      dbSQL.insertIfNotExists(imageTable, inserts, uniqueKeys);
+      dbSQL.insertIfNotExists(SSSQLVarNames.imageTable, inserts, uniqueKeys);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -1021,24 +1013,24 @@ public class SSEntitySQLFct extends SSDBSQLFct{
 
       final Map<String, String> inserts    = new HashMap<>();
       
-      insert(inserts, SSSQLVarU.locationId,        locationURI);
-      insert(inserts, SSSQLVarU.latitude,          location.latitude);
-      insert(inserts, SSSQLVarU.longitude,         location.longitude);
+      insert(inserts, SSSQLVarNames.locationId,        locationURI);
+      insert(inserts, SSSQLVarNames.latitude,          location.latitude);
+      insert(inserts, SSSQLVarNames.longitude,         location.longitude);
       
       if(location.accuracy == null){
-        insert(inserts, SSSQLVarU.accuracy,         SSStrU.empty);
+        insert(inserts, SSSQLVarNames.accuracy,         SSStrU.empty);
       }else{
-        insert(inserts, SSSQLVarU.accuracy,         location.accuracy);
+        insert(inserts, SSSQLVarNames.accuracy,         location.accuracy);
       }
       
-      dbSQL.insert(locationTable, inserts);
+      dbSQL.insert(SSSQLVarNames.locationTable, inserts);
       
       inserts.clear();
       
-      insert(inserts, SSSQLVarU.entityId,           entity);
-      insert(inserts, SSSQLVarU.locationId,         locationURI);
+      insert(inserts, SSSQLVarNames.entityId,           entity);
+      insert(inserts, SSSQLVarNames.locationId,         locationURI);
       
-      dbSQL.insert(entityLocationsTable, inserts);
+      dbSQL.insert(SSSQLVarNames.entityLocationsTable, inserts);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -1055,36 +1047,34 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       final List<String>         columns    = new ArrayList<>();              
       final Map<String, String>  wheres     = new HashMap<>();
 
-      column(columns, locationTable, SSSQLVarU.locationId);
-      column(columns, locationTable, SSSQLVarU.latitude);
-      column(columns, locationTable, SSSQLVarU.longitude);
-      column(columns, locationTable, SSSQLVarU.accuracy);
+      column(columns, SSSQLVarNames.locationTable, SSSQLVarNames.locationId);
+      column(columns, SSSQLVarNames.locationTable, SSSQLVarNames.latitude);
+      column(columns, SSSQLVarNames.locationTable, SSSQLVarNames.longitude);
+      column(columns, SSSQLVarNames.locationTable, SSSQLVarNames.accuracy);
         
       if(forEntity != null){
         
         final List<String>         tables     = new ArrayList<>();
         final List<String>         tableCons  = new ArrayList<>();
       
-        table(tables, locationTable);
-        table(tables, entityLocationsTable);
+        table(tables, SSSQLVarNames.locationTable);
+        table(tables, SSSQLVarNames.entityLocationsTable);
         
-        where(wheres, SSSQLVarU.entityId, forEntity);
+        where(wheres, SSSQLVarNames.entityId, forEntity);
         
-        tableCon(tableCons, locationTable, SSSQLVarU.locationId, entityLocationsTable, SSSQLVarU.locationId);
+        tableCon(tableCons, SSSQLVarNames.locationTable, SSSQLVarNames.locationId, SSSQLVarNames.entityLocationsTable, SSSQLVarNames.locationId);
         
         resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
       }else{
-        resultSet = dbSQL.select(locationTable, columns, wheres, null, null, null);
+        resultSet = dbSQL.select(SSSQLVarNames.locationTable, columns, wheres, null, null, null);
       }
       
       while(resultSet.next()){
         
-        locations.add(
-          SSLocation.get(
-            bindingStrToUri   (resultSet, SSSQLVarU.locationId), 
-            bindingStrToDouble(resultSet, SSSQLVarU.latitude), 
-            bindingStrToDouble(resultSet, SSSQLVarU.longitude),
-            bindingStrToFloat (resultSet, SSSQLVarU.accuracy)));
+        locations.add(SSLocation.get(bindingStrToUri   (resultSet, SSSQLVarNames.locationId), 
+            bindingStrToDouble(resultSet, SSSQLVarNames.latitude), 
+            bindingStrToDouble(resultSet, SSSQLVarNames.longitude),
+            bindingStrToFloat (resultSet, SSSQLVarNames.accuracy)));
       }      
       
       return locations;

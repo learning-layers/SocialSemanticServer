@@ -15,7 +15,7 @@
   */
 package at.kc.tugraz.ss.serv.dataimport.datatypes.pars;
 
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServErrReg;
 
@@ -30,7 +30,7 @@ public class SSDataImportSSSUsersFromCSVFilePar extends SSServPar{
     try{
       
       if(pars != null){
-        fileName  = (String)pars.get(SSVarU.fileName);
+        fileName  = (String)pars.get(SSVarNames.fileName);
       }
       
     }catch(Exception error){

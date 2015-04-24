@@ -16,7 +16,7 @@
 package at.kc.tugraz.ss.circle.datatypes.par;
 
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
@@ -82,30 +82,30 @@ public class SSCircleEntitySharePar extends SSServPar{
     try{
       
       if(pars != null){
-        entity       = (SSUri)                   pars.get(SSVarU.entity);
-        users        = (List<SSUri>)             pars.get(SSVarU.users);
-        circles      = (List<SSUri>)             pars.get(SSVarU.circles);
-        comment      = (SSTextComment)           pars.get(SSVarU.comment);
+        entity       = (SSUri)                   pars.get(SSVarNames.entity);
+        users        = (List<SSUri>)             pars.get(SSVarNames.users);
+        circles      = (List<SSUri>)             pars.get(SSVarNames.circles);
+        comment      = (SSTextComment)           pars.get(SSVarNames.comment);
       }
       
       if(par.clientJSONObj != null){
         
-        entity       = SSUri.get        (par.clientJSONObj.get(SSVarU.entity).getTextValue());
+        entity       = SSUri.get        (par.clientJSONObj.get(SSVarNames.entity).getTextValue());
         
         try{
-          for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.users)) {
+          for (final JsonNode objNode : par.clientJSONObj.get(SSVarNames.users)) {
             users.add(SSUri.get(objNode.getTextValue()));
           }
         }catch(Exception error){}
         
         try{
-          for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.circles)) {
+          for (final JsonNode objNode : par.clientJSONObj.get(SSVarNames.circles)) {
             circles.add(SSUri.get(objNode.getTextValue()));
           }
         }catch(Exception error){}
         
         try{
-          comment     = SSTextComment.get(par.clientJSONObj.get(SSVarU.comment).getTextValue());
+          comment     = SSTextComment.get(par.clientJSONObj.get(SSVarNames.comment).getTextValue());
         }catch(Exception error){}
       }
     }catch(Exception error){

@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.activity.datatypes.par;
 
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSServPar;
@@ -99,36 +99,36 @@ public class SSActivityAddPar extends SSServPar{
       
       if(pars != null){
         
-        type          = (SSActivityE)         pars.get(SSVarU.type);
-        entity        = (SSUri)               pars.get(SSVarU.entity);
-        users         = (List<SSUri>)         pars.get(SSVarU.users);
-        entities      = (List<SSUri>)         pars.get(SSVarU.entities);
-        comments      = (List<SSTextComment>) pars.get(SSVarU.comments);
-        creationTime  = (Long)                pars.get(SSVarU.creationTime);
+        type          = (SSActivityE)         pars.get(SSVarNames.type);
+        entity        = (SSUri)               pars.get(SSVarNames.entity);
+        users         = (List<SSUri>)         pars.get(SSVarNames.users);
+        entities      = (List<SSUri>)         pars.get(SSVarNames.entities);
+        comments      = (List<SSTextComment>) pars.get(SSVarNames.comments);
+        creationTime  = (Long)                pars.get(SSVarNames.creationTime);
       }
       
       if(par.clientJSONObj != null){
         
-        type       = SSActivityE.get   (par.clientJSONObj.get(SSVarU.type).getTextValue());
+        type       = SSActivityE.get   (par.clientJSONObj.get(SSVarNames.type).getTextValue());
         
         try{
-            entity = SSUri.get(par.clientJSONObj.get(SSVarU.entity).getTextValue());
+            entity = SSUri.get(par.clientJSONObj.get(SSVarNames.entity).getTextValue());
         }catch(Exception error){}
         
         try{
-          for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.users)) {
+          for (final JsonNode objNode : par.clientJSONObj.get(SSVarNames.users)) {
             users.add(SSUri.get(objNode.getTextValue()));
           }
         }catch(Exception error){}
         
         try{
-          for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.entities)) {
+          for (final JsonNode objNode : par.clientJSONObj.get(SSVarNames.entities)) {
             entities.add(SSUri.get(objNode.getTextValue()));
           }
         }catch(Exception error){}
         
         try{
-          for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.comments)) {
+          for (final JsonNode objNode : par.clientJSONObj.get(SSVarNames.comments)) {
             comments.add(SSTextComment.get(objNode.getTextValue()));
           }
         }catch(Exception error){}

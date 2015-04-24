@@ -22,7 +22,7 @@ package at.kc.tugraz.sss.appstacklayout.datatypes.ret;
 
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServRetI;
 import at.tugraz.sss.serv.SSJSONLDU;
 import at.kc.tugraz.sss.appstacklayout.datatypes.SSAppStackLayout;
@@ -59,10 +59,10 @@ public class SSAppStackLayoutsGetRet extends SSServRetI{
     final Map<String, Object> ld                    = new HashMap<>();
     final Map<String, Object> stacksObj    = new HashMap<>();
     
-    stacksObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSAppStackLayout.class.getName());
+    stacksObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSAppStackLayout.class.getName());
     stacksObj.put(SSJSONLDU.container, SSJSONLDU.set);
     
-    ld.put(SSVarU.stacks, stacksObj);
+    ld.put(SSVarNames.stacks, stacksObj);
     
     return ld;
   }

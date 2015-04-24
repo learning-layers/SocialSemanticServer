@@ -22,7 +22,7 @@ package at.kc.tugraz.ss.activity.datatypes.ret;
 
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.kc.tugraz.ss.activity.datatypes.SSActivity;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
 import at.tugraz.sss.serv.SSServRetI;
@@ -60,10 +60,10 @@ public class SSActivityTypesGetRet extends SSServRetI{
     final Map<String, Object> ld              = new HashMap<>();
     final Map<String, Object> activityTpyesObj   = new HashMap<>();
     
-    activityTpyesObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSActivity.class.getName());
+    activityTpyesObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSActivity.class.getName());
     activityTpyesObj.put(SSJSONLDU.container, SSJSONLDU.set);
     
-    ld.put(SSVarU.types, activityTpyesObj);
+    ld.put(SSVarNames.types, activityTpyesObj);
     
     return ld;
   }

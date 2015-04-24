@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.serv.auth.impl.fct.oidc;
 
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 
 import com.nimbusds.oauth2.sdk.ParseException;
@@ -99,7 +99,7 @@ public class SSAuthOIDC{
       //      email              = (String) ujson.get("email");
       //      loginName          = (String) ujson.get("preferred_username");
       
-      return (String) ujson.get(SSVarU.email);
+      return (String) ujson.get(SSVarNames.email);
     } catch (Exception error) {
       SSServErrReg.regErrThrow(error);
       return null;

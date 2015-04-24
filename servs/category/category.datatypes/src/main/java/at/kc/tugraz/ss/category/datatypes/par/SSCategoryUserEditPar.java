@@ -22,7 +22,7 @@ package at.kc.tugraz.ss.category.datatypes.par;
 
 import at.kc.tugraz.ss.category.datatypes.SSCategoryLabel;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServErrReg;
@@ -65,14 +65,14 @@ public class SSCategoryUserEditPar extends SSServPar{
     try{
       
       if(pars != null){
-        category      = (SSUri)                pars.get(SSVarU.category);
-        label         = SSCategoryLabel.get((String)pars.get(SSVarU.label));
+        category      = (SSUri)                pars.get(SSVarNames.category);
+        label         = SSCategoryLabel.get((String)pars.get(SSVarNames.label));
       }
       
       if(par.clientJSONObj != null){
         
-        category       = SSUri.get        (par.clientJSONObj.get(SSVarU.category).getTextValue());
-        label          = SSCategoryLabel.get   (par.clientJSONObj.get(SSVarU.label).getTextValue());
+        category       = SSUri.get        (par.clientJSONObj.get(SSVarNames.category).getTextValue());
+        label          = SSCategoryLabel.get   (par.clientJSONObj.get(SSVarNames.label).getTextValue());
       }
       
     }catch(Exception error){

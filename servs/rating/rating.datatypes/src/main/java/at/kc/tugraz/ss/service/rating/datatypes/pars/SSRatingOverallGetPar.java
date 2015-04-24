@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.service.rating.datatypes.pars;
 
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServErrReg;
@@ -64,7 +64,7 @@ public class SSRatingOverallGetPar extends SSServPar{
         par.op,
         par.key,
         par.user,
-        (SSUri) par.pars.get(SSVarU.entity));
+        (SSUri) par.pars.get(SSVarNames.entity));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

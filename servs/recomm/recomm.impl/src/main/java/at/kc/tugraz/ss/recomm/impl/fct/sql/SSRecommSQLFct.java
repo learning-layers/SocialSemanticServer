@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.recomm.impl.fct.sql;
 
 import at.tugraz.sss.serv.SSDBSQLFct;
-import at.tugraz.sss.serv.SSSQLVarU;
+import at.tugraz.sss.serv.SSSQLVarNames;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSUri;
 
@@ -47,16 +47,15 @@ public class SSRecommSQLFct extends SSDBSQLFct{
       final List<String>        columns    = new ArrayList<>();
       final Map<String, String> wheres     = new HashMap<>();
       
-      column(columns, SSSQLVarU.userId);
-      column(columns, SSSQLVarU.realm);
+      column(columns, SSSQLVarNames.userId);
+      column(columns, SSSQLVarNames.realm);
       
-      resultSet = dbSQL.select(recommUserRealmsTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(SSSQLVarNames.recommUserRealmsTable, columns, wheres, null, null, null);
 
       while(resultSet.next()){
         
-        userRealms.put(
-          bindingStr(resultSet, SSSQLVarU.userId), 
-          bindingStr(resultSet, SSSQLVarU.realm));
+        userRealms.put(bindingStr(resultSet, SSSQLVarNames.userId), 
+          bindingStr(resultSet, SSSQLVarNames.realm));
       }
       
       return userRealms;
@@ -76,10 +75,10 @@ public class SSRecommSQLFct extends SSDBSQLFct{
     try{
       final Map<String, String> inserts =  new HashMap<>();
       
-      insert(inserts, SSSQLVarU.userId,   user);
-      insert(inserts, SSSQLVarU.realm,    realm);
+      insert(inserts, SSSQLVarNames.userId,   user);
+      insert(inserts, SSSQLVarNames.realm,    realm);
       
-      dbSQL.insert(recommUserRealmsTable, inserts);
+      dbSQL.insert(SSSQLVarNames.recommUserRealmsTable, inserts);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

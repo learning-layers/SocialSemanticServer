@@ -15,7 +15,7 @@
  */
 package at.kc.tugraz.ss.service.user.datatypes.pars;
 
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServPar;
 
 import com.wordnik.swagger.annotations.ApiModel;
@@ -42,11 +42,11 @@ public class SSUserExistsPar extends SSServPar{
     try{
       
       if(pars != null){
-        email         = (String)  pars.get(SSVarU.email);
+        email         = (String)  pars.get(SSVarNames.email);
       }
       
       if(par.clientJSONObj != null){
-        email     = par.clientJSONObj.get(SSVarU.email).getTextValue();
+        email     = par.clientJSONObj.get(SSVarNames.email).getTextValue();
       }
       
     }catch(Exception error){

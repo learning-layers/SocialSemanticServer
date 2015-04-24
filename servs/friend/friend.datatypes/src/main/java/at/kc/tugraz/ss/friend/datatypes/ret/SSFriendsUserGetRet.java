@@ -22,7 +22,7 @@ package at.kc.tugraz.ss.friend.datatypes.ret;
 
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.kc.tugraz.ss.friend.datatypes.SSFriend;
 import at.tugraz.sss.serv.SSServRetI;
 import at.tugraz.sss.serv.SSJSONLDU;
@@ -59,10 +59,10 @@ public class SSFriendsUserGetRet extends SSServRetI{
     final Map<String, Object> ld            = new HashMap<>();
     final Map<String, Object> friendsObj    = new HashMap<>();
     
-    friendsObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSFriend.class.getName());
+    friendsObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSFriend.class.getName());
     friendsObj.put(SSJSONLDU.container, SSJSONLDU.set);
     
-    ld.put(SSVarU.friends, friendsObj);
+    ld.put(SSVarNames.friends, friendsObj);
     
     return ld;
   }

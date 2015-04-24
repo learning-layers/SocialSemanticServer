@@ -22,7 +22,7 @@ package at.kc.tugraz.ss.friend.datatypes.par;
 
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServErrReg;
@@ -65,8 +65,8 @@ public class SSFriendUserAddPar extends SSServPar{
         par.op,
         par.key,
         par.user,
-        (SSUri)           par.pars.get(SSVarU.friend),
-        (Boolean)         par.pars.get(SSVarU.shouldCommit));
+        (SSUri)           par.pars.get(SSVarNames.friend),
+        (Boolean)         par.pars.get(SSVarNames.shouldCommit));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

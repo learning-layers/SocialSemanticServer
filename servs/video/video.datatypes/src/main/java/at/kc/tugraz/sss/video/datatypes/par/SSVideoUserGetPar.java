@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.sss.video.datatypes.par;
 
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServErrReg;
@@ -36,7 +36,7 @@ public class SSVideoUserGetPar extends SSServPar{
     try{
       
       if(pars != null){
-        video           = (SSUri)   pars.get(SSVarU.video);
+        video           = (SSUri)   pars.get(SSVarNames.video);
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

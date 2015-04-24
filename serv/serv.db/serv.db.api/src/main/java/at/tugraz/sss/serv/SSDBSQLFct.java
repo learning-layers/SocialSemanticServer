@@ -20,16 +20,6 @@
 */
 package at.tugraz.sss.serv;
 
-import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSTextComment;
-import at.tugraz.sss.serv.SSEntityA;
-import at.tugraz.sss.serv.SSEntityE;
-import at.tugraz.sss.serv.SSErr;
-import at.tugraz.sss.serv.SSErrE;
-import at.tugraz.sss.serv.SSLabel;
-import at.tugraz.sss.serv.SSServErrReg;
-import at.tugraz.sss.serv.SSSpaceE;
-import at.tugraz.sss.serv.SSUri;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,80 +29,6 @@ import javax.ws.rs.core.MultivaluedMap;
 public class SSDBSQLFct extends SSDBFct{
 
   protected        final SSDBSQLI dbSQL;
-  protected static final String   circleTable                         = "circle";
-  protected static final String   thumbnailsTable                     = "thumbnails";
-  protected static final String   filesTable                          = "files";
-  protected static final String   circleUsersTable                    = "circleusers";
-  protected static final String   circleEntitiesTable                 = "circleentities";
-  protected static final String   collTable                           = "coll";
-  protected static final String   collRootTable                       = "collroot";
-  protected static final String   collSpecialTable                    = "collspecial";
-  protected static final String   collEntryPosTable                   = "collentrypos";
-  protected static final String   collHierarchyTable                  = "collhierarchy";
-  protected static final String   collUserTable                       = "colluser";
-  protected static final String   entityTable                         = "entity";
-  protected static final String   entityReadsTable                    = "entityreads";
-  protected static final String   userTable                           = "user";
-  protected static final String   entitiesTable                       = "entities";
-  protected static final String   flagTable                           = "flag";
-  protected static final String   flagsTable                          = "flags";
-  protected static final String   uesTable                            = "ues";
-  protected static final String   activityTable                       = "activity";
-  protected static final String   activityUsersTable                  = "activityusers";
-  protected static final String   activityEntitiesTable               = "activityentities";
-  protected static final String   activityContentsTable               = "activitycontents";
-  protected static final String   locationTable                       = "location";
-  protected static final String   entityLocationsTable                = "entitylocations";
-  protected static final String   tagAssTable                         = "tagass";
-  protected static final String   categoryTable                       = "category";
-  protected static final String   categoryAssTable                    = "categoryass";
-  protected static final String   authTable                           = "auth";
-  protected static final String   discTable                           = "disc";
-  protected static final String   discUserTable                       = "discuser";
-  protected static final String   discEntryTable                      = "discentry";
-  protected static final String   discEntriesTable                    = "discentries";
-  protected static final String   evernoteNoteTable                   = "evernotenote";
-  protected static final String   evernoteResourceTable               = "evernoteresource";
-  protected static final String   evernoteUserTable                   = "evernoteuser";
-  protected static final String   commentsTable                       = "comments";
-  protected static final String   commentTable                        = "comment";
-  protected static final String   messageTable                        = "message";
-  protected static final String   appTable                            = "app";
-  protected static final String   downloadsTable                      = "downloads";
-  protected static final String   friendsTable                        = "friends";
-
-  //learn ep 
-  protected static final String   learnEpUserTable                    = "learnepuser";
-  protected static final String   learnEpVersionCirclesTable          = "learnepversioncircles";
-  protected static final String   learnEpVersionEntitiesTable         = "learnepversionentities";
-  protected static final String   learnEpVersionTable                 = "learnepversion";
-  protected static final String   learnEpVersionCurrentTable          = "learnepversioncurrent";
-  protected static final String   learnEpVersionsTable                = "learnepversions";
-  protected static final String   learnEpVersionTimelineStatesTable   = "learnepversiontimelinestates";
-  protected static final String   learnEpTimelineStateTable           = "learneptimelinestate";
-  protected static final String   learnEpCircleTable                  = "learnepcircle";
-  protected static final String   learnEpTable                        = "learnep";
-  protected static final String   learnEpEntityTable                  = "learnepentity";
-  
-  //image
-  protected static final String   imageTable                          = "image";
-  
-  //app stack
-  protected static final String   appStackLayoutTable                 = "appstacklayout";
-  protected static final String   appStackLayoutTileTable             = "appstacklayouttile";
-  protected static final String   appStackLayoutTilesTable            = "appstacklayouttiles";
-
-  //video
-  protected static final String   videoTable                          = "video";
-  protected static final String   videoAnnotationTable                = "videoannotation";
-  protected static final String   videoAnnotationsTable               = "videoannotations";
-  protected static final String   userVideosTable                     = "uservideos";
-  
-  //likes
-  protected static final String   likesTable                          = "likes";
-  
-  //recomm
-  protected static final String   recommUserRealmsTable               = "recommuserrealms";
   
   public SSDBSQLFct(final SSDBSQLI dbSQL) throws Exception{
     super();

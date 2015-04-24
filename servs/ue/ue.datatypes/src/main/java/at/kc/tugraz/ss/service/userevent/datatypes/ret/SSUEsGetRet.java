@@ -23,7 +23,7 @@ package at.kc.tugraz.ss.service.userevent.datatypes.ret;
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSJSONLDU;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServRetI;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUE;
 import java.util.ArrayList;
@@ -57,10 +57,10 @@ public class SSUEsGetRet extends SSServRetI{
     final Map<String, Object> ld         = new HashMap<>();
     final Map<String, Object> uEsObj     = new HashMap<>();
     
-    uEsObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSUE.class.getName());
+    uEsObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSUE.class.getName());
     uEsObj.put(SSJSONLDU.container, SSJSONLDU.set);
     
-    ld.put(SSVarU.uEs, uEsObj);
+    ld.put(SSVarNames.uEs, uEsObj);
     
     return ld;
   }

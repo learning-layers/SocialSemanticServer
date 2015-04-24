@@ -15,7 +15,7 @@
  */
 package at.kc.tugraz.ss.circle.datatypes.par;
 
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSUri;
 
@@ -33,8 +33,8 @@ public class SSCircleUserCanPar extends SSServPar{
     try{
     
       if(pars != null){
-        entity          = (SSUri)           pars.get(SSVarU.entity);
-        accessRight     = (SSCircleRightE)  pars.get(SSVarU.accessRight);
+        entity          = (SSUri)           pars.get(SSVarNames.entity);
+        accessRight     = (SSCircleRightE)  pars.get(SSVarNames.accessRight);
       }
       
     }catch(Exception error){

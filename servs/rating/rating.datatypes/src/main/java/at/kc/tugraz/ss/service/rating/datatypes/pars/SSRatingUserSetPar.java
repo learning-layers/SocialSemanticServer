@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.service.rating.datatypes.pars;
 
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServErrReg;
@@ -69,9 +69,9 @@ public class SSRatingUserSetPar extends SSServPar{
         par.op,
         par.key,
         par.user,
-        (SSUri)   par.pars.get(SSVarU.entity),
-        (Integer) par.pars.get(SSVarU.value),
-        (Boolean) par.pars.get(SSVarU.shouldCommit));
+        (SSUri)   par.pars.get(SSVarNames.entity),
+        (Integer) par.pars.get(SSVarNames.value),
+        (Boolean) par.pars.get(SSVarNames.shouldCommit));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

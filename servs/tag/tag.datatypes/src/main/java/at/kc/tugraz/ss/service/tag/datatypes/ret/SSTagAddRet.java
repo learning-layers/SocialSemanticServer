@@ -22,7 +22,7 @@ package at.kc.tugraz.ss.service.tag.datatypes.ret;
 
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServRetI;
 import java.util.HashMap;
@@ -53,7 +53,7 @@ public class SSTagAddRet extends SSServRetI{
     
     final Map<String, Object> ld         = new HashMap<>();
     
-    ld.put(SSVarU.tag, SSVarU.xsd + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarNames.tag, SSVarNames.xsd + SSStrU.colon + SSUri.class.getName());
     
     return ld;
   }

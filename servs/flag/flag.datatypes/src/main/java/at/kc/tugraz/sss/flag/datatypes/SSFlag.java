@@ -21,7 +21,7 @@
 package at.kc.tugraz.sss.flag.datatypes;
 
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
@@ -68,11 +68,11 @@ public class SSFlag extends SSEntity{
   
     final Map<String, Object> ld = (Map<String, Object>) super.jsonLDDesc();
     
-    ld.put(SSVarU.user,         SSVarU.sss + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarU.entity,       SSVarU.sss + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarU.flagType,     SSVarU.sss + SSStrU.colon + SSFlagE.class.getName());
-    ld.put(SSVarU.endTime,      SSVarU.xsd + SSStrU.colon + SSStrU.valueLong);
-    ld.put(SSVarU.value,        SSVarU.xsd + SSStrU.colon + SSStrU.valueInteger);
+    ld.put(SSVarNames.user,         SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarNames.entity,       SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarNames.flagType,     SSVarNames.sss + SSStrU.colon + SSFlagE.class.getName());
+    ld.put(SSVarNames.endTime,      SSVarNames.xsd + SSStrU.colon + SSStrU.valueLong);
+    ld.put(SSVarNames.value,        SSVarNames.xsd + SSStrU.colon + SSStrU.valueInteger);
     
     return ld;
   }

@@ -91,12 +91,12 @@ public class SSServPar{
     this.clientCon      = clientCon;
     this.clientJSONRequ = clientJSONRequ;
     
-    this.op  = SSServOpE.get(SSJSONU.getValueFromJSON(clientJSONRequ, SSVarU.op));
-    this.key = SSJSONU.getValueFromJSON(clientJSONRequ, SSVarU.key);
+    this.op  = SSServOpE.get(SSJSONU.getValueFromJSON(clientJSONRequ, SSVarNames.op));
+    this.key = SSJSONU.getValueFromJSON(clientJSONRequ, SSVarNames.key);
     
     //TODO for anchient use of serv par
     try{
-      this.user = SSUri.get(SSJSONU.getValueFromJSON(clientJSONRequ, SSVarU.user));
+      this.user = SSUri.get(SSJSONU.getValueFromJSON(clientJSONRequ, SSVarNames.user));
     }catch(Exception error){}
     
     if(
@@ -124,23 +124,23 @@ public class SSServPar{
     
     //TODO code below for anchient serv par use
     try{
-      user = (SSUri) pars.get(SSVarU.user);
+      user = (SSUri) pars.get(SSVarNames.user);
     }catch(Exception error){}
     
     try{
-      key = (String) pars.get(SSVarU.key);
+      key = (String) pars.get(SSVarNames.key);
     }catch(Exception error){}
     
     try{
-      shouldCommit = (Boolean) pars.get(SSVarU.shouldCommit);
+      shouldCommit = (Boolean) pars.get(SSVarNames.shouldCommit);
     }catch(Exception error){}
     
     try{
-      withUserRestriction = (Boolean) pars.get(SSVarU.withUserRestriction);
+      withUserRestriction = (Boolean) pars.get(SSVarNames.withUserRestriction);
     }catch(Exception error){}
     
     try{
-      logErr = (Boolean) pars.get(SSVarU.logErr);
+      logErr = (Boolean) pars.get(SSVarNames.logErr);
     }catch(Exception error){}
   }
   

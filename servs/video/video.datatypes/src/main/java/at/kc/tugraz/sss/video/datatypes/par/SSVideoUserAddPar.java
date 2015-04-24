@@ -23,7 +23,7 @@ package at.kc.tugraz.sss.video.datatypes.par;
 
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSLabel;
@@ -80,58 +80,58 @@ public class SSVideoUserAddPar extends SSServPar{
       
       if(pars != null){
         
-        uuid              = (String)          pars.get(SSVarU.uuid);
-        link              = (SSUri)           pars.get(SSVarU.link);
-        forEntity         = (SSUri)           pars.get(SSVarU.forEntity);
-        genre             = (String)          pars.get(SSVarU.genre);
-        label             = (SSLabel)         pars.get(SSVarU.label);
-        description       = (SSTextComment)   pars.get(SSVarU.description);
-        creationTime      = (Long)            pars.get(SSVarU.creationTime);
-        latitude          = (Double)          pars.get(SSVarU.latitude);
-        longitude         = (Double)          pars.get(SSVarU.longitude);
-        accuracy          = (Float)           pars.get(SSVarU.accuracy);
+        uuid              = (String)          pars.get(SSVarNames.uuid);
+        link              = (SSUri)           pars.get(SSVarNames.link);
+        forEntity         = (SSUri)           pars.get(SSVarNames.forEntity);
+        genre             = (String)          pars.get(SSVarNames.genre);
+        label             = (SSLabel)         pars.get(SSVarNames.label);
+        description       = (SSTextComment)   pars.get(SSVarNames.description);
+        creationTime      = (Long)            pars.get(SSVarNames.creationTime);
+        latitude          = (Double)          pars.get(SSVarNames.latitude);
+        longitude         = (Double)          pars.get(SSVarNames.longitude);
+        accuracy          = (Float)           pars.get(SSVarNames.accuracy);
       }
       
       if(par.clientJSONObj != null){
         
         try{
-          uuid =  par.clientJSONObj.get(SSVarU.uuid).getTextValue();
+          uuid =  par.clientJSONObj.get(SSVarNames.uuid).getTextValue();
         }catch(Exception error){}
         
         try{
-          link =  SSUri.get(par.clientJSONObj.get(SSVarU.link).getTextValue());
+          link =  SSUri.get(par.clientJSONObj.get(SSVarNames.link).getTextValue());
         }catch(Exception error){}
         
         try{
-          forEntity =  SSUri.get(par.clientJSONObj.get(SSVarU.forEntity).getTextValue());
+          forEntity =  SSUri.get(par.clientJSONObj.get(SSVarNames.forEntity).getTextValue());
         }catch(Exception error){}
         
         try{
-          genre =  par.clientJSONObj.get(SSVarU.genre).getTextValue();
+          genre =  par.clientJSONObj.get(SSVarNames.genre).getTextValue();
         }catch(Exception error){}
         
         try{
-          label =  SSLabel.get      (par.clientJSONObj.get(SSVarU.label).getTextValue());
+          label =  SSLabel.get      (par.clientJSONObj.get(SSVarNames.label).getTextValue());
         }catch(Exception error){}
         
         try{
-          description =  SSTextComment.get      (par.clientJSONObj.get(SSVarU.description).getTextValue());
+          description =  SSTextComment.get      (par.clientJSONObj.get(SSVarNames.description).getTextValue());
         }catch(Exception error){}
         
         try{
-          creationTime =  par.clientJSONObj.get(SSVarU.creationTime).getLongValue();
+          creationTime =  par.clientJSONObj.get(SSVarNames.creationTime).getLongValue();
         }catch(Exception error){}
       
         try{
-          latitude =  par.clientJSONObj.get(SSVarU.latitude).getDoubleValue();
+          latitude =  par.clientJSONObj.get(SSVarNames.latitude).getDoubleValue();
         }catch(Exception error){}
         
         try{
-          longitude =  par.clientJSONObj.get(SSVarU.longitude).getDoubleValue();
+          longitude =  par.clientJSONObj.get(SSVarNames.longitude).getDoubleValue();
         }catch(Exception error){}
         
         try{
-          accuracy =  par.clientJSONObj.get(SSVarU.accuracy).getNumberValue().floatValue();
+          accuracy =  par.clientJSONObj.get(SSVarNames.accuracy).getNumberValue().floatValue();
         }catch(Exception error){}
         
       }

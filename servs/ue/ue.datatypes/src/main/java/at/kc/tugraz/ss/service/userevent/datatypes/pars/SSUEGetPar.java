@@ -20,7 +20,7 @@
  */
 package at.kc.tugraz.ss.service.userevent.datatypes.pars;
 
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServErrReg;
@@ -63,7 +63,7 @@ public class SSUEGetPar extends SSServPar{
         par.op,
         par.key,
         par.user,
-        (SSUri)    par.pars.get(SSVarU.uE));
+        (SSUri)    par.pars.get(SSVarNames.uE));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

@@ -23,7 +23,7 @@ package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEp;
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSJSONLDU;
 import at.tugraz.sss.serv.SSServRetI;
 import java.util.HashMap;
@@ -51,10 +51,10 @@ public class SSLearnEpsGetRet extends SSServRetI{
     Map<String, Object> ld           = new HashMap<>();
     Map<String, Object> learnEpsObj  = new HashMap<>();
     
-    learnEpsObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSLearnEp.class.getName());
+    learnEpsObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSLearnEp.class.getName());
     learnEpsObj.put(SSJSONLDU.container, SSJSONLDU.set);
     
-    ld.put(SSVarU.learnEps, learnEpsObj);
+    ld.put(SSVarNames.learnEps, learnEpsObj);
     
     return ld;
   }

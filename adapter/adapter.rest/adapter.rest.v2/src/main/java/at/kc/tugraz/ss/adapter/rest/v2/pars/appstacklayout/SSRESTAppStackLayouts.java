@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.adapter.rest.v2.pars.appstacklayout;
 
 import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.kc.tugraz.ss.adapter.rest.v2.SSRestMainV2;
 import at.tugraz.sss.serv.SSUri;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
@@ -118,7 +118,7 @@ public class SSRESTAppStackLayouts{
     response = SSAppStackLayoutDeleteRet.class)
   public Response appStackLayoutDelete(
     @Context HttpHeaders              headers,
-    @PathParam(SSVarU.stack) String   stack){
+    @PathParam(SSVarNames.stack) String   stack){
     
     final SSAppStackLayoutDeletePar par;
     
@@ -146,7 +146,7 @@ public class SSRESTAppStackLayouts{
     response = SSAppStackLayoutUpdateRet.class)
   public Response appStackLayoutUpdate(
     @Context HttpHeaders                     headers,
-    @PathParam(SSVarU.stack) String          stack,
+    @PathParam(SSVarNames.stack) String          stack,
     final SSAppStackLayoutUpdateRESTAPIV2Par input){
     
     final SSAppStackLayoutUpdatePar par;

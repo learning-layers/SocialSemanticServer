@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.serv.job.dataexport.datatypes.par;
 
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServErrReg;
 
@@ -38,10 +38,10 @@ public class SSDataExportUserEntityTagCategoryTimestampPar extends SSServPar{
     try{
       
       if(pars != null){
-        fileName              = (String)                     pars.get(SSVarU.fileName);
-        exportTags            = (Boolean)                    pars.get(SSVarU.exportTags);
-        usePrivateTagsToo     = (Boolean)                    pars.get(SSVarU.usePrivateTagsToo);
-        exportCategories      = (Boolean)                    pars.get(SSVarU.exportCategories);
+        fileName              = (String)                     pars.get(SSVarNames.fileName);
+        exportTags            = (Boolean)                    pars.get(SSVarNames.exportTags);
+        usePrivateTagsToo     = (Boolean)                    pars.get(SSVarNames.usePrivateTagsToo);
+        exportCategories      = (Boolean)                    pars.get(SSVarNames.exportCategories);
       }
       
     }catch(Exception error){

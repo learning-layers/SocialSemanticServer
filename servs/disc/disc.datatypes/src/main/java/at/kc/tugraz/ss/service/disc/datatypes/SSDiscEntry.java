@@ -22,7 +22,7 @@ package at.kc.tugraz.ss.service.disc.datatypes;
 
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSEntity;
@@ -71,8 +71,8 @@ public class SSDiscEntry extends SSEntity{
     
     final Map<String, Object> ld = (Map<String, Object>) super.jsonLDDesc();
     
-    ld.put(SSVarU.pos,           SSVarU.xsd + SSStrU.colon + SSStrU.valueInteger);
-    ld.put(SSVarU.content,       SSVarU.sss + SSStrU.colon + SSTextComment.class.getName());
+    ld.put(SSVarNames.pos,           SSVarNames.xsd + SSStrU.colon + SSStrU.valueInteger);
+    ld.put(SSVarNames.content,       SSVarNames.sss + SSStrU.colon + SSTextComment.class.getName());
     
     return ld;
   }

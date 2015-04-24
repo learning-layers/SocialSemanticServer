@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par;
 
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServPar;
@@ -41,9 +41,9 @@ public class SSEntitiesForDescriptionsGetPar extends SSServPar{
     try{
       
       if(pars != null){
-        requireds       = (List<String>)            pars.get(SSVarU.requireds);
-        absents         = (List<String>)            pars.get(SSVarU.absents);
-        eithers         = (List<String>)            pars.get(SSVarU.eithers);
+        requireds       = (List<String>)            pars.get(SSVarNames.requireds);
+        absents         = (List<String>)            pars.get(SSVarNames.absents);
+        eithers         = (List<String>)            pars.get(SSVarNames.eithers);
       }
       
     }catch(Exception error){

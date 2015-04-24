@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par;
 
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServErrReg;
@@ -36,11 +36,11 @@ public class SSLearnEpVersionRemoveEntityPar extends SSServPar{
     try{
       
       if(pars != null){
-        learnEpEntity   = (SSUri) pars.get(SSVarU.learnEpEntity);
+        learnEpEntity   = (SSUri) pars.get(SSVarNames.learnEpEntity);
       }
       
       if(par.clientJSONObj != null){
-        learnEpEntity   = SSUri.get(par.clientJSONObj.get(SSVarU.learnEpEntity).getTextValue());
+        learnEpEntity   = SSUri.get(par.clientJSONObj.get(SSVarNames.learnEpEntity).getTextValue());
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

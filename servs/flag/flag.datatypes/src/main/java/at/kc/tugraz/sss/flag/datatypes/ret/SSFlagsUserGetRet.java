@@ -22,7 +22,7 @@ package at.kc.tugraz.sss.flag.datatypes.ret;
 
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServRetI;
 import at.tugraz.sss.serv.SSJSONLDU;
 import at.kc.tugraz.sss.flag.datatypes.SSFlag;
@@ -60,10 +60,10 @@ public class SSFlagsUserGetRet extends SSServRetI{
     final Map<String, Object> ld         = new HashMap<>();
     final Map<String, Object> flagsObj   = new HashMap<>();
     
-    flagsObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSFlagE.class.getName());
+    flagsObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSFlagE.class.getName());
     flagsObj.put(SSJSONLDU.container, SSJSONLDU.set);
     
-    ld.put(SSVarU.flags, flagsObj);
+    ld.put(SSVarNames.flags, flagsObj);
     
     return ld;
   }

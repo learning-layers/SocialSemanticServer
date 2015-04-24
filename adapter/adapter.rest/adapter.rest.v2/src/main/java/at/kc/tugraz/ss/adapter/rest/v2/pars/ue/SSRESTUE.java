@@ -33,7 +33,7 @@ import at.kc.tugraz.ss.service.userevent.datatypes.ret.SSUEGetRet;
 import at.kc.tugraz.ss.service.userevent.datatypes.ret.SSUEsGetRet;
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import javax.ws.rs.Consumes;
@@ -97,7 +97,7 @@ public class SSRESTUE{
     @Context 
       final HttpHeaders headers, 
     
-    @PathParam(SSVarU.uE) 
+    @PathParam(SSVarNames.uE) 
       final String uE){
     
     final SSUEGetPar par;
@@ -164,7 +164,7 @@ public class SSRESTUE{
     @Context 
       final HttpHeaders headers, 
     
-    @PathParam(SSVarU.type) 
+    @PathParam(SSVarNames.type) 
       final String type, 
     
     final SSUEAddRESTAPIV2Par input){

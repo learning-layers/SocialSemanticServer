@@ -22,7 +22,7 @@ package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret;
 
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSEntityA;
 import at.tugraz.sss.serv.SSServRetI;
 import java.util.HashMap;
@@ -53,7 +53,7 @@ public class SSEntityDescGetRet extends SSServRetI{
     
     final Map<String, Object> ld = new HashMap<>();
     
-    ld.put(SSVarU.desc, SSVarU.sss + SSStrU.colon + SSEntityA.class.getName());
+    ld.put(SSVarNames.desc, SSVarNames.sss + SSStrU.colon + SSEntityA.class.getName());
     
     return ld;
   }

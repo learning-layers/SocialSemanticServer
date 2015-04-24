@@ -28,7 +28,7 @@ import at.kc.tugraz.ss.service.rating.datatypes.ret.SSRatingOverallGetRet;
 import at.kc.tugraz.ss.service.rating.datatypes.ret.SSRatingUserSetRet;
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import javax.ws.rs.Consumes;
@@ -57,7 +57,7 @@ public class SSRESTRatings{
     @Context 
     final HttpHeaders headers,
     
-    @PathParam(SSVarU.entity)
+    @PathParam(SSVarNames.entity)
     final String entity){
     
     final SSRatingOverallGetPar par;
@@ -89,10 +89,10 @@ public class SSRESTRatings{
     @Context 
     final HttpHeaders headers,
     
-    @PathParam(SSVarU.entity)
+    @PathParam(SSVarNames.entity)
     final String entity,
     
-    @PathParam(SSVarU.value)
+    @PathParam(SSVarNames.value)
     final String value){
     
     final SSRatingUserSetPar par;

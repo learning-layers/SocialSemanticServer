@@ -22,7 +22,7 @@ package at.kc.tugraz.sss.comment.datatypes.ret;
 
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSServRetI;
 import at.tugraz.sss.serv.SSJSONLDU;
@@ -59,10 +59,10 @@ public class SSCommentsUserGetRet extends SSServRetI{
     final Map<String, Object> ld         = new HashMap<>();
     final Map<String, Object> commentsObj   = new HashMap<>();
     
-    commentsObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSTextComment.class.getName());
+    commentsObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSTextComment.class.getName());
     commentsObj.put(SSJSONLDU.container, SSJSONLDU.set);
     
-    ld.put(SSVarU.comments, commentsObj);
+    ld.put(SSVarNames.comments, commentsObj);
     
     return ld;
   }

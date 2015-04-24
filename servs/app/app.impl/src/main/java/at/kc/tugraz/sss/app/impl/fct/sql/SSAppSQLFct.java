@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.sss.app.impl.fct.sql;
 
-import at.tugraz.sss.serv.SSSQLVarU;
+import at.tugraz.sss.serv.SSSQLVarNames;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
@@ -50,29 +50,27 @@ public class SSAppSQLFct extends SSDBSQLFct{
       final List<String>        columns = new ArrayList<>();
       final Map<String, String> wheres  = new HashMap<>();
       
-      column(columns, SSSQLVarU.appId);
-      column(columns, SSSQLVarU.descriptionShort);
-      column(columns, SSSQLVarU.descriptionFunctional);
-      column(columns, SSSQLVarU.descriptionTechnical);
-      column(columns, SSSQLVarU.descriptionInstall);
-      column(columns, SSSQLVarU.downloadIOS);
-      column(columns, SSSQLVarU.downloadAndroid);
-      column(columns, SSSQLVarU.fork);
+      column(columns, SSSQLVarNames.appId);
+      column(columns, SSSQLVarNames.descriptionShort);
+      column(columns, SSSQLVarNames.descriptionFunctional);
+      column(columns, SSSQLVarNames.descriptionTechnical);
+      column(columns, SSSQLVarNames.descriptionInstall);
+      column(columns, SSSQLVarNames.downloadIOS);
+      column(columns, SSSQLVarNames.downloadAndroid);
+      column(columns, SSSQLVarNames.fork);
       
-      resultSet = dbSQL.select(appTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(SSSQLVarNames.appTable, columns, wheres, null, null, null);
       
       while(resultSet.next()){
         
-        apps.add(
-          SSApp.get(
-            bindingStrToUri         (resultSet, SSSQLVarU.appId), 
-            bindingStrToTextComment (resultSet, SSSQLVarU.descriptionShort), 
-            bindingStrToTextComment (resultSet, SSSQLVarU.descriptionFunctional),  
-            bindingStrToTextComment (resultSet, SSSQLVarU.descriptionTechnical),  
-            bindingStrToTextComment (resultSet, SSSQLVarU.descriptionInstall),  
-            bindingStrToUri         (resultSet, SSSQLVarU.downloadIOS), 
-            bindingStrToUri         (resultSet, SSSQLVarU.downloadAndroid), 
-            bindingStrToUri         (resultSet, SSSQLVarU.fork)));
+        apps.add(SSApp.get(bindingStrToUri         (resultSet, SSSQLVarNames.appId), 
+            bindingStrToTextComment (resultSet, SSSQLVarNames.descriptionShort), 
+            bindingStrToTextComment (resultSet, SSSQLVarNames.descriptionFunctional),  
+            bindingStrToTextComment (resultSet, SSSQLVarNames.descriptionTechnical),  
+            bindingStrToTextComment (resultSet, SSSQLVarNames.descriptionInstall),  
+            bindingStrToUri         (resultSet, SSSQLVarNames.downloadIOS), 
+            bindingStrToUri         (resultSet, SSSQLVarNames.downloadAndroid), 
+            bindingStrToUri         (resultSet, SSSQLVarNames.fork)));
       }
       
       return apps;
@@ -98,53 +96,53 @@ public class SSAppSQLFct extends SSDBSQLFct{
       final Map<String, String> inserts    = new HashMap<>();
       final Map<String, String> uniqueKeys = new HashMap<>();
       
-      insert    (inserts,    SSSQLVarU.appId,     app);
+      insert    (inserts,    SSSQLVarNames.appId,     app);
       
       if(descriptionShort == null){
-        insert    (inserts,    SSSQLVarU.descriptionShort,   SSStrU.empty);
+        insert    (inserts,    SSSQLVarNames.descriptionShort,   SSStrU.empty);
       }else{
-        insert    (inserts,    SSSQLVarU.descriptionShort,   descriptionShort);
+        insert    (inserts,    SSSQLVarNames.descriptionShort,   descriptionShort);
       }
       
       if(descriptionFunctional == null){
-        insert    (inserts,    SSSQLVarU.descriptionFunctional,     SSStrU.empty);
+        insert    (inserts,    SSSQLVarNames.descriptionFunctional,     SSStrU.empty);
       }else{
-        insert    (inserts,     SSSQLVarU.descriptionFunctional,     descriptionFunctional);
+        insert    (inserts,     SSSQLVarNames.descriptionFunctional,     descriptionFunctional);
       }
       
       if(descriptionTechnical == null){
-        insert    (inserts,    SSSQLVarU.descriptionTechnical,     SSStrU.empty);
+        insert    (inserts,    SSSQLVarNames.descriptionTechnical,     SSStrU.empty);
       }else{
-        insert    (inserts,     SSSQLVarU.descriptionTechnical,     descriptionTechnical);
+        insert    (inserts,     SSSQLVarNames.descriptionTechnical,     descriptionTechnical);
       }
       
       if(descriptionInstall == null){
-        insert    (inserts,    SSSQLVarU.descriptionInstall,     SSStrU.empty);
+        insert    (inserts,    SSSQLVarNames.descriptionInstall,     SSStrU.empty);
       }else{
-        insert    (inserts,     SSSQLVarU.descriptionInstall,     descriptionInstall);
+        insert    (inserts,     SSSQLVarNames.descriptionInstall,     descriptionInstall);
       }
       
       if(downloadIOS == null){
-        insert    (inserts,    SSSQLVarU.downloadIOS,     SSStrU.empty);
+        insert    (inserts,    SSSQLVarNames.downloadIOS,     SSStrU.empty);
       }else{
-        insert    (inserts,     SSSQLVarU.downloadIOS,     downloadIOS);
+        insert    (inserts,     SSSQLVarNames.downloadIOS,     downloadIOS);
       }
       
       if(downloadAndroid == null){
-        insert    (inserts,    SSSQLVarU.downloadAndroid,     SSStrU.empty);
+        insert    (inserts,    SSSQLVarNames.downloadAndroid,     SSStrU.empty);
       }else{
-        insert    (inserts,     SSSQLVarU.downloadAndroid,     downloadAndroid);
+        insert    (inserts,     SSSQLVarNames.downloadAndroid,     downloadAndroid);
       }
       
       if(fork == null){
-        insert    (inserts,    SSSQLVarU.fork,     SSStrU.empty);
+        insert    (inserts,    SSSQLVarNames.fork,     SSStrU.empty);
       }else{
-        insert    (inserts,     SSSQLVarU.fork,     fork);
+        insert    (inserts,     SSSQLVarNames.fork,     fork);
       }
       
-      uniqueKey (uniqueKeys, SSSQLVarU.appId,    app);
+      uniqueKey (uniqueKeys, SSSQLVarNames.appId,    app);
       
-      dbSQL.insertIfNotExists(appTable, inserts, uniqueKeys);
+      dbSQL.insertIfNotExists(SSSQLVarNames.appTable, inserts, uniqueKeys);
      }catch(Exception error){
        SSServErrReg.regErrThrow(error);
      }

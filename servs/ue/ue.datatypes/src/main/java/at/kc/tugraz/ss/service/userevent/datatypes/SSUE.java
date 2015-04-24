@@ -22,7 +22,7 @@ package at.kc.tugraz.ss.service.userevent.datatypes;
 
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSEntityE;
 import java.util.ArrayList;
@@ -67,10 +67,10 @@ public class SSUE extends SSEntity {
     
     final Map<String, Object> ld = (Map<String, Object>) super.jsonLDDesc();
 
-    ld.put(SSVarU.user,       SSVarU.sss + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarU.entity,     SSVarU.sss + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarU.ueType,     SSVarU.sss + SSStrU.colon + SSUEE.class.getName());
-    ld.put(SSVarU.content,    SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
+    ld.put(SSVarNames.user,       SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarNames.entity,     SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarNames.ueType,     SSVarNames.sss + SSStrU.colon + SSUEE.class.getName());
+    ld.put(SSVarNames.content,    SSVarNames.xsd + SSStrU.colon + SSStrU.valueString);
     
     return ld;
   }

@@ -55,6 +55,7 @@ import at.kc.tugraz.sss.appstacklayout.conf.SSAppStackLayoutConf;
 import at.kc.tugraz.sss.comment.conf.SSCommentConf;
 import at.kc.tugraz.sss.flag.conf.SSFlagConf;
 import at.kc.tugraz.sss.video.conf.SSVideoConf;
+import at.tugraz.sss.serv.SSDBNoSQLConf;
 import at.tugraz.sss.serv.SSServErrReg;
 
 public class SSCoreConf extends SSCoreConfA{
@@ -65,6 +66,7 @@ public class SSCoreConf extends SSCoreConfA{
   private SSConf                sss            = null;
   private SSJSONLDConf          jsonLD         = null;
   private SSDBSQLConf           dbSQL          = null;
+  private SSDBNoSQLConf         dbNoSQL        = null;
   private SSModelUEConf         model          = null;
   private SSFileRepoConf        filerepo       = null;
   private SSFileRepoConf        solr           = null;
@@ -201,6 +203,14 @@ public class SSCoreConf extends SSCoreConfA{
 
   public void setDbSQL(SSDBSQLConf dbSQL){
     this.dbSQL = dbSQL;
+  }
+  
+  public SSDBNoSQLConf getDbNoSQL(){
+    return dbNoSQL;
+  }
+
+  public void setDbNoSQL(SSDBNoSQLConf dbNoSQL){
+    this.dbNoSQL = dbNoSQL;
   }
 
   public SSModelUEConf getModel(){

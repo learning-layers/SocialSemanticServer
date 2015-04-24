@@ -22,7 +22,7 @@ package at.kc.tugraz.ss.serv.dataimport.datatypes.pars;
 
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServRetI;
 import java.util.HashMap;
 import java.util.Map;
@@ -52,7 +52,7 @@ public class SSDataImportEvernoteRet extends SSServRetI{
     
     final Map<String, Object> ld         = new HashMap<>();
     
-    ld.put(SSVarU.worked,  SSVarU.xsd + SSStrU.colon + SSStrU.valueBoolean);
+    ld.put(SSVarNames.worked,  SSVarNames.xsd + SSStrU.colon + SSStrU.valueBoolean);
     
     return ld;
   }

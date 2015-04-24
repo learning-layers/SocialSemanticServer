@@ -27,7 +27,7 @@ import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSMimeTypeE;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.kc.tugraz.ss.adapter.rest.conf.SSAdapterRestConf;
 import at.tugraz.sss.serv.SSSocketCon;
 import at.tugraz.sss.serv.SSClientPar;
@@ -254,8 +254,8 @@ public class SSRestMainV1 extends Application {
       final ObjectMapper mapper       = new ObjectMapper();
       final JsonNode     jsonRootNode = mapper.readTree(response);
       
-      if(jsonRootNode.get(SSVarU.error).getBooleanValue()){
-        return Response.status(500).entity(getJSONStrForError(jsonRootNode.get(SSVarU.id).getTextValue(), jsonRootNode.get(SSVarU.message).getTextValue())).build();
+      if(jsonRootNode.get(SSVarNames.error).getBooleanValue()){
+        return Response.status(500).entity(getJSONStrForError(jsonRootNode.get(SSVarNames.id).getTextValue(), jsonRootNode.get(SSVarNames.message).getTextValue())).build();
       }else{
         return Response.status(200).entity(SSJSONU.jsonStr(jsonRootNode.get(par.op.toString()))).build();
       }
@@ -293,8 +293,8 @@ public class SSRestMainV1 extends Application {
       final ObjectMapper mapper       = new ObjectMapper();
       final JsonNode     jsonRootNode = mapper.readTree(response);
       
-      if(jsonRootNode.get(SSVarU.error).getBooleanValue()){
-        return Response.status(500).entity(getJSONStrForError(jsonRootNode.get(SSVarU.id).getTextValue(), jsonRootNode.get(SSVarU.message).getTextValue())).build();
+      if(jsonRootNode.get(SSVarNames.error).getBooleanValue()){
+        return Response.status(500).entity(getJSONStrForError(jsonRootNode.get(SSVarNames.id).getTextValue(), jsonRootNode.get(SSVarNames.message).getTextValue())).build();
       }else{
         return Response.status(200).entity(SSJSONU.jsonStr(jsonRootNode.get(par.op.toString()))).build();
       }
@@ -326,8 +326,8 @@ public class SSRestMainV1 extends Application {
       final ObjectMapper mapper       = new ObjectMapper();
       final JsonNode     jsonRootNode = mapper.readTree(response);
       
-      if(jsonRootNode.get(SSVarU.error).getBooleanValue()){
-        return Response.status(500).entity(getJSONStrForError(jsonRootNode.get(SSVarU.id).getTextValue(), jsonRootNode.get(SSVarU.message).getTextValue())).build();
+      if(jsonRootNode.get(SSVarNames.error).getBooleanValue()){
+        return Response.status(500).entity(getJSONStrForError(jsonRootNode.get(SSVarNames.id).getTextValue(), jsonRootNode.get(SSVarNames.message).getTextValue())).build();
       }else{
         return Response.status(201).entity(SSJSONU.jsonStr(jsonRootNode.get(par.op.toString()))).build();
       }
@@ -359,8 +359,8 @@ public class SSRestMainV1 extends Application {
       final ObjectMapper mapper       = new ObjectMapper();
       final JsonNode     jsonRootNode = mapper.readTree(response);
       
-      if(jsonRootNode.get(SSVarU.error).getBooleanValue()){
-        return Response.status(500).entity(getJSONStrForError(jsonRootNode.get(SSVarU.id).getTextValue(), jsonRootNode.get(SSVarU.message).getTextValue())).build();
+      if(jsonRootNode.get(SSVarNames.error).getBooleanValue()){
+        return Response.status(500).entity(getJSONStrForError(jsonRootNode.get(SSVarNames.id).getTextValue(), jsonRootNode.get(SSVarNames.message).getTextValue())).build();
       }else{
         return Response.status(201).entity(SSJSONU.jsonStr(jsonRootNode.get(par.op.toString()))).build();
       }
@@ -377,20 +377,20 @@ public class SSRestMainV1 extends Application {
     final Map<String, Object> jsonObj     = new HashMap<>();
     
     if(id == null){
-      jsonObj.put(SSVarU.id,                      null);
+      jsonObj.put(SSVarNames.id,                      null);
     }else{
-      jsonObj.put(SSVarU.id,                      id.toString());
+      jsonObj.put(SSVarNames.id,                      id.toString());
     }
     
     if(message == null){
       
       if(id == null){
-        jsonObj.put(SSVarU.message,               null);
+        jsonObj.put(SSVarNames.message,               null);
       }else{
-        jsonObj.put(SSVarU.message,               id.toString());
+        jsonObj.put(SSVarNames.message,               id.toString());
       }
     }else{
-      jsonObj.put(SSVarU.message,               message);
+      jsonObj.put(SSVarNames.message,               message);
     }
     
     try{
@@ -407,20 +407,20 @@ public class SSRestMainV1 extends Application {
    final Map<String, Object> jsonObj     = new HashMap<>();
     
     if(id == null){
-      jsonObj.put(SSVarU.id,                      null);
+      jsonObj.put(SSVarNames.id,                      null);
     }else{
-      jsonObj.put(SSVarU.id,                      id);
+      jsonObj.put(SSVarNames.id,                      id);
     }
     
     if(message == null){
       
       if(id == null){
-        jsonObj.put(SSVarU.message,               null);
+        jsonObj.put(SSVarNames.message,               null);
       }else{
-        jsonObj.put(SSVarU.message,               id);
+        jsonObj.put(SSVarNames.message,               id);
       }
     }else{
-      jsonObj.put(SSVarU.message,               message);
+      jsonObj.put(SSVarNames.message,               message);
     }
     
     try{

@@ -22,7 +22,7 @@ package at.kc.tugraz.ss.service.filerepo.datatypes.pars;
 
 import at.tugraz.sss.serv.SSMimeTypeE;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServErrReg;
@@ -57,13 +57,13 @@ public class SSFileUploadPar extends SSServPar{
     try{
       
       if(pars != null){
-        mimeType   = (SSMimeTypeE)     pars.get(SSVarU.mimeType);
-        label      = (SSLabel)    pars.get(SSVarU.label);
+        mimeType   = (SSMimeTypeE)     pars.get(SSVarNames.mimeType);
+        label      = (SSLabel)    pars.get(SSVarNames.label);
       }
       
       if(par.clientJSONObj != null){
-        mimeType = SSMimeTypeE.get(par.clientJSONObj.get(SSVarU.mimeType).getTextValue());
-        label    = SSLabel.get (par.clientJSONObj.get(SSVarU.label).getTextValue());
+        mimeType = SSMimeTypeE.get(par.clientJSONObj.get(SSVarNames.mimeType).getTextValue());
+        label    = SSLabel.get (par.clientJSONObj.get(SSVarNames.label).getTextValue());
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

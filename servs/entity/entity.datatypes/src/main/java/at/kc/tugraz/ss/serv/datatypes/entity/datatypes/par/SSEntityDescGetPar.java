@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par;
 
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSErr;
@@ -118,45 +118,45 @@ public class SSEntityDescGetPar extends SSServPar{
     try{
       
       if(pars != null){
-        entity           = (SSUri)   pars.get(SSVarU.entity);
-        getTags          = (Boolean) pars.get(SSVarU.getTags);
-        getOverallRating = (Boolean) pars.get(SSVarU.getOverallRating);
-        getDiscs         = (Boolean) pars.get(SSVarU.getDiscs);
-        getUEs           = (Boolean) pars.get(SSVarU.getUEs);
-        getThumb         = (Boolean) pars.get(SSVarU.getThumb);
-        getFlags         = (Boolean) pars.get(SSVarU.getFlags);
-        getCircles       = (Boolean) pars.get(SSVarU.getCircles);
+        entity           = (SSUri)   pars.get(SSVarNames.entity);
+        getTags          = (Boolean) pars.get(SSVarNames.getTags);
+        getOverallRating = (Boolean) pars.get(SSVarNames.getOverallRating);
+        getDiscs         = (Boolean) pars.get(SSVarNames.getDiscs);
+        getUEs           = (Boolean) pars.get(SSVarNames.getUEs);
+        getThumb         = (Boolean) pars.get(SSVarNames.getThumb);
+        getFlags         = (Boolean) pars.get(SSVarNames.getFlags);
+        getCircles       = (Boolean) pars.get(SSVarNames.getCircles);
       }
       
       if(par.clientJSONObj != null){
-        entity          = SSUri.get        (par.clientJSONObj.get(SSVarU.entity).getTextValue());
+        entity          = SSUri.get        (par.clientJSONObj.get(SSVarNames.entity).getTextValue());
         
         try{
-          getTags            = par.clientJSONObj.get(SSVarU.getTags).getBooleanValue();
+          getTags            = par.clientJSONObj.get(SSVarNames.getTags).getBooleanValue();
         }catch(Exception error){}
         
         try{
-          getOverallRating   = par.clientJSONObj.get(SSVarU.getOverallRating).getBooleanValue();
+          getOverallRating   = par.clientJSONObj.get(SSVarNames.getOverallRating).getBooleanValue();
         }catch(Exception error){}
         
         try{
-          getDiscs        = par.clientJSONObj.get(SSVarU.getDiscs).getBooleanValue();
+          getDiscs        = par.clientJSONObj.get(SSVarNames.getDiscs).getBooleanValue();
         }catch(Exception error){}
         
         try{
-          getUEs        = par.clientJSONObj.get(SSVarU.getUEs).getBooleanValue();
+          getUEs        = par.clientJSONObj.get(SSVarNames.getUEs).getBooleanValue();
         }catch(Exception error){}
         
         try{
-          getThumb        = par.clientJSONObj.get(SSVarU.getThumb).getBooleanValue();
+          getThumb        = par.clientJSONObj.get(SSVarNames.getThumb).getBooleanValue();
         }catch(Exception error){}
         
         try{
-          getFlags        = par.clientJSONObj.get(SSVarU.getFlags).getBooleanValue();
+          getFlags        = par.clientJSONObj.get(SSVarNames.getFlags).getBooleanValue();
         }catch(Exception error){}
         
         try{
-          getCircles        = par.clientJSONObj.get(SSVarU.getCircles).getBooleanValue();
+          getCircles        = par.clientJSONObj.get(SSVarNames.getCircles).getBooleanValue();
         }catch(Exception error){}
       }
     }catch(Exception error){

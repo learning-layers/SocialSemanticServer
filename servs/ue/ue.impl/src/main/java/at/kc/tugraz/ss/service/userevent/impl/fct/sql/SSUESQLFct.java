@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.service.userevent.impl.fct.sql;
 
 import at.tugraz.sss.serv.SSLogU;
-import at.tugraz.sss.serv.SSSQLVarU;
+import at.tugraz.sss.serv.SSSQLVarNames;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSDBSQLFct;
 import at.tugraz.sss.serv.SSUri;
@@ -54,34 +54,32 @@ public class SSUESQLFct extends SSDBSQLFct{
       final Map<String, String>  wheres  = new HashMap<>();
       SSUEE                      eventTypeFromDB;
       
-      column(columns, SSSQLVarU.userEventId);
-      column(columns, SSSQLVarU.eventType);
-      column(columns, SSSQLVarU.userId);
-      column(columns, SSSQLVarU.entityId);
-      column(columns, SSSQLVarU.content);
+      column(columns, SSSQLVarNames.userEventId);
+      column(columns, SSSQLVarNames.eventType);
+      column(columns, SSSQLVarNames.userId);
+      column(columns, SSSQLVarNames.entityId);
+      column(columns, SSSQLVarNames.content);
       
-      where(wheres, SSSQLVarU.userEventId, ue);
+      where(wheres, SSSQLVarNames.userEventId, ue);
       
-      resultSet = dbSQL.select(uesTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(SSSQLVarNames.uesTable, columns, wheres, null, null, null);
       
       checkFirstResult(resultSet);
       
       try{
         eventTypeFromDB = 
-          SSUEE.get(
-            bindingStr(resultSet, SSSQLVarU.eventType));
+          SSUEE.get(bindingStr(resultSet, SSSQLVarNames.eventType));
         
       }catch(Exception error){
-        SSLogU.warn("user event type doesnt exist in current model " + bindingStr(resultSet, SSSQLVarU.eventType));
+        SSLogU.warn("user event type doesnt exist in current model " + bindingStr(resultSet, SSSQLVarNames.eventType));
         eventTypeFromDB = null;
       }
       
-      return SSUE.get(
-        ue, 
-        bindingStrToUri (resultSet, SSSQLVarU.userId), 
+      return SSUE.get(ue, 
+        bindingStrToUri (resultSet, SSSQLVarNames.userId), 
         eventTypeFromDB, 
-        bindingStrToUri (resultSet, SSSQLVarU.entityId), 
-        bindingStr      (resultSet, SSSQLVarU.content));
+        bindingStrToUri (resultSet, SSSQLVarNames.entityId), 
+        bindingStr      (resultSet, SSSQLVarNames.content));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -110,23 +108,23 @@ public class SSUESQLFct extends SSDBSQLFct{
       SSUE                                                         ueObj;
       SSUEE                                                        eventTypeFromDB;
       
-      column   (columns,   SSSQLVarU.userEventId);
-      column   (columns,   SSSQLVarU.userId);
-      column   (columns,   SSSQLVarU.entityId);
-      column   (columns,   SSSQLVarU.content);
-      column   (columns,   SSSQLVarU.creationTime);
-      column   (columns,   SSSQLVarU.eventType);
+      column   (columns,   SSSQLVarNames.userEventId);
+      column   (columns,   SSSQLVarNames.userId);
+      column   (columns,   SSSQLVarNames.entityId);
+      column   (columns,   SSSQLVarNames.content);
+      column   (columns,   SSSQLVarNames.creationTime);
+      column   (columns,   SSSQLVarNames.eventType);
       
-      table    (tables,    uesTable);
-      table    (tables,    entityTable);
+      table    (tables, SSSQLVarNames.uesTable);
+      table    (tables, SSSQLVarNames.entityTable);
       
-      tableCon (tableCons, uesTable, SSSQLVarU.userEventId, entityTable, SSSQLVarU.id);
+      tableCon (tableCons, SSSQLVarNames.uesTable, SSSQLVarNames.userEventId, SSSQLVarNames.entityTable, SSSQLVarNames.id);
       
       if(forUser != null){
                 
         final MultivaluedMap<String, String> whereUsers = new MultivaluedHashMap<>();
         
-        where(whereUsers, uesTable, SSSQLVarU.userId, forUser);
+        where(whereUsers, SSSQLVarNames.uesTable, SSSQLVarNames.userId, forUser);
         
         wheres.add(whereUsers);
       }
@@ -135,7 +133,7 @@ public class SSUESQLFct extends SSDBSQLFct{
         
         final MultivaluedMap<String, String> whereEntities = new MultivaluedHashMap<>();
         
-        where(whereEntities, uesTable, SSSQLVarU.entityId, entity);
+        where(whereEntities, SSSQLVarNames.uesTable, SSSQLVarNames.entityId, entity);
         
         wheres.add(whereEntities);
       }
@@ -147,7 +145,7 @@ public class SSUESQLFct extends SSDBSQLFct{
         final MultivaluedMap<String, String> whereTypes = new MultivaluedHashMap<>();
         
         for(SSUEE eventType : eventTypes){
-          where(whereTypes, uesTable, SSSQLVarU.eventType, eventType);
+          where(whereTypes, SSSQLVarNames.uesTable, SSSQLVarNames.eventType, eventType);
         }
         
         wheres.add(whereTypes);
@@ -162,7 +160,7 @@ public class SSUESQLFct extends SSDBSQLFct{
         
         wheresNumeric.put(SSStrU.greaterThan, greaterWheres);
         
-        where(whereNumbericStartTimes, entityTable, SSSQLVarU.creationTime, startTime);
+        where(whereNumbericStartTimes, SSSQLVarNames.entityTable, SSSQLVarNames.creationTime, startTime);
         
         greaterWheres.add(whereNumbericStartTimes);
       }
@@ -176,7 +174,7 @@ public class SSUESQLFct extends SSDBSQLFct{
         
         wheresNumeric.put(SSStrU.lessThan, lessWheres);
         
-        where(whereNumbericEndTimes, entityTable, SSSQLVarU.creationTime, endTime);
+        where(whereNumbericEndTimes, SSSQLVarNames.entityTable, SSSQLVarNames.creationTime, endTime);
         
         lessWheres.add(whereNumbericEndTimes);
       }
@@ -190,9 +188,9 @@ public class SSUESQLFct extends SSDBSQLFct{
       while(resultSet.next()){
         
         try{
-          eventTypeFromDB = SSUEE.get(bindingStr(resultSet, SSSQLVarU.eventType));
+          eventTypeFromDB = SSUEE.get(bindingStr(resultSet, SSSQLVarNames.eventType));
         }catch(Exception error){
-          SSLogU.warn("user event type doesnt exist in current model " + bindingStr(resultSet, SSSQLVarU.eventType));
+          SSLogU.warn("user event type doesnt exist in current model " + bindingStr(resultSet, SSSQLVarNames.eventType));
           continue;
         }
         
@@ -205,14 +203,13 @@ public class SSUESQLFct extends SSDBSQLFct{
 //        }
         
         ueObj = 
-         SSUE.get(
-           bindingStrToUri       (resultSet, SSSQLVarU.userEventId), 
-           bindingStrToUri       (resultSet, SSSQLVarU.userId), 
+         SSUE.get(bindingStrToUri       (resultSet, SSSQLVarNames.userEventId), 
+           bindingStrToUri       (resultSet, SSSQLVarNames.userId), 
            eventTypeFromDB, 
-           bindingStrToUri       (resultSet, SSSQLVarU.entityId), 
-           bindingStr            (resultSet, SSSQLVarU.content));
+           bindingStrToUri       (resultSet, SSSQLVarNames.entityId), 
+           bindingStr            (resultSet, SSSQLVarNames.content));
         
-        ueObj.creationTime = bindingStrToLong(resultSet, SSSQLVarU.creationTime);
+        ueObj.creationTime = bindingStrToLong(resultSet, SSSQLVarNames.creationTime);
 
         ues.add(ueObj);
       }
@@ -236,18 +233,18 @@ public class SSUESQLFct extends SSDBSQLFct{
     try{
       final Map<String, String> inserts = new HashMap<>();
       
-      insert(inserts, SSSQLVarU.userEventId,   ue);
-      insert(inserts, SSSQLVarU.userId,        user);
-      insert(inserts, SSSQLVarU.entityId,      entity);
-      insert(inserts, SSSQLVarU.eventType,     eventType);
+      insert(inserts, SSSQLVarNames.userEventId,   ue);
+      insert(inserts, SSSQLVarNames.userId,        user);
+      insert(inserts, SSSQLVarNames.entityId,      entity);
+      insert(inserts, SSSQLVarNames.eventType,     eventType);
       
       if(content == null){
-        insert(inserts, SSSQLVarU.content,       content);
+        insert(inserts, SSSQLVarNames.content,       content);
       }else{
-        insert(inserts, SSSQLVarU.content,       SSStrU.empty);
+        insert(inserts, SSSQLVarNames.content,       SSStrU.empty);
       }
 
-      dbSQL.insert(uesTable, inserts);
+      dbSQL.insert(SSSQLVarNames.uesTable, inserts);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }

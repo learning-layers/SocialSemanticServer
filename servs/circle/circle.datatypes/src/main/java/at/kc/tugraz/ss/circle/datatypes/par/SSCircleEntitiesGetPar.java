@@ -22,7 +22,7 @@ package at.kc.tugraz.ss.circle.datatypes.par;
 
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSServPar;
@@ -65,10 +65,10 @@ public class SSCircleEntitiesGetPar extends SSServPar{
     try{
       
       if(pars != null){
-        forUser              = (SSUri)           pars.get(SSVarU.forUser);
-        types                = (List<SSEntityE>) pars.get(SSVarU.types);
-        withSystemCircles    = (Boolean)         pars.get(SSVarU.withSystemCircles);
-        invokeEntityHandlers = (Boolean)         pars.get(SSVarU.invokeEntityHandlers);
+        forUser              = (SSUri)           pars.get(SSVarNames.forUser);
+        types                = (List<SSEntityE>) pars.get(SSVarNames.types);
+        withSystemCircles    = (Boolean)         pars.get(SSVarNames.withSystemCircles);
+        invokeEntityHandlers = (Boolean)         pars.get(SSVarNames.invokeEntityHandlers);
       }
       
       if(par.clientJSONObj != null){
@@ -76,21 +76,21 @@ public class SSCircleEntitiesGetPar extends SSServPar{
         withUserRestriction = true;
         
         try{
-          forUser = SSUri.get(par.clientJSONObj.get(SSVarU.forUser).getTextValue());
+          forUser = SSUri.get(par.clientJSONObj.get(SSVarNames.forUser).getTextValue());
         }catch(Exception error){}
         
         try{
-          for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.types)) {
+          for (final JsonNode objNode : par.clientJSONObj.get(SSVarNames.types)) {
             types.add(SSEntityE.get(objNode.getTextValue()));
           }
         }catch(Exception error){}
         
         try{
-          withSystemCircles = par.clientJSONObj.get(SSVarU.withSystemCircles).getBooleanValue();
+          withSystemCircles = par.clientJSONObj.get(SSVarNames.withSystemCircles).getBooleanValue();
         }catch(Exception error){}
         
         try{
-          invokeEntityHandlers      = par.clientJSONObj.get(SSVarU.invokeEntityHandlers).getBooleanValue();
+          invokeEntityHandlers      = par.clientJSONObj.get(SSVarNames.invokeEntityHandlers).getBooleanValue();
         }catch(Exception error){}
       }
       

@@ -16,7 +16,7 @@
 package at.kc.tugraz.ss.circle.datatypes.par;
 
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServErrReg;
@@ -48,11 +48,11 @@ public class SSCircleEntityUsersGetPar extends SSServPar{
     try{
       
       if(pars != null){
-        entity       = (SSUri)        pars.get(SSVarU.entity);
+        entity       = (SSUri)        pars.get(SSVarNames.entity);
       }
       
       if(par.clientJSONObj != null){
-        entity   = SSUri.get        (par.clientJSONObj.get(SSVarU.entity).getTextValue());
+        entity   = SSUri.get        (par.clientJSONObj.get(SSVarNames.entity).getTextValue());
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

@@ -23,7 +23,7 @@ package at.kc.tugraz.ss.serv.ss.auth.datatypes.ret;
 import at.tugraz.sss.serv.SSLinkU;
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServRetI;
 import java.util.HashMap;
@@ -57,8 +57,8 @@ public class SSAuthCheckCredRet extends SSServRetI{
     
     final Map<String, Object> ld = new HashMap<>();
     
-    ld.put(SSVarU.key,  SSLinkU.xsd + SSStrU.valueString);
-    ld.put(SSVarU.user, SSVarU.sss  + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarNames.key,  SSLinkU.xsd + SSStrU.valueString);
+    ld.put(SSVarNames.user, SSVarNames.sss  + SSStrU.colon + SSUri.class.getName());
     
     return ld;
   }

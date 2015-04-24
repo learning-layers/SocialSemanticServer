@@ -20,7 +20,7 @@
 */
  package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par;
 
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSLabel;
@@ -44,11 +44,11 @@ public class SSEntityAddPar extends SSServPar{
     try{
       
       if(pars != null){
-        entity          = (SSUri)         pars.get(SSVarU.entity);
-        label           = (SSLabel)       pars.get(SSVarU.label);
-        type            = (SSEntityE)     pars.get(SSVarU.type);
-        description     = (SSTextComment) pars.get(SSVarU.description);
-        creationTime    = (Long)          pars.get(SSVarU.creationTime);
+        entity          = (SSUri)         pars.get(SSVarNames.entity);
+        label           = (SSLabel)       pars.get(SSVarNames.label);
+        type            = (SSEntityE)     pars.get(SSVarNames.type);
+        description     = (SSTextComment) pars.get(SSVarNames.description);
+        creationTime    = (Long)          pars.get(SSVarNames.creationTime);
       }
     }catch(Exception error){
       throw new SSErr(SSErrE.servParCreationFailed);

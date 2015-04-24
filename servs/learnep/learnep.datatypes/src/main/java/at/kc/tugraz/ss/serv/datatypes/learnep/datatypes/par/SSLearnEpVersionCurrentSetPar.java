@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par;
 
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServErrReg;
@@ -36,11 +36,11 @@ public class SSLearnEpVersionCurrentSetPar extends SSServPar{
     try{
       
       if(pars != null){
-        learnEpVersion   = (SSUri) pars.get(SSVarU.learnEpVersion);
+        learnEpVersion   = (SSUri) pars.get(SSVarNames.learnEpVersion);
       }
       
       if(par.clientJSONObj != null){
-        learnEpVersion   = SSUri.get(par.clientJSONObj.get(SSVarU.learnEpVersion).getTextValue());
+        learnEpVersion   = SSUri.get(par.clientJSONObj.get(SSVarNames.learnEpVersion).getTextValue());
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

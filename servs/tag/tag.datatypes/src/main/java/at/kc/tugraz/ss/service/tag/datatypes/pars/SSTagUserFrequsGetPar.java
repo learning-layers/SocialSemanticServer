@@ -22,7 +22,7 @@ package at.kc.tugraz.ss.service.tag.datatypes.pars;
 
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSSpaceE;
 import at.tugraz.sss.serv.SSServPar;
@@ -114,12 +114,12 @@ public class SSTagUserFrequsGetPar extends SSServPar{
         par.op,
         par.key,
         par.user,
-        (SSUri)                        par.pars.get(SSVarU.forUser),
-        (List<SSUri>)                  par.pars.get(SSVarU.entities),
-        (List<SSTagLabel>)             par.pars.get(SSVarU.labels),
-        (SSSpaceE)                     par.pars.get(SSVarU.space),
-        (Long)                         par.pars.get(SSVarU.startTime),
-        (Boolean)                      par.pars.get(SSVarU.useUsersEntities));
+        (SSUri)                        par.pars.get(SSVarNames.forUser),
+        (List<SSUri>)                  par.pars.get(SSVarNames.entities),
+        (List<SSTagLabel>)             par.pars.get(SSVarNames.labels),
+        (SSSpaceE)                     par.pars.get(SSVarNames.space),
+        (Long)                         par.pars.get(SSVarNames.startTime),
+        (Boolean)                      par.pars.get(SSVarNames.useUsersEntities));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

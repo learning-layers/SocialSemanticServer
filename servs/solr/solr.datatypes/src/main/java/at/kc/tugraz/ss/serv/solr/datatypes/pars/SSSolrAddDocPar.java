@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.serv.solr.datatypes.pars;
 
 import at.tugraz.sss.serv.SSMimeTypeE;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServErrReg;
 
@@ -37,8 +37,8 @@ public class SSSolrAddDocPar extends SSServPar{
     try{
       
       if(pars != null){
-        id               = (String)          pars.get(SSVarU.id);
-        mimeType         = (SSMimeTypeE)     pars.get(SSVarU.mimeType);
+        id               = (String)          pars.get(SSVarNames.id);
+        mimeType         = (SSMimeTypeE)     pars.get(SSVarNames.mimeType);
       }
       
     }catch(Exception error){

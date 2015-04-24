@@ -22,7 +22,7 @@ package at.kc.tugraz.ss.service.disc.datatypes.ret;
 
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServRetI;
 import at.tugraz.sss.serv.SSJSONLDU;
@@ -59,10 +59,10 @@ public class SSDiscUserDiscURIsForTargetGetRet extends SSServRetI{
     final Map<String, Object> ld         = new HashMap<>();
     final Map<String, Object> discsObj   = new HashMap<>();
     
-    discsObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSUri.class.getName());
+    discsObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
     discsObj.put(SSJSONLDU.container, SSJSONLDU.set);
     
-    ld.put(SSVarU.discs, discsObj);
+    ld.put(SSVarNames.discs, discsObj);
     
     return ld;
   }

@@ -22,7 +22,7 @@ package at.kc.tugraz.ss.adapter.rest.v2.pars.recomm;
 
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSSocketU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.kc.tugraz.ss.adapter.rest.v2.SSRESTObject;
 import at.kc.tugraz.ss.adapter.rest.v2.SSRestMainV2;
 import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommResourcesPar;
@@ -109,7 +109,7 @@ public class SSRESTRecomm{
     @ApiParam(
       value = "recomm realm the user wants to query", 
       required = true) 
-    @PathParam(SSVarU.realm) 
+    @PathParam(SSVarNames.realm) 
       final String realm,
     
     @ApiParam(
@@ -317,13 +317,13 @@ public class SSRESTRecomm{
     @ApiParam(
       value = "user to be considered to retrieve recommendations for",
       required = true) 
-    @PathParam(SSVarU.forUser) 
+    @PathParam(SSVarNames.forUser) 
       String forUser, 
     
     @ApiParam(
       value = "resource to be considered to retrieve recommendations for",
       required = true) 
-    @PathParam(SSVarU.entity) 
+    @PathParam(SSVarNames.entity) 
       String entity){
     
     final SSRecommUsersPar par;
@@ -362,19 +362,19 @@ public class SSRESTRecomm{
     @ApiParam(
       value = "recomm realm the user wants to query", 
       required = true) 
-    @PathParam(SSVarU.realm) 
+    @PathParam(SSVarNames.realm) 
       String realm, 
     
     @ApiParam(
       value = "user to be considered to retrieve recommendations for",
       required = true) 
-    @PathParam(SSVarU.forUser) 
+    @PathParam(SSVarNames.forUser) 
       String forUser, 
     
     @ApiParam(
       value = "resource to be considered to retrieve recommendations for",
       required = true) 
-    @PathParam(SSVarU.entity) 
+    @PathParam(SSVarNames.entity) 
       String entity){
     
     final SSRecommUsersPar par;
@@ -413,7 +413,7 @@ public class SSRESTRecomm{
     @ApiParam(
       value = "user to be considered to retrieve recommendations for", 
       required = true)
-    @PathParam(SSVarU.forUser) 
+    @PathParam(SSVarNames.forUser) 
       final String forUser){
     
     final SSRecommUsersPar par;
@@ -452,13 +452,13 @@ public class SSRESTRecomm{
     @ApiParam(
       value = "recomm realm the user wants to query", 
       required = true) 
-    @PathParam(SSVarU.realm) 
+    @PathParam(SSVarNames.realm) 
       final String realm,
     
     @ApiParam(
       value = "user to be considered to retrieve recommendations for", 
       required = true)
-    @PathParam(SSVarU.forUser) 
+    @PathParam(SSVarNames.forUser) 
       final String forUser){
     
     final SSRecommUsersPar par;
@@ -497,7 +497,7 @@ public class SSRESTRecomm{
     @ApiParam(
       value = "resource to be considered to retrieve recommendations for",
       required = true)
-    @PathParam(SSVarU.entity) 
+    @PathParam(SSVarNames.entity) 
       final String entity){
     
     final SSRecommUsersPar par;
@@ -536,13 +536,13 @@ public class SSRESTRecomm{
     @ApiParam(
       value = "recomm realm the user wants to query", 
       required = true) 
-    @PathParam(SSVarU.realm) 
+    @PathParam(SSVarNames.realm) 
       final String realm,
     
     @ApiParam(
       value = "resource to be considered to retrieve recommendations for",
       required = true)
-    @PathParam(SSVarU.entity) 
+    @PathParam(SSVarNames.entity) 
       final String entity){
     
     final SSRecommUsersPar par;

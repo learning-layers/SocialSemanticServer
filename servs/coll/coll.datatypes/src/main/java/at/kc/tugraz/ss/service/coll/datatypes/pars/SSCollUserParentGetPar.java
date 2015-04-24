@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.service.coll.datatypes.pars;
 
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServErrReg;
@@ -53,11 +53,11 @@ public class SSCollUserParentGetPar extends SSServPar{
     try{
     
       if(pars != null){
-        coll       = (SSUri)       pars.get(SSVarU.coll);
+        coll       = (SSUri)       pars.get(SSVarNames.coll);
       }
       
       if(par.clientJSONObj != null){
-        coll       = SSUri.get        (par.clientJSONObj.get(SSVarU.coll).getTextValue());
+        coll       = SSUri.get        (par.clientJSONObj.get(SSVarNames.coll).getTextValue());
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

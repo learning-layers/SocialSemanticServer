@@ -20,7 +20,7 @@
 */
  package at.kc.tugraz.ss.service.user.datatypes.pars;
 
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.SSServPar;
@@ -37,7 +37,7 @@ public class SSUserURICreatePar extends SSServPar{
     try{
       
       if(pars != null){
-        this.label = (SSLabel) pars.get(SSVarU.label);
+        this.label = (SSLabel) pars.get(SSVarNames.label);
       }
       
     }catch(Exception error){

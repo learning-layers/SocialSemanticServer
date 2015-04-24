@@ -22,7 +22,7 @@ package at.kc.tugraz.sss.video.datatypes.ret;
 
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServRetI;
 import at.tugraz.sss.serv.SSJSONLDU;
 import at.kc.tugraz.sss.video.datatypes.SSVideo;
@@ -59,10 +59,10 @@ public class SSVideosUserGetRet extends SSServRetI{
     final Map<String, Object> ld           = new HashMap<>();
     final Map<String, Object> videosObj    = new HashMap<>();
     
-    videosObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSVideo.class.getName());
+    videosObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSVideo.class.getName());
     videosObj.put(SSJSONLDU.container, SSJSONLDU.set);
     
-    ld.put(SSVarU.videos, videosObj);
+    ld.put(SSVarNames.videos, videosObj);
     
     return ld;
   }

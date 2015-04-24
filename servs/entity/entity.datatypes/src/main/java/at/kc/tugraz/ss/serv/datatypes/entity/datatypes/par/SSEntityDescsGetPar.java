@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par;
 
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSServPar;
@@ -88,44 +88,44 @@ public class SSEntityDescsGetPar extends SSServPar{
     try{
       
       if(pars != null){
-        entities         = (List<SSUri>)     pars.get(SSVarU.entities);
-        types            = (List<SSEntityE>) pars.get(SSVarU.types);
-        getTags          = (Boolean)         pars.get(SSVarU.getTags);
-        getOverallRating = (Boolean)         pars.get(SSVarU.getOverallRating);
-        getDiscs         = (Boolean)         pars.get(SSVarU.getDiscs);
-        getUEs           = (Boolean)         pars.get(SSVarU.getUEs);
-        getThumb         = (Boolean)         pars.get(SSVarU.getThumb);
-        getFlags         = (Boolean)         pars.get(SSVarU.getFlags);
+        entities         = (List<SSUri>)     pars.get(SSVarNames.entities);
+        types            = (List<SSEntityE>) pars.get(SSVarNames.types);
+        getTags          = (Boolean)         pars.get(SSVarNames.getTags);
+        getOverallRating = (Boolean)         pars.get(SSVarNames.getOverallRating);
+        getDiscs         = (Boolean)         pars.get(SSVarNames.getDiscs);
+        getUEs           = (Boolean)         pars.get(SSVarNames.getUEs);
+        getThumb         = (Boolean)         pars.get(SSVarNames.getThumb);
+        getFlags         = (Boolean)         pars.get(SSVarNames.getFlags);
       }
       
       if(par.clientJSONObj != null){
         
         try{
-          for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.entities)) {
+          for (final JsonNode objNode : par.clientJSONObj.get(SSVarNames.entities)) {
             entities.add(SSUri.get(objNode.getTextValue()));
           }
         }catch(Exception error){}
         
         try{
-          for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.types)) {
+          for (final JsonNode objNode : par.clientJSONObj.get(SSVarNames.types)) {
             types.add(SSEntityE.get(objNode.getTextValue()));
           }
         }catch(Exception error){}
         
         try{
-          getTags            = par.clientJSONObj.get(SSVarU.getTags).getBooleanValue();
+          getTags            = par.clientJSONObj.get(SSVarNames.getTags).getBooleanValue();
         }catch(Exception error){}
         
         try{
-          getOverallRating   = par.clientJSONObj.get(SSVarU.getOverallRating).getBooleanValue();
+          getOverallRating   = par.clientJSONObj.get(SSVarNames.getOverallRating).getBooleanValue();
         }catch(Exception error){}
         
         try{
-          getDiscs        = par.clientJSONObj.get(SSVarU.getDiscs).getBooleanValue();
+          getDiscs        = par.clientJSONObj.get(SSVarNames.getDiscs).getBooleanValue();
         }catch(Exception error){}
         
         try{
-          getUEs        = par.clientJSONObj.get(SSVarU.getUEs).getBooleanValue();
+          getUEs        = par.clientJSONObj.get(SSVarNames.getUEs).getBooleanValue();
         }catch(Exception error){}
         
         try{
@@ -133,7 +133,7 @@ public class SSEntityDescsGetPar extends SSServPar{
         }catch(Exception error){}
         
         try{
-          getFlags        = par.clientJSONObj.get(SSVarU.getFlags).getBooleanValue();
+          getFlags        = par.clientJSONObj.get(SSVarNames.getFlags).getBooleanValue();
         }catch(Exception error){}
       }
     }catch(Exception error){

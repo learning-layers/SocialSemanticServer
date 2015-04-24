@@ -24,7 +24,7 @@ import at.kc.tugraz.socialserver.service.broadcast.datatypes.SSBroadcast;
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSJSONLDU;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServRetI;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -57,10 +57,10 @@ public class SSBroadcastsGetRet extends SSServRetI{
     Map<String, Object> ld         = new HashMap<>();
     Map<String, Object> broadcastsObj = new HashMap<>();
     
-    broadcastsObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSBroadcast.class.getName());
+    broadcastsObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSBroadcast.class.getName());
     broadcastsObj.put(SSJSONLDU.container, SSJSONLDU.set);
     
-    ld.put(SSVarU.broadcasts, broadcastsObj);
+    ld.put(SSVarNames.broadcasts, broadcastsObj);
     
     return ld;
   }

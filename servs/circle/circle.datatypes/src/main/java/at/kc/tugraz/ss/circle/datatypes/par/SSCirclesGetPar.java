@@ -22,7 +22,7 @@ package at.kc.tugraz.ss.circle.datatypes.par;
 
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSServPar;
@@ -101,12 +101,12 @@ public class SSCirclesGetPar extends SSServPar{
         par.op,
         par.key,
         par.user,
-        (SSUri)           par.pars.get(SSVarU.forUser),
-        (SSUri)           par.pars.get(SSVarU.entity),
-        (List<SSEntityE>) par.pars.get(SSVarU.entityTypesToIncludeOnly),
-        (Boolean)         par.pars.get(SSVarU.withUserRestriction),
-        (Boolean)         par.pars.get(SSVarU.withSystemCircles),
-        (Boolean)         par.pars.get(SSVarU.invokeEntityHandlers));
+        (SSUri)           par.pars.get(SSVarNames.forUser),
+        (SSUri)           par.pars.get(SSVarNames.entity),
+        (List<SSEntityE>) par.pars.get(SSVarNames.entityTypesToIncludeOnly),
+        (Boolean)         par.pars.get(SSVarNames.withUserRestriction),
+        (Boolean)         par.pars.get(SSVarNames.withSystemCircles),
+        (Boolean)         par.pars.get(SSVarNames.invokeEntityHandlers));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

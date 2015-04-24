@@ -28,7 +28,7 @@ import at.kc.tugraz.ss.friend.datatypes.ret.SSFriendUserAddRet;
 import at.kc.tugraz.ss.friend.datatypes.ret.SSFriendsUserGetRet;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import javax.ws.rs.Consumes;
@@ -85,7 +85,7 @@ public class SSRESTFriends{
     @Context
     final HttpHeaders headers,
     
-    @PathParam(SSVarU.friend)
+    @PathParam(SSVarNames.friend)
     final String friend){
     
     final SSFriendUserAddPar par;

@@ -21,7 +21,7 @@
  package at.kc.tugraz.ss.service.rating.datatypes;
 
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSEntityA;
 import java.util.HashMap;
 import java.util.Map;
@@ -53,8 +53,8 @@ public class SSRatingOverall extends SSEntityA{
     
     Map<String, Object> ld = new HashMap<>();
     
-    ld.put(SSVarU.score,     SSVarU.xsd + SSStrU.colon + SSStrU.valueDouble);
-    ld.put(SSVarU.frequ,     SSVarU.xsd + SSStrU.colon + SSStrU.valueInteger);
+    ld.put(SSVarNames.score,     SSVarNames.xsd + SSStrU.colon + SSStrU.valueDouble);
+    ld.put(SSVarNames.frequ,     SSVarNames.xsd + SSStrU.colon + SSStrU.valueInteger);
     
     return ld;
   }

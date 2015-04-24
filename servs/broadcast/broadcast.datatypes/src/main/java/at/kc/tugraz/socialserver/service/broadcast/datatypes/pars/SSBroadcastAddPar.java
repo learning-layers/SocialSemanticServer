@@ -22,7 +22,7 @@ package at.kc.tugraz.socialserver.service.broadcast.datatypes.pars;
 
 import at.tugraz.sss.serv.SSUri;
 import at.kc.tugraz.socialserver.service.broadcast.datatypes.enums.SSBroadcastEnum;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServErrReg;
 
@@ -39,9 +39,9 @@ public class SSBroadcastAddPar extends SSServPar{
     try{
       
       if(pars != null){
-        entity     = (SSUri)            pars.get(SSVarU.entity);
-        type       = (SSBroadcastEnum)  pars.get(SSVarU.type);
-        content    = (Object)           pars.get(SSVarU.content);
+        entity     = (SSUri)            pars.get(SSVarNames.entity);
+        type       = (SSBroadcastEnum)  pars.get(SSVarNames.type);
+        content    = (Object)           pars.get(SSVarNames.content);
       }
       
     }catch(Exception error){

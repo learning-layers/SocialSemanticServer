@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par;
 
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServErrReg;
 import com.evernote.clients.NoteStoreClient;
@@ -37,8 +37,8 @@ public class SSEvernoteNotesGetPar extends SSServPar{
     try{
       
       if(pars != null){
-        noteStore      = (NoteStoreClient)  pars.get(SSVarU.noteStore);
-        notebookGuid   = (String)           pars.get(SSVarU.notebookGuid);
+        noteStore      = (NoteStoreClient)  pars.get(SSVarNames.noteStore);
+        notebookGuid   = (String)           pars.get(SSVarNames.notebookGuid);
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

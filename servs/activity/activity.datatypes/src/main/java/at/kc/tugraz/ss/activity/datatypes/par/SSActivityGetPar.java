@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.activity.datatypes.par;
 
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServErrReg;
@@ -37,7 +37,7 @@ public class SSActivityGetPar extends SSServPar{
       
       if(pars != null){
         
-        activity     = (SSUri)               pars.get(SSVarU.activity);
+        activity     = (SSUri)               pars.get(SSVarNames.activity);
       }
       
     }catch(Exception error){

@@ -21,7 +21,7 @@
 package at.kc.tugraz.sss.flag.datatypes.par;
 
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServErrReg;
@@ -92,11 +92,11 @@ public class SSFlagsUserSetPar extends SSServPar{
         par.op,
         par.key,
         par.user,
-        (List<SSUri>)              par.pars.get(SSVarU.entities),
-        (List<SSFlagE>)            par.pars.get(SSVarU.types),
-        (Integer)                  par.pars.get(SSVarU.value),
-        (Long)                     par.pars.get(SSVarU.endTime),
-        (Boolean)                  par.pars.get(SSVarU.shouldCommit));
+        (List<SSUri>)              par.pars.get(SSVarNames.entities),
+        (List<SSFlagE>)            par.pars.get(SSVarNames.types),
+        (Integer)                  par.pars.get(SSVarNames.value),
+        (Long)                     par.pars.get(SSVarNames.endTime),
+        (Boolean)                  par.pars.get(SSVarNames.shouldCommit));
         
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

@@ -21,7 +21,7 @@
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>serv.ops</artifactId>
+      <artifactId>serv.custom.ops</artifactId>
       <version>${project.version}</version>
     </dependency>
     

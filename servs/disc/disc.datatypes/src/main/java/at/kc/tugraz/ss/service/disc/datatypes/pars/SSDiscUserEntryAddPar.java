@@ -21,7 +21,7 @@
  package at.kc.tugraz.ss.service.disc.datatypes.pars;
 
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServErrReg;
@@ -168,17 +168,17 @@ public class SSDiscUserEntryAddPar extends SSServPar{
         par.op,
         par.key,
         par.user, 
-        (SSUri)              par.pars.get(SSVarU.disc),
-        (SSUri)              par.pars.get(SSVarU.entity),
-        (SSTextComment)      par.pars.get(SSVarU.entry), 
-        (Boolean)            par.pars.get(SSVarU.addNewDisc), 
-        (SSEntityE)          par.pars.get(SSVarU.type),
-        (SSLabel)            par.pars.get(SSVarU.label),
-        (SSTextComment)      par.pars.get(SSVarU.description),
-        (List<SSUri>)        par.pars.get(SSVarU.users),
-        (List<SSUri>)        par.pars.get(SSVarU.circles),
-        (List<SSUri>)        par.pars.get(SSVarU.entities),
-        (Boolean)            par.pars.get(SSVarU.shouldCommit));
+        (SSUri)              par.pars.get(SSVarNames.disc),
+        (SSUri)              par.pars.get(SSVarNames.entity),
+        (SSTextComment)      par.pars.get(SSVarNames.entry), 
+        (Boolean)            par.pars.get(SSVarNames.addNewDisc), 
+        (SSEntityE)          par.pars.get(SSVarNames.type),
+        (SSLabel)            par.pars.get(SSVarNames.label),
+        (SSTextComment)      par.pars.get(SSVarNames.description),
+        (List<SSUri>)        par.pars.get(SSVarNames.users),
+        (List<SSUri>)        par.pars.get(SSVarNames.circles),
+        (List<SSUri>)        par.pars.get(SSVarNames.entities),
+        (Boolean)            par.pars.get(SSVarNames.shouldCommit));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

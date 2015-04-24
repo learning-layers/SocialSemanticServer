@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes;
 
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
@@ -78,9 +78,9 @@ public class SSLearnEpEntity extends SSEntity {
     
     final Map<String, Object> ld = (Map<String, Object>) super.jsonLDDesc();
     
-    ld.put(SSVarU.entity,  SSVarU.sss + SSStrU.colon + SSEntity.class.getName());
-    ld.put(SSVarU.x,       SSVarU.xsd + SSStrU.colon + SSStrU.valueFloat);
-    ld.put(SSVarU.y,       SSVarU.xsd + SSStrU.colon + SSStrU.valueFloat);
+    ld.put(SSVarNames.entity,  SSVarNames.sss + SSStrU.colon + SSEntity.class.getName());
+    ld.put(SSVarNames.x,       SSVarNames.xsd + SSStrU.colon + SSStrU.valueFloat);
+    ld.put(SSVarNames.y,       SSVarNames.xsd + SSStrU.colon + SSStrU.valueFloat);
     
     return ld;
   }

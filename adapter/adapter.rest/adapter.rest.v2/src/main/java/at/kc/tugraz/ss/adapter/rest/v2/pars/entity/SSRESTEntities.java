@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.adapter.rest.v2.pars.entity;
 
 import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.kc.tugraz.ss.adapter.rest.v2.SSRestMainV2;
 import at.tugraz.sss.serv.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserGetPar;
@@ -57,7 +57,7 @@ public class SSRESTEntities {
   public Response entityGet(
     @Context
       HttpHeaders headers,
-    @PathParam (SSVarU.entity)
+    @PathParam (SSVarNames.entity)
       String entity){
     
     final SSEntityUserGetPar par;
@@ -90,7 +90,7 @@ public class SSRESTEntities {
     @Context
       final HttpHeaders headers,
     
-    @PathParam (SSVarU.entity)
+    @PathParam (SSVarNames.entity)
       final String entity,
     
     final SSEntityCommentsAddRESTAPIV2Par input){
@@ -128,7 +128,7 @@ public class SSRESTEntities {
     @Context
       final HttpHeaders headers,
     
-    @PathParam (SSVarU.entity)
+    @PathParam (SSVarNames.entity)
       final String entity,
     
     final SSEntityLabelUpdateRESTAPIV2Par input){
@@ -166,7 +166,7 @@ public class SSRESTEntities {
     @Context
       final HttpHeaders headers,
     
-    @PathParam (SSVarU.entity)
+    @PathParam (SSVarNames.entity)
       final String entity,
     
     final SSEntityDescriptionUpdateRESTAPIV2Par input){
@@ -204,7 +204,7 @@ public class SSRESTEntities {
     @Context
       final HttpHeaders headers,
     
-    @PathParam (SSVarU.entity)
+    @PathParam (SSVarNames.entity)
       final String entity,
     
     final SSEntityUpdateRESTAPIV2Par input){

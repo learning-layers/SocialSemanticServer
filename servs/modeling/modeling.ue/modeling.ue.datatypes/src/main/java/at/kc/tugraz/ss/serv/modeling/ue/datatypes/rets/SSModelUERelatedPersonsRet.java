@@ -23,7 +23,7 @@ package at.kc.tugraz.ss.serv.modeling.ue.datatypes.rets;
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSJSONLDU;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServRetI;
 import at.tugraz.sss.serv.SSUri;
 import java.util.ArrayList;
@@ -52,10 +52,10 @@ public class SSModelUERelatedPersonsRet extends SSServRetI{
     Map<String, Object> ld                      = new HashMap<>();
     Map<String, Object> relatedPersonsObj       = new HashMap<>();
     
-    relatedPersonsObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSUri.class.getName());
+    relatedPersonsObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
     relatedPersonsObj.put(SSJSONLDU.container, SSJSONLDU.set);
 
-    ld.put(SSVarU.relatedPersons, relatedPersonsObj);
+    ld.put(SSVarNames.relatedPersons, relatedPersonsObj);
     
     return ld;
   }

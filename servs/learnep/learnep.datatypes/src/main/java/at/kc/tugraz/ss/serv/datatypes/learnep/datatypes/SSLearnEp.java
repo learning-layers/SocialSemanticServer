@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes;
 
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntity;
@@ -72,12 +72,12 @@ public class SSLearnEp extends SSEntity {
     final Map<String, Object> ld             = (Map<String, Object>) super.jsonLDDesc();
     final Map<String, Object> versionsObj    = new HashMap<>();
     
-    ld.put(SSVarU.user,        SSVarU.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarNames.user,        SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
     
-    versionsObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSLearnEpVersion.class.getName());
+    versionsObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSLearnEpVersion.class.getName());
     versionsObj.put(SSJSONLDU.container, SSJSONLDU.set);
     
-    ld.put(SSVarU.versions, versionsObj);
+    ld.put(SSVarNames.versions, versionsObj);
     
     return ld;
   }

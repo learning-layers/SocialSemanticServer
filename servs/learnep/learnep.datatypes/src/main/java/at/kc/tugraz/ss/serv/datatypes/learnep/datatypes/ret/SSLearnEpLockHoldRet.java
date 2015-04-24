@@ -22,7 +22,7 @@ package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret;
 
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServRetI;
 import java.util.HashMap;
@@ -65,10 +65,10 @@ public class SSLearnEpLockHoldRet extends SSServRetI{
     
     Map<String, Object> ld = new HashMap<>();
     
-    ld.put(SSVarU.learnEp,       SSVarU.sss + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarU.locked,        SSVarU.xsd + SSStrU.colon + SSStrU.valueBoolean);
-    ld.put(SSVarU.lockedByUser,  SSVarU.xsd + SSStrU.colon + SSStrU.valueBoolean);
-    ld.put(SSVarU.remainingTime, SSVarU.xsd + SSStrU.colon + SSStrU.valueLong);
+    ld.put(SSVarNames.learnEp,       SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarNames.locked,        SSVarNames.xsd + SSStrU.colon + SSStrU.valueBoolean);
+    ld.put(SSVarNames.lockedByUser,  SSVarNames.xsd + SSStrU.colon + SSStrU.valueBoolean);
+    ld.put(SSVarNames.remainingTime, SSVarNames.xsd + SSStrU.colon + SSStrU.valueLong);
     
     return ld;
   }

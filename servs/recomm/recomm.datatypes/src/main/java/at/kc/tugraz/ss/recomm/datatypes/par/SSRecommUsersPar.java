@@ -22,7 +22,7 @@ package at.kc.tugraz.ss.recomm.datatypes.par;
 
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServErrReg;
@@ -67,35 +67,35 @@ public class SSRecommUsersPar extends SSServPar{
     
     try{
       if(pars != null){
-        realm                         = (String)          pars.get(SSVarU.realm);
-        forUser                       = (SSUri)           pars.get(SSVarU.forUser);
-        entity                        = (SSUri)           pars.get(SSVarU.entity);
-        categories                    = (List<String>)    pars.get(SSVarU.categories);
-        maxUsers                      = (Integer)         pars.get(SSVarU.maxUsers);
+        realm                         = (String)          pars.get(SSVarNames.realm);
+        forUser                       = (SSUri)           pars.get(SSVarNames.forUser);
+        entity                        = (SSUri)           pars.get(SSVarNames.entity);
+        categories                    = (List<String>)    pars.get(SSVarNames.categories);
+        maxUsers                      = (Integer)         pars.get(SSVarNames.maxUsers);
       }
       
       if(par.clientJSONObj != null){
         
         try{
-          this.realm = par.clientJSONObj.get(SSVarU.realm).getTextValue();
+          this.realm = par.clientJSONObj.get(SSVarNames.realm).getTextValue();
         }catch(Exception error){}
         
         try{
-          this.forUser   = SSUri.get         (par.clientJSONObj.get(SSVarU.forUser).getTextValue());
+          this.forUser   = SSUri.get         (par.clientJSONObj.get(SSVarNames.forUser).getTextValue());
         }catch(Exception error){}
         
         try{
-          this.entity = SSUri.get         (par.clientJSONObj.get(SSVarU.entity).getTextValue());
+          this.entity = SSUri.get         (par.clientJSONObj.get(SSVarNames.entity).getTextValue());
         }catch(Exception error){}
         
         try{
-          for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.categories)) {
+          for (final JsonNode objNode : par.clientJSONObj.get(SSVarNames.categories)) {
             categories.add(objNode.getTextValue());
           }
         }catch(Exception error){}
         
         try{
-          this.maxUsers   = par.clientJSONObj.get(SSVarU.maxUsers).getIntValue();
+          this.maxUsers   = par.clientJSONObj.get(SSVarNames.maxUsers).getIntValue();
         }catch(Exception error){}
         
       }      

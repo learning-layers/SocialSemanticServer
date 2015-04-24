@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.serv.solr.datatypes.pars;
 
 import at.tugraz.sss.serv.SSServErrReg;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServErrReg;
 
@@ -35,7 +35,7 @@ public class SSSolrRemoveDocPar extends SSServPar{
     
     try{
        if(pars != null){
-        id = (String) pars.get(SSVarU.id);
+        id = (String) pars.get(SSVarNames.id);
       }
       
     }catch(Exception error){

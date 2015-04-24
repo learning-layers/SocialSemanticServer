@@ -26,7 +26,7 @@ import at.tugraz.sss.serv.SSHTMLU;
 import at.tugraz.sss.serv.SSJSONU;
 import at.tugraz.sss.serv.SSMimeTypeE;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServPar;
 import at.kc.tugraz.ss.serv.job.i5cloud.api.SSI5CloudClientI;
 import at.kc.tugraz.ss.serv.job.i5cloud.api.SSI5CloudServerI;
@@ -68,8 +68,8 @@ public class SSI5CloudImpl extends SSServImplWithDBA implements SSI5CloudClientI
     OutputStream              out         = null;
     
     try{
-      messageBody.put(SSVarU.username, ((SSI5CloudConf)conf).userLabel);
-      messageBody.put(SSVarU.password, ((SSI5CloudConf)conf).pass);
+      messageBody.put(SSVarNames.username, ((SSI5CloudConf)conf).userLabel);
+      messageBody.put(SSVarNames.password, ((SSI5CloudConf)conf).pass);
       
       con = (HttpURLConnection) new URL(SSFileU.correctDirPath(((SSI5CloudConf)conf).uri) + "auth").openConnection();
       

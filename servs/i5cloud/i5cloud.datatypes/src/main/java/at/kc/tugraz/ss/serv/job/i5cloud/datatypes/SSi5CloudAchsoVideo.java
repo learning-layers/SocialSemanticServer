@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.serv.job.i5cloud.datatypes;
 
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
@@ -80,17 +80,17 @@ public class SSi5CloudAchsoVideo extends SSEntity{
     final Map<String, Object> keywordsObj    = new HashMap<>();
     final Map<String, Object> annotationsObj = new HashMap<>();
     
-    keywordsObj.put(SSJSONLDU.id,        SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
+    keywordsObj.put(SSJSONLDU.id,        SSVarNames.xsd + SSStrU.colon + SSStrU.valueString);
     keywordsObj.put(SSJSONLDU.container, SSJSONLDU.set);
     
-    ld.put(SSVarU.keywords, keywordsObj);
+    ld.put(SSVarNames.keywords, keywordsObj);
     
-    annotationsObj.put(SSJSONLDU.id,        SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
+    annotationsObj.put(SSJSONLDU.id,        SSVarNames.xsd + SSStrU.colon + SSStrU.valueString);
     annotationsObj.put(SSJSONLDU.container, SSJSONLDU.set);
     
-    ld.put(SSVarU.annotations, annotationsObj);
+    ld.put(SSVarNames.annotations, annotationsObj);
     
-    ld.put(SSVarU.authorLabel, SSVarU.sss + SSStrU.colon + SSLabel.class.getName());
+    ld.put(SSVarNames.authorLabel, SSVarNames.sss + SSStrU.colon + SSLabel.class.getName());
     
     return ld;
   }

@@ -15,7 +15,7 @@
  */
 package at.kc.tugraz.ss.circle.datatypes.par;
 
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServErrReg;
@@ -31,7 +31,7 @@ public class SSCircleUserAddPar extends SSServPar{
     try{
     
       if(pars != null){
-        circle       = (SSUri)        pars.get(SSVarU.circle);
+        circle       = (SSUri)        pars.get(SSVarNames.circle);
       }
       
     }catch(Exception error){

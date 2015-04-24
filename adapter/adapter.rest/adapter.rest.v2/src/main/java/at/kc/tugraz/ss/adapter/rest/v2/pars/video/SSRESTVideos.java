@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.adapter.rest.v2.pars.video;
 
 import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.kc.tugraz.ss.adapter.rest.v2.SSRestMainV2;
 import at.tugraz.sss.serv.SSUri;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
@@ -124,7 +124,7 @@ public class SSRESTVideos{
     response = SSVideoUserAnnotationAddRet.class)
   public Response videoAnnotationAddPost(
     @Context HttpHeaders                   headers,
-    @PathParam(SSVarU.video) String        video,
+    @PathParam(SSVarNames.video) String        video,
     final SSVideoAnnotationAddRESTAPIV2Par input){
     
     final SSVideoUserAnnotationAddPar par;

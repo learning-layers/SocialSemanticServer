@@ -22,7 +22,7 @@ package at.kc.tugraz.ss.service.rating.datatypes.ret;
 
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServRetI;
 import at.kc.tugraz.ss.service.rating.datatypes.SSRatingOverall;
 import java.util.HashMap;
@@ -48,7 +48,7 @@ public class SSRatingOverallGetRet extends SSServRetI{
     
     Map<String, Object> ld         = new HashMap<>();
     
-    ld.put(SSVarU.ratingOverall, SSVarU.sss + SSStrU.colon + SSRatingOverall.class.getName());
+    ld.put(SSVarNames.ratingOverall, SSVarNames.sss + SSStrU.colon + SSRatingOverall.class.getName());
     
     return ld;
   }

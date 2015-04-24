@@ -21,7 +21,7 @@
  package at.kc.tugraz.ss.service.disc.datatypes.pars;
 
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServErrReg;
@@ -66,7 +66,7 @@ public class SSDiscUserDiscURIsForTargetGetPar extends SSServPar{
         par.op,
         par.key,
         par.user,
-        (SSUri)   par.pars.get(SSVarU.entity));
+        (SSUri)   par.pars.get(SSVarNames.entity));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

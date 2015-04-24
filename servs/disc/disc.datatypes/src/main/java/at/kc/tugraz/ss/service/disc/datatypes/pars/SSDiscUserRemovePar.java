@@ -16,7 +16,7 @@
 package at.kc.tugraz.ss.service.disc.datatypes.pars;
 
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
@@ -49,11 +49,11 @@ public class SSDiscUserRemovePar extends SSServPar{
     try{
       
       if(pars != null){
-        disc        = (SSUri)       pars.get(SSVarU.disc);
+        disc        = (SSUri)       pars.get(SSVarNames.disc);
       }
       
       if(par.clientJSONObj != null){
-        disc        = SSUri.get     (par.clientJSONObj.get(SSVarU.disc).getTextValue());
+        disc        = SSUri.get     (par.clientJSONObj.get(SSVarNames.disc).getTextValue());
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

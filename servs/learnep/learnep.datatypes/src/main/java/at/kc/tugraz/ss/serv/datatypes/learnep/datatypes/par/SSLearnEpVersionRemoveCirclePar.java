@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par;
 
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServErrReg;
@@ -36,11 +36,11 @@ public class SSLearnEpVersionRemoveCirclePar extends SSServPar{
     try{
       
       if(pars != null){
-        learnEpCircle   = (SSUri) pars.get(SSVarU.learnEpCircle);
+        learnEpCircle   = (SSUri) pars.get(SSVarNames.learnEpCircle);
       }
       
       if(par.clientJSONObj != null){
-        learnEpCircle   = SSUri.get(par.clientJSONObj.get(SSVarU.learnEpCircle).getTextValue());
+        learnEpCircle   = SSUri.get(par.clientJSONObj.get(SSVarNames.learnEpCircle).getTextValue());
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

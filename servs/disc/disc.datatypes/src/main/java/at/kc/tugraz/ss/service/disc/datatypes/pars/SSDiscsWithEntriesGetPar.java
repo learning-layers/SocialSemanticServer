@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.service.disc.datatypes.pars;
 
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServErrReg;
 
@@ -35,7 +35,7 @@ public class SSDiscsWithEntriesGetPar extends SSServPar{
     try{
       
       if(pars != null){
-        this.maxEntries = (Integer) pars.get(SSVarU.maxEntries);
+        this.maxEntries = (Integer) pars.get(SSVarNames.maxEntries);
       }
       
     }catch(Exception error){

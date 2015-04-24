@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par;
 
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
@@ -72,7 +72,7 @@ public class SSEvernoteNote extends SSEntity{
     
     final Map<String, Object> ld = (Map<String, Object>) super.jsonLDDesc();
     
-    ld.put(SSVarU.notebook, SSVarU.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarNames.notebook, SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
     
     return ld;
   }

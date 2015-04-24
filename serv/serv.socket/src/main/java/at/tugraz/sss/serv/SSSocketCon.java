@@ -251,8 +251,8 @@ public class SSSocketCon{
     
     final Map<String, Object> ret       = new HashMap<>();
     
-    ret.put(SSVarU.op,        SSStrU.toStr(op));
-    ret.put(SSVarU.error,     false);
+    ret.put(SSVarNames.op,        SSStrU.toStr(op));
+    ret.put(SSVarNames.error,     false);
     ret.put(SSStrU.toStr(op), result);
     
     return SSJSONU.jsonStr(ret) + SSSocketU.endOfRequest;
@@ -283,8 +283,8 @@ public class SSSocketCon{
     final Map<String, Object> ret           = new HashMap<>();
 //    final List<String>        errorMessages = SSErrForClient.messages           (errors);
     
-    ret.put(SSVarU.op,                      SSStrU.toStr(op));
-    ret.put(SSVarU.error,                   true);
+    ret.put(SSVarNames.op,                      SSStrU.toStr(op));
+    ret.put(SSVarNames.error,                   true);
 //    ret.put(SSVarU.errorMsg,                errorMessages);
 //    ret.put(SSVarU.errorClassNames,         SSErrForClient.classNames         (errors));
 //    ret.put(SSVarU.errorClassesWhereThrown, SSErrForClient.classesWhereThrown (errors));
@@ -295,12 +295,12 @@ public class SSSocketCon{
 //    ret.put(SSJSONLDU.context, SSJSONLDU.jsonLDContext());
 //    ret.put(SSStrU.toStr(op), null);
 
-    ret.put(SSVarU.id, null);
+    ret.put(SSVarNames.id, null);
     
     if(!errors.isEmpty()){
       
-      ret.put(SSVarU.id,      errors.get(0).getMessage());
-      ret.put(SSVarU.message, errors.get(0).getMessage());
+      ret.put(SSVarNames.id,      errors.get(0).getMessage());
+      ret.put(SSVarNames.message, errors.get(0).getMessage());
       
 //      for(Exception error : errors){
 //        

@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.circle.datatypes.par;
 
 import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.SSServPar;
@@ -118,14 +118,14 @@ public class SSCircleCreatePar extends SSServPar{
         par.op,
         par.key,
         par.user,
-        (SSLabel)         par.pars.get(SSVarU.label),
-        (List<SSUri>)     par.pars.get(SSVarU.entities),
-        (List<SSUri>)     par.pars.get(SSVarU.users),
-        (SSTextComment)   par.pars.get(SSVarU.description),
-        (Boolean)         par.pars.get(SSVarU.isSystemCircle),
-        (Boolean)         par.pars.get(SSVarU.withUserRestriction),
-        (Boolean)         par.pars.get(SSVarU.invokeEntityHandlers),
-        (Boolean)         par.pars.get(SSVarU.shouldCommit));
+        (SSLabel)         par.pars.get(SSVarNames.label),
+        (List<SSUri>)     par.pars.get(SSVarNames.entities),
+        (List<SSUri>)     par.pars.get(SSVarNames.users),
+        (SSTextComment)   par.pars.get(SSVarNames.description),
+        (Boolean)         par.pars.get(SSVarNames.isSystemCircle),
+        (Boolean)         par.pars.get(SSVarNames.withUserRestriction),
+        (Boolean)         par.pars.get(SSVarNames.invokeEntityHandlers),
+        (Boolean)         par.pars.get(SSVarNames.shouldCommit));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par;
 
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSErr;
@@ -78,30 +78,30 @@ public class SSEntityUserDirectlyAdjoinedEntitiesRemovePar extends SSServPar{
     try{
       
       if(pars != null){
-        entity               = (SSUri)     pars.get(SSVarU.entity);
-        removeUserTags       = (Boolean)   pars.get(SSVarU.removeUserTags);
-        removeUserRatings    = (Boolean)   pars.get(SSVarU.removeUserRatings);
-        removeFromUserColls  = (Boolean)   pars.get(SSVarU.removeFromUserColls);
-        removeUserLocations  = (Boolean)   pars.get(SSVarU.removeUserLocations);
+        entity               = (SSUri)     pars.get(SSVarNames.entity);
+        removeUserTags       = (Boolean)   pars.get(SSVarNames.removeUserTags);
+        removeUserRatings    = (Boolean)   pars.get(SSVarNames.removeUserRatings);
+        removeFromUserColls  = (Boolean)   pars.get(SSVarNames.removeFromUserColls);
+        removeUserLocations  = (Boolean)   pars.get(SSVarNames.removeUserLocations);
       }
       
       if(par.clientJSONObj != null){
-        entity     = SSUri.get      (par.clientJSONObj.get(SSVarU.entity).getTextValue());
+        entity     = SSUri.get      (par.clientJSONObj.get(SSVarNames.entity).getTextValue());
         
         try{
-          removeUserTags   = par.clientJSONObj.get(SSVarU.removeUserTags).getBooleanValue();
+          removeUserTags   = par.clientJSONObj.get(SSVarNames.removeUserTags).getBooleanValue();
         }catch(Exception error){}
         
         try{
-          removeUserRatings   = par.clientJSONObj.get(SSVarU.removeUserRatings).getBooleanValue();
+          removeUserRatings   = par.clientJSONObj.get(SSVarNames.removeUserRatings).getBooleanValue();
         }catch(Exception error){}
         
         try{
-          removeFromUserColls   = par.clientJSONObj.get(SSVarU.removeFromUserColls).getBooleanValue();
+          removeFromUserColls   = par.clientJSONObj.get(SSVarNames.removeFromUserColls).getBooleanValue();
         }catch(Exception error){}
         
         try{
-          removeUserLocations   = par.clientJSONObj.get(SSVarU.removeUserLocations).getBooleanValue();
+          removeUserLocations   = par.clientJSONObj.get(SSVarNames.removeUserLocations).getBooleanValue();
         }catch(Exception error){}
       }
     }catch(Exception error){

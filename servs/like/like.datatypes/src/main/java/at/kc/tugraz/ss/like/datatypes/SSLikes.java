@@ -21,7 +21,7 @@
  package at.kc.tugraz.ss.like.datatypes;
 
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSEntityA;
 import java.util.HashMap;
 import java.util.Map;
@@ -57,9 +57,9 @@ public class SSLikes extends SSEntityA{
     
     final Map<String, Object> ld = new HashMap<>();
     
-    ld.put(SSVarU.likes,            SSVarU.xsd + SSStrU.colon + SSStrU.valueInteger);
-    ld.put(SSVarU.dislikes,         SSVarU.xsd + SSStrU.colon + SSStrU.valueInteger);
-    ld.put(SSVarU.like,             SSVarU.xsd + SSStrU.colon + SSStrU.valueInteger);
+    ld.put(SSVarNames.likes,            SSVarNames.xsd + SSStrU.colon + SSStrU.valueInteger);
+    ld.put(SSVarNames.dislikes,         SSVarNames.xsd + SSStrU.colon + SSStrU.valueInteger);
+    ld.put(SSVarNames.like,             SSVarNames.xsd + SSStrU.colon + SSStrU.valueInteger);
     
     return ld;
   }

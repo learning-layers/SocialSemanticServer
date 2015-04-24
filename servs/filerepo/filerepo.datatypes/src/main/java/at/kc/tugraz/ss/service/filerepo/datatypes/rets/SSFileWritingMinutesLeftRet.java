@@ -22,7 +22,7 @@
 
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServRetI;
 import at.tugraz.sss.serv.SSUri;
 import java.util.HashMap;
@@ -44,8 +44,8 @@ public class SSFileWritingMinutesLeftRet extends SSServRetI{
     
     Map<String, Object> ld = new HashMap<>();
     
-    ld.put(SSVarU.file,                 SSVarU.sss + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarU.writingMinutesLeft,  SSVarU.xsd + SSStrU.colon + SSStrU.valueInteger);
+    ld.put(SSVarNames.file,                 SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarNames.writingMinutesLeft,  SSVarNames.xsd + SSStrU.colon + SSStrU.valueInteger);
     
     return ld;
   }

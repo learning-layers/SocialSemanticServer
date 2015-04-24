@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.recomm.datatypes.par;
 
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSServPar;
@@ -112,14 +112,14 @@ public class SSRecommResourcesPar extends SSServPar{
         par.op,
         par.key,
         par.user,
-        (String)          par.pars.get(SSVarU.realm),
-        (SSUri)           par.pars.get(SSVarU.forUser),
-        (SSUri)           par.pars.get(SSVarU.entity),
-        (List<String>)    par.pars.get(SSVarU.categories),
-        (Integer)         par.pars.get(SSVarU.maxResources),
-        (List<SSEntityE>) par.pars.get(SSVarU.typesToRecommOnly),
-        (Boolean)         par.pars.get(SSVarU.setCircleTypes),
-        (Boolean)         par.pars.get(SSVarU.includeOwn));
+        (String)          par.pars.get(SSVarNames.realm),
+        (SSUri)           par.pars.get(SSVarNames.forUser),
+        (SSUri)           par.pars.get(SSVarNames.entity),
+        (List<String>)    par.pars.get(SSVarNames.categories),
+        (Integer)         par.pars.get(SSVarNames.maxResources),
+        (List<SSEntityE>) par.pars.get(SSVarNames.typesToRecommOnly),
+        (Boolean)         par.pars.get(SSVarNames.setCircleTypes),
+        (Boolean)         par.pars.get(SSVarNames.includeOwn));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes;
 
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
@@ -60,9 +60,9 @@ public class SSLearnEpTimelineState extends SSEntity {
     
     final Map<String, Object> ld             = (Map<String, Object>) super.jsonLDDesc();
     
-    ld.put(SSVarU.learnEpVersion,          SSVarU.sss + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarU.startTime,               SSVarU.xsd + SSStrU.colon + SSStrU.valueLong);
-    ld.put(SSVarU.endTime,                 SSVarU.sss + SSStrU.colon + SSStrU.valueLong);
+    ld.put(SSVarNames.learnEpVersion,          SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarNames.startTime,               SSVarNames.xsd + SSStrU.colon + SSStrU.valueLong);
+    ld.put(SSVarNames.endTime,                 SSVarNames.sss + SSStrU.colon + SSStrU.valueLong);
     
     return ld;
   }

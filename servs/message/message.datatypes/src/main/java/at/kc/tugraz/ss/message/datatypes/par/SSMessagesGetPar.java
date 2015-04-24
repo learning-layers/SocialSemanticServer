@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.message.datatypes.par;
 
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServOpE;
@@ -58,8 +58,8 @@ public class SSMessagesGetPar extends SSServPar{
         par.op,
         par.key,
         par.user,
-        (Boolean)      par.pars.get(SSVarU.includeRead),
-        (Long)         par.pars.get(SSVarU.startTime));
+        (Boolean)      par.pars.get(SSVarNames.includeRead),
+        (Long)         par.pars.get(SSVarNames.startTime));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

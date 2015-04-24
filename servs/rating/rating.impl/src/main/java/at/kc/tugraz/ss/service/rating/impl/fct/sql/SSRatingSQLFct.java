@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.service.rating.impl.fct.sql;
 
 import at.tugraz.sss.serv.SSObjU;
-import at.tugraz.sss.serv.SSSQLVarU;
+import at.tugraz.sss.serv.SSSQLVarNames;
 import at.tugraz.sss.serv.SSDBSQLFct;
 import at.tugraz.sss.serv.SSUri;
 
@@ -52,13 +52,13 @@ public class SSRatingSQLFct extends SSDBSQLFct{
       final List<String>        columns = new ArrayList<>();
       final Map<String, String> wheres  = new HashMap<>();
       
-      column(columns, SSSQLVarU.entityId);
+      column(columns, SSSQLVarNames.entityId);
       
-      where(wheres, SSSQLVarU.userId, user);
+      where(wheres, SSSQLVarNames.userId, user);
       
       resultSet = dbSQL.select(ratingAssTable, columns, wheres, null, null, null);
       
-      return getURIsFromResult(resultSet, SSSQLVarU.entityId);
+      return getURIsFromResult(resultSet, SSSQLVarNames.entityId);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -76,11 +76,11 @@ public class SSRatingSQLFct extends SSDBSQLFct{
       final Map<String, String> deletes = new HashMap<>();
 
       if(user != null){
-        delete(deletes, SSSQLVarU.userId, user);
+        delete(deletes, SSSQLVarNames.userId, user);
       }
 
       if(entityUri != null){
-        delete(deletes, SSSQLVarU.entityId, entityUri);
+        delete(deletes, SSSQLVarNames.entityId, entityUri);
       }
 
       if(deletes.isEmpty()){
@@ -109,10 +109,10 @@ public class SSRatingSQLFct extends SSDBSQLFct{
     
     try{
 
-      column(columns, SSSQLVarU.entityId);
+      column(columns, SSSQLVarNames.entityId);
       
-      where(wheres, SSSQLVarU.userId,   userUri);
-      where(wheres, SSSQLVarU.entityId, entityUri);
+      where(wheres, SSSQLVarNames.userId,   userUri);
+      where(wheres, SSSQLVarNames.entityId, entityUri);
       
       resultSet = dbSQL.select(ratingAssTable, columns, wheres, null, null, null);
       
@@ -138,10 +138,10 @@ public class SSRatingSQLFct extends SSDBSQLFct{
         
     final Map<String, String> insertPars = new HashMap<>();
 
-    insertPars.put(SSSQLVarU.ratingId,     ratingUri.toString());
-    insertPars.put(SSSQLVarU.userId,       userUri.toString());
-    insertPars.put(SSSQLVarU.entityId,     entityUri.toString());
-    insertPars.put(SSSQLVarU.ratingValue,  ratingValue.toString());
+    insertPars.put(SSSQLVarNames.ratingId,     ratingUri.toString());
+    insertPars.put(SSSQLVarNames.userId,       userUri.toString());
+    insertPars.put(SSSQLVarNames.entityId,     entityUri.toString());
+    insertPars.put(SSSQLVarNames.ratingValue,  ratingValue.toString());
     
     dbSQL.insert(ratingAssTable, insertPars);
   }
@@ -157,23 +157,21 @@ public class SSRatingSQLFct extends SSDBSQLFct{
       final List<String>            columns     = new ArrayList<>();
       final HashMap<String, String> wheres      = new HashMap<>();
       
-      column(columns, SSSQLVarU.ratingId);
-      column(columns, SSSQLVarU.ratingValue);
-      column(columns, SSSQLVarU.entityId);
-      column(columns, SSSQLVarU.userId);
+      column(columns, SSSQLVarNames.ratingId);
+      column(columns, SSSQLVarNames.ratingValue);
+      column(columns, SSSQLVarNames.entityId);
+      column(columns, SSSQLVarNames.userId);
       
-      where(wheres, SSSQLVarU.userId,   userUri);
+      where(wheres, SSSQLVarNames.userId,   userUri);
       
       resultSet = dbSQL.select(ratingAssTable, columns, wheres, null, null, null);
       
       while(resultSet.next()){
         
-        ratings.add(
-          SSRating.get(
-            bindingStrToUri     (resultSet, SSSQLVarU.ratingId), 
-            bindingStrToInteger (resultSet, SSSQLVarU.ratingValue), 
-            bindingStrToUri     (resultSet, SSSQLVarU.entityId), 
-            bindingStrToUri     (resultSet, SSSQLVarU.userId), 
+        ratings.add(SSRating.get(bindingStrToUri     (resultSet, SSSQLVarNames.ratingId), 
+            bindingStrToInteger (resultSet, SSSQLVarNames.ratingValue), 
+            bindingStrToUri     (resultSet, SSSQLVarNames.entityId), 
+            bindingStrToUri     (resultSet, SSSQLVarNames.userId), 
             0L));
       }
       
@@ -203,17 +201,17 @@ public class SSRatingSQLFct extends SSDBSQLFct{
     Integer                   ratingValue = 0;
     int                       counter     = 0;
     
-    column(columns, SSSQLVarU.ratingId);
-    column(columns, SSSQLVarU.ratingValue);
+    column(columns, SSSQLVarNames.ratingId);
+    column(columns, SSSQLVarNames.ratingValue);
     
-    where   (wheres, SSSQLVarU.userId,   userUri);
-    where   (wheres, SSSQLVarU.entityId, entityUri);
+    where   (wheres, SSSQLVarNames.userId,   userUri);
+    where   (wheres, SSSQLVarNames.entityId, entityUri);
     
     try{
       resultSet = dbSQL.select(ratingAssTable, columns, wheres, null, null, null);
       
       while(resultSet.next()){
-        ratingValue += bindingStrToInteger(resultSet, SSSQLVarU.ratingValue);
+        ratingValue += bindingStrToInteger(resultSet, SSSQLVarNames.ratingValue);
         counter++;
       }
       
@@ -243,16 +241,16 @@ public class SSRatingSQLFct extends SSDBSQLFct{
     int                       counter      = 0;
     ResultSet                 resultSet    = null;
     
-    column(columns, SSSQLVarU.ratingId);
-    column(columns, SSSQLVarU.ratingValue);
+    column(columns, SSSQLVarNames.ratingId);
+    column(columns, SSSQLVarNames.ratingValue);
     
-    where(wheres, SSSQLVarU.entityId, entityUri);
+    where(wheres, SSSQLVarNames.entityId, entityUri);
     
     try{
       resultSet = dbSQL.select(ratingAssTable, columns, wheres, null, null, null);
       
       while(resultSet.next()){
-        ratingValue += bindingStrToInteger(resultSet, SSSQLVarU.ratingValue);
+        ratingValue += bindingStrToInteger(resultSet, SSSQLVarNames.ratingValue);
         counter++;
       }
       

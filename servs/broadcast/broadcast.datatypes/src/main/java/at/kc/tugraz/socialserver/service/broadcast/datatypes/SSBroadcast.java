@@ -23,7 +23,7 @@ package at.kc.tugraz.socialserver.service.broadcast.datatypes;
 import at.tugraz.sss.serv.SSUri;
 import at.kc.tugraz.socialserver.service.broadcast.datatypes.enums.SSBroadcastEnum;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSJSONLDPropI;
 import java.util.HashMap;
 import java.util.Map;
@@ -65,11 +65,11 @@ public class SSBroadcast implements SSJSONLDPropI{
     
     Map<String, Object> ld = new HashMap<>();
     
-    ld.put(SSVarU.entity,      SSVarU.sss  + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarU.type,        SSVarU.sss  + SSStrU.colon + SSBroadcastEnum.class.getName());
-    ld.put(SSVarU.user,        SSVarU.sss  + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarU.timestamp,   SSVarU.xsd  + SSStrU.colon + SSStrU.valueLong);
-    ld.put(SSVarU.content,     SSVarU.xsd  + SSStrU.colon + SSStrU.valueBoolean);
+    ld.put(SSVarNames.entity,      SSVarNames.sss  + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarNames.type,        SSVarNames.sss  + SSStrU.colon + SSBroadcastEnum.class.getName());
+    ld.put(SSVarNames.user,        SSVarNames.sss  + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarNames.timestamp,   SSVarNames.xsd  + SSStrU.colon + SSStrU.valueLong);
+    ld.put(SSVarNames.content,     SSVarNames.xsd  + SSStrU.colon + SSStrU.valueBoolean);
     
     return ld;
   }

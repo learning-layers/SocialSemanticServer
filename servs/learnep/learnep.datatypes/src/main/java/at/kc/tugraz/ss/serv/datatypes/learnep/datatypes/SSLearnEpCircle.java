@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes;
 
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.SSUri;
@@ -75,12 +75,12 @@ public class SSLearnEpCircle extends SSEntity{
     
     final Map<String, Object> ld = (Map<String, Object>) super.jsonLDDesc();
     
-    ld.put(SSVarU.xLabel,           SSVarU.xsd + SSStrU.colon + SSStrU.valueFloat);
-    ld.put(SSVarU.yLabel,           SSVarU.xsd + SSStrU.colon + SSStrU.valueFloat);
-    ld.put(SSVarU.xR,               SSVarU.xsd + SSStrU.colon + SSStrU.valueFloat);
-    ld.put(SSVarU.yR,               SSVarU.xsd + SSStrU.colon + SSStrU.valueFloat);
-    ld.put(SSVarU.xC,               SSVarU.xsd + SSStrU.colon + SSStrU.valueFloat);
-    ld.put(SSVarU.yC,               SSVarU.xsd + SSStrU.colon + SSStrU.valueFloat);
+    ld.put(SSVarNames.xLabel,           SSVarNames.xsd + SSStrU.colon + SSStrU.valueFloat);
+    ld.put(SSVarNames.yLabel,           SSVarNames.xsd + SSStrU.colon + SSStrU.valueFloat);
+    ld.put(SSVarNames.xR,               SSVarNames.xsd + SSStrU.colon + SSStrU.valueFloat);
+    ld.put(SSVarNames.yR,               SSVarNames.xsd + SSStrU.colon + SSStrU.valueFloat);
+    ld.put(SSVarNames.xC,               SSVarNames.xsd + SSStrU.colon + SSStrU.valueFloat);
+    ld.put(SSVarNames.yC,               SSVarNames.xsd + SSStrU.colon + SSStrU.valueFloat);
     
     return ld;
   }

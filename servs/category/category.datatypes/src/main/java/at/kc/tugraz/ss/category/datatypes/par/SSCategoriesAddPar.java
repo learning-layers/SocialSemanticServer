@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.category.datatypes.par;
 
 import at.kc.tugraz.ss.category.datatypes.SSCategoryLabel;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSSpaceE;
 import at.tugraz.sss.serv.SSServPar;
@@ -43,10 +43,10 @@ public class SSCategoriesAddPar extends SSServPar{
     try{
       
       if(pars != null){
-        labels.addAll(SSCategoryLabel.get((List<String>) pars.get(SSVarU.labels)));
-        entity       =  (SSUri)                     pars.get(SSVarU.entity);
-        space        =  (SSSpaceE)                  pars.get(SSVarU.space);
-        creationTime =  (Long)                      pars.get(SSVarU.creationTime);
+        labels.addAll(SSCategoryLabel.get((List<String>) pars.get(SSVarNames.labels)));
+        entity       =  (SSUri)                     pars.get(SSVarNames.entity);
+        space        =  (SSSpaceE)                  pars.get(SSVarNames.space);
+        creationTime =  (Long)                      pars.get(SSVarNames.creationTime);
       }
       
     }catch(Exception error){

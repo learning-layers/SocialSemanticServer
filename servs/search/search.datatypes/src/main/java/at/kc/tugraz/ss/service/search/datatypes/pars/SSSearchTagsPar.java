@@ -20,7 +20,7 @@
 */
  package at.kc.tugraz.ss.service.search.datatypes.pars;
 
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServErrReg;
@@ -41,9 +41,9 @@ public class SSSearchTagsPar extends SSServPar{
     try{
       
       if(pars != null){
-        searchOp         = (SSSearchOpE)       pars.get(SSVarU.searchOp);
-        tags             = (List<String>)      pars.get(SSVarU.tags);
-        maxResultsPerTag = (Integer)           pars.get(SSVarU.maxResultsPerTag);
+        searchOp         = (SSSearchOpE)       pars.get(SSVarNames.searchOp);
+        tags             = (List<String>)      pars.get(SSVarNames.tags);
+        maxResultsPerTag = (Integer)           pars.get(SSVarNames.maxResultsPerTag);
       }
       
     }catch(Exception error){

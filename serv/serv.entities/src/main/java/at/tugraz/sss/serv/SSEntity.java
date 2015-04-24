@@ -22,7 +22,7 @@ package at.tugraz.sss.serv;
 
 import at.tugraz.sss.serv.SSJSONLDU;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -243,78 +243,78 @@ public class SSEntity extends SSEntityA{
     final Map<String, Object> usersObj            = new HashMap<>();
     final Map<String, Object> locationsObj        = new HashMap<>();
     
-    ld.put(SSVarU.id,             SSVarU.sss + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarU.entity,         SSVarU.sss + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarU.label,          SSVarU.sss + SSStrU.colon + SSLabel.class.getName());
-    ld.put(SSVarU.creationTime,   SSVarU.xsd + SSStrU.colon + SSStrU.valueLong);
-    ld.put(SSVarU.type,           SSVarU.sss + SSStrU.colon + SSEntityE.class.getName());
-    ld.put(SSVarU.author,         SSVarU.sss + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarU.description,    SSVarU.sss + SSStrU.colon + SSTextComment.class.getName());
-    ld.put(SSVarU.overallRating,  SSVarU.sss + SSStrU.colon + SSEntityA.class.getName());
-    ld.put(SSVarU.thumb,          SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
-    ld.put(SSVarU.file,           SSVarU.sss + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarU.read,           SSVarU.xsd + SSStrU.colon + SSStrU.valueBoolean);
-    ld.put(SSVarU.likes,          SSVarU.sss + SSStrU.colon + SSEntityA.class.getName());
+    ld.put(SSVarNames.id,             SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarNames.entity,         SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarNames.label,          SSVarNames.sss + SSStrU.colon + SSLabel.class.getName());
+    ld.put(SSVarNames.creationTime,   SSVarNames.xsd + SSStrU.colon + SSStrU.valueLong);
+    ld.put(SSVarNames.type,           SSVarNames.sss + SSStrU.colon + SSEntityE.class.getName());
+    ld.put(SSVarNames.author,         SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarNames.description,    SSVarNames.sss + SSStrU.colon + SSTextComment.class.getName());
+    ld.put(SSVarNames.overallRating,  SSVarNames.sss + SSStrU.colon + SSEntityA.class.getName());
+    ld.put(SSVarNames.thumb,          SSVarNames.xsd + SSStrU.colon + SSStrU.valueString);
+    ld.put(SSVarNames.file,           SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarNames.read,           SSVarNames.xsd + SSStrU.colon + SSStrU.valueBoolean);
+    ld.put(SSVarNames.likes,          SSVarNames.sss + SSStrU.colon + SSEntityA.class.getName());
    
-    entriesObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + Object.class.getName());
+    entriesObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + Object.class.getName());
     entriesObj.put(SSJSONLDU.container, SSJSONLDU.set);
     
-    ld.put(SSVarU.entries, entriesObj);
+    ld.put(SSVarNames.entries, entriesObj);
     
-    attachedEntitiesObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSEntity.class.getName());
+    attachedEntitiesObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSEntity.class.getName());
     attachedEntitiesObj.put(SSJSONLDU.container, SSJSONLDU.set);
     
-    ld.put(SSVarU.attachedEntities, attachedEntitiesObj);
+    ld.put(SSVarNames.attachedEntities, attachedEntitiesObj);
     
-    commentsObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSTextComment.class.getName());
+    commentsObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSTextComment.class.getName());
     commentsObj.put(SSJSONLDU.container, SSJSONLDU.set);
     
-    ld.put(SSVarU.comments, commentsObj);
+    ld.put(SSVarNames.comments, commentsObj);
     
-    flagsObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSEntityA.class.getName());
+    flagsObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSEntityA.class.getName());
     flagsObj.put(SSJSONLDU.container, SSJSONLDU.set);
       
-    ld.put(SSVarU.flags,      flagsObj);
+    ld.put(SSVarNames.flags,      flagsObj);
       
-    tagsObj.put(SSJSONLDU.id,        SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
+    tagsObj.put(SSJSONLDU.id,        SSVarNames.xsd + SSStrU.colon + SSStrU.valueString);
     tagsObj.put(SSJSONLDU.container, SSJSONLDU.set);
 
-    ld.put(SSVarU.tags,      tagsObj);
+    ld.put(SSVarNames.tags,      tagsObj);
     
-    discsObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSEntityA.class.getName());
+    discsObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSEntityA.class.getName());
     discsObj.put(SSJSONLDU.container, SSJSONLDU.set);
 
-    ld.put(SSVarU.discs,      discsObj);
+    ld.put(SSVarNames.discs,      discsObj);
     
-    uEsObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSEntityA.class.getName());
+    uEsObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSEntityA.class.getName());
     uEsObj.put(SSJSONLDU.container, SSJSONLDU.set);
 
-    ld.put(SSVarU.uEs,      uEsObj);
+    ld.put(SSVarNames.uEs,      uEsObj);
     
-    usersObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSEntity.class.getName());
+    usersObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSEntity.class.getName());
     usersObj.put(SSJSONLDU.container, SSJSONLDU.set);
     
-    ld.put(SSVarU.users, usersObj);
+    ld.put(SSVarNames.users, usersObj);
     
-    entitiesObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSUri.class.getName());
+    entitiesObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
     entitiesObj.put(SSJSONLDU.container, SSJSONLDU.set);
     
-    ld.put(SSVarU.entities, entitiesObj);
+    ld.put(SSVarNames.entities, entitiesObj);
     
-    circlesObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSEntity.class.getName());
+    circlesObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSEntity.class.getName());
     circlesObj.put(SSJSONLDU.container, SSJSONLDU.set);
     
-    ld.put(SSVarU.circles, circlesObj);
+    ld.put(SSVarNames.circles, circlesObj);
     
-    circleTypesObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSCircleE.class.getName());
+    circleTypesObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSCircleE.class.getName());
     circleTypesObj.put(SSJSONLDU.container, SSJSONLDU.set);
     
-    ld.put(SSVarU.circleTypes, circleTypesObj);
+    ld.put(SSVarNames.circleTypes, circleTypesObj);
     
-    locationsObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSEntity.class.getName());
+    locationsObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSEntity.class.getName());
     locationsObj.put(SSJSONLDU.container, SSJSONLDU.set);
     
-    ld.put(SSVarU.locations, locationsObj);
+    ld.put(SSVarNames.locations, locationsObj);
     
     return ld;
   }

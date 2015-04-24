@@ -60,6 +60,7 @@ import at.kc.tugraz.sss.appstacklayout.serv.SSAppStackLayoutServ;
 import at.kc.tugraz.sss.comment.serv.SSCommentServ;
 import at.kc.tugraz.sss.flag.serv.SSFlagServ;
 import at.kc.tugraz.sss.video.serv.SSVideoServ;
+import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSServErrReg;
 import sss.serv.eval.serv.SSEvalServ;
 
@@ -93,6 +94,7 @@ public class SSSInitializer extends SSServImplStartA{
       try{
         
         SSDBSQL.inst.regServ               (SSCoreConf.instGet().getDbSQL());
+        SSDBNoSQL.inst.regServ             (SSCoreConf.instGet().getDbNoSQL());
       }catch(Exception error1){
         SSServErrReg.regErr(error1);
         return;

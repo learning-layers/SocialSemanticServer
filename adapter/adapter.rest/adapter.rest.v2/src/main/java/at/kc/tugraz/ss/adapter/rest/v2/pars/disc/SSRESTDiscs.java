@@ -32,7 +32,7 @@ import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscUserWithEntriesRet;
 import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscsUserAllGetRet;
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import javax.ws.rs.Consumes;
@@ -130,7 +130,7 @@ public class SSRESTDiscs{
     @Context                    
       final HttpHeaders  headers,
     
-    @PathParam (SSVarU.disc)  
+    @PathParam (SSVarNames.disc)  
       final String disc, 
     
     final SSDiscGetRESTAPIV2Par input){
@@ -166,7 +166,7 @@ public class SSRESTDiscs{
     @Context                    
       final HttpHeaders  headers,
     
-    @PathParam (SSVarU.entity)  
+    @PathParam (SSVarNames.entity)  
       final String entity){
     
     final SSDiscUserDiscURIsForTargetGetPar par;

@@ -21,7 +21,7 @@
  package at.kc.tugraz.ss.service.coll.datatypes;
 
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSSpaceE;
@@ -80,16 +80,16 @@ public class SSCollEntry extends SSEntityA {
     final Map<String, Object> ld             = new HashMap<>();
     final Map<String, Object> circleTypesObj = new HashMap<>();
     
-    circleTypesObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSCircleE.class.getName());
+    circleTypesObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSCircleE.class.getName());
     circleTypesObj.put(SSJSONLDU.container, SSJSONLDU.set);
     
-    ld.put(SSVarU.circleTypes, circleTypesObj);
+    ld.put(SSVarNames.circleTypes, circleTypesObj);
     
-    ld.put(SSVarU.id,         SSVarU.sss + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarU.pos,        SSVarU.xsd + SSStrU.colon + SSStrU.valueInteger);
-    ld.put(SSVarU.space,      SSVarU.sss + SSStrU.colon + SSSpaceE.class.getName());
-    ld.put(SSVarU.label,      SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
-    ld.put(SSVarU.type,       SSVarU.sss + SSStrU.colon + SSEntityE.class.getName());
+    ld.put(SSVarNames.id,         SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarNames.pos,        SSVarNames.xsd + SSStrU.colon + SSStrU.valueInteger);
+    ld.put(SSVarNames.space,      SSVarNames.sss + SSStrU.colon + SSSpaceE.class.getName());
+    ld.put(SSVarNames.label,      SSVarNames.xsd + SSStrU.colon + SSStrU.valueString);
+    ld.put(SSVarNames.type,       SSVarNames.sss + SSStrU.colon + SSEntityE.class.getName());
     
     return ld;
   }

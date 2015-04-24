@@ -25,7 +25,7 @@ import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSMimeTypeE;
 import at.tugraz.sss.serv.SSSocketU;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSSocketCon;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSLabel;
@@ -57,13 +57,13 @@ public class SSAdapterRESTFileUpload{
     value = "upload a file",
     response = SSFileUploadRet.class)
   public Response fileUpload(
-    @FormDataParam(SSVarU.op)         final String      op,
-    @FormDataParam(SSVarU.user)       final String      user,
-    @FormDataParam(SSVarU.mimeType)   final String      mimeType,
-    @FormDataParam(SSVarU.label)      final String      label,
-    @FormDataParam(SSVarU.key)        final String      key,
+    @FormDataParam(SSVarNames.op)         final String      op,
+    @FormDataParam(SSVarNames.user)       final String      user,
+    @FormDataParam(SSVarNames.mimeType)   final String      mimeType,
+    @FormDataParam(SSVarNames.label)      final String      label,
+    @FormDataParam(SSVarNames.key)        final String      key,
     @ApiParam(value = "file handle", required = true)
-    @FormDataParam(SSVarU.fileHandle) final InputStream fileHandle){ //@FormDataParam("my_file") FormDataBodyPart body Then you can use body.getMediaType()
+    @FormDataParam(SSVarNames.fileHandle) final InputStream fileHandle){ //@FormDataParam("my_file") FormDataBodyPart body Then you can use body.getMediaType()
     
     Response     result = null;
     SSSocketCon  sSCon  = null;

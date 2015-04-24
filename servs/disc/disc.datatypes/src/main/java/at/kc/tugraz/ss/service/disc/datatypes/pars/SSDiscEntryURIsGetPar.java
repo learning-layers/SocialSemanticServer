@@ -20,7 +20,7 @@
 */
  package at.kc.tugraz.ss.service.disc.datatypes.pars;
 
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServErrReg;
@@ -36,7 +36,7 @@ public class SSDiscEntryURIsGetPar extends SSServPar{
     try{
       
       if(pars != null){
-        disc         = (SSUri)   pars.get(SSVarU.disc);
+        disc         = (SSUri)   pars.get(SSVarNames.disc);
       }
       
     }catch(Exception error){

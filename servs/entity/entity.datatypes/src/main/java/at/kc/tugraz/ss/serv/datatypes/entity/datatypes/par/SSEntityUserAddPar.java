@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par;
 
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
@@ -93,33 +93,33 @@ public class SSEntityUserAddPar extends SSServPar{
     try{
       
       if(pars != null){
-        link            = (SSUri)         pars.get(SSVarU.link);
-        label           = (SSLabel)       pars.get(SSVarU.label);
-        type            = (SSEntityE)     pars.get(SSVarU.type);
-        description     = (SSTextComment) pars.get(SSVarU.description);
-        creationTime    = (Long)          pars.get(SSVarU.creationTime);
+        link            = (SSUri)         pars.get(SSVarNames.link);
+        label           = (SSLabel)       pars.get(SSVarNames.label);
+        type            = (SSEntityE)     pars.get(SSVarNames.type);
+        description     = (SSTextComment) pars.get(SSVarNames.description);
+        creationTime    = (Long)          pars.get(SSVarNames.creationTime);
       }
       
       if(par.clientJSONObj != null){
         
         try{
-          link          = SSUri.get        (par.clientJSONObj.get(SSVarU.link).getTextValue());
+          link          = SSUri.get        (par.clientJSONObj.get(SSVarNames.link).getTextValue());
         }catch(Exception error){}
         
         try{
-          label            = SSLabel.get(par.clientJSONObj.get(SSVarU.label).getTextValue());
+          label            = SSLabel.get(par.clientJSONObj.get(SSVarNames.label).getTextValue());
         }catch(Exception error){}
         
         try{
-          type            = SSEntityE.get(par.clientJSONObj.get(SSVarU.type).getTextValue());
+          type            = SSEntityE.get(par.clientJSONObj.get(SSVarNames.type).getTextValue());
         }catch(Exception error){}
         
         try{
-          description            = SSTextComment.get(par.clientJSONObj.get(SSVarU.description).getTextValue());
+          description            = SSTextComment.get(par.clientJSONObj.get(SSVarNames.description).getTextValue());
         }catch(Exception error){}
         
         try{
-          creationTime        = par.clientJSONObj.get(SSVarU.creationTime).getLongValue();
+          creationTime        = par.clientJSONObj.get(SSVarNames.creationTime).getLongValue();
         }catch(Exception error){}
       }      
     }catch(Exception error){

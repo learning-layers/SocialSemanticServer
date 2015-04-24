@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.activity.datatypes.par;
 
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
@@ -106,51 +106,51 @@ public class SSActivitiesUserGetPar extends SSServPar{
       
       if(pars != null){
         
-        types                      = (List<SSActivityE>)   pars.get(SSVarU.types);
-        users                      = (List<SSUri>)         pars.get(SSVarU.users);
-        entities                   = (List<SSUri>)         pars.get(SSVarU.entities);
-        circles                    = (List<SSUri>)         pars.get(SSVarU.circles);
-        startTime                   = (Long)               pars.get(SSVarU.startTime);
-        endTime                     = (Long)               pars.get(SSVarU.endTime);
-        includeOnlyLastActivities   = (Boolean)            pars.get(SSVarU.includeOnlyLastActivities);
+        types                      = (List<SSActivityE>)   pars.get(SSVarNames.types);
+        users                      = (List<SSUri>)         pars.get(SSVarNames.users);
+        entities                   = (List<SSUri>)         pars.get(SSVarNames.entities);
+        circles                    = (List<SSUri>)         pars.get(SSVarNames.circles);
+        startTime                   = (Long)               pars.get(SSVarNames.startTime);
+        endTime                     = (Long)               pars.get(SSVarNames.endTime);
+        includeOnlyLastActivities   = (Boolean)            pars.get(SSVarNames.includeOnlyLastActivities);
       }
       
       if(par.clientJSONObj != null){
         
         try{
-          for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.types)) {
+          for (final JsonNode objNode : par.clientJSONObj.get(SSVarNames.types)) {
             types.add(SSActivityE.get(objNode.getTextValue()));
           }
         }catch(Exception error){}
         
         try{
-          for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.users)) {
+          for (final JsonNode objNode : par.clientJSONObj.get(SSVarNames.users)) {
             users.add(SSUri.get(objNode.getTextValue()));
           }
         }catch(Exception error){}
         
         try{
-          for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.entities)) {
+          for (final JsonNode objNode : par.clientJSONObj.get(SSVarNames.entities)) {
             entities.add(SSUri.get(objNode.getTextValue()));
           }
         }catch(Exception error){}
         
         try{
-          for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.circles)) {
+          for (final JsonNode objNode : par.clientJSONObj.get(SSVarNames.circles)) {
             circles.add(SSUri.get(objNode.getTextValue()));
           }
         }catch(Exception error){}
         
         try{
-          startTime  = par.clientJSONObj.get(SSVarU.startTime).getLongValue();
+          startTime  = par.clientJSONObj.get(SSVarNames.startTime).getLongValue();
         }catch(Exception error){}
         
         try{
-          endTime    = par.clientJSONObj.get(SSVarU.endTime).getLongValue();
+          endTime    = par.clientJSONObj.get(SSVarNames.endTime).getLongValue();
         }catch(Exception error){}
         
         try{
-          includeOnlyLastActivities    = par.clientJSONObj.get(SSVarU.includeOnlyLastActivities).getBooleanValue();
+          includeOnlyLastActivities    = par.clientJSONObj.get(SSVarNames.includeOnlyLastActivities).getBooleanValue();
         }catch(Exception error){}
       }
       

@@ -23,7 +23,7 @@ package at.kc.tugraz.ss.service.search.datatypes.ret;
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSJSONLDU;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServRetI;
 import at.tugraz.sss.serv.SSEntity;
 import java.util.ArrayList;
@@ -72,14 +72,14 @@ public class SSSearchRet extends SSServRetI{
     final Map<String, Object> ld          = new HashMap<>();
     final Map<String, Object> entitiesObj = new HashMap<>();
     
-    entitiesObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSEntity.class.getName());
+    entitiesObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSEntity.class.getName());
     entitiesObj.put(SSJSONLDU.container, SSJSONLDU.set);
     
-    ld.put(SSVarU.entities, entitiesObj);
+    ld.put(SSVarNames.entities, entitiesObj);
     
-    ld.put(SSVarU.pagesID,     SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
-    ld.put(SSVarU.pageNumber,  SSVarU.xsd + SSStrU.colon + SSStrU.valueInteger);
-    ld.put(SSVarU.pageNumbers, SSVarU.xsd + SSStrU.colon + SSStrU.valueInteger);
+    ld.put(SSVarNames.pagesID,     SSVarNames.xsd + SSStrU.colon + SSStrU.valueString);
+    ld.put(SSVarNames.pageNumber,  SSVarNames.xsd + SSStrU.colon + SSStrU.valueInteger);
+    ld.put(SSVarNames.pageNumbers, SSVarNames.xsd + SSStrU.colon + SSStrU.valueInteger);
     
     return ld;
   }

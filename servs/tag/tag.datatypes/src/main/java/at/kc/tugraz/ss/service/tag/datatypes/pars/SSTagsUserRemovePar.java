@@ -22,7 +22,7 @@ package at.kc.tugraz.ss.service.tag.datatypes.pars;
 
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSSpaceE;
 import at.tugraz.sss.serv.SSServPar;
@@ -90,10 +90,10 @@ public class SSTagsUserRemovePar extends SSServPar{
         par.op,
         par.key,
         par.user,
-        (SSUri)                 par.pars.get(SSVarU.entity),
-        (SSTagLabel)            par.pars.get(SSVarU.label),
-        (SSSpaceE)              par.pars.get(SSVarU.space),
-        (Boolean)               par.pars.get(SSVarU.shouldCommit));
+        (SSUri)                 par.pars.get(SSVarNames.entity),
+        (SSTagLabel)            par.pars.get(SSVarNames.label),
+        (SSSpaceE)              par.pars.get(SSVarNames.space),
+        (Boolean)               par.pars.get(SSVarNames.shouldCommit));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

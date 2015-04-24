@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.service.disc.datatypes.pars;
 
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServErrReg;
@@ -70,9 +70,9 @@ public class SSDiscUserWithEntriesGetPar extends SSServPar{
         par.op,
         par.key,
         par.user,
-        (SSUri)   par.pars.get(SSVarU.disc),
-        (Integer) par.pars.get(SSVarU.maxEntries),
-        (Boolean) par.pars.get(SSVarU.includeComments));
+        (SSUri)   par.pars.get(SSVarNames.disc),
+        (Integer) par.pars.get(SSVarNames.maxEntries),
+        (Boolean) par.pars.get(SSVarNames.includeComments));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

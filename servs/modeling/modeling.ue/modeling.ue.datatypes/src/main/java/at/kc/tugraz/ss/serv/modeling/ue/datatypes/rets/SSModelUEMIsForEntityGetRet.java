@@ -24,7 +24,7 @@ package at.kc.tugraz.ss.serv.modeling.ue.datatypes.rets;
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSJSONLDU;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServRetI;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -52,10 +52,10 @@ public class SSModelUEMIsForEntityGetRet extends SSServRetI{
     Map<String, Object> ld                      = new HashMap<>();
     Map<String, Object> mIsObj       = new HashMap<>();
     
-    mIsObj.put(SSJSONLDU.id,        SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
+    mIsObj.put(SSJSONLDU.id,        SSVarNames.xsd + SSStrU.colon + SSStrU.valueString);
     mIsObj.put(SSJSONLDU.container, SSJSONLDU.set);
 
-    ld.put(SSVarU.mIs, mIsObj);
+    ld.put(SSVarNames.mIs, mIsObj);
     
     return ld;
   }

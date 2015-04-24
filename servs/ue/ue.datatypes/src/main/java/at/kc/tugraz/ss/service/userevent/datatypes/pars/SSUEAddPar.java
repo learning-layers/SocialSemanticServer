@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.service.userevent.datatypes.pars;
 
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUEE;
@@ -81,10 +81,10 @@ public class SSUEAddPar extends SSServPar{
         par.op,
         par.key,
         par.user,
-        (SSUri)    par.pars.get(SSVarU.entity),
-        (SSUEE)    par.pars.get(SSVarU.type),
-        (String)   par.pars.get(SSVarU.content),
-        (Boolean)  par.pars.get(SSVarU.shouldCommit));
+        (SSUri)    par.pars.get(SSVarNames.entity),
+        (SSUEE)    par.pars.get(SSVarNames.type),
+        (String)   par.pars.get(SSVarNames.content),
+        (Boolean)  par.pars.get(SSVarNames.shouldCommit));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

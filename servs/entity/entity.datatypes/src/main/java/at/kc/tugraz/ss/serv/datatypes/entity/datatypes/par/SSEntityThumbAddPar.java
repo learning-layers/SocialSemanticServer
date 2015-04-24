@@ -20,7 +20,7 @@
 */
  package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par;
 
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSErr;
@@ -38,8 +38,8 @@ public class SSEntityThumbAddPar extends SSServPar{
     try{
       
       if(pars != null){
-        entity   = (SSUri) pars.get(SSVarU.entity);
-        thumb    = (SSUri) pars.get(SSVarU.thumb);
+        entity   = (SSUri) pars.get(SSVarNames.entity);
+        thumb    = (SSUri) pars.get(SSVarNames.thumb);
       }
       
     }catch(Exception error){

@@ -21,7 +21,7 @@
 package at.kc.tugraz.sss.video.impl.fct.sql;
 
 import at.tugraz.sss.serv.SSDBSQLFct;
-import at.tugraz.sss.serv.SSSQLVarU;
+import at.tugraz.sss.serv.SSSQLVarNames;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSDBSQLI;
@@ -49,13 +49,13 @@ public class SSVideoSQLFct extends SSDBSQLFct{
       final Map<String, String> inserts    = new HashMap<>();
       final Map<String, String> uniqueKeys = new HashMap<>();
       
-      insert(inserts, SSSQLVarU.userId,   user);
-      insert(inserts, SSSQLVarU.videoId,  video);
+      insert(inserts, SSSQLVarNames.userId,   user);
+      insert(inserts, SSSQLVarNames.videoId,  video);
       
-      uniqueKey(uniqueKeys, SSSQLVarU.userId,  user);
-      uniqueKey(uniqueKeys, SSSQLVarU.videoId, video);
+      uniqueKey(uniqueKeys, SSSQLVarNames.userId,  user);
+      uniqueKey(uniqueKeys, SSSQLVarNames.videoId, video);
       
-      dbSQL.insertIfNotExists(userVideosTable, inserts, uniqueKeys);
+      dbSQL.insertIfNotExists(SSSQLVarNames.userVideosTable, inserts, uniqueKeys);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
@@ -72,35 +72,35 @@ public class SSVideoSQLFct extends SSDBSQLFct{
       final Map<String, String> uniqueKeys = new HashMap<>();
       
       if(genre == null){
-        insert    (inserts,    SSSQLVarU.genre,     SSStrU.empty);
+        insert    (inserts,    SSSQLVarNames.genre,     SSStrU.empty);
       }else{
-        insert    (inserts,    SSSQLVarU.genre,     genre);
+        insert    (inserts,    SSSQLVarNames.genre,     genre);
       }
       
       if(link == null){
-        insert    (inserts,    SSSQLVarU.link,     SSStrU.empty);
+        insert    (inserts,    SSSQLVarNames.link,     SSStrU.empty);
       }else{
-        insert    (inserts,    SSSQLVarU.link,     link);
+        insert    (inserts,    SSSQLVarNames.link,     link);
       }
       
-      insert    (inserts,    SSSQLVarU.videoId,     video);
+      insert    (inserts,    SSSQLVarNames.videoId,     video);
       
-      uniqueKey (uniqueKeys, SSSQLVarU.videoId, video);
+      uniqueKey (uniqueKeys, SSSQLVarNames.videoId, video);
         
-      dbSQL.insertIfNotExists(videoTable, inserts, uniqueKeys);
+      dbSQL.insertIfNotExists(SSSQLVarNames.videoTable, inserts, uniqueKeys);
       
       if(forEntity != null){
         
         uniqueKeys.clear();
         inserts.clear();
         
-        insert(inserts, SSSQLVarU.entityId,          forEntity);
-        insert(inserts, SSSQLVarU.attachedEntityId,  video);
+        insert(inserts, SSSQLVarNames.entityId,          forEntity);
+        insert(inserts, SSSQLVarNames.attachedEntityId,  video);
         
-        uniqueKey(uniqueKeys, SSSQLVarU.entityId,          forEntity);
-        uniqueKey(uniqueKeys, SSSQLVarU.attachedEntityId,  video);
+        uniqueKey(uniqueKeys, SSSQLVarNames.entityId,          forEntity);
+        uniqueKey(uniqueKeys, SSSQLVarNames.attachedEntityId,  video);
         
-        dbSQL.insertIfNotExists(entitiesTable, inserts, uniqueKeys);
+        dbSQL.insertIfNotExists(SSSQLVarNames.entitiesTable, inserts, uniqueKeys);
       }
       
      }catch(Exception error){
@@ -119,33 +119,33 @@ public class SSVideoSQLFct extends SSDBSQLFct{
       final Map<String, String> inserts    = new HashMap<>();
       
       if(x == null){
-        insert    (inserts,    SSSQLVarU.x,     SSStrU.empty);
+        insert    (inserts,    SSSQLVarNames.x,     SSStrU.empty);
       }else{
-        insert    (inserts,    SSSQLVarU.x,     x);
+        insert    (inserts,    SSSQLVarNames.x,     x);
       }
       
       if(y == null){
-        insert    (inserts,    SSSQLVarU.y,     SSStrU.empty);
+        insert    (inserts,    SSSQLVarNames.y,     SSStrU.empty);
       }else{
-        insert    (inserts,    SSSQLVarU.y,     y);
+        insert    (inserts,    SSSQLVarNames.y,     y);
       }
       
       if(timePoint == null){
-        insert    (inserts,    SSSQLVarU.timePoint,     SSStrU.empty);
+        insert    (inserts,    SSSQLVarNames.timePoint,     SSStrU.empty);
       }else{
-        insert    (inserts,    SSSQLVarU.timePoint,     timePoint);
+        insert    (inserts,    SSSQLVarNames.timePoint,     timePoint);
       }
       
-      insert    (inserts,    SSSQLVarU.videoAnnotationId,  videoAnnotation);
+      insert    (inserts,    SSSQLVarNames.videoAnnotationId,  videoAnnotation);
       
-      dbSQL.insert(videoAnnotationTable, inserts);
+      dbSQL.insert(SSSQLVarNames.videoAnnotationTable, inserts);
       
       inserts.clear();
       
-      insert    (inserts,    SSSQLVarU.videoId,            video);
-      insert    (inserts,    SSSQLVarU.videoAnnotationId,  videoAnnotation);
+      insert    (inserts,    SSSQLVarNames.videoId,            video);
+      insert    (inserts,    SSSQLVarNames.videoAnnotationId,  videoAnnotation);
       
-      dbSQL.insert(videoAnnotationsTable, inserts);
+      dbSQL.insert(SSSQLVarNames.videoAnnotationsTable, inserts);
       
      }catch(Exception error){
        SSServErrReg.regErrThrow(error);
@@ -166,40 +166,39 @@ public class SSVideoSQLFct extends SSDBSQLFct{
       
       final SSVideo video;
       
-      column(columns, videoTable,          SSSQLVarU.videoId);
-      column(columns, videoTable,          SSSQLVarU.genre);
-      column(columns, videoTable,          SSSQLVarU.link);
-      column(columns, entityTable,         SSSQLVarU.creationTime);
-      column(columns, entityTable,         SSSQLVarU.label);
-      column(columns, entityTable,         SSSQLVarU.description);
+      column(columns, SSSQLVarNames.videoTable,          SSSQLVarNames.videoId);
+      column(columns, SSSQLVarNames.videoTable,          SSSQLVarNames.genre);
+      column(columns, SSSQLVarNames.videoTable,          SSSQLVarNames.link);
+      column(columns, SSSQLVarNames.entityTable,         SSSQLVarNames.creationTime);
+      column(columns, SSSQLVarNames.entityTable,         SSSQLVarNames.label);
+      column(columns, SSSQLVarNames.entityTable,         SSSQLVarNames.description);
 
-      where(wheres, videoTable, SSSQLVarU.videoId, videoUri);
+      where(wheres, SSSQLVarNames.videoTable, SSSQLVarNames.videoId, videoUri);
       
-      table(tables, entityTable);
-      table(tables, videoTable);
+      table(tables, SSSQLVarNames.entityTable);
+      table(tables, SSSQLVarNames.videoTable);
       
       if(user != null){
-        where    (wheres,    userVideosTable, SSSQLVarU.userId, user);
-        table    (tables,    userVideosTable);
-        tableCon (tableCons, entityTable, SSSQLVarU.id, userVideosTable, SSSQLVarU.videoId);
+        where    (wheres, SSSQLVarNames.userVideosTable, SSSQLVarNames.userId, user);
+        table    (tables, SSSQLVarNames.userVideosTable);
+        tableCon (tableCons, SSSQLVarNames.entityTable, SSSQLVarNames.id, SSSQLVarNames.userVideosTable, SSSQLVarNames.videoId);
       }
       
-      tableCon(tableCons, entityTable, SSSQLVarU.id, videoTable,      SSSQLVarU.videoId);
+      tableCon(tableCons, SSSQLVarNames.entityTable, SSSQLVarNames.id, SSSQLVarNames.videoTable,      SSSQLVarNames.videoId);
       
       resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
       
       checkFirstResult(resultSet);
       
       video =
-        SSVideo.get(
-          bindingStrToUri         (resultSet, SSSQLVarU.videoId),
-          bindingStr              (resultSet, SSSQLVarU.genre),
+        SSVideo.get(bindingStrToUri         (resultSet, SSSQLVarNames.videoId),
+          bindingStr              (resultSet, SSSQLVarNames.genre),
           new ArrayList<>(),
-          bindingStrToUri          (resultSet, SSSQLVarU.link));
+          bindingStrToUri          (resultSet, SSSQLVarNames.link));
       
-      video.creationTime = bindingStrToLong        (resultSet, SSSQLVarU.creationTime);
-      video.label        = bindingStrToLabel       (resultSet, SSSQLVarU.label);
-      video.description  = bindingStrToTextComment (resultSet, SSSQLVarU.description);
+      video.creationTime = bindingStrToLong        (resultSet, SSSQLVarNames.creationTime);
+      video.label        = bindingStrToLabel       (resultSet, SSSQLVarNames.label);
+      video.description  = bindingStrToTextComment (resultSet, SSSQLVarNames.description);
       
       return video;
     }catch(Exception error){
@@ -225,44 +224,43 @@ public class SSVideoSQLFct extends SSDBSQLFct{
       
       SSVideo video;
       
-      column(columns, videoTable,          SSSQLVarU.videoId);
-      column(columns, videoTable,          SSSQLVarU.genre);
-      column(columns, videoTable,          SSSQLVarU.link);
-      column(columns, entityTable,         SSSQLVarU.creationTime);
-      column(columns, entityTable,         SSSQLVarU.label);
-      column(columns, entityTable,         SSSQLVarU.description);
+      column(columns, SSSQLVarNames.videoTable,          SSSQLVarNames.videoId);
+      column(columns, SSSQLVarNames.videoTable,          SSSQLVarNames.genre);
+      column(columns, SSSQLVarNames.videoTable,          SSSQLVarNames.link);
+      column(columns, SSSQLVarNames.entityTable,         SSSQLVarNames.creationTime);
+      column(columns, SSSQLVarNames.entityTable,         SSSQLVarNames.label);
+      column(columns, SSSQLVarNames.entityTable,         SSSQLVarNames.description);
 
-      table(tables, entityTable);
-      table(tables, videoTable);
+      table(tables, SSSQLVarNames.entityTable);
+      table(tables, SSSQLVarNames.videoTable);
       
       if(forUser != null){
-        where    (wheres,    userVideosTable, SSSQLVarU.userId, forUser);
-        table    (tables,    userVideosTable);
-        tableCon (tableCons, entityTable, SSSQLVarU.id, userVideosTable, SSSQLVarU.videoId);
+        where    (wheres, SSSQLVarNames.userVideosTable, SSSQLVarNames.userId, forUser);
+        table    (tables, SSSQLVarNames.userVideosTable);
+        tableCon (tableCons, SSSQLVarNames.entityTable, SSSQLVarNames.id, SSSQLVarNames.userVideosTable, SSSQLVarNames.videoId);
       }
       
       if(forEntity != null){
-        where    (wheres,    entitiesTable, SSSQLVarU.entityId, forEntity);
-        table    (tables,    entitiesTable);
-        tableCon (tableCons, entityTable, SSSQLVarU.id, entitiesTable, SSSQLVarU.attachedEntityId);
+        where    (wheres, SSSQLVarNames.entitiesTable, SSSQLVarNames.entityId, forEntity);
+        table    (tables, SSSQLVarNames.entitiesTable);
+        tableCon (tableCons, SSSQLVarNames.entityTable, SSSQLVarNames.id, SSSQLVarNames.entitiesTable, SSSQLVarNames.attachedEntityId);
       }
       
-      tableCon(tableCons, entityTable, SSSQLVarU.id, videoTable,      SSSQLVarU.videoId);
+      tableCon(tableCons, SSSQLVarNames.entityTable, SSSQLVarNames.id, SSSQLVarNames.videoTable,      SSSQLVarNames.videoId);
       
       resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
       
       while(resultSet.next()){
         
         video =  
-          SSVideo.get(
-            bindingStrToUri         (resultSet, SSSQLVarU.videoId),
-            bindingStr              (resultSet, SSSQLVarU.genre),
+          SSVideo.get(bindingStrToUri         (resultSet, SSSQLVarNames.videoId),
+            bindingStr              (resultSet, SSSQLVarNames.genre),
             new ArrayList<>(),
-            bindingStrToUri         (resultSet, SSSQLVarU.link));
+            bindingStrToUri         (resultSet, SSSQLVarNames.link));
           
-        video.creationTime = bindingStrToLong        (resultSet, SSSQLVarU.creationTime);
-        video.label        = bindingStrToLabel       (resultSet, SSSQLVarU.label);
-        video.description  = bindingStrToTextComment (resultSet, SSSQLVarU.description);
+        video.creationTime = bindingStrToLong        (resultSet, SSSQLVarNames.creationTime);
+        video.label        = bindingStrToLabel       (resultSet, SSSQLVarNames.label);
+        video.description  = bindingStrToTextComment (resultSet, SSSQLVarNames.description);
         
         videos.add(video);
       }
@@ -289,37 +287,36 @@ public class SSVideoSQLFct extends SSDBSQLFct{
       final List<String>              tableCons   = new ArrayList<>();
       SSVideoAnnotation annotation;
       
-      column(columns, entityTable,          SSSQLVarU.creationTime);
-      column(columns, entityTable,          SSSQLVarU.label);
-      column(columns, entityTable,          SSSQLVarU.description);
-      column(columns, videoAnnotationTable, SSSQLVarU.videoAnnotationId);
-      column(columns, videoAnnotationTable, SSSQLVarU.x);
-      column(columns, videoAnnotationTable, SSSQLVarU.y);
-      column(columns, videoAnnotationTable, SSSQLVarU.timePoint);
+      column(columns, SSSQLVarNames.entityTable,          SSSQLVarNames.creationTime);
+      column(columns, SSSQLVarNames.entityTable,          SSSQLVarNames.label);
+      column(columns, SSSQLVarNames.entityTable,          SSSQLVarNames.description);
+      column(columns, SSSQLVarNames.videoAnnotationTable, SSSQLVarNames.videoAnnotationId);
+      column(columns, SSSQLVarNames.videoAnnotationTable, SSSQLVarNames.x);
+      column(columns, SSSQLVarNames.videoAnnotationTable, SSSQLVarNames.y);
+      column(columns, SSSQLVarNames.videoAnnotationTable, SSSQLVarNames.timePoint);
       
-      table(tables, entityTable);
-      table(tables, videoAnnotationTable);
-      table(tables, videoAnnotationsTable);
+      table(tables, SSSQLVarNames.entityTable);
+      table(tables, SSSQLVarNames.videoAnnotationTable);
+      table(tables, SSSQLVarNames.videoAnnotationsTable);
       
-      where(wheres, videoAnnotationsTable, SSSQLVarU.videoId, video);
+      where(wheres, SSSQLVarNames.videoAnnotationsTable, SSSQLVarNames.videoId, video);
       
-      tableCon(tableCons, entityTable, SSSQLVarU.id, videoAnnotationTable,  SSSQLVarU.videoAnnotationId);
-      tableCon(tableCons, entityTable, SSSQLVarU.id, videoAnnotationsTable, SSSQLVarU.videoAnnotationId);
+      tableCon(tableCons, SSSQLVarNames.entityTable, SSSQLVarNames.id, SSSQLVarNames.videoAnnotationTable,  SSSQLVarNames.videoAnnotationId);
+      tableCon(tableCons, SSSQLVarNames.entityTable, SSSQLVarNames.id, SSSQLVarNames.videoAnnotationsTable, SSSQLVarNames.videoAnnotationId);
 
       resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
       
       while(resultSet.next()){
         
         annotation =
-          SSVideoAnnotation.get(
-            bindingStrToUri   (resultSet, SSSQLVarU.videoAnnotationId),
-            bindingStrToLong  (resultSet, SSSQLVarU.timePoint),
-            bindingStrToFloat (resultSet, SSSQLVarU.x),
-            bindingStrToFloat (resultSet, SSSQLVarU.y));
+          SSVideoAnnotation.get(bindingStrToUri   (resultSet, SSSQLVarNames.videoAnnotationId),
+            bindingStrToLong  (resultSet, SSSQLVarNames.timePoint),
+            bindingStrToFloat (resultSet, SSSQLVarNames.x),
+            bindingStrToFloat (resultSet, SSSQLVarNames.y));
       
-        annotation.creationTime = bindingStrToLong        (resultSet, SSSQLVarU.creationTime);
-        annotation.label        = bindingStrToLabel       (resultSet, SSSQLVarU.label);
-        annotation.description  = bindingStrToTextComment (resultSet, SSSQLVarU.description);
+        annotation.creationTime = bindingStrToLong        (resultSet, SSSQLVarNames.creationTime);
+        annotation.label        = bindingStrToLabel       (resultSet, SSSQLVarNames.label);
+        annotation.description  = bindingStrToTextComment (resultSet, SSSQLVarNames.description);
           
         annotations.add(annotation);
       }

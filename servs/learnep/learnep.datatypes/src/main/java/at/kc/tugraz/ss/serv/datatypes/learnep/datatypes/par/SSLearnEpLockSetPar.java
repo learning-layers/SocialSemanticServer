@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par;
 
 import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServErrReg;
@@ -51,14 +51,14 @@ public class SSLearnEpLockSetPar extends SSServPar{
     try{
       
       if(pars != null){
-        forUser    = (SSUri)  pars.get(SSVarU.forUser);
-        learnEp    = (SSUri)  pars.get(SSVarU.learnEp);
+        forUser    = (SSUri)  pars.get(SSVarNames.forUser);
+        learnEp    = (SSUri)  pars.get(SSVarNames.learnEp);
         
       }
       
       if(par.clientJSONObj != null){
-        forUser   = SSUri.get (par.clientJSONObj.get(SSVarU.forUser).getTextValue());
-        learnEp   = SSUri.get (par.clientJSONObj.get(SSVarU.learnEp).getTextValue());
+        forUser   = SSUri.get (par.clientJSONObj.get(SSVarNames.forUser).getTextValue());
+        learnEp   = SSUri.get (par.clientJSONObj.get(SSVarNames.learnEp).getTextValue());
       }
       
     }catch(Exception error){

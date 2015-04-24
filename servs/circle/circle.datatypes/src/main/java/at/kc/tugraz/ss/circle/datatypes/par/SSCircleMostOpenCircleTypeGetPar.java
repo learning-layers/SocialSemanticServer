@@ -15,7 +15,7 @@
  */
 package at.kc.tugraz.ss.circle.datatypes.par;
 
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServErrReg;
@@ -32,8 +32,8 @@ public class SSCircleMostOpenCircleTypeGetPar extends SSServPar{
     try{
     
       if(pars != null){
-        forUser       = (SSUri)         pars.get(SSVarU.forUser);
-        entity        = (SSUri)         pars.get(SSVarU.entity);
+        forUser       = (SSUri)         pars.get(SSVarNames.forUser);
+        entity        = (SSUri)         pars.get(SSVarNames.entity);
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

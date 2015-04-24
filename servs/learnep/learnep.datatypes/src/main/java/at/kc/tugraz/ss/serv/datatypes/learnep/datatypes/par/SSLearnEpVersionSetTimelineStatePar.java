@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par;
 
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServErrReg;
@@ -38,15 +38,15 @@ public class SSLearnEpVersionSetTimelineStatePar extends SSServPar{
     try{
       
       if(pars != null){
-        learnEpVersion     = (SSUri)   pars.get(SSVarU.learnEpVersion); 
-        startTime          = (Long)    pars.get(SSVarU.startTime);
-        endTime            = (Long)    pars.get(SSVarU.endTime);
+        learnEpVersion     = (SSUri)   pars.get(SSVarNames.learnEpVersion); 
+        startTime          = (Long)    pars.get(SSVarNames.startTime);
+        endTime            = (Long)    pars.get(SSVarNames.endTime);
       }
       
       if(par.clientJSONObj != null){
-        learnEpVersion    = SSUri.get       (par.clientJSONObj.get(SSVarU.learnEpVersion).getTextValue());
-        startTime         = par.clientJSONObj.get(SSVarU.startTime).getNumberValue().longValue();
-        endTime           = par.clientJSONObj.get(SSVarU.endTime).getNumberValue().longValue();
+        learnEpVersion    = SSUri.get       (par.clientJSONObj.get(SSVarNames.learnEpVersion).getTextValue());
+        startTime         = par.clientJSONObj.get(SSVarNames.startTime).getNumberValue().longValue();
+        endTime           = par.clientJSONObj.get(SSVarNames.endTime).getNumberValue().longValue();
       } 
       
     }catch(Exception error){

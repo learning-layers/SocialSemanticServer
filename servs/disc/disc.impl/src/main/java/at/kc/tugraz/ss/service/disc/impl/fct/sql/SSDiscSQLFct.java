@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.service.disc.impl.fct.sql;
 
-import at.tugraz.sss.serv.SSSQLVarU;
+import at.tugraz.sss.serv.SSSQLVarNames;
 import at.tugraz.sss.serv.SSDBSQLFct;
 import at.tugraz.sss.serv.SSUri;
 
@@ -90,13 +90,13 @@ public class SSDiscSQLFct extends SSDBSQLFct {
       final List<String>        columns = new ArrayList<>();
       final Map<String, String> wheres  = new HashMap<>();
       
-      column(columns,  SSSQLVarU.userId);
+      column(columns,  SSSQLVarNames.userId);
       
-      where(wheres, SSSQLVarU.discId, disc);
+      where(wheres, SSSQLVarNames.discId, disc);
     
-      resultSet = dbSQL.select(discUserTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(SSSQLVarNames.discUserTable, columns, wheres, null, null, null);
 
-      return getURIsFromResult(resultSet, SSSQLVarU.userId);
+      return getURIsFromResult(resultSet, SSSQLVarNames.userId);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -114,13 +114,13 @@ public class SSDiscSQLFct extends SSDBSQLFct {
       final List<String>        columns = new ArrayList<>();
       final Map<String, String> wheres  = new HashMap<>();
       
-      column(columns, SSSQLVarU.discId);
+      column(columns, SSSQLVarNames.discId);
       
-      where(wheres, SSSQLVarU.userId, userUri);
+      where(wheres, SSSQLVarNames.userId, userUri);
       
-      resultSet = dbSQL.select(discUserTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(SSSQLVarNames.discUserTable, columns, wheres, null, null, null);
       
-      return getURIsFromResult(resultSet, SSSQLVarU.discId);
+      return getURIsFromResult(resultSet, SSSQLVarNames.discId);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -142,16 +142,16 @@ public class SSDiscSQLFct extends SSDBSQLFct {
       final List<String>        columns   = new ArrayList<>();
       final List<String>        tableCons = new ArrayList<>();
       
-      table     (tables,    discUserTable);
-      table     (tables,    discTable);     
-      column    (columns,   discUserTable,      SSSQLVarU.discId);
-      where     (wheres,    SSSQLVarU.userId,   userUri);
-      where     (wheres,    SSSQLVarU.entityId, targetUri);
-      tableCon  (tableCons, discTable,          SSSQLVarU.discId, discUserTable, SSSQLVarU.discId);
+      table     (tables, SSSQLVarNames.discUserTable);
+      table     (tables, SSSQLVarNames.discTable);     
+      column    (columns, SSSQLVarNames.discUserTable,      SSSQLVarNames.discId);
+      where     (wheres,    SSSQLVarNames.userId,   userUri);
+      where     (wheres,    SSSQLVarNames.entityId, targetUri);
+      tableCon  (tableCons, SSSQLVarNames.discTable,          SSSQLVarNames.discId, SSSQLVarNames.discUserTable, SSSQLVarNames.discId);
       
       resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
       
-      return getURIsFromResult(resultSet, SSSQLVarU.discId);
+      return getURIsFromResult(resultSet, SSSQLVarNames.discId);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -168,10 +168,10 @@ public class SSDiscSQLFct extends SSDBSQLFct {
     try{
       final Map<String, String> inserts =  new HashMap<>();
       
-      insert(inserts, SSSQLVarU.discId,      disc);
-      insert(inserts, SSSQLVarU.entityId,    target);
+      insert(inserts, SSSQLVarNames.discId,      disc);
+      insert(inserts, SSSQLVarNames.entityId,    target);
       
-      dbSQL.insert(discTable, inserts);
+      dbSQL.insert(SSSQLVarNames.discTable, inserts);
       
       addDisc(disc, user);
 
@@ -187,10 +187,10 @@ public class SSDiscSQLFct extends SSDBSQLFct {
     try{
       final Map<String, String> inserts = new HashMap<>();
       
-      insert(inserts, SSSQLVarU.discId,   disc);
-      insert(inserts, SSSQLVarU.userId,   user);
+      insert(inserts, SSSQLVarNames.discId,   disc);
+      insert(inserts, SSSQLVarNames.userId,   user);
       
-      dbSQL.insert(discUserTable, inserts);
+      dbSQL.insert(SSSQLVarNames.discUserTable, inserts);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -206,21 +206,21 @@ public class SSDiscSQLFct extends SSDBSQLFct {
       final Map<String, String> inserts = new HashMap<>();
       Integer                   discEntryCount;
       
-      insert(inserts, SSSQLVarU.discEntryId,      discEntryUri);
-      insert(inserts, SSSQLVarU.discEntryContent, content);
+      insert(inserts, SSSQLVarNames.discEntryId,      discEntryUri);
+      insert(inserts, SSSQLVarNames.discEntryContent, content);
       
-      dbSQL.insert(discEntryTable, inserts);
+      dbSQL.insert(SSSQLVarNames.discEntryTable, inserts);
       
       discEntryCount = getDiscEntryCount(discUri);
       discEntryCount++;
       
       inserts.clear();
       
-      insert(inserts, SSSQLVarU.discId,      discUri);
-      insert(inserts, SSSQLVarU.discEntryId, discEntryUri);
-      insert(inserts, SSSQLVarU.pos,         discEntryCount);
+      insert(inserts, SSSQLVarNames.discId,      discUri);
+      insert(inserts, SSSQLVarNames.discEntryId, discEntryUri);
+      insert(inserts, SSSQLVarNames.pos,         discEntryCount);
       
-      dbSQL.insert(discEntriesTable, inserts);
+      dbSQL.insert(SSSQLVarNames.discEntriesTable, inserts);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
@@ -235,11 +235,11 @@ public class SSDiscSQLFct extends SSDBSQLFct {
       final List<String>        columns = new ArrayList<>();
       final Map<String, String> wheres  = new HashMap<>();
       
-      column(columns, SSSQLVarU.discId);
+      column(columns, SSSQLVarNames.discId);
       
-      where(wheres, SSSQLVarU.discId, discUri);
+      where(wheres, SSSQLVarNames.discId, discUri);
       
-      resultSet = dbSQL.select(discEntriesTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(SSSQLVarNames.discEntriesTable, columns, wheres, null, null, null);
       
       resultSet.last();
       
@@ -264,13 +264,13 @@ public class SSDiscSQLFct extends SSDBSQLFct {
       final List<String>        columns   = new ArrayList<>();
       final List<String>        tableCons = new ArrayList<>();
       
-      table     (tables,    entityTable);
-      table     (tables,    discTable);      
-      column    (columns,   SSSQLVarU.discId);
-      column    (columns,   SSSQLVarU.type);
-      where     (wheres,    SSSQLVarU.discId, entityUri);
-      where     (wheres,    SSSQLVarU.type,   discType);
-      tableCon  (tableCons, discTable,        SSSQLVarU.discId, entityTable, SSSQLVarU.id);
+      table     (tables, SSSQLVarNames.entityTable);
+      table     (tables, SSSQLVarNames.discTable);      
+      column    (columns,   SSSQLVarNames.discId);
+      column    (columns,   SSSQLVarNames.type);
+      where     (wheres,    SSSQLVarNames.discId, entityUri);
+      where     (wheres,    SSSQLVarNames.type,   discType);
+      tableCon  (tableCons, SSSQLVarNames.discTable,        SSSQLVarNames.discId, SSSQLVarNames.entityTable, SSSQLVarNames.id);
       
       resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
       
@@ -293,11 +293,11 @@ public class SSDiscSQLFct extends SSDBSQLFct {
       final List<String>        columns = new ArrayList<>();
       final Map<String, String> wheres  = new HashMap<>();
       
-      column(columns, SSSQLVarU.discId);
+      column(columns, SSSQLVarNames.discId);
       
-      where(wheres, SSSQLVarU.discId, entityUri);
+      where(wheres, SSSQLVarNames.discId, entityUri);
       
-      resultSet = dbSQL.select(discTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(SSSQLVarNames.discTable, columns, wheres, null, null, null);
       
       return resultSet.first();
       
@@ -318,11 +318,11 @@ public class SSDiscSQLFct extends SSDBSQLFct {
       final List<String>        columns = new ArrayList<>();
       final Map<String, String> wheres  = new HashMap<>();
       
-      column(columns, SSSQLVarU.discEntryId);
+      column(columns, SSSQLVarNames.discEntryId);
       
-      where(wheres, SSSQLVarU.discEntryId, entityUri);
+      where(wheres, SSSQLVarNames.discEntryId, entityUri);
       
-      resultSet = dbSQL.select(discEntriesTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(SSSQLVarNames.discEntriesTable, columns, wheres, null, null, null);
       
       return resultSet.first();
       
@@ -346,32 +346,31 @@ public class SSDiscSQLFct extends SSDBSQLFct {
       final Map<String, String> wheres     = new HashMap<>();
       final SSDisc              discObj;
       
-      table     (tables, entityTable);
-      table     (tables, discTable);
-      column    (columns,   SSSQLVarU.label);
-      column    (columns,   SSSQLVarU.author);
-      column    (columns,   SSSQLVarU.discId);
-      column    (columns,   SSSQLVarU.entityId);
-      column    (columns,   SSSQLVarU.type);
-      column    (columns,   SSSQLVarU.description);
-      column    (columns,   SSSQLVarU.creationTime);
-      where     (wheres,    SSSQLVarU.discId, discUri);
-      tableCon  (tableCons, discTable,        SSSQLVarU.discId, entityTable, SSSQLVarU.id);
+      table     (tables, SSSQLVarNames.entityTable);
+      table     (tables, SSSQLVarNames.discTable);
+      column    (columns,   SSSQLVarNames.label);
+      column    (columns,   SSSQLVarNames.author);
+      column    (columns,   SSSQLVarNames.discId);
+      column    (columns,   SSSQLVarNames.entityId);
+      column    (columns,   SSSQLVarNames.type);
+      column    (columns,   SSSQLVarNames.description);
+      column    (columns,   SSSQLVarNames.creationTime);
+      where     (wheres,    SSSQLVarNames.discId, discUri);
+      tableCon  (tableCons, SSSQLVarNames.discTable,        SSSQLVarNames.discId, SSSQLVarNames.entityTable, SSSQLVarNames.id);
       
       resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
       
       checkFirstResult(resultSet);
       
       discObj =
-        SSDisc.get(
-          discUri,
-          bindingStrToEntityType (resultSet, SSSQLVarU.type),
-          bindingStrToLabel      (resultSet, SSSQLVarU.label),
-          bindingStrToUri        (resultSet, SSSQLVarU.entityId));
+        SSDisc.get(discUri,
+          bindingStrToEntityType (resultSet, SSSQLVarNames.type),
+          bindingStrToLabel      (resultSet, SSSQLVarNames.label),
+          bindingStrToUri        (resultSet, SSSQLVarNames.entityId));
       
-      discObj.author       = bindingStrToUri        (resultSet, SSSQLVarU.author);
-      discObj.creationTime = bindingStrToLong       (resultSet, SSSQLVarU.creationTime);
-      discObj.description  = bindingStrToTextComment(resultSet, SSSQLVarU.description);
+      discObj.author       = bindingStrToUri        (resultSet, SSSQLVarNames.author);
+      discObj.creationTime = bindingStrToLong       (resultSet, SSSQLVarNames.creationTime);
+      discObj.description  = bindingStrToTextComment(resultSet, SSSQLVarNames.description);
       
       return discObj;
         
@@ -389,9 +388,9 @@ public class SSDiscSQLFct extends SSDBSQLFct {
     try{
       final Map<String, String> deletes = new HashMap<>();
       
-      delete(deletes, SSSQLVarU.discId, discUri);
+      delete(deletes, SSSQLVarNames.discId, discUri);
       
-      dbSQL.delete(discTable, deletes);
+      dbSQL.delete(SSSQLVarNames.discTable, deletes);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
@@ -404,10 +403,10 @@ public class SSDiscSQLFct extends SSDBSQLFct {
     try{
       final Map<String, String> deletes = new HashMap<>();
       
-      delete(deletes, SSSQLVarU.userId, userUri);
-      delete(deletes, SSSQLVarU.discId, discUri);
+      delete(deletes, SSSQLVarNames.userId, userUri);
+      delete(deletes, SSSQLVarNames.discId, discUri);
       
-      dbSQL.delete(discUserTable, deletes);
+      dbSQL.delete(SSSQLVarNames.discUserTable, deletes);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
@@ -422,13 +421,13 @@ public class SSDiscSQLFct extends SSDBSQLFct {
       final List<String>        columns       = new ArrayList<>();
       final Map<String, String> wheres        = new HashMap<>();
       
-      column(columns, SSSQLVarU.discEntryId);
+      column(columns, SSSQLVarNames.discEntryId);
       
-      where(wheres, SSSQLVarU.discId, disc);
+      where(wheres, SSSQLVarNames.discId, disc);
       
-      resultSet = dbSQL.select(discEntriesTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(SSSQLVarNames.discEntriesTable, columns, wheres, null, null, null);
       
-      return getURIsFromResult(resultSet, SSSQLVarU.discEntryId);
+      return getURIsFromResult(resultSet, SSSQLVarNames.discEntryId);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -452,35 +451,34 @@ public class SSDiscSQLFct extends SSDBSQLFct {
       final SSDisc              disc          = getDiscWithoutEntries(discUri);
       SSDiscEntry               discEntryObj;
       
-      table(tables, entityTable);
-      table(tables, discEntriesTable);
-      table(tables, discEntryTable);
+      table(tables, SSSQLVarNames.entityTable);
+      table(tables, SSSQLVarNames.discEntriesTable);
+      table(tables, SSSQLVarNames.discEntryTable);
       
-      column(columns, SSSQLVarU.author);
-      column(columns, SSSQLVarU.discEntryContent);
-      column(columns, SSSQLVarU.pos);
-      column(columns, SSSQLVarU.type);
-      column(columns, SSSQLVarU.creationTime);
-      column(columns, discEntriesTable, SSSQLVarU.discEntryId);
+      column(columns, SSSQLVarNames.author);
+      column(columns, SSSQLVarNames.discEntryContent);
+      column(columns, SSSQLVarNames.pos);
+      column(columns, SSSQLVarNames.type);
+      column(columns, SSSQLVarNames.creationTime);
+      column(columns, SSSQLVarNames.discEntriesTable, SSSQLVarNames.discEntryId);
       
-      where(wheres, SSSQLVarU.discId, discUri);
+      where(wheres, SSSQLVarNames.discId, discUri);
       
-      tableCon(tableCons, discEntriesTable,     SSSQLVarU.discEntryId, entityTable, SSSQLVarU.id);
-      tableCon(tableCons, discEntryTable,       SSSQLVarU.discEntryId, entityTable, SSSQLVarU.id);
+      tableCon(tableCons, SSSQLVarNames.discEntriesTable,     SSSQLVarNames.discEntryId, SSSQLVarNames.entityTable, SSSQLVarNames.id);
+      tableCon(tableCons, SSSQLVarNames.discEntryTable,       SSSQLVarNames.discEntryId, SSSQLVarNames.entityTable, SSSQLVarNames.id);
       
       resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
       
       while(resultSet.next()){
         
         discEntryObj = 
-          SSDiscEntry.get(
-            bindingStrToUri         (resultSet, SSSQLVarU.discEntryId),
-            bindingStrToEntityType  (resultSet, SSSQLVarU.type),
-            bindingStrToInteger     (resultSet, SSSQLVarU.pos),
-            bindingStrToTextComment (resultSet, SSSQLVarU.discEntryContent));
+          SSDiscEntry.get(bindingStrToUri         (resultSet, SSSQLVarNames.discEntryId),
+            bindingStrToEntityType  (resultSet, SSSQLVarNames.type),
+            bindingStrToInteger     (resultSet, SSSQLVarNames.pos),
+            bindingStrToTextComment (resultSet, SSSQLVarNames.discEntryContent));
           
-        discEntryObj.creationTime = bindingStrToLong       (resultSet, SSSQLVarU.creationTime);
-        discEntryObj.author       = bindingStrToUri        (resultSet, SSSQLVarU.author);
+        discEntryObj.creationTime = bindingStrToLong       (resultSet, SSSQLVarNames.creationTime);
+        discEntryObj.author       = bindingStrToUri        (resultSet, SSSQLVarNames.author);
           
         discEntries.add(discEntryObj);
       }
@@ -507,12 +505,12 @@ public class SSDiscSQLFct extends SSDBSQLFct {
       final List<String>        columns = new ArrayList<>();
       final Map<String, String> wheres  = new HashMap<>();
       
-      column(columns, SSSQLVarU.discId);
+      column(columns, SSSQLVarNames.discId);
       
-      where(wheres, SSSQLVarU.userId, user);
-      where(wheres, SSSQLVarU.discId, disc);
+      where(wheres, SSSQLVarNames.userId, user);
+      where(wheres, SSSQLVarNames.discId, disc);
     
-      resultSet = dbSQL.select(discUserTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(SSSQLVarNames.discUserTable, columns, wheres, null, null, null);
 
       return resultSet.first();
     }catch(Exception error){
@@ -532,13 +530,13 @@ public class SSDiscSQLFct extends SSDBSQLFct {
       final List<String>        columns = new ArrayList<>();
       final Map<String, String> wheres  = new HashMap<>();
       
-      column(columns, SSSQLVarU.discId);
+      column(columns, SSSQLVarNames.discId);
       
-      where(wheres, SSSQLVarU.userId, user);
+      where(wheres, SSSQLVarNames.userId, user);
     
-      resultSet = dbSQL.select(discUserTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(SSSQLVarNames.discUserTable, columns, wheres, null, null, null);
 
-      return getStringsFromResult(resultSet, SSSQLVarU.discId);
+      return getStringsFromResult(resultSet, SSSQLVarNames.discId);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -556,13 +554,13 @@ public class SSDiscSQLFct extends SSDBSQLFct {
       final List<String>        columns = new ArrayList<>();
       final Map<String, String> wheres  = new HashMap<>();
       
-      column(columns, SSSQLVarU.discId);
+      column(columns, SSSQLVarNames.discId);
       
-      where(wheres, SSSQLVarU.discEntryId, entityUri);
+      where(wheres, SSSQLVarNames.discEntryId, entityUri);
       
-      resultSet = dbSQL.select(discEntriesTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(SSSQLVarNames.discEntriesTable, columns, wheres, null, null, null);
       
-      return getStringsFromResult(resultSet, SSSQLVarU.discId);
+      return getStringsFromResult(resultSet, SSSQLVarNames.discId);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

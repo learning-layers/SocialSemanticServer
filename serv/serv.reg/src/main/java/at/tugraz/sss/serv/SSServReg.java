@@ -350,8 +350,8 @@ public class SSServReg{
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user, par.user);
-    opPars.put(SSVarU.serv, serv);
+    opPars.put(SSVarNames.user, par.user);
+    opPars.put(SSVarNames.serv, serv);
     
     par.clientCon.writeRetFullToClient(callServViaServer(new SSServPar(SSServOpE.cloudPublishService, opPars)), par.op);
   }

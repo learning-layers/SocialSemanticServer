@@ -20,7 +20,7 @@
 */
  package at.kc.tugraz.ss.service.user.datatypes.pars;
 
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServErrReg;
@@ -39,8 +39,8 @@ public class SSUsersGetPar extends SSServPar{
     try{
       
       if(pars != null){
-        users          = (List<SSUri>) pars.get(SSVarU.users);
-        setFriends     = (Boolean)     pars.get(SSVarU.setFriends);
+        users          = (List<SSUri>) pars.get(SSVarNames.users);
+        setFriends     = (Boolean)     pars.get(SSVarNames.setFriends);
       }
       
     }catch(Exception error){

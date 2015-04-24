@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par;
 
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.SSUri;
@@ -118,12 +118,12 @@ public class SSEntityUserUpdatePar extends SSServPar{
         par.op,
         par.key,
         par.user,
-        (SSUri)               par.pars.get(SSVarU.entity),
-        (SSLabel)             par.pars.get(SSVarU.label),
-        (SSTextComment)       par.pars.get(SSVarU.description),
-        (List<SSTextComment>) par.pars.get(SSVarU.comments),
-        (Boolean)             par.pars.get(SSVarU.read),
-        (Boolean)             par.pars.get(SSVarU.shouldCommit));
+        (SSUri)               par.pars.get(SSVarNames.entity),
+        (SSLabel)             par.pars.get(SSVarNames.label),
+        (SSTextComment)       par.pars.get(SSVarNames.description),
+        (List<SSTextComment>) par.pars.get(SSVarNames.comments),
+        (Boolean)             par.pars.get(SSVarNames.read),
+        (Boolean)             par.pars.get(SSVarNames.shouldCommit));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.serv.jsonld.datatypes.par;
 
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServErrReg;
 
@@ -35,7 +35,7 @@ public class SSJSONLDPar extends SSServPar{
     try{
       
       if(pars != null){
-        type       = (String)       pars.get(SSVarU.type);
+        type       = (String)       pars.get(SSVarNames.type);
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

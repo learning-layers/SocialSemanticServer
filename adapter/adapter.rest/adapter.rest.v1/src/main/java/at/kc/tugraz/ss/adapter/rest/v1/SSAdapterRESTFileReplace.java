@@ -24,7 +24,7 @@ import at.tugraz.sss.serv.SSJSONU;
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSSocketU;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSSocketCon;
 import at.tugraz.sss.serv.SSUri;
 
@@ -55,15 +55,15 @@ public class SSAdapterRESTFileReplace{
     value = "replace a file with a newer version",
     response = SSFileReplaceRet.class)
   public Response fileReplace(
-    @FormDataParam(SSVarU.op)         final String op,
-    @FormDataParam(SSVarU.user)       final String user,
-    @FormDataParam(SSVarU.file)       final String file, 
-    @FormDataParam(SSVarU.key)        final String key,
+    @FormDataParam(SSVarNames.op)         final String op,
+    @FormDataParam(SSVarNames.user)       final String user,
+    @FormDataParam(SSVarNames.file)       final String file, 
+    @FormDataParam(SSVarNames.key)        final String key,
     
     @ApiParam(
       value = "file handle",
       required = true)
-    @FormDataParam(SSVarU.fileHandle) 
+    @FormDataParam(SSVarNames.fileHandle) 
     final InputStream fileHandle){
 
     Response     result = null;

@@ -20,7 +20,7 @@
 */
  package at.kc.tugraz.ss.service.tag.datatypes.pars;
 
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSSpaceE;
 import at.tugraz.sss.serv.SSServPar;
@@ -43,10 +43,10 @@ public class SSTagsAddPar extends SSServPar{
     try{
       
       if(pars != null){
-        labels       =  (List<SSTagLabel>)          pars.get(SSVarU.labels);
-        entity       =  (SSUri)                     pars.get(SSVarU.entity);
-        space        =  (SSSpaceE)                  pars.get(SSVarU.space);
-        creationTime =  (Long)                      pars.get(SSVarU.creationTime);
+        labels       =  (List<SSTagLabel>)          pars.get(SSVarNames.labels);
+        entity       =  (SSUri)                     pars.get(SSVarNames.entity);
+        space        =  (SSSpaceE)                  pars.get(SSVarNames.space);
+        creationTime =  (Long)                      pars.get(SSVarNames.creationTime);
       }
       
     }catch(Exception error){

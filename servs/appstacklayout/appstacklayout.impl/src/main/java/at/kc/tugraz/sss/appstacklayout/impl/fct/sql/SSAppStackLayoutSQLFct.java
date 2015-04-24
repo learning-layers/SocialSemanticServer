@@ -21,7 +21,7 @@
 package at.kc.tugraz.sss.appstacklayout.impl.fct.sql;
 
 import at.tugraz.sss.serv.SSDBSQLFct;
-import at.tugraz.sss.serv.SSSQLVarU;
+import at.tugraz.sss.serv.SSSQLVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.kc.tugraz.sss.appstacklayout.datatypes.SSAppStackLayout;
@@ -47,17 +47,15 @@ public class SSAppStackLayoutSQLFct extends SSDBSQLFct{
       final List<String>           columns         = new ArrayList<>();
       final Map<String, String>    wheres          = new HashMap<>();
       
-      column(columns, SSSQLVarU.stackId);
-      column(columns, SSSQLVarU.app);
+      column(columns, SSSQLVarNames.stackId);
+      column(columns, SSSQLVarNames.app);
         
-      resultSet = dbSQL.select(appStackLayoutTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(SSSQLVarNames.appStackLayoutTable, columns, wheres, null, null, null);
       
       while(resultSet.next()){
         
-        appStackLayouts.add(
-          SSAppStackLayout.get(
-            bindingStrToUri         (resultSet, SSSQLVarU.stackId), 
-            bindingStrToUri         (resultSet, SSSQLVarU.app),
+        appStackLayouts.add(SSAppStackLayout.get(bindingStrToUri         (resultSet, SSSQLVarNames.stackId), 
+            bindingStrToUri         (resultSet, SSSQLVarNames.app),
             new ArrayList<>()));
       }
       
@@ -78,12 +76,12 @@ public class SSAppStackLayoutSQLFct extends SSDBSQLFct{
       final Map<String, String> inserts    = new HashMap<>();
       
       if(app != null){
-        insert    (inserts,    SSSQLVarU.app,     app);
+        insert    (inserts,    SSSQLVarNames.app,     app);
       }
       
-      insert    (inserts,    SSSQLVarU.stackId,     stack);
+      insert    (inserts,    SSSQLVarNames.stackId,     stack);
       
-      dbSQL.insert(appStackLayoutTable, inserts);
+      dbSQL.insert(SSSQLVarNames.appStackLayoutTable, inserts);
      }catch(Exception error){
        SSServErrReg.regErrThrow(error);
      }
@@ -95,9 +93,9 @@ public class SSAppStackLayoutSQLFct extends SSDBSQLFct{
     try{
       final Map<String, String> deletes    = new HashMap<>();
       
-      delete(deletes, SSSQLVarU.stackId, stack);
+      delete(deletes, SSSQLVarNames.stackId, stack);
       
-      dbSQL.delete(appStackLayoutTable, deletes);
+      dbSQL.delete(SSSQLVarNames.appStackLayoutTable, deletes);
       
      }catch(Exception error){
        SSServErrReg.regErrThrow(error);
@@ -112,13 +110,13 @@ public class SSAppStackLayoutSQLFct extends SSDBSQLFct{
       final Map<String, String> updates    = new HashMap<>();
       final Map<String, String> wheres     = new HashMap<>();
       
-      where(wheres, SSSQLVarU.stackId, stack);
+      where(wheres, SSSQLVarNames.stackId, stack);
       
       if(app != null){
-        update(updates,    SSSQLVarU.app,     app);
+        update(updates,    SSSQLVarNames.app,     app);
       }
       
-      dbSQL.updateIgnore(appStackLayoutTable, wheres, updates);
+      dbSQL.updateIgnore(SSSQLVarNames.appStackLayoutTable, wheres, updates);
       
      }catch(Exception error){
        SSServErrReg.regErrThrow(error);

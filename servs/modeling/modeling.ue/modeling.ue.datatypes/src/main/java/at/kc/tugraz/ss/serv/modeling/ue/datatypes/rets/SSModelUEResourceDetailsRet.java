@@ -23,7 +23,7 @@
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSJSONLDU;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServRetI;
 import at.tugraz.sss.serv.SSUri;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.SSModelUETopicScore;
@@ -73,35 +73,35 @@ public class SSModelUEResourceDetailsRet extends SSServRetI{
     Map<String, Object> topicScoresObj          = new HashMap<>();
     Map<String, Object> mIObj                   = new HashMap<>();
     
-    ld.put(SSVarU.entity,         SSVarU.sss + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarU.author,         SSVarU.sss + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarU.recentArtifact, SSVarU.sss + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarU.recentTopic,    SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
+    ld.put(SSVarNames.entity,         SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarNames.author,         SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarNames.recentArtifact, SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarNames.recentTopic,    SSVarNames.xsd + SSStrU.colon + SSStrU.valueString);
     
-    relatedPersonsObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSUri.class.getName());
+    relatedPersonsObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
     relatedPersonsObj.put(SSJSONLDU.container, SSJSONLDU.set);
 
-    ld.put(SSVarU.relatedPersons, relatedPersonsObj);
+    ld.put(SSVarNames.relatedPersons, relatedPersonsObj);
     
-    editorsObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSUri.class.getName());
+    editorsObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
     editorsObj.put(SSJSONLDU.container, SSJSONLDU.set);
 
-    ld.put(SSVarU.editors, editorsObj);
+    ld.put(SSVarNames.editors, editorsObj);
     
-    contributedResourcesObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSUri.class.getName());
+    contributedResourcesObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
     contributedResourcesObj.put(SSJSONLDU.container, SSJSONLDU.set);
 
-    ld.put(SSVarU.contributedEntities, contributedResourcesObj);
+    ld.put(SSVarNames.contributedEntities, contributedResourcesObj);
     
-    topicScoresObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSModelUETopicScore.class.getName());
+    topicScoresObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSModelUETopicScore.class.getName());
     topicScoresObj.put(SSJSONLDU.container, SSJSONLDU.set);
 
-    ld.put(SSVarU.topicScores, topicScoresObj);
+    ld.put(SSVarNames.topicScores, topicScoresObj);
     
-    mIObj.put(SSJSONLDU.id,        SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
+    mIObj.put(SSJSONLDU.id,        SSVarNames.xsd + SSStrU.colon + SSStrU.valueString);
     mIObj.put(SSJSONLDU.container, SSJSONLDU.set);
 
-    ld.put(SSVarU.mIs, mIObj);
+    ld.put(SSVarNames.mIs, mIObj);
       
     return ld;
   }

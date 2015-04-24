@@ -22,7 +22,7 @@ package sss.serv.eval.datatypes.par;
 
 import at.tugraz.sss.serv.SSStrU;
 import sss.serv.eval.datatypes.SSEvalLogE;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSToolContextE;
@@ -110,43 +110,43 @@ public class SSEvalLogPar extends SSServPar{
     try{
       
       if(pars != null){
-        toolContext  = (SSToolContextE)  pars.get(SSVarU.toolContext);
-        forUser      = (SSUri)           pars.get(SSVarU.forUser);
-        type         = (SSEvalLogE)      pars.get(SSVarU.type);
-        entity       = (SSUri)           pars.get(SSVarU.entity);
-        content      = (String)          pars.get(SSVarU.content);
-        entities     = (List<SSUri>)     pars.get(SSVarU.entities);
-        users        = (List<SSUri>)     pars.get(SSVarU.users);
+        toolContext  = (SSToolContextE)  pars.get(SSVarNames.toolContext);
+        forUser      = (SSUri)           pars.get(SSVarNames.forUser);
+        type         = (SSEvalLogE)      pars.get(SSVarNames.type);
+        entity       = (SSUri)           pars.get(SSVarNames.entity);
+        content      = (String)          pars.get(SSVarNames.content);
+        entities     = (List<SSUri>)     pars.get(SSVarNames.entities);
+        users        = (List<SSUri>)     pars.get(SSVarNames.users);
       }
       
       if(par.clientJSONObj != null){
         
-        type   = SSEvalLogE.valueOf(par.clientJSONObj.get(SSVarU.type).getTextValue());
+        type   = SSEvalLogE.valueOf(par.clientJSONObj.get(SSVarNames.type).getTextValue());
         
         try{ 
-          toolContext   = SSToolContextE.valueOf(par.clientJSONObj.get(SSVarU.toolContext).getTextValue());
+          toolContext   = SSToolContextE.valueOf(par.clientJSONObj.get(SSVarNames.toolContext).getTextValue());
         }catch(Exception error){}
           
         try{ 
-          content   = par.clientJSONObj.get(SSVarU.content).getTextValue();
+          content   = par.clientJSONObj.get(SSVarNames.content).getTextValue();
         }catch(Exception error){}
         
         try{ 
-          forUser   = SSUri.get(par.clientJSONObj.get(SSVarU.forUser).getTextValue());
+          forUser   = SSUri.get(par.clientJSONObj.get(SSVarNames.forUser).getTextValue());
         }catch(Exception error){}
         
         try{
-          entity   = SSUri.get(par.clientJSONObj.get(SSVarU.entity).getTextValue());
+          entity   = SSUri.get(par.clientJSONObj.get(SSVarNames.entity).getTextValue());
         }catch(Exception error){}
         
         try{
-          for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.entities)) {
+          for (final JsonNode objNode : par.clientJSONObj.get(SSVarNames.entities)) {
             entities.add(SSUri.get(objNode.getTextValue()));
           }
         }catch(Exception error){}
         
         try{
-          for (final JsonNode objNode : par.clientJSONObj.get(SSVarU.users)) {
+          for (final JsonNode objNode : par.clientJSONObj.get(SSVarNames.users)) {
             users.add(SSUri.get(objNode.getTextValue()));
           }
         }catch(Exception error){}

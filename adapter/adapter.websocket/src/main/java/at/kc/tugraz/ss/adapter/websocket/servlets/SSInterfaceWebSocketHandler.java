@@ -24,7 +24,7 @@ import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSSocketCon;
 import at.tugraz.sss.serv.SSErrForClient;
 import at.tugraz.sss.serv.SSJSONU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSFileU;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSObjU;
@@ -66,7 +66,7 @@ public class SSInterfaceWebSocketHandler extends MessageInbound{
 		try{
       this.clientMsg = clientMsg;
       this.objJSON   = SSJSONU.jsonMap(clientMsg.toString());
-      op             = SSServOpE.get(objJSON.get(SSVarU.op));
+      op             = SSServOpE.get(objJSON.get(SSVarNames.op));
       
       if(
         SSStrU.equals(op, SSServOpE.fileReplace)  ||
@@ -147,7 +147,7 @@ public class SSInterfaceWebSocketHandler extends MessageInbound{
       BASE64Decoder dataUriDecoder = new BASE64Decoder();
       String        dataUriChunk;
     
-      dataUriChunk = objJSON.get(SSVarU.dataUriChunk);
+      dataUriChunk = objJSON.get(SSVarNames.dataUriChunk);
 
       if(SSStrU.equals(dataUriChunk, "finished")){
 

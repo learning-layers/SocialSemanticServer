@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.service.filerepo.datatypes.pars;
 
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServErrReg;
@@ -53,11 +53,11 @@ public class SSFileDownloadPar extends SSServPar{
     try{
       
       if(pars != null){
-        file   = (SSUri)pars.get(SSVarU.file);
+        file   = (SSUri)pars.get(SSVarNames.file);
       }
       
       if(par.clientJSONObj != null){
-        file   = SSUri.get(par.clientJSONObj.get(SSVarU.file).getTextValue());
+        file   = SSUri.get(par.clientJSONObj.get(SSVarNames.file).getTextValue());
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

@@ -23,7 +23,7 @@ package at.kc.tugraz.ss.service.tag.datatypes.ret;
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSJSONLDU;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServRetI;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTag;
 import java.util.ArrayList;
@@ -59,10 +59,10 @@ public class SSTagsUserGetRet extends SSServRetI{
     final Map<String, Object> ld               = new HashMap<>();
     final Map<String, Object> tagsObj     = new HashMap<>();
     
-    tagsObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSTag.class.getName());
+    tagsObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSTag.class.getName());
     tagsObj.put(SSJSONLDU.container, SSJSONLDU.set);
     
-    ld.put(SSVarU.tags, tagsObj);
+    ld.put(SSVarNames.tags, tagsObj);
     
     return ld;
   }

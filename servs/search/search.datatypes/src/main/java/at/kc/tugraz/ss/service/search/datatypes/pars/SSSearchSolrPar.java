@@ -21,7 +21,7 @@
  package at.kc.tugraz.ss.service.search.datatypes.pars;
 
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServErrReg;
@@ -40,8 +40,8 @@ public class SSSearchSolrPar extends SSServPar{
     
     try{
       if(pars != null){
-        searchOp   = (SSSearchOpE)  pars.get(SSVarU.searchOp);
-        keywords   = (List<String>) pars.get(SSVarU.keywords);
+        searchOp   = (SSSearchOpE)  pars.get(SSVarNames.searchOp);
+        keywords   = (List<String>) pars.get(SSVarNames.keywords);
       }
       
     }catch(Exception error){

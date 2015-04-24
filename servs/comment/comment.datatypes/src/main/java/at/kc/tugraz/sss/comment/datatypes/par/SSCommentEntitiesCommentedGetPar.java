@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.sss.comment.datatypes.par;
 
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServErrReg;
@@ -36,7 +36,7 @@ public class SSCommentEntitiesCommentedGetPar extends SSServPar{
     try{
       
       if(pars != null){
-        forUser  = (SSUri) pars.get(SSVarU.forUser);
+        forUser  = (SSUri) pars.get(SSVarNames.forUser);
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

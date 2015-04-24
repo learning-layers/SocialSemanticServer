@@ -24,7 +24,7 @@ import at.tugraz.sss.serv.SSJSONU;
 import at.tugraz.sss.serv.SSObjU;
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import org.codehaus.jackson.JsonParser;
 
 public class SSClientPar{
@@ -44,7 +44,7 @@ public class SSClientPar{
     
     try{
       
-      if(!SSStrU.contains(jsonResp, SSVarU.useDifferentServiceNode)){
+      if(!SSStrU.contains(jsonResp, SSVarNames.useDifferentServiceNode)){
         return;
       }
       
@@ -60,27 +60,27 @@ public class SSClientPar{
         
         jValue = jp.getText();
         
-        if(SSStrU.equals(jKey, SSVarU.op)){
+        if(SSStrU.equals(jKey, SSVarNames.op)){
           op = SSServOpE.get(jValue);
           continue;
         }
         
-        if(SSStrU.equals(jKey, SSVarU.user)){
+        if(SSStrU.equals(jKey, SSVarNames.user)){
           user = SSUri.get(jValue);
           continue;
         }
         
-        if(SSStrU.equals(jKey, SSVarU.useDifferentServiceNode)){
+        if(SSStrU.equals(jKey, SSVarNames.useDifferentServiceNode)){
           useDifferentServiceNode = Boolean.valueOf(jValue);
           continue;
         }
         
-        if(SSStrU.equals(jKey, SSVarU.sssNodeHost)){
+        if(SSStrU.equals(jKey, SSVarNames.sssNodeHost)){
           sssNodeHost = jValue;
           continue;
         }
         
-        if(SSStrU.equals(jKey, SSVarU.sssNodePort)){
+        if(SSStrU.equals(jKey, SSVarNames.sssNodePort)){
           sssNodePort = Integer.valueOf(jValue);
           continue;
         }

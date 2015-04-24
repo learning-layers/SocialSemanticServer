@@ -26,10 +26,10 @@ import at.tugraz.sss.serv.SSEntityA;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
-import at.tugraz.sss.serv.SSVarU;
-import at.tugraz.sss.serv.SSVarU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
+import at.tugraz.sss.serv.SSVarNames;
+import at.tugraz.sss.serv.SSVarNames;
+import at.tugraz.sss.serv.SSVarNames;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -74,6 +74,6 @@ public class SSLabel extends SSEntityA{
   
   @Override
   public Object jsonLDDesc() {
-    return SSVarU.xsd + SSStrU.colon + SSStrU.valueString;
+    return SSVarNames.xsd + SSStrU.colon + SSStrU.valueString;
   }
 }

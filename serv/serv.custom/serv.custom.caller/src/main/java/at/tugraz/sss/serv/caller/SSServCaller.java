@@ -70,7 +70,7 @@ import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSToolContextE;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import com.evernote.clients.NoteStoreClient;
 import com.evernote.edam.type.Note;
 import com.evernote.edam.type.Notebook;
@@ -98,14 +98,14 @@ public class SSServCaller {
     
     final Map<String, Object>  opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,            user);
-    opPars.put(SSVarU.toolContext,     toolContext);
-    opPars.put(SSVarU.forUser,         forUser);
-    opPars.put(SSVarU.type,            type);
-    opPars.put(SSVarU.entity,          entity);
-    opPars.put(SSVarU.content,         content);
-    opPars.put(SSVarU.entities,        entities);
-    opPars.put(SSVarU.users,           users);
+    opPars.put(SSVarNames.user,            user);
+    opPars.put(SSVarNames.toolContext,     toolContext);
+    opPars.put(SSVarNames.forUser,         forUser);
+    opPars.put(SSVarNames.type,            type);
+    opPars.put(SSVarNames.entity,          entity);
+    opPars.put(SSVarNames.content,         content);
+    opPars.put(SSVarNames.entities,        entities);
+    opPars.put(SSVarNames.users,           users);
     
     SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.evalLog, opPars));
   }
@@ -119,9 +119,9 @@ public class SSServCaller {
     
     final Map<String, Object>  opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,       user);
-    opPars.put(SSVarU.entity,     entity);
-    opPars.put(SSVarU.forUser,    forUser);
+    opPars.put(SSVarNames.user,       user);
+    opPars.put(SSVarNames.entity,     entity);
+    opPars.put(SSVarNames.forUser,    forUser);
     
     return (SSLikes) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.likesUserGet, opPars));
   }
@@ -133,9 +133,9 @@ public class SSServCaller {
     
     final Map<String, Object>  opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,      user);
-    opPars.put(SSVarU.entity,    entity);
-    opPars.put(SSVarU.value,     value);
+    opPars.put(SSVarNames.user,      user);
+    opPars.put(SSVarNames.entity,    entity);
+    opPars.put(SSVarNames.value,     value);
     
     return (SSUri) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.likeUserSet, opPars));
   }
@@ -147,7 +147,7 @@ public class SSServCaller {
     
     final Map<String, Object>  opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,                    user);
+    opPars.put(SSVarNames.user,                    user);
     
     return (List<? extends SSEntity>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.friendsUserGet, opPars));
   }
@@ -163,11 +163,11 @@ public class SSServCaller {
     
     final Map<String, Object>  opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,                    user);
-    opPars.put(SSVarU.uuid,                    uuid);
-    opPars.put(SSVarU.app,                     app);
-    opPars.put(SSVarU.label,                   label);
-    opPars.put(SSVarU.description,             description);
+    opPars.put(SSVarNames.user,                    user);
+    opPars.put(SSVarNames.uuid,                    uuid);
+    opPars.put(SSVarNames.app,                     app);
+    opPars.put(SSVarNames.label,                   label);
+    opPars.put(SSVarNames.description,             description);
 
     return (SSUri) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.appStackLayoutCreate, opPars));
   }
@@ -177,7 +177,7 @@ public class SSServCaller {
     
     final Map<String, Object>  opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,      user);
+    opPars.put(SSVarNames.user,      user);
     
     return (List<? extends SSEntity>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.appStackLayoutsGet, opPars));
   }
@@ -200,18 +200,18 @@ public class SSServCaller {
     
     final Map<String, Object>  opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,                    user);
-    opPars.put(SSVarU.label,                   label);
-    opPars.put(SSVarU.descriptionShort,        descriptionShort);
-    opPars.put(SSVarU.descriptionFunctional,   descriptionFunctional);
-    opPars.put(SSVarU.descriptionTechnical,    descriptionTechnical);
-    opPars.put(SSVarU.descriptionInstall,      descriptionInstall);
-    opPars.put(SSVarU.downloadIOS,             downloadIOS);
-    opPars.put(SSVarU.downloadAndroid,         downloadAndroid);
-    opPars.put(SSVarU.fork,                    fork);
-    opPars.put(SSVarU.downloads,               downloads);
-    opPars.put(SSVarU.images,                  images);
-    opPars.put(SSVarU.videos,                  videos);
+    opPars.put(SSVarNames.user,                    user);
+    opPars.put(SSVarNames.label,                   label);
+    opPars.put(SSVarNames.descriptionShort,        descriptionShort);
+    opPars.put(SSVarNames.descriptionFunctional,   descriptionFunctional);
+    opPars.put(SSVarNames.descriptionTechnical,    descriptionTechnical);
+    opPars.put(SSVarNames.descriptionInstall,      descriptionInstall);
+    opPars.put(SSVarNames.downloadIOS,             downloadIOS);
+    opPars.put(SSVarNames.downloadAndroid,         downloadAndroid);
+    opPars.put(SSVarNames.fork,                    fork);
+    opPars.put(SSVarNames.downloads,               downloads);
+    opPars.put(SSVarNames.images,                  images);
+    opPars.put(SSVarNames.videos,                  videos);
     
     return (SSUri) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.appAdd, opPars));
   }
@@ -221,7 +221,7 @@ public class SSServCaller {
     
     final Map<String, Object>  opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,      user);
+    opPars.put(SSVarNames.user,      user);
     
     return (List<? extends SSEntity>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.appsGet, opPars));
   }
@@ -234,8 +234,8 @@ public class SSServCaller {
     
     final Map<String, Object>  opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,      user);
-    opPars.put(SSVarU.forUser,   forUser);
+    opPars.put(SSVarNames.user,      user);
+    opPars.put(SSVarNames.forUser,   forUser);
     
     return (List<SSUri>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.commentEntitiesCommentedGet, opPars));
   }
@@ -247,9 +247,9 @@ public class SSServCaller {
     
     final Map<String, Object>  opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,      user);
-    opPars.put(SSVarU.forUser,   forUser);
-    opPars.put(SSVarU.entity,    entity);
+    opPars.put(SSVarNames.user,      user);
+    opPars.put(SSVarNames.forUser,   forUser);
+    opPars.put(SSVarNames.entity,    entity);
     
     return (List<SSTextComment>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.commentsGet, opPars));
   }
@@ -261,9 +261,9 @@ public class SSServCaller {
     
     final Map<String, Object>  opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,      user);
-    opPars.put(SSVarU.forUser,   forUser);
-    opPars.put(SSVarU.entity,    entity);
+    opPars.put(SSVarNames.user,      user);
+    opPars.put(SSVarNames.forUser,   forUser);
+    opPars.put(SSVarNames.entity,    entity);
     
     return (List<SSTextComment>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.commentsUserGet, opPars));
   }
@@ -279,11 +279,11 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,              user);
-    opPars.put(SSVarU.entities,          entities);
-    opPars.put(SSVarU.types,             SSFlagE.get(types));
-    opPars.put(SSVarU.startTime,         startTime);
-    opPars.put(SSVarU.endTime,           endTime);
+    opPars.put(SSVarNames.user,              user);
+    opPars.put(SSVarNames.entities,          entities);
+    opPars.put(SSVarNames.types,             SSFlagE.get(types));
+    opPars.put(SSVarNames.startTime,         startTime);
+    opPars.put(SSVarNames.endTime,           endTime);
     
     return (List<SSFlag>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.flagsGet, opPars));
   }
@@ -297,11 +297,11 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,              user);
-    opPars.put(SSVarU.entities,          entities);
-    opPars.put(SSVarU.types,             SSFlagE.get(types));
-    opPars.put(SSVarU.endTime,           endTime);
-    opPars.put(SSVarU.value,             value);
+    opPars.put(SSVarNames.user,              user);
+    opPars.put(SSVarNames.entities,          entities);
+    opPars.put(SSVarNames.types,             SSFlagE.get(types));
+    opPars.put(SSVarNames.endTime,           endTime);
+    opPars.put(SSVarNames.value,             value);
     
     return (Boolean) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.flagsUserSet, opPars)); 
   }
@@ -315,11 +315,11 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,              user);
-    opPars.put(SSVarU.entities,          entities);
-    opPars.put(SSVarU.types,             SSFlagE.get(types));
-    opPars.put(SSVarU.startTime,         startTime);
-    opPars.put(SSVarU.endTime,           endTime);
+    opPars.put(SSVarNames.user,              user);
+    opPars.put(SSVarNames.entities,          entities);
+    opPars.put(SSVarNames.types,             SSFlagE.get(types));
+    opPars.put(SSVarNames.startTime,         startTime);
+    opPars.put(SSVarNames.endTime,           endTime);
     
     return (List<SSFlag>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.flagsUserGet, opPars)); 
   }
@@ -333,9 +333,9 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,                user);
-    opPars.put(SSVarU.learnEp,             learnEp);
-    opPars.put(SSVarU.withUserRestriction, withUserRestriction);
+    opPars.put(SSVarNames.user,                user);
+    opPars.put(SSVarNames.learnEp,             learnEp);
+    opPars.put(SSVarNames.withUserRestriction, withUserRestriction);
     
     return (SSLearnEpLockHoldRet) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.learnEpLockHold, opPars)); 
   }
@@ -349,11 +349,11 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,                user);
-    opPars.put(SSVarU.forUser,             forUser);
-    opPars.put(SSVarU.learnEp,             learnEp);
-    opPars.put(SSVarU.withUserRestriction, withUserRestriction);
-    opPars.put(SSVarU.shouldCommit,        shouldCommit);
+    opPars.put(SSVarNames.user,                user);
+    opPars.put(SSVarNames.forUser,             forUser);
+    opPars.put(SSVarNames.learnEp,             learnEp);
+    opPars.put(SSVarNames.withUserRestriction, withUserRestriction);
+    opPars.put(SSVarNames.shouldCommit,        shouldCommit);
     
     return (Boolean) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.learnEpLockRemove, opPars)); 
   }
@@ -367,11 +367,11 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,                user);
-    opPars.put(SSVarU.forUser,             forUser);
-    opPars.put(SSVarU.learnEp,             learnEp);
-    opPars.put(SSVarU.withUserRestriction, withUserRestriction);
-    opPars.put(SSVarU.shouldCommit,        shouldCommit);
+    opPars.put(SSVarNames.user,                user);
+    opPars.put(SSVarNames.forUser,             forUser);
+    opPars.put(SSVarNames.learnEp,             learnEp);
+    opPars.put(SSVarNames.withUserRestriction, withUserRestriction);
+    opPars.put(SSVarNames.shouldCommit,        shouldCommit);
     
     return (Boolean) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.learnEpLockSet, opPars)); 
   }
@@ -385,11 +385,11 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,               user);
-    opPars.put(SSVarU.forUser,            forUser);
-    opPars.put(SSVarU.entity,             entity);
-    opPars.put(SSVarU.entitiesToExclude,  entitiesToExclude);
-    opPars.put(SSVarU.shouldCommit,       shouldCommit);
+    opPars.put(SSVarNames.user,               user);
+    opPars.put(SSVarNames.forUser,            forUser);
+    opPars.put(SSVarNames.entity,             entity);
+    opPars.put(SSVarNames.entitiesToExclude,  entitiesToExclude);
+    opPars.put(SSVarNames.shouldCommit,       shouldCommit);
     
     return (SSUri) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.learnEpUserCopyForUser, opPars)); 
   }
@@ -402,10 +402,10 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.shouldCommit,  shouldCommit);
-    opPars.put(SSVarU.user,          user);
-    opPars.put(SSVarU.label,         label);
-    opPars.put(SSVarU.description,   description);
+    opPars.put(SSVarNames.shouldCommit,  shouldCommit);
+    opPars.put(SSVarNames.user,          user);
+    opPars.put(SSVarNames.label,         label);
+    opPars.put(SSVarNames.description,   description);
     
     return (SSUri) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.learnEpCreate, opPars));
   }
@@ -424,16 +424,16 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.shouldCommit,      shouldCommit);
-    opPars.put(SSVarU.user,              user);
-    opPars.put(SSVarU.learnEpVersion,    learnEpVersion);
-    opPars.put(SSVarU.label,             label);
-    opPars.put(SSVarU.xLabel,            xLabel);
-    opPars.put(SSVarU.yLabel,            yLabel);
-    opPars.put(SSVarU.xR,                xR);
-    opPars.put(SSVarU.yR,                yR);
-    opPars.put(SSVarU.xC,                xC);
-    opPars.put(SSVarU.yC,                yC);
+    opPars.put(SSVarNames.shouldCommit,      shouldCommit);
+    opPars.put(SSVarNames.user,              user);
+    opPars.put(SSVarNames.learnEpVersion,    learnEpVersion);
+    opPars.put(SSVarNames.label,             label);
+    opPars.put(SSVarNames.xLabel,            xLabel);
+    opPars.put(SSVarNames.yLabel,            yLabel);
+    opPars.put(SSVarNames.xR,                xR);
+    opPars.put(SSVarNames.yR,                yR);
+    opPars.put(SSVarNames.xC,                xC);
+    opPars.put(SSVarNames.yC,                yC);
     
     return (SSUri) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.learnEpVersionAddCircle, opPars));
   }
@@ -448,12 +448,12 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.shouldCommit,      shouldCommit);
-    opPars.put(SSVarU.user,              user);
-    opPars.put(SSVarU.learnEpVersion,    learnEpVersion);
-    opPars.put(SSVarU.entity,            entity);
-    opPars.put(SSVarU.x,                 x);
-    opPars.put(SSVarU.y,                 y);
+    opPars.put(SSVarNames.shouldCommit,      shouldCommit);
+    opPars.put(SSVarNames.user,              user);
+    opPars.put(SSVarNames.learnEpVersion,    learnEpVersion);
+    opPars.put(SSVarNames.entity,            entity);
+    opPars.put(SSVarNames.x,                 x);
+    opPars.put(SSVarNames.y,                 y);
     
     return (SSUri) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.learnEpVersionAddEntity, opPars));
   }
@@ -465,9 +465,9 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.shouldCommit,      shouldCommit);
-    opPars.put(SSVarU.user,              user);
-    opPars.put(SSVarU.learnEpVersion,    learnEpVersion);
+    opPars.put(SSVarNames.shouldCommit,      shouldCommit);
+    opPars.put(SSVarNames.user,              user);
+    opPars.put(SSVarNames.learnEpVersion,    learnEpVersion);
     
     SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.learnEpVersionCurrentSet, opPars));
   }
@@ -481,11 +481,11 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.shouldCommit,      shouldCommit);
-    opPars.put(SSVarU.user,              user);
-    opPars.put(SSVarU.learnEpVersion,    learnEpVersion);
-    opPars.put(SSVarU.startTime,         startTime);
-    opPars.put(SSVarU.endTime,           endTime);
+    opPars.put(SSVarNames.shouldCommit,      shouldCommit);
+    opPars.put(SSVarNames.user,              user);
+    opPars.put(SSVarNames.learnEpVersion,    learnEpVersion);
+    opPars.put(SSVarNames.startTime,         startTime);
+    opPars.put(SSVarNames.endTime,           endTime);
     
     return (SSUri) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.learnEpVersionSetTimelineState, opPars));
   }
@@ -496,8 +496,8 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,              user);
-    opPars.put(SSVarU.learnEpVersion,    learnEpVersion);
+    opPars.put(SSVarNames.user,              user);
+    opPars.put(SSVarNames.learnEpVersion,    learnEpVersion);
     
     return (SSLearnEpTimelineState) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.learnEpVersionGetTimelineState, opPars));
   }
@@ -509,9 +509,9 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.shouldCommit,  shouldCommit);
-    opPars.put(SSVarU.user,          user);
-    opPars.put(SSVarU.learnEp,       learnEp);
+    opPars.put(SSVarNames.shouldCommit,  shouldCommit);
+    opPars.put(SSVarNames.user,          user);
+    opPars.put(SSVarNames.learnEp,       learnEp);
     
     return (SSUri) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.learnEpVersionCreate, opPars));
   }
@@ -520,7 +520,7 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user, user);
+    opPars.put(SSVarNames.user, user);
     
     return (SSLearnEpVersion) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.learnEpVersionCurrentGet, opPars));
   }
@@ -535,12 +535,12 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,      user);
-    opPars.put(SSVarU.forUser,   forUser);
-    opPars.put(SSVarU.entity,    entity);
-    opPars.put(SSVarU.type,      type);
-    opPars.put(SSVarU.startTime, startTime);
-    opPars.put(SSVarU.endTime,   endTime);
+    opPars.put(SSVarNames.user,      user);
+    opPars.put(SSVarNames.forUser,   forUser);
+    opPars.put(SSVarNames.entity,    entity);
+    opPars.put(SSVarNames.type,      type);
+    opPars.put(SSVarNames.startTime, startTime);
+    opPars.put(SSVarNames.endTime,   endTime);
     
     return (Integer) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.uECountGet, opPars));
   }
@@ -555,12 +555,12 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,      user);
-    opPars.put(SSVarU.forUser,   forUser);
-    opPars.put(SSVarU.entity,    entity);
-    opPars.put(SSVarU.types,      types);
-    opPars.put(SSVarU.startTime, startTime);
-    opPars.put(SSVarU.endTime,   endTime);
+    opPars.put(SSVarNames.user,      user);
+    opPars.put(SSVarNames.forUser,   forUser);
+    opPars.put(SSVarNames.entity,    entity);
+    opPars.put(SSVarNames.types,      types);
+    opPars.put(SSVarNames.startTime, startTime);
+    opPars.put(SSVarNames.endTime,   endTime);
     
     return (List<SSUE>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.uEsGet, opPars));
   }
@@ -575,10 +575,10 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,           user);
-    opPars.put(SSVarU.noteStore,      noteStore);
-    opPars.put(SSVarU.noteGUID,       noteGUID);
-    opPars.put(SSVarU.resourceHash,   resourceHash);
+    opPars.put(SSVarNames.user,           user);
+    opPars.put(SSVarNames.noteStore,      noteStore);
+    opPars.put(SSVarNames.noteGUID,       noteGUID);
+    opPars.put(SSVarNames.resourceHash,   resourceHash);
     
     return (Resource) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.evernoteResourceByHashGet, opPars));
   }
@@ -591,10 +591,10 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,           user);
-    opPars.put(SSVarU.note,           note);
-    opPars.put(SSVarU.resource,       resource);
-    opPars.put(SSVarU.shouldCommit,   shouldCommit);
+    opPars.put(SSVarNames.user,           user);
+    opPars.put(SSVarNames.note,           note);
+    opPars.put(SSVarNames.resource,       resource);
+    opPars.put(SSVarNames.shouldCommit,   shouldCommit);
     
     return (Boolean) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.evernoteResourceAdd, opPars));
   }
@@ -607,10 +607,10 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,           user);
-    opPars.put(SSVarU.authToken,      authToken);
-    opPars.put(SSVarU.usn,            usn);
-    opPars.put(SSVarU.shouldCommit,   shouldCommit);
+    opPars.put(SSVarNames.user,           user);
+    opPars.put(SSVarNames.authToken,      authToken);
+    opPars.put(SSVarNames.usn,            usn);
+    opPars.put(SSVarNames.shouldCommit,   shouldCommit);
     
     return (Boolean) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.evernoteUSNSet, opPars));
   }
@@ -623,10 +623,10 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,           user);
-    opPars.put(SSVarU.notebook,       notebook);
-    opPars.put(SSVarU.note,           note);
-    opPars.put(SSVarU.shouldCommit,   shouldCommit);
+    opPars.put(SSVarNames.user,           user);
+    opPars.put(SSVarNames.notebook,       notebook);
+    opPars.put(SSVarNames.note,           note);
+    opPars.put(SSVarNames.shouldCommit,   shouldCommit);
     
     return (Boolean) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.evernoteNoteAdd, opPars));
   }
@@ -636,7 +636,7 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,           user);
+    opPars.put(SSVarNames.user,           user);
     
     return (String) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.evernoteUsersAuthTokenGet, opPars));
   }
@@ -648,9 +648,9 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,           user);
-    opPars.put(SSVarU.authToken,      authToken);
-    opPars.put(SSVarU.shouldCommit,   shouldCommit);
+    opPars.put(SSVarNames.user,           user);
+    opPars.put(SSVarNames.authToken,      authToken);
+    opPars.put(SSVarNames.shouldCommit,   shouldCommit);
     
     return (Boolean) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.evernoteUserAdd, opPars));
   }
@@ -662,9 +662,9 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.noteStore,        noteStore);
-    opPars.put(SSVarU.resourceGUID,     resourceGUID);
-    opPars.put(SSVarU.includeContent,   includeContent);
+    opPars.put(SSVarNames.noteStore,        noteStore);
+    opPars.put(SSVarNames.resourceGUID,     resourceGUID);
+    opPars.put(SSVarNames.includeContent,   includeContent);
     
     return (Resource) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.evernoteResourceGet, opPars));
   }
@@ -674,7 +674,7 @@ public class SSServCaller {
     
     final Map<String, Object>  opPars = new HashMap<>();
 
-    opPars.put(SSVarU.noteStore,     noteStore);
+    opPars.put(SSVarNames.noteStore,     noteStore);
       
     return (List<SharedNotebook>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.evernoteNotebooksSharedGet, opPars));
   }
@@ -685,8 +685,8 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.noteStore,     noteStore);
-    opPars.put(SSVarU.notebookGUID,  notebookGUID);
+    opPars.put(SSVarNames.noteStore,     noteStore);
+    opPars.put(SSVarNames.notebookGUID,  notebookGUID);
     
     return (Notebook) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.evernoteNotebookGet, opPars));
   }
@@ -698,9 +698,9 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.noteStore,       noteStore);
-    opPars.put(SSVarU.noteGUID,        noteGUID);
-    opPars.put(SSVarU.includeContent,  includeContent);
+    opPars.put(SSVarNames.noteStore,       noteStore);
+    opPars.put(SSVarNames.noteGUID,        noteGUID);
+    opPars.put(SSVarNames.includeContent,  includeContent);
     
     return (Note) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.evernoteNoteGet, opPars));
   }
@@ -711,8 +711,8 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,      user);
-    opPars.put(SSVarU.authToken, authToken);
+    opPars.put(SSVarNames.user,      user);
+    opPars.put(SSVarNames.authToken, authToken);
     
     return (SSEvernoteInfo) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.evernoteNoteStoreGet, opPars));
   }
@@ -723,8 +723,8 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.noteStore,      noteStore);
-    opPars.put(SSVarU.noteGUID,       noteGUID);
+    opPars.put(SSVarNames.noteStore,      noteStore);
+    opPars.put(SSVarNames.noteGUID,       noteGUID);
     
     return (List<String>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.evernoteNoteTagNamesGet, opPars));
   }
@@ -739,12 +739,12 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.shouldCommit, shouldCommit);
-    opPars.put(SSVarU.user,         user);
-    opPars.put(SSVarU.entity,       entity);
-    opPars.put(SSVarU.type,         type);
-    opPars.put(SSVarU.content,      content);
-    opPars.put(SSVarU.creationTime, creationTime);
+    opPars.put(SSVarNames.shouldCommit, shouldCommit);
+    opPars.put(SSVarNames.user,         user);
+    opPars.put(SSVarNames.entity,       entity);
+    opPars.put(SSVarNames.type,         type);
+    opPars.put(SSVarNames.content,      content);
+    opPars.put(SSVarNames.creationTime, creationTime);
     
     SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.uEAddAtCreationTime, opPars));
   }
@@ -755,8 +755,8 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,              user);
-    opPars.put(SSVarU.learnEpVersion,    learnEpVersion);
+    opPars.put(SSVarNames.user,              user);
+    opPars.put(SSVarNames.learnEpVersion,    learnEpVersion);
     
     return (SSLearnEpVersion) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.learnEpVersionGet, opPars));
   }  
@@ -775,16 +775,16 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.shouldCommit,      shouldCommit);
-    opPars.put(SSVarU.user,              user);
-    opPars.put(SSVarU.learnEpCircle,     learnEpCircle);
-    opPars.put(SSVarU.label,             label);
-    opPars.put(SSVarU.xLabel,            xLabel);
-    opPars.put(SSVarU.yLabel,            yLabel);
-    opPars.put(SSVarU.xR,                xR);
-    opPars.put(SSVarU.yR,                yR);
-    opPars.put(SSVarU.xC,                xC);
-    opPars.put(SSVarU.yC,                yC);
+    opPars.put(SSVarNames.shouldCommit,      shouldCommit);
+    opPars.put(SSVarNames.user,              user);
+    opPars.put(SSVarNames.learnEpCircle,     learnEpCircle);
+    opPars.put(SSVarNames.label,             label);
+    opPars.put(SSVarNames.xLabel,            xLabel);
+    opPars.put(SSVarNames.yLabel,            yLabel);
+    opPars.put(SSVarNames.xR,                xR);
+    opPars.put(SSVarNames.yR,                yR);
+    opPars.put(SSVarNames.xC,                xC);
+    opPars.put(SSVarNames.yC,                yC);
     
     SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.learnEpVersionUpdateCircle, opPars));
   }
@@ -799,12 +799,12 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.shouldCommit,      shouldCommit);
-    opPars.put(SSVarU.user,              user);
-    opPars.put(SSVarU.learnEpEntity,     learnEpEntity);
-    opPars.put(SSVarU.entity,            entity);
-    opPars.put(SSVarU.x,                 x);
-    opPars.put(SSVarU.y,                 y);
+    opPars.put(SSVarNames.shouldCommit,      shouldCommit);
+    opPars.put(SSVarNames.user,              user);
+    opPars.put(SSVarNames.learnEpEntity,     learnEpEntity);
+    opPars.put(SSVarNames.entity,            entity);
+    opPars.put(SSVarNames.x,                 x);
+    opPars.put(SSVarNames.y,                 y);
     
     SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.learnEpVersionUpdateEntity, opPars));
   }
@@ -816,9 +816,9 @@ public class SSServCaller {
     
     final  Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.shouldCommit,      shouldCommit);
-    opPars.put(SSVarU.user,              user);
-    opPars.put(SSVarU.learnEpCircle,  learnEpCircle);
+    opPars.put(SSVarNames.shouldCommit,      shouldCommit);
+    opPars.put(SSVarNames.user,              user);
+    opPars.put(SSVarNames.learnEpCircle,  learnEpCircle);
     
     SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.learnEpVersionRemoveCircle, opPars));
   }
@@ -830,9 +830,9 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.shouldCommit,      shouldCommit);
-    opPars.put(SSVarU.user,              user);
-    opPars.put(SSVarU.learnEpEntity,     learnEpEntity);
+    opPars.put(SSVarNames.shouldCommit,      shouldCommit);
+    opPars.put(SSVarNames.user,              user);
+    opPars.put(SSVarNames.learnEpEntity,     learnEpEntity);
     
     SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.learnEpVersionRemoveEntity, opPars));
   }
@@ -842,7 +842,7 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user, user);
+    opPars.put(SSVarNames.user, user);
     
     return (List<SSLearnEp>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.learnEpsGet, opPars));
   }
@@ -853,8 +853,8 @@ public class SSServCaller {
     
     final Map<String, Object>     opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,    user);
-    opPars.put(SSVarU.learnEp, learnEp);
+    opPars.put(SSVarNames.user,    user);
+    opPars.put(SSVarNames.learnEp, learnEp);
     
     return (List<SSLearnEpVersion>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.learnEpVersionsGet, opPars));
   }
@@ -871,10 +871,10 @@ public class SSServCaller {
     
     final  Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,         user);
-    opPars.put(SSVarU.entity,       entity);
-    opPars.put(SSVarU.type,         type);
-    opPars.put(SSVarU.content,      content);
+    opPars.put(SSVarNames.user,         user);
+    opPars.put(SSVarNames.entity,       entity);
+    opPars.put(SSVarNames.type,         type);
+    opPars.put(SSVarNames.content,      content);
     
     return (Boolean) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.broadcastAdd, opPars));
   }
@@ -884,7 +884,7 @@ public class SSServCaller {
     
     final  Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,         user);
+    opPars.put(SSVarNames.user,         user);
     
     return (List<SSBroadcast>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.broadcastsGet, opPars));
   }
@@ -913,8 +913,8 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user, user);
-    opPars.put(SSVarU.coll, coll);
+    opPars.put(SSVarNames.user, user);
+    opPars.put(SSVarNames.coll, coll);
     
     return (SSColl) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.collUserWithEntries, opPars));
   }
@@ -923,7 +923,7 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user, user);
+    opPars.put(SSVarNames.user, user);
     
     return (SSColl) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.collUserRootGet, opPars));
   }
@@ -932,7 +932,7 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user, user);
+    opPars.put(SSVarNames.user, user);
     
     return (List<SSColl>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.collsUserWithEntries, opPars));
   }
@@ -945,10 +945,10 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.shouldCommit, shouldCommit);
-    opPars.put(SSVarU.user,         user);
-    opPars.put(SSVarU.coll,         parentColl);
-    opPars.put(SSVarU.entry,        entry);
+    opPars.put(SSVarNames.shouldCommit, shouldCommit);
+    opPars.put(SSVarNames.user,         user);
+    opPars.put(SSVarNames.coll,         parentColl);
+    opPars.put(SSVarNames.entry,        entry);
     
     return (Boolean) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.collUserEntryDelete, opPars));
   }
@@ -963,12 +963,12 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,              user);
-    opPars.put(SSVarU.shouldCommit,      shouldCommit);
-    opPars.put(SSVarU.coll,              coll);
-    opPars.put(SSVarU.entry,             entry);
-    opPars.put(SSVarU.label,             label);
-    opPars.put(SSVarU.addNewColl,        addNewColl);
+    opPars.put(SSVarNames.user,              user);
+    opPars.put(SSVarNames.shouldCommit,      shouldCommit);
+    opPars.put(SSVarNames.coll,              coll);
+    opPars.put(SSVarNames.entry,             entry);
+    opPars.put(SSVarNames.label,             label);
+    opPars.put(SSVarNames.addNewColl,        addNewColl);
     
     return (SSUri) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.collUserEntryAdd, opPars));
   }
@@ -983,12 +983,12 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.shouldCommit, shouldCommit);
-    opPars.put(SSVarU.saveUE,       saveUE);
-    opPars.put(SSVarU.user,         user);
-    opPars.put(SSVarU.coll,         coll);
-    opPars.put(SSVarU.entries,      entries);
-    opPars.put(SSVarU.labels,       labels);
+    opPars.put(SSVarNames.shouldCommit, shouldCommit);
+    opPars.put(SSVarNames.saveUE,       saveUE);
+    opPars.put(SSVarNames.user,         user);
+    opPars.put(SSVarNames.coll,         coll);
+    opPars.put(SSVarNames.entries,      entries);
+    opPars.put(SSVarNames.labels,       labels);
     
     return (Boolean) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.collUserEntriesAdd, opPars));
   }
@@ -999,8 +999,8 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.shouldCommit, shouldCommit);
-    opPars.put(SSVarU.user,         user);
+    opPars.put(SSVarNames.shouldCommit, shouldCommit);
+    opPars.put(SSVarNames.user,         user);
     
     SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.collUserRootAdd, opPars));
   }
@@ -1011,8 +1011,8 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,      user);
-    opPars.put(SSVarU.coll,      coll);
+    opPars.put(SSVarNames.user,      user);
+    opPars.put(SSVarNames.coll,      coll);
     
     return (List<SSColl>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.collUserHierarchyGet, opPars));
   }
@@ -1023,8 +1023,8 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,         user);
-    opPars.put(SSVarU.coll,      coll);
+    opPars.put(SSVarNames.user,         user);
+    opPars.put(SSVarNames.coll,      coll);
     
     return (List<SSTagFrequ>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.collUserCumulatedTagsGet, opPars));
   }
@@ -1035,8 +1035,8 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,         user);
-    opPars.put(SSVarU.entity,    entity);
+    opPars.put(SSVarNames.user,         user);
+    opPars.put(SSVarNames.entity,    entity);
     
     return (List<SSColl>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.collsUserEntityIsInGet, opPars));
   }
@@ -1049,10 +1049,10 @@ public class SSServCaller {
       
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.shouldCommit, shouldCommit);
-    opPars.put(SSVarU.user,         user);
-    opPars.put(SSVarU.coll,         coll);
-    opPars.put(SSVarU.entries,  entries);
+    opPars.put(SSVarNames.shouldCommit, shouldCommit);
+    opPars.put(SSVarNames.user,         user);
+    opPars.put(SSVarNames.coll,         coll);
+    opPars.put(SSVarNames.entries,  entries);
     
     return (Boolean) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.collUserEntriesDelete, opPars));
   }
@@ -1062,7 +1062,7 @@ public class SSServCaller {
       
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,         user);
+    opPars.put(SSVarNames.user,         user);
     
     return (Boolean) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.collsUserCouldSubscribeGet, opPars));
   }
@@ -1098,27 +1098,27 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,                      user);
-    opPars.put(SSVarU.includeTextualContent,     includeTextualContent);
-    opPars.put(SSVarU.wordsToSearchFor,          wordsToSearchFor);
-    opPars.put(SSVarU.includeTags,               includeTags);
-    opPars.put(SSVarU.tagsToSearchFor,           tagsToSearchFor);
-    opPars.put(SSVarU.includeLabel,              includeLabel);
-    opPars.put(SSVarU.labelsToSearchFor,         SSSearchLabel.get(labelsToSearchFor));
-    opPars.put(SSVarU.includeDescription,        includeDescription);
-    opPars.put(SSVarU.descriptionsToSearchFor,   SSSearchLabel.get(descriptionsToSearchFor));
-    opPars.put(SSVarU.typesToSearchOnlyFor,      typesToSearchOnlyFor);
-    opPars.put(SSVarU.includeOnlySubEntities,    includeOnlySubEntities);
-    opPars.put(SSVarU.entitiesToSearchWithin,    entitiesToSearchWithin);
-    opPars.put(SSVarU.extendToParents,           extendToParents);
-    opPars.put(SSVarU.includeRecommendedResults, includeRecommendedResults);
-    opPars.put(SSVarU.provideEntries,            provideEntries);
-    opPars.put(SSVarU.pagesID,                   pagesID);
-    opPars.put(SSVarU.pageNumber,                pageNumber);
-    opPars.put(SSVarU.minRating,                 minRating);
-    opPars.put(SSVarU.maxRating,                 maxRating);
-    opPars.put(SSVarU.localSearchOp,             localSearchOp);
-    opPars.put(SSVarU.globalSearchOp,            globalSearchOp);
+    opPars.put(SSVarNames.user,                      user);
+    opPars.put(SSVarNames.includeTextualContent,     includeTextualContent);
+    opPars.put(SSVarNames.wordsToSearchFor,          wordsToSearchFor);
+    opPars.put(SSVarNames.includeTags,               includeTags);
+    opPars.put(SSVarNames.tagsToSearchFor,           tagsToSearchFor);
+    opPars.put(SSVarNames.includeLabel,              includeLabel);
+    opPars.put(SSVarNames.labelsToSearchFor,         SSSearchLabel.get(labelsToSearchFor));
+    opPars.put(SSVarNames.includeDescription,        includeDescription);
+    opPars.put(SSVarNames.descriptionsToSearchFor,   SSSearchLabel.get(descriptionsToSearchFor));
+    opPars.put(SSVarNames.typesToSearchOnlyFor,      typesToSearchOnlyFor);
+    opPars.put(SSVarNames.includeOnlySubEntities,    includeOnlySubEntities);
+    opPars.put(SSVarNames.entitiesToSearchWithin,    entitiesToSearchWithin);
+    opPars.put(SSVarNames.extendToParents,           extendToParents);
+    opPars.put(SSVarNames.includeRecommendedResults, includeRecommendedResults);
+    opPars.put(SSVarNames.provideEntries,            provideEntries);
+    opPars.put(SSVarNames.pagesID,                   pagesID);
+    opPars.put(SSVarNames.pageNumber,                pageNumber);
+    opPars.put(SSVarNames.minRating,                 minRating);
+    opPars.put(SSVarNames.maxRating,                 maxRating);
+    opPars.put(SSVarNames.localSearchOp,             localSearchOp);
+    opPars.put(SSVarNames.globalSearchOp,            globalSearchOp);
     
     return (SSSearchRet) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.search, opPars));
   }
@@ -1131,8 +1131,8 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.keyword,    keyword);
-    opPars.put(SSVarU.maxResults, maxResults);
+    opPars.put(SSVarNames.keyword,    keyword);
+    opPars.put(SSVarNames.maxResults, maxResults);
     
     return (List<String>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.solrSearch, opPars));
   }
@@ -1145,10 +1145,10 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.shouldCommit,    shouldCommit);
-    opPars.put(SSVarU.user,            user);
-    opPars.put(SSVarU.id,              fileID);
-    opPars.put(SSVarU.mimeType,        mimeType);
+    opPars.put(SSVarNames.shouldCommit,    shouldCommit);
+    opPars.put(SSVarNames.user,            user);
+    opPars.put(SSVarNames.id,              fileID);
+    opPars.put(SSVarNames.mimeType,        mimeType);
     
     SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.solrAddDoc, opPars));
   }
@@ -1161,8 +1161,8 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,             user);
-    opPars.put(SSVarU.disc,             disc);
+    opPars.put(SSVarNames.user,             user);
+    opPars.put(SSVarNames.disc,             disc);
     
     return (List<SSUri>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.discEntryURIsGet, opPars)); 
   }
@@ -1183,18 +1183,18 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,         user);
-    opPars.put(SSVarU.disc,         disc);
-    opPars.put(SSVarU.entity,       entity);
-    opPars.put(SSVarU.entry,        entry);
-    opPars.put(SSVarU.addNewDisc,   addNewDisc);
-    opPars.put(SSVarU.type,         type);
-    opPars.put(SSVarU.label,        label);
-    opPars.put(SSVarU.description,  description);
-    opPars.put(SSVarU.users,        users);
-    opPars.put(SSVarU.circles,      circles);
-    opPars.put(SSVarU.entities,     entities);
-    opPars.put(SSVarU.shouldCommit, shouldCommit);
+    opPars.put(SSVarNames.user,         user);
+    opPars.put(SSVarNames.disc,         disc);
+    opPars.put(SSVarNames.entity,       entity);
+    opPars.put(SSVarNames.entry,        entry);
+    opPars.put(SSVarNames.addNewDisc,   addNewDisc);
+    opPars.put(SSVarNames.type,         type);
+    opPars.put(SSVarNames.label,        label);
+    opPars.put(SSVarNames.description,  description);
+    opPars.put(SSVarNames.users,        users);
+    opPars.put(SSVarNames.circles,      circles);
+    opPars.put(SSVarNames.entities,     entities);
+    opPars.put(SSVarNames.shouldCommit, shouldCommit);
     
     return (SSDiscUserEntryAddRet) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.discUserEntryAdd, opPars));
   }
@@ -1203,7 +1203,7 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user, user);
+    opPars.put(SSVarNames.user, user);
     
     return (List<SSDisc>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.discsUserAllGet, opPars));
   }
@@ -1214,8 +1214,8 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,         user);
-    opPars.put(SSVarU.entity,    entity);
+    opPars.put(SSVarNames.user,         user);
+    opPars.put(SSVarNames.entity,    entity);
     
     return (List<SSUri>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.discUserDiscURIsForTargetGet, opPars));
   }
@@ -1228,10 +1228,10 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,            user);
-    opPars.put(SSVarU.disc,            disc);
-    opPars.put(SSVarU.maxEntries,      maxEntries);
-    opPars.put(SSVarU.includeComments, includeComments);
+    opPars.put(SSVarNames.user,            user);
+    opPars.put(SSVarNames.disc,            disc);
+    opPars.put(SSVarNames.maxEntries,      maxEntries);
+    opPars.put(SSVarNames.includeComments, includeComments);
     
     return (SSDisc) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.discUserWithEntriesGet, opPars));
   }
@@ -1242,8 +1242,8 @@ public class SSServCaller {
   
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,         user);
-    opPars.put(SSVarU.entity,    entity);
+    opPars.put(SSVarNames.user,         user);
+    opPars.put(SSVarNames.entity,    entity);
     
     SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.discUserRemove, opPars));
   }
@@ -1256,8 +1256,8 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,        user);
-    opPars.put(SSVarU.entity,    entity);
+    opPars.put(SSVarNames.user,        user);
+    opPars.put(SSVarNames.entity,    entity);
     
     return (SSRatingOverall) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.ratingOverallGet, opPars));
   }
@@ -1269,9 +1269,9 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.shouldCommit, shouldCommit);
-    opPars.put(SSVarU.user,         user);
-    opPars.put(SSVarU.entity,    entity);
+    opPars.put(SSVarNames.shouldCommit, shouldCommit);
+    opPars.put(SSVarNames.user,         user);
+    opPars.put(SSVarNames.entity,    entity);
     
     SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.ratingsUserRemove, opPars));
   }
@@ -1282,8 +1282,8 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,        user);
-    opPars.put(SSVarU.entity,      entity);
+    opPars.put(SSVarNames.user,        user);
+    opPars.put(SSVarNames.entity,      entity);
     
     return (Integer) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.ratingUserGet, opPars));
   }
@@ -1301,13 +1301,13 @@ public class SSServCaller {
     
     final Map<String, Object>  opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,            user);
-    opPars.put(SSVarU.entity,          entity);
-    opPars.put(SSVarU.type,            type);
-    opPars.put(SSVarU.label,           label);
-    opPars.put(SSVarU.description,     description);
-    opPars.put(SSVarU.creationTime,    creationTime);
-    opPars.put(SSVarU.shouldCommit,    shouldCommit);
+    opPars.put(SSVarNames.user,            user);
+    opPars.put(SSVarNames.entity,          entity);
+    opPars.put(SSVarNames.type,            type);
+    opPars.put(SSVarNames.label,           label);
+    opPars.put(SSVarNames.description,     description);
+    opPars.put(SSVarNames.creationTime,    creationTime);
+    opPars.put(SSVarNames.shouldCommit,    shouldCommit);
     
     return (SSUri) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entityAdd, opPars));
   }
@@ -1332,10 +1332,10 @@ public class SSServCaller {
     
     final Map<String, Object>  opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,         user);
-    opPars.put(SSVarU.entity,       entity);
-    opPars.put(SSVarU.forUser,      forUser);
-    opPars.put(SSVarU.logErr,       logErr);
+    opPars.put(SSVarNames.user,         user);
+    opPars.put(SSVarNames.entity,       entity);
+    opPars.put(SSVarNames.forUser,      forUser);
+    opPars.put(SSVarNames.logErr,       logErr);
     
     return (SSEntity) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entityUserGet, opPars));
   }
@@ -1354,16 +1354,16 @@ public class SSServCaller {
     
     final Map<String, Object>  opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,         user);
-    opPars.put(SSVarU.entity,       entity);
-    opPars.put(SSVarU.label,        label);
-    opPars.put(SSVarU.description,  description);
-    opPars.put(SSVarU.comments,     comments);
-    opPars.put(SSVarU.downloads,    downloads);
-    opPars.put(SSVarU.screenShots,  screenShots);
-    opPars.put(SSVarU.images,       images);
-    opPars.put(SSVarU.videos,       videos);
-    opPars.put(SSVarU.shouldCommit, shouldCommit);
+    opPars.put(SSVarNames.user,         user);
+    opPars.put(SSVarNames.entity,       entity);
+    opPars.put(SSVarNames.label,        label);
+    opPars.put(SSVarNames.description,  description);
+    opPars.put(SSVarNames.comments,     comments);
+    opPars.put(SSVarNames.downloads,    downloads);
+    opPars.put(SSVarNames.screenShots,  screenShots);
+    opPars.put(SSVarNames.images,       images);
+    opPars.put(SSVarNames.videos,       videos);
+    opPars.put(SSVarNames.shouldCommit, shouldCommit);
     
     SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entityUpdate, opPars));
   }
@@ -1387,10 +1387,10 @@ public class SSServCaller {
         longitude, 
         accuracy));
     
-    opPars.put(SSVarU.shouldCommit, shouldCommit);
-    opPars.put(SSVarU.user,         user);
-    opPars.put(SSVarU.entity,       entity);
-    opPars.put(SSVarU.locations,    locations);
+    opPars.put(SSVarNames.shouldCommit, shouldCommit);
+    opPars.put(SSVarNames.user,         user);
+    opPars.put(SSVarNames.entity,       entity);
+    opPars.put(SSVarNames.locations,    locations);
     
     SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entityLocationsAdd, opPars));
   }
@@ -1401,8 +1401,8 @@ public class SSServCaller {
     
     final Map<String, Object>  opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,         user);
-    opPars.put(SSVarU.entity,       entity);
+    opPars.put(SSVarNames.user,         user);
+    opPars.put(SSVarNames.entity,       entity);
     
     return (List<SSLocation>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entityLocationsGet, opPars));
   }
@@ -1413,8 +1413,8 @@ public class SSServCaller {
     
     final Map<String, Object>  opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,   user);
-    opPars.put(SSVarU.entity, entity);
+    opPars.put(SSVarNames.user,   user);
+    opPars.put(SSVarNames.entity, entity);
     
     return (Boolean) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entityReadGet, opPars));
   }
@@ -1425,8 +1425,8 @@ public class SSServCaller {
     
     final Map<String, Object>  opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,   user);
-    opPars.put(SSVarU.entity, entity);
+    opPars.put(SSVarNames.user,   user);
+    opPars.put(SSVarNames.entity, entity);
     
     return (List<SSEntity>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entityEntitiesAttachedGet, opPars));
   }
@@ -1439,10 +1439,10 @@ public class SSServCaller {
     
     final Map<String, Object>  opPars           = new HashMap<>();
     
-    opPars.put(SSVarU.user,             user);
-    opPars.put(SSVarU.entity,           entity);
-    opPars.put(SSVarU.entities,         entities);
-    opPars.put(SSVarU.shouldCommit,     shouldCommit);
+    opPars.put(SSVarNames.user,             user);
+    opPars.put(SSVarNames.entity,           entity);
+    opPars.put(SSVarNames.entities,         entities);
+    opPars.put(SSVarNames.shouldCommit,     shouldCommit);
     
     return (List<SSUri>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entityUserEntitiesAttach, opPars));
   }
@@ -1453,8 +1453,8 @@ public class SSServCaller {
    
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,         user);
-    opPars.put(SSVarU.entity,       entity);
+    opPars.put(SSVarNames.user,         user);
+    opPars.put(SSVarNames.entity,       entity);
     
     return (List<SSUri>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entityFilesGet, opPars));
   }
@@ -1465,8 +1465,8 @@ public class SSServCaller {
    
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,         user);
-    opPars.put(SSVarU.entity,       entity);
+    opPars.put(SSVarNames.user,         user);
+    opPars.put(SSVarNames.entity,       entity);
     
     return (List<SSUri>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entityDownloadURIsGet, opPars));
   }
@@ -1477,8 +1477,8 @@ public class SSServCaller {
    
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,         user);
-    opPars.put(SSVarU.entity,       entity);
+    opPars.put(SSVarNames.user,         user);
+    opPars.put(SSVarNames.entity,       entity);
     
     return (List<? extends SSEntity>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entityScreenShotsGet, opPars));
   }
@@ -1491,10 +1491,10 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,         user);
-    opPars.put(SSVarU.entity,       entity);
-    opPars.put(SSVarU.file,         file);
-    opPars.put(SSVarU.shouldCommit, shouldCommit);
+    opPars.put(SSVarNames.user,         user);
+    opPars.put(SSVarNames.entity,       entity);
+    opPars.put(SSVarNames.file,         file);
+    opPars.put(SSVarNames.shouldCommit, shouldCommit);
     
     SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entityFileAdd, opPars));
   }
@@ -1505,8 +1505,8 @@ public class SSServCaller {
    
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,         user);
-    opPars.put(SSVarU.entity,       entity);
+    opPars.put(SSVarNames.user,         user);
+    opPars.put(SSVarNames.entity,       entity);
     
     return (List<SSUri>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entityThumbsGet, opPars));
   }
@@ -1519,10 +1519,10 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,         user);
-    opPars.put(SSVarU.entity,       entity);
-    opPars.put(SSVarU.thumb,        thumb);
-    opPars.put(SSVarU.shouldCommit, shouldCommit);
+    opPars.put(SSVarNames.user,         user);
+    opPars.put(SSVarNames.entity,       entity);
+    opPars.put(SSVarNames.thumb,        thumb);
+    opPars.put(SSVarNames.shouldCommit, shouldCommit);
     
     SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entityThumbAdd, opPars));
   }
@@ -1534,9 +1534,9 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.requireds, requireds);
-    opPars.put(SSVarU.absents,   absents);
-    opPars.put(SSVarU.eithers,   eithers);
+    opPars.put(SSVarNames.requireds, requireds);
+    opPars.put(SSVarNames.absents,   absents);
+    opPars.put(SSVarNames.eithers,   eithers);
     
     return (List<SSEntity>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entitiesForLabelsAndDescriptionsGet, opPars));
   }
@@ -1548,9 +1548,9 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.requireds, requireds);
-    opPars.put(SSVarU.absents,   absents);
-    opPars.put(SSVarU.eithers,   eithers);
+    opPars.put(SSVarNames.requireds, requireds);
+    opPars.put(SSVarNames.absents,   absents);
+    opPars.put(SSVarNames.eithers,   eithers);
     
     return (List<SSEntity>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entitiesForLabelsGet, opPars));
   }
@@ -1562,9 +1562,9 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.requireds, requireds);
-    opPars.put(SSVarU.absents,   absents);
-    opPars.put(SSVarU.eithers,   eithers);
+    opPars.put(SSVarNames.requireds, requireds);
+    opPars.put(SSVarNames.absents,   absents);
+    opPars.put(SSVarNames.eithers,   eithers);
     
     return (List<SSEntity>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entitiesForDescriptionsGet, opPars));
   }
@@ -1574,9 +1574,9 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.entity,    entity);
-    opPars.put(SSVarU.type,      null);
-    opPars.put(SSVarU.label,     null);
+    opPars.put(SSVarNames.entity,    entity);
+    opPars.put(SSVarNames.type,      null);
+    opPars.put(SSVarNames.label,     null);
     
     return (Boolean) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entityExists, opPars));
   }
@@ -1587,9 +1587,9 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.entity,    null);
-    opPars.put(SSVarU.type,      type);
-    opPars.put(SSVarU.label,     label);
+    opPars.put(SSVarNames.entity,    null);
+    opPars.put(SSVarNames.type,      type);
+    opPars.put(SSVarNames.label,     label);
     
     return (Boolean) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entityExists, opPars));
   }
@@ -1600,9 +1600,9 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.entity, null);
-    opPars.put(SSVarU.type,      type);
-    opPars.put(SSVarU.label,     label);
+    opPars.put(SSVarNames.entity, null);
+    opPars.put(SSVarNames.type,      type);
+    opPars.put(SSVarNames.label,     label);
     
     return (SSEntity) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entityGet, opPars));
   }
@@ -1612,9 +1612,9 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.entity,    entity);
-    opPars.put(SSVarU.type,      null);
-    opPars.put(SSVarU.label,     null);
+    opPars.put(SSVarNames.entity,    entity);
+    opPars.put(SSVarNames.type,      null);
+    opPars.put(SSVarNames.label,     null);
     
     return (SSEntity) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entityGet, opPars));
   }
@@ -1625,8 +1625,8 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,      user);
-    opPars.put(SSVarU.entity,    entity);
+    opPars.put(SSVarNames.user,      user);
+    opPars.put(SSVarNames.entity,    entity);
     
     return (List<SSUri>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entityUserParentEntitiesGet, opPars));
   }
@@ -1637,8 +1637,8 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,      user);
-    opPars.put(SSVarU.entity,    entity);
+    opPars.put(SSVarNames.user,      user);
+    opPars.put(SSVarNames.entity,    entity);
     
     return (List<SSUri>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entityUserSubEntitiesGet, opPars));
   }
@@ -1654,13 +1654,13 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,                  user);
-    opPars.put(SSVarU.entity,                entity);
-    opPars.put(SSVarU.removeUserTags,        removeUserTags);
-    opPars.put(SSVarU.removeUserRatings,     removeUserRatings);
-    opPars.put(SSVarU.removeFromUserColls,   removeFromUserColls);
-    opPars.put(SSVarU.removeUserLocations,   removeUserLocations);
-    opPars.put(SSVarU.shouldCommit,          shouldCommit);
+    opPars.put(SSVarNames.user,                  user);
+    opPars.put(SSVarNames.entity,                entity);
+    opPars.put(SSVarNames.removeUserTags,        removeUserTags);
+    opPars.put(SSVarNames.removeUserRatings,     removeUserRatings);
+    opPars.put(SSVarNames.removeFromUserColls,   removeFromUserColls);
+    opPars.put(SSVarNames.removeUserLocations,   removeUserLocations);
+    opPars.put(SSVarNames.shouldCommit,          shouldCommit);
     
     return (SSUri) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entityUserDirectlyAdjoinedEntitiesRemove, opPars));
   }
@@ -1678,15 +1678,15 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,             user);
-    opPars.put(SSVarU.entities,         entities);
-    opPars.put(SSVarU.types,            types);
-    opPars.put(SSVarU.getTags,          getTags);
-    opPars.put(SSVarU.getOverallRating, getOverallRating);
-    opPars.put(SSVarU.getDiscs,         getDiscs);
-    opPars.put(SSVarU.getUEs,           getUEs);
-    opPars.put(SSVarU.getThumb,         getThumb);
-    opPars.put(SSVarU.getFlags,         getFlags);
+    opPars.put(SSVarNames.user,             user);
+    opPars.put(SSVarNames.entities,         entities);
+    opPars.put(SSVarNames.types,            types);
+    opPars.put(SSVarNames.getTags,          getTags);
+    opPars.put(SSVarNames.getOverallRating, getOverallRating);
+    opPars.put(SSVarNames.getDiscs,         getDiscs);
+    opPars.put(SSVarNames.getUEs,           getUEs);
+    opPars.put(SSVarNames.getThumb,         getThumb);
+    opPars.put(SSVarNames.getFlags,         getFlags);
     
     return (List<SSEntity>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entityDescsGet, opPars));
   }
@@ -1704,15 +1704,15 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,             user);
-    opPars.put(SSVarU.entity,           entity);
-    opPars.put(SSVarU.getTags,          getTags);
-    opPars.put(SSVarU.getOverallRating, getOverallRating);
-    opPars.put(SSVarU.getDiscs,         getDiscs);
-    opPars.put(SSVarU.getUEs,           getUEs);
-    opPars.put(SSVarU.getThumb,         getThumb);
-    opPars.put(SSVarU.getFlags,         getFlags);
-    opPars.put(SSVarU.getCircles,       getCircles);
+    opPars.put(SSVarNames.user,             user);
+    opPars.put(SSVarNames.entity,           entity);
+    opPars.put(SSVarNames.getTags,          getTags);
+    opPars.put(SSVarNames.getOverallRating, getOverallRating);
+    opPars.put(SSVarNames.getDiscs,         getDiscs);
+    opPars.put(SSVarNames.getUEs,           getUEs);
+    opPars.put(SSVarNames.getThumb,         getThumb);
+    opPars.put(SSVarNames.getFlags,         getFlags);
+    opPars.put(SSVarNames.getCircles,       getCircles);
     
     return (SSEntity) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entityDescGet, opPars));
   }
@@ -1723,8 +1723,8 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.entity,       entity);
-    opPars.put(SSVarU.shouldCommit, shouldCommit);
+    opPars.put(SSVarNames.entity,       entity);
+    opPars.put(SSVarNames.shouldCommit, shouldCommit);
     
     SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entityRemove, opPars));
   }
@@ -1739,12 +1739,12 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,               user);
-    opPars.put(SSVarU.entity,             entity);
-    opPars.put(SSVarU.users,              users);
-    opPars.put(SSVarU.entitiesToExclude,  entitiesToExclude);
-    opPars.put(SSVarU.comment,            comment);
-    opPars.put(SSVarU.shouldCommit,       shouldCommit);
+    opPars.put(SSVarNames.user,               user);
+    opPars.put(SSVarNames.entity,             entity);
+    opPars.put(SSVarNames.users,              users);
+    opPars.put(SSVarNames.entitiesToExclude,  entitiesToExclude);
+    opPars.put(SSVarNames.comment,            comment);
+    opPars.put(SSVarNames.shouldCommit,       shouldCommit);
     
     return (Boolean) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entityUserCopy, opPars));
   }
@@ -1760,11 +1760,11 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,                user);
-    opPars.put(SSVarU.circle,              circle);
-    opPars.put(SSVarU.entities,            entities);
-    opPars.put(SSVarU.withUserRestriction, withUserRestriction);
-    opPars.put(SSVarU.shouldCommit,        shouldCommit);
+    opPars.put(SSVarNames.user,                user);
+    opPars.put(SSVarNames.circle,              circle);
+    opPars.put(SSVarNames.entities,            entities);
+    opPars.put(SSVarNames.withUserRestriction, withUserRestriction);
+    opPars.put(SSVarNames.shouldCommit,        shouldCommit);
     
     return (List<SSUri>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.circleEntitiesRemove, opPars));
   }
@@ -1776,9 +1776,9 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,        user);
-    opPars.put(SSVarU.entity,      entity);
-    opPars.put(SSVarU.accessRight, accessRight);
+    opPars.put(SSVarNames.user,        user);
+    opPars.put(SSVarNames.entity,      entity);
+    opPars.put(SSVarNames.accessRight, accessRight);
     
     return (SSEntity) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.circleUserCan, opPars));
   }
@@ -1791,10 +1791,10 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,        user);
-    opPars.put(SSVarU.entity,      entity);
-    opPars.put(SSVarU.accessRight, accessRight);
-    opPars.put(SSVarU.logErr,      logErr);
+    opPars.put(SSVarNames.user,        user);
+    opPars.put(SSVarNames.entity,      entity);
+    opPars.put(SSVarNames.accessRight, accessRight);
+    opPars.put(SSVarNames.logErr,      logErr);
     
     return (SSEntity) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.circleUserCan, opPars));
   }
@@ -1810,13 +1810,13 @@ public class SSServCaller {
     
     final Map<String, Object>  opPars           = new HashMap<>();
     
-    opPars.put(SSVarU.user,             user);
-    opPars.put(SSVarU.entity,           entity);
-    opPars.put(SSVarU.type,             type);
-    opPars.put(SSVarU.label,            label);
-    opPars.put(SSVarU.description,      description);
-    opPars.put(SSVarU.creationTime,     creationTime);
-    opPars.put(SSVarU.shouldCommit,     shouldCommit);
+    opPars.put(SSVarNames.user,             user);
+    opPars.put(SSVarNames.entity,           entity);
+    opPars.put(SSVarNames.type,             type);
+    opPars.put(SSVarNames.label,            label);
+    opPars.put(SSVarNames.description,      description);
+    opPars.put(SSVarNames.creationTime,     creationTime);
+    opPars.put(SSVarNames.shouldCommit,     shouldCommit);
     
     SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entityEntityToPrivCircleAdd, opPars));
   }
@@ -1832,13 +1832,13 @@ public class SSServCaller {
     
     final Map<String, Object>  opPars           = new HashMap<>();
     
-    opPars.put(SSVarU.user,             user);
-    opPars.put(SSVarU.entity,           entity);
-    opPars.put(SSVarU.type,             type);
-    opPars.put(SSVarU.label,            label);
-    opPars.put(SSVarU.description,      description);
-    opPars.put(SSVarU.creationTime,     creationTime);
-    opPars.put(SSVarU.shouldCommit,     shouldCommit);
+    opPars.put(SSVarNames.user,             user);
+    opPars.put(SSVarNames.entity,           entity);
+    opPars.put(SSVarNames.type,             type);
+    opPars.put(SSVarNames.label,            label);
+    opPars.put(SSVarNames.description,      description);
+    opPars.put(SSVarNames.creationTime,     creationTime);
+    opPars.put(SSVarNames.shouldCommit,     shouldCommit);
     
     SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entityEntityToPubCircleAdd, opPars));
   }
@@ -1853,12 +1853,12 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,          user);
-    opPars.put(SSVarU.entity,        entity);
-    opPars.put(SSVarU.users,         users);
-    opPars.put(SSVarU.circles,       circles);
-    opPars.put(SSVarU.comment,       comment);
-    opPars.put(SSVarU.shouldCommit,  shouldCommit);
+    opPars.put(SSVarNames.user,          user);
+    opPars.put(SSVarNames.entity,        entity);
+    opPars.put(SSVarNames.users,         users);
+    opPars.put(SSVarNames.circles,       circles);
+    opPars.put(SSVarNames.comment,       comment);
+    opPars.put(SSVarNames.shouldCommit,  shouldCommit);
     
     return (SSUri) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.circleEntityShare, opPars));
   }
@@ -1874,13 +1874,13 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,                      user);
-    opPars.put(SSVarU.forUser,                   forUser);
-    opPars.put(SSVarU.circle,                    circle);
-    opPars.put(SSVarU.entityTypesToIncludeOnly,  entityTypesToIncludeOnly);
-    opPars.put(SSVarU.withSystemCircles,         withSystemCircles);
-    opPars.put(SSVarU.withUserRestriction,       withUserRestriction);
-    opPars.put(SSVarU.invokeEntityHandlers,      invokeEntityHandlers);
+    opPars.put(SSVarNames.user,                      user);
+    opPars.put(SSVarNames.forUser,                   forUser);
+    opPars.put(SSVarNames.circle,                    circle);
+    opPars.put(SSVarNames.entityTypesToIncludeOnly,  entityTypesToIncludeOnly);
+    opPars.put(SSVarNames.withSystemCircles,         withSystemCircles);
+    opPars.put(SSVarNames.withUserRestriction,       withUserRestriction);
+    opPars.put(SSVarNames.invokeEntityHandlers,      invokeEntityHandlers);
     
     return (SSEntityCircle) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.circleGet, opPars));
   }
@@ -1896,12 +1896,12 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,                      user);
-    opPars.put(SSVarU.entity,                    entity);
-    opPars.put(SSVarU.entityTypesToIncludeOnly,  entityTypesToIncludeOnly);
-    opPars.put(SSVarU.withSystemCircles,         withSystemCircles);
-    opPars.put(SSVarU.withUserRestriction,       withUserRestriction);
-    opPars.put(SSVarU.invokeEntityHandlers,      invokeEntityHandlers);
+    opPars.put(SSVarNames.user,                      user);
+    opPars.put(SSVarNames.entity,                    entity);
+    opPars.put(SSVarNames.entityTypesToIncludeOnly,  entityTypesToIncludeOnly);
+    opPars.put(SSVarNames.withSystemCircles,         withSystemCircles);
+    opPars.put(SSVarNames.withUserRestriction,       withUserRestriction);
+    opPars.put(SSVarNames.invokeEntityHandlers,      invokeEntityHandlers);
     
     return (List<SSEntityCircle>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.circlesGet, opPars));
   }
@@ -1919,15 +1919,15 @@ public class SSServCaller {
     
     final Map<String, Object>       opPars     = new HashMap<>();
     
-    opPars.put(SSVarU.user,                 user);
-    opPars.put(SSVarU.entities,             entities);
-    opPars.put(SSVarU.users,                users);
-    opPars.put(SSVarU.label,                label);
-    opPars.put(SSVarU.description,          description);
-    opPars.put(SSVarU.isSystemCircle,       isSystemCircle);
-    opPars.put(SSVarU.shouldCommit,         shouldCommit);
-    opPars.put(SSVarU.withUserRestriction,  withUserRestriction);
-    opPars.put(SSVarU.invokeEntityHandlers, invokeEntityHandlers);
+    opPars.put(SSVarNames.user,                 user);
+    opPars.put(SSVarNames.entities,             entities);
+    opPars.put(SSVarNames.users,                users);
+    opPars.put(SSVarNames.label,                label);
+    opPars.put(SSVarNames.description,          description);
+    opPars.put(SSVarNames.isSystemCircle,       isSystemCircle);
+    opPars.put(SSVarNames.shouldCommit,         shouldCommit);
+    opPars.put(SSVarNames.withUserRestriction,  withUserRestriction);
+    opPars.put(SSVarNames.invokeEntityHandlers, invokeEntityHandlers);
     
     return (SSUri) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.circleCreate, opPars));
   }
@@ -1942,12 +1942,12 @@ public class SSServCaller {
     
     final Map<String, Object>  opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,                 user);
-    opPars.put(SSVarU.circle,               circle);
-    opPars.put(SSVarU.entities,             entities);
-    opPars.put(SSVarU.withUserRestriction,  withUserRestriction);
-    opPars.put(SSVarU.invokeEntityHandlers, invokeEntityHandlers);
-    opPars.put(SSVarU.shouldCommit,         shouldCommit);
+    opPars.put(SSVarNames.user,                 user);
+    opPars.put(SSVarNames.circle,               circle);
+    opPars.put(SSVarNames.entities,             entities);
+    opPars.put(SSVarNames.withUserRestriction,  withUserRestriction);
+    opPars.put(SSVarNames.invokeEntityHandlers, invokeEntityHandlers);
+    opPars.put(SSVarNames.shouldCommit,         shouldCommit);
     
     SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.circleEntitiesAdd, opPars));
   }
@@ -1966,11 +1966,11 @@ public class SSServCaller {
       users.add(userUriToAdd);
     }
     
-    opPars.put(SSVarU.user,                  user);
-    opPars.put(SSVarU.users,                 users);
-    opPars.put(SSVarU.circle,                circle);
-    opPars.put(SSVarU.shouldCommit,          shouldCommit);    
-    opPars.put(SSVarU.withUserRestriction,   withUserRestriction);    
+    opPars.put(SSVarNames.user,                  user);
+    opPars.put(SSVarNames.users,                 users);
+    opPars.put(SSVarNames.circle,                circle);
+    opPars.put(SSVarNames.shouldCommit,          shouldCommit);    
+    opPars.put(SSVarNames.withUserRestriction,   withUserRestriction);    
     
     return (SSUri) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.circleUsersAdd, opPars));
   }
@@ -1984,11 +1984,11 @@ public class SSServCaller {
     
     final Map<String, Object> opPars   = new HashMap<>();
     
-    opPars.put(SSVarU.user,                 user);
-    opPars.put(SSVarU.users,                userUrisToAdd);
-    opPars.put(SSVarU.circle,               circle);
-    opPars.put(SSVarU.shouldCommit,         shouldCommit);    
-    opPars.put(SSVarU.withUserRestriction,  withUserRestriction);    
+    opPars.put(SSVarNames.user,                 user);
+    opPars.put(SSVarNames.users,                userUrisToAdd);
+    opPars.put(SSVarNames.circle,               circle);
+    opPars.put(SSVarNames.shouldCommit,         shouldCommit);    
+    opPars.put(SSVarNames.withUserRestriction,  withUserRestriction);    
     
     return (SSUri) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.circleUsersAdd, opPars));
   }
@@ -1998,7 +1998,7 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user, user);
+    opPars.put(SSVarNames.user, user);
     
     return (SSUri) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.circlePrivURIGet, opPars));
   }
@@ -2008,7 +2008,7 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.shouldCommit, shouldCommit);
+    opPars.put(SSVarNames.shouldCommit, shouldCommit);
     
     return (SSUri) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.circlePubURIGet, opPars));
   }
@@ -2021,10 +2021,10 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,                user);
-    opPars.put(SSVarU.forUser,             forUser);
-    opPars.put(SSVarU.entity,              entity);
-    opPars.put(SSVarU.withUserRestriction, withUserRestriction);
+    opPars.put(SSVarNames.user,                user);
+    opPars.put(SSVarNames.forUser,             forUser);
+    opPars.put(SSVarNames.entity,              entity);
+    opPars.put(SSVarNames.withUserRestriction, withUserRestriction);
     
     return (List<SSCircleE>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.circleTypesGet, opPars));
   }
@@ -2037,10 +2037,10 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,                user);
-    opPars.put(SSVarU.forUser,             forUser);
-    opPars.put(SSVarU.entity,              entity);
-    opPars.put(SSVarU.withUserRestriction, withUserRestriction);
+    opPars.put(SSVarNames.user,                user);
+    opPars.put(SSVarNames.forUser,             forUser);
+    opPars.put(SSVarNames.entity,              entity);
+    opPars.put(SSVarNames.withUserRestriction, withUserRestriction);
     
     return (SSCircleE) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.circleMostOpenCircleTypeGet, opPars));
   }
@@ -2052,9 +2052,9 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,         user);
-    opPars.put(SSVarU.entity,       entity);
-    opPars.put(SSVarU.shouldCommit, shouldCommit);
+    opPars.put(SSVarNames.user,         user);
+    opPars.put(SSVarNames.entity,       entity);
+    opPars.put(SSVarNames.shouldCommit, shouldCommit);
     
     return (SSUri) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.circleEntityPublicSet, opPars));
   }
@@ -2069,12 +2069,12 @@ public class SSServCaller {
         
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,                 user);
-    opPars.put(SSVarU.forUser,              forUser);
-    opPars.put(SSVarU.types,                types);
-    opPars.put(SSVarU.withSystemCircles,    withSystemCircles);
-    opPars.put(SSVarU.withUserRestriction,  withUserRestriction);
-    opPars.put(SSVarU.invokeEntityHandlers, invokeEntityHandlers);
+    opPars.put(SSVarNames.user,                 user);
+    opPars.put(SSVarNames.forUser,              forUser);
+    opPars.put(SSVarNames.types,                types);
+    opPars.put(SSVarNames.withSystemCircles,    withSystemCircles);
+    opPars.put(SSVarNames.withUserRestriction,  withUserRestriction);
+    opPars.put(SSVarNames.invokeEntityHandlers, invokeEntityHandlers);
     
     return (List<SSEntity>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.circleEntitiesGet, opPars));
   }
@@ -2090,11 +2090,11 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.shouldCommit, shouldCommit);
-    opPars.put(SSVarU.user,         user);
-    opPars.put(SSVarU.entity,     entity);
-    opPars.put(SSVarU.type,    type);
-    opPars.put(SSVarU.content,      content);
+    opPars.put(SSVarNames.shouldCommit, shouldCommit);
+    opPars.put(SSVarNames.user,         user);
+    opPars.put(SSVarNames.entity,     entity);
+    opPars.put(SSVarNames.type,    type);
+    opPars.put(SSVarNames.content,      content);
     
     SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.uEAdd, opPars));
   }
@@ -2106,9 +2106,9 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.shouldCommit, shouldCommit);
-    opPars.put(SSVarU.user,         user);
-    opPars.put(SSVarU.entity,       entity);
+    opPars.put(SSVarNames.shouldCommit, shouldCommit);
+    opPars.put(SSVarNames.user,         user);
+    opPars.put(SSVarNames.entity,       entity);
     
     return (Boolean) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.uEsRemove, opPars));
   }
@@ -2121,8 +2121,8 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,  user);
-    opPars.put(SSVarU.email, email);
+    opPars.put(SSVarNames.user,  user);
+    opPars.put(SSVarNames.email, email);
     
     return (SSUri) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.userURIGet, opPars));
   }
@@ -2132,7 +2132,7 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.setFriends,  setFriends);
+    opPars.put(SSVarNames.setFriends,  setFriends);
     
     return (List<SSUser>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.userAll, opPars));
   }
@@ -2144,9 +2144,9 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,       user);
-    opPars.put(SSVarU.users,      users);
-    opPars.put(SSVarU.setFriends, setFriends);
+    opPars.put(SSVarNames.user,       user);
+    opPars.put(SSVarNames.users,      users);
+    opPars.put(SSVarNames.setFriends, setFriends);
     
     return (List<SSUser>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.usersGet, opPars));
   }
@@ -2157,8 +2157,8 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,         user);
-    opPars.put(SSVarU.email,        email);
+    opPars.put(SSVarNames.user,         user);
+    opPars.put(SSVarNames.email,        email);
     
     return (Boolean) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.userExists, opPars));
   }
@@ -2172,11 +2172,11 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,         user);
-    opPars.put(SSVarU.label,        label);
-    opPars.put(SSVarU.email,        email);
-    opPars.put(SSVarU.isSystemUser, isSystemUser);
-    opPars.put(SSVarU.shouldCommit, shouldCommit);
+    opPars.put(SSVarNames.user,         user);
+    opPars.put(SSVarNames.label,        label);
+    opPars.put(SSVarNames.email,        email);
+    opPars.put(SSVarNames.isSystemUser, isSystemUser);
+    opPars.put(SSVarNames.shouldCommit, shouldCommit);
     
     return (SSUri) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.userAdd, opPars));
   }
@@ -2189,8 +2189,8 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user, user);
-    opPars.put(SSVarU.mi,   mi);
+    opPars.put(SSVarNames.user, user);
+    opPars.put(SSVarNames.mi,   mi);
     
     return (List<SSUri>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.modelUEEntitiesForMiGet, opPars));
   }
@@ -2205,8 +2205,8 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,        user);
-    opPars.put(SSVarU.entity,   entity);
+    opPars.put(SSVarNames.user,        user);
+    opPars.put(SSVarNames.entity,   entity);
     
     return (List<String>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.modelUEMIsForEntityGet, opPars));
   }
@@ -2218,7 +2218,7 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,                  user);
+    opPars.put(SSVarNames.user,                  user);
     
     SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.dataExportUserRelations, opPars));
   }
@@ -2232,11 +2232,11 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.fileName,              fileName);
-    opPars.put(SSVarU.exportTags,            exportTags);
-    opPars.put(SSVarU.usePrivateTagsToo,     usePrivateTagsToo);
-    opPars.put(SSVarU.exportCategories,      exportCategories);
-    opPars.put(SSVarU.user,                  user);
+    opPars.put(SSVarNames.fileName,              fileName);
+    opPars.put(SSVarNames.exportTags,            exportTags);
+    opPars.put(SSVarNames.usePrivateTagsToo,     usePrivateTagsToo);
+    opPars.put(SSVarNames.exportCategories,      exportCategories);
+    opPars.put(SSVarNames.user,                  user);
     
     SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.dataExportUserEntityTagCategoryTimestamps, opPars));
   }
@@ -2251,12 +2251,12 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,          user);
-    opPars.put(SSVarU.forUser,       forUser);
-    opPars.put(SSVarU.entity,        entity);
-    opPars.put(SSVarU.tags,          tags);
-    opPars.put(SSVarU.categories,    categories);
-    opPars.put(SSVarU.fileName,      fileName);
+    opPars.put(SSVarNames.user,          user);
+    opPars.put(SSVarNames.forUser,       forUser);
+    opPars.put(SSVarNames.entity,        entity);
+    opPars.put(SSVarNames.tags,          tags);
+    opPars.put(SSVarNames.categories,    categories);
+    opPars.put(SSVarNames.fileName,      fileName);
     
     SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.dataExportAddTagsCategoriesTimestampsForUserEntity, opPars));
   }
@@ -2270,9 +2270,9 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,         user);
-    opPars.put(SSVarU.labels,       labels);
-    opPars.put(SSVarU.shouldCommit, shouldCommit);
+    opPars.put(SSVarNames.user,         user);
+    opPars.put(SSVarNames.labels,       labels);
+    opPars.put(SSVarNames.shouldCommit, shouldCommit);
     
     return (Boolean) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.categoriesPredefinedAdd, opPars));
   }
@@ -2282,7 +2282,7 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user, user);
+    opPars.put(SSVarNames.user, user);
     
     return (List<String>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.categoriesPredefinedGet, opPars));
   }
@@ -2296,11 +2296,11 @@ public class SSServCaller {
     
     final Map<String, Object>   opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,        user);
-    opPars.put(SSVarU.forUser,     forUser);
-    opPars.put(SSVarU.labels,      labels);
-    opPars.put(SSVarU.space,       space);
-    opPars.put(SSVarU.startTime,   startTime);
+    opPars.put(SSVarNames.user,        user);
+    opPars.put(SSVarNames.forUser,     forUser);
+    opPars.put(SSVarNames.labels,      labels);
+    opPars.put(SSVarNames.space,       space);
+    opPars.put(SSVarNames.startTime,   startTime);
     
     return (List<SSUri>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.categoryUserEntitiesForCategoriesGet, opPars));
   }
@@ -2315,12 +2315,12 @@ public class SSServCaller {
     
     final Map<String, Object>   opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,        user);
-    opPars.put(SSVarU.forUser,     forUser);
-    opPars.put(SSVarU.entities,    entities);
-    opPars.put(SSVarU.labels,      labels);
-    opPars.put(SSVarU.space,       space);
-    opPars.put(SSVarU.startTime,   startTime);
+    opPars.put(SSVarNames.user,        user);
+    opPars.put(SSVarNames.forUser,     forUser);
+    opPars.put(SSVarNames.entities,    entities);
+    opPars.put(SSVarNames.labels,      labels);
+    opPars.put(SSVarNames.space,       space);
+    opPars.put(SSVarNames.startTime,   startTime);
     
     return (List<SSCategory>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.categoriesUserGet, opPars));
   }
@@ -2335,12 +2335,12 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,        user);
-    opPars.put(SSVarU.forUser,     forUser);
-    opPars.put(SSVarU.entities,    entities);
-    opPars.put(SSVarU.labels,      labels);
-    opPars.put(SSVarU.space,       space);
-    opPars.put(SSVarU.startTime,   startTime);
+    opPars.put(SSVarNames.user,        user);
+    opPars.put(SSVarNames.forUser,     forUser);
+    opPars.put(SSVarNames.entities,    entities);
+    opPars.put(SSVarNames.labels,      labels);
+    opPars.put(SSVarNames.space,       space);
+    opPars.put(SSVarNames.startTime,   startTime);
     
     return (List<SSCategoryFrequ>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.categoryUserFrequsGet, opPars));
   }
@@ -2354,11 +2354,11 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.forUser,      forUser);
-    opPars.put(SSVarU.shouldCommit, shouldCommit);
-    opPars.put(SSVarU.entity,       entity);
-    opPars.put(SSVarU.label,        label);
-    opPars.put(SSVarU.space,        space);
+    opPars.put(SSVarNames.forUser,      forUser);
+    opPars.put(SSVarNames.shouldCommit, shouldCommit);
+    opPars.put(SSVarNames.entity,       entity);
+    opPars.put(SSVarNames.label,        label);
+    opPars.put(SSVarNames.space,        space);
     
     SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.categoriesRemove, opPars));
   }
@@ -2372,11 +2372,11 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,         user);
-    opPars.put(SSVarU.shouldCommit, shouldCommit);
-    opPars.put(SSVarU.entity,       entity);
-    opPars.put(SSVarU.label,        label);
-    opPars.put(SSVarU.space,        space);
+    opPars.put(SSVarNames.user,         user);
+    opPars.put(SSVarNames.shouldCommit, shouldCommit);
+    opPars.put(SSVarNames.entity,       entity);
+    opPars.put(SSVarNames.label,        label);
+    opPars.put(SSVarNames.space,        space);
     
     SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.categoriesUserRemove, opPars));
   }
@@ -2391,12 +2391,12 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.shouldCommit, shouldCommit);
-    opPars.put(SSVarU.user,         user);
-    opPars.put(SSVarU.entity,       entity);
-    opPars.put(SSVarU.space,        space);
-    opPars.put(SSVarU.label,        label);
-    opPars.put(SSVarU.creationTime, creationTime);
+    opPars.put(SSVarNames.shouldCommit, shouldCommit);
+    opPars.put(SSVarNames.user,         user);
+    opPars.put(SSVarNames.entity,       entity);
+    opPars.put(SSVarNames.space,        space);
+    opPars.put(SSVarNames.label,        label);
+    opPars.put(SSVarNames.creationTime, creationTime);
     
     return (SSUri) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.categoryAdd, opPars));
   }
@@ -2411,12 +2411,12 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
           
-    opPars.put(SSVarU.shouldCommit, shouldCommit);
-    opPars.put(SSVarU.user,         user);
-    opPars.put(SSVarU.entity,       entity);
-    opPars.put(SSVarU.labels,       labels);
-    opPars.put(SSVarU.space,        space);
-    opPars.put(SSVarU.creationTime, creationTime);
+    opPars.put(SSVarNames.shouldCommit, shouldCommit);
+    opPars.put(SSVarNames.user,         user);
+    opPars.put(SSVarNames.entity,       entity);
+    opPars.put(SSVarNames.labels,       labels);
+    opPars.put(SSVarNames.space,        space);
+    opPars.put(SSVarNames.creationTime, creationTime);
     
     return (List<SSUri>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.categoriesAdd, opPars));
   }
@@ -2432,11 +2432,11 @@ public class SSServCaller {
     
     final Map<String, Object>   opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,        user);
-    opPars.put(SSVarU.forUser,     forUser);
-    opPars.put(SSVarU.labels,      SSTagLabel.get(labels));
-    opPars.put(SSVarU.space,       space);
-    opPars.put(SSVarU.startTime,   startTime);
+    opPars.put(SSVarNames.user,        user);
+    opPars.put(SSVarNames.forUser,     forUser);
+    opPars.put(SSVarNames.labels,      SSTagLabel.get(labels));
+    opPars.put(SSVarNames.space,       space);
+    opPars.put(SSVarNames.startTime,   startTime);
     
     return (List<SSUri>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.tagUserEntitiesForTagsGet, opPars));
   }
@@ -2451,12 +2451,12 @@ public class SSServCaller {
     
     final Map<String, Object>   opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,        user);
-    opPars.put(SSVarU.forUser,     forUser);
-    opPars.put(SSVarU.entities,    entities);
-    opPars.put(SSVarU.labels,      SSTagLabel.get(labels));
-    opPars.put(SSVarU.space,       space);
-    opPars.put(SSVarU.startTime,   startTime);
+    opPars.put(SSVarNames.user,        user);
+    opPars.put(SSVarNames.forUser,     forUser);
+    opPars.put(SSVarNames.entities,    entities);
+    opPars.put(SSVarNames.labels,      SSTagLabel.get(labels));
+    opPars.put(SSVarNames.space,       space);
+    opPars.put(SSVarNames.startTime,   startTime);
     
     return (List<SSTag>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.tagsUserGet, opPars));
   }
@@ -2472,13 +2472,13 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,                 user);
-    opPars.put(SSVarU.forUser,              forUser);
-    opPars.put(SSVarU.entities,             entities);
-    opPars.put(SSVarU.labels,               SSTagLabel.get(labels));
-    opPars.put(SSVarU.space,                space);
-    opPars.put(SSVarU.startTime,            startTime);
-    opPars.put(SSVarU.useUsersEntities,     useUsersEntities);
+    opPars.put(SSVarNames.user,                 user);
+    opPars.put(SSVarNames.forUser,              forUser);
+    opPars.put(SSVarNames.entities,             entities);
+    opPars.put(SSVarNames.labels,               SSTagLabel.get(labels));
+    opPars.put(SSVarNames.space,                space);
+    opPars.put(SSVarNames.startTime,            startTime);
+    opPars.put(SSVarNames.useUsersEntities,     useUsersEntities);
     
     return (List<SSTagFrequ>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.tagUserFrequsGet, opPars));
   }
@@ -2492,11 +2492,11 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.forUser,      forUser);
-    opPars.put(SSVarU.shouldCommit, shouldCommit);
-    opPars.put(SSVarU.entity,       entity);
-    opPars.put(SSVarU.label,        SSTagLabel.get(label));
-    opPars.put(SSVarU.space,        space);
+    opPars.put(SSVarNames.forUser,      forUser);
+    opPars.put(SSVarNames.shouldCommit, shouldCommit);
+    opPars.put(SSVarNames.entity,       entity);
+    opPars.put(SSVarNames.label,        SSTagLabel.get(label));
+    opPars.put(SSVarNames.space,        space);
     
     SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.tagsRemove, opPars));
   }
@@ -2510,11 +2510,11 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,         user);
-    opPars.put(SSVarU.shouldCommit, shouldCommit);
-    opPars.put(SSVarU.entity,       entity);
-    opPars.put(SSVarU.label,        SSTagLabel.get(label));
-    opPars.put(SSVarU.space,        space);
+    opPars.put(SSVarNames.user,         user);
+    opPars.put(SSVarNames.shouldCommit, shouldCommit);
+    opPars.put(SSVarNames.entity,       entity);
+    opPars.put(SSVarNames.label,        SSTagLabel.get(label));
+    opPars.put(SSVarNames.space,        space);
     
     SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.tagsUserRemove, opPars));
   }
@@ -2529,12 +2529,12 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.shouldCommit, shouldCommit);
-    opPars.put(SSVarU.user,         user);
-    opPars.put(SSVarU.entity,       entity);
-    opPars.put(SSVarU.space,        space);
-    opPars.put(SSVarU.label,        SSTagLabel.get(label));
-    opPars.put(SSVarU.creationTime, creationTime);
+    opPars.put(SSVarNames.shouldCommit, shouldCommit);
+    opPars.put(SSVarNames.user,         user);
+    opPars.put(SSVarNames.entity,       entity);
+    opPars.put(SSVarNames.space,        space);
+    opPars.put(SSVarNames.label,        SSTagLabel.get(label));
+    opPars.put(SSVarNames.creationTime, creationTime);
     
     return (SSUri) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.tagAdd, opPars));
   }
@@ -2549,12 +2549,12 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
           
-    opPars.put(SSVarU.shouldCommit, shouldCommit);
-    opPars.put(SSVarU.user,         user);
-    opPars.put(SSVarU.entity,       entity);
-    opPars.put(SSVarU.labels,       SSTagLabel.get(labels));
-    opPars.put(SSVarU.space,        space);
-    opPars.put(SSVarU.creationTime, creationTime);
+    opPars.put(SSVarNames.shouldCommit, shouldCommit);
+    opPars.put(SSVarNames.user,         user);
+    opPars.put(SSVarNames.entity,       entity);
+    opPars.put(SSVarNames.labels,       SSTagLabel.get(labels));
+    opPars.put(SSVarNames.space,        space);
+    opPars.put(SSVarNames.creationTime, creationTime);
     
     return (List<SSUri>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.tagsAdd, opPars));
   }
@@ -2572,13 +2572,13 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,           user);
-    opPars.put(SSVarU.realm,          realm);
-    opPars.put(SSVarU.forUser,        forUser);
-    opPars.put(SSVarU.entity,         entity);
-    opPars.put(SSVarU.categories,     categories);
-    opPars.put(SSVarU.maxTags,        maxTags);
-    opPars.put(SSVarU.includeOwn,     includeOwn);
+    opPars.put(SSVarNames.user,           user);
+    opPars.put(SSVarNames.realm,          realm);
+    opPars.put(SSVarNames.forUser,        forUser);
+    opPars.put(SSVarNames.entity,         entity);
+    opPars.put(SSVarNames.categories,     categories);
+    opPars.put(SSVarNames.maxTags,        maxTags);
+    opPars.put(SSVarNames.includeOwn,     includeOwn);
     
     return (Map<String, Double>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.recommTags, opPars));
   }
@@ -2609,8 +2609,8 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,           user);
-    opPars.put(SSVarU.realm,          realm);
+    opPars.put(SSVarNames.user,           user);
+    opPars.put(SSVarNames.realm,          realm);
     
     SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.recommUpdateBulk, opPars));
   }
@@ -2628,15 +2628,15 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,                   user);
-    opPars.put(SSVarU.realm,                  realm);
-    opPars.put(SSVarU.forUser,                forUser);
-    opPars.put(SSVarU.entity,                 entity);
-    opPars.put(SSVarU.categories,             categories);
-    opPars.put(SSVarU.maxResources,           maxResources);
-    opPars.put(SSVarU.typesToRecommOnly,      typesToRecommOnly);
-    opPars.put(SSVarU.setCircleTypes,         setCircleTypes);
-    opPars.put(SSVarU.includeOwn,             includeOwn);
+    opPars.put(SSVarNames.user,                   user);
+    opPars.put(SSVarNames.realm,                  realm);
+    opPars.put(SSVarNames.forUser,                forUser);
+    opPars.put(SSVarNames.entity,                 entity);
+    opPars.put(SSVarNames.categories,             categories);
+    opPars.put(SSVarNames.maxResources,           maxResources);
+    opPars.put(SSVarNames.typesToRecommOnly,      typesToRecommOnly);
+    opPars.put(SSVarNames.setCircleTypes,         setCircleTypes);
+    opPars.put(SSVarNames.includeOwn,             includeOwn);
     
     return (Map<SSEntity, Double>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.recommResources, opPars));
   }
@@ -2649,8 +2649,8 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,  user);
-    opPars.put(SSVarU.file,  file);
+    opPars.put(SSVarNames.user,  user);
+    opPars.put(SSVarNames.file,  file);
     
     return (String) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.fileThumbBase64Get, opPars));
   }
@@ -2661,8 +2661,8 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,  user);
-    opPars.put(SSVarU.file,  file);
+    opPars.put(SSVarNames.user,  user);
+    opPars.put(SSVarNames.file,  file);
     
     return (SSFileCanWriteRet) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.fileCanWrite, opPars));
   }
@@ -2677,8 +2677,8 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,    user);
-    opPars.put(SSVarU.file,    file);
+    opPars.put(SSVarNames.user,    user);
+    opPars.put(SSVarNames.file,    file);
     
     return (String) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.fileIDFromURI, opPars));
   }
@@ -2691,10 +2691,10 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.shouldCommit,  shouldCommit);
-    opPars.put(SSVarU.user,          user);
-    opPars.put(SSVarU.file,          file);
-    opPars.put(SSVarU.write,         write);
+    opPars.put(SSVarNames.shouldCommit,  shouldCommit);
+    opPars.put(SSVarNames.user,          user);
+    opPars.put(SSVarNames.file,          file);
+    opPars.put(SSVarNames.write,         write);
     
     SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.fileRemoveReaderOrWriter, opPars));
   }
@@ -2707,8 +2707,8 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.shouldCommit,     shouldCommit);
-    opPars.put(SSVarU.user,             user);
+    opPars.put(SSVarNames.shouldCommit,     shouldCommit);
+    opPars.put(SSVarNames.user,             user);
     
     SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.dataImportAchso, opPars));
   }
@@ -2719,8 +2719,8 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.shouldCommit,     shouldCommit);
-    opPars.put(SSVarU.user,             user);
+    opPars.put(SSVarNames.shouldCommit,     shouldCommit);
+    opPars.put(SSVarNames.user,             user);
     
     SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.dataImportUserResourceTagFromWikipedia, opPars));
   }
@@ -2730,7 +2730,7 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.fileName, fileName);
+    opPars.put(SSVarNames.fileName, fileName);
     
     return (Map<String, String>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.dataImportSSSUsersFromCSVFile, opPars));
   }
@@ -2743,10 +2743,10 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.shouldCommit, shouldCommit);
-    opPars.put(SSVarU.user,         user);
-    opPars.put(SSVarU.authToken,    authToken);
-    opPars.put(SSVarU.authEmail,    authEmail);
+    opPars.put(SSVarNames.shouldCommit, shouldCommit);
+    opPars.put(SSVarNames.user,         user);
+    opPars.put(SSVarNames.authToken,    authToken);
+    opPars.put(SSVarNames.authEmail,    authEmail);
     
     SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.dataImportEvernote, opPars));
   }
@@ -2757,8 +2757,8 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,        user);
-    opPars.put(SSVarU.shouldCommit, shouldCommit);
+    opPars.put(SSVarNames.user,        user);
+    opPars.put(SSVarNames.shouldCommit, shouldCommit);
     
     SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.dataImportMediaWikiUser, opPars));
   }
@@ -2776,13 +2776,13 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,              user);
-    opPars.put(SSVarU.label,             label);
-    opPars.put(SSVarU.email,             email);
-    opPars.put(SSVarU.password,          password);
-    opPars.put(SSVarU.isSystemUser,      isSystemUser);
-    opPars.put(SSVarU.updatePassword,    updatePassword);
-    opPars.put(SSVarU.shouldCommit,      shouldCommit);
+    opPars.put(SSVarNames.user,              user);
+    opPars.put(SSVarNames.label,             label);
+    opPars.put(SSVarNames.email,             email);
+    opPars.put(SSVarNames.password,          password);
+    opPars.put(SSVarNames.isSystemUser,      isSystemUser);
+    opPars.put(SSVarNames.updatePassword,    updatePassword);
+    opPars.put(SSVarNames.shouldCommit,      shouldCommit);
     
     return (SSUri) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.authRegisterUser, opPars));
   }
@@ -2792,7 +2792,7 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.shouldCommit,      shouldCommit);
+    opPars.put(SSVarNames.shouldCommit,      shouldCommit);
     
     SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.authUsersFromCSVFileAdd, opPars));
   }
@@ -2801,7 +2801,7 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.key, par.key);
+    opPars.put(SSVarNames.key, par.key);
     
     return (SSUri) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.authCheckKey, opPars));
   }
@@ -2812,8 +2812,8 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user, user);
-    opPars.put(SSVarU.key, key);
+    opPars.put(SSVarNames.user, user);
+    opPars.put(SSVarNames.key, key);
     
     return (SSAuthCheckCredRet) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.authCheckCred, opPars));
   }
@@ -2825,7 +2825,7 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.ids,   ids);
+    opPars.put(SSVarNames.ids,   ids);
     
     return (List<String>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.i5CloudAchsoSemanticAnnotationsSetGet, opPars));
   }
@@ -2845,9 +2845,9 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.fileName,   fileName);
-    opPars.put(SSVarU.space,      containerSpace);
-    opPars.put(SSVarU.authToken,  authToken);
+    opPars.put(SSVarNames.fileName,   fileName);
+    opPars.put(SSVarNames.space,      containerSpace);
+    opPars.put(SSVarNames.authToken,  authToken);
     
     return (Boolean) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.i5CloudFileUpload, opPars));
   }
@@ -2859,9 +2859,9 @@ public class SSServCaller {
     
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.fileName,   fileName);
-    opPars.put(SSVarU.space,      containerSpace);
-    opPars.put(SSVarU.authToken,  authToken);
+    opPars.put(SSVarNames.fileName,   fileName);
+    opPars.put(SSVarNames.space,      containerSpace);
+    opPars.put(SSVarNames.authToken,  authToken);
     
     return (Boolean) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.i5CloudFileDownload, opPars));
   } 
@@ -2874,8 +2874,8 @@ public class SSServCaller {
    
     final Map<String, Object>  opPars           = new HashMap<>();
     
-    opPars.put(SSVarU.user,          user);
-    opPars.put(SSVarU.activity,      activity);
+    opPars.put(SSVarNames.user,          user);
+    opPars.put(SSVarNames.activity,      activity);
     
     return (SSActivity) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.activityGet, opPars));
   }
@@ -2889,11 +2889,11 @@ public class SSServCaller {
    
     final Map<String, Object>  opPars           = new HashMap<>();
     
-    opPars.put(SSVarU.user,          user);
-    opPars.put(SSVarU.activity,      activity);
-    opPars.put(SSVarU.contentType,   contentType);
-    opPars.put(SSVarU.contents,      contents);
-    opPars.put(SSVarU.shouldCommit,  shouldCommit);
+    opPars.put(SSVarNames.user,          user);
+    opPars.put(SSVarNames.activity,      activity);
+    opPars.put(SSVarNames.contentType,   contentType);
+    opPars.put(SSVarNames.contents,      contents);
+    opPars.put(SSVarNames.shouldCommit,  shouldCommit);
     
     return (SSUri) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.activityContentsAdd, opPars));
   }
@@ -2907,11 +2907,11 @@ public class SSServCaller {
    
     final Map<String, Object>  opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,          user);
-    opPars.put(SSVarU.activity,      activity);
-    opPars.put(SSVarU.contentType,   contentType);
-    opPars.put(SSVarU.content,       content);
-    opPars.put(SSVarU.shouldCommit,  shouldCommit);
+    opPars.put(SSVarNames.user,          user);
+    opPars.put(SSVarNames.activity,      activity);
+    opPars.put(SSVarNames.contentType,   contentType);
+    opPars.put(SSVarNames.content,       content);
+    opPars.put(SSVarNames.shouldCommit,  shouldCommit);
     
     return (SSUri) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.activityContentAdd, opPars));
   }
@@ -2928,14 +2928,14 @@ public class SSServCaller {
    
     final Map<String, Object>  opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,             user);
-    opPars.put(SSVarU.entity,           entity);
-    opPars.put(SSVarU.type,             type);
-    opPars.put(SSVarU.users,            users);
-    opPars.put(SSVarU.entities,         entities);
-    opPars.put(SSVarU.comments,         comments);
-    opPars.put(SSVarU.creationTime,     creationTime);
-    opPars.put(SSVarU.shouldCommit,     shouldCommit);
+    opPars.put(SSVarNames.user,             user);
+    opPars.put(SSVarNames.entity,           entity);
+    opPars.put(SSVarNames.type,             type);
+    opPars.put(SSVarNames.users,            users);
+    opPars.put(SSVarNames.entities,         entities);
+    opPars.put(SSVarNames.comments,         comments);
+    opPars.put(SSVarNames.creationTime,     creationTime);
+    opPars.put(SSVarNames.shouldCommit,     shouldCommit);
     
     return (SSUri) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.activityAdd, opPars));
   }
@@ -2952,14 +2952,14 @@ public class SSServCaller {
    
     final Map<String, Object>  opPars           = new HashMap<>();
     
-    opPars.put(SSVarU.user,                      user);
-    opPars.put(SSVarU.types,                     types);
-    opPars.put(SSVarU.users,                     users);
-    opPars.put(SSVarU.entities,                  entities);
-    opPars.put(SSVarU.circles,                   circles);
-    opPars.put(SSVarU.startTime,                 startTime);
-    opPars.put(SSVarU.endTime,                   endTime);
-    opPars.put(SSVarU.includeOnlyLastActivities, includeOnlyLastActivities);
+    opPars.put(SSVarNames.user,                      user);
+    opPars.put(SSVarNames.types,                     types);
+    opPars.put(SSVarNames.users,                     users);
+    opPars.put(SSVarNames.entities,                  entities);
+    opPars.put(SSVarNames.circles,                   circles);
+    opPars.put(SSVarNames.startTime,                 startTime);
+    opPars.put(SSVarNames.endTime,                   endTime);
+    opPars.put(SSVarNames.includeOnlyLastActivities, includeOnlyLastActivities);
     
     return (List<SSActivity>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.activitiesUserGet, opPars));
   }
@@ -2973,9 +2973,9 @@ public class SSServCaller {
    
     final Map<String, Object> opPars = new HashMap<>();
     
-    opPars.put(SSVarU.user,         user);
-    opPars.put(SSVarU.forUser,      forUser);
-    opPars.put(SSVarU.forEntity,    forEntity);
+    opPars.put(SSVarNames.user,         user);
+    opPars.put(SSVarNames.forUser,      forUser);
+    opPars.put(SSVarNames.forEntity,    forEntity);
     
     return (List<? extends SSEntity>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.videosUserGet, opPars));
   }
@@ -2986,8 +2986,8 @@ public class SSServCaller {
     
     final Map<String, Object>  opPars           = new HashMap<>();
     
-    opPars.put(SSVarU.user,             user);
-    opPars.put(SSVarU.video,            video);
+    opPars.put(SSVarNames.user,             user);
+    opPars.put(SSVarNames.video,            video);
     
     return (SSEntity) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.videoUserGet, opPars));
   }
@@ -3001,11 +3001,11 @@ public class SSServCaller {
     
     final Map<String, Object>  opPars           = new HashMap<>();
     
-    opPars.put(SSVarU.shouldCommit,     shouldCommit);
-    opPars.put(SSVarU.user,             user);
-    opPars.put(SSVarU.link,             link);
-    opPars.put(SSVarU.uuid,             uuid);
-    opPars.put(SSVarU.forEntity,        forEntity);
+    opPars.put(SSVarNames.shouldCommit,     shouldCommit);
+    opPars.put(SSVarNames.user,             user);
+    opPars.put(SSVarNames.link,             link);
+    opPars.put(SSVarNames.uuid,             uuid);
+    opPars.put(SSVarNames.forEntity,        forEntity);
     
     return (SSUri) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.videoUserAdd, opPars));
   }
@@ -3015,7 +3015,7 @@ public class SSServCaller {
     
     final Map<String, Object>  opPars           = new HashMap<>();
     
-    opPars.put(SSVarU.user,             user);
+    opPars.put(SSVarNames.user,             user);
     
     SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.recommLoadUserRealms, opPars));
   }

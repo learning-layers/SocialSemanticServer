@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.service.tag.datatypes;
 
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSEntityA;
 import at.tugraz.sss.serv.SSSpaceE;
 import java.util.HashMap;
@@ -58,9 +58,9 @@ public class SSTagFrequ extends SSEntityA{
   
     final Map<String, Object> ld = new HashMap<>();
     
-    ld.put(SSVarU.label,   SSVarU.sss + SSStrU.colon + SSTagLabel.class.getName());
-    ld.put(SSVarU.space,   SSVarU.sss + SSStrU.colon + SSSpaceE.class.getName());
-    ld.put(SSVarU.frequ,   SSVarU.xsd + SSStrU.colon + SSStrU.valueInteger);
+    ld.put(SSVarNames.label,   SSVarNames.sss + SSStrU.colon + SSTagLabel.class.getName());
+    ld.put(SSVarNames.space,   SSVarNames.sss + SSStrU.colon + SSSpaceE.class.getName());
+    ld.put(SSVarNames.frequ,   SSVarNames.xsd + SSStrU.colon + SSStrU.valueInteger);
     
     return ld;
   }  

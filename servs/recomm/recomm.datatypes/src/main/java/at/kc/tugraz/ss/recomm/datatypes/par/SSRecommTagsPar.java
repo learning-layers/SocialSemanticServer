@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.recomm.datatypes.par;
 
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServErrReg;
@@ -82,12 +82,12 @@ public class SSRecommTagsPar extends SSServPar{
         par.op,
         par.key,
         par.user,
-        (String)        par.pars.get(SSVarU.realm),
-        (SSUri)         par.pars.get(SSVarU.forUser),
-        (SSUri)         par.pars.get(SSVarU.entity),
-        (List<String>)  par.pars.get(SSVarU.categories),
-        (Integer)       par.pars.get(SSVarU.maxTags),
-        (Boolean)       par.pars.get(SSVarU.includeOwn));
+        (String)        par.pars.get(SSVarNames.realm),
+        (SSUri)         par.pars.get(SSVarNames.forUser),
+        (SSUri)         par.pars.get(SSVarNames.entity),
+        (List<String>)  par.pars.get(SSVarNames.categories),
+        (Integer)       par.pars.get(SSVarNames.maxTags),
+        (Boolean)       par.pars.get(SSVarNames.includeOwn));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
