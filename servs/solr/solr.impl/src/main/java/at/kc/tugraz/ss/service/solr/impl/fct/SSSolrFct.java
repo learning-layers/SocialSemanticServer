@@ -21,14 +21,14 @@
 package at.kc.tugraz.ss.service.solr.impl.fct;
 
 import at.kc.tugraz.ss.service.solr.datatypes.SSSolrQueryPars;
+import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrQuery;
-import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.common.SolrDocumentList;
 
 public class SSSolrFct {
 
   public static SolrDocumentList query(
-    final SolrServer      server,
+    final SolrClient      server,
     final SSSolrQueryPars queryPars) throws Exception {
 		
     final SolrQuery solrQuery = new SolrQuery();

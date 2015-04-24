@@ -5,13 +5,13 @@ sss:
   host: SSS_HOST
   port: SSS_PORT
   localWorkPath: #leave empty for workingDir/tmp
-dbSQL: !!at.kc.tugraz.ss.serv.db.conf.SSDBSQLConf
+dbSQL: !!at.tugraz.sss.serv.SSDBSQLConf
   host: SSS_MYSQL_HOST
   port: SSS_MYSQL_PORT
   username: SSS_MYSQL_USERNAME
   password: SSS_MYSQL_PASSWORD
   schema: SSS_MYSQL_SCHEME
-dbNoSQL: !!at.kc.tugraz.ss.serv.db.conf.SSDBNoSQLConf
+dbNoSQL: !at.tugraz.sss.serv.SSDBNoSQLConf
   uri: 
   username: 
   password: 

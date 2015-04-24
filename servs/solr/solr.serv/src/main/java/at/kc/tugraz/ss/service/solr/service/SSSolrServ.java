@@ -30,12 +30,12 @@ import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSServContainerI;
 import java.util.List;
-import org.apache.solr.client.solrj.impl.ConcurrentUpdateSolrServer;
+import org.apache.solr.client.solrj.impl.ConcurrentUpdateSolrClient;
 
 public class SSSolrServ extends SSServContainerI{
   
   public static final SSSolrServ inst = new SSSolrServ(SSSolrClientI.class, SSSolrServerI.class);
-  protected static ConcurrentUpdateSolrServer solrServer = null;
+  protected static ConcurrentUpdateSolrClient solrServer = null;
   
   protected SSSolrServ(
     final Class servImplClientInteraceClass, 
@@ -66,7 +66,7 @@ public class SSSolrServ extends SSServContainerI{
       return;
     }
     
-    solrServer = new ConcurrentUpdateSolrServer(((SSFileRepoConf)conf).getPath(), 1, 10);
+    solrServer = new ConcurrentUpdateSolrClient(((SSFileRepoConf)conf).getPath(), 1, 10);
   }
   
   @Override

@@ -47,10 +47,10 @@ import org.apache.solr.common.util.*;
 
 public class SSSolrImpl extends SSServImplWithDBA implements SSSolrClientI, SSSolrServerI{
   
-  private final ConcurrentUpdateSolrServer solrUpdater;
+  private final ConcurrentUpdateSolrClient solrUpdater;
   private final String                     localWorkPath;
   
-  public SSSolrImpl(final SSConfA conf, final ConcurrentUpdateSolrServer solrCon) throws Exception{
+  public SSSolrImpl(final SSConfA conf, final ConcurrentUpdateSolrClient solrCon) throws Exception{
     
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
     
