@@ -641,11 +641,16 @@ public class SSSearchImpl extends SSServImplWithDBA implements SSSearchClientI, 
         
         for(String entityId : SSServCaller.solrSearch(keyword, 20)){
           
-          entityObj =
-            SSServCaller.entityGet(
-              SSServCaller.vocURICreateFromId(entityId));
+          try{
             
-          searchResultsForOneKeyword.add(entityObj);
+            entityObj =
+              SSServCaller.entityGet(
+                SSServCaller.vocURICreateFromId(entityId));
+
+            searchResultsForOneKeyword.add(entityObj);
+          }catch(Exception error){
+            SSLogU.warn("solr result entity not found in sss");
+          }
         }
 
         searchResultsPerKeyword.put(keyword, new ArrayList<>(searchResultsForOneKeyword));

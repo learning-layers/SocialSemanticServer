@@ -50,11 +50,12 @@ public class SSSolrImpl extends SSServImplWithDBA implements SSSolrClientI, SSSo
   private final ConcurrentUpdateSolrClient solrUpdater;
   private final String                     localWorkPath;
   
-  public SSSolrImpl(final SSConfA conf, final ConcurrentUpdateSolrClient solrCon) throws Exception{
+  public SSSolrImpl(final SSConfA conf, final ConcurrentUpdateSolrClient solrUpdater) throws Exception{
     
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
     
-    solrUpdater    = solrCon;
+    this.solrUpdater = solrUpdater;
+
     localWorkPath  = SSCoreConf.instGet().getSss().getLocalWorkPath();
     
     SSLogU.info("connected to Solr server @ " + ((SSFileRepoConf) conf).getPath() + ".");

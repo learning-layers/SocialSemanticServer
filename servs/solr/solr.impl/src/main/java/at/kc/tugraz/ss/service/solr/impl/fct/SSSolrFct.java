@@ -25,17 +25,17 @@ import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.common.SolrDocumentList;
 
-public class SSSolrFct {
+public class SSSolrFct{
 
   public static SolrDocumentList query(
-    final SolrClient      server,
-    final SSSolrQueryPars queryPars) throws Exception {
-		
+    final SolrClient      solrQuerier, 
+    final SSSolrQueryPars queryPars) throws Exception{
+    
     final SolrQuery solrQuery = new SolrQuery();
-		
+    
     solrQuery.setQuery(queryPars.query);
-		solrQuery.setRows (queryPars.numRows);
-		
-    return server.query(solrQuery).getResults();
-	}
+    solrQuery.setRows (queryPars.numRows);
+    
+    return solrQuerier.query(solrQuery).getResults();
+  }
 }

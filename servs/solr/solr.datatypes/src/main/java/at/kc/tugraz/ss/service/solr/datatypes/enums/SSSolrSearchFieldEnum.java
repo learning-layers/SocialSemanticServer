@@ -23,13 +23,15 @@
 public enum SSSolrSearchFieldEnum {
 
   id          ("id"),
+  content     ("content"),
   docText     ("doc_text"),
   abstracT    ("abstract"),
   title       ("title"),
   docLang     ("doc_lang"),
   lastAuthor  ("last_author"),
   keywords    ("keywords"),
-  all         ("*");
+  all         ("*"), 
+  text        ("text");
   
   final public String val;
 
