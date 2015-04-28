@@ -120,7 +120,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
           bindingStrToLabel      (resultSet, SSSQLVarNames.label));
       
       entityObj.creationTime = bindingStrToLong       (resultSet, SSSQLVarNames.creationTime);
-      entityObj.author       = bindingStrToUri        (resultSet, SSSQLVarNames.author);
+      entityObj.author       = bindingStrToAuthor     (resultSet, SSSQLVarNames.author);
       entityObj.description  = bindingStrToTextComment(resultSet, SSSQLVarNames.description);
 
       return entityObj;
@@ -168,9 +168,9 @@ public class SSEntitySQLFct extends SSDBSQLFct{
           type,
           label);
       
-      entityObj.creationTime = bindingStrToLong       (resultSet, SSSQLVarNames.creationTime);
-      entityObj.author       = bindingStrToUri        (resultSet, SSSQLVarNames.author);
-      entityObj.description  = bindingStrToTextComment(resultSet, SSSQLVarNames.description);
+      entityObj.creationTime = bindingStrToLong          (resultSet, SSSQLVarNames.creationTime);
+      entityObj.author       = bindingStrToAuthor        (resultSet, SSSQLVarNames.author);
+      entityObj.description  = bindingStrToTextComment   (resultSet, SSSQLVarNames.description);
 
       return entityObj;
     }catch(Exception error){
@@ -304,9 +304,9 @@ public class SSEntitySQLFct extends SSDBSQLFct{
             bindingStrToEntityType (resultSet, SSSQLVarNames.type),
             bindingStrToLabel      (resultSet, SSSQLVarNames.label));
         
-        entity.creationTime = bindingStrToLong       (resultSet, SSSQLVarNames.creationTime);
-        entity.author       = bindingStrToUri        (resultSet, SSSQLVarNames.author);
-        entity.description  = bindingStrToTextComment(resultSet, SSSQLVarNames.description);
+        entity.creationTime = bindingStrToLong        (resultSet, SSSQLVarNames.creationTime);
+        entity.author       = bindingStrToAuthor      (resultSet, SSSQLVarNames.author);
+        entity.description  = bindingStrToTextComment (resultSet, SSSQLVarNames.description);
         
         entities.add(entity);
       }
@@ -495,7 +495,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
             bindingStrToLabel         (resultSet, SSSQLVarNames.label));
         
         entityObj.creationTime = bindingStrToLong          (resultSet, SSSQLVarNames.creationTime);
-        entityObj.author       = bindingStrToUri           (resultSet, SSSQLVarNames.author);
+        entityObj.author       = bindingStrToAuthor        (resultSet, SSSQLVarNames.author);
         entityObj.description  = bindingStrToTextComment   (resultSet, SSSQLVarNames.description);
 
         attachedEntities.add(entityObj);

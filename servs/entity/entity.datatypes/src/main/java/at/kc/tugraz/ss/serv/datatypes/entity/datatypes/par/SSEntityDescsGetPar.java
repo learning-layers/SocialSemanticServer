@@ -27,6 +27,7 @@ import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSErrE;
+import at.tugraz.sss.serv.SSServErrReg;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
@@ -137,7 +138,7 @@ public class SSEntityDescsGetPar extends SSServPar{
         }catch(Exception error){}
       }
     }catch(Exception error){
-      throw new SSErr(SSErrE.servParCreationFailed);
+      SSServErrReg.regErrThrow(new SSErr(SSErrE.servParCreationFailed));
     }
   }
   

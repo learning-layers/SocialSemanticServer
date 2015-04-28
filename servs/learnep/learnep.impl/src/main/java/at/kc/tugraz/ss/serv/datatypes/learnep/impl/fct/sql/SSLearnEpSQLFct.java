@@ -132,7 +132,7 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
         SSLearnEp.get(learnEpUri,
           bindingStrToLabel(resultSet, SSSQLVarNames.label),
           user,
-          bindingStrToUri(resultSet, SSSQLVarNames.author),
+          bindingStrToAuthor(resultSet, SSSQLVarNames.author),
           new ArrayList<>());
       
       learnEpObj.description = bindingStrToTextComment(resultSet, SSSQLVarNames.description);
@@ -204,7 +204,7 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
           SSLearnEp.get(bindingStrToUri   (resultSet, SSSQLVarNames.learnEpId),
             bindingStrToLabel (resultSet, SSSQLVarNames.label),
             user,
-            bindingStrToUri(resultSet, SSSQLVarNames.author),
+            bindingStrToAuthor(resultSet, SSSQLVarNames.author),
             new ArrayList<>());
         
         learnEpObj.description = bindingStrToTextComment(resultSet, SSSQLVarNames.description);

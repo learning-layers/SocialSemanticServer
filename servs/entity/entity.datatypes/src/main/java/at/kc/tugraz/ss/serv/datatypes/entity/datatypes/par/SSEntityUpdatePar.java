@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSErrE;
+import at.tugraz.sss.serv.SSServErrReg;
 
 public class SSEntityUpdatePar extends SSServPar{
   
@@ -58,7 +59,7 @@ public class SSEntityUpdatePar extends SSServPar{
         videos         = (List<SSUri>) pars.get(SSVarNames.videos);
       }
     }catch(Exception error){
-      throw new SSErr(SSErrE.servParCreationFailed);
+      SSServErrReg.regErrThrow(new SSErr(SSErrE.servParCreationFailed));
     }
   }
 }

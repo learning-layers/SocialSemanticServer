@@ -54,18 +54,6 @@
       <artifactId>solr-solrj</artifactId>
       <version>5.1.0</version>
     </dependency>
-
-<!--    <dependency>
-      <groupId>org.apache.solr</groupId>
-      <artifactId>solr-cell</artifactId>
-      <version>5.1.0</version>
-    </dependency>-->
-
-    <!--    <dependency>
-      <groupId>org.apache.solr</groupId>
-      <artifactId>solr-solrj</artifactId>
-      <version>3.6.1</version>
-    </dependency>-->
     
     <dependency>
       <groupId>org.apache.httpcomponents</groupId>

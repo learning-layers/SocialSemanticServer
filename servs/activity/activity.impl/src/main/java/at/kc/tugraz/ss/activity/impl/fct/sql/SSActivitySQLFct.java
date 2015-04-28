@@ -26,6 +26,7 @@ import at.kc.tugraz.ss.activity.datatypes.SSActivity;
 import at.kc.tugraz.ss.activity.datatypes.SSActivityContent;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityContentE;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
+import at.tugraz.sss.serv.SSAuthor;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
@@ -33,7 +34,6 @@ import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSDBSQLFct;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSServErrReg;
-
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -283,15 +283,15 @@ public class SSActivitySQLFct extends SSDBSQLFct{
       
       final         List<String> latestActivities = new ArrayList<>();
       SSUri         entity;
-      SSUri         author;
+      SSAuthor      author;
       SSActivityE   type;
       String        activityCombi;
         
       while(resultSet.next()){
         
-        author = bindingStrToUri  (resultSet, SSSQLVarNames.author);
-        entity = bindingStrToUri  (resultSet, SSSQLVarNames.entityId);
-        type   = SSActivityE.get  (bindingStr(resultSet, SSSQLVarNames.activityType));
+        author = bindingStrToAuthor  (resultSet, SSSQLVarNames.author);
+        entity = bindingStrToUri     (resultSet, SSSQLVarNames.entityId);
+        type   = SSActivityE.get     (bindingStr(resultSet, SSSQLVarNames.activityType));
         
         if(
           includeOnlyLastActivities &&
@@ -317,14 +317,14 @@ public class SSActivitySQLFct extends SSDBSQLFct{
         }
         
         activityObj = 
-          SSActivity.get(bindingStrToUri  (resultSet, SSSQLVarNames.id),
+          SSActivity.get(
+            bindingStrToUri  (resultSet, SSSQLVarNames.id),
             type,
             activityEntity, 
             new ArrayList<>());
 
         activityObj.creationTime   = bindingStrToLong (resultSet, SSSQLVarNames.creationTime);
         activityObj.author         = author;
-
         activityObj.comments.addAll(SSTextComment.asListWithoutNullAndEmpty(SSTextComment.get(bindingStr(resultSet, SSSQLVarNames.textComment))));
         
         activities.add(activityObj);
@@ -431,8 +431,8 @@ public class SSActivitySQLFct extends SSDBSQLFct{
           null,
           new ArrayList<>());
         
-      activityObj.author       = bindingStrToUri  (resultSet, SSSQLVarNames.author);
-      activityObj.creationTime = bindingStrToLong (resultSet, SSSQLVarNames.creationTime);
+      activityObj.author       = bindingStrToAuthor (resultSet, SSSQLVarNames.author);
+      activityObj.creationTime = bindingStrToLong   (resultSet, SSSQLVarNames.creationTime);
       
       entity = bindingStrToUri  (resultSet, SSSQLVarNames.entityId);
       

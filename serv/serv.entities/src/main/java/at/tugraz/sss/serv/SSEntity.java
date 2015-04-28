@@ -20,9 +20,6 @@
 */
 package at.tugraz.sss.serv;
 
-import at.tugraz.sss.serv.SSJSONLDU;
-import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarNames;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -54,7 +51,7 @@ public class SSEntity extends SSEntityA{
   @ApiModelProperty(
     required = false,
     value = "creator")
-  public SSUri               author           = null;
+  public SSAuthor               author           = null;
   
   @ApiModelProperty(
     required = false,
@@ -248,7 +245,7 @@ public class SSEntity extends SSEntityA{
     ld.put(SSVarNames.label,          SSVarNames.sss + SSStrU.colon + SSLabel.class.getName());
     ld.put(SSVarNames.creationTime,   SSVarNames.xsd + SSStrU.colon + SSStrU.valueLong);
     ld.put(SSVarNames.type,           SSVarNames.sss + SSStrU.colon + SSEntityE.class.getName());
-    ld.put(SSVarNames.author,         SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarNames.author,         SSVarNames.sss + SSStrU.colon + SSAuthor.class.getName());
     ld.put(SSVarNames.description,    SSVarNames.sss + SSStrU.colon + SSTextComment.class.getName());
     ld.put(SSVarNames.overallRating,  SSVarNames.sss + SSStrU.colon + SSEntityA.class.getName());
     ld.put(SSVarNames.thumb,          SSVarNames.xsd + SSStrU.colon + SSStrU.valueString);
@@ -337,8 +334,8 @@ public class SSEntity extends SSEntityA{
     return type;
   }
   
-  public String getAuthor() throws Exception{
-    return SSStrU.removeTrailingSlash(author);
+  public SSAuthor getAuthor() throws Exception{
+    return author;
   }
   
   public String getDescription() throws Exception{

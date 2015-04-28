@@ -346,6 +346,19 @@ public class SSDBSQLFct extends SSDBFct{
     return uris;
   }
   
+  protected static SSAuthor bindingStrToAuthor(
+    final ResultSet resultSet, 
+    final String    binding) throws Exception{
+    
+    final String tmp = bindingStr(resultSet, binding);
+    
+    if(SSStrU.isEmpty(tmp)){
+      return null;
+    }
+    
+    return SSAuthor.get(SSUri.get(tmp));
+  }
+  
   protected static SSUri bindingStrToUri(
     final ResultSet resultSet, 
     final String    binding) throws Exception{

@@ -368,9 +368,9 @@ public class SSDiscSQLFct extends SSDBSQLFct {
           bindingStrToLabel      (resultSet, SSSQLVarNames.label),
           bindingStrToUri        (resultSet, SSSQLVarNames.entityId));
       
-      discObj.author       = bindingStrToUri        (resultSet, SSSQLVarNames.author);
-      discObj.creationTime = bindingStrToLong       (resultSet, SSSQLVarNames.creationTime);
-      discObj.description  = bindingStrToTextComment(resultSet, SSSQLVarNames.description);
+      discObj.author       = bindingStrToAuthor        (resultSet, SSSQLVarNames.author);
+      discObj.creationTime = bindingStrToLong          (resultSet, SSSQLVarNames.creationTime);
+      discObj.description  = bindingStrToTextComment   (resultSet, SSSQLVarNames.description);
       
       return discObj;
         
@@ -478,7 +478,7 @@ public class SSDiscSQLFct extends SSDBSQLFct {
             bindingStrToTextComment (resultSet, SSSQLVarNames.discEntryContent));
           
         discEntryObj.creationTime = bindingStrToLong       (resultSet, SSSQLVarNames.creationTime);
-        discEntryObj.author       = bindingStrToUri        (resultSet, SSSQLVarNames.author);
+        discEntryObj.author       = bindingStrToAuthor     (resultSet, SSSQLVarNames.author);
           
         discEntries.add(discEntryObj);
       }

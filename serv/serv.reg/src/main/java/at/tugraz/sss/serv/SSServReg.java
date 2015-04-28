@@ -462,6 +462,6 @@ public class SSServReg{
 //      if(servImpl instanceof SSServImplWithDBA){
 //
 //        if(((SSServImplWithDBA)servImpl).dbSQL.getActive() > ((SSServImplWithDBA)servImpl).dbSQL.getMaxActive() - 30){
-//          throw new SSErr(SSErrE.maxNumDBConsReached);
+//          SSServErrReg.regErrThrow(new SSErr(SSErrE.maxNumDBConsReached);
 //        }
 //      }

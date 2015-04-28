@@ -47,7 +47,7 @@ public class SSEntityLocationsAddPar extends SSServPar{
         locations      = (List<SSLocation>)    pars.get(SSVarNames.locations);
       }
     }catch(Exception error){
-      throw new SSErr(SSErrE.servParCreationFailed);
+      SSServErrReg.regErrThrow(new SSErr(SSErrE.servParCreationFailed));
     }
   }
 }

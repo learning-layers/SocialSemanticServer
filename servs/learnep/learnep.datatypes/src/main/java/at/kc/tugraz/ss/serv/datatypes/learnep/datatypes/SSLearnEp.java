@@ -20,6 +20,7 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes;
 
+import at.tugraz.sss.serv.SSAuthor;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSLabel;
@@ -43,7 +44,7 @@ public class SSLearnEp extends SSEntity {
     final SSUri                  id, 
     final SSLabel                label,
     final SSUri                  user, 
-    final SSUri                  author,
+    final SSAuthor               author,
     final List<SSLearnEpVersion> versions) throws Exception{
     
     return new SSLearnEp(id, label, user, author, versions);
@@ -53,7 +54,7 @@ public class SSLearnEp extends SSEntity {
     final SSUri                  id, 
     final SSLabel                label,
     final SSUri                  user,
-    final SSUri                  author,
+    final SSAuthor               author,
     final List<SSLearnEpVersion> versions) throws Exception{
     
     super(id, SSEntityE.learnEp, label);

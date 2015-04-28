@@ -248,7 +248,7 @@ public class SSEvalSQLFct extends SSDBSQLFct{
 //      resultSet = dbSQL.select(learnEpVersionCurrentTable, columns, wheres, null, null, null);
 //      
 //      if(!resultSet.first()){
-//        throw new SSErr(SSErrE.learnEpCurrentVersionNotSet);
+//        SSServErrReg.regErrThrow(new SSErr(SSErrE.learnEpCurrentVersionNotSet);
 //      }
 //      
 //      return bindingStrToUri(resultSet, SSSQLVarU.learnEpVersionId);

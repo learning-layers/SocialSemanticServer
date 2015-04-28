@@ -51,7 +51,7 @@ public class SSEntityAddPar extends SSServPar{
         creationTime    = (Long)          pars.get(SSVarNames.creationTime);
       }
     }catch(Exception error){
-      throw new SSErr(SSErrE.servParCreationFailed);
+      SSServErrReg.regErrThrow(new SSErr(SSErrE.servParCreationFailed));
     }
   }
 }

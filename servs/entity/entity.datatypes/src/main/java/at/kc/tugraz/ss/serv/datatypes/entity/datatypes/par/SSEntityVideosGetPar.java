@@ -25,6 +25,7 @@ import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSErrE;
+import at.tugraz.sss.serv.SSServErrReg;
 
 public class SSEntityVideosGetPar extends SSServPar{
   
@@ -41,7 +42,7 @@ public class SSEntityVideosGetPar extends SSServPar{
       }
       
     }catch(Exception error){
-      throw new SSErr(SSErrE.servParCreationFailed);
+      SSServErrReg.regErrThrow(new SSErr(SSErrE.servParCreationFailed));
     }
   }
 }

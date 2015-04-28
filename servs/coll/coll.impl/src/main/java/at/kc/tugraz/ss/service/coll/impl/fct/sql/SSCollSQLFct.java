@@ -295,7 +295,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
           SSColl.get(bindingStrToUri   (resultSet, SSSQLVarNames.id),
             bindingStrToLabel (resultSet, SSSQLVarNames.label));
         
-        collObj.author = bindingStrToUri   (resultSet, SSSQLVarNames.author);
+        collObj.author = bindingStrToAuthor   (resultSet, SSSQLVarNames.author);
           
         publicColls.add(collObj);
       }
@@ -635,7 +635,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
         SSColl.get(collUri,
           bindingStrToLabel (resultSet, SSSQLVarNames.label));
       
-      collObj.author = bindingStrToUri   (resultSet, SSSQLVarNames.author);
+      collObj.author = bindingStrToAuthor   (resultSet, SSSQLVarNames.author);
       
       collObj.circleTypes.addAll(circleTypes);
       

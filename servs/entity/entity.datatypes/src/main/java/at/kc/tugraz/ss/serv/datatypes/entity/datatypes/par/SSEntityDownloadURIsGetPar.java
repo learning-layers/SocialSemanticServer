@@ -41,7 +41,7 @@ public class SSEntityDownloadURIsGetPar extends SSServPar{
       }
       
     }catch(Exception error){
-      throw new SSErr(SSErrE.servParCreationFailed);
+      SSServErrReg.regErrThrow(new SSErr(SSErrE.servParCreationFailed));
     }
   }
 }

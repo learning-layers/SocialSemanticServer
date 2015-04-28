@@ -105,7 +105,7 @@ public class SSEntityUserDirectlyAdjoinedEntitiesRemovePar extends SSServPar{
         }catch(Exception error){}
       }
     }catch(Exception error){
-      throw new SSErr(SSErrE.servParCreationFailed);
+      SSServErrReg.regErrThrow(new SSErr(SSErrE.servParCreationFailed));
     }
   }
   
