@@ -37,6 +37,10 @@ import at.kc.tugraz.ss.activity.datatypes.ret.SSActivitiesUserGetRet;
 import at.kc.tugraz.ss.activity.datatypes.ret.SSActivityTypesGetRet;
 import at.kc.tugraz.ss.activity.datatypes.ret.SSActivityUserAddRet;
 import at.kc.tugraz.ss.activity.impl.fct.sql.SSActivitySQLFct;
+import at.kc.tugraz.ss.service.user.api.SSUserServerI;
+import at.kc.tugraz.ss.service.user.datatypes.SSUser;
+import at.kc.tugraz.ss.service.user.datatypes.pars.SSUsersGetPar;
+import at.kc.tugraz.ss.service.user.service.SSUserServ;
 import at.tugraz.sss.serv.SSSocketCon;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSUri;
@@ -511,12 +515,17 @@ public class SSActivityImpl extends SSServImplWithDBA implements SSActivityClien
         }
       }
       
-      activity.users.addAll(
-        SSServCaller.usersGet(
-          par.user, 
-          sqlFct.getActivityUsers(activity.id),
-          false));
+      final List<SSUser> users = 
+        ((SSUserServerI) SSUserServ.inst.serv()).usersGet(
+          new SSUsersGetPar(
+            null, 
+            null, 
+            par.user, 
+            sqlFct.getActivityUsers(activity.id), 
+            false));
       
+      activity.users.addAll(users);
+              
       activity.contents.addAll(sqlFct.getActivityContents(activity.id));
       
       for(SSUri activityEntity : sqlFct.getActivityEntities(activity.id)){

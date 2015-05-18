@@ -34,6 +34,9 @@ import at.kc.tugraz.ss.serv.job.dataexport.datatypes.par.SSDataExportAddTagsCate
 import at.kc.tugraz.ss.serv.job.dataexport.datatypes.par.SSDataExportUserEntityTagCategoryTimestampPar;
 import at.kc.tugraz.ss.serv.job.dataexport.datatypes.par.SSDataExportUserRelationsPar;
 import at.kc.tugraz.ss.serv.job.dataexport.impl.fct.SSDataExportFct;
+import at.kc.tugraz.ss.service.user.api.SSUserServerI;
+import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserAllPar;
+import at.kc.tugraz.ss.service.user.service.SSUserServ;
 import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
@@ -42,7 +45,6 @@ import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSUserRelationGathererI;
 import at.tugraz.sss.serv.SSUsersResourcesGathererI;
-import at.tugraz.sss.serv.caller.SSServCaller;
 import au.com.bytecode.opencsv.CSVWriter;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
@@ -86,7 +88,15 @@ public class SSDataExportImpl extends SSServImplWithDBA implements SSDataExportC
       fileWriter = new CSVWriter                            (writer, SSStrU.semiColon.charAt(0));
       
       try{
-        allUsers    = SSStrU.toStr(SSServCaller.userAll(false));
+        allUsers = 
+          SSStrU.toStr(
+            ((SSUserServerI) SSUserServ.inst.serv()).userAll(
+              new SSUserAllPar(
+                null,
+                null,
+                null,
+                false)));
+        
       }catch(SSErr error){
         
         switch(error.code){
@@ -234,7 +244,15 @@ public class SSDataExportImpl extends SSServImplWithDBA implements SSDataExportC
       List<SSUri>                        users;
       
       try{
-        allUsers = SSStrU.toStr(SSServCaller.userAll(false));
+        allUsers =
+          SSStrU.toStr(
+            ((SSUserServerI) SSUserServ.inst.serv()).userAll(
+              new SSUserAllPar(
+                null,
+                null,
+                null,
+                false)));
+        
       }catch(SSErr error){
         
         switch(error.code){

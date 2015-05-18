@@ -20,9 +20,7 @@
 */
 package at.kc.tugraz.ss.service.user.datatypes.pars;
 
-import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSUri;
 
@@ -39,27 +37,7 @@ public class SSUserAllPar extends SSServPar{
     final Boolean   setFriends){
   
     super(op, key, user);
-    
+
     this.setFriends = setFriends;
-  }
-  
-  public static SSUserAllPar get(final SSServPar par) throws Exception{
-    
-    try{
-      
-      if(par.clientCon != null){
-        return (SSUserAllPar) par.getFromJSON(SSUserAllPar.class);
-      }
-      
-      return new SSUserAllPar(
-        par.op,
-        par.key,
-        par.user,
-        (Boolean) par.pars.get(SSVarNames.setFriends));
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
   }
 }

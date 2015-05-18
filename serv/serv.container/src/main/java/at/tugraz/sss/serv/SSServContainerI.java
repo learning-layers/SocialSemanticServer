@@ -101,7 +101,7 @@ public abstract class SSServContainerI{
     try{
       
       if(!conf.use){
-        return null;
+        throw new Exception("service not running");
       }
       
       final SSServImplA servTmp = servImplsByServByThread.get();

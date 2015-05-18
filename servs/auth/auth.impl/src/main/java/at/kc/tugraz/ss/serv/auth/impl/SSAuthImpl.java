@@ -42,6 +42,11 @@ import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthUsersFromCSVFileAddPar;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.ret.SSAuthCheckCredRet;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
+import at.kc.tugraz.ss.service.user.api.SSUserServerI;
+import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserAddPar;
+import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserExistsPar;
+import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserURIGetPar;
+import at.kc.tugraz.ss.service.user.service.SSUserServ;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
@@ -134,24 +139,39 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
       
       dbSQL.startTrans(par.shouldCommit);
       
-      if(!SSServCaller.userExists(SSVoc.systemUserUri, par.email)){
+      if(!((SSUserServerI) SSUserServ.inst.serv()).userExists(
+        new SSUserExistsPar(
+          null, 
+          null, 
+          SSVoc.systemUserUri, 
+          par.email))){
         
-        userUri =
-          SSServCaller.userAdd(
-            SSVoc.systemUserUri,
-            par.label,
-            par.email,
-            par.isSystemUser,
-            false);
+        userUri = 
+          ((SSUserServerI) SSUserServ.inst.serv()).userAdd(
+            new SSUserAddPar(
+              null,
+              null,
+              SSVoc.systemUserUri,
+              false,
+              par.label,
+              par.email,
+              par.isSystemUser));
         
         sqlFct.removeKey(userUri);
         
         sqlFct.addKey(
           userUri,
           SSAuthMiscFct.genKey(par.email, par.password));
+        
       }else{
         
-        userUri = SSServCaller.userURIGet(SSVoc.systemUserUri, par.email);
+        userUri =
+          ((SSUserServerI) SSUserServ.inst.serv()).userURIGet(
+            new SSUserURIGetPar(
+              null,
+              null,
+              SSVoc.systemUserUri,
+              par.email));
         
         if(par.updatePassword){
           
@@ -196,16 +216,24 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
           final String email = SSStrU.toStr(par.label) + SSStrU.at + SSVocConf.systemEmailPostFix;
           final SSUri  userUri;
           
-          if(!SSServCaller.userExists(SSVoc.systemUserUri, email)){
-            
+          if(!((SSUserServerI) SSUserServ.inst.serv()).userExists(
+            new SSUserExistsPar(
+              null,
+              null,
+              SSVoc.systemUserUri,
+              email))){
+                
             userUri =
-              SSServCaller.userAdd(
-                SSVoc.systemUserUri,
-                par.label,
-                email,
-                false,
-                true);
-            
+              ((SSUserServerI) SSUserServ.inst.serv()).userAdd(
+                new SSUserAddPar(
+                  null, 
+                  null, 
+                  SSVoc.systemUserUri, 
+                  true, 
+                  par.label, 
+                  email, 
+                  false));
+                  
             try{
               SSServCaller.collUserRootAdd (userUri, true);
             }catch(SSErr error){
@@ -217,10 +245,13 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
             }
           }else{
             
-            userUri = 
-              SSServCaller.userURIGet(
-                SSVoc.systemUserUri, 
-                email);
+           userUri = 
+             ((SSUserServerI) SSUserServ.inst.serv()).userURIGet(
+               new SSUserURIGetPar(
+                 null, 
+                 null, 
+                 SSVoc.systemUserUri, 
+                 email));
           }
           
           return SSAuthCheckCredRet.get(
@@ -252,11 +283,23 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
              email = email + SSStrU.at + SSVocConf.systemEmailPostFix;
             }
 
-            if(!SSServCaller.userExists(SSVoc.systemUserUri, email)){
+            if(!((SSUserServerI) SSUserServ.inst.serv()).userExists(
+              new SSUserExistsPar(
+                null,
+                null,
+                SSVoc.systemUserUri,
+                email))){
+              
               throw new SSErr(SSErrE.userIsNotRegistered);
             }
             
-            userUri = SSServCaller.userURIGet(SSVoc.systemUserUri, email);
+            userUri = 
+             ((SSUserServerI) SSUserServ.inst.serv()).userURIGet(
+               new SSUserURIGetPar(
+                 null, 
+                 null, 
+                 SSVoc.systemUserUri, 
+                 email));
             
             return SSAuthCheckCredRet.get(
               SSAuthMiscFct.checkAndGetKey(
@@ -273,15 +316,23 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
           final String email = SSAuthOIDC.getOIDCUserEmail(par.key);
           SSUri        userUri;
           
-          if(!SSServCaller.userExists(SSVoc.systemUserUri, email)){
+          if(!((SSUserServerI) SSUserServ.inst.serv()).userExists(
+            new SSUserExistsPar(
+              null,
+              null,
+              SSVoc.systemUserUri,
+              email))){
             
-            userUri =
-              SSServCaller.userAdd(
-                SSVoc.systemUserUri,
-                SSLabel.get(email),
-                email,
-                false,
-                true);
+            userUri = 
+              ((SSUserServerI) SSUserServ.inst.serv()).userAdd(
+                new SSUserAddPar(
+                  null, 
+                  null, 
+                  SSVoc.systemUserUri, 
+                  true, 
+                  SSLabel.get(email), 
+                  email, 
+                  false));
             
             try{
               SSServCaller.collUserRootAdd (userUri, true);
@@ -295,9 +346,12 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
           }else{
             
             userUri = 
-              SSServCaller.userURIGet(
-                SSVoc.systemUserUri, 
-                email);
+             ((SSUserServerI) SSUserServ.inst.serv()).userURIGet(
+               new SSUserURIGetPar(
+                 null, 
+                 null, 
+                 SSVoc.systemUserUri, 
+                 email));
           }
 
           return SSAuthCheckCredRet.get(

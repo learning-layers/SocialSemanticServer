@@ -49,12 +49,6 @@
       <version>${project.version}</version>
     </dependency> 
     
-<!--    <dependency>
-      <groupId>sss.servs</groupId>
-      <artifactId>user.api</artifactId>
-      <version>${project.version}</version>
-    </dependency> -->
-    
     <dependency>
       <groupId>sss.servs</groupId>
       <artifactId>disc.datatypes</artifactId>
@@ -118,12 +112,6 @@
     <dependency>
       <groupId>sss.servs</groupId>
       <artifactId>video.conf</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>sss.servs</groupId>
-      <artifactId>user.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>
     

@@ -47,7 +47,6 @@ import at.kc.tugraz.ss.service.search.datatypes.ret.SSSearchRet;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTag;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagFrequ;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
-import at.kc.tugraz.ss.service.user.datatypes.SSUser;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUE;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUEE;
 import at.kc.tugraz.sss.flag.datatypes.SSFlag;
@@ -2111,74 +2110,6 @@ public class SSServCaller {
     opPars.put(SSVarNames.entity,       entity);
     
     return (Boolean) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.uEsRemove, opPars));
-  }
-  
-  /* user */
-  
-  public static SSUri userURIGet(
-    final SSUri   user,
-    final String  email) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.user,  user);
-    opPars.put(SSVarNames.email, email);
-    
-    return (SSUri) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.userURIGet, opPars));
-  }
-  
-  public static List<SSUser> userAll(
-    final Boolean setFriends) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.setFriends,  setFriends);
-    
-    return (List<SSUser>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.userAll, opPars));
-  }
-  
-  public static List<SSUser> usersGet(
-    final SSUri       user, 
-    final List<SSUri> users,
-    final Boolean     setFriends) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.user,       user);
-    opPars.put(SSVarNames.users,      users);
-    opPars.put(SSVarNames.setFriends, setFriends);
-    
-    return (List<SSUser>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.usersGet, opPars));
-  }
-  
-  public static Boolean userExists(
-    final SSUri   user,
-    final String  email) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.user,         user);
-    opPars.put(SSVarNames.email,        email);
-    
-    return (Boolean) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.userExists, opPars));
-  }
-  
-  public static SSUri userAdd(
-    final SSUri   user,
-    final SSLabel label,
-    final String  email,
-    final Boolean isSystemUser,
-    final Boolean shouldCommit) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.user,         user);
-    opPars.put(SSVarNames.label,        label);
-    opPars.put(SSVarNames.email,        email);
-    opPars.put(SSVarNames.isSystemUser, isSystemUser);
-    opPars.put(SSVarNames.shouldCommit, shouldCommit);
-    
-    return (SSUri) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.userAdd, opPars));
   }
   
   /* modeling user event */
