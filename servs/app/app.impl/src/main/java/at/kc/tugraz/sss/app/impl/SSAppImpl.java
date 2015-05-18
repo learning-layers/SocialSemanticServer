@@ -20,6 +20,9 @@
 */
 package at.kc.tugraz.sss.app.impl;
 
+import at.kc.tugraz.ss.circle.api.SSCircleServerI;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePubEntityAddPar;
+import at.kc.tugraz.ss.circle.serv.SSCircleServ;
 import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSSocketCon;
 import at.tugraz.sss.serv.SSEntity;
@@ -90,15 +93,18 @@ public class SSAppImpl extends SSServImplWithDBA implements SSAppClientI, SSAppS
       final SSUri       appUri = SSServCaller.vocURICreate();
       
       dbSQL.startTrans(par.shouldCommit);
-      
-      SSServCaller.entityEntityToPubCircleAdd(
-        par.user, 
-        appUri, 
-        SSEntityE.app, 
-        par.label, 
-        null, 
-        null, 
-        false);
+
+      ((SSCircleServerI) SSCircleServ.inst.serv()).circlePubEntityAdd(
+        new SSCirclePubEntityAddPar(
+          null,
+          null,
+          par.user,
+          appUri,
+          false,
+          SSEntityE.app,
+          par.label,
+          null,
+          null));
       
       sqlFct.createApp(
         appUri,
@@ -112,26 +118,32 @@ public class SSAppImpl extends SSServImplWithDBA implements SSAppClientI, SSAppS
       
       for(SSUri download : par.downloads){
       
-        SSServCaller.entityEntityToPubCircleAdd(
-          par.user, 
-          download, 
-          SSEntityE.entity, 
-          null, 
-          null, 
-          null, 
-          false);
+        ((SSCircleServerI) SSCircleServ.inst.serv()).circlePubEntityAdd(
+          new SSCirclePubEntityAddPar(
+            null,
+            null,
+            par.user,
+            download,
+            false,
+            SSEntityE.entity,
+            null,
+            null,
+            null));
       }
       
       for(SSUri screenShot : par.screenShots){
       
-        SSServCaller.entityEntityToPubCircleAdd(
-          par.user, 
-          screenShot, 
-          SSEntityE.image, 
-          null, 
-          null, 
-          null, 
-          false);
+        ((SSCircleServerI) SSCircleServ.inst.serv()).circlePubEntityAdd(
+          new SSCirclePubEntityAddPar(
+            null,
+            null,
+            par.user,
+            screenShot,
+            false,
+            SSEntityE.image,
+            null,
+            null,
+            null));
       }
       
       SSServCaller.entityUpdate(

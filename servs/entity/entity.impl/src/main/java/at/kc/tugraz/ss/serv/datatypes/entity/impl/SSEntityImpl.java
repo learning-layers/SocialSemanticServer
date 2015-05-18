@@ -20,6 +20,9 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.entity.impl;
 
+import at.kc.tugraz.ss.circle.api.SSCircleServerI;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePubEntityAddPar;
+import at.kc.tugraz.ss.circle.serv.SSCircleServ;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityClientI;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesForDescriptionsGetPar;
@@ -1091,14 +1094,17 @@ implements
       
       for(SSLocation location : par.locations){
         
-        SSServCaller.entityEntityToPubCircleAdd(
-          par.user,
-          location.id,
-          SSEntityE.location,
-          null,
-          null,
-          null,
-          false);
+        ((SSCircleServerI) SSCircleServ.inst.serv()).circlePubEntityAdd(
+          new SSCirclePubEntityAddPar(
+            null,
+            null,
+            par.user,
+            location.id,
+            false,
+            SSEntityE.location,
+            null,
+            null,
+            null));
         
         sqlFct.addLocation(
           location.id,

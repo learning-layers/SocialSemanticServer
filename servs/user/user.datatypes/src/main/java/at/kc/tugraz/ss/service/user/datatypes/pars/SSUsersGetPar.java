@@ -23,6 +23,7 @@
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSStrU;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,8 +32,8 @@ public class SSUsersGetPar extends SSServPar{
   public List<SSUri> users          = new ArrayList<>();
   public Boolean     setFriends     = null;
 
-  public List<SSUri> getUsers(){
-    return users;
+  public List<String> getUsers() throws Exception{
+    return SSStrU.removeTrailingSlash(users);
   }
 
   public void setUsers(final List<String> users) throws Exception{

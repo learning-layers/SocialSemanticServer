@@ -35,7 +35,7 @@ import at.tugraz.sss.serv.SSServPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleCreatePar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivURIGetPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntityToPrivCircleAddPar;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntityToPubCircleAddPar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePubEntityAddPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleGetPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclesGetPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesAddPar;
@@ -768,11 +768,9 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
   }
   
   @Override
-  public void entityEntityToPubCircleAdd(final SSServPar parA) throws Exception{
+  public void circlePubEntityAdd(final SSCirclePubEntityAddPar par) throws Exception{
     
     try{
-      
-      final SSCircleEntityToPubCircleAddPar par = new SSCircleEntityToPubCircleAddPar(parA);
       
       dbSQL.startTrans(par.shouldCommit);
       
@@ -799,18 +797,18 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(dbSQL.rollBack(parA.shouldCommit)){
+        if(dbSQL.rollBack(par.shouldCommit)){
           
           SSServErrReg.reset();
           
-          entityEntityToPrivCircleAdd(parA);
+          circlePubEntityAdd(par);
         }else{
           SSServErrReg.regErrThrow(error);
           return;
         }
       }
       
-      dbSQL.rollBack(parA.shouldCommit);
+      dbSQL.rollBack(par.shouldCommit);
       SSServErrReg.regErrThrow(error);
     }
   }

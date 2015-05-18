@@ -48,6 +48,9 @@ import at.kc.tugraz.ss.category.impl.fct.activity.SSCategoryActivityFct;
 import at.kc.tugraz.ss.category.impl.fct.misc.SSCategoryMiscFct;
 import at.kc.tugraz.ss.category.impl.fct.sql.SSCategorySQLFct;
 import at.kc.tugraz.ss.category.impl.fct.userrelationgatherer.SSCategoryUserRelationGathererFct;
+import at.kc.tugraz.ss.circle.api.SSCircleServerI;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePubEntityAddPar;
+import at.kc.tugraz.ss.circle.serv.SSCircleServ;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
@@ -392,25 +395,31 @@ implements
           
         }else{
           
-          SSServCaller.entityEntityToPubCircleAdd(
-            par.user,
-            categoryUri,
-            SSEntityE.category,
-            SSLabel.get(SSStrU.toStr(par.label)),
-            null,
-            par.creationTime,
-            false);
+          ((SSCircleServerI) SSCircleServ.inst.serv()).circlePubEntityAdd(
+            new SSCirclePubEntityAddPar(
+              null,
+              null,
+              par.user,
+              categoryUri,
+              false,
+              SSEntityE.category,
+              SSLabel.get(SSStrU.toStr(par.label)),
+              null,
+              par.creationTime));
         }
       }else{
         
-        SSServCaller.entityEntityToPubCircleAdd(
-          par.user,
-          par.entity,
-          SSEntityE.entity,
-          null,
-          null,
-          null,
-          false);
+        ((SSCircleServerI) SSCircleServ.inst.serv()).circlePubEntityAdd(
+          new SSCirclePubEntityAddPar(
+            null,
+            null,
+            par.user,
+            par.entity,
+            false,
+            SSEntityE.entity,
+            null,
+            null,
+            null));
         
         if(SSStrU.equals(par.space, SSSpaceE.privateSpace)){
           
@@ -424,14 +433,18 @@ implements
             false);
           
         }else{
-          SSServCaller.entityEntityToPubCircleAdd(
-            par.user,
-            categoryUri,
-            SSEntityE.category,
-            SSLabel.get(SSStrU.toStr(par.label)),
-            null,
-            par.creationTime,
-            false);
+          
+          ((SSCircleServerI) SSCircleServ.inst.serv()).circlePubEntityAdd(
+            new SSCirclePubEntityAddPar(
+              null,
+              null,
+              par.user,
+              categoryUri,
+              false,
+              SSEntityE.category,
+              SSLabel.get(SSStrU.toStr(par.label)),
+              null,
+              par.creationTime));
         }
       }
       

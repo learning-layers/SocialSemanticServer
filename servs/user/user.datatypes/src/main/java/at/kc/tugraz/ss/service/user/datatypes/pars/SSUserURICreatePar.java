@@ -23,14 +23,15 @@ package at.kc.tugraz.ss.service.user.datatypes.pars;
 import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 
 public class SSUserURICreatePar extends SSServPar{
   
   public SSLabel label = null;
   
-  public SSLabel getLabel(){
-    return label;
+  public String getLabel(){
+    return SSStrU.toStr(label);
   }
   
   public void setLabel(final String label) throws Exception{

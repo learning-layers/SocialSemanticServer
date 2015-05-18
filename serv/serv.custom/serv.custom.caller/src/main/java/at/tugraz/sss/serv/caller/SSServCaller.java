@@ -1820,28 +1820,6 @@ public class SSServCaller {
     SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entityEntityToPrivCircleAdd, opPars));
   }
   
-  public static void entityEntityToPubCircleAdd(
-    final SSUri         user, 
-    final SSUri         entity, 
-    final SSEntityE     type,
-    final SSLabel       label,
-    final SSTextComment description, 
-    final Long          creationTime, 
-    final Boolean       shouldCommit) throws Exception{
-    
-    final Map<String, Object>  opPars           = new HashMap<>();
-    
-    opPars.put(SSVarNames.user,             user);
-    opPars.put(SSVarNames.entity,           entity);
-    opPars.put(SSVarNames.type,             type);
-    opPars.put(SSVarNames.label,            label);
-    opPars.put(SSVarNames.description,      description);
-    opPars.put(SSVarNames.creationTime,     creationTime);
-    opPars.put(SSVarNames.shouldCommit,     shouldCommit);
-    
-    SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entityEntityToPubCircleAdd, opPars));
-  }
-  
   public static SSUri circleEntityShare(
     final SSUri         user,
     final SSUri         entity,

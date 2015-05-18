@@ -116,7 +116,6 @@ public enum SSServOpE{
   circleUserCan,
   circleEntityShare,
   entityEntityToPrivCircleAdd,
-  entityEntityToPubCircleAdd,
   circleEntityPublicSet,
   circleEntitiesRemove,
   
