@@ -42,6 +42,11 @@ import at.kc.tugraz.ss.service.search.datatypes.pars.SSSearchTagsWithinEntityPar
 import at.kc.tugraz.ss.service.search.datatypes.ret.SSSearchRet;
 import at.kc.tugraz.ss.service.search.impl.fct.SSSearchFct;
 import at.kc.tugraz.ss.service.search.impl.fct.misc.SSSearchMiscFct;
+import at.kc.tugraz.ss.service.tag.api.SSTagServerI;
+import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
+import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagEntitiesForTagsGetPar;
+import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsGetPar;
+import at.kc.tugraz.ss.service.tag.service.SSTagServ;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
@@ -584,26 +589,30 @@ public class SSSearchImpl extends SSServImplWithDBA implements SSSearchClientI, 
         searchResultsForTagOneTag = new ArrayList<>();
         
         for(SSUri foundEntity :
-          
-          SSServCaller.tagUserEntitiesForTagsGet(
-            par.user,
-            null,
-            SSStrU.toStrWithoutEmptyAndNull(tagLabel),
-            SSSpaceE.sharedSpace,
-            null)){
+          ((SSTagServerI) SSTagServ.inst.serv()).tagEntitiesForTagsGet(
+            new SSTagEntitiesForTagsGetPar(
+              null,
+              null,
+              par.user,
+              null, 
+              SSTagLabel.asListWithoutNullAndEmpty(SSTagLabel.get(tagLabel)), 
+              SSSpaceE.sharedSpace, 
+              null))){
           
           searchResultsForTagOneTag.add(SSServCaller.entityGet(foundEntity));
         }
         
         for(SSUri foundEntity :
-          
-          SSServCaller.tagUserEntitiesForTagsGet(
-            par.user,
-            null,
-            SSStrU.toStrWithoutEmptyAndNull(tagLabel),
-            SSSpaceE.privateSpace,
-            null)){
-          
+          ((SSTagServerI) SSTagServ.inst.serv()).tagEntitiesForTagsGet(
+            new SSTagEntitiesForTagsGetPar(
+              null,
+              null,
+              par.user,
+              null, 
+              SSTagLabel.asListWithoutNullAndEmpty(SSTagLabel.get(tagLabel)), 
+              SSSpaceE.privateSpace, 
+              null))){
+
           searchResultsForTagOneTag.add(SSServCaller.entityGet(foundEntity));
         }
         
@@ -687,7 +696,17 @@ public class SSSearchImpl extends SSServImplWithDBA implements SSSearchClientI, 
         
         for(SSUri entityUri : SSSearchMiscFct.getSubEntities(par.user, SSUri.asListWithoutNullAndEmpty(par.entity))){
           
-          if(SSServCaller.tagsUserGet(par.user, null, SSUri.asListWithoutNullAndEmpty(entityUri), SSStrU.toStrWithoutEmptyAndNull(tag), null, null).isEmpty()){
+          if(
+            ((SSTagServerI) SSTagServ.inst.serv()).tagsGet(
+              new SSTagsGetPar(
+                null, 
+                null,
+                par.user,
+                null,
+                SSUri.asListWithoutNullAndEmpty(entityUri),
+                SSTagLabel.asListWithoutNullAndEmpty(SSTagLabel.get(tag)), 
+                null, 
+                null)).isEmpty()){
             continue;
           }
           

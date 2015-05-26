@@ -71,7 +71,10 @@ import at.kc.tugraz.ss.service.coll.impl.fct.misc.SSCollMiscFct;
 import static at.kc.tugraz.ss.service.coll.impl.fct.misc.SSCollMiscFct.getCollSubCollAndEntryURIs;
 import at.kc.tugraz.ss.service.coll.impl.fct.op.SSCollEntryAddFct;
 import at.kc.tugraz.ss.service.coll.impl.fct.op.SSCollEntryDeleteFct;
+import at.kc.tugraz.ss.service.tag.api.SSTagServerI;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagFrequ;
+import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagFrequsGetPar;
+import at.kc.tugraz.ss.service.tag.service.SSTagServ;
 import java.util.*;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSWarnE;
@@ -890,8 +893,19 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
       
       coll = sqlFct.getCollWithEntries(par.coll, new ArrayList<>());
 
-      for(SSTagFrequ tagFrequ : SSServCaller.tagUserFrequsGet(par.user, null, SSUri.asListWithoutNullAndEmpty(par.coll), new ArrayList<>(), null, null, false)){
-
+      for(SSTagFrequ tagFrequ : 
+        ((SSTagServerI) SSTagServ.inst.serv()).tagFrequsGet(
+          new SSTagFrequsGetPar(
+            null, 
+            null, 
+            par.user, 
+            null, 
+            SSUri.asListWithoutNullAndEmpty(par.coll), 
+            SSTagLabel.asListWithoutNullAndEmpty(), 
+            null, 
+            null, 
+            false))){
+        
         tagLabel = tagFrequ.label.toString();
 
         if(tagLabelFrequs.containsKey(tagLabel)){
@@ -920,7 +934,18 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
 
         }else{
 
-          for(SSTagFrequ tagFrequ : SSServCaller.tagUserFrequsGet(par.user, null, SSUri.asListWithoutNullAndEmpty(collEntry.id), new ArrayList<>(), null, null, false)){
+          for(SSTagFrequ tagFrequ : 
+            ((SSTagServerI) SSTagServ.inst.serv()).tagFrequsGet(
+              new SSTagFrequsGetPar(
+                null,
+                null,
+                par.user,
+                null,
+                SSUri.asListWithoutNullAndEmpty(collEntry.id),
+                SSTagLabel.asListWithoutNullAndEmpty(),
+                null,
+                null,
+                false))){
 
             tagLabel = tagFrequ.label.toString();
 

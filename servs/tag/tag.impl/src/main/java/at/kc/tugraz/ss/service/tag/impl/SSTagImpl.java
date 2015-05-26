@@ -43,19 +43,18 @@ import at.tugraz.sss.serv.caller.SSServCallerU;
 import at.kc.tugraz.ss.service.tag.api.*;
 import at.kc.tugraz.ss.service.tag.datatypes.*;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagAddPar;
-import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagUserEditPar;
-import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagUserEntitiesForTagsGetPar;
-import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagUserFrequsGetPar;
-import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsUserGetPar;
-import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsUserRemovePar;
-import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsAddPar;
+import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagEditPar;
+import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagEntitiesForTagsGetPar;
+import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagFrequsGetPar;
+import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsGetPar;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsRemovePar;
+import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsAddPar;
 import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagAddRet;
-import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagUserEditRet;
-import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagUserEntitiesForTagsGetRet;
-import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagUserFrequsGetRet;
-import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagsUserGetRet;
-import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagsUserRemoveRet;
+import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagEditRet;
+import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagEntitiesForTagsGetRet;
+import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagFrequsGetRet;
+import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagsGetRet;
+import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagsRemoveRet;
 import at.kc.tugraz.ss.service.tag.impl.fct.activity.SSTagActivityFct;
 import at.kc.tugraz.ss.service.tag.impl.fct.misc.SSTagMiscFct;
 import at.kc.tugraz.ss.service.tag.impl.fct.sql.SSTagSQLFct;
@@ -93,8 +92,6 @@ implements
     final List<String>             allUsers, 
     final Map<String, List<SSUri>> userRelations) throws Exception{
     
-    final List<String>             labels         = new ArrayList<>();
-    final List<SSUri>              entities       = new ArrayList<>();
     final Map<String, List<SSUri>> usersPerTag    = new HashMap<>();
     final Map<String, List<SSUri>> usersPerEntity = new HashMap<>();
     List<SSTag>                    tags;
@@ -104,14 +101,17 @@ implements
       final SSUri userUri = SSUri.get(user);
       
       tags =
-        SSServCaller.tagsUserGet(
-          userUri,
-          userUri,
-          entities,
-          labels,
-          null,
-          null);
-      
+        tagsGet(
+          new SSTagsGetPar(
+            null, 
+            null, 
+            userUri, 
+            userUri, 
+            SSUri.asListWithoutNullAndEmpty(), 
+            SSTagLabel.asListWithoutNullAndEmpty(), 
+            null, 
+            null));
+        
       for(SSTag tag : tags){
       
         SSTagUserRelationGathererFct.addUserForTag     (tag, usersPerTag);
@@ -138,14 +138,17 @@ implements
       
       userUri = SSUri.get(user);
       
-      for(SSTag tag : 
-        SSServCaller.tagsUserGet(
-          userUri,
-          userUri,
-          SSUri.asListWithoutNullAndEmpty(),
-          new ArrayList<>(),
-          null,
-          null)){
+      for(SSTag tag :
+        tagsGet(
+          new SSTagsGetPar(
+            null,
+            null,
+            userUri,
+            userUri,
+            SSUri.asListWithoutNullAndEmpty(),
+            SSTagLabel.asListWithoutNullAndEmpty(),
+            null,
+            null))){
         
         if(usersResources.containsKey(user)){
           usersResources.get(user).add(tag.entity);
@@ -238,12 +241,17 @@ implements
         return;
       }
       
-      SSServCaller.tagsUserRemove(
-        userUri, 
-        entityUri, 
-        null, 
-        null, 
-        false);
+      tagsRemove(
+        new SSTagsRemovePar(
+          null,
+          null,
+          userUri,
+          userUri,
+          entityUri,
+          null,
+          null,
+          true,
+          false));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -259,14 +267,17 @@ implements
         
         par.entity.tags.addAll(
           SSStrU.toStr(
-            SSServCaller.tagsUserGet(
-              par.user,
-              null,
-              SSUri.asListWithoutNullAndEmpty(par.entity.id),
-              new ArrayList<>(),
-              null,
-              null)));
-      }
+            tagsGet(
+              new SSTagsGetPar(
+                null,
+                null,
+                par.user,
+                null,
+                SSUri.asListWithoutNullAndEmpty(par.entity.id),
+                SSTagLabel.asListWithoutNullAndEmpty(),
+                null,
+                null))));
+      }          
       
       return par.entity;
     }catch(Exception error){
@@ -280,15 +291,17 @@ implements
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSTagUserEntitiesForTagsGetRet.get(tagUserEntitiesForTagsGet(parA), parA.op), parA.op);
+    sSCon.writeRetFullToClient(
+      SSTagEntitiesForTagsGetRet.get(
+        tagEntitiesForTagsGet((SSTagEntitiesForTagsGetPar) parA.getFromJSON(SSTagEntitiesForTagsGetPar.class))), 
+      parA.op);
   }
 
   @Override
-  public List<SSUri> tagUserEntitiesForTagsGet(final SSServPar parA) throws Exception{
+  public List<SSUri> tagEntitiesForTagsGet(final SSTagEntitiesForTagsGetPar par) throws Exception{
     
     //TODO dtheiler: use start time for this call as well
     try{
-      final SSTagUserEntitiesForTagsGetPar par = SSTagUserEntitiesForTagsGetPar.get(parA);
       
       if(par.user == null){
         throw new Exception("user null");
@@ -323,21 +336,21 @@ implements
   @Override
   public void tagAdd(SSSocketCon sSCon, SSServPar parA) throws Exception {
     
-   SSServCallerU.checkKey(parA);
+    SSServCallerU.checkKey(parA);
     
-    final SSUri tagUri = tagAdd(parA);
+    final SSTagAddPar par    = (SSTagAddPar) parA.getFromJSON(SSTagAddPar.class);
+    final SSUri       tagUri = tagAdd(par);
     
-    sSCon.writeRetFullToClient(SSTagAddRet.get(tagUri, parA.op), parA.op);
-
-    SSTagActivityFct.addTag( SSTagAddPar.get(parA), tagUri);
+    sSCon.writeRetFullToClient(SSTagAddRet.get(tagUri), parA.op);
+    
+    SSTagActivityFct.addTag(par, tagUri);
   }
   
   @Override
-  public SSUri tagAdd(final SSServPar parA) throws Exception {
+  public SSUri tagAdd(final SSTagAddPar par) throws Exception {
     
     try{
       
-      final SSTagAddPar par          =  SSTagAddPar.get(parA);
       final Boolean     existsTag;
       final Boolean     existsEntity = SSServCaller.entityExists(par.entity);
       final SSUri       tagUri;
@@ -451,18 +464,18 @@ implements
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(dbSQL.rollBack(parA.shouldCommit)){
+        if(dbSQL.rollBack(par.shouldCommit)){
           
           SSServErrReg.reset();
           
-          return tagAdd(parA);
+          return tagAdd(par);
         }else{
           SSServErrReg.regErrThrow(error);
           return null;
         }
       }
       
-      dbSQL.rollBack(parA.shouldCommit);
+      dbSQL.rollBack(par.shouldCommit);
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -473,15 +486,17 @@ implements
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSTagUserEditRet.get(tagUserEdit(parA), parA.op), parA.op);
+    sSCon.writeRetFullToClient(
+      SSTagEditRet.get(
+        tagEdit((SSTagEditPar) parA.getFromJSON(SSTagEditPar.class))), 
+      parA.op);
   }
   
   @Override
-  public SSUri tagUserEdit(final SSServPar parA) throws Exception {
+  public SSUri tagEdit(final SSTagEditPar par) throws Exception {
     
     try{
       
-      final SSTagUserEditPar par       =  SSTagUserEditPar.get(parA);
       SSUri                  newTagUri = null;
       
       if(par.user == null){
@@ -500,31 +515,42 @@ implements
       }
       
       final List<SSTag> tags =
-        SSServCaller.tagsUserGet(
-          par.user,
-          par.user,
-          SSUri.asListWithoutNullAndEmpty(par.entity),
-          SSStrU.toStrWithoutEmptyAndNull(par.tag),
-          null,
-          null);
-      
+        tagsGet(
+          new SSTagsGetPar(
+            null,
+            null,
+            par.user,
+            par.user,
+            SSUri.asListWithoutNullAndEmpty(par.entity),
+            SSTagLabel.asListWithoutNullAndEmpty(par.tag),
+            null,
+            null));
+        
       for(SSTag tag : tags){
         
-        SSServCaller.tagsRemove(
-          par.user,
-          tag.entity,
-          SSStrU.toStr(tag.label),
-          tag.space,
-          false);
+        tagsRemove(
+          new SSTagsRemovePar(
+            null, 
+            null,
+            par.user,
+            par.user, 
+            tag.entity,
+            SSTagLabel.get(SSStrU.toStr(tag.label)), 
+            tag.space,
+            false, 
+            false));
         
         newTagUri =
-          SSServCaller.tagAdd(
-            par.user,
-            tag.entity,
-            SSStrU.toStr(par.label),
-            tag.space,
-            null,
-            false);
+          tagAdd(
+            new SSTagAddPar(
+              null, 
+              null, 
+              par.user, 
+              tag.entity, 
+              par.label, 
+              tag.space, 
+              null, 
+              false));
       }
       
       if(newTagUri == null){
@@ -537,18 +563,18 @@ implements
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(dbSQL.rollBack(parA.shouldCommit)){
+        if(dbSQL.rollBack(par.shouldCommit)){
           
           SSServErrReg.reset();
           
-          return tagUserEdit(parA);
+          return tagEdit(par);
         }else{
           SSServErrReg.regErrThrow(error);
           return null;
         }
       }
       
-      dbSQL.rollBack(parA.shouldCommit);
+      dbSQL.rollBack(par.shouldCommit);
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -559,21 +585,20 @@ implements
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSTagsUserRemoveRet.get(tagsUserRemove(parA), parA.op), parA.op);
+    final SSTagsRemovePar par = (SSTagsRemovePar) parA.getFromJSON(SSTagsRemovePar.class);
     
-    SSTagActivityFct.removeTags( SSTagsUserRemovePar.get(parA));
+    sSCon.writeRetFullToClient(
+      SSTagsRemoveRet.get(
+        tagsRemove(par)),
+      parA.op);
+    
+    SSTagActivityFct.removeTags(par);
   }
   
   @Override
-  public Boolean tagsUserRemove(final SSServPar parA) throws Exception {
+  public Boolean tagsRemove(final SSTagsRemovePar par) throws Exception {
     
     try{
-      
-      final SSTagsUserRemovePar par =  SSTagsUserRemovePar.get (parA);
-      
-      if(par.user == null){
-        throw new Exception("user null");
-      }
       
       SSUri tagUri = null;
       
@@ -586,6 +611,26 @@ implements
         }
       }
       
+      if(!par.withUserRestriction){
+        
+        sqlFct.removeTagAsss(
+          par.forUser,
+          par.entity,
+          tagUri,
+          par.space);
+        
+        return true;
+      }
+      
+      if(
+        par.forUser != null &&
+        !SSStrU.equals(par.forUser, par.user)){
+        throw new Exception("user cannot delete tags of other user");
+      }
+      
+      if(par.forUser == null){
+        par.forUser = par.user;
+      }
       
       if(
         par.space    == null &&
@@ -593,8 +638,8 @@ implements
 
         dbSQL.startTrans(par.shouldCommit);
         
-        sqlFct.removeTagAsss(par.user, null, tagUri, SSSpaceE.privateSpace);
-        sqlFct.removeTagAsss(par.user, null, tagUri, SSSpaceE.sharedSpace);
+        sqlFct.removeTagAsss(par.forUser, null, tagUri, SSSpaceE.privateSpace);
+        sqlFct.removeTagAsss(par.forUser, null, tagUri, SSSpaceE.sharedSpace);
         
         dbSQL.commit(par.shouldCommit);
         return true;
@@ -606,7 +651,7 @@ implements
          
          dbSQL.startTrans(par.shouldCommit);
          
-         sqlFct.removeTagAsss(par.user, null, tagUri, par.space);
+         sqlFct.removeTagAsss(par.forUser, null, tagUri, par.space);
          
          dbSQL.commit(par.shouldCommit);
          return true;
@@ -618,8 +663,8 @@ implements
         
         dbSQL.startTrans(par.shouldCommit);
         
-        sqlFct.removeTagAsss (par.user, par.entity, tagUri, SSSpaceE.privateSpace);
-        sqlFct.removeTagAsss (null,     par.entity, tagUri, SSSpaceE.sharedSpace);
+        sqlFct.removeTagAsss (par.forUser, par.entity, tagUri, SSSpaceE.privateSpace);
+        sqlFct.removeTagAsss (null,        par.entity, tagUri, SSSpaceE.sharedSpace);
         
         dbSQL.commit(par.shouldCommit);
         return true;
@@ -643,18 +688,18 @@ implements
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(dbSQL.rollBack(parA.shouldCommit)){
+        if(dbSQL.rollBack(par.shouldCommit)){
           
           SSServErrReg.reset();
           
-          return tagsUserRemove(parA);
+          return tagsRemove(par);
         }else{
           SSServErrReg.regErrThrow(error);
           return null;
         }
       }
       
-      dbSQL.rollBack(parA.shouldCommit);
+      dbSQL.rollBack(par.shouldCommit);
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -665,15 +710,16 @@ implements
        
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSTagUserFrequsGetRet.get(tagUserFrequsGet(parA), parA.op), parA.op);
+    sSCon.writeRetFullToClient(
+      SSTagFrequsGetRet.get(
+        tagFrequsGet((SSTagFrequsGetPar) parA.getFromJSON(SSTagFrequsGetPar.class))), 
+      parA.op);
   }
   
   @Override
-  public List<SSTagFrequ> tagUserFrequsGet(final SSServPar parA) throws Exception {
+  public List<SSTagFrequ> tagFrequsGet(final SSTagFrequsGetPar par) throws Exception {
     
     try{
-      
-      final SSTagUserFrequsGetPar par = SSTagUserFrequsGetPar.get (parA);
       
       if(
         !par.entities.isEmpty() &&
@@ -705,13 +751,16 @@ implements
       }
       
       return SSTagMiscFct.getTagFrequsFromTags(
-        SSServCaller.tagsUserGet(
-          par.user,
-          par.forUser,
-          par.entities,
-          SSStrU.toStrWithoutEmptyAndNull(par.labels),
-          par.space,
-          par.startTime),
+        tagsGet(
+          new SSTagsGetPar(
+            null,
+            null,
+            par.user,
+            par.forUser,
+            par.entities,
+            par.labels,
+            par.space,
+            par.startTime)),
         par.space);
       
     }catch(Exception error){
@@ -721,23 +770,25 @@ implements
   }
   
   @Override
-  public List<SSUri> tagsAdd(final SSServPar parA) throws Exception {
+  public List<SSUri> tagsAdd(final SSTagsAddPar par) throws Exception {
     
     try{
 
-      final SSTagsAddPar par    = new SSTagsAddPar(parA);
       final List<SSUri>  tags   = new ArrayList<>();
       
       for(SSTagLabel tagLabel : par.labels) {
         
         tags.add(
-          SSServCaller.tagAdd(
-            par.user,
-            par.entity,
-            SSStrU.toStr(tagLabel),
-            par.space,
-            par.creationTime,
-            par.shouldCommit));
+          tagAdd(
+            new SSTagAddPar(
+              null,
+              null,
+              par.user,
+              par.entity,
+              tagLabel,
+              par.space,
+              par.creationTime,
+              par.shouldCommit)));
       }
       
       SSStrU.distinctWithoutNull2(tags);
@@ -747,68 +798,18 @@ implements
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(dbSQL.rollBack(parA.shouldCommit)){
+        if(dbSQL.rollBack(par.shouldCommit)){
           
           SSServErrReg.reset();
           
-          return tagsAdd(parA);
+          return tagsAdd(par);
         }else{
           SSServErrReg.regErrThrow(error);
           return null;
         }
       }
       
-      dbSQL.rollBack(parA.shouldCommit);
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
-  @Override
-  public Boolean tagsRemove(final SSServPar parA) throws Exception{
-  
-    try{
-      
-      final SSTagsRemovePar par = new SSTagsRemovePar (parA);
-      
-      dbSQL.startTrans(par.shouldCommit);
-      
-      SSUri tagUri = null;
-      
-      if(par.label != null){
-        
-        if(SSServCaller.entityExists(SSEntityE.tag, SSLabel.get(SSStrU.toStr(par.label)))){
-          tagUri = SSServCaller.entityGet(SSEntityE.tag,SSLabel.get(SSStrU.toStr(par.label))).id;
-        }else{
-          tagUri = SSServCaller.vocURICreate();
-        }
-      }
-      
-      sqlFct.removeTagAsss(
-        par.forUser, 
-        par.entity, 
-        tagUri, 
-        par.space);
-      
-      dbSQL.commit(par.shouldCommit);
-      
-      return true;
-    }catch(Exception error){
-      
-      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
-        
-        if(dbSQL.rollBack(parA.shouldCommit)){
-          
-          SSServErrReg.reset();
-          
-          return tagsRemove(parA);
-        }else{
-          SSServErrReg.regErrThrow(error);
-          return null;
-        }
-      }
-      
-      dbSQL.rollBack(parA.shouldCommit);
+      dbSQL.rollBack(par.shouldCommit);
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -819,15 +820,16 @@ implements
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSTagsUserGetRet.get(tagsUserGet(parA), parA.op), parA.op);
+    sSCon.writeRetFullToClient(
+      SSTagsGetRet.get(
+        tagsGet((SSTagsGetPar) parA.getFromJSON(SSTagsGetPar.class))), 
+      parA.op);
   }
   
   @Override
-  public List<SSTag> tagsUserGet(final SSServPar parA) throws Exception {
+  public List<SSTag> tagsGet(final SSTagsGetPar par) throws Exception {
     
     try{
-      
-      final SSTagsUserGetPar par       =  SSTagsUserGetPar.get (parA);
       
       if(par.user == null){
         throw new Exception("user null");

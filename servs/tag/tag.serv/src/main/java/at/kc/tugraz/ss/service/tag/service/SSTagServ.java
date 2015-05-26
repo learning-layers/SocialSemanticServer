@@ -22,7 +22,6 @@ package at.kc.tugraz.ss.service.tag.service;
 
 import at.tugraz.sss.serv.SSCoreConfA;
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
-import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSServReg;

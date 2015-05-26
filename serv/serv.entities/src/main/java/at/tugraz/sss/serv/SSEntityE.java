@@ -20,15 +20,6 @@
 */
 package at.tugraz.sss.serv;
 
-import at.tugraz.sss.serv.SSJSONLDPropI;
-import at.tugraz.sss.serv.SSJSONLDPropI;
-import at.tugraz.sss.serv.SSJSONLDPropI;
-import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarNames;
-import at.tugraz.sss.serv.SSVarNames;
-import at.tugraz.sss.serv.SSVarNames;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -102,6 +93,10 @@ public enum SSEntityE implements SSJSONLDPropI{
   
     final List<SSEntityE> result = new ArrayList<>();
     
+    if(values == null){
+      return result;
+    }
+    
     for(String value : values){
       result.add(get(value));
     }
@@ -113,15 +108,56 @@ public enum SSEntityE implements SSJSONLDPropI{
     
     try{
     
+      if(value == null){
+        return null;
+      }
+      
       return SSEntityE.valueOf(value);
     }catch(Exception error){
       throw new Exception("entity type not available: " + value);
     }
   }
+  
+  //TODO rename to asListWithoutNull
+  public static List<SSEntityE> asListWithoutNullAndEmpty(final SSEntityE... types){
+   
+    final List<SSEntityE> result = new ArrayList<>();
     
-  @Override
-  public Object jsonLDDesc(){
-    return SSVarNames.xsd + SSStrU.colon + SSStrU.valueString;
+    if(types == null){
+      return result;
+    }
+    
+    for(SSEntityE type : types){
+      
+      if(type == null){
+        continue;
+      }
+      
+      result.add(type);
+    }
+    
+    return result;
+  }
+  
+  //TODO rename to asListWithoutNull
+  public static List<SSEntityE> asListWithoutNullAndEmpty(final List<SSEntityE> types){
+   
+    final List<SSEntityE> result = new ArrayList<>();
+    
+    if(types == null){
+      return result;
+    }
+    
+    for(SSEntityE type : types){
+      
+      if(type == null){
+        continue;
+      }
+      
+      result.add(type);
+    }
+    
+    return result;
   }
   
   public static Boolean isColl(final SSEntityE resourceType){
@@ -162,44 +198,8 @@ public enum SSEntityE implements SSJSONLDPropI{
     return SSStrU.equals(SSEntityE.user.toString(), resourceType.toString());
   }
   
-  public static List<SSEntityE> asListWithoutNullAndEmpty(final SSEntityE... types){
-   
-    final List<SSEntityE> result = new ArrayList<>();
-    
-    if(types == null){
-      return result;
-    }
-    
-    for(SSEntityE type : types){
-      
-      if(SSStrU.isEmpty(type)){
-        continue;
-      }
-      
-      result.add(type);
-    }
-    
-    return result;
+  @Override
+  public Object jsonLDDesc(){
+    return SSVarNames.xsd + SSStrU.colon + SSStrU.valueString;
   }
-  
-  public static List<SSEntityE> asListWithoutNullAndEmpty(final List<SSEntityE> types){
-   
-    final List<SSEntityE> result = new ArrayList<>();
-    
-    if(types == null){
-      return result;
-    }
-    
-    for(SSEntityE type : types){
-      
-      if(SSStrU.isEmpty(type)){
-        continue;
-      }
-      
-      result.add(type);
-    }
-    
-    return result;
-  }
-  
 }

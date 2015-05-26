@@ -53,7 +53,13 @@ import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServPar;
 
-public class SSUserImpl extends SSServImplWithDBA implements SSUserClientI, SSUserServerI, SSEntityHandlerImplI, SSEntityDescriberI{
+public class SSUserImpl 
+extends SSServImplWithDBA 
+implements 
+  SSUserClientI, 
+  SSUserServerI, 
+  SSEntityHandlerImplI, 
+  SSEntityDescriberI{
   
 //  private final SSUserGraphFct       graphFct;
   private final SSUserSQLFct         sqlFct;

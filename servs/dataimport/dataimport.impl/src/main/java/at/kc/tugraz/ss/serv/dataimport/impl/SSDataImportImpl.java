@@ -48,6 +48,12 @@ import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.kc.tugraz.ss.service.tag.api.SSTagServerI;
+import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
+import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsAddPar;
+import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsGetPar;
+import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsRemovePar;
+import at.kc.tugraz.ss.service.tag.service.SSTagServ;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
@@ -297,14 +303,17 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
           null, 
           video.creationTime, 
           true);
-        
-        SSServCaller.tagsAdd(
-          authorUri, 
-          video.id,
-          video.keywords,
-          SSSpaceE.sharedSpace, 
-          video.creationTime,
-          true);
+
+        ((SSTagServerI) SSTagServ.inst.serv()).tagsAdd(
+          new SSTagsAddPar(
+            null,
+            null,
+            authorUri,
+            SSTagLabel.get(video.keywords),
+            video.id,
+            SSSpaceE.sharedSpace,
+            video.creationTime,
+            true));
         
         final List<String> categoryLabels = new ArrayList<>();
         
@@ -354,8 +363,17 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
     Long                                              timestamp;
     
     try{
-      
-      SSServCaller.tagsRemove(null, null, null, SSSpaceE.sharedSpace, par.shouldCommit);
+      ((SSTagServerI) SSTagServ.inst.serv()).tagsRemove(
+        new SSTagsRemovePar(
+          null,
+          null,
+          parA.user,
+          null,
+          null,
+          null,
+          SSSpaceE.sharedSpace,
+          false,
+          par.shouldCommit));
       
       dataImportFileIn = SSFileU.openFileForRead   (SSFileU.dirWorkingDataCsv() + ((SSDataImportConf)conf).fileName);
       lineReader       = new BufferedReader        (new InputStreamReader(dataImportFileIn));
@@ -406,13 +424,16 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
         tagList     = SSStrU.splitDistinctWithoutEmptyAndNull(tags, SSStrU.comma);
         tagCounter += tagList.size();
 
-        SSServCaller.tagsAdd(
-          user, 
-          resource,
-          tagList, 
-          SSSpaceE.sharedSpace, 
-          timestamp, 
-          par.shouldCommit);
+        ((SSTagServerI) SSTagServ.inst.serv()).tagsAdd(
+          new SSTagsAddPar(
+            null,
+            null,
+            user,
+            SSTagLabel.get(tagList),
+            resource,
+            SSSpaceE.sharedSpace,
+            timestamp,
+            par.shouldCommit));
 
         SSLogU.info("line " + counter++ + " " + tagCounter + " time : " + new Date().getTime() + " user: " + user.toString() + " tags: " + tags);
 

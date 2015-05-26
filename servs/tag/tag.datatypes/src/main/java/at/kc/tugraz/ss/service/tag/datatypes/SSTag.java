@@ -27,6 +27,7 @@ import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSSpaceE;
 import at.tugraz.sss.serv.SSLabel;
+import at.tugraz.sss.serv.SSObjU;
 import java.util.*;
 
 public class SSTag extends SSEntity{
@@ -36,6 +37,27 @@ public class SSTag extends SSEntity{
   public  SSUri               user         = null;
   public  SSSpaceE            space        = null;
 
+  public String getEntity() throws Exception{
+    return SSStrU.removeTrailingSlash(entity);
+  }
+
+  public String getUser() throws Exception{
+    return SSStrU.removeTrailingSlash(user);
+  }
+
+  public String getSpace(){
+    return SSStrU.toStr(space);
+  }
+
+  @Override
+  public String getLabel(){
+    return SSStrU.toStr(tagLabel);
+  }
+  
+  public String getTagLabel(){
+    return SSStrU.toStr(tagLabel);
+  }
+  
   public static SSTag get(
     final SSUri       id,
     final SSUri       entity,
@@ -62,18 +84,38 @@ public class SSTag extends SSEntity{
     this.tagLabel    = tagLabel;
   }
   
-  @Override
-  public Object jsonLDDesc() {
+  public static void addDistinctWithoutNull(
+    final List<SSTag>     entities,
+    final SSTag           entity){
+    
+    if(
+      SSObjU.isNull  (entities, entity) ||
+      SSStrU.contains(entities, entity)){
+      return;
+    }
+    
+    entities.add(entity);
+  }
   
-    final Map<String, Object> ld = (Map<String, Object>)super.jsonLDDesc();
+  public static void addDistinctWithoutNull(
+    final List<SSTag>  entities,
+    final List<SSTag>  toAddEntities){
     
-    ld.put(SSVarNames.entity,     SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarNames.user,       SSVarNames.sss + SSStrU.colon + SSUri.class.getName());    
-    ld.put(SSVarNames.space,      SSVarNames.sss + SSStrU.colon + SSSpaceE.class.getName());    
-    ld.put(SSVarNames.label,      SSVarNames.sss + SSStrU.colon + SSTagLabel.class.getName());    
+    if(SSObjU.isNull(entities, toAddEntities)){
+      return;
+    }
     
-    return ld;
-  } 
+    for(SSTag entity : toAddEntities){
+      
+      if(entity == null){
+        continue;
+      }
+      
+      if(!SSStrU.contains(entities, entity)){
+        entities.add(entity);
+      }
+    }
+  }
   
   public static Map<String, List<String>> getTagLabelsPerEntities(final List<SSTag> tags) throws Exception{
     
@@ -107,30 +149,19 @@ public class SSTag extends SSEntity{
     return tagsPerEntity;
   }
   
-  /* json getters */
-  
-  public String getEntity() throws Exception{
-    return SSStrU.removeTrailingSlash(entity);
-  }
-
-  public String getUser() throws Exception{
-    return SSStrU.removeTrailingSlash(user);
-  }
-
-  public String getSpace(){
-    return SSStrU.toStr(space);
-  }
-
   @Override
-  public String getLabel(){
-    return SSStrU.toStr(tagLabel);
-  }
+  public Object jsonLDDesc() {
   
-  public String getTagLabel(){
-    return SSStrU.toStr(tagLabel);
-  }
+    final Map<String, Object> ld = (Map<String, Object>)super.jsonLDDesc();
+    
+    ld.put(SSVarNames.entity,     SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarNames.user,       SSVarNames.sss + SSStrU.colon + SSUri.class.getName());    
+    ld.put(SSVarNames.space,      SSVarNames.sss + SSStrU.colon + SSSpaceE.class.getName());    
+    ld.put(SSVarNames.label,      SSVarNames.sss + SSStrU.colon + SSTagLabel.class.getName());    
+    
+    return ld;
+  } 
 }
-
 
 //  public static List<SSUri> getDistinctResources(
 //    final List<SSTag> tags) throws Exception{

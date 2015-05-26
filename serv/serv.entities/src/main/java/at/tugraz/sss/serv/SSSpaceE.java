@@ -20,19 +20,6 @@
 */
 package at.tugraz.sss.serv;
 
-import at.tugraz.sss.serv.*;
-import at.tugraz.sss.serv.SSJSONLDPropI;
-import at.tugraz.sss.serv.SSJSONLDPropI;
-import at.tugraz.sss.serv.SSJSONLDPropI;
-import at.tugraz.sss.serv.SSObjU;
-import at.tugraz.sss.serv.SSObjU;
-import at.tugraz.sss.serv.SSObjU;
-import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarNames;
-import at.tugraz.sss.serv.SSVarNames;
-import at.tugraz.sss.serv.SSVarNames;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,6 +46,10 @@ public enum SSSpaceE implements SSJSONLDPropI{
   public static List<SSSpaceE> get(final List<String> strings) throws Exception{
 
     final List<SSSpaceE> result = new ArrayList<>();
+    
+    if(strings == null){
+      return result;
+    }
     
     for(String string : strings){
       result.add(get(string));

@@ -51,9 +51,7 @@ public class SSUsersGetPar extends SSServPar{
    
     super(op, key, user);
     
-    if(users != null){
-      this.users.addAll(users);
-    }
+    SSUri.addDistinctWithoutNull(this.users, users);
     
     this.setFriends = setFriends;
   }

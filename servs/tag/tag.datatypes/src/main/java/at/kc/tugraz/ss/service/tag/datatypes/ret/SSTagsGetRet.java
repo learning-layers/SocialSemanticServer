@@ -26,37 +26,38 @@ import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServRetI;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTag;
+import at.tugraz.sss.serv.SSServConfA;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SSTagsUserGetRet extends SSServRetI{
+public class SSTagsGetRet extends SSServRetI{
   
   public List<SSTag> tags = new ArrayList<>();
   
-  public static SSTagsUserGetRet get(
-    final List<SSTag> tags, 
-    final SSServOpE     op){
-    
-    return new SSTagsUserGetRet(tags, op);
+  public List<SSTag> getTags() {
+    return tags;
   }
   
-  private SSTagsUserGetRet(
-    final List<SSTag> tags, 
-    final SSServOpE     op){
+  public static SSTagsGetRet get(
+    final List<SSTag> tags){
     
-    super(op);
+    return new SSTagsGetRet(tags);
+  }
+  
+  private SSTagsGetRet(
+    final List<SSTag> tags){
     
-    if(tags != null){
-      this.tags = tags;
-    }
+    super(SSServOpE.tagsGet);
+    
+    SSTag.addDistinctWithoutNull(this.tags, tags);
   }
   
   @Override
   public Map<String, Object> jsonLDDesc(){
     
-    final Map<String, Object> ld               = new HashMap<>();
+    final Map<String, Object> ld          = new HashMap<>();
     final Map<String, Object> tagsObj     = new HashMap<>();
     
     tagsObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSTag.class.getName());
@@ -65,11 +66,5 @@ public class SSTagsUserGetRet extends SSServRetI{
     ld.put(SSVarNames.tags, tagsObj);
     
     return ld;
-  }
-  
-  /* json getters */
-  
-  public List<SSTag> getTags() {
-    return tags;
   }
 }

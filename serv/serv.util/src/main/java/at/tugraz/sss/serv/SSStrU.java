@@ -182,7 +182,7 @@ public class SSStrU{
   }
   
   public static List<String> removeTrailingSlash(
-    final List<? extends Object> objects) throws Exception{
+    final List<? extends Object> objects){
       
     final List<String> result = new ArrayList<>();
     
@@ -276,7 +276,7 @@ public class SSStrU{
   }
   
   public static List<String> toStr(
-    final List<? extends Object> objects) throws Exception{
+    final List<? extends Object> objects){
     
     final List<String> result = new ArrayList<>();
     

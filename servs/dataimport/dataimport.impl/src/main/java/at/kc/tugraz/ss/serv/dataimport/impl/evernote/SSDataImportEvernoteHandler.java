@@ -33,6 +33,10 @@ import at.tugraz.sss.serv.SSToolContextE;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportEvernotePar;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteInfo;
+import at.kc.tugraz.ss.service.tag.api.SSTagServerI;
+import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
+import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsAddPar;
+import at.kc.tugraz.ss.service.tag.service.SSTagServ;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUE;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUEE;
@@ -281,13 +285,16 @@ public class SSDataImportEvernoteHandler {
       
       noteTagNames = SSServCaller.evernoteNoteTagNamesGet(evernoteInfo.noteStore, note.getGuid());
         
-      SSServCaller.tagsAdd(
-        userUri,
-        noteUri,
-        noteTagNames,
-        SSSpaceE.sharedSpace,
-        note.getUpdated(),
-        false);
+      ((SSTagServerI) SSTagServ.inst.serv()).tagsAdd(
+        new SSTagsAddPar(
+          null,
+          null,
+          userUri,
+          SSTagLabel.get(noteTagNames),
+          noteUri,
+          SSSpaceE.sharedSpace,
+          note.getUpdated(),
+          false));
       
       for(String noteTag : noteTagNames){
        

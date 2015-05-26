@@ -31,26 +31,26 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SSTagUserEntitiesForTagsGetRet extends SSServRetI{
+public class SSTagEntitiesForTagsGetRet extends SSServRetI{
   
   public List<SSUri> entities = new ArrayList<>();
   
-  public static SSTagUserEntitiesForTagsGetRet get(
-    final List<SSUri> entities, 
-    final SSServOpE     op){
-    
-    return new SSTagUserEntitiesForTagsGetRet(entities, op);
+  public List<String> getEntities() throws Exception{
+    return SSStrU.removeTrailingSlash(entities);
   }
   
-  private SSTagUserEntitiesForTagsGetRet(
-    final List<SSUri> entities, 
-    final SSServOpE     op){
+  public static SSTagEntitiesForTagsGetRet get(
+    final List<SSUri> entities){
     
-    super(op);
+    return new SSTagEntitiesForTagsGetRet(entities);
+  }
+  
+  private SSTagEntitiesForTagsGetRet(
+    final List<SSUri> entities){
     
-    if(entities != null){
-      this.entities = entities;
-    }
+    super(SSServOpE.tagEntitiesForTagsGet);
+    
+    SSUri.addDistinctWithoutNull(this.entities, entities);
   }
   
   @Override
@@ -65,11 +65,5 @@ public class SSTagUserEntitiesForTagsGetRet extends SSServRetI{
     ld.put(SSVarNames.entities, enititesObj);
     
     return ld;
-  }
-  
-  /* json getters*/
-  
-  public List<String> getEntities() throws Exception{
-    return SSStrU.removeTrailingSlash(entities);
   }
 }

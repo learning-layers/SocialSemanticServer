@@ -32,18 +32,20 @@ public class SSTagAddRet extends SSServRetI{
 
   public SSUri tag = null;
 
+  public String getTag() {
+    return SSStrU.removeTrailingSlash(tag);
+  }
+  
   public static SSTagAddRet get(
-    final SSUri   tag, 
-    final SSServOpE op){
+    final SSUri   tag){
     
-    return new SSTagAddRet(tag, op);
+    return new SSTagAddRet(tag);
   }
   
   private SSTagAddRet(
-    final SSUri   tag, 
-    final SSServOpE op){
+    final SSUri   tag){
     
-    super(op);
+    super(SSServOpE.tagAdd);
     
     this.tag = tag;
   }
@@ -56,11 +58,5 @@ public class SSTagAddRet extends SSServRetI{
     ld.put(SSVarNames.tag, SSVarNames.xsd + SSStrU.colon + SSUri.class.getName());
     
     return ld;
-  }
-  
-  /* json getters */
-  
-  public String getTag() {
-    return SSStrU.removeTrailingSlash(tag);
   }
 }

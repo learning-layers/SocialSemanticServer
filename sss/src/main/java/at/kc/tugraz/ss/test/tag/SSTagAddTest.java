@@ -39,13 +39,13 @@ public class SSTagAddTest extends SSServOpTestCaseA{
     
     System.out.println (op + " test start");
 
-    SSServCaller.tagAdd(
-      SSVoc.systemUserUri, 
-      SSUri.get("http://google.com"), 
-      "super super1", 
-      SSSpaceE.sharedSpace, 
-      null, 
-      true);
+//    SSServCaller.tagAdd(
+//      SSVoc.systemUserUri, 
+//      SSUri.get("http://google.com"), 
+//      "super super1", 
+//      SSSpaceE.sharedSpace, 
+//      null, 
+//      true);
   }
   
   @Override

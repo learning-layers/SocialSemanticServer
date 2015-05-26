@@ -26,7 +26,7 @@ import at.tugraz.sss.serv.SSUri;
 
 public class SSUserExistsPar extends SSServPar{
   
-  public String email;
+  public String email = null;
   
   public SSUserExistsPar(){}
   

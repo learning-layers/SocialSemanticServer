@@ -517,7 +517,7 @@ implements
       
       for(SSCategory category : categories){
         
-        SSServCaller.tagsRemove(
+        SSServCaller.categoriesRemove(
           par.user,
           category.entity,
           SSStrU.toStr(category.label),
@@ -525,7 +525,7 @@ implements
           false);
         
         newCategoryUri =
-          SSServCaller.tagAdd(
+          SSServCaller.categoryAdd(
             par.user,
             category.entity,
             SSStrU.toStr(par.label),

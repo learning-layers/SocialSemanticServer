@@ -22,32 +22,30 @@ package at.kc.tugraz.ss.service.tag.datatypes.pars;
 
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSSpaceE;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.tugraz.sss.serv.SSServPar;
 import java.util.ArrayList;
 import java.util.List;
-import at.tugraz.sss.serv.SSServErrReg;
 
-public class SSTagUserEntitiesForTagsGetPar extends SSServPar{
+public class SSTagEntitiesForTagsGetPar extends SSServPar{
 
   public SSUri             forUser   = null;
   public List<SSTagLabel>  labels    = new ArrayList<>();
   public SSSpaceE          space     = null;
   public Long              startTime = null;
 
-  public void setForUser(final String forUser){
-    try{ this.forUser = SSUri.get(forUser); }catch(Exception error){}
+  public void setForUser(final String forUser) throws Exception{
+    this.forUser = SSUri.get(forUser);
   }
 
-  public void setLabels(final List<String> labels){
-    try{ this.labels = SSTagLabel.get(labels); }catch(Exception error){}
+  public void setLabels(final List<String> labels) throws Exception{
+    this.labels = SSTagLabel.get(labels);
   }
 
-  public void setSpace(final String space){
-    try{ this.space = SSSpaceE.get(space); }catch(Exception error){}
+  public void setSpace(final String space) throws Exception{
+    this.space = SSSpaceE.get(space);
   }
   
   public String getForUser(){
@@ -62,9 +60,9 @@ public class SSTagUserEntitiesForTagsGetPar extends SSServPar{
     return SSStrU.toStr(space);
   }
   
-  public SSTagUserEntitiesForTagsGetPar(){}
+  public SSTagEntitiesForTagsGetPar(){}
     
-  public SSTagUserEntitiesForTagsGetPar(
+  public SSTagEntitiesForTagsGetPar(
     final SSServOpE        op,
     final String           key,
     final SSUri            user,
@@ -76,35 +74,10 @@ public class SSTagUserEntitiesForTagsGetPar extends SSServPar{
     super(op, key, user);
     
     this.forUser = forUser;
-    
-    if(labels != null){
-      this.labels.addAll(labels);
-    }
+
+    SSTagLabel.addDistinctWithoutNull(this.labels, labels);
     
     this.space     = space;
     this.startTime = startTime;
-  }
-  
-  public static SSTagUserEntitiesForTagsGetPar get(final SSServPar par) throws Exception{
-    
-    try{
-     
-      if(par.clientCon != null){
-        return (SSTagUserEntitiesForTagsGetPar) par.getFromJSON(SSTagUserEntitiesForTagsGetPar.class);
-      }
-      
-      return new SSTagUserEntitiesForTagsGetPar(
-        par.op,
-        par.key,
-        par.user,
-        (SSUri)                       par.pars.get(SSVarNames.forUser),
-        (List<SSTagLabel>)            par.pars.get(SSVarNames.labels),
-        (SSSpaceE)                    par.pars.get(SSVarNames.space),
-        (Long)                        par.pars.get(SSVarNames.startTime));
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
   }
 }

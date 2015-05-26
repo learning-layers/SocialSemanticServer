@@ -18,42 +18,52 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-
 package at.kc.tugraz.ss.service.tag.datatypes.ret;
 
 import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSJSONLDU;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServRetI;
+import at.kc.tugraz.ss.service.tag.datatypes.SSTagFrequ;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-public class SSTagsUserRemoveRet extends SSServRetI{
-
-  public boolean worked = false;
-
-  public static SSTagsUserRemoveRet get(boolean worked, SSServOpE op){
-    return new SSTagsUserRemoveRet(worked, op);
+public class SSTagFrequsGetRet extends SSServRetI{
+  
+  public List<SSTagFrequ> tagFrequs = new ArrayList<>();
+  
+  public List<SSTagFrequ> getTagFrequs(){
+    return tagFrequs;
+  }
+   
+  public static SSTagFrequsGetRet get(
+    final List<SSTagFrequ> tagFrequs){
+    
+    return new SSTagFrequsGetRet(tagFrequs);
   }
   
-  private SSTagsUserRemoveRet(boolean worked, SSServOpE op){
+  private SSTagFrequsGetRet(
+    final List<SSTagFrequ> tagFrequs){
     
-    super(op);
-    this.worked = worked;
+    super(SSServOpE.tagFrequsGet);
+    
+    SSTagFrequ.addDistinctWithoutNull(this.tagFrequs, tagFrequs);
   }
-
+  
   @Override
   public Map<String, Object> jsonLDDesc(){
     
-    Map<String, Object> ld         = new HashMap<>();
+    Map<String, Object> ld               = new HashMap<>();
+    Map<String, Object> tagFrequsObj     = new HashMap<>();
     
-    ld.put(SSVarNames.worked, SSVarNames.xsd + SSStrU.colon + SSStrU.valueBoolean);
+    tagFrequsObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSTagFrequ.class.getName());
+    tagFrequsObj.put(SSJSONLDU.container, SSJSONLDU.set);
+    
+    ld.put(SSVarNames.tagFrequs, tagFrequsObj);
     
     return ld;
-  }
-  
-  /*************** getters to allow for json enconding ********************/
-  public boolean isWorked() {
-    return worked;
   }
 }

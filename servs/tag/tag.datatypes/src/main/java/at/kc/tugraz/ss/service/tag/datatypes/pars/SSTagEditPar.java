@@ -28,7 +28,7 @@ import at.tugraz.sss.serv.SSServPar;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.tugraz.sss.serv.SSServErrReg;
  
-public class SSTagUserEditPar extends SSServPar{
+public class SSTagEditPar extends SSServPar{
   
   public SSTagLabel      tag     = null;
   public SSUri           entity  = null;
@@ -58,9 +58,9 @@ public class SSTagUserEditPar extends SSServPar{
     return SSStrU.removeTrailingSlash(entity);
   }
   
-  public SSTagUserEditPar(){}
+  public SSTagEditPar(){}
   
-  public SSTagUserEditPar(
+  public SSTagEditPar(
     final SSServOpE  op,
     final String     key, 
     final SSUri      user, 
@@ -77,15 +77,15 @@ public class SSTagUserEditPar extends SSServPar{
     this.shouldCommit = shouldCommit;
   }
   
-  public static SSTagUserEditPar get(final SSServPar par) throws Exception{
+  public static SSTagEditPar get(final SSServPar par) throws Exception{
       
     try{
       
       if(par.clientCon != null){
-        return (SSTagUserEditPar) par.getFromJSON(SSTagUserEditPar.class);
+        return (SSTagEditPar) par.getFromJSON(SSTagEditPar.class);
       }
       
-      return new SSTagUserEditPar(
+      return new SSTagEditPar(
         par.op,
         par.key,
         par.user,

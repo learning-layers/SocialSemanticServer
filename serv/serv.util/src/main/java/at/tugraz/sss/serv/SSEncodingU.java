@@ -53,7 +53,7 @@ public enum SSEncodingU{
   }
   
   public static String decode(
-    final String toDecode, 
+    final String      toDecode, 
     final SSEncodingU format) throws Exception{
     
     return URLDecoder.decode(toDecode, SSStrU.toStr(format));

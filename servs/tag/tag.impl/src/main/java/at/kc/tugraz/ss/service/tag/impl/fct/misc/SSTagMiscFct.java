@@ -29,8 +29,8 @@ import at.tugraz.sss.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTag;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagFrequ;
-import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagUserEntitiesForTagsGetPar;
-import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsUserGetPar;
+import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagEntitiesForTagsGetPar;
+import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsGetPar;
 import at.kc.tugraz.ss.service.tag.impl.fct.sql.SSTagSQLFct;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -41,7 +41,7 @@ public class SSTagMiscFct {
 
   public static List<SSUri> getEntitiesForTagsIfSpaceSet(
     final SSTagSQLFct                               sqlFct,
-    final SSTagUserEntitiesForTagsGetPar            par,
+    final SSTagEntitiesForTagsGetPar            par,
     final SSUri                                     userToUse) throws Exception{
     
     final List<SSUri> entities = new ArrayList<>();
@@ -81,7 +81,7 @@ public class SSTagMiscFct {
   
   public static List<SSTag> getTagsIfSpaceNotSet(
     final SSTagSQLFct            sqlFct,
-    final SSTagsUserGetPar       par) throws Exception{
+    final SSTagsGetPar       par) throws Exception{
     
     final List<SSTag> categories = new ArrayList<>();
     SSLabel slabel;
@@ -140,7 +140,7 @@ public class SSTagMiscFct {
   
   public static List<SSTag> getTagsIfSpaceSet(
     final SSTagSQLFct            sqlFct, 
-    final SSTagsUserGetPar       par,
+    final SSTagsGetPar       par,
     final SSUri                  userToUse) throws Exception{
     
     final List<SSTag>      categories = new ArrayList<>();
@@ -196,7 +196,7 @@ public class SSTagMiscFct {
   
   public static List<SSUri> getEntitiesForTagsIfSpaceNotSet(
     final SSTagSQLFct                    sqlFct,
-    final SSTagUserEntitiesForTagsGetPar par) throws Exception{
+    final SSTagEntitiesForTagsGetPar par) throws Exception{
     
     final List<SSUri> entities = new ArrayList<>();
     SSLabel slabel;

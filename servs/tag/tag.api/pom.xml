@@ -17,15 +17,11 @@
   </properties>
   <dependencies>
     
-    
-    
     <dependency>
       <groupId>sss.serv</groupId>
       <artifactId>serv.custom.caller</artifactId>
       <version>${project.version}</version>
     </dependency>
-    
-    
     
     <dependency>
       <groupId>sss.servs</groupId>

@@ -199,18 +199,13 @@ public enum SSServOpE{
   uECountGet                                          ,
   
   //tag
-  tagsAdd                                            ,
-  tagsRemove                                          ,
-  tagsUserRemove                                      ,
-  tagsUserGet                                         ,
-  tagUserFrequsGet                                    ,
-  tagsGet,
-  tagAdd                                              ,
+  tagsAdd,                    
+  tagsRemove,                 
+  tagsGet,                    
+  tagAdd,                     
   tagFrequsGet,
-  tagUserEntitiesForTagsGet,
   tagEntitiesForTagsGet,
   tagEdit,
-  tagUserEdit,
   
 //  category
   categoriesPredefinedGet,

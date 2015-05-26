@@ -31,6 +31,10 @@ public class SSTagLabel extends SSEntityA{
   public static SSTagLabel get(
     final String string) throws Exception{
     
+    if(string == null){
+      return null;
+    }
+    
     return new SSTagLabel(string);
   }
   
@@ -50,6 +54,127 @@ public class SSTagLabel extends SSEntityA{
     return result;
   }
   
+  public static void addDistinctWithoutNull(
+    final List<SSTagLabel>     entities,
+    final SSTagLabel           entity){
+    
+    if(
+      SSObjU.isNull  (entities, entity) ||
+      SSStrU.contains(entities, entity)){
+      return;
+    }
+    
+    entities.add(entity);
+  }
+  
+  public static void addDistinctWithoutNull(
+    final List<SSTagLabel>  entities,
+    final List<SSTagLabel>  toAddEntities){
+    
+    if(SSObjU.isNull(entities, toAddEntities)){
+      return;
+    }
+    
+    for(SSTagLabel entity : toAddEntities){
+      
+      if(entity == null){
+        continue;
+      }
+      
+      if(!SSStrU.contains(entities, entity)){
+        entities.add(entity);
+      }
+    }
+  }
+  
+  public static List<SSTagLabel> asListWithoutNullAndEmpty(final SSTagLabel... tagLabels){
+   
+    final List<SSTagLabel> result = new ArrayList<>();
+    
+    if(tagLabels == null){
+      return result;
+    }
+    
+    for(SSTagLabel tagLabel : tagLabels){
+      
+      if(SSStrU.isEmpty(tagLabel)){
+        continue;
+      }
+      
+      result.add(tagLabel);
+    }
+    
+    return result;
+  }
+
+  public static List<SSTagLabel> asListWithoutNullAndEmpty(final List<SSTagLabel> tagLabels){
+   
+    final List<SSTagLabel> result = new ArrayList<>();
+    
+    if(tagLabels == null){
+      return result;
+    }
+    
+    for(SSTagLabel tagLabel : tagLabels){
+      
+      if(SSStrU.isEmpty(tagLabel)){
+        continue;
+      }
+      
+      result.add(tagLabel);
+    }
+    
+    return result;
+  }
+  
+  protected SSTagLabel(final String label) throws Exception{
+    super(getTagLabel(label));
+  }
+  
+  private static String getTagLabel(final String label) throws Exception{
+    
+    if(label == null){
+      return null;
+    }
+    
+    try{
+      
+//previously replaced blanks with underlines automatically SSStrU.replaceAll(label, SSStrU.blank, SSStrU.underline);
+      
+//previously accepted only latin letters, numbers and underline return tmpLabel.replaceAll("[^a-zA-Z0-9_]+", SSStrU.empty);
+      
+      //accept unicode letters, blank, numbers, underline, hyphen
+      return label.replaceAll("[^\\p{L}\\p{Zs}0-9_-]+", SSStrU.empty);
+      
+    }catch(Exception error){
+      throw new SSTagInvalidTagErr("tag: " + label + "is not valid");
+    }
+  }
+  
+  @Override
+  public Object jsonLDDesc() {
+    return SSVarNames.xsd + SSStrU.colon + SSStrU.valueString;
+  }
+}
+
+//public static Collection<String> toString(
+//    SSTagString[] tagStrings){
+//    
+//    List<String> result = new ArrayList<>();
+//    
+//    for (SSTagString tagString : tagStrings){
+//      result.add(tagString.toString());
+//    }
+//    
+//    return result;
+//  }
+
+
+//  public static SSTagLabel[] toTagStringArray(Collection<SSTagLabel> toConvert) {
+//    return (SSTagLabel[]) toConvert.toArray(new SSTagLabel[toConvert.size()]);
+//  } 
+
+
 //  public static Boolean isTagLabel(
 //    final String string) throws Exception {
 //    
@@ -73,86 +198,3 @@ public class SSTagLabel extends SSEntityA{
 //      return null;
 //    }
 //  }
-  
-  public static List<SSTagLabel> asListWithoutNullAndEmpty(final SSTagLabel... tagLabels){
-   
-    final List<SSTagLabel> result = new ArrayList<>();
-    
-    if(tagLabels == null){
-      return result;
-    }
-    
-    for(SSTagLabel tagLabel : tagLabels){
-      
-      if(SSStrU.isEmpty(tagLabel)){
-        continue;
-      }
-      
-      result.add(tagLabel);
-    }
-    
-    return result;
-  }
-  
-  public static List<SSTagLabel> asListWithoutNullAndEmpty(final List<SSTagLabel> tagLabels){
-   
-    final List<SSTagLabel> result = new ArrayList<>();
-    
-    if(tagLabels == null){
-      return result;
-    }
-    
-    for(SSTagLabel tagLabel : tagLabels){
-      
-      if(SSStrU.isEmpty(tagLabel)){
-        continue;
-      }
-      
-      result.add(tagLabel);
-    }
-    
-    return result;
-  }
-  
-  @Override
-  public Object jsonLDDesc() {
-    return SSVarNames.xsd + SSStrU.colon + SSStrU.valueString;
-  }
-  
-  protected SSTagLabel(final String label) throws Exception{
-    super(getTagLabel(label));
-  }
-  
-  private static String getTagLabel(final String label) throws Exception{
-    
-    try{
-      
-//previously replaced blanks with underlines automatically SSStrU.replaceAll(label, SSStrU.blank, SSStrU.underline);
-      
-//previously accepted only latin letters, numbers and underline return tmpLabel.replaceAll("[^a-zA-Z0-9_]+", SSStrU.empty);
-      
-      //accept unicode letters, blank, numbers, underline, hyphen
-      return label.replaceAll("[^\\p{L}\\p{Zs}0-9_-]+", SSStrU.empty);
-      
-    }catch(Exception error){
-      throw new SSTagInvalidTagErr("tag: " + label + "is not valid");
-    }
-  }
-}
-
-//public static Collection<String> toString(
-//    SSTagString[] tagStrings){
-//    
-//    List<String> result = new ArrayList<>();
-//    
-//    for (SSTagString tagString : tagStrings){
-//      result.add(tagString.toString());
-//    }
-//    
-//    return result;
-//  }
-
-
-//  public static SSTagLabel[] toTagStringArray(Collection<SSTagLabel> toConvert) {
-//    return (SSTagLabel[]) toConvert.toArray(new SSTagLabel[toConvert.size()]);
-//  } 

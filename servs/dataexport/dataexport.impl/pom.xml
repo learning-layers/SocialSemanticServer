@@ -20,6 +20,12 @@
 
     <dependency>
       <groupId>sss.servs</groupId>
+      <artifactId>tag.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency> 
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
       <artifactId>user.serv</artifactId>
       <version>${project.version}</version>
     </dependency> 

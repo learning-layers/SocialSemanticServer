@@ -25,7 +25,11 @@ import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSSpaceE;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.kc.tugraz.ss.service.tag.api.SSTagServerI;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTag;
+import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
+import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsGetPar;
+import at.kc.tugraz.ss.service.tag.service.SSTagServ;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -43,24 +47,30 @@ public class SSDataExportFct{
       !usePrivateTagsToo){
       
       return SSTag.getTagLabelsPerEntities(
-        SSServCaller.tagsUserGet(
-          userUri,
-          userUri,
-          entities,
-          new ArrayList<>(),
-          SSSpaceE.sharedSpace,
-          null));
-      
+        ((SSTagServerI) SSTagServ.inst.serv()).tagsGet(
+          new SSTagsGetPar(
+            null,
+            null,
+            userUri,
+            userUri,
+            entities,
+            SSTagLabel.asListWithoutNullAndEmpty(),
+            SSSpaceE.sharedSpace,
+            null)));
+
     }else{
       
       return SSTag.getTagLabelsPerEntities(
-        SSServCaller.tagsUserGet(
-          userUri,
-          userUri,
-          entities,
-          new ArrayList<>(),
-          null,
-          null));
+        ((SSTagServerI) SSTagServ.inst.serv()).tagsGet(
+          new SSTagsGetPar(
+            null,
+            null,
+            userUri,
+            userUri,
+            entities,
+            SSTagLabel.asListWithoutNullAndEmpty(),
+            null,
+            null)));
     }
   }
   

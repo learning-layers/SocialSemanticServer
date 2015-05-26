@@ -2332,141 +2332,141 @@ public class SSServCaller {
   
   /* tag */
  
-  public static List<SSUri> tagUserEntitiesForTagsGet(
-    final SSUri        user, 
-    final SSUri        forUser,
-    final List<String> labels, 
-    final SSSpaceE     space,
-    final Long         startTime) throws Exception{
-    
-    final Map<String, Object>   opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.user,        user);
-    opPars.put(SSVarNames.forUser,     forUser);
-    opPars.put(SSVarNames.labels,      SSTagLabel.get(labels));
-    opPars.put(SSVarNames.space,       space);
-    opPars.put(SSVarNames.startTime,   startTime);
-    
-    return (List<SSUri>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.tagUserEntitiesForTagsGet, opPars));
-  }
-  
-  public static List<SSTag> tagsUserGet(
-    final SSUri        user, 
-    final SSUri        forUser,
-    final List<SSUri>  entities, 
-    final List<String> labels, 
-    final SSSpaceE     space,
-    final Long         startTime) throws Exception{
-    
-    final Map<String, Object>   opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.user,        user);
-    opPars.put(SSVarNames.forUser,     forUser);
-    opPars.put(SSVarNames.entities,    entities);
-    opPars.put(SSVarNames.labels,      SSTagLabel.get(labels));
-    opPars.put(SSVarNames.space,       space);
-    opPars.put(SSVarNames.startTime,   startTime);
-    
-    return (List<SSTag>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.tagsUserGet, opPars));
-  }
-  
-  public static List<SSTagFrequ> tagUserFrequsGet(
-    final SSUri        user, 
-    final SSUri        forUser,
-    final List<SSUri>  entities, 
-    final List<String> labels,
-    final SSSpaceE     space,
-    final Long         startTime,
-    final Boolean      useUsersEntities) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.user,                 user);
-    opPars.put(SSVarNames.forUser,              forUser);
-    opPars.put(SSVarNames.entities,             entities);
-    opPars.put(SSVarNames.labels,               SSTagLabel.get(labels));
-    opPars.put(SSVarNames.space,                space);
-    opPars.put(SSVarNames.startTime,            startTime);
-    opPars.put(SSVarNames.useUsersEntities,     useUsersEntities);
-    
-    return (List<SSTagFrequ>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.tagUserFrequsGet, opPars));
-  }
-  
-  public static void tagsRemove(
-    final SSUri         forUser,   
-    final SSUri         entity,
-    final String        label,
-    final SSSpaceE      space,
-    final Boolean       shouldCommit) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.forUser,      forUser);
-    opPars.put(SSVarNames.shouldCommit, shouldCommit);
-    opPars.put(SSVarNames.entity,       entity);
-    opPars.put(SSVarNames.label,        SSTagLabel.get(label));
-    opPars.put(SSVarNames.space,        space);
-    
-    SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.tagsRemove, opPars));
-  }
-  
-  public static void tagsUserRemove(
-    final SSUri         user,
-    final SSUri         entity,
-    final String        label,
-    final SSSpaceE      space,
-    final Boolean       shouldCommit) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.user,         user);
-    opPars.put(SSVarNames.shouldCommit, shouldCommit);
-    opPars.put(SSVarNames.entity,       entity);
-    opPars.put(SSVarNames.label,        SSTagLabel.get(label));
-    opPars.put(SSVarNames.space,        space);
-    
-    SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.tagsUserRemove, opPars));
-  }
-  
-  public static SSUri tagAdd(
-    final SSUri       user,
-    final SSUri       entity,
-    final String      label,
-    final SSSpaceE    space,
-    final Long        creationTime, 
-    final Boolean     shouldCommit) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.shouldCommit, shouldCommit);
-    opPars.put(SSVarNames.user,         user);
-    opPars.put(SSVarNames.entity,       entity);
-    opPars.put(SSVarNames.space,        space);
-    opPars.put(SSVarNames.label,        SSTagLabel.get(label));
-    opPars.put(SSVarNames.creationTime, creationTime);
-    
-    return (SSUri) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.tagAdd, opPars));
-  }
-  
-  public static List<SSUri> tagsAdd(
-    final SSUri            user,
-    final SSUri            entity,
-    final List<String>     labels,
-    final SSSpaceE         space,
-    final Long             creationTime,
-    final Boolean          shouldCommit) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-          
-    opPars.put(SSVarNames.shouldCommit, shouldCommit);
-    opPars.put(SSVarNames.user,         user);
-    opPars.put(SSVarNames.entity,       entity);
-    opPars.put(SSVarNames.labels,       SSTagLabel.get(labels));
-    opPars.put(SSVarNames.space,        space);
-    opPars.put(SSVarNames.creationTime, creationTime);
-    
-    return (List<SSUri>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.tagsAdd, opPars));
-  }
+//  public static List<SSUri> tagUserEntitiesForTagsGet(
+//    final SSUri        user, 
+//    final SSUri        forUser,
+//    final List<String> labels, 
+//    final SSSpaceE     space,
+//    final Long         startTime) throws Exception{
+//    
+//    final Map<String, Object>   opPars = new HashMap<>();
+//    
+//    opPars.put(SSVarNames.user,        user);
+//    opPars.put(SSVarNames.forUser,     forUser);
+//    opPars.put(SSVarNames.labels,      SSTagLabel.get(labels));
+//    opPars.put(SSVarNames.space,       space);
+//    opPars.put(SSVarNames.startTime,   startTime);
+//    
+//    return (List<SSUri>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.tagUserEntitiesForTagsGet, opPars));
+//  }
+//  
+//  public static List<SSTag> tagsUserGet(
+//    final SSUri        user, 
+//    final SSUri        forUser,
+//    final List<SSUri>  entities, 
+//    final List<String> labels, 
+//    final SSSpaceE     space,
+//    final Long         startTime) throws Exception{
+//    
+//    final Map<String, Object>   opPars = new HashMap<>();
+//    
+//    opPars.put(SSVarNames.user,        user);
+//    opPars.put(SSVarNames.forUser,     forUser);
+//    opPars.put(SSVarNames.entities,    entities);
+//    opPars.put(SSVarNames.labels,      SSTagLabel.get(labels));
+//    opPars.put(SSVarNames.space,       space);
+//    opPars.put(SSVarNames.startTime,   startTime);
+//    
+//    return (List<SSTag>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.tagsUserGet, opPars));
+//  }
+//  
+//  public static List<SSTagFrequ> tagUserFrequsGet(
+//    final SSUri        user, 
+//    final SSUri        forUser,
+//    final List<SSUri>  entities, 
+//    final List<String> labels,
+//    final SSSpaceE     space,
+//    final Long         startTime,
+//    final Boolean      useUsersEntities) throws Exception{
+//    
+//    final Map<String, Object> opPars = new HashMap<>();
+//    
+//    opPars.put(SSVarNames.user,                 user);
+//    opPars.put(SSVarNames.forUser,              forUser);
+//    opPars.put(SSVarNames.entities,             entities);
+//    opPars.put(SSVarNames.labels,               SSTagLabel.get(labels));
+//    opPars.put(SSVarNames.space,                space);
+//    opPars.put(SSVarNames.startTime,            startTime);
+//    opPars.put(SSVarNames.useUsersEntities,     useUsersEntities);
+//    
+//    return (List<SSTagFrequ>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.tagUserFrequsGet, opPars));
+//  }
+//  
+//  public static void tagsRemove(
+//    final SSUri         forUser,   
+//    final SSUri         entity,
+//    final String        label,
+//    final SSSpaceE      space,
+//    final Boolean       shouldCommit) throws Exception{
+//    
+//    final Map<String, Object> opPars = new HashMap<>();
+//    
+//    opPars.put(SSVarNames.forUser,      forUser);
+//    opPars.put(SSVarNames.shouldCommit, shouldCommit);
+//    opPars.put(SSVarNames.entity,       entity);
+//    opPars.put(SSVarNames.label,        SSTagLabel.get(label));
+//    opPars.put(SSVarNames.space,        space);
+//    
+//    SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.tagsRemove, opPars));
+//  }
+//  
+//  public static void tagsUserRemove(
+//    final SSUri         user,
+//    final SSUri         entity,
+//    final String        label,
+//    final SSSpaceE      space,
+//    final Boolean       shouldCommit) throws Exception{
+//    
+//    final Map<String, Object> opPars = new HashMap<>();
+//    
+//    opPars.put(SSVarNames.user,         user);
+//    opPars.put(SSVarNames.shouldCommit, shouldCommit);
+//    opPars.put(SSVarNames.entity,       entity);
+//    opPars.put(SSVarNames.label,        SSTagLabel.get(label));
+//    opPars.put(SSVarNames.space,        space);
+//    
+//    SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.tagsUserRemove, opPars));
+//  }
+//  
+//  public static SSUri tagAdd(
+//    final SSUri       user,
+//    final SSUri       entity,
+//    final String      label,
+//    final SSSpaceE    space,
+//    final Long        creationTime, 
+//    final Boolean     shouldCommit) throws Exception{
+//    
+//    final Map<String, Object> opPars = new HashMap<>();
+//    
+//    opPars.put(SSVarNames.shouldCommit, shouldCommit);
+//    opPars.put(SSVarNames.user,         user);
+//    opPars.put(SSVarNames.entity,       entity);
+//    opPars.put(SSVarNames.space,        space);
+//    opPars.put(SSVarNames.label,        SSTagLabel.get(label));
+//    opPars.put(SSVarNames.creationTime, creationTime);
+//    
+//    return (SSUri) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.tagAdd, opPars));
+//  }
+//  
+//  public static List<SSUri> tagsAdd(
+//    final SSUri            user,
+//    final SSUri            entity,
+//    final List<String>     labels,
+//    final SSSpaceE         space,
+//    final Long             creationTime,
+//    final Boolean          shouldCommit) throws Exception{
+//    
+//    final Map<String, Object> opPars = new HashMap<>();
+//          
+//    opPars.put(SSVarNames.shouldCommit, shouldCommit);
+//    opPars.put(SSVarNames.user,         user);
+//    opPars.put(SSVarNames.entity,       entity);
+//    opPars.put(SSVarNames.labels,       SSTagLabel.get(labels));
+//    opPars.put(SSVarNames.space,        space);
+//    opPars.put(SSVarNames.creationTime, creationTime);
+//    
+//    return (List<SSUri>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.tagsAdd, opPars));
+//  }
   
   /* recomm */
   

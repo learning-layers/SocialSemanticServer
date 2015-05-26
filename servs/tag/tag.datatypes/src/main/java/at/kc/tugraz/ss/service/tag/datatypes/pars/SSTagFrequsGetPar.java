@@ -31,7 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 import at.tugraz.sss.serv.SSServErrReg;
 
-public class SSTagUserFrequsGetPar extends SSServPar{
+public class SSTagFrequsGetPar extends SSServPar{
 
   public SSUri              forUser              = null;
   public List<SSUri>        entities             = new ArrayList<>();
@@ -40,20 +40,20 @@ public class SSTagUserFrequsGetPar extends SSServPar{
   public Long               startTime            = null;
   public Boolean            useUsersEntities     = false;
 
-  public void setForUser(final String forUser){
-    try{ this.forUser = SSUri.get(forUser); }catch(Exception error){}
+  public void setForUser(final String forUser) throws Exception{
+    this.forUser = SSUri.get(forUser);
   } 
 
-  public void setEntities(final List<String> entities){
-    try{ this.entities = SSUri.get(entities); }catch(Exception error){}
+  public void setEntities(final List<String> entities) throws Exception{
+    this.entities = SSUri.get(entities);
   }
 
-  public void setLabels(final List<String> labels){
-    try{ this.labels = SSTagLabel.get(labels); }catch(Exception error){}
+  public void setLabels(final List<String> labels) throws Exception{
+    this.labels = SSTagLabel.get(labels);
   }
 
-  public void setSpace(final String space){
-    try{ this.space = SSSpaceE.get(space); }catch(Exception error){}
+  public void setSpace(final String space) throws Exception{
+    this.space = SSSpaceE.get(space);
   }
   
   public String getForUser(){
@@ -72,9 +72,9 @@ public class SSTagUserFrequsGetPar extends SSServPar{
     return SSStrU.toStr(space);
   }
   
-  public SSTagUserFrequsGetPar(){}
+  public SSTagFrequsGetPar(){}
    
-  public SSTagUserFrequsGetPar(
+  public SSTagFrequsGetPar(
     final SSServOpE          op,
     final String             key, 
     final SSUri              user, 
@@ -89,28 +89,19 @@ public class SSTagUserFrequsGetPar extends SSServPar{
     
     this.forUser = forUser;
     
-    if(entities != null){
-      this.entities.addAll(entities);
-    }
-    
-    if(labels != null){
-      this.labels.addAll(labels);
-    }
+    SSUri.addDistinctWithoutNull      (this.entities, entities);
+    SSTagLabel.addDistinctWithoutNull (this.labels,   labels);
     
     this.space                = space;
     this.startTime            = startTime;
     this.useUsersEntities     = useUsersEntities;
   }
     
-  public static SSTagUserFrequsGetPar get(final SSServPar par) throws Exception{
+  public static SSTagFrequsGetPar get(final SSServPar par) throws Exception{
     
     try{
       
-      if(par.clientCon != null){
-        return (SSTagUserFrequsGetPar) par.getFromJSON(SSTagUserFrequsGetPar.class);
-      }
-      
-      return new SSTagUserFrequsGetPar(
+      return new SSTagFrequsGetPar(
         par.op,
         par.key,
         par.user,

@@ -31,7 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 import at.tugraz.sss.serv.SSServErrReg;
 
-public class SSTagsUserGetPar extends SSServPar{
+public class SSTagsGetPar extends SSServPar{
   
   public SSUri              forUser        = null;
   public List<SSUri>        entities       = new ArrayList<>();
@@ -39,31 +39,31 @@ public class SSTagsUserGetPar extends SSServPar{
   public SSSpaceE           space          = null;
   public Long               startTime      = null;
 
-  public void setForUser(final String forUser){
-    try{ this.forUser = SSUri.get(forUser); }catch(Exception error){}
+  public void setForUser(final String forUser) throws Exception{
+    this.forUser = SSUri.get(forUser);
   }
 
-  public void setEntities(final List<String> entities){
-    try{ this.entities = SSUri.get(entities); }catch(Exception error){}
+  public void setEntities(final List<String> entities) throws Exception{
+    this.entities = SSUri.get(entities);
   }
 
-  public void setLabels(final List<String> labels){
-    try{ this.labels = SSTagLabel.get(labels);  }catch(Exception error){}
+  public void setLabels(final List<String> labels) throws Exception{
+    this.labels = SSTagLabel.get(labels);
   }
 
-  public void setSpace(final String space){
-    try{ this.space = SSSpaceE.get(space); }catch(Exception error){}
+  public void setSpace(final String space) throws Exception{
+    this.space = SSSpaceE.get(space);
   }
   
   public String getForUser(){
     return SSStrU.removeTrailingSlash(forUser);
   }
 
-  public List<String> getEntities() throws Exception{
+  public List<String> getEntities(){
     return SSStrU.removeTrailingSlash(entities);
   }
 
-  public List<String> getLabels() throws Exception{
+  public List<String> getLabels(){
     return SSStrU.toStr(labels);
   }
 
@@ -71,9 +71,9 @@ public class SSTagsUserGetPar extends SSServPar{
     return SSStrU.toStr(space);
   }
   
-  public SSTagsUserGetPar(){}
+  public SSTagsGetPar(){}
   
-  public SSTagsUserGetPar(
+  public SSTagsGetPar(
     final SSServOpE          op,
     final String             key,
     final SSUri              user,
@@ -87,39 +87,10 @@ public class SSTagsUserGetPar extends SSServPar{
     
     this.forUser    = forUser;
     
-    if(entities != null){
-      this.entities.addAll(entities);
-    }
-    
-    if(labels != null){
-      this.labels.addAll(labels);
-    }
+    SSUri.addDistinctWithoutNull     (this.entities, entities);
+    SSTagLabel.addDistinctWithoutNull(this.labels, labels);
     
     this.space        = space;
     this.startTime    = startTime;
-  }
-    
-  public static SSTagsUserGetPar get(final SSServPar par) throws Exception{
-    
-    try{
-
-      if(par.clientCon != null){
-        return (SSTagsUserGetPar) par.getFromJSON(SSTagsUserGetPar.class);
-      }
-
-      return new SSTagsUserGetPar(
-        par.op,
-        par.key,
-        par.user,
-        (SSUri)                       par.pars.get(SSVarNames.forUser),
-        (List<SSUri>)                 par.pars.get(SSVarNames.entities),
-        (List<SSTagLabel>)            par.pars.get(SSVarNames.labels),
-        (SSSpaceE)                    par.pars.get(SSVarNames.space),
-        (Long)                        par.pars.get(SSVarNames.startTime));        
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
   }
 }

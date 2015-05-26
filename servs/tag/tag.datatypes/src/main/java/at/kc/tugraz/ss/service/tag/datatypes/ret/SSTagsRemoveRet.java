@@ -18,49 +18,40 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
+
 package at.kc.tugraz.ss.service.tag.datatypes.ret;
 
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarNames;
-import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServRetI;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SSTagUserEditRet extends SSServRetI{
+public class SSTagsRemoveRet extends SSServRetI{
 
-  public SSUri tag = null;
+  public Boolean worked = false;
 
-  public static SSTagUserEditRet get(
-    final SSUri   tag, 
-    final SSServOpE op){
-    
-    return new SSTagUserEditRet(tag, op);
+  public static SSTagsRemoveRet get(
+    final Boolean worked){
+    return new SSTagsRemoveRet(worked);
   }
   
-  private SSTagUserEditRet(
-    final SSUri   tag, 
-    final SSServOpE op){
+  private SSTagsRemoveRet(
+    final Boolean worked){
     
-    super(op);
+    super(SSServOpE.tagsRemove);
     
-    this.tag = tag;
+    this.worked = worked;
   }
 
   @Override
   public Map<String, Object> jsonLDDesc(){
     
-    final Map<String, Object> ld         = new HashMap<>();
+    Map<String, Object> ld         = new HashMap<>();
     
-    ld.put(SSVarNames.tag, SSVarNames.xsd + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarNames.worked, SSVarNames.xsd + SSStrU.colon + SSStrU.valueBoolean);
     
     return ld;
-  }
-  
-  /* json getters */
-  
-  public String getTag() {
-    return SSStrU.removeTrailingSlash(tag);
   }
 }
