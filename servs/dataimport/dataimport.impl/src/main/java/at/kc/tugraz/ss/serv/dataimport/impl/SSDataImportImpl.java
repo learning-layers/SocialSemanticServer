@@ -20,10 +20,13 @@
 */
 package at.kc.tugraz.ss.serv.dataimport.impl;
 
+import at.kc.tugraz.ss.category.api.SSCategoryServerI;
 import at.tugraz.sss.serv.SSFileU;
 import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSStrU;
 import at.kc.tugraz.ss.category.datatypes.SSCategoryLabel;
+import at.kc.tugraz.ss.category.datatypes.par.SSCategoriesAddPar;
+import at.kc.tugraz.ss.category.ss.category.serv.SSCategoryServ;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSSpaceE;
@@ -327,14 +330,17 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
           
           categoryLabels.add(annotation);
         }
-        
-        SSServCaller.categoriesAdd(
-          authorUri, 
-          video.id,
-          categoryLabels,
-          SSSpaceE.sharedSpace, 
-          video.creationTime,
-          true);
+
+        ((SSCategoryServerI) SSCategoryServ.inst.serv()).categoriesAdd(
+          new SSCategoriesAddPar(
+            null,
+            null,
+            authorUri,
+            SSCategoryLabel.asListWithoutNullAndEmpty(SSCategoryLabel.get(categoryLabels)),
+            video.id,
+            SSSpaceE.sharedSpace,
+            video.creationTime,
+            true));
       }
       
       System.out.println();

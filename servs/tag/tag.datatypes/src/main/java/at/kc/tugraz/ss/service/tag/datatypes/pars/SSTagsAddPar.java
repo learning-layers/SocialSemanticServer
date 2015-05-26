@@ -74,7 +74,8 @@ public class SSTagsAddPar extends SSServPar{
     
     super(op, key, user);
     
-    this.labels       = labels;
+    SSTagLabel.addDistinctWithoutNull(this.labels, labels);
+    
     this.entity       = entity;
     this.space        = space;
     this.creationTime = creationTime;

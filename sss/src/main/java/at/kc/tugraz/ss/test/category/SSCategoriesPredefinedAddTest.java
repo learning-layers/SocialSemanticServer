@@ -44,12 +44,12 @@ public class SSCategoriesPredefinedAddTest extends SSServOpTestCaseA{
     categoriesToAdd.add("category1");
     categoriesToAdd.add("category2");
 
-    SSServCaller.categoriesPredefinedAdd(
-      SSVoc.systemUserUri, 
-      categoriesToAdd, 
-      true);
-    
-    final List<String> categories = SSServCaller.categoriesPredefinedGet(SSVoc.systemUserUri);
+//    SSServCaller.categoriesPredefinedAdd(
+//      SSVoc.systemUserUri, 
+//      categoriesToAdd, 
+//      true);
+//    
+//    final List<String> categories = SSServCaller.categoriesPredefinedGet(SSVoc.systemUserUri);
     
     System.out.println (op + " test end");
   }

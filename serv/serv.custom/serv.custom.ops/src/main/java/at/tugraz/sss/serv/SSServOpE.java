@@ -210,18 +210,13 @@ public enum SSServOpE{
 //  category
   categoriesPredefinedGet,
   categoriesPredefinedAdd,
-  categoriesAdd                                            ,
-  categoriesRemove                                          ,
-  categoriesUserRemove                                      ,
-  categoriesUserGet                                         ,
-  categoryUserFrequsGet                                    ,
+  categoriesAdd,                                         
+  categoriesRemove,                                         
   categoriesGet,
-  categoryAdd                                              ,
+  categoryAdd,                                              
   categoryFrequsGet,
-  categoryUserEntitiesForCategoriesGet,
   categoryEntitiesForCategoriesGet,
   categoryEdit,
-  categoryUserEdit,
   
   //solr
   solrAddDoc                                          ,

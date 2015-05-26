@@ -20,56 +20,50 @@
 */
 package at.kc.tugraz.ss.category.datatypes.ret;
 
+import at.kc.tugraz.ss.category.datatypes.SSCategoryFrequ;
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSJSONLDU;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarNames;
-import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServRetI;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SSCategoryUserEntitiesForCategoriesGetRet extends SSServRetI{
+public class SSCategoryFrequsGetRet extends SSServRetI{
   
-  public List<SSUri> entities = new ArrayList<>();
+  public List<SSCategoryFrequ> categoryFrequs = new ArrayList<>();
   
-  public static SSCategoryUserEntitiesForCategoriesGetRet get(
-    final List<SSUri> entities, 
-    final SSServOpE     op){
+  public List<SSCategoryFrequ> getCategoryFrequs(){
+    return categoryFrequs;
+  }
+   
+  public static SSCategoryFrequsGetRet get(
+    final List<SSCategoryFrequ> categoryFrequs){
     
-    return new SSCategoryUserEntitiesForCategoriesGetRet(entities, op);
+    return new SSCategoryFrequsGetRet(categoryFrequs);
   }
   
-  private SSCategoryUserEntitiesForCategoriesGetRet(
-    final List<SSUri> entities, 
-    final SSServOpE     op){
+  private SSCategoryFrequsGetRet(
+    final List<SSCategoryFrequ> categoryFrequs){
     
-    super(op);
+    super(SSServOpE.tagFrequsGet);
     
-    if(entities != null){
-      this.entities = entities;
-    }
+    SSCategoryFrequ.addDistinctWithoutNull(this.categoryFrequs, categoryFrequs);
   }
   
   @Override
   public Map<String, Object> jsonLDDesc(){
     
-    final Map<String, Object> ld               = new HashMap<>();
-    final Map<String, Object> enititesObj      = new HashMap<>();
+    Map<String, Object> ld                    = new HashMap<>();
+    Map<String, Object> categoryFrequsObj     = new HashMap<>();
     
-    enititesObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
-    enititesObj.put(SSJSONLDU.container, SSJSONLDU.set);
+    categoryFrequsObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSCategoryFrequ.class.getName());
+    categoryFrequsObj.put(SSJSONLDU.container, SSJSONLDU.set);
     
-    ld.put(SSVarNames.entities, enititesObj);
+    ld.put(SSVarNames.categoryFrequs, categoryFrequsObj);
     
     return ld;
-  }
-  
-  /* json getters*/
-  
-  public List<String> getEntities() throws Exception{
-    return SSStrU.removeTrailingSlash(entities);
   }
 }

@@ -21,11 +21,11 @@
 package at.kc.tugraz.ss.category.impl.fct.misc;
 
 import at.tugraz.sss.serv.SSStrU;
-import at.kc.tugraz.ss.category.datatypes.par.SSCategoriesUserGetPar;
+import at.kc.tugraz.ss.category.datatypes.par.SSCategoriesGetPar;
 import at.kc.tugraz.ss.category.datatypes.SSCategory;
 import at.kc.tugraz.ss.category.datatypes.SSCategoryFrequ;
 import at.kc.tugraz.ss.category.datatypes.SSCategoryLabel;
-import at.kc.tugraz.ss.category.datatypes.par.SSCategoryUserEntitiesForCategoriesGetPar;
+import at.kc.tugraz.ss.category.datatypes.par.SSCategoryEntitiesForCategoriesGetPar;
 import at.kc.tugraz.ss.category.impl.fct.sql.SSCategorySQLFct;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
@@ -41,7 +41,7 @@ public class SSCategoryMiscFct {
 
   public static List<SSUri> getEntitiesForCategoriesIfSpaceNotSet(
     final SSCategorySQLFct                          sqlFct,
-    final SSCategoryUserEntitiesForCategoriesGetPar par) throws Exception{
+    final SSCategoryEntitiesForCategoriesGetPar par) throws Exception{
     
     final List<SSUri> entities = new ArrayList<>();
     SSLabel slabel;
@@ -94,7 +94,7 @@ public class SSCategoryMiscFct {
   
   public static List<SSUri> getEntitiesForCategoriesIfSpaceSet(
     final SSCategorySQLFct                          sqlFct,
-    final SSCategoryUserEntitiesForCategoriesGetPar par,
+    final SSCategoryEntitiesForCategoriesGetPar par,
     final SSUri                                     userToUse) throws Exception{
     
     final List<SSUri> entities = new ArrayList<>();
@@ -134,7 +134,7 @@ public class SSCategoryMiscFct {
   
   public static List<SSCategory> getCategoriesIfSpaceNotSet(
     final SSCategorySQLFct       sqlFct,
-    final SSCategoriesUserGetPar par) throws Exception{
+    final SSCategoriesGetPar par) throws Exception{
     
     final List<SSCategory> categories = new ArrayList<>();
     SSLabel slabel;
@@ -196,7 +196,7 @@ public class SSCategoryMiscFct {
   
   public static List<SSCategory> getCategoriesIfSpaceSet(
     final SSCategorySQLFct       sqlFct, 
-    final SSCategoriesUserGetPar par,
+    final SSCategoriesGetPar par,
     final SSUri                  userToUse) throws Exception{
     
     final List<SSCategory> categories = new ArrayList<>();

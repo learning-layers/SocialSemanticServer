@@ -18,64 +18,60 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.category.datatypes.par;
+ package at.kc.tugraz.ss.category.datatypes.par;
 
 import at.kc.tugraz.ss.category.datatypes.SSCategoryLabel;
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSSpaceE;
 import at.tugraz.sss.serv.SSServPar;
-
-public class SSCategoryAddPar extends SSServPar{
+ 
+public class SSCategoryEditPar extends SSServPar{
   
-  public SSUri            entity       = null;
-  public SSCategoryLabel  label        = null;
-  public SSSpaceE         space        = null;
-  public Long             creationTime = null;
+  public SSCategoryLabel category  = null;
+  public SSUri           entity    = null;
+  public SSCategoryLabel label     = null;
 
-  public void setEntity(final String entity) throws Exception{
-    this.entity = SSUri.get(entity);
+  public void setCategory(final String category) throws Exception{
+    this.category = SSCategoryLabel.get(category);
+  }
+
+  public void setEntity(final String entity){
+    try{ this.entity = SSUri.get(entity); }catch(Exception error){}
   }
 
   public void setLabel(final String label) throws Exception{
     this.label = SSCategoryLabel.get(label);
   }
-
-  public void setSpace(final String space) throws Exception{
-    this.space = SSSpaceE.get(space);
-  }
   
-  public String getEntity(){
-    return SSStrU.removeTrailingSlash(entity);
+  public String getCategory(){
+    return SSStrU.toStr(category);
   }
   
   public String getLabel(){
     return SSStrU.toStr(label);
   }
   
-  public String getSpace(){
-    return SSStrU.toStr(space);
+  public String getEntity(){
+    return SSStrU.removeTrailingSlash(entity);
   }
   
-  public SSCategoryAddPar(){}
+  public SSCategoryEditPar(){}
   
-  public SSCategoryAddPar(
+  public SSCategoryEditPar(
     final SSServOpE       op,
-    final String          key,
-    final SSUri           user,
+    final String          key, 
+    final SSUri           user, 
+    final SSCategoryLabel category, 
     final SSUri           entity,
     final SSCategoryLabel label,
-    final SSSpaceE        space,
-    final Long            creationTime,
-    final Boolean         shouldCommit) {
-  
+    final Boolean         shouldCommit){
+    
     super(op, key, user);
     
+    this.category     = category;
     this.entity       = entity;
     this.label        = label;
-    this.space        = space;
-    this.creationTime = creationTime;
     this.shouldCommit = shouldCommit;
   }
 }

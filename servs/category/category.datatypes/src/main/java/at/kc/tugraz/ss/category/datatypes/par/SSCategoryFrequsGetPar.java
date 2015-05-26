@@ -18,27 +18,25 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.service.tag.datatypes.pars;
+package at.kc.tugraz.ss.category.datatypes.par;
 
+import at.kc.tugraz.ss.category.datatypes.SSCategoryLabel;
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSSpaceE;
 import at.tugraz.sss.serv.SSServPar;
-import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import java.util.ArrayList;
 import java.util.List;
-import at.tugraz.sss.serv.SSServErrReg;
 
-public class SSTagFrequsGetPar extends SSServPar{
+public class SSCategoryFrequsGetPar extends SSServPar{
 
-  public SSUri              forUser              = null;
-  public List<SSUri>        entities             = new ArrayList<>();
-  public List<SSTagLabel>   labels               = new ArrayList<>();
-  public SSSpaceE           space                = null;
-  public Long               startTime            = null;
-  public Boolean            useUsersEntities     = false;
+  public SSUri                  forUser              = null;
+  public List<SSUri>            entities             = new ArrayList<>();
+  public List<SSCategoryLabel>  labels               = new ArrayList<>();
+  public SSSpaceE               space                = null;
+  public Long                   startTime            = null;
+  public Boolean                useUsersEntities     = false;
 
   public void setForUser(final String forUser) throws Exception{
     this.forUser = SSUri.get(forUser);
@@ -49,7 +47,7 @@ public class SSTagFrequsGetPar extends SSServPar{
   }
 
   public void setLabels(final List<String> labels) throws Exception{
-    this.labels = SSTagLabel.get(labels);
+    this.labels =  SSCategoryLabel.get(labels);
   }
 
   public void setSpace(final String space) throws Exception{
@@ -72,25 +70,25 @@ public class SSTagFrequsGetPar extends SSServPar{
     return SSStrU.toStr(space);
   }
   
-  public SSTagFrequsGetPar(){}
+  public SSCategoryFrequsGetPar(){}
    
-  public SSTagFrequsGetPar(
-    final SSServOpE          op,
-    final String             key, 
-    final SSUri              user, 
-    final SSUri              forUser, 
-    final List<SSUri>        entities, 
-    final List<SSTagLabel>   labels, 
-    final SSSpaceE           space, 
-    final Long               startTime,
-    final Boolean            useUsersEntities){
+  public SSCategoryFrequsGetPar(
+    final SSServOpE               op,
+    final String                  key, 
+    final SSUri                   user, 
+    final SSUri                   forUser, 
+    final List<SSUri>             entities, 
+    final List<SSCategoryLabel>   labels, 
+    final SSSpaceE                space, 
+    final Long                    startTime,
+    final Boolean                 useUsersEntities){
     
     super(op, key, user);
     
     this.forUser = forUser;
     
-    SSUri.addDistinctWithoutNull      (this.entities, entities);
-    SSTagLabel.addDistinctWithoutNull (this.labels,   labels);
+    SSUri.addDistinctWithoutNull           (this.entities, entities);
+    SSCategoryLabel.addDistinctWithoutNull (this.labels,   labels);
     
     this.space                = space;
     this.startTime            = startTime;

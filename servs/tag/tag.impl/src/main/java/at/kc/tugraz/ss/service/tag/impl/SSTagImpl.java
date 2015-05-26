@@ -613,11 +613,15 @@ implements
       
       if(!par.withUserRestriction){
         
+        dbSQL.startTrans(par.shouldCommit);
+        
         sqlFct.removeTagAsss(
           par.forUser,
           par.entity,
           tagUri,
           par.space);
+        
+        dbSQL.commit(par.shouldCommit);
         
         return true;
       }

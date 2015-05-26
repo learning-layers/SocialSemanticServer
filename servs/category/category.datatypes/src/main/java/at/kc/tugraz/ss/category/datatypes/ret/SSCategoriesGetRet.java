@@ -20,43 +20,43 @@
 */
 package at.kc.tugraz.ss.category.datatypes.ret;
 
+import at.kc.tugraz.ss.category.datatypes.SSCategory;
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSJSONLDU;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarNames;
-import at.kc.tugraz.ss.category.datatypes.SSCategory;
 import at.tugraz.sss.serv.SSServRetI;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SSCategoriesUserGetRet extends SSServRetI{
+public class SSCategoriesGetRet extends SSServRetI{
   
   public List<SSCategory> categories = new ArrayList<>();
   
-  public static SSCategoriesUserGetRet get(
-    final List<SSCategory> categories, 
-    final SSServOpE          op){
-    
-    return new SSCategoriesUserGetRet(categories, op);
+  public List<SSCategory> getCategories() {
+    return categories;
   }
   
-  private SSCategoriesUserGetRet(
-    final List<SSCategory> categories, 
-    final SSServOpE          op){
+  public static SSCategoriesGetRet get(
+    final List<SSCategory> categories){
     
-    super(op);
+    return new SSCategoriesGetRet(categories);
+  }
+  
+  private SSCategoriesGetRet(
+    final List<SSCategory> categories){
     
-    if(categories != null){
-      this.categories = categories;
-    }
+    super(SSServOpE.categoriesGet);
+    
+    SSCategory.addDistinctWithoutNull(this.categories, categories);
   }
   
   @Override
   public Map<String, Object> jsonLDDesc(){
     
-    final Map<String, Object> ld               = new HashMap<>();
+    final Map<String, Object> ld          = new HashMap<>();
     final Map<String, Object> categoriesObj     = new HashMap<>();
     
     categoriesObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSCategory.class.getName());
@@ -65,11 +65,5 @@ public class SSCategoriesUserGetRet extends SSServRetI{
     ld.put(SSVarNames.categories, categoriesObj);
     
     return ld;
-  }
-  
-  /* json getters */
-  
-  public List<SSCategory> getCategories() {
-    return categories;
   }
 }

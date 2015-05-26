@@ -36,23 +36,4 @@ public class SSCategoriesPredefinedGetPar extends SSServPar{
     
     super(op, key, user);
   }
-    
-  public static SSCategoriesPredefinedGetPar get(final SSServPar par) throws Exception{
-    
-     try{
-      
-      if(par.clientCon != null){
-        return (SSCategoriesPredefinedGetPar) par.getFromJSON(SSCategoriesPredefinedGetPar.class);
-      }
-      
-      return new SSCategoriesPredefinedGetPar(
-        par.op,
-        par.key,
-        par.user);
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
 }

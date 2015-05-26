@@ -3,7 +3,7 @@
 * http://www.learning-layers.eu
 * Development is partly funded by the FP7 Programme of the European Commission under
 * Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+* Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
 * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -27,17 +27,19 @@ import at.tugraz.sss.serv.SSServRetI;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SSCategoriesUserRemoveRet extends SSServRetI{
+public class SSCategoriesRemoveRet extends SSServRetI{
 
-  public boolean worked = false;
+  public Boolean worked = false;
 
-  public static SSCategoriesUserRemoveRet get(boolean worked, SSServOpE op){
-    return new SSCategoriesUserRemoveRet(worked, op);
+  public static SSCategoriesRemoveRet get(
+    final Boolean worked){
+    return new SSCategoriesRemoveRet(worked);
   }
   
-  private SSCategoriesUserRemoveRet(boolean worked, SSServOpE op){
+  private SSCategoriesRemoveRet(
+    final Boolean worked){
     
-    super(op);
+    super(SSServOpE.categoriesRemove);
     
     this.worked = worked;
   }
@@ -50,11 +52,5 @@ public class SSCategoriesUserRemoveRet extends SSServRetI{
     ld.put(SSVarNames.worked, SSVarNames.xsd + SSStrU.colon + SSStrU.valueBoolean);
     
     return ld;
-  }
-  
-  /* json getters */
-  
-  public boolean isWorked() {
-    return worked;
   }
 }

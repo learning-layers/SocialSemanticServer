@@ -17,6 +17,13 @@
   </properties>
   
   <dependencies>
+
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>category.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
     <dependency>
       <groupId>sss.servs</groupId>
       <artifactId>tag.serv</artifactId>

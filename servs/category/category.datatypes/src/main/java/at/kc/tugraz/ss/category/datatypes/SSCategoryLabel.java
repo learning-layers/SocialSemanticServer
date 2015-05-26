@@ -30,6 +30,10 @@ public class SSCategoryLabel extends SSEntityA{
   public static SSCategoryLabel get(
     final String string) throws Exception{
     
+    if(string == null){
+      return null;
+    }
+    
     return new SSCategoryLabel(string);
   }
   
@@ -47,6 +51,39 @@ public class SSCategoryLabel extends SSEntityA{
     }
     
     return result;
+  }
+  
+  public static void addDistinctWithoutNull(
+    final List<SSCategoryLabel>     entities,
+    final SSCategoryLabel           entity){
+    
+    if(
+      SSObjU.isNull  (entities, entity) ||
+      SSStrU.contains(entities, entity)){
+      return;
+    }
+    
+    entities.add(entity);
+  }
+  
+  public static void addDistinctWithoutNull(
+    final List<SSCategoryLabel>  entities,
+    final List<SSCategoryLabel>  toAddEntities){
+    
+    if(SSObjU.isNull(entities, toAddEntities)){
+      return;
+    }
+    
+    for(SSCategoryLabel entity : toAddEntities){
+      
+      if(entity == null){
+        continue;
+      }
+      
+      if(!SSStrU.contains(entities, entity)){
+        entities.add(entity);
+      }
+    }
   }
   
   public static List<SSCategoryLabel> asListWithoutNullAndEmpty(final SSCategoryLabel... categoryLabels){
@@ -94,6 +131,10 @@ public class SSCategoryLabel extends SSEntityA{
   }
   
   private static String getCategoryLabel(final String label) throws Exception{
+    
+    if(label == null){
+      return null;
+    }
     
     try{
       
