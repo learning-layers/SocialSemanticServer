@@ -21,6 +21,7 @@
 package at.kc.tugraz.ss.service.tag.impl;
 
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesGetPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivEntityAddPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePubEntityAddPar;
 import at.kc.tugraz.ss.circle.serv.SSCircleServ;
@@ -755,13 +756,16 @@ implements
         
         par.entities.addAll(
           SSUri.getFromEntitites(
-            SSServCaller.circleEntitiesGet(
-              par.user,
-              par.forUser,             //forUser
-              types,                   //types
-              true,                    //withSystemCircles
-              par.withUserRestriction, //withUserRestriction
-              false)));                //invokeEntityHandlers
+            ((SSCircleServerI) SSCircleServ.inst.serv()).circleEntitiesGet(
+              new SSCircleEntitiesGetPar(
+                null,
+                null,
+                par.user,
+                par.forUser,
+                types,
+                true,
+                false,
+                par.withUserRestriction))));
       }
       
       return SSTagMiscFct.getTagFrequsFromTags(

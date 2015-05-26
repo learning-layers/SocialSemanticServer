@@ -65,34 +65,9 @@ public class SSCircleUsersAddPar extends SSServPar{
     
     this.circle = circle;
     
-    if(users != null){
-      this.users.addAll(users);
-    }
+    SSUri.addDistinctWithoutNull( this.users, users);
     
     this.withUserRestriction      = withUserRestriction;
     this.shouldCommit             = shouldCommit;
-  }
-  
-  public static SSCircleUsersAddPar get(final SSServPar par) throws Exception{
-    
-    try{
-      
-      if(par.clientCon != null){
-        return (SSCircleUsersAddPar) par.getFromJSON(SSCircleUsersAddPar.class);
-      }
-      
-      return new SSCircleUsersAddPar(
-        par.op,
-        par.key,
-        par.user,
-        (SSUri)         par.pars.get(SSVarNames.circle),
-        (List<SSUri>)   par.pars.get(SSVarNames.users),
-        (Boolean)       par.pars.get(SSVarNames.withUserRestriction),
-        (Boolean)       par.pars.get(SSVarNames.shouldCommit));
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
   }
 }

@@ -20,6 +20,9 @@
 */
 package at.kc.tugraz.ss.recomm.impl.fct.misc;
 
+import at.kc.tugraz.ss.circle.api.SSCircleServerI;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleTypesGetPar;
+import at.kc.tugraz.ss.circle.serv.SSCircleServ;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSEntity;
 import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommResourcesPar;
@@ -50,13 +53,16 @@ public class SSRecommResourcesFct{
     final SSEntity             entity) throws Exception{
   
     if(par.setCircleTypes){
-    
+      
       entity.circleTypes.addAll(
-        SSServCaller.circleTypesGet(
-          par.user,
-          par.user,
-          entity.id, 
-          true));
+        ((SSCircleServerI) SSCircleServ.inst.serv()).circleTypesGet(
+          new SSCircleTypesGetPar(
+            null,
+            null,
+            par.user,
+            par.user,
+            entity.id,
+            true)));
     }
   }
 }

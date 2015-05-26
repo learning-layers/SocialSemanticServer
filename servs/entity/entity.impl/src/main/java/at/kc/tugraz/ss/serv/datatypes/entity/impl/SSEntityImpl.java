@@ -21,6 +21,7 @@
 package at.kc.tugraz.ss.serv.datatypes.entity.impl;
 
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleGetPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivEntityAddPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePubEntityAddPar;
 import at.kc.tugraz.ss.circle.serv.SSCircleServ;
@@ -502,16 +503,20 @@ implements
       switch(entity.type){
         
         case circle:{
-          return SSServCaller.circleGet(
-            par.user,
-            par.forUser,
-            par.entity,
-            SSEntityE.asListWithoutNullAndEmpty(), //entityTypesToIncludeOnly
-            false,
-            true,
-            false);
+          
+          return ((SSCircleServerI) SSCircleServ.inst.serv()).circleGet(
+            new SSCircleGetPar(
+              null,
+              null,
+              par.user,
+              par.entity,
+              par.forUser,
+              SSEntityE.asListWithoutNullAndEmpty(),
+              true,
+              false,
+              false));
         }
-        
+
         default:{
           
           final SSEntityDescriberPar entityDescriberPar =

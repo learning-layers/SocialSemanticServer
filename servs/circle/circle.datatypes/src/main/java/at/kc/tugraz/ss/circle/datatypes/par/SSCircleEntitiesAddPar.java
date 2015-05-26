@@ -67,36 +67,10 @@ public class SSCircleEntitiesAddPar extends SSServPar{
     
     this.circle                 = circle;
     
-    if(entities != null){
-      this.entities.addAll(entities);
-    }
+    SSUri.addDistinctWithoutNull(this.entities, entities);
     
     this.withUserRestriction    = withUserRestriction;
     this.invokeEntityHandlers   = invokeEntityHandlers;
     this.shouldCommit           = shouldCommit;
-  }
-  
-  public static SSCircleEntitiesAddPar get(final SSServPar par) throws Exception{
-    
-    try{
-      
-      if(par.clientCon != null){
-        return (SSCircleEntitiesAddPar) par.getFromJSON(SSCircleEntitiesAddPar.class);
-      }
-      
-      return new SSCircleEntitiesAddPar(
-        par.op,
-        par.key,
-        par.user,
-        (SSUri)         par.pars.get(SSVarNames.circle),
-        (List<SSUri>)   par.pars.get(SSVarNames.entities),
-        (Boolean)       par.pars.get(SSVarNames.withUserRestriction),
-        (Boolean)       par.pars.get(SSVarNames.invokeEntityHandlers), 
-        (Boolean)       par.pars.get(SSVarNames.shouldCommit));
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
   }
 }

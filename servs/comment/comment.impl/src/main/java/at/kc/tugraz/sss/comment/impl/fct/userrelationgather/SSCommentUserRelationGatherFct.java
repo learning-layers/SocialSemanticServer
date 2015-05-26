@@ -20,6 +20,9 @@
 */
 package at.kc.tugraz.sss.comment.impl.fct.userrelationgather;
 
+import at.kc.tugraz.ss.circle.api.SSCircleServerI;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCirclesGetPar;
+import at.kc.tugraz.ss.circle.serv.SSCircleServ;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityCircle;
 
@@ -65,15 +68,18 @@ public class SSCommentUserRelationGatherFct{
     for(SSUri entity : SSServCaller.commentEntitiesCommentedGet(userUri, userUri)){
       
       for(SSEntityCircle entityCircle : 
-        SSServCaller.circlesGet(
-          userUri, 
-          userUri, 
-          entity, 
-          SSEntityE.asListWithoutNullAndEmpty(),
-          true, 
-          false, 
-          false)){
-        
+        ((SSCircleServerI) SSCircleServ.inst.serv()).circlesGet(
+          new SSCirclesGetPar(
+            null,
+            null,
+            userUri,
+            userUri,
+            entity,
+            SSEntityE.asListWithoutNullAndEmpty(),
+            false,
+            true,
+            false))){
+
         if(userRelations.containsKey(userStr)){
           userRelations.get(userStr).addAll(SSUri.getFromEntitites(entityCircle.users));
         }else{

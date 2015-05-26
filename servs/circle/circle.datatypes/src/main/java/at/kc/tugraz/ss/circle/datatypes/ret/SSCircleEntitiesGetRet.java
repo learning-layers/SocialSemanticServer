@@ -36,17 +36,15 @@ public class SSCircleEntitiesGetRet extends SSServRetI{
   public List<SSEntity> entities = new ArrayList<>();
 
   public static SSCircleEntitiesGetRet get(
-    final List<SSEntity> entities, 
-    final SSServOpE        op){
+    final List<SSEntity> entities){
     
-    return new SSCircleEntitiesGetRet(entities, op);
+    return new SSCircleEntitiesGetRet(entities);
   }
   
   private SSCircleEntitiesGetRet(
-    final List<SSEntity> entities, 
-    final SSServOpE        op){
+    final List<SSEntity> entities){
     
-    super(op);
+    super(SSServOpE.circleEntitiesGet);
     
     if(entities != null){
       this.entities.addAll(entities);

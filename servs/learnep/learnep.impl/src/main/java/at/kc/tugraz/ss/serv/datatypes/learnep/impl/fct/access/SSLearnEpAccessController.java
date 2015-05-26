@@ -20,6 +20,9 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.access;
 
+import at.kc.tugraz.ss.circle.api.SSCircleServerI;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleTypesGetPar;
+import at.kc.tugraz.ss.circle.serv.SSCircleServ;
 import at.kc.tugraz.ss.serv.datatypes.learnep.conf.SSLearnEpConf;
 import at.tugraz.sss.serv.SSDateU;
 import at.tugraz.sss.serv.SSStrU;
@@ -147,9 +150,19 @@ public class SSLearnEpAccessController{
     final SSUri         learnEp) throws Exception{
     
     try{
+      
       if(
         !learnEpConf.useEpisodeLocking ||
-        !SSStrU.contains(SSServCaller.circleTypesGet(user, user, learnEp, true), SSCircleE.group)){
+        !SSStrU.contains(
+          ((SSCircleServerI) SSCircleServ.inst.serv()).circleTypesGet(
+            new SSCircleTypesGetPar(
+              null,
+              null,
+              user,
+              user,
+              learnEp,
+              true)),
+          SSCircleE.group)){
         return;
       }
       

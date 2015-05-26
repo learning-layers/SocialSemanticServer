@@ -21,6 +21,7 @@
 package at.kc.tugraz.sss.video.impl;
 
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesAddPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivEntityAddPar;
 import at.kc.tugraz.ss.circle.serv.SSCircleServ;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
@@ -125,13 +126,16 @@ implements
                 continue;
               }
               
-              SSServCaller.circleEntitiesAdd(
-                userToShareWith, 
-                circle, 
-                SSUri.asListWithoutNullAndEmpty(annotation.id), 
-                false, 
-                false, 
-                false);
+              ((SSCircleServerI) SSCircleServ.inst.serv()).circleEntitiesAdd(
+                new SSCircleEntitiesAddPar(
+                  null,
+                  null,
+                  userToShareWith,
+                  circle,
+                  SSUri.asListWithoutNullAndEmpty(annotation.id),
+                  false,
+                  false,
+                  false));
             }
           }
         }
@@ -172,13 +176,16 @@ implements
             continue;
           }
           
-          SSServCaller.circleEntitiesAdd(
-            user, 
-            circle, 
-            SSUri.asListWithoutNullAndEmpty(annotation.id), 
-            false, 
-            false, 
-            false);
+          ((SSCircleServerI) SSCircleServ.inst.serv()).circleEntitiesAdd(
+            new SSCircleEntitiesAddPar(
+              null,
+              null,
+              user,
+              circle,
+              SSUri.asListWithoutNullAndEmpty(annotation.id),
+              false,
+              false,
+              false));
         }
       }
     }

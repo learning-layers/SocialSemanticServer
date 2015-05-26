@@ -21,7 +21,9 @@
 package at.kc.tugraz.ss.service.user.impl;
 
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesAddPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivEntityAddPar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCirclesGetPar;
 import at.kc.tugraz.ss.circle.serv.SSCircleServ;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
@@ -92,14 +94,17 @@ implements
           if(par.setCircles){
             
             user.circles.addAll(
-              SSServCaller.circlesGet(
-                par.user,
-                par.user,
-                null,
-                SSEntityE.asListWithoutNullAndEmpty(),
-                false,
-                true,
-                false));
+              ((SSCircleServerI) SSCircleServ.inst.serv()).circlesGet(
+                new SSCirclesGetPar(
+                  null, 
+                  null, 
+                  par.user,
+                  par.user,
+                  null,
+                  SSEntityE.asListWithoutNullAndEmpty(), 
+                  true, 
+                  false, 
+                  false)));
           }
           
           par.entity = 
@@ -298,13 +303,16 @@ implements
           null,
           false));
       
-      SSServCaller.circleEntitiesAdd(
-        SSVoc.systemUserUri, 
-        SSServCaller.circlePubURIGet(false), 
-        SSUri.asListWithoutNullAndEmpty(userUri), 
-        true, 
-        false, 
-        false);
+      ((SSCircleServerI) SSCircleServ.inst.serv()).circleEntitiesAdd(
+          new SSCircleEntitiesAddPar(
+            null, 
+            null, 
+            SSVoc.systemUserUri,  
+            SSServCaller.circlePubURIGet(false),
+            SSUri.asListWithoutNullAndEmpty(userUri), 
+            false,
+            true, 
+            false));
       
       sqlFct.addUser(userUri, tmpEmail);
       

@@ -21,7 +21,12 @@
 package at.kc.tugraz.ss.service.disc.impl;
 
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesAddPar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleMostOpenCircleTypeGetPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivEntityAddPar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleTypesGetPar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleUsersAddPar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCirclesGetPar;
 import at.kc.tugraz.ss.circle.serv.SSCircleServ;
 import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSStrU;
@@ -103,13 +108,17 @@ implements
       for(SSDisc disc : allDiscs){
         
         discUserCircles =
-          SSServCaller.circlesGet(
-            userUri, 
-            userUri, 
-            disc.id,
-            SSEntityE.asListWithoutNullAndEmpty(),
-            true, 
-            false, false);
+          ((SSCircleServerI) SSCircleServ.inst.serv()).circlesGet(
+            new SSCirclesGetPar(
+              null,
+              null,
+              userUri,
+              userUri,
+              disc.id,
+              SSEntityE.asListWithoutNullAndEmpty(),
+              false,
+              true,
+              false));
         
         for(SSEntityCircle circle : discUserCircles){
           
@@ -246,20 +255,26 @@ implements
           
           sqlFct.addDisc(entity, userToShareWith);
           
-          SSServCaller.circleEntitiesAdd(
-            user,
-            circle,
-            SSDiscMiscFct.getDiscContentURIs(sqlFct, entity),
-            false,
-            false,
-            false);
+          ((SSCircleServerI) SSCircleServ.inst.serv()).circleEntitiesAdd(
+            new SSCircleEntitiesAddPar(
+              null,
+              null,
+              user,
+              circle,
+              SSDiscMiscFct.getDiscContentURIs(sqlFct, entity),
+              false,
+              false,
+              false));
           
-          SSServCaller.circleUsersAdd(
-            user,
-            circle,
-            sqlFct.getDiscUserURIs(entity),
-            false,
-            false);
+          ((SSCircleServerI) SSCircleServ.inst.serv()).circleUsersAdd(
+              new SSCircleUsersAddPar(
+                null,
+                null, 
+                user, 
+                circle, 
+                sqlFct.getDiscUserURIs(entity), 
+                false, 
+                false));
         }
     }
   }
@@ -276,13 +291,16 @@ implements
       case disc:
       case chat:{
         
-        SSServCaller.circleEntitiesAdd(
-          user, 
-          circle, 
-          SSDiscMiscFct.getDiscContentURIs(sqlFct, entity), 
-          false, 
-          false, 
-          false);
+        ((SSCircleServerI) SSCircleServ.inst.serv()).circleEntitiesAdd(
+            new SSCircleEntitiesAddPar(
+              null,
+              null,
+              user,
+              circle,
+              SSDiscMiscFct.getDiscContentURIs(sqlFct, entity),
+              false,
+              false,
+              false));
       }
     }
   }
@@ -486,12 +504,15 @@ implements
             discUri));
         
         disc.circleTypes.addAll(
-          SSServCaller.circleTypesGet(
-            par.user, 
-            par.user, 
-            disc.id, 
-            false));
-        
+          ((SSCircleServerI) SSCircleServ.inst.serv()).circleTypesGet(
+            new SSCircleTypesGetPar(
+              null,
+              null,
+              par.user,
+              par.user,
+              disc.id,
+              false)));
+            
         discsWithoutEntries.add(disc);
       }
       
@@ -578,7 +599,15 @@ implements
       
       dbSQL.startTrans(par.shouldCommit);
       
-      switch(SSServCaller.circleMostOpenCircleTypeGet(par.user, par.user, par.disc, false)){
+      switch(
+        ((SSCircleServerI) SSCircleServ.inst.serv()).circleMostOpenCircleTypeGet(
+          new SSCircleMostOpenCircleTypeGetPar(
+            null, 
+            null, 
+            par.user, 
+            par.user, 
+            par.disc, 
+            false))){
       
         case priv: sqlFct.deleteDisc(par.disc);          break;
         case group: 

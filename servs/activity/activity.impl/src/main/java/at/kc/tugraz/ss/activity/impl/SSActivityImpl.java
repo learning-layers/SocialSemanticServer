@@ -37,6 +37,9 @@ import at.kc.tugraz.ss.activity.datatypes.ret.SSActivitiesUserGetRet;
 import at.kc.tugraz.ss.activity.datatypes.ret.SSActivityTypesGetRet;
 import at.kc.tugraz.ss.activity.datatypes.ret.SSActivityUserAddRet;
 import at.kc.tugraz.ss.activity.impl.fct.sql.SSActivitySQLFct;
+import at.kc.tugraz.ss.circle.api.SSCircleServerI;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleGetPar;
+import at.kc.tugraz.ss.circle.serv.SSCircleServ;
 import at.kc.tugraz.ss.service.user.api.SSUserServerI;
 import at.kc.tugraz.ss.service.user.datatypes.SSUser;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUsersGetPar;
@@ -217,14 +220,18 @@ public class SSActivityImpl extends SSServImplWithDBA implements SSActivityClien
             continue;
           }
           
-          for(SSEntity circleEntity : SSServCaller.circleGet(
-            par.user, //user
-            par.user, //forUser
-            circle,   //circle
-            SSEntityE.asListWithoutNullAndEmpty(), //entityTypesToIncludeOnly
-            false,    //withSystemCircles
-            true, //withUserRestriction
-            false).entities){ //invokeEntityHandlers
+          for(SSEntity circleEntity : 
+            ((SSCircleServerI) SSCircleServ.inst.serv()).circleGet(
+              new SSCircleGetPar(
+                null, 
+                null, 
+                par.user, 
+                circle,
+                par.user,
+                SSEntityE.asListWithoutNullAndEmpty(), 
+                true, 
+                false,
+                false)).entities){
             
             entitiesToQuery.add(circleEntity.id);
           }

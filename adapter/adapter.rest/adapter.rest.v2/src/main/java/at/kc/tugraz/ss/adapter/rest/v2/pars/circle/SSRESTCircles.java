@@ -232,7 +232,8 @@ public class SSRESTCircles{
           null,  //forUser
           SSEntityE.asListWithoutNullAndEmpty(), //types
           true,  //withSystemCircles
-          true); //invokeEntityHandlers
+          true, //invokeEntityHandlers
+          true); //withUserRestriction
       
     }catch(Exception error){
       return Response.status(422).build();

@@ -118,6 +118,39 @@ public enum SSEntityE implements SSJSONLDPropI{
     }
   }
   
+  public static void addDistinctWithoutNull(
+    final List<SSEntityE>     entities,
+    final SSEntityE           entity){
+    
+    if(
+      SSObjU.isNull  (entities, entity) ||
+      SSStrU.contains(entities, entity)){
+      return;
+    }
+    
+    entities.add(entity);
+  }
+  
+  public static void addDistinctWithoutNull(
+    final List<SSEntityE>  entities,
+    final List<SSEntityE>  toAddEntities){
+    
+    if(SSObjU.isNull(entities, toAddEntities)){
+      return;
+    }
+    
+    for(SSEntityE entity : toAddEntities){
+      
+      if(entity == null){
+        continue;
+      }
+      
+      if(!SSStrU.contains(entities, entity)){
+        entities.add(entity);
+      }
+    }
+  }
+  
   //TODO rename to asListWithoutNull
   public static List<SSEntityE> asListWithoutNullAndEmpty(final SSEntityE... types){
    
