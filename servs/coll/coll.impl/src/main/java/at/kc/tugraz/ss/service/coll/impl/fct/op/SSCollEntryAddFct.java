@@ -20,6 +20,9 @@
 */
 package at.kc.tugraz.ss.service.coll.impl.fct.op;
 
+import at.kc.tugraz.ss.circle.api.SSCircleServerI;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivEntityAddPar;
+import at.kc.tugraz.ss.circle.serv.SSCircleServ;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityCircle;
@@ -44,15 +47,18 @@ public class SSCollEntryAddFct{
     
     par.entry = SSServCaller.vocURICreate();
     
-    SSServCaller.entityEntityToPrivCircleAdd(
-      par.user, 
-      par.entry,
-      SSEntityE.coll, 
-      par.label, 
-      null,
-      null,
-      false);
-   
+    ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+      new SSCirclePrivEntityAddPar(
+        null,
+        null,
+        par.user,
+        par.entry,
+        SSEntityE.coll,
+        par.label,
+        null,
+        null,
+        false));
+    
     sqlFct.addColl(par.entry);
     
     sqlFct.addCollToColl(
@@ -118,15 +124,18 @@ public class SSCollEntryAddFct{
   public static SSUri addCollEntry(
     final SSCollSQLFct          sqlFct, 
     final SSCollUserEntryAddPar par) throws Exception{
-  
-    SSServCaller.entityEntityToPrivCircleAdd(
-      par.user, 
-      par.entry,
-      SSEntityE.entity, 
-      par.label, 
-      null,
-      null,
-      false);
+    
+    ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+      new SSCirclePrivEntityAddPar(
+        null,
+        null,
+        par.user,
+        par.entry,
+        SSEntityE.entity,
+        par.label,
+        null,
+        null,
+        false));
     
     sqlFct.addCollEntry(par.coll, par.entry);
     

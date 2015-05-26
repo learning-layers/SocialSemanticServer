@@ -60,7 +60,6 @@ import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSMimeTypeE;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSSpaceE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSToolContextE;
@@ -1794,27 +1793,27 @@ public class SSServCaller {
     return (SSEntity) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.circleUserCan, opPars));
   }
   
-  public static void entityEntityToPrivCircleAdd(
-    final SSUri         user,
-    final SSUri         entity,
-    final SSEntityE     type,
-    final SSLabel       label,
-    final SSTextComment description,
-    final Long          creationTime,
-    final Boolean       shouldCommit) throws Exception{
-    
-    final Map<String, Object>  opPars           = new HashMap<>();
-    
-    opPars.put(SSVarNames.user,             user);
-    opPars.put(SSVarNames.entity,           entity);
-    opPars.put(SSVarNames.type,             type);
-    opPars.put(SSVarNames.label,            label);
-    opPars.put(SSVarNames.description,      description);
-    opPars.put(SSVarNames.creationTime,     creationTime);
-    opPars.put(SSVarNames.shouldCommit,     shouldCommit);
-    
-    SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entityEntityToPrivCircleAdd, opPars));
-  }
+//  public static void entityEntityToPrivCircleAdd(
+//    final SSUri         user,
+//    final SSUri         entity,
+//    final SSEntityE     type,
+//    final SSLabel       label,
+//    final SSTextComment description,
+//    final Long          creationTime,
+//    final Boolean       shouldCommit) throws Exception{
+//    
+//    final Map<String, Object>  opPars           = new HashMap<>();
+//    
+//    opPars.put(SSVarNames.user,             user);
+//    opPars.put(SSVarNames.entity,           entity);
+//    opPars.put(SSVarNames.type,             type);
+//    opPars.put(SSVarNames.label,            label);
+//    opPars.put(SSVarNames.description,      description);
+//    opPars.put(SSVarNames.creationTime,     creationTime);
+//    opPars.put(SSVarNames.shouldCommit,     shouldCommit);
+//    
+//    SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entityEntityToPrivCircleAdd, opPars));
+//  }
   
   public static SSUri circleEntityShare(
     final SSUri         user,
@@ -2165,304 +2164,6 @@ public class SSServCaller {
     
     SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.dataExportAddTagsCategoriesTimestampsForUserEntity, opPars));
   }
-  
-  /* category */
-  
-//  public static Boolean categoriesPredefinedAdd(
-//    final SSUri        user,
-//    final List<String> labels,
-//    final Boolean      shouldCommit) throws Exception{
-//    
-//    final Map<String, Object> opPars = new HashMap<>();
-//    
-//    opPars.put(SSVarNames.user,         user);
-//    opPars.put(SSVarNames.labels,       labels);
-//    opPars.put(SSVarNames.shouldCommit, shouldCommit);
-//    
-//    return (Boolean) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.categoriesPredefinedAdd, opPars));
-//  }
-//    
-//  public static List<String> categoriesPredefinedGet(
-//    final SSUri  user) throws Exception{
-//    
-//    final Map<String, Object> opPars = new HashMap<>();
-//    
-//    opPars.put(SSVarNames.user, user);
-//    
-//    return (List<String>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.categoriesPredefinedGet, opPars));
-//  }
-//
-//  public static List<SSUri> categoryUserEntitiesForCategoriesGet(
-//    final SSUri        user, 
-//    final SSUri        forUser,
-//    final List<String> labels, 
-//    final SSSpaceE     space,
-//    final Long         startTime) throws Exception{
-//    
-//    final Map<String, Object>   opPars = new HashMap<>();
-//    
-//    opPars.put(SSVarNames.user,        user);
-//    opPars.put(SSVarNames.forUser,     forUser);
-//    opPars.put(SSVarNames.labels,      labels);
-//    opPars.put(SSVarNames.space,       space);
-//    opPars.put(SSVarNames.startTime,   startTime);
-//    
-//    return (List<SSUri>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.categoryUserEntitiesForCategoriesGet, opPars));
-//  }
-//  
-//  public static List<SSCategory> categoriesUserGet(
-//    final SSUri        user, 
-//    final SSUri        forUser,
-//    final List<SSUri>  entities, 
-//    final List<String> labels, 
-//    final SSSpaceE     space,
-//    final Long         startTime) throws Exception{
-//    
-//    final Map<String, Object>   opPars = new HashMap<>();
-//    
-//    opPars.put(SSVarNames.user,        user);
-//    opPars.put(SSVarNames.forUser,     forUser);
-//    opPars.put(SSVarNames.entities,    entities);
-//    opPars.put(SSVarNames.labels,      labels);
-//    opPars.put(SSVarNames.space,       space);
-//    opPars.put(SSVarNames.startTime,   startTime);
-//    
-//    return (List<SSCategory>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.categoriesUserGet, opPars));
-//  }
-//  
-//  public static List<SSCategoryFrequ> categoryUserFrequsGet(
-//    final SSUri        user, 
-//    final SSUri        forUser,
-//    final List<SSUri>  entities, 
-//    final List<String> labels,
-//    final SSSpaceE     space,
-//    final Long         startTime) throws Exception{
-//    
-//    final Map<String, Object> opPars = new HashMap<>();
-//    
-//    opPars.put(SSVarNames.user,        user);
-//    opPars.put(SSVarNames.forUser,     forUser);
-//    opPars.put(SSVarNames.entities,    entities);
-//    opPars.put(SSVarNames.labels,      labels);
-//    opPars.put(SSVarNames.space,       space);
-//    opPars.put(SSVarNames.startTime,   startTime);
-//    
-//    return (List<SSCategoryFrequ>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.categoryUserFrequsGet, opPars));
-//  }
-//  
-//  public static void categoriesRemove(
-//    final SSUri         forUser,   
-//    final SSUri         entity,
-//    final String        label,
-//    final SSSpaceE      space,
-//    final Boolean       shouldCommit) throws Exception{
-//    
-//    final Map<String, Object> opPars = new HashMap<>();
-//    
-//    opPars.put(SSVarNames.forUser,      forUser);
-//    opPars.put(SSVarNames.shouldCommit, shouldCommit);
-//    opPars.put(SSVarNames.entity,       entity);
-//    opPars.put(SSVarNames.label,        label);
-//    opPars.put(SSVarNames.space,        space);
-//    
-//    SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.categoriesRemove, opPars));
-//  }
-//  
-//  public static void categoriesUserRemove(
-//    final SSUri         user,
-//    final SSUri         entity,
-//    final String        label,
-//    final SSSpaceE      space,
-//    final Boolean       shouldCommit) throws Exception{
-//    
-//    final Map<String, Object> opPars = new HashMap<>();
-//    
-//    opPars.put(SSVarNames.user,         user);
-//    opPars.put(SSVarNames.shouldCommit, shouldCommit);
-//    opPars.put(SSVarNames.entity,       entity);
-//    opPars.put(SSVarNames.label,        label);
-//    opPars.put(SSVarNames.space,        space);
-//    
-//    SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.categoriesUserRemove, opPars));
-//  }
-//  
-//  public static SSUri categoryAdd(
-//    final SSUri       user,
-//    final SSUri       entity,
-//    final String      label,
-//    final SSSpaceE    space,
-//    final Long        creationTime, 
-//    final Boolean     shouldCommit) throws Exception{
-//    
-//    final Map<String, Object> opPars = new HashMap<>();
-//    
-//    opPars.put(SSVarNames.shouldCommit, shouldCommit);
-//    opPars.put(SSVarNames.user,         user);
-//    opPars.put(SSVarNames.entity,       entity);
-//    opPars.put(SSVarNames.space,        space);
-//    opPars.put(SSVarNames.label,        label);
-//    opPars.put(SSVarNames.creationTime, creationTime);
-//    
-//    return (SSUri) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.categoryAdd, opPars));
-//  }
-//  
-//  public static List<SSUri> categoriesAdd(
-//    final SSUri            user,
-//    final SSUri            entity,
-//    final List<String>     labels,
-//    final SSSpaceE         space,
-//    final Long             creationTime,
-//    final Boolean          shouldCommit) throws Exception{
-//    
-//    final Map<String, Object> opPars = new HashMap<>();
-//          
-//    opPars.put(SSVarNames.shouldCommit, shouldCommit);
-//    opPars.put(SSVarNames.user,         user);
-//    opPars.put(SSVarNames.entity,       entity);
-//    opPars.put(SSVarNames.labels,       labels);
-//    opPars.put(SSVarNames.space,        space);
-//    opPars.put(SSVarNames.creationTime, creationTime);
-//    
-//    return (List<SSUri>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.categoriesAdd, opPars));
-//  }
-  
-  /* tag */
- 
-//  public static List<SSUri> tagUserEntitiesForTagsGet(
-//    final SSUri        user, 
-//    final SSUri        forUser,
-//    final List<String> labels, 
-//    final SSSpaceE     space,
-//    final Long         startTime) throws Exception{
-//    
-//    final Map<String, Object>   opPars = new HashMap<>();
-//    
-//    opPars.put(SSVarNames.user,        user);
-//    opPars.put(SSVarNames.forUser,     forUser);
-//    opPars.put(SSVarNames.labels,      SSTagLabel.get(labels));
-//    opPars.put(SSVarNames.space,       space);
-//    opPars.put(SSVarNames.startTime,   startTime);
-//    
-//    return (List<SSUri>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.tagUserEntitiesForTagsGet, opPars));
-//  }
-//  
-//  public static List<SSTag> tagsUserGet(
-//    final SSUri        user, 
-//    final SSUri        forUser,
-//    final List<SSUri>  entities, 
-//    final List<String> labels, 
-//    final SSSpaceE     space,
-//    final Long         startTime) throws Exception{
-//    
-//    final Map<String, Object>   opPars = new HashMap<>();
-//    
-//    opPars.put(SSVarNames.user,        user);
-//    opPars.put(SSVarNames.forUser,     forUser);
-//    opPars.put(SSVarNames.entities,    entities);
-//    opPars.put(SSVarNames.labels,      SSTagLabel.get(labels));
-//    opPars.put(SSVarNames.space,       space);
-//    opPars.put(SSVarNames.startTime,   startTime);
-//    
-//    return (List<SSTag>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.tagsUserGet, opPars));
-//  }
-//  
-//  public static List<SSTagFrequ> tagUserFrequsGet(
-//    final SSUri        user, 
-//    final SSUri        forUser,
-//    final List<SSUri>  entities, 
-//    final List<String> labels,
-//    final SSSpaceE     space,
-//    final Long         startTime,
-//    final Boolean      useUsersEntities) throws Exception{
-//    
-//    final Map<String, Object> opPars = new HashMap<>();
-//    
-//    opPars.put(SSVarNames.user,                 user);
-//    opPars.put(SSVarNames.forUser,              forUser);
-//    opPars.put(SSVarNames.entities,             entities);
-//    opPars.put(SSVarNames.labels,               SSTagLabel.get(labels));
-//    opPars.put(SSVarNames.space,                space);
-//    opPars.put(SSVarNames.startTime,            startTime);
-//    opPars.put(SSVarNames.useUsersEntities,     useUsersEntities);
-//    
-//    return (List<SSTagFrequ>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.tagUserFrequsGet, opPars));
-//  }
-//  
-//  public static void tagsRemove(
-//    final SSUri         forUser,   
-//    final SSUri         entity,
-//    final String        label,
-//    final SSSpaceE      space,
-//    final Boolean       shouldCommit) throws Exception{
-//    
-//    final Map<String, Object> opPars = new HashMap<>();
-//    
-//    opPars.put(SSVarNames.forUser,      forUser);
-//    opPars.put(SSVarNames.shouldCommit, shouldCommit);
-//    opPars.put(SSVarNames.entity,       entity);
-//    opPars.put(SSVarNames.label,        SSTagLabel.get(label));
-//    opPars.put(SSVarNames.space,        space);
-//    
-//    SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.tagsRemove, opPars));
-//  }
-//  
-//  public static void tagsUserRemove(
-//    final SSUri         user,
-//    final SSUri         entity,
-//    final String        label,
-//    final SSSpaceE      space,
-//    final Boolean       shouldCommit) throws Exception{
-//    
-//    final Map<String, Object> opPars = new HashMap<>();
-//    
-//    opPars.put(SSVarNames.user,         user);
-//    opPars.put(SSVarNames.shouldCommit, shouldCommit);
-//    opPars.put(SSVarNames.entity,       entity);
-//    opPars.put(SSVarNames.label,        SSTagLabel.get(label));
-//    opPars.put(SSVarNames.space,        space);
-//    
-//    SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.tagsUserRemove, opPars));
-//  }
-//  
-//  public static SSUri tagAdd(
-//    final SSUri       user,
-//    final SSUri       entity,
-//    final String      label,
-//    final SSSpaceE    space,
-//    final Long        creationTime, 
-//    final Boolean     shouldCommit) throws Exception{
-//    
-//    final Map<String, Object> opPars = new HashMap<>();
-//    
-//    opPars.put(SSVarNames.shouldCommit, shouldCommit);
-//    opPars.put(SSVarNames.user,         user);
-//    opPars.put(SSVarNames.entity,       entity);
-//    opPars.put(SSVarNames.space,        space);
-//    opPars.put(SSVarNames.label,        SSTagLabel.get(label));
-//    opPars.put(SSVarNames.creationTime, creationTime);
-//    
-//    return (SSUri) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.tagAdd, opPars));
-//  }
-//  
-//  public static List<SSUri> tagsAdd(
-//    final SSUri            user,
-//    final SSUri            entity,
-//    final List<String>     labels,
-//    final SSSpaceE         space,
-//    final Long             creationTime,
-//    final Boolean          shouldCommit) throws Exception{
-//    
-//    final Map<String, Object> opPars = new HashMap<>();
-//          
-//    opPars.put(SSVarNames.shouldCommit, shouldCommit);
-//    opPars.put(SSVarNames.user,         user);
-//    opPars.put(SSVarNames.entity,       entity);
-//    opPars.put(SSVarNames.labels,       SSTagLabel.get(labels));
-//    opPars.put(SSVarNames.space,        space);
-//    opPars.put(SSVarNames.creationTime, creationTime);
-//    
-//    return (List<SSUri>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.tagsAdd, opPars));
-//  }
   
   /* recomm */
   

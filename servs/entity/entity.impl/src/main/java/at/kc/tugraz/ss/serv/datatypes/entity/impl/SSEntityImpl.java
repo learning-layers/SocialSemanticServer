@@ -21,6 +21,7 @@
 package at.kc.tugraz.ss.serv.datatypes.entity.impl;
 
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivEntityAddPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePubEntityAddPar;
 import at.kc.tugraz.ss.circle.serv.SSCircleServ;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityClientI;
@@ -784,14 +785,17 @@ implements
       
       dbSQL.startTrans(par.shouldCommit);
       
-      SSServCaller.entityEntityToPrivCircleAdd(
-        par.user,
-        entityUri,
-        par.type,
-        par.label,
-        par.description,
-        par.creationTime,
-        false);
+      ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+        new SSCirclePrivEntityAddPar(
+          null,
+          null,
+          par.user,
+          entityUri,
+          par.type,
+          par.label,
+          par.description,
+          par.creationTime,
+          false));
       
       SSServCaller.uEAddAtCreationTime(
         par.user,

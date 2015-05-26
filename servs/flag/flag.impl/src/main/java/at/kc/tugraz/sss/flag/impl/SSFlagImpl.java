@@ -20,6 +20,9 @@
 */
 package at.kc.tugraz.sss.flag.impl;
 
+import at.kc.tugraz.ss.circle.api.SSCircleServerI;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivEntityAddPar;
+import at.kc.tugraz.ss.circle.serv.SSCircleServ;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSSocketCon;
 import at.tugraz.sss.serv.SSUri;
@@ -103,14 +106,17 @@ public class SSFlagImpl extends SSServImplWithDBA implements SSFlagClientI, SSFl
       
       for(SSUri entity : par.entities){
 
-        SSServCaller.entityEntityToPrivCircleAdd(
-          par.user, 
-          entity,
-          SSEntityE.entity,
-          null, 
-          null, 
-          null, 
-          false);
+        ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+          new SSCirclePrivEntityAddPar(
+            null,
+            null,
+            par.user,
+            entity,
+            SSEntityE.entity,
+            null,
+            null,
+            null,
+            false));
       }
       
       for(SSUri entity : par.entities){
@@ -119,14 +125,17 @@ public class SSFlagImpl extends SSServImplWithDBA implements SSFlagClientI, SSFl
           
           SSUri flagUri = SSServCaller.vocURICreate();
           
-          SSServCaller.entityEntityToPrivCircleAdd(
-            par.user, 
-            flagUri, 
-            SSEntityE.flag, 
-            null, 
-            null, 
-            null, 
-            false);
+          ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+            new SSCirclePrivEntityAddPar(
+              null,
+              null,
+              par.user,
+              flagUri,
+              SSEntityE.flag,
+              null,
+              null,
+              null,
+              false));
             
           sqlFct.createFlag(
             flagUri,

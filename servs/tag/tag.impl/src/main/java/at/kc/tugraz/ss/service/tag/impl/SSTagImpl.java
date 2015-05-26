@@ -1,26 +1,27 @@
-/**
-* Code contributed to the Learning Layers project
-* http://www.learning-layers.eu
-* Development is partly funded by the FP7 Programme of the European Commission under
-* Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
-* For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
-*
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-* http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*/
+ /**
+  * Code contributed to the Learning Layers project
+  * http://www.learning-layers.eu
+  * Development is partly funded by the FP7 Programme of the European Commission under
+  * Grant Agreement FP7-ICT-318209.
+  * Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+  * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
+  *
+  * Licensed under the Apache License, Version 2.0 (the "License");
+  * you may not use this file except in compliance with the License.
+  * You may obtain a copy of the License at
+  *
+  * http://www.apache.org/licenses/LICENSE-2.0
+  *
+  * Unless required by applicable law or agreed to in writing, software
+  * distributed under the License is distributed on an "AS IS" BASIS,
+  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  * See the License for the specific language governing permissions and
+  * limitations under the License.
+  */
 package at.kc.tugraz.ss.service.tag.impl;
 
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivEntityAddPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePubEntityAddPar;
 import at.kc.tugraz.ss.circle.serv.SSCircleServ;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
@@ -68,13 +69,13 @@ import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServPar;
 
-public class SSTagImpl 
-extends SSServImplWithDBA 
-implements 
-  SSTagClientI, 
-  SSTagServerI, 
-  SSEntityHandlerImplI, 
-  SSEntityDescriberI, 
+public class SSTagImpl
+extends SSServImplWithDBA
+implements
+  SSTagClientI,
+  SSTagServerI,
+  SSEntityHandlerImplI,
+  SSEntityDescriberI,
   SSUserRelationGathererI,
   SSUsersResourcesGathererI{
   
@@ -89,7 +90,7 @@ implements
   
   @Override
   public void getUserRelations(
-    final List<String>             allUsers, 
+    final List<String>             allUsers,
     final Map<String, List<SSUri>> userRelations) throws Exception{
     
     final Map<String, List<SSUri>> usersPerTag    = new HashMap<>();
@@ -103,17 +104,17 @@ implements
       tags =
         tagsGet(
           new SSTagsGetPar(
-            null, 
-            null, 
-            userUri, 
-            userUri, 
-            SSUri.asListWithoutNullAndEmpty(), 
-            SSTagLabel.asListWithoutNullAndEmpty(), 
-            null, 
+            null,
+            null,
+            userUri,
+            userUri,
+            SSUri.asListWithoutNullAndEmpty(),
+            SSTagLabel.asListWithoutNullAndEmpty(),
+            null,
             null));
-        
-      for(SSTag tag : tags){
       
+      for(SSTag tag : tags){
+        
         SSTagUserRelationGathererFct.addUserForTag     (tag, usersPerTag);
         SSTagUserRelationGathererFct.addUserForEntity  (tag, usersPerEntity);
       }
@@ -129,11 +130,11 @@ implements
   
   @Override
   public void getUsersResources(
-    final List<String>             allUsers, 
+    final List<String>             allUsers,
     final Map<String, List<SSUri>> usersResources) throws Exception{
     
     SSUri userUri;
-      
+    
     for(String user : allUsers){
       
       userUri = SSUri.get(user);
@@ -193,25 +194,25 @@ implements
     final SSUri         user,
     final SSUri         entity,
     final SSEntityE     type) throws Exception{
-
+    
     return null;
   }
   
   @Override
   public Boolean setUserEntityPublic(
     final SSUri          userUri,
-    final SSUri          entityUri, 
+    final SSUri          entityUri,
     final SSEntityE      entityType,
     final SSUri          publicCircleUri) throws Exception{
-
+    
     return false;
   }
   
   @Override
   public void shareUserEntity(
-    final SSUri          userUri, 
+    final SSUri          userUri,
     final List<SSUri>    userUrisToShareWith,
-    final SSUri          entityUri, 
+    final SSUri          entityUri,
     final SSUri          entityCircleUri,
     final SSEntityE      entityType,
     final Boolean        saveActivity) throws Exception{
@@ -219,15 +220,15 @@ implements
   
   @Override
   public void shareUserEntityWithCircle(
-    final SSUri        userUri, 
-    final SSUri        circleUri, 
-    final SSUri        entityUri, 
+    final SSUri        userUri,
+    final SSUri        circleUri,
+    final SSUri        entityUri,
     final SSEntityE entityType) throws Exception{
-  }  
+  }
   
   @Override
   public void removeDirectlyAdjoinedEntitiesForUser(
-    final SSUri       userUri, 
+    final SSUri       userUri,
     final SSEntityE   entityType,
     final SSUri       entityUri,
     final Boolean     removeUserTags,
@@ -277,7 +278,7 @@ implements
                 SSTagLabel.asListWithoutNullAndEmpty(),
                 null,
                 null))));
-      }          
+      }
       
       return par.entity;
     }catch(Exception error){
@@ -285,7 +286,7 @@ implements
       return null;
     }
   }
-    
+  
   @Override
   public void tagEntitiesForTagsGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
     
@@ -293,10 +294,10 @@ implements
     
     sSCon.writeRetFullToClient(
       SSTagEntitiesForTagsGetRet.get(
-        tagEntitiesForTagsGet((SSTagEntitiesForTagsGetPar) parA.getFromJSON(SSTagEntitiesForTagsGetPar.class))), 
+        tagEntitiesForTagsGet((SSTagEntitiesForTagsGetPar) parA.getFromJSON(SSTagEntitiesForTagsGetPar.class))),
       parA.op);
   }
-
+  
   @Override
   public List<SSUri> tagEntitiesForTagsGet(final SSTagEntitiesForTagsGetPar par) throws Exception{
     
@@ -377,23 +378,29 @@ implements
         
         if(SSStrU.equals(par.space, SSSpaceE.privateSpace)){
           
-          SSServCaller.entityEntityToPrivCircleAdd(
-            par.user,
-            par.entity,
-            SSEntityE.entity,
-            null,
-            null,
-            null,
-            false);
+          ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+            new SSCirclePrivEntityAddPar(
+              null,
+              null,
+              par.user,
+              par.entity,
+              SSEntityE.entity,
+              null,
+              null,
+              null,
+              false));
           
-          SSServCaller.entityEntityToPrivCircleAdd(
-            par.user,
-            tagUri,
-            SSEntityE.tag,
-            SSLabel.get(SSStrU.toStr(par.label)),
-            null,
-            par.creationTime,
-            false);
+          ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+            new SSCirclePrivEntityAddPar(
+              null,
+              null,
+              par.user,
+              tagUri,
+              SSEntityE.tag,
+              SSLabel.get(SSStrU.toStr(par.label)),
+              null,
+              par.creationTime,
+              false));
           
         }else{
           
@@ -425,14 +432,17 @@ implements
         
         if(SSStrU.equals(par.space, SSSpaceE.privateSpace)){
           
-          SSServCaller.entityEntityToPrivCircleAdd(
-            par.user,
-            tagUri,
-            SSEntityE.tag,
-            SSLabel.get(SSStrU.toStr(par.label)),
-            null,
-            par.creationTime,
-            false);
+          ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+            new SSCirclePrivEntityAddPar(
+              null,
+              null,
+              par.user,
+              tagUri,
+              SSEntityE.tag,
+              SSLabel.get(SSStrU.toStr(par.label)),
+              null,
+              par.creationTime,
+              false));
           
         }else{
           ((SSCircleServerI) SSCircleServ.inst.serv()).circlePubEntityAdd(
@@ -488,7 +498,7 @@ implements
     
     sSCon.writeRetFullToClient(
       SSTagEditRet.get(
-        tagEdit((SSTagEditPar) parA.getFromJSON(SSTagEditPar.class))), 
+        tagEdit((SSTagEditPar) parA.getFromJSON(SSTagEditPar.class))),
       parA.op);
   }
   
@@ -525,31 +535,31 @@ implements
             SSTagLabel.asListWithoutNullAndEmpty(par.tag),
             null,
             null));
-        
+      
       for(SSTag tag : tags){
         
         tagsRemove(
           new SSTagsRemovePar(
-            null, 
+            null,
             null,
             par.user,
-            par.user, 
+            par.user,
             tag.entity,
-            SSTagLabel.get(SSStrU.toStr(tag.label)), 
+            SSTagLabel.get(SSStrU.toStr(tag.label)),
             tag.space,
-            false, 
+            false,
             false));
         
         newTagUri =
           tagAdd(
             new SSTagAddPar(
-              null, 
-              null, 
-              par.user, 
-              tag.entity, 
-              par.label, 
-              tag.space, 
-              null, 
+              null,
+              null,
+              par.user,
+              tag.entity,
+              par.label,
+              tag.space,
+              null,
               false));
       }
       
@@ -639,7 +649,7 @@ implements
       if(
         par.space    == null &&
         par.entity == null){
-
+        
         dbSQL.startTrans(par.shouldCommit);
         
         sqlFct.removeTagAsss(par.forUser, null, tagUri, SSSpaceE.privateSpace);
@@ -649,17 +659,17 @@ implements
         return true;
       }
       
-       if(
-         par.space    != null &&
-         par.entity == null){
-         
-         dbSQL.startTrans(par.shouldCommit);
-         
-         sqlFct.removeTagAsss(par.forUser, null, tagUri, par.space);
-         
-         dbSQL.commit(par.shouldCommit);
-         return true;
-       }
+      if(
+        par.space    != null &&
+        par.entity == null){
+        
+        dbSQL.startTrans(par.shouldCommit);
+        
+        sqlFct.removeTagAsss(par.forUser, null, tagUri, par.space);
+        
+        dbSQL.commit(par.shouldCommit);
+        return true;
+      }
       
       if(
         par.space    == null &&
@@ -679,9 +689,9 @@ implements
         par.entity != null){
         
         dbSQL.startTrans(par.shouldCommit);
-      
+        
         sqlFct.removeTagAsss(null, par.entity, tagUri, par.space);
-
+        
         dbSQL.commit(par.shouldCommit);
         return true;
       }
@@ -708,15 +718,15 @@ implements
       return null;
     }
   }
-
+  
   @Override
   public void tagFrequsGet(SSSocketCon sSCon, SSServPar parA) throws Exception {
-       
+    
     SSServCallerU.checkKey(parA);
     
     sSCon.writeRetFullToClient(
       SSTagFrequsGetRet.get(
-        tagFrequsGet((SSTagFrequsGetPar) parA.getFromJSON(SSTagFrequsGetPar.class))), 
+        tagFrequsGet((SSTagFrequsGetPar) parA.getFromJSON(SSTagFrequsGetPar.class))),
       parA.op);
   }
   
@@ -734,13 +744,13 @@ implements
       if(par.useUsersEntities){
         
         //TODO change: hack for bits and pieces
-        final List<SSEntityE> types = 
+        final List<SSEntityE> types =
           SSEntityE.asListWithoutNullAndEmpty(
-            SSEntityE.entity, 
-            SSEntityE.file, 
-            SSEntityE.evernoteResource, 
-            SSEntityE.evernoteNote, 
-            SSEntityE.evernoteNotebook, 
+            SSEntityE.entity,
+            SSEntityE.file,
+            SSEntityE.evernoteResource,
+            SSEntityE.evernoteNote,
+            SSEntityE.evernoteNotebook,
             SSEntityE.placeholder);
         
         par.entities.addAll(
@@ -777,7 +787,7 @@ implements
   public List<SSUri> tagsAdd(final SSTagsAddPar par) throws Exception {
     
     try{
-
+      
       final List<SSUri>  tags   = new ArrayList<>();
       
       for(SSTagLabel tagLabel : par.labels) {
@@ -826,7 +836,7 @@ implements
     
     sSCon.writeRetFullToClient(
       SSTagsGetRet.get(
-        tagsGet((SSTagsGetPar) parA.getFromJSON(SSTagsGetPar.class))), 
+        tagsGet((SSTagsGetPar) parA.getFromJSON(SSTagsGetPar.class))),
       parA.op);
   }
   

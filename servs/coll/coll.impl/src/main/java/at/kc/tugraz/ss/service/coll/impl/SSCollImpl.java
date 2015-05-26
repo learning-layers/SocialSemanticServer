@@ -20,6 +20,9 @@
 */
 package at.kc.tugraz.ss.service.coll.impl;
 
+import at.kc.tugraz.ss.circle.api.SSCircleServerI;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivEntityAddPar;
+import at.kc.tugraz.ss.circle.serv.SSCircleServ;
 import at.tugraz.sss.serv.SSUri;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserRootAddPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserWithEntriesPar;
@@ -38,7 +41,6 @@ import at.kc.tugraz.ss.service.coll.datatypes.*;
 import at.tugraz.sss.serv.SSServPar;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.tugraz.sss.serv.SSEntityCircle;
-
 import at.tugraz.sss.serv.SSConfA;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserParentGetPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserRootGetPar;
@@ -1023,14 +1025,17 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
 
       final SSUri rootCollUri = SSServCaller.vocURICreate();
 
-      SSServCaller.entityEntityToPrivCircleAdd(
-        par.user,
-        rootCollUri, 
-        SSEntityE.coll,
-        SSLabel.get(SSStrU.valueRoot), 
-        null,
-        null,
-        false);
+      ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+        new SSCirclePrivEntityAddPar(
+          null,
+          null,
+          par.user,
+          rootCollUri,
+          SSEntityE.coll,
+          SSLabel.get(SSStrU.valueRoot),
+          null,
+          null,
+          false));
       
       sqlFct.addColl (rootCollUri);
 

@@ -20,6 +20,9 @@
 */
 package at.kc.tugraz.ss.service.user.impl;
 
+import at.kc.tugraz.ss.circle.api.SSCircleServerI;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivEntityAddPar;
+import at.kc.tugraz.ss.circle.serv.SSCircleServ;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSSocketCon;
@@ -283,14 +286,17 @@ implements
       
       dbSQL.startTrans(par.shouldCommit);
       
-      SSServCaller.entityEntityToPrivCircleAdd(
-        SSVoc.systemUserUri,
-        userUri,
-        SSEntityE.user,
-        tmpLabel,
-        null,
-        null,
-        false);
+      ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+        new SSCirclePrivEntityAddPar(
+          null,
+          null,
+          SSVoc.systemUserUri,
+          userUri,
+          SSEntityE.user,
+          tmpLabel,
+          null,
+          null,
+          false));
       
       SSServCaller.circleEntitiesAdd(
         SSVoc.systemUserUri, 

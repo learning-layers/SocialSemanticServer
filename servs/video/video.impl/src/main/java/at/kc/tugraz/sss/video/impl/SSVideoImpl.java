@@ -20,6 +20,9 @@
 */
 package at.kc.tugraz.sss.video.impl;
 
+import at.kc.tugraz.ss.circle.api.SSCircleServerI;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivEntityAddPar;
+import at.kc.tugraz.ss.circle.serv.SSCircleServ;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.tugraz.sss.serv.SSSocketCon;
 import at.tugraz.sss.serv.SSEntity;
@@ -290,37 +293,46 @@ implements
       
       dbSQL.startTrans(par.shouldCommit);
       
-      SSServCaller.entityEntityToPrivCircleAdd(
-        par.user,
-        videoUri,
-        SSEntityE.video, 
-        par.label, 
-        par.description, 
-        par.creationTime, 
-        false);
+      ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+        new SSCirclePrivEntityAddPar(
+          null,
+          null,
+          par.user,
+          videoUri,
+          SSEntityE.video,
+          par.label,
+          par.description,
+          par.creationTime,
+          false));
       
       if(par.forEntity != null){
         
-        SSServCaller.entityEntityToPrivCircleAdd(
-          par.user, 
-          par.forEntity, 
-          SSEntityE.entity, 
-          null, 
-          null, 
-          null, 
-          false);
+        ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+          new SSCirclePrivEntityAddPar(
+            null,
+            null,
+            par.user,
+            par.forEntity,
+            SSEntityE.entity,
+            null,
+            null,
+            null,
+            false));
       }
       
       if(par.link != null){
         
-        SSServCaller.entityEntityToPrivCircleAdd(
-          par.user, 
-          par.link, 
-          SSEntityE.entity, 
-          null, 
-          null, 
-          null, 
-          false);
+        ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+          new SSCirclePrivEntityAddPar(
+            null,
+            null,
+            par.user,
+            par.link,
+            SSEntityE.entity,
+            null,
+            null,
+            null,
+            false));
       }
       
       sqlFct.addVideo(
@@ -390,14 +402,17 @@ implements
       
       dbSQL.startTrans(par.shouldCommit);
       
-      SSServCaller.entityEntityToPrivCircleAdd(
-        par.user, 
-        annotationUri, 
-        SSEntityE.videoAnnotation, 
-        par.label, 
-        par.description, 
-        null, 
-        false);
+      ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+        new SSCirclePrivEntityAddPar(
+          null,
+          null,
+          par.user,
+          annotationUri,
+          SSEntityE.videoAnnotation,
+          par.label,
+          par.description,
+          null,
+          false));
        
       sqlFct.createAnnotation(
         par.video, 

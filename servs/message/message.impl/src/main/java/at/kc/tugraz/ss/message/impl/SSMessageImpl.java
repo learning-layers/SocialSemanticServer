@@ -20,6 +20,9 @@
 */
 package at.kc.tugraz.ss.message.impl;
 
+import at.kc.tugraz.ss.circle.api.SSCircleServerI;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivEntityAddPar;
+import at.kc.tugraz.ss.circle.serv.SSCircleServ;
 import at.tugraz.sss.serv.SSDateU;
 import at.tugraz.sss.serv.SSSocketCon;
 import at.tugraz.sss.serv.SSUri;
@@ -110,18 +113,21 @@ public class SSMessageImpl extends SSServImplWithDBA implements SSMessageClientI
       
       dbSQL.startTrans(par.shouldCommit);
       
-      SSServCaller.entityEntityToPrivCircleAdd(
-        par.user,
-        messageUri,
-        SSEntityE.message,
-        null,
-        null,
-        null,
-        false);
-   
+      ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+        new SSCirclePrivEntityAddPar(
+          null,
+          null,
+          par.user,
+          messageUri,
+          SSEntityE.message,
+          null,
+          null,
+          null,
+          false));
+      
       sqlFct.sendMessage(
-        messageUri, 
-        par.user, 
+        messageUri,
+        par.user,
         par.forUser,
         par.message);
       

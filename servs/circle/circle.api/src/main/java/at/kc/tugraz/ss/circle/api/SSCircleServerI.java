@@ -20,6 +20,7 @@
 */
 package at.kc.tugraz.ss.circle.api;
 
+import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivEntityAddPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePubEntityAddPar;
 import at.tugraz.sss.serv.SSCircleE;
 import at.tugraz.sss.serv.SSEntity;
@@ -46,6 +47,6 @@ public interface SSCircleServerI{
   public SSUri                           circleEntityPublicSet                    (final SSServPar parA) throws Exception;
   public List<SSUri>                     circleEntitiesRemove                     (final SSServPar parA) throws Exception;
 
-  public void                            entityEntityToPrivCircleAdd              (final SSServPar parA)              throws Exception;
-  public void                            circlePubEntityAdd                       (final SSCirclePubEntityAddPar par) throws Exception;
+  public void                            circlePrivEntityAdd                      (final SSCirclePrivEntityAddPar par) throws Exception;
+  public void                            circlePubEntityAdd                       (final SSCirclePubEntityAddPar  par) throws Exception;
 }

@@ -20,6 +20,9 @@
 */
 package at.kc.tugraz.ss.serv.dataimport.impl.evernote;
 
+import at.kc.tugraz.ss.circle.api.SSCircleServerI;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivEntityAddPar;
+import at.kc.tugraz.ss.circle.serv.SSCircleServ;
 import at.tugraz.sss.serv.SSFileExtE;
 import at.tugraz.sss.serv.SSFileU;
 import at.tugraz.sss.serv.SSLogU;
@@ -75,21 +78,24 @@ public class SSDataImportEvernoteResourceContentHandler{
         return;
       }
       
-      SSServCaller.entityEntityToPrivCircleAdd(
-        user, 
-        fileUri, 
-        SSEntityE.file, 
-        null,
-        null, 
-        null, 
-        false);
+      ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+        new SSCirclePrivEntityAddPar(
+          null,
+          null,
+          user,
+          fileUri,
+          SSEntityE.file,
+          null,
+          null,
+          null,
+          false));
       
       for(SSUri file : SSServCaller.entityFilesGet(user, resourceUri)){
-
+        
         SSServCaller.entityRemove(file, false);
         
         try{
-          SSFileU.delFile(localWorkPath + SSServCaller.fileIDFromURI (user, file));  
+          SSFileU.delFile(localWorkPath + SSServCaller.fileIDFromURI (user, file));
         }catch(Exception error){
           SSLogU.warn("evernote resource file couldnt be removed");
         }

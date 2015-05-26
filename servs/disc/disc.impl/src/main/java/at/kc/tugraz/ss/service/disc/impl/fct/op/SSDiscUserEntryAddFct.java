@@ -20,6 +20,9 @@
 */
 package at.kc.tugraz.ss.service.disc.impl.fct.op;
 
+import at.kc.tugraz.ss.circle.api.SSCircleServerI;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivEntityAddPar;
+import at.kc.tugraz.ss.circle.serv.SSCircleServ;
 import at.tugraz.sss.serv.SSObjU;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
@@ -54,23 +57,29 @@ public class SSDiscUserEntryAddFct{
         tmpTargetUri = targetUri;
       }
       
-      SSServCaller.entityEntityToPrivCircleAdd(
-        userUri,
-        discUri,
-        discType,
-        discLabel,
-        description,
-        null,
-        false);
+      ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+        new SSCirclePrivEntityAddPar(
+          null,
+          null,
+          userUri,
+          discUri,
+          discType,
+          discLabel,
+          description,
+          null,
+          false));
       
-      SSServCaller.entityEntityToPrivCircleAdd(
-        userUri,
-        tmpTargetUri,
-        SSEntityE.entity,
-        null,
-        description,
-        null,
-        false);
+      ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+        new SSCirclePrivEntityAddPar(
+          null,
+          null,
+          userUri,
+          tmpTargetUri,
+          SSEntityE.entity,
+          null,
+          description,
+          null,
+          false));
       
       sqlFct.createDisc(
         userUri, 
@@ -100,14 +109,17 @@ public class SSDiscUserEntryAddFct{
         default: throw new Exception("disc type not valid");
       }
       
-      SSServCaller.entityEntityToPrivCircleAdd(
-        userUri,
-        discEntryUri,
-        discEntryType,
-        SSLabel.get(discEntryUri),
-        null,
-        null,
-        false);
+      ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+        new SSCirclePrivEntityAddPar(
+          null,
+          null,
+          userUri,
+          discEntryUri,
+          discEntryType,
+          SSLabel.get(discEntryUri),
+          null,
+          null,
+          false));
             
       for(SSEntityCircle entityUserCircle : 
         SSServCaller.circlesGet(

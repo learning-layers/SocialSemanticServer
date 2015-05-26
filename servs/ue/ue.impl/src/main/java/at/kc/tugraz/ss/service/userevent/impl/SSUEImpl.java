@@ -20,6 +20,9 @@
 */
  package at.kc.tugraz.ss.service.userevent.impl;
 
+import at.kc.tugraz.ss.circle.api.SSCircleServerI;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivEntityAddPar;
+import at.kc.tugraz.ss.circle.serv.SSCircleServ;
 import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSSocketCon;
@@ -319,23 +322,29 @@ implements
       
       dbSQL.startTrans(par.shouldCommit);
       
-      SSServCaller.entityEntityToPrivCircleAdd(
-        par.user, 
-        ueUri, 
-        SSEntityE.userEvent, 
-        null, 
-        null, 
-        par.creationTime, 
-        false);
+      ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+        new SSCirclePrivEntityAddPar(
+          null,
+          null,
+          par.user,
+          ueUri,
+          SSEntityE.userEvent,
+          null,
+          null,
+          par.creationTime,
+          false));
       
-      SSServCaller.entityEntityToPrivCircleAdd(
+      ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+          new SSCirclePrivEntityAddPar(
+            null,
+            null,
         par.user,
         par.entity,
         SSEntityE.entity,
         null,
         null,
         null,
-        false);
+        false));
       
       sqlFct.addUE(
         ueUri, 
@@ -393,23 +402,29 @@ implements
       
       dbSQL.startTrans(par.shouldCommit);
       
-       SSServCaller.entityEntityToPrivCircleAdd(
+       ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+          new SSCirclePrivEntityAddPar(
+            null,
+            null,
         par.user,
         ueUri,
         SSEntityE.userEvent,
         null,
         null,
         null,
-        false);
+        false));
         
-      SSServCaller.entityEntityToPrivCircleAdd(
+      ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+          new SSCirclePrivEntityAddPar(
+            null,
+            null,
         par.user, 
         par.entity, 
         SSEntityE.entity, 
         null, 
         null, 
         null, 
-        false);
+        false));
 
       sqlFct.addUE(
         ueUri,

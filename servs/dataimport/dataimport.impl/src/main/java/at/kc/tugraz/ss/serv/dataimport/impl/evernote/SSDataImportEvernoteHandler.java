@@ -20,6 +20,9 @@
 */
 package at.kc.tugraz.ss.serv.dataimport.impl.evernote;
 
+import at.kc.tugraz.ss.circle.api.SSCircleServerI;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivEntityAddPar;
+import at.kc.tugraz.ss.circle.serv.SSCircleServ;
 import at.tugraz.sss.serv.SSDateU;
 import at.tugraz.sss.serv.SSLinkU;
 import at.tugraz.sss.serv.SSObjU;
@@ -136,14 +139,17 @@ public class SSDataImportEvernoteHandler {
     final SSLabel  notebookLabel,
     final Long     notebookCreationTime) throws Exception{
     
-    SSServCaller.entityEntityToPrivCircleAdd(
-      userUri,
-      notebookUri,
-      SSEntityE.evernoteNotebook,
-      notebookLabel,
-      null,
-      notebookCreationTime,
-      false);
+    ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+      new SSCirclePrivEntityAddPar(
+        null,
+        null,
+        userUri,
+        notebookUri,
+        SSEntityE.evernoteNotebook,
+        notebookLabel,
+        null,
+        notebookCreationTime,
+        false));
     
     SSServCaller.evalLog(
       userUri, 
@@ -473,14 +479,17 @@ public class SSDataImportEvernoteHandler {
     
     try{
       
-      SSServCaller.entityEntityToPrivCircleAdd(
-        userUri,
-        noteUri,
-        SSEntityE.evernoteNote,
-        noteLabel,
-        null,
-        note.getCreated(),
-        false);
+      ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+        new SSCirclePrivEntityAddPar(
+          null,
+          null,
+          userUri,
+          noteUri,
+          SSEntityE.evernoteNote,
+          noteLabel,
+          null,
+          note.getCreated(),
+          false));
       
       if(!SSServCaller.entityExists(notebookUri)){
         
@@ -595,14 +604,17 @@ public class SSDataImportEvernoteHandler {
     final Long    resourceAddTime,
     final SSUri   noteUri) throws Exception{
     
-    SSServCaller.entityEntityToPrivCircleAdd(
-      userUri, 
-      resourceUri, 
-      SSEntityE.evernoteResource, 
-      resourceLabel, 
-      null, 
-      resourceAddTime,
-      false);
+    ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+      new SSCirclePrivEntityAddPar(
+        null,
+        null,
+        userUri,
+        resourceUri,
+        SSEntityE.evernoteResource,
+        resourceLabel,
+        null,
+        resourceAddTime,
+        false));
     
     SSServCaller.evernoteResourceAdd(
       this.userUri,

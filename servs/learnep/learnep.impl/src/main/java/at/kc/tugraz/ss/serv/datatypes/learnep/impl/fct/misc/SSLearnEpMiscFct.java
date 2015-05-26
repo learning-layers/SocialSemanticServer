@@ -20,6 +20,9 @@
   */
 package at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.misc;
 
+import at.kc.tugraz.ss.circle.api.SSCircleServerI;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivEntityAddPar;
+import at.kc.tugraz.ss.circle.serv.SSCircleServ;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEp;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpCircle;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpEntity;
@@ -89,18 +92,21 @@ public class SSLearnEpMiscFct{
             SSStrU.contains(entitiesToExclude, entity.entity)){
             continue;
           }
-                
-          SSServCaller.entityEntityToPrivCircleAdd(
-            forUser, 
-            entity.entity.id, 
-            SSEntityE.entity, 
-            null, 
-            null, 
-            null, 
-            false);
+          
+          ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+            new SSCirclePrivEntityAddPar(
+              null,
+              null,
+              forUser,
+              entity.entity.id,
+              SSEntityE.entity,
+              null,
+              null,
+              null,
+              false));
           
           SSServCaller.learnEpVersionAddEntity(
-            forUser, 
+            forUser,
             copyVersionUri, 
             entity.entity.id,
             entity.x, 

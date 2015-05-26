@@ -21,6 +21,7 @@
  package at.kc.tugraz.ss.service.rating.impl;
 
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivEntityAddPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePubEntityAddPar;
 import at.kc.tugraz.ss.circle.serv.SSCircleServ;
 import at.kc.tugraz.ss.service.rating.impl.fct.userraltionsgathering.SSRatingUserRelationGathererFct;
@@ -245,15 +246,18 @@ implements
       
       if(!existsEntity){
         
-        SSServCaller.entityEntityToPrivCircleAdd(
-          par.user,
-          par.entity,
-          SSEntityE.entity,
-          null,
-          null,
-          null,
-          false);
-
+        ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+          new SSCirclePrivEntityAddPar(
+            null,
+            null,
+            par.user,
+            par.entity,
+            SSEntityE.entity,
+            null,
+            null,
+            null,
+            false));
+        
         ((SSCircleServerI) SSCircleServ.inst.serv()).circlePubEntityAdd(
           new SSCirclePubEntityAddPar(
             null,
@@ -268,24 +272,30 @@ implements
         
       }else{
         
-        SSServCaller.entityEntityToPrivCircleAdd(
-          par.user,
-          par.entity,
-          SSEntityE.entity,
-          null,
-          null,
-          null,
-          false);
+        ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+          new SSCirclePrivEntityAddPar(
+            null,
+            null,
+            par.user,
+            par.entity,
+            SSEntityE.entity,
+            null,
+            null,
+            null,
+            false));
       }
       
-      SSServCaller.entityEntityToPrivCircleAdd(
-          par.user, 
-          ratingUri, 
-          SSEntityE.rating, 
-          null, 
-          null, 
-          null, 
-          false);
+      ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+        new SSCirclePrivEntityAddPar(
+          null,
+          null,
+          par.user,
+          ratingUri,
+          SSEntityE.rating,
+          null,
+          null,
+          null,
+          false));
       
       sqlFct.rateEntityByUser(
         ratingUri, 

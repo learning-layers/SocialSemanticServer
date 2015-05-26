@@ -34,7 +34,7 @@ import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleCreatePar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivURIGetPar;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntityToPrivCircleAddPar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivEntityAddPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePubEntityAddPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleGetPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclesGetPar;
@@ -74,7 +74,11 @@ import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
 
-public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, SSCircleServerI{
+public class SSCircleImpl 
+extends SSServImplWithDBA 
+implements 
+  SSCircleClientI, 
+  SSCircleServerI{
   
   private final SSCircleSQLFct sqlFct;
 
@@ -720,11 +724,9 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
   }
   
   @Override
-  public void entityEntityToPrivCircleAdd(final SSServPar parA) throws Exception{
+  public void circlePrivEntityAdd(final SSCirclePrivEntityAddPar par) throws Exception{
     
     try{
-      
-      final SSCircleEntityToPrivCircleAddPar par = new SSCircleEntityToPrivCircleAddPar(parA);
       
       dbSQL.startTrans(par.shouldCommit);
       
@@ -751,18 +753,18 @@ public class SSCircleImpl extends SSServImplWithDBA implements SSCircleClientI, 
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(dbSQL.rollBack(parA.shouldCommit)){
+        if(dbSQL.rollBack(par.shouldCommit)){
           
           SSServErrReg.reset();
           
-          entityEntityToPrivCircleAdd(parA);
+          circlePrivEntityAdd(par);
         }else{
           SSServErrReg.regErrThrow(error);
           return;
         }
       }
       
-      dbSQL.rollBack(parA.shouldCommit);
+      dbSQL.rollBack(par.shouldCommit);
       SSServErrReg.regErrThrow(error);
     }
   }

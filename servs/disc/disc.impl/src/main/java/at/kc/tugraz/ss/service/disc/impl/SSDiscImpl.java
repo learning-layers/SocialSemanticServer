@@ -20,6 +20,9 @@
 */
 package at.kc.tugraz.ss.service.disc.impl;
 
+import at.kc.tugraz.ss.circle.api.SSCircleServerI;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivEntityAddPar;
+import at.kc.tugraz.ss.circle.serv.SSCircleServ;
 import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
@@ -356,15 +359,18 @@ implements
         
         if(par.entity != null){
           
-          SSServCaller.entityEntityToPrivCircleAdd(
-            par.user, 
-            par.entity,  
-            SSEntityE.entity, 
-            null, 
-            null, 
-            null, 
-            false);
-        }  
+          ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+            new SSCirclePrivEntityAddPar(
+              null,
+              null,
+              par.user,
+              par.entity,
+              SSEntityE.entity,
+              null,
+              null,
+              null,
+              false));
+        }
       }
       
       if(!par.addNewDisc){

@@ -15,11 +15,18 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
+
   <dependencies>
-    
+
     <dependency>
       <groupId>sss.servs</groupId>
       <artifactId>entity.datatypes</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>circle.serv</artifactId>
       <version>${project.version}</version>
     </dependency>
     

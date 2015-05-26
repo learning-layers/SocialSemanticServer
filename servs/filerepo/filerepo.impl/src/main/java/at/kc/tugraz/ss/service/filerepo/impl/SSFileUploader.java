@@ -20,6 +20,9 @@
 */
 package at.kc.tugraz.ss.service.filerepo.impl;
 
+import at.kc.tugraz.ss.circle.api.SSCircleServerI;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivEntityAddPar;
+import at.kc.tugraz.ss.circle.serv.SSCircleServ;
 import at.tugraz.sss.serv.SSFileExtE;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSFileU;
@@ -241,14 +244,17 @@ public class SSFileUploader extends SSServImplStartA{
       
       if(thumbCreated){
         
-        SSServCaller.entityEntityToPrivCircleAdd(
-          par.user, 
-          pngFileUri, 
-          SSEntityE.thumbnail, 
-          par.label, 
-          null, 
-          null, 
-          false);
+        ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+          new SSCirclePrivEntityAddPar(
+            null,
+            null,
+            par.user,
+            pngFileUri,
+            SSEntityE.thumbnail,
+            par.label,
+            null,
+            null,
+            false));
         
         SSServCaller.entityThumbAdd(
           par.user, 

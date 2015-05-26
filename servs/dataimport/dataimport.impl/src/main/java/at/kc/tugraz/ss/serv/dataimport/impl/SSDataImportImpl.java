@@ -27,6 +27,9 @@ import at.tugraz.sss.serv.SSStrU;
 import at.kc.tugraz.ss.category.datatypes.SSCategoryLabel;
 import at.kc.tugraz.ss.category.datatypes.par.SSCategoriesAddPar;
 import at.kc.tugraz.ss.category.ss.category.serv.SSCategoryServ;
+import at.kc.tugraz.ss.circle.api.SSCircleServerI;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivEntityAddPar;
+import at.kc.tugraz.ss.circle.serv.SSCircleServ;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSSpaceE;
@@ -54,7 +57,6 @@ import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.kc.tugraz.ss.service.tag.api.SSTagServerI;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsAddPar;
-import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsGetPar;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsRemovePar;
 import at.kc.tugraz.ss.service.tag.service.SSTagServ;
 import at.tugraz.sss.serv.SSDBNoSQL;
@@ -298,14 +300,17 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
             false, 
             true);
         
-        SSServCaller.entityEntityToPrivCircleAdd(
-          authorUri, 
-          video.id, 
-          SSEntityE.entity, 
-          video.label, 
-          null, 
-          video.creationTime, 
-          true);
+        ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+          new SSCirclePrivEntityAddPar(
+            null,
+            null,
+            authorUri,
+            video.id,
+            SSEntityE.entity,
+            video.label,
+            null,
+            video.creationTime,
+            true));
 
         ((SSTagServerI) SSTagServ.inst.serv()).tagsAdd(
           new SSTagsAddPar(
