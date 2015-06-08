@@ -281,8 +281,9 @@ implements
   
   @Override
   public void shareUserEntityWithCircle(
-    final SSUri        user, 
-    final SSUri        circle, 
+    final SSUri        user,
+    final SSUri        circle,
+    final List<SSUri>  circleUsers,
     final SSUri        entity,
     final SSEntityE    type) throws Exception{
     
@@ -292,15 +293,24 @@ implements
       case chat:{
         
         ((SSCircleServerI) SSCircleServ.inst.serv()).circleEntitiesAdd(
-            new SSCircleEntitiesAddPar(
-              null,
-              null,
-              user,
-              circle,
-              SSDiscMiscFct.getDiscContentURIs(sqlFct, entity),
-              false,
-              false,
-              false));
+          new SSCircleEntitiesAddPar(
+            null,
+            null,
+            user,
+            circle,
+            SSDiscMiscFct.getDiscContentURIs(sqlFct, entity),
+            false,
+            false,
+            false));
+        
+        for(SSUri circleUser : circleUsers){
+          
+          if(sqlFct.ownsUserDisc(circleUser, entity)){
+            continue;
+          }
+          
+          sqlFct.addDisc(entity, circleUser);
+        }
       }
     }
   }

@@ -84,7 +84,13 @@ import java.util.*;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSWarnE;
 
-public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCollServerI, SSEntityHandlerImplI, SSUserRelationGathererI{
+public class SSCollImpl 
+extends SSServImplWithDBA 
+implements 
+  SSCollClientI, 
+  SSCollServerI, 
+  SSEntityHandlerImplI, 
+  SSUserRelationGathererI{
 
   private final SSCollSQLFct sqlFct;
 
@@ -355,6 +361,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
   public void shareUserEntityWithCircle(
     final SSUri        user,
     final SSUri        circle,
+    final List<SSUri>  circleUsers,
     final SSUri        entity,
     final SSEntityE    type) throws Exception{
 

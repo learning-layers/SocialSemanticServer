@@ -184,6 +184,7 @@ implements
   public void shareUserEntityWithCircle(
     final SSUri        userUri, 
     final SSUri        circleUri, 
+    final List<SSUri>  circleUsers,
     final SSUri        entityUri, 
     final SSEntityE    entityType) throws Exception{
   }

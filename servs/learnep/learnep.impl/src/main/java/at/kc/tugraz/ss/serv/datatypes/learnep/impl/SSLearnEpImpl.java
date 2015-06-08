@@ -105,7 +105,13 @@ import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
 
-public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI, SSLearnEpServerI, SSEntityHandlerImplI, SSUsersResourcesGathererI{
+public class SSLearnEpImpl 
+extends SSServImplWithDBA 
+implements 
+  SSLearnEpClientI, 
+  SSLearnEpServerI,
+  SSEntityHandlerImplI,
+  SSUsersResourcesGathererI{
 
   private final SSLearnEpSQLFct sqlFct;
   private final SSLearnEpConf   learnEpConf;
@@ -283,10 +289,11 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
 
   @Override
   public void shareUserEntityWithCircle(
-    final SSUri     userUri,
-    final SSUri     circleUri,
-    final SSUri     entityUri,
-    final SSEntityE entityType) throws Exception{
+    final SSUri        userUri,
+    final SSUri        circleUri,
+    final List<SSUri>  circleUsers,
+    final SSUri        entityUri,
+    final SSEntityE    entityType) throws Exception{
   }
 
   @Override

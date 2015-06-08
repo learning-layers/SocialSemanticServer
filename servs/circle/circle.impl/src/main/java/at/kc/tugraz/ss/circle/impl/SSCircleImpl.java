@@ -327,6 +327,7 @@ implements
       if(par.invokeEntityHandlers){
         
         SSCircleMiscFct.shareEntityWithCircleByHandlers(
+          sqlFct,
           par.user, 
           par.entities,
           par.circle);
@@ -1076,24 +1077,12 @@ implements
             new SSCircleEntitiesAddPar(
               null, 
               null, 
-              par.user, 
+              par.user,
               circle, 
               SSUri.asListWithoutNullAndEmpty(par.entity), 
               true, 
               true, 
               false));
-          
-//          switch(entityType){
-//            case qa:
-//              SSEntityMiscFct.shareByEntityHandlers(
-//                par.user,
-//                sqlFct.getUserURIsForCircle(circle),
-//                par.entity,
-//                circle,
-//                false);
-//              break;
-//            default:break;
-//          }
         }
         
         SSCircleActivityFct.shareEntityWithCircles(par);

@@ -75,7 +75,13 @@ import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServPar;
 
-public class SSEvernoteImpl extends SSServImplWithDBA implements SSEvernoteClientI, SSEvernoteServerI, SSEntityHandlerImplI, SSEntityDescriberI{
+public class SSEvernoteImpl 
+extends SSServImplWithDBA
+implements 
+  SSEvernoteClientI, 
+  SSEvernoteServerI, 
+  SSEntityHandlerImplI, 
+  SSEntityDescriberI{
   
   private final SSEvernoteSQLFct sqlFct;
   
@@ -209,8 +215,9 @@ public class SSEvernoteImpl extends SSServImplWithDBA implements SSEvernoteClien
   public void shareUserEntityWithCircle(
     final SSUri        userUri, 
     final SSUri        circleUri, 
+    final List<SSUri>  circleUsers,
     final SSUri        entityUri, 
-    final SSEntityE entityType) throws Exception{
+    final SSEntityE    entityType) throws Exception{
   }
   
   @Override

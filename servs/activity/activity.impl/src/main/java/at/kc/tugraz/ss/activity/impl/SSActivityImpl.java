@@ -67,7 +67,12 @@ import java.util.Map;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
 
-public class SSActivityImpl extends SSServImplWithDBA implements SSActivityClientI, SSActivityServerI, SSEntityHandlerImplI{
+public class SSActivityImpl 
+extends SSServImplWithDBA 
+implements 
+  SSActivityClientI, 
+  SSActivityServerI, 
+  SSEntityHandlerImplI{
   
   private final SSActivitySQLFct sqlFct;
   
@@ -131,8 +136,9 @@ public class SSActivityImpl extends SSServImplWithDBA implements SSActivityClien
   public void shareUserEntityWithCircle(
     final SSUri        userUri,
     final SSUri        circleUri,
+    final List<SSUri>  circleUsers,
     final SSUri        entityUri,
-    final SSEntityE entityType) throws Exception{
+    final SSEntityE    entityType) throws Exception{
     
   }
   

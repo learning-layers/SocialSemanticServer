@@ -20,8 +20,6 @@
 */
 package at.tugraz.sss.serv;
 
-import at.tugraz.sss.serv.SSEntityE;
-import at.tugraz.sss.serv.SSUri;
 import java.util.List;
 
 public interface SSEntityHandlerImplI{
@@ -51,7 +49,8 @@ public interface SSEntityHandlerImplI{
 
   public void shareUserEntityWithCircle(
     final SSUri        userUri, 
-    final SSUri        circleUri, 
+    final SSUri        circleUri,
+    final List<SSUri>  circleUsers,
     final SSUri        entityUri, 
     final SSEntityE    entityType) throws Exception;
   

@@ -158,10 +158,11 @@ implements
 
   @Override
   public void shareUserEntityWithCircle(
-    final SSUri     user, 
-    final SSUri     circle,
-    final SSUri     entity, 
-    final SSEntityE type) throws Exception{
+    final SSUri        user, 
+    final SSUri        circle,
+    final List<SSUri>  circleUsers,
+    final SSUri        entity, 
+    final SSEntityE    type) throws Exception{
 
     switch(type){
       

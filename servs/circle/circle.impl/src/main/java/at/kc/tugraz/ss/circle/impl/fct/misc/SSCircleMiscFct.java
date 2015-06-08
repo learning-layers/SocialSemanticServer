@@ -82,6 +82,7 @@ public class SSCircleMiscFct{
   }
   
   public static void shareEntityWithCircleByHandlers(
+    final SSCircleSQLFct                     sqlFct,
     final SSUri                              userUri,
     final List<SSUri>                        entityUris,
     final SSUri                              circleUri) throws Exception{
@@ -97,7 +98,12 @@ public class SSCircleMiscFct{
         }
         
         for(SSServContainerI serv : SSServReg.inst.getServsManagingEntities()){
-          ((SSEntityHandlerImplI) serv.serv()).shareUserEntityWithCircle(userUri, circleUri, entityUri, entityType);
+          ((SSEntityHandlerImplI) serv.serv()).shareUserEntityWithCircle(
+            userUri, 
+            circleUri, 
+            sqlFct.getUserURIsForCircle(circleUri),
+            entityUri, 
+            entityType);
         }
       }
     }catch(Exception error){
@@ -137,7 +143,7 @@ public class SSCircleMiscFct{
     final Boolean        logErr) throws Exception{
     
     try{
-      
+
       for(SSCircleE circleType : sqlFct.getCircleTypesCommonForUserAndEntity(user, entity)){
         
         if(doesCircleOfTypeHaveRight(circleType, accessRight)){
