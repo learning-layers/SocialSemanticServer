@@ -20,6 +20,8 @@
  */
 package at.kc.tugraz.ss.circle.impl.fct.misc;
 
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleGetPar;
+import at.kc.tugraz.ss.circle.impl.SSCircleImpl;
 import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSObjU;
 import at.tugraz.sss.serv.SSStrU;
@@ -33,6 +35,7 @@ import at.tugraz.sss.serv.SSEntityHandlerImplI;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
+import at.tugraz.sss.serv.SSEntityCircle;
 import java.util.ArrayList;
 import java.util.List;
 import at.tugraz.sss.serv.SSErr;
@@ -81,7 +84,7 @@ public class SSCircleMiscFct{
     }
   }
   
-  public static void shareEntityWithCircleByHandlers(
+  public static void addEntitiesToCircleByEntityHandlers(
     final SSCircleSQLFct                     sqlFct,
     final SSUri                              userUri,
     final List<SSUri>                        entityUris,
@@ -98,7 +101,7 @@ public class SSCircleMiscFct{
         }
         
         for(SSServContainerI serv : SSServReg.inst.getServsManagingEntities()){
-          ((SSEntityHandlerImplI) serv.serv()).shareUserEntityWithCircle(
+          ((SSEntityHandlerImplI) serv.serv()).addEntityToCircle(
             userUri, 
             circleUri, 
             sqlFct.getUserURIsForCircle(circleUri),
@@ -106,6 +109,34 @@ public class SSCircleMiscFct{
             entityType);
         }
       }
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  public static void addUsersToCircleByEntityHandlers(
+    final SSCircleImpl                       circleServ,
+    final SSUri                              user,
+    final List<SSUri>                        users,
+    final SSUri                              circleUri) throws Exception{
+    
+    try{
+      final SSEntityCircle circle = 
+        circleServ.circleGet(
+        new SSCircleGetPar(
+          null,
+          null,
+          user,
+          circleUri, 
+          user,
+          SSEntityE.asListWithoutNullAndEmpty(),
+          false,
+          true, 
+          true));
+        
+        for(SSServContainerI serv : SSServReg.inst.getServsManagingEntities()){
+          ((SSEntityHandlerImplI) serv.serv()).addUsersToCircle(user, users, circle);
+        }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
@@ -375,7 +406,11 @@ public class SSCircleMiscFct{
       
       for(SSServContainerI serv : SSServReg.inst.getServsManagingEntities()){
         
-        if(((SSEntityHandlerImplI) serv.serv()).setUserEntityPublic(userUri, entityUri, entityType, pubCircleUri)){
+        if(((SSEntityHandlerImplI) serv.serv()).setEntityPublic(
+          userUri, 
+          entityUri, 
+          entityType, 
+          pubCircleUri)){
           return;
         }
       }
@@ -398,7 +433,13 @@ public class SSCircleMiscFct{
       final SSEntityE entityType = SSServCaller.entityGet(entityUri).type;
       
       for(SSServContainerI serv : SSServReg.inst.getServsManagingEntities()){
-        ((SSEntityHandlerImplI) serv.serv()).shareUserEntity(userUri, userUris, entityUri, circleUri, entityType, true);
+        ((SSEntityHandlerImplI) serv.serv()).shareEntityWithUsers(
+          userUri, 
+          userUris, 
+          entityUri, 
+          circleUri, 
+          entityType, 
+          true);
       }
       
     }catch(Exception error){

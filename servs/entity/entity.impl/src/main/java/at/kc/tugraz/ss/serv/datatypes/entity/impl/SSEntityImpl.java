@@ -207,7 +207,7 @@ implements
         default:{
           
           for(SSServContainerI serv : SSServReg.inst.getServsManagingEntities()){
-            if(((SSEntityHandlerImplI) serv.serv()).copyUserEntity(par.user, par.users, par.entity, par.entitiesToExclude, entityType)){
+            if(((SSEntityHandlerImplI) serv.serv()).copyEntity(par.user, par.users, par.entity, par.entitiesToExclude, entityType)){
               break;
             }
           }

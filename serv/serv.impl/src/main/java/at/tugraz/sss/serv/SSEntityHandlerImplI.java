@@ -33,28 +33,33 @@ public interface SSEntityHandlerImplI{
     final Boolean     removeFromUserColls,
     final Boolean     removeUserLocations) throws Exception;
 
-  public Boolean setUserEntityPublic(
+  public Boolean setEntityPublic(
     final SSUri                 userUri, 
     final SSUri                 entityUri, 
     final SSEntityE             entityType,
     final SSUri                 publicCircleUri) throws Exception;
 
-  public void shareUserEntity(
+  public void shareEntityWithUsers(
     final SSUri          user, 
-    final List<SSUri>    usersToShareWith,
+    final List<SSUri>    users,
     final SSUri          entity, 
     final SSUri          circle,
     final SSEntityE      entityType,
     final Boolean        saveActivity) throws Exception;
 
-  public void shareUserEntityWithCircle(
-    final SSUri        userUri, 
-    final SSUri        circleUri,
+  public void addEntityToCircle(
+    final SSUri        user, 
+    final SSUri        circle,
     final List<SSUri>  circleUsers,
-    final SSUri        entityUri, 
+    final SSUri        entity, 
     final SSEntityE    entityType) throws Exception;
   
-  public Boolean copyUserEntity(
+  public void addUsersToCircle(
+    final SSUri        user, 
+    final List<SSUri>  users,
+    final SSEntityCircle        circle) throws Exception;
+  
+  public Boolean copyEntity(
     final SSUri        user,
     final List<SSUri>  users,
     final SSUri        entity, 

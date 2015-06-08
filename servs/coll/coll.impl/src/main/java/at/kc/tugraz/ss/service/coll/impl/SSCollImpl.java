@@ -176,7 +176,7 @@ implements
   }
   
   @Override
-  public Boolean copyUserEntity(
+  public Boolean copyEntity(
     final SSUri        user,
     final List<SSUri>  users,
     final SSUri        entity,
@@ -228,7 +228,7 @@ implements
   }
       
   @Override
-  public Boolean setUserEntityPublic(
+  public Boolean setEntityPublic(
     final SSUri          user,
     final SSUri          entity, 
     final SSEntityE      type,
@@ -261,7 +261,7 @@ implements
   }
 
   @Override
-  public void shareUserEntity(
+  public void shareEntityWithUsers(
     final SSUri          user, 
     final List<SSUri>    userUrisToShareWith,
     final SSUri          entity, 
@@ -358,7 +358,7 @@ implements
   }
   
   @Override
-  public void shareUserEntityWithCircle(
+  public void addEntityToCircle(
     final SSUri        user,
     final SSUri        circle,
     final List<SSUri>  circleUsers,
@@ -387,6 +387,16 @@ implements
         }
       }
     }
+  }
+  
+  @Override
+  public void addUsersToCircle(
+    final SSUri          user, 
+    final List<SSUri>    users,
+    final SSEntityCircle circle) throws Exception{
+    
+    
+    
   }
 
   @Override

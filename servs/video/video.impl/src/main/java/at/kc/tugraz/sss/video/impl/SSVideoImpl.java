@@ -52,6 +52,7 @@ import at.kc.tugraz.sss.video.impl.fct.sql.SSVideoSQLFct;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
+import at.tugraz.sss.serv.SSEntityCircle;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
 import java.util.ArrayList;
 import java.util.List;
@@ -90,7 +91,7 @@ implements
   }
 
   @Override
-  public Boolean setUserEntityPublic(
+  public Boolean setEntityPublic(
     final SSUri     userUri, 
     final SSUri     entityUri, 
     final SSEntityE entityType, 
@@ -100,7 +101,7 @@ implements
   }
 
   @Override
-  public void shareUserEntity(
+  public void shareEntityWithUsers(
     final SSUri       user, 
     final List<SSUri> usersToShareWith, 
     final SSUri       entity, 
@@ -146,7 +147,7 @@ implements
   }
 
   @Override
-  public Boolean copyUserEntity(
+  public Boolean copyEntity(
     final SSUri       user, 
     final List<SSUri> users, 
     final SSUri       entity, 
@@ -157,7 +158,7 @@ implements
   }
 
   @Override
-  public void shareUserEntityWithCircle(
+  public void addEntityToCircle(
     final SSUri        user, 
     final SSUri        circle,
     final List<SSUri>  circleUsers,
@@ -190,6 +191,16 @@ implements
         }
       }
     }
+  }
+  
+  @Override
+  public void addUsersToCircle(
+    final SSUri        user,
+    final List<SSUri>  users,
+    final SSEntityCircle        circle) throws Exception{
+    
+    
+    
   }
 
   @Override

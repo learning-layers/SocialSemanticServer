@@ -53,6 +53,7 @@ import at.kc.tugraz.ss.service.rating.impl.fct.activity.SSRatingActivityFct;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
+import at.tugraz.sss.serv.SSEntityCircle;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -107,7 +108,7 @@ implements
   }
   
   @Override
-  public Boolean copyUserEntity(
+  public Boolean copyEntity(
     final SSUri        user,
     final List<SSUri>  users,
     final SSUri        entity,
@@ -161,7 +162,7 @@ implements
   }
   
   @Override
-  public Boolean setUserEntityPublic(
+  public Boolean setEntityPublic(
     final SSUri          userUri,
     final SSUri          entityUri, 
     final SSEntityE   entityType,
@@ -171,7 +172,7 @@ implements
   }
   
   @Override
-  public void shareUserEntity(
+  public void shareEntityWithUsers(
     final SSUri          userUri, 
     final List<SSUri>    userUrisToShareWith,
     final SSUri          entityUri, 
@@ -181,7 +182,7 @@ implements
   }
   
   @Override
-  public void shareUserEntityWithCircle(
+  public void addEntityToCircle(
     final SSUri        userUri, 
     final SSUri        circleUri, 
     final List<SSUri>  circleUsers,
@@ -189,6 +190,16 @@ implements
     final SSEntityE    entityType) throws Exception{
   }
     
+  @Override
+  public void addUsersToCircle(
+    final SSUri        user,
+    final List<SSUri>  users,
+    final SSEntityCircle        circle) throws Exception{
+    
+    
+    
+  }
+  
   @Override
   public SSEntity getUserEntity(final SSEntityDescriberPar par) throws Exception{
     

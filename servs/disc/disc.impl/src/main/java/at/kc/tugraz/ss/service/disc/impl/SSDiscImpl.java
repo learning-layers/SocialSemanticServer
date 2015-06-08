@@ -164,7 +164,7 @@ implements
   }
   
   @Override
-  public Boolean copyUserEntity(
+  public Boolean copyEntity(
     final SSUri        user,
     final List<SSUri>  users,
     final SSUri        entity,
@@ -223,7 +223,7 @@ implements
   }
 
   @Override
-  public Boolean setUserEntityPublic(
+  public Boolean setEntityPublic(
     final SSUri          userUri,
     final SSUri          entityUri, 
     final SSEntityE      entityType,
@@ -233,7 +233,7 @@ implements
   }
   
   @Override
-  public void shareUserEntity(
+  public void shareEntityWithUsers(
     final SSUri          user, 
     final List<SSUri>    usersToShareWith,
     final SSUri          entity, 
@@ -280,7 +280,7 @@ implements
   }
   
   @Override
-  public void shareUserEntityWithCircle(
+  public void addEntityToCircle(
     final SSUri        user,
     final SSUri        circle,
     final List<SSUri>  circleUsers,
@@ -310,6 +310,32 @@ implements
           }
           
           sqlFct.addDisc(entity, circleUser);
+        }
+      }
+    }
+  }
+  
+  @Override
+  public void addUsersToCircle(
+    final SSUri           user,
+    final List<SSUri>     users,
+    final SSEntityCircle  circle) throws Exception{
+    
+      for(SSEntity circleEntity : circle.entities){
+        
+        switch(circleEntity.type){
+          case qa:
+          case disc:
+          case chat:{
+            
+            for(SSUri userToAdd : users){
+              
+              if(sqlFct.ownsUserDisc(userToAdd, circleEntity.id)){
+                continue;
+              }
+
+              sqlFct.addDisc(circleEntity.id, userToAdd);
+            }
         }
       }
     }
