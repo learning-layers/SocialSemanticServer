@@ -22,14 +22,12 @@ package at.kc.tugraz.ss.service.tag.datatypes.pars;
 
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSSpaceE;
 import at.tugraz.sss.serv.SSServPar;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import java.util.ArrayList;
 import java.util.List;
-import at.tugraz.sss.serv.SSServErrReg;
 
 public class SSTagFrequsGetPar extends SSServPar{
 

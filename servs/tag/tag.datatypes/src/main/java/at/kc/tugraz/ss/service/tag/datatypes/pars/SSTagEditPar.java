@@ -22,11 +22,9 @@
 
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
-import at.tugraz.sss.serv.SSServErrReg;
  
 public class SSTagEditPar extends SSServPar{
   
@@ -75,28 +73,5 @@ public class SSTagEditPar extends SSServPar{
     this.entity       = entity;
     this.label        = label;
     this.shouldCommit = shouldCommit;
-  }
-  
-  public static SSTagEditPar get(final SSServPar par) throws Exception{
-      
-    try{
-      
-      if(par.clientCon != null){
-        return (SSTagEditPar) par.getFromJSON(SSTagEditPar.class);
-      }
-      
-      return new SSTagEditPar(
-        par.op,
-        par.key,
-        par.user,
-        (SSTagLabel) par.pars.get(SSVarNames.tag), 
-        (SSUri)      par.pars.get(SSVarNames.entity),
-        (SSTagLabel) par.pars.get(SSVarNames.label),
-        (Boolean)    par.pars.get(SSVarNames.shouldCommit));
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
   }
 }
