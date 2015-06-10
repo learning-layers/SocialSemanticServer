@@ -21,10 +21,8 @@
  package at.kc.tugraz.ss.service.disc.datatypes.pars;
 
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSLabel;
@@ -32,7 +30,7 @@ import at.tugraz.sss.serv.SSServOpE;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SSDiscUserEntryAddPar extends SSServPar{
+public class SSDiscEntryAddPar extends SSServPar{
   
   public SSUri               disc           = null;
   public SSUri               entity         = null;
@@ -45,40 +43,40 @@ public class SSDiscUserEntryAddPar extends SSServPar{
   public List<SSUri>         circles        = new ArrayList<>();
   public List<SSUri>         entities       = new ArrayList<>();
   
-  public void setDisc(final String disc){
-    try{ this.disc = SSUri.get(disc); }catch(Exception error){}
+  public void setDisc(final String disc) throws Exception{
+    this.disc = SSUri.get(disc);
   }
   
-  public void setEntity(final String entity){
-    try{ this.entity = SSUri.get(entity); }catch(Exception error){}
+  public void setEntity(final String entity) throws Exception{
+    this.entity = SSUri.get(entity);
   }
   
-  public void setEntry(final String entry){
-    try{ this.entry = SSTextComment.get(entry); }catch(Exception error){}
+  public void setEntry(final String entry) throws Exception{
+    this.entry = SSTextComment.get(entry); 
   }
   
-  public void setType(final String type){
-    try{ this.type = SSEntityE.get(type); }catch(Exception error){}
+  public void setType(final String type) throws Exception{
+    this.type = SSEntityE.get(type); 
   }
   
-  public void setLabel(final String label){
-    try{ this.label = SSLabel.get(label); }catch(Exception error){}
+  public void setLabel(final String label) throws Exception{
+    this.label = SSLabel.get(label); 
   }
 
-  public void setDescription(final String description){
-    try{ this.description = SSTextComment.get(description); }catch(Exception error){}
+  public void setDescription(final String description) throws Exception{
+    this.description = SSTextComment.get(description); 
   }
   
-  public void setUsers(final List<String> users){
-    try{ this.users = SSUri.get(users); }catch(Exception error){}
+  public void setUsers(final List<String> users) throws Exception{
+    this.users = SSUri.get(users); 
   }
   
-  public void setCircles(final List<String> circles){
-    try{ this.circles = SSUri.get(circles); }catch(Exception error){}
+  public void setCircles(final List<String> circles) throws Exception{
+    this.circles = SSUri.get(circles); 
   }
   
-  public void setEntities(final List<String> entities){
-    try{ this.entities = SSUri.get(entities); }catch(Exception error){}
+  public void setEntities(final List<String> entities) throws Exception{
+    this.entities = SSUri.get(entities); 
   }
   
   public String getDisc(){
@@ -113,9 +111,9 @@ public class SSDiscUserEntryAddPar extends SSServPar{
     return SSStrU.removeTrailingSlash(entities);
   }
   
-  public SSDiscUserEntryAddPar(){}
+  public SSDiscEntryAddPar(){}
     
-  public SSDiscUserEntryAddPar(
+  public SSDiscEntryAddPar(
     final SSServOpE     op,
     final String        key,
     final SSUri         user,
@@ -154,35 +152,5 @@ public class SSDiscUserEntryAddPar extends SSServPar{
     }
     
     this.shouldCommit = shouldCommit;
-  }
-  
-  public static SSDiscUserEntryAddPar get(final SSServPar par) throws Exception{
-      
-    try{
-
-      if(par.clientCon != null){
-        return (SSDiscUserEntryAddPar) par.getFromJSON(SSDiscUserEntryAddPar.class);
-      }
-      
-      return new SSDiscUserEntryAddPar(
-        par.op,
-        par.key,
-        par.user, 
-        (SSUri)              par.pars.get(SSVarNames.disc),
-        (SSUri)              par.pars.get(SSVarNames.entity),
-        (SSTextComment)      par.pars.get(SSVarNames.entry), 
-        (Boolean)            par.pars.get(SSVarNames.addNewDisc), 
-        (SSEntityE)          par.pars.get(SSVarNames.type),
-        (SSLabel)            par.pars.get(SSVarNames.label),
-        (SSTextComment)      par.pars.get(SSVarNames.description),
-        (List<SSUri>)        par.pars.get(SSVarNames.users),
-        (List<SSUri>)        par.pars.get(SSVarNames.circles),
-        (List<SSUri>)        par.pars.get(SSVarNames.entities),
-        (Boolean)            par.pars.get(SSVarNames.shouldCommit));
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
   }
 }

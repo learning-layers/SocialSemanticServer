@@ -21,13 +21,11 @@
 package at.kc.tugraz.ss.service.disc.datatypes.pars;
 
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServOpE;
 
-public class SSDiscUserWithEntriesGetPar extends SSServPar{
+public class SSDiscWithEntriesGetPar extends SSServPar{
   
   public SSUri      disc             = null;
   public Integer    maxEntries       = 10;
@@ -41,9 +39,9 @@ public class SSDiscUserWithEntriesGetPar extends SSServPar{
     return SSStrU.removeTrailingSlash(disc);
   }
   
-  public SSDiscUserWithEntriesGetPar(){}
+  public SSDiscWithEntriesGetPar(){}
   
-  public SSDiscUserWithEntriesGetPar(
+  public SSDiscWithEntriesGetPar(
     final SSServOpE op,
     final String    key,
     final SSUri     user,
@@ -56,27 +54,5 @@ public class SSDiscUserWithEntriesGetPar extends SSServPar{
     this.disc              = disc;
     this.maxEntries        = maxEntries;
     this.includeComments   = includeComments;
-  }
-  
-  public static SSDiscUserWithEntriesGetPar get(final SSServPar par) throws Exception{
-    
-    try{
-      
-      if(par.clientCon != null){
-        return (SSDiscUserWithEntriesGetPar) par.getFromJSON(SSDiscUserWithEntriesGetPar.class);
-      }
-      
-      return new SSDiscUserWithEntriesGetPar(
-        par.op,
-        par.key,
-        par.user,
-        (SSUri)   par.pars.get(SSVarNames.disc),
-        (Integer) par.pars.get(SSVarNames.maxEntries),
-        (Boolean) par.pars.get(SSVarNames.includeComments));
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
   }
 }

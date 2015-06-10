@@ -23,6 +23,9 @@ package at.kc.tugraz.ss.service.search.impl;
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleTypesGetPar;
 import at.kc.tugraz.ss.circle.serv.SSCircleServ;
+import at.kc.tugraz.ss.service.disc.api.SSDiscServerI;
+import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscEntryURIsGetPar;
+import at.kc.tugraz.ss.service.disc.service.SSDiscServ;
 import at.tugraz.sss.serv.SSDateU;
 import at.tugraz.sss.serv.SSIDU;
 import at.tugraz.sss.serv.SSLogU;
@@ -348,7 +351,15 @@ public class SSSearchImpl extends SSServImplWithDBA implements SSSearchClientI, 
       case chat:
       case disc:
       case qa:
-        entries.addAll(SSServCaller.discEntryURIsGet(par.user, entity.id));
+
+        entries.addAll(
+          ((SSDiscServerI)SSDiscServ.inst.serv()).discEntryURIsGet(
+            new SSDiscEntryURIsGetPar(
+              null, 
+              null, 
+              par.user, 
+              entity.id)));
+          
         break;
     }
     

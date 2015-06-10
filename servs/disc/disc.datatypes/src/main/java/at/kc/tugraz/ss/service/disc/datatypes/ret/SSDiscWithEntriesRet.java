@@ -24,52 +24,36 @@ import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServRetI;
-import at.tugraz.sss.serv.SSUri;
+import at.kc.tugraz.ss.service.disc.datatypes.SSDisc;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SSDiscUserEntryAddRet extends SSServRetI{
-  
-  public SSUri disc   = null; 
-  public SSUri entry  = null;
-  
-  public static SSDiscUserEntryAddRet get(
-    final SSUri   disc, 
-    final SSUri   discEntry, 
-    final SSServOpE op){
-    
-    return new SSDiscUserEntryAddRet(disc, discEntry, op);
+public class SSDiscWithEntriesRet extends SSServRetI{
+
+  public SSDisc disc = null;
+
+  public SSDisc getDisc() {
+    return disc;
   }
   
-  private SSDiscUserEntryAddRet(
-    final SSUri disc, 
-    final SSUri discEntry, 
-    final SSServOpE op){
-    
-    super(op);
-    
-    this.disc  = disc;
-    this.entry = discEntry;
+  public static SSDiscWithEntriesRet get(SSDisc disc){
+    return new SSDiscWithEntriesRet(disc);
   }
   
+  private SSDiscWithEntriesRet(SSDisc disc){
+    
+    super(SSServOpE.discWithEntriesGet);
+    
+    this.disc = disc;
+  }
+
   @Override
   public Map<String, Object> jsonLDDesc(){
     
-    final Map<String, Object> ld         = new HashMap<>();
+    Map<String, Object> ld         = new HashMap<>();
     
-    ld.put(SSVarNames.disc,  SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarNames.entry, SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarNames.disc, SSVarNames.sss + SSStrU.colon + SSDisc.class.getName());
     
     return ld;
-  }
-  
-  /* json getters */
-  
-  public String getDisc() throws Exception {
-    return SSStrU.removeTrailingSlash(disc);
-  }
-    
-  public String getEntry() throws Exception {
-    return SSStrU.removeTrailingSlash(entry);
   }
 }

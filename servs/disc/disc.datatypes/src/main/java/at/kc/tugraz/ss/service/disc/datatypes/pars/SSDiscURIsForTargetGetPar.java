@@ -18,35 +18,35 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.service.disc.datatypes.pars;
+ package at.kc.tugraz.ss.service.disc.datatypes.pars;
 
+import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.serv.SSStrU;
 
-public class SSDiscEntryURIsGetPar extends SSServPar{
+public class SSDiscURIsForTargetGetPar extends SSServPar{
   
-  public SSUri  disc = null;
-
-  public String getDisc(){
-    return SSStrU.removeTrailingSlash(disc);
+  public SSUri entity  = null;
+            
+  public void setEntity(final String entity) throws Exception{
+    this.entity = SSUri.get(entity);
   }
-
-  public void setDisc(final String disc) throws Exception{
-    this.disc = SSUri.get(disc);
+  
+  public String getEntity(){
+    return SSStrU.removeTrailingSlash(entity);
   }
-      
-  public SSDiscEntryURIsGetPar(){}
-    
-  public SSDiscEntryURIsGetPar(
-    final SSServOpE     op,
-    final String        key,
-    final SSUri         user,
-    final SSUri         disc){
+  
+  public SSDiscURIsForTargetGetPar(){}
+  
+  public SSDiscURIsForTargetGetPar(
+    final SSServOpE op,
+    final String    key,
+    final SSUri     user,
+    final SSUri     entity){
     
     super(op, key, user);
-    
-    this.disc = disc;
+  
+    this.entity = entity;
   }
 }

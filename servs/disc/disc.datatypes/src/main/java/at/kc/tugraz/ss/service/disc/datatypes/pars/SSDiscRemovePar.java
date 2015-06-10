@@ -18,59 +18,36 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
- package at.kc.tugraz.ss.service.disc.datatypes.pars;
+package at.kc.tugraz.ss.service.disc.datatypes.pars;
 
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServOpE;
-import javax.xml.bind.annotation.XmlElement;
 
-public class SSDiscUserDiscURIsForTargetGetPar extends SSServPar{
+public class SSDiscRemovePar extends SSServPar{
   
-  public SSUri entity  = null;
-            
-  @XmlElement
-  public void setEntity(final String entity) throws Exception{
-    this.entity = SSUri.get(entity);
+  public SSUri disc = null;
+  
+  public void setDisc(final String disc) throws Exception{
+    this.disc = SSUri.get(disc);
   }
   
-  public String getEntity(){
-    return SSStrU.removeTrailingSlash(entity);
+  public String getDisc(){
+    return SSStrU.removeTrailingSlash(disc);
   }
   
-  public SSDiscUserDiscURIsForTargetGetPar(){}
+  public SSDiscRemovePar(){}
   
-  public SSDiscUserDiscURIsForTargetGetPar(
+  public SSDiscRemovePar(
     final SSServOpE op,
     final String    key,
     final SSUri     user,
-    final SSUri     entity){
+    final SSUri     disc,
+    final Boolean   shouldCommit){
     
     super(op, key, user);
-  
-    this.entity = entity;
-  }
     
-  public static SSDiscUserDiscURIsForTargetGetPar get(final SSServPar par) throws Exception{
-      
-    try{
-      
-      if(par.clientCon != null){
-        return (SSDiscUserDiscURIsForTargetGetPar) par.getFromJSON(SSDiscUserDiscURIsForTargetGetPar.class);
-      }
-
-      return new SSDiscUserDiscURIsForTargetGetPar(
-        par.op,
-        par.key,
-        par.user,
-        (SSUri)   par.pars.get(SSVarNames.entity));
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
+    this.shouldCommit = shouldCommit;
   }
 }

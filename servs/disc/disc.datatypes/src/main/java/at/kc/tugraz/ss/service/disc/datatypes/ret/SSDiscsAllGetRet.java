@@ -3,7 +3,7 @@
 * http://www.learning-layers.eu
 * Development is partly funded by the FP7 Programme of the European Commission under
 * Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+* Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
 * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,46 +18,50 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
+
 package at.kc.tugraz.ss.service.disc.datatypes.ret;
 
 import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSJSONLDU;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarNames;
-import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServRetI;
+import at.kc.tugraz.ss.service.disc.datatypes.SSDisc;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-public class SSDiscUserRemoveRet extends SSServRetI{
+public class SSDiscsAllGetRet extends SSServRetI{
 
-  public SSUri disc = null;
+  public List<SSDisc> discs = new ArrayList<>();
 
-  public static SSDiscUserRemoveRet get(
-    final SSUri   discUri, 
-    final SSServOpE op){
-    return new SSDiscUserRemoveRet(discUri, op);
+  public List<SSDisc> getDiscs(){
+    return discs;
   }
   
-  private SSDiscUserRemoveRet(
-    final SSUri   discUri, 
-    final SSServOpE op){
+  public static SSDiscsAllGetRet get(List<SSDisc> discs){
+    return new SSDiscsAllGetRet(discs);
+  }
+  
+  private SSDiscsAllGetRet(List<SSDisc> discs){
     
-    super(op);
+    super(SSServOpE.discsAllGet);
     
-    this.disc = discUri;
+    this.discs.addAll(discs);
   }
 
   @Override
   public Map<String, Object> jsonLDDesc(){
     
-    final Map<String, Object> ld = new HashMap<>();
+    final Map<String, Object> ld         = new HashMap<>();
+    final Map<String, Object> discsObj   = new HashMap<>();
     
-    ld.put(SSVarNames.disc, SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
+    discsObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSDisc.class.getName());
+    discsObj.put(SSJSONLDU.container, SSJSONLDU.set);
+    
+    ld.put(SSVarNames.discs, discsObj);
     
     return ld;
-  }
-  
-  public String getDisc() {
-    return SSStrU.removeTrailingSlash(disc);
-  }
+  }  
 }

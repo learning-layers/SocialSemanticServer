@@ -20,39 +20,19 @@
 */
 package at.kc.tugraz.ss.service.disc.datatypes.pars;
 
-import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSUri;
 
-public class SSDiscsUserAllGetPar extends SSServPar{
+public class SSDiscsAllGetPar extends SSServPar{
   
-  public SSDiscsUserAllGetPar(
+  public SSDiscsAllGetPar(){}
+  
+  public SSDiscsAllGetPar(
     final SSServOpE op,
     final String    key,
     final SSUri     user){
     
     super(op, key, user);
-  }
-  
-  public SSDiscsUserAllGetPar(){}
-
-  public static SSDiscsUserAllGetPar get(final SSServPar par) throws Exception{
-    
-    try{
-      
-      if(par.clientCon != null){
-        return (SSDiscsUserAllGetPar) par.getFromJSON(SSDiscsUserAllGetPar.class);
-      }
-      
-      return new SSDiscsUserAllGetPar(
-        par.op,
-        par.key,
-        par.user);
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
   }
 }

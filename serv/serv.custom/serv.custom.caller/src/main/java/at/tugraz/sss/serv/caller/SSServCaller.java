@@ -35,8 +35,6 @@ import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteInfo;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.ret.SSAuthCheckCredRet;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.kc.tugraz.ss.service.coll.datatypes.SSColl;
-import at.kc.tugraz.ss.service.disc.datatypes.SSDisc;
-import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscUserEntryAddRet;
 import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileCanWriteRet;
 import at.kc.tugraz.ss.service.rating.datatypes.SSRatingOverall;
 import at.kc.tugraz.ss.service.search.datatypes.SSSearchLabel;
@@ -1147,98 +1145,98 @@ public class SSServCaller {
   
   /* disc */
 
-  public static List<SSUri> discEntryURIsGet(
-    final SSUri user, 
-    final SSUri disc) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.user,             user);
-    opPars.put(SSVarNames.disc,             disc);
-    
-    return (List<SSUri>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.discEntryURIsGet, opPars)); 
-  }
+//  public static List<SSUri> discEntryURIsGet(
+//    final SSUri user, 
+//    final SSUri disc) throws Exception{
+//    
+//    final Map<String, Object> opPars = new HashMap<>();
+//    
+//    opPars.put(SSVarNames.user,             user);
+//    opPars.put(SSVarNames.disc,             disc);
+//    
+//    return (List<SSUri>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.discEntryURIsGet, opPars)); 
+//  }
   
-  public static SSDiscUserEntryAddRet discUserEntryAdd(
-    final SSUri               user,
-    final SSUri               disc,
-    final SSUri               entity,
-    final SSTextComment       entry,
-    final Boolean             addNewDisc,
-    final SSEntityE           type,
-    final SSLabel             label,
-    final SSTextComment       description,
-    final List<SSUri>         users,
-    final List<SSUri>         circles,
-    final List<SSUri>         entities,
-    final Boolean             shouldCommit) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.user,         user);
-    opPars.put(SSVarNames.disc,         disc);
-    opPars.put(SSVarNames.entity,       entity);
-    opPars.put(SSVarNames.entry,        entry);
-    opPars.put(SSVarNames.addNewDisc,   addNewDisc);
-    opPars.put(SSVarNames.type,         type);
-    opPars.put(SSVarNames.label,        label);
-    opPars.put(SSVarNames.description,  description);
-    opPars.put(SSVarNames.users,        users);
-    opPars.put(SSVarNames.circles,      circles);
-    opPars.put(SSVarNames.entities,     entities);
-    opPars.put(SSVarNames.shouldCommit, shouldCommit);
-    
-    return (SSDiscUserEntryAddRet) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.discUserEntryAdd, opPars));
-  }
+//  public static SSDiscUserEntryAddRet discUserEntryAdd(
+//    final SSUri               user,
+//    final SSUri               disc,
+//    final SSUri               entity,
+//    final SSTextComment       entry,
+//    final Boolean             addNewDisc,
+//    final SSEntityE           type,
+//    final SSLabel             label,
+//    final SSTextComment       description,
+//    final List<SSUri>         users,
+//    final List<SSUri>         circles,
+//    final List<SSUri>         entities,
+//    final Boolean             shouldCommit) throws Exception{
+//    
+//    final Map<String, Object> opPars = new HashMap<>();
+//    
+//    opPars.put(SSVarNames.user,         user);
+//    opPars.put(SSVarNames.disc,         disc);
+//    opPars.put(SSVarNames.entity,       entity);
+//    opPars.put(SSVarNames.entry,        entry);
+//    opPars.put(SSVarNames.addNewDisc,   addNewDisc);
+//    opPars.put(SSVarNames.type,         type);
+//    opPars.put(SSVarNames.label,        label);
+//    opPars.put(SSVarNames.description,  description);
+//    opPars.put(SSVarNames.users,        users);
+//    opPars.put(SSVarNames.circles,      circles);
+//    opPars.put(SSVarNames.entities,     entities);
+//    opPars.put(SSVarNames.shouldCommit, shouldCommit);
+//    
+//    return (SSDiscUserEntryAddRet) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.discUserEntryAdd, opPars));
+//  }
   
-  public static List<SSDisc> discsUserAllGet(final SSUri user) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.user, user);
-    
-    return (List<SSDisc>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.discsUserAllGet, opPars));
-  }
+//  public static List<SSDisc> discsUserAllGet(final SSUri user) throws Exception{
+//    
+//    final Map<String, Object> opPars = new HashMap<>();
+//    
+//    opPars.put(SSVarNames.user, user);
+//    
+//    return (List<SSDisc>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.discsUserAllGet, opPars));
+//  }
   
-  public static List<SSUri> discUserDiscURIsForTargetGet(
-    final SSUri   user,
-    final SSUri   entity) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.user,         user);
-    opPars.put(SSVarNames.entity,    entity);
-    
-    return (List<SSUri>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.discUserDiscURIsForTargetGet, opPars));
-  }
+//  public static List<SSUri> discUserDiscURIsForTargetGet(
+//    final SSUri   user,
+//    final SSUri   entity) throws Exception{
+//    
+//    final Map<String, Object> opPars = new HashMap<>();
+//    
+//    opPars.put(SSVarNames.user,         user);
+//    opPars.put(SSVarNames.entity,    entity);
+//    
+//    return (List<SSUri>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.discUserDiscURIsForTargetGet, opPars));
+//  }
   
-  public static SSDisc discUserWithEntriesGet(
-    final SSUri   user, 
-    final SSUri   disc, 
-    final Integer maxEntries,
-    final Boolean includeComments) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.user,            user);
-    opPars.put(SSVarNames.disc,            disc);
-    opPars.put(SSVarNames.maxEntries,      maxEntries);
-    opPars.put(SSVarNames.includeComments, includeComments);
-    
-    return (SSDisc) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.discUserWithEntriesGet, opPars));
-  }
+//  public static SSDisc discUserWithEntriesGet(
+//    final SSUri   user, 
+//    final SSUri   disc, 
+//    final Integer maxEntries,
+//    final Boolean includeComments) throws Exception{
+//    
+//    final Map<String, Object> opPars = new HashMap<>();
+//    
+//    opPars.put(SSVarNames.user,            user);
+//    opPars.put(SSVarNames.disc,            disc);
+//    opPars.put(SSVarNames.maxEntries,      maxEntries);
+//    opPars.put(SSVarNames.includeComments, includeComments);
+//    
+//    return (SSDisc) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.discUserWithEntriesGet, opPars));
+//  }
   
-  public static void discUserRemove(
-    final SSUri   user,
-    final SSUri   entity) throws Exception{
-  
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.user,         user);
-    opPars.put(SSVarNames.entity,    entity);
-    
-    SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.discUserRemove, opPars));
-  }
+//  public static void discUserRemove(
+//    final SSUri   user,
+//    final SSUri   entity) throws Exception{
+//  
+//    final Map<String, Object> opPars = new HashMap<>();
+//    
+//    opPars.put(SSVarNames.user,         user);
+//    opPars.put(SSVarNames.entity,    entity);
+//    
+//    SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.discUserRemove, opPars));
+//  }
   
   /* rating */
 

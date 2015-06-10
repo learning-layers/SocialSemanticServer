@@ -34,7 +34,7 @@ import at.tugraz.sss.serv.SSEntityCircle;
 
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.tugraz.sss.serv.caller.SSServCallerU;
-import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscUserEntryAddPar;
+import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscEntryAddPar;
 import at.kc.tugraz.ss.service.disc.impl.fct.sql.SSDiscSQLFct;
 import at.tugraz.sss.serv.SSServErrReg;
 import java.util.ArrayList;
@@ -163,7 +163,7 @@ public class SSDiscUserEntryAddFct{
   }
   
   public static void checkWhetherUserCanAddDisc(
-    final SSDiscUserEntryAddPar par) throws Exception{
+    final SSDiscEntryAddPar par) throws Exception{
     
     try{
       
@@ -188,7 +188,7 @@ public class SSDiscUserEntryAddFct{
   }
 
   public static void checkWhetherUserCanAddDiscEntry(
-    final SSDiscUserEntryAddPar par) throws Exception{
+    final SSDiscEntryAddPar par) throws Exception{
     
     try{
      

@@ -26,16 +26,16 @@ import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
 
 import at.tugraz.sss.serv.caller.SSServCaller;
-import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscUserEntryAddPar;
-import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscUserEntryAddRet;
+import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscEntryAddPar;
+import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscEntryAddRet;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSServErrReg;
 
 public class SSDiscActivityFct{
   
   public static void discEntryAdd(
-    final SSDiscUserEntryAddPar par,
-    final SSDiscUserEntryAddRet ret) throws Exception{
+    final SSDiscEntryAddPar par,
+    final SSDiscEntryAddRet ret) throws Exception{
     
     try{
       

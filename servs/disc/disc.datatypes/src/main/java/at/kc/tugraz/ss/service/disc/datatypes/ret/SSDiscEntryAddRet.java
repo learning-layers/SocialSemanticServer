@@ -23,53 +23,49 @@ package at.kc.tugraz.ss.service.disc.datatypes.ret;
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarNames;
-import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServRetI;
-import at.tugraz.sss.serv.SSJSONLDU;
-import java.util.ArrayList;
+import at.tugraz.sss.serv.SSUri;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-public class SSDiscUserDiscURIsForTargetGetRet extends SSServRetI{
-
-  public List<SSUri> discs = new ArrayList<>();
-
-  public static SSDiscUserDiscURIsForTargetGetRet get(
-    final List<SSUri>   discUris, 
-    final SSServOpE       op){
+public class SSDiscEntryAddRet extends SSServRetI{
+  
+  public SSUri disc   = null; 
+  public SSUri entry  = null;
+  
+  public String getDisc() throws Exception {
+    return SSStrU.removeTrailingSlash(disc);
+  }
     
-    return new SSDiscUserDiscURIsForTargetGetRet(discUris, op);
+  public String getEntry() throws Exception {
+    return SSStrU.removeTrailingSlash(entry);
   }
   
-  private SSDiscUserDiscURIsForTargetGetRet(
-    final List<SSUri>   discUris, 
-    final SSServOpE       op){
+  public static SSDiscEntryAddRet get(
+    final SSUri   disc, 
+    final SSUri   discEntry){
     
-    super(op);
-    
-    if(discUris != null){
-      this.discs.addAll(discUris);
-    }
+    return new SSDiscEntryAddRet(disc, discEntry);
   }
-
-@Override
+  
+  private SSDiscEntryAddRet(
+    final SSUri     disc, 
+    final SSUri     discEntry){
+    
+    super(SSServOpE.discEntryAdd);
+    
+    this.disc  = disc;
+    this.entry = discEntry;
+  }
+  
+  @Override
   public Map<String, Object> jsonLDDesc(){
     
     final Map<String, Object> ld         = new HashMap<>();
-    final Map<String, Object> discsObj   = new HashMap<>();
     
-    discsObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
-    discsObj.put(SSJSONLDU.container, SSJSONLDU.set);
-    
-    ld.put(SSVarNames.discs, discsObj);
+    ld.put(SSVarNames.disc,  SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarNames.entry, SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
     
     return ld;
-  }
-
-  /* json getters */
-  
-  public List<String> getDiscs() throws Exception{
-    return SSStrU.removeTrailingSlash(discs);
   }
 }
