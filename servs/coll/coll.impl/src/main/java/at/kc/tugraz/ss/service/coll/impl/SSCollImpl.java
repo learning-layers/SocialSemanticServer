@@ -323,7 +323,8 @@ implements
                 user, 
                 circle, 
                 sqlFct.getCollUserURIs(entity), 
-                false, 
+                false,
+                false,
                 false));
           }
           
@@ -1084,6 +1085,7 @@ implements
           par.user, 
           SSServCaller.circlePubURIGet(false),
           SSUri.asListWithoutNullAndEmpty(par.user),
+          false,
           false,
           false));
       

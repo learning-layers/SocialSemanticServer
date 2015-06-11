@@ -66,7 +66,7 @@ public class SSRestMainV1 extends Application {
     resourceConfig = new ResourceConfig(SSAdapterRESTFileReplace.class);
     resourceConfig.register(MultiPartFeature.class);
     
-    SSAdapterRestConf.instSet (SSFileU.dirCatalinaBase() + SSVocConf.dirNameConf + "sss.adapter.rest.v1.conf.alpha.yaml");
+    SSAdapterRestConf.instSet (SSFileU.dirCatalinaBase() + SSVocConf.dirNameConf + "sss.adapter.rest.v1.conf.test.yaml");
     
     SSFileExtE.init    ();
     SSMimeTypeE.init   ();

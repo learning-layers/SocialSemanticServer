@@ -210,6 +210,7 @@ implements
             circleUri,
             par.users,
             false,
+            par.invokeEntityHandlers,
             false));
       }
       
@@ -268,14 +269,14 @@ implements
         sqlFct.addUserToCircleIfNotExists(par.circle, userUri);
       }
       
-//      if(par.invokeEntityHandlers){
+      if(par.invokeEntityHandlers){
         
         SSCircleMiscFct.addUsersToCircleByEntityHandlers(
           this,
           par.user, 
           par.users,
           par.circle);
-//      }
+      }
       
       dbSQL.commit(par.shouldCommit);
       

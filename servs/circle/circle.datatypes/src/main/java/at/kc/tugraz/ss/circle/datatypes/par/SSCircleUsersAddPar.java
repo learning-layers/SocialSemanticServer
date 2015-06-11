@@ -22,17 +22,16 @@ package at.kc.tugraz.ss.circle.datatypes.par;
 
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServErrReg;
 import java.util.ArrayList;
 import java.util.List;
 
 public class SSCircleUsersAddPar extends SSServPar{
 
-  public SSUri       circle  = null;
-  public List<SSUri> users   = new ArrayList<>();
+  public SSUri       circle               = null;
+  public List<SSUri> users                = new ArrayList<>();
+  public Boolean     invokeEntityHandlers = true;
 
   public void setCircle(final String circle) throws Exception{
     this.circle = SSUri.get(circle);
@@ -59,6 +58,7 @@ public class SSCircleUsersAddPar extends SSServPar{
     final SSUri          circle,
     final List<SSUri>    users,
     final Boolean        withUserRestriction,
+    final Boolean        invokeEntityHandlers,
     final Boolean        shouldCommit){
     
     super(op, key, user);
@@ -68,6 +68,7 @@ public class SSCircleUsersAddPar extends SSServPar{
     SSUri.addDistinctWithoutNull( this.users, users);
     
     this.withUserRestriction      = withUserRestriction;
+    this.invokeEntityHandlers     = invokeEntityHandlers;
     this.shouldCommit             = shouldCommit;
   }
 }

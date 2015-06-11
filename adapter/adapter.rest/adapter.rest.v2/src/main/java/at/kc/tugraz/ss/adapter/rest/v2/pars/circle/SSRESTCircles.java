@@ -269,6 +269,7 @@ public class SSRESTCircles{
           SSUri.get(circle, SSVocConf.sssUri), //circle
           input.users,  //users
           true, //withUserRestriction
+          true, //invokeEntityHandlers
           true); //shouldCommit
       
     }catch(Exception error){

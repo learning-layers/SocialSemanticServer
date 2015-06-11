@@ -1069,6 +1069,8 @@ public class SSServCaller {
     final List<String>         wordsToSearchFor,
     final Boolean              includeTags,
     final List<String>         tagsToSearchFor,
+    final Boolean              includeAuthors,
+    final List<SSUri>          authorsToSearchFor,
     final Boolean              includeLabel,
     final List<String>         labelsToSearchFor,
     final Boolean              includeDescription,
@@ -1093,6 +1095,8 @@ public class SSServCaller {
     opPars.put(SSVarNames.wordsToSearchFor,          wordsToSearchFor);
     opPars.put(SSVarNames.includeTags,               includeTags);
     opPars.put(SSVarNames.tagsToSearchFor,           tagsToSearchFor);
+    opPars.put(SSVarNames.includeAuthors,            includeAuthors);
+    opPars.put(SSVarNames.authorsToSearchFor,        authorsToSearchFor);
     opPars.put(SSVarNames.includeLabel,              includeLabel);
     opPars.put(SSVarNames.labelsToSearchFor,         SSSearchLabel.get(labelsToSearchFor));
     opPars.put(SSVarNames.includeDescription,        includeDescription);

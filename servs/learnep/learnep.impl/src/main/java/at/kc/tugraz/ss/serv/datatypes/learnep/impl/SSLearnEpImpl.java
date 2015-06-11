@@ -229,6 +229,7 @@ implements
                 circle,
                 sqlFct.getLearnEpUserURIs(entity),
                 false,
+                false,
                 false));
             
             ((SSCircleServerI) SSCircleServ.inst.serv()).circleEntitiesAdd(

@@ -40,71 +40,70 @@ public class SSSearchTest extends SSServOpTestCaseA{
   @Override
   protected void test() throws Exception {
     
-    System.out.println (op + " test start");
-    
-    final List<SSEntityE> typesToSearchOnlyFor  = new ArrayList<>();
-    
-    
-    typesToSearchOnlyFor.add(SSEntityE.entity);
-    typesToSearchOnlyFor.add(SSEntityE.file);
-    typesToSearchOnlyFor.add(SSEntityE.evernoteResource);
-    typesToSearchOnlyFor.add(SSEntityE.evernoteNote);
-    typesToSearchOnlyFor.add(SSEntityE.evernoteNotebook);
-    typesToSearchOnlyFor.add(SSEntityE.coll);
-    
-    
-    SSSearchRet result =
-      SSServCaller.search(
-        SSVoc.systemUserUri,
-        false,
-        new ArrayList<>(),
-        true,
-        new ArrayList<>(),
-        true,
-        new ArrayList<>(),
-        false,
-        new ArrayList<>(),
-        typesToSearchOnlyFor,
-        false,
-        new ArrayList<>(),
-        false,
-        false,
-        false,
-        null,
-        null, 
-        null,  //minRating 
-        null,  //maxRating
-        SSSearchOpE.or, //localSearchOp
-        SSSearchOpE.or); //globalSearchOp
-    
-    if(result.pageNumbers > 1){
-      
-      result =
-        SSServCaller.search(
-          SSVoc.systemUserUri,
-          false,
-          new ArrayList<>(),
-          false,
-          new ArrayList<>(),
-          true,
-          new ArrayList<>(),
-          false,
-          new ArrayList<>(),
-          typesToSearchOnlyFor,
-          false,
-          new ArrayList<>(),
-          false,
-          false,
-          false,
-          result.pagesID,
-          result.pageNumber + 1,
-          null,  //minRating
-          null,  //maxRating
-          SSSearchOpE.or, //localSearchOp
-          SSSearchOpE.or); //globalSearchOp
-    }
-    
-    System.out.println (op + " test end");
+//    System.out.println (op + " test start");
+//    
+//    final List<SSEntityE> typesToSearchOnlyFor  = new ArrayList<>();
+//    
+//    
+//    typesToSearchOnlyFor.add(SSEntityE.entity);
+//    typesToSearchOnlyFor.add(SSEntityE.file);
+//    typesToSearchOnlyFor.add(SSEntityE.evernoteResource);
+//    typesToSearchOnlyFor.add(SSEntityE.evernoteNote);
+//    typesToSearchOnlyFor.add(SSEntityE.evernoteNotebook);
+//    typesToSearchOnlyFor.add(SSEntityE.coll);
+//    
+//    SSSearchRet result =
+//      SSServCaller.search(
+//        SSVoc.systemUserUri,
+//        false,
+//        new ArrayList<>(),
+//        true,
+//        new ArrayList<>(),
+//        true,
+//        new ArrayList<>(),
+//        false,
+//        new ArrayList<>(),
+//        typesToSearchOnlyFor,
+//        false,
+//        new ArrayList<>(),
+//        false,
+//        false,
+//        false,
+//        null,
+//        null, 
+//        null,  //minRating 
+//        null,  //maxRating
+//        SSSearchOpE.or, //localSearchOp
+//        SSSearchOpE.or); //globalSearchOp
+//    
+//    if(result.pageNumbers > 1){
+//      
+//      result =
+//        SSServCaller.search(
+//          SSVoc.systemUserUri,
+//          false,
+//          new ArrayList<>(),
+//          false,
+//          new ArrayList<>(),
+//          true,
+//          new ArrayList<>(),
+//          false,
+//          new ArrayList<>(),
+//          typesToSearchOnlyFor,
+//          false,
+//          new ArrayList<>(),
+//          false,
+//          false,
+//          false,
+//          result.pagesID,
+//          result.pageNumber + 1,
+//          null,  //minRating
+//          null,  //maxRating
+//          SSSearchOpE.or, //localSearchOp
+//          SSSearchOpE.or); //globalSearchOp
+//    }
+//    
+//    System.out.println (op + " test end");
   }
   
   @Override

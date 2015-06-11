@@ -38,6 +38,8 @@ public class SSSearchPar extends SSServPar{
   public List<String>        wordsToSearchFor           = new ArrayList<>();
   public Boolean             includeTags                = null;
   public List<String>        tagsToSearchFor            = new ArrayList<>();
+  public Boolean             includeAuthors             = null;
+  public List<SSUri>         authorsToSearchFor         = new ArrayList<>();
   public Boolean             includeLabel               = null;
   public List<SSSearchLabel> labelsToSearchFor          = new ArrayList<>();
   public Boolean             includeDescription         = null;
@@ -55,6 +57,10 @@ public class SSSearchPar extends SSServPar{
   public SSSearchOpE         localSearchOp              = SSSearchOpE.or;
   public SSSearchOpE         globalSearchOp             = SSSearchOpE.or;
 
+  public void setAuthorsToSearchFor(final List<String> authorsToSearchFor) throws Exception{
+    this.authorsToSearchFor = SSUri.get(authorsToSearchFor);
+  }
+  
   public void setLabelsToSearchFor(final List<String> labelsToSearchFor){
     try{ this.labelsToSearchFor = SSSearchLabel.get(labelsToSearchFor); }catch(Exception error){}
   }
@@ -77,6 +83,10 @@ public class SSSearchPar extends SSServPar{
 
   public void setGlobalSearchOp(final String globalSearchOp){
     try{ this.globalSearchOp = SSSearchOpE.get(globalSearchOp); }catch(Exception error){}
+  }
+  
+  public List<String> getAuthorsToSearchFor(){
+    return SSStrU.removeTrailingSlash(authorsToSearchFor);
   }
   
   public List<String> getLabelsToSearchFor() throws Exception{
@@ -113,6 +123,8 @@ public class SSSearchPar extends SSServPar{
     final List<String>        wordsToSearchFor           ,
     final Boolean             includeTags                ,
     final List<String>        tagsToSearchFor            ,
+    final Boolean             includeAuthors,
+    final List<SSUri>         authorsToSearchFor         , 
     final Boolean             includeLabel               ,
     final List<SSSearchLabel> labelsToSearchFor          ,
     final Boolean             includeDescription         ,
@@ -142,6 +154,12 @@ public class SSSearchPar extends SSServPar{
     
     if(tagsToSearchFor != null){
       this.tagsToSearchFor.addAll(tagsToSearchFor);
+    }
+    
+    this.includeAuthors             = includeAuthors;
+    
+    if(authorsToSearchFor != null){
+      this.authorsToSearchFor.addAll(authorsToSearchFor);
     }
     
     this.includeLabel               = includeLabel;
@@ -192,6 +210,8 @@ public class SSSearchPar extends SSServPar{
         (List<String>)           par.pars.get(SSVarNames.wordsToSearchFor),
         (Boolean)                par.pars.get(SSVarNames.includeTags),
         (List<String>)           par.pars.get(SSVarNames.tagsToSearchFor),
+        (Boolean)                par.pars.get(SSVarNames.includeAuthors),
+        (List<SSUri>)            par.pars.get(SSVarNames.authorsToSearchFor),
         (Boolean)                par.pars.get(SSVarNames.includeLabel),
         (List<SSSearchLabel>)    par.pars.get(SSVarNames.labelsToSearchFor),
         (Boolean)                par.pars.get(SSVarNames.includeDescription),

@@ -284,6 +284,7 @@ public enum SSServOpE{
   discRemove,
   discEntryAdd,
   discWithEntriesGet,
+  discsWithEntriesGet,
   discsAllGet,
   
   //broadcast

@@ -60,6 +60,22 @@ public class SSSearchRESTAPIV2Par{
   public List<String>        tagsToSearchFor            = null;
   
   @XmlElement
+  @ApiModelProperty( 
+    required = false, 
+    value = "whether authors of entities should be looked to find entities" )
+  public Boolean             includeAuthors                = null;
+  
+  @ApiModelProperty( 
+    required = false, 
+    value = "authors to be searched for" )
+  public List<SSUri>        authorsToSearchFor            = null;
+  
+  @XmlElement
+  public void setAuthorsToSearchFor(final List<String> authorsToSearchFor) throws Exception{
+    this.authorsToSearchFor = SSUri.get(authorsToSearchFor);
+  }
+  
+  @XmlElement
   @ApiModelProperty(
     required = false, 
     value = "whether maturing indicators should be included in search")

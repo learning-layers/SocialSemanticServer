@@ -272,6 +272,7 @@ public class SSDiscImpl
               circle,
               sqlFct.getDiscUserURIs(entity),
               false,
+              false,
               false));
         }
     }

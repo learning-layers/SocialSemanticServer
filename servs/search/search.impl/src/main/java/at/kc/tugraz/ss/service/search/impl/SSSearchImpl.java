@@ -155,7 +155,7 @@ public class SSSearchImpl extends SSServImplWithDBA implements SSSearchClientI, 
                 tagsThere = true;
               }
             }
-            
+                       
             if(
               (!par.includeLabel &&
               !par.includeDescription)
@@ -202,7 +202,8 @@ public class SSSearchImpl extends SSServImplWithDBA implements SSSearchClientI, 
         if(
           entity == null ||
           !SSSearchFct.handleType     (par, entity) ||
-          !SSSearchFct.handleRating   (par, entity)){
+          !SSSearchFct.handleRating   (par, entity) ||
+          !SSSearchFct.handleAuthors  (par, entity)){
           continue;
         }
         

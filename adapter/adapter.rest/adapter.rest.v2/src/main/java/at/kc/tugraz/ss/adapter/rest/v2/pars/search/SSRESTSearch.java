@@ -65,6 +65,8 @@ public class SSRESTSearch{
           input.wordsToSearchFor,
           input.includeTags,
           input.tagsToSearchFor,
+          input.includeAuthors,
+          input.authorsToSearchFor,
           input.includeLabel,
           input.labelsToSearchFor,
           input.includeDescription,
