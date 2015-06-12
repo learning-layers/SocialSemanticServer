@@ -1035,7 +1035,7 @@ implements
     try{
       final SSEntityUserEntitiesAttachPar par = new SSEntityUserEntitiesAttachPar(parA);
       
-      SSServCallerU.canUserEditEntity(par.user, par.entity);
+        SSServCallerU.canUserEditEntity(par.user, par.entity);
       
       dbSQL.startTrans(par.shouldCommit);
       

@@ -110,6 +110,7 @@ public class SSRESTDiscs{
           input.users, //users
           input.circles, //circles
           input.entities, //entities
+          input.entityLabels, //entityLabels
           true); //shouldCommit
       
     }catch(Exception error){

@@ -42,7 +42,8 @@ public class SSDiscEntryAddPar extends SSServPar{
   public List<SSUri>         users          = new ArrayList<>();
   public List<SSUri>         circles        = new ArrayList<>();
   public List<SSUri>         entities       = new ArrayList<>();
-  
+  public List<SSLabel>       entityLabels   = new ArrayList<>();
+
   public void setDisc(final String disc) throws Exception{
     this.disc = SSUri.get(disc);
   }
@@ -79,6 +80,10 @@ public class SSDiscEntryAddPar extends SSServPar{
     this.entities = SSUri.get(entities); 
   }
   
+  public void setEntityLabels(final List<String> entityLabels) throws Exception{
+    this.entityLabels = SSLabel.get(entityLabels);
+  }
+  
   public String getDisc(){
     return SSStrU.removeTrailingSlash(disc);
   }
@@ -111,6 +116,10 @@ public class SSDiscEntryAddPar extends SSServPar{
     return SSStrU.removeTrailingSlash(entities);
   }
   
+  public List<String> getEntityLabels(){
+    return SSStrU.toStr(entityLabels);
+  }
+  
   public SSDiscEntryAddPar(){}
     
   public SSDiscEntryAddPar(
@@ -127,6 +136,7 @@ public class SSDiscEntryAddPar extends SSServPar{
     final List<SSUri>   users, 
     final List<SSUri>   circles, 
     final List<SSUri>   entities, 
+    final List<SSLabel> entityLabels,
     final Boolean       shouldCommit){
     
     super(op, key, user);
@@ -149,6 +159,10 @@ public class SSDiscEntryAddPar extends SSServPar{
     
     if(entities != null){
       this.entities.addAll(entities);
+    }
+    
+    if(entityLabels != null){
+      this.entityLabels.addAll(entityLabels);
     }
     
     this.shouldCommit = shouldCommit;

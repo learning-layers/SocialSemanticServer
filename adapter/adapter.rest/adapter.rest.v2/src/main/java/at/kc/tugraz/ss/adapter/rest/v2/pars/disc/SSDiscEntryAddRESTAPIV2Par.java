@@ -42,8 +42,8 @@ public class SSDiscEntryAddRESTAPIV2Par{
   public SSLabel                label          = null;
   
   @XmlElement
-  public void setLabel(final String label){
-    try{ this.label = SSLabel.get(label); } catch(Exception error){}
+  public void setLabel(final String label) throws Exception{
+    this.label = SSLabel.get(label); 
   }
   
   @ApiModelProperty(
@@ -52,8 +52,8 @@ public class SSDiscEntryAddRESTAPIV2Par{
   public SSTextComment          description    = null;
 
   @XmlElement
-  public void setDescription(final String description){
-    try{ this.description = SSTextComment.get(description); } catch(Exception error){}
+  public void setDescription(final String description) throws Exception{
+    this.description = SSTextComment.get(description);
   }
   
   @ApiModelProperty(
@@ -63,9 +63,19 @@ public class SSDiscEntryAddRESTAPIV2Par{
   
   @XmlElement
   public void setEntities(final List<String> entities) throws Exception{
-    try{ this.entities = SSUri.get(entities, SSVocConf.sssUri); } catch(Exception error){}
+    this.entities = SSUri.get(entities, SSVocConf.sssUri);
   }
   
+  @ApiModelProperty(
+    required = false,
+    value = "labels for the entities to be attached")
+  public List<SSLabel>            entityLabels       = new ArrayList<>();
+  
+  @XmlElement
+  public void setEntityLabels(final List<String> entityLabels) throws Exception{
+   this.entityLabels = SSLabel.get(entityLabels);
+  }
+
   @ApiModelProperty(
     required = false,
     value = "users to share this discussion with upon creation of a new discussion (optional, though works only for a new discussion)")
@@ -73,7 +83,7 @@ public class SSDiscEntryAddRESTAPIV2Par{
   
   @XmlElement
   public void setUsers(final List<String> users) throws Exception{
-    try{ this.users = SSUri.get(users, SSVocConf.sssUri); } catch(Exception error){}
+    this.users = SSUri.get(users, SSVocConf.sssUri);
   }
  
   @ApiModelProperty(
@@ -83,7 +93,7 @@ public class SSDiscEntryAddRESTAPIV2Par{
   
   @XmlElement
   public void setCircles(final List<String> circles) throws Exception{
-    try{ this.circles = SSUri.get(circles, SSVocConf.sssUri); } catch(Exception error){}
+    this.circles = SSUri.get(circles, SSVocConf.sssUri);
   }
   
   @ApiModelProperty(
@@ -92,8 +102,8 @@ public class SSDiscEntryAddRESTAPIV2Par{
   public SSTextComment          entry    = null;
 
   @XmlElement
-  public void setEntry(final String entry){
-    try{ this.entry = SSTextComment.get(entry); }catch(Exception error){}
+  public void setEntry(final String entry) throws Exception{
+    this.entry = SSTextComment.get(entry);
   }
       
   @ApiModelProperty(
@@ -102,8 +112,8 @@ public class SSDiscEntryAddRESTAPIV2Par{
   public SSUri                disc          = null;
   
   @XmlElement
-  public void setDisc(final String disc){
-    try{ this.disc = SSUri.get(disc, SSVocConf.sssUri); } catch(Exception error){}
+  public void setDisc(final String disc) throws Exception{
+    this.disc = SSUri.get(disc, SSVocConf.sssUri);
   }
   
   @ApiModelProperty(
@@ -112,8 +122,8 @@ public class SSDiscEntryAddRESTAPIV2Par{
   public SSUri                entity          = null;
   
   @XmlElement
-  public void setEntity(final String entity){
-    try{ this.entity = SSUri.get(entity, SSVocConf.sssUri); } catch(Exception error){}
+  public void setEntity(final String entity) throws Exception{
+    this.entity = SSUri.get(entity, SSVocConf.sssUri);
   }
   
   @ApiModelProperty(
@@ -122,8 +132,8 @@ public class SSDiscEntryAddRESTAPIV2Par{
   public SSEntityE                type          = null;
   
   @XmlElement
-  public void setType(final String type){
-    try{ this.type = SSEntityE.get(type); } catch(Exception error){}
+  public void setType(final String type) throws Exception{
+    this.type = SSEntityE.get(type);
   }
   
   @XmlElement

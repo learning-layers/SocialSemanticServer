@@ -456,8 +456,8 @@ public class SSDiscImpl
 
       if(par.entry != null){
 
-        discEntryUri
-          = SSDiscUserEntryAddFct.addDiscEntry(
+        discEntryUri = 
+          SSDiscUserEntryAddFct.addDiscEntry(
             sqlFct,
             par.user,
             par.disc,
@@ -470,6 +470,23 @@ public class SSDiscImpl
             discEntryUri,
             par.entities,
             false);
+          
+          if(
+            !par.entityLabels.isEmpty() &&
+            par.entities.size() == par.entityLabels.size()){
+            
+            for(Integer counter = 0; counter < par.entities.size(); counter++){
+              
+              SSServCaller.entityAdd(
+                par.user, 
+                par.entities.get(counter), 
+                SSEntityE.entity, 
+                par.entityLabels.get(counter), 
+                null, 
+                null, 
+                false);
+            }
+          }
         }
       }
 
