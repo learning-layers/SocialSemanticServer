@@ -24,6 +24,9 @@ import at.tugraz.sss.serv.SSDateU;
 import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSStrU;
 import at.kc.tugraz.ss.activity.datatypes.SSActivity;
+import at.kc.tugraz.ss.circle.api.SSCircleServerI;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleMostOpenCircleTypeGetPar;
+import at.kc.tugraz.ss.circle.serv.SSCircleServ;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpVersion;
 import at.tugraz.sss.serv.SSSocketCon;
 import at.tugraz.sss.serv.SSCircleE;
@@ -118,11 +121,15 @@ public class SSEvalImpl extends SSServImplWithDBA implements SSEvalClientI, SSEv
           case learnEp:
             
             episodeSpace = 
-              SSServCaller.circleMostOpenCircleTypeGet(
-                originUser.id, 
-                originUser.id,
-                targetEntity.id, 
-                true);
+              ((SSCircleServerI)SSCircleServ.inst.serv()).circleMostOpenCircleTypeGet(
+                new SSCircleMostOpenCircleTypeGetPar(
+                  null,
+                  null,
+                  originUser.id,
+                  originUser.id,
+                  targetEntity.id,
+                  true));
+              
             break;
         }
       }
@@ -239,11 +246,14 @@ public class SSEvalImpl extends SSServImplWithDBA implements SSEvalClientI, SSEv
           case learnEp:
             
             episodeSpace = 
-              SSServCaller.circleMostOpenCircleTypeGet(
-                originUser.id, 
-                originUser.id,
-                entity.id, 
-                true);
+              ((SSCircleServerI)SSCircleServ.inst.serv()).circleMostOpenCircleTypeGet(
+                new SSCircleMostOpenCircleTypeGetPar(
+                  null,
+                  null,
+                  originUser.id,
+                  originUser.id,
+                  targetEntity.id,
+                  true));
             break;
         }
       }

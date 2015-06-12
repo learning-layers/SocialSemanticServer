@@ -23,14 +23,13 @@ package at.kc.tugraz.ss.category.ss.category.serv;
 import at.kc.tugraz.ss.category.api.SSCategoryClientI;
 import at.kc.tugraz.ss.category.api.SSCategoryServerI;
 import at.kc.tugraz.ss.category.conf.SSCategoryConf;
+import at.kc.tugraz.ss.category.datatypes.SSCategoryLabel;
+import at.kc.tugraz.ss.category.datatypes.par.SSCategoriesPredefinedAddPar;
 import at.kc.tugraz.ss.category.impl.SSCategoryImpl;
 import at.tugraz.sss.serv.SSCoreConfA;
-import at.tugraz.sss.serv.SSDBSQLI;
-import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSServImplA;
-import at.tugraz.sss.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 import at.tugraz.sss.serv.SSServContainerI;
 import java.util.List;
@@ -72,10 +71,13 @@ public class SSCategoryServ extends SSServContainerI{
     
     if(((SSCategoryConf)conf).initAtStartUp){
       
-      SSServCaller.categoriesPredefinedAdd(
-        SSVoc.systemUserUri,
-        ((SSCategoryConf)conf).predefinedCategories,
-        true);
+      ((SSCategoryServerI) this.serv()).categoriesPredefinedAdd(
+        new SSCategoriesPredefinedAddPar(
+          null, 
+          null, 
+          SSVoc.systemUserUri, 
+          SSCategoryLabel.asListWithoutNullAndEmpty(SSCategoryLabel.get(((SSCategoryConf)conf).predefinedCategories)), 
+          true));
     }
   }
   

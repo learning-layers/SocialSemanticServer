@@ -37,6 +37,13 @@ import at.kc.tugraz.ss.activity.datatypes.ret.SSActivitiesUserGetRet;
 import at.kc.tugraz.ss.activity.datatypes.ret.SSActivityTypesGetRet;
 import at.kc.tugraz.ss.activity.datatypes.ret.SSActivityUserAddRet;
 import at.kc.tugraz.ss.activity.impl.fct.sql.SSActivitySQLFct;
+import at.kc.tugraz.ss.circle.api.SSCircleServerI;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleGetPar;
+import at.kc.tugraz.ss.circle.serv.SSCircleServ;
+import at.kc.tugraz.ss.service.user.api.SSUserServerI;
+import at.kc.tugraz.ss.service.user.datatypes.SSUser;
+import at.kc.tugraz.ss.service.user.datatypes.pars.SSUsersGetPar;
+import at.kc.tugraz.ss.service.user.service.SSUserServ;
 import at.tugraz.sss.serv.SSSocketCon;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSUri;
@@ -48,6 +55,7 @@ import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
+import at.tugraz.sss.serv.SSEntityCircle;
 import at.tugraz.sss.serv.SSEntityHandlerImplI;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.caller.SSServCaller;
@@ -60,7 +68,12 @@ import java.util.Map;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
 
-public class SSActivityImpl extends SSServImplWithDBA implements SSActivityClientI, SSActivityServerI, SSEntityHandlerImplI{
+public class SSActivityImpl 
+extends SSServImplWithDBA 
+implements 
+  SSActivityClientI, 
+  SSActivityServerI, 
+  SSEntityHandlerImplI{
   
   private final SSActivitySQLFct sqlFct;
   
@@ -72,7 +85,7 @@ public class SSActivityImpl extends SSServImplWithDBA implements SSActivityClien
   }
   
   @Override
-  public Boolean copyUserEntity(
+  public Boolean copyEntity(
     final SSUri        user,
     final List<SSUri>  users,
     final SSUri        entity,
@@ -101,7 +114,7 @@ public class SSActivityImpl extends SSServImplWithDBA implements SSActivityClien
   }
   
   @Override
-  public Boolean setUserEntityPublic(
+  public Boolean setEntityPublic(
     final SSUri          userUri,
     final SSUri          entityUri,
     final SSEntityE      entityType,
@@ -111,7 +124,7 @@ public class SSActivityImpl extends SSServImplWithDBA implements SSActivityClien
   }
   
   @Override
-  public void shareUserEntity(
+  public void shareEntityWithUsers(
     final SSUri          userUri,
     final List<SSUri>    userUrisToShareWith,
     final SSUri          entityUri,
@@ -121,11 +134,22 @@ public class SSActivityImpl extends SSServImplWithDBA implements SSActivityClien
   }
   
   @Override
-  public void shareUserEntityWithCircle(
+  public void addEntityToCircle(
     final SSUri        userUri,
     final SSUri        circleUri,
+    final List<SSUri>  circleUsers,
     final SSUri        entityUri,
-    final SSEntityE entityType) throws Exception{
+    final SSEntityE    entityType) throws Exception{
+    
+  }
+  
+  @Override
+  public void addUsersToCircle(
+    final SSUri        user,
+    final List<SSUri>  users,
+    final SSEntityCircle        circle) throws Exception{
+    
+    
     
   }
   
@@ -213,14 +237,18 @@ public class SSActivityImpl extends SSServImplWithDBA implements SSActivityClien
             continue;
           }
           
-          for(SSEntity circleEntity : SSServCaller.circleGet(
-            par.user, //user
-            par.user, //forUser
-            circle,   //circle
-            SSEntityE.asListWithoutNullAndEmpty(), //entityTypesToIncludeOnly
-            false,    //withSystemCircles
-            true, //withUserRestriction
-            false).entities){ //invokeEntityHandlers
+          for(SSEntity circleEntity : 
+            ((SSCircleServerI) SSCircleServ.inst.serv()).circleGet(
+              new SSCircleGetPar(
+                null, 
+                null, 
+                par.user, 
+                circle,
+                par.user,
+                SSEntityE.asListWithoutNullAndEmpty(), 
+                true, 
+                false,
+                false)).entities){
             
             entitiesToQuery.add(circleEntity.id);
           }
@@ -511,12 +539,17 @@ public class SSActivityImpl extends SSServImplWithDBA implements SSActivityClien
         }
       }
       
-      activity.users.addAll(
-        SSServCaller.usersGet(
-          par.user, 
-          sqlFct.getActivityUsers(activity.id),
-          false));
+      final List<SSUser> users = 
+        ((SSUserServerI) SSUserServ.inst.serv()).usersGet(
+          new SSUsersGetPar(
+            null, 
+            null, 
+            par.user, 
+            sqlFct.getActivityUsers(activity.id), 
+            false));
       
+      activity.users.addAll(users);
+              
       activity.contents.addAll(sqlFct.getActivityContents(activity.id));
       
       for(SSUri activityEntity : sqlFct.getActivityEntities(activity.id)){

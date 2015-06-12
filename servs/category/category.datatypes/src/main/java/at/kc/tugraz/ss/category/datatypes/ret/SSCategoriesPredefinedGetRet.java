@@ -35,17 +35,15 @@ public class SSCategoriesPredefinedGetRet extends SSServRetI{
   public List<String> categories = new ArrayList<>();
   
   public static SSCategoriesPredefinedGetRet get(
-    final List<String> categories,
-    final SSServOpE      op){
+    final List<String> categories){
     
-    return new SSCategoriesPredefinedGetRet(categories, op);
+    return new SSCategoriesPredefinedGetRet(categories);
   }
   
   private SSCategoriesPredefinedGetRet(
-    final List<String> categories,
-    final SSServOpE      op){
+    final List<String> categories){
     
-    super(op);
+    super(SSServOpE.categoriesPredefinedGet);
     
     if(categories != null){
       this.categories.addAll(categories);
@@ -64,11 +62,5 @@ public class SSCategoriesPredefinedGetRet extends SSServRetI{
     ld.put(SSVarNames.categories, categoriesObj);
     
     return ld;
-  }
-  
-  /* json getters */
-  
-  public List<String> getCategories() {
-    return categories;
   }
 }

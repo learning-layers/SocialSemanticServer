@@ -32,6 +32,12 @@
   <dependencies>
   
     <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>circle.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency> 
+    
+    <dependency>
       <groupId>sss</groupId>
       <artifactId>conf.conf</artifactId>
       <version>${project.version}</version>

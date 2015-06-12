@@ -20,6 +20,11 @@
 */
 package at.kc.tugraz.ss.service.disc.impl.fct.op;
 
+import at.kc.tugraz.ss.circle.api.SSCircleServerI;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesAddPar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivEntityAddPar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCirclesGetPar;
+import at.kc.tugraz.ss.circle.serv.SSCircleServ;
 import at.tugraz.sss.serv.SSObjU;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
@@ -29,9 +34,10 @@ import at.tugraz.sss.serv.SSEntityCircle;
 
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.tugraz.sss.serv.caller.SSServCallerU;
-import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscUserEntryAddPar;
+import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscEntryAddPar;
 import at.kc.tugraz.ss.service.disc.impl.fct.sql.SSDiscSQLFct;
 import at.tugraz.sss.serv.SSServErrReg;
+import java.util.ArrayList;
 
 public class SSDiscUserEntryAddFct{
   
@@ -54,23 +60,29 @@ public class SSDiscUserEntryAddFct{
         tmpTargetUri = targetUri;
       }
       
-      SSServCaller.entityEntityToPrivCircleAdd(
-        userUri,
-        discUri,
-        discType,
-        discLabel,
-        description,
-        null,
-        false);
+      ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+        new SSCirclePrivEntityAddPar(
+          null,
+          null,
+          userUri,
+          discUri,
+          discType,
+          discLabel,
+          description,
+          null,
+          false));
       
-      SSServCaller.entityEntityToPrivCircleAdd(
-        userUri,
-        tmpTargetUri,
-        SSEntityE.entity,
-        null,
-        description,
-        null,
-        false);
+      ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+        new SSCirclePrivEntityAddPar(
+          null,
+          null,
+          userUri,
+          tmpTargetUri,
+          SSEntityE.entity,
+          null,
+          description,
+          null,
+          false));
       
       sqlFct.createDisc(
         userUri, 
@@ -100,32 +112,41 @@ public class SSDiscUserEntryAddFct{
         default: throw new Exception("disc type not valid");
       }
       
-      SSServCaller.entityEntityToPrivCircleAdd(
-        userUri,
-        discEntryUri,
-        discEntryType,
-        SSLabel.get(discEntryUri),
-        null,
-        null,
-        false);
+      ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+        new SSCirclePrivEntityAddPar(
+          null,
+          null,
+          userUri,
+          discEntryUri,
+          discEntryType,
+          SSLabel.get(discEntryUri),
+          null,
+          null,
+          false));
             
       for(SSEntityCircle entityUserCircle : 
-        SSServCaller.circlesGet(
-          userUri, 
-          null, 
-          discUri, 
-          SSEntityE.asListWithoutNullAndEmpty(),
-          true, 
-          false, 
-          false)){
+        ((SSCircleServerI) SSCircleServ.inst.serv()).circlesGet(
+            new SSCirclesGetPar(
+              null,
+              null,
+              userUri,
+              null,
+              discUri,
+              SSEntityE.asListWithoutNullAndEmpty(),
+              false,
+              true,
+              false))){
         
-        SSServCaller.circleEntitiesAdd(
-          userUri,
-          entityUserCircle.id, 
-          SSUri.asListWithoutNullAndEmpty(discEntryUri),
-          false, 
-          false, 
-          false);
+        ((SSCircleServerI) SSCircleServ.inst.serv()).circleEntitiesAdd(
+          new SSCircleEntitiesAddPar(
+            null,
+            null,
+            userUri,
+            entityUserCircle.id,
+            SSUri.asListWithoutNullAndEmpty(discEntryUri),
+            false,
+            false,
+            false));
       }
       
       sqlFct.addDiscEntry(
@@ -142,7 +163,7 @@ public class SSDiscUserEntryAddFct{
   }
   
   public static void checkWhetherUserCanAddDisc(
-    final SSDiscUserEntryAddPar par) throws Exception{
+    final SSDiscEntryAddPar par) throws Exception{
     
     try{
       
@@ -167,7 +188,7 @@ public class SSDiscUserEntryAddFct{
   }
 
   public static void checkWhetherUserCanAddDiscEntry(
-    final SSDiscUserEntryAddPar par) throws Exception{
+    final SSDiscEntryAddPar par) throws Exception{
     
     try{
      

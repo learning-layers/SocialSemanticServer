@@ -22,7 +22,7 @@ package at.kc.tugraz.ss.category.impl.fct.activity;
 
 import at.tugraz.sss.serv.SSLogU;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
-import at.kc.tugraz.ss.category.datatypes.par.SSCategoriesUserRemovePar;
+import at.kc.tugraz.ss.category.datatypes.par.SSCategoriesRemovePar;
 import at.kc.tugraz.ss.category.datatypes.par.SSCategoryAddPar;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
@@ -60,7 +60,8 @@ public class SSCategoryActivityFct{
     }
   }
 
-  public static void removeCategories(final SSCategoriesUserRemovePar par) throws Exception{
+  public static void removeCategories(
+    final SSCategoriesRemovePar par) throws Exception{
    
     try{
       

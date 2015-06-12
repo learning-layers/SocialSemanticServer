@@ -3,7 +3,7 @@
 * http://www.learning-layers.eu
 * Development is partly funded by the FP7 Programme of the European Commission under
 * Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+* Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
 * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,10 +20,10 @@
 */
  package at.kc.tugraz.ss.service.user.datatypes.pars;
 
-import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSStrU;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,20 +31,28 @@ public class SSUsersGetPar extends SSServPar{
   
   public List<SSUri> users          = new ArrayList<>();
   public Boolean     setFriends     = null;
+
+  public List<String> getUsers() throws Exception{
+    return SSStrU.removeTrailingSlash(users);
+  }
+
+  public void setUsers(final List<String> users) throws Exception{
+    this.users = SSUri.get(users);
+  }
   
-  public SSUsersGetPar(SSServPar par) throws Exception{
+  public SSUsersGetPar(){}
+  
+  public SSUsersGetPar(
+    final SSServOpE   op,
+    final String      key,
+    final SSUri       user,
+    final List<SSUri> users, 
+    final Boolean     setFriends){
    
-    super(par);
+    super(op, key, user);
     
-    try{
-      
-      if(pars != null){
-        users          = (List<SSUri>) pars.get(SSVarNames.users);
-        setFriends     = (Boolean)     pars.get(SSVarNames.setFriends);
-      }
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
+    SSUri.addDistinctWithoutNull(this.users, users);
+    
+    this.setFriends = setFriends;
   }
 }

@@ -75,6 +75,8 @@ public class SSVarNames{
   public static final String includeOnlySubEntities                         = "includeOnlySubEntities";
   public static final String wordsToSearchFor                               = "wordsToSearchFor";
   public static final String tagsToSearchFor                                = "tagsToSearchFor";
+  public static final String includeAuthors                                 = "includeAuthors";
+  public static final String authorsToSearchFor                             = "authorsToSearchFor";
   public static final String labelsToSearchFor                              = "labelsToSearchFor";
   public static final String descriptionsToSearchFor                        = "descriptionsToSearchFor";
   public static final String typesToSearchOnlyFor                           = "typesToSearchOnlyFor";

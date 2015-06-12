@@ -21,6 +21,7 @@ import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServRetI;
 import at.tugraz.sss.serv.SSEntityCircle;
 import at.tugraz.sss.serv.SSJSONLDU;
+import at.tugraz.sss.serv.SSUri;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -30,22 +31,22 @@ public class SSCirclesGetRet extends SSServRetI{
 
   public List<SSEntityCircle> circles = new ArrayList<>();
 
+   public List<SSEntityCircle> getCircles() {
+    return circles;
+  }
+   
   public static SSCirclesGetRet get(
-    final List<SSEntityCircle> circles, 
-    final SSServOpE        op){
+    final List<SSEntityCircle> circles){
     
-    return new SSCirclesGetRet(circles, op);
+    return new SSCirclesGetRet(circles);
   }
   
   private SSCirclesGetRet(
-    final List<SSEntityCircle> circles, 
-    final SSServOpE        op){
+    final List<SSEntityCircle> circles){
 
-    super(op);
+    super(SSServOpE.circlesGet);
     
-    if(circles != null){
-      this.circles.addAll(circles);
-    }
+    SSEntityCircle.addDistinctWithoutNull(this.circles, circles);
   }
 
   @Override
@@ -60,9 +61,5 @@ public class SSCirclesGetRet extends SSServRetI{
     ld.put(SSVarNames.circles, circlesObj);
     
     return ld;
-  }
-  
-  public List<SSEntityCircle> getCircles() {
-    return circles;
   }
 }

@@ -3,7 +3,7 @@
 * http://www.learning-layers.eu
 * Development is partly funded by the FP7 Programme of the European Commission under
 * Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+* Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
 * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,33 +18,44 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
- package at.kc.tugraz.ss.service.user.datatypes.pars;
+package at.kc.tugraz.ss.service.user.datatypes.pars;
 
-import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.SSUri;
 
 public class SSUserAddPar extends SSServPar{
   
   public SSLabel    label        = null;
   public String     email        = null;
   public Boolean    isSystemUser = null;
+
+  public String getLabel(){
+    return SSStrU.toStr(label);
+  }
+
+  public void setLabel(final String label) throws Exception{
+    this.label = SSLabel.get(label);
+  }
   
-  public SSUserAddPar(SSServPar par) throws Exception{
-   
-    super(par);
+  public SSUserAddPar(){}
+  
+  public SSUserAddPar(
+    final SSServOpE op,
+    final String    key,
+    final SSUri     user,
+    final Boolean   shouldCommit,
+    final SSLabel   label,
+    final String    email, 
+    final Boolean   isSystemUser){
     
-    try{
-      
-      if(pars != null){
-        this.email         = (String)  pars.get(SSVarNames.email);
-        this.label         = (SSLabel) pars.get(SSVarNames.label);
-        this.isSystemUser  = (Boolean) pars.get(SSVarNames.isSystemUser);
-      }
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
+    super(op, key, user);
+    
+    this.shouldCommit = shouldCommit;
+    this.label        = label;
+    this.email        = email;
+    this.isSystemUser = isSystemUser;
   }
 }

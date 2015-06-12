@@ -38,16 +38,16 @@ public class SSCirclesGetPar extends SSServPar{
   public Boolean         withSystemCircles        = false;
   public Boolean         invokeEntityHandlers     = false;
 
-  public void setForUser(final String forUser){
-    try{ this.forUser = SSUri.get(forUser); }catch(Exception error){}
+  public void setForUser(final String forUser)throws Exception{
+   this.forUser = SSUri.get(forUser); 
   }
 
-  public void setEntity(final String entity){
-    try{ this.entity = SSUri.get(entity); }catch(Exception error){}
+  public void setEntity(final String entity)throws Exception{
+    this.entity = SSUri.get(entity);
   }
 
-  public void setEntityTypesToIncludeOnly(final List<String> entityTypesToIncludeOnly){
-    try{ this.entityTypesToIncludeOnly = SSEntityE.get(entityTypesToIncludeOnly); }catch(Exception error){}
+  public void setEntityTypesToIncludeOnly(final List<String> entityTypesToIncludeOnly)throws Exception{
+    this.entityTypesToIncludeOnly = SSEntityE.get(entityTypesToIncludeOnly);
   }
 
   public String getForUser(){
@@ -80,37 +80,10 @@ public class SSCirclesGetPar extends SSServPar{
     this.forUser              = forUser;
     this.entity               = entity;
     
-    if(entityTypesToIncludeOnly != null){
-      this.entityTypesToIncludeOnly.addAll(entityTypesToIncludeOnly);
-    }
+    SSEntityE.addDistinctWithoutNull(this.entityTypesToIncludeOnly, entityTypesToIncludeOnly);
     
     this.withUserRestriction  = withUserRestriction;
     this.withSystemCircles    = withSystemCircles;
     this.invokeEntityHandlers = invokeEntityHandlers;
-  }
-  
-  public static SSCirclesGetPar get(final SSServPar par) throws Exception{
-    
-    try{
-      
-      if(par.clientCon != null){
-        return (SSCirclesGetPar) par.getFromJSON(SSCirclesGetPar.class);
-      }
-      
-      return new SSCirclesGetPar(
-        par.op,
-        par.key,
-        par.user,
-        (SSUri)           par.pars.get(SSVarNames.forUser),
-        (SSUri)           par.pars.get(SSVarNames.entity),
-        (List<SSEntityE>) par.pars.get(SSVarNames.entityTypesToIncludeOnly),
-        (Boolean)         par.pars.get(SSVarNames.withUserRestriction),
-        (Boolean)         par.pars.get(SSVarNames.withSystemCircles),
-        (Boolean)         par.pars.get(SSVarNames.invokeEntityHandlers));
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
   }
 }

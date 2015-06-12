@@ -108,7 +108,7 @@ public class SSSearchFct {
   
   public static SSEntity handleAccess(
     final SSSearchPar par, 
-    final SSUri                entityID) throws Exception{
+    final SSUri       entityID) throws Exception{
     
     try{
       
@@ -210,7 +210,32 @@ public class SSSearchFct {
     }
   }
 
-  public static boolean handleRating(
+  public static Boolean handleAuthors(
+    final SSSearchPar par, 
+    final SSEntity    entity) throws Exception{
+    
+    if(
+      !par.includeAuthors              ||
+      par.authorsToSearchFor.isEmpty()){
+      return true;
+    }
+    
+    final SSEntity tmpEntity =
+        SSServCaller.entityDescGet(
+          par.user,
+          entity.id,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false);
+    
+    return SSStrU.contains(par.authorsToSearchFor, tmpEntity.author);
+  }
+  
+  public static Boolean handleRating(
     final SSSearchPar par,
     final SSEntity    entity) throws Exception{
     

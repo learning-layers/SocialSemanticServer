@@ -20,12 +20,13 @@
 */
 package at.kc.tugraz.ss.category.datatypes;
 
-import at.kc.tugraz.ss.category.datatypes.SSCategoryLabel;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSEntityA;
+import at.tugraz.sss.serv.SSObjU;
 import at.tugraz.sss.serv.SSSpaceE;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class SSCategoryFrequ extends SSEntityA{
@@ -34,6 +35,14 @@ public class SSCategoryFrequ extends SSEntityA{
   public SSSpaceE           space  = null;
 	public Integer            frequ  = -1;
    
+   public String getLabel() {
+		return SSStrU.toStr(label);
+	}
+  
+  public String getSpace() {
+		return SSStrU.toStr(space);
+	}
+  
   public static SSCategoryFrequ get(
     final SSCategoryLabel    label,
     final SSSpaceE           space,
@@ -54,6 +63,39 @@ public class SSCategoryFrequ extends SSEntityA{
 		this.frequ      = frequ;
 	}
   
+  public static void addDistinctWithoutNull(
+    final List<SSCategoryFrequ>     entities,
+    final SSCategoryFrequ           entity){
+    
+    if(
+      SSObjU.isNull  (entities, entity) ||
+      SSStrU.contains(entities, entity)){
+      return;
+    }
+    
+    entities.add(entity);
+  }
+  
+  public static void addDistinctWithoutNull(
+    final List<SSCategoryFrequ>  entities,
+    final List<SSCategoryFrequ>  toAddEntities){
+    
+    if(SSObjU.isNull(entities, toAddEntities)){
+      return;
+    }
+    
+    for(SSCategoryFrequ entity : toAddEntities){
+      
+      if(entity == null){
+        continue;
+      }
+      
+      if(!SSStrU.contains(entities, entity)){
+        entities.add(entity);
+      }
+    }
+  }
+  
   @Override
   public Object jsonLDDesc() {
   
@@ -65,14 +107,4 @@ public class SSCategoryFrequ extends SSEntityA{
     
     return ld;
   }  
-  
-  /* json getters */
-  
-  public String getLabel() {
-		return SSStrU.toStr(label);
-	}
-  
-  public String getSpace() {
-		return SSStrU.toStr(space);
-	}
 }

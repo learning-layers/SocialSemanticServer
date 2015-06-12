@@ -28,26 +28,29 @@ import at.kc.tugraz.ss.category.datatypes.par.SSCategoriesAddPar;
 import at.kc.tugraz.ss.category.datatypes.par.SSCategoriesPredefinedAddPar;
 import at.kc.tugraz.ss.category.datatypes.par.SSCategoriesPredefinedGetPar;
 import at.kc.tugraz.ss.category.datatypes.par.SSCategoriesRemovePar;
-import at.kc.tugraz.ss.category.datatypes.par.SSCategoriesUserGetPar;
-import at.kc.tugraz.ss.category.datatypes.par.SSCategoriesUserRemovePar;
+import at.kc.tugraz.ss.category.datatypes.par.SSCategoriesGetPar;
 import at.kc.tugraz.ss.category.datatypes.SSCategory;
 import at.kc.tugraz.ss.category.datatypes.par.SSCategoryAddPar;
 import at.kc.tugraz.ss.category.datatypes.SSCategoryFrequ;
 import at.kc.tugraz.ss.category.datatypes.SSCategoryLabel;
-import at.kc.tugraz.ss.category.datatypes.par.SSCategoryUserEditPar;
-import at.kc.tugraz.ss.category.datatypes.par.SSCategoryUserEntitiesForCategoriesGetPar;
-import at.kc.tugraz.ss.category.datatypes.par.SSCategoryUserFrequsGetPar;
+import at.kc.tugraz.ss.category.datatypes.par.SSCategoryEditPar;
+import at.kc.tugraz.ss.category.datatypes.par.SSCategoryEntitiesForCategoriesGetPar;
+import at.kc.tugraz.ss.category.datatypes.par.SSCategoryFrequsGetPar;
 import at.kc.tugraz.ss.category.datatypes.ret.SSCategoriesPredefinedGetRet;
-import at.kc.tugraz.ss.category.datatypes.ret.SSCategoriesUserGetRet;
-import at.kc.tugraz.ss.category.datatypes.ret.SSCategoriesUserRemoveRet;
+import at.kc.tugraz.ss.category.datatypes.ret.SSCategoriesGetRet;
+import at.kc.tugraz.ss.category.datatypes.ret.SSCategoriesRemoveRet;
 import at.kc.tugraz.ss.category.datatypes.ret.SSCategoryAddRet;
-import at.kc.tugraz.ss.category.datatypes.ret.SSCategoryUserEditRet;
-import at.kc.tugraz.ss.category.datatypes.ret.SSCategoryUserEntitiesForCategoriesGetRet;
-import at.kc.tugraz.ss.category.datatypes.ret.SSCategoryUserFrequsGetRet;
+import at.kc.tugraz.ss.category.datatypes.ret.SSCategoryEditRet;
+import at.kc.tugraz.ss.category.datatypes.ret.SSCategoryEntitiesForCategoriesGetRet;
+import at.kc.tugraz.ss.category.datatypes.ret.SSCategoryFrequsGetRet;
 import at.kc.tugraz.ss.category.impl.fct.activity.SSCategoryActivityFct;
 import at.kc.tugraz.ss.category.impl.fct.misc.SSCategoryMiscFct;
 import at.kc.tugraz.ss.category.impl.fct.sql.SSCategorySQLFct;
 import at.kc.tugraz.ss.category.impl.fct.userrelationgatherer.SSCategoryUserRelationGathererFct;
+import at.kc.tugraz.ss.circle.api.SSCircleServerI;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivEntityAddPar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePubEntityAddPar;
+import at.kc.tugraz.ss.circle.serv.SSCircleServ;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
@@ -59,6 +62,7 @@ import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
+import at.tugraz.sss.serv.SSEntityCircle;
 import at.tugraz.sss.serv.SSEntityDescriberI;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
 import at.tugraz.sss.serv.SSEntityHandlerImplI;
@@ -96,8 +100,6 @@ implements
     final List<String>             allUsers, 
     final Map<String, List<SSUri>> userRelations) throws Exception{
     
-    final List<String>             labels           = new ArrayList<>();
-    final List<SSUri>              entities         = new ArrayList<>();
     final Map<String, List<SSUri>> usersPerCategory = new HashMap<>();
     final Map<String, List<SSUri>> usersPerEntity   = new HashMap<>();
     List<SSCategory>               categories;
@@ -107,14 +109,17 @@ implements
       final SSUri userUri = SSUri.get(user);
       
       categories =
-        SSServCaller.categoriesUserGet(
-          userUri,
-          userUri,
-          entities,
-          labels,
-          null,
-          null);
-      
+        categoriesGet(
+          new SSCategoriesGetPar(
+            null, 
+            null,
+            userUri, 
+            userUri, 
+            SSUri.asListWithoutNullAndEmpty(), 
+            SSCategoryLabel.asListWithoutNullAndEmpty(), 
+            null, 
+            null));
+        
       for(SSCategory category : categories){
       
         SSCategoryUserRelationGathererFct.addUserForCategory     (category, usersPerCategory);
@@ -131,7 +136,7 @@ implements
   }
   
   @Override
-  public Boolean copyUserEntity(
+  public Boolean copyEntity(
     final SSUri        user,
     final List<SSUri>  users,
     final SSUri        entity,
@@ -160,7 +165,7 @@ implements
   }
   
   @Override
-  public Boolean setUserEntityPublic(
+  public Boolean setEntityPublic(
     final SSUri          userUri,
     final SSUri          entityUri, 
     final SSEntityE      entityType,
@@ -170,7 +175,7 @@ implements
   }
   
   @Override
-  public void shareUserEntity(
+  public void shareEntityWithUsers(
     final SSUri          userUri, 
     final List<SSUri>    userUrisToShareWith,
     final SSUri          entityUri, 
@@ -180,12 +185,23 @@ implements
   }
   
   @Override
-  public void shareUserEntityWithCircle(
+  public void addEntityToCircle(
     final SSUri        userUri, 
     final SSUri        circleUri, 
+    final List<SSUri>  circleUsers,
     final SSUri        entityUri, 
     final SSEntityE    entityType) throws Exception{
   }  
+  
+  @Override
+  public void addUsersToCircle(
+    final SSUri        user,
+    final List<SSUri>  users,
+    final SSEntityCircle        circle) throws Exception{
+    
+    
+    
+  }
   
   @Override
   public void removeDirectlyAdjoinedEntitiesForUser(
@@ -209,15 +225,17 @@ implements
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSCategoriesPredefinedGetRet.get(categoriesPredefinedGet(parA), parA.op), parA.op);
+    sSCon.writeRetFullToClient(
+      SSCategoriesPredefinedGetRet.get(
+        categoriesPredefinedGet(
+          (SSCategoriesPredefinedGetPar) parA.getFromJSON(SSCategoriesPredefinedGetPar.class))),
+      parA.op);
   }  
   
   @Override 
-  public List<String> categoriesPredefinedGet(final SSServPar parA) throws Exception {
+  public List<String> categoriesPredefinedGet(final SSCategoriesPredefinedGetPar par) throws Exception {
     
     try{
-      final SSCategoriesPredefinedGetPar par = SSCategoriesPredefinedGetPar.get(parA);
-      
       return sqlFct.getCategories(true);
       
     }catch(Exception error){
@@ -227,12 +245,11 @@ implements
   }
   
   @Override
-  public Boolean categoriesPredefinedAdd(final SSServPar parA) throws Exception {
+  public Boolean categoriesPredefinedAdd(final SSCategoriesPredefinedAddPar par) throws Exception {
     
     try{
       
-      final SSCategoriesPredefinedAddPar par            = new SSCategoriesPredefinedAddPar(parA);
-      SSUri                              categoryUri;
+      SSUri   categoryUri;
       
       dbSQL.startTrans(par.shouldCommit);
       
@@ -243,15 +260,18 @@ implements
         }else{
           categoryUri = SSServCaller.vocURICreate();
         }
-
-        SSServCaller.entityEntityToPrivCircleAdd(
-          par.user, 
-          categoryUri, 
-          SSEntityE.category, 
-          SSLabel.get(SSStrU.toStr(label)), 
-          null, 
-          null, 
-          false);
+        
+        ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+          new SSCirclePrivEntityAddPar(
+            null,
+            null,
+            par.user,
+            categoryUri,
+            SSEntityE.category,
+            SSLabel.get(SSStrU.toStr(label)),
+            null,
+            null,
+            false));
 
         sqlFct.addCategoryIfNotExists(
           categoryUri,
@@ -266,18 +286,18 @@ implements
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(dbSQL.rollBack(parA.shouldCommit)){
+        if(dbSQL.rollBack(par.shouldCommit)){
           
           SSServErrReg.reset();
           
-          return categoriesPredefinedAdd(parA);
+          return categoriesPredefinedAdd(par);
         }else{
           SSServErrReg.regErrThrow(error);
           return null;
         }
       }
       
-      dbSQL.rollBack(parA.shouldCommit);
+      dbSQL.rollBack(par.shouldCommit);
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -288,15 +308,17 @@ implements
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSCategoryUserEntitiesForCategoriesGetRet.get(categoryUserEntitiesForCategoriesGet(parA), parA.op), parA.op);
+    sSCon.writeRetFullToClient(
+      SSCategoryEntitiesForCategoriesGetRet.get(
+        categoryEntitiesForCategoriesGet((SSCategoryEntitiesForCategoriesGetPar) parA.getFromJSON(SSCategoryEntitiesForCategoriesGetPar.class))), 
+      parA.op);
   }
 
   @Override
-  public List<SSUri> categoryUserEntitiesForCategoriesGet(final SSServPar parA) throws Exception{
+  public List<SSUri> categoryEntitiesForCategoriesGet(final SSCategoryEntitiesForCategoriesGetPar par) throws Exception{
     
     //TODO dtheiler: use start time for this call as well
     try{
-      final SSCategoryUserEntitiesForCategoriesGetPar par = new SSCategoryUserEntitiesForCategoriesGetPar(parA);
       
       if(par.user == null){
         throw new Exception("user null");
@@ -333,19 +355,18 @@ implements
     
     SSServCallerU.checkKey(parA);
     
-    final SSUri tagUri = categoryAdd(parA);
+    final SSUri categoryUri = categoryAdd((SSCategoryAddPar) parA.getFromJSON(SSCategoryAddPar.class));
     
-    sSCon.writeRetFullToClient(SSCategoryAddRet.get(tagUri, parA.op), parA.op);
+    sSCon.writeRetFullToClient(SSCategoryAddRet.get(categoryUri), parA.op);
 
 //    SSTagActivityFct.addTag(new SSTagAddPar(parA), tagUri);
   }
   
   @Override
-  public SSUri categoryAdd(final SSServPar parA) throws Exception {
+  public SSUri categoryAdd(final SSCategoryAddPar par) throws Exception {
     
     try{
       
-      final SSCategoryAddPar par               = new SSCategoryAddPar(parA);
       final Boolean          existsEntity      = SSServCaller.entityExists(par.entity);
       final SSUri            categoryUri;
       Boolean                existsCategory;
@@ -372,66 +393,85 @@ implements
         
         if(SSStrU.equals(par.space, SSSpaceE.privateSpace)){
           
-          SSServCaller.entityEntityToPrivCircleAdd(
-            par.user,
-            par.entity,
-            SSEntityE.entity,
-            null,
-            null,
-            null,
-            false);
+          ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+            new SSCirclePrivEntityAddPar(
+              null,
+              null,
+              par.user,
+              par.entity,
+              SSEntityE.entity,
+              null,
+              null,
+              null,
+              false));
           
-          SSServCaller.entityEntityToPrivCircleAdd(
-            par.user,
-            categoryUri,
-            SSEntityE.category,
-            SSLabel.get(SSStrU.toStr(par.label)),
-            null,
-            par.creationTime,
-            false);
+          ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+            new SSCirclePrivEntityAddPar(
+              null,
+              null,
+              par.user,
+              categoryUri,
+              SSEntityE.category,
+              SSLabel.get(SSStrU.toStr(par.label)),
+              null,
+              par.creationTime,
+              false));
           
         }else{
           
-          SSServCaller.entityEntityToPubCircleAdd(
-            par.user,
-            categoryUri,
-            SSEntityE.category,
-            SSLabel.get(SSStrU.toStr(par.label)),
-            null,
-            par.creationTime,
-            false);
+          ((SSCircleServerI) SSCircleServ.inst.serv()).circlePubEntityAdd(
+            new SSCirclePubEntityAddPar(
+              null,
+              null,
+              par.user,
+              categoryUri,
+              false,
+              SSEntityE.category,
+              SSLabel.get(SSStrU.toStr(par.label)),
+              null,
+              par.creationTime));
         }
       }else{
         
-        SSServCaller.entityEntityToPubCircleAdd(
-          par.user,
-          par.entity,
-          SSEntityE.entity,
-          null,
-          null,
-          null,
-          false);
+        ((SSCircleServerI) SSCircleServ.inst.serv()).circlePubEntityAdd(
+          new SSCirclePubEntityAddPar(
+            null,
+            null,
+            par.user,
+            par.entity,
+            false,
+            SSEntityE.entity,
+            null,
+            null,
+            null));
         
         if(SSStrU.equals(par.space, SSSpaceE.privateSpace)){
           
-          SSServCaller.entityEntityToPrivCircleAdd(
-            par.user,
-            categoryUri,
-            SSEntityE.category,
-            SSLabel.get(SSStrU.toStr(par.label)),
-            null,
-            par.creationTime,
-            false);
+          ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+            new SSCirclePrivEntityAddPar(
+              null,
+              null,
+              par.user,
+              categoryUri,
+              SSEntityE.category,
+              SSLabel.get(SSStrU.toStr(par.label)),
+              null,
+              par.creationTime,
+              false));
           
         }else{
-          SSServCaller.entityEntityToPubCircleAdd(
-            par.user,
-            categoryUri,
-            SSEntityE.category,
-            SSLabel.get(SSStrU.toStr(par.label)),
-            null,
-            par.creationTime,
-            false);
+          
+          ((SSCircleServerI) SSCircleServ.inst.serv()).circlePubEntityAdd(
+            new SSCirclePubEntityAddPar(
+              null,
+              null,
+              par.user,
+              categoryUri,
+              false,
+              SSEntityE.category,
+              SSLabel.get(SSStrU.toStr(par.label)),
+              null,
+              par.creationTime));
         }
       }
       
@@ -456,18 +496,18 @@ implements
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(dbSQL.rollBack(parA.shouldCommit)){
+        if(dbSQL.rollBack(par.shouldCommit)){
           
           SSServErrReg.reset();
           
-          return categoryAdd(parA);
+          return categoryAdd(par);
         }else{
           SSServErrReg.regErrThrow(error);
           return null;
         }
       }
       
-      dbSQL.rollBack(parA.shouldCommit);
+      dbSQL.rollBack(par.shouldCommit);
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -478,51 +518,75 @@ implements
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSCategoryUserEditRet.get(categoryUserEdit(parA), parA.op), parA.op);
+     sSCon.writeRetFullToClient(
+      SSCategoryEditRet.get(
+        categoryEdit((SSCategoryEditPar) parA.getFromJSON(SSCategoryEditPar.class))), 
+      parA.op);
   }
   
   @Override
-  public SSUri categoryUserEdit(final SSServPar parA) throws Exception {
+  public SSUri categoryEdit(final SSCategoryEditPar par) throws Exception {
     
     try{
       
-      final SSCategoryUserEditPar par            = new SSCategoryUserEditPar (parA);
-      SSUri                       newCategoryUri = null;
+      SSUri                  newCategoryUri = null;
       
       if(par.user == null){
         throw new Exception("user null");
       }
       
-      final List<SSCategory> categories =
-        SSServCaller.categoriesUserGet(
-          par.user,
-          par.user,
-          SSUri.asListWithoutNullAndEmpty(),
-          SSStrU.toStrWithoutEmptyAndNull(SSServCaller.entityGet(par.category).label),
-          null,
-          null);
+      final Boolean existsCategory;
+      final SSUri   categoryUri;
       
+      existsCategory = SSServCaller.entityExists(SSEntityE.tag, SSLabel.get(SSStrU.toStr(par.category)));
+      
+      if(existsCategory){
+        categoryUri = SSServCaller.entityGet(SSEntityE.category, SSLabel.get(SSStrU.toStr(par.category))).id;
+      }else{
+        categoryUri = SSServCaller.vocURICreate();
+      }
+      
+      final List<SSCategory> categories =
+        categoriesGet(
+          new SSCategoriesGetPar(
+            null,
+            null,
+            par.user,
+            par.user,
+            SSUri.asListWithoutNullAndEmpty(par.entity),
+            SSCategoryLabel.asListWithoutNullAndEmpty(par.category),
+            null,
+            null));
+        
       for(SSCategory category : categories){
         
-        SSServCaller.tagsRemove(
-          par.user,
-          category.entity,
-          SSStrU.toStr(category.label),
-          category.space,
-          false);
+        categoriesRemove(
+          new SSCategoriesRemovePar(
+            null, 
+            null,
+            par.user,
+            par.user, 
+            category.entity,
+            SSCategoryLabel.get(SSStrU.toStr(category.label)), 
+            category.space,
+            false, 
+            false));
         
         newCategoryUri =
-          SSServCaller.tagAdd(
-            par.user,
-            category.entity,
-            SSStrU.toStr(par.label),
-            category.space,
-            null,
-            false);
+          categoryAdd(
+            new SSCategoryAddPar(
+              null, 
+              null, 
+              par.user, 
+              category.entity, 
+              par.label, 
+              category.space, 
+              null, 
+              false));
       }
       
       if(newCategoryUri == null){
-        return par.category;
+        return categoryUri;
       }else{
         return newCategoryUri;
       }
@@ -531,18 +595,18 @@ implements
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(dbSQL.rollBack(parA.shouldCommit)){
+        if(dbSQL.rollBack(par.shouldCommit)){
           
           SSServErrReg.reset();
           
-          return categoryUserEdit(parA);
+          return categoryEdit(par);
         }else{
           SSServErrReg.regErrThrow(error);
           return null;
         }
       }
       
-      dbSQL.rollBack(parA.shouldCommit);
+      dbSQL.rollBack(par.shouldCommit);
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -553,31 +617,55 @@ implements
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSCategoriesUserRemoveRet.get(categoriesUserRemove(parA), parA.op), parA.op);
+    final SSCategoriesRemovePar par = (SSCategoriesRemovePar) parA.getFromJSON(SSCategoriesRemovePar.class);
     
-    SSCategoryActivityFct.removeCategories(new SSCategoriesUserRemovePar(parA));
+    sSCon.writeRetFullToClient(
+      SSCategoriesRemoveRet.get(
+        categoriesRemove(par)),
+      parA.op);
+    
+    SSCategoryActivityFct.removeCategories(par);
   }
   
   @Override
-  public Boolean categoriesUserRemove(final SSServPar parA) throws Exception {
+  public Boolean categoriesRemove(final SSCategoriesRemovePar par) throws Exception {
     
     try{
-      
-      final SSCategoriesUserRemovePar par = new SSCategoriesUserRemovePar (parA);
-      
-      if(par.user == null){
-        throw new Exception("user null");
-      }
       
       SSUri categoryUri = null;
       
       if(par.label != null){
         
-        if(SSServCaller.entityExists(SSEntityE.tag, SSLabel.get(SSStrU.toStr(par.label)))){
-          categoryUri = SSServCaller.entityGet(SSEntityE.tag,SSLabel.get(SSStrU.toStr(par.label))).id;
+        if(SSServCaller.entityExists(SSEntityE.category, SSLabel.get(SSStrU.toStr(par.label)))){
+          categoryUri = SSServCaller.entityGet(SSEntityE.category, SSLabel.get(SSStrU.toStr(par.label))).id;
         }else{
           categoryUri = SSServCaller.vocURICreate();
         }
+      }
+      
+      if(!par.withUserRestriction){
+        
+        dbSQL.startTrans(par.shouldCommit);
+        
+        sqlFct.removeCategoryAsss(
+          par.forUser,
+          par.entity,
+          categoryUri,
+          par.space);
+        
+        dbSQL.commit(par.shouldCommit);
+        
+        return true;
+      }
+      
+      if(
+        par.forUser != null &&
+        !SSStrU.equals(par.forUser, par.user)){
+        throw new Exception("user cannot delete tags of other user");
+      }
+      
+      if(par.forUser == null){
+        par.forUser = par.user;
       }
       
       if(
@@ -636,18 +724,18 @@ implements
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(dbSQL.rollBack(parA.shouldCommit)){
+        if(dbSQL.rollBack(par.shouldCommit)){
           
           SSServErrReg.reset();
           
-          return categoriesUserRemove(parA);
+          return categoriesRemove(par);
         }else{
           SSServErrReg.regErrThrow(error);
           return null;
         }
       }
       
-      dbSQL.rollBack(parA.shouldCommit);
+      dbSQL.rollBack(par.shouldCommit);
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -658,24 +746,28 @@ implements
        
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSCategoryUserFrequsGetRet.get(categoryUserFrequsGet(parA), parA.op), parA.op);
+    sSCon.writeRetFullToClient(
+      SSCategoryFrequsGetRet.get(
+        categoryFrequsGet((SSCategoryFrequsGetPar) parA.getFromJSON(SSCategoryFrequsGetPar.class))), 
+      parA.op);
   }
   
   @Override
-  public List<SSCategoryFrequ> categoryUserFrequsGet(final SSServPar parA) throws Exception {
+  public List<SSCategoryFrequ> categoryFrequsGet(final SSCategoryFrequsGetPar par) throws Exception {
     
     try{
       
-      final SSCategoryUserFrequsGetPar par = new SSCategoryUserFrequsGetPar (parA);
-      
       return SSCategoryMiscFct.getCategoryFrequsFromCategories(
-        SSServCaller.categoriesUserGet(
-          par.user,
-          par.forUser,
-          par.entities,
-          SSStrU.toStrWithoutEmptyAndNull(par.labels),
-          par.space,
-          par.startTime),
+        categoriesGet(
+          new SSCategoriesGetPar(
+            null,
+            null,
+            par.user,
+            par.forUser,
+            par.entities,
+            par.labels,
+            par.space,
+            par.startTime)),
         par.space);
       
     }catch(Exception error){
@@ -685,23 +777,25 @@ implements
   }
   
   @Override
-  public List<SSUri> categoriesAdd(final SSServPar parA) throws Exception {
+  public List<SSUri> categoriesAdd(final SSCategoriesAddPar par) throws Exception {
     
     try{
 
-      final SSCategoriesAddPar par         = new SSCategoriesAddPar(parA);
       final List<SSUri>        categories  = new ArrayList<>();
       
       for(SSCategoryLabel categoryLabel : par.labels) {
         
         categories.add(
-          SSServCaller.categoryAdd(
-            par.user,
-            par.entity,
-            SSStrU.toStr(categoryLabel),
-            par.space,
-            par.creationTime,
-            par.shouldCommit));
+          categoryAdd(
+            new SSCategoryAddPar(
+              null, 
+              null, 
+              par.user, 
+              par.entity,
+              categoryLabel, 
+              par.space,
+              par.creationTime, 
+              par.shouldCommit)));
       }
       
       SSStrU.distinctWithoutNull2(categories);
@@ -711,68 +805,18 @@ implements
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(dbSQL.rollBack(parA.shouldCommit)){
+        if(dbSQL.rollBack(par.shouldCommit)){
           
           SSServErrReg.reset();
           
-          return categoriesAdd(parA);
+          return categoriesAdd(par);
         }else{
           SSServErrReg.regErrThrow(error);
           return null;
         }
       }
       
-      dbSQL.rollBack(parA.shouldCommit);
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
-  @Override
-  public Boolean categoriesRemove(final SSServPar parA) throws Exception{
-  
-    try{
-      
-      final SSCategoriesRemovePar par = new SSCategoriesRemovePar (parA);
-      
-      SSUri categoryUri = null;
-      
-      if(par.label != null){
-        
-        if(SSServCaller.entityExists(SSEntityE.tag, SSLabel.get(SSStrU.toStr(par.label)))){
-          categoryUri = SSServCaller.entityGet(SSEntityE.tag,SSLabel.get(SSStrU.toStr(par.label))).id;
-        }else{
-          categoryUri = SSServCaller.vocURICreate();
-        }
-      }
-      
-      dbSQL.startTrans(par.shouldCommit);
-      
-      sqlFct.removeCategoryAsss(
-        par.forUser, 
-        par.entity, 
-        categoryUri, 
-        par.space);
-      
-      dbSQL.commit(par.shouldCommit);
-      
-      return true;
-    }catch(Exception error){
-      
-      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
-        
-        if(dbSQL.rollBack(parA.shouldCommit)){
-          
-          SSServErrReg.reset();
-          
-          return categoriesRemove(parA);
-        }else{
-          SSServErrReg.regErrThrow(error);
-          return null;
-        }
-      }
-      
-      dbSQL.rollBack(parA.shouldCommit);
+      dbSQL.rollBack(par.shouldCommit);
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -783,15 +827,16 @@ implements
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSCategoriesUserGetRet.get(categoriesUserGet(parA), parA.op), parA.op);
+     sSCon.writeRetFullToClient(
+      SSCategoriesGetRet.get(
+        categoriesGet((SSCategoriesGetPar) parA.getFromJSON(SSCategoriesGetPar.class))), 
+      parA.op);
   }
   
   @Override
-  public List<SSCategory> categoriesUserGet(final SSServPar parA) throws Exception {
+  public List<SSCategory> categoriesGet(final SSCategoriesGetPar par) throws Exception {
     
     try{
-      
-      final SSCategoriesUserGetPar par       = new SSCategoriesUserGetPar (parA);
       
       if(par.user == null){
         throw new Exception("user null");

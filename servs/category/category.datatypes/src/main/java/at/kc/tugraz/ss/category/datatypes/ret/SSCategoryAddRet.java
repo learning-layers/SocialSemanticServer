@@ -32,18 +32,20 @@ public class SSCategoryAddRet extends SSServRetI{
 
   public SSUri category = null;
 
+  public String getCategory() {
+    return SSStrU.removeTrailingSlash(category);
+  }
+  
   public static SSCategoryAddRet get(
-    final SSUri   category, 
-    final SSServOpE op){
+    final SSUri   category){
     
-    return new SSCategoryAddRet(category, op);
+    return new SSCategoryAddRet(category);
   }
   
   private SSCategoryAddRet(
-    final SSUri   category, 
-    final SSServOpE op){
+    final SSUri   category){
     
-    super(op);
+    super(SSServOpE.categoryAdd);
     
     this.category = category;
   }
@@ -56,11 +58,5 @@ public class SSCategoryAddRet extends SSServRetI{
     ld.put(SSVarNames.category, SSVarNames.xsd + SSStrU.colon + SSUri.class.getName());
     
     return ld;
-  }
-  
-  /* json getters */
-  
-  public String getCategory() {
-    return SSStrU.removeTrailingSlash(category);
   }
 }

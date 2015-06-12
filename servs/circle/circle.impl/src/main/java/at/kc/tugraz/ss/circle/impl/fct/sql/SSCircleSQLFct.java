@@ -140,6 +140,17 @@ public class SSCircleSQLFct extends SSDBSQLFct{
   public List<SSEntity> getUsersForCircle(
     final SSUri circleUri) throws Exception{
     
+    try{
+      return SSEntity.get(getUserURIsForCircle(circleUri), SSEntityE.user);
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  public List<SSUri> getUserURIsForCircle(
+    final SSUri circleUri) throws Exception{
+    
     ResultSet resultSet = null;
     
     try{
@@ -154,8 +165,7 @@ public class SSCircleSQLFct extends SSDBSQLFct{
       
       resultSet = dbSQL.select(SSSQLVarNames.circleUsersTable, columns, wheres, null, null, null);
       
-      return SSEntity.get(getURIsFromResult(resultSet, SSSQLVarNames.userId), 
-        SSEntityE.user);
+      return getURIsFromResult(resultSet, SSSQLVarNames.userId);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

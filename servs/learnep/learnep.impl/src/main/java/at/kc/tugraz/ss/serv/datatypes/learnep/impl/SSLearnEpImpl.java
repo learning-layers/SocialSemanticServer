@@ -21,6 +21,13 @@
 package at.kc.tugraz.ss.serv.datatypes.learnep.impl;
 
 import at.kc.tugraz.socialserver.service.broadcast.datatypes.enums.SSBroadcastEnum;
+import at.kc.tugraz.ss.circle.api.SSCircleServerI;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesAddPar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivEntityAddPar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleTypesGetPar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleUsersAddPar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCirclesGetPar;
+import at.kc.tugraz.ss.circle.serv.SSCircleServ;
 import at.kc.tugraz.ss.serv.datatypes.learnep.api.SSLearnEpClientI;
 import at.kc.tugraz.ss.serv.datatypes.learnep.api.SSLearnEpServerI;
 import at.kc.tugraz.ss.serv.datatypes.learnep.conf.SSLearnEpConf;
@@ -98,7 +105,13 @@ import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
 
-public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI, SSLearnEpServerI, SSEntityHandlerImplI, SSUsersResourcesGathererI{
+public class SSLearnEpImpl 
+extends SSServImplWithDBA 
+implements 
+  SSLearnEpClientI, 
+  SSLearnEpServerI,
+  SSEntityHandlerImplI,
+  SSUsersResourcesGathererI{
 
   private final SSLearnEpSQLFct sqlFct;
   private final SSLearnEpConf   learnEpConf;
@@ -175,7 +188,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
   }
 
   @Override
-  public Boolean setUserEntityPublic(
+  public Boolean setEntityPublic(
     final SSUri userUri,
     final SSUri entityUri,
     final SSEntityE entityType,
@@ -185,7 +198,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
   }
 
   @Override
-  public void shareUserEntity(
+  public void shareEntityWithUsers(
     final SSUri         user,
     final List<SSUri>   usersToShareWith,
     final SSUri         entity,
@@ -207,21 +220,28 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
             }
             
             sqlFct.addLearnEp(entity, userUriToShareWith);
+
+            ((SSCircleServerI) SSCircleServ.inst.serv()).circleUsersAdd(
+              new SSCircleUsersAddPar(
+                null,
+                null,
+                user,
+                circle,
+                sqlFct.getLearnEpUserURIs(entity),
+                false,
+                false,
+                false));
             
-            SSServCaller.circleUsersAdd(
-              user,
-              circle,
-              sqlFct.getLearnEpUserURIs(entity),
-              false,
-              false);
-            
-            SSServCaller.circleEntitiesAdd(
-              user, 
-              circle, 
-              SSLearnEpMiscFct.getLearnEpContentURIs(user, sqlFct, entity), 
-              false, 
-              false,
-              false);
+            ((SSCircleServerI) SSCircleServ.inst.serv()).circleEntitiesAdd(
+              new SSCircleEntitiesAddPar(
+                null, 
+                null, 
+                user, 
+                circle, 
+                SSLearnEpMiscFct.getLearnEpContentURIs(user, sqlFct, entity), 
+                false, 
+                false,
+                false));
           }
           
           SSLearnEpActivityFct.shareLearnEp(
@@ -237,7 +257,7 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
   }
 
   @Override
-  public Boolean copyUserEntity(
+  public Boolean copyEntity(
     final SSUri       user,
     final List<SSUri> users,
     final SSUri       entity,
@@ -269,13 +289,24 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
   }
 
   @Override
-  public void shareUserEntityWithCircle(
-    final SSUri     userUri,
-    final SSUri     circleUri,
-    final SSUri     entityUri,
-    final SSEntityE entityType) throws Exception{
+  public void addEntityToCircle(
+    final SSUri        userUri,
+    final SSUri        circleUri,
+    final List<SSUri>  circleUsers,
+    final SSUri        entityUri,
+    final SSEntityE    entityType) throws Exception{
   }
 
+  @Override
+  public void addUsersToCircle(
+    final SSUri        user,
+    final List<SSUri>  users,
+    final SSEntityCircle        circle) throws Exception{
+    
+    
+    
+  }
+  
   @Override
   public void learnEpsGet(SSSocketCon sSCon, SSServPar parA) throws Exception{
 
@@ -294,11 +325,14 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
       for(SSLearnEp learnEp : learnEps){
 
         learnEp.circleTypes.addAll(
-          SSServCaller.circleTypesGet(
-            par.user,
-            par.user,
-            learnEp.id, 
-            true));
+          ((SSCircleServerI) SSCircleServ.inst.serv()).circleTypesGet(
+            new SSCircleTypesGetPar(
+              null, 
+              null, 
+              par.user,
+              par.user,
+              learnEp.id, 
+              true)));
         
          learnEp.read = 
            SSServCaller.entityReadGet(
@@ -533,32 +567,41 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
       
       dbSQL.startTrans(par.shouldCommit);
 
-      SSServCaller.entityEntityToPrivCircleAdd(
-        par.user, 
-        learnEpVersionUri, 
-        SSEntityE.learnEpVersion, 
-        null, 
-        null, 
-        null, 
-        false);
+      ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+        new SSCirclePrivEntityAddPar(
+          null,
+          null,
+          par.user,
+          learnEpVersionUri,
+          SSEntityE.learnEpVersion,
+          null,
+          null,
+          null,
+          false));
 
       for(SSEntityCircle entityUserCircle : 
-        SSServCaller.circlesGet(
-          par.user, 
-          null, 
-          par.learnEp, 
-          SSEntityE.asListWithoutNullAndEmpty(),
-          true, 
-          false, 
-          false)){
-        
-        SSServCaller.circleEntitiesAdd(
-          par.user, 
-          entityUserCircle.id, 
-          SSUri.asListWithoutNullAndEmpty(learnEpVersionUri), 
-          false, 
-          false, 
-          false);
+        ((SSCircleServerI) SSCircleServ.inst.serv()).circlesGet(
+          new SSCirclesGetPar(
+            null, 
+            null, 
+            par.user, 
+            null,
+            par.learnEp, 
+            SSEntityE.asListWithoutNullAndEmpty(), 
+            false, 
+            true, 
+            false))){
+
+        ((SSCircleServerI) SSCircleServ.inst.serv()).circleEntitiesAdd(
+          new SSCircleEntitiesAddPar(
+            null, 
+            null, 
+            par.user, 
+            entityUserCircle.id, 
+            SSUri.asListWithoutNullAndEmpty(learnEpVersionUri), 
+            false,
+            false, 
+            false));
       }
 
       sqlFct.createLearnEpVersion(
@@ -613,34 +656,43 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
       
       dbSQL.startTrans(par.shouldCommit);
       
-      SSServCaller.entityEntityToPrivCircleAdd(
-        par.user,
-        circleUri,
-        SSEntityE.learnEpCircle,
-        par.label,
-        null,
-        null,
-        false);
+      ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+        new SSCirclePrivEntityAddPar(
+          null,
+          null,
+          par.user,
+          circleUri,
+          SSEntityE.learnEpCircle,
+          par.label,
+          null,
+          null,
+          false));
             
       for(SSEntityCircle entityUserCircle : 
-        SSServCaller.circlesGet(
-          par.user, 
-          null, 
-          par.learnEpVersion, 
-          SSEntityE.asListWithoutNullAndEmpty(),
-          true, 
-          false, 
-          false)){
-        
-        SSServCaller.circleEntitiesAdd(
-          par.user, 
-          entityUserCircle.id, 
-          SSUri.asListWithoutNullAndEmpty(circleUri), 
-          true, 
-          false, 
-          false);
-      }
+        ((SSCircleServerI) SSCircleServ.inst.serv()).circlesGet(
+          new SSCirclesGetPar(
+            null, 
+            null, 
+            par.user, 
+            null,
+            par.learnEpVersion, 
+            SSEntityE.asListWithoutNullAndEmpty(), 
+            false, 
+            true, 
+            false))){
 
+        ((SSCircleServerI) SSCircleServ.inst.serv()).circleEntitiesAdd(
+          new SSCircleEntitiesAddPar(
+            null, 
+            null, 
+            par.user, 
+            entityUserCircle.id, 
+            SSUri.asListWithoutNullAndEmpty(circleUri), 
+            false,
+            true, 
+            false));
+      }
+      
       sqlFct.addCircleToLearnEpVersion(
         circleUri,
         par.learnEpVersion,
@@ -705,14 +757,17 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
 
       dbSQL.startTrans(par.shouldCommit);
 
-      SSServCaller.entityEntityToPrivCircleAdd(
-        par.user,
-        learnEpEntityUri,
-        SSEntityE.learnEpEntity,
-        null,
-        null,
-        null,
-        false);
+      ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+        new SSCirclePrivEntityAddPar(
+          null,
+          null,
+          par.user,
+          learnEpEntityUri,
+          SSEntityE.learnEpEntity,
+          null,
+          null,
+          null,
+          false));
            
       for(SSUri file : SSServCaller.entityFilesGet(par.user, par.entity)){
         filesAndThumbs.add(file);
@@ -727,22 +782,28 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
       entities.addAll(filesAndThumbs);
         
       for(SSEntityCircle entityUserCircle : 
-        SSServCaller.circlesGet(
-          par.user, 
-          null, 
-          par.learnEpVersion, 
-          SSEntityE.asListWithoutNullAndEmpty(),
-          true, 
-          false, 
-          false)){
-        
-        SSServCaller.circleEntitiesAdd(
-          par.user,
-          entityUserCircle.id, 
-          entities, 
-          true, 
-          false, 
-          false);
+        ((SSCircleServerI) SSCircleServ.inst.serv()).circlesGet(
+          new SSCirclesGetPar(
+            null, 
+            null, 
+            par.user, 
+            null,
+            par.learnEpVersion, 
+            SSEntityE.asListWithoutNullAndEmpty(), 
+            false, 
+            true, 
+            false))){
+
+        ((SSCircleServerI) SSCircleServ.inst.serv()).circleEntitiesAdd(
+          new SSCircleEntitiesAddPar(
+            null, 
+            null, 
+            par.user, 
+            entityUserCircle.id, 
+            entities, 
+            false,
+            true, 
+            false));
       }        
       
       sqlFct.addEntityToLearnEpVersion(
@@ -797,20 +858,23 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
     try{
       final SSLearnEpCreatePar par        = new SSLearnEpCreatePar(parA);
       final SSUri              learnEpUri = SSServCaller.vocURICreate();
-
+      
       dbSQL.startTrans(par.shouldCommit);
-
-      SSServCaller.entityEntityToPrivCircleAdd(
-        par.user, 
-        learnEpUri, 
-        SSEntityE.learnEp,  
-        par.label, 
-        par.description, 
-        null, 
-        false);
-        
+      
+      ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+        new SSCirclePrivEntityAddPar(
+          null,
+          null,
+          par.user,
+          learnEpUri,
+          SSEntityE.learnEp,
+          par.label,
+          par.description,
+          null,
+          false));
+      
       sqlFct.createLearnEp(learnEpUri, par.user);
-
+      
       dbSQL.commit(par.shouldCommit);
 
       return learnEpUri;
@@ -859,14 +923,17 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
       
       dbSQL.startTrans(par.shouldCommit);
 
-      SSServCaller.entityEntityToPrivCircleAdd(
-        par.user, 
-        par.learnEpCircle, 
-        SSEntityE.learnEpCircle,
-        par.label, 
-        null,
-        null,
-        false);
+      ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+        new SSCirclePrivEntityAddPar(
+          null,
+          null,
+          par.user,
+          par.learnEpCircle,
+          SSEntityE.learnEpCircle,
+          par.label,
+          null,
+          null,
+          false));
 
       sqlFct.updateCircle(
         par.learnEpCircle,
@@ -933,23 +1000,29 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
       
       if(par.entity != null){
         
-        for(SSEntityCircle entityUserCircle : 
-          SSServCaller.circlesGet(
-            par.user, 
-            null, 
-            par.learnEpEntity, 
-            SSEntityE.asListWithoutNullAndEmpty(),
-            true, 
-            false, 
-            false)){
+        for(SSEntityCircle entityUserCircle :
+          ((SSCircleServerI) SSCircleServ.inst.serv()).circlesGet(
+            new SSCirclesGetPar(
+              null,
+              null,
+              par.user,
+              null,
+              par.learnEpEntity,
+              SSEntityE.asListWithoutNullAndEmpty(),
+              false,
+              true,
+              false))){
           
-          SSServCaller.circleEntitiesAdd(
-            par.user, 
-            entityUserCircle.id, 
-            SSUri.asListWithoutNullAndEmpty(par.entity), 
-            true, 
-            false, 
-            false);
+          ((SSCircleServerI) SSCircleServ.inst.serv()).circleEntitiesAdd(
+            new SSCircleEntitiesAddPar(
+              null,
+              null,
+              par.user,
+              entityUserCircle.id,
+              SSUri.asListWithoutNullAndEmpty(par.entity),
+              false,
+              true,
+              false));
         }
       }
       
@@ -1119,33 +1192,42 @@ public class SSLearnEpImpl extends SSServImplWithDBA implements SSLearnEpClientI
       SSServCallerU.canUserEditEntity(par.user, par.learnEpVersion);
       
       dbSQL.startTrans(par.shouldCommit);
+      
+      ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+        new SSCirclePrivEntityAddPar(
+          null,
+          null,
+          par.user,
+          learnEpTimelineStateUri,
+          SSEntityE.learnEpTimelineState,
+          null,
+          null,
+          null,
+          false));
+      
+      for(SSEntityCircle entityUserCircle :
+        ((SSCircleServerI) SSCircleServ.inst.serv()).circlesGet(
+          new SSCirclesGetPar(
+            null,
+            null,
+            par.user,
+            null,
+            par.learnEpVersion,
+            SSEntityE.asListWithoutNullAndEmpty(),
+            false,
+            true,
+            false))){
 
-      SSServCaller.entityEntityToPrivCircleAdd(
-        par.user, 
-        learnEpTimelineStateUri, 
-        SSEntityE.learnEpTimelineState, 
-        null, 
-        null, 
-        null, 
-        false);
-        
-      for(SSEntityCircle entityUserCircle : 
-        SSServCaller.circlesGet(
-          par.user, 
-          null, 
-          par.learnEpVersion, 
-          SSEntityE.asListWithoutNullAndEmpty(),
-          true, 
-          false, 
-          false)){
-        
-        SSServCaller.circleEntitiesAdd(
-          par.user, 
-          entityUserCircle.id, 
-          SSUri.asListWithoutNullAndEmpty(learnEpTimelineStateUri), 
-          true, 
-          false, 
-          false);
+        ((SSCircleServerI) SSCircleServ.inst.serv()).circleEntitiesAdd(
+          new SSCircleEntitiesAddPar(
+            null, 
+            null, 
+            par.user, 
+            entityUserCircle.id, 
+            SSUri.asListWithoutNullAndEmpty(learnEpTimelineStateUri), 
+            false,
+            true, 
+            false));
       }
 
       sqlFct.setLearnEpVersionTimelineState(

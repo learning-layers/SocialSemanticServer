@@ -20,6 +20,9 @@
 */
 package at.kc.tugraz.ss.like.impl;
 
+import at.kc.tugraz.ss.circle.api.SSCircleServerI;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivEntityAddPar;
+import at.kc.tugraz.ss.circle.serv.SSCircleServ;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSSocketCon;
 import at.tugraz.sss.serv.SSUri;
@@ -101,14 +104,17 @@ public class SSLikeImpl extends SSServImplWithDBA implements SSLikeClientI, SSLi
       
       if(!existsEntity){
         
-        SSServCaller.entityEntityToPrivCircleAdd(
-          par.user,
-          par.entity,
-          SSEntityE.entity,
-          null,
-          null,
-          null,
-          false);
+        ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+          new SSCirclePrivEntityAddPar(
+            null,
+            null,
+            par.user,
+            par.entity,
+            SSEntityE.entity,
+            null,
+            null,
+            null,
+            false));
       }
       
       sqlFct.like(

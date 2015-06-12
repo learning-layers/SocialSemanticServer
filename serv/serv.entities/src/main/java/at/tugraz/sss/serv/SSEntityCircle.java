@@ -26,6 +26,14 @@ public class SSEntityCircle extends SSEntity{
   public List<SSCircleRightE>           accessRights   = new ArrayList<>();
   public Boolean                        isSystemCircle = null;
   
+   public String getCircleType(){
+    return SSStrU.toStr(circleType);
+  }
+
+  public List<String> getAccessRights() throws Exception{
+    return SSStrU.toStr(accessRights);
+  }
+  
   public static SSEntityCircle get(
     final SSUri                          id,
     final SSLabel                        label, 
@@ -47,6 +55,39 @@ public class SSEntityCircle extends SSEntity{
     this.isSystemCircle = isSystemCircle;
   }
 
+  public static void addDistinctWithoutNull(
+    final List<SSEntityCircle>     entities,
+    final SSEntityCircle           entity){
+    
+    if(
+      SSObjU.isNull  (entities, entity) ||
+      SSStrU.contains(entities, entity)){
+      return;
+    }
+    
+    entities.add(entity);
+  }
+  
+  public static void addDistinctWithoutNull(
+    final List<SSEntityCircle>  entities,
+    final List<SSEntityCircle>  toAddEntities){
+    
+    if(SSObjU.isNull(entities, toAddEntities)){
+      return;
+    }
+    
+    for(SSEntityCircle entity : toAddEntities){
+      
+      if(entity == null){
+        continue;
+      }
+      
+      if(!SSStrU.contains(entities, entity)){
+        entities.add(entity);
+      }
+    }
+  }
+  
   @Override
   public Object jsonLDDesc(){
     
@@ -62,14 +103,5 @@ public class SSEntityCircle extends SSEntity{
     ld.put(SSVarNames.accessRights, accessRightsObj);
     
     return ld;
-  }
-
-  /* json getters  */
-  public String getCircleType(){
-    return SSStrU.toStr(circleType);
-  }
-
-  public List<String> getAccessRights() throws Exception{
-    return SSStrU.toStr(accessRights);
   }
 }

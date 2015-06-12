@@ -26,7 +26,7 @@ import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagAddPar;
-import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsUserRemovePar;
+import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsRemovePar;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSServErrReg;
 
@@ -59,7 +59,7 @@ public class SSTagActivityFct{
     }
   }
 
-  public static void removeTags(final SSTagsUserRemovePar par) throws Exception{
+  public static void removeTags(final SSTagsRemovePar par) throws Exception{
    
     try{
       

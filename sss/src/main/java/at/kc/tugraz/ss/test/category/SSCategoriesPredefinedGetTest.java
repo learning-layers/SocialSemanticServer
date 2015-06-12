@@ -38,7 +38,7 @@ public class SSCategoriesPredefinedGetTest extends SSServOpTestCaseA{
     
     System.out.println (op + " test start");
     
-    final List<String> categories = SSServCaller.categoriesPredefinedGet(SSVoc.systemUserUri);
+//    final List<String> categories = SSServCaller.categoriesPredefinedGet(SSVoc.systemUserUri);
     
     System.out.println (op + " test end");
   }

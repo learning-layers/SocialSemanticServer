@@ -115,8 +115,8 @@ public enum SSServOpE{
   circlePubURIGet,
   circleUserCan,
   circleEntityShare,
-  entityEntityToPrivCircleAdd,
-  entityEntityToPubCircleAdd,
+  circlePrivEntityAdd,
+  circlePubEntityAdd,
   circleEntityPublicSet,
   circleEntitiesRemove,
   
@@ -200,34 +200,24 @@ public enum SSServOpE{
   uECountGet                                          ,
   
   //tag
-  tagsAdd                                            ,
-  tagsRemove                                          ,
-  tagsUserRemove                                      ,
-  tagsUserGet                                         ,
-  tagUserFrequsGet                                    ,
-  tagsGet,
-  tagAdd                                              ,
+  tagsAdd,                    
+  tagsRemove,                 
+  tagsGet,                    
+  tagAdd,                     
   tagFrequsGet,
-  tagUserEntitiesForTagsGet,
   tagEntitiesForTagsGet,
   tagEdit,
-  tagUserEdit,
   
 //  category
   categoriesPredefinedGet,
   categoriesPredefinedAdd,
-  categoriesAdd                                            ,
-  categoriesRemove                                          ,
-  categoriesUserRemove                                      ,
-  categoriesUserGet                                         ,
-  categoryUserFrequsGet                                    ,
+  categoriesAdd,                                         
+  categoriesRemove,                                         
   categoriesGet,
-  categoryAdd                                              ,
+  categoryAdd,                                              
   categoryFrequsGet,
-  categoryUserEntitiesForCategoriesGet,
   categoryEntitiesForCategoriesGet,
   categoryEdit,
-  categoryUserEdit,
   
   //solr
   solrAddDoc                                          ,
@@ -289,17 +279,12 @@ public enum SSServOpE{
   dataImportMediaWikiUser,
   
   //disc
-  discsUserAllGet                                     ,
   discURIsForTargetGet,
-  discUserDiscURIsForTargetGet                        ,
   discEntryURIsGet,
-  discUserWithEntriesGet                              ,
-  discsUserWithEntriesGet                             ,
-  discUserEntryAdd                                    ,
-  discUserRemove                                      ,
   discRemove,
   discEntryAdd,
   discWithEntriesGet,
+  discsWithEntriesGet,
   discsAllGet,
   
   //broadcast

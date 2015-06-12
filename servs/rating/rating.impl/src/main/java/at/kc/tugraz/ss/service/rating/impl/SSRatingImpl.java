@@ -20,6 +20,10 @@
 */
  package at.kc.tugraz.ss.service.rating.impl;
 
+import at.kc.tugraz.ss.circle.api.SSCircleServerI;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivEntityAddPar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePubEntityAddPar;
+import at.kc.tugraz.ss.circle.serv.SSCircleServ;
 import at.kc.tugraz.ss.service.rating.impl.fct.userraltionsgathering.SSRatingUserRelationGathererFct;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSSocketCon;
@@ -49,6 +53,7 @@ import at.kc.tugraz.ss.service.rating.impl.fct.activity.SSRatingActivityFct;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
+import at.tugraz.sss.serv.SSEntityCircle;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -103,7 +108,7 @@ implements
   }
   
   @Override
-  public Boolean copyUserEntity(
+  public Boolean copyEntity(
     final SSUri        user,
     final List<SSUri>  users,
     final SSUri        entity,
@@ -157,7 +162,7 @@ implements
   }
   
   @Override
-  public Boolean setUserEntityPublic(
+  public Boolean setEntityPublic(
     final SSUri          userUri,
     final SSUri          entityUri, 
     final SSEntityE   entityType,
@@ -167,7 +172,7 @@ implements
   }
   
   @Override
-  public void shareUserEntity(
+  public void shareEntityWithUsers(
     final SSUri          userUri, 
     final List<SSUri>    userUrisToShareWith,
     final SSUri          entityUri, 
@@ -177,13 +182,24 @@ implements
   }
   
   @Override
-  public void shareUserEntityWithCircle(
+  public void addEntityToCircle(
     final SSUri        userUri, 
     final SSUri        circleUri, 
+    final List<SSUri>  circleUsers,
     final SSUri        entityUri, 
     final SSEntityE    entityType) throws Exception{
   }
     
+  @Override
+  public void addUsersToCircle(
+    final SSUri        user,
+    final List<SSUri>  users,
+    final SSEntityCircle        circle) throws Exception{
+    
+    
+    
+  }
+  
   @Override
   public SSEntity getUserEntity(final SSEntityDescriberPar par) throws Exception{
     
@@ -242,44 +258,56 @@ implements
       
       if(!existsEntity){
         
-        SSServCaller.entityEntityToPrivCircleAdd(
-          par.user,
-          par.entity,
-          SSEntityE.entity,
-          null,
-          null,
-          null,
-          false);
+        ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+          new SSCirclePrivEntityAddPar(
+            null,
+            null,
+            par.user,
+            par.entity,
+            SSEntityE.entity,
+            null,
+            null,
+            null,
+            false));
         
-        SSServCaller.entityEntityToPubCircleAdd(
-          par.user,
-          par.entity,
-          SSEntityE.entity,
-          null,
-          null,
-          null,
-          false);
+        ((SSCircleServerI) SSCircleServ.inst.serv()).circlePubEntityAdd(
+          new SSCirclePubEntityAddPar(
+            null,
+            null,
+            par.user,
+            par.entity,
+            false,
+            SSEntityE.entity,
+            null,
+            null,
+            null));
         
       }else{
         
-        SSServCaller.entityEntityToPrivCircleAdd(
-          par.user,
-          par.entity,
-          SSEntityE.entity,
-          null,
-          null,
-          null,
-          false);
+        ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+          new SSCirclePrivEntityAddPar(
+            null,
+            null,
+            par.user,
+            par.entity,
+            SSEntityE.entity,
+            null,
+            null,
+            null,
+            false));
       }
       
-      SSServCaller.entityEntityToPrivCircleAdd(
-          par.user, 
-          ratingUri, 
-          SSEntityE.rating, 
-          null, 
-          null, 
-          null, 
-          false);
+      ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+        new SSCirclePrivEntityAddPar(
+          null,
+          null,
+          par.user,
+          ratingUri,
+          SSEntityE.rating,
+          null,
+          null,
+          null,
+          false));
       
       sqlFct.rateEntityByUser(
         ratingUri, 

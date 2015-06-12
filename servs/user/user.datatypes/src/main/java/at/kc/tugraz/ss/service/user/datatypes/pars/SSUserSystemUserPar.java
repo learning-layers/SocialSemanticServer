@@ -20,12 +20,19 @@
 */
 package at.kc.tugraz.ss.service.user.datatypes.pars;
 
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSUri;
 
 public class SSUserSystemUserPar extends SSServPar{
   
-  public SSUserSystemUserPar(SSServPar par) throws Exception{
-    super(par);
+  public SSUserSystemUserPar(){}
+  
+  public SSUserSystemUserPar(
+    final SSServOpE op,
+    final String    key,
+    final SSUri     user){
+    
+    super(op, key, user);
   }
 }

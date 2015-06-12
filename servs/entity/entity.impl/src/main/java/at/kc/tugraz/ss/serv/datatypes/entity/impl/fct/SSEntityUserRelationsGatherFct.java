@@ -20,6 +20,9 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.entity.impl.fct;
 
+import at.kc.tugraz.ss.circle.api.SSCircleServerI;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCirclesGetPar;
+import at.kc.tugraz.ss.circle.serv.SSCircleServ;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityCircle;
@@ -64,14 +67,17 @@ public class SSEntityUserRelationsGatherFct{
     final String userStr = SSStrU.toStr(userUri);
     
     for(SSEntityCircle circle : 
-      SSServCaller.circlesGet( 
-        userUri,  //user
-        userUri,  //forUser
-        null,     //entity
-        SSEntityE.asListWithoutNullAndEmpty(), //entityTypesToIncludeOnly
-        true,    //withSystemCircles
-        false,    //withUserRestriction
-        false)){  //invokeEntityHandlers)
+      ((SSCircleServerI) SSCircleServ.inst.serv()).circlesGet(
+          new SSCirclesGetPar(
+            null,
+            null,
+            userUri,
+            userUri,
+            null,
+            SSEntityE.asListWithoutNullAndEmpty(),
+            false,
+            true,
+            false))){
       
       if(userRelations.containsKey(userStr)){
         userRelations.get(userStr).addAll(SSUri.getFromEntitites(circle.users));

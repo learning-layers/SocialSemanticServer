@@ -3,7 +3,7 @@
 * http://www.learning-layers.eu
 * Development is partly funded by the FP7 Programme of the European Commission under
 * Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+* Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
 * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,28 +22,37 @@ package at.kc.tugraz.ss.category.datatypes.par;
 
 import at.kc.tugraz.ss.category.datatypes.SSCategoryLabel;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSUri;
 import java.util.ArrayList;
 import java.util.List;
 
 public class SSCategoriesPredefinedAddPar extends SSServPar{
   
   public List<SSCategoryLabel>  labels = new ArrayList<>();
+
+  public List<String> getLabels(){
+    return SSStrU.toStr(labels);
+  }
+
+  public void setLabels(final List<String> labels) throws Exception{
+    this.labels = SSCategoryLabel.get(labels);
+  }
   
-  public SSCategoriesPredefinedAddPar(SSServPar par) throws Exception{
+  public SSCategoriesPredefinedAddPar(){}
+  
+  public SSCategoriesPredefinedAddPar(
+    final SSServOpE              op,
+    final String                 key,
+    final SSUri                  user,
+    final List<SSCategoryLabel>  labels,
+    final Boolean                shouldCommit) throws Exception{
     
-    super(par);
+    super(op, key, user);
     
-    try{
-      
-      if(pars != null){
-        labels  =  SSCategoryLabel.get(SSStrU.distinctWithoutEmptyAndNull((List<String>) pars.get(SSVarNames.labels)));
-      }
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
+    SSCategoryLabel.addDistinctWithoutNull(this.labels, labels);
+    
+    this.shouldCommit = shouldCommit;
   }
 }

@@ -20,7 +20,7 @@
 */
 package at.tugraz.sss.serv;
 
-import at.tugraz.sss.serv.SSJSONLDPropI;
+import java.util.List;
 
 public abstract class SSEntityA implements SSJSONLDPropI{
   

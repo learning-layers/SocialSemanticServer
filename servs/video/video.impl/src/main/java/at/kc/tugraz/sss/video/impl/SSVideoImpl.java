@@ -20,6 +20,10 @@
 */
 package at.kc.tugraz.sss.video.impl;
 
+import at.kc.tugraz.ss.circle.api.SSCircleServerI;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesAddPar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivEntityAddPar;
+import at.kc.tugraz.ss.circle.serv.SSCircleServ;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.tugraz.sss.serv.SSSocketCon;
 import at.tugraz.sss.serv.SSEntity;
@@ -48,6 +52,7 @@ import at.kc.tugraz.sss.video.impl.fct.sql.SSVideoSQLFct;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
+import at.tugraz.sss.serv.SSEntityCircle;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
 import java.util.ArrayList;
 import java.util.List;
@@ -86,7 +91,7 @@ implements
   }
 
   @Override
-  public Boolean setUserEntityPublic(
+  public Boolean setEntityPublic(
     final SSUri     userUri, 
     final SSUri     entityUri, 
     final SSEntityE entityType, 
@@ -96,7 +101,7 @@ implements
   }
 
   @Override
-  public void shareUserEntity(
+  public void shareEntityWithUsers(
     final SSUri       user, 
     final List<SSUri> usersToShareWith, 
     final SSUri       entity, 
@@ -122,13 +127,16 @@ implements
                 continue;
               }
               
-              SSServCaller.circleEntitiesAdd(
-                userToShareWith, 
-                circle, 
-                SSUri.asListWithoutNullAndEmpty(annotation.id), 
-                false, 
-                false, 
-                false);
+              ((SSCircleServerI) SSCircleServ.inst.serv()).circleEntitiesAdd(
+                new SSCircleEntitiesAddPar(
+                  null,
+                  null,
+                  userToShareWith,
+                  circle,
+                  SSUri.asListWithoutNullAndEmpty(annotation.id),
+                  false,
+                  false,
+                  false));
             }
           }
         }
@@ -139,7 +147,7 @@ implements
   }
 
   @Override
-  public Boolean copyUserEntity(
+  public Boolean copyEntity(
     final SSUri       user, 
     final List<SSUri> users, 
     final SSUri       entity, 
@@ -150,11 +158,12 @@ implements
   }
 
   @Override
-  public void shareUserEntityWithCircle(
-    final SSUri     user, 
-    final SSUri     circle,
-    final SSUri     entity, 
-    final SSEntityE type) throws Exception{
+  public void addEntityToCircle(
+    final SSUri        user, 
+    final SSUri        circle,
+    final List<SSUri>  circleUsers,
+    final SSUri        entity, 
+    final SSEntityE    type) throws Exception{
 
     switch(type){
       
@@ -169,16 +178,29 @@ implements
             continue;
           }
           
-          SSServCaller.circleEntitiesAdd(
-            user, 
-            circle, 
-            SSUri.asListWithoutNullAndEmpty(annotation.id), 
-            false, 
-            false, 
-            false);
+          ((SSCircleServerI) SSCircleServ.inst.serv()).circleEntitiesAdd(
+            new SSCircleEntitiesAddPar(
+              null,
+              null,
+              user,
+              circle,
+              SSUri.asListWithoutNullAndEmpty(annotation.id),
+              false,
+              false,
+              false));
         }
       }
     }
+  }
+  
+  @Override
+  public void addUsersToCircle(
+    final SSUri        user,
+    final List<SSUri>  users,
+    final SSEntityCircle        circle) throws Exception{
+    
+    
+    
   }
 
   @Override
@@ -290,37 +312,46 @@ implements
       
       dbSQL.startTrans(par.shouldCommit);
       
-      SSServCaller.entityEntityToPrivCircleAdd(
-        par.user,
-        videoUri,
-        SSEntityE.video, 
-        par.label, 
-        par.description, 
-        par.creationTime, 
-        false);
+      ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+        new SSCirclePrivEntityAddPar(
+          null,
+          null,
+          par.user,
+          videoUri,
+          SSEntityE.video,
+          par.label,
+          par.description,
+          par.creationTime,
+          false));
       
       if(par.forEntity != null){
         
-        SSServCaller.entityEntityToPrivCircleAdd(
-          par.user, 
-          par.forEntity, 
-          SSEntityE.entity, 
-          null, 
-          null, 
-          null, 
-          false);
+        ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+          new SSCirclePrivEntityAddPar(
+            null,
+            null,
+            par.user,
+            par.forEntity,
+            SSEntityE.entity,
+            null,
+            null,
+            null,
+            false));
       }
       
       if(par.link != null){
         
-        SSServCaller.entityEntityToPrivCircleAdd(
-          par.user, 
-          par.link, 
-          SSEntityE.entity, 
-          null, 
-          null, 
-          null, 
-          false);
+        ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+          new SSCirclePrivEntityAddPar(
+            null,
+            null,
+            par.user,
+            par.link,
+            SSEntityE.entity,
+            null,
+            null,
+            null,
+            false));
       }
       
       sqlFct.addVideo(
@@ -390,14 +421,17 @@ implements
       
       dbSQL.startTrans(par.shouldCommit);
       
-      SSServCaller.entityEntityToPrivCircleAdd(
-        par.user, 
-        annotationUri, 
-        SSEntityE.videoAnnotation, 
-        par.label, 
-        par.description, 
-        null, 
-        false);
+      ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+        new SSCirclePrivEntityAddPar(
+          null,
+          null,
+          par.user,
+          annotationUri,
+          SSEntityE.videoAnnotation,
+          par.label,
+          par.description,
+          null,
+          false));
        
       sqlFct.createAnnotation(
         par.video, 

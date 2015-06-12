@@ -22,17 +22,24 @@
 
 import at.tugraz.sss.serv.SSUri;
 import at.kc.tugraz.ss.service.disc.datatypes.SSDisc;
-import at.tugraz.sss.serv.SSServPar;
-import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscUserEntryAddRet;
+import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscEntryAddPar;
+import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscEntryURIsGetPar;
+import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscRemovePar;
+import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscURIsForTargetGetPar;
+import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscWithEntriesGetPar;
+import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscsAllGetPar;
+import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscsWithEntriesGetPar;
+import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscEntryAddRet;
 import java.util.List;
 
 public interface SSDiscServerI {
   
-  public List<SSDisc>             discsUserAllGet               (final SSServPar parA) throws Exception;
-  public List<SSUri>              discUserDiscURIsForTargetGet  (final SSServPar parA) throws Exception;
-  public SSDisc                   discUserWithEntriesGet        (final SSServPar parA) throws Exception;
-  public List<SSDisc>             discsUserWithEntriesGet       (final SSServPar parA) throws Exception;
-  public SSDiscUserEntryAddRet    discUserEntryAdd              (final SSServPar parA) throws Exception;
-  public SSUri                    discUserRemove                (final SSServPar parA) throws Exception;
-  public List<SSUri>              discEntryURIsGet              (final SSServPar parA) throws Exception;
+  
+  public List<SSDisc>         discsWithEntriesGet       (final SSDiscsWithEntriesGetPar  par) throws Exception;
+  public List<SSUri>          discURIsForTargetGet      (final SSDiscURIsForTargetGetPar par) throws Exception;
+  public SSUri                discRemove                (final SSDiscRemovePar           par) throws Exception;
+  public SSDisc               discWithEntriesGet        (final SSDiscWithEntriesGetPar   par) throws Exception;
+  public SSDiscEntryAddRet    discEntryAdd              (final SSDiscEntryAddPar         par) throws Exception;
+  public List<SSUri>          discEntryURIsGet          (final SSDiscEntryURIsGetPar     par) throws Exception;
+  public List<SSDisc>         discsAllGet               (final SSDiscsAllGetPar          par) throws Exception;
 }

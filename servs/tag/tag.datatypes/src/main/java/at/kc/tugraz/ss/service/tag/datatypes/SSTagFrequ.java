@@ -23,8 +23,11 @@ package at.kc.tugraz.ss.service.tag.datatypes;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSEntityA;
+import at.tugraz.sss.serv.SSObjU;
 import at.tugraz.sss.serv.SSSpaceE;
+import at.tugraz.sss.serv.SSUri;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class SSTagFrequ extends SSEntityA{
@@ -33,6 +36,14 @@ public class SSTagFrequ extends SSEntityA{
   public SSSpaceE      space  = null;
 	public Integer       frequ  = -1;
 
+  public String getLabel() {
+		return SSStrU.toStr(label);
+	}
+  
+  public String getSpace() {
+		return SSStrU.toStr(space);
+	}
+  
   public static SSTagFrequ get(
     final SSTagLabel    label,
     final SSSpaceE      space,
@@ -53,6 +64,39 @@ public class SSTagFrequ extends SSEntityA{
 		this.frequ      = frequ;
 	}
   
+  public static void addDistinctWithoutNull(
+    final List<SSTagFrequ>     entities,
+    final SSTagFrequ           entity){
+    
+    if(
+      SSObjU.isNull  (entities, entity) ||
+      SSStrU.contains(entities, entity)){
+      return;
+    }
+    
+    entities.add(entity);
+  }
+  
+  public static void addDistinctWithoutNull(
+    final List<SSTagFrequ>  entities,
+    final List<SSTagFrequ>  toAddEntities){
+    
+    if(SSObjU.isNull(entities, toAddEntities)){
+      return;
+    }
+    
+    for(SSTagFrequ entity : toAddEntities){
+      
+      if(entity == null){
+        continue;
+      }
+      
+      if(!SSStrU.contains(entities, entity)){
+        entities.add(entity);
+      }
+    }
+  }
+    
   @Override
   public Object jsonLDDesc() {
   
@@ -64,13 +108,4 @@ public class SSTagFrequ extends SSEntityA{
     
     return ld;
   }  
-  
-  /* json getters */
-  public String getLabel() {
-		return SSStrU.toStr(label);
-	}
-  
-  public String getSpace() {
-		return SSStrU.toStr(space);
-	}
 }

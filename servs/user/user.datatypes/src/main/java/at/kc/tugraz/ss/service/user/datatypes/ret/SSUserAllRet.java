@@ -35,18 +35,10 @@ public class SSUserAllRet extends SSServRetI{
   
   public List<SSUser> users = new ArrayList<>();
   
-  public static SSUserAllRet get(
-    final List<SSUser> users,
-    final SSServOpE      op){
+  public SSUserAllRet(
+    final List<SSUser> users){
     
-    return new SSUserAllRet(users, op);
-  }
-  
-  private SSUserAllRet(
-    final List<SSUser> users,
-    final SSServOpE      op){
-    
-    super(op);
+    super(SSServOpE.userAll);
     
     if(users != null){
       this.users.addAll(users);

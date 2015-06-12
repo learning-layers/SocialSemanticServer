@@ -57,15 +57,30 @@ public class SSUri extends SSEntityA{
     }
   }
   
+  public static List<SSUri> get(final List<String> strings) throws Exception{
+
+    final List<SSUri> result = new ArrayList<>();
+    
+    if(strings == null){
+      return result;
+    }
+    
+    for(String string : strings){
+      result.add(get(string));
+    }
+    
+    return result;
+  }
+  
   public static List<SSUri> get(
     final List<String> strings, 
     final String       uriPrefix) throws Exception{
     
-    if(strings == null){
-      throw new Exception("pars null");
-    }
-    
     final List<SSUri> uris = new ArrayList<>();
+    
+    if(strings == null){
+      return uris;
+    }
     
     for(String string : strings){
       uris.add(get(string, uriPrefix));
@@ -79,6 +94,10 @@ public class SSUri extends SSEntityA{
     final String uriPrefix) throws Exception{
     
     String decodedURI;
+    
+    if(string == null){
+      return null;
+    }
     
     try{
       decodedURI = SSEncodingU.decode(string, SSEncodingU.utf8);
@@ -94,6 +113,11 @@ public class SSUri extends SSEntityA{
   }
   
   public static SSUri get(final String string) throws Exception{
+    
+    if(string == null){
+      return null;
+    }
+    
     return new SSUri(string);
   }
   
@@ -102,34 +126,19 @@ public class SSUri extends SSEntityA{
     final String append) throws Exception{
     
     if(SSObjU.isNull(uri, append)){
-      throw new Exception("invalid uri " + uri + " " + append);
+      return null;
     }
     
     return new SSUri(uri.toString() + append);
   }
   
-  public static List<SSUri> get(final List<String> strings) throws Exception{
-
-    if(strings == null){
-      throw new Exception("pars null");
-    }
-    
-    final List<SSUri> result = new ArrayList<>();
-    
-    for(String string : strings){
-      result.add(get(string));
-    }
-    
-    return result;
-  }
-  
   public static List<SSUri> getFromEntitites(final List<? extends SSEntity> entities) throws Exception{
 
-    if(entities == null){
-      throw new Exception("pars null");
-    }
-    
     final List<SSUri> result = new ArrayList<>();
+    
+    if(entities == null){
+      return result;
+    }
     
     for(SSEntity entity : entities){
       result.add(entity.id);
@@ -139,60 +148,39 @@ public class SSUri extends SSEntityA{
   }
   
   public static void addDistinctWithoutNull(
-    final List<SSUri>     entities,  
-    final SSUri           entity) throws Exception{
+    final List<SSUri>     entities,
+    final SSUri           entity){
     
-    try{
-      
-      if(entities == null){
-        throw new Exception("pars null");
-      }
-      
-      if(entity == null){
-        return;
-      }
-      
-      if(SSStrU.contains(entities, entity)){
-        return;
-      }
-      
-      entities.add(entity);
-      
-    }catch(Exception error){
-      throw error;
+    if(
+      SSObjU.isNull  (entities, entity) ||
+      SSStrU.contains(entities, entity)){
+      return;
     }
+    
+    entities.add(entity);
   }
   
   public static void addDistinctWithoutNull(
     final List<SSUri>  entities,
-    final List<SSUri>  toAddEntities) throws Exception{
+    final List<SSUri>  toAddEntities){
     
-    try{
+    if(SSObjU.isNull(entities, toAddEntities)){
+      return;
+    }
+    
+    for(SSUri entity : toAddEntities){
       
-      if(entities == null){
-        throw new Exception("pars null");
+      if(entity == null){
+        continue;
       }
       
-      if(toAddEntities == null){
-        return;
+      if(!SSStrU.contains(entities, entity)){
+        entities.add(entity);
       }
-      
-      for(SSUri entity : toAddEntities){
-        
-        if(entity == null){
-          continue;
-        }
-        
-        if(!SSStrU.contains(entities, entity)){
-          entities.add(entity);
-        }
-      }
-      
-    }catch(Exception error){
-      throw error;
     }
   }
-
+  
+  //TODO rename to:  asListWithoutNull
   public static List<SSUri> asListWithoutNullAndEmpty(final SSUri... entities){
    
     final List<SSUri> result = new ArrayList<>();
@@ -203,7 +191,7 @@ public class SSUri extends SSEntityA{
     
     for(SSUri entity : entities){
       
-      if(SSStrU.isEmpty(entity)){
+      if(entity == null){
         continue;
       }
       
@@ -213,6 +201,7 @@ public class SSUri extends SSEntityA{
     return result;
   }
   
+  //TODO rename to:  asListWithoutNull
   public static List<SSUri> asListWithoutNullAndEmpty(final List<SSUri> entities){
    
     final List<SSUri> result = new ArrayList<>();
@@ -223,7 +212,7 @@ public class SSUri extends SSEntityA{
     
     for(SSUri entity : entities){
       
-      if(SSStrU.isEmpty(entity)){
+      if(entity == null){
         continue;
       }
       

@@ -22,12 +22,10 @@ package at.kc.tugraz.ss.service.tag.datatypes.pars;
 
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSSpaceE;
 import at.tugraz.sss.serv.SSServPar;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
-import at.tugraz.sss.serv.SSServErrReg;
 
 public class SSTagAddPar extends SSServPar{
   
@@ -79,29 +77,5 @@ public class SSTagAddPar extends SSServPar{
     this.space        = space;
     this.creationTime = creationTime;
     this.shouldCommit = shouldCommit;
-  }
-  
-  public static SSTagAddPar get(final SSServPar par) throws Exception{
-    
-    try{
-      
-      if(par.clientCon != null){
-        return (SSTagAddPar) par.getFromJSON(SSTagAddPar.class);
-      }
-       
-      return new SSTagAddPar(
-        par.op,
-        par.key,
-        par.user,
-        (SSUri)                 par.pars.get(SSVarNames.entity), 
-        (SSTagLabel)            par.pars.get(SSVarNames.label),
-        (SSSpaceE)              par.pars.get(SSVarNames.space),
-        (Long)                  par.pars.get(SSVarNames.creationTime),
-        (Boolean)               par.pars.get(SSVarNames.shouldCommit));
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
   }
 }

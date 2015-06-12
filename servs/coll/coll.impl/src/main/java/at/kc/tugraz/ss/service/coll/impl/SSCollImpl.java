@@ -20,6 +20,12 @@
 */
 package at.kc.tugraz.ss.service.coll.impl;
 
+import at.kc.tugraz.ss.circle.api.SSCircleServerI;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesAddPar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivEntityAddPar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleUsersAddPar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCirclesGetPar;
+import at.kc.tugraz.ss.circle.serv.SSCircleServ;
 import at.tugraz.sss.serv.SSUri;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserRootAddPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserWithEntriesPar;
@@ -38,7 +44,6 @@ import at.kc.tugraz.ss.service.coll.datatypes.*;
 import at.tugraz.sss.serv.SSServPar;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.tugraz.sss.serv.SSEntityCircle;
-
 import at.tugraz.sss.serv.SSConfA;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserParentGetPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserRootGetPar;
@@ -71,12 +76,21 @@ import at.kc.tugraz.ss.service.coll.impl.fct.misc.SSCollMiscFct;
 import static at.kc.tugraz.ss.service.coll.impl.fct.misc.SSCollMiscFct.getCollSubCollAndEntryURIs;
 import at.kc.tugraz.ss.service.coll.impl.fct.op.SSCollEntryAddFct;
 import at.kc.tugraz.ss.service.coll.impl.fct.op.SSCollEntryDeleteFct;
+import at.kc.tugraz.ss.service.tag.api.SSTagServerI;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagFrequ;
+import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagFrequsGetPar;
+import at.kc.tugraz.ss.service.tag.service.SSTagServ;
 import java.util.*;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSWarnE;
 
-public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCollServerI, SSEntityHandlerImplI, SSUserRelationGathererI{
+public class SSCollImpl 
+extends SSServImplWithDBA 
+implements 
+  SSCollClientI, 
+  SSCollServerI, 
+  SSEntityHandlerImplI, 
+  SSUserRelationGathererI{
 
   private final SSCollSQLFct sqlFct;
 
@@ -106,15 +120,18 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
       for(SSColl coll : allColls){
         
         collUserCircles =
-          SSServCaller.circlesGet(
-            userUri, 
-            userUri, 
-            coll.id, 
-            SSEntityE.asListWithoutNullAndEmpty(),
-            true, 
-            false, 
-            false);
-        
+          ((SSCircleServerI) SSCircleServ.inst.serv()).circlesGet(
+            new SSCirclesGetPar(
+              null,
+              null,
+              userUri,
+              userUri,
+              coll.id,
+              SSEntityE.asListWithoutNullAndEmpty(),
+              false,
+              true,
+              false));
+
         for(SSEntityCircle circle : collUserCircles){
           
           if(userRelations.containsKey(user)){
@@ -129,14 +146,17 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
           collEntry = (SSCollEntry) entry;
           
           collEntryUserCircles =
-            SSServCaller.circlesGet(
-              userUri, 
-              userUri, 
-              collEntry.id,
-              SSEntityE.asListWithoutNullAndEmpty(),
-              true, 
-              false, 
-              false);
+            ((SSCircleServerI) SSCircleServ.inst.serv()).circlesGet(
+              new SSCirclesGetPar(
+                null,
+                null,
+                userUri,
+                userUri,
+                collEntry.id,
+                SSEntityE.asListWithoutNullAndEmpty(),
+                false,
+                true,
+                false));
           
           for(SSEntityCircle circle : collEntryUserCircles){
             
@@ -156,7 +176,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
   }
   
   @Override
-  public Boolean copyUserEntity(
+  public Boolean copyEntity(
     final SSUri        user,
     final List<SSUri>  users,
     final SSUri        entity,
@@ -208,7 +228,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
   }
       
   @Override
-  public Boolean setUserEntityPublic(
+  public Boolean setEntityPublic(
     final SSUri          user,
     final SSUri          entity, 
     final SSEntityE      type,
@@ -222,13 +242,16 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
           throw new Exception("cannot set special collection public");
         }
         
-        SSServCaller.circleEntitiesAdd(
-          user,
-          circle,
-          SSCollMiscFct.getCollSubCollAndEntryURIs(sqlFct, sqlFct.getCollWithEntries(entity, new ArrayList<>())),
-          false,
-          false,
-          false);
+        ((SSCircleServerI) SSCircleServ.inst.serv()).circleEntitiesAdd(
+          new SSCircleEntitiesAddPar(
+            null,
+            null,
+            user,
+            circle,
+            SSCollMiscFct.getCollSubCollAndEntryURIs(sqlFct, sqlFct.getCollWithEntries(entity, new ArrayList<>())),
+            false,
+            false,
+            false));
         
         return true;
       }
@@ -238,7 +261,7 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
   }
 
   @Override
-  public void shareUserEntity(
+  public void shareEntityWithUsers(
     final SSUri          user, 
     final List<SSUri>    userUrisToShareWith,
     final SSUri          entity, 
@@ -282,20 +305,27 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
               false,
               true);
             
-            SSServCaller.circleEntitiesAdd(
-              user,
-              circle,
-              SSCollMiscFct.getCollSubCollAndEntryURIs(sqlFct, sqlFct.getCollWithEntries(entity, new ArrayList<>())),
-              false,
-              false,
-              false);
+            ((SSCircleServerI) SSCircleServ.inst.serv()).circleEntitiesAdd(
+              new SSCircleEntitiesAddPar(
+                null,
+                null,
+                user,
+                circle,
+                SSCollMiscFct.getCollSubCollAndEntryURIs(sqlFct, sqlFct.getCollWithEntries(entity, new ArrayList<>())),
+                false,
+                false,
+                false));
             
-            SSServCaller.circleUsersAdd(
-              user,
-              circle,
-              sqlFct.getCollUserURIs(entity),
-              false,
-              false);
+            ((SSCircleServerI) SSCircleServ.inst.serv()).circleUsersAdd(
+              new SSCircleUsersAddPar(
+                null,
+                null, 
+                user, 
+                circle, 
+                sqlFct.getCollUserURIs(entity), 
+                false,
+                false,
+                false));
           }
           
           break;
@@ -329,9 +359,10 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
   }
   
   @Override
-  public void shareUserEntityWithCircle(
+  public void addEntityToCircle(
     final SSUri        user,
     final SSUri        circle,
+    final List<SSUri>  circleUsers,
     final SSUri        entity,
     final SSEntityE    type) throws Exception{
 
@@ -341,19 +372,32 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
         
         try{
           
-          SSServCaller.circleEntitiesAdd(
-            user,
-            circle,
-            getCollSubCollAndEntryURIs(sqlFct, sqlFct.getCollWithEntries(entity, new ArrayList<>())),
-            false, 
-            false, 
-            false);
+          ((SSCircleServerI) SSCircleServ.inst.serv()).circleEntitiesAdd(
+            new SSCircleEntitiesAddPar(
+              null,
+              null,
+              user,
+              circle,
+              getCollSubCollAndEntryURIs(sqlFct, sqlFct.getCollWithEntries(entity, new ArrayList<>())),
+              false,
+              false,
+              false));
           
         }catch(Exception error){
           SSServErrReg.regErrThrow(error);
         }
       }
     }
+  }
+  
+  @Override
+  public void addUsersToCircle(
+    final SSUri          user, 
+    final List<SSUri>    users,
+    final SSEntityCircle circle) throws Exception{
+    
+    
+    
   }
 
   @Override
@@ -890,8 +934,19 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
       
       coll = sqlFct.getCollWithEntries(par.coll, new ArrayList<>());
 
-      for(SSTagFrequ tagFrequ : SSServCaller.tagUserFrequsGet(par.user, null, SSUri.asListWithoutNullAndEmpty(par.coll), new ArrayList<>(), null, null, false)){
-
+      for(SSTagFrequ tagFrequ : 
+        ((SSTagServerI) SSTagServ.inst.serv()).tagFrequsGet(
+          new SSTagFrequsGetPar(
+            null, 
+            null, 
+            par.user, 
+            null, 
+            SSUri.asListWithoutNullAndEmpty(par.coll), 
+            SSTagLabel.asListWithoutNullAndEmpty(), 
+            null, 
+            null, 
+            false))){
+        
         tagLabel = tagFrequ.label.toString();
 
         if(tagLabelFrequs.containsKey(tagLabel)){
@@ -920,7 +975,18 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
 
         }else{
 
-          for(SSTagFrequ tagFrequ : SSServCaller.tagUserFrequsGet(par.user, null, SSUri.asListWithoutNullAndEmpty(collEntry.id), new ArrayList<>(), null, null, false)){
+          for(SSTagFrequ tagFrequ : 
+            ((SSTagServerI) SSTagServ.inst.serv()).tagFrequsGet(
+              new SSTagFrequsGetPar(
+                null,
+                null,
+                par.user,
+                null,
+                SSUri.asListWithoutNullAndEmpty(collEntry.id),
+                SSTagLabel.asListWithoutNullAndEmpty(),
+                null,
+                null,
+                false))){
 
             tagLabel = tagFrequ.label.toString();
 
@@ -998,23 +1064,30 @@ public class SSCollImpl extends SSServImplWithDBA implements SSCollClientI, SSCo
 
       final SSUri rootCollUri = SSServCaller.vocURICreate();
 
-      SSServCaller.entityEntityToPrivCircleAdd(
-        par.user,
-        rootCollUri, 
-        SSEntityE.coll,
-        SSLabel.get(SSStrU.valueRoot), 
-        null,
-        null,
-        false);
+      ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+        new SSCirclePrivEntityAddPar(
+          null,
+          null,
+          par.user,
+          rootCollUri,
+          SSEntityE.coll,
+          SSLabel.get(SSStrU.valueRoot),
+          null,
+          null,
+          false));
       
       sqlFct.addColl (rootCollUri);
 
-      SSServCaller.circleUsersAdd(
-        par.user, 
-        SSServCaller.circlePubURIGet(false), 
-        par.user, 
-        false, 
-        false);
+      ((SSCircleServerI) SSCircleServ.inst.serv()).circleUsersAdd(
+        new SSCircleUsersAddPar(
+          null,
+          null,
+          par.user, 
+          SSServCaller.circlePubURIGet(false),
+          SSUri.asListWithoutNullAndEmpty(par.user),
+          false,
+          false,
+          false));
       
       sqlFct.addCollRoot(
         rootCollUri, 

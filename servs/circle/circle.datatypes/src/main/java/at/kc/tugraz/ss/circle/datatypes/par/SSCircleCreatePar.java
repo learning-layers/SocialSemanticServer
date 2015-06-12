@@ -44,16 +44,16 @@ public class SSCircleCreatePar extends SSServPar{
     this.label = SSLabel.get(label);
   }
 
-  public void setEntities(final List<String> entities){
-    try{ this.entities = SSUri.get(entities); }catch(Exception error){}
+  public void setEntities(final List<String> entities) throws Exception{
+    this.entities = SSUri.get(entities);
   }
 
-  public void setUsers(final List<String> users){
-    try{ this.users = SSUri.get(users); }catch(Exception error){}
+  public void setUsers(final List<String> users) throws Exception{
+   this.users = SSUri.get(users);
   }
 
-  public void setDescription(final String description){
-    try{ this.description = SSTextComment.get(description); }catch(Exception error){}
+  public void setDescription(final String description) throws Exception{
+    this.description = SSTextComment.get(description);
   }
   
   public String getLabel() throws Exception{
@@ -91,45 +91,13 @@ public class SSCircleCreatePar extends SSServPar{
     
     this.label     = label;
     
-    if(entities != null){
-      this.entities.addAll(entities);
-    }
-    
-    if(users != null){
-      this.users.addAll(users);
-    }
+    SSUri.addDistinctWithoutNull(this.entities, entities);
+    SSUri.addDistinctWithoutNull(this.users,    users);
     
     this.description              = description;
     this.isSystemCircle           = isSystemCircle;
     this.withUserRestriction      = withUserRestriction;
     this.invokeEntityHandlers     = invokeEntityHandlers;
     this.shouldCommit             = shouldCommit;
-  }
-  
-  public static SSCircleCreatePar get(final SSServPar par) throws Exception{
-    
-    try{
-      
-      if(par.clientCon != null){
-        return (SSCircleCreatePar) par.getFromJSON(SSCircleCreatePar.class);
-      }
-      
-      return new SSCircleCreatePar(
-        par.op,
-        par.key,
-        par.user,
-        (SSLabel)         par.pars.get(SSVarNames.label),
-        (List<SSUri>)     par.pars.get(SSVarNames.entities),
-        (List<SSUri>)     par.pars.get(SSVarNames.users),
-        (SSTextComment)   par.pars.get(SSVarNames.description),
-        (Boolean)         par.pars.get(SSVarNames.isSystemCircle),
-        (Boolean)         par.pars.get(SSVarNames.withUserRestriction),
-        (Boolean)         par.pars.get(SSVarNames.invokeEntityHandlers),
-        (Boolean)         par.pars.get(SSVarNames.shouldCommit));
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
   }
 }

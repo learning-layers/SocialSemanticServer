@@ -20,6 +20,10 @@
 */
 package at.kc.tugraz.sss.appstacklayout.impl;
 
+import at.kc.tugraz.ss.circle.api.SSCircleServerI;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivEntityAddPar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePubEntityAddPar;
+import at.kc.tugraz.ss.circle.serv.SSCircleServ;
 import at.tugraz.sss.serv.SSSocketCon;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSTextComment;
@@ -99,34 +103,43 @@ public class SSAppStackLayoutImpl extends SSServImplWithDBA implements SSAppStac
       
       dbSQL.startTrans(par.shouldCommit);
       
-      SSServCaller.entityEntityToPrivCircleAdd(
-        par.user, 
-        appStackLayoutUri, 
-        SSEntityE.appStackLayout, 
-        par.label, 
-        par.description, 
-        null, 
-        false);
+      ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+        new SSCirclePrivEntityAddPar(
+          null,
+          null,
+          par.user,
+          appStackLayoutUri,
+          SSEntityE.appStackLayout,
+          par.label,
+          par.description,
+          null,
+          false));
       
-      SSServCaller.entityEntityToPubCircleAdd(
-        par.user, 
-        appStackLayoutUri, 
-        SSEntityE.appStackLayout, 
-        par.label, 
-        par.description, 
-        null, 
-        false);
+      ((SSCircleServerI)SSCircleServ.inst.serv()).circlePubEntityAdd(
+        new SSCirclePubEntityAddPar(
+          null, 
+          null,
+          par.user, 
+          appStackLayoutUri, 
+          false, 
+          SSEntityE.appStackLayout, 
+          par.label, 
+          par.description, 
+          null));
       
       if(par.app != null){
         
-        SSServCaller.entityEntityToPubCircleAdd(
-          par.user,
-          par.app,
-          SSEntityE.entity,
-          null,
-          null,
-          null,
-          false);
+        ((SSCircleServerI)SSCircleServ.inst.serv()).circlePubEntityAdd(
+          new SSCirclePubEntityAddPar(
+            null,
+            null,
+            par.user,
+            par.app,
+            false,
+            SSEntityE.entity,
+            null,
+            null,
+            null));
       }
       
       sqlFct.createAppStackLayout(
@@ -179,14 +192,17 @@ public class SSAppStackLayoutImpl extends SSServImplWithDBA implements SSAppStac
       
       if(par.app != null){
         
-        SSServCaller.entityEntityToPubCircleAdd(
-          par.user,
-          par.app,
-          SSEntityE.entity,
-          null,
-          null,
-          null,
-          false);
+        ((SSCircleServerI)SSCircleServ.inst.serv()).circlePubEntityAdd(
+          new SSCirclePubEntityAddPar(
+            null,
+            null,
+            par.user,
+            par.app,
+            false,
+            SSEntityE.entity,
+            null,
+            null,
+            null));
         
         sqlFct.updateAppStackLayout(
           par.stack,

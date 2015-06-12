@@ -3,7 +3,7 @@
 * http://www.learning-layers.eu
 * Development is partly funded by the FP7 Programme of the European Commission under
 * Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+* Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
 * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,15 +21,19 @@
  package at.kc.tugraz.ss.service.user.api;
 
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServPar;
 import at.kc.tugraz.ss.service.user.datatypes.SSUser;
+import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserAddPar;
+import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserAllPar;
+import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserExistsPar;
+import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserURIGetPar;
+import at.kc.tugraz.ss.service.user.datatypes.pars.SSUsersGetPar;
 import java.util.List;
 
 public interface SSUserServerI {
 
-  public Boolean        userExists           (final SSServPar parA)     throws Exception;
-  public SSUri          userURIGet           (final SSServPar parA)     throws Exception;
-  public List<SSUser>   userAll              (final SSServPar parA)     throws Exception;
-  public List<SSUser>   usersGet             (final SSServPar parA)     throws Exception;
-  public SSUri          userAdd              (final SSServPar parA)     throws Exception;
+  public Boolean        userExists           (final SSUserExistsPar par)     throws Exception;
+  public SSUri          userURIGet           (final SSUserURIGetPar par)     throws Exception;
+  public List<SSUser>   userAll              (final SSUserAllPar    par)     throws Exception;
+  public List<SSUser>   usersGet             (final SSUsersGetPar   par)     throws Exception;
+  public SSUri          userAdd              (final SSUserAddPar    par)     throws Exception;
 }

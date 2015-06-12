@@ -20,8 +20,6 @@
 */
 package at.tugraz.sss.serv;
 
-import at.tugraz.sss.serv.SSEntity;
-
 public interface SSEntityDescriberI{
   public SSEntity getUserEntity(final SSEntityDescriberPar par) throws Exception;
 }

@@ -27,18 +27,20 @@ public class SSCircleGetRet extends SSServRetI{
 
   public SSEntityCircle circle = null;
 
+  public SSEntityCircle getCircle() {
+    return circle;
+  }
+  
   public static SSCircleGetRet get(
-    final SSEntityCircle circle, 
-    final SSServOpE        op){
+    final SSEntityCircle circle){
     
-    return new SSCircleGetRet(circle, op);
+    return new SSCircleGetRet(circle);
   }
   
   private SSCircleGetRet(
-    final SSEntityCircle circle, 
-    final SSServOpE        op){
+    final SSEntityCircle circle){
 
-    super(op);
+    super(SSServOpE.circleGet);
     
     this.circle = circle;
   }
@@ -51,9 +53,5 @@ public class SSCircleGetRet extends SSServRetI{
     ld.put(SSVarNames.circle, SSVarNames.sss + SSStrU.colon + SSEntityCircle.class.getName());
     
     return ld;
-  }
-  
-  public SSEntityCircle getCircle() {
-    return circle;
   }
 }

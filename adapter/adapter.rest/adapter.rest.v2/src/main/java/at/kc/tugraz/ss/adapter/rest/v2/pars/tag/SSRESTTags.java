@@ -27,17 +27,17 @@ import at.tugraz.sss.serv.SSUri;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagAddPar;
-import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagUserEditPar;
-import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagUserEntitiesForTagsGetPar;
-import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagUserFrequsGetPar;
-import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsUserGetPar;
-import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsUserRemovePar;
+import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagEditPar;
+import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagEntitiesForTagsGetPar;
+import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagFrequsGetPar;
+import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsGetPar;
+import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsRemovePar;
 import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagAddRet;
-import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagUserEditRet;
-import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagUserEntitiesForTagsGetRet;
-import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagUserFrequsGetRet;
-import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagsUserGetRet;
-import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagsUserRemoveRet;
+import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagEditRet;
+import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagEntitiesForTagsGetRet;
+import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagFrequsGetRet;
+import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagsGetRet;
+import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagsRemoveRet;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import javax.ws.rs.Consumes;
@@ -63,16 +63,16 @@ public class SSRESTTags{
   @Path("")
   @ApiOperation(
     value = "retrieve tag assignments",
-    response = SSTagsUserGetRet.class)
+    response = SSTagsGetRet.class)
   public Response tagsGet(
     @Context HttpHeaders headers){
     
-    final SSTagsUserGetPar par;
+    final SSTagsGetPar par;
     
     try{
       
       par =
-        new SSTagsUserGetPar(
+        new SSTagsGetPar(
           SSServOpE.tagsGet,
           null,
           null,
@@ -95,18 +95,18 @@ public class SSRESTTags{
   @Path("")
   @ApiOperation(
     value = "retrieve tag assignments",
-    response = SSTagsUserGetRet.class)
+    response = SSTagsGetRet.class)
   public Response tagsGetPOST(
     @Context 
       final HttpHeaders headers,
     
     final SSTagsGetRESTAPIV2Par input){
     
-    final SSTagsUserGetPar par;
+    final SSTagsGetPar par;
     
     try{
       par =
-        new SSTagsUserGetPar(
+        new SSTagsGetPar(
           SSServOpE.tagsGet,
           null,
           null,
@@ -129,16 +129,16 @@ public class SSRESTTags{
   @Path    ("/frequs")
   @ApiOperation(
     value = "retrieve tag frequencies",
-    response = SSTagUserFrequsGetRet.class)
+    response = SSTagFrequsGetRet.class)
   public Response tagFrequsGet(
     @Context
       HttpHeaders headers){
     
-    final SSTagUserFrequsGetPar par;
+    final SSTagFrequsGetPar par;
     
     try{
       par =
-        new SSTagUserFrequsGetPar(
+        new SSTagFrequsGetPar(
           SSServOpE.tagFrequsGet,
           null,
           null,
@@ -162,18 +162,18 @@ public class SSRESTTags{
   @Path    ("/frequs")
   @ApiOperation(
     value = "retrieve tag frequencies",
-    response = SSTagUserFrequsGetRet.class)
+    response = SSTagFrequsGetRet.class)
   public Response tagFrequsGetPOST(
     @Context 
       final HttpHeaders headers,
     
     final SSTagFrequsGetRESTAPIV2Par input){
     
-    final SSTagUserFrequsGetPar par;
+    final SSTagFrequsGetPar par;
     
     try{
       par =
-        new SSTagUserFrequsGetPar(
+        new SSTagFrequsGetPar(
           SSServOpE.tagFrequsGet,
           null,
           null,
@@ -197,18 +197,18 @@ public class SSRESTTags{
   @Path    ("/entities/tags")
   @ApiOperation(
     value = "retrieve entities for tags (currently startTime is not used to retrieve entities)",
-    response = SSTagUserEntitiesForTagsGetRet.class)
+    response = SSTagEntitiesForTagsGetRet.class)
   public Response tagEntitiesGetPOST(
     @Context
     final HttpHeaders headers,
     
     final SSTagEntitiesForTagsGetRESTAPIV2Par input){
     
-    final SSTagUserEntitiesForTagsGetPar par;
+    final SSTagEntitiesForTagsGetPar par;
     
     try{
       par =
-        new SSTagUserEntitiesForTagsGetPar(
+        new SSTagEntitiesForTagsGetPar(
           SSServOpE.tagEntitiesForTagsGet,
           null,
           null,
@@ -230,7 +230,7 @@ public class SSRESTTags{
   @Path    ("/entities/{entity}")
   @ApiOperation(
     value = "remove tag, user, entity, space combinations",
-    response = SSTagsUserRemoveRet.class)
+    response = SSTagsRemoveRet.class)
   public Response tagsRemove(
     @Context 
       final HttpHeaders headers,
@@ -240,17 +240,19 @@ public class SSRESTTags{
     
     final SSTagsRemoveRESTAPIV2Par     input){
     
-    final SSTagsUserRemovePar par;
+    final SSTagsRemovePar par;
     
     try{
       par =
-        new SSTagsUserRemovePar(
+        new SSTagsRemovePar(
           SSServOpE.tagsRemove,
+          null,
           null,
           null,
           SSUri.get(entity, SSVocConf.sssUri), //entity
           input.label, //label
           input.space, //space
+          true,
           true); 
       
     }catch(Exception error){
@@ -306,7 +308,7 @@ public class SSRESTTags{
   @Path    ("{tag}/entities/{entity}")
   @ApiOperation(
     value = "changes the label of the tag assigned to entities by given user",
-    response = SSTagUserEditRet.class)
+    response = SSTagEditRet.class)
   public Response tagEdit(
     @Context 
       final HttpHeaders headers,
@@ -319,11 +321,11 @@ public class SSRESTTags{
     
     final SSTagEditRESTAPIV2Par     input) throws Exception{
     
-    final SSTagUserEditPar par;
+    final SSTagEditPar par;
     
     try{
       par =
-        new SSTagUserEditPar(
+        new SSTagEditPar(
           SSServOpE.tagEdit,
           null,
           null,

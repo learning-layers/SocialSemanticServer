@@ -20,6 +20,9 @@
 */
  package at.kc.tugraz.ss.service.userevent.impl;
 
+import at.kc.tugraz.ss.circle.api.SSCircleServerI;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivEntityAddPar;
+import at.kc.tugraz.ss.circle.serv.SSCircleServ;
 import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSSocketCon;
@@ -53,6 +56,7 @@ import at.kc.tugraz.ss.service.userevent.impl.fct.sql.SSUESQLFct;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
+import at.tugraz.sss.serv.SSEntityCircle;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
 import java.util.*;
 import at.tugraz.sss.serv.SSErrE;
@@ -122,7 +126,7 @@ implements
   }
   
   @Override
-  public Boolean copyUserEntity(
+  public Boolean copyEntity(
     final SSUri        user,
     final List<SSUri>  users,
     final SSUri        entity,
@@ -151,7 +155,7 @@ implements
   }
   
   @Override
-  public Boolean setUserEntityPublic(
+  public Boolean setEntityPublic(
     final SSUri          userUri,
     final SSUri          entityUri, 
     final SSEntityE   entityType,
@@ -161,7 +165,7 @@ implements
   }
   
   @Override
-  public void shareUserEntity(
+  public void shareEntityWithUsers(
     final SSUri          userUri, 
     final List<SSUri>    userUrisToShareWith,
     final SSUri          entityUri, 
@@ -171,12 +175,23 @@ implements
   }
   
   @Override
-  public void shareUserEntityWithCircle(
+  public void addEntityToCircle(
     final SSUri        userUri, 
     final SSUri        circleUri, 
+    final List<SSUri>  circleUsers,
     final SSUri        entityUri, 
-    final SSEntityE entityType) throws Exception{
+    final SSEntityE    entityType) throws Exception{
   }  
+  
+  @Override
+  public void addUsersToCircle(
+    final SSUri        user,
+    final List<SSUri>  users,
+    final SSEntityCircle        circle) throws Exception{
+    
+    
+    
+  }
   
   @Override
   public void removeDirectlyAdjoinedEntitiesForUser(
@@ -319,23 +334,29 @@ implements
       
       dbSQL.startTrans(par.shouldCommit);
       
-      SSServCaller.entityEntityToPrivCircleAdd(
-        par.user, 
-        ueUri, 
-        SSEntityE.userEvent, 
-        null, 
-        null, 
-        par.creationTime, 
-        false);
+      ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+        new SSCirclePrivEntityAddPar(
+          null,
+          null,
+          par.user,
+          ueUri,
+          SSEntityE.userEvent,
+          null,
+          null,
+          par.creationTime,
+          false));
       
-      SSServCaller.entityEntityToPrivCircleAdd(
+      ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+          new SSCirclePrivEntityAddPar(
+            null,
+            null,
         par.user,
         par.entity,
         SSEntityE.entity,
         null,
         null,
         null,
-        false);
+        false));
       
       sqlFct.addUE(
         ueUri, 
@@ -393,23 +414,29 @@ implements
       
       dbSQL.startTrans(par.shouldCommit);
       
-       SSServCaller.entityEntityToPrivCircleAdd(
+       ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+          new SSCirclePrivEntityAddPar(
+            null,
+            null,
         par.user,
         ueUri,
         SSEntityE.userEvent,
         null,
         null,
         null,
-        false);
+        false));
         
-      SSServCaller.entityEntityToPrivCircleAdd(
+      ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+          new SSCirclePrivEntityAddPar(
+            null,
+            null,
         par.user, 
         par.entity, 
         SSEntityE.entity, 
         null, 
         null, 
         null, 
-        false);
+        false));
 
       sqlFct.addUE(
         ueUri,

@@ -20,6 +20,11 @@
 */
 package at.kc.tugraz.ss.service.user.impl;
 
+import at.kc.tugraz.ss.circle.api.SSCircleServerI;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesAddPar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivEntityAddPar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCirclesGetPar;
+import at.kc.tugraz.ss.circle.serv.SSCircleServ;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSSocketCon;
@@ -47,13 +52,20 @@ import at.kc.tugraz.ss.service.user.impl.functions.sql.SSUserSQLFct;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
+import at.tugraz.sss.serv.SSEntityCircle;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
 import java.util.*;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServPar;
 
-public class SSUserImpl extends SSServImplWithDBA implements SSUserClientI, SSUserServerI, SSEntityHandlerImplI, SSEntityDescriberI{
+public class SSUserImpl 
+extends SSServImplWithDBA 
+implements 
+  SSUserClientI, 
+  SSUserServerI, 
+  SSEntityHandlerImplI, 
+  SSEntityDescriberI{
   
 //  private final SSUserGraphFct       graphFct;
   private final SSUserSQLFct         sqlFct;
@@ -83,14 +95,17 @@ public class SSUserImpl extends SSServImplWithDBA implements SSUserClientI, SSUs
           if(par.setCircles){
             
             user.circles.addAll(
-              SSServCaller.circlesGet(
-                par.user,
-                par.user,
-                null,
-                SSEntityE.asListWithoutNullAndEmpty(),
-                false,
-                true,
-                false));
+              ((SSCircleServerI) SSCircleServ.inst.serv()).circlesGet(
+                new SSCirclesGetPar(
+                  null, 
+                  null, 
+                  par.user,
+                  par.user,
+                  null,
+                  SSEntityE.asListWithoutNullAndEmpty(), 
+                  true, 
+                  false, 
+                  false)));
           }
           
           par.entity = 
@@ -111,7 +126,7 @@ public class SSUserImpl extends SSServImplWithDBA implements SSUserClientI, SSUs
   }
   
   @Override
-  public Boolean copyUserEntity(
+  public Boolean copyEntity(
     final SSUri        user,
     final List<SSUri>  users,
     final SSUri        entity,
@@ -151,7 +166,7 @@ public class SSUserImpl extends SSServImplWithDBA implements SSUserClientI, SSUs
   }
   
   @Override
-  public Boolean setUserEntityPublic(
+  public Boolean setEntityPublic(
     final SSUri          userUri,
     final SSUri          entityUri, 
     final SSEntityE      entityType,
@@ -161,7 +176,7 @@ public class SSUserImpl extends SSServImplWithDBA implements SSUserClientI, SSUs
   }
   
   @Override
-  public void shareUserEntity(
+  public void shareEntityWithUsers(
     final SSUri          userUri, 
     final List<SSUri>    userUrisToShareWith,
     final SSUri          entityUri, 
@@ -169,24 +184,29 @@ public class SSUserImpl extends SSServImplWithDBA implements SSUserClientI, SSUs
     final SSEntityE      entityType,
     final Boolean        saveActivity) throws Exception{
   }
-  
+ 
   @Override
-  public void shareUserEntityWithCircle(
+  public void addEntityToCircle(
     final SSUri        userUri, 
-    final SSUri        circleUri, 
-    final SSUri        entityUri, 
-    final SSEntityE entityType) throws Exception{
+    final SSUri        circleUri,
+    final List<SSUri>  circleUsers,
+    final SSUri        entityUri,
+    final SSEntityE    entityType) throws Exception{
   }  
   
   @Override
-  public Boolean userExists(final SSServPar parA) throws Exception{
+  public void addUsersToCircle(
+    final SSUri            user, 
+    final List<SSUri>      users,
+    final SSEntityCircle   circle) throws Exception{
+    
+  }
+  
+  @Override
+  public Boolean userExists(final SSUserExistsPar par) throws Exception{
     
     try{
-      
-      final SSUserExistsPar par = new SSUserExistsPar (parA);
-      
       return sqlFct.existsUser(par.email);
-      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -194,11 +214,9 @@ public class SSUserImpl extends SSServImplWithDBA implements SSUserClientI, SSUs
   }
   
   @Override
-  public SSUri userURIGet(final SSServPar parA) throws Exception{
+  public SSUri userURIGet(final SSUserURIGetPar par) throws Exception{
     
     try{
-      final SSUserURIGetPar par = new SSUserURIGetPar (parA);
-      
       return sqlFct.getUserURIForEmail(par.email);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -214,22 +232,26 @@ public class SSUserImpl extends SSServImplWithDBA implements SSUserClientI, SSUs
 //      }else{
         
     SSServCallerU.checkKey(parA);
-    
-    sSCon.writeRetFullToClient(SSUserAllRet.get(userAll(parA), parA.op), parA.op);
+
+    sSCon.writeRetFullToClient(
+      new SSUserAllRet(
+        userAll((SSUserAllPar) parA.getFromJSON(SSUserAllPar.class))), 
+      parA.op);
 //      }
   }
   
   @Override
-  public List<SSUser> userAll(final SSServPar parA) throws Exception {
+  public List<SSUser> userAll(final SSUserAllPar par) throws Exception {
     
     try{
       
-      final SSUserAllPar par = SSUserAllPar.get(parA);
-      
-      return SSServCaller.usersGet(
-        par.user, 
-        SSUri.asListWithoutNullAndEmpty(), 
-        par.setFriends);
+      return usersGet(
+        new SSUsersGetPar(
+          null,
+          null,
+          par.user,
+          SSUri.asListWithoutNullAndEmpty(),
+          par.setFriends));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -238,10 +260,9 @@ public class SSUserImpl extends SSServImplWithDBA implements SSUserClientI, SSUs
   }
 
   @Override 
-  public List<SSUser> usersGet(final SSServPar parA) throws Exception{
+  public List<SSUser> usersGet(final SSUsersGetPar par) throws Exception{
     
     try{
-      final SSUsersGetPar par   = new SSUsersGetPar(parA);
       final List<SSUser>  users = sqlFct.getUsers(par.users);
       
       for(SSUser user : users){
@@ -260,10 +281,9 @@ public class SSUserImpl extends SSServImplWithDBA implements SSUserClientI, SSUs
   }
 
   @Override
-  public SSUri userAdd(final SSServPar parA) throws Exception{
+  public SSUri userAdd(final SSUserAddPar par) throws Exception{
     
     try{
-      final SSUserAddPar  par      = new SSUserAddPar(parA);
       final SSUri         userUri;
       final SSLabel       tmpLabel;
       final String        tmpEmail;
@@ -281,22 +301,28 @@ public class SSUserImpl extends SSServImplWithDBA implements SSUserClientI, SSUs
       
       dbSQL.startTrans(par.shouldCommit);
       
-      SSServCaller.entityEntityToPrivCircleAdd(
-        SSVoc.systemUserUri,
-        userUri,
-        SSEntityE.user,
-        tmpLabel,
-        null,
-        null,
-        false);
+      ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+        new SSCirclePrivEntityAddPar(
+          null,
+          null,
+          SSVoc.systemUserUri,
+          userUri,
+          SSEntityE.user,
+          tmpLabel,
+          null,
+          null,
+          false));
       
-      SSServCaller.circleEntitiesAdd(
-        SSVoc.systemUserUri, 
-        SSServCaller.circlePubURIGet(false), 
-        SSUri.asListWithoutNullAndEmpty(userUri), 
-        true, 
-        false, 
-        false);
+      ((SSCircleServerI) SSCircleServ.inst.serv()).circleEntitiesAdd(
+          new SSCircleEntitiesAddPar(
+            null, 
+            null, 
+            SSVoc.systemUserUri,  
+            SSServCaller.circlePubURIGet(false),
+            SSUri.asListWithoutNullAndEmpty(userUri), 
+            false,
+            true, 
+            false));
       
       sqlFct.addUser(userUri, tmpEmail);
       
@@ -308,18 +334,18 @@ public class SSUserImpl extends SSServImplWithDBA implements SSUserClientI, SSUs
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(dbSQL.rollBack(parA.shouldCommit)){
+        if(dbSQL.rollBack(par.shouldCommit)){
           
           SSServErrReg.reset();
           
-          return userAdd(parA);
+          return userAdd(par);
         }else{
           SSServErrReg.regErrThrow(error);
           return null;
         }
       }
       
-      dbSQL.rollBack(parA.shouldCommit);
+      dbSQL.rollBack(par.shouldCommit);
       SSServErrReg.regErrThrow(error);
       return null;
     }

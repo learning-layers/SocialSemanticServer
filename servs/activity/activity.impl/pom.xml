@@ -26,6 +26,12 @@
     
     <dependency>
       <groupId>sss.servs</groupId>
+      <artifactId>user.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
       <artifactId>activity.conf</artifactId>
       <version>${project.version}</version>
     </dependency>

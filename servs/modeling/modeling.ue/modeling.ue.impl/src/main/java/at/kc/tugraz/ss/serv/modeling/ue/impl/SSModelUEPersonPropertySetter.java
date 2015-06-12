@@ -68,7 +68,7 @@ public class SSModelUEPersonPropertySetter {
         setRecentProperties                                  (resource, event, recentTimeStamps);
       }
       
-      setPersonsTopics           (resource);
+//      setPersonsTopics           (resource);
       setPersonsRelatedPersons   (resource);
     }
   }
@@ -180,58 +180,58 @@ public class SSModelUEPersonPropertySetter {
 //			}
 //		}
 //	}
-  private void setPersonsTopics(SSModelUEEntity resource) throws Exception{
-    
-    double                   maxTopicFrequency   = -1;
-    double                   thirdThreshold;
-    String                   topic;
-    SSModelUETopicScore      topicScore;
-    
-    resource.personsTopicFrequencies.clear();
-    resource.personsTopicScores.clear();
-    
-    for (SSTag tagAssignment : SSServCaller.tagsUserGet(resource.entity, resource.entity, new ArrayList<>(), new ArrayList<>(), null, null)){
-      
-      topic = SSStrU.toStr(tagAssignment.label);
-      
-      if(resource.personsTopicFrequencies.containsKey(topic) == false){
-        
-        resource.personsTopicFrequencies.put(topic,1);
-      }else{
-        resource.personsTopicFrequencies.put(topic,resource.personsTopicFrequencies.get(topic) + 1);
-      }
-      
-      if (resource.personsTopicFrequencies.get(topic) > maxTopicFrequency){
-        
-        maxTopicFrequency = resource.personsTopicFrequencies.get(topic);
-      }
-    }
-    
-    thirdThreshold = maxTopicFrequency * 0.3;
-    
-    for (Map.Entry<String, Integer> topicAndFrequency : resource.personsTopicFrequencies.entrySet()){
-      
-      topicScore = new SSModelUETopicScore(
-        topicAndFrequency.getKey(),
-        -1,
-        topicAndFrequency.getValue());
-      
-      if (topicAndFrequency.getValue() > thirdThreshold * 2){
-        
-        topicScore.level = 1;
-        
-      }else if(
-        topicAndFrequency.getValue() > thirdThreshold){
-        
-        topicScore.level = 2;
-        
-      }else{
-        topicScore.level = 3;
-      }
-      
-      resource.personsTopicScores.add(topicScore);
-    }
-  }
+//  private void setPersonsTopics(SSModelUEEntity resource) throws Exception{
+//    
+//    double                   maxTopicFrequency   = -1;
+//    double                   thirdThreshold;
+//    String                   topic;
+//    SSModelUETopicScore      topicScore;
+//    
+//    resource.personsTopicFrequencies.clear();
+//    resource.personsTopicScores.clear();
+//    
+//    for (SSTag tagAssignment : SSServCaller.tagsUserGet(resource.entity, resource.entity, new ArrayList<>(), new ArrayList<>(), null, null)){
+//      
+//      topic = SSStrU.toStr(tagAssignment.label);
+//      
+//      if(resource.personsTopicFrequencies.containsKey(topic) == false){
+//        
+//        resource.personsTopicFrequencies.put(topic,1);
+//      }else{
+//        resource.personsTopicFrequencies.put(topic,resource.personsTopicFrequencies.get(topic) + 1);
+//      }
+//      
+//      if (resource.personsTopicFrequencies.get(topic) > maxTopicFrequency){
+//        
+//        maxTopicFrequency = resource.personsTopicFrequencies.get(topic);
+//      }
+//    }
+//    
+//    thirdThreshold = maxTopicFrequency * 0.3;
+//    
+//    for (Map.Entry<String, Integer> topicAndFrequency : resource.personsTopicFrequencies.entrySet()){
+//      
+//      topicScore = new SSModelUETopicScore(
+//        topicAndFrequency.getKey(),
+//        -1,
+//        topicAndFrequency.getValue());
+//      
+//      if (topicAndFrequency.getValue() > thirdThreshold * 2){
+//        
+//        topicScore.level = 1;
+//        
+//      }else if(
+//        topicAndFrequency.getValue() > thirdThreshold){
+//        
+//        topicScore.level = 2;
+//        
+//      }else{
+//        topicScore.level = 3;
+//      }
+//      
+//      resource.personsTopicScores.add(topicScore);
+//    }
+//  }
   
   private void setPersonsRelatedPersons(
     SSModelUEEntity resource) throws Exception{

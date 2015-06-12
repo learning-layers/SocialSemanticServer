@@ -27,18 +27,20 @@ public class SSCircleEntitiesAddRet extends SSServRetI{
 
   public SSUri circle = null;
 
+  public String getCircle() throws Exception{
+    return SSStrU.removeTrailingSlash(circle);
+  }
+  
   public static SSCircleEntitiesAddRet get(
-    final SSUri circleUri, 
-    final SSServOpE op){
+    final SSUri circleUri){
     
-    return new SSCircleEntitiesAddRet(circleUri, op);
+    return new SSCircleEntitiesAddRet(circleUri);
   }
   
   private SSCircleEntitiesAddRet(
-    final SSUri   circleUri, 
-    final SSServOpE op){
+    final SSUri   circleUri){
 
-    super(op);
+    super(SSServOpE.circleEntitiesAdd);
     
     this.circle = circleUri;
   }
@@ -51,9 +53,5 @@ public class SSCircleEntitiesAddRet extends SSServRetI{
     ld.put(SSVarNames.circle, SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
     
     return ld;
-  }
-  
-  public String getCircle() throws Exception{
-    return SSStrU.removeTrailingSlash(circle);
   }
 }

@@ -3,7 +3,7 @@
 * http://www.learning-layers.eu
 * Development is partly funded by the FP7 Programme of the European Commission under
 * Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+* Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
 * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,6 +20,16 @@
 */
 package at.kc.tugraz.ss.circle.api;
 
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleCreatePar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesAddPar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesGetPar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleGetPar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleMostOpenCircleTypeGetPar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivEntityAddPar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePubEntityAddPar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleTypesGetPar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleUsersAddPar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCirclesGetPar;
 import at.tugraz.sss.serv.SSCircleE;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSEntityCircle;
@@ -29,14 +39,14 @@ import java.util.List;
 
 public interface SSCircleServerI{
 
-  public SSUri                           circleCreate                             (final SSServPar parA) throws Exception;
-  public SSUri                           circleUsersAdd                           (final SSServPar parA) throws Exception;
-  public SSUri                           circleEntitiesAdd                        (final SSServPar parA) throws Exception;
-  public SSCircleE                       circleMostOpenCircleTypeGet              (final SSServPar parA) throws Exception;
-  public List<SSCircleE>                 circleTypesGet                           (final SSServPar parA) throws Exception;
-  public SSEntityCircle                  circleGet                                (final SSServPar parA) throws Exception;
-  public List<SSEntityCircle>            circlesGet                               (final SSServPar parA) throws Exception;
-  public List<SSEntity>                  circleEntitiesGet                        (final SSServPar parA) throws Exception;
+  public SSUri                           circleCreate                             (final SSCircleCreatePar                par) throws Exception;
+  public SSUri                           circleUsersAdd                           (final SSCircleUsersAddPar              par) throws Exception;
+  public SSUri                           circleEntitiesAdd                        (final SSCircleEntitiesAddPar           par) throws Exception;
+  public SSCircleE                       circleMostOpenCircleTypeGet              (final SSCircleMostOpenCircleTypeGetPar par) throws Exception;
+  public List<SSCircleE>                 circleTypesGet                           (final SSCircleTypesGetPar              par) throws Exception;
+  public SSEntityCircle                  circleGet                                (final SSCircleGetPar                   par) throws Exception;
+  public List<SSEntityCircle>            circlesGet                               (final SSCirclesGetPar                  par) throws Exception;
+  public List<SSEntity>                  circleEntitiesGet                        (final SSCircleEntitiesGetPar           par) throws Exception;
   public List<SSEntity>                  circleEntityUsersGet                     (final SSServPar parA) throws Exception;
   public SSUri                           circlePrivURIGet                         (final SSServPar parA) throws Exception;
   public SSUri                           circlePubURIGet                          (final SSServPar parA) throws Exception;
@@ -45,6 +55,6 @@ public interface SSCircleServerI{
   public SSUri                           circleEntityPublicSet                    (final SSServPar parA) throws Exception;
   public List<SSUri>                     circleEntitiesRemove                     (final SSServPar parA) throws Exception;
 
-  public void                            entityEntityToPrivCircleAdd              (final SSServPar parA) throws Exception;
-  public void                            entityEntityToPubCircleAdd               (final SSServPar parA) throws Exception;
+  public void                            circlePrivEntityAdd                      (final SSCirclePrivEntityAddPar par) throws Exception;
+  public void                            circlePubEntityAdd                       (final SSCirclePubEntityAddPar  par) throws Exception;
 }

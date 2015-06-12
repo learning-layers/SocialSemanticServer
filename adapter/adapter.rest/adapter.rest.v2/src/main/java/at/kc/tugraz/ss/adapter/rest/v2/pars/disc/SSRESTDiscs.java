@@ -22,14 +22,14 @@ package at.kc.tugraz.ss.adapter.rest.v2.pars.disc;
 
 import at.kc.tugraz.ss.adapter.rest.v2.SSRestMainV2;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
-import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscUserDiscURIsForTargetGetPar;
-import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscUserEntryAddPar;
-import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscUserWithEntriesGetPar;
-import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscsUserAllGetPar;
-import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscUserDiscURIsForTargetGetRet;
-import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscUserEntryAddRet;
-import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscUserWithEntriesRet;
-import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscsUserAllGetRet;
+import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscURIsForTargetGetPar;
+import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscEntryAddPar;
+import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscWithEntriesGetPar;
+import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscsAllGetPar;
+import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscURIsForTargetGetRet;
+import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscEntryAddRet;
+import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscWithEntriesRet;
+import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscsAllGetRet;
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSVarNames;
@@ -56,17 +56,17 @@ public class SSRESTDiscs{
   @Path("")
   @ApiOperation(
     value = "retrieve all discussions",
-    response = SSDiscsUserAllGetRet.class)
+    response = SSDiscsAllGetRet.class)
   public Response discsGet(
     @Context 
       final HttpHeaders headers){
     
-    final SSDiscsUserAllGetPar par;
+    final SSDiscsAllGetPar par;
     
     try{
       
       par =
-        new SSDiscsUserAllGetPar(
+        new SSDiscsAllGetPar(
           SSServOpE.discsAllGet,
           null,
           null);
@@ -84,19 +84,19 @@ public class SSRESTDiscs{
   @Path("")
   @ApiOperation(
     value = "add a textual comment/answer/opinion to a discussion [for given entity] or create a new discussion",
-    response = SSDiscUserEntryAddRet.class)
+    response = SSDiscEntryAddRet.class)
   public Response circleCreate(
     @Context 
       final HttpHeaders headers,
     
     final SSDiscEntryAddRESTAPIV2Par input){
     
-    final SSDiscUserEntryAddPar par;
+    final SSDiscEntryAddPar par;
     
     try{
       
       par =
-        new SSDiscUserEntryAddPar(
+        new SSDiscEntryAddPar(
           SSServOpE.discEntryAdd,
           null,
           null,
@@ -110,6 +110,7 @@ public class SSRESTDiscs{
           input.users, //users
           input.circles, //circles
           input.entities, //entities
+          input.entityLabels, //entityLabels
           true); //shouldCommit
       
     }catch(Exception error){
@@ -125,7 +126,7 @@ public class SSRESTDiscs{
   @Path("/{disc}")
   @ApiOperation(
     value = "retrieve a discussion with its entries",
-    response = SSDiscUserWithEntriesRet.class)
+    response = SSDiscWithEntriesRet.class)
   public Response circleGet(
     @Context                    
       final HttpHeaders  headers,
@@ -135,12 +136,12 @@ public class SSRESTDiscs{
     
     final SSDiscGetRESTAPIV2Par input){
     
-    final SSDiscUserWithEntriesGetPar par;
+    final SSDiscWithEntriesGetPar par;
     
     try{
       
       par =
-        new SSDiscUserWithEntriesGetPar(
+        new SSDiscWithEntriesGetPar(
           SSServOpE.discWithEntriesGet, //op
           null, //key
           null, //user
@@ -161,7 +162,7 @@ public class SSRESTDiscs{
   @Path("/entities/{entity}")
   @ApiOperation(
     value = "retrieve discussions for a certain entity",
-    response = SSDiscUserDiscURIsForTargetGetRet.class)
+    response = SSDiscURIsForTargetGetRet.class)
   public Response discURIsForTargetGet(
     @Context                    
       final HttpHeaders  headers,
@@ -169,13 +170,13 @@ public class SSRESTDiscs{
     @PathParam (SSVarNames.entity)  
       final String entity){
     
-    final SSDiscUserDiscURIsForTargetGetPar par;
+    final SSDiscURIsForTargetGetPar par;
     
     try{
       
       par =
-        new SSDiscUserDiscURIsForTargetGetPar(
-          SSServOpE.discUserDiscURIsForTargetGet, //op
+        new SSDiscURIsForTargetGetPar(
+          SSServOpE.discURIsForTargetGet, //op
           null, //key
           null, //user
           SSUri.get(entity, SSVocConf.sssUri)); //entity

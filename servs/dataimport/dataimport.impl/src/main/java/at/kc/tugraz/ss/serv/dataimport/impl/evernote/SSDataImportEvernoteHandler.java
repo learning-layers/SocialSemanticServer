@@ -20,6 +20,9 @@
 */
 package at.kc.tugraz.ss.serv.dataimport.impl.evernote;
 
+import at.kc.tugraz.ss.circle.api.SSCircleServerI;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivEntityAddPar;
+import at.kc.tugraz.ss.circle.serv.SSCircleServ;
 import at.tugraz.sss.serv.SSDateU;
 import at.tugraz.sss.serv.SSLinkU;
 import at.tugraz.sss.serv.SSObjU;
@@ -33,6 +36,10 @@ import at.tugraz.sss.serv.SSToolContextE;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportEvernotePar;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteInfo;
+import at.kc.tugraz.ss.service.tag.api.SSTagServerI;
+import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
+import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsAddPar;
+import at.kc.tugraz.ss.service.tag.service.SSTagServ;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUE;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUEE;
@@ -132,14 +139,17 @@ public class SSDataImportEvernoteHandler {
     final SSLabel  notebookLabel,
     final Long     notebookCreationTime) throws Exception{
     
-    SSServCaller.entityEntityToPrivCircleAdd(
-      userUri,
-      notebookUri,
-      SSEntityE.evernoteNotebook,
-      notebookLabel,
-      null,
-      notebookCreationTime,
-      false);
+    ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+      new SSCirclePrivEntityAddPar(
+        null,
+        null,
+        userUri,
+        notebookUri,
+        SSEntityE.evernoteNotebook,
+        notebookLabel,
+        null,
+        notebookCreationTime,
+        false));
     
     SSServCaller.evalLog(
       userUri, 
@@ -281,13 +291,16 @@ public class SSDataImportEvernoteHandler {
       
       noteTagNames = SSServCaller.evernoteNoteTagNamesGet(evernoteInfo.noteStore, note.getGuid());
         
-      SSServCaller.tagsAdd(
-        userUri,
-        noteUri,
-        noteTagNames,
-        SSSpaceE.sharedSpace,
-        note.getUpdated(),
-        false);
+      ((SSTagServerI) SSTagServ.inst.serv()).tagsAdd(
+        new SSTagsAddPar(
+          null,
+          null,
+          userUri,
+          SSTagLabel.get(noteTagNames),
+          noteUri,
+          SSSpaceE.sharedSpace,
+          note.getUpdated(),
+          false));
       
       for(String noteTag : noteTagNames){
        
@@ -466,14 +479,17 @@ public class SSDataImportEvernoteHandler {
     
     try{
       
-      SSServCaller.entityEntityToPrivCircleAdd(
-        userUri,
-        noteUri,
-        SSEntityE.evernoteNote,
-        noteLabel,
-        null,
-        note.getCreated(),
-        false);
+      ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+        new SSCirclePrivEntityAddPar(
+          null,
+          null,
+          userUri,
+          noteUri,
+          SSEntityE.evernoteNote,
+          noteLabel,
+          null,
+          note.getCreated(),
+          false));
       
       if(!SSServCaller.entityExists(notebookUri)){
         
@@ -588,14 +604,17 @@ public class SSDataImportEvernoteHandler {
     final Long    resourceAddTime,
     final SSUri   noteUri) throws Exception{
     
-    SSServCaller.entityEntityToPrivCircleAdd(
-      userUri, 
-      resourceUri, 
-      SSEntityE.evernoteResource, 
-      resourceLabel, 
-      null, 
-      resourceAddTime,
-      false);
+    ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+      new SSCirclePrivEntityAddPar(
+        null,
+        null,
+        userUri,
+        resourceUri,
+        SSEntityE.evernoteResource,
+        resourceLabel,
+        null,
+        resourceAddTime,
+        false));
     
     SSServCaller.evernoteResourceAdd(
       this.userUri,

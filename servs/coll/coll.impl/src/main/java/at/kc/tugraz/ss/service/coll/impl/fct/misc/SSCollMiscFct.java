@@ -20,6 +20,9 @@
 */
 package at.kc.tugraz.ss.service.coll.impl.fct.misc;
 
+import at.kc.tugraz.ss.circle.api.SSCircleServerI;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleTypesGetPar;
+import at.kc.tugraz.ss.circle.serv.SSCircleServ;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 
@@ -83,11 +86,14 @@ public class SSCollMiscFct{
       final SSColl coll =
         sqlFct.getCollWithEntries(
           collUri,
-          SSServCaller.circleTypesGet(
-            userUri,
-            userUri,
-            collUri,
-            false));
+          ((SSCircleServerI) SSCircleServ.inst.serv()).circleTypesGet(
+            new SSCircleTypesGetPar(
+              null,
+              null,
+              userUri,
+              userUri,
+              collUri,
+              false)));
       
       for(Object entry : coll.entries){
         
@@ -95,11 +101,14 @@ public class SSCollMiscFct{
         
         collEntry.circleTypes.clear();
         collEntry.circleTypes.addAll(
-          SSServCaller.circleTypesGet(
-            userUri,
-            userUri,
-            collEntry.id,
-            false));
+          ((SSCircleServerI) SSCircleServ.inst.serv()).circleTypesGet(
+            new SSCircleTypesGetPar(
+              null,
+              null,
+              userUri,
+              userUri,
+              collEntry.id,
+              false)));
       }
 
       return coll;

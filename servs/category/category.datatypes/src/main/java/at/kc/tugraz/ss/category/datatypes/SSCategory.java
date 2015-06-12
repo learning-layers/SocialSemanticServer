@@ -27,6 +27,7 @@ import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSSpaceE;
 import at.tugraz.sss.serv.SSLabel;
+import at.tugraz.sss.serv.SSObjU;
 import java.util.*;
 
 public class SSCategory extends SSEntity{
@@ -36,6 +37,27 @@ public class SSCategory extends SSEntity{
   public  SSUri               user           = null;
   public  SSSpaceE            space          = null;
 
+  public String getEntity(){
+    return SSStrU.removeTrailingSlash(entity);
+  }
+
+  public String getUser() {
+    return SSStrU.removeTrailingSlash(user);
+  }
+
+  public String getSpace(){
+    return SSStrU.toStr(space);
+  }
+  
+  @Override
+  public String getLabel(){
+    return SSStrU.toStr(categoryLabel);
+  }
+  
+  public String getCategoryLabel(){
+    return SSStrU.toStr(categoryLabel);
+  }
+  
   public static SSCategory get(
     final SSUri            id       ,
     final SSUri            entity   ,
@@ -61,18 +83,38 @@ public class SSCategory extends SSEntity{
     this.categoryLabel = categoryLabel;
   }
   
-  @Override
-  public Object jsonLDDesc() {
+  public static void addDistinctWithoutNull(
+    final List<SSCategory>     entities,
+    final SSCategory           entity){
+    
+    if(
+      SSObjU.isNull  (entities, entity) ||
+      SSStrU.contains(entities, entity)){
+      return;
+    }
+    
+    entities.add(entity);
+  }
   
-    final Map<String, Object> ld = (Map<String, Object>)super.jsonLDDesc();
+  public static void addDistinctWithoutNull(
+    final List<SSCategory>  entities,
+    final List<SSCategory>  toAddEntities){
     
-    ld.put(SSVarNames.entity,     SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarNames.user,       SSVarNames.sss + SSStrU.colon + SSUri.class.getName());    
-    ld.put(SSVarNames.space,      SSVarNames.sss + SSStrU.colon + SSSpaceE.class.getName());
-    ld.put(SSVarNames.label,      SSVarNames.sss + SSStrU.colon + SSCategoryLabel.class.getName());
+    if(SSObjU.isNull(entities, toAddEntities)){
+      return;
+    }
     
-    return ld;
-  } 
+    for(SSCategory entity : toAddEntities){
+      
+      if(entity == null){
+        continue;
+      }
+      
+      if(!SSStrU.contains(entities, entity)){
+        entities.add(entity);
+      }
+    }
+  }
   
   public static Map<String, List<String>> getCategoryLabelsPerEntities(final List<SSCategory> categories) throws Exception{
     
@@ -106,28 +148,18 @@ public class SSCategory extends SSEntity{
     return categorysPerEntity;
   }
   
-  /* json getters */
-  
-  public String getEntity() throws Exception{
-    return SSStrU.removeTrailingSlash(entity);
-  }
-
-  public String getUser() throws Exception{
-    return SSStrU.removeTrailingSlash(user);
-  }
-
-  public String getSpace(){
-    return SSStrU.toStr(space);
-  }
-  
   @Override
-  public String getLabel(){
-    return SSStrU.toStr(categoryLabel);
-  }
+  public Object jsonLDDesc() {
   
-  public String getCategoryLabel(){
-    return SSStrU.toStr(categoryLabel);
-  }
+    final Map<String, Object> ld = (Map<String, Object>)super.jsonLDDesc();
+    
+    ld.put(SSVarNames.entity,     SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarNames.user,       SSVarNames.sss + SSStrU.colon + SSUri.class.getName());    
+    ld.put(SSVarNames.space,      SSVarNames.sss + SSStrU.colon + SSSpaceE.class.getName());
+    ld.put(SSVarNames.label,      SSVarNames.sss + SSStrU.colon + SSCategoryLabel.class.getName());
+    
+    return ld;
+  } 
 }
 
 
