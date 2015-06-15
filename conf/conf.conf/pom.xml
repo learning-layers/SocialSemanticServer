@@ -223,6 +223,12 @@
     </dependency>
     
     <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>ocd.conf</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>3.8.1</version>

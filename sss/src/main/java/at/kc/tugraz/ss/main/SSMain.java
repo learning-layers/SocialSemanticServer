@@ -24,6 +24,7 @@ import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSServImplClient;
+import at.tugraz.sss.servs.ocd.conf.SSOCDConf;
 import java.net.ServerSocket;
 
 public class SSMain{
@@ -41,6 +42,7 @@ public class SSMain{
 //    addShutDownHookThread ();
     //TODO dtheiler: create conf via service as well
     SSCoreConf.instSet(SSVocConf.fileNameSSSConf);
+    
     
 //    initJmx               ();
     

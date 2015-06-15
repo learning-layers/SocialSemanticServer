@@ -21,6 +21,7 @@
 package at.tugraz.sss.serv;
 
 public class SSVarNames{
+   
   
   private SSVarNames(){}
 
@@ -315,4 +316,8 @@ public class SSVarNames{
   public static final String xsd                                            = "xsd";
   public static final String set                                            = "set";
   public static final String desc                                           = "desc";
+  public static String graphName                                            = "graphName";
+  public static String graphCreationType                                    = "graphCreationType";
+  public static String graphInputFormat                                     = "graphInputFormat";
+  public static String doMakeUndirected                                     = "doMakeUndirected";
 }
