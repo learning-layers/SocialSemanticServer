@@ -1146,8 +1146,144 @@ public class SSServCaller {
     SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.solrAddDoc, opPars));
   }
   
+  /* disc */
   /* rating */
 
+//  public static List<SSUri> discEntryURIsGet(
+//  public static SSRatingOverall ratingOverallGet(
+//    final SSUri user, 
+//    final SSUri disc) throws Exception{
+//    final SSUri entity) throws Exception{
+//    
+//    final Map<String, Object> opPars = new HashMap<>();
+//    
+//    opPars.put(SSVarNames.user,        user);
+//    opPars.put(SSVarNames.disc,             disc);
+//    opPars.put(SSVarNames.entity,    entity);
+//    
+//    return (List<SSUri>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.discEntryURIsGet, opPars)); 
+//    return (SSRatingOverall) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.ratingOverallGet, opPars));
+//  }
+  
+//  public static SSDiscUserEntryAddRet discUserEntryAdd(
+//  
+//  public static void ratingsUserRemove(
+//    final SSUri   user,
+//    final SSUri               disc,
+//    final SSUri   entity,
+//    final SSTextComment       entry,
+//    final Boolean             addNewDisc,
+//    final SSEntityE           type,
+//    final SSLabel             label,
+//    final SSTextComment       description,
+//    final List<SSUri>         users,
+//    final List<SSUri>         circles,
+//    final List<SSUri>         entities,
+//    final Boolean shouldCommit) throws Exception{
+//    
+//    final Map<String, Object> opPars = new HashMap<>();
+//    
+//    opPars.put(SSVarNames.user,         user);
+//    opPars.put(SSVarNames.disc,         disc);
+//    opPars.put(SSVarNames.entity,       entity);
+//    opPars.put(SSVarNames.entry,        entry);
+//    opPars.put(SSVarNames.addNewDisc,   addNewDisc);
+//    opPars.put(SSVarNames.type,         type);
+//    opPars.put(SSVarNames.label,        label);
+//    opPars.put(SSVarNames.description,  description);
+//    opPars.put(SSVarNames.users,        users);
+//    opPars.put(SSVarNames.circles,      circles);
+//    opPars.put(SSVarNames.entities,     entities);
+//    opPars.put(SSVarNames.shouldCommit, shouldCommit);
+//    
+//    return (SSDiscUserEntryAddRet) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.discUserEntryAdd, opPars));
+//  }
+  
+//  public static List<SSDisc> discsUserAllGet(final SSUri user) throws Exception{
+//    
+//    final Map<String, Object> opPars = new HashMap<>();
+//    
+
+
+
+
+
+
+
+//    opPars.put(SSVarNames.user,         user);
+//    
+//    return (List<SSDisc>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.discsUserAllGet, opPars));
+//  }
+  
+//  public static List<SSUri> discUserDiscURIsForTargetGet(
+//    final SSUri   user,
+//    final SSUri   entity) throws Exception{
+//    
+//    final Map<String, Object> opPars = new HashMap<>();
+//    
+//    opPars.put(SSVarNames.user,         user);
+
+
+
+
+
+
+
+
+
+
+//    opPars.put(SSVarNames.entity,    entity);
+//    
+//    return (List<SSUri>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.discUserDiscURIsForTargetGet, opPars));
+//    SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.ratingsUserRemove, opPars));
+//  }
+  
+//  public static SSDisc discUserWithEntriesGet(
+//    final SSUri   user, 
+//    final SSUri   disc, 
+//    final Integer maxEntries,
+//    final Boolean includeComments) throws Exception{
+
+
+
+
+
+//  
+//    final Map<String, Object> opPars = new HashMap<>();
+//    
+//    opPars.put(SSVarNames.user,            user);
+//    opPars.put(SSVarNames.disc,            disc);
+//    opPars.put(SSVarNames.maxEntries,      maxEntries);
+//    opPars.put(SSVarNames.includeComments, includeComments);
+//    
+//    return (SSDisc) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.discUserWithEntriesGet, opPars));
+//  }
+  
+//  public static void discUserRemove(
+//  public static Integer ratingUserGet(
+
+
+
+
+
+
+
+
+
+//    final SSUri user,
+//    final SSUri entity) throws Exception{
+//    
+//    final Map<String, Object> opPars = new HashMap<>();
+//    
+//    opPars.put(SSVarNames.user,        user);
+//    opPars.put(SSVarNames.entity,      entity);
+//    
+//    SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.discUserRemove, opPars));
+//    return (Integer) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.ratingUserGet, opPars));
+//  }
+  
+//  /* rating */
+//
 //  public static SSRatingOverall ratingOverallGet(
 //    final SSUri user, 
 //    final SSUri entity) throws Exception{
@@ -1171,7 +1307,7 @@ public class SSServCaller {
 //    opPars.put(SSVarNames.user,         user);
 //    opPars.put(SSVarNames.entity,    entity);
 //    
-//    SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.ratingsUserRemove, opPars));
+//    SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.ratingsRemove, opPars));
 //  }
 //  
 //  public static Integer ratingUserGet(
@@ -1183,9 +1319,48 @@ public class SSServCaller {
 //    opPars.put(SSVarNames.user,        user);
 //    opPars.put(SSVarNames.entity,      entity);
 //    
-//    return (Integer) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.ratingUserGet, opPars));
+//    return (Integer) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.ratingGet, opPars));
 //  }
   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   /* entity */
   
   public static SSUri entityAdd(

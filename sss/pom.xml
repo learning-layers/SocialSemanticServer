@@ -433,6 +433,24 @@
       <version>${project.version}</version>
     </dependency>
     
+     <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>ocd.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>ocd.conf</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>ocd.datatypes</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
     <dependency>
       <groupId>com.evernote</groupId>
       <artifactId>evernote-api</artifactId>

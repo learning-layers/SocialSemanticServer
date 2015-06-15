@@ -351,7 +351,15 @@ public enum SSServOpE{
   activitiesGet,
   activitiesUserGet,
   activityTypesGet,
-  activityGet;
+  activityGet,
+  
+  //overlapping community detection - ocd
+  ocdCreateGraph,
+  ocdGetGraphs,
+  ocdDeleteGraph,
+  ocdCreateCover,
+  ocdGetCovers,
+  ocdDeleteCover;
   
   public static SSServOpE get(final String value) throws Exception{
     
