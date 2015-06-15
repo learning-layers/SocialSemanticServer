@@ -26,14 +26,14 @@ import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
 
 import at.tugraz.sss.serv.caller.SSServCaller;
-import at.kc.tugraz.ss.service.rating.datatypes.pars.SSRatingUserSetPar;
+import at.kc.tugraz.ss.service.rating.datatypes.pars.SSRatingSetPar;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSServErrReg;
 
 public class SSRatingActivityFct{
 
   public static void rateEntity(
-    final SSRatingUserSetPar par) throws Exception{
+    final SSRatingSetPar par) throws Exception{
     
     try{
       

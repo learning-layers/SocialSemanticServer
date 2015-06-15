@@ -20,6 +20,7 @@
 */
 package at.kc.tugraz.ss.service.search.impl.fct;
 
+import at.kc.tugraz.ss.service.rating.api.SSRatingServerI;
 import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
@@ -28,6 +29,8 @@ import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.tugraz.sss.serv.caller.SSServCallerU;
 import at.kc.tugraz.ss.service.rating.datatypes.SSRatingOverall;
+import at.kc.tugraz.ss.service.rating.datatypes.pars.SSRatingOverallGetPar;
+import at.kc.tugraz.ss.service.rating.service.SSRatingServ;
 import at.kc.tugraz.ss.service.search.datatypes.SSSearchOpE;
 import at.kc.tugraz.ss.service.search.datatypes.pars.SSSearchPar;
 import java.util.ArrayList;
@@ -247,7 +250,13 @@ public class SSSearchFct {
     
     try{
       
-      final SSRatingOverall rating = SSServCaller.ratingOverallGet(par.user, entity.id);
+      final SSRatingOverall rating = 
+        ((SSRatingServerI)SSRatingServ.inst.serv()).ratingOverallGet(
+          new SSRatingOverallGetPar(
+            null, 
+            null, 
+            par.user, 
+            entity.id));
        
       if(
         par.minRating != null &&

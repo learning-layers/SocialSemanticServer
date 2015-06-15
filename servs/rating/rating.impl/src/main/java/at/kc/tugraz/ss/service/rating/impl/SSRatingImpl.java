@@ -3,7 +3,7 @@
 * http://www.learning-layers.eu
 * Development is partly funded by the FP7 Programme of the European Commission under
 * Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+* Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
 * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -30,8 +30,8 @@ import at.tugraz.sss.serv.SSSocketCon;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSEntityE;
 import at.kc.tugraz.ss.service.rating.datatypes.pars.SSRatingOverallGetPar;
-import at.kc.tugraz.ss.service.rating.datatypes.pars.SSRatingUserGetPar;
-import at.kc.tugraz.ss.service.rating.datatypes.pars.SSRatingUserSetPar;
+import at.kc.tugraz.ss.service.rating.datatypes.pars.SSRatingGetPar;
+import at.kc.tugraz.ss.service.rating.datatypes.pars.SSRatingSetPar;
 import at.kc.tugraz.ss.service.rating.api.*;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.SSUri;
@@ -45,10 +45,10 @@ import at.tugraz.sss.serv.caller.SSServCallerU;
 import at.kc.tugraz.ss.service.rating.datatypes.SSRating;
 import at.kc.tugraz.ss.service.rating.datatypes.SSRatingOverall;
 import at.kc.tugraz.ss.service.rating.datatypes.ret.SSRatingOverallGetRet;
-import at.kc.tugraz.ss.service.rating.datatypes.ret.SSRatingUserGetRet;
-import at.kc.tugraz.ss.service.rating.datatypes.ret.SSRatingUserSetRet;
+import at.kc.tugraz.ss.service.rating.datatypes.ret.SSRatingGetRet;
+import at.kc.tugraz.ss.service.rating.datatypes.ret.SSRatingSetRet;
 import at.kc.tugraz.ss.service.rating.impl.fct.sql.SSRatingSQLFct;
-import at.kc.tugraz.ss.service.rating.datatypes.pars.SSRatingsUserRemovePar;
+import at.kc.tugraz.ss.service.rating.datatypes.pars.SSRatingsRemovePar;
 import at.kc.tugraz.ss.service.rating.impl.fct.activity.SSRatingActivityFct;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
@@ -151,10 +151,14 @@ implements
     }
     
     try{
-      SSServCaller.ratingsUserRemove(
-        userUri, 
-        entityUri, 
-        false);
+      
+      ratingsRemove(
+        new SSRatingsRemovePar(
+          null, 
+          null, 
+          userUri, 
+          entityUri, 
+          false));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -195,9 +199,6 @@ implements
     final SSUri        user,
     final List<SSUri>  users,
     final SSEntityCircle        circle) throws Exception{
-    
-    
-    
   }
   
   @Override
@@ -208,9 +209,12 @@ implements
       if(par.setOverallRating){
         
         par.entity.overallRating =
-          SSServCaller.ratingOverallGet(
-            par.user,
-            par.entity.id);
+          ratingOverallGet(
+            new SSRatingOverallGetPar(
+              null, 
+              null, 
+              par.user, 
+              par.entity.id));
       }
       
       return par.entity;
@@ -225,18 +229,19 @@ implements
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSRatingUserSetRet.get(ratingUserSet(parA), parA.op), parA.op);
+    final SSRatingSetPar par = (SSRatingSetPar) parA.getFromJSON(SSRatingSetPar.class);
+    
+    sSCon.writeRetFullToClient(SSRatingSetRet.get(ratingSet(par)), parA.op);
     
 //    saveRatingUserSetUE(par);
     
-    SSRatingActivityFct.rateEntity(SSRatingUserSetPar.get(parA));
+    SSRatingActivityFct.rateEntity(par);
   }
   
   @Override
-  public Boolean ratingUserSet(SSServPar parA) throws Exception {
+  public Boolean ratingSet(final SSRatingSetPar par) throws Exception {
     
     try{
-      final SSRatingUserSetPar par          = SSRatingUserSetPar.get(parA);
       final Boolean            existsEntity = SSServCaller.entityExists(par.entity);
       final SSUri              ratingUri;
       
@@ -322,44 +327,42 @@ implements
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(dbSQL.rollBack(parA.shouldCommit)){
+        if(dbSQL.rollBack(par.shouldCommit)){
           
           SSServErrReg.reset();
           
-          return ratingUserSet(parA);
+          return ratingSet(par);
         }else{
           SSServErrReg.regErrThrow(error);
           return null;
         }
       }
       
-      dbSQL.rollBack(parA.shouldCommit);
+      dbSQL.rollBack(par.shouldCommit);
       SSServErrReg.regErrThrow(error);
       return null;
     }
   }
 
   @Override
-  public void ratingUserGet(SSSocketCon sSCon, SSServPar parA) throws Exception {
+  public void ratingGet(SSSocketCon sSCon, SSServPar parA) throws Exception {
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSRatingUserGetRet.get(ratingUserGet(parA), parA.op), parA.op);
+    final SSRatingGetPar par = (SSRatingGetPar) parA.getFromJSON(SSRatingGetPar.class);
+    
+    sSCon.writeRetFullToClient(SSRatingGetRet.get(ratingGet(par)), parA.op);
   }
   
   @Override
-  public Integer ratingUserGet(SSServPar parI) throws Exception {
-    
-    SSRatingUserGetPar par    = new SSRatingUserGetPar(parI);
-    Integer            result = 0;
+  public Integer ratingGet(final SSRatingGetPar par) throws Exception {
     
     try{
-      result = sqlFct.getUserRating(par.user, par.entity);
+      return sqlFct.getUserRating(par.user, par.entity);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
-    
-    return result;
   }
 
   @Override
@@ -367,30 +370,26 @@ implements
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSRatingOverallGetRet.get(ratingOverallGet(parA), parA.op), parA.op);
+    final SSRatingOverallGetPar par = (SSRatingOverallGetPar) parA.getFromJSON(SSRatingOverallGetPar.class);
+    
+    sSCon.writeRetFullToClient(SSRatingOverallGetRet.get(ratingOverallGet(par)), parA.op);
   }
   
   @Override
-  public SSRatingOverall ratingOverallGet(SSServPar parI) throws Exception {
-    
-    SSRatingOverallGetPar par     = SSRatingOverallGetPar.get(parI);
-    SSRatingOverall       result  = null;
-    
+  public SSRatingOverall ratingOverallGet(final SSRatingOverallGetPar par) throws Exception {
+
     try{
-      result = sqlFct.getOverallRating(par.entity);
+      return sqlFct.getOverallRating(par.entity);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
-    
-    return result;
   }
   
   @Override
-  public Boolean ratingsUserRemove(final SSServPar parA) throws Exception{
+  public Boolean ratingsRemove(final SSRatingsRemovePar par) throws Exception{
     
     try{
-      
-      final SSRatingsUserRemovePar par = new SSRatingsUserRemovePar(parA);
       
       if(par.user == null){
         throw new Exception("user null");
@@ -407,18 +406,18 @@ implements
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(dbSQL.rollBack(parA.shouldCommit)){
+        if(dbSQL.rollBack(par.shouldCommit)){
           
           SSServErrReg.reset();
           
-          return ratingsUserRemove(parA);
+          return ratingsRemove(par);
         }else{
           SSServErrReg.regErrThrow(error);
           return null;
         }
       }
       
-      dbSQL.rollBack(parA.shouldCommit);
+      dbSQL.rollBack(par.shouldCommit);
       SSServErrReg.regErrThrow(error);
       return null;
     }

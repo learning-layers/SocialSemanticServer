@@ -23,9 +23,9 @@ package at.kc.tugraz.ss.adapter.rest.v2.pars.rating;
 import at.kc.tugraz.ss.adapter.rest.v2.SSRestMainV2;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.kc.tugraz.ss.service.rating.datatypes.pars.SSRatingOverallGetPar;
-import at.kc.tugraz.ss.service.rating.datatypes.pars.SSRatingUserSetPar;
+import at.kc.tugraz.ss.service.rating.datatypes.pars.SSRatingSetPar;
 import at.kc.tugraz.ss.service.rating.datatypes.ret.SSRatingOverallGetRet;
-import at.kc.tugraz.ss.service.rating.datatypes.ret.SSRatingUserSetRet;
+import at.kc.tugraz.ss.service.rating.datatypes.ret.SSRatingSetRet;
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSVarNames;
@@ -84,7 +84,7 @@ public class SSRESTRatings{
   @Path("/entities/{entity}/value/{value}")
   @ApiOperation(
     value = "set the user's rating for given entity",
-    response = SSRatingUserSetRet.class)
+    response = SSRatingSetRet.class)
   public Response ratingOverallGet(
     @Context 
     final HttpHeaders headers,
@@ -95,12 +95,12 @@ public class SSRESTRatings{
     @PathParam(SSVarNames.value)
     final String value){
     
-    final SSRatingUserSetPar par;
+    final SSRatingSetPar par;
     
     try{
       
       par =
-        new SSRatingUserSetPar(
+        new SSRatingSetPar(
           SSServOpE.ratingSet,
           null,
           null,

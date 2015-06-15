@@ -21,13 +21,11 @@
 package at.kc.tugraz.ss.service.rating.datatypes.pars;
 
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServOpE;
 
-public class SSRatingUserSetPar extends SSServPar{
+public class SSRatingSetPar extends SSServPar{
 
   public SSUri     entity       = null;
   public Integer   value        = -1;
@@ -40,9 +38,9 @@ public class SSRatingUserSetPar extends SSServPar{
     return SSStrU.removeTrailingSlash(entity);
   }
    
-  public SSRatingUserSetPar(){}
+  public SSRatingSetPar(){}
   
-  public SSRatingUserSetPar(
+  public SSRatingSetPar(
     final SSServOpE op,
     final String    key,
     final SSUri     user, 
@@ -55,27 +53,5 @@ public class SSRatingUserSetPar extends SSServPar{
     this.entity       = entity;
     this.value        = value;
     this.shouldCommit = shouldCommit;
-  }
-  
-  public static SSRatingUserSetPar get(final SSServPar par) throws Exception{
-    
-    try{
-      
-      if(par.clientCon != null){
-        return (SSRatingUserSetPar) par.getFromJSON(SSRatingUserSetPar.class);
-      }
-      
-      return new SSRatingUserSetPar(
-        par.op,
-        par.key,
-        par.user,
-        (SSUri)   par.pars.get(SSVarNames.entity),
-        (Integer) par.pars.get(SSVarNames.value),
-        (Boolean) par.pars.get(SSVarNames.shouldCommit));
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
   }
 }

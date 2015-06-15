@@ -3,7 +3,7 @@
 * http://www.learning-layers.eu
 * Development is partly funded by the FP7 Programme of the European Commission under
 * Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+* Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
 * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,41 +18,37 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.service.rating.datatypes.ret;
+package at.kc.tugraz.ss.service.rating.datatypes.pars;
 
+import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarNames;
-import at.tugraz.sss.serv.SSServRetI;
-import java.util.HashMap;
-import java.util.Map;
 
-public class SSRatingUserGetRet extends SSServRetI{
-
-  public Integer rating = -1;
-
-  public static SSRatingUserGetRet get(Integer rating, SSServOpE op){
-    return new SSRatingUserGetRet(rating, op);
-  }
+public class SSRatingsRemovePar extends SSServPar{
   
-  private SSRatingUserGetRet(Integer rating, SSServOpE op){
-    
-    super(op);
-    this.rating = rating;
+  public SSUri  entity     = null;
+
+  public String getEntity(){
+    return SSStrU.removeTrailingSlash(entity);
   }
 
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    
-    Map<String, Object> ld         = new HashMap<>();
-    
-    ld.put(SSVarNames.rating, SSVarNames.xsd + SSStrU.colon + SSStrU.valueInteger);
-    
-    return ld;
+  public void setEntity(final String entity) throws Exception{
+    this.entity = SSUri.get(entity);
   }
+
+  public SSRatingsRemovePar(){}
   
-  /* getters to allow for json enconding */
-  public Integer getRating() {
-    return rating;
-  }
+  public SSRatingsRemovePar(
+    final SSServOpE op,
+    final String    key,
+    final SSUri     user,
+    final SSUri     entity,
+    final Boolean   shouldCommit){
+    
+    super(op, key, user);
+    
+    this.entity       = entity;
+    this.shouldCommit = shouldCommit;
+  } 
 }

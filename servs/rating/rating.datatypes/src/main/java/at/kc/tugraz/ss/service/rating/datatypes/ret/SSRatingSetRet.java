@@ -27,17 +27,17 @@ import at.tugraz.sss.serv.SSServRetI;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SSRatingUserSetRet extends SSServRetI{
+public class SSRatingSetRet extends SSServRetI{
   
   public boolean worked = false;
   
-  public static SSRatingUserSetRet get(boolean worked, SSServOpE op){
-    return new SSRatingUserSetRet(worked, op);
+  public static SSRatingSetRet get(boolean worked){
+    return new SSRatingSetRet(worked);
   }
   
-  private SSRatingUserSetRet(boolean worked, SSServOpE op){
+  private SSRatingSetRet(boolean worked){
     
-    super(op);
+    super(SSServOpE.ratingSet);
     
     this.worked = worked;
   }
@@ -50,10 +50,5 @@ public class SSRatingUserSetRet extends SSServRetI{
     ld.put(SSVarNames.worked, SSVarNames.xsd + SSStrU.colon + SSStrU.valueBoolean);
     
     return ld;
-  }
-  
-  /*************** getters to allow for json enconding ********************/
-  public boolean isWorked() {
-    return worked;
   }
 }

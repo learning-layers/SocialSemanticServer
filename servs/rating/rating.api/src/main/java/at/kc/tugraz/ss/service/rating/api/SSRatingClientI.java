@@ -26,6 +26,6 @@ import at.tugraz.sss.serv.SSServPar;
 public interface SSRatingClientI {
   
   public void ratingSet         (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void ratingUserGet     (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void ratingGet         (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
   public void ratingOverallGet  (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
 }

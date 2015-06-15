@@ -32,6 +32,12 @@
 
     <dependency>
       <groupId>sss.servs</groupId>
+      <artifactId>rating.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
       <artifactId>disc.serv</artifactId>
       <version>${project.version}</version>
     </dependency>

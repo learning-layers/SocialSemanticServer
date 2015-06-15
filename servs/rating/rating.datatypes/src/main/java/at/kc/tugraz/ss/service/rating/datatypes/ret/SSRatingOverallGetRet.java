@@ -31,14 +31,18 @@ import java.util.Map;
 public class SSRatingOverallGetRet extends SSServRetI{
   
   public SSRatingOverall ratingOverall = null;
-  
-  public static SSRatingOverallGetRet get(SSRatingOverall ratingOverall, SSServOpE op){
-    return new SSRatingOverallGetRet(ratingOverall, op);
+
+  public SSRatingOverall getRatingOverall() {
+    return ratingOverall;
   }
   
-  private SSRatingOverallGetRet(SSRatingOverall ratingOverall, SSServOpE op){
+  public static SSRatingOverallGetRet get(SSRatingOverall ratingOverall){
+    return new SSRatingOverallGetRet(ratingOverall);
+  }
+  
+  private SSRatingOverallGetRet(SSRatingOverall ratingOverall){
     
-    super(op);
+    super(SSServOpE.ratingOverallGet);
     
     this.ratingOverall = ratingOverall;
   }
@@ -51,10 +55,5 @@ public class SSRatingOverallGetRet extends SSServRetI{
     ld.put(SSVarNames.ratingOverall, SSVarNames.sss + SSStrU.colon + SSRatingOverall.class.getName());
     
     return ld;
-  }
-  
-  /* getters to allow for json enconding */
-  public SSRatingOverall getRatingOverall() {
-    return ratingOverall;
   }
 }

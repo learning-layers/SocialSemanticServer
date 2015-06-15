@@ -234,11 +234,10 @@ public enum SSServOpE{
   searchResultPagesCacheClean,
   
   //rating
-  ratingUserSet                                       ,
-  ratingUserGet                                       ,
+  ratingGet                                           ,
   ratingOverallGet                                    ,
-  ratingsUserRemove                                   ,
   ratingSet,
+  ratingsRemove,
   
   //model ue
   modelUEUpdate                                       ,

@@ -18,28 +18,37 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
- package at.kc.tugraz.ss.service.rating.datatypes.pars;
+package at.kc.tugraz.ss.service.rating.datatypes.ret;
 
+import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarNames;
-import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSServRetI;
+import java.util.HashMap;
+import java.util.Map;
 
-public class SSRatingUserGetPar extends SSServPar{
+public class SSRatingGetRet extends SSServRetI{
+
+  public Integer rating = -1;
+
+  public static SSRatingGetRet get(Integer rating){
+    return new SSRatingGetRet(rating);
+  }
   
-  public SSUri  entity = null;
-  
-  public SSRatingUserGetPar(SSServPar par) throws Exception{
-        
-    super(par);
+  private SSRatingGetRet(Integer rating){
     
-    try{
-      if(pars != null){
-        entity = (SSUri) pars.get(SSVarNames.entity);
-      }
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
+    super(SSServOpE.ratingGet);
+    
+    this.rating = rating;
+  }
+
+  @Override
+  public Map<String, Object> jsonLDDesc(){
+    
+    Map<String, Object> ld         = new HashMap<>();
+    
+    ld.put(SSVarNames.rating, SSVarNames.xsd + SSStrU.colon + SSStrU.valueInteger);
+    
+    return ld;
   }
 }
