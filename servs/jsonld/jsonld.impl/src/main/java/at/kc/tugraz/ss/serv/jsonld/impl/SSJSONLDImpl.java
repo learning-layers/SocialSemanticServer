@@ -49,7 +49,7 @@ public class SSJSONLDImpl extends SSServImplWithDBA implements SSJSONLDClientI, 
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSJSONLDDescRet.get(jsonLD(parA), parA.op), parA.op);
+    sSCon.writeRetFullToClient(SSJSONLDDescRet.get(jsonLD(parA), parA.op));
   }
 
   @Override

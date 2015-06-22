@@ -117,6 +117,6 @@ public class SSRecommUpdateBulkUploader extends SSServImplStartA{
   }
   
   private void sendAnswer() throws Exception{
-    sSCon.writeRetFullToClient(SSRecommUpdateBulkRet.get(true, par.op), par.op);
+    sSCon.writeRetFullToClient(SSRecommUpdateBulkRet.get(true, par.op));
   }
 }

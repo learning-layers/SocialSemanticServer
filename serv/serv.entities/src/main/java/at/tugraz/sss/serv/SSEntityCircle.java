@@ -34,6 +34,23 @@ public class SSEntityCircle extends SSEntity{
     return SSStrU.toStr(accessRights);
   }
   
+  @Override
+  public Object jsonLDDesc(){
+    
+    final Map<String, Object> ld              = (Map<String, Object>) super.jsonLDDesc();
+    final Map<String, Object> accessRightsObj = new HashMap<>();
+    
+    ld.put(SSVarNames.circleType,      SSVarNames.sss + SSStrU.colon + SSCircleE.class.getName());
+    ld.put(SSVarNames.isSystemCircle,  SSVarNames.xsd + SSStrU.colon + SSStrU.valueBoolean);
+    
+    accessRightsObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSCircleRightE.class.getName());
+    accessRightsObj.put(SSJSONLDU.container, SSJSONLDU.set);
+    
+    ld.put(SSVarNames.accessRights, accessRightsObj);
+    
+    return ld;
+  }
+  
   public static SSEntityCircle get(
     final SSUri                          id,
     final SSLabel                        label, 
@@ -86,22 +103,5 @@ public class SSEntityCircle extends SSEntity{
         entities.add(entity);
       }
     }
-  }
-  
-  @Override
-  public Object jsonLDDesc(){
-    
-    final Map<String, Object> ld              = (Map<String, Object>) super.jsonLDDesc();
-    final Map<String, Object> accessRightsObj = new HashMap<>();
-    
-    ld.put(SSVarNames.circleType,      SSVarNames.sss + SSStrU.colon + SSCircleE.class.getName());
-    ld.put(SSVarNames.isSystemCircle,  SSVarNames.xsd + SSStrU.colon + SSStrU.valueBoolean);
-    
-    accessRightsObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSCircleRightE.class.getName());
-    accessRightsObj.put(SSJSONLDU.container, SSJSONLDU.set);
-    
-    ld.put(SSVarNames.accessRights, accessRightsObj);
-    
-    return ld;
-  }
+  }  
 }

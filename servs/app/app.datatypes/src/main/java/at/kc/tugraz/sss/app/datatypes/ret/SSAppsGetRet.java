@@ -35,6 +35,20 @@ public class SSAppsGetRet extends SSServRetI{
   
   public List<SSApp> apps = new ArrayList<>();
   
+  @Override
+  public Map<String, Object> jsonLDDesc(){
+    
+    final Map<String, Object> ld         = new HashMap<>();
+    final Map<String, Object> appsObj    = new HashMap<>();
+    
+    appsObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSApp.class.getName());
+    appsObj.put(SSJSONLDU.container, SSJSONLDU.set);
+    
+    ld.put(SSVarNames.apps, appsObj);
+    
+    return ld;
+  }
+  
   public static SSAppsGetRet get(
     final List<SSApp>    apps,
     final SSServOpE        op){
@@ -51,19 +65,5 @@ public class SSAppsGetRet extends SSServRetI{
     if(apps != null){
       this.apps.addAll(apps);
     }
-  }
-  
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    
-    final Map<String, Object> ld         = new HashMap<>();
-    final Map<String, Object> appsObj    = new HashMap<>();
-    
-    appsObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSApp.class.getName());
-    appsObj.put(SSJSONLDU.container, SSJSONLDU.set);
-    
-    ld.put(SSVarNames.apps, appsObj);
-    
-    return ld;
   }
 }

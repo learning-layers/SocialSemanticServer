@@ -228,8 +228,7 @@ implements
     sSCon.writeRetFullToClient(
       SSCategoriesPredefinedGetRet.get(
         categoriesPredefinedGet(
-          (SSCategoriesPredefinedGetPar) parA.getFromJSON(SSCategoriesPredefinedGetPar.class))),
-      parA.op);
+          (SSCategoriesPredefinedGetPar) parA.getFromJSON(SSCategoriesPredefinedGetPar.class))));
   }  
   
   @Override 
@@ -310,8 +309,7 @@ implements
     
     sSCon.writeRetFullToClient(
       SSCategoryEntitiesForCategoriesGetRet.get(
-        categoryEntitiesForCategoriesGet((SSCategoryEntitiesForCategoriesGetPar) parA.getFromJSON(SSCategoryEntitiesForCategoriesGetPar.class))), 
-      parA.op);
+        categoryEntitiesForCategoriesGet((SSCategoryEntitiesForCategoriesGetPar) parA.getFromJSON(SSCategoryEntitiesForCategoriesGetPar.class))));
   }
 
   @Override
@@ -357,7 +355,7 @@ implements
     
     final SSUri categoryUri = categoryAdd((SSCategoryAddPar) parA.getFromJSON(SSCategoryAddPar.class));
     
-    sSCon.writeRetFullToClient(SSCategoryAddRet.get(categoryUri), parA.op);
+    sSCon.writeRetFullToClient(SSCategoryAddRet.get(categoryUri));
 
 //    SSTagActivityFct.addTag(new SSTagAddPar(parA), tagUri);
   }
@@ -520,8 +518,7 @@ implements
     
      sSCon.writeRetFullToClient(
       SSCategoryEditRet.get(
-        categoryEdit((SSCategoryEditPar) parA.getFromJSON(SSCategoryEditPar.class))), 
-      parA.op);
+        categoryEdit((SSCategoryEditPar) parA.getFromJSON(SSCategoryEditPar.class))));
   }
   
   @Override
@@ -621,8 +618,7 @@ implements
     
     sSCon.writeRetFullToClient(
       SSCategoriesRemoveRet.get(
-        categoriesRemove(par)),
-      parA.op);
+        categoriesRemove(par)));
     
     SSCategoryActivityFct.removeCategories(par);
   }
@@ -748,8 +744,7 @@ implements
     
     sSCon.writeRetFullToClient(
       SSCategoryFrequsGetRet.get(
-        categoryFrequsGet((SSCategoryFrequsGetPar) parA.getFromJSON(SSCategoryFrequsGetPar.class))), 
-      parA.op);
+        categoryFrequsGet((SSCategoryFrequsGetPar) parA.getFromJSON(SSCategoryFrequsGetPar.class))));
   }
   
   @Override
@@ -829,8 +824,7 @@ implements
     
      sSCon.writeRetFullToClient(
       SSCategoriesGetRet.get(
-        categoriesGet((SSCategoriesGetPar) parA.getFromJSON(SSCategoriesGetPar.class))), 
-      parA.op);
+        categoriesGet((SSCategoriesGetPar) parA.getFromJSON(SSCategoriesGetPar.class))));
   }
   
   @Override

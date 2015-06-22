@@ -84,7 +84,7 @@ public class SSRecommImpl extends SSServImplWithDBA implements SSRecommClientI, 
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSRecommUsersRet.get(recommUsers(parA), parA.op), parA.op);
+    sSCon.writeRetFullToClient(SSRecommUsersRet.get(recommUsers(parA), parA.op));
   }
   
   @Override
@@ -151,7 +151,7 @@ public class SSRecommImpl extends SSServImplWithDBA implements SSRecommClientI, 
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSRecommTagsRet.get(recommTags(parA), parA.op), parA.op);
+    sSCon.writeRetFullToClient(SSRecommTagsRet.get(recommTags(parA), parA.op));
   }
   
   @Override
@@ -210,7 +210,7 @@ public class SSRecommImpl extends SSServImplWithDBA implements SSRecommClientI, 
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSRecommResourcesRet.get(recommResources(parA), parA.op), parA.op);
+    sSCon.writeRetFullToClient(SSRecommResourcesRet.get(recommResources(parA), parA.op));
   }
   
   @Override
@@ -374,7 +374,7 @@ public class SSRecommImpl extends SSServImplWithDBA implements SSRecommClientI, 
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSRecommUpdateRet.get(recommUpdate(parA), parA.op), parA.op);
+    sSCon.writeRetFullToClient(SSRecommUpdateRet.get(recommUpdate(parA), parA.op));
   }
   
   @Override
@@ -432,7 +432,7 @@ public class SSRecommImpl extends SSServImplWithDBA implements SSRecommClientI, 
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSRecommUpdateRet.get(recommUpdateBulkEntities(parA), parA.op), parA.op);
+    sSCon.writeRetFullToClient(SSRecommUpdateRet.get(recommUpdateBulkEntities(parA), parA.op));
   }
   
   @Override

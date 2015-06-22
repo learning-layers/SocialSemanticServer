@@ -63,7 +63,7 @@ public class SSFileDownloader extends SSServImplStartA{
     
     try{
       
-      sSCon.writeRetFullToClient(new SSFileDownloadRet(par.file, par.op), par.op);
+      sSCon.writeRetFullToClient(new SSFileDownloadRet(par.file, par.op));
       
       switch(((SSFileRepoConf)conf).fileRepoType){
         case i5Cloud: downloadFromI5Cloud(); break;    

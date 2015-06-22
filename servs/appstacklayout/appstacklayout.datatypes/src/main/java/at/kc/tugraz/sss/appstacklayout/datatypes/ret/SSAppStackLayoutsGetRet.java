@@ -35,6 +35,20 @@ public class SSAppStackLayoutsGetRet extends SSServRetI{
   
   public List<SSAppStackLayout> stacks = new ArrayList<>();
   
+  @Override
+  public Map<String, Object> jsonLDDesc(){
+    
+    final Map<String, Object> ld           = new HashMap<>();
+    final Map<String, Object> stacksObj    = new HashMap<>();
+    
+    stacksObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSAppStackLayout.class.getName());
+    stacksObj.put(SSJSONLDU.container, SSJSONLDU.set);
+    
+    ld.put(SSVarNames.stacks, stacksObj);
+    
+    return ld;
+  }
+  
   public static SSAppStackLayoutsGetRet get(
     final List<SSAppStackLayout>    stacks,
     final SSServOpE                   op){
@@ -51,19 +65,5 @@ public class SSAppStackLayoutsGetRet extends SSServRetI{
     if(stacks != null){
       this.stacks.addAll(stacks);
     }
-  }
-  
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    
-    final Map<String, Object> ld                    = new HashMap<>();
-    final Map<String, Object> stacksObj    = new HashMap<>();
-    
-    stacksObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSAppStackLayout.class.getName());
-    stacksObj.put(SSJSONLDU.container, SSJSONLDU.set);
-    
-    ld.put(SSVarNames.stacks, stacksObj);
-    
-    return ld;
   }
 }

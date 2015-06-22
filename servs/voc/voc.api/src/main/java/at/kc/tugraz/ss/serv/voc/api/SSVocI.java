@@ -20,8 +20,5 @@
 */
 package at.kc.tugraz.ss.serv.voc.api;
 
-import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServPar;
-
 public interface SSVocI{
 }

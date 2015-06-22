@@ -20,18 +20,6 @@
 */
 package at.tugraz.sss.serv;
 
-import at.tugraz.sss.serv.SSJSONLDPropI;
-import at.tugraz.sss.serv.SSJSONLDPropI;
-import at.tugraz.sss.serv.SSJSONLDPropI;
-import at.tugraz.sss.serv.SSJSONLDPropI;
-import at.tugraz.sss.serv.SSObjU;
-import at.tugraz.sss.serv.SSObjU;
-import at.tugraz.sss.serv.SSObjU;
-import at.tugraz.sss.serv.SSObjU;
-import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSStrU;
 import java.util.List;
 
 public enum SSCircleRightE implements SSJSONLDPropI{
@@ -39,6 +27,11 @@ public enum SSCircleRightE implements SSJSONLDPropI{
   all,
   read,
   edit;
+  
+@Override
+  public Object jsonLDDesc(){
+    return SSVarNames.xsd + SSStrU.colon + SSStrU.valueString;
+  }
   
   public static SSCircleRightE get(final String value) throws Exception{
     return SSCircleRightE.valueOf(value);
@@ -78,9 +71,4 @@ public enum SSCircleRightE implements SSJSONLDPropI{
   }
   
   private SSCircleRightE(){}
-  
-  @Override
-  public Object jsonLDDesc(){
-    return SSStrU.valueString;
-  }
 }

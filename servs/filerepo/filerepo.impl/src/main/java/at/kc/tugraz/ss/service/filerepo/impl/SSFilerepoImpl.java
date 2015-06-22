@@ -211,7 +211,7 @@ implements
 
     SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(fileCanWrite(parA), parA.op);
+    sSCon.writeRetFullToClient(fileCanWrite(parA));
   }
 
   @Override
@@ -219,7 +219,7 @@ implements
 
     SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(fileSetReaderOrWriter(parA), parA.op);
+    sSCon.writeRetFullToClient(fileSetReaderOrWriter(parA));
   }
 
   @Override
@@ -227,7 +227,7 @@ implements
 
     SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(fileRemoveReaderOrWriter(parA), parA.op);
+    sSCon.writeRetFullToClient(fileRemoveReaderOrWriter(parA));
   }
 
   @Override
@@ -235,7 +235,7 @@ implements
 
     SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(fileWritingMinutesLeft(parA), parA.op);
+    sSCon.writeRetFullToClient(fileWritingMinutesLeft(parA));
   }
 
   @Override
@@ -243,7 +243,7 @@ implements
 
     SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(fileUserFileWrites(parA), parA.op);
+    sSCon.writeRetFullToClient(fileUserFileWrites(parA));
   }
 
   @Override

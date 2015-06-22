@@ -81,7 +81,7 @@ public class SSAppImpl extends SSServImplWithDBA implements SSAppClientI, SSAppS
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSAppAddRet.get(appAdd(parA), parA.op), parA.op);
+    sSCon.writeRetFullToClient(SSAppAddRet.get(appAdd(parA), parA.op));
   }
 
   @Override
@@ -188,7 +188,7 @@ public class SSAppImpl extends SSServImplWithDBA implements SSAppClientI, SSAppS
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSAppsGetRet.get(appsGet(parA), parA.op), parA.op);
+    sSCon.writeRetFullToClient(SSAppsGetRet.get(appsGet(parA), parA.op));
   }
   
   @Override

@@ -32,6 +32,20 @@ public class SSAppAddRet extends SSServRetI{
   
   public SSUri app = null;
   
+  public String getApp() {
+    return SSStrU.removeTrailingSlash(app);
+  }
+  
+  @Override
+  public Map<String, Object> jsonLDDesc(){
+    
+    final Map<String, Object> ld         = new HashMap<>();
+    
+    ld.put(SSVarNames.app, SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
+    
+    return ld;
+  }
+    
   public static SSAppAddRet get(
     final SSUri    app,
     final SSServOpE  op){
@@ -46,21 +60,5 @@ public class SSAppAddRet extends SSServRetI{
     super(op);
     
     this.app = app;
-  }
-  
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    
-    final Map<String, Object> ld         = new HashMap<>();
-    
-    ld.put(SSVarNames.app, SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
-    
-    return ld;
-  }
-  
-  /* json getters */
-  
-  public String getApp() {
-    return SSStrU.removeTrailingSlash(app);
   }
 }

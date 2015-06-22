@@ -36,6 +36,20 @@ public class SSBroadcast implements SSJSONLDPropI{
   public Object            content   = null;
   public Long              timestamp = -1L;
 
+  @Override
+  public Object jsonLDDesc() {
+    
+    final Map<String, Object> ld = new HashMap<>();
+    
+    ld.put(SSVarNames.entity,      SSVarNames.sss  + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarNames.type,        SSVarNames.sss  + SSStrU.colon + SSBroadcastEnum.class.getName());
+    ld.put(SSVarNames.user,        SSVarNames.sss  + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarNames.timestamp,   SSVarNames.xsd  + SSStrU.colon + SSStrU.valueLong);
+    ld.put(SSVarNames.content,     SSVarNames.xsd  + SSStrU.colon + SSStrU.valueObject);
+    
+    return ld;
+  }
+  
   public static SSBroadcast get(
     final SSBroadcastEnum    type, 
     final SSUri              entity, 
@@ -59,18 +73,4 @@ public class SSBroadcast implements SSJSONLDPropI{
   }
   
   public SSBroadcast(){}
-  
-  @Override
-  public Object jsonLDDesc() {
-    
-    Map<String, Object> ld = new HashMap<>();
-    
-    ld.put(SSVarNames.entity,      SSVarNames.sss  + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarNames.type,        SSVarNames.sss  + SSStrU.colon + SSBroadcastEnum.class.getName());
-    ld.put(SSVarNames.user,        SSVarNames.sss  + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarNames.timestamp,   SSVarNames.xsd  + SSStrU.colon + SSStrU.valueLong);
-    ld.put(SSVarNames.content,     SSVarNames.xsd  + SSStrU.colon + SSStrU.valueBoolean);
-    
-    return ld;
-  }
 }

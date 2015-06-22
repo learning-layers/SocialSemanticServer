@@ -76,7 +76,7 @@ public class SSSearchImpl extends SSServImplWithDBA implements SSSearchClientI, 
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(search(parA), parA.op);
+    sSCon.writeRetFullToClient(search(parA));
     
 //    SSSearchActivityFct.search(new SSSearchPar((parA)));
   }

@@ -235,8 +235,7 @@ implements
 
     sSCon.writeRetFullToClient(
       new SSUserAllRet(
-        userAll((SSUserAllPar) parA.getFromJSON(SSUserAllPar.class))), 
-      parA.op);
+        userAll((SSUserAllPar) parA.getFromJSON(SSUserAllPar.class))));
 //      }
   }
   

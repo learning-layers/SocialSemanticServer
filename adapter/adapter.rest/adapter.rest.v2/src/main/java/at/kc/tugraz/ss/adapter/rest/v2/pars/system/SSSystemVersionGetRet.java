@@ -22,12 +22,24 @@ package at.kc.tugraz.ss.adapter.rest.v2.pars.system;
 
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSServRetI;
+import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.SSVarNames;
 import java.util.HashMap;
 import java.util.Map;
 
 public class SSSystemVersionGetRet extends SSServRetI{
   
   public String version = null;
+  
+  @Override
+  public Map<String, Object> jsonLDDesc(){
+    
+    final Map<String, Object> ld              = new HashMap<>();
+    
+    ld.put(SSVarNames.version,      SSVarNames.xsd + SSStrU.colon + SSStrU.valueString);
+    
+    return ld;
+  }
   
   public SSSystemVersionGetRet(
     final String  version,
@@ -36,15 +48,5 @@ public class SSSystemVersionGetRet extends SSServRetI{
     super(op);
     
     this.version = version;
-  }
-  
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    return new HashMap<>();
-  }
-  
-  /* json getters */
-  public String getVersion(){
-    return version;
   }
 }

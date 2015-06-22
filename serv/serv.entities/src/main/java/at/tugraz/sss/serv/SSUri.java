@@ -28,6 +28,11 @@ import java.util.*;
 
 public class SSUri extends SSEntityA{
   
+  @Override
+  public Object jsonLDDesc(){
+    return SSLinkU.schemaOrgUrl;
+  }
+  
   public static Boolean isURI(final String string) throws Exception{
     
 //    URIUtil.encodeQuery(string)
@@ -229,11 +234,6 @@ public class SSUri extends SSEntityA{
     if(!isURI(val)){
       throw new Exception("invalid uri " + val);
     }
-  }
-  
-  @Override
-  public Object jsonLDDesc(){
-    return SSLinkU.schemaOrgUrl;
   }
 }
 

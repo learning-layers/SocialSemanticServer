@@ -31,6 +31,20 @@ public class SSAppTile extends SSEntity{
   
   public SSUri           app      = null;
   
+  public String getApp(){
+    return SSStrU.removeTrailingSlash(app);
+  }
+  
+  @Override
+  public Object jsonLDDesc(){
+  
+    final Map<String, Object> ld = (Map<String, Object>) super.jsonLDDesc();
+    
+    ld.put(SSVarNames.app,         SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
+    
+    return ld;
+  }
+  
   public static SSAppTile get(
     final SSAppTile     appTile,
     final SSEntity      entity) throws Exception{
@@ -64,21 +78,5 @@ public class SSAppTile extends SSEntity{
     
     this.app               = app;
 
-  }
-
-  @Override
-  public Object jsonLDDesc(){
-  
-    final Map<String, Object> ld = (Map<String, Object>) super.jsonLDDesc();
-    
-    ld.put(SSVarNames.app,         SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
-    
-    return ld;
-  }
-  
-  /* json getters */
-  
-  public String getApp(){
-    return SSStrU.removeTrailingSlash(app);
   }
 }

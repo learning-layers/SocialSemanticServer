@@ -69,7 +69,7 @@ public class SSModelUEImpl extends SSServImplWithDBA implements SSModelUEClientI
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(modelUEResourceDetails(parA), parA.op);
+    sSCon.writeRetFullToClient(modelUEResourceDetails(parA));
   }
   
   @Override
@@ -77,7 +77,7 @@ public class SSModelUEImpl extends SSServImplWithDBA implements SSModelUEClientI
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSModelUERelatedPersonsRet.get(modelUERelatedPersons(parA), parA.op), parA.op);
+    sSCon.writeRetFullToClient(SSModelUERelatedPersonsRet.get(modelUERelatedPersons(parA), parA.op));
   }
   
   @Override
@@ -85,7 +85,7 @@ public class SSModelUEImpl extends SSServImplWithDBA implements SSModelUEClientI
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSModelUEMIsForEntityGetRet.get(modelUEMIsForEntityGet(parA), parA.op), parA.op);
+    sSCon.writeRetFullToClient(SSModelUEMIsForEntityGetRet.get(modelUEMIsForEntityGet(parA), parA.op));
   }
   
   /* SSModelUEServerI  */

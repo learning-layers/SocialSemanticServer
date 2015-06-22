@@ -20,7 +20,6 @@
 */
 package at.tugraz.sss.servs.ocd.impl;
 
-import at.kc.tugraz.ss.recomm.datatypes.ret.SSRecommUsersRet;
 import at.tugraz.sss.servs.ocd.api.SSOCDClientI;
 import at.tugraz.sss.servs.ocd.api.SSOCDServerI;
 import at.tugraz.sss.serv.SSConfA;
@@ -31,7 +30,6 @@ import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSSocketCon;
-import at.tugraz.sss.serv.caller.SSServCallerU;
 import at.tugraz.sss.servs.ocd.conf.SSOCDConf;
 
 public class SSOCDImpl extends SSServImplWithDBA implements SSOCDClientI, SSOCDServerI {
@@ -52,7 +50,7 @@ public class SSOCDImpl extends SSServImplWithDBA implements SSOCDClientI, SSOCDS
         //SSServCallerU.checkKey(parA);
         
         String response = ocdCreateGraph(1);
-        sSCon.writeRetFullToClient(response, parA.op);
+        sSCon.writeRetFullToClient(null);
     }
 
     @Override

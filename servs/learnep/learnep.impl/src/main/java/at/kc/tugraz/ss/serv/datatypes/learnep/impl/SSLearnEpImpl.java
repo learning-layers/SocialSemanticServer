@@ -312,7 +312,7 @@ implements
 
     SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(SSLearnEpsGetRet.get(learnEpsGet(parA), parA.op), parA.op);
+    sSCon.writeRetFullToClient(SSLearnEpsGetRet.get(learnEpsGet(parA), parA.op));
   }
 
   @Override
@@ -376,7 +376,7 @@ implements
 
     SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(SSLearnEpVersionsGetRet.get(learnEpVersionsGet(parA), parA.op), parA.op);
+    sSCon.writeRetFullToClient(SSLearnEpVersionsGetRet.get(learnEpVersionsGet(parA), parA.op));
   }
   
   @Override
@@ -457,7 +457,7 @@ implements
 
     SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(SSLearnEpVersionGetRet.get(learnEpVersionGet(parA), parA.op), parA.op);
+    sSCon.writeRetFullToClient(SSLearnEpVersionGetRet.get(learnEpVersionGet(parA), parA.op));
   }
   
    @Override
@@ -502,7 +502,7 @@ implements
 
     SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(SSLearnEpRemoveRet.get(learnEpRemove(parA), parA.op), parA.op);
+    sSCon.writeRetFullToClient(SSLearnEpRemoveRet.get(learnEpRemove(parA), parA.op));
   }
   
   @Override
@@ -549,7 +549,7 @@ implements
 
     final SSUri result = learnEpVersionCreate(parA);
     
-    sSCon.writeRetFullToClient(SSLearnEpVersionCreateRet.get(result, parA.op), parA.op);
+    sSCon.writeRetFullToClient(SSLearnEpVersionCreateRet.get(result, parA.op));
     
 //    SSLearnEpActivityFct.createLearnEpVersion(new SSLearnEpVersionCreatePar(parA), result);
   }
@@ -637,7 +637,7 @@ implements
 
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSLearnEpVersionAddCircleRet.get(learnEpVersionAddCircle(parA), parA.op), parA.op);
+    sSCon.writeRetFullToClient(SSLearnEpVersionAddCircleRet.get(learnEpVersionAddCircle(parA), parA.op));
   }
   
   @Override
@@ -735,7 +735,7 @@ implements
 
     SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(SSLearnEpVersionAddEntityRet.get(learnEpVersionAddEntity(parA), parA.op), parA.op);
+    sSCon.writeRetFullToClient(SSLearnEpVersionAddEntityRet.get(learnEpVersionAddEntity(parA), parA.op));
   }
   
   @Override
@@ -847,7 +847,7 @@ implements
 
     final SSUri learnEp = learnEpCreate(parA);
     
-    sSCon.writeRetFullToClient(SSLearnEpCreateRet.get(learnEp, parA.op), parA.op);
+    sSCon.writeRetFullToClient(SSLearnEpCreateRet.get(learnEp, parA.op));
     
 //    SSLearnEpActivityFct.createLearnEp(new SSLearnEpCreatePar(parA), learnEp);
   }
@@ -904,7 +904,7 @@ implements
 
     SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(SSLearnEpVersionUpdateCircleRet.get(learnEpVersionUpdateCircle(parA), parA.op), parA.op);
+    sSCon.writeRetFullToClient(SSLearnEpVersionUpdateCircleRet.get(learnEpVersionUpdateCircle(parA), parA.op));
   }
   
   @Override
@@ -975,7 +975,7 @@ implements
 
     SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(SSLearnEpVersionUpdateEntityRet.get(learnEpVersionUpdateEntity(parA), parA.op), parA.op);
+    sSCon.writeRetFullToClient(SSLearnEpVersionUpdateEntityRet.get(learnEpVersionUpdateEntity(parA), parA.op));
   }
   
   @Override
@@ -1070,7 +1070,7 @@ implements
 
     SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(SSLearnEpVersionRemoveCircleRet.get(learnEpVersionRemoveCircle(parA), parA.op), parA.op);
+    sSCon.writeRetFullToClient(SSLearnEpVersionRemoveCircleRet.get(learnEpVersionRemoveCircle(parA), parA.op));
   }
   
   @Override
@@ -1124,7 +1124,7 @@ implements
 
     SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(SSLearnEpVersionRemoveEntityRet.get(learnEpVersionRemoveEntity(parA), parA.op), parA.op);
+    sSCon.writeRetFullToClient(SSLearnEpVersionRemoveEntityRet.get(learnEpVersionRemoveEntity(parA), parA.op));
   }
   
   @Override
@@ -1178,7 +1178,7 @@ implements
 
     SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(SSLearnEpVersionSetTimelineStateRet.get(learnEpVersionSetTimelineState(parA), parA.op), parA.op);
+    sSCon.writeRetFullToClient(SSLearnEpVersionSetTimelineStateRet.get(learnEpVersionSetTimelineState(parA), parA.op));
   }
   
   @Override
@@ -1266,7 +1266,7 @@ implements
 
     SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(SSLearnEpVersionGetTimelineStateRet.get(learnEpVersionGetTimelineState(parA), parA.op), parA.op);
+    sSCon.writeRetFullToClient(SSLearnEpVersionGetTimelineStateRet.get(learnEpVersionGetTimelineState(parA), parA.op));
   }
   
   @Override
@@ -1291,7 +1291,7 @@ implements
 
     SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(SSLearnEpVersionCurrentGetRet.get(learnEpVersionCurrentGet(parA), parA.op), parA.op);
+    sSCon.writeRetFullToClient(SSLearnEpVersionCurrentGetRet.get(learnEpVersionCurrentGet(parA), parA.op));
   }
   
   @Override
@@ -1339,7 +1339,7 @@ implements
 
     SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(SSLearnEpVersionCurrentSetRet.get(learnEpVersionCurrentSet(parA), parA.op), parA.op);
+    sSCon.writeRetFullToClient(SSLearnEpVersionCurrentSetRet.get(learnEpVersionCurrentSet(parA), parA.op));
     
 //    SSLearnEpActivityFct.setCurrentLearnEpVersion(new SSLearnEpVersionCurrentSetPar(parA));
   }
@@ -1429,7 +1429,7 @@ implements
 
     SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(learnEpLockHold(parA), parA.op);
+    sSCon.writeRetFullToClient(learnEpLockHold(parA));
   }
   
   @Override
@@ -1479,7 +1479,7 @@ implements
 
     SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(SSLearnEpsLockHoldRet.get(learnEpsLockHold(parA), parA.op), parA.op);
+    sSCon.writeRetFullToClient(SSLearnEpsLockHoldRet.get(learnEpsLockHold(parA), parA.op));
   }
   
   @Override
@@ -1530,7 +1530,7 @@ implements
     
     SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(SSLearnEpLockSetRet.get(learnEpLockSet(parA), parA.op), parA.op);
+    sSCon.writeRetFullToClient(SSLearnEpLockSetRet.get(learnEpLockSet(parA), parA.op));
   }
   
   @Override
@@ -1592,7 +1592,7 @@ implements
 
     SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(SSLearnEpLockRemoveRet.get(learnEpLockRemove(parA), parA.op), parA.op);
+    sSCon.writeRetFullToClient(SSLearnEpLockRemoveRet.get(learnEpLockRemove(parA), parA.op));
   }
   
   @Override

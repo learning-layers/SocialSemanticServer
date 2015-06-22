@@ -34,6 +34,21 @@ public class SSAuthCheckCredRet extends SSServRetI{
   public SSUri  user = null;
   public String key  = null;
   
+  public String getUser() {
+    return SSStrU.removeTrailingSlash(user);
+  } 
+  
+  @Override
+  public Map<String, Object> jsonLDDesc(){
+    
+    final Map<String, Object> ld = new HashMap<>();
+    
+    ld.put(SSVarNames.key,  SSLinkU.xsd     + SSStrU.valueString);
+    ld.put(SSVarNames.user, SSVarNames.sss  + SSStrU.colon + SSUri.class.getName());
+    
+    return ld;
+  }
+  
   public static SSAuthCheckCredRet get(
     final String  key, 
     final SSUri   uri,
@@ -51,25 +66,4 @@ public class SSAuthCheckCredRet extends SSServRetI{
     this.key = key;
     this.user = uri;
   }
-
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    
-    final Map<String, Object> ld = new HashMap<>();
-    
-    ld.put(SSVarNames.key,  SSLinkU.xsd + SSStrU.valueString);
-    ld.put(SSVarNames.user, SSVarNames.sss  + SSStrU.colon + SSUri.class.getName());
-    
-    return ld;
-  }
-  
-  /* json getters */
-  
-  public String getKey() {
-    return key;
-  }  
-  
-  public String getUser() {
-    return SSStrU.removeTrailingSlash(user);
-  }  
 }

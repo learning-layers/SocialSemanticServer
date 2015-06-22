@@ -223,7 +223,7 @@ public class SSEntity extends SSEntityA{
     this.likes            = entity.likes;
   }
   
-  @Override
+  @Override //TODO has to be fixed and adapted
   public Object jsonLDDesc() {
    
     final Map<String, Object> ld                  = new HashMap<>();

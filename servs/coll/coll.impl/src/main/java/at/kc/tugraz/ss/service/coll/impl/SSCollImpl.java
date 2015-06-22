@@ -437,7 +437,7 @@ implements
 
     SSColl collParent = collUserParentGet(parA);
 
-    sSCon.writeRetFullToClient(SSCollUserParentGetRet.get(collParent, parA.op), parA.op);
+    sSCon.writeRetFullToClient(SSCollUserParentGetRet.get(collParent, parA.op));
   }
   
   @Override
@@ -465,7 +465,7 @@ implements
 
     SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(SSCollUserRootGetRet.get(collUserRootGet(parA), parA.op), parA.op);
+    sSCon.writeRetFullToClient(SSCollUserRootGetRet.get(collUserRootGet(parA), parA.op));
   }
   
   @Override
@@ -491,7 +491,7 @@ implements
 
     SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(SSCollUserEntryDeleteRet.get(collUserEntryDelete(parA), parA.op), parA.op);
+    sSCon.writeRetFullToClient(SSCollUserEntryDeleteRet.get(collUserEntryDelete(parA), parA.op));
     
     SSCollActivityFct.removeCollEntry(new SSCollUserEntryDeletePar(parA));
   }
@@ -544,7 +544,7 @@ implements
 
     SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(SSCollsUserCouldSubscribeGetRet.get(collsUserCouldSubscribeGet(parA), parA.op), parA.op);
+    sSCon.writeRetFullToClient(SSCollsUserCouldSubscribeGetRet.get(collsUserCouldSubscribeGet(parA), parA.op));
   }
   
    @Override
@@ -575,7 +575,7 @@ implements
 
     SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(SSCollUserEntriesDeleteRet.get(collUserEntriesDelete(parA), parA.op), parA.op);
+    sSCon.writeRetFullToClient(SSCollUserEntriesDeleteRet.get(collUserEntriesDelete(parA), parA.op));
     
     SSCollActivityFct.removeCollEntries(new SSCollUserEntriesDeletePar(parA));
   }
@@ -622,7 +622,7 @@ implements
 
     SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(SSCollUserEntryAddRet.get(collUserEntryAdd(parA), parA.op), parA.op);
+    sSCon.writeRetFullToClient(SSCollUserEntryAddRet.get(collUserEntryAdd(parA), parA.op));
     
     SSCollActivityFct.addCollEntry(new SSCollUserEntryAddPar(parA));
   }
@@ -706,7 +706,7 @@ implements
 
     SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(SSCollUserEntriesAddRet.get(collUserEntriesAdd(parA), parA.op), parA.op);
+    sSCon.writeRetFullToClient(SSCollUserEntriesAddRet.get(collUserEntriesAdd(parA), parA.op));
     
     SSCollActivityFct.addCollEntries(new SSCollUserEntriesAddPar(parA));
   }
@@ -760,7 +760,7 @@ implements
 
     SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(SSCollUserEntryChangePosRet.get(collUserEntryChangePos(parA), parA.op), parA.op);
+    sSCon.writeRetFullToClient(SSCollUserEntryChangePosRet.get(collUserEntryChangePos(parA), parA.op));
     
 //    SSCollActivityFct.changeCollEntryPos(new SSCollUserEntryChangePosPar(parA));
   }
@@ -815,7 +815,7 @@ implements
 
     SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(SSCollUserWithEntriesRet.get(collUserWithEntries(parA), parA.op), parA.op);
+    sSCon.writeRetFullToClient(SSCollUserWithEntriesRet.get(collUserWithEntries(parA), parA.op));
   }
   
   @Override
@@ -838,7 +838,7 @@ implements
 
     SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(SSCollsUserWithEntriesRet.get(collsUserWithEntries(parA), parA.op), parA.op);
+    sSCon.writeRetFullToClient(SSCollsUserWithEntriesRet.get(collsUserWithEntries(parA), parA.op));
   }
   
   @Override
@@ -870,7 +870,7 @@ implements
 
     SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(SSCollUserHierarchyGetRet.get(collUserHierarchyGet(parA), parA.op), parA.op);
+    sSCon.writeRetFullToClient(SSCollUserHierarchyGetRet.get(collUserHierarchyGet(parA), parA.op));
   }
   
   @Override
@@ -915,7 +915,7 @@ implements
 
     SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(SSCollUserCumulatedTagsGetRet.get(collUserCumulatedTagsGet(parA), parA.op), parA.op);
+    sSCon.writeRetFullToClient(SSCollUserCumulatedTagsGetRet.get(collUserCumulatedTagsGet(parA), parA.op));
   }
   
    @Override
@@ -1020,7 +1020,7 @@ implements
 
     SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(SSCollsUserEntityIsInGetRet.get(collsUserEntityIsInGet(parA), parA.op), parA.op);
+    sSCon.writeRetFullToClient(SSCollsUserEntityIsInGetRet.get(collsUserEntityIsInGet(parA), parA.op));
   }
   
   @Override

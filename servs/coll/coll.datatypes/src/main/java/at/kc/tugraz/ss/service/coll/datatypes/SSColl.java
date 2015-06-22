@@ -28,6 +28,11 @@ import java.util.*;
 
 public class SSColl extends SSEntity{
 
+  @Override
+  public Object jsonLDDesc(){
+    return super.jsonLDDesc();
+  }
+  
   public static SSColl get(
     final SSEntity entity) throws Exception{
     

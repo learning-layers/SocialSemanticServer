@@ -35,6 +35,20 @@ public class SSBroadcastsGetRet extends SSServRetI{
 
   public List<SSBroadcast> broadcasts = new ArrayList<>();
 
+  @Override
+  public Map<String, Object> jsonLDDesc(){
+    
+    Map<String, Object> ld         = new HashMap<>();
+    Map<String, Object> broadcastsObj = new HashMap<>();
+    
+    broadcastsObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSBroadcast.class.getName());
+    broadcastsObj.put(SSJSONLDU.container, SSJSONLDU.set);
+    
+    ld.put(SSVarNames.broadcasts, broadcastsObj);
+    
+    return ld;
+  }
+  
   public static SSBroadcastsGetRet get(
     final List<SSBroadcast> broadcasts, 
     final SSServOpE           op){
@@ -50,22 +64,4 @@ public class SSBroadcastsGetRet extends SSServRetI{
     
     this.broadcasts.addAll(broadcasts);
   }
-  
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    
-    Map<String, Object> ld         = new HashMap<>();
-    Map<String, Object> broadcastsObj = new HashMap<>();
-    
-    broadcastsObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSBroadcast.class.getName());
-    broadcastsObj.put(SSJSONLDU.container, SSJSONLDU.set);
-    
-    ld.put(SSVarNames.broadcasts, broadcastsObj);
-    
-    return ld;
-  }
-  
-  public List<SSBroadcast> getBroadcasts() {
-    return broadcasts;
-  }  
 }

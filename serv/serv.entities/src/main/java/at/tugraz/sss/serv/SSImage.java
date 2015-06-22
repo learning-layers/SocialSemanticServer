@@ -22,9 +22,13 @@ package at.tugraz.sss.serv;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class SSImage extends SSEntity{
+  
+  @Override
+  public Object jsonLDDesc(){
+    return super.jsonLDDesc();
+  }
   
   public static List<SSImage> get(final List<SSUri> uris) throws Exception{
     
@@ -48,19 +52,5 @@ public class SSImage extends SSEntity{
     final SSUri           id) throws Exception{
     
     super(id, SSEntityE.image);
-  }
-
-  @Override
-  public Object jsonLDDesc(){
-  
-    final Map<String, Object> ld = (Map<String, Object>) super.jsonLDDesc();
-    
-//    ld.put(SSVarU.user,         SSVarU.sss + SSStrU.colon + SSUri.class.getName());
-//    ld.put(SSVarU.entity,       SSVarU.sss + SSStrU.colon + SSUri.class.getName());
-//    ld.put(SSVarU.appType,      SSVarU.sss + SSStrU.colon + SSAppE.class.getName());
-//    ld.put(SSVarU.endTime,      SSVarU.xsd + SSStrU.colon + SSStrU.valueLong);
-//    ld.put(SSVarU.value,        SSVarU.xsd + SSStrU.colon + SSStrU.valueInteger);
-    
-    return ld;
   }
 }
