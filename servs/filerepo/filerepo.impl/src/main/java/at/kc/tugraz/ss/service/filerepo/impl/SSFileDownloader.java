@@ -23,8 +23,6 @@ package at.kc.tugraz.ss.service.filerepo.impl;
 import at.tugraz.sss.serv.SSHTMLU;
 import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSSocketU;
-import at.tugraz.sss.serv.SSSocketCon;
-
 import at.tugraz.sss.serv.SSServImplStartA;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.filerepo.conf.SSFileRepoConf;
@@ -43,7 +41,6 @@ public class SSFileDownloader extends SSServImplStartA{
   private byte[]                   chunk             = new byte[SSSocketU.socketTranmissionSize];
   private String                   fileId            = null;
   private int                      fileChunkLength   = -1;
-  private SSSocketCon              sSCon             = null;
   private SSFileDownloadPar        par               = null;
   private SSFilerepoImpl           servImpl          = null;
   
@@ -51,13 +48,11 @@ public class SSFileDownloader extends SSServImplStartA{
   
   public SSFileDownloader(
     final SSFileRepoConf    fileRepoConf, 
-    final SSSocketCon       sSCon, 
     final SSFileDownloadPar par,
     final SSFilerepoImpl    servImpl) throws Exception{
     
     super(fileRepoConf, null);
     
-    this.sSCon             = sSCon;
     this.par               = par;
     this.servImpl          = servImpl;
     this.fileId            = this.servImpl.fileIDFromURI(new SSFileIDFromURIPar(null, null, this.par.user, this.par.file));
@@ -68,7 +63,7 @@ public class SSFileDownloader extends SSServImplStartA{
     
     try{
       
-      sSCon.writeRetFullToClient(new SSFileDownloadRet(par.file));
+      par.sSCon.writeRetFullToClient(new SSFileDownloadRet(par.file));
       
       switch(((SSFileRepoConf)conf).fileRepoType){
         case i5Cloud: downloadFromI5Cloud(); break;    
@@ -80,7 +75,7 @@ public class SSFileDownloader extends SSServImplStartA{
 
       fileReader = new DataInputStream (new FileInputStream(new File(((SSFileRepoConf)conf).getPath() + fileId)));
       
-      sSCon.readMsgFullFromClient();
+      par.sSCon.readMsgFullFromClient();
       
       while(true){
         
@@ -89,14 +84,14 @@ public class SSFileDownloader extends SSServImplStartA{
         fileChunkLength = fileReader.read(chunk);
         
         if(fileChunkLength == -1){
-          sSCon.writeFileChunkToClient(new byte[0], fileChunkLength);
+          par.sSCon.writeFileChunkToClient(new byte[0], fileChunkLength);
           fileReader.close();
           
 //          saveActivity();
           return;
         }
         
-        sSCon.writeFileChunkToClient(chunk, fileChunkLength);
+        par.sSCon.writeFileChunkToClient(chunk, fileChunkLength);
       }
       
     }catch(Exception error1){
@@ -104,7 +99,7 @@ public class SSFileDownloader extends SSServImplStartA{
       SSServErrReg.regErr(error1);
       
       try{
-        sSCon.writeErrorFullToClient(SSServErrReg.getServiceImplErrors(), par.op);
+        par.sSCon.writeErrorFullToClient(SSServErrReg.getServiceImplErrors(), par.op);
       }catch(Exception error2){
         SSServErrReg.regErr(error2);
       }

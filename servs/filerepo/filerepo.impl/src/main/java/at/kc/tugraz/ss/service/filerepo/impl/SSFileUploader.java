@@ -57,19 +57,16 @@ public class SSFileUploader extends SSServImplStartA{
   private       String                fileId            = null;
   private       byte[]                fileChunk         = null;
   private       SSUri                 uri               = null;
-  private       SSSocketCon           sSCon             = null;
   private       String                localWorkPath     = null;
   private       SSFilerepoImpl        servImpl          = null;
   
   public SSFileUploader(
     final SSFileRepoConf     fileRepoConf, 
-    final SSSocketCon        sSCon, 
     final SSFileUploadPar    par,
     final SSFilerepoImpl     servImpl) throws Exception{
     
     super(fileRepoConf, null);
     
-    this.sSCon             = sSCon;
     this.par               = par;
     this.servImpl          = servImpl;
     this.localWorkPath     = SSCoreConf.instGet().getSss().getLocalWorkPath();
@@ -94,7 +91,7 @@ public class SSFileUploader extends SSServImplStartA{
       
       while(true){
         
-        fileChunk = sSCon.readFileChunkFromClient();
+        fileChunk = par.sSCon.readFileChunkFromClient();
         
         if(fileChunk.length != 0){
           
@@ -128,7 +125,7 @@ public class SSFileUploader extends SSServImplStartA{
       SSServErrReg.regErr(error1);
       
       try{
-        sSCon.writeErrorFullToClient(SSServErrReg.getServiceImplErrors(), par.op);
+        par.sSCon.writeErrorFullToClient(SSServErrReg.getServiceImplErrors(), par.op);
       }catch(Exception error2){
         SSServErrReg.regErr(error2);
       }
@@ -157,7 +154,7 @@ public class SSFileUploader extends SSServImplStartA{
   }
   
   private void sendAnswer() throws Exception{
-    sSCon.writeRetFullToClient(SSFileUploadRet.get(uri));
+    par.sSCon.writeRetFullToClient(SSFileUploadRet.get(uri));
   }
   
   private void removeFileFromLocalWorkFolder() throws Exception{

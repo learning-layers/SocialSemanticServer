@@ -25,12 +25,14 @@ import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSSocketCon;
 import at.tugraz.sss.serv.SSUri;
 
 public class SSFileUploadPar extends SSServPar{
   
   public SSLabel       label     = null;
   public SSMimeTypeE   mimeType  = null;
+  public SSSocketCon   sSCon     = null;
   
   public String getLabel(){
     return SSStrU.toStr(label);
@@ -56,12 +58,14 @@ public class SSFileUploadPar extends SSServPar{
     final SSUri         user,
     final SSMimeTypeE   mimeType,
     final SSLabel       label,
+    final SSSocketCon   sSCon,
     final Boolean       shouldCommit){
     
     super (op, key, user);
     
     this.mimeType     = mimeType;
     this.label        = label;
+    this.sSCon        = sSCon;
     this.shouldCommit = shouldCommit;
   }
 }

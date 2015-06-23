@@ -195,13 +195,47 @@ implements
     
     SSServCallerU.checkKey(parA);
     
+    final SSFileDownloadPar par = (SSFileDownloadPar) parA.getFromJSON(SSFileDownloadPar.class);
+    
+    par.sSCon = sSCon;
+    
+    fileDownload(par);
+  }
+
+  @Override
+  public void fileDownload(final SSFileDownloadPar par) throws Exception{
+    
     try{
       
-      final SSFileDownloadPar par = (SSFileDownloadPar) parA.getFromJSON(SSFileDownloadPar.class);
-
       SSServCallerU.canUserReadEntity(par.user, par.file);
       
-      new Thread(new SSFileDownloader((SSFileRepoConf)conf, sSCon, par, this)).start();
+      new Thread(new SSFileDownloader((SSFileRepoConf)conf, par, this)).start();
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  @Override
+  public void fileReplace(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
+
+    SSServCallerU.checkKey(parA);
+
+    final SSFileReplacePar par = (SSFileReplacePar) parA.getFromJSON(SSFileReplacePar.class);
+    
+    par.sSCon = sSCon;
+    
+    fileReplace(par);
+  }
+  
+  @Override
+  public void fileReplace(final SSFileReplacePar par) throws Exception{
+    
+    try{
+      
+      SSServCallerU.canUserReadEntity(par.user, par.file);
+      
+      new Thread(new SSFileReplacer((SSFileRepoConf)conf, par, this)).start();
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -209,23 +243,25 @@ implements
   }
 
   @Override
-  public void fileReplace(SSSocketCon sSCon, SSServPar parA) throws Exception{
-
-    SSServCallerU.checkKey(parA);
-
-    final SSFileReplacePar par = (SSFileReplacePar) parA.getFromJSON(SSFileReplacePar.class);
-    
-    new Thread(new SSFileReplacer((SSFileRepoConf)conf, sSCon, par, this)).start();
-  }
-
-  @Override
-  public void fileUpload(SSSocketCon sSCon, SSServPar parA) throws Exception{
+  public void fileUpload(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
 
     SSServCallerU.checkKey(parA);
 
     final SSFileUploadPar par = (SSFileUploadPar) parA.getFromJSON(SSFileUploadPar.class);
     
-    new Thread(new SSFileUploader((SSFileRepoConf) conf, sSCon, par, this)).start();
+    par.sSCon = sSCon;
+    
+    fileUpload(par);
+  }
+  
+  @Override
+  public void fileUpload(final SSFileUploadPar par) throws Exception{
+    
+    try{
+      new Thread(new SSFileUploader((SSFileRepoConf) conf, par, this)).start();
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
   }
 
   @Override

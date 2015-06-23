@@ -1,0 +1,67 @@
+public SSFileGetEditingFilesRet fileUserFileWrites(SSServPar parI) throws Exception{
+
+    SSFileUserFileWritesPar par = new SSFileUserFileWritesPar(parI);
+    final SSFileGetEditingFilesRet result;
+    List<SSUri> fileUris = new ArrayList<>();
+
+    SSFileFct.getEditingFileUris(fileAccessProps, par.user, fileUris);
+
+    result = 
+      new SSFileGetEditingFilesRet(
+        par.op, 
+        SSStrU.distinctWithoutEmptyAndNull(fileUris), 
+        null);
+
+    for(String fileUri : result.files){
+      result.labels.add(SSStrU.toStr(SSServCaller.entityGet(SSUri.get(fileUri)).label));
+    }
+
+    return result;
+  }
+
+  @Override
+  public SSFileCanWriteRet fileCanWrite(SSServPar parI) throws Exception{
+
+    SSFileCanWritePar par = new SSFileCanWritePar(parI);
+    SSFileCanWriteRet result = new SSFileCanWriteRet(SSStrU.toStr(par.file), par.op);
+
+    result.canWrite = SSFileFct.canWrite(fileAccessProps, par.user, par.file);
+
+    return result;
+  }
+
+  @Override
+  public SSFileSetReaderOrWriterRet fileSetReaderOrWriter(SSServPar parI) throws Exception{
+
+    SSFileSetReaderOrWriterPar par = new SSFileSetReaderOrWriterPar(parI);
+
+    SSFileSetReaderOrWriterRet result = new SSFileSetReaderOrWriterRet(SSStrU.toStr(par.file), par.op);
+
+    result.worked = SSFileFct.setReaderOrWriter(fileAccessProps, par.user, par.file, par.write);
+
+    return result;
+  }
+
+  @Override
+  public SSFileRemoveReaderOrWriterRet fileRemoveReaderOrWriter(SSServPar parI) throws Exception{
+
+    SSFileRemoveReaderOrWriterPar par = new SSFileRemoveReaderOrWriterPar(parI);
+
+    SSFileRemoveReaderOrWriterRet result = new SSFileRemoveReaderOrWriterRet(SSStrU.toStr(par.file), par.op);
+
+    result.worked = SSFileFct.removeReaderOrWriter(fileAccessProps, par.user, par.file, par.write);
+
+    return result;
+  }
+
+  @Override
+  public SSFileWritingMinutesLeftRet fileWritingMinutesLeft(SSServPar parI) throws Exception{
+
+    SSFileWritingMinutesLeftPar par = new SSFileWritingMinutesLeftPar(parI);
+
+    SSFileWritingMinutesLeftRet result = new SSFileWritingMinutesLeftRet(par.file, par.op);
+
+    result.writingMinutesLeft = SSFileFct.getWritingMinutesLeft(fileAccessProps, par.user, par.file);
+
+    return result;
+  }

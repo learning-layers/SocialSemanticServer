@@ -46,19 +46,16 @@ public class SSFileReplacer extends SSServImplStartA{
   private String                                          fileId            = null;
   private byte[]                                          fileChunk         = null;
   private SSFileReplacePar                                par               = null;
-  private SSSocketCon                                     sSCon             = null;
   private String                                          localWorkPath     = null;
   private SSFilerepoImpl                                  servImpl          = null;
   
   public SSFileReplacer(
     final SSFileRepoConf                            fileRepoConf,
-    final SSSocketCon                               sSCon,
     final SSFileReplacePar                          par, 
     final SSFilerepoImpl                            servImpl) throws Exception{
     
     super(fileRepoConf, null);
     
-    this.sSCon                = sSCon;
     this.par                  = par;
     this.servImpl             = servImpl;
     this.localWorkPath        = SSCoreConf.instGet().getSss().getLocalWorkPath();
@@ -72,11 +69,11 @@ public class SSFileReplacer extends SSServImplStartA{
     try{
       
       //check whether WebSocket connections need this:
-      sSCon.writeRetFullToClient(new SSFileReplaceRet(par.file, par.user));
+      par.sSCon.writeRetFullToClient(new SSFileReplaceRet(par.file, par.user));
       
       while(true){
         
-        fileChunk = sSCon.readFileChunkFromClient();
+        fileChunk = par.sSCon.readFileChunkFromClient();
         
         if(fileChunk.length != 0){
           
@@ -110,7 +107,7 @@ public class SSFileReplacer extends SSServImplStartA{
         
         removeFileFromLocalWorkFolder();
         
-        sSCon.writeRetFullToClient(new SSFileReplaceRet(par.file, par.user));
+        par.sSCon.writeRetFullToClient(new SSFileReplaceRet(par.file, par.user));
         return;
       }
     }catch(Exception error1){
@@ -118,7 +115,7 @@ public class SSFileReplacer extends SSServImplStartA{
       SSServErrReg.regErr(error1);
       
       try{
-        sSCon.writeErrorFullToClient(SSServErrReg.getServiceImplErrors(), par.op);
+        par.sSCon.writeErrorFullToClient(SSServErrReg.getServiceImplErrors(), par.op);
       }catch(Exception error2){
         SSServErrReg.regErr(error2);
       }

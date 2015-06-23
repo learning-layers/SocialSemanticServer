@@ -20,48 +20,17 @@
 */
  package at.kc.tugraz.ss.service.filerepo.api;
 
+import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileDownloadPar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileIDFromURIPar;
+import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileReplacePar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileThumbBase64GetPar;
+import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileUploadPar;
 
 public interface SSFileRepoServerI{
 
-  public String                                    fileIDFromURI            (final SSFileIDFromURIPar      par) throws Exception;
-  public String                                    fileThumbBase64Get       (final SSFileThumbBase64GetPar par) throws Exception;
+  public String     fileIDFromURI            (final SSFileIDFromURIPar      par) throws Exception;
+  public String     fileThumbBase64Get       (final SSFileThumbBase64GetPar par) throws Exception;
+  public void       fileDownload             (final SSFileDownloadPar       par) throws Exception;
+  public void       fileUpload               (final SSFileUploadPar         par) throws Exception;
+  public void       fileReplace              (final SSFileReplacePar        par) throws Exception;
 }
-
-//  public boolean uploadFile() throws Exception;
-  
-//  public void doUploadFile(
-//    String      fileName,
-//    int         fileLength,
-//    String      fileExtension,
-//    InputStream fileUploadInputStream) throws Exception;
-//  
-//  public byte[] downloadFile(
-//    SSUri file) throws Exception;
-
-//  public boolean isFileSharedForUser(
-//    SSUri        fileUri,
-//    List<SSColl> userCollections) throws Exception;
-//  
-//  public boolean isFilePrivateForUser(
-//    SSUri        fileUri,
-//    List<SSColl> userCollections) throws Exception;
-
-//  public RetObj downloadFileFromWeb(
-//    SSUri   fileUri) throws Exception;
-//  
-//  public boolean doDownloadFileFromWeb(
-//    RetObj       downloadFileFromWebObject,
-//    DataOutputStream           dataOutputStream) throws Exception;
-
-//  public SSFileUploadRetObj uploadFileFromWeb(
-//    String  fileExtension) throws Exception;
-//  
-//  public boolean doUploadFileFromWeb(
-//    SSFileUploadRetObj       uploadFileFromWebObject,
-//    DataInputStream          dataInputStream) throws Exception;
-  
-  //  public void fileUpload(
-//    Socket       clientSocket, 
-//    List<String> jsonPars) throws Exception;
