@@ -30,7 +30,6 @@ import at.tugraz.sss.serv.SSHTMLU;
 import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSMimeTypeE;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSSocketCon;
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSServImplStartA;
@@ -86,7 +85,6 @@ public class SSFileUploader extends SSServImplStartA{
     
     try{
       
-//    check whether WebSocket connections need this: 
       sendAnswer();
       
       while(true){
@@ -97,8 +95,6 @@ public class SSFileUploader extends SSServImplStartA{
           
           fileOutputStream.write        (fileChunk);
           fileOutputStream.flush        ();
-          
-//     check whether WebSocket connections need this: sendAnswer(SSStrU.valueGot);
           continue;
         }
         

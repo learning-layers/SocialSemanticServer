@@ -24,7 +24,6 @@ import at.tugraz.sss.serv.SSFileExtE;
 import at.tugraz.sss.serv.SSFileU;
 import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSSocketCon;
 import at.kc.tugraz.ss.recomm.conf.SSRecommConf;
 import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommUpdateBulkPar;
 import at.kc.tugraz.ss.recomm.datatypes.ret.SSRecommUpdateBulkRet;
@@ -39,17 +38,14 @@ public class SSRecommUpdateBulkUploader extends SSServImplStartA{
   private final SSRecommUpdateBulkPar       par;
   private       FileOutputStream            fileOutputStream  = null;
   private       byte[]                      fileChunk         = null;
-  private       SSSocketCon                 sSCon             = null;
   private       String                      dataCSVPath     = null;
 
   public SSRecommUpdateBulkUploader(
     final SSRecommConf           recommConf, 
-    final SSSocketCon            sSCon, 
     final SSRecommUpdateBulkPar  par) throws Exception{
     
     super(recommConf, null);
     
-    this.sSCon             = sSCon;
     this.par               = par;
     this.dataCSVPath       = SSFileU.dirWorkingDataCsv();
     
@@ -69,7 +65,7 @@ public class SSRecommUpdateBulkUploader extends SSServImplStartA{
       
       while(true){
         
-        fileChunk = sSCon.readFileChunkFromClient();
+        fileChunk = par.sSCon.readFileChunkFromClient();
         
         if(fileChunk.length != 0){
           
@@ -88,7 +84,7 @@ public class SSRecommUpdateBulkUploader extends SSServImplStartA{
       SSServErrReg.regErr(error1);
       
       try{
-        sSCon.writeErrorFullToClient(SSServErrReg.getServiceImplErrors(), par.op);
+        par.sSCon.writeErrorFullToClient(SSServErrReg.getServiceImplErrors(), par.op);
       }catch(Exception error2){
         SSServErrReg.regErr(error2);
       }
@@ -117,6 +113,6 @@ public class SSRecommUpdateBulkUploader extends SSServImplStartA{
   }
   
   private void sendAnswer() throws Exception{
-    sSCon.writeRetFullToClient(SSRecommUpdateBulkRet.get(true, par.op));
+    par.sSCon.writeRetFullToClient(SSRecommUpdateBulkRet.get(true));
   }
 }

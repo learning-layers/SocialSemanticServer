@@ -20,6 +20,7 @@
 */
 package at.kc.tugraz.ss.recomm.api;
 
+import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommUpdateBulkPar;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSServPar;
 import java.util.Map;
@@ -30,7 +31,7 @@ public interface SSRecommServerI{
   public Map<SSEntity, Double> recommResources          (final SSServPar parA) throws Exception;
   public Map<SSEntity, Double> recommUsers              (final SSServPar parA) throws Exception;
   public Boolean               recommUpdate             (final SSServPar parA) throws Exception;
-  public void                  recommUpdateBulk         (final SSServPar parA) throws Exception;
+  public void                  recommUpdateBulk         (final SSRecommUpdateBulkPar par) throws Exception;
   public Boolean               recommUpdateBulkEntities (final SSServPar parA) throws Exception;
   public void                  recommLoadUserRealms     (final SSServPar parA) throws Exception;
 }

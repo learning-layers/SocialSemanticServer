@@ -2084,18 +2084,6 @@ public class SSServCaller {
 //    SSServA.inst.callServViaServer(new SSServPar(SSServOpE.recommUpdate, opPars));
 //  }
   
-  public static void recommUpdateBulk(
-    final SSUri  user, 
-    final String realm) throws Exception {
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.user,           user);
-    opPars.put(SSVarNames.realm,          realm);
-    
-    SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.recommUpdateBulk, opPars));
-  }
-  
   public static Map<SSEntity, Double> recommResources(
     final SSUri           user,
     final String          realm,

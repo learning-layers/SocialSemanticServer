@@ -42,6 +42,11 @@ import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import at.tugraz.sss.serv.SSErrE;
+import at.tugraz.sss.serv.SSSocketU;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import javax.ws.rs.core.StreamingOutput;
 
 public class SSRestMainV2 extends Application {
   
@@ -73,6 +78,202 @@ public class SSRestMainV2 extends Application {
     
     String bearer = headers.getRequestHeader("authorization").get(0);
     return SSStrU.replaceAll(bearer, "Bearer ", SSStrU.empty);
+  }
+  
+  public static Response handleFileDownloadRequest(
+    final HttpHeaders headers,
+    final SSServPar   par,
+    final String      fileName){
+    
+    final StreamingOutput stream;
+    final SSSocketCon     sssCon;
+    SSRESTObject          restObj  = null;
+    
+    try{
+      restObj =
+        handleRequest(
+          headers,
+          par,
+          true,  //keepSSSConnectionOpen
+          true); //getKeyFromHeaders
+      
+      if(restObj.response.getStatus() != 200){
+        return restObj.response;
+      }
+      
+      try{
+        restObj.sssCon.writeRequFullToSS (restObj.sssRequestMessage);
+      }catch(Exception error){
+        
+        restObj.response =
+          Response.status(500).entity(
+            getJSONStrForError(
+              SSErrE.sssWriteFailed)).build();
+        
+        return restObj.response;
+      }
+     
+      sssCon = restObj.sssCon;
+
+      try{
+        stream = new StreamingOutput(){
+
+          @Override
+          public void write(OutputStream out) throws IOException{
+
+            byte[] bytes;
+            
+            while((bytes = sssCon.readFileChunkFromSS()).length > 0) {
+
+              out.write               (bytes);
+              out.flush               ();
+            }
+
+            out.close();
+          }
+        };
+      }catch(Exception error){
+        
+        return Response.status(500).entity(
+          SSRestMainV2.getJSONStrForError(
+            SSErrE.sssReadFailed)).build();
+      }
+      
+      return Response.ok(stream).
+        header("Content-Disposition", "inline; filename=\"" + fileName + "\"").
+        header("Content-Type", SSMimeTypeE.mimeTypeForFileExt(SSFileExtE.ext(fileName)).toString()).
+        build();
+      
+    }catch(Exception error){
+      
+      return Response.status(500).entity(
+        SSRestMainV2.getJSONStrForError(
+          SSErrE.restAdapterInternalError)).build();
+    }finally{
+      
+      if(
+        restObj        != null &&
+        restObj.sssCon != null){
+        
+        restObj.sssCon.closeCon();
+      }
+    }
+  }
+  
+     
+    
+//    if(SSFileExtU.imageFileExts.contains(SSFileExtU.ext(fileName))){
+//      
+//      return Response.
+//        ok(stream).
+//        header("Content-Disposition", "inline; filename=\"" + fileName + "\"").
+//        header("Content-Type", SSMimeTypeU.mimeTypeForFileExt(SSFileExtU.ext(fileName))).
+//        build();
+//    }
+//    
+//    if(SSFileExtU.imageFileExts.contains(SSFileExtU.ext(fileName))){
+//      
+//    }
+    
+//      "Content-Disposition", "attachment; filename=\"" + fileName + "\"").
+  
+  public static SSRESTObject handleFileUploadRequest(
+    final HttpHeaders headers,
+    SSRESTObject      restObj,
+    final InputStream file){
+    
+    final ObjectMapper          sssJSONResponseMapper    = new ObjectMapper();
+    final JsonNode              sssJSONResponseRootNode;
+    byte[]                      bytes   = new byte[SSSocketU.socketTranmissionSize];
+    int                         read;
+    
+    try{
+      restObj =
+        handleRequest(
+          headers,
+          restObj.par,
+          true,  //keepSSSConnectionOpen
+          true); //getKeyFromHeaders
+      
+      if(restObj.response.getStatus() != 200){
+        return restObj;
+      }
+      
+      try{
+        
+        while((read = file.read(bytes)) != -1) {
+          restObj.sssCon.writeFileChunkToSS   (bytes, read);
+        }
+        
+        restObj.sssCon.writeFileChunkToSS(new byte[0], -1);
+      }catch(Exception error){
+        
+        restObj.response =
+          Response.status(500).entity(
+            SSRestMainV2.getJSONStrForError(
+              SSErrE.sssWriteFailed)).build();
+        
+        return restObj;
+      }
+      
+      try{
+        restObj.sssResponseMessage = restObj.sssCon.readMsgFullFromSS();
+      }catch(Exception error){
+        
+        restObj.response =
+          Response.status(500).entity(
+            getJSONStrForError(
+              SSErrE.sssReadFailed)).build();
+        
+        return restObj;
+      }
+      
+//      restObj.sssResponseMessage =
+//        checkAndHandleSSSNodeSwitch(
+//          restObj.sssResponseMessage,
+//          restObj.sssRequestMessage);
+
+      try{
+        sssJSONResponseRootNode = sssJSONResponseMapper.readTree(restObj.sssResponseMessage);
+
+        if(sssJSONResponseRootNode.get(SSVarNames.error).getBooleanValue()){
+
+          restObj.response =
+            Response.status(500).entity(getJSONStrForError(sssJSONResponseRootNode.get(SSVarNames.id).getTextValue(),
+                sssJSONResponseRootNode.get(SSVarNames.message).getTextValue())).build();
+
+        }else{
+          restObj.response =
+            Response.status(200).entity(
+              SSJSONU.jsonStr(sssJSONResponseRootNode.get(restObj.par.op.toString()))).build();
+        }
+        
+      }catch(Exception error){
+        
+        restObj.response =
+          Response.status(500).entity(
+            getJSONStrForError(
+              SSErrE.sssResponseParsingFailed)).build();
+      }
+      
+      return restObj;
+      
+    }catch(Exception error){
+      
+      restObj.response =
+        Response.status(500).entity(
+          SSRestMainV2.getJSONStrForError(
+            SSErrE.restAdapterInternalError)).build();
+      
+      return restObj;
+      
+    }finally{
+      
+      if(restObj.sssCon != null){
+        
+        restObj.sssCon.closeCon();
+      }
+    }
   }
   
   public static SSRESTObject handleRequest(

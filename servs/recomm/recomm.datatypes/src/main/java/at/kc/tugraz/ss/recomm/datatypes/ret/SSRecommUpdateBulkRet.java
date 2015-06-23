@@ -22,31 +22,25 @@ package at.kc.tugraz.ss.recomm.datatypes.ret;
 
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSServRetI;
-import java.util.HashMap;
 import java.util.Map;
 
 public class SSRecommUpdateBulkRet extends SSServRetI{
 
-  public boolean worked = false;
-
-  public static SSRecommUpdateBulkRet get(boolean worked, SSServOpE op){
-    return new SSRecommUpdateBulkRet(worked, op);
-  }
-  
-  private SSRecommUpdateBulkRet(boolean worked, SSServOpE op) {
-
-    super(op);
-    
-    this.worked = worked;
-  }
+  public Boolean worked = false;
 
   @Override
   public Map<String, Object> jsonLDDesc(){
+    throw new UnsupportedOperationException();
+  }
+  
+  public static SSRecommUpdateBulkRet get(Boolean worked){
+    return new SSRecommUpdateBulkRet(worked);
+  }
+  
+  private SSRecommUpdateBulkRet(Boolean worked) {
+
+    super(SSServOpE.recommUpdateBulk);
     
-    final Map<String, Object> ld  = new HashMap<>();
-    
-//    ld.put(SSVarU.worked, SSVarU.xsd + SSStrU.valueBoolean);
-    
-    return ld;
+    this.worked = worked;
   }
 }
