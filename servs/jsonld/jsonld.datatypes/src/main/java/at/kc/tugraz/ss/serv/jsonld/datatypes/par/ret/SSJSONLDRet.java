@@ -18,44 +18,40 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
- package at.kc.tugraz.ss.service.filerepo.datatypes.rets;
+package at.kc.tugraz.ss.serv.jsonld.datatypes.par.ret;
 
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServRetI;
-import at.tugraz.sss.serv.SSUri;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SSFileWritingMinutesLeftRet extends SSServRetI{
+public class SSJSONLDRet extends SSServRetI{
 
-	public  SSUri         file                 = null;
-	public  Integer       writingMinutesLeft  = -1;
-	
-	public SSFileWritingMinutesLeftRet(SSUri uri, SSServOpE op){
-    
-    super(op);
-		this.file = uri;
-	}
-  
+  public Object desc = null;
+
   @Override
   public Map<String, Object> jsonLDDesc(){
     
-    Map<String, Object> ld = new HashMap<>();
+    final Map<String, Object> ld = new HashMap<>();
     
-    ld.put(SSVarNames.file,                 SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarNames.writingMinutesLeft,  SSVarNames.xsd + SSStrU.colon + SSStrU.valueInteger);
+    ld.put(SSVarNames.desc, SSVarNames.xsd + SSStrU.colon + SSStrU.valueObject);
     
     return ld;
   }
-	
-  /*  getters to allow for json enconding*/
-  public String getFile() throws Exception{
-		return SSStrU.removeTrailingSlash(file);
-	}	
+  
+  public static SSJSONLDRet get(
+    final Object jsonLD){
     
-	public int getWritingMinutesLeft(){
-		return writingMinutesLeft;
-	}	
+    return new SSJSONLDRet(jsonLD);
+  }
+  
+  private SSJSONLDRet(
+    final Object jsonLD) {
+
+    super(SSServOpE.jsonLD);
+    
+    this.desc = jsonLD;
+  }
 }

@@ -33,11 +33,10 @@ import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSSocketCon;
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import at.tugraz.sss.serv.SSEntityE;
-import at.tugraz.sss.serv.SSServPar;
-
 import at.tugraz.sss.serv.SSServImplStartA;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.filerepo.conf.SSFileRepoConf;
+import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileIDFromURIPar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileUploadPar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileUploadRet;
 import at.kc.tugraz.ss.service.filerepo.impl.fct.SSFileServCaller;
@@ -60,22 +59,25 @@ public class SSFileUploader extends SSServImplStartA{
   private       SSUri                 uri               = null;
   private       SSSocketCon           sSCon             = null;
   private       String                localWorkPath     = null;
+  private       SSFilerepoImpl        servImpl          = null;
   
   public SSFileUploader(
     final SSFileRepoConf     fileRepoConf, 
     final SSSocketCon        sSCon, 
-    final SSServPar          par) throws Exception{
+    final SSFileUploadPar    par,
+    final SSFilerepoImpl     servImpl) throws Exception{
     
     super(fileRepoConf, null);
     
     this.sSCon             = sSCon;
-    this.par               = new SSFileUploadPar(par);
+    this.par               = par;
+    this.servImpl          = servImpl;
     this.localWorkPath     = SSCoreConf.instGet().getSss().getLocalWorkPath();
     
     try{
       this.fileExt           = SSMimeTypeE.fileExtForMimeType             (this.par.mimeType);
       this.uri               = SSServCaller.vocURICreate                  (this.fileExt);
-      this.fileId            = SSServCaller.fileIDFromURI                 (par.user, uri);
+      this.fileId            = this.servImpl.fileIDFromURI(new SSFileIDFromURIPar(null, null, par.user, uri));
       this.fileOutputStream  = SSFileU.openOrCreateFileWithPathForWrite   (localWorkPath + fileId);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -155,7 +157,7 @@ public class SSFileUploader extends SSServImplStartA{
   }
   
   private void sendAnswer() throws Exception{
-    sSCon.writeRetFullToClient(SSFileUploadRet.get(uri, par.op));
+    sSCon.writeRetFullToClient(SSFileUploadRet.get(uri));
   }
   
   private void removeFileFromLocalWorkFolder() throws Exception{
@@ -218,8 +220,9 @@ public class SSFileUploader extends SSServImplStartA{
     try{
       final String filePath          = localWorkPath + fileId;
       final SSUri  pngFileUri        = SSServCaller.vocURICreate                  (SSFileExtE.png);
-      final String pngFilePath       = localWorkPath + SSServCaller.fileIDFromURI (par.user, pngFileUri);
-      final String pdfFilePath       = localWorkPath + SSServCaller.fileIDFromURI (par.user, SSServCaller.vocURICreate     (SSFileExtE.pdf));
+      final String pngFilePath       = localWorkPath + this.servImpl.fileIDFromURI(new SSFileIDFromURIPar(null, null, par.user, pngFileUri));
+      final String pdfFilePath       = localWorkPath + this.servImpl.fileIDFromURI(new SSFileIDFromURIPar(null, null, par.user, SSServCaller.vocURICreate     (SSFileExtE.pdf)));
+
       Boolean      thumbCreated      = false;
       
       if(SSStrU.contains(SSFileExtE.imageFileExts, fileExt)){

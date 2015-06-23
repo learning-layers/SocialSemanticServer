@@ -35,7 +35,6 @@ import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteInfo;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.ret.SSAuthCheckCredRet;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.kc.tugraz.ss.service.coll.datatypes.SSColl;
-import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileCanWriteRet;
 import at.kc.tugraz.ss.service.search.datatypes.SSSearchLabel;
 import at.kc.tugraz.ss.service.search.datatypes.SSSearchOpE;
 import at.kc.tugraz.ss.service.search.datatypes.ret.SSSearchRet;
@@ -2135,50 +2134,6 @@ public class SSServCaller {
     opPars.put(SSVarNames.file,  file);
     
     return (String) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.fileThumbBase64Get, opPars));
-  }
-  
-  public static SSFileCanWriteRet fileCanWrite(
-    final SSUri user,
-    final SSUri file) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.user,  user);
-    opPars.put(SSVarNames.file,  file);
-    
-    return (SSFileCanWriteRet) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.fileCanWrite, opPars));
-  }
-  
-  public static void fileUpdateWritingMinutes() throws Exception {
-    SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.fileUpdateWritingMinutes, new HashMap<>()));
-  }
-  
-  public static String fileIDFromURI(
-    final SSUri user, 
-    final SSUri file) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.user,    user);
-    opPars.put(SSVarNames.file,    file);
-    
-    return (String) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.fileIDFromURI, opPars));
-  }
-  
-  public static void fileRemoveReaderOrWriter(
-    final SSUri   user,
-    final SSUri   file,
-    final Boolean write,
-    final Boolean shouldCommit) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.shouldCommit,  shouldCommit);
-    opPars.put(SSVarNames.user,          user);
-    opPars.put(SSVarNames.file,          file);
-    opPars.put(SSVarNames.write,         write);
-    
-    SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.fileRemoveReaderOrWriter, opPars));
   }
   
   /* data import */

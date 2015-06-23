@@ -1,0 +1,9 @@
+public interface SSFileRepoServerI{
+
+  public void                                      fileUpdateWritingMinutes (final SSServPar parA) throws Exception;
+  public SSFileCanWriteRet                         fileCanWrite             (final SSServPar parA) throws Exception;
+  public SSFileSetReaderOrWriterRet                fileSetReaderOrWriter    (final SSServPar parA) throws Exception;
+  public SSFileRemoveReaderOrWriterRet             fileRemoveReaderOrWriter (final SSServPar parA) throws Exception;
+  public SSFileWritingMinutesLeftRet               fileWritingMinutesLeft   (final SSServPar parA) throws Exception;
+  public SSFileGetEditingFilesRet                  fileUserFileWrites       (final SSServPar parA) throws Exception;
+}

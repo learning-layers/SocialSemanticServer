@@ -3,7 +3,7 @@
 * http://www.learning-layers.eu
 * Development is partly funded by the FP7 Programme of the European Commission under
 * Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+* Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
 * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,25 +20,24 @@
 */
 package at.kc.tugraz.ss.serv.jsonld.datatypes.par;
 
-import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSUri;
 
 public class SSJSONLDPar extends SSServPar{
   
   public String       type         = null;
-      
-  public SSJSONLDPar(SSServPar par) throws Exception{
+  
+  public SSJSONLDPar(){}
     
-    super(par);
+  public SSJSONLDPar(
+    final SSServOpE     op,
+    final String        key,
+    final SSUri         user,
+    final String        type){
     
-    try{
-      
-      if(pars != null){
-        type       = (String)       pars.get(SSVarNames.type);
-      }
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
+    super(op, key, user);
+    
+    this.type = type;
   }
 }

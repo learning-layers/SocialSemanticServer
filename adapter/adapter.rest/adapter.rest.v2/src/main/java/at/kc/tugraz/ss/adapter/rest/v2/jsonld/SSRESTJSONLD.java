@@ -3,7 +3,7 @@
 * http://www.learning-layers.eu
 * Development is partly funded by the FP7 Programme of the European Commission under
 * Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+* Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
 * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,49 +18,57 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.adapter.rest.v1;
+package at.kc.tugraz.ss.adapter.rest.v2.jsonld;
 
+import at.kc.tugraz.ss.adapter.rest.v2.SSRestMainV2;
+import at.kc.tugraz.ss.serv.jsonld.datatypes.par.SSJSONLDPar;
+import at.kc.tugraz.ss.serv.jsonld.datatypes.par.ret.SSJSONLDRet;
 import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.serv.SSStrU;
-import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileExtGetPar;
-import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileExtGetRet;
-import at.tugraz.sss.serv.SSFileExtE;
-import at.tugraz.sss.serv.SSLogU;
-import at.tugraz.sss.serv.SSSocketCon;
+import at.tugraz.sss.serv.SSVarNames;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
+import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
-@Path("")
-@Api( value = "SSAdapterRESTFile")
-public class SSAdapterRESTFile{
-
-  @Deprecated
-  @POST
+@Path("/jsonld")
+@Api( value = "/jsonld") 
+public class SSRESTJSONLD{
+  
+  @GET
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "fileExtGet")
+  @Path    ("/{type}")
   @ApiOperation(
-    value = "retrieve a file's extension",
-    response = SSFileExtGetRet.class)
-  public String fileExtGet(final SSFileExtGetPar input){
+    value = "retrieve json ld description for given type",
+    response = SSJSONLDRet.class)
+  public Response jsonLDGet(
+    @Context  
+      final HttpHeaders headers,
+    @PathParam(SSVarNames.type) 
+      final String type){
+    
+    final SSJSONLDPar par;
     
     try{
-      return new SSSocketCon(
-        SSRestMainV1.conf.sss.host,
-        SSRestMainV1.conf.sss.port).prepRetFullToClient(
-          new SSFileExtGetRet(
-            SSFileExtE.ext(SSStrU.removeTrailingSlash(input.file)),
-            SSServOpE.fileExtGet),
-          SSServOpE.fileExtGet);
+      
+      par =
+        new SSJSONLDPar(
+          SSServOpE.jsonLD,
+          null, 
+          null,
+          type);
       
     }catch(Exception error){
-      SSLogU.err(error);
-      return null;
+      return Response.status(422).build();
     }
+    
+    return SSRestMainV2.handleRequest(headers, par, false, true).response;
   }
 }

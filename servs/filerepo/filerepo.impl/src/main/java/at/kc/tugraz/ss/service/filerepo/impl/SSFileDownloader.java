@@ -29,6 +29,7 @@ import at.tugraz.sss.serv.SSServImplStartA;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.filerepo.conf.SSFileRepoConf;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileDownloadPar;
+import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileIDFromURIPar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileDownloadRet;
 import at.tugraz.sss.serv.SSServErrReg;
 import java.io.DataInputStream;
@@ -44,18 +45,22 @@ public class SSFileDownloader extends SSServImplStartA{
   private int                      fileChunkLength   = -1;
   private SSSocketCon              sSCon             = null;
   private SSFileDownloadPar        par               = null;
+  private SSFilerepoImpl           servImpl          = null;
+  
 //  private InputStream webdavInputStream;
   
   public SSFileDownloader(
     final SSFileRepoConf    fileRepoConf, 
     final SSSocketCon       sSCon, 
-    final SSFileDownloadPar par) throws Exception{
+    final SSFileDownloadPar par,
+    final SSFilerepoImpl    servImpl) throws Exception{
     
     super(fileRepoConf, null);
     
     this.sSCon             = sSCon;
     this.par               = par;
-    this.fileId            = SSServCaller.fileIDFromURI(this.par.user, this.par.file);
+    this.servImpl          = servImpl;
+    this.fileId            = this.servImpl.fileIDFromURI(new SSFileIDFromURIPar(null, null, this.par.user, this.par.file));
   }
   
   @Override
@@ -63,7 +68,7 @@ public class SSFileDownloader extends SSServImplStartA{
     
     try{
       
-      sSCon.writeRetFullToClient(new SSFileDownloadRet(par.file, par.op));
+      sSCon.writeRetFullToClient(new SSFileDownloadRet(par.file));
       
       switch(((SSFileRepoConf)conf).fileRepoType){
         case i5Cloud: downloadFromI5Cloud(); break;    

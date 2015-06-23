@@ -3,7 +3,7 @@
  * http://www.learning-layers.eu
  * Development is partly funded by the FP7 Programme of the European Commission under
  * Grant Agreement FP7-ICT-318209.
- * Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+ * Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
  * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,52 +21,34 @@
 package at.kc.tugraz.ss.service.filerepo.datatypes.pars;
 
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServErrReg;
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import at.tugraz.sss.serv.SSServOpE;
 
-@XmlRootElement
-@ApiModel(value = "fileReplace request parameter")
 public class SSFileReplacePar extends SSServPar{
   
-  @ApiModelProperty(
-    required = true,
-    value = "file to be replaced")
   public SSUri   file    = null;
   
-  @XmlElement
+   public String getFile(){
+    return SSStrU.removeTrailingSlash(file);
+  }
+   
   public void setFile(final String file) throws Exception{
     this.file = SSUri.get(file);
   }
   
   public SSFileReplacePar(){}
   
-  public SSFileReplacePar(SSServPar par) throws Exception{
+  public SSFileReplacePar(
+    final SSServOpE     op,
+    final String        key,
+    final SSUri         user,
+    final SSUri         file,
+    final Boolean       shouldCommit){
     
-    super(par);
+    super(op, key, user);
     
-    try{
-      
-      if(pars != null){
-        file = (SSUri) pars.get(SSVarNames.file);
-      }
-      
-      if(par.clientJSONObj != null){
-        file = SSUri.get(par.clientJSONObj.get(SSVarNames.file).getTextValue());
-      }
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
-  /* json getters */
-  public String getFile(){
-    return SSStrU.removeTrailingSlash(file);
+    this.file         = file;
+    this.shouldCommit = shouldCommit;
   }
 }
