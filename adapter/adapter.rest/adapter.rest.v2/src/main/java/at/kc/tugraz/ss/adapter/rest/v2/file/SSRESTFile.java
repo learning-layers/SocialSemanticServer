@@ -44,6 +44,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
@@ -81,7 +82,7 @@ public class SSRESTFile{
       value = "file data",
       required = true)
     @FormDataParam("file") 
-    final InputStream file){ //@FormDataParam("my_file") FormDataBodyPart body Then you can use body.getMediaType()
+    final InputStream fileHandle){ //@FormDataParam("my_file") FormDataBodyPart body Then you can use body.getMediaType()
     
     final SSFileUploadPar  par;
     final SSRESTObject     restObj;
@@ -94,7 +95,7 @@ public class SSRESTFile{
           null,
           null,
           SSMimeTypeE.get(mimeType),  //mimeType
-          SSLabel.get(label),  //label
+          SSLabel.get    (label),  //label
           null, //sSCon
           true); //shouldCommit
       
@@ -104,13 +105,13 @@ public class SSRESTFile{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleFileUploadRequest(headers, restObj, file).response;
+    return SSRestMainV2.handleFileUploadRequest(headers, restObj, fileHandle).response;
   }
   
   @POST
   @Consumes(MediaType.MULTIPART_FORM_DATA)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path("/replace/{entity}")
+  @Path("/replace/{file}")
   @ApiOperation(
     value = "replace a file",
     response = SSFileReplaceRet.class)
@@ -121,14 +122,14 @@ public class SSRESTFile{
     @ApiParam(
       value = "entity to be replaced",
       required = true)
-    @PathParam(SSVarNames.entity)
-    final String entity,
+    @PathParam(SSVarNames.file)
+    final String file,
     
     @ApiParam(
       value = "file data",
       required = true)
     @FormDataParam("file") 
-    final InputStream file){
+    final InputStream fileHandle){
     
     final SSFileReplacePar par;
     final SSRESTObject     restObj;
@@ -140,7 +141,7 @@ public class SSRESTFile{
           SSServOpE.fileReplace,
           null,
           null,
-          SSUri.get(entity, SSVocConf.sssUri), //entity
+          SSUri.get(file, SSVocConf.sssUri), //entity
           null, //sSCon
           true); //shouldCommit
       
@@ -150,13 +151,13 @@ public class SSRESTFile{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleFileUploadRequest(headers, restObj, file).response;
+    return SSRestMainV2.handleFileUploadRequest(headers, restObj, fileHandle).response;
   }
   
   @GET
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_OCTET_STREAM)
-  @Path("/download/{entity}")
+  @Path("/download/{file}")
   @ApiOperation(
     value = "download a file",
     response = byte.class)
@@ -165,13 +166,14 @@ public class SSRESTFile{
     final HttpHeaders headers,
     
     @ApiParam(
-      value = "entity to be downloaded",
+      value = "file to be downloaded",
       required = true)
-    @PathParam(SSVarNames.entity)
-    final String entity) throws Exception{
+    @PathParam(SSVarNames.file)
+    final String file) throws Exception{
     
     final SSFileDownloadPar par;
-    String fileName;
+    final SSRESTObject      restObj;
+    String                  fileName;
     
     try{
       
@@ -180,65 +182,82 @@ public class SSRESTFile{
           SSServOpE.fileDownload,
           null,
           null,
-          SSUri.get(entity, SSVocConf.sssUri), //entity
+          SSUri.get(file, SSVocConf.sssUri), //entity
           null); //shouldCommit
       
       fileName = SSStrU.removeTrailingSlash(par.file);
       fileName = fileName.substring(fileName.lastIndexOf(SSStrU.slash) + 1);
       
+      restObj = new SSRESTObject(par);
+      
     }catch(Exception error){
       return Response.status(422).build();
     }
 
-    return SSRestMainV2.handleFileDownloadRequest(headers, par, fileName);
+    return SSRestMainV2.handleFileDownloadRequest(headers, restObj, fileName, true).response;
+  }
+  
+  @GET
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_OCTET_STREAM)
+  @Path("/download")
+  @ApiOperation(
+    value = "download a file via GET request with query params",
+    response = byte.class)
+  public Response fileDownloadQueryParam(
+    @Context
+    final HttpHeaders headers,
+    
+    @ApiParam(
+      value = "authentication key",
+      required = true)
+    @QueryParam("key")
+    final String key,
+    
+    @ApiParam(
+      value = "file to be downloaded",
+      required = true)
+    @QueryParam("file")
+    final String file) throws Exception{
+    
+    final SSFileDownloadPar par;
+    final SSRESTObject      restObj;
+    String                  fileName;
+    
+    try{
+      
+      par =
+        new SSFileDownloadPar(
+          SSServOpE.fileDownload,
+          key,
+          null,
+          SSUri.get(file, SSVocConf.sssUri), //entity
+          null); //shouldCommit
+      
+      fileName = SSStrU.removeTrailingSlash(par.file);
+      fileName = fileName.substring(fileName.lastIndexOf(SSStrU.slash) + 1);
+      
+      restObj = new SSRESTObject(par);
+      
+    }catch(Exception error){
+      return Response.status(422).build();
+    }
+
+    return SSRestMainV2.handleFileDownloadRequest(headers, restObj, fileName, false).response;
   }
 }
 
-// @POST
-//  @Consumes(MediaType.APPLICATION_JSON)
-//  @Produces(MediaType.APPLICATION_OCTET_STREAM)
-//  @Path(SSStrU.slash + "fileDownload")
-//  @ApiOperation(
-//    value = "download a file via POST request",
-//    response = byte.class)
-//  public Response fileDownload(final SSFileDownloadPar input){
-//    
-//    StreamingOutput  stream = null;
-//    SSSocketCon      sSCon;
-//    
-//    try{
-//      sSCon = new SSSocketCon(SSRestMainV1.conf.sss.host, SSRestMainV1.conf.sss.port);
+//    if(SSFileExtU.imageFileExts.contains(SSFileExtU.ext(fileName))){
 //      
-//      sSCon.writeRequFullToSS   (SSJSONU.jsonStr(input));
-//      sSCon.readMsgFullFromSS   ();
-//      sSCon.writeRequFullToSS   (SSJSONU.jsonStr(input));
-//
-//      stream = new StreamingOutput(){
-//
-//        @Override
-//        public void write(OutputStream out) throws IOException{
-//          
-//          byte[] bytes;
-//
-//          while((bytes = sSCon.readFileChunkFromSS()).length > 0) {
-//
-//            out.write               (bytes);
-//            out.flush               ();
-//          }
-//          
-//          out.close();
-//        }
-//      };
-//    }catch(Exception error){
-//      
-//      try{
-//        return Response.serverError().build();
-//      }catch(Exception error1){
-//        SSServErrReg.regErr(error1, "writing error to client didnt work");
-//      }
-//    }finally{
-////      sSCon.closeCon();
+//      return Response.
+//        ok(stream).
+//        header("Content-Disposition", "inline; filename=\"" + fileName + "\"").
+//        header("Content-Type", SSMimeTypeU.mimeTypeForFileExt(SSFileExtU.ext(fileName))).
+//        build();
 //    }
 //    
-//    return Response.ok(stream).build();
-//  }
+//    if(SSFileExtU.imageFileExts.contains(SSFileExtU.ext(fileName))){
+//      
+//    }
+    
+//      "Content-Disposition", "attachment; filename=\"" + fileName + "\"").

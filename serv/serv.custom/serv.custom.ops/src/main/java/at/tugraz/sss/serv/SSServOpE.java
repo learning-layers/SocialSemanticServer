@@ -22,9 +22,6 @@ package at.tugraz.sss.serv;
 
 public enum SSServOpE{
   
-  //deprecated
-  fileExtGet,
-  
   //eval
   evalLog,
   
