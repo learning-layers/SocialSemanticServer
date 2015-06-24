@@ -31,80 +31,113 @@ import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSSocketCon;
 import at.tugraz.sss.servs.ocd.conf.SSOCDConf;
+import at.tugraz.sss.servs.ocd.datatypes.pars.SSOCDCreateCoverPar;
+import at.tugraz.sss.servs.ocd.datatypes.pars.SSOCDCreateGraphPar;
+import at.tugraz.sss.servs.ocd.datatypes.pars.SSOCDDeleteCoverPar;
+import at.tugraz.sss.servs.ocd.datatypes.pars.SSOCDDeleteGraphPar;
+import at.tugraz.sss.servs.ocd.datatypes.pars.SSOCDGetCoversPar;
+import at.tugraz.sss.servs.ocd.datatypes.pars.SSOCDGetGraphPar;
+import at.tugraz.sss.servs.ocd.datatypes.pars.SSOCDGetGraphsPar;
+import at.tugraz.sss.servs.ocd.impl.jerseyclient.SSOCDResource;
 
 public class SSOCDImpl extends SSServImplWithDBA implements SSOCDClientI, SSOCDServerI {
 
-    private SSOCDConf ocdConf = null;
+  private SSOCDConf ocdConf = null;
 
-    //TODO remove SQL/NoSQL services; are not needed since OCD uses JPA/EntityManager for DB access.
+  //TODO remove SQL/NoSQL services; are not needed since OCD uses JPA/EntityManager for DB access.
 
-    public SSOCDImpl(final SSConfA conf) throws Exception {
-        super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
-        ocdConf = (SSOCDConf) conf;
-    }
+  public SSOCDImpl(final SSConfA conf) throws Exception {
+    super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
+    ocdConf = (SSOCDConf) conf;
+  }
 
-    @Override
-    public void ocdCreateGraph(SSSocketCon sSCon, SSServPar parA) throws Exception {
+  @Override
+  public void ocdCreateGraph(SSSocketCon sSCon, SSServPar parA) throws Exception {
+    //Fixme uncomment to turn on user authorization 
+    //SSServCallerU.checkKey(parA);
+    final SSOCDCreateGraphPar par    = (SSOCDCreateGraphPar) parA.getFromJSON(SSOCDCreateGraphPar.class);
+    String response = ocdCreateGraph(par);
+    //sSCon.writeRetFullToClient(response, parA.op);
+  }
 
-        //Fixme uncomment to turn on user authorization 
-        //SSServCallerU.checkKey(parA);
-        
-        String response = ocdCreateGraph(1);
-        sSCon.writeRetFullToClient(null);
-    }
+  @Override
+  public String ocdCreateGraph(SSOCDCreateGraphPar parA) throws Exception {
+    return SSOCDResource.requestCreateGraph(parA);
+  }
+  
+  @Override
+  public void ocdGetGraphs(SSSocketCon sSCon, SSServPar parA) throws Exception {
+    final SSOCDGetGraphsPar par = (SSOCDGetGraphsPar) parA.getFromJSON(SSOCDGetGraphsPar.class);
+    String response = ocdGetGraphs(par);
+    //sSCon.writeRetFullToClient(response, parA.op);
+  }
+  
+  @Override
+  public String ocdGetGraphs(SSOCDGetGraphsPar parA) throws Exception {
+    return SSOCDResource.requestGetGraphs(parA);
+  }
+  
+  @Override
+  public void ocdGetGraph(SSSocketCon sSCon, SSServPar parA) throws Exception {
+    final SSOCDGetGraphPar par = (SSOCDGetGraphPar) parA.getFromJSON(SSOCDGetGraphPar.class);
+    String response = ocdGetGraph(par);
+    //sSCon.writeRetFullToClient(response, parA.op);
+  }
 
-    @Override
-    public String ocdCreateGraph(Integer parA) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+  @Override
+  public String ocdGetGraph(SSOCDGetGraphPar parA) throws Exception {
+    return SSOCDResource.requestGetGraph(parA);
+  }
+  
+  @Override
+  public void ocdDeleteGraph(SSSocketCon sSCon, SSServPar parA) throws Exception {
+    final SSOCDDeleteGraphPar par = (SSOCDDeleteGraphPar) parA.getFromJSON(SSOCDDeleteGraphPar.class);
+    String response = ocdDeleteGraph(par);
+    //sSCon.writeRetFullToClient(response, parA.op);
+  }
+  
+  @Override
+  public String ocdDeleteGraph(SSOCDDeleteGraphPar parA) throws Exception {
+    return SSOCDResource.requestDeleteGraph(parA);
+  }
+  
+  @Override
+  public void ocdCreateCover(SSSocketCon sSCon, SSServPar parA) throws Exception {
+    //Fixme uncomment to turn on user authorization 
+    //SSServCallerU.checkKey(parA);
+    final SSOCDCreateCoverPar par = (SSOCDCreateCoverPar) parA.getFromJSON(SSOCDCreateCoverPar.class);
+    String response = ocdCreateCover(par);
+    //sSCon.writeRetFullToClient(response, parA.op);
+  }
+  
+  @Override
+  public String ocdCreateCover(SSOCDCreateCoverPar parA) throws Exception {
+    //return OCDRessource.requestCreateCover(parA);
+    return "coverID";
+  }
+  
+  @Override
+  public void ocdGetCovers(SSSocketCon sSCon, SSServPar parA) throws Exception {
+    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+  }
+  
+  @Override
+  public String ocdGetCovers(SSOCDGetCoversPar parA) throws Exception {
+    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+  }
+  
+  @Override
+  public void ocdDeleteCover(SSSocketCon sSCon, SSServPar parA) throws Exception {
+    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+  }
+  
+  @Override
+  public String ocdDeleteCover(SSOCDDeleteCoverPar parA) throws Exception {
+    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+  }
 
-    @Override
-    public void ocdGetGraphs(SSSocketCon sSCon, SSServPar parA) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void ocdDeleteGraph(SSSocketCon sSCon, SSServPar parA) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void ocdCreateCover(SSSocketCon sSCon, SSServPar parA) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void ocdGetCovers(SSSocketCon sSCon, SSServPar parA) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void ocdDeleteCover(SSSocketCon sSCon, SSServPar parA) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public String ocdGetGraphs(SSServPar parA) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public String ocdDeleteGraph(SSServPar parA) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public String ocdCreateCover(SSServPar parA) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public String ocdGetCovers(SSServPar parA) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public String ocdDeleteCover(SSServPar parA) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+  @Override
+  public String ocdGetAlgorithmNames() throws Exception {
+    return SSOCDResource.requestGetAlgorithms();
+  }
 }

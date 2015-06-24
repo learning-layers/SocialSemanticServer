@@ -346,8 +346,10 @@ public enum SSServOpE{
   //overlapping community detection - ocd
   ocdCreateGraph,
   ocdGetGraphs,
+  ocdGetGraph,
   ocdDeleteGraph,
   ocdCreateCover,
+  ocdGetAlgorithmNames,
   ocdGetCovers,
   ocdDeleteCover;
   

@@ -484,6 +484,11 @@ public class SSServReg{
           throw new Exception("serv server interface already registered");
         }
         
+        if(servContainer.servImplServerInteraceClass == null){
+          SSLogU.warn("servContainer has no serv server impl");
+          return;
+        }
+        
         servsForServerI.put(servContainer.servImplServerInteraceClass, servContainer);
       }
       

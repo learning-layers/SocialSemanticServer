@@ -87,7 +87,7 @@ public abstract class SSServContainerI{
       return serverOps;
     }
     
-    final Method[]      methods   = servImplServerInteraceClass.getClass().getMethods();
+    final Method[]      methods   = servImplServerInteraceClass.getMethods();
     
     for(Method method : methods){
       serverOps.add(SSServOpE.get(method.getName()));

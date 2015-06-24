@@ -14,13 +14,19 @@
     <dependency>
       <groupId>sss.servs</groupId>
       <artifactId>ocd.datatypes</artifactId>
-       <version>${project.version}</version>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.serv</groupId>
+      <artifactId>serv.par</artifactId>
+      <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>
       <artifactId>serv.reg</artifactId>
-       <version>${project.version}</version>
+      <version>${project.version}</version>
     </dependency>
     
   </dependencies>
