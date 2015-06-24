@@ -18,20 +18,32 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.tugraz.sss.servs.ocd.api;
+package at.tugraz.sss.servs.ocd.datatypes.pars;
 
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSSocketCon;
+import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.servs.ocd.datatypes.SSOCDAlgoE;
+import at.tugraz.sss.servs.ocd.datatypes.SSOCDCreationTypeE;
+import at.tugraz.sss.servs.ocd.datatypes.SSOCDGraphInputE;
 
 
-public interface SSOCDClientI {
+public class SSOCDCreateCoverPar extends SSServPar {
   
-  public void ocdCreateGraph          (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void ocdGetGraphs            (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void ocdGetGraph             (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void ocdDeleteGraph          (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void ocdCreateCover          (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void ocdGetCovers            (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void ocdDeleteCover          (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public SSOCDCreateCoverPar() {}
+  
+  public SSOCDCreateCoverPar ( 
+    final SSServOpE                   op,
+    final String                      key,
+    final SSUri                       user,
+    final String                      graphID,
+    final SSOCDCreationTypeE          creationType,
+   //final SSOCDGraphInputE            graphInputFormat,
+    final SSOCDAlgoE                  algorithm,
+    final byte[]                      content,
+    final Boolean                     shouldCommit) {
     
+    super(op, key, user);
+    
+  }
 }

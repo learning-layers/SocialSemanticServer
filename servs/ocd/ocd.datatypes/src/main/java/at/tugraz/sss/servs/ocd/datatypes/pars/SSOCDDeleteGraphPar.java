@@ -18,20 +18,36 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.tugraz.sss.servs.ocd.api;
+package at.tugraz.sss.servs.ocd.datatypes.pars;
 
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSSocketCon;
+import at.tugraz.sss.serv.SSUri;
 
 
-public interface SSOCDClientI {
+public class SSOCDDeleteGraphPar extends SSServPar {
   
-  public void ocdCreateGraph          (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void ocdGetGraphs            (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void ocdGetGraph             (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void ocdDeleteGraph          (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void ocdCreateCover          (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void ocdGetCovers            (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void ocdDeleteCover          (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public SSOCDDeleteGraphPar () {
     
+  }
+  
+  private String graphId = null;
+  
+  public SSOCDDeleteGraphPar (
+    final SSServOpE op,
+    final String key,
+    final SSUri user,
+    final String graphId ) {
+    
+      super(op, key, user);
+  }
+
+  public String getGraphId() {
+    return graphId;
+  }
+
+  public void setGraphId(String graphId) {
+    this.graphId = graphId;
+  }
+  
 }

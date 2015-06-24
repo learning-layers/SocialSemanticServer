@@ -18,20 +18,16 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.tugraz.sss.servs.ocd.api;
-
-import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSSocketCon;
+package at.tugraz.sss.servs.ocd.datatypes;
 
 
-public interface SSOCDClientI {
+public enum SSOCDCreationTypeE {
+  REAL_WORLD,
+  NEWMAN,
+  LFR,
+  UNDEFINED;
   
-  public void ocdCreateGraph          (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void ocdGetGraphs            (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void ocdGetGraph             (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void ocdDeleteGraph          (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void ocdCreateCover          (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void ocdGetCovers            (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void ocdDeleteCover          (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-    
+  public static SSOCDCreationTypeE get (final String creationtype){
+    return SSOCDCreationTypeE.valueOf(creationtype);
+  }
 }
