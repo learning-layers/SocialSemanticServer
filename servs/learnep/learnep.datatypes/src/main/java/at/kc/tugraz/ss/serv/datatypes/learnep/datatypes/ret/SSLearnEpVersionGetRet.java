@@ -32,16 +32,6 @@ public class SSLearnEpVersionGetRet extends SSServRetI{
 
   public SSLearnEpVersion learnEpVersion = null;
 
-  public static SSLearnEpVersionGetRet get(SSLearnEpVersion learnEpVersion, SSServOpE op){
-    return new SSLearnEpVersionGetRet(learnEpVersion, op);
-  }
-  
-  private SSLearnEpVersionGetRet(SSLearnEpVersion learnEpVersion, SSServOpE op){
-    
-    super(op);
-    this.learnEpVersion = learnEpVersion;
-  }
-
   @Override
   public Map<String, Object> jsonLDDesc(){
     
@@ -52,8 +42,14 @@ public class SSLearnEpVersionGetRet extends SSServRetI{
     return ld;
   }
   
-  /* getters to allow for json enconding */
-  public SSLearnEpVersion getLearnEpVersion() {
-    return learnEpVersion;
+  public static SSLearnEpVersionGetRet get(SSLearnEpVersion learnEpVersion){
+    return new SSLearnEpVersionGetRet(learnEpVersion);
+  }
+  
+  private SSLearnEpVersionGetRet(SSLearnEpVersion learnEpVersion){
+    
+    super(SSServOpE.learnEpVersionGet);
+    
+    this.learnEpVersion = learnEpVersion;
   }
 }

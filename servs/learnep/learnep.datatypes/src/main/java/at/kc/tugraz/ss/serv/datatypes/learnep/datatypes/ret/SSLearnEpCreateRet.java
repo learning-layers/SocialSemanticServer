@@ -32,17 +32,10 @@ public class SSLearnEpCreateRet extends SSServRetI{
 
   public SSUri learnEp = null;
 
-  public static SSLearnEpCreateRet get(SSUri learnEpUri, SSServOpE op){
-    return new SSLearnEpCreateRet(learnEpUri, op);
+  public String getLearnEp() throws Exception {
+    return SSStrU.removeTrailingSlash(learnEp);
   }
   
-  private SSLearnEpCreateRet(SSUri learnEpUri, SSServOpE op){
-    
-    super(op);
-    
-    this.learnEp = learnEpUri;
-  }
-
   @Override
   public Map<String, Object> jsonLDDesc(){
     
@@ -53,8 +46,14 @@ public class SSLearnEpCreateRet extends SSServRetI{
     return ld;
   }
   
-  /* json getters */
-  public String getLearnEp() throws Exception {
-    return SSStrU.removeTrailingSlash(learnEp);
+  public static SSLearnEpCreateRet get(SSUri learnEpUri){
+    return new SSLearnEpCreateRet(learnEpUri);
+  }
+  
+  private SSLearnEpCreateRet(SSUri learnEpUri){
+    
+    super(SSServOpE.learnEpCreate);
+    
+    this.learnEp = learnEpUri;
   }
 }

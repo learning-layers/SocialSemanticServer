@@ -20,11 +20,19 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par;
 
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSUri;
+
 public class SSLearnEpVersionCurrentGetPar extends SSServPar{
   
-  public SSLearnEpVersionCurrentGetPar(SSServPar par) throws Exception{
-    super(par);
+  public SSLearnEpVersionCurrentGetPar(){}
+    
+  public SSLearnEpVersionCurrentGetPar(
+    final SSServOpE     op,
+    final String        key,
+    final SSUri         user){
+    
+    super(op, key, user);
   }
 }

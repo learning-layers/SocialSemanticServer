@@ -20,30 +20,35 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par;
 
-import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSStrU;
 
 public class SSLearnEpLockHoldPar extends SSServPar{
   
   public SSUri  learnEp = null;
+
+  public String getLearnEp(){
+    return SSStrU.removeTrailingSlash(learnEp);
+  }
+
+  public void setLearnEp(final String learnEp) throws Exception{
+    this.learnEp = SSUri.get(learnEp);
+  }
   
-  public SSLearnEpLockHoldPar(SSServPar par) throws Exception{
-      
-    super(par);
+  public SSLearnEpLockHoldPar(){}
     
-    try{
+  public SSLearnEpLockHoldPar(
+    final SSServOpE   op,
+    final String      key,
+    final SSUri       user,
+    final SSUri       learnEp, 
+    final Boolean     withUserRestriction){
       
-      if(pars != null){
-        learnEp   = (SSUri) pars.get(SSVarNames.learnEp);
-      }
-      
-      if(par.clientJSONObj != null){
-        learnEp   = SSUri.get(par.clientJSONObj.get(SSVarNames.learnEp).getTextValue());
-      }
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
+    super(op, key, user);
+    
+    this.learnEp             = learnEp;
+    this.withUserRestriction = withUserRestriction;
   }
 }

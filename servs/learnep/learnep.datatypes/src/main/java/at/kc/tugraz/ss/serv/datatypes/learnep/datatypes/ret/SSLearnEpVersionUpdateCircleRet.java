@@ -31,16 +31,6 @@ public class SSLearnEpVersionUpdateCircleRet extends SSServRetI{
 
   public Boolean worked = null;
 
-  public static SSLearnEpVersionUpdateCircleRet get(Boolean worked, SSServOpE op){
-    return new SSLearnEpVersionUpdateCircleRet(worked, op);
-  }
-  
-  private SSLearnEpVersionUpdateCircleRet(Boolean worked, SSServOpE op){
-    
-    super(op);
-    this.worked = worked;
-  }
-
   @Override
   public Map<String, Object> jsonLDDesc(){
     
@@ -51,8 +41,14 @@ public class SSLearnEpVersionUpdateCircleRet extends SSServRetI{
     return ld;
   }
   
-  /*************** getters to allow for json enconding ********************/
-  public boolean getWorked() {
-    return worked;
+  public static SSLearnEpVersionUpdateCircleRet get(Boolean worked){
+    return new SSLearnEpVersionUpdateCircleRet(worked);
+  }
+  
+  private SSLearnEpVersionUpdateCircleRet(Boolean worked){
+    
+    super(SSServOpE.learnEpVersionUpdateCircle);
+    
+    this.worked = worked;
   }
 }

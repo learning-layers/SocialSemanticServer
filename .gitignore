@@ -511,3 +511,4 @@ org.eclipse.wst.jsdt.ui.superType.name
 /serv/serv.custom/serv.custom.caller/*.log
 /adapter/adapter.rest/adapter.rest.v2/src/main/webapp/api-docs/files.json
 /adapter/adapter.rest/adapter.rest.v2/src/main/webapp/api-docs/activities.json
+/adapter/adapter.rest/adapter.rest.v2/src/main/webapp/api-docs/learneps.json

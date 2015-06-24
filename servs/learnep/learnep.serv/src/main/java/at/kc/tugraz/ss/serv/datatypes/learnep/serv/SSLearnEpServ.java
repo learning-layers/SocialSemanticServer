@@ -28,8 +28,6 @@ import at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.access.SSLearnEpRemaining
 import at.tugraz.sss.serv.SSDateU;
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSCoreConfA;
-import at.tugraz.sss.serv.SSDBSQLI;
-import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSServContainerI;
@@ -97,7 +95,7 @@ public class SSLearnEpServ extends SSServContainerI{
       if(((SSLearnEpConf)conf).useEpisodeLocking){
         
         SSDateU.scheduleAtFixedRate(
-          new SSLearnEpRemainingTimeTask(),
+          new SSLearnEpRemainingTimeTask((SSLearnEpImpl) serv()),
           SSDateU.getDateForNextHalfMinute(),
           SSDateU.minuteInMilliSeconds / 2);
       }

@@ -159,7 +159,7 @@ public enum SSServOpE{
   learnEpVersionCreate                                ,
   learnEpVersionAddCircle                             ,
   learnEpVersionAddEntity                             ,
-  learnEpUserCopyForUser                              ,
+  learnEpCopyForUser                                  ,
   learnEpCreate                                       ,
   learnEpVersionUpdateCircle                          ,
   learnEpVersionUpdateEntity                          ,
@@ -169,8 +169,8 @@ public enum SSServOpE{
   learnEpVersionGetTimelineState                      ,
   learnEpLockRemove,
   learnEpLockSet,
-  learnEpLockHold,
   learnEpsLockHold,
+  learnEpLockHold,
   learnEpRemove,
   
   //data export

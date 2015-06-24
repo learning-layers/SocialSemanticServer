@@ -32,16 +32,6 @@ public class SSLearnEpVersionGetTimelineStateRet extends SSServRetI{
 
   public SSLearnEpTimelineState learnEpTimelineState = null;
 
-  public static SSLearnEpVersionGetTimelineStateRet get(SSLearnEpTimelineState learnEpTimelineState, SSServOpE op){
-    return new SSLearnEpVersionGetTimelineStateRet(learnEpTimelineState, op);
-  }
-  
-  private SSLearnEpVersionGetTimelineStateRet(SSLearnEpTimelineState learnEpTimelineState, SSServOpE op){
-    
-    super(op);
-    this.learnEpTimelineState = learnEpTimelineState;
-  }
-
   @Override
   public Map<String, Object> jsonLDDesc(){
     
@@ -52,8 +42,14 @@ public class SSLearnEpVersionGetTimelineStateRet extends SSServRetI{
     return ld;
   }
   
-  /*************** getters to allow for json enconding ********************/
-  public SSLearnEpTimelineState getLearnEpTimelineState() {
-    return learnEpTimelineState;
+  public static SSLearnEpVersionGetTimelineStateRet get(SSLearnEpTimelineState learnEpTimelineState){
+    return new SSLearnEpVersionGetTimelineStateRet(learnEpTimelineState);
+  }
+  
+  private SSLearnEpVersionGetTimelineStateRet(SSLearnEpTimelineState learnEpTimelineState){
+    
+    super(SSServOpE.learnEpVersionGetTimelineState);
+    
+    this.learnEpTimelineState = learnEpTimelineState;
   }
 }

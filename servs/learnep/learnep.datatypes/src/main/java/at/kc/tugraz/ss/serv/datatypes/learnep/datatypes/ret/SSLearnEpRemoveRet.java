@@ -24,36 +24,29 @@ import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSServRetI;
 import at.tugraz.sss.serv.SSUri;
-import java.util.HashMap;
 import java.util.Map;
 
 public class SSLearnEpRemoveRet extends SSServRetI{
 
   public SSUri learnEp = null;
 
-  public static SSLearnEpRemoveRet get(SSUri learnEpUri, SSServOpE op){
-    return new SSLearnEpRemoveRet(learnEpUri, op);
+  public String getLearnEp(){
+    return SSStrU.removeTrailingSlash(learnEp);
   }
-  
-  private SSLearnEpRemoveRet(SSUri learnEpUri, SSServOpE op){
     
-    super(op);
-    
-    this.learnEp = learnEpUri;
-  }
-
   @Override
   public Map<String, Object> jsonLDDesc(){
-    
-    final Map<String, Object> ld = new HashMap<>();
-    
-//    ld.put(SSVarU.learnEp, SSVarU.sss + SSStrU.colon + SSUri.class.getName());
-    
-    return ld;
+    throw new UnsupportedOperationException();
   }
   
-  /* json getters */
-  public String getLearnEp() throws Exception {
-    return SSStrU.removeTrailingSlash(learnEp);
+  public static SSLearnEpRemoveRet get(SSUri learnEpUri){
+    return new SSLearnEpRemoveRet(learnEpUri);
+  }
+  
+  private SSLearnEpRemoveRet(SSUri learnEpUri){
+    
+    super(SSServOpE.learnEpRemove);
+    
+    this.learnEp = learnEpUri;
   }
 }

@@ -32,16 +32,10 @@ public class SSLearnEpVersionAddCircleRet extends SSServRetI{
 
   public SSUri learnEpCircle = null;
 
-  public static SSLearnEpVersionAddCircleRet get(SSUri learnEpCircleUri, SSServOpE op){
-    return new SSLearnEpVersionAddCircleRet(learnEpCircleUri, op);
+  public String getLearnEpCircle() throws Exception {
+    return SSStrU.removeTrailingSlash(learnEpCircle);
   }
   
-  private SSLearnEpVersionAddCircleRet(SSUri learnEpCircleUri, SSServOpE op){
-    
-    super(op);
-    this.learnEpCircle = learnEpCircleUri;
-  }
-
   @Override
   public Map<String, Object> jsonLDDesc(){
     
@@ -52,8 +46,14 @@ public class SSLearnEpVersionAddCircleRet extends SSServRetI{
     return ld;
   }
   
-  /* getters to allow for json enconding */
-  public String getLearnEpCircle() throws Exception {
-    return SSStrU.removeTrailingSlash(learnEpCircle);
+  public static SSLearnEpVersionAddCircleRet get(SSUri learnEpCircleUri){
+    return new SSLearnEpVersionAddCircleRet(learnEpCircleUri);
+  }
+  
+  private SSLearnEpVersionAddCircleRet(SSUri learnEpCircleUri){
+    
+    super(SSServOpE.learnEpVersionAddCircle);
+    
+    this.learnEpCircle = learnEpCircleUri;
   }
 }

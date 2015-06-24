@@ -20,10 +20,10 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par;
 
-import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSStrU;
 
 public class SSLearnEpVersionAddEntityPar extends SSServPar{
   
@@ -32,28 +32,40 @@ public class SSLearnEpVersionAddEntityPar extends SSServPar{
   public Float    x              = null;
   public Float    y              = null;
   
-  public SSLearnEpVersionAddEntityPar(SSServPar par) throws Exception{
-      
-    super(par);
+  public String getLearnEpVersion(){
+    return SSStrU.removeTrailingSlash(learnEpVersion);
+  }
+  
+  public void setLearnEpVersion(String learnEpVersion) throws Exception{
+    this.learnEpVersion = SSUri.get(learnEpVersion);
+  }
+  
+  public String getEntity(){
+    return SSStrU.removeTrailingSlash(entity);
+  }
+  
+  public void setEntity(String entity) throws Exception{
+    this.entity = SSUri.get(entity);
+  }
+  
+  public SSLearnEpVersionAddEntityPar(){}
+  
+  public SSLearnEpVersionAddEntityPar(
+    final SSServOpE  op,
+    final String     key,
+    final SSUri      user,
+    final SSUri      learnEpVersion,
+    final SSUri      entity, 
+    final Float      x, 
+    final Float      y,
+    final Boolean    shouldCommit){
     
-    try{
-      
-      if(pars != null){
-        learnEpVersion  = (SSUri)    pars.get(SSVarNames.learnEpVersion); 
-        entity          = (SSUri)    pars.get(SSVarNames.entity);
-        x               = (Float)    pars.get(SSVarNames.x);
-        y               = (Float)    pars.get(SSVarNames.y);
-      }
-      
-      if(par.clientJSONObj != null){
-        learnEpVersion = SSUri.get        (par.clientJSONObj.get(SSVarNames.learnEpVersion).getTextValue());
-        entity         = SSUri.get        (par.clientJSONObj.get(SSVarNames.entity).getTextValue());
-        x              = par.clientJSONObj.get(SSVarNames.x).getNumberValue().floatValue();
-        y              = par.clientJSONObj.get(SSVarNames.y).getNumberValue().floatValue();
-      }
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
+    super(op, key, user);
+    
+    this.learnEpVersion  = learnEpVersion;
+    this.entity          = entity;
+    this.x               = x;
+    this.y               = y;
+    this.shouldCommit    = shouldCommit;
   }
 }

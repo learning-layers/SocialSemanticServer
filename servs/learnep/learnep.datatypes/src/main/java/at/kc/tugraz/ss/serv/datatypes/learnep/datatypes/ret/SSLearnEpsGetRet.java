@@ -34,17 +34,6 @@ public class SSLearnEpsGetRet extends SSServRetI{
 
   public List<SSLearnEp> learnEps = null;
 
-  public static SSLearnEpsGetRet get(List<SSLearnEp> learnEp, SSServOpE op){
-    return new SSLearnEpsGetRet(learnEp, op);
-  }
-  
-  private SSLearnEpsGetRet(List<SSLearnEp> learnEps, SSServOpE op){
-    
-    super(op);
-    
-    this.learnEps = learnEps;
-  }
-
   @Override
   public Map<String, Object> jsonLDDesc(){
     
@@ -59,7 +48,14 @@ public class SSLearnEpsGetRet extends SSServRetI{
     return ld;
   }
   
-  public List<SSLearnEp> getLearnEp() {
-    return learnEps;
+  public static SSLearnEpsGetRet get(List<SSLearnEp> learnEp){
+    return new SSLearnEpsGetRet(learnEp);
+  }
+  
+  private SSLearnEpsGetRet(List<SSLearnEp> learnEps){
+    
+    super(SSServOpE.learnEpsGet);
+    
+    this.learnEps = learnEps;
   }
 }

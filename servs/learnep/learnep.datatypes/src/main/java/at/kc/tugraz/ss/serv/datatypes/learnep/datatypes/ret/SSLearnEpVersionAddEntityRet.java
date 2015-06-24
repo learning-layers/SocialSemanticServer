@@ -31,17 +31,11 @@ import java.util.Map;
 public class SSLearnEpVersionAddEntityRet extends SSServRetI{
 
   public SSUri learnEpEntity = null;
-
-  public static SSLearnEpVersionAddEntityRet get(SSUri learnEpEntityUri, SSServOpE op){
-    return new SSLearnEpVersionAddEntityRet(learnEpEntityUri, op);
-  }
   
-  private SSLearnEpVersionAddEntityRet(SSUri learnEpEntityUri, SSServOpE op){
-    
-    super(op);
-    this.learnEpEntity = learnEpEntityUri;
+  public String getLearnEpEntity() throws Exception {
+    return SSStrU.removeTrailingSlash(learnEpEntity);
   }
-
+   
   @Override
   public Map<String, Object> jsonLDDesc(){
     
@@ -51,9 +45,15 @@ public class SSLearnEpVersionAddEntityRet extends SSServRetI{
     
     return ld;
   }
+
+  public static SSLearnEpVersionAddEntityRet get(SSUri learnEpEntityUri){
+    return new SSLearnEpVersionAddEntityRet(learnEpEntityUri);
+  }
   
-  /* getters to allow for json enconding */
-  public String getLearnEpEntity() throws Exception {
-    return SSStrU.removeTrailingSlash(learnEpEntity);
+  private SSLearnEpVersionAddEntityRet(SSUri learnEpEntityUri){
+    
+    super(SSServOpE.learnEpVersionAddEntity);
+    
+    this.learnEpEntity = learnEpEntityUri;
   }
 }

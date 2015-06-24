@@ -20,11 +20,11 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par;
 
-import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSStrU;
 
 public class SSLearnEpVersionAddCirclePar extends SSServPar{
   
@@ -36,37 +36,49 @@ public class SSLearnEpVersionAddCirclePar extends SSServPar{
   public Float      yR                = null;
   public Float      xC                = null;
   public Float      yC                = null;
+
+  public String getLearnEpVersion(){
+    return SSStrU.removeTrailingSlash(learnEpVersion);
+  }
+
+  public void setLearnEpVersion(String learnEpVersion) throws Exception{
+    this.learnEpVersion = SSUri.get(learnEpVersion);
+  }
+
+  public String getLabel(){
+    return SSStrU.toStr(label);
+  }
+
+  public void setLabel(final String label) throws Exception{
+    this.label = SSLabel.get(label);
+  }
   
-  public SSLearnEpVersionAddCirclePar(SSServPar par) throws Exception{
-      
-    super(par);
+  public SSLearnEpVersionAddCirclePar(){}
     
-    try{
-      
-      if(pars != null){
-        learnEpVersion    = (SSUri)   pars.get(SSVarNames.learnEpVersion);
-        label             = (SSLabel)  pars.get(SSVarNames.label);
-        xLabel            = (Float)    pars.get(SSVarNames.xLabel);
-        yLabel            = (Float)    pars.get(SSVarNames.yLabel);
-        xR                = (Float)    pars.get(SSVarNames.xR);
-        yR                = (Float)    pars.get(SSVarNames.yR);
-        xC                = (Float)    pars.get(SSVarNames.xC);
-        yC                = (Float)    pars.get(SSVarNames.yC);
-      }
-      
-      if(par.clientJSONObj != null){
-        learnEpVersion    = SSUri.get        (par.clientJSONObj.get(SSVarNames.learnEpVersion).getTextValue());
-        label             = SSLabel.get      (par.clientJSONObj.get(SSVarNames.label).getTextValue());
-        xLabel            = par.clientJSONObj.get(SSVarNames.xLabel).getNumberValue().floatValue();
-        yLabel            = par.clientJSONObj.get(SSVarNames.yLabel).getNumberValue().floatValue();
-        xR                = par.clientJSONObj.get(SSVarNames.xR).getNumberValue().floatValue();
-        yR                = par.clientJSONObj.get(SSVarNames.yR).getNumberValue().floatValue();
-        xC                = par.clientJSONObj.get(SSVarNames.xC).getNumberValue().floatValue();
-        yC                = par.clientJSONObj.get(SSVarNames.yC).getNumberValue().floatValue();
-      }
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
+  public SSLearnEpVersionAddCirclePar(
+    final SSServOpE  op,
+    final String     key,
+    final SSUri      user,
+    final SSUri      learnEpVersion,
+    final SSLabel    label,
+    final Float      xLabel,
+    final Float      yLabel,
+    final Float      xR,
+    final Float      yR,
+    final Float      xC,
+    final Float      yC,
+    final Boolean    shouldCommit){
+    
+    super(op, key, user);
+    
+    this.learnEpVersion    = learnEpVersion;
+    this.label             = label;
+    this.xLabel            = xLabel;
+    this.yLabel            = yLabel;
+    this.xR                = xR;
+    this.yR                = yR;
+    this.xC                = xC;
+    this.yC                = yC;
+    this.shouldCommit      = shouldCommit;
   }
 }

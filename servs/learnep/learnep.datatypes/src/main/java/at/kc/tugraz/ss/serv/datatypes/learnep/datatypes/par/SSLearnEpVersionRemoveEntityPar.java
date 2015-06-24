@@ -3,7 +3,7 @@
 * http://www.learning-layers.eu
 * Development is partly funded by the FP7 Programme of the European Commission under
 * Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+* Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
 * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,30 +20,35 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par;
 
-import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSStrU;
 
 public class SSLearnEpVersionRemoveEntityPar extends SSServPar{
   
   public SSUri  learnEpEntity = null;
+
+  public String getLearnEpEntity(){
+    return SSStrU.removeTrailingSlash(learnEpEntity);
+  }
+
+  public void setLearnEpEntity(final String learnEpEntity) throws Exception{
+    this.learnEpEntity = SSUri.get(learnEpEntity);
+  }
   
-  public SSLearnEpVersionRemoveEntityPar(SSServPar par) throws Exception{
-      
-    super(par);
+  public SSLearnEpVersionRemoveEntityPar(){}
+  
+  public SSLearnEpVersionRemoveEntityPar(
+    final SSServOpE     op,
+    final String        key,
+    final SSUri         user,
+    final SSUri         learnEpEntity,
+    final Boolean       shouldCommit){
     
-    try{
-      
-      if(pars != null){
-        learnEpEntity   = (SSUri) pars.get(SSVarNames.learnEpEntity);
-      }
-      
-      if(par.clientJSONObj != null){
-        learnEpEntity   = SSUri.get(par.clientJSONObj.get(SSVarNames.learnEpEntity).getTextValue());
-      }
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
+    super(op, key, user);
+    
+    this.learnEpEntity   = learnEpEntity;
+    this.shouldCommit    = shouldCommit;
   }
 }

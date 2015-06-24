@@ -20,22 +20,25 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par;
 
-import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
+import java.util.ArrayList;
+import java.util.List;
 
-public class SSLearnEpLockRemovePar extends SSServPar{
+public class SSLearnEpCopyForUserPar extends SSServPar{
   
-  public SSUri         learnEp       = null;
-  public SSUri         forUser       = null;
+  public SSUri       entity            = null;
+  public SSUri       forUser           = null;
+  public List<SSUri> entitiesToExclude = new ArrayList<>();
 
-  public String getLearnEp(){
-    return SSStrU.removeTrailingSlash(learnEp);
+  public String getEntity(){
+    return SSStrU.removeTrailingSlash(entity);
   }
 
-  public void setLearnEp(final String learnEp) throws Exception{
-    this.learnEp = SSUri.get(learnEp);
+  public void setEntity(final String entity) throws Exception{
+    this.entity = SSUri.get(entity);
   }
 
   public String getForUser(){
@@ -45,23 +48,35 @@ public class SSLearnEpLockRemovePar extends SSServPar{
   public void setForUser(final String forUser) throws Exception{
     this.forUser = SSUri.get(forUser);
   }
+
+  public List<String> getEntitiesToExclude(){
+    return SSStrU.removeTrailingSlash(entitiesToExclude);
+  }
+
+  public void setEntitiesToExclude(final List<String> entitiesToExclude) throws Exception{
+    this.entitiesToExclude = SSUri.get(entitiesToExclude);
+  }
   
-  public SSLearnEpLockRemovePar(){}
-    
-  public SSLearnEpLockRemovePar(
-    final SSServOpE  op,
-    final String     key,
-    final SSUri      user,
-    final SSUri      forUser, 
-    final SSUri      learnEp,
-    final Boolean    withUserRestriction,
-    final Boolean    shouldCommit){
+  public SSLearnEpCopyForUserPar(){}
+  
+  public SSLearnEpCopyForUserPar(
+    final SSServOpE   op,
+    final String      key,
+    final SSUri       user,
+    final SSUri       entity,
+    final SSUri       forUser,
+    final List<SSUri> entitiesToExclude,
+    final Boolean     shouldCommit){
     
     super(op, key, user);
-   
-    this.forUser             = forUser;
-    this.learnEp             = learnEp;
-    this.withUserRestriction = withUserRestriction;
-    this.shouldCommit        = shouldCommit;
+    
+    this.entity            = entity;
+    this.forUser           = forUser;
+    
+    if(entitiesToExclude != null){
+      this.entitiesToExclude.addAll(entitiesToExclude);
+    }
+    
+    this.shouldCommit      = shouldCommit;
   }
 }

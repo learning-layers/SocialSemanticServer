@@ -3,7 +3,7 @@
   * http://www.learning-layers.eu
   * Development is partly funded by the FP7 Programme of the European Commission under
   * Grant Agreement FP7-ICT-318209.
-  * Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+  * Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
   * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
   *
   * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,11 +20,10 @@
   */
 package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par;
 
-import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSUri;
-
-import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSStrU;
 public class SSLearnEpVersionUpdateEntityPar extends SSServPar{
   
   public SSUri    learnEpEntity      = null;
@@ -32,37 +31,37 @@ public class SSLearnEpVersionUpdateEntityPar extends SSServPar{
   public Float    x                  = null;
   public Float    y                  = null;
   
-  public SSLearnEpVersionUpdateEntityPar(SSServPar par) throws Exception{
+  public String getLearnEpEntity(){
+    return SSStrU.removeTrailingSlash(learnEpEntity);
+  }
+  
+  public void setLearnEpEntity(String learnEpEntity) throws Exception{
+    this.learnEpEntity = SSUri.get(learnEpEntity);
+  }
+  
+  public String getEntity(){
+    return SSStrU.removeTrailingSlash(entity);
+  }
+  
+  public void setEntity(String entity) throws Exception{
+    this.entity = SSUri.get(entity);
+  }
+  public SSLearnEpVersionUpdateEntityPar(
+    final SSServOpE     op,
+    final String        key,
+    final SSUri         user,
+    final SSUri         learnEpEntity,
+    final SSUri         entity, 
+    final Float         x, 
+    final Float         y,
+    final Boolean       shouldCommit){
     
-    super(par);
+    super(op, key, user);
     
-    try{
-      
-      if(pars != null){
-        learnEpEntity      = (SSUri)    pars.get(SSVarNames.learnEpEntity);
-        entity             = (SSUri)    pars.get(SSVarNames.entity);
-        x                  = (Float)    pars.get(SSVarNames.x);
-        y                  = (Float)    pars.get(SSVarNames.y);
-      }
-      
-      if(par.clientJSONObj != null){
-        learnEpEntity     = SSUri.get        (par.clientJSONObj.get(SSVarNames.learnEpEntity).getTextValue());
-        
-        try{
-          entity            = SSUri.get        (par.clientJSONObj.get(SSVarNames.entity).getTextValue());
-        }catch(Exception error){}
-        
-        try{
-          x                 = par.clientJSONObj.get(SSVarNames.x).getNumberValue().floatValue();
-        }catch(Exception error){}
-        
-        try{
-          y                 = par.clientJSONObj.get(SSVarNames.y).getNumberValue().floatValue();
-        }catch(Exception error){}
-      }
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
+    this.learnEpEntity   = learnEpEntity;
+    this.entity          = entity;
+    this.x               = x;
+    this.y               = y;
+    this.shouldCommit    = shouldCommit;
   }
 }

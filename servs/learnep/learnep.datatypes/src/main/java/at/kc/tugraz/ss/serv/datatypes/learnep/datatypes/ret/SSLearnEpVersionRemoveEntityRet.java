@@ -31,16 +31,6 @@ public class SSLearnEpVersionRemoveEntityRet extends SSServRetI{
 
   public Boolean worked = null;
 
-  public static SSLearnEpVersionRemoveEntityRet get(Boolean worked, SSServOpE op){
-    return new SSLearnEpVersionRemoveEntityRet(worked, op);
-  }
-  
-  private SSLearnEpVersionRemoveEntityRet(Boolean worked, SSServOpE op){
-    
-    super(op);
-    this.worked = worked;
-  }
-
   @Override
   public Map<String, Object> jsonLDDesc(){
     
@@ -51,8 +41,14 @@ public class SSLearnEpVersionRemoveEntityRet extends SSServRetI{
     return ld;
   }
   
-  /*************** getters to allow for json enconding ********************/
-  public boolean getWorked() {
-    return worked;
+  public static SSLearnEpVersionRemoveEntityRet get(Boolean worked){
+    return new SSLearnEpVersionRemoveEntityRet(worked);
+  }
+  
+  private SSLearnEpVersionRemoveEntityRet(Boolean worked){
+    
+    super(SSServOpE.learnEpVersionRemoveEntity);
+    
+    this.worked = worked;
   }
 }

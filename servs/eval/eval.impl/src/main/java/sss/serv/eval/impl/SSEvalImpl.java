@@ -28,7 +28,9 @@ import at.kc.tugraz.ss.activity.datatypes.SSActivity;
 import at.kc.tugraz.ss.activity.datatypes.par.SSActivityGetPar;
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleMostOpenCircleTypeGetPar;
+import at.kc.tugraz.ss.serv.datatypes.learnep.api.SSLearnEpServerI;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpVersion;
+import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionCurrentGetPar;
 import at.tugraz.sss.serv.SSSocketCon;
 import at.tugraz.sss.serv.SSCircleE;
 import at.tugraz.sss.serv.SSConfA;
@@ -309,8 +311,13 @@ implements
           
           try{
           
-            final SSLearnEpVersion learnEpVersion = SSServCaller.learnEpVersionCurrentGet(originUser.id);
-            final Integer          itemCount      = learnEpVersion.learnEpCircles.size() + learnEpVersion.learnEpEntities.size();
+            final SSLearnEpVersion learnEpVersion = 
+              ((SSLearnEpServerI)SSServReg.getServ(SSLearnEpServerI.class)).learnEpVersionCurrentGet(
+                new SSLearnEpVersionCurrentGetPar(null, null, originUser.id));
+
+            final Integer itemCount = 
+              learnEpVersion.learnEpCircles.size() + 
+              learnEpVersion.learnEpEntities.size();
             
             selectBitsMeasure = targetEntities.size() + SSStrU.slash + itemCount;
             

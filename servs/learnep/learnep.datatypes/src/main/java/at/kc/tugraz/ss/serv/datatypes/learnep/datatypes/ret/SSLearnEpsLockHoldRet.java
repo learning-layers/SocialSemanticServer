@@ -21,12 +21,8 @@
 package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret;
 
 import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServRetI;
-import at.tugraz.sss.serv.SSJSONLDU;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -34,35 +30,24 @@ public class SSLearnEpsLockHoldRet extends SSServRetI{
 
   public List<SSLearnEpLockHoldRet> learnEpLocks = new ArrayList<>();
 
+  @Override
+  public Map<String, Object> jsonLDDesc(){
+    throw new UnsupportedOperationException();
+  }
+  
   public static SSLearnEpsLockHoldRet get(
-    final List<SSLearnEpLockHoldRet> learnEpLocks,
-    final SSServOpE op){
+    final List<SSLearnEpLockHoldRet> learnEpLocks){
 
-    return new SSLearnEpsLockHoldRet(learnEpLocks, op);
+    return new SSLearnEpsLockHoldRet(learnEpLocks);
   }
   
   private SSLearnEpsLockHoldRet(
-    final List<SSLearnEpLockHoldRet> learnEpLocks,
-    final SSServOpE op){
+    final List<SSLearnEpLockHoldRet> learnEpLocks){
     
-    super(op);
+    super(SSServOpE.learnEpsLockHold);
     
     if(learnEpLocks != null){
       learnEpLocks.addAll(learnEpLocks);
     }
-  }
-
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    
-    final Map<String, Object> ld                = new HashMap<>();
-    final Map<String, Object> learnEpLocksObj   = new HashMap<>();
-    
-    learnEpLocksObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSLearnEpLockHoldRet.class.getName());
-    learnEpLocksObj.put(SSJSONLDU.container, SSJSONLDU.set);
-    
-    ld.put(SSVarNames.colls, learnEpLocksObj);
-    
-    return ld;
   }
 }

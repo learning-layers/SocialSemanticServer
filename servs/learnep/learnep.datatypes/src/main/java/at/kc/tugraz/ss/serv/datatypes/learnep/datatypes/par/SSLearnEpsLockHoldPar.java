@@ -24,6 +24,8 @@ import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSStrU;
 import java.util.ArrayList;
 import java.util.List;
 import org.codehaus.jackson.JsonNode;
@@ -31,27 +33,25 @@ import org.codehaus.jackson.JsonNode;
 public class SSLearnEpsLockHoldPar extends SSServPar{
   
   public List<SSUri>  learnEps = new ArrayList<>();
+
+  public List<String> getLearnEps(){
+    return SSStrU.removeTrailingSlash(learnEps);
+  }
+
+  public void setLearnEps(final List<String> learnEps) throws Exception{
+    this.learnEps = SSUri.get(learnEps);
+  }
+
+  public SSLearnEpsLockHoldPar(){}
   
-  public SSLearnEpsLockHoldPar(SSServPar par) throws Exception{
-      
-    super(par);
+  public SSLearnEpsLockHoldPar(
+    final SSServOpE   op,
+    final String      key,
+    final SSUri       user,
+    final List<SSUri>       learnEps){
     
-    try{
-      
-      if(pars != null){
-        learnEps   = (List<SSUri>) pars.get(SSVarNames.learnEps);
-      }
-      
-      if(par.clientJSONObj != null){
-        
-        try{
-          for (final JsonNode objNode : par.clientJSONObj.get(SSVarNames.learnEps)) {
-            learnEps.add(SSUri.get(objNode.getTextValue()));
-          }
-        }catch(Exception error){}
-      }
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
+    super(op, key, user);
+    
+    this.learnEps = learnEps;
   }
 }

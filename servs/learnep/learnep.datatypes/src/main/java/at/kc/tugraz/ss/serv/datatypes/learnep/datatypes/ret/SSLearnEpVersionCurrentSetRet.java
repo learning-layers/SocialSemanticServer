@@ -32,16 +32,10 @@ public class SSLearnEpVersionCurrentSetRet extends SSServRetI{
 
   public SSUri learnEpVersion = null;
 
-  public static SSLearnEpVersionCurrentSetRet get(SSUri learnEpVersionUri, SSServOpE op){
-    return new SSLearnEpVersionCurrentSetRet(learnEpVersionUri, op);
+  public String getLearnEpVersion() throws Exception {
+    return SSStrU.removeTrailingSlash(learnEpVersion);
   }
   
-  private SSLearnEpVersionCurrentSetRet(SSUri learnEpVersionUri, SSServOpE op){
-    
-    super(op);
-    this.learnEpVersion = learnEpVersionUri;
-  }
-
   @Override
   public Map<String, Object> jsonLDDesc(){
     
@@ -52,8 +46,14 @@ public class SSLearnEpVersionCurrentSetRet extends SSServRetI{
     return ld;
   }
   
-  /* getters to allow for json enconding */
-  public String getLearnEpVersion() throws Exception {
-    return SSStrU.removeTrailingSlash(learnEpVersion);
+  public static SSLearnEpVersionCurrentSetRet get(SSUri learnEpVersionUri){
+    return new SSLearnEpVersionCurrentSetRet(learnEpVersionUri);
+  }
+  
+  private SSLearnEpVersionCurrentSetRet(SSUri learnEpVersionUri){
+    
+    super(SSServOpE.learnEpVersionCurrentSet);
+    
+    this.learnEpVersion = learnEpVersionUri;
   }
 }

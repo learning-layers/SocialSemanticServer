@@ -35,31 +35,10 @@ public class SSLearnEpLockHoldRet extends SSServRetI{
   public Boolean locked        = false;
   public Long    remainingTime = null;
 
-  public static SSLearnEpLockHoldRet get(
-    final SSUri   learnEp,
-    final Boolean locked,
-    final Boolean lockedByUser, 
-    final Long    remainingTime, 
-    final SSServOpE op){
-
-    return new SSLearnEpLockHoldRet(learnEp, locked, lockedByUser, remainingTime, op);
+  public String getLearnEp(){
+    return SSStrU.removeTrailingSlash(learnEp);
   }
   
-  private SSLearnEpLockHoldRet(
-    final SSUri   learnEp,
-    final Boolean locked,
-    final Boolean lockedByUser,
-    final Long    remainingTime,
-    final SSServOpE op){
-    
-    super(op);
-    
-    this.learnEp       = learnEp;
-    this.locked        = locked;
-    this.lockedByUser  = lockedByUser;
-    this.remainingTime = remainingTime;
-  }
-
   @Override
   public Map<String, Object> jsonLDDesc(){
     
@@ -73,8 +52,26 @@ public class SSLearnEpLockHoldRet extends SSServRetI{
     return ld;
   }
   
-  /* json getters */
-  public String getLearnEp(){
-    return SSStrU.removeTrailingSlash(learnEp);
+  public static SSLearnEpLockHoldRet get(
+    final SSUri   learnEp,
+    final Boolean locked,
+    final Boolean lockedByUser, 
+    final Long    remainingTime){
+
+    return new SSLearnEpLockHoldRet(learnEp, locked, lockedByUser, remainingTime);
+  }
+  
+  private SSLearnEpLockHoldRet(
+    final SSUri   learnEp,
+    final Boolean locked,
+    final Boolean lockedByUser,
+    final Long    remainingTime){
+    
+    super(SSServOpE.learnEpsLockHold);
+    
+    this.learnEp       = learnEp;
+    this.locked        = locked;
+    this.lockedByUser  = lockedByUser;
+    this.remainingTime = remainingTime;
   }
 }

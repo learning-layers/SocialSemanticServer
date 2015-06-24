@@ -26,6 +26,12 @@ import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEp;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpCircle;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpEntity;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpVersion;
+import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpCreatePar;
+import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionAddCirclePar;
+import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionAddEntityPar;
+import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionCreatePar;
+import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionSetTimelineStatePar;
+import at.kc.tugraz.ss.serv.datatypes.learnep.impl.SSLearnEpImpl;
 import at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.sql.SSLearnEpSQLFct;
 import at.tugraz.sss.serv.SSObjU;
 import at.tugraz.sss.serv.SSStrU;
@@ -40,6 +46,7 @@ import java.util.List;
 public class SSLearnEpMiscFct{
   
   public static SSUri copyLearnEpForUser(
+    final SSLearnEpImpl   serv,
     final SSLearnEpSQLFct sqlFct,
     final SSUri           user,
     final SSUri           forUser,
@@ -56,33 +63,46 @@ public class SSLearnEpMiscFct{
       SSUri           copyVersionUri;
       
       final SSUri copyLearnEpUri = 
-        SSServCaller.learnEpCreate(
-          forUser, 
-          learnEp.label,
-          learnEp.description,
-          false);
+        serv.learnEpCreate(
+          new SSLearnEpCreatePar(
+            null, 
+            null, 
+            forUser, 
+            learnEp.label, 
+            learnEp.description, 
+            false));
       
       for(SSLearnEpVersion version : learnEp.versions){
 
-        copyVersionUri = SSServCaller.learnEpVersionCreate(forUser, copyLearnEpUri, false);
-        
+        copyVersionUri = 
+          serv.learnEpVersionCreate(
+            new SSLearnEpVersionCreatePar(
+              null, 
+              null, 
+              forUser, 
+              copyLearnEpUri, 
+              false));
+            
         for(SSLearnEpCircle circle : version.learnEpCircles){
           
           if(SSStrU.contains(entitiesToExclude, circle.id)){
             continue;
           }
-            
-          SSServCaller.learnEpVersionAddCircle(
-            forUser, 
-            copyVersionUri, 
-            circle.label, 
-            circle.xLabel, 
-            circle.yLabel, 
-            circle.xR, 
-            circle.yR, 
-            circle.xC, 
-            circle.yC,
-            false);
+           
+          serv.learnEpVersionAddCircle(
+            new SSLearnEpVersionAddCirclePar(
+              null,
+              null,
+              forUser,
+              copyVersionUri,
+              circle.label,
+              circle.xLabel,
+              circle.yLabel,
+              circle.xR,
+              circle.yR,
+              circle.xC,
+              circle.yC,
+              false));
         }
         
         for(SSLearnEpEntity entity : version.learnEpEntities){
@@ -105,23 +125,29 @@ public class SSLearnEpMiscFct{
               null,
               false));
           
-          SSServCaller.learnEpVersionAddEntity(
-            forUser,
-            copyVersionUri, 
-            entity.entity.id,
-            entity.x, 
-            entity.y, 
-            false);
+          serv.learnEpVersionAddEntity(
+            new SSLearnEpVersionAddEntityPar(
+              null, 
+              null, 
+              forUser, 
+              copyVersionUri,  
+              entity.entity.id, 
+              entity.x, 
+              entity.y, 
+              false));
         }
         
         if(version.learnEpTimelineState != null){
-        
-          SSServCaller.learnEpVersionSetTimelineState(
-            forUser, 
-            copyVersionUri, 
-            version.learnEpTimelineState.startTime,
-            version.learnEpTimelineState.endTime, 
-            false);
+          
+          serv.learnEpVersionSetTimelineState(
+            new SSLearnEpVersionSetTimelineStatePar(
+              null,
+              null,
+              forUser,
+              copyVersionUri,
+              version.learnEpTimelineState.startTime,
+              version.learnEpTimelineState.endTime,
+              false));
         }
       }
       
