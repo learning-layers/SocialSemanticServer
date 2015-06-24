@@ -25,7 +25,6 @@ import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesAddPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleMostOpenCircleTypeGetPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivEntityAddPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclesGetPar;
-import at.kc.tugraz.ss.circle.serv.SSCircleServ;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityCircle;
@@ -34,6 +33,7 @@ import at.tugraz.sss.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntryAddPar;
 import at.kc.tugraz.ss.service.coll.impl.fct.misc.SSCollMiscFct;
 import at.kc.tugraz.ss.service.coll.impl.fct.sql.SSCollSQLFct;
+import at.tugraz.sss.serv.SSServReg;
 
 public class SSCollEntryAddFct{
   
@@ -44,7 +44,7 @@ public class SSCollEntryAddFct{
     final Boolean isParentCollSharedOrPublic;
     
     switch(
-      ((SSCircleServerI) SSCircleServ.inst.serv()).circleMostOpenCircleTypeGet(
+      ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleMostOpenCircleTypeGet(
         new SSCircleMostOpenCircleTypeGetPar(
           null,
           null,
@@ -58,7 +58,7 @@ public class SSCollEntryAddFct{
     
     par.entry = SSServCaller.vocURICreate();
     
-    ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+    ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePrivEntityAdd(
       new SSCirclePrivEntityAddPar(
         null,
         null,
@@ -80,7 +80,7 @@ public class SSCollEntryAddFct{
       false);
     
     for(SSEntityCircle entityUserCircle : 
-      ((SSCircleServerI) SSCircleServ.inst.serv()).circlesGet(
+      ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlesGet(
         new SSCirclesGetPar(
           null, 
           null, 
@@ -92,7 +92,7 @@ public class SSCollEntryAddFct{
           true, 
           false))){
       
-      ((SSCircleServerI) SSCircleServ.inst.serv()).circleEntitiesAdd(
+      ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleEntitiesAdd(
         new SSCircleEntitiesAddPar(
           null, 
           null, 
@@ -113,7 +113,7 @@ public class SSCollEntryAddFct{
     
     
     if(!SSCircleE.equals(
-      ((SSCircleServerI) SSCircleServ.inst.serv()).circleMostOpenCircleTypeGet(
+      ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleMostOpenCircleTypeGet(
         new SSCircleMostOpenCircleTypeGetPar(
           null,
           null,
@@ -126,7 +126,7 @@ public class SSCollEntryAddFct{
       throw new Exception("coll to add is not public");
     }
     
-    switch(((SSCircleServerI) SSCircleServ.inst.serv()).circleMostOpenCircleTypeGet(
+    switch(((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleMostOpenCircleTypeGet(
         new SSCircleMostOpenCircleTypeGetPar(
           null,
           null,
@@ -160,7 +160,7 @@ public class SSCollEntryAddFct{
     final SSCollSQLFct          sqlFct, 
     final SSCollUserEntryAddPar par) throws Exception{
     
-    ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+    ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePrivEntityAdd(
       new SSCirclePrivEntityAddPar(
         null,
         null,
@@ -175,7 +175,7 @@ public class SSCollEntryAddFct{
     sqlFct.addCollEntry(par.coll, par.entry);
     
     for(SSEntityCircle circle : 
-      ((SSCircleServerI) SSCircleServ.inst.serv()).circlesGet(
+      ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlesGet(
         new SSCirclesGetPar(
           null, 
           null, 
@@ -187,7 +187,7 @@ public class SSCollEntryAddFct{
           true, 
           false))){
       
-      ((SSCircleServerI) SSCircleServ.inst.serv()).circleEntitiesAdd(
+      ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleEntitiesAdd(
         new SSCircleEntitiesAddPar(
           null, 
           null, 

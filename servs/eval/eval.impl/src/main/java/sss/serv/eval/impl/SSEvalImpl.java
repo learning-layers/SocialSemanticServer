@@ -20,13 +20,14 @@
 */
 package sss.serv.eval.impl;
 
+import at.kc.tugraz.ss.activity.api.SSActivityServerI;
 import at.tugraz.sss.serv.SSDateU;
 import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSStrU;
 import at.kc.tugraz.ss.activity.datatypes.SSActivity;
+import at.kc.tugraz.ss.activity.datatypes.par.SSActivityGetPar;
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleMostOpenCircleTypeGetPar;
-import at.kc.tugraz.ss.circle.serv.SSCircleServ;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpVersion;
 import at.tugraz.sss.serv.SSSocketCon;
 import at.tugraz.sss.serv.SSCircleE;
@@ -41,6 +42,7 @@ import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSToolE;
 import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.tugraz.sss.serv.caller.SSServCallerU;
 import java.util.ArrayList;
@@ -52,7 +54,11 @@ import sss.serv.eval.datatypes.par.SSEvalLogPar;
 import sss.serv.eval.datatypes.ret.SSEvalLogRet;
 import sss.serv.eval.impl.fct.sql.SSEvalSQLFct;
 
-public class SSEvalImpl extends SSServImplWithDBA implements SSEvalClientI, SSEvalServerI{
+public class SSEvalImpl 
+extends SSServImplWithDBA 
+implements 
+  SSEvalClientI, 
+  SSEvalServerI{
 
   private final SSEvalSQLFct sqlFct;
   private final SSEvalConf   evalConf;
@@ -121,7 +127,7 @@ public class SSEvalImpl extends SSServImplWithDBA implements SSEvalClientI, SSEv
           case learnEp:
             
             episodeSpace = 
-              ((SSCircleServerI)SSCircleServ.inst.serv()).circleMostOpenCircleTypeGet(
+              ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleMostOpenCircleTypeGet(
                 new SSCircleMostOpenCircleTypeGetPar(
                   null,
                   null,
@@ -145,7 +151,14 @@ public class SSEvalImpl extends SSServImplWithDBA implements SSEvalClientI, SSEv
           switch(targetEntity.type){
             
             case activity:{
-              activity = SSServCaller.activityGet(par.user, targetEntity.id);
+              
+              activity = 
+                ((SSActivityServerI) SSServReg.getServ(SSActivityServerI.class)).activityGet(
+                  new SSActivityGetPar(
+                    null, 
+                    null, 
+                    par.user, 
+                    targetEntity.id));
               
               targetEntities.addAll (activity.entities);
               targetUsers.addAll    (activity.users);
@@ -246,7 +259,7 @@ public class SSEvalImpl extends SSServImplWithDBA implements SSEvalClientI, SSEv
           case learnEp:
             
             episodeSpace = 
-              ((SSCircleServerI)SSCircleServ.inst.serv()).circleMostOpenCircleTypeGet(
+              ((SSCircleServerI)SSServReg.getServ(SSCircleServerI.class)).circleMostOpenCircleTypeGet(
                 new SSCircleMostOpenCircleTypeGetPar(
                   null,
                   null,

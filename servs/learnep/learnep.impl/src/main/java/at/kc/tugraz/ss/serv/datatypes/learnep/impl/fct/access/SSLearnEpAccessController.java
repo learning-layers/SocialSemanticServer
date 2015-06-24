@@ -22,13 +22,11 @@ package at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.access;
 
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleTypesGetPar;
-import at.kc.tugraz.ss.circle.serv.SSCircleServ;
 import at.kc.tugraz.ss.serv.datatypes.learnep.conf.SSLearnEpConf;
 import at.tugraz.sss.serv.SSDateU;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSCircleE;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.caller.SSServCaller;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -37,6 +35,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSServReg;
 
 public class SSLearnEpAccessController{
   
@@ -154,7 +153,7 @@ public class SSLearnEpAccessController{
       if(
         !learnEpConf.useEpisodeLocking ||
         !SSStrU.contains(
-          ((SSCircleServerI) SSCircleServ.inst.serv()).circleTypesGet(
+          ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleTypesGet(
             new SSCircleTypesGetPar(
               null,
               null,

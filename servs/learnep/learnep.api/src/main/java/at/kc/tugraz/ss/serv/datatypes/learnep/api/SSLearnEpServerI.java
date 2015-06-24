@@ -25,10 +25,11 @@ import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpTimelineState;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpVersion;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpLockHoldRet;
 import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServServerI;
 import at.tugraz.sss.serv.SSUri;
 import java.util.List;
 
-public interface SSLearnEpServerI {
+public interface SSLearnEpServerI extends SSServServerI{
   
   public SSUri                        learnEpRemove                     (final SSServPar parA) throws Exception;
   public List<SSLearnEp>              learnEpsGet                       (final SSServPar parA) throws Exception;

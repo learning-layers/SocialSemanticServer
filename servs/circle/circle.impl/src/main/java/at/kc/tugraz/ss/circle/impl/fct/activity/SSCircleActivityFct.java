@@ -20,8 +20,10 @@
   */
 package at.kc.tugraz.ss.circle.impl.fct.activity;
 
+import at.kc.tugraz.ss.activity.api.SSActivityServerI;
 import at.tugraz.sss.serv.SSLogU;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
+import at.kc.tugraz.ss.activity.datatypes.par.SSActivityAddPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleCreatePar;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
@@ -29,11 +31,9 @@ import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesAddPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntityPublicSetPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitySharePar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleUsersAddPar;
-
-import at.tugraz.sss.serv.caller.SSServCaller;
-import java.util.ArrayList;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSServReg;
 
 public class SSCircleActivityFct{
   
@@ -43,15 +43,18 @@ public class SSCircleActivityFct{
     
     try{
       
-      SSServCaller.activityAdd(
-        par.user,
-        SSActivityE.createCircle,
-        circle,
-        par.users,
-        par.entities,
-        SSTextComment.asListWithoutNullAndEmpty(),
-        null,
-        false);
+      ((SSActivityServerI) SSServReg.getServ(SSActivityServerI.class)).activityAdd(
+        new SSActivityAddPar(
+          null, 
+          null, 
+          par.user, 
+          SSActivityE.createCircle, 
+          circle, 
+          par.users, 
+          par.entities, 
+          SSTextComment.asListWithoutNullAndEmpty(), 
+          null, 
+          false));
       
     }catch(SSErr error){
       
@@ -70,15 +73,18 @@ public class SSCircleActivityFct{
     
     try{
       
-      SSServCaller.activityAdd(
-        par.user,
-        SSActivityE.addEntitiesToCircle,
-        par.circle,
-        new ArrayList<>(),
-        par.entities,
-        SSTextComment.asListWithoutNullAndEmpty(),
-        null,
-        false);
+      ((SSActivityServerI) SSServReg.getServ(SSActivityServerI.class)).activityAdd(
+        new SSActivityAddPar(
+          null, 
+          null, 
+          par.user, 
+          SSActivityE.addEntitiesToCircle, 
+          par.circle,
+          SSUri.asListWithoutNullAndEmpty(),
+          par.entities, 
+          SSTextComment.asListWithoutNullAndEmpty(), 
+          null, 
+          false));
       
     }catch(SSErr error){
       
@@ -97,15 +103,18 @@ public class SSCircleActivityFct{
     
     try{
       
-      SSServCaller.activityAdd(
-        par.user,
-        SSActivityE.addUsersToCircle,
-        par.circle,
-        par.users,
-        SSUri.asListWithoutNullAndEmpty(),
-        SSTextComment.asListWithoutNullAndEmpty(),
-        null,
-        false);
+      ((SSActivityServerI) SSServReg.getServ(SSActivityServerI.class)).activityAdd(
+        new SSActivityAddPar(
+          null, 
+          null, 
+          par.user, 
+          SSActivityE.addUsersToCircle, 
+          par.circle,
+          par.users,
+          SSUri.asListWithoutNullAndEmpty(), 
+          SSTextComment.asListWithoutNullAndEmpty(), 
+          null, 
+          false));
       
     }catch(SSErr error){
       
@@ -124,15 +133,18 @@ public class SSCircleActivityFct{
     
      try{
       
-      SSServCaller.activityAdd(
-        par.user,
-        SSActivityE.setEntityPublic,
-        par.entity,
-        new ArrayList<>(),
-        SSUri.asListWithoutNullAndEmpty(),
-        SSTextComment.asListWithoutNullAndEmpty(),
-        null,
-        false);
+      ((SSActivityServerI) SSServReg.getServ(SSActivityServerI.class)).activityAdd(
+        new SSActivityAddPar(
+          null, 
+          null, 
+          par.user, 
+          SSActivityE.setEntityPublic, 
+          par.entity,
+          SSUri.asListWithoutNullAndEmpty(), 
+          SSUri.asListWithoutNullAndEmpty(), 
+          SSTextComment.asListWithoutNullAndEmpty(), 
+          null, 
+          false));
       
     }catch(SSErr error){
       
@@ -152,16 +164,19 @@ public class SSCircleActivityFct{
     
     try{
       
-      SSServCaller.activityAdd(
-        par.user,
-        SSActivityE.shareEntityWithUsers,
-        par.entity,
-        par.users,
-        SSUri.asListWithoutNullAndEmpty(),
-        SSTextComment.asListWithoutNullAndEmpty(par.comment),
-        null,
-        false);
-      
+     ((SSActivityServerI) SSServReg.getServ(SSActivityServerI.class)).activityAdd(
+        new SSActivityAddPar(
+          null, 
+          null, 
+          par.user, 
+          SSActivityE.shareEntityWithUsers, 
+          par.entity,
+          par.users, 
+          SSUri.asListWithoutNullAndEmpty(), 
+          SSTextComment.asListWithoutNullAndEmpty(par.comment), 
+          null, 
+          false));
+     
     }catch(SSErr error){
       
       switch(error.code){
@@ -179,15 +194,18 @@ public class SSCircleActivityFct{
     
     try{
       
-      SSServCaller.activityAdd(
-        par.user,
-        SSActivityE.shareEntityWithCircles,
-        par.entity,
-        SSUri.asListWithoutNullAndEmpty(),
-        SSUri.asListWithoutNullAndEmpty(par.circles),
-        SSTextComment.asListWithoutNullAndEmpty(par.comment),
-        null,
-        false);
+      ((SSActivityServerI) SSServReg.getServ(SSActivityServerI.class)).activityAdd(
+        new SSActivityAddPar(
+          null, 
+          null, 
+          par.user, 
+          SSActivityE.shareEntityWithCircles, 
+          par.entity,
+          SSUri.asListWithoutNullAndEmpty(),
+          SSUri.asListWithoutNullAndEmpty(par.circles),
+          SSTextComment.asListWithoutNullAndEmpty(par.comment), 
+          null, 
+          false));
       
     }catch(SSErr error){
       

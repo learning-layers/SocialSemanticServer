@@ -35,22 +35,22 @@ public class SSLearnEpTester extends Thread{
     }
     
     switch(learnEpConf.op){
-      case learnEpCreate:                  new Thread(new SSLearnEpCreateTest                 (learnEpConf)).start(); break;
-      case learnEpVersionCreate:           new Thread(new SSLearnEpVersionCreateTest          (learnEpConf)).start(); break;
-      case learnEpVersionGet:              new Thread(new SSLearnEpVersionGetTest             (learnEpConf)).start(); break;
-      case learnEpVersionAddCircle:        new Thread(new SSLearnEpVersionAddCircleTest       (learnEpConf)).start(); break;
-      case learnEpVersionAddEntity:        new Thread(new SSLearnEpVersionAddEntityTest       (learnEpConf)).start(); break;
-      case learnEpVersionsGet:             new Thread(new SSLearnEpVersionsGetTest            (learnEpConf)).start(); break;
-      case learnEpsGet:                    new Thread(new SSLearnEpsGetTest                   (learnEpConf)).start(); break;
-      case learnEpVersionCurrentGet:       new Thread(new SSLearnEpVersionCurrentGetTest      (learnEpConf)).start(); break;
-      case learnEpVersionCurrentSet:       new Thread(new SSLearnEpVersionCurrentSetTest      (learnEpConf)).start(); break;
-      case learnEpVersionSetTimelineState: new Thread(new SSLearnEpVersionSetTimelineStateTest(learnEpConf)).start(); break;
-      case learnEpVersionGetTimelineState: new Thread(new SSLearnEpVersionGetTimelineStateTest(learnEpConf)).start(); break;
-      case learnEpVersionRemoveCircle:     new Thread(new SSLearnEpVersionRemoveCircleTest    (learnEpConf)).start(); break;
-      case learnEpVersionRemoveEntity:     new Thread(new SSLearnEpVersionRemoveEntityTest    (learnEpConf)).start(); break;
-      case learnEpVersionUpdateCircle:     new Thread(new SSLearnEpVersionUpdateCircleTest    (learnEpConf)).start(); break;
-      case learnEpVersionUpdateEntity:     new Thread(new SSLearnEpVersionUpdateEntityTest    (learnEpConf)).start(); break;
-      case learnEpUserCopyForUser:         new Thread(new SSLearnEpUserCopyForUserTest        (learnEpConf)).start(); break;
+//      case learnEpCreate:                  new Thread(new SSLearnEpCreateTest                 (learnEpConf)).start(); break;
+//      case learnEpVersionCreate:           new Thread(new SSLearnEpVersionCreateTest          (learnEpConf)).start(); break;
+//      case learnEpVersionGet:              new Thread(new SSLearnEpVersionGetTest             (learnEpConf)).start(); break;
+//      case learnEpVersionAddCircle:        new Thread(new SSLearnEpVersionAddCircleTest       (learnEpConf)).start(); break;
+//      case learnEpVersionAddEntity:        new Thread(new SSLearnEpVersionAddEntityTest       (learnEpConf)).start(); break;
+//      case learnEpVersionsGet:             new Thread(new SSLearnEpVersionsGetTest            (learnEpConf)).start(); break;
+//      case learnEpsGet:                    new Thread(new SSLearnEpsGetTest                   (learnEpConf)).start(); break;
+//      case learnEpVersionCurrentGet:       new Thread(new SSLearnEpVersionCurrentGetTest      (learnEpConf)).start(); break;
+//      case learnEpVersionCurrentSet:       new Thread(new SSLearnEpVersionCurrentSetTest      (learnEpConf)).start(); break;
+//      case learnEpVersionSetTimelineState: new Thread(new SSLearnEpVersionSetTimelineStateTest(learnEpConf)).start(); break;
+//      case learnEpVersionGetTimelineState: new Thread(new SSLearnEpVersionGetTimelineStateTest(learnEpConf)).start(); break;
+//      case learnEpVersionRemoveCircle:     new Thread(new SSLearnEpVersionRemoveCircleTest    (learnEpConf)).start(); break;
+//      case learnEpVersionRemoveEntity:     new Thread(new SSLearnEpVersionRemoveEntityTest    (learnEpConf)).start(); break;
+//      case learnEpVersionUpdateCircle:     new Thread(new SSLearnEpVersionUpdateCircleTest    (learnEpConf)).start(); break;
+//      case learnEpVersionUpdateEntity:     new Thread(new SSLearnEpVersionUpdateEntityTest    (learnEpConf)).start(); break;
+//      case learnEpUserCopyForUser:         new Thread(new SSLearnEpUserCopyForUserTest        (learnEpConf)).start(); break;
     }
   }
 }

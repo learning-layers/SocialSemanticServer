@@ -31,6 +31,12 @@
   
   <dependencies>
 
+     <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>activity.api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
     <dependency>
       <groupId>sss.servs</groupId>
       <artifactId>entity.datatypes</artifactId>
@@ -39,13 +45,13 @@
 
     <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>voc.serv</artifactId>
+      <artifactId>voc.api</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>circle.serv</artifactId>
+      <artifactId>circle.api</artifactId>
       <version>${project.version}</version>
     </dependency>
     

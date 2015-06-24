@@ -35,7 +35,7 @@ public class SSActivityTester extends Thread{
     }      
     
     switch(activityConf.op){
-      case activitiesUserGet: new Thread(new SSActivitiesUserGetTest(activityConf)).start(); break;
+//      case activitiesGet: new Thread(new SSActivitiesGetTest(activityConf)).start(); break;
     }
   }  
 }

@@ -35,9 +35,10 @@ import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSEntityCircle;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServServerI;
 import java.util.List;
 
-public interface SSCircleServerI{
+public interface SSCircleServerI extends SSServServerI{
 
   public SSUri                           circleCreate                             (final SSCircleCreatePar                par) throws Exception;
   public SSUri                           circleUsersAdd                           (final SSCircleUsersAddPar              par) throws Exception;

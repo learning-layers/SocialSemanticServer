@@ -30,9 +30,10 @@ import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagFrequsGetPar;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsAddPar;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsGetPar;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsRemovePar;
+import at.tugraz.sss.serv.SSServServerI;
 import java.util.List;
 
-public interface SSTagServerI {
+public interface SSTagServerI extends SSServServerI{
   
   public SSUri                           tagEdit                      (final SSTagEditPar               par) throws Exception;
   public List<SSUri>                     tagEntitiesForTagsGet        (final SSTagEntitiesForTagsGetPar par) throws Exception;

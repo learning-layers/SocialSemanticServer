@@ -20,7 +20,47 @@
 */
 package at.kc.tugraz.ss.activity.datatypes.enums;
 
-public enum SSActivityContentE{
+import at.tugraz.sss.serv.SSJSONLDPropI;
+import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.SSVarNames;
+import java.util.ArrayList;
+import java.util.List;
+
+public enum SSActivityContentE implements SSJSONLDPropI{
   keyword, 
   text;
+  
+  @Override
+  public Object jsonLDDesc() {
+    return SSVarNames.xsd + SSStrU.colon + SSStrU.valueString;
+  }
+  
+  public static SSActivityContentE get(final String contentType) throws Exception{
+    
+    try{
+      
+      if(contentType == null){
+        return null;
+      }
+      
+      return SSActivityContentE.valueOf(contentType);
+    }catch(Exception error){
+      throw new Exception("contentType invalid");
+    }
+  }
+  
+  public static List<SSActivityContentE> get(final List<String> strings) throws Exception{
+
+    final List<SSActivityContentE> result = new ArrayList<>();
+    
+    if(strings == null){
+      return result;
+    }
+    
+    for(String string : strings){
+      result.add(get(string));
+    }
+    
+    return result;
+  }
 }

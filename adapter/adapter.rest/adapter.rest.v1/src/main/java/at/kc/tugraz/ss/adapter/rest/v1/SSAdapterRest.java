@@ -22,12 +22,12 @@ package at.kc.tugraz.ss.adapter.rest.v1;
 
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
-import at.kc.tugraz.ss.activity.datatypes.par.SSActivitiesUserGetPar;
+import at.kc.tugraz.ss.activity.datatypes.par.SSActivitiesGetPar;
 import at.kc.tugraz.ss.activity.datatypes.par.SSActivityAddPar;
 import at.kc.tugraz.ss.activity.datatypes.par.SSActivityTypesGetPar;
-import at.kc.tugraz.ss.activity.datatypes.ret.SSActivitiesUserGetRet;
+import at.kc.tugraz.ss.activity.datatypes.ret.SSActivitiesGetRet;
 import at.kc.tugraz.ss.activity.datatypes.ret.SSActivityTypesGetRet;
-import at.kc.tugraz.ss.activity.datatypes.ret.SSActivityUserAddRet;
+import at.kc.tugraz.ss.activity.datatypes.ret.SSActivityAddRet;
 import at.kc.tugraz.ss.adapter.rest.v1.par.SSEntityGetRESTAPIV1Par;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntityUsersGetPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntityPublicSetPar;
@@ -133,39 +133,6 @@ public class SSAdapterRest{
     response = SSEntityDescsGetRet.class)
   public String entityDescsGet(final SSEntityDescsGetPar input){
     return SSRestMainV1.handleStandardJSONRESTCall(input, SSServOpE.entityDescsGet);
-  }
-  
-  @POST
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "activitiesGet")
-  @ApiOperation(
-    value = "retrieve activities from within a certain time frame",
-    response = SSActivitiesUserGetRet.class)
-  public String activitiesGet(final SSActivitiesUserGetPar input){
-    return SSRestMainV1.handleStandardJSONRESTCall(input, SSServOpE.activitiesGet);
-  }
-  
-  @POST
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "activityTypesGet")
-  @ApiOperation(
-    value = "retrieve available activity types",
-    response = SSActivityTypesGetRet.class)
-  public String activityTypesGet(final SSActivityTypesGetPar input){
-    return SSRestMainV1.handleStandardJSONRESTCall(input, SSServOpE.activityTypesGet);
-  }
-  
-  @POST
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "activityAdd")
-  @ApiOperation(
-    value = "add an activity",
-    response = SSActivityUserAddRet.class)
-  public String activityAdd(final SSActivityAddPar input){
-    return SSRestMainV1.handleStandardJSONRESTCall(input, SSServOpE.activityAdd);
   }
   
   @POST

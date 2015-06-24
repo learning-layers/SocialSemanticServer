@@ -20,17 +20,19 @@
   */
 package at.kc.tugraz.ss.message.impl.fct.activity;
 
+import at.kc.tugraz.ss.activity.api.SSActivityServerI;
 import at.tugraz.sss.serv.SSLogU;
 import at.kc.tugraz.ss.activity.datatypes.SSActivityContent;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityContentE;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
+import at.kc.tugraz.ss.activity.datatypes.par.SSActivityAddPar;
+import at.kc.tugraz.ss.activity.datatypes.par.SSActivityContentAddPar;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
 import at.kc.tugraz.ss.message.datatypes.par.SSMessageSendPar;
-
-import at.tugraz.sss.serv.caller.SSServCaller;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSServReg;
 
 public class SSMessageActivityFct{
   
@@ -42,22 +44,28 @@ public class SSMessageActivityFct{
     try{
       
       final SSUri activity =
-        SSServCaller.activityAdd(
-          par.user,
-          SSActivityE.messageSend,
-          message,
-          SSUri.asListWithoutNullAndEmpty(par.forUser),
-          SSUri.asListWithoutNullAndEmpty(),
-          SSTextComment.asListWithoutNullAndEmpty(),
-          null,
-          false);
-      
-      SSServCaller.activityContentAdd(
-        par.user,
-        activity,
-        SSActivityContentE.text,
-        SSActivityContent.get(messageContent),
-        false);
+        ((SSActivityServerI) SSServReg.getServ(SSActivityServerI.class)).activityAdd(
+          new SSActivityAddPar(
+            null,
+            null,
+            par.user,
+            SSActivityE.messageSend,
+            message,
+            SSUri.asListWithoutNullAndEmpty(par.forUser),
+            SSUri.asListWithoutNullAndEmpty(),
+            SSTextComment.asListWithoutNullAndEmpty(),
+            null,
+            false));
+        
+      ((SSActivityServerI) SSServReg.getServ(SSActivityServerI.class)).activityContentAdd(
+        new SSActivityContentAddPar(
+          null, 
+          null, 
+          par.user, 
+          activity, 
+          SSActivityContentE.text, 
+          SSActivityContent.get(messageContent), 
+          false));
       
     }catch(SSErr error){
       

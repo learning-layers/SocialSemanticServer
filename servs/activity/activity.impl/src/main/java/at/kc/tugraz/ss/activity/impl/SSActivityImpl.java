@@ -28,22 +28,21 @@ import at.kc.tugraz.ss.activity.api.SSActivityServerI;
 import at.kc.tugraz.ss.activity.datatypes.SSActivity;
 import at.kc.tugraz.ss.activity.datatypes.SSActivityContent;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
-import at.kc.tugraz.ss.activity.datatypes.par.SSActivitiesUserGetPar;
+import at.kc.tugraz.ss.activity.datatypes.par.SSActivitiesGetPar;
 import at.kc.tugraz.ss.activity.datatypes.par.SSActivityAddPar;
 import at.kc.tugraz.ss.activity.datatypes.par.SSActivityContentAddPar;
 import at.kc.tugraz.ss.activity.datatypes.par.SSActivityContentsAddPar;
 import at.kc.tugraz.ss.activity.datatypes.par.SSActivityGetPar;
-import at.kc.tugraz.ss.activity.datatypes.ret.SSActivitiesUserGetRet;
+import at.kc.tugraz.ss.activity.datatypes.par.SSActivityTypesGetPar;
+import at.kc.tugraz.ss.activity.datatypes.ret.SSActivitiesGetRet;
 import at.kc.tugraz.ss.activity.datatypes.ret.SSActivityTypesGetRet;
-import at.kc.tugraz.ss.activity.datatypes.ret.SSActivityUserAddRet;
+import at.kc.tugraz.ss.activity.datatypes.ret.SSActivityAddRet;
 import at.kc.tugraz.ss.activity.impl.fct.sql.SSActivitySQLFct;
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleGetPar;
-import at.kc.tugraz.ss.circle.serv.SSCircleServ;
 import at.kc.tugraz.ss.service.user.api.SSUserServerI;
 import at.kc.tugraz.ss.service.user.datatypes.SSUser;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUsersGetPar;
-import at.kc.tugraz.ss.service.user.service.SSUserServ;
 import at.tugraz.sss.serv.SSSocketCon;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSUri;
@@ -67,6 +66,7 @@ import java.util.List;
 import java.util.Map;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSServReg;
 
 public class SSActivityImpl 
 extends SSServImplWithDBA 
@@ -149,8 +149,6 @@ implements
     final List<SSUri>  users,
     final SSEntityCircle        circle) throws Exception{
     
-    
-    
   }
   
   @Override
@@ -169,15 +167,15 @@ implements
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSActivityTypesGetRet.get(activityTypesGet(parA), parA.op));
+    final SSActivityTypesGetPar par = (SSActivityTypesGetPar) parA.getFromJSON(SSActivityTypesGetPar.class);
+    
+    sSCon.writeRetFullToClient(SSActivityTypesGetRet.get(activityTypesGet(par)));
   }
   
   @Override
-  public List<SSActivityE> activityTypesGet(final SSServPar parA) throws Exception{
+  public List<SSActivityE> activityTypesGet(final SSActivityTypesGetPar parA) throws Exception{
     
     try{
-      final SSActivitiesUserGetPar par = new SSActivitiesUserGetPar(parA);
-      
       return Arrays.asList(SSActivityE.values());
       
     }catch(Exception error){
@@ -186,20 +184,20 @@ implements
     }
   }
   
-  
   @Override
   public void activitiesGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSActivitiesUserGetRet.get(activitiesUserGet(parA), SSDateU.dateAsLong(), parA.op));
+    final SSActivitiesGetPar par = (SSActivitiesGetPar) parA.getFromJSON(SSActivitiesGetPar.class);
+    
+    sSCon.writeRetFullToClient(SSActivitiesGetRet.get(activitiesGet(par), SSDateU.dateAsLong()));
   }
   
   @Override
-  public List<SSActivity> activitiesUserGet(final SSServPar parA) throws Exception{
+  public List<SSActivity> activitiesGet(final SSActivitiesGetPar par) throws Exception{
     
     try{
-      final SSActivitiesUserGetPar     par                = new SSActivitiesUserGetPar(parA);
       final List<SSActivity>           result             = new ArrayList<>();
       final List<SSUri>                entitiesToQuery    = new ArrayList<>();
       final List<SSUri>                descURIs           = new ArrayList<>();
@@ -207,7 +205,6 @@ implements
       final Map<String, List<SSUri>>   activitiesEntities = new HashMap<>();
       final Map<String, SSUri>         activitiesEntity   = new HashMap<>();
       String                           activityID;
-      
       
       if(!par.entities.isEmpty()){
         
@@ -238,7 +235,7 @@ implements
           }
           
           for(SSEntity circleEntity : 
-            ((SSCircleServerI) SSCircleServ.inst.serv()).circleGet(
+            ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleGet(
               new SSCircleGetPar(
                 null, 
                 null, 
@@ -385,15 +382,16 @@ implements
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSActivityUserAddRet.get(activityAdd(parA), parA.op));
+    final SSActivityAddPar par = (SSActivityAddPar) parA.getFromJSON(SSActivityAddPar.class);
+    
+    sSCon.writeRetFullToClient(SSActivityAddRet.get(activityAdd(par)));
   }
   
   @Override
-  public SSUri activityAdd(final SSServPar parA) throws Exception{
+  public SSUri activityAdd(final SSActivityAddPar par) throws Exception{
     
     try{
-      final SSActivityAddPar par         = new SSActivityAddPar(parA);
-      final SSUri            activityUri = SSServCaller.vocURICreate();
+      final SSUri activityUri = SSServCaller.vocURICreate();
       
       dbSQL.startTrans(par.shouldCommit);
       
@@ -422,29 +420,27 @@ implements
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(dbSQL.rollBack(parA.shouldCommit)){
+        if(dbSQL.rollBack(par.shouldCommit)){
           
           SSServErrReg.reset();
           
-          return activityAdd(parA);
+          return activityAdd(par);
         }else{
           SSServErrReg.regErrThrow(error);
           return null;
         }
       }
       
-      dbSQL.rollBack(parA.shouldCommit);
+      dbSQL.rollBack(par.shouldCommit);
       SSServErrReg.regErrThrow(error);
       return null;
     }
   }
   
   @Override
-  public SSUri activityContentAdd(final SSServPar parA) throws Exception{
+  public SSUri activityContentAdd(final SSActivityContentAddPar par) throws Exception{
     
     try{
-      final SSActivityContentAddPar par = new SSActivityContentAddPar(parA);
-      
       sqlFct.addActivityContent(
         par.activity,
         par.contentType,
@@ -455,49 +451,50 @@ implements
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(dbSQL.rollBack(parA.shouldCommit)){
+        if(dbSQL.rollBack(par.shouldCommit)){
           
           SSServErrReg.reset();
           
-          return activityContentAdd(parA);
+          return activityContentAdd(par);
         }else{
           SSServErrReg.regErrThrow(error);
           return null;
         }
       }
       
-      dbSQL.rollBack(parA.shouldCommit);
+      dbSQL.rollBack(par.shouldCommit);
       SSServErrReg.regErrThrow(error);
       return null;
     }
   }
   
   @Override
-  public void activityContentsAdd(final SSServPar parA) throws Exception{
+  public void activityContentsAdd(final SSActivityContentsAddPar par) throws Exception{
     
     try{
       
-      final SSActivityContentsAddPar par = new SSActivityContentsAddPar(parA);
-      
       for(SSActivityContent content : par.contents){
         
-        SSServCaller.activityContentAdd(
-          par.user,
-          par.activity,
-          par.contentType,
-          content,
-          false);
+        activityContentAdd(
+          new SSActivityContentAddPar(
+            null, 
+            null, 
+            par.user, 
+            par.activity, 
+            par.contentType, 
+            content, 
+            false));
       }
       
     }catch(Exception error){
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(dbSQL.rollBack(parA.shouldCommit)){
+        if(dbSQL.rollBack(par.shouldCommit)){
           
           SSServErrReg.reset();
           
-          activityContentsAdd(parA);
+          activityContentsAdd(par);
         }else{
           SSServErrReg.regErrThrow(error);
         }
@@ -505,17 +502,16 @@ implements
         return;
       }
       
-      dbSQL.rollBack(parA.shouldCommit);
+      dbSQL.rollBack(par.shouldCommit);
       SSServErrReg.regErrThrow(error);
     }
   }
   
   @Override
-  public SSActivity activityGet(final SSServPar parA) throws Exception{
+  public SSActivity activityGet(final SSActivityGetPar par) throws Exception{
     
     try{
-      final SSActivityGetPar par      = new SSActivityGetPar(parA);
-      final SSActivity       activity = sqlFct.getActivity(par.activity);
+      final SSActivity activity = sqlFct.getActivity(par.activity);
       
       if(activity.entity != null){
         
@@ -540,7 +536,7 @@ implements
       }
       
       final List<SSUser> users = 
-        ((SSUserServerI) SSUserServ.inst.serv()).usersGet(
+        ((SSUserServerI) SSServReg.getServ(SSUserServerI.class)).usersGet(
           new SSUsersGetPar(
             null, 
             null, 

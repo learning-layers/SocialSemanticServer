@@ -35,7 +35,7 @@ public class SSSearchTester extends Thread{
     }      
     
     switch(searchConf.op){
-      case search:     new Thread(new SSSearchTest(searchConf)).start();      break;
+//      case search:     new Thread(new SSSearchTest(searchConf)).start();      break;
     }
   }  
 }

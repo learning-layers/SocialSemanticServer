@@ -27,7 +27,6 @@ import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivEntityAddPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleTypesGetPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleUsersAddPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclesGetPar;
-import at.kc.tugraz.ss.circle.serv.SSCircleServ;
 import at.kc.tugraz.ss.serv.datatypes.learnep.api.SSLearnEpClientI;
 import at.kc.tugraz.ss.serv.datatypes.learnep.api.SSLearnEpServerI;
 import at.kc.tugraz.ss.serv.datatypes.learnep.conf.SSLearnEpConf;
@@ -104,6 +103,7 @@ import java.util.Map;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSServReg;
 
 public class SSLearnEpImpl 
 extends SSServImplWithDBA 
@@ -221,7 +221,7 @@ implements
             
             sqlFct.addLearnEp(entity, userUriToShareWith);
 
-            ((SSCircleServerI) SSCircleServ.inst.serv()).circleUsersAdd(
+            ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleUsersAdd(
               new SSCircleUsersAddPar(
                 null,
                 null,
@@ -232,7 +232,7 @@ implements
                 false,
                 false));
             
-            ((SSCircleServerI) SSCircleServ.inst.serv()).circleEntitiesAdd(
+            ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleEntitiesAdd(
               new SSCircleEntitiesAddPar(
                 null, 
                 null, 
@@ -325,7 +325,7 @@ implements
       for(SSLearnEp learnEp : learnEps){
 
         learnEp.circleTypes.addAll(
-          ((SSCircleServerI) SSCircleServ.inst.serv()).circleTypesGet(
+          ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleTypesGet(
             new SSCircleTypesGetPar(
               null, 
               null, 
@@ -567,7 +567,7 @@ implements
       
       dbSQL.startTrans(par.shouldCommit);
 
-      ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+      ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePrivEntityAdd(
         new SSCirclePrivEntityAddPar(
           null,
           null,
@@ -580,7 +580,7 @@ implements
           false));
 
       for(SSEntityCircle entityUserCircle : 
-        ((SSCircleServerI) SSCircleServ.inst.serv()).circlesGet(
+        ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlesGet(
           new SSCirclesGetPar(
             null, 
             null, 
@@ -592,7 +592,7 @@ implements
             true, 
             false))){
 
-        ((SSCircleServerI) SSCircleServ.inst.serv()).circleEntitiesAdd(
+        ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleEntitiesAdd(
           new SSCircleEntitiesAddPar(
             null, 
             null, 
@@ -656,7 +656,7 @@ implements
       
       dbSQL.startTrans(par.shouldCommit);
       
-      ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+      ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePrivEntityAdd(
         new SSCirclePrivEntityAddPar(
           null,
           null,
@@ -669,7 +669,7 @@ implements
           false));
             
       for(SSEntityCircle entityUserCircle : 
-        ((SSCircleServerI) SSCircleServ.inst.serv()).circlesGet(
+        ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlesGet(
           new SSCirclesGetPar(
             null, 
             null, 
@@ -681,7 +681,7 @@ implements
             true, 
             false))){
 
-        ((SSCircleServerI) SSCircleServ.inst.serv()).circleEntitiesAdd(
+        ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleEntitiesAdd(
           new SSCircleEntitiesAddPar(
             null, 
             null, 
@@ -757,7 +757,7 @@ implements
 
       dbSQL.startTrans(par.shouldCommit);
 
-      ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+      ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePrivEntityAdd(
         new SSCirclePrivEntityAddPar(
           null,
           null,
@@ -782,7 +782,7 @@ implements
       entities.addAll(filesAndThumbs);
         
       for(SSEntityCircle entityUserCircle : 
-        ((SSCircleServerI) SSCircleServ.inst.serv()).circlesGet(
+        ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlesGet(
           new SSCirclesGetPar(
             null, 
             null, 
@@ -794,7 +794,7 @@ implements
             true, 
             false))){
 
-        ((SSCircleServerI) SSCircleServ.inst.serv()).circleEntitiesAdd(
+        ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleEntitiesAdd(
           new SSCircleEntitiesAddPar(
             null, 
             null, 
@@ -861,7 +861,7 @@ implements
       
       dbSQL.startTrans(par.shouldCommit);
       
-      ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+      ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePrivEntityAdd(
         new SSCirclePrivEntityAddPar(
           null,
           null,
@@ -923,7 +923,7 @@ implements
       
       dbSQL.startTrans(par.shouldCommit);
 
-      ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+      ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePrivEntityAdd(
         new SSCirclePrivEntityAddPar(
           null,
           null,
@@ -1001,7 +1001,7 @@ implements
       if(par.entity != null){
         
         for(SSEntityCircle entityUserCircle :
-          ((SSCircleServerI) SSCircleServ.inst.serv()).circlesGet(
+          ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlesGet(
             new SSCirclesGetPar(
               null,
               null,
@@ -1013,7 +1013,7 @@ implements
               true,
               false))){
           
-          ((SSCircleServerI) SSCircleServ.inst.serv()).circleEntitiesAdd(
+          ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleEntitiesAdd(
             new SSCircleEntitiesAddPar(
               null,
               null,
@@ -1193,7 +1193,7 @@ implements
       
       dbSQL.startTrans(par.shouldCommit);
       
-      ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+      ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePrivEntityAdd(
         new SSCirclePrivEntityAddPar(
           null,
           null,
@@ -1206,7 +1206,7 @@ implements
           false));
       
       for(SSEntityCircle entityUserCircle :
-        ((SSCircleServerI) SSCircleServ.inst.serv()).circlesGet(
+        ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlesGet(
           new SSCirclesGetPar(
             null,
             null,
@@ -1218,7 +1218,7 @@ implements
             true,
             false))){
 
-        ((SSCircleServerI) SSCircleServ.inst.serv()).circleEntitiesAdd(
+        ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleEntitiesAdd(
           new SSCircleEntitiesAddPar(
             null, 
             null, 

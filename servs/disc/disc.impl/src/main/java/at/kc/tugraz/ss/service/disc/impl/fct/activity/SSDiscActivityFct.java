@@ -20,16 +20,18 @@
  */
 package at.kc.tugraz.ss.service.disc.impl.fct.activity;
 
+import at.kc.tugraz.ss.activity.api.SSActivityServerI;
 import at.tugraz.sss.serv.SSLogU;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
+import at.kc.tugraz.ss.activity.datatypes.par.SSActivityAddPar;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
-
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscEntryAddPar;
 import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscEntryAddRet;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSServReg;
 
 public class SSDiscActivityFct{
   
@@ -41,19 +43,25 @@ public class SSDiscActivityFct{
       
       if(par.addNewDisc){
         
-        SSServCaller.activityAdd(
-          par.user,
-          SSActivityE.discussEntity,
-          par.entity,
-          SSUri.asListWithoutNullAndEmpty(),
-          SSUri.asListWithoutNullAndEmpty(ret.disc),
-          SSTextComment.asListWithoutNullAndEmpty(),
-          null,
-          true);
+        ((SSActivityServerI) SSServReg.getServ(SSActivityServerI.class)).activityAdd(
+          new SSActivityAddPar(
+            null,
+            null,
+            par.user,
+            SSActivityE.discussEntity,
+            par.entity,
+            SSUri.asListWithoutNullAndEmpty(),
+            SSUri.asListWithoutNullAndEmpty(ret.disc),
+            SSTextComment.asListWithoutNullAndEmpty(),
+            null,
+            false));
         
         if(par.entry != null){
           
-          SSServCaller.activityAdd(
+        ((SSActivityServerI) SSServReg.getServ(SSActivityServerI.class)).activityAdd(
+          new SSActivityAddPar(
+            null,
+            null,
             par.user,
             SSActivityE.addDiscEntry,
             par.entity,
@@ -61,19 +69,22 @@ public class SSDiscActivityFct{
             SSUri.asListWithoutNullAndEmpty(ret.entry),
             SSTextComment.asListWithoutNullAndEmpty(par.entry),
             null,
-            true);
+            false));
         }
       }else{
         
-        SSServCaller.activityAdd(
-          par.user,
-          SSActivityE.addDiscEntry,
-          ret.disc,
-          SSUri.asListWithoutNullAndEmpty(),
-          SSUri.asListWithoutNullAndEmpty(ret.entry),
-          SSTextComment.asListWithoutNullAndEmpty(par.entry),
-          null,
-          true);
+        ((SSActivityServerI) SSServReg.getServ(SSActivityServerI.class)).activityAdd(
+          new SSActivityAddPar(
+            null,
+            null,
+            par.user,
+            SSActivityE.addDiscEntry,
+            ret.disc,
+            SSUri.asListWithoutNullAndEmpty(),
+            SSUri.asListWithoutNullAndEmpty(ret.entry),
+            SSTextComment.asListWithoutNullAndEmpty(par.entry),
+            null,
+            false));
       }
     }catch(SSErr error){
       

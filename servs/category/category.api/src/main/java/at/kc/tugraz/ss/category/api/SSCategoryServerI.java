@@ -33,9 +33,10 @@ import at.kc.tugraz.ss.category.datatypes.par.SSCategoryFrequsGetPar;
 import at.kc.tugraz.ss.category.datatypes.par.SSCategoryEntitiesForCategoriesGetPar;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServServerI;
 import java.util.List;
 
-public interface SSCategoryServerI{
+public interface SSCategoryServerI extends SSServServerI{
   
   public Boolean                         categoriesPredefinedAdd          (final SSCategoriesPredefinedAddPar par) throws Exception;
   public List<String>                    categoriesPredefinedGet          (final SSCategoriesPredefinedGetPar par) throws Exception;

@@ -20,11 +20,6 @@
   */
 package at.tugraz.sss.serv;
 
-import at.tugraz.sss.serv.SSErr;
-import at.tugraz.sss.serv.SSErrE;
-import at.tugraz.sss.serv.SSErrForClient;
-import at.tugraz.sss.serv.SSLogU;
-import at.tugraz.sss.serv.SSStrU;
 import java.util.ArrayList;
 import java.util.List;
 

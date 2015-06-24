@@ -26,9 +26,10 @@ import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSImage;
 import at.tugraz.sss.serv.SSLocation;
+import at.tugraz.sss.serv.SSServServerI;
 import java.util.List;
 
-public interface SSEntityServerI {
+public interface SSEntityServerI extends SSServServerI{
 
   public SSUri                           entityUserAdd                            (final SSServPar parA) throws Exception;
   public SSEntity                        entityUserGet                            (final SSServPar parA) throws Exception;

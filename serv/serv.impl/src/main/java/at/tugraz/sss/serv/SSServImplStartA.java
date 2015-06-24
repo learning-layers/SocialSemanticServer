@@ -88,8 +88,8 @@ public abstract class SSServImplStartA extends SSServImplA implements Runnable{
   
   @Override
   public Object handleServerOp(
-    final Class      servImplServerInteraceClass, 
-    final SSServPar  par) throws Exception{
+    final Class              servServerI, 
+    final SSServPar          par) throws Exception{
     
     throw new UnsupportedOperationException(SSStrU.empty);
   }

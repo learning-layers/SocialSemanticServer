@@ -24,9 +24,10 @@ import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
 import at.kc.tugraz.ss.service.coll.datatypes.SSColl;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagFrequ;
+import at.tugraz.sss.serv.SSServServerI;
 import java.util.List;
 
-public interface SSCollServerI{
+public interface SSCollServerI extends SSServServerI{
   
   public Boolean                    collUserEntryDelete                           (final SSServPar parA) throws Exception;
   public Boolean                    collUserEntriesDelete                         (final SSServPar parA) throws Exception;

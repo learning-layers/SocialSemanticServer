@@ -35,7 +35,7 @@ public class SSVideoTester extends Thread{
     }      
     
     switch(videoConf.op){
-      case videoUserAdd: new Thread(new SSVideoAddTest(videoConf)).start(); break;
+//      case videoUserAdd: new Thread(new SSVideoAddTest(videoConf)).start(); break;
     }
   }  
 }

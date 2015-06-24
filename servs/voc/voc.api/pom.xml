@@ -19,7 +19,7 @@
 
      <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>serv.custom.caller</artifactId>
+      <artifactId>serv.reg</artifactId>
       <version>${project.version}</version>
     </dependency>
     

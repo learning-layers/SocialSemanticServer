@@ -22,7 +22,6 @@ package at.kc.tugraz.ss.message.impl;
 
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivEntityAddPar;
-import at.kc.tugraz.ss.circle.serv.SSCircleServ;
 import at.tugraz.sss.serv.SSDateU;
 import at.tugraz.sss.serv.SSSocketCon;
 import at.tugraz.sss.serv.SSUri;
@@ -44,6 +43,7 @@ import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServImplWithDBA;
+import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.tugraz.sss.serv.caller.SSServCallerU;
 import java.util.ArrayList;
@@ -113,7 +113,7 @@ public class SSMessageImpl extends SSServImplWithDBA implements SSMessageClientI
       
       dbSQL.startTrans(par.shouldCommit);
       
-      ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+      ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePrivEntityAdd(
         new SSCirclePrivEntityAddPar(
           null,
           null,

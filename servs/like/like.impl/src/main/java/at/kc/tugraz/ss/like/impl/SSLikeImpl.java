@@ -22,7 +22,6 @@ package at.kc.tugraz.ss.like.impl;
 
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivEntityAddPar;
-import at.kc.tugraz.ss.circle.serv.SSCircleServ;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSSocketCon;
 import at.tugraz.sss.serv.SSUri;
@@ -44,6 +43,7 @@ import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.tugraz.sss.serv.caller.SSServCallerU;
 
@@ -104,7 +104,7 @@ public class SSLikeImpl extends SSServImplWithDBA implements SSLikeClientI, SSLi
       
       if(!existsEntity){
         
-        ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+        ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePrivEntityAdd(
           new SSCirclePrivEntityAddPar(
             null,
             null,

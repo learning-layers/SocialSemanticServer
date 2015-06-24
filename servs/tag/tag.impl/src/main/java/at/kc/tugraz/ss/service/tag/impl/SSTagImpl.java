@@ -70,6 +70,7 @@ import java.util.*;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServReg;
 
 public class SSTagImpl
 extends SSServImplWithDBA
@@ -390,7 +391,7 @@ implements
         
         if(SSStrU.equals(par.space, SSSpaceE.privateSpace)){
           
-          ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+          ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePrivEntityAdd(
             new SSCirclePrivEntityAddPar(
               null,
               null,
@@ -402,7 +403,7 @@ implements
               null,
               false));
           
-          ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+          ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePrivEntityAdd(
             new SSCirclePrivEntityAddPar(
               null,
               null,
@@ -416,7 +417,7 @@ implements
           
         }else{
           
-          ((SSCircleServerI) SSCircleServ.inst.serv()).circlePubEntityAdd(
+          ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePubEntityAdd(
             new SSCirclePubEntityAddPar(
               null,
               null,
@@ -430,7 +431,7 @@ implements
         }
       }else{
         
-        ((SSCircleServerI) SSCircleServ.inst.serv()).circlePubEntityAdd(
+        ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePubEntityAdd(
           new SSCirclePubEntityAddPar(
             null,
             null,
@@ -444,7 +445,7 @@ implements
         
         if(SSStrU.equals(par.space, SSSpaceE.privateSpace)){
           
-          ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+          ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePrivEntityAdd(
             new SSCirclePrivEntityAddPar(
               null,
               null,
@@ -457,7 +458,7 @@ implements
               false));
           
         }else{
-          ((SSCircleServerI) SSCircleServ.inst.serv()).circlePubEntityAdd(
+          ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePubEntityAdd(
             new SSCirclePubEntityAddPar(
               null,
               null,
@@ -764,7 +765,7 @@ implements
         
         par.entities.addAll(
           SSUri.getFromEntitites(
-            ((SSCircleServerI) SSCircleServ.inst.serv()).circleEntitiesGet(
+            ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleEntitiesGet(
               new SSCircleEntitiesGetPar(
                 null,
                 null,

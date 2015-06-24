@@ -20,16 +20,17 @@
 */
 package at.kc.tugraz.ss.category.impl.fct.activity;
 
+import at.kc.tugraz.ss.activity.api.SSActivityServerI;
 import at.tugraz.sss.serv.SSLogU;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
+import at.kc.tugraz.ss.activity.datatypes.par.SSActivityAddPar;
 import at.kc.tugraz.ss.category.datatypes.par.SSCategoriesRemovePar;
 import at.kc.tugraz.ss.category.datatypes.par.SSCategoryAddPar;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
-
-import at.tugraz.sss.serv.caller.SSServCaller;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSServReg;
 
 public class SSCategoryActivityFct{
   
@@ -39,15 +40,18 @@ public class SSCategoryActivityFct{
     
     try{
       
-      SSServCaller.activityAdd(
-        par.user,
-        SSActivityE.addCategory,
-        par.entity,
-        SSUri.asListWithoutNullAndEmpty(),
-        SSUri.asListWithoutNullAndEmpty(categoryUri),
-        SSTextComment.asListWithoutNullAndEmpty(),
-        null,
-        false);
+      ((SSActivityServerI) SSServReg.getServ(SSActivityServerI.class)).activityAdd(
+        new SSActivityAddPar(
+          null,
+          null,
+          par.user,
+          SSActivityE.addCategory,
+          par.entity,
+          SSUri.asListWithoutNullAndEmpty(),
+          SSUri.asListWithoutNullAndEmpty(categoryUri),
+          SSTextComment.asListWithoutNullAndEmpty(),
+          null,
+          false));
       
     }catch(SSErr error){
       
@@ -65,15 +69,18 @@ public class SSCategoryActivityFct{
    
     try{
       
-      SSServCaller.activityAdd(
-        par.user,
-        SSActivityE.removeCategories,
-        par.entity,
-        SSUri.asListWithoutNullAndEmpty(),
-        SSUri.asListWithoutNullAndEmpty(),
-        SSTextComment.asListWithoutNullAndEmpty(),
-        null,
-        false);
+      ((SSActivityServerI) SSServReg.getServ(SSActivityServerI.class)).activityAdd(
+        new SSActivityAddPar(
+          null,
+          null,
+          par.user,
+          SSActivityE.removeCategories,
+          par.entity,
+          SSUri.asListWithoutNullAndEmpty(),
+          SSUri.asListWithoutNullAndEmpty(),
+          SSTextComment.asListWithoutNullAndEmpty(),
+          null,
+          false));
       
     }catch(SSErr error){
       

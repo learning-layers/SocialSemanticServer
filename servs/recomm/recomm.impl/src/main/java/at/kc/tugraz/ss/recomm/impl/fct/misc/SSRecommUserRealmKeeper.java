@@ -20,14 +20,11 @@
  */
 package at.kc.tugraz.ss.recomm.impl.fct.misc;
 
-import at.tugraz.sss.serv.SSFileExtE;
-import at.tugraz.sss.serv.SSFileU;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 import at.kc.tugraz.ss.recomm.datatypes.SSRecommUserRealmEngine;
 import at.kc.tugraz.ss.recomm.impl.fct.sql.SSRecommSQLFct;
-
-import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
+import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.tugraz.sss.serv.SSServErrReg;
 import engine.EntityRecommenderEngine;
 import java.util.Collection;
@@ -76,7 +73,7 @@ public class SSRecommUserRealmKeeper{
       
       if(checkForUpdate){
         
-        if(SSStrU.equals(user, SSVoc.systemUserUri)){
+        if(SSStrU.equals(user, SSVocConf.systemUserUri)){
           
           if(realm == null){
             throw new Exception("realm has to be set");
@@ -96,7 +93,7 @@ public class SSRecommUserRealmKeeper{
           realm == null ||
           SSStrU.equals(realm, SSRecommUserRealmKeeper.getSssRealm())){
           
-          return SSRecommUserRealmKeeper.userRealmEngines.get(SSStrU.toStr(SSVoc.systemUserUri));
+          return SSRecommUserRealmKeeper.userRealmEngines.get(SSStrU.toStr(SSVocConf.systemUserUri));
         }
       }
       
@@ -147,10 +144,10 @@ public class SSRecommUserRealmKeeper{
         sssRealm = sssRealmValue;
       }
       
-      if(!userRealmEngines.containsKey(SSStrU.toStr(SSVoc.systemUserUri))){
+      if(!userRealmEngines.containsKey(SSStrU.toStr(SSVocConf.systemUserUri))){
         
         userRealmEngines.put(
-          SSStrU.toStr(SSVoc.systemUserUri),
+          SSStrU.toStr(SSVocConf.systemUserUri),
           SSRecommUserRealmEngine.get(
             new EntityRecommenderEngine(),
             sssRealm));

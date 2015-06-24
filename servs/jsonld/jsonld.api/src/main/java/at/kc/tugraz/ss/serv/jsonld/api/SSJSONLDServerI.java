@@ -21,7 +21,8 @@
 package at.kc.tugraz.ss.serv.jsonld.api;
 
 import at.kc.tugraz.ss.serv.jsonld.datatypes.par.SSJSONLDPar;
+import at.tugraz.sss.serv.SSServServerI;
 
-public interface SSJSONLDServerI {
+public interface SSJSONLDServerI extends SSServServerI{
   public Object jsonLD(final SSJSONLDPar par) throws Exception;
 }

@@ -113,7 +113,7 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
         }
         
         SSServCaller.authRegisterUser(
-          SSVoc.systemUserUri,
+          SSVocConf.systemUserUri,
           SSLabel.get(passwordForUser.getKey()),
           email,
           passwordForUser.getValue(),
@@ -143,7 +143,7 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
         new SSUserExistsPar(
           null, 
           null, 
-          SSVoc.systemUserUri, 
+          SSVocConf.systemUserUri, 
           par.email))){
         
         userUri = 
@@ -151,7 +151,7 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
             new SSUserAddPar(
               null,
               null,
-              SSVoc.systemUserUri,
+              SSVocConf.systemUserUri,
               false,
               par.label,
               par.email,
@@ -170,7 +170,7 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
             new SSUserURIGetPar(
               null,
               null,
-              SSVoc.systemUserUri,
+              SSVocConf.systemUserUri,
               par.email));
         
         if(par.updatePassword){
@@ -220,7 +220,7 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
             new SSUserExistsPar(
               null,
               null,
-              SSVoc.systemUserUri,
+              SSVocConf.systemUserUri,
               email))){
                 
             userUri =
@@ -228,7 +228,7 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
                 new SSUserAddPar(
                   null, 
                   null, 
-                  SSVoc.systemUserUri, 
+                  SSVocConf.systemUserUri, 
                   true, 
                   par.label, 
                   email, 
@@ -250,7 +250,7 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
                new SSUserURIGetPar(
                  null, 
                  null, 
-                 SSVoc.systemUserUri, 
+                 SSVocConf.systemUserUri, 
                  email));
           }
           
@@ -287,7 +287,7 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
               new SSUserExistsPar(
                 null,
                 null,
-                SSVoc.systemUserUri,
+                SSVocConf.systemUserUri,
                 email))){
               
               throw new SSErr(SSErrE.userIsNotRegistered);
@@ -298,7 +298,7 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
                new SSUserURIGetPar(
                  null, 
                  null, 
-                 SSVoc.systemUserUri, 
+                 SSVocConf.systemUserUri, 
                  email));
             
             return SSAuthCheckCredRet.get(
@@ -320,7 +320,7 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
             new SSUserExistsPar(
               null,
               null,
-              SSVoc.systemUserUri,
+              SSVocConf.systemUserUri,
               email))){
             
             userUri = 
@@ -328,7 +328,7 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
                 new SSUserAddPar(
                   null, 
                   null, 
-                  SSVoc.systemUserUri, 
+                  SSVocConf.systemUserUri, 
                   true, 
                   SSLabel.get(email), 
                   email, 
@@ -350,7 +350,7 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
                new SSUserURIGetPar(
                  null, 
                  null, 
-                 SSVoc.systemUserUri, 
+                 SSVocConf.systemUserUri, 
                  email));
           }
 
@@ -408,11 +408,11 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
             throw new SSErr(SSErrE.userKeyWrong);
           }
           
-          return SSServCaller.authCheckCred(SSVoc.systemUserUri, parA.key).user;
+          return SSServCaller.authCheckCred(SSVocConf.systemUserUri, parA.key).user;
         }
         
         case oidc:{
-          return SSServCaller.authCheckCred(SSVoc.systemUserUri, parA.key).user;
+          return SSServCaller.authCheckCred(SSVocConf.systemUserUri, parA.key).user;
         }
         
         default: return null;

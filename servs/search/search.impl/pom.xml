@@ -32,19 +32,25 @@
 
     <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>rating.serv</artifactId>
+      <artifactId>circle.api</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>disc.serv</artifactId>
+      <artifactId>rating.api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+          
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>disc.api</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>tag.serv</artifactId>
+      <artifactId>tag.api</artifactId>
       <version>${project.version}</version>
     </dependency>
     

@@ -21,10 +21,11 @@
 package at.kc.tugraz.ss.serv.job.i5cloud.api;
 
 import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServServerI;
 import java.util.List;
 import java.util.Map;
 
-public interface SSI5CloudServerI{
+public interface SSI5CloudServerI extends SSServServerI{
   public Map<String, String> i5CloudAuth                            (final SSServPar parA) throws Exception;
   public Boolean             i5CloudFileUpload                      (final SSServPar parA) throws Exception;
   public Boolean             i5CloudFileDownload                    (final SSServPar parA) throws Exception;

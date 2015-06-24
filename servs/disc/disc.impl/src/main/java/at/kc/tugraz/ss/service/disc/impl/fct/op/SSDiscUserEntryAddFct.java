@@ -24,20 +24,18 @@ import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesAddPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivEntityAddPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclesGetPar;
-import at.kc.tugraz.ss.circle.serv.SSCircleServ;
 import at.tugraz.sss.serv.SSObjU;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.SSEntityCircle;
-
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.tugraz.sss.serv.caller.SSServCallerU;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscEntryAddPar;
 import at.kc.tugraz.ss.service.disc.impl.fct.sql.SSDiscSQLFct;
 import at.tugraz.sss.serv.SSServErrReg;
-import java.util.ArrayList;
+import at.tugraz.sss.serv.SSServReg;
 
 public class SSDiscUserEntryAddFct{
   
@@ -60,7 +58,7 @@ public class SSDiscUserEntryAddFct{
         tmpTargetUri = targetUri;
       }
       
-      ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+      ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePrivEntityAdd(
         new SSCirclePrivEntityAddPar(
           null,
           null,
@@ -72,7 +70,7 @@ public class SSDiscUserEntryAddFct{
           null,
           false));
       
-      ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+      ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePrivEntityAdd(
         new SSCirclePrivEntityAddPar(
           null,
           null,
@@ -112,7 +110,7 @@ public class SSDiscUserEntryAddFct{
         default: throw new Exception("disc type not valid");
       }
       
-      ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+      ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePrivEntityAdd(
         new SSCirclePrivEntityAddPar(
           null,
           null,
@@ -125,7 +123,7 @@ public class SSDiscUserEntryAddFct{
           false));
             
       for(SSEntityCircle entityUserCircle : 
-        ((SSCircleServerI) SSCircleServ.inst.serv()).circlesGet(
+        ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlesGet(
             new SSCirclesGetPar(
               null,
               null,
@@ -137,7 +135,7 @@ public class SSDiscUserEntryAddFct{
               true,
               false))){
         
-        ((SSCircleServerI) SSCircleServ.inst.serv()).circleEntitiesAdd(
+        ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleEntitiesAdd(
           new SSCircleEntitiesAddPar(
             null,
             null,

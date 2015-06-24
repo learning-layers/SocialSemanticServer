@@ -94,7 +94,7 @@ public class SSAppImpl extends SSServImplWithDBA implements SSAppClientI, SSAppS
       
       dbSQL.startTrans(par.shouldCommit);
 
-      ((SSCircleServerI) SSCircleServ.inst.serv()).circlePubEntityAdd(
+      ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePubEntityAdd(
         new SSCirclePubEntityAddPar(
           null,
           null,
@@ -118,7 +118,7 @@ public class SSAppImpl extends SSServImplWithDBA implements SSAppClientI, SSAppS
       
       for(SSUri download : par.downloads){
       
-        ((SSCircleServerI) SSCircleServ.inst.serv()).circlePubEntityAdd(
+        ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePubEntityAdd(
           new SSCirclePubEntityAddPar(
             null,
             null,
@@ -133,7 +133,7 @@ public class SSAppImpl extends SSServImplWithDBA implements SSAppClientI, SSAppS
       
       for(SSUri screenShot : par.screenShots){
       
-        ((SSCircleServerI) SSCircleServ.inst.serv()).circlePubEntityAdd(
+        ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePubEntityAdd(
           new SSCirclePubEntityAddPar(
             null,
             null,

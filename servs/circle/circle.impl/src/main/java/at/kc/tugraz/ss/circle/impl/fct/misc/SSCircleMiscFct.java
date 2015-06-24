@@ -26,6 +26,7 @@ import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSObjU;
 import at.tugraz.sss.serv.SSStrU;
 import at.kc.tugraz.ss.circle.impl.fct.sql.SSCircleSQLFct;
+import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.tugraz.sss.serv.SSCircleE;
 import at.tugraz.sss.serv.SSCircleRightE;
 import at.tugraz.sss.serv.SSEntity;
@@ -295,7 +296,7 @@ public class SSCircleMiscFct{
       final SSUri circleUri  = SSServCaller.vocURICreate();
       
       SSServCaller.entityAdd(
-        SSVoc.systemUserUri,
+        SSVocConf.systemUserUri,
         circleUri,
         SSEntityE.circle,
         null,
@@ -337,7 +338,7 @@ public class SSCircleMiscFct{
       final SSUri circleUri  = SSServCaller.vocURICreate();
       
       SSServCaller.entityAdd(
-        SSVoc.systemUserUri,
+        SSVocConf.systemUserUri,
         circleUri,
         SSEntityE.circle,
         null,

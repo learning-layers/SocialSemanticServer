@@ -30,9 +30,10 @@ import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscWithEntriesGetPar;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscsAllGetPar;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscsWithEntriesGetPar;
 import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscEntryAddRet;
+import at.tugraz.sss.serv.SSServServerI;
 import java.util.List;
 
-public interface SSDiscServerI {
+public interface SSDiscServerI extends SSServServerI{
   
   
   public List<SSDisc>         discsWithEntriesGet       (final SSDiscsWithEntriesGetPar  par) throws Exception;

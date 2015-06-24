@@ -28,9 +28,9 @@ public class SSDBNoSQL extends SSServContainerI{
   
   protected SSDBNoSQL(
     final Class servImplClientInteraceClass, 
-    final Class servImplServerInteraceClass){
+    final Class servServerI){
     
-    super(servImplClientInteraceClass, servImplServerInteraceClass);
+    super(servImplClientInteraceClass, servServerI);
   }
   
   @Override

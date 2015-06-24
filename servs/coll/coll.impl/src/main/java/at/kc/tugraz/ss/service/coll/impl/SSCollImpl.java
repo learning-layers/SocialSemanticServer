@@ -120,7 +120,7 @@ implements
       for(SSColl coll : allColls){
         
         collUserCircles =
-          ((SSCircleServerI) SSCircleServ.inst.serv()).circlesGet(
+          ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlesGet(
             new SSCirclesGetPar(
               null,
               null,
@@ -146,7 +146,7 @@ implements
           collEntry = (SSCollEntry) entry;
           
           collEntryUserCircles =
-            ((SSCircleServerI) SSCircleServ.inst.serv()).circlesGet(
+            ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlesGet(
               new SSCirclesGetPar(
                 null,
                 null,
@@ -242,7 +242,7 @@ implements
           throw new Exception("cannot set special collection public");
         }
         
-        ((SSCircleServerI) SSCircleServ.inst.serv()).circleEntitiesAdd(
+        ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleEntitiesAdd(
           new SSCircleEntitiesAddPar(
             null,
             null,
@@ -305,7 +305,7 @@ implements
               false,
               true);
             
-            ((SSCircleServerI) SSCircleServ.inst.serv()).circleEntitiesAdd(
+            ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleEntitiesAdd(
               new SSCircleEntitiesAddPar(
                 null,
                 null,
@@ -316,7 +316,7 @@ implements
                 false,
                 false));
             
-            ((SSCircleServerI) SSCircleServ.inst.serv()).circleUsersAdd(
+            ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleUsersAdd(
               new SSCircleUsersAddPar(
                 null,
                 null, 
@@ -372,7 +372,7 @@ implements
         
         try{
           
-          ((SSCircleServerI) SSCircleServ.inst.serv()).circleEntitiesAdd(
+          ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleEntitiesAdd(
             new SSCircleEntitiesAddPar(
               null,
               null,
@@ -1064,7 +1064,7 @@ implements
 
       final SSUri rootCollUri = SSServCaller.vocURICreate();
 
-      ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+      ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePrivEntityAdd(
         new SSCirclePrivEntityAddPar(
           null,
           null,
@@ -1078,7 +1078,7 @@ implements
       
       sqlFct.addColl (rootCollUri);
 
-      ((SSCircleServerI) SSCircleServ.inst.serv()).circleUsersAdd(
+      ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleUsersAdd(
         new SSCircleUsersAddPar(
           null,
           null,

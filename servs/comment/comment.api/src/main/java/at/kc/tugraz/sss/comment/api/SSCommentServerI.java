@@ -23,9 +23,10 @@ package at.kc.tugraz.sss.comment.api;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServServerI;
 import java.util.List;
 
-public interface SSCommentServerI{
+public interface SSCommentServerI extends SSServServerI{
 
   public List<SSTextComment> commentsUserGet               (final SSServPar parA) throws Exception;
   

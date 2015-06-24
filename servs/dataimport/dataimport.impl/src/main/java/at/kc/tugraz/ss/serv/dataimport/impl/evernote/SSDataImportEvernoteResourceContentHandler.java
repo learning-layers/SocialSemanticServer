@@ -22,10 +22,8 @@ package at.kc.tugraz.ss.serv.dataimport.impl.evernote;
 
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivEntityAddPar;
-import at.kc.tugraz.ss.circle.serv.SSCircleServ;
 import at.kc.tugraz.ss.service.filerepo.api.SSFileRepoServerI;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileIDFromURIPar;
-import at.kc.tugraz.ss.service.filerepo.service.SSFilerepoServ;
 import at.tugraz.sss.serv.SSFileExtE;
 import at.tugraz.sss.serv.SSFileU;
 import at.tugraz.sss.serv.SSLogU;
@@ -33,6 +31,7 @@ import at.tugraz.sss.serv.SSMimeTypeE;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSServReg;
 
 import at.tugraz.sss.serv.caller.SSServCaller;
 import com.evernote.edam.type.Resource;
@@ -70,13 +69,13 @@ public class SSDataImportEvernoteResourceContentHandler{
         fileExt = SSMimeTypeE.fileExtForMimeType1(resource.getMime()); 
         fileUri = SSServCaller.vocURICreate(fileExt);
         
-        fileId  = 
-          ((SSFileRepoServerI) SSFilerepoServ.inst.serv()).fileIDFromURI(
-                new SSFileIDFromURIPar(
-                  null,
-                  null,
-                  user,
-                  fileUri));
+        fileId  =
+          ((SSFileRepoServerI) SSServReg.getServ(SSFileRepoServerI.class)).fileIDFromURI(
+            new SSFileIDFromURIPar(
+              null,
+              null,
+              user,
+              fileUri));
         
         SSFileU.writeFileBytes(
           new FileOutputStream(localWorkPath + fileId),
@@ -88,7 +87,7 @@ public class SSDataImportEvernoteResourceContentHandler{
         return;
       }
       
-      ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+      ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePrivEntityAdd(
         new SSCirclePrivEntityAddPar(
           null,
           null,
@@ -106,8 +105,8 @@ public class SSDataImportEvernoteResourceContentHandler{
         
         try{
           SSFileU.delFile(
-            localWorkPath + 
-              ((SSFileRepoServerI) SSFilerepoServ.inst.serv()).fileIDFromURI(
+            localWorkPath +
+              ((SSFileRepoServerI) SSServReg.getServ(SSFileRepoServerI.class)).fileIDFromURI(
                 new SSFileIDFromURIPar(
                   null,
                   null,

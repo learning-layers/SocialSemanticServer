@@ -23,9 +23,10 @@
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSEntity;
 import at.kc.tugraz.ss.service.search.datatypes.ret.SSSearchRet;
+import at.tugraz.sss.serv.SSServServerI;
 import java.util.List;
 
-public interface SSSearchServerI {
+public interface SSSearchServerI extends SSServServerI{
 
   public void           searchResultPagesCacheClean  (final SSServPar parA) throws Exception;
   public SSSearchRet    search                       (final SSServPar parA) throws Exception;

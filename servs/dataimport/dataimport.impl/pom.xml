@@ -20,19 +20,25 @@
 
     <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>filerepo.serv</artifactId>
+      <artifactId>filerepo.api</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>category.serv</artifactId>
+      <artifactId>circle.api</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>tag.serv</artifactId>
+      <artifactId>category.api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>tag.api</artifactId>
       <version>${project.version}</version>
     </dependency>
 
@@ -98,7 +104,7 @@
     
     <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>evernote.serv</artifactId>
+      <artifactId>evernote.api</artifactId>
       <version>${project.version}</version>
     </dependency>
             

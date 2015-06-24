@@ -26,8 +26,9 @@ import at.kc.tugraz.ss.service.rating.datatypes.pars.SSRatingSetPar;
 import at.kc.tugraz.ss.service.rating.datatypes.pars.SSRatingGetPar;
 import at.kc.tugraz.ss.service.rating.datatypes.pars.SSRatingOverallGetPar;
 import at.kc.tugraz.ss.service.rating.datatypes.pars.SSRatingsRemovePar;
+import at.tugraz.sss.serv.SSServServerI;
 
-public interface SSRatingServerI {
+public interface SSRatingServerI extends SSServServerI{
   
   public Boolean               ratingSet         (final SSRatingSetPar         par)     throws Exception;
   public Integer               ratingGet         (final SSRatingGetPar         par)     throws Exception;

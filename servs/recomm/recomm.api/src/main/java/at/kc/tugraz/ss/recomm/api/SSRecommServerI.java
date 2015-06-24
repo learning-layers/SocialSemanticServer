@@ -23,9 +23,10 @@ package at.kc.tugraz.ss.recomm.api;
 import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommUpdateBulkPar;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServServerI;
 import java.util.Map;
 
-public interface SSRecommServerI{
+public interface SSRecommServerI extends SSServServerI{
 
   public Map<String, Double>   recommTags               (final SSServPar parA) throws Exception;
   public Map<SSEntity, Double> recommResources          (final SSServPar parA) throws Exception;

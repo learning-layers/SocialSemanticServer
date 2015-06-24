@@ -22,9 +22,10 @@
 
 import at.kc.tugraz.socialserver.service.broadcast.datatypes.SSBroadcast;
 import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServServerI;
 import java.util.List;
 
-public interface SSBroadcasterServerI {
+public interface SSBroadcasterServerI extends SSServServerI{
   
   public Boolean               broadcastAdd           (final SSServPar parA)     throws Exception;
   public List<SSBroadcast>     broadcastsGet          (final SSServPar parA)     throws Exception;

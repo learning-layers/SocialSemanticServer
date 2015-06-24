@@ -3,7 +3,7 @@
 * http://www.learning-layers.eu
 * Development is partly funded by the FP7 Programme of the European Commission under
 * Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+* Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
 * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,34 +20,59 @@
 */
 package at.kc.tugraz.ss.activity.datatypes.par;
 
-import at.tugraz.sss.serv.SSVarNames;
 import at.kc.tugraz.ss.activity.datatypes.SSActivityContent;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityContentE;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSStrU;
 
 public class SSActivityContentAddPar extends SSServPar{
 
   public SSUri                  activity         = null;
   public SSActivityContentE     contentType      = null;
   public SSActivityContent      content          = null;
+
+  public String getActivity(){
+    return SSStrU.removeTrailingSlash(activity);
+  }
+
+  public void setActivity(final String activity) throws Exception{
+    this.activity = SSUri.get(activity);
+  }
+
+  public String getContentType(){
+    return SSStrU.toStr(contentType);
+  }
+
+  public void setContentType(final String contentType) throws Exception{
+    this.contentType = SSActivityContentE.get(contentType);
+  }
+
+  public String getContent(){
+    return SSStrU.toStr(content);
+  }
+
+  public void setContent(final String content) throws Exception{
+    this.content = SSActivityContent.get(content);
+  }
   
-  public SSActivityContentAddPar(final SSServPar par) throws Exception{
+  public SSActivityContentAddPar(){}
     
-    super(par);
+  public SSActivityContentAddPar(
+    final SSServOpE             op,
+    final String                key,
+    final SSUri                 user,
+    final SSUri                 activity, 
+    final SSActivityContentE    contentType, 
+    final SSActivityContent     content, 
+    final Boolean               shouldCommit){
     
-    try{
-      
-      if(pars != null){
-        
-        activity     = (SSUri)               pars.get(SSVarNames.activity);
-        contentType  = (SSActivityContentE)  pars.get(SSVarNames.contentType);
-        content      = (SSActivityContent)   pars.get(SSVarNames.content);
-      }
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
+    super(op, key, user);
+    
+    this.activity     = activity;
+    this.contentType  = contentType;
+    this.content      = content;
+    this.shouldCommit = shouldCommit;
   }
 }

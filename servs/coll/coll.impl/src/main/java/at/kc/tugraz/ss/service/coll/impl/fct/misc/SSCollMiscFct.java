@@ -22,15 +22,13 @@ package at.kc.tugraz.ss.service.coll.impl.fct.misc;
 
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleTypesGetPar;
-import at.kc.tugraz.ss.circle.serv.SSCircleServ;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
-
-import at.tugraz.sss.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.coll.datatypes.SSColl;
 import at.kc.tugraz.ss.service.coll.datatypes.SSCollEntry;
 import at.kc.tugraz.ss.service.coll.impl.fct.sql.SSCollSQLFct;
 import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSServReg;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -86,7 +84,7 @@ public class SSCollMiscFct{
       final SSColl coll =
         sqlFct.getCollWithEntries(
           collUri,
-          ((SSCircleServerI) SSCircleServ.inst.serv()).circleTypesGet(
+          ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleTypesGet(
             new SSCircleTypesGetPar(
               null,
               null,
@@ -101,7 +99,7 @@ public class SSCollMiscFct{
         
         collEntry.circleTypes.clear();
         collEntry.circleTypes.addAll(
-          ((SSCircleServerI) SSCircleServ.inst.serv()).circleTypesGet(
+          ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleTypesGet(
             new SSCircleTypesGetPar(
               null,
               null,

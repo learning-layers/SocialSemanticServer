@@ -23,9 +23,10 @@ package at.kc.tugraz.sss.app.api;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
 import at.kc.tugraz.sss.app.datatypes.SSApp;
+import at.tugraz.sss.serv.SSServServerI;
 import java.util.List;
 
-public interface SSAppServerI{
+public interface SSAppServerI extends SSServServerI{
   
   public List<SSApp>  appsGet     (final SSServPar parA) throws Exception;
   public SSUri        appAdd      (final SSServPar parA) throws Exception;

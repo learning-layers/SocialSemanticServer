@@ -35,8 +35,8 @@ public class SSTagTester extends Thread{
     }
     
     switch(tagConf.op){
-      case tagsGet:                new Thread(new SSTagsGetTest (tagConf)).start(); break;
-      case tagAdd:                 new Thread(new SSTagAddTest  (tagConf)).start(); break;
+//      case tagsGet:                new Thread(new SSTagsGetTest (tagConf)).start(); break;
+//      case tagAdd:                 new Thread(new SSTagAddTest  (tagConf)).start(); break;
     }
   }
 }

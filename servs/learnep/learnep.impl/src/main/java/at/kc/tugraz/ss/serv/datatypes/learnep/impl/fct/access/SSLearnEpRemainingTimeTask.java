@@ -21,11 +21,11 @@
 package at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.access;
 
 import at.kc.tugraz.socialserver.service.broadcast.datatypes.enums.SSBroadcastEnum;
+import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServImplStartA;
 import at.tugraz.sss.serv.caller.SSServCaller;
-import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 import at.tugraz.sss.serv.SSServErrReg;
 import java.util.TimerTask;
 
@@ -69,7 +69,7 @@ public class SSLearnEpRemainingTimeTask extends TimerTask {
           }else{
             
             SSServCaller.learnEpLockRemove(
-              SSVoc.systemUserUri,
+              SSVocConf.systemUserUri,
               null,
               SSUri.get(learnEp),
               false,

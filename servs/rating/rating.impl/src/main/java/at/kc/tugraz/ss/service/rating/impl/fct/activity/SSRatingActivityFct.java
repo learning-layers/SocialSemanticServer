@@ -20,15 +20,16 @@
 */
 package at.kc.tugraz.ss.service.rating.impl.fct.activity;
 
+import at.kc.tugraz.ss.activity.api.SSActivityServerI;
 import at.tugraz.sss.serv.SSLogU;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
+import at.kc.tugraz.ss.activity.datatypes.par.SSActivityAddPar;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
-
-import at.tugraz.sss.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.rating.datatypes.pars.SSRatingSetPar;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSServReg;
 
 public class SSRatingActivityFct{
 
@@ -37,16 +38,19 @@ public class SSRatingActivityFct{
     
     try{
       
-      SSServCaller.activityAdd(
-        par.user,
-        SSActivityE.rateEntity,
-        par.entity,
-        SSUri.asListWithoutNullAndEmpty(),
-        SSUri.asListWithoutNullAndEmpty(),
-        SSTextComment.asListWithoutNullAndEmpty(),
-        null,
-        false);
-      
+      ((SSActivityServerI) SSServReg.getServ(SSActivityServerI.class)).activityAdd(
+        new SSActivityAddPar(
+          null,
+          null,
+          par.user,
+          SSActivityE.rateEntity,
+          par.entity,
+          SSUri.asListWithoutNullAndEmpty(),
+          SSUri.asListWithoutNullAndEmpty(),
+          SSTextComment.asListWithoutNullAndEmpty(),
+          null,
+          false));
+              
     }catch(SSErr error){
       
       switch(error.code){

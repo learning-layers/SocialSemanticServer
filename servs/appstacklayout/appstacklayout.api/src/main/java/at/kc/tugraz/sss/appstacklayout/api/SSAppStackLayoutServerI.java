@@ -23,9 +23,10 @@ package at.kc.tugraz.sss.appstacklayout.api;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
 import at.kc.tugraz.sss.appstacklayout.datatypes.SSAppStackLayout;
+import at.tugraz.sss.serv.SSServServerI;
 import java.util.List;
 
-public interface SSAppStackLayoutServerI{
+public interface SSAppStackLayoutServerI extends SSServServerI{
   
   public List<SSAppStackLayout>  appStackLayoutsGet     (final SSServPar parA) throws Exception;
   public SSUri                   appStackLayoutCreate   (final SSServPar parA) throws Exception;

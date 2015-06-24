@@ -21,9 +21,9 @@
 package at.tugraz.sss.servs.ocd.api;
 
 import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSSocketCon;
+import at.tugraz.sss.serv.SSServServerI;
 
-public interface SSOCDServerI {
+public interface SSOCDServerI extends SSServServerI{
     public String ocdCreateGraph   (final Integer /*SSOCDCreateGraphPar*/ parA) throws Exception;
     public String ocdGetGraphs    (final SSServPar parA) throws Exception;
     public String ocdDeleteGraph   (final SSServPar parA) throws Exception;

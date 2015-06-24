@@ -22,15 +22,22 @@ package at.kc.tugraz.ss.activity.api;
 
 import at.kc.tugraz.ss.activity.datatypes.SSActivity;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
+import at.kc.tugraz.ss.activity.datatypes.par.SSActivitiesGetPar;
+import at.kc.tugraz.ss.activity.datatypes.par.SSActivityAddPar;
+import at.kc.tugraz.ss.activity.datatypes.par.SSActivityContentAddPar;
+import at.kc.tugraz.ss.activity.datatypes.par.SSActivityContentsAddPar;
+import at.kc.tugraz.ss.activity.datatypes.par.SSActivityGetPar;
+import at.kc.tugraz.ss.activity.datatypes.par.SSActivityTypesGetPar;
+import at.tugraz.sss.serv.SSServServerI;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServPar;
 import java.util.List;
 
-public interface SSActivityServerI{
-  public SSUri             activityAdd            (final SSServPar parA) throws Exception;
-  public SSUri             activityContentAdd     (final SSServPar parA) throws Exception;
-  public void              activityContentsAdd    (final SSServPar parA) throws Exception;
-  public List<SSActivity>  activitiesUserGet      (final SSServPar parA) throws Exception;
-  public List<SSActivityE> activityTypesGet       (final SSServPar parA) throws Exception;
-  public SSActivity        activityGet            (final SSServPar parA) throws Exception;
+public interface SSActivityServerI extends SSServServerI{
+  
+  public SSUri             activityAdd            (final SSActivityAddPar         par) throws Exception;
+  public SSUri             activityContentAdd     (final SSActivityContentAddPar  par) throws Exception;
+  public void              activityContentsAdd    (final SSActivityContentsAddPar par) throws Exception;
+  public SSActivity        activityGet            (final SSActivityGetPar         par) throws Exception;
+  public List<SSActivity>  activitiesGet          (final SSActivitiesGetPar   par) throws Exception;
+  public List<SSActivityE> activityTypesGet       (final SSActivityTypesGetPar    par) throws Exception;
 }

@@ -22,9 +22,10 @@
 
 import at.tugraz.sss.serv.SSServPar;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUE;
+import at.tugraz.sss.serv.SSServServerI;
 import java.util.List;
 
-public interface SSUEServerI {
+public interface SSUEServerI extends SSServServerI{
 
   public Integer     uECountGet          (final SSServPar parA) throws Exception;
   public SSUE        uEGet               (final SSServPar parA) throws Exception;

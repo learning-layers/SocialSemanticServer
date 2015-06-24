@@ -31,6 +31,7 @@ import java.util.Map;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.caller.SSServCaller;
 
 public class SSCommentUserRelationGatherFct{
@@ -68,7 +69,7 @@ public class SSCommentUserRelationGatherFct{
     for(SSUri entity : SSServCaller.commentEntitiesCommentedGet(userUri, userUri)){
       
       for(SSEntityCircle entityCircle : 
-        ((SSCircleServerI) SSCircleServ.inst.serv()).circlesGet(
+        ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlesGet(
           new SSCirclesGetPar(
             null,
             null,

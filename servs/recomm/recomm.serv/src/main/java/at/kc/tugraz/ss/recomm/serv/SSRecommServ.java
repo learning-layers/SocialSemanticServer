@@ -30,11 +30,9 @@ import at.kc.tugraz.ss.recomm.api.SSRecommServerI;
 import at.kc.tugraz.ss.recomm.conf.SSRecommConf;
 import at.kc.tugraz.ss.recomm.impl.SSRecommImpl;
 import at.kc.tugraz.ss.recomm.serv.task.SSRecommUpdateBulkTask;
-import at.tugraz.sss.serv.SSDBSQLI;
-import at.tugraz.sss.serv.SSDBSQL;
+import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.tugraz.sss.serv.SSServImplA;
 import at.tugraz.sss.serv.caller.SSServCaller;
-import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSServContainerI;
@@ -75,7 +73,7 @@ public class SSRecommServ extends SSServContainerI{
       return;
     }
     
-    SSServCaller.recommLoadUserRealms(SSVoc.systemUserUri);
+    SSServCaller.recommLoadUserRealms(SSVocConf.systemUserUri);
     
     if(!recommConf.initAtStartUp){
       return;

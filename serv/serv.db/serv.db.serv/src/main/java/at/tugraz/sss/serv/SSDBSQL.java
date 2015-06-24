@@ -27,10 +27,10 @@ public class SSDBSQL extends SSServContainerI{
   public static final SSDBSQL inst = new SSDBSQL(null, null);
   
   protected SSDBSQL(
-    final Class servImplClientInteraceClass, 
-    final Class servImplServerInteraceClass){
+    final Class   servImplClientInteraceClass, 
+    final Class   servServerI){
     
-    super(servImplClientInteraceClass, servImplServerInteraceClass);
+    super(servImplClientInteraceClass, servServerI);
   }
   
   @Override

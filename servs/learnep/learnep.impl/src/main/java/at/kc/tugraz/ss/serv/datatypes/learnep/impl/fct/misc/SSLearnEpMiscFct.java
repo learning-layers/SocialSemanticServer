@@ -22,7 +22,6 @@ package at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.misc;
 
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivEntityAddPar;
-import at.kc.tugraz.ss.circle.serv.SSCircleServ;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEp;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpCircle;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpEntity;
@@ -33,6 +32,7 @@ import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import java.util.ArrayList;
 import java.util.List;
@@ -93,7 +93,7 @@ public class SSLearnEpMiscFct{
             continue;
           }
           
-          ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+          ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePrivEntityAdd(
             new SSCirclePrivEntityAddPar(
               null,
               null,

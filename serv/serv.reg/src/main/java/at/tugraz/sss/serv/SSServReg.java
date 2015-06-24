@@ -28,9 +28,10 @@ import java.util.Map;
 
 public class SSServReg{
   
-  public static final Map<SSServOpE, SSServContainerI> servs                           = new EnumMap<>(SSServOpE.class);
-  public static final Map<SSServOpE, SSServContainerI> servsForClientOps               = new EnumMap<>(SSServOpE.class);
-  public static final Map<SSServOpE, SSServContainerI> servsForServerOps               = new EnumMap<>(SSServOpE.class);
+  public static final Map<SSServOpE,     SSServContainerI> servs                           = new EnumMap<>(SSServOpE.class);
+  public static final Map<SSServOpE,     SSServContainerI> servsForClientOps               = new EnumMap<>(SSServOpE.class);
+  public static final Map<SSServOpE,     SSServContainerI> servsForServerOps               = new EnumMap<>(SSServOpE.class);
+  public static final Map<Class,         SSServContainerI> servsForServerI                 = new HashMap<>();
   public static final List<SSServContainerI>           servsForUpdatingEntities        = new ArrayList<>();
   public static final List<SSServContainerI>           servsForGatheringUsersResources = new ArrayList<>();
   public static final List<SSServContainerI>           servsForGatheringUserRelations  = new ArrayList<>();
@@ -283,12 +284,45 @@ public class SSServReg{
         return null;
       }
       
-      regServOps(servContainer);
+      regServOps    (servContainer);
+      regServServerI(servContainer);
       
       return servContainer;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
+    }
+  }
+  
+  public static SSServImplA getServ(final Class servServerI) throws Exception{
+    
+    SSServContainerI serv;
+    
+    try{
+      
+      serv = servsForServerI.get(servServerI);
+      
+      if(serv == null){
+        throw new SSErr(SSErrE.notServerServiceForOpAvailable);
+      }
+      
+      return serv.serv();
+    }catch(SSErr error){
+      
+      switch(error.code){
+        
+        case notServerServiceForOpAvailable:{
+          throw error;
+        }
+        
+        default: {
+          SSServErrReg.regErrThrow(error);
+        }
+      }
+      
+      return null;
+    }catch(Exception error){
+      throw error;
     }
   }
   
@@ -408,6 +442,7 @@ public class SSServReg{
   
   private void regServOps(
     final SSServContainerI servContainer) throws Exception{
+   
     try{
       
       synchronized(servsForClientOps){
@@ -436,7 +471,25 @@ public class SSServReg{
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
-    
+  }
+  
+  private void regServServerI(
+    final SSServContainerI servContainer) throws Exception{
+   
+    try{
+      
+      synchronized(servsForServerI){
+        
+        if(servsForServerI.containsKey(servContainer.servImplServerInteraceClass)){
+          throw new Exception("serv server interface already registered");
+        }
+        
+        servsForServerI.put(servContainer.servImplServerInteraceClass, servContainer);
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
   }
 }
 

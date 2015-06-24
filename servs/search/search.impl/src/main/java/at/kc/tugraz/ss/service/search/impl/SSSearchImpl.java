@@ -22,10 +22,8 @@ package at.kc.tugraz.ss.service.search.impl;
 
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleTypesGetPar;
-import at.kc.tugraz.ss.circle.serv.SSCircleServ;
 import at.kc.tugraz.ss.service.disc.api.SSDiscServerI;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscEntryURIsGetPar;
-import at.kc.tugraz.ss.service.disc.service.SSDiscServ;
 import at.tugraz.sss.serv.SSDateU;
 import at.tugraz.sss.serv.SSIDU;
 import at.tugraz.sss.serv.SSLogU;
@@ -52,7 +50,6 @@ import at.kc.tugraz.ss.service.tag.api.SSTagServerI;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagEntitiesForTagsGetPar;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsGetPar;
-import at.kc.tugraz.ss.service.tag.service.SSTagServ;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
@@ -62,6 +59,7 @@ import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServImplWithDBA;
+import at.tugraz.sss.serv.SSServReg;
 
 public class SSSearchImpl extends SSServImplWithDBA implements SSSearchClientI, SSSearchServerI{
   
@@ -283,7 +281,7 @@ public class SSSearchImpl extends SSServImplWithDBA implements SSSearchClientI, 
             entity)));
       
       entity.circleTypes =
-        ((SSCircleServerI) SSCircleServ.inst.serv()).circleTypesGet(
+        ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleTypesGet(
           new SSCircleTypesGetPar(
             null,
             null,
@@ -354,7 +352,7 @@ public class SSSearchImpl extends SSServImplWithDBA implements SSSearchClientI, 
       case qa:
 
         entries.addAll(
-          ((SSDiscServerI)SSDiscServ.inst.serv()).discEntryURIsGet(
+          ((SSDiscServerI) SSServReg.getServ(SSDiscServerI.class)).discEntryURIsGet(
             new SSDiscEntryURIsGetPar(
               null, 
               null, 
@@ -608,7 +606,7 @@ public class SSSearchImpl extends SSServImplWithDBA implements SSSearchClientI, 
         searchResultsForTagOneTag = new ArrayList<>();
         
         for(SSUri foundEntity :
-          ((SSTagServerI) SSTagServ.inst.serv()).tagEntitiesForTagsGet(
+          ((SSTagServerI) SSServReg.getServ(SSTagServerI.class)).tagEntitiesForTagsGet(
             new SSTagEntitiesForTagsGetPar(
               null,
               null,
@@ -622,7 +620,7 @@ public class SSSearchImpl extends SSServImplWithDBA implements SSSearchClientI, 
         }
         
         for(SSUri foundEntity :
-          ((SSTagServerI) SSTagServ.inst.serv()).tagEntitiesForTagsGet(
+          ((SSTagServerI) SSServReg.getServ(SSTagServerI.class)).tagEntitiesForTagsGet(
             new SSTagEntitiesForTagsGetPar(
               null,
               null,
@@ -716,7 +714,7 @@ public class SSSearchImpl extends SSServImplWithDBA implements SSSearchClientI, 
         for(SSUri entityUri : SSSearchMiscFct.getSubEntities(par.user, SSUri.asListWithoutNullAndEmpty(par.entity))){
           
           if(
-            ((SSTagServerI) SSTagServ.inst.serv()).tagsGet(
+            ((SSTagServerI) SSServReg.getServ(SSTagServerI.class)).tagsGet(
               new SSTagsGetPar(
                 null, 
                 null,

@@ -340,7 +340,6 @@ public enum SSServOpE{
   activityContentAdd,
   activityContentsAdd,
   activitiesGet,
-  activitiesUserGet,
   activityTypesGet,
   activityGet,
   

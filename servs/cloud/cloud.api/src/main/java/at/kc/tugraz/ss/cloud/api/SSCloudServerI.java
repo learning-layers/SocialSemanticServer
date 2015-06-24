@@ -22,8 +22,9 @@ package at.kc.tugraz.ss.cloud.api;
 
 import at.kc.tugraz.ss.cloud.datatypes.ret.SSCloudPublishServiceRet;
 import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServServerI;
 
-public interface SSCloudServerI{
+public interface SSCloudServerI extends SSServServerI{
   
   public SSCloudPublishServiceRet cloudPublishService(final SSServPar parA) throws Exception;
 }

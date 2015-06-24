@@ -21,7 +21,6 @@
 package at.kc.tugraz.ss.serv.voc.serv;
 
 import at.tugraz.sss.serv.SSCoreConfA;
-import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSConfA;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.kc.tugraz.ss.serv.voc.impl.SSVocImpl;
@@ -35,13 +34,12 @@ import java.util.List;
 public class SSVoc extends SSServContainerI{
   
   public static final SSVoc inst                           = new SSVoc(null, SSVocI.class);
-  public static SSUri         systemUserUri                  = null;
 
   protected SSVoc(
     final Class servImplClientInteraceClass, 
-    final Class servImplServerInteraceClass){
+    final Class servServerI){
     
-    super(servImplClientInteraceClass, servImplServerInteraceClass);
+    super(servImplClientInteraceClass, servServerI);
   }
   
   @Override
@@ -56,7 +54,7 @@ public class SSVoc extends SSServContainerI{
     
     SSServReg.inst.regServ(this);
     
-    systemUserUri   = SSServCaller.vocURICreateFromId(SSVocConf.systemUserLabel);
+    SSVocConf.systemUserUri  = SSServCaller.vocURICreateFromId(SSVocConf.systemUserLabel);
     
     return this;
   }

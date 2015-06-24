@@ -21,6 +21,7 @@
 package at.kc.tugraz.ss.serv.voc.conf;
 
 import at.tugraz.sss.serv.SSCoreServConfA;
+import at.tugraz.sss.serv.SSUri;
 
 public class SSVocConf extends SSCoreServConfA{
 
@@ -37,6 +38,8 @@ public class SSVocConf extends SSCoreServConfA{
   public static final String fileNameRunitBat               = "runit.bat";
   public static final String dirNameLib                     = "lib/";
   public static final String dirNameConf                    = "conf/";
+  
+  public static       SSUri systemUserUri                   = null;
   
   public static SSVocConf copy(final SSVocConf orig){
     

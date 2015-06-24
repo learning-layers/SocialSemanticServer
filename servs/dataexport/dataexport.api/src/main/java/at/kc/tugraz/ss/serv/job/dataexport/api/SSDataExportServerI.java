@@ -21,8 +21,9 @@
 package at.kc.tugraz.ss.serv.job.dataexport.api;
 
 import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServServerI;
 
-public interface SSDataExportServerI {
+public interface SSDataExportServerI extends SSServServerI{
 
   public void dataExportUserEntityTagCategoryTimestamps         (final SSServPar parA) throws Exception;
   public void dataExportAddTagsCategoriesTimestampsForUserEntity(final SSServPar parA) throws Exception;

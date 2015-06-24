@@ -127,7 +127,7 @@ implements
                 continue;
               }
               
-              ((SSCircleServerI) SSCircleServ.inst.serv()).circleEntitiesAdd(
+              ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleEntitiesAdd(
                 new SSCircleEntitiesAddPar(
                   null,
                   null,
@@ -178,7 +178,7 @@ implements
             continue;
           }
           
-          ((SSCircleServerI) SSCircleServ.inst.serv()).circleEntitiesAdd(
+          ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleEntitiesAdd(
             new SSCircleEntitiesAddPar(
               null,
               null,
@@ -312,7 +312,7 @@ implements
       
       dbSQL.startTrans(par.shouldCommit);
       
-      ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+      ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePrivEntityAdd(
         new SSCirclePrivEntityAddPar(
           null,
           null,
@@ -326,7 +326,7 @@ implements
       
       if(par.forEntity != null){
         
-        ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+        ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePrivEntityAdd(
           new SSCirclePrivEntityAddPar(
             null,
             null,
@@ -341,7 +341,7 @@ implements
       
       if(par.link != null){
         
-        ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+        ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePrivEntityAdd(
           new SSCirclePrivEntityAddPar(
             null,
             null,
@@ -421,7 +421,7 @@ implements
       
       dbSQL.startTrans(par.shouldCommit);
       
-      ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+      ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePrivEntityAdd(
         new SSCirclePrivEntityAddPar(
           null,
           null,

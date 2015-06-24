@@ -35,8 +35,8 @@ public class SSCategoryTester extends Thread{
     }
     
     switch(categoryConf.op){
-      case categoriesPredefinedGet:        new Thread(new SSCategoriesPredefinedGetTest(categoryConf)).start(); break;
-      case categoriesPredefinedAdd:        new Thread(new SSCategoriesPredefinedAddTest(categoryConf)).start(); break;  
+//      case categoriesPredefinedGet:        new Thread(new SSCategoriesPredefinedGetTest(categoryConf)).start(); break;
+//      case categoriesPredefinedAdd:        new Thread(new SSCategoriesPredefinedAddTest(categoryConf)).start(); break;  
     }
   }
 }

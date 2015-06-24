@@ -22,7 +22,6 @@
 
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivEntityAddPar;
-import at.kc.tugraz.ss.circle.serv.SSCircleServ;
 import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSSocketCon;
@@ -62,6 +61,7 @@ import java.util.*;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServReg;
 
 public class SSUEImpl 
 extends SSServImplWithDBA 
@@ -334,7 +334,7 @@ implements
       
       dbSQL.startTrans(par.shouldCommit);
       
-      ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+      ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePrivEntityAdd(
         new SSCirclePrivEntityAddPar(
           null,
           null,
@@ -346,7 +346,7 @@ implements
           par.creationTime,
           false));
       
-      ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+      ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePrivEntityAdd(
           new SSCirclePrivEntityAddPar(
             null,
             null,
@@ -414,7 +414,7 @@ implements
       
       dbSQL.startTrans(par.shouldCommit);
       
-       ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+       ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePrivEntityAdd(
           new SSCirclePrivEntityAddPar(
             null,
             null,
@@ -426,7 +426,7 @@ implements
         null,
         false));
         
-      ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+      ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePrivEntityAdd(
           new SSCirclePrivEntityAddPar(
             null,
             null,

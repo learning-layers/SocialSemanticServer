@@ -52,6 +52,7 @@ import java.util.List;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServReg;
 
 public class SSFlagImpl extends SSServImplWithDBA implements SSFlagClientI, SSFlagServerI, SSEntityDescriberI{
   
@@ -106,7 +107,7 @@ public class SSFlagImpl extends SSServImplWithDBA implements SSFlagClientI, SSFl
       
       for(SSUri entity : par.entities){
 
-        ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+        ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePrivEntityAdd(
           new SSCirclePrivEntityAddPar(
             null,
             null,
@@ -125,7 +126,7 @@ public class SSFlagImpl extends SSServImplWithDBA implements SSFlagClientI, SSFl
           
           SSUri flagUri = SSServCaller.vocURICreate();
           
-          ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+          ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePrivEntityAdd(
             new SSCirclePrivEntityAddPar(
               null,
               null,

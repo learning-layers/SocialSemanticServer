@@ -21,7 +21,8 @@
 package sss.serv.eval.api;
 
 import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServServerI;
 
-public interface SSEvalServerI {
+public interface SSEvalServerI extends SSServServerI{
   public Boolean evalLog                       (final SSServPar parA) throws Exception;
 }

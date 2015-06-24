@@ -20,7 +20,6 @@
 */
 package at.tugraz.sss.serv;
 
-import at.tugraz.sss.serv.SSObjU;
 import java.util.*;
 
 public class SSStrU{

@@ -19,7 +19,7 @@
     
     <dependency>
      <groupId>sss.servs</groupId>
-     <artifactId>voc.serv</artifactId>
+     <artifactId>voc.api</artifactId>
      <version>${project.version}</version>
     </dependency>
     

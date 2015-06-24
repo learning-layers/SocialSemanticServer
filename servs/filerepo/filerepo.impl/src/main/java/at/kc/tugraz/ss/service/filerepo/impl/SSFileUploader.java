@@ -22,7 +22,6 @@ package at.kc.tugraz.ss.service.filerepo.impl;
 
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivEntityAddPar;
-import at.kc.tugraz.ss.circle.serv.SSCircleServ;
 import at.tugraz.sss.serv.SSFileExtE;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSFileU;
@@ -40,6 +39,7 @@ import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileUploadPar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileUploadRet;
 import at.kc.tugraz.ss.service.filerepo.impl.fct.SSFileServCaller;
 import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSServReg;
 import com.googlecode.sardine.SardineFactory;
 import java.io.File;
 import java.io.FileInputStream;
@@ -240,7 +240,7 @@ public class SSFileUploader extends SSServImplStartA{
       
       if(thumbCreated){
         
-        ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+        ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePrivEntityAdd(
           new SSCirclePrivEntityAddPar(
             null,
             null,

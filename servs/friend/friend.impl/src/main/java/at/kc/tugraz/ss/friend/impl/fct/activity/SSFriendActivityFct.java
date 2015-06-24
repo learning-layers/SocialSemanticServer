@@ -20,15 +20,16 @@
 */
 package at.kc.tugraz.ss.friend.impl.fct.activity;
 
+import at.kc.tugraz.ss.activity.api.SSActivityServerI;
 import at.tugraz.sss.serv.SSLogU;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
+import at.kc.tugraz.ss.activity.datatypes.par.SSActivityAddPar;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
 import at.kc.tugraz.ss.friend.datatypes.par.SSFriendUserAddPar;
-
-import at.tugraz.sss.serv.caller.SSServCaller;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSServReg;
 
 public class SSFriendActivityFct{
   
@@ -37,16 +38,19 @@ public class SSFriendActivityFct{
     
     try{
       
-       SSServCaller.activityAdd(
-        par.user,
-        SSActivityE.friendAdd,
-        par.user,
-        SSUri.asListWithoutNullAndEmpty(par.friend),
-        SSUri.asListWithoutNullAndEmpty(),
-        SSTextComment.asListWithoutNullAndEmpty(),
-        null,
-        false);
-
+      ((SSActivityServerI) SSServReg.getServ(SSActivityServerI.class)).activityAdd(
+        new SSActivityAddPar(
+          null,
+          null,
+          par.user,
+          SSActivityE.friendAdd,
+          par.user,
+          SSUri.asListWithoutNullAndEmpty(par.friend),
+          SSUri.asListWithoutNullAndEmpty(),
+          SSTextComment.asListWithoutNullAndEmpty(),
+          null,
+          false));
+      
     }catch(SSErr error){
       
       switch(error.code){

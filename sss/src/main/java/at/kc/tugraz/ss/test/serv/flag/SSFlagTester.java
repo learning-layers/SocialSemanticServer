@@ -35,8 +35,8 @@ public class SSFlagTester extends Thread{
     }
     
     switch(flagConf.op){
-      case flagsUserGet:        new Thread(new SSFlagsUserGetTest                (flagConf)).start(); break;
-      case flagsUserSet:        new Thread(new SSFlagsUserSetTest                (flagConf)).start(); break;
+//      case flagsUserGet:        new Thread(new SSFlagsUserGetTest                (flagConf)).start(); break;
+//      case flagsUserSet:        new Thread(new SSFlagsUserSetTest                (flagConf)).start(); break;
     }
   }
 }

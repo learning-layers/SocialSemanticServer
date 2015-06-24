@@ -22,10 +22,8 @@ package at.kc.tugraz.ss.serv.dataimport.impl.evernote;
 
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivEntityAddPar;
-import at.kc.tugraz.ss.circle.serv.SSCircleServ;
 import at.kc.tugraz.ss.service.filerepo.api.SSFileRepoServerI;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileIDFromURIPar;
-import at.kc.tugraz.ss.service.filerepo.service.SSFilerepoServ;
 import at.tugraz.sss.serv.SSFileExtE;
 import at.tugraz.sss.serv.SSFileU;
 import at.tugraz.sss.serv.SSLogU;
@@ -34,6 +32,7 @@ import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import com.evernote.clients.NoteStoreClient;
 import com.evernote.edam.type.Note;
@@ -80,7 +79,7 @@ public class SSDataImportEvernoteNoteContentHandler{
       
       xhtmlFilePath    = 
         localWorkPath + 
-        ((SSFileRepoServerI) SSFilerepoServ.inst.serv()).fileIDFromURI(
+        ((SSFileRepoServerI) SSServReg.getServ(SSFileRepoServerI.class)).fileIDFromURI(
           new SSFileIDFromURIPar(
             null, 
             null, 
@@ -89,7 +88,7 @@ public class SSDataImportEvernoteNoteContentHandler{
       
       fileUri          = SSServCaller.vocURICreate                  (SSFileExtE.pdf);
       pdfFilePath      = localWorkPath + 
-        ((SSFileRepoServerI) SSFilerepoServ.inst.serv()).fileIDFromURI(
+        ((SSFileRepoServerI) SSServReg.getServ(SSFileRepoServerI.class)).fileIDFromURI(
           new SSFileIDFromURIPar(
             null, 
             null, 
@@ -143,7 +142,7 @@ public class SSDataImportEvernoteNoteContentHandler{
         }catch(Exception error){}
       }
       
-      ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+      ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePrivEntityAdd(
         new SSCirclePrivEntityAddPar(
           null,
           null,
@@ -162,7 +161,7 @@ public class SSDataImportEvernoteNoteContentHandler{
         try{
           SSFileU.delFile(
             localWorkPath +
-              ((SSFileRepoServerI) SSFilerepoServ.inst.serv()).fileIDFromURI(
+              ((SSFileRepoServerI) SSServReg.getServ(SSFileRepoServerI.class)).fileIDFromURI(
                 new SSFileIDFromURIPar(
                   null,
                   null,
@@ -543,7 +542,7 @@ public class SSDataImportEvernoteNoteContentHandler{
             hash         = tmpLine.substring          (hashIndex + 6, hashEndIndex);
             fileURI      = SSServCaller.vocURICreate  (SSMimeTypeE.fileExtForMimeType(mimeType));
             fileID       = 
-              ((SSFileRepoServerI) SSFilerepoServ.inst.serv()).fileIDFromURI(
+              ((SSFileRepoServerI) SSServReg.getServ(SSFileRepoServerI.class)).fileIDFromURI(
                 new SSFileIDFromURIPar(
                   null,
                   null,
@@ -576,7 +575,7 @@ public class SSDataImportEvernoteNoteContentHandler{
                 500);
             
             fileID       = 
-              ((SSFileRepoServerI) SSFilerepoServ.inst.serv()).fileIDFromURI(
+              ((SSFileRepoServerI) SSServReg.getServ(SSFileRepoServerI.class)).fileIDFromURI(
                 new SSFileIDFromURIPar(
                   null,
                   null,

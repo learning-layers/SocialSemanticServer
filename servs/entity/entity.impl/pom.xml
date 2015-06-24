@@ -30,10 +30,16 @@
   </properties>
   
   <dependencies>
-  
+
     <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>circle.serv</artifactId>
+      <artifactId>activity.api</artifactId>
+      <version>${project.version}</version>
+    </dependency> 
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>circle.api</artifactId>
       <version>${project.version}</version>
     </dependency> 
     
@@ -45,7 +51,7 @@
   
     <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>voc.serv</artifactId>
+      <artifactId>voc.api</artifactId>
       <version>${project.version}</version>
     </dependency> 
     

@@ -103,7 +103,7 @@ public class SSAppStackLayoutImpl extends SSServImplWithDBA implements SSAppStac
       
       dbSQL.startTrans(par.shouldCommit);
       
-      ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+      ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePrivEntityAdd(
         new SSCirclePrivEntityAddPar(
           null,
           null,

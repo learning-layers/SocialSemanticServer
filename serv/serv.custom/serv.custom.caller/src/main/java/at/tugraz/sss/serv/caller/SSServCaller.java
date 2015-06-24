@@ -22,10 +22,6 @@ package at.tugraz.sss.serv.caller;
 
 import at.kc.tugraz.socialserver.service.broadcast.datatypes.SSBroadcast;
 import at.kc.tugraz.socialserver.service.broadcast.datatypes.enums.SSBroadcastEnum;
-import at.kc.tugraz.ss.activity.datatypes.SSActivity;
-import at.kc.tugraz.ss.activity.datatypes.SSActivityContent;
-import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityContentE;
-import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
 import at.kc.tugraz.ss.like.datatypes.SSLikes;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEp;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpTimelineState;
@@ -2291,104 +2287,6 @@ public class SSServCaller {
     return (Boolean) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.i5CloudFileDownload, opPars));
   } 
 
-  /* activity */
-  
-  public static SSActivity activityGet(
-    final SSUri                     user, 
-    final SSUri                     activity) throws Exception{
-   
-    final Map<String, Object>  opPars           = new HashMap<>();
-    
-    opPars.put(SSVarNames.user,          user);
-    opPars.put(SSVarNames.activity,      activity);
-    
-    return (SSActivity) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.activityGet, opPars));
-  }
-  
-  public static SSUri activityContentsAdd(
-    final SSUri                     user, 
-    final SSUri                     activity, 
-    final SSActivityContentE        contentType,
-    final List<SSActivityContent>   contents,
-    final Boolean                   shouldCommit) throws Exception{
-   
-    final Map<String, Object>  opPars           = new HashMap<>();
-    
-    opPars.put(SSVarNames.user,          user);
-    opPars.put(SSVarNames.activity,      activity);
-    opPars.put(SSVarNames.contentType,   contentType);
-    opPars.put(SSVarNames.contents,      contents);
-    opPars.put(SSVarNames.shouldCommit,  shouldCommit);
-    
-    return (SSUri) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.activityContentsAdd, opPars));
-  }
-  
-  public static SSUri activityContentAdd(
-    final SSUri               user, 
-    final SSUri               activity, 
-    final SSActivityContentE  contentType,
-    final SSActivityContent   content,
-    final Boolean             shouldCommit) throws Exception{
-   
-    final Map<String, Object>  opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.user,          user);
-    opPars.put(SSVarNames.activity,      activity);
-    opPars.put(SSVarNames.contentType,   contentType);
-    opPars.put(SSVarNames.content,       content);
-    opPars.put(SSVarNames.shouldCommit,  shouldCommit);
-    
-    return (SSUri) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.activityContentAdd, opPars));
-  }
-  
-  public static SSUri activityAdd(
-    final SSUri               user, 
-    final SSActivityE         type, 
-    final SSUri               entity, 
-    final List<SSUri>         users, 
-    final List<SSUri>         entities,
-    final List<SSTextComment> comments,
-    final Long                creationTime, 
-    final Boolean             shouldCommit) throws Exception{
-   
-    final Map<String, Object>  opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.user,             user);
-    opPars.put(SSVarNames.entity,           entity);
-    opPars.put(SSVarNames.type,             type);
-    opPars.put(SSVarNames.users,            users);
-    opPars.put(SSVarNames.entities,         entities);
-    opPars.put(SSVarNames.comments,         comments);
-    opPars.put(SSVarNames.creationTime,     creationTime);
-    opPars.put(SSVarNames.shouldCommit,     shouldCommit);
-    
-    return (SSUri) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.activityAdd, opPars));
-  }
-  
-  public static List<SSActivity> activitiesUserGet(
-    final SSUri               user, 
-    final List<SSActivityE>   types, 
-    final List<SSUri>         users, 
-    final List<SSUri>         entities,
-    final List<SSUri>         circles,
-    final Long                startTime,
-    final Long                endTime,
-    final Boolean             includeOnlyLastActivities) throws Exception{
-   
-    final Map<String, Object>  opPars           = new HashMap<>();
-    
-    opPars.put(SSVarNames.user,                      user);
-    opPars.put(SSVarNames.types,                     types);
-    opPars.put(SSVarNames.users,                     users);
-    opPars.put(SSVarNames.entities,                  entities);
-    opPars.put(SSVarNames.circles,                   circles);
-    opPars.put(SSVarNames.startTime,                 startTime);
-    opPars.put(SSVarNames.endTime,                   endTime);
-    opPars.put(SSVarNames.includeOnlyLastActivities, includeOnlyLastActivities);
-    
-    return (List<SSActivity>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.activitiesUserGet, opPars));
-  }
-  
   /* video */
   
   public static List<? extends SSEntity> videosUserGet(

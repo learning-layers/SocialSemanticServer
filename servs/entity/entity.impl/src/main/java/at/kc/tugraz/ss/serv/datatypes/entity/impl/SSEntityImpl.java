@@ -24,7 +24,6 @@ import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleGetPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivEntityAddPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePubEntityAddPar;
-import at.kc.tugraz.ss.circle.serv.SSCircleServ;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityClientI;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesForDescriptionsGetPar;
@@ -504,7 +503,7 @@ implements
         
         case circle:{
           
-          return ((SSCircleServerI) SSCircleServ.inst.serv()).circleGet(
+          return ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleGet(
             new SSCircleGetPar(
               null,
               null,
@@ -790,7 +789,7 @@ implements
       
       dbSQL.startTrans(par.shouldCommit);
       
-      ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+      ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePrivEntityAdd(
         new SSCirclePrivEntityAddPar(
           null,
           null,
@@ -1103,7 +1102,7 @@ implements
       
       for(SSLocation location : par.locations){
         
-        ((SSCircleServerI) SSCircleServ.inst.serv()).circlePubEntityAdd(
+        ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePubEntityAdd(
           new SSCirclePubEntityAddPar(
             null,
             null,

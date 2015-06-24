@@ -27,9 +27,10 @@ import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserAllPar;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserExistsPar;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserURIGetPar;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUsersGetPar;
+import at.tugraz.sss.serv.SSServServerI;
 import java.util.List;
 
-public interface SSUserServerI {
+public interface SSUserServerI extends SSServServerI{
 
   public Boolean        userExists           (final SSUserExistsPar par)     throws Exception;
   public SSUri          userURIGet           (final SSUserURIGetPar par)     throws Exception;

@@ -22,7 +22,6 @@ package at.kc.tugraz.ss.serv.dataimport.impl.evernote;
 
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivEntityAddPar;
-import at.kc.tugraz.ss.circle.serv.SSCircleServ;
 import at.tugraz.sss.serv.SSDateU;
 import at.tugraz.sss.serv.SSLinkU;
 import at.tugraz.sss.serv.SSObjU;
@@ -39,11 +38,11 @@ import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteInfo;
 import at.kc.tugraz.ss.service.tag.api.SSTagServerI;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsAddPar;
-import at.kc.tugraz.ss.service.tag.service.SSTagServ;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUE;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUEE;
 import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSServReg;
 import com.evernote.edam.type.LinkedNotebook;
 import com.evernote.edam.type.Note;
 import com.evernote.edam.type.NoteAttributes;
@@ -139,7 +138,7 @@ public class SSDataImportEvernoteHandler {
     final SSLabel  notebookLabel,
     final Long     notebookCreationTime) throws Exception{
     
-    ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+    ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePrivEntityAdd(
       new SSCirclePrivEntityAddPar(
         null,
         null,
@@ -291,7 +290,7 @@ public class SSDataImportEvernoteHandler {
       
       noteTagNames = SSServCaller.evernoteNoteTagNamesGet(evernoteInfo.noteStore, note.getGuid());
         
-      ((SSTagServerI) SSTagServ.inst.serv()).tagsAdd(
+      ((SSTagServerI) SSServReg.getServ(SSTagServerI.class)).tagsAdd(
         new SSTagsAddPar(
           null,
           null,
@@ -479,7 +478,7 @@ public class SSDataImportEvernoteHandler {
     
     try{
       
-      ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+      ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePrivEntityAdd(
         new SSCirclePrivEntityAddPar(
           null,
           null,
@@ -604,7 +603,7 @@ public class SSDataImportEvernoteHandler {
     final Long    resourceAddTime,
     final SSUri   noteUri) throws Exception{
     
-    ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+    ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePrivEntityAdd(
       new SSCirclePrivEntityAddPar(
         null,
         null,

@@ -35,8 +35,8 @@ public class SSAppTester extends Thread{
     }      
     
     switch(appConf.op){
-      case appsGet: new Thread(new SSAppsGetTest(appConf)).start(); break;
-      case appAdd:  new Thread(new SSAppAddTest (appConf)).start(); break;
+//      case appsGet: new Thread(new SSAppsGetTest(appConf)).start(); break;
+//      case appAdd:  new Thread(new SSAppAddTest (appConf)).start(); break;
     }
   }  
 }

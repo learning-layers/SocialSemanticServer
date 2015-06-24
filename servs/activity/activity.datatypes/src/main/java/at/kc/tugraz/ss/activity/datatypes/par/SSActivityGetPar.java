@@ -20,28 +20,33 @@
 */
 package at.kc.tugraz.ss.activity.datatypes.par;
 
-import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSStrU;
 
 public class SSActivityGetPar extends SSServPar{
 
   public SSUri                  activity         = null;
+
+  public String getActivity(){
+    return SSStrU.removeTrailingSlash(activity);
+  }
+
+  public void setActivity(final String activity) throws Exception{
+    this.activity = SSUri.get(activity);
+  }
   
-  public SSActivityGetPar(final SSServPar par) throws Exception{
-    
-    super(par);
-    
-    try{
+  public SSActivityGetPar(){}
       
-      if(pars != null){
-        
-        activity     = (SSUri)               pars.get(SSVarNames.activity);
-      }
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
+  public SSActivityGetPar(
+    final SSServOpE             op,
+    final String                key,
+    final SSUri                 user,
+    final SSUri                 activity){
+    
+    super(op, key, user);
+    
+    this.activity     = activity;
   }
 }

@@ -42,7 +42,7 @@ import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileIDFromURIPar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileReplacePar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileThumbBase64GetPar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileUploadPar;
-import at.kc.tugraz.ss.service.filerepo.impl.fct.activity.SSFileRepoActivityFct;
+import at.kc.tugraz.ss.service.filerepo.impl.fct.activity.SSFileActivityFct;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
@@ -119,7 +119,7 @@ implements
     
     switch(entityType){
       case file: 
-        SSFileRepoActivityFct.shareFileWithUser(user, entity, usersToShareWith, saveActivity);
+        SSFileActivityFct.shareFileWithUser(user, entity, usersToShareWith, saveActivity);
     }
   }
   

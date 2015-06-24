@@ -24,7 +24,6 @@ import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesAddPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivEntityAddPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclesGetPar;
-import at.kc.tugraz.ss.circle.serv.SSCircleServ;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSSocketCon;
@@ -39,7 +38,6 @@ import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.tugraz.sss.serv.caller.SSServCallerU;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
-import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 import at.kc.tugraz.ss.service.user.api.*;
 import at.kc.tugraz.ss.service.user.datatypes.SSUser;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserAddPar;
@@ -58,6 +56,7 @@ import java.util.*;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServReg;
 
 public class SSUserImpl 
 extends SSServImplWithDBA 
@@ -95,7 +94,7 @@ implements
           if(par.setCircles){
             
             user.circles.addAll(
-              ((SSCircleServerI) SSCircleServ.inst.serv()).circlesGet(
+              ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlesGet(
                 new SSCirclesGetPar(
                   null, 
                   null, 
@@ -288,7 +287,7 @@ implements
       final String        tmpEmail;
       
       if(par.isSystemUser){
-        userUri  = SSVoc.systemUserUri;
+        userUri  = SSVocConf.systemUserUri;
         tmpLabel = SSLabel.get(SSVocConf.systemUserLabel);
         tmpEmail = SSVocConf.systemUserEmail; 
       }else{
@@ -300,11 +299,11 @@ implements
       
       dbSQL.startTrans(par.shouldCommit);
       
-      ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
+      ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePrivEntityAdd(
         new SSCirclePrivEntityAddPar(
           null,
           null,
-          SSVoc.systemUserUri,
+          SSVocConf.systemUserUri,
           userUri,
           SSEntityE.user,
           tmpLabel,
@@ -312,11 +311,11 @@ implements
           null,
           false));
       
-      ((SSCircleServerI) SSCircleServ.inst.serv()).circleEntitiesAdd(
+      ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleEntitiesAdd(
           new SSCircleEntitiesAddPar(
             null, 
             null, 
-            SSVoc.systemUserUri,  
+            SSVocConf.systemUserUri,  
             SSServCaller.circlePubURIGet(false),
             SSUri.asListWithoutNullAndEmpty(userUri), 
             false,

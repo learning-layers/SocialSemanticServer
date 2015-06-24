@@ -34,10 +34,10 @@ public class SSCollTester {
     }      
     
     switch(collConf.op){
-      case collUserHierarchyGet:     new Thread(new SSCollUserHierarchyGetTest(collConf)).start();      break;
-      case collUserEntriesAdd:       new Thread(new SSCollUserEntriesAddTest(collConf)).start();        break;
-      case collUserCumulatedTagsGet: new Thread(new SSCollUserCummulatedTagsGetTest(collConf)).start(); break;
-      case collUserEntriesDelete:    new Thread(new SSCollUserEntriesDeleteTest(collConf)).start();     break;
+//      case collUserHierarchyGet:     new Thread(new SSCollUserHierarchyGetTest(collConf)).start();      break;
+//      case collUserEntriesAdd:       new Thread(new SSCollUserEntriesAddTest(collConf)).start();        break;
+//      case collUserCumulatedTagsGet: new Thread(new SSCollUserCummulatedTagsGetTest(collConf)).start(); break;
+//      case collUserEntriesDelete:    new Thread(new SSCollUserEntriesDeleteTest(collConf)).start();     break;
     }
   }  
 }

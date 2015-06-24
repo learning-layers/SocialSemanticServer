@@ -35,9 +35,9 @@ public class SSI5CloudTester extends Thread{
     }
     
     switch(i5CloudConf.op){
-      case i5CloudAuth:                new Thread(new SSI5CloudAuthTest        (i5CloudConf)).start();                break;
-      case i5CloudFileUpload:          new Thread(new SSI5CloudFileUploadTest  (i5CloudConf)).start();                break;
-      case i5CloudFileDownload:        new Thread(new SSI5CloudFileDownloadTest(i5CloudConf)).start();                break;
+//      case i5CloudAuth:                new Thread(new SSI5CloudAuthTest        (i5CloudConf)).start();                break;
+//      case i5CloudFileUpload:          new Thread(new SSI5CloudFileUploadTest  (i5CloudConf)).start();                break;
+//      case i5CloudFileDownload:        new Thread(new SSI5CloudFileDownloadTest(i5CloudConf)).start();                break;
     }
   }
 }

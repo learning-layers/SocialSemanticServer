@@ -102,7 +102,7 @@
                 test-ll.know-center.tugraz.at/ltb.v2   
                 test-ll.know-center.tugraz.at/ld
               -->
-              <locations>at.kc.tugraz.ss.adapter.rest.v2</locations>
+              <locations>at.tugraz.sss.adapter.rest.v2</locations>
               
               <apiInfo>
                 <title>Social Semantic Server REST API</title>

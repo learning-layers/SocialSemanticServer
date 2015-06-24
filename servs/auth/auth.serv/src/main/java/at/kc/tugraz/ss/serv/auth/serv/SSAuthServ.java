@@ -26,14 +26,11 @@ import at.kc.tugraz.ss.serv.auth.api.SSAuthClientI;
 import at.kc.tugraz.ss.serv.auth.api.SSAuthServerI;
 import at.kc.tugraz.ss.serv.auth.conf.SSAuthConf;
 import at.kc.tugraz.ss.serv.auth.impl.SSAuthImpl;
-import at.tugraz.sss.serv.SSDBSQLI;
-import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSServImplA;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
-import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 import at.tugraz.sss.serv.SSServContainerI;
 
 import java.util.List;
@@ -62,7 +59,7 @@ public class SSAuthServ extends SSServContainerI{
     SSServReg.inst.regServ(this);
     
     SSServCaller.authRegisterUser(
-      SSVoc.systemUserUri,
+      SSVocConf.systemUserUri,
       SSLabel.get(SSVocConf.systemUserLabel),
       SSVocConf.systemUserEmail,
       ((SSAuthConf)conf).systemUserPassword,

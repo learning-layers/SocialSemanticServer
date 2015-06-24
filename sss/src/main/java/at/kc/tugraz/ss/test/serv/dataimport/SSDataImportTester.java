@@ -38,10 +38,10 @@ public class SSDataImportTester extends Thread{
     }
     
     switch(dataImportConf.op){
-      case dataImportMediaWikiUser:                new Thread(new SSDataImportMediaWikiUserTest(dataImportConf)).start();                break;
-      case dataImportUserResourceTagFromWikipedia: new Thread(new SSDataImportUserResourceTagFromWikipediaTest(dataImportConf)).start(); break;
-      case dataImportAchso:                        new Thread(new SSDataImportAchsoTest(dataImportConf)).start();                        break;
-      case dataImportEvernote:                     new Thread(new SSDataImportEvernoteTest(evernoteConf)).start();                       break;
+//      case dataImportMediaWikiUser:                new Thread(new SSDataImportMediaWikiUserTest(dataImportConf)).start();                break;
+//      case dataImportUserResourceTagFromWikipedia: new Thread(new SSDataImportUserResourceTagFromWikipediaTest(dataImportConf)).start(); break;
+//      case dataImportAchso:                        new Thread(new SSDataImportAchsoTest(dataImportConf)).start();                        break;
+//      case dataImportEvernote:                     new Thread(new SSDataImportEvernoteTest(evernoteConf)).start();                       break;
     }
   }
 }

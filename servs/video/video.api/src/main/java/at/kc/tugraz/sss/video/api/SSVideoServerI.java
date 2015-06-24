@@ -23,9 +23,10 @@ package at.kc.tugraz.sss.video.api;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
 import at.kc.tugraz.sss.video.datatypes.SSVideo;
+import at.tugraz.sss.serv.SSServServerI;
 import java.util.List;
 
-public interface SSVideoServerI{
+public interface SSVideoServerI extends SSServServerI{
   
   public SSVideo                 videoUserGet            (final SSServPar parA) throws Exception;
   public List<SSVideo>           videosUserGet           (final SSServPar parA) throws Exception;

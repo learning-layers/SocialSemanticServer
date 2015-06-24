@@ -21,9 +21,10 @@
  package at.kc.tugraz.ss.serv.dataimport.api;
 
 import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServServerI;
 import java.util.Map;
 
-public interface SSDataImportServerI {
+public interface SSDataImportServerI extends SSServServerI{
   
   public Map<String, String> dataImportSSSUsersFromCSVFile            (final SSServPar parA) throws Exception;
   public Boolean             dataImportUserResourceTagFromWikipedia   (final SSServPar parA) throws Exception;

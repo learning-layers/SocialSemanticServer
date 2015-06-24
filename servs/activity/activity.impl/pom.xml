@@ -26,7 +26,7 @@
     
     <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>user.serv</artifactId>
+      <artifactId>user.api</artifactId>
       <version>${project.version}</version>
     </dependency>
     
@@ -44,10 +44,22 @@
     
     <dependency>
       <groupId>sss.servs</groupId>
+      <artifactId>category.api</artifactId>
+      <version>${project.version}</version>
+    </dependency> 
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
       <artifactId>activity.api</artifactId>
       <version>${project.version}</version>
     </dependency> 
-
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>circle.api</artifactId>
+      <version>${project.version}</version>
+    </dependency> 
+    
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
