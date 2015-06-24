@@ -60,12 +60,6 @@ public class SSRestMainV1 extends Application {
    
     ResourceConfig resourceConfig;
     
-    resourceConfig = new ResourceConfig(SSAdapterRESTFileUpload.class);
-    resourceConfig.register(MultiPartFeature.class);
-    
-    resourceConfig = new ResourceConfig(SSAdapterRESTFileReplace.class);
-    resourceConfig.register(MultiPartFeature.class);
-    
     SSAdapterRestConf.instSet (SSFileU.dirCatalinaBase() + SSVocConf.dirNameConf + "sss.adapter.rest.v1.conf.yaml");
     
     SSFileExtE.init    ();
@@ -83,10 +77,6 @@ public class SSRestMainV1 extends Application {
     
     classes.add(MultiPartFeature.class);
     classes.add(SSAdapterRest.class);
-    classes.add(SSAdapterRESTFile.class);
-    classes.add(SSAdapterRESTFileDownload.class);
-    classes.add(SSAdapterRESTFileUpload.class);
-    classes.add(SSAdapterRESTFileReplace.class);
 
     return classes;
   }

@@ -63,7 +63,7 @@ public class SSOCDImpl extends SSServImplWithDBA implements SSOCDClientI, SSOCDS
     //SSServCallerU.checkKey(parA);
     final SSOCDCreateGraphPar par    = (SSOCDCreateGraphPar) parA.getFromJSON(SSOCDCreateGraphPar.class);
     String response = ocdCreateGraph(par);
-    sSCon.writeRetFullToClient(response, parA.op);
+    //sSCon.writeRetFullToClient(response, parA.op);
   }
 
   @Override
@@ -75,7 +75,7 @@ public class SSOCDImpl extends SSServImplWithDBA implements SSOCDClientI, SSOCDS
   public void ocdGetGraphs(SSSocketCon sSCon, SSServPar parA) throws Exception {
     final SSOCDGetGraphsPar par = (SSOCDGetGraphsPar) parA.getFromJSON(SSOCDGetGraphsPar.class);
     String response = ocdGetGraphs(par);
-    sSCon.writeRetFullToClient(response, parA.op);
+    //sSCon.writeRetFullToClient(response, parA.op);
   }
   
   @Override
@@ -87,7 +87,7 @@ public class SSOCDImpl extends SSServImplWithDBA implements SSOCDClientI, SSOCDS
   public void ocdGetGraph(SSSocketCon sSCon, SSServPar parA) throws Exception {
     final SSOCDGetGraphPar par = (SSOCDGetGraphPar) parA.getFromJSON(SSOCDGetGraphPar.class);
     String response = ocdGetGraph(par);
-    sSCon.writeRetFullToClient(response, parA.op);
+    //sSCon.writeRetFullToClient(response, parA.op);
   }
 
   @Override
@@ -99,7 +99,7 @@ public class SSOCDImpl extends SSServImplWithDBA implements SSOCDClientI, SSOCDS
   public void ocdDeleteGraph(SSSocketCon sSCon, SSServPar parA) throws Exception {
     final SSOCDDeleteGraphPar par = (SSOCDDeleteGraphPar) parA.getFromJSON(SSOCDDeleteGraphPar.class);
     String response = ocdDeleteGraph(par);
-    sSCon.writeRetFullToClient(response, parA.op);
+    //sSCon.writeRetFullToClient(response, parA.op);
   }
   
   @Override
@@ -113,7 +113,7 @@ public class SSOCDImpl extends SSServImplWithDBA implements SSOCDClientI, SSOCDS
     //SSServCallerU.checkKey(parA);
     final SSOCDCreateCoverPar par = (SSOCDCreateCoverPar) parA.getFromJSON(SSOCDCreateCoverPar.class);
     String response = ocdCreateCover(par);
-    sSCon.writeRetFullToClient(response, parA.op);
+    //sSCon.writeRetFullToClient(response, parA.op);
   }
   
   @Override

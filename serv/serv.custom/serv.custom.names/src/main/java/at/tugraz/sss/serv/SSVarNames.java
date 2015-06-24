@@ -21,10 +21,10 @@
 package at.tugraz.sss.serv;
 
 public class SSVarNames{
-   
   
   private SSVarNames(){}
 
+  public static final String version                                        = "version";
   public static final String code                                           = "code";
   public static final String errClass                                       = "errClass";
   public static final String realm                                          = "realm";

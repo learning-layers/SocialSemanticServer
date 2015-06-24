@@ -261,6 +261,7 @@ public class SSSocketCon{
   public void writeRetFullToClient(
     final SSServRetI    result) throws Exception{
   
+    //TODO fix when to send JSON LD Context back to client 
 //    if(sendJSONLD){
 //      ret.put(SSJSONLDU.context, SSJSONLDU.jsonLDContext(result.jsonLDDesc()));
 //    }
@@ -268,16 +269,16 @@ public class SSSocketCon{
     writeMsgFullToClient(prepRetFullToClient(result, result.op));
   }
   
-  public void writeRetFullToClient(
-    final Object    result, 
-    final SSServOpE op) throws Exception{
-  
-//    if(sendJSONLD){
-//      ret.put(SSJSONLDU.context, SSJSONLDU.jsonLDContext(result.jsonLDDesc()));
-//    }
-    
-    writeMsgFullToClient(prepRetFullToClient(result, op));
-  }
+//  public void writeRetFullToClient(
+//    final Object    result, 
+//    final SSServOpE op) throws Exception{
+//  
+////    if(sendJSONLD){
+////      ret.put(SSJSONLDU.context, SSJSONLDU.jsonLDContext(result.jsonLDDesc()));
+////    }
+//    
+//    writeMsgFullToClient(prepRetFullToClient(result, op));
+//  }
   
   public void writeErrorFullToClient(
     final List<? extends Exception> errors, 

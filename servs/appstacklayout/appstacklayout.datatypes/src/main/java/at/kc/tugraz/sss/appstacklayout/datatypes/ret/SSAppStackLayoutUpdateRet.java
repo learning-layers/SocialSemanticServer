@@ -32,6 +32,20 @@ public class SSAppStackLayoutUpdateRet extends SSServRetI{
   
   public SSUri stack = null;
   
+  public String getStack() {
+    return SSStrU.removeTrailingSlash(stack);
+  }
+  
+  @Override
+  public Map<String, Object> jsonLDDesc(){
+    
+    final Map<String, Object> ld         = new HashMap<>();
+    
+    ld.put(SSVarNames.stack, SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
+    
+    return ld;
+  }
+  
   public static SSAppStackLayoutUpdateRet get(
     final SSUri    stack,
     final SSServOpE  op){
@@ -46,21 +60,5 @@ public class SSAppStackLayoutUpdateRet extends SSServRetI{
     super(op);
     
     this.stack = stack;
-  }
-  
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    
-    final Map<String, Object> ld         = new HashMap<>();
-    
-    ld.put(SSVarNames.stack, SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
-    
-    return ld;
-  }
-  
-  /* json getters */
-  
-  public String getStack() {
-    return SSStrU.removeTrailingSlash(stack);
   }
 }

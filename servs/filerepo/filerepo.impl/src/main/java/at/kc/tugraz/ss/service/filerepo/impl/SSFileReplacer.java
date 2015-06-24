@@ -26,12 +26,10 @@ import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSSocketCon;
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
-import at.tugraz.sss.serv.SSServPar;
-
 import at.tugraz.sss.serv.SSServImplStartA;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.filerepo.conf.SSFileRepoConf;
-import at.kc.tugraz.ss.service.filerepo.datatypes.SSFileRepoFileAccessProperty;
+import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileIDFromURIPar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileReplacePar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileReplaceRet;
 import at.kc.tugraz.ss.service.filerepo.impl.fct.SSFileServCaller;
@@ -40,32 +38,28 @@ import com.googlecode.sardine.SardineFactory;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.util.Map;
 
 public class SSFileReplacer extends SSServImplStartA{
   
-  private final Map<String, SSFileRepoFileAccessProperty> fileAccessProperties;
   private FileOutputStream                                fileOutputStream  = null;
   private FileInputStream                                 fileInputStream   = null;
   private String                                          fileId            = null;
   private byte[]                                          fileChunk         = null;
   private SSFileReplacePar                                par               = null;
-  private SSSocketCon                                     sSCon             = null;
   private String                                          localWorkPath     = null;
+  private SSFilerepoImpl                                  servImpl          = null;
   
   public SSFileReplacer(
     final SSFileRepoConf                            fileRepoConf,
-    final SSSocketCon                               sSCon,
-    final SSServPar                                 par,
-    final Map<String, SSFileRepoFileAccessProperty> fileAccessProperties) throws Exception{
+    final SSFileReplacePar                          par, 
+    final SSFilerepoImpl                            servImpl) throws Exception{
     
     super(fileRepoConf, null);
     
-    this.fileAccessProperties = fileAccessProperties;
-    this.sSCon                = sSCon;
-    this.par                  = new SSFileReplacePar(par);
+    this.par                  = par;
+    this.servImpl             = servImpl;
     this.localWorkPath        = SSCoreConf.instGet().getSss().getLocalWorkPath();
-    this.fileId               = SSServCaller.fileIDFromURI               (this.par.user, this.par.file);
+    this.fileId               = servImpl.fileIDFromURI(new SSFileIDFromURIPar(null, null, par.user, par.file));
     this.fileOutputStream     = SSFileU.openOrCreateFileWithPathForWrite (localWorkPath + fileId);
   }
   
@@ -75,11 +69,11 @@ public class SSFileReplacer extends SSServImplStartA{
     try{
       
       //check whether WebSocket connections need this:
-      sSCon.writeRetFullToClient(new SSFileReplaceRet(par.file, par.user, par.op), par.op);
+      par.sSCon.writeRetFullToClient(new SSFileReplaceRet(par.file, par.user));
       
       while(true){
         
-        fileChunk = sSCon.readFileChunkFromClient();
+        fileChunk = par.sSCon.readFileChunkFromClient();
         
         if(fileChunk.length != 0){
           
@@ -92,9 +86,9 @@ public class SSFileReplacer extends SSServImplStartA{
         
         fileOutputStream.close();
         
-        synchronized(fileAccessProperties){
+//        synchronized(fileAccessProperties){
           
-          if(SSServCaller.fileCanWrite(par.user, par.file).canWrite){
+//          if(SSServCaller.fileCanWrite(par.user, par.file).canWrite){
             
             switch(((SSFileRepoConf)conf).fileRepoType){
               case fileSys: moveFileToLocalRepo();  break;
@@ -102,18 +96,18 @@ public class SSFileReplacer extends SSServImplStartA{
               case i5Cloud: uploadFileToI5Cloud();  break;
             }
             
-            SSServCaller.fileRemoveReaderOrWriter(par.user, par.file, true, true);
+//            SSServCaller.fileRemoveReaderOrWriter(par.user, par.file, true, true);
             
             SSFileServCaller.replaceFileContentsInSolr(
               par.user, 
               fileId,  
               true);
-          }
-        }
+//          }
+//        }
         
         removeFileFromLocalWorkFolder();
         
-        sSCon.writeRetFullToClient(new SSFileReplaceRet(par.file, par.user, par.op), par.op);
+        par.sSCon.writeRetFullToClient(new SSFileReplaceRet(par.file, par.user));
         return;
       }
     }catch(Exception error1){
@@ -121,7 +115,7 @@ public class SSFileReplacer extends SSServImplStartA{
       SSServErrReg.regErr(error1);
       
       try{
-        sSCon.writeErrorFullToClient(SSServErrReg.getServiceImplErrors(), par.op);
+        par.sSCon.writeErrorFullToClient(SSServErrReg.getServiceImplErrors(), par.op);
       }catch(Exception error2){
         SSServErrReg.regErr(error2);
       }

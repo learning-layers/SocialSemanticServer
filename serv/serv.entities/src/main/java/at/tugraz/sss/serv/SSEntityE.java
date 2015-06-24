@@ -89,6 +89,11 @@ public enum SSEntityE implements SSJSONLDPropI{
   //FAVORITES ("_favorites"),
   //EVENTS    ("_events"),
     
+  @Override
+  public Object jsonLDDesc(){
+    return SSVarNames.xsd + SSStrU.colon + SSStrU.valueString;
+  }
+  
   public static List<SSEntityE> get(final List<String> values) throws Exception{
   
     final List<SSEntityE> result = new ArrayList<>();
@@ -229,10 +234,5 @@ public enum SSEntityE implements SSJSONLDPropI{
     }
     
     return SSStrU.equals(SSEntityE.user.toString(), resourceType.toString());
-  }
-  
-  @Override
-  public Object jsonLDDesc(){
-    return SSVarNames.xsd + SSStrU.colon + SSStrU.valueString;
   }
 }

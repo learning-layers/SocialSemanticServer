@@ -25,6 +25,11 @@ import java.util.List;
 
 public class SSLabel extends SSEntityA{
 
+  @Override
+  public Object jsonLDDesc() {
+    return SSVarNames.xsd + SSStrU.colon + SSStrU.valueString;
+  }
+  
   public static SSLabel get(final String label) throws Exception{
     
     if(label == null){
@@ -60,10 +65,5 @@ public class SSLabel extends SSEntityA{
   
   protected SSLabel(final String string) throws Exception{
     super(string);
-  }
-  
-  @Override
-  public Object jsonLDDesc() {
-    return SSVarNames.xsd + SSStrU.colon + SSStrU.valueString;
   }
 }

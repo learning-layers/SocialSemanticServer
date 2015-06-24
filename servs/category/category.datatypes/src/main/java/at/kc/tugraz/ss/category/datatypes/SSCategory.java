@@ -21,7 +21,6 @@
 package at.kc.tugraz.ss.category.datatypes;
 
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
@@ -57,6 +56,11 @@ public class SSCategory extends SSEntity{
   public String getCategoryLabel(){
     return SSStrU.toStr(categoryLabel);
   }
+  
+  @Override
+  public Object jsonLDDesc() {
+    throw new UnsupportedOperationException();
+  } 
   
   public static SSCategory get(
     final SSUri            id       ,
@@ -147,19 +151,6 @@ public class SSCategory extends SSEntity{
     
     return categorysPerEntity;
   }
-  
-  @Override
-  public Object jsonLDDesc() {
-  
-    final Map<String, Object> ld = (Map<String, Object>)super.jsonLDDesc();
-    
-    ld.put(SSVarNames.entity,     SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarNames.user,       SSVarNames.sss + SSStrU.colon + SSUri.class.getName());    
-    ld.put(SSVarNames.space,      SSVarNames.sss + SSStrU.colon + SSSpaceE.class.getName());
-    ld.put(SSVarNames.label,      SSVarNames.sss + SSStrU.colon + SSCategoryLabel.class.getName());
-    
-    return ld;
-  } 
 }
 
 

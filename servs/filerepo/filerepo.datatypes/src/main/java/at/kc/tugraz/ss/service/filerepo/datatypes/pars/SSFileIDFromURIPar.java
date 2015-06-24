@@ -3,7 +3,7 @@
 * http://www.learning-layers.eu
 * Development is partly funded by the FP7 Programme of the European Commission under
 * Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+* Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
 * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,26 +20,33 @@
 */
 package at.kc.tugraz.ss.service.filerepo.datatypes.pars;
 
-import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSStrU;
 
 public class SSFileIDFromURIPar extends SSServPar{
   
-  public SSUri   file = null;
+  public SSUri file = null;
+
+  public String getFile(){
+    return SSStrU.removeTrailingSlash(file);
+  }
+
+  public void setFile(final String file) throws Exception{
+    this.file = SSUri.get(file);
+  }
   
-  public SSFileIDFromURIPar(SSServPar par) throws Exception{
-    
-    super(par);
-    
-    try{
+  public SSFileIDFromURIPar(){}
+  
+  public SSFileIDFromURIPar(
+    final SSServOpE     op,
+    final String        key,
+    final SSUri         user, 
+    final SSUri         file){
+  
+    super(op, key, user);
       
-      if(pars != null){
-        file   = (SSUri) pars.get(SSVarNames.file);
-      }
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
+    this.file = file;
   }
 }

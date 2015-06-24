@@ -73,8 +73,6 @@ import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollUserWithEntriesRet;
 import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollsUserCouldSubscribeGetRet;
 import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollsUserEntityIsInGetRet;
 import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollsUserWithEntriesRet;
-import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileWritingMinutesLeftPar;
-import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileWritingMinutesLeftRet;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import javax.ws.rs.Consumes;
@@ -389,36 +387,6 @@ public class SSAdapterRest{
   public String entityDescGet(final SSEntityDescGetPar input){
     return SSRestMainV1.handleStandardJSONRESTCall(input, SSServOpE.entityDescGet);
   }
-  
-  @POST
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "fileWritingMinutesLeft")
-  @ApiOperation(
-    value = "retrieve number of minutes left user is allowed to replace / re-upload a file",
-    response = SSFileWritingMinutesLeftRet.class)
-  public String fileWritingMinutesLeft(final SSFileWritingMinutesLeftPar input){
-    return SSRestMainV1.handleStandardJSONRESTCall(input, SSServOpE.fileWritingMinutesLeft);
-  }
-  
-//  @GET
-//  @Consumes(MediaType.TEXT_HTML)
-//  @Produces(MediaType.APPLICATION_JSON)
-//  @Path    (SSStrU.slash + "jsonLD" + SSStrU.slash + SSStrU.curlyBracketOpen + SSVarU.type + SSStrU.curlyBracketClose)
-//  @ApiOperation(
-//    value = "retrieve the JSON-LD description for a datatype from within SSS",
-//    response = Object.class) 
-//  public String jsonLD(
-//    @ApiParam(
-//      value = "type",
-//      required = true)
-//    @PathParam(SSVarU.type) 
-//    final SSJSONLDPar input){
-//    
-//    String jsonRequ = "{\"op\":\"" + SSServOpE.jsonLD + "\",\"user\":\"" + "mailto:dummyUser" + "/\",\"type\":\"" + input.type + "\",\"key\":\"681V454J1P3H4W3B367BB79615U184N22356I3E\"}";
-//    
-//    return handleStandardJSONRESTCall(jsonRequ, SSServOpE.jsonLD);
-//  }
   
   @Deprecated
   @POST

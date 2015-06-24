@@ -26,22 +26,12 @@ import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSMimeTypeE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
-import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileSetReaderOrWriterPar;
-import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileUserFileWritesPar;
-import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileRemoveReaderOrWriterPar;
-import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileWritingMinutesLeftPar;
-import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileCanWritePar;
 import at.tugraz.sss.serv.SSSocketCon;
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import at.tugraz.sss.serv.SSEntityE;
 import at.kc.tugraz.ss.service.filerepo.api.*;
 import at.kc.tugraz.ss.service.filerepo.conf.*;
 import at.kc.tugraz.ss.service.filerepo.datatypes.*;
-import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileCanWriteRet;
-import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileGetEditingFilesRet;
-import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileWritingMinutesLeftRet;
-import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileRemoveReaderOrWriterRet;
-import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileSetReaderOrWriterRet;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSEntityDescriberI;
 import at.tugraz.sss.serv.SSEntityHandlerImplI;
@@ -49,8 +39,9 @@ import at.tugraz.sss.serv.caller.SSServCaller;
 import at.tugraz.sss.serv.caller.SSServCallerU;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileDownloadPar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileIDFromURIPar;
+import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileReplacePar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileThumbBase64GetPar;
-import at.kc.tugraz.ss.service.filerepo.impl.fct.SSFileFct;
+import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileUploadPar;
 import at.kc.tugraz.ss.service.filerepo.impl.fct.activity.SSFileRepoActivityFct;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
@@ -72,15 +63,10 @@ implements
   SSEntityHandlerImplI, 
   SSEntityDescriberI{
 
-  private final Map<String, SSFileRepoFileAccessProperty> fileAccessProps;
-
   public SSFilerepoImpl(
-    final SSFileRepoConf                           conf, 
-    final Map<String, SSFileRepoFileAccessProperty> fileAccessProps) throws Exception{
+    final SSFileRepoConf conf) throws Exception{
 
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
-
-    this.fileAccessProps = fileAccessProps;
   }
   
   @Override
@@ -153,8 +139,6 @@ implements
     final List<SSUri>  users,
     final SSEntityCircle        circle) throws Exception{
     
-    
-    
   }
   
   @Override
@@ -207,57 +191,51 @@ implements
   }
   
   @Override
-  public void fileCanWrite(SSSocketCon sSCon, SSServPar parA) throws Exception{
-
-    SSServCallerU.checkKey(parA);
-
-    sSCon.writeRetFullToClient(fileCanWrite(parA), parA.op);
-  }
-
-  @Override
-  public void fileSetReaderOrWriter(SSSocketCon sSCon, SSServPar parA) throws Exception{
-
-    SSServCallerU.checkKey(parA);
-
-    sSCon.writeRetFullToClient(fileSetReaderOrWriter(parA), parA.op);
-  }
-
-  @Override
-  public void fileRemoveReaderOrWriter(SSSocketCon sSCon, SSServPar parA) throws Exception{
-
-    SSServCallerU.checkKey(parA);
-
-    sSCon.writeRetFullToClient(fileRemoveReaderOrWriter(parA), parA.op);
-  }
-
-  @Override
-  public void fileWritingMinutesLeft(SSSocketCon sSCon, SSServPar parA) throws Exception{
-
-    SSServCallerU.checkKey(parA);
-
-    sSCon.writeRetFullToClient(fileWritingMinutesLeft(parA), parA.op);
-  }
-
-  @Override
-  public void fileUserFileWrites(SSSocketCon sSCon, SSServPar parA) throws Exception{
-
-    SSServCallerU.checkKey(parA);
-
-    sSCon.writeRetFullToClient(fileUserFileWrites(parA), parA.op);
-  }
-
-  @Override
   public void fileDownload(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
     
     SSServCallerU.checkKey(parA);
     
+    final SSFileDownloadPar par = (SSFileDownloadPar) parA.getFromJSON(SSFileDownloadPar.class);
+    
+    par.sSCon = sSCon;
+    
+    fileDownload(par);
+  }
+
+  @Override
+  public void fileDownload(final SSFileDownloadPar par) throws Exception{
+    
     try{
       
-      final SSFileDownloadPar par = new SSFileDownloadPar(parA);
-
       SSServCallerU.canUserReadEntity(par.user, par.file);
       
-      new Thread(new SSFileDownloader((SSFileRepoConf)conf, sSCon, par)).start();
+      new Thread(new SSFileDownloader((SSFileRepoConf)conf, par, this)).start();
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  @Override
+  public void fileReplace(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
+
+    SSServCallerU.checkKey(parA);
+
+    final SSFileReplacePar par = (SSFileReplacePar) parA.getFromJSON(SSFileReplacePar.class);
+    
+    par.sSCon = sSCon;
+    
+    fileReplace(par);
+  }
+  
+  @Override
+  public void fileReplace(final SSFileReplacePar par) throws Exception{
+    
+    try{
+      
+      SSServCallerU.canUserReadEntity(par.user, par.file);
+      
+      new Thread(new SSFileReplacer((SSFileRepoConf)conf, par, this)).start();
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -265,132 +243,56 @@ implements
   }
 
   @Override
-  public void fileReplace(SSSocketCon sSCon, SSServPar parA) throws Exception{
+  public void fileUpload(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
 
     SSServCallerU.checkKey(parA);
 
-    new Thread(new SSFileReplacer((SSFileRepoConf)conf, sSCon, parA, fileAccessProps)).start();
+    final SSFileUploadPar par = (SSFileUploadPar) parA.getFromJSON(SSFileUploadPar.class);
+    
+    par.sSCon = sSCon;
+    
+    fileUpload(par);
   }
-
+  
   @Override
-  public void fileUpload(SSSocketCon sSCon, SSServPar parA) throws Exception{
-
-    SSServCallerU.checkKey(parA);
-
-    new Thread(new SSFileUploader((SSFileRepoConf)conf, sSCon, parA)).start();
-  }
-
-  @Override
-  public void fileUpdateWritingMinutes(SSServPar parI){
-
-    synchronized(fileAccessProps){
-
-      for(SSFileRepoFileAccessProperty fileAccessProperty : fileAccessProps.values()){
-        fileAccessProperty.updateWritingMinutes();
-      }
+  public void fileUpload(final SSFileUploadPar par) throws Exception{
+    
+    try{
+      new Thread(new SSFileUploader((SSFileRepoConf) conf, par, this)).start();
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
     }
   }
 
   @Override
-  public SSFileGetEditingFilesRet fileUserFileWrites(SSServPar parI) throws Exception{
-
-    SSFileUserFileWritesPar par = new SSFileUserFileWritesPar(parI);
-    final SSFileGetEditingFilesRet result;
-    List<SSUri> fileUris = new ArrayList<>();
-
-    SSFileFct.getEditingFileUris(fileAccessProps, par.user, fileUris);
-
-    result = 
-      new SSFileGetEditingFilesRet(
-        par.op, 
-        SSStrU.distinctWithoutEmptyAndNull(fileUris), 
-        null);
-
-    for(String fileUri : result.files){
-      result.labels.add(SSStrU.toStr(SSServCaller.entityGet(SSUri.get(fileUri)).label));
-    }
-
-    return result;
-  }
-
-  @Override
-  public SSFileCanWriteRet fileCanWrite(SSServPar parI) throws Exception{
-
-    SSFileCanWritePar par = new SSFileCanWritePar(parI);
-    SSFileCanWriteRet result = new SSFileCanWriteRet(SSStrU.toStr(par.file), par.op);
-
-    result.canWrite = SSFileFct.canWrite(fileAccessProps, par.user, par.file);
-
-    return result;
-  }
-
-  @Override
-  public SSFileSetReaderOrWriterRet fileSetReaderOrWriter(SSServPar parI) throws Exception{
-
-    SSFileSetReaderOrWriterPar par = new SSFileSetReaderOrWriterPar(parI);
-
-    SSFileSetReaderOrWriterRet result = new SSFileSetReaderOrWriterRet(SSStrU.toStr(par.file), par.op);
-
-    result.worked = SSFileFct.setReaderOrWriter(fileAccessProps, par.user, par.file, par.write);
-
-    return result;
-  }
-
-  @Override
-  public SSFileRemoveReaderOrWriterRet fileRemoveReaderOrWriter(SSServPar parI) throws Exception{
-
-    SSFileRemoveReaderOrWriterPar par = new SSFileRemoveReaderOrWriterPar(parI);
-
-    SSFileRemoveReaderOrWriterRet result = new SSFileRemoveReaderOrWriterRet(SSStrU.toStr(par.file), par.op);
-
-    result.worked = SSFileFct.removeReaderOrWriter(fileAccessProps, par.user, par.file, par.write);
-
-    return result;
-  }
-
-  @Override
-  public SSFileWritingMinutesLeftRet fileWritingMinutesLeft(SSServPar parI) throws Exception{
-
-    SSFileWritingMinutesLeftPar par = new SSFileWritingMinutesLeftPar(parI);
-
-    SSFileWritingMinutesLeftRet result = new SSFileWritingMinutesLeftRet(par.file, par.op);
-
-    result.writingMinutesLeft = SSFileFct.getWritingMinutesLeft(fileAccessProps, par.user, par.file);
-
-    return result;
-  }
-
-  @Override
-  public String fileIDFromURI(final SSServPar parA) throws Exception{
-
-    final SSFileIDFromURIPar par = new SSFileIDFromURIPar(parA);
-    String result;
+  public String fileIDFromURI(final SSFileIDFromURIPar par) throws Exception{
 
     try{
-      result = SSStrU.removeTrailingSlash(SSStrU.toStr(par.file));
+      String result = SSStrU.removeTrailingSlash(SSStrU.toStr(par.file));
+      
       result = result.substring(result.lastIndexOf(SSStrU.slash) + 1);
 
       return result;
     }catch(Exception error){
-      SSServErrReg.regErrThrow(new Exception("given file uri not valid"));
+      SSServErrReg.regErrThrow(error);
       return null;
     }
   }
   
   @Override
-  public String fileThumbBase64Get(final SSServPar parA) throws Exception{
+  public String fileThumbBase64Get(final SSFileThumbBase64GetPar par) throws Exception{
     
     try{
       
-      final SSFileThumbBase64GetPar par = new SSFileThumbBase64GetPar(parA);
-      final List<SSUri>             thumbUris = SSServCaller.entityThumbsGet(par.user, par.file);
+      final List<SSUri>  thumbUris = SSServCaller.entityThumbsGet(par.user, par.file);
       
       if(thumbUris.isEmpty()){
         SSLogU.warn("thumb couldnt be retrieved from file " + par.file);
         return null;
       }
       
-      final String pngFilePath = SSCoreConf.instGet().getSss().getLocalWorkPath() + SSServCaller.fileIDFromURI (par.user, thumbUris.get(0));
+      final String pngFilePath = 
+        SSCoreConf.instGet().getSss().getLocalWorkPath() + fileIDFromURI(new SSFileIDFromURIPar(null, null, par.user, thumbUris.get(0)));
       
       return SSFileU.readPNGToBase64Str(pngFilePath);
       

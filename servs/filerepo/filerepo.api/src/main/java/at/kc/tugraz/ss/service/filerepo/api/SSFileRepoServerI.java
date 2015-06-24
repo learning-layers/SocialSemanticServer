@@ -3,7 +3,7 @@
 * http://www.learning-layers.eu
 * Development is partly funded by the FP7 Programme of the European Commission under
 * Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+* Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
 * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,59 +20,17 @@
 */
  package at.kc.tugraz.ss.service.filerepo.api;
 
-import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileCanWriteRet;
-import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileGetEditingFilesRet;
-import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileWritingMinutesLeftRet;
-import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileRemoveReaderOrWriterRet;
-import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileSetReaderOrWriterRet;
-import at.tugraz.sss.serv.SSServPar;
+import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileDownloadPar;
+import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileIDFromURIPar;
+import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileReplacePar;
+import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileThumbBase64GetPar;
+import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileUploadPar;
 
 public interface SSFileRepoServerI{
 
-  public void                                      fileUpdateWritingMinutes (final SSServPar parA) throws Exception;
-  public SSFileCanWriteRet                         fileCanWrite             (final SSServPar parA) throws Exception;
-  public SSFileSetReaderOrWriterRet                fileSetReaderOrWriter    (final SSServPar parA) throws Exception;
-  public SSFileRemoveReaderOrWriterRet             fileRemoveReaderOrWriter (final SSServPar parA) throws Exception;
-  public SSFileWritingMinutesLeftRet               fileWritingMinutesLeft   (final SSServPar parA) throws Exception;
-  public String                                    fileIDFromURI            (final SSServPar parA) throws Exception;
-  public SSFileGetEditingFilesRet                  fileUserFileWrites       (final SSServPar parA) throws Exception;
-  public String                                    fileThumbBase64Get       (final SSServPar parA) throws Exception;
+  public String     fileIDFromURI            (final SSFileIDFromURIPar      par) throws Exception;
+  public String     fileThumbBase64Get       (final SSFileThumbBase64GetPar par) throws Exception;
+  public void       fileDownload             (final SSFileDownloadPar       par) throws Exception;
+  public void       fileUpload               (final SSFileUploadPar         par) throws Exception;
+  public void       fileReplace              (final SSFileReplacePar        par) throws Exception;
 }
-
-
-//  public boolean uploadFile() throws Exception;
-  
-//  public void doUploadFile(
-//    String      fileName,
-//    int         fileLength,
-//    String      fileExtension,
-//    InputStream fileUploadInputStream) throws Exception;
-//  
-//  public byte[] downloadFile(
-//    SSUri file) throws Exception;
-
-//  public boolean isFileSharedForUser(
-//    SSUri        fileUri,
-//    List<SSColl> userCollections) throws Exception;
-//  
-//  public boolean isFilePrivateForUser(
-//    SSUri        fileUri,
-//    List<SSColl> userCollections) throws Exception;
-
-//  public RetObj downloadFileFromWeb(
-//    SSUri   fileUri) throws Exception;
-//  
-//  public boolean doDownloadFileFromWeb(
-//    RetObj       downloadFileFromWebObject,
-//    DataOutputStream           dataOutputStream) throws Exception;
-
-//  public SSFileUploadRetObj uploadFileFromWeb(
-//    String  fileExtension) throws Exception;
-//  
-//  public boolean doUploadFileFromWeb(
-//    SSFileUploadRetObj       uploadFileFromWebObject,
-//    DataInputStream          dataInputStream) throws Exception;
-  
-  //  public void fileUpload(
-//    Socket       clientSocket, 
-//    List<String> jsonPars) throws Exception;

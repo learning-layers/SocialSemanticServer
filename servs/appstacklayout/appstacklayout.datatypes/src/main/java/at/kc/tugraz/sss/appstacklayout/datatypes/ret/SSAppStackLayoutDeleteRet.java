@@ -31,6 +31,16 @@ public class SSAppStackLayoutDeleteRet extends SSServRetI{
   
   public Boolean worked = null;
   
+  @Override
+  public Map<String, Object> jsonLDDesc(){
+    
+    final Map<String, Object> ld         = new HashMap<>();
+    
+    ld.put(SSVarNames.worked, SSVarNames.xsd + SSStrU.colon + SSStrU.valueBoolean);
+    
+    return ld;
+  }
+  
   public static SSAppStackLayoutDeleteRet get(
     final Boolean  worked,
     final SSServOpE  op){
@@ -45,15 +55,5 @@ public class SSAppStackLayoutDeleteRet extends SSServRetI{
     super(op);
     
     this.worked = worked;
-  }
-  
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    
-    final Map<String, Object> ld         = new HashMap<>();
-    
-    ld.put(SSVarNames.worked, SSVarNames.xsd + SSStrU.colon + SSStrU.valueBoolean);
-    
-    return ld;
   }
 }

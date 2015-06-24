@@ -231,7 +231,7 @@ implements
     
     final SSRatingSetPar par = (SSRatingSetPar) parA.getFromJSON(SSRatingSetPar.class);
     
-    sSCon.writeRetFullToClient(SSRatingSetRet.get(ratingSet(par)), parA.op);
+    sSCon.writeRetFullToClient(SSRatingSetRet.get(ratingSet(par)));
     
 //    saveRatingUserSetUE(par);
     
@@ -351,7 +351,7 @@ implements
     
     final SSRatingGetPar par = (SSRatingGetPar) parA.getFromJSON(SSRatingGetPar.class);
     
-    sSCon.writeRetFullToClient(SSRatingGetRet.get(ratingGet(par)), parA.op);
+    sSCon.writeRetFullToClient(SSRatingGetRet.get(ratingGet(par)));
   }
   
   @Override
@@ -372,7 +372,7 @@ implements
     
     final SSRatingOverallGetPar par = (SSRatingOverallGetPar) parA.getFromJSON(SSRatingOverallGetPar.class);
     
-    sSCon.writeRetFullToClient(SSRatingOverallGetRet.get(ratingOverallGet(par)), parA.op);
+    sSCon.writeRetFullToClient(SSRatingOverallGetRet.get(ratingOverallGet(par)));
   }
   
   @Override

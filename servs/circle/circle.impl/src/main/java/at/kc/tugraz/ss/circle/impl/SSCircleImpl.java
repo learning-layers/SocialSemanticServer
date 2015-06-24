@@ -93,7 +93,7 @@ implements
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSCircleEntitiesRemoveRet.get(circleEntitiesRemove(parA), parA.op), parA.op);
+    sSCon.writeRetFullToClient(SSCircleEntitiesRemoveRet.get(circleEntitiesRemove(parA), parA.op));
   }
   
   @Override
@@ -150,7 +150,7 @@ implements
     
     final SSUri result = circleCreate(par);
     
-    sSCon.writeRetFullToClient(SSCircleCreateRet.get(result), parA.op);
+    sSCon.writeRetFullToClient(SSCircleCreateRet.get(result));
     
     SSCircleActivityFct.createCircle(par, result);
   }
@@ -247,7 +247,7 @@ implements
       
     final SSUri result = circleUsersAdd(par);
     
-    sSCon.writeRetFullToClient(SSCircleUsersAddRet.get(result), parA.op);
+    sSCon.writeRetFullToClient(SSCircleUsersAddRet.get(result));
     
     SSCircleActivityFct.addUsersToCircle(par);
   }
@@ -309,7 +309,7 @@ implements
 
     final SSCircleEntitiesAddPar par = (SSCircleEntitiesAddPar) parA.getFromJSON(SSCircleEntitiesAddPar.class);
     
-    sSCon.writeRetFullToClient(SSCircleEntitiesAddRet.get(circleEntitiesAdd(par)), parA.op);
+    sSCon.writeRetFullToClient(SSCircleEntitiesAddRet.get(circleEntitiesAdd(par)));
     
     SSCircleActivityFct.addEntitiesToCircle(par);
   }
@@ -435,7 +435,7 @@ implements
     
     final SSCircleGetPar par = (SSCircleGetPar) parA.getFromJSON(SSCircleGetPar.class);
     
-    sSCon.writeRetFullToClient(SSCircleGetRet.get(circleGet(par)), parA.op);
+    sSCon.writeRetFullToClient(SSCircleGetRet.get(circleGet(par)));
   }
   
   @Override
@@ -524,7 +524,7 @@ implements
 
    final SSCirclesGetPar par = (SSCirclesGetPar) parA.getFromJSON(SSCirclesGetPar.class);
    
-   sSCon.writeRetFullToClient(SSCirclesGetRet.get(circlesGet(par)), parA.op);
+   sSCon.writeRetFullToClient(SSCirclesGetRet.get(circlesGet(par)));
   }
   
   @Override
@@ -638,8 +638,7 @@ implements
     
     sSCon.writeRetFullToClient(
       SSCircleEntitiesGetRet.get(
-        circleEntitiesGet((SSCircleEntitiesGetPar) parA.getFromJSON(SSCircleEntitiesGetPar.class))), 
-      parA.op);
+        circleEntitiesGet((SSCircleEntitiesGetPar) parA.getFromJSON(SSCircleEntitiesGetPar.class))));
   }
   
   @Override
@@ -895,7 +894,7 @@ implements
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSCircleEntityPublicSetRet.get(circleEntityPublicSet(parA), parA.op), parA.op);
+    sSCon.writeRetFullToClient(SSCircleEntityPublicSetRet.get(circleEntityPublicSet(parA), parA.op));
     
     SSCircleActivityFct.setEntityPublic(new SSCircleEntityPublicSetPar(parA));
   }
@@ -949,7 +948,7 @@ implements
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSCircleEntityUsersGetRet.get(circleEntityUsersGet(parA), parA.op), parA.op);
+    sSCon.writeRetFullToClient(SSCircleEntityUsersGetRet.get(circleEntityUsersGet(parA), parA.op));
   }
   
   @Override
@@ -1020,7 +1019,7 @@ implements
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSCircleEntityShareRet.get(circleEntityShare(parA), parA.op), parA.op);
+    sSCon.writeRetFullToClient(SSCircleEntityShareRet.get(circleEntityShare(parA), parA.op));
   }
   
   @Override  

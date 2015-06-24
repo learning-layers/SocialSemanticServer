@@ -27,7 +27,6 @@ import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class SSApp extends SSEntity{
   
@@ -39,6 +38,43 @@ public class SSApp extends SSEntity{
   public SSUri           downloadIOS           = null;
   public SSUri           downloadAndroid       = null;
   public SSUri           fork                  = null;
+  
+  public String getDescriptionShort(){
+    return SSStrU.toStr(descriptionShort);
+  }
+
+  public String getDescriptionFunctional(){
+    return SSStrU.toStr(descriptionFunctional);
+  }
+
+  public String getDescriptionTechnical(){
+    return SSStrU.toStr(descriptionTechnical);
+  }
+
+  public String getDescriptionInstall(){
+    return SSStrU.toStr(descriptionInstall);
+  }
+
+  public List<String> getDownloads() throws Exception{
+    return SSStrU.removeTrailingSlash(downloads);
+  }
+
+  public String getDownloadIOS() throws Exception{
+    return SSStrU.removeTrailingSlash(downloadIOS);
+  }
+
+  public String getDownloadAndroid() throws Exception{
+    return  SSStrU.removeTrailingSlash(downloadAndroid);
+  }
+
+  public String getFork() throws Exception{
+    return  SSStrU.removeTrailingSlash(fork);
+  }
+  
+  @Override
+  public Object jsonLDDesc(){
+    throw new UnsupportedOperationException();
+  }
   
   public static SSApp get(
     final SSApp     app,
@@ -104,51 +140,4 @@ public class SSApp extends SSEntity{
     this.downloadAndroid                = downloadAndroid;
     this.fork                           = fork;
   }
-
-  @Override
-  public Object jsonLDDesc(){
-  
-    final Map<String, Object> ld = (Map<String, Object>) super.jsonLDDesc();
-    
-//    ld.put(SSVarU.user,         SSVarU.sss + SSStrU.colon + SSUri.class.getName());
-//    ld.put(SSVarU.entity,       SSVarU.sss + SSStrU.colon + SSUri.class.getName());
-//    ld.put(SSVarU.appType,      SSVarU.sss + SSStrU.colon + SSAppE.class.getName());
-//    ld.put(SSVarU.endTime,      SSVarU.xsd + SSStrU.colon + SSStrU.valueLong);
-//    ld.put(SSVarU.value,        SSVarU.xsd + SSStrU.colon + SSStrU.valueInteger);
-    
-    return ld;
-  }
-  
-  /* json getters */
-  public String getDescriptionShort(){
-    return SSStrU.toStr(descriptionShort);
-  }
-
-  public String getDescriptionFunctional(){
-    return SSStrU.toStr(descriptionFunctional);
-  }
-
-  public String getDescriptionTechnical(){
-    return SSStrU.toStr(descriptionTechnical);
-  }
-
-  public String getDescriptionInstall(){
-    return SSStrU.toStr(descriptionInstall);
-  }
-
-  public List<String> getDownloads() throws Exception{
-    return SSStrU.removeTrailingSlash(downloads);
-  }
-
-  public String getDownloadIOS() throws Exception{
-    return SSStrU.removeTrailingSlash(downloadIOS);
-  }
-
-  public String getDownloadAndroid() throws Exception{
-    return  SSStrU.removeTrailingSlash(downloadAndroid);
-  }
-
-  public String getFork() throws Exception{
-    return  SSStrU.removeTrailingSlash(fork);
-  }  
 }

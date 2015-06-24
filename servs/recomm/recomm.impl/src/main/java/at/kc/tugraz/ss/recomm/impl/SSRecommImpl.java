@@ -84,7 +84,7 @@ public class SSRecommImpl extends SSServImplWithDBA implements SSRecommClientI, 
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSRecommUsersRet.get(recommUsers(parA), parA.op), parA.op);
+    sSCon.writeRetFullToClient(SSRecommUsersRet.get(recommUsers(parA), parA.op));
   }
   
   @Override
@@ -151,7 +151,7 @@ public class SSRecommImpl extends SSServImplWithDBA implements SSRecommClientI, 
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSRecommTagsRet.get(recommTags(parA), parA.op), parA.op);
+    sSCon.writeRetFullToClient(SSRecommTagsRet.get(recommTags(parA), parA.op));
   }
   
   @Override
@@ -210,7 +210,7 @@ public class SSRecommImpl extends SSServImplWithDBA implements SSRecommClientI, 
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSRecommResourcesRet.get(recommResources(parA), parA.op), parA.op);
+    sSCon.writeRetFullToClient(SSRecommResourcesRet.get(recommResources(parA), parA.op));
   }
   
   @Override
@@ -312,7 +312,9 @@ public class SSRecommImpl extends SSServImplWithDBA implements SSRecommClientI, 
 
     SSServCallerU.checkKey(parA);
 
-    final SSRecommUpdateBulkPar par = new SSRecommUpdateBulkPar(parA);
+    final SSRecommUpdateBulkPar par = (SSRecommUpdateBulkPar) parA.getFromJSON(SSRecommUpdateBulkPar.class);
+    
+    par.sSCon = sSCon;
     
     SSRecommUserRealmKeeper.checkAddAndGetUserRealmEngine(
       par.user, 
@@ -320,15 +322,13 @@ public class SSRecommImpl extends SSServImplWithDBA implements SSRecommClientI, 
       true, 
       sqlFct);
     
-    new Thread(new SSRecommUpdateBulkUploader(recommConf, sSCon, par)).start();
+    new Thread(new SSRecommUpdateBulkUploader(recommConf, par)).start();
   }
   
   @Override
-  public void recommUpdateBulk(final SSServPar parA) throws Exception{
+  public void recommUpdateBulk(final SSRecommUpdateBulkPar par) throws Exception{
     
     try{
-      
-      final SSRecommUpdateBulkPar par = new SSRecommUpdateBulkPar(parA);
       
       dbSQL.startTrans(par.shouldCommit);
       
@@ -354,17 +354,17 @@ public class SSRecommImpl extends SSServImplWithDBA implements SSRecommClientI, 
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(dbSQL.rollBack(parA.shouldCommit)){
+        if(dbSQL.rollBack(par.shouldCommit)){
           
           SSServErrReg.reset();
           
-          recommUpdateBulk(parA);
+          recommUpdateBulk(par);
         }else{
           SSServErrReg.regErrThrow(error);
         }
       }
       
-      dbSQL.rollBack(parA.shouldCommit);
+      dbSQL.rollBack(par.shouldCommit);
       SSServErrReg.regErrThrow(error);
     }
   }
@@ -374,7 +374,7 @@ public class SSRecommImpl extends SSServImplWithDBA implements SSRecommClientI, 
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSRecommUpdateRet.get(recommUpdate(parA), parA.op), parA.op);
+    sSCon.writeRetFullToClient(SSRecommUpdateRet.get(recommUpdate(parA), parA.op));
   }
   
   @Override
@@ -432,7 +432,7 @@ public class SSRecommImpl extends SSServImplWithDBA implements SSRecommClientI, 
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSRecommUpdateRet.get(recommUpdateBulkEntities(parA), parA.op), parA.op);
+    sSCon.writeRetFullToClient(SSRecommUpdateRet.get(recommUpdateBulkEntities(parA), parA.op));
   }
   
   @Override

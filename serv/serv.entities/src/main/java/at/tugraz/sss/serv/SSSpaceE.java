@@ -29,6 +29,11 @@ public enum SSSpaceE implements SSJSONLDPropI{
   sharedSpace,
   privateSpace;
   
+  @Override
+  public Object jsonLDDesc() {
+    return SSVarNames.xsd + SSStrU.colon + SSStrU.valueString;
+  }
+  
   public static SSSpaceE get(final String space) throws Exception{
     
     try{
@@ -97,10 +102,5 @@ public enum SSSpaceE implements SSJSONLDPropI{
     final SSSpaceE space){
     
     return isShared(space) || isFollow(space);
-  }
-
-  @Override
-  public Object jsonLDDesc() {
-    return SSVarNames.xsd + SSStrU.colon + SSStrU.valueString;
   }
 }

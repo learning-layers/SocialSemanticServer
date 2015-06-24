@@ -180,7 +180,7 @@ implements
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSEntityUserCopyRet.get(entityUserCopy(parA), parA.op), parA.op);
+    sSCon.writeRetFullToClient(SSEntityUserCopyRet.get(entityUserCopy(parA), parA.op));
     
     SSEntityActivityFct.copyEntityForUsers(new SSEntityUserCopyPar(parA));
   }
@@ -244,7 +244,7 @@ implements
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSEntityUserUpdateRet.get(entityUserUpdate(parA), parA.op), parA.op);
+    sSCon.writeRetFullToClient(SSEntityUserUpdateRet.get(entityUserUpdate(parA), parA.op));
 
 //    SSEntityActivityFct.entityUpdate(new SSEntityUserUpdatePar(parA));
   }
@@ -387,7 +387,7 @@ implements
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSEntityDescsGetRet.get(entityDescsGet(parA), parA.op), parA.op);
+    sSCon.writeRetFullToClient(SSEntityDescsGetRet.get(entityDescsGet(parA), parA.op));
   }
   
   @Override
@@ -444,7 +444,7 @@ implements
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSEntityDescGetRet.get(entityDescGet(parA), parA.op), parA.op);
+    sSCon.writeRetFullToClient(SSEntityDescGetRet.get(entityDescGet(parA), parA.op));
   }
   
   @Override
@@ -486,7 +486,7 @@ implements
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSEntityUserGetRet.get(entityUserGet(parA), parA.op), parA.op);
+    sSCon.writeRetFullToClient(SSEntityUserGetRet.get(entityUserGet(parA), parA.op));
   }
   
   @Override
@@ -562,7 +562,7 @@ implements
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSEntityUserDirectlyAdjoinedEntitiesRemoveRet.get(entityUserDirectlyAdjoinedEntitiesRemove(parA), parA.op), parA.op);
+    sSCon.writeRetFullToClient(SSEntityUserDirectlyAdjoinedEntitiesRemoveRet.get(entityUserDirectlyAdjoinedEntitiesRemove(parA), parA.op));
   }
   
   @Override
@@ -759,7 +759,7 @@ implements
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSEntityUserAddRet.get(entityUserAdd(parA), parA.op), parA.op);
+    sSCon.writeRetFullToClient(SSEntityUserAddRet.get(entityUserAdd(parA), parA.op));
   }
   
   @Override

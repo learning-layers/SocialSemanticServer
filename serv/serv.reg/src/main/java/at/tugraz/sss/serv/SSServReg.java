@@ -353,7 +353,7 @@ public class SSServReg{
     opPars.put(SSVarNames.user, par.user);
     opPars.put(SSVarNames.serv, serv);
     
-    par.clientCon.writeRetFullToClient(callServViaServer(new SSServPar(SSServOpE.cloudPublishService, opPars)), par.op);
+    par.clientCon.writeRetFullToClient((SSServRetI) callServViaServer(new SSServPar(SSServOpE.cloudPublishService, opPars)));
   }
   
   private SSServContainerI getClientServAvailableOnNodes(

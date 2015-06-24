@@ -32,17 +32,6 @@ public class SSBroadcastServerTimeRet extends SSServRetI{
 
   public Long serverTime = -1L;
 
-  public static SSBroadcastServerTimeRet get(Long serverTime, SSServOpE op) {
-    return new SSBroadcastServerTimeRet(serverTime, op);
-  }
-
-  private SSBroadcastServerTimeRet(Long  serverTime, SSServOpE op) {
-    
-    super(op);
-    
-    this.serverTime      = serverTime;
-  }
-  
   @Override
   public Map<String, Object> jsonLDDesc() {
     
@@ -53,7 +42,14 @@ public class SSBroadcastServerTimeRet extends SSServRetI{
     return ld;
   }
   
-  public Long getServerTime() {
-    return serverTime;
+  public static SSBroadcastServerTimeRet get(Long serverTime, SSServOpE op) {
+    return new SSBroadcastServerTimeRet(serverTime, op);
+  }
+
+  private SSBroadcastServerTimeRet(Long  serverTime, SSServOpE op) {
+    
+    super(op);
+    
+    this.serverTime      = serverTime;
   }
 }

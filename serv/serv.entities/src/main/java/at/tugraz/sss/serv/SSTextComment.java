@@ -28,6 +28,11 @@ import java.util.List;
 
 public class SSTextComment extends SSEntityA {
 
+  @Override
+  public Object jsonLDDesc() {
+    return SSVarNames.xsd + SSStrU.colon + SSStrU.valueString;
+  }
+  
   public static SSTextComment get(final String comment) throws Exception{
     
     if(comment == null){
@@ -74,10 +79,5 @@ public class SSTextComment extends SSEntityA {
 
   private SSTextComment(final String value) throws Exception{
     super(value);
-  }
-  
-  @Override
-  public Object jsonLDDesc() {
-    return SSVarNames.xsd + SSStrU.colon + SSStrU.valueString;
   }
 }

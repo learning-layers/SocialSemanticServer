@@ -307,8 +307,7 @@ implements
     
     sSCon.writeRetFullToClient(
       SSTagEntitiesForTagsGetRet.get(
-        tagEntitiesForTagsGet((SSTagEntitiesForTagsGetPar) parA.getFromJSON(SSTagEntitiesForTagsGetPar.class))),
-      parA.op);
+        tagEntitiesForTagsGet((SSTagEntitiesForTagsGetPar) parA.getFromJSON(SSTagEntitiesForTagsGetPar.class))));
   }
   
   @Override
@@ -355,7 +354,7 @@ implements
     final SSTagAddPar par    = (SSTagAddPar) parA.getFromJSON(SSTagAddPar.class);
     final SSUri       tagUri = tagAdd(par);
     
-    sSCon.writeRetFullToClient(SSTagAddRet.get(tagUri), parA.op);
+    sSCon.writeRetFullToClient(SSTagAddRet.get(tagUri));
     
     SSTagActivityFct.addTag(par, tagUri);
   }
@@ -511,8 +510,7 @@ implements
     
     sSCon.writeRetFullToClient(
       SSTagEditRet.get(
-        tagEdit((SSTagEditPar) parA.getFromJSON(SSTagEditPar.class))),
-      parA.op);
+        tagEdit((SSTagEditPar) parA.getFromJSON(SSTagEditPar.class))));
   }
   
   @Override
@@ -612,8 +610,7 @@ implements
     
     sSCon.writeRetFullToClient(
       SSTagsRemoveRet.get(
-        tagsRemove(par)),
-      parA.op);
+        tagsRemove(par)));
     
     SSTagActivityFct.removeTags(par);
   }
@@ -739,8 +736,7 @@ implements
     
     sSCon.writeRetFullToClient(
       SSTagFrequsGetRet.get(
-        tagFrequsGet((SSTagFrequsGetPar) parA.getFromJSON(SSTagFrequsGetPar.class))),
-      parA.op);
+        tagFrequsGet((SSTagFrequsGetPar) parA.getFromJSON(SSTagFrequsGetPar.class))));
   }
   
   @Override
@@ -852,8 +848,7 @@ implements
     
     sSCon.writeRetFullToClient(
       SSTagsGetRet.get(
-        tagsGet((SSTagsGetPar) parA.getFromJSON(SSTagsGetPar.class))),
-      parA.op);
+        tagsGet((SSTagsGetPar) parA.getFromJSON(SSTagsGetPar.class))));
   }
   
   @Override

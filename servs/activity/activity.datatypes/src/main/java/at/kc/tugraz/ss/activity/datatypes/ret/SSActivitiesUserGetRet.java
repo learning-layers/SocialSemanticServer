@@ -24,7 +24,6 @@ import at.tugraz.sss.serv.SSServOpE;
 import at.kc.tugraz.ss.activity.datatypes.SSActivity;
 import at.tugraz.sss.serv.SSServRetI;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -33,6 +32,11 @@ public class SSActivitiesUserGetRet extends SSServRetI{
   public List<SSActivity> activities = new ArrayList<>();
   public Long             queryTime  = null;
 
+  @Override
+  public Map<String, Object> jsonLDDesc(){
+    throw new UnsupportedOperationException();
+  }
+  
   public static SSActivitiesUserGetRet get(
     final List<SSActivity> activities, 
     final Long             queryTime, 
@@ -53,25 +57,5 @@ public class SSActivitiesUserGetRet extends SSServRetI{
     }
     
     this.queryTime = queryTime;
-  }
-
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    
-    final Map<String, Object> ld              = new HashMap<>();
-//    final Map<String, Object> activitiesObj   = new HashMap<>();
-//    
-//    activitiesObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSActivity.class.getName());
-//    activitiesObj.put(SSJSONLDU.container, SSJSONLDU.set);
-//    
-//    ld.put(SSVarU.activities, activitiesObj);
-    
-    return ld;
-  }
-  
-  /* json getters */
-  
-  public List<SSActivity> getActivities() {
-    return activities;
   }
 }

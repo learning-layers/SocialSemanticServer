@@ -22,9 +22,6 @@ package at.tugraz.sss.serv;
 
 public enum SSServOpE{
   
-  //deprecated
-  fileExtGet,
-  
   //eval
   evalLog,
   
@@ -258,15 +255,9 @@ public enum SSServOpE{
   lomExtractFromDir                                   ,
   
   //file
-  fileUserFileWrites                                  ,
   fileUpload                                          ,
-  fileUpdateWritingMinutes                            ,
-  fileSetReaderOrWriter                               ,
   fileReplace                                         ,
-  fileRemoveReaderOrWriter                            ,
-  fileWritingMinutesLeft                              ,
   fileDownload                                        ,
-  fileCanWrite                                        ,
   fileIDFromURI                                       ,
   fileThumbBase64Get,
   

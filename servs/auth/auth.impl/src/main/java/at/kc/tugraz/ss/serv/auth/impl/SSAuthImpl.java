@@ -76,7 +76,7 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
   
   @Override
   public void authCheckCred(SSSocketCon sSCon, SSServPar parA) throws Exception {
-    sSCon.writeRetFullToClient(authCheckCred(parA), parA.op);
+    sSCon.writeRetFullToClient(authCheckCred(parA));
   }
   
   /* SSAuthServServerI */

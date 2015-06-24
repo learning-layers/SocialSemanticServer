@@ -35,6 +35,20 @@ public class SSVideosUserGetRet extends SSServRetI{
   
   public List<SSVideo> videos = new ArrayList<>();
   
+  @Override
+  public Map<String, Object> jsonLDDesc(){
+    
+    final Map<String, Object> ld           = new HashMap<>();
+    final Map<String, Object> videosObj    = new HashMap<>();
+    
+    videosObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSVideo.class.getName());
+    videosObj.put(SSJSONLDU.container, SSJSONLDU.set);
+    
+    ld.put(SSVarNames.videos, videosObj);
+    
+    return ld;
+  }
+  
   public static SSVideosUserGetRet get(
     final List<SSVideo>    videos,
     final SSServOpE          op){
@@ -51,19 +65,5 @@ public class SSVideosUserGetRet extends SSServRetI{
     if(videos != null){
       this.videos.addAll(videos);
     }
-  }
-  
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    
-    final Map<String, Object> ld           = new HashMap<>();
-    final Map<String, Object> videosObj    = new HashMap<>();
-    
-    videosObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSVideo.class.getName());
-    videosObj.put(SSJSONLDU.container, SSJSONLDU.set);
-    
-    ld.put(SSVarNames.videos, videosObj);
-    
-    return ld;
   }
 }

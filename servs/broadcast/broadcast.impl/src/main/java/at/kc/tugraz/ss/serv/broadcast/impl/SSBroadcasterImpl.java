@@ -55,7 +55,7 @@ public class SSBroadcasterImpl extends SSServImplWithDBA implements SSBroadcaste
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSBroadcastAddRet.get(broadcastAdd(parA), parA.op), parA.op);
+    sSCon.writeRetFullToClient(SSBroadcastAddRet.get(broadcastAdd(parA), parA.op));
   }
 
   @Override
@@ -63,7 +63,7 @@ public class SSBroadcasterImpl extends SSServImplWithDBA implements SSBroadcaste
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSBroadcastsGetRet.get(broadcastsGet(parA), parA.op), parA.op);
+    sSCon.writeRetFullToClient(SSBroadcastsGetRet.get(broadcastsGet(parA), parA.op));
   }
 
   @Override
@@ -71,7 +71,7 @@ public class SSBroadcasterImpl extends SSServImplWithDBA implements SSBroadcaste
 
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSBroadcastServerTimeRet.get(broadcastServerTime(parA), parA.op), parA.op);
+    sSCon.writeRetFullToClient(SSBroadcastServerTimeRet.get(broadcastServerTime(parA), parA.op));
   }
   
   @Override

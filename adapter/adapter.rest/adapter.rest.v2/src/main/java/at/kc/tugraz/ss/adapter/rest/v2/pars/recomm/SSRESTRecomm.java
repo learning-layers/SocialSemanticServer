@@ -20,10 +20,9 @@
 */
 package at.kc.tugraz.ss.adapter.rest.v2.pars.recomm;
 
-import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.serv.SSSocketU;
-import at.tugraz.sss.serv.SSVarNames;
 import at.kc.tugraz.ss.adapter.rest.v2.SSRESTObject;
+import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSVarNames;
 import at.kc.tugraz.ss.adapter.rest.v2.SSRestMainV2;
 import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommResourcesPar;
 import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommTagsPar;
@@ -54,7 +53,6 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.glassfish.jersey.media.multipart.FormDataParam;
-import at.tugraz.sss.serv.SSErrE;
 
 @Path("/recomm")
 @Api( value = "/recomm")
@@ -115,14 +113,12 @@ public class SSRESTRecomm{
     @ApiParam(
       value = "data file containing: user1;entity1;;tag1,tag2;cat1,cat2;", 
       required = true)
-    @FormDataParam("file") 
-      final InputStream file){ 
-      
+    @FormDataParam("file")
+    final InputStream file){
+    
     final SSRecommUpdateBulkPar par;
-    SSRESTObject                restObj = null;
-    byte[]                      bytes  = new byte[SSSocketU.socketTranmissionSize];
-    int                         read;
-
+    final SSRESTObject          restObj;
+    
     try{
       
       par =
@@ -130,70 +126,16 @@ public class SSRESTRecomm{
           SSServOpE.recommUpdateBulk,
           null,
           null,
-          realm);
+          realm, 
+          null); //sSCon
       
-      restObj =
-        SSRestMainV2.handleRequest(
-          headers,
-          par,
-          true,  //keepSSSConnectionOpen
-          true); //getKeyFromHeaders
-      
-      if(restObj.response.getStatus() != 200){
-        return restObj.response;
-      }
-      
-      try{
-      
-        while ((read = file.read(bytes)) != -1) {
-          restObj.sssCon.writeFileChunkToSS   (bytes, read);
-        }
-
-        restObj.sssCon.writeFileChunkToSS(new byte[0], -1);
-      }catch(Exception error){
-        
-        restObj.response =
-          Response.status(500).entity(
-            SSRestMainV2.getJSONStrForError(
-              SSErrE.sssWriteFailed)).build();
-      }
-      
-      try{
-        restObj.sssResponseMessage = restObj.sssCon.readMsgFullFromSS ();
-        restObj.response           = Response.status(200).entity(restObj.sssResponseMessage).build();
-        
-      }catch(Exception error){
-        
-        restObj.response =
-          Response.status(500).entity(
-            SSRestMainV2.getJSONStrForError(
-              SSErrE.sssReadFailed)).build();
-      }
-      
-      return restObj.response;
+      restObj = new SSRESTObject(par);
       
     }catch(Exception error){
-      
-      if(restObj != null){
-      
-        restObj.response =
-          Response.status(500).entity(
-            SSRestMainV2.getJSONStrForError(
-              SSErrE.restAdapterInternalError)).build();
-        
-        return restObj.response;
-      }else{
-        return Response.serverError().build();
-      }
-    }finally{
-
-      if(
-        restObj        != null &&
-        restObj.sssCon != null){
-        
-        restObj.sssCon.closeCon();
-      }
+      return Response.status(422).build();
     }
+    
+    return SSRestMainV2.handleFileUploadRequest(headers, restObj, file).response;
   }
   
   @PUT

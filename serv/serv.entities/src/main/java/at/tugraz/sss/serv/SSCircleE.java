@@ -15,15 +15,6 @@
  */
 package at.tugraz.sss.serv;
 
-import at.tugraz.sss.serv.SSJSONLDPropI;
-import at.tugraz.sss.serv.SSJSONLDPropI;
-import at.tugraz.sss.serv.SSJSONLDPropI;
-import at.tugraz.sss.serv.SSObjU;
-import at.tugraz.sss.serv.SSObjU;
-import at.tugraz.sss.serv.SSObjU;
-import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSStrU;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,6 +26,11 @@ public enum SSCircleE implements SSJSONLDPropI{
   org,
   clust,
   pub;
+  
+@Override
+  public Object jsonLDDesc(){
+    return SSVarNames.xsd + SSStrU.colon + SSStrU.valueString;
+  }
   
   public static List<SSCircleE> get(final List<String> values) throws Exception{
     
@@ -90,9 +86,4 @@ public enum SSCircleE implements SSJSONLDPropI{
   }
   
   private SSCircleE(){}
-  
-  @Override
-  public Object jsonLDDesc(){
-    return SSStrU.valueString;
-  }
 }

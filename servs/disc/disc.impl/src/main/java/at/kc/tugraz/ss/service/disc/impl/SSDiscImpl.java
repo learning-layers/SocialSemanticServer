@@ -396,7 +396,7 @@ public class SSDiscImpl
 
     SSDiscActivityFct.discEntryAdd(par, ret);
 
-    sSCon.writeRetFullToClient(ret, parA.op);
+    sSCon.writeRetFullToClient(ret);
   }
 
   @Override
@@ -535,7 +535,7 @@ public class SSDiscImpl
 
     final SSDiscsAllGetPar par = (SSDiscsAllGetPar) parA.getFromJSON(SSDiscsAllGetPar.class);
 
-    sSCon.writeRetFullToClient(SSDiscsAllGetRet.get(discsAllGet(par)), parA.op);
+    sSCon.writeRetFullToClient(SSDiscsAllGetRet.get(discsAllGet(par)));
   }
 
   @Override
@@ -581,7 +581,7 @@ public class SSDiscImpl
 
     final SSDiscWithEntriesGetPar par = (SSDiscWithEntriesGetPar) parA.getFromJSON(SSDiscWithEntriesGetPar.class);
 
-    sSCon.writeRetFullToClient(SSDiscWithEntriesRet.get(discWithEntriesGet(par)), parA.op);
+    sSCon.writeRetFullToClient(SSDiscWithEntriesRet.get(discWithEntriesGet(par)));
   }
 
   @Override
@@ -638,7 +638,7 @@ public class SSDiscImpl
 
     final SSDiscRemovePar par = (SSDiscRemovePar) parA.getFromJSON(SSDiscRemovePar.class);
 
-    sSCon.writeRetFullToClient(SSDiscRemoveRet.get(discRemove(par)), parA.op);
+    sSCon.writeRetFullToClient(SSDiscRemoveRet.get(discRemove(par)));
 
 //    SSDiscActivityFct.removeDisc(new SSDiscUserRemovePar(parA));
   }
@@ -700,7 +700,7 @@ public class SSDiscImpl
 
     final SSDiscURIsForTargetGetPar par = (SSDiscURIsForTargetGetPar) parA.getFromJSON(SSDiscURIsForTargetGetPar.class);
 
-    sSCon.writeRetFullToClient(SSDiscURIsForTargetGetRet.get(discURIsForTargetGet(par)), parA.op);
+    sSCon.writeRetFullToClient(SSDiscURIsForTargetGetRet.get(discURIsForTargetGet(par)));
   }
 
   @Override

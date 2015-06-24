@@ -55,10 +55,10 @@ public class SSRESTEntities {
     value = "retrieve entity information for given ID or encoded URI",
     response = SSEntityUserGetRet.class)
   public Response entityGet(
-    @Context
-      HttpHeaders headers,
-    @PathParam (SSVarNames.entity)
-      String entity){
+    @Context  
+      final HttpHeaders headers,
+    @PathParam(SSVarNames.entity) 
+      final String entity){
     
     final SSEntityUserGetPar par;
     

@@ -26,12 +26,20 @@ import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class SSAppStackLayout extends SSEntity{
   
   public SSUri            app         = null;
   public List<SSAppTile>  tiles       = new ArrayList<>();
+  
+  public String getApp(){
+    return SSStrU.removeTrailingSlash(app);
+  }
+  
+  @Override
+  public Object jsonLDDesc(){
+    throw new UnsupportedOperationException();
+  }
   
   public static SSAppStackLayout get(
     final SSAppStackLayout     appStackLayout,
@@ -76,24 +84,5 @@ public class SSAppStackLayout extends SSEntity{
     if(tiles != null){
       this.tiles.addAll(tiles);
     }
-  }
-
-  @Override
-  public Object jsonLDDesc(){
-  
-    final Map<String, Object> ld = (Map<String, Object>) super.jsonLDDesc();
-    
-//    ld.put(SSVarU.user,         SSVarU.sss + SSStrU.colon + SSUri.class.getName());
-//    ld.put(SSVarU.entity,       SSVarU.sss + SSStrU.colon + SSUri.class.getName());
-//    ld.put(SSVarU.appType,      SSVarU.sss + SSStrU.colon + SSAppE.class.getName());
-//    ld.put(SSVarU.endTime,      SSVarU.xsd + SSStrU.colon + SSStrU.valueLong);
-//    ld.put(SSVarU.value,        SSVarU.xsd + SSStrU.colon + SSStrU.valueInteger);
-    
-    return ld;
-  }
-  
-  /* json getters */
-  public String getApp(){
-    return SSStrU.removeTrailingSlash(app);
   }
 }

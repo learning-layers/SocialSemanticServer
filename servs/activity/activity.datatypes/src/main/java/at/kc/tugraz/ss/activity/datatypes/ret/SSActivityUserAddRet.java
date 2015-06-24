@@ -32,6 +32,20 @@ public class SSActivityUserAddRet extends SSServRetI{
  
   public SSUri activity = null;
 
+  public String getActivity() {
+    return SSStrU.removeTrailingSlash(activity);
+  }
+  
+  @Override
+  public Map<String, Object> jsonLDDesc(){
+    
+    final Map<String, Object> ld = new HashMap<>();
+    
+    ld.put(SSVarNames.activity,  SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
+    
+    return ld;
+  }
+  
   public static SSActivityUserAddRet get(
     final SSUri      activity, 
     final SSServOpE    op){
@@ -46,20 +60,5 @@ public class SSActivityUserAddRet extends SSServRetI{
     super(op);
     
     this.activity = activity;
-  }
-
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    
-    final Map<String, Object> ld = new HashMap<>();
-    
-    ld.put(SSVarNames.activity,  SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
-    
-    return ld;
-  }
-  
-  /* json getters */
-  public String getActivity() {
-    return SSStrU.removeTrailingSlash(activity);
   }
 }

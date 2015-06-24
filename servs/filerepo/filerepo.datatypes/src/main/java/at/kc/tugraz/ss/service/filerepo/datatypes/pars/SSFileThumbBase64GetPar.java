@@ -20,26 +20,31 @@
 */
 package at.kc.tugraz.ss.service.filerepo.datatypes.pars;
 
-import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSStrU;
 
 public class SSFileThumbBase64GetPar extends SSServPar{
   
-  public SSUri  file = null;
+  public SSUri file = null;
+
+  public String getFile(){
+    return SSStrU.removeTrailingSlash(file);
+  }
+
+  public void setFile(final String file) throws Exception{
+    this.file = SSUri.get(file);
+  }
   
-  public SSFileThumbBase64GetPar(SSServPar par) throws Exception{
+  public SSFileThumbBase64GetPar(
+    final SSServOpE     op,
+    final String        key,
+    final SSUri         user,
+    final SSUri         file){
     
-    super(par);
+    super(op, key, user);
     
-    try{
-      
-      if(pars != null){
-        file   = (SSUri) pars.get(SSVarNames.file);
-      }
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
+    this.file   = file;
   }
 }

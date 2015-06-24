@@ -30,20 +30,17 @@ import java.util.Map;
 
 public class SSFileReplaceRet extends SSServRetI{
   
-  public  SSUri         file;
-  public  SSUri         user;
+  public  SSUri         file = null;
+  public  SSUri         user = null;
 
-  public SSFileReplaceRet(
-    final SSUri            uri, 
-    final SSUri            user, 
-    final SSServOpE          op){
-    
-    super(op);
-    
-    this.file           = uri;
-    this.user          = user;
+  public String getFile() throws Exception{
+    return SSStrU.removeTrailingSlash(file);
   }
 
+  public String getUser() throws Exception{
+    return SSStrU.removeTrailingSlash(user);
+  }
+  
   @Override
   public Map<String, Object> jsonLDDesc(){
     
@@ -55,12 +52,13 @@ public class SSFileReplaceRet extends SSServRetI{
     return ld;
   }
   
-  /* json getters */
-  public String getFile() throws Exception{
-    return SSStrU.removeTrailingSlash(file);
-  }
-
-  public String getUser() throws Exception{
-    return SSStrU.removeTrailingSlash(user);
+  public SSFileReplaceRet(
+    final SSUri            uri, 
+    final SSUri            user){
+    
+    super(SSServOpE.fileReplace);
+    
+    this.file           = uri;
+    this.user          = user;
   }
 }
