@@ -3,7 +3,7 @@
 * http://www.learning-layers.eu
 * Development is partly funded by the FP7 Programme of the European Commission under
 * Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
+* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
 * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,28 +25,47 @@ import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 
-public class SSLearnEpVersionGetTimelineStatePar extends SSServPar{
+public class SSLearnEpVersionEntityAddPar extends SSServPar{
   
-  public SSUri  learnEpVersion = null;
-
+  public SSUri    learnEpVersion = null;
+  public SSUri    entity         = null;
+  public Float    x              = null;
+  public Float    y              = null;
+  
   public String getLearnEpVersion(){
     return SSStrU.removeTrailingSlash(learnEpVersion);
   }
-
-  public void setLearnEpVersion(final String learnEpVersion) throws Exception{
+  
+  public void setLearnEpVersion(String learnEpVersion) throws Exception{
     this.learnEpVersion = SSUri.get(learnEpVersion);
   }
   
-  public SSLearnEpVersionGetTimelineStatePar(){}
+  public String getEntity(){
+    return SSStrU.removeTrailingSlash(entity);
+  }
   
-  public SSLearnEpVersionGetTimelineStatePar(
-    final SSServOpE     op,
-    final String        key,
-    final SSUri         user,
-    final SSUri         learnEpVersion){
+  public void setEntity(String entity) throws Exception{
+    this.entity = SSUri.get(entity);
+  }
+  
+  public SSLearnEpVersionEntityAddPar(){}
+  
+  public SSLearnEpVersionEntityAddPar(
+    final SSServOpE  op,
+    final String     key,
+    final SSUri      user,
+    final SSUri      learnEpVersion,
+    final SSUri      entity, 
+    final Float      x, 
+    final Float      y,
+    final Boolean    shouldCommit){
     
     super(op, key, user);
     
-    this.learnEpVersion   = learnEpVersion;
+    this.learnEpVersion  = learnEpVersion;
+    this.entity          = entity;
+    this.x               = x;
+    this.y               = y;
+    this.shouldCommit    = shouldCommit;
   }
 }

@@ -101,17 +101,17 @@ public class SSRESTRecomm{
     value = "add a file containing user, entity, tag, category combinations to be used for recommendations",
     response = SSRecommUpdateBulkRet.class)
   public Response recommUpdateBulk(
-    @Context 
-      final HttpHeaders headers,
-
-    @ApiParam(
-      value = "recomm realm the user wants to query", 
-      required = true) 
-    @PathParam(SSVarNames.realm) 
-      final String realm,
+    @Context
+    final HttpHeaders headers,
     
     @ApiParam(
-      value = "data file containing: user1;entity1;;tag1,tag2;cat1,cat2;", 
+      value = "recomm realm the user wants to query",
+      required = true)
+    @PathParam(SSVarNames.realm)
+    final String realm,
+    
+    @ApiParam(
+      value = "data file containing: user1;entity1;;tag1,tag2;cat1,cat2;",
       required = true)
     @FormDataParam("file")
     final InputStream file){
@@ -512,7 +512,7 @@ public class SSRESTRecomm{
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    ("/resources")
+  @Path    ("/filtered/resources")
   @ApiOperation(
     value = "retrieve resource recommendations",
     response = SSRecommResourcesRet.class)
@@ -550,7 +550,7 @@ public class SSRESTRecomm{
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    ("/tags")
+  @Path    ("/filtered/tags")
   @ApiOperation(
     value = "retrieve tag recommendations based on user, entity, tag, time and category combinations",
     response = SSRecommTagsRet.class)

@@ -41,6 +41,7 @@ import java.io.InputStream;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -108,10 +109,10 @@ public class SSRESTFile{
     return SSRestMainV2.handleFileUploadRequest(headers, restObj, fileHandle).response;
   }
   
-  @POST
+  @PUT
   @Consumes(MediaType.MULTIPART_FORM_DATA)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path("/replace/{file}")
+  @Path("{file}/replace")
   @ApiOperation(
     value = "replace a file",
     response = SSFileReplaceRet.class)
@@ -157,7 +158,7 @@ public class SSRESTFile{
   @GET
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_OCTET_STREAM)
-  @Path("/download/{file}")
+  @Path("{file}/download")
   @ApiOperation(
     value = "download a file",
     response = byte.class)
@@ -197,6 +198,7 @@ public class SSRESTFile{
     return SSRestMainV2.handleFileDownloadRequest(headers, restObj, fileName, true).response;
   }
   
+  @Deprecated
   @GET
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_OCTET_STREAM)

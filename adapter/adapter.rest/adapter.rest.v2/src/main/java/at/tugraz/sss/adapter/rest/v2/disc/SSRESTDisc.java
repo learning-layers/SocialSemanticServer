@@ -55,7 +55,7 @@ public class SSRESTDisc{
   @Produces(MediaType.APPLICATION_JSON)
   @Path("")
   @ApiOperation(
-    value = "retrieve all discussions",
+    value = "retrieve discussions",
     response = SSDiscsAllGetRet.class)
   public Response discsGet(
     @Context 
@@ -85,7 +85,7 @@ public class SSRESTDisc{
   @ApiOperation(
     value = "add a textual comment/answer/opinion to a discussion [for given entity] or create a new discussion",
     response = SSDiscEntryAddRet.class)
-  public Response circleCreate(
+  public Response discEntryAdd(
     @Context 
       final HttpHeaders headers,
     
@@ -123,11 +123,11 @@ public class SSRESTDisc{
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path("/{disc}")
+  @Path("/filtered/{disc}")
   @ApiOperation(
     value = "retrieve a discussion with its entries",
     response = SSDiscWithEntriesRet.class)
-  public Response circleGet(
+  public Response discWithEntriesGet(
     @Context                    
       final HttpHeaders  headers,
     

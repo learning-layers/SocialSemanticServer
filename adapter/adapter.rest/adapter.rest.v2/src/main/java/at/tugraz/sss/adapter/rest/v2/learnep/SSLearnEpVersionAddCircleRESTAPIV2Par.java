@@ -3,7 +3,7 @@
  * http://www.learning-layers.eu
  * Development is partly funded by the FP7 Programme of the European Commission under
  * Grant Agreement FP7-ICT-318209.
- * Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+ * Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
  * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,56 +18,57 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package at.tugraz.sss.adapter.rest.v2.tag;
+package at.tugraz.sss.adapter.rest.v2.learnep;
 
-import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
-import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
-import at.tugraz.sss.serv.SSSpaceE;
-import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.SSLabel;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-@ApiModel(value = "tagAdd request parameter")
-public class SSTagAddRESTAPIV2Par{
+@ApiModel(value = "learnEpVersionCircleAdd request parameter")
+public class SSLearnEpVersionAddCircleRESTAPIV2Par{
   
   @ApiModelProperty(
-    required = true,
-    value = "label for the tag")
-  public SSTagLabel     label        = null;
+    required = true, 
+    value = "")
+  public SSLabel   label       = null;
   
   @XmlElement
   public void setLabel(final String label) throws Exception{
-    this.label = SSTagLabel.get(label);
+    this.label = SSLabel.get(label);
   }
   
   @ApiModelProperty(
-    required = true,
-    value = "entity to be tagged")
-  public SSUri     entity        = null;
-  
-  @XmlElement
-  public void setEntity(final String entity) throws Exception{
-    this.entity = SSUri.get(entity, SSVocConf.sssUri);
-  }
+    required = true, 
+    value = "")
+  public Float      xLabel            = null;
   
   @ApiModelProperty(
-    required = true,
-    value = "access restriction for the tag (i.e. privateSpace, sharedSpace)")
-  public SSSpaceE     space        = null;
+    required = true, 
+    value = "")
+  public Float      yLabel            = null;
   
-  @XmlElement
-  public void setSpace(final String space) throws Exception{
-    this.space = SSSpaceE.get(space);
-  }
-  
-  @XmlElement
   @ApiModelProperty(
-    required = false,
-    value = "timestamp for the tag assignment to be created at in milliseconds")
-  public Long         creationTime = null;
+    required = true, 
+    value = "")
+  public Float      xR                = null;
   
-  public SSTagAddRESTAPIV2Par(){}
+  @ApiModelProperty(
+    required = true, 
+    value = "")
+  public Float      yR                = null;
+  
+  @ApiModelProperty(
+    required = true, 
+    value = "")
+  public Float      xC                = null;
+  
+  @ApiModelProperty(
+    required = true, 
+    value = "")
+  public Float      yC                = null;
+  
+  public SSLearnEpVersionAddCircleRESTAPIV2Par(){}
 }

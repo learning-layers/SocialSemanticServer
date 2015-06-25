@@ -56,7 +56,7 @@ public class SSVideoAnnotationAddRESTAPIV2Par{
   
   @XmlElement
   public void setLabel(final String label) throws Exception{
-    try{ this.label = SSLabel.get(label); }catch(Exception error){}
+    this.label = SSLabel.get(label);
   }
   
   @ApiModelProperty(
@@ -66,7 +66,7 @@ public class SSVideoAnnotationAddRESTAPIV2Par{
   
   @XmlElement
   public void setDescription(final String description) throws Exception{
-    try{ this.description = SSTextComment.get(description); }catch(Exception error){}
+    this.description = SSTextComment.get(description);
   }
   
   public SSVideoAnnotationAddRESTAPIV2Par(){}

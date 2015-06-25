@@ -26,7 +26,6 @@ import at.kc.tugraz.ss.service.search.datatypes.SSSearchLabel;
 import at.kc.tugraz.ss.service.search.datatypes.SSSearchOpE;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
-import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -112,7 +111,7 @@ public class SSSearchRESTAPIV2Par{
   @ApiModelProperty( 
     required = false, 
     value = "certain descriptions to be searched for" )
-  public List<SSSearchLabel> descriptionsToSearchFor    = new ArrayList<>();
+  public List<SSSearchLabel> descriptionsToSearchFor    = null;
   
   @XmlElement
   public void setDescriptionsToSearchFor(final List<String> descriptionsToSearchFor) throws Exception{
@@ -122,7 +121,7 @@ public class SSSearchRESTAPIV2Par{
   @ApiModelProperty( 
     required = false,
     value = "list of entity types to be considered for search exclusively " )
-  public List<SSEntityE>     typesToSearchOnlyFor       = new ArrayList<>();
+  public List<SSEntityE>     typesToSearchOnlyFor       = null;
   
   @XmlElement
   public void setTypesToSearchOnlyFor(final List<String> typesToSearchOnlyFor) throws Exception{

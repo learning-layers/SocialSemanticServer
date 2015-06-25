@@ -24,36 +24,31 @@ import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServRetI;
-import at.tugraz.sss.serv.SSUri;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SSLearnEpVersionAddCircleRet extends SSServRetI{
+public class SSLearnEpVersionCircleUpdateRet extends SSServRetI{
 
-  public SSUri learnEpCircle = null;
+  public Boolean worked = null;
 
-  public String getLearnEpCircle() throws Exception {
-    return SSStrU.removeTrailingSlash(learnEpCircle);
-  }
-  
   @Override
   public Map<String, Object> jsonLDDesc(){
     
     Map<String, Object> ld = new HashMap<>();
     
-    ld.put(SSVarNames.learnEpCircle, SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarNames.worked, SSVarNames.xsd + SSStrU.colon + SSStrU.valueBoolean);
     
     return ld;
   }
   
-  public static SSLearnEpVersionAddCircleRet get(SSUri learnEpCircleUri){
-    return new SSLearnEpVersionAddCircleRet(learnEpCircleUri);
+  public static SSLearnEpVersionCircleUpdateRet get(Boolean worked){
+    return new SSLearnEpVersionCircleUpdateRet(worked);
   }
   
-  private SSLearnEpVersionAddCircleRet(SSUri learnEpCircleUri){
+  private SSLearnEpVersionCircleUpdateRet(Boolean worked){
     
-    super(SSServOpE.learnEpVersionAddCircle);
+    super(SSServOpE.learnEpVersionCircleUpdate);
     
-    this.learnEpCircle = learnEpCircleUri;
+    this.worked = worked;
   }
 }

@@ -28,7 +28,7 @@ import at.tugraz.sss.serv.SSUri;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SSLearnEpVersionAddEntityRet extends SSServRetI{
+public class SSLearnEpVersionEntityAddRet extends SSServRetI{
 
   public SSUri learnEpEntity = null;
   
@@ -46,13 +46,13 @@ public class SSLearnEpVersionAddEntityRet extends SSServRetI{
     return ld;
   }
 
-  public static SSLearnEpVersionAddEntityRet get(SSUri learnEpEntityUri){
-    return new SSLearnEpVersionAddEntityRet(learnEpEntityUri);
+  public static SSLearnEpVersionEntityAddRet get(SSUri learnEpEntityUri){
+    return new SSLearnEpVersionEntityAddRet(learnEpEntityUri);
   }
   
-  private SSLearnEpVersionAddEntityRet(SSUri learnEpEntityUri){
+  private SSLearnEpVersionEntityAddRet(SSUri learnEpEntityUri){
     
-    super(SSServOpE.learnEpVersionAddEntity);
+    super(SSServOpE.learnEpVersionEntityAdd);
     
     this.learnEpEntity = learnEpEntityUri;
   }

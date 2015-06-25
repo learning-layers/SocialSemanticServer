@@ -24,12 +24,12 @@ import at.kc.tugraz.ss.activity.api.SSActivityServerI;
 import at.tugraz.sss.serv.SSLogU;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
 import at.kc.tugraz.ss.activity.datatypes.par.SSActivityAddPar;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionAddCirclePar;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionAddEntityPar;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionRemoveCirclePar;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionRemoveEntityPar;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionUpdateCirclePar;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionUpdateEntityPar;
+import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionCircleAddPar;
+import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionEntityAddPar;
+import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionCircleRemovePar;
+import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionEntityRemovePar;
+import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionCircleUpdatePar;
+import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionEntityUpdatePar;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.caller.SSServCaller;
@@ -41,7 +41,7 @@ import at.tugraz.sss.serv.SSServReg;
 public class SSLearnEpActivityFct{
   
   public static void addCircleToLearnEpVersion(
-    final SSLearnEpVersionAddCirclePar par,
+    final SSLearnEpVersionCircleAddPar par,
     final SSUri                        circle,
     final SSUri                        learnEp) throws Exception{
     
@@ -73,7 +73,7 @@ public class SSLearnEpActivityFct{
   }
   
   public static void addEntityToLearnEpVersion(
-    final SSLearnEpVersionAddEntityPar par,
+    final SSLearnEpVersionEntityAddPar par,
     final SSUri                        learnEpEntity,
     final SSUri                        learnEp) throws Exception{
     
@@ -105,7 +105,7 @@ public class SSLearnEpActivityFct{
   }
   
   public static void removeLearnEpVersionCircle(
-    final SSLearnEpVersionRemoveCirclePar par,
+    final SSLearnEpVersionCircleRemovePar par,
     final SSUri                           learnEpVersion,
     final SSUri                           learnEp) throws Exception{
     
@@ -137,7 +137,7 @@ public class SSLearnEpActivityFct{
   }
   
   public static void removeLearnEpVersionEntity(
-    final SSLearnEpVersionRemoveEntityPar par,
+    final SSLearnEpVersionEntityRemovePar par,
     final SSUri                           learnEpVersion,
     final SSUri                           entity,
     final SSUri                           learnEp) throws Exception{
@@ -202,7 +202,7 @@ public class SSLearnEpActivityFct{
   }
   
   public static void handleLearnEpVersionUpdateEntity(
-    final SSLearnEpVersionUpdateEntityPar par,
+    final SSLearnEpVersionEntityUpdatePar par,
     final SSUri                           learnEpVersion,
     final SSUri                           learnEp) throws Exception{
     
@@ -255,7 +255,7 @@ public class SSLearnEpActivityFct{
   }
   
   public static void handleLearnEpVersionUpdateCircle(
-    final SSLearnEpVersionUpdateCirclePar par,
+    final SSLearnEpVersionCircleUpdatePar par,
     final SSUri                           learnEpVersion,
     final SSUri                           learnEp) throws Exception{
     

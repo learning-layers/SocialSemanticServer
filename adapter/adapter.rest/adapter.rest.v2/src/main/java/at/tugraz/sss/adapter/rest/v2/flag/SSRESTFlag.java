@@ -46,41 +46,7 @@ public class SSRESTFlag{
   @Produces(MediaType.APPLICATION_JSON)
   @Path("")
   @ApiOperation(
-    value = "retrieve flags set",
-    response = SSFlagsUserGetRet.class)
-  public Response flagsGetPOST(
-    @Context 
-      final HttpHeaders headers, 
-    
-    final SSFlagsGetRESTAPIV2Par input){
-    
-    final SSFlagsUserGetPar par;
-    
-    try{
-      
-      par =
-        new SSFlagsUserGetPar(
-          SSServOpE.flagsGet,
-          null,
-          null,  
-          input.entities,
-          input.types, 
-          input.startTime, 
-          input.endTime);
-      
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
-  }
-  
-  @POST
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  @Path("/entities")
-  @ApiOperation(
-    value = "retrieve flags set",
+    value = "set flags",
     response = SSFlagsUserSetRet.class)
   public Response flagsSet(
     @Context 
@@ -102,6 +68,40 @@ public class SSRESTFlag{
           input.value, 
           input.endTime, 
           true);
+      
+    }catch(Exception error){
+      return Response.status(422).build();
+    }
+    
+    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path("/filtered")
+  @ApiOperation(
+    value = "retrieve flags",
+    response = SSFlagsUserGetRet.class)
+  public Response flagsGetFiltered(
+    @Context 
+      final HttpHeaders headers, 
+    
+    final SSFlagsGetRESTAPIV2Par input){
+    
+    final SSFlagsUserGetPar par;
+    
+    try{
+      
+      par =
+        new SSFlagsUserGetPar(
+          SSServOpE.flagsGet,
+          null,
+          null,  
+          input.entities,
+          input.types, 
+          input.startTime, 
+          input.endTime);
       
     }catch(Exception error){
       return Response.status(422).build();

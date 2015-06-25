@@ -25,7 +25,6 @@ import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
 import com.wordnik.swagger.annotations.ApiModelProperty;
-import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 
@@ -36,55 +35,55 @@ public class SSActivityAddRESTAPIV2Par{
     value = "type")
   public SSActivityE            type             = null;
   
+  @XmlElement
+  public void setType(final String type) throws Exception{
+    this.type = SSActivityE.get(type);
+  }
+  
   @ApiModelProperty(
     required = true,
     value = "entity")
   public SSUri                  entity           = null;
   
-  @ApiModelProperty(
-    required = false,
-    value = "users")
-  public List<SSUri>            users            = new ArrayList<>();
+   @XmlElement
+  public void setEntity(final String entity) throws Exception{
+    this.entity = SSUri.get(entity, SSVocConf.sssUri);
+  }
   
   @ApiModelProperty(
     required = false,
+    value = "users")
+  public List<SSUri>            users            = null;
+  
+   @XmlElement
+  public void setUsers(final List<String> users) throws Exception{
+    this.users = SSUri.get(users, SSVocConf.sssUri);
+  }
+    
+  @ApiModelProperty(
+    required = false,
     value = "entities")
-  public List<SSUri>            entities         = new ArrayList<>();
+  public List<SSUri>            entities         = null;
+  
+  @XmlElement
+  public void setEntities(final List<String> entities) throws Exception{
+    this.entities = SSUri.get(entities, SSVocConf.sssUri);
+  }
   
   @ApiModelProperty(
     required = false,
     value = "comments")
-  public List<SSTextComment>    comments         = new ArrayList<>();
-  
-  @ApiModelProperty(
-    required = false,
-    value = "creationTime")
-  public Long                   creationTime     = null;
-  
-  @XmlElement
-  public void setType(final String type) throws Exception{
-    this.type = SSActivityE.get(type);
-  }
-
-  @XmlElement
-  public void setEntity(final String entity) throws Exception{
-    this.entity = SSUri.get(entity, SSVocConf.sssUri);
-  }
+  public List<SSTextComment>    comments         = null;
   
   @XmlElement
   public void setComments(final List<String> comments) throws Exception{
     this.comments = SSTextComment.get(comments);
   }
   
-  @XmlElement
-  public void setUsers(final List<String> users) throws Exception{
-    this.users = SSUri.get(users, SSVocConf.sssUri);
-  }
+  @ApiModelProperty(
+    required = false,
+    value = "creationTime")
+  public Long                   creationTime     = null;
   
-  @XmlElement
-  public void setEntities(final List<String> entities) throws Exception{
-    this.entities = SSUri.get(entities, SSVocConf.sssUri);
-  }
-
   public SSActivityAddRESTAPIV2Par(){}
 }

@@ -25,7 +25,7 @@ import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 
-public class SSLearnEpVersionSetTimelineStatePar extends SSServPar{
+public class SSLearnEpVersionTimelineStateSetPar extends SSServPar{
   
   public SSUri    learnEpVersion    = null;
   public Long     startTime         = null;
@@ -39,9 +39,9 @@ public class SSLearnEpVersionSetTimelineStatePar extends SSServPar{
     this.learnEpVersion = SSUri.get(learnEpVersion);
   }
   
-  public SSLearnEpVersionSetTimelineStatePar(){}
+  public SSLearnEpVersionTimelineStateSetPar(){}
   
-  public SSLearnEpVersionSetTimelineStatePar(
+  public SSLearnEpVersionTimelineStateSetPar(
     final SSServOpE     op,
     final String        key,
     final SSUri         user,

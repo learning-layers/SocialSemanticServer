@@ -25,14 +25,12 @@ import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleCreatePar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesAddPar;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesGetPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesRemovePar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleGetPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleUsersAddPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclesGetPar;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleCreateRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleEntitiesAddRet;
-import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleEntitiesGetRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleEntitiesRemoveRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleGetRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleUsersAddRet;
@@ -40,6 +38,7 @@ import at.kc.tugraz.ss.circle.datatypes.ret.SSCirclesGetRet;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.tugraz.sss.serv.SSStrU;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import javax.ws.rs.Consumes;
@@ -63,8 +62,8 @@ public class SSRESTCircle{
   @Produces(MediaType.APPLICATION_JSON)
   @Path("")
   @ApiOperation(
-    value = "retrieve circles the user can access",
-    response = SSCircleEntitiesGetRet.class)
+    value = "retrieve circles",
+    response = SSCirclesGetRet.class)
   public Response circlesGet(
     @Context 
       final HttpHeaders headers){
@@ -95,7 +94,7 @@ public class SSRESTCircle{
   @GET
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path("/users/{user}")
+  @Path("/users/{forUser}")
   @ApiOperation(
     value = "retrieve circles for a given user",
     response = SSCirclesGetRet.class)
@@ -103,8 +102,8 @@ public class SSRESTCircle{
     @Context                   
       final HttpHeaders headers,
     
-    @PathParam (SSVarNames.user)   
-      final String user){
+    @PathParam (SSVarNames.forUser)   
+      final String forUser){
     
     final SSCirclesGetPar par;
     
@@ -115,7 +114,7 @@ public class SSRESTCircle{
           SSServOpE.circlesGet,
           null, //user
           null, //key
-          SSUri.get(user, SSVocConf.sssUri), //forUser
+          SSUri.get(forUser, SSVocConf.sssUri), //forUser
           null, //entity
           SSEntityE.asListWithoutNullAndEmpty(), //entityTypesToIncludeOnly
           true,  //withUserRestriction
@@ -132,7 +131,7 @@ public class SSRESTCircle{
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path("/{circle}")
+  @Path("/filtered/{circle}")
   @ApiOperation(
     value = "retrieve a circle",
     response = SSCircleGetRet.class)
@@ -171,7 +170,7 @@ public class SSRESTCircle{
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path("/{circle}/users/{user}")
+  @Path("/filtered/{circle}/users/{forUser}")
   @ApiOperation(
     value = "retrieve a circle for a given user",
     response = SSCircleGetRet.class)
@@ -179,8 +178,8 @@ public class SSRESTCircle{
     @Context                    
       final HttpHeaders  headers,
     
-    @PathParam (SSVarNames.user)    
-      final String user,
+    @PathParam (SSVarNames.forUser)    
+      final String forUser,
     
     @PathParam (SSVarNames.circle)  
       final String circle, 
@@ -196,8 +195,8 @@ public class SSRESTCircle{
           SSServOpE.circleGet, //op
           null, //key
           null, //user
-          SSUri.get(circle, SSVocConf.sssUri), //circle
-          SSUri.get(user,   SSVocConf.sssUri), //forUser
+          SSUri.get(circle,    SSVocConf.sssUri), //circle
+          SSUri.get(forUser,   SSVocConf.sssUri), //forUser
           input.entityTypesToIncludeOnly, //entityTypesToIncludeOnly
           true, //withUserRestriction
           false, //withSystemCircles
@@ -210,42 +209,10 @@ public class SSRESTCircle{
     return SSRestMainV2.handleRequest(headers, par, false, true).response;
   }
   
-  @GET
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  @ApiOperation(
-    value = "retrieve information on entities the user can access",
-    response = SSCircleEntitiesGetRet.class)
-  @Path("/entities")
-  public Response entitiesGet(
-    @Context HttpHeaders headers){
-    
-    final SSCircleEntitiesGetPar par;
-    
-    try{
-      
-      par =
-        new SSCircleEntitiesGetPar(
-          SSServOpE.circleEntitiesGet,
-          null,  //key
-          null,  //user
-          null,  //forUser
-          SSEntityE.asListWithoutNullAndEmpty(), //types
-          true,  //withSystemCircles
-          true, //invokeEntityHandlers
-          true); //withUserRestriction
-      
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
-  }
-  
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    ("/{circle}/users")
+  @Path    ("/{circle}/users/{users}")
   @ApiOperation(
     value = "add given users to a circle",
     response = SSCircleUsersAddRet.class)
@@ -256,7 +223,8 @@ public class SSRESTCircle{
     @PathParam (SSVarNames.circle) 
       final String circle,
     
-    final SSCircleUsersAddRESTAPIV2Par input){
+    @PathParam (SSVarNames.users) 
+      final String users){
     
     final SSCircleUsersAddPar par;
     
@@ -267,7 +235,7 @@ public class SSRESTCircle{
           null,
           null,
           SSUri.get(circle, SSVocConf.sssUri), //circle
-          input.users,  //users
+          SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(users, SSStrU.comma), SSVocConf.sssUri),  //users
           true, //withUserRestriction
           true, //invokeEntityHandlers
           true); //shouldCommit
@@ -282,7 +250,7 @@ public class SSRESTCircle{
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    ("/{circle}/entities")
+  @Path    ("/{circle}/entities/{entitites}")
   @ApiOperation(
     value = "add given entities to a circle",
     response = SSCircleEntitiesAddRet.class)
@@ -293,7 +261,8 @@ public class SSRESTCircle{
     @PathParam (SSVarNames.circle) 
       final String circle,
     
-    final SSCircleEntitiesAddRESTAPIV2Par input){
+    @PathParam (SSVarNames.entities) 
+      final String entities){
     
     final SSCircleEntitiesAddPar par;
     
@@ -305,7 +274,7 @@ public class SSRESTCircle{
           null,
           null,
           SSUri.get(circle, SSVocConf.sssUri), //circle
-          input.entities, //entities
+          SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(entities, SSStrU.comma), SSVocConf.sssUri),  //entities
           true,  //withUserRestriction
           true,  //invokeEntityHandlers
           true); //shouldCommit
@@ -320,7 +289,7 @@ public class SSRESTCircle{
   @DELETE
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    ("/{circle}/entities")
+  @Path    ("/{circle}/entities/{entities}")
   @ApiOperation(
     value = "remove given entities from circle",
     response = SSCircleEntitiesRemoveRet.class)
@@ -331,7 +300,8 @@ public class SSRESTCircle{
     @PathParam(SSVarNames.circle) 
       final String circle,
     
-    final SSCircleEntitiesRemoveRESTAPIV2Par input){
+    @PathParam(SSVarNames.entities) 
+      final String entities){
     
     final SSCircleEntitiesRemovePar par;
     
@@ -343,7 +313,7 @@ public class SSRESTCircle{
           null,
           null,
           SSUri.get(circle, SSVocConf.sssUri), //circle
-          input.entities, //entities
+          SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(entities, SSStrU.comma), SSVocConf.sssUri),  //entities
           true, //withUserRestriction
           true); //shouldCommit
       

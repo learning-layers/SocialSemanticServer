@@ -3,7 +3,7 @@
 * http://www.learning-layers.eu
 * Development is partly funded by the FP7 Programme of the European Commission under
 * Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+* Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
 * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,38 +18,50 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret;
+package at.kc.tugraz.ss.circle.datatypes.ret;
 
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpTimelineState;
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarNames;
+import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSServRetI;
+import at.tugraz.sss.serv.SSJSONLDU;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-public class SSLearnEpVersionGetTimelineStateRet extends SSServRetI{
+public class SSEntitiesGetRet extends SSServRetI{
 
-  public SSLearnEpTimelineState learnEpTimelineState = null;
+  public List<SSEntity> entities = new ArrayList<>();
 
   @Override
   public Map<String, Object> jsonLDDesc(){
+        
+    final Map<String, Object> ld         = new HashMap<>();
+    final Map<String, Object> descsObj   = new HashMap<>();
     
-    Map<String, Object> ld = new HashMap<>();
+    descsObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSEntity.class.getName());
+    descsObj.put(SSJSONLDU.container, SSJSONLDU.set);
     
-    ld.put(SSVarNames.learnEpTimelineState, SSVarNames.sss + SSStrU.colon + SSLearnEpTimelineState.class.getName());
+    ld.put(SSVarNames.entities, descsObj);
     
     return ld;
   }
   
-  public static SSLearnEpVersionGetTimelineStateRet get(SSLearnEpTimelineState learnEpTimelineState){
-    return new SSLearnEpVersionGetTimelineStateRet(learnEpTimelineState);
+  public static SSEntitiesGetRet get(
+    final List<SSEntity> entities){
+    
+    return new SSEntitiesGetRet(entities);
   }
   
-  private SSLearnEpVersionGetTimelineStateRet(SSLearnEpTimelineState learnEpTimelineState){
+  private SSEntitiesGetRet(
+    final List<SSEntity> entities){
     
-    super(SSServOpE.learnEpVersionGetTimelineState);
+    super(SSServOpE.entitiesGet);
     
-    this.learnEpTimelineState = learnEpTimelineState;
+    if(entities != null){
+      this.entities.addAll(entities);
+    }
   }
 }

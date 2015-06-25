@@ -18,27 +18,37 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.tugraz.sss.adapter.rest.v2.entity;
+package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par;
 
-import at.tugraz.sss.serv.SSLabel;
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSStrU;
 
-@XmlRootElement
-@ApiModel(value = "entityLabelUpdate request parameter")
-public class SSEntityLabelUpdateRESTAPIV2Par{
+public class SSLearnEpVersionEntityRemovePar extends SSServPar{
   
-  @ApiModelProperty( 
-    required = true, 
-    value = "name / title for the entity")
-  public SSLabel            label         = null;
+  public SSUri  learnEpEntity = null;
 
-  @XmlElement
-  public void setLabel(final String label) throws Exception{
-    this.label = SSLabel.get(label);
+  public String getLearnEpEntity(){
+    return SSStrU.removeTrailingSlash(learnEpEntity);
   }
 
-  public SSEntityLabelUpdateRESTAPIV2Par(){}
+  public void setLearnEpEntity(final String learnEpEntity) throws Exception{
+    this.learnEpEntity = SSUri.get(learnEpEntity);
+  }
+  
+  public SSLearnEpVersionEntityRemovePar(){}
+  
+  public SSLearnEpVersionEntityRemovePar(
+    final SSServOpE     op,
+    final String        key,
+    final SSUri         user,
+    final SSUri         learnEpEntity,
+    final Boolean       shouldCommit){
+    
+    super(op, key, user);
+    
+    this.learnEpEntity   = learnEpEntity;
+    this.shouldCommit    = shouldCommit;
+  }
 }

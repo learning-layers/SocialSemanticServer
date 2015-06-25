@@ -42,7 +42,7 @@ public class SSRESTSearch{
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path("")
+  @Path("/filtered")
   @ApiOperation(
     value = "search for entities",
     response = SSSearchRet.class)

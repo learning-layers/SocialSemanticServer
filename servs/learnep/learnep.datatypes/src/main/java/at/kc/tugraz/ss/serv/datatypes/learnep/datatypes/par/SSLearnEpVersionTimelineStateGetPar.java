@@ -25,30 +25,28 @@ import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 
-public class SSLearnEpVersionRemoveCirclePar extends SSServPar{
+public class SSLearnEpVersionTimelineStateGetPar extends SSServPar{
   
-  public SSUri  learnEpCircle = null;
+  public SSUri  learnEpVersion = null;
 
-  public String getLearnEpCircle(){
-    return SSStrU.removeTrailingSlash(learnEpCircle);
+  public String getLearnEpVersion(){
+    return SSStrU.removeTrailingSlash(learnEpVersion);
   }
 
-  public void setLearnEpCircle(final String learnEpCircle) throws Exception{
-    this.learnEpCircle = SSUri.get(learnEpCircle);
+  public void setLearnEpVersion(final String learnEpVersion) throws Exception{
+    this.learnEpVersion = SSUri.get(learnEpVersion);
   }
   
-  public SSLearnEpVersionRemoveCirclePar(){}
+  public SSLearnEpVersionTimelineStateGetPar(){}
   
-  public SSLearnEpVersionRemoveCirclePar(
+  public SSLearnEpVersionTimelineStateGetPar(
     final SSServOpE     op,
     final String        key,
     final SSUri         user,
-    final SSUri         learnEpCircle,
-    final Boolean       shouldCommit){
+    final SSUri         learnEpVersion){
     
     super(op, key, user);
     
-    this.learnEpCircle   = learnEpCircle;
-    this.shouldCommit    = shouldCommit;
+    this.learnEpVersion   = learnEpVersion;
   }
 }

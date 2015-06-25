@@ -27,10 +27,10 @@ import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpCircle;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpEntity;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpVersion;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpCreatePar;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionAddCirclePar;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionAddEntityPar;
+import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionCircleAddPar;
+import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionEntityAddPar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionCreatePar;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionSetTimelineStatePar;
+import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionTimelineStateSetPar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.impl.SSLearnEpImpl;
 import at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.sql.SSLearnEpSQLFct;
 import at.tugraz.sss.serv.SSObjU;
@@ -89,8 +89,7 @@ public class SSLearnEpMiscFct{
             continue;
           }
            
-          serv.learnEpVersionAddCircle(
-            new SSLearnEpVersionAddCirclePar(
+          serv.learnEpVersionCircleAdd(new SSLearnEpVersionCircleAddPar(
               null,
               null,
               forUser,
@@ -125,8 +124,7 @@ public class SSLearnEpMiscFct{
               null,
               false));
           
-          serv.learnEpVersionAddEntity(
-            new SSLearnEpVersionAddEntityPar(
+          serv.learnEpVersionEntityAdd(new SSLearnEpVersionEntityAddPar(
               null, 
               null, 
               forUser, 
@@ -139,8 +137,7 @@ public class SSLearnEpMiscFct{
         
         if(version.learnEpTimelineState != null){
           
-          serv.learnEpVersionSetTimelineState(
-            new SSLearnEpVersionSetTimelineStatePar(
+          serv.learnEpVersionTimelineStateSet(new SSLearnEpVersionTimelineStateSetPar(
               null,
               null,
               forUser,

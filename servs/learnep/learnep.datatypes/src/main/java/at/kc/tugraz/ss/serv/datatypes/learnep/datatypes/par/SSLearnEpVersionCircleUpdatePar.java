@@ -26,7 +26,7 @@ import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 
-public class SSLearnEpVersionUpdateCirclePar extends SSServPar{
+public class SSLearnEpVersionCircleUpdatePar extends SSServPar{
   
   public SSUri         learnEpCircle     = null;
   public SSLabel       label             = null;
@@ -53,9 +53,9 @@ public class SSLearnEpVersionUpdateCirclePar extends SSServPar{
     this.label = SSLabel.get(label);
   }
   
-  public SSLearnEpVersionUpdateCirclePar(){}
+  public SSLearnEpVersionCircleUpdatePar(){}
   
-  public SSLearnEpVersionUpdateCirclePar(
+  public SSLearnEpVersionCircleUpdatePar(
     final SSServOpE     op,
     final String        key,
     final SSUri         user,

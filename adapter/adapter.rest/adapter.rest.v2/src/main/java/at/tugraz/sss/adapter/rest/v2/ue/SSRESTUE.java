@@ -54,11 +54,11 @@ public class SSRESTUE{
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path("")
+  @Path("/filtered")
   @ApiOperation(
     value = "retrieve user events for user, entity, time combination",
     response = SSUEsGetRet.class)
-  public Response uEsGetPOST(
+  public Response uEsGetFiltered(
     @Context 
       final HttpHeaders headers, 
     
@@ -121,7 +121,7 @@ public class SSRESTUE{
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path("/count")
+  @Path("/filtered/count")
   @ApiOperation(
     value = "retrieve the number of certain user events",
     response = SSUECountGetRet.class)
@@ -156,17 +156,14 @@ public class SSRESTUE{
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path("/{type}")
+  @Path("")
   @ApiOperation(
     value = "adds a usage-based trace, i.e. user event, for entity, user combination",
     response = SSUEAddRet.class)
   public Response uEAdd(
     @Context 
       final HttpHeaders headers, 
-    
-    @PathParam(SSVarNames.type) 
-      final String type, 
-    
+
     final SSUEAddRESTAPIV2Par input){
     
     final SSUEAddPar par;
@@ -179,7 +176,7 @@ public class SSRESTUE{
           null,
           null,  
           input.entity, 
-          SSUEE.get(type), 
+          input.type, 
           input.content, 
           true);
       

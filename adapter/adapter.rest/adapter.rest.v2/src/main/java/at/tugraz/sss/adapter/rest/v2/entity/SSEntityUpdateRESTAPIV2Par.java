@@ -24,6 +24,7 @@ import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.SSTextComment;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
+import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -37,8 +38,8 @@ public class SSEntityUpdateRESTAPIV2Par{
   public SSLabel            label         = null;
 
   @XmlElement
-  public void setLabel(final String label){
-    try{ this.label = SSLabel.get(label); }catch(Exception error){}
+  public void setLabel(final String label) throws Exception{
+     this.label = SSLabel.get(label); 
   }
 
   @XmlElement
@@ -48,9 +49,24 @@ public class SSEntityUpdateRESTAPIV2Par{
   public SSTextComment      description         = null;
   
   @XmlElement
-  public void setDescription(final String description){
-    try{ this.description = SSTextComment.get(description); }catch(Exception error){}
+  public void setDescription(final String description) throws Exception{
+    this.description = SSTextComment.get(description);
   }
+  
+  @ApiModelProperty(
+    required = false,
+    value = "comments to add to the entity")
+  public List<SSTextComment> comments = null;
+  
+  @XmlElement
+  public void setComments(final List<String> comments) throws Exception{
+    this.comments = SSTextComment.get(comments);
+  }
+  
+  @ApiModelProperty(
+    required = false,
+    value = "whether the user read the entity")
+  public Boolean read = null;
   
   public SSEntityUpdateRESTAPIV2Par(){}
 }

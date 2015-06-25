@@ -21,6 +21,7 @@
 package at.tugraz.sss.adapter.rest.v2.ue;
 
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.kc.tugraz.ss.service.userevent.datatypes.SSUEE;
 import at.tugraz.sss.serv.SSUri;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
@@ -30,6 +31,16 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @ApiModel(value = "ueAdd request parameter")
 public class SSUEAddRESTAPIV2Par{
+  
+  @ApiModelProperty(
+    required = true,
+    value = "type of the user event")
+  public SSUEE            type    = null;
+  
+  @XmlElement
+  public void setType(final String type) throws Exception{
+    this.type = SSUEE.get(type);
+  }
   
   @ApiModelProperty(
     required = true,

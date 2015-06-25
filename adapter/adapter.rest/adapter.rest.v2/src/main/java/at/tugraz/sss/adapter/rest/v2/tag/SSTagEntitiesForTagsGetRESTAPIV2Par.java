@@ -26,7 +26,6 @@ import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
-import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -48,7 +47,7 @@ public class SSTagEntitiesForTagsGetRESTAPIV2Par{
   @ApiModelProperty( 
     required = false, 
     value = "tag labels to consider for retrieving entities via tags")
-  public List<SSTagLabel>  labels    = new ArrayList<>();
+  public List<SSTagLabel>  labels    = null;
   
   @XmlElement
   public void setLabels(final List<String> labels) throws Exception{

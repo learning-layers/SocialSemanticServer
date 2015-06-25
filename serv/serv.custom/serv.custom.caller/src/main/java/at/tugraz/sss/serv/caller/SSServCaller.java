@@ -23,10 +23,6 @@ package at.tugraz.sss.serv.caller;
 import at.kc.tugraz.socialserver.service.broadcast.datatypes.SSBroadcast;
 import at.kc.tugraz.socialserver.service.broadcast.datatypes.enums.SSBroadcastEnum;
 import at.kc.tugraz.ss.like.datatypes.SSLikes;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEp;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpTimelineState;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpVersion;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpLockHoldRet;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteInfo;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.ret.SSAuthCheckCredRet;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
@@ -532,120 +528,6 @@ public class SSServCaller {
     SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.uEAddAtCreationTime, opPars));
   }
   
-  public static SSLearnEpVersion learnEpVersionGet(
-    final SSUri user, 
-    final SSUri learnEpVersion) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.user,              user);
-    opPars.put(SSVarNames.learnEpVersion,    learnEpVersion);
-    
-    return (SSLearnEpVersion) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.learnEpVersionGet, opPars));
-  }  
-  
-  public static void learnEpVersionUpdateCircle(
-    final SSUri      user,
-    final SSUri      learnEpCircle,
-    final SSLabel    label,
-    final Float      xLabel,
-    final Float      yLabel,
-    final Float      xR,
-    final Float      yR,
-    final Float      xC,
-    final Float      yC,
-    final Boolean    shouldCommit) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.shouldCommit,      shouldCommit);
-    opPars.put(SSVarNames.user,              user);
-    opPars.put(SSVarNames.learnEpCircle,     learnEpCircle);
-    opPars.put(SSVarNames.label,             label);
-    opPars.put(SSVarNames.xLabel,            xLabel);
-    opPars.put(SSVarNames.yLabel,            yLabel);
-    opPars.put(SSVarNames.xR,                xR);
-    opPars.put(SSVarNames.yR,                yR);
-    opPars.put(SSVarNames.xC,                xC);
-    opPars.put(SSVarNames.yC,                yC);
-    
-    SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.learnEpVersionUpdateCircle, opPars));
-  }
-  
-  public static void learnEpVersionUpdateEntity(
-    final SSUri   user,
-    final SSUri   learnEpEntity,
-    final SSUri   entity,
-    final Float   x,
-    final Float   y,
-    final Boolean shouldCommit) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.shouldCommit,      shouldCommit);
-    opPars.put(SSVarNames.user,              user);
-    opPars.put(SSVarNames.learnEpEntity,     learnEpEntity);
-    opPars.put(SSVarNames.entity,            entity);
-    opPars.put(SSVarNames.x,                 x);
-    opPars.put(SSVarNames.y,                 y);
-    
-    SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.learnEpVersionUpdateEntity, opPars));
-  }
-  
-  public static void learnEpVersionRemoveCircle(
-    final SSUri   user,
-    final SSUri   learnEpCircle,
-    final Boolean shouldCommit) throws Exception{
-    
-    final  Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.shouldCommit,      shouldCommit);
-    opPars.put(SSVarNames.user,              user);
-    opPars.put(SSVarNames.learnEpCircle,  learnEpCircle);
-    
-    SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.learnEpVersionRemoveCircle, opPars));
-  }
-  
-  public static void learnEpVersionRemoveEntity(
-    final SSUri   user,
-    final SSUri   learnEpEntity,
-    final Boolean shouldCommit) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.shouldCommit,      shouldCommit);
-    opPars.put(SSVarNames.user,              user);
-    opPars.put(SSVarNames.learnEpEntity,     learnEpEntity);
-    
-    SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.learnEpVersionRemoveEntity, opPars));
-  }
-  
-  public static List<SSLearnEp> learnEpsGet(
-    final SSUri user) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.user, user);
-    
-    return (List<SSLearnEp>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.learnEpsGet, opPars));
-  }
-  
-  public static List<SSLearnEpVersion> learnEpVersionsGet(
-    final SSUri user,
-    final SSUri learnEp) throws Exception{
-    
-    final Map<String, Object>     opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.user,    user);
-    opPars.put(SSVarNames.learnEp, learnEp);
-    
-    return (List<SSLearnEpVersion>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.learnEpVersionsGet, opPars));
-  }
-  
-  public static void broadcastUpdate() throws Exception{
-    SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.broadcastUpdate, new HashMap<>()));
-  } 
-  
   public static Boolean broadcastAdd(
     final SSUri           user,
     final SSUri           entity,
@@ -661,6 +543,10 @@ public class SSServCaller {
     
     return (Boolean) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.broadcastAdd, opPars));
   }
+  
+  public static void broadcastUpdate() throws Exception{
+    SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.broadcastUpdate, new HashMap<>()));
+  } 
   
   public static List<SSBroadcast> broadcastsGet(
     final SSUri           user) throws Exception{

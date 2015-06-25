@@ -24,11 +24,13 @@ import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleGetPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivEntityAddPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePubEntityAddPar;
+import at.kc.tugraz.ss.circle.datatypes.ret.SSEntitiesGetRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityClientI;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesForDescriptionsGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesForLabelsAndDescriptionsGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesForLabelsGetPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityAddPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityDescGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityDescsGetPar;
@@ -233,6 +235,60 @@ implements
       }
       
       dbSQL.rollBack(parA.shouldCommit);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public void entitiesGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
+    
+    SSServCallerU.checkKey(parA);
+    
+    final SSEntitiesGetPar par = (SSEntitiesGetPar) parA.getFromJSON(SSEntitiesGetPar.class);
+    
+    sSCon.writeRetFullToClient(SSEntitiesGetRet.get(entitiesGet(par)));
+  }
+  
+  @Override
+  public List<SSEntity> entitiesGet(final SSEntitiesGetPar par) throws Exception{
+    
+    //TODO to be handled via entity handler like service overarching call; now its done with the help of access restrictions (i.e., circles)
+    try{
+      final List<SSEntity> entities = new ArrayList<>();
+
+      if(par.withUserRestriction){
+        
+        if(par.forUser == null){
+          par.forUser = par.user;
+        }
+      }
+      
+      for(SSEntity entity : sqlFct.getAccessibleEntityURIs(par.forUser, true, par.types))
+        
+//      for(SSUri circle : sqlFct.getCircleURIsForUser(par.forUser, par.withSystemCircles)){
+        
+//        for(SSEntity entity : sqlFct.getEntitiesForCircle(circle, par.types)){
+        
+        //TODO whether try is needed, as getAccessibleEntityURIs should provide only entities which are accessible to the user
+        try{
+          entities.add(SSServCaller.entityUserGet(par.user, entity.id, par.forUser, false));
+        }catch(Exception error){
+          
+          if(SSServErrReg.containsErr(SSErrE.userNotAllowedToAccessEntity)){
+            SSServErrReg.reset();
+            continue;
+          }
+          
+          throw error;
+        }
+//        }
+////      }
+      
+      SSStrU.distinctWithoutNull2(entities);
+      
+      return entities;
+    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }

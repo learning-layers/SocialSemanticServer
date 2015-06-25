@@ -20,9 +20,11 @@
 */
 package at.tugraz.sss.adapter.rest.v2.system;
 
+import at.tugraz.sss.serv.SSServOpE;
 import com.wordnik.swagger.annotations.ApiModel;
 import javax.xml.bind.annotation.XmlRootElement;
 import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSUri;
 
 @XmlRootElement
 @ApiModel(value = "systemVersionGet request parameter")
@@ -30,7 +32,11 @@ public class SSSystemVersionGetPar extends SSServPar{
   
   public SSSystemVersionGetPar(){}
   
-  public SSSystemVersionGetPar(SSServPar par) throws Exception{
-    super(par);
+  public SSSystemVersionGetPar(
+    final SSServOpE     op,
+    final String        key,
+    final SSUri         user){
+    
+    super(op, key, user);
   }
 }

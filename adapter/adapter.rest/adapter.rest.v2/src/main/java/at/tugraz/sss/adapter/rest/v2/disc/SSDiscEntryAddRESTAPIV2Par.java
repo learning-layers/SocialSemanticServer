@@ -27,7 +27,6 @@ import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
-import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -59,7 +58,7 @@ public class SSDiscEntryAddRESTAPIV2Par{
   @ApiModelProperty(
     required = false,
     value = "entities to be attached either to corresponding discussion if new discussion to be added or to respective entry in the other case")
-  public List<SSUri>            entities       = new ArrayList<>();
+  public List<SSUri>            entities       = null;
   
   @XmlElement
   public void setEntities(final List<String> entities) throws Exception{
@@ -69,7 +68,7 @@ public class SSDiscEntryAddRESTAPIV2Par{
   @ApiModelProperty(
     required = false,
     value = "labels for the entities to be attached")
-  public List<SSLabel>            entityLabels       = new ArrayList<>();
+  public List<SSLabel>            entityLabels       = null;
   
   @XmlElement
   public void setEntityLabels(final List<String> entityLabels) throws Exception{
@@ -79,7 +78,7 @@ public class SSDiscEntryAddRESTAPIV2Par{
   @ApiModelProperty(
     required = false,
     value = "users to share this discussion with upon creation of a new discussion (optional, though works only for a new discussion)")
-  public List<SSUri>            users          = new ArrayList<>();
+  public List<SSUri>            users          = null;
   
   @XmlElement
   public void setUsers(final List<String> users) throws Exception{
@@ -89,7 +88,7 @@ public class SSDiscEntryAddRESTAPIV2Par{
   @ApiModelProperty(
     required = false,
     value = "circles to share this discussion with upon creation of a new discussion (optional, though works only for a new discussion)")
-  public List<SSUri>            circles          = new ArrayList<>();
+  public List<SSUri>            circles          = null;
   
   @XmlElement
   public void setCircles(final List<String> circles) throws Exception{

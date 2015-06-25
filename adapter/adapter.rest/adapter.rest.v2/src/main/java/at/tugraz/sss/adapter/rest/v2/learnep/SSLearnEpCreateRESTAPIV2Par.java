@@ -18,22 +18,38 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package at.tugraz.sss.adapter.rest.v2.like;
+package at.tugraz.sss.adapter.rest.v2.learnep;
 
+import at.tugraz.sss.serv.SSLabel;
+import at.tugraz.sss.serv.SSTextComment;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-@ApiModel(value = "likeUpdate request parameter")
-public class SSLikeUpdateRESTAPIV2Par{
+@ApiModel(value = "learnEpCreate request parameter")
+public class SSLearnEpCreateRESTAPIV2Par{
+  
+  @ApiModelProperty(
+    required = true, 
+    value = "")
+  public SSLabel   label       = null;
   
   @XmlElement
-  @ApiModelProperty(
-    required = true,
-    value = "value like: 1, neutral: 0, dislike: -1")
-  public Integer value = null;
+  public void setLabel(final String label) throws Exception{
+    this.label = SSLabel.get(label);
+  }
   
-  public SSLikeUpdateRESTAPIV2Par(){}
+  @ApiModelProperty(
+    required = true, 
+    value = "")
+  public SSTextComment   description       = null;
+  
+  @XmlElement
+  public void setDescription(final String description) throws Exception{
+    this.description = SSTextComment.get(description);
+  }
+  
+  public SSLearnEpCreateRESTAPIV2Par(){}
 }

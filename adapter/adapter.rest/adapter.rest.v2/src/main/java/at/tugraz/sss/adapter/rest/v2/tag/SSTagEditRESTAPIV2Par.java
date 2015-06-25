@@ -20,7 +20,9 @@
 */
 package at.tugraz.sss.adapter.rest.v2.tag;
 
+import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
+import at.tugraz.sss.serv.SSUri;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 import javax.xml.bind.annotation.XmlElement;
@@ -32,12 +34,32 @@ public class SSTagEditRESTAPIV2Par{
 
   @ApiModelProperty(
     required = true,
-    value = "new label of the tag")
-  public SSTagLabel      label   = null;
+    value = "label for the tag")
+  public SSTagLabel     label        = null;
   
   @XmlElement
   public void setLabel(final String label) throws Exception{
     this.label = SSTagLabel.get(label);
+  }
+  
+  @ApiModelProperty(
+    required = true,
+    value = "entity to be tagged")
+  public SSUri     entity        = null;
+  
+  @XmlElement
+  public void setEntity(final String entity) throws Exception{
+    this.entity = SSUri.get(entity, SSVocConf.sssUri);
+  }
+  
+  @ApiModelProperty(
+    required = true,
+    value = "new label of the tag")
+  public SSTagLabel      newLabel   = null;
+  
+  @XmlElement
+  public void setNewLabel(final String newLabel) throws Exception{
+    this.newLabel = SSTagLabel.get(newLabel);
   }
   
   public SSTagEditRESTAPIV2Par(){}

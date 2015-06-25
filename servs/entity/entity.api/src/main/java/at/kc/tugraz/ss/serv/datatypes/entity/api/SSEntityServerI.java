@@ -20,6 +20,7 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.entity.api;
 
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesGetPar;
 import at.tugraz.sss.serv.SSEntityA;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSUri;
@@ -31,6 +32,8 @@ import java.util.List;
 
 public interface SSEntityServerI extends SSServServerI{
 
+  public List<SSEntity> entitiesGet(final SSEntitiesGetPar par) throws Exception;
+    
   public SSUri                           entityUserAdd                            (final SSServPar parA) throws Exception;
   public SSEntity                        entityUserGet                            (final SSServPar parA) throws Exception;
   public SSEntity                        entityDescGet                            (final SSServPar parA) throws Exception;

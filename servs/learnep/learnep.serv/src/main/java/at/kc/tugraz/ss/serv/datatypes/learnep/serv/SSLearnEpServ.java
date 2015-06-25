@@ -64,8 +64,8 @@ public class SSLearnEpServ extends SSServContainerI{
     
     final Map<SSServOpE, Integer> maxRequestsForOps = new EnumMap<>(SSServOpE.class);
     
-    maxRequestsForOps.put(SSServOpE.learnEpVersionGetTimelineState, 10);
-    maxRequestsForOps.put(SSServOpE.learnEpVersionSetTimelineState, 10);
+    maxRequestsForOps.put(SSServOpE.learnEpVersionTimelineStateGet, 10);
+    maxRequestsForOps.put(SSServOpE.learnEpVersionTimelineStateSet, 10);
     
     SSServReg.inst.regClientRequestLimit(servImplClientInteraceClass, maxRequestsForOps);
     

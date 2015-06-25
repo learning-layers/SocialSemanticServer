@@ -1,23 +1,23 @@
-/**
-* Code contributed to the Learning Layers project
-* http://www.learning-layers.eu
-* Development is partly funded by the FP7 Programme of the European Commission under
-* Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
-* For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
-*
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-* http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*/
+ /**
+  * Code contributed to the Learning Layers project
+  * http://www.learning-layers.eu
+  * Development is partly funded by the FP7 Programme of the European Commission under
+  * Grant Agreement FP7-ICT-318209.
+  * Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+  * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
+  *
+  * Licensed under the Apache License, Version 2.0 (the "License");
+  * you may not use this file except in compliance with the License.
+  * You may obtain a copy of the License at
+  *
+  * http://www.apache.org/licenses/LICENSE-2.0
+  *
+  * Unless required by applicable law or agreed to in writing, software
+  * distributed under the License is distributed on an "AS IS" BASIS,
+  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  * See the License for the specific language governing permissions and
+  * limitations under the License.
+  */
 package at.tugraz.sss.adapter.rest.v2.video;
 
 import at.tugraz.sss.serv.SSTextComment;
@@ -46,7 +46,7 @@ public class SSVideoAddRESTAPIV2Par{
   
   @XmlElement
   public void setLink(final String link) throws Exception{
-    try{ this.link = SSUri.get(link, SSVocConf.sssUri); }catch(Exception error){}
+    this.link = SSUri.get(link, SSVocConf.sssUri);
   }
   
   @ApiModelProperty(
@@ -56,7 +56,7 @@ public class SSVideoAddRESTAPIV2Par{
   
   @XmlElement
   public void setForEntity(final String forEntity) throws Exception{
-    try{ this.forEntity = SSUri.get(forEntity, SSVocConf.sssUri); }catch(Exception error){}
+    this.forEntity = SSUri.get(forEntity, SSVocConf.sssUri);
   }
   
   @XmlElement
@@ -73,7 +73,7 @@ public class SSVideoAddRESTAPIV2Par{
   
   @XmlElement
   public void setLabel(final String label) throws Exception{
-    try{ this.label = SSLabel.get(label); }catch(Exception error){}
+    this.label = SSLabel.get(label);
   }
   
   @ApiModelProperty(
@@ -83,7 +83,7 @@ public class SSVideoAddRESTAPIV2Par{
   
   @XmlElement
   public void setDescription(final String description) throws Exception{
-    try{ this.description = SSTextComment.get(description); }catch(Exception error){}
+    this.description = SSTextComment.get(description);
   }
   
   @XmlElement
@@ -109,6 +109,6 @@ public class SSVideoAddRESTAPIV2Par{
     required = false,
     value = "accuracy")
   public Float               accuracy = null;
-
+  
   public SSVideoAddRESTAPIV2Par(){}
 }

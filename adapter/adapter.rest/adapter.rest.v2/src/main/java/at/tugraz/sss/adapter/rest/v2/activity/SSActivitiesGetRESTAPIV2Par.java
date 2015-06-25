@@ -25,7 +25,6 @@ import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.tugraz.sss.serv.SSUri;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
-import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -37,22 +36,42 @@ public class SSActivitiesGetRESTAPIV2Par{
   @ApiModelProperty(
     required = false,
     value = "types")
-  public List<SSActivityE>      types                     = new ArrayList<>();
+  public List<SSActivityE>      types                     = null;
+  
+  @XmlElement
+  public void setTypes(final List<String> types) throws Exception{
+    this.types = SSActivityE.get(types);
+  }
   
   @ApiModelProperty(
     required = false,
     value = "false")
-  public List<SSUri>            users                     = new ArrayList<>();
+  public List<SSUri>            users                     = null;
+  
+   @XmlElement
+  public void setUsers(final List<String> users) throws Exception{
+    this.users = SSUri.get(users, SSVocConf.sssUri);
+  }
   
   @ApiModelProperty(
     required = false,
     value = "entities")
-  public List<SSUri>            entities                  = new ArrayList<>();
+  public List<SSUri>            entities                  = null;
+  
+  @XmlElement
+  public void setEntities(final List<String> entities) throws Exception{
+    this.entities = SSUri.get(entities, SSVocConf.sssUri);
+  }
   
   @ApiModelProperty(
     required = false,
     value = "circles")
-  public List<SSUri>            circles                   = new ArrayList<>();
+  public List<SSUri>            circles                   = null;
+  
+  @XmlElement
+  public void setCircles(final List<String> circles) throws Exception{
+    this.circles = SSUri.get(circles, SSVocConf.sssUri);
+  }
   
   @ApiModelProperty(
     required = false,
@@ -68,26 +87,6 @@ public class SSActivitiesGetRESTAPIV2Par{
     required = false,
     value = "includeOnlyLastActivities")
   public Boolean                includeOnlyLastActivities = null;
-  
-  @XmlElement
-  public void setTypes(final List<String> types) throws Exception{
-    this.types = SSActivityE.get(types);
-  }
-  
-  @XmlElement
-  public void setUsers(final List<String> users) throws Exception{
-    this.users = SSUri.get(users, SSVocConf.sssUri);
-  }
-  
-  @XmlElement
-  public void setEntities(final List<String> entities) throws Exception{
-    this.entities = SSUri.get(entities, SSVocConf.sssUri);
-  }
-  
-  @XmlElement
-  public void setCircles(final List<String> circles) throws Exception{
-    this.circles = SSUri.get(circles, SSVocConf.sssUri);
-  }
   
   public SSActivitiesGetRESTAPIV2Par(){}
 }

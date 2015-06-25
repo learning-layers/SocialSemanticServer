@@ -20,6 +20,7 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret;
 
+import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpTimelineState;
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarNames;
@@ -27,30 +28,28 @@ import at.tugraz.sss.serv.SSServRetI;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SSLearnEpVersionUpdateEntityRet extends SSServRetI{
+public class SSLearnEpVersionTimelineStateGetRet extends SSServRetI{
 
-  public Boolean worked = null;
+  public SSLearnEpTimelineState learnEpTimelineState = null;
 
   @Override
   public Map<String, Object> jsonLDDesc(){
     
     Map<String, Object> ld = new HashMap<>();
     
-    ld.put(SSVarNames.worked, SSVarNames.xsd + SSStrU.colon + SSStrU.valueBoolean);
+    ld.put(SSVarNames.learnEpTimelineState, SSVarNames.sss + SSStrU.colon + SSLearnEpTimelineState.class.getName());
     
     return ld;
   }
   
-  public static SSLearnEpVersionUpdateEntityRet get(Boolean worked){
-    return new SSLearnEpVersionUpdateEntityRet(worked);
+  public static SSLearnEpVersionTimelineStateGetRet get(SSLearnEpTimelineState learnEpTimelineState){
+    return new SSLearnEpVersionTimelineStateGetRet(learnEpTimelineState);
   }
   
-  private SSLearnEpVersionUpdateEntityRet(Boolean worked){
+  private SSLearnEpVersionTimelineStateGetRet(SSLearnEpTimelineState learnEpTimelineState){
     
-    super(SSServOpE.learnEpVersionUpdateEntity);
+    super(SSServOpE.learnEpVersionTimelineStateGet);
     
-    this.worked = worked;
+    this.learnEpTimelineState = learnEpTimelineState;
   }
-
-  
 }

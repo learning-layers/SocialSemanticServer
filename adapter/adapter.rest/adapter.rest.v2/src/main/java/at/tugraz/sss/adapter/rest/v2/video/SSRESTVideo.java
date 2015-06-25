@@ -84,7 +84,7 @@ public class SSRESTVideo{
   @ApiOperation(
     value = "add a video",
     response = SSVideoUserAddRet.class)
-  public Response videoAddPost(
+  public Response videoAdd(
     @Context HttpHeaders         headers,
     final SSVideoAddRESTAPIV2Par input){
     
@@ -123,8 +123,12 @@ public class SSRESTVideo{
     value = "add an annotation to a video",
     response = SSVideoUserAnnotationAddRet.class)
   public Response videoAnnotationAddPost(
-    @Context HttpHeaders                   headers,
-    @PathParam(SSVarNames.video) String        video,
+    @Context 
+      final HttpHeaders headers,
+    
+    @PathParam(SSVarNames.video) 
+      final String video,
+    
     final SSVideoAnnotationAddRESTAPIV2Par input){
     
     final SSVideoUserAnnotationAddPar par;

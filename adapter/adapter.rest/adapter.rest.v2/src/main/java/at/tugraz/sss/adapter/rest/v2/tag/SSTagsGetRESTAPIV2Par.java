@@ -21,12 +21,11 @@
 package at.tugraz.sss.adapter.rest.v2.tag;
 
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSSpaceE;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
+import at.tugraz.sss.serv.SSSpaceE;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
-import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -41,29 +40,29 @@ public class SSTagsGetRESTAPIV2Par{
   public SSUri              forUser        = null;
   
   @XmlElement
-  public void setForUser(final String forUser) {
-    try{ this.forUser = SSUri.get(forUser, SSVocConf.sssUri); }catch(Exception error){}
+  public void setForUser(final String forUser) throws Exception {
+    this.forUser = SSUri.get(forUser, SSVocConf.sssUri); 
   }
   
   @ApiModelProperty(
     required = false, 
     value = "entities to retrieve tag assignments for")
-  public List<SSUri>        entities       = new ArrayList<>();
+  public List<SSUri>        entities       = null;
   
   @XmlElement
-  public void setEntities(final List<String> entities) {
-    try{ this.entities = SSUri.get(entities, SSVocConf.sssUri); }catch(Exception error){}
+  public void setEntities(final List<String> entities) throws Exception {
+    this.entities = SSUri.get(entities, SSVocConf.sssUri);
   }
   
   @XmlElement
   @ApiModelProperty(
     required = false, 
     value = "tag labels to consider for retrieving tag assignments")
-  public List<SSTagLabel>   labels         = new ArrayList<>();
+  public List<SSTagLabel>   labels         = null;
   
     @XmlElement
-  public void setLabels(final List<String> labels){
-    try{ this.labels = SSTagLabel.get(labels); }catch(Exception error){}
+  public void setLabels(final List<String> labels) throws Exception{
+    this.labels = SSTagLabel.get(labels);
   }
   
   @ApiModelProperty(
@@ -72,8 +71,8 @@ public class SSTagsGetRESTAPIV2Par{
   public SSSpaceE           space          = null;
       
   @XmlElement
-  public void setSpace(final String space){
-    try{ this.space = SSSpaceE.get(space); }catch(Exception error){}
+  public void setSpace(final String space) throws Exception{
+    this.space = SSSpaceE.get(space);
   }
 
   @XmlElement

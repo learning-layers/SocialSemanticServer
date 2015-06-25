@@ -42,10 +42,9 @@ public class SSSystemVersionGetRet extends SSServRetI{
   }
   
   public SSSystemVersionGetRet(
-    final String  version,
-    final SSServOpE op){
+    final String  version){
     
-    super(op);
+    super(SSServOpE.systemVersionGet);
     
     this.version = version;
   }

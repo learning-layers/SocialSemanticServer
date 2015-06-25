@@ -18,29 +18,37 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.tugraz.sss.adapter.rest.v2.entity;
+package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par;
 
-import at.tugraz.sss.serv.SSTextComment;
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
-import java.util.List;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSStrU;
 
-@XmlRootElement
-@ApiModel(value = "entityCommentsAdd request parameter")
-public class SSEntityCommentsAddRESTAPIV2Par{
+public class SSLearnEpVersionCircleRemovePar extends SSServPar{
   
-  @ApiModelProperty(
-    required = true,
-    value = "comments to add to the entity")
-  public List<SSTextComment> comments = null;
-  
-  @XmlElement
-  public void setComments(final List<String> comments) throws Exception{
-    this.comments = SSTextComment.get(comments);
+  public SSUri  learnEpCircle = null;
+
+  public String getLearnEpCircle(){
+    return SSStrU.removeTrailingSlash(learnEpCircle);
+  }
+
+  public void setLearnEpCircle(final String learnEpCircle) throws Exception{
+    this.learnEpCircle = SSUri.get(learnEpCircle);
   }
   
-  public SSEntityCommentsAddRESTAPIV2Par(){}
+  public SSLearnEpVersionCircleRemovePar(){}
+  
+  public SSLearnEpVersionCircleRemovePar(
+    final SSServOpE     op,
+    final String        key,
+    final SSUri         user,
+    final SSUri         learnEpCircle,
+    final Boolean       shouldCommit){
+    
+    super(op, key, user);
+    
+    this.learnEpCircle   = learnEpCircle;
+    this.shouldCommit    = shouldCommit;
+  }
 }
-

@@ -85,8 +85,8 @@ public class SSRESTRating{
   @ApiOperation(
     value = "set the user's rating for given entity",
     response = SSRatingSetRet.class)
-  public Response ratingOverallGet(
-    @Context 
+  public Response ratingSet(
+    @Context
     final HttpHeaders headers,
     
     @PathParam(SSVarNames.entity)
@@ -105,7 +105,7 @@ public class SSRESTRating{
           null,
           null,
           SSUri.get(entity, SSVocConf.sssUri),
-          Integer.valueOf(value), 
+          Integer.valueOf(value),
           true);
       
     }catch(Exception error){

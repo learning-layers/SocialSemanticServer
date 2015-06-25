@@ -46,7 +46,7 @@ public class SSRESTLike{
   @PUT
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path("/entities/{entity}")
+  @Path("/entities/{entity}/value/{value}")
   @ApiOperation(
     value = "like / dislike / neutral an entity",
     response = SSLikeUserSetRet.class)
@@ -57,7 +57,8 @@ public class SSRESTLike{
     @PathParam (SSVarNames.entity)  
       final String entity, 
     
-    final SSLikeUpdateRESTAPIV2Par input){
+    @PathParam (SSVarNames.value)  
+      final Integer value){
     
     final SSLikeUserSetPar par;
     
@@ -69,7 +70,7 @@ public class SSRESTLike{
           null, //key
           null, //user
           SSUri.get(entity, SSVocConf.sssUri), //entity
-          input.value, //value
+          value, //value
           true);  //shouldCommit
       
     }catch(Exception error){

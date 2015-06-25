@@ -20,8 +20,10 @@
 */
 package at.tugraz.sss.adapter.rest.v2.message;
 
+import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSUri;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 import javax.xml.bind.annotation.XmlElement;
@@ -30,6 +32,17 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @ApiModel(value = "messageSend request parameter")
 public class SSMessageSendRESTAPIV2Par extends SSServPar{
+  
+  @XmlElement
+  @ApiModelProperty( 
+    required = true, 
+    value = "forUser")
+  public SSUri       forUser   = null;
+  
+  @XmlElement
+  public void setForUser(final String forUser) throws Exception{
+    this.forUser = SSUri.get(forUser, SSVocConf.sssUri);
+  }
   
   @XmlElement
   @ApiModelProperty( 

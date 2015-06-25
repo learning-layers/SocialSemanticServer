@@ -28,12 +28,12 @@ import at.tugraz.sss.serv.SSUri;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SSLearnEpVersionSetTimelineStateRet extends SSServRetI{
+public class SSLearnEpVersionCircleAddRet extends SSServRetI{
 
-  public SSUri learnEpTimelineState = null;
+  public SSUri learnEpCircle = null;
 
-  public String getLearnEpTimelineState() throws Exception {
-    return SSStrU.removeTrailingSlash(learnEpTimelineState);
+  public String getLearnEpCircle() throws Exception {
+    return SSStrU.removeTrailingSlash(learnEpCircle);
   }
   
   @Override
@@ -41,19 +41,19 @@ public class SSLearnEpVersionSetTimelineStateRet extends SSServRetI{
     
     Map<String, Object> ld = new HashMap<>();
     
-    ld.put(SSVarNames.learnEpTimelineState, SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
+    ld.put(SSVarNames.learnEpCircle, SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
     
     return ld;
   }
   
-  public static SSLearnEpVersionSetTimelineStateRet get(SSUri learnEpTimelineStateUri){
-    return new SSLearnEpVersionSetTimelineStateRet(learnEpTimelineStateUri);
+  public static SSLearnEpVersionCircleAddRet get(SSUri learnEpCircleUri){
+    return new SSLearnEpVersionCircleAddRet(learnEpCircleUri);
   }
   
-  private SSLearnEpVersionSetTimelineStateRet(SSUri learnEpTimelineStateUri){
+  private SSLearnEpVersionCircleAddRet(SSUri learnEpCircleUri){
     
-    super(SSServOpE.learnEpVersionSetTimelineState);
+    super(SSServOpE.learnEpVersionCircleAdd);
     
-    this.learnEpTimelineState = learnEpTimelineStateUri;
+    this.learnEpCircle = learnEpCircleUri;
   }
 }

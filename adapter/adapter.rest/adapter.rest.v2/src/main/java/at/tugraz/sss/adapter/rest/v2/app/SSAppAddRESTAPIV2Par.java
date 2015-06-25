@@ -26,7 +26,6 @@ import at.tugraz.sss.serv.SSLabel;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
-import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -52,7 +51,7 @@ public class SSAppAddRESTAPIV2Par{
   
   @XmlElement
   public void setDescriptionShort(final String descriptionShort) throws Exception{
-    try{ this.descriptionShort = SSTextComment.get(descriptionShort); }catch(Exception error){}
+    this.descriptionShort = SSTextComment.get(descriptionShort);
   }
   
   @ApiModelProperty(
@@ -62,7 +61,7 @@ public class SSAppAddRESTAPIV2Par{
   
   @XmlElement
   public void setDescriptionFunctional(final String descriptionFunctional) throws Exception{
-    try{ this.descriptionFunctional = SSTextComment.get(descriptionFunctional); }catch(Exception error){}
+    this.descriptionFunctional = SSTextComment.get(descriptionFunctional);
   }
   
   @ApiModelProperty(
@@ -72,7 +71,7 @@ public class SSAppAddRESTAPIV2Par{
   
   @XmlElement
   public void setDescriptionTechnical(final String descriptionTechnical) throws Exception{
-    try{ this.descriptionTechnical = SSTextComment.get(descriptionTechnical); }catch(Exception error){}
+    this.descriptionTechnical = SSTextComment.get(descriptionTechnical);
   }
   
   @ApiModelProperty(
@@ -82,17 +81,17 @@ public class SSAppAddRESTAPIV2Par{
   
   @XmlElement
   public void setDescriptionInstall(final String descriptionInstall) throws Exception{
-    try{ this.descriptionInstall = SSTextComment.get(descriptionInstall); }catch(Exception error){}
+    this.descriptionInstall = SSTextComment.get(descriptionInstall);
   }
 
   @ApiModelProperty(
     required = false,
     value = "download links")
-  public List<SSUri>               downloads       = new ArrayList<>();
+  public List<SSUri>               downloads       = null;
   
   @XmlElement
   public void setDownloads(final List<String> downloads) throws Exception{
-    try{ this.downloads = SSUri.get(downloads, SSVocConf.sssUri); }catch(Exception error){}
+    this.downloads = SSUri.get(downloads, SSVocConf.sssUri);
   }
   
   @ApiModelProperty(
@@ -102,7 +101,7 @@ public class SSAppAddRESTAPIV2Par{
   
   @XmlElement
   public void setDownloadIOS(final String downloadIOS) throws Exception{
-    try{ this.downloadIOS = SSUri.get(downloadIOS, SSVocConf.sssUri); }catch(Exception error){}
+    this.downloadIOS = SSUri.get(downloadIOS, SSVocConf.sssUri);
   }
   
   @ApiModelProperty(
@@ -112,7 +111,7 @@ public class SSAppAddRESTAPIV2Par{
   
   @XmlElement
   public void setDownloadAndroid(final String downloadAndroid) throws Exception{
-    try{ this.downloadAndroid = SSUri.get(downloadAndroid, SSVocConf.sssUri); }catch(Exception error){}
+    this.downloadAndroid = SSUri.get(downloadAndroid, SSVocConf.sssUri);
   } 
   
   @ApiModelProperty(
@@ -122,27 +121,27 @@ public class SSAppAddRESTAPIV2Par{
   
   @XmlElement
   public void setFork(final String fork) throws Exception{
-    try{ this.fork = SSUri.get(fork, SSVocConf.sssUri); }catch(Exception error){}
+    this.fork = SSUri.get(fork, SSVocConf.sssUri);
   }
   
   @ApiModelProperty(
     required = false,
     value = "screenShots")
-  public List<SSUri>               screenShots        = new ArrayList<>();
+  public List<SSUri>               screenShots        = null;
   
   @XmlElement
   public void setScreenShots(final List<String> screenShots) throws Exception{
-    try{ this.screenShots = SSUri.get(screenShots, SSVocConf.sssUri); }catch(Exception error){}
+    this.screenShots = SSUri.get(screenShots, SSVocConf.sssUri);
   }
   
-    @ApiModelProperty(
+  @ApiModelProperty(
     required = false,
     value = "videos")
-  public List<SSUri>               videos        = new ArrayList<>();
+  public List<SSUri>               videos        = null;
   
   @XmlElement
   public void setVideos(final List<String> videos) throws Exception{
-    try{ this.videos = SSUri.get(videos, SSVocConf.sssUri); }catch(Exception error){}
+    this.videos = SSUri.get(videos, SSVocConf.sssUri);
   }
   
   public SSAppAddRESTAPIV2Par(){}

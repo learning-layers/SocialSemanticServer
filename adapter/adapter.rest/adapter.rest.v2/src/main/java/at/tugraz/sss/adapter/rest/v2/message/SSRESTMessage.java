@@ -48,11 +48,11 @@ public class SSRESTMessage{
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path("")
+  @Path("/filtered")
   @ApiOperation(
-    value = "retrieve messages for the user",
+    value = "retrieve messages",
     response = SSMessagesGetRet.class)
-  public Response messagesGetPOST(
+  public Response messagesGetFiltered(
     @Context 
       final HttpHeaders headers, 
     
@@ -80,16 +80,13 @@ public class SSRESTMessage{
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path("/users/{forUser}")
+  @Path("")
   @ApiOperation(
     value = "send a message to a user",
     response = SSMessageSendRet.class)
   public Response messageSend(
     @Context 
       final HttpHeaders headers, 
-    
-    @PathParam(SSVarNames.forUser) 
-      final String forUser,
     
     final SSMessageSendRESTAPIV2Par input){
     
@@ -102,7 +99,7 @@ public class SSRESTMessage{
           SSServOpE.messageSend,
           null,
           null,
-          SSUri.get(forUser, SSVocConf.sssUri),
+          input.forUser,
           input.message,
           true);
       

@@ -39,18 +39,18 @@ import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpLockRemoveP
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpLockSetPar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpRemovePar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpCopyForUserPar;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionAddCirclePar;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionAddEntityPar;
+import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionCircleAddPar;
+import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionEntityAddPar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionCreatePar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionCurrentGetPar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionCurrentSetPar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionGetPar;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionGetTimelineStatePar;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionRemoveCirclePar;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionRemoveEntityPar;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionSetTimelineStatePar;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionUpdateCirclePar;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionUpdateEntityPar;
+import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionTimelineStateGetPar;
+import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionCircleRemovePar;
+import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionEntityRemovePar;
+import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionTimelineStateSetPar;
+import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionCircleUpdatePar;
+import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionEntityUpdatePar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionsGetPar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpsGetPar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpsLockHoldPar;
@@ -59,18 +59,18 @@ import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpLockHoldRet
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpLockRemoveRet;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpLockSetRet;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpRemoveRet;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpVersionAddCircleRet;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpVersionAddEntityRet;
+import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpVersionCircleAddRet;
+import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpVersionEntityAddRet;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpVersionCreateRet;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpVersionCurrentGetRet;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpVersionCurrentSetRet;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpVersionGetRet;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpVersionGetTimelineStateRet;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpVersionRemoveCircleRet;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpVersionRemoveEntityRet;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpVersionSetTimelineStateRet;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpVersionUpdateCircleRet;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpVersionUpdateEntityRet;
+import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpVersionTimelineStateGetRet;
+import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpVersionCircleRemoveRet;
+import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpVersionEntityRemoveRet;
+import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpVersionTimelineStateSetRet;
+import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpVersionCircleUpdateRet;
+import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpVersionEntityUpdateRet;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpVersionsGetRet;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpsGetRet;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpsLockHoldRet;
@@ -633,17 +633,17 @@ implements
   }
 
   @Override
-  public void learnEpVersionAddCircle(SSSocketCon sSCon, SSServPar parA) throws Exception{
+  public void learnEpVersionCircleAdd(SSSocketCon sSCon, SSServPar parA) throws Exception{
 
     SSServCallerU.checkKey(parA);
     
-    final SSLearnEpVersionAddCirclePar par = (SSLearnEpVersionAddCirclePar) parA.getFromJSON(SSLearnEpVersionAddCirclePar.class);
+    final SSLearnEpVersionCircleAddPar par = (SSLearnEpVersionCircleAddPar) parA.getFromJSON(SSLearnEpVersionCircleAddPar.class);
     
-    sSCon.writeRetFullToClient(SSLearnEpVersionAddCircleRet.get(learnEpVersionAddCircle(par)));
+    sSCon.writeRetFullToClient(SSLearnEpVersionCircleAddRet.get(learnEpVersionCircleAdd(par)));
   }
   
   @Override
-  public SSUri learnEpVersionAddCircle(final SSLearnEpVersionAddCirclePar par) throws Exception{
+  public SSUri learnEpVersionCircleAdd(final SSLearnEpVersionCircleAddPar par) throws Exception{
 
     try{
       final SSUri                        circleUri  = SSServCaller.vocURICreate();
@@ -718,7 +718,7 @@ implements
           
           SSServErrReg.reset();
           
-          return learnEpVersionAddCircle(par);
+          return learnEpVersionCircleAdd(par);
         }else{
           SSServErrReg.regErrThrow(error);
           return null;
@@ -732,17 +732,17 @@ implements
   }
 
   @Override
-  public void learnEpVersionAddEntity(SSSocketCon sSCon, SSServPar parA) throws Exception{
+  public void learnEpVersionEntityAdd(SSSocketCon sSCon, SSServPar parA) throws Exception{
 
     SSServCallerU.checkKey(parA);
 
-    final SSLearnEpVersionAddEntityPar par = (SSLearnEpVersionAddEntityPar) parA.getFromJSON(SSLearnEpVersionAddEntityPar.class);
+    final SSLearnEpVersionEntityAddPar par = (SSLearnEpVersionEntityAddPar) parA.getFromJSON(SSLearnEpVersionEntityAddPar.class);
     
-    sSCon.writeRetFullToClient(SSLearnEpVersionAddEntityRet.get(learnEpVersionAddEntity(par)));
+    sSCon.writeRetFullToClient(SSLearnEpVersionEntityAddRet.get(learnEpVersionEntityAdd(par)));
   }
   
   @Override
-  public SSUri learnEpVersionAddEntity(final SSLearnEpVersionAddEntityPar par) throws Exception{
+  public SSUri learnEpVersionEntityAdd(final SSLearnEpVersionEntityAddPar par) throws Exception{
 
     try{
       final SSUri                        learnEpEntityUri = SSServCaller.vocURICreate();
@@ -829,7 +829,7 @@ implements
           
           SSServErrReg.reset();
           
-          return learnEpVersionAddEntity(par);
+          return learnEpVersionEntityAdd(par);
         }else{
           SSServErrReg.regErrThrow(error);
           return null;
@@ -903,17 +903,17 @@ implements
   }
 
   @Override
-  public void learnEpVersionUpdateCircle(SSSocketCon sSCon, SSServPar parA) throws Exception{
+  public void learnEpVersionCircleUpdate(SSSocketCon sSCon, SSServPar parA) throws Exception{
 
     SSServCallerU.checkKey(parA);
 
-    final SSLearnEpVersionUpdateCirclePar par = (SSLearnEpVersionUpdateCirclePar) parA.getFromJSON(SSLearnEpVersionUpdateCirclePar.class);
+    final SSLearnEpVersionCircleUpdatePar par = (SSLearnEpVersionCircleUpdatePar) parA.getFromJSON(SSLearnEpVersionCircleUpdatePar.class);
     
-    sSCon.writeRetFullToClient(SSLearnEpVersionUpdateCircleRet.get(learnEpVersionUpdateCircle(par)));
+    sSCon.writeRetFullToClient(SSLearnEpVersionCircleUpdateRet.get(learnEpVersionCircleUpdate(par)));
   }
   
   @Override
-  public Boolean learnEpVersionUpdateCircle(final SSLearnEpVersionUpdateCirclePar par) throws Exception{
+  public Boolean learnEpVersionCircleUpdate(final SSLearnEpVersionCircleUpdatePar par) throws Exception{
 
     try{
 
@@ -960,7 +960,7 @@ implements
           
           SSServErrReg.reset();
           
-          return learnEpVersionUpdateCircle(par);
+          return learnEpVersionCircleUpdate(par);
         }else{
           SSServErrReg.regErrThrow(error);
           return null;
@@ -974,17 +974,17 @@ implements
   }
 
   @Override
-  public void learnEpVersionUpdateEntity(SSSocketCon sSCon, SSServPar parA) throws Exception{
+  public void learnEpVersionEntityUpdate(SSSocketCon sSCon, SSServPar parA) throws Exception{
 
     SSServCallerU.checkKey(parA);
 
-    final SSLearnEpVersionUpdateEntityPar par = (SSLearnEpVersionUpdateEntityPar) parA.getFromJSON(SSLearnEpVersionUpdateEntityPar.class);
+    final SSLearnEpVersionEntityUpdatePar par = (SSLearnEpVersionEntityUpdatePar) parA.getFromJSON(SSLearnEpVersionEntityUpdatePar.class);
     
-    sSCon.writeRetFullToClient(SSLearnEpVersionUpdateEntityRet.get(learnEpVersionUpdateEntity(par)));
+    sSCon.writeRetFullToClient(SSLearnEpVersionEntityUpdateRet.get(learnEpVersionEntityUpdate(par)));
   }
   
   @Override
-  public Boolean learnEpVersionUpdateEntity(final SSLearnEpVersionUpdateEntityPar par) throws Exception{
+  public Boolean learnEpVersionEntityUpdate(final SSLearnEpVersionEntityUpdatePar par) throws Exception{
     
     try{
       
@@ -1055,7 +1055,7 @@ implements
           
           SSServErrReg.reset();
           
-          return learnEpVersionUpdateEntity(par);
+          return learnEpVersionEntityUpdate(par);
         }else{
           SSServErrReg.regErrThrow(error);
           return null;
@@ -1069,17 +1069,17 @@ implements
   }
 
   @Override
-  public void learnEpVersionRemoveCircle(SSSocketCon sSCon, SSServPar parA) throws Exception{
+  public void learnEpVersionCircleRemove(SSSocketCon sSCon, SSServPar parA) throws Exception{
 
     SSServCallerU.checkKey(parA);
 
-    final SSLearnEpVersionRemoveCirclePar par = (SSLearnEpVersionRemoveCirclePar) parA.getFromJSON(SSLearnEpVersionRemoveCirclePar.class);
+    final SSLearnEpVersionCircleRemovePar par = (SSLearnEpVersionCircleRemovePar) parA.getFromJSON(SSLearnEpVersionCircleRemovePar.class);
     
-    sSCon.writeRetFullToClient(SSLearnEpVersionRemoveCircleRet.get(learnEpVersionRemoveCircle(par)));
+    sSCon.writeRetFullToClient(SSLearnEpVersionCircleRemoveRet.get(learnEpVersionCircleRemove(par)));
   }
   
   @Override
-  public Boolean learnEpVersionRemoveCircle(final SSLearnEpVersionRemoveCirclePar par) throws Exception{
+  public Boolean learnEpVersionCircleRemove(final SSLearnEpVersionCircleRemovePar par) throws Exception{
 
     try{
 
@@ -1109,7 +1109,7 @@ implements
           
           SSServErrReg.reset();
           
-          return learnEpVersionRemoveCircle(par);
+          return learnEpVersionCircleRemove(par);
         }else{
           SSServErrReg.regErrThrow(error);
           return null;
@@ -1123,17 +1123,17 @@ implements
   }
 
   @Override
-  public void learnEpVersionRemoveEntity(SSSocketCon sSCon, SSServPar parA) throws Exception{
+  public void learnEpVersionEntityRemove(SSSocketCon sSCon, SSServPar parA) throws Exception{
 
     SSServCallerU.checkKey(parA);
 
-    final SSLearnEpVersionRemoveEntityPar par = (SSLearnEpVersionRemoveEntityPar) parA.getFromJSON(SSLearnEpVersionRemoveEntityPar.class);
+    final SSLearnEpVersionEntityRemovePar par = (SSLearnEpVersionEntityRemovePar) parA.getFromJSON(SSLearnEpVersionEntityRemovePar.class);
     
-    sSCon.writeRetFullToClient(SSLearnEpVersionRemoveEntityRet.get(learnEpVersionRemoveEntity(par)));
+    sSCon.writeRetFullToClient(SSLearnEpVersionEntityRemoveRet.get(learnEpVersionEntityRemove(par)));
   }
   
   @Override
-  public Boolean learnEpVersionRemoveEntity(final SSLearnEpVersionRemoveEntityPar par) throws Exception{
+  public Boolean learnEpVersionEntityRemove(final SSLearnEpVersionEntityRemovePar par) throws Exception{
 
     try{
       SSServCallerU.canUserEditEntity        (par.user,    par.learnEpEntity);
@@ -1162,7 +1162,7 @@ implements
           
           SSServErrReg.reset();
           
-          return learnEpVersionRemoveEntity(par);
+          return learnEpVersionEntityRemove(par);
         }else{
           SSServErrReg.regErrThrow(error);
           return null;
@@ -1176,17 +1176,17 @@ implements
   }
 
   @Override
-  public void learnEpVersionSetTimelineState(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
+  public void learnEpVersionTimelineStateSet(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
 
     SSServCallerU.checkKey(parA);
 
-    final SSLearnEpVersionSetTimelineStatePar par = (SSLearnEpVersionSetTimelineStatePar) parA.getFromJSON(SSLearnEpVersionSetTimelineStatePar.class);
+    final SSLearnEpVersionTimelineStateSetPar par = (SSLearnEpVersionTimelineStateSetPar) parA.getFromJSON(SSLearnEpVersionTimelineStateSetPar.class);
       
-    sSCon.writeRetFullToClient(SSLearnEpVersionSetTimelineStateRet.get(learnEpVersionSetTimelineState(par)));
+    sSCon.writeRetFullToClient(SSLearnEpVersionTimelineStateSetRet.get(learnEpVersionTimelineStateSet(par)));
   }
   
   @Override
-  public SSUri learnEpVersionSetTimelineState(final SSLearnEpVersionSetTimelineStatePar par) throws Exception{
+  public SSUri learnEpVersionTimelineStateSet(final SSLearnEpVersionTimelineStateSetPar par) throws Exception{
 
     try{
 
@@ -1251,7 +1251,7 @@ implements
           
           SSServErrReg.reset();
           
-          return learnEpVersionSetTimelineState(par);
+          return learnEpVersionTimelineStateSet(par);
         }else{
           SSServErrReg.regErrThrow(error);
           return null;
@@ -1265,17 +1265,17 @@ implements
   }
 
   @Override
-  public void learnEpVersionGetTimelineState(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
+  public void learnEpVersionTimelineStateGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
 
     SSServCallerU.checkKey(parA);
 
-    final SSLearnEpVersionGetTimelineStatePar par = (SSLearnEpVersionGetTimelineStatePar) parA.getFromJSON(SSLearnEpVersionGetTimelineStatePar.class);
+    final SSLearnEpVersionTimelineStateGetPar par = (SSLearnEpVersionTimelineStateGetPar) parA.getFromJSON(SSLearnEpVersionTimelineStateGetPar.class);
     
-    sSCon.writeRetFullToClient(SSLearnEpVersionGetTimelineStateRet.get(learnEpVersionGetTimelineState(par)));
+    sSCon.writeRetFullToClient(SSLearnEpVersionTimelineStateGetRet.get(learnEpVersionTimelineStateGet(par)));
   }
   
   @Override
-  public SSLearnEpTimelineState learnEpVersionGetTimelineState(final SSLearnEpVersionGetTimelineStatePar par) throws Exception{
+  public SSLearnEpTimelineState learnEpVersionTimelineStateGet(final SSLearnEpVersionTimelineStateGetPar par) throws Exception{
     try{
       
       SSServCallerU.canUserReadEntity(par.user, par.learnEpVersion);

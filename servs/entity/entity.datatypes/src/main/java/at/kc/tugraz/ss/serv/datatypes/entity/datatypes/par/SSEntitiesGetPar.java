@@ -18,24 +18,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package at.kc.tugraz.ss.circle.datatypes.par;
+package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par;
 
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServErrReg;
 import java.util.ArrayList;
 import java.util.List;
-import org.codehaus.jackson.JsonNode;
 
-public class SSCircleEntitiesGetPar extends SSServPar{
+public class SSEntitiesGetPar extends SSServPar{
   
   public SSUri           forUser               = null;
   public List<SSEntityE> types                 = new ArrayList<>();
-  public Boolean         withSystemCircles     = false;
   public Boolean         invokeEntityHandlers  = false;
   
   public String getForUser(){
@@ -54,22 +50,20 @@ public class SSCircleEntitiesGetPar extends SSServPar{
     this.types = SSEntityE.get(types);
   }
   
-  public SSCircleEntitiesGetPar(){}
+  public SSEntitiesGetPar(){}
   
-  public SSCircleEntitiesGetPar(
+  public SSEntitiesGetPar(
     final SSServOpE       op,
     final String          key,
     final SSUri           user,
     final SSUri           forUser,
     final List<SSEntityE> types,
-    final Boolean         withSystemCircles,
     final Boolean         invokeEntityHandlers,
     final Boolean         withUserRestriction) throws Exception{
     
     super(op, key, user);
     
     this.forUser              = forUser;
-    this.withSystemCircles    = withSystemCircles;
     this.invokeEntityHandlers = invokeEntityHandlers;
     this.withUserRestriction  = withUserRestriction;
     

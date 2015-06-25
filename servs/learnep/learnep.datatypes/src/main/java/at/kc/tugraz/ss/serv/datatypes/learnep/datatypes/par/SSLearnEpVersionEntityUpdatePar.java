@@ -24,7 +24,7 @@ import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
-public class SSLearnEpVersionUpdateEntityPar extends SSServPar{
+public class SSLearnEpVersionEntityUpdatePar extends SSServPar{
   
   public SSUri    learnEpEntity      = null;
   public SSUri    entity             = null;
@@ -46,7 +46,7 @@ public class SSLearnEpVersionUpdateEntityPar extends SSServPar{
   public void setEntity(String entity) throws Exception{
     this.entity = SSUri.get(entity);
   }
-  public SSLearnEpVersionUpdateEntityPar(
+  public SSLearnEpVersionEntityUpdatePar(
     final SSServOpE     op,
     final String        key,
     final SSUri         user,

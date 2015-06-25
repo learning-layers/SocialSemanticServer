@@ -27,7 +27,7 @@ import at.tugraz.sss.serv.SSServRetI;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SSLearnEpVersionRemoveCircleRet extends SSServRetI{
+public class SSLearnEpVersionEntityRemoveRet extends SSServRetI{
 
   public Boolean worked = null;
 
@@ -41,13 +41,13 @@ public class SSLearnEpVersionRemoveCircleRet extends SSServRetI{
     return ld;
   }
   
-  public static SSLearnEpVersionRemoveCircleRet get(Boolean worked){
-    return new SSLearnEpVersionRemoveCircleRet(worked);
+  public static SSLearnEpVersionEntityRemoveRet get(Boolean worked){
+    return new SSLearnEpVersionEntityRemoveRet(worked);
   }
   
-  private SSLearnEpVersionRemoveCircleRet(Boolean worked){
+  private SSLearnEpVersionEntityRemoveRet(Boolean worked){
     
-    super(SSServOpE.learnEpVersionRemoveCircle);
+    super(SSServOpE.learnEpVersionEntityRemove);
     
     this.worked = worked;
   }

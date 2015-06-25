@@ -18,30 +18,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package at.tugraz.sss.adapter.rest.v2.circle;
+package at.tugraz.sss.adapter.rest.v2.learnep;
 
-import at.tugraz.sss.serv.SSUri;
-import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
-import java.util.ArrayList;
-import java.util.List;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-@ApiModel(value = "entityUserEntitiesToCircleAdd request parameter")
-public class SSCircleEntitiesAddRESTAPIV2Par{
+@ApiModel(value = "learnEpVersionTimelineStateSet request parameter")
+public class SSLearnEpVersionTimelineStateSetRESTAPIV2Par{
   
   @ApiModelProperty(
     required = true,
-    value = "entities to add")
-  public List<SSUri> entities = new ArrayList<>();
+    value = "")
+  public Long    startTime              = null;
   
-  @XmlElement
-  public void setEntities(final List<String> entities) throws Exception{
-    this.entities = SSUri.get(entities, SSVocConf.sssUri);
-  }
+  @ApiModelProperty(
+    required = true,
+    value = "")
+  public Long    endTime              = null;
   
-  public SSCircleEntitiesAddRESTAPIV2Par(){}
+  public SSLearnEpVersionTimelineStateSetRESTAPIV2Par(){}
 }

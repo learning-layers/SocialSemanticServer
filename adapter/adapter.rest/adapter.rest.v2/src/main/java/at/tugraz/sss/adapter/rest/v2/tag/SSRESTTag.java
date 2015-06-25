@@ -92,11 +92,11 @@ public class SSRESTTag{
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path("")
+  @Path("/filtered")
   @ApiOperation(
     value = "retrieve tag assignments",
     response = SSTagsGetRet.class)
-  public Response tagsGetPOST(
+  public Response tagsGetFiltered(
     @Context 
       final HttpHeaders headers,
     
@@ -132,7 +132,7 @@ public class SSRESTTag{
     response = SSTagFrequsGetRet.class)
   public Response tagFrequsGet(
     @Context
-      HttpHeaders headers){
+      final HttpHeaders headers){
     
     final SSTagFrequsGetPar par;
     
@@ -159,11 +159,11 @@ public class SSRESTTag{
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    ("/frequs")
+  @Path    ("/filtered/frequs")
   @ApiOperation(
     value = "retrieve tag frequencies",
     response = SSTagFrequsGetRet.class)
-  public Response tagFrequsGetPOST(
+  public Response tagFrequsGetFiltered(
     @Context 
       final HttpHeaders headers,
     
@@ -194,11 +194,11 @@ public class SSRESTTag{
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    ("/entities/tags")
+  @Path    ("/filtered/entities")
   @ApiOperation(
     value = "retrieve entities for tags (currently startTime is not used to retrieve entities)",
     response = SSTagEntitiesForTagsGetRet.class)
-  public Response tagEntitiesGetPOST(
+  public Response tagEntitiesForTagsGetFiltered(
     @Context
     final HttpHeaders headers,
     
@@ -229,7 +229,7 @@ public class SSRESTTag{
   @Produces(MediaType.APPLICATION_JSON)
   @Path    ("/entities/{entity}")
   @ApiOperation(
-    value = "remove tag, user, entity, space combinations",
+    value = "remove tag, user, entity, space combinations for given entity",
     response = SSTagsRemoveRet.class)
   public Response tagsRemove(
     @Context 
@@ -265,19 +265,13 @@ public class SSRESTTag{
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path("/{tag}/entities/{entity}")
+  @Path("")
   @ApiOperation(
     value = "add a tag for an entity within given space",
     response = SSTagAddRet.class)
   public Response tagAdd(
     @Context 
       final HttpHeaders headers,
-    
-    @PathParam(SSVarNames.tag)
-      final String tag,
-    
-    @PathParam(SSVarNames.entity)
-      final String entity,
     
     final SSTagAddRESTAPIV2Par input){
     
@@ -289,8 +283,8 @@ public class SSRESTTag{
           SSServOpE.tagAdd,
           null,
           null,
-          SSUri.get(entity, SSVocConf.sssUri), //entity
-          SSTagLabel.get(tag), //label
+          input.entity, //entity
+          input.label, //label
           input.space, //space
           input.creationTime,  //creationTime
           true); //shouldCommit
@@ -305,19 +299,13 @@ public class SSRESTTag{
   @PUT
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    ("{tag}/entities/{entity}")
+  @Path    ("/entities/{entity}")
   @ApiOperation(
-    value = "changes the label of the tag assigned to entities by given user",
+    value = "changes the label of the tag assigned to the entity",
     response = SSTagEditRet.class)
   public Response tagEdit(
     @Context 
       final HttpHeaders headers,
-    
-    @PathParam(SSVarNames.tag) 
-      final String tag,
-    
-    @PathParam(SSVarNames.entity) 
-      final String entity,
     
     final SSTagEditRESTAPIV2Par     input) throws Exception{
     
@@ -329,10 +317,10 @@ public class SSRESTTag{
           SSServOpE.tagEdit,
           null,
           null,
-          SSTagLabel.get(tag), //tag
-          SSUri.get(entity, SSVocConf.sssUri),      //entity
-          input.label, //label
-          true);  //shouldCommit
+          input.label,
+          input.entity,   //entity
+          input.newLabel, //label
+          true);         //shouldCommit
       
     }catch(Exception error){
       return Response.status(422).build();

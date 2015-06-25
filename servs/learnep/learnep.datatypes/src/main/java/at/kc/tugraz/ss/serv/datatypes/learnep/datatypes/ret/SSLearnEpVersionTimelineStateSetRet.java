@@ -24,31 +24,36 @@ import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServRetI;
+import at.tugraz.sss.serv.SSUri;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SSLearnEpVersionRemoveEntityRet extends SSServRetI{
+public class SSLearnEpVersionTimelineStateSetRet extends SSServRetI{
 
-  public Boolean worked = null;
+  public SSUri learnEpTimelineState = null;
 
+  public String getLearnEpTimelineState() throws Exception {
+    return SSStrU.removeTrailingSlash(learnEpTimelineState);
+  }
+  
   @Override
   public Map<String, Object> jsonLDDesc(){
     
     Map<String, Object> ld = new HashMap<>();
     
-    ld.put(SSVarNames.worked, SSVarNames.xsd + SSStrU.colon + SSStrU.valueBoolean);
+    ld.put(SSVarNames.learnEpTimelineState, SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
     
     return ld;
   }
   
-  public static SSLearnEpVersionRemoveEntityRet get(Boolean worked){
-    return new SSLearnEpVersionRemoveEntityRet(worked);
+  public static SSLearnEpVersionTimelineStateSetRet get(SSUri learnEpTimelineStateUri){
+    return new SSLearnEpVersionTimelineStateSetRet(learnEpTimelineStateUri);
   }
   
-  private SSLearnEpVersionRemoveEntityRet(Boolean worked){
+  private SSLearnEpVersionTimelineStateSetRet(SSUri learnEpTimelineStateUri){
     
-    super(SSServOpE.learnEpVersionRemoveEntity);
+    super(SSServOpE.learnEpVersionTimelineStateSet);
     
-    this.worked = worked;
+    this.learnEpTimelineState = learnEpTimelineStateUri;
   }
 }

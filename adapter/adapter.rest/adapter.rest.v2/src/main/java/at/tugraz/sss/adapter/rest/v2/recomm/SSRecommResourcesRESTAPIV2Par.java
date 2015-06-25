@@ -36,7 +36,7 @@ public class SSRecommResourcesRESTAPIV2Par{
   @XmlElement
   @ApiModelProperty(
     required = false,
-    value = "recomm realm the user wants to query")
+    value = "realm the user wants to query")
   public String         realm    = null;
   
   @ApiModelProperty( 

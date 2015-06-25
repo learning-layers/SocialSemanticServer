@@ -53,11 +53,9 @@ import at.kc.tugraz.ss.circle.datatypes.par.SSCircleUserCanPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntityPublicSetPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntityUsersGetPar;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleEntityUsersGetRet;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesGetPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesRemovePar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntityPublicSetRet;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitySharePar;
-import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleEntitiesGetRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleEntitiesRemoveRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleEntityShareRet;
 import at.tugraz.sss.serv.SSDBSQLI;
@@ -625,59 +623,6 @@ implements
 
       return circles;
       
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
-  @Override
-  public void circleEntitiesGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
-    
-    SSServCallerU.checkKey(parA);
-    
-    sSCon.writeRetFullToClient(
-      SSCircleEntitiesGetRet.get(
-        circleEntitiesGet((SSCircleEntitiesGetPar) parA.getFromJSON(SSCircleEntitiesGetPar.class))));
-  }
-  
-  @Override
-  public List<SSEntity> circleEntitiesGet(final SSCircleEntitiesGetPar par) throws Exception{
-    
-    //TODO to be refactored exhaustively (e.g. introduce circle parameter and user par.withUserRestriction together with par.forUser)
-    try{
-      final List<SSEntity>         entities = new ArrayList<>();
-
-      if(par.withUserRestriction){
-        
-        if(par.forUser == null){
-          par.forUser = par.user;
-        }
-      }
-      
-      for(SSEntity entity : sqlFct.getCircleEntityURIsForUser(par.forUser, par.withSystemCircles, par.types))
-        
-//      for(SSUri circle : sqlFct.getCircleURIsForUser(par.forUser, par.withSystemCircles)){
-        
-//        for(SSEntity entity : sqlFct.getEntitiesForCircle(circle, par.types)){
-        
-        try{
-          entities.add(SSServCaller.entityUserGet(par.user, entity.id, par.forUser, false));
-        }catch(Exception error){
-          
-          if(SSServErrReg.containsErr(SSErrE.userNotAllowedToAccessEntity)){
-            SSServErrReg.reset();
-            continue;
-          }
-          
-          throw error;
-        }
-//        }
-////      }
-      
-      SSStrU.distinctWithoutNull2(entities);
-      
-      return entities;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;

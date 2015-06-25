@@ -18,36 +18,38 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par;
+package at.tugraz.sss.adapter.rest.v2.learnep;
 
-import at.tugraz.sss.serv.SSServPar;
+import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.serv.SSStrU;
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
-public class SSLearnEpVersionCurrentSetPar extends SSServPar{
+@XmlRootElement
+@ApiModel(value = "learnEpVersionEntityUpdate request parameter")
+public class SSLearnEpVersionEntityUpdateRESTAPIV2Par{
   
-  public SSUri  learnEpVersion = null;
+  @ApiModelProperty(
+    required = true,
+    value = "")
+  public SSUri    entity         = null;
   
-  public String getLearnEpVersion(){
-    return SSStrU.removeTrailingSlash(learnEpVersion);
+  @XmlElement
+  public void setEntity(final String entity) throws Exception{
+    this.entity = SSUri.get(entity, SSVocConf.sssUri);
   }
   
-  public void setLearnEpVersion(final String learnEpVersion) throws Exception{
-    this.learnEpVersion = SSUri.get(learnEpVersion);
-  }
+  @ApiModelProperty(
+    required = true,
+    value = "")
+  public Float    x              = null;
   
-  public SSLearnEpVersionCurrentSetPar(){}
+  @ApiModelProperty(
+    required = true,
+    value = "")
+  public Float    y              = null;
   
-  public SSLearnEpVersionCurrentSetPar(
-    final SSServOpE     op,
-    final String        key,
-    final SSUri         user,
-    final SSUri         learnEpVersion,
-    final Boolean       shouldCommit){
-    
-    super(op, key, user);
-    
-    this.learnEpVersion   = learnEpVersion;
-  }
+  public SSLearnEpVersionEntityUpdateRESTAPIV2Par(){}
 }
