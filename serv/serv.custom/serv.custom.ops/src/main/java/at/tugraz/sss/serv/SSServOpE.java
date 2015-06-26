@@ -121,8 +121,6 @@ public enum SSServOpE{
   entitiesForLabelsAndDescriptionsGet,
   entitiesForLabelsGet,
   entitiesForDescriptionsGet,
-  entityDescGet                                       ,
-  entityDescsGet,
   entityAdd                                           ,
   entityGet                                           ,
   entityExists,

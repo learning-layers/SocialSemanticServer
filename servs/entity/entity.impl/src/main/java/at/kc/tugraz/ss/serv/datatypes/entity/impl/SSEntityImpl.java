@@ -30,8 +30,6 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesForLabelsAn
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesForLabelsGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityAddPar;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityDescGetPar;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityDescsGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityDownloadURIsGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityEntitiesAttachedGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityExistsPar;
@@ -53,8 +51,6 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserEntitiesA
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserParentEntitiesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserSubEntitiesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntitiesGetRet;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityDescGetRet;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityDescsGetRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserAddRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityCopyRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserDirectlyAdjoinedEntitiesRemoveRet;
@@ -68,7 +64,6 @@ import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSObjU;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSSocketCon;
-import at.tugraz.sss.serv.SSEntityA;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSUri;
@@ -91,7 +86,6 @@ import at.kc.tugraz.ss.service.userevent.datatypes.SSUEE;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
-import at.tugraz.sss.serv.SSEntityDescriberPar;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -278,6 +272,7 @@ implements
                 null, //type
                 par.withUserRestriction, 
                 par.invokeEntityHandlers, 
+                par.descPar,
                 par.logErr)));
         }
         
@@ -304,6 +299,7 @@ implements
                 null, //type
                 par.withUserRestriction, //withUserRestriction
                 par.invokeEntityHandlers, //invokeEntityHandlers 
+                par.descPar,
                 false))); //logErr
             
         }catch(Exception error){
@@ -347,7 +343,6 @@ implements
       if(par.entity != null){
         
         if(par.withUserRestriction){
-          
           SSServCallerU.canUserReadEntity(par.user, par.entity, par.logErr);
         }
         
@@ -367,19 +362,14 @@ implements
       
       if(par.invokeEntityHandlers){
         
-        final SSEntityDescriberPar entityDescriberPar =
-          SSEntityDescriberPar.get(
-            par.user,
-            entity,
-            false);
+        setReadAndFileInformation(par.user, entity);
         
-        entityDescriberPar.forUser = par.forUser;
+        par.descPar.user    = par.user;
+        par.descPar.forUser = par.forUser;
         
         for(SSServContainerI serv : SSServReg.inst.getServsDescribingEntities()){
-          entityDescriberPar.entity = ((SSEntityDescriberI) serv.serv()).getUserEntity(entityDescriberPar);
+          entity = ((SSEntityDescriberI) serv.serv()).getUserEntity(entity, par.descPar);
         }
-        
-        return entityDescriberPar.entity;
       }
       
       return entity;
@@ -491,105 +481,6 @@ implements
       }
       
       dbSQL.rollBack(par.shouldCommit);
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
-@Override
-  public void entityDescsGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
-    
-    SSServCallerU.checkKey(parA);
-    
-    sSCon.writeRetFullToClient(SSEntityDescsGetRet.get(entityDescsGet(parA)));
-  }
-  
-  @Override
-  public List<SSEntityA> entityDescsGet(final SSServPar parA) throws Exception{
-    
-    try{
-      
-      final SSEntityDescsGetPar  par      = new SSEntityDescsGetPar(parA);
-      final List<SSEntityA>      entities = new ArrayList<>();
-      
-      if(
-        par.entities.isEmpty() &&
-        par.types.isEmpty()){
-        return entities;
-      }
-      
-      final SSEntityDescriberPar entityDescriberPar = 
-        SSEntityDescriberPar.get(
-          par.user, 
-          null, 
-          false);
-      
-      entityDescriberPar.setTags          = par.getTags;
-      entityDescriberPar.setOverallRating = par.getOverallRating;
-      entityDescriberPar.setDiscs         = par.getDiscs;
-      entityDescriberPar.setUEs           = par.getUEs;
-      entityDescriberPar.setThumb         = par.getThumb;
-      entityDescriberPar.setFlags         = par.getFlags;
-      entityDescriberPar.setCircles       = false;
-      
-      for(SSEntity entity : sqlFct.getEntities(par.entities, par.types)){
-        
-        entityDescriberPar.entity = entity;
-        
-        setReadAndFileInformation(par.user, entity);
-        
-        for(SSServContainerI serv : SSServReg.inst.getServsDescribingEntities()){
-          entityDescriberPar.entity = ((SSEntityDescriberI) serv.serv()).getUserEntity(entityDescriberPar);
-        }
-        
-        entities.add(entityDescriberPar.entity);
-      }
-        
-      return entities;
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
-  @Override
-  public void entityDescGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
-    
-    SSServCallerU.checkKey(parA);
-    
-    sSCon.writeRetFullToClient(SSEntityDescGetRet.get(entityDescGet(parA)));
-  }
-  
-  @Override
-  public SSEntity entityDescGet(final SSServPar parA) throws Exception{
-    
-    try{
-      
-      final SSEntityDescGetPar   par                = new SSEntityDescGetPar(parA);
-      final SSEntityDescriberPar entityDescriberPar =
-        SSEntityDescriberPar.get(
-          par.user,
-          sqlFct.getEntity     (par.entity),
-          false);
-      
-      entityDescriberPar.setTags          = par.getTags;
-      entityDescriberPar.setOverallRating = par.getOverallRating;
-      entityDescriberPar.setDiscs         = par.getDiscs;
-      entityDescriberPar.setUEs           = par.getUEs;
-      entityDescriberPar.setThumb         = par.getThumb;
-      entityDescriberPar.setFlags         = par.getFlags;
-      entityDescriberPar.setCircles       = par.getCircles;
-      
-      setReadAndFileInformation(par.user, entityDescriberPar.entity);
-      
-      for(SSServContainerI serv : SSServReg.inst.getServsDescribingEntities()){
-        entityDescriberPar.entity = ((SSEntityDescriberI) serv.serv()).getUserEntity(entityDescriberPar);
-      }
-      
-      return entityDescriberPar.entity;
-      
-    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }

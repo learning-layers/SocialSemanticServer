@@ -20,6 +20,8 @@
 */
 package at.kc.tugraz.ss.service.search.impl.fct;
 
+import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
 import at.kc.tugraz.ss.service.rating.api.SSRatingServerI;
 import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSStrU;
@@ -223,16 +225,19 @@ public class SSSearchFct {
     }
     
     final SSEntity tmpEntity =
-        SSServCaller.entityDescGet(
+      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+        new SSEntityGetPar(
+          null,
+          null,
           par.user,
           entity.id,
-          false,
-          false,
-          false,
-          false,
-          false,
-          false,
-          false);
+          null, //forUser,
+          null, //label
+          null, //type
+          false, //withUserRestriction
+          false, //invokeEntityHandlers,
+          null, //descPar,
+          true)); //logErr
     
     return SSStrU.contains(par.authorsToSearchFor, tmpEntity.author);
   }

@@ -83,6 +83,7 @@ public class SSTagMiscFct {
               SSEntityE.tag, //type 
               false, //withUserRestriction
               false, //invokeEntityHandlers
+              null, //descPar
               true)).id)); //logErr
     }
     
@@ -126,6 +127,7 @@ public class SSTagMiscFct {
               SSEntityE.tag, //type 
               false, //withUserRestriction
               false, //invokeEntityHandlers
+              null, //descPar
               true)).id; //logErr
           
         categories.addAll (sqlFct.getTagAsss(par.forUser, null, SSSpaceE.sharedSpace,  par.startTime, categoryURI));
@@ -159,6 +161,7 @@ public class SSTagMiscFct {
             SSEntityE.tag, //type
             false, //withUserRestriction
             false, //invokeEntityHandlers
+              null, //descPar
             true)).id; //logErr
       
       categories.addAll (sqlFct.getTagAsss(SSUri.asListWithoutNullAndEmpty(par.forUser),     par.entities, SSSpaceE.sharedSpace,  par.startTime, SSUri.asListWithoutNullAndEmpty(categoryURI)));
@@ -203,6 +206,7 @@ public class SSTagMiscFct {
               SSEntityE.tag, //type
               false, //withUserRestriction
               false, //invokeEntityHandlers
+              null, //descPar
               true)).id; //logErr
         
         categories.addAll (sqlFct.getTagAsss(userToUse, null, par.space, par.startTime, categoryURI));
@@ -234,6 +238,7 @@ public class SSTagMiscFct {
             SSEntityE.tag, //type
             false, //withUserRestriction
             false, //invokeEntityHandlers
+              null, //descPar
             true)).id; //logErr
       
       categories.addAll (sqlFct.getTagAsss(SSUri.asListWithoutNullAndEmpty(userToUse), par.entities, par.space, par.startTime, SSUri.asListWithoutNullAndEmpty(categoryURI)));
@@ -288,6 +293,7 @@ public class SSTagMiscFct {
               SSEntityE.tag, //type 
               false, //withUserRestriction
               false, //invokeEntityHandlers
+              null, //descPar
               true)).id)); //logErr
       
       entities.addAll(
@@ -305,6 +311,7 @@ public class SSTagMiscFct {
               SSEntityE.tag, //type 
               false, //withUserRestriction
               false, //invokeEntityHandlers
+              null, //descPar
               true)).id)); //logErr
     }
     

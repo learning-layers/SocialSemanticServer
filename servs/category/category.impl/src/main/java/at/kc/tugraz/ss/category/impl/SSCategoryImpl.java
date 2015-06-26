@@ -218,8 +218,11 @@ implements
   }
   
   @Override
-  public SSEntity getUserEntity(final SSEntityDescriberPar par) throws Exception{
-    return par.entity;
+  public SSEntity getUserEntity(
+    final SSEntity             entity, 
+    final SSEntityDescriberPar par) throws Exception{
+    
+    return entity;
   }
   
   @Override
@@ -269,6 +272,7 @@ implements
                 SSEntityE.category, //type
                 false, //withUserRestriction
                 false, //invokeEntityHandlers
+                null, //descPar
                 true)).id; //logErr
             
         }else{
@@ -404,6 +408,7 @@ implements
               SSEntityE.category, //type
               false, //withUserRestriction
               false, //invokeEntityHandlers
+              null, //descPar
               true)).id; //logErr
       }else{
         categoryUri = SSServCaller.vocURICreate();
@@ -574,6 +579,7 @@ implements
               SSEntityE.category, //type
               false, //withUserRestriction
               false, //invokeEntityHandlers
+              null, //descPar
               true)).id; //logErr
       }else{
         categoryUri = SSServCaller.vocURICreate();
@@ -681,6 +687,7 @@ implements
                 SSEntityE.category, //type
                 false, //withUserRestriction
                 false, //invokeEntityHandlers
+                null, //descPar
                 true)).id; //logErr
         }else{
           categoryUri = SSServCaller.vocURICreate();

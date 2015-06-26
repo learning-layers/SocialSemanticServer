@@ -21,21 +21,22 @@
 package at.tugraz.sss.adapter.rest.v2.entity;
 
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesGetPar;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntitiesGetRet;
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
 import at.tugraz.sss.serv.SSUri;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityGetRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserUpdateRet;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.tugraz.sss.serv.SSEntityDescriberPar;
 import at.tugraz.sss.serv.SSEntityE;
+import at.tugraz.sss.serv.SSStrU;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -56,7 +57,7 @@ public class SSRESTEntity {
     value = "retrieve entities",
     response = SSEntitiesGetRet.class)
   @Path("")
-  public Response entitiesGet(
+  public Response entitiesAccessibleGet(
     @Context 
       final HttpHeaders headers){
     
@@ -69,11 +70,20 @@ public class SSRESTEntity {
           SSServOpE.entitiesGet,
           null,  //key
           null,  //user
-          null,  //forUser
-          null, //entities
+          SSUri.asListWithoutNullAndEmpty(),  //entities 
+          null, //forUser
           SSEntityE.asListWithoutNullAndEmpty(), //types
           true,  //invokeEntityHandlers
-          true); //withUserRestriction
+          new SSEntityDescriberPar(
+            false, //setTags, 
+            false, //setOverallRating, 
+            false, //setDiscs, 
+            false, //setUEs, 
+            false, //setThumb, 
+            false, //setFlags, 
+            false), //setCircles), //descPar
+          true, //withUserRestriction
+          true); //logErr
       
     }catch(Exception error){
       return Response.status(422).build();
@@ -82,36 +92,45 @@ public class SSRESTEntity {
     return SSRestMainV2.handleRequest(headers, par, false, true).response;
   }
   
-  @GET
+  @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path("/{entity}")
+  @Path("/filtered/{entities}")
   @ApiOperation(
-    value = "retrieve entity information for given ID or encoded URI",
-    response = SSEntityGetRet.class)
-  public Response entityGet(
+    value = "retrieve entity/entities information for given ID(s) or encoded URI(s)",
+    response = SSEntitiesGetRet.class)
+  public Response entitiesGet(
     @Context
     final HttpHeaders headers,
     
-    @PathParam(SSVarNames.entity)
-    final String entity){
+    @PathParam(SSVarNames.entities)
+    final String entities, 
     
-    final SSEntityGetPar par;
+    final SSEntitiesGetRESTAPIV2Par input){
+    
+    final SSEntitiesGetPar par;
     
     try{
       
       par =
-        new SSEntityGetPar(
-          SSServOpE.entityGet,
+        new SSEntitiesGetPar(
+          SSServOpE.entitiesGet,
           null,
           null,
-          SSUri.get(entity, SSVocConf.sssUri),
-          null, //forUser, 
-          null, //label, 
-          null, //type, 
-          true, //withUserRestriction, 
-          true, //invokeEntityHandlers, 
-          true);//logErr,
+          SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(entities, SSStrU.comma), SSVocConf.sssUri), //entities
+          null, //forUser,
+          null, //types
+          true, //invokeEntityHandlers
+          new SSEntityDescriberPar(
+            input.setTags,  //setTags,
+            input.setOverallRating,  //setOverallRating,
+            input.setDiscs,  //setDiscs,
+            input.setUEs,  //setUEs,
+            input.setThumb,  //setThumb,
+            input.setFlags,  //setFlags,
+            input.setCircles), //setCircles) //descPar
+          true, //withUserRestriction
+          true); //logErr
       
     }catch(Exception error){
       return Response.status(422).build();

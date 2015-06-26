@@ -94,11 +94,13 @@ implements
   }
   
   @Override
-  public SSEntity getUserEntity(final SSEntityDescriberPar par) throws Exception{
+  public SSEntity getUserEntity(
+    final SSEntity             entity, 
+    final SSEntityDescriberPar par) throws Exception{
     
     try{
       
-      switch(par.entity.type){
+      switch(entity.type){
         case circle:{
           
           final SSEntityCircle circle =
@@ -107,18 +109,18 @@ implements
                 null,
                 null,
                 par.user,
-                par.entity.id,
+                entity.id,
                 par.forUser,
                 SSEntityE.asListWithoutNullAndEmpty(),
-                par.withUserRestriction,
+                false,
                 false,
                 false));
           
-          return SSEntityCircle.get(circle, par.entity);
+          return SSEntityCircle.get(circle, entity);
         }
       }
       
-      return par.entity;
+      return entity;
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -305,7 +307,9 @@ implements
             null,     //forUser
             SSEntityE.asListWithoutNullAndEmpty(), //types
             false,   //invokeEntityHandlers
-            false)); //withUserRestriction
+            null,    //descPar
+            false,  //withUserRestriction
+            true)); //logErr
       
       for(SSEntity entity : entities){
         
@@ -539,39 +543,44 @@ implements
           par.entityTypesToIncludeOnly);
       
       if(par.invokeEntityHandlers){
-        
-        for(SSEntity entity : circle.entities){
           
-          entities.add(
-            SSServCaller.entityDescGet(
+        entities.addAll(
+          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
+            new SSEntitiesGetPar(
+              null,
+              null,
               par.user,
-              entity.id, 
-              false, //getTags 
-              true,  //getOverallRating
-              false, 
-              false, 
-              false, 
-              false, 
-              false));
-        }
+              SSUri.getFromEntitites(circle.entities),
+              null, //forUser,
+              SSEntityE.asListWithoutNullAndEmpty(), //types,
+              true, //invokeEntityHandlers,
+              new SSEntityDescriberPar(
+                false, //setTags
+                true, //setOverallRating,
+                false, //setDiscs,
+                false, //setUEs,
+                false, //setThumb,
+                false, //setFlags,
+                false), //setCircles //descPar,
+              false, //withUserRestriction
+              false))); //logErr
         
         circle.entities.clear();
         circle.entities.addAll(entities);
         
-        for(SSEntity user : circle.users){
-          
-          users.add(
-            SSServCaller.entityDescGet(
-              par.user, 
-              user.id, 
-              false, 
-              false, 
-              false, 
-              false, 
-              false, 
-              false, 
-              false));
-        }
+        users.addAll(
+          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
+            new SSEntitiesGetPar(
+              null,
+              null,
+              par.user,
+              SSUri.getFromEntitites(circle.users),
+              null, //forUser,
+              SSEntityE.asListWithoutNullAndEmpty(), //types,
+              false, //invokeEntityHandlers,
+              null, //descPar
+              false, //withUserRestriction
+              false))); //logErr
         
         circle.users.clear();
         circle.users.addAll(users);
@@ -885,12 +894,13 @@ implements
               null, 
               null, 
               par.entity, 
-              null, 
-              null, 
-              null, 
-              false, 
-              false, 
-              false));
+              null,  //forUser
+              null, //label
+              null, //type
+              false, //withUserRestriction
+              false, //invokeEntityHandlers
+              null, //descPar
+              false)); //logErr
           
       }catch(Exception error){
         
@@ -1044,7 +1054,9 @@ implements
           null,     //forUser
           SSEntityE.asListWithoutNullAndEmpty(), //types
           false,   //invokeEntityHandlers
-          false)); //withUserRestriction
+          null, //descPar
+          false,  //withUserRestriction
+          true));  //logErr
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

@@ -88,6 +88,7 @@ public class SSCategoryMiscFct {
               SSEntityE.category, //type 
               false, //withUserRestriction
               false, //invokeEntityHandlers
+              null, //descPar
               true)).id)); //logErr
             
       entities.addAll(
@@ -105,6 +106,7 @@ public class SSCategoryMiscFct {
               SSEntityE.category, //type 
               false, //withUserRestriction
               false, //invokeEntityHandlers
+              null, //descPar
               true)).id)); //logErr
     }
     
@@ -154,6 +156,7 @@ public class SSCategoryMiscFct {
               SSEntityE.category, //type 
               false, //withUserRestriction
               false, //invokeEntityHandlers
+              null, //descPar
               true)).id)); //logErr
     }
     
@@ -197,6 +200,7 @@ public class SSCategoryMiscFct {
               SSEntityE.category, //type 
               false, //withUserRestriction
               false, //invokeEntityHandlers
+              null, //descPar
               true)).id; //logErr
           
         categories.addAll (sqlFct.getCategoryAsss(par.forUser, null, SSSpaceE.sharedSpace,  par.startTime, categoryURI));
@@ -232,6 +236,7 @@ public class SSCategoryMiscFct {
               SSEntityE.category, //type 
               false, //withUserRestriction
               false, //invokeEntityHandlers
+              null, //descPar
               true)).id; //logErr
         
         categories.addAll (sqlFct.getCategoryAsss(par.forUser,     entity, SSSpaceE.sharedSpace,  par.startTime, categoryURI));
@@ -277,6 +282,7 @@ public class SSCategoryMiscFct {
               SSEntityE.category, //type
               false, //withUserRestriction
               false, //invokeEntityHandlers
+              null, //descPar
               true)).id; //logErr
         
         categories.addAll (sqlFct.getCategoryAsss(userToUse, null, par.space, par.startTime, categoryURI));
@@ -310,6 +316,7 @@ public class SSCategoryMiscFct {
               SSEntityE.category, //type
               false, //withUserRestriction
               false, //invokeEntityHandlers
+              null, //descPar
               true)).id; //logErr
         
         categories.addAll (sqlFct.getCategoryAsss(userToUse, entity, par.space, par.startTime, categoryURI));

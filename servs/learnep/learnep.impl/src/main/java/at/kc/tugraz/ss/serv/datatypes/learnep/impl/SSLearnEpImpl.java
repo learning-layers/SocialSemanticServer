@@ -26,6 +26,9 @@ import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivEntityAddPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleTypesGetPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleUsersAddPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclesGetPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesGetPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.api.SSLearnEpClientI;
 import at.kc.tugraz.ss.serv.datatypes.learnep.api.SSLearnEpServerI;
 import at.kc.tugraz.ss.serv.datatypes.learnep.conf.SSLearnEpConf;
@@ -90,6 +93,7 @@ import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
+import at.tugraz.sss.serv.SSEntityDescriberPar;
 import at.tugraz.sss.serv.SSEntityHandlerImplI;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.SSUsersResourcesGathererI;
@@ -337,20 +341,19 @@ implements
              par.user, 
              learnEp.id);
          
-         for(SSUri user : sqlFct.getLearnEpUserURIs(learnEp.id)){
-           
-           learnEp.users.add(
-             SSServCaller.entityDescGet(
-               par.user, 
-               user, 
-               false,
-               false, 
-               false, 
-               false, 
-               false, 
-               false, 
-               false));
-         }
+         learnEp.users.addAll(
+           ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
+             new SSEntitiesGetPar(
+               null,
+               null,
+               par.user,
+               sqlFct.getLearnEpUserURIs(learnEp.id),
+               null, //forUser,
+               SSEntityE.asListWithoutNullAndEmpty(), //types,
+               false, //invokeEntityHandlers,
+               null, //descPar
+               false, //withUserRestriction
+               false))); //logErr
          
          if(!learnEpConf.useEpisodeLocking){
            learnEp.locked       = false;
@@ -428,17 +431,27 @@ implements
         
         for(SSLearnEpEntity learnEpEntity : learnEpVersion.learnEpEntities){
           
-          learnEpEntity.entity = 
-            SSServCaller.entityDescGet(
+          learnEpEntity.entity =
+            ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+              new SSEntityGetPar(
+                null,
+                null,
                 par.user,
                 learnEpEntity.entity.id,
-                true,
-                true,
-                false,
-                false,
-                false,
-                false,
-                false);
+                null, //forUser,
+                null, //label
+                null, //type
+                false, //withUserRestriction
+                true, //invokeEntityHandlers,
+                new SSEntityDescriberPar(
+                  true, //setTags,
+                  true, //setOverallRating,
+                  false, //setDiscs,
+                  false, //setUEs,
+                  false, //setThumb,
+                  false, //setFlags,
+                  false), //setCircles //descPar,
+                true)); //logErr
         }
 
         result.add(learnEpVersion);
@@ -476,16 +489,26 @@ implements
       for(SSLearnEpEntity learnEpEntity : learnEpVersion.learnEpEntities){
         
         learnEpEntity.entity =
-          SSServCaller.entityDescGet(
-            par.user,
-            learnEpEntity.entity.id,
-            true,
-            true,
-            false,
-            false,
-            false,
-            false,
-            false);
+          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+            new SSEntityGetPar(
+              null,
+              null,
+              par.user,
+              learnEpEntity.entity.id,
+              null, //forUser,
+              null, //label
+              null, //type
+              false, //withUserRestriction
+              true, //invokeEntityHandlers,
+              new SSEntityDescriberPar(
+                true, //setTags,
+                true, //setOverallRating,
+                false, //setDiscs,
+                false, //setUEs,
+                false, //setThumb,
+                false, //setFlags,
+                false), //setCircles //descPar,
+              true)); //logErr
       }
         
       return learnEpVersion;
@@ -1310,16 +1333,26 @@ implements
       for(SSLearnEpEntity learnEpEntity : learnEpVersion.learnEpEntities){
         
         learnEpEntity.entity =
-          SSServCaller.entityDescGet(
-            par.user,
-            learnEpEntity.entity.id,
-            true,
-            true,
-            false,
-            false,
-            false,
-            false,
-            false);
+          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+            new SSEntityGetPar(
+              null,
+              null,
+              par.user,
+              learnEpEntity.entity.id,
+              null, //forUser,
+              null, //label
+              null, //type
+              false, //withUserRestriction
+              true, //invokeEntityHandlers,
+              new SSEntityDescriberPar(
+                true, //setTags,
+                true, //setOverallRating,
+                false, //setDiscs,
+                false, //setUEs,
+                false, //setThumb,
+                false, //setFlags,
+                false), //setCircles //descPar,
+              true)); //logErr
       }
       
       return learnEpVersion;

@@ -237,8 +237,6 @@ implements
     final List<SSUri>  users,
     final SSEntityCircle        circle) throws Exception{
     
-    
-    
   }
   
   @Override
@@ -275,13 +273,15 @@ implements
   }
   
   @Override
-  public SSEntity getUserEntity(final SSEntityDescriberPar par) throws Exception{
+  public SSEntity getUserEntity(
+    final SSEntity             entity, 
+    final SSEntityDescriberPar par) throws Exception{
     
     try{
       
       if(par.setTags){
         
-        par.entity.tags.addAll(
+        entity.tags.addAll(
           SSStrU.toStr(
             tagsGet(
               new SSTagsGetPar(
@@ -289,13 +289,13 @@ implements
                 null,
                 par.user,
                 null,
-                SSUri.asListWithoutNullAndEmpty(par.entity.id),
+                SSUri.asListWithoutNullAndEmpty(entity.id),
                 SSTagLabel.asListWithoutNullAndEmpty(),
                 null,
                 null))));
       }
       
-      return par.entity;
+      return entity;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -390,6 +390,7 @@ implements
               SSEntityE.tag, //type
               false, //withUserRestriction
               false, //invokeEntityHandlers
+              null, //descPar
               true)).id; //logErr
       }else{
         tagUri    = SSServCaller.vocURICreate();
@@ -553,6 +554,7 @@ implements
               SSEntityE.tag, //type
               false, //withUserRestriction
               false, //invokeEntityHandlers
+              null, //descPar
               true)).id; //logErr
       }else{
         tagUri = SSServCaller.vocURICreate();
@@ -660,6 +662,7 @@ implements
                 SSEntityE.tag, //type
                 false, //withUserRestriction
                 false, //invokeEntityHandlers
+                null, //descPar
                 true)).id; //logErr
           
         }else{
@@ -805,11 +808,13 @@ implements
                 null,
                 null,
                 par.user,
-                SSUri.asListWithoutNullAndEmpty(),
-                par.forUser,
-                types,
-                false,
-                par.withUserRestriction))));
+                SSUri.asListWithoutNullAndEmpty(), //entities
+                par.forUser, //forUser
+                types, //types
+                false, //invokeEntityHandlers,
+                null, //descPar
+                par.withUserRestriction, //withUserRestriction
+                true)))); //logErr
       }
       
       return SSTagMiscFct.getTagFrequsFromTags(

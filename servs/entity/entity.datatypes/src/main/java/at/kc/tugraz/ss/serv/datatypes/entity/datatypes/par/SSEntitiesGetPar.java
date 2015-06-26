@@ -20,6 +20,7 @@
  */
 package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par;
 
+import at.tugraz.sss.serv.SSEntityDescriberPar;
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
@@ -30,10 +31,19 @@ import java.util.List;
 
 public class SSEntitiesGetPar extends SSServPar{
   
-  public List<SSUri>     entities              = new ArrayList<>();
-  public SSUri           forUser               = null;
-  public List<SSEntityE> types                 = new ArrayList<>();
-  public Boolean         invokeEntityHandlers  = false;
+  public List<SSUri>          entities              = new ArrayList<>();
+  public SSUri                forUser               = null;
+  public List<SSEntityE>      types                 = new ArrayList<>();
+  public Boolean              invokeEntityHandlers  = false;
+  public SSEntityDescriberPar descPar;
+
+  public List<String> getEntities(){
+    return SSStrU.removeTrailingSlash(entities);
+  }
+
+  public void setEntities(final List<String> entities) throws Exception{
+    this.entities = SSUri.get(entities);
+  }
   
   public String getForUser(){
     return SSStrU.removeTrailingSlash(forUser);
@@ -54,23 +64,28 @@ public class SSEntitiesGetPar extends SSServPar{
   public SSEntitiesGetPar(){}
   
   public SSEntitiesGetPar(
-    final SSServOpE       op,
-    final String          key,
-    final SSUri           user,
-    final List<SSUri>     entities,
-    final SSUri           forUser,
-    final List<SSEntityE> types,
-    final Boolean         invokeEntityHandlers,
-    final Boolean         withUserRestriction) throws Exception{
+    final SSServOpE            op,
+    final String               key,
+    final SSUri                user,
+    final List<SSUri>          entities,
+    final SSUri                forUser,
+    final List<SSEntityE>      types,
+    final Boolean              invokeEntityHandlers,
+    final SSEntityDescriberPar descPar,
+    final Boolean              withUserRestriction, 
+    final Boolean              logErr) throws Exception{
     
     super(op, key, user);
     
     SSUri.addDistinctWithoutNull(this.entities, entities);
     
     this.forUser              = forUser;
-    this.invokeEntityHandlers = invokeEntityHandlers;
-    this.withUserRestriction  = withUserRestriction;
     
     SSEntityE.addDistinctWithoutNull(this.types, types);
+    
+    this.invokeEntityHandlers = invokeEntityHandlers;
+    this.descPar              = descPar;
+    this.withUserRestriction  = withUserRestriction;
+    this.logErr               = logErr;
   }
 }

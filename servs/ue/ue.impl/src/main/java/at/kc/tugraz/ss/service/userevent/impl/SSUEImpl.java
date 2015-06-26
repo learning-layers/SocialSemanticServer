@@ -188,9 +188,6 @@ implements
     final SSUri        user,
     final List<SSUri>  users,
     final SSEntityCircle        circle) throws Exception{
-    
-    
-    
   }
   
   @Override
@@ -205,23 +202,25 @@ implements
   }
   
   @Override
-  public SSEntity getUserEntity(final SSEntityDescriberPar par) throws Exception{
+  public SSEntity getUserEntity(
+    final SSEntity             entity, 
+    final SSEntityDescriberPar par) throws Exception{
     
     try{
       
       if(par.setUEs){
         
-        par.entity.uEs.addAll(
+        entity.uEs.addAll(
           SSServCaller.uEsGet(
             par.user,
             par.user,
-            par.entity.id,
+            entity.id,
             null,
             null,
             null));
       }
       
-      return par.entity;
+      return entity;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;

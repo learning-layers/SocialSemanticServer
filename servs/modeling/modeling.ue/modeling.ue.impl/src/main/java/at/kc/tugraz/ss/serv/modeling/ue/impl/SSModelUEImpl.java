@@ -182,6 +182,7 @@ public class SSModelUEImpl extends SSServImplWithDBA implements SSModelUEClientI
                 null, //type
                 false, //withUserRestriction
                 false, //invokeEntityHandlers
+                null, //descPar
                 true)).type; //logErr
           
         }catch(Exception error){
@@ -388,6 +389,7 @@ public class SSModelUEImpl extends SSServImplWithDBA implements SSModelUEClientI
                 null, //type
                 false, //withUserRestriction
                 false, //invokeEntityHandlers
+              null, //descPar
                 true)).label); //logErr
       }
       
@@ -405,6 +407,7 @@ public class SSModelUEImpl extends SSServImplWithDBA implements SSModelUEClientI
               null, //type
               false, //withUserRestriction
               false, //invokeEntityHandlers
+              null, //descPar
               true)).label); //logErr
       
       counter++;

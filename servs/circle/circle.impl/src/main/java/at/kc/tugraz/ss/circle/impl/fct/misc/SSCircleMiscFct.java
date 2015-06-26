@@ -103,12 +103,13 @@ public class SSCircleMiscFct{
               null, 
               null, 
               entityUri, 
-              null, 
-              null, 
-              null, 
-              false, 
-              false, 
-              false)).type;
+              null, //forUser
+              null, //label
+              null, //type
+              false, //withUserRestriction
+              false, //invokeEntityHandlers
+              null, //descPar
+              false)).type; //logErr
           
         switch(entityType){
           case entity: continue;
@@ -424,6 +425,7 @@ public class SSCircleMiscFct{
             null,
             false,
             false,
+              null, //descPar
             false)).type;
       
       switch(entityType){
@@ -468,6 +470,7 @@ public class SSCircleMiscFct{
             null,
             false,
             false,
+            null, //descPar
             false)).type;
       
       for(SSServContainerI serv : SSServReg.inst.getServsManagingEntities()){

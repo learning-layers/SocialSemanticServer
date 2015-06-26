@@ -363,22 +363,24 @@ public class SSDiscImpl
   }
 
   @Override
-  public SSEntity getUserEntity(final SSEntityDescriberPar par) throws Exception{
+  public SSEntity getUserEntity(
+    final SSEntity             entity, 
+    final SSEntityDescriberPar par) throws Exception{
 
     try{
 
       if(par.setDiscs){
 
-        par.entity.discs.addAll(
+        entity.discs.addAll(
           discURIsForTargetGet(
             new SSDiscURIsForTargetGetPar(
               null, 
               null, 
               par.user, 
-              par.entity.id)));
+              entity.id)));
       }
 
-      return par.entity;
+      return entity;
 
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

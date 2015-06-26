@@ -21,5 +21,8 @@
 package at.tugraz.sss.serv;
 
 public interface SSEntityDescriberI{
-  public SSEntity getUserEntity(final SSEntityDescriberPar par) throws Exception;
+  
+  public SSEntity getUserEntity(
+    final SSEntity             entity, 
+    final SSEntityDescriberPar par) throws Exception;
 }

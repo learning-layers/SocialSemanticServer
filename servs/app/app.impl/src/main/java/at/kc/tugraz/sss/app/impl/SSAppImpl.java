@@ -23,6 +23,7 @@ package at.kc.tugraz.sss.app.impl;
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePubEntityAddPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSSocketCon;
@@ -68,10 +69,12 @@ public class SSAppImpl extends SSServImplWithDBA implements SSAppClientI, SSAppS
   }
   
   @Override
-  public SSEntity getUserEntity(final SSEntityDescriberPar par) throws Exception{
+  public SSEntity getUserEntity(
+    final SSEntity             entity, 
+    final SSEntityDescriberPar par) throws Exception{
     
     try{
-      return par.entity;
+      return entity;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -208,20 +211,23 @@ public class SSAppImpl extends SSServImplWithDBA implements SSAppClientI, SSAppS
       SSApp              entity;
       
       for(SSApp app : sqlFct.getApps()){
-
+        
         entity =
           SSApp.get(
             app,
-            SSServCaller.entityDescGet(
-              par.user,
-              app.id,
-              true,
-              true,
-              false,
-              false,
-              false,
-              false,
-              false));
+            ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+              new SSEntityGetPar(
+                null,
+                null,
+                par.user,
+                app.id,
+                null, //forUser,
+                null, //label
+                null, //type
+                false, //withUserRestriction
+                false, //invokeEntityHandlers,
+                null, //descPar,
+                true))); //logErr
         
         entity.downloads.addAll(
           SSServCaller.entityDownloadURIsGet(

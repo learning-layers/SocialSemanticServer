@@ -153,36 +153,36 @@ implements
   }
   
   @Override
-  public SSEntity getUserEntity(final SSEntityDescriberPar par) throws Exception{
+  public SSEntity getUserEntity(
+    final SSEntity             entity, 
+    final SSEntityDescriberPar par) throws Exception{
     
     try{
       
-      switch(par.entity.type){
+      switch(entity.type){
         
         case file:{
           
-          final SSFileExtE  fileExt  = SSFileExtE.ext(SSStrU.removeTrailingSlash(par.entity));
+          final SSFileExtE  fileExt  = SSFileExtE.ext(SSStrU.removeTrailingSlash(entity));
           final SSMimeTypeE mimeType = SSMimeTypeE.mimeTypeForFileExt (fileExt);
           
           if(par.setThumb){
             
-            par.entity.thumb =
+            entity.thumb =
               SSServCaller.fileThumbBase64Get(
                 par.user,
-                par.entity.id);
+                entity.id);
           }
           
-          par.entity =
+          return 
             SSFile.get(
-              par.entity,
+              entity,
               fileExt,
               mimeType);
-           
-           break;
         }
       }
       
-      return par.entity;
+      return entity;
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

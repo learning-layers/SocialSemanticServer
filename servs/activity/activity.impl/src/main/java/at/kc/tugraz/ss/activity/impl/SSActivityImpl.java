@@ -40,6 +40,9 @@ import at.kc.tugraz.ss.activity.datatypes.ret.SSActivityAddRet;
 import at.kc.tugraz.ss.activity.impl.fct.sql.SSActivitySQLFct;
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleGetPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesGetPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
 import at.kc.tugraz.ss.service.user.api.SSUserServerI;
 import at.kc.tugraz.ss.service.user.datatypes.SSUser;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUsersGetPar;
@@ -55,6 +58,7 @@ import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSEntityCircle;
+import at.tugraz.sss.serv.SSEntityDescriberPar;
 import at.tugraz.sss.serv.SSEntityHandlerImplI;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.caller.SSServCaller;
@@ -327,16 +331,25 @@ implements
       
       try{
         descs.addAll(
-          SSServCaller.entityDescsGet(
-            par.user,
-            descURIs,
-            SSEntityE.asListWithoutNullAndEmpty(),
-            false,
-            false,
-            false,
-            false,
-            false,
-            false));
+          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
+            new SSEntitiesGetPar(
+              null,
+              null,
+              par.user,
+              descURIs,
+              null, //forUser,
+              SSEntityE.asListWithoutNullAndEmpty(), //types,
+              true, //invokeEntityHandlers,
+              new SSEntityDescriberPar(
+                false, //setTags, 
+                false, //setOverallRating,
+                false, //setDiscs, 
+                false, //setUEs, 
+                false, //setThumb, 
+                false, //setFlags, 
+                false), //setCircles //descPar,
+              false, //withUserRestriction
+              false))); //logErr
         
       }catch(Exception error){
         SSLogU.warn("information for activities couldnt be filled up");
@@ -518,17 +531,20 @@ implements
         try{
           
           activity.entity =
-            SSServCaller.entityDescGet(
-              par.user,
-              activity.entity.id,
-              false,
-              false,
-              false,
-              false,
-              false,
-              false,
-              false);
-          
+            ((SSEntityServerI)SSServReg.getServ(SSEntityServerI.class)).entityGet(
+              new SSEntityGetPar(
+                null, 
+                null, 
+                par.user, 
+                activity.entity.id, 
+                null, //forUser, 
+                null, //label, 
+                null, //type, 
+                false, //withUserRestriction, 
+                false, //invokeEntityHandlers, 
+                null, //descPar, 
+                false)); //logErr
+            
         }catch(Exception error){
           SSLogU.warn("information for activity entity couldnt be retrieved");
           SSServErrReg.reset();
@@ -553,17 +569,20 @@ implements
         try{
           
           activity.entities.add(
-            SSServCaller.entityDescGet(
-              par.user,
-              activityEntity,
-              false,
-              false,
-              false,
-              false,
-              false,
-              false,
-              false));
-          
+            ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+              new SSEntityGetPar(
+                null,
+                null,
+                par.user,
+                activityEntity,
+                null, //forUser,
+                null, //label
+                null, //type
+                false, //withUserRestriction
+                false, //invokeEntityHandlers,
+                null, //descPar,
+                false))); //logErr
+            
         }catch(Exception error){
           SSLogU.warn("information for activity entity couldnt be retrieved");
           SSServErrReg.reset();

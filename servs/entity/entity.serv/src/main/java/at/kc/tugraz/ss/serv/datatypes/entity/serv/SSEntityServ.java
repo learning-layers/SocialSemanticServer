@@ -25,8 +25,6 @@ import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.datatypes.entity.impl.SSEntityImpl;
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSCoreConfA;
-import at.tugraz.sss.serv.SSDBSQLI;
-import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSServContainerI;
@@ -64,8 +62,8 @@ public class SSEntityServ extends SSServContainerI{
     
     final Map<SSServOpE, Integer> maxRequestsForOps = new EnumMap<>(SSServOpE.class);
     
-    maxRequestsForOps.put(SSServOpE.entityDescsGet, 15);
-    maxRequestsForOps.put(SSServOpE.entityDescGet,  20);
+    maxRequestsForOps.put(SSServOpE.entitiesGet, 15);
+    maxRequestsForOps.put(SSServOpE.entityGet,   20);
     
     SSServReg.inst.regClientRequestLimit(servImplClientInteraceClass, maxRequestsForOps);
     

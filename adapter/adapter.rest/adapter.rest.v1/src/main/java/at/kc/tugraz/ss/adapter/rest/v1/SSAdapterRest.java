@@ -28,13 +28,9 @@ import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntityPublicSetRet;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitySharePar;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleEntityUsersGetRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleEntityShareRet;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityDescGetPar;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityDescsGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserAddPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityCopyPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserDirectlyAdjoinedEntitiesRemovePar;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityDescGetRet;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityDescsGetRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserAddRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityCopyRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserDirectlyAdjoinedEntitiesRemoveRet;
@@ -77,17 +73,6 @@ import sss.serv.eval.datatypes.ret.SSEvalLogRet;
 @Path("")
 @Api( value = "SSAdapterRest")
 public class SSAdapterRest{
-  
-  @POST
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "entityDescsGet")
-  @ApiOperation(
-    value = "retrieve more detailed information for given entities of a user",
-    response = SSEntityDescsGetRet.class)
-  public String entityDescsGet(final SSEntityDescsGetPar input){
-    return SSRestMainV1.handleStandardJSONRESTCall(input, SSServOpE.entityDescsGet);
-  }
   
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
@@ -296,17 +281,6 @@ public class SSAdapterRest{
     response = SSEntityUserDirectlyAdjoinedEntitiesRemoveRet.class)
   public String entityDirectlyAdjoinedEntitiesRemove(final SSEntityUserDirectlyAdjoinedEntitiesRemovePar input){
     return SSRestMainV1.handleStandardJSONRESTCall(input, SSServOpE.entityDirectlyAdjoinedEntitiesRemove);
-  }
-  
-  @POST
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "entityDescGet")
-  @ApiOperation(
-    value = "retrieve more detailed information for given entity",
-    response = SSEntityDescGetRet.class)
-  public String entityDescGet(final SSEntityDescGetPar input){
-    return SSRestMainV1.handleStandardJSONRESTCall(input, SSServOpE.entityDescGet);
   }
   
   @POST

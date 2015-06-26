@@ -114,6 +114,7 @@ public class SSDiscUserEntryAddFct{
             null, //type
             false, //withUserRestriction
             false, //invokeEntityHandlers
+              null, //descPar
             true)).type;
       
       SSEntityE       discEntryType = null;

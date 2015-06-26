@@ -22,7 +22,6 @@ package at.kc.tugraz.sss.flag.impl;
 
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivEntityAddPar;
-import at.kc.tugraz.ss.circle.serv.SSCircleServ;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSSocketCon;
 import at.tugraz.sss.serv.SSUri;
@@ -54,7 +53,12 @@ import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServReg;
 
-public class SSFlagImpl extends SSServImplWithDBA implements SSFlagClientI, SSFlagServerI, SSEntityDescriberI{
+public class SSFlagImpl 
+extends SSServImplWithDBA 
+implements 
+  SSFlagClientI, 
+  SSFlagServerI, 
+  SSEntityDescriberI{
   
   private final SSFlagSQLFct sqlFct;
   
@@ -66,22 +70,24 @@ public class SSFlagImpl extends SSServImplWithDBA implements SSFlagClientI, SSFl
   }
   
   @Override
-  public SSEntity getUserEntity(final SSEntityDescriberPar par) throws Exception{
+  public SSEntity getUserEntity(
+    final SSEntity             entity, 
+    final SSEntityDescriberPar par) throws Exception{
     
      try{
 
        if(par.setFlags){
         
-        par.entity.flags.addAll(
+        entity.flags.addAll(
           SSServCaller.flagsGet(
             par.user,
-            SSUri.asListWithoutNullAndEmpty(par.entity.id),
+            SSUri.asListWithoutNullAndEmpty(entity.id),
             SSStrU.toStrWithoutEmptyAndNull(),
             null,
             null));
       }
       
-      return par.entity;
+      return entity;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;

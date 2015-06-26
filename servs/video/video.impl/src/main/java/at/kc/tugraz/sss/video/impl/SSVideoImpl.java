@@ -199,8 +199,6 @@ implements
     final List<SSUri>  users,
     final SSEntityCircle        circle) throws Exception{
     
-    
-    
   }
 
   @Override
@@ -241,22 +239,23 @@ implements
     }
   }
   
-  
   @Override
-  public SSEntity getUserEntity(final SSEntityDescriberPar par) throws Exception{
+  public SSEntity getUserEntity(
+    final SSEntity             entity, 
+    final SSEntityDescriberPar par) throws Exception{
     
     try{
-      switch(par.entity.type){
+      switch(entity.type){
         
         case video:{
           
-          final SSVideo video = (SSVideo) SSServCaller.videoUserGet(par.user, par.entity.id);
+          final SSVideo video = (SSVideo) SSServCaller.videoUserGet(par.user, entity.id);
           
-          return SSVideo.get(video, par.entity);
+          return SSVideo.get(video, entity);
         }
       }
       
-      return par.entity;
+      return entity;
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

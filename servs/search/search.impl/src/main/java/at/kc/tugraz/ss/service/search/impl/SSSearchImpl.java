@@ -56,6 +56,7 @@ import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSDBSQLI;
+import at.tugraz.sss.serv.SSEntityDescriberPar;
 import java.util.*;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSErrE;
@@ -265,16 +266,26 @@ public class SSSearchImpl extends SSServImplWithDBA implements SSSearchClientI, 
     
     try{
       final SSEntity entity =
-        SSServCaller.entityDescGet(
-          par.user,
-          result,
-          true,
-          true,
-          false,
-          false,
-          false,
-          false,
-          false);
+        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+          new SSEntityGetPar(
+            null,
+            null,
+            par.user,
+            result,
+            null, //forUser,
+            null, //label
+            null, //type
+            false, //withUserRestriction
+            true, //invokeEntityHandlers,
+            new SSEntityDescriberPar(
+              true, //setTags,
+              true, //setOverallRating,
+              false, //setDiscs,
+              false, //setUEs,
+              false, //setThumb,
+              false, //setFlags,
+              false), //setCircles //descPar,
+            true)); //logErr
       
       entity.entries.addAll(
         SSStrU.removeTrailingSlash(
@@ -630,6 +641,7 @@ public class SSSearchImpl extends SSServImplWithDBA implements SSSearchClientI, 
                 null, //type
                 false, //withUserRestriction
                 false, //invokeEntityHandlers
+                null, //descPar
                 true)));
         }
         
@@ -656,6 +668,7 @@ public class SSSearchImpl extends SSServImplWithDBA implements SSSearchClientI, 
                 null, //type
                 false, //withUserRestriction
                 false, //invokeEntityHandlers
+                null, //descPar
                 true)));
         }
         
@@ -706,6 +719,7 @@ public class SSSearchImpl extends SSServImplWithDBA implements SSSearchClientI, 
                   null, //type
                   false, //withUserRestriction
                   false, //invokeEntityHandlers
+                  null, //descPar
                   true));
               
             searchResultsForOneKeyword.add(entityObj);
@@ -775,6 +789,7 @@ public class SSSearchImpl extends SSServImplWithDBA implements SSSearchClientI, 
                 null, //type
                 false, //withUserRestriction
                 false, //invokeEntityHandlers
+              null, //descPar
                 true));
           
           searchResultsForOneKeyword.add(entityObj);

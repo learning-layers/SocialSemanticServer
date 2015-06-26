@@ -78,18 +78,20 @@ implements
   }
   
   @Override
-  public SSEntity getUserEntity(final SSEntityDescriberPar par) throws Exception{
+  public SSEntity getUserEntity(
+    final SSEntity             entity, 
+    final SSEntityDescriberPar par) throws Exception{
     
     try{
-      switch(par.entity.type){
+      switch(entity.type){
         
         case user:{
           
-          final SSUser user = sqlFct.getUser(par.entity.id);
+          final SSUser user = sqlFct.getUser(entity.id);
 
           user.friends.addAll(
             SSServCaller.friendsUserGet(
-              par.entity.id));
+              entity.id));
           
           if(par.setCircles){
             
@@ -107,16 +109,14 @@ implements
                   false)));
           }
           
-          par.entity = 
+          return
             SSUser.get(
               user,
-              par.entity);
-          
-          break;
+              entity);
         }
       }
       
-      return par.entity;
+      return entity;
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

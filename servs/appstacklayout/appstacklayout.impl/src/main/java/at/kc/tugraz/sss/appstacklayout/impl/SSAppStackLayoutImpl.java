@@ -25,6 +25,7 @@ import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivEntityAddPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePubEntityAddPar;
 import at.kc.tugraz.ss.circle.serv.SSCircleServ;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.tugraz.sss.serv.SSSocketCon;
 import at.tugraz.sss.serv.SSEntity;
@@ -60,7 +61,12 @@ import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServReg;
 
-public class SSAppStackLayoutImpl extends SSServImplWithDBA implements SSAppStackLayoutClientI, SSAppStackLayoutServerI, SSEntityDescriberI{
+public class SSAppStackLayoutImpl 
+extends SSServImplWithDBA 
+implements 
+  SSAppStackLayoutClientI, 
+  SSAppStackLayoutServerI, 
+  SSEntityDescriberI{
   
   private final SSAppStackLayoutSQLFct sqlFct;
   
@@ -72,10 +78,12 @@ public class SSAppStackLayoutImpl extends SSServImplWithDBA implements SSAppStac
   }
   
   @Override
-  public SSEntity getUserEntity(final SSEntityDescriberPar par) throws Exception{
+  public SSEntity getUserEntity(
+    final SSEntity             entity, 
+    final SSEntityDescriberPar par) throws Exception{
     
     try{
-      return par.entity;
+      return entity;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -277,22 +285,25 @@ public class SSAppStackLayoutImpl extends SSServImplWithDBA implements SSAppStac
       SSAppStackLayout              entity;
       
       for(SSAppStackLayout appStackLayout : sqlFct.getAppStackLayouts()){
-
+        
         entity =
           SSAppStackLayout.get(
             appStackLayout,
-            SSServCaller.entityDescGet(
-              par.user,
-              appStackLayout.id,
-              true,
-              true,
-              false,
-              false,
-              false,
-              false,
-              false));
+            ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+              new SSEntityGetPar(
+                null,
+                null,
+                par.user,
+                appStackLayout.id,
+                null, //forUser,
+                null, //label
+                null, //type
+                false, //withUserRestriction
+                false, //invokeEntityHandlers,
+                null, //descPar,
+                true))); //logErr
         
-         appStackLayouts.add(entity);
+        appStackLayouts.add(entity);
       }
       
       return appStackLayouts;

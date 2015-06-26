@@ -94,34 +94,34 @@ implements
   }
   
   @Override
-  public SSEntity getUserEntity(final SSEntityDescriberPar par) throws Exception{
+  public SSEntity getUserEntity(
+    final SSEntity             entity, 
+    final SSEntityDescriberPar par) throws Exception{
     
     try{
       
-      switch(par.entity.type){
+      switch(entity.type){
         
         case evernoteNote:
         case evernoteResource:{
           
           if(par.setThumb){
             
-            par.entity.thumb =
+            entity.thumb =
               SSServCaller.fileThumbBase64Get(
                 par.user,
-                par.entity.id);
+                entity.id);
           }
         }
       }
       
-      switch(par.entity.type){
+      switch(entity.type){
         
         case evernoteNote:{
           
-          final SSUri noteBook = sqlFct.getNote(par.entity.id).notebook;
+          final SSUri noteBook = sqlFct.getNote(entity.id).notebook;
           
-          par.entity = SSEvernoteNote.get(par.entity, noteBook);
-          
-          break;
+          return SSEvernoteNote.get(entity, noteBook);
         }
         
         case evernoteResource:{
@@ -132,7 +132,7 @@ implements
           
           
           try{
-            fileExt        = SSFileExtE.ext(SSStrU.removeTrailingSlash(par.entity.file));
+            fileExt        = SSFileExtE.ext(SSStrU.removeTrailingSlash(entity.file));
             mimeType       = SSMimeTypeE.mimeTypeForFileExt (fileExt);
             
           }catch(Exception error){
@@ -142,20 +142,18 @@ implements
           
           note = 
             sqlFct.getResource(
-              par.entity.id).note;
+              entity.id).note;
           
-          par.entity = 
+          return 
             SSEvernoteResource.get(
-              par.entity,
+              entity,
               note,
               fileExt,
               mimeType);
-          
-          break;
         }
       }
       
-      return par.entity;
+      return entity;
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

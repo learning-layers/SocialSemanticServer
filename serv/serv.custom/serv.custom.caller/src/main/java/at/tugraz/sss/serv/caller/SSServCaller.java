@@ -1203,57 +1203,57 @@ public class SSServCaller {
     return (SSUri) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entityUserDirectlyAdjoinedEntitiesRemove, opPars));
   }
   
-  public static List<SSEntity> entityDescsGet(
-    final SSUri           user, 
-    final List<SSUri>     entities,
-    final List<SSEntityE> types,
-    final Boolean         getTags,
-    final Boolean         getOverallRating,
-    final Boolean         getDiscs,
-    final Boolean         getUEs,
-    final Boolean         getThumb,
-    final Boolean         getFlags) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.user,             user);
-    opPars.put(SSVarNames.entities,         entities);
-    opPars.put(SSVarNames.types,            types);
-    opPars.put(SSVarNames.getTags,          getTags);
-    opPars.put(SSVarNames.getOverallRating, getOverallRating);
-    opPars.put(SSVarNames.getDiscs,         getDiscs);
-    opPars.put(SSVarNames.getUEs,           getUEs);
-    opPars.put(SSVarNames.getThumb,         getThumb);
-    opPars.put(SSVarNames.getFlags,         getFlags);
-    
-    return (List<SSEntity>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entityDescsGet, opPars));
-  }
+//  public static List<SSEntity> entityDescsGet(
+//    final SSUri           user, 
+//    final List<SSUri>     entities,
+//    final List<SSEntityE> types,
+//    final Boolean         getTags,
+//    final Boolean         getOverallRating,
+//    final Boolean         getDiscs,
+//    final Boolean         getUEs,
+//    final Boolean         getThumb,
+//    final Boolean         getFlags) throws Exception{
+//    
+//    final Map<String, Object> opPars = new HashMap<>();
+//    
+//    opPars.put(SSVarNames.user,             user);
+//    opPars.put(SSVarNames.entities,         entities);
+//    opPars.put(SSVarNames.types,            types);
+//    opPars.put(SSVarNames.getTags,          getTags);
+//    opPars.put(SSVarNames.getOverallRating, getOverallRating);
+//    opPars.put(SSVarNames.getDiscs,         getDiscs);
+//    opPars.put(SSVarNames.getUEs,           getUEs);
+//    opPars.put(SSVarNames.getThumb,         getThumb);
+//    opPars.put(SSVarNames.getFlags,         getFlags);
+//    
+//    return (List<SSEntity>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entityDescsGet, opPars));
+//  }
   
-  public static SSEntity entityDescGet(
-    final SSUri   user, 
-    final SSUri   entity,
-    final Boolean getTags,
-    final Boolean getOverallRating,
-    final Boolean getDiscs,
-    final Boolean getUEs,
-    final Boolean getThumb,
-    final Boolean getFlags,
-    final Boolean getCircles) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.user,             user);
-    opPars.put(SSVarNames.entity,           entity);
-    opPars.put(SSVarNames.getTags,          getTags);
-    opPars.put(SSVarNames.getOverallRating, getOverallRating);
-    opPars.put(SSVarNames.getDiscs,         getDiscs);
-    opPars.put(SSVarNames.getUEs,           getUEs);
-    opPars.put(SSVarNames.getThumb,         getThumb);
-    opPars.put(SSVarNames.getFlags,         getFlags);
-    opPars.put(SSVarNames.getCircles,       getCircles);
-    
-    return (SSEntity) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entityDescGet, opPars));
-  }
+//  public static SSEntity entityDescGet(
+//    final SSUri   user, 
+//    final SSUri   entity,
+//    final Boolean getTags,
+//    final Boolean getOverallRating,
+//    final Boolean getDiscs,
+//    final Boolean getUEs,
+//    final Boolean getThumb,
+//    final Boolean getFlags,
+//    final Boolean getCircles) throws Exception{
+//    
+//    final Map<String, Object> opPars = new HashMap<>();
+//    
+//    opPars.put(SSVarNames.user,             user);
+//    opPars.put(SSVarNames.entity,           entity);
+//    opPars.put(SSVarNames.getTags,          getTags);
+//    opPars.put(SSVarNames.getOverallRating, getOverallRating);
+//    opPars.put(SSVarNames.getDiscs,         getDiscs);
+//    opPars.put(SSVarNames.getUEs,           getUEs);
+//    opPars.put(SSVarNames.getThumb,         getThumb);
+//    opPars.put(SSVarNames.getFlags,         getFlags);
+//    opPars.put(SSVarNames.getCircles,       getCircles);
+//    
+//    return (SSEntity) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entityDescGet, opPars));
+//  }
   
   public static void entityRemove(
     final SSUri   entity, 

@@ -189,6 +189,7 @@ public class SSRecommImpl extends SSServImplWithDBA implements SSRecommClientI, 
               null, //type
               false, //withUserRestriction
               false, //invokeEntityHandlers
+              null, //descPar
               true));
         
         for(String tagRecommGroup : recommConf.recommTagsGroups){

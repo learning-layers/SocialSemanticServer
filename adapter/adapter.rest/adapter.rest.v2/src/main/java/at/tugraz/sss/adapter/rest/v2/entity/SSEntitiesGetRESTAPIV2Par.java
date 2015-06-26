@@ -18,53 +18,50 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.tugraz.sss.serv;
+package at.tugraz.sss.adapter.rest.v2.entity;
 
-public class SSEntityDescriberPar{
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
+@ApiModel(value = "entitiesGet request parameter")
+public class SSEntitiesGetRESTAPIV2Par{
   
-  public SSUri       user                = null;
-  public SSUri       forUser             = null;
+  @ApiModelProperty( 
+    required = false, 
+    value = "")
   public Boolean     setTags             = false;
-  public Boolean     setOverallRating    = false;
-  public Boolean     setDiscs            = false;
-  public Boolean     setUEs              = false;
-  public Boolean     setThumb            = false;
-  public Boolean     setFlags            = false;
-  public Boolean     setCircles          = false;
-
-  public String getUser(){
-    return SSStrU.removeTrailingSlash(user);
-  }
-
-  public void setUser(final String user) throws Exception{
-    this.user = SSUri.get(user);
-  }
-
-  public String getForUser(){
-    return SSStrU.removeTrailingSlash(forUser);
-  }
-
-  public void setForUser(final String forUser) throws Exception{
-    this.forUser = SSUri.get(forUser);
-  }
   
-  public SSEntityDescriberPar(){}
-    
-  public SSEntityDescriberPar(
-    final Boolean     setTags,
-    final Boolean     setOverallRating,
-    final Boolean     setDiscs,
-    final Boolean     setUEs,
-    final Boolean     setThumb,
-    final Boolean     setFlags,
-    final Boolean     setCircles){
-    
-    this.setTags             = setTags;
-    this.setOverallRating    = setOverallRating;
-    this.setDiscs            = setDiscs;
-    this.setUEs              = setUEs;
-    this.setThumb            = setThumb;
-    this.setFlags            = setFlags;
-    this.setCircles          = setCircles;
-  }
+  @ApiModelProperty( 
+    required = false, 
+    value = "")
+  public Boolean     setOverallRating    = false;
+  
+  @ApiModelProperty( 
+    required = false, 
+    value = "")
+  public Boolean     setDiscs            = false;
+  
+  @ApiModelProperty( 
+    required = false, 
+    value = "")
+  public Boolean     setUEs              = false;
+  
+  @ApiModelProperty( 
+    required = false, 
+    value = "")
+  public Boolean     setThumb            = false;
+  
+  @ApiModelProperty( 
+    required = false, 
+    value = "")
+  public Boolean     setFlags            = false;
+  
+  @ApiModelProperty( 
+    required = false, 
+    value = "")
+  public Boolean     setCircles          = false;
+  
+  public SSEntitiesGetRESTAPIV2Par(){}
 }

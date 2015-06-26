@@ -20,6 +20,7 @@
 */
  package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par;
 
+import at.tugraz.sss.serv.SSEntityDescriberPar;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSLabel;
@@ -29,12 +30,13 @@ import at.tugraz.sss.serv.SSStrU;
  
 public class SSEntityGetPar extends SSServPar{
   
-  public SSUri          entity              = null;
-  public SSUri          forUser             = null;
-  public SSLabel        label               = null;
-  public SSEntityE      type                = null;
-  public Boolean        invokeEntityHandlers = null;
-
+  public SSUri                entity               = null;
+  public SSUri                forUser              = null;
+  public SSLabel              label                = null;
+  public SSEntityE            type                 = null;
+  public Boolean              invokeEntityHandlers = null;
+  public SSEntityDescriberPar descPar              = null;
+  
   public String getEntity(){
     return SSStrU.removeTrailingSlash(entity);
   }
@@ -62,16 +64,17 @@ public class SSEntityGetPar extends SSServPar{
   public SSEntityGetPar(){}
   
   public SSEntityGetPar(
-    final SSServOpE       op,
-    final String          key,
-    final SSUri           user,
-    final SSUri           entity, 
-    final SSUri           forUser, 
-    final SSLabel         label, 
-    final SSEntityE       type,
-    final Boolean         withUserRestriction,
-    final Boolean         invokeEntityHandlers,
-    final Boolean         logErr){
+    final SSServOpE            op,
+    final String               key,
+    final SSUri                user,
+    final SSUri                entity, 
+    final SSUri                forUser,
+    final SSLabel              label,
+    final SSEntityE            type,
+    final Boolean              withUserRestriction,
+    final Boolean              invokeEntityHandlers,
+    final SSEntityDescriberPar descPar,
+    final Boolean              logErr){
     
     super(op, key, user);
     
@@ -81,6 +84,7 @@ public class SSEntityGetPar extends SSServPar{
     this.type                 = type;
     this.withUserRestriction  = withUserRestriction;
     this.invokeEntityHandlers = invokeEntityHandlers;
+    this.descPar              = descPar;
     this.logErr               = logErr;
   }
 }

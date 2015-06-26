@@ -86,6 +86,7 @@ public class SSFriendImpl extends SSServImplWithDBA implements SSFriendClientI, 
                 null, //type
                 false, //withUserRestriction
                 false, //invokeEntityHandlers
+              null, //descPar
                 true))));
       }
 
