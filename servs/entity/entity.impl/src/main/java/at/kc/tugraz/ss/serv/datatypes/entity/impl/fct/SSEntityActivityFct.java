@@ -24,7 +24,7 @@ import at.kc.tugraz.ss.activity.api.SSActivityServerI;
 import at.tugraz.sss.serv.SSLogU;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
 import at.kc.tugraz.ss.activity.datatypes.par.SSActivityAddPar;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserCopyPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityCopyPar;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSErr;
@@ -34,7 +34,7 @@ import at.tugraz.sss.serv.SSServReg;
 public class SSEntityActivityFct{
   
   public static void copyEntityForUsers(
-    final SSEntityUserCopyPar par) throws Exception{
+    final SSEntityCopyPar par) throws Exception{
     
     try{
       

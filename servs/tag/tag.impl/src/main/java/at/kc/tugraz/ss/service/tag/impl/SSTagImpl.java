@@ -21,10 +21,11 @@
 package at.kc.tugraz.ss.service.tag.impl;
 
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesGetPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivEntityAddPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePubEntityAddPar;
-import at.kc.tugraz.ss.circle.serv.SSCircleServ;
+import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesGetPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSSpaceE;
@@ -370,17 +371,26 @@ implements
       final SSUri       tagUri;
       
       if(existsEntity){
-        
-        switch(SSServCaller.entityGet(par.entity).type){
-          case entity: break;
-          default: SSServCallerU.canUserReadEntity(par.user, par.entity);
-        }
+        SSServCallerU.canUserReadEntity(par.user, par.entity);
       }
       
       existsTag = SSServCaller.entityExists(SSEntityE.tag, SSLabel.get(SSStrU.toStr(par.label)));
       
       if(existsTag){
-        tagUri = SSServCaller.entityGet(SSEntityE.tag, SSLabel.get(SSStrU.toStr(par.label))).id;
+
+        tagUri = 
+          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+            new SSEntityGetPar(
+              null,
+              null,
+              null,
+              null,  //entity
+              null, //forUser
+              SSLabel.get(SSStrU.toStr(par.label)), //label
+              SSEntityE.tag, //type
+              false, //withUserRestriction
+              false, //invokeEntityHandlers
+              true)).id; //logErr
       }else{
         tagUri    = SSServCaller.vocURICreate();
       }
@@ -531,7 +541,19 @@ implements
       existsTag = SSServCaller.entityExists(SSEntityE.tag, SSLabel.get(SSStrU.toStr(par.tag)));
       
       if(existsTag){
-        tagUri = SSServCaller.entityGet(SSEntityE.tag, SSLabel.get(SSStrU.toStr(par.tag))).id;
+        tagUri = 
+          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+            new SSEntityGetPar(
+              null,
+              null,
+              null,
+              null,  //entity
+              null, //forUser
+              SSLabel.get(SSStrU.toStr(par.tag)), //label
+              SSEntityE.tag, //type
+              false, //withUserRestriction
+              false, //invokeEntityHandlers
+              true)).id; //logErr
       }else{
         tagUri = SSServCaller.vocURICreate();
       }
@@ -626,7 +648,20 @@ implements
       if(par.label != null){
         
         if(SSServCaller.entityExists(SSEntityE.tag, SSLabel.get(SSStrU.toStr(par.label)))){
-          tagUri = SSServCaller.entityGet(SSEntityE.tag,SSLabel.get(SSStrU.toStr(par.label))).id;
+          tagUri = 
+            ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+              new SSEntityGetPar(
+                null,
+                null,
+                null,
+                null,  //entity
+                null, //forUser
+                SSLabel.get(SSStrU.toStr(par.label)), //label
+                SSEntityE.tag, //type
+                false, //withUserRestriction
+                false, //invokeEntityHandlers
+                true)).id; //logErr
+          
         }else{
           tagUri = SSServCaller.vocURICreate();
         }
@@ -765,14 +800,14 @@ implements
         
         par.entities.addAll(
           SSUri.getFromEntitites(
-            ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleEntitiesGet(
-              new SSCircleEntitiesGetPar(
+            ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
+              new SSEntitiesGetPar(
                 null,
                 null,
                 par.user,
+                SSUri.asListWithoutNullAndEmpty(),
                 par.forUser,
                 types,
-                true,
                 false,
                 par.withUserRestriction))));
       }

@@ -20,7 +20,7 @@
   
     <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>circle.serv</artifactId>
+      <artifactId>circle.api</artifactId>
       <version>${project.version}</version>
     </dependency> 
     
@@ -42,6 +42,12 @@
       <version>${project.version}</version>
     </dependency>   
     
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>entity.api</artifactId>
+      <version>${project.version}</version>
+    </dependency>   
+
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>

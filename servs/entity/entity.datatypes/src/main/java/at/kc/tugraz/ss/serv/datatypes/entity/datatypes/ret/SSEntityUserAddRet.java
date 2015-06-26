@@ -32,22 +32,10 @@ public class SSEntityUserAddRet extends SSServRetI{
 
   public SSUri entity = null;
 
-  public static SSEntityUserAddRet get(
-    final SSUri   entity, 
-    final SSServOpE op){
-    
-    return new SSEntityUserAddRet(entity, op);
+  public String getEntity() throws Exception {
+    return SSStrU.removeTrailingSlash(entity);
   }
   
-  private SSEntityUserAddRet(
-    final SSUri   entity,
-    final SSServOpE op){
-    
-    super(op);
-    
-    this.entity = entity;
-  }
-
   @Override
   public Map<String, Object> jsonLDDesc(){
     
@@ -58,8 +46,17 @@ public class SSEntityUserAddRet extends SSServRetI{
     return ld;
   }
   
-  /* json getters */
-  public String getEntity() throws Exception {
-    return SSStrU.removeTrailingSlash(entity);
+  public static SSEntityUserAddRet get(
+    final SSUri   entity){
+    
+    return new SSEntityUserAddRet(entity);
+  }
+  
+  private SSEntityUserAddRet(
+    final SSUri   entity){
+    
+    super(SSServOpE.entityAdd);
+    
+    this.entity = entity;
   }
 }

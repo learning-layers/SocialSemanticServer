@@ -30,6 +30,7 @@ import java.util.List;
 
 public class SSEntitiesGetPar extends SSServPar{
   
+  public List<SSUri>     entities              = new ArrayList<>();
   public SSUri           forUser               = null;
   public List<SSEntityE> types                 = new ArrayList<>();
   public Boolean         invokeEntityHandlers  = false;
@@ -56,12 +57,15 @@ public class SSEntitiesGetPar extends SSServPar{
     final SSServOpE       op,
     final String          key,
     final SSUri           user,
+    final List<SSUri>     entities,
     final SSUri           forUser,
     final List<SSEntityE> types,
     final Boolean         invokeEntityHandlers,
     final Boolean         withUserRestriction) throws Exception{
     
     super(op, key, user);
+    
+    SSUri.addDistinctWithoutNull(this.entities, entities);
     
     this.forUser              = forUser;
     this.invokeEntityHandlers = invokeEntityHandlers;

@@ -30,6 +30,8 @@ import at.kc.tugraz.ss.friend.datatypes.par.SSFriendsUserGetPar;
 import at.kc.tugraz.ss.friend.datatypes.ret.SSFriendUserAddRet;
 import at.kc.tugraz.ss.friend.datatypes.ret.SSFriendsUserGetRet;
 import at.kc.tugraz.ss.friend.impl.fct.sql.SSFriendSQLFct;
+import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSConfA;
@@ -38,7 +40,7 @@ import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServImplWithDBA;
-import at.tugraz.sss.serv.caller.SSServCaller;
+import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.caller.SSServCallerU;
 import java.util.ArrayList;
 import java.util.List;
@@ -73,7 +75,18 @@ public class SSFriendImpl extends SSServImplWithDBA implements SSFriendClientI, 
         friends.add(
           SSFriend.get(
             friend,
-            SSServCaller.entityGet(friend.id)));
+            ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+              new SSEntityGetPar(
+                null,
+                null,
+                null,
+                friend.id,  //entity
+                null, //forUser
+                null, //label
+                null, //type
+                false, //withUserRestriction
+                false, //invokeEntityHandlers
+                true))));
       }
 
       return friends;

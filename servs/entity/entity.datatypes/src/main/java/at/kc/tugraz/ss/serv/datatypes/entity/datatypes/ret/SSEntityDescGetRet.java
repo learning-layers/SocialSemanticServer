@@ -20,33 +20,17 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret;
 
+import at.tugraz.sss.serv.SSEntityA;
 import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSServRetI;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarNames;
-import at.tugraz.sss.serv.SSEntityA;
-import at.tugraz.sss.serv.SSServRetI;
 import java.util.HashMap;
 import java.util.Map;
 
 public class SSEntityDescGetRet extends SSServRetI{
 
   public SSEntityA desc = null;
-
-  public static SSEntityDescGetRet get(
-    final SSEntityA     desc, 
-    final SSServOpE       op){
-    
-    return new SSEntityDescGetRet(desc, op);
-  }
-  
-  private SSEntityDescGetRet(
-    final SSEntityA     desc, 
-    final SSServOpE       op){
-    
-    super(op);
-    
-    this.desc = desc;
-  }
 
   @Override
   public Map<String, Object> jsonLDDesc(){
@@ -56,5 +40,19 @@ public class SSEntityDescGetRet extends SSServRetI{
     ld.put(SSVarNames.desc, SSVarNames.sss + SSStrU.colon + SSEntityA.class.getName());
     
     return ld;
+  }
+  
+  public static SSEntityDescGetRet get(
+    final SSEntityA     desc){
+    
+    return new SSEntityDescGetRet(desc);
+  }
+  
+  private SSEntityDescGetRet(
+    final SSEntityA     desc){
+    
+    super(SSServOpE.entityDescGet);
+    
+    this.desc = desc;
   }
 }

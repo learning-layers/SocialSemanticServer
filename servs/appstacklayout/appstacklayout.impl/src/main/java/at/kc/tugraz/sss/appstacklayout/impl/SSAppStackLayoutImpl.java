@@ -24,6 +24,8 @@ import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivEntityAddPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePubEntityAddPar;
 import at.kc.tugraz.ss.circle.serv.SSCircleServ;
+import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.tugraz.sss.serv.SSSocketCon;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSTextComment;
@@ -214,17 +216,22 @@ public class SSAppStackLayoutImpl extends SSServImplWithDBA implements SSAppStac
         par.label != null || 
         par.description != null){
         
-        SSServCaller.entityUpdate(
-          par.user, 
-          par.stack, 
-          par.label, 
-          par.description, 
-          SSTextComment.asListWithoutNullAndEmpty(), 
-          SSUri.asListWithoutNullAndEmpty(), 
-          SSUri.asListWithoutNullAndEmpty(), 
-          SSUri.asListWithoutNullAndEmpty(), 
-          SSUri.asListWithoutNullAndEmpty(), 
-          false);
+        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+          new SSEntityUpdatePar(
+            null, 
+            null, 
+            par.user,
+            par.stack,
+            par.label,
+            par.description,
+            SSTextComment.asListWithoutNullAndEmpty(), //comments,
+            SSUri.asListWithoutNullAndEmpty(), //downloads
+            SSUri.asListWithoutNullAndEmpty(), //screenShots
+            SSUri.asListWithoutNullAndEmpty(), //images
+            SSUri.asListWithoutNullAndEmpty(), //videos
+            null, 
+            false, //withUserRestriction
+            false));
       }
       
       dbSQL.commit(par.shouldCommit);

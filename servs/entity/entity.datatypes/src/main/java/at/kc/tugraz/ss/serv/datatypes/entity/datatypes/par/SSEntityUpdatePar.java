@@ -20,16 +20,14 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par;
 
-import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
 import java.util.ArrayList;
 import java.util.List;
-import at.tugraz.sss.serv.SSErr;
-import at.tugraz.sss.serv.SSErrE;
-import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSStrU;
 
 public class SSEntityUpdatePar extends SSServPar{
   
@@ -41,25 +39,107 @@ public class SSEntityUpdatePar extends SSServPar{
   public List<SSUri>         screenShots   = new ArrayList<>();
   public List<SSUri>         images        = new ArrayList<>();
   public List<SSUri>         videos        = new ArrayList<>();
+  public Boolean             read          = null;
 
-  public SSEntityUpdatePar(SSServPar par) throws Exception{
-      
-    super(par);
+  public String getEntity(){
+    return SSStrU.removeTrailingSlash(entity);
+  }
+
+  public void setEntity(final String entity) throws Exception{
+    this.entity = SSUri.get(entity);
+  }
+
+  public String getLabel(){
+    return SSStrU.toStr(label);
+  }
+
+  public void setLabel(final String label) throws Exception{
+    this.label = SSLabel.get(label);
+  }
+
+  public String getDescription(){
+    return SSStrU.toStr(description);
+  }
+
+  public void setDescription(final String description) throws Exception{
+    this.description = SSTextComment.get(description);
+  }
+
+  public List<String> getComments(){
+    return SSStrU.toStr(comments);
+  }
+
+  public void setComments(final List<String> comments) throws Exception{
+    this.comments = SSTextComment.get(comments);
+  }
+
+  public List<String> getDownloads(){
+    return SSStrU.removeTrailingSlash(downloads);
+  }
+
+  public void setDownloads(final List<String> downloads) throws Exception{
+    this.downloads = SSUri.get(downloads);
+  }
+
+  public List<String> getScreenShots(){
+    return SSStrU.removeTrailingSlash(screenShots);
+  }
+
+  public void setScreenShots(final List<String> screenShots) throws Exception{
+    this.screenShots = SSUri.get(screenShots);
+  }
+
+  public List<String> getImages(){
+    return SSStrU.removeTrailingSlash(images);
+  }
+
+  public void setImages(final List<String> images) throws Exception{
+    this.images = SSUri.get(images);
+  }
+
+  public List<String> getVideos(){
+    return SSStrU.removeTrailingSlash(videos);
+  }
+
+  public void setVideos(final List<String> videos) throws Exception{
+    this.videos = SSUri.get(videos);
+  }
+  
+  public SSEntityUpdatePar(){}
+  
+  public SSEntityUpdatePar(
+    final SSServOpE           op,
+    final String              key,
+    final SSUri               user,
+    final SSUri               entity,
+    final SSLabel             label,
+    final SSTextComment       description,
+    final List<SSTextComment> comments,
+    final List<SSUri>         downloads,
+    final List<SSUri>         screenShots,
+    final List<SSUri>         images,
+    final List<SSUri>         videos,
+    final Boolean             read,
+    final Boolean             withUserRestriction, 
+    final Boolean             shouldCommit){
+
+    super(op, key, user);
+  
+    this.entity         = entity;
+    this.label          = label;
+    this.description    = description;
     
-    try{
-      
-      if(pars != null){
-        entity         = (SSUri)               pars.get(SSVarNames.entity);
-        label          = (SSLabel)             pars.get(SSVarNames.label);
-        description    = (SSTextComment)       pars.get(SSVarNames.description);
-        comments       = (List<SSTextComment>) pars.get(SSVarNames.comments);
-        downloads      = (List<SSUri>) pars.get(SSVarNames.downloads);
-        screenShots    = (List<SSUri>) pars.get(SSVarNames.screenShots);
-        images         = (List<SSUri>) pars.get(SSVarNames.images);
-        videos         = (List<SSUri>) pars.get(SSVarNames.videos);
-      }
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(new SSErr(SSErrE.servParCreationFailed));
+    if(comments != null){
+      this.comments.addAll(comments);
     }
+    
+    SSUri.addDistinctWithoutNull(this.downloads,   downloads);
+    SSUri.addDistinctWithoutNull(this.screenShots, screenShots);
+    SSUri.addDistinctWithoutNull(this.images,      images);
+    SSUri.addDistinctWithoutNull(this.videos,      videos);
+    
+    this.read                = read;
+    this.withUserRestriction = withUserRestriction;
+    this.shouldCommit        = shouldCommit;
   }
 }

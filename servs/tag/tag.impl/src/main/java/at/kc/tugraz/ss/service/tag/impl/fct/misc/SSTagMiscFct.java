@@ -20,6 +20,8 @@
 */
 package at.kc.tugraz.ss.service.tag.impl.fct.misc;
 
+import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
@@ -32,6 +34,7 @@ import at.kc.tugraz.ss.service.tag.datatypes.SSTagFrequ;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagEntitiesForTagsGetPar;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsGetPar;
 import at.kc.tugraz.ss.service.tag.impl.fct.sql.SSTagSQLFct;
+import at.tugraz.sss.serv.SSServReg;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -69,9 +72,18 @@ public class SSTagMiscFct {
         sqlFct.getEntities(
           userToUse,
           par.space,
-          SSServCaller.entityGet(
-            SSEntityE.tag,
-            slabel).id));
+          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+            new SSEntityGetPar(
+              null,
+              null, 
+              null, 
+              null,  //entity 
+              null, //forUser
+              slabel, //label
+              SSEntityE.tag, //type 
+              false, //withUserRestriction
+              false, //invokeEntityHandlers
+              true)).id)); //logErr
     }
     
     SSStrU.distinctWithoutEmptyAndNull2(entities);
@@ -103,9 +115,18 @@ public class SSTagMiscFct {
         }
         
         categoryURI = 
-          SSServCaller.entityGet(
-            SSEntityE.tag,
-            slabel).id;
+          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+            new SSEntityGetPar(
+              null,
+              null, 
+              null, 
+              null,  //entity 
+              null, //forUser
+              slabel, //label
+              SSEntityE.tag, //type 
+              false, //withUserRestriction
+              false, //invokeEntityHandlers
+              true)).id; //logErr
           
         categories.addAll (sqlFct.getTagAsss(par.forUser, null, SSSpaceE.sharedSpace,  par.startTime, categoryURI));
         categories.addAll (sqlFct.getTagAsss(par.user,    null, SSSpaceE.privateSpace, par.startTime, categoryURI));
@@ -127,9 +148,18 @@ public class SSTagMiscFct {
       }
       
       categoryURI =
-        SSServCaller.entityGet(
-          SSEntityE.tag,
-          slabel).id;
+        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+          new SSEntityGetPar(
+            null,
+            null,
+            null,
+            null,  //entity
+            null, //forUser
+            slabel, //label
+            SSEntityE.tag, //type
+            false, //withUserRestriction
+            false, //invokeEntityHandlers
+            true)).id; //logErr
       
       categories.addAll (sqlFct.getTagAsss(SSUri.asListWithoutNullAndEmpty(par.forUser),     par.entities, SSSpaceE.sharedSpace,  par.startTime, SSUri.asListWithoutNullAndEmpty(categoryURI)));
       categories.addAll (sqlFct.getTagAsss(SSUri.asListWithoutNullAndEmpty(par.user),        par.entities, SSSpaceE.privateSpace, par.startTime, SSUri.asListWithoutNullAndEmpty(categoryURI)));
@@ -161,10 +191,19 @@ public class SSTagMiscFct {
           continue;
         }
         
-        categoryURI = 
-          SSServCaller.entityGet(
-            SSEntityE.tag,
-            slabel).id;
+        categoryURI =
+          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+            new SSEntityGetPar(
+              null,
+              null,
+              null,
+              null,  //entity
+              null, //forUser
+              slabel, //label
+              SSEntityE.tag, //type
+              false, //withUserRestriction
+              false, //invokeEntityHandlers
+              true)).id; //logErr
         
         categories.addAll (sqlFct.getTagAsss(userToUse, null, par.space, par.startTime, categoryURI));
       }
@@ -184,9 +223,18 @@ public class SSTagMiscFct {
       }
       
       categoryURI =
-        SSServCaller.entityGet(
-          SSEntityE.tag,
-          slabel).id;
+        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+          new SSEntityGetPar(
+            null,
+            null,
+            null,
+            null,  //entity
+            null, //forUser
+            slabel, //label
+            SSEntityE.tag, //type
+            false, //withUserRestriction
+            false, //invokeEntityHandlers
+            true)).id; //logErr
       
       categories.addAll (sqlFct.getTagAsss(SSUri.asListWithoutNullAndEmpty(userToUse), par.entities, par.space, par.startTime, SSUri.asListWithoutNullAndEmpty(categoryURI)));
     }
@@ -229,17 +277,35 @@ public class SSTagMiscFct {
         sqlFct.getEntities(
           par.user,
           SSSpaceE.privateSpace,
-          SSServCaller.entityGet(
-            SSEntityE.tag,
-            slabel).id));
+          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+            new SSEntityGetPar(
+              null,
+              null, 
+              null, 
+              null,  //entity 
+              null, //forUser
+              slabel, //label
+              SSEntityE.tag, //type 
+              false, //withUserRestriction
+              false, //invokeEntityHandlers
+              true)).id)); //logErr
       
       entities.addAll(
         sqlFct.getEntities(
           par.forUser,
           SSSpaceE.sharedSpace,
-          SSServCaller.entityGet(
-            SSEntityE.tag,
-            slabel).id));
+          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+            new SSEntityGetPar(
+              null,
+              null, 
+              null, 
+              null,  //entity 
+              null, //forUser
+              slabel, //label
+              SSEntityE.tag, //type 
+              false, //withUserRestriction
+              false, //invokeEntityHandlers
+              true)).id)); //logErr
     }
     
     SSStrU.distinctWithoutEmptyAndNull2(entities);

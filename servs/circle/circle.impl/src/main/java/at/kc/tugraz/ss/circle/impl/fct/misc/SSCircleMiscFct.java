@@ -26,6 +26,8 @@ import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSObjU;
 import at.tugraz.sss.serv.SSStrU;
 import at.kc.tugraz.ss.circle.impl.fct.sql.SSCircleSQLFct;
+import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.tugraz.sss.serv.SSCircleE;
 import at.tugraz.sss.serv.SSCircleRightE;
@@ -35,7 +37,6 @@ import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSEntityHandlerImplI;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.caller.SSServCaller;
-import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 import at.tugraz.sss.serv.SSEntityCircle;
 import java.util.ArrayList;
 import java.util.List;
@@ -95,10 +96,22 @@ public class SSCircleMiscFct{
       
       for(SSUri entityUri : entityUris){
         
-        final SSEntityE entityType = SSServCaller.entityGet(entityUri).type;
-        
-        if(SSStrU.equals(entityType, SSEntityE.entity)){
-          continue;
+        final SSEntityE entityType = 
+          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+            new SSEntityGetPar(
+              null, 
+              null, 
+              null, 
+              entityUri, 
+              null, 
+              null, 
+              null, 
+              false, 
+              false, 
+              false)).type;
+          
+        switch(entityType){
+          case entity: continue;
         }
         
         for(SSServContainerI serv : SSServReg.inst.getServsManagingEntities()){
@@ -399,10 +412,22 @@ public class SSCircleMiscFct{
     
     try{
       
-      final SSEntityE entityType = SSServCaller.entityGet(entityUri).type;
+      final SSEntityE entityType =
+        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+          new SSEntityGetPar(
+            null,
+            null,
+            null,
+            entityUri,
+            null,
+            null,
+            null,
+            false,
+            false,
+            false)).type;
       
-      if(SSStrU.equals(entityType, SSEntityE.entity)){
-        return;
+      switch(entityType){
+        case entity: return;
       }
       
       for(SSServContainerI serv : SSServReg.inst.getServsManagingEntities()){
@@ -431,12 +456,24 @@ public class SSCircleMiscFct{
     
     try{
       
-      final SSEntityE entityType = SSServCaller.entityGet(entityUri).type;
+      final SSEntityE entityType =
+        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+          new SSEntityGetPar(
+            null,
+            null,
+            null,
+            entityUri,
+            null,
+            null,
+            null,
+            false,
+            false,
+            false)).type;
       
       for(SSServContainerI serv : SSServReg.inst.getServsManagingEntities()){
         ((SSEntityHandlerImplI) serv.serv()).shareEntityWithUsers(
           userUri, 
-          userUris, 
+          userUris,
           entityUri, 
           circleUri, 
           entityType, 

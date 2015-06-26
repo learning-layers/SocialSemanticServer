@@ -24,6 +24,8 @@ import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesAddPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivEntityAddPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclesGetPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
 import at.tugraz.sss.serv.SSObjU;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
@@ -100,7 +102,20 @@ public class SSDiscUserEntryAddFct{
     
     try{
       final SSUri     discEntryUri  = SSServCaller.vocURICreate();
-      final SSEntityE discType      = SSServCaller.entityGet    (discUri).type;
+      final SSEntityE discType      =
+        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+          new SSEntityGetPar(
+            null,
+            null,
+            null,
+            discUri,  //entity
+            null, //forUser
+            null, //label
+            null, //type
+            false, //withUserRestriction
+            false, //invokeEntityHandlers
+            true)).type;
+      
       SSEntityE       discEntryType = null;
       
       switch(discType){

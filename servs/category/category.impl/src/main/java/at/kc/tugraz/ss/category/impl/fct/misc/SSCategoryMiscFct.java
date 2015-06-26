@@ -27,10 +27,13 @@ import at.kc.tugraz.ss.category.datatypes.SSCategoryFrequ;
 import at.kc.tugraz.ss.category.datatypes.SSCategoryLabel;
 import at.kc.tugraz.ss.category.datatypes.par.SSCategoryEntitiesForCategoriesGetPar;
 import at.kc.tugraz.ss.category.impl.fct.sql.SSCategorySQLFct;
+import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSSpaceE;
 import at.tugraz.sss.serv.SSLabel;
+import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -74,17 +77,35 @@ public class SSCategoryMiscFct {
         sqlFct.getEntities(
           par.user,
           SSSpaceE.privateSpace,
-          SSServCaller.entityGet(
-            SSEntityE.category,
-            slabel).id));
-      
+          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+            new SSEntityGetPar(
+              null,
+              null, 
+              null, 
+              null,  //entity 
+              null, //forUser
+              slabel, //label
+              SSEntityE.category, //type 
+              false, //withUserRestriction
+              false, //invokeEntityHandlers
+              true)).id)); //logErr
+            
       entities.addAll(
         sqlFct.getEntities(
           par.forUser,
           SSSpaceE.sharedSpace,
-          SSServCaller.entityGet(
-            SSEntityE.category,
-            slabel).id));
+          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+            new SSEntityGetPar(
+              null,
+              null, 
+              null, 
+              null,  //entity 
+              null, //forUser
+              slabel, //label
+              SSEntityE.category, //type 
+              false, //withUserRestriction
+              false, //invokeEntityHandlers
+              true)).id)); //logErr
     }
     
     SSStrU.distinctWithoutEmptyAndNull2(entities);
@@ -122,9 +143,18 @@ public class SSCategoryMiscFct {
         sqlFct.getEntities(
           userToUse,
           par.space,
-          SSServCaller.entityGet(
-            SSEntityE.category,
-            slabel).id));
+          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+            new SSEntityGetPar(
+              null,
+              null, 
+              null, 
+              null,  //entity 
+              null, //forUser
+              slabel, //label
+              SSEntityE.category, //type 
+              false, //withUserRestriction
+              false, //invokeEntityHandlers
+              true)).id)); //logErr
     }
     
     SSStrU.distinctWithoutEmptyAndNull2(entities);
@@ -156,9 +186,18 @@ public class SSCategoryMiscFct {
         }
         
         categoryURI = 
-          SSServCaller.entityGet(
-            SSEntityE.category,
-            slabel).id;
+          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+            new SSEntityGetPar(
+              null,
+              null, 
+              null, 
+              null,  //entity 
+              null, //forUser
+              slabel, //label
+              SSEntityE.category, //type 
+              false, //withUserRestriction
+              false, //invokeEntityHandlers
+              true)).id; //logErr
           
         categories.addAll (sqlFct.getCategoryAsss(par.forUser, null, SSSpaceE.sharedSpace,  par.startTime, categoryURI));
         categories.addAll (sqlFct.getCategoryAsss(par.user,    null, SSSpaceE.privateSpace, par.startTime, categoryURI));
@@ -182,9 +221,18 @@ public class SSCategoryMiscFct {
         }
         
         categoryURI = 
-          SSServCaller.entityGet(
-            SSEntityE.category,
-            slabel).id;
+          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+            new SSEntityGetPar(
+              null,
+              null, 
+              null, 
+              null,  //entity 
+              null, //forUser
+              slabel, //label
+              SSEntityE.category, //type 
+              false, //withUserRestriction
+              false, //invokeEntityHandlers
+              true)).id; //logErr
         
         categories.addAll (sqlFct.getCategoryAsss(par.forUser,     entity, SSSpaceE.sharedSpace,  par.startTime, categoryURI));
         categories.addAll (sqlFct.getCategoryAsss(par.user,        entity, SSSpaceE.privateSpace, par.startTime, categoryURI));
@@ -217,10 +265,19 @@ public class SSCategoryMiscFct {
           continue;
         }
         
-        categoryURI = 
-          SSServCaller.entityGet(
-            SSEntityE.category,
-            slabel).id;
+        categoryURI =
+          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+            new SSEntityGetPar(
+              null,
+              null,
+              null,
+              null,  //entity
+              null, //forUser
+              slabel, //label
+              SSEntityE.category, //type
+              false, //withUserRestriction
+              false, //invokeEntityHandlers
+              true)).id; //logErr
         
         categories.addAll (sqlFct.getCategoryAsss(userToUse, null, par.space, par.startTime, categoryURI));
       }
@@ -241,10 +298,19 @@ public class SSCategoryMiscFct {
           continue;
         }
         
-        categoryURI = 
-          SSServCaller.entityGet(
-            SSEntityE.category,
-            slabel).id;
+        categoryURI =
+          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+            new SSEntityGetPar(
+              null,
+              null,
+              null,
+              null,  //entity
+              null, //forUser
+              slabel, //label
+              SSEntityE.category, //type
+              false, //withUserRestriction
+              false, //invokeEntityHandlers
+              true)).id; //logErr
         
         categories.addAll (sqlFct.getCategoryAsss(userToUse, entity, par.space, par.startTime, categoryURI));
       }

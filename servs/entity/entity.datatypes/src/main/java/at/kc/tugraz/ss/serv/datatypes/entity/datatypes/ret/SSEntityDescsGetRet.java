@@ -20,12 +20,12 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret;
 
-import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSEntityA;
 import at.tugraz.sss.serv.SSServRetI;
 import at.tugraz.sss.serv.SSJSONLDU;
+import at.tugraz.sss.serv.SSServOpE;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -34,24 +34,6 @@ import java.util.Map;
 public class SSEntityDescsGetRet extends SSServRetI{
 
   public List<SSEntityA> descs = new ArrayList<>();
-
-  public static SSEntityDescsGetRet get(
-    final List<SSEntityA> descs, 
-    final SSServOpE         op){
-    
-    return new SSEntityDescsGetRet(descs, op);
-  }
-  
-  private SSEntityDescsGetRet(
-    final List<SSEntityA> descs, 
-    final SSServOpE         op){
-    
-    super(op);
-    
-    if(descs != null){
-      this.descs.addAll(descs);
-    }
-  }
 
   @Override
   public Map<String, Object> jsonLDDesc(){
@@ -65,5 +47,21 @@ public class SSEntityDescsGetRet extends SSServRetI{
     ld.put(SSVarNames.descs, descsObj);
     
     return ld;
+  }
+  
+  public static SSEntityDescsGetRet get(
+    final List<SSEntityA> descs){
+    
+    return new SSEntityDescsGetRet(descs);
+  }
+  
+  private SSEntityDescsGetRet(
+    final List<SSEntityA> descs){
+    
+    super(SSServOpE.entityDescsGet);
+    
+    if(descs != null){
+      this.descs.addAll(descs);
+    }
   }
 }

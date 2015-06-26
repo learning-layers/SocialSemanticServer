@@ -28,7 +28,6 @@ import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSServPar;
-
 import at.kc.tugraz.ss.recomm.api.SSRecommClientI;
 import at.kc.tugraz.ss.recomm.api.SSRecommServerI;
 import at.kc.tugraz.ss.recomm.conf.SSRecommConf;
@@ -48,6 +47,8 @@ import at.kc.tugraz.ss.recomm.impl.fct.misc.SSRecommResourcesFct;
 import at.kc.tugraz.ss.recomm.impl.fct.misc.SSRecommUpdateBulkUploader;
 import at.kc.tugraz.ss.recomm.impl.fct.misc.SSRecommUserRealmKeeper;
 import at.kc.tugraz.ss.recomm.impl.fct.sql.SSRecommSQLFct;
+import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSDBNoSQL;
@@ -65,6 +66,7 @@ import java.util.List;
 import java.util.Map;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSServReg;
 
 public class SSRecommImpl extends SSServImplWithDBA implements SSRecommClientI, SSRecommServerI{
   
@@ -175,7 +177,19 @@ public class SSRecommImpl extends SSServImplWithDBA implements SSRecommClientI, 
         recommConf.recommTagsGroups != null &&
         !recommConf.recommTagsGroups.isEmpty()){
        
-        forUserEntity = SSServCaller.entityGet(par.forUser);
+        forUserEntity =
+          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+            new SSEntityGetPar(
+              null,
+              null,
+              null,
+              par.forUser,  //entity
+              null, //forUser
+              null, //label
+              null, //type
+              false, //withUserRestriction
+              false, //invokeEntityHandlers
+              true));
         
         for(String tagRecommGroup : recommConf.recommTagsGroups){
           

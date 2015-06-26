@@ -20,15 +20,15 @@
 */
 package at.tugraz.sss.adapter.rest.v2.entity;
 
-import at.kc.tugraz.ss.circle.datatypes.ret.SSEntitiesGetRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesGetPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntitiesGetRet;
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
 import at.tugraz.sss.serv.SSUri;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserGetPar;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserUpdatePar;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserGetRet;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityGetRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserUpdateRet;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.tugraz.sss.serv.SSEntityE;
@@ -70,6 +70,7 @@ public class SSRESTEntity {
           null,  //key
           null,  //user
           null,  //forUser
+          null, //entities
           SSEntityE.asListWithoutNullAndEmpty(), //types
           true,  //invokeEntityHandlers
           true); //withUserRestriction
@@ -87,7 +88,7 @@ public class SSRESTEntity {
   @Path("/{entity}")
   @ApiOperation(
     value = "retrieve entity information for given ID or encoded URI",
-    response = SSEntityUserGetRet.class)
+    response = SSEntityGetRet.class)
   public Response entityGet(
     @Context
     final HttpHeaders headers,
@@ -95,17 +96,22 @@ public class SSRESTEntity {
     @PathParam(SSVarNames.entity)
     final String entity){
     
-    final SSEntityUserGetPar par;
+    final SSEntityGetPar par;
     
     try{
       
       par =
-        new SSEntityUserGetPar(
+        new SSEntityGetPar(
           SSServOpE.entityGet,
           null,
           null,
           SSUri.get(entity, SSVocConf.sssUri),
-          null);
+          null, //forUser, 
+          null, //label, 
+          null, //type, 
+          true, //withUserRestriction, 
+          true, //invokeEntityHandlers, 
+          true);//logErr,
       
     }catch(Exception error){
       return Response.status(422).build();
@@ -130,11 +136,11 @@ public class SSRESTEntity {
     
     final SSEntityUpdateRESTAPIV2Par input){
     
-    final SSEntityUserUpdatePar par;
+    final SSEntityUpdatePar par;
     
     try{
       par =
-        new SSEntityUserUpdatePar(
+        new SSEntityUpdatePar(
           SSServOpE.entityUpdate, 
           null, //key 
           null, //user
@@ -142,7 +148,12 @@ public class SSRESTEntity {
           input.label,       //label
           input.description, //description
           input.comments,    //comments
+          SSUri.asListWithoutNullAndEmpty(), //downloads, 
+          SSUri.asListWithoutNullAndEmpty(), //screenShots, 
+          SSUri.asListWithoutNullAndEmpty(), //images, 
+          SSUri.asListWithoutNullAndEmpty(), //videos, 
           input.read,  //read
+          true, //withUserRestriction, 
           true); //shouldCommit
       
     }catch(Exception error){

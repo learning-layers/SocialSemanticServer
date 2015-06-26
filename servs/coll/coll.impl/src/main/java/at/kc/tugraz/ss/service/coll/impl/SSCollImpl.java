@@ -25,7 +25,8 @@ import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesAddPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivEntityAddPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleUsersAddPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclesGetPar;
-import at.kc.tugraz.ss.circle.serv.SSCircleServ;
+import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
 import at.tugraz.sss.serv.SSUri;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserRootAddPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserWithEntriesPar;
@@ -646,16 +647,8 @@ implements
 
         return par.entry;
       }
-
-      final Boolean existsEntry = SSServCaller.entityExists(par.entry);
       
-      if(existsEntry){
-        
-        switch(SSServCaller.entityGet(par.entry).type){
-          case entity: break;
-          default: SSServCallerU.canUserReadEntity(par.user, par.entry);
-        }
-      }
+      SSServCallerU.canUserReadEntity(par.user, par.entry);
 
       if(sqlFct.containsCollEntry(par.coll, par.entry)){
         return par.entry;
@@ -899,7 +892,21 @@ implements
       hierarchy.add(rootCollUri);
 
       for(SSUri collUri : hierarchy){
-        colls.add(SSColl.get(SSServCaller.entityGet(collUri)));
+        
+        colls.add(
+          SSColl.get(
+            ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+              new SSEntityGetPar(
+                null,
+                null,
+                null,
+                collUri,  //entity
+                null, //forUser
+                null, //label
+                null, //type
+                false, //withUserRestriction
+                false, //invokeEntityHandlers
+                true)))); //logErr
       }
 
       return colls;

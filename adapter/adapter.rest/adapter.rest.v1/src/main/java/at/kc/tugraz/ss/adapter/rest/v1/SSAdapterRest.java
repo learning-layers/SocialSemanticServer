@@ -22,7 +22,6 @@ package at.kc.tugraz.ss.adapter.rest.v1;
 
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
-import at.kc.tugraz.ss.adapter.rest.v1.par.SSEntityGetRESTAPIV1Par;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntityUsersGetPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntityPublicSetPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntityPublicSetRet;
@@ -32,15 +31,13 @@ import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleEntityShareRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityDescGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityDescsGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserAddPar;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserCopyPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityCopyPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserDirectlyAdjoinedEntitiesRemovePar;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityDescGetRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityDescsGetRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserAddRet;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserCopyRet;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityCopyRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserDirectlyAdjoinedEntitiesRemoveRet;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserGetRet;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserCumulatedTagsGetPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntriesAddPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntriesDeletePar;
@@ -81,43 +78,6 @@ import sss.serv.eval.datatypes.ret.SSEvalLogRet;
 @Api( value = "SSAdapterRest")
 public class SSAdapterRest{
   
-  /* start calls with RESTful counterpart */
-  
-  @Deprecated
-  @POST
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "entityGet")
-  @ApiOperation(
-    value = "retrieve information for given entity",
-    response = SSEntityUserGetRet.class)
-  public String entityGet(
-    final SSEntityGetRESTAPIV1Par input){
-    
-    final SSEntityUserGetPar par = 
-      new SSEntityUserGetPar(
-        SSServOpE.entityGet, 
-        input.key, 
-        input.user, 
-        input.entity, 
-        null);
-    
-    return SSRestMainV1.handleStandardJSONRESTCall(par, par.op);
-  }
-  
-  /* end calls with RESTful counterpart  */
-  /* *************************************/
-  /* *************************************/
-  /* *************************************/
-  /* *************************************/
-  /* *************************************/
-  /* *************************************/
-  /* *************************************/
-  /* *************************************/
-  /* *************************************/
-  /* *************************************/
-  /* *************************************/
-  
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
@@ -157,8 +117,8 @@ public class SSAdapterRest{
   @Path    (SSStrU.slash + "entityCopy")
   @ApiOperation(
     value = "copy an entity and hand it to a user",
-    response = SSEntityUserCopyRet.class)
-  public String entityCopy(final SSEntityUserCopyPar input){
+    response = SSEntityCopyRet.class)
+  public String entityCopy(final SSEntityCopyPar input){
     return SSRestMainV1.handleStandardJSONRESTCall(input, SSServOpE.entityCopy);
   }
 

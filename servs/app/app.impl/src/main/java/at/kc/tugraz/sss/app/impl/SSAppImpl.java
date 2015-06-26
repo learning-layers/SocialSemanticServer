@@ -22,6 +22,8 @@ package at.kc.tugraz.sss.app.impl;
 
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePubEntityAddPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSSocketCon;
 import at.tugraz.sss.serv.SSEntity;
@@ -146,17 +148,22 @@ public class SSAppImpl extends SSServImplWithDBA implements SSAppClientI, SSAppS
             null));
       }
       
-      SSServCaller.entityUpdate(
-        par.user,
-        appUri,
-        null,
-        null,
-        SSTextComment.asListWithoutNullAndEmpty(),
-        par.downloads,
-        par.screenShots,
-        SSUri.asListWithoutNullAndEmpty(),
-        par.videos,
-        false);
+      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+        new SSEntityUpdatePar(
+          null, 
+          null, 
+          par.user, 
+          appUri, 
+          null, //label
+          null, //description
+          SSTextComment.asListWithoutNullAndEmpty(), //comments, 
+          par.downloads,
+          par.screenShots,
+          SSUri.asListWithoutNullAndEmpty(),
+          par.videos, 
+          null,  //read
+          false,  //withUserRestriction
+          false));
       
       dbSQL.commit(par.shouldCommit);
       

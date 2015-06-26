@@ -28,6 +28,8 @@ import at.kc.tugraz.ss.activity.datatypes.SSActivity;
 import at.kc.tugraz.ss.activity.datatypes.par.SSActivityGetPar;
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleMostOpenCircleTypeGetPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.api.SSLearnEpServerI;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpVersion;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionCurrentGetPar;
@@ -105,21 +107,82 @@ implements
       }
 
       if(par.forUser != null){
-        originUser = SSServCaller.entityGet(par.forUser);
+        originUser =
+          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+            new SSEntityGetPar(
+              null,
+              null,
+              null,
+              par.forUser,  //entity
+              null, //forUser
+              null, //label
+              null, //type
+              false, //withUserRestriction
+              false, //invokeEntityHandlers
+              true)); //logErr
+        
       }else{
-        originUser = SSServCaller.entityGet(par.user);
+        originUser =           
+          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+            new SSEntityGetPar(
+              null,
+              null,
+              null,
+              par.user,  //entity
+              null, //forUser
+              null, //label
+              null, //type
+              false, //withUserRestriction
+              false, //invokeEntityHandlers
+              true)); //logErr
       }
       
       if(par.entity != null){
-        targetEntity = SSServCaller.entityGet(par.entity);
+        targetEntity = 
+          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+            new SSEntityGetPar(
+              null,
+              null,
+              null,
+              par.entity,  //entity
+              null, //forUser
+              null, //label
+              null, //type
+              false, //withUserRestriction
+              false, //invokeEntityHandlers
+              true)); //logErr
       }
       
       for(SSUri entity : par.entities){
-        targetEntities.add(SSServCaller.entityGet(entity));
+        targetEntities.add(
+          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+            new SSEntityGetPar(
+              null,
+              null,
+              null,
+              entity,  //entity
+              null, //forUser
+              null, //label
+              null, //type
+              false, //withUserRestriction
+              false, //invokeEntityHandlers
+              true))); //logErr
       }
       
       for(SSUri user : par.users){
-        targetUsers.add(SSServCaller.entityGet(user));
+        targetUsers.add(
+          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+            new SSEntityGetPar(
+              null,
+              null,
+              null,
+              user,  //entity
+              null, //forUser
+              null, //label
+              null, //type
+              false, //withUserRestriction
+              false, //invokeEntityHandlers
+              true))); //logErr);
       }
       
       if(targetEntity != null){

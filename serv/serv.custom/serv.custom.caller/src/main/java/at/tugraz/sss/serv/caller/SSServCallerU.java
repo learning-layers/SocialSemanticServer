@@ -28,7 +28,6 @@ import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSUri;
-import java.util.ArrayList;
 import java.util.List;
 
 public class SSServCallerU{
@@ -47,23 +46,6 @@ public class SSServCallerU{
       SSServErrReg.regErrThrow(new SSErr(SSErrE.authNoUserForKey));
     }
   }
-    
-  public static void checkWhetherUsersAreUsers(final List<SSUri> users) throws Exception{
-    
-    try{
-      
-      for(SSUri user : users){
-        
-        switch(SSServCaller.entityGet(user).type){
-          
-          case user: continue;
-          default:   throw new SSErr(SSErrE.providedUserIsNotRegistered);
-        }
-      }
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
   
   public static void addEntities(
     final SSUri       user, 
@@ -80,19 +62,6 @@ public class SSServCallerU{
         null, 
         false);
     }
-  }
-  
-  public static List<SSEntity> getEntities(
-    final List<SSUri> entities) throws Exception{
-    
-    final List<SSEntity> result = new ArrayList<>();
-    
-    for(SSUri entity : entities){
-      
-      result.add(SSServCaller.entityGet(entity));
-    }
-    
-    return result;
   }
   
   public static SSEntity canUserReadEntity(

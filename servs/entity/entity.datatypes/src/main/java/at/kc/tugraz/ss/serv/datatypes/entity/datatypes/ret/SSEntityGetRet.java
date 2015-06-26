@@ -20,33 +20,17 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret;
 
-import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSEntity;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSServRetI;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SSEntityUserGetNewRet extends SSServRetI{
+public class SSEntityGetRet extends SSServRetI{
 
   public SSEntity entity = null;
-
-  public static SSEntityUserGetNewRet get(
-    final SSEntity     entity, 
-    final SSServOpE      op){
-    
-    return new SSEntityUserGetNewRet(entity, op);
-  }
-  
-  private SSEntityUserGetNewRet(
-    final SSEntity     entity, 
-    final SSServOpE      op){
-    
-    super(op);
-    
-    this.entity = entity;
-  }
 
   @Override
   public Map<String, Object> jsonLDDesc(){
@@ -56,5 +40,19 @@ public class SSEntityUserGetNewRet extends SSServRetI{
     ld.put(SSVarNames.entity, SSVarNames.sss + SSStrU.colon + SSEntity.class.getName());
     
     return ld;
+  }
+  
+  public static SSEntityGetRet get(
+    final SSEntity     entity){
+    
+    return new SSEntityGetRet(entity);
+  }
+  
+  private SSEntityGetRet(
+    final SSEntity     entity){
+    
+    super(SSServOpE.entityGet);
+    
+    this.entity = entity;
   }
 }

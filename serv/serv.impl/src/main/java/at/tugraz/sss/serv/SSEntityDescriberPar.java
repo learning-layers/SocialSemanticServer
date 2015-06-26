@@ -20,12 +20,10 @@
 */
 package at.tugraz.sss.serv;
 
-import at.tugraz.sss.serv.SSEntity;
-import at.tugraz.sss.serv.SSUri;
-
 public class SSEntityDescriberPar{
   
   public SSUri       user                = null;
+  public SSUri       forUser             = null;
   public SSEntity    entity              = null;
   public Boolean     withUserRestriction = false;
   public Boolean     setTags             = false;

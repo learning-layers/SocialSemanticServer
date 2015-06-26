@@ -22,6 +22,8 @@ package at.kc.tugraz.ss.service.search.impl;
 
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleTypesGetPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
 import at.kc.tugraz.ss.service.disc.api.SSDiscServerI;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscEntryURIsGetPar;
 import at.tugraz.sss.serv.SSDateU;
@@ -616,7 +618,19 @@ public class SSSearchImpl extends SSServImplWithDBA implements SSSearchClientI, 
               SSSpaceE.sharedSpace, 
               null))){
           
-          searchResultsForTagOneTag.add(SSServCaller.entityGet(foundEntity));
+          searchResultsForTagOneTag.add(
+            ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+              new SSEntityGetPar(
+                null,
+                null,
+                null,
+                foundEntity,  //entity
+                null, //forUser
+                null, //label
+                null, //type
+                false, //withUserRestriction
+                false, //invokeEntityHandlers
+                true)));
         }
         
         for(SSUri foundEntity :
@@ -630,7 +644,19 @@ public class SSSearchImpl extends SSServImplWithDBA implements SSSearchClientI, 
               SSSpaceE.privateSpace, 
               null))){
 
-          searchResultsForTagOneTag.add(SSServCaller.entityGet(foundEntity));
+          searchResultsForTagOneTag.add(
+            ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+              new SSEntityGetPar(
+                null,
+                null,
+                null,
+                foundEntity,  //entity
+                null, //forUser
+                null, //label
+                null, //type
+                false, //withUserRestriction
+                false, //invokeEntityHandlers
+                true)));
         }
         
         searchResultsPerTag.put(tagLabel, searchResultsForTagOneTag);
@@ -668,14 +694,24 @@ public class SSSearchImpl extends SSServImplWithDBA implements SSSearchClientI, 
         for(String entityId : SSServCaller.solrSearch(keyword, 20)){
           
           try{
-            
             entityObj =
-              SSServCaller.entityGet(
-                SSServCaller.vocURICreateFromId(entityId));
-
+              ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+                new SSEntityGetPar(
+                  null,
+                  null,
+                  null,
+                  SSServCaller.vocURICreateFromId(entityId),  //entity
+                  null, //forUser
+                  null, //label
+                  null, //type
+                  false, //withUserRestriction
+                  false, //invokeEntityHandlers
+                  true));
+              
             searchResultsForOneKeyword.add(entityObj);
           }catch(Exception error){
             SSLogU.warn("solr result entity not found in sss");
+            SSServErrReg.reset();
           }
         }
 
@@ -727,7 +763,19 @@ public class SSSearchImpl extends SSServImplWithDBA implements SSSearchClientI, 
             continue;
           }
           
-          entityObj = SSServCaller.entityGet(entityUri);
+          entityObj =
+            ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+              new SSEntityGetPar(
+                null,
+                null,
+                null,
+                entityUri,  //entity
+                null, //forUser
+                null, //label
+                null, //type
+                false, //withUserRestriction
+                false, //invokeEntityHandlers
+                true));
           
           searchResultsForOneKeyword.add(entityObj);
         }

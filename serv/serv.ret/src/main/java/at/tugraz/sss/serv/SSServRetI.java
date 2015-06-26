@@ -22,7 +22,7 @@ package at.tugraz.sss.serv;
 
 import com.wordnik.swagger.annotations.ApiModelProperty;
 
-public abstract class SSServRetI implements SSJSONLDOpI{
+public abstract class SSServRetI implements SSServRetJSONLDI{
   
   @ApiModelProperty(
     required = true,

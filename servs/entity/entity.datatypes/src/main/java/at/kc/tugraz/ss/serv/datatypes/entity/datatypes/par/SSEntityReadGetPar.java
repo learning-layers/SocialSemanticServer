@@ -18,29 +18,35 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
- package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par;
+package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par;
 
-import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSErr;
-import at.tugraz.sss.serv.SSErrE;
-import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSStrU;
+ 
 public class SSEntityReadGetPar extends SSServPar{
   
-  public SSUri         entity         = null;
+  public SSUri entity = null;
+
+  public String getEntity(){
+    return SSStrU.removeTrailingSlash(entity);
+  }
+
+  public void setEntity(final String entity) throws Exception{
+    this.entity = SSUri.get(entity);
+  }
+  
+  public SSEntityReadGetPar(){}
+  
+  public SSEntityReadGetPar(
+    final SSServOpE     op,
+    final String        key,
+    final SSUri         user,
+    final SSUri         entity){
     
-  public SSEntityReadGetPar(SSServPar par) throws Exception{
-      
-    super(par);
+    super(op, key, user);
     
-    try{
-      
-      if(pars != null){
-        entity          = (SSUri)         pars.get(SSVarNames.entity);
-      }
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(new SSErr(SSErrE.servParCreationFailed));
-    }
+    this.entity          = entity;
   }
 }

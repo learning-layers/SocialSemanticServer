@@ -18,43 +18,10 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret;
+package at.tugraz.sss.serv;
 
-import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarNames;
-import at.tugraz.sss.serv.SSEntity;
-import at.tugraz.sss.serv.SSServRetI;
-import java.util.HashMap;
 import java.util.Map;
 
-public class SSEntityUserGetRet extends SSServRetI{
-
-  public SSEntity entity = null;
-
-  public static SSEntityUserGetRet get(
-    final SSEntity     entity, 
-    final SSServOpE      op){
-    
-    return new SSEntityUserGetRet(entity, op);
-  }
-  
-  private SSEntityUserGetRet(
-    final SSEntity     entity, 
-    final SSServOpE      op){
-    
-    super(op);
-    
-    this.entity = entity;
-  }
-
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    
-    final Map<String, Object> ld = new HashMap<>();
-    
-    ld.put(SSVarNames.entity, SSVarNames.sss + SSStrU.colon + SSEntity.class.getName());
-    
-    return ld;
-  }
+public interface SSServRetJSONLDI {
+  public Map<String, Object> jsonLDDesc();
 }

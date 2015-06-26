@@ -245,13 +245,7 @@ implements
       final Boolean            existsEntity = SSServCaller.entityExists(par.entity);
       final SSUri              ratingUri;
       
-      if(existsEntity){
-        
-        switch(SSServCaller.entityGet(par.entity).type){
-          case entity: break;
-          default: SSServCallerU.canUserReadEntity(par.user, par.entity);
-        }
-      }
+      SSServCallerU.canUserReadEntity(par.user, par.entity);
       
       if(sqlFct.hasUserRatedEntity(par.user, par.entity)){
         return true;

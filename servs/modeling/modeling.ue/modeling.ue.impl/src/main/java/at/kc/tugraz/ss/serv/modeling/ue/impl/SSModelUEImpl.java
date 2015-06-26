@@ -20,6 +20,8 @@
 */
  package at.kc.tugraz.ss.serv.modeling.ue.impl;
 
+import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.SSModelUETopicScore;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.SSModelUEEntity;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.SSModelUERelation;
@@ -168,7 +170,20 @@ public class SSModelUEImpl extends SSServImplWithDBA implements SSModelUEClientI
       for (SSModelUEEntity resource : resources.values()){
 
         try{
-          resource.type = SSServCaller.entityGet(resource.entity).type;
+          resource.type = 
+            ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+              new SSEntityGetPar(
+                null,
+                null,
+                null,
+                resource.entity,  //entity
+                null, //forUser
+                null, //label
+                null, //type
+                false, //withUserRestriction
+                false, //invokeEntityHandlers
+                true)).type; //logErr
+          
         }catch(Exception error){
           resource.type = SSEntityE.entity;
           
@@ -359,11 +374,38 @@ public class SSModelUEImpl extends SSServImplWithDBA implements SSModelUEClientI
     for(SSModelUERelation relation : modelRelations){
       
       if(counter == 0){
-        subjectLabel = SSStrU.toStr(SSServCaller.entityGet(SSUri.get(relation.subject)).label);
+        
+        subjectLabel =
+          SSStrU.toStr(
+            ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+              new SSEntityGetPar(
+                null,
+                null,
+                null,
+                SSUri.get(relation.subject),  //entity
+                null, //forUser
+                null, //label
+                null, //type
+                false, //withUserRestriction
+                false, //invokeEntityHandlers
+                true)).label); //logErr
       }
       
       relation.subjectLabel = subjectLabel;
-      relation.objectLabel  = SSStrU.toStr(SSServCaller.entityGet(SSUri.get(relation.object)));      
+      relation.objectLabel  =
+        SSStrU.toStr(
+          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+            new SSEntityGetPar(
+              null,
+              null,
+              null,
+              SSUri.get(relation.object),  //entity
+              null, //forUser
+              null, //label
+              null, //type
+              false, //withUserRestriction
+              false, //invokeEntityHandlers
+              true)).label); //logErr
       
       counter++;
     }

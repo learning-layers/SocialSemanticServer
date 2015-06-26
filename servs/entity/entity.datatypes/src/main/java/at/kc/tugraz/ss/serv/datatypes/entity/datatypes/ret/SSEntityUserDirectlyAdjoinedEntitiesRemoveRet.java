@@ -29,19 +29,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SSEntityUserDirectlyAdjoinedEntitiesRemoveRet extends SSServRetI{
-
+  
   public SSUri entity = null;
-
-  public static SSEntityUserDirectlyAdjoinedEntitiesRemoveRet get(SSUri entityUri, SSServOpE op){
-    return new SSEntityUserDirectlyAdjoinedEntitiesRemoveRet(entityUri, op);
+  
+  public String getEntity() throws Exception {
+    return SSStrU.removeTrailingSlash(entity);
   }
   
-  private SSEntityUserDirectlyAdjoinedEntitiesRemoveRet(SSUri entityUri, SSServOpE op){
-    
-    super(op);
-    this.entity = entityUri;
-  }
-
   @Override
   public Map<String, Object> jsonLDDesc(){
     
@@ -52,7 +46,14 @@ public class SSEntityUserDirectlyAdjoinedEntitiesRemoveRet extends SSServRetI{
     return ld;
   }
   
-  public String getEntity() throws Exception {
-    return SSStrU.removeTrailingSlash(entity);
+  public static SSEntityUserDirectlyAdjoinedEntitiesRemoveRet get(SSUri entityUri){
+    return new SSEntityUserDirectlyAdjoinedEntitiesRemoveRet(entityUri);
+  }
+  
+  private SSEntityUserDirectlyAdjoinedEntitiesRemoveRet(SSUri entityUri){
+    
+    super(SSServOpE.entityDirectlyAdjoinedEntitiesRemove);
+    
+    this.entity = entityUri;
   }
 }
