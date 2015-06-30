@@ -254,6 +254,14 @@ implements
         }
       }
       
+      if(
+        par.forUser == null &&
+        par.entities.isEmpty() &&
+        par.types.isEmpty()){ //no information on what to query given
+        
+        return entities;
+      }
+        
       if(!par.entities.isEmpty()){
         
         SSStrU.distinctWithoutNull2(par.entities);

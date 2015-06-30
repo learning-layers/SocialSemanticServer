@@ -275,17 +275,6 @@ public class SSAdapterRest{
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "entityDirectlyAdjoinedEntitiesRemove")
-  @ApiOperation(
-    value = "remove certain attached attributes from an entity",
-    response = SSEntityUserDirectlyAdjoinedEntitiesRemoveRet.class)
-  public String entityDirectlyAdjoinedEntitiesRemove(final SSEntityUserDirectlyAdjoinedEntitiesRemovePar input){
-    return SSRestMainV1.handleStandardJSONRESTCall(input, SSServOpE.entityDirectlyAdjoinedEntitiesRemove);
-  }
-  
-  @POST
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
   @Path    (SSStrU.slash + "evalLog")
   @ApiOperation(
     value = "log events for evaluation purposes",
