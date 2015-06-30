@@ -22,8 +22,6 @@
 
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import at.tugraz.sss.serv.SSCoreConfA;
-import at.tugraz.sss.serv.SSDBSQLI;
-import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSConfA;
 import at.kc.tugraz.ss.service.coll.impl.*;
 import at.tugraz.sss.serv.SSServReg;

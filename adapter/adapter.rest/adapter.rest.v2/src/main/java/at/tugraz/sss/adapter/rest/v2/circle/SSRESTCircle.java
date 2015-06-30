@@ -250,7 +250,7 @@ public class SSRESTCircle{
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    ("/{circle}/entities/{entitites}")
+  @Path    ("/{circle}/entities/{entities}")
   @ApiOperation(
     value = "add given entities to a circle",
     response = SSCircleEntitiesAddRet.class)
