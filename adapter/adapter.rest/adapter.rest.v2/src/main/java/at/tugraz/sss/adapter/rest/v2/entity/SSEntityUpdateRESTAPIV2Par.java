@@ -20,6 +20,7 @@
 */
 package at.tugraz.sss.adapter.rest.v2.entity;
 
+import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.SSTextComment;
 import com.wordnik.swagger.annotations.ApiModel;
@@ -32,6 +33,16 @@ import javax.xml.bind.annotation.XmlRootElement;
 @ApiModel(value = "entityUpdate request parameter")
 public class SSEntityUpdateRESTAPIV2Par{
   
+  @ApiModelProperty( 
+    required = false, 
+    value = "type of the entity: entity or placeholder allowed; will be taken into account if entity doesnt exist yet")
+  public SSEntityE            type         = null;
+
+  @XmlElement
+  public void setType(final String type) throws Exception{
+     this.type = SSEntityE.get(type); 
+  }
+    
   @ApiModelProperty( 
     required = false, 
     value = "name / title for the entity")
@@ -62,6 +73,11 @@ public class SSEntityUpdateRESTAPIV2Par{
   public void setComments(final List<String> comments) throws Exception{
     this.comments = SSTextComment.get(comments);
   }
+  
+  @ApiModelProperty(
+    required = false,
+    value = "creationTime of the entity")
+  public Long creationTime = null;
   
   @ApiModelProperty(
     required = false,

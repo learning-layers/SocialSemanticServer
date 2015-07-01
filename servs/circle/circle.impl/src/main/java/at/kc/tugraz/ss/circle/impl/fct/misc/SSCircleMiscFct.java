@@ -28,6 +28,7 @@ import at.tugraz.sss.serv.SSStrU;
 import at.kc.tugraz.ss.circle.impl.fct.sql.SSCircleSQLFct;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.tugraz.sss.serv.SSCircleE;
 import at.tugraz.sss.serv.SSCircleRightE;
@@ -44,6 +45,7 @@ import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSTextComment;
 
 public class SSCircleMiscFct{
   
@@ -307,15 +309,27 @@ public class SSCircleMiscFct{
 
       circleURI  = SSServCaller.vocURICreate();
       
-      SSServCaller.entityAdd(
-        SSVocConf.systemUserUri,
-        circleURI,
-        SSEntityE.circle,
-        null,
-        null,
-        null,
-        false);
-      
+      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+        new SSEntityUpdatePar(
+          null,
+          null,
+          SSVocConf.systemUserUri,
+          circleURI,
+          null, //uriAlternative
+          SSEntityE.circle,
+          null, //label,
+          null, //description,
+          SSTextComment.asListWithoutNullAndEmpty(), //comments,
+          SSUri.asListWithoutNullAndEmpty(), //downloads,
+          SSUri.asListWithoutNullAndEmpty(), //screenShots,
+          SSUri.asListWithoutNullAndEmpty(), //images,
+          SSUri.asListWithoutNullAndEmpty(), //videos,
+          SSUri.asListWithoutNullAndEmpty(), //entitiesToAttach,
+          null, //creationTime,
+          null, //read,
+          false, //withUserRestriction,
+          false)); //shouldCommit))
+            
       sqlFct.addCircle(
         circleURI,
         SSCircleE.priv,
@@ -347,14 +361,26 @@ public class SSCircleMiscFct{
       
       circleURI = SSServCaller.vocURICreate();
       
-      SSServCaller.entityAdd(
-        SSVocConf.systemUserUri,
-        circleURI,
-        SSEntityE.circle,
-        null,
-        null,
-        null,
-        false);
+      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+        new SSEntityUpdatePar(
+          null,
+          null,
+          SSVocConf.systemUserUri,
+          circleURI,
+          null, //uriAlternative
+          SSEntityE.circle,
+          null, //label,
+          null, //description,
+          SSTextComment.asListWithoutNullAndEmpty(), //comments,
+          SSUri.asListWithoutNullAndEmpty(), //downloads,
+          SSUri.asListWithoutNullAndEmpty(), //screenShots,
+          SSUri.asListWithoutNullAndEmpty(), //images,
+          SSUri.asListWithoutNullAndEmpty(), //videos,
+          SSUri.asListWithoutNullAndEmpty(), //entitiesToAttach,
+          null, //creationTime,
+          null, //read,
+          false, //withUserRestriction,
+          false)); //shouldCommit))
       
       sqlFct.addCircle(
         circleURI,

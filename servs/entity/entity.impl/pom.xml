@@ -32,6 +32,12 @@
   <dependencies>
 
     <dependency>
+      <groupId>sss</groupId>
+      <artifactId>util</artifactId>
+      <version>${project.version}</version>
+    </dependency> 
+    
+    <dependency>
       <groupId>sss.servs</groupId>
       <artifactId>activity.api</artifactId>
       <version>${project.version}</version>

@@ -20,6 +20,7 @@
 */
 package at.kc.tugraz.ss.circle.api;
 
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleCanAccessPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleCreatePar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesAddPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleGetPar;
@@ -46,14 +47,14 @@ public interface SSCircleServerI extends SSServServerI{
   public List<SSCircleE>                 circleTypesGet                           (final SSCircleTypesGetPar              par) throws Exception;
   public SSEntityCircle                  circleGet                                (final SSCircleGetPar                   par) throws Exception;
   public List<SSEntityCircle>            circlesGet                               (final SSCirclesGetPar                  par) throws Exception;
+  public SSEntity                        circleCanAccess                          (final SSCircleCanAccessPar             par) throws Exception;
+  
   public List<SSEntity>                  circleEntityUsersGet                     (final SSServPar parA) throws Exception;
   public SSUri                           circlePrivURIGet                         (final SSServPar parA) throws Exception;
   public SSUri                           circlePubURIGet                          (final SSServPar parA) throws Exception;
-  public SSEntity                        circleUserCan                            (final SSServPar parA) throws Exception;
   public SSUri                           circleEntityShare                        (final SSServPar parA) throws Exception;
   public SSUri                           circleEntityPublicSet                    (final SSServPar parA) throws Exception;
   public List<SSUri>                     circleEntitiesRemove                     (final SSServPar parA) throws Exception;
-
   public void                            circlePrivEntityAdd                      (final SSCirclePrivEntityAddPar par) throws Exception;
   public void                            circlePubEntityAdd                       (final SSCirclePubEntityAddPar  par) throws Exception;
 }

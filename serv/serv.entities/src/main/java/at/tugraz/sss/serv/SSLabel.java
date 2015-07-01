@@ -66,4 +66,24 @@ public class SSLabel extends SSEntityA{
   protected SSLabel(final String string) throws Exception{
     super(string);
   }
+  
+  public static List<SSLabel> asListWithoutNull(final SSLabel... labels){
+   
+    final List<SSLabel> result = new ArrayList<>();
+    
+    if(labels == null){
+      return result;
+    }
+    
+    for(SSLabel label : labels){
+      
+      if(label == null){
+        continue;
+      }
+      
+      result.add(label);
+    }
+    
+    return result;
+  }
 }

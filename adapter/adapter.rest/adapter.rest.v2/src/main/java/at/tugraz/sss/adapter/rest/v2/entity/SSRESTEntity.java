@@ -164,6 +164,8 @@ public class SSRESTEntity {
           null, //key 
           null, //user
           SSUri.get(entity, SSVocConf.sssUri), //entity
+          null, //uriAlternative
+          input.type, //type
           input.label,       //label
           input.description, //description
           input.comments,    //comments
@@ -171,6 +173,8 @@ public class SSRESTEntity {
           SSUri.asListWithoutNullAndEmpty(), //screenShots, 
           SSUri.asListWithoutNullAndEmpty(), //images, 
           SSUri.asListWithoutNullAndEmpty(), //videos, 
+          SSUri.asListWithoutNullAndEmpty(), //entitiesToAttach
+          input.creationTime, //creationTime
           input.read,  //read
           true, //withUserRestriction, 
           true); //shouldCommit

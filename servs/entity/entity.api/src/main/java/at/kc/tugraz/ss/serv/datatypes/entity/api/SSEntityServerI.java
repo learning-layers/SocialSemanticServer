@@ -41,11 +41,8 @@ public interface SSEntityServerI extends SSServServerI{
   public Boolean        entityCopy    (final SSEntityCopyPar     par) throws Exception;
   public SSEntity       entityGet     (final SSEntityGetPar      par) throws Exception;
   
-  public SSUri                           entityUserAdd                            (final SSServPar parA) throws Exception;
   public List<SSUri>                     entityUserSubEntitiesGet                 (final SSServPar parA) throws Exception;
   public List<SSUri>                     entityUserParentEntitiesGet              (final SSServPar parA) throws Exception;
-  
-  public List<SSUri>                     entityUserEntitiesAttach                 (final SSServPar parA) throws Exception;
   
   public List<SSEntity>                  entityEntitiesAttachedGet                (final SSServPar parA) throws Exception;
   public SSUri                           entityFileAdd                            (final SSServPar parA) throws Exception;
@@ -55,7 +52,6 @@ public interface SSEntityServerI extends SSServServerI{
   public List<SSEntity>                  entitiesForLabelsAndDescriptionsGet      (final SSServPar parA) throws Exception;
   public List<SSEntity>                  entitiesForLabelsGet                     (final SSServPar parA) throws Exception;
   public List<SSEntity>                  entitiesForDescriptionsGet               (final SSServPar parA) throws Exception;
-  public SSUri                           entityAdd                                (final SSServPar parA) throws Exception;
   public SSUri                           entityUserDirectlyAdjoinedEntitiesRemove (final SSServPar parA) throws Exception;
   public SSUri                           entityRemove                             (final SSServPar parA) throws Exception;
   

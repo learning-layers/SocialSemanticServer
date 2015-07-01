@@ -31,6 +31,12 @@
   <dependencies>
     
     <dependency>
+      <groupId>sss</groupId>
+      <artifactId>util</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
       <groupId>sss.serv</groupId>
       <artifactId>serv.custom.caller</artifactId>
       <version>${project.version}</version>

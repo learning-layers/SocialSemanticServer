@@ -49,7 +49,7 @@ import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleEntitiesAddRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleUsersAddRet;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSEntityE;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCircleUserCanPar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleCanAccessPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntityPublicSetPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntityUsersGetPar;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleEntityUsersGetRet;
@@ -61,6 +61,7 @@ import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleEntityShareRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSDBNoSQL;
@@ -70,13 +71,14 @@ import at.tugraz.sss.serv.SSEntityDescriberI;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.caller.SSServCaller;
-import at.tugraz.sss.serv.caller.SSServCallerU;
+import at.tugraz.sss.util.SSServCallerU;
 import java.util.ArrayList;
 import java.util.List;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
+import at.tugraz.sss.serv.SSTextComment;
 
 public class SSCircleImpl 
 extends SSServImplWithDBA 
@@ -209,14 +211,26 @@ implements
       
       dbSQL.startTrans(par.shouldCommit);
       
-      SSServCaller.entityAdd(
-        par.user,
-        circleUri,
-        SSEntityE.circle, 
-        par.label, 
-        par.description, 
-        null, 
-        false);
+      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+        new SSEntityUpdatePar(
+          null, 
+          null, 
+          par.user, 
+          circleUri,
+          null, //uriAlternative
+          SSEntityE.circle, 
+          par.label, 
+          par.description, 
+          SSTextComment.asListWithoutNullAndEmpty(), //comments, 
+          SSUri.asListWithoutNullAndEmpty(), //downloads, 
+          SSUri.asListWithoutNullAndEmpty(), //screenShots, 
+          SSUri.asListWithoutNullAndEmpty(), //images, 
+          SSUri.asListWithoutNullAndEmpty(), //videos, 
+          SSUri.asListWithoutNullAndEmpty(), //entitiesToAttach, 
+          null, //creationTime, 
+          null, //read, 
+          false, //withUserRestriction, 
+          false)); //shouldCommit))
       
       sqlFct.addCircle(
         circleUri, 
@@ -787,14 +801,26 @@ implements
       
       dbSQL.startTrans(par.shouldCommit);
       
-      SSServCaller.entityAdd(
-        par.user, 
-        par.entity, 
-        par.type, 
-        par.label, 
-        par.description, 
-        par.creationTime, 
-        false);
+      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+        new SSEntityUpdatePar(
+          null, 
+          null, 
+          par.user, 
+          par.entity,
+          null, //uriAlternative
+          par.type, 
+          par.label, 
+          par.description, 
+          SSTextComment.asListWithoutNullAndEmpty(), //comments, 
+          SSUri.asListWithoutNullAndEmpty(), //downloads, 
+          SSUri.asListWithoutNullAndEmpty(), //screenShots, 
+          SSUri.asListWithoutNullAndEmpty(), //images, 
+          SSUri.asListWithoutNullAndEmpty(), //videos, 
+          SSUri.asListWithoutNullAndEmpty(), //entitiesToAttach, 
+          par.creationTime, 
+          null, //read, 
+          false, //withUserRestriction, 
+          false)); //shouldCommit))
       
       circleEntitiesAdd(
         new SSCircleEntitiesAddPar(
@@ -836,14 +862,26 @@ implements
       
       dbSQL.startTrans(par.shouldCommit);
       
-      SSServCaller.entityAdd(
-        par.user, 
-        par.entity, 
-        par.type, 
-        par.label, 
-        par.description, 
-        par.creationTime, 
-        false);
+      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+        new SSEntityUpdatePar(
+          null,
+          null,
+          par.user,
+          par.entity,
+          null, //uriAlternative
+          par.type,
+          par.label,
+          par.description,
+          SSTextComment.asListWithoutNullAndEmpty(), //comments,
+          SSUri.asListWithoutNullAndEmpty(), //downloads,
+          SSUri.asListWithoutNullAndEmpty(), //screenShots,
+          SSUri.asListWithoutNullAndEmpty(), //images,
+          SSUri.asListWithoutNullAndEmpty(), //videos,
+          SSUri.asListWithoutNullAndEmpty(), //entitiesToAttach,
+          par.creationTime, //creationTime,
+          null, //read,
+          false, //withUserRestriction,
+          false)); //shouldCommit))
 
       circleEntitiesAdd(
         new SSCircleEntitiesAddPar(
@@ -879,41 +917,55 @@ implements
   }
   
   @Override
-  public SSEntity circleUserCan(final SSServPar parA) throws Exception{
+  public SSEntity circleCanAccess(final SSCircleCanAccessPar par) throws Exception{
    
     try{
 
-      final SSCircleUserCanPar par    = new SSCircleUserCanPar(parA);
-      final SSEntity           entity =
-        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
-          new SSEntityGetPar(
-            null,
-            null,
-            null,
-            par.entity,
-            null,  //forUser
-            null, //label
-            null, //type
-            false, //withUserRestriction
-            false, //invokeEntityHandlers
-            null, //descPar
-            true)); //logErr
+      if(
+        par.entity    != null &&
+        par.entityURI != null){
+        throw new Exception("either set entity or entityURI");
+      }
       
-      if(entity == null){
-        return null;
+      if(
+        par.entity    == null &&
+        par.entityURI == null){
+        throw new Exception("entity nor entityURI set");
+      }
+      
+      if(par.entityURI != null){
+      
+        par.entity =
+          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+            new SSEntityGetPar(
+              null,
+              null,
+              null,
+              par.entityURI,
+              null,  //forUser
+              null, //label
+              null, //type
+              false, //withUserRestriction
+              false, //invokeEntityHandlers
+              null, //descPar
+              true)); //logErr
+      
+        if(par.entity == null){
+          return null;
+        }
       }
       
       SSCircleMiscFct.checkWhetherUserCanForEntityType(
         sqlFct,
         par.user,
-        entity,
+        par.entity,
         par.accessRight,
         par.logErr);
       
-      return entity;
+      return par.entity;
       
     }catch(Exception error){
-      SSServErrReg.regErrThrow(error, parA.logErr);
+      SSServErrReg.regErrThrow(error, par.logErr);
       return null;
     }
   }

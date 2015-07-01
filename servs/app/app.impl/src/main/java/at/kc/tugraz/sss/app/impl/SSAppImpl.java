@@ -36,7 +36,7 @@ import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSEntityDescriberI;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.caller.SSServCaller;
-import at.tugraz.sss.serv.caller.SSServCallerU;
+import at.tugraz.sss.util.SSServCallerU;
 import at.kc.tugraz.sss.app.api.SSAppServerI;
 import at.kc.tugraz.sss.app.api.SSAppClientI;
 import at.kc.tugraz.sss.app.datatypes.SSApp;
@@ -153,17 +153,21 @@ public class SSAppImpl extends SSServImplWithDBA implements SSAppClientI, SSAppS
       
       ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
         new SSEntityUpdatePar(
-          null, 
-          null, 
-          par.user, 
-          appUri, 
+          null,
+          null,
+          par.user,
+          appUri,
+          null, //uriAlternative
+          null, //type
           null, //label
           null, //description
-          SSTextComment.asListWithoutNullAndEmpty(), //comments, 
+          SSTextComment.asListWithoutNullAndEmpty(), //comments,
           par.downloads,
           par.screenShots,
           SSUri.asListWithoutNullAndEmpty(),
-          par.videos, 
+          par.videos,
+          SSUri.asListWithoutNullAndEmpty(), //entitiesToAttach
+          null, //creationTime
           null,  //read
           false,  //withUserRestriction
           false));

@@ -109,7 +109,7 @@ public enum SSServOpE{
   circleEntityUsersGet,
   circlePrivURIGet,
   circlePubURIGet,
-  circleUserCan,
+  circleCanAccess,
   circleEntityShare,
   circlePrivEntityAdd,
   circlePubEntityAdd,
@@ -132,7 +132,6 @@ public enum SSServOpE{
   entityFilesGet,
   entityFileAdd,
   entityUpdate,
-  entityUserEntitiesAttach,
   entityCopy,
   entityDirectlyAdjoinedEntitiesRemove,
   entityEntitiesAttachedGet,
@@ -142,7 +141,6 @@ public enum SSServOpE{
   entityDownloadURIsGet,
   entityLocationsAdd,
   entityLocationsGet,
-  entityUserAdd,
   
   //learn ep
   learnEpsGet                                         ,

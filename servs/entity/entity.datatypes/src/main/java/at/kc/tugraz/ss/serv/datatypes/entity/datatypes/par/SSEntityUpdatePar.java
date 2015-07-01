@@ -20,6 +20,7 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par;
 
+import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.SSUri;
@@ -31,15 +32,19 @@ import at.tugraz.sss.serv.SSStrU;
 
 public class SSEntityUpdatePar extends SSServPar{
   
-  public SSUri               entity        = null;
-  public SSLabel             label         = null;
-  public SSTextComment       description   = null;
-  public List<SSTextComment> comments      = new ArrayList<>();
-  public List<SSUri>         downloads     = new ArrayList<>();
-  public List<SSUri>         screenShots   = new ArrayList<>();
-  public List<SSUri>         images        = new ArrayList<>();
-  public List<SSUri>         videos        = new ArrayList<>();
-  public Boolean             read          = null;
+  public SSUri               entity           = null;
+  public SSUri               uriAlternative   = null;
+  public SSEntityE           type             = null;
+  public SSLabel             label            = null;
+  public SSTextComment       description      = null;
+  public List<SSTextComment> comments         = new ArrayList<>();
+  public List<SSUri>         downloads        = new ArrayList<>();
+  public List<SSUri>         screenShots      = new ArrayList<>();
+  public List<SSUri>         images           = new ArrayList<>();
+  public List<SSUri>         videos           = new ArrayList<>();
+  public List<SSUri>         entitiesToAttach = new ArrayList<>();
+  public Long                creationTime     = null;
+  public Boolean             read             = null;
 
   public String getEntity(){
     return SSStrU.removeTrailingSlash(entity);
@@ -48,7 +53,23 @@ public class SSEntityUpdatePar extends SSServPar{
   public void setEntity(final String entity) throws Exception{
     this.entity = SSUri.get(entity);
   }
+  
+  public void setUriAlternative(final String uriAlternative) throws Exception{
+    this.uriAlternative = SSUri.get(uriAlternative);
+  }
+  
+  public String getUriAlternative() throws Exception{
+    return SSStrU.removeTrailingSlash(uriAlternative);
+  }
+  
+  public String getType(){
+    return SSStrU.toStr(type);
+  }
 
+  public void setType(final String type) throws Exception{
+    this.type = SSEntityE.get(type);
+  }
+  
   public String getLabel(){
     return SSStrU.toStr(label);
   }
@@ -104,6 +125,14 @@ public class SSEntityUpdatePar extends SSServPar{
   public void setVideos(final List<String> videos) throws Exception{
     this.videos = SSUri.get(videos);
   }
+
+  public List<String> getEntitiesToAttach(){
+    return SSStrU.removeTrailingSlash(entitiesToAttach);
+  }
+
+  public void setEntitiesToAttach(final List<String> entitiesToAttach) throws Exception{
+    this.entitiesToAttach = SSUri.get(entitiesToAttach);
+  }
   
   public SSEntityUpdatePar(){}
   
@@ -112,6 +141,8 @@ public class SSEntityUpdatePar extends SSServPar{
     final String              key,
     final SSUri               user,
     final SSUri               entity,
+    final SSUri               uriAlternative,
+    final SSEntityE           type, 
     final SSLabel             label,
     final SSTextComment       description,
     final List<SSTextComment> comments,
@@ -119,6 +150,8 @@ public class SSEntityUpdatePar extends SSServPar{
     final List<SSUri>         screenShots,
     final List<SSUri>         images,
     final List<SSUri>         videos,
+    final List<SSUri>         entitiesToAttach,
+    final Long                creationTime, 
     final Boolean             read,
     final Boolean             withUserRestriction, 
     final Boolean             shouldCommit){
@@ -126,6 +159,8 @@ public class SSEntityUpdatePar extends SSServPar{
     super(op, key, user);
   
     this.entity         = entity;
+    this.uriAlternative = uriAlternative;
+    this.type           = type;
     this.label          = label;
     this.description    = description;
     
@@ -133,11 +168,13 @@ public class SSEntityUpdatePar extends SSServPar{
       this.comments.addAll(comments);
     }
     
-    SSUri.addDistinctWithoutNull(this.downloads,   downloads);
-    SSUri.addDistinctWithoutNull(this.screenShots, screenShots);
-    SSUri.addDistinctWithoutNull(this.images,      images);
-    SSUri.addDistinctWithoutNull(this.videos,      videos);
+    SSUri.addDistinctWithoutNull(this.downloads,         downloads);
+    SSUri.addDistinctWithoutNull(this.screenShots,       screenShots);
+    SSUri.addDistinctWithoutNull(this.images,            images);
+    SSUri.addDistinctWithoutNull(this.videos,            videos);
+    SSUri.addDistinctWithoutNull(this.entitiesToAttach,  entitiesToAttach);
     
+    this.creationTime        = creationTime;
     this.read                = read;
     this.withUserRestriction = withUserRestriction;
     this.shouldCommit        = shouldCommit;

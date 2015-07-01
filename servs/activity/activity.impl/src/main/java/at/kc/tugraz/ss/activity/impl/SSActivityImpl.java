@@ -43,6 +43,7 @@ import at.kc.tugraz.ss.circle.datatypes.par.SSCircleGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.kc.tugraz.ss.service.user.api.SSUserServerI;
 import at.kc.tugraz.ss.service.user.datatypes.SSUser;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUsersGetPar;
@@ -62,7 +63,7 @@ import at.tugraz.sss.serv.SSEntityDescriberPar;
 import at.tugraz.sss.serv.SSEntityHandlerImplI;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.caller.SSServCaller;
-import at.tugraz.sss.serv.caller.SSServCallerU;
+import at.tugraz.sss.util.SSServCallerU;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -71,6 +72,7 @@ import java.util.Map;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
+import at.tugraz.sss.serv.SSTextComment;
 
 public class SSActivityImpl 
 extends SSServImplWithDBA 
@@ -408,14 +410,26 @@ implements
       
       dbSQL.startTrans(par.shouldCommit);
       
-      SSServCaller.entityAdd(
-        par.user,
-        activityUri,
-        SSEntityE.activity,
-        SSLabel.get(SSStrU.toStr(par.type)),
-        null,
-        null,
-        false);
+      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+        new SSEntityUpdatePar(
+          null,
+          null,
+          par.user,
+          activityUri,
+          null, //uriAlternative
+          SSEntityE.activity,
+          SSLabel.get(SSStrU.toStr(par.type)), //label,
+          null, //description,
+          SSTextComment.asListWithoutNullAndEmpty(), //comments,
+          SSUri.asListWithoutNullAndEmpty(), //downloads,
+          SSUri.asListWithoutNullAndEmpty(), //screenShots,
+          SSUri.asListWithoutNullAndEmpty(), //images,
+          SSUri.asListWithoutNullAndEmpty(), //videos,
+          SSUri.asListWithoutNullAndEmpty(), //entitiesToAttach,
+          null, //creationTime,
+          null, //read,
+          false, //withUserRestriction,
+          false)); //shouldCommit))
       
       sqlFct.addActivity(
         par.user,

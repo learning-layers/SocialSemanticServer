@@ -27,6 +27,8 @@ import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivEntityAddPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleTypesGetPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleUsersAddPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclesGetPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
@@ -47,7 +49,7 @@ import at.tugraz.sss.serv.SSEntityHandlerImplI;
 import at.tugraz.sss.serv.SSUserRelationGathererI;
 import at.tugraz.sss.serv.SSUsersResourcesGathererI;
 import at.tugraz.sss.serv.caller.SSServCaller;
-import at.tugraz.sss.serv.caller.SSServCallerU;
+import at.tugraz.sss.util.SSServCallerU;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscEntryURIsGetPar;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscURIsForTargetGetPar;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscRemovePar;
@@ -67,9 +69,11 @@ import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
 import java.util.*;
 import at.tugraz.sss.serv.SSErrE;
+import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServReg;
+import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSWarnE;
 
 public class SSDiscImpl
@@ -457,14 +461,11 @@ public class SSDiscImpl
           par.label,
           par.description);
 
-        if(!par.entities.isEmpty()){
-
-          SSServCaller.entityUserEntitiesAttach(
-            par.user,
-            par.disc,
-            par.entities,
-            false);
-        }
+        attachEntities(
+          par.user, 
+          par.disc, 
+          par.entities, 
+          par.entityLabels);
       }
 
       if(par.entry != null){
@@ -476,31 +477,11 @@ public class SSDiscImpl
             par.disc,
             par.entry);
 
-        if(!par.entities.isEmpty()){
-
-          SSServCaller.entityUserEntitiesAttach(
-            par.user,
-            discEntryUri,
-            par.entities,
-            false);
-          
-          if(
-            !par.entityLabels.isEmpty() &&
-            par.entities.size() == par.entityLabels.size()){
-            
-            for(Integer counter = 0; counter < par.entities.size(); counter++){
-              
-              SSServCaller.entityAdd(
-                par.user, 
-                par.entities.get(counter), 
-                SSEntityE.entity, 
-                par.entityLabels.get(counter), 
-                null, 
-                null, 
-                false);
-            }
-          }
-        }
+        attachEntities(
+          par.user, 
+          discEntryUri, 
+          par.entities, 
+          par.entityLabels);
       }
 
       if(par.addNewDisc){
@@ -752,6 +733,74 @@ public class SSDiscImpl
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
+    }
+  }
+  
+  private void attachEntities(
+    final SSUri         user,
+    final SSUri         entity,
+    final List<SSUri>   entitiesToAttach,
+    final List<SSLabel> entityLabels) throws Exception{
+    
+    if(entitiesToAttach.isEmpty()){
+      return;
+    }
+    
+    try{
+      
+      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+        new SSEntityUpdatePar(
+          null,
+          null,
+          user,
+          entity,
+          null, //uriAlternative
+          null, //type
+          null, //label,
+          null, //description,
+          SSTextComment.asListWithoutNullAndEmpty(), //comments,
+          SSUri.asListWithoutNullAndEmpty(), //downloads,
+          SSUri.asListWithoutNullAndEmpty(), //screenShots,
+          SSUri.asListWithoutNullAndEmpty(), //images,
+          SSUri.asListWithoutNullAndEmpty(), //videos,
+          entitiesToAttach,  //entitiesToAttach
+          null, //creationTime
+          null, //read,
+          true, //withUserRestriction
+          false)); //shouldCommit
+      
+      if(
+        entityLabels.isEmpty() ||
+        entitiesToAttach.size() != entityLabels.size()){
+        return;
+      }
+      
+      for(Integer counter = 0; counter < entitiesToAttach.size(); counter++){
+        
+        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+          new SSEntityUpdatePar(
+            null,
+            null,
+            user,
+            entitiesToAttach.get(counter), //entity
+            null, //uriAlternative
+            null, //type
+            entityLabels.get(counter), //label,
+            null, //description,
+            SSTextComment.asListWithoutNullAndEmpty(), //comments,
+            SSUri.asListWithoutNullAndEmpty(), //downloads,
+            SSUri.asListWithoutNullAndEmpty(), //screenShots,
+            SSUri.asListWithoutNullAndEmpty(), //images,
+            SSUri.asListWithoutNullAndEmpty(), //videos,
+            SSUri.asListWithoutNullAndEmpty(), //entitiesToAttach
+            null, //creationTime
+            null, //read,
+            false, //withUserRestriction
+            false)); //shouldCommit
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
     }
   }
 }

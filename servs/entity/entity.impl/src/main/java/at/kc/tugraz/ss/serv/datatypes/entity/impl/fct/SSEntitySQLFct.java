@@ -380,6 +380,12 @@ public class SSEntitySQLFct extends SSDBSQLFct{
           update (updates, SSSQLVarNames.description, description);
         }
         
+        if(
+          creationTime != null &&
+          creationTime != 0){
+          update(updates, SSSQLVarNames.creationTime, creationTime);
+        }
+        
         if(updates.isEmpty()){
           return;
         }

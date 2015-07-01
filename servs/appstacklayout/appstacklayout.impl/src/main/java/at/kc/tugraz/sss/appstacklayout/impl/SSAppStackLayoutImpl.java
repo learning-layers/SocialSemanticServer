@@ -37,7 +37,7 @@ import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSEntityDescriberI;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.caller.SSServCaller;
-import at.tugraz.sss.serv.caller.SSServCallerU;
+import at.tugraz.sss.util.SSServCallerU;
 import at.kc.tugraz.sss.appstacklayout.api.SSAppStackLayoutClientI;
 import at.kc.tugraz.sss.appstacklayout.api.SSAppStackLayoutServerI;
 import at.kc.tugraz.sss.appstacklayout.datatypes.SSAppStackLayout;
@@ -226,10 +226,12 @@ implements
         
         ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
           new SSEntityUpdatePar(
-            null, 
-            null, 
+            null,
+            null,
             par.user,
             par.stack,
+            null, //alternativeUri
+            null, //type
             par.label,
             par.description,
             SSTextComment.asListWithoutNullAndEmpty(), //comments,
@@ -237,7 +239,9 @@ implements
             SSUri.asListWithoutNullAndEmpty(), //screenShots
             SSUri.asListWithoutNullAndEmpty(), //images
             SSUri.asListWithoutNullAndEmpty(), //videos
-            null, 
+            SSUri.asListWithoutNullAndEmpty(), //entitiesToAttach
+            null, //creationTime
+            null, //read
             false, //withUserRestriction
             false));
       }

@@ -165,6 +165,7 @@
     <module>conf</module>
     <module>servs</module>
     <module>serv</module>
+    <module>util</module>
   </modules>
   
 </project>
