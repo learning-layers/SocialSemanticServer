@@ -295,23 +295,21 @@ public class SSCircleMiscFct{
     final SSCircleSQLFct sqlFct,
     final SSUri          user) throws Exception{
     
+    SSUri circleURI;
+      
     try{
       
-      try{
-        return sqlFct.getPrivCircleURI(user);
-      }catch(SSErr error){
-        
-        switch(error.code){
-          case entityDoesntExist: break;
-          default: throw error;
-        }
-      }
+      circleURI = sqlFct.getPrivCircleURI(user);
       
-      final SSUri circleUri  = SSServCaller.vocURICreate();
+      if(circleURI != null){
+        return circleURI;
+      }
+
+      circleURI  = SSServCaller.vocURICreate();
       
       SSServCaller.entityAdd(
         SSVocConf.systemUserUri,
-        circleUri,
+        circleURI,
         SSEntityE.circle,
         null,
         null,
@@ -319,15 +317,15 @@ public class SSCircleMiscFct{
         false);
       
       sqlFct.addCircle(
-        circleUri,
+        circleURI,
         SSCircleE.priv,
         true);
       
       sqlFct.addUserToCircleIfNotExists(
-        circleUri,
+        circleURI,
         user);
       
-      return circleUri;
+      return circleURI;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -337,23 +335,21 @@ public class SSCircleMiscFct{
   public static SSUri addOrGetPubCircleURI(
     final SSCircleSQLFct sqlFct) throws Exception{
     
+    SSUri circleURI;
+      
     try{
       
-      try{
-        return sqlFct.getPubCircleURI();
-      }catch(SSErr error){
-        
-        switch(error.code){
-          case entityDoesntExist: break;
-          default: throw error;
-        }
+      circleURI = sqlFct.getPubCircleURI();
+      
+      if(circleURI != null){
+        return circleURI;
       }
       
-      final SSUri circleUri  = SSServCaller.vocURICreate();
+      circleURI = SSServCaller.vocURICreate();
       
       SSServCaller.entityAdd(
         SSVocConf.systemUserUri,
-        circleUri,
+        circleURI,
         SSEntityE.circle,
         null,
         null,
@@ -361,11 +357,11 @@ public class SSCircleMiscFct{
         false);
       
       sqlFct.addCircle(
-        circleUri,
+        circleURI,
         SSCircleE.pub,
         true);
       
-      return circleUri;
+      return circleURI;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;

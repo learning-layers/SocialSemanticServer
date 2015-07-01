@@ -33,11 +33,14 @@ import at.kc.tugraz.ss.like.datatypes.par.SSLikeUserSetPar;
 import at.kc.tugraz.ss.like.datatypes.par.SSLikesUserGetPar;
 import at.kc.tugraz.ss.like.datatypes.ret.SSLikeUserSetRet;
 import at.kc.tugraz.ss.like.impl.fct.sql.SSLikeSQLFct;
+import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
 import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSDBSQLI;
+import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
@@ -94,15 +97,25 @@ public class SSLikeImpl extends SSServImplWithDBA implements SSLikeClientI, SSLi
   public SSUri likeUserSet(final SSServPar parA) throws Exception{
     
     try{
-      final SSLikeUserSetPar par = SSLikeUserSetPar.get(parA);
-      
-      SSServCallerU.canUserReadEntity(par.user, par.entity);
-      
-      final Boolean existsEntity = SSServCaller.entityExists(par.entity);
+      final SSLikeUserSetPar par    = SSLikeUserSetPar.get(parA);
+      final SSEntity         entity = 
+        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+          new SSEntityGetPar(
+            null,
+            null,
+            null,
+            par.entity, //entity
+            null,  //forUser
+            null, //label
+            null, //type
+            true, //withUserRestriction
+            false, //invokeEntityHandlers
+            null, //descPar
+            true)); //logErr
       
       dbSQL.startTrans(par.shouldCommit);
       
-      if(!existsEntity){
+      if(entity == null){
         
         ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePrivEntityAdd(
           new SSCirclePrivEntityAddPar(

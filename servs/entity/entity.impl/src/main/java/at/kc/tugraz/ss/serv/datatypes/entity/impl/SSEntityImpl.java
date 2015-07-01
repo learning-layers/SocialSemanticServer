@@ -32,7 +32,6 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityAddPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityDownloadURIsGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityEntitiesAttachedGetPar;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityExistsPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityFileAddPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityFilesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
@@ -368,7 +367,9 @@ implements
         }
       }
       
-      if(par.invokeEntityHandlers){
+      if(
+        par.invokeEntityHandlers &&
+        entity != null){
         
         setReadAndFileInformation(par.user, entity);
         
@@ -652,39 +653,6 @@ implements
     }
   }
   
-  @Override
-  public Boolean entityExists(final SSServPar parA) throws Exception{
-    
-    try{
-      
-      final SSEntityExistsPar par = new SSEntityExistsPar(parA);
-      
-      if(par.entity != null){
-        sqlFct.getEntity(par.entity);
-        return true;
-      }
-      
-      if(!SSObjU.isNull(par.label, par.type)){
-        sqlFct.getEntity(par.label, par.type);
-        return true;
-      }
-      
-      throw new SSErr(SSErrE.entityCouldntBeQueried);
-      
-    }catch(SSErr error){
-      
-      if(SSServErrReg.containsErr(SSErrE.entityDoesntExist)){
-        SSServErrReg.reset();
-        return false;
-      }
-      
-      throw error;
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-
   @Override
   public void entityAdd(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
     

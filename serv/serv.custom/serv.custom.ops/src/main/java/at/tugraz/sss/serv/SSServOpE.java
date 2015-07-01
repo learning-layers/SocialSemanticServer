@@ -123,7 +123,6 @@ public enum SSServOpE{
   entitiesForDescriptionsGet,
   entityAdd                                           ,
   entityGet                                           ,
-  entityExists,
   entityUserSubEntitiesGet                            ,
   entityUserParentEntitiesGet,
   entityUserDirectlyAdjoinedEntitiesRemove            ,

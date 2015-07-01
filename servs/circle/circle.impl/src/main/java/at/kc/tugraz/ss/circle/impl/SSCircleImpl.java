@@ -884,32 +884,23 @@ implements
     try{
 
       final SSCircleUserCanPar par    = new SSCircleUserCanPar(parA);
-      final SSEntity           entity;
+      final SSEntity           entity =
+        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+          new SSEntityGetPar(
+            null,
+            null,
+            null,
+            par.entity,
+            null,  //forUser
+            null, //label
+            null, //type
+            false, //withUserRestriction
+            false, //invokeEntityHandlers
+            null, //descPar
+            true)); //logErr
       
-      try{
-        entity = 
-          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
-            new SSEntityGetPar(
-              null, 
-              null, 
-              null, 
-              par.entity, 
-              null,  //forUser
-              null, //label
-              null, //type
-              false, //withUserRestriction
-              false, //invokeEntityHandlers
-              null, //descPar
-              false)); //logErr
-          
-      }catch(Exception error){
-        
-        if(SSServErrReg.containsErr(SSErrE.entityDoesntExist)){
-          SSServErrReg.reset();
-          return null;
-        }
-        
-        throw error;
+      if(entity == null){
+        return null;
       }
       
       SSCircleMiscFct.checkWhetherUserCanForEntityType(

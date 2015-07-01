@@ -25,7 +25,6 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityReadGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityCopyPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
-import at.tugraz.sss.serv.SSEntityA;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntity;
@@ -42,7 +41,6 @@ public interface SSEntityServerI extends SSServServerI{
   public Boolean        entityCopy    (final SSEntityCopyPar     par) throws Exception;
   public SSEntity       entityGet     (final SSEntityGetPar      par) throws Exception;
   
-    
   public SSUri                           entityUserAdd                            (final SSServPar parA) throws Exception;
   public List<SSUri>                     entityUserSubEntitiesGet                 (final SSServPar parA) throws Exception;
   public List<SSUri>                     entityUserParentEntitiesGet              (final SSServPar parA) throws Exception;
@@ -57,7 +55,6 @@ public interface SSEntityServerI extends SSServServerI{
   public List<SSEntity>                  entitiesForLabelsAndDescriptionsGet      (final SSServPar parA) throws Exception;
   public List<SSEntity>                  entitiesForLabelsGet                     (final SSServPar parA) throws Exception;
   public List<SSEntity>                  entitiesForDescriptionsGet               (final SSServPar parA) throws Exception;
-  public Boolean                         entityExists                             (final SSServPar parA) throws Exception;
   public SSUri                           entityAdd                                (final SSServPar parA) throws Exception;
   public SSUri                           entityUserDirectlyAdjoinedEntitiesRemove (final SSServPar parA) throws Exception;
   public SSUri                           entityRemove                             (final SSServPar parA) throws Exception;

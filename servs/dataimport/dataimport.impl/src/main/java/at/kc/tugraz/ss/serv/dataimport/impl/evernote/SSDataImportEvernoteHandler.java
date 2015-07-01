@@ -33,6 +33,8 @@ import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSSpaceE;
 import at.tugraz.sss.serv.SSToolContextE;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportEvernotePar;
+import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteInfo;
 import at.kc.tugraz.ss.service.tag.api.SSTagServerI;
@@ -41,6 +43,7 @@ import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsAddPar;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUE;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUEE;
+import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
 import com.evernote.edam.type.LinkedNotebook;
@@ -476,6 +479,8 @@ public class SSDataImportEvernoteHandler {
     final Note    note,
     final SSUri   notebookUri) throws Exception{
     
+    final SSEntity nootebookEntity;
+      
     try{
       
       ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePrivEntityAdd(
@@ -490,7 +495,22 @@ public class SSDataImportEvernoteHandler {
           note.getCreated(),
           false));
       
-      if(!SSServCaller.entityExists(notebookUri)){
+      nootebookEntity =
+        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+          new SSEntityGetPar(
+            null,
+            null,
+            null,
+            notebookUri, //entity
+            null,  //forUser
+            null, //label
+            null, //type
+            false, //withUserRestriction
+            false, //invokeEntityHandlers
+            null, //descPar
+            true)); //logErr
+      
+      if(nootebookEntity == null){
         
         addNotebook(
           notebookUri, 

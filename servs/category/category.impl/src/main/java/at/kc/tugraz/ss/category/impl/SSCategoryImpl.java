@@ -253,28 +253,30 @@ implements
     
     try{
       
+      SSEntity categoryEntity;
       SSUri   categoryUri;
       
       dbSQL.startTrans(par.shouldCommit);
       
       for(SSCategoryLabel label : par.labels){
       
-        if(SSServCaller.entityExists(SSEntityE.category, SSLabel.get(SSStrU.toStr(label)))){
-          categoryUri =
-            ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
-              new SSEntityGetPar(
-                null,
-                null,
-                null,
-                null,  //entity
-                null, //forUser
-                SSLabel.get(SSStrU.toStr(label)), //label
-                SSEntityE.category, //type
-                false, //withUserRestriction
-                false, //invokeEntityHandlers
-                null, //descPar
-                true)).id; //logErr
-            
+        categoryEntity =
+          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+            new SSEntityGetPar(
+              null,
+              null,
+              par.user,
+              null, //entity
+              null, //forUser,
+              SSLabel.get(SSStrU.toStr(label)), //label,
+              SSEntityE.category, //type,
+              false, //withUserRestriction
+              false, //invokeEntityHandlers
+              null,  //descPar
+              true)); //logErr
+        
+        if(categoryEntity != null){
+          categoryUri =categoryEntity.id;
         }else{
           categoryUri = SSServCaller.vocURICreate();
         }
@@ -384,39 +386,47 @@ implements
     
     try{
       
-      final Boolean          existsEntity      = SSServCaller.entityExists(par.entity);
       final SSUri            categoryUri;
-      Boolean                existsCategory;
+      final SSEntity         categoryEntity;
+      final SSEntity         entity =
+        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+          new SSEntityGetPar(
+            null,
+            null,
+            par.user,
+            par.entity, //entity
+            null, //forUser,
+            null, //label,
+            null, //type,
+            true, //withUserRestriction
+            false, //invokeEntityHandlers
+            null,  //descPar
+            true)); //logErr
       
-      if(existsEntity){
-        SSServCallerU.canUserReadEntity(par.user, par.entity);
-      }
-      
-      existsCategory = SSServCaller.entityExists(SSEntityE.category, SSLabel.get(SSStrU.toStr(par.label)));
-      
-      if(existsCategory){
-        
-        categoryUri = 
+      categoryEntity =
           ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
             new SSEntityGetPar(
               null,
               null,
-              null,
-              null,  //entity
-              null, //forUser
-              SSLabel.get(SSStrU.toStr(par.label)), //label
-              SSEntityE.category, //type
+              par.user,
+              null, //entity
+              null, //forUser,
+              SSLabel.get(SSStrU.toStr(par.label)), //label,
+              SSEntityE.category, //type,
               false, //withUserRestriction
               false, //invokeEntityHandlers
-              null, //descPar
-              true)).id; //logErr
+              null,  //descPar
+              true)); //logErr
+      
+      if(categoryEntity != null){
+        categoryUri = categoryEntity.id;
       }else{
         categoryUri = SSServCaller.vocURICreate();
       }
       
       dbSQL.startTrans(par.shouldCommit);
       
-      if(existsEntity){
+      if(entity != null){
         
         if(SSStrU.equals(par.space, SSSpaceE.privateSpace)){
           
@@ -502,7 +512,7 @@ implements
         }
       }
       
-      if(!existsCategory){
+      if(categoryEntity == null){
         sqlFct.addCategoryIfNotExists(
           categoryUri, 
           false);
@@ -561,26 +571,24 @@ implements
         throw new Exception("user null");
       }
       
-      final Boolean existsCategory;
-      final SSUri   categoryUri;
-      
-      existsCategory = SSServCaller.entityExists(SSEntityE.tag, SSLabel.get(SSStrU.toStr(par.category)));
-      
-      if(existsCategory){
-        categoryUri = 
+      final SSUri    categoryUri;
+      final SSEntity categoryEntity =
           ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
             new SSEntityGetPar(
               null,
               null,
-              null,
-              null,  //entity
-              null, //forUser
-              SSLabel.get(SSStrU.toStr(par.category)), //label
-              SSEntityE.category, //type
+              par.user,
+              null, //entity
+              null, //forUser,
+              SSLabel.get(SSStrU.toStr(par.category)), //label,
+              SSEntityE.category, //type,
               false, //withUserRestriction
               false, //invokeEntityHandlers
-              null, //descPar
-              true)).id; //logErr
+              null,  //descPar
+              true)); //logErr
+      
+      if(categoryEntity != null){
+        categoryUri = categoryEntity.id;
       }else{
         categoryUri = SSServCaller.vocURICreate();
       }
@@ -674,21 +682,23 @@ implements
       
       if(par.label != null){
         
-        if(SSServCaller.entityExists(SSEntityE.category, SSLabel.get(SSStrU.toStr(par.label)))){
-          categoryUri = 
-            ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
-              new SSEntityGetPar(
-                null,
-                null,
-                null,
-                null,  //entity
-                null, //forUser
-                SSLabel.get(SSStrU.toStr(par.label)), //label
-                SSEntityE.category, //type
-                false, //withUserRestriction
-                false, //invokeEntityHandlers
-                null, //descPar
-                true)).id; //logErr
+        final SSEntity categoryEntity =
+          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+            new SSEntityGetPar(
+              null,
+              null,
+              par.user,
+              null, //entity
+              null, //forUser,
+              SSLabel.get(SSStrU.toStr(par.label)), //label,
+              SSEntityE.category, //type,
+              false, //withUserRestriction
+              false, //invokeEntityHandlers
+              null,  //descPar
+              true)); //logErr
+        
+        if(categoryEntity != null){
+          categoryUri = categoryEntity.id;
         }else{
           categoryUri = SSServCaller.vocURICreate();
         }

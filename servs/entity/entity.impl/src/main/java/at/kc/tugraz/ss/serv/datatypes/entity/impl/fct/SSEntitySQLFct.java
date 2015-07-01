@@ -126,7 +126,6 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     }catch(Exception error){
       
       if(SSServErrReg.containsErr(SSErrE.sqlNoResultFound)){
-        SSServErrReg.regErrThrow(new SSErr(SSErrE.entityDoesntExist), false);
         return null;
       }
         
@@ -175,7 +174,6 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     }catch(Exception error){
       
       if(SSServErrReg.containsErr(SSErrE.sqlNoResultFound)){
-        SSServErrReg.regErrThrow(new SSErr(SSErrE.entityDoesntExist), false);
         return null;
       }
         

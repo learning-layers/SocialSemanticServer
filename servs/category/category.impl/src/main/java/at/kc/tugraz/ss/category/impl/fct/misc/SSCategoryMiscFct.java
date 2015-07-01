@@ -29,12 +29,12 @@ import at.kc.tugraz.ss.category.datatypes.par.SSCategoryEntitiesForCategoriesGet
 import at.kc.tugraz.ss.category.impl.fct.sql.SSCategorySQLFct;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
+import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSSpaceE;
 import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.SSServReg;
-import at.tugraz.sss.serv.caller.SSServCaller;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -47,7 +47,8 @@ public class SSCategoryMiscFct {
     final SSCategoryEntitiesForCategoriesGetPar par) throws Exception{
     
     final List<SSUri> entities = new ArrayList<>();
-    SSLabel slabel;
+    SSLabel           slabel;
+    SSEntity          categoryEntity;
     
     if(par.labels.isEmpty()){
       
@@ -67,9 +68,23 @@ public class SSCategoryMiscFct {
     //TODO dtheiler: handle loop in db
     for(SSCategoryLabel label : par.labels){
       
-      slabel = SSLabel.get(SSStrU.toStr(label));
-      
-      if(!SSServCaller.entityExists(SSEntityE.category, slabel)){
+      slabel         = SSLabel.get(SSStrU.toStr(label));
+      categoryEntity =
+        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+          new SSEntityGetPar(
+            null,
+            null,
+            par.user,
+            null, //entity
+            null, //forUser,
+            slabel, //label,
+            SSEntityE.category, //type,
+            false, //withUserRestriction
+            false, //invokeEntityHandlers
+            null,  //descPar
+            true)); //logErr
+            
+      if(categoryEntity == null){
         continue;
       }
       
@@ -77,37 +92,13 @@ public class SSCategoryMiscFct {
         sqlFct.getEntities(
           par.user,
           SSSpaceE.privateSpace,
-          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
-            new SSEntityGetPar(
-              null,
-              null, 
-              null, 
-              null,  //entity 
-              null, //forUser
-              slabel, //label
-              SSEntityE.category, //type 
-              false, //withUserRestriction
-              false, //invokeEntityHandlers
-              null, //descPar
-              true)).id)); //logErr
+          categoryEntity.id)); 
             
       entities.addAll(
         sqlFct.getEntities(
           par.forUser,
           SSSpaceE.sharedSpace,
-          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
-            new SSEntityGetPar(
-              null,
-              null, 
-              null, 
-              null,  //entity 
-              null, //forUser
-              slabel, //label
-              SSEntityE.category, //type 
-              false, //withUserRestriction
-              false, //invokeEntityHandlers
-              null, //descPar
-              true)).id)); //logErr
+          categoryEntity.id));
     }
     
     SSStrU.distinctWithoutEmptyAndNull2(entities);
@@ -122,6 +113,7 @@ public class SSCategoryMiscFct {
     
     final List<SSUri> entities = new ArrayList<>();
     SSLabel           slabel;
+    SSEntity          categoryEntity;
     
     if(par.labels.isEmpty()){
       
@@ -135,9 +127,23 @@ public class SSCategoryMiscFct {
     //TODO dtheiler: handle loop in db
     for(SSCategoryLabel label : par.labels){
     
-      slabel = SSLabel.get(SSStrU.toStr(label));
+      slabel         = SSLabel.get(SSStrU.toStr(label));
+      categoryEntity =
+        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+          new SSEntityGetPar(
+            null,
+            null,
+            par.user,
+            null, //entity
+            null, //forUser,
+            slabel, //label,
+            SSEntityE.category, //type,
+            false, //withUserRestriction
+            false, //invokeEntityHandlers
+            null,  //descPar
+            true)); //logErr
       
-      if(!SSServCaller.entityExists(SSEntityE.category, slabel)){
+      if(categoryEntity == null){
         continue;
       }
       
@@ -145,19 +151,7 @@ public class SSCategoryMiscFct {
         sqlFct.getEntities(
           userToUse,
           par.space,
-          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
-            new SSEntityGetPar(
-              null,
-              null, 
-              null, 
-              null,  //entity 
-              null, //forUser
-              slabel, //label
-              SSEntityE.category, //type 
-              false, //withUserRestriction
-              false, //invokeEntityHandlers
-              null, //descPar
-              true)).id)); //logErr
+          categoryEntity.id));
     }
     
     SSStrU.distinctWithoutEmptyAndNull2(entities);
@@ -170,8 +164,8 @@ public class SSCategoryMiscFct {
     final SSCategoriesGetPar par) throws Exception{
     
     final List<SSCategory> categories = new ArrayList<>();
-    SSLabel slabel;
-    SSUri   categoryURI;
+    SSLabel                slabel;
+    SSEntity               categoryEntity;
     
     if(par.entities.isEmpty()){
       
@@ -182,29 +176,28 @@ public class SSCategoryMiscFct {
       
       for(SSCategoryLabel label : par.labels){
         
-        slabel = SSLabel.get(SSStrU.toStr(label));
-        
-        if(!SSServCaller.entityExists(SSEntityE.category, slabel)){
-          continue;
-        }
-        
-        categoryURI = 
+        slabel         = SSLabel.get(SSStrU.toStr(label));
+        categoryEntity =
           ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
             new SSEntityGetPar(
               null,
-              null, 
-              null, 
-              null,  //entity 
-              null, //forUser
-              slabel, //label
-              SSEntityE.category, //type 
+              null,
+              par.user,
+              null, //entity
+              null, //forUser,
+              slabel, //label,
+              SSEntityE.category, //type,
               false, //withUserRestriction
               false, //invokeEntityHandlers
-              null, //descPar
-              true)).id; //logErr
-          
-        categories.addAll (sqlFct.getCategoryAsss(par.forUser, null, SSSpaceE.sharedSpace,  par.startTime, categoryURI));
-        categories.addAll (sqlFct.getCategoryAsss(par.user,    null, SSSpaceE.privateSpace, par.startTime, categoryURI));
+              null,  //descPar
+              true)); //logErr
+        
+        if(categoryEntity == null){
+          continue;
+        }
+        
+        categories.addAll (sqlFct.getCategoryAsss(par.forUser, null, SSSpaceE.sharedSpace,  par.startTime, categoryEntity.id));
+        categories.addAll (sqlFct.getCategoryAsss(par.user,    null, SSSpaceE.privateSpace, par.startTime, categoryEntity.id));
       }
     }
     
@@ -218,29 +211,28 @@ public class SSCategoryMiscFct {
       
       for(SSCategoryLabel label : par.labels){
         
-        slabel = SSLabel.get(SSStrU.toStr(label));
-        
-        if(!SSServCaller.entityExists(SSEntityE.category, slabel)){
-          continue;
-        }
-        
-        categoryURI = 
+        slabel         = SSLabel.get(SSStrU.toStr(label));
+        categoryEntity =
           ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
             new SSEntityGetPar(
               null,
-              null, 
-              null, 
-              null,  //entity 
-              null, //forUser
-              slabel, //label
-              SSEntityE.category, //type 
+              null,
+              par.user,
+              null, //entity
+              null, //forUser,
+              slabel, //label,
+              SSEntityE.category, //type,
               false, //withUserRestriction
               false, //invokeEntityHandlers
-              null, //descPar
-              true)).id; //logErr
+              null,  //descPar
+              true)); //logErr
         
-        categories.addAll (sqlFct.getCategoryAsss(par.forUser,     entity, SSSpaceE.sharedSpace,  par.startTime, categoryURI));
-        categories.addAll (sqlFct.getCategoryAsss(par.user,        entity, SSSpaceE.privateSpace, par.startTime, categoryURI));
+        if(categoryEntity == null){
+          continue;
+        }
+        
+        categories.addAll (sqlFct.getCategoryAsss(par.forUser,     entity, SSSpaceE.sharedSpace,  par.startTime, categoryEntity.id));
+        categories.addAll (sqlFct.getCategoryAsss(par.user,        entity, SSSpaceE.privateSpace, par.startTime, categoryEntity.id));
       }
     }
     
@@ -254,7 +246,7 @@ public class SSCategoryMiscFct {
     
     final List<SSCategory> categories = new ArrayList<>();
     SSLabel                slabel;
-    SSUri                  categoryURI;
+    SSEntity               categoryEntity;
     
     if(par.entities.isEmpty()){
       
@@ -264,28 +256,27 @@ public class SSCategoryMiscFct {
       
       for(SSCategoryLabel label : par.labels){
         
-        slabel = SSLabel.get(SSStrU.toStr(label));
-        
-        if(!SSServCaller.entityExists(SSEntityE.category, slabel)){
-          continue;
-        }
-        
-        categoryURI =
+        slabel         = SSLabel.get(SSStrU.toStr(label));
+        categoryEntity =
           ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
             new SSEntityGetPar(
               null,
               null,
-              null,
-              null,  //entity
-              null, //forUser
-              slabel, //label
-              SSEntityE.category, //type
+              par.user,
+              null, //entity
+              null, //forUser,
+              slabel, //label,
+              SSEntityE.category, //type,
               false, //withUserRestriction
               false, //invokeEntityHandlers
-              null, //descPar
-              true)).id; //logErr
+              null,  //descPar
+              true)); //logErr
         
-        categories.addAll (sqlFct.getCategoryAsss(userToUse, null, par.space, par.startTime, categoryURI));
+        if(categoryEntity == null){
+          continue;
+        }
+        
+        categories.addAll (sqlFct.getCategoryAsss(userToUse, null, par.space, par.startTime, categoryEntity.id));
       }
     }
     
@@ -298,28 +289,27 @@ public class SSCategoryMiscFct {
       
       for(SSCategoryLabel label : par.labels){
         
-        slabel = SSLabel.get(SSStrU.toStr(label));
-        
-        if(!SSServCaller.entityExists(SSEntityE.category, slabel)){
-          continue;
-        }
-        
-        categoryURI =
+        slabel         = SSLabel.get(SSStrU.toStr(label));
+        categoryEntity =
           ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
             new SSEntityGetPar(
               null,
               null,
-              null,
-              null,  //entity
-              null, //forUser
-              slabel, //label
-              SSEntityE.category, //type
+              par.user,
+              null, //entity
+              null, //forUser,
+              slabel, //label,
+              SSEntityE.category, //type,
               false, //withUserRestriction
               false, //invokeEntityHandlers
-              null, //descPar
-              true)).id; //logErr
+              null,  //descPar
+              true)); //logErr
         
-        categories.addAll (sqlFct.getCategoryAsss(userToUse, entity, par.space, par.startTime, categoryURI));
+        if(categoryEntity == null){
+          continue;
+        }
+        
+        categories.addAll (sqlFct.getCategoryAsss(userToUse, entity, par.space, par.startTime, categoryEntity.id));
       }
     }
     

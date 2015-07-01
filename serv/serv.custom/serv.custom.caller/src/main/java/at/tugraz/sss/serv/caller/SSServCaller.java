@@ -1107,56 +1107,6 @@ public class SSServCaller {
     return (List<SSEntity>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entitiesForDescriptionsGet, opPars));
   }
   
-  public static Boolean entityExists(
-    final SSUri      entity) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.entity,    entity);
-    opPars.put(SSVarNames.type,      null);
-    opPars.put(SSVarNames.label,     null);
-    
-    return (Boolean) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entityExists, opPars));
-  }
-  
-  public static Boolean entityExists(
-    final SSEntityE  type,
-    final SSLabel    label) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.entity,    null);
-    opPars.put(SSVarNames.type,      type);
-    opPars.put(SSVarNames.label,     label);
-    
-    return (Boolean) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entityExists, opPars));
-  }
-  
-//  public static SSEntity entityGet(
-//    final SSEntityE  type,
-//    final SSLabel    label) throws Exception{
-//    
-//    final Map<String, Object> opPars = new HashMap<>();
-//    
-//    opPars.put(SSVarNames.entity, null);
-//    opPars.put(SSVarNames.type,      type);
-//    opPars.put(SSVarNames.label,     label);
-//    
-//    return (SSEntity) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entityGet, opPars));
-//  }
-  
-//  public static SSEntity entityGet(
-//    final SSUri      entity) throws Exception{
-//    
-//    final Map<String, Object> opPars = new HashMap<>();
-//    
-//    opPars.put(SSVarNames.entity,    entity);
-//    opPars.put(SSVarNames.type,      null);
-//    opPars.put(SSVarNames.label,     null);
-//    
-//    return (SSEntity) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entityGet, opPars));
-//  }
-    
   public static List<SSUri> entityUserParentEntitiesGet(
     final SSUri      user, 
     final SSUri      entity) throws Exception{

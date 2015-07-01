@@ -23,6 +23,8 @@
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivEntityAddPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePubEntityAddPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
 import at.kc.tugraz.ss.service.rating.impl.fct.userraltionsgathering.SSRatingUserRelationGathererFct;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSSocketCon;
@@ -244,10 +246,21 @@ implements
   public Boolean ratingSet(final SSRatingSetPar par) throws Exception {
     
     try{
-      final Boolean            existsEntity = SSServCaller.entityExists(par.entity);
       final SSUri              ratingUri;
-      
-      SSServCallerU.canUserReadEntity(par.user, par.entity);
+      final SSEntity           entity = 
+        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+          new SSEntityGetPar(
+            null,
+            null,
+            null,
+            par.entity, //entity
+            null,  //forUser
+            null, //label
+            null, //type
+            true, //withUserRestriction
+            false, //invokeEntityHandlers
+            null, //descPar
+            true)); //logErr
       
       if(sqlFct.hasUserRatedEntity(par.user, par.entity)){
         return true;
@@ -257,7 +270,7 @@ implements
       
       dbSQL.startTrans(par.shouldCommit);
       
-      if(!existsEntity){
+      if(entity == null){
         
         ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePrivEntityAdd(
           new SSCirclePrivEntityAddPar(

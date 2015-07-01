@@ -366,39 +366,47 @@ implements
     
     try{
       
-      final Boolean     existsTag;
-      final Boolean     existsEntity = SSServCaller.entityExists(par.entity);
       final SSUri       tagUri;
+      final SSEntity    tag;
+      final SSEntity    entity =
+        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+          new SSEntityGetPar(
+            null,
+            null,
+            par.user,
+            par.entity,
+            null, //forUser,
+            null, //label,
+            null, //type,
+            true, //withUserRestriction
+            false, //invokeEntityHandlers
+            null,  //descPar
+            true)); //logErr
       
-      if(existsEntity){
-        SSServCallerU.canUserReadEntity(par.user, par.entity);
-      }
+      tag =
+        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+          new SSEntityGetPar(
+            null,
+            null,
+            par.user,
+            null, //entity
+            null, //forUser,
+            SSLabel.get(SSStrU.toStr(par.label)), //label,
+            SSEntityE.tag, //type,
+            false, //withUserRestriction
+            false, //invokeEntityHandlers
+            null,  //descPar
+            true)); //logErr
       
-      existsTag = SSServCaller.entityExists(SSEntityE.tag, SSLabel.get(SSStrU.toStr(par.label)));
-      
-      if(existsTag){
-
-        tagUri = 
-          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
-            new SSEntityGetPar(
-              null,
-              null,
-              null,
-              null,  //entity
-              null, //forUser
-              SSLabel.get(SSStrU.toStr(par.label)), //label
-              SSEntityE.tag, //type
-              false, //withUserRestriction
-              false, //invokeEntityHandlers
-              null, //descPar
-              true)).id; //logErr
+      if(tag != null){
+        tagUri = tag.id;
       }else{
-        tagUri    = SSServCaller.vocURICreate();
+        tagUri = SSServCaller.vocURICreate();
       }
       
       dbSQL.startTrans(par.shouldCommit);
       
-      if(existsEntity){
+      if(entity != null){
         
         if(SSStrU.equals(par.space, SSSpaceE.privateSpace)){
           
@@ -536,26 +544,24 @@ implements
         throw new Exception("user null");
       }
       
-      final Boolean existsTag;
-      final SSUri   tagUri;
+      final SSUri    tagUri;
+      final SSEntity tagEntity = 
+        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+          new SSEntityGetPar(
+            null,
+            null,
+            par.user,
+            null, //entity
+            null, //forUser,
+            SSLabel.get(SSStrU.toStr(par.label)), //label,
+            SSEntityE.tag, //type,
+            false, //withUserRestriction
+            false, //invokeEntityHandlers
+            null,  //descPar
+            true)); //logErr
       
-      existsTag = SSServCaller.entityExists(SSEntityE.tag, SSLabel.get(SSStrU.toStr(par.tag)));
-      
-      if(existsTag){
-        tagUri = 
-          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
-            new SSEntityGetPar(
-              null,
-              null,
-              null,
-              null,  //entity
-              null, //forUser
-              SSLabel.get(SSStrU.toStr(par.tag)), //label
-              SSEntityE.tag, //type
-              false, //withUserRestriction
-              false, //invokeEntityHandlers
-              null, //descPar
-              true)).id; //logErr
+      if(tagEntity != null){
+        tagUri = tagEntity.id;
       }else{
         tagUri = SSServCaller.vocURICreate();
       }
@@ -648,23 +654,24 @@ implements
       SSUri tagUri = null;
       
       if(par.label != null){
-        
-        if(SSServCaller.entityExists(SSEntityE.tag, SSLabel.get(SSStrU.toStr(par.label)))){
-          tagUri = 
-            ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
-              new SSEntityGetPar(
-                null,
-                null,
-                null,
-                null,  //entity
-                null, //forUser
-                SSLabel.get(SSStrU.toStr(par.label)), //label
-                SSEntityE.tag, //type
-                false, //withUserRestriction
-                false, //invokeEntityHandlers
-                null, //descPar
-                true)).id; //logErr
-          
+
+        final SSEntity tagEntity =
+          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+            new SSEntityGetPar(
+              null,
+              null,
+              par.user,
+              null, //entity
+              null, //forUser,
+              SSLabel.get(SSStrU.toStr(par.label)), //label,
+              SSEntityE.tag, //type,
+              false, //withUserRestriction
+              false, //invokeEntityHandlers
+              null,  //descPar
+              true)); //logErr
+         
+        if(tagEntity != null){
+          tagUri = tagEntity.id;
         }else{
           tagUri = SSServCaller.vocURICreate();
         }
