@@ -22,10 +22,10 @@ package at.kc.tugraz.ss.service.disc.impl.fct.op;
 
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesAddPar;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivEntityAddPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.tugraz.sss.serv.SSObjU;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
@@ -60,30 +60,48 @@ public class SSDiscUserEntryAddFct{
         tmpTargetUri = targetUri;
       }
       
-      ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePrivEntityAdd(
-        new SSCirclePrivEntityAddPar(
+      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+        new SSEntityUpdatePar(
           null,
           null,
           userUri,
           discUri,
-          discType,
-          discLabel,
-          description,
-          null,
-          false));
+          null, //uriAlternative,
+          discType, //type,
+          discLabel, //label
+          description, //description,
+          null, //comments,
+          null, //downloads,
+          null, //screenShots,
+          null, //images,
+          null, //videos,
+          null, //entitiesToAttach,
+          null, //creationTime,
+          null, //read,
+          false, //withUserRestriction
+          false)); //shouldCommit)
       
-      ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePrivEntityAdd(
-        new SSCirclePrivEntityAddPar(
+      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+        new SSEntityUpdatePar(
           null,
           null,
           userUri,
           tmpTargetUri,
-          SSEntityE.entity,
-          null,
-          description,
-          null,
-          false));
-      
+          null, //uriAlternative,
+          null, //type,
+          null, //label
+          null, //description,
+          null, //comments,
+          null, //downloads,
+          null, //screenShots,
+          null, //images,
+          null, //videos,
+          null, //entitiesToAttach,
+          null, //creationTime,
+          null, //read,
+          false, //withUserRestriction
+          false)); //shouldCommit)
+            
       sqlFct.createDisc(
         userUri, 
         discUri, 
@@ -114,7 +132,7 @@ public class SSDiscUserEntryAddFct{
             null, //type
             false, //withUserRestriction
             false, //invokeEntityHandlers
-              null, //descPar
+            null, //descPar
             true)).type;
       
       SSEntityE       discEntryType = null;
@@ -126,17 +144,26 @@ public class SSDiscUserEntryAddFct{
         default: throw new Exception("disc type not valid");
       }
       
-      ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePrivEntityAdd(
-        new SSCirclePrivEntityAddPar(
+      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+        new SSEntityUpdatePar(
           null,
           null,
           userUri,
           discEntryUri,
-          discEntryType,
-          SSLabel.get(discEntryUri),
-          null,
-          null,
-          false));
+          null, //uriAlternative,
+          discEntryType, //type,
+          SSLabel.get(discEntryUri), //label
+          null, //description,
+          null, //comments,
+          null, //downloads,
+          null, //screenShots,
+          null, //images,
+          null, //videos,
+          null, //entitiesToAttach,
+          null, //creationTime,
+          null, //read,
+          false, //withUserRestriction
+          false)); //shouldCommit)
             
       for(SSEntityCircle entityUserCircle : 
         ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlesGet(
@@ -190,10 +217,6 @@ public class SSDiscUserEntryAddFct{
         case qa:
         case chat: break;
         default: throw new Exception("disc type not valid");
-      }
-      
-      if(!SSObjU.isNull(par.entity)){
-        SSServCallerU.canUserReadEntity(par.user, par.entity);
       }
       
     }catch(Exception error){

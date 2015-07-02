@@ -57,7 +57,8 @@ public class SSEntityServ extends SSServContainerI{
     
     SSServReg.inst.regServ(this);
     
-    SSServReg.inst.regServForGatheringUserRelations(this);
+    SSServReg.inst.regServForManagingEntities       (this);
+    SSServReg.inst.regServForGatheringUserRelations (this);
     SSServReg.inst.regServForGatheringUsersResources(this);
     
 //    final Map<SSServOpE, Integer> maxRequestsForOps = new EnumMap<>(SSServOpE.class);

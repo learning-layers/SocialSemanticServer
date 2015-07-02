@@ -20,8 +20,8 @@
 */
  package at.kc.tugraz.ss.service.userevent.impl;
 
-import at.kc.tugraz.ss.circle.api.SSCircleServerI;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivEntityAddPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSSocketCon;
@@ -40,7 +40,6 @@ import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.kc.tugraz.ss.service.userevent.api.*;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUE;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUEE;
-import at.kc.tugraz.ss.service.userevent.datatypes.pars.SSUEAddAtCreationTimePar;
 import at.kc.tugraz.ss.service.userevent.datatypes.pars.SSUEAddPar;
 import at.kc.tugraz.ss.service.userevent.datatypes.pars.SSUECountGetPar;
 import at.kc.tugraz.ss.service.userevent.datatypes.pars.SSUEGetPar;
@@ -126,14 +125,13 @@ implements
   }
   
   @Override
-  public Boolean copyEntity(
+  public void copyEntity(
     final SSUri        user,
     final List<SSUri>  users,
     final SSUri        entity,
     final List<SSUri>  entitiesToExclude,
     final SSEntityE    entityType) throws Exception{
     
-    return false;
   }
   
   @Override
@@ -155,13 +153,12 @@ implements
   }
   
   @Override
-  public Boolean setEntityPublic(
+  public void setEntityPublic(
     final SSUri          userUri,
     final SSUri          entityUri, 
     final SSEntityE   entityType,
     final SSUri          publicCircleUri) throws Exception{
 
-    return false;
   }
   
   @Override
@@ -273,14 +270,6 @@ implements
   }
   
   @Override
-  public void uEAdd(SSSocketCon sSCon, SSServPar parA) throws Exception {
-    
-    SSServCallerU.checkKey(parA);
-    
-    sSCon.writeRetFullToClient(SSUEAddRet.get(uEAdd(parA), parA.op));
-  }
-  
-  @Override
   public Boolean uEsRemove (final SSServPar parA) throws Exception{
     
     try{
@@ -317,50 +306,81 @@ implements
   }
   
   @Override
-  public Boolean uEAddAtCreationTime(final SSServPar parA) throws Exception{
+  public void uEAdd(SSSocketCon sSCon, SSServPar parA) throws Exception {
+    
+    SSServCallerU.checkKey(parA);
+    
+    final SSUEAddPar par = (SSUEAddPar) parA.getFromJSON(SSUEAddPar.class);
+    
+    sSCon.writeRetFullToClient(SSUEAddRet.get(uEAdd(par)));
+  }
+  
+  @Override
+  public Boolean uEAdd(final SSUEAddPar par) throws Exception{
     
     try{
-      final SSUEAddAtCreationTimePar par   = new SSUEAddAtCreationTimePar(parA);
-      final SSUri                    ueUri = SSServCaller.vocURICreate();
-    
-      try{
-        SSServCallerU.canUserReadEntity(par.user, par.entity);
-      }catch(Exception error){
-        SSServErrReg.reset();
-        SSLogU.warn("user is not allowed to add user event to entity");
-        return false;
+      final SSUri ueUri = SSServCaller.vocURICreate();
+      
+      if(par.entity == null){
+        par.entity = SSUri.get(SSVocConf.sssUri);
+      }else{
+        try{
+          SSServCallerU.canUserReadEntity(par.user, par.entity);
+        }catch(Exception error){
+          SSServErrReg.reset();
+          SSLogU.warn("user is not allowed to add user event to entity");
+          return false;
+        }
       }
       
       dbSQL.startTrans(par.shouldCommit);
       
-      ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePrivEntityAdd(
-        new SSCirclePrivEntityAddPar(
+      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+        new SSEntityUpdatePar(
           null,
           null,
           par.user,
           ueUri,
-          SSEntityE.userEvent,
-          null,
-          null,
-          par.creationTime,
-          false));
+          null, //uriAlternative,
+          SSEntityE.userEvent, //type,
+          null, //label
+          null,//description,
+          null, //comments,
+          null, //downloads,
+          null, //screenShots,
+          null, //images,
+          null, //videos,
+          null, //entitiesToAttach,
+          par.creationTime, //creationTime,
+          null, //read,
+          false, //withUserRestriction
+          false)); //shouldCommit)
       
-      ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePrivEntityAdd(
-          new SSCirclePrivEntityAddPar(
-            null,
-            null,
-        par.user,
-        par.entity,
-        SSEntityE.entity,
-        null,
-        null,
-        null,
-        false));
+      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+        new SSEntityUpdatePar(
+          null,
+          null,
+          par.user,
+          par.entity,
+          null, //uriAlternative,
+          null, //type,
+          null, //label
+          null,//description,
+          null, //comments,
+          null, //downloads,
+          null, //screenShots,
+          null, //images,
+          null, //videos,
+          null, //entitiesToAttach,
+          null, //creationTime,
+          null, //read,
+          false, //withUserRestriction
+          false)); //shouldCommit)
       
       sqlFct.addUE(
-        ueUri, 
-        par.user, 
-        par.entity, 
+        ueUri,
+        par.user,
+        par.entity,
         par.type, 
         par.content);
       
@@ -371,98 +391,18 @@ implements
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(dbSQL.rollBack(parA.shouldCommit)){
+        if(dbSQL.rollBack(par.shouldCommit)){
           
           SSServErrReg.reset();
           
-          return uEAddAtCreationTime(parA);
+          return uEAdd(par);
         }else{
           SSServErrReg.regErrThrow(error);
           return null;
         }
       }
       
-      dbSQL.rollBack(parA.shouldCommit);
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
-  @Override
-  public Boolean uEAdd(final SSServPar parA) throws Exception{
-    
-    try{
-      
-      final SSUEAddPar par   = SSUEAddPar.get(parA);
-      final SSUri      ueUri = SSServCaller.vocURICreate();
-      
-      if(par.entity != null){
-
-        try{
-          SSServCallerU.canUserReadEntity(par.user, par.entity);
-        }catch(Exception error){
-          SSServErrReg.reset();
-          SSLogU.warn("user is not allowed to add user event to entity");
-          return false;
-        }
-      }
-      
-      if(par.entity == null){
-        par.entity = SSUri.get(SSVocConf.sssUri);
-      }
-      
-      dbSQL.startTrans(par.shouldCommit);
-      
-       ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePrivEntityAdd(
-          new SSCirclePrivEntityAddPar(
-            null,
-            null,
-        par.user,
-        ueUri,
-        SSEntityE.userEvent,
-        null,
-        null,
-        null,
-        false));
-        
-      ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePrivEntityAdd(
-          new SSCirclePrivEntityAddPar(
-            null,
-            null,
-        par.user, 
-        par.entity, 
-        SSEntityE.entity, 
-        null, 
-        null, 
-        null, 
-        false));
-
-      sqlFct.addUE(
-        ueUri,
-        par.user,
-        par.entity,
-        par.type,
-        par.content);
-      
-      dbSQL.commit(par.shouldCommit);
-      
-      return true;
-    }catch(Exception error){
-      
-      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
-        
-        if(dbSQL.rollBack(parA.shouldCommit)){
-          
-          SSServErrReg.reset();
-          
-          return uEAdd(parA);
-        }else{
-          SSServErrReg.regErrThrow(error);
-          return null;
-        }
-      }
-      
-      dbSQL.rollBack(parA.shouldCommit);
+      dbSQL.rollBack(par.shouldCommit);
       SSServErrReg.regErrThrow(error);
       return null;
     }

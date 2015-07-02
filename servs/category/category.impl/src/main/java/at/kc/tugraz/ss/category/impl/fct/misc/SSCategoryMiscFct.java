@@ -44,7 +44,7 @@ public class SSCategoryMiscFct {
 
   public static List<SSUri> getEntitiesForCategoriesIfSpaceNotSet(
     final SSCategorySQLFct                          sqlFct,
-    final SSCategoryEntitiesForCategoriesGetPar par) throws Exception{
+    final SSCategoryEntitiesForCategoriesGetPar     par) throws Exception{
     
     final List<SSUri> entities = new ArrayList<>();
     SSLabel           slabel;
@@ -108,7 +108,7 @@ public class SSCategoryMiscFct {
   
   public static List<SSUri> getEntitiesForCategoriesIfSpaceSet(
     final SSCategorySQLFct                          sqlFct,
-    final SSCategoryEntitiesForCategoriesGetPar par,
+    final SSCategoryEntitiesForCategoriesGetPar     par,
     final SSUri                                     userToUse) throws Exception{
     
     final List<SSUri> entities = new ArrayList<>();
@@ -161,7 +161,7 @@ public class SSCategoryMiscFct {
   
   public static List<SSCategory> getCategoriesIfSpaceNotSet(
     final SSCategorySQLFct       sqlFct,
-    final SSCategoriesGetPar par) throws Exception{
+    final SSCategoriesGetPar     par) throws Exception{
     
     final List<SSCategory> categories = new ArrayList<>();
     SSLabel                slabel;

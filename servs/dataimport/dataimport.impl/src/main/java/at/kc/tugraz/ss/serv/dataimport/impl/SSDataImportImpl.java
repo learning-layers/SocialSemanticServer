@@ -26,10 +26,7 @@ import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSStrU;
 import at.kc.tugraz.ss.category.datatypes.SSCategoryLabel;
 import at.kc.tugraz.ss.category.datatypes.par.SSCategoriesAddPar;
-import at.kc.tugraz.ss.circle.api.SSCircleServerI;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivEntityAddPar;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSSpaceE;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSLabel;
@@ -46,6 +43,8 @@ import at.kc.tugraz.ss.serv.dataimport.impl.evernote.SSDataImportEvernoteHandler
 import at.kc.tugraz.ss.serv.dataimport.impl.fct.op.SSDataImportAchsoFct;
 import at.kc.tugraz.ss.serv.dataimport.impl.fct.reader.SSDataImportReaderFct;
 import at.kc.tugraz.ss.serv.dataimport.impl.fct.sql.SSDataImportSQLFct;
+import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.kc.tugraz.ss.serv.job.i5cloud.datatypes.SSi5CloudAchsoVideo;
 import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSServImplWithDBA;
@@ -297,28 +296,38 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
             false, 
             true);
         
-        ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePrivEntityAdd(
-          new SSCirclePrivEntityAddPar(
+        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+          new SSEntityUpdatePar(
             null,
             null,
             authorUri,
             video.id,
-            SSEntityE.entity,
-            video.label,
-            null,
-            video.creationTime,
-            true));
-
+            null, //uriAlternative,
+            null, //type,
+            video.label, //label
+            null, //description,
+            null, //comments,
+            null, //downloads,
+            null, //screenShots,
+            null, //images,
+            null, //videos,
+            null, //entitiesToAttach,
+            video.creationTime, //creationTime,
+            null, //read,
+            false, //withUserRestriction
+            true)); //shouldCommit)
+                
         ((SSTagServerI) SSServReg.getServ(SSTagServerI.class)).tagsAdd(
           new SSTagsAddPar(
             null,
             null,
             authorUri,
-            SSTagLabel.get(video.keywords),
-            video.id,
-            SSSpaceE.sharedSpace,
-            video.creationTime,
-            true));
+            SSTagLabel.get(video.keywords), //labels,
+            video.id, //entity
+            SSSpaceE.sharedSpace, //space
+            video.creationTime,  //creationTime
+            false, //withUserRestriction
+            true)); //shouldCommit
         
         final List<String> categoryLabels = new ArrayList<>();
         
@@ -342,6 +351,7 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
             video.id,
             SSSpaceE.sharedSpace,
             video.creationTime,
+            false,
             true));
       }
       
@@ -437,11 +447,12 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
             null,
             null,
             user,
-            SSTagLabel.get(tagList),
-            resource,
-            SSSpaceE.sharedSpace,
-            timestamp,
-            par.shouldCommit));
+            SSTagLabel.get(tagList), //labels
+            resource, //entity
+            SSSpaceE.sharedSpace, //space
+            timestamp, //creationTime
+            false, //withUserRestriction
+            par.shouldCommit)); //shouldCommit
 
         SSLogU.info("line " + counter++ + " " + tagCounter + " time : " + new Date().getTime() + " user: " + user.toString() + " tags: " + tags);
 

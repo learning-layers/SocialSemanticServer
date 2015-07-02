@@ -34,8 +34,6 @@ import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleCreatePar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivURIGetPar;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivEntityAddPar;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePubEntityAddPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleGetPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclesGetPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesAddPar;
@@ -222,11 +220,11 @@ implements
           par.label, 
           par.description, 
           SSTextComment.asListWithoutNullAndEmpty(), //comments, 
-          SSUri.asListWithoutNullAndEmpty(), //downloads, 
-          SSUri.asListWithoutNullAndEmpty(), //screenShots, 
-          SSUri.asListWithoutNullAndEmpty(), //images, 
-          SSUri.asListWithoutNullAndEmpty(), //videos, 
-          SSUri.asListWithoutNullAndEmpty(), //entitiesToAttach, 
+          null, //downloads, 
+          null, //screenShots, 
+          null, //images, 
+          null, //videos, 
+          null, //entitiesToAttach, 
           null, //creationTime, 
           null, //read, 
           false, //withUserRestriction, 
@@ -344,7 +342,7 @@ implements
     try{
       
       if(par.withUserRestriction){
-        SSCircleMiscFct.checkWhetherUserIsAllowedToEditCircle (sqlFct, par.user, par.circle);
+        SSCircleMiscFct.checkWhetherUserIsAllowedToAddToCircle (sqlFct, par.user, par.circle);
       }
       
       checkWhetherUsersAreUsers(par.users);
@@ -406,18 +404,41 @@ implements
     try{
       
       if(par.withUserRestriction){
-        SSCircleMiscFct.checkWhetherUserIsAllowedToEditCircle (sqlFct,   par.user, par.circle);
-        SSServCallerU.canUserEditEntities                     (par.user, par.entities);
+        
+        SSCircleMiscFct.checkWhetherUserIsAllowedToAddToCircle (
+          sqlFct,   
+          par.user, 
+          par.circle);
       }
       
       dbSQL.startTrans(par.shouldCommit);
       
-      SSServCallerU.addEntities(
-        par.user,
-        par.entities);
-      
-      for(SSUri entityUri : par.entities){
-        sqlFct.addEntityToCircleIfNotExists(par.circle, entityUri);
+      for(SSUri entity : par.entities){
+        
+        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+          new SSEntityUpdatePar(
+            null, 
+            null, 
+            par.user, 
+            entity, 
+            null, //uriAlternative, 
+            null, //type, 
+            null, //label, 
+            null, //description, 
+            null, //comments, 
+            null, //downloads, 
+            null, //screenShots, 
+            null, //images, 
+            null, //videos, 
+            null, //entitiesToAttach,
+            null, //creationTime, 
+            null, //read, 
+            par.withUserRestriction, //withUserRestriction 
+            false)); //shouldCommit
+        
+        sqlFct.addEntityToCircleIfNotExists(
+          par.circle, 
+          entity);
       }
       
       if(par.invokeEntityHandlers){
@@ -723,36 +744,35 @@ implements
   }
   
   @Override
-  public SSUri circlePrivURIGet(final SSServPar parA) throws Exception{
+  public SSUri circlePrivURIGet(final SSCirclePrivURIGetPar par) throws Exception{
     
     try{
       
-      final SSCirclePrivURIGetPar par = new SSCirclePrivURIGetPar(parA);
-      final SSUri                       privCircleUri;
+      final SSUri  privCircleUri;
       
-      dbSQL.startTrans(parA.shouldCommit);
+      dbSQL.startTrans(par.shouldCommit);
       
       privCircleUri = SSCircleMiscFct.addOrGetPrivCircleURI(sqlFct, par.user);
       
-      dbSQL.commit(parA.shouldCommit);
+      dbSQL.commit(par.shouldCommit);
       
       return privCircleUri;
     }catch(Exception error){
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(dbSQL.rollBack(parA.shouldCommit)){
+        if(dbSQL.rollBack(par.shouldCommit)){
           
           SSServErrReg.reset();
           
-          return circlePrivURIGet(parA);
+          return circlePrivURIGet(par);
         }else{
           SSServErrReg.regErrThrow(error);
           return null;
         }
       }
       
-      dbSQL.rollBack(parA.shouldCommit);
+      dbSQL.rollBack(par.shouldCommit);
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -795,106 +815,60 @@ implements
   }
   
   @Override
-  public void circlePrivEntityAdd(final SSCirclePrivEntityAddPar par) throws Exception{
+  public void circleEntityPublicSet(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
     
-    try{
-      
-      dbSQL.startTrans(par.shouldCommit);
-      
-      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
-        new SSEntityUpdatePar(
-          null, 
-          null, 
-          par.user, 
-          par.entity,
-          null, //uriAlternative
-          par.type, 
-          par.label, 
-          par.description, 
-          SSTextComment.asListWithoutNullAndEmpty(), //comments, 
-          SSUri.asListWithoutNullAndEmpty(), //downloads, 
-          SSUri.asListWithoutNullAndEmpty(), //screenShots, 
-          SSUri.asListWithoutNullAndEmpty(), //images, 
-          SSUri.asListWithoutNullAndEmpty(), //videos, 
-          SSUri.asListWithoutNullAndEmpty(), //entitiesToAttach, 
-          par.creationTime, 
-          null, //read, 
-          false, //withUserRestriction, 
-          false)); //shouldCommit))
-      
-      circleEntitiesAdd(
-        new SSCircleEntitiesAddPar(
-          null, 
-          null,
-          par.user, 
-          SSCircleMiscFct.addOrGetPrivCircleURI (sqlFct, par.user),
-          SSUri.asListWithoutNullAndEmpty(par.entity),
-          false, 
-          false,
-          false));
-      
-      dbSQL.commit(par.shouldCommit);
-      
-    }catch(Exception error){
-      
-      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
-        
-        if(dbSQL.rollBack(par.shouldCommit)){
-          
-          SSServErrReg.reset();
-          
-          circlePrivEntityAdd(par);
-        }else{
-          SSServErrReg.regErrThrow(error);
-          return;
-        }
-      }
-      
-      dbSQL.rollBack(par.shouldCommit);
-      SSServErrReg.regErrThrow(error);
-    }
+    SSServCallerU.checkKey(parA);
+    
+    final SSCircleEntityPublicSetPar par = (SSCircleEntityPublicSetPar) parA.getFromJSON(SSCircleEntityPublicSetPar.class);
+    
+    sSCon.writeRetFullToClient(SSCircleEntityPublicSetRet.get(circleEntityPublicSet(par)));
+    
+    SSCircleActivityFct.setEntityPublic(par);
   }
   
-  @Override
-  public void circlePubEntityAdd(final SSCirclePubEntityAddPar par) throws Exception{
+  @Override 
+  public SSUri circleEntityPublicSet(final SSCircleEntityPublicSetPar par) throws Exception{
     
     try{
+
+      if(par.withUserRestriction){
+        SSServCallerU.canUserAllEntity(par.user, par.entity);
+      }
       
       dbSQL.startTrans(par.shouldCommit);
-      
+
       ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
         new SSEntityUpdatePar(
           null,
           null,
           par.user,
           par.entity,
-          null, //uriAlternative
-          par.type,
-          par.label,
-          par.description,
-          SSTextComment.asListWithoutNullAndEmpty(), //comments,
-          SSUri.asListWithoutNullAndEmpty(), //downloads,
-          SSUri.asListWithoutNullAndEmpty(), //screenShots,
-          SSUri.asListWithoutNullAndEmpty(), //images,
-          SSUri.asListWithoutNullAndEmpty(), //videos,
-          SSUri.asListWithoutNullAndEmpty(), //entitiesToAttach,
-          par.creationTime, //creationTime,
+          null, //uriAlternative,
+          null, //type,
+          null, //label,
+          null, //description,
+          null, //comments,
+          null, //downloads,
+          null, //screenShots,
+          null, //images,
+          null, //videos,
+          null, //entitiesToAttach,
+          null, //creationTime,
           null, //read,
-          false, //withUserRestriction,
-          false)); //shouldCommit))
-
-      circleEntitiesAdd(
-        new SSCircleEntitiesAddPar(
-          null,
-          null,
-          par.user,
-          SSCircleMiscFct.addOrGetPubCircleURI (sqlFct),
-          SSUri.asListWithoutNullAndEmpty      (par.entity),
-          false,
-          false,
-          false));
+          false, //withUserRestriction
+          false)); //shouldCommit
       
+      sqlFct.addEntityToCircleIfNotExists(
+        SSCircleMiscFct.getPubCircleURI(sqlFct), 
+        par.entity);
+      
+      SSCircleMiscFct.setPublicByEntityHandlers(
+        par.user,
+        par.entity);
+
       dbSQL.commit(par.shouldCommit);
+      
+      return par.entity;
       
     }catch(Exception error){
       
@@ -904,15 +878,16 @@ implements
           
           SSServErrReg.reset();
           
-          circlePubEntityAdd(par);
+          return circleEntityPublicSet(par);
         }else{
           SSServErrReg.regErrThrow(error);
-          return;
+          return null;
         }
       }
       
       dbSQL.rollBack(par.shouldCommit);
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -966,60 +941,6 @@ implements
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error, par.logErr);
-      return null;
-    }
-  }
-  
-  @Override
-  public void circleEntityPublicSet(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
-    
-    SSServCallerU.checkKey(parA);
-    
-    sSCon.writeRetFullToClient(SSCircleEntityPublicSetRet.get(circleEntityPublicSet(parA), parA.op));
-    
-    SSCircleActivityFct.setEntityPublic(new SSCircleEntityPublicSetPar(parA));
-  }
-  
-  @Override 
-  public SSUri circleEntityPublicSet(final SSServPar parA) throws Exception{
-    
-    try{
-
-      final SSCircleEntityPublicSetPar par = new SSCircleEntityPublicSetPar(parA);
-      
-      SSServCallerU.canUserAllEntity(par.user, par.entity);
-      
-      dbSQL.startTrans(par.shouldCommit);
-
-      sqlFct.addEntityToCircleIfNotExists(
-        SSCircleMiscFct.getPubCircleURI(sqlFct), 
-        par.entity);
-      
-      SSCircleMiscFct.setPublicByEntityHandlers(
-        par.user,        
-        par.entity);
-
-      dbSQL.commit(par.shouldCommit);
-      
-      return par.entity;
-      
-    }catch(Exception error){
-      
-      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
-        
-        if(dbSQL.rollBack(parA.shouldCommit)){
-          
-          SSServErrReg.reset();
-          
-          return circleEntityPublicSet(parA);
-        }else{
-          SSServErrReg.regErrThrow(error);
-          return null;
-        }
-      }
-      
-      dbSQL.rollBack(parA.shouldCommit);
-      SSServErrReg.regErrThrow(error);
       return null;
     }
   }

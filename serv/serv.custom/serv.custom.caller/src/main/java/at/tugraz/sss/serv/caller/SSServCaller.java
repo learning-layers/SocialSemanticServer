@@ -507,26 +507,6 @@ public class SSServCaller {
     return (List<String>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.evernoteNoteTagNamesGet, opPars));
   }
    
-  public static void uEAddAtCreationTime(
-    final SSUri    user,
-    final SSUri    entity,
-    final SSUEE    type,
-    final String   content,
-    final Long     creationTime,
-    final Boolean  shouldCommit) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.shouldCommit, shouldCommit);
-    opPars.put(SSVarNames.user,         user);
-    opPars.put(SSVarNames.entity,       entity);
-    opPars.put(SSVarNames.type,         type);
-    opPars.put(SSVarNames.content,      content);
-    opPars.put(SSVarNames.creationTime, creationTime);
-    
-    SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.uEAddAtCreationTime, opPars));
-  }
-  
   public static Boolean broadcastAdd(
     final SSUri           user,
     final SSUri           entity,
@@ -827,27 +807,27 @@ public class SSServCaller {
   
   /* entity */
   
-  public static SSUri entityAdd(
-    final SSUri         user, 
-    final SSUri         entity, 
-    final SSEntityE     type, 
-    final SSLabel       label,
-    final SSTextComment description, 
-    final Long          creationTime,
-    final Boolean       shouldCommit) throws Exception{
-    
-    final Map<String, Object>  opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.user,            user);
-    opPars.put(SSVarNames.entity,          entity);
-    opPars.put(SSVarNames.type,            type);
-    opPars.put(SSVarNames.label,           label);
-    opPars.put(SSVarNames.description,     description);
-    opPars.put(SSVarNames.creationTime,    creationTime);
-    opPars.put(SSVarNames.shouldCommit,    shouldCommit);
-    
-    return (SSUri) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entityAdd, opPars));
-  }
+//  public static SSUri entityAdd(
+//    final SSUri         user, 
+//    final SSUri         entity, 
+//    final SSEntityE     type, 
+//    final SSLabel       label,
+//    final SSTextComment description, 
+//    final Long          creationTime,
+//    final Boolean       shouldCommit) throws Exception{
+//    
+//    final Map<String, Object>  opPars = new HashMap<>();
+//    
+//    opPars.put(SSVarNames.user,            user);
+//    opPars.put(SSVarNames.entity,          entity);
+//    opPars.put(SSVarNames.type,            type);
+//    opPars.put(SSVarNames.label,           label);
+//    opPars.put(SSVarNames.description,     description);
+//    opPars.put(SSVarNames.creationTime,    creationTime);
+//    opPars.put(SSVarNames.shouldCommit,    shouldCommit);
+//    
+//    return (SSUri) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entityAdd, opPars));
+//  }
   
 //  public static List<SSEntity> entitiesUserGet(
 //    final SSUri       user, 
@@ -1325,41 +1305,22 @@ public class SSServCaller {
     
     return (SSUri) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.circlePubURIGet, opPars));
   }
-  
 
-  public static SSUri circleEntityPublicSet(
-    final SSUri   user,
-    final SSUri   entity,
-    final Boolean shouldCommit) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.user,         user);
-    opPars.put(SSVarNames.entity,       entity);
-    opPars.put(SSVarNames.shouldCommit, shouldCommit);
-    
-    return (SSUri) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.circleEntityPublicSet, opPars));
-  }
+//  public static SSUri circleEntityPublicSet(
+//    final SSUri   user,
+//    final SSUri   entity,
+//    final Boolean shouldCommit) throws Exception{
+//    
+//    final Map<String, Object> opPars = new HashMap<>();
+//    
+//    opPars.put(SSVarNames.user,         user);
+//    opPars.put(SSVarNames.entity,       entity);
+//    opPars.put(SSVarNames.shouldCommit, shouldCommit);
+//    
+//    return (SSUri) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.circleEntityPublicSet, opPars));
+//  }
   
   /* user event */
-  
-  public static void ueAdd(
-    final SSUri     user, 
-    final SSUri     entity, 
-    final SSUEE  type, 
-    final String    content, 
-    final Boolean   shouldCommit) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.shouldCommit, shouldCommit);
-    opPars.put(SSVarNames.user,         user);
-    opPars.put(SSVarNames.entity,     entity);
-    opPars.put(SSVarNames.type,    type);
-    opPars.put(SSVarNames.content,      content);
-    
-    SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.uEAdd, opPars));
-  }
   
   public static Boolean uEsRemove(
     final SSUri   user, 

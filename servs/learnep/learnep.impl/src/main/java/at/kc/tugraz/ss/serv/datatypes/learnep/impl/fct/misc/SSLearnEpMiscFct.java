@@ -20,8 +20,8 @@
   */
 package at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.misc;
 
-import at.kc.tugraz.ss.circle.api.SSCircleServerI;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivEntityAddPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEp;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpCircle;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpEntity;
@@ -36,7 +36,6 @@ import at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.sql.SSLearnEpSQLFct;
 import at.tugraz.sss.serv.SSObjU;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.caller.SSServCaller;
@@ -112,18 +111,27 @@ public class SSLearnEpMiscFct{
             continue;
           }
           
-          ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePrivEntityAdd(
-            new SSCirclePrivEntityAddPar(
+          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+            new SSEntityUpdatePar(
               null,
               null,
               forUser,
               entity.entity.id,
-              SSEntityE.entity,
-              null,
-              null,
-              null,
-              false));
-          
+              null, //uriAlternative,
+              null, //type,
+              null, //label
+              null,//description,
+              null, //comments,
+              null, //downloads,
+              null, //screenShots,
+              null, //images,
+              null, //videos,
+              null, //entitiesToAttach,
+              null, //creationTime,
+              null, //read,
+              false, //withUserRestriction
+              false)); //shouldCommit)
+                
           serv.learnEpVersionEntityAdd(new SSLearnEpVersionEntityAddPar(
               null, 
               null, 

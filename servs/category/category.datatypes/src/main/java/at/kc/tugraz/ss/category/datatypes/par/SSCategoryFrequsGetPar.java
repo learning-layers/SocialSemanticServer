@@ -81,7 +81,8 @@ public class SSCategoryFrequsGetPar extends SSServPar{
     final List<SSCategoryLabel>   labels, 
     final SSSpaceE                space, 
     final Long                    startTime,
-    final Boolean                 useUsersEntities){
+    final Boolean                 useUsersEntities, 
+    final Boolean                 withUserRestriction){
     
     super(op, key, user);
     
@@ -93,5 +94,6 @@ public class SSCategoryFrequsGetPar extends SSServPar{
     this.space                = space;
     this.startTime            = startTime;
     this.useUsersEntities     = useUsersEntities;
+    this.withUserRestriction  = withUserRestriction;
   }
 }

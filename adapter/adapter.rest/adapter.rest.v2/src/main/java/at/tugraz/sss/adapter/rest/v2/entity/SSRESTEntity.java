@@ -20,6 +20,8 @@
 */
 package at.tugraz.sss.adapter.rest.v2.entity;
 
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntityPublicSetPar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntityPublicSetRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntitiesGetRet;
@@ -176,6 +178,39 @@ public class SSRESTEntity {
           SSUri.asListWithoutNullAndEmpty(), //entitiesToAttach
           input.creationTime, //creationTime
           input.read,  //read
+          true, //withUserRestriction, 
+          true); //shouldCommit
+      
+    }catch(Exception error){
+      return Response.status(422).build();
+    }
+    
+    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+  }
+  
+  @PUT
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path("/{entity}/public")
+  @ApiOperation(
+    value = "set an entity public (make it accessible for everyone)",
+    response = SSCircleEntityPublicSetRet.class)
+  public Response entityPublicSet(
+    @Context
+      final HttpHeaders headers,
+    
+    @PathParam (SSVarNames.entity)
+      final String entity){
+    
+    final SSCircleEntityPublicSetPar par;
+    
+    try{
+      par =
+        new SSCircleEntityPublicSetPar(
+          SSServOpE.circleEntityPublicSet, 
+          null, //key 
+          null, //user
+          SSUri.get(entity, SSVocConf.sssUri), //entity
           true, //withUserRestriction, 
           true); //shouldCommit
       

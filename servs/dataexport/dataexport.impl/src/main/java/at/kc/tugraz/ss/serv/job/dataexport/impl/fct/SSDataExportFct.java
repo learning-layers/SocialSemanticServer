@@ -23,11 +23,9 @@ package at.kc.tugraz.ss.serv.job.dataexport.impl.fct;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSSpaceE;
-import at.tugraz.sss.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.kc.tugraz.ss.service.tag.api.SSTagServerI;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTag;
-import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsGetPar;
 import at.kc.tugraz.ss.service.tag.service.SSTagServ;
 import java.util.ArrayList;
@@ -52,11 +50,12 @@ public class SSDataExportFct{
             null,
             null,
             userUri,
-            userUri,
-            entities,
-            SSTagLabel.asListWithoutNullAndEmpty(),
-            SSSpaceE.sharedSpace,
-            null)));
+            userUri, //forUser
+            entities, //entities
+            null, //labels
+            SSSpaceE.sharedSpace, //space
+            null, //startTime
+            false))); //withUserRestriction
 
     }else{
       
@@ -65,12 +64,13 @@ public class SSDataExportFct{
           new SSTagsGetPar(
             null,
             null,
-            userUri,
-            userUri,
-            entities,
-            SSTagLabel.asListWithoutNullAndEmpty(),
-            null,
-            null)));
+            userUri, 
+            userUri, //forUser
+            entities, //entities
+            null, //labels
+            null, //space
+            null, //startTime
+            false))); //withUserRestriction
     }
   }
   

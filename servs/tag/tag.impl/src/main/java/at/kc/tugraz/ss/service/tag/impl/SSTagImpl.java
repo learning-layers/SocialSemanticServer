@@ -21,11 +21,11 @@
 package at.kc.tugraz.ss.service.tag.impl;
 
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivEntityAddPar;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePubEntityAddPar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntityPublicSetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSSpaceE;
@@ -46,14 +46,12 @@ import at.tugraz.sss.util.SSServCallerU;
 import at.kc.tugraz.ss.service.tag.api.*;
 import at.kc.tugraz.ss.service.tag.datatypes.*;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagAddPar;
-import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagEditPar;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagEntitiesForTagsGetPar;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagFrequsGetPar;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsGetPar;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsRemovePar;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsAddPar;
 import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagAddRet;
-import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagEditRet;
 import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagEntitiesForTagsGetRet;
 import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagFrequsGetRet;
 import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagsGetRet;
@@ -111,11 +109,12 @@ implements
             null,
             null,
             userUri,
-            userUri,
-            SSUri.asListWithoutNullAndEmpty(),
-            SSTagLabel.asListWithoutNullAndEmpty(),
-            null,
-            null));
+            userUri, //forUser
+            null, //entities
+            null, //labels,
+            null, //space
+            null, //startTime,
+            false)); //withUserRestriction
       
       for(SSTag tag : tags){
         
@@ -149,11 +148,12 @@ implements
             null,
             null,
             userUri,
-            userUri,
-            SSUri.asListWithoutNullAndEmpty(),
-            SSTagLabel.asListWithoutNullAndEmpty(),
-            null,
-            null))){
+            userUri, //forUser
+            null, //entities
+            null, //labels
+            null, //space
+            null, //startTime,
+            false))){ //withUserRestriction
         
         if(usersResources.containsKey(user)){
           usersResources.get(user).add(tag.entity);
@@ -174,14 +174,13 @@ implements
   }
   
   @Override
-  public Boolean copyEntity(
+  public void copyEntity(
     final SSUri        user,
     final List<SSUri>  users,
     final SSUri        entity,
     final List<SSUri>  entitiesToExclude,
     final SSEntityE    entityType) throws Exception{
     
-    return false;
   }
   
   @Override
@@ -203,13 +202,12 @@ implements
   }
   
   @Override
-  public Boolean setEntityPublic(
+  public void setEntityPublic(
     final SSUri          userUri,
     final SSUri          entityUri,
     final SSEntityE      entityType,
     final SSUri          publicCircleUri) throws Exception{
     
-    return false;
   }
   
   @Override
@@ -288,11 +286,12 @@ implements
                 null,
                 null,
                 par.user,
-                null,
-                SSUri.asListWithoutNullAndEmpty(entity.id),
-                SSTagLabel.asListWithoutNullAndEmpty(),
-                null,
-                null))));
+                null, //forUser
+                SSUri.asListWithoutNullAndEmpty(entity.id), //entities
+                null, //labels
+                null, //space
+                null, //startTime
+                false)))); //withUserRestriction
       }
       
       return entity;
@@ -303,46 +302,47 @@ implements
   }
   
   @Override
-  public void tagEntitiesForTagsGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
+  public List<SSUri> tagsAdd(final SSTagsAddPar par) throws Exception {
     
-    SSServCallerU.checkKey(parA);
-    
-    sSCon.writeRetFullToClient(
-      SSTagEntitiesForTagsGetRet.get(
-        tagEntitiesForTagsGet((SSTagEntitiesForTagsGetPar) parA.getFromJSON(SSTagEntitiesForTagsGetPar.class))));
-  }
-  
-  @Override
-  public List<SSUri> tagEntitiesForTagsGet(final SSTagEntitiesForTagsGetPar par) throws Exception{
-    
-    //TODO dtheiler: use start time for this call as well
     try{
       
-      if(par.user == null){
-        throw new Exception("user null");
+      final List<SSUri>  tags   = new ArrayList<>();
+      
+      for(SSTagLabel tagLabel : par.labels) {
+        
+        tags.add(
+          tagAdd(
+            new SSTagAddPar(
+              null,
+              null,
+              par.user,
+              par.entity,
+              tagLabel,
+              par.space,
+              par.creationTime,
+              par.withUserRestriction,
+              par.shouldCommit)));
       }
       
-      if(
-        par.forUser != null &&
-        !SSStrU.equals(par.user,  par.forUser)){
-        par.space = SSSpaceE.sharedSpace;
-      }
+      SSStrU.distinctWithoutNull2(tags);
       
-      if(par.space == null){
-        return SSTagMiscFct.getEntitiesForTagsIfSpaceNotSet(sqlFct, par);
-      }
-      
-      if(SSSpaceE.isShared(par.space)){
-        return SSTagMiscFct.getEntitiesForTagsIfSpaceSet(sqlFct, par, par.forUser);
-      }
-      
-      if(SSSpaceE.isPrivate(par.space)){
-        return SSTagMiscFct.getEntitiesForTagsIfSpaceSet(sqlFct, par, par.user);
-      }
-      
-      throw new Exception("reached not reachable code");
-      
+      return tags;
     }catch(Exception error){
+      
+      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+        
+        if(dbSQL.rollBack(par.shouldCommit)){
+          
+          SSServErrReg.reset();
+          
+          return tagsAdd(par);
+        }else{
+          SSServErrReg.regErrThrow(error);
+          return null;
+        }
+      }
+      
+      dbSQL.rollBack(par.shouldCommit);
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -368,22 +368,7 @@ implements
       
       final SSUri       tagUri;
       final SSEntity    tag;
-      final SSEntity    entity =
-        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
-          new SSEntityGetPar(
-            null,
-            null,
-            par.user,
-            par.entity,
-            null, //forUser,
-            null, //label,
-            null, //type,
-            true, //withUserRestriction
-            false, //invokeEntityHandlers
-            null,  //descPar
-            true)); //logErr
-      
-      tag =
+      final SSEntity    tagEntity = 
         ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
           new SSEntityGetPar(
             null,
@@ -398,98 +383,70 @@ implements
             null,  //descPar
             true)); //logErr
       
-      if(tag != null){
-        tagUri = tag.id;
+      dbSQL.startTrans(par.shouldCommit);
+      
+      if(tagEntity != null){
+        tagUri = tagEntity.id;
       }else{
         tagUri = SSServCaller.vocURICreate();
       }
       
-      dbSQL.startTrans(par.shouldCommit);
+      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+        new SSEntityUpdatePar(
+          null,
+          null,
+          par.user,
+          par.entity,
+          null, //uriAlternative,
+          null, //type,
+          null, //label
+          null, //description,
+          null, //comments,
+          null, //downloads,
+          null, //screenShots,
+          null, //images,
+          null, //videos,
+          null, //entitiesToAttach,
+          null, //creationTime,
+          null, //read,
+          par.withUserRestriction, //withUserRestriction
+          false)); //shouldCommit)
       
-      if(entity != null){
+      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+        new SSEntityUpdatePar(
+          null,
+          null,
+          par.user,
+          tagUri,
+          null, //uriAlternative,
+          SSEntityE.tag, //type,
+          SSLabel.get(SSStrU.toStr(par.label)), //label
+          null, //description,
+          null, //comments,
+          null, //downloads,
+          null, //screenShots,
+          null, //images,
+          null, //videos,
+          null, //entitiesToAttach,
+          par.creationTime, //creationTime,
+          null, //read,
+          false, //withUserRestriction
+          false)); //shouldCommit)
+      
+      ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleEntityPublicSet(
+        new SSCircleEntityPublicSetPar(
+          null,
+          null,
+          par.user,
+          tagUri, //entity
+          false, //withUserRestriction
+          false)); //shouldCommit
         
-        if(SSStrU.equals(par.space, SSSpaceE.privateSpace)){
-          
-          ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePrivEntityAdd(
-            new SSCirclePrivEntityAddPar(
-              null,
-              null,
-              par.user,
-              par.entity,
-              SSEntityE.entity,
-              null,
-              null,
-              null,
-              false));
-          
-          ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePrivEntityAdd(
-            new SSCirclePrivEntityAddPar(
-              null,
-              null,
-              par.user,
-              tagUri,
-              SSEntityE.tag,
-              SSLabel.get(SSStrU.toStr(par.label)),
-              null,
-              par.creationTime,
-              false));
-          
-        }else{
-          
-          ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePubEntityAdd(
-            new SSCirclePubEntityAddPar(
-              null,
-              null,
-              par.user,
-              tagUri,
-              false,
-              SSEntityE.tag,
-              SSLabel.get(SSStrU.toStr(par.label)),
-              null,
-              par.creationTime));
-        }
-      }else{
-        
-        ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePubEntityAdd(
-          new SSCirclePubEntityAddPar(
-            null,
-            null,
-            par.user,
-            par.entity,
-            false,
-            SSEntityE.entity,
-            null,
-            null,
-            null));
-        
-        if(SSStrU.equals(par.space, SSSpaceE.privateSpace)){
-          
-          ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePrivEntityAdd(
-            new SSCirclePrivEntityAddPar(
-              null,
-              null,
-              par.user,
-              tagUri,
-              SSEntityE.tag,
-              SSLabel.get(SSStrU.toStr(par.label)),
-              null,
-              par.creationTime,
-              false));
-          
-        }else{
-          ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePubEntityAdd(
-            new SSCirclePubEntityAddPar(
-              null,
-              null,
-              par.user,
-              tagUri,
-              false,
-              SSEntityE.tag,
-              SSLabel.get(SSStrU.toStr(par.label)),
-              null,
-              par.creationTime));
-        }
-      }
+//      if(tagEntity == null){
+//        sqlFct.addTagIfNotExists(
+//          tagUri, 
+//          false);
+//      }
       
       sqlFct.addTagAssIfNotExists(
         tagUri,
@@ -524,115 +481,6 @@ implements
   }
   
   @Override
-  public void tagEdit(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
-    
-    SSServCallerU.checkKey(parA);
-    
-    sSCon.writeRetFullToClient(
-      SSTagEditRet.get(
-        tagEdit((SSTagEditPar) parA.getFromJSON(SSTagEditPar.class))));
-  }
-  
-  @Override
-  public SSUri tagEdit(final SSTagEditPar par) throws Exception {
-    
-    try{
-      
-      SSUri                  newTagUri = null;
-      
-      if(par.user == null){
-        throw new Exception("user null");
-      }
-      
-      final SSUri    tagUri;
-      final SSEntity tagEntity = 
-        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
-          new SSEntityGetPar(
-            null,
-            null,
-            par.user,
-            null, //entity
-            null, //forUser,
-            SSLabel.get(SSStrU.toStr(par.label)), //label,
-            SSEntityE.tag, //type,
-            false, //withUserRestriction
-            false, //invokeEntityHandlers
-            null,  //descPar
-            true)); //logErr
-      
-      if(tagEntity != null){
-        tagUri = tagEntity.id;
-      }else{
-        tagUri = SSServCaller.vocURICreate();
-      }
-      
-      final List<SSTag> tags =
-        tagsGet(
-          new SSTagsGetPar(
-            null,
-            null,
-            par.user,
-            par.user,
-            SSUri.asListWithoutNullAndEmpty(par.entity),
-            SSTagLabel.asListWithoutNullAndEmpty(par.tag),
-            null,
-            null));
-      
-      for(SSTag tag : tags){
-        
-        tagsRemove(
-          new SSTagsRemovePar(
-            null,
-            null,
-            par.user,
-            par.user,
-            tag.entity,
-            SSTagLabel.get(SSStrU.toStr(tag.label)),
-            tag.space,
-            false,
-            false));
-        
-        newTagUri =
-          tagAdd(
-            new SSTagAddPar(
-              null,
-              null,
-              par.user,
-              tag.entity,
-              par.label,
-              tag.space,
-              null,
-              false));
-      }
-      
-      if(newTagUri == null){
-        return tagUri;
-      }else{
-        return newTagUri;
-      }
-      
-    }catch(Exception error){
-      
-      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
-        
-        if(dbSQL.rollBack(par.shouldCommit)){
-          
-          SSServErrReg.reset();
-          
-          return tagEdit(par);
-        }else{
-          SSServErrReg.regErrThrow(error);
-          return null;
-        }
-      }
-      
-      dbSQL.rollBack(par.shouldCommit);
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
-  @Override
   public void tagsRemove(SSSocketCon sSCon, SSServPar parA) throws Exception {
     
     SSServCallerU.checkKey(parA);
@@ -653,8 +501,15 @@ implements
       
       SSUri tagUri = null;
       
+      if(par.withUserRestriction){
+        
+        if(par.entity == null){
+          throw new Exception("entity null");
+        }
+      }
+      
       if(par.label != null){
-
+        
         final SSEntity tagEntity =
           ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
             new SSEntityGetPar(
@@ -669,11 +524,11 @@ implements
               false, //invokeEntityHandlers
               null,  //descPar
               true)); //logErr
-         
-        if(tagEntity != null){
-          tagUri = tagEntity.id;
+        
+        if(tagEntity == null){
+          return true;
         }else{
-          tagUri = SSServCaller.vocURICreate();
+          tagUri = tagEntity.id;
         }
       }
       
@@ -701,6 +556,21 @@ implements
       if(par.forUser == null){
         par.forUser = par.user;
       }
+      
+      //check whether (for)user can access the entity
+      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+        new SSEntityGetPar(
+          null,
+          null,
+          par.user,
+          par.entity, //entity
+          par.forUser, //forUser,
+          null, //label,
+          null, //type,
+          par.withUserRestriction, //withUserRestriction
+          false, //invokeEntityHandlers
+          null,  //descPar
+          true)); //logErr
       
       if(
         par.space    == null &&
@@ -776,6 +646,145 @@ implements
   }
   
   @Override
+  public void tagEntitiesForTagsGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
+    
+    SSServCallerU.checkKey(parA);
+    
+    sSCon.writeRetFullToClient(
+      SSTagEntitiesForTagsGetRet.get(
+        tagEntitiesForTagsGet((SSTagEntitiesForTagsGetPar) parA.getFromJSON(SSTagEntitiesForTagsGetPar.class))));
+  }
+  
+  @Override
+  public List<SSUri> tagEntitiesForTagsGet(final SSTagEntitiesForTagsGetPar par) throws Exception{
+    
+    //TODO dtheiler: use start time for this call as well
+    try{
+      
+      final List<SSUri> entityURIs = new ArrayList<>();
+      final List<SSUri> result     = new ArrayList<>();
+      
+      if(par.user == null){
+        throw new Exception("user null");
+      }
+      
+      if(
+        par.forUser != null &&
+        !SSStrU.equals(par.user,  par.forUser)){
+        par.space = SSSpaceE.sharedSpace;
+      }
+      
+      if(par.space == null){
+        entityURIs.addAll(SSTagMiscFct.getEntitiesForTagsIfSpaceNotSet(sqlFct, par));
+      }else{
+        
+        switch(par.space){
+          
+          case privateSpace:{
+            entityURIs.addAll(SSTagMiscFct.getEntitiesForTagsIfSpaceSet(sqlFct, par, par.user));
+            break;
+          }
+          
+          case sharedSpace:{
+            entityURIs.addAll(SSTagMiscFct.getEntitiesForTagsIfSpaceSet(sqlFct, par, par.forUser));
+            break;
+          }
+        }
+      } 
+          
+      if(
+        par.withUserRestriction &&
+        !SSStrU.equals(par.user,  par.forUser)){
+      
+        for(SSUri entityURI : entityURIs){
+
+          try{
+            SSServCallerU.canUserReadEntity(par.user, entityURI, true);
+            
+            result.add(entityURI);
+          }catch(Exception error){
+            SSServErrReg.reset();
+          }
+        }
+      }
+      
+      return result;
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public void tagsGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
+    
+    SSServCallerU.checkKey(parA);
+    
+    sSCon.writeRetFullToClient(
+      SSTagsGetRet.get(
+        tagsGet((SSTagsGetPar) parA.getFromJSON(SSTagsGetPar.class))));
+  }
+  
+  @Override
+  public List<SSTag> tagsGet(final SSTagsGetPar par) throws Exception {
+    
+    try{
+      
+      final List<SSTag>      tags   = new ArrayList<>();
+      final List<SSTag>      result = new ArrayList<>();
+      
+      if(par.user == null){
+        throw new Exception("user null");
+      }
+      
+      if(
+        par.forUser != null &&
+        !SSStrU.equals(par.user,  par.forUser)){
+        par.space = SSSpaceE.sharedSpace;
+      }
+      
+      if(par.space == null){
+        tags.addAll(SSTagMiscFct.getTagsIfSpaceNotSet(sqlFct, par));
+      }else{
+        switch(par.space){
+          
+          case privateSpace:{
+            tags.addAll(SSTagMiscFct.getTagsIfSpaceSet(sqlFct, par, par.user));
+            break;
+          }
+          
+          case sharedSpace:{
+            SSTagMiscFct.getTagsIfSpaceSet(sqlFct, par, par.forUser);
+            break;
+          }
+        }
+      }
+      
+      if(
+        par.withUserRestriction &&
+        !SSStrU.equals(par.user, par.forUser)){
+        
+        for(SSTag tag : tags){
+          
+          try{
+            SSServCallerU.canUserReadEntity(par.user, tag.entity, true);
+            
+            result.add(tag);
+          }catch(Exception error){
+            SSServErrReg.reset();
+          }
+        }
+      }
+        
+      return result;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
   public void tagFrequsGet(SSSocketCon sSCon, SSServPar parA) throws Exception {
     
     SSServCallerU.checkKey(parA);
@@ -798,7 +807,7 @@ implements
       
       if(par.useUsersEntities){
         
-        //TODO change: hack for bits and pieces
+        //TODO change: hack from bits and pieces
         final List<SSEntityE> types =
           SSEntityE.asListWithoutNullAndEmpty(
             SSEntityE.entity,
@@ -815,7 +824,7 @@ implements
                 null,
                 null,
                 par.user,
-                SSUri.asListWithoutNullAndEmpty(), //entities
+                null, //entities
                 par.forUser, //forUser
                 types, //types
                 false, //invokeEntityHandlers,
@@ -834,7 +843,8 @@ implements
             par.entities,
             par.labels,
             par.space,
-            par.startTime)),
+            par.startTime,
+            par.withUserRestriction)),
         par.space);
       
     }catch(Exception error){
@@ -842,94 +852,104 @@ implements
       return null;
     }
   }
-  
-  @Override
-  public List<SSUri> tagsAdd(final SSTagsAddPar par) throws Exception {
-    
-    try{
-      
-      final List<SSUri>  tags   = new ArrayList<>();
-      
-      for(SSTagLabel tagLabel : par.labels) {
-        
-        tags.add(
-          tagAdd(
-            new SSTagAddPar(
-              null,
-              null,
-              par.user,
-              par.entity,
-              tagLabel,
-              par.space,
-              par.creationTime,
-              par.shouldCommit)));
-      }
-      
-      SSStrU.distinctWithoutNull2(tags);
-      
-      return tags;
-    }catch(Exception error){
-      
-      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
-        
-        if(dbSQL.rollBack(par.shouldCommit)){
-          
-          SSServErrReg.reset();
-          
-          return tagsAdd(par);
-        }else{
-          SSServErrReg.regErrThrow(error);
-          return null;
-        }
-      }
-      
-      dbSQL.rollBack(par.shouldCommit);
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
-  @Override
-  public void tagsGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
-    
-    SSServCallerU.checkKey(parA);
-    
-    sSCon.writeRetFullToClient(
-      SSTagsGetRet.get(
-        tagsGet((SSTagsGetPar) parA.getFromJSON(SSTagsGetPar.class))));
-  }
-  
-  @Override
-  public List<SSTag> tagsGet(final SSTagsGetPar par) throws Exception {
-    
-    try{
-      
-      if(par.user == null){
-        throw new Exception("user null");
-      }
-      
-      if(
-        par.forUser != null &&
-        !SSStrU.equals(par.user,  par.forUser)){
-        par.space = SSSpaceE.sharedSpace;
-      }
-      
-      if(par.space == null){
-        return SSTagMiscFct.getTagsIfSpaceNotSet(sqlFct, par);
-      }
-      
-      if(SSSpaceE.isPrivate(par.space)){
-        return SSTagMiscFct.getTagsIfSpaceSet(sqlFct, par, par.user);
-      }
-      
-      if(SSSpaceE.isShared(par.space)){
-        return SSTagMiscFct.getTagsIfSpaceSet(sqlFct, par, par.forUser);
-      }
-      
-      throw new Exception("reached not reachable code");
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
 }
+
+
+//@Override
+//  public SSUri tagEdit(final SSTagEditPar par) throws Exception {
+//    
+//    try{
+//      
+//      SSUri                  newTagUri = null;
+//      
+//      if(par.user == null){
+//        throw new Exception("user null");
+//      }
+//      
+//      final SSUri    tagUri;
+//      final SSEntity tagEntity = 
+//        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+//          new SSEntityGetPar(
+//            null,
+//            null,
+//            par.user,
+//            null, //entity
+//            null, //forUser,
+//            SSLabel.get(SSStrU.toStr(par.label)), //label,
+//            SSEntityE.tag, //type,
+//            false, //withUserRestriction
+//            false, //invokeEntityHandlers
+//            null,  //descPar
+//            true)); //logErr
+//      
+//      if(tagEntity != null){
+//        tagUri = tagEntity.id;
+//      }else{
+//        tagUri = SSServCaller.vocURICreate();
+//      }
+//      
+//      final List<SSTag> tags =
+//        tagsGet(
+//          new SSTagsGetPar(
+//            null,
+//            null,
+//            par.user,
+//            par.user,
+//            SSUri.asListWithoutNullAndEmpty(par.entity),
+//            SSTagLabel.asListWithoutNullAndEmpty(par.tag),
+//            null,
+//            null));
+//      
+//      for(SSTag tag : tags){
+//        
+//        tagsRemove(
+//          new SSTagsRemovePar(
+//            null,
+//            null,
+//            par.user,
+//            par.user,
+//            tag.entity,
+//            SSTagLabel.get(SSStrU.toStr(tag.label)),
+//            tag.space,
+//            false,
+//            false));
+//        
+//        newTagUri =
+//          tagAdd(
+//            new SSTagAddPar(
+//              null,
+//              null,
+//              par.user,
+//              tag.entity,
+//              par.label,
+//              tag.space,
+//              null,
+//              false));
+//      }
+//      
+//      if(newTagUri == null){
+//        return tagUri;
+//      }else{
+//        return newTagUri;
+//      }
+//      
+//    }catch(Exception error){
+//      
+//      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+//        
+//        if(dbSQL.rollBack(par.shouldCommit)){
+//          
+//          SSServErrReg.reset();
+//          
+//          return tagEdit(par);
+//        }else{
+//          SSServErrReg.regErrThrow(error);
+//          return null;
+//        }
+//      }
+//      
+//      dbSQL.rollBack(par.shouldCommit);
+//      SSServErrReg.regErrThrow(error);
+//      return null;
+//    }
+//  }

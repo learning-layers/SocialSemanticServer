@@ -23,8 +23,9 @@ package at.kc.tugraz.ss.service.coll.impl.fct.op;
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesAddPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleMostOpenCircleTypeGetPar;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivEntityAddPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclesGetPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityCircle;
@@ -58,17 +59,26 @@ public class SSCollEntryAddFct{
     
     par.entry = SSServCaller.vocURICreate();
     
-    ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePrivEntityAdd(
-      new SSCirclePrivEntityAddPar(
+    ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+      new SSEntityUpdatePar(
         null,
         null,
         par.user,
         par.entry,
-        SSEntityE.coll,
-        par.label,
-        null,
-        null,
-        false));
+        null, //uriAlternative,
+        SSEntityE.coll, //type,
+        par.label, //label
+        null, //description,
+        null, //comments,
+        null, //downloads,
+        null, //screenShots,
+        null, //images,
+        null, //videos,
+        null, //entitiesToAttach,
+        null, //creationTime,
+        null, //read,
+        false, //withUserRestriction
+        false)); //shouldCommit)
     
     sqlFct.addColl(par.entry);
     
@@ -160,18 +170,27 @@ public class SSCollEntryAddFct{
     final SSCollSQLFct          sqlFct, 
     final SSCollUserEntryAddPar par) throws Exception{
     
-    ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePrivEntityAdd(
-      new SSCirclePrivEntityAddPar(
+    ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+      new SSEntityUpdatePar(
         null,
         null,
         par.user,
         par.entry,
-        SSEntityE.entity,
-        par.label,
-        null,
-        null,
-        false));
-    
+        null, //uriAlternative,
+        null, //type,
+        par.label, //label
+        null, //description,
+        null, //comments,
+        null, //downloads,
+        null, //screenShots,
+        null, //images,
+        null, //videos,
+        null, //entitiesToAttach,
+        null, //creationTime,
+        null, //read,
+        false, //withUserRestriction
+        false)); //shouldCommit)
+        
     sqlFct.addCollEntry(par.coll, par.entry);
     
     for(SSEntityCircle circle : 

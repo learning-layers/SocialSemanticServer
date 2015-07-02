@@ -20,8 +20,7 @@
 */
 package at.kc.tugraz.sss.comment.impl;
 
-import at.kc.tugraz.ss.circle.api.SSCircleServerI;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivEntityAddPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSSocketCon;
@@ -122,18 +121,27 @@ implements
         
         commentUri = SSServCaller.vocURICreate();
         
-        ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePrivEntityAdd(
-          new SSCirclePrivEntityAddPar(
+        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+          new SSEntityUpdatePar(
             null,
             null,
             par.user,
             commentUri,
-            SSEntityE.comment,
-            par.label,
-            null,
-            null,
-            false));
-        
+            null, //uriAlternative,
+            SSEntityE.comment, //type,
+            par.label, //label
+            null, //description,
+            null, //comments,
+            null, //downloads,
+            null, //screenShots,
+            null, //images,
+            null, //videos,
+            null, //entitiesToAttach,
+            null, //creationTime,
+            null, //read,
+            false, //withUserRestriction
+            false)); //shouldCommit)
+            
         sqlFct.createComment (commentUri, content);
         sqlFct.addComment    (par.entity, commentUri);
       }

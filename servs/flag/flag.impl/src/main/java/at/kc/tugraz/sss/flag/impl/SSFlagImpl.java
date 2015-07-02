@@ -20,8 +20,8 @@
 */
 package at.kc.tugraz.sss.flag.impl;
 
-import at.kc.tugraz.ss.circle.api.SSCircleServerI;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivEntityAddPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSSocketCon;
 import at.tugraz.sss.serv.SSUri;
@@ -113,48 +113,66 @@ implements
       
       for(SSUri entity : par.entities){
 
-        ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePrivEntityAdd(
-          new SSCirclePrivEntityAddPar(
+        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+          new SSEntityUpdatePar(
             null,
             null,
             par.user,
             entity,
-            SSEntityE.entity,
-            null,
-            null,
-            null,
-            false));
-      }
+            null, //uriAlternative,
+            null, //type,
+            null, //label
+            null, //description,
+            null, //comments,
+            null, //downloads,
+            null, //screenShots,
+            null, //images,
+            null, //videos,
+            null, //entitiesToAttach,
+            null, //creationTime,
+            null, //read,
+            false, //withUserRestriction
+            false)); //shouldCommit)
+      }      
       
       for(SSUri entity : par.entities){
-       
-        for(SSFlagE flag : par.types){
+        
+        for(SSFlagE flagType : par.types){
           
           SSUri flagUri = SSServCaller.vocURICreate();
           
-          ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePrivEntityAdd(
-            new SSCirclePrivEntityAddPar(
+          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+            new SSEntityUpdatePar(
               null,
               null,
               par.user,
               flagUri,
-              SSEntityE.flag,
-              null,
-              null,
-              null,
-              false));
-            
+              null, //uriAlternative,
+              SSEntityE.flag, //type,
+              null, //label
+              null, //description,
+              null, //comments,
+              null, //downloads,
+              null, //screenShots,
+              null, //images,
+              null, //videos,
+              null, //entitiesToAttach,
+              null, //creationTime,
+              null, //read,
+              false, //withUserRestriction
+              false)); //shouldCommit)
+          
           sqlFct.createFlag(
             flagUri,
-            flag,
+            flagType,
             par.endTime,
             par.value);
           
-          switch(flag){
+          switch(flagType){
             
             case importance:
               
-              final List<SSUri> existingFlagUris = sqlFct.getFlagURIs(par.user, flag, entity);
+              final List<SSUri> existingFlagUris = sqlFct.getFlagURIs(par.user, flagType, entity);
               
               for(SSUri existingFlagUri : existingFlagUris){
                

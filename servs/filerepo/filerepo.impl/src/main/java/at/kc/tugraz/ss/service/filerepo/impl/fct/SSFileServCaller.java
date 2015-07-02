@@ -20,8 +20,8 @@
  */
 package at.kc.tugraz.ss.service.filerepo.impl.fct;
 
-import at.kc.tugraz.ss.circle.api.SSCircleServerI;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivEntityAddPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSMimeTypeE;
 import at.tugraz.sss.serv.SSUri;
@@ -42,17 +42,26 @@ public class SSFileServCaller{
     
     try{
       
-      ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePrivEntityAdd(
-        new SSCirclePrivEntityAddPar(
-          null,
-          null,
-          par.user,
-          file,
-          SSEntityE.file,
-          par.label,
-          null,
-          null,
-          shouldCommit));
+      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+          new SSEntityUpdatePar(
+            null,
+            null,
+            par.user,
+            file,
+            null, //uriAlternative,
+            SSEntityE.file, //type,
+            par.label, //label
+            null, //description,
+            null, //comments,
+            null, //downloads,
+            null, //screenShots,
+            null, //images,
+            null, //videos,
+            null, //entitiesToAttach,
+            null, //creationTime,
+            null, //read,
+            false, //withUserRestriction
+            shouldCommit)); //shouldCommit)
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

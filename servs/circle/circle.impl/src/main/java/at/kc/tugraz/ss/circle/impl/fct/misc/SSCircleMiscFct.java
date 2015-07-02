@@ -51,7 +51,7 @@ public class SSCircleMiscFct{
   
   private static SSUri pubCircleUri = null;
   
-  public static void checkWhetherUserIsAllowedToEditCircle(
+  public static void checkWhetherUserIsAllowedToAddToCircle(
     final SSCircleSQLFct sqlFct,
     final SSUri          userUri,
     final SSUri          circleUri) throws Exception{
@@ -447,7 +447,7 @@ public class SSCircleMiscFct{
             null,
             false,
             false,
-              null, //descPar
+            null, //descPar
             false)).type;
       
       switch(entityType){
@@ -456,16 +456,12 @@ public class SSCircleMiscFct{
       
       for(SSServContainerI serv : SSServReg.inst.getServsManagingEntities()){
         
-        if(((SSEntityHandlerImplI) serv.serv()).setEntityPublic(
-          userUri, 
-          entityUri, 
-          entityType, 
-          pubCircleUri)){
-          return;
-        }
+        ((SSEntityHandlerImplI) serv.serv()).setEntityPublic(
+          userUri,
+          entityUri,
+          entityType,
+          pubCircleUri);
       }
-          
-      throw new Exception("entity couldnt be set to be public by entity handlers");
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

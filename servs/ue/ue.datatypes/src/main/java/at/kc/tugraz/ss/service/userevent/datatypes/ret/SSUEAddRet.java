@@ -31,17 +31,6 @@ public class SSUEAddRet extends SSServRetI{
 
   public Boolean worked = false;
 
-  public static SSUEAddRet get(Boolean worked, SSServOpE op){
-    return new SSUEAddRet(worked, op);
-  }
-  
-  private SSUEAddRet(Boolean worked, SSServOpE op){
-    
-    super(op);
-    
-    this.worked = worked;
-  }
-
   @Override
   public Map<String, Object> jsonLDDesc(){
     
@@ -52,8 +41,14 @@ public class SSUEAddRet extends SSServRetI{
     return ld;
   }
   
-  /* getters to allow for json enconding */
-  public Boolean isWorked() {
-    return worked;
+  public static SSUEAddRet get(Boolean worked){
+    return new SSUEAddRet(worked);
+  }
+  
+  private SSUEAddRet(Boolean worked){
+    
+    super(SSServOpE.uEAdd);
+    
+    this.worked = worked;
   }
 }

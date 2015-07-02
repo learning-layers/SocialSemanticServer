@@ -91,14 +91,12 @@ implements
   }
   
   @Override
-  public Boolean copyEntity(
+  public void copyEntity(
     final SSUri        user,
     final List<SSUri>  users,
     final SSUri        entity,
     final List<SSUri>  entitiesToExclude,
     final SSEntityE    entityType) throws Exception{
-    
-    return false;
   }
   
   @Override
@@ -120,13 +118,12 @@ implements
   }
   
   @Override
-  public Boolean setEntityPublic(
+  public void setEntityPublic(
     final SSUri          userUri,
     final SSUri          entityUri,
     final SSEntityE      entityType,
     final SSUri          publicCircleUri) throws Exception{
     
-    return null;
   }
   
   @Override

@@ -23,8 +23,6 @@ package at.kc.tugraz.ss.adapter.rest.v1;
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntityUsersGetPar;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntityPublicSetPar;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntityPublicSetRet;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitySharePar;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleEntityUsersGetRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleEntityShareRet;
@@ -69,17 +67,6 @@ import sss.serv.eval.datatypes.ret.SSEvalLogRet;
 @Path("")
 @Api( value = "SSAdapterRest")
 public class SSAdapterRest{
-  
-  @POST
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "entityPublicSet")
-  @ApiOperation(
-    value = "set an entity public (make it accessible for everyone)",
-    response = SSCircleEntityPublicSetRet.class)
-  public String entityPublicSet(final SSCircleEntityPublicSetPar input){
-    return SSRestMainV1.handleStandardJSONRESTCall(input, SSServOpE.circleEntityPublicSet);
-  }
   
   @POST
   @Consumes(MediaType.APPLICATION_JSON)

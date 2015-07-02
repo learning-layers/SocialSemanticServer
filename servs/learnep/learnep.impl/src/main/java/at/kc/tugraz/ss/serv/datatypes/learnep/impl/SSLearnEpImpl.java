@@ -22,13 +22,13 @@ package at.kc.tugraz.ss.serv.datatypes.learnep.impl;
 
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesAddPar;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivEntityAddPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleTypesGetPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleUsersAddPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.api.SSLearnEpClientI;
 import at.kc.tugraz.ss.serv.datatypes.learnep.api.SSLearnEpServerI;
 import at.kc.tugraz.ss.serv.datatypes.learnep.conf.SSLearnEpConf;
@@ -189,13 +189,12 @@ implements
   }
 
   @Override
-  public Boolean setEntityPublic(
+  public void setEntityPublic(
     final SSUri userUri,
     final SSUri entityUri,
     final SSEntityE entityType,
     final SSUri publicCircleUri) throws Exception{
 
-    return false;
   }
 
   @Override
@@ -258,7 +257,7 @@ implements
   }
 
   @Override
-  public Boolean copyEntity(
+  public void copyEntity(
     final SSUri       user,
     final List<SSUri> users,
     final SSUri       entity,
@@ -268,7 +267,7 @@ implements
     try{
 
       if(!SSStrU.equals(entityType, SSEntityE.learnEp)){
-        return false;
+        return;
       }
 
       for(SSUri forUser : users){
@@ -284,11 +283,9 @@ implements
             false));
       }
 
-      return true;
 
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
-      return null;
     }
   }
 
@@ -590,17 +587,27 @@ implements
       
       dbSQL.startTrans(par.shouldCommit);
 
-      ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePrivEntityAdd(
-        new SSCirclePrivEntityAddPar(
+      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+        new SSEntityUpdatePar(
           null,
           null,
           par.user,
           learnEpVersionUri,
-          SSEntityE.learnEpVersion,
-          null,
-          null,
-          null,
-          false));
+          null, //uriAlternative,
+          SSEntityE.learnEpVersion, //type,
+          null, //label
+          null, //description,
+          null, //comments,
+          null, //downloads,
+          null, //screenShots,
+          null, //images,
+          null, //videos,
+          null, //entitiesToAttach,
+          null, //creationTime,
+          null, //read,
+          false, //withUserRestriction
+          false)); //shouldCommit)
+                
 
       for(SSEntityCircle entityUserCircle : 
         ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlesGet(
@@ -680,18 +687,27 @@ implements
       
       dbSQL.startTrans(par.shouldCommit);
       
-      ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePrivEntityAdd(
-        new SSCirclePrivEntityAddPar(
+      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+        new SSEntityUpdatePar(
           null,
           null,
           par.user,
           circleUri,
-          SSEntityE.learnEpCircle,
-          par.label,
-          null,
-          null,
-          false));
-            
+          null, //uriAlternative,
+          SSEntityE.learnEpCircle, //type,
+          par.label, //label
+          null, //description,
+          null, //comments,
+          null, //downloads,
+          null, //screenShots,
+          null, //images,
+          null, //videos,
+          null, //entitiesToAttach,
+          null, //creationTime,
+          null, //read,
+          false, //withUserRestriction
+          false)); //shouldCommit)
+      
       for(SSEntityCircle entityUserCircle : 
         ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlesGet(
           new SSCirclesGetPar(
@@ -781,19 +797,28 @@ implements
       SSLearnEpAccessController.checkHasLock (learnEpConf, par.user, learnEp);
 
       dbSQL.startTrans(par.shouldCommit);
-
-      ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePrivEntityAdd(
-        new SSCirclePrivEntityAddPar(
+      
+      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+        new SSEntityUpdatePar(
           null,
           null,
           par.user,
           learnEpEntityUri,
-          SSEntityE.learnEpEntity,
-          null,
-          null,
-          null,
-          false));
-           
+          null, //uriAlternative,
+          SSEntityE.learnEpEntity, //type,
+          null, //label
+          null, //description,
+          null, //comments,
+          null, //downloads,
+          null, //screenShots,
+          null, //images,
+          null, //videos,
+          null, //entitiesToAttach,
+          null, //creationTime,
+          null, //read,
+          false, //withUserRestriction
+          false)); //shouldCommit)
+            
       for(SSUri file : SSServCaller.entityFilesGet(par.user, par.entity)){
         filesAndThumbs.add(file);
       }
@@ -887,18 +912,27 @@ implements
       
       dbSQL.startTrans(par.shouldCommit);
       
-      ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePrivEntityAdd(
-        new SSCirclePrivEntityAddPar(
+      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+        new SSEntityUpdatePar(
           null,
           null,
           par.user,
           learnEpUri,
-          SSEntityE.learnEp,
-          par.label,
-          par.description,
-          null,
-          false));
-      
+          null, //uriAlternative,
+          SSEntityE.learnEp, //type,
+          par.label, //label
+          par.description,//description,
+          null, //comments,
+          null, //downloads,
+          null, //screenShots,
+          null, //images,
+          null, //videos,
+          null, //entitiesToAttach,
+          null, //creationTime,
+          null, //read,
+          false, //withUserRestriction
+          false)); //shouldCommit)
+            
       sqlFct.createLearnEp(learnEpUri, par.user);
       
       dbSQL.commit(par.shouldCommit);
@@ -948,19 +982,28 @@ implements
       SSLearnEpAccessController.checkHasLock (learnEpConf, par.user, learnEp);
       
       dbSQL.startTrans(par.shouldCommit);
-
-      ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePrivEntityAdd(
-        new SSCirclePrivEntityAddPar(
+      
+      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+        new SSEntityUpdatePar(
           null,
           null,
           par.user,
           par.learnEpCircle,
-          SSEntityE.learnEpCircle,
-          par.label,
-          null,
-          null,
-          false));
-
+          null, //uriAlternative,
+          SSEntityE.learnEpCircle, //type,
+          par.label, //label
+          null,//description,
+          null, //comments,
+          null, //downloads,
+          null, //screenShots,
+          null, //images,
+          null, //videos,
+          null, //entitiesToAttach,
+          null, //creationTime,
+          null, //read,
+          false, //withUserRestriction
+          false)); //shouldCommit)
+      
       sqlFct.updateCircle(
         par.learnEpCircle,
         par.xLabel,
@@ -1219,17 +1262,26 @@ implements
       
       dbSQL.startTrans(par.shouldCommit);
       
-      ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePrivEntityAdd(
-        new SSCirclePrivEntityAddPar(
+      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+        new SSEntityUpdatePar(
           null,
           null,
           par.user,
           learnEpTimelineStateUri,
-          SSEntityE.learnEpTimelineState,
-          null,
-          null,
-          null,
-          false));
+          null, //uriAlternative,
+          SSEntityE.learnEpTimelineState, //type,
+          null, //label
+          null,//description,
+          null, //comments,
+          null, //downloads,
+          null, //screenShots,
+          null, //images,
+          null, //videos,
+          null, //entitiesToAttach,
+          null, //creationTime,
+          null, //read,
+          false, //withUserRestriction
+          false)); //shouldCommit)
       
       for(SSEntityCircle entityUserCircle :
         ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlesGet(

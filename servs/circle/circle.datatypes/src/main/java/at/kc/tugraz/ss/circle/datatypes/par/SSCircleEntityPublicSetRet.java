@@ -3,7 +3,7 @@
 * http://www.learning-layers.eu
 * Development is partly funded by the FP7 Programme of the European Commission under
 * Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+* Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
 * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -32,22 +32,10 @@ public class SSCircleEntityPublicSetRet extends SSServRetI{
 
   public SSUri entity = null;
 
-  public static SSCircleEntityPublicSetRet get(
-    final SSUri entityUri, 
-    final SSServOpE op){
-    
-    return new SSCircleEntityPublicSetRet(entityUri, op);
+  public String getEntity() throws Exception {
+    return SSStrU.removeTrailingSlash(entity);
   }
   
-  private SSCircleEntityPublicSetRet(
-    final SSUri entityUri,
-    final SSServOpE op){
-    
-    super(op);
-    
-    this.entity = entityUri;
-  }
-
   @Override
   public Map<String, Object> jsonLDDesc(){
     
@@ -58,7 +46,17 @@ public class SSCircleEntityPublicSetRet extends SSServRetI{
     return ld;
   }
   
-  public String getEntity() throws Exception {
-    return SSStrU.removeTrailingSlash(entity);
+  public static SSCircleEntityPublicSetRet get(
+    final SSUri entityUri){
+    
+    return new SSCircleEntityPublicSetRet(entityUri);
+  }
+  
+  private SSCircleEntityPublicSetRet(
+    final SSUri entityUri){
+    
+    super(SSServOpE.circleEntityPublicSet);
+    
+    this.entity = entityUri;
   }
 }

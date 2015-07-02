@@ -22,16 +22,17 @@
 
 import at.tugraz.sss.serv.SSServPar;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUE;
+import at.kc.tugraz.ss.service.userevent.datatypes.pars.SSUEAddPar;
 import at.tugraz.sss.serv.SSServServerI;
 import java.util.List;
 
 public interface SSUEServerI extends SSServServerI{
 
+  public Boolean     uEAdd               (final SSUEAddPar par) throws Exception;
+  
   public Integer     uECountGet          (final SSServPar parA) throws Exception;
   public SSUE        uEGet               (final SSServPar parA) throws Exception;
   public List<SSUE>  uEsGet              (final SSServPar parA) throws Exception;
-  public Boolean     uEAdd               (final SSServPar parA) throws Exception;
-  public Boolean     uEAddAtCreationTime (final SSServPar parA) throws Exception;
   public Boolean     uEsRemove           (final SSServPar parA) throws Exception;
   
 //  addUserEvent(shouldCommit, user, SSUserEventEnum.appearsInSearchResult, resource, strU.empty);

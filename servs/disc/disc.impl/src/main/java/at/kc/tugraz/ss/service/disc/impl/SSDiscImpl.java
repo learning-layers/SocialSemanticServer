@@ -23,7 +23,6 @@ package at.kc.tugraz.ss.service.disc.impl;
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesAddPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleMostOpenCircleTypeGetPar;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivEntityAddPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleTypesGetPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleUsersAddPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclesGetPar;
@@ -178,14 +177,13 @@ public class SSDiscImpl
   }
 
   @Override
-  public Boolean copyEntity(
+  public void copyEntity(
     final SSUri user,
     final List<SSUri> users,
     final SSUri entity,
     final List<SSUri> entitiesToExclude,
     final SSEntityE entityType) throws Exception{
 
-    return false;
   }
 
   @Override
@@ -236,13 +234,12 @@ public class SSDiscImpl
   }
 
   @Override
-  public Boolean setEntityPublic(
+  public void setEntityPublic(
     final SSUri userUri,
     final SSUri entityUri,
     final SSEntityE entityType,
     final SSUri publicCircleUri) throws Exception{
 
-    return false;
   }
 
   @Override
@@ -427,18 +424,27 @@ public class SSDiscImpl
         SSDiscUserEntryAddFct.checkWhetherUserCanAddDisc(par);
 
         if(par.entity != null){
-
-          ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePrivEntityAdd(
-            new SSCirclePrivEntityAddPar(
+      
+          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+            new SSEntityUpdatePar(
               null,
               null,
               par.user,
               par.entity,
-              SSEntityE.entity,
-              null,
-              null,
-              null,
-              false));
+              null, //uriAlternative,
+              null, //type,
+              null, //label
+              null, //description,
+              null, //comments,
+              null, //downloads,
+              null, //screenShots,
+              null, //images,
+              null, //videos,
+              null, //entitiesToAttach,
+              null, //creationTime,
+              null, //read,
+              true, //withUserRestriction
+              false)); //shouldCommit)
         }
       }
 

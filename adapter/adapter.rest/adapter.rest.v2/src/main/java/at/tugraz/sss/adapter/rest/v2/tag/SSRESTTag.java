@@ -25,15 +25,12 @@ import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
 import at.tugraz.sss.serv.SSUri;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
-import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagAddPar;
-import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagEditPar;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagEntitiesForTagsGetPar;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagFrequsGetPar;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsGetPar;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsRemovePar;
 import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagAddRet;
-import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagEditRet;
 import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagEntitiesForTagsGetRet;
 import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagFrequsGetRet;
 import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagsGetRet;
@@ -80,7 +77,8 @@ public class SSRESTTag{
           null, //entities
           null, //labels
           null, //space
-          null); //startTime
+          null, //startTime
+          true); //withUserRestriction
       
     }catch(Exception error){
       return Response.status(422).build();
@@ -110,11 +108,12 @@ public class SSRESTTag{
           SSServOpE.tagsGet,
           null,
           null,
-          input.forUser,
-          input.entities,
-          input.labels,
-          input.space,
-          input.startTime);
+          input.forUser, //forUser
+          input.entities, //entities
+          input.labels, //labels
+          input.space, //space
+          input.startTime, //startTime, 
+          true); //withUserRestriction
       
     }catch(Exception error){
       return Response.status(422).build();
@@ -142,12 +141,14 @@ public class SSRESTTag{
           SSServOpE.tagFrequsGet,
           null,
           null,
-          null,
-          null,
-          null,
-          null,
-          null,
-          false);
+          null, //forUser
+          null, //entities
+          null, //labels
+          null, //space
+          null, //startTime
+          false, //useUsersEntities
+          true); //withUserRestriction
+          
       
     }catch(Exception error){
       return Response.status(422).build();
@@ -177,12 +178,14 @@ public class SSRESTTag{
           SSServOpE.tagFrequsGet,
           null,
           null,
-          input.forUser,
-          input.entities,
-          input.labels,
-          input.space,
-          input.startTime,
-          input.useUsersEntities);
+          input.forUser, //forUser
+          input.entities, //entities
+          input.labels, //labels
+          input.space, //space
+          input.startTime, //startTime
+          input.useUsersEntities, //useUsersEntities
+          true); //withUserRestriction
+            
       
     }catch(Exception error){
       return Response.status(422).build();
@@ -287,40 +290,8 @@ public class SSRESTTag{
           input.label, //label
           input.space, //space
           input.creationTime,  //creationTime
+          true, //withUserRestriction
           true); //shouldCommit
-      
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
-  }
-  
-  @PUT
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  @Path    ("/entities/{entity}")
-  @ApiOperation(
-    value = "changes the label of the tag assigned to the entity",
-    response = SSTagEditRet.class)
-  public Response tagEdit(
-    @Context 
-      final HttpHeaders headers,
-    
-    final SSTagEditRESTAPIV2Par     input) throws Exception{
-    
-    final SSTagEditPar par;
-    
-    try{
-      par =
-        new SSTagEditPar(
-          SSServOpE.tagEdit,
-          null,
-          null,
-          input.label,
-          input.entity,   //entity
-          input.newLabel, //label
-          true);         //shouldCommit
       
     }catch(Exception error){
       return Response.status(422).build();

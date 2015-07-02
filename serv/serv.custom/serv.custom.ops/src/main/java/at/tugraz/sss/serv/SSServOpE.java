@@ -111,8 +111,6 @@ public enum SSServOpE{
   circlePubURIGet,
   circleCanAccess,
   circleEntityShare,
-  circlePrivEntityAdd,
-  circlePubEntityAdd,
   circleEntityPublicSet,
   circleEntitiesRemove,
   
@@ -184,7 +182,6 @@ public enum SSServOpE{
   uEsGet                                              ,
   uEAdd                                               ,
   uEsRemove,
-  uEAddAtCreationTime                                 ,
   uEGet                                               ,
   uECountGet                                          ,
   
@@ -195,7 +192,6 @@ public enum SSServOpE{
   tagAdd,                     
   tagFrequsGet,
   tagEntitiesForTagsGet,
-  tagEdit,
   
 //  category
   categoriesPredefinedGet,
@@ -206,7 +202,6 @@ public enum SSServOpE{
   categoryAdd,                                              
   categoryFrequsGet,
   categoryEntitiesForCategoriesGet,
-  categoryEdit,
   
   //solr
   solrAddDoc                                          ,

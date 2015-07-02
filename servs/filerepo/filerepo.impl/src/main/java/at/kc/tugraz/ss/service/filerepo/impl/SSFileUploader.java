@@ -20,8 +20,6 @@
 */
 package at.kc.tugraz.ss.service.filerepo.impl;
 
-import at.kc.tugraz.ss.circle.api.SSCircleServerI;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivEntityAddPar;
 import at.tugraz.sss.serv.SSFileExtE;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSFileU;
@@ -30,6 +28,8 @@ import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSMimeTypeE;
 import at.tugraz.sss.serv.SSStrU;
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
+import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSServImplStartA;
 import at.tugraz.sss.serv.caller.SSServCaller;
@@ -240,18 +240,27 @@ public class SSFileUploader extends SSServImplStartA{
       
       if(thumbCreated){
         
-        ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePrivEntityAdd(
-          new SSCirclePrivEntityAddPar(
+        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+          new SSEntityUpdatePar(
             null,
             null,
             par.user,
             pngFileUri,
-            SSEntityE.thumbnail,
-            par.label,
-            null,
-            null,
-            false));
-        
+            null, //uriAlternative,
+            SSEntityE.thumbnail, //type,
+            par.label, //label
+            null, //description,
+            null, //comments,
+            null, //downloads,
+            null, //screenShots,
+            null, //images,
+            null, //videos,
+            null, //entitiesToAttach,
+            null, //creationTime,
+            null, //read,
+            false, //withUserRestriction
+            false)); //shouldCommit)
+              
         SSServCaller.entityThumbAdd(
           par.user, 
           uri, 

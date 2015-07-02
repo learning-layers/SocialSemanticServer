@@ -22,7 +22,6 @@ package at.tugraz.sss.adapter.rest.v2.ue;
 
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
-import at.kc.tugraz.ss.service.userevent.datatypes.SSUEE;
 import at.kc.tugraz.ss.service.userevent.datatypes.pars.SSUEAddPar;
 import at.kc.tugraz.ss.service.userevent.datatypes.pars.SSUECountGetPar;
 import at.kc.tugraz.ss.service.userevent.datatypes.pars.SSUEGetPar;
@@ -175,10 +174,11 @@ public class SSRESTUE{
           SSServOpE.uEAdd,
           null,
           null,  
-          input.entity, 
-          input.type, 
-          input.content, 
-          true);
+          input.entity, //entity
+          input.type,  //type
+          input.content, //content
+          null, //creationTime
+          true); //shouldCommit
       
     }catch(Exception error){
       return Response.status(422).build();

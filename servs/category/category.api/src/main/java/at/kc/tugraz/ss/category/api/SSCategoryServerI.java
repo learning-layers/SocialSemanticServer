@@ -28,11 +28,9 @@ import at.kc.tugraz.ss.category.datatypes.par.SSCategoriesPredefinedAddPar;
 import at.kc.tugraz.ss.category.datatypes.par.SSCategoriesPredefinedGetPar;
 import at.kc.tugraz.ss.category.datatypes.par.SSCategoriesRemovePar;
 import at.kc.tugraz.ss.category.datatypes.par.SSCategoryAddPar;
-import at.kc.tugraz.ss.category.datatypes.par.SSCategoryEditPar;
 import at.kc.tugraz.ss.category.datatypes.par.SSCategoryFrequsGetPar;
 import at.kc.tugraz.ss.category.datatypes.par.SSCategoryEntitiesForCategoriesGetPar;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServServerI;
 import java.util.List;
 
@@ -41,7 +39,6 @@ public interface SSCategoryServerI extends SSServServerI{
   public Boolean                         categoriesPredefinedAdd          (final SSCategoriesPredefinedAddPar par) throws Exception;
   public List<String>                    categoriesPredefinedGet          (final SSCategoriesPredefinedGetPar par) throws Exception;
   
-  public SSUri                           categoryEdit                     (final SSCategoryEditPar                     par) throws Exception;
   public List<SSUri>                     categoryEntitiesForCategoriesGet (final SSCategoryEntitiesForCategoriesGetPar par) throws Exception;
   public List<SSUri>                     categoriesAdd                    (final SSCategoriesAddPar                    par) throws Exception;
   public SSUri                           categoryAdd                      (final SSCategoryAddPar                      par) throws Exception;

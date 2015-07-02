@@ -22,11 +22,11 @@ package at.kc.tugraz.ss.service.coll.impl;
 
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesAddPar;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivEntityAddPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleUsersAddPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.tugraz.sss.serv.SSUri;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserRootAddPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserWithEntriesPar;
@@ -177,14 +177,13 @@ implements
   }
   
   @Override
-  public Boolean copyEntity(
+  public void copyEntity(
     final SSUri        user,
     final List<SSUri>  users,
     final SSUri        entity,
     final List<SSUri>  entitiesToExclude,
     final SSEntityE    entityType) throws Exception{
     
-    return false;
   }
   
   @Override
@@ -229,7 +228,7 @@ implements
   }
       
   @Override
-  public Boolean setEntityPublic(
+  public void setEntityPublic(
     final SSUri          user,
     final SSUri          entity, 
     final SSEntityE      type,
@@ -254,10 +253,7 @@ implements
             false,
             false));
         
-        return true;
       }
-      
-      default: return false;
     }
   }
 
@@ -948,12 +944,13 @@ implements
             null, 
             null, 
             par.user, 
-            null, 
-            SSUri.asListWithoutNullAndEmpty(par.coll), 
-            SSTagLabel.asListWithoutNullAndEmpty(), 
-            null, 
-            null, 
-            false))){
+            null, //forUser
+            SSUri.asListWithoutNullAndEmpty(par.coll),  //entities
+            null,  //labels
+            null, //space
+            null, //startTime
+            false, //useUsersEntities
+            false))){ //withUserRestriction
         
         tagLabel = tagFrequ.label.toString();
 
@@ -989,12 +986,13 @@ implements
                 null,
                 null,
                 par.user,
-                null,
-                SSUri.asListWithoutNullAndEmpty(collEntry.id),
-                SSTagLabel.asListWithoutNullAndEmpty(),
-                null,
-                null,
-                false))){
+                null, //forUser
+                SSUri.asListWithoutNullAndEmpty(collEntry.id), //entities
+                null, //labels
+                null, //space
+                null, //startTime
+                false, //useUsersEntities
+                false))){ //withUserRestriction
 
             tagLabel = tagFrequ.label.toString();
 
@@ -1072,30 +1070,40 @@ implements
 
       final SSUri rootCollUri = SSServCaller.vocURICreate();
 
-      ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePrivEntityAdd(
-        new SSCirclePrivEntityAddPar(
+      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+        new SSEntityUpdatePar(
           null,
           null,
           par.user,
           rootCollUri,
-          SSEntityE.coll,
-          SSLabel.get(SSStrU.valueRoot),
-          null,
-          null,
-          false));
+          null, //uriAlternative,
+          SSEntityE.coll, //type,
+          SSLabel.get(SSStrU.valueRoot), //label
+          null, //description,
+          null, //comments,
+          null, //downloads,
+          null, //screenShots,
+          null, //images,
+          null, //videos,
+          null, //entitiesToAttach,
+          null, //creationTime,
+          null, //read,
+          par.withUserRestriction, //withUserRestriction
+          false)); //shouldCommit)
       
       sqlFct.addColl (rootCollUri);
 
-      ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleUsersAdd(
-        new SSCircleUsersAddPar(
-          null,
-          null,
-          par.user, 
-          SSServCaller.circlePubURIGet(false),
-          SSUri.asListWithoutNullAndEmpty(par.user),
-          false,
-          false,
-          false));
+      //TODO check wether works, as it is already done in auth service
+//      ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleUsersAdd(
+//        new SSCircleUsersAddPar(
+//          null,
+//          null,
+//          par.user, 
+//          SSServCaller.circlePubURIGet(false), //circle
+//          SSUri.asListWithoutNullAndEmpty(par.user), //users
+//          false, //withUserRestriction
+//          false, //invokeEntityHandlers
+//          false)); //shouldCommit
       
       sqlFct.addCollRoot(
         rootCollUri, 

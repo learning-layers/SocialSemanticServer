@@ -21,7 +21,7 @@
 package at.kc.tugraz.sss.app.impl;
 
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePubEntityAddPar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntityPublicSetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
@@ -99,17 +99,26 @@ public class SSAppImpl extends SSServImplWithDBA implements SSAppClientI, SSAppS
       
       dbSQL.startTrans(par.shouldCommit);
 
-      ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePubEntityAdd(
-        new SSCirclePubEntityAddPar(
-          null,
-          null,
-          par.user,
-          appUri,
-          false,
-          SSEntityE.app,
-          par.label,
-          null,
-          null));
+      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+        new SSEntityUpdatePar(
+          null, 
+          null, 
+          par.user, 
+          appUri, //entity, 
+          null, //uriAlternative, 
+          SSEntityE.app, //type, 
+          par.label, //label, 
+          null, //description, 
+          null, //comments, 
+          null, //downloads, 
+          null, //screenShots, 
+          null, //images, 
+          null, //videos, 
+          null, //entitiesToAttach,
+          null, //creationTime, 
+          null, //read, 
+          false, //withUserRestriction, 
+          false)); //shouldCommit
       
       sqlFct.createApp(
         appUri,
@@ -123,32 +132,70 @@ public class SSAppImpl extends SSServImplWithDBA implements SSAppClientI, SSAppS
       
       for(SSUri download : par.downloads){
       
-        ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePubEntityAdd(
-          new SSCirclePubEntityAddPar(
+        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+          new SSEntityUpdatePar(
             null,
             null,
             par.user,
-            download,
-            false,
-            SSEntityE.entity,
+            download, //entity,
+            null, //uriAlternative,
+            null, //type,
+            null, //label,
+            null, //description,
+            null, //comments,
+            null, //downloads,
+            null, //screenShots,
+            null, //images,
+            null, //videos,
+            null, //entitiesToAttach,
+            null, //creationTime,
+            null, //read,
+            false, //withUserRestriction,
+            false)); //shouldCommit
+        
+        //TODO replace by entity service setting things public
+        ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleEntityPublicSet(
+          new SSCircleEntityPublicSetPar(
             null,
             null,
-            null));
-      }
+            par.user,
+            download, //entity
+            true, //withUserRestriction
+            false)); //shouldCommit
+      }      
       
       for(SSUri screenShot : par.screenShots){
       
-        ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePubEntityAdd(
-          new SSCirclePubEntityAddPar(
+        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+          new SSEntityUpdatePar(
             null,
             null,
             par.user,
-            screenShot,
-            false,
-            SSEntityE.image,
+            screenShot, //entity,
+            null, //uriAlternative,
+            SSEntityE.image, //type,
+            null, //label,
+            null, //description,
+            null, //comments,
+            null, //downloads,
+            null, //screenShots,
+            null, //images,
+            null, //videos,
+            null, //entitiesToAttach,
+            null, //creationTime,
+            null, //read,
+            false, //withUserRestriction,
+            false)); //shouldCommit
+        
+        //TODO replace by entity service setting things public
+        ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleEntityPublicSet(
+          new SSCircleEntityPublicSetPar(
             null,
             null,
-            null));
+            par.user,
+            screenShot, //entity
+            true, //withUserRestriction
+            false)); //shouldCommit
       }
       
       ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
@@ -171,6 +218,15 @@ public class SSAppImpl extends SSServImplWithDBA implements SSAppClientI, SSAppS
           null,  //read
           false,  //withUserRestriction
           false));
+      
+      ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleEntityPublicSet(
+        new SSCircleEntityPublicSetPar(
+          null,
+          null,
+          par.user,
+          appUri, //entity
+          true, //withUserRestriction
+          false)); //shouldCommit
       
       dbSQL.commit(par.shouldCommit);
       

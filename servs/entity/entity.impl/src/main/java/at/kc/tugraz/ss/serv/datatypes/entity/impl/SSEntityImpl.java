@@ -21,7 +21,9 @@
 package at.kc.tugraz.ss.serv.datatypes.entity.impl;
 
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePubEntityAddPar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesAddPar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntityPublicSetPar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivURIGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityClientI;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesForDescriptionsGetPar;
@@ -54,6 +56,7 @@ import at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.SSEntityActivityFct;
 import at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.SSEntitySQLFct;
 import at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.SSEntityUserRelationsGatherFct;
 import at.kc.tugraz.ss.service.search.datatypes.SSSearchOpE;
+import at.kc.tugraz.ss.service.userevent.api.SSUEServerI;
 import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSObjU;
 import at.tugraz.sss.serv.SSStrU;
@@ -77,9 +80,11 @@ import at.tugraz.sss.serv.SSUserRelationGathererI;
 import at.tugraz.sss.serv.SSUsersResourcesGathererI;
 import at.tugraz.sss.util.SSServCallerU;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUEE;
+import at.kc.tugraz.ss.service.userevent.datatypes.pars.SSUEAddPar;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
+import at.tugraz.sss.serv.SSEntityCircle;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -93,7 +98,8 @@ extends SSServImplWithDBA
 implements 
   SSEntityClientI, 
   SSEntityServerI,
-  SSUserRelationGathererI, 
+  SSUserRelationGathererI,
+  SSEntityHandlerImplI,
   SSUsersResourcesGathererI{
   
   private final SSEntitySQLFct         sqlFct;
@@ -103,6 +109,81 @@ implements
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
     
     sqlFct = new SSEntitySQLFct   (this);
+  }
+  
+  @Override
+  public void removeDirectlyAdjoinedEntitiesForUser(
+    final SSUri userUri, 
+    final SSEntityE entityType, 
+    final SSUri entityUri, 
+    final Boolean removeUserTags, 
+    final Boolean removeUserRatings, 
+    final Boolean removeFromUserColls, 
+    final Boolean removeUserLocations) throws Exception{
+
+  }
+
+  @Override
+  public void setEntityPublic(
+    final SSUri     userUri, 
+    final SSUri     entityUri, 
+    final SSEntityE entityType, 
+    final SSUri     publicCircleUri) throws Exception{
+    
+  }
+
+  @Override
+  public void shareEntityWithUsers(
+    final SSUri user, 
+    final List<SSUri> users, 
+    final SSUri entity, 
+    final SSUri circle, 
+    final SSEntityE entityType, 
+    final Boolean saveActivity) throws Exception{
+  }
+
+  @Override
+  public void addEntityToCircle(
+    final SSUri user, 
+    final SSUri circle, 
+    final List<SSUri> circleUsers, 
+    final SSUri entity, 
+    final SSEntityE entityType) throws Exception{
+  }
+
+  @Override
+  public void addUsersToCircle(
+    final SSUri user, 
+    final List<SSUri> users, 
+    final SSEntityCircle circle) throws Exception{
+    
+  }
+
+  @Override
+  public void copyEntity(
+    final SSUri user, 
+    final List<SSUri> users, 
+    final SSUri entity, 
+    final List<SSUri> entitiesToExclude, 
+    final SSEntityE   entityType) throws Exception{
+  }
+
+  @Override
+  public List<SSUri> getSubEntities(
+    final SSUri user, 
+    final SSUri entity, 
+    final SSEntityE type) throws Exception{
+    
+    return new ArrayList<>();
+  }
+
+  @Override
+  public List<SSUri> getParentEntities(
+    final SSUri user, 
+    final SSUri entity, 
+    final SSEntityE type) throws Exception{
+    
+    return new ArrayList<>();
   }
   
   @Override
@@ -182,20 +263,13 @@ implements
       
       final SSEntityE entityType = sqlFct.getEntity(par.entity).type;
         
-      switch(entityType){
-        case entity:{
-          SSLogU.warn("entity couldnt be copied by entity handlers");
-          break;
-        }
-        
-        default:{
-          
-          for(SSServContainerI serv : SSServReg.inst.getServsManagingEntities()){
-            if(((SSEntityHandlerImplI) serv.serv()).copyEntity(par.user, par.users, par.entity, par.entitiesToExclude, entityType)){
-              break;
-            }
-          }
-        }
+      for(SSServContainerI serv : SSServReg.inst.getServsManagingEntities()){
+        ((SSEntityHandlerImplI) serv.serv()).copyEntity(
+          par.user,
+          par.users,
+          par.entity,
+          par.entitiesToExclude,
+          entityType);
       }
       
       dbSQL.commit(par.shouldCommit);
@@ -455,40 +529,50 @@ implements
       sqlFct.addEntityIfNotExists(
         par.entity,
         par.type,
-        par.label, 
-        par.description, 
+        par.label,
+        par.description,
         par.user,
         par.creationTime);
       
-      if(entity == null){
-        //TODO check whether possible; if yes, replace circlePrivEntityAdd with entityUpdate
-//        ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePrivEntityAdd(
-//          new SSCirclePrivEntityAddPar(
-//            null,
-//            null,
-//            par.user,
-//            par.entity,
-//            par.type,
-//            par.label,
-//            par.description,
-//            par.creationTime,
-//            false));
+      final SSUri privateCircleURI =
+        ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePrivURIGet(
+          new SSCirclePrivURIGetPar(
+            null,
+            null,
+            par.user));
       
+      ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleEntitiesAdd(
+        new SSCircleEntitiesAddPar(
+          null,
+          null,
+          par.user,
+          privateCircleURI,
+          SSUri.asListWithoutNullAndEmpty(par.entity),
+          false,
+          false,
+          false));
+      
+      if(entity == null){
+        
         switch(par.type){
           case placeholder:{
             
-            SSServCaller.uEAddAtCreationTime(
-              par.user,
-              par.entity,
-              SSUEE.bnpPlaceholderAdd,
-              SSStrU.empty,
-              par.creationTime,
-              false);
+            ((SSUEServerI) SSServReg.getServ(SSUEServerI.class)).uEAdd(
+              new SSUEAddPar(
+                null,
+                null,
+                par.user,
+                par.entity,
+                SSUEE.bnpPlaceholderAdd,
+                SSStrU.empty,
+                par.creationTime,
+                false));
+            
             break;
           }
         }
       }
-        
+      
       for(SSUri screenShot : par.screenShots){
         
         sqlFct.addImage(
@@ -927,19 +1011,58 @@ implements
       
       dbSQL.startTrans(par.shouldCommit);
       
+      entityUpdate(
+        new SSEntityUpdatePar(
+          null,
+          null,
+          par.user,
+          par.entity, //entity,
+          null, //uriAlternative,
+          null, //type,
+          null, //label,
+          null, //description,
+          null, //comments,
+          null, //downloads,
+          null, //screenShots,
+          null, //images,
+          null, //videos,
+          null, //entitiesToAttach,
+          null, //creationTime,
+          null, //read,
+          true, //withUserRestriction,
+          false)); //shouldCommit
+      
       for(SSLocation location : par.locations){
         
-        ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePubEntityAdd(
-          new SSCirclePubEntityAddPar(
+        entityUpdate(
+          new SSEntityUpdatePar(
             null,
             null,
             par.user,
-            location.id,
-            false,
-            SSEntityE.location,
+            location.id, //entity,
+            null, //uriAlternative,
+            SSEntityE.location, //type,
+            null, //label,
+            null, //description,
+            null, //comments,
+            null, //downloads,
+            null, //screenShots,
+            null, //images,
+            null, //videos,
+            null, //entitiesToAttach,
+            null, //creationTime,
+            null, //read,
+            false, //withUserRestriction,
+            false)); //shouldCommit
+        
+        ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleEntityPublicSet(
+          new SSCircleEntityPublicSetPar(
             null,
             null,
-            null));
+            par.user,
+            location.id, //entity
+            false, //withUserRestriction
+            false)); //shouldCommit
         
         sqlFct.addLocation(
           location.id,

@@ -20,8 +20,6 @@
 */
 package at.kc.tugraz.ss.message.impl;
 
-import at.kc.tugraz.ss.circle.api.SSCircleServerI;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivEntityAddPar;
 import at.tugraz.sss.serv.SSDateU;
 import at.tugraz.sss.serv.SSSocketCon;
 import at.tugraz.sss.serv.SSUri;
@@ -35,6 +33,8 @@ import at.kc.tugraz.ss.message.datatypes.ret.SSMessageSendRet;
 import at.kc.tugraz.ss.message.datatypes.ret.SSMessagesGetRet;
 import at.kc.tugraz.ss.message.impl.fct.activity.SSMessageActivityFct;
 import at.kc.tugraz.ss.message.impl.fct.sql.SSMessageSQLFct;
+import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSConfA;
@@ -113,17 +113,26 @@ public class SSMessageImpl extends SSServImplWithDBA implements SSMessageClientI
       
       dbSQL.startTrans(par.shouldCommit);
       
-      ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePrivEntityAdd(
-        new SSCirclePrivEntityAddPar(
+      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+        new SSEntityUpdatePar(
           null,
           null,
           par.user,
           messageUri,
-          SSEntityE.message,
-          null,
-          null,
-          null,
-          false));
+          null, //uriAlternative,
+          SSEntityE.message, //type,
+          null, //label
+          null,//description,
+          null, //comments,
+          null, //downloads,
+          null, //screenShots,
+          null, //images,
+          null, //videos,
+          null, //entitiesToAttach,
+          null, //creationTime,
+          null, //read,
+          false, //withUserRestriction
+          false)); //shouldCommit)
       
       sqlFct.sendMessage(
         messageUri,

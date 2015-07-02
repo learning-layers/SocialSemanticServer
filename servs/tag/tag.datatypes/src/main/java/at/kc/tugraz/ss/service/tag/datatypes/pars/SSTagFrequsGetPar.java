@@ -81,7 +81,8 @@ public class SSTagFrequsGetPar extends SSServPar{
     final List<SSTagLabel>   labels, 
     final SSSpaceE           space, 
     final Long               startTime,
-    final Boolean            useUsersEntities){
+    final Boolean            useUsersEntities,
+    final Boolean            withUserRestriction){
     
     super(op, key, user);
     
@@ -93,5 +94,6 @@ public class SSTagFrequsGetPar extends SSServPar{
     this.space                = space;
     this.startTime            = startTime;
     this.useUsersEntities     = useUsersEntities;
+    this.withUserRestriction  = withUserRestriction;
   }
 }

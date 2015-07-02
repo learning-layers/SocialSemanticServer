@@ -68,14 +68,16 @@ public class SSCategoryAddPar extends SSServPar{
     final SSCategoryLabel label,
     final SSSpaceE        space,
     final Long            creationTime,
+    final Boolean         withUserRestriction,
     final Boolean         shouldCommit) {
   
     super(op, key, user);
     
-    this.entity       = entity;
-    this.label        = label;
-    this.space        = space;
-    this.creationTime = creationTime;
-    this.shouldCommit = shouldCommit;
+    this.entity              = entity;
+    this.label               = label;
+    this.space               = space;
+    this.creationTime        = creationTime;
+    this.withUserRestriction = withUserRestriction;
+    this.shouldCommit        = shouldCommit;
   }
 }

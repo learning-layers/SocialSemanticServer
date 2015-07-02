@@ -33,7 +33,7 @@ public interface SSEntityHandlerImplI{
     final Boolean     removeFromUserColls,
     final Boolean     removeUserLocations) throws Exception;
 
-  public Boolean setEntityPublic(
+  public void setEntityPublic(
     final SSUri                 userUri, 
     final SSUri                 entityUri, 
     final SSEntityE             entityType,
@@ -59,7 +59,7 @@ public interface SSEntityHandlerImplI{
     final List<SSUri>  users,
     final SSEntityCircle        circle) throws Exception;
   
-  public Boolean copyEntity(
+  public void copyEntity(
     final SSUri        user,
     final List<SSUri>  users,
     final SSUri        entity, 

@@ -51,23 +51,6 @@ public class SSServCallerU{
     }
   }
   
-  public static void addEntities(
-    final SSUri       user, 
-    final List<SSUri> entities) throws Exception{
-    
-    for(SSUri entity : entities){
-      
-      SSServCaller.entityAdd(
-        user, 
-        entity, 
-        SSEntityE.entity, 
-        null, 
-        null, 
-        null, 
-        false);
-    }
-  }
-  
   public static SSEntity canUserReadEntity(
     final SSUri user, 
     final SSUri entityURI) throws Exception{

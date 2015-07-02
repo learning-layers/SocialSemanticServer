@@ -766,14 +766,15 @@ public class SSSearchImpl extends SSServImplWithDBA implements SSSearchClientI, 
           if(
             ((SSTagServerI) SSServReg.getServ(SSTagServerI.class)).tagsGet(
               new SSTagsGetPar(
-                null, 
+                null,
                 null,
                 par.user,
-                null,
-                SSUri.asListWithoutNullAndEmpty(entityUri),
-                SSTagLabel.asListWithoutNullAndEmpty(SSTagLabel.get(tag)), 
-                null, 
-                null)).isEmpty()){
+                null, //forUser
+                SSUri.asListWithoutNullAndEmpty(entityUri), //entities
+                SSTagLabel.asListWithoutNullAndEmpty(SSTagLabel.get(tag)),  //labels
+                null, //space
+                null, //startTime
+                false)).isEmpty()){ //withUserRestriction
             continue;
           }
           
@@ -789,7 +790,7 @@ public class SSSearchImpl extends SSServImplWithDBA implements SSSearchClientI, 
                 null, //type
                 false, //withUserRestriction
                 false, //invokeEntityHandlers
-              null, //descPar
+                null, //descPar
                 true));
           
           searchResultsForOneKeyword.add(entityObj);

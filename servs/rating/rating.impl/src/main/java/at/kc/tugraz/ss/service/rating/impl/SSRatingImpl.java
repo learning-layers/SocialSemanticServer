@@ -20,11 +20,8 @@
 */
  package at.kc.tugraz.ss.service.rating.impl;
 
-import at.kc.tugraz.ss.circle.api.SSCircleServerI;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivEntityAddPar;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePubEntityAddPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.kc.tugraz.ss.service.rating.impl.fct.userraltionsgathering.SSRatingUserRelationGathererFct;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSSocketCon;
@@ -110,14 +107,13 @@ implements
   }
   
   @Override
-  public Boolean copyEntity(
+  public void copyEntity(
     final SSUri        user,
     final List<SSUri>  users,
     final SSUri        entity,
     final List<SSUri>  entitiesToExclude,
     final SSEntityE    entityType) throws Exception{
     
-    return false;
   }
   
   @Override
@@ -168,13 +164,12 @@ implements
   }
   
   @Override
-  public Boolean setEntityPublic(
+  public void setEntityPublic(
     final SSUri          userUri,
     final SSUri          entityUri, 
     final SSEntityE   entityType,
     final SSUri          publicCircleUri) throws Exception{
 
-    return false;
   }
   
   @Override
@@ -246,83 +241,56 @@ implements
   public Boolean ratingSet(final SSRatingSetPar par) throws Exception {
     
     try{
-      final SSUri              ratingUri;
-      final SSEntity           entity = 
-        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
-          new SSEntityGetPar(
-            null,
-            null,
-            null,
-            par.entity, //entity
-            null,  //forUser
-            null, //label
-            null, //type
-            true, //withUserRestriction
-            false, //invokeEntityHandlers
-            null, //descPar
-            true)); //logErr
+      final SSUri              ratingUri = SSServCaller.vocURICreate();
       
       if(sqlFct.hasUserRatedEntity(par.user, par.entity)){
         return true;
-      }
-      
-      ratingUri = SSServCaller.vocURICreate();
+      } 
       
       dbSQL.startTrans(par.shouldCommit);
-      
-      if(entity == null){
         
-        ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePrivEntityAdd(
-          new SSCirclePrivEntityAddPar(
-            null,
-            null,
-            par.user,
-            par.entity,
-            SSEntityE.entity,
-            null,
-            null,
-            null,
-            false));
-        
-        ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePubEntityAdd(
-          new SSCirclePubEntityAddPar(
-            null,
-            null,
-            par.user,
-            par.entity,
-            false,
-            SSEntityE.entity,
-            null,
-            null,
-            null));
-        
-      }else{
-        
-        ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePrivEntityAdd(
-          new SSCirclePrivEntityAddPar(
-            null,
-            null,
-            par.user,
-            par.entity,
-            SSEntityE.entity,
-            null,
-            null,
-            null,
-            false));
-      }
-      
-      ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePrivEntityAdd(
-        new SSCirclePrivEntityAddPar(
+      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+        new SSEntityUpdatePar(
+          null,
+          null,
+          par.user,
+          par.entity, //entity,
+          null, //uriAlternative,
+          null, //type,
+          null, //label,
+          null, //description,
+          null, //comments,
+          null, //downloads,
+          null, //screenShots,
+          null, //images,
+          null, //videos,
+          null, //entitiesToAttach,
+          null, //creationTime,
+          null, //read,
+          false, //withUserRestriction,
+          false)); //shouldCommit
+
+      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+        new SSEntityUpdatePar(
           null,
           null,
           par.user,
           ratingUri,
-          SSEntityE.rating,
-          null,
-          null,
-          null,
-          false));
-      
+          null, //uriAlternative,
+          SSEntityE.rating, //type,
+          null, //label,
+          null, //description,
+          null, //comments,
+          null, //downloads,
+          null, //screenShots,
+          null, //images,
+          null, //videos,
+          null, //entitiesToAttach,
+          null, //creationTime,
+          null, //read,
+          false, //withUserRestriction
+          false)); //shouldCommit)
+        
       sqlFct.rateEntityByUser(
         ratingUri, 
         par.user,

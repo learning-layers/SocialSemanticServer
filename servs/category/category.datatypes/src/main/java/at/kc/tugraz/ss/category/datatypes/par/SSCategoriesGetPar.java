@@ -79,7 +79,8 @@ public class SSCategoriesGetPar extends SSServPar{
     final List<SSUri>           entities,
     final List<SSCategoryLabel> labels,
     final SSSpaceE              space,
-    final Long                  startTime){
+    final Long                  startTime,
+    final Boolean               withUserRestriction){
     
     super(op, key, user);
     
@@ -88,7 +89,8 @@ public class SSCategoriesGetPar extends SSServPar{
     SSUri.addDistinctWithoutNull           (this.entities, entities);
     SSCategoryLabel.addDistinctWithoutNull (this.labels, labels);
     
-    this.space        = space;
-    this.startTime    = startTime;
+    this.space               = space;
+    this.startTime           = startTime;
+    this.withUserRestriction = withUserRestriction;
   }
 }

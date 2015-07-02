@@ -20,8 +20,6 @@
 */
 package at.kc.tugraz.ss.serv.dataimport.impl.evernote;
 
-import at.kc.tugraz.ss.circle.api.SSCircleServerI;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivEntityAddPar;
 import at.tugraz.sss.serv.SSDateU;
 import at.tugraz.sss.serv.SSLinkU;
 import at.tugraz.sss.serv.SSObjU;
@@ -35,14 +33,17 @@ import at.tugraz.sss.serv.SSToolContextE;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportEvernotePar;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteInfo;
 import at.kc.tugraz.ss.service.tag.api.SSTagServerI;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsAddPar;
+import at.kc.tugraz.ss.service.userevent.api.SSUEServerI;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUE;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUEE;
+import at.kc.tugraz.ss.service.userevent.datatypes.pars.SSUEAddPar;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
@@ -141,18 +142,27 @@ public class SSDataImportEvernoteHandler {
     final SSLabel  notebookLabel,
     final Long     notebookCreationTime) throws Exception{
     
-    ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePrivEntityAdd(
-      new SSCirclePrivEntityAddPar(
+    ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+      new SSEntityUpdatePar(
         null,
         null,
         userUri,
         notebookUri,
-        SSEntityE.evernoteNotebook,
-        notebookLabel,
-        null,
-        notebookCreationTime,
-        false));
-    
+        null, //uriAlternative,
+        SSEntityE.evernoteNotebook, //type,
+        notebookLabel, //label
+        null, //description,
+        null, //comments,
+        null, //downloads,
+        null, //screenShots,
+        null, //images,
+        null, //videos,
+        null, //entitiesToAttach,
+        notebookCreationTime, //creationTime,
+        null, //read,
+        false, //withUserRestriction
+        false)); //shouldCommit)
+            
     SSServCaller.evalLog(
       userUri, 
       SSToolContextE.evernoteImport, 
@@ -179,13 +189,16 @@ public class SSDataImportEvernoteHandler {
     
     if(existingCreationUEs.isEmpty()){
       
-      SSServCaller.uEAddAtCreationTime(
-        userUri,
-        notebookUri,
-        SSUEE.evernoteNotebookCreate,
-        SSStrU.empty,
-        notebook.getServiceCreated(),
-        false);
+      ((SSUEServerI) SSServReg.getServ(SSUEServerI.class)).uEAdd(
+        new SSUEAddPar(
+          null,
+          null,
+          userUri,
+          notebookUri,
+          SSUEE.evernoteNotebookCreate,
+          SSStrU.empty,
+          notebook.getServiceCreated(),
+          false)); //shouldCommit
     }
     
     final List<SSUE> existingUpdatingUEs =
@@ -199,13 +212,16 @@ public class SSDataImportEvernoteHandler {
     
     if(existingUpdatingUEs.isEmpty()){
       
-      SSServCaller.uEAddAtCreationTime(
-        userUri,
-        notebookUri,
-        SSUEE.evernoteNotebookUpdate,
-        SSStrU.empty,
-        notebook.getServiceUpdated(),
-        false);
+      ((SSUEServerI) SSServReg.getServ(SSUEServerI.class)).uEAdd(
+        new SSUEAddPar(
+          null,
+          null,
+          userUri,
+          notebookUri,
+          SSUEE.evernoteNotebookUpdate,
+          SSStrU.empty,
+          notebook.getServiceUpdated(),
+          false)); //shouldCommit
     }
   }
   
@@ -255,13 +271,16 @@ public class SSDataImportEvernoteHandler {
       return;
     }
     
-    SSServCaller.uEAddAtCreationTime(
-      userUri,
-      notebookUri,
-      SSUEE.evernoteNotebookFollow,
-      SSStrU.empty,
-      creationTimeForLinkedNotebook,
-      false);
+    ((SSUEServerI) SSServReg.getServ(SSUEServerI.class)).uEAdd(
+      new SSUEAddPar(
+        null,
+        null,
+        userUri,
+        notebookUri,
+        SSUEE.evernoteNotebookFollow,
+        SSStrU.empty,
+        creationTimeForLinkedNotebook,
+        false)); //shouldCommit
   }
   
   public void handleNotes() throws Exception{
@@ -298,11 +317,12 @@ public class SSDataImportEvernoteHandler {
           null,
           null,
           userUri,
-          SSTagLabel.get(noteTagNames),
-          noteUri,
-          SSSpaceE.sharedSpace,
-          note.getUpdated(),
-          false));
+          SSTagLabel.get(noteTagNames), //labels
+          noteUri, //entity
+          SSSpaceE.sharedSpace, //space
+          note.getUpdated(), //creationTime
+          false, //withUserRestriction
+          false)); //shouldCommit
       
       for(String noteTag : noteTagNames){
        
@@ -345,13 +365,16 @@ public class SSDataImportEvernoteHandler {
     
     if(existingCreationUEs.isEmpty()){
       
-      SSServCaller.uEAddAtCreationTime(
-        userUri,
-        noteUri,
-        SSUEE.evernoteNoteCreate,
-        SSStrU.empty,
-        note.getCreated(),
-        false);
+      ((SSUEServerI) SSServReg.getServ(SSUEServerI.class)).uEAdd(
+        new SSUEAddPar(
+          null,
+          null,
+          userUri,
+          noteUri,
+          SSUEE.evernoteNoteCreate,
+          SSStrU.empty,
+          note.getCreated(),
+          false)); //shouldCommit
     }
     
     final List<SSUE> existingUpdateUEs =
@@ -365,13 +388,16 @@ public class SSDataImportEvernoteHandler {
     
     if(existingUpdateUEs.isEmpty()){
       
-      SSServCaller.uEAddAtCreationTime(
-        userUri,
-        noteUri,
-        SSUEE.evernoteNoteUpdate,
-        SSStrU.empty,
-        note.getUpdated(),
-        false);
+      ((SSUEServerI) SSServReg.getServ(SSUEServerI.class)).uEAdd(
+        new SSUEAddPar(
+          null,
+          null,
+          userUri,
+          noteUri,
+          SSUEE.evernoteNoteUpdate,
+          SSStrU.empty,
+          note.getUpdated(),
+          false)); //shouldCommit
     }
 
     if(note.getDeleted() != 0L){
@@ -387,13 +413,16 @@ public class SSDataImportEvernoteHandler {
       
       if(existingDeleteUEs.isEmpty()){
         
-        SSServCaller.uEAddAtCreationTime(
-          userUri,
-          noteUri,
-          SSUEE.evernoteNoteDelete,
-          SSStrU.empty,
-          note.getDeleted(),
-          false);
+        ((SSUEServerI) SSServReg.getServ(SSUEServerI.class)).uEAdd(
+          new SSUEAddPar(
+            null,
+            null,
+            userUri,
+            noteUri,
+            SSUEE.evernoteNoteDelete,
+            SSStrU.empty,
+            note.getDeleted(),
+            false)); //shouldCommit
       }
     }
     
@@ -416,13 +445,16 @@ public class SSDataImportEvernoteHandler {
       
       if(existingShareUEs.isEmpty()){
         
-        SSServCaller.uEAddAtCreationTime(
-          userUri,
-          noteUri,
-          SSUEE.evernoteNoteShare,
-          SSStrU.empty,
-          noteAttr.getShareDate(),
-          false);
+        ((SSUEServerI) SSServReg.getServ(SSUEServerI.class)).uEAdd(
+          new SSUEAddPar(
+            null,
+            null,
+            userUri,
+            noteUri,
+            SSUEE.evernoteNoteShare,
+            SSStrU.empty,
+            noteAttr.getShareDate(),
+            false)); //shouldCommit
       }
     }
     
@@ -439,13 +471,16 @@ public class SSDataImportEvernoteHandler {
       
       if(existingReminderUEs.isEmpty()){
        
-        SSServCaller.uEAddAtCreationTime(
-          userUri,
-          noteUri,
-          SSUEE.evernoteReminderDone,
-          SSStrU.empty,
-          noteAttr.getReminderDoneTime(),
-          false);
+        ((SSUEServerI) SSServReg.getServ(SSUEServerI.class)).uEAdd(
+          new SSUEAddPar(
+            null,
+            null,
+            userUri,
+            noteUri,
+            SSUEE.evernoteReminderDone,
+            SSStrU.empty,
+            noteAttr.getReminderDoneTime(),
+            false)); //shouldCommit
       }
     }
     
@@ -462,13 +497,16 @@ public class SSDataImportEvernoteHandler {
       
       if(existingReminder2UEs.isEmpty()){
         
-        SSServCaller.uEAddAtCreationTime(
-          userUri,
-          noteUri,
-          SSUEE.evernoteReminderCreate,
-          SSStrU.empty,
-          noteAttr.getReminderTime(),
-          false);
+        ((SSUEServerI) SSServReg.getServ(SSUEServerI.class)).uEAdd(
+          new SSUEAddPar(
+            null,
+            null,
+            userUri,
+            noteUri,
+            SSUEE.evernoteReminderCreate,
+            SSStrU.empty,
+            noteAttr.getReminderTime(),
+            false)); //shouldCommit
       }
     }
   }
@@ -483,18 +521,27 @@ public class SSDataImportEvernoteHandler {
       
     try{
       
-      ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePrivEntityAdd(
-        new SSCirclePrivEntityAddPar(
+      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+        new SSEntityUpdatePar(
           null,
           null,
           userUri,
           noteUri,
-          SSEntityE.evernoteNote,
-          noteLabel,
-          null,
-          note.getCreated(),
-          false));
-      
+          null, //uriAlternative,
+          SSEntityE.evernoteNote, //type,
+          noteLabel, //label
+          null, //description,
+          null, //comments,
+          null, //downloads,
+          null, //screenShots,
+          null, //images,
+          null, //videos,
+          null, //entitiesToAttach,
+          note.getCreated(), //creationTime,
+          null, //read,
+          false, //withUserRestriction
+          false)); //shouldCommit)
+          
       nootebookEntity =
         ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
           new SSEntityGetPar(
@@ -607,13 +654,16 @@ public class SSDataImportEvernoteHandler {
     
     if(existingUEs.isEmpty()){
       
-      SSServCaller.uEAddAtCreationTime(
-        userUri,
-        resourceUri,
-        SSUEE.evernoteResourceAdd,
-        SSStrU.empty,
-        resourceAddTime,
-        false);
+      ((SSUEServerI) SSServReg.getServ(SSUEServerI.class)).uEAdd(
+        new SSUEAddPar(
+          null,
+          null,
+          userUri,
+          resourceUri,
+          SSUEE.evernoteResourceAdd,
+          SSStrU.empty,
+          resourceAddTime,
+          false)); //shouldCommit
     }
   }
 
@@ -623,17 +673,26 @@ public class SSDataImportEvernoteHandler {
     final Long    resourceAddTime,
     final SSUri   noteUri) throws Exception{
     
-    ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePrivEntityAdd(
-      new SSCirclePrivEntityAddPar(
+    ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+      new SSEntityUpdatePar(
         null,
         null,
         userUri,
         resourceUri,
-        SSEntityE.evernoteResource,
-        resourceLabel,
-        null,
-        resourceAddTime,
-        false));
+        null, //uriAlternative,
+        SSEntityE.evernoteResource, //type,
+        resourceLabel, //label
+        null, //description,
+        null, //comments,
+        null, //downloads,
+        null, //screenShots,
+        null, //images,
+        null, //videos,
+        null, //entitiesToAttach,
+        resourceAddTime, //creationTime,
+        null, //read,
+        false, //withUserRestriction
+        false)); //shouldCommit)
     
     SSServCaller.evernoteResourceAdd(
       this.userUri,

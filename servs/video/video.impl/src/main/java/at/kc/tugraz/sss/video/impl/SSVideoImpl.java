@@ -22,7 +22,7 @@ package at.kc.tugraz.sss.video.impl;
 
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesAddPar;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivEntityAddPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.tugraz.sss.serv.SSSocketCon;
 import at.tugraz.sss.serv.SSEntity;
@@ -91,13 +91,12 @@ implements
   }
 
   @Override
-  public Boolean setEntityPublic(
+  public void setEntityPublic(
     final SSUri     userUri, 
     final SSUri     entityUri, 
     final SSEntityE entityType, 
     final SSUri     publicCircleUri) throws Exception{
    
-   return false; 
   }
 
   @Override
@@ -147,14 +146,13 @@ implements
   }
 
   @Override
-  public Boolean copyEntity(
+  public void copyEntity(
     final SSUri       user, 
     final List<SSUri> users, 
     final SSUri       entity, 
     final List<SSUri> entitiesToExclude, 
     final SSEntityE   entityType) throws Exception{
     
-    return false;
   }
 
   @Override
@@ -301,56 +299,75 @@ implements
 //        }
 //      }
       
-      if(par.forEntity != null){
-        SSServCallerU.canUserReadEntity(par.user, par.forEntity);
-      }
-      
-      if(par.link != null){
-        SSServCallerU.canUserReadEntity(par.user, par.link);
-      }
-      
       dbSQL.startTrans(par.shouldCommit);
       
-      ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePrivEntityAdd(
-        new SSCirclePrivEntityAddPar(
+      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+        new SSEntityUpdatePar(
           null,
           null,
           par.user,
           videoUri,
-          SSEntityE.video,
-          par.label,
-          par.description,
-          par.creationTime,
-          false));
+          null, //uriAlternative,
+          SSEntityE.video, //type,
+          par.label, //label
+          par.description,//description,
+          null, //comments,
+          null, //downloads,
+          null, //screenShots,
+          null, //images,
+          null, //videos,
+          null, //entitiesToAttach,
+          par.creationTime, //creationTime,
+          null, //read,
+          false, //withUserRestriction
+          false)); //shouldCommit)
       
       if(par.forEntity != null){
         
-        ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePrivEntityAdd(
-          new SSCirclePrivEntityAddPar(
+        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+          new SSEntityUpdatePar(
             null,
             null,
             par.user,
             par.forEntity,
-            SSEntityE.entity,
-            null,
-            null,
-            null,
-            false));
-      }
+            null, //uriAlternative,
+            null, //type,
+            null, //label
+            null,//description,
+            null, //comments,
+            null, //downloads,
+            null, //screenShots,
+            null, //images,
+            null, //videos,
+            null, //entitiesToAttach,
+            par.creationTime, //creationTime,
+            null, //read,
+            true, //withUserRestriction
+            false)); //shouldCommit)
+      }      
       
       if(par.link != null){
         
-        ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePrivEntityAdd(
-          new SSCirclePrivEntityAddPar(
+        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+          new SSEntityUpdatePar(
             null,
             null,
             par.user,
             par.link,
-            SSEntityE.entity,
-            null,
-            null,
-            null,
-            false));
+            null, //uriAlternative,
+            null, //type,
+            null, //label
+            null,//description,
+            null, //comments,
+            null, //downloads,
+            null, //screenShots,
+            null, //images,
+            null, //videos,
+            null, //entitiesToAttach,
+            par.creationTime, //creationTime,
+            null, //read,
+            true, //withUserRestriction
+            false)); //shouldCommit)
       }
       
       sqlFct.addVideo(
@@ -416,22 +433,50 @@ implements
       final SSVideoUserAnnotationAddPar    par           = new SSVideoUserAnnotationAddPar(parA);
       final SSUri                          annotationUri = SSServCaller.vocURICreate();
 
-      SSServCallerU.canUserReadEntity(par.user, par.video);
-      
       dbSQL.startTrans(par.shouldCommit);
       
-      ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePrivEntityAdd(
-        new SSCirclePrivEntityAddPar(
+      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+        new SSEntityUpdatePar(
+          null,
+          null,
+          par.user,
+          par.video,
+          null, //uriAlternative,
+          null, //type,
+          null, //label
+          null,//description,
+          null, //comments,
+          null, //downloads,
+          null, //screenShots,
+          null, //images,
+          null, //videos,
+          null, //entitiesToAttach,
+          null, //creationTime,
+          null, //read,
+          false, //withUserRestriction
+          false)); //shouldCommit)
+      
+      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+        new SSEntityUpdatePar(
           null,
           null,
           par.user,
           annotationUri,
-          SSEntityE.videoAnnotation,
-          par.label,
-          par.description,
-          null,
-          false));
-       
+          null, //uriAlternative,
+          SSEntityE.videoAnnotation, //type,
+          par.label, //label
+          par.description,//description,
+          null, //comments,
+          null, //downloads,
+          null, //screenShots,
+          null, //images,
+          null, //videos,
+          null, //entitiesToAttach,
+          null, //creationTime,
+          null, //read,
+          false, //withUserRestriction
+          false)); //shouldCommit)
+      
       sqlFct.createAnnotation(
         par.video, 
         annotationUri, 
