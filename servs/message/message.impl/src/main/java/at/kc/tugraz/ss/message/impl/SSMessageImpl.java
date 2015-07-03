@@ -131,6 +131,7 @@ public class SSMessageImpl extends SSServImplWithDBA implements SSMessageClientI
           null, //entitiesToAttach,
           null, //creationTime,
           null, //read,
+          false, //setPublic
           false, //withUserRestriction
           false)); //shouldCommit)
       

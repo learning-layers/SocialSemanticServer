@@ -21,10 +21,10 @@
  package at.kc.tugraz.sss.flag.datatypes.par;
 
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServErrReg;
 import at.kc.tugraz.sss.flag.datatypes.SSFlagE;
+import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSStrU;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,22 +34,42 @@ public class SSFlagsGetPar extends SSServPar{
   public List<SSFlagE> types          = new ArrayList<>();
   public Long          startTime      = null;
   public Long          endTime        = null;
-      
-  public SSFlagsGetPar(SSServPar par) throws Exception{
+
+  public List<String> getEntities(){
+    return SSStrU.removeTrailingSlash(entities);
+  }
+
+  public void setEntities(final List<String> entities) throws Exception{
+    this.entities = SSUri.get(entities);
+  }
+
+  public List<String> getTypes(){
+    return SSStrU.toStr(types);
+  }
+
+  public void setTypes(final List<String> types){
+    this.types = SSFlagE.get(types);
+  }
+  
+  public SSFlagsGetPar(){}
     
-    super(par);
+  public SSFlagsGetPar(
+    final SSServOpE     op,
+    final String        key,
+    final SSUri         user,
+    final List<SSUri>   entities,
+    final List<SSFlagE> types,
+    final Long          startTime, 
+    final Long          endTime,
+    final Boolean       withUserRestriction){
+    
+    super(op, key, user);
      
-    try{
-      
-      if(pars != null){
-        entities  = (List<SSUri>)              pars.get(SSVarNames.entities);
-        types     = SSFlagE.get((List<String>) pars.get(SSVarNames.types));
-        startTime = (Long)                     pars.get(SSVarNames.startTime);
-        endTime   = (Long)                     pars.get(SSVarNames.endTime);
-      }
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
+    SSUri.addDistinctWithoutNull   (this.entities, entities);
+    SSFlagE.addDistinctWithoutNull (this.types,    types);
+    
+    this.startTime           = startTime;
+    this.endTime             = endTime;
+    this.withUserRestriction = withUserRestriction;
   }
 }

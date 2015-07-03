@@ -314,6 +314,7 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
             null, //entitiesToAttach,
             video.creationTime, //creationTime,
             null, //read,
+            false, //setPublic
             false, //withUserRestriction
             true)); //shouldCommit)
                 

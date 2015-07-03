@@ -20,11 +20,11 @@
  */
 package at.tugraz.sss.adapter.rest.v2.flag;
 
+import at.kc.tugraz.sss.flag.datatypes.par.SSFlagsGetPar;
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
-import at.kc.tugraz.sss.flag.datatypes.par.SSFlagsUserGetPar;
-import at.kc.tugraz.sss.flag.datatypes.par.SSFlagsUserSetPar;
-import at.kc.tugraz.sss.flag.datatypes.ret.SSFlagsUserGetRet;
-import at.kc.tugraz.sss.flag.datatypes.ret.SSFlagsUserSetRet;
+import at.kc.tugraz.sss.flag.datatypes.par.SSFlagsSetPar;
+import at.kc.tugraz.sss.flag.datatypes.ret.SSFlagsGetRet;
+import at.kc.tugraz.sss.flag.datatypes.ret.SSFlagsSetRet;
 import at.tugraz.sss.serv.SSServOpE;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
@@ -47,19 +47,19 @@ public class SSRESTFlag{
   @Path("")
   @ApiOperation(
     value = "set flags",
-    response = SSFlagsUserSetRet.class)
+    response = SSFlagsSetRet.class)
   public Response flagsSet(
     @Context 
       final HttpHeaders headers, 
     
     final SSFlagsSetRESTAPIV2Par input){
     
-    final SSFlagsUserSetPar par;
+    final SSFlagsSetPar par;
     
     try{
       
       par =
-        new SSFlagsUserSetPar(
+        new SSFlagsSetPar(
           SSServOpE.flagsSet,
           null,
           null,  
@@ -67,7 +67,8 @@ public class SSRESTFlag{
           input.types, 
           input.value, 
           input.endTime, 
-          true);
+          true, //withUserRestriction
+          true); //shouldCommit
       
     }catch(Exception error){
       return Response.status(422).build();
@@ -82,26 +83,27 @@ public class SSRESTFlag{
   @Path("/filtered")
   @ApiOperation(
     value = "retrieve flags",
-    response = SSFlagsUserGetRet.class)
+    response = SSFlagsGetRet.class)
   public Response flagsGetFiltered(
     @Context 
       final HttpHeaders headers, 
     
     final SSFlagsGetRESTAPIV2Par input){
     
-    final SSFlagsUserGetPar par;
+    final SSFlagsGetPar par;
     
     try{
       
       par =
-        new SSFlagsUserGetPar(
+        new SSFlagsGetPar(
           SSServOpE.flagsGet,
           null,
           null,  
           input.entities,
           input.types, 
           input.startTime, 
-          input.endTime);
+          input.endTime,
+          true); //withUserRestriction
       
     }catch(Exception error){
       return Response.status(422).build();

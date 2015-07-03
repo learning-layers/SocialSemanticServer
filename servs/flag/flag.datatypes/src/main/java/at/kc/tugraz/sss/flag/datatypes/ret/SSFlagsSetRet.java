@@ -27,25 +27,9 @@ import at.tugraz.sss.serv.SSServRetI;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SSFlagsUserSetRet extends SSServRetI{
+public class SSFlagsSetRet extends SSServRetI{
   
   public Boolean worked = null;
-  
-  public static SSFlagsUserSetRet get(
-    final Boolean  worked,
-    final SSServOpE  op){
-    
-    return new SSFlagsUserSetRet(worked, op);
-  }
-  
-  private SSFlagsUserSetRet(
-    final Boolean  worked,
-    final SSServOpE  op) {
-    
-    super(op);
-    
-    this.worked = worked;
-  }
   
   @Override
   public Map<String, Object> jsonLDDesc(){
@@ -57,9 +41,17 @@ public class SSFlagsUserSetRet extends SSServRetI{
     return ld;
   }
   
-  /* json getters */
+  public static SSFlagsSetRet get(
+    final Boolean  worked){
+    
+    return new SSFlagsSetRet(worked);
+  }
   
-  public Boolean isWorked() {
-    return worked;
+  private SSFlagsSetRet(
+    final Boolean  worked) {
+    
+    super(SSServOpE.flagsSet);
+    
+    this.worked = worked;
   }
 }

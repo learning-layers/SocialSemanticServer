@@ -70,9 +70,7 @@ public enum SSServOpE{
   
   //flag
   flagsGet,
-  flagsUserGet,
   flagsSet,
-  flagsUserSet,
   
   //cloud
   cloudPublishService,
@@ -111,7 +109,6 @@ public enum SSServOpE{
   circlePubURIGet,
   circleCanAccess,
   circleEntityShare,
-  circleEntityPublicSet,
   circleEntitiesRemove,
   
   //entity

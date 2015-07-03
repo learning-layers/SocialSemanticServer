@@ -327,6 +327,7 @@ public class SSCircleMiscFct{
           SSUri.asListWithoutNullAndEmpty(), //entitiesToAttach,
           null, //creationTime,
           null, //read,
+          false, //setPublic
           false, //withUserRestriction,
           false)); //shouldCommit))
             
@@ -379,6 +380,7 @@ public class SSCircleMiscFct{
           SSUri.asListWithoutNullAndEmpty(), //entitiesToAttach,
           null, //creationTime,
           null, //read,
+          null, //setPublic
           false, //withUserRestriction,
           false)); //shouldCommit))
       
@@ -424,45 +426,6 @@ public class SSCircleMiscFct{
       }
     }catch(SSErr error){
       SSServErrReg.regErrThrow(new SSErr(SSErrE.userNotAllowedToAccessEntity), logErr);
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
-  public static void setPublicByEntityHandlers(
-    final SSUri        userUri,
-    final SSUri        entityUri) throws Exception{
-    
-    try{
-      
-      final SSEntityE entityType =
-        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
-          new SSEntityGetPar(
-            null,
-            null,
-            null,
-            entityUri,
-            null,
-            null,
-            null,
-            false,
-            false,
-            null, //descPar
-            false)).type;
-      
-      switch(entityType){
-        case entity: return;
-      }
-      
-      for(SSServContainerI serv : SSServReg.inst.getServsManagingEntities()){
-        
-        ((SSEntityHandlerImplI) serv.serv()).setEntityPublic(
-          userUri,
-          entityUri,
-          entityType,
-          pubCircleUri);
-      }
-      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }

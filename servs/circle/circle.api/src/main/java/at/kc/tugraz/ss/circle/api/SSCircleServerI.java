@@ -23,10 +23,10 @@ package at.kc.tugraz.ss.circle.api;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleCanAccessPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleCreatePar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesAddPar;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntityPublicSetPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleGetPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleMostOpenCircleTypeGetPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivURIGetPar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePubURIGetPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleTypesGetPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleUsersAddPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclesGetPar;
@@ -49,10 +49,10 @@ public interface SSCircleServerI extends SSServServerI{
   public List<SSEntityCircle>            circlesGet                               (final SSCirclesGetPar                  par) throws Exception;
   public SSEntity                        circleCanAccess                          (final SSCircleCanAccessPar             par) throws Exception;
   public SSUri                           circlePrivURIGet                         (final SSCirclePrivURIGetPar            par) throws Exception;
-  public SSUri                           circleEntityPublicSet                    (final SSCircleEntityPublicSetPar       par) throws Exception;
+  public SSUri                           circlePubURIGet                          (final SSCirclePubURIGetPar             par) throws Exception;
   
   public List<SSEntity>                  circleEntityUsersGet                     (final SSServPar parA) throws Exception;
-  public SSUri                           circlePubURIGet                          (final SSServPar parA) throws Exception;
+  
   public SSUri                           circleEntityShare                        (final SSServPar parA) throws Exception;
   
   public List<SSUri>                     circleEntitiesRemove                     (final SSServPar parA) throws Exception;

@@ -21,7 +21,6 @@
  package at.kc.tugraz.ss.circle.datatypes.par;
 
 import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSUri;
 
@@ -32,8 +31,11 @@ public class SSCirclePrivURIGetPar extends SSServPar{
   public SSCirclePrivURIGetPar(
     final SSServOpE     op,
     final String        key,
-    final SSUri         user) throws Exception{
+    final SSUri         user, 
+    final Boolean       shouldCommit) throws Exception{
       
     super(op, key, user);
+    
+    this.shouldCommit = shouldCommit;
   }
 }

@@ -21,7 +21,6 @@
 package at.kc.tugraz.ss.service.user.impl;
 
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesAddPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
@@ -316,20 +315,10 @@ implements
           null, //entitiesToAttach,
           null, //creationTime,
           null, //read,
-          false, //withUserRestriction
+          true, //setPublic
+          true, //withUserRestriction
           false)); //shouldCommit)
             
-      ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleEntitiesAdd(
-          new SSCircleEntitiesAddPar(
-            null, 
-            null, 
-            SSVocConf.systemUserUri,  
-            SSServCaller.circlePubURIGet(false),
-            SSUri.asListWithoutNullAndEmpty(userUri), 
-            false,
-            true, 
-            false));
-      
       sqlFct.addUser(userUri, tmpEmail);
       
       dbSQL.commit(par.shouldCommit);

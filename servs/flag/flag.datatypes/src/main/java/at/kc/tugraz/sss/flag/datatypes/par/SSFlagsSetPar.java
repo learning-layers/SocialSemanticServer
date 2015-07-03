@@ -21,28 +21,26 @@
 package at.kc.tugraz.sss.flag.datatypes.par;
 
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServErrReg;
 import at.kc.tugraz.sss.flag.datatypes.SSFlagE;
 import at.tugraz.sss.serv.SSServOpE;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SSFlagsUserSetPar extends SSServPar{
+public class SSFlagsSetPar extends SSServPar{
   
   public List<SSUri>   entities       = new ArrayList<>();
   public List<SSFlagE> types          = new ArrayList<>();
   public Integer       value          = null;
   public Long          endTime        = null;
   
-  public void setEntities(final List<String> entities){
-    try{ this.entities = SSUri.get(entities); }catch(Exception error){}
+  public void setEntities(final List<String> entities) throws Exception{
+    this.entities = SSUri.get(entities); 
   }
   
   public void setTypes(final List<String> types) throws Exception{
-    try{ this.types = SSFlagE.get(types); }catch(Exception error){}
+    this.types = SSFlagE.get(types);
   }
   
   public List<String> getEntities() throws Exception{
@@ -53,9 +51,9 @@ public class SSFlagsUserSetPar extends SSServPar{
     return SSStrU.toStr(types);
   }
   
-  public SSFlagsUserSetPar(){}
+  public SSFlagsSetPar(){}
   
-  public SSFlagsUserSetPar(
+  public SSFlagsSetPar(
     final SSServOpE      op,
     final String         key,
     final SSUri          user, 
@@ -63,44 +61,17 @@ public class SSFlagsUserSetPar extends SSServPar{
     final List<SSFlagE>  types, 
     final Integer        value, 
     final Long           endTime,
+    final Boolean        withUserRestriction,
     final Boolean        shouldCommit){
     
     super(op, key, user);
     
-    if(entities != null){
-      this.entities.addAll(entities);
-    }
+    SSUri.addDistinctWithoutNull    (this.entities, entities);
+    SSFlagE.addDistinctWithoutNull  (this.types,    types);
     
-    if(types != null){
-      this.types.addAll(types);
-    }
-    
-    this.value        = value;
-    this.endTime      = endTime;
-    this.shouldCommit = shouldCommit;
-  }
-  
-  public static SSFlagsUserSetPar get(final SSServPar par) throws Exception{
-    
-    try{
-      
-      if(par.clientCon != null){
-        return (SSFlagsUserSetPar) par.getFromJSON(SSFlagsUserSetPar.class);
-      }
-      
-      return new SSFlagsUserSetPar(
-        par.op,
-        par.key,
-        par.user,
-        (List<SSUri>)              par.pars.get(SSVarNames.entities),
-        (List<SSFlagE>)            par.pars.get(SSVarNames.types),
-        (Integer)                  par.pars.get(SSVarNames.value),
-        (Long)                     par.pars.get(SSVarNames.endTime),
-        (Boolean)                  par.pars.get(SSVarNames.shouldCommit));
-        
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
+    this.value               = value;
+    this.endTime             = endTime;
+    this.withUserRestriction = withUserRestriction;
+    this.shouldCommit        = shouldCommit;
   }
 }

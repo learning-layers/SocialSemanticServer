@@ -18,39 +18,24 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.circle.datatypes.par;
+ package at.kc.tugraz.ss.circle.datatypes.par;
 
-import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSUri;
 
-public class SSCircleEntityPublicSetPar extends SSServPar{
+public class SSCirclePubURIGetPar extends SSServPar{
   
-  public SSUri entity  = null;
-
-  public String getEntity(){
-    return SSStrU.removeTrailingSlash(entity);
-  }
+  public SSCirclePubURIGetPar(){}
   
-  public void setEntity(final String entity) throws Exception{
-    this.entity = SSUri.get(entity);
-  }
-  
-  public SSCircleEntityPublicSetPar(){}
-    
-  public SSCircleEntityPublicSetPar(
+  public SSCirclePubURIGetPar(
     final SSServOpE     op,
     final String        key,
-    final SSUri         user,
-    final SSUri         entity, 
-    final Boolean       withUserRestriction,
-    final Boolean       shouldCommit){
+    final SSUri         user, 
+    final Boolean       shouldCommit) throws Exception{
       
     super(op, key, user);
     
-    this.entity              = entity;
-    this.withUserRestriction = withUserRestriction;
-    this.shouldCommit        = shouldCommit;
+    this.shouldCommit = shouldCommit;
   }
 }

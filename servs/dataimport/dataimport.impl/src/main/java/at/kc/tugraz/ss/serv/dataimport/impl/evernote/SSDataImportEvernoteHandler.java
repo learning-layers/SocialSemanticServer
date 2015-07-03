@@ -1,23 +1,23 @@
-/**
-* Code contributed to the Learning Layers project
-* http://www.learning-layers.eu
-* Development is partly funded by the FP7 Programme of the European Commission under
-* Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
-* For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
-*
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-* http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*/
+ /**
+  * Code contributed to the Learning Layers project
+  * http://www.learning-layers.eu
+  * Development is partly funded by the FP7 Programme of the European Commission under
+  * Grant Agreement FP7-ICT-318209.
+  * Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+  * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
+  *
+  * Licensed under the Apache License, Version 2.0 (the "License");
+  * you may not use this file except in compliance with the License.
+  * You may obtain a copy of the License at
+  *
+  * http://www.apache.org/licenses/LICENSE-2.0
+  *
+  * Unless required by applicable law or agreed to in writing, software
+  * distributed under the License is distributed on an "AS IS" BASIS,
+  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  * See the License for the specific language governing permissions and
+  * limitations under the License.
+  */
 package at.kc.tugraz.ss.serv.dataimport.impl.evernote;
 
 import at.tugraz.sss.serv.SSDateU;
@@ -80,19 +80,19 @@ public class SSDataImportEvernoteHandler {
     evernoteInfo          = SSServCaller.evernoteNoteStoreGet (par.user, par.authToken);
     evernoteInfo.userName = SSLabel.get(evernoteInfo.userStore.getUser().getUsername());
     
-    this.userUri         = 
+    this.userUri         =
       SSServCaller.authRegisterUser(
-        par.user, 
+        par.user,
         SSLabel.get(par.authEmail),//evernoteInfo.userName,
         par.authEmail,
-        "1234", 
+        "1234",
         false,
         false,
         false);
     
     SSServCaller.evernoteUserAdd(
-      this.userUri,  
-      par.authToken, 
+      this.userUri,
+      par.authToken,
       false);
   }
   
@@ -100,7 +100,7 @@ public class SSDataImportEvernoteHandler {
     
     SSServCaller.evernoteUSNSet(
       this.userUri,
-      evernoteInfo.authToken, 
+      evernoteInfo.authToken,
       evernoteInfo.noteStoreSyncChunk.getUpdateCount(),
       false);
   }
@@ -127,12 +127,12 @@ public class SSDataImportEvernoteHandler {
       notebookLabel    = getNormalOrSharedNotebookLabel       (notebook);
       
       addNotebook(
-        notebookUri, 
-        notebookLabel,  
+        notebookUri,
+        notebookLabel,
         notebook.getServiceCreated());
       
       addNotebookUEs(
-        notebookUri, 
+        notebookUri,
         notebook);
     }
   }
@@ -160,17 +160,18 @@ public class SSDataImportEvernoteHandler {
         null, //entitiesToAttach,
         notebookCreationTime, //creationTime,
         null, //read,
+        false, //setPublic
         false, //withUserRestriction
         false)); //shouldCommit)
-            
+    
     SSServCaller.evalLog(
-      userUri, 
-      SSToolContextE.evernoteImport, 
-      userUri, 
-      SSEvalLogE.addNotebook, 
-      notebookUri, 
-      null, 
-      SSUri.asListWithoutNullAndEmpty(), 
+      userUri,
+      SSToolContextE.evernoteImport,
+      userUri,
+      SSEvalLogE.addNotebook,
+      notebookUri,
+      null,
+      SSUri.asListWithoutNullAndEmpty(),
       SSUri.asListWithoutNullAndEmpty());
   }
   
@@ -226,7 +227,7 @@ public class SSDataImportEvernoteHandler {
   }
   
   public void handleLinkedNotebooks() throws Exception{
-
+    
     final List<LinkedNotebook> linkedNotebooks = evernoteInfo.noteStoreSyncChunk.getLinkedNotebooks();
     int                        timeCounter     = 1;
     SSUri                      notebookUri;
@@ -243,13 +244,13 @@ public class SSDataImportEvernoteHandler {
       timeCounter++;
       
       addNotebook(
-        notebookUri, 
+        notebookUri,
         getLinkedNotebookLabel(
-          linkedNotebook), 
+          linkedNotebook),
         creationTimeForLinkedNotebook);
       
       addLinkedNotebookUEs(
-        notebookUri, 
+        notebookUri,
         creationTimeForLinkedNotebook);
     }
   }
@@ -304,14 +305,14 @@ public class SSDataImportEvernoteHandler {
       notebookUri      = getNormalOrSharedNotebookUri    (evernoteInfo.userName,  notebook, sharedNotebookGuids);
       
       addNote(
-        noteUri, 
+        noteUri,
         getNoteLabel(
-          note), 
-        note, 
+          note),
+        note,
         notebookUri);
       
       noteTagNames = SSServCaller.evernoteNoteTagNamesGet(evernoteInfo.noteStore, note.getGuid());
-        
+      
       ((SSTagServerI) SSServReg.getServ(SSTagServerI.class)).tagsAdd(
         new SSTagsAddPar(
           null,
@@ -325,7 +326,7 @@ public class SSDataImportEvernoteHandler {
           false)); //shouldCommit
       
       for(String noteTag : noteTagNames){
-       
+        
         SSServCaller.evalLog(
           userUri,
           SSToolContextE.evernoteImport,
@@ -399,10 +400,10 @@ public class SSDataImportEvernoteHandler {
           note.getUpdated(),
           false)); //shouldCommit
     }
-
+    
     if(note.getDeleted() != 0L){
       
-      final List<SSUE> existingDeleteUEs = 
+      final List<SSUE> existingDeleteUEs =
         SSServCaller.uEsGet(
           userUri,
           userUri,
@@ -433,7 +434,7 @@ public class SSDataImportEvernoteHandler {
     }
     
     if(noteAttr.getShareDate() != 0L){
-  
+      
       final List<SSUE> existingShareUEs =
         SSServCaller.uEsGet(
           userUri,
@@ -460,7 +461,7 @@ public class SSDataImportEvernoteHandler {
     
     if(noteAttr.getReminderDoneTime() != 0L){
       
-      final List<SSUE> existingReminderUEs = 
+      final List<SSUE> existingReminderUEs =
         SSServCaller.uEsGet(
           userUri,
           userUri,
@@ -470,7 +471,7 @@ public class SSDataImportEvernoteHandler {
           noteAttr.getReminderDoneTime());
       
       if(existingReminderUEs.isEmpty()){
-       
+        
         ((SSUEServerI) SSServReg.getServ(SSUEServerI.class)).uEAdd(
           new SSUEAddPar(
             null,
@@ -486,7 +487,7 @@ public class SSDataImportEvernoteHandler {
     
     if(noteAttr.getReminderTime() != 0L){
       
-      final List<SSUE> existingReminder2UEs = 
+      final List<SSUE> existingReminder2UEs =
         SSServCaller.uEsGet(
           userUri,
           userUri,
@@ -518,7 +519,7 @@ public class SSDataImportEvernoteHandler {
     final SSUri   notebookUri) throws Exception{
     
     final SSEntity nootebookEntity;
-      
+    
     try{
       
       ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
@@ -539,9 +540,10 @@ public class SSDataImportEvernoteHandler {
           null, //entitiesToAttach,
           note.getCreated(), //creationTime,
           null, //read,
+          false, //setPublic
           false, //withUserRestriction
           false)); //shouldCommit)
-          
+      
       nootebookEntity =
         ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
           new SSEntityGetPar(
@@ -560,8 +562,8 @@ public class SSDataImportEvernoteHandler {
       if(nootebookEntity == null){
         
         addNotebook(
-          notebookUri, 
-          null, 
+          notebookUri,
+          null,
           null);
       }
       
@@ -599,7 +601,7 @@ public class SSDataImportEvernoteHandler {
     }
     
     for(Resource resource : resources){
-
+      
       resourceWithContent = SSServCaller.evernoteResourceGet                  (evernoteInfo.noteStore, resource.getGuid(), false);
       
       if(
@@ -634,7 +636,7 @@ public class SSDataImportEvernoteHandler {
         localWorkPath).handleResourceContent();
       
       addResourceUEs(
-        resourceUri, 
+        resourceUri,
         note.getUpdated());
     }
   }
@@ -666,7 +668,7 @@ public class SSDataImportEvernoteHandler {
           false)); //shouldCommit
     }
   }
-
+  
   private void addResource(
     final SSUri   resourceUri,
     final SSLabel resourceLabel,
@@ -691,12 +693,13 @@ public class SSDataImportEvernoteHandler {
         null, //entitiesToAttach,
         resourceAddTime, //creationTime,
         null, //read,
+        false, //setPublic
         false, //withUserRestriction
         false)); //shouldCommit)
     
     SSServCaller.evernoteResourceAdd(
       this.userUri,
-      noteUri, 
+      noteUri,
       resourceUri,
       false);
     
@@ -729,7 +732,7 @@ public class SSDataImportEvernoteHandler {
   private static SSUri getNormalOrSharedNotebookUri(SSLabel userName, Notebook notebook, List<String> sharedNotebookGuids) throws Exception{
     
     try{
-     
+      
       if(
         sharedNotebookGuids.contains   (notebook.getGuid()) &&
         !SSStrU.isEmpty                (notebook.getName())){
@@ -775,7 +778,7 @@ public class SSDataImportEvernoteHandler {
     
     try{
       final SSLabel tmpLabel = SSLabel.get(notebook.getName());
-
+      
       if(tmpLabel == null){
         return getDefaultLabel();
       }else{
@@ -842,12 +845,12 @@ public class SSDataImportEvernoteHandler {
   }
 }
 
-  
+
 //  public Boolean isSharedNootebook(SSUri notebookUri, SSLabel userName, Notebook notebook) {
 //    return uriHelper.isSharedNotebookUri(userName, notebook, notebookUri);
 //  }
 
-  
+
 
 //  public String getUserEmail(final SSEvernoteInfo evernoteInfo) throws Exception{
 //    return evernoteInfo.userStore.getUser().getEmail();
@@ -855,10 +858,10 @@ public class SSDataImportEvernoteHandler {
 
 //  private static SSLabel getLinkedNoteLabel(
 //    final Note  note) throws Exception {
-//    
+//
 //    try{
 //      final SSLabel tmpLabel = SSLabel.get(note.getTitle());
-//      
+//
 //      if(tmpLabel == null){
 //        return getDefaultLabel();
 //      }else{
@@ -872,22 +875,22 @@ public class SSDataImportEvernoteHandler {
 //private static SSUri getLinkedNoteUri(LinkedNotebook linkedNotebook, Note note) throws Exception{
 //    return SSUri.get(linkedNotebook.getWebApiUrlPrefix() + "share/view/" + linkedNotebook.getShareKey() + "?#n=" + note.getGuid());
 //  }
-//  
+//
 //  private static Boolean isSharedNotebookUri(SSLabel userName, Notebook notebook, SSUri notebookUri){
-//    
+//
 //    String sharedNotebookUriStr;
-//    
+//
 //    try{
 //      sharedNotebookUriStr = createSharedNotebookUriStr(userName, notebook);
 //    }catch(Exception error){
 //      return false;
 //    }
-//    
+//
 //    if(
-//      notebookUri == null || 
+//      notebookUri == null ||
 //      SSStrU.isEmpty(notebookUri.toString())){
 //      return false;
 //    }
-//    
+//
 //    return notebookUri.toString().equals(sharedNotebookUriStr);
 //  }

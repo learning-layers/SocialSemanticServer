@@ -97,17 +97,9 @@ public class SSActivityAddPar extends SSServPar{
     this.type          = type;
     this.entity        = entity;
     
-    if(users != null){
-      this.users.addAll(users);
-    }
-    
-    if(entities != null){
-      this.entities.addAll(entities);
-    }
-    
-    if(comments != null){
-      this.comments.addAll(comments);
-    }
+    SSUri.addDistinctWithoutNull         (this.users,    users);
+    SSUri.addDistinctWithoutNull         (this.entities, entities);
+    SSTextComment.addDistinctWithoutNull (this.comments, comments);
     
     this.creationTime  = creationTime;
     this.shouldCommit  = shouldCommit;

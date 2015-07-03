@@ -317,6 +317,58 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     }
   }
   
+  //TODO remove duplicate from circle service
+  public void addEntityToCircleIfNotExists(
+    final SSUri circleUri,
+    final SSUri entityUri) throws Exception{
+    
+    try{
+      
+      if(hasCircleEntity(circleUri, entityUri)){
+        return;
+      }
+      
+      final Map<String, String> inserts = new HashMap<>();
+      
+      insert(inserts, SSSQLVarNames.circleId, circleUri);
+      insert(inserts, SSSQLVarNames.entityId, entityUri);
+      
+      dbSQL.insert(SSSQLVarNames.circleEntitiesTable, inserts);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  //TODO remove duplicate from circle service
+  private Boolean hasCircleEntity(
+    final SSUri circleUri,
+    final SSUri entityUri) throws Exception{
+    
+    ResultSet resultSet = null;
+    
+    try{
+      final List<String>          columns   = new ArrayList<>();
+      final Map<String, String>   wheres    = new HashMap<>();
+      
+      column(columns, SSSQLVarNames.circleId);
+      column(columns, SSSQLVarNames.entityId);
+      
+      where(wheres, SSSQLVarNames.circleId, circleUri);
+      where(wheres, SSSQLVarNames.entityId, entityUri);
+      
+      resultSet = dbSQL.select(SSSQLVarNames.circleEntitiesTable, columns, wheres, null, null, null);
+      
+      return resultSet.first();
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
+    }
+  }
+  
   public void addEntityIfNotExists(
     final SSUri         entity, 
     final SSEntityE     entityType,

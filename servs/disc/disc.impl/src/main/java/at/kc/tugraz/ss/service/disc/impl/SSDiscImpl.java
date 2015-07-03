@@ -443,6 +443,7 @@ public class SSDiscImpl
               null, //entitiesToAttach,
               null, //creationTime,
               null, //read,
+              false, //setPublic
               true, //withUserRestriction
               false)); //shouldCommit)
         }
@@ -764,14 +765,15 @@ public class SSDiscImpl
           null, //type
           null, //label,
           null, //description,
-          SSTextComment.asListWithoutNullAndEmpty(), //comments,
-          SSUri.asListWithoutNullAndEmpty(), //downloads,
-          SSUri.asListWithoutNullAndEmpty(), //screenShots,
-          SSUri.asListWithoutNullAndEmpty(), //images,
-          SSUri.asListWithoutNullAndEmpty(), //videos,
+          null, //comments,
+          null, //downloads,
+          null, //screenShots,
+          null, //images,
+          null, //videos,
           entitiesToAttach,  //entitiesToAttach
           null, //creationTime
           null, //read,
+          false, //setPublic
           true, //withUserRestriction
           false)); //shouldCommit
       
@@ -794,13 +796,14 @@ public class SSDiscImpl
             entityLabels.get(counter), //label,
             null, //description,
             SSTextComment.asListWithoutNullAndEmpty(), //comments,
-            SSUri.asListWithoutNullAndEmpty(), //downloads,
-            SSUri.asListWithoutNullAndEmpty(), //screenShots,
-            SSUri.asListWithoutNullAndEmpty(), //images,
-            SSUri.asListWithoutNullAndEmpty(), //videos,
-            SSUri.asListWithoutNullAndEmpty(), //entitiesToAttach
+            null, //downloads,
+            null, //screenShots,
+            null, //images,
+            null, //videos,
+            null, //entitiesToAttach
             null, //creationTime
             null, //read,
+            false, //setPublic
             false, //withUserRestriction
             false)); //shouldCommit
       }

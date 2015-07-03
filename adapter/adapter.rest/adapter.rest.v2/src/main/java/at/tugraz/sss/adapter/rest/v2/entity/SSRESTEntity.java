@@ -20,8 +20,6 @@
 */
 package at.tugraz.sss.adapter.rest.v2.entity;
 
-import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntityPublicSetPar;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntityPublicSetRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntitiesGetRet;
@@ -29,7 +27,7 @@ import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
 import at.tugraz.sss.serv.SSUri;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserUpdateRet;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUpdateRet;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
 import at.tugraz.sss.serv.SSEntityE;
@@ -72,7 +70,7 @@ public class SSRESTEntity {
           SSServOpE.entitiesGet,
           null,  //key
           null,  //user
-          SSUri.asListWithoutNullAndEmpty(),  //entities 
+          null,  //entities 
           null, //forUser
           SSEntityE.asListWithoutNullAndEmpty(), //types
           true,  //invokeEntityHandlers
@@ -147,7 +145,7 @@ public class SSRESTEntity {
   @Path("/{entity}")
   @ApiOperation(
     value = "updates / adds given properties for given entity",
-    response = SSEntityUserUpdateRet.class)
+    response = SSEntityUpdateRet.class)
   public Response entityUpdate(
     @Context
       final HttpHeaders headers,
@@ -171,13 +169,14 @@ public class SSRESTEntity {
           input.label,       //label
           input.description, //description
           input.comments,    //comments
-          SSUri.asListWithoutNullAndEmpty(), //downloads, 
-          SSUri.asListWithoutNullAndEmpty(), //screenShots, 
-          SSUri.asListWithoutNullAndEmpty(), //images, 
-          SSUri.asListWithoutNullAndEmpty(), //videos, 
-          SSUri.asListWithoutNullAndEmpty(), //entitiesToAttach
+          null, //downloads, 
+          null, //screenShots, 
+          null, //images, 
+          null, //videos, 
+          null, //entitiesToAttach
           input.creationTime, //creationTime
           input.read,  //read
+          false, //setPublic, 
           true, //withUserRestriction, 
           true); //shouldCommit
       
@@ -194,7 +193,7 @@ public class SSRESTEntity {
   @Path("/{entity}/public")
   @ApiOperation(
     value = "set an entity public (make it accessible for everyone)",
-    response = SSCircleEntityPublicSetRet.class)
+    response = SSEntityUpdateRet.class)
   public Response entityPublicSet(
     @Context
       final HttpHeaders headers,
@@ -202,15 +201,28 @@ public class SSRESTEntity {
     @PathParam (SSVarNames.entity)
       final String entity){
     
-    final SSCircleEntityPublicSetPar par;
+    final SSEntityUpdatePar par;
     
     try{
       par =
-        new SSCircleEntityPublicSetPar(
-          SSServOpE.circleEntityPublicSet, 
+        new SSEntityUpdatePar(
+          SSServOpE.entityUpdate, 
           null, //key 
           null, //user
           SSUri.get(entity, SSVocConf.sssUri), //entity
+          null, //uriAlternative, 
+          null, //type, 
+          null, //label, 
+          null, //description, 
+          null, //comments, 
+          null, //downloads, 
+          null, //screenShots, 
+          null, //images, 
+          null, //videos, 
+          null, //entitiesToAttach, 
+          null, //creationTime, 
+          null, //read, 
+          true, //setPublic, 
           true, //withUserRestriction, 
           true); //shouldCommit
       

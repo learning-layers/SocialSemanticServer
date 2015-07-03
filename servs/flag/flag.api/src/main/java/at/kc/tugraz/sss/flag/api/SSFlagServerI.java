@@ -20,14 +20,14 @@
 */
 package at.kc.tugraz.sss.flag.api;
 
-import at.tugraz.sss.serv.SSServPar;
 import at.kc.tugraz.sss.flag.datatypes.SSFlag;
+import at.kc.tugraz.sss.flag.datatypes.par.SSFlagsGetPar;
+import at.kc.tugraz.sss.flag.datatypes.par.SSFlagsSetPar;
 import at.tugraz.sss.serv.SSServServerI;
 import java.util.List;
 
 public interface SSFlagServerI extends SSServServerI{
   
-  public List<SSFlag> flagsGet     (final SSServPar parA) throws Exception;
-  public Boolean      flagsUserSet (final SSServPar parA) throws Exception;
-  public List<SSFlag> flagsUserGet (final SSServPar parA) throws Exception;
+  public List<SSFlag> flagsGet     (final SSFlagsGetPar     par) throws Exception;
+  public Boolean      flagsSet     (final SSFlagsSetPar par) throws Exception;
 }

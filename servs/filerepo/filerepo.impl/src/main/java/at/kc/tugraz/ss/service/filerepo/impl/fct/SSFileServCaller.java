@@ -60,6 +60,7 @@ public class SSFileServCaller{
             null, //entitiesToAttach,
             null, //creationTime,
             null, //read,
+            false, //setPublic
             false, //withUserRestriction
             shouldCommit)); //shouldCommit)
       

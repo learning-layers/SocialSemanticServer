@@ -20,8 +20,6 @@
   */
 package at.kc.tugraz.ss.service.tag.impl;
 
-import at.kc.tugraz.ss.circle.api.SSCircleServerI;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntityPublicSetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
@@ -409,6 +407,7 @@ implements
           null, //entitiesToAttach,
           null, //creationTime,
           null, //read,
+          false, //setPublic
           par.withUserRestriction, //withUserRestriction
           false)); //shouldCommit)
       
@@ -430,18 +429,10 @@ implements
           null, //entitiesToAttach,
           par.creationTime, //creationTime,
           null, //read,
+          true, //setPublic
           false, //withUserRestriction
           false)); //shouldCommit)
       
-      ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleEntityPublicSet(
-        new SSCircleEntityPublicSetPar(
-          null,
-          null,
-          par.user,
-          tagUri, //entity
-          false, //withUserRestriction
-          false)); //shouldCommit
-        
 //      if(tagEntity == null){
 //        sqlFct.addTagIfNotExists(
 //          tagUri, 
@@ -706,6 +697,8 @@ implements
             SSServErrReg.reset();
           }
         }
+      }else{
+        result.addAll(entityURIs);
       }
       
       return result;
@@ -775,6 +768,8 @@ implements
             SSServErrReg.reset();
           }
         }
+      }else{
+        result.addAll(tags);
       }
         
       return result;

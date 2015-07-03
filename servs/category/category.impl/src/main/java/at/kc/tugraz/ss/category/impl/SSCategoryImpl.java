@@ -45,8 +45,6 @@ import at.kc.tugraz.ss.category.impl.fct.activity.SSCategoryActivityFct;
 import at.kc.tugraz.ss.category.impl.fct.misc.SSCategoryMiscFct;
 import at.kc.tugraz.ss.category.impl.fct.sql.SSCategorySQLFct;
 import at.kc.tugraz.ss.category.impl.fct.userrelationgatherer.SSCategoryUserRelationGathererFct;
-import at.kc.tugraz.ss.circle.api.SSCircleServerI;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntityPublicSetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
@@ -328,6 +326,7 @@ implements
           null, //entitiesToAttach,
           null, //creationTime,
           null, //read,
+          false, //setPublic
           par.withUserRestriction, //withUserRestriction
           false)); //shouldCommit)
       
@@ -349,17 +348,9 @@ implements
           null, //entitiesToAttach,
           par.creationTime, //creationTime,
           null, //read,
+          true, //setPublic
           false, //withUserRestriction
           false)); //shouldCommit)
-      
-      ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleEntityPublicSet(
-        new SSCircleEntityPublicSetPar(
-          null,
-          null,
-          par.user,
-          categoryUri, //entity
-          false, //withUserRestriction
-          false)); //shouldCommit
       
       if(categoryEntity == null){
         sqlFct.addCategoryIfNotExists(
@@ -613,45 +604,37 @@ implements
               null,  //descPar
               true)); //logErr
         
-        if(categoryEntity == null){
-          categoryUri = SSServCaller.vocURICreate();
-          
-          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
-            new SSEntityUpdatePar(
-              null,
-              null,
-              par.user,
-              categoryUri,
-              null, //uriAlternative,
-              SSEntityE.category, //type,
-              SSLabel.get(SSStrU.toStr(label)), //label
-              null, //description,
-              null, //comments,
-              null, //downloads,
-              null, //screenShots,
-              null, //images,
-              null, //videos,
-              null, //entitiesToAttach,
-              null, //creationTime,
-              null, //read,
-              false, //withUserRestriction
-              false)); //shouldCommit)
-          
-          sqlFct.addCategoryIfNotExists(
-            categoryUri,
-            true);
-        }else{
-          categoryUri = categoryEntity.id;
+        if(categoryEntity != null){
+          continue;
         }
-        
-        ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleEntityPublicSet(
-          new SSCircleEntityPublicSetPar(
+          
+        categoryUri = SSServCaller.vocURICreate();
+
+        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+          new SSEntityUpdatePar(
             null,
             null,
             par.user,
-            categoryUri, //entity
+            categoryUri,
+            null, //uriAlternative,
+            SSEntityE.category, //type,
+            SSLabel.get(SSStrU.toStr(label)), //label
+            null, //description,
+            null, //comments,
+            null, //downloads,
+            null, //screenShots,
+            null, //images,
+            null, //videos,
+            null, //entitiesToAttach,
+            null, //creationTime,
+            null, //read,
+            true, //setPublic
             false, //withUserRestriction
-            false)); //shouldCommit
+            false)); //shouldCommit)
+
+        sqlFct.addCategoryIfNotExists(
+          categoryUri,
+          true);
       }
       
       dbSQL.commit(par.shouldCommit);
@@ -740,6 +723,8 @@ implements
             SSServErrReg.reset();
           }
         }
+      }else{
+        result.addAll(entityURIs);
       }
       
       return result;
@@ -810,6 +795,8 @@ implements
             SSServErrReg.reset();
           }
         }
+      }else{
+        result.addAll(categories);
       }
         
       return result;

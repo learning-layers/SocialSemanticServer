@@ -28,7 +28,6 @@ import at.kc.tugraz.ss.circle.datatypes.par.SSCircleCreatePar;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesAddPar;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntityPublicSetPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitySharePar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleUsersAddPar;
 import at.tugraz.sss.serv.SSErr;
@@ -111,36 +110,6 @@ public class SSCircleActivityFct{
           SSActivityE.addUsersToCircle, 
           par.circle,
           par.users,
-          SSUri.asListWithoutNullAndEmpty(), 
-          SSTextComment.asListWithoutNullAndEmpty(), 
-          null, 
-          false));
-      
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
-        default: SSServErrReg.regErrThrow(error);
-      }
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
-  public static void setEntityPublic(
-    final SSCircleEntityPublicSetPar par) throws Exception{
-    
-     try{
-      
-      ((SSActivityServerI) SSServReg.getServ(SSActivityServerI.class)).activityAdd(
-        new SSActivityAddPar(
-          null, 
-          null, 
-          par.user, 
-          SSActivityE.setEntityPublic, 
-          par.entity,
-          SSUri.asListWithoutNullAndEmpty(), 
           SSUri.asListWithoutNullAndEmpty(), 
           SSTextComment.asListWithoutNullAndEmpty(), 
           null, 

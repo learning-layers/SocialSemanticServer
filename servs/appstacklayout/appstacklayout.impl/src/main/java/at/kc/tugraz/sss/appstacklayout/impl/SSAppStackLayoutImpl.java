@@ -20,8 +20,6 @@
 */
 package at.kc.tugraz.sss.appstacklayout.impl;
 
-import at.kc.tugraz.ss.circle.api.SSCircleServerI;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntityPublicSetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
@@ -111,27 +109,6 @@ implements
       
       dbSQL.startTrans(par.shouldCommit);
       
-      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
-        new SSEntityUpdatePar(
-          null,
-          null,
-          par.user,
-          appStackLayoutUri,
-          null, //uriAlternative,
-          SSEntityE.appStackLayout, //type,
-          par.label,
-          par.description,
-          null, //comments,
-          null, //downloads,
-          null, //screenShots,
-          null, //images,
-          null, //videos,
-          null, //entitiesToAttach,
-          null, //creationTime,
-          null, //read,
-          false, //withUserRestriction
-          false)); //shouldCommit)
-      
       if(par.app != null){
         
         ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
@@ -152,32 +129,36 @@ implements
             null, //entitiesToAttach,
             null, //creationTime,
             null, //read,
+            true, //setPublic
             true, //withUserRestriction
             false)); //shouldCommit)
-        
-        //TODO replace by entity service setting things public
-        ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleEntityPublicSet(
-          new SSCircleEntityPublicSetPar(
-            null,
-            null,
-            par.user,
-            par.app, //entity
-            true, //withUserRestriction
-            false)); //shouldCommit
-      }      
+      }
+      
+      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+        new SSEntityUpdatePar(
+          null,
+          null,
+          par.user,
+          appStackLayoutUri,
+          null, //uriAlternative,
+          SSEntityE.appStackLayout, //type,
+          par.label,
+          par.description,
+          null, //comments,
+          null, //downloads,
+          null, //screenShots,
+          null, //images,
+          null, //videos,
+          null, //entitiesToAttach,
+          null, //creationTime,
+          null, //read,
+          true, //setPublic
+          true, //withUserRestriction
+          false)); //shouldCommit)
       
       sqlFct.createAppStackLayout(
         appStackLayoutUri,
         par.app);
-      
-      ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleEntityPublicSet(
-        new SSCircleEntityPublicSetPar(
-          null,
-          null,
-          par.user,
-          appStackLayoutUri, //entity
-          true, //withUserRestriction
-          false)); //shouldCommit
       
       dbSQL.commit(par.shouldCommit);
       
@@ -239,6 +220,7 @@ implements
           null, //entitiesToAttach
           null, //creationTime
           null, //read
+          false, //setPublic
           true, //withUserRestriction
           false));
       
@@ -262,17 +244,9 @@ implements
             null, //entitiesToAttach,
             null, //creationTime,
             null, //read,
+            true, //setPublic
             true, //withUserRestriction
             false)); //shouldCommit)
-        
-        ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleEntityPublicSet(
-          new SSCircleEntityPublicSetPar(
-            null,
-            null,
-            par.user,
-            par.app, //entity
-            true, //withUserRestriction
-            false)); //shouldCommit
         
         sqlFct.updateAppStackLayout(
           par.stack,

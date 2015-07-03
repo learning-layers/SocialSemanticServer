@@ -46,11 +46,42 @@ public class SSEntityActivityFct{
           SSActivityE.copyEntityForUsers,
           par.entity,
           par.users,
-          SSUri.asListWithoutNullAndEmpty          (),
+          null,
           SSTextComment.asListWithoutNullAndEmpty  (par.comment),
           null,
           false));
 
+    }catch(SSErr error){
+      
+      switch(error.code){
+        case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
+        default: SSServErrReg.regErrThrow(error);
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  public static void setEntityPublic(
+    final SSUri user, 
+    final SSUri entity) throws Exception{
+    
+     try{
+      
+      ((SSActivityServerI) SSServReg.getServ(SSActivityServerI.class)).activityAdd(
+        new SSActivityAddPar(
+          null, 
+          null, 
+          user, 
+          SSActivityE.setEntityPublic, 
+          entity,
+          null, 
+          null, 
+          null, 
+          null, 
+          false));
+      
     }catch(SSErr error){
       
       switch(error.code){

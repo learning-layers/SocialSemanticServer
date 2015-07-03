@@ -1088,6 +1088,7 @@ implements
           null, //entitiesToAttach,
           null, //creationTime,
           null, //read,
+          false, //setPublic
           par.withUserRestriction, //withUserRestriction
           false)); //shouldCommit)
       

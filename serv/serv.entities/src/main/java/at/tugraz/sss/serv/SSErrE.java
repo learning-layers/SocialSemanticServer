@@ -22,6 +22,7 @@ package at.tugraz.sss.serv;
 
 public enum SSErrE{
   
+  parameterMissing,
   servParCreationFailed,
   restAdapterInternalError,
   
@@ -52,6 +53,7 @@ public enum SSErrE{
   userNeedsLockOnEntity,
   entityTypeNotSupported,
   entityCouldntBeQueried,
+  entityDoesntExist,
   learnEpCurrentVersionNotSet,
   deployingServiceOnNodeFailed,           //could not deploy requested service on new node
   noClientServiceForOpAvailableOnNodes,   //no service found on nodes to handle client op

@@ -76,7 +76,27 @@ public class SSTextComment extends SSEntityA {
     
     return result;
   }
-
+  
+  public static void addDistinctWithoutNull(
+    final List<SSTextComment>  comments,
+    final List<SSTextComment>  toAddComments){
+    
+    if(SSObjU.isNull(comments, toAddComments)){
+      return;
+    }
+    
+    for(SSTextComment comment : toAddComments){
+      
+      if(comment == null){
+        continue;
+      }
+      
+      if(!SSStrU.contains(comments, comment)){
+        comments.add(comment);
+      }
+    }
+  }
+  
   private SSTextComment(final String value) throws Exception{
     super(value);
   }

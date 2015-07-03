@@ -20,19 +20,19 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.entity.serv;
 
+import at.kc.tugraz.ss.circle.api.SSCircleServerI;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePubURIGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityClientI;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.datatypes.entity.impl.SSEntityImpl;
-import at.tugraz.sss.serv.SSServOpE;
+import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.tugraz.sss.serv.SSCoreConfA;
 import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServImplA;
 import at.tugraz.sss.serv.caller.SSServCaller;
-import java.util.EnumMap;
 import java.util.List;
-import java.util.Map;
 
 public class SSEntityServ extends SSServContainerI{
   
@@ -78,7 +78,12 @@ public class SSEntityServ extends SSServContainerI{
       return;
     }
     
-    SSServCaller.circlePubURIGet(true);    
+    ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePubURIGet(
+      new SSCirclePubURIGetPar(
+        null, 
+        null, 
+        SSVocConf.systemUserUri, 
+        true));
   }
   
   @Override

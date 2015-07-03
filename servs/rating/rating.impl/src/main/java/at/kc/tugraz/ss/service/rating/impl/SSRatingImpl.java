@@ -267,6 +267,7 @@ implements
           null, //entitiesToAttach,
           null, //creationTime,
           null, //read,
+          false, //setPublic
           false, //withUserRestriction,
           false)); //shouldCommit
 
@@ -288,6 +289,7 @@ implements
           null, //entitiesToAttach,
           null, //creationTime,
           null, //read,
+          false, //setPublic
           false, //withUserRestriction
           false)); //shouldCommit)
         
@@ -335,6 +337,9 @@ implements
   public Integer ratingGet(final SSRatingGetPar par) throws Exception {
     
     try{
+      
+      SSServCallerU.canUserReadEntity(par.user, par.entity);
+      
       return sqlFct.getUserRating(par.user, par.entity);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -356,6 +361,9 @@ implements
   public SSRatingOverall ratingOverallGet(final SSRatingOverallGetPar par) throws Exception {
 
     try{
+      
+      SSServCallerU.canUserReadEntity(par.user, par.entity);
+      
       return sqlFct.getOverallRating(par.entity);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -371,6 +379,8 @@ implements
       if(par.user == null){
         throw new Exception("user null");
       }
+      
+      SSServCallerU.canUserReadEntity(par.user, par.entity);
       
       dbSQL.startTrans(par.shouldCommit);
       

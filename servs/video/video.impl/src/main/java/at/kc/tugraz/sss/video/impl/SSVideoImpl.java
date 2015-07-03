@@ -319,6 +319,7 @@ implements
           null, //entitiesToAttach,
           par.creationTime, //creationTime,
           null, //read,
+          false, //setPublic
           false, //withUserRestriction
           false)); //shouldCommit)
       
@@ -342,6 +343,7 @@ implements
             null, //entitiesToAttach,
             par.creationTime, //creationTime,
             null, //read,
+            false, //setPublic
             true, //withUserRestriction
             false)); //shouldCommit)
       }      
@@ -366,6 +368,7 @@ implements
             null, //entitiesToAttach,
             par.creationTime, //creationTime,
             null, //read,
+            false, //setPublic
             true, //withUserRestriction
             false)); //shouldCommit)
       }
@@ -453,7 +456,8 @@ implements
           null, //entitiesToAttach,
           null, //creationTime,
           null, //read,
-          false, //withUserRestriction
+          false, //setPublic
+          true, //withUserRestriction
           false)); //shouldCommit)
       
       ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
@@ -474,6 +478,7 @@ implements
           null, //entitiesToAttach,
           null, //creationTime,
           null, //read,
+          false, //setPublic
           false, //withUserRestriction
           false)); //shouldCommit)
       

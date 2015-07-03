@@ -20,6 +20,7 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par;
 
+import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSLabel;
@@ -31,7 +32,9 @@ import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 
 public class SSEntityUpdatePar extends SSServPar{
-  
+
+  public SSEntity            givenEntity      = null;
+
   public SSUri               entity           = null;
   public SSUri               uriAlternative   = null;
   public SSEntityE           type             = null;
@@ -45,6 +48,7 @@ public class SSEntityUpdatePar extends SSServPar{
   public List<SSUri>         entitiesToAttach = new ArrayList<>();
   public Long                creationTime     = null;
   public Boolean             read             = null;
+  public Boolean             setPublic        = null;
 
   public String getEntity(){
     return SSStrU.removeTrailingSlash(entity);
@@ -153,6 +157,7 @@ public class SSEntityUpdatePar extends SSServPar{
     final List<SSUri>         entitiesToAttach,
     final Long                creationTime, 
     final Boolean             read,
+    final Boolean             setPublic,
     final Boolean             withUserRestriction, 
     final Boolean             shouldCommit){
 
@@ -176,6 +181,7 @@ public class SSEntityUpdatePar extends SSServPar{
     
     this.creationTime        = creationTime;
     this.read                = read;
+    this.setPublic           = setPublic;
     this.withUserRestriction = withUserRestriction;
     this.shouldCommit        = shouldCommit;
   }

@@ -28,7 +28,7 @@ import at.tugraz.sss.serv.SSUri;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SSEntityUserUpdateRet extends SSServRetI{
+public class SSEntityUpdateRet extends SSServRetI{
 
   public SSUri entity = null;
 
@@ -46,13 +46,13 @@ public class SSEntityUserUpdateRet extends SSServRetI{
     return ld;
   }
   
-  public static SSEntityUserUpdateRet get(
+  public static SSEntityUpdateRet get(
     final SSUri   entity){
     
-    return new SSEntityUserUpdateRet(entity);
+    return new SSEntityUpdateRet(entity);
   }
   
-  private SSEntityUserUpdateRet(
+  private SSEntityUpdateRet(
     final SSUri   entity){
     
     super(SSServOpE.entityUpdate);

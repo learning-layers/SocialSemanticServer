@@ -3,7 +3,7 @@
   * http://www.learning-layers.eu
   * Development is partly funded by the FP7 Programme of the European Commission under
   * Grant Agreement FP7-ICT-318209.
-  * Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+  * Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
   * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
   *
   * Licensed under the Apache License, Version 2.0 (the "License");
@@ -26,33 +26,14 @@ import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServRetI;
 import at.tugraz.sss.serv.SSJSONLDU;
 import at.kc.tugraz.sss.flag.datatypes.SSFlag;
-import at.kc.tugraz.sss.flag.datatypes.SSFlagE;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SSFlagsUserGetRet extends SSServRetI{
+public class SSFlagsGetRet extends SSServRetI{
   
   public List<SSFlag> flags = new ArrayList<>();
-  
-  public static SSFlagsUserGetRet get(
-    final List<SSFlag>   flags,
-    final SSServOpE        op){
-    
-    return new SSFlagsUserGetRet(flags, op);
-  }
-  
-  private SSFlagsUserGetRet(
-    final List<SSFlag>   flags,
-    final SSServOpE        op) {
-    
-    super(op);
-    
-    if(flags != null){
-      this.flags.addAll(flags);
-    }
-  }
   
   @Override
   public Map<String, Object> jsonLDDesc(){
@@ -60,7 +41,7 @@ public class SSFlagsUserGetRet extends SSServRetI{
     final Map<String, Object> ld         = new HashMap<>();
     final Map<String, Object> flagsObj   = new HashMap<>();
     
-    flagsObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSFlagE.class.getName());
+    flagsObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSFlag.class.getName());
     flagsObj.put(SSJSONLDU.container, SSJSONLDU.set);
     
     ld.put(SSVarNames.flags, flagsObj);
@@ -68,9 +49,19 @@ public class SSFlagsUserGetRet extends SSServRetI{
     return ld;
   }
   
-  /* json getters */
+  public static SSFlagsGetRet get(
+    final List<SSFlag>   flags){
+    
+    return new SSFlagsGetRet(flags);
+  }
   
-  public List<SSFlag> getFlags() {
-    return flags;
+  private SSFlagsGetRet(
+    final List<SSFlag>   flags) {
+    
+    super(SSServOpE.flagsGet);
+    
+    if(flags != null){
+      this.flags.addAll(flags);
+    }
   }
 }

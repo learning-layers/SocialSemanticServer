@@ -78,6 +78,7 @@ public class SSDiscUserEntryAddFct{
           null, //entitiesToAttach,
           null, //creationTime,
           null, //read,
+          false, //setPublic
           false, //withUserRestriction
           false)); //shouldCommit)
       
@@ -99,6 +100,7 @@ public class SSDiscUserEntryAddFct{
           null, //entitiesToAttach,
           null, //creationTime,
           null, //read,
+          false, //setPublic
           false, //withUserRestriction
           false)); //shouldCommit)
             
@@ -162,6 +164,7 @@ public class SSDiscUserEntryAddFct{
           null, //entitiesToAttach,
           null, //creationTime,
           null, //read,
+          false, //setPublic
           false, //withUserRestriction
           false)); //shouldCommit)
             
