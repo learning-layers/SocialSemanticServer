@@ -81,7 +81,6 @@ import at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.access.SSLearnEpAccessCon
 import at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.activity.SSLearnEpActivityFct;
 import at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.misc.SSLearnEpMiscFct;
 import at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.sql.SSLearnEpSQLFct;
-import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSSocketCon;
 import at.tugraz.sss.serv.SSDBSQLI;
@@ -93,6 +92,7 @@ import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
+import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
 import at.tugraz.sss.serv.SSEntityHandlerImplI;
 import at.tugraz.sss.serv.SSServImplWithDBA;
@@ -189,73 +189,69 @@ implements
   }
 
   @Override
-  public void setEntityPublic(
-    final SSUri userUri,
-    final SSUri entityUri,
-    final SSEntityE entityType,
-    final SSUri publicCircleUri) throws Exception{
-
-  }
-
-  @Override
-  public void shareEntityWithUsers(
-    final SSUri         user,
-    final List<SSUri>   usersToShareWith,
-    final SSUri         entity,
-    final SSUri         circle,
-    final SSEntityE     entityType,
-    final Boolean       saveActivity) throws Exception{
+  public void circleContentChanged(
+    final SSUri          user,
+    final SSUri          circle,
+    final Boolean        isCirclePublic,
+    final List<SSUri>    usersToAdd,
+    final List<SSEntity> entitiesToAdd,
+    final List<SSUri>    usersToPushEntitiesTo,
+    final List<SSUri>    circleUsers,
+    final List<SSEntity> circleEntities) throws Exception{
     
     try{
-      
-      switch(entityType){
+      for(SSEntity entityToAdd : entitiesToAdd){
         
-        case learnEp:{
+        switch(entityToAdd.type){
           
-          for(SSUri userUriToShareWith : usersToShareWith){
+          case learnEp:{
             
-            if(sqlFct.ownsUserLearnEp(userUriToShareWith, entity)){
-              SSLogU.warn("learn ep is already shared with user");
-              continue;
+            for(SSUri userToPushEntityTo : usersToPushEntitiesTo){
+              
+              if(sqlFct.ownsUserLearnEp(userToPushEntityTo, entityToAdd.id)){
+                continue;
+              }
+              
+              sqlFct.addLearnEp(entityToAdd.id, userToPushEntityTo);
             }
-            
-            sqlFct.addLearnEp(entity, userUriToShareWith);
-
-            ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleUsersAdd(
-              new SSCircleUsersAddPar(
+              
+            ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleEntitiesAdd(
+              new SSCircleEntitiesAddPar(
                 null,
                 null,
                 user,
                 circle,
-                sqlFct.getLearnEpUserURIs(entity),
-                false,
+                SSLearnEpMiscFct.getLearnEpContentURIs(user, sqlFct, entityToAdd.id),
                 false,
                 false));
             
-            ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleEntitiesAdd(
-              new SSCircleEntitiesAddPar(
-                null, 
-                null, 
-                user, 
-                circle, 
-                SSLearnEpMiscFct.getLearnEpContentURIs(user, sqlFct, entity), 
-                false, 
-                false,
-                false));
+            if(!usersToPushEntitiesTo.isEmpty()){
+              
+              ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleUsersAdd(
+                new SSCircleUsersAddPar(
+                  null,
+                  null,
+                  user,
+                  circle,
+                  sqlFct.getLearnEpUserURIs(entityToAdd.id),
+                  false,
+                  false));
+              
+              SSLearnEpActivityFct.shareLearnEp(
+                user,
+                entityToAdd.id,
+                usersToPushEntitiesTo);
+            }
+            
+            break;
           }
-          
-          SSLearnEpActivityFct.shareLearnEp(
-            user, 
-            entity, 
-            usersToShareWith);
         }
       }
-      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
   }
-
+  
   @Override
   public void copyEntity(
     final SSUri       user,
@@ -289,22 +285,6 @@ implements
     }
   }
 
-  @Override
-  public void addEntityToCircle(
-    final SSUri        userUri,
-    final SSUri        circleUri,
-    final List<SSUri>  circleUsers,
-    final SSUri        entityUri,
-    final SSEntityE    entityType) throws Exception{
-  }
-
-  @Override
-  public void addUsersToCircle(
-    final SSUri        user,
-    final List<SSUri>  users,
-    final SSEntityCircle        circle) throws Exception{
-  }
-  
   @Override
   public void learnEpsGet(SSSocketCon sSCon, SSServPar parA) throws Exception{
 
@@ -608,7 +588,6 @@ implements
           false, //setPublic
           false, //withUserRestriction
           false)); //shouldCommit)
-                
 
       for(SSEntityCircle entityUserCircle : 
         ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlesGet(
@@ -616,12 +595,12 @@ implements
             null, 
             null, 
             par.user, 
-            null,
-            par.learnEp, 
-            SSEntityE.asListWithoutNullAndEmpty(), 
-            false, 
-            true, 
-            false))){
+            null, //forUser
+            par.learnEp, //entity
+            null,  //entityTypesToIncludeOnly
+            false, //withUserRestriction
+            true, //withSystemCircles
+            false))){ //invokeEntityHandlers
 
         ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleEntitiesAdd(
           new SSCircleEntitiesAddPar(
@@ -631,7 +610,6 @@ implements
             entityUserCircle.id, 
             SSUri.asListWithoutNullAndEmpty(learnEpVersionUri), 
             false,
-            false, 
             false));
       }
 
@@ -731,7 +709,6 @@ implements
             entityUserCircle.id, 
             SSUri.asListWithoutNullAndEmpty(circleUri), 
             false,
-            true, 
             false));
       }
       
@@ -855,7 +832,6 @@ implements
             entityUserCircle.id, 
             entities, 
             false,
-            true, 
             false));
       }        
       
@@ -1095,7 +1071,6 @@ implements
               entityUserCircle.id,
               SSUri.asListWithoutNullAndEmpty(par.entity),
               false,
-              true,
               false));
         }
       }
@@ -1310,7 +1285,6 @@ implements
             entityUserCircle.id, 
             SSUri.asListWithoutNullAndEmpty(learnEpTimelineStateUri), 
             false,
-            true, 
             false));
       }
 

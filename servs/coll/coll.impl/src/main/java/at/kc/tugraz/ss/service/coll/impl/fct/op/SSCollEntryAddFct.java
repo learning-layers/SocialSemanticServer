@@ -111,7 +111,6 @@ public class SSCollEntryAddFct{
           entityUserCircle.id, 
           SSUri.asListWithoutNullAndEmpty(par.entry), 
           false, 
-          false, 
           false));
     }
     
@@ -215,7 +214,6 @@ public class SSCollEntryAddFct{
           par.user, 
           circle.id, 
           SSUri.asListWithoutNullAndEmpty(par.entry), 
-          false, 
           false, 
           false));
     }

@@ -51,7 +51,6 @@ import at.kc.tugraz.sss.video.impl.fct.sql.SSVideoSQLFct;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
-import at.tugraz.sss.serv.SSEntityCircle;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
 import java.util.ArrayList;
 import java.util.List;
@@ -91,33 +90,25 @@ implements
   }
 
   @Override
-  public void setEntityPublic(
-    final SSUri     userUri, 
-    final SSUri     entityUri, 
-    final SSEntityE entityType, 
-    final SSUri     publicCircleUri) throws Exception{
-   
-  }
-
-  @Override
-  public void shareEntityWithUsers(
-    final SSUri       user, 
-    final List<SSUri> usersToShareWith, 
-    final SSUri       entity, 
-    final SSUri       circle,
-    final SSEntityE   type,
-    final Boolean     saveActivity) throws Exception{
+  public void circleContentChanged(
+    final SSUri          user,
+    final SSUri          circle,
+    final Boolean        isCirclePublic,
+    final List<SSUri>    usersToAdd,
+    final List<SSEntity> entitiesToAdd,
+    final List<SSUri>    usersToPushEntitiesTo,
+    final List<SSUri>    circleUsers,
+    final List<SSEntity> circleEntities) throws Exception{
     
     try{
-      switch(type){
+      
+      for(SSEntity entityToAdd : entitiesToAdd){
         
-        case video:{
+        switch(entityToAdd.type){
           
-          for(SSUri userToShareWith : usersToShareWith){
-
-            sqlFct.addVideoToUser(userToShareWith, entity);
+          case video:{
             
-            for(SSVideoAnnotation annotation : sqlFct.getAnnotations(entity)){
+            for(SSVideoAnnotation annotation : sqlFct.getAnnotations(entityToAdd.id)){
               
               try{
                 SSServCallerU.canUserReadEntity(user, annotation.id);
@@ -130,13 +121,18 @@ implements
                 new SSCircleEntitiesAddPar(
                   null,
                   null,
-                  userToShareWith,
+                  user,
                   circle,
                   SSUri.asListWithoutNullAndEmpty(annotation.id),
                   false,
-                  false,
                   false));
             }
+
+            for(SSUri userToPushEntityTo : usersToPushEntitiesTo){
+              sqlFct.addVideoToUser(userToPushEntityTo, entityToAdd.id);
+            }
+            
+            break;
           }
         }
       }
@@ -154,51 +150,7 @@ implements
     final SSEntityE   entityType) throws Exception{
     
   }
-
-  @Override
-  public void addEntityToCircle(
-    final SSUri        user, 
-    final SSUri        circle,
-    final List<SSUri>  circleUsers,
-    final SSUri        entity, 
-    final SSEntityE    type) throws Exception{
-
-    switch(type){
-      
-      case video:{
-      
-        for(SSVideoAnnotation annotation : sqlFct.getAnnotations(entity)){
-        
-          try{
-            SSServCallerU.canUserReadEntity(user, annotation.id);
-          }catch(Exception error){
-            SSServErrReg.reset();
-            continue;
-          }
-          
-          ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleEntitiesAdd(
-            new SSCircleEntitiesAddPar(
-              null,
-              null,
-              user,
-              circle,
-              SSUri.asListWithoutNullAndEmpty(annotation.id),
-              false,
-              false,
-              false));
-        }
-      }
-    }
-  }
   
-  @Override
-  public void addUsersToCircle(
-    final SSUri        user,
-    final List<SSUri>  users,
-    final SSEntityCircle        circle) throws Exception{
-    
-  }
-
   @Override
   public List<SSUri> getSubEntities(
     final SSUri     user, 

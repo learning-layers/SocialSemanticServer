@@ -58,7 +58,6 @@ import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
-import at.tugraz.sss.serv.SSEntityCircle;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
 import at.tugraz.sss.serv.SSEntityHandlerImplI;
 import at.tugraz.sss.serv.SSServImplWithDBA;
@@ -118,41 +117,17 @@ implements
   }
   
   @Override
-  public void setEntityPublic(
-    final SSUri          userUri,
-    final SSUri          entityUri,
-    final SSEntityE      entityType,
-    final SSUri          publicCircleUri) throws Exception{
+  public void circleContentChanged(
+    final SSUri          user,
+    final SSUri          circle,
+    final Boolean        isCirclePublic,
+    final List<SSUri>    usersToAdd,
+    final List<SSEntity> entitiesToAdd, 
+    final List<SSUri>    usersToPushEntitiesTo,
+    final List<SSUri>    circleUsers,
+    final List<SSEntity> circleEntities) throws Exception{
     
-  }
-  
-  @Override
-  public void shareEntityWithUsers(
-    final SSUri          userUri,
-    final List<SSUri>    userUrisToShareWith,
-    final SSUri          entityUri,
-    final SSUri          circleUri,
-    final SSEntityE      entityType,
-    final Boolean        saveActivity) throws Exception{
-  }
-  
-  @Override
-  public void addEntityToCircle(
-    final SSUri        userUri,
-    final SSUri        circleUri,
-    final List<SSUri>  circleUsers,
-    final SSUri        entityUri,
-    final SSEntityE    entityType) throws Exception{
-    
-  }
-  
-  @Override
-  public void addUsersToCircle(
-    final SSUri        user,
-    final List<SSUri>  users,
-    final SSEntityCircle        circle) throws Exception{
-    
-  }
+  } 
   
   @Override
   public void removeDirectlyAdjoinedEntitiesForUser(

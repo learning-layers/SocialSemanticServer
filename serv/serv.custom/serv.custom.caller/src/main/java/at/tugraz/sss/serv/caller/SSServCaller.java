@@ -1068,23 +1068,23 @@ public class SSServCaller {
 //  
   /* circle */
   
-  public static List<SSUri> circleEntitiesRemove(
-    final SSUri                    user,
-    final SSUri                    circle, 
-    final List<SSUri>              entities,
-    final Boolean                  withUserRestriction,
-    final Boolean                  shouldCommit) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.user,                user);
-    opPars.put(SSVarNames.circle,              circle);
-    opPars.put(SSVarNames.entities,            entities);
-    opPars.put(SSVarNames.withUserRestriction, withUserRestriction);
-    opPars.put(SSVarNames.shouldCommit,        shouldCommit);
-    
-    return (List<SSUri>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.circleEntitiesRemove, opPars));
-  }
+//  public static List<SSUri> circleEntitiesRemove(
+//    final SSUri                    user,
+//    final SSUri                    circle, 
+//    final List<SSUri>              entities,
+//    final Boolean                  withUserRestriction,
+//    final Boolean                  shouldCommit) throws Exception{
+//    
+//    final Map<String, Object> opPars = new HashMap<>();
+//    
+//    opPars.put(SSVarNames.user,                user);
+//    opPars.put(SSVarNames.circle,              circle);
+//    opPars.put(SSVarNames.entities,            entities);
+//    opPars.put(SSVarNames.withUserRestriction, withUserRestriction);
+//    opPars.put(SSVarNames.shouldCommit,        shouldCommit);
+//    
+//    return (List<SSUri>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.circleEntitiesRemove, opPars));
+//  }
   
 //  public static SSEntity circleUserCan(
 //    final SSUri                    user,

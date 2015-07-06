@@ -28,7 +28,6 @@ import at.kc.tugraz.ss.circle.datatypes.par.SSCircleUsersAddPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
-import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscsWithEntriesGetPar;
@@ -73,7 +72,6 @@ import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSTextComment;
-import at.tugraz.sss.serv.SSWarnE;
 
 public class SSDiscImpl
   extends SSServImplWithDBA
@@ -234,124 +232,94 @@ public class SSDiscImpl
   }
 
   @Override
-  public void setEntityPublic(
-    final SSUri userUri,
-    final SSUri entityUri,
-    final SSEntityE entityType,
-    final SSUri publicCircleUri) throws Exception{
-
-  }
-
-  @Override
-  public void shareEntityWithUsers(
-    final SSUri user,
-    final List<SSUri> usersToShareWith,
-    final SSUri entity,
-    final SSUri circle,
-    final SSEntityE entityType,
-    final Boolean saveActivity) throws Exception{
-
-    switch(entityType){
-      case disc:
-      case chat:
-      case qa:
-
-        for(SSUri userToShareWith : usersToShareWith){
-
-          if(sqlFct.ownsUserDisc(userToShareWith, entity)){
-            SSLogU.warn(SSWarnE.discAlreadySharedWithUser);
-            return;
-          }
-
-          sqlFct.addDisc(entity, userToShareWith);
-
+  public void circleContentChanged(
+    final SSUri          user,
+    final SSUri          circle,
+    final Boolean        isCirclePublic,
+    final List<SSUri>    usersToAdd,
+    final List<SSEntity> entitiesToAdd, 
+    final List<SSUri>    usersToPushEntitiesTo,
+    final List<SSUri>    circleUsers,
+    final List<SSEntity> circleEntities) throws Exception{
+    
+    for(SSEntity entityToAdd : entitiesToAdd){
+      
+      switch(entityToAdd.type){
+        case disc:
+        case chat:
+        case qa:{
+          
           ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleEntitiesAdd(
             new SSCircleEntitiesAddPar(
               null,
               null,
               user,
               circle,
-              SSDiscMiscFct.getDiscContentURIs(sqlFct, entity),
-              false,
-              false,
-              false));
-
-          ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleUsersAdd(
-            new SSCircleUsersAddPar(
-              null,
-              null,
-              user,
-              circle,
-              sqlFct.getDiscUserURIs(entity),
-              false,
-              false,
-              false));
-        }
-    }
-  }
-
-  @Override
-  public void addEntityToCircle(
-    final SSUri user,
-    final SSUri circle,
-    final List<SSUri> circleUsers,
-    final SSUri entity,
-    final SSEntityE type) throws Exception{
-
-    switch(type){
-      case qa:
-      case disc:
-      case chat: {
-
-        ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleEntitiesAdd(
-          new SSCircleEntitiesAddPar(
-            null,
-            null,
-            user,
-            circle,
-            SSDiscMiscFct.getDiscContentURIs(sqlFct, entity),
-            false,
-            false,
-            false));
-
-        for(SSUri circleUser : circleUsers){
-
-          if(sqlFct.ownsUserDisc(circleUser, entity)){
-            continue;
-          }
-
-          sqlFct.addDisc(entity, circleUser);
-        }
-      }
-    }
-  }
-
-  @Override
-  public void addUsersToCircle(
-    final SSUri user,
-    final List<SSUri> users,
-    final SSEntityCircle circle) throws Exception{
-
-    for(SSEntity circleEntity : circle.entities){
-
-      switch(circleEntity.type){
-        case qa:
-        case disc:
-        case chat: {
-
-          for(SSUri userToAdd : users){
-
-            if(sqlFct.ownsUserDisc(userToAdd, circleEntity.id)){
+              SSDiscMiscFct.getDiscContentURIs(sqlFct, entityToAdd.id),
+              false, //withUserRestriction
+              false)); //shouldCommit
+          
+          for(SSUri circleUser : circleUsers){
+            
+            if(sqlFct.ownsUserDisc(circleUser, entityToAdd.id)){
               continue;
             }
-
-            sqlFct.addDisc(circleEntity.id, userToAdd);
+            
+            sqlFct.addDisc(entityToAdd.id, circleUser);
+          }
+          
+          for(SSUri userToPushEntityTo : usersToPushEntitiesTo){
+            
+            if(sqlFct.ownsUserDisc(userToPushEntityTo, entityToAdd.id)){
+              continue;
+            }
+            
+            sqlFct.addDisc(entityToAdd.id, userToPushEntityTo);
+          }
+          
+          if(!usersToPushEntitiesTo.isEmpty()){
+          
+            ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleUsersAdd(
+              new SSCircleUsersAddPar(
+                null,
+                null,
+                user,
+                circle,
+                sqlFct.getDiscUserURIs(entityToAdd.id),
+                false,
+                false));
+          }
+          
+          break;
+        }
+      }
+    }
+    
+    if(!usersToAdd.isEmpty()){
+      
+      for(SSEntity circleEntity : circleEntities){
+        
+        switch(circleEntity.type){
+          case qa:
+          case disc:
+          case chat: {
+            
+            for(SSUri userToAdd : usersToAdd){
+              
+              if(sqlFct.ownsUserDisc(userToAdd, circleEntity.id)){
+                continue;
+              }
+              
+              sqlFct.addDisc(circleEntity.id, userToAdd);
+            }
+            
+            break;
           }
         }
       }
     }
   }
-
+  
   @Override
   public void removeDirectlyAdjoinedEntitiesForUser(
     final SSUri userUri,

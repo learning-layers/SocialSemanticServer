@@ -98,50 +98,36 @@ implements
   }
   
   @Override
-  public void setEntityPublic(
-    final SSUri          userUri,
-    final SSUri          entityUri, 
-    final SSEntityE      entityType,
-    final SSUri          publicCircleUri) throws Exception{
-
-  }
-  
-  @Override
-  public void shareEntityWithUsers(
-    final SSUri          user, 
-    final List<SSUri>    usersToShareWith,
-    final SSUri          entity, 
-    final SSUri          circleUri,
-    final SSEntityE      entityType,
-    final Boolean        saveActivity) throws Exception{
+  public void circleContentChanged(
+    final SSUri          user,
+    final SSUri          circle,
+    final Boolean        isCirclePublic,
+    final List<SSUri>    usersToAdd,
+    final List<SSEntity> entitiesToAdd,
+    final List<SSUri>    usersToPushEntitiesTo,
+    final List<SSUri>    circleUsers,
+    final List<SSEntity> circleEntities) throws Exception{
     
-    switch(entityType){
-      case file: 
-        SSFileActivityFct.shareFileWithUser(user, entity, usersToShareWith, saveActivity);
+    for(SSEntity entityToAdd: entitiesToAdd){
+      
+      switch(entityToAdd.type){
+        
+        case file:{
+          
+          SSFileActivityFct.shareFileWithUser(
+            user,
+            entityToAdd.id,
+            usersToPushEntitiesTo);
+          
+          break;
+        }
+      }
     }
   }
   
   @Override
-  public void addEntityToCircle(
-    final SSUri        userUri,
-    final SSUri        circleUri,
-    final List<SSUri>  circleUsers,
-    final SSUri        entityUri,
-    final SSEntityE    entityType) throws Exception{
-    
-  }
-  
-  @Override
-  public void addUsersToCircle(
-    final SSUri        user,
-    final List<SSUri>  users,
-    final SSEntityCircle        circle) throws Exception{
-    
-  }
-  
-  @Override
   public void removeDirectlyAdjoinedEntitiesForUser(
-    final SSUri       userUri, 
+    final SSUri       userUri,
     final SSEntityE   entityType,
     final SSUri       entityUri,
     final Boolean     removeUserTags,

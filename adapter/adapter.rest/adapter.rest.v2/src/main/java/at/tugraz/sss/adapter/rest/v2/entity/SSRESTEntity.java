@@ -20,6 +20,8 @@
 */
 package at.tugraz.sss.adapter.rest.v2.entity;
 
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntityUsersGetPar;
+import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleEntityUsersGetRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntitiesGetRet;
@@ -225,6 +227,37 @@ public class SSRESTEntity {
           true, //setPublic, 
           true, //withUserRestriction, 
           true); //shouldCommit
+      
+    }catch(Exception error){
+      return Response.status(422).build();
+    }
+    
+    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+  }
+  
+  @GET
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @ApiOperation(
+    value = "retrieve users who can access given entity",
+    response = SSCircleEntityUsersGetRet.class)
+  @Path("/{entity}")
+  public Response entityUsersGet(
+    @Context
+    final HttpHeaders headers){
+    
+    final SSCircleEntityUsersGetPar par;
+    
+    try{
+      
+      par =
+        new SSCircleEntityUsersGetPar(
+          SSServOpE.circleEntityUsersGet,
+          null,  //key
+          null,  //user
+          null,  //entity
+          false, //invokeEntityHandlers
+          true); //withUserRestriction
       
     }catch(Exception error){
       return Response.status(422).build();

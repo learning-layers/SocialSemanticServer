@@ -21,6 +21,13 @@
 package at.tugraz.sss.serv;
 
 public enum SSErrE{
+
+  //collection
+  cannotSetSpecialCollectionPublic,
+  cannotShareSpecialCollection,
+  
+  //circle
+  cannotShareWithPublicCircle,
   
   parameterMissing,
   servParCreationFailed,

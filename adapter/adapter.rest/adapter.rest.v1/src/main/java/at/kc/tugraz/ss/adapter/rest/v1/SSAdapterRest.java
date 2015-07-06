@@ -22,9 +22,7 @@ package at.kc.tugraz.ss.adapter.rest.v1;
 
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntityUsersGetPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitySharePar;
-import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleEntityUsersGetRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleEntityShareRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityCopyPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityCopyRet;
@@ -79,17 +77,6 @@ public class SSAdapterRest{
     return SSRestMainV1.handleStandardJSONRESTCall(input, SSServOpE.entityCopy);
   }
 
-  @POST
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "entityEntityUsersGet")
-  @ApiOperation(
-    value = "retrieve users who can access given entity",
-    response = SSCircleEntityUsersGetRet.class)
-  public String entityEntityUsersGet(final SSCircleEntityUsersGetPar input){
-    return SSRestMainV1.handleStandardJSONRESTCall(input, SSServOpE.circleEntityUsersGet);
-  }
-  
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)

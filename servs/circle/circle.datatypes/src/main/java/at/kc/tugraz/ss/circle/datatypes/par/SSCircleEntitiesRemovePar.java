@@ -22,10 +22,8 @@ package at.kc.tugraz.ss.circle.datatypes.par;
 
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServErrReg;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,20 +32,20 @@ public class SSCircleEntitiesRemovePar extends SSServPar{
   public SSUri                 circle               = null;
   public List<SSUri>           entities             = new ArrayList<>();
 
-  public void setCircle(final String circle) throws Exception{
-    this.circle = SSUri.get(circle);
-  }
-
-  public void setEntities(final List<String> entities) throws Exception{
-    this.entities = SSUri.get(entities); 
-  }
-  
   public String getCircle() throws Exception{
     return SSStrU.removeTrailingSlash(circle);
   }
   
+  public void setCircle(final String circle) throws Exception{
+    this.circle = SSUri.get(circle);
+  }
+
   public List<String> getEntities() throws Exception{
     return SSStrU.removeTrailingSlash(entities);
+  }
+  
+  public void setEntities(final List<String> entities) throws Exception{
+    this.entities = SSUri.get(entities); 
   }
   
   public SSCircleEntitiesRemovePar(){}
@@ -65,34 +63,9 @@ public class SSCircleEntitiesRemovePar extends SSServPar{
     
     this.circle  = circle;
     
-    if(entities != null){
-      this.entities.addAll(entities);
-    }
+    SSUri.addDistinctWithoutNull(this.entities, entities);
     
     this.withUserRestriction = withUserRestriction;
     this.shouldCommit        = shouldCommit;
-  }
-  
-  public static SSCircleEntitiesRemovePar get(final SSServPar par) throws Exception{
-    
-    try{
-      
-      if(par.clientCon != null){
-        return (SSCircleEntitiesRemovePar) par.getFromJSON(SSCircleEntitiesRemovePar.class);
-      }
-      
-      return new SSCircleEntitiesRemovePar(
-        par.op,
-        par.key,
-        par.user,        
-        (SSUri)           par.pars.get(SSVarNames.circle),
-        (List<SSUri>)     par.pars.get(SSVarNames.entities), 
-        (Boolean)         par.pars.get(SSVarNames.withUserRestriction),
-        (Boolean)         par.pars.get(SSVarNames.shouldCommit));
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
   }
 }

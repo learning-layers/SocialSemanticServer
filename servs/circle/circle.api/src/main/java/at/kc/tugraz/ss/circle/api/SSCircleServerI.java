@@ -23,6 +23,8 @@ package at.kc.tugraz.ss.circle.api;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleCanAccessPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleCreatePar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesAddPar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesRemovePar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntityUsersGetPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleGetPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleMostOpenCircleTypeGetPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivURIGetPar;
@@ -50,10 +52,8 @@ public interface SSCircleServerI extends SSServServerI{
   public SSEntity                        circleCanAccess                          (final SSCircleCanAccessPar             par) throws Exception;
   public SSUri                           circlePrivURIGet                         (final SSCirclePrivURIGetPar            par) throws Exception;
   public SSUri                           circlePubURIGet                          (final SSCirclePubURIGetPar             par) throws Exception;
-  
-  public List<SSEntity>                  circleEntityUsersGet                     (final SSServPar parA) throws Exception;
+  public List<SSEntity>                  circleEntityUsersGet                     (final SSCircleEntityUsersGetPar        par) throws Exception;  
+  public List<SSUri>                     circleEntitiesRemove                     (final SSCircleEntitiesRemovePar        par) throws Exception;
   
   public SSUri                           circleEntityShare                        (final SSServPar parA) throws Exception;
-  
-  public List<SSUri>                     circleEntitiesRemove                     (final SSServPar parA) throws Exception;
 }

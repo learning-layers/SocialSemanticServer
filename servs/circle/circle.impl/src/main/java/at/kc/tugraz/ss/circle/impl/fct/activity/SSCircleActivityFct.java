@@ -49,8 +49,8 @@ public class SSCircleActivityFct{
           par.user, 
           SSActivityE.createCircle, 
           circle, 
-          par.users, 
-          par.entities, 
+          null, //users, 
+          null, //entities, 
           SSTextComment.asListWithoutNullAndEmpty(), 
           null, 
           false));

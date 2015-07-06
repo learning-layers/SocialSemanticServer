@@ -24,6 +24,5 @@ public enum SSWarnE{
   entityAlreadySharedWithUser,
   subCollAlreadySharedWithUser,
   collAlreadySharedWithUser,
-  discAlreadySharedWithUser,
-  cannotShareSpecialCollection;
+  discAlreadySharedWithUser;
 }

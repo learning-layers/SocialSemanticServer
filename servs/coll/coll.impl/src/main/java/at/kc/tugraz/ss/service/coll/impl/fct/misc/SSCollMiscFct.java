@@ -205,20 +205,6 @@ public class SSCollMiscFct{
 //      parentCollUris.add(currentCollUri);
 //    }
 //  }
-
-  public static void shareEntityWithUser(
-    final SSCollSQLFct sqlFct, 
-    final SSUri        sharedWithMeFilesCollUri,
-    final SSUri        entityUri) throws Exception{
-    
-    try{
-      
-      sqlFct.addCollEntry(sharedWithMeFilesCollUri, entityUri);
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
 }
 
 //  public static void addCollAndSubEntitiesToCircle(

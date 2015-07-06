@@ -32,43 +32,27 @@ public interface SSEntityHandlerImplI{
     final Boolean     removeUserRatings,
     final Boolean     removeFromUserColls,
     final Boolean     removeUserLocations) throws Exception;
-
-  public void setEntityPublic(
-    final SSUri                 userUri, 
-    final SSUri                 entityUri, 
-    final SSEntityE             entityType,
-    final SSUri                 publicCircleUri) throws Exception;
-
-  public void shareEntityWithUsers(
-    final SSUri          user, 
-    final List<SSUri>    users,
-    final SSUri          entity, 
-    final SSUri          circle,
-    final SSEntityE      entityType,
-    final Boolean        saveActivity) throws Exception;
-
-  public void addEntityToCircle(
-    final SSUri        user, 
-    final SSUri        circle,
-    final List<SSUri>  circleUsers,
-    final SSUri        entity, 
-    final SSEntityE    entityType) throws Exception;
   
-  public void addUsersToCircle(
-    final SSUri        user, 
-    final List<SSUri>  users,
-    final SSEntityCircle        circle) throws Exception;
+  public void circleContentChanged(
+    final SSUri          user,
+    final SSUri          circle,
+    final Boolean        isCirclePublic,
+    final List<SSUri>    usersToAdd,
+    final List<SSEntity> entitiesToAdd,
+    final List<SSUri>    usersToPushEntitiesTo,
+    final List<SSUri>    circleUsers,
+    final List<SSEntity> circleEntities) throws Exception;
   
   public void copyEntity(
     final SSUri        user,
     final List<SSUri>  users,
-    final SSUri        entity, 
+    final SSUri        entity,
     final List<SSUri>  entitiesToExclude,
     final SSEntityE    entityType) throws Exception;
-
+  
   public List<SSUri> getSubEntities(
-    final SSUri         user, 
-    final SSUri         entity, 
+    final SSUri         user,
+    final SSUri         entity,
     final SSEntityE     type) throws Exception;
   
   public List<SSUri> getParentEntities(

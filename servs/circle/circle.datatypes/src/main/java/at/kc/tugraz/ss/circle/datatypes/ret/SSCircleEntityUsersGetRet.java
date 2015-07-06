@@ -35,25 +35,7 @@ public class SSCircleEntityUsersGetRet extends SSServRetI{
 
   public List<SSEntity> users = new ArrayList<>();
 
-  public static SSCircleEntityUsersGetRet get(
-    final List<SSEntity> users,
-    final SSServOpE        op){
-    
-    return new SSCircleEntityUsersGetRet(users, op);
-  }
-  
-  private SSCircleEntityUsersGetRet(
-    final List<SSEntity> users,
-    final SSServOpE        op) {
-
-    super(op);
-    
-    if(users != null){
-      this.users.addAll(users);
-    }
-  }
-
-   @Override
+  @Override
   public Map<String, Object> jsonLDDesc(){
     
     final Map<String, Object> ld         = new HashMap<>();
@@ -66,8 +48,20 @@ public class SSCircleEntityUsersGetRet extends SSServRetI{
     
     return ld;
   }
+    
+  public static SSCircleEntityUsersGetRet get(
+    final List<SSEntity> users){
+    
+    return new SSCircleEntityUsersGetRet(users);
+  }
   
-  public List<SSEntity> getUsers() {
-    return users;
+  private SSCircleEntityUsersGetRet(
+    final List<SSEntity> users) {
+
+    super(SSServOpE.circleEntityUsersGet);
+    
+    if(users != null){
+      this.users.addAll(users);
+    }
   }
 }

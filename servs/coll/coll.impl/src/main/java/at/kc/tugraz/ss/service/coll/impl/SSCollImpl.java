@@ -228,175 +228,116 @@ implements
   }
       
   @Override
-  public void setEntityPublic(
+  public void circleContentChanged(
     final SSUri          user,
-    final SSUri          entity, 
-    final SSEntityE      type,
-    final SSUri          circle) throws Exception{
-    
-    switch(type){
-      
-      case coll:{
-        
-        if(sqlFct.isCollSpecial(entity)){
-          throw new Exception("cannot set special collection public");
-        }
-        
-        ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleEntitiesAdd(
-          new SSCircleEntitiesAddPar(
-            null,
-            null,
-            user,
-            circle,
-            SSCollMiscFct.getCollSubCollAndEntryURIs(sqlFct, sqlFct.getCollWithEntries(entity, new ArrayList<>())),
-            false,
-            false,
-            false));
-        
-      }
-    }
-  }
-
-  @Override
-  public void shareEntityWithUsers(
-    final SSUri          user, 
-    final List<SSUri>    userUrisToShareWith,
-    final SSUri          entity, 
     final SSUri          circle,
-    final SSEntityE      type,
-    final Boolean        saveActivity) throws Exception{
+    final Boolean        isCirclePublic,
+    final List<SSUri>    usersToAdd,
+    final List<SSEntity> entitiesToAdd, 
+    final List<SSUri>    usersToPushEntitiesTo,
+    final List<SSUri>    circleUsers,
+    final List<SSEntity> circleEntities) throws Exception{
+    
+    SSUri rootColl;
     
     try{
-      
-      switch(type){
-        
-        case coll:{
-          
-          SSUri rootColl;
-          
-          if(sqlFct.isCollSpecial(entity)){
-            SSLogU.warn(SSWarnE.cannotShareSpecialCollection);
-            return; 
-          }
-          
-          for(SSUri userUriToShareWith : userUrisToShareWith){
+    
+      for(SSEntity entityToAdd : entitiesToAdd){
 
-            rootColl = SSServCaller.collUserRootGet (userUriToShareWith).id;
-            
-            if(
-              sqlFct.containsCollEntry (rootColl, entity) ||
-              sqlFct.ownsUserColl      (userUriToShareWith, entity)){
-              SSLogU.warn(SSWarnE.collAlreadySharedWithUser);
-              continue;
+        switch(entityToAdd.type){
+
+          case coll:{
+
+            if(sqlFct.isCollSpecial(entityToAdd.id)){
+
+              if(isCirclePublic){
+                throw new SSErr(SSErrE.cannotSetSpecialCollectionPublic);
+              }
+
+              throw new SSErr(SSErrE.cannotShareSpecialCollection);
+            }
+
+            try{
+
+              ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleEntitiesAdd(
+                new SSCircleEntitiesAddPar(
+                  null,
+                  null,
+                  user,
+                  circle,
+                  getCollSubCollAndEntryURIs(sqlFct, sqlFct.getCollWithEntries(entityToAdd.id, new ArrayList<>())),
+                  false,
+                  false));
+
+            }catch(Exception error){
+              SSServErrReg.regErrThrow(error);
+            }
+
+            for(SSUri userToPushEntityTo : usersToPushEntitiesTo){
+
+              rootColl = SSServCaller.collUserRootGet (userToPushEntityTo).id;
+
+              if(
+                sqlFct.containsCollEntry (rootColl,           entityToAdd.id) ||
+                sqlFct.ownsUserColl      (userToPushEntityTo, entityToAdd.id)){
+                SSLogU.warn(SSWarnE.collAlreadySharedWithUser);
+                continue;
+              }
+
+              if(SSCollMiscFct.ownsUserASubColl(sqlFct, userToPushEntityTo, entityToAdd.id)){
+                SSLogU.warn(SSWarnE.subCollAlreadySharedWithUser);
+                continue;
+              }
+
+              sqlFct.addCollToColl(
+                userToPushEntityTo,
+                rootColl,
+                entityToAdd.id,
+                false,
+                true);
             }
             
-            if(SSCollMiscFct.ownsUserASubColl(sqlFct, userUriToShareWith, entity)){
-              SSLogU.warn(SSWarnE.subCollAlreadySharedWithUser);
-              continue;
+            if(!usersToPushEntitiesTo.isEmpty()){
+              
+              ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleUsersAdd(
+                new SSCircleUsersAddPar(
+                  null,
+                  null,
+                  user,
+                  circle,
+                  sqlFct.getCollUserURIs(entityToAdd.id),
+                  false,
+                  false));
             }
             
-            sqlFct.addCollToColl(
-              userUriToShareWith,
-              rootColl,
-              entity,
-              false,
-              true);
-            
-            ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleEntitiesAdd(
-              new SSCircleEntitiesAddPar(
-                null,
-                null,
-                user,
-                circle,
-                SSCollMiscFct.getCollSubCollAndEntryURIs(sqlFct, sqlFct.getCollWithEntries(entity, new ArrayList<>())),
-                false,
-                false,
-                false));
-            
-            ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleUsersAdd(
-              new SSCircleUsersAddPar(
-                null,
-                null, 
-                user, 
-                circle, 
-                sqlFct.getCollUserURIs(entity), 
-                false,
-                false,
-                false));
+            break;
           }
           
-          break;
-        }
-        
-        case file:
-        case entity:{
-          
-          SSUri sharedWithMeFilesCollUri;
-          
-          for(SSUri userUriToShareWith : userUrisToShareWith){
-            
-            sharedWithMeFilesCollUri = sqlFct.getCollSpecialURI (userUriToShareWith);
-            
-            if(sqlFct.containsCollEntry (sharedWithMeFilesCollUri, entity)){
-              SSLogU.warn(SSWarnE.entityAlreadySharedWithUser);
-              continue;
+          case file:
+          case entity:{
+
+            SSUri sharedWithMeFilesCollUri;
+
+            for(SSUri userToPushEntityTo : usersToPushEntitiesTo){
+
+              sharedWithMeFilesCollUri = sqlFct.getCollSpecialURI (userToPushEntityTo);
+
+              if(sqlFct.containsCollEntry (sharedWithMeFilesCollUri, entityToAdd.id)){
+                continue;
+              }
+
+              sqlFct.addCollEntry(sharedWithMeFilesCollUri, entityToAdd.id);
+
+              break;
             }
-            
-            SSCollMiscFct.shareEntityWithUser(
-              sqlFct,
-              sharedWithMeFilesCollUri,
-              entity);
           }
         }
       }
-      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
-  }
-  
-  @Override
-  public void addEntityToCircle(
-    final SSUri        user,
-    final SSUri        circle,
-    final List<SSUri>  circleUsers,
-    final SSUri        entity,
-    final SSEntityE    type) throws Exception{
-
-    switch(type){
-      
-      case coll:{
-        
-        try{
-          
-          ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleEntitiesAdd(
-            new SSCircleEntitiesAddPar(
-              null,
-              null,
-              user,
-              circle,
-              getCollSubCollAndEntryURIs(sqlFct, sqlFct.getCollWithEntries(entity, new ArrayList<>())),
-              false,
-              false,
-              false));
-          
-        }catch(Exception error){
-          SSServErrReg.regErrThrow(error);
-        }
-      }
-    }
-  }
-  
-  @Override
-  public void addUsersToCircle(
-    final SSUri          user, 
-    final List<SSUri>    users,
-    final SSEntityCircle circle) throws Exception{
+  }    
     
-    
-    
-  }
-
   @Override
   public void removeDirectlyAdjoinedEntitiesForUser(
     final SSUri       userUri, 

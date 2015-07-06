@@ -21,35 +21,20 @@
 package at.kc.tugraz.ss.circle.datatypes.par;
 
 import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSStrU;
-import java.util.ArrayList;
-import java.util.List;
 
 public class SSCircleCreatePar extends SSServPar{
   
   public SSLabel               label                = null;
-  public List<SSUri>           entities             = new ArrayList<>();
-  public List<SSUri>           users                = new ArrayList<>();
   public SSTextComment         description          = null;
   public Boolean               isSystemCircle       = false;
-  public Boolean               invokeEntityHandlers = null;
 
   public void setLabel(final String label) throws Exception{
     this.label = SSLabel.get(label);
-  }
-
-  public void setEntities(final List<String> entities) throws Exception{
-    this.entities = SSUri.get(entities);
-  }
-
-  public void setUsers(final List<String> users) throws Exception{
-   this.users = SSUri.get(users);
   }
 
   public void setDescription(final String description) throws Exception{
@@ -58,14 +43,6 @@ public class SSCircleCreatePar extends SSServPar{
   
   public String getLabel() throws Exception{
     return SSStrU.toStr(label);
-  }
-  
-  public List<String> getEntities() throws Exception{
-    return SSStrU.removeTrailingSlash(entities);
-  }
-  
-  public List<String> getUsers() throws Exception{
-    return SSStrU.removeTrailingSlash(users);
   }
   
   public String getDescription() throws Exception{
@@ -79,25 +56,18 @@ public class SSCircleCreatePar extends SSServPar{
     final String          key,
     final SSUri           user,
     final SSLabel         label,
-    final List<SSUri>     entities,
-    final List<SSUri>     users,
     final SSTextComment   description,
     final Boolean         isSystemCircle,
     final Boolean         withUserRestriction, 
-    final Boolean         invokeEntityHandlers, 
     final Boolean         shouldCommit){
     
     super(op, key, user);
     
     this.label     = label;
     
-    SSUri.addDistinctWithoutNull(this.entities, entities);
-    SSUri.addDistinctWithoutNull(this.users,    users);
-    
     this.description              = description;
     this.isSystemCircle           = isSystemCircle;
     this.withUserRestriction      = withUserRestriction;
-    this.invokeEntityHandlers     = invokeEntityHandlers;
     this.shouldCommit             = shouldCommit;
   }
 }

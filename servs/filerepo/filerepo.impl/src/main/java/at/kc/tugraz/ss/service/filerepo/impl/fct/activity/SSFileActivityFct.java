@@ -36,12 +36,8 @@ public class SSFileActivityFct{
   public static void shareFileWithUser(
     final SSUri       user,
     final SSUri       entity,
-    final List<SSUri> usersToShareWith,
-    final Boolean     saveActivity) throws Exception{
+    final List<SSUri> usersToShareWith) throws Exception{
     
-    if(!saveActivity){
-      return;
-    }
     
     try{
       

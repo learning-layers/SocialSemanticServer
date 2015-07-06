@@ -83,7 +83,6 @@ import at.kc.tugraz.ss.service.userevent.datatypes.pars.SSUEAddPar;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
-import at.tugraz.sss.serv.SSEntityCircle;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -123,41 +122,18 @@ implements
   }
 
   @Override
-  public void setEntityPublic(
-    final SSUri     userUri, 
-    final SSUri     entityUri, 
-    final SSEntityE entityType, 
-    final SSUri     publicCircleUri) throws Exception{
+  public void circleContentChanged(
+    final SSUri          user,
+    final SSUri          circle,
+    final Boolean        isCirclePublic,
+    final List<SSUri>    usersToAdd,
+    final List<SSEntity> entitiesToAdd, 
+    final List<SSUri>    usersToPushEntitiesTo,
+    final List<SSUri>    circleUsers,
+    final List<SSEntity> circleEntities) throws Exception{
     
   }
-
-  @Override
-  public void shareEntityWithUsers(
-    final SSUri user, 
-    final List<SSUri> users, 
-    final SSUri entity, 
-    final SSUri circle, 
-    final SSEntityE entityType, 
-    final Boolean saveActivity) throws Exception{
-  }
-
-  @Override
-  public void addEntityToCircle(
-    final SSUri user, 
-    final SSUri circle, 
-    final List<SSUri> circleUsers, 
-    final SSUri entity, 
-    final SSEntityE entityType) throws Exception{
-  }
-
-  @Override
-  public void addUsersToCircle(
-    final SSUri user, 
-    final List<SSUri> users, 
-    final SSEntityCircle circle) throws Exception{
-    
-  }
-
+  
   @Override
   public void copyEntity(
     final SSUri user, 
@@ -711,10 +687,10 @@ implements
           tmpEntity = par.givenEntity;
         }
         
-        setPublicByEntityHandlers(
-          par.user,
-          tmpEntity, 
-          publicCircleURI);
+//        setPublicByEntityHandlers(
+//          par.user,
+//          tmpEntity, 
+//          publicCircleURI);
         
         SSEntityActivityFct.setEntityPublic(par.user, par.entity);
       }
@@ -1245,14 +1221,14 @@ implements
     
     try{
       
-      for(SSServContainerI serv : SSServReg.inst.getServsManagingEntities()){
-        
-        ((SSEntityHandlerImplI) serv.serv()).setEntityPublic(
-          userUri,
-          entity.id,
-          entity.type,
-          publicCircleUri);
-      }
+//      for(SSServContainerI serv : SSServReg.inst.getServsManagingEntities()){
+//        
+//        ((SSEntityHandlerImplI) serv.serv()).setEntityPublic(
+//          userUri,
+//          entity.id,
+//          entity.type,
+//          publicCircleUri);
+//      }
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

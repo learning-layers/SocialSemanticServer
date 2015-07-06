@@ -167,19 +167,19 @@ public class SSDiscUserEntryAddFct{
           false, //setPublic
           false, //withUserRestriction
           false)); //shouldCommit)
-            
-      for(SSEntityCircle entityUserCircle : 
+      
+      for(SSEntityCircle entityUserCircle :
         ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlesGet(
-            new SSCirclesGetPar(
-              null,
-              null,
-              userUri,
-              null,
-              discUri,
-              SSEntityE.asListWithoutNullAndEmpty(),
-              false,
-              true,
-              false))){
+          new SSCirclesGetPar(
+            null,
+            null,
+            userUri,
+            null,
+            discUri,
+            SSEntityE.asListWithoutNullAndEmpty(),
+            false,
+            true,
+            false))){
         
         ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleEntitiesAdd(
           new SSCircleEntitiesAddPar(
@@ -188,7 +188,6 @@ public class SSDiscUserEntryAddFct{
             userUri,
             entityUserCircle.id,
             SSUri.asListWithoutNullAndEmpty(discEntryUri),
-            false,
             false,
             false));
       }

@@ -237,7 +237,6 @@ public class SSRESTCircle{
           SSUri.get(circle, SSVocConf.sssUri), //circle
           SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(users, SSStrU.comma), SSVocConf.sssUri),  //users
           true, //withUserRestriction
-          true, //invokeEntityHandlers
           true); //shouldCommit
       
     }catch(Exception error){
@@ -276,7 +275,6 @@ public class SSRESTCircle{
           SSUri.get(circle, SSVocConf.sssUri), //circle
           SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(entities, SSStrU.comma), SSVocConf.sssUri),  //entities
           true,  //withUserRestriction
-          true,  //invokeEntityHandlers
           true); //shouldCommit
       
     }catch(Exception error){
@@ -293,7 +291,7 @@ public class SSRESTCircle{
   @ApiOperation(
     value = "remove given entities from circle",
     response = SSCircleEntitiesRemoveRet.class)
-  public Response circleEntitiesDelete(
+  public Response circleEntitiesRemove(
     @Context 
       final HttpHeaders headers,
     
@@ -347,14 +345,13 @@ public class SSRESTCircle{
           null,
           null,
           input.label, //label
-          input.entities, //entities
-          input.users, //users
           input.description, //description
           false, //isSystemCircle
           true, //withUserRestriction
-          true, //invokeEntityHandlers
           true); //shouldCommit
       
+//                input.entities, //entities
+//          input.users, //users
     }catch(Exception error){
       return Response.status(422).build();
     }
