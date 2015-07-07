@@ -479,11 +479,6 @@ implements
     entityURI = entityUpdate(par);
       
     sSCon.writeRetFullToClient(SSEntityUpdateRet.get(entityURI));
-    
-    SSEntityActivityFct.setEntityPublic(
-      par.user, 
-      entityURI, 
-      true);
   }
   
   @Override
@@ -655,7 +650,7 @@ implements
             null, 
             null, 
             par.user, 
-            null, //entity, 
+            par.entity, //entity, 
             null, //users, 
             null, //circles, 
             true, //setPublic, 

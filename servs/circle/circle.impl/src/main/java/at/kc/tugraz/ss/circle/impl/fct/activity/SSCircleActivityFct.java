@@ -189,4 +189,36 @@ public class SSCircleActivityFct{
       SSServErrReg.regErrThrow(error);
     }
   }
+  
+  public static void setEntityPublic(
+    final SSUri    user, 
+    final SSUri    entity, 
+    final Boolean  shouldCommit) throws Exception{
+    
+     try{
+      
+      ((SSActivityServerI) SSServReg.getServ(SSActivityServerI.class)).activityAdd(
+        new SSActivityAddPar(
+          null, 
+          null, 
+          user, 
+          SSActivityE.setEntityPublic, 
+          entity,
+          null, 
+          null, 
+          null, 
+          null, 
+          shouldCommit));
+      
+    }catch(SSErr error){
+      
+      switch(error.code){
+        case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
+        default: SSServErrReg.regErrThrow(error);
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
 }

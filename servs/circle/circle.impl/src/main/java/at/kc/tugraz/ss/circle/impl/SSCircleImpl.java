@@ -1079,6 +1079,13 @@ implements
     if(!par.circles.isEmpty()){
       SSCircleActivityFct.shareEntityWithCircles(par, true);
     }
+    
+    if(par.setPublic){
+      SSCircleActivityFct.setEntityPublic(
+      par.user, 
+      entityURI, 
+      true);
+    }
   }
   
   @Override  
@@ -1126,11 +1133,11 @@ implements
             null, //descPar,
             true))); //logErr));
       
+      dbSQL.startTrans(par.shouldCommit);
+      
       if(!par.users.isEmpty()){
         
         checkWhetherUsersAreUsers  (par.users);
-        
-        dbSQL.startTrans(par.shouldCommit);
         
         final SSUri           circleUri =
           circleCreate(
@@ -1183,8 +1190,6 @@ implements
         
       if(!par.circles.isEmpty()){
 
-        dbSQL.startTrans(par.shouldCommit);
-        
         for(SSUri circleURI : par.circles){
           
           circleEntitiesAdd(
@@ -1308,7 +1313,7 @@ implements
         switch(entity.type){
           
           case user: continue;
-          default:   throw new SSErr(SSErrE.providedUserIsNotRegistered);
+          default:   throw new SSErr(SSErrE.userNotRegistered);
         }
       }
     }catch(Exception error){

@@ -29,15 +29,26 @@ public enum SSErrE{
   //circle
   cannotShareWithPublicCircle,
   notAllowedToCreateCircle,
+  userDoesntHaveRightInAnyCircleOfEntity,
+  circleDoesntHaveQueriedRight,
   
-  parameterMissing,
-  servParCreationFailed,
-  restAdapterInternalError,
+  //sql
+  sqlNoResultFound,
+  sqlDeadLock,
   
+  //user //auth
+  userNotRegistered,
+  userKeyWrong,
+  userNeedsLockOnEntity,
+  userIsNotInCircle,
   authCouldntConnectToOIDC,
   authCouldntParseOIDCUserInfoResponse,
   authOIDCUserInfoRequestFailed,
   authNoUserForKey,
+  
+  parameterMissing,
+  servParCreationFailed,
+  restAdapterInternalError,
   
   sssConnectionFailed,
   sssJsonRequestEncodingFailed,
@@ -47,21 +58,9 @@ public enum SSErrE{
   sssResponseFailed,
   searchResultPageUnavailable,
   searchResultOutDated,
-  sqlDeadLock,
-  sqlNoResultFound,
-  userIsNotRegistered,
-  userAccessedOtherUsersPrivateGroup,
-  providedCircleDoesntExist,
-  providedUserIsNotRegistered,
-  userDoesntHaveRightInAnyCircleOfEntity,
-  circleDoesntHaveQueriedRight,
-  userIsNotInCircle,
-  userNotAllowedToAccessCircle,
-  userKeyWrong,
-  userNeedsLockOnEntity,
+  
   entityTypeNotSupported,
   entityCouldntBeQueried,
-  entityDoesntExist,
   learnEpCurrentVersionNotSet,
   deployingServiceOnNodeFailed,           //could not deploy requested service on new node
   noClientServiceForOpAvailableOnNodes,   //no service found on nodes to handle client op

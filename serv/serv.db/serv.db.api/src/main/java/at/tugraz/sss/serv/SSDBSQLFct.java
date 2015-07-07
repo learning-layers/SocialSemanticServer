@@ -300,10 +300,8 @@ public class SSDBSQLFct extends SSDBFct{
         throw new SSErr(SSErrE.sqlNoResultFound);
       }
       
-    }catch(SSErr error){
-      SSServErrReg.regErrThrow(error, false);
     }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
+      SSServErrReg.regErrThrow(error, false);
     }
   }
   

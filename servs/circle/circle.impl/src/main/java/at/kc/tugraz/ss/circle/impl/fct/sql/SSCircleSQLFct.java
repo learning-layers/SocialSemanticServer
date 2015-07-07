@@ -638,6 +638,7 @@ public class SSCircleSQLFct extends SSDBSQLFct{
     }catch(Exception error){
       
       if(SSServErrReg.containsErr(SSErrE.sqlNoResultFound)){
+        SSServErrReg.reset();
         return null;
       }
       
@@ -670,6 +671,7 @@ public class SSCircleSQLFct extends SSDBSQLFct{
     }catch(Exception error){
       
       if(SSServErrReg.containsErr(SSErrE.sqlNoResultFound)){
+        SSServErrReg.reset();
         return null;
       }
       
