@@ -22,11 +22,9 @@ package at.kc.tugraz.ss.circle.datatypes.par;
 
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServErrReg;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,7 +33,6 @@ public class SSCircleGetPar extends SSServPar{
   public SSUri           circle                     = null;
   public SSUri           forUser                    = null;
   public List<SSEntityE> entityTypesToIncludeOnly   = new ArrayList<>();
-  public Boolean         withSystemCircles          = false;
   public Boolean         invokeEntityHandlers       = false;
 
   public void setCircle(final String circle) throws Exception{
@@ -72,7 +69,6 @@ public class SSCircleGetPar extends SSServPar{
     final SSUri           forUser,
     final List<SSEntityE> entityTypesToIncludeOnly,
     final Boolean         withUserRestriction,
-    final Boolean         withSystemCircles,
     final Boolean         invokeEntityHandlers) throws Exception{
     
     super(op, key, user);
@@ -85,32 +81,6 @@ public class SSCircleGetPar extends SSServPar{
     }
     
     this.withUserRestriction  = withUserRestriction;
-    this.withSystemCircles    = withSystemCircles;
     this.invokeEntityHandlers = invokeEntityHandlers;
-  }
-  
-  public static SSCircleGetPar get(final SSServPar par) throws Exception{
-    
-    try{
-      
-      if(par.clientCon != null){
-        return (SSCircleGetPar) par.getFromJSON(SSCircleGetPar.class);
-      }
-      
-      return new SSCircleGetPar(
-        par.op,
-        par.key,
-        par.user,
-        (SSUri)           par.pars.get(SSVarNames.circle),
-        (SSUri)           par.pars.get(SSVarNames.forUser),
-        (List<SSEntityE>) par.pars.get(SSVarNames.entityTypesToIncludeOnly),
-        (Boolean)         par.pars.get(SSVarNames.withUserRestriction),
-        (Boolean)         par.pars.get(SSVarNames.withSystemCircles),
-        (Boolean)         par.pars.get(SSVarNames.invokeEntityHandlers));
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
   }
 }

@@ -55,7 +55,7 @@ public class SSRestMainV2 extends Application {
 
   public SSRestMainV2() throws Exception{
    
-    SSAdapterRestConf.instSet (SSFileU.dirCatalinaBase() + SSVocConf.dirNameConf + "sss.adapter.rest.conf.test.yaml");
+    SSAdapterRestConf.instSet (SSFileU.dirCatalinaBase() + SSVocConf.dirNameConf + "sss.adapter.rest.conf.kb.study.yaml");
     
     conf = SSAdapterRestConf.instGet();
     

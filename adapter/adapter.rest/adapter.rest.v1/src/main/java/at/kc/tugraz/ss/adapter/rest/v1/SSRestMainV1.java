@@ -60,7 +60,7 @@ public class SSRestMainV1 extends Application {
    
     ResourceConfig resourceConfig;
     
-    SSAdapterRestConf.instSet (SSFileU.dirCatalinaBase() + SSVocConf.dirNameConf + "sss.adapter.rest.conf.test.yaml");
+    SSAdapterRestConf.instSet (SSFileU.dirCatalinaBase() + SSVocConf.dirNameConf + "sss.adapter.rest.conf.kb.study.yaml");
     
     SSFileExtE.init    ();
     SSMimeTypeE.init   ();

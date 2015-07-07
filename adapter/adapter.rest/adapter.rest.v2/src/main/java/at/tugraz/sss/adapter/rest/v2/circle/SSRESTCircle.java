@@ -158,7 +158,6 @@ public class SSRESTCircle{
           null, //forUser
           input.entityTypesToIncludeOnly, //entityTypesToIncludeOnly
           true,  //withUserRestriction
-          false,  //withSystemCircles
           true); //invokeEntityHandlers
       
     }catch(Exception error){
@@ -200,7 +199,6 @@ public class SSRESTCircle{
           SSUri.get(forUser,   SSVocConf.sssUri), //forUser
           input.entityTypesToIncludeOnly, //entityTypesToIncludeOnly
           true, //withUserRestriction
-          false, //withSystemCircles
           true); //invokeEntityHandlers
       
     }catch(Exception error){

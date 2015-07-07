@@ -117,7 +117,6 @@ implements
                 par.forUser,
                 SSEntityE.asListWithoutNullAndEmpty(),
                 false,
-                false,
                 false));
           
           return SSEntityCircle.get(circle, entity);
@@ -228,7 +227,6 @@ implements
             null, //forUser,
             null, //entityTypesToIncludeOnly,
             false, //withUserRestriction,
-            false, //withSystemCircles,
             true)); //invokeEntityHandlers
       
       for(SSServContainerI serv : SSServReg.inst.getServsManagingEntities()){
@@ -356,7 +354,6 @@ implements
           null, //forUser, 
           null, //entityTypesToIncludeOnly, 
           false, //withUserRestriction, 
-          false, //withSystemCircles, 
           true)); //invokeEntityHandlers))
     
     for(SSServContainerI serv : SSServReg.inst.getServsManagingEntities()){
@@ -437,7 +434,6 @@ implements
           null, //forUser,
           null, //entityTypesToIncludeOnly,
           false, //withUserRestriction,
-          false, //withSystemCircles,
           true)); //invokeEntityHandlers))
     
     final List<SSEntity> entities = 
@@ -626,10 +622,7 @@ implements
           par.forUser = par.user;
         }
         
-        if(
-          par.withSystemCircles ||
-          sqlFct.isSystemCircle(par.circle)){
-          
+        if(sqlFct.isSystemCircle(par.circle)){
           throw new Exception("user cannot access system circle");
         }
         
@@ -779,8 +772,7 @@ implements
                 circleUri, 
                 null,
                 par.entityTypesToIncludeOnly,
-                true, 
-                par.withSystemCircles,
+                true,  //withUserRestriction
                 par.invokeEntityHandlers)));
         }
       }else{
@@ -796,8 +788,7 @@ implements
                 circleUri,
                 null,
                 par.entityTypesToIncludeOnly,
-                false,
-                par.withSystemCircles,
+                false, //withUserRestriction
                 par.invokeEntityHandlers)));
         }
       }
@@ -1212,7 +1203,6 @@ implements
                 null, //forUser
                 SSEntityE.asListWithoutNullAndEmpty(), //entityTypesToIncludeOnly
                 par.withUserRestriction, //withUserRestriction
-                true, //withSystemCircles
                 false)); //invokeEntityHandlers
           
           for(SSServContainerI serv : SSServReg.inst.getServsManagingEntities()){
