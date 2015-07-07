@@ -22,6 +22,7 @@ package at.tugraz.sss.adapter.rest.v2.disc;
 
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscEntryAddFromClientPar;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscURIsForTargetGetPar;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscEntryAddPar;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscWithEntriesGetPar;
@@ -96,7 +97,7 @@ public class SSRESTDisc{
     try{
       
       par =
-        new SSDiscEntryAddPar(
+        new SSDiscEntryAddFromClientPar(
           SSServOpE.discEntryAdd,
           null,
           null,
@@ -110,8 +111,7 @@ public class SSRESTDisc{
           input.users, //users
           input.circles, //circles
           input.entities, //entities
-          input.entityLabels, //entityLabels
-          true); //shouldCommit
+          input.entityLabels); //entityLabels); 
       
     }catch(Exception error){
       return Response.status(422).build();

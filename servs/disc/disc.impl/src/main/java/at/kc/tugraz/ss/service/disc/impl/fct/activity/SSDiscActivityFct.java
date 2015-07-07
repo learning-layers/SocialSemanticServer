@@ -26,7 +26,6 @@ import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
 import at.kc.tugraz.ss.activity.datatypes.par.SSActivityAddPar;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscEntryAddPar;
 import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscEntryAddRet;
 import at.tugraz.sss.serv.SSErr;
@@ -37,7 +36,8 @@ public class SSDiscActivityFct{
   
   public static void discEntryAdd(
     final SSDiscEntryAddPar par,
-    final SSDiscEntryAddRet ret) throws Exception{
+    final SSDiscEntryAddRet ret, 
+    final Boolean           shouldCommit) throws Exception{
     
     try{
       
@@ -54,7 +54,7 @@ public class SSDiscActivityFct{
             SSUri.asListWithoutNullAndEmpty(ret.disc),
             SSTextComment.asListWithoutNullAndEmpty(),
             null,
-            false));
+            shouldCommit));
         
         if(par.entry != null){
           
@@ -69,7 +69,7 @@ public class SSDiscActivityFct{
             SSUri.asListWithoutNullAndEmpty(ret.entry),
             SSTextComment.asListWithoutNullAndEmpty(par.entry),
             null,
-            false));
+            shouldCommit));
         }
       }else{
         
@@ -84,7 +84,7 @@ public class SSDiscActivityFct{
             SSUri.asListWithoutNullAndEmpty(ret.entry),
             SSTextComment.asListWithoutNullAndEmpty(par.entry),
             null,
-            false));
+            shouldCommit));
       }
     }catch(SSErr error){
       

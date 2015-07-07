@@ -22,6 +22,7 @@ package at.kc.tugraz.ss.service.disc.impl;
 
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesAddPar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitySharePar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleMostOpenCircleTypeGetPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleTypesGetPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleUsersAddPar;
@@ -39,6 +40,7 @@ import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.kc.tugraz.ss.service.disc.api.*;
 import at.kc.tugraz.ss.service.disc.datatypes.*;
+import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscEntryAddFromClientPar;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSEntityCircle;
 import at.tugraz.sss.serv.SSConfA;
@@ -61,6 +63,7 @@ import at.kc.tugraz.ss.service.disc.impl.fct.activity.SSDiscActivityFct;
 import at.kc.tugraz.ss.service.disc.impl.fct.misc.SSDiscMiscFct;
 import at.kc.tugraz.ss.service.disc.impl.fct.op.SSDiscUserEntryAddFct;
 import at.kc.tugraz.ss.service.disc.impl.fct.sql.SSDiscSQLFct;
+import at.tugraz.sss.serv.SSCircleContentChangedPar;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
@@ -232,17 +235,9 @@ public class SSDiscImpl
   }
 
   @Override
-  public void circleContentChanged(
-    final SSUri          user,
-    final SSUri          circle,
-    final Boolean        isCirclePublic,
-    final List<SSUri>    usersToAdd,
-    final List<SSEntity> entitiesToAdd, 
-    final List<SSUri>    usersToPushEntitiesTo,
-    final List<SSUri>    circleUsers,
-    final List<SSEntity> circleEntities) throws Exception{
+  public void circleContentChanged(final SSCircleContentChangedPar par) throws Exception{
     
-    for(SSEntity entityToAdd : entitiesToAdd){
+    for(SSEntity entityToAdd : par.entitiesToAdd){
       
       switch(entityToAdd.type){
         case disc:
@@ -253,13 +248,13 @@ public class SSDiscImpl
             new SSCircleEntitiesAddPar(
               null,
               null,
-              user,
-              circle,
+              par.user,
+              par.circle,
               SSDiscMiscFct.getDiscContentURIs(sqlFct, entityToAdd.id),
               false, //withUserRestriction
               false)); //shouldCommit
           
-          for(SSUri circleUser : circleUsers){
+          for(SSUri circleUser : par.circleUsers){
             
             if(sqlFct.ownsUserDisc(circleUser, entityToAdd.id)){
               continue;
@@ -268,7 +263,7 @@ public class SSDiscImpl
             sqlFct.addDisc(entityToAdd.id, circleUser);
           }
           
-          for(SSUri userToPushEntityTo : usersToPushEntitiesTo){
+          for(SSUri userToPushEntityTo : par.usersToPushEntitiesTo){
             
             if(sqlFct.ownsUserDisc(userToPushEntityTo, entityToAdd.id)){
               continue;
@@ -277,14 +272,14 @@ public class SSDiscImpl
             sqlFct.addDisc(entityToAdd.id, userToPushEntityTo);
           }
           
-          if(!usersToPushEntitiesTo.isEmpty()){
+          if(!par.usersToPushEntitiesTo.isEmpty()){
           
             ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleUsersAdd(
               new SSCircleUsersAddPar(
                 null,
                 null,
-                user,
-                circle,
+                par.user,
+                par.circle,
                 sqlFct.getDiscUserURIs(entityToAdd.id),
                 false,
                 false));
@@ -295,16 +290,16 @@ public class SSDiscImpl
       }
     }
     
-    if(!usersToAdd.isEmpty()){
+    if(!par.usersToAdd.isEmpty()){
       
-      for(SSEntity circleEntity : circleEntities){
+      for(SSEntity circleEntity : par.circleEntities){
         
         switch(circleEntity.type){
           case qa:
           case disc:
           case chat: {
             
-            for(SSUri userToAdd : usersToAdd){
+            for(SSUri userToAdd : par.usersToAdd){
               
               if(sqlFct.ownsUserDisc(userToAdd, circleEntity.id)){
                 continue;
@@ -373,12 +368,32 @@ public class SSDiscImpl
 
     SSServCallerU.checkKey(parA);
 
-    final SSDiscEntryAddPar par = (SSDiscEntryAddPar) parA.getFromJSON(SSDiscEntryAddPar.class);
-    final SSDiscEntryAddRet ret = discEntryAdd(par);
+    final SSDiscEntryAddFromClientPar par = (SSDiscEntryAddFromClientPar) parA.getFromJSON(SSDiscEntryAddFromClientPar.class);
+    final SSDiscEntryAddRet           ret = discEntryAdd(par);
 
-    SSDiscActivityFct.discEntryAdd(par, ret);
-
+    if(par.addNewDisc){
+      
+      if(
+        !par.users.isEmpty() ||
+        !par.circles.isEmpty())
+        
+        ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleEntityShare(
+          new SSCircleEntitySharePar(
+            null,
+            null,
+            par.user,
+            ret.disc,
+            par.users, //users
+            par.circles, //circles
+            false, //setPublic,
+            null, //comment,
+            true, //withUserRestriction,
+            true)); //shouldCommit
+    }
+    
     sSCon.writeRetFullToClient(ret);
+    
+    SSDiscActivityFct.discEntryAdd(par, ret, true);
   }
 
   @Override
@@ -457,17 +472,6 @@ public class SSDiscImpl
           discEntryUri, 
           par.entities, 
           par.entityLabels);
-      }
-
-      if(par.addNewDisc){
-
-        SSServCaller.circleEntityShare(
-          par.user,
-          par.disc,
-          par.users,
-          par.circles,
-          null,
-          false);
       }
 
       dbSQL.commit(par.shouldCommit);

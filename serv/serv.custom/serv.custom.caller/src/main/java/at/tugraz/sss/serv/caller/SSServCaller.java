@@ -1116,25 +1116,25 @@ public class SSServCaller {
 //    return (SSEntity) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.circleUserCan, opPars));
 //  }
   
-  public static SSUri circleEntityShare(
-    final SSUri         user,
-    final SSUri         entity,
-    final List<SSUri>   users,
-    final List<SSUri>   circles,
-    final SSTextComment comment,
-    final Boolean       shouldCommit) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.user,          user);
-    opPars.put(SSVarNames.entity,        entity);
-    opPars.put(SSVarNames.users,         users);
-    opPars.put(SSVarNames.circles,       circles);
-    opPars.put(SSVarNames.comment,       comment);
-    opPars.put(SSVarNames.shouldCommit,  shouldCommit);
-    
-    return (SSUri) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.circleEntityShare, opPars));
-  }
+//  public static SSUri circleEntityShare(
+//    final SSUri         user,
+//    final SSUri         entity,
+//    final List<SSUri>   users,
+//    final List<SSUri>   circles,
+//    final SSTextComment comment,
+//    final Boolean       shouldCommit) throws Exception{
+//    
+//    final Map<String, Object> opPars = new HashMap<>();
+//    
+//    opPars.put(SSVarNames.user,          user);
+//    opPars.put(SSVarNames.entity,        entity);
+//    opPars.put(SSVarNames.users,         users);
+//    opPars.put(SSVarNames.circles,       circles);
+//    opPars.put(SSVarNames.comment,       comment);
+//    opPars.put(SSVarNames.shouldCommit,  shouldCommit);
+//    
+//    return (SSUri) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.circleEntityShare, opPars));
+//  }
   
   /* user event */
   

@@ -48,6 +48,7 @@ import at.kc.tugraz.ss.service.rating.datatypes.ret.SSRatingSetRet;
 import at.kc.tugraz.ss.service.rating.impl.fct.sql.SSRatingSQLFct;
 import at.kc.tugraz.ss.service.rating.datatypes.pars.SSRatingsRemovePar;
 import at.kc.tugraz.ss.service.rating.impl.fct.activity.SSRatingActivityFct;
+import at.tugraz.sss.serv.SSCircleContentChangedPar;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
@@ -163,15 +164,7 @@ implements
   }
   
   @Override
-  public void circleContentChanged(
-    final SSUri          user,
-    final SSUri          circle,
-    final Boolean        isCirclePublic,
-    final List<SSUri>    usersToAdd,
-    final List<SSEntity> entitiesToAdd,
-    final List<SSUri>    usersToPushEntitiesTo,
-    final List<SSUri>    circleUsers,
-    final List<SSEntity> circleEntities) throws Exception{
+  public void circleContentChanged(final SSCircleContentChangedPar par) throws Exception{
     
   }
   

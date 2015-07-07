@@ -20,7 +20,9 @@
 */
 package at.tugraz.sss.adapter.rest.v2.entity;
 
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitySharePar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntityUsersGetPar;
+import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleEntityShareRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleEntityUsersGetRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
@@ -178,7 +180,7 @@ public class SSRESTEntity {
           null, //entitiesToAttach
           input.creationTime, //creationTime
           input.read,  //read
-          false, //setPublic, 
+          null, //setPublic
           true, //withUserRestriction, 
           true); //shouldCommit
       
@@ -192,39 +194,32 @@ public class SSRESTEntity {
   @PUT
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path("/{entity}/public")
+  @Path("/{entity}/share")
   @ApiOperation(
-    value = "set an entity public (make it accessible for everyone)",
-    response = SSEntityUpdateRet.class)
-  public Response entityPublicSet(
+    value = "share an entity with users, circles or set it public (make it accessible for everyone)",
+    response = SSCircleEntityShareRet.class)
+  public Response entityShare(
     @Context
       final HttpHeaders headers,
     
     @PathParam (SSVarNames.entity)
-      final String entity){
+      final String entity, 
     
-    final SSEntityUpdatePar par;
+    final SSEntityShareRESTAPIV2Par input){
+    
+    final SSCircleEntitySharePar par;
     
     try{
       par =
-        new SSEntityUpdatePar(
-          SSServOpE.entityUpdate, 
+        new SSCircleEntitySharePar(
+          SSServOpE.circleEntityShare, 
           null, //key 
           null, //user
           SSUri.get(entity, SSVocConf.sssUri), //entity
-          null, //uriAlternative, 
-          null, //type, 
-          null, //label, 
-          null, //description, 
-          null, //comments, 
-          null, //downloads, 
-          null, //screenShots, 
-          null, //images, 
-          null, //videos, 
-          null, //entitiesToAttach, 
-          null, //creationTime, 
-          null, //read, 
-          true, //setPublic, 
+          input.users, 
+          input.circles, 
+          input.setPublic, //setPublic, 
+          input.comment, //comment
           true, //withUserRestriction, 
           true); //shouldCommit
       

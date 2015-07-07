@@ -28,6 +28,7 @@ public enum SSErrE{
   
   //circle
   cannotShareWithPublicCircle,
+  notAllowedToCreateCircle,
   
   parameterMissing,
   servParCreationFailed,

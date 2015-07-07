@@ -48,7 +48,7 @@ public class SSEntityUpdatePar extends SSServPar{
   public List<SSUri>         entitiesToAttach = new ArrayList<>();
   public Long                creationTime     = null;
   public Boolean             read             = null;
-  public Boolean             setPublic        = null;
+  public Boolean             setPublic        = false;
 
   public String getEntity(){
     return SSStrU.removeTrailingSlash(entity);
@@ -157,7 +157,7 @@ public class SSEntityUpdatePar extends SSServPar{
     final List<SSUri>         entitiesToAttach,
     final Long                creationTime, 
     final Boolean             read,
-    final Boolean             setPublic,
+    final Boolean             setPublic, 
     final Boolean             withUserRestriction, 
     final Boolean             shouldCommit){
 

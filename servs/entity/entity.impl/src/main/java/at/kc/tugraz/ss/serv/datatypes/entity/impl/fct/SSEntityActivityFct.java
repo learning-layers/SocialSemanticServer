@@ -64,8 +64,9 @@ public class SSEntityActivityFct{
   }
   
   public static void setEntityPublic(
-    final SSUri user, 
-    final SSUri entity) throws Exception{
+    final SSUri    user, 
+    final SSUri    entity, 
+    final Boolean  shouldCommit) throws Exception{
     
      try{
       
@@ -80,7 +81,7 @@ public class SSEntityActivityFct{
           null, 
           null, 
           null, 
-          false));
+          shouldCommit));
       
     }catch(SSErr error){
       

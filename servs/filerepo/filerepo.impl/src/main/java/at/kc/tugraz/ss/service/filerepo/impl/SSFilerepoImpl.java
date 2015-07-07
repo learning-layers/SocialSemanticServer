@@ -43,11 +43,11 @@ import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileReplacePar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileThumbBase64GetPar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileUploadPar;
 import at.kc.tugraz.ss.service.filerepo.impl.fct.activity.SSFileActivityFct;
+import at.tugraz.sss.serv.SSCircleContentChangedPar;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSDBSQLI;
-import at.tugraz.sss.serv.SSEntityCircle;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServImplWithDBA;
@@ -98,26 +98,18 @@ implements
   }
   
   @Override
-  public void circleContentChanged(
-    final SSUri          user,
-    final SSUri          circle,
-    final Boolean        isCirclePublic,
-    final List<SSUri>    usersToAdd,
-    final List<SSEntity> entitiesToAdd,
-    final List<SSUri>    usersToPushEntitiesTo,
-    final List<SSUri>    circleUsers,
-    final List<SSEntity> circleEntities) throws Exception{
+  public void circleContentChanged(final SSCircleContentChangedPar par) throws Exception{
     
-    for(SSEntity entityToAdd: entitiesToAdd){
+    for(SSEntity entityToAdd: par.entitiesToAdd){
       
       switch(entityToAdd.type){
         
         case file:{
           
           SSFileActivityFct.shareFileWithUser(
-            user,
+            par.user,
             entityToAdd.id,
-            usersToPushEntitiesTo);
+            par.usersToPushEntitiesTo);
           
           break;
         }

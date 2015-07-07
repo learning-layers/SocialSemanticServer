@@ -24,7 +24,7 @@ import at.kc.tugraz.ss.activity.api.SSActivityServerI;
 import at.tugraz.sss.serv.SSLogU;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
 import at.kc.tugraz.ss.activity.datatypes.par.SSActivityAddPar;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCircleCreatePar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleCreateFromClientPar;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesAddPar;
@@ -37,8 +37,9 @@ import at.tugraz.sss.serv.SSServReg;
 public class SSCircleActivityFct{
   
   public static void createCircle(
-    final SSCircleCreatePar par,
-    final SSUri             circle) throws Exception{
+    final SSCircleCreateFromClientPar par,
+    final SSUri                       circle, 
+    final Boolean                     shouldCommit) throws Exception{
     
     try{
       
@@ -49,11 +50,11 @@ public class SSCircleActivityFct{
           par.user, 
           SSActivityE.createCircle, 
           circle, 
-          null, //users, 
-          null, //entities, 
+          par.users, //users, 
+          par.entities, //entities, 
           SSTextComment.asListWithoutNullAndEmpty(), 
           null, 
-          false));
+          shouldCommit));
       
     }catch(SSErr error){
       
@@ -128,8 +129,8 @@ public class SSCircleActivityFct{
   }
   
   public static void shareEntityWithUsers(
-    final SSCircleEntitySharePar par,
-    final SSUri                  circle) throws Exception{
+    final SSCircleEntitySharePar par, 
+    final Boolean                shouldCommit) throws Exception{
     
     try{
       
@@ -144,7 +145,7 @@ public class SSCircleActivityFct{
           SSUri.asListWithoutNullAndEmpty(), 
           SSTextComment.asListWithoutNullAndEmpty(par.comment), 
           null, 
-          false));
+          shouldCommit));
      
     }catch(SSErr error){
       
@@ -159,7 +160,8 @@ public class SSCircleActivityFct{
   }
   
   public static void shareEntityWithCircles(
-    final SSCircleEntitySharePar par) throws Exception{
+    final SSCircleEntitySharePar par, 
+    final Boolean                shouldCommit) throws Exception{
     
     try{
       
@@ -174,7 +176,7 @@ public class SSCircleActivityFct{
           SSUri.asListWithoutNullAndEmpty(par.circles),
           SSTextComment.asListWithoutNullAndEmpty(par.comment), 
           null, 
-          false));
+          shouldCommit));
       
     }catch(SSErr error){
       

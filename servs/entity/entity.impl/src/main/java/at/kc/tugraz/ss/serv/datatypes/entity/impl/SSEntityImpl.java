@@ -21,8 +21,8 @@
 package at.kc.tugraz.ss.serv.datatypes.entity.impl;
 
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitySharePar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivURIGetPar;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePubURIGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityClientI;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesForDescriptionsGetPar;
@@ -80,6 +80,7 @@ import at.tugraz.sss.serv.SSUsersResourcesGathererI;
 import at.tugraz.sss.util.SSServCallerU;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUEE;
 import at.kc.tugraz.ss.service.userevent.datatypes.pars.SSUEAddPar;
+import at.tugraz.sss.serv.SSCircleContentChangedPar;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
@@ -122,15 +123,7 @@ implements
   }
 
   @Override
-  public void circleContentChanged(
-    final SSUri          user,
-    final SSUri          circle,
-    final Boolean        isCirclePublic,
-    final List<SSUri>    usersToAdd,
-    final List<SSEntity> entitiesToAdd, 
-    final List<SSUri>    usersToPushEntitiesTo,
-    final List<SSUri>    circleUsers,
-    final List<SSEntity> circleEntities) throws Exception{
+  public void circleContentChanged(final SSCircleContentChangedPar par) throws Exception{
     
   }
   
@@ -447,6 +440,7 @@ implements
     SSServCallerU.checkKey(parA);
     
     final SSEntityUpdatePar par = (SSEntityUpdatePar) parA.getFromJSON(SSEntityUpdatePar.class);
+    final SSUri             entityURI;
     
     if(par.entity == null){
       throw new SSErr(SSErrE.parameterMissing);
@@ -481,8 +475,15 @@ implements
         default: throw new SSErr(SSErrE.entityTypeNotSupported);
       }
     }
+    
+    entityURI = entityUpdate(par);
       
-    sSCon.writeRetFullToClient(SSEntityUpdateRet.get(entityUpdate(par)));
+    sSCon.writeRetFullToClient(SSEntityUpdateRet.get(entityURI));
+    
+    SSEntityActivityFct.setEntityPublic(
+      par.user, 
+      entityURI, 
+      true);
   }
   
   @Override
@@ -649,50 +650,18 @@ implements
         par.setPublic != null &&
         par.setPublic){
         
-        if(par.withUserRestriction){
-          SSServCallerU.canUserAllEntity(par.user, par.entity);
-        }
-
-        final SSUri publicCircleURI =
-          ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePubURIGet(
-            new SSCirclePubURIGetPar(
-              null,
-              null,
-              par.user,
-              false)); //shouldCommit
-        
-        sqlFct.addEntityToCircleIfNotExists(
-          publicCircleURI, //SSCircleMiscFct.getPubCircleURI(sqlFct),
-          par.entity);
-        
-        final SSEntity tmpEntity;
-        
-        if(par.givenEntity == null){
-          
-          tmpEntity =
-            entityGet(
-              new SSEntityGetPar(
-                null,
-                null,
-                par.user,
-                par.entity,
-                null,  //forUser
-                null,  //label,
-                null,  //type,
-                false,  //withUserRestriction,
-                false,  //invokeEntityHandlers,
-                null,  //descPar,
-                true));  //logErr));
-        }else{
-          tmpEntity = par.givenEntity;
-        }
-        
-//        setPublicByEntityHandlers(
-//          par.user,
-//          tmpEntity, 
-//          publicCircleURI);
-        
-        SSEntityActivityFct.setEntityPublic(par.user, par.entity);
+        ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleEntityShare(
+          new SSCircleEntitySharePar(
+            null, 
+            null, 
+            par.user, 
+            null, //entity, 
+            null, //users, 
+            null, //circles, 
+            true, //setPublic, 
+            null, //comment, 
+            par.withUserRestriction, 
+            false)); //shouldCommit))
       }
       
       dbSQL.commit(par.shouldCommit);
@@ -1211,27 +1180,6 @@ implements
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
-    }
-  }
-  
-  public static void setPublicByEntityHandlers(
-    final SSUri        userUri,
-    final SSEntity     entity, 
-    final SSUri        publicCircleUri) throws Exception{
-    
-    try{
-      
-//      for(SSServContainerI serv : SSServReg.inst.getServsManagingEntities()){
-//        
-//        ((SSEntityHandlerImplI) serv.serv()).setEntityPublic(
-//          userUri,
-//          entity.id,
-//          entity.type,
-//          publicCircleUri);
-//      }
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
     }
   }
 }

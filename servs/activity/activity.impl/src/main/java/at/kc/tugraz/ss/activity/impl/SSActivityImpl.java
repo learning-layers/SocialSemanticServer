@@ -47,6 +47,7 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.kc.tugraz.ss.service.user.api.SSUserServerI;
 import at.kc.tugraz.ss.service.user.datatypes.SSUser;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUsersGetPar;
+import at.tugraz.sss.serv.SSCircleContentChangedPar;
 import at.tugraz.sss.serv.SSSocketCon;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSUri;
@@ -117,15 +118,7 @@ implements
   }
   
   @Override
-  public void circleContentChanged(
-    final SSUri          user,
-    final SSUri          circle,
-    final Boolean        isCirclePublic,
-    final List<SSUri>    usersToAdd,
-    final List<SSEntity> entitiesToAdd, 
-    final List<SSUri>    usersToPushEntitiesTo,
-    final List<SSUri>    circleUsers,
-    final List<SSEntity> circleEntities) throws Exception{
+  public void circleContentChanged(final SSCircleContentChangedPar par) throws Exception{
     
   } 
   

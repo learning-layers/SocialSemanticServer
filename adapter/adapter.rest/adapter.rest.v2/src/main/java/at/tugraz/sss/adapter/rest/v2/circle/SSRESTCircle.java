@@ -20,6 +20,7 @@
  */
 package at.tugraz.sss.adapter.rest.v2.circle;
 
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleCreateFromClientPar;
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
@@ -340,18 +341,15 @@ public class SSRESTCircle{
     try{
       
       par =
-        new SSCircleCreatePar(
+        new SSCircleCreateFromClientPar(
           SSServOpE.circleCreate,
           null,
           null,
           input.label, //label
           input.description, //description
-          false, //isSystemCircle
-          true, //withUserRestriction
-          true); //shouldCommit
-      
-//                input.entities, //entities
-//          input.users, //users
+          input.users, //users
+          input.entities);//entities
+
     }catch(Exception error){
       return Response.status(422).build();
     }

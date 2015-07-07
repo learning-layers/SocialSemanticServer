@@ -228,21 +228,13 @@ implements
   }
       
   @Override
-  public void circleContentChanged(
-    final SSUri          user,
-    final SSUri          circle,
-    final Boolean        isCirclePublic,
-    final List<SSUri>    usersToAdd,
-    final List<SSEntity> entitiesToAdd, 
-    final List<SSUri>    usersToPushEntitiesTo,
-    final List<SSUri>    circleUsers,
-    final List<SSEntity> circleEntities) throws Exception{
+  public void circleContentChanged(final SSCircleContentChangedPar par) throws Exception{
     
     SSUri rootColl;
     
     try{
     
-      for(SSEntity entityToAdd : entitiesToAdd){
+      for(SSEntity entityToAdd : par.entitiesToAdd){
 
         switch(entityToAdd.type){
 
@@ -250,7 +242,7 @@ implements
 
             if(sqlFct.isCollSpecial(entityToAdd.id)){
 
-              if(isCirclePublic){
+              if(par.isCirclePublic){
                 throw new SSErr(SSErrE.cannotSetSpecialCollectionPublic);
               }
 
@@ -263,8 +255,8 @@ implements
                 new SSCircleEntitiesAddPar(
                   null,
                   null,
-                  user,
-                  circle,
+                  par.user,
+                  par.circle,
                   getCollSubCollAndEntryURIs(sqlFct, sqlFct.getCollWithEntries(entityToAdd.id, new ArrayList<>())),
                   false,
                   false));
@@ -273,7 +265,7 @@ implements
               SSServErrReg.regErrThrow(error);
             }
 
-            for(SSUri userToPushEntityTo : usersToPushEntitiesTo){
+            for(SSUri userToPushEntityTo : par.usersToPushEntitiesTo){
 
               rootColl = SSServCaller.collUserRootGet (userToPushEntityTo).id;
 
@@ -297,14 +289,14 @@ implements
                 true);
             }
             
-            if(!usersToPushEntitiesTo.isEmpty()){
+            if(!par.usersToPushEntitiesTo.isEmpty()){
               
               ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleUsersAdd(
                 new SSCircleUsersAddPar(
                   null,
                   null,
-                  user,
-                  circle,
+                  par.user,
+                  par.circle,
                   sqlFct.getCollUserURIs(entityToAdd.id),
                   false,
                   false));
@@ -318,7 +310,7 @@ implements
 
             SSUri sharedWithMeFilesCollUri;
 
-            for(SSUri userToPushEntityTo : usersToPushEntitiesTo){
+            for(SSUri userToPushEntityTo : par.usersToPushEntitiesTo){
 
               sharedWithMeFilesCollUri = sqlFct.getCollSpecialURI (userToPushEntityTo);
 
@@ -1035,18 +1027,6 @@ implements
       
       sqlFct.addColl (rootCollUri);
 
-      //TODO check wether works, as it is already done in auth service
-//      ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleUsersAdd(
-//        new SSCircleUsersAddPar(
-//          null,
-//          null,
-//          par.user, 
-//          SSServCaller.circlePubURIGet(false), //circle
-//          SSUri.asListWithoutNullAndEmpty(par.user), //users
-//          false, //withUserRestriction
-//          false, //invokeEntityHandlers
-//          false)); //shouldCommit
-      
       sqlFct.addCollRoot(
         rootCollUri, 
         par.user);

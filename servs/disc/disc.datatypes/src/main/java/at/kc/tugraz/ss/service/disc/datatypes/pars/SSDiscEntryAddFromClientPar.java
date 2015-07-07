@@ -18,80 +18,72 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.circle.datatypes.par;
+package at.kc.tugraz.ss.service.disc.datatypes.pars;
 
+import at.tugraz.sss.serv.SSEntityE;
+import at.tugraz.sss.serv.SSLabel;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServOpE;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SSCircleEntitySharePar extends SSServPar{
+public class SSDiscEntryAddFromClientPar extends SSDiscEntryAddPar{
   
-  public SSUri         entity          = null;
-  public List<SSUri>   users           = new ArrayList<>();
-  public List<SSUri>   circles         = new ArrayList<>();
-  public Boolean       setPublic       = false;
-  public SSTextComment comment         = null;
+  public List<SSUri>         users          = new ArrayList<>();
+  public List<SSUri>         circles        = new ArrayList<>();
   
-  public void setEntity(final String entity) throws Exception{
-    this.entity = SSUri.get(entity);
-  }
-    
   public void setUsers(final List<String> users) throws Exception{
-    this.users = SSUri.get(users);
-  }
-    
-  public void setCircles(final List<String> circles) throws Exception{
-    this.circles = SSUri.get(circles);
-  }
-
-  public void getComment(final String comment) throws Exception{
-    this.comment = SSTextComment.get(comment);
-  }
-  
-  public String getEntity(){
-    return SSStrU.removeTrailingSlash(entity);
+    this.users = SSUri.get(users); 
   }
   
   public List<String> getUsers() throws Exception{
     return SSStrU.removeTrailingSlash(users);
   }
   
+  public void setCircles(final List<String> circles) throws Exception{
+    this.circles = SSUri.get(circles); 
+  }
+  
   public List<String> getCircles() throws Exception{
     return SSStrU.removeTrailingSlash(circles);
   }
   
-  public String getComment(){
-    return SSStrU.toStr(comment);
-  }
-
-  public SSCircleEntitySharePar(){}
+  public SSDiscEntryAddFromClientPar(){}
     
-  public SSCircleEntitySharePar(
+  public SSDiscEntryAddFromClientPar(
     final SSServOpE     op,
     final String        key,
     final SSUri         user,
-    final SSUri         entity,
-    final List<SSUri>   users,
-    final List<SSUri>   circles,
-    final Boolean       setPublic,
-    final SSTextComment comment, 
-    final Boolean       withUserRestriction, 
-    final Boolean       shouldCommit){
+    final SSUri         disc,
+    final SSUri         entity, 
+    final SSTextComment entry, 
+    final Boolean       addNewDisc,
+    final SSEntityE     type, 
+    final SSLabel       label, 
+    final SSTextComment description, 
+    final List<SSUri>   users, 
+    final List<SSUri>   circles, 
+    final List<SSUri>   entities, 
+    final List<SSLabel> entityLabels){
     
-    super(op, key, user);
-    
-    this.entity       = entity;
+    super(
+      op, 
+      key, 
+      user, 
+      disc, 
+      entity, 
+      entry, 
+      addNewDisc, 
+      type, 
+      label, 
+      description, 
+      entities, 
+      entityLabels, 
+      true); //shouldCommit
     
     SSUri.addDistinctWithoutNull(this.users,   users);
     SSUri.addDistinctWithoutNull(this.circles, circles);
-    
-    this.setPublic           = setPublic;
-    this.comment             = comment;
-    this.withUserRestriction = withUserRestriction;
-    this.shouldCommit        = shouldCommit;
   }
 }

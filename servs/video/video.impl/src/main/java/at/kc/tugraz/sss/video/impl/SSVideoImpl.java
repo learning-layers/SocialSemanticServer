@@ -48,6 +48,7 @@ import at.kc.tugraz.sss.video.datatypes.ret.SSVideoUserAddRet;
 import at.kc.tugraz.sss.video.datatypes.ret.SSVideoUserAnnotationAddRet;
 import at.kc.tugraz.sss.video.datatypes.ret.SSVideosUserGetRet;
 import at.kc.tugraz.sss.video.impl.fct.sql.SSVideoSQLFct;
+import at.tugraz.sss.serv.SSCircleContentChangedPar;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
@@ -90,19 +91,11 @@ implements
   }
 
   @Override
-  public void circleContentChanged(
-    final SSUri          user,
-    final SSUri          circle,
-    final Boolean        isCirclePublic,
-    final List<SSUri>    usersToAdd,
-    final List<SSEntity> entitiesToAdd,
-    final List<SSUri>    usersToPushEntitiesTo,
-    final List<SSUri>    circleUsers,
-    final List<SSEntity> circleEntities) throws Exception{
+  public void circleContentChanged(final SSCircleContentChangedPar par) throws Exception{
     
     try{
       
-      for(SSEntity entityToAdd : entitiesToAdd){
+      for(SSEntity entityToAdd : par.entitiesToAdd){
         
         switch(entityToAdd.type){
           
@@ -111,7 +104,7 @@ implements
             for(SSVideoAnnotation annotation : sqlFct.getAnnotations(entityToAdd.id)){
               
               try{
-                SSServCallerU.canUserReadEntity(user, annotation.id);
+                SSServCallerU.canUserReadEntity(par.user, annotation.id);
               }catch(Exception error){
                 SSServErrReg.reset();
                 continue;
@@ -121,14 +114,14 @@ implements
                 new SSCircleEntitiesAddPar(
                   null,
                   null,
-                  user,
-                  circle,
+                  par.user,
+                  par.circle,
                   SSUri.asListWithoutNullAndEmpty(annotation.id),
                   false,
                   false));
             }
 
-            for(SSUri userToPushEntityTo : usersToPushEntitiesTo){
+            for(SSUri userToPushEntityTo : par.usersToPushEntitiesTo){
               sqlFct.addVideoToUser(userToPushEntityTo, entityToAdd.id);
             }
             

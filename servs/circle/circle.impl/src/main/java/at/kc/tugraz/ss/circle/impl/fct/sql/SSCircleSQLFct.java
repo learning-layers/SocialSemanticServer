@@ -30,6 +30,8 @@ import at.tugraz.sss.serv.SSEntityCircle;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSDBSQLI;
+import at.tugraz.sss.serv.SSDateU;
+import at.tugraz.sss.serv.SSEntityA;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -40,11 +42,43 @@ import javax.ws.rs.core.MultivaluedMap;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSTextComment;
 
 public class SSCircleSQLFct extends SSDBSQLFct{
   
   public SSCircleSQLFct(final SSDBSQLI dbSQL) throws Exception{
     super(dbSQL);
+  }
+  
+  //remove this entity service duplication
+  public void addEntity(
+    final SSUri         entity,
+    final SSEntityE     entityType,
+    final SSUri         authorUri) throws Exception{
+    
+    final Map<String, String> inserts    = new HashMap<>();
+    
+    insert    (inserts,     SSSQLVarNames.id, entity);
+    
+    insert(inserts, SSSQLVarNames.creationTime, SSDateU.dateAsLong());
+    
+    insert(inserts, SSSQLVarNames.label, SSStrU.empty);
+    
+    if(entityType == null){
+      insert(inserts, SSSQLVarNames.type, SSEntityE.entity);
+    }else{
+      insert(inserts, SSSQLVarNames.type, entityType);
+    }
+    
+    if(authorUri == null){
+      insert(inserts, SSSQLVarNames.author, SSStrU.empty);
+    }else{
+      insert(inserts, SSSQLVarNames.author, authorUri);
+    }
+    
+    insert(inserts, SSSQLVarNames.description, SSStrU.empty);
+    
+    dbSQL.insert(SSSQLVarNames.entityTable, inserts);
   }
   
   public List<SSUri> getCircleURIs(

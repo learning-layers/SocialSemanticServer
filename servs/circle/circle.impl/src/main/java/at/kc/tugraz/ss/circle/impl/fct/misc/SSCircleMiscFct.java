@@ -24,26 +24,17 @@ import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSObjU;
 import at.tugraz.sss.serv.SSStrU;
 import at.kc.tugraz.ss.circle.impl.fct.sql.SSCircleSQLFct;
-import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
-import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.tugraz.sss.serv.SSCircleE;
 import at.tugraz.sss.serv.SSCircleRightE;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSEntityE;
-import at.tugraz.sss.serv.SSServReg;
-import at.tugraz.sss.serv.caller.SSServCaller;
 import java.util.ArrayList;
 import java.util.List;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
-import at.tugraz.sss.serv.SSTextComment;
 
 public class SSCircleMiscFct{
-  
-  private static SSUri pubCircleUri = null;
   
   public static void checkWhetherUserIsAllowedToEditCircle(
     final SSCircleSQLFct sqlFct,
@@ -159,18 +150,6 @@ public class SSCircleMiscFct{
     return false;
   }
   
-  public static SSUri getPubCircleURI(
-    final SSCircleSQLFct sqlFct) throws Exception{
-    
-    if(pubCircleUri != null){
-      return pubCircleUri;
-    }
-    
-    pubCircleUri = addOrGetPubCircleURI(sqlFct);
-    
-    return pubCircleUri;
-  }
-  
   public static void checkWhetherUserIsInCircle(
     final SSCircleSQLFct sqlFct,
     final SSUri          user,
@@ -216,109 +195,6 @@ public class SSCircleMiscFct{
     }
   }
   
-  public static SSUri addOrGetPrivCircleURI(
-    final SSCircleSQLFct sqlFct,
-    final SSUri          user) throws Exception{
-    
-    SSUri circleURI;
-      
-    try{
-      
-      circleURI = sqlFct.getPrivCircleURI(user);
-      
-      if(circleURI != null){
-        return circleURI;
-      }
-
-      circleURI  = SSServCaller.vocURICreate();
-      
-      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
-        new SSEntityUpdatePar(
-          null,
-          null,
-          SSVocConf.systemUserUri,
-          circleURI,
-          null, //uriAlternative
-          SSEntityE.circle,
-          null, //label,
-          null, //description,
-          SSTextComment.asListWithoutNullAndEmpty(), //comments,
-          SSUri.asListWithoutNullAndEmpty(), //downloads,
-          SSUri.asListWithoutNullAndEmpty(), //screenShots,
-          SSUri.asListWithoutNullAndEmpty(), //images,
-          SSUri.asListWithoutNullAndEmpty(), //videos,
-          SSUri.asListWithoutNullAndEmpty(), //entitiesToAttach,
-          null, //creationTime,
-          null, //read,
-          false, //setPublic
-          false, //withUserRestriction,
-          false)); //shouldCommit))
-            
-      sqlFct.addCircle(
-        circleURI,
-        SSCircleE.priv,
-        true);
-      
-      sqlFct.addUserToCircleIfNotExists(
-        circleURI,
-        user);
-      
-      return circleURI;
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
-  public static SSUri addOrGetPubCircleURI(
-    final SSCircleSQLFct sqlFct) throws Exception{
-    
-    SSUri circleURI;
-      
-    try{
-      
-      circleURI = sqlFct.getPubCircleURI();
-      
-      if(circleURI != null){
-        return circleURI;
-      }
-      
-      circleURI = SSServCaller.vocURICreate();
-      
-      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
-        new SSEntityUpdatePar(
-          null,
-          null,
-          SSVocConf.systemUserUri,
-          circleURI,
-          null, //uriAlternative
-          SSEntityE.circle,
-          null, //label,
-          null, //description,
-          SSTextComment.asListWithoutNullAndEmpty(), //comments,
-          SSUri.asListWithoutNullAndEmpty(), //downloads,
-          SSUri.asListWithoutNullAndEmpty(), //screenShots,
-          SSUri.asListWithoutNullAndEmpty(), //images,
-          SSUri.asListWithoutNullAndEmpty(), //videos,
-          SSUri.asListWithoutNullAndEmpty(), //entitiesToAttach,
-          null, //creationTime,
-          null, //read,
-          null, //setPublic
-          false, //withUserRestriction,
-          false)); //shouldCommit))
-      
-      sqlFct.addCircle(
-        circleURI,
-        SSCircleE.pub,
-        true);
-      
-      return circleURI;
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
   public static void checkWhetherUserCanForEntityType(
     final SSCircleSQLFct sqlFct,
     final SSUri          user, 
@@ -349,6 +225,28 @@ public class SSCircleMiscFct{
       }
     }catch(SSErr error){
       SSServErrReg.regErrThrow(new SSErr(SSErrE.userNotAllowedToAccessEntity), logErr);
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+
+  public static void addCircle(
+    final SSCircleSQLFct sqlFct, 
+    final SSUri          circleUri,
+    final SSCircleE      circleType,
+    final Boolean        isSystemCircle,
+    final SSUri          userToAdd) throws Exception{
+    
+    try{
+      sqlFct.addCircle(
+        circleUri,
+        circleType,
+        isSystemCircle);
+      
+      sqlFct.addUserToCircleIfNotExists(
+        circleUri,
+        userToAdd);
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }

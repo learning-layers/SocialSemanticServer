@@ -39,8 +39,6 @@ public class SSDiscEntryAddPar extends SSServPar{
   public SSEntityE           type           = null;
   public SSLabel             label          = null;
   public SSTextComment       description    = null;
-  public List<SSUri>         users          = new ArrayList<>();
-  public List<SSUri>         circles        = new ArrayList<>();
   public List<SSUri>         entities       = new ArrayList<>();
   public List<SSLabel>       entityLabels   = new ArrayList<>();
 
@@ -66,14 +64,6 @@ public class SSDiscEntryAddPar extends SSServPar{
 
   public void setDescription(final String description) throws Exception{
     this.description = SSTextComment.get(description); 
-  }
-  
-  public void setUsers(final List<String> users) throws Exception{
-    this.users = SSUri.get(users); 
-  }
-  
-  public void setCircles(final List<String> circles) throws Exception{
-    this.circles = SSUri.get(circles); 
   }
   
   public void setEntities(final List<String> entities) throws Exception{
@@ -108,10 +98,6 @@ public class SSDiscEntryAddPar extends SSServPar{
     return SSStrU.toStr(description);
   }
 
-  public List<String> getUsers() throws Exception{
-    return SSStrU.removeTrailingSlash(users);
-  }
-
   public List<String> getEntities() throws Exception{
     return SSStrU.removeTrailingSlash(entities);
   }
@@ -133,8 +119,6 @@ public class SSDiscEntryAddPar extends SSServPar{
     final SSEntityE     type, 
     final SSLabel       label, 
     final SSTextComment description, 
-    final List<SSUri>   users, 
-    final List<SSUri>   circles, 
     final List<SSUri>   entities, 
     final List<SSLabel> entityLabels,
     final Boolean       shouldCommit){
@@ -148,18 +132,8 @@ public class SSDiscEntryAddPar extends SSServPar{
     this.type        = type;
     this.label       = label;
     this.description = description;
-    
-    if(users != null){
-      this.users.addAll(users);
-    }
-    
-    if(circles!= null){
-      this.circles.addAll(circles);
-    }
-    
-    if(entities != null){
-      this.entities.addAll(entities);
-    }
+
+    SSUri.addDistinctWithoutNull(this.entities, entities);
     
     if(entityLabels != null){
       this.entityLabels.addAll(entityLabels);

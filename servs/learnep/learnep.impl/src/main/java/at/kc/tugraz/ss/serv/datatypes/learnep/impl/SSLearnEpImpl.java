@@ -81,6 +81,7 @@ import at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.access.SSLearnEpAccessCon
 import at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.activity.SSLearnEpActivityFct;
 import at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.misc.SSLearnEpMiscFct;
 import at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.sql.SSLearnEpSQLFct;
+import at.tugraz.sss.serv.SSCircleContentChangedPar;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSSocketCon;
 import at.tugraz.sss.serv.SSDBSQLI;
@@ -189,24 +190,16 @@ implements
   }
 
   @Override
-  public void circleContentChanged(
-    final SSUri          user,
-    final SSUri          circle,
-    final Boolean        isCirclePublic,
-    final List<SSUri>    usersToAdd,
-    final List<SSEntity> entitiesToAdd,
-    final List<SSUri>    usersToPushEntitiesTo,
-    final List<SSUri>    circleUsers,
-    final List<SSEntity> circleEntities) throws Exception{
+  public void circleContentChanged(final SSCircleContentChangedPar par) throws Exception{
     
     try{
-      for(SSEntity entityToAdd : entitiesToAdd){
+      for(SSEntity entityToAdd : par.entitiesToAdd){
         
         switch(entityToAdd.type){
           
           case learnEp:{
             
-            for(SSUri userToPushEntityTo : usersToPushEntitiesTo){
+            for(SSUri userToPushEntityTo : par.usersToPushEntitiesTo){
               
               if(sqlFct.ownsUserLearnEp(userToPushEntityTo, entityToAdd.id)){
                 continue;
@@ -219,28 +212,28 @@ implements
               new SSCircleEntitiesAddPar(
                 null,
                 null,
-                user,
-                circle,
-                SSLearnEpMiscFct.getLearnEpContentURIs(user, sqlFct, entityToAdd.id),
+                par.user,
+                par.circle,
+                SSLearnEpMiscFct.getLearnEpContentURIs(par.user, sqlFct, entityToAdd.id),
                 false,
                 false));
             
-            if(!usersToPushEntitiesTo.isEmpty()){
+            if(!par.usersToPushEntitiesTo.isEmpty()){
               
               ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleUsersAdd(
                 new SSCircleUsersAddPar(
                   null,
                   null,
-                  user,
-                  circle,
+                  par.user,
+                  par.circle,
                   sqlFct.getLearnEpUserURIs(entityToAdd.id),
                   false,
                   false));
               
               SSLearnEpActivityFct.shareLearnEp(
-                user,
+                par.user,
                 entityToAdd.id,
-                usersToPushEntitiesTo);
+                par.usersToPushEntitiesTo);
             }
             
             break;

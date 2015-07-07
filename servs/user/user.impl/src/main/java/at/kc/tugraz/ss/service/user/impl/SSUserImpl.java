@@ -21,6 +21,8 @@
 package at.kc.tugraz.ss.service.user.impl;
 
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePubURIGetPar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleUsersAddPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
@@ -47,6 +49,7 @@ import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserURIGetPar;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUsersGetPar;
 import at.kc.tugraz.ss.service.user.datatypes.ret.SSUserAllRet;
 import at.kc.tugraz.ss.service.user.impl.functions.sql.SSUserSQLFct;
+import at.tugraz.sss.serv.SSCircleContentChangedPar;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
@@ -164,15 +167,7 @@ implements
   }
   
   @Override
-  public void circleContentChanged(
-    final SSUri          user,
-    final SSUri          circle,
-    final Boolean        isCirclePublic,
-    final List<SSUri>    usersToAdd,
-    final List<SSEntity> entitiesToAdd,
-    final List<SSUri>    usersToPushEntitiesTo,
-    final List<SSUri>    circleUsers,
-    final List<SSEntity> circleEntities) throws Exception{
+  public void circleContentChanged(final SSCircleContentChangedPar par) throws Exception{
     
   }
   
@@ -260,6 +255,7 @@ implements
       final SSUri         userUri;
       final SSLabel       tmpLabel;
       final String        tmpEmail;
+      final SSUri         publicCircleURI;
       
       if(par.isSystemUser){
         userUri  = SSVocConf.systemUserUri;
@@ -295,7 +291,25 @@ implements
           true, //setPublic
           true, //withUserRestriction
           false)); //shouldCommit)
-            
+      
+      publicCircleURI = 
+        ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePubURIGet(
+          new SSCirclePubURIGetPar(
+            null,
+            null,
+            par.user,
+            false));
+      
+      ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleUsersAdd(
+        new SSCircleUsersAddPar(
+          null,
+          null,
+          SSVocConf.systemUserUri, 
+          publicCircleURI, //circle
+          SSUri.asListWithoutNullAndEmpty(userUri), //users
+          false, //withUserRestriction
+          false)); //shouldCommit
+      
       sqlFct.addUser(userUri, tmpEmail);
       
       dbSQL.commit(par.shouldCommit);
