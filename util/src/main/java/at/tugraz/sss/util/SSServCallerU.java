@@ -22,6 +22,8 @@ package at.tugraz.sss.util;
 
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleCanAccessPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesGetPar;
 import at.tugraz.sss.serv.SSCircleRightE;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSEntityE;
@@ -247,5 +249,36 @@ public class SSServCallerU{
         null,
         SSCircleRightE.all,
         true));
+  }
+  
+  public static void checkWhetherUsersAreUsers(final List<SSUri> users) throws Exception{
+    
+    try{
+      
+      final List<SSEntity> entities =
+        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
+          new SSEntitiesGetPar(
+            null,
+            null,
+            null,
+            users,    //entities
+            null,     //forUser
+            SSEntityE.asListWithoutNullAndEmpty(), //types
+            false,   //invokeEntityHandlers
+            null,    //descPar
+            false,  //withUserRestriction
+            true)); //logErr
+      
+      for(SSEntity entity : entities){
+        
+        switch(entity.type){
+          
+          case user: continue;
+          default:   throw new SSErr(SSErrE.userNotRegistered);
+        }
+      }
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
   }
 }

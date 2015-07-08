@@ -24,7 +24,6 @@ import at.kc.tugraz.ss.circle.datatypes.par.SSCircleCanAccessPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleCreatePar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesAddPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesRemovePar;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitySharePar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntityUsersGetPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleGetPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleMostOpenCircleTypeGetPar;
@@ -54,5 +53,4 @@ public interface SSCircleServerI extends SSServServerI{
   public SSUri                           circlePubURIGet                          (final SSCirclePubURIGetPar             par) throws Exception;
   public List<SSEntity>                  circleEntityUsersGet                     (final SSCircleEntityUsersGetPar        par) throws Exception;  
   public List<SSUri>                     circleEntitiesRemove                     (final SSCircleEntitiesRemovePar        par) throws Exception;
-  public SSUri                           circleEntityShare                        (final SSCircleEntitySharePar           par) throws Exception;
 }

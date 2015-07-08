@@ -60,7 +60,6 @@ import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
-import at.tugraz.sss.serv.SSEntityDescriberI;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
 import at.tugraz.sss.serv.SSEntityHandlerImplI;
 import at.tugraz.sss.serv.SSErr;
@@ -82,7 +81,6 @@ implements
   SSCategoryClientI, 
   SSCategoryServerI, 
   SSEntityHandlerImplI, 
-  SSEntityDescriberI, 
   SSUserRelationGathererI{
   
   private final SSCategorySQLFct   sqlFct;
@@ -160,7 +158,7 @@ implements
     final SSUri         entity,
     final SSEntityE     type) throws Exception{
 
-    return null;
+    return new ArrayList<>();
   }
   
   @Override

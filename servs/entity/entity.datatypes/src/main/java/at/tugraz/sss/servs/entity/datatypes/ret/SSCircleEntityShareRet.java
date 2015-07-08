@@ -18,7 +18,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.circle.datatypes.ret;
+package at.tugraz.sss.servs.entity.datatypes.ret;
 
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
@@ -55,7 +55,7 @@ public class SSCircleEntityShareRet extends SSServRetI{
   private SSCircleEntityShareRet(
     final SSUri   entity){
     
-    super(SSServOpE.circleEntityShare);
+    super(SSServOpE.entityShare);
     
     this.entity = entity;
   }

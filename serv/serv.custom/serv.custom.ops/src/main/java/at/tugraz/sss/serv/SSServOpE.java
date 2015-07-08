@@ -22,6 +22,11 @@ package at.tugraz.sss.serv;
 
 public enum SSServOpE{
   
+  //thumb
+  thumbsGet,
+  thumbAdd,
+  thumbBase64Get,
+  
   //eval
   evalLog,
   
@@ -108,7 +113,6 @@ public enum SSServOpE{
   circlePrivURIGet,
   circlePubURIGet,
   circleCanAccess,
-  circleEntityShare,
   circleEntitiesRemove,
   
   //entity
@@ -122,8 +126,6 @@ public enum SSServOpE{
   entityUserParentEntitiesGet,
   entityUserDirectlyAdjoinedEntitiesRemove            ,
   entityRemove                                        ,
-  entityThumbAdd,
-  entityThumbsGet,
   entityFilesGet,
   entityFileAdd,
   entityUpdate,
@@ -136,6 +138,7 @@ public enum SSServOpE{
   entityDownloadURIsGet,
   entityLocationsAdd,
   entityLocationsGet,
+  entityShare,
   
   //learn ep
   learnEpsGet                                         ,
@@ -178,7 +181,6 @@ public enum SSServOpE{
   //user event
   uEsGet                                              ,
   uEAdd                                               ,
-  uEsRemove,
   uEGet                                               ,
   uECountGet                                          ,
   
@@ -243,7 +245,6 @@ public enum SSServOpE{
   fileReplace                                         ,
   fileDownload                                        ,
   fileIDFromURI                                       ,
-  fileThumbBase64Get,
   
   //data import
   dataImportUserResourceTagFromWikipedia              ,
@@ -272,7 +273,6 @@ public enum SSServOpE{
   authRegisterUser,
   authCheckCred                                       ,
   authCheckKey                                        ,
-  
   
   //coll
   collUserRootGet                                     ,

@@ -866,34 +866,6 @@ public class SSServCaller {
     SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entityFileAdd, opPars));
   }
   
-  public static List<SSUri> entityThumbsGet(
-    final SSUri user, 
-    final SSUri entity) throws Exception{
-   
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.user,         user);
-    opPars.put(SSVarNames.entity,       entity);
-    
-    return (List<SSUri>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entityThumbsGet, opPars));
-  }
-  
-  public static void entityThumbAdd(
-    final SSUri   user,
-    final SSUri   entity,
-    final SSUri   thumb,
-    final Boolean shouldCommit) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.user,         user);
-    opPars.put(SSVarNames.entity,       entity);
-    opPars.put(SSVarNames.thumb,        thumb);
-    opPars.put(SSVarNames.shouldCommit, shouldCommit);
-    
-    SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entityThumbAdd, opPars));
-  }
-  
   public static List<SSEntity> entitiesForLabelsAndDescriptionsGet(
     final List<String> requireds,
     final List<String> absents,
@@ -982,58 +954,6 @@ public class SSServCaller {
     return (SSUri) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entityUserDirectlyAdjoinedEntitiesRemove, opPars));
   }
   
-//  public static List<SSEntity> entityDescsGet(
-//    final SSUri           user, 
-//    final List<SSUri>     entities,
-//    final List<SSEntityE> types,
-//    final Boolean         getTags,
-//    final Boolean         getOverallRating,
-//    final Boolean         getDiscs,
-//    final Boolean         getUEs,
-//    final Boolean         getThumb,
-//    final Boolean         getFlags) throws Exception{
-//    
-//    final Map<String, Object> opPars = new HashMap<>();
-//    
-//    opPars.put(SSVarNames.user,             user);
-//    opPars.put(SSVarNames.entities,         entities);
-//    opPars.put(SSVarNames.types,            types);
-//    opPars.put(SSVarNames.getTags,          getTags);
-//    opPars.put(SSVarNames.getOverallRating, getOverallRating);
-//    opPars.put(SSVarNames.getDiscs,         getDiscs);
-//    opPars.put(SSVarNames.getUEs,           getUEs);
-//    opPars.put(SSVarNames.getThumb,         getThumb);
-//    opPars.put(SSVarNames.getFlags,         getFlags);
-//    
-//    return (List<SSEntity>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entityDescsGet, opPars));
-//  }
-  
-//  public static SSEntity entityDescGet(
-//    final SSUri   user, 
-//    final SSUri   entity,
-//    final Boolean getTags,
-//    final Boolean getOverallRating,
-//    final Boolean getDiscs,
-//    final Boolean getUEs,
-//    final Boolean getThumb,
-//    final Boolean getFlags,
-//    final Boolean getCircles) throws Exception{
-//    
-//    final Map<String, Object> opPars = new HashMap<>();
-//    
-//    opPars.put(SSVarNames.user,             user);
-//    opPars.put(SSVarNames.entity,           entity);
-//    opPars.put(SSVarNames.getTags,          getTags);
-//    opPars.put(SSVarNames.getOverallRating, getOverallRating);
-//    opPars.put(SSVarNames.getDiscs,         getDiscs);
-//    opPars.put(SSVarNames.getUEs,           getUEs);
-//    opPars.put(SSVarNames.getThumb,         getThumb);
-//    opPars.put(SSVarNames.getFlags,         getFlags);
-//    opPars.put(SSVarNames.getCircles,       getCircles);
-//    
-//    return (SSEntity) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entityDescGet, opPars));
-//  }
-  
   public static void entityRemove(
     final SSUri   entity, 
     final Boolean shouldCommit) throws Exception{
@@ -1044,112 +964,6 @@ public class SSServCaller {
     opPars.put(SSVarNames.shouldCommit, shouldCommit);
     
     SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entityRemove, opPars));
-  }
-  
-//  public static Boolean entityUserCopy(
-//    final SSUri         user,
-//    final SSUri         entity,
-//    final List<SSUri>   users,
-//    final List<SSUri>   entitiesToExclude,
-//    final SSTextComment comment,
-//    final Boolean       shouldCommit) throws Exception{
-//    
-//    final Map<String, Object> opPars = new HashMap<>();
-//    
-//    opPars.put(SSVarNames.user,               user);
-//    opPars.put(SSVarNames.entity,             entity);
-//    opPars.put(SSVarNames.users,              users);
-//    opPars.put(SSVarNames.entitiesToExclude,  entitiesToExclude);
-//    opPars.put(SSVarNames.comment,            comment);
-//    opPars.put(SSVarNames.shouldCommit,       shouldCommit);
-//    
-//    return (Boolean) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entityUserCopy, opPars));
-//  }
-//  
-  /* circle */
-  
-//  public static List<SSUri> circleEntitiesRemove(
-//    final SSUri                    user,
-//    final SSUri                    circle, 
-//    final List<SSUri>              entities,
-//    final Boolean                  withUserRestriction,
-//    final Boolean                  shouldCommit) throws Exception{
-//    
-//    final Map<String, Object> opPars = new HashMap<>();
-//    
-//    opPars.put(SSVarNames.user,                user);
-//    opPars.put(SSVarNames.circle,              circle);
-//    opPars.put(SSVarNames.entities,            entities);
-//    opPars.put(SSVarNames.withUserRestriction, withUserRestriction);
-//    opPars.put(SSVarNames.shouldCommit,        shouldCommit);
-//    
-//    return (List<SSUri>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.circleEntitiesRemove, opPars));
-//  }
-  
-//  public static SSEntity circleUserCan(
-//    final SSUri                    user,
-//    final SSUri                    entity, 
-//    final SSCircleRightE           accessRight) throws Exception{
-//    
-//    final Map<String, Object> opPars = new HashMap<>();
-//    
-//    opPars.put(SSVarNames.user,        user);
-//    opPars.put(SSVarNames.entity,      entity);
-//    opPars.put(SSVarNames.accessRight, accessRight);
-//    
-//    return (SSEntity) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.circleUserCan, opPars));
-//  }
-  
-//  public static SSEntity circleUserCan(
-//    final SSUri                    user,
-//    final SSUri                    entity, 
-//    final SSCircleRightE           accessRight,
-//    final Boolean                  logErr) throws Exception{
-//    
-//    final Map<String, Object> opPars = new HashMap<>();
-//    
-//    opPars.put(SSVarNames.user,        user);
-//    opPars.put(SSVarNames.entity,      entity);
-//    opPars.put(SSVarNames.accessRight, accessRight);
-//    opPars.put(SSVarNames.logErr,      logErr);
-//    
-//    return (SSEntity) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.circleUserCan, opPars));
-//  }
-  
-//  public static SSUri circleEntityShare(
-//    final SSUri         user,
-//    final SSUri         entity,
-//    final List<SSUri>   users,
-//    final List<SSUri>   circles,
-//    final SSTextComment comment,
-//    final Boolean       shouldCommit) throws Exception{
-//    
-//    final Map<String, Object> opPars = new HashMap<>();
-//    
-//    opPars.put(SSVarNames.user,          user);
-//    opPars.put(SSVarNames.entity,        entity);
-//    opPars.put(SSVarNames.users,         users);
-//    opPars.put(SSVarNames.circles,       circles);
-//    opPars.put(SSVarNames.comment,       comment);
-//    opPars.put(SSVarNames.shouldCommit,  shouldCommit);
-//    
-//    return (SSUri) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.circleEntityShare, opPars));
-//  }
-  
-  /* user event */
-  
-  public static Boolean uEsRemove(
-    final SSUri   user, 
-    final SSUri   entity, 
-    final Boolean shouldCommit) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.shouldCommit, shouldCommit);
-    opPars.put(SSVarNames.user,         user);
-    opPars.put(SSVarNames.entity,       entity);
-    
-    return (Boolean) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.uEsRemove, opPars));
   }
   
   /* modeling user event */
@@ -1300,20 +1114,6 @@ public class SSServCaller {
     opPars.put(SSVarNames.includeOwn,             includeOwn);
     
     return (Map<SSEntity, Double>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.recommResources, opPars));
-  }
-  
-  /* file */
-  
-  public static String fileThumbBase64Get(
-    final SSUri user,
-    final SSUri file) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.user,  user);
-    opPars.put(SSVarNames.file,  file);
-    
-    return (String) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.fileThumbBase64Get, opPars));
   }
   
   /* data import */

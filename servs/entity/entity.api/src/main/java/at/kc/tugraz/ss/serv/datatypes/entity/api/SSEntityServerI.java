@@ -31,15 +31,17 @@ import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSImage;
 import at.tugraz.sss.serv.SSLocation;
 import at.tugraz.sss.serv.SSServServerI;
+import at.tugraz.sss.servs.entity.datatypes.par.SSCircleEntitySharePar;
 import java.util.List;
 
 public interface SSEntityServerI extends SSServServerI{
 
-  public List<SSEntity> entitiesGet   (final SSEntitiesGetPar    par) throws Exception;
-  public SSUri          entityUpdate  (final SSEntityUpdatePar   par) throws Exception;
-  public Boolean        entityReadGet (final SSEntityReadGetPar  par) throws Exception;
-  public Boolean        entityCopy    (final SSEntityCopyPar     par) throws Exception;
-  public SSEntity       entityGet     (final SSEntityGetPar      par) throws Exception;
+  public List<SSEntity> entitiesGet   (final SSEntitiesGetPar       par) throws Exception;
+  public SSUri          entityUpdate  (final SSEntityUpdatePar      par) throws Exception;
+  public Boolean        entityReadGet (final SSEntityReadGetPar     par) throws Exception;
+  public Boolean        entityCopy    (final SSEntityCopyPar        par) throws Exception;
+  public SSEntity       entityGet     (final SSEntityGetPar         par) throws Exception;
+  public SSUri          entityShare   (final SSCircleEntitySharePar par) throws Exception;
   
   public List<SSUri>                     entityUserSubEntitiesGet                 (final SSServPar parA) throws Exception;
   public List<SSUri>                     entityUserParentEntitiesGet              (final SSServPar parA) throws Exception;
@@ -47,14 +49,11 @@ public interface SSEntityServerI extends SSServServerI{
   public List<SSEntity>                  entityEntitiesAttachedGet                (final SSServPar parA) throws Exception;
   public SSUri                           entityFileAdd                            (final SSServPar parA) throws Exception;
   public List<SSUri>                     entityFilesGet                           (final SSServPar parA) throws Exception;
-  public SSUri                           entityThumbAdd                           (final SSServPar parA) throws Exception;
-  public List<SSUri>                     entityThumbsGet                          (final SSServPar parA) throws Exception;
   public List<SSEntity>                  entitiesForLabelsAndDescriptionsGet      (final SSServPar parA) throws Exception;
   public List<SSEntity>                  entitiesForLabelsGet                     (final SSServPar parA) throws Exception;
   public List<SSEntity>                  entitiesForDescriptionsGet               (final SSServPar parA) throws Exception;
   public SSUri                           entityUserDirectlyAdjoinedEntitiesRemove (final SSServPar parA) throws Exception;
   public SSUri                           entityRemove                             (final SSServPar parA) throws Exception;
-  
   
   public List<SSImage>                   entityScreenShotsGet                     (final SSServPar parA) throws Exception;
   public List<SSUri>                     entityDownloadURIsGet                    (final SSServPar parA) throws Exception;

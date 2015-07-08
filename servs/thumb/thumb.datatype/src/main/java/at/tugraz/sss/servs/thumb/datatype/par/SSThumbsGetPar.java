@@ -18,33 +18,37 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.service.filerepo.datatypes.pars;
+package at.tugraz.sss.servs.thumb.datatype.par;
 
-import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.SSUri;
 
-public class SSFileThumbBase64GetPar extends SSServPar{
+public class SSThumbsGetPar extends SSServPar{
   
-  public SSUri file = null;
+  public SSUri entity = null;
 
-  public String getFile(){
-    return SSStrU.removeTrailingSlash(file);
+  public String getEntity(){
+    return SSStrU.removeTrailingSlash(entity);
   }
 
-  public void setFile(final String file) throws Exception{
-    this.file = SSUri.get(file);
+  public void setEntity(final String entity) throws Exception{
+    this.entity = SSUri.get(entity);
   }
   
-  public SSFileThumbBase64GetPar(
+  public SSThumbsGetPar(){}
+  
+  public SSThumbsGetPar(
     final SSServOpE     op,
     final String        key,
     final SSUri         user,
-    final SSUri         file){
+    final SSUri         entity,
+    final Boolean       withUserRestriction){
     
     super(op, key, user);
     
-    this.file   = file;
+    this.entity              = entity;
+    this.withUserRestriction = withUserRestriction;
   }
 }

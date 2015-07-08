@@ -39,6 +39,8 @@ import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.caller.SSServCaller;
+import at.tugraz.sss.servs.thumb.api.SSThumbServerI;
+import at.tugraz.sss.servs.thumb.datatype.par.SSThumbsGetPar;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -196,7 +198,14 @@ public class SSLearnEpMiscFct{
             learnEpContentUris.add(file);
           }
           
-          for(SSUri thumb : SSServCaller.entityThumbsGet(user, entity.entity.id)){
+          for(SSUri thumb : ((SSThumbServerI) SSServReg.getServ(SSThumbServerI.class)).thumbsGet(
+            new SSThumbsGetPar(
+              null,
+              null,
+              user,
+              entity.entity.id,
+              false))){
+            
             learnEpContentUris.add(thumb);
           }
         }

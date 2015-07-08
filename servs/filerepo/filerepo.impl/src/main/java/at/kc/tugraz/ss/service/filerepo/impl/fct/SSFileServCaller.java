@@ -37,8 +37,7 @@ public class SSFileServCaller{
   
   public static void addFileEntity(
     final SSFileUploadPar par,
-    final SSUri           file,
-    final Boolean         shouldCommit) throws Exception{
+    final SSUri           file) throws Exception{
     
     try{
       
@@ -62,7 +61,7 @@ public class SSFileServCaller{
             null, //read,
             false, //setPublic
             false, //withUserRestriction
-            shouldCommit)); //shouldCommit)
+            false)); //shouldCommit)
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -71,8 +70,7 @@ public class SSFileServCaller{
   
   public static void addFileContentsToSolr(
     final SSFileUploadPar par,
-    final String          fileId,
-    final Boolean         shouldCommit) throws Exception{
+    final String          fileId) throws Exception{
     
     try{
       
@@ -80,7 +78,7 @@ public class SSFileServCaller{
         par.user,
         fileId,
         par.mimeType,
-        shouldCommit);
+        false);
       
     }catch(Exception error){
       

@@ -20,9 +20,9 @@
 */
 package at.tugraz.sss.adapter.rest.v2.entity;
 
-import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitySharePar;
+import at.tugraz.sss.servs.entity.datatypes.par.SSCircleEntitySharePar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntityUsersGetPar;
-import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleEntityShareRet;
+import at.tugraz.sss.servs.entity.datatypes.ret.SSCircleEntityShareRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleEntityUsersGetRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
@@ -212,7 +212,7 @@ public class SSRESTEntity {
     try{
       par =
         new SSCircleEntitySharePar(
-          SSServOpE.circleEntityShare, 
+          SSServOpE.entityShare, 
           null, //key 
           null, //user
           SSUri.get(entity, SSVocConf.sssUri), //entity

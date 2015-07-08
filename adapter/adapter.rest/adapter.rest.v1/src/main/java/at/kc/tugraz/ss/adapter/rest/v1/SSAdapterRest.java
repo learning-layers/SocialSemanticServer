@@ -22,8 +22,8 @@ package at.kc.tugraz.ss.adapter.rest.v1;
 
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitySharePar;
-import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleEntityShareRet;
+import at.tugraz.sss.servs.entity.datatypes.par.SSCircleEntitySharePar;
+import at.tugraz.sss.servs.entity.datatypes.ret.SSCircleEntityShareRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityCopyPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityCopyRet;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserCumulatedTagsGetPar;

@@ -47,5 +47,6 @@
     <module>video</module>
     <module>circle</module>
     <module>ocd</module>
+    <module>thumb</module>
   </modules>
 </project>

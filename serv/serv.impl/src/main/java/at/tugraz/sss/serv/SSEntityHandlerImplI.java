@@ -24,6 +24,10 @@ import java.util.List;
 
 public interface SSEntityHandlerImplI{
 
+  public SSEntity getUserEntity(
+    final SSEntity             entity, 
+    final SSEntityDescriberPar par) throws Exception;
+  
   public void removeDirectlyAdjoinedEntitiesForUser(
     final SSUri       userUri,
     final SSEntityE   entityType,

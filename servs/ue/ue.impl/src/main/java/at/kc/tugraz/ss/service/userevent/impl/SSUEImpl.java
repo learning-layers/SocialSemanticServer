@@ -30,7 +30,6 @@ import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSConfA;
-import at.tugraz.sss.serv.SSEntityDescriberI;
 import at.tugraz.sss.serv.SSEntityHandlerImplI;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.SSUsersResourcesGathererI;
@@ -44,7 +43,6 @@ import at.kc.tugraz.ss.service.userevent.datatypes.pars.SSUEAddPar;
 import at.kc.tugraz.ss.service.userevent.datatypes.pars.SSUECountGetPar;
 import at.kc.tugraz.ss.service.userevent.datatypes.pars.SSUEGetPar;
 import at.kc.tugraz.ss.service.userevent.datatypes.pars.SSUEsGetPar;
-import at.kc.tugraz.ss.service.userevent.datatypes.pars.SSUEsRemovePar;
 import at.kc.tugraz.ss.service.userevent.datatypes.ret.SSUEAddRet;
 import at.kc.tugraz.ss.service.userevent.datatypes.ret.SSUECountGetRet;
 import at.kc.tugraz.ss.service.userevent.datatypes.ret.SSUEGetRet;
@@ -68,7 +66,6 @@ implements
   SSUEClientI, 
   SSUEServerI, 
   SSEntityHandlerImplI, 
-  SSEntityDescriberI, 
   SSUsersResourcesGathererI{
   
   private final SSUESQLFct   sqlFct;
@@ -237,42 +234,6 @@ implements
     SSServCallerU.checkKey(parA);
     
     sSCon.writeRetFullToClient(SSUEsGetRet.get(uEsGet(parA), parA.op));
-  }
-  
-  @Override
-  public Boolean uEsRemove (final SSServPar parA) throws Exception{
-    
-    try{
-      final SSUEsRemovePar par   = new SSUEsRemovePar(parA);
-    
-      dbSQL.startTrans(par.shouldCommit);
-      
-      for(SSUE ue : sqlFct.getUEs(par.user, par.entity, null, null, null)){
-        SSServCaller.entityRemove(ue.id, false);
-      }
-      
-      dbSQL.commit(par.shouldCommit);
-      
-      return true;
-    }catch(Exception error){
-      
-      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
-        
-        if(dbSQL.rollBack(parA.shouldCommit)){
-          
-          SSServErrReg.reset();
-          
-          return uEsRemove(parA);
-        }else{
-          SSServErrReg.regErrThrow(error);
-          return null;
-        }
-      }
-      
-      dbSQL.rollBack(parA.shouldCommit);
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
   }
   
   @Override

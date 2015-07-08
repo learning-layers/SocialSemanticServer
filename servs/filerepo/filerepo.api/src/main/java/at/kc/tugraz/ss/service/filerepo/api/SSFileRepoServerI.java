@@ -23,14 +23,12 @@
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileDownloadPar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileIDFromURIPar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileReplacePar;
-import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileThumbBase64GetPar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileUploadPar;
 import at.tugraz.sss.serv.SSServServerI;
 
 public interface SSFileRepoServerI extends SSServServerI{
 
   public String     fileIDFromURI            (final SSFileIDFromURIPar      par) throws Exception;
-  public String     fileThumbBase64Get       (final SSFileThumbBase64GetPar par) throws Exception;
   public void       fileDownload             (final SSFileDownloadPar       par) throws Exception;
   public void       fileUpload               (final SSFileUploadPar         par) throws Exception;
   public void       fileReplace              (final SSFileReplacePar        par) throws Exception;

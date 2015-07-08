@@ -30,7 +30,6 @@ import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSConfA;
-import at.tugraz.sss.serv.SSEntityDescriberI;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.tugraz.sss.util.SSServCallerU;
@@ -42,10 +41,12 @@ import at.kc.tugraz.sss.app.datatypes.par.SSAppsGetPar;
 import at.kc.tugraz.sss.app.datatypes.ret.SSAppAddRet;
 import at.kc.tugraz.sss.app.datatypes.ret.SSAppsGetRet;
 import at.kc.tugraz.sss.app.impl.fct.sql.SSAppSQLFct;
+import at.tugraz.sss.serv.SSCircleContentChangedPar;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
+import at.tugraz.sss.serv.SSEntityHandlerImplI;
 import java.util.ArrayList;
 import java.util.List;
 import at.tugraz.sss.serv.SSErr;
@@ -54,7 +55,12 @@ import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServReg;
 
-public class SSAppImpl extends SSServImplWithDBA implements SSAppClientI, SSAppServerI, SSEntityDescriberI{
+public class SSAppImpl 
+extends SSServImplWithDBA 
+implements 
+  SSAppClientI, 
+  SSAppServerI, 
+  SSEntityHandlerImplI{
   
   private final SSAppSQLFct sqlFct;
   
@@ -70,12 +76,52 @@ public class SSAppImpl extends SSServImplWithDBA implements SSAppClientI, SSAppS
     final SSEntity             entity, 
     final SSEntityDescriberPar par) throws Exception{
     
-    try{
-      return entity;
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
+    return entity;
+  }
+  
+  @Override
+  public void removeDirectlyAdjoinedEntitiesForUser(
+    final SSUri       userUri,
+    final SSEntityE   entityType,
+    final SSUri       entityUri,
+    final Boolean     removeUserTags,
+    final Boolean     removeUserRatings,
+    final Boolean     removeFromUserColls,
+    final Boolean     removeUserLocations) throws Exception{
+    
+  }
+  
+  @Override
+  public void circleContentChanged(final SSCircleContentChangedPar par) throws Exception{
+    
+  }
+  
+  @Override
+  public void copyEntity(
+    final SSUri        user,
+    final List<SSUri>  users,
+    final SSUri        entity,
+    final List<SSUri>  entitiesToExclude,
+    final SSEntityE    entityType) throws Exception{
+    
+  }
+  
+  @Override
+  public List<SSUri> getSubEntities(
+    final SSUri         user,
+    final SSUri         entity,
+    final SSEntityE     type) throws Exception{
+    
+    return new ArrayList<>();
+  }
+  
+  @Override
+  public List<SSUri> getParentEntities(
+    final SSUri         user,
+    final SSUri         entity,
+    final SSEntityE     type) throws Exception{
+    
+    return new ArrayList<>();
   }
   
   @Override

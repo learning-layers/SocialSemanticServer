@@ -34,7 +34,11 @@ import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
 
 import at.tugraz.sss.serv.caller.SSServCaller;
+import at.tugraz.sss.servs.thumb.api.SSThumbServerI;
+import at.tugraz.sss.servs.thumb.datatype.par.SSThumbAddPar;
+import at.tugraz.sss.servs.thumb.datatype.par.SSThumbsGetPar;
 import java.io.File;
+import java.util.List;
 import javax.imageio.ImageIO;
 
 public class SSDataImportEvernoteThumbHelper{
@@ -88,32 +92,44 @@ public class SSDataImportEvernoteThumbHelper{
           false, //withUserRestriction
           false)); //shouldCommit)
       
-      for(SSUri thumb : SSServCaller.entityThumbsGet(user, entity)){
-        
-        SSServCaller.entityRemove(thumb, false);
+      final List<SSUri> thumbs = 
+        ((SSThumbServerI) SSServReg.getServ(SSThumbServerI.class)).thumbsGet(
+          new SSThumbsGetPar(
+            null, 
+            null, 
+            user, 
+            entity, 
+            false)); //withUserRestriction
+      
+      for(SSUri thumb : thumbs){
         
         try{
           
           SSFileU.delFile(
-            localWorkPath + 
+            localWorkPath +
               ((SSFileRepoServerI) SSServReg.getServ(SSFileRepoServerI.class)).fileIDFromURI(
                 new SSFileIDFromURIPar(
                   null,
                   null,
                   user,
-                  thumb)));  
+                  thumb)));
           
         }catch(Exception error){
           SSLogU.warn("thumbnail file couldnt be removed");
         }
       }
       
-      SSServCaller.entityThumbAdd(
-        user,
-        entity,
-        pngFileUri,
-        shouldCommit);
-      
+      ((SSThumbServerI) SSServReg.getServ(SSThumbServerI.class)).thumbAdd(
+        new SSThumbAddPar(
+          null, 
+          null, 
+          user, 
+          entity, 
+          pngFileUri,  //thumb
+          true, //removeExistingThumbs
+          false, //withUserRestriction, 
+          shouldCommit)); //shouldCommit
+        
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }

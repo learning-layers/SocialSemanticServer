@@ -30,7 +30,6 @@ import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSConfA;
-import at.tugraz.sss.serv.SSEntityDescriberI;
 import at.tugraz.sss.serv.SSEntityHandlerImplI;
 import at.tugraz.sss.serv.SSEntityUpdaterI;
 import at.tugraz.sss.serv.SSServImplWithDBA;
@@ -65,7 +64,6 @@ extends SSServImplWithDBA
 implements 
   SSVideoClientI, 
   SSVideoServerI, 
-  SSEntityDescriberI, 
   SSEntityUpdaterI, 
   SSEntityHandlerImplI{
   

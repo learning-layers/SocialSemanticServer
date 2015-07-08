@@ -474,24 +474,6 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     }
   }
   
-  public void addThumb(
-    final SSUri entity,
-    final SSUri thumb) throws Exception{
-    
-    try{
-
-      final Map<String, String> inserts = new HashMap<>();
-      
-      insert(inserts, SSSQLVarNames.entityId,   entity);
-      insert(inserts, SSSQLVarNames.thumbId, thumb);
-      
-      dbSQL.insert(SSSQLVarNames.thumbnailsTable, inserts);
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
   public void attachEntity(
     final SSUri entity,
     final SSUri entityToAttach) throws Exception{
@@ -582,30 +564,6 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
-    }
-  }
-  
-  public List<SSUri> getThumbs(final SSUri entity) throws Exception{
-    
-    ResultSet resultSet = null;
-    
-    try{
-      final List<String>        columns = new ArrayList<>();
-      final Map<String, String> wheres  = new HashMap<>();
-      
-      column(columns, SSSQLVarNames.thumbId);
-      
-      where(wheres, SSSQLVarNames.entityId, entity);
-      
-      resultSet = dbSQL.select(SSSQLVarNames.thumbnailsTable, columns, wheres, null, null, null);
-      
-      return getURIsFromResult(resultSet, SSSQLVarNames.thumbId);
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }finally{
-      dbSQL.closeStmt(resultSet);
     }
   }
   

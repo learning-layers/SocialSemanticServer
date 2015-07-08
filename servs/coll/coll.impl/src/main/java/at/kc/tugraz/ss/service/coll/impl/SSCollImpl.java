@@ -103,6 +103,14 @@ implements
   }
 
   @Override
+  public SSEntity getUserEntity(
+    final SSEntity             entity, 
+    final SSEntityDescriberPar par) throws Exception{
+    
+    return entity;
+  }
+  
+  @Override
   public void getUserRelations(
     final List<String>             allUsers, 
     final Map<String, List<SSUri>> userRelations) throws Exception{

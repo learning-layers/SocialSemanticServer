@@ -91,6 +91,14 @@ implements
   }
   
   @Override
+  public SSEntity getUserEntity(
+    final SSEntity             entity, 
+    final SSEntityDescriberPar par) throws Exception{
+    
+    return entity;
+  }
+  
+  @Override
   public void copyEntity(
     final SSUri        user,
     final List<SSUri>  users,
@@ -211,12 +219,11 @@ implements
                 null, 
                 null, 
                 par.user, 
-                circle,
-                par.user,
-                SSEntityE.asListWithoutNullAndEmpty(), 
-                true, 
-                false,
-                false)).entities){
+                circle, //circle
+                par.user, //forUser
+                null, //entityTypesToIncludeOnly
+                false, //withUserRestriction
+                false)).entities){ //invokeEntityHandlers
             
             entitiesToQuery.add(circleEntity.id);
           }

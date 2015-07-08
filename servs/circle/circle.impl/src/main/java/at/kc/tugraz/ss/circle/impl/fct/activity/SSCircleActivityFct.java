@@ -28,7 +28,7 @@ import at.kc.tugraz.ss.circle.datatypes.par.SSCircleCreateFromClientPar;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesAddPar;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitySharePar;
+import at.tugraz.sss.servs.entity.datatypes.par.SSCircleEntitySharePar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleUsersAddPar;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSServErrReg;
@@ -115,100 +115,6 @@ public class SSCircleActivityFct{
           SSTextComment.asListWithoutNullAndEmpty(), 
           null, 
           false));
-      
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
-        default: SSServErrReg.regErrThrow(error);
-      }
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
-  public static void shareEntityWithUsers(
-    final SSCircleEntitySharePar par, 
-    final Boolean                shouldCommit) throws Exception{
-    
-    try{
-      
-     ((SSActivityServerI) SSServReg.getServ(SSActivityServerI.class)).activityAdd(
-        new SSActivityAddPar(
-          null, 
-          null, 
-          par.user, 
-          SSActivityE.shareEntityWithUsers, 
-          par.entity,
-          par.users, 
-          SSUri.asListWithoutNullAndEmpty(), 
-          SSTextComment.asListWithoutNullAndEmpty(par.comment), 
-          null, 
-          shouldCommit));
-     
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
-        default: SSServErrReg.regErrThrow(error);
-      }
-
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
-  public static void shareEntityWithCircles(
-    final SSCircleEntitySharePar par, 
-    final Boolean                shouldCommit) throws Exception{
-    
-    try{
-      
-      ((SSActivityServerI) SSServReg.getServ(SSActivityServerI.class)).activityAdd(
-        new SSActivityAddPar(
-          null, 
-          null, 
-          par.user, 
-          SSActivityE.shareEntityWithCircles, 
-          par.entity,
-          SSUri.asListWithoutNullAndEmpty(),
-          SSUri.asListWithoutNullAndEmpty(par.circles),
-          SSTextComment.asListWithoutNullAndEmpty(par.comment), 
-          null, 
-          shouldCommit));
-      
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
-        default: SSServErrReg.regErrThrow(error);
-      }
-
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
-  public static void setEntityPublic(
-    final SSUri    user, 
-    final SSUri    entity, 
-    final Boolean  shouldCommit) throws Exception{
-    
-     try{
-      
-      ((SSActivityServerI) SSServReg.getServ(SSActivityServerI.class)).activityAdd(
-        new SSActivityAddPar(
-          null, 
-          null, 
-          user, 
-          SSActivityE.setEntityPublic, 
-          entity,
-          null, 
-          null, 
-          null, 
-          null, 
-          shouldCommit));
       
     }catch(SSErr error){
       

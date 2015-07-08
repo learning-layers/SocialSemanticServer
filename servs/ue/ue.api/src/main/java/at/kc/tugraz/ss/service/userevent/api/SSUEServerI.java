@@ -33,7 +33,6 @@ public interface SSUEServerI extends SSServServerI{
   public Integer     uECountGet          (final SSServPar parA) throws Exception;
   public SSUE        uEGet               (final SSServPar parA) throws Exception;
   public List<SSUE>  uEsGet              (final SSServPar parA) throws Exception;
-  public Boolean     uEsRemove           (final SSServPar parA) throws Exception;
   
 //  addUserEvent(shouldCommit, user, SSUserEventEnum.appearsInSearchResult, resource, strU.empty);
 //  addUserEvent(shouldCommit, user, SSUserEventEnum.shareCollection, coll, strU.empty);

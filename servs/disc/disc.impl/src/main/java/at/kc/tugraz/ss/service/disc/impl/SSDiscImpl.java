@@ -22,7 +22,7 @@ package at.kc.tugraz.ss.service.disc.impl;
 
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesAddPar;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitySharePar;
+import at.tugraz.sss.servs.entity.datatypes.par.SSCircleEntitySharePar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleMostOpenCircleTypeGetPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleTypesGetPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleUsersAddPar;
@@ -44,7 +44,6 @@ import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscEntryAddFromClientPar;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSEntityCircle;
 import at.tugraz.sss.serv.SSConfA;
-import at.tugraz.sss.serv.SSEntityDescriberI;
 import at.tugraz.sss.serv.SSEntityHandlerImplI;
 import at.tugraz.sss.serv.SSUserRelationGathererI;
 import at.tugraz.sss.serv.SSUsersResourcesGathererI;
@@ -82,7 +81,6 @@ public class SSDiscImpl
   SSDiscClientI,
   SSDiscServerI,
   SSEntityHandlerImplI,
-  SSEntityDescriberI,
   SSUserRelationGathererI,
   SSUsersResourcesGathererI{
 
@@ -377,7 +375,7 @@ public class SSDiscImpl
         !par.users.isEmpty() ||
         !par.circles.isEmpty())
         
-        ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleEntityShare(
+        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityShare(
           new SSCircleEntitySharePar(
             null,
             null,

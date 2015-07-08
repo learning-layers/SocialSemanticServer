@@ -106,6 +106,8 @@ import java.util.Map;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
+import at.tugraz.sss.servs.thumb.api.SSThumbServerI;
+import at.tugraz.sss.servs.thumb.datatype.par.SSThumbsGetPar;
 
 public class SSLearnEpImpl 
 extends SSServImplWithDBA 
@@ -127,6 +129,14 @@ implements
     learnEpConf   = (SSLearnEpConf) conf;
   }
 
+  @Override
+  public SSEntity getUserEntity(
+    final SSEntity             entity, 
+    final SSEntityDescriberPar par) throws Exception{
+    
+    return entity;
+  }
+  
   @Override
   public void getUsersResources(
     final List<String>             allUsers, 
@@ -792,11 +802,19 @@ implements
           false, //withUserRestriction
           false)); //shouldCommit)
             
+      //TODO replace this parts with circleContentedChanged
       for(SSUri file : SSServCaller.entityFilesGet(par.user, par.entity)){
         filesAndThumbs.add(file);
       }
       
-      for(SSUri thumb : SSServCaller.entityThumbsGet(par.user, par.entity)){
+      for(SSUri thumb : ((SSThumbServerI) SSServReg.getServ(SSThumbServerI.class)).thumbsGet(
+        new SSThumbsGetPar(
+          null, 
+          null, 
+          par.user,
+          par.entity, 
+          false))){ //withUserRestriction
+        
         filesAndThumbs.add(thumb);
       }
       
@@ -1133,8 +1151,6 @@ implements
 
       sqlFct.deleteCircle(par.learnEpCircle);
       
-//      SSServCaller.entityRemove(par.learnEpCircle, false);
-
       SSLearnEpActivityFct.removeLearnEpVersionCircle(par, learnEpVersion, learnEp);
       
       dbSQL.commit(par.shouldCommit);
@@ -1186,7 +1202,6 @@ implements
       dbSQL.startTrans(par.shouldCommit);
 
       sqlFct.deleteEntity(par.learnEpEntity);
-//      SSServCaller.entityRemove(par.learnEpEntity, false);
       
       SSLearnEpActivityFct.removeLearnEpVersionEntity(par, learnEpVersion, entity, learnEp);
 

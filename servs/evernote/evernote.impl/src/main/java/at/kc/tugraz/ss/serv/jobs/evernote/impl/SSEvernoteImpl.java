@@ -52,12 +52,9 @@ import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
-import at.tugraz.sss.serv.SSEntityCircle;
-import at.tugraz.sss.serv.SSEntityDescriberI;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
 import at.tugraz.sss.serv.SSEntityHandlerImplI;
 import at.tugraz.sss.serv.SSServImplWithDBA;
-import at.tugraz.sss.serv.caller.SSServCaller;
 import com.evernote.auth.EvernoteAuth;
 import com.evernote.auth.EvernoteService;
 import com.evernote.clients.ClientFactory;
@@ -76,14 +73,16 @@ import java.util.List;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServReg;
+import at.tugraz.sss.servs.thumb.api.SSThumbServerI;
+import at.tugraz.sss.servs.thumb.datatype.par.SSFileThumbBase64GetPar;
 
 public class SSEvernoteImpl 
 extends SSServImplWithDBA
 implements 
   SSEvernoteClientI, 
   SSEvernoteServerI, 
-  SSEntityHandlerImplI, 
-  SSEntityDescriberI{
+  SSEntityHandlerImplI{
   
   private final SSEvernoteSQLFct sqlFct;
   
@@ -96,7 +95,7 @@ implements
   
   @Override
   public SSEntity getUserEntity(
-    final SSEntity             entity, 
+    final SSEntity             entity,
     final SSEntityDescriberPar par) throws Exception{
     
     try{
@@ -109,9 +108,13 @@ implements
           if(par.setThumb){
             
             entity.thumb =
-              SSServCaller.fileThumbBase64Get(
-                par.user,
-                entity.id);
+              ((SSThumbServerI) SSServReg.getServ(SSThumbServerI.class)).thumbBase64Get(
+                new SSFileThumbBase64GetPar(
+                  null,
+                  null,
+                  par.user,
+                  entity.id,
+                  false)); //withUserRestriction));
           }
         }
       }

@@ -63,6 +63,7 @@ import at.kc.tugraz.sss.video.serv.SSVideoServ;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.servs.ocd.service.SSOCDServ;
+import at.tugraz.sss.servs.thumb.serv.SSThumbServ;
 import sss.serv.eval.serv.SSEvalServ;
 
 public class SSSInitializer extends SSServImplStartA{
@@ -155,6 +156,7 @@ public class SSSInitializer extends SSServImplStartA{
         SSLikeServ.inst.regServ            (SSCoreConf.instGet().getLike());
         SSEvalServ.inst.regServ            (SSCoreConf.instGet().getEval());
         SSOCDServ.inst.regServ             (SSCoreConf.instGet().getOcd());
+        SSThumbServ.inst.regServ           (SSCoreConf.instGet().getThumb());
         
       }catch(Exception error1){
         SSServErrReg.regErr(error1);
@@ -199,6 +201,7 @@ public class SSSInitializer extends SSServImplStartA{
         SSLikeServ.inst.initServ();
         SSEvalServ.inst.initServ();
         SSOCDServ.inst.initServ();
+        SSThumbServ.inst.initServ();
         
       }catch(Exception error1){
         SSServErrReg.regErr(error1);

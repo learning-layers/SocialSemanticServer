@@ -41,7 +41,6 @@ import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthRegisterUserPar;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthUsersFromCSVFileAddPar;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.ret.SSAuthCheckCredRet;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
-import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 import at.kc.tugraz.ss.service.user.api.SSUserServerI;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserAddPar;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserExistsPar;
@@ -290,7 +289,7 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
                 SSVocConf.systemUserUri,
                 email))){
               
-              throw new SSErr(SSErrE.userIsNotRegistered);
+              throw new SSErr(SSErrE.userNotRegistered);
             }
             
             userUri = 

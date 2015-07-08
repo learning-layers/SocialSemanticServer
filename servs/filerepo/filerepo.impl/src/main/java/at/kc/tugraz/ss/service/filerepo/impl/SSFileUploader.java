@@ -38,8 +38,12 @@ import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileIDFromURIPar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileUploadPar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileUploadRet;
 import at.kc.tugraz.ss.service.filerepo.impl.fct.SSFileServCaller;
+import at.tugraz.sss.serv.SSDBSQL;
+import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
+import at.tugraz.sss.servs.thumb.api.SSThumbServerI;
+import at.tugraz.sss.servs.thumb.datatype.par.SSThumbAddPar;
 import com.googlecode.sardine.SardineFactory;
 import java.io.File;
 import java.io.FileInputStream;
@@ -64,7 +68,7 @@ public class SSFileUploader extends SSServImplStartA{
     final SSFileUploadPar    par,
     final SSFilerepoImpl     servImpl) throws Exception{
     
-    super(fileRepoConf, null);
+    super(fileRepoConf, (SSDBSQLI) SSDBSQL.inst.serv());
     
     this.par               = par;
     this.servImpl          = servImpl;
@@ -106,12 +110,16 @@ public class SSFileUploader extends SSServImplStartA{
           case i5Cloud: uploadFileToI5Cloud(); break;
         }
         
-        SSFileServCaller.addFileEntity           (par, uri,    true);
-        SSFileServCaller.addFileContentsToSolr   (par, fileId, true);
+        dbSQL.startTrans(par.shouldCommit);
+        
+        SSFileServCaller.addFileEntity           (par, uri);
+        SSFileServCaller.addFileContentsToSolr   (par, fileId);
 
         removeFileFromLocalWorkFolder();
         
         createFileThumb();
+        
+        dbSQL.commit(par.shouldCommit);
         
         sendAnswer();
         return;
@@ -261,12 +269,17 @@ public class SSFileUploader extends SSServImplStartA{
             false, //setPublic
             false, //withUserRestriction
             false)); //shouldCommit)
-              
-        SSServCaller.entityThumbAdd(
-          par.user, 
-          uri, 
-          pngFileUri, 
-          true);
+        
+        ((SSThumbServerI) SSServReg.getServ(SSThumbServerI.class)).thumbAdd(
+          new SSThumbAddPar(
+            null,
+            null,
+            par.user,
+            uri,
+            pngFileUri,  //thumb
+            true, //removeExistingThumbs
+            false, //withUserRestriction,
+            false)); //shouldCommit
       }
       
     }catch(Exception error){

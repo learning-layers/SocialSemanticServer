@@ -35,7 +35,6 @@ import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSConfA;
-import at.tugraz.sss.serv.SSEntityDescriberI;
 import at.tugraz.sss.serv.SSEntityHandlerImplI;
 import at.tugraz.sss.serv.SSUserRelationGathererI;
 import at.tugraz.sss.serv.caller.SSServCaller;
@@ -68,7 +67,6 @@ implements
   SSRatingClientI, 
   SSRatingServerI, 
   SSEntityHandlerImplI, 
-  SSEntityDescriberI, 
   SSUserRelationGathererI{
  
   private final SSRatingSQLFct   sqlFct;

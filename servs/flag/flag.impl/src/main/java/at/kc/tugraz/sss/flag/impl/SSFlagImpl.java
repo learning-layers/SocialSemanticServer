@@ -28,7 +28,6 @@ import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSConfA;
-import at.tugraz.sss.serv.SSEntityDescriberI;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.tugraz.sss.util.SSServCallerU;
@@ -41,10 +40,12 @@ import at.kc.tugraz.sss.flag.datatypes.par.SSFlagsGetPar;
 import at.kc.tugraz.sss.flag.datatypes.par.SSFlagsSetPar;
 import at.kc.tugraz.sss.flag.datatypes.ret.SSFlagsSetRet;
 import at.kc.tugraz.sss.flag.impl.fct.sql.SSFlagSQLFct;
+import at.tugraz.sss.serv.SSCircleContentChangedPar;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
+import at.tugraz.sss.serv.SSEntityHandlerImplI;
 import java.util.List;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
@@ -57,7 +58,7 @@ extends SSServImplWithDBA
 implements 
   SSFlagClientI, 
   SSFlagServerI, 
-  SSEntityDescriberI{
+  SSEntityHandlerImplI{
   
   private final SSFlagSQLFct sqlFct;
   
@@ -95,6 +96,51 @@ implements
       SSServErrReg.regErrThrow(error);
       return null;
     }
+  }
+  
+    @Override
+  public void removeDirectlyAdjoinedEntitiesForUser(
+    final SSUri       userUri,
+    final SSEntityE   entityType,
+    final SSUri       entityUri,
+    final Boolean     removeUserTags,
+    final Boolean     removeUserRatings,
+    final Boolean     removeFromUserColls,
+    final Boolean     removeUserLocations) throws Exception{
+    
+  }
+  
+  @Override
+  public void circleContentChanged(final SSCircleContentChangedPar par) throws Exception{
+    
+  }
+  
+  @Override
+  public void copyEntity(
+    final SSUri        user,
+    final List<SSUri>  users,
+    final SSUri        entity,
+    final List<SSUri>  entitiesToExclude,
+    final SSEntityE    entityType) throws Exception{
+    
+  }
+  
+  @Override
+  public List<SSUri> getSubEntities(
+    final SSUri         user,
+    final SSUri         entity,
+    final SSEntityE     type) throws Exception{
+    
+    return new ArrayList<>();
+  }
+  
+  @Override
+  public List<SSUri> getParentEntities(
+    final SSUri         user,
+    final SSUri         entity,
+    final SSEntityE     type) throws Exception{
+    
+    return new ArrayList<>();
   }
   
   @Override

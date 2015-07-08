@@ -18,11 +18,42 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.tugraz.sss.serv;
+package at.tugraz.sss.servs.thumb.datatype.ret;
 
-public interface SSEntityDescriberI{
+import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.SSVarNames;
+import at.tugraz.sss.serv.SSServRetI;
+import at.tugraz.sss.serv.SSUri;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class SSThumbsGetRet extends SSServRetI{
+
+  public List<SSUri> thumbs = new ArrayList<>();
+
+  public List<String> getThumbs(){
+    return SSStrU.removeTrailingSlash(thumbs);
+  }
+
+  @Override
+  public Map<String, Object> jsonLDDesc(){
+    throw new UnsupportedOperationException();
+  }
   
-  public SSEntity getUserEntity(
-    final SSEntity             entity, 
-    final SSEntityDescriberPar par) throws Exception;
+  public static SSThumbsGetRet get(
+    final List<SSUri> thumbs){
+    
+    return new SSThumbsGetRet(thumbs);
+  }
+  
+  private SSThumbsGetRet(
+    final List<SSUri> thumbs) {
+
+    super(SSServOpE.thumbsGet);
+    
+    SSUri.addDistinctWithoutNull(this.thumbs, thumbs);
+  }
 }

@@ -38,6 +38,12 @@
     </dependency>
     
     <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>thumb.api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+   
+    <dependency>
       <groupId>sss</groupId>
       <artifactId>conf.conf</artifactId>
       <version>${project.version}</version>
