@@ -24,11 +24,11 @@ import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSLabel;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
 import java.util.ArrayList;
 import java.util.List;
-import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 
 public class SSEntityUpdatePar extends SSServPar{
@@ -41,10 +41,6 @@ public class SSEntityUpdatePar extends SSServPar{
   public SSLabel             label            = null;
   public SSTextComment       description      = null;
   public List<SSTextComment> comments         = new ArrayList<>();
-  public List<SSUri>         downloads        = new ArrayList<>();
-  public List<SSUri>         screenShots      = new ArrayList<>();
-  public List<SSUri>         images           = new ArrayList<>();
-  public List<SSUri>         videos           = new ArrayList<>();
   public List<SSUri>         entitiesToAttach = new ArrayList<>();
   public Long                creationTime     = null;
   public Boolean             read             = null;
@@ -98,38 +94,6 @@ public class SSEntityUpdatePar extends SSServPar{
     this.comments = SSTextComment.get(comments);
   }
 
-  public List<String> getDownloads(){
-    return SSStrU.removeTrailingSlash(downloads);
-  }
-
-  public void setDownloads(final List<String> downloads) throws Exception{
-    this.downloads = SSUri.get(downloads);
-  }
-
-  public List<String> getScreenShots(){
-    return SSStrU.removeTrailingSlash(screenShots);
-  }
-
-  public void setScreenShots(final List<String> screenShots) throws Exception{
-    this.screenShots = SSUri.get(screenShots);
-  }
-
-  public List<String> getImages(){
-    return SSStrU.removeTrailingSlash(images);
-  }
-
-  public void setImages(final List<String> images) throws Exception{
-    this.images = SSUri.get(images);
-  }
-
-  public List<String> getVideos(){
-    return SSStrU.removeTrailingSlash(videos);
-  }
-
-  public void setVideos(final List<String> videos) throws Exception{
-    this.videos = SSUri.get(videos);
-  }
-
   public List<String> getEntitiesToAttach(){
     return SSStrU.removeTrailingSlash(entitiesToAttach);
   }
@@ -150,10 +114,6 @@ public class SSEntityUpdatePar extends SSServPar{
     final SSLabel             label,
     final SSTextComment       description,
     final List<SSTextComment> comments,
-    final List<SSUri>         downloads,
-    final List<SSUri>         screenShots,
-    final List<SSUri>         images,
-    final List<SSUri>         videos,
     final List<SSUri>         entitiesToAttach,
     final Long                creationTime, 
     final Boolean             read,
@@ -173,10 +133,6 @@ public class SSEntityUpdatePar extends SSServPar{
       this.comments.addAll(comments);
     }
     
-    SSUri.addDistinctWithoutNull(this.downloads,         downloads);
-    SSUri.addDistinctWithoutNull(this.screenShots,       screenShots);
-    SSUri.addDistinctWithoutNull(this.images,            images);
-    SSUri.addDistinctWithoutNull(this.videos,            videos);
     SSUri.addDistinctWithoutNull(this.entitiesToAttach,  entitiesToAttach);
     
     this.creationTime        = creationTime;

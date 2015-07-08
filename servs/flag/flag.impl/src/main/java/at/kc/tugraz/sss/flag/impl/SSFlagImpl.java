@@ -98,18 +98,6 @@ implements
     }
   }
   
-    @Override
-  public void removeDirectlyAdjoinedEntitiesForUser(
-    final SSUri       userUri,
-    final SSEntityE   entityType,
-    final SSUri       entityUri,
-    final Boolean     removeUserTags,
-    final Boolean     removeUserRatings,
-    final Boolean     removeFromUserColls,
-    final Boolean     removeUserLocations) throws Exception{
-    
-  }
-  
   @Override
   public void circleContentChanged(final SSCircleContentChangedPar par) throws Exception{
     
@@ -171,10 +159,6 @@ implements
             null, //label
             null, //description,
             null, //comments,
-            null, //downloads,
-            null, //screenShots,
-            null, //images,
-            null, //videos,
             null, //entitiesToAttach,
             null, //creationTime,
             null, //read,
@@ -200,10 +184,6 @@ implements
               null, //label
               null, //description,
               null, //comments,
-              null, //downloads,
-              null, //screenShots,
-              null, //images,
-              null, //videos,
               null, //entitiesToAttach,
               null, //creationTime,
               null, //read,

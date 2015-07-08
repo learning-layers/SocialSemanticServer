@@ -173,10 +173,6 @@ public class SSRESTEntity {
           input.label,       //label
           input.description, //description
           input.comments,    //comments
-          null, //downloads, 
-          null, //screenShots, 
-          null, //images, 
-          null, //videos, 
           null, //entitiesToAttach
           input.creationTime, //creationTime
           input.read,  //read

@@ -33,14 +33,15 @@ import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionCrea
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionTimelineStateSetPar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.impl.SSLearnEpImpl;
 import at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.sql.SSLearnEpSQLFct;
+import at.tugraz.sss.serv.SSImageE;
 import at.tugraz.sss.serv.SSObjU;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.caller.SSServCaller;
-import at.tugraz.sss.servs.thumb.api.SSThumbServerI;
-import at.tugraz.sss.servs.thumb.datatype.par.SSThumbsGetPar;
+import at.tugraz.sss.servs.image.api.SSImageServerI;
+import at.tugraz.sss.servs.image.datatype.par.SSImagesGetPar;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -124,10 +125,6 @@ public class SSLearnEpMiscFct{
               null, //label
               null,//description,
               null, //comments,
-              null, //downloads,
-              null, //screenShots,
-              null, //images,
-              null, //videos,
               null, //entitiesToAttach,
               null, //creationTime,
               null, //read,
@@ -198,13 +195,15 @@ public class SSLearnEpMiscFct{
             learnEpContentUris.add(file);
           }
           
-          for(SSUri thumb : ((SSThumbServerI) SSServReg.getServ(SSThumbServerI.class)).thumbsGet(
-            new SSThumbsGetPar(
-              null,
-              null,
-              user,
-              entity.entity.id,
-              false))){
+          for(SSUri thumb :
+            ((SSImageServerI) SSServReg.getServ(SSImageServerI.class)).imagesGet(
+              new SSImagesGetPar(
+                null,
+                null,
+                user,
+                entity.entity.id, //entity
+                SSImageE.thumb, //imageType
+                false))){
             
             learnEpContentUris.add(thumb);
           }

@@ -72,7 +72,6 @@ import java.util.Map;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
-import at.tugraz.sss.serv.SSTextComment;
 
 public class SSActivityImpl 
 extends SSServImplWithDBA 
@@ -129,17 +128,6 @@ implements
   public void circleContentChanged(final SSCircleContentChangedPar par) throws Exception{
     
   } 
-  
-  @Override
-  public void removeDirectlyAdjoinedEntitiesForUser(
-    final SSUri       userUri,
-    final SSEntityE   entityType,
-    final SSUri       entityUri,
-    final Boolean     removeUserTags,
-    final Boolean     removeUserRatings,
-    final Boolean     removeFromUserColls,
-    final Boolean     removeUserLocations) throws Exception{
-  }
   
   @Override
   public void activityTypesGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
@@ -392,12 +380,8 @@ implements
           SSEntityE.activity,
           SSLabel.get(SSStrU.toStr(par.type)), //label,
           null, //description,
-          SSTextComment.asListWithoutNullAndEmpty(), //comments,
-          SSUri.asListWithoutNullAndEmpty(), //downloads,
-          SSUri.asListWithoutNullAndEmpty(), //screenShots,
-          SSUri.asListWithoutNullAndEmpty(), //images,
-          SSUri.asListWithoutNullAndEmpty(), //videos,
-          SSUri.asListWithoutNullAndEmpty(), //entitiesToAttach,
+          null, //comments,
+          null, //entitiesToAttach,
           null, //creationTime,
           null, //read,
           false, //setPublic

@@ -71,10 +71,6 @@ public class SSDiscUserEntryAddFct{
           discLabel, //label
           description, //description,
           null, //comments,
-          null, //downloads,
-          null, //screenShots,
-          null, //images,
-          null, //videos,
           null, //entitiesToAttach,
           null, //creationTime,
           null, //read,
@@ -93,10 +89,6 @@ public class SSDiscUserEntryAddFct{
           null, //label
           null, //description,
           null, //comments,
-          null, //downloads,
-          null, //screenShots,
-          null, //images,
-          null, //videos,
           null, //entitiesToAttach,
           null, //creationTime,
           null, //read,
@@ -157,10 +149,6 @@ public class SSDiscUserEntryAddFct{
           SSLabel.get(discEntryUri), //label
           null, //description,
           null, //comments,
-          null, //downloads,
-          null, //screenShots,
-          null, //images,
-          null, //videos,
           null, //entitiesToAttach,
           null, //creationTime,
           null, //read,

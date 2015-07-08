@@ -26,10 +26,10 @@ public enum SSServOpE{
   locationAdd,
   locationsGet,
   
-  //thumb
-  thumbsGet,
-  thumbAdd,
-  thumbBase64Get,
+  //image
+  imageAdd,
+  imagesGet,
+  imageBase64Get,
   
   //eval
   evalLog,
@@ -128,7 +128,6 @@ public enum SSServOpE{
   entityGet                                           ,
   entityUserSubEntitiesGet                            ,
   entityUserParentEntitiesGet,
-  entityUserDirectlyAdjoinedEntitiesRemove            ,
   entityRemove                                        ,
   entityFilesGet,
   entityFileAdd,

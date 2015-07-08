@@ -104,10 +104,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import at.tugraz.sss.serv.SSErrE;
+import at.tugraz.sss.serv.SSImageE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
-import at.tugraz.sss.servs.thumb.api.SSThumbServerI;
-import at.tugraz.sss.servs.thumb.datatype.par.SSThumbsGetPar;
+import at.tugraz.sss.servs.image.api.SSImageServerI;
+import at.tugraz.sss.servs.image.datatype.par.SSImagesGetPar;
 
 public class SSLearnEpImpl 
 extends SSServImplWithDBA 
@@ -188,17 +189,6 @@ implements
     return null;
   }
   
-  @Override
-  public void removeDirectlyAdjoinedEntitiesForUser(
-    final SSUri userUri,
-    final SSEntityE entityType,
-    final SSUri entityUri,
-    final Boolean removeUserTags,
-    final Boolean removeUserRatings,
-    final Boolean removeFromUserColls,
-    final Boolean removeUserLocations) throws Exception{
-  }
-
   @Override
   public void circleContentChanged(final SSCircleContentChangedPar par) throws Exception{
     
@@ -581,10 +571,6 @@ implements
           null, //label
           null, //description,
           null, //comments,
-          null, //downloads,
-          null, //screenShots,
-          null, //images,
-          null, //videos,
           null, //entitiesToAttach,
           null, //creationTime,
           null, //read,
@@ -680,10 +666,6 @@ implements
           par.label, //label
           null, //description,
           null, //comments,
-          null, //downloads,
-          null, //screenShots,
-          null, //images,
-          null, //videos,
           null, //entitiesToAttach,
           null, //creationTime,
           null, //read,
@@ -791,10 +773,6 @@ implements
           null, //label
           null, //description,
           null, //comments,
-          null, //downloads,
-          null, //screenShots,
-          null, //images,
-          null, //videos,
           null, //entitiesToAttach,
           null, //creationTime,
           null, //read,
@@ -807,13 +785,15 @@ implements
         filesAndThumbs.add(file);
       }
       
-      for(SSUri thumb : ((SSThumbServerI) SSServReg.getServ(SSThumbServerI.class)).thumbsGet(
-        new SSThumbsGetPar(
-          null, 
-          null, 
-          par.user,
-          par.entity, 
-          false))){ //withUserRestriction
+      for(SSUri thumb :
+        ((SSImageServerI) SSServReg.getServ(SSImageServerI.class)).imagesGet(
+          new SSImagesGetPar(
+            null,
+            null,
+            par.user,
+            par.entity, //entity, 
+            SSImageE.thumb, //imageType,
+            false))){ //withUserRestriction
         
         filesAndThumbs.add(thumb);
       }
@@ -913,10 +893,6 @@ implements
           par.label, //label
           par.description,//description,
           null, //comments,
-          null, //downloads,
-          null, //screenShots,
-          null, //images,
-          null, //videos,
           null, //entitiesToAttach,
           null, //creationTime,
           null, //read,
@@ -985,10 +961,6 @@ implements
           par.label, //label
           null,//description,
           null, //comments,
-          null, //downloads,
-          null, //screenShots,
-          null, //images,
-          null, //videos,
           null, //entitiesToAttach,
           null, //creationTime,
           null, //read,
@@ -1261,10 +1233,6 @@ implements
           null, //label
           null,//description,
           null, //comments,
-          null, //downloads,
-          null, //screenShots,
-          null, //images,
-          null, //videos,
           null, //entitiesToAttach,
           null, //creationTime,
           null, //read,

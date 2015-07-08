@@ -59,7 +59,7 @@ import at.tugraz.sss.serv.SSDBNoSQLConf;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.servs.location.conf.SSLocationConf;
 import at.tugraz.sss.servs.ocd.conf.SSOCDConf;
-import at.tugraz.sss.servs.thumb.conf.SSThumbConf;
+import at.tugraz.sss.servs.image.conf.SSImageConf;
 
 public class SSCoreConf extends SSCoreConfA {
   
@@ -104,7 +104,7 @@ public class SSCoreConf extends SSCoreConfA {
   private SSCircleConf circle = null;
   private SSEvalConf eval = null;
   private SSOCDConf ocd = null;
-  private SSThumbConf thumb = null;
+  private SSImageConf image = null;
   private SSLocationConf location = null;
   
   public static synchronized SSCoreConf instSet(final String pathToFile) throws Exception {
@@ -180,7 +180,7 @@ public class SSCoreConf extends SSCoreConfA {
       copy.circle = SSCircleConf.copy(inst.circle);
       copy.eval = SSEvalConf.copy(inst.eval);
       copy.ocd = SSOCDConf.copy(inst.ocd);
-      copy.thumb = SSThumbConf.copy(inst.thumb);
+      copy.image = SSImageConf.copy(inst.image);
       copy.location = SSLocationConf.copy(inst.location);
       
       return copy;
@@ -494,12 +494,12 @@ public class SSCoreConf extends SSCoreConfA {
     this.ocd = ocd;
   }
   
-  public SSThumbConf getThumb() {
-    return thumb;
+  public SSImageConf getImage() {
+    return image;
   }
   
-  public void setThumb(SSThumbConf thumb) {
-    this.thumb = thumb;
+  public void setImage(SSImageConf image) {
+    this.image = image;
   }
   
   public SSLocationConf getLocation() {

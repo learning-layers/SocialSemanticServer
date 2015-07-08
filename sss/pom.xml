@@ -165,7 +165,7 @@
     
     <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>thumb.serv</artifactId>
+      <artifactId>image.serv</artifactId>
       <version>${project.version}</version>
     </dependency>
     

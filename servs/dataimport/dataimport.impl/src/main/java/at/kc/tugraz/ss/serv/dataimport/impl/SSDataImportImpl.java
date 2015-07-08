@@ -307,10 +307,6 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
             video.label, //label
             null, //description,
             null, //comments,
-            null, //downloads,
-            null, //screenShots,
-            null, //images,
-            null, //videos,
             null, //entitiesToAttach,
             video.creationTime, //creationTime,
             null, //read,

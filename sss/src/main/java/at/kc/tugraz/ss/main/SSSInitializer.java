@@ -64,7 +64,7 @@ import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.servs.location.serv.SSLocationServ;
 import at.tugraz.sss.servs.ocd.service.SSOCDServ;
-import at.tugraz.sss.servs.thumb.serv.SSThumbServ;
+import at.tugraz.sss.servs.image.serv.SSImageServ;
 import sss.serv.eval.serv.SSEvalServ;
 
 public class SSSInitializer extends SSServImplStartA{
@@ -157,7 +157,7 @@ public class SSSInitializer extends SSServImplStartA{
         SSLikeServ.inst.regServ            (SSCoreConf.instGet().getLike());
         SSEvalServ.inst.regServ            (SSCoreConf.instGet().getEval());
         SSOCDServ.inst.regServ             (SSCoreConf.instGet().getOcd());
-        SSThumbServ.inst.regServ           (SSCoreConf.instGet().getThumb());
+        SSImageServ.inst.regServ           (SSCoreConf.instGet().getImage());
         SSLocationServ.inst.regServ        (SSCoreConf.instGet().getLocation());
         
       }catch(Exception error1){
@@ -203,7 +203,7 @@ public class SSSInitializer extends SSServImplStartA{
         SSLikeServ.inst.initServ();
         SSEvalServ.inst.initServ();
         SSOCDServ.inst.initServ();
-        SSThumbServ.inst.initServ();
+        SSImageServ.inst.initServ();
         
       }catch(Exception error1){
         SSServErrReg.regErr(error1);

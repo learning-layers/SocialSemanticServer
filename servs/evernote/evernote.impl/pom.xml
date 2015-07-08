@@ -19,7 +19,7 @@
    
     <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>thumb.api</artifactId>
+      <artifactId>image.api</artifactId>
       <version>${project.version}</version>
     </dependency>
     

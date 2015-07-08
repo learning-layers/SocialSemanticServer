@@ -28,15 +28,6 @@ public interface SSEntityHandlerImplI{
     final SSEntity             entity, 
     final SSEntityDescriberPar par) throws Exception;
   
-  public void removeDirectlyAdjoinedEntitiesForUser(
-    final SSUri       userUri,
-    final SSEntityE   entityType,
-    final SSUri       entityUri,
-    final Boolean     removeUserTags,
-    final Boolean     removeUserRatings,
-    final Boolean     removeFromUserColls,
-    final Boolean     removeUserLocations) throws Exception;
-  
   public void circleContentChanged(final SSCircleContentChangedPar par) throws Exception;
   
   public void copyEntity(

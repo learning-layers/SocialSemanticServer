@@ -80,20 +80,7 @@ implements
   }
   
   @Override
-  public void removeDirectlyAdjoinedEntitiesForUser(
-    final SSUri       userUri,
-    final SSEntityE   entityType,
-    final SSUri       entityUri,
-    final Boolean     removeUserTags,
-    final Boolean     removeUserRatings,
-    final Boolean     removeFromUserColls,
-    final Boolean     removeUserLocations) throws Exception{
-    
-  }
-  
-  @Override
   public void circleContentChanged(final SSCircleContentChangedPar par) throws Exception{
-    
   }
   
   @Override
@@ -155,10 +142,6 @@ implements
             null, //label,
             null, //description,
             null, //comments,
-            null, //downloads,
-            null, //screenShots,
-            null, //images,
-            null, //videos,
             null, //entitiesToAttach,
             null, //creationTime,
             null, //read,
@@ -180,10 +163,6 @@ implements
             null, //label,
             null, //description,
             null, //comments,
-            null, //downloads,
-            null, //screenShots,
-            null, //images,
-            null, //videos,
             null, //entitiesToAttach,
             null, //creationTime,
             null, //read,
@@ -203,10 +182,6 @@ implements
           par.label, //label,
           null, //description,
           null, //comments,
-          par.downloads, //downloads,
-          par.screenShots, //screenShots,
-          null, //images,
-          par.videos, //videos,
           null, //entitiesToAttach,
           null, //creationTime,
           null, //read,
@@ -214,27 +189,11 @@ implements
           true, //withUserRestriction,
           false)); //shouldCommit
       
-      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
-        new SSEntityUpdatePar(
-          null,
-          null,
-          par.user,
-          appUri,
-          null, //uriAlternative
-          null, //type
-          null, //label
-          null, //description
-          null, //comments,
-          par.downloads,
-          par.screenShots,
-          null,
-          par.videos,
-          null, //entitiesToAttach
-          null, //creationTime
-          null,  //read
-          true, //setPublic
-          true,  //withUserRestriction
-          false));
+      //TODO handle below
+//       par.downloads, //downloads,
+//          par.screenShots, //screenShots,
+//          null, //images,
+//          par.videos, //videos,
       
       sqlFct.createApp(
         appUri,

@@ -339,36 +339,6 @@ implements
   }    
     
   @Override
-  public void removeDirectlyAdjoinedEntitiesForUser(
-    final SSUri       userUri, 
-    final SSEntityE   entityType,
-    final SSUri       entityUri,
-    final Boolean     removeUserTags,
-    final Boolean     removeUserRatings,
-    final Boolean     removeFromUserColls,
-    final Boolean     removeUserLocations) throws Exception{
-
-    if(!removeFromUserColls){
-      return;
-    }
-
-    try{
-
-      for(SSColl coll : SSServCaller.collsUserEntityIsInGet(userUri, entityUri)){
-        
-        SSServCaller.collUserEntryDelete(
-          userUri, 
-          entityUri,
-          coll.id, 
-          false);
-      }
-
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-
-  @Override
   public void collParentGet(SSSocketCon sSCon, SSServPar parA) throws Exception{
 
     SSServCallerU.checkKey(parA);
@@ -1022,10 +992,6 @@ implements
           SSLabel.get(SSStrU.valueRoot), //label
           null, //description,
           null, //comments,
-          null, //downloads,
-          null, //screenShots,
-          null, //images,
-          null, //videos,
           null, //entitiesToAttach,
           null, //creationTime,
           null, //read,

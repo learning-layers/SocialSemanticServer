@@ -28,19 +28,20 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntity;
-import at.tugraz.sss.serv.SSImage;
 import at.tugraz.sss.serv.SSServServerI;
+import at.tugraz.sss.servs.entity.datatypes.par.SSEntityAttatchmentsRemovePar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntitySharePar;
 import java.util.List;
 
 public interface SSEntityServerI extends SSServServerI{
 
-  public List<SSEntity> entitiesGet   (final SSEntitiesGetPar       par) throws Exception;
-  public SSUri          entityUpdate  (final SSEntityUpdatePar      par) throws Exception;
-  public Boolean        entityReadGet (final SSEntityReadGetPar     par) throws Exception;
-  public Boolean        entityCopy    (final SSEntityCopyPar        par) throws Exception;
-  public SSEntity       entityGet     (final SSEntityGetPar         par) throws Exception;
-  public SSUri          entityShare   (final SSEntitySharePar       par) throws Exception;
+  public List<SSEntity> entitiesGet              (final SSEntitiesGetPar                par) throws Exception;
+  public SSUri          entityUpdate             (final SSEntityUpdatePar               par) throws Exception;
+  public Boolean        entityReadGet            (final SSEntityReadGetPar              par) throws Exception;
+  public Boolean        entityCopy               (final SSEntityCopyPar                 par) throws Exception;
+  public SSEntity       entityGet                (final SSEntityGetPar                  par) throws Exception;
+  public SSUri          entityShare              (final SSEntitySharePar                par) throws Exception;
+  public SSUri          entityAttachmentsRemove  (final SSEntityAttatchmentsRemovePar   par) throws Exception;
   
   public List<SSUri>                     entityUserSubEntitiesGet                 (final SSServPar parA) throws Exception;
   public List<SSUri>                     entityUserParentEntitiesGet              (final SSServPar parA) throws Exception;
@@ -51,9 +52,5 @@ public interface SSEntityServerI extends SSServServerI{
   public List<SSEntity>                  entitiesForLabelsAndDescriptionsGet      (final SSServPar parA) throws Exception;
   public List<SSEntity>                  entitiesForLabelsGet                     (final SSServPar parA) throws Exception;
   public List<SSEntity>                  entitiesForDescriptionsGet               (final SSServPar parA) throws Exception;
-  public SSUri                           entityUserDirectlyAdjoinedEntitiesRemove (final SSServPar parA) throws Exception;
   public SSUri                           entityRemove                             (final SSServPar parA) throws Exception;
-  
-  public List<SSImage>                   entityScreenShotsGet                     (final SSServPar parA) throws Exception;
-  public List<SSUri>                     entityDownloadURIsGet                    (final SSServPar parA) throws Exception;
 }

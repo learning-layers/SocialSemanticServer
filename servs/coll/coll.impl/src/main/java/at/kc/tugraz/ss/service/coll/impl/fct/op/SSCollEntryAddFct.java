@@ -70,10 +70,6 @@ public class SSCollEntryAddFct{
         par.label, //label
         null, //description,
         null, //comments,
-        null, //downloads,
-        null, //screenShots,
-        null, //images,
-        null, //videos,
         null, //entitiesToAttach,
         null, //creationTime,
         null, //read,
@@ -181,10 +177,6 @@ public class SSCollEntryAddFct{
         par.label, //label
         null, //description,
         null, //comments,
-        null, //downloads,
-        null, //screenShots,
-        null, //images,
-        null, //videos,
         null, //entitiesToAttach,
         null, //creationTime,
         null, //read,

@@ -203,39 +203,6 @@ implements
   } 
   
   @Override
-  public void removeDirectlyAdjoinedEntitiesForUser(
-    final SSUri       userUri,
-    final SSEntityE   entityType,
-    final SSUri       entityUri,
-    final Boolean     removeUserTags,
-    final Boolean     removeUserRatings,
-    final Boolean     removeFromUserColls,
-    final Boolean     removeUserLocations) throws Exception{
-    
-    try{
-      
-      if(!removeUserTags){
-        return;
-      }
-      
-      tagsRemove(
-        new SSTagsRemovePar(
-          null,
-          null,
-          userUri,
-          userUri,
-          entityUri,
-          null,
-          null,
-          true,
-          false));
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
-  @Override
   public SSEntity getUserEntity(
     final SSEntity             entity, 
     final SSEntityDescriberPar par) throws Exception{
@@ -367,10 +334,6 @@ implements
           null, //label
           null, //description,
           null, //comments,
-          null, //downloads,
-          null, //screenShots,
-          null, //images,
-          null, //videos,
           null, //entitiesToAttach,
           null, //creationTime,
           null, //read,
@@ -389,10 +352,6 @@ implements
           SSLabel.get(SSStrU.toStr(par.label)), //label
           null, //description,
           null, //comments,
-          null, //downloads,
-          null, //screenShots,
-          null, //images,
-          null, //videos,
           null, //entitiesToAttach,
           par.creationTime, //creationTime,
           null, //read,
@@ -657,8 +616,7 @@ implements
         for(SSUri entityURI : entityURIs){
 
           try{
-            SSServCallerU.canUserReadEntity(par.user, entityURI, true);
-            
+            SSServCallerU.canUserReadEntity(par.user, entityURI, false);
             result.add(entityURI);
           }catch(Exception error){
             SSServErrReg.reset();
@@ -728,7 +686,7 @@ implements
         for(SSTag tag : tags){
           
           try{
-            SSServCallerU.canUserReadEntity(par.user, tag.entity, true);
+            SSServCallerU.canUserReadEntity(par.user, tag.entity, false);
             
             result.add(tag);
           }catch(Exception error){

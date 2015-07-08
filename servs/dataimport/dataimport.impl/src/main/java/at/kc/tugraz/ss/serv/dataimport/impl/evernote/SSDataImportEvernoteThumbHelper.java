@@ -30,13 +30,14 @@ import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
+import at.tugraz.sss.serv.SSImageE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
-
 import at.tugraz.sss.serv.caller.SSServCaller;
-import at.tugraz.sss.servs.thumb.api.SSThumbServerI;
-import at.tugraz.sss.servs.thumb.datatype.par.SSThumbAddPar;
-import at.tugraz.sss.servs.thumb.datatype.par.SSThumbsGetPar;
+import at.tugraz.sss.servs.entity.datatypes.par.SSEntityAttatchmentsRemovePar;
+import at.tugraz.sss.servs.image.api.SSImageServerI;
+import at.tugraz.sss.servs.image.datatype.par.SSImageAddPar;
+import at.tugraz.sss.servs.image.datatype.par.SSImagesGetPar;
 import java.io.File;
 import java.util.List;
 import javax.imageio.ImageIO;
@@ -70,35 +71,14 @@ public class SSDataImportEvernoteThumbHelper{
         return;
       }
       
-      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
-        new SSEntityUpdatePar(
-          null,
-          null,
-          user,
-          pngFileUri,
-          null, //uriAlternative,
-          SSEntityE.thumbnail, //type,
-          null, //label
-          null, //description,
-          null, //comments,
-          null, //downloads,
-          null, //screenShots,
-          null, //images,
-          null, //videos,
-          null, //entitiesToAttach,
-          null, //creationTime,
-          null, //read,
-          false, //setPublic
-          false, //withUserRestriction
-          false)); //shouldCommit)
-      
       final List<SSUri> thumbs = 
-        ((SSThumbServerI) SSServReg.getServ(SSThumbServerI.class)).thumbsGet(
-          new SSThumbsGetPar(
+        ((SSImageServerI) SSServReg.getServ(SSImageServerI.class)).imagesGet(
+          new SSImagesGetPar(
             null, 
             null, 
             user, 
-            entity, 
+            entity,
+            SSImageE.thumb,
             false)); //withUserRestriction
       
       for(SSUri thumb : thumbs){
@@ -119,17 +99,27 @@ public class SSDataImportEvernoteThumbHelper{
         }
       }
       
-      ((SSThumbServerI) SSServReg.getServ(SSThumbServerI.class)).thumbAdd(
-        new SSThumbAddPar(
-          null, 
-          null, 
-          user, 
-          entity, 
-          pngFileUri,  //thumb
-          true, //removeExistingThumbs
-          false, //withUserRestriction, 
-          shouldCommit)); //shouldCommit
-        
+      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityAttachmentsRemove(
+        new SSEntityAttatchmentsRemovePar(
+          null,
+          null,
+          user,
+          entity,
+          thumbs, //attachments
+          false, //withUserRestriction
+          false)); //shouldCommit
+      
+      ((SSImageServerI) SSServReg.getServ(SSImageServerI.class)).imageAdd(
+        new SSImageAddPar(
+          null,
+          null,
+          user,
+          pngFileUri,
+          SSImageE.thumb, //imageType,
+          entity, //entity
+          false, //withUserRestriction,
+          false)); //shouldCommit
+              
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }

@@ -167,17 +167,6 @@ implements
   }
   
   @Override
-  public void removeDirectlyAdjoinedEntitiesForUser(
-    final SSUri       userUri, 
-    final SSEntityE   entityType,
-    final SSUri       entityUri,
-    final Boolean     removeUserTags,
-    final Boolean     removeUserRatings,
-    final Boolean     removeFromUserColls,
-    final Boolean     removeUserLocations) throws Exception{
-  }
-  
-  @Override
   public SSEntity getUserEntity(
     final SSEntity             entity, 
     final SSEntityDescriberPar par) throws Exception{
@@ -286,10 +275,6 @@ implements
           null, //label
           null, //description,
           null, //comments,
-          null, //downloads,
-          null, //screenShots,
-          null, //images,
-          null, //videos,
           null, //entitiesToAttach,
           null, //creationTime,
           null, //read,
@@ -308,10 +293,6 @@ implements
           SSLabel.get(SSStrU.toStr(par.label)), //label
           null, //description,
           null, //comments,
-          null, //downloads,
-          null, //screenShots,
-          null, //images,
-          null, //videos,
           null, //entitiesToAttach,
           par.creationTime, //creationTime,
           null, //read,
@@ -588,10 +569,6 @@ implements
             SSLabel.get(SSStrU.toStr(label)), //label
             null, //description,
             null, //comments,
-            null, //downloads,
-            null, //screenShots,
-            null, //images,
-            null, //videos,
             null, //entitiesToAttach,
             null, //creationTime,
             null, //read,
@@ -683,7 +660,7 @@ implements
         for(SSUri entityURI : entityURIs){
 
           try{
-            SSServCallerU.canUserReadEntity(par.user, entityURI, true);
+            SSServCallerU.canUserReadEntity(par.user, entityURI, false);
             
             result.add(entityURI);
           }catch(Exception error){
@@ -755,7 +732,7 @@ implements
         for(SSCategory category : categories){
           
           try{
-            SSServCallerU.canUserReadEntity(par.user, category.entity, true);
+            SSServCallerU.canUserReadEntity(par.user, category.entity, false);
             
             result.add(category);
           }catch(Exception error){

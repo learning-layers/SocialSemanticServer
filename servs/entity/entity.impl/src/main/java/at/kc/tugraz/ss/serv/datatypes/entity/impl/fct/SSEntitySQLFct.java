@@ -31,7 +31,6 @@ import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityA;
 import at.tugraz.sss.serv.SSEntity;
-import at.tugraz.sss.serv.SSImageE;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import java.sql.ResultSet;
@@ -566,72 +565,6 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     }
   }
   
-  public List<SSUri> getImages(
-    final SSUri    forEntity,
-    final SSImageE type) throws Exception{
-    
-    ResultSet resultSet = null;
-    
-    try{
-      final List<String>        columns    = new ArrayList<>();
-      final List<String>        tables     = new ArrayList<>();
-      final Map<String, String> wheres     = new HashMap<>();
-      final List<String>        tableCons  = new ArrayList<>();
-      
-      column (columns, SSSQLVarNames.imageTable, SSSQLVarNames.imageId);
-      table  (tables, SSSQLVarNames.imageTable);
-      
-      if(forEntity != null){
-        where   (wheres, SSSQLVarNames.entitiesTable, SSSQLVarNames.entityId, forEntity);
-        table   (tables, SSSQLVarNames.entitiesTable);
-        tableCon(tableCons, SSSQLVarNames.imageTable, SSSQLVarNames.imageId, SSSQLVarNames.entitiesTable, SSSQLVarNames.attachedEntityId);
-      }
-      
-      if(type != null){
-        where(wheres, SSSQLVarNames.imageTable, SSSQLVarNames.type, type);
-      }
-      
-      if(!tableCons.isEmpty()){
-        resultSet = dbSQL.select(tables,     columns, wheres, tableCons, null, null, null);
-      }else{
-        resultSet = dbSQL.select(SSSQLVarNames.imageTable, columns, wheres, null, null, null);
-      }
-      
-      return getURIsFromResult(resultSet, SSSQLVarNames.imageId);
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }finally{
-      dbSQL.closeStmt(resultSet);
-    }
-  }
-  
-  public List<SSUri> getDownloads(final SSUri entity) throws Exception{
-    
-    ResultSet resultSet = null;
-    
-    try{
-      
-      final List<String>        columns           = new ArrayList<>();
-      final Map<String, String> wheres            = new HashMap<>();
-      
-      column(columns, SSSQLVarNames.downloadId);
-      
-      where(wheres, SSSQLVarNames.entityId, entity);
-      
-      resultSet = dbSQL.select(SSSQLVarNames.downloadsTable, columns, wheres, null, null, null);
-      
-      return getURIsFromResult(resultSet, SSSQLVarNames.downloadId);
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }finally{
-      dbSQL.closeStmt(resultSet);
-    }
-  }
-    
   public List<SSUri> getFiles(final SSUri entity) throws Exception{
     
     ResultSet resultSet = null;
@@ -946,71 +879,6 @@ public class SSEntitySQLFct extends SSDBSQLFct{
         
         dbSQL.deleteIgnore(SSSQLVarNames.entityReadsTable, deletes);
       }
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-
-  public void addDownload(
-    final SSUri   entity, 
-    final SSUri   download) throws Exception{
-    
-    try{
-
-      final Map<String, String> inserts    = new HashMap<>();
-      final Map<String, String> uniqueKeys = new HashMap<>();
-      
-      insert(inserts, SSSQLVarNames.entityId,      entity);
-      insert(inserts, SSSQLVarNames.downloadId,     download);
-      
-      uniqueKey(uniqueKeys, SSSQLVarNames.entityId,    entity);
-      uniqueKey(uniqueKeys, SSSQLVarNames.downloadId,  download);
-      
-      dbSQL.insertIfNotExists(SSSQLVarNames.downloadsTable, inserts, uniqueKeys);
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
-//  public void addImage(
-//    final SSUri   entity, 
-//    final SSUri   image) throws Exception{
-//    
-//    try{
-//
-//      final Map<String, String> inserts    = new HashMap<>();
-//      final Map<String, String> uniqueKeys = new HashMap<>();
-//      
-//      insert(inserts, SSSQLVarU.entityId,      entity);
-//      insert(inserts, SSSQLVarU.imageId,       image);
-//
-//      uniqueKey(uniqueKeys, SSSQLVarU.entityId,    entity);
-//      uniqueKey(uniqueKeys, SSSQLVarU.imageId,     image);
-//      
-//      dbSQL.insertIfNotExists(entityImagesTable, inserts, uniqueKeys);
-//      
-//    }catch(Exception error){
-//      SSServErrReg.regErrThrow(error);
-//    }
-//  }
-  
-  public void addImage(
-    final SSUri    image,
-    final SSImageE type) throws Exception{
-    
-    try{
-
-      final Map<String, String> inserts    = new HashMap<>();
-      final Map<String, String> uniqueKeys = new HashMap<>();
-      
-      insert(inserts, SSSQLVarNames.imageId,    image);
-      insert(inserts, SSSQLVarNames.type,       type);
-      
-      uniqueKey(uniqueKeys, SSSQLVarNames.imageId, image);
-      
-      dbSQL.insertIfNotExists(SSSQLVarNames.imageTable, inserts, uniqueKeys);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

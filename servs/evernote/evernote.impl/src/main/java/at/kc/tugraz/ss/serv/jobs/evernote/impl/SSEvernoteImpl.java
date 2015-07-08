@@ -73,9 +73,6 @@ import java.util.List;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServReg;
-import at.tugraz.sss.servs.thumb.api.SSThumbServerI;
-import at.tugraz.sss.servs.thumb.datatype.par.SSFileThumbBase64GetPar;
 
 public class SSEvernoteImpl 
 extends SSServImplWithDBA
@@ -99,25 +96,6 @@ implements
     final SSEntityDescriberPar par) throws Exception{
     
     try{
-      
-      switch(entity.type){
-        
-        case evernoteNote:
-        case evernoteResource:{
-          
-          if(par.setThumb){
-            
-            entity.thumb =
-              ((SSThumbServerI) SSServReg.getServ(SSThumbServerI.class)).thumbBase64Get(
-                new SSFileThumbBase64GetPar(
-                  null,
-                  null,
-                  par.user,
-                  entity.id,
-                  false)); //withUserRestriction));
-          }
-        }
-      }
       
       switch(entity.type){
         
@@ -196,17 +174,6 @@ implements
   public void circleContentChanged(final SSCircleContentChangedPar par) throws Exception{
     
   } 
-  
-  @Override
-  public void removeDirectlyAdjoinedEntitiesForUser(
-    final SSUri       userUri, 
-    final SSEntityE   entityType,
-    final SSUri       entityUri,
-    final Boolean     removeUserTags,
-    final Boolean     removeUserRatings,
-    final Boolean     removeFromUserColls,
-    final Boolean     removeUserLocations) throws Exception{
-  }
   
   @Override
   public SSEvernoteInfo evernoteNoteStoreGet(SSServPar parA) throws Exception {

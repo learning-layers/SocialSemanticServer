@@ -314,17 +314,6 @@ public class SSDiscImpl
   }
   
   @Override
-  public void removeDirectlyAdjoinedEntitiesForUser(
-    final SSUri userUri,
-    final SSEntityE entityType,
-    final SSUri entityUri,
-    final Boolean removeUserTags,
-    final Boolean removeUserRatings,
-    final Boolean removeFromUserColls,
-    final Boolean removeUserLocations) throws Exception{
-  }
-
-  @Override
   public SSEntity getUserEntity(
     final SSEntity             entity, 
     final SSEntityDescriberPar par) throws Exception{
@@ -416,10 +405,6 @@ public class SSDiscImpl
               null, //label
               null, //description,
               null, //comments,
-              null, //downloads,
-              null, //screenShots,
-              null, //images,
-              null, //videos,
               null, //entitiesToAttach,
               null, //creationTime,
               null, //read,
@@ -735,10 +720,6 @@ public class SSDiscImpl
           null, //label,
           null, //description,
           null, //comments,
-          null, //downloads,
-          null, //screenShots,
-          null, //images,
-          null, //videos,
           entitiesToAttach,  //entitiesToAttach
           null, //creationTime
           null, //read,
@@ -764,11 +745,7 @@ public class SSDiscImpl
             null, //type
             entityLabels.get(counter), //label,
             null, //description,
-            SSTextComment.asListWithoutNullAndEmpty(), //comments,
-            null, //downloads,
-            null, //screenShots,
-            null, //images,
-            null, //videos,
+            null, //comments,
             null, //entitiesToAttach
             null, //creationTime
             null, //read,

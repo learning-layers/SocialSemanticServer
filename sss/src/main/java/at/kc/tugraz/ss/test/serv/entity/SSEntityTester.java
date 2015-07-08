@@ -35,7 +35,6 @@ public class SSEntityTester extends Thread{
     }
     
     switch(entityConf.op){
-//      case entityUserDirectlyAdjoinedEntitiesRemove: new Thread(new SSEntityUserDirectlyAdjoinedEntitiesRemoveTest(entityConf)).start(); break;
 //      case entityDescGet:                            new Thread(new SSEntityDescGetTest                           (entityConf)).start(); break;
     }
   }

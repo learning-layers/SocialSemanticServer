@@ -40,10 +40,11 @@ import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileUploadRet;
 import at.kc.tugraz.ss.service.filerepo.impl.fct.SSFileServCaller;
 import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSDBSQLI;
+import at.tugraz.sss.serv.SSImageE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
-import at.tugraz.sss.servs.thumb.api.SSThumbServerI;
-import at.tugraz.sss.servs.thumb.datatype.par.SSThumbAddPar;
+import at.tugraz.sss.servs.image.api.SSImageServerI;
+import at.tugraz.sss.servs.image.datatype.par.SSImageAddPar;
 import com.googlecode.sardine.SardineFactory;
 import java.io.File;
 import java.io.FileInputStream;
@@ -248,36 +249,14 @@ public class SSFileUploader extends SSServImplStartA{
       
       if(thumbCreated){
         
-        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
-          new SSEntityUpdatePar(
+        ((SSImageServerI) SSServReg.getServ(SSImageServerI.class)).imageAdd(
+          new SSImageAddPar(
             null,
             null,
-            par.user,
+            par.usr,
             pngFileUri,
-            null, //uriAlternative,
-            SSEntityE.thumbnail, //type,
-            par.label, //label
-            null, //description,
-            null, //comments,
-            null, //downloads,
-            null, //screenShots,
-            null, //images,
-            null, //videos,
-            null, //entitiesToAttach,
-            null, //creationTime,
-            null, //read,
-            false, //setPublic
-            false, //withUserRestriction
-            false)); //shouldCommit)
-        
-        ((SSThumbServerI) SSServReg.getServ(SSThumbServerI.class)).thumbAdd(
-          new SSThumbAddPar(
-            null,
-            null,
-            par.user,
-            uri,
-            pngFileUri,  //thumb
-            true, //removeExistingThumbs
+            SSImageE.thumb, //imageType,
+            uri, //entity
             false, //withUserRestriction,
             false)); //shouldCommit
       }

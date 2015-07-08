@@ -892,28 +892,6 @@ public class SSServCaller {
     return (List<SSUri>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entityUserSubEntitiesGet, opPars));
   }
   
-  public static SSUri entityUserDirectlyAdjoinedEntitiesRemove(
-    final SSUri   user,
-    final SSUri   entity           ,
-    final Boolean removeUserTags      ,
-    final Boolean removeUserRatings   ,
-    final Boolean removeFromUserColls ,
-    final Boolean removeUserLocations, 
-    final Boolean shouldCommit) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.user,                  user);
-    opPars.put(SSVarNames.entity,                entity);
-    opPars.put(SSVarNames.removeUserTags,        removeUserTags);
-    opPars.put(SSVarNames.removeUserRatings,     removeUserRatings);
-    opPars.put(SSVarNames.removeFromUserColls,   removeFromUserColls);
-    opPars.put(SSVarNames.removeUserLocations,   removeUserLocations);
-    opPars.put(SSVarNames.shouldCommit,          shouldCommit);
-    
-    return (SSUri) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entityUserDirectlyAdjoinedEntitiesRemove, opPars));
-  }
-  
   public static void entityRemove(
     final SSUri   entity, 
     final Boolean shouldCommit) throws Exception{

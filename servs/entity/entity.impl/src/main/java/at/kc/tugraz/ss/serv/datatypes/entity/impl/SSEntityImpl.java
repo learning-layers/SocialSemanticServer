@@ -35,22 +35,18 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesForDescript
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesForLabelsAndDescriptionsGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesForLabelsGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesGetPar;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityDownloadURIsGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityEntitiesAttachedGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityFileAddPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityFilesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityReadGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityRemovePar;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityScreenShotsGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityCopyPar;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserDirectlyAdjoinedEntitiesRemovePar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserParentEntitiesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserSubEntitiesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntitiesGetRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityCopyRet;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUserDirectlyAdjoinedEntitiesRemoveRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityGetRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUpdateRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.SSEntityActivityFct;
@@ -68,8 +64,6 @@ import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSEntity;
-import at.tugraz.sss.serv.SSImage;
-import at.tugraz.sss.serv.SSImageE;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.tugraz.sss.serv.SSConfA;
@@ -95,6 +89,7 @@ import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.servs.entity.datatypes.par.SSEntityAttatchmentsRemovePar;
 
 public class SSEntityImpl 
 extends SSServImplWithDBA
@@ -122,18 +117,6 @@ implements
     return entity;
   }
   
-  @Override
-  public void removeDirectlyAdjoinedEntitiesForUser(
-    final SSUri userUri, 
-    final SSEntityE entityType, 
-    final SSUri entityUri, 
-    final Boolean removeUserTags, 
-    final Boolean removeUserRatings, 
-    final Boolean removeFromUserColls, 
-    final Boolean removeUserLocations) throws Exception{
-
-  }
-
   @Override
   public void circleContentChanged(final SSCircleContentChangedPar par) throws Exception{
     
@@ -577,27 +560,27 @@ implements
         }
       }
       
-      for(SSUri screenShot : par.screenShots){
-        
-        sqlFct.addImage(
-          screenShot, 
-          SSImageE.screenShot);
-        
-        sqlFct.attachEntity(par.entity, screenShot);
-      }
+//      for(SSUri screenShot : par.screenShots){
+//        
+//        sqlFct.addImage(
+//          screenShot, 
+//          SSImageE.screenShot);
+//        
+//        sqlFct.attachEntity(par.entity, screenShot);
+//      }
       
-      for(SSUri download : par.downloads){
-        sqlFct.addDownload (par.entity, download);
-      }
+//      for(SSUri download : par.downloads){
+//        sqlFct.addDownload (par.entity, download);
+//      }
       
-      for(SSUri image : par.images){
-        
-         sqlFct.addImage(
-          image, 
-          SSImageE.image);
-         
-        sqlFct.attachEntity(par.entity, image);
-      }
+//      for(SSUri image : par.images){
+//        
+//         sqlFct.addImage(
+//          image, 
+//          SSImageE.image);
+//         
+//        sqlFct.attachEntity(par.entity, image);
+//      }
       
       for(SSUri entityURIToAttach : par.entitiesToAttach){
         
@@ -657,16 +640,17 @@ implements
         par.setPublic != null &&
         par.setPublic){
         
-        entityShare(new SSEntitySharePar(
-            null, 
-            null, 
-            par.user, 
-            par.entity, //entity, 
-            null, //users, 
-            null, //circles, 
-            true, //setPublic, 
-            null, //comment, 
-            par.withUserRestriction, 
+        entityShare(
+          new SSEntitySharePar(
+            null,
+            null,
+            par.user,
+            par.entity, //entity,
+            null, //users,
+            null, //circles,
+            true, //setPublic,
+            null, //comment,
+            par.withUserRestriction,
             false)); //shouldCommit))
       }
       
@@ -709,59 +693,6 @@ implements
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
-    }
-  }
-  
-  @Override
-  public void entityDirectlyAdjoinedEntitiesRemove(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
-    
-    SSServCallerU.checkKey(parA);
-    
-    sSCon.writeRetFullToClient(SSEntityUserDirectlyAdjoinedEntitiesRemoveRet.get(entityUserDirectlyAdjoinedEntitiesRemove(parA)));
-  }
-  
-  @Override
-  public SSUri entityUserDirectlyAdjoinedEntitiesRemove(final SSServPar parA) throws Exception{
-    
-    try{
-      final SSEntityUserDirectlyAdjoinedEntitiesRemovePar par    = new SSEntityUserDirectlyAdjoinedEntitiesRemovePar(parA);
-      final SSEntity                                      entity = sqlFct.getEntity(par.entity);
-      
-      dbSQL.startTrans(par.shouldCommit);
-      
-      for(SSServContainerI serv : SSServReg.inst.getServsManagingEntities()){
-        
-        ((SSEntityHandlerImplI) serv.serv()).removeDirectlyAdjoinedEntitiesForUser(
-          par.user,
-          entity.type,
-          entity.id,
-          par.removeUserTags,
-          par.removeUserRatings,
-          par.removeFromUserColls,
-          par.removeUserLocations);
-      }
-      
-      dbSQL.commit(par.shouldCommit);
-      
-      return par.entity;
-    }catch(Exception error){
-      
-      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
-        
-        if(dbSQL.rollBack(parA.shouldCommit)){
-          
-          SSServErrReg.reset();
-          
-          return entityUserDirectlyAdjoinedEntitiesRemove(parA);
-        }else{
-          SSServErrReg.regErrThrow(error);
-          return null;
-        }
-      }
-      
-      dbSQL.rollBack(parA.shouldCommit);
-      SSServErrReg.regErrThrow(error);
-      return null;
     }
   }
   
@@ -963,6 +894,36 @@ implements
   }
   
   @Override
+  public SSUri entityAttachmentsRemove(final SSEntityAttatchmentsRemovePar par) throws Exception{
+    
+    try{
+      
+      //TODO
+//      sqlFct.removeAttachments();
+      
+      return par.entity;
+    }catch(Exception error){
+      
+      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+        
+        if(dbSQL.rollBack(par.shouldCommit)){
+          
+          SSServErrReg.reset();
+          
+          return entityAttachmentsRemove(par);
+        }else{
+          SSServErrReg.regErrThrow(error);
+          return null;
+        }
+      }
+      
+      dbSQL.rollBack(par.shouldCommit);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
   public SSUri entityFileAdd(final SSServPar parA) throws Exception{
     
     try{
@@ -1009,39 +970,7 @@ implements
       return null;
     }
   }
-  
-  @Override
-  public List<SSImage> entityScreenShotsGet(SSServPar parA) throws Exception{
-    
-    try{
-      final SSEntityScreenShotsGetPar par = new SSEntityScreenShotsGetPar(parA);
-      
-      return
-        SSImage.get(
-          sqlFct.getImages(
-            par.entity,
-            SSImageE.screenShot));
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
 
-  @Override
-  public List<SSUri> entityDownloadURIsGet(SSServPar parA) throws Exception{
-    
-    try{
-      final SSEntityDownloadURIsGetPar par = new SSEntityDownloadURIsGetPar(parA);
-      
-      return sqlFct.getDownloads(par.entity);
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
   @Override
   public void entityShare(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
     
@@ -1307,3 +1236,68 @@ implements
 //    }
 
 //    return SSEntityEnum.entity.toString();
+
+
+//download section
+//@Override
+//  public List<SSUri> entityDownloadURIsGet(SSServPar parA) throws Exception{
+//    
+//    try{
+//      final SSEntityDownloadURIsGetPar par = new SSEntityDownloadURIsGetPar(parA);
+//      
+//      return sqlFct.getDownloads(par.entity);
+//      
+//    }catch(Exception error){
+//      SSServErrReg.regErrThrow(error);
+//      return null;
+//    }
+//  }
+
+//public void addDownload(
+//    final SSUri   entity, 
+//    final SSUri   download) throws Exception{
+//    
+//    try{
+//
+//      final Map<String, String> inserts    = new HashMap<>();
+//      final Map<String, String> uniqueKeys = new HashMap<>();
+//      
+//      insert(inserts, SSSQLVarNames.entityId,      entity);
+//      insert(inserts, SSSQLVarNames.downloadId,     download);
+//      
+//      uniqueKey(uniqueKeys, SSSQLVarNames.entityId,    entity);
+//      uniqueKey(uniqueKeys, SSSQLVarNames.downloadId,  download);
+//      
+//      dbSQL.insertIfNotExists(SSSQLVarNames.downloadsTable, inserts, uniqueKeys);
+//      
+//    }catch(Exception error){
+//      SSServErrReg.regErrThrow(error);
+//    }
+//  }
+
+//public List<SSUri> getDownloads(final SSUri entity) throws Exception{
+//    
+//    ResultSet resultSet = null;
+//    
+//    try{
+//      
+//      final List<String>        columns           = new ArrayList<>();
+//      final Map<String, String> wheres            = new HashMap<>();
+//      
+//      column(columns, SSSQLVarNames.downloadId);
+//      
+//      where(wheres, SSSQLVarNames.entityId, entity);
+//      
+//      resultSet = dbSQL.select(SSSQLVarNames.downloadsTable, columns, wheres, null, null, null);
+//      
+//      return getURIsFromResult(resultSet, SSSQLVarNames.downloadId);
+//      
+//    }catch(Exception error){
+//      SSServErrReg.regErrThrow(error);
+//      return null;
+//    }finally{
+//      dbSQL.closeStmt(resultSet);
+//    }
+//  }
+
+//public List<SSUri>                     entityDownloadURIsGet                    (final SSServPar parA) throws Exception;

@@ -153,10 +153,6 @@ public class SSDataImportEvernoteHandler {
         notebookLabel, //label
         null, //description,
         null, //comments,
-        null, //downloads,
-        null, //screenShots,
-        null, //images,
-        null, //videos,
         null, //entitiesToAttach,
         notebookCreationTime, //creationTime,
         null, //read,
@@ -533,10 +529,6 @@ public class SSDataImportEvernoteHandler {
           noteLabel, //label
           null, //description,
           null, //comments,
-          null, //downloads,
-          null, //screenShots,
-          null, //images,
-          null, //videos,
           null, //entitiesToAttach,
           note.getCreated(), //creationTime,
           null, //read,
@@ -686,10 +678,6 @@ public class SSDataImportEvernoteHandler {
         resourceLabel, //label
         null, //description,
         null, //comments,
-        null, //downloads,
-        null, //screenShots,
-        null, //images,
-        null, //videos,
         null, //entitiesToAttach,
         resourceAddTime, //creationTime,
         null, //read,

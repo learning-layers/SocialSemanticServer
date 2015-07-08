@@ -107,10 +107,6 @@ public class SSLikeImpl extends SSServImplWithDBA implements SSLikeClientI, SSLi
           null, //label
           null, //description,
           null, //comments,
-          null, //downloads,
-          null, //screenShots,
-          null, //images,
-          null, //videos,
           null, //entitiesToAttach,
           null, //creationTime,
           null, //read,

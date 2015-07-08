@@ -31,7 +31,6 @@ import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSEntityHandlerImplI;
-import at.tugraz.sss.serv.SSEntityUpdaterI;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.tugraz.sss.util.SSServCallerU;
@@ -67,7 +66,6 @@ extends SSServImplWithDBA
 implements 
   SSVideoClientI, 
   SSVideoServerI, 
-  SSEntityUpdaterI, 
   SSEntityHandlerImplI{
   
   private final SSVideoSQLFct sqlFct;
@@ -79,18 +77,6 @@ implements
     this.sqlFct = new SSVideoSQLFct(dbSQL);
   }
   
-  @Override
-  public void removeDirectlyAdjoinedEntitiesForUser(
-    final SSUri     userUri, 
-    final SSEntityE entityType, 
-    final SSUri     entityUri, 
-    final Boolean   removeUserTags, 
-    final Boolean   removeUserRatings, 
-    final Boolean   removeFromUserColls, 
-    final Boolean   removeUserLocations) throws Exception{
-    
-  }
-
   @Override
   public void circleContentChanged(final SSCircleContentChangedPar par) throws Exception{
     
@@ -161,26 +147,6 @@ implements
     final SSEntityE type) throws Exception{
     
     return null;
-  }
-  
-  @Override
-  public void updateEntity(
-    final SSServPar parA) throws Exception{
-
-    final SSEntityUpdatePar par = (SSEntityUpdatePar)parA;
-    
-    if(!par.videos.isEmpty()){
-
-      for(SSUri video : par.videos){
-
-        SSServCaller.videoUserAdd(
-          par.user, 
-          video, 
-          par.entity, 
-          null,
-          false);
-      }
-    }
   }
   
   @Override
@@ -258,10 +224,6 @@ implements
           par.label, //label
           par.description,//description,
           null, //comments,
-          null, //downloads,
-          null, //screenShots,
-          null, //images,
-          null, //videos,
           null, //entitiesToAttach,
           par.creationTime, //creationTime,
           null, //read,
@@ -282,10 +244,6 @@ implements
             null, //label
             null,//description,
             null, //comments,
-            null, //downloads,
-            null, //screenShots,
-            null, //images,
-            null, //videos,
             null, //entitiesToAttach,
             par.creationTime, //creationTime,
             null, //read,
@@ -307,10 +265,6 @@ implements
             null, //label
             null,//description,
             null, //comments,
-            null, //downloads,
-            null, //screenShots,
-            null, //images,
-            null, //videos,
             null, //entitiesToAttach,
             par.creationTime, //creationTime,
             null, //read,
@@ -399,10 +353,6 @@ implements
           null, //label
           null,//description,
           null, //comments,
-          null, //downloads,
-          null, //screenShots,
-          null, //images,
-          null, //videos,
           null, //entitiesToAttach,
           null, //creationTime,
           null, //read,
@@ -421,10 +371,6 @@ implements
           par.label, //label
           par.description,//description,
           null, //comments,
-          null, //downloads,
-          null, //screenShots,
-          null, //images,
-          null, //videos,
           null, //entitiesToAttach,
           null, //creationTime,
           null, //read,

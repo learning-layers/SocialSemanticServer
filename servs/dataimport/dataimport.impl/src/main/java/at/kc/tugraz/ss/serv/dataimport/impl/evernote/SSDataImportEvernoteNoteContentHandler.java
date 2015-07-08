@@ -153,10 +153,6 @@ public class SSDataImportEvernoteNoteContentHandler{
           null, //label
           null, //description,
           null, //comments,
-          null, //downloads,
-          null, //screenShots,
-          null, //images,
-          null, //videos,
           null, //entitiesToAttach,
           null, //creationTime,
           null, //read,
