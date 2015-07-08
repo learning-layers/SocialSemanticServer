@@ -21,6 +21,8 @@
 package at.tugraz.sss.servs.thumb.impl;
 
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
+import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.kc.tugraz.ss.service.filerepo.api.SSFileRepoServerI;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileIDFromURIPar;
 import at.tugraz.sss.serv.SSCircleContentChangedPar;
@@ -205,12 +207,30 @@ implements
 
     try{
       
-      if(par.withUserRestriction){
-        SSServCallerU.canUserReadEntity(par.user, par.entity);
-      }
-      
       dbSQL.startTrans(par.shouldCommit);
 
+      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+        new SSEntityUpdatePar(
+          null,
+          null,
+          par.user,
+          par.entity, //entity,
+          null, //uriAlternative,
+          null, //type,
+          null, //label,
+          null, //description,
+          null, //comments,
+          null, //downloads,
+          null, //screenShots,
+          null, //images,
+          null, //videos,
+          null, //entitiesToAttach,
+          null, //creationTime,
+          null, //read,
+          null, //setPublic
+          par.withUserRestriction, //withUserRestriction,
+          false)); //shouldCommit
+      
       if(par.removeExistingThumbs){
         sqlFct.removeThumbs(par.entity);
       }

@@ -22,7 +22,7 @@ package at.kc.tugraz.ss.service.disc.impl;
 
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesAddPar;
-import at.tugraz.sss.servs.entity.datatypes.par.SSCircleEntitySharePar;
+import at.tugraz.sss.servs.entity.datatypes.par.SSEntitySharePar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleMostOpenCircleTypeGetPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleTypesGetPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleUsersAddPar;
@@ -375,8 +375,7 @@ public class SSDiscImpl
         !par.users.isEmpty() ||
         !par.circles.isEmpty())
         
-        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityShare(
-          new SSCircleEntitySharePar(
+        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityShare(new SSEntitySharePar(
             null,
             null,
             par.user,

@@ -20,9 +20,9 @@
 */
 package at.tugraz.sss.adapter.rest.v2.entity;
 
-import at.tugraz.sss.servs.entity.datatypes.par.SSCircleEntitySharePar;
+import at.tugraz.sss.servs.entity.datatypes.par.SSEntitySharePar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntityUsersGetPar;
-import at.tugraz.sss.servs.entity.datatypes.ret.SSCircleEntityShareRet;
+import at.tugraz.sss.servs.entity.datatypes.ret.SSEntityShareRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleEntityUsersGetRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
@@ -197,7 +197,7 @@ public class SSRESTEntity {
   @Path("/{entity}/share")
   @ApiOperation(
     value = "share an entity with users, circles or set it public (make it accessible for everyone)",
-    response = SSCircleEntityShareRet.class)
+    response = SSEntityShareRet.class)
   public Response entityShare(
     @Context
       final HttpHeaders headers,
@@ -207,11 +207,11 @@ public class SSRESTEntity {
     
     final SSEntityShareRESTAPIV2Par input){
     
-    final SSCircleEntitySharePar par;
+    final SSEntitySharePar par;
     
     try{
       par =
-        new SSCircleEntitySharePar(
+        new SSEntitySharePar(
           SSServOpE.entityShare, 
           null, //key 
           null, //user

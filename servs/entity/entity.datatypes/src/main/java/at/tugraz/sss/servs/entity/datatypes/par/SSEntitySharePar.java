@@ -28,7 +28,7 @@ import at.tugraz.sss.serv.SSServOpE;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SSCircleEntitySharePar extends SSServPar{
+public class SSEntitySharePar extends SSServPar{
   
   public SSUri         entity          = null;
   public List<SSUri>   users           = new ArrayList<>();
@@ -68,9 +68,9 @@ public class SSCircleEntitySharePar extends SSServPar{
     return SSStrU.toStr(comment);
   }
 
-  public SSCircleEntitySharePar(){}
+  public SSEntitySharePar(){}
     
-  public SSCircleEntitySharePar(
+  public SSEntitySharePar(
     final SSServOpE     op,
     final String        key,
     final SSUri         user,

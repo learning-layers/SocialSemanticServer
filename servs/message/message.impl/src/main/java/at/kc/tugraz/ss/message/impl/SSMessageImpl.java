@@ -45,7 +45,7 @@ import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.caller.SSServCaller;
-import at.tugraz.sss.servs.entity.datatypes.par.SSCircleEntitySharePar;
+import at.tugraz.sss.servs.entity.datatypes.par.SSEntitySharePar;
 import at.tugraz.sss.util.SSServCallerU;
 import java.util.ArrayList;
 import java.util.List;
@@ -142,8 +142,7 @@ public class SSMessageImpl extends SSServImplWithDBA implements SSMessageClientI
         par.forUser,
         par.message);
       
-      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityShare(
-        new SSCircleEntitySharePar(
+      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityShare(new SSEntitySharePar(
           null, 
           null, 
           par.user, 

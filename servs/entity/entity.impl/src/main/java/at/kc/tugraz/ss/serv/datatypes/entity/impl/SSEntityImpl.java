@@ -23,12 +23,12 @@ package at.kc.tugraz.ss.serv.datatypes.entity.impl;
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleCreatePar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesAddPar;
-import at.tugraz.sss.servs.entity.datatypes.par.SSCircleEntitySharePar;
+import at.tugraz.sss.servs.entity.datatypes.par.SSEntitySharePar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleGetPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivURIGetPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePubURIGetPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleUsersAddPar;
-import at.tugraz.sss.servs.entity.datatypes.ret.SSCircleEntityShareRet;
+import at.tugraz.sss.servs.entity.datatypes.ret.SSEntityShareRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityClientI;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesForDescriptionsGetPar;
@@ -40,8 +40,6 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityEntitiesAttac
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityFileAddPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityFilesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityLocationsAddPar;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityLocationsGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityReadGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityRemovePar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityScreenShotsGetPar;
@@ -72,7 +70,6 @@ import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSImage;
 import at.tugraz.sss.serv.SSImageE;
-import at.tugraz.sss.serv.SSLocation;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.tugraz.sss.serv.SSConfA;
@@ -660,8 +657,7 @@ implements
         par.setPublic != null &&
         par.setPublic){
         
-        entityShare(
-          new SSCircleEntitySharePar(
+        entityShare(new SSEntitySharePar(
             null, 
             null, 
             par.user, 
@@ -967,105 +963,6 @@ implements
   }
   
   @Override
-  public List<SSLocation> entityLocationsGet(final SSServPar parA) throws Exception{
-    
-    try{
-      final SSEntityLocationsGetPar par       = new SSEntityLocationsGetPar(parA);
-      
-      return sqlFct.getLocations(par.entity);
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-    
-  @Override
-  public SSUri entityLocationsAdd(final SSServPar parA) throws Exception{
-    
-    try{
-      final SSEntityLocationsAddPar par         = new SSEntityLocationsAddPar(parA);
-      
-      dbSQL.startTrans(par.shouldCommit);
-      
-      entityUpdate(
-        new SSEntityUpdatePar(
-          null,
-          null,
-          par.user,
-          par.entity, //entity,
-          null, //uriAlternative,
-          null, //type,
-          null, //label,
-          null, //description,
-          null, //comments,
-          null, //downloads,
-          null, //screenShots,
-          null, //images,
-          null, //videos,
-          null, //entitiesToAttach,
-          null, //creationTime,
-          null, //read,
-          null, //setPublic
-          true, //withUserRestriction,
-          false)); //shouldCommit
-      
-      for(SSLocation location : par.locations){
-        
-        entityUpdate(
-          new SSEntityUpdatePar(
-            null,
-            null,
-            par.user,
-            location.id, //entity,
-            null, //uriAlternative,
-            SSEntityE.location, //type,
-            null, //label,
-            null, //description,
-            null, //comments,
-            null, //downloads,
-            null, //screenShots,
-            null, //images,
-            null, //videos,
-            null, //entitiesToAttach,
-            null, //creationTime,
-            null, //read,
-            true, //setPublic
-            false, //withUserRestriction,
-            false)); //shouldCommit
-        
-        sqlFct.addLocation(
-          location.id,
-          par.entity,
-          location);
-      }
-      
-      dbSQL.commit(par.shouldCommit);
-      
-      return par.entity;
-      
-    }catch(Exception error){
-      
-      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
-        
-        if(dbSQL.rollBack(parA.shouldCommit)){
-          
-          SSServErrReg.reset();
-          
-          return entityLocationsAdd(parA);
-        }else{
-          SSServErrReg.regErrThrow(error);
-          return null;
-        }
-      }
-      
-      dbSQL.rollBack(parA.shouldCommit);
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
-  @Override
   public SSUri entityFileAdd(final SSServPar parA) throws Exception{
     
     try{
@@ -1150,11 +1047,11 @@ implements
     
     SSServCallerU.checkKey(parA);
     
-    final SSCircleEntitySharePar par = (SSCircleEntitySharePar) parA.getFromJSON(SSCircleEntitySharePar.class);
+    final SSEntitySharePar par = (SSEntitySharePar) parA.getFromJSON(SSEntitySharePar.class);
     
     final SSUri entityURI = entityShare(par);
       
-    sSCon.writeRetFullToClient(SSCircleEntityShareRet.get(entityURI));
+    sSCon.writeRetFullToClient(SSEntityShareRet.get(entityURI));
     
     if(!par.users.isEmpty()){
       SSEntityActivityFct.shareEntityWithUsers(par, true);
@@ -1173,7 +1070,7 @@ implements
   }
   
   @Override  
-  public SSUri entityShare(final SSCircleEntitySharePar par) throws Exception{
+  public SSUri entityShare(final SSEntitySharePar par) throws Exception{
     
     try{
       final List<SSEntity>         entities = new ArrayList<>();

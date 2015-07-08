@@ -62,6 +62,7 @@ import at.kc.tugraz.sss.flag.serv.SSFlagServ;
 import at.kc.tugraz.sss.video.serv.SSVideoServ;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.servs.location.serv.SSLocationServ;
 import at.tugraz.sss.servs.ocd.service.SSOCDServ;
 import at.tugraz.sss.servs.thumb.serv.SSThumbServ;
 import sss.serv.eval.serv.SSEvalServ;
@@ -157,6 +158,7 @@ public class SSSInitializer extends SSServImplStartA{
         SSEvalServ.inst.regServ            (SSCoreConf.instGet().getEval());
         SSOCDServ.inst.regServ             (SSCoreConf.instGet().getOcd());
         SSThumbServ.inst.regServ           (SSCoreConf.instGet().getThumb());
+        SSLocationServ.inst.regServ        (SSCoreConf.instGet().getLocation());
         
       }catch(Exception error1){
         SSServErrReg.regErr(error1);

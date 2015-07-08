@@ -32,7 +32,6 @@ import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityA;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSImageE;
-import at.tugraz.sss.serv.SSLocation;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import java.sql.ResultSet;
@@ -1018,89 +1017,6 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     }
   }
 
-  public void addLocation(
-    final SSUri      locationURI,
-    final SSUri      entity, 
-    final SSLocation location) throws Exception{
-    
-    try{
-
-      final Map<String, String> inserts    = new HashMap<>();
-      
-      insert(inserts, SSSQLVarNames.locationId,        locationURI);
-      insert(inserts, SSSQLVarNames.latitude,          location.latitude);
-      insert(inserts, SSSQLVarNames.longitude,         location.longitude);
-      
-      if(location.accuracy == null){
-        insert(inserts, SSSQLVarNames.accuracy,         SSStrU.empty);
-      }else{
-        insert(inserts, SSSQLVarNames.accuracy,         location.accuracy);
-      }
-      
-      dbSQL.insert(SSSQLVarNames.locationTable, inserts);
-      
-      inserts.clear();
-      
-      insert(inserts, SSSQLVarNames.entityId,           entity);
-      insert(inserts, SSSQLVarNames.locationId,         locationURI);
-      
-      dbSQL.insert(SSSQLVarNames.entityLocationsTable, inserts);
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-
-  public List<SSLocation> getLocations(
-    final SSUri forEntity) throws Exception{
-   
-    ResultSet resultSet = null;
-    
-    try{
-      final List<SSLocation>     locations  = new ArrayList<>();
-      final List<String>         columns    = new ArrayList<>();              
-      final Map<String, String>  wheres     = new HashMap<>();
-
-      column(columns, SSSQLVarNames.locationTable, SSSQLVarNames.locationId);
-      column(columns, SSSQLVarNames.locationTable, SSSQLVarNames.latitude);
-      column(columns, SSSQLVarNames.locationTable, SSSQLVarNames.longitude);
-      column(columns, SSSQLVarNames.locationTable, SSSQLVarNames.accuracy);
-        
-      if(forEntity != null){
-        
-        final List<String>         tables     = new ArrayList<>();
-        final List<String>         tableCons  = new ArrayList<>();
-      
-        table(tables, SSSQLVarNames.locationTable);
-        table(tables, SSSQLVarNames.entityLocationsTable);
-        
-        where(wheres, SSSQLVarNames.entityId, forEntity);
-        
-        tableCon(tableCons, SSSQLVarNames.locationTable, SSSQLVarNames.locationId, SSSQLVarNames.entityLocationsTable, SSSQLVarNames.locationId);
-        
-        resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
-      }else{
-        resultSet = dbSQL.select(SSSQLVarNames.locationTable, columns, wheres, null, null, null);
-      }
-      
-      while(resultSet.next()){
-        
-        locations.add(SSLocation.get(bindingStrToUri   (resultSet, SSSQLVarNames.locationId), 
-            bindingStrToDouble(resultSet, SSSQLVarNames.latitude), 
-            bindingStrToDouble(resultSet, SSSQLVarNames.longitude),
-            bindingStrToFloat (resultSet, SSSQLVarNames.accuracy)));
-      }      
-      
-      return locations;
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }finally{
-      dbSQL.closeStmt(resultSet);
-    }
-  }
-  
   public List<SSEntity> getAccessibleEntityURIs(
     final SSUri           user,
     final Boolean         withSystemCircles,

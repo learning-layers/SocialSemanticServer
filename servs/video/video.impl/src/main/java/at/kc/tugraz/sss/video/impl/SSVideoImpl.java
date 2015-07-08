@@ -58,6 +58,9 @@ import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServReg;
+import at.tugraz.sss.servs.location.api.SSLocationServerI;
+import at.tugraz.sss.servs.location.datatype.par.SSLocationAddPar;
+import at.tugraz.sss.servs.location.datatype.par.SSLocationsGetPar;
 
 public class SSVideoImpl 
 extends SSServImplWithDBA 
@@ -330,13 +333,17 @@ implements
         par.latitude  != null &&
         par.longitude != null){
         
-        SSServCaller.entityLocationsAdd(
-          par.user, 
-          videoUri,
-          par.latitude,
-          par.longitude,
-          par.accuracy,
-          false);
+        ((SSLocationServerI) SSServReg.getServ(SSLocationServerI.class)).locationAdd(
+          new SSLocationAddPar(
+            null, 
+            null,
+            par.user,
+            videoUri,
+            par.latitude,
+            par.longitude,
+            par.accuracy,
+            false, //withUserRestriction,
+            false)); //shouldCommit
       }
       
       dbSQL.commit(par.shouldCommit);
@@ -464,7 +471,9 @@ implements
       final SSVideoUserGetPar      par         = new SSVideoUserGetPar(parA);
       final SSVideo                video;
       
-      SSServCallerU.canUserReadEntity(par.user, par.video);
+      if(par.withUserRestriction){
+        SSServCallerU.canUserReadEntity(par.user, par.video);
+      }
       
       video = sqlFct.getVideo(par.user, par.video);
         
@@ -481,9 +490,13 @@ implements
       }
       
       video.locations.addAll(
-        SSServCaller.entityLocationsGet(
-          par.user,
-          video.id));
+        ((SSLocationServerI) SSServReg.getServ(SSLocationServerI.class)).locationsGet(
+          new SSLocationsGetPar(
+            null,
+            null,
+            par.user,
+            video.id,
+            false))); //withUserRestriction
       
       return video;
       
@@ -527,9 +540,13 @@ implements
         }
         
         video.locations.addAll(
-          SSServCaller.entityLocationsGet(
-            par.user,
-            video.id));
+          ((SSLocationServerI) SSServReg.getServ(SSLocationServerI.class)).locationsGet(
+            new SSLocationsGetPar(
+              null,
+              null,
+              par.user,
+              video.id,
+              false))); //withUserRestriction
         
         videos.add(video);
       }

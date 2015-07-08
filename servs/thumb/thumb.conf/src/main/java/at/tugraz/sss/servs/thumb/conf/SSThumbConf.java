@@ -24,8 +24,6 @@ import at.tugraz.sss.serv.SSCoreServConfA;
 
 public class SSThumbConf extends SSCoreServConfA{
   
-  public String uri = null;
-  
   public static SSThumbConf copy(final SSThumbConf orig){
     
     final SSThumbConf copy = (SSThumbConf) SSCoreServConfA.copy(orig, new SSThumbConf());

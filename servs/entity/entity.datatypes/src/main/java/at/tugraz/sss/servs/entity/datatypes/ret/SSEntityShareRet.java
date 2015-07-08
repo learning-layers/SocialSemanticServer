@@ -18,36 +18,45 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par;
+package at.tugraz.sss.servs.entity.datatypes.ret;
 
+import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarNames;
-import at.tugraz.sss.serv.SSErr;
-import at.tugraz.sss.serv.SSErrE;
-import at.tugraz.sss.serv.SSLocation;
+import at.tugraz.sss.serv.SSServRetI;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServErrReg;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
-public class SSEntityLocationsAddPar extends SSServPar{
+public class SSEntityShareRet extends SSServRetI{
+  
+  public SSUri entity = null;
 
-  public SSUri               entity        = null;
-  public List<SSLocation>    locations     = new ArrayList<>();
-
-  public SSEntityLocationsAddPar(SSServPar par) throws Exception{
-      
-    super(par);
+  @Override
+  public Map<String, Object> jsonLDDesc(){
     
-    try{
-      
-      
-      if(pars != null){
-        entity         = (SSUri)               pars.get(SSVarNames.entity);
-        locations      = (List<SSLocation>)    pars.get(SSVarNames.locations);
-      }
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(new SSErr(SSErrE.servParCreationFailed));
-    }
+    final Map<String, Object> ld         = new HashMap<>();
+    
+    ld.put(SSVarNames.entity, SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
+    
+    return ld;
+  }
+  
+  public String getEntity() throws Exception {
+    return SSStrU.removeTrailingSlash(entity);
+  }
+  
+  public static SSEntityShareRet get(
+    final SSUri   entity){
+    
+    return new SSEntityShareRet(entity);
+  }
+  
+  private SSEntityShareRet(
+    final SSUri   entity){
+    
+    super(SSServOpE.entityShare);
+    
+    this.entity = entity;
   }
 }

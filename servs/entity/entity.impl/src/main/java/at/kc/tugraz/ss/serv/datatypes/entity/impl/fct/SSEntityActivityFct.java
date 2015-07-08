@@ -24,7 +24,7 @@ import at.kc.tugraz.ss.activity.api.SSActivityServerI;
 import at.tugraz.sss.serv.SSLogU;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
 import at.kc.tugraz.ss.activity.datatypes.par.SSActivityAddPar;
-import at.tugraz.sss.servs.entity.datatypes.par.SSCircleEntitySharePar;
+import at.tugraz.sss.servs.entity.datatypes.par.SSEntitySharePar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityCopyPar;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSErr;
@@ -65,7 +65,7 @@ public class SSEntityActivityFct{
   }
   
   public static void shareEntityWithUsers(
-    final SSCircleEntitySharePar par, 
+    final SSEntitySharePar par, 
     final Boolean                shouldCommit) throws Exception{
     
     try{
@@ -96,7 +96,7 @@ public class SSEntityActivityFct{
   }
   
   public static void shareEntityWithCircles(
-    final SSCircleEntitySharePar par, 
+    final SSEntitySharePar par, 
     final Boolean                shouldCommit) throws Exception{
     
     try{

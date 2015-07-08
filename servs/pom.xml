@@ -48,5 +48,6 @@
     <module>circle</module>
     <module>ocd</module>
     <module>thumb</module>
+    <module>location</module>
   </modules>
 </project>

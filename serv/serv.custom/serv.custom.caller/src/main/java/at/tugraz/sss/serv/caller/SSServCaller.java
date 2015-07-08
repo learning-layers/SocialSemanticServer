@@ -38,7 +38,6 @@ import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSFileExtE;
 import at.tugraz.sss.serv.SSIDU;
 import at.tugraz.sss.serv.SSLabel;
-import at.tugraz.sss.serv.SSLocation;
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSMimeTypeE;
 import at.tugraz.sss.serv.SSServReg;
@@ -750,45 +749,6 @@ public class SSServCaller {
   }
   
   /* entity */
-  
-  public static void entityLocationsAdd(
-    final SSUri   user, 
-    final SSUri   entity,
-    final Double  latitude, 
-    final Double  longitude, 
-    final Float   accuracy, 
-    final Boolean shouldCommit) throws Exception{
-    
-    final Map<String, Object>  opPars = new HashMap<>();
-    
-    final List<SSLocation> locations = new ArrayList<>();
-    
-    locations.add(
-      SSLocation.get(
-        vocURICreate(), 
-        latitude,
-        longitude, 
-        accuracy));
-    
-    opPars.put(SSVarNames.shouldCommit, shouldCommit);
-    opPars.put(SSVarNames.user,         user);
-    opPars.put(SSVarNames.entity,       entity);
-    opPars.put(SSVarNames.locations,    locations);
-    
-    SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entityLocationsAdd, opPars));
-  }
-  
-  public static List<SSLocation> entityLocationsGet(
-    final SSUri user,
-    final SSUri entity) throws Exception{
-    
-    final Map<String, Object>  opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.user,         user);
-    opPars.put(SSVarNames.entity,       entity);
-    
-    return (List<SSLocation>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entityLocationsGet, opPars));
-  }
   
   public static Boolean entityReadGet(
     final SSUri user,

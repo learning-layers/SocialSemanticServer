@@ -22,6 +22,10 @@ package at.tugraz.sss.serv;
 
 public enum SSServOpE{
   
+  //location
+  locationAdd,
+  locationsGet,
+  
   //thumb
   thumbsGet,
   thumbAdd,
@@ -136,8 +140,6 @@ public enum SSServOpE{
   entityReadGet,
   entityScreenShotsGet,
   entityDownloadURIsGet,
-  entityLocationsAdd,
-  entityLocationsGet,
   entityShare,
   
   //learn ep
