@@ -51,9 +51,13 @@ import java.util.ArrayList;
 import java.util.List;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSErrE;
+import at.tugraz.sss.serv.SSImage;
+import at.tugraz.sss.serv.SSImageE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServReg;
+import at.tugraz.sss.servs.image.api.SSImageServerI;
+import at.tugraz.sss.servs.image.datatype.par.SSImageAddPar;
 
 public class SSAppImpl 
 extends SSServImplWithDBA 
@@ -129,48 +133,6 @@ implements
       
       dbSQL.startTrans(par.shouldCommit);
 
-      for(SSUri download : par.downloads){
-      
-        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
-          new SSEntityUpdatePar(
-            null,
-            null,
-            par.user,
-            download, //entity,
-            null, //uriAlternative,
-            null, //type,
-            null, //label,
-            null, //description,
-            null, //comments,
-            null, //entitiesToAttach,
-            null, //creationTime,
-            null, //read,
-            true, //setPublic
-            true, //withUserRestriction,
-            false)); //shouldCommit
-      }      
-      
-      for(SSUri screenShot : par.screenShots){
-      
-        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
-          new SSEntityUpdatePar(
-            null,
-            null,
-            par.user,
-            screenShot, //entity,
-            null, //uriAlternative,
-            SSEntityE.image, //type,
-            null, //label,
-            null, //description,
-            null, //comments,
-            null, //entitiesToAttach,
-            null, //creationTime,
-            null, //read,
-            true, //setPublic
-            true, //withUserRestriction,
-            false)); //shouldCommit
-      }
-      
       ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
         new SSEntityUpdatePar(
           null,
@@ -186,13 +148,44 @@ implements
           null, //creationTime,
           null, //read,
           true, //setPublic
-          true, //withUserRestriction,
+          par.withUserRestriction, //withUserRestriction,
           false)); //shouldCommit
       
+      for(SSUri screenShot : par.screenShots){
+      
+        ((SSImageServerI) SSServReg.getServ(SSImageServerI.class)).imageAdd(
+          new SSImageAddPar(
+            null, 
+            null, 
+            par.user, 
+            screenShot, 
+            SSImageE.screenShot, //imageType
+            appUri, //entity, 
+            par.withUserRestriction, 
+            false)); //shouldCommit
+      }
+      
       //TODO handle below
-//       par.downloads, //downloads,
-//          par.screenShots, //screenShots,
-//          null, //images,
+//      for(SSUri download : par.downloads){
+//      
+//        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+//          new SSEntityUpdatePar(
+//            null,
+//            null,
+//            par.user,
+//            download, //entity,
+//            null, //uriAlternative,
+//            null, //type,
+//            null, //label,
+//            null, //description,
+//            null, //comments,
+//            null, //entitiesToAttach,
+//            null, //creationTime,
+//            null, //read,
+//            true, //setPublic
+//            true, //withUserRestriction,
+//            false)); //shouldCommit
+//      }    
 //          par.videos, //videos,
       
       sqlFct.createApp(

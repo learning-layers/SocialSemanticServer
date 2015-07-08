@@ -18,16 +18,17 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.service.filerepo.datatypes.pars;
+package at.tugraz.sss.servs.file.datatype.par;
 
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 
-public class SSFileIDFromURIPar extends SSServPar{
+public class SSEntityFileAddPar extends SSServPar{
   
-  public SSUri file = null;
+  public SSUri file     = null;
+  public SSUri entity   = null;
 
   public String getFile(){
     return SSStrU.removeTrailingSlash(file);
@@ -36,17 +37,31 @@ public class SSFileIDFromURIPar extends SSServPar{
   public void setFile(final String file) throws Exception{
     this.file = SSUri.get(file);
   }
+
+  public String getEntity(){
+    return SSStrU.removeTrailingSlash(entity);
+  }
+
+  public void setEntity(final String entity) throws Exception{
+   this.entity = SSUri.get(entity);
+  }
   
-  public SSFileIDFromURIPar(){}
+  public SSEntityFileAddPar(){} 
   
-  public SSFileIDFromURIPar(
+  public SSEntityFileAddPar(
     final SSServOpE     op,
     final String        key,
-    final SSUri         user, 
-    final SSUri         file){
-  
+    final SSUri         user,
+    final SSUri         file, 
+    final SSUri         entity, 
+    final Boolean       withUserRestriction, 
+    final Boolean       shouldCommit) {
+    
     super(op, key, user);
-      
-    this.file = file;
+    
+    this.file                 = file;
+    this.entity               = entity;
+    this.withUserRestriction  = withUserRestriction;
+    this.shouldCommit         = shouldCommit;
   }
 }

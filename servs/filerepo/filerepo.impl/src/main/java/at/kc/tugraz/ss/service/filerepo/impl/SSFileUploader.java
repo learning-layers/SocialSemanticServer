@@ -28,13 +28,10 @@ import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSMimeTypeE;
 import at.tugraz.sss.serv.SSStrU;
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
-import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
-import at.tugraz.sss.serv.SSEntityE;
+import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.tugraz.sss.serv.SSServImplStartA;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.filerepo.conf.SSFileRepoConf;
-import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileIDFromURIPar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileUploadPar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileUploadRet;
 import at.kc.tugraz.ss.service.filerepo.impl.fct.SSFileServCaller;
@@ -78,7 +75,7 @@ public class SSFileUploader extends SSServImplStartA{
     try{
       this.fileExt           = SSMimeTypeE.fileExtForMimeType             (this.par.mimeType);
       this.uri               = SSServCaller.vocURICreate                  (this.fileExt);
-      this.fileId            = this.servImpl.fileIDFromURI(new SSFileIDFromURIPar(null, null, par.user, uri));
+      this.fileId            = SSVocConf.fileIDFromSSSURI(uri);
       this.fileOutputStream  = SSFileU.openOrCreateFileWithPathForWrite   (localWorkPath + fileId);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -222,8 +219,8 @@ public class SSFileUploader extends SSServImplStartA{
     try{
       final String filePath          = localWorkPath + fileId;
       final SSUri  pngFileUri        = SSServCaller.vocURICreate                  (SSFileExtE.png);
-      final String pngFilePath       = localWorkPath + this.servImpl.fileIDFromURI(new SSFileIDFromURIPar(null, null, par.user, pngFileUri));
-      final String pdfFilePath       = localWorkPath + this.servImpl.fileIDFromURI(new SSFileIDFromURIPar(null, null, par.user, SSServCaller.vocURICreate     (SSFileExtE.pdf)));
+      final String pngFilePath       = localWorkPath + SSVocConf.fileIDFromSSSURI(pngFileUri);
+      final String pdfFilePath       = localWorkPath + SSVocConf.fileIDFromSSSURI(SSServCaller.vocURICreate     (SSFileExtE.pdf));
 
       Boolean      thumbCreated      = false;
       
@@ -253,7 +250,7 @@ public class SSFileUploader extends SSServImplStartA{
           new SSImageAddPar(
             null,
             null,
-            par.usr,
+            par.user,
             pngFileUri,
             SSImageE.thumb, //imageType,
             uri, //entity

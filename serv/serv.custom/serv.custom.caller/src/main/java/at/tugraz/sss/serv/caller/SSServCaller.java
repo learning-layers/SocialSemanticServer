@@ -762,18 +762,6 @@ public class SSServCaller {
     return (Boolean) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entityReadGet, opPars));
   }
   
-  public static List<SSEntity> entityEntitiesAttachedGet(
-    final SSUri user,
-    final SSUri entity) throws Exception{
-    
-    final Map<String, Object>  opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.user,   user);
-    opPars.put(SSVarNames.entity, entity);
-    
-    return (List<SSEntity>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entityEntitiesAttachedGet, opPars));
-  }
-    
   public static List<SSUri> entityFilesGet(
     final SSUri user, 
     final SSUri entity) throws Exception{

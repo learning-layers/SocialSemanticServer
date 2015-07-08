@@ -35,9 +35,6 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesForDescript
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesForLabelsAndDescriptionsGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesForLabelsGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesGetPar;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityEntitiesAttachedGetPar;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityFileAddPar;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityFilesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityReadGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityRemovePar;
@@ -106,7 +103,7 @@ implements
     
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
     
-    sqlFct = new SSEntitySQLFct   (this);
+    sqlFct = new SSEntitySQLFct(this);
   }
   
   @Override
@@ -409,12 +406,19 @@ implements
         }
       }
       
-      if(par.invokeEntityHandlers){
+      if(par.descPar != null){
+      
+        if(par.descPar.setAttachedEntities){
+          entity.attachedEntities.addAll(sqlFct.getAttachedEntities(par.entity));
+        }
         
-        setReadAndFileInformation(par.user, entity);
+        if(par.descPar.setRead){
+          entity.read = sqlFct.getEntityRead (par.user, entity.id);
+        }
         
-        par.descPar.user    = par.user;
-        par.descPar.forUser = par.forUser;
+        par.descPar.user                = par.user;
+        par.descPar.forUser             = par.forUser;
+        par.descPar.withUserRestriction = par.withUserRestriction;
         
         for(SSServContainerI serv : SSServReg.inst.getServsDescribingEntities()){
           entity = ((SSEntityHandlerImplI) serv.serv()).getUserEntity(entity, par.descPar);
@@ -560,28 +564,6 @@ implements
         }
       }
       
-//      for(SSUri screenShot : par.screenShots){
-//        
-//        sqlFct.addImage(
-//          screenShot, 
-//          SSImageE.screenShot);
-//        
-//        sqlFct.attachEntity(par.entity, screenShot);
-//      }
-      
-//      for(SSUri download : par.downloads){
-//        sqlFct.addDownload (par.entity, download);
-//      }
-      
-//      for(SSUri image : par.images){
-//        
-//         sqlFct.addImage(
-//          image, 
-//          SSImageE.image);
-//         
-//        sqlFct.attachEntity(par.entity, image);
-//      }
-      
       for(SSUri entityURIToAttach : par.entitiesToAttach){
         
         entityToAttach = sqlFct.getEntity(entityURIToAttach);
@@ -599,7 +581,7 @@ implements
         }else{
           
           if(par.withUserRestriction){
-            SSServCallerU.canUserEditEntity(par.user, entityToAttach);
+            SSServCallerU.canUserReadEntity(par.user, entityURIToAttach);
           }
         }
         
@@ -676,23 +658,6 @@ implements
       dbSQL.rollBack(par.shouldCommit);
       SSServErrReg.regErrThrow(error);
       return null;
-    }
-  }
-  
-  private void setReadAndFileInformation(
-    final SSUri    user, 
-    final SSEntity entity) throws Exception{
-    
-    try{
-      final List<SSUri> files = sqlFct.getFiles (entity.id);
-      
-      entity.read = sqlFct.getEntityRead (user, entity.id);
-      
-      if(!files.isEmpty()){
-        entity.file = files.get(0);
-      }
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
     }
   }
   
@@ -880,26 +845,16 @@ implements
   }
   
   @Override
-  public List<SSEntity> entityEntitiesAttachedGet(final SSServPar parA) throws Exception{
-    
-    try{
-      final SSEntityEntitiesAttachedGetPar par = new SSEntityEntitiesAttachedGetPar(parA);
-      
-      return sqlFct.getAttachedEntities(par.entity);
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
-  @Override
   public SSUri entityAttachmentsRemove(final SSEntityAttatchmentsRemovePar par) throws Exception{
     
     try{
+
+      if(par.withUserRestriction){
+        SSServCallerU.canUserEditEntity   (par.user, par.entity);
+        SSServCallerU.canUserReadEntities (par.user, par.attachments);
+      }
       
-      //TODO
-//      sqlFct.removeAttachments();
+      sqlFct.removeAttachments(par.entity, par.attachments);
       
       return par.entity;
     }catch(Exception error){
@@ -923,54 +878,6 @@ implements
     }
   }
   
-  @Override
-  public SSUri entityFileAdd(final SSServPar parA) throws Exception{
-    
-    try{
-      final SSEntityFileAddPar par = new SSEntityFileAddPar(parA);
-      
-      dbSQL.startTrans(par.shouldCommit);
-      
-      sqlFct.addFile(par.entity, par.file);
-      
-      dbSQL.commit(par.shouldCommit);
-      
-      return par.file;
-    }catch(Exception error){
-      
-      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
-        
-        if(dbSQL.rollBack(parA.shouldCommit)){
-          
-          SSServErrReg.reset();
-          
-          return entityFileAdd(parA);
-        }else{
-          SSServErrReg.regErrThrow(error);
-          return null;
-        }
-      }
-      
-      dbSQL.rollBack(parA.shouldCommit);
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-
-  @Override
-  public List<SSUri> entityFilesGet(final SSServPar parA) throws Exception{
-    
-    try{
-      final SSEntityFilesGetPar par = new SSEntityFilesGetPar(parA);
-      
-      return sqlFct.getFiles(par.entity);
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-
   @Override
   public void entityShare(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
     

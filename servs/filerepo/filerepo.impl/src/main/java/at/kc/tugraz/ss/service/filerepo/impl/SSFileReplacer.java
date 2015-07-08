@@ -24,12 +24,11 @@ import at.tugraz.sss.serv.SSFileU;
 import at.tugraz.sss.serv.SSHTMLU;
 import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSSocketCon;
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
+import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.tugraz.sss.serv.SSServImplStartA;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.filerepo.conf.SSFileRepoConf;
-import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileIDFromURIPar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileReplacePar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileReplaceRet;
 import at.kc.tugraz.ss.service.filerepo.impl.fct.SSFileServCaller;
@@ -59,7 +58,7 @@ public class SSFileReplacer extends SSServImplStartA{
     this.par                  = par;
     this.servImpl             = servImpl;
     this.localWorkPath        = SSCoreConf.instGet().getSss().getLocalWorkPath();
-    this.fileId               = servImpl.fileIDFromURI(new SSFileIDFromURIPar(null, null, par.user, par.file));
+    this.fileId               = SSVocConf.fileIDFromSSSURI(par.file);
     this.fileOutputStream     = SSFileU.openOrCreateFileWithPathForWrite (localWorkPath + fileId);
   }
   

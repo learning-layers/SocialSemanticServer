@@ -399,6 +399,11 @@ implements
             learnEpVersionUri,
             false);
         
+        final SSEntityDescriberPar descPar = new SSEntityDescriberPar();
+        
+        descPar.setOverallRating = true;
+        descPar.setTags          = true;
+        
         for(SSLearnEpEntity learnEpEntity : learnEpVersion.learnEpEntities){
           
           learnEpEntity.entity =
@@ -412,15 +417,7 @@ implements
                 null, //label
                 null, //type
                 false, //withUserRestriction
-                true, //invokeEntityHandlers,
-                new SSEntityDescriberPar(
-                  true, //setTags,
-                  true, //setOverallRating,
-                  false, //setDiscs,
-                  false, //setUEs,
-                  false, //setThumb,
-                  false, //setFlags,
-                  false), //setCircles //descPar,
+                descPar, //descPar
                 true)); //logErr
         }
 

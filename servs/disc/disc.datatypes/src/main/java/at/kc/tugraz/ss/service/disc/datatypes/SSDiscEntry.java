@@ -41,29 +41,8 @@ public class SSDiscEntry extends SSEntity{
     value = "textual content")
   public  SSTextComment       content;
   
-  public static SSDiscEntry get(
-    final SSUri                  id,
-    final SSEntityE              type,
-    final int                    pos,
-    final SSTextComment          content) throws Exception{
-    
-    return new SSDiscEntry(
-      id, 
-      type, 
-      pos, 
-      content);
-  }
-  
-  protected SSDiscEntry(
-    final SSUri                  id,
-    final SSEntityE              type,
-    final int                    pos,
-    final SSTextComment          content) throws Exception{
-    
-    super(id, type);
-    
-    this.pos     = pos;
-    this.content = content;
+  public String getContent(){
+    return SSStrU.toStr(content);
   }
   
   @Override
@@ -76,9 +55,48 @@ public class SSDiscEntry extends SSEntity{
     
     return ld;
   }
-
-  /* json getters */
-  public String getContent(){
-    return SSStrU.toStr(content);
+  
+  public static SSDiscEntry get(
+    final SSUri                  id,
+    final SSEntityE              type,
+    final int                    pos,
+    final SSTextComment          content) throws Exception{
+    
+    return new SSDiscEntry(
+      id,
+      type,
+      pos,
+      content);
+  }
+  
+  public static SSDiscEntry get(
+    final SSDiscEntry            entry,
+    final SSEntity               entity) throws Exception{
+    
+    return new SSDiscEntry(
+      entry, 
+      entity);
+  }
+  
+  protected SSDiscEntry(
+    final SSDiscEntry            entry,
+    final SSEntity               entity) throws Exception{
+    
+    super(entity);
+    
+    this.pos     = entry.pos;
+    this.content = entry.content;
+  }
+  
+  protected SSDiscEntry(
+    final SSUri                  id,
+    final SSEntityE              type,
+    final int                    pos,
+    final SSTextComment          content) throws Exception{
+    
+    super(id, type);
+    
+    this.pos     = pos;
+    this.content = content;
   }
 }

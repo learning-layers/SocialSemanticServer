@@ -18,12 +18,11 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.tugraz.sss.servs.image.impl.sql;
+package at.kc.tugraz.ss.service.filerepo.impl.fct;
 
 import at.tugraz.sss.serv.SSDBSQLFct;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSErrE;
-import at.tugraz.sss.serv.SSImageE;
 import at.tugraz.sss.serv.SSObjU;
 import at.tugraz.sss.serv.SSSQLVarNames;
 import at.tugraz.sss.serv.SSServErrReg;
@@ -35,69 +34,59 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SSImageSQLFct extends SSDBSQLFct{
-  
-  public SSImageSQLFct(SSServImplWithDBA serv) throws Exception{
+public class SSFileSQLFct extends SSDBSQLFct{
+
+  public SSFileSQLFct(final SSServImplWithDBA serv) throws Exception{
     super(serv.dbSQL);
   }
   
-  public void addImage(
-    final SSUri    image,
-    final SSImageE imageType) throws Exception{
+  public void addFile(
+    final SSUri file) throws Exception{
     
     try{
 
-      if(SSObjU.isNull(image, imageType)){
+      if(SSObjU.isNull(file)){
         throw new SSErr(SSErrE.parameterMissing);
       }
       
       final Map<String, String> inserts    = new HashMap<>();
       final Map<String, String> uniqueKeys = new HashMap<>();
       
-      insert(inserts, SSSQLVarNames.imageId,    image);
-      insert(inserts, SSSQLVarNames.type,       imageType);
+      insert   (inserts,    SSSQLVarNames.fileId, file);
+      uniqueKey(uniqueKeys, SSSQLVarNames.fileId, file);
       
-      uniqueKey(uniqueKeys, SSSQLVarNames.imageId, image);
-      
-      dbSQL.insertIfNotExists(SSSQLVarNames.imageTable, inserts, uniqueKeys);
+      dbSQL.insertIfNotExists(SSSQLVarNames.filesTable, inserts, uniqueKeys);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
   }
   
-  public List<SSUri> getImages(
-    final SSUri    forEntity,
-    final SSImageE imageType) throws Exception{
+  public List<SSUri> getFiles(final SSUri forEntity) throws Exception{
     
     ResultSet resultSet = null;
     
     try{
+      
+      if(SSObjU.isNull(forEntity)){
+        throw new SSErr(SSErrE.parameterMissing);
+      }
+
       final List<String>        columns    = new ArrayList<>();
       final List<String>        tables     = new ArrayList<>();
       final Map<String, String> wheres     = new HashMap<>();
       final List<String>        tableCons  = new ArrayList<>();
       
-      column (columns, SSSQLVarNames.imageTable, SSSQLVarNames.imageId);
-      table  (tables, SSSQLVarNames.imageTable);
+      column (columns, SSSQLVarNames.filesTable, SSSQLVarNames.fileId);
+      table  (tables, SSSQLVarNames.filesTable);
       
-      if(forEntity != null){
-        where   (wheres, SSSQLVarNames.entitiesTable, SSSQLVarNames.entityId, forEntity);
-        table   (tables, SSSQLVarNames.entitiesTable);
-        tableCon(tableCons, SSSQLVarNames.imageTable, SSSQLVarNames.imageId, SSSQLVarNames.entitiesTable, SSSQLVarNames.attachedEntityId);
-      }
+      where   (wheres, SSSQLVarNames.entitiesTable, SSSQLVarNames.entityId, forEntity);
+      table   (tables, SSSQLVarNames.entitiesTable);
+      tableCon(tableCons, SSSQLVarNames.filesTable, SSSQLVarNames.fileId, SSSQLVarNames.entitiesTable, SSSQLVarNames.attachedEntityId);
       
-      if(imageType != null){
-        where(wheres, SSSQLVarNames.imageTable, SSSQLVarNames.type, imageType);
-      }
+      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
       
-      if(!tableCons.isEmpty()){
-        resultSet = dbSQL.select(tables,     columns, wheres, tableCons, null, null, null);
-      }else{
-        resultSet = dbSQL.select(SSSQLVarNames.imageTable, columns, wheres, null, null, null);
-      }
-      
-      return getURIsFromResult(resultSet, SSSQLVarNames.imageId);
+      return getURIsFromResult(resultSet, SSSQLVarNames.fileId);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

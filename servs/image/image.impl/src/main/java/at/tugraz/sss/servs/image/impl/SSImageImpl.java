@@ -23,8 +23,7 @@ package at.tugraz.sss.servs.image.impl;
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
-import at.kc.tugraz.ss.service.filerepo.api.SSFileRepoServerI;
-import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileIDFromURIPar;
+import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.tugraz.sss.serv.SSCircleContentChangedPar;
 import at.tugraz.sss.serv.SSSocketCon;
 import at.tugraz.sss.serv.SSDBSQLI;
@@ -205,12 +204,8 @@ implements
       
       final String pngFilePath = 
         SSCoreConf.instGet().getSss().getLocalWorkPath() + 
-       ((SSFileRepoServerI) SSServReg.getServ(SSFileRepoServerI.class)).fileIDFromURI(
-         new SSFileIDFromURIPar(
-           null, 
-           null, 
-           par.user, 
-           images.get(0)));
+       SSVocConf.fileIDFromSSSURI(
+           images.get(0));
       
       return SSFileU.readImageToBase64Str(pngFilePath);
       
@@ -225,8 +220,6 @@ implements
 
     try{
       
-      dbSQL.startTrans(par.shouldCommit);
-
       if(par.imageType == null){
         throw new SSErr(SSErrE.parameterMissing);
       }
@@ -234,6 +227,8 @@ implements
       if(par.image == null){
         par.image = SSServCaller.vocURICreate();
       }
+      
+      dbSQL.startTrans(par.shouldCommit);
       
       ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
         new SSEntityUpdatePar(

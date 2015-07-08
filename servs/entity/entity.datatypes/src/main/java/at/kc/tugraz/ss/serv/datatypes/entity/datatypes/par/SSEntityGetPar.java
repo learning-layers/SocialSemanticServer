@@ -34,7 +34,6 @@ public class SSEntityGetPar extends SSServPar{
   public SSUri                forUser              = null;
   public SSLabel              label                = null;
   public SSEntityE            type                 = null;
-  public Boolean              invokeEntityHandlers = null;
   public SSEntityDescriberPar descPar              = null;
   
   public String getEntity(){
@@ -72,7 +71,6 @@ public class SSEntityGetPar extends SSServPar{
     final SSLabel              label,
     final SSEntityE            type,
     final Boolean              withUserRestriction,
-    final Boolean              invokeEntityHandlers,
     final SSEntityDescriberPar descPar,
     final Boolean              logErr){
     
@@ -83,7 +81,6 @@ public class SSEntityGetPar extends SSServPar{
     this.label                = label;
     this.type                 = type;
     this.withUserRestriction  = withUserRestriction;
-    this.invokeEntityHandlers = invokeEntityHandlers;
     this.descPar              = descPar;
     this.logErr               = logErr;
   }

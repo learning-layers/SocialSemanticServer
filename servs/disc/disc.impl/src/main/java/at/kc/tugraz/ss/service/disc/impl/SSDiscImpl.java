@@ -28,6 +28,7 @@ import at.kc.tugraz.ss.circle.datatypes.par.SSCircleTypesGetPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleUsersAddPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
@@ -67,13 +68,13 @@ import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
+import at.tugraz.sss.serv.SSErr;
 import java.util.*;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServReg;
-import at.tugraz.sss.serv.SSTextComment;
 
 public class SSDiscImpl
   extends SSServImplWithDBA
@@ -498,17 +499,33 @@ public class SSDiscImpl
 
     try{
       final List<SSDisc> discsWithoutEntries = new ArrayList<>();
-      SSDisc disc;
+      SSDisc   disc;
+      SSEntity discEntity;
 
+      if(par.user == null){
+        throw new SSErr(SSErrE.parameterMissing);
+      }
+      
       for(SSUri discUri : sqlFct.getDiscURIs(par.user)){
 
-        disc = sqlFct.getDiscWithoutEntries(discUri);
-
-        disc.attachedEntities.addAll(
-          SSServCaller.entityEntitiesAttachedGet(
-            par.user,
-            discUri));
-
+        disc       = sqlFct.getDiscWithoutEntries(discUri);
+        discEntity =
+          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+          new SSEntityGetPar(
+            null, 
+            null, 
+            par.user, 
+            disc.id, 
+            null, //forUser, 
+            null, //label, 
+            null, //type, 
+            par.withUserRestriction, //withUserRestriction, 
+            true, //invokeEntityHandlers, 
+            new SSEntityDescriberPar(), 
+            true)); //logErr));
+        
+        disc = SSDisc.get(disc, discEntity);
+        
         disc.circleTypes.addAll(
           ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleTypesGet(
             new SSCircleTypesGetPar(
@@ -543,28 +560,48 @@ public class SSDiscImpl
   public SSDisc discWithEntriesGet(final SSDiscWithEntriesGetPar par) throws Exception{
 
     try{
-      SSDiscEntry discEntry;
-
-      SSServCallerU.canUserReadEntity(par.user, par.disc);
-
-      final SSDisc disc = sqlFct.getDiscWithEntries(par.disc);
-
-      disc.attachedEntities.addAll(
-        SSServCaller.entityEntitiesAttachedGet(
-          par.user,
-          disc.id));
-
+      SSDiscEntry    discEntry;
+      SSEntity       discEntryEntity;
+      SSDisc         disc       = sqlFct.getDiscWithEntries(par.disc);
+      
+      final SSEntity discEntity =
+        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+          new SSEntityGetPar(
+            null,
+            null,
+            par.user,
+            disc.id,
+            null, //forUser,
+            null, //label,
+            null, //type,
+            par.withUserRestriction, //withUserRestriction,
+            true, //invokeEntityHandlers,
+            new SSEntityDescriberPar(),
+            true)); //logErr));
+      
+      disc = SSDisc.get(disc, discEntity);
+      
       for(Object entry : disc.entries){
 
-        discEntry = (SSDiscEntry) entry;
-
-        discEntry.attachedEntities.addAll(
-          SSServCaller.entityEntitiesAttachedGet(
-            par.user,
-            discEntry.id));
-
-        discEntry.likes
-          = SSServCaller.likesUserGet(
+        discEntryEntity =
+          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+            new SSEntityGetPar(
+              null,
+              null,
+              par.user,
+              ((SSDiscEntry) entry).id,
+              null, //forUser,
+              null, //label,
+              null, //type,
+              par.withUserRestriction, //withUserRestriction,
+              false, //invokeEntityHandlers,
+              new SSEntityDescriberPar(),
+              true)); //logErr));
+        
+        discEntry = SSDiscEntry.get((SSDiscEntry) entry, discEntryEntity);
+          
+        discEntry.likes =
+          SSServCaller.likesUserGet(
             par.user,
             null,
             discEntry.id);

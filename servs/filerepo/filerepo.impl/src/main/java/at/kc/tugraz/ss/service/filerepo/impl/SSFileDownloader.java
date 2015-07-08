@@ -20,6 +20,7 @@
 */
 package at.kc.tugraz.ss.service.filerepo.impl;
 
+import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.tugraz.sss.serv.SSHTMLU;
 import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSSocketU;
@@ -27,7 +28,6 @@ import at.tugraz.sss.serv.SSServImplStartA;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.filerepo.conf.SSFileRepoConf;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileDownloadPar;
-import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileIDFromURIPar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileDownloadRet;
 import at.tugraz.sss.serv.SSServErrReg;
 import java.io.DataInputStream;
@@ -55,7 +55,7 @@ public class SSFileDownloader extends SSServImplStartA{
     
     this.par               = par;
     this.servImpl          = servImpl;
-    this.fileId            = this.servImpl.fileIDFromURI(new SSFileIDFromURIPar(null, null, this.par.user, this.par.file));
+    this.fileId            = SSVocConf.fileIDFromSSSURI(this.par.file);
   }
   
   @Override

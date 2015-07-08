@@ -111,6 +111,10 @@ public interface SSDBSQLI{
     final String              table, 
     final Map<String, String> deletes) throws Exception;
 
+  public void deleteIgnore(
+    final String                               table, 
+    final List<MultivaluedMap<String, String>> wheres) throws Exception;
+  
   public void update(
     final String              table, 
     final Map<String, String> wheres, 

@@ -70,7 +70,7 @@ public class SSDataImportEvernoteResourceContentHandler{
         fileUri = SSServCaller.vocURICreate(fileExt);
         
         fileId  =
-          ((SSFileRepoServerI) SSServReg.getServ(SSFileRepoServerI.class)).fileIDFromURI(
+          SSVocConf.fileIDFromSSSURI(
             new SSFileIDFromURIPar(
               null,
               null,
@@ -112,7 +112,7 @@ public class SSDataImportEvernoteResourceContentHandler{
         try{
           SSFileU.delFile(
             localWorkPath +
-              ((SSFileRepoServerI) SSServReg.getServ(SSFileRepoServerI.class)).fileIDFromURI(
+              SSVocConf.fileIDFromSSSURI(
                 new SSFileIDFromURIPar(
                   null,
                   null,

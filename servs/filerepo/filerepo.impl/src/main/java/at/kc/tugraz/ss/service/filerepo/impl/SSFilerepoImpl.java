@@ -3,7 +3,7 @@
 * http://www.learning-layers.eu
 * Development is partly funded by the FP7 Programme of the European Commission under
 * Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+* Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
 * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,6 +20,10 @@
 */
 package at.kc.tugraz.ss.service.filerepo.impl;
 
+import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
+import at.tugraz.sss.servs.file.datatype.par.SSEntityFileAddPar;
+import at.tugraz.sss.servs.file.datatype.par.SSEntityFilesGetPar;
 import at.tugraz.sss.serv.SSFileExtE;
 import at.tugraz.sss.serv.SSMimeTypeE;
 import at.tugraz.sss.serv.SSStrU;
@@ -33,9 +37,9 @@ import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSEntityHandlerImplI;
 import at.tugraz.sss.util.SSServCallerU;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileDownloadPar;
-import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileIDFromURIPar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileReplacePar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileUploadPar;
+import at.kc.tugraz.ss.service.filerepo.impl.fct.SSFileSQLFct;
 import at.kc.tugraz.ss.service.filerepo.impl.fct.activity.SSFileActivityFct;
 import at.tugraz.sss.serv.SSCircleContentChangedPar;
 import at.tugraz.sss.serv.SSDBNoSQL;
@@ -43,9 +47,13 @@ import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
+import at.tugraz.sss.serv.SSErr;
+import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServReg;
+import at.tugraz.sss.serv.caller.SSServCaller;
 import java.util.*;
 import java.util.List;
 
@@ -56,10 +64,14 @@ implements
   SSFileRepoServerI, 
   SSEntityHandlerImplI{
 
+  private final SSFileSQLFct sqlFct;
+  
   public SSFilerepoImpl(
     final SSFileRepoConf conf) throws Exception{
 
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
+    
+    sqlFct = new SSFileSQLFct   (this);
   }
   
   @Override
@@ -116,6 +128,22 @@ implements
     final SSEntityDescriberPar par) throws Exception{
     
     try{
+      
+      if(par.setFiles){
+        
+        final List<SSUri> files =
+          filesGet(
+            new SSEntityFilesGetPar(
+              null, 
+              null, 
+              par.user, 
+              entity.id, 
+              par.withUserRestriction));
+
+        if(!files.isEmpty()){
+          entity.file = files.get(0);
+        }
+      }
       
       switch(entity.type){
         
@@ -215,13 +243,115 @@ implements
   }
 
   @Override
-  public String fileIDFromURI(final SSFileIDFromURIPar par) throws Exception{
-
+  public SSUri fileAdd(final SSEntityFileAddPar par) throws Exception{
+    
     try{
-      String result = SSStrU.removeTrailingSlash(SSStrU.toStr(par.file));
       
-      result = result.substring(result.lastIndexOf(SSStrU.slash) + 1);
+     if(par.file == null){
+        par.file = SSServCaller.vocURICreate();
+      }
+      
+      dbSQL.startTrans(par.shouldCommit);
+      
+      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+        new SSEntityUpdatePar(
+          null, 
+          null, 
+          par.user, 
+          par.file,  //entity
+          null, //uriAlternative, 
+          SSEntityE.file,  //type
+          null, //label, 
+          null, //description, 
+          null, //comments, 
+          null, //entitiesToAttach,
+          null, //creationTime, 
+          null, //read, 
+          null, //setPublic, 
+          par.withUserRestriction, //withUserRestriction
+          false)); //shouldCommit)
+      
+      sqlFct.addFile(par.file);
+      
+      if(par.entity != null){
+        
+        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+          new SSEntityUpdatePar(
+            null,
+            null,
+            par.user,
+            par.entity,  //entity
+            null, //uriAlternative,
+            null,  //type
+            null, //label,
+            null, //description,
+            null, //comments,
+            SSUri.asListWithoutNullAndEmpty(par.file), //entitiesToAttach,
+            null, //creationTime,
+            null, //read,
+            null, //setPublic,
+            par.withUserRestriction, //withUserRestriction
+            false)); //shouldCommit)
+      }
+      
+      dbSQL.commit(par.shouldCommit);
+      
+      return par.file;
+    }catch(Exception error){
+      
+      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+        
+        if(dbSQL.rollBack(par.shouldCommit)){
+          
+          SSServErrReg.reset();
+          
+          return fileAdd(par);
+        }else{
+          SSServErrReg.regErrThrow(error);
+          return null;
+        }
+      }
+      
+      dbSQL.rollBack(par.shouldCommit);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
 
+  @Override
+  public List<SSUri> filesGet(final SSEntityFilesGetPar par) throws Exception{
+    
+    try{
+    
+      final List<SSUri> files = new ArrayList<>();
+      final List<SSUri> result = new ArrayList<>();
+      
+      if(par.entity == null){
+        throw new SSErr(SSErrE.parameterMissing);
+      }
+      
+      if(par.withUserRestriction){
+        SSServCallerU.canUserReadEntity(par.user, par.entity);
+      }
+      
+      files.addAll(sqlFct.getFiles(par.entity));
+      
+      if(par.withUserRestriction){
+        
+        for(SSUri file : files){
+
+          try{
+            SSServCallerU.canUserReadEntity(par.user, file, false);
+            
+            result.add(file);
+          }catch(Exception error){
+            SSServErrReg.reset();
+          }
+        }
+      }else{
+        result.addAll(files);
+      }
+      
       return result;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -229,6 +359,7 @@ implements
     }
   }
 }
+  
 //  public static SSUri getFileDefaultUri(
 //     String fileId) throws Exception{
 //    

@@ -905,6 +905,60 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
     }
   }
   
+  @Override
+  public void deleteIgnore(
+    final String                               table, 
+    final List<MultivaluedMap<String, String>> wheres) throws Exception{
+    
+    String                                    query   = "DELETE IGNORE FROM " + table + " WHERE ";
+    int                                       counter = 1;
+    PreparedStatement                         stmt;
+    Iterator<Map.Entry<String, List<String>>> iteratorMultiValue;
+    Map.Entry<String, List<String>>           entrySet;
+    
+    if(wheres.isEmpty()){
+      throw new SSErr(SSErrE.parameterMissing);
+    }
+      
+    for(MultivaluedMap<String, String> where : wheres){
+      
+      query += "(";
+      
+      iteratorMultiValue = where.entrySet().iterator();
+
+      while(iteratorMultiValue.hasNext()){
+        
+        entrySet = iteratorMultiValue.next();
+
+        for(String value : entrySet.getValue()){
+          query += entrySet.getKey() + SSStrU.equal + SSStrU.questionMark + " OR ";
+        }
+      }
+      
+      query = SSStrU.removeTrailingString(query, " OR ") + ") AND ";
+    }
+    
+    query = SSStrU.removeTrailingString(query, " AND ");
+    stmt  = connector.prepareStatement(query);
+    
+    for(MultivaluedMap<String, String> where : wheres){
+      
+      iteratorMultiValue = where.entrySet().iterator();
+      
+      while(iteratorMultiValue.hasNext()){
+        
+        entrySet = iteratorMultiValue.next();
+        
+        for(String value : entrySet.getValue()){
+          stmt.setObject(counter++, value);
+        }
+      }
+    }
+
+    stmt.executeUpdate();
+  }
+    
+    
   public Connection getConnection(){
     return connector;
   }

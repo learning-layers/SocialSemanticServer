@@ -45,7 +45,11 @@ import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.util.SSServCallerU;
 
-public class SSLikeImpl extends SSServImplWithDBA implements SSLikeClientI, SSLikeServerI{
+public class SSLikeImpl 
+extends SSServImplWithDBA 
+implements 
+  SSLikeClientI, 
+  SSLikeServerI{
   
   private final SSLikeSQLFct sqlFct;
 

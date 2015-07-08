@@ -24,6 +24,10 @@ public class SSEntityDescriberPar{
   
   public SSUri       user                = null;
   public SSUri       forUser             = null;
+  public Boolean     withUserRestriction = null;
+  public Boolean     setAttachedEntities = false;
+  public Boolean     setRead             = false;
+  public Boolean     setFiles            = false;
   public Boolean     setTags             = false;
   public Boolean     setOverallRating    = false;
   public Boolean     setDiscs            = false;
@@ -31,40 +35,4 @@ public class SSEntityDescriberPar{
   public Boolean     setThumb            = false;
   public Boolean     setFlags            = false;
   public Boolean     setCircles          = false;
-
-  public String getUser(){
-    return SSStrU.removeTrailingSlash(user);
-  }
-
-  public void setUser(final String user) throws Exception{
-    this.user = SSUri.get(user);
-  }
-
-  public String getForUser(){
-    return SSStrU.removeTrailingSlash(forUser);
-  }
-
-  public void setForUser(final String forUser) throws Exception{
-    this.forUser = SSUri.get(forUser);
-  }
-  
-  public SSEntityDescriberPar(){}
-    
-  public SSEntityDescriberPar(
-    final Boolean     setTags,
-    final Boolean     setOverallRating,
-    final Boolean     setDiscs,
-    final Boolean     setUEs,
-    final Boolean     setThumb,
-    final Boolean     setFlags,
-    final Boolean     setCircles){
-    
-    this.setTags             = setTags;
-    this.setOverallRating    = setOverallRating;
-    this.setDiscs            = setDiscs;
-    this.setUEs              = setUEs;
-    this.setThumb            = setThumb;
-    this.setFlags            = setFlags;
-    this.setCircles          = setCircles;
-  }
 }

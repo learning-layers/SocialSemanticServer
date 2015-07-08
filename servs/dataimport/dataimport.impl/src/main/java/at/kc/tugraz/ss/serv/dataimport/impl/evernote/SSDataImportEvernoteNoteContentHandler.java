@@ -22,8 +22,7 @@ package at.kc.tugraz.ss.serv.dataimport.impl.evernote;
 
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
-import at.kc.tugraz.ss.service.filerepo.api.SSFileRepoServerI;
-import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileIDFromURIPar;
+import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.tugraz.sss.serv.SSFileExtE;
 import at.tugraz.sss.serv.SSFileU;
 import at.tugraz.sss.serv.SSLogU;
@@ -79,21 +78,13 @@ public class SSDataImportEvernoteNoteContentHandler{
       
       xhtmlFilePath    = 
         localWorkPath + 
-        ((SSFileRepoServerI) SSServReg.getServ(SSFileRepoServerI.class)).fileIDFromURI(
-          new SSFileIDFromURIPar(
-            null, 
-            null, 
-            user, 
-            SSServCaller.vocURICreate(SSFileExtE.xhtml)));
+        SSVocConf.fileIDFromSSSURI(
+            SSServCaller.vocURICreate(SSFileExtE.xhtml));
       
       fileUri          = SSServCaller.vocURICreate                  (SSFileExtE.pdf);
       pdfFilePath      = localWorkPath + 
-        ((SSFileRepoServerI) SSServReg.getServ(SSFileRepoServerI.class)).fileIDFromURI(
-          new SSFileIDFromURIPar(
-            null, 
-            null, 
-            user, 
-            fileUri));
+        SSVocConf.fileIDFromSSSURI(
+            fileUri);
       
       SSFileU.writeStr(
         note.getContent(),
@@ -167,12 +158,8 @@ public class SSDataImportEvernoteNoteContentHandler{
         try{
           SSFileU.delFile(
             localWorkPath +
-              ((SSFileRepoServerI) SSServReg.getServ(SSFileRepoServerI.class)).fileIDFromURI(
-                new SSFileIDFromURIPar(
-                  null,
-                  null,
-                  user,
-                  file)));
+              SSVocConf.fileIDFromSSSURI(
+                  file));
           
         }catch(Exception error){
           SSLogU.warn("evernote note file couldnt be removed");
@@ -548,12 +535,8 @@ public class SSDataImportEvernoteNoteContentHandler{
             hash         = tmpLine.substring          (hashIndex + 6, hashEndIndex);
             fileURI      = SSServCaller.vocURICreate  (SSMimeTypeE.fileExtForMimeType(mimeType));
             fileID       = 
-              ((SSFileRepoServerI) SSServReg.getServ(SSFileRepoServerI.class)).fileIDFromURI(
-                new SSFileIDFromURIPar(
-                  null,
-                  null,
-                  user,
-                  fileURI));
+              SSVocConf.fileIDFromSSSURI(
+                  fileURI);
             
             resource =
               SSServCaller.evernoteResourceByHashGet(
@@ -581,12 +564,8 @@ public class SSDataImportEvernoteNoteContentHandler{
                 500);
             
             fileID       = 
-              ((SSFileRepoServerI) SSServReg.getServ(SSFileRepoServerI.class)).fileIDFromURI(
-                new SSFileIDFromURIPar(
-                  null,
-                  null,
-                  user,
-                  thumbnailURI));
+              SSVocConf.fileIDFromSSSURI(
+                  thumbnailURI);
             
             result +=
               "<div>Included PDF (preview):</div>" +

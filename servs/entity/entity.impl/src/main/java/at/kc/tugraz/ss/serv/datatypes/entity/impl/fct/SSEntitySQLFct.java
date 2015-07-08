@@ -32,6 +32,7 @@ import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityA;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSDBSQLI;
+import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -41,6 +42,7 @@ import java.util.Map;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 import at.tugraz.sss.serv.SSErrE;
+import at.tugraz.sss.serv.SSObjU;
 import at.tugraz.sss.serv.SSServErrReg;
 
 public class SSEntitySQLFct extends SSDBSQLFct{
@@ -160,7 +162,8 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       checkFirstResult(resultSet);
       
       entityObj =
-        SSEntity.get(bindingStrToUri        (resultSet, SSSQLVarNames.id),
+        SSEntity.get(
+          bindingStrToUri        (resultSet, SSSQLVarNames.id),
           type,
           label);
       
@@ -472,13 +475,46 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     }
   }
   
+  public void removeAttachments(
+    final SSUri       entity,
+    final List<SSUri> attachments) throws Exception{
+    
+    try{
+      
+      if(
+        SSObjU.isNull(entity, attachments) ||
+        attachments.isEmpty()){
+        throw new SSErr(SSErrE.parameterMissing);
+      }
+      
+      final List<MultivaluedMap<String, String>> wheres                = new ArrayList<>();
+      final MultivaluedMap<String, String>       whereEntity           = new MultivaluedHashMap<>();
+      final MultivaluedMap<String, String>       whereAttachedEntities = new MultivaluedHashMap<>();
+      
+      where(whereEntity, SSSQLVarNames.entitiesTable, SSSQLVarNames.entityId, entity);
+        
+      wheres.add(whereEntity);
+      
+      for(SSUri attachment : attachments){
+        where(whereAttachedEntities, SSSQLVarNames.entitiesTable, SSSQLVarNames.attachedEntityId, attachment);
+      }
+
+      wheres.add(whereAttachedEntities);
+      
+      dbSQL.deleteIgnore(SSSQLVarNames.entitiesTable, wheres);
+        
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
   public void attachEntity(
     final SSUri entity,
     final SSUri entityToAttach) throws Exception{
     
     try{
 
-      final Map<String, String> inserts = new HashMap<>();
+      final Map<String, String> inserts    = new HashMap<>();
       final Map<String, String> uniqueKeys = new HashMap<>();
       
       insert(inserts, SSSQLVarNames.entityId,         entity);
@@ -498,6 +534,10 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     final SSUri entity) throws Exception{
     
     ResultSet resultSet = null;
+    
+    if(entity == null){
+      throw new SSErr(SSErrE.parameterMissing);
+    }
     
     try{
       final List<SSEntity>      attachedEntities = new ArrayList<>();
@@ -538,48 +578,6 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       }
       
       return attachedEntities;
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }finally{
-      dbSQL.closeStmt(resultSet);
-    }
-  }
-  
-  public void addFile(
-    final SSUri entity,
-    final SSUri file) throws Exception{
-    
-    try{
-
-      final Map<String, String> inserts = new HashMap<>();
-      
-      insert(inserts, SSSQLVarNames.entityId,   entity);
-      insert(inserts, SSSQLVarNames.fileId,     file);
-      
-      dbSQL.insert(SSSQLVarNames.filesTable, inserts);
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
-  public List<SSUri> getFiles(final SSUri entity) throws Exception{
-    
-    ResultSet resultSet = null;
-    
-    try{
-      final List<String>        columns           = new ArrayList<>();
-      final Map<String, String> wheres            = new HashMap<>();
-      
-      column(columns, SSSQLVarNames.fileId);
-      
-      where(wheres, SSSQLVarNames.entityId, entity);
-      
-      resultSet = dbSQL.select(SSSQLVarNames.filesTable, columns, wheres, null, null, null);
-      
-      return getURIsFromResult(resultSet, SSSQLVarNames.fileId);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

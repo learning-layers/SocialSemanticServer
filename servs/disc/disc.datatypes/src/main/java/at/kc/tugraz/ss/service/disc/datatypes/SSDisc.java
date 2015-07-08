@@ -36,28 +36,8 @@ public class SSDisc extends SSEntity {
     value = "entity discussed")
   public SSUri  entity = null;
 
-  public static SSDisc get(
-    final SSUri                  id,
-    final SSEntityE              type,
-    final SSLabel                label,
-    final SSUri                  entity) throws Exception{
-    
-    return new SSDisc(
-      id, 
-      type,
-      label, 
-      entity);
-  }
-
-  protected SSDisc(
-    final SSUri                  id,
-    final SSEntityE              type,
-    final SSLabel                label,
-    final SSUri                  entity) throws Exception{
-    
-    super(id, type, label);
-    
-    this.entity = entity;
+  public String getEntity() throws Exception{
+    return SSStrU.removeTrailingSlash(entity);
   }
   
   @Override
@@ -69,9 +49,46 @@ public class SSDisc extends SSEntity {
     
     return ld;
   }
+    
+  public static SSDisc get(
+    final SSUri                  id,
+    final SSEntityE              type,
+    final SSLabel                label,
+    final SSUri                  target) throws Exception{
+    
+    return new SSDisc(
+      id, 
+      type,
+      label, 
+      target);
+  }
+  
+   public static SSDisc get(
+    final SSDisc              disc,
+    final SSEntity            entity) throws Exception{
+    
+    return new SSDisc(
+      disc, 
+      entity);
+  }
 
-  /* json getters */
-  public String getEntity() throws Exception{
-    return SSStrU.removeTrailingSlash(entity);
+   protected SSDisc(
+    final SSDisc              disc,
+    final SSEntity            entity) throws Exception{
+    
+     super(entity);
+     
+     this.entity = disc.entity;
+   }
+   
+  protected SSDisc(
+    final SSUri                  id,
+    final SSEntityE              type,
+    final SSLabel                label,
+    final SSUri                  target) throws Exception{
+    
+    super(id, type, label);
+    
+    this.entity = target;
   }
 }

@@ -129,12 +129,9 @@ public enum SSServOpE{
   entityUserSubEntitiesGet                            ,
   entityUserParentEntitiesGet,
   entityRemove                                        ,
-  entityFilesGet,
-  entityFileAdd,
   entityUpdate,
   entityCopy,
   entityDirectlyAdjoinedEntitiesRemove,
-  entityEntitiesAttachedGet,
   entityUserCommentsGet,
   entityReadGet,
   entityScreenShotsGet,
@@ -246,6 +243,8 @@ public enum SSServOpE{
   fileReplace                                         ,
   fileDownload                                        ,
   fileIDFromURI                                       ,
+  filesGet, 
+  fileAdd,
   
   //data import
   dataImportUserResourceTagFromWikipedia              ,
