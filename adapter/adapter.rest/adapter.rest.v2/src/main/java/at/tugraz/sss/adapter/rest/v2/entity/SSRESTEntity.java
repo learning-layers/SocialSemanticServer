@@ -33,8 +33,8 @@ import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
 import at.tugraz.sss.serv.SSUri;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUpdateRet;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.kc.tugraz.sss.comment.datatypes.par.SSCommentsAddPar;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
-import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSStrU;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
@@ -76,18 +76,9 @@ public class SSRESTEntity {
           null,  //user
           null,  //entities 
           null, //forUser
-          SSEntityE.asListWithoutNullAndEmpty(), //types
-          true,  //invokeEntityHandlers
-          new SSEntityDescriberPar(
-            false, //setTags, 
-            false, //setOverallRating, 
-            false, //setDiscs, 
-            false, //setUEs, 
-            false, //setThumb, 
-            false, //setFlags, 
-            false), //setCircles), //descPar
-          true, //withUserRestriction
-          true); //logErr
+          null, //types
+          null, //descPar
+          true); //withUserRestriction
       
     }catch(Exception error){
       return Response.status(422).build();
@@ -112,10 +103,19 @@ public class SSRESTEntity {
     
     final SSEntitiesGetRESTAPIV2Par input){
     
-    final SSEntitiesGetPar par;
+    final SSEntityDescriberPar   descPar = new SSEntityDescriberPar();
+    final SSEntitiesGetPar       par;
     
     try{
       
+      descPar.setTags          = input.setTags;
+      descPar.setOverallRating = input.setOverallRating;
+      descPar.setDiscs         = input.setDiscs;
+      descPar.setUEs           = input.setUEs;
+      descPar.setThumb         = input.setThumb;
+      descPar.setFlags         = input.setFlags;
+      descPar.setCircles       = input.setCircles;
+        
       par =
         new SSEntitiesGetPar(
           SSServOpE.entitiesGet,
@@ -124,17 +124,8 @@ public class SSRESTEntity {
           SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(entities, SSStrU.comma), SSVocConf.sssUri), //entities
           null, //forUser,
           null, //types
-          true, //invokeEntityHandlers
-          new SSEntityDescriberPar(
-            input.setTags,  //setTags,
-            input.setOverallRating,  //setOverallRating,
-            input.setDiscs,  //setDiscs,
-            input.setUEs,  //setUEs,
-            input.setThumb,  //setThumb,
-            input.setFlags,  //setFlags,
-            input.setCircles), //setCircles) //descPar
-          true, //withUserRestriction
-          true); //logErr
+          descPar, //descPar
+          true); //withUserRestriction
       
     }catch(Exception error){
       return Response.status(422).build();
@@ -168,11 +159,9 @@ public class SSRESTEntity {
           null, //key 
           null, //user
           SSUri.get(entity, SSVocConf.sssUri), //entity
-          null, //uriAlternative
           input.type, //type
           input.label,       //label
           input.description, //description
-          input.comments,    //comments
           null, //entitiesToAttach
           input.creationTime, //creationTime
           input.read,  //read
@@ -249,6 +238,43 @@ public class SSRESTEntity {
           null,  //entity
           false, //invokeEntityHandlers
           true); //withUserRestriction
+      
+    }catch(Exception error){
+      return Response.status(422).build();
+    }
+    
+    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path("{entity}/comments")
+  @ApiOperation(
+    value = "add comments to the entity",
+    response = SSCommentsAddPar.class)
+  public Response commentsAdd(
+    @Context
+    final HttpHeaders headers,
+    
+    @PathParam(SSVarNames.entity)
+    final String entity, 
+    
+    final SSCommentsAddRESTAPIV2Par input){
+    
+    final SSCommentsAddPar       par;
+    
+    try{
+      
+      par =
+        new SSCommentsAddPar(
+          SSServOpE.commentsAdd,
+          null,
+          null,
+          SSUri.get(entity, SSVocConf.sssUri), //entity
+          input.comments, //comments
+          true, //withUserRestriction
+          true);  //shouldCommit
       
     }catch(Exception error){
       return Response.status(422).build();

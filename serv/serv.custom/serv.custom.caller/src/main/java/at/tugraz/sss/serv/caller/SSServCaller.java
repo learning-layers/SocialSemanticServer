@@ -52,7 +52,6 @@ import com.evernote.edam.type.Note;
 import com.evernote.edam.type.Notebook;
 import com.evernote.edam.type.Resource;
 import com.evernote.edam.type.SharedNotebook;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -126,122 +125,6 @@ public class SSServCaller {
     opPars.put(SSVarNames.user,                    user);
     
     return (List<? extends SSEntity>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.friendsUserGet, opPars));
-  }
-  
-   /* appStackLayout */
-    
-  public static SSUri appStackLayoutCreate(
-    final SSUri          user,
-    final String         uuid,
-    final SSUri          app,
-    final SSLabel        label,
-    final SSTextComment  description) throws Exception{
-    
-    final Map<String, Object>  opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.user,                    user);
-    opPars.put(SSVarNames.uuid,                    uuid);
-    opPars.put(SSVarNames.app,                     app);
-    opPars.put(SSVarNames.label,                   label);
-    opPars.put(SSVarNames.description,             description);
-
-    return (SSUri) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.appStackLayoutCreate, opPars));
-  }
-  
-  public static List<? extends SSEntity> appStackLayoutsGet(
-    final SSUri user) throws Exception{
-    
-    final Map<String, Object>  opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.user,      user);
-    
-    return (List<? extends SSEntity>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.appStackLayoutsGet, opPars));
-  }
-  
-  /* app */
-  
-  public static SSUri appAdd(
-    final SSUri         user,
-    final SSLabel       label,
-    final SSTextComment descriptionShort,
-    final SSTextComment descriptionFunctional,
-    final SSTextComment descriptionTechnical,
-    final SSTextComment descriptionInstall,
-    final SSUri         downloadIOS,
-    final SSUri         downloadAndroid,
-    final SSUri         fork,
-    final List<SSUri>   downloads,
-    final List<SSUri>   images,
-    final List<SSUri>   videos) throws Exception{
-    
-    final Map<String, Object>  opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.user,                    user);
-    opPars.put(SSVarNames.label,                   label);
-    opPars.put(SSVarNames.descriptionShort,        descriptionShort);
-    opPars.put(SSVarNames.descriptionFunctional,   descriptionFunctional);
-    opPars.put(SSVarNames.descriptionTechnical,    descriptionTechnical);
-    opPars.put(SSVarNames.descriptionInstall,      descriptionInstall);
-    opPars.put(SSVarNames.downloadIOS,             downloadIOS);
-    opPars.put(SSVarNames.downloadAndroid,         downloadAndroid);
-    opPars.put(SSVarNames.fork,                    fork);
-    opPars.put(SSVarNames.downloads,               downloads);
-    opPars.put(SSVarNames.images,                  images);
-    opPars.put(SSVarNames.videos,                  videos);
-    
-    return (SSUri) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.appAdd, opPars));
-  }
-  
-  public static List<? extends SSEntity> appsGet(
-    final SSUri user) throws Exception{
-    
-    final Map<String, Object>  opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.user,      user);
-    
-    return (List<? extends SSEntity>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.appsGet, opPars));
-  }
-   
-   /* comment */
-  
-  public static List<SSUri> commentEntitiesCommentedGet(
-    final SSUri user,
-    final SSUri forUser) throws Exception{
-    
-    final Map<String, Object>  opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.user,      user);
-    opPars.put(SSVarNames.forUser,   forUser);
-    
-    return (List<SSUri>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.commentEntitiesCommentedGet, opPars));
-  }
-  
-  public static List<SSTextComment> commentsGet(
-    final SSUri user,
-    final SSUri forUser,
-    final SSUri entity) throws Exception{
-    
-    final Map<String, Object>  opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.user,      user);
-    opPars.put(SSVarNames.forUser,   forUser);
-    opPars.put(SSVarNames.entity,    entity);
-    
-    return (List<SSTextComment>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.commentsGet, opPars));
-  }
-  
-  public static List<SSTextComment> commentsUserGet(
-    final SSUri user,
-    final SSUri forUser,
-    final SSUri entity) throws Exception{
-    
-    final Map<String, Object>  opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.user,      user);
-    opPars.put(SSVarNames.forUser,   forUser);
-    opPars.put(SSVarNames.entity,    entity);
-    
-    return (List<SSTextComment>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.commentsUserGet, opPars));
   }
   
   /* flag */
@@ -749,70 +632,6 @@ public class SSServCaller {
   }
   
   /* entity */
-  
-  public static Boolean entityReadGet(
-    final SSUri user,
-    final SSUri entity) throws Exception{
-    
-    final Map<String, Object>  opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.user,   user);
-    opPars.put(SSVarNames.entity, entity);
-    
-    return (Boolean) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entityReadGet, opPars));
-  }
-  
-  public static List<SSUri> entityFilesGet(
-    final SSUri user, 
-    final SSUri entity) throws Exception{
-   
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.user,         user);
-    opPars.put(SSVarNames.entity,       entity);
-    
-    return (List<SSUri>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entityFilesGet, opPars));
-  }
-  
-  public static List<SSUri> entityDownloadURIsGet(
-    final SSUri user, 
-    final SSUri entity) throws Exception{
-   
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.user,         user);
-    opPars.put(SSVarNames.entity,       entity);
-    
-    return (List<SSUri>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entityDownloadURIsGet, opPars));
-  }
-  
-  public static List<? extends SSEntity> entityScreenShotsGet(
-    final SSUri user, 
-    final SSUri entity) throws Exception{
-   
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.user,         user);
-    opPars.put(SSVarNames.entity,       entity);
-    
-    return (List<? extends SSEntity>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entityScreenShotsGet, opPars));
-  }
-  
-  public static void entityFileAdd(
-    final SSUri   user,
-    final SSUri   entity,
-    final SSUri   file,
-    final Boolean shouldCommit) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.user,         user);
-    opPars.put(SSVarNames.entity,       entity);
-    opPars.put(SSVarNames.file,         file);
-    opPars.put(SSVarNames.shouldCommit, shouldCommit);
-    
-    SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entityFileAdd, opPars));
-  }
   
   public static List<SSEntity> entitiesForLabelsAndDescriptionsGet(
     final List<String> requireds,

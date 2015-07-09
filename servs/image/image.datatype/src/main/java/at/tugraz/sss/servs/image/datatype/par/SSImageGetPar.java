@@ -18,37 +18,37 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.service.disc.datatypes.pars;
+package at.tugraz.sss.servs.image.datatype.par;
 
-import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.SSUri;
 
-public class SSDiscEntryURIsGetPar extends SSServPar{
+public class SSImageGetPar extends SSServPar{
   
-  public SSUri  disc = null;
+  public SSUri    image    = null;
 
-  public String getDisc(){
-    return SSStrU.removeTrailingSlash(disc);
+  public String getImage(){
+    return SSStrU.removeTrailingSlash(image);
   }
 
-  public void setDisc(final String disc) throws Exception{
-    this.disc = SSUri.get(disc);
+  public void setImage(final String image) throws Exception{
+    this.image = SSUri.get(image);
   }
-      
-  public SSDiscEntryURIsGetPar(){}
-    
-  public SSDiscEntryURIsGetPar(
+
+  public SSImageGetPar(){}
+  
+  public SSImageGetPar(
     final SSServOpE     op,
     final String        key,
     final SSUri         user,
-    final SSUri         disc, 
+    final SSUri         image,
     final Boolean       withUserRestriction){
     
     super(op, key, user);
     
-    this.disc                = disc;
+    this.image               = image;
     this.withUserRestriction = withUserRestriction;
   }
 }

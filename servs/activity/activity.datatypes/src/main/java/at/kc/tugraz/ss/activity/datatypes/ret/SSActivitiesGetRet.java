@@ -3,7 +3,7 @@
 * http://www.learning-layers.eu
 * Development is partly funded by the FP7 Programme of the European Commission under
 * Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+* Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
 * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.activity.datatypes.ret;
 
 import at.tugraz.sss.serv.SSServOpE;
-import at.kc.tugraz.ss.activity.datatypes.SSActivity;
+import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSServRetI;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +29,7 @@ import java.util.Map;
 
 public class SSActivitiesGetRet extends SSServRetI{
  
-  public List<SSActivity> activities = new ArrayList<>();
+  public List<SSEntity>   activities = new ArrayList<>();
   public Long             queryTime  = null;
 
   @Override
@@ -38,15 +38,15 @@ public class SSActivitiesGetRet extends SSServRetI{
   }
   
   public static SSActivitiesGetRet get(
-    final List<SSActivity> activities, 
+    final List<SSEntity> activities, 
     final Long             queryTime){
     
     return new SSActivitiesGetRet(activities, queryTime);
   }
   
   private SSActivitiesGetRet(
-    final List<SSActivity> activities, 
-    final Long             queryTime) {
+    final List<SSEntity> activities, 
+    final Long           queryTime) {
 
     super(SSServOpE.activitiesGet);
     

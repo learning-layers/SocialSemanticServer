@@ -47,11 +47,9 @@ public class SSFileServCaller{
             null,
             par.user,
             file,
-            null, //uriAlternative,
             SSEntityE.file, //type,
             par.label, //label
             null, //description,
-            null, //comments,
             null, //entitiesToAttach,
             null, //creationTime,
             null, //read,

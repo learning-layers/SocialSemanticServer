@@ -28,7 +28,7 @@ import at.kc.tugraz.ss.category.datatypes.SSCategoryLabel;
 import at.kc.tugraz.ss.category.datatypes.par.SSCategoryEntitiesForCategoriesGetPar;
 import at.kc.tugraz.ss.category.impl.fct.sql.SSCategorySQLFct;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityFromTypeAndLabelGetPar;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
@@ -47,7 +47,6 @@ public class SSCategoryMiscFct {
     final SSCategoryEntitiesForCategoriesGetPar     par) throws Exception{
     
     final List<SSUri> entities = new ArrayList<>();
-    SSLabel           slabel;
     SSEntity          categoryEntity;
     
     if(par.labels.isEmpty()){
@@ -68,21 +67,15 @@ public class SSCategoryMiscFct {
     //TODO dtheiler: handle loop in db
     for(SSCategoryLabel label : par.labels){
       
-      slabel         = SSLabel.get(SSStrU.toStr(label));
       categoryEntity =
-        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
-          new SSEntityGetPar(
+        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityFromTypeAndLabelGet(
+          new SSEntityFromTypeAndLabelGetPar(
             null,
             null,
             par.user,
-            null, //entity
-            null, //forUser,
-            slabel, //label,
+            SSLabel.get(SSStrU.toStr(label)), //label,
             SSEntityE.category, //type,
-            false, //withUserRestriction
-            false, //invokeEntityHandlers
-            null,  //descPar
-            true)); //logErr
+            false)); //withUserRestriction
             
       if(categoryEntity == null){
         continue;
@@ -112,7 +105,6 @@ public class SSCategoryMiscFct {
     final SSUri                                     userToUse) throws Exception{
     
     final List<SSUri> entities = new ArrayList<>();
-    SSLabel           slabel;
     SSEntity          categoryEntity;
     
     if(par.labels.isEmpty()){
@@ -127,21 +119,15 @@ public class SSCategoryMiscFct {
     //TODO dtheiler: handle loop in db
     for(SSCategoryLabel label : par.labels){
     
-      slabel         = SSLabel.get(SSStrU.toStr(label));
       categoryEntity =
-        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
-          new SSEntityGetPar(
+        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityFromTypeAndLabelGet(
+          new SSEntityFromTypeAndLabelGetPar(
             null,
             null,
             par.user,
-            null, //entity
-            null, //forUser,
-            slabel, //label,
+            SSLabel.get(SSStrU.toStr(label)), //label,
             SSEntityE.category, //type,
-            false, //withUserRestriction
-            false, //invokeEntityHandlers
-            null,  //descPar
-            true)); //logErr
+            false)); //withUserRestriction
       
       if(categoryEntity == null){
         continue;
@@ -164,7 +150,6 @@ public class SSCategoryMiscFct {
     final SSCategoriesGetPar     par) throws Exception{
     
     final List<SSCategory> categories = new ArrayList<>();
-    SSLabel                slabel;
     SSEntity               categoryEntity;
     
     if(par.entities.isEmpty()){
@@ -176,21 +161,15 @@ public class SSCategoryMiscFct {
       
       for(SSCategoryLabel label : par.labels){
         
-        slabel         = SSLabel.get(SSStrU.toStr(label));
         categoryEntity =
-          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
-            new SSEntityGetPar(
-              null,
-              null,
-              par.user,
-              null, //entity
-              null, //forUser,
-              slabel, //label,
-              SSEntityE.category, //type,
-              false, //withUserRestriction
-              false, //invokeEntityHandlers
-              null,  //descPar
-              true)); //logErr
+          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityFromTypeAndLabelGet(
+          new SSEntityFromTypeAndLabelGetPar(
+            null,
+            null,
+            par.user,
+            SSLabel.get(SSStrU.toStr(label)), //label,
+            SSEntityE.category, //type,
+            false)); //withUserRestriction
         
         if(categoryEntity == null){
           continue;
@@ -211,21 +190,15 @@ public class SSCategoryMiscFct {
       
       for(SSCategoryLabel label : par.labels){
         
-        slabel         = SSLabel.get(SSStrU.toStr(label));
         categoryEntity =
-          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
-            new SSEntityGetPar(
-              null,
-              null,
-              par.user,
-              null, //entity
-              null, //forUser,
-              slabel, //label,
-              SSEntityE.category, //type,
-              false, //withUserRestriction
-              false, //invokeEntityHandlers
-              null,  //descPar
-              true)); //logErr
+          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityFromTypeAndLabelGet(
+          new SSEntityFromTypeAndLabelGetPar(
+            null,
+            null,
+            par.user,
+            SSLabel.get(SSStrU.toStr(label)), //label,
+            SSEntityE.category, //type,
+            false)); //withUserRestriction
         
         if(categoryEntity == null){
           continue;
@@ -245,7 +218,6 @@ public class SSCategoryMiscFct {
     final SSUri                  userToUse) throws Exception{
     
     final List<SSCategory> categories = new ArrayList<>();
-    SSLabel                slabel;
     SSEntity               categoryEntity;
     
     if(par.entities.isEmpty()){
@@ -256,21 +228,15 @@ public class SSCategoryMiscFct {
       
       for(SSCategoryLabel label : par.labels){
         
-        slabel         = SSLabel.get(SSStrU.toStr(label));
         categoryEntity =
-          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
-            new SSEntityGetPar(
-              null,
-              null,
-              par.user,
-              null, //entity
-              null, //forUser,
-              slabel, //label,
-              SSEntityE.category, //type,
-              false, //withUserRestriction
-              false, //invokeEntityHandlers
-              null,  //descPar
-              true)); //logErr
+          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityFromTypeAndLabelGet(
+          new SSEntityFromTypeAndLabelGetPar(
+            null,
+            null,
+            par.user,
+            SSLabel.get(SSStrU.toStr(label)), //label,
+            SSEntityE.category, //type,
+            false)); //withUserRestriction
         
         if(categoryEntity == null){
           continue;
@@ -289,21 +255,15 @@ public class SSCategoryMiscFct {
       
       for(SSCategoryLabel label : par.labels){
         
-        slabel         = SSLabel.get(SSStrU.toStr(label));
         categoryEntity =
-          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
-            new SSEntityGetPar(
-              null,
-              null,
-              par.user,
-              null, //entity
-              null, //forUser,
-              slabel, //label,
-              SSEntityE.category, //type,
-              false, //withUserRestriction
-              false, //invokeEntityHandlers
-              null,  //descPar
-              true)); //logErr
+          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityFromTypeAndLabelGet(
+          new SSEntityFromTypeAndLabelGetPar(
+            null,
+            null,
+            par.user,
+            SSLabel.get(SSStrU.toStr(label)), //label,
+            SSEntityE.category, //type,
+            false)); //withUserRestriction
         
         if(categoryEntity == null){
           continue;

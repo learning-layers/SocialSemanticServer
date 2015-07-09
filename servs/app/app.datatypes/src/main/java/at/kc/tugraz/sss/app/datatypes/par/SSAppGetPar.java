@@ -3,7 +3,7 @@
 * http://www.learning-layers.eu
 * Development is partly funded by the FP7 Programme of the European Commission under
 * Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+* Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
 * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,8 +18,35 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.tugraz.sss.serv;
+package at.kc.tugraz.sss.app.datatypes.par;
 
-public interface SSEntityUpdaterI{
-  public void updateEntity(final SSServPar par) throws Exception;
+import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSStrU;
+
+public class SSAppGetPar extends SSServPar{
+  
+  public SSUri app = null;
+
+  public String getApp(){
+    return SSStrU.removeTrailingSlash(app);
+  }
+
+  public void setApp(final String app) throws Exception{
+    this.app = SSUri.get(app);
+  }
+  
+  public SSAppGetPar(){}
+    
+  public SSAppGetPar(
+    final SSServOpE op,
+    final String    key,
+    final SSUri     user, 
+    final SSUri     app){
+    
+    super(op, key, user);
+    
+    this.app = app;
+  }
 }

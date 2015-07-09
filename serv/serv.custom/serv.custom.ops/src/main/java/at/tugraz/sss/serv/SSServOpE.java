@@ -71,8 +71,9 @@ public enum SSServOpE{
   
   //comment
   commentsGet,
-  commentsUserGet,
-  commentEntitiesCommentedGet,
+  commentEntitiesGet,
+  commentsAdd,
+  
   
   //system
   systemVersionGet,
@@ -126,16 +127,12 @@ public enum SSServOpE{
   entitiesForDescriptionsGet,
   entityAdd                                           ,
   entityGet                                           ,
+  entityFromTypeAndLabelGet,
   entityUserSubEntitiesGet                            ,
   entityUserParentEntitiesGet,
   entityRemove                                        ,
   entityUpdate,
   entityCopy,
-  entityDirectlyAdjoinedEntitiesRemove,
-  entityUserCommentsGet,
-  entityReadGet,
-  entityScreenShotsGet,
-  entityDownloadURIsGet,
   entityShare,
   
   //learn ep

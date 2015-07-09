@@ -3,7 +3,7 @@
 * http://www.learning-layers.eu
 * Development is partly funded by the FP7 Programme of the European Commission under
 * Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+* Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
 * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,35 +20,55 @@
 */
 package at.kc.tugraz.sss.comment.datatypes.par;
 
-import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.SSTextComment;
+import at.tugraz.sss.serv.SSUri;
+import java.util.ArrayList;
+import java.util.List;
 
-public class SSCommentEntitiesCommentedGetPar extends SSServPar{
+public class SSCommentsAddPar extends SSServPar{
   
-  public SSUri forUser  = null;
+  public SSUri               entity   = null;
+  public List<SSTextComment> comments = new ArrayList<>();
   
-  public String getForUser(){
-    return SSStrU.removeTrailingSlash(forUser);
+  public String getEntity(){
+    return SSStrU.removeTrailingSlash(entity);
   }
   
-  public void setForUser(final String forUser) throws Exception{
-    this.forUser = SSUri.get(forUser);
+  public void setEntity(final String entity) throws Exception{
+    this.entity = SSUri.get(entity);
   }
   
-  public SSCommentEntitiesCommentedGetPar(){}
-    
-  public SSCommentEntitiesCommentedGetPar(
+  public List<String> getComments(){
+    return SSStrU.toStr(comments);
+  }
+  
+  public void setComments(final List<String> comments) throws Exception{
+    this.comments = SSTextComment.get(comments);
+  }
+  
+  public SSCommentsAddPar(){}
+  
+  public SSCommentsAddPar(
     final SSServOpE            op,
     final String               key,
     final SSUri                user,
-    final SSUri                forUser,
-    final Boolean              withUserRestriction){
+    final SSUri                entity,
+    final List<SSTextComment>  comments,
+    final Boolean              withUserRestriction,
+    final Boolean              shouldCommit){
     
     super(op, key, user);
     
-    this.forUser             = forUser;
+    this.entity = entity;
+    
+    if(comments != null){
+      this.comments.addAll(comments);
+    }
+    
     this.withUserRestriction = withUserRestriction;
+    this.shouldCommit        = shouldCommit;
   }
 }

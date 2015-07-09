@@ -31,6 +31,7 @@ public enum SSErrE{
   notAllowedToCreateCircle,
   userDoesntHaveRightInAnyCircleOfEntity,
   circleDoesntHaveQueriedRight,
+  userCannotShareWithHimself,
   
   //sql
   sqlNoResultFound,
@@ -45,6 +46,7 @@ public enum SSErrE{
   authCouldntParseOIDCUserInfoResponse,
   authOIDCUserInfoRequestFailed,
   authNoUserForKey,
+  userNotAllowToAccessSystemCircle,
   
   parameterMissing,
   servParCreationFailed,

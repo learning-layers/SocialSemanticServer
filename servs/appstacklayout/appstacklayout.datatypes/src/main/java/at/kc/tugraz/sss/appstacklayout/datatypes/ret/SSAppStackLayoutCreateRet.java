@@ -47,17 +47,15 @@ public class SSAppStackLayoutCreateRet extends SSServRetI{
   }
   
   public static SSAppStackLayoutCreateRet get(
-    final SSUri    stack,
-    final SSServOpE  op){
+    final SSUri    stack){
     
-    return new SSAppStackLayoutCreateRet(stack, op);
+    return new SSAppStackLayoutCreateRet(stack);
   }
   
   private SSAppStackLayoutCreateRet(
-    final SSUri    stack,
-    final SSServOpE  op) {
+    final SSUri    stack) {
     
-    super(op);
+    super(SSServOpE.appStackLayoutCreate);
     
     this.stack = stack;
   }

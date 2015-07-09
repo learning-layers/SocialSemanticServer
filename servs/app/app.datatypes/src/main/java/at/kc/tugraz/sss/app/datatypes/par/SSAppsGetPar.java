@@ -26,15 +26,13 @@ import at.tugraz.sss.serv.SSServPar;
 
 public class SSAppsGetPar extends SSServPar{
   
+  public SSAppsGetPar(){}
+    
   public SSAppsGetPar(
-    final SSServOpE  op,
-    final String   key,
-    final SSUri    user){
+    final SSServOpE op,
+    final String    key,
+    final SSUri     user){
     
     super(op, key, user);
-  }
-  
-  public SSAppsGetPar(SSServPar par) throws Exception{
-    super(par);
   }
 }

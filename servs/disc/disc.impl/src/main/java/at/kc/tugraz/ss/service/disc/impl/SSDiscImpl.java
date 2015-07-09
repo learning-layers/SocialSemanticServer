@@ -28,6 +28,7 @@ import at.kc.tugraz.ss.circle.datatypes.par.SSCircleTypesGetPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleUsersAddPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.tugraz.sss.serv.SSStrU;
@@ -326,10 +327,11 @@ public class SSDiscImpl
         entity.discs.addAll(
           discURIsForTargetGet(
             new SSDiscURIsForTargetGetPar(
-              null, 
-              null, 
-              par.user, 
-              entity.id)));
+              null,
+              null,
+              par.user,
+              entity.id,
+              par.withUserRestriction)));
       }
 
       return entity;
@@ -344,6 +346,11 @@ public class SSDiscImpl
   public List<SSUri> discEntryURIsGet(final SSDiscEntryURIsGetPar par) throws Exception{
 
     try{
+      
+      if(par.withUserRestriction){
+        SSServCallerU.canUserReadEntity(par.user, par.disc);
+      }
+      
       return sqlFct.getDiscEntryURIs(par.disc);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -365,7 +372,8 @@ public class SSDiscImpl
         !par.users.isEmpty() ||
         !par.circles.isEmpty())
         
-        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityShare(new SSEntitySharePar(
+        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityShare(
+          new SSEntitySharePar(
             null,
             null,
             par.user,
@@ -401,11 +409,9 @@ public class SSDiscImpl
               null,
               par.user,
               par.entity,
-              null, //uriAlternative,
               null, //type,
               null, //label
               null, //description,
-              null, //comments,
               null, //entitiesToAttach,
               null, //creationTime,
               null, //read,
@@ -511,18 +517,14 @@ public class SSDiscImpl
         disc       = sqlFct.getDiscWithoutEntries(discUri);
         discEntity =
           ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
-          new SSEntityGetPar(
-            null, 
-            null, 
-            par.user, 
-            disc.id, 
-            null, //forUser, 
-            null, //label, 
-            null, //type, 
-            par.withUserRestriction, //withUserRestriction, 
-            true, //invokeEntityHandlers, 
-            new SSEntityDescriberPar(), 
-            true)); //logErr));
+            new SSEntityGetPar(
+              null,
+              null,
+              par.user,
+              disc.id,
+              null, //forUser,
+              par.withUserRestriction, //withUserRestriction,
+              new SSEntityDescriberPar()));
         
         disc = SSDisc.get(disc, discEntity);
         
@@ -572,15 +574,15 @@ public class SSDiscImpl
             par.user,
             disc.id,
             null, //forUser,
-            null, //label,
-            null, //type,
             par.withUserRestriction, //withUserRestriction,
-            true, //invokeEntityHandlers,
-            new SSEntityDescriberPar(),
-            true)); //logErr));
+            new SSEntityDescriberPar()));
       
       disc = SSDisc.get(disc, discEntity);
       
+      final SSEntityDescriberPar descPar = new SSEntityDescriberPar();
+      
+      descPar.setComments = par.includeComments;
+        
       for(Object entry : disc.entries){
 
         discEntryEntity =
@@ -591,29 +593,19 @@ public class SSDiscImpl
               par.user,
               ((SSDiscEntry) entry).id,
               null, //forUser,
-              null, //label,
-              null, //type,
               par.withUserRestriction, //withUserRestriction,
-              false, //invokeEntityHandlers,
-              new SSEntityDescriberPar(),
-              true)); //logErr));
+              descPar));
         
-        discEntry = SSDiscEntry.get((SSDiscEntry) entry, discEntryEntity);
+        discEntry = 
+          SSDiscEntry.get(
+            (SSDiscEntry) entry, 
+            discEntryEntity);
           
         discEntry.likes =
           SSServCaller.likesUserGet(
             par.user,
             null,
             discEntry.id);
-
-        if(par.includeComments){
-
-          discEntry.comments.addAll(
-            SSServCaller.commentsUserGet(
-              par.user,
-              null,
-              discEntry.id));
-        }
       }
 
       return disc;
@@ -640,9 +632,9 @@ public class SSDiscImpl
 
     try{
       SSServCallerU.canUserAllEntity(par.user, par.disc);
-
+      
       dbSQL.startTrans(par.shouldCommit);
-
+      
       switch(((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleMostOpenCircleTypeGet(
         new SSCircleMostOpenCircleTypeGetPar(
           null,
@@ -651,19 +643,19 @@ public class SSDiscImpl
           par.user,
           par.disc,
           false))){
-
-          case priv:
-            sqlFct.deleteDisc(par.disc);
-            break;
-          case group:
-          case pub:
-            sqlFct.unlinkDisc(par.user, par.disc);
-            break;
-        }
-
-        dbSQL.commit(par.shouldCommit);
-
-        return par.disc;
+        
+        case priv:
+          sqlFct.deleteDisc(par.disc);
+          break;
+        case group:
+        case pub:
+          sqlFct.unlinkDisc(par.user, par.disc);
+          break;
+      }
+      
+      dbSQL.commit(par.shouldCommit);
+      
+      return par.disc;
     }catch(Exception error){
 
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
@@ -699,9 +691,29 @@ public class SSDiscImpl
   public List<SSUri> discURIsForTargetGet(final SSDiscURIsForTargetGetPar par) throws Exception{
 
     try{
-      SSServCallerU.canUserReadEntity(par.user, par.entity);
+      
+      if(par.withUserRestriction){
+        SSServCallerU.canUserReadEntity(par.user, par.entity);
+      }
 
-      return sqlFct.getDiscURIs(par.user, par.entity);
+      final List<SSUri> discURIs = sqlFct.getDiscURIs(par.user, par.entity);
+      
+      if(par.withUserRestriction){
+        
+        return SSUri.getFromEntitites(
+          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
+            new SSEntitiesGetPar(
+              null, 
+              null, 
+              par.user, 
+              discURIs, //entities, 
+              null, //forUser, 
+              null, //types, 
+              null, //descPar, 
+              par.withUserRestriction))); //withUserRestriction
+      }else{
+        return discURIs;
+      }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -712,9 +724,19 @@ public class SSDiscImpl
   public List<SSDisc> discsWithEntriesGet(final SSDiscsWithEntriesGetPar par) throws Exception{
 
     try{
+      
+      if(par.user == null){
+        throw new SSErr(SSErrE.parameterMissing);
+      }
+      
       final List<SSDisc> discsWithEntries = new ArrayList<>();
 
-      for(SSDisc disc : discsAllGet(new SSDiscsAllGetPar(null, null, par.user))){
+      for(SSDisc disc : 
+        discsAllGet(
+          new SSDiscsAllGetPar(
+            null, 
+            null, 
+            par.user))){
 
         discsWithEntries.add(
           discWithEntriesGet(
@@ -724,7 +746,7 @@ public class SSDiscImpl
               par.user,
               disc.id,
               par.maxEntries,
-              false)));
+              false))); //includeComments
       }
 
       return discsWithEntries;
@@ -752,11 +774,9 @@ public class SSDiscImpl
           null,
           user,
           entity,
-          null, //uriAlternative
           null, //type
           null, //label,
           null, //description,
-          null, //comments,
           entitiesToAttach,  //entitiesToAttach
           null, //creationTime
           null, //read,
@@ -778,11 +798,9 @@ public class SSDiscImpl
             null,
             user,
             entitiesToAttach.get(counter), //entity
-            null, //uriAlternative
             null, //type
             entityLabels.get(counter), //label,
             null, //description,
-            null, //comments,
             null, //entitiesToAttach
             null, //creationTime
             null, //read,

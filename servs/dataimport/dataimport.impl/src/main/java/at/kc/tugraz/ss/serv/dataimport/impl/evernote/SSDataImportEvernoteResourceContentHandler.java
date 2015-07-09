@@ -22,8 +22,8 @@ package at.kc.tugraz.ss.serv.dataimport.impl.evernote;
 
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
+import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.kc.tugraz.ss.service.filerepo.api.SSFileRepoServerI;
-import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileIDFromURIPar;
 import at.tugraz.sss.serv.SSFileExtE;
 import at.tugraz.sss.serv.SSFileU;
 import at.tugraz.sss.serv.SSLogU;
@@ -34,6 +34,8 @@ import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
 
 import at.tugraz.sss.serv.caller.SSServCaller;
+import at.tugraz.sss.servs.file.datatype.par.SSEntityFileAddPar;
+import at.tugraz.sss.servs.file.datatype.par.SSEntityFilesGetPar;
 import com.evernote.edam.type.Resource;
 import java.io.FileOutputStream;
 
@@ -68,14 +70,7 @@ public class SSDataImportEvernoteResourceContentHandler{
       try{
         fileExt = SSMimeTypeE.fileExtForMimeType1(resource.getMime()); 
         fileUri = SSServCaller.vocURICreate(fileExt);
-        
-        fileId  =
-          SSVocConf.fileIDFromSSSURI(
-            new SSFileIDFromURIPar(
-              null,
-              null,
-              user,
-              fileUri));
+        fileId  = SSVocConf.fileIDFromSSSURI(fileUri);
         
         SSFileU.writeFileBytes(
           new FileOutputStream(localWorkPath + fileId),
@@ -93,43 +88,44 @@ public class SSDataImportEvernoteResourceContentHandler{
           null,
           user,
           fileUri,
-          null, //uriAlternative,
           SSEntityE.file, //type,
           null, //label
           null, //description,
-          null, //comments,
           null, //entitiesToAttach,
           null, //creationTime,
           null, //read,
           false, //setPublic
-          false, //withUserRestriction
+          true, //withUserRestriction
           false)); //shouldCommit)
       
-      for(SSUri file : SSServCaller.entityFilesGet(user, resourceUri)){
+      for(SSUri file :((SSFileRepoServerI) SSServReg.getServ(SSFileRepoServerI.class)).filesGet(
+        new SSEntityFilesGetPar(
+          null,
+          null,
+          user,
+          resourceUri, //entity
+          true))){ //withUserRestriction
         
         SSServCaller.entityRemove(file, false);
         
         try{
-          SSFileU.delFile(
-            localWorkPath +
-              SSVocConf.fileIDFromSSSURI(
-                new SSFileIDFromURIPar(
-                  null,
-                  null,
-                  user,
-                  file)));
+          SSFileU.delFile(localWorkPath + SSVocConf.fileIDFromSSSURI(file));
           
         }catch(Exception error){
           SSLogU.warn("evernote resource file couldnt be removed");
         }
       }
       
-      SSServCaller.entityFileAdd(
-        user,
-        resourceUri,
-        fileUri,
-        false);
-      
+      ((SSFileRepoServerI) SSServReg.getServ(SSFileRepoServerI.class)).fileAdd(
+        new SSEntityFileAddPar(
+          null,
+          null,
+          user,
+          fileUri, //file
+          resourceUri, //entity
+          true, //withUserRestriction
+          false));//shouldCommit
+            
       SSDataImportEvernoteThumbHelper.addThumbFromFile(
         user,
         localWorkPath,

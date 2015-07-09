@@ -23,13 +23,11 @@ package at.kc.tugraz.ss.circle.datatypes.par;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSCircleRightE;
-import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSServOpE;
 
 public class SSCircleCanAccessPar extends SSServPar{
 
   public SSUri           entityURI    = null;
-  public SSEntity        entity       = null;
   public SSCircleRightE  accessRight  = null;
   
   public SSCircleCanAccessPar(){}
@@ -39,15 +37,11 @@ public class SSCircleCanAccessPar extends SSServPar{
     final String          key,
     final SSUri           user,
     final SSUri           entityURI,
-    final SSEntity        entity,
-    final SSCircleRightE  accessRight,
-    final Boolean         logErr){
+    final SSCircleRightE  accessRight){
     
     super(op, key, user);
     
     this.entityURI       = entityURI;
-    this.entity          = entity;
     this.accessRight     = accessRight;
-    this.logErr          = logErr;
   }
 }

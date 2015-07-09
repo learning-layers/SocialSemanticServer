@@ -23,16 +23,32 @@ package at.kc.tugraz.sss.appstacklayout.datatypes.par;
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSStrU;
 
-public class SSAppStackLayoutsGetPar extends SSServPar{
+public class SSAppStackLayoutGetPar extends SSServPar{
   
-  public SSAppStackLayoutsGetPar(){}
+  public SSUri stack = null;
+
+  public String getStack(){
+    return SSStrU.removeTrailingSlash(stack);
+  }
+
+  public void setStack(final String stack) throws Exception{
+    this.stack = SSUri.get(stack);
+  }
   
-  public SSAppStackLayoutsGetPar(
+  public SSAppStackLayoutGetPar(){}
+  
+  public SSAppStackLayoutGetPar(
     final SSServOpE op,
     final String    key,
-    final SSUri     user){
+    final SSUri     user, 
+    final SSUri     stack, 
+    final Boolean   withUserRestriction){
     
     super(op, key, user);
+    
+    this.stack               = stack;
+    this.withUserRestriction = withUserRestriction;
   }
 }

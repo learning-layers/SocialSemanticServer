@@ -120,11 +120,9 @@ public class SSLearnEpMiscFct{
               null,
               forUser,
               entity.entity.id,
-              null, //uriAlternative,
               null, //type,
               null, //label
               null,//description,
-              null, //comments,
               null, //entitiesToAttach,
               null, //creationTime,
               null, //read,

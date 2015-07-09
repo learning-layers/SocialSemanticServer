@@ -405,6 +405,39 @@ public class SSEntity extends SSEntityA{
   public List<? extends SSEntity> getEntities() throws Exception{
     return entities;
   }
+  
+  public static void addEntitiesDistinctWithoutNull(
+    final List<SSEntity>     entities,
+    final SSEntity           entity){
+    
+    if(
+      SSObjU.isNull  (entities, entity) ||
+      SSStrU.contains(entities, entity)){
+      return;
+    }
+    
+    entities.add(entity);
+  }
+  
+  public static void addEntitiesDistinctWithoutNull(
+    final List<SSEntity>  entities,
+    final List<SSEntity>  toAddEntities){
+    
+    if(SSObjU.isNull(entities, toAddEntities)){
+      return;
+    }
+    
+    for(SSEntity entity : toAddEntities){
+      
+      if(entity == null){
+        continue;
+      }
+      
+      if(!SSStrU.contains(entities, entity)){
+        entities.add(entity);
+      }
+    }
+  }
 }
 
 

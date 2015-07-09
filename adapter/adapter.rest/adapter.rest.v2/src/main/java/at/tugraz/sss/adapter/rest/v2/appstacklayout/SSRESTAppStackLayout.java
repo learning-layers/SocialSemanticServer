@@ -100,7 +100,9 @@ public class SSRESTAppStackLayout{
           input.uuid,
           input.app,
           input.label,
-          input.description);
+          input.description, 
+          true, //withUserRestriction, 
+          true); //shouldCommit);
     
     }catch(Exception error){
       return Response.status(422).build();
@@ -128,7 +130,9 @@ public class SSRESTAppStackLayout{
           SSServOpE.appStackLayoutDelete,
           null,
           null,
-          SSUri.get(stack, SSVocConf.sssUri));
+          SSUri.get(stack, SSVocConf.sssUri), //stack, 
+          true, //withUserRestriction
+          true); //shouldCommit
     
     }catch(Exception error){
       return Response.status(422).build();
@@ -145,8 +149,12 @@ public class SSRESTAppStackLayout{
     value = "update an arrangement of tiles within an app",
     response = SSAppStackLayoutUpdateRet.class)
   public Response appStackLayoutUpdate(
-    @Context HttpHeaders                     headers,
-    @PathParam(SSVarNames.stack) String          stack,
+    @Context 
+      HttpHeaders headers,
+    
+    @PathParam(SSVarNames.stack) 
+      String stack,
+    
     final SSAppStackLayoutUpdateRESTAPIV2Par input){
     
     final SSAppStackLayoutUpdatePar par;
@@ -160,7 +168,9 @@ public class SSRESTAppStackLayout{
           SSUri.get(stack, SSVocConf.sssUri),
           input.app, 
           input.label,
-          input.description);
+          input.description, 
+          true,  //withUserDescription
+          true); //shouldCommit
     
     }catch(Exception error){
       return Response.status(422).build();

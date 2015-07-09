@@ -178,12 +178,8 @@ public class SSModelUEImpl extends SSServImplWithDBA implements SSModelUEClientI
                 null,
                 resource.entity,  //entity
                 null, //forUser
-                null, //label
-                null, //type
                 false, //withUserRestriction
-                false, //invokeEntityHandlers
-                null, //descPar
-                true)).type; //logErr
+                null)).type; //descPar
           
         }catch(Exception error){
           resource.type = SSEntityE.entity;
@@ -385,12 +381,8 @@ public class SSModelUEImpl extends SSServImplWithDBA implements SSModelUEClientI
                 null,
                 SSUri.get(relation.subject),  //entity
                 null, //forUser
-                null, //label
-                null, //type
                 false, //withUserRestriction
-                false, //invokeEntityHandlers
-              null, //descPar
-                true)).label); //logErr
+                null)).label); //descPar
       }
       
       relation.subjectLabel = subjectLabel;
@@ -403,12 +395,8 @@ public class SSModelUEImpl extends SSServImplWithDBA implements SSModelUEClientI
               null,
               SSUri.get(relation.object),  //entity
               null, //forUser
-              null, //label
-              null, //type
               false, //withUserRestriction
-              false, //invokeEntityHandlers
-              null, //descPar
-              true)).label); //logErr
+              null)).label); //descPar
       
       counter++;
     }

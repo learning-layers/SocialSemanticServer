@@ -48,6 +48,27 @@ public class SSActivity extends SSEntity{
   }
   
   public static SSActivity get(
+    final SSActivity              activity,
+    final SSEntity                entity) throws Exception{
+    
+    return new SSActivity(activity, entity);
+  }
+  
+  protected SSActivity(
+    final SSActivity           activity,
+    final SSEntity             entity) throws Exception{
+    
+    super(entity);
+    
+    this.activityType = activity.activityType;
+    this.entity       = activity.entity;
+    
+    if(activity.contents != null){
+      this.contents.addAll(activity.contents);
+    }
+  }
+  
+  public static SSActivity get(
     final SSUri                   id,
     final SSActivityE             activityType,
     final SSEntity                entity,

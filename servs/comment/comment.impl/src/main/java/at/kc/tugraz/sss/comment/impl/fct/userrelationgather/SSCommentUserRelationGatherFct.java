@@ -22,17 +22,15 @@ package at.kc.tugraz.sss.comment.impl.fct.userrelationgather;
 
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclesGetPar;
-import at.kc.tugraz.ss.circle.serv.SSCircleServ;
+import at.kc.tugraz.sss.comment.api.SSCommentServerI;
+import at.kc.tugraz.sss.comment.datatypes.par.SSCommentEntitiesCommentedGetPar;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityCircle;
-
 import java.util.List;
 import java.util.Map;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
-import at.tugraz.sss.serv.caller.SSServCaller;
 
 public class SSCommentUserRelationGatherFct{
   
@@ -66,7 +64,14 @@ public class SSCommentUserRelationGatherFct{
     
     final String userStr = SSStrU.toStr(userUri);
     
-    for(SSUri entity : SSServCaller.commentEntitiesCommentedGet(userUri, userUri)){
+    for(SSUri entity : 
+      ((SSCommentServerI) SSServReg.getServ(SSCommentServerI.class)).commentEntitiesGet(
+        new SSCommentEntitiesCommentedGetPar(
+          null, 
+          null, 
+          userUri, 
+          userUri, 
+          false))){ //withUserRestriction
       
       for(SSEntityCircle entityCircle : 
         ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlesGet(
@@ -74,12 +79,12 @@ public class SSCommentUserRelationGatherFct{
             null,
             null,
             userUri,
-            userUri,
+            userUri, //forUser
             entity,
-            SSEntityE.asListWithoutNullAndEmpty(),
-            false,
-            true,
-            false))){
+            null, //entityTypesToIncludeOnly
+            false, //withUserRestriction
+            true, //withSystemCircles
+            false))){ //invokeEntityHandlers
 
         if(userRelations.containsKey(userStr)){
           userRelations.get(userStr).addAll(SSUri.getFromEntitites(entityCircle.users));

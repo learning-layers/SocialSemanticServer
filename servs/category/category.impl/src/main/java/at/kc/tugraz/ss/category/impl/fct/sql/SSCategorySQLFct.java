@@ -253,14 +253,14 @@ public class SSCategorySQLFct extends SSDBSQLFct{
       final List<String>        tableCons      = new ArrayList<>();
 //      final SSUri               categoryURI    = getOrCreateCategoryURI(existsCategoryLabel(categoryLabel), categoryLabel);
 
-      table    (tables, SSSQLVarNames.categoryAssTable);
-      table    (tables, SSSQLVarNames.entityTable);
+      table    (tables,    SSSQLVarNames.categoryAssTable);
+      table    (tables,    SSSQLVarNames.entityTable);
       column   (columns,   SSSQLVarNames.categoryId);
       column   (columns,   SSSQLVarNames.entityId);
       column   (columns,   SSSQLVarNames.userId);
       column   (columns,   SSSQLVarNames.categorySpace);
       column   (columns,   SSSQLVarNames.label);
-      column   (columns, SSSQLVarNames.categoryAssTable, SSSQLVarNames.creationTime);
+      column   (columns,   SSSQLVarNames.categoryAssTable, SSSQLVarNames.creationTime);
       tableCon (tableCons, SSSQLVarNames.categoryAssTable, SSSQLVarNames.categoryId, SSSQLVarNames.entityTable, SSSQLVarNames.id);
       
       if(userUri != null){
@@ -291,10 +291,12 @@ public class SSCategorySQLFct extends SSDBSQLFct{
           continue;
         }
         
-        categoryAsss.add(SSCategory.get(bindingStrToUri  (resultSet, SSSQLVarNames.categoryId),
-            bindingStrToUri  (resultSet, SSSQLVarNames.entityId),
-            bindingStrToUri  (resultSet, SSSQLVarNames.userId),
-            bindingStrToSpace(resultSet, SSSQLVarNames.categorySpace),
+        categoryAsss.add(
+          SSCategory.get(
+            bindingStrToUri       (resultSet, SSSQLVarNames.categoryId),
+            bindingStrToUri       (resultSet, SSSQLVarNames.entityId),
+            bindingStrToUri       (resultSet, SSSQLVarNames.userId),
+            bindingStrToSpace     (resultSet, SSSQLVarNames.categorySpace),
             SSCategoryLabel.get   (bindingStr(resultSet, SSSQLVarNames.label))));
       }
       

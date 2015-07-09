@@ -31,26 +31,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SSCommentsUserGetRet extends SSServRetI{
+public class SSCommentsGetRet extends SSServRetI{
   
   final List<SSTextComment> comments = new ArrayList<>();
 
-  public static SSCommentsUserGetRet get(
-    final List<SSTextComment> comments,
-    final SSServOpE             op){
-    
-    return new SSCommentsUserGetRet(comments, op);
-  }
-  
-  private SSCommentsUserGetRet(
-    final List<SSTextComment> comments,
-    final SSServOpE             op) {
-    
-    super(op);
-    
-    if(comments != null){
-      this.comments.addAll(comments);
-    }
+  public List<String> getComments() throws Exception{
+    return SSStrU.toStr(comments);
   }
   
   @Override
@@ -67,9 +53,19 @@ public class SSCommentsUserGetRet extends SSServRetI{
     return ld;
   }
   
-  /* json getters */
+  public static SSCommentsGetRet get(
+    final List<SSTextComment> comments){
+    
+    return new SSCommentsGetRet(comments);
+  }
   
-  public List<String> getComments() throws Exception{
-    return SSStrU.toStr(comments);
+  private SSCommentsGetRet(
+    final List<SSTextComment> comments) {
+    
+    super(SSServOpE.commentsGet);
+    
+    if(comments != null){
+      this.comments.addAll(comments);
+    }
   }
 }

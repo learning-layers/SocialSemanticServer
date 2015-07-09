@@ -3,7 +3,7 @@
 * http://www.learning-layers.eu
 * Development is partly funded by the FP7 Programme of the European Commission under
 * Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+* Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
 * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,31 +18,28 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
- package at.kc.tugraz.sss.comment.datatypes.par;
+package at.tugraz.sss.adapter.rest.v2.entity;
 
-import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSVarNames;
-import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSTextComment;
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+import java.util.List;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
-public class SSCommentsUserGetPar extends SSServPar{
+@XmlRootElement
+@ApiModel(value = "comments add request parameter")
+public class SSCommentsAddRESTAPIV2Par{
 
-  public SSUri   entity       = null;
-  public SSUri   forUser      = null;
-      
-  public SSCommentsUserGetPar(SSServPar par) throws Exception{
-    
-    super(par);
-     
-    try{
-      
-      if(pars != null){
-        entity   = (SSUri)              pars.get(SSVarNames.entity);
-        forUser  = (SSUri)              pars.get(SSVarNames.forUser);
-      }
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
+  @ApiModelProperty(
+    required = false,
+    value = "comments to add to the entitys")
+  public List<SSTextComment> comments = null;
+  
+  @XmlElement
+  public void setComments(final List<String> comments) throws Exception{
+    this.comments = SSTextComment.get(comments);
   }
+  
+  public SSCommentsAddRESTAPIV2Par(){}
 }

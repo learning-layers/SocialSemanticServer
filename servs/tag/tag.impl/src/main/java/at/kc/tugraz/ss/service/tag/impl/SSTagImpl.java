@@ -329,11 +329,9 @@ implements
           null,
           par.user,
           par.entity,
-          null, //uriAlternative,
           null, //type,
           null, //label
           null, //description,
-          null, //comments,
           null, //entitiesToAttach,
           null, //creationTime,
           null, //read,
@@ -347,11 +345,9 @@ implements
           null,
           par.user,
           tagUri,
-          null, //uriAlternative,
           SSEntityE.tag, //type,
           SSLabel.get(SSStrU.toStr(par.label)), //label
           null, //description,
-          null, //comments,
           null, //entitiesToAttach,
           par.creationTime, //creationTime,
           null, //read,
@@ -482,8 +478,6 @@ implements
           par.user,
           par.entity, //entity
           par.forUser, //forUser,
-          null, //label,
-          null, //type,
           par.withUserRestriction, //withUserRestriction
           false, //invokeEntityHandlers
           null,  //descPar

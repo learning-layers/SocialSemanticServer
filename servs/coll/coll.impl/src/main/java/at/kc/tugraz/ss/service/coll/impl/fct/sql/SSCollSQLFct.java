@@ -664,8 +664,8 @@ public class SSCollSQLFct extends SSDBSQLFct{
       final SSColl              coll      = getColl(collUri, circleTypes);
       SSCollEntry               collEntry;
 
-      table    (tables, SSSQLVarNames.collEntryPosTable);
-      table    (tables, SSSQLVarNames.entityTable);
+      table    (tables,    SSSQLVarNames.collEntryPosTable);
+      table    (tables,    SSSQLVarNames.entityTable);
       column   (columns,   SSSQLVarNames.entryId);
       column   (columns,   SSSQLVarNames.pos);
       column   (columns,   SSSQLVarNames.label);
@@ -678,7 +678,8 @@ public class SSCollSQLFct extends SSDBSQLFct{
       while(resultSet.next()){
         
         collEntry =
-          SSCollEntry.get(bindingStrToUri        (resultSet, SSSQLVarNames.entryId),
+          SSCollEntry.get(
+            bindingStrToUri        (resultSet, SSSQLVarNames.entryId),
             bindingStr             (resultSet, SSSQLVarNames.label),
             new ArrayList<>(),
             bindingStrToInteger    (resultSet, SSSQLVarNames.pos),

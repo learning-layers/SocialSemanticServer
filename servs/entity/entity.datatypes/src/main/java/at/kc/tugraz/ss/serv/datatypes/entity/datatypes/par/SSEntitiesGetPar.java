@@ -34,8 +34,7 @@ public class SSEntitiesGetPar extends SSServPar{
   public List<SSUri>          entities              = new ArrayList<>();
   public SSUri                forUser               = null;
   public List<SSEntityE>      types                 = new ArrayList<>();
-  public Boolean              invokeEntityHandlers  = false;
-  public SSEntityDescriberPar descPar;
+  public SSEntityDescriberPar descPar               = null;
 
   public List<String> getEntities(){
     return SSStrU.removeTrailingSlash(entities);
@@ -70,10 +69,8 @@ public class SSEntitiesGetPar extends SSServPar{
     final List<SSUri>          entities,
     final SSUri                forUser,
     final List<SSEntityE>      types,
-    final Boolean              invokeEntityHandlers,
     final SSEntityDescriberPar descPar,
-    final Boolean              withUserRestriction, 
-    final Boolean              logErr) throws Exception{
+    final Boolean              withUserRestriction) throws Exception{
     
     super(op, key, user);
     
@@ -83,9 +80,7 @@ public class SSEntitiesGetPar extends SSServPar{
     
     SSEntityE.addDistinctWithoutNull(this.types, types);
     
-    this.invokeEntityHandlers = invokeEntityHandlers;
     this.descPar              = descPar;
     this.withUserRestriction  = withUserRestriction;
-    this.logErr               = logErr;
   }
 }

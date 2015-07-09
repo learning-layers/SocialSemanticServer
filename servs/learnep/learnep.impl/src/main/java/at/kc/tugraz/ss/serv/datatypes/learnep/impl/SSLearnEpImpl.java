@@ -319,11 +319,9 @@ implements
                par.user,
                sqlFct.getLearnEpUserURIs(learnEp.id),
                null, //forUser,
-               SSEntityE.asListWithoutNullAndEmpty(), //types,
-               false, //invokeEntityHandlers,
+               null, //types,
                null, //descPar
-               false, //withUserRestriction
-               false))); //logErr
+               false))); //withUserRestriction
          
          if(!learnEpConf.useEpisodeLocking){
            learnEp.locked       = false;
@@ -414,8 +412,6 @@ implements
                 par.user,
                 learnEpEntity.entity.id,
                 null, //forUser,
-                null, //label
-                null, //type
                 false, //withUserRestriction
                 descPar, //descPar
                 true)); //logErr
@@ -463,8 +459,6 @@ implements
               par.user,
               learnEpEntity.entity.id,
               null, //forUser,
-              null, //label
-              null, //type
               false, //withUserRestriction
               true, //invokeEntityHandlers,
               new SSEntityDescriberPar(
@@ -563,11 +557,9 @@ implements
           null,
           par.user,
           learnEpVersionUri,
-          null, //uriAlternative,
           SSEntityE.learnEpVersion, //type,
           null, //label
           null, //description,
-          null, //comments,
           null, //entitiesToAttach,
           null, //creationTime,
           null, //read,
@@ -658,11 +650,9 @@ implements
           null,
           par.user,
           circleUri,
-          null, //uriAlternative,
           SSEntityE.learnEpCircle, //type,
           par.label, //label
           null, //description,
-          null, //comments,
           null, //entitiesToAttach,
           null, //creationTime,
           null, //read,
@@ -765,11 +755,9 @@ implements
           null,
           par.user,
           learnEpEntityUri,
-          null, //uriAlternative,
           SSEntityE.learnEpEntity, //type,
           null, //label
           null, //description,
-          null, //comments,
           null, //entitiesToAttach,
           null, //creationTime,
           null, //read,
@@ -885,11 +873,9 @@ implements
           null,
           par.user,
           learnEpUri,
-          null, //uriAlternative,
           SSEntityE.learnEp, //type,
           par.label, //label
           par.description,//description,
-          null, //comments,
           null, //entitiesToAttach,
           null, //creationTime,
           null, //read,
@@ -953,11 +939,9 @@ implements
           null,
           par.user,
           par.learnEpCircle,
-          null, //uriAlternative,
           SSEntityE.learnEpCircle, //type,
           par.label, //label
           null,//description,
-          null, //comments,
           null, //entitiesToAttach,
           null, //creationTime,
           null, //read,
@@ -1225,11 +1209,9 @@ implements
           null,
           par.user,
           learnEpTimelineStateUri,
-          null, //uriAlternative,
           SSEntityE.learnEpTimelineState, //type,
           null, //label
           null,//description,
-          null, //comments,
           null, //entitiesToAttach,
           null, //creationTime,
           null, //read,
@@ -1335,6 +1317,11 @@ implements
           sqlFct.getLearnEpCurrentVersionURI(par.user),
           false);
       
+      final SSEntityDescriberPar descPar = new SSEntityDescriberPar();
+      
+      descPar.setTags          = true;
+      descPar.setOverallRating = true;
+        
       for(SSLearnEpEntity learnEpEntity : learnEpVersion.learnEpEntities){
         
         learnEpEntity.entity =
@@ -1345,19 +1332,8 @@ implements
               par.user,
               learnEpEntity.entity.id,
               null, //forUser,
-              null, //label
-              null, //type
               false, //withUserRestriction
-              true, //invokeEntityHandlers,
-              new SSEntityDescriberPar(
-                true, //setTags,
-                true, //setOverallRating,
-                false, //setDiscs,
-                false, //setUEs,
-                false, //setThumb,
-                false, //setFlags,
-                false), //setCircles //descPar,
-              true)); //logErr
+              descPar)); //descPar
       }
       
       return learnEpVersion;

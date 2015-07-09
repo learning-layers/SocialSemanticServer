@@ -47,17 +47,15 @@ public class SSAppAddRet extends SSServRetI{
   }
     
   public static SSAppAddRet get(
-    final SSUri    app,
-    final SSServOpE  op){
+    final SSUri    app){
     
-    return new SSAppAddRet(app, op);
+    return new SSAppAddRet(app);
   }
   
   private SSAppAddRet(
-    final SSUri    app,
-    final SSServOpE  op) {
+    final SSUri    app) {
     
-    super(op);
+    super(SSServOpE.appAdd);
     
     this.app = app;
   }

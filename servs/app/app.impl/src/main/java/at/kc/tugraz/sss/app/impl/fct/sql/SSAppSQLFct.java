@@ -28,6 +28,8 @@ import at.tugraz.sss.serv.SSDBSQLFct;
 import at.tugraz.sss.serv.SSDBSQLI;
 
 import at.kc.tugraz.sss.app.datatypes.SSApp;
+import at.tugraz.sss.serv.SSErr;
+import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -39,6 +41,53 @@ public class SSAppSQLFct extends SSDBSQLFct{
 
   public SSAppSQLFct(final SSDBSQLI dbSQL) throws Exception{
     super(dbSQL);
+  }
+  
+  public SSApp getApp(
+    final SSUri app) throws Exception{
+    
+    ResultSet resultSet = null;
+      
+    try{
+      
+      if(app == null){
+        throw new SSErr(SSErrE.parameterMissing);
+      }
+      
+      final List<String>        columns = new ArrayList<>();
+      final Map<String, String> wheres  = new HashMap<>();
+      
+      column(columns, SSSQLVarNames.appId);
+      column(columns, SSSQLVarNames.descriptionShort);
+      column(columns, SSSQLVarNames.descriptionFunctional);
+      column(columns, SSSQLVarNames.descriptionTechnical);
+      column(columns, SSSQLVarNames.descriptionInstall);
+      column(columns, SSSQLVarNames.downloadIOS);
+      column(columns, SSSQLVarNames.downloadAndroid);
+      column(columns, SSSQLVarNames.fork);
+      
+      where(wheres, SSSQLVarNames.appId, app);
+      
+      resultSet = dbSQL.select(SSSQLVarNames.appTable, columns, wheres, null, null, null);
+      
+      checkFirstResult(resultSet);
+      
+      return SSApp.get(
+        bindingStrToUri         (resultSet, SSSQLVarNames.appId),
+        bindingStrToTextComment (resultSet, SSSQLVarNames.descriptionShort),
+        bindingStrToTextComment (resultSet, SSSQLVarNames.descriptionFunctional),
+        bindingStrToTextComment (resultSet, SSSQLVarNames.descriptionTechnical),
+        bindingStrToTextComment (resultSet, SSSQLVarNames.descriptionInstall),
+        bindingStrToUri         (resultSet, SSSQLVarNames.downloadIOS),
+        bindingStrToUri         (resultSet, SSSQLVarNames.downloadAndroid),
+        bindingStrToUri         (resultSet, SSSQLVarNames.fork));
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
+    }
   }
   
   public List<SSApp> getApps() throws Exception{

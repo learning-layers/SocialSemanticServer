@@ -21,9 +21,8 @@
 package at.kc.tugraz.sss.app.impl;
 
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
-import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSSocketCon;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSUri;
@@ -37,6 +36,7 @@ import at.kc.tugraz.sss.app.api.SSAppServerI;
 import at.kc.tugraz.sss.app.api.SSAppClientI;
 import at.kc.tugraz.sss.app.datatypes.SSApp;
 import at.kc.tugraz.sss.app.datatypes.par.SSAppAddPar;
+import at.kc.tugraz.sss.app.datatypes.par.SSAppGetPar;
 import at.kc.tugraz.sss.app.datatypes.par.SSAppsGetPar;
 import at.kc.tugraz.sss.app.datatypes.ret.SSAppAddRet;
 import at.kc.tugraz.sss.app.datatypes.ret.SSAppsGetRet;
@@ -49,9 +49,7 @@ import at.tugraz.sss.serv.SSEntityDescriberPar;
 import at.tugraz.sss.serv.SSEntityHandlerImplI;
 import java.util.ArrayList;
 import java.util.List;
-import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSErrE;
-import at.tugraz.sss.serv.SSImage;
 import at.tugraz.sss.serv.SSImageE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServPar;
@@ -80,7 +78,21 @@ implements
     final SSEntity             entity, 
     final SSEntityDescriberPar par) throws Exception{
     
-    return entity;
+    switch(entity.type){
+      case app:{
+
+        return SSApp.get(
+          appGet(
+            new SSAppGetPar(
+              null,
+              null,
+              par.user,
+              entity.id)),
+          entity);
+      }
+      
+      default: return entity;
+    }
   }
   
   @Override
@@ -120,16 +132,17 @@ implements
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSAppAddRet.get(appAdd(parA), parA.op));
+    final SSAppAddPar         par     = (SSAppAddPar) parA.getFromJSON(SSAppAddPar.class);
+    
+    sSCon.writeRetFullToClient(SSAppAddRet.get(appAdd(par)));
   }
 
   @Override
-  public SSUri appAdd(final SSServPar parA) throws Exception{
+  public SSUri appAdd(final SSAppAddPar par) throws Exception{
     
     try{
       
-      final SSAppAddPar par    = new SSAppAddPar(parA);
-      final SSUri       appUri = SSServCaller.vocURICreate();
+      final SSUri appUri = SSServCaller.vocURICreate();
       
       dbSQL.startTrans(par.shouldCommit);
 
@@ -139,11 +152,9 @@ implements
           null,
           par.user,
           appUri, //entity,
-          null, //uriAlternative,
           SSEntityE.app, //type,
           par.label, //label,
           null, //description,
-          null, //comments,
           null, //entitiesToAttach,
           null, //creationTime,
           null, //read,
@@ -174,11 +185,9 @@ implements
 //            null,
 //            par.user,
 //            download, //entity,
-//            null, //uriAlternative,
 //            null, //type,
 //            null, //label,
 //            null, //description,
-//            null, //comments,
 //            null, //entitiesToAttach,
 //            null, //creationTime,
 //            null, //read,
@@ -206,18 +215,18 @@ implements
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(dbSQL.rollBack(parA.shouldCommit)){
+        if(dbSQL.rollBack(par.shouldCommit)){
           
           SSServErrReg.reset();
           
-          return appAdd(parA);
+          return appAdd(par);
         }else{
           SSServErrReg.regErrThrow(error);
           return null;
         }
       }
       
-      dbSQL.rollBack(parA.shouldCommit);
+      dbSQL.rollBack(par.shouldCommit);
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -228,67 +237,72 @@ implements
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSAppsGetRet.get(appsGet(parA), parA.op));
+    final SSAppsGetPar         par     = (SSAppsGetPar) parA.getFromJSON(SSAppsGetPar.class);
+    final List<SSUri>          apps    = appsGet(par);
+    final List<SSEntity>       result  = new ArrayList<>();
+    final SSEntityDescriberPar descPar = new SSEntityDescriberPar();
+      
+    descPar.setAttachedEntities = true;
+     
+    result.addAll(
+      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
+        new SSEntitiesGetPar(
+          null,
+          null,
+          par.user,
+          apps,  //entities
+          null, //forUser,
+          null, //types,
+          descPar, //descPar,
+          par.withUserRestriction)));// withUserRestriction
+    
+      
+    //attach images (screenshots)
+      
+        //TODO handle
+//        entity.downloads.addAll(
+//          SSServCaller.entityDownloadURIsGet(
+//            par.user, 
+//            app.id));
+        
+//        try{
+//          
+//          entity.attachedEntities.addAll(
+//            SSServCaller.videosUserGet(
+//              par.user,
+//              null,
+//              app.id));
+//          
+//        }catch(SSErr error){
+//          
+//          switch(error.code){
+//            case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
+//            default: SSServErrReg.regErrThrow(error);
+//          }
+//        }
+    sSCon.writeRetFullToClient(SSAppsGetRet.get(result));
   }
   
   @Override
-  public List<SSApp> appsGet(final SSServPar parA) throws Exception{
+  public List<SSUri> appsGet(final SSAppsGetPar par) throws Exception{
     
     try{
       
-      final SSAppsGetPar par  = new SSAppsGetPar(parA);
-      final List<SSApp>  apps = new ArrayList<>();
-      SSApp              entity;
+      return SSUri.getFromEntitites(sqlFct.getApps());
       
-      for(SSApp app : sqlFct.getApps()){
-        
-        entity =
-          SSApp.get(
-            app,
-            ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
-              new SSEntityGetPar(
-                null,
-                null,
-                par.user,
-                app.id,
-                null, //forUser,
-                null, //label
-                null, //type
-                false, //withUserRestriction
-                false, //invokeEntityHandlers,
-                null, //descPar,
-                true))); //logErr
-        
-        entity.downloads.addAll(
-          SSServCaller.entityDownloadURIsGet(
-            par.user, 
-            app.id));
-        
-        entity.attachedEntities.addAll(
-          SSServCaller.entityScreenShotsGet(
-            par.user, 
-            app.id));
-        
-        try{
-          
-          entity.attachedEntities.addAll(
-            SSServCaller.videosUserGet(
-              par.user,
-              null,
-              app.id));
-          
-        }catch(SSErr error){
-          
-          switch(error.code){
-            case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
-            default: SSServErrReg.regErrThrow(error);
-          }
-        }
-         
-         apps.add(entity);
-      }
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public SSApp appGet(final SSAppGetPar par) throws Exception{
+    
+    try{
       
-      return apps;
+      return sqlFct.getApp(par.app);
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;

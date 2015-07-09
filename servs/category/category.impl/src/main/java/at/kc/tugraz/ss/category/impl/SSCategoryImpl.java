@@ -46,6 +46,7 @@ import at.kc.tugraz.ss.category.impl.fct.misc.SSCategoryMiscFct;
 import at.kc.tugraz.ss.category.impl.fct.sql.SSCategorySQLFct;
 import at.kc.tugraz.ss.category.impl.fct.userrelationgatherer.SSCategoryUserRelationGathererFct;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityFromTypeAndLabelGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.tugraz.sss.serv.SSCircleContentChangedPar;
@@ -229,8 +230,6 @@ implements
     final SSUri categoryUri = categoryAdd((SSCategoryAddPar) parA.getFromJSON(SSCategoryAddPar.class));
     
     sSCon.writeRetFullToClient(SSCategoryAddRet.get(categoryUri));
-
-//    SSTagActivityFct.addTag(new SSTagAddPar(parA), tagUri);
   }
   
   @Override
@@ -242,19 +241,14 @@ implements
       final SSEntity         categoryEntity;
       
       categoryEntity =
-        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
-          new SSEntityGetPar(
+        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityFromTypeAndLabelGet(
+          new SSEntityFromTypeAndLabelGetPar(
             null,
             null,
             par.user,
-            null, //entity
-            null, //forUser,
             SSLabel.get(SSStrU.toStr(par.label)), //label,
             SSEntityE.category, //type,
-            false, //withUserRestriction
-            false, //invokeEntityHandlers
-            null,  //descPar
-            true)); //logErr
+            par.withUserRestriction)); //withUserRestriction
       
       dbSQL.startTrans(par.shouldCommit);
       
@@ -270,11 +264,9 @@ implements
           null,
           par.user,
           par.entity,
-          null, //uriAlternative,
           null, //type,
           null, //label
           null, //description,
-          null, //comments,
           null, //entitiesToAttach,
           null, //creationTime,
           null, //read,
@@ -288,16 +280,14 @@ implements
           null,
           par.user,
           categoryUri,
-          null, //uriAlternative,
           SSEntityE.category, //type,
           SSLabel.get(SSStrU.toStr(par.label)), //label
           null, //description,
-          null, //comments,
           null, //entitiesToAttach,
           par.creationTime, //creationTime,
           null, //read,
           true, //setPublic
-          false, //withUserRestriction
+          par.withUserRestriction, //withUserRestriction
           false)); //shouldCommit)
       
       if(categoryEntity == null){
@@ -345,11 +335,9 @@ implements
     
     final SSCategoriesRemovePar par = (SSCategoriesRemovePar) parA.getFromJSON(SSCategoriesRemovePar.class);
     
-    sSCon.writeRetFullToClient(
-      SSCategoriesRemoveRet.get(
-        categoriesRemove(par)));
+    sSCon.writeRetFullToClient(SSCategoriesRemoveRet.get(categoriesRemove(par)));
     
-    SSCategoryActivityFct.removeCategories(par);
+    SSCategoryActivityFct.removeCategories(par, par.shouldCommit);
   }
   
   @Override
@@ -362,26 +350,21 @@ implements
       if(par.withUserRestriction){
         
         if(par.entity == null){
-          throw new Exception("entity null");
+          throw new SSErr(SSErrE.parameterMissing);
         }
       }
       
       if(par.label != null){
         
         final SSEntity categoryEntity =
-          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
-            new SSEntityGetPar(
-              null,
-              null,
-              par.user,
-              null, //entity
-              null, //forUser,
-              SSLabel.get(SSStrU.toStr(par.label)), //label,
-              SSEntityE.category, //type,
-              false, //withUserRestriction
-              false, //invokeEntityHandlers
-              null,  //descPar
-              true)); //logErr
+        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityFromTypeAndLabelGet(
+          new SSEntityFromTypeAndLabelGetPar(
+            null,
+            null,
+            par.user,
+            SSLabel.get(SSStrU.toStr(par.label)), //label,
+            SSEntityE.category, //type,
+            par.withUserRestriction)); //withUserRestriction
         
         if(categoryEntity == null){
           return true;
@@ -408,7 +391,7 @@ implements
       if(
         par.forUser != null &&
         !SSStrU.equals(par.forUser, par.user)){
-        throw new Exception("user cannot delete categories of other user");
+        throw new SSErr(SSErrE.userNotAllowedToRetrieveForOtherUser);
       }
       
       if(par.forUser == null){
@@ -423,12 +406,8 @@ implements
           par.user,
           par.entity, //entity
           par.forUser, //forUser,
-          null, //label,
-          null, //type,
           par.withUserRestriction, //withUserRestriction
-          false, //invokeEntityHandlers
-          null,  //descPar
-          true)); //logErr
+          null));  //descPar
       
       if(
         par.space  == null &&
@@ -538,19 +517,14 @@ implements
       for(SSCategoryLabel label : par.labels){
       
         categoryEntity =
-          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
-            new SSEntityGetPar(
-              null,
-              null,
-              par.user,
-              null, //entity
-              null, //forUser,
-              SSLabel.get(SSStrU.toStr(label)), //label,
-              SSEntityE.category, //type,
-              false, //withUserRestriction
-              false, //invokeEntityHandlers
-              null,  //descPar
-              true)); //logErr
+        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityFromTypeAndLabelGet(
+          new SSEntityFromTypeAndLabelGetPar(
+            null,
+            null,
+            par.user,
+            SSLabel.get(SSStrU.toStr(label)), //label,
+            SSEntityE.category, //type,
+            par.withUserRestriction)); //withUserRestriction
         
         if(categoryEntity != null){
           continue;
@@ -564,16 +538,14 @@ implements
             null,
             par.user,
             categoryUri,
-            null, //uriAlternative,
             SSEntityE.category, //type,
             SSLabel.get(SSStrU.toStr(label)), //label
             null, //description,
-            null, //comments,
             null, //entitiesToAttach,
             null, //creationTime,
             null, //read,
             true, //setPublic
-            false, //withUserRestriction
+            par.withUserRestriction, //withUserRestriction
             false)); //shouldCommit)
 
         sqlFct.addCategoryIfNotExists(
@@ -626,7 +598,7 @@ implements
       final List<SSUri> result     = new ArrayList<>();
         
       if(par.user == null){
-        throw new Exception("user null");
+        throw new SSErr(SSErrE.parameterMissing);
       }
       
       if(
@@ -660,7 +632,7 @@ implements
         for(SSUri entityURI : entityURIs){
 
           try{
-            SSServCallerU.canUserReadEntity(par.user, entityURI, false);
+            SSServCallerU.canUserReadEntity(par.user, entityURI);
             
             result.add(entityURI);
           }catch(Exception error){
@@ -698,12 +670,12 @@ implements
       final List<SSCategory> result     = new ArrayList<>();
       
       if(par.user == null){
-        throw new Exception("user null");
+        throw new SSErr(SSErrE.parameterMissing);
       }
       
       if(
         par.forUser != null &&
-        !SSStrU.equals(par.user,  par.forUser)){
+        !SSStrU.equals(par.user, par.forUser)){
         par.space = SSSpaceE.sharedSpace;
       }
       
@@ -732,7 +704,7 @@ implements
         for(SSCategory category : categories){
           
           try{
-            SSServCallerU.canUserReadEntity(par.user, category.entity, false);
+            SSServCallerU.canUserReadEntity(par.user, category.entity);
             
             result.add(category);
           }catch(Exception error){
@@ -775,7 +747,7 @@ implements
             par.entities,
             par.labels,
             par.space,
-            par.startTime, 
+            par.startTime,
             par.withUserRestriction)),
         par.space);
       

@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.service.tag.impl.fct.misc;
 
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityFromTypeAndLabelGetPar;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
@@ -65,19 +65,14 @@ public class SSTagMiscFct {
     
       slabel    = SSLabel.get(SSStrU.toStr(label));
       tagEntity =
-        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
-          new SSEntityGetPar(
+        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityFromTypeAndLabelGet(
+          new SSEntityFromTypeAndLabelGetPar(
             null,
             null,
             par.user,
-            null, //entity
-            null, //forUser,
             slabel, //label,
             SSEntityE.tag, //type,
-            false, //withUserRestriction
-            false, //invokeEntityHandlers
-            null,  //descPar
-            true)); //logErr
+            false)); //withUserRestriction
       
       if(tagEntity == null){
         continue;
@@ -114,19 +109,14 @@ public class SSTagMiscFct {
         
         slabel    = SSLabel.get(SSStrU.toStr(label));
         tagEntity =
-          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
-            new SSEntityGetPar(
-              null,
-              null,
-              par.user,
-              null, //entity
-              null, //forUser,
-              slabel, //label,
-              SSEntityE.tag, //type,
-              false, //withUserRestriction
-              false, //invokeEntityHandlers
-              null,  //descPar
-              true)); //logErr
+          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityFromTypeAndLabelGet(
+          new SSEntityFromTypeAndLabelGetPar(
+            null,
+            null,
+            par.user,
+            slabel, //label,
+            SSEntityE.tag, //type,
+            false)); //withUserRestriction
         
         if(tagEntity == null){
           continue;
@@ -147,19 +137,14 @@ public class SSTagMiscFct {
       
       slabel    = SSLabel.get(SSStrU.toStr(label));
       tagEntity =
-        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
-          new SSEntityGetPar(
+        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityFromTypeAndLabelGet(
+          new SSEntityFromTypeAndLabelGetPar(
             null,
             null,
             par.user,
-            null, //entity
-            null, //forUser,
             slabel, //label,
             SSEntityE.tag, //type,
-            false, //withUserRestriction
-            false, //invokeEntityHandlers
-            null,  //descPar
-            true)); //logErr
+            false)); //withUserRestriction
       
       if(tagEntity == null){
         continue;
@@ -191,19 +176,14 @@ public class SSTagMiscFct {
         
         slabel    = SSLabel.get(SSStrU.toStr(label));
         tagEntity =
-          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
-            new SSEntityGetPar(
-              null,
-              null,
-              par.user,
-              null, //entity
-              null, //forUser,
-              slabel, //label,
-              SSEntityE.tag, //type,
-              false, //withUserRestriction
-              false, //invokeEntityHandlers
-              null,  //descPar
-              true)); //logErr
+          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityFromTypeAndLabelGet(
+          new SSEntityFromTypeAndLabelGetPar(
+            null,
+            null,
+            par.user,
+            slabel, //label,
+            SSEntityE.tag, //type,
+            false)); //withUserRestriction
         
         if(tagEntity == null){
           continue;
@@ -222,19 +202,14 @@ public class SSTagMiscFct {
       
       slabel    = SSLabel.get(SSStrU.toStr(label));
       tagEntity =
-        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
-          new SSEntityGetPar(
+        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityFromTypeAndLabelGet(
+          new SSEntityFromTypeAndLabelGetPar(
             null,
             null,
             par.user,
-            null, //entity
-            null, //forUser,
             slabel, //label,
             SSEntityE.tag, //type,
-            false, //withUserRestriction
-            false, //invokeEntityHandlers
-            null,  //descPar
-            true)); //logErr
+            false)); //withUserRestriction
       
       if(tagEntity == null){
         continue;
@@ -274,19 +249,14 @@ public class SSTagMiscFct {
       
       slabel    = SSLabel.get(SSStrU.toStr(label));
       tagEntity =
-        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
-          new SSEntityGetPar(
+        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityFromTypeAndLabelGet(
+          new SSEntityFromTypeAndLabelGetPar(
             null,
             null,
             par.user,
-            null, //entity
-            null, //forUser,
             slabel, //label,
             SSEntityE.tag, //type,
-            false, //withUserRestriction
-            false, //invokeEntityHandlers
-            null,  //descPar
-            true)); //logErr
+            false)); //withUserRestriction
       
       if(tagEntity == null){
         continue;

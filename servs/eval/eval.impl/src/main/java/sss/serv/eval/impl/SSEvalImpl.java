@@ -47,7 +47,6 @@ import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSToolE;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServReg;
-import at.tugraz.sss.serv.caller.SSServCaller;
 import at.tugraz.sss.util.SSServCallerU;
 import java.util.ArrayList;
 import java.util.List;
@@ -115,12 +114,8 @@ implements
               null,
               par.forUser,  //entity
               null, //forUser
-              null, //label
-              null, //type
               false, //withUserRestriction
-              false, //invokeEntityHandlers
-              null, //descPar
-              true)); //logErr
+              null)); //descPar
         
       }else{
         originUser =           
@@ -131,12 +126,8 @@ implements
               null,
               par.user,  //entity
               null, //forUser
-              null, //label
-              null, //type
               false, //withUserRestriction
-              false, //invokeEntityHandlers
-              null, //descPar
-              true)); //logErr
+              null)); //descPar
       }
       
       if(par.entity != null){
@@ -148,12 +139,8 @@ implements
               null,
               par.entity,  //entity
               null, //forUser
-              null, //label
-              null, //type
               false, //withUserRestriction
-              false, //invokeEntityHandlers
-              null, //descPar
-              true)); //logErr
+              null)); //descPar
       }
       
       for(SSUri entity : par.entities){
@@ -165,12 +152,8 @@ implements
               null,
               entity,  //entity
               null, //forUser
-              null, //label
-              null, //type
               false, //withUserRestriction
-              false, //invokeEntityHandlers
-              null, //descPar
-              true))); //logErr
+              null))); //descPar
       }
       
       for(SSUri user : par.users){
@@ -182,12 +165,8 @@ implements
               null,
               user,  //entity
               null, //forUser
-              null, //label
-              null, //type
               false, //withUserRestriction
-              false, //invokeEntityHandlers
-              null, //descPar
-              true))); //logErr);
+              null))); //descPar
       }
       
       if(targetEntity != null){

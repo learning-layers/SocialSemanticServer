@@ -273,8 +273,6 @@ public class SSSearchImpl extends SSServImplWithDBA implements SSSearchClientI, 
             par.user,
             result,
             null, //forUser,
-            null, //label
-            null, //type
             false, //withUserRestriction
             true, //invokeEntityHandlers,
             new SSEntityDescriberPar(
@@ -637,8 +635,6 @@ public class SSSearchImpl extends SSServImplWithDBA implements SSSearchClientI, 
                 null,
                 foundEntity,  //entity
                 null, //forUser
-                null, //label
-                null, //type
                 false, //withUserRestriction
                 false, //invokeEntityHandlers
                 null, //descPar
@@ -664,8 +660,6 @@ public class SSSearchImpl extends SSServImplWithDBA implements SSSearchClientI, 
                 null,
                 foundEntity,  //entity
                 null, //forUser
-                null, //label
-                null, //type
                 false, //withUserRestriction
                 false, //invokeEntityHandlers
                 null, //descPar
@@ -715,8 +709,6 @@ public class SSSearchImpl extends SSServImplWithDBA implements SSSearchClientI, 
                   null,
                   SSServCaller.vocURICreateFromId(entityId),  //entity
                   null, //forUser
-                  null, //label
-                  null, //type
                   false, //withUserRestriction
                   false, //invokeEntityHandlers
                   null, //descPar
@@ -786,12 +778,8 @@ public class SSSearchImpl extends SSServImplWithDBA implements SSSearchClientI, 
                 null,
                 entityUri,  //entity
                 null, //forUser
-                null, //label
-                null, //type
                 false, //withUserRestriction
-                false, //invokeEntityHandlers
-                null, //descPar
-                true));
+                null)); //descPar
           
           searchResultsForOneKeyword.add(entityObj);
         }

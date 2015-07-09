@@ -106,11 +106,9 @@ implements
           null,
           par.user,
           par.entity,
-          null, //uriAlternative,
           null, //type,
           null, //label
           null, //description,
-          null, //comments,
           null, //entitiesToAttach,
           null, //creationTime,
           null, //read,

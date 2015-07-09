@@ -21,19 +21,16 @@
 package at.kc.tugraz.sss.comment.serv;
 
 import at.tugraz.sss.serv.SSCoreConfA;
-import at.tugraz.sss.serv.SSDBSQLI;
-import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSServImplA;
 import at.kc.tugraz.sss.comment.api.SSCommentClientI;
-import at.kc.tugraz.sss.comment.api.SSCommentServI;
 import at.kc.tugraz.sss.comment.api.SSCommentServerI;
 import at.kc.tugraz.sss.comment.impl.SSCommentImpl;
 import at.tugraz.sss.serv.SSServContainerI;
 import java.util.List;
 
-public class SSCommentServ extends SSServContainerI implements SSCommentServI{
+public class SSCommentServ extends SSServContainerI{
   
  public static final SSCommentServ inst = new SSCommentServ(SSCommentClientI.class, SSCommentServerI.class);
   

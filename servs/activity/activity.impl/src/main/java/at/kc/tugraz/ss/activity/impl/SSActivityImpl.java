@@ -1,27 +1,26 @@
- /**
-  * Code contributed to the Learning Layers project
-  * http://www.learning-layers.eu
-  * Development is partly funded by the FP7 Programme of the European Commission under
-  * Grant Agreement FP7-ICT-318209.
-  * Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
-  * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
-  *
-  * Licensed under the Apache License, Version 2.0 (the "License");
-  * you may not use this file except in compliance with the License.
-  * You may obtain a copy of the License at
-  *
-  * http://www.apache.org/licenses/LICENSE-2.0
-  *
-  * Unless required by applicable law or agreed to in writing, software
-  * distributed under the License is distributed on an "AS IS" BASIS,
-  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  * See the License for the specific language governing permissions and
-  * limitations under the License.
-  */
+/**
+ * Code contributed to the Learning Layers project
+ * http://www.learning-layers.eu
+ * Development is partly funded by the FP7 Programme of the European Commission under
+ * Grant Agreement FP7-ICT-318209.
+ * Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+ * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package at.kc.tugraz.ss.activity.impl;
 
 import at.tugraz.sss.serv.SSDateU;
-import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSStrU;
 import at.kc.tugraz.ss.activity.api.SSActivityClientI;
 import at.kc.tugraz.ss.activity.api.SSActivityServerI;
@@ -38,15 +37,10 @@ import at.kc.tugraz.ss.activity.datatypes.ret.SSActivitiesGetRet;
 import at.kc.tugraz.ss.activity.datatypes.ret.SSActivityTypesGetRet;
 import at.kc.tugraz.ss.activity.datatypes.ret.SSActivityAddRet;
 import at.kc.tugraz.ss.activity.impl.fct.sql.SSActivitySQLFct;
-import at.kc.tugraz.ss.circle.api.SSCircleServerI;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCircleGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
-import at.kc.tugraz.ss.service.user.api.SSUserServerI;
-import at.kc.tugraz.ss.service.user.datatypes.SSUser;
-import at.kc.tugraz.ss.service.user.datatypes.pars.SSUsersGetPar;
 import at.tugraz.sss.serv.SSCircleContentChangedPar;
 import at.tugraz.sss.serv.SSSocketCon;
 import at.tugraz.sss.serv.SSEntity;
@@ -66,18 +60,16 @@ import at.tugraz.sss.serv.caller.SSServCaller;
 import at.tugraz.sss.util.SSServCallerU;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
 
-public class SSActivityImpl 
-extends SSServImplWithDBA 
-implements 
-  SSActivityClientI, 
-  SSActivityServerI, 
+public class SSActivityImpl
+extends SSServImplWithDBA
+implements
+  SSActivityClientI,
+  SSActivityServerI,
   SSEntityHandlerImplI{
   
   private final SSActivitySQLFct sqlFct;
@@ -91,10 +83,24 @@ implements
   
   @Override
   public SSEntity getUserEntity(
-    final SSEntity             entity, 
+    final SSEntity             entity,
     final SSEntityDescriberPar par) throws Exception{
     
-    return entity;
+    switch(entity.type){
+      case activity:{
+        
+        return SSActivity.get(
+          activityGet(
+            new SSActivityGetPar(
+              null,
+              null,
+              par.user,
+              entity.id)),
+          entity);
+      }
+      
+      default: return entity;
+    }
   }
   
   @Override
@@ -127,7 +133,7 @@ implements
   @Override
   public void circleContentChanged(final SSCircleContentChangedPar par) throws Exception{
     
-  } 
+  }
   
   @Override
   public void activityTypesGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
@@ -144,7 +150,6 @@ implements
     
     try{
       return Arrays.asList(SSActivityE.values());
-      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -156,195 +161,147 @@ implements
     
     SSServCallerU.checkKey(parA);
     
-    final SSActivitiesGetPar par = (SSActivitiesGetPar) parA.getFromJSON(SSActivitiesGetPar.class);
+    final SSActivitiesGetPar   par        = (SSActivitiesGetPar) parA.getFromJSON(SSActivitiesGetPar.class);
+    final List<SSUri>          activities = activitiesGet(par);
+    final List<SSEntity>       result     = new ArrayList<>();
+    final SSEntityDescriberPar descPar    = new SSEntityDescriberPar();
     
-    sSCon.writeRetFullToClient(SSActivitiesGetRet.get(activitiesGet(par), SSDateU.dateAsLong()));
+    result.addAll(
+      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
+        new SSEntitiesGetPar(
+          null,
+          null,
+          par.user,
+          activities,  //entities
+          null, //forUser,
+          null, //types,
+          descPar, //descPar,
+          par.withUserRestriction)));// withUserRestriction
+    
+    sSCon.writeRetFullToClient(SSActivitiesGetRet.get(result, SSDateU.dateAsLong()));
   }
   
   @Override
-  public List<SSActivity> activitiesGet(final SSActivitiesGetPar par) throws Exception{
+  public List<SSUri> activitiesGet(final SSActivitiesGetPar par) throws Exception{
     
     try{
-      final List<SSActivity>           result             = new ArrayList<>();
-      final List<SSUri>                entitiesToQuery    = new ArrayList<>();
-      final List<SSUri>                descURIs           = new ArrayList<>();
-      final Map<String, List<SSUri>>   activitiesUsers    = new HashMap<>();
-      final Map<String, List<SSUri>>   activitiesEntities = new HashMap<>();
-      final Map<String, SSUri>         activitiesEntity   = new HashMap<>();
-      String                           activityID;
+      final List<SSEntity>             entitiesToQuery    = new ArrayList<>();
+      final SSEntityDescriberPar       descPar            = new SSEntityDescriberPar();
       
-      if(!par.entities.isEmpty()){
+      SSEntity.addEntitiesDistinctWithoutNull(
+        entitiesToQuery,
+        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
+          new SSEntitiesGetPar(
+            null,
+            null,
+            par.user,
+            par.entities, //entities
+            null, //forUser,
+            null, //types,
+            null, //descPar,
+            par.withUserRestriction)));
+      
+      for(SSEntity circle :
+        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
+          new SSEntitiesGetPar(
+            null,
+            null,
+            par.user,
+            par.circles, //entities
+            null, //forUser,
+            null, //types,
+            descPar, //descPar,
+            par.withUserRestriction))){
         
-        for(SSUri entity : par.entities){
-          
-          try{
-            SSServCallerU.canUserReadEntity(par.user, entity);
-          }catch(Exception error){
-            SSServErrReg.reset();
-            SSLogU.warn("user cannot access entity for activities");
-            continue;
-          }
-          
-          entitiesToQuery.add(entity);
-        }
-      }
-      
-      if(!par.circles.isEmpty()){
-        
-        for(SSUri circle : par.circles){
-          
-          try{
-            SSServCallerU.canUserReadEntity(par.user, circle);
-          }catch(Exception error){
-            SSServErrReg.reset();
-            SSLogU.warn("user cannot access circle for activities");
-            continue;
-          }
-          
-          for(SSEntity circleEntity : 
-            ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleGet(
-              new SSCircleGetPar(
-                null, 
-                null, 
-                par.user, 
-                circle, //circle
-                par.user, //forUser
-                null, //entityTypesToIncludeOnly
-                false, //withUserRestriction
-                false)).entities){ //invokeEntityHandlers
-            
-            entitiesToQuery.add(circleEntity.id);
-          }
-          
-          entitiesToQuery.add(circle);
-        }
-      }
-      
-      SSStrU.distinctWithoutNull2(entitiesToQuery);
-      
-      for(
-        SSActivity activity :
-        sqlFct.getActivities(
-          par.users,
+        SSEntity.addEntitiesDistinctWithoutNull(
           entitiesToQuery,
-          par.types,
-          par.startTime,
-          par.endTime,
-          true,
-          1000,
-          par.includeOnlyLastActivities)){
+          circle);
         
-        activityID = SSStrU.toStr(activity);
-        
-        activitiesUsers.put   (SSStrU.toStr(activity), new ArrayList<>());
-        activitiesEntities.put(SSStrU.toStr(activity), new ArrayList<>());
-        
-        if(activity.entity == null){
-          SSLogU.warn("activity entity null for activity type: " + activity.activityType);
-          continue;
-        }
-        
-        try{
-          SSServCallerU.canUserReadEntity(par.user, activity.entity.id);
-        }catch(Exception error){
-          
-          if(SSServErrReg.containsErr(SSErrE.userNotAllowedToAccessEntity)){
-            SSServErrReg.reset();
-            SSLogU.debug("activity not accessible by user");
-            continue;
-          }
-          
-          throw error;
-        }
-        
-        result.add(activity);
-        
-        activitiesEntity.put(activityID, activity.entity.id);
-        descURIs.add(activity.entity.id);
-        
-        activitiesUsers.get(activityID).addAll(sqlFct.getActivityUsers(activity.id));
-        descURIs.addAll(activitiesUsers.get(activityID));
-        
-        for(SSUri activityEntityURI : sqlFct.getActivityEntities(activity.id)){
-          
-          try{
-            SSServCallerU.canUserReadEntity(par.user, activityEntityURI);
-          }catch(Exception error){
-            
-            if(SSServErrReg.containsErr(SSErrE.userNotAllowedToAccessEntity)){
-              SSServErrReg.reset();
-              SSLogU.debug("activity entity not accessible by user");
-              continue;
-            }
-            
-            throw error;
-          }
-          
-          activitiesEntities.get(activityID).add(activityEntityURI);
-          descURIs.add(activityEntityURI);
-        }
-        
-        activity.contents.addAll(sqlFct.getActivityContents(activity.id));
+        SSEntity.addEntitiesDistinctWithoutNull(
+          entitiesToQuery,
+          circle.entities);
       }
       
-      SSStrU.distinctWithoutEmptyAndNull2(descURIs);
+      return sqlFct.getActivities(
+        par.users,
+        SSUri.getFromEntitites(entitiesToQuery),
+        par.types,
+        par.startTime,
+        par.endTime,
+        true,
+        1000,
+        par.includeOnlyLastActivities);
       
-      final List<SSEntity> descs = new ArrayList<>();
+//      final List<SSUri>                descURIs           = new ArrayList<>();
+//      final Map<String, List<SSUri>>   activitiesUsers    = new HashMap<>();
+//      final Map<String, List<SSUri>>   activitiesEntities = new HashMap<>();
+//      final Map<String, SSUri>         activitiesEntity   = new HashMap<>();
+//      final List<SSEntity>             descs              = new ArrayList<>();
+//      String                           activityID;
       
-      try{
-        descs.addAll(
-          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
-            new SSEntitiesGetPar(
-              null,
-              null,
-              par.user,
-              descURIs,
-              null, //forUser,
-              SSEntityE.asListWithoutNullAndEmpty(), //types,
-              true, //invokeEntityHandlers,
-              new SSEntityDescriberPar(
-                false, //setTags, 
-                false, //setOverallRating,
-                false, //setDiscs, 
-                false, //setUEs, 
-                false, //setThumb, 
-                false, //setFlags, 
-                false), //setCircles //descPar,
-              false, //withUserRestriction
-              false))); //logErr
-        
-      }catch(Exception error){
-        SSLogU.warn("information for activities couldnt be filled up");
-        SSServErrReg.reset();
-      }
-      
-      if(descs.isEmpty()){
-        return result;
-      }
-      
-      for(SSActivity activity : result){
-        
-        activityID = SSStrU.toStr(activity);
-        
-        for(SSEntity desc : descs){
-          
-          if(SSStrU.equals(activitiesEntity.get(activityID), desc)){
-            activity.entity = desc;
-            continue;
-          }
-          
-          if(SSStrU.contains(activitiesUsers.get(activityID), desc)){
-            activity.users.add(desc);
-            continue;
-          }
-          
-          if(SSStrU.contains(activitiesEntities.get(activityID), desc)){
-            activity.entities.add(desc);
-          }
-        }
-      }
-      
-      return result;
+//      for(SSActivity activity : activities){
+//
+//        result.add(activity);
+//
+//        activityID = SSStrU.toStr(activity);
+//
+//        activitiesUsers.put   (SSStrU.toStr(activity), new ArrayList<>());
+//        activitiesEntities.put(SSStrU.toStr(activity), new ArrayList<>());
+//
+//        if(activity.entity != null){
+//          activitiesEntity.put (activityID, activity.entity.id);
+//          descURIs.add         (activity.entity.id);
+//        }
+//
+//        activitiesUsers.get(activityID).addAll(sqlFct.getActivityUsers(activity.id));
+//        descURIs.addAll                       (activitiesUsers.get(activityID));
+//
+//        activitiesEntities.get(activityID).addAll(sqlFct.getActivityEntities(activity.id));
+//        descURIs.addAll                          (activitiesEntities.get(activityID));
+//
+//        activity.contents.addAll(sqlFct.getActivityContents(activity.id));
+//      }
+//
+//      SSStrU.distinctWithoutEmptyAndNull2(descURIs);
+//
+//      SSEntity.addEntitiesDistinctWithoutNull(
+//        descs,
+//        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
+//          new SSEntitiesGetPar(
+//            null,
+//            null,
+//            par.user,
+//            descURIs,
+//            null, //forUser,
+//            null, //types,
+//            null, //descPar
+//            par.withUserRestriction))); //withUserRestriction,
+//
+//      if(descs.isEmpty()){
+//        return result;
+//      }
+//
+//      for(SSActivity activity : result){
+//
+//        activityID = SSStrU.toStr(activity);
+//
+//        for(SSEntity desc : descs){
+//
+//          if(SSStrU.equals(activitiesEntity.get(activityID), desc)){
+//            activity.entity = desc;
+//            continue;
+//          }
+//
+//          if(SSStrU.contains(activitiesUsers.get(activityID), desc)){
+//            activity.users.add(desc);
+//            continue;
+//          }
+//
+//          if(SSStrU.contains(activitiesEntities.get(activityID), desc)){
+//            activity.entities.add(desc);
+//          }
+//        }
+//      }
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -370,23 +327,61 @@ implements
       
       dbSQL.startTrans(par.shouldCommit);
       
+      SSServCallerU.checkWhetherUsersAreUsers(par.users);
+      
       ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
         new SSEntityUpdatePar(
           null,
           null,
           par.user,
           activityUri,
-          null, //uriAlternative
           SSEntityE.activity,
           SSLabel.get(SSStrU.toStr(par.type)), //label,
           null, //description,
-          null, //comments,
           null, //entitiesToAttach,
           null, //creationTime,
           null, //read,
-          false, //setPublic
-          false, //withUserRestriction,
+          true, //setPublic
+          par.withUserRestriction, //withUserRestriction,
           false)); //shouldCommit))
+      
+      if(par.entity != null){
+        
+        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+          new SSEntityUpdatePar(
+            null,
+            null,
+            par.user,
+            par.entity,
+            null, //type
+            null, //label,
+            null, //description,
+            null, //entitiesToAttach,
+            null, //creationTime,
+            null, //read,
+            false, //setPublic
+            par.withUserRestriction, //withUserRestriction,
+            false)); //shouldCommit))
+      }
+      
+      for(SSUri entity : par.entities){
+        
+        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+          new SSEntityUpdatePar(
+            null,
+            null,
+            par.user,
+            entity,
+            null, //type
+            null, //label,
+            null, //description,
+            null, //entitiesToAttach,
+            null, //creationTime,
+            null, //read,
+            false, //setPublic
+            par.withUserRestriction, //withUserRestriction,
+            false)); //shouldCommit))
+      }
       
       sqlFct.addActivity(
         par.user,
@@ -425,6 +420,23 @@ implements
   public SSUri activityContentAdd(final SSActivityContentAddPar par) throws Exception{
     
     try{
+      
+      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+        new SSEntityUpdatePar(
+          null,
+          null,
+          par.user,
+          par.activity,
+          null, //type
+          null, //label,
+          null, //description,
+          null, //entitiesToAttach,
+          null, //creationTime,
+          null, //read,
+          false, //setPublic
+          par.withUserRestriction, //withUserRestriction,
+          false)); //shouldCommit))
+      
       sqlFct.addActivityContent(
         par.activity,
         par.contentType,
@@ -461,12 +473,12 @@ implements
         
         activityContentAdd(
           new SSActivityContentAddPar(
-            null, 
-            null, 
-            par.user, 
-            par.activity, 
-            par.contentType, 
-            content, 
+            null,
+            null,
+            par.user,
+            par.activity,
+            par.contentType,
+            content,
             false));
       }
       
@@ -495,70 +507,62 @@ implements
   public SSActivity activityGet(final SSActivityGetPar par) throws Exception{
     
     try{
-      final SSActivity activity = sqlFct.getActivity(par.activity);
+      
+      final SSActivity            activity;
+      final SSEntityDescriberPar  descPar  = new SSEntityDescriberPar();
+      
+      activity =
+        SSActivity.get(
+          sqlFct.getActivity(par.activity),
+          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+            new SSEntityGetPar(
+              null,
+              null,
+              par.user,
+              par.activity, //entity
+              null, //forUser,
+              par.withUserRestriction, //withUserRestriction,
+              null))); //descPar
       
       if(activity.entity != null){
         
-        try{
-          
-          activity.entity =
-            ((SSEntityServerI)SSServReg.getServ(SSEntityServerI.class)).entityGet(
-              new SSEntityGetPar(
-                null, 
-                null, 
-                par.user, 
-                activity.entity.id, 
-                null, //forUser, 
-                null, //label, 
-                null, //type, 
-                false, //withUserRestriction, 
-                false, //invokeEntityHandlers, 
-                null, //descPar, 
-                false)); //logErr
-            
-        }catch(Exception error){
-          SSLogU.warn("information for activity entity couldnt be retrieved");
-          SSServErrReg.reset();
-        }
+        activity.entity =
+          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+            new SSEntityGetPar(
+              null,
+              null,
+              par.user,
+              activity.entity.id,
+              null, //forUser,
+              par.withUserRestriction, //withUserRestriction,
+              descPar)); //descPar,
       }
       
-      final List<SSUser> users = 
-        ((SSUserServerI) SSServReg.getServ(SSUserServerI.class)).usersGet(
-          new SSUsersGetPar(
-            null, 
-            null, 
-            par.user, 
-            sqlFct.getActivityUsers(activity.id), 
-            false));
+      activity.users.addAll(
+        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
+          new SSEntitiesGetPar(
+            null,
+            null,
+            par.user,
+            sqlFct.getActivityUsers(activity.id),  //entities
+            null, //forUser,
+            null, //types,
+            descPar, //descPar,
+            par.withUserRestriction)));
       
-      activity.users.addAll(users);
-              
       activity.contents.addAll(sqlFct.getActivityContents(activity.id));
       
-      for(SSUri activityEntity : sqlFct.getActivityEntities(activity.id)){
-        
-        try{
-          
-          activity.entities.add(
-            ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
-              new SSEntityGetPar(
-                null,
-                null,
-                par.user,
-                activityEntity,
-                null, //forUser,
-                null, //label
-                null, //type
-                false, //withUserRestriction
-                false, //invokeEntityHandlers,
-                null, //descPar,
-                false))); //logErr
-            
-        }catch(Exception error){
-          SSLogU.warn("information for activity entity couldnt be retrieved");
-          SSServErrReg.reset();
-        }
-      }
+      activity.entities.addAll(
+        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
+          new SSEntitiesGetPar(
+            null,
+            null,
+            par.user,
+            sqlFct.getActivityEntities(activity.id),
+            null, //forUser,
+            null, //types,
+            descPar, //descPar
+            par.withUserRestriction)));
       
       return activity;
     }catch(Exception error){

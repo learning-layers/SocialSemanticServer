@@ -22,8 +22,6 @@
 
 import at.tugraz.sss.serv.SSEntityDescriberPar;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSEntityE;
-import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
@@ -32,8 +30,6 @@ public class SSEntityGetPar extends SSServPar{
   
   public SSUri                entity               = null;
   public SSUri                forUser              = null;
-  public SSLabel              label                = null;
-  public SSEntityE            type                 = null;
   public SSEntityDescriberPar descPar              = null;
   
   public String getEntity(){
@@ -44,22 +40,6 @@ public class SSEntityGetPar extends SSServPar{
     this.entity = SSUri.get(entity);
   }
 
-  public String getLabel(){
-    return SSStrU.toStr(label);
-  }
-
-  public void setLabel(final String label) throws Exception{
-    this.label = SSLabel.get(label);
-  }
-
-  public String getType(){
-    return SSStrU.toStr(type);
-  }
-
-  public void setType(final String type) throws Exception{
-    this.type = SSEntityE.get(type);
-  }
-  
   public SSEntityGetPar(){}
   
   public SSEntityGetPar(
@@ -68,20 +48,14 @@ public class SSEntityGetPar extends SSServPar{
     final SSUri                user,
     final SSUri                entity, 
     final SSUri                forUser,
-    final SSLabel              label,
-    final SSEntityE            type,
     final Boolean              withUserRestriction,
-    final SSEntityDescriberPar descPar,
-    final Boolean              logErr){
+    final SSEntityDescriberPar descPar){
     
     super(op, key, user);
     
     this.entity               = entity;
     this.forUser              = forUser;
-    this.label                = label;
-    this.type                 = type;
     this.withUserRestriction  = withUserRestriction;
     this.descPar              = descPar;
-    this.logErr               = logErr;
   }
 }

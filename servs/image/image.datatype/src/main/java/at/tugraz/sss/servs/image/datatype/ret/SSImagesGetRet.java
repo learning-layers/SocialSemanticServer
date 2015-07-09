@@ -20,21 +20,16 @@
 */
 package at.tugraz.sss.servs.image.datatype.ret;
 
+import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSServRetI;
-import at.tugraz.sss.serv.SSUri;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public class SSImagesGetRet extends SSServRetI{
 
-  public List<SSUri> images = new ArrayList<>();
-
-  public List<String> getImages(){
-    return SSStrU.removeTrailingSlash(images);
-  }
+  public List<SSEntity> images = new ArrayList<>();
 
   @Override
   public Map<String, Object> jsonLDDesc(){
@@ -42,16 +37,16 @@ public class SSImagesGetRet extends SSServRetI{
   }
   
   public static SSImagesGetRet get(
-    final List<SSUri> thumbs){
+    final List<SSEntity> images){
     
-    return new SSImagesGetRet(thumbs);
+    return new SSImagesGetRet(images);
   }
   
   private SSImagesGetRet(
-    final List<SSUri> images) {
+    final List<SSEntity> images) {
 
     super(SSServOpE.imagesGet);
     
-    SSUri.addDistinctWithoutNull(this.images, images);
+    SSEntity.addEntitiesDistinctWithoutNull(this.images, images);
   }
 }

@@ -530,7 +530,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     }
   }
   
-  public List<SSEntity> getAttachedEntities(
+  public List<SSUri> getAttachedEntityURIs(
     final SSUri entity) throws Exception{
     
     ResultSet resultSet = null;
@@ -540,19 +540,12 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     }
     
     try{
-      final List<SSEntity>      attachedEntities = new ArrayList<>();
       final List<String>        columns          = new ArrayList<>();
       final List<String>        tables           = new ArrayList<>();
       final Map<String, String> wheres           = new HashMap<>();
       final List<String>        tableCons        = new ArrayList<>();
-      SSEntity                  entityObj;
       
       column(columns, SSSQLVarNames.id);
-      column(columns, SSSQLVarNames.label);
-      column(columns, SSSQLVarNames.creationTime);
-      column(columns, SSSQLVarNames.type);
-      column(columns, SSSQLVarNames.author);
-      column(columns, SSSQLVarNames.description);
 
       table(tables, SSSQLVarNames.entityTable);
       table(tables, SSSQLVarNames.entitiesTable);
@@ -563,21 +556,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       
       resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
       
-      while(resultSet.next()){
-        
-        entityObj =
-          SSEntity.get(bindingStrToUri           (resultSet, SSSQLVarNames.id),
-            bindingStrToEntityType    (resultSet, SSSQLVarNames.type),
-            bindingStrToLabel         (resultSet, SSSQLVarNames.label));
-        
-        entityObj.creationTime = bindingStrToLong          (resultSet, SSSQLVarNames.creationTime);
-        entityObj.author       = bindingStrToAuthor        (resultSet, SSSQLVarNames.author);
-        entityObj.description  = bindingStrToTextComment   (resultSet, SSSQLVarNames.description);
-
-        attachedEntities.add(entityObj);
-      }
-      
-      return attachedEntities;
+      return getURIsFromResult(resultSet, SSSQLVarNames.id);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

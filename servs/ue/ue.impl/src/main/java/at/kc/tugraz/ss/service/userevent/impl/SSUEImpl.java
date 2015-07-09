@@ -261,11 +261,9 @@ implements
           null,
           par.user,
           ueUri,
-          null, //uriAlternative,
           SSEntityE.userEvent, //type,
           null, //label
           null,//description,
-          null, //comments,
           null, //entitiesToAttach,
           par.creationTime, //creationTime,
           null, //read,
@@ -279,11 +277,9 @@ implements
           null,
           par.user,
           par.entity,
-          null, //uriAlternative,
           null, //type,
           null, //label
           null,//description,
-          null, //comments,
           null, //entitiesToAttach,
           null, //creationTime,
           null, //read,

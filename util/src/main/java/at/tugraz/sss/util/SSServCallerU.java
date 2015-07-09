@@ -26,7 +26,6 @@ import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesGetPar;
 import at.tugraz.sss.serv.SSCircleRightE;
 import at.tugraz.sss.serv.SSEntity;
-import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
@@ -53,74 +52,21 @@ public class SSServCallerU{
     }
   }
   
-  public static SSEntity canUserReadEntity(
+  public static void canUserReadEntity(
     final SSUri user, 
     final SSUri entityURI) throws Exception{
     
-    return ((SSCircleServerI)SSServReg.getServ(SSCircleServerI.class)).circleCanAccess(
+    ((SSCircleServerI)SSServReg.getServ(SSCircleServerI.class)).circleCanAccess(
       new SSCircleCanAccessPar(
         null, 
         null, 
         user, 
         entityURI, 
-        null, 
-        SSCircleRightE.read, 
-        true));
-  }
-  
-  public static SSEntity canUserReadEntity(
-    final SSUri      user,
-    final SSEntity   entity,
-    final Boolean    logErr) throws Exception{
-    
-    return ((SSCircleServerI)SSServReg.getServ(SSCircleServerI.class)).circleCanAccess(
-      new SSCircleCanAccessPar(
-        null, 
-        null, 
-        user, 
-        null, 
-        entity, 
-        SSCircleRightE.read, 
-        logErr));
-  }
-  
-  public static SSEntity canUserReadEntity(
-    final SSUri   user,
-    final SSUri   entityURI,
-    final Boolean logErr) throws Exception{
-    
-    return ((SSCircleServerI)SSServReg.getServ(SSCircleServerI.class)).circleCanAccess(
-      new SSCircleCanAccessPar(
-        null, 
-        null, 
-        user, 
-        entityURI, 
-        null, 
-        SSCircleRightE.read, 
-        logErr));
+        SSCircleRightE.read));
   }
   
   public static void canUserReadEntities(
     final SSUri       user,
-    final List<SSUri> entityURIs,
-    final Boolean     logErr) throws Exception{
-    
-    for(SSUri entityURI : entityURIs){
-      
-      ((SSCircleServerI)SSServReg.getServ(SSCircleServerI.class)).circleCanAccess(
-        new SSCircleCanAccessPar(
-          null,
-          null,
-          user,
-          entityURI,
-          null,
-          SSCircleRightE.read,
-          logErr));
-    }
-  }
-  
-  public static void canUserReadEntities(
-    final SSUri       user, 
     final List<SSUri> entityURIs) throws Exception{
     
     for(SSUri entityURI : entityURIs){
@@ -131,75 +77,21 @@ public class SSServCallerU{
           null,
           user,
           entityURI,
-          null,
-          SSCircleRightE.read,
-          true));
+          SSCircleRightE.read));
     }
   }
-
-  public static SSEntity canUserEditEntity(
+  
+  public static void canUserEditEntity(
     final SSUri   user, 
-    final SSUri   entityURI,
-    final Boolean logErr) throws Exception{
+    final SSUri   entityURI) throws Exception{
     
-    return ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleCanAccess(
+    ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleCanAccess(
       new SSCircleCanAccessPar(
         null,
         null,
         user,
         entityURI,
-        null,
-        SSCircleRightE.edit,
-        logErr));
-  }
-  
-  public static SSEntity canUserEditEntity(
-    final SSUri user, 
-    final SSUri entityURI) throws Exception{
-    
-    return ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleCanAccess(
-      new SSCircleCanAccessPar(
-        null,
-        null,
-        user,
-        entityURI,
-        null,
-        SSCircleRightE.edit,
-        true));
-  }
-  
-  public static SSEntity canUserEditEntity(
-    final SSUri     user, 
-    final SSEntity  entity) throws Exception{
-    
-    return ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleCanAccess(
-      new SSCircleCanAccessPar(
-        null,
-        null,
-        user,
-        null,
-        entity,
-        SSCircleRightE.edit,
-        true));
-  }
-
-  public static void canUserEditEntities(
-    final SSUri       user, 
-    final List<SSUri> entityURIs,
-    final Boolean     logErr) throws Exception{
-    
-    for(SSUri entityURI : entityURIs){
-      
-      ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleCanAccess(
-        new SSCircleCanAccessPar(
-          null,
-          null,
-          user,
-          entityURI,
-          null,
-          SSCircleRightE.edit,
-          logErr));
-    }
+        SSCircleRightE.edit));
   }
   
   public static void canUserEditEntities(
@@ -214,46 +106,30 @@ public class SSServCallerU{
           null,
           user,
           entityURI,
-          null,
-          SSCircleRightE.edit,
-          true));
+          SSCircleRightE.edit)); 
     }
   }
   
-  public static SSEntity canUserAllEntity(
+  public static void canUserAllEntity(
     final SSUri   user,
-    final SSUri   entityURI,
-    final Boolean logErr) throws Exception{
+    final SSUri   entityURI) throws Exception{
     
-    return ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleCanAccess(
+    ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleCanAccess(
       new SSCircleCanAccessPar(
         null,
         null,
         user,
         entityURI,
-        null,
-        SSCircleRightE.all,
-        logErr));
-  }
-  
-  public static SSEntity canUserAllEntity(
-    final SSUri user, 
-    final SSUri entityURI) throws Exception{
-    
-    return ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleCanAccess(
-      new SSCircleCanAccessPar(
-        null,
-        null,
-        user,
-        entityURI,
-        null,
-        SSCircleRightE.all,
-        true));
+        SSCircleRightE.all));
   }
   
   public static void checkWhetherUsersAreUsers(final List<SSUri> users) throws Exception{
     
     try{
+      
+      if(users.isEmpty()){
+        return;
+      }
       
       final List<SSEntity> entities =
         ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
@@ -263,11 +139,9 @@ public class SSServCallerU{
             null,
             users,    //entities
             null,     //forUser
-            SSEntityE.asListWithoutNullAndEmpty(), //types
-            false,   //invokeEntityHandlers
+            null, //types
             null,    //descPar
-            false,  //withUserRestriction
-            true)); //logErr
+            false)); //withUserRestriction
       
       for(SSEntity entity : entities){
         

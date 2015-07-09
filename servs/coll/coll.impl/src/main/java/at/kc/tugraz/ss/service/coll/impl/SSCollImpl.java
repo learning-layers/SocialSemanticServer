@@ -809,12 +809,8 @@ implements
                 null,
                 collUri,  //entity
                 null, //forUser
-                null, //label
-                null, //type
                 false, //withUserRestriction
-                false, //invokeEntityHandlers
-                null, //descPar
-                true)))); //logErr
+                null)))); //descPar
       }
 
       return colls;
@@ -987,11 +983,9 @@ implements
           null,
           par.user,
           rootCollUri,
-          null, //uriAlternative,
           SSEntityE.coll, //type,
           SSLabel.get(SSStrU.valueRoot), //label
           null, //description,
-          null, //comments,
           null, //entitiesToAttach,
           null, //creationTime,
           null, //read,

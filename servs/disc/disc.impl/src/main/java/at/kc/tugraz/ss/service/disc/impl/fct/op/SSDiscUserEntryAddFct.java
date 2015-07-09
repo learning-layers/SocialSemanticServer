@@ -36,6 +36,8 @@ import at.tugraz.sss.serv.caller.SSServCaller;
 import at.tugraz.sss.util.SSServCallerU;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscEntryAddPar;
 import at.kc.tugraz.ss.service.disc.impl.fct.sql.SSDiscSQLFct;
+import at.tugraz.sss.serv.SSErr;
+import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
 
@@ -66,11 +68,9 @@ public class SSDiscUserEntryAddFct{
           null,
           userUri,
           discUri,
-          null, //uriAlternative,
           discType, //type,
           discLabel, //label
           description, //description,
-          null, //comments,
           null, //entitiesToAttach,
           null, //creationTime,
           null, //read,
@@ -84,11 +84,9 @@ public class SSDiscUserEntryAddFct{
           null,
           userUri,
           tmpTargetUri,
-          null, //uriAlternative,
           null, //type,
           null, //label
           null, //description,
-          null, //comments,
           null, //entitiesToAttach,
           null, //creationTime,
           null, //read,
@@ -122,14 +120,10 @@ public class SSDiscUserEntryAddFct{
             null,
             discUri,  //entity
             null, //forUser
-            null, //label
-            null, //type
             false, //withUserRestriction
-            false, //invokeEntityHandlers
-            null, //descPar
-            true)).type;
+            null)).type; //descPar
       
-      SSEntityE       discEntryType = null;
+      SSEntityE discEntryType = null;
       
       switch(discType){
         case disc: discEntryType = SSEntityE.discEntry;   break;
@@ -144,11 +138,9 @@ public class SSDiscUserEntryAddFct{
           null,
           userUri,
           discEntryUri,
-          null, //uriAlternative,
           discEntryType, //type,
           SSLabel.get(discEntryUri), //label
           null, //description,
-          null, //comments,
           null, //entitiesToAttach,
           null, //creationTime,
           null, //read,
@@ -199,7 +191,7 @@ public class SSDiscUserEntryAddFct{
     try{
       
       if(SSObjU.isNull(par.label, par.type)){
-        throw new Exception("label, disc type null");
+        throw new SSErr(SSErrE.parameterMissing);
       }
       
       switch(par.type){

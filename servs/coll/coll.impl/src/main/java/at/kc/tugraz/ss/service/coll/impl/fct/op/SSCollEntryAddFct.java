@@ -65,11 +65,9 @@ public class SSCollEntryAddFct{
         null,
         par.user,
         par.entry,
-        null, //uriAlternative,
         SSEntityE.coll, //type,
         par.label, //label
         null, //description,
-        null, //comments,
         null, //entitiesToAttach,
         null, //creationTime,
         null, //read,
@@ -172,11 +170,9 @@ public class SSCollEntryAddFct{
         null,
         par.user,
         par.entry,
-        null, //uriAlternative,
         null, //type,
         par.label, //label
         null, //description,
-        null, //comments,
         null, //entitiesToAttach,
         null, //creationTime,
         null, //read,

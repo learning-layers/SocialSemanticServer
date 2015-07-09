@@ -76,7 +76,7 @@ public class SSDataImportEvernoteThumbHelper{
             user, 
             entity,
             SSImageE.thumb,
-            false)); //withUserRestriction
+            true)); //withUserRestriction
       
       for(SSUri thumb : thumbs){
         
@@ -99,7 +99,7 @@ public class SSDataImportEvernoteThumbHelper{
           user,
           entity,
           thumbs, //attachments
-          false, //withUserRestriction
+          true, //withUserRestriction
           false)); //shouldCommit
       
       ((SSImageServerI) SSServReg.getServ(SSImageServerI.class)).imageAdd(
@@ -110,7 +110,7 @@ public class SSDataImportEvernoteThumbHelper{
           pngFileUri,
           SSImageE.thumb, //imageType,
           entity, //entity
-          false, //withUserRestriction,
+          true, //withUserRestriction,
           false)); //shouldCommit
               
     }catch(Exception error){

@@ -182,15 +182,11 @@ public class SSRecommImpl extends SSServImplWithDBA implements SSRecommClientI, 
             new SSEntityGetPar(
               null,
               null,
-              null,
+              par.user,
               par.forUser,  //entity
               null, //forUser
-              null, //label
-              null, //type
               false, //withUserRestriction
-              false, //invokeEntityHandlers
-              null, //descPar
-              true));
+              null)); //descPar
         
         for(String tagRecommGroup : recommConf.recommTagsGroups){
           

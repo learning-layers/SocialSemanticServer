@@ -24,6 +24,7 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityReadGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityCopyPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityFromTypeAndLabelGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSUri;
@@ -35,19 +36,18 @@ import java.util.List;
 
 public interface SSEntityServerI extends SSServServerI{
 
-  public List<SSEntity> entitiesGet              (final SSEntitiesGetPar                par) throws Exception;
-  public SSUri          entityUpdate             (final SSEntityUpdatePar               par) throws Exception;
-  public Boolean        entityReadGet            (final SSEntityReadGetPar              par) throws Exception;
-  public Boolean        entityCopy               (final SSEntityCopyPar                 par) throws Exception;
-  public SSEntity       entityGet                (final SSEntityGetPar                  par) throws Exception;
-  public SSUri          entityShare              (final SSEntitySharePar                par) throws Exception;
-  public SSUri          entityAttachmentsRemove  (final SSEntityAttatchmentsRemovePar   par) throws Exception;
+  public List<SSEntity> entitiesGet               (final SSEntitiesGetPar                par) throws Exception;
+  public SSUri          entityUpdate              (final SSEntityUpdatePar               par) throws Exception;
+  public Boolean        entityReadGet             (final SSEntityReadGetPar              par) throws Exception;
+  public Boolean        entityCopy                (final SSEntityCopyPar                 par) throws Exception;
+  public SSEntity       entityGet                 (final SSEntityGetPar                  par) throws Exception;
+  public SSEntity       entityFromTypeAndLabelGet (final SSEntityFromTypeAndLabelGetPar  par) throws Exception;
+  public SSUri          entityShare               (final SSEntitySharePar                par) throws Exception;
+  public SSUri          entityAttachmentsRemove   (final SSEntityAttatchmentsRemovePar   par) throws Exception;
   
   public List<SSUri>                     entityUserSubEntitiesGet                 (final SSServPar parA) throws Exception;
   public List<SSUri>                     entityUserParentEntitiesGet              (final SSServPar parA) throws Exception;
   
-  public SSUri                           entityFileAdd                            (final SSServPar parA) throws Exception;
-  public List<SSUri>                     entityFilesGet                           (final SSServPar parA) throws Exception;
   public List<SSEntity>                  entitiesForLabelsAndDescriptionsGet      (final SSServPar parA) throws Exception;
   public List<SSEntity>                  entitiesForLabelsGet                     (final SSServPar parA) throws Exception;
   public List<SSEntity>                  entitiesForDescriptionsGet               (final SSServPar parA) throws Exception;

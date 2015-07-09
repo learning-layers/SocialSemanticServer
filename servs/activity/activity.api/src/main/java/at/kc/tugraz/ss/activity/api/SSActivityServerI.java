@@ -38,6 +38,6 @@ public interface SSActivityServerI extends SSServServerI{
   public SSUri             activityContentAdd     (final SSActivityContentAddPar  par) throws Exception;
   public void              activityContentsAdd    (final SSActivityContentsAddPar par) throws Exception;
   public SSActivity        activityGet            (final SSActivityGetPar         par) throws Exception;
-  public List<SSActivity>  activitiesGet          (final SSActivitiesGetPar   par) throws Exception;
+  public List<SSUri>       activitiesGet          (final SSActivitiesGetPar   par) throws Exception;
   public List<SSActivityE> activityTypesGet       (final SSActivityTypesGetPar    par) throws Exception;
 }

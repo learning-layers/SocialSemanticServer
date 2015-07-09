@@ -148,16 +148,14 @@ public class SSDataImportEvernoteHandler {
         null,
         userUri,
         notebookUri,
-        null, //uriAlternative,
         SSEntityE.evernoteNotebook, //type,
         notebookLabel, //label
         null, //description,
-        null, //comments,
         null, //entitiesToAttach,
         notebookCreationTime, //creationTime,
         null, //read,
         false, //setPublic
-        false, //withUserRestriction
+        true, //withUserRestriction
         false)); //shouldCommit)
     
     SSServCaller.evalLog(
@@ -318,7 +316,7 @@ public class SSDataImportEvernoteHandler {
           noteUri, //entity
           SSSpaceE.sharedSpace, //space
           note.getUpdated(), //creationTime
-          false, //withUserRestriction
+          true, //withUserRestriction
           false)); //shouldCommit
       
       for(String noteTag : noteTagNames){
@@ -524,18 +522,16 @@ public class SSDataImportEvernoteHandler {
           null,
           userUri,
           noteUri,
-          null, //uriAlternative,
           SSEntityE.evernoteNote, //type,
           noteLabel, //label
           null, //description,
-          null, //comments,
           null, //entitiesToAttach,
           note.getCreated(), //creationTime,
           null, //read,
           false, //setPublic
-          false, //withUserRestriction
+          true, //withUserRestriction
           false)); //shouldCommit)
-      
+     
       nootebookEntity =
         ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
           new SSEntityGetPar(
@@ -544,12 +540,8 @@ public class SSDataImportEvernoteHandler {
             null,
             notebookUri, //entity
             null,  //forUser
-            null, //label
-            null, //type
-            false, //withUserRestriction
-            false, //invokeEntityHandlers
-            null, //descPar
-            true)); //logErr
+            true, //withUserRestriction
+            null)); //descPar
       
       if(nootebookEntity == null){
         
@@ -673,16 +665,14 @@ public class SSDataImportEvernoteHandler {
         null,
         userUri,
         resourceUri,
-        null, //uriAlternative,
         SSEntityE.evernoteResource, //type,
         resourceLabel, //label
         null, //description,
-        null, //comments,
         null, //entitiesToAttach,
         resourceAddTime, //creationTime,
         null, //read,
         false, //setPublic
-        false, //withUserRestriction
+        true, //withUserRestriction
         false)); //shouldCommit)
     
     SSServCaller.evernoteResourceAdd(

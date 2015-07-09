@@ -82,11 +82,8 @@ public class SSFriendImpl extends SSServImplWithDBA implements SSFriendClientI, 
                 null,
                 friend.id,  //entity
                 null, //forUser
-                null, //label
-                null, //type
                 false, //withUserRestriction
-                null, //descPar
-                true))));
+                null)))); //descPar
       }
 
       return friends;

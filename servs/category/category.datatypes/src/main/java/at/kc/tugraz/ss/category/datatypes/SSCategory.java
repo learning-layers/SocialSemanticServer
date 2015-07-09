@@ -62,6 +62,25 @@ public class SSCategory extends SSEntity{
     throw new UnsupportedOperationException();
   } 
   
+   public static SSCategory get(
+    final SSCategory            category,
+    final SSEntity              entity) throws Exception{
+    
+    return new SSCategory(category, entity);
+  }
+   
+   protected SSCategory(
+    final SSCategory            category,
+    final SSEntity              entity) throws Exception{
+    
+    super(entity);
+    
+    this.entity        = category.entity;
+    this.user          = category.user;
+    this.space         = category.space;
+    this.categoryLabel = category.categoryLabel;
+  }
+     
   public static SSCategory get(
     final SSUri            id       ,
     final SSUri            entity   ,

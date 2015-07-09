@@ -23,6 +23,7 @@ package at.tugraz.sss.servs.image.impl.sql;
 import at.tugraz.sss.serv.SSDBSQLFct;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSErrE;
+import at.tugraz.sss.serv.SSImage;
 import at.tugraz.sss.serv.SSImageE;
 import at.tugraz.sss.serv.SSObjU;
 import at.tugraz.sss.serv.SSSQLVarNames;
@@ -65,6 +66,41 @@ public class SSImageSQLFct extends SSDBSQLFct{
       SSServErrReg.regErrThrow(error);
     }
   }
+  
+  public SSImage getImage(
+    final SSUri    image) throws Exception{
+    
+    if(image == null){
+      throw new SSErr(SSErrE.parameterMissing);
+    }
+    
+    ResultSet resultSet = null;
+    
+    try{
+      final List<String>        columns    = new ArrayList<>();
+      final Map<String, String> wheres     = new HashMap<>();
+      
+      column (columns, SSSQLVarNames.imageTable, SSSQLVarNames.imageId);
+      column (columns, SSSQLVarNames.imageTable, SSSQLVarNames.type);
+      
+      where   (wheres, SSSQLVarNames.imageTable, SSSQLVarNames.imageId, image);
+      
+      resultSet = dbSQL.select(SSSQLVarNames.imageTable, columns, wheres, null, null, null);
+      
+      checkFirstResult(resultSet);
+      
+      return SSImage.get(
+        bindingStrToUri(resultSet, SSSQLVarNames.imageId),
+        SSImageE.get(bindingStr(resultSet, SSSQLVarNames.type)));
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
+    }
+  }
+  
   
   public List<SSUri> getImages(
     final SSUri    forEntity,

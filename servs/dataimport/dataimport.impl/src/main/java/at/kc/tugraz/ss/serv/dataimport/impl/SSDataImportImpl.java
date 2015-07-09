@@ -302,16 +302,14 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
             null,
             authorUri,
             video.id,
-            null, //uriAlternative,
             null, //type,
             video.label, //label
             null, //description,
-            null, //comments,
             null, //entitiesToAttach,
             video.creationTime, //creationTime,
             null, //read,
             false, //setPublic
-            false, //withUserRestriction
+            true, //withUserRestriction
             true)); //shouldCommit)
                 
         ((SSTagServerI) SSServReg.getServ(SSTagServerI.class)).tagsAdd(
@@ -323,7 +321,7 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
             video.id, //entity
             SSSpaceE.sharedSpace, //space
             video.creationTime,  //creationTime
-            false, //withUserRestriction
+            true, //withUserRestriction
             true)); //shouldCommit
         
         final List<String> categoryLabels = new ArrayList<>();
@@ -448,7 +446,7 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
             resource, //entity
             SSSpaceE.sharedSpace, //space
             timestamp, //creationTime
-            false, //withUserRestriction
+            true, //withUserRestriction
             par.shouldCommit)); //shouldCommit
 
         SSLogU.info("line " + counter++ + " " + tagCounter + " time : " + new Date().getTime() + " user: " + user.toString() + " tags: " + tags);

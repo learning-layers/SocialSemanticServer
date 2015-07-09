@@ -66,16 +66,6 @@ public class SSEntityUpdateRESTAPIV2Par{
   
   @ApiModelProperty(
     required = false,
-    value = "comments to add to the entity")
-  public List<SSTextComment> comments = null;
-  
-  @XmlElement
-  public void setComments(final List<String> comments) throws Exception{
-    this.comments = SSTextComment.get(comments);
-  }
-  
-  @ApiModelProperty(
-    required = false,
     value = "creationTime of the entity")
   public Long creationTime = null;
   

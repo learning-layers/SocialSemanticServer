@@ -20,7 +20,6 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par;
 
-import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSLabel;
@@ -33,14 +32,10 @@ import at.tugraz.sss.serv.SSStrU;
 
 public class SSEntityUpdatePar extends SSServPar{
 
-  public SSEntity            givenEntity      = null;
-
   public SSUri               entity           = null;
-  public SSUri               uriAlternative   = null;
   public SSEntityE           type             = null;
   public SSLabel             label            = null;
   public SSTextComment       description      = null;
-  public List<SSTextComment> comments         = new ArrayList<>();
   public List<SSUri>         entitiesToAttach = new ArrayList<>();
   public Long                creationTime     = null;
   public Boolean             read             = null;
@@ -52,14 +47,6 @@ public class SSEntityUpdatePar extends SSServPar{
 
   public void setEntity(final String entity) throws Exception{
     this.entity = SSUri.get(entity);
-  }
-  
-  public void setUriAlternative(final String uriAlternative) throws Exception{
-    this.uriAlternative = SSUri.get(uriAlternative);
-  }
-  
-  public String getUriAlternative() throws Exception{
-    return SSStrU.removeTrailingSlash(uriAlternative);
   }
   
   public String getType(){
@@ -86,14 +73,6 @@ public class SSEntityUpdatePar extends SSServPar{
     this.description = SSTextComment.get(description);
   }
 
-  public List<String> getComments(){
-    return SSStrU.toStr(comments);
-  }
-
-  public void setComments(final List<String> comments) throws Exception{
-    this.comments = SSTextComment.get(comments);
-  }
-
   public List<String> getEntitiesToAttach(){
     return SSStrU.removeTrailingSlash(entitiesToAttach);
   }
@@ -109,11 +88,9 @@ public class SSEntityUpdatePar extends SSServPar{
     final String              key,
     final SSUri               user,
     final SSUri               entity,
-    final SSUri               uriAlternative,
     final SSEntityE           type, 
     final SSLabel             label,
     final SSTextComment       description,
-    final List<SSTextComment> comments,
     final List<SSUri>         entitiesToAttach,
     final Long                creationTime, 
     final Boolean             read,
@@ -124,14 +101,9 @@ public class SSEntityUpdatePar extends SSServPar{
     super(op, key, user);
   
     this.entity         = entity;
-    this.uriAlternative = uriAlternative;
     this.type           = type;
     this.label          = label;
     this.description    = description;
-    
-    if(comments != null){
-      this.comments.addAll(comments);
-    }
     
     SSUri.addDistinctWithoutNull(this.entitiesToAttach,  entitiesToAttach);
     

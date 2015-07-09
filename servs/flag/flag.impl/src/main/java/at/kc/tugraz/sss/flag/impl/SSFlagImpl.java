@@ -88,7 +88,7 @@ implements
                null, //types,
                null, //startTime,
                null, //endTime,
-               true))); //withUserRestriction
+               par.withUserRestriction))); //withUserRestriction
        }
       
       return entity;
@@ -154,11 +154,9 @@ implements
             null,
             par.user,
             entity,
-            null, //uriAlternative,
             null, //type,
             null, //label
             null, //description,
-            null, //comments,
             null, //entitiesToAttach,
             null, //creationTime,
             null, //read,
@@ -179,11 +177,9 @@ implements
               null,
               par.user,
               flagUri,
-              null, //uriAlternative,
               SSEntityE.flag, //type,
               null, //label
               null, //description,
-              null, //comments,
               null, //entitiesToAttach,
               null, //creationTime,
               null, //read,
@@ -282,7 +278,7 @@ implements
         for(SSFlag flag : flags){
 
           try{
-            SSServCallerU.canUserReadEntity(par.user, flag.entity, false);
+            SSServCallerU.canUserReadEntity(par.user, flag.entity);
             
             result.add(flag);
           }catch(Exception error){

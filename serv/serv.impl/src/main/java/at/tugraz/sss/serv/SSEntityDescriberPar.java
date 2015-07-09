@@ -35,4 +35,5 @@ public class SSEntityDescriberPar{
   public Boolean     setThumb            = false;
   public Boolean     setFlags            = false;
   public Boolean     setCircles          = false;
+  public Boolean     setComments         = false;
 }

@@ -120,11 +120,9 @@ public class SSMessageImpl extends SSServImplWithDBA implements SSMessageClientI
           null,
           par.user,
           messageUri,
-          null, //uriAlternative,
           SSEntityE.message, //type,
           null, //label
           null,//description,
-          null, //comments,
           null, //entitiesToAttach,
           null, //creationTime,
           null, //read,

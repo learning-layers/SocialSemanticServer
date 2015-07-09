@@ -31,7 +31,6 @@ import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSDateU;
-import at.tugraz.sss.serv.SSEntityA;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,10 +38,8 @@ import java.util.List;
 import java.util.Map;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
-import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
-import at.tugraz.sss.serv.SSTextComment;
 
 public class SSCircleSQLFct extends SSDBSQLFct{
   
@@ -682,6 +679,7 @@ public class SSCircleSQLFct extends SSDBSQLFct{
     }
   }
 
+  //TODO remove duplication from entity service
   public void removeEntity(
     final SSUri circle,
     final SSUri entity) throws Exception{
@@ -790,6 +788,93 @@ public class SSCircleSQLFct extends SSDBSQLFct{
         SSEntityE.entity);
       
     }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
+    }
+  }
+  
+  //remove duplication from entity service
+  public Boolean existsEntity(
+    final SSUri entity) throws Exception{
+    
+    ResultSet resultSet  = null;
+    
+    try{
+      
+      final List<String>        columns = new ArrayList<>();
+      final Map<String, String> where   = new HashMap<>();
+      
+      column(columns, SSSQLVarNames.id);
+      
+      where(where, SSSQLVarNames.id, entity);
+      
+      resultSet = dbSQL.select(SSSQLVarNames.entityTable, columns, where, null, null, null);
+      
+      try{
+        checkFirstResult(resultSet);
+      }catch(Exception error){
+        
+        if(SSServErrReg.containsErr(SSErrE.sqlNoResultFound)){
+          SSServErrReg.reset();
+          return false;
+        }
+        
+        throw error;
+      }
+      
+      return true;
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
+    }
+  }
+  
+  //remove duplication from entity service  
+  public SSEntity getEntity(
+    final SSUri entityUri) throws Exception{
+    
+    ResultSet resultSet  = null;
+    
+    try{
+      final List<String>        columns = new ArrayList<>();
+      final Map<String, String> where   = new HashMap<>();
+      final SSEntity            entityObj;
+      
+      column(columns, SSSQLVarNames.id);
+      column(columns, SSSQLVarNames.type);
+      column(columns, SSSQLVarNames.label);
+      column(columns, SSSQLVarNames.creationTime);
+      column(columns, SSSQLVarNames.author);
+      column(columns, SSSQLVarNames.description);
+      
+      where(where, SSSQLVarNames.id, entityUri);
+      
+      resultSet = dbSQL.select(SSSQLVarNames.entityTable, columns, where, null, null, null);
+      
+      checkFirstResult(resultSet);
+      
+      entityObj =
+        SSEntity.get(entityUri,
+          bindingStrToEntityType (resultSet, SSSQLVarNames.type),
+          bindingStrToLabel      (resultSet, SSSQLVarNames.label));
+      
+      entityObj.creationTime = bindingStrToLong       (resultSet, SSSQLVarNames.creationTime);
+      entityObj.author       = bindingStrToAuthor     (resultSet, SSSQLVarNames.author);
+      entityObj.description  = bindingStrToTextComment(resultSet, SSSQLVarNames.description);
+
+      return entityObj;
+    }catch(Exception error){
+      
+      if(SSServErrReg.containsErr(SSErrE.sqlNoResultFound)){
+        SSServErrReg.reset();
+        return null;
+      }
+        
       SSServErrReg.regErrThrow(error);
       return null;
     }finally{

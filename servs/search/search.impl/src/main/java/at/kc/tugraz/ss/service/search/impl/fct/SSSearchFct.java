@@ -232,8 +232,6 @@ public class SSSearchFct {
           par.user,
           entity.id,
           null, //forUser,
-          null, //label
-          null, //type
           false, //withUserRestriction
           false, //invokeEntityHandlers,
           null, //descPar,

@@ -21,6 +21,7 @@
 package at.kc.tugraz.ss.service.filerepo.impl;
 
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.tugraz.sss.servs.file.datatype.par.SSEntityFileAddPar;
 import at.tugraz.sss.servs.file.datatype.par.SSEntityFilesGetPar;
@@ -259,11 +260,9 @@ implements
           null, 
           par.user, 
           par.file,  //entity
-          null, //uriAlternative, 
           SSEntityE.file,  //type
           null, //label, 
           null, //description, 
-          null, //comments, 
           null, //entitiesToAttach,
           null, //creationTime, 
           null, //read, 
@@ -281,11 +280,9 @@ implements
             null,
             par.user,
             par.entity,  //entity
-            null, //uriAlternative,
             null,  //type
             null, //label,
             null, //description,
-            null, //comments,
             SSUri.asListWithoutNullAndEmpty(par.file), //entitiesToAttach,
             null, //creationTime,
             null, //read,
@@ -324,7 +321,6 @@ implements
     try{
     
       final List<SSUri> files = new ArrayList<>();
-      final List<SSUri> result = new ArrayList<>();
       
       if(par.entity == null){
         throw new SSErr(SSErrE.parameterMissing);
@@ -336,23 +332,22 @@ implements
       
       files.addAll(sqlFct.getFiles(par.entity));
       
-      if(par.withUserRestriction){
-        
-        for(SSUri file : files){
-
-          try{
-            SSServCallerU.canUserReadEntity(par.user, file, false);
-            
-            result.add(file);
-          }catch(Exception error){
-            SSServErrReg.reset();
-          }
-        }
-      }else{
-        result.addAll(files);
+      if(!par.withUserRestriction){
+        return files;
       }
       
-      return result;
+      return SSUri.getFromEntitites(
+        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
+          new SSEntitiesGetPar(
+            null,
+            null,
+            par.user,
+            files,  //entities
+            null, //forUser,
+            null, //types,
+            null, //descPar,
+            par.withUserRestriction)));// withUserRestriction
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;

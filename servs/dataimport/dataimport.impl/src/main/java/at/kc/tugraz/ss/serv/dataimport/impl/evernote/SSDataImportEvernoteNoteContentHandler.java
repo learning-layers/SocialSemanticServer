@@ -23,6 +23,7 @@ package at.kc.tugraz.ss.serv.dataimport.impl.evernote;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.kc.tugraz.ss.service.filerepo.api.SSFileRepoServerI;
 import at.tugraz.sss.serv.SSFileExtE;
 import at.tugraz.sss.serv.SSFileU;
 import at.tugraz.sss.serv.SSLogU;
@@ -33,6 +34,8 @@ import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.caller.SSServCaller;
+import at.tugraz.sss.servs.file.datatype.par.SSEntityFileAddPar;
+import at.tugraz.sss.servs.file.datatype.par.SSEntityFilesGetPar;
 import com.evernote.clients.NoteStoreClient;
 import com.evernote.edam.type.Note;
 import com.evernote.edam.type.Resource;
@@ -139,19 +142,23 @@ public class SSDataImportEvernoteNoteContentHandler{
           null,
           user,
           fileUri,
-          null, //uriAlternative,
           SSEntityE.file, //type,
           null, //label
           null, //description,
-          null, //comments,
           null, //entitiesToAttach,
           null, //creationTime,
           null, //read,
           false, //setPublic
-          false, //withUserRestriction
+          true, //withUserRestriction
           false)); //shouldCommit)
           
-      for(SSUri file : SSServCaller.entityFilesGet(user, noteUri)){
+      for(SSUri file : ((SSFileRepoServerI) SSServReg.getServ(SSFileRepoServerI.class)).filesGet(
+        new SSEntityFilesGetPar(
+          null, 
+          null, 
+          user, 
+          noteUri, //entity
+          true))){ //withUserRestriction
         
         SSServCaller.entityRemove(file, false);
         
@@ -166,11 +173,15 @@ public class SSDataImportEvernoteNoteContentHandler{
         }
       }
       
-      SSServCaller.entityFileAdd(
-        user,
-        noteUri,
-        fileUri,
-        false);
+      ((SSFileRepoServerI) SSServReg.getServ(SSFileRepoServerI.class)).fileAdd(
+        new SSEntityFileAddPar(
+          null, 
+          null, 
+          user, 
+          fileUri, //file
+          noteUri, //entity
+          true, //withUserRestriction
+          false));//shouldCommit
       
       SSDataImportEvernoteThumbHelper.addThumbFromFile(
         user,

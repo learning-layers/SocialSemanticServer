@@ -42,17 +42,15 @@ public class SSAppStackLayoutDeleteRet extends SSServRetI{
   }
   
   public static SSAppStackLayoutDeleteRet get(
-    final Boolean  worked,
-    final SSServOpE  op){
+    final Boolean  worked){
     
-    return new SSAppStackLayoutDeleteRet(worked, op);
+    return new SSAppStackLayoutDeleteRet(worked);
   }
   
   private SSAppStackLayoutDeleteRet(
-    final Boolean    worked,
-    final SSServOpE    op) {
+    final Boolean    worked) {
     
-    super(op);
+    super(SSServOpE.appStackLayoutDelete);
     
     this.worked = worked;
   }

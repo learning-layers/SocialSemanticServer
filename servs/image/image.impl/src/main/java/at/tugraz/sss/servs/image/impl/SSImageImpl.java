@@ -22,6 +22,7 @@ package at.tugraz.sss.servs.image.impl;
 
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.tugraz.sss.serv.SSCircleContentChangedPar;
@@ -44,6 +45,7 @@ import java.util.ArrayList;
 import java.util.List;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSFileU;
+import at.tugraz.sss.serv.SSImage;
 import at.tugraz.sss.serv.SSImageE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
@@ -52,6 +54,7 @@ import at.tugraz.sss.servs.image.api.SSImageClientI;
 import at.tugraz.sss.servs.image.api.SSImageServerI;
 import at.tugraz.sss.servs.image.datatype.par.SSImageBase64GetPar;
 import at.tugraz.sss.servs.image.datatype.par.SSImageAddPar;
+import at.tugraz.sss.servs.image.datatype.par.SSImageGetPar;
 import at.tugraz.sss.servs.image.datatype.par.SSImagesGetPar;
 import at.tugraz.sss.servs.image.datatype.ret.SSImagesGetRet;
 import at.tugraz.sss.servs.image.impl.sql.SSImageSQLFct;
@@ -70,36 +73,52 @@ implements
     
      sqlFct = new SSImageSQLFct   (this);
   }
-
+  
   @Override
   public SSEntity getUserEntity(
     final SSEntity             entity,
     final SSEntityDescriberPar par) throws Exception{
     
-    if(!par.setThumb){
-      return entity;
+    if(par.setThumb){
+      
+      switch(entity.type){
+        
+        case file:
+        case evernoteNote:
+        case evernoteResource:{
+          
+          entity.thumb =
+            ((SSImageServerI) SSServReg.getServ(SSImageServerI.class)).imageBase64Get(
+              new SSImageBase64GetPar(
+                null,
+                null,
+                par.user,
+                entity.id,
+                SSImageE.thumb,
+                false)); //withUserRestriction));
+          break;
+        }
+      }
     }
     
     switch(entity.type){
       
-      case file:
-      case evernoteNote:
-      case evernoteResource:{
+      case image:{
         
-        entity.thumb =
-          ((SSImageServerI) SSServReg.getServ(SSImageServerI.class)).imageBase64Get(
-            new SSImageBase64GetPar(
-              null,
-              null,
+        final SSImage image = 
+          imageGet(
+            new SSImageGetPar(
+              null, 
+              null, 
               par.user,
               entity.id,
-              SSImageE.thumb,
-              false)); //withUserRestriction));
-        break;
+              par.withUserRestriction));
+       
+        return SSImage.get(image, entity);
       }
+      
+      default: return entity;
     }
-    
-    return entity;
   }
   
   @Override
@@ -139,19 +158,31 @@ implements
 
     SSServCallerU.checkKey(parA);
 
-    final SSImagesGetPar par = (SSImagesGetPar) parA.getFromJSON(SSImagesGetPar.class);
+    final SSImagesGetPar        par     = (SSImagesGetPar) parA.getFromJSON(SSImagesGetPar.class);
+    final List<SSUri>           images  = imagesGet(par);
+    final List<SSEntity>        result  = new ArrayList<>();
+    final SSEntityDescriberPar  descPar = new SSEntityDescriberPar();
+      
+    result.addAll(
+      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
+        new SSEntitiesGetPar(
+          null,
+          null,
+          par.user,
+          images,  //entities
+          null, //forUser,
+          null, //types,
+          descPar, //descPar,
+          par.withUserRestriction)));// withUserRestriction
     
-    sSCon.writeRetFullToClient(SSImagesGetRet.get(imagesGet(par)));
+    sSCon.writeRetFullToClient(SSImagesGetRet.get(result));
   }
 
   @Override
   public List<SSUri> imagesGet(final SSImagesGetPar par) throws Exception{
-
+    
     try{
       
-      final List<SSUri> images = new ArrayList<>();
-      final List<SSUri> result = new ArrayList<>();
-        
       if(par.withUserRestriction){
         
         if(par.entity != null){
@@ -159,31 +190,40 @@ implements
         }
       }
       
-      images.addAll(sqlFct.getImages(par.entity, par.imageType));
+      return SSUri.getFromEntitites(
+        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
+          new SSEntitiesGetPar(
+            null,
+            null,
+            par.user,
+            sqlFct.getImages(par.entity, par.imageType),  //entities
+            null, //forUser,
+            null, //types,
+            null, //descPar,
+            par.withUserRestriction))); //withUserRestriction
       
-      if(par.withUserRestriction){
-        
-        for(SSUri image : images){
-
-          try{
-            SSServCallerU.canUserReadEntity(par.user, image, false);
-            
-            result.add(image);
-          }catch(Exception error){
-            SSServErrReg.reset();
-          }
-        }
-      }else{
-        result.addAll(images);
-      }
-      
-      return result;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }
   }
-    
+  
+  @Override
+  public SSImage imageGet(final SSImageGetPar par) throws Exception{
+
+    try{
+      
+      if(par.withUserRestriction){
+        SSServCallerU.canUserReadEntity(par.user, par.image);
+      }
+      
+      return sqlFct.getImage(par.image);
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
   @Override
   public String imageBase64Get(final SSImageBase64GetPar par) throws Exception{
     
@@ -202,10 +242,9 @@ implements
         return null;
       }
       
-      final String pngFilePath = 
-        SSCoreConf.instGet().getSss().getLocalWorkPath() + 
-       SSVocConf.fileIDFromSSSURI(
-           images.get(0));
+      final String pngFilePath =
+        SSCoreConf.instGet().getSss().getLocalWorkPath() +
+        SSVocConf.fileIDFromSSSURI(images.get(0));
       
       return SSFileU.readImageToBase64Str(pngFilePath);
       
@@ -236,11 +275,9 @@ implements
           null, 
           par.user, 
           par.image,  //entity
-          null, //uriAlternative, 
           SSEntityE.image,  //type
           null, //label, 
           null, //description, 
-          null, //comments, 
           null, //entitiesToAttach,
           null, //creationTime, 
           null, //read, 
@@ -260,11 +297,9 @@ implements
             null,
             par.user,
             par.entity,  //entity
-            null, //uriAlternative,
             null,  //type
             null, //label,
             null, //description,
-            null, //comments,
             SSUri.asListWithoutNullAndEmpty(par.image), //entitiesToAttach,
             null, //creationTime,
             null, //read,

@@ -164,11 +164,11 @@ public class SSRESTDisc{
     value = "retrieve discussions for a certain entity",
     response = SSDiscURIsForTargetGetRet.class)
   public Response discURIsForTargetGet(
-    @Context                    
-      final HttpHeaders  headers,
+    @Context
+    final HttpHeaders  headers,
     
-    @PathParam (SSVarNames.entity)  
-      final String entity){
+    @PathParam (SSVarNames.entity)
+    final String entity){
     
     final SSDiscURIsForTargetGetPar par;
     
@@ -179,7 +179,8 @@ public class SSRESTDisc{
           SSServOpE.discURIsForTargetGet, //op
           null, //key
           null, //user
-          SSUri.get(entity, SSVocConf.sssUri)); //entity
+          SSUri.get(entity, SSVocConf.sssUri), //entity
+          true); //withUserRestriction
       
     }catch(Exception error){
       return Response.status(422).build();

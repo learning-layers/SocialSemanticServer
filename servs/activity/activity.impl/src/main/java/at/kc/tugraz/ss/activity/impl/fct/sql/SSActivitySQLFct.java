@@ -157,7 +157,7 @@ public class SSActivitySQLFct extends SSDBSQLFct{
     }
   }
   
-  public List<SSActivity> getActivities(
+  public List<SSUri> getActivities(
     final List<SSUri>       users,
     final List<SSUri>       entities,
     final List<SSActivityE> types,
@@ -170,14 +170,12 @@ public class SSActivitySQLFct extends SSDBSQLFct{
     ResultSet resultSet = null;
       
     try{
-      final List<SSActivity>                                       activities     = new ArrayList<>();
+      final List<SSUri>                                            result         = new ArrayList<>();
       final List<MultivaluedMap<String, String>>                   wheres         = new ArrayList<>();
       final MultivaluedMap<String, MultivaluedMap<String, String>> wheresNumeric  = new MultivaluedHashMap<>();
       final List<String>                                           tables         = new ArrayList<>();
       final List<String>                                           columns        = new ArrayList<>();
       final List<String>                                           tableCons      = new ArrayList<>();
-      SSActivity                                                   activityObj;
-      SSEntity                                                     activityEntity;
 
       table    (tables, SSSQLVarNames.activityTable);
       table    (tables, SSSQLVarNames.entityTable);
@@ -306,31 +304,10 @@ public class SSActivitySQLFct extends SSDBSQLFct{
           }
         }
         
-        if(entity != null){
-          
-          activityEntity =
-            SSEntity.get(
-              entity,
-              SSEntityE.entity);
-        }else{
-          activityEntity = null;
-        }
-        
-        activityObj = 
-          SSActivity.get(
-            bindingStrToUri  (resultSet, SSSQLVarNames.id),
-            type,
-            activityEntity, 
-            new ArrayList<>());
-
-        activityObj.creationTime   = bindingStrToLong (resultSet, SSSQLVarNames.creationTime);
-        activityObj.author         = author;
-        activityObj.comments.addAll(SSTextComment.asListWithoutNullAndEmpty(SSTextComment.get(bindingStr(resultSet, SSSQLVarNames.textComment))));
-        
-        activities.add(activityObj);
+        result.add(bindingStrToUri  (resultSet, SSSQLVarNames.id));
       }
       
-      return activities;
+      return result;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -408,11 +385,8 @@ public class SSActivitySQLFct extends SSDBSQLFct{
       final SSUri                                entity;
 
       column(columns, SSSQLVarNames.entityTable,   SSSQLVarNames.id);
-      column(columns, SSSQLVarNames.entityTable,   SSSQLVarNames.author);
-      column(columns, SSSQLVarNames.entityTable,   SSSQLVarNames.creationTime);
       column(columns, SSSQLVarNames.activityTable, SSSQLVarNames.activityType);
       column(columns, SSSQLVarNames.activityTable, SSSQLVarNames.entityId);
-      column(columns, SSSQLVarNames.activityTable, SSSQLVarNames.textComment);
       
       table(tables, SSSQLVarNames.activityTable);
       table(tables, SSSQLVarNames.entityTable);
@@ -426,14 +400,12 @@ public class SSActivitySQLFct extends SSDBSQLFct{
       checkFirstResult(resultSet);
       
       activityObj = 
-        SSActivity.get(bindingStrToUri  (resultSet, SSSQLVarNames.id), 
+        SSActivity.get(
+          bindingStrToUri  (resultSet, SSSQLVarNames.id), 
           SSActivityE.get  (bindingStr(resultSet, SSSQLVarNames.activityType)),
           null,
           new ArrayList<>());
         
-      activityObj.author       = bindingStrToAuthor (resultSet, SSSQLVarNames.author);
-      activityObj.creationTime = bindingStrToLong   (resultSet, SSSQLVarNames.creationTime);
-      
       entity = bindingStrToUri  (resultSet, SSSQLVarNames.entityId);
       
       if(entity != null){
@@ -445,8 +417,6 @@ public class SSActivitySQLFct extends SSDBSQLFct{
       }else{
         activityObj.entity = null;
       }
-      
-      activityObj.comments.addAll(SSTextComment.asListWithoutNullAndEmpty(SSTextComment.get(bindingStr(resultSet, SSSQLVarNames.textComment))));
     
       return activityObj;
       

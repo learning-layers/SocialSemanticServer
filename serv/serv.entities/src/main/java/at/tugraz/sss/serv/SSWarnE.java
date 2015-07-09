@@ -21,6 +21,7 @@
 package at.tugraz.sss.serv;
 
 public enum SSWarnE{
+  userNotAllowedToAccessEntity,
   entityAlreadySharedWithUser,
   subCollAlreadySharedWithUser,
   collAlreadySharedWithUser,

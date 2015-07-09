@@ -262,11 +262,9 @@ implements
           null,
           SSVocConf.systemUserUri,
           userUri,
-          null, //uriAlternative,
           SSEntityE.user, //type,
           tmpLabel, //label
           null,//description,
-          null, //comments,
           null, //entitiesToAttach,
           null, //creationTime,
           null, //read,

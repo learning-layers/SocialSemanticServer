@@ -26,6 +26,7 @@ import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServRetI;
 import at.tugraz.sss.serv.SSJSONLDU;
 import at.kc.tugraz.sss.app.datatypes.SSApp;
+import at.tugraz.sss.serv.SSEntity;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -33,7 +34,7 @@ import java.util.Map;
 
 public class SSAppsGetRet extends SSServRetI{
   
-  public List<SSApp> apps = new ArrayList<>();
+  public List<SSEntity> apps = new ArrayList<>();
   
   @Override
   public Map<String, Object> jsonLDDesc(){
@@ -50,17 +51,15 @@ public class SSAppsGetRet extends SSServRetI{
   }
   
   public static SSAppsGetRet get(
-    final List<SSApp>    apps,
-    final SSServOpE        op){
+    final List<SSEntity>    apps){
     
-    return new SSAppsGetRet(apps, op);
+    return new SSAppsGetRet(apps);
   }
   
   private SSAppsGetRet(
-    final List<SSApp>    apps,
-    final SSServOpE        op) {
+    final List<SSEntity>     apps) {
     
-    super(op);
+    super(SSServOpE.appsGet);
     
     if(apps != null){
       this.apps.addAll(apps);

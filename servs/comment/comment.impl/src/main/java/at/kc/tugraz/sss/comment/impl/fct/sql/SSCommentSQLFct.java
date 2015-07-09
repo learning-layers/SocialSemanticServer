@@ -25,6 +25,8 @@ import at.tugraz.sss.serv.SSSQLVarNames;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSDBSQLI;
+import at.tugraz.sss.serv.SSErr;
+import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -44,6 +46,11 @@ public class SSCommentSQLFct extends SSDBSQLFct{
     ResultSet resultSet = null;
     
     try{
+      
+      if(forUser == null){
+        throw new SSErr(SSErrE.parameterMissing);
+      }
+      
       final List<String>        tables            = new ArrayList<>();
       final List<String>        columns           = new ArrayList<>();
       final List<String>        tableCons         = new ArrayList<>();
@@ -52,13 +59,11 @@ public class SSCommentSQLFct extends SSDBSQLFct{
       column(columns, SSSQLVarNames.commentsTable, SSSQLVarNames.entityId);
       
       table (tables, SSSQLVarNames.commentsTable);
+      table (tables, SSSQLVarNames.entityTable);
       
-      if(forUser != null){
-        
-        where   (wheres, SSSQLVarNames.entityTable, SSSQLVarNames.author, forUser);
-        table   (tables, SSSQLVarNames.entityTable);
-        tableCon(tableCons, SSSQLVarNames.entityTable,  SSSQLVarNames.id, SSSQLVarNames.commentsTable,  SSSQLVarNames.commentId);
-      }
+      where   (wheres, SSSQLVarNames.entityTable, SSSQLVarNames.author, forUser);
+      
+      tableCon(tableCons, SSSQLVarNames.entityTable,  SSSQLVarNames.id, SSSQLVarNames.commentsTable,  SSSQLVarNames.commentId);
       
       resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
       
