@@ -157,7 +157,7 @@ public class SSActivitySQLFct extends SSDBSQLFct{
     }
   }
   
-  public List<SSUri> getActivities(
+  public List<SSUri>    getActivityURIs(
     final List<SSUri>       users,
     final List<SSUri>       entities,
     final List<SSActivityE> types,
@@ -307,6 +307,11 @@ public class SSActivitySQLFct extends SSDBSQLFct{
         result.add(bindingStrToUri  (resultSet, SSSQLVarNames.id));
       }
       
+//      SSActivity.get(
+//            bindingStrToUri  (resultSet, SSSQLVarNames.id), 
+//            type,
+//            SSEntity.get(entity, SSEntityE.entity), 
+//            getActivityContents(bindingStrToUri  (resultSet, SSSQLVarNames.id))));
       return result;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

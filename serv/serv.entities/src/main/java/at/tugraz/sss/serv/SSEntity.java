@@ -22,9 +22,7 @@ package at.tugraz.sss.serv;
 
 import com.wordnik.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class SSEntity extends SSEntityA{
   
@@ -86,7 +84,12 @@ public class SSEntity extends SSEntityA{
   @ApiModelProperty(
     required = false,
     value = "tags assigned")
-  public List<String>        tags             = new ArrayList<>(); //new
+  public List<SSEntity>        tags             = new ArrayList<>(); //new
+  
+  @ApiModelProperty(
+    required = false,
+    value = "categories assigned")
+  public List<SSEntity>        categories     = new ArrayList<>();
   
   @ApiModelProperty(
     required = false,
@@ -142,6 +145,98 @@ public class SSEntity extends SSEntityA{
     required = false,
     value = "likes for the entity")
   public  SSEntityA       likes;
+  
+  public String getId() throws Exception{
+    return SSStrU.removeTrailingSlash(id);
+  }
+  
+  public String getLabel(){
+    return SSStrU.toStr(label);
+  }
+
+  public Long getCreationTime(){
+    return creationTime;
+  }
+
+  public SSEntityE getType(){
+    return type;
+  }
+  
+  public SSAuthor getAuthor() throws Exception{
+    return author;
+  }
+  
+  public String getDescription() throws Exception{
+    return SSStrU.toStr(description);
+  }
+  
+  public List<SSCircleE> getCircleTypes(){
+    return circleTypes;
+  }
+  
+  public List<? extends Object> getEntries() throws Exception{
+    return entries;
+  }
+  
+  public List<? extends SSEntity> getAttachedEntities() throws Exception{
+    return attachedEntities;
+  }
+  
+  public List<? extends SSEntity> getCircles() throws Exception{
+    return circles;
+  }
+  
+  public List<? extends SSEntity> getLocations() throws Exception{
+    return locations;
+  }
+  
+  public List<String> getComments() throws Exception{
+    return SSStrU.toStr(comments);
+  }
+  
+  public List<? extends SSEntity> getTags(){
+    return tags;
+  }
+
+  public List<? extends SSEntity> getCategories(){
+    return categories;
+  }
+  
+  public SSEntityA getOverallRating(){
+    return overallRating;
+  }
+
+  public SSEntityA getLikes(){
+    return likes;
+  }
+  
+  public List<String> getDiscs() throws Exception{
+    return SSStrU.removeTrailingSlash(discs);
+  }
+  
+  public List<SSEntityA> getuEs() throws Exception{
+    return uEs;
+  }
+  
+  public String getThumb(){
+    return thumb;
+  }
+  
+  public String getFile(){
+    return SSStrU.removeTrailingSlash(file);
+  }
+  
+  public List<SSEntityA> getFlags() throws Exception{
+    return flags;
+  }
+  
+  public List<? extends SSEntity> getUsers() throws Exception{
+    return users;
+  }
+
+  public List<? extends SSEntity> getEntities() throws Exception{
+    return entities;
+  }
   
   public static SSEntity get(
     final SSUri     id,
@@ -206,6 +301,7 @@ public class SSEntity extends SSEntityA{
     this.description      = entity.description;
     this.overallRating    = entity.overallRating; //new
     this.tags             = entity.tags; //new
+    this.categories       = entity.categories; //new
     this.discs            = entity.discs; //new
     this.uEs              = entity.uEs; //new
     this.thumb            = entity.thumb; //new
@@ -223,192 +319,14 @@ public class SSEntity extends SSEntityA{
     this.likes            = entity.likes;
   }
   
-  @Override //TODO has to be fixed and adapted
+  @Override 
   public Object jsonLDDesc() {
-   
-    final Map<String, Object> ld                  = new HashMap<>();
-    final Map<String, Object> circleTypesObj      = new HashMap<>();
-    final Map<String, Object> entriesObj          = new HashMap<>();
-    final Map<String, Object> attachedEntitiesObj = new HashMap<>();
-    final Map<String, Object> commentsObj         = new HashMap<>();
-    final Map<String, Object> tagsObj             = new HashMap<>();
-    final Map<String, Object> discsObj            = new HashMap<>();
-    final Map<String, Object> uEsObj              = new HashMap<>();
-    final Map<String, Object> flagsObj            = new HashMap<>();
-    final Map<String, Object> entitiesObj         = new HashMap<>();
-    final Map<String, Object> circlesObj          = new HashMap<>();
-    final Map<String, Object> usersObj            = new HashMap<>();
-    final Map<String, Object> locationsObj        = new HashMap<>();
-    
-    ld.put(SSVarNames.id,             SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarNames.entity,         SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarNames.label,          SSVarNames.sss + SSStrU.colon + SSLabel.class.getName());
-    ld.put(SSVarNames.creationTime,   SSVarNames.xsd + SSStrU.colon + SSStrU.valueLong);
-    ld.put(SSVarNames.type,           SSVarNames.sss + SSStrU.colon + SSEntityE.class.getName());
-    ld.put(SSVarNames.author,         SSVarNames.sss + SSStrU.colon + SSAuthor.class.getName());
-    ld.put(SSVarNames.description,    SSVarNames.sss + SSStrU.colon + SSTextComment.class.getName());
-    ld.put(SSVarNames.overallRating,  SSVarNames.sss + SSStrU.colon + SSEntityA.class.getName());
-    ld.put(SSVarNames.thumb,          SSVarNames.xsd + SSStrU.colon + SSStrU.valueString);
-    ld.put(SSVarNames.file,           SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarNames.read,           SSVarNames.xsd + SSStrU.colon + SSStrU.valueBoolean);
-    ld.put(SSVarNames.likes,          SSVarNames.sss + SSStrU.colon + SSEntityA.class.getName());
-   
-    entriesObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + Object.class.getName());
-    entriesObj.put(SSJSONLDU.container, SSJSONLDU.set);
-    
-    ld.put(SSVarNames.entries, entriesObj);
-    
-    attachedEntitiesObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSEntity.class.getName());
-    attachedEntitiesObj.put(SSJSONLDU.container, SSJSONLDU.set);
-    
-    ld.put(SSVarNames.attachedEntities, attachedEntitiesObj);
-    
-    commentsObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSTextComment.class.getName());
-    commentsObj.put(SSJSONLDU.container, SSJSONLDU.set);
-    
-    ld.put(SSVarNames.comments, commentsObj);
-    
-    flagsObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSEntityA.class.getName());
-    flagsObj.put(SSJSONLDU.container, SSJSONLDU.set);
-      
-    ld.put(SSVarNames.flags,      flagsObj);
-      
-    tagsObj.put(SSJSONLDU.id,        SSVarNames.xsd + SSStrU.colon + SSStrU.valueString);
-    tagsObj.put(SSJSONLDU.container, SSJSONLDU.set);
-
-    ld.put(SSVarNames.tags,      tagsObj);
-    
-    discsObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSEntityA.class.getName());
-    discsObj.put(SSJSONLDU.container, SSJSONLDU.set);
-
-    ld.put(SSVarNames.discs,      discsObj);
-    
-    uEsObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSEntityA.class.getName());
-    uEsObj.put(SSJSONLDU.container, SSJSONLDU.set);
-
-    ld.put(SSVarNames.uEs,      uEsObj);
-    
-    usersObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSEntity.class.getName());
-    usersObj.put(SSJSONLDU.container, SSJSONLDU.set);
-    
-    ld.put(SSVarNames.users, usersObj);
-    
-    entitiesObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
-    entitiesObj.put(SSJSONLDU.container, SSJSONLDU.set);
-    
-    ld.put(SSVarNames.entities, entitiesObj);
-    
-    circlesObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSEntity.class.getName());
-    circlesObj.put(SSJSONLDU.container, SSJSONLDU.set);
-    
-    ld.put(SSVarNames.circles, circlesObj);
-    
-    circleTypesObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSCircleE.class.getName());
-    circleTypesObj.put(SSJSONLDU.container, SSJSONLDU.set);
-    
-    ld.put(SSVarNames.circleTypes, circleTypesObj);
-    
-    locationsObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSEntity.class.getName());
-    locationsObj.put(SSJSONLDU.container, SSJSONLDU.set);
-    
-    ld.put(SSVarNames.locations, locationsObj);
-    
-    return ld;
+    throw new UnsupportedOperationException();
   }
 
-  /* getters for json */
-  
-  public String getId() throws Exception{
-    return SSStrU.removeTrailingSlash(id);
-  }
-  
-  public String getLabel(){
-    return SSStrU.toStr(label);
-  }
-
-  public Long getCreationTime(){
-    return creationTime;
-  }
-
-  public SSEntityE getType(){
-    return type;
-  }
-  
-  public SSAuthor getAuthor() throws Exception{
-    return author;
-  }
-  
-  public String getDescription() throws Exception{
-    return SSStrU.toStr(description);
-  }
-  
-  public List<SSCircleE> getCircleTypes(){
-    return circleTypes;
-  }
-  
-  public List<? extends Object> getEntries() throws Exception{
-    return entries;
-  }
-  
-  public List<? extends SSEntity> getAttachedEntities() throws Exception{
-    return attachedEntities;
-  }
-  
-  public List<? extends SSEntity> getCircles() throws Exception{
-    return circles;
-  }
-  
-  public List<? extends SSEntity> getLocations() throws Exception{
-    return locations;
-  }
-  
-  public List<String> getComments() throws Exception{
-    return SSStrU.toStr(comments);
-  }
-  
-  public List<String> getTags(){
-    return tags;
-  }
-
-  public SSEntityA getOverallRating(){
-    return overallRating;
-  }
-
-  public SSEntityA getLikes(){
-    return likes;
-  }
-  
-  public List<String> getDiscs() throws Exception{
-    return SSStrU.removeTrailingSlash(discs);
-  }
-  
-  public List<SSEntityA> getuEs() throws Exception{
-    return uEs;
-  }
-  
-  public String getThumb(){
-    return thumb;
-  }
-  
-  public String getFile(){
-    return SSStrU.removeTrailingSlash(file);
-  }
-  
-  public List<SSEntityA> getFlags() throws Exception{
-    return flags;
-  }
-  
-  public List<? extends SSEntity> getUsers() throws Exception{
-    return users;
-  }
-
-  public List<? extends SSEntity> getEntities() throws Exception{
-    return entities;
-  }
-  
   public static void addEntitiesDistinctWithoutNull(
-    final List<SSEntity>     entities,
-    final SSEntity           entity){
+    final List<SSEntity>   entities,
+    final SSEntity         entity){
     
     if(
       SSObjU.isNull  (entities, entity) ||

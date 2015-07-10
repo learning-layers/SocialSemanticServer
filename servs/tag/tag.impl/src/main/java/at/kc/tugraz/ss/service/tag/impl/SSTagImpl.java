@@ -212,18 +212,17 @@ implements
       if(par.setTags){
         
         entity.tags.addAll(
-          SSStrU.toStr(
-            tagsGet(
-              new SSTagsGetPar(
-                null,
-                null,
-                par.user,
-                null, //forUser
-                SSUri.asListWithoutNullAndEmpty(entity.id), //entities
-                null, //labels
-                null, //space
-                null, //startTime
-                false)))); //withUserRestriction
+          tagsGet(
+            new SSTagsGetPar(
+              null,
+              null,
+              par.user,
+              null, //forUser
+              SSUri.asListWithoutNullAndEmpty(entity.id), //entities
+              null, //labels
+              null, //space
+              null, //startTime
+              par.withUserRestriction))); //withUserRestriction
       }
       
       return entity;
@@ -603,24 +602,11 @@ implements
         }
       } 
           
-      if(
-        par.withUserRestriction &&
-        !SSStrU.equals(par.user,  par.forUser)){
-      
-        for(SSUri entityURI : entityURIs){
-
-          try{
-            SSServCallerU.canUserReadEntity(par.user, entityURI, false);
-            result.add(entityURI);
-          }catch(Exception error){
-            SSServErrReg.reset();
-          }
-        }
-      }else{
-        result.addAll(entityURIs);
-      }
-      
-      return result;
+      return SSTagMiscFct.filterEntitiesUserCanAccess(
+        entityURIs, 
+        par.withUserRestriction, 
+        par.user, 
+        par.forUser);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -644,7 +630,6 @@ implements
     try{
       
       final List<SSTag>      tags   = new ArrayList<>();
-      final List<SSTag>      result = new ArrayList<>();
       
       if(par.user == null){
         throw new Exception("user null");
@@ -673,30 +658,37 @@ implements
         }
       }
       
-      if(
-        par.withUserRestriction &&
-        !SSStrU.equals(par.user, par.forUser)){
-        
-        for(SSTag tag : tags){
-          
-          try{
-            SSServCallerU.canUserReadEntity(par.user, tag.entity, false);
-            
-            result.add(tag);
-          }catch(Exception error){
-            SSServErrReg.reset();
-          }
-        }
-      }else{
-        result.addAll(tags);
-      }
-        
-      return result;
+      return SSTagMiscFct.filterTagsByEntitiesUserCanAccess(
+        tags, 
+        par.withUserRestriction, 
+        par.user, 
+        par.forUser);
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }
   }
+  
+//  if(
+//        par.withUserRestriction &&
+//        !SSStrU.equals(par.user, par.forUser)){
+//        
+//        for(SSTag tag : tags){
+//          
+//          try{
+//            SSServCallerU.canUserReadEntity(par.user, tag.entity, false);
+//            
+//            result.add(tag);
+//          }catch(Exception error){
+//            SSServErrReg.reset();
+//          }
+//        }
+//      }else{
+//        result.addAll(tags);
+//      }
+//        
+//      return result;
   
   @Override
   public void tagFrequsGet(SSSocketCon sSCon, SSServPar parA) throws Exception {

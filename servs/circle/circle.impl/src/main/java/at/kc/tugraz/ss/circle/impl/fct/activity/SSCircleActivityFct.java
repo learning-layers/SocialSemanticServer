@@ -28,7 +28,6 @@ import at.kc.tugraz.ss.circle.datatypes.par.SSCircleCreateFromClientPar;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesAddPar;
-import at.tugraz.sss.servs.entity.datatypes.par.SSEntitySharePar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleUsersAddPar;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSServErrReg;
@@ -38,8 +37,7 @@ public class SSCircleActivityFct{
   
   public static void createCircle(
     final SSCircleCreateFromClientPar par,
-    final SSUri                       circle, 
-    final Boolean                     shouldCommit) throws Exception{
+    final SSUri                       circle) throws Exception{
     
     try{
       
@@ -54,7 +52,7 @@ public class SSCircleActivityFct{
           par.entities, //entities, 
           SSTextComment.asListWithoutNullAndEmpty(), 
           null, 
-          shouldCommit));
+          par.shouldCommit));
       
     }catch(SSErr error){
       
@@ -84,7 +82,7 @@ public class SSCircleActivityFct{
           par.entities, 
           SSTextComment.asListWithoutNullAndEmpty(), 
           null, 
-          false));
+          par.shouldCommit));
       
     }catch(SSErr error){
       
@@ -114,7 +112,7 @@ public class SSCircleActivityFct{
           SSUri.asListWithoutNullAndEmpty(), 
           SSTextComment.asListWithoutNullAndEmpty(), 
           null, 
-          false));
+          par.shouldCommit));
       
     }catch(SSErr error){
       

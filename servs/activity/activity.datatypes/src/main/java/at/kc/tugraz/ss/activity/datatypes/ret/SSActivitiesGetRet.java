@@ -50,9 +50,7 @@ public class SSActivitiesGetRet extends SSServRetI{
 
     super(SSServOpE.activitiesGet);
     
-    if(activities != null){
-      this.activities.addAll(activities);
-    }
+    SSEntity.addEntitiesDistinctWithoutNull(this.activities, activities);
     
     this.queryTime = queryTime;
   }

@@ -28,6 +28,7 @@ import at.tugraz.sss.serv.SSDBSQLFct;
 import at.tugraz.sss.serv.SSDBSQLI;
 
 import at.kc.tugraz.sss.app.datatypes.SSApp;
+import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
@@ -90,39 +91,20 @@ public class SSAppSQLFct extends SSDBSQLFct{
     }
   }
   
-  public List<SSApp> getApps() throws Exception{
+  public List<SSUri> getAppURIs() throws Exception{
     
     ResultSet resultSet = null;
       
     try{
-      final List<SSApp>         apps    = new ArrayList<>();
       final List<String>        columns = new ArrayList<>();
       final Map<String, String> wheres  = new HashMap<>();
       
       column(columns, SSSQLVarNames.appId);
-      column(columns, SSSQLVarNames.descriptionShort);
-      column(columns, SSSQLVarNames.descriptionFunctional);
-      column(columns, SSSQLVarNames.descriptionTechnical);
-      column(columns, SSSQLVarNames.descriptionInstall);
-      column(columns, SSSQLVarNames.downloadIOS);
-      column(columns, SSSQLVarNames.downloadAndroid);
-      column(columns, SSSQLVarNames.fork);
       
       resultSet = dbSQL.select(SSSQLVarNames.appTable, columns, wheres, null, null, null);
       
-      while(resultSet.next()){
-        
-        apps.add(SSApp.get(bindingStrToUri         (resultSet, SSSQLVarNames.appId), 
-            bindingStrToTextComment (resultSet, SSSQLVarNames.descriptionShort), 
-            bindingStrToTextComment (resultSet, SSSQLVarNames.descriptionFunctional),  
-            bindingStrToTextComment (resultSet, SSSQLVarNames.descriptionTechnical),  
-            bindingStrToTextComment (resultSet, SSSQLVarNames.descriptionInstall),  
-            bindingStrToUri         (resultSet, SSSQLVarNames.downloadIOS), 
-            bindingStrToUri         (resultSet, SSSQLVarNames.downloadAndroid), 
-            bindingStrToUri         (resultSet, SSSQLVarNames.fork)));
-      }
+      return getURIsFromResult(resultSet, SSSQLVarNames.appId);
       
-      return apps;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;

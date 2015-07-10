@@ -95,7 +95,8 @@ implements
               null,
               null,
               par.user,
-              entity.id)),
+              entity.id, 
+              true)), //invokeEntityHandlers
           entity);
       }
       
@@ -162,31 +163,18 @@ implements
     SSServCallerU.checkKey(parA);
     
     final SSActivitiesGetPar   par        = (SSActivitiesGetPar) parA.getFromJSON(SSActivitiesGetPar.class);
-    final List<SSUri>          activities = activitiesGet(par);
-    final List<SSEntity>       result     = new ArrayList<>();
-    final SSEntityDescriberPar descPar    = new SSEntityDescriberPar();
     
-    result.addAll(
-      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
-        new SSEntitiesGetPar(
-          null,
-          null,
-          par.user,
-          activities,  //entities
-          null, //forUser,
-          null, //types,
-          descPar, //descPar,
-          par.withUserRestriction)));// withUserRestriction
-    
-    sSCon.writeRetFullToClient(SSActivitiesGetRet.get(result, SSDateU.dateAsLong()));
+    sSCon.writeRetFullToClient(SSActivitiesGetRet.get(activitiesGet(par), SSDateU.dateAsLong()));
   }
   
   @Override
-  public List<SSUri> activitiesGet(final SSActivitiesGetPar par) throws Exception{
+  public List<SSEntity> activitiesGet(final SSActivitiesGetPar par) throws Exception{
     
     try{
+      final List<SSEntity>             activities         = new ArrayList<>();
       final List<SSEntity>             entitiesToQuery    = new ArrayList<>();
       final SSEntityDescriberPar       descPar            = new SSEntityDescriberPar();
+      final List<SSUri>                activityURIs       = new ArrayList<>();
       
       SSEntity.addEntitiesDistinctWithoutNull(
         entitiesToQuery,
@@ -222,15 +210,45 @@ implements
           circle.entities);
       }
       
-      return sqlFct.getActivities(
-        par.users,
-        SSUri.getFromEntitites(entitiesToQuery),
-        par.types,
-        par.startTime,
-        par.endTime,
-        true,
-        1000,
-        par.includeOnlyLastActivities);
+      activityURIs.addAll(
+        sqlFct.getActivityURIs(
+          par.users,
+          SSUri.getFromEntitites(entitiesToQuery),
+          par.types,
+          par.startTime,
+          par.endTime,
+          true,
+          1000,
+          par.includeOnlyLastActivities));
+      
+      if(!par.invokeEntityHandlers){
+        
+        for(SSUri activityURI : activityURIs){
+          
+          SSEntity.addEntitiesDistinctWithoutNull(
+            activities,
+            activityGet(
+              new SSActivityGetPar(
+                null,
+                null,
+                par.user,
+                activityURI,
+                par.invokeEntityHandlers)));
+        }
+        
+        return activities;
+      }
+        
+      return ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
+        new SSEntitiesGetPar(
+          null,
+          null,
+          par.user,
+          activityURIs,  //entities
+          null, //forUser,
+          null, //types,
+          descPar, //descPar,
+          par.withUserRestriction));// withUserRestriction
       
 //      final List<SSUri>                descURIs           = new ArrayList<>();
 //      final Map<String, List<SSUri>>   activitiesUsers    = new HashMap<>();
@@ -238,7 +256,6 @@ implements
 //      final Map<String, SSUri>         activitiesEntity   = new HashMap<>();
 //      final List<SSEntity>             descs              = new ArrayList<>();
 //      String                           activityID;
-      
 //      for(SSActivity activity : activities){
 //
 //        result.add(activity);
@@ -509,7 +526,13 @@ implements
     try{
       
       final SSActivity            activity;
-      final SSEntityDescriberPar  descPar  = new SSEntityDescriberPar();
+      final SSEntityDescriberPar  descPar;
+      
+      if(par.invokeEntityHandlers){
+        descPar = new SSEntityDescriberPar();
+      }else{
+        descPar = null;
+      }
       
       activity =
         SSActivity.get(

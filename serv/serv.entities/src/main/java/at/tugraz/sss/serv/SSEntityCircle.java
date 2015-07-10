@@ -65,11 +65,10 @@ public class SSEntityCircle extends SSEntity{
   
   public static SSEntityCircle get(
     final SSUri                          id,
-    final SSLabel                        label, 
     final SSCircleE                      circleType,
     final Boolean                        isSystemCircle) throws Exception{
     
-    return new SSEntityCircle(id, label, circleType, isSystemCircle);
+    return new SSEntityCircle(id, circleType, isSystemCircle);
   }
   
   protected SSEntityCircle(
@@ -89,11 +88,10 @@ public class SSEntityCircle extends SSEntity{
 
   protected SSEntityCircle(
     final SSUri                           id,
-    final SSLabel                         label,
     final SSCircleE                       circleType, 
     final Boolean                         isSystemCircle) throws Exception{
     
-    super(id, SSEntityE.circle, label);
+    super(id, SSEntityE.circle);
     
     this.circleType     = circleType;
     this.isSystemCircle = isSystemCircle;

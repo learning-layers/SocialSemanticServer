@@ -27,7 +27,8 @@ import at.tugraz.sss.serv.SSStrU;
 
 public class SSAppStackLayoutGetPar extends SSServPar{
   
-  public SSUri stack = null;
+  public SSUri   stack                 = null;
+  public Boolean invokeEntityHandlers  = false;
 
   public String getStack(){
     return SSStrU.removeTrailingSlash(stack);
@@ -44,11 +45,13 @@ public class SSAppStackLayoutGetPar extends SSServPar{
     final String    key,
     final SSUri     user, 
     final SSUri     stack, 
-    final Boolean   withUserRestriction){
+    final Boolean   withUserRestriction, 
+    final Boolean   invokeEntityHandlers){
     
     super(op, key, user);
     
-    this.stack               = stack;
-    this.withUserRestriction = withUserRestriction;
+    this.stack                = stack;
+    this.withUserRestriction  = withUserRestriction;
+    this.invokeEntityHandlers = invokeEntityHandlers;
   }
 }

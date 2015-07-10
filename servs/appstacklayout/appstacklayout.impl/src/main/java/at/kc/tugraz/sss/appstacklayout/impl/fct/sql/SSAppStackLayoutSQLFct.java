@@ -75,29 +75,20 @@ public class SSAppStackLayoutSQLFct extends SSDBSQLFct{
     }
   }
   
-  public List<SSAppStackLayout> getAppStackLayouts() throws Exception{
+  public List<SSUri> getStackURIs() throws Exception{
     
     ResultSet resultSet = null;
       
     try{
-      final List<SSAppStackLayout> appStackLayouts = new ArrayList<>();
       final List<String>           columns         = new ArrayList<>();
       final Map<String, String>    wheres          = new HashMap<>();
       
       column(columns, SSSQLVarNames.stackId);
-      column(columns, SSSQLVarNames.app);
         
       resultSet = dbSQL.select(SSSQLVarNames.appStackLayoutTable, columns, wheres, null, null, null);
       
-      while(resultSet.next()){
-        
-        appStackLayouts.add(
-          SSAppStackLayout.get(
-            bindingStrToUri         (resultSet, SSSQLVarNames.stackId), 
-            bindingStrToUri         (resultSet, SSSQLVarNames.app)));
-      }
+      return getURIsFromResult(resultSet, SSSQLVarNames.stackId);
       
-      return appStackLayouts;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;

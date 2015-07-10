@@ -34,7 +34,9 @@ import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSSpaceE;
 import at.tugraz.sss.serv.SSLabel;
+import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
+import at.tugraz.sss.util.SSServCallerU;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -307,6 +309,70 @@ public class SSCategoryMiscFct {
     }
     
     return outList;
+  }
+  
+  public static List<SSUri> filterEntitiesUserCanAccess(
+    final List<SSUri> entityURIs, 
+    final Boolean     withUserRestriction, 
+    final SSUri       user, 
+    final SSUri       forUser){
+    
+    final List<SSUri> filtered     = new ArrayList<>();
+    
+    //because its supposed that a user can read all entities he attached tags to,
+    //but not that he necessarly can read the entities another user tagged
+    
+    if(
+      withUserRestriction &&
+      !SSStrU.equals(user,  forUser)){
+      
+      for(SSUri entityURI : entityURIs){
+        
+        try{
+          SSServCallerU.canUserReadEntity(user, entityURI);
+          
+          filtered.add(entityURI);
+        }catch(Exception error){
+          SSServErrReg.reset();
+        }
+      }
+      
+      return filtered;
+    }
+    
+    return entityURIs;
+  }
+  
+  public static List<SSCategory> filterCategoriesByEntitiesUserCanAccess(
+    final List<SSCategory> categories, 
+    final Boolean          withUserRestriction, 
+    final SSUri            user, 
+    final SSUri            forUser){
+    
+    final List<SSCategory> filtered = new ArrayList<>();
+    
+    //because its supposed that a user can read all entities he attached tags to,
+    //but not that he necessarly can read the entities another user tagged
+    
+    if(
+      withUserRestriction &&
+      !SSStrU.equals(user, forUser)){
+      
+      for(SSCategory category : categories){
+        
+        try{
+          SSServCallerU.canUserReadEntity(user, category.entity);
+          
+          filtered.add(category);
+        }catch(Exception error){
+          SSServErrReg.reset();
+        }
+      }
+      
+      return filtered;
+    }
+    
+    return categories;
   }
 }
 

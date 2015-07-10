@@ -368,16 +368,8 @@ implements
       
       if(par.withUserRestriction){
         
-        try{
-          SSServCallerU.canUserReadEntity(par.user, entity.id);
-        }catch(Exception error){
-          
-          if(SSServErrReg.containsErr(SSErrE.userNotAllowedToAccessEntity)){
-            SSServErrReg.reset();
-            return null;
-          }
-          
-          throw error;
+        if(!SSServCallerU.canUserRead(par.user, entity.id)){
+          return null;
         }
       }
         

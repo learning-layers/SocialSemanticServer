@@ -31,11 +31,11 @@ import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSLabel;
-import at.tugraz.sss.serv.SSEntityCircle;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.tugraz.sss.util.SSServCallerU;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscEntryAddPar;
 import at.kc.tugraz.ss.service.disc.impl.fct.sql.SSDiscSQLFct;
+import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
@@ -148,15 +148,14 @@ public class SSDiscUserEntryAddFct{
           false, //withUserRestriction
           false)); //shouldCommit)
       
-      for(SSEntityCircle entityUserCircle :
+      for(SSEntity entityUserCircle :
         ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlesGet(
           new SSCirclesGetPar(
             null,
             null,
             userUri,
-            null,
             discUri,
-            SSEntityE.asListWithoutNullAndEmpty(),
+            null,
             false,
             true,
             false))){

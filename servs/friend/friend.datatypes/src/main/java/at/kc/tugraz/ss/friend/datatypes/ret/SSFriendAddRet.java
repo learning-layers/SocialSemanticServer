@@ -18,42 +18,45 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.circle.datatypes.ret;
+package at.kc.tugraz.ss.friend.datatypes.ret;
 
 import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServRetI;
-import java.util.ArrayList;
+import at.tugraz.sss.serv.SSUri;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-public class SSCirclesUserGetRet extends SSServRetI{
+public class SSFriendAddRet extends SSServRetI{
   
-  public List<String> circles = new ArrayList<>();
+  public SSUri friend = null;
   
-  public static SSCirclesUserGetRet get(
-    final List<String> circles, 
-    final SSServOpE        op){
-    
-    return new SSCirclesUserGetRet(circles, op);
-  }
-  
-  private SSCirclesUserGetRet(
-    final List<String>  circles,
-    final SSServOpE         op){
-    
-    super(op);
-    
-    if(circles != null){
-      this.circles.addAll(circles);
-    }
+  public String getFriend(){
+    return SSStrU.removeTrailingSlash(friend);
   }
   
   @Override
   public Map<String, Object> jsonLDDesc(){
     
-    final Map<String, Object> ld            = new HashMap<>();
+    final Map<String, Object> ld         = new HashMap<>();
+    
+    ld.put(SSVarNames.friend,        SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
     
     return ld;
+  }
+  
+  public static SSFriendAddRet get(
+    final SSUri   friend){
+    
+    return new SSFriendAddRet(friend);
+  }
+  
+  private SSFriendAddRet(
+    final SSUri   friend){
+    
+    super(SSServOpE.friendAdd);
+    
+    this.friend = friend;
   }
 }

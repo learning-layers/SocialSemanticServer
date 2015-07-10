@@ -26,7 +26,7 @@ import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
 import at.kc.tugraz.ss.activity.datatypes.par.SSActivityAddPar;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
-import at.kc.tugraz.ss.friend.datatypes.par.SSFriendUserAddPar;
+import at.kc.tugraz.ss.friend.datatypes.par.SSFriendAddPar;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
@@ -34,7 +34,7 @@ import at.tugraz.sss.serv.SSServReg;
 public class SSFriendActivityFct{
   
    public static void addFriend(
-     final SSFriendUserAddPar par) throws Exception{
+     final SSFriendAddPar par) throws Exception{
     
     try{
       

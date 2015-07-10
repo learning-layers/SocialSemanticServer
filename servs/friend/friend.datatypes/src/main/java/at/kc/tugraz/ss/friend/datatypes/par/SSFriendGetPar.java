@@ -3,7 +3,7 @@
 * http://www.learning-layers.eu
 * Development is partly funded by the FP7 Programme of the European Commission under
 * Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+* Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
 * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,19 +18,35 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.service.coll.datatypes.pars;
+package at.kc.tugraz.ss.friend.datatypes.par;
 
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSServPar;
-import com.wordnik.swagger.annotations.ApiModel;
-import javax.xml.bind.annotation.XmlRootElement;
+import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.SSUri;
 
-@XmlRootElement
-@ApiModel(value = "collsUserWithEntries request parameter")
-public class SSCollsUserWithEntriesPar extends SSServPar{
+public class SSFriendGetPar extends SSServPar{
   
-  public SSCollsUserWithEntriesPar(){}
+  public SSUri friend = null;
+
+  public String getFriend(){
+    return SSStrU.removeTrailingSlash(friend);
+  }
+
+  public void setFriend(final String friend) throws Exception{
+    this.friend = SSUri.get(friend);
+  }
   
-  public SSCollsUserWithEntriesPar(SSServPar par) throws Exception{
-    super(par);
+  public SSFriendGetPar(){}
+    
+  public SSFriendGetPar(
+    final SSServOpE  op,
+    final String     key,
+    final SSUri      user, 
+    final SSUri      friend){
+    
+    super(op, key, user);
+    
+    this.friend = friend;
   }
 }

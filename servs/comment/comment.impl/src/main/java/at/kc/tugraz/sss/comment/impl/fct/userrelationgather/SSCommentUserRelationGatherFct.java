@@ -24,8 +24,8 @@ import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclesGetPar;
 import at.kc.tugraz.sss.comment.api.SSCommentServerI;
 import at.kc.tugraz.sss.comment.datatypes.par.SSCommentEntitiesCommentedGetPar;
+import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSEntityCircle;
 import java.util.List;
 import java.util.Map;
 import at.tugraz.sss.serv.SSStrU;
@@ -73,13 +73,12 @@ public class SSCommentUserRelationGatherFct{
           userUri, 
           false))){ //withUserRestriction
       
-      for(SSEntityCircle entityCircle : 
+      for(SSEntity entityCircle : 
         ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlesGet(
           new SSCirclesGetPar(
             null,
             null,
             userUri,
-            userUri, //forUser
             entity,
             null, //entityTypesToIncludeOnly
             false, //withUserRestriction

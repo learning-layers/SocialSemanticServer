@@ -26,13 +26,18 @@ import at.tugraz.sss.serv.SSServPar;
 
 public class SSAppStackLayoutsGetPar extends SSServPar{
   
+  public Boolean invokeEntityHandlers = false;
+  
   public SSAppStackLayoutsGetPar(){}
   
   public SSAppStackLayoutsGetPar(
     final SSServOpE op,
     final String    key,
-    final SSUri     user){
+    final SSUri     user, 
+    final Boolean   invokeEntityHandlers){
     
     super(op, key, user);
+    
+    this.invokeEntityHandlers = invokeEntityHandlers;
   }
 }

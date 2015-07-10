@@ -22,6 +22,7 @@ package at.kc.tugraz.ss.serv.datatypes.entity.impl.fct;
 
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclesGetPar;
+import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityCircle;
@@ -64,12 +65,11 @@ public class SSEntityUserRelationsGatherFct{
     
     final String userStr = SSStrU.toStr(userUri);
     
-    for(SSEntityCircle circle : 
+    for(SSEntity circle : 
       ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlesGet(
           new SSCirclesGetPar(
             null,
             null,
-            userUri,
             userUri,
             null,
             SSEntityE.asListWithoutNullAndEmpty(),

@@ -31,6 +31,7 @@ import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSDateU;
+import at.tugraz.sss.serv.SSErr;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -103,6 +104,62 @@ public class SSCircleSQLFct extends SSDBSQLFct{
       dbSQL.closeStmt(resultSet);
     }
   }
+  
+//  public List<SSEntity> getCircles(
+//    final List<SSUri> circleURIs) throws Exception{
+//    
+//    ResultSet resultSet = null;
+//    
+//    try{
+//      
+//      final List<SSEntity> result = new ArrayList<>();
+//      
+//      if(circleURIs == null){
+//        throw new SSErr(SSErrE.parameterMissing);
+//      }
+//      
+//      if(circleURIs.isEmpty()){
+//        return result;
+//      }
+//      
+//      final List<String>                         columns    = new ArrayList<>();
+//      final List<MultivaluedMap<String, String>> wheres     = new ArrayList<>();
+//      final List<String>                         tables     = new ArrayList<>();
+//      final List<String>                         tableCons  = new ArrayList<>();
+//      
+//      column(columns, SSSQLVarNames.circleId);
+//      column(columns, SSSQLVarNames.isSystemCircle);
+//      
+//      final MultivaluedMap<String, String> whereCircles = new MultivaluedHashMap<>();
+//      
+//      for(SSUri circleURI : circleURIs){
+//        where(whereCircles, SSSQLVarNames.circleTable, SSSQLVarNames.circleId, circleURI);
+//      }
+//      
+//      wheres.add(whereCircles);
+//
+//      table(tables, SSSQLVarNames.circleTable);
+//      
+//      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
+//      
+//      while(resultSet.next()){
+//        
+//        result.add(
+//          SSEntityCircle.get(
+//            bindingStrToUri(resultSet, SSSQLVarNames.circleId), 
+//            SSCircleE.get(bindingStr(resultSet, SSSQLVarNames.circleType)),
+//            bindingStrToBoolean(resultSet, SSSQLVarNames.isSystemCircle)));
+//      }
+//      
+//      return result;
+//      
+//    }catch(Exception error){
+//      SSServErrReg.regErrThrow(error);
+//      return null;
+//    }finally{
+//      dbSQL.closeStmt(resultSet);
+//    }
+//  }
   
   public void addCircle(
     final SSUri     circleUri,
@@ -302,7 +359,7 @@ public class SSCircleSQLFct extends SSDBSQLFct{
     }
   }
   
-  public List<SSEntityCircle> getCirclesCommonForUserAndEntity(
+  public List<SSUri> getCircleURIsCommonForUserAndEntity(
     final SSUri   userUri,
     final SSUri   entityUri,
     final Boolean withSystemCircles) throws Exception{
@@ -311,27 +368,23 @@ public class SSCircleSQLFct extends SSDBSQLFct{
     
     try{
       
-      final List<SSEntityCircle>      circles    = new ArrayList<>();
       final List<String>              tables     = new ArrayList<>();
       final Map<String, String>       wheres     = new HashMap<>();
       final List<String>              columns    = new ArrayList<>();
       final List<String>              tableCons  = new ArrayList<>();
-      SSEntityCircle                  circleObj;
       
-      table     (tables, SSSQLVarNames.circleUsersTable);
-      table     (tables, SSSQLVarNames.circleEntitiesTable);
-      table     (tables, SSSQLVarNames.circleTable);
-      table     (tables, SSSQLVarNames.entityTable);
-      column    (columns, SSSQLVarNames.label);
-      column    (columns, SSSQLVarNames.description);
-      column    (columns, SSSQLVarNames.circleType);
-      column    (columns, SSSQLVarNames.isSystemCircle);
       column    (columns, SSSQLVarNames.circleTable,        SSSQLVarNames.circleId);
+      
+      table     (tables,  SSSQLVarNames.circleUsersTable);
+      table     (tables,  SSSQLVarNames.circleEntitiesTable);
+      table     (tables,  SSSQLVarNames.circleTable);
+      table     (tables,  SSSQLVarNames.entityTable);
+      
       where     (wheres,  SSSQLVarNames.entityId, entityUri);
       where     (wheres,  SSSQLVarNames.userId,   userUri);
       
       if(!withSystemCircles){
-        where     (wheres,  SSSQLVarNames.isSystemCircle, false);
+        where     (wheres, SSSQLVarNames.circleTable, SSSQLVarNames.isSystemCircle, false);
       }
       
       tableCon  (tableCons, SSSQLVarNames.circleTable, SSSQLVarNames.circleId, SSSQLVarNames.circleEntitiesTable, SSSQLVarNames.circleId);
@@ -340,22 +393,8 @@ public class SSCircleSQLFct extends SSDBSQLFct{
       
       resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
       
-      while(resultSet.next()){
-        
-        circleObj =
-          SSEntityCircle.get(bindingStrToUri         (resultSet, SSSQLVarNames.circleId),
-            bindingStrToLabel       (resultSet, SSSQLVarNames.label),
-            SSCircleE.get           (bindingStr(resultSet, SSSQLVarNames.circleType)),
-            bindingStrToBoolean     (resultSet,SSSQLVarNames.isSystemCircle));
-        
-        circleObj.description = bindingStrToTextComment (resultSet, SSSQLVarNames.description);
-        
-        circleObj.users.addAll(getUsersForCircle(circleObj.id));
-        
-        circles.add(circleObj);
-      }
+      return getURIsFromResult(resultSet, SSSQLVarNames.circleId);
       
-      return circles;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -408,27 +447,26 @@ public class SSCircleSQLFct extends SSDBSQLFct{
       final Map<String, String> wheres            = new HashMap<>();
       final SSEntityCircle      circleObj;
       
-      table    (tables, SSSQLVarNames.circleTable);
-      table    (tables, SSSQLVarNames.entityTable);
-      column   (columns,   SSSQLVarNames.label);
-      column   (columns,   SSSQLVarNames.description);
       column   (columns,   SSSQLVarNames.circleId);
       column   (columns,   SSSQLVarNames.circleType);
       column   (columns,   SSSQLVarNames.isSystemCircle);
-      where    (wheres,    SSSQLVarNames.circleId, circleUri);
-      tableCon (tableCons, SSSQLVarNames.circleTable,        SSSQLVarNames.circleId, SSSQLVarNames.entityTable, SSSQLVarNames.id);
+      
+      table    (tables,    SSSQLVarNames.circleTable);
+      table    (tables,    SSSQLVarNames.entityTable);
+      
+      where    (wheres,    SSSQLVarNames.circleId,     circleUri);
+      
+      tableCon (tableCons, SSSQLVarNames.circleTable,  SSSQLVarNames.circleId, SSSQLVarNames.entityTable, SSSQLVarNames.id);
       
       resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
       
       checkFirstResult(resultSet);
       
       circleObj =
-        SSEntityCircle.get(circleUri,
-          bindingStrToLabel       (resultSet, SSSQLVarNames.label),
+        SSEntityCircle.get(
+          circleUri,
           SSCircleE.get           (bindingStr(resultSet, SSSQLVarNames.circleType)),
           bindingStrToBoolean     (resultSet,SSSQLVarNames.isSystemCircle));
-      
-      circleObj.description = bindingStrToTextComment (resultSet, SSSQLVarNames.description);
       
       if(withUsers){
         circleObj.users.addAll(getUsersForCircle(circleObj.id));

@@ -50,10 +50,9 @@ public enum SSServOpE{
   videoUserAnnotationAdd,
   
   //friend
+  friendGet,
   friendsGet,
-  friendsUserGet,
   friendAdd,
-  friendUserAdd,
   
   //appStackLayout
   appStackLayoutsGet,
@@ -272,31 +271,15 @@ public enum SSServOpE{
   authCheckKey                                        ,
   
   //coll
-  collUserRootGet                                     ,
-  collUserParentGet                                   ,
-  collUserEntryAdd                                    ,
-  collUserWithEntries                                 ,
-  collUserRootAdd                                     ,
-  collUserEntryDelete                                 ,
-  collUserEntryChangePos                              ,
-  collUserEntriesAdd                                  ,
-  collUserEntriesDelete                               ,
-  collsUserWithEntries                                ,
-  collsUserEntityIsInGet                              ,
-  collUserHierarchyGet                                ,
-  collUserCumulatedTagsGet                            ,
-  collsUserCouldSubscribeGet                          ,
+  collsWithEntries,
   collsEntityIsInGet,
-  collsCouldSubscribeGet,
   collRootGet,
   collParentGet,
   collEntryAdd,
   collEntriesAdd,
-  collEntryChangePos,
   collEntryDelete,
   collEntriesDelete,
   collWithEntries,
-  collsWithEntries,
   collHierarchyGet,
   collCumulatedTagsGet,
   

@@ -22,12 +22,10 @@ package at.kc.tugraz.ss.friend.datatypes.par;
 
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServErrReg;
 
-public class SSFriendUserAddPar extends SSServPar{
+public class SSFriendAddPar extends SSServPar{
   
   public SSUri friend = null;
 
@@ -39,9 +37,9 @@ public class SSFriendUserAddPar extends SSServPar{
     return SSStrU.removeTrailingSlash(friend);
   }
   
-  public SSFriendUserAddPar(){}
+  public SSFriendAddPar(){}
     
-  public SSFriendUserAddPar(
+  public SSFriendAddPar(
     final SSServOpE op,
     final String    key,
     final SSUri     user,
@@ -52,25 +50,5 @@ public class SSFriendUserAddPar extends SSServPar{
     
     this.friend       = friend;
     this.shouldCommit = shouldCommit;
-  }
-  
-  public static SSFriendUserAddPar get(final SSServPar par) throws Exception{
-    
-    try{
-      if(par.clientCon != null){
-        return (SSFriendUserAddPar) par.getFromJSON(SSFriendUserAddPar.class);
-      }
-      
-      return new SSFriendUserAddPar(
-        par.op,
-        par.key,
-        par.user,
-        (SSUri)           par.pars.get(SSVarNames.friend),
-        (Boolean)         par.pars.get(SSVarNames.shouldCommit));
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
   }
 }

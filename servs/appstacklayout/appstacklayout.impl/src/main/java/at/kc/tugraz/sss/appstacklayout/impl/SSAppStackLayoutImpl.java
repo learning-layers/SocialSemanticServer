@@ -22,6 +22,7 @@ package at.kc.tugraz.sss.appstacklayout.impl;
 
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesGetPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.tugraz.sss.serv.SSSocketCon;
 import at.tugraz.sss.serv.SSEntity;
@@ -89,8 +90,9 @@ implements
               null,
               null,
               par.user,
-              entity.id, 
-              par.withUserRestriction)),
+              entity.id,
+              par.withUserRestriction, 
+              true)), //invokeEntityHandlers
           entity);
       }
       
@@ -301,35 +303,22 @@ implements
   }
   
   @Override
-  public void appStackLayoutsGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
-    
-    SSServCallerU.checkKey(parA);
-    
-    final SSAppStackLayoutsGetPar par     = (SSAppStackLayoutsGetPar) parA.getFromJSON(SSAppStackLayoutsGetPar.class);
-    final List<SSUri>             stacks  = appStackLayoutsGet(par);
-    final List<SSEntity>          result  = new ArrayList<>();
-    final SSEntityDescriberPar    descPar = new SSEntityDescriberPar();
-      
-    result.addAll(
-      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
-        new SSEntitiesGetPar(
-          null,
-          null,
-          par.user,
-          stacks,  //entities
-          null, //forUser,
-          null, //types,
-          descPar, //descPar,
-          par.withUserRestriction)));// withUserRestriction
-    
-    sSCon.writeRetFullToClient(SSAppStackLayoutsGetRet.get(result));
-  }
-  
-  @Override
-  public List<SSUri> appStackLayoutsGet(final SSAppStackLayoutsGetPar par) throws Exception{
+  public SSAppStackLayout appStackLayoutGet(final SSAppStackLayoutGetPar par) throws Exception{
     
     try{
-      return SSUri.getFromEntitites(sqlFct.getAppStackLayouts());
+      
+      return SSAppStackLayout.get(
+        sqlFct.getAppStackLayout(par.stack),
+        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+          new SSEntityGetPar(
+            null,
+            null,
+            par.user,
+            par.stack,
+            null, //forUser,
+            par.withUserRestriction, //withUserRestriction,
+            null))); //descPar)));
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -337,10 +326,54 @@ implements
   }
   
   @Override
-  public SSAppStackLayout appStackLayoutGet(final SSAppStackLayoutGetPar par) throws Exception{
+  public void appStackLayoutsGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
+    
+    SSServCallerU.checkKey(parA);
+    
+    final SSAppStackLayoutsGetPar par = (SSAppStackLayoutsGetPar) parA.getFromJSON(SSAppStackLayoutsGetPar.class);
+    
+    sSCon.writeRetFullToClient(SSAppStackLayoutsGetRet.get(appStackLayoutsGet(par)));
+  }
+  
+  @Override
+  public List<SSEntity> appStackLayoutsGet(final SSAppStackLayoutsGetPar par) throws Exception{
     
     try{
-      return sqlFct.getAppStackLayout(par.stack);
+      final List<SSUri>          stackURIs       = sqlFct.getStackURIs();
+      final List<SSEntity>       stacks          = new ArrayList<>();
+      
+      if(!par.invokeEntityHandlers){
+        
+        for(SSUri stackURI : stackURIs){
+          
+          SSEntity.addEntitiesDistinctWithoutNull(
+            stacks,
+            appStackLayoutGet(
+              new SSAppStackLayoutGetPar(
+                null,
+                null,
+                par.user,
+                stackURI,
+                par.withUserRestriction,
+                par.invokeEntityHandlers)));
+        }
+        
+        return stacks;
+      }
+      
+      final SSEntityDescriberPar descPar = new SSEntityDescriberPar();
+      
+      return ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
+        new SSEntitiesGetPar(
+          null,
+          null,
+          par.user,
+          stackURIs,  //entities
+          null, //forUser,
+          null, //types,
+          descPar, //descPar,
+          par.withUserRestriction));// withUserRestriction
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;

@@ -61,8 +61,6 @@ public class SSAppStackLayoutsGetRet extends SSServRetI{
     
     super(SSServOpE.appStackLayoutsGet);
     
-    if(stacks != null){
-      this.stacks.addAll(stacks);
-    }
+    SSEntity.addEntitiesDistinctWithoutNull(this.stacks, stacks);
   }
 }

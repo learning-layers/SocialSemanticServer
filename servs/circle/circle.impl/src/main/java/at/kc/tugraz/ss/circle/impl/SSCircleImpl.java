@@ -56,6 +56,7 @@ import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePubURIGetPar;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleEntitiesRemoveRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesGetPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.tugraz.sss.serv.SSCircleContentChangedPar;
@@ -102,6 +103,21 @@ implements
     
     try{
       
+      if(par.setCircles){
+            
+        entity.circles.addAll(
+          ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlesGet(
+            new SSCirclesGetPar(
+              null,
+              null,
+              par.user, //user
+              entity.id, //entity
+              null, //entityTypesToIncludeOnly
+              par.withUserRestriction, //withUserRestriction
+              false,  //withSystemCircles
+              true))); //invokeEntityHandlers
+      }
+      
       switch(entity.type){
         
         case circle:{
@@ -112,9 +128,8 @@ implements
                 null,
                 null,
                 par.user,
-                entity.id,                //circle
-                par.forUser,              //forUser
-                null,                     //entityTypesToIncludeOnly
+                entity.id,                    //circle
+                par.entityTypesToIncludeOnly, //entityTypesToIncludeOnly
                 par.withUserRestriction,  //withUserRestriction
                 true));                   //invokeEntityHandlers
           
@@ -227,7 +242,7 @@ implements
           par.user, 
           circleURI, 
           par.entities, 
-          false, //withUserRestriction
+          par.withUserRestriction, //withUserRestriction
           true)); //shouldCommit
     }
     
@@ -239,7 +254,7 @@ implements
           par.user, 
           circleURI, 
           par.users, 
-          false, //withUserRestriction, 
+          par.withUserRestriction, //withUserRestriction, 
           true)); //shouldCommit)); 
     }
     
@@ -254,9 +269,8 @@ implements
             null,
             par.user,
             circleURI, //circle
-            null, //forUser,
             null, //entityTypesToIncludeOnly,
-            false, //withUserRestriction,
+            par.withUserRestriction, //withUserRestriction,
             true)); //invokeEntityHandlers
       
       for(SSServContainerI serv : SSServReg.inst.getServsManagingEntities()){
@@ -276,7 +290,7 @@ implements
     
     sSCon.writeRetFullToClient(SSCircleCreateRet.get(circleURI));
     
-    SSCircleActivityFct.createCircle(par, circleURI, true);
+    SSCircleActivityFct.createCircle(par, circleURI);
   }
   
   @Override
@@ -375,9 +389,8 @@ implements
           null, 
           par.user, 
           circleURI, //circle
-          null, //forUser, 
           null, //entityTypesToIncludeOnly, 
-          false, //withUserRestriction, 
+          par.withUserRestriction, //withUserRestriction, 
           true)); //invokeEntityHandlers))
     
     for(SSServContainerI serv : SSServReg.inst.getServsManagingEntities()){
@@ -455,9 +468,8 @@ implements
           null,
           par.user,
           par.circle, //circle
-          null, //forUser,
           null, //entityTypesToIncludeOnly,
-          false, //withUserRestriction,
+          par.withUserRestriction, //withUserRestriction,
           true)); //invokeEntityHandlers))
     
     final List<SSEntity> entities = 
@@ -470,7 +482,7 @@ implements
           null, //forUser, 
           null, //types, 
           null, //descPar, 
-          false)); //withUserRestriction, 
+          par.withUserRestriction)); //withUserRestriction, 
     
     for(SSServContainerI serv : SSServReg.inst.getServsManagingEntities()){
       
@@ -628,28 +640,37 @@ implements
   public SSEntityCircle circleGet(final SSCircleGetPar par) throws Exception{
     
     try{
-      final SSEntityCircle  circle;
+      final SSEntityCircle circle;
       
       if(par.withUserRestriction){
         
-        if(par.forUser == null){
-          par.forUser = par.user;
-        }
-        
         if(sqlFct.isSystemCircle(par.circle)){
-          throw new SSErr(SSErrE.userNotAllowToAccessSystemCircle);
+          SSLogU.warn(SSErrE.userNotAllowToAccessSystemCircle);
+          return null;
         }
         
-        SSServCallerU.canUserReadEntity(par.forUser, par.circle);
+        if(!SSServCallerU.canUserRead(par.user, par.circle)){
+          return null;
+        }
       }
       
-      circle = 
-        sqlFct.getCircle(
-          par.circle, 
-          true, //withUsers
-          true, //withEntities
-          true, //withCircleRights
-          par.entityTypesToIncludeOnly);
+      circle =
+        SSEntityCircle.get(
+          sqlFct.getCircle(
+            par.circle,
+            true, //withUsers
+            true, //withEntities
+            true, //withCircleRights
+            par.entityTypesToIncludeOnly),
+          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+            new SSEntityGetPar(
+              null,
+              null,
+              par.user,
+              par.circle,
+              null, //forUser,
+              par.withUserRestriction, //withUserRestriction,
+              null))); //descPar
       
       if(!par.invokeEntityHandlers){
         return circle;
@@ -704,50 +725,46 @@ implements
   }
   
   @Override
-  public List<SSEntityCircle> circlesGet(final SSCirclesGetPar par) throws Exception{
+  public List<SSEntity> circlesGet(final SSCirclesGetPar par) throws Exception{
     
     try{
       
-      final List<SSEntityCircle>            circles           = new ArrayList<>();
-      final List<SSUri>                     circleUris        = new ArrayList<>();
+      final List<SSEntity>            circles           = new ArrayList<>();
+      final List<SSUri>               circleUris        = new ArrayList<>();
       
       if(par.withUserRestriction){
         
-        if(par.forUser == null){
-          par.forUser = par.user;
-        }
-        
         if(par.withSystemCircles){
-          throw new Exception("user cannot access system circles");
+          SSLogU.warn(SSErrE.userNotAllowToAccessSystemCircle);
+          return circles;
         }
         
         if(par.entity != null){
-          SSServCallerU.canUserReadEntity(par.forUser, par.entity);
+          
+          if(!SSServCallerU.canUserRead(par.user, par.entity)){
+            return circles;
+          }
         }
       }
       
-      if(!SSObjU.isNull(par.forUser, par.entity)){
+      if(!SSObjU.isNull(par.user, par.entity)){
         
-        for(SSEntityCircle circle : 
-          sqlFct.getCirclesCommonForUserAndEntity(
-            par.forUser,
+        circleUris.addAll(
+          sqlFct.getCircleURIsCommonForUserAndEntity(
+            par.user,
             par.entity,
-            par.withSystemCircles)){
-          
-          circleUris.add(circle.id);
-        }
-        
+            par.withSystemCircles));
       }else{
         
         if(
-          par.forUser == null &&
+          par.user    == null &&
           par.entity  == null){
           
           circleUris.addAll(sqlFct.getCircleURIs(par.withSystemCircles));
         }else{
           
-          if(par.forUser != null){
-            circleUris.addAll(sqlFct.getCircleURIsForUser(par.forUser, par.withSystemCircles));
+          if(par.user != null){
+            circleUris.addAll(sqlFct.getCircleURIsForUser(par.user, par.withSystemCircles));
           }
           
           if(par.entity != null){
@@ -756,48 +773,40 @@ implements
         }
       }
       
-      if(par.withUserRestriction){
+      if(!par.invokeEntityHandlers){
         
-        for(SSUri circleUri : circleUris){
+        for(SSUri circleURI : circleUris){
           
-          try{
-            SSServCallerU.canUserReadEntity(par.forUser, circleUri);
-          }catch(Exception error){
-            SSServErrReg.reset();
-            continue;
-          }
-          
-          circles.add(
-            circleGet(
-              new SSCircleGetPar(
-                null, 
-                null,
-                par.forUser,
-                circleUri, 
-                null,
-                par.entityTypesToIncludeOnly,
-                true,  //withUserRestriction
-                par.invokeEntityHandlers)));
-        }
-      }else{
-        
-        for(SSUri circleUri : circleUris){
-          
-          circles.add(
+          SSEntity.addEntitiesDistinctWithoutNull(
+            circles, 
             circleGet(
               new SSCircleGetPar(
                 null,
                 null,
                 par.user,
-                circleUri,
-                null,
+                circleURI,
                 par.entityTypesToIncludeOnly,
-                false, //withUserRestriction
+                par.withUserRestriction,
                 par.invokeEntityHandlers)));
         }
+        
+        return circles;
       }
-
-      return circles;
+      
+      final SSEntityDescriberPar descPar = new SSEntityDescriberPar();
+      
+      descPar.entityTypesToIncludeOnly.addAll(par.entityTypesToIncludeOnly);
+      
+      return ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
+        new SSEntitiesGetPar(
+          null,
+          null,
+          par.user,
+          circleUris,  //entities
+          null, //forUser,
+          null, //types,
+          descPar, //descPar,
+          par.withUserRestriction));// withUserRestriction
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

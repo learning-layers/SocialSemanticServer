@@ -27,7 +27,8 @@ import at.tugraz.sss.serv.SSStrU;
 
 public class SSAppGetPar extends SSServPar{
   
-  public SSUri app = null;
+  public SSUri   app                  = null;
+  public Boolean invokeEntityHandlers = false;
 
   public String getApp(){
     return SSStrU.removeTrailingSlash(app);
@@ -43,10 +44,12 @@ public class SSAppGetPar extends SSServPar{
     final SSServOpE op,
     final String    key,
     final SSUri     user, 
-    final SSUri     app){
+    final SSUri     app, 
+    final Boolean   invokeEntityHandlers){
     
     super(op, key, user);
     
-    this.app = app;
+    this.app                  = app;
+    this.invokeEntityHandlers = invokeEntityHandlers;
   }
 }

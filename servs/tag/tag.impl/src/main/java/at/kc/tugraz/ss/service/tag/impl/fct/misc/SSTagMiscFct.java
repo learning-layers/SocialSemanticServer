@@ -34,7 +34,9 @@ import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagEntitiesForTagsGetPar;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsGetPar;
 import at.kc.tugraz.ss.service.tag.impl.fct.sql.SSTagSQLFct;
 import at.tugraz.sss.serv.SSEntity;
+import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
+import at.tugraz.sss.util.SSServCallerU;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -311,6 +313,71 @@ public class SSTagMiscFct {
 //    }
 //    
     return new ArrayList(tagFrequs.values());
+  }
+  
+  
+  public static List<SSTag> filterTagsByEntitiesUserCanAccess(
+    final List<SSTag>      tags, 
+    final Boolean          withUserRestriction, 
+    final SSUri            user, 
+    final SSUri            forUser){
+    
+    final List<SSTag> filtered = new ArrayList<>();
+    
+    //because its supposed that a user can read all entities he attached tags to,
+    //but not that he necessarly can read the entities another user tagged
+    
+    if(
+      withUserRestriction &&
+      !SSStrU.equals(user, forUser)){
+      
+      for(SSTag tag : tags){
+        
+        try{
+          SSServCallerU.canUserReadEntity(user, tag.entity);
+          
+          filtered.add(tag);
+        }catch(Exception error){
+          SSServErrReg.reset();
+        }
+      }
+      
+      return filtered;
+    }
+    
+    return tags;
+  }
+  
+  public static List<SSUri> filterEntitiesUserCanAccess(
+    final List<SSUri> entityURIs, 
+    final Boolean     withUserRestriction, 
+    final SSUri       user, 
+    final SSUri       forUser){
+    
+    final List<SSUri> filtered     = new ArrayList<>();
+    
+    //because its supposed that a user can read all entities he attached tags to,
+    //but not that he necessarly can read the entities another user tagged
+    
+    if(
+      withUserRestriction &&
+      !SSStrU.equals(user,  forUser)){
+      
+      for(SSUri entityURI : entityURIs){
+        
+        try{
+          SSServCallerU.canUserReadEntity(user, entityURI);
+          
+          filtered.add(entityURI);
+        }catch(Exception error){
+          SSServErrReg.reset();
+        }
+      }
+      
+      return filtered;
+    }
+    
+    return entityURIs;
   }
 }
 

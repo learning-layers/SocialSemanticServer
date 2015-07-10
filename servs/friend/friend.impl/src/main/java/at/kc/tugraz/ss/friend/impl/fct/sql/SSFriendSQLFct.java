@@ -20,11 +20,13 @@
 */
 package at.kc.tugraz.ss.friend.impl.fct.sql;
 
+import at.kc.tugraz.ss.friend.datatypes.SSFriend;
 import at.tugraz.sss.serv.SSSQLVarNames;
 import at.tugraz.sss.serv.SSUri;
-import at.kc.tugraz.ss.friend.datatypes.SSFriend;
 import at.tugraz.sss.serv.SSDBSQLFct;
 import at.tugraz.sss.serv.SSDBSQLI;
+import at.tugraz.sss.serv.SSErr;
+import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -70,14 +72,50 @@ public class SSFriendSQLFct extends SSDBSQLFct{
     }
   }
 
-  public List<SSFriend> getFriends(
+  public SSFriend getFriend(
+    final SSUri   friend) throws Exception{
+    
+    ResultSet resultSet = null;
+    
+    try{
+
+      if(friend == null){
+        throw new SSErr(SSErrE.parameterMissing);
+      }
+      
+      final List<String>        columns   = new ArrayList<>();
+      final Map<String, String> wheres    = new HashMap<>();
+      
+      column(columns, SSSQLVarNames.id);
+
+      where     (wheres,    SSSQLVarNames.id, friend);
+      
+      resultSet = dbSQL.select(SSSQLVarNames.entityTable, columns, wheres, null, null, null);
+      
+      checkFirstResult(resultSet);
+      
+      return SSFriend.get(
+        bindingStrToUri(resultSet, SSSQLVarNames.id));
+        
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
+    }
+  }
+  
+  public List<SSUri> getFriends(
     final SSUri   user) throws Exception{
     
     ResultSet resultSet = null;
     
     try{
+
+      if(user == null){
+        throw new SSErr(SSErrE.parameterMissing);
+      }
       
-      final List<SSFriend>      friends   = new ArrayList<>();
       final List<String>        columns   = new ArrayList<>();
       final Map<String, String> wheres    = new HashMap<>();
       
@@ -88,13 +126,8 @@ public class SSFriendSQLFct extends SSDBSQLFct{
       
       resultSet = dbSQL.select(SSSQLVarNames.friendsTable, columns, wheres, null, null, null);
       
-      while(resultSet.next()){
+      return getURIsFromResult(resultSet, SSSQLVarNames.friendId);
         
-        friends.add(SSFriend.get(bindingStrToUri(resultSet, SSSQLVarNames.friendId)));
-      }
-      
-      return friends;
-      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;

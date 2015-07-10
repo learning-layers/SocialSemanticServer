@@ -22,36 +22,24 @@ package at.kc.tugraz.ss.adapter.rest.v1;
 
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.servs.entity.datatypes.par.SSEntitySharePar;
-import at.tugraz.sss.servs.entity.datatypes.ret.SSEntityShareRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityCopyPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityCopyRet;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserCumulatedTagsGetPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntriesAddPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntriesDeletePar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntryAddPar;
-import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntryChangePosPar;
-import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntryDeletePar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserHierarchyGetPar;
-import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserParentGetPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserRootGetPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserWithEntriesPar;
-import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollsUserCouldSubscribeGetPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollsUserEntityIsInGetPar;
-import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollsUserWithEntriesPar;
 import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollUserCumulatedTagsGetRet;
 import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollUserEntriesAddRet;
 import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollUserEntriesDeleteRet;
 import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollUserEntryAddRet;
-import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollUserEntryChangePosRet;
-import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollUserEntryDeleteRet;
 import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollUserHierarchyGetRet;
-import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollUserParentGetRet;
 import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollUserRootGetRet;
 import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollUserWithEntriesRet;
-import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollsUserCouldSubscribeGetRet;
 import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollsUserEntityIsInGetRet;
-import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollsUserWithEntriesRet;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import javax.ws.rs.Consumes;
@@ -91,34 +79,12 @@ public class SSAdapterRest{
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "collsCouldSubscribeGet")
-  @ApiOperation(
-    value = "retrieve a list of all public collections given user could subscribe to",
-    response = SSCollsUserCouldSubscribeGetRet.class)
-  public String collsCouldSubscribeGet(final SSCollsUserCouldSubscribeGetPar input){
-    return SSRestMainV1.handleStandardJSONRESTCall(input, SSServOpE.collsCouldSubscribeGet);
-  }
-  
-  @POST
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
   @Path    (SSStrU.slash + "collRootGet")
   @ApiOperation(
     value = "retrieve the user's root collection",
     response = SSCollUserRootGetRet.class)
   public String collRootGet(final SSCollUserRootGetPar input){
     return SSRestMainV1.handleStandardJSONRESTCall(input, SSServOpE.collRootGet);
-  }
-  
-  @POST
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "collParentGet")
-  @ApiOperation(
-    value = "retrieve the parent collection for given user's collection",
-    response = SSCollUserParentGetRet.class)
-  public String collParentGet(final SSCollUserParentGetPar input){
-    return SSRestMainV1.handleStandardJSONRESTCall(input, SSServOpE.collParentGet);
   }
   
   @POST
@@ -146,28 +112,6 @@ public class SSAdapterRest{
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "collEntryChangePos")
-  @ApiOperation(
-    value = "change the sequential order of entries in a user's collection",
-    response = SSCollUserEntryChangePosRet.class)
-  public String collEntryChangePos(final SSCollUserEntryChangePosPar input){
-    return SSRestMainV1.handleStandardJSONRESTCall(input, SSServOpE.collEntryChangePos);
-  }
-  
-  @POST
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "collEntryDelete")
-  @ApiOperation(
-    value = "delete an item from a user's collection",
-    response = SSCollUserEntryDeleteRet.class)
-  public String collEntryDelete(final SSCollUserEntryDeletePar input){
-    return SSRestMainV1.handleStandardJSONRESTCall(input, SSServOpE.collEntryDelete);
-  }
-  
-  @POST
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
   @Path    (SSStrU.slash + "collEntriesDelete")
   @ApiOperation(
     value = "delete one or more entries from a collection",
@@ -185,17 +129,6 @@ public class SSAdapterRest{
     response = SSCollUserWithEntriesRet.class)
   public String collWithEntries(final SSCollUserWithEntriesPar input){
     return SSRestMainV1.handleStandardJSONRESTCall(input, SSServOpE.collWithEntries);
-  }
-  
-  @POST
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "collsWithEntries")
-  @ApiOperation(
-    value = "retrieve the user's collections with entries",
-    response = SSCollsUserWithEntriesRet.class)
-  public String collsWithEntries(final SSCollsUserWithEntriesPar input){
-    return SSRestMainV1.handleStandardJSONRESTCall(input, SSServOpE.collsWithEntries);
   }
   
   @POST

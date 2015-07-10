@@ -20,6 +20,9 @@
 */
 package at.tugraz.sss.serv;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SSEntityDescriberPar{
   
   public SSUri       user                = null;
@@ -36,4 +39,8 @@ public class SSEntityDescriberPar{
   public Boolean     setFlags            = false;
   public Boolean     setCircles          = false;
   public Boolean     setComments         = false;
+  public Boolean     setFriends          = false;
+  public Boolean     setCategories       = false;
+  
+  public List<SSEntityE> entityTypesToIncludeOnly = new ArrayList<>();
 }

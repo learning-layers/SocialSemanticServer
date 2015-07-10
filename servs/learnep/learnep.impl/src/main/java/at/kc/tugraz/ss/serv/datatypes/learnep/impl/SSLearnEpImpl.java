@@ -567,13 +567,12 @@ implements
           false, //withUserRestriction
           false)); //shouldCommit)
 
-      for(SSEntityCircle entityUserCircle : 
+      for(SSEntity entityUserCircle : 
         ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlesGet(
           new SSCirclesGetPar(
             null, 
             null, 
             par.user, 
-            null, //forUser
             par.learnEp, //entity
             null,  //entityTypesToIncludeOnly
             false, //withUserRestriction
@@ -660,15 +659,14 @@ implements
           false, //withUserRestriction
           false)); //shouldCommit)
       
-      for(SSEntityCircle entityUserCircle : 
+      for(SSEntity entityUserCircle : 
         ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlesGet(
           new SSCirclesGetPar(
             null, 
             null, 
             par.user, 
-            null,
             par.learnEpVersion, 
-            SSEntityE.asListWithoutNullAndEmpty(), 
+            null, 
             false, 
             true, 
             false))){
@@ -787,15 +785,14 @@ implements
       entities.add   (par.entity);
       entities.addAll(filesAndThumbs);
         
-      for(SSEntityCircle entityUserCircle : 
+      for(SSEntity entityUserCircle : 
         ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlesGet(
           new SSCirclesGetPar(
             null, 
             null, 
             par.user, 
-            null,
             par.learnEpVersion, 
-            SSEntityE.asListWithoutNullAndEmpty(), 
+            null, 
             false, 
             true, 
             false))){
@@ -1014,15 +1011,14 @@ implements
       
       if(par.entity != null){
         
-        for(SSEntityCircle entityUserCircle :
+        for(SSEntity entityUserCircle :
           ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlesGet(
             new SSCirclesGetPar(
               null,
               null,
               par.user,
-              null,
               par.learnEpEntity,
-              SSEntityE.asListWithoutNullAndEmpty(),
+              null,
               false,
               true,
               false))){
@@ -1219,15 +1215,14 @@ implements
           false, //withUserRestriction
           false)); //shouldCommit)
       
-      for(SSEntityCircle entityUserCircle :
+      for(SSEntity entityUserCircle :
         ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlesGet(
           new SSCirclesGetPar(
             null,
             null,
             par.user,
-            null,
             par.learnEpVersion,
-            SSEntityE.asListWithoutNullAndEmpty(),
+            null,
             false,
             true,
             false))){

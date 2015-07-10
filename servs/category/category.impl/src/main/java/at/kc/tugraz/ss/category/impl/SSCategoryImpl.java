@@ -94,6 +94,30 @@ implements
   }
   
   @Override
+  public SSEntity getUserEntity(
+    final SSEntity             entity, 
+    final SSEntityDescriberPar par) throws Exception{
+  
+    if(par.setCategories){
+     
+      entity.categories.addAll(
+        categoriesGet(
+          new SSCategoriesGetPar(
+            null,
+            null,
+            par.user,
+            null, //forUser,
+            SSUri.asListWithoutNullAndEmpty(entity.id),
+            null, //labels,
+            null, //space,
+            null, //startTime,
+            par.withUserRestriction))); //withUserRestriction
+    }
+    
+    return entity;
+  }
+  
+  @Override
   public void getUserRelations(
     final List<String>             allUsers, 
     final Map<String, List<SSUri>> userRelations) throws Exception{
@@ -165,14 +189,6 @@ implements
   @Override
   public void circleContentChanged(final SSCircleContentChangedPar par) throws Exception{
     
-  }
-  
-  @Override
-  public SSEntity getUserEntity(
-    final SSEntity             entity, 
-    final SSEntityDescriberPar par) throws Exception{
-    
-    return entity;
   }
   
   @Override
@@ -595,7 +611,6 @@ implements
     try{
 
       final List<SSUri> entityURIs = new ArrayList<>();
-      final List<SSUri> result     = new ArrayList<>();
         
       if(par.user == null){
         throw new SSErr(SSErrE.parameterMissing);
@@ -625,26 +640,12 @@ implements
         }
       }
       
-      if(
-        par.withUserRestriction &&
-        !SSStrU.equals(par.user,  par.forUser)){
-        
-        for(SSUri entityURI : entityURIs){
+      return SSCategoryMiscFct.filterEntitiesUserCanAccess(
+        entityURIs, 
+        par.withUserRestriction, 
+        par.user, 
+        par.forUser);
 
-          try{
-            SSServCallerU.canUserReadEntity(par.user, entityURI);
-            
-            result.add(entityURI);
-          }catch(Exception error){
-            SSServErrReg.reset();
-          }
-        }
-      }else{
-        result.addAll(entityURIs);
-      }
-      
-      return result;
-      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -667,7 +668,6 @@ implements
     try{
 
       final List<SSCategory> categories = new ArrayList<>();
-      final List<SSCategory> result     = new ArrayList<>();
       
       if(par.user == null){
         throw new SSErr(SSErrE.parameterMissing);
@@ -697,25 +697,12 @@ implements
         }
       }
       
-      if(
-        par.withUserRestriction &&
-        !SSStrU.equals(par.user, par.forUser)){
-        
-        for(SSCategory category : categories){
-          
-          try{
-            SSServCallerU.canUserReadEntity(par.user, category.entity);
-            
-            result.add(category);
-          }catch(Exception error){
-            SSServErrReg.reset();
-          }
-        }
-      }else{
-        result.addAll(categories);
-      }
-        
-      return result;
+      return SSCategoryMiscFct.filterCategoriesByEntitiesUserCanAccess(
+        categories, 
+        par.withUserRestriction, 
+        par.user, 
+        par.forUser);
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;

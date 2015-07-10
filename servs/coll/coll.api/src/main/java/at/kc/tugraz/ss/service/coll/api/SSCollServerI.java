@@ -31,9 +31,7 @@ public interface SSCollServerI extends SSServServerI{
   
   public Boolean                    collUserEntryDelete                           (final SSServPar parA) throws Exception;
   public Boolean                    collUserEntriesDelete                         (final SSServPar parA) throws Exception;
-  public Boolean                    collUserEntryChangePos                        (final SSServPar parA) throws Exception;
   public SSColl                     collUserWithEntries                           (final SSServPar parA) throws Exception;
-  public List<SSColl>               collsUserWithEntries                          (final SSServPar parA) throws Exception;
   public SSColl                     collUserRootGet                               (final SSServPar parA) throws Exception;
   public SSColl                     collUserParentGet                             (final SSServPar parA) throws Exception;
   public Boolean                    collUserRootAdd                               (final SSServPar parA) throws Exception;
@@ -42,5 +40,4 @@ public interface SSCollServerI extends SSServServerI{
   public Boolean                    collUserEntriesAdd                            (final SSServPar parA) throws Exception;
   public List<SSTagFrequ>           collUserCumulatedTagsGet                      (final SSServPar parA) throws Exception;
   public List<SSColl>               collsUserEntityIsInGet                        (final SSServPar parA) throws Exception;
-  public List<SSColl>               collsUserCouldSubscribeGet                    (final SSServPar parA) throws Exception;
 }

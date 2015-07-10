@@ -18,51 +18,50 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.service.coll.datatypes.ret;
+package at.kc.tugraz.ss.friend.datatypes.ret;
 
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarNames;
+import at.kc.tugraz.ss.friend.datatypes.SSFriend;
 import at.tugraz.sss.serv.SSServRetI;
 import at.tugraz.sss.serv.SSJSONLDU;
-import at.kc.tugraz.ss.service.coll.datatypes.SSColl;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SSCollsUserCouldSubscribeGetRet extends SSServRetI{
- 
-  public List<SSColl> colls = new ArrayList<>();
-
-  public static SSCollsUserCouldSubscribeGetRet get(final List<SSColl> colls, final SSServOpE op){
-    return new SSCollsUserCouldSubscribeGetRet(colls, op);
-  }
+public class SSFriendsGetRet extends SSServRetI{
   
-  private SSCollsUserCouldSubscribeGetRet(final List<SSColl> colls, final SSServOpE op) {
-
-    super(op);
-    
-    if(colls != null){
-      this.colls.addAll(colls);
-    }
-  }
-
+  public List<SSFriend> friends = new ArrayList<>();
+  
   @Override
   public Map<String, Object> jsonLDDesc(){
     
-    final Map<String, Object> ld         = new HashMap<>();
-    final Map<String, Object> collsObj   = new HashMap<>();
+    final Map<String, Object> ld            = new HashMap<>();
+    final Map<String, Object> friendsObj    = new HashMap<>();
     
-    collsObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSColl.class.getName());
-    collsObj.put(SSJSONLDU.container, SSJSONLDU.set);
+    friendsObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSFriend.class.getName());
+    friendsObj.put(SSJSONLDU.container, SSJSONLDU.set);
     
-    ld.put(SSVarNames.colls, collsObj);
+    ld.put(SSVarNames.friends, friendsObj);
     
     return ld;
   }
   
-  public List<SSColl> getColls() {
-    return colls;
+  public static SSFriendsGetRet get(
+    final List<SSFriend> friends){
+    
+    return new SSFriendsGetRet(friends);
+  }
+  
+  private SSFriendsGetRet(
+    final List<SSFriend>  friends){
+    
+    super(SSServOpE.friendsGet);
+    
+    if(friends != null){
+      friends.addAll(friends);
+    }
   }
 }

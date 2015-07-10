@@ -43,7 +43,6 @@ import at.tugraz.sss.serv.SSMimeTypeE;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSToolContextE;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSVarNames;
@@ -115,18 +114,6 @@ public class SSServCaller {
     return (SSUri) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.likeUserSet, opPars));
   }
     
-  /* friends */
-  
-  public static List<? extends SSEntity> friendsUserGet(
-    final SSUri user) throws Exception{
-    
-    final Map<String, Object>  opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.user,                    user);
-    
-    return (List<? extends SSEntity>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.friendsUserGet, opPars));
-  }
-  
   /* flag */
   
   public static Integer uECountGet(
@@ -379,168 +366,7 @@ public class SSServCaller {
     return SSUri.get(vocURIPrefixGet() + SSIDU.uniqueID() + SSStrU.dot + fileExt.toString());
   }
   
-  /* colls */
-    
-  public static SSColl collUserWithEntries(
-    final SSUri user, 
-    final SSUri coll) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.user, user);
-    opPars.put(SSVarNames.coll, coll);
-    
-    return (SSColl) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.collUserWithEntries, opPars));
-  }
   
-  public static SSColl collUserRootGet(final SSUri user) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.user, user);
-    
-    return (SSColl) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.collUserRootGet, opPars));
-  }
-  
-  public static List<SSColl> collsUserWithEntries(final SSUri user) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.user, user);
-    
-    return (List<SSColl>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.collsUserWithEntries, opPars));
-  }
-  
-  public static Boolean collUserEntryDelete(
-    final SSUri        user, 
-    final SSUri        entry, 
-    final SSUri        parentColl, 
-    final Boolean      shouldCommit) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.shouldCommit, shouldCommit);
-    opPars.put(SSVarNames.user,         user);
-    opPars.put(SSVarNames.coll,         parentColl);
-    opPars.put(SSVarNames.entry,        entry);
-    
-    return (Boolean) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.collUserEntryDelete, opPars));
-  }
-  
-  public static SSUri collUserEntryAdd(
-    final SSUri        user,
-    final SSUri        coll,
-    final SSUri        entry,
-    final SSLabel      label,
-    final Boolean      addNewColl,
-    final Boolean      shouldCommit) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.user,              user);
-    opPars.put(SSVarNames.shouldCommit,      shouldCommit);
-    opPars.put(SSVarNames.coll,              coll);
-    opPars.put(SSVarNames.entry,             entry);
-    opPars.put(SSVarNames.label,             label);
-    opPars.put(SSVarNames.addNewColl,        addNewColl);
-    
-    return (SSUri) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.collUserEntryAdd, opPars));
-  }
-  
-  public static Boolean collUserEntriesAdd(
-    final SSUri             user,
-    final SSUri             coll,
-    final List<SSUri>       entries,
-    final List<SSLabel>     labels,
-    final Boolean           saveUE,
-    final Boolean           shouldCommit) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.shouldCommit, shouldCommit);
-    opPars.put(SSVarNames.saveUE,       saveUE);
-    opPars.put(SSVarNames.user,         user);
-    opPars.put(SSVarNames.coll,         coll);
-    opPars.put(SSVarNames.entries,      entries);
-    opPars.put(SSVarNames.labels,       labels);
-    
-    return (Boolean) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.collUserEntriesAdd, opPars));
-  }
-  
-  public static void collUserRootAdd(
-    final SSUri   user, 
-    final Boolean shouldCommit) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.shouldCommit, shouldCommit);
-    opPars.put(SSVarNames.user,         user);
-    
-    SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.collUserRootAdd, opPars));
-  }
-  
-  public static List<SSColl> collUserHierarchyGet(
-    final SSUri user, 
-    final SSUri coll) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.user,      user);
-    opPars.put(SSVarNames.coll,      coll);
-    
-    return (List<SSColl>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.collUserHierarchyGet, opPars));
-  }
-  
-  public static List<SSTagFrequ> collUserCumulatedTagsGet(
-    final SSUri user, 
-    final SSUri coll) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.user,         user);
-    opPars.put(SSVarNames.coll,      coll);
-    
-    return (List<SSTagFrequ>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.collUserCumulatedTagsGet, opPars));
-  }
-  
-  public static List<SSColl> collsUserEntityIsInGet(
-    final SSUri user,
-    final SSUri entity) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.user,         user);
-    opPars.put(SSVarNames.entity,    entity);
-    
-    return (List<SSColl>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.collsUserEntityIsInGet, opPars));
-  }
-  
-  public static Boolean collUserEntriesDelete(
-    final SSUri       user,
-    final SSUri       coll,
-    final List<SSUri> entries,
-    final Boolean     shouldCommit) throws Exception{
-      
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.shouldCommit, shouldCommit);
-    opPars.put(SSVarNames.user,         user);
-    opPars.put(SSVarNames.coll,         coll);
-    opPars.put(SSVarNames.entries,  entries);
-    
-    return (Boolean) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.collUserEntriesDelete, opPars));
-  }
-  
-  public static Boolean collsUserCouldSubscribeGet(
-    final SSUri       user) throws Exception{
-      
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.user,         user);
-    
-    return (Boolean) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.collsUserCouldSubscribeGet, opPars));
-  }
-
   /* search */
   
   public static void searchResultPagesCacheClean() throws Exception{

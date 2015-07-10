@@ -22,10 +22,10 @@ package at.tugraz.sss.adapter.rest.v2.friend;
 
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
-import at.kc.tugraz.ss.friend.datatypes.par.SSFriendUserAddPar;
-import at.kc.tugraz.ss.friend.datatypes.par.SSFriendsUserGetPar;
-import at.kc.tugraz.ss.friend.datatypes.ret.SSFriendUserAddRet;
-import at.kc.tugraz.ss.friend.datatypes.ret.SSFriendsUserGetRet;
+import at.kc.tugraz.ss.friend.datatypes.par.SSFriendAddPar;
+import at.kc.tugraz.ss.friend.datatypes.par.SSFriendsGetPar;
+import at.kc.tugraz.ss.friend.datatypes.ret.SSFriendAddRet;
+import at.kc.tugraz.ss.friend.datatypes.ret.SSFriendsGetRet;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSVarNames;
@@ -52,17 +52,17 @@ public class SSRESTFriend{
   @Path    ("")
   @ApiOperation(
     value = "get friends",
-    response = SSFriendsUserGetRet.class)
+    response = SSFriendsGetRet.class)
   public Response friendsGet(
     @Context 
       final HttpHeaders headers){
     
-    final SSFriendsUserGetPar par;
+    final SSFriendsGetPar par;
     
     try{
       
       par =
-        new SSFriendsUserGetPar(
+        new SSFriendsGetPar(
           SSServOpE.friendsGet,
           null,
           null);
@@ -80,7 +80,7 @@ public class SSRESTFriend{
   @Path    ("/{friend}")
   @ApiOperation(
     value = "add a friend",
-    response = SSFriendUserAddRet.class)
+    response = SSFriendAddRet.class)
   public Response friendAddPost(
     @Context
     final HttpHeaders headers,
@@ -88,12 +88,12 @@ public class SSRESTFriend{
     @PathParam(SSVarNames.friend)
     final String friend){
     
-    final SSFriendUserAddPar par;
+    final SSFriendAddPar par;
     
     try{
       
       par =
-        new SSFriendUserAddPar(
+        new SSFriendAddPar(
           SSServOpE.friendAdd,
           null,
           null,

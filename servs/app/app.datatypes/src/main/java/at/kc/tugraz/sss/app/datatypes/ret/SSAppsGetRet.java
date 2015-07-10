@@ -61,8 +61,6 @@ public class SSAppsGetRet extends SSServRetI{
     
     super(SSServOpE.appsGet);
     
-    if(apps != null){
-      this.apps.addAll(apps);
-    }
+    SSEntity.addEntitiesDistinctWithoutNull(this.apps, apps);
   }
 }

@@ -25,19 +25,28 @@ import at.tugraz.sss.serv.SSUri;
 import at.kc.tugraz.ss.friend.api.SSFriendClientI;
 import at.kc.tugraz.ss.friend.api.SSFriendServerI;
 import at.kc.tugraz.ss.friend.datatypes.SSFriend;
-import at.kc.tugraz.ss.friend.datatypes.par.SSFriendUserAddPar;
-import at.kc.tugraz.ss.friend.datatypes.par.SSFriendsUserGetPar;
-import at.kc.tugraz.ss.friend.datatypes.ret.SSFriendUserAddRet;
-import at.kc.tugraz.ss.friend.datatypes.ret.SSFriendsUserGetRet;
+import at.kc.tugraz.ss.friend.datatypes.par.SSFriendAddPar;
+import at.kc.tugraz.ss.friend.datatypes.par.SSFriendGetPar;
+import at.kc.tugraz.ss.friend.datatypes.par.SSFriendsGetPar;
+import at.kc.tugraz.ss.friend.datatypes.ret.SSFriendAddRet;
+import at.kc.tugraz.ss.friend.datatypes.ret.SSFriendsGetRet;
 import at.kc.tugraz.ss.friend.impl.fct.sql.SSFriendSQLFct;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
+import at.kc.tugraz.ss.service.user.datatypes.SSUser;
+import at.tugraz.sss.serv.SSCircleContentChangedPar;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
+import at.tugraz.sss.serv.SSEntity;
+import at.tugraz.sss.serv.SSEntityDescriberPar;
+import at.tugraz.sss.serv.SSEntityE;
+import at.tugraz.sss.serv.SSEntityHandlerImplI;
+import at.tugraz.sss.serv.SSErr;
+import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.SSServReg;
@@ -45,10 +54,16 @@ import at.tugraz.sss.util.SSServCallerU;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SSFriendImpl extends SSServImplWithDBA implements SSFriendClientI, SSFriendServerI{
+public class SSFriendImpl
+extends
+  SSServImplWithDBA
+implements
+  SSFriendClientI,
+  SSFriendServerI,
+  SSEntityHandlerImplI{
   
   private final SSFriendSQLFct sqlFct;
-
+  
   public SSFriendImpl(final SSConfA conf) throws Exception{
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
     
@@ -56,37 +71,119 @@ public class SSFriendImpl extends SSServImplWithDBA implements SSFriendClientI, 
   }
   
   @Override
+  public SSEntity getUserEntity(
+    final SSEntity             entity,
+    final SSEntityDescriberPar par) throws Exception{
+    
+    switch(entity.type){
+      case user: {
+        
+        if(par.setFriends){
+          ((SSUser)entity).friends.addAll(
+            friendsGet(
+              new SSFriendsGetPar(
+                null,
+                null,
+                par.user)));
+        }
+        
+        break;
+      }
+    }
+    
+    return entity;
+  }
+  
+  @Override
+  public void circleContentChanged(final SSCircleContentChangedPar par) throws Exception{
+    
+  }
+  
+  @Override
+  public void copyEntity(
+    final SSUri        user,
+    final List<SSUri>  users,
+    final SSUri        entity,
+    final List<SSUri>  entitiesToExclude,
+    final SSEntityE    entityType) throws Exception{
+    
+  }
+  
+  @Override
+  public List<SSUri> getSubEntities(
+    final SSUri         user,
+    final SSUri         entity,
+    final SSEntityE     type) throws Exception{
+    
+     return new ArrayList<>();
+  }
+  
+  @Override
+  public List<SSUri> getParentEntities(
+    final SSUri         user,
+    final SSUri         entity,
+    final SSEntityE     type) throws Exception{
+    
+    return new ArrayList<>();
+  }
+  
+  @Override
+  public SSFriend friendGet(final SSFriendGetPar par) throws Exception{
+    
+    try{
+      
+      if(par.friend == null){
+        throw new SSErr(SSErrE.parameterMissing);
+      }
+      
+      return SSFriend.get(
+        sqlFct.getFriend(par.friend),
+        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+          new SSEntityGetPar(
+            null, 
+            null, 
+            par.user, 
+            par.friend, 
+            null, //forUser, 
+            par.withUserRestriction, //withUserRestriction, 
+            null))); //descPar));
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
   public void friendsGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSFriendsUserGetRet.get(friendsUserGet(parA), parA.op));
+    final SSFriendsGetPar par = (SSFriendsGetPar) parA.getFromJSON(SSFriendsGetPar.class);
+    
+    sSCon.writeRetFullToClient(SSFriendsGetRet.get(friendsGet(par)));
   }
   
   @Override
-  public List<SSFriend> friendsUserGet(final SSServPar parA) throws Exception{
+  public List<SSFriend> friendsGet(final SSFriendsGetPar par) throws Exception{
     
     try{
-      final SSFriendsUserGetPar  par         = SSFriendsUserGetPar.get(parA);
-      final List<SSFriend>       friends     = new ArrayList<>();
       
-      for (SSFriend friend : sqlFct.getFriends(par.user)){
+      final List<SSFriend> result = new ArrayList<>();
       
-        friends.add(
-          SSFriend.get(
-            friend,
-            ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
-              new SSEntityGetPar(
-                null,
-                null,
-                null,
-                friend.id,  //entity
-                null, //forUser
-                false, //withUserRestriction
-                null)))); //descPar
+      for(SSUri friend : sqlFct.getFriends(par.user)){
+        
+        result.add(
+          friendGet(
+            new SSFriendGetPar(
+              null, 
+              null, 
+              par.user, 
+              friend)));
       }
-
-      return friends;
+      
+      return result;
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -98,14 +195,15 @@ public class SSFriendImpl extends SSServImplWithDBA implements SSFriendClientI, 
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSFriendUserAddRet.get(friendUserAdd(parA), parA.op));
+    final SSFriendAddPar par = (SSFriendAddPar) parA.getFromJSON(SSFriendAddPar.class);
+    
+    sSCon.writeRetFullToClient(SSFriendAddRet.get(friendAdd(par)));
   }
   
   @Override
-  public SSUri friendUserAdd(final SSServPar parA) throws Exception{
+  public SSUri friendAdd(final SSFriendAddPar par) throws Exception{
     
     try{
-      final SSFriendUserAddPar  par        = SSFriendUserAddPar.get(parA);
       
       dbSQL.startTrans(par.shouldCommit);
             
@@ -116,6 +214,21 @@ public class SSFriendImpl extends SSServImplWithDBA implements SSFriendClientI, 
       return par.friend;
       
     }catch(Exception error){
+      
+      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+        
+        if(dbSQL.rollBack(par.shouldCommit)){
+          
+          SSServErrReg.reset();
+          
+          return friendAdd(par);
+        }else{
+          SSServErrReg.regErrThrow(error);
+          return null;
+        }
+      }
+      
+      dbSQL.rollBack(par.shouldCommit);
       SSServErrReg.regErrThrow(error);
       return null;
     }

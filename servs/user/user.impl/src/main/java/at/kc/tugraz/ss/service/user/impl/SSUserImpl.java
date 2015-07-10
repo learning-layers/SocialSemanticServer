@@ -23,7 +23,6 @@ package at.kc.tugraz.ss.service.user.impl;
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePubURIGetPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleUsersAddPar;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCirclesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.tugraz.sss.serv.SSStrU;
@@ -89,34 +88,11 @@ implements
           
           final SSUser user = sqlFct.getUser(entity.id);
 
-          user.friends.addAll(
-            SSServCaller.friendsUserGet(
-              entity.id));
-          
-          if(par.setCircles){
-            
-            user.circles.addAll(
-              ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlesGet(
-                new SSCirclesGetPar(
-                  null, 
-                  null, 
-                  par.user,
-                  par.user,
-                  null,
-                  SSEntityE.asListWithoutNullAndEmpty(), 
-                  true, 
-                  false, 
-                  false)));
-          }
-          
-          return
-            SSUser.get(
-              user,
-              entity);
+          return SSUser.get(user, entity);
         }
+        
+        default: return entity;
       }
-      
-      return entity;
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

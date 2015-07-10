@@ -31,16 +31,11 @@ import java.util.List;
 public class SSCircleGetPar extends SSServPar{
   
   public SSUri           circle                     = null;
-  public SSUri           forUser                    = null;
   public List<SSEntityE> entityTypesToIncludeOnly   = new ArrayList<>();
   public Boolean         invokeEntityHandlers       = false;
 
   public void setCircle(final String circle) throws Exception{
     this.circle = SSUri.get(circle);
-  }
-
-  public void setForUser(final String forUser){
-    try{ this.forUser = SSUri.get(forUser); }catch(Exception error){}
   }
 
   public void setEntityTypesToIncludeOnly(final List<String> entityTypesToIncludeOnly){
@@ -49,10 +44,6 @@ public class SSCircleGetPar extends SSServPar{
   
   public String getCircle() throws Exception{
     return SSStrU.removeTrailingSlash(circle);
-  }
-  
-  public String getForUser() throws Exception{
-    return SSStrU.removeTrailingSlash(forUser);
   }
   
   public List<String> getEntityTypesToIncludeOnly() throws Exception{
@@ -66,7 +57,6 @@ public class SSCircleGetPar extends SSServPar{
     final String          key,
     final SSUri           user,
     final SSUri           circle,
-    final SSUri           forUser,
     final List<SSEntityE> entityTypesToIncludeOnly,
     final Boolean         withUserRestriction,
     final Boolean         invokeEntityHandlers) throws Exception{
@@ -74,7 +64,6 @@ public class SSCircleGetPar extends SSServPar{
     super(op, key, user);
     
     this.circle                = circle;
-    this.forUser               = forUser;
     
     if(entityTypesToIncludeOnly != null){
       this.entityTypesToIncludeOnly.addAll(entityTypesToIncludeOnly);

@@ -44,7 +44,6 @@ import at.kc.tugraz.ss.service.disc.api.*;
 import at.kc.tugraz.ss.service.disc.datatypes.*;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscEntryAddFromClientPar;
 import at.tugraz.sss.serv.SSEntity;
-import at.tugraz.sss.serv.SSEntityCircle;
 import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSEntityHandlerImplI;
 import at.tugraz.sss.serv.SSUserRelationGathererI;
@@ -100,7 +99,7 @@ public class SSDiscImpl
     final List<String> allUsers,
     final Map<String, List<SSUri>> userRelations) throws Exception{
 
-    List<SSEntityCircle> discUserCircles;
+    List<SSEntity> discUserCircles;
     List<SSDisc> allDiscs;
 
     for(String user : allUsers){
@@ -116,20 +115,19 @@ public class SSDiscImpl
 
       for(SSDisc disc : allDiscs){
 
-        discUserCircles
-          = ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlesGet(
+        discUserCircles = 
+          ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlesGet(
             new SSCirclesGetPar(
               null,
               null,
               userUri,
-              userUri,
               disc.id,
-              SSEntityE.asListWithoutNullAndEmpty(),
-              false,
-              true,
-              false));
+              null, //entityTypesToIncludeOnly
+              false, //withUserRestriction
+              true, //withSystemCircles
+              false)); //invokeEntityHandlers
 
-        for(SSEntityCircle circle : discUserCircles){
+        for(SSEntity circle : discUserCircles){
 
           if(userRelations.containsKey(user)){
             userRelations.get(user).addAll(SSUri.getFromEntitites(circle.users));

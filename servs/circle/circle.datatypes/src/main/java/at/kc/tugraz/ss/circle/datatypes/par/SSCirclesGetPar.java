@@ -30,15 +30,10 @@ import java.util.List;
 
 public class SSCirclesGetPar extends SSServPar{
 
-  public SSUri           forUser                  = null;
   public SSUri           entity                   = null;
   public List<SSEntityE> entityTypesToIncludeOnly = new ArrayList<>();
   public Boolean         withSystemCircles        = false;
   public Boolean         invokeEntityHandlers     = false;
-
-  public void setForUser(final String forUser)throws Exception{
-   this.forUser = SSUri.get(forUser); 
-  }
 
   public void setEntity(final String entity)throws Exception{
     this.entity = SSUri.get(entity);
@@ -48,10 +43,6 @@ public class SSCirclesGetPar extends SSServPar{
     this.entityTypesToIncludeOnly = SSEntityE.get(entityTypesToIncludeOnly);
   }
 
-  public String getForUser(){
-    return SSStrU.removeTrailingSlash(forUser);
-  }
-  
   public String getEntity(){
     return SSStrU.removeTrailingSlash(entity);
   }
@@ -66,7 +57,6 @@ public class SSCirclesGetPar extends SSServPar{
     final SSServOpE       op,
     final String          key,
     final SSUri           user,
-    final SSUri           forUser,
     final SSUri           entity,
     final List<SSEntityE> entityTypesToIncludeOnly,
     final Boolean         withUserRestriction,
@@ -75,7 +65,6 @@ public class SSCirclesGetPar extends SSServPar{
     
     super(op, key, user);
     
-    this.forUser              = forUser;
     this.entity               = entity;
     
     SSEntityE.addDistinctWithoutNull(this.entityTypesToIncludeOnly, entityTypesToIncludeOnly);

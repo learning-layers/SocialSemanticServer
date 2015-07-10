@@ -44,14 +44,11 @@ import at.kc.tugraz.ss.service.coll.api.*;
 import at.kc.tugraz.ss.service.coll.datatypes.*;
 import at.tugraz.sss.serv.SSServPar;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
-import at.tugraz.sss.serv.SSEntityCircle;
 import at.tugraz.sss.serv.SSConfA;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserParentGetPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserRootGetPar;
 import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollUserEntryAddRet;
 import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollUserEntryChangePosRet;
-import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollUserEntryDeleteRet;
-import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollUserParentGetRet;
 import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollUserRootGetRet;
 import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollUserWithEntriesRet;
 import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollsUserWithEntriesRet;
@@ -66,11 +63,9 @@ import at.tugraz.sss.serv.caller.SSServCaller;
 import at.tugraz.sss.util.SSServCallerU;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserCumulatedTagsGetPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserHierarchyGetPar;
-import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollsUserCouldSubscribeGetPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollsUserEntityIsInGetPar;
 import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollUserCumulatedTagsGetRet;
 import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollUserHierarchyGetRet;
-import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollsUserCouldSubscribeGetRet;
 import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollsUserEntityIsInGetRet;
 import at.kc.tugraz.ss.service.coll.impl.fct.activity.SSCollActivityFct;
 import at.kc.tugraz.ss.service.coll.impl.fct.misc.SSCollMiscFct;
@@ -115,8 +110,8 @@ implements
     final List<String>             allUsers, 
     final Map<String, List<SSUri>> userRelations) throws Exception{
     
-    List<SSEntityCircle>           collUserCircles;
-    List<SSEntityCircle>           collEntryUserCircles;
+    List<SSEntity>                 collUserCircles;
+    List<SSEntity>                 collEntryUserCircles;
     List<SSColl>                   allColls;
     SSCollEntry                    collEntry;
     
@@ -134,14 +129,13 @@ implements
               null,
               null,
               userUri,
-              userUri,
               coll.id,
-              SSEntityE.asListWithoutNullAndEmpty(),
-              false,
-              true,
-              false));
+              null, //entityTypesToIncludeOnly
+              false, // withUserRestriction
+              true, // withSystemCircles
+              false)); //invokeEntityHandlers
 
-        for(SSEntityCircle circle : collUserCircles){
+        for(SSEntity circle : collUserCircles){
           
           if(userRelations.containsKey(user)){
             userRelations.get(user).addAll(SSUri.getFromEntitites(circle.users));
@@ -160,14 +154,13 @@ implements
                 null,
                 null,
                 userUri,
-                userUri,
                 collEntry.id,
-                SSEntityE.asListWithoutNullAndEmpty(),
-                false,
-                true,
-                false));
+                null, //entityTypesToIncludeOnly
+                false, // withUserRestriction
+                true, // withSystemCircles
+                false)); //invokeEntityHandlers
           
-          for(SSEntityCircle circle : collEntryUserCircles){
+          for(SSEntity circle : collEntryUserCircles){
             
             if(userRelations.containsKey(user)){
               userRelations.get(user).addAll(SSUri.getFromEntitites(circle.users));
@@ -339,16 +332,6 @@ implements
   }    
     
   @Override
-  public void collParentGet(SSSocketCon sSCon, SSServPar parA) throws Exception{
-
-    SSServCallerU.checkKey(parA);
-
-    SSColl collParent = collUserParentGet(parA);
-
-    sSCon.writeRetFullToClient(SSCollUserParentGetRet.get(collParent, parA.op));
-  }
-  
-  @Override
   public SSColl collUserParentGet(SSServPar parA) throws Exception{
 
     final SSCollUserParentGetPar par = new SSCollUserParentGetPar(parA);
@@ -395,16 +378,6 @@ implements
   }
 
   @Override
-  public void collEntryDelete(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
-
-    SSServCallerU.checkKey(parA);
-
-    sSCon.writeRetFullToClient(SSCollUserEntryDeleteRet.get(collUserEntryDelete(parA), parA.op));
-    
-    SSCollActivityFct.removeCollEntry(new SSCollUserEntryDeletePar(parA));
-  }
-  
-  @Override
   public Boolean collUserEntryDelete(final SSServPar parA) throws Exception{
 
     final SSCollUserEntryDeletePar par = new SSCollUserEntryDeletePar(parA);
@@ -442,37 +415,6 @@ implements
       }
       
       dbSQL.rollBack(parA.shouldCommit);
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-
-  @Override
-  public void collsCouldSubscribeGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
-
-    SSServCallerU.checkKey(parA);
-
-    sSCon.writeRetFullToClient(SSCollsUserCouldSubscribeGetRet.get(collsUserCouldSubscribeGet(parA), parA.op));
-  }
-  
-   @Override
-  public List<SSColl> collsUserCouldSubscribeGet(final SSServPar parA) throws Exception{
-
-    try{
-      final SSCollsUserCouldSubscribeGetPar par          = new SSCollsUserCouldSubscribeGetPar(parA);
-      final List<String>                    userCollUris = sqlFct.getCollURIsForUser(par.user);
-      final List<SSColl>                    publicColls  = new ArrayList<>();
-
-      for(SSColl publicColl : sqlFct.getCollsPublic()){
-
-        if(!userCollUris.contains(SSStrU.toStr(publicColl.id))){
-          publicColls.add(publicColl);
-        }
-      }
-
-      return publicColls;
-
-    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -656,61 +598,6 @@ implements
   }
 
   @Override
-  public void collEntryChangePos(SSSocketCon sSCon, SSServPar parA) throws Exception{
-
-    SSServCallerU.checkKey(parA);
-
-    sSCon.writeRetFullToClient(SSCollUserEntryChangePosRet.get(collUserEntryChangePos(parA), parA.op));
-    
-//    SSCollActivityFct.changeCollEntryPos(new SSCollUserEntryChangePosPar(parA));
-  }
-  
-  @Override
-  public Boolean collUserEntryChangePos(SSServPar parA) throws Exception{
-
-    try{
-      
-      final SSCollUserEntryChangePosPar par         = new SSCollUserEntryChangePosPar(parA);
-      final List<SSUri>                 collEntries = new ArrayList<>();
-      final List<Integer>               order       = new ArrayList<>();
-      Integer                           counter     = 0;
-      
-      SSServCallerU.canUserEditEntity(par.user, par.coll);
-      
-      while(counter < par.order.size()){
-        collEntries.add(SSUri.get(par.order.get(counter++)));
-        order.add(Integer.valueOf(par.order.get(counter++)));
-      }
-
-      dbSQL.startTrans(par.shouldCommit);
-
-      sqlFct.updateCollEntriesPos(par.coll, collEntries, order);
-
-      dbSQL.commit(par.shouldCommit);
-
-      return true;
-    }catch(Exception error){
-      
-      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
-        
-        if(dbSQL.rollBack(parA.shouldCommit)){
-          
-          SSServErrReg.reset();
-          
-          return collUserEntryChangePos(parA);
-        }else{
-          SSServErrReg.regErrThrow(error);
-          return null;
-        }
-      }
-      
-      dbSQL.rollBack(parA.shouldCommit);
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-
-  @Override
   public void collWithEntries(SSSocketCon sSCon, SSServPar parA) throws Exception{
 
     SSServCallerU.checkKey(parA);
@@ -734,15 +621,7 @@ implements
   }
 
   @Override
-  public void collsWithEntries(SSSocketCon sSCon, SSServPar parA) throws Exception{
-
-    SSServCallerU.checkKey(parA);
-
-    sSCon.writeRetFullToClient(SSCollsUserWithEntriesRet.get(collsUserWithEntries(parA), parA.op));
-  }
-  
-  @Override
-  public List<SSColl> collsUserWithEntries(SSServPar parA) throws Exception{
+  public List<SSColl> collsWithEntries(SSServPar parA) throws Exception{
 
     try{
       
@@ -1036,3 +915,72 @@ implements
     }
   }
 }
+
+
+//  @Override
+//  public List<SSColl> collsUserCouldSubscribeGet(final SSServPar parA) throws Exception{
+//
+//    try{
+//      final SSCollsUserCouldSubscribeGetPar par          = new SSCollsUserCouldSubscribeGetPar(parA);
+//      final List<String>                    userCollUris = sqlFct.getCollURIsForUser(par.user);
+//      final List<SSColl>                    publicColls  = new ArrayList<>();
+//
+//      for(SSColl publicColl : sqlFct.getCollsPublic()){
+//
+//        if(!userCollUris.contains(SSStrU.toStr(publicColl.id))){
+//          publicColls.add(publicColl);
+//        }
+//      }
+//
+//      return publicColls;
+//
+//    }catch(Exception error){
+//      SSServErrReg.regErrThrow(error);
+//      return null;
+//    }
+//  }
+
+//@Override
+//  public Boolean collUserEntryChangePos(SSServPar parA) throws Exception{
+//
+//    try{
+//      
+//      final SSCollUserEntryChangePosPar par         = new SSCollUserEntryChangePosPar(parA);
+//      final List<SSUri>                 collEntries = new ArrayList<>();
+//      final List<Integer>               order       = new ArrayList<>();
+//      Integer                           counter     = 0;
+//      
+//      SSServCallerU.canUserEditEntity(par.user, par.coll);
+//      
+//      while(counter < par.order.size()){
+//        collEntries.add(SSUri.get(par.order.get(counter++)));
+//        order.add(Integer.valueOf(par.order.get(counter++)));
+//      }
+//
+//      dbSQL.startTrans(par.shouldCommit);
+//
+//      sqlFct.updateCollEntriesPos(par.coll, collEntries, order);
+//
+//      dbSQL.commit(par.shouldCommit);
+//
+//      return true;
+//    }catch(Exception error){
+//      
+//      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+//        
+//        if(dbSQL.rollBack(parA.shouldCommit)){
+//          
+//          SSServErrReg.reset();
+//          
+//          return collUserEntryChangePos(parA);
+//        }else{
+//          SSServErrReg.regErrThrow(error);
+//          return null;
+//        }
+//      }
+//      
+//      dbSQL.rollBack(parA.shouldCommit);
+//      SSServErrReg.regErrThrow(error);
+//      return null;
+//    }
+//  }
