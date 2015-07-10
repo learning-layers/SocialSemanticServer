@@ -29,7 +29,7 @@ public interface SSCollClientI{
   public void collEntriesDelete     (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
   public void collEntryAdd          (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
   public void collEntriesAdd        (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void collWithEntries       (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void collGet               (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
   public void collHierarchyGet      (final SSSocketCon sSCon, final SSServPar parA) throws Exception; 
   public void collCumulatedTagsGet  (final SSSocketCon sSCon, final SSServPar parA) throws Exception; 
   public void collsEntityIsInGet    (final SSSocketCon sSCon, final SSServPar parA) throws Exception;

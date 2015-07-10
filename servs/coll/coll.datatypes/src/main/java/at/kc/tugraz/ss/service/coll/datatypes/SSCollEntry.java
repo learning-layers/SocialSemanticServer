@@ -3,7 +3,7 @@
 * http://www.learning-layers.eu
 * Development is partly funded by the FP7 Programme of the European Commission under
 * Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+* Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
 * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,98 +20,34 @@
 */
  package at.kc.tugraz.ss.service.coll.datatypes;
 
-import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSSpaceE;
-import at.tugraz.sss.serv.SSEntityA;
-import at.tugraz.sss.serv.SSCircleE;
-import at.tugraz.sss.serv.SSJSONLDU;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import at.tugraz.sss.serv.SSEntity;
 
-public class SSCollEntry extends SSEntityA {
+public class SSCollEntry extends SSEntity {
 
-  public  SSUri                           id          = null;
-  public  Integer                         pos         = -1;
-  public  List<SSCircleE>                 circleTypes = new ArrayList<>();
-  public  String                          label       = null;
-  public  SSEntityE                       type        = null;
-
-  public static SSCollEntry get(
-    SSUri         uri,
-    String        label  ,
-    List<SSCircleE> circleTypes,
-    Integer       pos,
-    SSEntityE     entityType) throws Exception{
-    
-    return new SSCollEntry(uri, label, circleTypes, pos, entityType);
-  }
+  public  Integer   pos = -1;
   
-  private SSCollEntry(
-    SSUri        uri,
-    String       label,
-    List<SSCircleE> circleTypes,
-    Integer      pos, 
-    SSEntityE entityType) throws Exception{
-
-    super(uri);
-    
-    this.id         = uri;
-    this.label      = label;
-    this.pos        = pos;
-    this.type       = entityType;
-    
-    if(circleTypes != null){
-      this.circleTypes.addAll(circleTypes);
-    }
-  }
-  
-  private SSCollEntry() throws Exception{
-    super(SSStrU.empty);
-  }
-
   @Override
   public Object jsonLDDesc(){
-    
-    final Map<String, Object> ld             = new HashMap<>();
-    final Map<String, Object> circleTypesObj = new HashMap<>();
-    
-    circleTypesObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSCircleE.class.getName());
-    circleTypesObj.put(SSJSONLDU.container, SSJSONLDU.set);
-    
-    ld.put(SSVarNames.circleTypes, circleTypesObj);
-    
-    ld.put(SSVarNames.id,         SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarNames.pos,        SSVarNames.xsd + SSStrU.colon + SSStrU.valueInteger);
-    ld.put(SSVarNames.space,      SSVarNames.sss + SSStrU.colon + SSSpaceE.class.getName());
-    ld.put(SSVarNames.label,      SSVarNames.xsd + SSStrU.colon + SSStrU.valueString);
-    ld.put(SSVarNames.type,       SSVarNames.sss + SSStrU.colon + SSEntityE.class.getName());
-    
-    return ld;
+    throw new UnsupportedOperationException();
   }
   
-  /* getters to allow for jason enconding */
-  public String getId() throws Exception{
-    return SSStrU.removeTrailingSlash(id);
-  }
-
-  public int getPos(){
-    return pos;
-  }
-
-  public List<SSCircleE> getCircleTypes(){
-    return circleTypes;
-  }
-
-  public String getLabel(){
-    return label;
+  public static SSCollEntry get(
+    final SSUri           id,
+    final SSEntityE       type,
+    final Integer         pos) throws Exception{
+    
+    return new SSCollEntry(id, type, pos);
   }
   
-  public String getType(){
-    return SSStrU.toStr(type);
+  protected SSCollEntry(
+    final SSUri           id,
+    final SSEntityE       type,
+    final Integer         pos) throws Exception{
+
+    super(id, type);
+    
+    this.pos = pos;
   }
 }

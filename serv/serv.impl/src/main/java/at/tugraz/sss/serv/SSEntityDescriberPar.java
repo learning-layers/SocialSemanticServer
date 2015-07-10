@@ -41,6 +41,7 @@ public class SSEntityDescriberPar{
   public Boolean     setComments         = false;
   public Boolean     setFriends          = false;
   public Boolean     setCategories       = false;
+  public Boolean     setCircleTypes      = false;
   
   public List<SSEntityE> entityTypesToIncludeOnly = new ArrayList<>();
 }

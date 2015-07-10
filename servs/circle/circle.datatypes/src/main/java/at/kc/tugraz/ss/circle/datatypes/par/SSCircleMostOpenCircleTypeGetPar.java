@@ -27,16 +27,7 @@ import at.tugraz.sss.serv.SSStrU;
 
 public class SSCircleMostOpenCircleTypeGetPar extends SSServPar{
 
-  public SSUri forUser = null;
   public SSUri entity  = null;
-
-  public String getForUser(){
-    return SSStrU.removeTrailingSlash(forUser);
-  }
-
-  public void setForUser(final String forUser) throws Exception{
-    this.forUser = SSUri.get(forUser);
-  }
 
   public String getEntity(){
     return SSStrU.removeTrailingSlash(entity);
@@ -52,13 +43,11 @@ public class SSCircleMostOpenCircleTypeGetPar extends SSServPar{
     final SSServOpE     op,
     final String        key,
     final SSUri         user,
-    final SSUri         forUser, 
     final SSUri         entity,
     final Boolean       withUserRestriction){
     
     super(op, key, user);
     
-    this.forUser             = forUser;
     this.entity              = entity;
     this.withUserRestriction = withUserRestriction;
   }

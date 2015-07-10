@@ -87,8 +87,9 @@ implements
     final SSEntityDescriberPar par) throws Exception{
     
     switch(entity.type){
+      
       case activity:{
-        
+
         return SSActivity.get(
           activityGet(
             new SSActivityGetPar(
@@ -173,7 +174,6 @@ implements
     try{
       final List<SSEntity>             activities         = new ArrayList<>();
       final List<SSEntity>             entitiesToQuery    = new ArrayList<>();
-      final SSEntityDescriberPar       descPar            = new SSEntityDescriberPar();
       final List<SSUri>                activityURIs       = new ArrayList<>();
       
       SSEntity.addEntitiesDistinctWithoutNull(
@@ -198,7 +198,7 @@ implements
             par.circles, //entities
             null, //forUser,
             null, //types,
-            descPar, //descPar,
+            new SSEntityDescriberPar(), //descPar,
             par.withUserRestriction))){
         
         SSEntity.addEntitiesDistinctWithoutNull(
@@ -221,35 +221,21 @@ implements
           1000,
           par.includeOnlyLastActivities));
       
-      if(!par.invokeEntityHandlers){
+      for(SSUri activityURI : activityURIs){
         
-        for(SSUri activityURI : activityURIs){
-          
-          SSEntity.addEntitiesDistinctWithoutNull(
-            activities,
-            activityGet(
-              new SSActivityGetPar(
-                null,
-                null,
-                par.user,
-                activityURI,
-                par.invokeEntityHandlers)));
-        }
-        
-        return activities;
+        SSEntity.addEntitiesDistinctWithoutNull(
+          activities,
+          activityGet(
+            new SSActivityGetPar(
+              null,
+              null,
+              par.user,
+              activityURI,
+              par.invokeEntityHandlers)));
       }
-        
-      return ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
-        new SSEntitiesGetPar(
-          null,
-          null,
-          par.user,
-          activityURIs,  //entities
-          null, //forUser,
-          null, //types,
-          descPar, //descPar,
-          par.withUserRestriction));// withUserRestriction
       
+      return activities;
+        
 //      final List<SSUri>                descURIs           = new ArrayList<>();
 //      final Map<String, List<SSUri>>   activitiesUsers    = new HashMap<>();
 //      final Map<String, List<SSUri>>   activitiesEntities = new HashMap<>();
@@ -528,12 +514,6 @@ implements
       final SSActivity            activity;
       final SSEntityDescriberPar  descPar;
       
-      if(par.invokeEntityHandlers){
-        descPar = new SSEntityDescriberPar();
-      }else{
-        descPar = null;
-      }
-      
       activity =
         SSActivity.get(
           sqlFct.getActivity(par.activity),
@@ -546,6 +526,12 @@ implements
               null, //forUser,
               par.withUserRestriction, //withUserRestriction,
               null))); //descPar
+      
+      if(par.invokeEntityHandlers){
+        descPar = new SSEntityDescriberPar();
+      }else{
+        descPar = null;
+      }
       
       if(activity.entity != null){
         

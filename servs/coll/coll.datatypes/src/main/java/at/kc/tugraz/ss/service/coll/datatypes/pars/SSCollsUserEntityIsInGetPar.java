@@ -25,47 +25,39 @@ import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSServOpE;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement
-@ApiModel(value = "collsUserEntityIsInGet request parameter")
 public class SSCollsUserEntityIsInGetPar extends SSServPar{
   
-  @ApiModelProperty( 
-    required = true, 
-    value = "entity to be searched for in user's collections")
-  public SSUri entity = null;
+  public SSUri   entity               = null;
+  public Boolean invokeEntityHandlers = false;
    
-  @XmlElement
+  public String getEntity(){
+    return SSStrU.removeTrailingSlash(entity);
+  }
+  
   public void setEntity(final String entity) throws Exception{
     this.entity = SSUri.get(entity);
   }
   
   public SSCollsUserEntityIsInGetPar(){}
   
-  public SSCollsUserEntityIsInGetPar(final SSServPar par) throws Exception{
+  public SSCollsUserEntityIsInGetPar(
+    final SSServOpE     op,
+    final String        key,
+    final SSUri         user,
+    final SSUri         entity, 
+    final Boolean       withUserRestriction, 
+    final Boolean       invokeEntityHandlers){
     
-    super(par);
-    
-    try{
-      
-      if(pars != null){
-        entity = (SSUri) pars.get(SSVarNames.entity);
-      }
-      
-      if(par.clientJSONObj != null){
-        entity = SSUri.get(par.clientJSONObj.get(SSVarNames.entity).getTextValue());
-      }
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
-  /* json getters */
-  public String getEntity(){
-    return SSStrU.removeTrailingSlash(entity);
+    super(op, key, user);
+
+    this.entity               = entity;
+    this.withUserRestriction  = withUserRestriction;
+    this.invokeEntityHandlers = invokeEntityHandlers;
   }
 }

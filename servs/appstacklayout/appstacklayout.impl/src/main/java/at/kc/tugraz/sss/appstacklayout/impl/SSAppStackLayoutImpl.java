@@ -21,7 +21,6 @@
 package at.kc.tugraz.sss.appstacklayout.impl;
 
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.tugraz.sss.serv.SSSocketCon;
@@ -342,37 +341,21 @@ implements
       final List<SSUri>          stackURIs       = sqlFct.getStackURIs();
       final List<SSEntity>       stacks          = new ArrayList<>();
       
-      if(!par.invokeEntityHandlers){
+      for(SSUri stackURI : stackURIs){
         
-        for(SSUri stackURI : stackURIs){
-          
-          SSEntity.addEntitiesDistinctWithoutNull(
-            stacks,
-            appStackLayoutGet(
-              new SSAppStackLayoutGetPar(
-                null,
-                null,
-                par.user,
-                stackURI,
-                par.withUserRestriction,
-                par.invokeEntityHandlers)));
-        }
-        
-        return stacks;
+        SSEntity.addEntitiesDistinctWithoutNull(
+          stacks,
+          appStackLayoutGet(
+            new SSAppStackLayoutGetPar(
+              null,
+              null,
+              par.user,
+              stackURI,
+              par.withUserRestriction,
+              par.invokeEntityHandlers)));
       }
       
-      final SSEntityDescriberPar descPar = new SSEntityDescriberPar();
-      
-      return ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
-        new SSEntitiesGetPar(
-          null,
-          null,
-          par.user,
-          stackURIs,  //entities
-          null, //forUser,
-          null, //types,
-          descPar, //descPar,
-          par.withUserRestriction));// withUserRestriction
+      return stacks;
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

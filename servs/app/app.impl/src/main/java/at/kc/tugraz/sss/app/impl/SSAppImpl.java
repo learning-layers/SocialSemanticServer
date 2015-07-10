@@ -21,7 +21,6 @@
 package at.kc.tugraz.sss.app.impl;
 
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.tugraz.sss.serv.SSSocketCon;
@@ -80,6 +79,7 @@ implements
     final SSEntityDescriberPar par) throws Exception{
     
     switch(entity.type){
+      
       case app:{
 
         return SSApp.get(
@@ -239,6 +239,16 @@ implements
     
     try{
       
+      final SSEntityDescriberPar descPar;
+      
+      if(par.invokeEntityHandlers){
+        descPar = new SSEntityDescriberPar();
+        
+        descPar.setAttachedEntities = true;
+      }else{
+        descPar = null;
+      }
+
       return SSApp.get(
         sqlFct.getApp(par.app), 
         ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
@@ -249,7 +259,7 @@ implements
             par.app, 
             null, //forUser, 
             par.withUserRestriction, //withUserRestriction, 
-            null))); //descPar)));
+            descPar))); //descPar)));
       
 //      if(par.invokeEntityHandlers)
             //TODO handle
@@ -297,38 +307,20 @@ implements
       final List<SSEntity>       apps     = new ArrayList<>();
       final List<SSUri>          appURIs  = sqlFct.getAppURIs();
       
-      if(!par.invokeEntityHandlers){
+      for(SSUri appURI : appURIs){
         
-        for(SSUri appURI : appURIs){
-          
-          SSEntity.addEntitiesDistinctWithoutNull(
-            apps,
-            appGet(
-              new SSAppGetPar(
-                null,
-                null,
-                par.user,
-                appURI, 
-                par.invokeEntityHandlers)));
-        }
-        
-        return apps;
+        SSEntity.addEntitiesDistinctWithoutNull(
+          apps,
+          appGet(
+            new SSAppGetPar(
+              null,
+              null,
+              par.user,
+              appURI,
+              par.invokeEntityHandlers)));
       }
       
-      final SSEntityDescriberPar descPar  = new SSEntityDescriberPar();
-      
-      descPar.setAttachedEntities = true;
-      
-      return ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
-        new SSEntitiesGetPar(
-          null,
-          null,
-          par.user,
-          appURIs,  //entities
-          null, //forUser,
-          null, //types,
-          descPar, //descPar,
-          par.withUserRestriction));// withUserRestriction
+      return apps;
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

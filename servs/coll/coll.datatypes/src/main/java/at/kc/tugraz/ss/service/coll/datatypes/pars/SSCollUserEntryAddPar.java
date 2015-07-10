@@ -20,90 +20,31 @@
 */
  package at.kc.tugraz.ss.service.coll.datatypes.pars;
 
-import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServErrReg;
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSStrU;
 
-@XmlRootElement
-@ApiModel(value = "collUserEntryAdd request parameter")
 public class SSCollUserEntryAddPar extends SSServPar{
   
-  @ApiModelProperty( 
-    required = true, 
-    value = "collection to add an entity to")
   public SSUri        coll        = null;
+  public SSLabel      label       = null;
+  public Boolean      addNewColl  = null;
+  public SSUri        entry       = null;
   
-  @XmlElement
   public void setColl(final String coll) throws Exception{
     this.coll = SSUri.get(coll);
   }
   
-  @ApiModelProperty( 
-    required = true, 
-    value = "title of the collection entry ")
-  public SSLabel      label       = null;
-  
-  @XmlElement
   public void setLabel(final String label) throws Exception{
     this.label = SSLabel.get(label);
   }
   
-  @ApiModelProperty( 
-    required = false, 
-    value = "either null for the creation of new sub-collection, an existing collection or an entity")
-  public SSUri        entry       = null;
-  
-  @XmlElement
   public void setEntry(final String entry) throws Exception{
     this.entry = SSUri.get(entry);
   }
   
-  @XmlElement
-  @ApiModelProperty( 
-    required = false, 
-    value = "whether a new collection should be created instead of adding an existing one")
-  public Boolean      addNewColl  = null;
-  
-  public SSCollUserEntryAddPar(){}
-    
-  public SSCollUserEntryAddPar(final SSServPar par) throws Exception{
-    
-    super(par);
-    
-    try{
-      
-      if(pars != null){
-        coll           = (SSUri)       pars.get(SSVarNames.coll);
-        entry          = (SSUri)       pars.get(SSVarNames.entry);
-        label          = (SSLabel)     pars.get(SSVarNames.label);
-        addNewColl     = (Boolean)     pars.get(SSVarNames.addNewColl);
-      }
-      
-      if(par.clientJSONObj != null){
-        coll  = SSUri.get       (par.clientJSONObj.get(SSVarNames.coll).getTextValue());
-        label = SSLabel.get     (par.clientJSONObj.get(SSVarNames.label).getTextValue());
-        
-        try{
-          addNewColl     = par.clientJSONObj.get(SSVarNames.addNewColl).getBooleanValue();
-        }catch(Exception error){}
-        
-        try{
-          entry      = SSUri.get       (par.clientJSONObj.get(SSVarNames.entry).getTextValue());
-        }catch(Exception error){}
-      }
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
-  /* json getters */
   public String getColl(){
     return SSStrU.removeTrailingSlash(coll);
   }
@@ -114,5 +55,28 @@ public class SSCollUserEntryAddPar extends SSServPar{
   
   public String getLabel(){
     return SSStrU.toStr(label);
+  }
+  
+  public SSCollUserEntryAddPar(){}
+  
+  public SSCollUserEntryAddPar(
+    final SSServOpE     op,
+    final String        key,
+    final SSUri         user,
+    final SSUri         coll,
+    final SSUri         entry,
+    final SSLabel       label,
+    final Boolean       addNewColl, 
+    final Boolean       withUserRestriction, 
+    final Boolean       shouldCommit){
+  
+    super(op, key, user);
+    
+    this.coll                = coll;
+    this.entry               = entry;
+    this.label               = label;
+    this.addNewColl          = addNewColl;
+    this.withUserRestriction = withUserRestriction;
+    this.shouldCommit        = shouldCommit;
   }
 }

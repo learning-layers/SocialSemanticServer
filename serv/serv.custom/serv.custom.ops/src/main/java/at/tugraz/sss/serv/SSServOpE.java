@@ -271,6 +271,7 @@ public enum SSServOpE{
   authCheckKey                                        ,
   
   //coll
+  collGet,
   collsWithEntries,
   collsEntityIsInGet,
   collRootGet,
@@ -279,7 +280,6 @@ public enum SSServOpE{
   collEntriesAdd,
   collEntryDelete,
   collEntriesDelete,
-  collWithEntries,
   collHierarchyGet,
   collCumulatedTagsGet,
   

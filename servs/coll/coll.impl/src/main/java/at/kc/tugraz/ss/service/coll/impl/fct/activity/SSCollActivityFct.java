@@ -111,7 +111,7 @@ public class SSCollActivityFct{
           SSUri.asListWithoutNullAndEmpty(par.entry),
           SSTextComment.asListWithoutNullAndEmpty(),
           null,
-          false));
+          par.shouldCommit));
       
     }catch(SSErr error){
       

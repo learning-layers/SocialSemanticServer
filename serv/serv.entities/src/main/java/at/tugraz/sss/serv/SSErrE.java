@@ -25,6 +25,7 @@ public enum SSErrE{
   //collection
   cannotSetSpecialCollectionPublic,
   cannotShareSpecialCollection,
+  userDoesntOwnColl,
   
   //circle
   cannotShareWithPublicCircle,

@@ -23,6 +23,7 @@ package at.kc.tugraz.ss.service.coll.impl.fct.op;
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesAddPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleMostOpenCircleTypeGetPar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCirclesFromEntityEntitiesAdd;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
@@ -50,7 +51,6 @@ public class SSCollEntryAddFct{
           null,
           null,
           par.user,
-          null,
           par.coll,
           false))){
       case priv: isParentCollSharedOrPublic = false; break;
@@ -84,29 +84,15 @@ public class SSCollEntryAddFct{
       isParentCollSharedOrPublic, 
       false);
     
-    for(SSEntity entityUserCircle : 
-      ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlesGet(
-        new SSCirclesGetPar(
-          null, 
-          null, 
-          par.user, 
-          par.coll, 
-          null, //entityTypesToIncludeOnly
-          false, //withUserRestriction
-          true,  //withSystemCircles
-          false))){ //invokeEntityHandlers
-      
-      ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleEntitiesAdd(
-        new SSCircleEntitiesAddPar(
-          null, 
-          null, 
-          par.user, 
-          entityUserCircle.id, 
-          SSUri.asListWithoutNullAndEmpty(par.entry),  //entities
-          false,  //withUserRestriction
-          false)); //shouldCommit
-    }
-    
+    ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlesFromEntityEntitiesAdd(
+      new SSCirclesFromEntityEntitiesAdd(
+        null, 
+        null, 
+        par.user, 
+        par.coll, //entity
+        SSUri.asListWithoutNullAndEmpty(par.entry),  //entities
+        false)); //shouldCommit
+        
     return par.entry;
   }
   
@@ -121,7 +107,6 @@ public class SSCollEntryAddFct{
           null,
           null,
           par.user,
-          null,
           par.entry,
           false)), 
       SSCircleE.pub)){
@@ -134,7 +119,6 @@ public class SSCollEntryAddFct{
           null,
           null,
           par.user,
-          null,
           par.coll,
           false))){
       case priv: break;
@@ -181,28 +165,14 @@ public class SSCollEntryAddFct{
         
     sqlFct.addCollEntry(par.coll, par.entry);
     
-    for(SSEntity circle : 
-      ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlesGet(
-        new SSCirclesGetPar(
-          null, 
-          null, 
-          par.user, 
-          par.coll, 
-          null, //entityTypesToIncludeOnly
-          false, //withUserRestriction
-          true, //withSystemCircles
-          false))){ //invokeEntityHandlers
-      
-      ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleEntitiesAdd(
-        new SSCircleEntitiesAddPar(
-          null, 
-          null, 
-          par.user, 
-          circle.id, 
-          SSUri.asListWithoutNullAndEmpty(par.entry),  //entities
-          false, //withUserRestriction
-          false)); //shouldCommit
-    }
+    ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlesFromEntityEntitiesAdd(
+      new SSCirclesFromEntityEntitiesAdd(
+        null,
+        null,
+        par.user,
+        par.coll, //entity
+        SSUri.asListWithoutNullAndEmpty(par.entry),  //entities
+        false)); //shouldCommit
     
     return par.entry;
   }

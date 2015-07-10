@@ -38,7 +38,7 @@ import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollUserEntriesDeleteRet;
 import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollUserEntryAddRet;
 import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollUserHierarchyGetRet;
 import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollUserRootGetRet;
-import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollUserWithEntriesRet;
+import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollGetRet;
 import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollsUserEntityIsInGetRet;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
@@ -126,7 +126,7 @@ public class SSAdapterRest{
   @Path    (SSStrU.slash + "collWithEntries")
   @ApiOperation(
     value = "retrieve a user's collection with entries",
-    response = SSCollUserWithEntriesRet.class)
+    response = SSCollGetRet.class)
   public String collWithEntries(final SSCollUserWithEntriesPar input){
     return SSRestMainV1.handleStandardJSONRESTCall(input, SSServOpE.collWithEntries);
   }

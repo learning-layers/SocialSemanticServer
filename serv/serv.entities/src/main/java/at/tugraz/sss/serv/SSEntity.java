@@ -64,7 +64,7 @@ public class SSEntity extends SSEntityA{
   @ApiModelProperty(
     required = false,
     value = "entities sub-entities")
-  public List<Object>        entries          = new ArrayList<>();
+  public List<SSEntity>       entries          = new ArrayList<>();
   
   @ApiModelProperty(
     required = false,
@@ -174,7 +174,7 @@ public class SSEntity extends SSEntityA{
     return circleTypes;
   }
   
-  public List<? extends Object> getEntries() throws Exception{
+  public List<? extends SSEntity> getEntries() throws Exception{
     return entries;
   }
   
@@ -326,15 +326,13 @@ public class SSEntity extends SSEntityA{
 
   public static void addEntitiesDistinctWithoutNull(
     final List<SSEntity>   entities,
-    final SSEntity         entity){
+    final SSEntity...      toAddEntities){
     
-    if(
-      SSObjU.isNull  (entities, entity) ||
-      SSStrU.contains(entities, entity)){
+    if(SSObjU.isNull  (entities, toAddEntities)){
       return;
     }
-    
-    entities.add(entity);
+
+    addEntitiesDistinctWithoutNull(entities, new ArrayList<>(toAddEntities));
   }
   
   public static void addEntitiesDistinctWithoutNull(

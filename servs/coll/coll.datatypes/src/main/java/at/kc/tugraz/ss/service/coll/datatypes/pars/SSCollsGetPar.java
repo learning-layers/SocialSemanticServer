@@ -3,7 +3,7 @@
 * http://www.learning-layers.eu
 * Development is partly funded by the FP7 Programme of the European Commission under
 * Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+* Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
 * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,38 +18,28 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.service.coll.datatypes.ret;
+package at.kc.tugraz.ss.service.coll.datatypes.pars;
 
-import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarNames;
-import at.tugraz.sss.serv.SSServRetI;
-import at.kc.tugraz.ss.service.coll.datatypes.SSColl;
+import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServOpE;
-import java.util.HashMap;
-import java.util.Map;
 
-public class SSCollUserRootGetRet extends SSServRetI{
+public class SSCollsGetPar extends SSServPar{
+
+  public Boolean invokeEntityHandlers = false;
   
-  public SSColl coll = null;
-  
-  @Override
-  public Map<String, Object> jsonLDDesc(){
+  public SSCollsGetPar(){}
     
-    Map<String, Object> ld = new HashMap<>();
+  public SSCollsGetPar(
+    final SSServOpE     op,
+    final String        key,
+    final SSUri         user,
+    final Boolean       withUserRestriction, 
+    final Boolean       invokeEntityHandlers){
     
-    ld.put(SSVarNames.coll, SSVarNames.sss + SSStrU.colon + SSColl.class.getName());
-    
-    return ld;
-  }
-  
-  public static SSCollUserRootGetRet get(SSColl coll){
-    return new SSCollUserRootGetRet(coll);
-  }
-  
-  private SSCollUserRootGetRet(SSColl coll) {
-    
-    super(SSServOpE.collRootGet);
-    
-    this.coll = coll;
+    super(op, key, user);
+     
+    this.withUserRestriction  = withUserRestriction;
+    this.invokeEntityHandlers = invokeEntityHandlers;
   }
 }

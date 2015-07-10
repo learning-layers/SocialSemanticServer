@@ -22,7 +22,6 @@ package at.kc.tugraz.ss.service.coll.datatypes;
 
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
-import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.SSEntity;
 import java.util.*;
 
@@ -34,32 +33,28 @@ public class SSColl extends SSEntity{
   }
   
   public static SSColl get(
+    final SSColl   coll,
     final SSEntity entity) throws Exception{
     
-    return new SSColl(entity);
+    return new SSColl(coll, entity);
   }
   
   public static SSColl get(
-    final SSUri                  id,
-    final SSLabel                label) throws Exception{
+    final SSUri                  id) throws Exception{
     
-    return new SSColl(
-      id, 
-      label);
+    return new SSColl(id);
   }
   
-  protected SSColl(final SSEntity entity) throws Exception{
+  protected SSColl(
+    final SSColl   coll, 
+    final SSEntity entity) throws Exception{
+    
     super(entity);
   }
   
   protected SSColl(
-    final SSUri                  id,
-    final SSLabel                label) throws Exception{
+    final SSUri                  id) throws Exception{
     
-    super(id, SSEntityE.coll, label);
-  }
-  
-  public static SSColl[] toCollArray(Collection<SSColl> toConvert) {
-    return (SSColl[]) toConvert.toArray(new SSColl[toConvert.size()]);
+    super(id, SSEntityE.coll);
   }
 }

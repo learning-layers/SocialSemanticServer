@@ -25,14 +25,12 @@ import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesAddPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleUsersAddPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.tugraz.sss.serv.SSUri;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserRootAddPar;
-import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserWithEntriesPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntryAddPar;
-import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntryChangePosPar;
-import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollsUserWithEntriesPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntryDeletePar;
 import at.tugraz.sss.serv.*;
 import at.tugraz.sss.serv.SSSocketCon;
@@ -42,16 +40,14 @@ import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.kc.tugraz.ss.service.coll.api.*;
 import at.kc.tugraz.ss.service.coll.datatypes.*;
+import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollGetPar;
 import at.tugraz.sss.serv.SSServPar;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.tugraz.sss.serv.SSConfA;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserParentGetPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserRootGetPar;
 import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollUserEntryAddRet;
-import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollUserEntryChangePosRet;
 import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollUserRootGetRet;
-import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollUserWithEntriesRet;
-import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollsUserWithEntriesRet;
 import at.kc.tugraz.ss.service.coll.impl.fct.sql.SSCollSQLFct;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntriesAddPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntriesDeletePar;
@@ -63,13 +59,14 @@ import at.tugraz.sss.serv.caller.SSServCaller;
 import at.tugraz.sss.util.SSServCallerU;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserCumulatedTagsGetPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserHierarchyGetPar;
+import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollsGetPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollsUserEntityIsInGetPar;
 import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollUserCumulatedTagsGetRet;
 import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollUserHierarchyGetRet;
+import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollGetRet;
 import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollsUserEntityIsInGetRet;
 import at.kc.tugraz.ss.service.coll.impl.fct.activity.SSCollActivityFct;
 import at.kc.tugraz.ss.service.coll.impl.fct.misc.SSCollMiscFct;
-import static at.kc.tugraz.ss.service.coll.impl.fct.misc.SSCollMiscFct.getCollSubCollAndEntryURIs;
 import at.kc.tugraz.ss.service.coll.impl.fct.op.SSCollEntryAddFct;
 import at.kc.tugraz.ss.service.coll.impl.fct.op.SSCollEntryDeleteFct;
 import at.kc.tugraz.ss.service.tag.api.SSTagServerI;
@@ -330,53 +327,514 @@ implements
       SSServErrReg.regErrThrow(error);
     }
   }    
-    
-  @Override
-  public SSColl collUserParentGet(SSServPar parA) throws Exception{
 
-    final SSCollUserParentGetPar par = new SSCollUserParentGetPar(parA);
+  @Override
+  public void collGet(SSSocketCon sSCon, SSServPar parA) throws Exception{
+
+    SSServCallerU.checkKey(parA);
+
+    final SSCollGetPar par = (SSCollGetPar) parA.getFromJSON(SSCollGetPar.class);
+    
+    sSCon.writeRetFullToClient(SSCollGetRet.get(collGet(par)));
+  }
+  
+  @Override
+  public SSColl collGet(final SSCollGetPar par) throws Exception{
 
     try{
-
-      SSServCallerU.canUserReadEntity(par.user, par.coll);
       
-      return SSCollMiscFct.getCollWithEntriesWithCircleTypes(
-        sqlFct,
-        par.user,
-        SSCollMiscFct.getDirectParentCollURIForUser(sqlFct, par.user, par.coll));
+      if(par.coll == null){
+        throw new SSErr(SSErrE.parameterMissing);
+      }
+      
+      if(par.withUserRestriction){
+        
+        if(!SSServCallerU.canUserRead(par.user, par.coll)){
+          return null;
+        }
+      }
+      
+      final SSEntityDescriberPar descPar;
+      final List<SSEntity>       collEntries;
+      
+      if(par.invokeEntityHandlers){
+        descPar = new SSEntityDescriberPar();
+        
+        descPar.setCircleTypes = true;
+      }else{
+        descPar = null;
+      }
+      
+      final SSColl coll = 
+        SSColl.get(
+          sqlFct.getCollWithEntries(par.coll), 
+          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+            new SSEntityGetPar(
+              null, 
+              null, 
+              par.user, 
+              par.coll, //entity, 
+              null, //forUser, 
+              par.withUserRestriction, 
+              descPar))); //descPar
+      
+      collEntries =
+        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
+          new SSEntitiesGetPar(
+            null,
+            null,
+            par.user,
+            SSUri.getFromEntitites(coll.entries),  //entities
+            null, //forUser,
+            null, //types,
+            descPar, //descPar,
+            par.withUserRestriction));
+
+      coll.entries.clear();
+      coll.entries.addAll(collEntries);
+      
+      return coll;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public SSColl collParentGet(final SSCollUserParentGetPar par) throws Exception{
+
+    try{
+      
+      if(SSObjU.isNull(par.user, par.coll)){
+        throw new SSErr(SSErrE.parameterMissing);
+      }
+      
+      if(!sqlFct.ownsUserColl(par.user, par.coll)){
+        throw new SSErr(SSErrE.userDoesntOwnColl);
+      }
+      
+      return collGet(
+        new SSCollGetPar(
+          null,
+          null,
+          par.user,
+          SSCollMiscFct.getDirectParentCollURIForUser(
+            sqlFct,
+            par.user,
+            par.coll),
+          par.withUserRestriction,
+          par.invokeEntityHandlers));
 
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }
   }
-
+  
   @Override
   public void collRootGet(SSSocketCon sSCon, SSServPar parA) throws Exception{
 
     SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(SSCollUserRootGetRet.get(collUserRootGet(parA), parA.op));
+    final SSCollUserRootGetPar par = (SSCollUserRootGetPar) parA.getFromJSON(SSCollUserRootGetPar.class);
+    
+    sSCon.writeRetFullToClient(SSCollUserRootGetRet.get(collRootGet(par)));
   }
   
   @Override
-  public SSColl collUserRootGet(final SSServPar parA) throws Exception{
-
-    final SSCollUserRootGetPar par = new SSCollUserRootGetPar(parA);
+  public SSColl collRootGet(final SSCollUserRootGetPar par) throws Exception{
 
     try{
 
-      return SSCollMiscFct.getCollWithEntriesWithCircleTypes(
-        sqlFct,
-        par.user,
-        sqlFct.getRootCollURIForUser(par.user));
+      if(SSObjU.isNull(par.user)){
+        throw new SSErr(SSErrE.parameterMissing);
+      }
+      
+      return collGet(
+        new SSCollGetPar(
+          null,
+          null,
+          par.user,
+          sqlFct.getRootCollURI(par.user),
+          par.withUserRestriction,
+          par.invokeEntityHandlers));
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public List<SSEntity> collsGet(final SSCollsGetPar par) throws Exception{
 
+    try{
+      
+      if(par.user == null){
+        throw new SSErr(SSErrE.parameterMissing);
+      }
+      
+      final List<SSEntity> colls = new ArrayList<>();
+      
+      for(SSUri collURI : sqlFct.getUserCollURIs(par.user)){
+        
+        SSEntity.addEntitiesDistinctWithoutNull(
+          colls,
+          collGet(
+            new SSCollGetPar(
+              null,
+              null,
+              par.user,
+              collURI,
+              par.withUserRestriction,
+              par.invokeEntityHandlers)));
+      }
+      
+      return colls;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }
   }
 
+  @Override
+  public void collHierarchyGet(SSSocketCon sSCon, SSServPar parA) throws Exception{
+
+    SSServCallerU.checkKey(parA);
+
+    final SSCollUserHierarchyGetPar par = (SSCollUserHierarchyGetPar) parA.getFromJSON(SSCollUserHierarchyGetPar.class);
+    
+    sSCon.writeRetFullToClient(SSCollUserHierarchyGetRet.get(collHierarchyGet(par)));
+  }
+  
+  @Override
+  public List<SSEntity> collHierarchyGet(final SSCollUserHierarchyGetPar par) throws Exception{
+
+    try{
+      
+      if(SSObjU.isNull(par.user, par.coll)){
+        throw new SSErr(SSErrE.parameterMissing);
+      }
+            
+      final List<SSEntity> colls          = new ArrayList<>();      
+
+      if(par.withUserRestriction){
+        
+        if(!SSServCallerU.canUserRead(par.user, par.coll)){
+          return colls;
+        }
+      }
+      
+      final List<SSUri>  hierarchy      = new ArrayList<>();
+      final SSUri        rootCollUri;
+      SSUri              directPartentCollUri;
+
+      rootCollUri          = sqlFct.getRootCollURI(par.user);
+      directPartentCollUri = 
+        SSCollMiscFct.getDirectParentCollURIForUser(
+          sqlFct, 
+          par.user, 
+          par.coll);
+
+      while(!SSStrU.equals(rootCollUri, directPartentCollUri)){
+
+        hierarchy.add(directPartentCollUri);
+
+        directPartentCollUri = 
+          SSCollMiscFct.getDirectParentCollURIForUser(
+            sqlFct, 
+            par.user, 
+            directPartentCollUri);
+      }
+      
+      hierarchy.add(rootCollUri);
+      
+      for(SSUri collURI : hierarchy){
+        
+        SSEntity.addEntitiesDistinctWithoutNull(
+          colls,
+          collGet(
+            new SSCollGetPar(
+              null,
+              null,
+              par.user,
+              collURI,
+              par.withUserRestriction,
+              par.invokeEntityHandlers)));
+      }
+      
+      return colls;
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public void collsEntityIsInGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
+
+    SSServCallerU.checkKey(parA);
+
+    final SSCollsUserEntityIsInGetPar par = (SSCollsUserEntityIsInGetPar) parA.getFromJSON(SSCollsUserEntityIsInGetPar.class);
+    
+    sSCon.writeRetFullToClient(SSCollsUserEntityIsInGetRet.get(collsEntityIsInGet(par)));
+  }
+  
+  @Override
+  public List<SSEntity> collsEntityIsInGet(final SSCollsUserEntityIsInGetPar par) throws Exception{
+
+    try{
+      
+      final List<SSEntity> colls         = new ArrayList<>();
+      
+      if(par.withUserRestriction){
+        
+        if(!SSServCallerU.canUserRead(par.user, par.entity)){
+          return colls;
+        }
+      }
+
+      final List<SSUri>                userCollUris   = sqlFct.getUserCollURIs(par.user);
+      final List<SSUri>                entityCollUris = sqlFct.getCollURIsContainingEntity(par.entity);
+      final List<String>               commonCollUris = SSStrU.retainAll(SSStrU.toStr(entityCollUris), SSStrU.toStr(userCollUris));
+
+      for(SSUri collURI : SSUri.get(commonCollUris)){
+        
+        SSEntity.addEntitiesDistinctWithoutNull(
+          colls,
+          collGet(
+            new SSCollGetPar(
+              null,
+              null,
+              par.user,
+              collURI,
+              par.withUserRestriction,
+              par.invokeEntityHandlers)));
+      }
+      
+      return colls;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public Boolean collRootAdd(final SSCollUserRootAddPar par) throws Exception{
+
+    try{
+
+      if(SSObjU.isNull(par.user)){
+        throw new SSErr(SSErrE.parameterMissing);
+      }
+      
+      if(sqlFct.existsCollRootForUser(par.user)){
+        return true;
+      }
+
+      dbSQL.startTrans(par.shouldCommit);
+
+      final SSUri rootCollUri = SSServCaller.vocURICreate();
+
+      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+        new SSEntityUpdatePar(
+          null,
+          null,
+          par.user,
+          rootCollUri,
+          SSEntityE.coll, //type,
+          SSLabel.get(SSStrU.valueRoot), //label
+          null, //description,
+          null, //entitiesToAttach,
+          null, //creationTime,
+          null, //read,
+          false, //setPublic
+          par.withUserRestriction, //withUserRestriction
+          false)); //shouldCommit)
+      
+      sqlFct.addColl (rootCollUri);
+
+      sqlFct.addCollRoot(
+        rootCollUri, 
+        par.user);
+      
+      final SSUri sharedWithMeFilesCollUri =
+        SSServCaller.collUserEntryAdd(
+          par.user,
+          rootCollUri,
+          null,
+          SSLabel.get(SSStrU.valueSharedWithMeFiles),
+          true,
+          false);
+      
+      sqlFct.addCollSpecial(
+        sharedWithMeFilesCollUri,
+        par.user);
+
+      dbSQL.commit(par.shouldCommit);
+
+      return true;
+    }catch(Exception error){
+      
+      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+        
+        if(dbSQL.rollBack(par.shouldCommit)){
+          
+          SSServErrReg.reset();
+          
+          return collRootAdd(par);
+        }else{
+          SSServErrReg.regErrThrow(error);
+          return null;
+        }
+      }
+      
+      dbSQL.rollBack(par.shouldCommit);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public void collEntryAdd(SSSocketCon sSCon, SSServPar parA) throws Exception{
+
+    SSServCallerU.checkKey(parA);
+
+    final SSCollUserEntryAddPar par = (SSCollUserEntryAddPar) parA.getFromJSON(SSCollUserEntryAddPar.class);
+    
+    sSCon.writeRetFullToClient(SSCollUserEntryAddRet.get(collEntryAdd(par)));
+    
+    SSCollActivityFct.addCollEntry(par);
+  }
+  
+  @Override
+  public SSUri collEntryAdd(final SSCollUserEntryAddPar par) throws Exception{
+
+    try{
+
+      if(SSObjU.isNull(par.coll, par.entry)){
+        throw new SSErr(SSErrE.parameterMissing);
+      }
+      
+      if(par.withUserRestriction){
+        
+        if(
+          !SSServCallerU.canUserRead(par.user, par.coll) ||
+          !SSServCallerU.canUserRead(par.user, par.entry)){
+          return null;
+        }
+      }
+      
+      if(par.addNewColl){
+
+        dbSQL.startTrans(par.shouldCommit);
+
+        SSCollEntryAddFct.addNewColl(sqlFct, par);
+
+        dbSQL.commit(par.shouldCommit);
+
+        return par.entry;
+      }
+      
+      if(sqlFct.containsCollEntry(par.coll, par.entry)){
+        return par.entry;
+      }
+
+      if(sqlFct.isColl(par.entry)){
+
+        dbSQL.startTrans(par.shouldCommit);
+
+        SSCollEntryAddFct.addPublicColl(sqlFct, par);
+
+        dbSQL.commit(par.shouldCommit);
+
+        return par.entry;
+      }
+
+      dbSQL.startTrans(par.shouldCommit);
+
+      SSCollEntryAddFct.addCollEntry(sqlFct, par);
+
+      dbSQL.commit(par.shouldCommit);
+
+      return par.entry;
+
+    }catch(Exception error){
+      
+      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+        
+        if(dbSQL.rollBack(par.shouldCommit)){
+          
+          SSServErrReg.reset();
+          
+          return collEntryAdd(par);
+        }else{
+          SSServErrReg.regErrThrow(error);
+          return null;
+        }
+      }
+      
+      dbSQL.rollBack(par.shouldCommit);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+
+  @Override
+  public void collEntriesAdd(SSSocketCon sSCon, SSServPar parA) throws Exception{
+
+    SSServCallerU.checkKey(parA);
+
+    sSCon.writeRetFullToClient(SSCollUserEntriesAddRet.get(collUserEntriesAdd(parA), parA.op));
+    
+    SSCollActivityFct.addCollEntries(new SSCollUserEntriesAddPar(parA));
+  }
+  
+  @Override
+  public Boolean collUserEntriesAdd(final SSServPar parA) throws Exception{
+
+    try{
+      
+      final SSCollUserEntriesAddPar par = new SSCollUserEntriesAddPar(parA);
+
+      dbSQL.startTrans(par.shouldCommit);
+
+      for(int counter = 0; counter < par.entries.size(); counter++){
+
+        SSServCaller.collUserEntryAdd(
+          par.user,
+          par.coll,
+          par.entries.get(counter),
+          par.labels.get(counter),
+          false,
+          false);
+      }
+
+      dbSQL.commit(par.shouldCommit);
+
+      return true;
+    }catch(Exception error){
+      
+      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+        
+        if(dbSQL.rollBack(parA.shouldCommit)){
+          
+          SSServErrReg.reset();
+          
+          return collUserEntriesAdd(parA);
+        }else{
+          SSServErrReg.regErrThrow(error);
+          return null;
+        }
+      }
+      
+      dbSQL.rollBack(parA.shouldCommit);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
   @Override
   public Boolean collUserEntryDelete(final SSServPar parA) throws Exception{
 
@@ -462,239 +920,6 @@ implements
       }
       
       dbSQL.rollBack(parA.shouldCommit);
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-
-  @Override
-  public void collEntryAdd(SSSocketCon sSCon, SSServPar parA) throws Exception{
-
-    SSServCallerU.checkKey(parA);
-
-    sSCon.writeRetFullToClient(SSCollUserEntryAddRet.get(collUserEntryAdd(parA), parA.op));
-    
-    SSCollActivityFct.addCollEntry(new SSCollUserEntryAddPar(parA));
-  }
-  
-  @Override
-  public SSUri collUserEntryAdd(final SSServPar parA) throws Exception{
-
-    final SSCollUserEntryAddPar par = new SSCollUserEntryAddPar(parA);
-
-    try{
-
-      SSServCallerU.canUserEditEntity(par.user, par.coll);
-      
-      if(par.addNewColl){
-
-        dbSQL.startTrans(par.shouldCommit);
-
-        SSCollEntryAddFct.addNewColl(sqlFct, par);
-
-        dbSQL.commit(par.shouldCommit);
-
-        return par.entry;
-      }
-      
-      SSServCallerU.canUserReadEntity(par.user, par.entry);
-
-      if(sqlFct.containsCollEntry(par.coll, par.entry)){
-        return par.entry;
-      }
-
-      if(sqlFct.isColl(par.entry)){
-
-        dbSQL.startTrans(par.shouldCommit);
-
-        SSCollEntryAddFct.addPublicColl(sqlFct, par);
-
-        dbSQL.commit(par.shouldCommit);
-
-        return par.entry;
-      }
-
-      dbSQL.startTrans(par.shouldCommit);
-
-      SSCollEntryAddFct.addCollEntry(sqlFct, par);
-
-      dbSQL.commit(par.shouldCommit);
-
-      return par.entry;
-
-    }catch(Exception error){
-      
-      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
-        
-        if(dbSQL.rollBack(parA.shouldCommit)){
-          
-          SSServErrReg.reset();
-          
-          return collUserEntryAdd(parA);
-        }else{
-          SSServErrReg.regErrThrow(error);
-          return null;
-        }
-      }
-      
-      dbSQL.rollBack(parA.shouldCommit);
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-
-  @Override
-  public void collEntriesAdd(SSSocketCon sSCon, SSServPar parA) throws Exception{
-
-    SSServCallerU.checkKey(parA);
-
-    sSCon.writeRetFullToClient(SSCollUserEntriesAddRet.get(collUserEntriesAdd(parA), parA.op));
-    
-    SSCollActivityFct.addCollEntries(new SSCollUserEntriesAddPar(parA));
-  }
-  
-  @Override
-  public Boolean collUserEntriesAdd(final SSServPar parA) throws Exception{
-
-    try{
-      
-      final SSCollUserEntriesAddPar par = new SSCollUserEntriesAddPar(parA);
-
-      dbSQL.startTrans(par.shouldCommit);
-
-      for(int counter = 0; counter < par.entries.size(); counter++){
-
-        SSServCaller.collUserEntryAdd(
-          par.user,
-          par.coll,
-          par.entries.get(counter),
-          par.labels.get(counter),
-          false,
-          false);
-      }
-
-      dbSQL.commit(par.shouldCommit);
-
-      return true;
-    }catch(Exception error){
-      
-      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
-        
-        if(dbSQL.rollBack(parA.shouldCommit)){
-          
-          SSServErrReg.reset();
-          
-          return collUserEntriesAdd(parA);
-        }else{
-          SSServErrReg.regErrThrow(error);
-          return null;
-        }
-      }
-      
-      dbSQL.rollBack(parA.shouldCommit);
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-
-  @Override
-  public void collWithEntries(SSSocketCon sSCon, SSServPar parA) throws Exception{
-
-    SSServCallerU.checkKey(parA);
-
-    sSCon.writeRetFullToClient(SSCollUserWithEntriesRet.get(collUserWithEntries(parA), parA.op));
-  }
-  
-  @Override
-  public SSColl collUserWithEntries(final SSServPar parA) throws Exception{
-
-    try{
-      final SSCollUserWithEntriesPar par = new SSCollUserWithEntriesPar(parA);
-
-      SSServCallerU.canUserReadEntity(par.user, par.coll);
-      
-      return SSCollMiscFct.getCollWithEntriesWithCircleTypes(sqlFct, par.user, par.coll);
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-
-  @Override
-  public List<SSColl> collsWithEntries(SSServPar parA) throws Exception{
-
-    try{
-      
-      final SSCollsUserWithEntriesPar par                  = new SSCollsUserWithEntriesPar(parA);
-      final List<SSColl>              userCollsWithEntries = new ArrayList<>();
-      
-      for(String collUri : sqlFct.getCollURIsForUser(par.user)){
-
-        userCollsWithEntries.add(
-          SSCollMiscFct.getCollWithEntriesWithCircleTypes(
-            sqlFct,
-            par.user,
-            SSUri.get(collUri)));
-      }
-
-      return userCollsWithEntries;
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-
-  @Override
-  public void collHierarchyGet(SSSocketCon sSCon, SSServPar parA) throws Exception{
-
-    SSServCallerU.checkKey(parA);
-
-    sSCon.writeRetFullToClient(SSCollUserHierarchyGetRet.get(collUserHierarchyGet(parA), parA.op));
-  }
-  
-  @Override
-  public List<SSColl> collUserHierarchyGet(final SSServPar parA) throws Exception{
-
-    try{
-      
-      final SSCollUserHierarchyGetPar par            = new SSCollUserHierarchyGetPar(parA);
-      final List<SSUri>               hierarchy      = new ArrayList<>();
-      final List<SSColl>              colls          = new ArrayList<>();
-      final SSUri                     rootCollUri;
-      SSUri                           directPartentCollUri;
-
-      SSServCallerU.canUserReadEntity(par.user, par.coll);
-
-      rootCollUri          = sqlFct.getRootCollURIForUser               (par.user);
-      directPartentCollUri = SSCollMiscFct.getDirectParentCollURIForUser(sqlFct, par.user, par.coll);
-
-      while(!SSStrU.equals(rootCollUri, directPartentCollUri)){
-
-        hierarchy.add(directPartentCollUri);
-
-        directPartentCollUri = SSCollMiscFct.getDirectParentCollURIForUser(sqlFct, par.user, directPartentCollUri);
-      }
-
-      hierarchy.add(rootCollUri);
-
-      for(SSUri collUri : hierarchy){
-        
-        colls.add(
-          SSColl.get(
-            ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
-              new SSEntityGetPar(
-                null,
-                null,
-                null,
-                collUri,  //entity
-                null, //forUser
-                false, //withUserRestriction
-                null)))); //descPar
-      }
-
-      return colls;
-
-    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -802,114 +1027,6 @@ implements
 
       return tagFrequs;
     }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-
-  @Override
-  public void collsEntityIsInGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
-
-    SSServCallerU.checkKey(parA);
-
-    sSCon.writeRetFullToClient(SSCollsUserEntityIsInGetRet.get(collsUserEntityIsInGet(parA), parA.op));
-  }
-  
-  @Override
-  public List<SSColl> collsUserEntityIsInGet(final SSServPar parA) throws Exception{
-
-    final SSCollsUserEntityIsInGetPar par           = new SSCollsUserEntityIsInGetPar(parA);
-    final List<SSColl>                colls         = new ArrayList<>();
-    final List<String>                collUris;
-    final List<String>                userCollUris;
-
-    try{
-
-      SSServCallerU.canUserReadEntity(par.user, par.entity);
-      
-      userCollUris = sqlFct.getCollURIsForUser(par.user);
-      collUris     = sqlFct.getCollURIsContainingEntity(par.entity);
-
-      for(String coll : SSStrU.retainAll(collUris, userCollUris)){
-        colls.add(SSCollMiscFct.getCollWithEntriesWithCircleTypes(sqlFct, par.user, SSUri.get(coll)));
-      }
-
-      return colls;
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-
-  @Override
-  public Boolean collUserRootAdd(final SSServPar parA) throws Exception{
-
-    try{
-      
-      final SSCollUserRootAddPar par = new SSCollUserRootAddPar(parA);
-
-      if(sqlFct.existsCollRootForUser(par.user)){
-        return true;
-      }
-
-      dbSQL.startTrans(par.shouldCommit);
-
-      final SSUri rootCollUri = SSServCaller.vocURICreate();
-
-      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
-        new SSEntityUpdatePar(
-          null,
-          null,
-          par.user,
-          rootCollUri,
-          SSEntityE.coll, //type,
-          SSLabel.get(SSStrU.valueRoot), //label
-          null, //description,
-          null, //entitiesToAttach,
-          null, //creationTime,
-          null, //read,
-          false, //setPublic
-          par.withUserRestriction, //withUserRestriction
-          false)); //shouldCommit)
-      
-      sqlFct.addColl (rootCollUri);
-
-      sqlFct.addCollRoot(
-        rootCollUri, 
-        par.user);
-      
-      final SSUri sharedWithMeFilesCollUri =
-        SSServCaller.collUserEntryAdd(
-          par.user,
-          rootCollUri,
-          null,
-          SSLabel.get(SSStrU.valueSharedWithMeFiles),
-          true,
-          false);
-      
-      sqlFct.addCollSpecial(
-        sharedWithMeFilesCollUri,
-        par.user);
-
-      dbSQL.commit(par.shouldCommit);
-
-      return true;
-    }catch(Exception error){
-      
-      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
-        
-        if(dbSQL.rollBack(parA.shouldCommit)){
-          
-          SSServErrReg.reset();
-          
-          return collUserRootAdd(parA);
-        }else{
-          SSServErrReg.regErrThrow(error);
-          return null;
-        }
-      }
-      
-      dbSQL.rollBack(parA.shouldCommit);
       SSServErrReg.regErrThrow(error);
       return null;
     }

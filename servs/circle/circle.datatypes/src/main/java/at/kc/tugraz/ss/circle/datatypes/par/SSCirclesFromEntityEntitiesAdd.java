@@ -20,35 +20,50 @@
 */
 package at.kc.tugraz.ss.circle.datatypes.par;
 
-import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSUri;
+import java.util.ArrayList;
+import java.util.List;
 
-public class SSCircleTypesGetPar extends SSServPar{
+public class SSCirclesFromEntityEntitiesAdd extends SSServPar{
+  
+  public SSUri                 entity               = null;
+  public List<SSUri>           entities             = new ArrayList<>();
 
-  public SSUri entity  = null;
-
-  public String getEntity(){
+  public String getEntity() throws Exception{
     return SSStrU.removeTrailingSlash(entity);
   }
-
+  
   public void setEntity(final String entity) throws Exception{
     this.entity = SSUri.get(entity);
   }
+
+  public List<String> getEntities() throws Exception{
+    return SSStrU.removeTrailingSlash(entities);
+  }
   
-  public SSCircleTypesGetPar(){}
-    
-  public SSCircleTypesGetPar(
-    final SSServOpE     op,
-    final String        key,
-    final SSUri         user,
-    final SSUri         entity,
-    final Boolean       withUserRestriction){
+  public void setEntities(final List<String> entities) throws Exception{
+    this.entities = SSUri.get(entities); 
+  }
+  
+  public SSCirclesFromEntityEntitiesAdd(){}
+  
+  public SSCirclesFromEntityEntitiesAdd(
+    final SSServOpE      op,
+    final String         key,
+    final SSUri          user,
+    final SSUri          entity,
+    final List<SSUri>    entities,
+    final Boolean        shouldCommit) throws Exception{
     
     super(op, key, user);
     
-    this.entity              = entity;
-    this.withUserRestriction = withUserRestriction;
+    this.entity  = entity;
+    
+    SSUri.addDistinctWithoutNull(this.entities, entities);
+    
+    this.shouldCommit        = shouldCommit;
   }
 }

@@ -26,6 +26,7 @@ import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServRetI;
 import at.kc.tugraz.ss.service.coll.datatypes.SSColl;
+import at.tugraz.sss.serv.SSEntity;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -33,24 +34,7 @@ import java.util.Map;
 
 public class SSCollsUserEntityIsInGetRet extends SSServRetI{
 
-  public List<SSColl> colls = new ArrayList<>();
-
-  public static SSCollsUserEntityIsInGetRet get(
-    final List<SSColl> colls,
-    final SSServOpE      op){
-    return new SSCollsUserEntityIsInGetRet(colls, op);
-  }
-  
-  private SSCollsUserEntityIsInGetRet(
-    final List<SSColl> colls, 
-    final SSServOpE      op) {
-
-    super(op);
-    
-    if(colls != null){
-      this.colls.addAll(colls);
-    }
-  }
+  public List<SSEntity> colls = new ArrayList<>();
 
   @Override
   public Map<String, Object> jsonLDDesc(){
@@ -66,7 +50,17 @@ public class SSCollsUserEntityIsInGetRet extends SSServRetI{
     return ld;
   }
   
-  public List<SSColl> getColls() {
-    return colls;
+  public static SSCollsUserEntityIsInGetRet get(
+    final List<SSEntity> colls){
+    
+    return new SSCollsUserEntityIsInGetRet(colls);
+  }
+  
+  private SSCollsUserEntityIsInGetRet(
+    final List<SSEntity> colls) {
+
+    super(SSServOpE.collsEntityIsInGet);
+    
+    SSEntity.addEntitiesDistinctWithoutNull(this.colls, colls);
   }
 }

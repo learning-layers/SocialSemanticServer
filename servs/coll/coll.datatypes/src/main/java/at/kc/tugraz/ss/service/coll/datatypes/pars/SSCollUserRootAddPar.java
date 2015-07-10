@@ -20,11 +20,19 @@
 */
  package at.kc.tugraz.ss.service.coll.datatypes.pars;
 
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSUri;
 
 public class SSCollUserRootAddPar extends SSServPar{
 
-  public SSCollUserRootAddPar(SSServPar par) throws Exception{
-    super(par);
+  public SSCollUserRootAddPar(){}
+    
+  public SSCollUserRootAddPar(
+    final SSServOpE op,
+    final String    key,
+    final SSUri     user){
+
+    super(op, key, user);
   }
 }

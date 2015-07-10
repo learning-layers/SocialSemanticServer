@@ -40,3 +40,7 @@ public class SSObjU {
     return false;
   }
 }
+
+//  public static SSColl[] toCollArray(Collection<SSColl> toConvert) {
+//    return (SSColl[]) toConvert.toArray(new SSColl[toConvert.size()]);
+//  }
