@@ -76,6 +76,7 @@ implements
     final SSEntityDescriberPar par) throws Exception{
     
     switch(entity.type){
+      
       case user: {
         
         if(par.setFriends){
@@ -144,7 +145,6 @@ implements
             null, 
             par.user, 
             par.friend, 
-            null, //forUser, 
             par.withUserRestriction, //withUserRestriction, 
             null))); //descPar));
       

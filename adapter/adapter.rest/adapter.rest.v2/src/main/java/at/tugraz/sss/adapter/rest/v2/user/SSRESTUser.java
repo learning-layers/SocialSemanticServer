@@ -20,8 +20,8 @@
  */
 package at.tugraz.sss.adapter.rest.v2.user;
 
+import at.kc.tugraz.ss.service.user.datatypes.pars.SSUsersGetPar;
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
-import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserAllPar;
 import at.kc.tugraz.ss.service.user.datatypes.ret.SSUsersGetRet;
 import at.tugraz.sss.serv.SSServOpE;
 import com.wordnik.swagger.annotations.Api;
@@ -50,16 +50,17 @@ public class SSRESTUser{
     @Context 
       final HttpHeaders headers){
     
-    final SSUserAllPar par;
+    final SSUsersGetPar par;
     
     try{
       
       par =
-        new SSUserAllPar(
-          SSServOpE.userAll,
+        new SSUsersGetPar(
+          SSServOpE.usersGet,
           null,
           null,  
-          true);
+          null, //users
+          true); //invokeEntityHandlers
       
     }catch(Exception error){
       return Response.status(422).build();

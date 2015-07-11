@@ -158,7 +158,6 @@ public class SSLearnEpAccessController{
               null,
               null,
               user,
-              user,
               learnEp,
               true)),
           SSCircleE.group)){

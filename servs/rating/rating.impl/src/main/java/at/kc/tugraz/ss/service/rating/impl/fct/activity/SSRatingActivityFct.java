@@ -49,7 +49,7 @@ public class SSRatingActivityFct{
           SSUri.asListWithoutNullAndEmpty(),
           SSTextComment.asListWithoutNullAndEmpty(),
           null,
-          false));
+          par.shouldCommit));
               
     }catch(SSErr error){
       

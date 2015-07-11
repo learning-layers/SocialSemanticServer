@@ -69,14 +69,16 @@ public class SSRESTUE{
       
       par =
         new SSUEsGetPar(
-          SSServOpE.uEsGet,
+          SSServOpE.userEventsGet,
           null,
           null,  
           input.forUser,
           input.entity, 
           input.types, 
           input.startTime,
-          input.endTime);
+          input.endTime, 
+          true,  //withUserRestriction
+          true); //invokeEntityHandlers
       
     }catch(Exception error){
       return Response.status(422).build();
@@ -105,10 +107,12 @@ public class SSRESTUE{
       
       par =
         new SSUEGetPar(
-          SSServOpE.uEGet,
+          SSServOpE.userEventGet,
           null,
           null,  
-          SSUri.get(uE, SSVocConf.sssUri));
+          SSUri.get(uE, SSVocConf.sssUri), 
+          true, // withUserRestriction
+          true); //invokeEntityHandlers
       
     }catch(Exception error){
       return Response.status(422).build();
@@ -136,14 +140,15 @@ public class SSRESTUE{
       
       par =
         new SSUECountGetPar(
-          SSServOpE.uECountGet,
+          SSServOpE.userEventCountGet,
           null,
           null,  
           input.forUser, 
           input.entity, 
           input.type, 
           input.startTime, 
-          input.endTime);
+          input.endTime, 
+          true); //withUserRestriction
       
     }catch(Exception error){
       return Response.status(422).build();
@@ -171,13 +176,14 @@ public class SSRESTUE{
       
       par =
         new SSUEAddPar(
-          SSServOpE.uEAdd,
+          SSServOpE.userEventAdd,
           null,
           null,  
           input.entity, //entity
           input.type,  //type
           input.content, //content
           null, //creationTime
+          true, //withUserRestriction
           true); //shouldCommit
       
     }catch(Exception error){

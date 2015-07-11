@@ -67,8 +67,9 @@ public class SSRESTVideo{
           SSServOpE.videosGet,
           null,
           null,
-          null,
-          null);
+          null, //forEntity
+          true, //withUserRestriction
+          true); //invokeEntityHandlers
       
     }catch(Exception error){
       return Response.status(422).build();
@@ -106,7 +107,9 @@ public class SSRESTVideo{
           input.creationTime, 
           input.latitude,
           input.longitude,
-          input.accuracy);
+          input.accuracy, 
+          true, //withUserRestriction, 
+          true); //shouldCommit);
       
     }catch(Exception error){
       return Response.status(422).build();
@@ -145,7 +148,9 @@ public class SSRESTVideo{
           input.x,
           input.y,
           input.label,
-          input.description);
+          input.description, 
+          true, //withUserRestriction, 
+          true); //shouldCommit);
       
     }catch(Exception error){
       return Response.status(422).build();

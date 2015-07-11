@@ -463,16 +463,17 @@ implements
           
           par.entity = SSServCaller.vocURICreate();
           
-          ((SSUEServerI) SSServReg.getServ(SSUEServerI.class)).uEAdd(
+          ((SSUEServerI) SSServReg.getServ(SSUEServerI.class)).userEventAdd(
             new SSUEAddPar(
               null,
               null,
               par.user,
               par.entity,
               SSUEE.bnpPlaceholderAdd,
-              SSStrU.empty,
+              null, //content
               par.creationTime,
-              true));
+              par.withUserRestriction,
+              false)); //shouldCommit
           break;
         }
         

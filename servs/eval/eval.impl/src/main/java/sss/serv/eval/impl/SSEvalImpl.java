@@ -113,7 +113,6 @@ implements
               null,
               null,
               par.forUser,  //entity
-              null, //forUser
               false, //withUserRestriction
               null)); //descPar
         
@@ -125,7 +124,6 @@ implements
               null,
               null,
               par.user,  //entity
-              null, //forUser
               false, //withUserRestriction
               null)); //descPar
       }
@@ -138,7 +136,6 @@ implements
               null,
               null,
               par.entity,  //entity
-              null, //forUser
               false, //withUserRestriction
               null)); //descPar
       }
@@ -151,7 +148,6 @@ implements
               null,
               null,
               entity,  //entity
-              null, //forUser
               false, //withUserRestriction
               null))); //descPar
       }
@@ -164,7 +160,6 @@ implements
               null,
               null,
               user,  //entity
-              null, //forUser
               false, //withUserRestriction
               null))); //descPar
       }
@@ -180,7 +175,6 @@ implements
                 new SSCircleMostOpenCircleTypeGetPar(
                   null,
                   null,
-                  originUser.id,
                   originUser.id,
                   targetEntity.id,
                   true));
@@ -207,7 +201,8 @@ implements
                     null, 
                     null, 
                     par.user, 
-                    targetEntity.id));
+                    targetEntity.id, //activity
+                    false)); //invokeEntityHandlers
               
               targetEntities.addAll (activity.entities);
               targetUsers.addAll    (activity.users);
@@ -313,7 +308,6 @@ implements
                   null,
                   null,
                   originUser.id,
-                  originUser.id,
                   targetEntity.id,
                   true));
             break;
@@ -360,7 +354,10 @@ implements
           
             final SSLearnEpVersion learnEpVersion = 
               ((SSLearnEpServerI)SSServReg.getServ(SSLearnEpServerI.class)).learnEpVersionCurrentGet(
-                new SSLearnEpVersionCurrentGetPar(null, null, originUser.id));
+                new SSLearnEpVersionCurrentGetPar(
+                  null, 
+                  null, 
+                  originUser.id));
 
             final Integer itemCount = 
               learnEpVersion.learnEpCircles.size() + 

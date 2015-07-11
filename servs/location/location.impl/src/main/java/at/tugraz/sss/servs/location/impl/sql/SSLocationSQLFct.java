@@ -72,20 +72,46 @@ public class SSLocationSQLFct extends SSDBSQLFct{
     }
   }
 
-  public List<SSLocation> getLocations(
+   public SSLocation getLocation(
+     final SSUri location) throws Exception{
+   
+    ResultSet resultSet = null;
+    
+    try{
+      final List<String>         columns    = new ArrayList<>();              
+      final Map<String, String>  wheres     = new HashMap<>();
+      
+      column(columns, SSSQLVarNames.locationTable, SSSQLVarNames.locationId);
+      column(columns, SSSQLVarNames.locationTable, SSSQLVarNames.latitude);
+      column(columns, SSSQLVarNames.locationTable, SSSQLVarNames.longitude);
+      column(columns, SSSQLVarNames.locationTable, SSSQLVarNames.accuracy);
+      
+      resultSet = dbSQL.select(SSSQLVarNames.locationTable, columns, wheres, null, null, null);
+      
+      return SSLocation.get(
+        bindingStrToUri   (resultSet, SSSQLVarNames.locationId),
+        bindingStrToDouble(resultSet, SSSQLVarNames.latitude),
+        bindingStrToDouble(resultSet, SSSQLVarNames.longitude),
+        bindingStrToFloat (resultSet, SSSQLVarNames.accuracy));
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
+    }
+  }
+   
+  public List<SSUri> getLocationURIs(
     final SSUri forEntity) throws Exception{
    
     ResultSet resultSet = null;
     
     try{
-      final List<SSLocation>     locations  = new ArrayList<>();
       final List<String>         columns    = new ArrayList<>();              
       final Map<String, String>  wheres     = new HashMap<>();
 
       column(columns, SSSQLVarNames.locationTable, SSSQLVarNames.locationId);
-      column(columns, SSSQLVarNames.locationTable, SSSQLVarNames.latitude);
-      column(columns, SSSQLVarNames.locationTable, SSSQLVarNames.longitude);
-      column(columns, SSSQLVarNames.locationTable, SSSQLVarNames.accuracy);
         
       if(forEntity != null){
         
@@ -104,17 +130,7 @@ public class SSLocationSQLFct extends SSDBSQLFct{
         resultSet = dbSQL.select(SSSQLVarNames.locationTable, columns, wheres, null, null, null);
       }
       
-      while(resultSet.next()){
-        
-        locations.add(
-          SSLocation.get(
-            bindingStrToUri   (resultSet, SSSQLVarNames.locationId),
-            bindingStrToDouble(resultSet, SSSQLVarNames.latitude),
-            bindingStrToDouble(resultSet, SSSQLVarNames.longitude),
-            bindingStrToFloat (resultSet, SSSQLVarNames.accuracy)));
-      }      
-      
-      return locations;
+      return getURIsFromResult(resultSet, SSSQLVarNames.locationId);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

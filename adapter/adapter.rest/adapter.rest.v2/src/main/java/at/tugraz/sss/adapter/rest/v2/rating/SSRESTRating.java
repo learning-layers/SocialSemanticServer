@@ -69,7 +69,8 @@ public class SSRESTRating{
           SSServOpE.ratingOverallGet,
           null,
           null,
-          SSUri.get(entity, SSVocConf.sssUri));
+          SSUri.get(entity, SSVocConf.sssUri), 
+          true); //withUserRestriction
       
     }catch(Exception error){
       return Response.status(422).build();
@@ -106,7 +107,9 @@ public class SSRESTRating{
           null,
           SSUri.get(entity, SSVocConf.sssUri),
           Integer.valueOf(value),
-          true);
+          true, //allowToRateAgain
+          true, //withUserRestriction
+          true); //shouldCommit
       
     }catch(Exception error){
       return Response.status(422).build();

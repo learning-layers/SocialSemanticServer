@@ -43,7 +43,8 @@ public class SSRatingGetPar extends SSServPar{
     final SSServOpE op,
     final String    key,
     final SSUri     user,
-    final SSUri     entity){
+    final SSUri     entity, 
+    final Boolean   withUserRestriction){
         
     super(op, key, user);
     

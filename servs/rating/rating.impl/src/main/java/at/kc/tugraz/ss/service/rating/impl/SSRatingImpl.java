@@ -52,6 +52,7 @@ import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
+import at.tugraz.sss.serv.SSErr;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -152,7 +153,8 @@ implements
               null, 
               null, 
               par.user, 
-              entity.id));
+              entity.id,
+              par.withUserRestriction));
       }
       
       return entity;
@@ -171,8 +173,6 @@ implements
     
     sSCon.writeRetFullToClient(SSRatingSetRet.get(ratingSet(par)));
     
-//    saveRatingUserSetUE(par);
-    
     SSRatingActivityFct.rateEntity(par);
   }
   
@@ -180,11 +180,13 @@ implements
   public Boolean ratingSet(final SSRatingSetPar par) throws Exception {
     
     try{
-      final SSUri              ratingUri = SSServCaller.vocURICreate();
-      
-      if(sqlFct.hasUserRatedEntity(par.user, par.entity)){
-        return true;
+      if(
+        !par.allowToRateAgain &&
+        sqlFct.hasUserRatedEntity(par.user, par.entity)){
+        return false;
       } 
+
+      final SSUri ratingUri = SSServCaller.vocURICreate();
       
       dbSQL.startTrans(par.shouldCommit);
         
@@ -201,7 +203,7 @@ implements
           null, //creationTime,
           null, //read,
           false, //setPublic
-          false, //withUserRestriction,
+          par.withUserRestriction, //withUserRestriction,
           false)); //shouldCommit
 
       ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
@@ -216,7 +218,7 @@ implements
           null, //entitiesToAttach,
           null, //creationTime,
           null, //read,
-          false, //setPublic
+          true, //setPublic
           false, //withUserRestriction
           false)); //shouldCommit)
         
@@ -265,7 +267,11 @@ implements
     
     try{
       
-      SSServCallerU.canUserReadEntity(par.user, par.entity);
+      if(par.withUserRestriction){
+        if(!SSServCallerU.canUserRead(par.user, par.entity)){
+          return -1;
+        }
+      }
       
       return sqlFct.getUserRating(par.user, par.entity);
     }catch(Exception error){
@@ -289,7 +295,12 @@ implements
 
     try{
       
-      SSServCallerU.canUserReadEntity(par.user, par.entity);
+      if(par.withUserRestriction){
+        
+        if(!SSServCallerU.canUserRead(par.user, par.entity)){
+          return null;
+        }
+      }
       
       return sqlFct.getOverallRating(par.entity);
     }catch(Exception error){
@@ -303,11 +314,16 @@ implements
     
     try{
       
-      if(par.user == null){
-        throw new Exception("user null");
-      }
+      if(par.withUserRestriction){
       
-      SSServCallerU.canUserReadEntity(par.user, par.entity);
+        if(par.user == null){
+          throw new SSErr(SSErrE.parameterMissing);
+        }
+        
+        if(!SSServCallerU.canUserRead(par.user, par.entity)){
+          return false;
+        }
+      }
       
       dbSQL.startTrans(par.shouldCommit);
       

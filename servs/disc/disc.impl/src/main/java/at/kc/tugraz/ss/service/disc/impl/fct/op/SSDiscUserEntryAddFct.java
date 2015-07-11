@@ -119,7 +119,6 @@ public class SSDiscUserEntryAddFct{
             null,
             null,
             discUri,  //entity
-            null, //forUser
             false, //withUserRestriction
             null)).type; //descPar
       

@@ -41,11 +41,12 @@ import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthRegisterUserPar;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthUsersFromCSVFileAddPar;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.ret.SSAuthCheckCredRet;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.kc.tugraz.ss.service.coll.api.SSCollServerI;
+import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserRootAddPar;
 import at.kc.tugraz.ss.service.user.api.SSUserServerI;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserAddPar;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserExistsPar;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserURIGetPar;
-import at.kc.tugraz.ss.service.user.service.SSUserServ;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
@@ -56,6 +57,7 @@ import java.util.Map;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSServReg;
 
 public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAuthServerI{
   
@@ -138,7 +140,7 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
       
       dbSQL.startTrans(par.shouldCommit);
       
-      if(!((SSUserServerI) SSUserServ.inst.serv()).userExists(
+      if(!((SSUserServerI) SSServReg.getServ(SSUserServerI.class)).userExists(
         new SSUserExistsPar(
           null, 
           null, 
@@ -146,7 +148,7 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
           par.email))){
         
         userUri = 
-          ((SSUserServerI) SSUserServ.inst.serv()).userAdd(
+          ((SSUserServerI) SSServReg.getServ(SSUserServerI.class)).userAdd(
             new SSUserAddPar(
               null,
               null,
@@ -154,7 +156,8 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
               false,
               par.label,
               par.email,
-              par.isSystemUser));
+              par.isSystemUser, 
+              false));
         
         sqlFct.removeKey(userUri);
         
@@ -165,7 +168,7 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
       }else{
         
         userUri =
-          ((SSUserServerI) SSUserServ.inst.serv()).userURIGet(
+          ((SSUserServerI) SSServReg.getServ(SSUserServerI.class)).userURIGet(
             new SSUserURIGetPar(
               null,
               null,
@@ -183,7 +186,14 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
       }
       
       try{
-        SSServCaller.collUserRootAdd (userUri, false);
+        
+        ((SSCollServerI) SSServReg.getServ(SSCollServerI.class)).collRootAdd(
+          new SSCollUserRootAddPar(
+            null, 
+            null, 
+            userUri, 
+            false));
+        
       }catch(SSErr error){
         
         switch(error.code){
@@ -215,7 +225,7 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
           final String email = SSStrU.toStr(par.label) + SSStrU.at + SSVocConf.systemEmailPostFix;
           final SSUri  userUri;
           
-          if(!((SSUserServerI) SSUserServ.inst.serv()).userExists(
+          if(!((SSUserServerI) SSServReg.getServ(SSUserServerI.class)).userExists(
             new SSUserExistsPar(
               null,
               null,
@@ -223,7 +233,7 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
               email))){
                 
             userUri =
-              ((SSUserServerI) SSUserServ.inst.serv()).userAdd(
+              ((SSUserServerI) SSServReg.getServ(SSUserServerI.class)).userAdd(
                 new SSUserAddPar(
                   null, 
                   null, 
@@ -231,10 +241,18 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
                   true, 
                   par.label, 
                   email, 
-                  false));
-                  
+                  false, //isSystemUser
+                  false)); //withUserRestriction
+            
             try{
-              SSServCaller.collUserRootAdd (userUri, true);
+              
+              ((SSCollServerI) SSServReg.getServ(SSCollServerI.class)).collRootAdd(
+                new SSCollUserRootAddPar(
+                  null,
+                  null,
+                  userUri,
+                  true));
+              
             }catch(SSErr error){
               
               switch(error.code){
@@ -245,7 +263,7 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
           }else{
             
            userUri = 
-             ((SSUserServerI) SSUserServ.inst.serv()).userURIGet(
+             ((SSUserServerI) SSServReg.getServ(SSUserServerI.class)).userURIGet(
                new SSUserURIGetPar(
                  null, 
                  null, 
@@ -282,7 +300,7 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
              email = email + SSStrU.at + SSVocConf.systemEmailPostFix;
             }
 
-            if(!((SSUserServerI) SSUserServ.inst.serv()).userExists(
+            if(!((SSUserServerI) SSServReg.getServ(SSUserServerI.class)).userExists(
               new SSUserExistsPar(
                 null,
                 null,
@@ -293,7 +311,7 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
             }
             
             userUri = 
-             ((SSUserServerI) SSUserServ.inst.serv()).userURIGet(
+             ((SSUserServerI) SSServReg.getServ(SSUserServerI.class)).userURIGet(
                new SSUserURIGetPar(
                  null, 
                  null, 
@@ -315,7 +333,7 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
           final String email = SSAuthOIDC.getOIDCUserEmail(par.key);
           SSUri        userUri;
           
-          if(!((SSUserServerI) SSUserServ.inst.serv()).userExists(
+          if(!((SSUserServerI) SSServReg.getServ(SSUserServerI.class)).userExists(
             new SSUserExistsPar(
               null,
               null,
@@ -323,7 +341,7 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
               email))){
             
             userUri = 
-              ((SSUserServerI) SSUserServ.inst.serv()).userAdd(
+              ((SSUserServerI) SSServReg.getServ(SSUserServerI.class)).userAdd(
                 new SSUserAddPar(
                   null, 
                   null, 
@@ -331,10 +349,16 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
                   true, 
                   SSLabel.get(email), 
                   email, 
-                  false));
+                  false, //isSystemUser
+                  false)); //withUserRestriction
             
             try{
-              SSServCaller.collUserRootAdd (userUri, true);
+              ((SSCollServerI) SSServReg.getServ(SSCollServerI.class)).collRootAdd(
+                new SSCollUserRootAddPar(
+                  null,
+                  null,
+                  userUri,
+                  true));
             }catch(SSErr error){
               
               switch(error.code){
@@ -345,7 +369,7 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
           }else{
             
             userUri = 
-             ((SSUserServerI) SSUserServ.inst.serv()).userURIGet(
+             ((SSUserServerI) SSServReg.getServ(SSUserServerI.class)).userURIGet(
                new SSUserURIGetPar(
                  null, 
                  null, 

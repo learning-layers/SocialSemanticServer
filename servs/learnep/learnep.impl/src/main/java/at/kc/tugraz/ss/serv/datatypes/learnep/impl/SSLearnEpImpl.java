@@ -81,6 +81,7 @@ import at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.access.SSLearnEpAccessCon
 import at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.activity.SSLearnEpActivityFct;
 import at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.misc.SSLearnEpMiscFct;
 import at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.sql.SSLearnEpSQLFct;
+import at.kc.tugraz.ss.service.filerepo.api.SSFileRepoServerI;
 import at.tugraz.sss.serv.SSCircleContentChangedPar;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSSocketCon;
@@ -88,7 +89,6 @@ import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSEntityCircle;
 import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
@@ -107,6 +107,7 @@ import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSImageE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
+import at.tugraz.sss.servs.file.datatype.par.SSEntityFilesGetPar;
 import at.tugraz.sss.servs.image.api.SSImageServerI;
 import at.tugraz.sss.servs.image.datatype.par.SSImagesGetPar;
 
@@ -292,8 +293,11 @@ implements
   public List<SSLearnEp> learnEpsGet(final SSLearnEpsGetPar par) throws Exception{
 
     try{
-      final List<SSLearnEp>  learnEps = sqlFct.getLearnEps(par.user);
-
+      final List<SSLearnEp>      learnEps = sqlFct.getLearnEps(par.user);
+      final SSEntityDescriberPar descPar  = new SSEntityDescriberPar();
+        
+      descPar.setRead          = true;
+        
       for(SSLearnEp learnEp : learnEps){
 
         learnEp.circleTypes.addAll(
@@ -302,15 +306,19 @@ implements
               null, 
               null, 
               par.user,
-              par.user,
               learnEp.id, 
               true)));
         
-         learnEp.read = 
-           SSServCaller.entityReadGet(
-             par.user, 
-             learnEp.id);
-         
+        learnEp.read = 
+          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+          new SSEntityGetPar(
+            null, 
+            null, 
+            par.user, 
+            learnEp.id, 
+            par.withUserRestriction, 
+            descPar)).read;
+        
          learnEp.users.addAll(
            ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
              new SSEntitiesGetPar(
@@ -318,7 +326,6 @@ implements
                null,
                par.user,
                sqlFct.getLearnEpUserURIs(learnEp.id),
-               null, //forUser,
                null, //types,
                null, //descPar
                false))); //withUserRestriction
@@ -411,10 +418,8 @@ implements
                 null,
                 par.user,
                 learnEpEntity.entity.id,
-                null, //forUser,
-                false, //withUserRestriction
-                descPar, //descPar
-                true)); //logErr
+                par.withUserRestriction, //withUserRestriction
+                descPar)); //descPar
         }
 
         result.add(learnEpVersion);
@@ -449,6 +454,11 @@ implements
           par.learnEpVersion,
           false);
       
+      final SSEntityDescriberPar descPar = new SSEntityDescriberPar();
+      
+      descPar.setTags          = true;
+      descPar.setOverallRating = true;
+      
       for(SSLearnEpEntity learnEpEntity : learnEpVersion.learnEpEntities){
         
         learnEpEntity.entity =
@@ -458,18 +468,8 @@ implements
               null,
               par.user,
               learnEpEntity.entity.id,
-              null, //forUser,
               false, //withUserRestriction
-              true, //invokeEntityHandlers,
-              new SSEntityDescriberPar(
-                true, //setTags,
-                true, //setOverallRating,
-                false, //setDiscs,
-                false, //setUEs,
-                false, //setThumb,
-                false, //setFlags,
-                false), //setCircles //descPar,
-              true)); //logErr
+              descPar)); //descPar,
       }
         
       return learnEpVersion;
@@ -764,22 +764,24 @@ implements
           false)); //shouldCommit)
             
       //TODO replace this parts with circleContentedChanged
-      for(SSUri file : SSServCaller.entityFilesGet(par.user, par.entity)){
-        filesAndThumbs.add(file);
-      }
+      filesAndThumbs.addAll(
+        ((SSFileRepoServerI) SSServReg.getServ(SSFileRepoServerI.class)).filesGet(
+          new SSEntityFilesGetPar(
+            null,
+            null,
+            par.user,
+            par.entity,
+            true)));  //withUserRestcrition);
       
-      for(SSUri thumb :
+      filesAndThumbs.addAll(
         ((SSImageServerI) SSServReg.getServ(SSImageServerI.class)).imagesGet(
           new SSImagesGetPar(
             null,
             null,
             par.user,
-            par.entity, //entity, 
+            par.entity, //entity,
             SSImageE.thumb, //imageType,
-            false))){ //withUserRestriction
-        
-        filesAndThumbs.add(thumb);
-      }
+            false))); //withUserRestriction
       
       entities.add   (learnEpEntityUri);
       entities.add   (par.entity);
@@ -1326,7 +1328,6 @@ implements
               null,
               par.user,
               learnEpEntity.entity.id,
-              null, //forUser,
               false, //withUserRestriction
               descPar)); //descPar
       }

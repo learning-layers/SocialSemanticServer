@@ -35,6 +35,7 @@ import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
 import at.tugraz.sss.serv.SSEntityHandlerImplI;
+import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +46,7 @@ import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.tugraz.sss.servs.location.api.SSLocationClientI;
 import at.tugraz.sss.servs.location.api.SSLocationServerI;
+import at.tugraz.sss.servs.location.datatype.par.SSLocationGetPar;
 import at.tugraz.sss.servs.location.impl.sql.SSLocationSQLFct;
 import at.tugraz.sss.util.SSServCallerU;
 
@@ -77,11 +79,27 @@ implements
             null,
             par.user,
             entity.id,
-            par.withUserRestriction))); //withUserRestriction
+            par.withUserRestriction, //withUserRestriction
+            false))); //invokeEntityHandlers
     }
+    
+    switch(entity.type){
+      case location:{
+        
+        return SSLocation.get(
+          locationGet(
+            new SSLocationGetPar(
+              null,
+              null,
+              par.user,
+              entity.id,
+              par.withUserRestriction,
+              false)), //invokeEntityHandlers
+          entity);
+      }
       
-     
-    return entity;
+      default: return entity;
+    }
   }
   
   @Override
@@ -117,16 +135,56 @@ implements
   }
 
   @Override
-  public List<SSLocation> locationsGet(final SSLocationsGetPar par) throws Exception{
+  public SSLocation locationGet(final SSLocationGetPar par) throws Exception{
     
     try{
       
-      if(par.withUserRestriction){
-        SSServCallerU.canUserReadEntity(par.user, par.entity);
+      if(par.location == null){
+        throw new SSErr(SSErrE.parameterMissing);
       }
       
-      return sqlFct.getLocations(par.entity);
+      return sqlFct.getLocation(par.location);
       
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public List<SSEntity> locationsGet(final SSLocationsGetPar par) throws Exception{
+    
+    try{
+      
+      if(par.entity == null){
+        throw new SSErr(SSErrE.parameterMissing);
+      }
+      
+      if(par.withUserRestriction){
+        if(!SSServCallerU.canUserRead(par.user, par.entity)){
+          return new ArrayList<>();
+        }
+      }
+      
+     final List<SSUri>      locationURIs = sqlFct.getLocationURIs(par.entity);
+     final List<SSEntity>   locations    = new ArrayList<>();
+     
+     for(SSUri locationURI : locationURIs){
+
+       SSEntity.addEntitiesDistinctWithoutNull(
+         locations,
+         locationGet(
+           new SSLocationGetPar(
+             null, 
+             null, 
+             par.user, 
+             locationURI, 
+             par.withUserRestriction, 
+             par.invokeEntityHandlers)));
+     }
+     
+     return locations;
+
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;

@@ -439,13 +439,11 @@ public class SSDiscSQLFct extends SSDBSQLFct {
     ResultSet resultSet = null;
     
     try{
-      final List<SSEntityA>     discEntries   = new ArrayList<>();
       final List<String>        tables        = new ArrayList<>();
       final List<String>        columns       = new ArrayList<>();
       final List<String>        tableCons     = new ArrayList<>();
       final Map<String, String> wheres        = new HashMap<>();
       final SSDisc              disc          = getDiscWithoutEntries(discUri);
-      SSDiscEntry               discEntryObj;
       
       table(tables, SSSQLVarNames.entityTable);
       table(tables, SSSQLVarNames.discEntriesTable);
@@ -465,16 +463,13 @@ public class SSDiscSQLFct extends SSDBSQLFct {
       
       while(resultSet.next()){
         
-        discEntryObj = 
-          SSDiscEntry.get(bindingStrToUri         (resultSet, SSSQLVarNames.discEntryId),
+        disc.entries.add( 
+          SSDiscEntry.get(
+            bindingStrToUri         (resultSet, SSSQLVarNames.discEntryId),
             bindingStrToEntityType  (resultSet, SSSQLVarNames.type),
             bindingStrToInteger     (resultSet, SSSQLVarNames.pos),
-            bindingStrToTextComment (resultSet, SSSQLVarNames.discEntryContent));
-          
-        discEntries.add(discEntryObj);
+            bindingStrToTextComment (resultSet, SSSQLVarNames.discEntryContent)));
       }
-      
-      disc.entries.addAll(discEntries);
       
       return disc;
     }catch(Exception error){

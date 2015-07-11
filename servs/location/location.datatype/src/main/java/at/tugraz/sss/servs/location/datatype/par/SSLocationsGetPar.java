@@ -27,7 +27,8 @@ import at.tugraz.sss.serv.SSStrU;
 
 public class SSLocationsGetPar extends SSServPar{
 
-  public SSUri entity = null;
+  public SSUri   entity               = null;
+  public Boolean invokeEntityHandlers = false;
 
   public String getEntity(){
     return SSStrU.removeTrailingSlash(entity);
@@ -44,11 +45,13 @@ public class SSLocationsGetPar extends SSServPar{
     final String        key,
     final SSUri         user, 
     final SSUri         entity, 
-    final Boolean       withUserRestriction){
+    final Boolean       withUserRestriction, 
+    final Boolean       invokeEntityHandlers){
       
     super(op, key, user);
     
-    this.entity              = entity;
-    this.withUserRestriction = withUserRestriction;
+    this.entity               = entity;
+    this.withUserRestriction  = withUserRestriction;
+    this.invokeEntityHandlers = invokeEntityHandlers;
   }
 }

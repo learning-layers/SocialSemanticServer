@@ -233,8 +233,13 @@ public class SSSearchFct {
             null, 
             null, 
             par.user, 
-            entity.id));
+            entity.id, 
+            par.withUserRestriction));
        
+      if(rating == null){
+        return false;
+      }
+      
       if(
         par.minRating != null &&
         par.minRating > rating.score){

@@ -105,16 +105,15 @@ implements
       
       case image:{
         
-        final SSImage image = 
+        return SSImage.get(
           imageGet(
             new SSImageGetPar(
               null, 
               null, 
               par.user,
               entity.id,
-              par.withUserRestriction));
-       
-        return SSImage.get(image, entity);
+              par.withUserRestriction)), 
+          entity);
       }
       
       default: return entity;
@@ -170,7 +169,6 @@ implements
           null,
           par.user,
           images,  //entities
-          null, //forUser,
           null, //types,
           descPar, //descPar,
           par.withUserRestriction)));// withUserRestriction
@@ -197,7 +195,6 @@ implements
             null,
             par.user,
             sqlFct.getImages(par.entity, par.imageType),  //entities
-            null, //forUser,
             null, //types,
             null, //descPar,
             par.withUserRestriction))); //withUserRestriction

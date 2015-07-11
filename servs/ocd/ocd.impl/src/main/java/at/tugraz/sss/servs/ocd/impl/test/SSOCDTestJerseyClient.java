@@ -20,24 +20,15 @@
 */
 package at.tugraz.sss.servs.ocd.impl.test;
 
-import at.tugraz.sss.serv.SSConfA;
-import at.tugraz.sss.serv.SSFileU;
-import at.tugraz.sss.servs.ocd.conf.SSOCDConf;
 import at.tugraz.sss.servs.ocd.datatypes.SSOCDCreationTypeE;
 import at.tugraz.sss.servs.ocd.datatypes.SSOCDGraphInputE;
 import at.tugraz.sss.servs.ocd.datatypes.SSOCDGraphOutputE;
 import at.tugraz.sss.servs.ocd.datatypes.pars.SSOCDCreateGraphPar;
 import at.tugraz.sss.servs.ocd.datatypes.pars.SSOCDDeleteGraphPar;
 import at.tugraz.sss.servs.ocd.datatypes.pars.SSOCDGetGraphPar;
-import at.tugraz.sss.servs.ocd.impl.SSOCDImpl;
 import at.tugraz.sss.servs.ocd.impl.jerseyclient.SSOCDResource;
-import java.io.File;
-import java.io.FileInputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
-import org.junit.Test;
 
 
 public class SSOCDTestJerseyClient {

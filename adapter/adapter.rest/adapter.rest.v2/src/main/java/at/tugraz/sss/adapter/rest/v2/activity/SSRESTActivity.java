@@ -71,7 +71,8 @@ public class SSRESTActivity{
           input.circles,
           input.startTime,
           input.endTime,
-          input.includeOnlyLastActivities);
+          input.includeOnlyLastActivities, 
+          true); //invokeEntityHandlers
       
     }catch(Exception error){
       return Response.status(422).build();

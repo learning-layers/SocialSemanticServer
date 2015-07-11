@@ -27,6 +27,7 @@ import at.tugraz.sss.serv.SSEntityE;
 import at.kc.tugraz.ss.message.api.SSMessageClientI;
 import at.kc.tugraz.ss.message.api.SSMessageServerI;
 import at.kc.tugraz.ss.message.datatypes.SSMessage;
+import at.kc.tugraz.ss.message.datatypes.par.SSMessageGetPar;
 import at.kc.tugraz.ss.message.datatypes.par.SSMessageSendPar;
 import at.kc.tugraz.ss.message.datatypes.par.SSMessagesGetPar;
 import at.kc.tugraz.ss.message.datatypes.ret.SSMessageSendRet;
@@ -34,13 +35,20 @@ import at.kc.tugraz.ss.message.datatypes.ret.SSMessagesGetRet;
 import at.kc.tugraz.ss.message.impl.fct.activity.SSMessageActivityFct;
 import at.kc.tugraz.ss.message.impl.fct.sql.SSMessageSQLFct;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
+import at.tugraz.sss.serv.SSCircleContentChangedPar;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
+import at.tugraz.sss.serv.SSEntity;
+import at.tugraz.sss.serv.SSEntityDescriberPar;
+import at.tugraz.sss.serv.SSEntityHandlerImplI;
+import at.tugraz.sss.serv.SSErr;
+import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.SSServReg;
@@ -50,7 +58,13 @@ import at.tugraz.sss.util.SSServCallerU;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SSMessageImpl extends SSServImplWithDBA implements SSMessageClientI, SSMessageServerI{
+public class SSMessageImpl 
+extends 
+  SSServImplWithDBA 
+implements 
+  SSMessageClientI, 
+  SSMessageServerI, 
+  SSEntityHandlerImplI{
   
   private final SSMessageSQLFct sqlFct;
 
@@ -61,35 +75,178 @@ public class SSMessageImpl extends SSServImplWithDBA implements SSMessageClientI
   }
   
   @Override
+  public SSEntity getUserEntity(
+    final SSEntity             entity, 
+    final SSEntityDescriberPar par) throws Exception{
+    
+    switch(entity.type){
+      
+      case message:{
+        
+        return SSMessage.get(
+          messageGet(
+            new SSMessageGetPar(
+              null,
+              null,
+              par.user,
+              entity.id,
+              par.withUserRestriction,
+              false)),
+          entity);
+      }
+      
+      default: return entity;
+    }
+  }
+  
+  @Override
+  public void circleContentChanged(final SSCircleContentChangedPar par) throws Exception{
+    
+  }
+  
+  @Override
+  public void copyEntity(
+    final SSUri        user,
+    final List<SSUri>  users,
+    final SSUri        entity,
+    final List<SSUri>  entitiesToExclude,
+    final SSEntityE    entityType) throws Exception{
+    
+  }
+  
+  @Override
+  public List<SSUri> getSubEntities(
+    final SSUri         user,
+    final SSUri         entity,
+    final SSEntityE     type) throws Exception{
+    
+    return new ArrayList<>();
+  }
+  
+  @Override
+  public List<SSUri> getParentEntities(
+    final SSUri         user,
+    final SSUri         entity,
+    final SSEntityE     type) throws Exception{
+    
+    return new ArrayList<>();
+  }
+  
+  @Override
+  public SSMessage messageGet(final SSMessageGetPar par) throws Exception{
+    
+    try{
+      
+      if(par.withUserRestriction){
+        if(!SSServCallerU.canUserRead(par.user, par.message)){
+          return null;
+        }
+      }
+      
+      SSEntityDescriberPar descPar;
+      
+      if(par.invokeEntityHandlers){
+        descPar         = new SSEntityDescriberPar();
+        descPar.setRead = true;
+      }else{
+        descPar = null;
+      }
+      
+      final SSMessage message = 
+        SSMessage.get(
+          sqlFct.getMessage(par.message),
+          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+            new SSEntityGetPar(
+              null, 
+              null, 
+              par.user, 
+              par.message, 
+              par.withUserRestriction, 
+              descPar)));
+      
+      if(par.invokeEntityHandlers){
+        descPar = new SSEntityDescriberPar();
+      }else{
+        descPar = null;
+      }
+      
+      message.user =
+        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+          new SSEntityGetPar(
+            null,
+            null,
+            par.user,
+            message.user.id,
+            par.withUserRestriction,
+            descPar));
+      
+      message.forUser =
+        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+          new SSEntityGetPar(
+            null,
+            null,
+            par.user,
+            message.forUser.id,
+            par.withUserRestriction,
+            descPar));
+      
+      return message;
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+    
+  @Override
   public void messagesGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSMessagesGetRet.get(messagesGet(parA), SSDateU.dateAsLong(), parA.op));
+    final SSMessagesGetPar par = (SSMessagesGetPar) parA.getFromJSON(SSMessagesGetPar.class);
+    
+    sSCon.writeRetFullToClient(SSMessagesGetRet.get(messagesGet(par), SSDateU.dateAsLong()));
   }
   
   @Override
-  public List<SSMessage> messagesGet(final SSServPar parA) throws Exception{
+  public List<SSEntity> messagesGet(final SSMessagesGetPar par) throws Exception{
     
     try{
-      final SSMessagesGetPar  par         = SSMessagesGetPar.get(parA);
-      final List<SSMessage>   messages    = new ArrayList<>();
-      final List<SSMessage>   tmpMessages = sqlFct.getMessages(par.user, par.startTime);
       
-      for(SSMessage message : tmpMessages){
-        
-        message.read = SSServCaller.entityReadGet(par.user, message.id);
-        
-        if(
-          !par.includeRead &&
-          message.read){
-          continue;
-        }
-        
-        messages.add(message);
+      if(par.user == null){
+        throw new SSErr(SSErrE.parameterMissing);
       }
+      
+      final List<SSEntity>   result      = new ArrayList<>();
+      final List<SSEntity>   messages    = new ArrayList<>();
+      
+      final List<SSUri>   messageURIs = sqlFct.getMessageURIs(par.user, par.startTime);
+      
+      for(SSUri messagURI : messageURIs){
+        
+        SSEntity.addEntitiesDistinctWithoutNull(
+          messages,
+          messageGet(
+            new SSMessageGetPar(
+              null,
+              null,
+              par.user,
+              messagURI,
+              par.withUserRestriction,
+              par.invokeEntityHandlers)));
+      }
+      
+      if(
+        !par.invokeEntityHandlers ||
+        par.includeRead){
+        return messages;
+      }
+      
+      messages.stream().filter((message)->(message.read == false)).forEach((message)->{
+        result.add(message);
+      });
 
-      return messages;
+      return result;
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -102,15 +259,19 @@ public class SSMessageImpl extends SSServImplWithDBA implements SSMessageClientI
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSMessageSendRet.get(messageSend(parA), parA.op));
+    final SSMessageSendPar par        = (SSMessageSendPar) parA.getFromJSON(SSMessageSendPar.class);
+    final SSUri            messageURI = messageSend(par);
+      
+    sSCon.writeRetFullToClient(SSMessageSendRet.get(messageURI));
+    
+    SSMessageActivityFct.messageSend(par, messageURI);
   }
   
   @Override
-  public SSUri messageSend(final SSServPar parA) throws Exception{
+  public SSUri messageSend(final SSMessageSendPar par) throws Exception{
     
     try{
-      final SSMessageSendPar  par        = SSMessageSendPar.get(parA);
-      final SSUri             messageUri = SSServCaller.vocURICreate();
+      final SSUri messageUri = SSServCaller.vocURICreate();
       
       dbSQL.startTrans(par.shouldCommit);
       
@@ -136,7 +297,8 @@ public class SSMessageImpl extends SSServImplWithDBA implements SSMessageClientI
         par.forUser,
         par.message);
       
-      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityShare(new SSEntitySharePar(
+      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityShare(
+        new SSEntitySharePar(
           null, 
           null, 
           par.user, 
@@ -145,13 +307,8 @@ public class SSMessageImpl extends SSServImplWithDBA implements SSMessageClientI
           null,  //circles
           false, //setPublic, 
           null, //comment, 
-          false, //withUserRestriction, 
+          par.withUserRestriction, //withUserRestriction, 
           false)); //shouldCommit));
-      
-      SSMessageActivityFct.messageSend(
-        par, 
-        messageUri, 
-        par.message);
       
       dbSQL.commit(par.shouldCommit);
       

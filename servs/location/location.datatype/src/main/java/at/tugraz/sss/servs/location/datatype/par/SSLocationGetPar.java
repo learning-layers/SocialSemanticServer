@@ -18,49 +18,40 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.message.datatypes.par;
+package at.tugraz.sss.servs.location.datatype.par;
 
-import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSStrU;
 
-public class SSMessageSendPar extends SSServPar{
-  
-  public SSUri          forUser    = null;
-  public SSTextComment  message    = null;
-  
-  public void setForUser(final String forUser) throws Exception{
-    this.forUser = SSUri.get(forUser);
-  }
-  
-  public void setMessage(final String message) throws Exception{
-    this.message = SSTextComment.get(message);
-  }
-  
-  public String getForUser(){
-    return SSStrU.removeTrailingSlash(forUser);
+public class SSLocationGetPar extends SSServPar{
+
+  public SSUri   location             = null;
+  public Boolean invokeEntityHandlers = false;
+
+  public String getLocation(){
+    return SSStrU.removeTrailingSlash(location);
   }
 
-  public String getMessage() throws Exception{
-    return SSStrU.toStr(message);
+  public void setLocation(final String location) throws Exception{
+    this.location = SSUri.get(location);
   }
   
-  public SSMessageSendPar(){}
+  public SSLocationGetPar(){}
   
-  public SSMessageSendPar(
+  public SSLocationGetPar(
     final SSServOpE     op,
     final String        key,
-    final SSUri         user,
-    final SSUri         forUser, 
-    final SSTextComment message, 
-    final Boolean       shouldCommit){
-    
+    final SSUri         user, 
+    final SSUri         location, 
+    final Boolean       withUserRestriction, 
+    final Boolean       invokeEntityHandlers){
+      
     super(op, key, user);
     
-    this.forUser      = forUser;
-    this.message      = message;
-    this.shouldCommit = shouldCommit;
+    this.location             = location;
+    this.withUserRestriction  = withUserRestriction;
+    this.invokeEntityHandlers = invokeEntityHandlers;
   }
 }

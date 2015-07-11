@@ -78,46 +78,8 @@ public class SSRESTCircle{
           SSServOpE.circlesGet,
           null,
           null,
-          null, //forUser
           null, //entity
-          SSEntityE.asListWithoutNullAndEmpty(), //entityTypesToIncludeOnly
-          true,  //withUserRestriction
-          false, //withSystemCircles
-          true); //invokeEntityHandlers
-      
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
-  }
-  
-  @GET
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  @Path("/users/{forUser}")
-  @ApiOperation(
-    value = "retrieve circles for a given user",
-    response = SSCirclesGetRet.class)
-  public Response circlesForUserGet(
-    @Context                   
-      final HttpHeaders headers,
-    
-    @PathParam (SSVarNames.forUser)   
-      final String forUser){
-    
-    final SSCirclesGetPar par;
-    
-    try{
-      
-      par =
-        new SSCirclesGetPar(
-          SSServOpE.circlesGet,
-          null, //user
-          null, //key
-          SSUri.get(forUser, SSVocConf.sssUri), //forUser
-          null, //entity
-          SSEntityE.asListWithoutNullAndEmpty(), //entityTypesToIncludeOnly
+          null, //entityTypesToIncludeOnly
           true,  //withUserRestriction
           false, //withSystemCircles
           true); //invokeEntityHandlers
@@ -155,50 +117,8 @@ public class SSRESTCircle{
           null, //key
           null, //user
           SSUri.get(circle, SSVocConf.sssUri), //circle
-          null, //forUser
           input.entityTypesToIncludeOnly, //entityTypesToIncludeOnly
           true,  //withUserRestriction
-          true); //invokeEntityHandlers
-      
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
-  }
-  
-  @POST
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  @Path("/filtered/{circle}/users/{forUser}")
-  @ApiOperation(
-    value = "retrieve a circle for a given user",
-    response = SSCircleGetRet.class)
-  public Response circleForUserGet(
-    @Context                    
-      final HttpHeaders  headers,
-    
-    @PathParam (SSVarNames.forUser)    
-      final String forUser,
-    
-    @PathParam (SSVarNames.circle)  
-      final String circle, 
-    
-    final SSCircleGetRESTAPIV2Par input){
-    
-    final SSCircleGetPar par;
-    
-    try{
-      
-      par =
-        new SSCircleGetPar(
-          SSServOpE.circleGet, //op
-          null, //key
-          null, //user
-          SSUri.get(circle,    SSVocConf.sssUri), //circle
-          SSUri.get(forUser,   SSVocConf.sssUri), //forUser
-          input.entityTypesToIncludeOnly, //entityTypesToIncludeOnly
-          true, //withUserRestriction
           true); //invokeEntityHandlers
       
     }catch(Exception error){

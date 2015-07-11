@@ -26,19 +26,11 @@ import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSEntity;
-import com.wordnik.swagger.annotations.ApiModelProperty;
 import java.util.Map;
 
 public class SSDiscEntry extends SSEntity{
   
-  @ApiModelProperty(
-    required = false,
-    value = "entry position in discussion")
   public  Integer             pos;
-  
-  @ApiModelProperty(
-    required = false,
-    value = "textual content")
   public  SSTextComment       content;
   
   public String getContent(){

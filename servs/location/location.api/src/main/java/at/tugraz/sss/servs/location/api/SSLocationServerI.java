@@ -20,14 +20,17 @@
 */
 package at.tugraz.sss.servs.location.api;
 
+import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.servs.location.datatype.SSLocation;
 import at.tugraz.sss.servs.location.datatype.par.SSLocationAddPar;
+import at.tugraz.sss.servs.location.datatype.par.SSLocationGetPar;
 import at.tugraz.sss.servs.location.datatype.par.SSLocationsGetPar;
 import java.util.List;
 
 public interface SSLocationServerI{
 
-  public List<SSLocation> locationsGet (final SSLocationsGetPar par) throws Exception;
-  public SSUri            locationAdd  (final SSLocationAddPar  par) throws Exception;
+  public SSUri          locationAdd  (final SSLocationAddPar  par) throws Exception;
+  public SSLocation     locationGet  (final SSLocationGetPar  par) throws Exception;
+  public List<SSEntity> locationsGet (final SSLocationsGetPar par) throws Exception;
 }

@@ -25,16 +25,12 @@ import at.kc.tugraz.ss.message.datatypes.par.SSMessageSendPar;
 import at.kc.tugraz.ss.message.datatypes.par.SSMessagesGetPar;
 import at.kc.tugraz.ss.message.datatypes.ret.SSMessageSendRet;
 import at.kc.tugraz.ss.message.datatypes.ret.SSMessagesGetRet;
-import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSVarNames;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
@@ -68,7 +64,9 @@ public class SSRESTMessage{
           null,
           null,  
           input.includeRead,
-          input.startTime);
+          input.startTime, 
+          true, //withUserRestriction
+          true); //invokeEntityHandlers
       
     }catch(Exception error){
       return Response.status(422).build();

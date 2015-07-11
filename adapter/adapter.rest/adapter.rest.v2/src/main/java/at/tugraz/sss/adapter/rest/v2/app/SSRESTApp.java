@@ -60,7 +60,8 @@ public class SSRESTApp{
         new SSAppsGetPar(
           SSServOpE.appsGet,
           null, 
-          null);
+          null, 
+          true); //invokeEntityHandlers
       
     }catch(Exception error){
       return Response.status(422).build();

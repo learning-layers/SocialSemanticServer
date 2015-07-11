@@ -27,8 +27,9 @@ import at.tugraz.sss.serv.SSServOpE;
 
 public class SSRatingSetPar extends SSServPar{
 
-  public SSUri     entity       = null;
-  public Integer   value        = -1;
+  public SSUri     entity          = null;
+  public Integer   value            = -1;
+  public Boolean   allowToRateAgain = false;
   
   public void setEntity(final String entity) throws Exception{
     this.entity = SSUri.get(entity);
@@ -46,12 +47,16 @@ public class SSRatingSetPar extends SSServPar{
     final SSUri     user, 
     final SSUri     entity, 
     final Integer   value, 
+    final Boolean   allowToRateAgain, 
+    final Boolean   withUserRestriction, 
     final Boolean   shouldCommit){
     
     super(op, key, user);
     
-    this.entity       = entity;
-    this.value        = value;
-    this.shouldCommit = shouldCommit;
+    this.entity              = entity;
+    this.value               = value;
+    this.allowToRateAgain    = allowToRateAgain;
+    this.withUserRestriction = withUserRestriction;
+    this.shouldCommit        = shouldCommit;
   }
 }

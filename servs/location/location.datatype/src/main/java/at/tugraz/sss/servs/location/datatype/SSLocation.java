@@ -31,6 +31,24 @@ public class SSLocation extends SSEntity{
   public Float  accuracy    = null;
   
   public static SSLocation get(
+    final SSLocation  location,
+    final SSEntity    entity) throws Exception{
+    
+    return new SSLocation(location, entity);
+  }
+  
+  protected SSLocation(
+    final SSLocation  location,
+    final SSEntity    entity) throws Exception{
+    
+    super(entity);
+    
+    this.latitude  = location.latitude;
+    this.longitude = location.longitude;
+    this.accuracy  = location.accuracy;
+  }
+  
+  public static SSLocation get(
     final SSUri  id, 
     final Double latitude,
     final Double longitude,

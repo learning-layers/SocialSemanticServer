@@ -35,7 +35,7 @@ import at.kc.tugraz.ss.serv.job.dataexport.datatypes.par.SSDataExportUserEntityT
 import at.kc.tugraz.ss.serv.job.dataexport.datatypes.par.SSDataExportUserRelationsPar;
 import at.kc.tugraz.ss.serv.job.dataexport.impl.fct.SSDataExportFct;
 import at.kc.tugraz.ss.service.user.api.SSUserServerI;
-import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserAllPar;
+import at.kc.tugraz.ss.service.user.datatypes.pars.SSUsersGetPar;
 import at.kc.tugraz.ss.service.user.service.SSUserServ;
 import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSDBNoSQL;
@@ -90,12 +90,13 @@ public class SSDataExportImpl extends SSServImplWithDBA implements SSDataExportC
       try{
         allUsers = 
           SSStrU.toStr(
-            ((SSUserServerI) SSUserServ.inst.serv()).userAll(
-              new SSUserAllPar(
+            ((SSUserServerI) SSUserServ.inst.serv()).usersGet(
+              new SSUsersGetPar(
                 null,
                 null,
-                null,
-                false)));
+                null, //user
+                null, //users
+                false))); //invokeEntityHandlers
         
       }catch(SSErr error){
         
@@ -246,12 +247,13 @@ public class SSDataExportImpl extends SSServImplWithDBA implements SSDataExportC
       try{
         allUsers =
           SSStrU.toStr(
-            ((SSUserServerI) SSUserServ.inst.serv()).userAll(
-              new SSUserAllPar(
+            ((SSUserServerI) SSUserServ.inst.serv()).usersGet(
+              new SSUsersGetPar(
                 null,
                 null,
-                null,
-                false)));
+                null, //user
+                null, //users
+                false))); //invokeEntityHandlers
         
       }catch(SSErr error){
         

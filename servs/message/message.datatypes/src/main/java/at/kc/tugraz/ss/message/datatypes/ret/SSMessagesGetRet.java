@@ -22,49 +22,36 @@ package at.kc.tugraz.ss.message.datatypes.ret;
 
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSServRetI;
-import at.kc.tugraz.ss.message.datatypes.SSMessage;
+import at.tugraz.sss.serv.SSEntity;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class SSMessagesGetRet extends SSServRetI{
   
-  public List<SSMessage> messages  = new ArrayList<>();
-  public Long            queryTime = null;
-  
-  public static SSMessagesGetRet get(
-    final List<SSMessage> messages,
-    final Long            queryTime,
-    final SSServOpE         op){
-    
-    return new SSMessagesGetRet(messages, queryTime, op);
-  }
-  
-  private SSMessagesGetRet(
-    final List<SSMessage> messages,
-    final Long            queryTime,
-    final SSServOpE         op){
-    
-    super(op);
-    
-    if(messages != null){
-      this.messages.addAll(messages);
-    }
-    this.queryTime = queryTime;
-  }
+  public List<SSEntity> messages  = new ArrayList<>();
+  public Long           queryTime = null;
   
   @Override
   public Map<String, Object> jsonLDDesc(){
+    throw new UnsupportedOperationException();
+  }
+  
+  public static SSMessagesGetRet get(
+    final List<SSEntity> messages,
+    final Long           queryTime){
     
-    final Map<String, Object> ld            = new HashMap<>();
-//    final Map<String, Object> messagesObj   = new HashMap<>();
-//
-//    messagesObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSMessage.class.getName());
-//    messagesObj.put(SSJSONLDU.container, SSJSONLDU.set);
-//
-//    ld.put(SSVarU.messages, messagesObj);
+    return new SSMessagesGetRet(messages, queryTime);
+  }
+  
+  private SSMessagesGetRet(
+    final List<SSEntity> messages,
+    final Long           queryTime){
     
-    return ld;
+    super(SSServOpE.messagesGet);
+    
+    SSEntity.addEntitiesDistinctWithoutNull(this.messages, messages);
+      
+    this.queryTime = queryTime;
   }
 }

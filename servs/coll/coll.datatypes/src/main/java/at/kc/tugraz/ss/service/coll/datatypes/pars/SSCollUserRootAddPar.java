@@ -31,8 +31,11 @@ public class SSCollUserRootAddPar extends SSServPar{
   public SSCollUserRootAddPar(
     final SSServOpE op,
     final String    key,
-    final SSUri     user){
+    final SSUri     user, 
+    final Boolean   shouldCommit){
 
     super(op, key, user);
+    
+    this.shouldCommit = shouldCommit;
   }
 }

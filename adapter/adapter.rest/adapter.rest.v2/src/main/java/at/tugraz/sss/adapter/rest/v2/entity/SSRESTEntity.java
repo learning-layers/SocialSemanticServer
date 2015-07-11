@@ -75,7 +75,6 @@ public class SSRESTEntity {
           null,  //key
           null,  //user
           null,  //entities 
-          null, //forUser
           null, //types
           null, //descPar
           true); //withUserRestriction
@@ -122,7 +121,6 @@ public class SSRESTEntity {
           null,
           null,
           SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(entities, SSStrU.comma), SSVocConf.sssUri), //entities
-          null, //forUser,
           null, //types
           descPar, //descPar
           true); //withUserRestriction

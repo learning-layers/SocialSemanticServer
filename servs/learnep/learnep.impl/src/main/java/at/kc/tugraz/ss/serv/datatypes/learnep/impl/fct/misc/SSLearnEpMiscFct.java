@@ -33,13 +33,14 @@ import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionCrea
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionTimelineStateSetPar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.impl.SSLearnEpImpl;
 import at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.sql.SSLearnEpSQLFct;
+import at.kc.tugraz.ss.service.filerepo.api.SSFileRepoServerI;
 import at.tugraz.sss.serv.SSImageE;
 import at.tugraz.sss.serv.SSObjU;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
-import at.tugraz.sss.serv.caller.SSServCaller;
+import at.tugraz.sss.servs.file.datatype.par.SSEntityFilesGetPar;
 import at.tugraz.sss.servs.image.api.SSImageServerI;
 import at.tugraz.sss.servs.image.datatype.par.SSImagesGetPar;
 import java.util.ArrayList;
@@ -189,11 +190,16 @@ public class SSLearnEpMiscFct{
           
           learnEpContentUris.add(entity.entity.id);
           
-          for(SSUri file : SSServCaller.entityFilesGet(user, entity.entity.id)){
-            learnEpContentUris.add(file);
-          }
+          learnEpContentUris.addAll(
+            ((SSFileRepoServerI) SSServReg.getServ(SSFileRepoServerI.class)).filesGet(
+              new SSEntityFilesGetPar(
+                null,
+                null,
+                user,
+                entity.entity.id,
+                true)));  //withUserRestcrition);
           
-          for(SSUri thumb :
+          learnEpContentUris.addAll(
             ((SSImageServerI) SSServReg.getServ(SSImageServerI.class)).imagesGet(
               new SSImagesGetPar(
                 null,
@@ -201,10 +207,7 @@ public class SSLearnEpMiscFct{
                 user,
                 entity.entity.id, //entity
                 SSImageE.thumb, //imageType
-                false))){
-            
-            learnEpContentUris.add(thumb);
-          }
+                false)));
         }
         
         if(learnEpVersion.learnEpTimelineState != null){

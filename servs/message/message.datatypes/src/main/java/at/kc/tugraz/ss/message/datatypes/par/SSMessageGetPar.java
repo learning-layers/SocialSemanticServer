@@ -21,46 +21,37 @@
 package at.kc.tugraz.ss.message.datatypes.par;
 
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServOpE;
 
-public class SSMessageSendPar extends SSServPar{
+public class SSMessageGetPar extends SSServPar{
   
-  public SSUri          forUser    = null;
-  public SSTextComment  message    = null;
-  
-  public void setForUser(final String forUser) throws Exception{
-    this.forUser = SSUri.get(forUser);
-  }
+  public SSUri   message              = null;
+  public Boolean invokeEntityHandlers = false;
   
   public void setMessage(final String message) throws Exception{
-    this.message = SSTextComment.get(message);
-  }
-  
-  public String getForUser(){
-    return SSStrU.removeTrailingSlash(forUser);
+    this.message = SSUri.get(message);
   }
 
   public String getMessage() throws Exception{
-    return SSStrU.toStr(message);
+    return SSStrU.removeTrailingSlash(message);
   }
   
-  public SSMessageSendPar(){}
+  public SSMessageGetPar(){}
   
-  public SSMessageSendPar(
+  public SSMessageGetPar(
     final SSServOpE     op,
     final String        key,
     final SSUri         user,
-    final SSUri         forUser, 
-    final SSTextComment message, 
-    final Boolean       shouldCommit){
+    final SSUri         message, 
+    final Boolean       withUserRestriction, 
+    final Boolean       invokeEntityHandlers){
     
     super(op, key, user);
     
-    this.forUser      = forUser;
-    this.message      = message;
-    this.shouldCommit = shouldCommit;
+    this.message              = message;
+    this.withUserRestriction  = withUserRestriction;
+    this.invokeEntityHandlers = invokeEntityHandlers;
   }
 }

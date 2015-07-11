@@ -27,7 +27,6 @@ import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityContentE;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
 import at.kc.tugraz.ss.activity.datatypes.par.SSActivityAddPar;
 import at.kc.tugraz.ss.activity.datatypes.par.SSActivityContentAddPar;
-import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
 import at.kc.tugraz.ss.message.datatypes.par.SSMessageSendPar;
 import at.tugraz.sss.serv.SSErr;
@@ -38,8 +37,7 @@ public class SSMessageActivityFct{
   
   public static void messageSend(
     final SSMessageSendPar par,
-    final SSUri            message,
-    final SSTextComment    messageContent) throws Exception{
+    final SSUri            message) throws Exception{
     
     try{
       
@@ -52,10 +50,10 @@ public class SSMessageActivityFct{
             SSActivityE.messageSend,
             message,
             SSUri.asListWithoutNullAndEmpty(par.forUser),
-            SSUri.asListWithoutNullAndEmpty(),
-            SSTextComment.asListWithoutNullAndEmpty(),
             null,
-            false));
+            null,
+            null,
+            par.shouldCommit));
         
       ((SSActivityServerI) SSServReg.getServ(SSActivityServerI.class)).activityContentAdd(
         new SSActivityContentAddPar(
@@ -64,8 +62,8 @@ public class SSMessageActivityFct{
           par.user, 
           activity, 
           SSActivityContentE.text, 
-          SSActivityContent.get(messageContent), 
-          false));
+          SSActivityContent.get(par.message),
+          par.shouldCommit));
       
     }catch(SSErr error){
       

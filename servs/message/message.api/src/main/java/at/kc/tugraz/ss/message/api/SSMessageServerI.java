@@ -20,14 +20,19 @@
 */
 package at.kc.tugraz.ss.message.api;
 
-import at.tugraz.sss.serv.SSUri;
 import at.kc.tugraz.ss.message.datatypes.SSMessage;
-import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSUri;
+import at.kc.tugraz.ss.message.datatypes.par.SSMessageGetPar;
+import at.kc.tugraz.ss.message.datatypes.par.SSMessageSendPar;
+import at.kc.tugraz.ss.message.datatypes.par.SSMessagesGetPar;
+import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSServServerI;
 import java.util.List;
 
 public interface SSMessageServerI extends SSServServerI{
 
-  public SSUri                 messageSend            (final SSServPar parA) throws Exception;
-  public List<SSMessage>       messagesGet            (final SSServPar parA) throws Exception;
+  public SSMessage      messageGet      (final SSMessageGetPar  par)  throws Exception;
+  public List<SSEntity> messagesGet     (final SSMessagesGetPar par)  throws Exception;
+  public SSUri          messageSend     (final SSMessageSendPar par)  throws Exception;
+  
 }

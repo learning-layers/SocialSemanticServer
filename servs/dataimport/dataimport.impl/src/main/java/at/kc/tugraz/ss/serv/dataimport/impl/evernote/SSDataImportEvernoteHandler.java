@@ -44,6 +44,7 @@ import at.tugraz.sss.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUE;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUEE;
 import at.kc.tugraz.ss.service.userevent.datatypes.pars.SSUEAddPar;
+import at.kc.tugraz.ss.service.userevent.datatypes.pars.SSUEsGetPar;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
@@ -173,18 +174,23 @@ public class SSDataImportEvernoteHandler {
     final SSUri    notebookUri,
     final Notebook notebook) throws Exception{
     
-    final List<SSUE> existingCreationUEs =
-      SSServCaller.uEsGet(
-        userUri,
-        userUri,
-        notebookUri,
-        SSUEE.asListWithoutEmptyAndNull(SSUEE.evernoteNotebookCreate),
-        null,
-        null);
+    final List<SSEntity> existingCreationUEs =
+      ((SSUEServerI) SSServReg.getServ(SSUEServerI.class)).userEventsGet(
+        new SSUEsGetPar(
+          null, 
+          null, 
+          userUri, //user 
+          userUri, //forUser
+          notebookUri, //entity
+          SSUEE.asListWithoutEmptyAndNull(SSUEE.evernoteNotebookCreate), //types
+          null, //startTime,
+          null, //endTime, 
+          true, //withUserRestriction, 
+          false)); //invokeEntityHandlers
     
     if(existingCreationUEs.isEmpty()){
       
-      ((SSUEServerI) SSServReg.getServ(SSUEServerI.class)).uEAdd(
+      ((SSUEServerI) SSServReg.getServ(SSUEServerI.class)).userEventAdd(
         new SSUEAddPar(
           null,
           null,
@@ -193,21 +199,27 @@ public class SSDataImportEvernoteHandler {
           SSUEE.evernoteNotebookCreate,
           SSStrU.empty,
           notebook.getServiceCreated(),
+          true, 
           false)); //shouldCommit
     }
     
-    final List<SSUE> existingUpdatingUEs =
-      SSServCaller.uEsGet(
-        userUri,
-        userUri,
-        notebookUri,
-        SSUEE.asListWithoutEmptyAndNull(SSUEE.evernoteNotebookUpdate),
-        notebook.getServiceUpdated(),
-        notebook.getServiceUpdated());
+    final List<SSEntity> existingUpdatingUEs =
+      ((SSUEServerI) SSServReg.getServ(SSUEServerI.class)).userEventsGet(
+        new SSUEsGetPar(
+          null,
+          null,
+          userUri, //user
+          userUri, //forUser
+          notebookUri, //entity
+          SSUEE.asListWithoutEmptyAndNull(SSUEE.evernoteNotebookUpdate), //types
+          notebook.getServiceUpdated(),
+          notebook.getServiceUpdated(),
+          true, //withUserRestriction,
+          false)); //invokeEntityHandlers
     
     if(existingUpdatingUEs.isEmpty()){
       
-      ((SSUEServerI) SSServReg.getServ(SSUEServerI.class)).uEAdd(
+      ((SSUEServerI) SSServReg.getServ(SSUEServerI.class)).userEventAdd(
         new SSUEAddPar(
           null,
           null,
@@ -216,6 +228,7 @@ public class SSDataImportEvernoteHandler {
           SSUEE.evernoteNotebookUpdate,
           SSStrU.empty,
           notebook.getServiceUpdated(),
+          true,
           false)); //shouldCommit
     }
   }
@@ -253,20 +266,25 @@ public class SSDataImportEvernoteHandler {
     final SSUri notebookUri,
     final Long  creationTimeForLinkedNotebook) throws Exception {
     
-    final List<SSUE> existingUEs =
-      SSServCaller.uEsGet(
-        userUri,
-        userUri,
-        notebookUri,
-        SSUEE.asListWithoutEmptyAndNull(SSUEE.evernoteNotebookFollow),
-        creationTimeForLinkedNotebook,
-        creationTimeForLinkedNotebook);
+    final List<SSEntity> existingUEs =
+      ((SSUEServerI) SSServReg.getServ(SSUEServerI.class)).userEventsGet(
+        new SSUEsGetPar(
+          null,
+          null,
+          userUri, //user
+          userUri, //forUser
+          notebookUri, //entity
+          SSUEE.asListWithoutEmptyAndNull(SSUEE.evernoteNotebookFollow), //types
+          creationTimeForLinkedNotebook,
+          creationTimeForLinkedNotebook,
+          true, //withUserRestriction,
+          false)); //invokeEntityHandlers
     
     if(!existingUEs.isEmpty()){
       return;
     }
     
-    ((SSUEServerI) SSServReg.getServ(SSUEServerI.class)).uEAdd(
+    ((SSUEServerI) SSServReg.getServ(SSUEServerI.class)).userEventAdd(
       new SSUEAddPar(
         null,
         null,
@@ -275,6 +293,7 @@ public class SSDataImportEvernoteHandler {
         SSUEE.evernoteNotebookFollow,
         SSStrU.empty,
         creationTimeForLinkedNotebook,
+        true,
         false)); //shouldCommit
   }
   
@@ -349,18 +368,23 @@ public class SSDataImportEvernoteHandler {
     final Note         note,
     final SSUri        noteUri) throws Exception {
     
-    final List<SSUE> existingCreationUEs =
-      SSServCaller.uEsGet(
-        userUri,
-        userUri,
-        noteUri,
-        SSUEE.asListWithoutEmptyAndNull(SSUEE.evernoteNoteCreate),
-        null,
-        null);
+    final List<SSEntity> existingCreationUEs =
+      ((SSUEServerI) SSServReg.getServ(SSUEServerI.class)).userEventsGet(
+        new SSUEsGetPar(
+          null,
+          null,
+          userUri, //user
+          userUri, //forUser
+          noteUri, //entity
+          SSUEE.asListWithoutEmptyAndNull(SSUEE.evernoteNoteCreate), //types
+          null,
+          null,
+          true, //withUserRestriction,
+          false)); //invokeEntityHandlers
     
     if(existingCreationUEs.isEmpty()){
       
-      ((SSUEServerI) SSServReg.getServ(SSUEServerI.class)).uEAdd(
+      ((SSUEServerI) SSServReg.getServ(SSUEServerI.class)).userEventAdd(
         new SSUEAddPar(
           null,
           null,
@@ -369,21 +393,27 @@ public class SSDataImportEvernoteHandler {
           SSUEE.evernoteNoteCreate,
           SSStrU.empty,
           note.getCreated(),
+          true,
           false)); //shouldCommit
     }
     
-    final List<SSUE> existingUpdateUEs =
-      SSServCaller.uEsGet(
-        userUri,
-        userUri,
-        noteUri,
-        SSUEE.asListWithoutEmptyAndNull(SSUEE.evernoteNoteUpdate),
-        note.getUpdated(),
-        note.getUpdated());
+    final List<SSEntity> existingUpdateUEs =
+      ((SSUEServerI) SSServReg.getServ(SSUEServerI.class)).userEventsGet(
+        new SSUEsGetPar(
+          null,
+          null,
+          userUri, //user
+          userUri, //forUser
+          noteUri, //entity
+          SSUEE.asListWithoutEmptyAndNull(SSUEE.evernoteNoteUpdate), //types
+          note.getUpdated(),
+          note.getUpdated(),
+          true, //withUserRestriction,
+          false)); //invokeEntityHandlers
     
     if(existingUpdateUEs.isEmpty()){
       
-      ((SSUEServerI) SSServReg.getServ(SSUEServerI.class)).uEAdd(
+      ((SSUEServerI) SSServReg.getServ(SSUEServerI.class)).userEventAdd(
         new SSUEAddPar(
           null,
           null,
@@ -392,23 +422,29 @@ public class SSDataImportEvernoteHandler {
           SSUEE.evernoteNoteUpdate,
           SSStrU.empty,
           note.getUpdated(),
+          true,
           false)); //shouldCommit
     }
     
     if(note.getDeleted() != 0L){
       
-      final List<SSUE> existingDeleteUEs =
-        SSServCaller.uEsGet(
-          userUri,
-          userUri,
-          noteUri,
-          SSUEE.asListWithoutEmptyAndNull(SSUEE.evernoteNoteDelete),
-          null,
-          null);
+      final List<SSEntity> existingDeleteUEs =
+        ((SSUEServerI) SSServReg.getServ(SSUEServerI.class)).userEventsGet(
+          new SSUEsGetPar(
+            null,
+            null,
+            userUri, //user
+            userUri, //forUser
+            noteUri, //entity
+            SSUEE.asListWithoutEmptyAndNull(SSUEE.evernoteNoteDelete), //types
+            null,
+            null,
+            true, //withUserRestriction,
+            false)); //invokeEntityHandlers
       
       if(existingDeleteUEs.isEmpty()){
         
-        ((SSUEServerI) SSServReg.getServ(SSUEServerI.class)).uEAdd(
+        ((SSUEServerI) SSServReg.getServ(SSUEServerI.class)).userEventAdd(
           new SSUEAddPar(
             null,
             null,
@@ -417,6 +453,7 @@ public class SSDataImportEvernoteHandler {
             SSUEE.evernoteNoteDelete,
             SSStrU.empty,
             note.getDeleted(),
+            true,
             false)); //shouldCommit
       }
     }
@@ -429,18 +466,23 @@ public class SSDataImportEvernoteHandler {
     
     if(noteAttr.getShareDate() != 0L){
       
-      final List<SSUE> existingShareUEs =
-        SSServCaller.uEsGet(
-          userUri,
-          userUri,
-          noteUri,
-          SSUEE.asListWithoutEmptyAndNull(SSUEE.evernoteNoteShare),
-          noteAttr.getShareDate(),
-          noteAttr.getShareDate());
+      final List<SSEntity> existingShareUEs =
+        ((SSUEServerI) SSServReg.getServ(SSUEServerI.class)).userEventsGet(
+          new SSUEsGetPar(
+            null,
+            null,
+            userUri, //user
+            userUri, //forUser
+            noteUri, //entity
+            SSUEE.asListWithoutEmptyAndNull(SSUEE.evernoteNoteShare), //types
+            noteAttr.getShareDate(),
+            noteAttr.getShareDate(),
+            true, //withUserRestriction,
+            false)); //invokeEntityHandlers
       
       if(existingShareUEs.isEmpty()){
         
-        ((SSUEServerI) SSServReg.getServ(SSUEServerI.class)).uEAdd(
+        ((SSUEServerI) SSServReg.getServ(SSUEServerI.class)).userEventAdd(
           new SSUEAddPar(
             null,
             null,
@@ -449,24 +491,30 @@ public class SSDataImportEvernoteHandler {
             SSUEE.evernoteNoteShare,
             SSStrU.empty,
             noteAttr.getShareDate(),
+            true,
             false)); //shouldCommit
       }
     }
     
     if(noteAttr.getReminderDoneTime() != 0L){
       
-      final List<SSUE> existingReminderUEs =
-        SSServCaller.uEsGet(
-          userUri,
-          userUri,
-          noteUri,
-          SSUEE.asListWithoutEmptyAndNull(SSUEE.evernoteReminderDone),
-          noteAttr.getReminderDoneTime(),
-          noteAttr.getReminderDoneTime());
+      final List<SSEntity> existingReminderUEs =
+        ((SSUEServerI) SSServReg.getServ(SSUEServerI.class)).userEventsGet(
+          new SSUEsGetPar(
+            null,
+            null,
+            userUri, //user
+            userUri, //forUser
+            noteUri, //entity
+            SSUEE.asListWithoutEmptyAndNull(SSUEE.evernoteReminderDone), //types
+            noteAttr.getReminderDoneTime(),
+            noteAttr.getReminderDoneTime(),
+            true, //withUserRestriction,
+            false)); //invokeEntityHandlers
       
       if(existingReminderUEs.isEmpty()){
         
-        ((SSUEServerI) SSServReg.getServ(SSUEServerI.class)).uEAdd(
+        ((SSUEServerI) SSServReg.getServ(SSUEServerI.class)).userEventAdd(
           new SSUEAddPar(
             null,
             null,
@@ -475,24 +523,30 @@ public class SSDataImportEvernoteHandler {
             SSUEE.evernoteReminderDone,
             SSStrU.empty,
             noteAttr.getReminderDoneTime(),
+            true,
             false)); //shouldCommit
       }
     }
     
     if(noteAttr.getReminderTime() != 0L){
       
-      final List<SSUE> existingReminder2UEs =
-        SSServCaller.uEsGet(
-          userUri,
-          userUri,
-          noteUri,
-          SSUEE.asListWithoutEmptyAndNull(SSUEE.evernoteReminderCreate),
-          noteAttr.getReminderTime(),
-          noteAttr.getReminderTime());
+      final List<SSEntity> existingReminder2UEs =
+        ((SSUEServerI) SSServReg.getServ(SSUEServerI.class)).userEventsGet(
+          new SSUEsGetPar(
+            null,
+            null,
+            userUri, //user
+            userUri, //forUser
+            noteUri, //entity
+            SSUEE.asListWithoutEmptyAndNull(SSUEE.evernoteReminderCreate), //types
+            noteAttr.getReminderTime(),
+            noteAttr.getReminderTime(),
+            true, //withUserRestriction,
+            false)); //invokeEntityHandlers
       
       if(existingReminder2UEs.isEmpty()){
         
-        ((SSUEServerI) SSServReg.getServ(SSUEServerI.class)).uEAdd(
+        ((SSUEServerI) SSServReg.getServ(SSUEServerI.class)).userEventAdd(
           new SSUEAddPar(
             null,
             null,
@@ -501,6 +555,7 @@ public class SSDataImportEvernoteHandler {
             SSUEE.evernoteReminderCreate,
             SSStrU.empty,
             noteAttr.getReminderTime(),
+            true,
             false)); //shouldCommit
       }
     }
@@ -628,18 +683,23 @@ public class SSDataImportEvernoteHandler {
     final SSUri resourceUri,
     final Long  resourceAddTime) throws Exception{
     
-    final List<SSUE> existingUEs =
-      SSServCaller.uEsGet(
-        userUri,
-        userUri,
-        resourceUri,
-        SSUEE.asListWithoutEmptyAndNull(SSUEE.evernoteResourceAdd),
-        resourceAddTime,
-        resourceAddTime);
+    final List<SSEntity> existingUEs =
+      ((SSUEServerI) SSServReg.getServ(SSUEServerI.class)).userEventsGet(
+        new SSUEsGetPar(
+          null,
+          null,
+          userUri, //user
+          userUri, //forUser
+          resourceUri, //entity
+          SSUEE.asListWithoutEmptyAndNull(SSUEE.evernoteResourceAdd), //types
+          resourceAddTime,
+          resourceAddTime,
+          true, //withUserRestriction,
+          false)); //invokeEntityHandlers
     
     if(existingUEs.isEmpty()){
       
-      ((SSUEServerI) SSServReg.getServ(SSUEServerI.class)).uEAdd(
+      ((SSUEServerI) SSServReg.getServ(SSUEServerI.class)).userEventAdd(
         new SSUEAddPar(
           null,
           null,
@@ -648,6 +708,7 @@ public class SSDataImportEvernoteHandler {
           SSUEE.evernoteResourceAdd,
           SSStrU.empty,
           resourceAddTime,
+          true,
           false)); //shouldCommit
     }
   }

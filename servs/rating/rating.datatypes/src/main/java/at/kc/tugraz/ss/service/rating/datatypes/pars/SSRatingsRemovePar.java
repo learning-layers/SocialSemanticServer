@@ -44,11 +44,13 @@ public class SSRatingsRemovePar extends SSServPar{
     final String    key,
     final SSUri     user,
     final SSUri     entity,
+    final Boolean   withUserRestriction, 
     final Boolean   shouldCommit){
     
     super(op, key, user);
     
-    this.entity       = entity;
-    this.shouldCommit = shouldCommit;
+    this.entity              = entity;
+    this.withUserRestriction = withUserRestriction;
+    this.shouldCommit        = shouldCommit;
   } 
 }
