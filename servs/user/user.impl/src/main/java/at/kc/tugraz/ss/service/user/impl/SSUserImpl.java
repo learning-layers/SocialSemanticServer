@@ -24,6 +24,7 @@ import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePubURIGetPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleUsersAddPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
@@ -41,17 +42,18 @@ import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.kc.tugraz.ss.service.user.api.*;
 import at.kc.tugraz.ss.service.user.datatypes.SSUser;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserAddPar;
-import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserAllPar;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserExistsPar;
+import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserGetPar;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserURIGetPar;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUsersGetPar;
-import at.kc.tugraz.ss.service.user.datatypes.ret.SSUserAllRet;
+import at.kc.tugraz.ss.service.user.datatypes.ret.SSUsersGetRet;
 import at.kc.tugraz.ss.service.user.impl.functions.sql.SSUserSQLFct;
 import at.tugraz.sss.serv.SSCircleContentChangedPar;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
+import at.tugraz.sss.serv.SSErr;
 import java.util.*;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
@@ -85,10 +87,15 @@ implements
       switch(entity.type){
         
         case user:{
-          
-          final SSUser user = sqlFct.getUser(entity.id);
-
-          return SSUser.get(user, entity);
+          return SSUser.get(
+            userGet(
+              new SSUserGetPar(
+                null, 
+                null, 
+                par.user, 
+                entity.id, 
+                false)),
+            entity);
         }
         
         default: return entity;
@@ -155,8 +162,48 @@ implements
     }
   }
   
-    @Override
-  public void userAll(SSSocketCon sSCon, SSServPar parA) throws Exception {
+  @Override 
+  public SSUser userGet(final SSUserGetPar par) throws Exception{
+    
+    try{
+      
+      final SSUser               userToGet = sqlFct.getUser(par.userToGet);
+      final SSUser               user;
+      final SSEntityDescriberPar descPar; 
+      
+      if(par.invokeEntityHandlers){
+        descPar = new SSEntityDescriberPar();
+        
+        descPar.setFriends = true;
+      }else{
+        descPar = null;
+      }
+
+      user =
+        SSUser.get(
+          userToGet,
+          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+            new SSEntityGetPar(
+              null,
+              null,
+              par.user,
+              userToGet.id,
+              par.withUserRestriction,
+              descPar)));
+      
+      if(par.invokeEntityHandlers){
+        user.friend = SSStrU.contains(user.friends, par.user);
+      }
+
+      return user;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public void usersGet(SSSocketCon sSCon, SSServPar parA) throws Exception {
     
 //      if(SSAuthEnum.isSame(SSAuthServ.inst().getAuthType(), SSAuthEnum.wikiAuth)){
 //        returnObj.object =  new SSAuthWikiDbCon(new SSAuthWikiConf()).getUserList(); //TODO remove new SSAuthWikiConf() --> take it from config
@@ -164,43 +211,31 @@ implements
         
     SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(
-      new SSUserAllRet(
-        userAll((SSUserAllPar) parA.getFromJSON(SSUserAllPar.class))));
+    final SSUsersGetPar par = (SSUsersGetPar) parA.getFromJSON(SSUsersGetPar.class);
+    
+    sSCon.writeRetFullToClient(new SSUsersGetRet(usersGet(par)));
 //      }
   }
   
-  @Override
-  public List<SSUser> userAll(final SSUserAllPar par) throws Exception {
-    
-    try{
-      
-      return usersGet(
-        new SSUsersGetPar(
-          null,
-          null,
-          par.user,
-          SSUri.asListWithoutNullAndEmpty(),
-          par.setFriends));
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-
   @Override 
-  public List<SSUser> usersGet(final SSUsersGetPar par) throws Exception{
+  public List<SSEntity> usersGet(final SSUsersGetPar par) throws Exception{
     
     try{
-      final List<SSUser>  users = sqlFct.getUsers(par.users);
       
-      for(SSUser user : users){
+      final List<SSUri>    userURIs = sqlFct.getUserURIs(par.users);
+      final List<SSEntity> users    = new ArrayList<>();
+      
+      for(SSUri userURI : userURIs){
         
-        if(par.setFriends){
-          user.friends.addAll(SSServCaller.friendsUserGet(user.id));
-          user.friend = SSStrU.contains(user.friends, par.user);
-        }
+        SSEntity.addEntitiesDistinctWithoutNull(
+          users,
+          userGet(
+            new SSUserGetPar(
+              null,
+              null,
+              par.user,
+              userURI,
+              par.invokeEntityHandlers)));
       }
       
       return users;
@@ -214,6 +249,11 @@ implements
   public SSUri userAdd(final SSUserAddPar par) throws Exception{
     
     try{
+      
+      if(par.withUserRestriction){
+        throw new SSErr(SSErrE.userCannotAddUser);
+      }
+      
       final SSUri         userUri;
       final SSLabel       tmpLabel;
       final String        tmpEmail;
@@ -245,7 +285,7 @@ implements
           null, //creationTime,
           null, //read,
           true, //setPublic
-          true, //withUserRestriction
+          par.withUserRestriction, //withUserRestriction
           false)); //shouldCommit)
       
       publicCircleURI = 
@@ -263,7 +303,7 @@ implements
           SSVocConf.systemUserUri, 
           publicCircleURI, //circle
           SSUri.asListWithoutNullAndEmpty(userUri), //users
-          false, //withUserRestriction
+          par.withUserRestriction, //withUserRestriction
           false)); //shouldCommit
       
       sqlFct.addUser(userUri, tmpEmail);

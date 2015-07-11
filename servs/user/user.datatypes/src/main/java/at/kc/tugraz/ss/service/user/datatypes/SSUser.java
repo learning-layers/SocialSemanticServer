@@ -20,35 +20,23 @@
 */
 package at.kc.tugraz.ss.service.user.datatypes;
 
-import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSLabel;
-import at.tugraz.sss.serv.SSJSONLDU;
-import com.wordnik.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class SSUser extends SSEntity{
 
-  @ApiModelProperty(
-    required = false,
-    value = "is user friend of current user")
-  public Boolean       friend      = null;
+  public Boolean        friend      = null;
+  public List<SSEntity> friends     = new ArrayList<>();
+  public String         email       = null;
   
-  @ApiModelProperty(
-    required = false,
-    value = "friends")
-  public List<SSEntity>       friends      = new ArrayList<>();
-
-  @ApiModelProperty(
-    required = false,
-    value = "email")
-  public String      email   = null;
+  @Override
+  public Object jsonLDDesc(){
+    throw new UnsupportedOperationException();
+  }
   
   public static SSUser get(
     final SSUser         user,
@@ -63,49 +51,25 @@ public class SSUser extends SSEntity{
     
     super(entity);
     
-    this.email      = user.email;
+    this.email  = user.email;
+    this.friend = user.friend;
     
-    if(user.friends != null){
-      this.friends.addAll(user.friends);
-    }
+    SSEntity.addEntitiesDistinctWithoutNull(this.friends, user.friends);
   }
   
   public static SSUser get(
     final SSUri    id,
-    final SSLabel  label,
     final String   email) throws Exception{
     
-    return new SSUser(id, label, email);
+    return new SSUser(id, email);
   }
   
   protected SSUser(
     final SSUri   id,
-    final SSLabel label,
     final String  email) throws Exception{
     
-    super(id, SSEntityE.user, label);
+    super(id, SSEntityE.user);
     
     this.email = email;
-  }
-  
-  @Override
-  public Object jsonLDDesc(){
-    
-    final Map<String, Object> ld         = (Map<String, Object>) super.jsonLDDesc();
-    final Map<String, Object> friendsObj = new HashMap<>();
-    
-    ld.put(SSVarNames.email,   SSVarNames.xsd + SSStrU.colon + SSStrU.valueString);
-    
-    friendsObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSEntity.class.getName());
-    friendsObj.put(SSJSONLDU.container, SSJSONLDU.set);
-    
-    ld.put(SSVarNames.friends, friendsObj);
-    
-    return ld;
-  }
-  
-  /* json getteres */
-  public List<? extends SSEntity> getFriends() throws Exception{
-    return friends;
   }
 }

@@ -77,8 +77,33 @@ public class SSServCallerU{
     }
   }
   
+  public static Boolean canUserEdit(
+    final SSUri   user,
+    final SSUri   entityURI) throws Exception{
+    
+    try{
+      ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleCanAccess(
+        new SSCircleCanAccessPar(
+          null,
+          null,
+          user,
+          entityURI,
+          SSCircleRightE.edit));
+      
+      return true;
+    }catch(Exception error){
+      
+      if(SSServErrReg.containsErr(SSErrE.userNotAllowedToAccessEntity)){
+        SSServErrReg.reset();
+        return false;
+      }
+      
+      throw error;
+    }
+  }
+  
   public static void canUserReadEntity(
-    final SSUri user, 
+    final SSUri user,
     final SSUri entityURI) throws Exception{
     
     ((SSCircleServerI)SSServReg.getServ(SSCircleServerI.class)).circleCanAccess(
@@ -162,8 +187,7 @@ public class SSServCallerU{
             null,
             null,
             null,
-            users,    //entities
-            null,     //forUser
+            users, //entities
             null, //types
             null,    //descPar
             false)); //withUserRestriction

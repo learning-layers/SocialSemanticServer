@@ -22,7 +22,7 @@ package at.tugraz.sss.adapter.rest.v2.user;
 
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserAllPar;
-import at.kc.tugraz.ss.service.user.datatypes.ret.SSUserAllRet;
+import at.kc.tugraz.ss.service.user.datatypes.ret.SSUsersGetRet;
 import at.tugraz.sss.serv.SSServOpE;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
@@ -45,7 +45,7 @@ public class SSRESTUser{
   @Path("")
   @ApiOperation(
     value = "retrieve users",
-    response = SSUserAllRet.class)
+    response = SSUsersGetRet.class)
   public Response usersGet(
     @Context 
       final HttpHeaders headers){

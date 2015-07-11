@@ -53,7 +53,6 @@ import at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.SSEntityUserRelationsGathe
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.kc.tugraz.ss.service.search.datatypes.SSSearchOpE;
 import at.kc.tugraz.ss.service.userevent.api.SSUEServerI;
-import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSObjU;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSSocketCon;
@@ -275,15 +274,8 @@ implements
       
       final List<SSEntity> entities = new ArrayList<>();
       
-      if(par.withUserRestriction){
-        
-        if(par.forUser == null){
-          par.forUser = par.user;
-        }
-      }
-      
       if(
-        par.forUser == null &&
+        par.user == null &&
         par.entities.isEmpty() &&
         par.types.isEmpty()){ //no information on what to query given
         
@@ -304,7 +296,6 @@ implements
                 null,
                 par.user,
                 entity,
-                par.forUser,
                 par.withUserRestriction,
                 par.descPar)));
         }
@@ -314,7 +305,7 @@ implements
       
       if(!par.types.isEmpty()){
         
-        for(SSEntity entity : sqlFct.getAccessibleEntityURIs(par.forUser, true, par.types)){
+        for(SSEntity entity : sqlFct.getAccessibleEntityURIs(par.user, true, par.types)){
           
 //      for(SSUri circle : sqlFct.getCircleURIsForUser(par.forUser, par.withSystemCircles)){
           
@@ -328,7 +319,6 @@ implements
                 null,
                 par.user,
                 entity.id,
-                par.forUser,
                 par.withUserRestriction, //withUserRestriction
                 par.descPar))); //descPar
         }
@@ -376,7 +366,6 @@ implements
       if(par.descPar != null){
       
         par.descPar.user                = par.user;
-        par.descPar.forUser             = par.forUser;
         par.descPar.withUserRestriction = par.withUserRestriction;
         
         if(par.descPar.setAttachedEntities){
@@ -385,7 +374,6 @@ implements
           final SSEntityDescriberPar attachedEntityDescPar = new SSEntityDescriberPar();
           
           attachedEntityDescPar.user                = par.user;
-          attachedEntityDescPar.forUser             = par.forUser;
           attachedEntityDescPar.withUserRestriction = par.withUserRestriction;
         
           SSEntity.addEntitiesDistinctWithoutNull(
@@ -396,7 +384,6 @@ implements
                 null,
                 par.user,
                 attachedEntityURIs, //entities
-                null, //forUser,
                 null, //types,
                 attachedEntityDescPar, //descPar,
                 par.withUserRestriction)));
@@ -761,8 +748,8 @@ implements
     
     try{
       final SSEntityUserSubEntitiesGetPar par = new SSEntityUserSubEntitiesGetPar(parA);
+      final List<SSUri>                   subEntities = new ArrayList<>();
       final SSEntityE                     entityType;
-      List<SSUri>                         entities;
       
       SSServCallerU.canUserReadEntity(par.user, par.entity);
       
@@ -775,17 +762,17 @@ implements
         }
         
         default: {
+          
           for(SSServContainerI serv : SSServReg.inst.getServsManagingEntities()){
             
-            entities = ((SSEntityHandlerImplI) serv.serv()).getSubEntities(par.user, par.entity, entityType);
-            
-            if(entities != null){
-              return entities;
-            }
+            subEntities.addAll(
+              ((SSEntityHandlerImplI) serv.serv()).getSubEntities(
+                par.user, 
+                par.entity, 
+                entityType));
           }
           
-          SSLogU.warn("entity couldnt be searched within by entity handlers");
-          return new ArrayList<>();
+          return subEntities;
         }
       }
       
@@ -841,18 +828,15 @@ implements
     sSCon.writeRetFullToClient(SSEntityShareRet.get(entityURI));
     
     if(!par.users.isEmpty()){
-      SSEntityActivityFct.shareEntityWithUsers(par, true);
+      SSEntityActivityFct.shareEntityWithUsers(par);
     }
     
     if(!par.circles.isEmpty()){
-      SSEntityActivityFct.shareEntityWithCircles(par, true);
+      SSEntityActivityFct.shareEntityWithCircles(par);
     }
     
     if(par.setPublic){
-      SSEntityActivityFct.setEntityPublic(
-      par.user, 
-      entityURI, 
-      true);
+      SSEntityActivityFct.setEntityPublic(par);
     }
   }
   
@@ -888,7 +872,6 @@ implements
             null,
             par.user,
             SSUri.asListWithoutNullAndEmpty(par.entity),
-            null, //forUser,
             null, //types,
             null, //descPar,
             par.withUserRestriction));
@@ -973,7 +956,6 @@ implements
                 null,
                 par.user,
                 circleURI, //circle
-                null, //forUser
                 SSEntityE.asListWithoutNullAndEmpty(), //entityTypesToIncludeOnly
                 par.withUserRestriction, //withUserRestriction
                 false)); //invokeEntityHandlers

@@ -29,7 +29,6 @@ import at.tugraz.sss.serv.SSStrU;
 public class SSEntityGetPar extends SSServPar{
   
   public SSUri                entity               = null;
-  public SSUri                forUser              = null;
   public SSEntityDescriberPar descPar              = null;
   
   public String getEntity(){
@@ -47,14 +46,12 @@ public class SSEntityGetPar extends SSServPar{
     final String               key,
     final SSUri                user,
     final SSUri                entity, 
-    final SSUri                forUser,
     final Boolean              withUserRestriction,
     final SSEntityDescriberPar descPar){
     
     super(op, key, user);
     
     this.entity               = entity;
-    this.forUser              = forUser;
     this.withUserRestriction  = withUserRestriction;
     this.descPar              = descPar;
   }

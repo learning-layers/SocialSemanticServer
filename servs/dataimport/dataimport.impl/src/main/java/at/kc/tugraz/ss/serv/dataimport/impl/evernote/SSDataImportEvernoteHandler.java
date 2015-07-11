@@ -539,7 +539,6 @@ public class SSDataImportEvernoteHandler {
             null,
             null,
             notebookUri, //entity
-            null,  //forUser
             true, //withUserRestriction
             null)); //descPar
       
@@ -700,9 +699,9 @@ public class SSDataImportEvernoteHandler {
       return sharedNotebookGuids;
     }
     
-    for(SharedNotebook sharedNotebook : sharedNotebooks){
+    sharedNotebooks.stream().forEach((sharedNotebook)->{
       sharedNotebookGuids.add(sharedNotebook.getNotebookGuid());
-    }
+    });
     
     return sharedNotebookGuids;
   }

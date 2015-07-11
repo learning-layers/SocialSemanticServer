@@ -20,12 +20,12 @@
 */
 package at.kc.tugraz.ss.service.coll.datatypes.ret;
 
-import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServRetI;
 import at.tugraz.sss.serv.SSJSONLDU;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagFrequ;
+import at.tugraz.sss.serv.SSServOpE;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -34,19 +34,6 @@ import java.util.Map;
 public class SSCollUserCumulatedTagsGetRet extends SSServRetI{
 
   public final List<SSTagFrequ> tagFrequs = new ArrayList<>();
-
-  public static SSCollUserCumulatedTagsGetRet get(final List<SSTagFrequ> tagFrequs, SSServOpE op){
-    return new SSCollUserCumulatedTagsGetRet(tagFrequs, op);
-  }
-  
-  private SSCollUserCumulatedTagsGetRet(final List<SSTagFrequ> tagFrequs, SSServOpE op) {
-
-    super(op);
-    
-    if(tagFrequs != null){
-      this.tagFrequs.addAll(tagFrequs);
-    }
-  }
 
   @Override
   public Map<String, Object> jsonLDDesc(){
@@ -62,8 +49,16 @@ public class SSCollUserCumulatedTagsGetRet extends SSServRetI{
     return ld;
   }
   
-  /* json getters */
-  public List<SSTagFrequ> getTagFrequs(){
-    return tagFrequs;
+  public static SSCollUserCumulatedTagsGetRet get(final List<SSTagFrequ> tagFrequs){
+    return new SSCollUserCumulatedTagsGetRet(tagFrequs);
+  }
+  
+  private SSCollUserCumulatedTagsGetRet(final List<SSTagFrequ> tagFrequs) {
+
+    super(SSServOpE.collCumulatedTagsGet);
+    
+    if(tagFrequs != null){
+      this.tagFrequs.addAll(tagFrequs);
+    }
   }
 }

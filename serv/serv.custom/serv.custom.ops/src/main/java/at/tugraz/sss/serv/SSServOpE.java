@@ -41,13 +41,9 @@ public enum SSServOpE{
   likeSet,
   
   //video
-  videoUserGet,
   videosGet,
-  videosUserGet,
   videoAdd,
-  videoUserAdd,
   videoAnnotationAdd,
-  videoUserAnnotationAdd,
   
   //friend
   friendGet,
@@ -167,8 +163,8 @@ public enum SSServOpE{
   
   //user
   userURIGet,
-  userAll                                             ,
   userExists                                          ,
+  userGet,
   usersGet,
   userAdd,
   

@@ -44,7 +44,6 @@ public class SSCollEntryDeleteFct{
           null,
           null,
           par.user,
-          par.user,
           par.entry,
           false))){
         

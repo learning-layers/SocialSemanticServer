@@ -18,42 +18,37 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-
 package at.kc.tugraz.ss.service.coll.datatypes.ret;
 
 import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServRetI;
-import java.util.HashMap;
+import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.SSUri;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class SSCollUserEntriesDeleteRet extends SSServRetI{
 
-  public boolean worked = false;
+  public List<SSUri> entries = new ArrayList<>();
 
-  public static SSCollUserEntriesDeleteRet get(boolean worked, SSServOpE op){
-    return new SSCollUserEntriesDeleteRet(worked, op);
+  public List<String> getEntries(){
+    return SSStrU.removeTrailingSlash(entries);
   }
   
-  private SSCollUserEntriesDeleteRet(boolean worked, SSServOpE op) {
-
-    super(op);
-    
-    this.worked = worked;
-  }
-
   @Override
   public Map<String, Object> jsonLDDesc(){
-    
-    Map<String, Object> ld  = new HashMap<>();
-    
-    ld.put(SSVarNames.worked, SSVarNames.xsd + SSStrU.valueBoolean);
-    
-    return ld;
+    throw new UnsupportedOperationException();
+  }
+
+  public static SSCollUserEntriesDeleteRet get(List<SSUri> entries){
+    return new SSCollUserEntriesDeleteRet(entries);
   }
   
-  public boolean isWorked() {
-    return worked;
+  private SSCollUserEntriesDeleteRet(List<SSUri> entries) {
+
+    super(SSServOpE.collEntriesDelete);
+    
+    SSUri.addDistinctWithoutNull(this.entries, entries);
   }
 }

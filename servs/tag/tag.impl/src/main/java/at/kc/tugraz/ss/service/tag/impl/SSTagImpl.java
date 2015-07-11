@@ -22,6 +22,7 @@ package at.kc.tugraz.ss.service.tag.impl;
 
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesGetPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityFromTypeAndLabelGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
@@ -62,8 +63,10 @@ import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
+import at.tugraz.sss.serv.SSErr;
 import java.util.*;
 import at.tugraz.sss.serv.SSErrE;
+import at.tugraz.sss.serv.SSObjU;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServReg;
@@ -298,21 +301,15 @@ implements
     try{
       
       final SSUri       tagUri;
-      final SSEntity    tag;
       final SSEntity    tagEntity = 
-        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
-          new SSEntityGetPar(
+        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityFromTypeAndLabelGet(
+          new SSEntityFromTypeAndLabelGetPar(
             null,
             null,
             par.user,
-            null, //entity
-            null, //forUser,
             SSLabel.get(SSStrU.toStr(par.label)), //label,
             SSEntityE.tag, //type,
-            false, //withUserRestriction
-            false, //invokeEntityHandlers
-            null,  //descPar
-            true)); //logErr
+            par.withUserRestriction)); //withUserRestriction
       
       dbSQL.startTrans(par.shouldCommit);
       
@@ -351,7 +348,7 @@ implements
           par.creationTime, //creationTime,
           null, //read,
           true, //setPublic
-          false, //withUserRestriction
+          par.withUserRestriction, //withUserRestriction
           false)); //shouldCommit)
       
 //      if(tagEntity == null){
@@ -415,27 +412,22 @@ implements
       
       if(par.withUserRestriction){
         
-        if(par.entity == null){
-          throw new Exception("entity null");
+        if(SSObjU.isNull(par.user, par.entity)){
+          throw new SSErr(SSErrE.parameterMissing);
         }
       }
       
       if(par.label != null){
         
         final SSEntity tagEntity =
-          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
-            new SSEntityGetPar(
+          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityFromTypeAndLabelGet(
+            new SSEntityFromTypeAndLabelGetPar(
               null,
               null,
               par.user,
-              null, //entity
-              null, //forUser,
               SSLabel.get(SSStrU.toStr(par.label)), //label,
               SSEntityE.tag, //type,
-              false, //withUserRestriction
-              false, //invokeEntityHandlers
-              null,  //descPar
-              true)); //logErr
+              par.withUserRestriction)); //withUserRestriction
         
         if(tagEntity == null){
           return true;
@@ -459,16 +451,6 @@ implements
         return true;
       }
       
-      if(
-        par.forUser != null &&
-        !SSStrU.equals(par.forUser, par.user)){
-        throw new Exception("user cannot delete tags of other user");
-      }
-      
-      if(par.forUser == null){
-        par.forUser = par.user;
-      }
-      
       //check whether (for)user can access the entity
       ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
         new SSEntityGetPar(
@@ -476,11 +458,8 @@ implements
           null,
           par.user,
           par.entity, //entity
-          par.forUser, //forUser,
           par.withUserRestriction, //withUserRestriction
-          false, //invokeEntityHandlers
-          null,  //descPar
-          true)); //logErr
+          null));  //descPar
       
       if(
         par.space    == null &&
@@ -488,8 +467,8 @@ implements
         
         dbSQL.startTrans(par.shouldCommit);
         
-        sqlFct.removeTagAsss(par.forUser, null, tagUri, SSSpaceE.privateSpace);
-        sqlFct.removeTagAsss(par.forUser, null, tagUri, SSSpaceE.sharedSpace);
+        sqlFct.removeTagAsss(par.user, null, tagUri, SSSpaceE.privateSpace);
+        sqlFct.removeTagAsss(par.user, null, tagUri, SSSpaceE.sharedSpace);
         
         dbSQL.commit(par.shouldCommit);
         return true;
@@ -501,7 +480,7 @@ implements
         
         dbSQL.startTrans(par.shouldCommit);
         
-        sqlFct.removeTagAsss(par.forUser, null, tagUri, par.space);
+        sqlFct.removeTagAsss(par.user, null, tagUri, par.space);
         
         dbSQL.commit(par.shouldCommit);
         return true;
@@ -513,8 +492,8 @@ implements
         
         dbSQL.startTrans(par.shouldCommit);
         
-        sqlFct.removeTagAsss (par.forUser, par.entity, tagUri, SSSpaceE.privateSpace);
-        sqlFct.removeTagAsss (null,        par.entity, tagUri, SSSpaceE.sharedSpace);
+        sqlFct.removeTagAsss (par.user, par.entity, tagUri, SSSpaceE.privateSpace);
+        sqlFct.removeTagAsss (null,     par.entity, tagUri, SSSpaceE.sharedSpace);
         
         dbSQL.commit(par.shouldCommit);
         return true;
@@ -731,12 +710,9 @@ implements
                 null,
                 par.user,
                 null, //entities
-                par.forUser, //forUser
                 types, //types
-                false, //invokeEntityHandlers,
                 null, //descPar
-                par.withUserRestriction, //withUserRestriction
-                true)))); //logErr
+                par.withUserRestriction)))); //withUserRestriction
       }
       
       return SSTagMiscFct.getTagFrequsFromTags(

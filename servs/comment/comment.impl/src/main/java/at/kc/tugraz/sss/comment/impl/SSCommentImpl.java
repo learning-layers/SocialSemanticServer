@@ -23,13 +23,12 @@ package at.kc.tugraz.sss.comment.impl;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
-import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSSocketCon;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSEntity;
-import at.kc.tugraz.sss.comment.datatypes.par.SSCommentEntitiesCommentedGetPar;
+import at.kc.tugraz.sss.comment.datatypes.par.SSCommentEntitiesGetPar;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSServImplWithDBA;
@@ -101,7 +100,6 @@ implements
               null,
               par.user, 
               entity.id,
-              par.forUser, //forUser, 
               par.withUserRestriction)));
       }
 
@@ -145,16 +143,6 @@ implements
     return new ArrayList<>();
   }
   
-  @Override
-  public void commentsGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
-    
-    SSServCallerU.checkKey(parA);
-    
-    final SSCommentsGetPar par = (SSCommentsGetPar) parA.getFromJSON(SSCommentsGetPar.class);
-    
-    sSCon.writeRetFullToClient(SSCommentsGetRet.get(commentsGet(par)));
-  }
-
   @Override
   public SSUri commentsAdd(final SSCommentsAddPar par) throws Exception{
     
@@ -234,26 +222,31 @@ implements
   }
   
   @Override
+  public void commentsGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
+    
+    SSServCallerU.checkKey(parA);
+    
+    final SSCommentsGetPar par = (SSCommentsGetPar) parA.getFromJSON(SSCommentsGetPar.class);
+    
+    sSCon.writeRetFullToClient(SSCommentsGetRet.get(commentsGet(par)));
+  }
+  
+  @Override
   public List<SSTextComment> commentsGet(final SSCommentsGetPar par) throws Exception{
     
     try{
       
+      if(par.entity == null){
+        throw new SSErr(SSErrE.parameterMissing);
+      }
+      
       if(par.withUserRestriction){
-        
-        if(par.entity == null){
-          throw new SSErr(SSErrE.parameterMissing);
+        if(!SSServCallerU.canUserRead(par.user, par.entity)){
+          return new ArrayList<>();
         }
-        
-        SSServCallerU.canUserReadEntity(par.user, par.entity);
       }
       
-      if(
-        par.forUser != null &&
-        !SSStrU.equals(par.user, par.forUser)){
-        throw new SSErr(SSErrE.userNotAllowedToRetrieveForOtherUser);
-      }
-      
-      return sqlFct.getComments(par.entity, par.forUser);
+      return sqlFct.getComments(par.entity, null);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -262,36 +255,35 @@ implements
   }
   
   @Override
-  public List<SSUri> commentEntitiesGet(final SSCommentEntitiesCommentedGetPar par) throws Exception{
+  public List<SSUri> commentEntitiesGet(final SSCommentEntitiesGetPar par) throws Exception{
     
     try{
       
-      if(par.withUserRestriction){
-        
-        if(
-          par.forUser != null &&
-          !SSStrU.equals(par.user,  par.forUser)){
-          throw new SSErr(SSErrE.userNotAllowedToRetrieveForOtherUser);
-        }
+      if(par.user == null){
+        throw new SSErr(SSErrE.parameterMissing);
       }
       
-      final List<SSUri> entities = sqlFct.getEntityURIsCommented(par.forUser);
+      final List<SSUri>    entityURIs = sqlFct.getEntityURIsCommented(par.user);
       
       if(!par.withUserRestriction){
-        return entities;
+        return entityURIs;
       }
-        
-      return SSUri.getFromEntitites(
+
+      final List<SSEntity> entities   = new ArrayList<>();
+      
+      SSEntity.addEntitiesDistinctWithoutNull(
+        entities,
         ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
           new SSEntitiesGetPar(
             null,
             null,
             par.user,
-            entities, //entities
-            null, //forUser,
+            entityURIs, //entities
             null, //types,
             null, //descPar,
             par.withUserRestriction)));
+      
+      return SSUri.getFromEntitites(entities);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

@@ -24,7 +24,7 @@ import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityCopyPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityCopyRet;
-import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserCumulatedTagsGetPar;
+import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollCumulatedTagsGetPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntriesAddPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntriesDeletePar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntryAddPar;
@@ -149,7 +149,7 @@ public class SSAdapterRest{
   @ApiOperation(
     value = "retrieve the cumulated tags (and their frequencies) for all the sub collections and respective entities",
     response = SSCollUserCumulatedTagsGetRet.class)
-  public String collCumulatedTagsGet(final SSCollUserCumulatedTagsGetPar input){
+  public String collCumulatedTagsGet(final SSCollCumulatedTagsGetPar input){
     return SSRestMainV1.handleStandardJSONRESTCall(input, SSServOpE.collCumulatedTagsGet);
   }
   

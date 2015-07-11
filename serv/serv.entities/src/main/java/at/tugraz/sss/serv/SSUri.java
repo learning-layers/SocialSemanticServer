@@ -145,9 +145,9 @@ public class SSUri extends SSEntityA{
       return result;
     }
     
-    for(SSEntity entity : entities){
+    entities.stream().forEach((entity)->{
       result.add(entity.id);
-    }
+    });
     
     return result;
   }

@@ -68,6 +68,19 @@ implements
     final SSEntity             entity,
     final SSEntityDescriberPar par) throws Exception{
     
+    if(par.setLocations){
+      
+      entity.locations.addAll(
+        locationsGet(
+          new SSLocationsGetPar(
+            null,
+            null,
+            par.user,
+            entity.id,
+            par.withUserRestriction))); //withUserRestriction
+    }
+      
+     
     return entity;
   }
   

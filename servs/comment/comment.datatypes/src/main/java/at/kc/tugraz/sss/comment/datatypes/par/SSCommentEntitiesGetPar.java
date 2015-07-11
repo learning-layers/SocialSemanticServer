@@ -18,21 +18,24 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.service.user.datatypes.pars;
+package at.kc.tugraz.sss.comment.datatypes.par;
 
-import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServOpE;
 
-public class SSUserSystemUserPar extends SSServPar{
+public class SSCommentEntitiesGetPar extends SSServPar{
   
-  public SSUserSystemUserPar(){}
-  
-  public SSUserSystemUserPar(
-    final SSServOpE op,
-    final String    key,
-    final SSUri     user){
+  public SSCommentEntitiesGetPar(){}
+    
+  public SSCommentEntitiesGetPar(
+    final SSServOpE            op,
+    final String               key,
+    final SSUri                user,
+    final Boolean              withUserRestriction){
     
     super(op, key, user);
+    
+    this.withUserRestriction = withUserRestriction;
   }
 }

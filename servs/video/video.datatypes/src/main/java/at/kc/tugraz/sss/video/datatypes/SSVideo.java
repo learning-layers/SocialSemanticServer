@@ -26,14 +26,21 @@ import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class SSVideo extends SSEntity{
   
   public String                   genre         = null;
-  public List<SSVideoAnnotation>  annotations   = new ArrayList<>();
+  public List<SSEntity>           annotations   = new ArrayList<>();
   public SSUri                    link          = null;
-  
+ 
+  public String getLink(){
+    return SSStrU.removeTrailingSlash(link);
+  }
+     
+  @Override
+  public Object jsonLDDesc(){
+    throw new UnsupportedOperationException();
+  }
   public static List<SSVideo> get(final List<SSUri> uris) throws Exception{
     
     final List<SSVideo> videos = new ArrayList<>();
@@ -67,9 +74,7 @@ public class SSVideo extends SSEntity{
     this.genre               = video.genre;
     this.link                = video.link;
    
-    if(video.annotations != null){
-      this.annotations.addAll(video.annotations);
-    }
+    SSEntity.addEntitiesDistinctWithoutNull(this.annotations, video.annotations);
   }
   
   public static SSVideo get(
@@ -99,24 +104,5 @@ public class SSVideo extends SSEntity{
     if(annotations != null){
       this.annotations.addAll(annotations);
     }
-  }
-
-  @Override
-  public Object jsonLDDesc(){
-  
-    final Map<String, Object> ld = (Map<String, Object>) super.jsonLDDesc();
-    
-//    ld.put(SSVarU.user,         SSVarU.sss + SSStrU.colon + SSUri.class.getName());
-//    ld.put(SSVarU.entity,       SSVarU.sss + SSStrU.colon + SSUri.class.getName());
-//    ld.put(SSVarU.appType,      SSVarU.sss + SSStrU.colon + SSAppE.class.getName());
-//    ld.put(SSVarU.endTime,      SSVarU.xsd + SSStrU.colon + SSStrU.valueLong);
-//    ld.put(SSVarU.value,        SSVarU.xsd + SSStrU.colon + SSStrU.valueInteger);
-    
-    return ld;
-  }
-  
-  /* json getters */
-  public String getLink(){
-    return SSStrU.removeTrailingSlash(link);
   }
 }

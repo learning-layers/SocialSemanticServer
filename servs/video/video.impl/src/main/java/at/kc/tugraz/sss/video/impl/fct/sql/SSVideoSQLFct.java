@@ -169,9 +169,6 @@ public class SSVideoSQLFct extends SSDBSQLFct{
       column(columns, SSSQLVarNames.videoTable,          SSSQLVarNames.videoId);
       column(columns, SSSQLVarNames.videoTable,          SSSQLVarNames.genre);
       column(columns, SSSQLVarNames.videoTable,          SSSQLVarNames.link);
-      column(columns, SSSQLVarNames.entityTable,         SSSQLVarNames.creationTime);
-      column(columns, SSSQLVarNames.entityTable,         SSSQLVarNames.label);
-      column(columns, SSSQLVarNames.entityTable,         SSSQLVarNames.description);
 
       where(wheres, SSSQLVarNames.videoTable, SSSQLVarNames.videoId, videoUri);
       
@@ -191,14 +188,11 @@ public class SSVideoSQLFct extends SSDBSQLFct{
       checkFirstResult(resultSet);
       
       video =
-        SSVideo.get(bindingStrToUri         (resultSet, SSSQLVarNames.videoId),
+        SSVideo.get(
+          bindingStrToUri         (resultSet, SSSQLVarNames.videoId),
           bindingStr              (resultSet, SSSQLVarNames.genre),
           new ArrayList<>(),
           bindingStrToUri          (resultSet, SSSQLVarNames.link));
-      
-      video.creationTime = bindingStrToLong        (resultSet, SSSQLVarNames.creationTime);
-      video.label        = bindingStrToLabel       (resultSet, SSSQLVarNames.label);
-      video.description  = bindingStrToTextComment (resultSet, SSSQLVarNames.description);
       
       return video;
     }catch(Exception error){
@@ -209,27 +203,21 @@ public class SSVideoSQLFct extends SSDBSQLFct{
     }
   }
   
-  public List<SSVideo> getVideos(
+  public List<SSUri> getVideoURIs(
     final SSUri   forUser,     
     final SSUri   forEntity) throws Exception{
     
     ResultSet resultSet = null;
       
     try{
-      final List<SSVideo>         videos      = new ArrayList<>();
       final List<String>          columns     = new ArrayList<>();
       final List<String>          tables      = new ArrayList<>();
       final Map<String, String>   wheres      = new HashMap<>();
       final List<String>          tableCons   = new ArrayList<>();
       
-      SSVideo video;
-      
       column(columns, SSSQLVarNames.videoTable,          SSSQLVarNames.videoId);
       column(columns, SSSQLVarNames.videoTable,          SSSQLVarNames.genre);
       column(columns, SSSQLVarNames.videoTable,          SSSQLVarNames.link);
-      column(columns, SSSQLVarNames.entityTable,         SSSQLVarNames.creationTime);
-      column(columns, SSSQLVarNames.entityTable,         SSSQLVarNames.label);
-      column(columns, SSSQLVarNames.entityTable,         SSSQLVarNames.description);
 
       table(tables, SSSQLVarNames.entityTable);
       table(tables, SSSQLVarNames.videoTable);
@@ -249,23 +237,8 @@ public class SSVideoSQLFct extends SSDBSQLFct{
       tableCon(tableCons, SSSQLVarNames.entityTable, SSSQLVarNames.id, SSSQLVarNames.videoTable,      SSSQLVarNames.videoId);
       
       resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
-      
-      while(resultSet.next()){
-        
-        video =  
-          SSVideo.get(bindingStrToUri         (resultSet, SSSQLVarNames.videoId),
-            bindingStr              (resultSet, SSSQLVarNames.genre),
-            new ArrayList<>(),
-            bindingStrToUri         (resultSet, SSSQLVarNames.link));
-          
-        video.creationTime = bindingStrToLong        (resultSet, SSSQLVarNames.creationTime);
-        video.label        = bindingStrToLabel       (resultSet, SSSQLVarNames.label);
-        video.description  = bindingStrToTextComment (resultSet, SSSQLVarNames.description);
-        
-        videos.add(video);
-      }
-      
-      return videos;
+
+      return getURIsFromResult(resultSet, SSSQLVarNames.videoId);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -287,9 +260,6 @@ public class SSVideoSQLFct extends SSDBSQLFct{
       final List<String>              tableCons   = new ArrayList<>();
       SSVideoAnnotation annotation;
       
-      column(columns, SSSQLVarNames.entityTable,          SSSQLVarNames.creationTime);
-      column(columns, SSSQLVarNames.entityTable,          SSSQLVarNames.label);
-      column(columns, SSSQLVarNames.entityTable,          SSSQLVarNames.description);
       column(columns, SSSQLVarNames.videoAnnotationTable, SSSQLVarNames.videoAnnotationId);
       column(columns, SSSQLVarNames.videoAnnotationTable, SSSQLVarNames.x);
       column(columns, SSSQLVarNames.videoAnnotationTable, SSSQLVarNames.y);
@@ -309,15 +279,12 @@ public class SSVideoSQLFct extends SSDBSQLFct{
       while(resultSet.next()){
         
         annotation =
-          SSVideoAnnotation.get(bindingStrToUri   (resultSet, SSSQLVarNames.videoAnnotationId),
+          SSVideoAnnotation.get(
+            bindingStrToUri   (resultSet, SSSQLVarNames.videoAnnotationId),
             bindingStrToLong  (resultSet, SSSQLVarNames.timePoint),
             bindingStrToFloat (resultSet, SSSQLVarNames.x),
             bindingStrToFloat (resultSet, SSSQLVarNames.y));
       
-        annotation.creationTime = bindingStrToLong        (resultSet, SSSQLVarNames.creationTime);
-        annotation.label        = bindingStrToLabel       (resultSet, SSSQLVarNames.label);
-        annotation.description  = bindingStrToTextComment (resultSet, SSSQLVarNames.description);
-          
         annotations.add(annotation);
       }
       

@@ -50,7 +50,7 @@ public class SSEntityActivityFct{
           null,
           SSTextComment.asListWithoutNullAndEmpty  (par.comment),
           null,
-          false));
+          par.shouldCommit));
 
     }catch(SSErr error){
       
@@ -65,8 +65,7 @@ public class SSEntityActivityFct{
   }
   
   public static void shareEntityWithUsers(
-    final SSEntitySharePar par, 
-    final Boolean                shouldCommit) throws Exception{
+    final SSEntitySharePar par) throws Exception{
     
     try{
       
@@ -81,7 +80,7 @@ public class SSEntityActivityFct{
           SSUri.asListWithoutNullAndEmpty(), 
           SSTextComment.asListWithoutNullAndEmpty(par.comment), 
           null, 
-          shouldCommit));
+          par.shouldCommit));
      
     }catch(SSErr error){
       
@@ -96,8 +95,7 @@ public class SSEntityActivityFct{
   }
   
   public static void shareEntityWithCircles(
-    final SSEntitySharePar par, 
-    final Boolean                shouldCommit) throws Exception{
+    final SSEntitySharePar par) throws Exception{
     
     try{
       
@@ -108,11 +106,11 @@ public class SSEntityActivityFct{
           par.user, 
           SSActivityE.shareEntityWithCircles, 
           par.entity,
-          SSUri.asListWithoutNullAndEmpty(),
+          null,
           SSUri.asListWithoutNullAndEmpty(par.circles),
           SSTextComment.asListWithoutNullAndEmpty(par.comment), 
           null, 
-          shouldCommit));
+          par.shouldCommit));
       
     }catch(SSErr error){
       
@@ -127,9 +125,7 @@ public class SSEntityActivityFct{
   }
   
   public static void setEntityPublic(
-    final SSUri    user, 
-    final SSUri    entity, 
-    final Boolean  shouldCommit) throws Exception{
+   final SSEntitySharePar par) throws Exception{
     
      try{
       
@@ -137,14 +133,14 @@ public class SSEntityActivityFct{
         new SSActivityAddPar(
           null, 
           null, 
-          user, 
+          par.user, 
           SSActivityE.setEntityPublic, 
-          entity,
+          par.entity,
           null, 
           null, 
+          SSTextComment.asListWithoutNullAndEmpty(par.comment),  
           null, 
-          null, 
-          shouldCommit));
+          par.shouldCommit));
       
     }catch(SSErr error){
       

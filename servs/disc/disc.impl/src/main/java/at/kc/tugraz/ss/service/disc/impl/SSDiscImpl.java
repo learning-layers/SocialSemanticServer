@@ -520,7 +520,6 @@ public class SSDiscImpl
               null,
               par.user,
               disc.id,
-              null, //forUser,
               par.withUserRestriction, //withUserRestriction,
               new SSEntityDescriberPar()));
         
@@ -531,7 +530,6 @@ public class SSDiscImpl
             new SSCircleTypesGetPar(
               null,
               null,
-              par.user,
               par.user,
               disc.id,
               false)));
@@ -571,7 +569,6 @@ public class SSDiscImpl
             null,
             par.user,
             disc.id,
-            null, //forUser,
             par.withUserRestriction, //withUserRestriction,
             new SSEntityDescriberPar()));
       
@@ -590,7 +587,6 @@ public class SSDiscImpl
               null,
               par.user,
               ((SSDiscEntry) entry).id,
-              null, //forUser,
               par.withUserRestriction, //withUserRestriction,
               descPar));
         
@@ -637,7 +633,6 @@ public class SSDiscImpl
         new SSCircleMostOpenCircleTypeGetPar(
           null,
           null,
-          par.user,
           par.user,
           par.disc,
           false))){
@@ -705,7 +700,6 @@ public class SSDiscImpl
               null, 
               par.user, 
               discURIs, //entities, 
-              null, //forUser, 
               null, //types, 
               null, //descPar, 
               par.withUserRestriction))); //withUserRestriction

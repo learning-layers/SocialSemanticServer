@@ -854,52 +854,6 @@ public class SSServCaller {
     return (Boolean) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.i5CloudFileDownload, opPars));
   } 
 
-  /* video */
-  
-  public static List<? extends SSEntity> videosUserGet(
-    final SSUri user, 
-    final SSUri forUser,
-    final SSUri forEntity) throws Exception{
-   
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.user,         user);
-    opPars.put(SSVarNames.forUser,      forUser);
-    opPars.put(SSVarNames.forEntity,    forEntity);
-    
-    return (List<? extends SSEntity>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.videosUserGet, opPars));
-  }
-  
-  public static SSEntity videoUserGet(
-    final SSUri   user,
-    final SSUri video) throws Exception{
-    
-    final Map<String, Object>  opPars           = new HashMap<>();
-    
-    opPars.put(SSVarNames.user,             user);
-    opPars.put(SSVarNames.video,            video);
-    
-    return (SSEntity) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.videoUserGet, opPars));
-  }
-  
-  public static SSUri videoUserAdd(
-    final SSUri   user,
-    final SSUri   link,
-    final SSUri   forEntity,
-    final String  uuid,
-    final Boolean shouldCommit) throws Exception{
-    
-    final Map<String, Object>  opPars           = new HashMap<>();
-    
-    opPars.put(SSVarNames.shouldCommit,     shouldCommit);
-    opPars.put(SSVarNames.user,             user);
-    opPars.put(SSVarNames.link,             link);
-    opPars.put(SSVarNames.uuid,             uuid);
-    opPars.put(SSVarNames.forEntity,        forEntity);
-    
-    return (SSUri) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.videoUserAdd, opPars));
-  }
-
   public static void recommLoadUserRealms(
     final SSUri user) throws Exception{
     

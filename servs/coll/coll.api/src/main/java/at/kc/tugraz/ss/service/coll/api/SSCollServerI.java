@@ -21,10 +21,13 @@
  package at.kc.tugraz.ss.service.coll.api;
 
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServPar;
 import at.kc.tugraz.ss.service.coll.datatypes.SSColl;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollGetPar;
+import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollCumulatedTagsGetPar;
+import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntriesAddPar;
+import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntriesDeletePar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntryAddPar;
+import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntryDeletePar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserHierarchyGetPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserParentGetPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserRootAddPar;
@@ -38,24 +41,17 @@ import java.util.List;
 
 public interface SSCollServerI extends SSServServerI{
   
-  public SSColl                     collGet                                       (final SSCollGetPar                par) throws Exception;
-  public SSColl                     collParentGet                                 (final SSCollUserParentGetPar      par) throws Exception;
-  public SSColl                     collRootGet                                   (final SSCollUserRootGetPar        par) throws Exception;
-  public List<SSEntity>             collHierarchyGet                              (final SSCollUserHierarchyGetPar   par) throws Exception;
-  public List<SSEntity>             collsEntityIsInGet                            (final SSCollsUserEntityIsInGetPar par) throws Exception;
-  public List<SSEntity>             collsGet                                      (final SSCollsGetPar               par) throws Exception;
-  public Boolean                    collRootAdd                                   (final SSCollUserRootAddPar        par) throws Exception;
-  public SSUri                      collEntryAdd                                  (final SSCollUserEntryAddPar       par) throws Exception;
-  
-  
-  public Boolean                    collUserEntryDelete                           (final SSServPar parA) throws Exception;
-  public Boolean                    collUserEntriesDelete                         (final SSServPar parA) throws Exception;
-  
-  
-  
-  
-  
-  public Boolean                    collUserEntriesAdd                            (final SSServPar parA) throws Exception;
-  public List<SSTagFrequ>           collUserCumulatedTagsGet                      (final SSServPar parA) throws Exception;
+  public SSColl           collGet                        (final SSCollGetPar                  par) throws Exception;
+  public SSColl           collParentGet                  (final SSCollUserParentGetPar        par) throws Exception;
+  public SSColl           collRootGet                    (final SSCollUserRootGetPar          par) throws Exception;
+  public List<SSEntity>   collHierarchyGet               (final SSCollUserHierarchyGetPar     par) throws Exception;
+  public List<SSEntity>   collsEntityIsInGet             (final SSCollsUserEntityIsInGetPar   par) throws Exception;
+  public List<SSEntity>   collsGet                       (final SSCollsGetPar                 par) throws Exception;
+  public Boolean          collRootAdd                    (final SSCollUserRootAddPar          par) throws Exception;
+  public SSUri            collEntryAdd                   (final SSCollUserEntryAddPar         par) throws Exception;
+  public List<SSUri>      collEntriesAdd                 (final SSCollUserEntriesAddPar       par) throws Exception;
+  public SSUri            collEntryDelete                (final SSCollUserEntryDeletePar      par) throws Exception;
+  public List<SSUri>      collEntriesDelete              (final SSCollUserEntriesDeletePar    par) throws Exception;
+  public List<SSTagFrequ> collCumulatedTagsGet           (final SSCollCumulatedTagsGetPar par) throws Exception;
   
 }

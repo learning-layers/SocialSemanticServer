@@ -23,12 +23,10 @@ package at.kc.tugraz.sss.video.datatypes.par;
 
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServErrReg;
 
 public class SSVideoUserAddPar extends SSServPar{
   
@@ -43,104 +41,22 @@ public class SSVideoUserAddPar extends SSServPar{
   public Double                longitude        = null;
   public Float                 accuracy         = null;
 
-  public SSVideoUserAddPar(
-    final SSServOpE        op,
-    final String         key,
-    final SSUri          user,
-    final String         uuid,
-    final SSUri          link,
-    final SSUri          forEntity,
-    final String         genre,
-    final SSLabel        label,
-    final SSTextComment  description,
-    final Long           creationTime,
-    final Double         latitude,
-    final Double         longitude,
-    final Float          accuracy){
-    
-    super(op, key, user);
-    
-    this.uuid           = uuid;
-    this.link           = link;
-    this.forEntity      = forEntity;
-    this.genre          = genre;
-    this.label          = label;
-    this.description    = description;
-    this.creationTime   = creationTime;
-    this.latitude       = latitude;
-    this.longitude      = longitude;
-    this.accuracy       = accuracy;
+  public void setLink(final String link) throws Exception{
+    this.link = SSUri.get(link);
   }
-  
-  public SSVideoUserAddPar(SSServPar par) throws Exception{
-    
-    super(par);
-    
-    try{
-      
-      if(pars != null){
-        
-        uuid              = (String)          pars.get(SSVarNames.uuid);
-        link              = (SSUri)           pars.get(SSVarNames.link);
-        forEntity         = (SSUri)           pars.get(SSVarNames.forEntity);
-        genre             = (String)          pars.get(SSVarNames.genre);
-        label             = (SSLabel)         pars.get(SSVarNames.label);
-        description       = (SSTextComment)   pars.get(SSVarNames.description);
-        creationTime      = (Long)            pars.get(SSVarNames.creationTime);
-        latitude          = (Double)          pars.get(SSVarNames.latitude);
-        longitude         = (Double)          pars.get(SSVarNames.longitude);
-        accuracy          = (Float)           pars.get(SSVarNames.accuracy);
-      }
-      
-      if(par.clientJSONObj != null){
-        
-        try{
-          uuid =  par.clientJSONObj.get(SSVarNames.uuid).getTextValue();
-        }catch(Exception error){}
-        
-        try{
-          link =  SSUri.get(par.clientJSONObj.get(SSVarNames.link).getTextValue());
-        }catch(Exception error){}
-        
-        try{
-          forEntity =  SSUri.get(par.clientJSONObj.get(SSVarNames.forEntity).getTextValue());
-        }catch(Exception error){}
-        
-        try{
-          genre =  par.clientJSONObj.get(SSVarNames.genre).getTextValue();
-        }catch(Exception error){}
-        
-        try{
-          label =  SSLabel.get      (par.clientJSONObj.get(SSVarNames.label).getTextValue());
-        }catch(Exception error){}
-        
-        try{
-          description =  SSTextComment.get      (par.clientJSONObj.get(SSVarNames.description).getTextValue());
-        }catch(Exception error){}
-        
-        try{
-          creationTime =  par.clientJSONObj.get(SSVarNames.creationTime).getLongValue();
-        }catch(Exception error){}
-      
-        try{
-          latitude =  par.clientJSONObj.get(SSVarNames.latitude).getDoubleValue();
-        }catch(Exception error){}
-        
-        try{
-          longitude =  par.clientJSONObj.get(SSVarNames.longitude).getDoubleValue();
-        }catch(Exception error){}
-        
-        try{
-          accuracy =  par.clientJSONObj.get(SSVarNames.accuracy).getNumberValue().floatValue();
-        }catch(Exception error){}
-        
-      }
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
+
+  public void setForEntity(final String forEntity) throws Exception{
+    this.forEntity = SSUri.get(forEntity);
   }
-  
-  /* json getters */
+
+  public void setLabel(final String label) throws Exception{
+    this.label = SSLabel.get(label);
+  }
+
+  public void setDescription(final String description) throws Exception{
+    this.description = SSTextComment.get(description);
+  }
+
   public String getForEntity(){
     return SSStrU.removeTrailingSlash(forEntity);
   }
@@ -155,5 +71,40 @@ public class SSVideoUserAddPar extends SSServPar{
 
   public String getDescription(){
     return SSStrU.toStr(description);
+  }
+  
+  public SSVideoUserAddPar(){}
+  
+  public SSVideoUserAddPar(
+    final SSServOpE      op,
+    final String         key,
+    final SSUri          user,
+    final String         uuid,
+    final SSUri          link,
+    final SSUri          forEntity,
+    final String         genre,
+    final SSLabel        label,
+    final SSTextComment  description,
+    final Long           creationTime,
+    final Double         latitude,
+    final Double         longitude,
+    final Float          accuracy, 
+    final Boolean        withUserRestriction, 
+    final Boolean        shouldCommit){
+    
+    super(op, key, user);
+    
+    this.uuid                = uuid;
+    this.link                = link;
+    this.forEntity           = forEntity;
+    this.genre               = genre;
+    this.label               = label;
+    this.description         = description;
+    this.creationTime        = creationTime;
+    this.latitude            = latitude;
+    this.longitude           = longitude;
+    this.accuracy            = accuracy;
+    this.withUserRestriction = withUserRestriction;
+    this.shouldCommit        = shouldCommit;
   }
 }

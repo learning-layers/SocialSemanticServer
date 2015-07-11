@@ -24,35 +24,33 @@ import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServRetI;
+import at.tugraz.sss.serv.SSUri;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class SSCollUserEntriesAddRet extends SSServRetI{
 
-  public boolean worked = false;
+  public List<SSUri> entries = new ArrayList<>();
 
-  public static SSCollUserEntriesAddRet get(boolean worked, SSServOpE op){
-    return new SSCollUserEntriesAddRet(worked, op);
+  public List<String> getEntries(){
+    return SSStrU.removeTrailingSlash(entries);
   }
   
-  private SSCollUserEntriesAddRet(boolean worked, SSServOpE op) {
-
-    super(op);
-    
-    this.worked = worked;
-  }
-
   @Override
   public Map<String, Object> jsonLDDesc(){
-    
-    Map<String, Object> ld  = new HashMap<>();
-    
-    ld.put(SSVarNames.worked, SSVarNames.xsd + SSStrU.valueBoolean);
-    
-    return ld;
+    throw new UnsupportedOperationException();
   }
   
-  public boolean isWorked() {
-    return worked;
+  public static SSCollUserEntriesAddRet get(List<SSUri> entries ){
+    return new SSCollUserEntriesAddRet(entries);
+  }
+  
+  private SSCollUserEntriesAddRet(List<SSUri> entries ) {
+
+    super(SSServOpE.collEntriesAdd);
+    
+    SSUri.addDistinctWithoutNull(this.entries, entries);
   }
 }

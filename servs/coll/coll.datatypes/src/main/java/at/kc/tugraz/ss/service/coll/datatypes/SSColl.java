@@ -23,7 +23,6 @@ package at.kc.tugraz.ss.service.coll.datatypes;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSEntity;
-import java.util.*;
 
 public class SSColl extends SSEntity{
 

@@ -23,13 +23,17 @@ package at.kc.tugraz.sss.video.datatypes;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
-import java.util.Map;
 
 public class SSVideoAnnotation extends SSEntity{
   
   public Long  timePoint = null;
   public Float x         = null;
   public Float y         = null;
+  
+  @Override
+  public Object jsonLDDesc(){
+    throw new UnsupportedOperationException();
+  }
   
   public static SSVideoAnnotation get(
     final SSVideoAnnotation     annotation,
@@ -73,15 +77,5 @@ public class SSVideoAnnotation extends SSEntity{
     this.timePoint       = timePoint;
     this.x               = x;
     this.y               = y;
-  }
-
-  @Override
-  public Object jsonLDDesc(){
-  
-    final Map<String, Object> ld = (Map<String, Object>) super.jsonLDDesc();
-    
-//    ld.put(SSVarU.app,         SSVarU.sss + SSStrU.colon + SSUri.class.getName());
-    
-    return ld;
   }
 }

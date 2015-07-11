@@ -28,7 +28,6 @@ import at.tugraz.sss.serv.SSStrU;
 public class SSCommentsGetPar extends SSServPar{
   
   public SSUri   entity       = null;
-  public SSUri   forUser      = null;
   
   public String getEntity(){
     return SSStrU.removeTrailingSlash(entity);
@@ -38,14 +37,6 @@ public class SSCommentsGetPar extends SSServPar{
     this.entity = SSUri.get(entity);
   }
   
-  public String getForUser(){
-    return SSStrU.removeTrailingSlash(forUser);
-  }
-  
-  public void setForUser(final String forUser) throws Exception{
-    this.forUser = SSUri.get(forUser);
-  }
-  
   public SSCommentsGetPar(){}
   
   public SSCommentsGetPar(
@@ -53,13 +44,11 @@ public class SSCommentsGetPar extends SSServPar{
     final String               key,
     final SSUri                user,
     final SSUri                entity,
-    final SSUri                forUser,
     final Boolean              withUserRestriction){
     
     super(op, key, user);
     
     this.entity              = entity;
-    this.forUser             = forUser;
     this.withUserRestriction = withUserRestriction;
   }
 }

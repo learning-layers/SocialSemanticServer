@@ -154,89 +154,30 @@ public class SSEntity extends SSEntityA{
     return SSStrU.toStr(label);
   }
 
-  public Long getCreationTime(){
-    return creationTime;
-  }
-
-  public SSEntityE getType(){
-    return type;
-  }
-  
-  public SSAuthor getAuthor() throws Exception{
-    return author;
+  public String getType(){
+    return SSStrU.toStr(type);
   }
   
   public String getDescription() throws Exception{
     return SSStrU.toStr(description);
   }
   
-  public List<SSCircleE> getCircleTypes(){
-    return circleTypes;
-  }
-  
-  public List<? extends SSEntity> getEntries() throws Exception{
-    return entries;
-  }
-  
-  public List<? extends SSEntity> getAttachedEntities() throws Exception{
-    return attachedEntities;
-  }
-  
-  public List<? extends SSEntity> getCircles() throws Exception{
-    return circles;
-  }
-  
-  public List<? extends SSEntity> getLocations() throws Exception{
-    return locations;
+  public List<String> getCircleTypes(){
+    return SSStrU.toStr(circleTypes);
   }
   
   public List<String> getComments() throws Exception{
     return SSStrU.toStr(comments);
   }
   
-  public List<? extends SSEntity> getTags(){
-    return tags;
-  }
-
-  public List<? extends SSEntity> getCategories(){
-    return categories;
-  }
-  
-  public SSEntityA getOverallRating(){
-    return overallRating;
-  }
-
-  public SSEntityA getLikes(){
-    return likes;
-  }
-  
   public List<String> getDiscs() throws Exception{
     return SSStrU.removeTrailingSlash(discs);
-  }
-  
-  public List<SSEntityA> getuEs() throws Exception{
-    return uEs;
-  }
-  
-  public String getThumb(){
-    return thumb;
   }
   
   public String getFile(){
     return SSStrU.removeTrailingSlash(file);
   }
-  
-  public List<SSEntityA> getFlags() throws Exception{
-    return flags;
-  }
-  
-  public List<? extends SSEntity> getUsers() throws Exception{
-    return users;
-  }
 
-  public List<? extends SSEntity> getEntities() throws Exception{
-    return entities;
-  }
   
   public static SSEntity get(
     final SSUri     id,
@@ -332,7 +273,9 @@ public class SSEntity extends SSEntityA{
       return;
     }
 
-    addEntitiesDistinctWithoutNull(entities, new ArrayList<>(toAddEntities));
+    entities.stream().filter((entity)-> ! (entity == null)).filter((entity)->(!SSStrU.contains(entities, entity))).forEach((entity)->{
+      entities.add(entity);
+    });
   }
   
   public static void addEntitiesDistinctWithoutNull(
@@ -343,16 +286,9 @@ public class SSEntity extends SSEntityA{
       return;
     }
     
-    for(SSEntity entity : toAddEntities){
-      
-      if(entity == null){
-        continue;
-      }
-      
-      if(!SSStrU.contains(entities, entity)){
-        entities.add(entity);
-      }
-    }
+    toAddEntities.stream().filter((entity)-> ! (entity == null)).filter((entity)->(!SSStrU.contains(entities, entity))).forEach((entity)->{
+      entities.add(entity);
+    });
   }
 }
 

@@ -26,7 +26,6 @@ import java.util.List;
 public class SSEntityDescriberPar{
   
   public SSUri       user                = null;
-  public SSUri       forUser             = null;
   public Boolean     withUserRestriction = null;
   public Boolean     setAttachedEntities = false;
   public Boolean     setRead             = false;
@@ -42,6 +41,7 @@ public class SSEntityDescriberPar{
   public Boolean     setFriends          = false;
   public Boolean     setCategories       = false;
   public Boolean     setCircleTypes      = false;
+  public Boolean     setLocations        = false;
   
   public List<SSEntityE> entityTypesToIncludeOnly = new ArrayList<>();
 }

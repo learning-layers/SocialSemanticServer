@@ -23,7 +23,7 @@ package at.kc.tugraz.sss.comment.impl.fct.userrelationgather;
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclesGetPar;
 import at.kc.tugraz.sss.comment.api.SSCommentServerI;
-import at.kc.tugraz.sss.comment.datatypes.par.SSCommentEntitiesCommentedGetPar;
+import at.kc.tugraz.sss.comment.datatypes.par.SSCommentEntitiesGetPar;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSUri;
 import java.util.List;
@@ -66,10 +66,9 @@ public class SSCommentUserRelationGatherFct{
     
     for(SSUri entity : 
       ((SSCommentServerI) SSServReg.getServ(SSCommentServerI.class)).commentEntitiesGet(
-        new SSCommentEntitiesCommentedGetPar(
+        new SSCommentEntitiesGetPar(
           null, 
           null, 
-          userUri, 
           userUri, 
           false))){ //withUserRestriction
       

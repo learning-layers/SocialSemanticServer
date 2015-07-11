@@ -72,6 +72,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import at.tugraz.sss.serv.SSErrE;
+import at.tugraz.sss.serv.SSObjU;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServReg;
@@ -254,9 +255,7 @@ implements
     try{
       
       final SSUri            categoryUri;
-      final SSEntity         categoryEntity;
-      
-      categoryEntity =
+      final SSEntity         categoryEntity =
         ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityFromTypeAndLabelGet(
           new SSEntityFromTypeAndLabelGetPar(
             null,
@@ -365,7 +364,7 @@ implements
       
       if(par.withUserRestriction){
         
-        if(par.entity == null){
+        if(SSObjU.isNull(par.user, par.entity)){
           throw new SSErr(SSErrE.parameterMissing);
         }
       }
@@ -404,24 +403,13 @@ implements
         return true;
       }
       
-      if(
-        par.forUser != null &&
-        !SSStrU.equals(par.forUser, par.user)){
-        throw new SSErr(SSErrE.userNotAllowedToRetrieveForOtherUser);
-      }
-      
-      if(par.forUser == null){
-        par.forUser = par.user;
-      }
-      
-      //check whether (for)user can access the entity
+      //check whether user can access the entity
       ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
         new SSEntityGetPar(
           null,
           null,
           par.user,
           par.entity, //entity
-          par.forUser, //forUser,
           par.withUserRestriction, //withUserRestriction
           null));  //descPar
       

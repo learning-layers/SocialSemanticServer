@@ -21,47 +21,26 @@
 package at.kc.tugraz.ss.service.user.datatypes.ret;
 
 import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.serv.SSJSONLDU;
-import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServRetI;
-import at.kc.tugraz.ss.service.user.datatypes.SSUser;
+import at.tugraz.sss.serv.SSEntity;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SSUserAllRet extends SSServRetI{
+public class SSUsersGetRet extends SSServRetI{
   
-  public List<SSUser> users = new ArrayList<>();
+  public List<SSEntity> users = new ArrayList<>();
   
-  public SSUserAllRet(
-    final List<SSUser> users){
-    
-    super(SSServOpE.userAll);
-    
-    if(users != null){
-      this.users.addAll(users);
-    }
-  }
-
   @Override
   public Map<String, Object> jsonLDDesc(){
-    
-    final Map<String, Object> ld         = new HashMap<>();
-    final Map<String, Object> usersObj   = new HashMap<>();
-    
-    usersObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSUser.class.getName());
-    usersObj.put(SSJSONLDU.container, SSJSONLDU.set);
-    
-    ld.put(SSVarNames.users, usersObj);
-    
-    return ld;
+    throw new UnsupportedOperationException();
   }
   
-  /* getters to allow for json enconding */
-  
-  public List<SSUser> getUsers(){
-    return users;
+  public SSUsersGetRet(
+    final List<SSEntity> users){
+    
+    super(SSServOpE.usersGet);
+    
+    SSEntity.addEntitiesDistinctWithoutNull(this.users, users);
   }
 }

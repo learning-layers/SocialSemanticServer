@@ -32,7 +32,6 @@ import java.util.List;
 public class SSEntitiesGetPar extends SSServPar{
   
   public List<SSUri>          entities              = new ArrayList<>();
-  public SSUri                forUser               = null;
   public List<SSEntityE>      types                 = new ArrayList<>();
   public SSEntityDescriberPar descPar               = null;
 
@@ -42,14 +41,6 @@ public class SSEntitiesGetPar extends SSServPar{
 
   public void setEntities(final List<String> entities) throws Exception{
     this.entities = SSUri.get(entities);
-  }
-  
-  public String getForUser(){
-    return SSStrU.removeTrailingSlash(forUser);
-  }
-  
-  public void setForUser(String forUser) throws Exception{
-    this.forUser = SSUri.get(forUser);
   }
   
   public List<String> getTypes(){
@@ -67,18 +58,14 @@ public class SSEntitiesGetPar extends SSServPar{
     final String               key,
     final SSUri                user,
     final List<SSUri>          entities,
-    final SSUri                forUser,
     final List<SSEntityE>      types,
     final SSEntityDescriberPar descPar,
     final Boolean              withUserRestriction) throws Exception{
     
     super(op, key, user);
     
-    SSUri.addDistinctWithoutNull(this.entities, entities);
-    
-    this.forUser              = forUser;
-    
-    SSEntityE.addDistinctWithoutNull(this.types, types);
+    SSUri.addDistinctWithoutNull     (this.entities, entities);
+    SSEntityE.addDistinctWithoutNull (this.types, types);
     
     this.descPar              = descPar;
     this.withUserRestriction  = withUserRestriction;

@@ -116,7 +116,7 @@ implements
               null, //entityTypesToIncludeOnly
               par.withUserRestriction, //withUserRestriction
               false,  //withSystemCircles
-              true))); //invokeEntityHandlers
+              false))); //invokeEntityHandlers
       }
       
       if(par.setCircleTypes){
@@ -144,7 +144,7 @@ implements
                 entity.id,                    //circle
                 par.entityTypesToIncludeOnly, //entityTypesToIncludeOnly
                 par.withUserRestriction,  //withUserRestriction
-                true));                   //invokeEntityHandlers
+                false));                   //invokeEntityHandlers
           
           return SSEntityCircle.get(circle, entity);
         }
@@ -492,7 +492,6 @@ implements
           null, 
           par.user, 
           par.entities, 
-          null, //forUser, 
           null, //types, 
           null, //descPar, 
           par.withUserRestriction)); //withUserRestriction, 
@@ -680,7 +679,6 @@ implements
               null,
               par.user,
               par.circle,
-              null, //forUser,
               par.withUserRestriction, //withUserRestriction,
               null))); //descPar
       
@@ -699,7 +697,6 @@ implements
             null,
             par.user,
             SSUri.getFromEntitites(circle.entities),
-            null, //forUser,
             null, //types,
             descPar, //descPar
             par.withUserRestriction)); //withUserRestriction
@@ -714,7 +711,6 @@ implements
             null,
             par.user,
             SSUri.getFromEntitites(circle.users),
-            null, //forUser,
             null, //types,
             descPar, //descPar
             par.withUserRestriction)); //withUserRestriction
@@ -1024,7 +1020,6 @@ implements
           null,
           null,
           userUris, //entities
-          null,     //forUser
           null, //types
           null, //descPar
           false));  //withUserRestriction
@@ -1043,7 +1038,7 @@ implements
       dbSQL.startTrans(par.shouldCommit);
       
       for(SSEntity entityUserCircle :
-        ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlesGet(
+        circlesGet(
           new SSCirclesGetPar(
             null,
             null,
@@ -1054,7 +1049,7 @@ implements
             true,  //withSystemCircles
             false))){ //invokeEntityHandlers
         
-        ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleEntitiesAdd(
+        circleEntitiesAdd(
           new SSCircleEntitiesAddPar(
             null,
             null,

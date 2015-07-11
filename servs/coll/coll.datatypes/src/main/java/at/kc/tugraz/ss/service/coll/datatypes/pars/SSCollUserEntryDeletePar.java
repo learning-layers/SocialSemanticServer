@@ -21,67 +21,47 @@
  package at.kc.tugraz.ss.service.coll.datatypes.pars;
 
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServErrReg;
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import at.tugraz.sss.serv.SSServOpE;
 
-@XmlRootElement
-@ApiModel(value = "collUserEntryDelete request parameter")
 public class SSCollUserEntryDeletePar extends SSServPar{
   
-  @ApiModelProperty( 
-    required = true, 
-    value = "collection to delete an item from")
   public SSUri       coll     = null;
+  public SSUri       entry    = null;
   
-  @XmlElement
   public void setColl(final String coll) throws Exception{
     this.coll = SSUri.get(coll);
   }
-  
-  @ApiModelProperty(
-    required = true,
-    value = "entity to remove")
-  public SSUri       entry    = null;
-  
-  @XmlElement
+
   public void setEntry(final String entry) throws Exception{
     this.entry = SSUri.get(entry);
   }
-      
-  public SSCollUserEntryDeletePar(){}
-    
-  public SSCollUserEntryDeletePar(SSServPar par) throws Exception{
-    
-    super(par);
-    
-    try{
-      
-      if(pars != null){
-        coll   = (SSUri)       pars.get(SSVarNames.coll);
-        entry  = (SSUri)       pars.get(SSVarNames.entry);
-      }
-      
-      if(par.clientJSONObj != null){
-        coll    = SSUri.get        (par.clientJSONObj.get(SSVarNames.coll).getTextValue());
-        entry   = SSUri.get        (par.clientJSONObj.get(SSVarNames.entry).getTextValue());
-      }   
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
-  /* json getters */
+     
   public String getColl(){
     return SSStrU.removeTrailingSlash(coll);
   }
   
   public String getEntry(){
     return SSStrU.removeTrailingSlash(entry);
+  }
+  
+  public SSCollUserEntryDeletePar(){}
+    
+  public SSCollUserEntryDeletePar(
+    final SSServOpE      op,
+    final String         key,
+    final SSUri          user,
+    final SSUri          coll, 
+    final SSUri          entry, 
+    final Boolean        withUserRestriction, 
+    final Boolean        shouldCommit){
+    
+    super(op, key, user);
+    
+    this.coll                = coll;
+    this.entry               = entry;
+    this.withUserRestriction = withUserRestriction;
+    this.shouldCommit        = shouldCommit;
   }
 }

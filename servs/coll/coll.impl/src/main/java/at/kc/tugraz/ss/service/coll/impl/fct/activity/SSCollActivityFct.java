@@ -29,41 +29,11 @@ import at.tugraz.sss.serv.SSUri;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntriesAddPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntriesDeletePar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntryAddPar;
-import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntryDeletePar;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
 
 public class SSCollActivityFct{
-  
-  public static void removeCollEntry(final SSCollUserEntryDeletePar par) throws Exception{
-    
-    try{
-      
-      ((SSActivityServerI) SSServReg.getServ(SSActivityServerI.class)).activityAdd(
-        new SSActivityAddPar(
-          null,
-          null,
-          par.user,
-          SSActivityE.removeCollEntry,
-          par.coll,
-          SSUri.asListWithoutNullAndEmpty(),
-          SSUri.asListWithoutNullAndEmpty(par.entry),
-          SSTextComment.asListWithoutNullAndEmpty(),
-          null,
-          false));
-      
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
-        default: SSServErrReg.regErrThrow(error);
-      }
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
   
   public static void removeCollEntries(
     final SSCollUserEntriesDeletePar par) throws Exception{
@@ -81,7 +51,7 @@ public class SSCollActivityFct{
           par.entries,
           SSTextComment.asListWithoutNullAndEmpty(),
           null,
-          false));
+          par.shouldCommit));
       
     }catch(SSErr error){
       
@@ -140,7 +110,7 @@ public class SSCollActivityFct{
           par.entries,
           SSTextComment.asListWithoutNullAndEmpty(),
           null,
-          false));
+          par.shouldCommit));
       
     }catch(SSErr error){
       

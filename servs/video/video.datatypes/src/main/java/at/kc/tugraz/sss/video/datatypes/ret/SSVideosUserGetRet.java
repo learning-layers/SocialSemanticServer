@@ -26,6 +26,7 @@ import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServRetI;
 import at.tugraz.sss.serv.SSJSONLDU;
 import at.kc.tugraz.sss.video.datatypes.SSVideo;
+import at.tugraz.sss.serv.SSEntity;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -33,7 +34,7 @@ import java.util.Map;
 
 public class SSVideosUserGetRet extends SSServRetI{
   
-  public List<SSVideo> videos = new ArrayList<>();
+  public List<SSEntity> videos = new ArrayList<>();
   
   @Override
   public Map<String, Object> jsonLDDesc(){
@@ -50,20 +51,16 @@ public class SSVideosUserGetRet extends SSServRetI{
   }
   
   public static SSVideosUserGetRet get(
-    final List<SSVideo>    videos,
-    final SSServOpE          op){
+    final List<SSEntity>    videos){
     
-    return new SSVideosUserGetRet(videos, op);
+    return new SSVideosUserGetRet(videos);
   }
   
   private SSVideosUserGetRet(
-    final List<SSVideo>    videos,
-    final SSServOpE          op) {
+    final List<SSEntity>    videos) {
     
-    super(op);
+    super(SSServOpE.videosGet);
     
-    if(videos != null){
-      this.videos.addAll(videos);
-    }
+    SSEntity.addEntitiesDistinctWithoutNull(this.videos, videos);
   }
 }

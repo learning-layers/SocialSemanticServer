@@ -48,6 +48,7 @@ public enum SSErrE{
   authOIDCUserInfoRequestFailed,
   authNoUserForKey,
   userNotAllowToAccessSystemCircle,
+  userCannotAddUser,
   
   parameterMissing,
   servParCreationFailed,

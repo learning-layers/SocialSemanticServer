@@ -97,7 +97,7 @@ implements
               null,
               par.user,
               entity.id, 
-              true)), //invokeEntityHandlers
+              false)), //invokeEntityHandlers
           entity);
       }
       
@@ -184,7 +184,6 @@ implements
             null,
             par.user,
             par.entities, //entities
-            null, //forUser,
             null, //types,
             null, //descPar,
             par.withUserRestriction)));
@@ -196,7 +195,6 @@ implements
             null,
             par.user,
             par.circles, //entities
-            null, //forUser,
             null, //types,
             new SSEntityDescriberPar(), //descPar,
             par.withUserRestriction))){
@@ -514,6 +512,12 @@ implements
       final SSActivity            activity;
       final SSEntityDescriberPar  descPar;
       
+      if(par.invokeEntityHandlers){
+        descPar = new SSEntityDescriberPar();
+      }else{
+        descPar = null;
+      }
+      
       activity =
         SSActivity.get(
           sqlFct.getActivity(par.activity),
@@ -523,15 +527,8 @@ implements
               null,
               par.user,
               par.activity, //entity
-              null, //forUser,
               par.withUserRestriction, //withUserRestriction,
-              null))); //descPar
-      
-      if(par.invokeEntityHandlers){
-        descPar = new SSEntityDescriberPar();
-      }else{
-        descPar = null;
-      }
+              descPar))); //descPar
       
       if(activity.entity != null){
         
@@ -542,7 +539,6 @@ implements
               null,
               par.user,
               activity.entity.id,
-              null, //forUser,
               par.withUserRestriction, //withUserRestriction,
               descPar)); //descPar,
       }
@@ -554,7 +550,6 @@ implements
             null,
             par.user,
             sqlFct.getActivityUsers(activity.id),  //entities
-            null, //forUser,
             null, //types,
             descPar, //descPar,
             par.withUserRestriction)));
@@ -568,7 +563,6 @@ implements
             null,
             par.user,
             sqlFct.getActivityEntities(activity.id),
-            null, //forUser,
             null, //types,
             descPar, //descPar
             par.withUserRestriction)));
