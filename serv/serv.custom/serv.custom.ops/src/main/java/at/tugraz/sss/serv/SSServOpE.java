@@ -169,10 +169,10 @@ public enum SSServOpE{
   userAdd,
   
   //user event
-  uEsGet                                              ,
-  uEAdd                                               ,
-  uEGet                                               ,
-  uECountGet                                          ,
+  userEventsGet                                              ,
+  userEventAdd                                               ,
+  userEventGet                                               ,
+  userEventCountGet                                          ,
   
   //tag
   tagsAdd,                    

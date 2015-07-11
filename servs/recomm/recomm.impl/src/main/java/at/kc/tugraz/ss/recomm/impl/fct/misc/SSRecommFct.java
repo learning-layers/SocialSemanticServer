@@ -22,9 +22,6 @@ package at.kc.tugraz.ss.recomm.impl.fct.misc;
 
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.util.SSServCallerU;
-import at.tugraz.sss.serv.SSErrE;
-import at.tugraz.sss.serv.SSServErrReg;
 
 public class SSRecommFct{
         
@@ -46,25 +43,6 @@ public class SSRecommFct{
         !SSStrU.equals(user, forUser)){
         throw new Exception("user cannot retrieve recommendations for other users");
       }
-    }
-  }
-  
-  public static void handleAccess(
-    final SSUri  user, 
-    final SSUri  entityID) throws Exception{
-    
-    try{
-      
-      SSServCallerU.canUserReadEntity(
-        user,
-        entityID);
-      
-    }catch(Exception error){
-      if(SSServErrReg.containsErr(SSErrE.userNotAllowedToAccessEntity)){
-        SSServErrReg.reset();
-      }
-      
-      throw error;
     }
   }
   

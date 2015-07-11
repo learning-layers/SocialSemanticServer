@@ -96,6 +96,7 @@ public class SSRecommImpl extends SSServImplWithDBA implements SSRecommClientI, 
       final SSRecommUsersPar       par           = new SSRecommUsersPar(parA);
       final Map<SSEntity, Double>  users         = new HashMap<>();
       Integer                      userCounter   = 0;
+      SSEntity                     entity;
       
       SSRecommFct.checkPar(par.user, par.forUser, par.realm);
       
@@ -124,9 +125,22 @@ public class SSRecommImpl extends SSServImplWithDBA implements SSRecommClientI, 
         
         if(SSStrU.equals(userRealmEngine.realm, SSRecommUserRealmKeeper.getSssRealm())){
           
-          users.put(
-            SSRecommFct.handleAccess(par.user, SSUri.get(userWithLikelihood.getKey())),
-            userWithLikelihood.getValue());
+          entity =
+            ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+              new SSEntityGetPar(
+                null,
+                null,
+                par.user,
+                SSUri.get(userWithLikelihood.getKey()), //entity
+                true, //withUserRestriction,
+                null)); //descPar
+          
+          if(entity == null){
+            continue;
+          }
+          
+          users.put(entity, userWithLikelihood.getValue());
+          
         }else{
           
           users.put(
@@ -184,7 +198,6 @@ public class SSRecommImpl extends SSServImplWithDBA implements SSRecommClientI, 
               null,
               par.user,
               par.forUser,  //entity
-              null, //forUser
               false, //withUserRestriction
               null)); //descPar
         
@@ -258,12 +271,17 @@ public class SSRecommImpl extends SSServImplWithDBA implements SSRecommClientI, 
           EntityType.RESOURCE);  //entity type to recommend
 
       for(Map.Entry<String, Double> entityWithLikelihood : entitiesWithLikelihood.entrySet()){
-        
+
         entity = 
-          SSRecommFct.handleAccess(
+          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+          new SSEntityGetPar(
+            null,
+            null, 
             par.user, 
-            SSUri.get(entityWithLikelihood.getKey()));
-        
+            SSUri.get(entityWithLikelihood.getKey()), //entity 
+            true, //withUserRestriction, 
+            null)); //descPar
+          
         if(
           entity == null ||
           !SSRecommResourcesFct.handleType   (par, entity)){

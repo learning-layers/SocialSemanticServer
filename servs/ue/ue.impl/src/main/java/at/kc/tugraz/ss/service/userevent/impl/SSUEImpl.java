@@ -21,8 +21,8 @@
  package at.kc.tugraz.ss.service.userevent.impl;
 
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
-import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSSocketCon;
 import at.tugraz.sss.serv.SSDBSQLI;
@@ -54,6 +54,7 @@ import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
+import at.tugraz.sss.serv.SSErr;
 import java.util.*;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
@@ -101,15 +102,27 @@ implements
       
       userUri = SSUri.get(user);
       
-      for(SSUE ue : SSServCaller.uEsGet(userUri, userUri, null, ueTypes, null, null)){
+      for(SSEntity ue : 
+        userEventsGet(
+          new SSUEsGetPar(
+            null, 
+            null, 
+            userUri, 
+            userUri, 
+            null, 
+            ueTypes,
+            null, 
+            null, 
+            false, 
+            false))){
         
         if(usersResources.containsKey(user)){
-          usersResources.get(user).add(ue.entity);
+          usersResources.get(user).add(((SSUE)ue).entity.id);
         }else{
           
           final List<SSUri> resourceList = new ArrayList<>();
           
-          resourceList.add(ue.entity);
+          resourceList.add(((SSUE)ue).entity.id);
           
           usersResources.put(user, resourceList);
         }
@@ -163,17 +176,40 @@ implements
       
       if(par.setUEs){
         
-        entity.uEs.addAll(
-          SSServCaller.uEsGet(
-            par.user,
-            par.user,
-            entity.id,
-            null,
-            null,
-            null));
+        entity.userEvents.addAll(
+          userEventsGet(
+            new SSUEsGetPar(
+              null,
+              null,
+              par.user,
+              null, //forUser,
+              entity.id,
+              null, //types,
+              null, //startTime,
+              null, //endTime,
+              par.withUserRestriction,
+              false))); //invokeEntityHandlers
       }
       
-      return entity;
+      switch(entity.type){
+        
+        case userEvent:{
+          
+          return SSUE.get(
+            userEventGet(
+              new SSUEGetPar(
+                null,
+                null,
+                par.user,
+                entity.id,
+                par.withUserRestriction,
+                false)),
+            entity);
+        }
+        
+        default: return entity;
+      }
+
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -181,22 +217,159 @@ implements
   }
   
   @Override
-  public void uECountGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
+  public void userEventGet(SSSocketCon sSCon, SSServPar parA) throws Exception {
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSUECountGetRet.get(uECountGet(parA), parA.op));
+    final SSUEGetPar par = (SSUEGetPar) parA.getFromJSON(SSUEGetPar.class);
+    
+    sSCon.writeRetFullToClient(SSUEGetRet.get(userEventGet(par)));
   }
-  
-  //TODO dtheiler: count via db then: count(p.catId) as the_count 
+    
   @Override
-  public Integer uECountGet(final SSServPar parA) throws Exception {
+  public SSUE userEventGet(final SSUEGetPar par) throws Exception {
     
     try{
       
-      final SSUECountGetPar par = SSUECountGetPar.get(parA);
+      final SSUE userEvent =
+        SSUE.get(
+          sqlFct.getUE(par.userEvent),
+          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+            new SSEntityGetPar(
+              null,
+              null,
+              par.user,
+              par.userEvent,
+              par.withUserRestriction,
+              null))); //descPar
       
-      return sqlFct.getUEs(
+      if(par.withUserRestriction){
+        
+        if(!SSServCallerU.canUserRead(par.user, userEvent.entity.id)){
+          return null;
+        }
+      }
+        
+      final SSEntityDescriberPar descPar;
+      
+      if(par.invokeEntityHandlers){
+        descPar = new SSEntityDescriberPar();
+      }else{
+        descPar = null;
+      }
+      
+      userEvent.entity =
+        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+          new SSEntityGetPar(
+            null,
+            null,
+            par.user,
+            userEvent.entity.id,
+            par.withUserRestriction,
+            descPar));
+      
+      userEvent.user =
+        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+          new SSEntityGetPar(
+            null,
+            null,
+            par.user,
+            userEvent.user.id,
+            par.withUserRestriction,
+            descPar));
+      
+      return userEvent;
+        
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public void userEventsGet(SSSocketCon sSCon, SSServPar parA) throws Exception {
+    
+    SSServCallerU.checkKey(parA);
+    
+    final SSUEsGetPar par = (SSUEsGetPar) parA.getFromJSON(SSUEsGetPar.class);
+      
+    sSCon.writeRetFullToClient(SSUEsGetRet.get(userEventsGet(par)));
+  }
+  
+  @Override
+  public List<SSEntity> userEventsGet(final SSUEsGetPar par) throws Exception {
+
+    try{
+      
+      if(par.withUserRestriction){
+        
+        if(par.entity != null){
+          if(!SSServCallerU.canUserRead(par.user, par.user)){
+            return new ArrayList<>();
+          }
+        }
+      }
+      
+      final List<SSEntity> userEvents    = new ArrayList<>();
+      final List<SSUri>    userEventURIs =
+        sqlFct.getUEURIs(
+          par.forUser,
+          par.entity,
+          par.types,
+          par.startTime,
+          par.endTime);
+      
+      for(SSUri userEventURI : userEventURIs){
+        
+        SSEntity.addEntitiesDistinctWithoutNull(
+          userEvents, 
+          userEventGet(
+            new SSUEGetPar(
+              null, 
+              null, 
+              par.user, 
+              userEventURI, 
+              par.withUserRestriction, 
+              par.invokeEntityHandlers)));
+      }
+
+      return userEvents;
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public void userEventCountGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
+    
+    SSServCallerU.checkKey(parA);
+    
+    final SSUECountGetPar par = (SSUECountGetPar) parA.getFromJSON(SSUECountGetPar.class);
+    
+    sSCon.writeRetFullToClient(SSUECountGetRet.get(userEventCountGet(par)));
+  }
+  
+  @Override
+  public Integer userEventCountGet(final SSUECountGetPar par) throws Exception {
+
+    //TODO dtheiler: count via db then: count(p.catId) as the_count 
+    
+    try{
+
+      if(par.withUserRestriction){
+        
+        if(par.entity == null){
+          throw new SSErr(SSErrE.parameterMissing);
+        }
+        
+        if(!SSServCallerU.canUserRead(par.user, par.entity)){
+          return -1;
+        }
+      }
+      
+      return sqlFct.getUEURIs(
         par.forUser,
         par.entity,
         SSUEE.asListWithoutEmptyAndNull(par.type),
@@ -210,33 +383,17 @@ implements
   }
   
   @Override
-  public void uEGet(SSSocketCon sSCon, SSServPar parA) throws Exception {
-    
-    SSServCallerU.checkKey(parA);
-    
-    sSCon.writeRetFullToClient(SSUEGetRet.get(uEGet(parA), parA.op));
-  }
-    
-  @Override
-  public void uEsGet(SSSocketCon sSCon, SSServPar parA) throws Exception {
-    
-    SSServCallerU.checkKey(parA);
-    
-    sSCon.writeRetFullToClient(SSUEsGetRet.get(uEsGet(parA), parA.op));
-  }
-  
-  @Override
-  public void uEAdd(SSSocketCon sSCon, SSServPar parA) throws Exception {
+  public void userEventAdd(SSSocketCon sSCon, SSServPar parA) throws Exception {
     
     SSServCallerU.checkKey(parA);
     
     final SSUEAddPar par = (SSUEAddPar) parA.getFromJSON(SSUEAddPar.class);
     
-    sSCon.writeRetFullToClient(SSUEAddRet.get(uEAdd(par)));
+    sSCon.writeRetFullToClient(SSUEAddRet.get(userEventAdd(par)));
   }
   
   @Override
-  public Boolean uEAdd(final SSUEAddPar par) throws Exception{
+  public SSUri userEventAdd(final SSUEAddPar par) throws Exception{
     
     try{
       final SSUri ueUri = SSServCaller.vocURICreate();
@@ -244,12 +401,9 @@ implements
       if(par.entity == null){
         par.entity = SSUri.get(SSVocConf.sssUri);
       }else{
-        try{
-          SSServCallerU.canUserReadEntity(par.user, par.entity);
-        }catch(Exception error){
-          SSServErrReg.reset();
-          SSLogU.warn("user is not allowed to add user event to entity");
-          return false;
+
+        if(!SSServCallerU.canUserRead(par.user, par.entity)){
+          return null;
         }
       }
       
@@ -268,7 +422,7 @@ implements
           par.creationTime, //creationTime,
           null, //read,
           false, //setPublic
-          false, //withUserRestriction
+          par.withUserRestriction, //withUserRestriction
           false)); //shouldCommit)
       
       ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
@@ -284,7 +438,7 @@ implements
           null, //creationTime,
           null, //read,
           false, //setPublic
-          false, //withUserRestriction
+          par.withUserRestriction, //withUserRestriction
           false)); //shouldCommit)
       
       sqlFct.addUE(
@@ -296,7 +450,7 @@ implements
       
       dbSQL.commit(par.shouldCommit);
       
-      return true;
+      return ueUri;
     }catch(Exception error){
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
@@ -305,7 +459,7 @@ implements
           
           SSServErrReg.reset();
           
-          return uEAdd(par);
+          return userEventAdd(par);
         }else{
           SSServErrReg.regErrThrow(error);
           return null;
@@ -313,40 +467,6 @@ implements
       }
       
       dbSQL.rollBack(par.shouldCommit);
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
-  @Override
-  public SSUE uEGet(final SSServPar parA) throws Exception {
-    
-    try{
-      final SSUEGetPar par = SSUEGetPar.get(parA);
-      
-      return sqlFct.getUE(par.uE);
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-
-  //TODO dtheiler: restrict user event retrival for calling user
-  @Override
-  public List<SSUE> uEsGet(final SSServPar parA) throws Exception {
-    
-    try{
-      
-      final SSUEsGetPar par = SSUEsGetPar.get(parA);
-      
-      return sqlFct.getUEs(
-        par.forUser,
-        par.entity,
-        par.types,
-        par.startTime,
-        par.endTime);
-      
-    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }

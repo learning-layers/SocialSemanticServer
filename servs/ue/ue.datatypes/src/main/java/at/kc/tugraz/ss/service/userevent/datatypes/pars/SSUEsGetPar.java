@@ -32,22 +32,23 @@ import java.util.List;
 
 public class SSUEsGetPar extends SSServPar{
   
-  public SSUri           forUser        = null;
-  public SSUri           entity         = null;
-  public List<SSUEE>     types          = new ArrayList<>();
-  public Long            startTime      = null;
-  public Long            endTime        = null;
+  public SSUri           forUser              = null;
+  public SSUri           entity               = null;
+  public List<SSUEE>     types                = new ArrayList<>();
+  public Long            startTime            = null;
+  public Long            endTime              = null;
+  public Boolean         invokeEntityHandlers = false;
 
-  public void setForUser(final String forUser) {
-    try{ this.forUser = SSUri.get(forUser); }catch(Exception error){}
+  public void setForUser(final String forUser) throws Exception{
+    this.forUser = SSUri.get(forUser);
   }
   
-  public void setEntity(final String entity){ 
-    try{ this.entity = SSUri.get(entity); }catch(Exception error){}
+  public void setEntity(final String entity)throws Exception{
+    this.entity = SSUri.get(entity);
   }
   
-  public void setTypes(final List<String> types){
-    try{ this.types.addAll(SSUEE.get(types)); }catch(Exception error){}
+  public void setTypes(final List<String> types)throws Exception{
+    this.types = SSUEE.get(types);
   }
   
   public String getForUser(){
@@ -72,7 +73,9 @@ public class SSUEsGetPar extends SSServPar{
     final SSUri       entity, 
     final List<SSUEE> types, 
     final Long        startTime, 
-    final Long        endTime){
+    final Long        endTime,
+    final Boolean     withUserRestriction, 
+    final Boolean     invokeEntityHandlers){
     
     super(op, key, user);
 
@@ -83,31 +86,9 @@ public class SSUEsGetPar extends SSServPar{
       this.types.addAll(types);
     }
     
-    this.startTime = startTime;
-    this.endTime   = endTime;
-  }
-  
-  public static SSUEsGetPar get(final SSServPar par) throws Exception{
-    
-    try{
-      
-      if(par.clientCon != null){
-        return (SSUEsGetPar) par.getFromJSON(SSUEsGetPar.class);
-      }
-      
-      return new SSUEsGetPar(
-        par.op,
-        par.key,
-        par.user,
-        (SSUri)       par.pars.get(SSVarNames.forUser),
-        (SSUri)       par.pars.get(SSVarNames.entity),
-        (List<SSUEE>) par.pars.get(SSVarNames.types),
-        (Long)        par.pars.get(SSVarNames.startTime),
-        (Long)        par.pars.get(SSVarNames.endTime));
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
+    this.startTime            = startTime;
+    this.endTime              = endTime;
+    this.withUserRestriction  = withUserRestriction;
+    this.invokeEntityHandlers = invokeEntityHandlers;
   }
 }

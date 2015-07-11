@@ -99,7 +99,7 @@ public class SSEntity extends SSEntityA{
   @ApiModelProperty(
     required = false,
     value = "user events")
-  public List<SSEntityA>     uEs              = new ArrayList<>(); //new
+  public List<SSEntity>     userEvents              = new ArrayList<>(); //new
   
   @ApiModelProperty(
     required = false,
@@ -177,7 +177,6 @@ public class SSEntity extends SSEntityA{
   public String getFile(){
     return SSStrU.removeTrailingSlash(file);
   }
-
   
   public static SSEntity get(
     final SSUri     id,
@@ -244,7 +243,7 @@ public class SSEntity extends SSEntityA{
     this.tags             = entity.tags; //new
     this.categories       = entity.categories; //new
     this.discs            = entity.discs; //new
-    this.uEs              = entity.uEs; //new
+    this.userEvents       = entity.userEvents; //new
     this.thumb            = entity.thumb; //new
     this.file             = entity.file; //new
     this.flags            = entity.flags; //new

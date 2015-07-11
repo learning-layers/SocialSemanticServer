@@ -59,7 +59,6 @@ public class SSRecommResourcesFct{
             null,
             null,
             par.user,
-            par.user,
             entity.id,
             true)));
     }

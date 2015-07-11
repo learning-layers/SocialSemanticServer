@@ -28,7 +28,6 @@ import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.caller.SSServCaller;
-import at.tugraz.sss.util.SSServCallerU;
 import at.kc.tugraz.ss.service.rating.datatypes.SSRatingOverall;
 import at.kc.tugraz.ss.service.rating.datatypes.pars.SSRatingOverallGetPar;
 import at.kc.tugraz.ss.service.search.datatypes.SSSearchOpE;
@@ -37,7 +36,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import at.tugraz.sss.serv.SSErr;
-import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
 
@@ -110,26 +108,6 @@ public class SSSearchFct {
     return true;
   }
   
-  public static SSEntity handleAccess(
-    final SSSearchPar par, 
-    final SSUri       entityID) throws Exception{
-    
-    try{
-      
-      return SSServCallerU.canUserReadEntity(
-        par.user,
-        entityID);
-      
-    }catch(Exception error){
-      if(SSServErrReg.containsErr(SSErrE.userNotAllowedToAccessEntity)){
-        SSServErrReg.reset();
-        return null;
-      }
-      
-      throw error;
-    }
-  }
-
   public static List<SSEntity> recommendEntities(
     final SSSearchPar par) throws Exception{
     
@@ -231,11 +209,8 @@ public class SSSearchFct {
           null,
           par.user,
           entity.id,
-          null, //forUser,
           false, //withUserRestriction
-          false, //invokeEntityHandlers,
-          null, //descPar,
-          true)); //logErr
+          null)); //descPar,
     
     return SSStrU.contains(par.authorsToSearchFor, tmpEntity.author);
   }

@@ -59,14 +59,16 @@ public class SSUEAddPar extends SSServPar{
     final SSUEE       type,
     final String      content,
     final Long        creationTime,
+    final Boolean     withUserRestriction, 
     final Boolean     shouldCommit){
     
     super(op, key, user);
     
-    this.entity       = entity;
-    this.type         = type;
-    this.content      = content;
-    this.creationTime = creationTime;
-    this.shouldCommit = shouldCommit;
+    this.entity              = entity;
+    this.type                = type;
+    this.content             = content;
+    this.creationTime        = creationTime;
+    this.withUserRestriction = withUserRestriction;
+    this.shouldCommit        = shouldCommit;
   }
 }

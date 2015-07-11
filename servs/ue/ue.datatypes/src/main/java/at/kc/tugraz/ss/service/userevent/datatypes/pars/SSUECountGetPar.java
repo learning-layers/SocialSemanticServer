@@ -36,16 +36,16 @@ public class SSUECountGetPar extends SSServPar{
   public Long             startTime  = null;
   public Long             endTime    = null;
   
-  public void setForUser(final String forUser) {
-    try{ this.forUser = SSUri.get(forUser); }catch(Exception error){}
+  public void setForUser(final String forUser) throws Exception{
+    this.forUser = SSUri.get(forUser); 
   }
   
-  public void setEntity(final String entity){
-    try{ this.entity = SSUri.get(entity); }catch(Exception error){}
+  public void setEntity(final String entity) throws Exception{
+    this.entity = SSUri.get(entity); 
   }
 
-  public void setType(final String type){
-    try{ this.type = SSUEE.get(type); }catch(Exception error){}
+  public void setType(final String type) throws Exception{
+    this.type = SSUEE.get(type); 
   }
   
   public String getForUser(){
@@ -70,38 +70,16 @@ public class SSUECountGetPar extends SSServPar{
     final SSUri     entity,
     final SSUEE     type, 
     final Long      startTime, 
-    final Long      endTime){
+    final Long      endTime, 
+    final Boolean   withUserRestriction){
     
     super(op, key, user);
   
-    this.forUser   = forUser;
-    this.entity    = entity;
-    this.type      = type;
-    this.startTime = startTime;
-    this.endTime   = endTime;
+    this.forUser             = forUser;
+    this.entity              = entity;
+    this.type                = type;
+    this.startTime           = startTime;
+    this.endTime             = endTime;
+    this.withUserRestriction = withUserRestriction;
   }
-  
-  public static SSUECountGetPar get(final SSServPar par) throws Exception{
-    
-     try{
-      
-      if(par.clientCon != null){
-        return (SSUECountGetPar) par.getFromJSON(SSUECountGetPar.class);
-      }
-      
-      return new SSUECountGetPar(
-        par.op,
-        par.key,
-        par.user,
-        (SSUri)    par.pars.get(SSVarNames.forUser),
-        (SSUri)    par.pars.get(SSVarNames.entity),
-        (SSUEE)    par.pars.get(SSVarNames.type),
-        (Long)     par.pars.get(SSVarNames.startTime),
-        (Long)     par.pars.get(SSVarNames.endTime));
-        
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }  
 }

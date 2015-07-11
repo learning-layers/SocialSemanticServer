@@ -114,48 +114,6 @@ public class SSServCaller {
     return (SSUri) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.likeUserSet, opPars));
   }
     
-  /* flag */
-  
-  public static Integer uECountGet(
-    final SSUri    user,
-    final SSUri    forUser,
-    final SSUri    entity,
-    final SSUEE    type,
-    final Long     startTime,
-    final Long     endTime) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.user,      user);
-    opPars.put(SSVarNames.forUser,   forUser);
-    opPars.put(SSVarNames.entity,    entity);
-    opPars.put(SSVarNames.type,      type);
-    opPars.put(SSVarNames.startTime, startTime);
-    opPars.put(SSVarNames.endTime,   endTime);
-    
-    return (Integer) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.uECountGet, opPars));
-  }
-  
-  public static List<SSUE> uEsGet(
-    final SSUri        user,
-    final SSUri        forUser,
-    final SSUri        entity,
-    final List<SSUEE>  types,
-    final Long         startTime,
-    final Long         endTime) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.user,      user);
-    opPars.put(SSVarNames.forUser,   forUser);
-    opPars.put(SSVarNames.entity,    entity);
-    opPars.put(SSVarNames.types,      types);
-    opPars.put(SSVarNames.startTime, startTime);
-    opPars.put(SSVarNames.endTime,   endTime);
-    
-    return (List<SSUE>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.uEsGet, opPars));
-  }
-  
   /* evernote */ 
   
   public static Resource evernoteResourceByHashGet(

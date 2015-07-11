@@ -26,6 +26,7 @@ import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServRetI;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUE;
+import at.tugraz.sss.serv.SSEntity;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -33,41 +34,24 @@ import java.util.Map;
 
 public class SSUEsGetRet extends SSServRetI{
   
-  public List<SSUE> uEs = new ArrayList<>();
+  public List<SSEntity> userEvents = new ArrayList<>();
+
+  @Override
+  public Map<String, Object> jsonLDDesc(){
+    throw new UnsupportedOperationException();
+  }
   
   public static SSUEsGetRet get(
-    final List<SSUE> uEs, 
-    final SSServOpE    op){
+    final List<SSEntity> userEvents){
     
-    return new SSUEsGetRet(uEs, op);
+    return new SSUEsGetRet(userEvents);
   }
   
   private SSUEsGetRet(
-    final List<SSUE> uEs, 
-    final SSServOpE    op){
+    final List<SSEntity> userEvents){
     
-    super(op);
+    super(SSServOpE.userEventsGet);
     
-    this.uEs = uEs;
-  }
-  
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    
-    final Map<String, Object> ld         = new HashMap<>();
-    final Map<String, Object> uEsObj     = new HashMap<>();
-    
-    uEsObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSUE.class.getName());
-    uEsObj.put(SSJSONLDU.container, SSJSONLDU.set);
-    
-    ld.put(SSVarNames.uEs, uEsObj);
-    
-    return ld;
-  }
-  
-  /* json getters */
-  
-  public List<SSUE> getuEs() {
-    return uEs;
+    SSEntity.addEntitiesDistinctWithoutNull(this.userEvents, userEvents);
   }
 }

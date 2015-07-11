@@ -23,9 +23,12 @@
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.SSModelUEEntity;
+import at.kc.tugraz.ss.service.userevent.api.SSUEServerI;
 import at.tugraz.sss.serv.SSServImplA;
-import at.tugraz.sss.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.userevent.datatypes.*;
+import at.kc.tugraz.ss.service.userevent.datatypes.pars.SSUEsGetPar;
+import at.tugraz.sss.serv.SSEntity;
+import at.tugraz.sss.serv.SSServReg;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -60,12 +63,14 @@ public class SSModelUEUESetter{
 
 		HashMap<String, List<SSUE>>  eventsPerResource;
 		HashMap<String, List<SSUE>>  eventsPerUser;
-		SSModelUEEntity            foundOrCreatedResource;
-    List<SSUE>                   newEvents;
+		SSModelUEEntity              foundOrCreatedResource;
+    List<SSEntity>               newEvents;
     List<SSUE>                   sortedEventsSinceLastUpdate;
     
-    newEvents = SSServCaller.uEsGet(null, null, null, null, lastUpdateTime, null);
-    
+    newEvents = 
+      ((SSUEServerI) SSServReg.getServ(SSUEServerI.class)).userEventsGet(
+        new SSUEsGetPar(null, null, null, null, null, null, lastUpdateTime, null, false, false));
+      
 		sortedEventsSinceLastUpdate = SSUE.sort(newEvents);
 
 		eventsPerResource = getUserEventsPerResourceFromUserEventList (sortedEventsSinceLastUpdate);

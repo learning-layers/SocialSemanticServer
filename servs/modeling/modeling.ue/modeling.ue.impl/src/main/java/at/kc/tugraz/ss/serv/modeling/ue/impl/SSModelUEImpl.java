@@ -177,7 +177,6 @@ public class SSModelUEImpl extends SSServImplWithDBA implements SSModelUEClientI
                 null,
                 null,
                 resource.entity,  //entity
-                null, //forUser
                 false, //withUserRestriction
                 null)).type; //descPar
           
@@ -380,7 +379,6 @@ public class SSModelUEImpl extends SSServImplWithDBA implements SSModelUEClientI
                 null,
                 null,
                 SSUri.get(relation.subject),  //entity
-                null, //forUser
                 false, //withUserRestriction
                 null)).label); //descPar
       }
@@ -394,7 +392,6 @@ public class SSModelUEImpl extends SSServImplWithDBA implements SSModelUEClientI
               null,
               null,
               SSUri.get(relation.object),  //entity
-              null, //forUser
               false, //withUserRestriction
               null)).label); //descPar
       

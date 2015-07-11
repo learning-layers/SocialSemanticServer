@@ -25,17 +25,19 @@ import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSStrU;
 
 public class SSUEGetPar extends SSServPar{
   
-  public SSUri uE = null;
-  
-  public void setuE(final String uE) throws Exception{
-    this.uE = SSUri.get(uE);
+  public SSUri   userEvent            = null;
+  public Boolean invokeEntityHandlers = false;
+
+  public String getUserEvent(){
+    return SSStrU.removeTrailingSlash(userEvent);
   }
-  
-  public SSUri getuE(){
-    return uE;
+
+  public void setUserEvent(final String userEvent) throws Exception{
+    this.userEvent = SSUri.get(userEvent);
   }
   
   public SSUEGetPar(){}
@@ -44,30 +46,14 @@ public class SSUEGetPar extends SSServPar{
     final SSServOpE op,
     final String    key,
     final SSUri     user,
-    final SSUri     uE){
+    final SSUri     userEvent, 
+    final Boolean   withUserRestriction, 
+    final Boolean   invokeEntityHandlers){
     
     super(op, key, user);
     
-    this.uE = uE;
-  }
-  
-  public static SSUEGetPar get(final SSServPar par) throws Exception{
-    
-    try{
-      
-      if(par.clientCon != null){
-        return (SSUEGetPar) par.getFromJSON(SSUEGetPar.class);
-      }
-      
-      return new SSUEGetPar(
-        par.op,
-        par.key,
-        par.user,
-        (SSUri)    par.pars.get(SSVarNames.uE));
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
+    this.userEvent            = userEvent;
+    this.withUserRestriction  = withUserRestriction;
+    this.invokeEntityHandlers = invokeEntityHandlers;
   }
 }
