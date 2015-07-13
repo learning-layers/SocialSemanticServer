@@ -23,11 +23,10 @@ package at.tugraz.sss.adapter.rest.v2.category;
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
 import at.kc.tugraz.ss.category.datatypes.par.SSCategoriesPredefinedGetPar;
 import at.kc.tugraz.ss.category.datatypes.par.SSCategoryAddPar;
+import at.kc.tugraz.ss.category.datatypes.par.SSCategoryFrequsGetPar;
 import at.kc.tugraz.ss.category.datatypes.ret.SSCategoriesPredefinedGetRet;
 import at.kc.tugraz.ss.category.datatypes.ret.SSCategoryAddRet;
-import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagAddPar;
-import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagAddRet;
-import at.tugraz.sss.adapter.rest.v2.tag.SSTagAddRESTAPIV2Par;
+import at.kc.tugraz.ss.category.datatypes.ret.SSCategoryFrequsGetRet;
 import at.tugraz.sss.serv.SSServOpE;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
@@ -101,6 +100,74 @@ public class SSRESTCategory{
           true, //withUserRestriction
           true); //shouldCommit
       
+    }catch(Exception error){
+      return Response.status(422).build();
+    }
+    
+    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+  }
+  
+  @GET
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    ("/frequs")
+  @ApiOperation(
+    value = "retrieve category frequencies",
+    response = SSCategoryFrequsGetRet.class)
+  public Response categoryFrequsGet(
+    @Context
+      final HttpHeaders headers){
+    
+    final SSCategoryFrequsGetPar par;
+    
+    try{
+      par =
+        new SSCategoryFrequsGetPar(
+          SSServOpE.categoryFrequsGet,
+          null,
+          null,
+          null, //forUser
+          null, //entities
+          null, //labels
+          null, //space
+          null, //startTime
+          true); //withUserRestriction
+      
+    }catch(Exception error){
+      return Response.status(422).build();
+    }
+    
+    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    ("/filtered/frequs")
+  @ApiOperation(
+    value = "retrieve category frequencies",
+    response = SSCategoryFrequsGetRet.class)
+  public Response categoryFrequsGetFiltered(
+    @Context 
+      final HttpHeaders headers,
+    
+    final SSCategoryFrequsGetRESTAPIV2Par input){
+    
+    final SSCategoryFrequsGetPar par;
+    
+    try{
+      par =
+        new SSCategoryFrequsGetPar(
+          SSServOpE.categoryFrequsGet,
+          null,
+          null,
+          input.forUser, //forUser
+          input.entities, //entities
+          input.labels, //labels
+          input.space, //space
+          input.startTime, //startTime
+          true); //withUserRestriction
+            
     }catch(Exception error){
       return Response.status(422).build();
     }

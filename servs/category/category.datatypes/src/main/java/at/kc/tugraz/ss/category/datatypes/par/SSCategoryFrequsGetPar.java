@@ -36,7 +36,6 @@ public class SSCategoryFrequsGetPar extends SSServPar{
   public List<SSCategoryLabel>  labels               = new ArrayList<>();
   public SSSpaceE               space                = null;
   public Long                   startTime            = null;
-  public Boolean                useUsersEntities     = false;
 
   public void setForUser(final String forUser) throws Exception{
     this.forUser = SSUri.get(forUser);
@@ -81,7 +80,6 @@ public class SSCategoryFrequsGetPar extends SSServPar{
     final List<SSCategoryLabel>   labels, 
     final SSSpaceE                space, 
     final Long                    startTime,
-    final Boolean                 useUsersEntities, 
     final Boolean                 withUserRestriction){
     
     super(op, key, user);
@@ -93,7 +91,6 @@ public class SSCategoryFrequsGetPar extends SSServPar{
     
     this.space                = space;
     this.startTime            = startTime;
-    this.useUsersEntities     = useUsersEntities;
     this.withUserRestriction  = withUserRestriction;
   }
 }
