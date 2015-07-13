@@ -94,7 +94,7 @@ public class SSDataExportImpl extends SSServImplWithDBA implements SSDataExportC
               new SSUsersGetPar(
                 null,
                 null,
-                null, //user
+                par.user, //user
                 null, //users
                 false))); //invokeEntityHandlers
         

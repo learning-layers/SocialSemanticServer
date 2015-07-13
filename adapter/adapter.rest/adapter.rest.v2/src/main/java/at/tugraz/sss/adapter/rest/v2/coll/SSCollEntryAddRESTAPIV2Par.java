@@ -18,60 +18,44 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.tugraz.sss.adapter.rest.v2.entity;
+package at.tugraz.sss.adapter.rest.v2.coll;
 
-import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSLabel;
-import at.tugraz.sss.serv.SSTextComment;
+import at.tugraz.sss.serv.SSUri;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-@ApiModel(value = "entityUpdate request parameter")
-public class SSEntityUpdateRESTAPIV2Par{
+@ApiModel(value = "coll entry add request parameter")
+public class SSCollEntryAddRESTAPIV2Par{
   
   @ApiModelProperty( 
     required = false, 
-    value = "type of the entity: entity or placeholder allowed; will be taken into account if entity doesnt exist yet")
-  public SSEntityE            type         = null;
-
-  @XmlElement
-  public void setType(final String type) throws Exception{
-     this.type = SSEntityE.get(type); 
-  }
-    
-  @ApiModelProperty( 
-    required = false, 
-    value = "name / title for the entity")
+    value = "name / title")
   public SSLabel            label         = null;
 
   @XmlElement
   public void setLabel(final String label) throws Exception{
      this.label = SSLabel.get(label); 
   }
-
-  @XmlElement
-  @ApiModelProperty( 
-    required = false, 
-    value = "description for the entity")
-  public SSTextComment      description         = null;
+  
+  @ApiModelProperty(
+    required = false,
+    value = "entry to add")
+  public SSUri            entry         = null;
   
   @XmlElement
-  public void setDescription(final String description) throws Exception{
-    this.description = SSTextComment.get(description);
+  public void setEntry(final String entry) throws Exception{
+    this.entry = SSUri.get(entry);
   }
   
+  @XmlElement
   @ApiModelProperty(
     required = false,
-    value = "creationTime of the entity")
-  public Long creationTime = null;
-  
-  @ApiModelProperty(
-    required = false,
-    value = "whether the user read the entity")
-  public Boolean read = null;
-  
-  public SSEntityUpdateRESTAPIV2Par(){}
+    value = "whether to add new collection")
+  public Boolean            addNewColl = false;
+
+  public SSCollEntryAddRESTAPIV2Par(){}
 }

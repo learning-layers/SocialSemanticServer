@@ -67,6 +67,46 @@ public class SSLabel extends SSEntityA{
     super(string);
   }
   
+  public static void addDistinctWithoutNull(
+    final List<SSLabel>     entities,
+    final SSLabel...        toAddEntities){
+    
+    if(SSObjU.isNull  (entities, toAddEntities)){
+      return;
+    }
+    
+    for(SSLabel entity : toAddEntities){
+      
+      if(entity == null){
+        continue;
+      }
+      
+      if(!SSStrU.contains(entities, entity)){
+        entities.add(entity);
+      }
+    }
+  }
+  
+  public static void addDistinctWithoutNull(
+    final List<SSLabel>  entities,
+    final List<SSLabel>  toAddEntities){
+    
+    if(SSObjU.isNull(entities, toAddEntities)){
+      return;
+    }
+    
+    for(SSLabel entity : toAddEntities){
+      
+      if(entity == null){
+        continue;
+      }
+      
+      if(!SSStrU.contains(entities, entity)){
+        entities.add(entity);
+      }
+    }
+  }
+  
   public static List<SSLabel> asListWithoutNull(final SSLabel... labels){
    
     final List<SSLabel> result = new ArrayList<>();

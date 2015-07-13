@@ -222,7 +222,10 @@ public class SSRESTEntity {
   @Path("/{entity}")
   public Response entityUsersGet(
     @Context
-    final HttpHeaders headers){
+    final HttpHeaders headers,
+    
+    @PathParam(SSVarNames.entity)
+    final String entity){
     
     final SSCircleEntityUsersGetPar par;
     
@@ -233,7 +236,7 @@ public class SSRESTEntity {
           SSServOpE.circleEntityUsersGet,
           null,  //key
           null,  //user
-          null,  //entity
+          SSUri.get(entity, SSVocConf.sssUri),  //entity
           false, //invokeEntityHandlers
           true); //withUserRestriction
       

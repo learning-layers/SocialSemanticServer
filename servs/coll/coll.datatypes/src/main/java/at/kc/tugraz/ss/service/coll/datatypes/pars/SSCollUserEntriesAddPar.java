@@ -3,7 +3,7 @@
 * http://www.learning-layers.eu
 * Development is partly funded by the FP7 Programme of the European Commission under
 * Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+* Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
 * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,94 +21,60 @@
  package at.kc.tugraz.ss.service.coll.datatypes.pars;
 
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServErrReg;
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
+import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSStrU;
 import java.util.ArrayList;
 import java.util.List;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import org.codehaus.jackson.JsonNode;
 
-@XmlRootElement
-@ApiModel(value = "collUserEntriesAdd request parameter")
 public class SSCollUserEntriesAddPar extends SSServPar{
   
-  @ApiModelProperty( 
-    required = true, 
-    value = "collection to add sub-entities to")
   public SSUri             coll          = null;
+  public List<SSUri>       entries       = new ArrayList<>();
+  public List<SSLabel>     labels        = new ArrayList<>();
   
-  @XmlElement
   public void setColl(final String coll) throws Exception{
     this.coll = SSUri.get(coll);
   }
   
-  @ApiModelProperty(
-    required = true,
-    value = "entities to add")
-  public List<SSUri>       entries       = new ArrayList<>();
-  
-  @XmlElement
   public void setEntries(final List<String> entries) throws Exception{
     this.entries = SSUri.get(entries);
   }
-  
-  @ApiModelProperty( 
-    required = true, 
-    value = "collection item labels")
-  public List<SSLabel>     labels        = new ArrayList<>();
 
-  @XmlElement
   public void setLabels(final List<String> labels) throws Exception{
     this.labels = SSLabel.get(labels);
   }
-  
-  public SSCollUserEntriesAddPar(){}
-    
-  public SSCollUserEntriesAddPar(SSServPar par) throws Exception{
-    
-    super(par);
-     
-    try{
-      
-      if(pars != null){
-        coll           = (SSUri)          pars.get(SSVarNames.coll);
-        entries        = (List<SSUri>)    pars.get(SSVarNames.entries);
-        labels         = (List<SSLabel>)  pars.get(SSVarNames.labels);
-      }
-      
-      if(par.clientJSONObj != null){
-        
-        coll        = SSUri.get    (par.clientJSONObj.get(SSVarNames.coll).getTextValue());
-        
-        for (final JsonNode objNode : par.clientJSONObj.get(SSVarNames.entries)) {
-          entries.add(SSUri.get(objNode.getTextValue()));
-        }
-        
-        for (final JsonNode objNode : par.clientJSONObj.get(SSVarNames.labels)) {
-          labels.add(SSLabel.get(objNode.getTextValue()));
-        }
-      }
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
-  /* json getters */
+
   public String getColl(){
     return SSStrU.removeTrailingSlash(coll);
   }
-  
-  public List<String> getEntries() throws Exception{
+
+  public List<String> getEntries(){
     return SSStrU.removeTrailingSlash(entries);
   }
-  
-  public List<String> getLabels() throws Exception{
+
+  public List<String> getLabels(){
     return SSStrU.toStr(labels);
+  }
+  
+  public SSCollUserEntriesAddPar(){}
+  
+  public SSCollUserEntriesAddPar(
+    final SSServOpE     op,
+    final String        key,
+    final SSUri         user,
+    final SSUri         coll, 
+    final List<SSUri>   entries, 
+    final List<SSLabel> labels,
+    final Boolean       withUserRestriction,
+    final Boolean       shouldCommit){
+    
+    super(op, key, user);
+    
+    this.coll           = coll;
+    
+    SSUri.addDistinctWithoutNull  (this.entries, entries);
+    SSLabel.addDistinctWithoutNull(this.labels,  labels);
   }
 }

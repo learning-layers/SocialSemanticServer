@@ -36,7 +36,6 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesForLabelsAn
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesForLabelsGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityReadGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityRemovePar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityCopyPar;
@@ -186,17 +185,6 @@ implements
       sqlFct, 
       allUsers, 
       userRelations);
-  }
-  
-  @Override 
-  public Boolean entityReadGet(final SSEntityReadGetPar par) throws Exception{
-  
-    try{
-      return sqlFct.getEntityRead(par.user, par.entity);
-    }catch(Exception error){      
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
   }
   
   @Override

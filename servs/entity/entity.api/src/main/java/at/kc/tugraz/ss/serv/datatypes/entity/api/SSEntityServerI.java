@@ -21,7 +21,6 @@
 package at.kc.tugraz.ss.serv.datatypes.entity.api;
 
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesGetPar;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityReadGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityCopyPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityFromTypeAndLabelGetPar;
@@ -38,7 +37,6 @@ public interface SSEntityServerI extends SSServServerI{
 
   public List<SSEntity> entitiesGet               (final SSEntitiesGetPar                par) throws Exception;
   public SSUri          entityUpdate              (final SSEntityUpdatePar               par) throws Exception;
-  public Boolean        entityReadGet             (final SSEntityReadGetPar              par) throws Exception;
   public Boolean        entityCopy                (final SSEntityCopyPar                 par) throws Exception;
   public SSEntity       entityGet                 (final SSEntityGetPar                  par) throws Exception;
   public SSEntity       entityFromTypeAndLabelGet (final SSEntityFromTypeAndLabelGetPar  par) throws Exception;

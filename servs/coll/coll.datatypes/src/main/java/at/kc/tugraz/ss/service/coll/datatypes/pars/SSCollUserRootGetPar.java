@@ -23,8 +23,6 @@ package at.kc.tugraz.ss.service.coll.datatypes.pars;
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSUri;
-import com.wordnik.swagger.annotations.ApiModel;
-import javax.xml.bind.annotation.XmlRootElement;
 
 public class SSCollUserRootGetPar extends SSServPar{
 

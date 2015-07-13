@@ -23,10 +23,12 @@ package at.tugraz.sss.serv;
 public enum SSServOpE{
   
   //location
+  locationGet,
   locationAdd,
   locationsGet,
   
   //image
+  imageGet,
   imageAdd,
   imagesGet,
   imageBase64Get,
@@ -41,6 +43,7 @@ public enum SSServOpE{
   likeSet,
   
   //video
+  videoGet,
   videosGet,
   videoAdd,
   videoAnnotationAdd,
@@ -51,16 +54,19 @@ public enum SSServOpE{
   friendAdd,
   
   //appStackLayout
+  appStackLayoutGet,
   appStackLayoutsGet,
   appStackLayoutCreate,
   appStackLayoutDelete,
   appStackLayoutUpdate,
   
   //app
+  appGet,
   appsGet,
   appAdd,
   
   //message
+  messageGet,
   messageSend,
   messagesGet,
   
@@ -114,6 +120,7 @@ public enum SSServOpE{
   circlePubURIGet,
   circleCanAccess,
   circleEntitiesRemove,
+  circlesFromEntityEntitiesAdd,
   
   //entity
   entitiesGet,
@@ -129,6 +136,7 @@ public enum SSServOpE{
   entityUpdate,
   entityCopy,
   entityShare,
+  entityAttachmentsRemove,
   
   //learn ep
   learnEpsGet                                         ,
@@ -268,9 +276,10 @@ public enum SSServOpE{
   
   //coll
   collGet,
-  collsWithEntries,
+  collsGet,
   collsEntityIsInGet,
   collRootGet,
+  collRootAdd,
   collParentGet,
   collEntryAdd,
   collEntriesAdd,

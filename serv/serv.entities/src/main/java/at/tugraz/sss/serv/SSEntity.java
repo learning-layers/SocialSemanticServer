@@ -272,9 +272,16 @@ public class SSEntity extends SSEntityA{
       return;
     }
 
-    entities.stream().filter((entity)-> ! (entity == null)).filter((entity)->(!SSStrU.contains(entities, entity))).forEach((entity)->{
+    for(SSEntity entity : toAddEntities){
+      
+      if(
+        entity == null ||
+        SSStrU.contains(entities, entity)){
+        continue;
+      }
+      
       entities.add(entity);
-    });
+    }
   }
   
   public static void addEntitiesDistinctWithoutNull(
