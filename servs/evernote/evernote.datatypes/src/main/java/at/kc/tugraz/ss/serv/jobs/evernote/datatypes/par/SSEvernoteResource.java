@@ -47,12 +47,10 @@ public class SSEvernoteResource extends SSEntity{
   public SSMimeTypeE mimeType = null;
   
   public static SSEvernoteResource get(
-    final SSEntity     entity,
-    final SSUri        note, 
-    final SSFileExtE   fileExt, 
-    final SSMimeTypeE  mimeType) throws Exception{
+    final SSEvernoteResource      resource,
+    final SSEntity                entity) throws Exception{
     
-    return new SSEvernoteResource(entity, note, fileExt, mimeType);
+    return new SSEvernoteResource(resource, entity);
   }
   
   public static SSEvernoteResource get(
@@ -65,16 +63,14 @@ public class SSEvernoteResource extends SSEntity{
   }
   
   protected SSEvernoteResource(
-    final SSEntity      entity,
-    final SSUri         note, 
-    final SSFileExtE    fileExt, 
-    final SSMimeTypeE   mimeType) throws Exception{
+    final SSEvernoteResource      resource,
+    final SSEntity                entity) throws Exception{
 
-    super(entity);
+    super(resource, entity);
     
-    this.note     = note;
-    this.fileExt  = fileExt;
-    this.mimeType = mimeType;
+    this.note     = resource.note;
+    this.fileExt  = resource.fileExt;
+    this.mimeType = resource.mimeType;
   }
   
   protected SSEvernoteResource(

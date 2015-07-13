@@ -75,7 +75,7 @@ public class SSEntityCircle extends SSEntity{
     final SSEntityCircle     circle,
     final SSEntity           entity) throws Exception{
     
-    super(entity);
+    super(circle, entity);
     
     this.circleType     = circle.circleType;
    

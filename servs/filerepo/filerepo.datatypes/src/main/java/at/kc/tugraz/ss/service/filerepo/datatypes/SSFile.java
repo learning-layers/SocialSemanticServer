@@ -23,6 +23,8 @@ package at.kc.tugraz.ss.service.filerepo.datatypes;
 import at.tugraz.sss.serv.SSFileExtE;
 import at.tugraz.sss.serv.SSMimeTypeE;
 import at.tugraz.sss.serv.SSEntity;
+import at.tugraz.sss.serv.SSEntityE;
+import at.tugraz.sss.serv.SSUri;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 import java.util.Map;
 
@@ -39,23 +41,41 @@ public class SSFile extends SSEntity{
   public SSMimeTypeE mimeType = null;
   
   public static SSFile get(
-    final SSEntity        entity,
-    final SSFileExtE      fileExt,
-    final SSMimeTypeE     mimeType) throws Exception{
+    final SSFile           file,
+    final SSEntity         entity) throws Exception{
     
-    return new SSFile(entity, fileExt, mimeType);
+    return new SSFile(file, entity);
   }
   
   protected SSFile(
-    final SSEntity         entity,
-    final SSFileExtE       fileExt,
-    final SSMimeTypeE      mimeType) throws Exception{
+    final SSFile           file,
+    final SSEntity         entity) throws Exception{
     
-    super(entity);
+    super(file, entity);
+    
+    this.fileExt  = file.fileExt;
+    this.mimeType = file.mimeType;
+  }
+  
+  public static SSFile get(
+    final SSUri        id, 
+    final SSFileExtE   fileExt,
+    final SSMimeTypeE  mimeType) throws Exception{
+    
+    return new SSFile(id, fileExt, mimeType);
+  }
+  
+  public SSFile(
+    final SSUri        id,
+    final SSFileExtE   fileExt,
+    final SSMimeTypeE  mimeType) throws Exception{
+    
+    super(id, SSEntityE.file);
     
     this.fileExt  = fileExt;
     this.mimeType = mimeType;
   }
+  
   
   @Override
   public Object jsonLDDesc(){

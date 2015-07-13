@@ -41,7 +41,7 @@ public class SSLocation extends SSEntity{
     final SSLocation  location,
     final SSEntity    entity) throws Exception{
     
-    super(entity);
+    super(location, entity);
     
     this.latitude  = location.latitude;
     this.longitude = location.longitude;

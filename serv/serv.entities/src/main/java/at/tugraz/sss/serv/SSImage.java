@@ -50,7 +50,7 @@ public class SSImage extends SSEntity{
     final SSImage         image,
     final SSEntity        entity) throws Exception{
     
-    super(entity);
+    super(image, entity);
     
     this.imageType = image.imageType;
   }

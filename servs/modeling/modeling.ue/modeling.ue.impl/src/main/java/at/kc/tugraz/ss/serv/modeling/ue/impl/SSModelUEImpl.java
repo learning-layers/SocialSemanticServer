@@ -153,7 +153,7 @@ public class SSModelUEImpl extends SSServImplWithDBA implements SSModelUEClientI
     
     final SSModelUEResourcePropertySetter resourcePropertySetter        = new SSModelUEResourcePropertySetter (resources);
     final SSModelUEMIThresholdSetter      thresholdSetter               = new SSModelUEMIThresholdSetter      (resources);
-    final SSModelUEMISetter               maturingIndicatorSetter       = new SSModelUEMISetter               ();
+//    final SSModelUEMISetter               maturingIndicatorSetter       = new SSModelUEMISetter               ();
     final SSModelUEUESetter               eventSetter                   = new SSModelUEUESetter               (this, resources);
     final List<SSUE>                      sortedEventsSinceLastUpdate;
     final SSModelUEPersonPropertySetter   personPropertySetter;
@@ -197,16 +197,16 @@ public class SSModelUEImpl extends SSServImplWithDBA implements SSModelUEClientI
 
       thresholdSetter.calculateThresholds();
 
-      for(SSModelUEEntity resource : resources.values()){
-        maturingIndicatorSetter.calculateIndependentMI(resource);
-      }
+//      for(SSModelUEEntity resource : resources.values()){
+//        maturingIndicatorSetter.calculateIndependentMI(resource);
+//      }
 
-      for(SSModelUEEntity resource : resources.values()){
-
-        maturingIndicatorSetter.calculateDependentMI(resource, resources);
-
-        maturingIndicatorSetter.setTextualMI(resource);
-      }
+//      for(SSModelUEEntity resource : resources.values()){
+//
+//        maturingIndicatorSetter.calculateDependentMI(resource, resources);
+//
+//        maturingIndicatorSetter.setTextualMI(resource);
+//      }
     }
     
     //		maturingIndicatorTripleStoreSetter.saveMI();

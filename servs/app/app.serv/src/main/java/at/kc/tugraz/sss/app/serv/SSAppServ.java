@@ -55,7 +55,7 @@ public class SSAppServ extends SSServContainerI{
     
     SSServReg.inst.regServ(this);
     
-    SSServReg.inst.regServForDescribingEntities(this);
+    SSServReg.inst.regServForHandlingEntities(this);
     
     return this;
   }

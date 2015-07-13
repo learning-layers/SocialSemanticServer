@@ -22,12 +22,18 @@ package at.tugraz.sss.adapter.rest.v2.category;
 
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
 import at.kc.tugraz.ss.category.datatypes.par.SSCategoriesPredefinedGetPar;
+import at.kc.tugraz.ss.category.datatypes.par.SSCategoryAddPar;
 import at.kc.tugraz.ss.category.datatypes.ret.SSCategoriesPredefinedGetRet;
+import at.kc.tugraz.ss.category.datatypes.ret.SSCategoryAddRet;
+import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagAddPar;
+import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagAddRet;
+import at.tugraz.sss.adapter.rest.v2.tag.SSTagAddRESTAPIV2Par;
 import at.tugraz.sss.serv.SSServOpE;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
@@ -59,6 +65,41 @@ public class SSRESTCategory{
           SSServOpE.categoriesPredefinedGet,
           null,
           null);
+      
+    }catch(Exception error){
+      return Response.status(422).build();
+    }
+    
+    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path("")
+  @ApiOperation(
+    value = "add a category for an entity in given space",
+    response = SSCategoryAddRet.class)
+  public Response categoryAdd(
+    @Context 
+      final HttpHeaders headers,
+    
+    final SSCategoryAddRESTAPIV2Par input){
+    
+    final SSCategoryAddPar par;
+    
+    try{
+      par =
+        new SSCategoryAddPar(
+          SSServOpE.categoryAdd,
+          null,
+          null,
+          input.entity, //entity
+          input.label, //label
+          input.space, //space
+          input.creationTime,  //creationTime
+          true, //withUserRestriction
+          true); //shouldCommit
       
     }catch(Exception error){
       return Response.status(422).build();

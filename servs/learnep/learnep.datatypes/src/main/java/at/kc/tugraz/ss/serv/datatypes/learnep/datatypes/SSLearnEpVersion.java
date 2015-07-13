@@ -59,7 +59,7 @@ public class SSLearnEpVersion extends SSEntity{
     final SSLearnEpVersion learnEpVersion,
     final SSEntity         entity) throws Exception{
     
-    super(entity);
+    super(learnEpVersion, entity);
     
     this.learnEp               = learnEpVersion.learnEp;
     this.learnEpTimelineState  = learnEpVersion.learnEpTimelineState;

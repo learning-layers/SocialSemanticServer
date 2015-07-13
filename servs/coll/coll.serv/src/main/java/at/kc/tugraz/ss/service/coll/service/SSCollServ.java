@@ -55,7 +55,7 @@ public class SSCollServ extends SSServContainerI{
     
     SSServReg.inst.regServ(this);
 
-    SSServReg.inst.regServForManagingEntities       (this);
+    SSServReg.inst.regServForHandlingEntities(this);
     SSServReg.inst.regServForGatheringUserRelations (this);
     
     return this;

@@ -61,7 +61,7 @@ public class SSFriendsGetRet extends SSServRetI{
     super(SSServOpE.friendsGet);
     
     if(friends != null){
-      friends.addAll(friends);
+      this.friends.addAll(friends);
     }
   }
 }

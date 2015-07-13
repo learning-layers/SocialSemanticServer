@@ -22,9 +22,20 @@
 
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 
 public class SSCollUserRootAddPar extends SSServPar{
+  
+  public SSUri forUser = null;
+
+  public String getForUser(){
+    return SSStrU.removeTrailingSlash(forUser);
+  }
+
+  public void setForUser(String forUser) throws Exception{
+    this.forUser = SSUri.get(forUser);
+  }
 
   public SSCollUserRootAddPar(){}
     
@@ -32,10 +43,12 @@ public class SSCollUserRootAddPar extends SSServPar{
     final SSServOpE op,
     final String    key,
     final SSUri     user, 
+    final SSUri     forUser,
     final Boolean   shouldCommit){
 
     super(op, key, user);
     
+    this.forUser      = forUser;
     this.shouldCommit = shouldCommit;
   }
 }

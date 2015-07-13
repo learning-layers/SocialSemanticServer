@@ -21,8 +21,6 @@
 package at.kc.tugraz.ss.serv.jobs.evernote.serv;
 
 import at.tugraz.sss.serv.SSCoreConfA;
-import at.tugraz.sss.serv.SSDBSQLI;
-import at.tugraz.sss.serv.SSDBSQL;
 import at.kc.tugraz.ss.serv.jobs.evernote.api.SSEvernoteClientI;
 import at.kc.tugraz.ss.serv.jobs.evernote.api.SSEvernoteServerI;
 import at.kc.tugraz.ss.serv.jobs.evernote.impl.SSEvernoteImpl;
@@ -55,8 +53,7 @@ public class SSEvernoteServ extends SSServContainerI{
     
     SSServReg.inst.regServ(this);
     
-    SSServReg.inst.regServForManagingEntities(this);
-    SSServReg.inst.regServForDescribingEntities(this);
+    SSServReg.inst.regServForHandlingEntities(this);
     
     return this;
   }

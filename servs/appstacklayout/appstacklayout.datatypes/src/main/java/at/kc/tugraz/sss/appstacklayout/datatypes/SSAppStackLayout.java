@@ -49,7 +49,7 @@ public class SSAppStackLayout extends SSEntity{
     final SSAppStackLayout     appStackLayout,
     final SSEntity             entity) throws Exception{
     
-    super(entity);
+    super(appStackLayout, entity);
     
     this.app               = appStackLayout.app;
   }

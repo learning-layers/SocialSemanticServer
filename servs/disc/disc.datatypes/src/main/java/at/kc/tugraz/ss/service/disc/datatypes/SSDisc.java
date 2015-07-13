@@ -76,7 +76,7 @@ public class SSDisc extends SSEntity {
     final SSDisc              disc,
     final SSEntity            entity) throws Exception{
     
-     super(entity);
+     super(disc, entity);
      
      this.entity = disc.entity;
    }

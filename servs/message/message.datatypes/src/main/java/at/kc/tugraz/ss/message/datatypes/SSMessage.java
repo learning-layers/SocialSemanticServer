@@ -52,7 +52,7 @@ public class SSMessage extends SSEntity{
     final SSMessage        message,
     final SSEntity         entity) throws Exception{
     
-    super(entity);
+    super(message, entity);
     
     this.user         = message.user;
     this.forUser      = message.forUser;

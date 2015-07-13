@@ -24,8 +24,6 @@ import at.tugraz.sss.serv.SSCoreConfA;
 import at.kc.tugraz.ss.friend.api.SSFriendClientI;
 import at.kc.tugraz.ss.friend.api.SSFriendServerI;
 import at.kc.tugraz.ss.friend.impl.SSFriendImpl;
-import at.tugraz.sss.serv.SSDBSQLI;
-import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSServContainerI;
@@ -53,8 +51,9 @@ public class SSFriendServ extends SSServContainerI{
     
     this.conf = conf;
     
-      SSServReg.inst.regServ(this);
+    SSServReg.inst.regServ(this);
     
+    SSServReg.inst.regServForHandlingEntities(this);
     return this;
   }
   

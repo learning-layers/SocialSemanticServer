@@ -54,7 +54,7 @@ public class SSUE extends SSEntity {
     final SSUE           userEvent, 
     final SSEntity       entity) throws Exception{
      
-    super(entity);
+    super(userEvent, entity);
     
     this.user          = userEvent.user;
     this.entity        = userEvent.entity;

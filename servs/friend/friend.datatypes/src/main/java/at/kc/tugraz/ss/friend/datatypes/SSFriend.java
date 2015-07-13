@@ -46,7 +46,7 @@ public class SSFriend extends SSEntity{
     final SSFriend friend,
     final SSEntity entity) throws Exception{
     
-    super(entity);
+    super(friend, entity);
   }
   
   public static SSFriend get(

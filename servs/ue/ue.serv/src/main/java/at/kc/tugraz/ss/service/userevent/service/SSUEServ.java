@@ -21,8 +21,6 @@
 package at.kc.tugraz.ss.service.userevent.service;
 
 import at.tugraz.sss.serv.SSCoreConfA;
-import at.tugraz.sss.serv.SSDBSQLI;
-import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSServImplA;
@@ -55,8 +53,7 @@ public class SSUEServ extends SSServContainerI{
     
     SSServReg.inst.regServ(this);
     
-    SSServReg.inst.regServForManagingEntities   (this);
-    SSServReg.inst.regServForDescribingEntities (this);
+    SSServReg.inst.regServForHandlingEntities(this);
     SSServReg.inst.regServForGatheringUsersResources(this);
     
     return this;

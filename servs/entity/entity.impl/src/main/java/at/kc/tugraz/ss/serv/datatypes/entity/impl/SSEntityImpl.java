@@ -210,7 +210,7 @@ implements
       
       final SSEntityE entityType = sqlFct.getEntity(par.entity).type;
         
-      for(SSServContainerI serv : SSServReg.inst.getServsManagingEntities()){
+      for(SSServContainerI serv : SSServReg.inst.getServsHandlingEntities()){
         ((SSEntityHandlerImplI) serv.serv()).copyEntity(
           par.user,
           par.users,
@@ -381,7 +381,7 @@ implements
           entity.read = sqlFct.getEntityRead (par.user, entity.id);
         }
         
-        for(SSServContainerI serv : SSServReg.inst.getServsDescribingEntities()){
+        for(SSServContainerI serv : SSServReg.inst.getServsHandlingEntities()){
           entity = ((SSEntityHandlerImplI) serv.serv()).getUserEntity(entity, par.descPar);
         }
       }
@@ -411,16 +411,11 @@ implements
         return null;
       }
       
-      try{
-        SSServCallerU.canUserReadEntity(par.user, entity.id);
-      }catch(Exception error){
+      if(par.withUserRestriction){
         
-        if(SSServErrReg.containsErr(SSErrE.userNotAllowedToAccessEntity)){
-          SSServErrReg.reset();
+        if(!SSServCallerU.canUserRead(par.user, entity.id)){
           return null;
         }
-        
-        throw error;
       }
       
       return entity;
@@ -718,7 +713,7 @@ implements
       final SSEntityE    entityType   = sqlFct.getEntity(par.entity).type;
       final List<SSUri>  entities     = new ArrayList<>();
       
-      for(SSServContainerI serv : SSServReg.inst.getServsManagingEntities()){
+      for(SSServContainerI serv : SSServReg.inst.getServsHandlingEntities()){
         entities.addAll(((SSEntityHandlerImplI) serv.serv()).getParentEntities(par.user, par.entity, entityType));
       }
       
@@ -752,7 +747,7 @@ implements
         
         default: {
           
-          for(SSServContainerI serv : SSServReg.inst.getServsManagingEntities()){
+          for(SSServContainerI serv : SSServReg.inst.getServsHandlingEntities()){
             
             subEntities.addAll(
               ((SSEntityHandlerImplI) serv.serv()).getSubEntities(
@@ -909,7 +904,7 @@ implements
             false, //withUserRestriction
             false)); //shouldCommit
         
-        for(SSServContainerI serv : SSServReg.inst.getServsManagingEntities()){
+        for(SSServContainerI serv : SSServReg.inst.getServsHandlingEntities()){
           
           ((SSEntityHandlerImplI) serv.serv()).circleContentChanged(
             new SSCircleContentChangedPar(
@@ -949,7 +944,7 @@ implements
                 par.withUserRestriction, //withUserRestriction
                 false)); //invokeEntityHandlers
           
-          for(SSServContainerI serv : SSServReg.inst.getServsManagingEntities()){
+          for(SSServContainerI serv : SSServReg.inst.getServsHandlingEntities()){
             
             ((SSEntityHandlerImplI) serv.serv()).circleContentChanged(
               new SSCircleContentChangedPar(
@@ -985,7 +980,7 @@ implements
             false, //withUserRestriction
             false)); //shouldCommit
         
-        for(SSServContainerI serv : SSServReg.inst.getServsManagingEntities()){
+        for(SSServContainerI serv : SSServReg.inst.getServsHandlingEntities()){
             
             ((SSEntityHandlerImplI) serv.serv()).circleContentChanged(
               new SSCircleContentChangedPar(

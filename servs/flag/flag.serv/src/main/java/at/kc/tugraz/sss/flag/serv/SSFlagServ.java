@@ -21,8 +21,6 @@
 package at.kc.tugraz.sss.flag.serv;
 
 import at.tugraz.sss.serv.SSCoreConfA;
-import at.tugraz.sss.serv.SSDBSQLI;
-import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSServImplA;
@@ -55,7 +53,7 @@ public class SSFlagServ extends SSServContainerI{
     
     SSServReg.inst.regServ(this);
     
-    SSServReg.inst.regServForDescribingEntities(this);
+    SSServReg.inst.regServForHandlingEntities(this);
     
     return this;
   }

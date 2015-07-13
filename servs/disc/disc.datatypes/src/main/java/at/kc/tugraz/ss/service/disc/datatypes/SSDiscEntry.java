@@ -74,7 +74,7 @@ public class SSDiscEntry extends SSEntity{
     final SSDiscEntry            entry,
     final SSEntity               entity) throws Exception{
     
-    super(entity);
+    super(entry, entity);
     
     this.pos     = entry.pos;
     this.content = entry.content;

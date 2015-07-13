@@ -48,7 +48,7 @@ public class SSColl extends SSEntity{
     final SSColl   coll, 
     final SSEntity entity) throws Exception{
     
-    super(entity);
+    super(coll, entity);
   }
   
   protected SSColl(

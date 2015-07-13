@@ -66,7 +66,7 @@ public class SSFileUploader extends SSServImplStartA{
     final SSFileUploadPar    par,
     final SSFilerepoImpl     servImpl) throws Exception{
     
-    super(fileRepoConf, (SSDBSQLI) SSDBSQL.inst.serv());
+    super(fileRepoConf, null);
     
     this.par               = par;
     this.servImpl          = servImpl;
@@ -86,6 +86,8 @@ public class SSFileUploader extends SSServImplStartA{
   public void run(){
     
     try{
+      
+      this.dbSQL = (SSDBSQLI) SSDBSQL.inst.serv();
       
       sendAnswer();
       

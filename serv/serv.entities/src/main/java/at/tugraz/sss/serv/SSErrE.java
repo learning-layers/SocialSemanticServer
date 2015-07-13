@@ -63,6 +63,8 @@ public enum SSErrE{
   searchResultPageUnavailable,
   searchResultOutDated,
   
+  servAlreadyRegistered,
+  
   entityTypeNotSupported,
   entityCouldntBeQueried,
   learnEpCurrentVersionNotSet,

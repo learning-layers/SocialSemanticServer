@@ -87,7 +87,7 @@ public class SSApp extends SSEntity{
     final SSApp     app,
     final SSEntity  entity) throws Exception{
     
-    super(entity);
+    super(app, entity);
     
     this.descriptionShort               = app.descriptionShort;
     this.descriptionFunctional          = app.descriptionFunctional;

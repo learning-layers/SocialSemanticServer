@@ -69,7 +69,7 @@ public class SSVideo extends SSEntity{
     final SSVideo     video,
     final SSEntity    entity) throws Exception{
     
-    super(entity);
+    super(video, entity);
     
     this.genre               = video.genre;
     this.link                = video.link;

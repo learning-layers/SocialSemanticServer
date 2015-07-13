@@ -46,7 +46,7 @@ public class SSVideoAnnotation extends SSEntity{
     final SSVideoAnnotation   annotation,
     final SSEntity            entity) throws Exception{
     
-    super(entity);
+    super(annotation, entity);
     
     this.timePoint       = annotation.timePoint;
     this.x               = annotation.x;

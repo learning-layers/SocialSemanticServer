@@ -53,8 +53,7 @@ public class SSCommentServ extends SSServContainerI{
     
     SSServReg.inst.regServ(this);
     
-    SSServReg.inst.regServForDescribingEntities(this);
-    SSServReg.inst.regServForUpdatingEntities(this);
+    SSServReg.inst.regServForHandlingEntities(this);
     SSServReg.inst.regServForGatheringUserRelations(this);
     
     return this;

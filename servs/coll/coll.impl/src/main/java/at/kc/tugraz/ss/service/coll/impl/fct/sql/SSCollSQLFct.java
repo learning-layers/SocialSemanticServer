@@ -643,6 +643,8 @@ public class SSCollSQLFct extends SSDBSQLFct{
       table    (tables,    SSSQLVarNames.collEntryPosTable);
       table    (tables,    SSSQLVarNames.entityTable);
       
+      where(wheres, SSSQLVarNames.collEntryPosTable, SSSQLVarNames.collId, collUri);
+        
       tableCon (tableCons, SSSQLVarNames.collEntryPosTable, SSSQLVarNames.entryId, SSSQLVarNames.entityTable,       SSSQLVarNames.id);
       
       resultSet = dbSQL.select(tables, columns, wheres, tableCons, SSSQLVarNames.pos, "ASC", null);

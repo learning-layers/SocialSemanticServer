@@ -144,7 +144,7 @@ public class SSEntity extends SSEntityA{
   @ApiModelProperty(
     required = false,
     value = "likes for the entity")
-  public  SSEntityA       likes;
+  public  SSEntityA       likes = null;
   
   public String getId() throws Exception{
     return SSStrU.removeTrailingSlash(id);
@@ -229,34 +229,162 @@ public class SSEntity extends SSEntityA{
   }
   
   protected SSEntity(
+    final SSEntity specificEntity, 
     final SSEntity entity) throws Exception{
     
-    super(entity.id);
+    super(specificEntity.id);
     
-    this.id               = entity.id; //entity
-    this.label            = entity.label;
-    this.creationTime     = entity.creationTime;
-    this.type             = entity.type;
-    this.author           = entity.author;
-    this.description      = entity.description;
-    this.overallRating    = entity.overallRating; //new
-    this.tags             = entity.tags; //new
-    this.categories       = entity.categories; //new
-    this.discs            = entity.discs; //new
-    this.userEvents       = entity.userEvents; //new
-    this.thumb            = entity.thumb; //new
-    this.file             = entity.file; //new
-    this.flags            = entity.flags; //new
-    this.circleTypes      = entity.circleTypes;
-    this.entries          = entity.entries;
-    this.attachedEntities = entity.attachedEntities;
-    this.comments         = entity.comments;
-    this.users            = entity.users;
-    this.entities         = entity.entities;
-    this.read             = entity.read;
-    this.circles          = entity.circles;
-    this.locations        = entity.locations;
-    this.likes            = entity.likes;
+    this.id               = specificEntity.id;
+    
+    if(specificEntity.label != null){
+      this.label = specificEntity.label;
+    }else{
+      this.label = entity.label;
+    }
+    
+    if(specificEntity.creationTime != null){
+      this.creationTime = specificEntity.creationTime;
+    }else{
+      this.creationTime = entity.creationTime;
+    }
+    
+    if(specificEntity.type != null){
+      this.type = specificEntity.type;
+    }else{
+      this.type = entity.type;
+    }
+    
+    if(specificEntity.author != null){
+      this.author = specificEntity.author;
+    }else{
+      this.author = entity.author;
+    }
+    
+    if(specificEntity.description != null){
+      this.description = specificEntity.description;
+    }else{
+      this.description = entity.description;
+    }
+    
+    if(specificEntity.overallRating != null){
+      this.overallRating = specificEntity.overallRating;
+    }else{
+      this.overallRating = entity.overallRating;
+    }
+    
+    addEntitiesDistinctWithoutNull(this.tags, specificEntity.tags);
+    addEntitiesDistinctWithoutNull(this.tags, entity.tags);
+    
+    addEntitiesDistinctWithoutNull(this.categories, specificEntity.categories);
+    addEntitiesDistinctWithoutNull(this.categories, entity.categories);
+    
+    if(
+      specificEntity.discs != null &&
+      !specificEntity.discs.isEmpty()){
+    
+      this.discs.addAll(specificEntity.discs);
+    }else{
+      
+      if(
+        entity.discs != null &&
+        !entity.discs.isEmpty()){
+        
+        this.discs.addAll(entity.discs);
+      }
+    }
+    
+    addEntitiesDistinctWithoutNull(this.userEvents, specificEntity.userEvents);
+    addEntitiesDistinctWithoutNull(this.userEvents, entity.userEvents);
+    
+    if(specificEntity.thumb != null){
+      this.thumb = specificEntity.thumb;
+    }else{
+      this.thumb = entity.thumb;
+    }
+    
+    if(specificEntity.file != null){
+      this.file = specificEntity.file;
+    }else{
+      this.file = entity.file;
+    }
+
+    if(
+      specificEntity.flags != null &&
+      !specificEntity.flags.isEmpty()){
+    
+      this.flags.addAll(specificEntity.flags);
+    }else{
+      
+      if(
+        entity.flags != null &&
+        !entity.flags.isEmpty()){
+        
+        this.flags.addAll(entity.flags);
+      }
+    }
+    
+    if(
+      specificEntity.circleTypes != null &&
+      !specificEntity.circleTypes.isEmpty()){
+    
+      this.circleTypes.addAll(specificEntity.circleTypes);
+    }else{
+      
+      if(
+        entity.circleTypes != null &&
+        !entity.circleTypes.isEmpty()){
+        
+        this.circleTypes.addAll(entity.circleTypes);
+      }
+    }
+    
+    addEntitiesDistinctWithoutNull(this.entries, specificEntity.entries);
+    addEntitiesDistinctWithoutNull(this.entries, entity.entries);
+    
+    addEntitiesDistinctWithoutNull(this.attachedEntities, specificEntity.attachedEntities);
+    addEntitiesDistinctWithoutNull(this.attachedEntities, entity.attachedEntities);
+    
+    addEntitiesDistinctWithoutNull(this.attachedEntities, specificEntity.attachedEntities);
+    addEntitiesDistinctWithoutNull(this.attachedEntities, entity.attachedEntities);
+    
+    if(
+      specificEntity.comments != null &&
+      !specificEntity.comments.isEmpty()){
+    
+      this.comments.addAll(specificEntity.comments);
+    }else{
+      
+      if(
+        entity.comments != null &&
+        !entity.comments.isEmpty()){
+        
+        this.comments.addAll(entity.comments);
+      }
+    }
+    
+    addEntitiesDistinctWithoutNull(this.users, specificEntity.users);
+    addEntitiesDistinctWithoutNull(this.users, entity.users);
+    
+    addEntitiesDistinctWithoutNull(this.entities, specificEntity.entities);
+    addEntitiesDistinctWithoutNull(this.entities, entity.entities);
+    
+    if(specificEntity.read != null){
+      this.read = specificEntity.read;
+    }else{
+      this.read = entity.read;
+    }
+    
+    addEntitiesDistinctWithoutNull(this.circles, specificEntity.circles);
+    addEntitiesDistinctWithoutNull(this.circles, entity.circles);
+    
+    addEntitiesDistinctWithoutNull(this.locations, specificEntity.locations);
+    addEntitiesDistinctWithoutNull(this.locations, entity.locations);
+    
+    if(specificEntity.likes != null){
+      this.likes = specificEntity.likes;
+    }else{
+      this.likes = entity.likes;
+    }
   }
   
   @Override 

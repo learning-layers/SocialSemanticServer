@@ -286,7 +286,7 @@ implements
             par.withUserRestriction, //withUserRestriction,
             true)); //invokeEntityHandlers
       
-      for(SSServContainerI serv : SSServReg.inst.getServsManagingEntities()){
+      for(SSServContainerI serv : SSServReg.inst.getServsHandlingEntities()){
         
         ((SSEntityHandlerImplI) serv.serv()).circleContentChanged(
           new SSCircleContentChangedPar(
@@ -406,7 +406,7 @@ implements
           par.withUserRestriction, //withUserRestriction, 
           true)); //invokeEntityHandlers))
     
-    for(SSServContainerI serv : SSServReg.inst.getServsManagingEntities()){
+    for(SSServContainerI serv : SSServReg.inst.getServsHandlingEntities()){
       
       ((SSEntityHandlerImplI) serv.serv()).circleContentChanged(
         new SSCircleContentChangedPar(
@@ -496,7 +496,7 @@ implements
           null, //descPar, 
           par.withUserRestriction)); //withUserRestriction, 
     
-    for(SSServContainerI serv : SSServReg.inst.getServsManagingEntities()){
+    for(SSServContainerI serv : SSServReg.inst.getServsHandlingEntities()){
       
       ((SSEntityHandlerImplI) serv.serv()).circleContentChanged(
         new SSCircleContentChangedPar(

@@ -36,10 +36,10 @@ public class SSEvernoteNote extends SSEntity{
   public SSUri notebook = null;
   
   public static SSEvernoteNote get(
-    final SSEntity entity,
-    final SSUri    notebook) throws Exception{
+    final SSEvernoteNote note,
+    final SSEntity       entity) throws Exception{
     
-    return new SSEvernoteNote(entity, notebook);
+    return new SSEvernoteNote(note, entity);
   }
   
   public static SSEvernoteNote get(
@@ -50,12 +50,12 @@ public class SSEvernoteNote extends SSEntity{
   }
   
   protected SSEvernoteNote(
-    final SSEntity entity,
-    final SSUri    notebook) throws Exception{
+    final SSEvernoteNote note,
+    final SSEntity       entity) throws Exception{
 
-    super(entity);
+    super(note, entity);
     
-    this.notebook = notebook;
+    this.notebook = note.notebook;
   }
   
   protected SSEvernoteNote(

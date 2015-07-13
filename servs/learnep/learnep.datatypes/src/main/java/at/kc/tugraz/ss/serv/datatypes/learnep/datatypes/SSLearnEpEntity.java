@@ -53,7 +53,7 @@ public class SSLearnEpEntity extends SSEntity {
     final SSLearnEpEntity learnEpEntity,
     final SSEntity        entity) throws Exception{
     
-    super(entity);
+    super(learnEpEntity, entity);
     
     this.entity             = learnEpEntity.entity;
     this.x                  = learnEpEntity.x;

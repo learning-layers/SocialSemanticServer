@@ -101,14 +101,13 @@ implements
         
         case evernoteNote:{
           
-          final SSUri noteBook = sqlFct.getNote(entity.id).notebook;
-          
-          return SSEvernoteNote.get(entity, noteBook);
+          return SSEvernoteNote.get(
+            sqlFct.getNote(entity.id),
+            entity);
         }
         
         case evernoteResource:{
           
-          final SSUri     note;
           SSFileExtE      fileExt  = null;
           SSMimeTypeE     mimeType = null;
           
@@ -122,16 +121,14 @@ implements
             SSServErrReg.reset();
           }
           
-          note = 
-            sqlFct.getResource(
-              entity.id).note;
-          
-          return 
-            SSEvernoteResource.get(
-              entity,
-              note,
-              fileExt,
-              mimeType);
+        final SSEvernoteResource resource = sqlFct.getResource(entity.id);
+        
+        resource.fileExt  = fileExt;
+        resource.mimeType = mimeType;
+            
+        return SSEvernoteResource.get(
+          resource,
+          entity);
         }
       }
       

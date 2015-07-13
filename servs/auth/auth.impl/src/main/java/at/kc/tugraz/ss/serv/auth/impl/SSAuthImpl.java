@@ -191,6 +191,7 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
           new SSCollUserRootAddPar(
             null, 
             null, 
+            SSVocConf.systemUserUri,
             userUri, 
             false));
         
@@ -250,6 +251,7 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
                 new SSCollUserRootAddPar(
                   null,
                   null,
+                  SSVocConf.systemUserUri,
                   userUri,
                   true));
               
@@ -357,6 +359,7 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
                 new SSCollUserRootAddPar(
                   null,
                   null,
+                  SSVocConf.systemUserUri,
                   userUri,
                   true));
             }catch(SSErr error){

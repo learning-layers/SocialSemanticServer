@@ -57,7 +57,7 @@ public class SSCategoryServ extends SSServContainerI{
     
     SSServReg.inst.regServ(this);
     
-    SSServReg.inst.regServForManagingEntities(this);
+    SSServReg.inst.regServForHandlingEntities(this);
     
     return this;
   }

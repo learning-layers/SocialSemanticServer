@@ -38,7 +38,7 @@ public class SSAuthor extends SSEntity{
     final SSAuthor         author,
     final SSEntity         entity) throws Exception{
     
-    super(entity);
+    super(author, entity);
   }
   
   public static SSAuthor get(

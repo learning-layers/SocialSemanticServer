@@ -31,7 +31,6 @@ import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServImplA;
-import at.tugraz.sss.serv.caller.SSServCaller;
 import java.util.List;
 
 public class SSEntityServ extends SSServContainerI{
@@ -57,8 +56,7 @@ public class SSEntityServ extends SSServContainerI{
     
     SSServReg.inst.regServ(this);
     
-    SSServReg.inst.regServForManagingEntities       (this);
-    SSServReg.inst.regServForGatheringUserRelations (this);
+SSServReg.inst.regServForHandlingEntities(this);
     SSServReg.inst.regServForGatheringUsersResources(this);
     
 //    final Map<SSServOpE, Integer> maxRequestsForOps = new EnumMap<>(SSServOpE.class);

@@ -59,7 +59,7 @@ public class SSLearnEpServ extends SSServContainerI{
     
     SSServReg.inst.regServ(this);
     
-    SSServReg.inst.regServForManagingEntities        (this);
+    SSServReg.inst.regServForHandlingEntities(this);
     SSServReg.inst.regServForGatheringUsersResources (this);
     
     final Map<SSServOpE, Integer> maxRequestsForOps = new EnumMap<>(SSServOpE.class);

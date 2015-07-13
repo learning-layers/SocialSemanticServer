@@ -24,8 +24,6 @@ import at.tugraz.sss.serv.SSCoreConfA;
 import at.kc.tugraz.ss.message.api.SSMessageClientI;
 import at.kc.tugraz.ss.message.api.SSMessageServerI;
 import at.kc.tugraz.ss.message.impl.SSMessageImpl;
-import at.tugraz.sss.serv.SSDBSQLI;
-import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSServContainerI;
@@ -48,12 +46,14 @@ public class SSMessageServ extends SSServContainerI{
     return new SSMessageImpl(conf);
   }
   
-    @Override
+  @Override
   public SSServContainerI regServ(final SSConfA conf) throws Exception{
     
     this.conf = conf;
     
-      SSServReg.inst.regServ(this);
+    SSServReg.inst.regServ(this);
+    
+    SSServReg.inst.regServForHandlingEntities(this);
     
     return this;
   }

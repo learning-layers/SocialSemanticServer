@@ -176,36 +176,41 @@ implements
       final List<SSEntity>             entitiesToQuery    = new ArrayList<>();
       final List<SSUri>                activityURIs       = new ArrayList<>();
       
-      SSEntity.addEntitiesDistinctWithoutNull(
-        entitiesToQuery,
-        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
-          new SSEntitiesGetPar(
-            null,
-            null,
-            par.user,
-            par.entities, //entities
-            null, //types,
-            null, //descPar,
-            par.withUserRestriction)));
+      if(!par.entities.isEmpty()){
+        SSEntity.addEntitiesDistinctWithoutNull(
+          entitiesToQuery,
+          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
+            new SSEntitiesGetPar(
+              null,
+              null,
+              par.user,
+              par.entities, //entities
+              null, //types,
+              null, //descPar,
+              par.withUserRestriction)));
+      }
       
-      for(SSEntity circle :
-        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
-          new SSEntitiesGetPar(
-            null,
-            null,
-            par.user,
-            par.circles, //entities
-            null, //types,
-            new SSEntityDescriberPar(), //descPar,
-            par.withUserRestriction))){
-        
-        SSEntity.addEntitiesDistinctWithoutNull(
-          entitiesToQuery,
-          circle);
-        
-        SSEntity.addEntitiesDistinctWithoutNull(
-          entitiesToQuery,
-          circle.entities);
+      if(!par.circles.isEmpty()){
+      
+        for(SSEntity circle :
+          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
+            new SSEntitiesGetPar(
+              null,
+              null,
+              par.user,
+              par.circles, //entities
+              null, //types,
+              new SSEntityDescriberPar(), //descPar,
+              par.withUserRestriction))){
+
+          SSEntity.addEntitiesDistinctWithoutNull(
+            entitiesToQuery,
+            circle);
+
+          SSEntity.addEntitiesDistinctWithoutNull(
+            entitiesToQuery,
+            circle.entities);
+        }
       }
       
       activityURIs.addAll(
@@ -543,29 +548,41 @@ implements
               descPar)); //descPar,
       }
       
-      activity.users.addAll(
-        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
-          new SSEntitiesGetPar(
-            null,
-            null,
-            par.user,
-            sqlFct.getActivityUsers(activity.id),  //entities
-            null, //types,
-            descPar, //descPar,
-            par.withUserRestriction)));
+      final List<SSUri>    activityUserURIs        = sqlFct.getActivityUsers(activity.id);
+      final List<SSEntity> activityUserEntities = new ArrayList<>();
+      
+      activityUserEntities.addAll(
+      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
+        new SSEntitiesGetPar(
+          null,
+          null,
+          par.user,
+          activityUserURIs,  //entities
+          null, //types,
+          descPar, //descPar,
+          par.withUserRestriction)));
+      
+      activity.users.clear();
+      activity.users.addAll(activityUserEntities);
       
       activity.contents.addAll(sqlFct.getActivityContents(activity.id));
       
-      activity.entities.addAll(
+      final List<SSUri>    activityEntityURIs      = sqlFct.getActivityEntities(activity.id);
+      final List<SSEntity> activityEntityEntities  = new ArrayList<>();
+      
+      activityEntityEntities.addAll(
         ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
           new SSEntitiesGetPar(
             null,
             null,
             par.user,
-            sqlFct.getActivityEntities(activity.id),
+            activityEntityURIs,
             null, //types,
             descPar, //descPar
             par.withUserRestriction)));
+      
+      activity.entities.clear();
+      activity.entities.addAll(activityEntityEntities);
       
       return activity;
     }catch(Exception error){

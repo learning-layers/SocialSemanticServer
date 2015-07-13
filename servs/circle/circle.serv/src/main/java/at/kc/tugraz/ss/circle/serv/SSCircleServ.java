@@ -24,8 +24,6 @@ import at.kc.tugraz.ss.circle.api.SSCircleClientI;
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.impl.SSCircleImpl;
 import at.tugraz.sss.serv.SSCoreConfA;
-import at.tugraz.sss.serv.SSDBSQLI;
-import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSServContainerI;
@@ -54,6 +52,8 @@ public class SSCircleServ extends SSServContainerI{
     this.conf = conf;
     
     SSServReg.inst.regServ(this);
+    
+    SSServReg.inst.regServForHandlingEntities(this);
     
     return this;
   }

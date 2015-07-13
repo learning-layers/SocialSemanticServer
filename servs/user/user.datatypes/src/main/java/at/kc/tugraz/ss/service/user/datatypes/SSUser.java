@@ -23,7 +23,6 @@ package at.kc.tugraz.ss.service.user.datatypes;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSEntityE;
-import at.tugraz.sss.serv.SSLabel;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,7 +48,7 @@ public class SSUser extends SSEntity{
     final SSUser         user,
     final SSEntity       entity) throws Exception{
     
-    super(entity);
+    super(user, entity);
     
     this.email  = user.email;
     this.friend = user.friend;

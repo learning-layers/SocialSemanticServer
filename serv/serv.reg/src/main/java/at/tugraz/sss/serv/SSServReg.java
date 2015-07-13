@@ -32,11 +32,9 @@ public class SSServReg{
   public static final Map<SSServOpE,     SSServContainerI> servsForClientOps               = new EnumMap<>(SSServOpE.class);
   public static final Map<SSServOpE,     SSServContainerI> servsForServerOps               = new EnumMap<>(SSServOpE.class);
   public static final Map<Class,         SSServContainerI> servsForServerI                 = new HashMap<>();
-  public static final List<SSServContainerI>           servsForUpdatingEntities        = new ArrayList<>();
   public static final List<SSServContainerI>           servsForGatheringUsersResources = new ArrayList<>();
   public static final List<SSServContainerI>           servsForGatheringUserRelations  = new ArrayList<>();
-  public static final List<SSServContainerI>           servsForDescribingEntities      = new ArrayList<>();
-  public static final List<SSServContainerI>           servsForManagingEntities        = new ArrayList<>();
+  public static final List<SSServContainerI>           servsHandlingEntities           = new ArrayList<>();
   
   public static final Map<SSServOpE, Integer>                         requsLimitsForClientOpsPerUser  = new EnumMap<>(SSServOpE.class);
   public static final Map<SSServOpE, Map<String, List<SSServImplA>>>  currentRequsForClientOpsPerUser = new EnumMap<>(SSServOpE.class);
@@ -153,7 +151,7 @@ public class SSServReg{
     }
   }
   
-  public void regServForUpdatingEntities(
+  public void regServForHandlingEntities(
     final SSServContainerI servContainer) throws Exception{
     
     try{
@@ -162,57 +160,13 @@ public class SSServReg{
         return;
       }
       
-      synchronized(servsForUpdatingEntities){
+      synchronized(servsHandlingEntities){
         
-        if(servsForUpdatingEntities.contains(servContainer)){
-          throw new Exception("service for updating entities already registered");
+        if(servsHandlingEntities.contains(servContainer)){
+          throw new SSErr(SSErrE.servAlreadyRegistered);
         }
         
-        servsForUpdatingEntities.add(servContainer);
-      }
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
-  public void regServForManagingEntities(
-    final SSServContainerI servContainer) throws Exception{
-    
-    try{
-      
-      if(!servContainer.conf.use){
-        return;
-      }
-      
-      synchronized(servsForManagingEntities){
-        
-        if(servsForManagingEntities.contains(servContainer)){
-          throw new Exception("service already registered");
-        }
-        
-        servsForManagingEntities.add(servContainer);
-      }
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
-  public void regServForDescribingEntities(
-    final SSServContainerI servContainer) throws Exception{
-    
-    try{
-      
-      if(!servContainer.conf.use){
-        return;
-      }
-      
-      synchronized(servsForDescribingEntities){
-        
-        if(servsForDescribingEntities.contains(servContainer)){
-          throw new Exception("service for describing entities already registered");
-        }
-        
-        servsForDescribingEntities.add(servContainer);
+        servsHandlingEntities.add(servContainer);
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -231,7 +185,7 @@ public class SSServReg{
       synchronized(servsForGatheringUserRelations){
         
         if(servsForGatheringUserRelations.contains(servContainer)){
-          throw new Exception("service for gathering user relations already registered");
+          throw new SSErr(SSErrE.servAlreadyRegistered);
         }
         
         servsForGatheringUserRelations.add(servContainer);
@@ -253,7 +207,7 @@ public class SSServReg{
       synchronized(servsForGatheringUsersResources){
         
         if(servsForGatheringUsersResources.contains(servContainer)){
-          throw new Exception("service for gathering users resources already registered");
+          throw new SSErr(SSErrE.servAlreadyRegistered);
         }
         
         servsForGatheringUsersResources.add(servContainer);
@@ -358,16 +312,8 @@ public class SSServReg{
     }
   }
   
-  public List<SSServContainerI> getServsUpdatingEntities(){
-    return new ArrayList<>(servsForUpdatingEntities);
-  }
-  
-  public List<SSServContainerI> getServsManagingEntities(){
-    return new ArrayList<>(servsForManagingEntities);
-  }
-  
-  public List<SSServContainerI> getServsDescribingEntities(){
-    return new ArrayList<>(servsForDescribingEntities);
+  public List<SSServContainerI> getServsHandlingEntities(){
+    return new ArrayList<>(servsHandlingEntities);
   }
   
   public List<SSServContainerI> getServsGatheringUserRelations(){

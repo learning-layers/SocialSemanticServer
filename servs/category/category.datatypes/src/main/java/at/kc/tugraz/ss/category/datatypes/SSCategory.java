@@ -73,7 +73,7 @@ public class SSCategory extends SSEntity{
     final SSCategory            category,
     final SSEntity              entity) throws Exception{
     
-    super(entity);
+    super(category, entity);
     
     this.entity        = category.entity;
     this.user          = category.user;

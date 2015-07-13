@@ -665,7 +665,7 @@ implements
         throw new SSErr(SSErrE.parameterMissing);
       }
       
-      if(sqlFct.existsCollRootForUser(par.user)){
+      if(sqlFct.existsCollRootForUser(par.forUser)){
         return true;
       }
 
@@ -677,7 +677,7 @@ implements
         new SSEntityUpdatePar(
           null,
           null,
-          par.user,
+          par.forUser,
           rootCollUri,
           SSEntityE.coll, //type,
           SSLabel.get(SSStrU.valueRoot), //label
@@ -693,14 +693,14 @@ implements
 
       sqlFct.addCollRoot(
         rootCollUri, 
-        par.user);
+        par.forUser);
       
       final SSUri sharedWithMeFilesCollUri =
         collEntryAdd(
           new SSCollUserEntryAddPar(
             null,
             null,
-            par.user,
+            par.forUser,
             rootCollUri, //coll
             null, //entry
             SSLabel.get(SSStrU.valueSharedWithMeFiles), //label
@@ -710,7 +710,7 @@ implements
       
       sqlFct.addCollSpecial(
         sharedWithMeFilesCollUri,
-        par.user);
+        par.forUser);
 
       dbSQL.commit(par.shouldCommit);
 

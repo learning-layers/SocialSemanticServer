@@ -58,7 +58,7 @@ public class SSActivity extends SSEntity{
     final SSActivity           activity,
     final SSEntity             entity) throws Exception{
     
-    super(entity);
+    super(activity, entity);
     
     this.activityType = activity.activityType;
     this.entity       = activity.entity;

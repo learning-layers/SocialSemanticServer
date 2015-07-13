@@ -106,21 +106,6 @@ implements
   @Override
   public void circleContentChanged(final SSCircleContentChangedPar par) throws Exception{
     
-    for(SSEntity entityToAdd: par.entitiesToAdd){
-      
-      switch(entityToAdd.type){
-        
-        case file:{
-          
-          SSFileActivityFct.shareFileWithUser(
-            par.user,
-            entityToAdd.id,
-            par.usersToPushEntitiesTo);
-          
-          break;
-        }
-      }
-    }
   }
   
   @Override
@@ -153,11 +138,11 @@ implements
           final SSFileExtE  fileExt  = SSFileExtE.ext(SSStrU.removeTrailingSlash(entity));
           final SSMimeTypeE mimeType = SSMimeTypeE.mimeTypeForFileExt (fileExt);
           
-          return 
-            SSFile.get(
-              entity,
-              fileExt,
-              mimeType);
+          final SSFile file = SSFile.get(entity.id, fileExt, mimeType);
+          
+          return SSFile.get(
+              file,
+              entity);
         }
       }
       
