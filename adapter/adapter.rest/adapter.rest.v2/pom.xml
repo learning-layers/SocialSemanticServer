@@ -96,7 +96,7 @@
                        
             <apiSource>
               <apiVersion>v2</apiVersion>
-              <basePath>http://test-ll.know-center.tugraz.at/test.v2</basePath> 
+              <basePath>http://localhost:8080/sss.adapter.rest.v2</basePath> 
               <!-- 
                 localhost:8080/sss.adapter.rest.v2  
                 test-ll.know-center.tugraz.at/ltb.v2   
@@ -113,7 +113,7 @@
                 <licenseUrl>${project.licenseURI}</licenseUrl>
               </apiInfo>
               
-              <swaggerUIDocBasePath>http://test-ll.know-center.tugraz.at/test.v2/api-docs</swaggerUIDocBasePath> 
+              <swaggerUIDocBasePath>http://localhost:8080/sss.adapter.rest.v2/api-docs</swaggerUIDocBasePath> 
               <!-- 
                 localhost:8080/sss.adapter.rest.v2/api-docs 
                 test-ll.know-center.tugraz.at/ltb.v2/api-docs  

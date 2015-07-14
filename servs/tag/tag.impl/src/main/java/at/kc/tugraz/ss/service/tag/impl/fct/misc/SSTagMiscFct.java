@@ -34,7 +34,6 @@ import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagEntitiesForTagsGetPar;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsGetPar;
 import at.kc.tugraz.ss.service.tag.impl.fct.sql.SSTagSQLFct;
 import at.tugraz.sss.serv.SSEntity;
-import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.util.SSServCallerU;
 import java.util.ArrayList;
@@ -320,7 +319,7 @@ public class SSTagMiscFct {
     final List<SSTag>      tags, 
     final Boolean          withUserRestriction, 
     final SSUri            user, 
-    final SSUri            forUser){
+    final SSUri            forUser) throws Exception{
     
     final List<SSTag> filtered = new ArrayList<>();
     
@@ -333,13 +332,11 @@ public class SSTagMiscFct {
       
       for(SSTag tag : tags){
         
-        try{
-          SSServCallerU.canUserReadEntity(user, tag.entity);
-          
-          filtered.add(tag);
-        }catch(Exception error){
-          SSServErrReg.reset();
+        if(!SSServCallerU.canUserRead(user, tag.entity)){
+          continue;
         }
+          
+        filtered.add(tag);
       }
       
       return filtered;
@@ -352,7 +349,7 @@ public class SSTagMiscFct {
     final List<SSUri> entityURIs, 
     final Boolean     withUserRestriction, 
     final SSUri       user, 
-    final SSUri       forUser){
+    final SSUri       forUser) throws Exception{
     
     final List<SSUri> filtered     = new ArrayList<>();
     
@@ -365,13 +362,11 @@ public class SSTagMiscFct {
       
       for(SSUri entityURI : entityURIs){
         
-        try{
-          SSServCallerU.canUserReadEntity(user, entityURI);
-          
-          filtered.add(entityURI);
-        }catch(Exception error){
-          SSServErrReg.reset();
+        if(!SSServCallerU.canUserRead(user, entityURI)){
+          continue;
         }
+          
+        filtered.add(entityURI);
       }
       
       return filtered;

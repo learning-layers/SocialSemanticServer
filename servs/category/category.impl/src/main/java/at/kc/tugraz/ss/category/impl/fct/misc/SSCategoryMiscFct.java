@@ -315,7 +315,7 @@ public class SSCategoryMiscFct {
     final List<SSUri> entityURIs, 
     final Boolean     withUserRestriction, 
     final SSUri       user, 
-    final SSUri       forUser){
+    final SSUri       forUser) throws Exception{
     
     final List<SSUri> filtered     = new ArrayList<>();
     
@@ -328,13 +328,11 @@ public class SSCategoryMiscFct {
       
       for(SSUri entityURI : entityURIs){
         
-        try{
-          SSServCallerU.canUserReadEntity(user, entityURI);
-          
-          filtered.add(entityURI);
-        }catch(Exception error){
-          SSServErrReg.reset();
+        if(!SSServCallerU.canUserRead(user, entityURI)){
+          continue;
         }
+          
+        filtered.add(entityURI);
       }
       
       return filtered;
@@ -347,7 +345,7 @@ public class SSCategoryMiscFct {
     final List<SSCategory> categories, 
     final Boolean          withUserRestriction, 
     final SSUri            user, 
-    final SSUri            forUser){
+    final SSUri            forUser) throws Exception{
     
     final List<SSCategory> filtered = new ArrayList<>();
     
@@ -360,13 +358,11 @@ public class SSCategoryMiscFct {
       
       for(SSCategory category : categories){
         
-        try{
-          SSServCallerU.canUserReadEntity(user, category.entity);
-          
-          filtered.add(category);
-        }catch(Exception error){
-          SSServErrReg.reset();
+        if(!SSServCallerU.canUserRead(user, category.entity)){
+          continue;
         }
+          
+        filtered.add(category);
       }
       
       return filtered;

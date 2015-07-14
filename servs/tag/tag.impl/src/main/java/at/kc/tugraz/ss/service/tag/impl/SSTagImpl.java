@@ -311,6 +311,10 @@ implements
             SSEntityE.tag, //type,
             par.withUserRestriction)); //withUserRestriction
       
+      if(par.space == null){
+        par.space = SSSpaceE.sharedSpace;
+      }
+      
       dbSQL.startTrans(par.shouldCommit);
       
       if(tagEntity != null){

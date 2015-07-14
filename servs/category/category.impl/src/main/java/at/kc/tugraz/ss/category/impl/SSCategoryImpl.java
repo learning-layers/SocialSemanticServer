@@ -265,6 +265,10 @@ implements
             SSEntityE.category, //type,
             par.withUserRestriction)); //withUserRestriction
       
+      if(par.space == null){
+        par.space = SSSpaceE.sharedSpace;
+      }
+      
       dbSQL.startTrans(par.shouldCommit);
       
       if(categoryEntity != null){
@@ -702,9 +706,9 @@ implements
        
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(
-      SSCategoryFrequsGetRet.get(
-        categoryFrequsGet((SSCategoryFrequsGetPar) parA.getFromJSON(SSCategoryFrequsGetPar.class))));
+    final SSCategoryFrequsGetPar par = (SSCategoryFrequsGetPar) parA.getFromJSON(SSCategoryFrequsGetPar.class);
+    
+    sSCon.writeRetFullToClient(SSCategoryFrequsGetRet.get(categoryFrequsGet(par)));
   }
   
   @Override

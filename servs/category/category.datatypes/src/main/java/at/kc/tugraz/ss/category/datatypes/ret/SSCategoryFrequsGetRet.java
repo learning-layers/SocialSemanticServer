@@ -35,10 +35,6 @@ public class SSCategoryFrequsGetRet extends SSServRetI{
   
   public List<SSCategoryFrequ> categoryFrequs = new ArrayList<>();
   
-  public List<SSCategoryFrequ> getCategoryFrequs(){
-    return categoryFrequs;
-  }
-   
   public static SSCategoryFrequsGetRet get(
     final List<SSCategoryFrequ> categoryFrequs){
     
@@ -48,7 +44,7 @@ public class SSCategoryFrequsGetRet extends SSServRetI{
   private SSCategoryFrequsGetRet(
     final List<SSCategoryFrequ> categoryFrequs){
     
-    super(SSServOpE.tagFrequsGet);
+    super(SSServOpE.categoryFrequsGet);
     
     SSCategoryFrequ.addDistinctWithoutNull(this.categoryFrequs, categoryFrequs);
   }
