@@ -23,13 +23,17 @@ package at.kc.tugraz.ss.serv.job.dataexport.datatypes.par;
 import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSUri;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SSDataExportUserEntityTagCategoryTimestampPar extends SSServPar{
   
   public String                      fileName               = null;
-  public Boolean                     exportTags             = null;
-  public Boolean                     usePrivateTagsToo      = null;
-  public Boolean                     exportCategories       = null;
+  public Boolean                     exportTags             = false;
+  public Boolean                     usePrivateTagsToo      = false;
+  public Boolean                     exportCategories       = false;
+  public List<SSUri>                 users                  = new ArrayList<>();
   
   public SSDataExportUserEntityTagCategoryTimestampPar(final SSServPar par) throws Exception{
     
@@ -42,6 +46,7 @@ public class SSDataExportUserEntityTagCategoryTimestampPar extends SSServPar{
         exportTags            = (Boolean)                    pars.get(SSVarNames.exportTags);
         usePrivateTagsToo     = (Boolean)                    pars.get(SSVarNames.usePrivateTagsToo);
         exportCategories      = (Boolean)                    pars.get(SSVarNames.exportCategories);
+        users                 = (List<SSUri>)                pars.get(SSVarNames.users);
       }
       
     }catch(Exception error){

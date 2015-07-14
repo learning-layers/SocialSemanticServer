@@ -394,22 +394,15 @@ public class SSEntity extends SSEntityA{
 
   public static void addEntitiesDistinctWithoutNull(
     final List<SSEntity>   entities,
-    final SSEntity...      toAddEntities){
+    final SSEntity         entity){
     
-    if(SSObjU.isNull  (entities, toAddEntities)){
+    if(
+      SSObjU.isNull  (entities, entity) ||
+      SSStrU.contains(entities, entity)){
       return;
     }
-
-    for(SSEntity entity : toAddEntities){
-      
-      if(
-        entity == null ||
-        SSStrU.contains(entities, entity)){
-        continue;
-      }
-      
-      entities.add(entity);
-    }
+    
+    entities.add(entity);
   }
   
   public static void addEntitiesDistinctWithoutNull(

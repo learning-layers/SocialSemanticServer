@@ -76,11 +76,12 @@ public class SSRecommResourcesPar extends SSServPar{
     final SSUri           entity, 
     final List<String>    categories, 
     final Integer         maxResources, 
-    final List<SSEntityE> typesToRecommendOnly, 
+    final List<SSEntityE> typesToRecommOnly, 
     final Boolean         setCircleTypes, 
     final Boolean         includeOwn, 
     final Boolean         ignoreAccessRights, 
-    final Boolean         withUserRestriction){
+    final Boolean         withUserRestriction, 
+    final Boolean         invokeEntityHandlers){
     
     super(op, key, user);
     
@@ -94,13 +95,12 @@ public class SSRecommResourcesPar extends SSServPar{
     
     this.maxResources = maxResources;
     
-    if(typesToRecommendOnly != null){
-      this.typesToRecommOnly.addAll(typesToRecommendOnly);
-    }
+    SSEntityE.addDistinctWithoutNull(this.typesToRecommOnly, typesToRecommOnly);
     
     this.setCircleTypes       = setCircleTypes;
     this.includeOwn           = includeOwn;
     this.ignoreAccessRights   = ignoreAccessRights;
     this.withUserRestriction  = withUserRestriction;
+    this.invokeEntityHandlers = invokeEntityHandlers;
   }
 }

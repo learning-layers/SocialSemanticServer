@@ -82,8 +82,6 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
   
   /* SSAuthServServerI */
   
-  //TODO dtheiler: create transactions here as well
-  
   @Override
   public void authUsersFromCSVFileAdd(final SSServPar parA) throws Exception {
     

@@ -20,6 +20,9 @@
 */
 package at.kc.tugraz.ss.service.search.impl.fct;
 
+import at.kc.tugraz.ss.recomm.api.SSRecommServerI;
+import at.kc.tugraz.ss.recomm.datatypes.SSResourceLikelihood;
+import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommResourcesPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
 import at.kc.tugraz.ss.service.rating.api.SSRatingServerI;
@@ -119,8 +122,11 @@ public class SSSearchFct {
     
     try{
       
-      result.addAll(
-        SSServCaller.recommResources(
+      final List<SSResourceLikelihood> recommendedResources = 
+        ((SSRecommServerI) SSServReg.getServ(SSRecommServerI.class)).recommResources(
+        new SSRecommResourcesPar(
+          null,
+          null,
           par.user,
           null, //realm
           par.user, //forUser
@@ -128,8 +134,18 @@ public class SSSearchFct {
           new ArrayList<>(),
           10,
           par.typesToSearchOnlyFor,
-          false,
-          true).keySet());
+          false, //setCircleTypes
+          true, //includeOwn
+          false, //ignoreAccessRights
+          par.withUserRestriction, //withUserRestriction
+          false)); //invokeEntityHandlers
+          
+      for(SSResourceLikelihood reommendedResource : recommendedResources){
+        result.add(reommendedResource.resource);
+      }
+      
+      return result;
+
     }catch(Exception error){
       SSLogU.warn("reomm entities for search failed");
       SSServErrReg.reset();

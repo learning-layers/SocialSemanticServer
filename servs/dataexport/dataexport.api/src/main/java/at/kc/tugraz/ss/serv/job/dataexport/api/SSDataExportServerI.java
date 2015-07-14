@@ -25,7 +25,7 @@ import at.tugraz.sss.serv.SSServServerI;
 
 public interface SSDataExportServerI extends SSServServerI{
 
-  public void dataExportUserEntityTagCategoryTimestamps         (final SSServPar parA) throws Exception;
-  public void dataExportAddTagsCategoriesTimestampsForUserEntity(final SSServPar parA) throws Exception;
-  public void dataExportUserRelations                           (final SSServPar parA) throws Exception;
+  public void dataExportUsersEntitiesTagsCategoriesTimestampsFile  (final SSServPar parA) throws Exception;
+  public void dataExportUserEntityTagsCategoriesTimestampsLine     (final SSServPar parA) throws Exception;
+  public void dataExportUserRelations                              (final SSServPar parA) throws Exception;
 }

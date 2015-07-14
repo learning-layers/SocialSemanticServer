@@ -30,6 +30,7 @@ import at.kc.tugraz.ss.recomm.api.SSRecommServerI;
 import at.kc.tugraz.ss.recomm.conf.SSRecommConf;
 import at.kc.tugraz.ss.recomm.impl.SSRecommImpl;
 import at.kc.tugraz.ss.recomm.serv.task.SSRecommUpdateBulkTask;
+import at.kc.tugraz.ss.recomm.serv.task.SSRecommUpdateBulkUserRealmsFromConfTask;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.tugraz.sss.serv.SSServImplA;
 import at.tugraz.sss.serv.caller.SSServCaller;
@@ -93,6 +94,7 @@ public class SSRecommServ extends SSServContainerI{
         
         case recommUpdate:{
           SSDateU.scheduleNow(new SSRecommUpdateBulkTask(recommConf));
+          SSDateU.scheduleNow(new SSRecommUpdateBulkUserRealmsFromConfTask(recommConf));
           break;
         }
         
@@ -132,6 +134,7 @@ public class SSRecommServ extends SSServContainerI{
           
           case recommUpdate:{
             SSDateU.scheduleNow(new SSRecommUpdateBulkTask(recommConf));
+            SSDateU.scheduleNow(new SSRecommUpdateBulkUserRealmsFromConfTask(recommConf));
             break;
           }
           
@@ -149,6 +152,10 @@ public class SSRecommServ extends SSServContainerI{
         case recommUpdate:{
           
           SSDateU.scheduleAtFixedRate(new SSRecommUpdateBulkTask(recommConf),
+            SSDateU.getDatePlusMinutes(recommConf.scheduleIntervals.get(counter)),
+            recommConf.scheduleIntervals.get(counter) * SSDateU.minuteInMilliSeconds);
+          
+          SSDateU.scheduleAtFixedRate(new SSRecommUpdateBulkUserRealmsFromConfTask(recommConf),
             SSDateU.getDatePlusMinutes(recommConf.scheduleIntervals.get(counter)),
             recommConf.scheduleIntervals.get(counter) * SSDateU.minuteInMilliSeconds);
           break;

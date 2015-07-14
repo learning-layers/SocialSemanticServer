@@ -66,7 +66,7 @@ public class SSDataExportImpl extends SSServImplWithDBA implements SSDataExportC
   }
   
   @Override
-  public void dataExportUserEntityTagCategoryTimestamps(final SSServPar parA) throws Exception{
+  public void dataExportUsersEntitiesTagsCategoriesTimestampsFile(final SSServPar parA) throws Exception{
     
     final SSDataExportUserEntityTagCategoryTimestampPar par        = new SSDataExportUserEntityTagCategoryTimestampPar(parA);
     CSVWriter                                           fileWriter = null;
@@ -87,22 +87,27 @@ public class SSDataExportImpl extends SSServImplWithDBA implements SSDataExportC
       writer     = new OutputStreamWriter                   (out,    Charset.forName(SSEncodingU.utf8.toString()));
       fileWriter = new CSVWriter                            (writer, SSStrU.semiColon.charAt(0));
       
-      try{
-        allUsers = 
-          SSStrU.toStr(
-            ((SSUserServerI) SSUserServ.inst.serv()).usersGet(
-              new SSUsersGetPar(
-                null,
-                null,
-                par.user, //user
-                null, //users
-                false))); //invokeEntityHandlers
-        
-      }catch(SSErr error){
-        
-        switch(error.code){
-          case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); return;
-          default: SSServErrReg.regErrThrow(error); return;
+      if(!par.users.isEmpty()){
+        allUsers = SSStrU.toStr(par.users);
+      }else{
+      
+        try{
+          allUsers = 
+            SSStrU.toStr(
+              ((SSUserServerI) SSUserServ.inst.serv()).usersGet(
+                new SSUsersGetPar(
+                  null,
+                  null,
+                  par.user, //user
+                  null, //users
+                  false))); //invokeEntityHandlers
+
+        }catch(SSErr error){
+
+          switch(error.code){
+            case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); return;
+            default: SSServErrReg.regErrThrow(error); return;
+          }
         }
       }
       
@@ -179,7 +184,7 @@ public class SSDataExportImpl extends SSServImplWithDBA implements SSDataExportC
   }
   
   @Override
-  public void dataExportAddTagsCategoriesTimestampsForUserEntity(final SSServPar parA) throws Exception{
+  public void dataExportUserEntityTagsCategoriesTimestampsLine(final SSServPar parA) throws Exception{
     
     final SSDataExportAddTagsCategoriesTimestampsForUserEntityPar par        = new SSDataExportAddTagsCategoriesTimestampsForUserEntityPar(parA);
     CSVWriter                                           fileWriter = null;

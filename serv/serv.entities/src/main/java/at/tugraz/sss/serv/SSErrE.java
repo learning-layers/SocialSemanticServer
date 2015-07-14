@@ -54,6 +54,8 @@ public enum SSErrE{
   servParCreationFailed,
   restAdapterInternalError,
   
+  realmIncorrectForUser,
+  
   sssConnectionFailed,
   sssJsonRequestEncodingFailed,
   sssWriteFailed,

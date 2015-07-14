@@ -135,21 +135,26 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
       }
     }
 
-    if(wheresNumbericComparision.isEmpty()){
-      query = SSStrU.removeTrailingString(query, ") AND ");
-    }else{
+//    if(wheresNumbericComparision.isEmpty()){
+//      query = SSStrU.removeTrailingString(query, ") AND ");
+//    }else{
       query = SSStrU.removeTrailingString(query, " AND ");
-    }
+//    }
       
-    if(!wheres.isEmpty()){
-      query += " AND ";
+    if(
+      !wheres.isEmpty() || 
+      !wheresNumbericComparision.isEmpty()){
+      
+      if(!tableCons.isEmpty()){
+        query += " AND ";
+      }
     }
     
     for(String tableCon : tableCons){
       query += tableCon + " AND ";
     }
     
-    query          = SSStrU.removeTrailingString(query, " AND ");
+    query = SSStrU.removeTrailingString(query, " AND ");
     
     if(
       orderByColumn != null &&

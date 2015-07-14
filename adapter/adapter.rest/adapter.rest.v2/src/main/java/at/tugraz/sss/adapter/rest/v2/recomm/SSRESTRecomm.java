@@ -197,7 +197,10 @@ public class SSRESTRecomm{
           null,  //forUser
           null,  //entity
           null,  //categories
-          10);
+          10, //maxUsers
+          false, //ignoreAccessRights
+          true, //withUserRestriction
+          true); //invokeEntityHandlers
       
     }catch(Exception error){
       return Response.status(422).build();
@@ -236,7 +239,52 @@ public class SSRESTRecomm{
           null,  //forUser
           null,  //entity
           null,  //categories
-          10);
+          10, //maxUsers
+          false, //ignoreAccessRights
+          true, //withUserRestriction
+          true); //invokeEntityHandlers
+      
+    }catch(Exception error){
+      return Response.status(422).build();
+    }
+    
+    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+  }
+  
+  @GET
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    ("/users/ignoreaccessrights/realm/{realm}")
+  @ApiOperation(
+    value = "retrieve user recommendations",
+    response = SSRecommUsersRet.class)
+  public Response recommUsersIgnoreAccessRights(
+    @Context 
+      final HttpHeaders headers,
+    
+    @ApiParam(
+      value = "recomm realm the user wants to query", 
+      required = true)
+    @PathParam("realm") 
+      final String realm){
+    
+    final SSRecommUsersPar par;
+    
+    try{
+      
+      par =
+        new SSRecommUsersPar(
+          SSServOpE.recommUsers,
+          null,
+          null, 
+          realm, //realm
+          null,  //forUser
+          null,  //entity
+          null,  //categories
+          10, //maxUsers
+          true, //ignoreAccessRights
+          true, //withUserRestriction
+          false); //invokeEntityHandlers
       
     }catch(Exception error){
       return Response.status(422).build();
@@ -281,7 +329,10 @@ public class SSRESTRecomm{
           SSUri.get(forUser, SSVocConf.sssUri), //forUser
           SSUri.get(entity,  SSVocConf.sssUri), //entity
           null, //categories
-          10);
+          10, //maxUsers
+          false, //ignoreAccessRights
+          true, // withUserRestriction
+          true); //invokeEntityHandlers
       
     }catch(Exception error){
       return Response.status(422).build();
@@ -332,7 +383,64 @@ public class SSRESTRecomm{
           SSUri.get(forUser, SSVocConf.sssUri), //forUser
           SSUri.get(entity,  SSVocConf.sssUri), //entity
           null, //categories
-          10);
+          10, //maxUsers
+          false, //ignoreAccessRights
+          true, // withUserRestriction
+          true); //invokeEntityHandlers
+      
+    }catch(Exception error){
+      return Response.status(422).build();
+    }
+    
+    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+  }
+ 
+  @GET
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    ("/users/ignoreaccessrights/realm/{realm}/user/{forUser}/entity/{entity}")
+  @ApiOperation(
+    value = "retrieve user recommendations",
+    response = SSRecommUsersRet.class)
+  public Response recommUsersForUserEntityIgnoreAccessRights(
+    @Context 
+      final HttpHeaders headers,
+    
+    @ApiParam(
+      value = "recomm realm the user wants to query", 
+      required = true) 
+    @PathParam(SSVarNames.realm) 
+      String realm, 
+    
+    @ApiParam(
+      value = "user to be considered to retrieve recommendations for",
+      required = true) 
+    @PathParam(SSVarNames.forUser) 
+      String forUser, 
+    
+    @ApiParam(
+      value = "resource to be considered to retrieve recommendations for",
+      required = true) 
+    @PathParam(SSVarNames.entity) 
+      String entity){
+    
+    final SSRecommUsersPar par;
+    
+    try{
+      
+      par =
+        new SSRecommUsersPar(
+          SSServOpE.recommUsers,
+          null,
+          null, 
+          realm,                                //realm
+          SSUri.get(forUser, SSVocConf.sssUri), //forUser
+          SSUri.get(entity,  SSVocConf.sssUri), //entity
+          null, //categories
+          10, //maxUsers
+          true, //ignoreAccessRights
+          true, // withUserRestriction
+          false); //invokeEntityHandlers
       
     }catch(Exception error){
       return Response.status(422).build();
@@ -371,7 +479,10 @@ public class SSRESTRecomm{
           SSUri.get(forUser, SSVocConf.sssUri), //forUser
           null, //entity
           null, //categories
-          10);
+          10,  //maxUsers
+          false, //ignoreAccessRights
+          true, //withUserRestriction
+          true); //invokeEntityHandlers
       
     }catch(Exception error){
       return Response.status(422).build();
@@ -416,8 +527,60 @@ public class SSRESTRecomm{
           SSUri.get(forUser, SSVocConf.sssUri), //forUser
           null, //entity
           null, //categories
-          10);
+          10, //maxUsers, 
+          false, //ignoreAccessRights 
+          true, // withUserRestriction
+          true); //invokeEntityHandlers
+          
       
+    }catch(Exception error){
+      return Response.status(422).build();
+    }
+    
+    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+  }
+  
+  @GET
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    ("/users/ignoreaccessrights/realm/{realm}/user/{forUser}")
+  @ApiOperation(
+    value = "retrieve user recommendations",
+    response = SSRecommUsersRet.class)
+  public Response recommUsersForUserIgnoreAccessRights(
+    @Context 
+      final HttpHeaders headers,
+    
+    @ApiParam(
+      value = "recomm realm the user wants to query", 
+      required = true) 
+    @PathParam(SSVarNames.realm) 
+      final String realm,
+    
+    @ApiParam(
+      value = "user to be considered to retrieve recommendations for", 
+      required = true)
+    @PathParam(SSVarNames.forUser) 
+      final String forUser){
+    
+    final SSRecommUsersPar par;
+    
+    try{
+      
+      par =
+        new SSRecommUsersPar(
+          SSServOpE.recommUsers,
+          null,
+          null, 
+          realm,                                //realm
+          SSUri.get(forUser, SSVocConf.sssUri), //forUser
+          null, //entity
+          null, //categories
+          10, //maxUsers, 
+          true, //ignoreAccessRights 
+          true, // withUserRestriction
+          false); //invokeEntityHandlers
+          
     }catch(Exception error){
       return Response.status(422).build();
     }
@@ -455,7 +618,10 @@ public class SSRESTRecomm{
           null, //forUser
           SSUri.get(entity, SSVocConf.sssUri), //entity
           null, //categories
-          10);
+          10, //maxUsers
+          false, //ignoreAccessRights
+          true,  //withUserRestriction
+          true); //invokeEntityHandlers
       
     }catch(Exception error){
       return Response.status(422).build();
@@ -500,7 +666,58 @@ public class SSRESTRecomm{
           null, //forUser
           SSUri.get(entity, SSVocConf.sssUri), //entity
           null, //categories
-          10);
+          10, //maxUsers
+          false,  //ignoreAccessRights
+          true,  //withUserRestriction
+          true); //invokeEntityHandlers
+      
+    }catch(Exception error){
+      return Response.status(422).build();
+    }
+    
+    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+  }
+  
+  @GET
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    ("/users/ignoreaccessrights/realm/{realm}/entity/{entity}")
+  @ApiOperation(
+    value = "retrieve user recommendations",
+    response = SSRecommUsersRet.class)
+  public Response recommUsersForEntityIgnoreAccessRights(
+    @Context 
+      final HttpHeaders headers,
+    
+    @ApiParam(
+      value = "recomm realm the user wants to query", 
+      required = true) 
+    @PathParam(SSVarNames.realm) 
+      final String realm,
+    
+    @ApiParam(
+      value = "resource to be considered to retrieve recommendations for",
+      required = true)
+    @PathParam(SSVarNames.entity) 
+      final String entity){
+    
+    final SSRecommUsersPar par;
+    
+    try{
+      
+      par =
+        new SSRecommUsersPar(
+          SSServOpE.recommUsers,
+          null,
+          null, 
+          realm, //realm
+          null, //forUser
+          SSUri.get(entity, SSVocConf.sssUri), //entity
+          null, //categories
+          10, //maxUsers
+          true,  //ignoreAccessRights
+          true,  //withUserRestriction
+          false); //invokeEntityHandlers
       
     }catch(Exception error){
       return Response.status(422).build();
@@ -538,7 +755,10 @@ public class SSRESTRecomm{
           input.maxResources,    //maxResources
           input.typesToRecommOnly,  //typesToRecommendOnly
           input.setCircleTypes,  //setCircleTypes
-          input.includeOwn);  //includeOwn
+          input.includeOwn, //includeOwn
+          false, //ignoreAccessRights
+          true, //withUserRestriction
+          true); //invokeEntityHandlers
       
     }catch(Exception error){
       return Response.status(422).build();
@@ -574,7 +794,9 @@ public class SSRESTRecomm{
           input.entity,  //entity
           input.categories,  //categories
           input.maxTags,    //maxTags
-          input.includeOwn);  //includeOwn
+          input.includeOwn, //includeOwn
+          false, //ignoreAccessRights
+          true); //withUserRestriction
       
     }catch(Exception error){
       return Response.status(422).build();

@@ -533,8 +533,9 @@ public class SSServCaller {
     SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.dataExportUserRelations, opPars));
   }
   
-  public static void dataExportUserEntityTagCategoryTimestamps(
+  public static void dataExportUsersEntitiesTagsCategoriesTimestampsFile(
     final SSUri                     user,
+    final List<SSUri>               users,
     final Boolean                   exportTags,
     final Boolean                   usePrivateTagsToo,
     final Boolean                   exportCategories,
@@ -543,15 +544,16 @@ public class SSServCaller {
     final Map<String, Object> opPars = new HashMap<>();
     
     opPars.put(SSVarNames.fileName,              fileName);
+    opPars.put(SSVarNames.users,                 users);
     opPars.put(SSVarNames.exportTags,            exportTags);
     opPars.put(SSVarNames.usePrivateTagsToo,     usePrivateTagsToo);
     opPars.put(SSVarNames.exportCategories,      exportCategories);
     opPars.put(SSVarNames.user,                  user);
     
-    SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.dataExportUserEntityTagCategoryTimestamps, opPars));
+    SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.dataExportUsersEntitiesTagsCategoriesTimestampsFile, opPars));
   }
   
-  public static void dataExportAddTagsCategoriesTimestampsForUserEntity(
+  public static void dataExportUserEntityTagsCategoriesTimestampsLine(
     final SSUri        user,
     final SSUri        forUser,
     final SSUri        entity,
@@ -568,77 +570,7 @@ public class SSServCaller {
     opPars.put(SSVarNames.categories,    categories);
     opPars.put(SSVarNames.fileName,      fileName);
     
-    SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.dataExportAddTagsCategoriesTimestampsForUserEntity, opPars));
-  }
-  
-  /* recomm */
-  
-  public static Map<String, Double> recommTags(
-    final SSUri         user,
-    final String        realm,
-    final SSUri         forUser,
-    final SSUri         entity,
-    final List<String>  categories,
-    final Integer       maxTags,
-    final Boolean       includeOwn) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.user,           user);
-    opPars.put(SSVarNames.realm,          realm);
-    opPars.put(SSVarNames.forUser,        forUser);
-    opPars.put(SSVarNames.entity,         entity);
-    opPars.put(SSVarNames.categories,     categories);
-    opPars.put(SSVarNames.maxTags,        maxTags);
-    opPars.put(SSVarNames.includeOwn,     includeOwn);
-    
-    return (Map<String, Double>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.recommTags, opPars));
-  }
-  
-//  public static void recommUpdate(
-//    final SSUri               user,
-//    final String              realm,
-//    final SSUri               forUser,
-//    final SSUri               entity,
-//    final List<String>        tags,
-//    final List<String>        categories) throws Exception {
-//    
-//    final Map<String, Object> opPars = new HashMap<>();
-//    
-//    opPars.put(SSVarU.user,           user);
-//    opPars.put(SSVarU.realm,          realm);
-//    opPars.put(SSVarU.forUser,        forUser);
-//    opPars.put(SSVarU.entity,         entity);
-//    opPars.put(SSVarU.tags,           tags);
-//    opPars.put(SSVarU.categories,     categories);
-//    
-//    SSServA.inst.callServViaServer(new SSServPar(SSServOpE.recommUpdate, opPars));
-//  }
-  
-  public static Map<SSEntity, Double> recommResources(
-    final SSUri           user,
-    final String          realm,
-    final SSUri           forUser,
-    final SSUri           entity,
-    final List<String>    categories,
-    final Integer         maxResources,
-    final List<SSEntityE> typesToRecommOnly, 
-    final Boolean         setCircleTypes,
-    final Boolean         includeOwn) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.user,                   user);
-    opPars.put(SSVarNames.realm,                  realm);
-    opPars.put(SSVarNames.forUser,                forUser);
-    opPars.put(SSVarNames.entity,                 entity);
-    opPars.put(SSVarNames.categories,             categories);
-    opPars.put(SSVarNames.maxResources,           maxResources);
-    opPars.put(SSVarNames.typesToRecommOnly,      typesToRecommOnly);
-    opPars.put(SSVarNames.setCircleTypes,         setCircleTypes);
-    opPars.put(SSVarNames.includeOwn,             includeOwn);
-    
-    return (Map<SSEntity, Double>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.recommResources, opPars));
+    SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.dataExportUserEntityTagsCategoriesTimestampsLine, opPars));
   }
   
   /* data import */

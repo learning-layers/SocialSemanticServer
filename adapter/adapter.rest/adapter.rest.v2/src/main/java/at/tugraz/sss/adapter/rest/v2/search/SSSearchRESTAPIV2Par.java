@@ -38,7 +38,7 @@ public class SSSearchRESTAPIV2Par{
   @ApiModelProperty( 
     required = false, 
     value = "whether the text content (if available) of entities should be scanned" )
-  public Boolean             includeTextualContent      = null;
+  public Boolean             includeTextualContent      = false;
   
   @XmlElement
   @ApiModelProperty(
@@ -50,7 +50,7 @@ public class SSSearchRESTAPIV2Par{
   @ApiModelProperty( 
     required = false, 
     value = "whether tags of entities should be looked to find entities" )
-  public Boolean             includeTags                = null;
+  public Boolean             includeTags                = false;
   
   @XmlElement
   @ApiModelProperty( 
@@ -62,7 +62,7 @@ public class SSSearchRESTAPIV2Par{
   @ApiModelProperty( 
     required = false, 
     value = "whether authors of entities should be looked to find entities" )
-  public Boolean             includeAuthors                = null;
+  public Boolean             includeAuthors                = false;
   
   @ApiModelProperty( 
     required = false, 
@@ -78,7 +78,7 @@ public class SSSearchRESTAPIV2Par{
   @ApiModelProperty(
     required = false, 
     value = "whether maturing indicators should be included in search")
-  public Boolean             includeMIs                 = null;
+  public Boolean             includeMIs                 = false;
     
   @XmlElement
   @ApiModelProperty( 
@@ -90,7 +90,7 @@ public class SSSearchRESTAPIV2Par{
   @ApiModelProperty( 
     required = false, 
     value = "whether labels of entities should be scanned" )
-  public Boolean             includeLabel               = null;
+  public Boolean             includeLabel               = false;
   
   @ApiModelProperty( 
     required = false, 
@@ -106,7 +106,7 @@ public class SSSearchRESTAPIV2Par{
   @ApiModelProperty( 
     required = false, 
     value = "whether descriptions of entities should be scanned" )
-  public Boolean             includeDescription         = null;
+  public Boolean             includeDescription         = false;
   
   @ApiModelProperty( 
     required = false, 
@@ -132,7 +132,7 @@ public class SSSearchRESTAPIV2Par{
   @ApiModelProperty( 
     required = false, 
     value = "whether only sub-entities (e.g. collection entries) of entitiesToSearchWithin should be considered" )
-  public Boolean             includeOnlySubEntities     = null;
+  public Boolean             includeOnlySubEntities     = false;
   
   @XmlElement
   @ApiModelProperty( 
@@ -149,19 +149,19 @@ public class SSSearchRESTAPIV2Par{
   @ApiModelProperty( 
     required = false, 
     value = "whether search results shall contain the parents of found entities as search result" )
-  public Boolean             extendToParents            = null;
+  public Boolean             extendToParents            = false;
   
   @XmlElement
   @ApiModelProperty( 
     required = false, 
     value = "whether possibly recommended entities should be included in search results" )
-  public Boolean             includeRecommendedResults  = null;
+  public Boolean             includeRecommendedResults  = false;
   
   @XmlElement
   @ApiModelProperty( 
     required = false, 
     value = "whether entries (if available) of search results (e.g. the entries of a found collection) should be returned as well" )
-  public Boolean             provideEntries             = null;
+  public Boolean             provideEntries             = false;
   
   @XmlElement
   @ApiModelProperty(

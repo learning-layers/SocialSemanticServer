@@ -25,6 +25,7 @@ import at.kc.tugraz.ss.recomm.datatypes.SSUserLikelihood;
 import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommResourcesPar;
 import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommTagsPar;
 import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommUpdateBulkPar;
+import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommUpdateBulkUserRealmsFromConfPar;
 import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommUsersPar;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLikelihood;
 import at.tugraz.sss.serv.SSServPar;
@@ -33,13 +34,14 @@ import java.util.List;
 
 public interface SSRecommServerI extends SSServServerI{
 
-  public List<SSUserLikelihood>     recommUsers              (final SSRecommUsersPar     par) throws Exception;
-  public List<SSTagLikelihood>      recommTags               (final SSRecommTagsPar      par) throws Exception;
-  public List<SSResourceLikelihood> recommResources          (final SSRecommResourcesPar par) throws Exception;
-  
+  public List<SSUserLikelihood>     recommUsers                             (final SSRecommUsersPar                        par) throws Exception;
+  public List<SSTagLikelihood>      recommTags                              (final SSRecommTagsPar                         par) throws Exception;
+  public List<SSResourceLikelihood> recommResources                         (final SSRecommResourcesPar                    par) throws Exception;
+  public void                       recommUpdateBulk                        (final SSRecommUpdateBulkPar                   par) throws Exception;
+  public void                       recommUpdateBulkUserRealmsFromConf      (final SSRecommUpdateBulkUserRealmsFromConfPar par) throws Exception;
   
   public Boolean                recommUpdate             (final SSServPar parA) throws Exception;
-  public void                   recommUpdateBulk         (final SSRecommUpdateBulkPar par) throws Exception;
+  
   public Boolean                recommUpdateBulkEntities (final SSServPar parA) throws Exception;
   public void                   recommLoadUserRealms     (final SSServPar parA) throws Exception;
 }

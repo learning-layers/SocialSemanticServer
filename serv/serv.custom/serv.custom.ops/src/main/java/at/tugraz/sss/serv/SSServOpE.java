@@ -163,8 +163,8 @@ public enum SSServOpE{
   
   //data export
   dataExportUserRelations,
-  dataExportUserEntityTagCategoryTimestamps           ,
-  dataExportAddTagsCategoriesTimestampsForUserEntity,
+  dataExportUsersEntitiesTagsCategoriesTimestampsFile,
+  dataExportUserEntityTagsCategoriesTimestampsLine,
   
   //json ld
   jsonLD                                              ,
@@ -296,6 +296,7 @@ public enum SSServOpE{
   recommUpdate,
   recommUpdateBulkEntities,
   recommUpdateBulk,
+  recommUpdateBulkUserRealmsFromConf,
   
   //i5cloud
   i5CloudAuth,

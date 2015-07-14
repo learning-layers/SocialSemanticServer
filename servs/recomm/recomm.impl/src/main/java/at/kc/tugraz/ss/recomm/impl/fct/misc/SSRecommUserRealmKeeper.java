@@ -25,17 +25,14 @@ import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 import at.kc.tugraz.ss.recomm.datatypes.SSRecommUserRealmEngine;
 import at.kc.tugraz.ss.recomm.impl.fct.sql.SSRecommSQLFct;
-import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityFromTypeAndLabelGetPar;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.kc.tugraz.ss.service.user.api.SSUserServerI;
+import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserURIGetPar;
 import at.tugraz.sss.serv.SSEntity;
-import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSFileExtE;
 import at.tugraz.sss.serv.SSFileU;
-import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
@@ -93,7 +90,7 @@ public class SSRecommUserRealmKeeper{
       if(userRealmEngines.containsKey(userStr)){
         
         if(!SSStrU.equals(userRealmEngines.get(userStr).realm, realm)){
-          throw new Exception("user already defined recomm realm: '" + userRealmEngines.get(userStr).realm + "'; re-use this!");
+          throw new SSErr(SSErrE.realmIncorrectForUser, "user already defined recomm realm: " + userRealmEngines.get(userStr).realm + "'; re-use this!;");
         }
       }else{
         
@@ -182,7 +179,8 @@ public class SSRecommUserRealmKeeper{
     
     FileOutputStream userRealmFileOut = null;
     String    realm;
-    String    userLabel;
+    SSUri     userURI;
+    String    userEmail;
     SSEntity  userEntity;
     
     try{
@@ -199,19 +197,16 @@ public class SSRecommUserRealmKeeper{
         
       for(String realmAndUser : conf.recommTagsUserPerRealm){
         realm     = SSStrU.split(realmAndUser, SSStrU.colon).get(0);
-        userLabel = SSStrU.split(realmAndUser, SSStrU.colon).get(1);
+        userEmail = SSStrU.split(realmAndUser, SSStrU.colon).get(1);
+        userURI   =
+          ((SSUserServerI) SSServReg.getServ(SSUserServerI.class)).userURIGet(
+            new SSUserURIGetPar(
+              null, 
+              null, 
+              SSVocConf.systemUserUri, 
+              userEmail));
         
-        userEntity =
-          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityFromTypeAndLabelGet(
-            new SSEntityFromTypeAndLabelGetPar(
-              null,
-              null,
-              SSVocConf.systemUserUri,
-              SSLabel.get(userLabel),
-              SSEntityE.user,
-              false)); //withUserRestriction));
-        
-        if(userRealmEngines.containsKey(SSStrU.toStr(userEntity.id))){
+        if(userRealmEngines.containsKey(SSStrU.toStr(userURI))){
           continue;
         }
         
@@ -228,7 +223,7 @@ public class SSRecommUserRealmKeeper{
           
           userRealmEngine.engine.loadFile(userRealmEngine.realm);
           
-          userRealmEngines.put(SSStrU.toStr(userEntity.id), userRealmEngine);
+          userRealmEngines.put(SSStrU.toStr(userURI), userRealmEngine);
         }catch(Exception error){
           SSLogU.warn("user realm engine creation of file failed");
         }finally{
