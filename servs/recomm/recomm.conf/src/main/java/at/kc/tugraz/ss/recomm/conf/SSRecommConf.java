@@ -32,21 +32,26 @@ public class SSRecommConf extends SSServConfA{
   public Algorithm     recommTagAlgorithm         = null;
   public Algorithm     recommResourceAlgorithm    = null;
   public Algorithm     recommUserAlgorithm        = null;
-  public List<String>  recommTagsGroups           = new ArrayList<>();
+  
+  public List<String>  recommTagsAlgoPerRealm           = new ArrayList<>();
+  public List<String>  recommTagsUserPerRealm           = new ArrayList<>();
   
   public static SSRecommConf copy(final SSRecommConf orig){
     
     final SSRecommConf copy = (SSRecommConf) SSServConfA.copy(orig, new SSRecommConf());
     
     copy.fileNameForRec          = orig.fileNameForRec;
-    copy.fileNameForRec          = orig.fileNameForRec;
     copy.usePrivateTagsToo       = orig.usePrivateTagsToo;
     copy.recommTagAlgorithm      = orig.recommTagAlgorithm;
     copy.recommResourceAlgorithm = orig.recommResourceAlgorithm;
     copy.recommUserAlgorithm     = orig.recommUserAlgorithm;
     
-    if(orig.recommTagsGroups != null){
-      copy.recommTagsGroups.addAll(orig.recommTagsGroups);
+    if(orig.recommTagsAlgoPerRealm != null){
+      copy.recommTagsAlgoPerRealm.addAll(orig.recommTagsAlgoPerRealm);
+    }
+    
+    if(orig.recommTagsUserPerRealm != null){
+      copy.recommTagsUserPerRealm.addAll(orig.recommTagsUserPerRealm);
     }
     
     return copy;

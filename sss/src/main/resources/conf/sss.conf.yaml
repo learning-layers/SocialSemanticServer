@@ -112,7 +112,14 @@ recomm: #files have to be provided in sss's_working_dir/data/csv/
   recommTagAlgorithm: BLL #BLL, BLLacMPr
   recommResourceAlgorithm: RESOURCETAGCB #RESOURCECF, RESOURCETAGCB
   recommUserAlgorithm: USERTAGCB #USERTAGCB
-  recommTagsGroups:
+  recommTagsAlgoPerRealm:
+    #- circle1:BLL
+    #- circle2:BLLacMPr
+  recommTagsUserPerRealm:
+    #- circle1:userLabel1
+    #- circle1:userLabel2
+    #- circle2:userLabel3
+    #- circle2:userLabel4
 #log:
 #  use: false
 #fileSysLocal:

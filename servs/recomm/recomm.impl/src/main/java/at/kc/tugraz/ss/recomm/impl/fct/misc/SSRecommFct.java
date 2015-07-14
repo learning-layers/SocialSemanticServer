@@ -20,32 +20,10 @@
 */
 package at.kc.tugraz.ss.recomm.impl.fct.misc;
 
-import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 
 public class SSRecommFct{
         
-  public static void checkPar(
-    final SSUri  user,
-    final SSUri  forUser,
-    final String realm) throws Exception{
-    
-    if(user == null){
-      throw new Exception("user cannot be null");
-    }
-    
-    if(
-      realm == null ||
-      SSStrU.equals(realm, SSRecommUserRealmKeeper.getSssRealm())){
-      
-      if(
-        forUser != null &&
-        !SSStrU.equals(user, forUser)){
-        throw new Exception("user cannot retrieve recommendations for other users");
-      }
-    }
-  }
-  
 //  private static Long getTimestampInMillisecOfAUserTagForEntity(
 //    final SSUri       userUri, 
 //    final String      entityUri) throws Exception{

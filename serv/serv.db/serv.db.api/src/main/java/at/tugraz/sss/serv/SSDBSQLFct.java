@@ -28,7 +28,7 @@ import javax.ws.rs.core.MultivaluedMap;
 
 public class SSDBSQLFct extends SSDBFct{
 
-  protected        final SSDBSQLI dbSQL;
+  protected final SSDBSQLI dbSQL;
   
   public SSDBSQLFct(final SSDBSQLI dbSQL) throws Exception{
     super();

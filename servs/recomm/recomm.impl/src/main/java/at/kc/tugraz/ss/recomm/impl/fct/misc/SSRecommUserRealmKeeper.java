@@ -20,13 +20,27 @@
  */
 package at.kc.tugraz.ss.recomm.impl.fct.misc;
 
+import at.kc.tugraz.ss.recomm.conf.SSRecommConf;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 import at.kc.tugraz.ss.recomm.datatypes.SSRecommUserRealmEngine;
 import at.kc.tugraz.ss.recomm.impl.fct.sql.SSRecommSQLFct;
+import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityFromTypeAndLabelGetPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.tugraz.sss.serv.SSEntity;
+import at.tugraz.sss.serv.SSEntityE;
+import at.tugraz.sss.serv.SSErr;
+import at.tugraz.sss.serv.SSErrE;
+import at.tugraz.sss.serv.SSFileExtE;
+import at.tugraz.sss.serv.SSFileU;
+import at.tugraz.sss.serv.SSLabel;
+import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSServReg;
 import engine.EntityRecommenderEngine;
+import java.io.FileOutputStream;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -34,34 +48,17 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class SSRecommUserRealmKeeper{
   
-  private static String                                     sssRealm            = null;
-  private static final Map<String, SSRecommUserRealmEngine> userRealmEngines    = new HashMap<>();
+  private static final Map<String, SSRecommUserRealmEngine> userRealmEngines   = new HashMap<>();
+  private static final ReentrantReadWriteLock               engineLock         = new ReentrantReadWriteLock();  
   
   public static Collection<SSRecommUserRealmEngine> getUserRealmEngines(){
-    
     return userRealmEngines.values();
   }
   
-  private static final ReentrantReadWriteLock               engineLock     = new ReentrantReadWriteLock();
-  
-  public static String getSssRealm() throws Exception{
-    
-    try{
-      engineLock.readLock().lock();
-      
-      return sssRealm;
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }finally{
-      engineLock.readLock().unlock();
-    }
-  }
-  
   public static SSRecommUserRealmEngine checkAddAndGetUserRealmEngine(
+    final SSRecommConf   conf,
     final SSUri          user,
-    final String         realm,
+    String               realm,
     final Boolean        checkForUpdate,
     final SSRecommSQLFct sqlFct) throws Exception{
     
@@ -69,31 +66,27 @@ public class SSRecommUserRealmKeeper{
       
       engineLock.readLock().lock();
       
+      if(user == null){
+        throw new SSErr(SSErrE.parameterMissing);
+      }
+      
+      if(realm == null){
+        realm = ((SSRecommConf)conf).fileNameForRec;
+      }
+      
       final String userStr = SSStrU.toStr(user);
       
       if(checkForUpdate){
         
-        if(SSStrU.equals(user, SSVocConf.systemUserUri)){
-          
-          if(realm == null){
-            throw new Exception("realm has to be set");
-          }
-        }else{
-          
-          if(
-            realm == null ||
-            SSStrU.equals(realm, SSRecommUserRealmKeeper.getSssRealm())){
-            
-            throw new Exception("realm has to be set");
-          }
+        if(
+          SSStrU.equals  (realm,   conf.fileNameForRec) &&
+          !SSStrU.equals (userStr, SSVocConf.systemUserUri)){
+          throw new SSErr(SSErrE.userNotAllowedToRetrieveForOtherUser);
         }
       }else{
         
-        if(
-          realm == null ||
-          SSStrU.equals(realm, SSRecommUserRealmKeeper.getSssRealm())){
-          
-          return SSRecommUserRealmKeeper.userRealmEngines.get(SSStrU.toStr(SSVocConf.systemUserUri));
+        if(SSStrU.equals(realm, conf.fileNameForRec)){
+          return userRealmEngines.get(SSStrU.toStr(SSVocConf.systemUserUri));
         }
       }
       
@@ -110,10 +103,25 @@ public class SSRecommUserRealmKeeper{
           
           engineLock.writeLock().lock();
           
-          userRealmEngines.put(userStr, SSRecommUserRealmEngine.get(new EntityRecommenderEngine(), realm));
+          final SSRecommUserRealmEngine userRealmEngine  = SSRecommUserRealmEngine.get(new EntityRecommenderEngine(), realm);
+          FileOutputStream              userRealmFileOut = null;
           
-          sqlFct.addUserRealm(user, realm);
-          
+          //refactor this to loadSingleUserRealm
+          try{
+            userRealmFileOut =
+              SSFileU.openOrCreateFileWithPathForWrite(
+                SSFileU.dirWorkingDataCsv() + userRealmEngine.realm + SSStrU.dot + SSFileExtE.txt);
+            
+            sqlFct.addUserRealm(user, realm);
+            
+            userRealmEngines.put(userStr, userRealmEngine);
+          }catch(Exception error){
+            SSLogU.warn("user realm engine creation of file failed");
+          }finally{
+            if(userRealmFileOut != null){
+              userRealmFileOut.close();
+            }
+          }
         }else{
           throw new Exception("realm to recommend from doesnt exist");
         }
@@ -134,23 +142,102 @@ public class SSRecommUserRealmKeeper{
     }
   }
   
-  public static void setSssRealmAndEngine(final String sssRealmValue) throws Exception{
+  public static void setSSSRealmEngine(final SSRecommConf conf) throws Exception{
+    
+    FileOutputStream sssRealmFileOut = null;
     
     try{
       
       engineLock.writeLock().lock();
       
-      if(sssRealm == null){
-        sssRealm = sssRealmValue;
-      }
-      
       if(!userRealmEngines.containsKey(SSStrU.toStr(SSVocConf.systemUserUri))){
+        
+        sssRealmFileOut =
+          SSFileU.openOrCreateFileWithPathForWrite(
+            SSFileU.dirWorkingDataCsv() + conf.fileNameForRec + SSStrU.dot + SSFileExtE.txt);
         
         userRealmEngines.put(
           SSStrU.toStr(SSVocConf.systemUserUri),
           SSRecommUserRealmEngine.get(
             new EntityRecommenderEngine(),
-            sssRealm));
+            conf.fileNameForRec));
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }finally{
+      
+      if(sssRealmFileOut != null){
+        sssRealmFileOut.close();
+      }
+      
+      if(engineLock.isWriteLockedByCurrentThread()){
+        engineLock.writeLock().unlock();
+      }
+    }
+  }
+  
+  public static void setUserRealmEnginesFromConf(
+    final SSRecommConf        conf) throws Exception{
+    
+    FileOutputStream userRealmFileOut = null;
+    String    realm;
+    String    userLabel;
+    SSEntity  userEntity;
+    
+    try{
+      
+      SSRecommUserRealmEngine userRealmEngine;
+      
+      engineLock.writeLock().lock();
+      
+      if(
+        conf.recommTagsUserPerRealm == null ||
+        conf.recommTagsUserPerRealm.isEmpty()){
+        return;
+      }
+        
+      for(String realmAndUser : conf.recommTagsUserPerRealm){
+        realm     = SSStrU.split(realmAndUser, SSStrU.colon).get(0);
+        userLabel = SSStrU.split(realmAndUser, SSStrU.colon).get(1);
+        
+        userEntity =
+          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityFromTypeAndLabelGet(
+            new SSEntityFromTypeAndLabelGetPar(
+              null,
+              null,
+              SSVocConf.systemUserUri,
+              SSLabel.get(userLabel),
+              SSEntityE.user,
+              false)); //withUserRestriction));
+        
+        if(userRealmEngines.containsKey(SSStrU.toStr(userEntity.id))){
+          continue;
+        }
+        
+        userRealmEngine =
+          SSRecommUserRealmEngine.get(
+            new EntityRecommenderEngine(),
+            realm);
+        
+        //refactor this to loadSingleUserRealm
+        try{
+          userRealmFileOut =
+            SSFileU.openOrCreateFileWithPathForWrite(
+              SSFileU.dirWorkingDataCsv() + userRealmEngine.realm + SSStrU.dot + SSFileExtE.txt);
+          
+          userRealmEngine.engine.loadFile(userRealmEngine.realm);
+          
+          userRealmEngines.put(SSStrU.toStr(userEntity.id), userRealmEngine);
+        }catch(Exception error){
+          SSLogU.warn("user realm engine creation of file failed");
+        }finally{
+          
+          if(userRealmFileOut != null){
+            userRealmFileOut.close();
+            userRealmFileOut = null;
+          }
+        }
       }
       
     }catch(Exception error){
@@ -163,10 +250,14 @@ public class SSRecommUserRealmKeeper{
     }
   }
   
-  public static void setUserRealmEngines(
+  public static void setAndLoadUserRealmEnginesFromDB(
     final Map<String, String> userRealms) throws Exception{
     
+    FileOutputStream userRealmFileOut = null;
+    
     try{
+      
+      SSRecommUserRealmEngine userRealmEngine;
       
       engineLock.writeLock().lock();
       
@@ -176,11 +267,29 @@ public class SSRecommUserRealmKeeper{
           continue;
         }
         
-        userRealmEngines.put(
-          userRealm.getKey(),
+        userRealmEngine =
           SSRecommUserRealmEngine.get(
             new EntityRecommenderEngine(),
-            userRealm.getValue()));
+            userRealm.getValue());
+        
+        //refactor this to loadSingleUserRealm
+        try{
+          userRealmFileOut =
+            SSFileU.openOrCreateFileWithPathForWrite(
+              SSFileU.dirWorkingDataCsv() + userRealmEngine.realm + SSStrU.dot + SSFileExtE.txt);
+          
+          userRealmEngine.engine.loadFile(userRealmEngine.realm);
+          
+          userRealmEngines.put(userRealm.getKey(), userRealmEngine);
+        }catch(Exception error){
+          SSLogU.warn("user realm engine creation of file failed");
+        }finally{
+          
+          if(userRealmFileOut != null){
+            userRealmFileOut.close();
+            userRealmFileOut = null;
+          }
+        }
       }
       
     }catch(Exception error){

@@ -21,36 +21,36 @@
 package at.kc.tugraz.ss.recomm.datatypes.par;
 
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
-import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSServPar;
 import java.util.ArrayList;
 import java.util.List;
 
 public class SSRecommResourcesPar extends SSServPar{
   
-  public String          realm             = null;
-  public SSUri           forUser           = null;
-  public SSUri           entity            = null;
-  public List<String>    categories        = new ArrayList<>();
-  public Integer         maxResources      = 10;
-  public Boolean         setCircleTypes    = null;
-  public List<SSEntityE> typesToRecommOnly = new ArrayList<>();
-  public Boolean         includeOwn        = true;
+  public String          realm                = null;
+  public SSUri           forUser              = null;
+  public SSUri           entity               = null;
+  public List<String>    categories           = new ArrayList<>();
+  public Integer         maxResources         = 10;
+  public Boolean         setCircleTypes       = false;
+  public List<SSEntityE> typesToRecommOnly    = new ArrayList<>();
+  public Boolean         includeOwn           = true;
+  public Boolean         ignoreAccessRights   = false;
+  public Boolean         invokeEntityHandlers = false;
   
-  public void setForUser(final String forUser) {
-    try{ this.forUser = SSUri.get(forUser); }catch(Exception error){}
+  public void setForUser(final String forUser) throws Exception{
+    this.forUser = SSUri.get(forUser);
   }
   
-  public void setEntity(final String entity) {
-    try{ this.entity = SSUri.get(entity); }catch(Exception error){}
+  public void setEntity(final String entity) throws Exception{
+    this.entity = SSUri.get(entity); 
   }
 
-  public void setTypesToRecommOnly(final List<String> typesToRecommOnly){
-    try{ this.typesToRecommOnly = SSEntityE.get(typesToRecommOnly); }catch(Exception error){}
+  public void setTypesToRecommOnly(final List<String> typesToRecommOnly) throws Exception{
+    this.typesToRecommOnly = SSEntityE.get(typesToRecommOnly);
   }
 
   public String getForUser(){
@@ -78,7 +78,9 @@ public class SSRecommResourcesPar extends SSServPar{
     final Integer         maxResources, 
     final List<SSEntityE> typesToRecommendOnly, 
     final Boolean         setCircleTypes, 
-    final Boolean         includeOwn){
+    final Boolean         includeOwn, 
+    final Boolean         ignoreAccessRights, 
+    final Boolean         withUserRestriction){
     
     super(op, key, user);
     
@@ -96,34 +98,9 @@ public class SSRecommResourcesPar extends SSServPar{
       this.typesToRecommOnly.addAll(typesToRecommendOnly);
     }
     
-    this.setCircleTypes = setCircleTypes;
-    this.includeOwn     = includeOwn;
-  }
-    
-  public static SSRecommResourcesPar get(final SSServPar par) throws Exception{
-    
-    try{
-      
-      if(par.clientCon != null){
-        return (SSRecommResourcesPar) par.getFromJSON(SSRecommResourcesPar.class);
-      }
-      
-      return new SSRecommResourcesPar(
-        par.op,
-        par.key,
-        par.user,
-        (String)          par.pars.get(SSVarNames.realm),
-        (SSUri)           par.pars.get(SSVarNames.forUser),
-        (SSUri)           par.pars.get(SSVarNames.entity),
-        (List<String>)    par.pars.get(SSVarNames.categories),
-        (Integer)         par.pars.get(SSVarNames.maxResources),
-        (List<SSEntityE>) par.pars.get(SSVarNames.typesToRecommOnly),
-        (Boolean)         par.pars.get(SSVarNames.setCircleTypes),
-        (Boolean)         par.pars.get(SSVarNames.includeOwn));
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
+    this.setCircleTypes       = setCircleTypes;
+    this.includeOwn           = includeOwn;
+    this.ignoreAccessRights   = ignoreAccessRights;
+    this.withUserRestriction  = withUserRestriction;
   }
 }

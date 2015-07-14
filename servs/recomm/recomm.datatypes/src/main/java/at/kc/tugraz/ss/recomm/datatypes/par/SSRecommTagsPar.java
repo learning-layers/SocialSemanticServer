@@ -21,22 +21,21 @@
 package at.kc.tugraz.ss.recomm.datatypes.par;
 
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServOpE;
 import java.util.ArrayList;
 import java.util.List;
 
 public class SSRecommTagsPar extends SSServPar{
   
-  public String         realm      = null;
-  public SSUri          forUser    = null;
-  public SSUri          entity     = null;
-  public List<String>   categories = new ArrayList<>();
-  public Integer        maxTags    = 10;
-  public Boolean        includeOwn = true;
+  public String         realm                = null;
+  public SSUri          forUser              = null;
+  public SSUri          entity               = null;
+  public List<String>   categories           = new ArrayList<>();
+  public Integer        maxTags              = 10;
+  public Boolean        includeOwn           = true;
+  public Boolean        ignoreAccessRights   = false;
   
   public void setForUser(final String forUser) throws Exception{
     this.forUser = SSUri.get(forUser);
@@ -65,33 +64,22 @@ public class SSRecommTagsPar extends SSServPar{
     final SSUri         entity, 
     final List<String>  categories, 
     final Integer       maxTags, 
-    final Boolean       includeOwn){
+    final Boolean       includeOwn, 
+    final Boolean       ignoreAccessRights,
+    final Boolean       withUserRestriction){
     
     super(op, key, user);
-  }
     
-  public static SSRecommTagsPar get(final SSServPar par) throws Exception{
+    this.realm   = realm;
+    this.forUser = forUser;
+    this.entity  = entity;
     
-    try{
-      
-      if(par.clientCon != null){
-        return (SSRecommTagsPar) par.getFromJSON(SSRecommTagsPar.class);
-      }
-      
-      return new SSRecommTagsPar(
-        par.op,
-        par.key,
-        par.user,
-        (String)        par.pars.get(SSVarNames.realm),
-        (SSUri)         par.pars.get(SSVarNames.forUser),
-        (SSUri)         par.pars.get(SSVarNames.entity),
-        (List<String>)  par.pars.get(SSVarNames.categories),
-        (Integer)       par.pars.get(SSVarNames.maxTags),
-        (Boolean)       par.pars.get(SSVarNames.includeOwn));
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
+    if(categories != null){
+      this.categories.addAll(categories);
     }
+    this.maxTags              = maxTags;
+    this.includeOwn           = includeOwn;
+    this.ignoreAccessRights   = ignoreAccessRights;
+    this.withUserRestriction  = withUserRestriction;
   }
 }

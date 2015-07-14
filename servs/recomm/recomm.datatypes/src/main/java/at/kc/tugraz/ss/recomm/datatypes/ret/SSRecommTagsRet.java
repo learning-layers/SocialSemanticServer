@@ -25,7 +25,6 @@ import at.tugraz.sss.serv.SSJSONLDU;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServRetI;
-import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLikelihood;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,24 +36,18 @@ public class SSRecommTagsRet extends SSServRetI{
   public List<SSTagLikelihood> tags = new ArrayList<>();
 
   public static SSRecommTagsRet get(
-    final Map<String, Double> tags, 
-    final SSServOpE             op) throws Exception{
+    final List<SSTagLikelihood> tags) throws Exception{
     
-    return new SSRecommTagsRet(tags, op);
+    return new SSRecommTagsRet(tags);
   }
   
   private SSRecommTagsRet(
-    final Map<String, Double> tags, 
-    final SSServOpE             op) throws Exception{
+    final List<SSTagLikelihood> tags) throws Exception{
     
-    super(op);
+    super(SSServOpE.recommTags);
     
-    for(Map.Entry<String, Double> tag : tags.entrySet()){
-      
-      this.tags.add(
-        SSTagLikelihood.get(
-          SSTagLabel.get(tag.getKey()), 
-          tag.getValue()));
+    if(tags != null){
+      this.tags.addAll(tags);
     }
   }
 
@@ -70,11 +63,5 @@ public class SSRecommTagsRet extends SSServRetI{
     ld.put(SSVarNames.tags, tagsObj);
     
     return ld;
-  }
-  
-  /* json getters */
-  
-  public List<SSTagLikelihood> getTags() {
-    return tags;
   }
 }

@@ -21,6 +21,7 @@
 package at.kc.tugraz.ss.recomm.impl.fct.sql;
 
 import at.tugraz.sss.serv.SSDBSQLFct;
+import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSSQLVarNames;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSUri;
@@ -34,8 +35,8 @@ import java.util.Map;
 
 public class SSRecommSQLFct extends SSDBSQLFct{
   
-  public SSRecommSQLFct(final SSServImplWithDBA serv) throws Exception{
-    super(serv.dbSQL);
+  public SSRecommSQLFct(final SSDBSQLI dbSQL) throws Exception{
+    super(dbSQL);
   }
   
   public Map<String, String> getUserRealms() throws Exception{

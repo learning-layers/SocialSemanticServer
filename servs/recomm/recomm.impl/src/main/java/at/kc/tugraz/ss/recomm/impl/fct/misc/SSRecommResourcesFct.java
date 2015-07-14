@@ -46,21 +46,4 @@ public class SSRecommResourcesFct{
     
     return true;
   }
-
-  public static void addCircleTypes(
-    final SSRecommResourcesPar par, 
-    final SSEntity             entity) throws Exception{
-  
-    if(par.setCircleTypes){
-      
-      entity.circleTypes.addAll(
-        ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleTypesGet(
-          new SSCircleTypesGetPar(
-            null,
-            null,
-            par.user,
-            entity.id,
-            true)));
-    }
-  }
 }

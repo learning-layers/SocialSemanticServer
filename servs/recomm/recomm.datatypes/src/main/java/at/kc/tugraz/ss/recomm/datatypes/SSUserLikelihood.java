@@ -22,14 +22,23 @@
 
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSJSONLDPropI;
-import java.util.HashMap;
-import java.util.Map;
 
 public class SSUserLikelihood implements SSJSONLDPropI{
   
   public SSEntity      user           = null;
 	public Double        likelihood     = 0D;
 
+  @Override
+  public Object jsonLDDesc() {
+  
+    throw new UnsupportedOperationException();
+    
+//    ld.put(SSVarU.resource,     SSVarU.sss + SSStrU.colon + SSEntity.class.getName());
+//    ld.put(SSVarU.likelihood,   SSVarU.xsd + SSStrU.colon + SSStrU.valueDouble);
+    
+//    return ld;
+  }  
+  
   public static SSUserLikelihood get(
     final SSEntity    user,
     final Double      likelihood){
@@ -44,15 +53,4 @@ public class SSUserLikelihood implements SSJSONLDPropI{
 		this.user               = user;
 		this.likelihood         = likelihood;
 	}
-  
-  @Override
-  public Object jsonLDDesc() {
-  
-    final Map<String, Object> ld = new HashMap<>();
-    
-//    ld.put(SSVarU.resource,     SSVarU.sss + SSStrU.colon + SSEntity.class.getName());
-//    ld.put(SSVarU.likelihood,   SSVarU.xsd + SSStrU.colon + SSStrU.valueDouble);
-    
-    return ld;
-  }  
 }
