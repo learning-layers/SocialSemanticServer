@@ -359,14 +359,14 @@ implements
         if(par.descPar.setAttachedEntities){
           
           final List<SSUri>          attachedEntityURIs    = sqlFct.getAttachedEntityURIs(par.entity);
-          final SSEntityDescriberPar attachedEntityDescPar = new SSEntityDescriberPar();
+          final SSEntityDescriberPar attachedEntityDescPar = new SSEntityDescriberPar(null);
           
           attachedEntityDescPar.user                = par.user;
           attachedEntityDescPar.withUserRestriction = par.withUserRestriction;
         
           SSEntity.addEntitiesDistinctWithoutNull(
             entity.attachedEntities,
-            ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
+            entitiesGet(
               new SSEntitiesGetPar(
                 null,
                 null,
@@ -850,7 +850,7 @@ implements
       }
       
       final List<SSEntity> entities =
-        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
+        entitiesGet(
           new SSEntitiesGetPar(
             null,
             null,

@@ -172,7 +172,7 @@ implements
       final SSEntityDescriberPar descPar; 
       
       if(par.invokeEntityHandlers){
-        descPar = new SSEntityDescriberPar();
+        descPar = new SSEntityDescriberPar(userToGet.id);
         
         descPar.setFriends = true;
       }else{

@@ -396,7 +396,7 @@ implements
       final List<SSEntity>       collEntries;
       
       if(par.invokeEntityHandlers){
-        descPar = new SSEntityDescriberPar();
+        descPar = new SSEntityDescriberPar(par.coll);
         
         descPar.setCircleTypes = true;
       }else{
@@ -414,6 +414,10 @@ implements
               par.coll, //entity, 
               par.withUserRestriction, 
               descPar))); //descPar
+      
+      if(descPar != null){
+        descPar.recursiveEntity = null;
+      }
       
       collEntries =
         ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(

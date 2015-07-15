@@ -24,7 +24,6 @@ import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesAddPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntitySharePar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleMostOpenCircleTypeGetPar;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCircleTypesGetPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleUsersAddPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
@@ -502,39 +501,32 @@ public class SSDiscImpl
   public List<SSDisc> discsAllGet(final SSDiscsAllGetPar par) throws Exception{
 
     try{
-      final List<SSDisc> discsWithoutEntries = new ArrayList<>();
-      SSDisc   disc;
-      SSEntity discEntity;
-
+      
       if(par.user == null){
         throw new SSErr(SSErrE.parameterMissing);
       }
       
+      final List<SSDisc>         discsWithoutEntries = new ArrayList<>();
+      final SSEntityDescriberPar descPar             = new SSEntityDescriberPar(null);
+      SSDisc                     disc;
+
+      descPar.setCircleTypes = true;
+        
       for(SSUri discUri : sqlFct.getDiscURIs(par.user)){
-
-        disc       = sqlFct.getDiscWithoutEntries(discUri);
-        discEntity =
-          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
-            new SSEntityGetPar(
-              null,
-              null,
-              par.user,
-              disc.id,
-              par.withUserRestriction, //withUserRestriction,
-              new SSEntityDescriberPar()));
         
-        disc = SSDisc.get(disc, discEntity);
+        disc = sqlFct.getDiscWithoutEntries(discUri);
         
-        disc.circleTypes.addAll(
-          ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleTypesGet(
-            new SSCircleTypesGetPar(
-              null,
-              null,
-              par.user,
-              disc.id,
-              false)));
-
-        discsWithoutEntries.add(disc);
+        discsWithoutEntries.add(
+          SSDisc.get(
+            disc,
+            ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+              new SSEntityGetPar(
+                null,
+                null,
+                par.user,
+                disc.id,
+                par.withUserRestriction, //withUserRestriction,
+                descPar))));
       }
 
       return discsWithoutEntries;
@@ -558,50 +550,51 @@ public class SSDiscImpl
   public SSDisc discWithEntriesGet(final SSDiscWithEntriesGetPar par) throws Exception{
 
     try{
-      SSDiscEntry    discEntry;
-      SSEntity       discEntryEntity;
-      SSDisc         disc       = sqlFct.getDiscWithEntries(par.disc);
+      final SSEntityDescriberPar descPar           = new SSEntityDescriberPar(par.disc);
+      final List<SSDiscEntry>    discEntryEntities = new ArrayList<>();
+      SSDiscEntry                discEntry;
       
-      final SSEntity discEntity =
-        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
-          new SSEntityGetPar(
-            null,
-            null,
-            par.user,
-            disc.id,
-            par.withUserRestriction, //withUserRestriction,
-            new SSEntityDescriberPar()));
+      final SSDisc               disc =
+        SSDisc.get(
+          sqlFct.getDiscWithEntries(par.disc),
+          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+            new SSEntityGetPar(
+              null,
+              null,
+              par.user,
+              par.disc,
+              par.withUserRestriction, //withUserRestriction,
+              descPar)));
       
-      disc = SSDisc.get(disc, discEntity);
-      
-      final SSEntityDescriberPar descPar = new SSEntityDescriberPar();
-      
-      descPar.setComments = par.includeComments;
+      descPar.recursiveEntity = null;
+      descPar.setComments     = par.includeComments;
         
       for(Object entry : disc.entries){
 
-        discEntryEntity =
-          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+        discEntry = 
+          SSDiscEntry.get(
+            (SSDiscEntry) entry, 
+            ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
             new SSEntityGetPar(
               null,
               null,
               par.user,
               ((SSDiscEntry) entry).id,
               par.withUserRestriction, //withUserRestriction,
-              descPar));
-        
-        discEntry = 
-          SSDiscEntry.get(
-            (SSDiscEntry) entry, 
-            discEntryEntity);
+              descPar)));
           
         discEntry.likes =
           SSServCaller.likesUserGet(
             par.user,
             null,
             discEntry.id);
+        
+        discEntryEntities.add(discEntry);
       }
 
+      disc.entries.clear();
+      disc.entries.addAll(discEntryEntities);
+      
       return disc;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

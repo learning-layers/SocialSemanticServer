@@ -153,65 +153,15 @@ implements
   }
 
   @Override
-  public void imagesGet(SSSocketCon sSCon, SSServPar parA) throws Exception{
-
-    SSServCallerU.checkKey(parA);
-
-    final SSImagesGetPar        par     = (SSImagesGetPar) parA.getFromJSON(SSImagesGetPar.class);
-    final List<SSUri>           images  = imagesGet(par);
-    final List<SSEntity>        result  = new ArrayList<>();
-    final SSEntityDescriberPar  descPar = new SSEntityDescriberPar();
-      
-    result.addAll(
-      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
-        new SSEntitiesGetPar(
-          null,
-          null,
-          par.user,
-          images,  //entities
-          null, //types,
-          descPar, //descPar,
-          par.withUserRestriction)));// withUserRestriction
-    
-    sSCon.writeRetFullToClient(SSImagesGetRet.get(result));
-  }
-
-  @Override
-  public List<SSUri> imagesGet(final SSImagesGetPar par) throws Exception{
-    
-    try{
-      
-      if(par.withUserRestriction){
-        
-        if(par.entity != null){
-          SSServCallerU.canUserReadEntity(par.user, par.entity);
-        }
-      }
-      
-      return SSUri.getFromEntitites(
-        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
-          new SSEntitiesGetPar(
-            null,
-            null,
-            par.user,
-            sqlFct.getImages(par.entity, par.imageType),  //entities
-            null, //types,
-            null, //descPar,
-            par.withUserRestriction))); //withUserRestriction
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
-  @Override
   public SSImage imageGet(final SSImageGetPar par) throws Exception{
 
     try{
       
       if(par.withUserRestriction){
-        SSServCallerU.canUserReadEntity(par.user, par.image);
+        
+        if(!SSServCallerU.canUserRead(par.user, par.image)){
+          return null;
+        }
       }
       
       return sqlFct.getImage(par.image);
@@ -222,10 +172,59 @@ implements
   }
   
   @Override
+  public void imagesGet(SSSocketCon sSCon, SSServPar parA) throws Exception{
+
+    SSServCallerU.checkKey(parA);
+
+    final SSImagesGetPar par = (SSImagesGetPar) parA.getFromJSON(SSImagesGetPar.class);
+      
+    sSCon.writeRetFullToClient(SSImagesGetRet.get(imagesGet(par)));
+  }
+
+  @Override
+  public List<SSEntity> imagesGet(final SSImagesGetPar par) throws Exception{
+    
+    try{
+      
+      if(par.withUserRestriction){
+        
+        if(par.entity != null){
+          
+          if(SSServCallerU.canUserRead(par.user, par.entity)){
+            return new ArrayList<>();
+          }
+        }
+      }
+      
+      final List<SSUri>    imageURIs = sqlFct.getImages(par.entity, par.imageType);
+      final List<SSEntity> images    = new ArrayList<>();
+        
+      for(SSUri imageURI : imageURIs){
+        
+        SSEntity.addEntitiesDistinctWithoutNull(
+          images, 
+          imageGet(
+            new SSImageGetPar(
+              null, 
+              null, 
+              par.user, 
+              imageURI, 
+              par.withUserRestriction)));
+      }
+      
+      return images;
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
   public String imageBase64Get(final SSImageBase64GetPar par) throws Exception{
     
     try{
-      final List<SSUri> images =
+      final List<SSEntity> images =
         imagesGet(
           new SSImagesGetPar(
             null,
@@ -241,7 +240,7 @@ implements
       
       final String pngFilePath =
         SSCoreConf.instGet().getSss().getLocalWorkPath() +
-        SSVocConf.fileIDFromSSSURI(images.get(0));
+        SSVocConf.fileIDFromSSSURI(images.get(0).id);
       
       return SSFileU.readImageToBase64Str(pngFilePath);
       

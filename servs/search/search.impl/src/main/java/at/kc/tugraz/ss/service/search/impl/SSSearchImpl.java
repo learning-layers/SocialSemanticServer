@@ -20,8 +20,6 @@
 */
 package at.kc.tugraz.ss.service.search.impl;
 
-import at.kc.tugraz.ss.circle.api.SSCircleServerI;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCircleTypesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
 import at.tugraz.sss.serv.SSDateU;
@@ -277,10 +275,11 @@ public class SSSearchImpl extends SSServImplWithDBA implements SSSearchClientI, 
     
     try{
       
-      SSEntityDescriberPar descPar = new SSEntityDescriberPar();
+      final SSEntityDescriberPar descPar = new SSEntityDescriberPar(null);
       
       descPar.setTags          = true;
       descPar.setOverallRating = true;
+      descPar.setCircleTypes   = true;
       
       final SSEntity entity =
         ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
@@ -327,15 +326,6 @@ public class SSSearchImpl extends SSServImplWithDBA implements SSSearchClientI, 
 //    
 //    return entries;
 //  }
-      
-      entity.circleTypes =
-        ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleTypesGet(
-          new SSCircleTypesGetPar(
-            null,
-            null,
-            par.user,
-            entity.id,
-            true)); //withUserRestriction
       
       return entity;
     }catch(Exception error){

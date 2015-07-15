@@ -425,7 +425,7 @@ implements
       }
       
       if(par.invokeEntityHandlers){
-        descPar              = new SSEntityDescriberPar();
+        descPar              = new SSEntityDescriberPar(par.video);
         descPar.setLocations = true;
       }else{
         descPar = null;

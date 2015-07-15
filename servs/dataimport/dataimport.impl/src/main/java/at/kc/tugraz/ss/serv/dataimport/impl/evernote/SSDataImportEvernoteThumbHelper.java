@@ -22,6 +22,7 @@ package at.kc.tugraz.ss.serv.dataimport.impl.evernote;
 
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSFileExtE;
 import at.tugraz.sss.serv.SSFileU;
 import at.tugraz.sss.serv.SSLogU;
@@ -68,7 +69,7 @@ public class SSDataImportEvernoteThumbHelper{
         return;
       }
       
-      final List<SSUri> thumbs = 
+      final List<SSEntity> thumbs = 
         ((SSImageServerI) SSServReg.getServ(SSImageServerI.class)).imagesGet(
           new SSImagesGetPar(
             null, 
@@ -78,15 +79,10 @@ public class SSDataImportEvernoteThumbHelper{
             SSImageE.thumb,
             true)); //withUserRestriction
       
-      for(SSUri thumb : thumbs){
+      for(SSEntity thumb : thumbs){
         
         try{
-          
-          SSFileU.delFile(
-            localWorkPath +
-              SSVocConf.fileIDFromSSSURI(
-                  thumb));
-          
+          SSFileU.delFile(localWorkPath + SSVocConf.fileIDFromSSSURI(thumb.id));
         }catch(Exception error){
           SSLogU.warn("thumbnail file couldnt be removed");
         }
@@ -98,7 +94,7 @@ public class SSDataImportEvernoteThumbHelper{
           null,
           user,
           entity,
-          thumbs, //attachments
+          SSUri.getFromEntitites(thumbs), //attachments
           true, //withUserRestriction
           false)); //shouldCommit
       

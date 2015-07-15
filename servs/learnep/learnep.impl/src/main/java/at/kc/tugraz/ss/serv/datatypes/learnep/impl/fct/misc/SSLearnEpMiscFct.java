@@ -200,14 +200,15 @@ public class SSLearnEpMiscFct{
                 true)));  //withUserRestcrition);
           
           learnEpContentUris.addAll(
-            ((SSImageServerI) SSServReg.getServ(SSImageServerI.class)).imagesGet(
-              new SSImagesGetPar(
-                null,
-                null,
-                user,
-                entity.entity.id, //entity
-                SSImageE.thumb, //imageType
-                false)));
+            SSUri.getFromEntitites(
+              ((SSImageServerI) SSServReg.getServ(SSImageServerI.class)).imagesGet(
+                new SSImagesGetPar(
+                  null,
+                  null,
+                  user,
+                  entity.entity.id, //entity
+                  SSImageE.thumb, //imageType
+                  false))));
         }
         
         if(learnEpVersion.learnEpTimelineState != null){

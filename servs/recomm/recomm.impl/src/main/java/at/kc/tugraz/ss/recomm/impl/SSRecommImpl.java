@@ -49,12 +49,10 @@ import at.kc.tugraz.ss.recomm.impl.fct.misc.SSRecommUpdateBulkUploader;
 import at.kc.tugraz.ss.recomm.impl.fct.misc.SSRecommUserRealmKeeper;
 import at.kc.tugraz.ss.recomm.impl.fct.sql.SSRecommSQLFct;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityFromTypeAndLabelGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLikelihood;
 import at.kc.tugraz.ss.service.user.api.SSUserServerI;
-import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserGetPar;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserURIGetPar;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSConfA;
@@ -135,7 +133,7 @@ public class SSRecommImpl extends SSServImplWithDBA implements SSRecommClientI, 
       Integer                      userCounter = 0;
 
       if(par.invokeEntityHandlers){
-        descPar = new SSEntityDescriberPar();
+        descPar = new SSEntityDescriberPar(null);
       }else{
         descPar = null;
       }
@@ -347,7 +345,7 @@ public class SSRecommImpl extends SSServImplWithDBA implements SSRecommClientI, 
       SSEntity                          entity;
       
       if(par.invokeEntityHandlers){
-        descPar = new SSEntityDescriberPar();
+        descPar = new SSEntityDescriberPar(null);
         
         descPar.setCircleTypes = par.setCircleTypes;
           

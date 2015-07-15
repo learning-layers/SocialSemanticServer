@@ -686,7 +686,7 @@ implements
         return circle;
       }
         
-      final SSEntityDescriberPar descPar = new SSEntityDescriberPar();
+      final SSEntityDescriberPar descPar = new SSEntityDescriberPar(null);
       
       descPar.setOverallRating = true;
       

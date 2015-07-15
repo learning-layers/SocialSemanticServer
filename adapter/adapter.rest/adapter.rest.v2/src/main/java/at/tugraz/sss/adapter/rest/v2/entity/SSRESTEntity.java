@@ -102,7 +102,7 @@ public class SSRESTEntity {
     
     final SSEntitiesGetRESTAPIV2Par input){
     
-    final SSEntityDescriberPar   descPar = new SSEntityDescriberPar();
+    final SSEntityDescriberPar   descPar = new SSEntityDescriberPar(null);
     final SSEntitiesGetPar       par;
     
     try{

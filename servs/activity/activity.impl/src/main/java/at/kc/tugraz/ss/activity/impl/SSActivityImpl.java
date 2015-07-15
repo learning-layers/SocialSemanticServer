@@ -177,6 +177,7 @@ implements
       final List<SSUri>                activityURIs       = new ArrayList<>();
       
       if(!par.entities.isEmpty()){
+        
         SSEntity.addEntitiesDistinctWithoutNull(
           entitiesToQuery,
           ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
@@ -200,7 +201,7 @@ implements
               par.user,
               par.circles, //entities
               null, //types,
-              new SSEntityDescriberPar(), //descPar,
+              new SSEntityDescriberPar(null), //descPar,
               par.withUserRestriction))){
 
           SSEntity.addEntitiesDistinctWithoutNull(
@@ -514,11 +515,13 @@ implements
     
     try{
       
-      final SSActivity            activity;
-      final SSEntityDescriberPar  descPar;
+      final SSActivity      activity;
+      final List<SSEntity>  activityUserEntities    = new ArrayList<>();
+      final List<SSEntity>  activityEntityEntities  = new ArrayList<>();
+      SSEntityDescriberPar  descPar;
       
       if(par.invokeEntityHandlers){
-        descPar = new SSEntityDescriberPar();
+        descPar = new SSEntityDescriberPar(par.activity);
       }else{
         descPar = null;
       }
@@ -535,6 +538,12 @@ implements
               par.withUserRestriction, //withUserRestriction,
               descPar))); //descPar
       
+      if(par.invokeEntityHandlers){
+        descPar = new SSEntityDescriberPar(null);
+      }else{
+        descPar = null;
+      }
+      
       if(activity.entity != null){
         
         activity.entity =
@@ -548,8 +557,7 @@ implements
               descPar)); //descPar,
       }
       
-      final List<SSUri>    activityUserURIs        = sqlFct.getActivityUsers(activity.id);
-      final List<SSEntity> activityUserEntities = new ArrayList<>();
+      activity.contents.addAll(sqlFct.getActivityContents(activity.id));
       
       activityUserEntities.addAll(
       ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
@@ -557,7 +565,7 @@ implements
           null,
           null,
           par.user,
-          activityUserURIs,  //entities
+          sqlFct.getActivityUsers(activity.id),  //entities
           null, //types,
           descPar, //descPar,
           par.withUserRestriction)));
@@ -565,18 +573,13 @@ implements
       activity.users.clear();
       activity.users.addAll(activityUserEntities);
       
-      activity.contents.addAll(sqlFct.getActivityContents(activity.id));
-      
-      final List<SSUri>    activityEntityURIs      = sqlFct.getActivityEntities(activity.id);
-      final List<SSEntity> activityEntityEntities  = new ArrayList<>();
-      
       activityEntityEntities.addAll(
         ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
           new SSEntitiesGetPar(
             null,
             null,
             par.user,
-            activityEntityURIs,
+            sqlFct.getActivityEntities(activity.id),
             null, //types,
             descPar, //descPar
             par.withUserRestriction)));

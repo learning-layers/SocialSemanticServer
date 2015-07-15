@@ -146,7 +146,7 @@ implements
       SSEntityDescriberPar descPar;
       
       if(par.invokeEntityHandlers){
-        descPar         = new SSEntityDescriberPar();
+        descPar         = new SSEntityDescriberPar(par.message);
         descPar.setRead = true;
       }else{
         descPar = null;
@@ -165,7 +165,7 @@ implements
               descPar)));
       
       if(par.invokeEntityHandlers){
-        descPar = new SSEntityDescriberPar();
+        descPar = new SSEntityDescriberPar(null);
       }else{
         descPar = null;
       }

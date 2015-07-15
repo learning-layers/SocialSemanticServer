@@ -242,7 +242,7 @@ implements
       final SSEntityDescriberPar descPar;
       
       if(par.invokeEntityHandlers){
-        descPar = new SSEntityDescriberPar();
+        descPar = new SSEntityDescriberPar(par.app);
         
         descPar.setAttachedEntities = true;
       }else{

@@ -22,7 +22,6 @@ package at.kc.tugraz.ss.serv.datatypes.learnep.impl;
 
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesAddPar;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCircleTypesGetPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleUsersAddPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
@@ -294,30 +293,23 @@ implements
 
     try{
       final List<SSLearnEp>      learnEps = sqlFct.getLearnEps(par.user);
-      final SSEntityDescriberPar descPar  = new SSEntityDescriberPar();
+      final SSEntityDescriberPar descPar  = new SSEntityDescriberPar(null);
         
       descPar.setRead          = true;
+      descPar.setCircleTypes   = true;
         
       for(SSLearnEp learnEp : learnEps){
 
-        learnEp.circleTypes.addAll(
-          ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleTypesGet(
-            new SSCircleTypesGetPar(
-              null, 
-              null, 
-              par.user,
-              learnEp.id, 
-              true)));
+        descPar.recursiveEntity = learnEp.id;
         
-        learnEp.read = 
-          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
           new SSEntityGetPar(
-            null, 
-            null, 
-            par.user, 
-            learnEp.id, 
-            par.withUserRestriction, 
-            descPar)).read;
+            null,
+            null,
+            par.user,
+            learnEp.id,
+            par.withUserRestriction,
+            descPar));
         
          learnEp.users.addAll(
            ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
@@ -404,7 +396,7 @@ implements
             learnEpVersionUri,
             false);
         
-        final SSEntityDescriberPar descPar = new SSEntityDescriberPar();
+        final SSEntityDescriberPar descPar = new SSEntityDescriberPar(null);
         
         descPar.setOverallRating = true;
         descPar.setTags          = true;
@@ -454,7 +446,7 @@ implements
           par.learnEpVersion,
           false);
       
-      final SSEntityDescriberPar descPar = new SSEntityDescriberPar();
+      final SSEntityDescriberPar descPar = new SSEntityDescriberPar(null);
       
       descPar.setTags          = true;
       descPar.setOverallRating = true;
@@ -774,14 +766,15 @@ implements
             true)));  //withUserRestcrition);
       
       filesAndThumbs.addAll(
-        ((SSImageServerI) SSServReg.getServ(SSImageServerI.class)).imagesGet(
-          new SSImagesGetPar(
-            null,
-            null,
-            par.user,
-            par.entity, //entity,
-            SSImageE.thumb, //imageType,
-            false))); //withUserRestriction
+        SSUri.getFromEntitites(
+          ((SSImageServerI) SSServReg.getServ(SSImageServerI.class)).imagesGet(
+            new SSImagesGetPar(
+              null,
+              null,
+              par.user,
+              par.entity, //entity,
+              SSImageE.thumb, //imageType,
+              false)))); //withUserRestriction
       
       entities.add   (learnEpEntityUri);
       entities.add   (par.entity);
@@ -1314,7 +1307,7 @@ implements
           sqlFct.getLearnEpCurrentVersionURI(par.user),
           false);
       
-      final SSEntityDescriberPar descPar = new SSEntityDescriberPar();
+      final SSEntityDescriberPar descPar = new SSEntityDescriberPar(null);
       
       descPar.setTags          = true;
       descPar.setOverallRating = true;

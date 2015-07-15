@@ -25,6 +25,8 @@ import java.util.List;
 
 public class SSEntityDescriberPar{
   
+  public SSUri recursiveEntity           = null;     
+  
   public SSUri       user                = null;
   public Boolean     withUserRestriction = null;
   public Boolean     setAttachedEntities = false;
@@ -44,4 +46,8 @@ public class SSEntityDescriberPar{
   public Boolean     setLocations        = false;
   
   public List<SSEntityE> entityTypesToIncludeOnly = new ArrayList<>();
+  
+  public SSEntityDescriberPar(final SSUri recursiveEntity){
+    this.recursiveEntity = recursiveEntity;
+  }
 }
