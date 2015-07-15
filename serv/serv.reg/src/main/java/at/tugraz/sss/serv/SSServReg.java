@@ -28,17 +28,16 @@ import java.util.Map;
 
 public class SSServReg{
   
+  public static final SSServReg                            inst                            = new SSServReg();
   public static final Map<SSServOpE,     SSServContainerI> servs                           = new EnumMap<>(SSServOpE.class);
   public static final Map<SSServOpE,     SSServContainerI> servsForClientOps               = new EnumMap<>(SSServOpE.class);
   public static final Map<SSServOpE,     SSServContainerI> servsForServerOps               = new EnumMap<>(SSServOpE.class);
   public static final Map<Class,         SSServContainerI> servsForServerI                 = new HashMap<>();
-  public static final List<SSServContainerI>           servsForGatheringUsersResources = new ArrayList<>();
-  public static final List<SSServContainerI>           servsForGatheringUserRelations  = new ArrayList<>();
-  public static final List<SSServContainerI>           servsHandlingEntities           = new ArrayList<>();
-  
+  public static final List<SSServContainerI>               servsForGatheringUsersResources = new ArrayList<>();
+  public static final List<SSServContainerI>               servsForGatheringUserRelations  = new ArrayList<>();
+  public static final List<SSServContainerI>               servsHandlingEntities           = new ArrayList<>();
   public static final Map<SSServOpE, Integer>                         requsLimitsForClientOpsPerUser  = new EnumMap<>(SSServOpE.class);
   public static final Map<SSServOpE, Map<String, List<SSServImplA>>>  currentRequsForClientOpsPerUser = new EnumMap<>(SSServOpE.class);
-  public static final SSServReg inst = new SSServReg();
   
   public SSServImplA callServViaClient(
     final SSServPar    par,

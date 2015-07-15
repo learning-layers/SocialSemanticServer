@@ -20,8 +20,6 @@
 */
 package at.tugraz.sss.serv;
 
-import at.tugraz.sss.serv.SSFileU;
-import at.tugraz.sss.serv.SSLogU;
 import java.io.FileWriter;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;

@@ -50,9 +50,9 @@ public class SSTagServ extends SSServContainerI{
   }
 
   @Override
-  public SSServContainerI regServ(final SSConfA conf) throws Exception{
+  public SSServContainerI regServ() throws Exception{
     
-    this.conf = conf;
+    this.conf = SSCoreConf.instGet().getTag();
     
     SSServReg.inst.regServ(this);
     

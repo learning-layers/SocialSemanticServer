@@ -19,8 +19,8 @@
   <dependencies>
 
     <dependency>
-      <groupId>sss.serv</groupId>
-      <artifactId>serv.custom.caller</artifactId>
+        <groupId>sss.serv</groupId>
+        <artifactId>serv.conf</artifactId>
       <version>${project.version}</version>
     </dependency>
       

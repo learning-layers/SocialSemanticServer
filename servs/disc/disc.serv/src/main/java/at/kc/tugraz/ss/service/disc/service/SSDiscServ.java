@@ -20,8 +20,8 @@
 */
  package at.kc.tugraz.ss.service.disc.service;
 
+import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import at.tugraz.sss.serv.SSCoreConfA;
-import at.tugraz.sss.serv.SSConfA;
 import at.kc.tugraz.ss.service.disc.impl.*;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSServImplA;
@@ -47,9 +47,9 @@ public class SSDiscServ extends SSServContainerI{
   } 
 
   @Override
-  public SSServContainerI regServ(final SSConfA conf) throws Exception{
+  public SSServContainerI regServ() throws Exception{
     
-    this.conf = conf;
+    this.conf = SSCoreConf.instGet().getDisc();
     
     SSServReg.inst.regServ(this);
     

@@ -20,6 +20,7 @@
 */
 package at.kc.tugraz.ss.serv.modeling.ue.serv;
 
+import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import at.tugraz.sss.serv.SSDateU;
 import at.tugraz.sss.serv.SSCoreConfA;
 import at.kc.tugraz.ss.serv.modeling.ue.api.SSModelUEClientI;
@@ -29,7 +30,6 @@ import at.kc.tugraz.ss.serv.modeling.ue.conf.SSModelUEConf;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.SSModelUEEntity;
 import at.kc.tugraz.ss.serv.modeling.ue.serv.task.SSModelUEUpdateTask;
 import at.kc.tugraz.ss.serv.modeling.ue.utils.SSModelUEU;
-import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServImplA;
@@ -74,9 +74,9 @@ public class SSModelUEServ extends SSServContainerI{
   }
 
     @Override
-  public SSServContainerI regServ(final SSConfA conf) throws Exception{
+  public SSServContainerI regServ() throws Exception{
     
-    this.conf = conf;
+    this.conf = SSCoreConf.instGet().getModel();
     
       SSServReg.inst.regServ(this);
     

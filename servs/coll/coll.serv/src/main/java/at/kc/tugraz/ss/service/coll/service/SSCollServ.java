@@ -49,9 +49,9 @@ public class SSCollServ extends SSServContainerI{
   }
 
   @Override
-  public SSServContainerI regServ(final SSConfA conf) throws Exception{
+  public SSServContainerI regServ() throws Exception{
     
-    this.conf = conf;
+    this.conf = SSCoreConf.instGet().getColl();
     
     SSServReg.inst.regServ(this);
 

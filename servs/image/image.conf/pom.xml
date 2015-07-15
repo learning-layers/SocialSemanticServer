@@ -12,7 +12,7 @@
   <dependencies>
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>serv.custom.caller</artifactId>
+      <artifactId>serv.conf</artifactId>
       <version>${project.version}</version>
     </dependency>
   </dependencies>

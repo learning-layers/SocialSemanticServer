@@ -20,6 +20,7 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.learnep.serv;
 
+import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import at.kc.tugraz.ss.serv.datatypes.learnep.api.SSLearnEpClientI;
 import at.kc.tugraz.ss.serv.datatypes.learnep.api.SSLearnEpServerI;
 import at.kc.tugraz.ss.serv.datatypes.learnep.conf.SSLearnEpConf;
@@ -53,9 +54,9 @@ public class SSLearnEpServ extends SSServContainerI{
   }
 
   @Override
-  public SSServContainerI regServ(final SSConfA conf) throws Exception{
+  public SSServContainerI regServ() throws Exception{
     
-    this.conf = conf;
+    this.conf = SSCoreConf.instGet().getLearnEp();
     
     SSServReg.inst.regServ(this);
     

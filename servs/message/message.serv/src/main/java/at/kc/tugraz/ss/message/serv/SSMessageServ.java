@@ -20,6 +20,7 @@
 */
 package at.kc.tugraz.ss.message.serv;
 
+import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import at.tugraz.sss.serv.SSCoreConfA;
 import at.kc.tugraz.ss.message.api.SSMessageClientI;
 import at.kc.tugraz.ss.message.api.SSMessageServerI;
@@ -47,9 +48,9 @@ public class SSMessageServ extends SSServContainerI{
   }
   
   @Override
-  public SSServContainerI regServ(final SSConfA conf) throws Exception{
+  public SSServContainerI regServ() throws Exception{
     
-    this.conf = conf;
+    this.conf = SSCoreConf.instGet().getMessage();
     
     SSServReg.inst.regServ(this);
     

@@ -20,6 +20,7 @@
 */
 package at.kc.tugraz.ss.serv.auth.serv;
 
+import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import at.tugraz.sss.serv.SSCoreConfA;
 import at.tugraz.sss.serv.SSLabel;
 import at.kc.tugraz.ss.serv.auth.api.SSAuthClientI;
@@ -52,9 +53,9 @@ public class SSAuthServ extends SSServContainerI{
   }
   
   @Override
-  public SSServContainerI regServ(final SSConfA conf) throws Exception{
+  public SSServContainerI regServ() throws Exception{
     
-    this.conf = conf;
+    this.conf = SSCoreConf.instGet().getAuth();
     
     SSServReg.inst.regServ(this);
     

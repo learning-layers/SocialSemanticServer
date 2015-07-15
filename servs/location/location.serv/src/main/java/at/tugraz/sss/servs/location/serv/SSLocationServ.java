@@ -20,6 +20,7 @@
 */
 package at.tugraz.sss.servs.location.serv;
 
+import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import at.tugraz.sss.serv.SSCoreConfA;
 import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSServReg;
@@ -47,9 +48,9 @@ public class SSLocationServ extends SSServContainerI{
   }
 
   @Override
-  public SSServContainerI regServ(final SSConfA conf) throws Exception{
+  public SSServContainerI regServ() throws Exception{
     
-    this.conf = conf;
+    this.conf = SSCoreConf.instGet().getLocation();
     
     SSServReg.inst.regServ(this);
     

@@ -20,6 +20,7 @@
 */
 package at.tugraz.sss.serv;
 
+import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import java.util.List;
 
 public class SSDBSQL extends SSServContainerI{
@@ -39,9 +40,9 @@ public class SSDBSQL extends SSServContainerI{
   }
 
   @Override
-  public SSServContainerI regServ(final SSConfA conf) throws Exception{
+  public SSServContainerI regServ() throws Exception{
     
-    this.conf = conf;
+    this.conf = SSCoreConf.instGet().getDbSQL();
     
     SSServReg.inst.regServ(this);
     

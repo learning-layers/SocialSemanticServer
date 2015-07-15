@@ -26,9 +26,9 @@ import at.kc.tugraz.ss.category.conf.SSCategoryConf;
 import at.kc.tugraz.ss.category.datatypes.SSCategoryLabel;
 import at.kc.tugraz.ss.category.datatypes.par.SSCategoriesPredefinedAddPar;
 import at.kc.tugraz.ss.category.impl.SSCategoryImpl;
+import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.tugraz.sss.serv.SSCoreConfA;
-import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSServImplA;
 import at.tugraz.sss.serv.SSServContainerI;
@@ -51,9 +51,9 @@ public class SSCategoryServ extends SSServContainerI{
   }
   
   @Override
-  public SSServContainerI regServ(final SSConfA conf) throws Exception{
+  public SSServContainerI regServ() throws Exception{
     
-    this.conf = conf;
+    this.conf = SSCoreConf.instGet().getCategory();
     
     SSServReg.inst.regServ(this);
     

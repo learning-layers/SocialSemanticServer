@@ -20,6 +20,7 @@
 */
 package at.tugraz.sss.servs.ocd.service;
 
+import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import at.tugraz.sss.servs.ocd.api.SSOCDClientI;
 import at.tugraz.sss.servs.ocd.impl.SSOCDImpl;
 import at.tugraz.sss.serv.SSConfA;
@@ -57,8 +58,8 @@ public class SSOCDServ extends SSServContainerI{
   }
   
   @Override
-  public SSServContainerI regServ(SSConfA conf) throws Exception {
-    this.conf = conf;
+  public SSServContainerI regServ() throws Exception {
+    this.conf = SSCoreConf.instGet().getOcd();
     SSServReg.inst.regServ(this);
     return this;
   }

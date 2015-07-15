@@ -20,6 +20,7 @@
 */
  package at.kc.tugraz.ss.service.solr.service;
 
+import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import at.tugraz.sss.serv.SSCoreConfA;
 import at.tugraz.sss.serv.SSServImplA;
 import at.kc.tugraz.ss.service.filerepo.conf.SSFileRepoConf;
@@ -50,9 +51,9 @@ public class SSSolrServ extends SSServContainerI{
   }
 
     @Override
-  public SSServContainerI regServ(final SSConfA conf) throws Exception{
+  public SSServContainerI regServ() throws Exception{
     
-    this.conf = conf;
+    this.conf = SSCoreConf.instGet().getSolr();
     
       SSServReg.inst.regServ(this);
     
