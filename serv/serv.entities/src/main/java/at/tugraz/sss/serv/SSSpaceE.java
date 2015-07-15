@@ -27,6 +27,7 @@ public enum SSSpaceE implements SSJSONLDPropI{
   
   followSpace,
   sharedSpace,
+  circleSpace,
   privateSpace;
   
   @Override

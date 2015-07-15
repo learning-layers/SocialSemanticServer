@@ -36,6 +36,7 @@ public class SSTag extends SSEntity{
   public  SSUri               entity       = null;
   public  SSUri               user         = null;
   public  SSSpaceE            space        = null;
+  public  SSUri               circle       = null;
 
   public String getEntity() throws Exception{
     return SSStrU.removeTrailingSlash(entity);
@@ -47,6 +48,10 @@ public class SSTag extends SSEntity{
 
   public String getSpace(){
     return SSStrU.toStr(space);
+  }
+  
+  public String getCircle() throws Exception{
+    return SSStrU.removeTrailingSlash(circle);
   }
 
   @Override
@@ -63,9 +68,10 @@ public class SSTag extends SSEntity{
     final SSUri       entity,
     final SSUri       user,
     final SSSpaceE    space,
-    final SSTagLabel  tagLabel) throws Exception{
+    final SSTagLabel  tagLabel,
+    final SSUri       circle) throws Exception{
     
-    return new SSTag(id, entity, user, space, tagLabel);
+    return new SSTag(id, entity, user, space, tagLabel, circle);
   }
   
   protected SSTag(
@@ -73,7 +79,8 @@ public class SSTag extends SSEntity{
     final SSUri       entity,
     final SSUri       user,
     final SSSpaceE    space,
-    final SSTagLabel  tagLabel) throws Exception{
+    final SSTagLabel  tagLabel,
+    final SSUri       circle) throws Exception{
     
     super(id, SSEntityE.tag, SSLabel.get(SSStrU.toStr(tagLabel)));
     
@@ -82,6 +89,7 @@ public class SSTag extends SSEntity{
     this.user        = user;
     this.space       = space;
     this.tagLabel    = tagLabel;
+    this.circle      = circle;
   }
   
   public static void addDistinctWithoutNull(
@@ -158,6 +166,7 @@ public class SSTag extends SSEntity{
     ld.put(SSVarNames.user,       SSVarNames.sss + SSStrU.colon + SSUri.class.getName());    
     ld.put(SSVarNames.space,      SSVarNames.sss + SSStrU.colon + SSSpaceE.class.getName());    
     ld.put(SSVarNames.label,      SSVarNames.sss + SSStrU.colon + SSTagLabel.class.getName());    
+    ld.put(SSVarNames.circle,     SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
     
     return ld;
   } 

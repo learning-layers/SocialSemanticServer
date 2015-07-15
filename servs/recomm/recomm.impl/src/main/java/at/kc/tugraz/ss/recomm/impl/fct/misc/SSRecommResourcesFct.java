@@ -20,12 +20,9 @@
 */
 package at.kc.tugraz.ss.recomm.impl.fct.misc;
 
-import at.kc.tugraz.ss.circle.api.SSCircleServerI;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCircleTypesGetPar;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSEntity;
 import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommResourcesPar;
-import at.tugraz.sss.serv.SSServReg;
 
 public class SSRecommResourcesFct{
   

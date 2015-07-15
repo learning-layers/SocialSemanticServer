@@ -66,9 +66,19 @@ public class SSTagFrequsGetRESTAPIV2Par{
   
   @XmlElement
   @ApiModelProperty(
-    required = false, 
+    required = false,
     value = "access restriction for to be retrieved tags (i.e. privateSpace, sharedSpace)")
   public SSSpaceE           space      = null;
+  
+  @ApiModelProperty(
+    required = false,
+    value = "circles to limit tags found")
+  public List<SSUri>        circles       = null;
+  
+  @XmlElement
+  public void setCircles(final List<String> circles) throws Exception {
+    this.circles = SSUri.get(circles, SSVocConf.sssUri);
+  }
   
   @XmlElement
   @ApiModelProperty(

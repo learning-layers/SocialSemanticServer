@@ -54,6 +54,7 @@ public class SSDataExportFct{
             entities, //entities
             null, //labels
             SSSpaceE.sharedSpace, //space
+            null, //circles
             null, //startTime
             false))); //withUserRestriction
 
@@ -69,6 +70,7 @@ public class SSDataExportFct{
             entities, //entities
             null, //labels
             null, //space
+            null, //circles
             null, //startTime
             false))); //withUserRestriction
     }

@@ -112,6 +112,7 @@ implements
             null, //entities
             null, //labels,
             null, //space
+            null, //circles
             null, //startTime,
             false)); //withUserRestriction
       
@@ -151,6 +152,7 @@ implements
             null, //entities
             null, //labels
             null, //space
+            null, //circles
             null, //startTime,
             false))){ //withUserRestriction
         
@@ -224,6 +226,7 @@ implements
               SSUri.asListWithoutNullAndEmpty(entity.id), //entities
               null, //labels
               null, //space
+              null, //circle
               null, //startTime
               par.withUserRestriction))); //withUserRestriction
       }
@@ -253,6 +256,7 @@ implements
               par.entity,
               tagLabel,
               par.space,
+              par.circle,
               par.creationTime,
               par.withUserRestriction,
               par.shouldCommit)));
@@ -301,6 +305,7 @@ implements
     try{
       
       final SSUri       tagUri;
+      final SSEntity    circleEntity;
       final SSEntity    tagEntity = 
         ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityFromTypeAndLabelGet(
           new SSEntityFromTypeAndLabelGetPar(
@@ -313,6 +318,31 @@ implements
       
       if(par.space == null){
         par.space = SSSpaceE.sharedSpace;
+      }
+
+      switch(par.space){
+        case circleSpace:{
+          
+          if(par.circle == null){
+            throw new SSErr(SSErrE.parameterMissing);
+          }
+          
+          circleEntity =
+            ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+              new SSEntityGetPar(
+                null,
+                null,
+                par.user,
+                par.circle,
+                par.withUserRestriction,
+                null)); //descPar
+          
+          if(circleEntity == null){
+            throw new SSErr(SSErrE.userNotAllowedToAccessEntity); //or circle doesnt exist
+          }
+          
+          break;
+        }
       }
       
       dbSQL.startTrans(par.shouldCommit);
@@ -366,6 +396,7 @@ implements
         par.user,
         par.entity,
         par.space,
+        par.circle,
         par.creationTime);
       
       dbSQL.commit(par.shouldCommit);
@@ -634,7 +665,8 @@ implements
             break;
           }
           
-          case sharedSpace:{
+          case sharedSpace:
+          case circleSpace:{
             tags.addAll(SSTagMiscFct.getTagsIfSpaceSet(sqlFct, par, par.forUser));
             break;
           }
@@ -729,6 +761,7 @@ implements
             par.entities,
             par.labels,
             par.space,
+            par.circles,
             par.startTime,
             par.withUserRestriction)),
         par.space);

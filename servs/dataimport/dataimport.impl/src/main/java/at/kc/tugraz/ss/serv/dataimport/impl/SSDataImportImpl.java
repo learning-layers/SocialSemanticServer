@@ -320,6 +320,7 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
             SSTagLabel.get(video.keywords), //labels,
             video.id, //entity
             SSSpaceE.sharedSpace, //space
+            null, //circles
             video.creationTime,  //creationTime
             true, //withUserRestriction
             true)); //shouldCommit
@@ -445,6 +446,7 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
             SSTagLabel.get(tagList), //labels
             resource, //entity
             SSSpaceE.sharedSpace, //space
+            null, //circles
             timestamp, //creationTime
             true, //withUserRestriction
             par.shouldCommit)); //shouldCommit

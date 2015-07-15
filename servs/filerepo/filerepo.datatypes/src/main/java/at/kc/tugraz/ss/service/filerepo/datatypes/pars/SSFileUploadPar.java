@@ -36,7 +36,12 @@ public class SSFileUploadPar extends SSServPar{
   public SSMimeTypeE   mimeType    = null;
   public List<String>  tags        = new ArrayList<>();
   public List<String>  categories  = new ArrayList<>();
+  public SSUri         circle      = null;
   public SSSocketCon   sSCon       = null;
+  
+  public String getCircle(){
+    return SSStrU.removeTrailingSlash(circle);
+  }
   
   public String getLabel(){
     return SSStrU.toStr(label);
@@ -54,6 +59,10 @@ public class SSFileUploadPar extends SSServPar{
     this.mimeType = SSMimeTypeE.get(mimeType);
   }
   
+  public void setCircle(final String circle) throws Exception{
+    this.circle = SSUri.get(circle);
+  }
+  
   public SSFileUploadPar(){}
   
   public SSFileUploadPar(
@@ -64,6 +73,7 @@ public class SSFileUploadPar extends SSServPar{
     final SSLabel       label,
     final List<String>  tags,
     final List<String>  categories,
+    final SSUri         circle,
     final SSSocketCon   sSCon,
     final Boolean       shouldCommit){
     
@@ -80,6 +90,7 @@ public class SSFileUploadPar extends SSServPar{
       this.categories.addAll(categories);
     }
     
+    this.circle       = circle;
     this.sSCon        = sSCon;
     this.shouldCommit = shouldCommit;
   }

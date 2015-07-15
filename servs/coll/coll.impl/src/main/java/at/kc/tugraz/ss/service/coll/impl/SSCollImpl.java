@@ -1040,6 +1040,7 @@ implements
           entityURIs, 
           null, //labels, 
           null, //space, 
+          null, //circles
           null, //startTime, 
           false, //useUsersEntities,
           par.withUserRestriction));

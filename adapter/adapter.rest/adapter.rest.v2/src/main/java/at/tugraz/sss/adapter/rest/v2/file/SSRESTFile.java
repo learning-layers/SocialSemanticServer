@@ -86,6 +86,12 @@ public class SSRESTFile{
     final String categories,
     
     @ApiParam(
+      value = "circle to consider for metadata visibility",
+      required = false)
+    @FormDataParam(SSVarNames.circle)
+    final String circle,
+    
+    @ApiParam(
       value = "mimeType for the file",
       required = true)
     @FormDataParam(SSVarNames.mimeType)
@@ -111,6 +117,7 @@ public class SSRESTFile{
           SSLabel.get    (label),  //label
           SSStrU.splitDistinctWithoutEmptyAndNull(tags,       SSStrU.comma),
           SSStrU.splitDistinctWithoutEmptyAndNull(categories, SSStrU.comma),
+          SSUri.get(circle, SSVocConf.sssUri), //circle
           null, //sSCon
           true); //shouldCommit
       

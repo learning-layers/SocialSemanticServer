@@ -92,19 +92,61 @@ public class SSTagMiscFct {
   }
   
   public static List<SSTag> getTagsIfSpaceNotSet(
-    final SSTagSQLFct            sqlFct,
+    final SSTagSQLFct        sqlFct,
     final SSTagsGetPar       par) throws Exception{
     
-    final List<SSTag> categories = new ArrayList<>();
+    final List<SSTag> tags    = new ArrayList<>();
     SSLabel           slabel;
     SSEntity          tagEntity;
     
-    if(par.entities.isEmpty()){
+    if(
+      par.entities.isEmpty() &&
+      par.labels.isEmpty() &&
+      par.circles.isEmpty()){
       
-      if(par.labels.isEmpty()){
-        categories.addAll (sqlFct.getTagAsss(par.forUser, null, SSSpaceE.sharedSpace,  par.startTime, null));
-        categories.addAll (sqlFct.getTagAsss(par.user,    null, SSSpaceE.privateSpace, par.startTime, null));
-      }
+      tags.addAll (sqlFct.getTagAsss(par.forUser, null, SSSpaceE.sharedSpace,  par.startTime, null));
+      tags.addAll (sqlFct.getTagAsss(par.forUser, null, SSSpaceE.circleSpace,  par.startTime, null));
+      tags.addAll (sqlFct.getTagAsss(par.user,    null, SSSpaceE.privateSpace, par.startTime, null));
+    }
+    
+    if(
+      par.entities.isEmpty() &&
+      par.labels.isEmpty()   &&
+      !par.circles.isEmpty()){
+      
+      tags.addAll(
+        sqlFct.getTagAsss(
+          SSUri.asListWithoutNullAndEmpty(par.user),
+          null,
+          SSSpaceE.privateSpace,
+          par.startTime,
+          null,
+          par.circles));
+      
+      tags.addAll(
+        sqlFct.getTagAsss(
+          SSUri.asListWithoutNullAndEmpty(par.forUser),
+          null,
+          SSSpaceE.sharedSpace,
+          par.startTime,
+          null,
+          par.circles));
+      
+      tags.addAll(
+        sqlFct.getTagAsss(
+          SSUri.asListWithoutNullAndEmpty(par.forUser),
+          null,
+          SSSpaceE.circleSpace,
+          par.startTime,
+          null,
+          par.circles));
+    }
+    
+    if(
+      par.entities.isEmpty() &&
+      !par.labels.isEmpty()){
+      
+      final List<SSUri> tagURIs    = new ArrayList<>();
       
       for(SSTagLabel label : par.labels){
         
@@ -123,21 +165,75 @@ public class SSTagMiscFct {
           continue;
         }
         
-        categories.addAll (sqlFct.getTagAsss(par.forUser, null, SSSpaceE.sharedSpace,  par.startTime, tagEntity.id));
-        categories.addAll (sqlFct.getTagAsss(par.user,    null, SSSpaceE.privateSpace, par.startTime, tagEntity.id));
+        tagURIs.add(tagEntity.id);
       }
+      
+      tags.addAll (
+        sqlFct.getTagAsss(
+          SSUri.asListWithoutNullAndEmpty(par.user),
+          null,
+          SSSpaceE.privateSpace,
+          par.startTime,
+          tagURIs,
+          par.circles));
+      
+      tags.addAll (
+        sqlFct.getTagAsss(
+          SSUri.asListWithoutNullAndEmpty(par.forUser),
+          null,
+          SSSpaceE.sharedSpace,
+          par.startTime,
+          tagURIs,
+          par.circles));
+      
+      tags.addAll (
+        sqlFct.getTagAsss(
+          SSUri.asListWithoutNullAndEmpty(par.forUser),
+          null,
+          SSSpaceE.circleSpace,
+          par.startTime,
+          tagURIs,
+          par.circles));
     }
+    
+    if(
+      !par.entities.isEmpty() &&
+      par.labels.isEmpty()){
       
-    for(SSUri entity : par.entities){
+      tags.addAll (
+        sqlFct.getTagAsss(
+          SSUri.asListWithoutNullAndEmpty(par.forUser), 
+          par.entities, 
+          SSSpaceE.sharedSpace,  
+          par.startTime, 
+          null,
+          par.circles));
       
-      if(par.labels.isEmpty()){
-        categories.addAll (sqlFct.getTagAsss(SSUri.asListWithoutNullAndEmpty(par.forUser), par.entities, SSSpaceE.sharedSpace,  par.startTime, null));
-        categories.addAll (sqlFct.getTagAsss(SSUri.asListWithoutNullAndEmpty(par.user),    par.entities, SSSpaceE.privateSpace, par.startTime, null));
-      }
-
-      //TODO dtheiler: handle loops in db
+      tags.addAll (
+        sqlFct.getTagAsss(
+          SSUri.asListWithoutNullAndEmpty(par.forUser), 
+          par.entities, 
+          SSSpaceE.circleSpace,  
+          par.startTime, 
+          null,
+          par.circles));
+      
+      tags.addAll(
+        sqlFct.getTagAsss(
+          SSUri.asListWithoutNullAndEmpty(par.user),    
+          par.entities, 
+          SSSpaceE.privateSpace, 
+          par.startTime, 
+          null,
+          par.circles));
+    }
+    
+    if(
+      !par.entities.isEmpty() &&
+      !par.labels.isEmpty()){
+      
       for(SSTagLabel label : par.labels){
-
+        
         slabel    = SSLabel.get(SSStrU.toStr(label));
         tagEntity =
           ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityFromTypeAndLabelGet(
@@ -148,17 +244,41 @@ public class SSTagMiscFct {
               slabel, //label,
               SSEntityE.tag, //type,
               false)); //withUserRestriction
-
+        
         if(tagEntity == null){
           continue;
         }
-
-        categories.addAll (sqlFct.getTagAsss(SSUri.asListWithoutNullAndEmpty(par.forUser),     par.entities, SSSpaceE.sharedSpace,  par.startTime, SSUri.asListWithoutNullAndEmpty(tagEntity.id)));
-        categories.addAll (sqlFct.getTagAsss(SSUri.asListWithoutNullAndEmpty(par.user),        par.entities, SSSpaceE.privateSpace, par.startTime, SSUri.asListWithoutNullAndEmpty(tagEntity.id)));
+        
+        tags.addAll (
+          sqlFct.getTagAsss(
+            SSUri.asListWithoutNullAndEmpty(par.forUser),     
+            par.entities, 
+            SSSpaceE.sharedSpace,  
+            par.startTime, 
+            SSUri.asListWithoutNullAndEmpty(tagEntity.id),
+            par.circles));
+        
+        tags.addAll (
+          sqlFct.getTagAsss(
+            SSUri.asListWithoutNullAndEmpty(par.forUser),     
+            par.entities, 
+            SSSpaceE.circleSpace,  
+            par.startTime, 
+            SSUri.asListWithoutNullAndEmpty(tagEntity.id), 
+            par.circles));
+        
+        tags.addAll (
+          sqlFct.getTagAsss(
+            SSUri.asListWithoutNullAndEmpty(par.user),
+            par.entities, 
+            SSSpaceE.privateSpace, 
+            par.startTime, 
+            SSUri.asListWithoutNullAndEmpty(tagEntity.id), 
+            par.circles));
       }
     }
     
-    return categories;
+    return tags;
   }
   
   public static List<SSTag> getTagsIfSpaceSet(
@@ -166,16 +286,39 @@ public class SSTagMiscFct {
     final SSTagsGetPar       par,
     final SSUri              userToUse) throws Exception{
     
-    final List<SSTag>      categories = new ArrayList<>();
+    final List<SSTag>      tags   = new ArrayList<>();
     SSLabel                slabel;
     SSEntity               tagEntity;
     
-    if(par.entities.isEmpty()){
+    if(
+      par.entities.isEmpty() &&
+      par.labels.isEmpty()   &&
+      par.circles.isEmpty()){
       
-      if(par.labels.isEmpty()){
-        categories.addAll (sqlFct.getTagAsss(userToUse, null, par.space, par.startTime, null));
-      }
+      tags.addAll (sqlFct.getTagAsss(userToUse, null, par.space, par.startTime, null));
+    }
+    
+    if(
+      par.entities.isEmpty() &&
+      par.labels.isEmpty()   &&
+      !par.circles.isEmpty()){
       
+      tags.addAll(
+        sqlFct.getTagAsss(
+          SSUri.asListWithoutNullAndEmpty(userToUse), 
+          null, 
+          par.space, 
+          par.startTime,
+          null,
+          par.circles));
+    }
+      
+    if(
+      par.entities.isEmpty() &&
+      !par.labels.isEmpty()){
+      
+      final List<SSUri> tagURIs    = new ArrayList<>();
+        
       for(SSTagLabel label : par.labels){
         
         slabel    = SSLabel.get(SSStrU.toStr(label));
@@ -193,17 +336,37 @@ public class SSTagMiscFct {
           continue;
         }
         
-        categories.addAll (sqlFct.getTagAsss(userToUse, null, par.space, par.startTime, tagEntity.id));
+        tagURIs.add(tagEntity.id);
       }
+      
+      tags.addAll(
+        sqlFct.getTagAsss(
+          SSUri.asListWithoutNullAndEmpty(userToUse), 
+          null, 
+          par.space, 
+          par.startTime,
+          tagURIs,
+          par.circles));
     }
     
-    //TODO dtheiler: handle loops in db
-    for(SSUri entity : par.entities){
+    if(
+      !par.entities.isEmpty() &&
+      par.labels.isEmpty()){
       
-      if(par.labels.isEmpty()){
-        categories.addAll (sqlFct.getTagAsss(SSUri.asListWithoutNullAndEmpty(userToUse), par.entities, par.space, par.startTime, null));
-      }
-      
+      tags.addAll(
+        sqlFct.getTagAsss(
+          SSUri.asListWithoutNullAndEmpty(userToUse), 
+          par.entities, 
+          par.space, 
+          par.startTime, 
+          null,
+          par.circles));
+    }
+    
+    if(
+      !par.entities.isEmpty() &&
+      !par.labels.isEmpty()){
+    
       for(SSTagLabel label : par.labels){
         
         slabel    = SSLabel.get(SSStrU.toStr(label));
@@ -221,16 +384,23 @@ public class SSTagMiscFct {
           continue;
         }
         
-        categories.addAll (sqlFct.getTagAsss(SSUri.asListWithoutNullAndEmpty(userToUse), par.entities, par.space, par.startTime, SSUri.asListWithoutNullAndEmpty(tagEntity.id)));
+        tags.addAll (
+          sqlFct.getTagAsss(
+            SSUri.asListWithoutNullAndEmpty(userToUse), 
+            par.entities, 
+            par.space, 
+            par.startTime, 
+            SSUri.asListWithoutNullAndEmpty(tagEntity.id),
+            par.circles));
       }
     }
     
-    return categories;
+    return tags;
   }
   
   public static List<SSUri> getEntitiesForTagsIfSpaceNotSet(
     final SSTagSQLFct                    sqlFct,
-    final SSTagEntitiesForTagsGetPar par) throws Exception{
+    final SSTagEntitiesForTagsGetPar     par) throws Exception{
     
     final List<SSUri> entities = new ArrayList<>();
     SSLabel           slabel;
@@ -340,6 +510,13 @@ public class SSTagMiscFct {
         
         if(!SSServCallerU.canUserRead(user, tag.entity)){
           continue;
+        }
+        
+        if(tag.circle != null){
+          
+          if(!SSServCallerU.canUserRead(user, tag.circle)){
+            continue;
+          }
         }
           
         filtered.add(tag);

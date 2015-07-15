@@ -35,6 +35,7 @@ public class SSTagFrequsGetPar extends SSServPar{
   public List<SSUri>        entities             = new ArrayList<>();
   public List<SSTagLabel>   labels               = new ArrayList<>();
   public SSSpaceE           space                = null;
+  public List<SSUri>        circles              = new ArrayList<>();
   public Long               startTime            = null;
   public Boolean            useUsersEntities     = false;
 
@@ -54,6 +55,10 @@ public class SSTagFrequsGetPar extends SSServPar{
     this.space = SSSpaceE.get(space);
   }
   
+  public void setCircles(final List<String> circles) throws Exception{
+    this.circles = SSUri.get(circles);
+  }
+   
   public String getForUser(){
     return SSStrU.removeTrailingSlash(forUser);
   }
@@ -70,6 +75,10 @@ public class SSTagFrequsGetPar extends SSServPar{
     return SSStrU.toStr(space);
   }
   
+  public List<String> getCircles() throws Exception{
+    return SSStrU.removeTrailingSlash(circles);
+  }
+  
   public SSTagFrequsGetPar(){}
    
   public SSTagFrequsGetPar(
@@ -80,6 +89,7 @@ public class SSTagFrequsGetPar extends SSServPar{
     final List<SSUri>        entities, 
     final List<SSTagLabel>   labels, 
     final SSSpaceE           space, 
+    final List<SSUri>        circles, 
     final Long               startTime,
     final Boolean            useUsersEntities,
     final Boolean            withUserRestriction){
@@ -92,6 +102,9 @@ public class SSTagFrequsGetPar extends SSServPar{
     SSTagLabel.addDistinctWithoutNull (this.labels,   labels);
     
     this.space                = space;
+    
+    SSUri.addDistinctWithoutNull      (this.circles, circles);
+    
     this.startTime            = startTime;
     this.useUsersEntities     = useUsersEntities;
     this.withUserRestriction  = withUserRestriction;

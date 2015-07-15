@@ -28,8 +28,8 @@ import at.tugraz.sss.serv.SSUri;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTag;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.tugraz.sss.serv.SSServErrReg;
-
 import at.tugraz.sss.serv.SSServImplWithDBA;
+import at.tugraz.sss.serv.SSStrU;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -49,6 +49,7 @@ public class SSTagSQLFct extends SSDBSQLFct{
     final SSUri       userUri,
     final SSUri       entityUri,
     final SSSpaceE    space,
+    final SSUri       circleUri,
     final Long        creationTime) throws Exception{
     
     try{
@@ -59,6 +60,12 @@ public class SSTagSQLFct extends SSDBSQLFct{
       insert    (inserts,    SSSQLVarNames.entityId,     entityUri);
       insert    (inserts,    SSSQLVarNames.tagId,        tagUri);
       insert    (inserts,    SSSQLVarNames.tagSpace,     space);
+      
+      if(circleUri != null){
+        insert    (inserts,    SSSQLVarNames.circleId,     circleUri);
+      }else{
+        insert    (inserts,    SSSQLVarNames.circleId,     SSStrU.empty);
+      }
       
       if(
         creationTime == null ||
@@ -72,6 +79,7 @@ public class SSTagSQLFct extends SSDBSQLFct{
       uniqueKey (uniqueKeys, SSSQLVarNames.entityId,     entityUri);
       uniqueKey (uniqueKeys, SSSQLVarNames.tagId,        tagUri);
       uniqueKey (uniqueKeys, SSSQLVarNames.tagSpace,     space);
+      uniqueKey (uniqueKeys, SSSQLVarNames.circleId,     circleUri);
       
       dbSQL.insertIfNotExists(SSSQLVarNames.tagAssTable, inserts, uniqueKeys);
     }catch(Exception error){
@@ -169,14 +177,17 @@ public class SSTagSQLFct extends SSDBSQLFct{
       final List<String>        tableCons      = new ArrayList<>();
 //      final SSUri               tagURI         = getOrCreateTagURI(existsTagLabel(tagString), tagString);
 
-      table    (tables, SSSQLVarNames.tagAssTable);
-      table    (tables, SSSQLVarNames.entityTable);
       column   (columns,   SSSQLVarNames.tagId);
       column   (columns,   SSSQLVarNames.entityId);
       column   (columns,   SSSQLVarNames.userId);
       column   (columns,   SSSQLVarNames.tagSpace);
       column   (columns,   SSSQLVarNames.label);
-      column   (columns, SSSQLVarNames.tagAssTable, SSSQLVarNames.creationTime);
+      column   (columns,   SSSQLVarNames.tagAssTable, SSSQLVarNames.creationTime);
+      column   (columns,   SSSQLVarNames.circleId);
+      
+      table    (tables, SSSQLVarNames.tagAssTable);
+      table    (tables, SSSQLVarNames.entityTable);
+      
       tableCon (tableCons, SSSQLVarNames.tagAssTable, SSSQLVarNames.tagId, SSSQLVarNames.entityTable, SSSQLVarNames.id);
       
       if(userUri != null){
@@ -207,11 +218,13 @@ public class SSTagSQLFct extends SSDBSQLFct{
           continue;
         }
         
-        tagAsss.add(SSTag.get(bindingStrToUri  (resultSet, SSSQLVarNames.tagId),
+        tagAsss.add(
+          SSTag.get(bindingStrToUri  (resultSet, SSSQLVarNames.tagId),
             bindingStrToUri  (resultSet, SSSQLVarNames.entityId),
             bindingStrToUri  (resultSet, SSSQLVarNames.userId),
             bindingStrToSpace(resultSet, SSSQLVarNames.tagSpace),
-            SSTagLabel.get   (bindingStr(resultSet, SSSQLVarNames.label))));
+            SSTagLabel.get   (bindingStr(resultSet, SSSQLVarNames.label)),
+            bindingStrToUri  (resultSet, SSSQLVarNames.circleId)));
       }
       
       return tagAsss;
@@ -228,7 +241,8 @@ public class SSTagSQLFct extends SSDBSQLFct{
     final List<SSUri> entities, 
     final SSSpaceE    tagSpace,
     final Long        startTime,
-    final List<SSUri> tagURIs) throws Exception{
+    final List<SSUri> tagURIs, 
+    final List<SSUri> circleURIs) throws Exception{
     
     ResultSet resultSet = null;
     
@@ -241,14 +255,17 @@ public class SSTagSQLFct extends SSDBSQLFct{
       final List<String>                         tableCons      = new ArrayList<>();
 //      final SSUri               tagURI         = getOrCreateTagURI(existsTagLabel(tagString), tagString);
 
-      table    (tables, SSSQLVarNames.tagAssTable);
-      table    (tables, SSSQLVarNames.entityTable);
       column   (columns,   SSSQLVarNames.tagId);
       column   (columns,   SSSQLVarNames.entityId);
       column   (columns,   SSSQLVarNames.userId);
       column   (columns,   SSSQLVarNames.tagSpace);
       column   (columns,   SSSQLVarNames.label);
-      column   (columns, SSSQLVarNames.tagAssTable, SSSQLVarNames.creationTime);
+      column   (columns,   SSSQLVarNames.tagAssTable, SSSQLVarNames.creationTime);
+      column   (columns,   SSSQLVarNames.circleId);
+      
+      table    (tables, SSSQLVarNames.tagAssTable);
+      table    (tables,   SSSQLVarNames.entityTable);
+      
       tableCon (tableCons, SSSQLVarNames.tagAssTable, SSSQLVarNames.tagId, SSSQLVarNames.entityTable, SSSQLVarNames.id);
       
       if(
@@ -290,6 +307,19 @@ public class SSTagSQLFct extends SSDBSQLFct{
         wheres.add(whereTags);
       }
       
+      if(
+        circleURIs != null &&
+        !circleURIs.isEmpty()){
+        
+        final MultivaluedMap<String, String> whereCircles = new MultivaluedHashMap<>();
+        
+        for(SSUri circleURI : circleURIs){
+          where(whereCircles, SSSQLVarNames.tagAssTable, SSSQLVarNames.circleId, circleURI);
+        }
+        
+        wheres.add(whereCircles);
+      }
+      
       if(tagSpace != null){
         
         final MultivaluedMap<String, String> whereTags = new MultivaluedHashMap<>();
@@ -315,11 +345,14 @@ public class SSTagSQLFct extends SSDBSQLFct{
           continue;
         }
         
-        tagAsss.add(SSTag.get(bindingStrToUri  (resultSet, SSSQLVarNames.tagId),
+        tagAsss.add(
+          SSTag.get(
+            bindingStrToUri  (resultSet, SSSQLVarNames.tagId),
             bindingStrToUri  (resultSet, SSSQLVarNames.entityId),
             bindingStrToUri  (resultSet, SSSQLVarNames.userId),
             bindingStrToSpace(resultSet, SSSQLVarNames.tagSpace),
-            SSTagLabel.get   (bindingStr(resultSet, SSSQLVarNames.label))));
+            SSTagLabel.get   (bindingStr(resultSet, SSSQLVarNames.label)),
+            bindingStrToUri  (resultSet, SSSQLVarNames.circleId)));
       }
       
       return tagAsss;

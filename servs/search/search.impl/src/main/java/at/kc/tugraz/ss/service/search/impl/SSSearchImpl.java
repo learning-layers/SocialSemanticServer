@@ -718,6 +718,7 @@ public class SSSearchImpl extends SSServImplWithDBA implements SSSearchClientI, 
                 SSUri.asListWithoutNullAndEmpty(entityUri), //entities
                 SSTagLabel.asListWithoutNullAndEmpty(SSTagLabel.get(tag)),  //labels
                 null, //space
+                null, //circles
                 null, //startTime
                 false)).isEmpty()){ //withUserRestriction
             continue;

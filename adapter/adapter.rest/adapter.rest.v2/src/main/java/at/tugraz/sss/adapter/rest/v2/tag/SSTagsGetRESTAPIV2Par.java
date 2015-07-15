@@ -74,6 +74,16 @@ public class SSTagsGetRESTAPIV2Par{
   public void setSpace(final String space) throws Exception{
     this.space = SSSpaceE.get(space);
   }
+  
+  @ApiModelProperty(
+    required = false, 
+    value = "circles to limit tag assignments found")
+  public List<SSUri>        circles       = null;
+  
+  @XmlElement
+  public void setCircles(final List<String> circles) throws Exception {
+    this.circles = SSUri.get(circles, SSVocConf.sssUri);
+  }
 
   @XmlElement
   @ApiModelProperty(

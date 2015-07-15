@@ -86,6 +86,7 @@ public class SSFileServCaller{
           SSTagLabel.get(par.tags), //labels
           file, //file
           null, //space
+          par.circle, //circle
           null, //creationTime,
           true, //withUserRestriction
           false)); //shouldCommit)

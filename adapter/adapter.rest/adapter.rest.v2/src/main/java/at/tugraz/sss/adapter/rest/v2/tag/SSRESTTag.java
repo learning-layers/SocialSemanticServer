@@ -76,6 +76,7 @@ public class SSRESTTag{
           null, //entities
           null, //labels
           null, //space
+          null, //circles
           null, //startTime
           true); //withUserRestriction
       
@@ -111,6 +112,7 @@ public class SSRESTTag{
           input.entities, //entities
           input.labels, //labels
           input.space, //space
+          input.circles, //circles
           input.startTime, //startTime, 
           true); //withUserRestriction
       
@@ -144,6 +146,7 @@ public class SSRESTTag{
           null, //entities
           null, //labels
           null, //space
+          null, //circles
           null, //startTime
           false, //useUsersEntities
           true); //withUserRestriction
@@ -181,6 +184,7 @@ public class SSRESTTag{
           input.entities, //entities
           input.labels, //labels
           input.space, //space
+          input.circles, //circles
           input.startTime, //startTime
           input.useUsersEntities, //useUsersEntities
           true); //withUserRestriction
@@ -288,6 +292,7 @@ public class SSRESTTag{
           input.entity, //entity
           input.label, //label
           input.space, //space
+          input.circle, //circle
           input.creationTime,  //creationTime
           true, //withUserRestriction
           true); //shouldCommit
