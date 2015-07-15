@@ -61,15 +61,10 @@ public class SSRESTSearch{
           SSServOpE.search,
           null,
           null,
-          input.includeTextualContent,
           input.wordsToSearchFor,
-          input.includeTags,
           input.tagsToSearchFor,
-          input.includeAuthors,
           input.authorsToSearchFor,
-          input.includeLabel,
           input.labelsToSearchFor,
-          input.includeDescription,
           input.descriptionsToSearchFor,
           input.typesToSearchOnlyFor,
           input.includeOnlySubEntities,
@@ -82,7 +77,9 @@ public class SSRESTSearch{
           input.minRating,
           input.maxRating,
           input.localSearchOp,
-          input.globalSearchOp);
+          input.globalSearchOp, 
+          true,  //withUserRestriction
+          true); //invokeEntityHandlers
       
     }catch(Exception error){
       return Response.status(422).build();

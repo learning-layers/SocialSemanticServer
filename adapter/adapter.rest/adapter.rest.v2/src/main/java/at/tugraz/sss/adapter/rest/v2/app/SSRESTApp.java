@@ -100,7 +100,9 @@ public class SSRESTApp{
           input.downloadAndroid,
           input.fork,
           input.screenShots,
-          input.videos);
+          input.videos, 
+          true, //withUserRestriction, 
+          true); //shouldCommmit);
       
        }catch(Exception error){
       return Response.status(422).build();

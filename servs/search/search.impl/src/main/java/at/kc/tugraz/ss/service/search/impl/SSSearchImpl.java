@@ -75,17 +75,18 @@ public class SSSearchImpl extends SSServImplWithDBA implements SSSearchClientI, 
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(search(parA));
+    final SSSearchPar par = (SSSearchPar) parA.getFromJSON(SSSearchPar.class);
+      
+    sSCon.writeRetFullToClient(search(par));
     
 //    SSSearchActivityFct.search(new SSSearchPar((parA)));
   }
 
   @Override
-  public SSSearchRet search(final SSServPar parA) throws Exception{
+  public SSSearchRet search(final SSSearchPar par) throws Exception{
     
     try{
       
-      final SSSearchPar             par                           = SSSearchPar.get(parA);
       final List<SSEntity>          results                       = new ArrayList<>();
       final List<SSUri>             uris                          = new ArrayList<>();
       final List<SSUri>             tagResultUris                 = new ArrayList<>();
@@ -104,7 +105,7 @@ public class SSSearchImpl extends SSServImplWithDBA implements SSSearchClientI, 
         par.pagesID    != null &&
         par.pageNumber != null){
         
-        return handleSearchPageRequest(parA.op, par);
+        return handleSearchPageRequest(par.op, par);
       }
       
       tagResultUris.addAll                 (getTagResults(par));
@@ -145,9 +146,7 @@ public class SSSearchImpl extends SSServImplWithDBA implements SSSearchClientI, 
             labelsAndDescsThere = false;
             contentThere        = false;
             
-            if(
-              !par.includeTags ||
-              par.tagsToSearchFor.isEmpty()){
+            if(par.tagsToSearchFor.isEmpty()){
               tagsThere = true;
             }else{
               if(SSStrU.contains(tagResultUris,uri)){
@@ -155,12 +154,8 @@ public class SSSearchImpl extends SSServImplWithDBA implements SSSearchClientI, 
               }
             }
                        
-            if(
-              (!par.includeLabel &&
-              !par.includeDescription)
-              ||
-              (par.labelsToSearchFor.isEmpty() &&
-              par.descriptionsToSearchFor.isEmpty())){
+            if(par.labelsToSearchFor.isEmpty() &&
+              par.descriptionsToSearchFor.isEmpty()){
               labelsAndDescsThere = true;
             }else{
               if(SSStrU.contains(labelAndDescriptionResultUris, uri)){
@@ -168,9 +163,7 @@ public class SSSearchImpl extends SSServImplWithDBA implements SSSearchClientI, 
               }
             }
             
-            if(
-              !par.includeTextualContent ||
-              par.wordsToSearchFor.isEmpty()){
+            if(par.wordsToSearchFor.isEmpty()){
               contentThere        = true;
             }else{
               if(SSStrU.contains(contentResultUris, uri)){
@@ -257,8 +250,7 @@ public class SSSearchImpl extends SSServImplWithDBA implements SSSearchClientI, 
         results, 
         pagesID,
         1,
-        pages.size(), 
-        parA.op);
+        pages.size());
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -368,8 +360,7 @@ public class SSSearchImpl extends SSServImplWithDBA implements SSSearchClientI, 
         results,
         par.pagesID,
         par.pageNumber,
-        pages.pages.size(),
-        op);
+        pages.pages.size());
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -385,23 +376,20 @@ public class SSSearchImpl extends SSServImplWithDBA implements SSSearchClientI, 
     
     final List<SSUri> tagResults = new ArrayList<>();
     SSSearchTagsPar   searchTagsPar;
-      
-    if(!par.includeTags){
+    
+    if(par.tagsToSearchFor.isEmpty()){
       return tagResults;
     }
     
-    if(!par.tagsToSearchFor.isEmpty()){
-      
-      searchTagsPar =
-        SSSearchTagsPar.get(
-          par.user,
-          par.tagsToSearchFor,
-          par.localSearchOp,
-          10);
-      
-      for(SSEntity result : searchTags(searchTagsPar)){
-        tagResults.add(result.id);
-      }
+    searchTagsPar =
+      SSSearchTagsPar.get(
+        par.user,
+        par.tagsToSearchFor,
+        par.localSearchOp,
+        10);
+    
+    for(SSEntity result : searchTags(searchTagsPar)){
+      tagResults.add(result.id);
     }
     
     return tagResults;
@@ -412,21 +400,18 @@ public class SSSearchImpl extends SSServImplWithDBA implements SSSearchClientI, 
     final List<SSUri> textualContentResults = new ArrayList<>();
     SSSearchSolrPar   searchSolrPar;
     
-    if(!par.includeTextualContent){
+    if(par.wordsToSearchFor.isEmpty()){
       return textualContentResults;
     }
     
-    if(!par.wordsToSearchFor.isEmpty()){
-      
-      searchSolrPar =
-        SSSearchSolrPar.get(
-          par.user,
-          par.wordsToSearchFor,
-          par.localSearchOp);
-      
-      for(SSEntity solrResult : searchSolr(searchSolrPar)){
-        textualContentResults.add(solrResult.id);
-      }
+    searchSolrPar =
+      SSSearchSolrPar.get(
+        par.user,
+        par.wordsToSearchFor,
+        par.localSearchOp);
+    
+    for(SSEntity solrResult : searchSolr(searchSolrPar)){
+      textualContentResults.add(solrResult.id);
     }
     
     return textualContentResults;
@@ -452,8 +437,8 @@ public class SSSearchImpl extends SSServImplWithDBA implements SSSearchClientI, 
     }
      
     if(
-      par.includeDescription &&
-      par.includeLabel){
+      !par.descriptionsToSearchFor.isEmpty() &&
+      !par.labelsToSearchFor.isEmpty()){
       
       switch(par.localSearchOp){
         
@@ -494,8 +479,8 @@ public class SSSearchImpl extends SSServImplWithDBA implements SSSearchClientI, 
     }
     
     if(
-      par.includeDescription &&
-      !par.includeLabel){
+      !par.descriptionsToSearchFor.isEmpty() &&
+      par.labelsToSearchFor.isEmpty()){
       
       combinedKeywords.addAll(SSStrU.toStr(par.descriptionsToSearchFor));
       
@@ -518,8 +503,8 @@ public class SSSearchImpl extends SSServImplWithDBA implements SSSearchClientI, 
     }
         
     if(
-      !par.includeDescription &&
-      par.includeLabel){
+      par.descriptionsToSearchFor.isEmpty() &&
+      !par.labelsToSearchFor.isEmpty()){
       
       combinedKeywords.addAll(SSStrU.toStr(par.labelsToSearchFor));
       

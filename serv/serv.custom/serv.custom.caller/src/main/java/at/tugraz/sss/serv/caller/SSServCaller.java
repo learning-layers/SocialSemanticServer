@@ -327,60 +327,6 @@ public class SSServCaller {
     SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.searchResultPagesCacheClean, new HashMap<>()));
   }
   
-  public static SSSearchRet search(
-    final SSUri                user, 
-    final Boolean              includeTextualContent,
-    final List<String>         wordsToSearchFor,
-    final Boolean              includeTags,
-    final List<String>         tagsToSearchFor,
-    final Boolean              includeAuthors,
-    final List<SSUri>          authorsToSearchFor,
-    final Boolean              includeLabel,
-    final List<String>         labelsToSearchFor,
-    final Boolean              includeDescription,
-    final List<String>         descriptionsToSearchFor,
-    final List<SSEntityE>      typesToSearchOnlyFor,
-    final Boolean              includeOnlySubEntities,
-    final List<SSUri>          entitiesToSearchWithin,
-    final Boolean              extendToParents, 
-    final Boolean              includeRecommendedResults,
-    final Boolean              provideEntries,
-    final String               pagesID,
-    final Integer              pageNumber,
-    final Integer              minRating,
-    final Integer              maxRating,
-    final SSSearchOpE          localSearchOp,
-    final SSSearchOpE          globalSearchOp) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.user,                      user);
-    opPars.put(SSVarNames.includeTextualContent,     includeTextualContent);
-    opPars.put(SSVarNames.wordsToSearchFor,          wordsToSearchFor);
-    opPars.put(SSVarNames.includeTags,               includeTags);
-    opPars.put(SSVarNames.tagsToSearchFor,           tagsToSearchFor);
-    opPars.put(SSVarNames.includeAuthors,            includeAuthors);
-    opPars.put(SSVarNames.authorsToSearchFor,        authorsToSearchFor);
-    opPars.put(SSVarNames.includeLabel,              includeLabel);
-    opPars.put(SSVarNames.labelsToSearchFor,         SSSearchLabel.get(labelsToSearchFor));
-    opPars.put(SSVarNames.includeDescription,        includeDescription);
-    opPars.put(SSVarNames.descriptionsToSearchFor,   SSSearchLabel.get(descriptionsToSearchFor));
-    opPars.put(SSVarNames.typesToSearchOnlyFor,      typesToSearchOnlyFor);
-    opPars.put(SSVarNames.includeOnlySubEntities,    includeOnlySubEntities);
-    opPars.put(SSVarNames.entitiesToSearchWithin,    entitiesToSearchWithin);
-    opPars.put(SSVarNames.extendToParents,           extendToParents);
-    opPars.put(SSVarNames.includeRecommendedResults, includeRecommendedResults);
-    opPars.put(SSVarNames.provideEntries,            provideEntries);
-    opPars.put(SSVarNames.pagesID,                   pagesID);
-    opPars.put(SSVarNames.pageNumber,                pageNumber);
-    opPars.put(SSVarNames.minRating,                 minRating);
-    opPars.put(SSVarNames.maxRating,                 maxRating);
-    opPars.put(SSVarNames.localSearchOp,             localSearchOp);
-    opPars.put(SSVarNames.globalSearchOp,            globalSearchOp);
-    
-    return (SSSearchRet) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.search, opPars));
-  }
-  
   /* solr */
 
   public static List<String> solrSearch(

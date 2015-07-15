@@ -20,11 +20,13 @@
 */
 package at.tugraz.sss.serv;
 
-import at.tugraz.sss.serv.SSStrU;
-
 public class SSErr extends Exception{
   
   public SSErrE code = null;
+  
+  public String getCode(){
+    return SSStrU.toStr(code);
+  }
   
   public SSErr(final SSErrE code){
     

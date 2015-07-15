@@ -313,13 +313,16 @@ public class SSSocketCon{
       ret.put(SSVarNames.id,      errors.get(0).getMessage());
       ret.put(SSVarNames.message, errors.get(0).getMessage());
       
-//      for(Exception error : errors){
-//        
-//        if(error.id != null){
-//          ret.put(SSVarU.id, error.id);
-//          break;
-//        }
-//      }
+      for(Exception error : errors){
+        
+        if(error instanceof SSErrForClient)
+        
+        if(((SSErrForClient)error).id != null){
+          ret.put(SSVarNames.id,      ((SSErrForClient) error).id);
+          ret.put(SSVarNames.message, ((SSErrForClient) error).message);
+          break;
+        }
+      }
     }
     
     

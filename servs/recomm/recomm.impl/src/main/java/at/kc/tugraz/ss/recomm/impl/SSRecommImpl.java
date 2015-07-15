@@ -72,7 +72,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import at.tugraz.sss.serv.SSErrE;
-import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
 import java.util.HashMap;

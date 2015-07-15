@@ -197,29 +197,32 @@ public class SSTagMiscFct {
       }
     }
     
-    if(par.labels.isEmpty()){
-      categories.addAll (sqlFct.getTagAsss(SSUri.asListWithoutNullAndEmpty(userToUse), par.entities, par.space, par.startTime, null));
-    }
-
     //TODO dtheiler: handle loops in db
-    for(SSTagLabel label : par.labels){
+    for(SSUri entity : par.entities){
       
-      slabel    = SSLabel.get(SSStrU.toStr(label));
-      tagEntity =
-        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityFromTypeAndLabelGet(
-          new SSEntityFromTypeAndLabelGetPar(
-            null,
-            null,
-            par.user,
-            slabel, //label,
-            SSEntityE.tag, //type,
-            false)); //withUserRestriction
-      
-      if(tagEntity == null){
-        continue;
+      if(par.labels.isEmpty()){
+        categories.addAll (sqlFct.getTagAsss(SSUri.asListWithoutNullAndEmpty(userToUse), par.entities, par.space, par.startTime, null));
       }
       
-      categories.addAll (sqlFct.getTagAsss(SSUri.asListWithoutNullAndEmpty(userToUse), par.entities, par.space, par.startTime, SSUri.asListWithoutNullAndEmpty(tagEntity.id)));
+      for(SSTagLabel label : par.labels){
+        
+        slabel    = SSLabel.get(SSStrU.toStr(label));
+        tagEntity =
+          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityFromTypeAndLabelGet(
+            new SSEntityFromTypeAndLabelGetPar(
+              null,
+              null,
+              par.user,
+              slabel, //label,
+              SSEntityE.tag, //type,
+              false)); //withUserRestriction
+        
+        if(tagEntity == null){
+          continue;
+        }
+        
+        categories.addAll (sqlFct.getTagAsss(SSUri.asListWithoutNullAndEmpty(userToUse), par.entities, par.space, par.startTime, SSUri.asListWithoutNullAndEmpty(tagEntity.id)));
+      }
     }
     
     return categories;

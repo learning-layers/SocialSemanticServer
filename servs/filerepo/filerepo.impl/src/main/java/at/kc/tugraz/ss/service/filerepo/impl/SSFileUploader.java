@@ -59,17 +59,14 @@ public class SSFileUploader extends SSServImplStartA{
   private       byte[]                fileChunk         = null;
   private       SSUri                 uri               = null;
   private       String                localWorkPath     = null;
-  private       SSFilerepoImpl        servImpl          = null;
   
   public SSFileUploader(
     final SSFileRepoConf     fileRepoConf, 
-    final SSFileUploadPar    par,
-    final SSFilerepoImpl     servImpl) throws Exception{
+    final SSFileUploadPar    par) throws Exception{
     
     super(fileRepoConf, null);
     
     this.par               = par;
-    this.servImpl          = servImpl;
     this.localWorkPath     = SSCoreConf.instGet().getSss().getLocalWorkPath();
     
     try{
@@ -113,6 +110,8 @@ public class SSFileUploader extends SSServImplStartA{
         dbSQL.startTrans(par.shouldCommit);
         
         SSFileServCaller.addFileEntity           (par, uri);
+        SSFileServCaller.addTags                 (par, uri);
+        SSFileServCaller.addCategories           (par, uri);
         SSFileServCaller.addFileContentsToSolr   (par, fileId);
 
         removeFileFromLocalWorkFolder();

@@ -35,12 +35,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class SSSearchRESTAPIV2Par{
   
   @XmlElement
-  @ApiModelProperty( 
-    required = false, 
-    value = "whether the text content (if available) of entities should be scanned" )
-  public Boolean             includeTextualContent      = false;
-  
-  @XmlElement
   @ApiModelProperty(
     value = "keywords to be used in textual content search",
     required = false)
@@ -49,20 +43,8 @@ public class SSSearchRESTAPIV2Par{
   @XmlElement
   @ApiModelProperty( 
     required = false, 
-    value = "whether tags of entities should be looked to find entities" )
-  public Boolean             includeTags                = false;
-  
-  @XmlElement
-  @ApiModelProperty( 
-    required = false, 
     value = "tags to be searched for" )
   public List<String>        tagsToSearchFor            = null;
-  
-  @XmlElement
-  @ApiModelProperty( 
-    required = false, 
-    value = "whether authors of entities should be looked to find entities" )
-  public Boolean             includeAuthors                = false;
   
   @ApiModelProperty( 
     required = false, 
@@ -74,24 +56,6 @@ public class SSSearchRESTAPIV2Par{
     this.authorsToSearchFor = SSUri.get(authorsToSearchFor);
   }
   
-  @XmlElement
-  @ApiModelProperty(
-    required = false, 
-    value = "whether maturing indicators should be included in search")
-  public Boolean             includeMIs                 = false;
-    
-  @XmlElement
-  @ApiModelProperty( 
-    required = false, 
-    value = "maturing indicators of entities to be matched" )
-  public List<String>        misToSearchFor             = null;
-  
-  @XmlElement
-  @ApiModelProperty( 
-    required = false, 
-    value = "whether labels of entities should be scanned" )
-  public Boolean             includeLabel               = false;
-  
   @ApiModelProperty( 
     required = false, 
     value = "certain labels to be searched for" )
@@ -101,12 +65,6 @@ public class SSSearchRESTAPIV2Par{
   public void setLabelsToSearchFor(final List<String> labelsToSearchFor) throws Exception{
     this.labelsToSearchFor = SSSearchLabel.get(labelsToSearchFor);
   }
-  
-  @XmlElement
-  @ApiModelProperty( 
-    required = false, 
-    value = "whether descriptions of entities should be scanned" )
-  public Boolean             includeDescription         = false;
   
   @ApiModelProperty( 
     required = false, 

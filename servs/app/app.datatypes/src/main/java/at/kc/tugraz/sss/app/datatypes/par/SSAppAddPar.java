@@ -22,15 +22,12 @@ package at.kc.tugraz.sss.app.datatypes.par;
 
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServErrReg;
 import java.util.ArrayList;
 import java.util.List;
-import org.codehaus.jackson.JsonNode;
 
 public class SSAppAddPar extends SSServPar{
   
@@ -45,126 +42,51 @@ public class SSAppAddPar extends SSServPar{
   public SSUri               fork                   = null;
   public List<SSUri>         screenShots            = new ArrayList<>();
   public List<SSUri>         videos                 = new ArrayList<>();
-  
-  public SSAppAddPar(
-    final SSServOpE             op,
-    final String              key,
-    final SSUri               user,
-    final SSLabel             label                  ,
-    final SSTextComment       descriptionShort       ,
-    final SSTextComment       descriptionFunctional  ,
-    final SSTextComment       descriptionTechnical   ,
-    final SSTextComment       descriptionInstall     ,
-    final List<SSUri>         downloads              ,
-    final SSUri               downloadIOS            ,
-    final SSUri               downloadAndroid        ,
-    final SSUri               fork                   ,
-    final List<SSUri>         screenShots            ,
-    final List<SSUri>         videos                 ){
-    
-    super(op, key, user);
-    
-    this.label                  = label;
-    this.descriptionShort       = descriptionShort;
-    this.descriptionFunctional  = descriptionFunctional;
-    this.descriptionTechnical   = descriptionTechnical;
-    this.descriptionInstall     = descriptionInstall;
-    
-    if(downloads != null){
-      this.downloads.addAll(downloads);
-    }
-    
-    this.downloadIOS            = downloadIOS;
-    this.downloadAndroid        = downloadAndroid;
-    this.fork                   = fork;
-    
-    if(screenShots != null){
-      this.screenShots.addAll(screenShots);
-    }
-    
-    if(videos != null){
-      this.videos.addAll(videos);
-    }
+
+  public void setLabel(final String label) throws Exception{
+    this.label = SSLabel.get(label);
+  }
+
+  public void setDescriptionShort(final String descriptionShort) throws Exception{
+    this.descriptionShort = SSTextComment.get(descriptionShort);
+  }
+
+  public void setDescriptionFunctional(final String descriptionFunctional)throws Exception{
+    this.descriptionFunctional = SSTextComment.get(descriptionFunctional);
+  }
+
+  public void setDescriptionTechnical(final String descriptionTechnical)throws Exception{
+    this.descriptionTechnical = SSTextComment.get(descriptionTechnical);
+  }
+
+  public void setDescriptionInstall(final String descriptionInstall)throws Exception{
+    this.descriptionInstall = SSTextComment.get(descriptionInstall);
+  }
+
+  public void setDownloads(final List<String> downloads)throws Exception{
+    this.downloads = SSUri.get(downloads);
+  }
+
+  public void setDownloadIOS(final String downloadIOS)throws Exception{
+    this.downloadIOS =  SSUri.get(downloadIOS);
+  }
+
+  public void setDownloadAndroid(final String downloadAndroid)throws Exception{
+    this.downloadAndroid =  SSUri.get(downloadAndroid);
+  }
+
+  public void setFork(final String fork)throws Exception{
+    this.fork =  SSUri.get(fork);
+  }
+
+  public void setScreenShots(final List<String> screenShots)throws Exception{
+    this.screenShots =  SSUri.get(screenShots);
+  }
+
+  public void setVideos(final List<String> videos) throws Exception{
+    this.videos =  SSUri.get(videos);
   }
   
-  public SSAppAddPar(SSServPar par) throws Exception{
-    
-    super(par);
-    
-    try{
-      
-      if(pars != null){
-        
-        label                  = (SSLabel)         pars.get(SSVarNames.label);
-        descriptionShort       = (SSTextComment)   pars.get(SSVarNames.descriptionShort);
-        descriptionFunctional  = (SSTextComment)   pars.get(SSVarNames.descriptionFunctional);
-        descriptionTechnical   = (SSTextComment)   pars.get(SSVarNames.descriptionTechnical);
-        descriptionInstall     = (SSTextComment)   pars.get(SSVarNames.descriptionInstall);
-        downloadIOS            = (SSUri)           pars.get(SSVarNames.downloadIOS);
-        downloadAndroid        = (SSUri)           pars.get(SSVarNames.downloadAndroid);
-        fork                   = (SSUri)           pars.get(SSVarNames.fork);
-        downloads              = (List<SSUri>)     pars.get(SSVarNames.downloads);
-        screenShots            = (List<SSUri>)     pars.get(SSVarNames.screenShots);
-        videos                 = (List<SSUri>)     pars.get(SSVarNames.videos);
-        
-      }
-      
-      if(par.clientJSONObj != null){
-        
-        label =  SSLabel.get      (par.clientJSONObj.get(SSVarNames.label).getTextValue());
-        
-        try{
-          descriptionShort =  SSTextComment.get      (par.clientJSONObj.get(SSVarNames.descriptionShort).getTextValue());
-        }catch(Exception error){}
-        
-        try{
-          descriptionFunctional =  SSTextComment.get      (par.clientJSONObj.get(SSVarNames.descriptionFunctional).getTextValue());
-        }catch(Exception error){}
-        
-        try{
-          descriptionTechnical =  SSTextComment.get      (par.clientJSONObj.get(SSVarNames.descriptionTechnical).getTextValue());
-        }catch(Exception error){}
-        
-        try{
-          descriptionInstall =  SSTextComment.get      (par.clientJSONObj.get(SSVarNames.descriptionInstall).getTextValue());
-        }catch(Exception error){}
-        
-        try{
-          downloadIOS =  SSUri.get      (par.clientJSONObj.get(SSVarNames.downloadIOS).getTextValue());
-        }catch(Exception error){}
-        
-        try{
-          downloadAndroid =  SSUri.get      (par.clientJSONObj.get(SSVarNames.downloadAndroid).getTextValue());
-        }catch(Exception error){}
-        
-        try{
-          fork =  SSUri.get      (par.clientJSONObj.get(SSVarNames.fork).getTextValue());
-        }catch(Exception error){}
-        
-        try{
-          for (final JsonNode objNode : par.clientJSONObj.get(SSVarNames.downloads)) {
-            downloads.add(SSUri.get(objNode.getTextValue()));
-          }
-        }catch(Exception error){}
-        
-        try{
-          for (final JsonNode objNode : par.clientJSONObj.get(SSVarNames.screenShots)) {
-            screenShots.add(SSUri.get(objNode.getTextValue()));
-          }
-        }catch(Exception error){}
-        
-        try{
-          for (final JsonNode objNode : par.clientJSONObj.get(SSVarNames.videos)) {
-            videos.add(SSUri.get(objNode.getTextValue()));
-          }
-        }catch(Exception error){}
-      }
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
-  /* json getters */
   public String getLabel(){
     return SSStrU.toStr(label);
   }
@@ -207,5 +129,53 @@ public class SSAppAddPar extends SSServPar{
   
   public List<String> getVideos()throws Exception{
     return SSStrU.toStr(videos);
+  }
+  
+  public SSAppAddPar(){}
+    
+  public SSAppAddPar(
+    final SSServOpE           op,
+    final String              key,
+    final SSUri               user,
+    final SSLabel             label                  ,
+    final SSTextComment       descriptionShort       ,
+    final SSTextComment       descriptionFunctional  ,
+    final SSTextComment       descriptionTechnical   ,
+    final SSTextComment       descriptionInstall     ,
+    final List<SSUri>         downloads              ,
+    final SSUri               downloadIOS            ,
+    final SSUri               downloadAndroid        ,
+    final SSUri               fork                   ,
+    final List<SSUri>         screenShots            ,
+    final List<SSUri>         videos                 , 
+    final Boolean             withUserRestriction, 
+    final Boolean             shouldCommmit){
+    
+    super(op, key, user);
+    
+    this.label                  = label;
+    this.descriptionShort       = descriptionShort;
+    this.descriptionFunctional  = descriptionFunctional;
+    this.descriptionTechnical   = descriptionTechnical;
+    this.descriptionInstall     = descriptionInstall;
+    
+    if(downloads != null){
+      this.downloads.addAll(downloads);
+    }
+    
+    this.downloadIOS            = downloadIOS;
+    this.downloadAndroid        = downloadAndroid;
+    this.fork                   = fork;
+    
+    if(screenShots != null){
+      this.screenShots.addAll(screenShots);
+    }
+    
+    if(videos != null){
+      this.videos.addAll(videos);
+    }
+    
+    this.withUserRestriction = withUserRestriction;
+    this.shouldCommit        = shouldCommmit;
   }
 }

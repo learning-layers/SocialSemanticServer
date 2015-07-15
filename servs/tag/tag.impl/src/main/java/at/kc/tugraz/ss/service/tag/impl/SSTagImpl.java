@@ -635,7 +635,7 @@ implements
           }
           
           case sharedSpace:{
-            SSTagMiscFct.getTagsIfSpaceSet(sqlFct, par, par.forUser);
+            tags.addAll(SSTagMiscFct.getTagsIfSpaceSet(sqlFct, par, par.forUser));
             break;
           }
         }

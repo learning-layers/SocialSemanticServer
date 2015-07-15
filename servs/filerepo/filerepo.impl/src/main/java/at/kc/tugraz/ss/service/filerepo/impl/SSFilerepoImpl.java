@@ -222,7 +222,7 @@ implements
   public void fileUpload(final SSFileUploadPar par) throws Exception{
     
     try{
-      new Thread(new SSFileUploader((SSFileRepoConf) conf, par, this)).start();
+      new Thread(new SSFileUploader((SSFileRepoConf) conf, par)).start();
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }

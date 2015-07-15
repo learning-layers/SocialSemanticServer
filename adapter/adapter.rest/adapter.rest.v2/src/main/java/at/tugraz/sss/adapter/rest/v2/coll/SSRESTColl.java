@@ -329,7 +329,7 @@ public class SSRESTColl{
           null,  //key
           null,  //user,
           SSUri.get(coll, SSVocConf.sssUri),
-          SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(entries, SSStrU.colon), SSVocConf.sssUri),
+          SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(entries, SSStrU.comma), SSVocConf.sssUri),
           true, //withUserRestriction 
           true); // shouldCommit
       
