@@ -30,7 +30,6 @@ import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntity;
-import at.tugraz.sss.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.rating.datatypes.SSRatingOverall;
 import at.kc.tugraz.ss.service.rating.datatypes.pars.SSRatingOverallGetPar;
 import at.kc.tugraz.ss.service.search.datatypes.SSSearchOpE;
@@ -212,9 +211,7 @@ public class SSSearchFct {
     final SSSearchPar par, 
     final SSEntity    entity) throws Exception{
     
-    if(
-      !par.includeAuthors              ||
-      par.authorsToSearchFor.isEmpty()){
+    if(par.authorsToSearchFor.isEmpty()){
       return true;
     }
     
