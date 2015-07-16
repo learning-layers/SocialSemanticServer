@@ -46,6 +46,24 @@ public class SSEntityDescriberPar{
   public Boolean     setLocations        = false;
   
   public List<SSEntityE> entityTypesToIncludeOnly = new ArrayList<>();
+
+  public String getRecursiveEntity() {
+    return SSStrU.removeTrailingSlash(recursiveEntity);
+  }
+
+  public void setRecursiveEntity(final String recursiveEntity) throws Exception {
+    this.recursiveEntity = SSUri.get(recursiveEntity);
+  }
+
+  public List<String> getEntityTypesToIncludeOnly() {
+    return SSStrU.toStr(entityTypesToIncludeOnly);
+  }
+
+  public void setEntityTypesToIncludeOnly(final List<String> entityTypesToIncludeOnly) throws Exception {
+    this.entityTypesToIncludeOnly = SSEntityE.get(entityTypesToIncludeOnly);
+  }
+  
+  public SSEntityDescriberPar(){}
   
   public SSEntityDescriberPar(final SSUri recursiveEntity){
     this.recursiveEntity = recursiveEntity;

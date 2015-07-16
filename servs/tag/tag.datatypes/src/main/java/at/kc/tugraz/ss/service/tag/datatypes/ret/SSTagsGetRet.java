@@ -26,7 +26,7 @@ import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServRetI;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTag;
-import at.tugraz.sss.serv.SSServConfA;
+import at.tugraz.sss.serv.SSEntity;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -34,24 +34,20 @@ import java.util.Map;
 
 public class SSTagsGetRet extends SSServRetI{
   
-  public List<SSTag> tags = new ArrayList<>();
-  
-  public List<SSTag> getTags() {
-    return tags;
-  }
+  public List<SSEntity> tags = new ArrayList<>();
   
   public static SSTagsGetRet get(
-    final List<SSTag> tags){
+    final List<SSEntity> tags){
     
     return new SSTagsGetRet(tags);
   }
   
   private SSTagsGetRet(
-    final List<SSTag> tags){
+    final List<SSEntity> tags){
     
     super(SSServOpE.tagsGet);
     
-    SSTag.addDistinctWithoutNull(this.tags, tags);
+    SSEntity.addEntitiesDistinctWithoutNull(this.tags, tags);
   }
   
   @Override

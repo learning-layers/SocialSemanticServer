@@ -49,5 +49,6 @@
     <module>ocd</module>
     <module>location</module>
     <module>image</module>
+    <module>common</module>
   </modules>
 </project>

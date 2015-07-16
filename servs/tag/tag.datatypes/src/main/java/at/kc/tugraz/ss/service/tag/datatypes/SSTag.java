@@ -27,7 +27,6 @@ import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSSpaceE;
 import at.tugraz.sss.serv.SSLabel;
-import at.tugraz.sss.serv.SSObjU;
 import java.util.*;
 
 public class SSTag extends SSEntity{
@@ -92,63 +91,30 @@ public class SSTag extends SSEntity{
     this.circle      = circle;
   }
   
-  public static void addDistinctWithoutNull(
-    final List<SSTag>     entities,
-    final SSTag           entity){
-    
-    if(
-      SSObjU.isNull  (entities, entity) ||
-      SSStrU.contains(entities, entity)){
-      return;
-    }
-    
-    entities.add(entity);
-  }
-  
-  public static void addDistinctWithoutNull(
-    final List<SSTag>  entities,
-    final List<SSTag>  toAddEntities){
-    
-    if(SSObjU.isNull(entities, toAddEntities)){
-      return;
-    }
-    
-    for(SSTag entity : toAddEntities){
-      
-      if(entity == null){
-        continue;
-      }
-      
-      if(!SSStrU.contains(entities, entity)){
-        entities.add(entity);
-      }
-    }
-  }
-  
-  public static Map<String, List<String>> getTagLabelsPerEntities(final List<SSTag> tags) throws Exception{
+  public static Map<String, List<String>> getTagLabelsPerEntities(final List<SSEntity> tags) throws Exception{
     
     final Map<String, List<String>>     tagsPerEntity = new HashMap<>();
     List<String>                        tagLabels;
     String                              entity;
     
-    for(SSTag userTag : tags){
+    for(SSEntity tagEntity : tags){
       
-      entity = SSStrU.toStr(userTag.entity);
+      entity = SSStrU.toStr(((SSTag)tagEntity).entity);
       
       if(tagsPerEntity.containsKey(entity)){
         
         tagLabels = tagsPerEntity.get(entity);
         
-        if(SSStrU.contains(tagLabels, userTag.label)){
+        if(SSStrU.contains(tagLabels, ((SSTag)tagEntity).label)){
           continue;
         }
         
-        tagLabels.add(userTag.label.toString());
+        tagLabels.add(((SSTag)tagEntity).label.toString());
       }else{
         
         tagLabels = new ArrayList<>();
         
-        tagLabels.add(SSStrU.toStr(userTag.label));
+        tagLabels.add(SSStrU.toStr(((SSTag)tagEntity).label));
         
         tagsPerEntity.put(entity, tagLabels);
       }

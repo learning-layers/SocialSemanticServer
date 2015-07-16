@@ -56,7 +56,6 @@ import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagsGetRet;
 import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagsRemoveRet;
 import at.kc.tugraz.ss.service.tag.impl.fct.activity.SSTagActivityFct;
 import at.kc.tugraz.ss.service.tag.impl.fct.misc.SSTagMiscFct;
-import at.kc.tugraz.ss.service.tag.impl.fct.sql.SSTagSQLFct;
 import at.kc.tugraz.ss.service.tag.impl.fct.userrelationgatherer.SSTagUserRelationGathererFct;
 import at.tugraz.sss.serv.SSCircleContentChangedPar;
 import at.tugraz.sss.serv.SSDBNoSQL;
@@ -70,6 +69,8 @@ import at.tugraz.sss.serv.SSObjU;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServReg;
+import at.tugraz.sss.servs.common.impl.tagcategory.SSTagAndCategoryCommonMisc;
+import at.tugraz.sss.servs.common.impl.tagcategory.SSTagAndCategoryCommonSQL;
 
 public class SSTagImpl
 extends SSServImplWithDBA
@@ -80,13 +81,17 @@ implements
   SSUserRelationGathererI,
   SSUsersResourcesGathererI{
   
-  private final SSTagSQLFct sqlFct;
+  final SSTagAndCategoryCommonSQL  sqlFct;
+  final SSTagAndCategoryCommonMisc commonMiscFct;
+  final SSTagMiscFct               tagMiscFct;
   
   public SSTagImpl(final SSConfA conf) throws Exception{
     
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
     
-    sqlFct = new SSTagSQLFct (this);
+    sqlFct        = new SSTagAndCategoryCommonSQL (dbSQL, SSEntityE.tag);
+    commonMiscFct = new SSTagAndCategoryCommonMisc(dbSQL, SSEntityE.tag);
+    tagMiscFct    = new SSTagMiscFct();
   }
   
   @Override
@@ -102,7 +107,7 @@ implements
       
       final SSUri userUri = SSUri.get(user);
       
-      tags =
+      for(SSEntity tagEntity : 
         tagsGet(
           new SSTagsGetPar(
             null,
@@ -114,12 +119,10 @@ implements
             null, //space
             null, //circles
             null, //startTime,
-            false)); //withUserRestriction
-      
-      for(SSTag tag : tags){
+            false))){ //withUserRestriction){
         
-        SSTagUserRelationGathererFct.addUserForTag     (tag, usersPerTag);
-        SSTagUserRelationGathererFct.addUserForEntity  (tag, usersPerEntity);
+        SSTagUserRelationGathererFct.addUserForTag     (tagEntity, usersPerTag);
+        SSTagUserRelationGathererFct.addUserForEntity  (tagEntity, usersPerEntity);
       }
     }
     
@@ -142,7 +145,7 @@ implements
       
       userUri = SSUri.get(user);
       
-      for(SSTag tag :
+      for(SSEntity tagEntity :
         tagsGet(
           new SSTagsGetPar(
             null,
@@ -157,12 +160,12 @@ implements
             false))){ //withUserRestriction
         
         if(usersResources.containsKey(user)){
-          usersResources.get(user).add(tag.entity);
+          usersResources.get(user).add(((SSTag)tagEntity).entity);
         }else{
           
           final List<SSUri> resourceList = new ArrayList<>();
           
-          resourceList.add(tag.entity);
+          resourceList.add(((SSTag)tagEntity).entity);
           
           usersResources.put(user, resourceList);
         }
@@ -391,7 +394,7 @@ implements
 //          false);
 //      }
       
-      sqlFct.addTagAssIfNotExists(
+      sqlFct.addMetadataAssIfNotExists(
         tagUri,
         par.user,
         par.entity,
@@ -475,7 +478,7 @@ implements
         
         dbSQL.startTrans(par.shouldCommit);
         
-        sqlFct.removeTagAsss(
+        sqlFct.removeMetadataAsss(
           par.forUser,
           par.entity,
           tagUri,
@@ -502,8 +505,8 @@ implements
         
         dbSQL.startTrans(par.shouldCommit);
         
-        sqlFct.removeTagAsss(par.user, null, tagUri, SSSpaceE.privateSpace);
-        sqlFct.removeTagAsss(par.user, null, tagUri, SSSpaceE.sharedSpace);
+        sqlFct.removeMetadataAsss(par.user, null, tagUri, SSSpaceE.privateSpace);
+        sqlFct.removeMetadataAsss(par.user, null, tagUri, SSSpaceE.sharedSpace);
         
         dbSQL.commit(par.shouldCommit);
         return true;
@@ -515,7 +518,7 @@ implements
         
         dbSQL.startTrans(par.shouldCommit);
         
-        sqlFct.removeTagAsss(par.user, null, tagUri, par.space);
+        sqlFct.removeMetadataAsss(par.user, null, tagUri, par.space);
         
         dbSQL.commit(par.shouldCommit);
         return true;
@@ -527,8 +530,8 @@ implements
         
         dbSQL.startTrans(par.shouldCommit);
         
-        sqlFct.removeTagAsss (par.user, par.entity, tagUri, SSSpaceE.privateSpace);
-        sqlFct.removeTagAsss (null,     par.entity, tagUri, SSSpaceE.sharedSpace);
+        sqlFct.removeMetadataAsss (par.user, par.entity, tagUri, SSSpaceE.privateSpace);
+        sqlFct.removeMetadataAsss (null,     par.entity, tagUri, SSSpaceE.sharedSpace);
         
         dbSQL.commit(par.shouldCommit);
         return true;
@@ -540,7 +543,7 @@ implements
         
         dbSQL.startTrans(par.shouldCommit);
         
-        sqlFct.removeTagAsss(null, par.entity, tagUri, par.space);
+        sqlFct.removeMetadataAsss(null, par.entity, tagUri, par.space);
         
         dbSQL.commit(par.shouldCommit);
         return true;
@@ -599,24 +602,39 @@ implements
       }
       
       if(par.space == null){
-        entityURIs.addAll(SSTagMiscFct.getEntitiesForTagsIfSpaceNotSet(sqlFct, par));
+        
+        entityURIs.addAll(
+          commonMiscFct.getEntitiesForMetadataIfSpaceNotSet(
+            par.user, 
+            par.forUser, 
+            SSStrU.toStr(par.labels)));
       }else{
         
         switch(par.space){
           
           case privateSpace:{
-            entityURIs.addAll(SSTagMiscFct.getEntitiesForTagsIfSpaceSet(sqlFct, par, par.user));
+            entityURIs.addAll(
+              commonMiscFct.getEntitiesForMetadataIfSpaceSet(
+                par.user, 
+                SSStrU.toStr(par.labels), 
+                par.space, 
+                par.user));
             break;
           }
           
           case sharedSpace:{
-            entityURIs.addAll(SSTagMiscFct.getEntitiesForTagsIfSpaceSet(sqlFct, par, par.forUser));
+            entityURIs.addAll(
+              commonMiscFct.getEntitiesForMetadataIfSpaceSet(
+                par.user, 
+                SSStrU.toStr(par.labels), 
+                par.space, 
+                par.forUser));
             break;
           }
         }
       } 
           
-      return SSTagMiscFct.filterEntitiesUserCanAccess(
+      return commonMiscFct.filterEntitiesUserCanAccess(
         entityURIs, 
         par.withUserRestriction, 
         par.user, 
@@ -633,17 +651,16 @@ implements
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(
-      SSTagsGetRet.get(
-        tagsGet((SSTagsGetPar) parA.getFromJSON(SSTagsGetPar.class))));
+    final SSTagsGetPar par = (SSTagsGetPar) parA.getFromJSON(SSTagsGetPar.class);
+    sSCon.writeRetFullToClient(SSTagsGetRet.get(tagsGet(par)));
   }
   
   @Override
-  public List<SSTag> tagsGet(final SSTagsGetPar par) throws Exception {
+  public List<SSEntity> tagsGet(final SSTagsGetPar par) throws Exception {
     
     try{
       
-      final List<SSTag>      tags   = new ArrayList<>();
+      final List<SSEntity>      tags   = new ArrayList<>();
       
       if(par.user == null){
         throw new Exception("user null");
@@ -656,24 +673,46 @@ implements
       }
       
       if(par.space == null){
-        tags.addAll(SSTagMiscFct.getTagsIfSpaceNotSet(sqlFct, par));
+        tags.addAll(
+          commonMiscFct.getMetadataIfSpaceNotSet(
+            par.user, 
+            par.forUser, 
+            par.entities, 
+            SSStrU.toStr(par.labels), 
+            par.circles, 
+            par.startTime));
+        
       }else{
         switch(par.space){
           
           case privateSpace:{
-            tags.addAll(SSTagMiscFct.getTagsIfSpaceSet(sqlFct, par, par.user));
+            tags.addAll(
+              commonMiscFct.getMetadataIfSpaceSet(
+                par.user, 
+                par.entities, 
+                SSStrU.toStr(par.labels), 
+                par.circles, 
+                par.space, 
+                par.startTime));
             break;
           }
           
           case sharedSpace:
           case circleSpace:{
-            tags.addAll(SSTagMiscFct.getTagsIfSpaceSet(sqlFct, par, par.forUser));
+            tags.addAll(
+              commonMiscFct.getMetadataIfSpaceSet(
+                par.forUser, 
+                par.entities, 
+                SSStrU.toStr(par.labels), 
+                par.circles, 
+                par.space, 
+                par.startTime));
             break;
           }
         }
       }
       
-      return SSTagMiscFct.filterTagsByEntitiesUserCanAccess(
+      return commonMiscFct.filterMetadataByEntitiesUserCanAccess(
         tags, 
         par.withUserRestriction, 
         par.user, 
@@ -751,8 +790,9 @@ implements
                 par.withUserRestriction)))); //withUserRestriction
       }
       
-      return SSTagMiscFct.getTagFrequsFromTags(
-        tagsGet(
+      final List<SSTag> tags = new ArrayList<>();
+      
+      for(SSEntity tagEntity : tagsGet(
           new SSTagsGetPar(
             null,
             null,
@@ -763,7 +803,13 @@ implements
             par.space,
             par.circles,
             par.startTime,
-            par.withUserRestriction)),
+            par.withUserRestriction))){
+      
+        tags.add((SSTag) tagEntity);
+      }
+        
+      return tagMiscFct.getTagFrequsFromTags(
+        tags,
         par.space);
       
     }catch(Exception error){
