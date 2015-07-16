@@ -400,7 +400,10 @@ public class SSTagAndCategoryCommonSQL extends SSDBSQLFct{
       uniqueKey (uniqueKeys, SSSQLVarNames.entityId,     entityUri);
       uniqueKey (uniqueKeys, metadataIdSQLName,          metadataUri);
       uniqueKey (uniqueKeys, metadataSpaceSQLName,       space);
-      uniqueKey (uniqueKeys, SSSQLVarNames.circleId,     circleUri);
+       
+      if(circleUri != null){
+        uniqueKey (uniqueKeys, SSSQLVarNames.circleId,     circleUri);
+      }
       
       dbSQL.insertIfNotExists(metadataAssSQLTableName, inserts, uniqueKeys);
     }catch(Exception error){
