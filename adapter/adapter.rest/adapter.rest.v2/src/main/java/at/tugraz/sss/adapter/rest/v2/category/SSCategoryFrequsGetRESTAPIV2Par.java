@@ -66,13 +66,23 @@ public class SSCategoryFrequsGetRESTAPIV2Par{
   
   @XmlElement
   @ApiModelProperty(
-    required = false, 
+    required = false,
     value = "access restriction for to be retrieved categories (i.e. privateSpace, sharedSpace)")
   public SSSpaceE           space      = null;
   
+  @ApiModelProperty(
+    required = false,
+    value = "circles to limit categories found")
+  public List<SSUri>        circles       = null;
+  
+  @XmlElement
+  public void setCircles(final List<String> circles) throws Exception {
+    this.circles = SSUri.get(circles, SSVocConf.sssUri);
+  }
+  
   @XmlElement
   @ApiModelProperty(
-    required = false, 
+    required = false,
     value = "timestamp to retrieve categories from a certain point in time")
   public Long               startTime  = null;
   

@@ -63,6 +63,16 @@ public class SSCategoryAddRESTAPIV2Par{
     this.space = SSSpaceE.get(space);
   }
   
+  @ApiModelProperty(
+    required = true,
+    value = "circle, if space is circleSpace; restricts the category to be visible to users in circle")
+  public SSUri     circle        = null;
+  
+  @XmlElement
+  public void setCircle(final String circle) throws Exception{
+    this.circle = SSUri.get(circle, SSVocConf.sssUri);
+  }
+  
   @XmlElement
   @ApiModelProperty(
     required = false,

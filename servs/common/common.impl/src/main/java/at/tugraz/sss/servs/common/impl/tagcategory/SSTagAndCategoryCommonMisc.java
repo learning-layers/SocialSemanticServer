@@ -21,11 +21,14 @@
 package at.tugraz.sss.servs.common.impl.tagcategory;
 
 import at.kc.tugraz.ss.category.datatypes.SSCategory;
+import at.kc.tugraz.ss.category.datatypes.SSCategoryFrequ;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityFromTypeAndLabelGetPar;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTag;
+import at.kc.tugraz.ss.service.tag.datatypes.SSTagFrequ;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSEntity;
+import at.tugraz.sss.serv.SSEntityA;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.SSServReg;
@@ -34,7 +37,9 @@ import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.util.SSServCallerU;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SSTagAndCategoryCommonMisc {
   
@@ -462,6 +467,50 @@ public class SSTagAndCategoryCommonMisc {
     return metadata;
   }
   
+  public List<SSEntityA> getMetadataFrequsFromMetadata(
+    final List<SSEntity> metadata,
+    final SSSpaceE       space) throws Exception{
+    
+    final Map<String, SSEntityA> metadataFrequs = new HashMap<>();
+    
+    String metaLabel;
+    
+    for (SSEntity meta : metadata) {
+      
+      switch(metadataType){
+        
+        case tag:{
+          
+          metaLabel  = SSStrU.toStr(((SSTag)meta).tagLabel);
+          
+          if(metadataFrequs.containsKey(metaLabel)){
+            ((SSTagFrequ) metadataFrequs.get(metaLabel)).frequ += 1;
+          }else{
+            metadataFrequs.put(metaLabel, SSTagFrequ.get(((SSTag)meta).tagLabel, space, 1));
+          }
+          
+          break;
+        }
+        
+        case category:{
+          
+          metaLabel  = SSStrU.toStr(((SSCategory) meta).categoryLabel);
+          
+          if(metadataFrequs.containsKey(metaLabel)){
+            ((SSCategoryFrequ) metadataFrequs.get(metaLabel)).frequ += 1;
+          }else{
+            metadataFrequs.put(metaLabel, SSCategoryFrequ.get(((SSCategory) meta).categoryLabel, space, 1));
+          }
+          break;
+        }
+        
+        default: throw new UnsupportedOperationException();
+      }
+    }
+      
+    return new ArrayList(metadataFrequs.values());
+  }
+      
   public List<SSEntity> filterMetadataByEntitiesUserCanAccess(
     final List<SSEntity>   metadata, 
     final Boolean          withUserRestriction, 
@@ -970,4 +1019,101 @@ public class SSTagAndCategoryCommonMisc {
 //    SSStrU.distinctWithoutEmptyAndNull2(entities);
 //    
 //    return entities;
+//  }
+
+//    final List<SSTagFrequ> outList = new ArrayList<>(counterPerTags.size());
+//    
+//    for(Map.Entry<String, Integer> entry : counterPerTags.entrySet()){
+//      
+//      outList.add(
+//        SSTagFrequ.get(
+//          SSTagLabel.get(entry.getKey()),
+//          space,
+//          counterPerTags.get(entry.getKey())));
+//    }
+//  
+
+//  private void saveUETagAdd(SSServPar parA) throws Exception {
+//    
+//    Map<String, Object> opPars = new HashMap<>();
+//    SSTagAddPar par = new SSTagAddPar(parA);
+//    
+//    opPars.put(SSVarU.shouldCommit, true);
+//    opPars.put(SSVarU.user,         par.user);
+//    opPars.put(SSVarU.resource,     par.resource);
+//    opPars.put(SSVarU.eventType,    SSUEEnum.useTag);
+//    opPars.put(SSVarU.content,      SSStrU.toStr(par.tagString));
+//    
+//    SSServReg.callServServer(new SSServPar(SSServOpE.uEAdd, opPars));
+//    
+//    opPars = new HashMap<>();
+//    opPars.put(SSVarU.shouldCommit, true);
+//    opPars.put(SSVarU.user,         par.user);
+//    opPars.put(SSVarU.resource,     par.resource);
+//    opPars.put(SSVarU.content,      SSStrU.toStr(par.tagString));
+//    
+//    if(SSSpaceEnum.isShared(par.space)) {
+//      opPars.put(SSVarU.eventType,    SSUEEnum.addSharedTag);
+//    } else {
+//      opPars.put(SSVarU.eventType,    SSUEEnum.addPrivateTag);
+//    }
+//    
+//    SSServReg.callServServer(new SSServPar(SSServOpE.uEAdd, opPars));
+//  }
+  
+//  private void saveUETagDelete(SSServPar parA) throws Exception{
+//    
+//    Map<String, Object> opPars = new HashMap<>();
+//    SSTagAssRemovePar par = new SSTagAssRemovePar(parA);
+//    
+//    opPars.put(SSVarU.shouldCommit, true);
+//    opPars.put(SSVarU.user,         par.user);
+//    opPars.put(SSVarU.resource,     par.resource);
+//    opPars.put(SSVarU.content,      SSStrU.toStr(par.tagString));
+//    
+//    if (SSSpaceEnum.isShared(par.space)) {
+//      opPars.put(SSVarU.eventType,    SSUEEnum.removeSharedTag);
+//    } else {
+//      opPars.put(SSVarU.eventType,    SSUEEnum.removePrivateTag);
+//    }
+//    
+//    SSServReg.callServServer(new SSServPar(SSServOpE.uEAdd, opPars));
+//  }
+//  public static String[] getStringArrayFromList(
+//          List    list,
+//          boolean deleteNamespace)  {
+//
+//    String[] outString = new String[list.size()];
+//    int      i         = 0;
+//    String   namespace = Vocabulary.getInstance().getNamespace(VocNamespace.EMPTY, false).toString();
+//    Iterator iterator  = list.iterator();
+//    String   tagString = null;
+//    while(iterator.hasNext()) {
+//      
+//      tagString = (String) iterator.next();
+//      
+//      if (deleteNamespace) {
+////        tagString = tagString.replaceAll("http://tug.mature-ip.eu/", strU.strEmpty);
+//        tagString = tagString.replaceAll(namespace, strU.strEmpty);
+//      }
+//
+//      outString[i] = tagString;
+//
+//      System.out.print(outString[i] + "|");
+//
+//      i++;
+//    }
+//
+//    return outString;
+//  }
+
+//  public static Map<String, Long> getCreationTimePerTagFromTags(final List<SSTag> tags) throws Exception{
+//    
+//    final Map<String, Long> creationTimesPerTag = new HashMap<>();
+//    
+//    for(SSTag tag : tags){
+//      creationTimesPerTag.put(tag.label.toString(), entityCreationTimeGet(tag.uri));
+//    }
+//    
+//    return creationTimesPerTag;
 //  }

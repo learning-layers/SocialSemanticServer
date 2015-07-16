@@ -34,6 +34,7 @@ public class SSCategoriesAddPar extends SSServPar{
   public SSUri                  entity       = null;
   public List<SSCategoryLabel>  labels       = new ArrayList<>();
   public SSSpaceE               space        = null;
+  public SSUri                  circle       = null;
   public Long                   creationTime = null;
 
   public String getEntity(){
@@ -55,9 +56,17 @@ public class SSCategoriesAddPar extends SSServPar{
   public String getSpace(){
     return SSStrU.toStr(space);
   }
-
+  
   public void setSpace(final String space) throws Exception{
     this.space = SSSpaceE.get(space);
+  }
+  
+  public String getCircle(){
+    return SSStrU.removeTrailingSlash(circle);
+  }
+  
+  public void setCircle(final String circle) throws Exception{
+    this.circle = SSUri.get(circle);
   }
   
   public SSCategoriesAddPar(){}
@@ -69,6 +78,7 @@ public class SSCategoriesAddPar extends SSServPar{
     final List<SSCategoryLabel> labels,
     final SSUri                 entity,
     final SSSpaceE              space,
+    final SSUri                 circle,
     final Long                  creationTime,
     final Boolean               withUserRestriction,
     final Boolean               shouldCommit){
@@ -79,6 +89,7 @@ public class SSCategoriesAddPar extends SSServPar{
     
     this.entity              = entity;
     this.space               = space;
+    this.circle              = circle;
     this.creationTime        = creationTime;
     this.withUserRestriction = withUserRestriction;
     this.shouldCommit        = shouldCommit;

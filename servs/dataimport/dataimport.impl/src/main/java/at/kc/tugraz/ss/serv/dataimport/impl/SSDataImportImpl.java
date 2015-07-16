@@ -346,6 +346,7 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
             SSCategoryLabel.asListWithoutNullAndEmpty(SSCategoryLabel.get(categoryLabels)),
             video.id,
             SSSpaceE.sharedSpace,
+            null, //circle
             video.creationTime,
             false,
             true));

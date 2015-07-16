@@ -114,6 +114,7 @@ public class SSFileServCaller{
           SSCategoryLabel.get(par.categories), //labels
           file, //file
           null, //space
+          par.circle, //circle
           null, //creationTime,
           true, //withUserRestriction
           false)); //shouldCommit)

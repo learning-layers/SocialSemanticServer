@@ -96,6 +96,7 @@ public class SSRESTCategory{
           input.entity, //entity
           input.label, //label
           input.space, //space
+          input.circle, //circle
           input.creationTime,  //creationTime
           true, //withUserRestriction
           true); //shouldCommit
@@ -130,6 +131,7 @@ public class SSRESTCategory{
           null, //entities
           null, //labels
           null, //space
+          null, //circles
           null, //startTime
           true); //withUserRestriction
       
@@ -165,6 +167,7 @@ public class SSRESTCategory{
           input.entities, //entities
           input.labels, //labels
           input.space, //space
+          input.circles, //circles
           input.startTime, //startTime
           true); //withUserRestriction
             

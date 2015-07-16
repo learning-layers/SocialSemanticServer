@@ -47,6 +47,7 @@ public class SSTagAndCategoryCommonSQL extends SSDBSQLFct{
   private final SSEntityE        metadataType;
   private final String           metadataIdSQLName;
   private final String           metadataSpaceSQLName;
+  private final String           metadataSQLTableName;
   private final String           metadataAssSQLTableName;
   
   public SSTagAndCategoryCommonSQL(
@@ -63,6 +64,7 @@ public class SSTagAndCategoryCommonSQL extends SSDBSQLFct{
         metadataIdSQLName       = SSSQLVarNames.tagId;
         metadataSpaceSQLName    = SSSQLVarNames.tagSpace;
         metadataAssSQLTableName = SSSQLVarNames.tagAssTable;
+        metadataSQLTableName    = null;
         break;
       }
       
@@ -70,6 +72,7 @@ public class SSTagAndCategoryCommonSQL extends SSDBSQLFct{
         metadataIdSQLName       = SSSQLVarNames.categoryId;
         metadataSpaceSQLName    = SSSQLVarNames.categorySpace;
         metadataAssSQLTableName = SSSQLVarNames.categoryAssTable;
+        metadataSQLTableName    = SSSQLVarNames.categoryTable;
         break;
       }
       
@@ -92,7 +95,6 @@ public class SSTagAndCategoryCommonSQL extends SSDBSQLFct{
       final List<String>        columns      = new ArrayList<>();
       
       column(columns, SSSQLVarNames.entityId);
-      column(columns, metadataIdSQLName);
       
       if(metadataURI != null){
         where(wheres, metadataIdSQLName, metadataURI);
@@ -110,6 +112,42 @@ public class SSTagAndCategoryCommonSQL extends SSDBSQLFct{
       
       return getURIsFromResult(resultSet, SSSQLVarNames.entityId);
       
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
+    }
+  }
+  
+  public List<String> getMetadata(
+    final Boolean isPredefined) throws Exception{
+    
+    ResultSet resultSet = null;
+    
+    try{
+      
+      final List<String>        columns   = new ArrayList<>();
+      final Map<String, String> wheres    = new HashMap<>();
+      final List<String>        tables    = new ArrayList<>();
+      final List<String>        tableCons = new ArrayList<>();
+      
+      column(columns, SSSQLVarNames.label);
+      
+      table(tables, metadataSQLTableName);
+      table(tables, SSSQLVarNames.entityTable);
+      
+      if(isPredefined == null){
+        where(wheres, SSSQLVarNames.isPredefined, false);
+      }else{
+        where(wheres, SSSQLVarNames.isPredefined, isPredefined);
+      }
+      
+      tableCon(tableCons, SSSQLVarNames.entityTable, SSSQLVarNames.id, metadataSQLTableName, metadataIdSQLName);
+      
+      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
+      
+      return getStringsFromResult(resultSet, SSSQLVarNames.label);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -198,7 +236,8 @@ public class SSTagAndCategoryCommonSQL extends SSDBSQLFct{
                 bindingStrToUri     (resultSet, SSSQLVarNames.entityId),
                 bindingStrToUri     (resultSet, SSSQLVarNames.userId),
                 bindingStrToSpace   (resultSet, metadataSpaceSQLName),
-                SSCategoryLabel.get (bindingStr(resultSet, SSSQLVarNames.label))));
+                SSCategoryLabel.get (bindingStr(resultSet, SSSQLVarNames.label)),
+                bindingStrToUri     (resultSet, SSSQLVarNames.circleId)));
             break;
           }
           
@@ -347,7 +386,8 @@ public class SSTagAndCategoryCommonSQL extends SSDBSQLFct{
                 bindingStrToUri     (resultSet, SSSQLVarNames.entityId),
                 bindingStrToUri     (resultSet, SSSQLVarNames.userId),
                 bindingStrToSpace   (resultSet, metadataSpaceSQLName),
-                SSCategoryLabel.get (bindingStr(resultSet, SSSQLVarNames.label))));
+                SSCategoryLabel.get (bindingStr(resultSet, SSSQLVarNames.label)),
+                bindingStrToUri     (resultSet, SSSQLVarNames.circleId)));
             
             break;
           }
@@ -362,6 +402,31 @@ public class SSTagAndCategoryCommonSQL extends SSDBSQLFct{
       return null;
     }finally{
       dbSQL.closeStmt(resultSet);
+    }
+  }
+  
+  public void addMetadataIfNotExists(
+    final SSUri           metadataURI, 
+    final Boolean         isPredefined) throws Exception{
+    
+    try{
+      final Map<String, String> inserts    = new HashMap<>();
+      final Map<String, String> uniqueKeys = new HashMap<>();
+      
+      insert    (inserts, metadataIdSQLName,     metadataURI);
+      
+      if(isPredefined == null){
+        insert    (inserts, SSSQLVarNames.isPredefined,   false);
+      }else{
+        insert    (inserts, SSSQLVarNames.isPredefined,   isPredefined);
+      }
+      
+      uniqueKey (uniqueKeys, metadataIdSQLName,  metadataURI);
+      
+      dbSQL.insertIfNotExists(metadataSQLTableName, inserts, uniqueKeys);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
     }
   }
   

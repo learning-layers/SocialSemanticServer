@@ -20,7 +20,6 @@
 */
 package at.kc.tugraz.ss.category.api;
 
-import at.kc.tugraz.ss.category.datatypes.SSCategory;
 import at.kc.tugraz.ss.category.datatypes.SSCategoryFrequ;
 import at.kc.tugraz.ss.category.datatypes.par.SSCategoriesAddPar;
 import at.kc.tugraz.ss.category.datatypes.par.SSCategoriesGetPar;
@@ -30,6 +29,7 @@ import at.kc.tugraz.ss.category.datatypes.par.SSCategoriesRemovePar;
 import at.kc.tugraz.ss.category.datatypes.par.SSCategoryAddPar;
 import at.kc.tugraz.ss.category.datatypes.par.SSCategoryFrequsGetPar;
 import at.kc.tugraz.ss.category.datatypes.par.SSCategoryEntitiesForCategoriesGetPar;
+import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServServerI;
 import java.util.List;
@@ -43,6 +43,6 @@ public interface SSCategoryServerI extends SSServServerI{
   public List<SSUri>                     categoriesAdd                    (final SSCategoriesAddPar                    par) throws Exception;
   public SSUri                           categoryAdd                      (final SSCategoryAddPar                      par) throws Exception;
   public Boolean                         categoriesRemove                 (final SSCategoriesRemovePar                 par) throws Exception;
-  public List<SSCategory>                categoriesGet                    (final SSCategoriesGetPar                    par) throws Exception;
+  public List<SSEntity>                  categoriesGet                    (final SSCategoriesGetPar                    par) throws Exception;
   public List<SSCategoryFrequ>           categoryFrequsGet                (final SSCategoryFrequsGetPar                par) throws Exception;
 }

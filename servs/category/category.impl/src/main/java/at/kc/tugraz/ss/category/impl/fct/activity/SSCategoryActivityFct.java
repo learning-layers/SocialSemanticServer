@@ -36,8 +36,7 @@ public class SSCategoryActivityFct{
   
   public static void addCategory(
     final SSCategoryAddPar par,
-    final SSUri            categoryUri,
-    final Boolean          shouldCommit) throws Exception{
+    final SSUri            categoryUri) throws Exception{
     
     try{
       
@@ -52,7 +51,7 @@ public class SSCategoryActivityFct{
           SSUri.asListWithoutNullAndEmpty(categoryUri),
           SSTextComment.asListWithoutNullAndEmpty(),
           null,
-          shouldCommit));
+          par.shouldCommit));
       
     }catch(SSErr error){
       
@@ -66,8 +65,7 @@ public class SSCategoryActivityFct{
   }
 
   public static void removeCategories(
-    final SSCategoriesRemovePar par,
-    final Boolean               shouldCommit) throws Exception{
+    final SSCategoriesRemovePar par) throws Exception{
    
     try{
       
@@ -82,7 +80,7 @@ public class SSCategoryActivityFct{
           SSUri.asListWithoutNullAndEmpty(),
           SSTextComment.asListWithoutNullAndEmpty(),
           null,
-          shouldCommit));
+          par.shouldCommit));
       
     }catch(SSErr error){
       

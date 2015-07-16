@@ -79,7 +79,7 @@ public class SSTagActivityFct{
           SSUri.asListWithoutNullAndEmpty(),
           SSTextComment.asListWithoutNullAndEmpty(),
           null,
-          false));
+          par.shouldCommit));
 
     }catch(SSErr error){
       

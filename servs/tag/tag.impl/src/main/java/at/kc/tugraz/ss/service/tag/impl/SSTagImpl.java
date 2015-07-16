@@ -55,12 +55,12 @@ import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagFrequsGetRet;
 import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagsGetRet;
 import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagsRemoveRet;
 import at.kc.tugraz.ss.service.tag.impl.fct.activity.SSTagActivityFct;
-import at.kc.tugraz.ss.service.tag.impl.fct.misc.SSTagMiscFct;
 import at.kc.tugraz.ss.service.tag.impl.fct.userrelationgatherer.SSTagUserRelationGathererFct;
 import at.tugraz.sss.serv.SSCircleContentChangedPar;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
+import at.tugraz.sss.serv.SSEntityA;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
 import at.tugraz.sss.serv.SSErr;
 import java.util.*;
@@ -83,7 +83,6 @@ implements
   
   final SSTagAndCategoryCommonSQL  sqlFct;
   final SSTagAndCategoryCommonMisc commonMiscFct;
-  final SSTagMiscFct               tagMiscFct;
   
   public SSTagImpl(final SSConfA conf) throws Exception{
     
@@ -91,7 +90,6 @@ implements
     
     sqlFct        = new SSTagAndCategoryCommonSQL (dbSQL, SSEntityE.tag);
     commonMiscFct = new SSTagAndCategoryCommonMisc(dbSQL, SSEntityE.tag);
-    tagMiscFct    = new SSTagMiscFct();
   }
   
   @Override
@@ -341,7 +339,7 @@ implements
                 null)); //descPar
           
           if(circleEntity == null){
-            throw new SSErr(SSErrE.userNotAllowedToAccessEntity); //or circle doesnt exist
+            return null;
           }
           
           break;
@@ -434,9 +432,7 @@ implements
     
     final SSTagsRemovePar par = (SSTagsRemovePar) parA.getFromJSON(SSTagsRemovePar.class);
     
-    sSCon.writeRetFullToClient(
-      SSTagsRemoveRet.get(
-        tagsRemove(par)));
+    sSCon.writeRetFullToClient(SSTagsRemoveRet.get(tagsRemove(par)));
     
     SSTagActivityFct.removeTags(par);
   }
@@ -489,7 +485,7 @@ implements
         return true;
       }
       
-      //check whether (for)user can access the entity
+      //check whether user can access the entity
       ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
         new SSEntityGetPar(
           null,
@@ -589,7 +585,6 @@ implements
     try{
       
       final List<SSUri> entityURIs = new ArrayList<>();
-      final List<SSUri> result     = new ArrayList<>();
       
       if(par.user == null){
         throw new Exception("user null");
@@ -663,7 +658,7 @@ implements
       final List<SSEntity>      tags   = new ArrayList<>();
       
       if(par.user == null){
-        throw new Exception("user null");
+        throw new SSErr(SSErrE.parameterMissing);
       }
       
       if(
@@ -724,34 +719,14 @@ implements
     }
   }
   
-//  if(
-//        par.withUserRestriction &&
-//        !SSStrU.equals(par.user, par.forUser)){
-//        
-//        for(SSTag tag : tags){
-//          
-//          try{
-//            SSServCallerU.canUserReadEntity(par.user, tag.entity, false);
-//            
-//            result.add(tag);
-//          }catch(Exception error){
-//            SSServErrReg.reset();
-//          }
-//        }
-//      }else{
-//        result.addAll(tags);
-//      }
-//        
-//      return result;
-  
   @Override
   public void tagFrequsGet(SSSocketCon sSCon, SSServPar parA) throws Exception {
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(
-      SSTagFrequsGetRet.get(
-        tagFrequsGet((SSTagFrequsGetPar) parA.getFromJSON(SSTagFrequsGetPar.class))));
+    final SSTagFrequsGetPar par = (SSTagFrequsGetPar) parA.getFromJSON(SSTagFrequsGetPar.class);
+    
+    sSCon.writeRetFullToClient(SSTagFrequsGetRet.get(tagFrequsGet(par)));
   }
   
   @Override
@@ -790,27 +765,28 @@ implements
                 par.withUserRestriction)))); //withUserRestriction
       }
       
-      final List<SSTag> tags = new ArrayList<>();
+      final List<SSTagFrequ> tagFrequs = new ArrayList<>();
       
-      for(SSEntity tagEntity : tagsGet(
-          new SSTagsGetPar(
-            null,
-            null,
-            par.user,
-            par.forUser,
-            par.entities,
-            par.labels,
-            par.space,
-            par.circles,
-            par.startTime,
-            par.withUserRestriction))){
-      
-        tags.add((SSTag) tagEntity);
-      }
+      for(SSEntityA tagFrequ :
+        commonMiscFct.getMetadataFrequsFromMetadata(
+          tagsGet(
+            new SSTagsGetPar(
+              null,
+              null,
+              par.user,
+              par.forUser,
+              par.entities,
+              par.labels,
+              par.space,
+              par.circles,
+              par.startTime,
+              par.withUserRestriction)),
+          par.space)){
         
-      return tagMiscFct.getTagFrequsFromTags(
-        tags,
-        par.space);
+        tagFrequs.add((SSTagFrequ) tagFrequ);
+      }
+      
+      return tagFrequs;
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

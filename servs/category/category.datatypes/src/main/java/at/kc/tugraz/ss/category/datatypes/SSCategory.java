@@ -35,6 +35,7 @@ public class SSCategory extends SSEntity{
   public  SSUri               entity         = null;
   public  SSUri               user           = null;
   public  SSSpaceE            space          = null;
+  public  SSUri               circle         = null;
 
   public String getEntity(){
     return SSStrU.removeTrailingSlash(entity);
@@ -46,6 +47,10 @@ public class SSCategory extends SSEntity{
 
   public String getSpace(){
     return SSStrU.toStr(space);
+  }
+  
+  public String getCircle() throws Exception{
+    return SSStrU.removeTrailingSlash(circle);
   }
   
   @Override
@@ -86,9 +91,10 @@ public class SSCategory extends SSEntity{
     final SSUri            entity   ,
     final SSUri            user     ,
     final SSSpaceE         space    ,
-    final SSCategoryLabel  categoryLabel) throws Exception{
+    final SSCategoryLabel  categoryLabel,
+    final SSUri            circle) throws Exception{
     
-    return new SSCategory(id, entity, user, space, categoryLabel);
+    return new SSCategory(id, entity, user, space, categoryLabel, circle);
   }
   
   protected SSCategory(
@@ -96,7 +102,8 @@ public class SSCategory extends SSEntity{
     final SSUri             entity,
     final SSUri             user,
     final SSSpaceE          space,
-    final SSCategoryLabel   categoryLabel) throws Exception{
+    final SSCategoryLabel   categoryLabel,
+    final SSUri             circle) throws Exception{
     
     super(id, SSEntityE.category, SSLabel.get(SSStrU.toStr(categoryLabel)));
     
@@ -104,65 +111,33 @@ public class SSCategory extends SSEntity{
     this.user          = user;
     this.space         = space;
     this.categoryLabel = categoryLabel;
+    this.circle        = circle;
   }
   
-  public static void addDistinctWithoutNull(
-    final List<SSCategory>     entities,
-    final SSCategory           entity){
-    
-    if(
-      SSObjU.isNull  (entities, entity) ||
-      SSStrU.contains(entities, entity)){
-      return;
-    }
-    
-    entities.add(entity);
-  }
-  
-  public static void addDistinctWithoutNull(
-    final List<SSCategory>  entities,
-    final List<SSCategory>  toAddEntities){
-    
-    if(SSObjU.isNull(entities, toAddEntities)){
-      return;
-    }
-    
-    for(SSCategory entity : toAddEntities){
-      
-      if(entity == null){
-        continue;
-      }
-      
-      if(!SSStrU.contains(entities, entity)){
-        entities.add(entity);
-      }
-    }
-  }
-  
-  public static Map<String, List<String>> getCategoryLabelsPerEntities(final List<SSCategory> categories) throws Exception{
+  public static Map<String, List<String>> getCategoryLabelsPerEntities(final List<SSEntity> categories) throws Exception{
     
     final Map<String, List<String>>     categorysPerEntity = new HashMap<>();
     List<String>                        categoryLabels;
     String                              entity;
     
-    for(SSCategory userCategory : categories){
+    for(SSEntity categoryEntity : categories){
       
-      entity = SSStrU.toStr(userCategory.entity);
+      entity = SSStrU.toStr(((SSCategory)categoryEntity).entity);
       
       if(categorysPerEntity.containsKey(entity)){
         
         categoryLabels = categorysPerEntity.get(entity);
         
-        if(SSStrU.contains(categoryLabels, userCategory.label)){
+        if(SSStrU.contains(categoryLabels, ((SSCategory)categoryEntity).label)){
           continue;
         }
         
-        categoryLabels.add(userCategory.label.toString());
+        categoryLabels.add(((SSCategory)categoryEntity).label.toString());
       }else{
         
         categoryLabels = new ArrayList<>();
         
-        categoryLabels.add(SSStrU.toStr(userCategory.label));
+        categoryLabels.add(SSStrU.toStr(((SSCategory)categoryEntity).label));
         
         categorysPerEntity.put(entity, categoryLabels);
       }

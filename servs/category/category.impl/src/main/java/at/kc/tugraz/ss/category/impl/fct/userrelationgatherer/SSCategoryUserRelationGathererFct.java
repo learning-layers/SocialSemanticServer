@@ -23,7 +23,7 @@ package at.kc.tugraz.ss.category.impl.fct.userrelationgatherer;
 import at.tugraz.sss.serv.SSStrU;
 import at.kc.tugraz.ss.category.datatypes.SSCategory;
 import at.tugraz.sss.serv.SSUri;
-import at.kc.tugraz.ss.service.tag.datatypes.SSTag;
+import at.tugraz.sss.serv.SSEntity;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -31,48 +31,48 @@ import java.util.Map;
 public class SSCategoryUserRelationGathererFct{
   
   public static void addUserForEntity(
-    final SSCategory               category,
+    final SSEntity                 category,
     final Map<String, List<SSUri>> usersPerEntity) throws Exception{
 
-    final String            entityStr = SSStrU.toStr(category.entity);
+    final String            entityStr = SSStrU.toStr(((SSCategory)category).entity);
     final List<SSUri>       usersForEntity;
     
     if(usersPerEntity.containsKey(entityStr)){
       
       usersForEntity = usersPerEntity.get(entityStr);
       
-      if(!SSStrU.contains(usersForEntity, category.user)){
-        usersForEntity.add(category.user);
+      if(!SSStrU.contains(usersForEntity, ((SSCategory)category).user)){
+        usersForEntity.add(((SSCategory)category).user);
       }
     }else{
       
       usersForEntity = new ArrayList<>();
       
-      usersForEntity.add(category.user);
+      usersForEntity.add(((SSCategory)category).user);
       
       usersPerEntity.put(entityStr, usersForEntity);
     }
   }
   
   public static void addUserForCategory(
-    final SSCategory               category,
+    final SSEntity                 category,
     final Map<String, List<SSUri>> usersPerCategory) throws Exception{
     
-    final String            categoryLabel = SSStrU.toStr(category.label);
+    final String            categoryLabel = SSStrU.toStr(((SSCategory)category).label);
     final List<SSUri>       usersForCategory;
     
     if(usersPerCategory.containsKey(categoryLabel)){
       
       usersForCategory = usersPerCategory.get(categoryLabel);
       
-      if(!SSStrU.contains(usersForCategory, category.user)){
-        usersForCategory.add(category.user);
+      if(!SSStrU.contains(usersForCategory, ((SSCategory)category).user)){
+        usersForCategory.add(((SSCategory)category).user);
       }
     }else{
       
       usersForCategory = new ArrayList<>();
       
-      usersForCategory.add(category.user);
+      usersForCategory.add(((SSCategory)category).user);
       
       usersPerCategory.put(categoryLabel, usersForCategory);
     }
