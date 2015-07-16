@@ -1,4 +1,4 @@
-CREATE DATABASE IF NOT EXISTS `SSS_MYSQL_SCHEME` /*!40100 DEFAULT CHARACTER SET utf8 */;
+CREATE DATABASE  IF NOT EXISTS `SSS_MYSQL_SCHEME` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `SSS_MYSQL_SCHEME`;
 -- MySQL dump 10.13  Distrib 5.6.13, for Win32 (x86)
 --
@@ -1426,6 +1426,7 @@ CREATE TABLE `tagass` (
   `tagId` varchar(200) NOT NULL,
   `tagSpace` varchar(200) NOT NULL,
   `creationTime` varchar(200) NOT NULL,
+  `circleId` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`userId`,`entityId`,`tagId`,`tagSpace`),
   KEY `entityIdFKtagass_idx` (`entityId`),
   KEY `tagIdFKtagass_idx` (`tagId`),
@@ -1635,4 +1636,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-03-30 11:00:33
+-- Dump completed on 2015-07-16 10:20:17
