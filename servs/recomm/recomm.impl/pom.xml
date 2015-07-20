@@ -32,6 +32,18 @@
     
     <dependency>
       <groupId>sss.servs</groupId>
+      <artifactId>dataexport.datatypes</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>dataexport.api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
       <artifactId>entity.api</artifactId>
       <version>${project.version}</version>
     </dependency>

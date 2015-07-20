@@ -110,8 +110,6 @@ public class SSFileUploader extends SSServImplStartA{
         dbSQL.startTrans(par.shouldCommit);
         
         SSFileServCaller.addFileEntity           (par, uri);
-        SSFileServCaller.addTags                 (par, uri);
-        SSFileServCaller.addCategories           (par, uri);
         SSFileServCaller.addFileContentsToSolr   (par, fileId);
 
         removeFileFromLocalWorkFolder();

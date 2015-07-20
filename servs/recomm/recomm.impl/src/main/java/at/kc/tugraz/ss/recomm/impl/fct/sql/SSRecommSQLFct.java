@@ -39,14 +39,14 @@ public class SSRecommSQLFct extends SSDBSQLFct{
     super(dbSQL);
   }
   
-  public Map<String, String> getUserRealms() throws Exception{
+  public Map<String, List<String>> getUserRealms() throws Exception{
     
     ResultSet resultSet = null;
     
     try{
-      final Map<String, String> userRealms = new HashMap<>();
-      final List<String>        columns    = new ArrayList<>();
-      final Map<String, String> wheres     = new HashMap<>();
+      final Map<String, List<String>> userRealms = new HashMap<>();
+      final List<String>              columns    = new ArrayList<>();
+      final Map<String, String>       wheres     = new HashMap<>();
       
       column(columns, SSSQLVarNames.userId);
       column(columns, SSSQLVarNames.realm);
@@ -55,8 +55,16 @@ public class SSRecommSQLFct extends SSDBSQLFct{
 
       while(resultSet.next()){
         
-        userRealms.put(bindingStr(resultSet, SSSQLVarNames.userId), 
-          bindingStr(resultSet, SSSQLVarNames.realm));
+        if(!userRealms.containsKey(bindingStr(resultSet, SSSQLVarNames.userId))){
+          userRealms.put(bindingStr(resultSet, SSSQLVarNames.userId), new ArrayList());
+        }else{
+          
+          if(userRealms.get(bindingStr(resultSet, SSSQLVarNames.userId)).contains(bindingStr(resultSet, SSSQLVarNames.realm))){
+            continue;
+          }
+        }
+        
+        userRealms.get(bindingStr(resultSet, SSSQLVarNames.userId)).add(bindingStr(resultSet, SSSQLVarNames.realm));
       }
       
       return userRealms;

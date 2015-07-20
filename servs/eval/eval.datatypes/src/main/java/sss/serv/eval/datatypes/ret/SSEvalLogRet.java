@@ -31,17 +31,6 @@ public class SSEvalLogRet extends SSServRetI{
 
   public Boolean worked = null;
 
-  public static SSEvalLogRet get(Boolean worked, SSServOpE op){
-    return new SSEvalLogRet(worked, op);
-  }
-  
-  private SSEvalLogRet(Boolean worked, SSServOpE op){
-    
-    super(op);
-    
-    this.worked = worked;
-  }
-
   @Override
   public Map<String, Object> jsonLDDesc(){
     
@@ -50,5 +39,16 @@ public class SSEvalLogRet extends SSServRetI{
     ld.put(SSVarNames.worked, SSVarNames.xsd + SSStrU.colon + SSStrU.valueBoolean);
     
     return ld;
+  }
+  
+  public static SSEvalLogRet get(Boolean worked){
+    return new SSEvalLogRet(worked);
+  }
+  
+  private SSEvalLogRet(Boolean worked){
+    
+    super(SSServOpE.evalLog);
+    
+    this.worked = worked;
   }
 }

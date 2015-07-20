@@ -31,11 +31,8 @@ public interface SSEntityHandlerImplI{
   public void circleContentChanged(final SSCircleContentChangedPar par) throws Exception;
   
   public void copyEntity(
-    final SSUri        user,
-    final List<SSUri>  users,
-    final SSUri        entity,
-    final List<SSUri>  entitiesToExclude,
-    final SSEntityE    entityType) throws Exception;
+    final SSEntity                  entity,
+    final SSEntityCopyPar           par) throws Exception;
   
   public List<SSUri> getSubEntities(
     final SSUri         user,

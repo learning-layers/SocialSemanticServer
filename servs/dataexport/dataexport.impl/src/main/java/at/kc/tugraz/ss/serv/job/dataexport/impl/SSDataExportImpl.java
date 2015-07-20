@@ -20,6 +20,8 @@
  */
 package at.kc.tugraz.ss.serv.job.dataexport.impl;
 
+import at.kc.tugraz.ss.circle.api.SSCircleServerI;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleGetPar;
 import at.tugraz.sss.serv.SSDateU;
 import at.tugraz.sss.serv.SSEncodingU;
 import at.tugraz.sss.serv.SSFileU;
@@ -30,18 +32,20 @@ import at.tugraz.sss.serv.SSServPar;
 import at.kc.tugraz.ss.serv.job.dataexport.api.SSDataExportClientI;
 import at.kc.tugraz.ss.serv.job.dataexport.api.SSDataExportServerI;
 import at.kc.tugraz.ss.serv.job.dataexport.conf.SSDataExportConf;
-import at.kc.tugraz.ss.serv.job.dataexport.datatypes.par.SSDataExportAddTagsCategoriesTimestampsForUserEntityPar;
-import at.kc.tugraz.ss.serv.job.dataexport.datatypes.par.SSDataExportUserEntityTagCategoryTimestampPar;
+import at.kc.tugraz.ss.serv.job.dataexport.datatypes.par.SSDataExportUserEntityTagsCategoriesTimestampsLinePar;
+import at.kc.tugraz.ss.serv.job.dataexport.datatypes.par.SSDataExportUsersEntitiesTagsCategoriesTimestampsFilePar;
 import at.kc.tugraz.ss.serv.job.dataexport.datatypes.par.SSDataExportUserRelationsPar;
+import at.kc.tugraz.ss.serv.job.dataexport.datatypes.par.SSDataExportUsersEntitiesTagsCategoriesTimestampsFileFromCirclePar;
 import at.kc.tugraz.ss.serv.job.dataexport.impl.fct.SSDataExportFct;
 import at.kc.tugraz.ss.service.user.api.SSUserServerI;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUsersGetPar;
-import at.kc.tugraz.ss.service.user.service.SSUserServ;
 import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSDBSQLI;
+import at.tugraz.sss.serv.SSEntity;
+import at.tugraz.sss.serv.SSEntityCircle;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSUserRelationGathererI;
 import at.tugraz.sss.serv.SSUsersResourcesGathererI;
@@ -66,9 +70,103 @@ public class SSDataExportImpl extends SSServImplWithDBA implements SSDataExportC
   }
   
   @Override
+  public void dataExportUsersEntitiesTagsCategoriesTimestampsFileFromCircle(
+    final SSDataExportUsersEntitiesTagsCategoriesTimestampsFileFromCirclePar par) throws Exception{
+    
+    CSVWriter                                           fileWriter = null;
+    FileOutputStream                                    out        = null;
+    OutputStreamWriter                                  writer     = null;
+    
+    try{
+      
+      final Map<String, List<String>>           tagsPerEntities       = new HashMap<>();
+      final Map<String, List<String>>           categoriesPerEntities = new HashMap<>();
+      final List<String>                        lineParts             = new ArrayList<>();
+      String                                    resourceString;
+      
+      out        = SSFileU.openOrCreateFileWithPathForWrite (SSFileU.dirWorkingDataCsv() + par.fileName);
+      writer     = new OutputStreamWriter                   (out,    Charset.forName(SSEncodingU.utf8.toString()));
+      fileWriter = new CSVWriter                            (writer, SSStrU.semiColon.charAt(0));
+      
+      final SSEntityCircle circle =
+        ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleGet(
+          new SSCircleGetPar(
+            null,
+            null,
+            par.user,
+            par.circle,
+            null, //entityTypesToIncludeOnly
+            false,  //withUserRestriction
+            false)); //invokeEntityHandlers
+      
+      for(SSEntity user : circle.users){
+        
+        tagsPerEntities.clear();
+        categoriesPerEntities.clear();
+        
+        tagsPerEntities.putAll(
+          SSDataExportFct.getTagsOfUserPerEntities(
+            user.id,
+            SSUri.getFromEntitites(circle.entities),
+            par.circle));
+        
+        categoriesPerEntities.putAll(
+          SSDataExportFct.getCategoriesPerEntities(
+            user.id,
+            SSUri.getFromEntitites(circle.entities),
+            par.circle));
+        
+        for(SSEntity entity : circle.entities){
+          
+          resourceString = SSStrU.toStr(entity.id);
+          
+          lineParts.clear();
+          
+          lineParts.add(SSStrU.toStr     (user));
+          lineParts.add(resourceString);
+          lineParts.add(SSStrU.toStr     (SSDateU.dateAsLong() / 1000)); //TODO: provide tag time stamps for tags
+          
+          if(
+            tagsPerEntities.containsKey(resourceString)){
+            lineParts.add(StringUtils.join(tagsPerEntities.get(resourceString),SSStrU.comma));
+          }else{
+            lineParts.add(SSStrU.empty);
+          }
+          
+          if(
+            categoriesPerEntities.containsKey(resourceString)){
+            lineParts.add(StringUtils.join(categoriesPerEntities.get(resourceString),SSStrU.comma));
+          }else{
+            lineParts.add(SSStrU.empty);
+          }
+          
+          fileWriter.writeNext((String[]) lineParts.toArray(new String[lineParts.size()]));
+        }
+      }
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }finally{
+      
+      if(fileWriter != null){
+        fileWriter.close();
+      }else{
+        
+        if(writer != null){
+          writer.close();
+        }else{
+          
+          if(out != null){
+            out.close();
+          }
+        }
+      }
+    }
+  }
+  
+  @Override
   public void dataExportUsersEntitiesTagsCategoriesTimestampsFile(final SSServPar parA) throws Exception{
     
-    final SSDataExportUserEntityTagCategoryTimestampPar par        = new SSDataExportUserEntityTagCategoryTimestampPar(parA);
+    final SSDataExportUsersEntitiesTagsCategoriesTimestampsFilePar par        = new SSDataExportUsersEntitiesTagsCategoriesTimestampsFilePar(parA);
     CSVWriter                                           fileWriter = null;
     FileOutputStream                                    out        = null;
     OutputStreamWriter                                  writer     = null;
@@ -94,7 +192,7 @@ public class SSDataExportImpl extends SSServImplWithDBA implements SSDataExportC
         try{
           allUsers = 
             SSStrU.toStr(
-              ((SSUserServerI) SSUserServ.inst.serv()).usersGet(
+              ((SSUserServerI) SSServReg.getServ(SSUserServerI.class)).usersGet(
                 new SSUsersGetPar(
                   null,
                   null,
@@ -123,17 +221,20 @@ public class SSDataExportImpl extends SSServImplWithDBA implements SSDataExportC
         categoriesPerEntities.clear();
         
         if(par.exportTags){
+          
           tagsPerEntities.putAll(
             SSDataExportFct.getTagsOfUserPerEntities(
               user,
               resourcesForUser.getValue(),
-              par.usePrivateTagsToo));
+              null)); //circle
         }
         
         if(par.exportCategories){
           categoriesPerEntities.putAll(
             SSDataExportFct.getCategoriesPerEntities(
-              tagsPerEntities.size()));
+              user, 
+              resourcesForUser.getValue(),
+              null)); //circle
         }
         
         for(SSUri resource : resourcesForUser.getValue()){
@@ -186,7 +287,7 @@ public class SSDataExportImpl extends SSServImplWithDBA implements SSDataExportC
   @Override
   public void dataExportUserEntityTagsCategoriesTimestampsLine(final SSServPar parA) throws Exception{
     
-    final SSDataExportAddTagsCategoriesTimestampsForUserEntityPar par        = new SSDataExportAddTagsCategoriesTimestampsForUserEntityPar(parA);
+    final SSDataExportUserEntityTagsCategoriesTimestampsLinePar par        = new SSDataExportUserEntityTagsCategoriesTimestampsLinePar(parA);
     CSVWriter                                           fileWriter = null;
     FileOutputStream                                    out        = null;
     OutputStreamWriter                                  writer     = null;
@@ -252,7 +353,7 @@ public class SSDataExportImpl extends SSServImplWithDBA implements SSDataExportC
       try{
         allUsers =
           SSStrU.toStr(
-            ((SSUserServerI) SSUserServ.inst.serv()).usersGet(
+            ((SSUserServerI) SSServReg.getServ(SSUserServerI.class)).usersGet(
               new SSUsersGetPar(
                 null,
                 null,

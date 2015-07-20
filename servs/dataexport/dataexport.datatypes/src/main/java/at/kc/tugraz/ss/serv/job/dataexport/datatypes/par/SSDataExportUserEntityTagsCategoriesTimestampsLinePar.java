@@ -3,7 +3,7 @@
 * http://www.learning-layers.eu
 * Development is partly funded by the FP7 Programme of the European Commission under
 * Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+* Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
 * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,32 +21,32 @@
 package at.kc.tugraz.ss.serv.job.dataexport.datatypes.par;
 
 import at.tugraz.sss.serv.SSVarNames;
+import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServErrReg;
-import at.tugraz.sss.serv.SSUri;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SSDataExportUserEntityTagCategoryTimestampPar extends SSServPar{
+public class SSDataExportUserEntityTagsCategoriesTimestampsLinePar extends SSServPar{
   
-  public String                      fileName               = null;
-  public Boolean                     exportTags             = false;
-  public Boolean                     usePrivateTagsToo      = false;
-  public Boolean                     exportCategories       = false;
-  public List<SSUri>                 users                  = new ArrayList<>();
+  public String       fileName   = null;
+  public SSUri        forUser    = null;
+  public SSUri        entity     = null;
+  public List<String> tags       = new ArrayList<>();
+  public List<String> categories = new ArrayList<>();
   
-  public SSDataExportUserEntityTagCategoryTimestampPar(final SSServPar par) throws Exception{
+  public SSDataExportUserEntityTagsCategoriesTimestampsLinePar(final SSServPar par) throws Exception{
     
     super(par);
     
     try{
       
       if(pars != null){
-        fileName              = (String)                     pars.get(SSVarNames.fileName);
-        exportTags            = (Boolean)                    pars.get(SSVarNames.exportTags);
-        usePrivateTagsToo     = (Boolean)                    pars.get(SSVarNames.usePrivateTagsToo);
-        exportCategories      = (Boolean)                    pars.get(SSVarNames.exportCategories);
-        users                 = (List<SSUri>)                pars.get(SSVarNames.users);
+        fileName              = (String)                   pars.get(SSVarNames.fileName);
+        forUser               = (SSUri)                    pars.get(SSVarNames.forUser);
+        entity                = (SSUri)                    pars.get(SSVarNames.entity);
+        tags                  = (List<String>)             pars.get(SSVarNames.tags);
+        categories            = (List<String>)             pars.get(SSVarNames.categories);
       }
       
     }catch(Exception error){

@@ -27,15 +27,11 @@ import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSSocketCon;
 import at.tugraz.sss.serv.SSUri;
-import java.util.ArrayList;
-import java.util.List;
 
 public class SSFileUploadPar extends SSServPar{
   
   public SSLabel       label       = null;
   public SSMimeTypeE   mimeType    = null;
-  public List<String>  tags        = new ArrayList<>();
-  public List<String>  categories  = new ArrayList<>();
   public SSUri         circle      = null;
   public SSSocketCon   sSCon       = null;
   
@@ -71,8 +67,6 @@ public class SSFileUploadPar extends SSServPar{
     final SSUri         user,
     final SSMimeTypeE   mimeType,
     final SSLabel       label,
-    final List<String>  tags,
-    final List<String>  categories,
     final SSUri         circle,
     final SSSocketCon   sSCon,
     final Boolean       shouldCommit){
@@ -81,15 +75,6 @@ public class SSFileUploadPar extends SSServPar{
     
     this.mimeType     = mimeType;
     this.label        = label;
-    
-    if(tags != null){
-      this.tags.addAll(tags);
-    }
-    
-    if(categories != null){
-      this.categories.addAll(categories);
-    }
-    
     this.circle       = circle;
     this.sSCon        = sSCon;
     this.shouldCommit = shouldCommit;

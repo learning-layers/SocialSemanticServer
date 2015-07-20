@@ -20,7 +20,6 @@
  */
 package at.kc.tugraz.ss.circle.impl.fct.misc;
 
-import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSObjU;
 import at.tugraz.sss.serv.SSStrU;
 import at.kc.tugraz.ss.circle.impl.fct.sql.SSCircleSQLFct;
@@ -34,27 +33,25 @@ import at.tugraz.sss.serv.SSServErrReg;
 
 public class SSCircleMiscFct{
   
-  public static void checkWhetherUserIsAllowedToEditCircle(
+  public static Boolean isUserAllowedToEditCircle(
     final SSCircleSQLFct sqlFct,
     final SSUri          userUri,
     final SSUri          circleUri) throws Exception{
     
     try{
       
-      try{
-        if(
-          sqlFct.isSystemCircle  (circleUri) ||
-          !sqlFct.isGroupCircle  (circleUri) ||
-          !sqlFct.isUserInCircle (userUri, circleUri)){
-          
-          throw new Exception("user is not allowed to edit circle");
-        }
-      }catch(Exception error){
-        SSLogU.err(error);
-        throw new Exception("user is not allowed to edit circle");
+      if(
+        sqlFct.isSystemCircle  (circleUri) ||
+        !sqlFct.isGroupCircle  (circleUri) ||
+        !sqlFct.isUserInCircle (userUri, circleUri)){
+        
+        return false;
       }
+      
+      return true;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   

@@ -18,29 +18,32 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par;
+package at.tugraz.sss.serv;
 
-import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSTextComment;
-import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServPar;
 import java.util.ArrayList;
 import java.util.List;
-import at.tugraz.sss.serv.SSServOpE;
 
 public class SSEntityCopyPar extends SSServPar{
   
-  public SSUri         entity             = null;
-  public List<SSUri>   users              = new ArrayList<>();
-  public List<SSUri>   entitiesToExclude  = new ArrayList<>();
-  public SSTextComment comment            = null;
-  
+  public SSUri         entity                                    = null;
+  public List<SSUri>   forUsers                                  = new ArrayList<>();
+  public SSLabel       label                                     = null;
+  public Boolean       includeUsers                              = false;
+  public Boolean       includeEntities                           = false;
+  public Boolean       includeMetaSpecificToEntityAndItsEntities = false;
+  public List<SSUri>   entitiesToExclude                         = new ArrayList<>();
+  public SSTextComment comment                                   = null;
+    
   public void setEntity(final String entity) throws Exception{
     this.entity = SSUri.get(entity);
   }
   
-  public void setUsers(final List<String> users) throws Exception{
-    this.users = SSUri.get(users);
+  public void setForUsers(final List<String> forUsers) throws Exception{
+    this.forUsers = SSUri.get(forUsers);
+  }
+  
+  public void setLabel(final String label) throws Exception{
+    this.label = SSLabel.get(label);
   }
   
   public void setEntitiesToExclude(final List<String> entitiesToExclude) throws Exception{
@@ -55,8 +58,12 @@ public class SSEntityCopyPar extends SSServPar{
     return SSStrU.removeTrailingSlash(entity);
   }
   
-  public List<String> getUsers() throws Exception{
-    return SSStrU.removeTrailingSlash(users);
+  public List<String> getForUsers() throws Exception{
+    return SSStrU.removeTrailingSlash(forUsers);
+  }
+  
+  public String getLabel() throws Exception{
+    return SSStrU.toStr(label);
   }
   
   public List<String> getEntitiesToExclude() throws Exception{
@@ -74,19 +81,31 @@ public class SSEntityCopyPar extends SSServPar{
     final String        key,
     final SSUri         user,
     final SSUri         entity, 
-    final List<SSUri>   users, 
+    final List<SSUri>   forUsers, 
+    final SSLabel       label,
+    final Boolean       includeUsers,
+    final Boolean       includeEntities,
+    final Boolean       includeMetaSpecificToEntityAndItsEntities,
     final List<SSUri>   entitiesToExclude, 
     final SSTextComment comment, 
+    final Boolean       withUserRestriction,
     final Boolean       shouldCommit){
     
     super(op, key, user);
     
-    this.entity            = entity;
-        
-    SSUri.addDistinctWithoutNull(this.users,             users);
+    this.entity = entity;
+    
+    SSUri.addDistinctWithoutNull(this.forUsers,          forUsers);
+    
+    this.label                                           = label;
+    this.includeUsers                                    = includeUsers;
+    this.includeEntities                                 = includeEntities;
+    this.includeMetaSpecificToEntityAndItsEntities       = includeMetaSpecificToEntityAndItsEntities;
+    
     SSUri.addDistinctWithoutNull(this.entitiesToExclude, entitiesToExclude);    
     
-    this.comment      = comment;
-    this.shouldCommit = shouldCommit;
+    this.comment             = comment;
+    this.withUserRestriction = withUserRestriction;
+    this.shouldCommit        = shouldCommit;
   }
 }

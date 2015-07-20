@@ -22,12 +22,12 @@ package at.kc.tugraz.ss.serv.datatypes.entity.api;
 
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityCopyPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityFromTypeAndLabelGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntity;
+import at.tugraz.sss.serv.SSEntityCopyPar;
 import at.tugraz.sss.serv.SSServServerI;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityAttatchmentsRemovePar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntitySharePar;

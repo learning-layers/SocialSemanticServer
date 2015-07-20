@@ -25,7 +25,7 @@ import engine.EntityRecommenderEngine;
 public class SSRecommUserRealmEngine{
   
   public final EntityRecommenderEngine engine;
-  public String                        realm;
+  public final String                  realm;
   
   public static SSRecommUserRealmEngine get(
     final EntityRecommenderEngine engine,
@@ -39,6 +39,6 @@ public class SSRecommUserRealmEngine{
     final String                  realm){
     
     this.engine = engine;
-    this.realm  = realm;
+    this.realm = realm;
   }
 }

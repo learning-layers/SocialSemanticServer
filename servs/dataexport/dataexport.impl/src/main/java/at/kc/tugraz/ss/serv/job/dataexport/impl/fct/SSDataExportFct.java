@@ -20,71 +20,57 @@
 */
 package at.kc.tugraz.ss.serv.job.dataexport.impl.fct;
 
-import at.tugraz.sss.serv.SSStrU;
+import at.kc.tugraz.ss.category.api.SSCategoryServerI;
+import at.kc.tugraz.ss.category.datatypes.SSCategory;
+import at.kc.tugraz.ss.category.datatypes.par.SSCategoriesGetPar;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSSpaceE;
-import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.kc.tugraz.ss.service.tag.api.SSTagServerI;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTag;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsGetPar;
-import at.kc.tugraz.ss.service.tag.service.SSTagServ;
-import java.util.ArrayList;
-import java.util.HashMap;
+import at.tugraz.sss.serv.SSServReg;
 import java.util.List;
 import java.util.Map;
 
 public class SSDataExportFct{
   
   public static Map<String, List<String>> getTagsOfUserPerEntities(
-    final SSUri        userUri,
-    final List<SSUri>  entities,
-    final Boolean      usePrivateTagsToo) throws Exception{
+    final SSUri          userUri,
+    final List<SSUri>    entities,
+    final SSUri          circle) throws Exception{
     
-    if(
-      usePrivateTagsToo == null ||
-      !usePrivateTagsToo){
-      
-      return SSTag.getTagLabelsPerEntities(
-        ((SSTagServerI) SSTagServ.inst.serv()).tagsGet(
-          new SSTagsGetPar(
-            null,
-            null,
-            userUri,
-            userUri, //forUser
-            entities, //entities
-            null, //labels
-            SSSpaceE.sharedSpace, //space
-            null, //circles
-            null, //startTime
-            false))); //withUserRestriction
-
-    }else{
-      
-      return SSTag.getTagLabelsPerEntities(
-        ((SSTagServerI) SSTagServ.inst.serv()).tagsGet(
-          new SSTagsGetPar(
-            null,
-            null,
-            userUri, 
-            userUri, //forUser
-            entities, //entities
-            null, //labels
-            null, //space
-            null, //circles
-            null, //startTime
-            false))); //withUserRestriction
-    }
+    return SSTag.getTagLabelsPerEntities(
+      ((SSTagServerI) SSServReg.getServ(SSTagServerI.class)).tagsGet(
+        new SSTagsGetPar(
+          null,
+          null,
+          userUri,
+          userUri, //forUser
+          entities, //entities
+          null, //labels
+          null, //space
+          SSUri.asListWithoutNullAndEmpty(circle), //circles
+          null, //startTime
+          false))); //withUserRestriction
   }
   
   public static Map<String, List<String>> getCategoriesPerEntities(
-    final Integer numberOfEntities){
+    final SSUri          userUri,
+    final List<SSUri>    entities,
+    final SSUri          circle) throws Exception{
     
-    final Map<String, List<String>> categoriesPerEntities = new HashMap<>();
-    
-    for(Integer counter = 0; counter < numberOfEntities; counter++){
-      categoriesPerEntities.put(SSVocConf.sssUri + SSStrU.underline + counter.toString(), new ArrayList<>());
-    }
-    
-    return categoriesPerEntities;
+    return SSCategory.getCategoryLabelsPerEntities(
+      ((SSCategoryServerI) SSServReg.getServ(SSCategoryServerI.class)).categoriesGet(
+        new SSCategoriesGetPar(
+          null,
+          null,
+          userUri,
+          userUri, //forUser
+          entities, //entities
+          null, //labels
+          null, //space
+          SSUri.asListWithoutNullAndEmpty(circle), //circles
+          null, //startTime
+          false))); //withUserRestriction
   }
 }

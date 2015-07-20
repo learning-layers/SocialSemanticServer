@@ -68,62 +68,6 @@ public class SSFileServCaller{
     }
   }
   
-  public static void addTags(
-    final SSFileUploadPar par,
-    final SSUri           file) throws Exception{
-    
-    try{
-      
-      if(par.tags.isEmpty()){
-        return;
-      }
-      
-      ((SSTagServerI) SSServReg.getServ(SSTagServerI.class)).tagsAdd(
-        new SSTagsAddPar(
-          null,
-          null,
-          par.user,
-          SSTagLabel.get(par.tags), //labels
-          file, //file
-          null, //space
-          par.circle, //circle
-          null, //creationTime,
-          true, //withUserRestriction
-          false)); //shouldCommit)
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
-  public static void addCategories(
-    final SSFileUploadPar par,
-    final SSUri           file) throws Exception{
-    
-    try{
-      
-      if(par.tags.isEmpty()){
-        return;
-      }
-      
-      ((SSCategoryServerI) SSServReg.getServ(SSCategoryServerI.class)).categoriesAdd(
-        new SSCategoriesAddPar(
-          null,
-          null,
-          par.user,
-          SSCategoryLabel.get(par.categories), //labels
-          file, //file
-          null, //space
-          par.circle, //circle
-          null, //creationTime,
-          true, //withUserRestriction
-          false)); //shouldCommit)
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
   public static void addFileContentsToSolr(
     final SSFileUploadPar par,
     final String          fileId) throws Exception{

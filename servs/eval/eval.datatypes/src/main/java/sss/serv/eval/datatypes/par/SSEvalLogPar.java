@@ -22,142 +22,47 @@ package sss.serv.eval.datatypes.par;
 
 import at.tugraz.sss.serv.SSStrU;
 import sss.serv.eval.datatypes.SSEvalLogE;
-import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSToolContextE;
-import at.tugraz.sss.serv.SSServErrReg;
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
+import at.tugraz.sss.serv.SSServOpE;
 import java.util.ArrayList;
 import java.util.List;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import org.codehaus.jackson.JsonNode;
 
-@XmlRootElement
-@ApiModel(value = "evalLog request parameter")
 public class SSEvalLogPar extends SSServPar{
 
-  public static SSEvalLogPar get(SSServPar parA){
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-  }
-
-  @XmlElement
-  @ApiModelProperty(
-    required = false,
-    value = "context in tool where log was triggered")
   public SSToolContextE   toolContext  = null;
-  
-  @ApiModelProperty(
-    required = false,
-    value = "user to be logged")
   public SSUri            forUser      = null;
-
-  @XmlElement
-  public void setForUser(final String forUser){
-    try{ this.forUser = SSUri.get(forUser); }catch(Exception error){}
-  }
-  
-  @XmlElement
-  @ApiModelProperty(
-    required = true,
-    value = "type of the log event")
   public SSEvalLogE       type         = null;
-
-  @ApiModelProperty(
-    required = false,
-    value = "entity to be logged")
-  public SSUri         entity       = null;
-  
-  @XmlElement
-  public void setEntity(final String entity){
-    try{ this.entity = SSUri.get(entity); }catch(Exception error){}
-  }
-  
-  @XmlElement
-  @ApiModelProperty(
-    required = false,
-    value = "content to be logged")
+  public SSUri            entity       = null;
   public String           content      = null;
+  public List<SSUri>      entities     = new ArrayList<>();
+  public List<SSUri>      users        = new ArrayList<>();
   
-  @ApiModelProperty(
-    required = false,
-    value = "entities to be logged")
-  public List<SSUri>   entities     = new ArrayList<>();
-  
-  @XmlElement
-  public void setEntities(final List<String> entities){
-    try{ this.entities = SSUri.get(entities); }catch(Exception error){}
+  public void setToolContext(final String toolContext) throws Exception {
+    this.toolContext = SSToolContextE.get(toolContext);
+  }
+
+  public void setForUser(final String forUser) throws Exception{
+    this.forUser = SSUri.get(forUser);
   }
   
-  @ApiModelProperty(
-    required = false,
-    value = "users to be logged")
-  public List<SSUri>   users        = new ArrayList<>();
-  
-  @XmlElement
-  public void setUsers(final List<String> users){
-    try{ this.users = SSUri.get(users); }catch(Exception error){}
+  public void setType(final String type) throws Exception{
+    this.type = SSEvalLogE.get(type);
   }
   
-  public SSEvalLogPar(){}
-  
-  public SSEvalLogPar(SSServPar par) throws Exception{
-      
-    super(par);
-    
-    try{
-      
-      if(pars != null){
-        toolContext  = (SSToolContextE)  pars.get(SSVarNames.toolContext);
-        forUser      = (SSUri)           pars.get(SSVarNames.forUser);
-        type         = (SSEvalLogE)      pars.get(SSVarNames.type);
-        entity       = (SSUri)           pars.get(SSVarNames.entity);
-        content      = (String)          pars.get(SSVarNames.content);
-        entities     = (List<SSUri>)     pars.get(SSVarNames.entities);
-        users        = (List<SSUri>)     pars.get(SSVarNames.users);
-      }
-      
-      if(par.clientJSONObj != null){
-        
-        type   = SSEvalLogE.valueOf(par.clientJSONObj.get(SSVarNames.type).getTextValue());
-        
-        try{ 
-          toolContext   = SSToolContextE.valueOf(par.clientJSONObj.get(SSVarNames.toolContext).getTextValue());
-        }catch(Exception error){}
-          
-        try{ 
-          content   = par.clientJSONObj.get(SSVarNames.content).getTextValue();
-        }catch(Exception error){}
-        
-        try{ 
-          forUser   = SSUri.get(par.clientJSONObj.get(SSVarNames.forUser).getTextValue());
-        }catch(Exception error){}
-        
-        try{
-          entity   = SSUri.get(par.clientJSONObj.get(SSVarNames.entity).getTextValue());
-        }catch(Exception error){}
-        
-        try{
-          for (final JsonNode objNode : par.clientJSONObj.get(SSVarNames.entities)) {
-            entities.add(SSUri.get(objNode.getTextValue()));
-          }
-        }catch(Exception error){}
-        
-        try{
-          for (final JsonNode objNode : par.clientJSONObj.get(SSVarNames.users)) {
-            users.add(SSUri.get(objNode.getTextValue()));
-          }
-        }catch(Exception error){}
-        
-      }
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
+  public void setEntity(final String entity) throws Exception{
+   this.entity = SSUri.get(entity); 
+  }
+
+  public void setEntities(final List<String> entities) throws Exception{
+    this.entities = SSUri.get(entities); 
   }
   
-  /* json getters */
+  public void setUsers(final List<String> users)throws Exception{
+    this.users = SSUri.get(users);
+  }
+  
   public String getToolContext(){
     return SSStrU.toStr(toolContext);
   }
@@ -180,5 +85,34 @@ public class SSEvalLogPar extends SSServPar{
   
   public List<String> getUsers() throws Exception{
     return SSStrU.removeTrailingSlash(users);
+  }
+  
+  public SSEvalLogPar(){}
+  
+  public SSEvalLogPar(
+    final SSServOpE      op,
+    final String         key,
+    final SSUri          user,
+    final SSToolContextE toolContext,
+    final SSUri          forUser, 
+    final SSEvalLogE     type, 
+    final SSUri          entity, 
+    final String         content, 
+    final List<SSUri>    entities,
+    final List<SSUri>    users, 
+    final Boolean        shouldCommit){
+    
+    super(op, key, user);
+    
+    this.toolContext  = toolContext;
+    this.forUser      = forUser;
+    this.type         = type;
+    this.entity       = entity;
+    this.content      = content;
+    
+    SSUri.addDistinctWithoutNull(this.entities, entities);
+    SSUri.addDistinctWithoutNull(this.users,    users);
+    
+    this.shouldCommit = shouldCommit;
   }
 }

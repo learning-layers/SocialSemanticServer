@@ -20,9 +20,9 @@
 */
 package sss.serv.eval.api;
 
-import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServServerI;
+import sss.serv.eval.datatypes.par.SSEvalLogPar;
 
 public interface SSEvalServerI extends SSServServerI{
-  public Boolean evalLog                       (final SSServPar parA) throws Exception;
+  public Boolean evalLog (final SSEvalLogPar par) throws Exception;
 }

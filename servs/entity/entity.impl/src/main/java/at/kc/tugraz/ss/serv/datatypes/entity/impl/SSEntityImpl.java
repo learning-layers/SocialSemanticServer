@@ -38,7 +38,7 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityRemovePar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityCopyPar;
+import at.tugraz.sss.serv.SSEntityCopyPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityFromTypeAndLabelGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserParentEntitiesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserSubEntitiesGetPar;
@@ -119,11 +119,9 @@ implements
   
   @Override
   public void copyEntity(
-    final SSUri user, 
-    final List<SSUri> users, 
-    final SSUri entity, 
-    final List<SSUri> entitiesToExclude, 
-    final SSEntityE   entityType) throws Exception{
+    final SSEntity                  entity,
+    final SSEntityCopyPar           par) throws Exception{
+    
   }
 
   @Override
@@ -204,19 +202,24 @@ implements
     
     try{   
       
-      SSServCallerU.canUserEditEntity(par.user, par.entity);
-      
       dbSQL.startTrans(par.shouldCommit);
       
-      final SSEntityE entityType = sqlFct.getEntity(par.entity).type;
-        
+      final SSEntity entity =
+        entityGet(
+          new SSEntityGetPar(
+            null,
+            null,
+            par.user,
+            par.entity,
+            par.withUserRestriction,
+            null));
+      
+      if(entity == null){
+        return false;
+      }
+      
       for(SSServContainerI serv : SSServReg.inst.getServsHandlingEntities()){
-        ((SSEntityHandlerImplI) serv.serv()).copyEntity(
-          par.user,
-          par.users,
-          par.entity,
-          par.entitiesToExclude,
-          entityType);
+        ((SSEntityHandlerImplI) serv.serv()).copyEntity(entity, par);
       }
       
       dbSQL.commit(par.shouldCommit);

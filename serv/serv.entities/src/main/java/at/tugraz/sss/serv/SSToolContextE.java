@@ -20,7 +20,11 @@
 */
 package at.tugraz.sss.serv;
 
-public enum SSToolContextE{
+import java.util.ArrayList;
+import java.util.List;
+
+public enum SSToolContextE implements SSJSONLDPropI{
+  
   timelineArea,
   help,
   organizeArea,
@@ -29,4 +33,38 @@ public enum SSToolContextE{
   bitTab,
   notificationTab,
   evernoteImport;
+  
+  @Override
+  public Object jsonLDDesc() {
+    return SSVarNames.xsd + SSStrU.colon + SSStrU.valueString;
+  }
+  
+  public static SSToolContextE get(final String space) throws Exception{
+    
+    try{
+      
+      if(space == null){
+        return null;
+      }
+      
+      return SSToolContextE.valueOf(space);
+    }catch(Exception error){
+      throw new Exception("tool context nvalid");
+    }
+  }
+  
+  public static List<SSToolContextE> get(final List<String> strings) throws Exception{
+
+    final List<SSToolContextE> result = new ArrayList<>();
+    
+    if(strings == null){
+      return result;
+    }
+    
+    for(String string : strings){
+      result.add(get(string));
+    }
+    
+    return result;
+  }
 }

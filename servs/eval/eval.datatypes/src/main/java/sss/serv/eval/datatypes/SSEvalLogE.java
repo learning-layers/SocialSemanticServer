@@ -20,7 +20,14 @@
 */
 package sss.serv.eval.datatypes;
 
-public enum SSEvalLogE{
+import at.tugraz.sss.serv.SSJSONLDPropI;
+import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.SSVarNames;
+import java.util.ArrayList;
+import java.util.List;
+
+public enum SSEvalLogE implements SSJSONLDPropI{
+  
   clickBit, 
   clickTag, 
   clickLabelRecommendation, 
@@ -50,4 +57,38 @@ public enum SSEvalLogE{
   addNotebook,
   addNote,
   addResource;
+  
+  @Override
+  public Object jsonLDDesc() {
+    return SSVarNames.xsd + SSStrU.colon + SSStrU.valueString;
+  }
+  
+  public static SSEvalLogE get(final String space) throws Exception{
+    
+    try{
+      
+      if(space == null){
+        return null;
+      }
+      
+      return SSEvalLogE.valueOf(space);
+    }catch(Exception error){
+      throw new Exception("tool context nvalid");
+    }
+  }
+  
+  public static List<SSEvalLogE> get(final List<String> strings) throws Exception{
+
+    final List<SSEvalLogE> result = new ArrayList<>();
+    
+    if(strings == null){
+      return result;
+    }
+    
+    for(String string : strings){
+      result.add(get(string));
+    }
+    
+    return result;
+  }
 }

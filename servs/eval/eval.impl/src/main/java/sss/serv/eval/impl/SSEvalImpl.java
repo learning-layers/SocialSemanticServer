@@ -79,15 +79,16 @@ implements
 
     SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(SSEvalLogRet.get(evalLog(parA), parA.op));
+    final SSEvalLogPar par = (SSEvalLogPar) parA.getFromJSON(SSEvalLogPar.class);
+    
+    sSCon.writeRetFullToClient(SSEvalLogRet.get(evalLog(par)));
   }
 
   @Override
-  public Boolean evalLog(final SSServPar parA) throws Exception{
+  public Boolean evalLog(final SSEvalLogPar par) throws Exception{
     
     try{
       
-      final SSEvalLogPar     par                 = new SSEvalLogPar(parA);
       final List<SSEntity>   targetEntities      = new ArrayList<>();
       final List<SSEntity>   targetUsers         = new ArrayList<>();
       final List<SSEntity>   notSelectedEntities = new ArrayList<>();

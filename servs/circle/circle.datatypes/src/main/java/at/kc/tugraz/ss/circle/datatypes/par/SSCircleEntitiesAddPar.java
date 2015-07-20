@@ -29,8 +29,10 @@ import java.util.List;
 
 public class SSCircleEntitiesAddPar extends SSServPar{
   
-  public SSUri       circle               = null;
-  public List<SSUri> entities             = new ArrayList<>();
+  public SSUri         circle        = null;
+  public List<SSUri>   entities      = new ArrayList<>();
+  public List<String>  tags          = new ArrayList<>();
+  public List<String>  categories    = new ArrayList<>();
 
   public void setCircle(final String circle) throws Exception{
     this.circle = SSUri.get(circle);

@@ -56,7 +56,9 @@ import com.evernote.edam.type.SharedNotebook;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import sss.serv.eval.api.SSEvalServerI;
 import sss.serv.eval.datatypes.SSEvalLogE;
+import sss.serv.eval.datatypes.par.SSEvalLogPar;
 
 public class SSDataImportEvernoteHandler {
   
@@ -158,15 +160,19 @@ public class SSDataImportEvernoteHandler {
         true, //withUserRestriction
         false)); //shouldCommit)
     
-    SSServCaller.evalLog(
-      userUri,
-      SSToolContextE.evernoteImport,
-      userUri,
-      SSEvalLogE.addNotebook,
-      notebookUri,
-      null,
-      SSUri.asListWithoutNullAndEmpty(),
-      SSUri.asListWithoutNullAndEmpty());
+    ((SSEvalServerI) SSServReg.getServ(SSEvalServerI.class)).evalLog(
+      new SSEvalLogPar(
+        null, 
+        null, 
+        userUri, 
+        SSToolContextE.evernoteImport, 
+        userUri,  //forUser
+        SSEvalLogE.addNotebook, 
+        notebookUri, 
+        null,  //content
+        null, //entities
+        null,  //users
+        false)); //shouldCommit
   }
   
   private void addNotebookUEs(
@@ -340,15 +346,19 @@ public class SSDataImportEvernoteHandler {
       
       for(String noteTag : noteTagNames){
         
-        SSServCaller.evalLog(
-          userUri,
-          SSToolContextE.evernoteImport,
-          userUri,
-          SSEvalLogE.addTag,
-          noteUri,
-          noteTag,
-          SSUri.asListWithoutNullAndEmpty(notebookUri),
-          SSUri.asListWithoutNullAndEmpty());
+        ((SSEvalServerI) SSServReg.getServ(SSEvalServerI.class)).evalLog(
+          new SSEvalLogPar(
+            null,
+            null,
+            userUri,
+            SSToolContextE.evernoteImport,
+            userUri,
+            SSEvalLogE.addTag,
+            noteUri,
+            noteTag, //content
+            SSUri.asListWithoutNullAndEmpty(notebookUri), //entities
+            null, //users
+            false)); //shouldCommit
       }
       
       addNoteUEs(
@@ -611,15 +621,19 @@ public class SSDataImportEvernoteHandler {
         noteUri,
         false);
       
-      SSServCaller.evalLog(
-        userUri,
-        SSToolContextE.evernoteImport,
-        userUri,
-        SSEvalLogE.addNote,
-        noteUri,
-        null,
-        SSUri.asListWithoutNullAndEmpty(notebookUri),
-        SSUri.asListWithoutNullAndEmpty());
+      ((SSEvalServerI) SSServReg.getServ(SSEvalServerI.class)).evalLog(
+        new SSEvalLogPar(
+          null,
+          null,
+          userUri,
+          SSToolContextE.evernoteImport,
+          userUri,
+          SSEvalLogE.addNote,
+          noteUri,
+          null, //content
+          SSUri.asListWithoutNullAndEmpty(notebookUri), //entities
+          SSUri.asListWithoutNullAndEmpty(), //users
+          false)); //shouldCommit
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -741,15 +755,19 @@ public class SSDataImportEvernoteHandler {
       resourceUri,
       false);
     
-    SSServCaller.evalLog(
-      userUri,
-      SSToolContextE.evernoteImport,
-      userUri,
-      SSEvalLogE.addResource,
-      resourceUri,
-      null,
-      SSUri.asListWithoutNullAndEmpty(noteUri),
-      SSUri.asListWithoutNullAndEmpty());
+    ((SSEvalServerI) SSServReg.getServ(SSEvalServerI.class)).evalLog(
+      new SSEvalLogPar(
+        null,
+        null,
+        userUri,
+        SSToolContextE.evernoteImport,
+        userUri,
+        SSEvalLogE.addResource,
+        resourceUri,
+        null, //content
+        SSUri.asListWithoutNullAndEmpty(noteUri), //entitites
+        null,  //users
+        false)); //shouldCommit
   }
   
   private static List<String> getSharedNotebookGuids(final List<SharedNotebook> sharedNotebooks) {

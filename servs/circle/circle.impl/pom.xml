@@ -32,6 +32,18 @@
     
     <dependency>
       <groupId>sss.servs</groupId>
+      <artifactId>tag.api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+     <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>category.api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
       <artifactId>activity.api</artifactId>
       <version>${project.version}</version>
     </dependency>

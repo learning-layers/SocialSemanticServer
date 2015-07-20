@@ -116,10 +116,13 @@ recomm: #files have to be provided in sss's_working_dir/data/csv/
     #- circle1:BLL
     #- circle2:BLLacMPr
   recommTagsUserPerRealm:
-    #- circle1:userLabel1
-    #- circle1:userLabel2
-    #- circle2:userLabel3
-    #- circle2:userLabel4
+    #- circle1:userEmail1
+    #- circle1:userEmail2
+    #- circle2:userEmail3
+    #- circle2:userEmail4
+  recommTagsUsersToSetRealmsFromCircles: 
+    #- userEmail1
+    #- userEmail2
 #log:
 #  use: false
 #fileSysLocal:

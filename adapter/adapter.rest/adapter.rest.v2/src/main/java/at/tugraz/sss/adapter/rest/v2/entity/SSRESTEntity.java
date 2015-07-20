@@ -25,8 +25,10 @@ import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntityUsersGetPar;
 import at.tugraz.sss.servs.entity.datatypes.ret.SSEntityShareRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleEntityUsersGetRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesGetPar;
+import at.tugraz.sss.serv.SSEntityCopyPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntitiesGetRet;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityCopyRet;
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
@@ -213,6 +215,48 @@ public class SSRESTEntity {
     return SSRestMainV2.handleRequest(headers, par, false, true).response;
   }
   
+  @PUT
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    ("/{entity}/copy")
+  @ApiOperation(
+    value = "copy an entity",
+    response = SSEntityCopyRet.class)
+  public Response entityCopy(
+    @Context
+      final HttpHeaders headers,
+    
+    @PathParam (SSVarNames.entity)
+      final String entity, 
+    
+    final SSEntityCopyRESTAPIV2Par input){
+    
+    final SSEntityCopyPar par;
+    
+    try{
+      par =
+        new SSEntityCopyPar(
+          SSServOpE.entityCopy, 
+          null, //key 
+          null, //user
+          SSUri.get(entity, SSVocConf.sssUri), //entity
+          input.forUsers,
+          input.label, 
+          input.includeUsers, 
+          input.includeEntities, 
+          input.includeMetaSpecificToEntityAndItsEntities,
+          input.entitiesToExclude, 
+          input.comment, 
+          true, //withUserRestriction, 
+          true); //shouldCommit
+          
+    }catch(Exception error){
+      return Response.status(422).build();
+    }
+    
+    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+  }
+    
   @GET
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)

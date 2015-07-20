@@ -31,6 +31,7 @@ import at.kc.tugraz.ss.recomm.api.SSRecommServerI;
 import at.kc.tugraz.ss.recomm.conf.SSRecommConf;
 import at.kc.tugraz.ss.recomm.impl.SSRecommImpl;
 import at.kc.tugraz.ss.recomm.serv.task.SSRecommUpdateBulkTask;
+import at.kc.tugraz.ss.recomm.serv.task.SSRecommUpdateBulkUserRealmsFromCirclesTask;
 import at.kc.tugraz.ss.recomm.serv.task.SSRecommUpdateBulkUserRealmsFromConfTask;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.tugraz.sss.serv.SSServImplA;
@@ -93,8 +94,9 @@ public class SSRecommServ extends SSServContainerI{
       switch(initAtStartUpOp){
         
         case recommUpdate:{
-          SSDateU.scheduleNow(new SSRecommUpdateBulkTask(recommConf));
-          SSDateU.scheduleNow(new SSRecommUpdateBulkUserRealmsFromConfTask(recommConf));
+          SSDateU.scheduleNow(new SSRecommUpdateBulkTask                     (recommConf));
+          SSDateU.scheduleNow(new SSRecommUpdateBulkUserRealmsFromConfTask   (recommConf));
+          SSDateU.scheduleNow(new SSRecommUpdateBulkUserRealmsFromCirclesTask(recommConf));
           break;
         }
         
@@ -133,8 +135,9 @@ public class SSRecommServ extends SSServContainerI{
         switch(scheduleOp){
           
           case recommUpdate:{
-            SSDateU.scheduleNow(new SSRecommUpdateBulkTask(recommConf));
-            SSDateU.scheduleNow(new SSRecommUpdateBulkUserRealmsFromConfTask(recommConf));
+            SSDateU.scheduleNow(new SSRecommUpdateBulkTask                     (recommConf));
+            SSDateU.scheduleNow(new SSRecommUpdateBulkUserRealmsFromConfTask   (recommConf));
+            SSDateU.scheduleNow(new SSRecommUpdateBulkUserRealmsFromCirclesTask(recommConf));
             break;
           }
           
@@ -156,6 +159,10 @@ public class SSRecommServ extends SSServContainerI{
             recommConf.scheduleIntervals.get(counter) * SSDateU.minuteInMilliSeconds);
           
           SSDateU.scheduleAtFixedRate(new SSRecommUpdateBulkUserRealmsFromConfTask(recommConf),
+            SSDateU.getDatePlusMinutes(recommConf.scheduleIntervals.get(counter)),
+            recommConf.scheduleIntervals.get(counter) * SSDateU.minuteInMilliSeconds);
+          
+          SSDateU.scheduleAtFixedRate(new SSRecommUpdateBulkUserRealmsFromCirclesTask(recommConf),
             SSDateU.getDatePlusMinutes(recommConf.scheduleIntervals.get(counter)),
             recommConf.scheduleIntervals.get(counter) * SSDateU.minuteInMilliSeconds);
           break;

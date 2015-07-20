@@ -3,7 +3,7 @@
 * http://www.learning-layers.eu
 * Development is partly funded by the FP7 Programme of the European Commission under
 * Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+* Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
 * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,46 +18,67 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.adapter.rest.v1;
+package at.tugraz.sss.adapter.rest.v2.evallog;
 
+import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
 import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.serv.SSStrU;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityCopyPar;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityCopyRet;
+import at.tugraz.sss.serv.SSVarNames;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import sss.serv.eval.datatypes.par.SSEvalLogPar;
 import sss.serv.eval.datatypes.ret.SSEvalLogRet;
 
-@Path("")
-@Api( value = "SSAdapterRest")
-public class SSAdapterRest{
+@Path("/eval")
+@Api( value = "/eval")
+public class SSRESTEval {
   
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "entityCopy")
-  @ApiOperation(
-    value = "copy an entity and hand it to a user",
-    response = SSEntityCopyRet.class)
-  public String entityCopy(final SSEntityCopyPar input){
-    return SSRestMainV1.handleStandardJSONRESTCall(input, SSServOpE.entityCopy);
-  }
-  
-  @POST
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  @Path    (SSStrU.slash + "evalLog")
+  @Path("/log")
   @ApiOperation(
     value = "log events for evaluation purposes",
     response = SSEvalLogRet.class)
-  public String evalLog(final SSEvalLogPar input){
-    return SSRestMainV1.handleStandardJSONRESTCall(input, SSServOpE.evalLog);
+  public Response entitiesGet(
+    @Context
+    final HttpHeaders headers,
+    
+    @PathParam(SSVarNames.entities)
+    final String entities, 
+    
+    final SSEvalLogRESTAPIV2Par input){
+    
+    final SSEvalLogPar       par;
+    
+    try{
+      
+      par =
+        new SSEvalLogPar(
+          SSServOpE.evalLog, 
+          null, 
+          null, 
+          input.toolContext, 
+          input.forUser, 
+          input.type, 
+          input.entity, 
+          input.content, 
+          input.entities, 
+          input.users, 
+          true); //shouldCommit
+      
+    }catch(Exception error){
+      return Response.status(422).build();
+    }
+    
+    return SSRestMainV2.handleRequest(headers, par, false, true).response;
   }
 }
-

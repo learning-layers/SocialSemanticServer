@@ -25,7 +25,6 @@ import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpTimelineState;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpVersion;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpCreatePar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpRemovePar;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpCopyForUserPar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpLockHoldPar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpLockRemovePar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpLockSetPar;
@@ -67,7 +66,6 @@ public interface SSLearnEpServerI extends SSServServerI{
   public SSLearnEpTimelineState       learnEpVersionTimelineStateGet    (final SSLearnEpVersionTimelineStateGetPar par) throws Exception;
   public SSLearnEpVersion             learnEpVersionCurrentGet          (final SSLearnEpVersionCurrentGetPar       par) throws Exception;
   public SSUri                        learnEpVersionCurrentSet          (final SSLearnEpVersionCurrentSetPar       par) throws Exception;
-  public SSUri                        learnEpCopyForUser                (final SSLearnEpCopyForUserPar             par) throws Exception;
   public List<SSLearnEpLockHoldRet>   learnEpsLockHold                  (final SSLearnEpsLockHoldPar               par) throws Exception;
   public SSLearnEpLockHoldRet         learnEpLockHold                   (final SSLearnEpLockHoldPar                par) throws Exception;
   public Boolean                      learnEpLockSet                    (final SSLearnEpLockSetPar                 par) throws Exception;

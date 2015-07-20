@@ -147,7 +147,6 @@ public enum SSServOpE{
   learnEpVersionCreate                                ,
   learnEpVersionCircleAdd                             ,
   learnEpVersionEntityAdd                             ,
-  learnEpCopyForUser                                  ,
   learnEpCreate                                       ,
   learnEpVersionCircleUpdate                          ,
   learnEpVersionEntityUpdate                          ,
@@ -297,6 +296,7 @@ public enum SSServOpE{
   recommUpdateBulkEntities,
   recommUpdateBulk,
   recommUpdateBulkUserRealmsFromConf,
+  recommUpdateBulkUserRealmsFromCircles,
   
   //i5cloud
   i5CloudAuth,

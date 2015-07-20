@@ -74,18 +74,6 @@ public class SSRESTFile{
     final String label,
     
     @ApiParam(
-      value = "tags for this file",
-      required = false)
-    @FormDataParam(SSVarNames.tags)
-    final String tags,
-    
-    @ApiParam(
-      value = "categories for this file",
-      required = false)
-    @FormDataParam(SSVarNames.categories)
-    final String categories,
-    
-    @ApiParam(
       value = "circle to consider for metadata visibility",
       required = false)
     @FormDataParam(SSVarNames.circle)
@@ -115,12 +103,10 @@ public class SSRESTFile{
           null,
           SSMimeTypeE.get(mimeType),  //mimeType
           SSLabel.get    (label),  //label
-          SSStrU.splitDistinctWithoutEmptyAndNull(tags,       SSStrU.comma),
-          SSStrU.splitDistinctWithoutEmptyAndNull(categories, SSStrU.comma),
           SSUri.get(circle, SSVocConf.sssUri), //circle
           null, //sSCon
           true); //shouldCommit
-      
+
       restObj = new SSRESTObject(par);
       
     }catch(Exception error){

@@ -179,7 +179,9 @@ public class SSRESTCircle{
       final String circle,
     
     @PathParam (SSVarNames.entities) 
-      final String entities){
+      final String entities, 
+    
+    final SSCircleEntitiesAddRESTAPIV2Par input){
     
     final SSCircleEntitiesAddPar par;
     
@@ -194,6 +196,14 @@ public class SSRESTCircle{
           SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(entities, SSStrU.comma), SSVocConf.sssUri),  //entities
           true,  //withUserRestriction
           true); //shouldCommit
+      
+      if(input.tags != null){
+        par.tags.addAll(input.tags);
+      }
+      
+      if(input.categories != null){
+        par.categories.addAll(input.categories);
+      }
       
     }catch(Exception error){
       return Response.status(422).build();

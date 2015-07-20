@@ -25,7 +25,7 @@ import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSSocketCon;
 import at.kc.tugraz.ss.circle.api.SSCircleClientI;
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
-import at.kc.tugraz.ss.circle.impl.fct.activity.SSCircleActivityFct;
+import at.kc.tugraz.ss.circle.impl.fct.serv.SSCircleActivityFct;
 import at.kc.tugraz.ss.circle.impl.fct.misc.SSCircleMiscFct;
 import at.kc.tugraz.ss.circle.impl.fct.sql.SSCircleSQLFct;
 import at.tugraz.sss.serv.SSCircleE;
@@ -66,6 +66,7 @@ import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
+import at.tugraz.sss.serv.SSEntityCopyPar;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
 import at.tugraz.sss.serv.SSEntityHandlerImplI;
 import at.tugraz.sss.serv.SSServImplWithDBA;
@@ -75,6 +76,7 @@ import java.util.ArrayList;
 import java.util.List;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSErrE;
+import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServErrReg;
@@ -164,14 +166,60 @@ implements
   
   @Override
   public void copyEntity(
-    final SSUri        user,
-    final List<SSUri>  users,
-    final SSUri        entity,
-    final List<SSUri>  entitiesToExclude,
-    final SSEntityE    entityType) throws Exception{
+    final SSEntity                  entity,
+    final SSEntityCopyPar           par) throws Exception{
     
+    try{
+      
+      if(
+        !SSStrU.equals(entity.type, SSEntityE.circle) ||
+        SSCircleMiscFct.isUserAllowedToEditCircle(sqlFct, par.user, entity.id)){
+        return;
+      }
+      
+      final SSUri          copyCircleURI;
+      final SSEntityCircle circle;
+      final SSLabel        label;
+      
+      circle = 
+        circleGet(
+          new SSCircleGetPar(
+            null,
+            null,
+            par.user,
+            entity.id,
+            null, //entityTypesToIncludeOnly
+            par.withUserRestriction,
+            false)); //invokeEntityHandlers
+      
+      if(par.label != null){
+        label = par.label;
+      }else{
+        label = circle.label;
+      }
+      
+      for(SSUri forUser : par.forUsers){
+        
+        copyCircleURI =
+          circleCreate(
+            new SSCircleCreatePar(
+              null,
+              null,
+              par.user,
+              forUser,
+              circle.circleType,
+              label,
+              circle.description,
+              circle.isSystemCircle,
+              par.withUserRestriction,
+              false)); //shouldCommit
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
   }
-  
+    
   @Override
   public List<SSUri> getSubEntities(
     final SSUri         user,
@@ -319,12 +367,12 @@ implements
           throw new SSErr(SSErrE.notAllowedToCreateCircle);
         }
         
-        if(
-          par.forUser != null &&
-          !SSStrU.equals(par.user,  par.forUser)){
-          
-          throw new SSErr(SSErrE.notAllowedToCreateCircle);
-        }
+//        if(
+//          par.forUser != null &&
+//          !SSStrU.equals(par.user,  par.forUser)){
+//          
+//          throw new SSErr(SSErrE.notAllowedToCreateCircle);
+//        }
         
         switch(par.circleType){
           case group:{
@@ -334,9 +382,9 @@ implements
         }
       }
       
-      if(par.forUser == null){
-        par.forUser = par.user;
-      }
+//      if(par.forUser == null){
+//        par.forUser = par.user;
+//      }
       
       dbSQL.startTrans(par.shouldCommit);
       
@@ -361,7 +409,7 @@ implements
         circleUri, 
         par.circleType, 
         par.isSystemCircle, 
-        par.forUser);
+        par.user); //par.forUser
       
       dbSQL.commit(par.shouldCommit);
       
@@ -484,6 +532,18 @@ implements
           null, //entityTypesToIncludeOnly,
           par.withUserRestriction, //withUserRestriction,
           true)); //invokeEntityHandlers))
+    
+    SSCircleActivityFct.addTags(
+      par.user, 
+      par.tags, 
+      par.entities, 
+      par.circle);
+    
+    SSCircleActivityFct.addCategories(
+      par.user, 
+      par.categories, 
+      par.entities, 
+      par.circle);
     
     final List<SSEntity> entities = 
       ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(

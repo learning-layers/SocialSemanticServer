@@ -1,28 +1,29 @@
 /**
-* Code contributed to the Learning Layers project
-* http://www.learning-layers.eu
-* Development is partly funded by the FP7 Programme of the European Commission under
-* Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
-* For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
-*
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-* http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*/
+ * Code contributed to the Learning Layers project
+ * http://www.learning-layers.eu
+ * Development is partly funded by the FP7 Programme of the European Commission under
+ * Grant Agreement FP7-ICT-318209.
+ * Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+ * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package at.kc.tugraz.ss.serv.datatypes.learnep.impl;
 
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesAddPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleUsersAddPar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCirclesFromEntityEntitiesAdd;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesGetPar;
@@ -32,6 +33,7 @@ import at.kc.tugraz.ss.serv.datatypes.learnep.api.SSLearnEpClientI;
 import at.kc.tugraz.ss.serv.datatypes.learnep.api.SSLearnEpServerI;
 import at.kc.tugraz.ss.serv.datatypes.learnep.conf.SSLearnEpConf;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEp;
+import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpCircle;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpEntity;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpTimelineState;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpVersion;
@@ -40,19 +42,18 @@ import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpLockHoldPar
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpLockRemovePar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpLockSetPar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpRemovePar;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpCopyForUserPar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionCircleAddPar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionEntityAddPar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionCreatePar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionCurrentGetPar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionCurrentSetPar;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionGetPar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionTimelineStateGetPar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionCircleRemovePar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionEntityRemovePar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionTimelineStateSetPar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionCircleUpdatePar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionEntityUpdatePar;
+import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionGetPar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionsGetPar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpsGetPar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpsLockHoldPar;
@@ -80,7 +81,6 @@ import at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.access.SSLearnEpAccessCon
 import at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.activity.SSLearnEpActivityFct;
 import at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.misc.SSLearnEpMiscFct;
 import at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.sql.SSLearnEpSQLFct;
-import at.kc.tugraz.ss.service.filerepo.api.SSFileRepoServerI;
 import at.tugraz.sss.serv.SSCircleContentChangedPar;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSSocketCon;
@@ -93,6 +93,7 @@ import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSEntity;
+import at.tugraz.sss.serv.SSEntityCopyPar;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
 import at.tugraz.sss.serv.SSEntityHandlerImplI;
 import at.tugraz.sss.serv.SSServImplWithDBA;
@@ -103,36 +104,34 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import at.tugraz.sss.serv.SSErrE;
-import at.tugraz.sss.serv.SSImageE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
-import at.tugraz.sss.servs.file.datatype.par.SSEntityFilesGetPar;
-import at.tugraz.sss.servs.image.api.SSImageServerI;
-import at.tugraz.sss.servs.image.datatype.par.SSImagesGetPar;
 
-public class SSLearnEpImpl 
-extends SSServImplWithDBA 
-implements 
-  SSLearnEpClientI, 
+public class SSLearnEpImpl
+extends SSServImplWithDBA
+implements
+  SSLearnEpClientI,
   SSLearnEpServerI,
   SSEntityHandlerImplI,
   SSUsersResourcesGathererI{
-
-  private final SSLearnEpSQLFct sqlFct;
-  private final SSLearnEpConf   learnEpConf;
-
+  
+  private final SSLearnEpSQLFct  sqlFct;
+  private final SSLearnEpConf    learnEpConf;
+  private final SSLearnEpMiscFct miscFct;
+  
   public SSLearnEpImpl(final SSConfA conf) throws Exception{
-
+    
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
-
+    
 //    graphFct  = new SSLearnEpGraphFct (this);
-    sqlFct        = new SSLearnEpSQLFct(this);
     learnEpConf   = (SSLearnEpConf) conf;
+    sqlFct        = new SSLearnEpSQLFct(this);
+    miscFct       = new SSLearnEpMiscFct();
   }
-
+  
   @Override
   public SSEntity getUserEntity(
-    final SSEntity             entity, 
+    final SSEntity             entity,
     final SSEntityDescriberPar par) throws Exception{
     
     return entity;
@@ -140,7 +139,7 @@ implements
   
   @Override
   public void getUsersResources(
-    final List<String>             allUsers, 
+    final List<String>             allUsers,
     final Map<String, List<SSUri>> usersResources) throws Exception{
     
     for(String user : allUsers){
@@ -179,13 +178,13 @@ implements
     
     return new ArrayList<>();
   }
-    
+  
   @Override
   public List<SSUri> getSubEntities(
     final SSUri     user,
     final SSUri     entity,
     final SSEntityE type) throws Exception{
-
+    
     return null;
   }
   
@@ -207,14 +206,14 @@ implements
               
               sqlFct.addLearnEp(entityToAdd.id, userToPushEntityTo);
             }
-              
+            
             ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleEntitiesAdd(
               new SSCircleEntitiesAddPar(
                 null,
                 null,
                 par.user,
                 par.circle,
-                SSLearnEpMiscFct.getLearnEpContentURIs(par.user, sqlFct, entityToAdd.id),
+                miscFct.getLearnEpContentURIs(par.user, sqlFct, entityToAdd.id),
                 false,
                 false));
             
@@ -247,32 +246,98 @@ implements
   
   @Override
   public void copyEntity(
-    final SSUri       user,
-    final List<SSUri> users,
-    final SSUri       entity,
-    final List<SSUri> entitiesToExclude,
-    final SSEntityE   entityType) throws Exception{
-
+    final SSEntity                  entity,
+    final SSEntityCopyPar           par) throws Exception{
+    
     try{
-
-      if(!SSStrU.equals(entityType, SSEntityE.learnEp)){
+      
+      if(!SSStrU.equals(entity.type, SSEntityE.learnEp)){
         return;
       }
+      
+      final SSLearnEp learnEp = sqlFct.getLearnEpWithVersions(par.user, entity.id, true);
+      SSUri           copyVersionUri;
+      SSUri           copyLearnEpUri;
 
-      for(SSUri forUser : users){
-
-        learnEpCopyForUser(
-          new SSLearnEpCopyForUserPar(
-            null, 
-            null, 
-            user, 
-            entity, 
-            forUser, 
-            entitiesToExclude, 
-            false));
+      for(SSUri forUser : par.forUsers){
+        
+        copyLearnEpUri =
+          learnEpCreate(
+            new SSLearnEpCreatePar(
+              null,
+              null,
+              forUser,
+              learnEp.label,
+              learnEp.description,
+              false));
+        
+        for(SSLearnEpVersion version : learnEp.versions){
+          
+          copyVersionUri =
+            learnEpVersionCreate(
+              new SSLearnEpVersionCreatePar(
+                null,
+                null,
+                forUser,
+                copyLearnEpUri,
+                false));
+          
+          for(SSLearnEpCircle circle : version.learnEpCircles){
+            
+            if(SSStrU.contains(par.entitiesToExclude, circle.id)){
+              continue;
+            }
+            
+            learnEpVersionCircleAdd(
+              new SSLearnEpVersionCircleAddPar(
+                null,
+                null,
+                forUser,
+                copyVersionUri,
+                circle.label,
+                circle.xLabel,
+                circle.yLabel,
+                circle.xR,
+                circle.yR,
+                circle.xC,
+                circle.yC,
+                false));
+          }
+          
+          for(SSLearnEpEntity learnEpEntity : version.learnEpEntities){
+            
+            if(
+              SSStrU.contains(par.entitiesToExclude, learnEpEntity.id) ||
+              SSStrU.contains(par.entitiesToExclude, learnEpEntity.entity)){
+              continue;
+            }
+            
+            learnEpVersionEntityAdd(
+              new SSLearnEpVersionEntityAddPar(
+              null,
+              null,
+              forUser,
+              copyVersionUri,
+              learnEpEntity.entity.id,
+              learnEpEntity.x,
+              learnEpEntity.y,
+              false));
+          }
+          
+          if(version.learnEpTimelineState != null){
+            
+            learnEpVersionTimelineStateSet(
+              new SSLearnEpVersionTimelineStateSetPar(
+              null,
+              null,
+              forUser,
+              copyVersionUri,
+              version.learnEpTimelineState.startTime,
+              version.learnEpTimelineState.endTime,
+              false));
+          }
+        }
       }
-
-
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
@@ -726,7 +791,6 @@ implements
 
     try{
       final SSUri                        learnEpEntityUri = SSServCaller.vocURICreate();
-      final List<SSUri>                  filesAndThumbs   = new ArrayList<>();
       final List<SSUri>                  entities         = new ArrayList<>();
       final SSUri                        learnEp;
 
@@ -755,54 +819,26 @@ implements
           false, //withUserRestriction
           false)); //shouldCommit)
             
-      //TODO replace this parts with circleContentedChanged
-      filesAndThumbs.addAll(
-        ((SSFileRepoServerI) SSServReg.getServ(SSFileRepoServerI.class)).filesGet(
-          new SSEntityFilesGetPar(
-            null,
-            null,
-            par.user,
-            par.entity,
-            true)));  //withUserRestcrition);
-      
-      filesAndThumbs.addAll(
-        SSUri.getFromEntitites(
-          ((SSImageServerI) SSServReg.getServ(SSImageServerI.class)).imagesGet(
-            new SSImagesGetPar(
-              null,
-              null,
-              par.user,
-              par.entity, //entity,
-              SSImageE.thumb, //imageType,
-              false)))); //withUserRestriction
+      //TODO replace this parts with circleContentedChanged:
+      //1. dont retrieve entities for learn ep entity here anymore
+      //2. extend circlesFromEntityEntitiesAdd to call "circleContentChanged" upon each circle to be touched
+      //3. for each entity targeted in "circleContentChanged" call "circleContentChanged" for its affiliated entities
+      //4. make sure to avoid recursion on entites via list keeping all entities for "circleContentChanged" was called so far
+      //5. call this process whereever "circlesFromEntityEntitiesAdd" is/can be called
       
       entities.add   (learnEpEntityUri);
       entities.add   (par.entity);
-      entities.addAll(filesAndThumbs);
-        
-      for(SSEntity entityUserCircle : 
-        ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlesGet(
-          new SSCirclesGetPar(
-            null, 
-            null, 
-            par.user, 
-            par.learnEpVersion, 
-            null, 
-            false, 
-            true, 
-            false))){
-
-        ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleEntitiesAdd(
-          new SSCircleEntitiesAddPar(
-            null, 
-            null, 
-            par.user, 
-            entityUserCircle.id, 
-            entities, 
-            false,
-            false));
-      }        
+      entities.addAll(miscFct.getLearnEpEntityAttachedEntities(par.user, par.entity));
       
+      ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlesFromEntityEntitiesAdd(
+        new SSCirclesFromEntityEntitiesAdd(
+          null, 
+          null, 
+          par.user, 
+          par.learnEpVersion, 
+          entities, 
+          false));
+     
       sqlFct.addEntityToLearnEpVersion(
         learnEpEntityUri,
         par.learnEpVersion,
@@ -1006,28 +1042,14 @@ implements
       
       if(par.entity != null){
         
-        for(SSEntity entityUserCircle :
-          ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlesGet(
-            new SSCirclesGetPar(
-              null,
-              null,
-              par.user,
-              par.learnEpEntity,
-              null,
-              false,
-              true,
-              false))){
-          
-          ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleEntitiesAdd(
-            new SSCircleEntitiesAddPar(
-              null,
-              null,
-              par.user,
-              entityUserCircle.id,
-              SSUri.asListWithoutNullAndEmpty(par.entity),
-              false,
-              false));
-        }
+        ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlesFromEntityEntitiesAdd(
+          new SSCirclesFromEntityEntitiesAdd(
+            null,
+            null,
+            par.user,
+            par.learnEpEntity,
+            SSUri.asListWithoutNullAndEmpty(par.entity),
+            false));
       }
       
       sqlFct.updateEntity(
@@ -1210,28 +1232,14 @@ implements
           false, //withUserRestriction
           false)); //shouldCommit)
       
-      for(SSEntity entityUserCircle :
-        ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlesGet(
-          new SSCirclesGetPar(
-            null,
-            null,
-            par.user,
-            par.learnEpVersion,
-            null,
-            false,
-            true,
-            false))){
-
-        ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleEntitiesAdd(
-          new SSCircleEntitiesAddPar(
-            null, 
-            null, 
-            par.user, 
-            entityUserCircle.id, 
-            SSUri.asListWithoutNullAndEmpty(learnEpTimelineStateUri), 
-            false,
-            false));
-      }
+      ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlesFromEntityEntitiesAdd(
+        new SSCirclesFromEntityEntitiesAdd(
+          null,
+          null,
+          par.user,
+          par.learnEpVersion,
+          SSUri.asListWithoutNullAndEmpty(learnEpTimelineStateUri),
+          false));
 
       sqlFct.setLearnEpVersionTimelineState(
         learnEpTimelineStateUri,
@@ -1385,47 +1393,6 @@ implements
     }
   }
 
-  @Override
-  public SSUri learnEpCopyForUser(final SSLearnEpCopyForUserPar par) throws Exception{
-
-    try{
-      SSServCallerU.canUserEditEntity(par.user, par.entity);
-      
-      dbSQL.startTrans(par.shouldCommit);
-
-      SSLearnEpMiscFct.copyLearnEpForUser(
-        this,
-        sqlFct,
-        par.user,
-        par.forUser,
-        par.entitiesToExclude,
-        par.entity);
-
-      dbSQL.commit(par.shouldCommit);
-
-      return par.entity;
-
-    }catch(Exception error){
-      
-      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
-        
-        if(dbSQL.rollBack(par.shouldCommit)){
-          
-          SSServErrReg.reset();
-          
-          return learnEpCopyForUser(par);
-        }else{
-          SSServErrReg.regErrThrow(error);
-          return null;
-        }
-      }
-      
-      dbSQL.rollBack(par.shouldCommit);
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
   @Override
   public void learnEpsLockHold(SSSocketCon sSCon, SSServPar parA) throws Exception{
 

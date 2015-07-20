@@ -23,6 +23,7 @@ package at.kc.tugraz.ss.recomm.serv.task;
 import at.kc.tugraz.ss.recomm.api.SSRecommServerI;
 import at.tugraz.sss.serv.SSLogU;
 import at.kc.tugraz.ss.recomm.conf.SSRecommConf;
+import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommUpdateBulkUserRealmsFromCirclesPar;
 import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommUpdateBulkUserRealmsFromConfPar;
 import at.kc.tugraz.ss.recomm.serv.SSRecommServ;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
@@ -30,11 +31,11 @@ import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServImplStartA;
 import java.util.TimerTask;
 
-public class SSRecommUpdateBulkUserRealmsFromConfTask extends TimerTask {
+public class SSRecommUpdateBulkUserRealmsFromCirclesTask extends TimerTask {
   
   private final SSRecommConf recommConf;
   
-  public SSRecommUpdateBulkUserRealmsFromConfTask(
+  public SSRecommUpdateBulkUserRealmsFromCirclesTask(
     final SSRecommConf recommConf){
     
     this.recommConf = recommConf;
@@ -44,17 +45,17 @@ public class SSRecommUpdateBulkUserRealmsFromConfTask extends TimerTask {
   public void run(){
     
     try{
-      new Thread(new SSRecommBulkUserRealmsFromConfUpdater(recommConf)).start();
+      new Thread(new SSRecommUpdateBulkUserRealmsFromCirclesUpdater(recommConf)).start();
     }catch(Exception error){
       SSServErrReg.regErr(error);
     }
   }
   
-  protected class SSRecommBulkUserRealmsFromConfUpdater extends SSServImplStartA{
+  protected class SSRecommUpdateBulkUserRealmsFromCirclesUpdater extends SSServImplStartA{
     
     private final SSRecommConf recommConf;
     
-    public SSRecommBulkUserRealmsFromConfUpdater(
+    public SSRecommUpdateBulkUserRealmsFromCirclesUpdater(
       final SSRecommConf recommConf) throws Exception{
       
       super(null, null);
@@ -67,8 +68,8 @@ public class SSRecommUpdateBulkUserRealmsFromConfTask extends TimerTask {
       
       try{
         
-        ((SSRecommServerI) SSRecommServ.inst.serv()).recommUpdateBulkUserRealmsFromConf(
-          new SSRecommUpdateBulkUserRealmsFromConfPar(
+        ((SSRecommServerI) SSRecommServ.inst.serv()).recommUpdateBulkUserRealmsFromCircles(
+          new SSRecommUpdateBulkUserRealmsFromCirclesPar(
             null, 
             null,
             SSVocConf.systemUserUri));

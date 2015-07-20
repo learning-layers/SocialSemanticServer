@@ -20,6 +20,44 @@
 */
 package at.tugraz.sss.serv;
 
-public enum SSToolE{
+import java.util.ArrayList;
+import java.util.List;
+
+public enum SSToolE implements SSJSONLDPropI{
+  
   bnp;
+  
+  @Override
+  public Object jsonLDDesc() {
+    return SSVarNames.xsd + SSStrU.colon + SSStrU.valueString;
+  }
+  
+  public static SSToolE get(final String space) throws Exception{
+    
+    try{
+      
+      if(space == null){
+        return null;
+      }
+      
+      return SSToolE.valueOf(space);
+    }catch(Exception error){
+      throw new Exception("tool enumn ivalid");
+    }
+  }
+  
+  public static List<SSToolE> get(final List<String> strings) throws Exception{
+
+    final List<SSToolE> result = new ArrayList<>();
+    
+    if(strings == null){
+      return result;
+    }
+    
+    for(String string : strings){
+      result.add(get(string));
+    }
+    
+    return result;
+  }
 }

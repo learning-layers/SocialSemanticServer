@@ -70,7 +70,8 @@ public class SSRecommUpdateBulkUploader extends SSServImplStartA{
           par.user,
           par.realm,
           true,
-          sqlFct);
+          sqlFct,
+          true);
       
       this.fileOutputStream = SSFileU.openOrCreateFileWithPathForWrite (dataCSVPath + userRealmEngine.realm + SSStrU.dot + SSFileExtE.txt);
       

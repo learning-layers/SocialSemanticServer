@@ -20,37 +20,27 @@
 */
 package at.kc.tugraz.ss.serv.job.dataexport.datatypes.par;
 
-import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServErrReg;
-import java.util.ArrayList;
-import java.util.List;
+import at.tugraz.sss.serv.SSServOpE;
 
-public class SSDataExportAddTagsCategoriesTimestampsForUserEntityPar extends SSServPar{
+public class SSDataExportUsersEntitiesTagsCategoriesTimestampsFileFromCirclePar extends SSServPar{
   
+  public SSUri        circle     = null;
   public String       fileName   = null;
-  public SSUri        forUser    = null;
-  public SSUri        entity     = null;
-  public List<String> tags       = new ArrayList<>();
-  public List<String> categories = new ArrayList<>();
   
-  public SSDataExportAddTagsCategoriesTimestampsForUserEntityPar(final SSServPar par) throws Exception{
+  public SSDataExportUsersEntitiesTagsCategoriesTimestampsFileFromCirclePar(
+    final SSServOpE     op,
+    final String        key,
+    final SSUri         user,
+    final SSUri         circle, 
+    final String        fileName,
+    final Boolean       withUserRestriction){
     
-    super(par);
+    super(op, key, user);
     
-    try{
-      
-      if(pars != null){
-        fileName              = (String)                   pars.get(SSVarNames.fileName);
-        forUser               = (SSUri)                    pars.get(SSVarNames.forUser);
-        entity                = (SSUri)                    pars.get(SSVarNames.entity);
-        tags                  = (List<String>)             pars.get(SSVarNames.tags);
-        categories            = (List<String>)             pars.get(SSVarNames.categories);
-      }
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
+    this.circle              = circle;
+    this.fileName            = fileName;
+    this.withUserRestriction = withUserRestriction;
   }
 }
