@@ -31,7 +31,6 @@ import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSDateU;
-import at.tugraz.sss.serv.SSErr;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;

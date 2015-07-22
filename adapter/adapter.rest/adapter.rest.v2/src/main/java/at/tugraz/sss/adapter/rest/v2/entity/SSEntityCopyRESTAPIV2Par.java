@@ -26,7 +26,6 @@ import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
-import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -35,6 +34,16 @@ import javax.xml.bind.annotation.XmlRootElement;
 @ApiModel(value = "entity copy request parameter")
 public class SSEntityCopyRESTAPIV2Par{
 
+  @ApiModelProperty(
+    required = false,
+    value = "the entity merge the to be copied in")
+  public SSUri targetEntity = null;
+  
+  @XmlElement
+  public void setTargetEntity(final String targetEntity) throws Exception{
+    this.targetEntity = SSUri.get(targetEntity, SSVocConf.sssUri);
+  }
+    
   @ApiModelProperty(
     required = false,
     value = "users to copy for")

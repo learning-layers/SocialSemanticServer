@@ -65,7 +65,6 @@ public class SSCircleCreateFromClientPar extends SSCircleCreatePar{
       op,
       key,
       user,
-      user, //forUser
       SSCircleE.group,//circleType,
       label,
       description,

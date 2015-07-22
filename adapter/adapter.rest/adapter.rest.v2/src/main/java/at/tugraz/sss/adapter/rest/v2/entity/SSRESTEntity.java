@@ -240,6 +240,7 @@ public class SSRESTEntity {
           null, //key 
           null, //user
           SSUri.get(entity, SSVocConf.sssUri), //entity
+          input.targetEntity, //targetEntity
           input.forUsers,
           input.label, 
           input.includeUsers, 

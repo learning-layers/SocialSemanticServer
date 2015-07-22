@@ -196,13 +196,15 @@ implements
     }
   }
   
-  @Override
+@Override
   public void copyEntity(
-    final SSUri        user,
-    final List<SSUri>  users,
-    final SSUri        entity,
-    final List<SSUri>  entitiesToExclude,
-    final SSEntityE    entityType) throws Exception{
+    final SSEntity                  entity,
+    final SSEntityCopyPar           par) throws Exception{
+    
+  }
+  
+  @Override
+  public void entityCopied(final SSEntityCopiedPar par) throws Exception{
     
   }
   

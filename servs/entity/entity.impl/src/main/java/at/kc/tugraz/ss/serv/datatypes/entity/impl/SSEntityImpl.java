@@ -49,7 +49,6 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUpdateRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.SSEntityActivityFct;
 import at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.SSEntitySQLFct;
 import at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.SSEntityUserRelationsGatherFct;
-import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.kc.tugraz.ss.service.search.datatypes.SSSearchOpE;
 import at.kc.tugraz.ss.service.userevent.api.SSUEServerI;
 import at.tugraz.sss.serv.SSObjU;
@@ -76,6 +75,7 @@ import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSEntityCircle;
+import at.tugraz.sss.serv.SSEntityCopiedPar;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
 import java.util.ArrayList;
 import java.util.List;
@@ -117,10 +117,15 @@ implements
     
   }
   
-  @Override
+@Override
   public void copyEntity(
     final SSEntity                  entity,
     final SSEntityCopyPar           par) throws Exception{
+    
+  }
+  
+  @Override
+  public void entityCopied(final SSEntityCopiedPar par) throws Exception{
     
   }
 
@@ -873,13 +878,12 @@ implements
         
         SSServCallerU.checkWhetherUsersAreUsers(par.users);
         
-        final SSUri           circleUri =
+        final SSUri          circleUri =
           ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleCreate(
             new SSCircleCreatePar(
               null,
               null,
-              SSVocConf.systemUserUri, //user
-              par.user, //forUser,
+              par.user, //user
               SSCircleE.group,
               null, //label
               null, //description

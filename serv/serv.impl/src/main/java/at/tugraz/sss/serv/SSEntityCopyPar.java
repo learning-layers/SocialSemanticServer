@@ -25,17 +25,22 @@ import java.util.List;
 
 public class SSEntityCopyPar extends SSServPar{
   
-  public SSUri         entity                                    = null;
-  public List<SSUri>   forUsers                                  = new ArrayList<>();
-  public SSLabel       label                                     = null;
-  public Boolean       includeUsers                              = false;
-  public Boolean       includeEntities                           = false;
-  public Boolean       includeMetaSpecificToEntityAndItsEntities = false;
-  public List<SSUri>   entitiesToExclude                         = new ArrayList<>();
-  public SSTextComment comment                                   = null;
+  public SSUri         entity                                        = null;
+  public SSUri         targetEntity                                  = null;
+  public List<SSUri>   forUsers                                      = new ArrayList<>();
+  public SSLabel       label                                         = null;
+  public Boolean       includeUsers                                  = false;
+  public Boolean       includeEntities                               = false;
+  public Boolean       includeMetadataSpecificToEntityAndItsEntities = false;
+  public List<SSUri>   entitiesToExclude                             = new ArrayList<>();
+  public SSTextComment comment                                       = null;
     
   public void setEntity(final String entity) throws Exception{
     this.entity = SSUri.get(entity);
+  }
+  
+  public void setTargetEntity(final String targetEntity) throws Exception{
+    this.targetEntity = SSUri.get(targetEntity);
   }
   
   public void setForUsers(final List<String> forUsers) throws Exception{
@@ -56,6 +61,10 @@ public class SSEntityCopyPar extends SSServPar{
   
   public String getEntity(){
     return SSStrU.removeTrailingSlash(entity);
+  }
+  
+  public String getTargetEntity(){
+    return SSStrU.removeTrailingSlash(targetEntity);
   }
   
   public List<String> getForUsers() throws Exception{
@@ -81,11 +90,12 @@ public class SSEntityCopyPar extends SSServPar{
     final String        key,
     final SSUri         user,
     final SSUri         entity, 
+    final SSUri         targetEntity,
     final List<SSUri>   forUsers, 
     final SSLabel       label,
     final Boolean       includeUsers,
     final Boolean       includeEntities,
-    final Boolean       includeMetaSpecificToEntityAndItsEntities,
+    final Boolean       includeMetadataSpecificToEntityAndItsEntities,
     final List<SSUri>   entitiesToExclude, 
     final SSTextComment comment, 
     final Boolean       withUserRestriction,
@@ -93,14 +103,15 @@ public class SSEntityCopyPar extends SSServPar{
     
     super(op, key, user);
     
-    this.entity = entity;
+    this.entity       = entity;
+    this.targetEntity = targetEntity;
     
     SSUri.addDistinctWithoutNull(this.forUsers,          forUsers);
     
     this.label                                           = label;
     this.includeUsers                                    = includeUsers;
     this.includeEntities                                 = includeEntities;
-    this.includeMetaSpecificToEntityAndItsEntities       = includeMetaSpecificToEntityAndItsEntities;
+    this.includeMetadataSpecificToEntityAndItsEntities   = includeMetadataSpecificToEntityAndItsEntities;
     
     SSUri.addDistinctWithoutNull(this.entitiesToExclude, entitiesToExclude);    
     

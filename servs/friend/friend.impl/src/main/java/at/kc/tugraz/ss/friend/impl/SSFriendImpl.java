@@ -42,6 +42,8 @@ import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSEntity;
+import at.tugraz.sss.serv.SSEntityCopiedPar;
+import at.tugraz.sss.serv.SSEntityCopyPar;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSEntityHandlerImplI;
@@ -102,11 +104,13 @@ implements
   
   @Override
   public void copyEntity(
-    final SSUri        user,
-    final List<SSUri>  users,
-    final SSUri        entity,
-    final List<SSUri>  entitiesToExclude,
-    final SSEntityE    entityType) throws Exception{
+    final SSEntity                  entity,
+    final SSEntityCopyPar           par) throws Exception{
+    
+  }
+  
+  @Override
+  public void entityCopied(final SSEntityCopiedPar par) throws Exception{
     
   }
   
