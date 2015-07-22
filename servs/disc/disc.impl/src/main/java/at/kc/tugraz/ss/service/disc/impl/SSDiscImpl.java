@@ -131,9 +131,9 @@ public class SSDiscImpl
         for(SSEntity circle : discUserCircles){
 
           if(userRelations.containsKey(user)){
-            userRelations.get(user).addAll(SSUri.getFromEntitites(circle.users));
+            userRelations.get(user).addAll(SSUri.getDistinctNotNullFromEntities(circle.users));
           }else{
-            userRelations.put(user, SSUri.getFromEntitites(circle.users));
+            userRelations.put(user, SSUri.getDistinctNotNullFromEntities(circle.users));
           }
         }
       }
@@ -690,7 +690,7 @@ public class SSDiscImpl
       
       if(par.withUserRestriction){
         
-        return SSUri.getFromEntitites(
+        return SSUri.getDistinctNotNullFromEntities(
           ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
             new SSEntitiesGetPar(
               null, 

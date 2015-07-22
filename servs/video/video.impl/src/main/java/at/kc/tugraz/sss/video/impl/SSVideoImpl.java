@@ -454,7 +454,7 @@ implements
             null,
             null,
             par.user,
-            SSUri.getFromEntitites(sqlFct.getAnnotations(video.id)),
+            SSUri.getDistinctNotNullFromEntities(sqlFct.getAnnotations(video.id)),
             null, //types
             null, //descPar
             par.withUserRestriction)));

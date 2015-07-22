@@ -225,7 +225,8 @@ public class SSTagAndCategoryCommonSQL extends SSDBSQLFct{
                 bindingStrToUri  (resultSet, SSSQLVarNames.userId),
                 bindingStrToSpace(resultSet, metadataSpaceSQLName),
                 SSTagLabel.get   (bindingStr(resultSet, SSSQLVarNames.label)),
-                bindingStrToUri  (resultSet, SSSQLVarNames.circleId)));
+                bindingStrToUri  (resultSet, SSSQLVarNames.circleId),
+                bindingStrToLong (resultSet, SSSQLVarNames.creationTime)));
             break;
           }
           
@@ -237,7 +238,8 @@ public class SSTagAndCategoryCommonSQL extends SSDBSQLFct{
                 bindingStrToUri     (resultSet, SSSQLVarNames.userId),
                 bindingStrToSpace   (resultSet, metadataSpaceSQLName),
                 SSCategoryLabel.get (bindingStr(resultSet, SSSQLVarNames.label)),
-                bindingStrToUri     (resultSet, SSSQLVarNames.circleId)));
+                bindingStrToUri     (resultSet, SSSQLVarNames.circleId),
+                bindingStrToLong (resultSet, SSSQLVarNames.creationTime)));
             break;
           }
           
@@ -375,7 +377,8 @@ public class SSTagAndCategoryCommonSQL extends SSDBSQLFct{
                 bindingStrToUri   (resultSet, SSSQLVarNames.userId),
                 bindingStrToSpace (resultSet, metadataSpaceSQLName),
                 SSTagLabel.get    (bindingStr(resultSet, SSSQLVarNames.label)),
-                bindingStrToUri   (resultSet, SSSQLVarNames.circleId)));
+                bindingStrToUri   (resultSet, SSSQLVarNames.circleId), 
+                bindingStrToLong  (resultSet, SSSQLVarNames.creationTime)));
             break;
           }
           
@@ -387,7 +390,8 @@ public class SSTagAndCategoryCommonSQL extends SSDBSQLFct{
                 bindingStrToUri     (resultSet, SSSQLVarNames.userId),
                 bindingStrToSpace   (resultSet, metadataSpaceSQLName),
                 SSCategoryLabel.get (bindingStr(resultSet, SSSQLVarNames.label)),
-                bindingStrToUri     (resultSet, SSSQLVarNames.circleId)));
+                bindingStrToUri     (resultSet, SSSQLVarNames.circleId),
+                bindingStrToLong (resultSet, SSSQLVarNames.creationTime)));
             
             break;
           }

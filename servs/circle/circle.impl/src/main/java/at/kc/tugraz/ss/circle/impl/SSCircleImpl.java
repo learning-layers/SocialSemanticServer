@@ -339,7 +339,7 @@ implements
             par.users,  //usersToAdd
             circle.entities, //entitiesToAdd,
             null,  //usersToPushEntitiesTo
-            SSUri.getFromEntitites(circle.users), //circleUsers
+            SSUri.getDistinctNotNullFromEntities(circle.users), //circleUsers
             circle.entities)); //circleEntities
       }
     }
@@ -563,7 +563,7 @@ implements
           null,  //usersToAdd
           entities, //entitiesToAdd,
           null,  //usersToPushEntitiesTo
-          SSUri.getFromEntitites(circle.users), //circleUsers
+          SSUri.getDistinctNotNullFromEntities(circle.users), //circleUsers
           null)); //circleEntities
     }
     
@@ -752,7 +752,7 @@ implements
             null,
             null,
             par.user,
-            SSUri.getFromEntitites(circle.entities),
+            SSUri.getDistinctNotNullFromEntities(circle.entities),
             null, //types,
             descPar, //descPar
             par.withUserRestriction)); //withUserRestriction
@@ -766,7 +766,7 @@ implements
             null,
             null,
             par.user,
-            SSUri.getFromEntitites(circle.users),
+            SSUri.getDistinctNotNullFromEntities(circle.users),
             null, //types,
             descPar, //descPar
             par.withUserRestriction)); //withUserRestriction

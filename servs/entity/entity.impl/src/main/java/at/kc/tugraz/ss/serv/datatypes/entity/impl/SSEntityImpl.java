@@ -961,7 +961,7 @@ implements
                 null,         //usersToAdd
                 entities, //entitiesToAdd,
                 null,  //usersToPushEntitiesTo
-                SSUri.getFromEntitites(circle.users), //circleUsers
+                SSUri.getDistinctNotNullFromEntities(circle.users), //circleUsers
                 null)); //circleEntities
           }
         }

@@ -287,7 +287,7 @@ implements
             null, //descPar,
             par.withUserRestriction)));
       
-      return SSUri.getFromEntitites(entities);
+      return SSUri.getDistinctNotNullFromEntities(entities);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

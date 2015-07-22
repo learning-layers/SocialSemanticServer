@@ -85,9 +85,9 @@ public class SSCommentUserRelationGatherFct{
             false))){ //invokeEntityHandlers
 
         if(userRelations.containsKey(userStr)){
-          userRelations.get(userStr).addAll(SSUri.getFromEntitites(entityCircle.users));
+          userRelations.get(userStr).addAll(SSUri.getDistinctNotNullFromEntities(entityCircle.users));
         }else{
-          userRelations.put(userStr, SSUri.getFromEntitites(entityCircle.users));
+          userRelations.put(userStr, SSUri.getDistinctNotNullFromEntities(entityCircle.users));
         }
       }
     }

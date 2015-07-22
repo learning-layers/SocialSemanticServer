@@ -26,7 +26,6 @@ import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSSpaceE;
 import at.tugraz.sss.serv.SSLabel;
-import at.tugraz.sss.serv.SSObjU;
 import java.util.*;
 
 public class SSCategory extends SSEntity{
@@ -92,9 +91,10 @@ public class SSCategory extends SSEntity{
     final SSUri            user     ,
     final SSSpaceE         space    ,
     final SSCategoryLabel  categoryLabel,
-    final SSUri            circle) throws Exception{
+    final SSUri            circle, 
+    final Long             creationTime) throws Exception{
     
-    return new SSCategory(id, entity, user, space, categoryLabel, circle);
+    return new SSCategory(id, entity, user, space, categoryLabel, circle, creationTime);
   }
   
   protected SSCategory(
@@ -103,7 +103,8 @@ public class SSCategory extends SSEntity{
     final SSUri             user,
     final SSSpaceE          space,
     final SSCategoryLabel   categoryLabel,
-    final SSUri             circle) throws Exception{
+    final SSUri             circle, 
+    final Long              creationTime) throws Exception{
     
     super(id, SSEntityE.category, SSLabel.get(SSStrU.toStr(categoryLabel)));
     
@@ -112,6 +113,7 @@ public class SSCategory extends SSEntity{
     this.space         = space;
     this.categoryLabel = categoryLabel;
     this.circle        = circle;
+    this.creationTime  = creationTime;
   }
   
   public static Map<String, List<String>> getCategoryLabelsPerEntities(final List<SSEntity> categories) throws Exception{

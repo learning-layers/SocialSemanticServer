@@ -157,9 +157,9 @@ implements
         for(SSEntity circle : collUserCircles){
           
           if(userRelations.containsKey(user)){
-            userRelations.get(user).addAll(SSUri.getFromEntitites(circle.users));
+            userRelations.get(user).addAll(SSUri.getDistinctNotNullFromEntities(circle.users));
           }else{
-            userRelations.put(user, SSUri.getFromEntitites(circle.users));
+            userRelations.put(user, SSUri.getDistinctNotNullFromEntities(circle.users));
           }
         }
         
@@ -182,9 +182,9 @@ implements
           for(SSEntity circle : collEntryUserCircles){
             
             if(userRelations.containsKey(user)){
-              userRelations.get(user).addAll(SSUri.getFromEntitites(circle.users));
+              userRelations.get(user).addAll(SSUri.getDistinctNotNullFromEntities(circle.users));
             }else{
-              userRelations.put(user, SSUri.getFromEntitites(circle.users));
+              userRelations.put(user, SSUri.getDistinctNotNullFromEntities(circle.users));
             }
           }
         }
@@ -215,7 +215,7 @@ implements
     final SSEntityE     type) throws Exception{
     
     try{
-      return SSUri.getFromEntitites(
+      return SSUri.getDistinctNotNullFromEntities(
         collsEntityIsInGet(
           new SSCollsUserEntityIsInGetPar(
             null,
@@ -427,7 +427,7 @@ implements
             null,
             null,
             par.user,
-            SSUri.getFromEntitites(coll.entries),  //entities
+            SSUri.getDistinctNotNullFromEntities(coll.entries),  //entities
             null, //types,
             descPar, //descPar,
             par.withUserRestriction));

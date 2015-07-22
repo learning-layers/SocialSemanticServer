@@ -24,6 +24,7 @@ import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSSocketCon;
 import at.kc.tugraz.ss.category.api.SSCategoryClientI;
 import at.kc.tugraz.ss.category.api.SSCategoryServerI;
+import at.kc.tugraz.ss.category.datatypes.SSCategory;
 import at.kc.tugraz.ss.category.datatypes.par.SSCategoriesAddPar;
 import at.kc.tugraz.ss.category.datatypes.par.SSCategoriesPredefinedAddPar;
 import at.kc.tugraz.ss.category.datatypes.par.SSCategoriesPredefinedGetPar;
@@ -172,6 +173,45 @@ implements
   @Override
   public void entityCopied(final SSEntityCopiedPar par) throws Exception{
     
+    if(!par.includeMetadataSpecificToEntityAndItsEntities){
+      return;
+    }
+
+    switch(par.entity.type){
+      
+      case circle:{
+        
+        for(SSEntity category :
+          categoriesGet(
+            new SSCategoriesGetPar(
+              null,
+              null,
+              par.user,
+              null, //forUser
+              SSUri.getDistinctNotNullFromEntities(par.entities), //entities
+              null,
+              SSSpaceE.circleSpace,
+              SSUri.getDistinctNotNullFromEntities(par.entity), //circles
+              null, //startTime,
+              par.withUserRestriction))){
+          
+          categoryAdd(
+            new SSCategoryAddPar(
+              null,
+              null,
+              ((SSCategory)category).user,  //user
+              ((SSCategory)category).entity, //entity
+              ((SSCategory)category).categoryLabel, //label
+              ((SSCategory)category).space, //space
+              par.targetEntity, //circle
+              category.creationTime, //creationTime
+              par.withUserRestriction, //withUserRestriction
+              false)); //shouldCommmit
+        }
+        
+        break;
+      }
+    }
   }
   
   @Override
@@ -271,6 +311,10 @@ implements
             SSLabel.get(SSStrU.toStr(par.label)), //label,
             SSEntityE.category, //type,
             par.withUserRestriction)); //withUserRestriction
+      
+      if(par.circle != null){
+        par.space = SSSpaceE.circleSpace;
+      }
       
       if(par.space == null){
         par.space = SSSpaceE.sharedSpace;

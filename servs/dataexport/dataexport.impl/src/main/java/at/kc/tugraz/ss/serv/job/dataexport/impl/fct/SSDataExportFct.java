@@ -36,6 +36,7 @@ public class SSDataExportFct{
   
   public static Map<String, List<String>> getTagsOfUserPerEntities(
     final SSUri          userUri,
+    final SSUri          forUser,
     final List<SSUri>    entities,
     final SSUri          circle) throws Exception{
     
@@ -45,7 +46,7 @@ public class SSDataExportFct{
           null,
           null,
           userUri,
-          userUri, //forUser
+          forUser, //forUser
           entities, //entities
           null, //labels
           null, //space
@@ -56,6 +57,7 @@ public class SSDataExportFct{
   
   public static Map<String, List<String>> getCategoriesPerEntities(
     final SSUri          userUri,
+    final SSUri          forUser,
     final List<SSUri>    entities,
     final SSUri          circle) throws Exception{
     
@@ -65,7 +67,7 @@ public class SSDataExportFct{
           null,
           null,
           userUri,
-          userUri, //forUser
+          forUser, //forUser
           entities, //entities
           null, //labels
           null, //space

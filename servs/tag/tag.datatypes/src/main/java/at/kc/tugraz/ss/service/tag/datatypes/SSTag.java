@@ -68,9 +68,10 @@ public class SSTag extends SSEntity{
     final SSUri       user,
     final SSSpaceE    space,
     final SSTagLabel  tagLabel,
-    final SSUri       circle) throws Exception{
+    final SSUri       circle, 
+    final Long        creationTime) throws Exception{
     
-    return new SSTag(id, entity, user, space, tagLabel, circle);
+    return new SSTag(id, entity, user, space, tagLabel, circle, creationTime);
   }
   
   protected SSTag(
@@ -79,16 +80,18 @@ public class SSTag extends SSEntity{
     final SSUri       user,
     final SSSpaceE    space,
     final SSTagLabel  tagLabel,
-    final SSUri       circle) throws Exception{
+    final SSUri       circle, 
+    final Long        creationTime) throws Exception{
     
     super(id, SSEntityE.tag, SSLabel.get(SSStrU.toStr(tagLabel)));
     
-    this.val         = SSStrU.toStr(tagLabel);
-    this.entity      = entity;
-    this.user        = user;
-    this.space       = space;
-    this.tagLabel    = tagLabel;
-    this.circle      = circle;
+    this.val          = SSStrU.toStr(tagLabel);
+    this.entity       = entity;
+    this.user         = user;
+    this.space        = space;
+    this.tagLabel     = tagLabel;
+    this.circle       = circle;
+    this.creationTime = creationTime;
   }
   
   public static Map<String, List<String>> getTagLabelsPerEntities(final List<SSEntity> tags) throws Exception{

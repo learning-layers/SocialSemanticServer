@@ -97,7 +97,7 @@ public class SSLearnEpMiscFct{
             true)));  //withUserRestcrition);
       
       attachedEntities.addAll(
-        SSUri.getFromEntitites(
+        SSUri.getDistinctNotNullFromEntities(
           ((SSImageServerI) SSServReg.getServ(SSImageServerI.class)).imagesGet(
             new SSImagesGetPar(
               null,

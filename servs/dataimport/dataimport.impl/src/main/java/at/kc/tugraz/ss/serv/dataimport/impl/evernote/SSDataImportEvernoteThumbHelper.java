@@ -94,7 +94,7 @@ public class SSDataImportEvernoteThumbHelper{
           null,
           user,
           entity,
-          SSUri.getFromEntitites(thumbs), //attachments
+          SSUri.getDistinctNotNullFromEntities(thumbs), //attachments
           true, //withUserRestriction
           false)); //shouldCommit
       

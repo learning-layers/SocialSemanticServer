@@ -83,7 +83,7 @@ public class SSCollMiscFct{
       //add coll and coll direct entry uris
       collAndCollEntryUris.add(startColl.id);
 
-      collAndCollEntryUris.addAll(SSUri.getFromEntitites(startColl.entries));
+      collAndCollEntryUris.addAll(SSUri.getDistinctNotNullFromEntities(startColl.entries));
 
       //add all coll sub coll und entry uris
       getAllChildCollURIs(sqlFct, startColl.id, startColl.id, subCollUris);

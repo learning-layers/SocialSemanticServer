@@ -137,7 +137,7 @@ public class SSUri extends SSEntityA{
     return new SSUri(uri.toString() + append);
   }
   
-  public static List<SSUri> getFromEntitites(final List<? extends SSEntity> entities) throws Exception{
+  public static List<SSUri> getDistinctNotNullFromEntities(final List<? extends SSEntity> entities) throws Exception{
 
     final List<SSUri> result = new ArrayList<>();
     
@@ -145,9 +145,38 @@ public class SSUri extends SSEntityA{
       return result;
     }
     
-    entities.stream().forEach((entity)->{
-      result.add(entity.id);
-    });
+    for(SSEntity entity : entities){
+      
+      if(entity == null){
+        continue;
+      }
+      
+      if(!SSStrU.contains(result, entity)){
+        result.add(entity.id);
+      }
+    }
+    
+    return result;
+  }
+  
+  public static List<SSUri> getDistinctNotNullFromEntities(final SSEntity... entities) throws Exception{
+
+    final List<SSUri> result = new ArrayList<>();
+    
+    if(entities == null){
+      return result;
+    }
+    
+    for(SSEntity entity : entities){
+      
+      if(entity == null){
+        continue;
+      }
+      
+      if(!SSStrU.contains(result, entity)){
+        result.add(entity.id);
+      }
+    }
     
     return result;
   }

@@ -324,7 +324,7 @@ implements
         return files;
       }
       
-      return SSUri.getFromEntitites(
+      return SSUri.getDistinctNotNullFromEntities(
         ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
           new SSEntitiesGetPar(
             null,

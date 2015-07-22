@@ -27,21 +27,27 @@ public class SSEntityCopiedPar {
   
   public SSUri          user                                            = null;
   public SSUri          targetUser                                      = null;
+  public SSEntity       entity                                          = null;
   public List<SSEntity> entities                                        = new ArrayList<>();
   public SSUri          targetEntity                                    = null;
   public Boolean        includeMetadataSpecificToEntityAndItsEntities   = false;
+  public Boolean        withUserRestriction                             = true;
   
   public SSEntityCopiedPar(
     final SSUri          user,
     final SSUri          targetUser,
+    final SSEntity       entity, 
     final List<SSEntity> entities,
-    final SSUri          targetEntity){
+    final SSUri          targetEntity, 
+    final Boolean        withUserRestriction){
     
     this.user         = user;
     this.targetUser   = targetUser;
+    this.entity       = entity;
     
     SSEntity.addEntitiesDistinctWithoutNull(this.entities, entities);
     
-    this.targetEntity = targetEntity;
+    this.targetEntity        = targetEntity;
+    this.withUserRestriction = withUserRestriction;
   }
 }

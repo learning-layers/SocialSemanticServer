@@ -78,9 +78,9 @@ public class SSEntityUserRelationsGatherFct{
             false))){
       
       if(userRelations.containsKey(userStr)){
-        userRelations.get(userStr).addAll(SSUri.getFromEntitites(circle.users));
+        userRelations.get(userStr).addAll(SSUri.getDistinctNotNullFromEntities(circle.users));
       }else{
-        userRelations.put(userStr, SSUri.getFromEntitites(circle.users));
+        userRelations.put(userStr, SSUri.getDistinctNotNullFromEntities(circle.users));
       }
     }
   }

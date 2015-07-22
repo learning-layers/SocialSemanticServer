@@ -222,7 +222,7 @@ implements
       activityURIs.addAll(
         sqlFct.getActivityURIs(
           par.users,
-          SSUri.getFromEntitites(entitiesToQuery),
+          SSUri.getDistinctNotNullFromEntities(entitiesToQuery),
           par.types,
           par.startTime,
           par.endTime,

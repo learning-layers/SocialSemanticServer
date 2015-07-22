@@ -107,13 +107,15 @@ public class SSDataExportImpl extends SSServImplWithDBA implements SSDataExportC
         tagsPerEntities.putAll(
           SSDataExportFct.getTagsOfUserPerEntities(
             user.id,
-            SSUri.getFromEntitites(circle.entities),
+            null,
+            SSUri.getDistinctNotNullFromEntities(circle.entities),
             par.circle));
         
         categoriesPerEntities.putAll(
           SSDataExportFct.getCategoriesPerEntities(
-            user.id,
-            SSUri.getFromEntitites(circle.entities),
+            user.id, //forUser
+            null, //forUser
+            SSUri.getDistinctNotNullFromEntities(circle.entities),
             par.circle));
         
         for(SSEntity entity : circle.entities){
@@ -225,6 +227,7 @@ public class SSDataExportImpl extends SSServImplWithDBA implements SSDataExportC
           tagsPerEntities.putAll(
             SSDataExportFct.getTagsOfUserPerEntities(
               user,
+              user, //forUser
               resourcesForUser.getValue(),
               null)); //circle
         }
@@ -233,6 +236,7 @@ public class SSDataExportImpl extends SSServImplWithDBA implements SSDataExportC
           categoriesPerEntities.putAll(
             SSDataExportFct.getCategoriesPerEntities(
               user, 
+              user, //forUser
               resourcesForUser.getValue(),
               null)); //circle
         }

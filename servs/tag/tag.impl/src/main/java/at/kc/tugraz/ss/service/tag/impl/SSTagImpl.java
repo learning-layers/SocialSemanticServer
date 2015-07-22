@@ -186,7 +186,45 @@ implements
   
   @Override
   public void entityCopied(final SSEntityCopiedPar par) throws Exception{
-    
+   
+    if(!par.includeMetadataSpecificToEntityAndItsEntities){
+      return;
+    }
+
+    switch(par.entity.type){
+      
+      case circle:{
+        
+        for(SSEntity tag :
+          tagsGet(
+            new SSTagsGetPar(
+              null,
+              null,
+              par.user,
+              null, //forUser
+              SSUri.getDistinctNotNullFromEntities(par.entities), //entities
+              null,
+              SSSpaceE.circleSpace,
+              SSUri.getDistinctNotNullFromEntities(par.entity), //circles
+              null, //startTime,
+              par.withUserRestriction))){
+          
+          tagAdd(
+            new SSTagAddPar(
+              null,
+              null,
+              ((SSTag)tag).user,  //user
+              ((SSTag)tag).entity, //entity
+              ((SSTag)tag).tagLabel, //label
+              ((SSTag)tag).space, //space
+              par.targetEntity, //circle
+              tag.creationTime, //creationTime
+              par.withUserRestriction, //withUserRestriction
+              false)); //shouldCommmit
+        }
+        break;
+      }
+    }
   }
   
   @Override
@@ -320,6 +358,10 @@ implements
             SSLabel.get(SSStrU.toStr(par.label)), //label,
             SSEntityE.tag, //type,
             par.withUserRestriction)); //withUserRestriction
+      
+      if(par.circle != null){
+        par.space = SSSpaceE.circleSpace;
+      }
       
       if(par.space == null){
         par.space = SSSpaceE.sharedSpace;
@@ -651,6 +693,7 @@ implements
     SSServCallerU.checkKey(parA);
     
     final SSTagsGetPar par = (SSTagsGetPar) parA.getFromJSON(SSTagsGetPar.class);
+    
     sSCon.writeRetFullToClient(SSTagsGetRet.get(tagsGet(par)));
   }
   
@@ -757,7 +800,7 @@ implements
             SSEntityE.placeholder);
         
         par.entities.addAll(
-          SSUri.getFromEntitites(
+          SSUri.getDistinctNotNullFromEntities(
             ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
               new SSEntitiesGetPar(
                 null,
