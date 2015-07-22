@@ -63,6 +63,7 @@ import at.kc.tugraz.ss.service.disc.impl.fct.misc.SSDiscMiscFct;
 import at.kc.tugraz.ss.service.disc.impl.fct.op.SSDiscUserEntryAddFct;
 import at.kc.tugraz.ss.service.disc.impl.fct.sql.SSDiscSQLFct;
 import at.tugraz.sss.serv.SSCircleContentChangedPar;
+import at.tugraz.sss.serv.SSCircleContentRemovedPar;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
@@ -235,6 +236,11 @@ public class SSDiscImpl
     return new ArrayList<>();
   }
 
+  @Override
+  public void circleContentRemoved (final SSCircleContentRemovedPar par) throws Exception{
+    
+  }
+  
   @Override
   public void circleContentChanged(final SSCircleContentChangedPar par) throws Exception{
     

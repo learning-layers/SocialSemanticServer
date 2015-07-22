@@ -42,6 +42,7 @@ import at.kc.tugraz.sss.app.datatypes.ret.SSAppAddRet;
 import at.kc.tugraz.sss.app.datatypes.ret.SSAppsGetRet;
 import at.kc.tugraz.sss.app.impl.fct.sql.SSAppSQLFct;
 import at.tugraz.sss.serv.SSCircleContentChangedPar;
+import at.tugraz.sss.serv.SSCircleContentRemovedPar;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
@@ -101,6 +102,11 @@ implements
   
   @Override
   public void circleContentChanged(final SSCircleContentChangedPar par) throws Exception{
+  }
+  
+  @Override
+  public void circleContentRemoved (final SSCircleContentRemovedPar par) throws Exception{
+    
   }
   
 @Override

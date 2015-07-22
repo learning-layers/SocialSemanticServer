@@ -61,6 +61,7 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.tugraz.sss.serv.SSCircleContentChangedPar;
+import at.tugraz.sss.serv.SSCircleContentRemovedPar;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSDBNoSQL;
@@ -167,6 +168,11 @@ implements
   }
   
   @Override
+  public void circleContentRemoved (final SSCircleContentRemovedPar par) throws Exception{
+    
+  }
+    
+  @Override
   public void entityCopied(final SSEntityCopiedPar par) throws Exception{
     
   }
@@ -235,9 +241,24 @@ implements
     
     SSServCallerU.checkKey(parA);
     
-     final SSCircleEntitiesRemovePar par = (SSCircleEntitiesRemovePar) parA.getFromJSON(SSCircleEntitiesRemovePar.class);
-     
-    sSCon.writeRetFullToClient(SSCircleEntitiesRemoveRet.get(circleEntitiesRemove(par)));
+    final SSCircleEntitiesRemovePar par    = (SSCircleEntitiesRemovePar) parA.getFromJSON(SSCircleEntitiesRemovePar.class);
+    final List<SSUri>               result = circleEntitiesRemove(par);
+    
+    if(!result.isEmpty()){
+      
+      for(SSServContainerI serv : SSServReg.inst.getServsHandlingEntities()){
+        
+        ((SSEntityHandlerImplI) serv.serv()).circleContentRemoved(
+          new SSCircleContentRemovedPar(
+            par.user,
+            par.circle, //circle
+            result, //entities
+            par.withUserRestriction, //withUserRestriction
+            par.shouldCommit)); //shouldCommit
+      }
+    }
+    
+    sSCon.writeRetFullToClient(SSCircleEntitiesRemoveRet.get(result));
   }
   
   @Override
@@ -299,7 +320,7 @@ implements
           circleURI, 
           par.entities, 
           par.withUserRestriction, //withUserRestriction
-          true)); //shouldCommit
+          par.shouldCommit)); //shouldCommit
     }
     
     if(!par.users.isEmpty()){
@@ -311,7 +332,7 @@ implements
           circleURI, 
           par.users, 
           par.withUserRestriction, //withUserRestriction, 
-          true)); //shouldCommit)); 
+          par.shouldCommit)); //shouldCommit)); 
     }
     
     if(

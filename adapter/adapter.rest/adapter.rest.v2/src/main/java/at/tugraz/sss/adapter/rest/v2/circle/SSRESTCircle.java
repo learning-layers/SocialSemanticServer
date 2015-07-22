@@ -26,6 +26,7 @@ import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleCreatePar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesAddPar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesRemoveFromClientPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesRemovePar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleGetPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleUsersAddPar;
@@ -227,21 +228,20 @@ public class SSRESTCircle{
       final String circle,
     
     @PathParam(SSVarNames.entities) 
-      final String entities){
+      final String entities, 
     
+    final SSCircleEntitiesRemoveRESTAPIV2Par input){
+
     final SSCircleEntitiesRemovePar par;
     
     try{
       
       par =
-        new SSCircleEntitiesRemovePar(
-          SSServOpE.circleEntitiesRemove,
-          null,
+        new SSCircleEntitiesRemoveFromClientPar(
           null,
           SSUri.get(circle, SSVocConf.sssUri), //circle
           SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(entities, SSStrU.comma), SSVocConf.sssUri),  //entities
-          true, //withUserRestriction
-          true); //shouldCommit
+          input.removeCircleSpecificMetadata); //removeCircleSpecificMetadata
       
     }catch(Exception error){
       return Response.status(422).build();

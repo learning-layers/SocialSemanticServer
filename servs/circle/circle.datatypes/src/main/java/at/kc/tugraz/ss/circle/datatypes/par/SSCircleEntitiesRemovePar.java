@@ -29,8 +29,8 @@ import java.util.List;
 
 public class SSCircleEntitiesRemovePar extends SSServPar{
   
-  public SSUri                 circle               = null;
-  public List<SSUri>           entities             = new ArrayList<>();
+  public SSUri                 circle                       = null;
+  public List<SSUri>           entities                     = new ArrayList<>();
 
   public String getCircle() throws Exception{
     return SSStrU.removeTrailingSlash(circle);
@@ -65,7 +65,7 @@ public class SSCircleEntitiesRemovePar extends SSServPar{
     
     SSUri.addDistinctWithoutNull(this.entities, entities);
     
-    this.withUserRestriction = withUserRestriction;
-    this.shouldCommit        = shouldCommit;
+    this.withUserRestriction          = withUserRestriction;
+    this.shouldCommit                 = shouldCommit;
   }
 }

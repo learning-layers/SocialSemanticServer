@@ -42,6 +42,7 @@ import at.kc.tugraz.sss.comment.datatypes.ret.SSCommentsGetRet;
 import at.kc.tugraz.sss.comment.impl.fct.sql.SSCommentSQLFct;
 import at.kc.tugraz.sss.comment.impl.fct.userrelationgather.SSCommentUserRelationGatherFct;
 import at.tugraz.sss.serv.SSCircleContentChangedPar;
+import at.tugraz.sss.serv.SSCircleContentRemovedPar;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
@@ -115,6 +116,11 @@ implements
   
   @Override
   public void circleContentChanged(final SSCircleContentChangedPar par) throws Exception{
+  }
+  
+  @Override
+  public void circleContentRemoved (final SSCircleContentRemovedPar par) throws Exception{
+    
   }
   
 @Override

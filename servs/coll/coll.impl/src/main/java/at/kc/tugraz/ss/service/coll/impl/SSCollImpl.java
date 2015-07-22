@@ -209,6 +209,11 @@ implements
   }
   
   @Override
+  public void circleContentRemoved (final SSCircleContentRemovedPar par) throws Exception{
+    
+  }
+  
+  @Override
   public List<SSUri> getParentEntities(
     final SSUri         user,
     final SSUri         entity,

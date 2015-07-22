@@ -57,6 +57,7 @@ import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagsRemoveRet;
 import at.kc.tugraz.ss.service.tag.impl.fct.activity.SSTagActivityFct;
 import at.kc.tugraz.ss.service.tag.impl.fct.userrelationgatherer.SSTagUserRelationGathererFct;
 import at.tugraz.sss.serv.SSCircleContentChangedPar;
+import at.tugraz.sss.serv.SSCircleContentRemovedPar;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
@@ -249,6 +250,11 @@ implements
   public void circleContentChanged(final SSCircleContentChangedPar par) throws Exception{
     
   } 
+  
+  @Override
+  public void circleContentRemoved (final SSCircleContentRemovedPar par) throws Exception{
+    
+  }
   
   @Override
   public SSEntity getUserEntity(

@@ -23,17 +23,20 @@ package at.tugraz.sss.adapter.rest.v2.circle;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 import java.util.List;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 @ApiModel(value = "circle entities add request parameter")
 public class SSCircleEntitiesAddRESTAPIV2Par {
   
+  @XmlElement
   @ApiModelProperty(
     required = false,
     value = "tags to add to the entities")
   public List<String> tags       = null;
   
+  @XmlElement
   @ApiModelProperty(
     required = false,
     value = "categories to add to the entities")

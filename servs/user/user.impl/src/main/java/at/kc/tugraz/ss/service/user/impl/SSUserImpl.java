@@ -49,6 +49,7 @@ import at.kc.tugraz.ss.service.user.datatypes.pars.SSUsersGetPar;
 import at.kc.tugraz.ss.service.user.datatypes.ret.SSUsersGetRet;
 import at.kc.tugraz.ss.service.user.impl.functions.sql.SSUserSQLFct;
 import at.tugraz.sss.serv.SSCircleContentChangedPar;
+import at.tugraz.sss.serv.SSCircleContentRemovedPar;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
@@ -121,6 +122,10 @@ implements
     
   }
   
+  @Override
+  public void circleContentRemoved (final SSCircleContentRemovedPar par) throws Exception{
+    
+  }
   @Override
   public List<SSUri> getParentEntities(
     final SSUri         user,

@@ -28,7 +28,9 @@ public interface SSEntityHandlerImplI{
     final SSEntity             entity, 
     final SSEntityDescriberPar par) throws Exception;
   
-  public void circleContentChanged(final SSCircleContentChangedPar par) throws Exception;
+  public void circleContentChanged (final SSCircleContentChangedPar par) throws Exception;
+  public void circleContentRemoved (final SSCircleContentRemovedPar par) throws Exception;
+  
   public void entityCopied        (final SSEntityCopiedPar         par) throws Exception;
   
   public void copyEntity(
