@@ -232,8 +232,11 @@ CREATE TABLE `categoryass` (
   `userId` varchar(100) NOT NULL,
   `categorySpace` varchar(100) NOT NULL,
   `creationTime` varchar(200) NOT NULL,
+  `circleId` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`categoryId`,`entityId`,`userId`,`categorySpace`),
   KEY `categorySpaceFKcategoryass_idx` (`categorySpace`),
+  KEY `circleIdFKcategoryass_idx` (`circleId`),
+  CONSTRAINT `circleIdFKcategoryass` FOREIGN KEY (`circleId`) REFERENCES `circle` (`circleId`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `categoryIdFKcategoryass` FOREIGN KEY (`categoryId`) REFERENCES `category` (`categoryId`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `categorySpaceFKcategoryass` FOREIGN KEY (`categorySpace`) REFERENCES `space` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -1431,6 +1434,9 @@ CREATE TABLE `tagass` (
   KEY `entityIdFKtagass_idx` (`entityId`),
   KEY `tagIdFKtagass_idx` (`tagId`),
   KEY `tagSpaceFKtagass_idx` (`tagSpace`),
+  KEY `circleIdFKtagass_idx` (`circleId`),
+  CONSTRAINT `circleIdFKtagass` FOREIGN KEY (`circleId`) REFERENCES `circle` (`circleId`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `tagIdFKtagass` FOREIGN KEY (`tagId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `tagSpaceFKtagass` FOREIGN KEY (`tagSpace`) REFERENCES `space` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -1636,4 +1642,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-07-16 10:20:17
+-- Dump completed on 2015-07-23 15:46:26

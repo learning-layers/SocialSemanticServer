@@ -108,7 +108,6 @@ recomm: #files have to be provided in sss's_working_dir/data/csv/
   scheduleIntervals:
     - 10
   fileNameForRec: sss_recomm
-  usePrivateTagsToo: true
   recommTagAlgorithm: BLL #BLL, BLLacMPr
   recommResourceAlgorithm: RESOURCETAGCB #RESOURCECF, RESOURCETAGCB
   recommUserAlgorithm: USERTAGCB #USERTAGCB
