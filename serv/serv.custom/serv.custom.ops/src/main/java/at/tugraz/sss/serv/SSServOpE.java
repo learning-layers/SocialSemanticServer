@@ -164,6 +164,7 @@ public enum SSServOpE{
   dataExportUserRelations,
   dataExportUsersEntitiesTagsCategoriesTimestampsFile,
   dataExportUserEntityTagsCategoriesTimestampsLine,
+  dataExportUsersEntitiesTagsCategoriesTimestampsFileFromCircle,
   
   //json ld
   jsonLD                                              ,
