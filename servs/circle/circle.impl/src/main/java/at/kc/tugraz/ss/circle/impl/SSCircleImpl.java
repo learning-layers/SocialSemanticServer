@@ -25,7 +25,7 @@ import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSSocketCon;
 import at.kc.tugraz.ss.circle.api.SSCircleClientI;
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
-import at.kc.tugraz.ss.circle.impl.fct.serv.SSCircleActivityFct;
+import at.kc.tugraz.ss.circle.impl.fct.serv.SSCircleServFct;
 import at.kc.tugraz.ss.circle.impl.fct.misc.SSCircleMiscFct;
 import at.kc.tugraz.ss.circle.impl.fct.sql.SSCircleSQLFct;
 import at.tugraz.sss.serv.SSCircleE;
@@ -53,8 +53,12 @@ import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntityUsersGetPar;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleEntityUsersGetRet;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesRemovePar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePubURIGetPar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleRemovePar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleUsersRemovePar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclesFromEntityEntitiesAdd;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleEntitiesRemoveRet;
+import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleRemoveRet;
+import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleUsersRemoveRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
@@ -304,6 +308,59 @@ implements
   }
   
   @Override
+  public void circleUsersRemove(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
+    
+    SSServCallerU.checkKey(parA);
+    
+    final SSCircleUsersRemovePar par    = (SSCircleUsersRemovePar) parA.getFromJSON(SSCircleUsersRemovePar.class);
+    final List<SSUri>               result = circleUsersRemove(par);
+    
+    sSCon.writeRetFullToClient(SSCircleUsersRemoveRet.get(result));
+  }
+  
+  @Override
+  public List<SSUri> circleUsersRemove(final SSCircleUsersRemovePar par) throws Exception{
+    
+    try{
+      
+      if(par.withUserRestriction){
+        
+        if(!miscFct.isUserAllowedToEditCircle(par.user, par.circle)){
+          return new ArrayList<>();
+        }
+      }
+      
+      dbSQL.startTrans(par.shouldCommit);
+      
+      for(SSUri user : par.users){
+        sqlFct.removeUser(par.circle, user);
+      }
+      
+      dbSQL.commit(par.shouldCommit);
+      
+      return par.users;
+   }catch(Exception error){
+      
+      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+        
+        if(dbSQL.rollBack(par.shouldCommit)){
+          
+          SSServErrReg.reset();
+          
+          return circleUsersRemove(par);
+        }else{
+          SSServErrReg.regErrThrow(error);
+          return null;
+        }
+      }
+      
+      dbSQL.rollBack(par.shouldCommit);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
   public void circleCreate(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
     
     SSServCallerU.checkKey(parA);
@@ -367,7 +424,7 @@ implements
     
     sSCon.writeRetFullToClient(SSCircleCreateRet.get(circleURI));
     
-    SSCircleActivityFct.createCircle(par, circleURI);
+    SSCircleServFct.createCircle(par, circleURI);
   }
   
   @Override
@@ -451,6 +508,59 @@ implements
   }
   
   @Override
+  public void circleRemove(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
+    
+    SSServCallerU.checkKey(parA);
+    
+    final SSCircleRemovePar par       = (SSCircleRemovePar) parA.getFromJSON(SSCircleRemovePar.class);
+    final SSUri             circleURI = circleRemove(par);
+
+    sSCon.writeRetFullToClient(SSCircleRemoveRet.get(circleURI));
+    
+//    SSCircleActivityFct.createCircle(par, circleURI);
+  }
+  
+  @Override
+  public SSUri circleRemove(final SSCircleRemovePar par) throws Exception{
+    
+    try{
+      
+      if(par.withUserRestriction){
+        
+        if(!SSServCallerU.canUserEdit(par.user, par.circle)){
+          return null;
+        }
+      }
+        
+      dbSQL.startTrans(par.shouldCommit);
+      
+      sqlFct.removeCircle(par.circle);
+      
+      dbSQL.commit(par.shouldCommit);
+      
+      return par.circle;
+   }catch(Exception error){
+      
+      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+        
+        if(dbSQL.rollBack(par.shouldCommit)){
+          
+          SSServErrReg.reset();
+          
+          return circleRemove(par);
+        }else{
+          SSServErrReg.regErrThrow(error);
+          return null;
+        }
+      }
+      
+      dbSQL.rollBack(par.shouldCommit);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
   public void circleUsersAdd(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
 
     SSServCallerU.checkKey(parA);
@@ -485,7 +595,7 @@ implements
     
     sSCon.writeRetFullToClient(SSCircleUsersAddRet.get(circleURI));
     
-    SSCircleActivityFct.addUsersToCircle(par);
+    SSCircleServFct.addUsersToCircle(par);
   }
   
   @Override
@@ -551,13 +661,13 @@ implements
           par.withUserRestriction, //withUserRestriction,
           true)); //invokeEntityHandlers))
     
-    SSCircleActivityFct.addTags(
+    SSCircleServFct.addTags(
       par.user, 
       par.tags, 
       par.entities, 
       par.circle);
     
-    SSCircleActivityFct.addCategories(
+    SSCircleServFct.addCategories(
       par.user, 
       par.categories, 
       par.entities, 
@@ -590,7 +700,7 @@ implements
     
     sSCon.writeRetFullToClient(SSCircleEntitiesAddRet.get(cicleURI));
     
-    SSCircleActivityFct.addEntitiesToCircle(par);
+    SSCircleServFct.addEntitiesToCircle(par);
   }
   
   @Override

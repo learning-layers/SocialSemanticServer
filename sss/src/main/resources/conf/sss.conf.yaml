@@ -29,9 +29,11 @@ circle:
 jsonLD:
   uri: 
 eval:
-  tools:
-    #- leave empty for no tool usage to be traced
-    - bnp
+  tools: #- leave empty for no tool usage to be traced
+    #- bnp
+integrationTest: 
+  tests:
+    #- knowBrainTaggingStudy2015
 
 #services
 like:
@@ -114,12 +116,15 @@ recomm: #files have to be provided in sss's_working_dir/data/csv/
   recommTagsAlgoPerRealm:
     #- circle1:BLL
     #- circle2:BLLacMPr
+  recommTagsRandomAlgos:
+    #- BLLcoll
+    #- THREELcoll
   recommTagsUserPerRealm:
     #- circle1:userEmail1
     #- circle1:userEmail2
     #- circle2:userEmail3
     #- circle2:userEmail4
-  recommTagsUsersToSetRealmsFromCircles: 
+  recommTagsUsersToSetRealmsFromCircles: #provide user's emails
     #- userEmail1
     #- userEmail2
 #log:

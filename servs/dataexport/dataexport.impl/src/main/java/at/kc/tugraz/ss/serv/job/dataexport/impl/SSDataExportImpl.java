@@ -99,23 +99,21 @@ public class SSDataExportImpl extends SSServImplWithDBA implements SSDataExportC
             false,  //withUserRestriction
             false)); //invokeEntityHandlers
       
-      for(SSEntity user : circle.users){
-        
         tagsPerEntities.clear();
         categoriesPerEntities.clear();
         
         tagsPerEntities.putAll(
           SSDataExportFct.getTagsOfUserPerEntities(
-            user.id,
+            par.user,
             null,
-            SSUri.getDistinctNotNullFromEntities(circle.entities),
+            null,
             par.circle));
         
         categoriesPerEntities.putAll(
           SSDataExportFct.getCategoriesPerEntities(
-            user.id, //forUser
+            par.user, //forUser
             null, //forUser
-            SSUri.getDistinctNotNullFromEntities(circle.entities),
+            null,
             par.circle));
         
         for(SSEntity entity : circle.entities){
@@ -124,7 +122,7 @@ public class SSDataExportImpl extends SSServImplWithDBA implements SSDataExportC
           
           lineParts.clear();
           
-          lineParts.add(SSStrU.toStr     (user));
+          lineParts.add(SSStrU.toStr     (circle.id)); //user
           lineParts.add(resourceString);
           lineParts.add(SSStrU.toStr     (SSDateU.dateAsLong() / 1000)); //TODO: provide tag time stamps for tags
           
@@ -144,7 +142,6 @@ public class SSDataExportImpl extends SSServImplWithDBA implements SSDataExportC
           
           fileWriter.writeNext((String[]) lineParts.toArray(new String[lineParts.size()]));
         }
-      }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }finally{

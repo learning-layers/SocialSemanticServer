@@ -60,6 +60,7 @@ import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.servs.location.conf.SSLocationConf;
 import at.tugraz.sss.servs.ocd.conf.SSOCDConf;
 import at.tugraz.sss.servs.image.conf.SSImageConf;
+import at.tugraz.sss.servs.integrationtest.SSIntegrationTestConf;
 
 public class SSCoreConf extends SSCoreConfA {
   
@@ -106,6 +107,7 @@ public class SSCoreConf extends SSCoreConfA {
   private SSOCDConf ocd = null;
   private SSImageConf image = null;
   private SSLocationConf location = null;
+  private SSIntegrationTestConf integrationTest = null;
   
   public static synchronized SSCoreConf instSet(final String pathToFile) throws Exception {
     
@@ -182,6 +184,7 @@ public class SSCoreConf extends SSCoreConfA {
       copy.ocd = SSOCDConf.copy(inst.ocd);
       copy.image = SSImageConf.copy(inst.image);
       copy.location = SSLocationConf.copy(inst.location);
+      copy.integrationTest = SSIntegrationTestConf.copy(inst.integrationTest);
       
       return copy;
     } catch (Exception error) {
@@ -508,6 +511,14 @@ public class SSCoreConf extends SSCoreConfA {
   
   public void setLocation(SSLocationConf location) {
     this.location = location;
+  }
+  
+  public SSIntegrationTestConf getIntegrationTest() {
+    return integrationTest;
+  }
+  
+  public void setIntegrationTest(SSIntegrationTestConf integrationTest) {
+    this.integrationTest = integrationTest;
   }
 }
 

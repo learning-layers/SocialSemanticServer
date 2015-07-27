@@ -1412,7 +1412,7 @@ CREATE TABLE `space` (
 
 LOCK TABLES `space` WRITE;
 /*!40000 ALTER TABLE `space` DISABLE KEYS */;
-INSERT INTO `space` VALUES ('followSpace'),('privateSpace'),('sharedSpace');
+INSERT INTO `space` VALUES ('followSpace'),('privateSpace'),('sharedSpace'),('circleSpace');
 /*!40000 ALTER TABLE `space` ENABLE KEYS */;
 UNLOCK TABLES;
 

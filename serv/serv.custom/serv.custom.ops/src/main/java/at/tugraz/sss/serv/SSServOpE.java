@@ -21,6 +21,9 @@
 package at.tugraz.sss.serv;
 
 public enum SSServOpE{
+
+  //integrationtest
+  integrationTestKnowBrainTaggingStudy2015,
   
   //location
   locationGet,
@@ -120,7 +123,9 @@ public enum SSServOpE{
   circlePubURIGet,
   circleCanAccess,
   circleEntitiesRemove,
+  circleUsersRemove,
   circlesFromEntityEntitiesAdd,
+  circleRemove,
   
   //entity
   entitiesGet,
@@ -171,6 +176,7 @@ public enum SSServOpE{
   
   //user
   userURIGet,
+  userURIsGet,
   userExists                                          ,
   userGet,
   usersGet,

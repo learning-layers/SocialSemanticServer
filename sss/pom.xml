@@ -165,6 +165,12 @@
     
     <dependency>
       <groupId>sss.servs</groupId>
+      <artifactId>integrationtest.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
       <artifactId>image.serv</artifactId>
       <version>${project.version}</version>
     </dependency>

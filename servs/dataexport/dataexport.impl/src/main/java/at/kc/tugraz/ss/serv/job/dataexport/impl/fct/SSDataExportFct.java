@@ -24,7 +24,6 @@ import at.kc.tugraz.ss.category.api.SSCategoryServerI;
 import at.kc.tugraz.ss.category.datatypes.SSCategory;
 import at.kc.tugraz.ss.category.datatypes.par.SSCategoriesGetPar;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSSpaceE;
 import at.kc.tugraz.ss.service.tag.api.SSTagServerI;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTag;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsGetPar;

@@ -9,7 +9,6 @@
   <artifactId>serv.impl</artifactId>
   <packaging>jar</packaging>
     
-    
   <dependencies>
     
     <dependency>

@@ -26,15 +26,13 @@ import at.tugraz.sss.serv.SSUri;
 import at.kc.tugraz.ss.recomm.datatypes.SSRecommUserRealmEngine;
 import at.kc.tugraz.ss.recomm.impl.fct.sql.SSRecommSQLFct;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
-import at.kc.tugraz.ss.service.user.api.SSUserServerI;
-import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserURIGetPar;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSFileExtE;
 import at.tugraz.sss.serv.SSFileU;
 import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSServErrReg;
-import at.tugraz.sss.serv.SSServReg;
+import engine.EngineInterface;
 import engine.EntityRecommenderEngine;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
@@ -53,12 +51,13 @@ public class SSRecommUserRealmKeeper{
 //  }
   
   public static SSRecommUserRealmEngine checkAddAndGetUserRealmEngine(
-    final SSRecommConf   conf,
-    final SSUri          user,
-    String               realm,
-    final Boolean        checkForUpdate,
-    final SSRecommSQLFct sqlFct,
-    final Boolean        storeToDB) throws Exception{
+    final SSRecommConf    conf,
+    final SSUri           user,
+    String                realm,
+    final Boolean         checkForUpdate,
+    final EngineInterface engine, 
+    final SSRecommSQLFct  sqlFct,
+    final Boolean         storeToDB) throws Exception{
     
     try{
       
@@ -110,7 +109,7 @@ public class SSRecommUserRealmKeeper{
           
           engineLock.writeLock().lock();
           
-          final SSRecommUserRealmEngine userRealmEngine  = SSRecommUserRealmEngine.get(new EntityRecommenderEngine(), realm);
+          final SSRecommUserRealmEngine userRealmEngine  = SSRecommUserRealmEngine.get(engine, realm);
           FileOutputStream              userRealmFileOut = null;
           
           //refactor this to loadSingleUserRealm

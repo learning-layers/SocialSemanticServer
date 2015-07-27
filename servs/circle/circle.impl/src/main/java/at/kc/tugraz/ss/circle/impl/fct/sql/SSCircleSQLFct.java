@@ -733,6 +733,38 @@ public class SSCircleSQLFct extends SSDBSQLFct{
       SSServErrReg.regErrThrow(error);
     }
   }
+  
+  public void removeUser(
+    final SSUri circle,
+    final SSUri user) throws Exception{
+    
+    try{
+      
+      final Map<String, String> wheres = new HashMap<>();
+      
+      where(wheres, SSSQLVarNames.circleId, circle);
+      where(wheres, SSSQLVarNames.userId, user);
+      
+      dbSQL.delete(SSSQLVarNames.circleUsersTable, wheres);
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  public void removeCircle(
+    final SSUri circle) throws Exception{
+    
+    try{
+      
+      final Map<String, String> wheres = new HashMap<>();
+      
+      where(wheres, SSSQLVarNames.circleId, circle);
+      
+      dbSQL.delete(SSSQLVarNames.circleTable, wheres);
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
 
   public List<SSUri> getCircleURIsForUser(
     final SSUri   userUri,

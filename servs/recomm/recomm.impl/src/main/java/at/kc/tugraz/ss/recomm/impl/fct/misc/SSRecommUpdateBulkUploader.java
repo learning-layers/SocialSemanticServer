@@ -33,6 +33,7 @@ import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServImplStartA;
+import engine.EntityRecommenderEngine;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
@@ -69,7 +70,8 @@ public class SSRecommUpdateBulkUploader extends SSServImplStartA{
           (SSRecommConf)conf,
           par.user,
           par.realm,
-          true,
+          true, //checkForUpdate
+          new EntityRecommenderEngine(), //engine
           sqlFct,
           true);
       

@@ -32,4 +32,6 @@ public interface SSCircleClientI{
   public void circlesGet            (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
   public void circleCreate          (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
   public void circleEntitiesRemove  (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void circleUsersRemove     (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void circleRemove          (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
 }

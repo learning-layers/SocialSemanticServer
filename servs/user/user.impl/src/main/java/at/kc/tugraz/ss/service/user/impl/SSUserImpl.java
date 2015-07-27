@@ -45,6 +45,7 @@ import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserAddPar;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserExistsPar;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserGetPar;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserURIGetPar;
+import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserURIsGetPar;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUsersGetPar;
 import at.kc.tugraz.ss.service.user.datatypes.ret.SSUsersGetRet;
 import at.kc.tugraz.ss.service.user.impl.functions.sql.SSUserSQLFct;
@@ -165,6 +166,25 @@ implements
     
     try{
       return sqlFct.getUserURIForEmail(par.email);
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  
+  @Override
+  public List<SSUri> userURIsGet(final SSUserURIsGetPar par) throws Exception{
+    
+    try{
+      
+      final List<SSUri> uris = new ArrayList<>();
+      
+      for(String email : par.emails){
+        uris.add(sqlFct.getUserURIForEmail(email));
+      }
+
+      return uris;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;

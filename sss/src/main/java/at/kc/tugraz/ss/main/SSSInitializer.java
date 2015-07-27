@@ -67,6 +67,7 @@ import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.servs.location.serv.SSLocationServ;
 import at.tugraz.sss.servs.ocd.service.SSOCDServ;
 import at.tugraz.sss.servs.image.serv.SSImageServ;
+import at.tugraz.sss.servs.integrationtest.SSIntegrationTestServ;
 import sss.serv.eval.serv.SSEvalServ;
 
 public class SSSInitializer extends SSServImplStartA{
@@ -85,7 +86,6 @@ public class SSSInitializer extends SSServImplStartA{
       SSCoreConf.instSet(SSVocConf.fileNameSSSConf);
       
       try{
-        //registering
         SSVoc.inst.regServ               ();
         
         SSFileExtE.init    ();
@@ -139,14 +139,14 @@ public class SSSInitializer extends SSServImplStartA{
         SSOCDServ.inst.regServ             ();
         SSImageServ.inst.regServ           ();
         SSLocationServ.inst.regServ        ();
+        SSIntegrationTestServ.inst.regServ ();
         
       }catch(Exception error1){
         SSServErrReg.regErr(error1);
         return;
       }
       
-      try{
-        //initializing
+      try{ //initializing
         SSCircleServ.inst.initServ();
         SSAuthServ.inst.initServ();
         SSDataImportServ.inst.initServ();
@@ -159,8 +159,14 @@ public class SSSInitializer extends SSServImplStartA{
         return;
       }
       
-      try{
-        //scheduling
+       try{ //integration tests
+        SSIntegrationTestServ.inst.initServ();
+      }catch(Exception error1){
+        SSServErrReg.regErr(error1);
+        return;
+      }
+      
+      try{ //scheduling
         SSSearchServ.inst.schedule         ();
         SSLearnEpServ.inst.schedule        ();
         SSBroadcasterServ.inst.schedule    ();

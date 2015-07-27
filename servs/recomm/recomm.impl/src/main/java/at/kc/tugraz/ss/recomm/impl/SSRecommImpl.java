@@ -78,7 +78,10 @@ import java.util.Map;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
+import engine.EntityRecommenderEngine;
+import engine.TagRecommenderEvalEngine;
 import java.util.HashMap;
+import java.util.Random;
 
 public class SSRecommImpl extends SSServImplWithDBA implements SSRecommClientI, SSRecommServerI{
   
@@ -113,6 +116,7 @@ public class SSRecommImpl extends SSServImplWithDBA implements SSRecommClientI, 
           par.user, //user
           par.realm, //realm
           false, //checkForUpdate
+          null, //engine
           sqlFct, //sqlFct
           false); //storeToDB
       
@@ -218,18 +222,33 @@ public class SSRecommImpl extends SSServImplWithDBA implements SSRecommClientI, 
     
     try{
       
+      String realmToUse = null;
+      
+      try{
+        
+        SSUri.get(par.realm);
+        
+        final String realmStr = SSStrU.removeTrailingSlash(par.realm);
+        
+        realmToUse = realmStr.substring(realmStr.lastIndexOf(SSStrU.slash) + 1, realmStr.length());
+        
+      }catch(Exception error){
+        realmToUse = par.realm;
+      }
+      
       final SSRecommUserRealmEngine userRealmEngine =
         SSRecommUserRealmKeeper.checkAddAndGetUserRealmEngine(
           (SSRecommConf) conf,
           par.user,
-          par.realm, //realm
+          realmToUse, //realm
           false, //checkForUpdate
+          null, //engine
           sqlFct, //sqlFct
           false); //storeToDB
       
       if(par.ignoreAccessRights){
         
-        if(SSStrU.equals(par.realm, ((SSRecommConf)conf).fileNameForRec)){
+        if(SSStrU.equals(realmToUse, ((SSRecommConf)conf).fileNameForRec)){
           throw new SSErr(SSErrE.parameterMissing);
         }
       }
@@ -266,6 +285,13 @@ public class SSRecommImpl extends SSServImplWithDBA implements SSRecommClientI, 
             break;
           }
         }
+      }
+      
+      if(
+        recommConf.recommTagsRandomAlgos != null &&
+        !recommConf.recommTagsRandomAlgos.isEmpty()){
+        
+        algo = Algorithm.valueOf(recommConf.recommTagsRandomAlgos.get(new Random().nextInt(recommConf.recommTagsRandomAlgos.size())));
       }
       
       //Tags for user and resource: getEntitiesWithLikelihood(forUser,  entity,  null, 10, false, null, EntityType.TAG);  // BLLac+MPr
@@ -320,6 +346,7 @@ public class SSRecommImpl extends SSServImplWithDBA implements SSRecommClientI, 
           par.user, 
           par.realm, //realm
           false, //checkForUpdate
+          null, //engine
           sqlFct, //sqlFct
           false); //storeToDB
         
@@ -462,6 +489,7 @@ public class SSRecommImpl extends SSServImplWithDBA implements SSRecommClientI, 
           par.user,
           par.realm,//realm
           true, //checkForUpdate
+          new EntityRecommenderEngine(), //engine
           sqlFct, //sqlFct
           false); //storeToDB
       
@@ -557,6 +585,7 @@ public class SSRecommImpl extends SSServImplWithDBA implements SSRecommClientI, 
               userURI,
               usersForRealm.getKey(), //realm
               true, //checkForUpdate
+              new EntityRecommenderEngine(), //engine
               sqlFct, //sqlFct
               false); //storeToDB
           
@@ -588,6 +617,7 @@ public class SSRecommImpl extends SSServImplWithDBA implements SSRecommClientI, 
   @Override
   public void recommUpdateBulkUserRealmsFromCircles(final SSRecommUpdateBulkUserRealmsFromCirclesPar par) throws Exception{
     
+    //TODO works for tag recommendations only
     try{
       
       if(
@@ -656,7 +686,7 @@ public class SSRecommImpl extends SSServImplWithDBA implements SSRecommClientI, 
             null, 
             null, 
             par.user,
-            SSUri.get(usersForRealm.getKey(), SSVocConf.sssUri),
+            SSUri.get(usersForRealm.getKey(), SSVocConf.sssUri), //circle
             usersForRealm.getKey() + SSStrU.dot + SSFileExtE.txt, //fileName
             false)); //withUserRestriction
           
@@ -664,10 +694,11 @@ public class SSRecommImpl extends SSServImplWithDBA implements SSRecommClientI, 
           
           userRealmEngine =
             SSRecommUserRealmKeeper.checkAddAndGetUserRealmEngine(
-              (SSRecommConf)conf,
+              (SSRecommConf) conf,
               user,
               usersForRealm.getKey(),
-              true,
+              true, //checkForUpdate
+              new TagRecommenderEvalEngine(), //engine
               sqlFct,
               false);
           
@@ -717,6 +748,7 @@ public class SSRecommImpl extends SSServImplWithDBA implements SSRecommClientI, 
           par.user,
           par.realm, //realm
           true, //checkForUpdate
+          new EntityRecommenderEngine(), //engine
           sqlFct, //sqlFct
           true); //storeToDB
       
@@ -780,6 +812,7 @@ public class SSRecommImpl extends SSServImplWithDBA implements SSRecommClientI, 
           par.user, 
           par.realm,//realm
           true, //checkForUpdate
+          new EntityRecommenderEngine(), //engine
           sqlFct, //sqlFct
           true); //storeToDB
       
