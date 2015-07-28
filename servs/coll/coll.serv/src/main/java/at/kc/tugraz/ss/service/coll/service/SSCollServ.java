@@ -22,7 +22,6 @@
 
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import at.tugraz.sss.serv.SSCoreConfA;
-import at.tugraz.sss.serv.SSConfA;
 import at.kc.tugraz.ss.service.coll.impl.*;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSServImplA;
@@ -56,6 +55,7 @@ public class SSCollServ extends SSServContainerI{
     SSServReg.inst.regServ(this);
 
     SSServReg.inst.regServForHandlingEntities(this);
+    SSServReg.inst.regServForHandlingCircleContentAdded(this);
     SSServReg.inst.regServForGatheringUserRelations (this);
     
     return this;

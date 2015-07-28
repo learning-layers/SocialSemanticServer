@@ -174,16 +174,6 @@ implements
   }
     
   @Override
-  public void circleContentChanged(final SSCircleContentChangedPar par) throws Exception{
-    
-  } 
-  
-  @Override
-  public void circleContentRemoved (final SSCircleContentRemovedPar par) throws Exception{
-    
-  }
-  
-  @Override
   public SSEvernoteInfo evernoteNoteStoreGet(SSServPar parA) throws Exception {
     
     try{

@@ -49,6 +49,7 @@ import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSEntityE;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleCanAccessPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleCreateFromClientPar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesRemoveFromClientPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntityUsersGetPar;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleEntityUsersGetRet;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesRemovePar;
@@ -64,7 +65,9 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.tugraz.sss.serv.SSCircleContentAddedI;
 import at.tugraz.sss.serv.SSCircleContentChangedPar;
+import at.tugraz.sss.serv.SSCircleContentRemovedI;
 import at.tugraz.sss.serv.SSCircleContentRemovedPar;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSConfA;
@@ -168,15 +171,6 @@ implements
   }
   
   @Override
-  public void circleContentChanged(final SSCircleContentChangedPar par) throws Exception{
-  }
-  
-  @Override
-  public void circleContentRemoved (final SSCircleContentRemovedPar par) throws Exception{
-    
-  }
-    
-  @Override
   public void entityCopied(final SSEntityCopiedPar par) throws Exception{
     
   }
@@ -245,18 +239,19 @@ implements
     
     SSServCallerU.checkKey(parA);
     
-    final SSCircleEntitiesRemovePar par    = (SSCircleEntitiesRemovePar) parA.getFromJSON(SSCircleEntitiesRemovePar.class);
-    final List<SSUri>               result = circleEntitiesRemove(par);
+    final SSCircleEntitiesRemoveFromClientPar par    = (SSCircleEntitiesRemoveFromClientPar) parA.getFromJSON(SSCircleEntitiesRemoveFromClientPar.class);
+    final List<SSUri>                         result = circleEntitiesRemove(par);
     
     if(!result.isEmpty()){
       
-      for(SSServContainerI serv : SSServReg.inst.getServsHandlingEntities()){
+      for(SSServContainerI serv : SSServReg.inst.getServsHandlingCircleContentRemoved()){
         
-        ((SSEntityHandlerImplI) serv.serv()).circleContentRemoved(
+        ((SSCircleContentRemovedI) serv.serv()).circleContentRemoved(
           new SSCircleContentRemovedPar(
             par.user,
             par.circle, //circle
             result, //entities
+            par.removeCircleSpecificMetadata, //removeCircleSpecificMetadata
             par.withUserRestriction, //withUserRestriction
             par.shouldCommit)); //shouldCommit
       }
@@ -409,7 +404,7 @@ implements
       
       for(SSServContainerI serv : SSServReg.inst.getServsHandlingEntities()){
         
-        ((SSEntityHandlerImplI) serv.serv()).circleContentChanged(
+        ((SSCircleContentAddedI) serv.serv()).circleContentAdded(
           new SSCircleContentChangedPar(
             par.user,
             circleURI, //circle
@@ -581,7 +576,7 @@ implements
     
     for(SSServContainerI serv : SSServReg.inst.getServsHandlingEntities()){
       
-      ((SSEntityHandlerImplI) serv.serv()).circleContentChanged(
+      ((SSCircleContentAddedI) serv.serv()).circleContentAdded(
         new SSCircleContentChangedPar(
           par.user,
           circleURI, //circle
@@ -686,7 +681,7 @@ implements
     
     for(SSServContainerI serv : SSServReg.inst.getServsHandlingEntities()){
       
-      ((SSEntityHandlerImplI) serv.serv()).circleContentChanged(
+      ((SSCircleContentAddedI) serv.serv()).circleContentAdded(
         new SSCircleContentChangedPar(
           par.user,
           cicleURI, //circle

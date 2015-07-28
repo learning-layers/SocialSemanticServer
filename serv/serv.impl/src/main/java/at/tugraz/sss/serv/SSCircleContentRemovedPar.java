@@ -25,16 +25,18 @@ import java.util.List;
 
 public class SSCircleContentRemovedPar{
   
-  public SSUri          user                  = null;
-  public SSUri          circle                = null;
-  public List<SSUri>    entities              = new ArrayList<>();
-  public Boolean        withUserRestriction   = true;
-  public Boolean        shouldCommit          = false;
+  public SSUri          user                         = null;
+  public SSUri          circle                       = null;
+  public List<SSUri>    entities                     = new ArrayList<>();
+  public Boolean        removeCircleSpecificMetadata = false;
+  public Boolean        withUserRestriction          = true;
+  public Boolean        shouldCommit                 = false;
   
   public SSCircleContentRemovedPar(
     final SSUri          user,
     final SSUri          circle,
     final List<SSUri>    entities,
+    final Boolean        removeCircleSpecificMetadata,
     final Boolean        withUserRestriction,
     final Boolean        shouldCommit){
     
@@ -43,7 +45,8 @@ public class SSCircleContentRemovedPar{
     
     SSUri.addDistinctWithoutNull(this.entities,            entities);
     
-    this.withUserRestriction = withUserRestriction;
-    this.shouldCommit        = shouldCommit;
+    this.removeCircleSpecificMetadata = removeCircleSpecificMetadata;
+    this.withUserRestriction          = withUserRestriction;
+    this.shouldCommit                 = shouldCommit;
   }
 }

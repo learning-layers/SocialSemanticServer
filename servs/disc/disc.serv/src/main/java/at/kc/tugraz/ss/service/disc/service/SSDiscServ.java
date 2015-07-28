@@ -54,6 +54,7 @@ public class SSDiscServ extends SSServContainerI{
     SSServReg.inst.regServ(this);
     
     SSServReg.inst.regServForHandlingEntities(this);
+    SSServReg.inst.regServForHandlingCircleContentAdded(this);
     SSServReg.inst.regServForGatheringUserRelations  (this);
     SSServReg.inst.regServForGatheringUsersResources (this);
     

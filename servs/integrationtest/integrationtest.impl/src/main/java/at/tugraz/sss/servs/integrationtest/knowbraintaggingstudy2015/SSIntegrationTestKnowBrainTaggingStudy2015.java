@@ -45,6 +45,7 @@ import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsAddPar;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsRemovePar;
 import at.kc.tugraz.ss.service.user.api.SSUserServerI;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserURIsGetPar;
+import at.tugraz.sss.serv.SSCircleContentAddedI;
 import at.tugraz.sss.serv.SSCircleContentChangedPar;
 import at.tugraz.sss.serv.SSCircleE;
 import at.tugraz.sss.serv.SSEntity;
@@ -530,7 +531,7 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
       
       for(SSServContainerI serv : SSServReg.inst.getServsHandlingEntities()){
         
-        ((SSEntityHandlerImplI) serv.serv()).circleContentChanged(
+        ((SSCircleContentAddedI) serv.serv()).circleContentAdded(
           new SSCircleContentChangedPar(
             user4,
             circle3Uri, //circle
@@ -604,7 +605,7 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
       
       for(SSServContainerI serv : SSServReg.inst.getServsHandlingEntities()){
         
-        ((SSEntityHandlerImplI) serv.serv()).circleContentChanged(
+        ((SSCircleContentAddedI) serv.serv()).circleContentAdded(
           new SSCircleContentChangedPar(
             user3,
             circle2Uri, //circle
@@ -695,7 +696,7 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
       
       for(SSServContainerI serv : SSServReg.inst.getServsHandlingEntities()){
         
-        ((SSEntityHandlerImplI) serv.serv()).circleContentChanged(
+        ((SSCircleContentAddedI) serv.serv()).circleContentAdded(
           new SSCircleContentChangedPar(
             user1,
             circle1Uri, //circle
@@ -770,7 +771,7 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
       
       for(SSServContainerI serv : SSServReg.inst.getServsHandlingEntities()){
         
-        ((SSEntityHandlerImplI) serv.serv()).circleContentChanged(
+        ((SSCircleContentAddedI) serv.serv()).circleContentAdded(
           new SSCircleContentChangedPar(
             user2,
             circle1Uri, //circle
@@ -900,7 +901,7 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
       
       for(SSServContainerI serv : SSServReg.inst.getServsHandlingEntities()){
         
-        ((SSEntityHandlerImplI) serv.serv()).circleContentChanged(
+        ((SSCircleContentAddedI) serv.serv()).circleContentAdded(
           new SSCircleContentChangedPar(
             adminUri,
             circle4Uri, //circle
@@ -964,7 +965,7 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
       
       for(SSServContainerI serv : SSServReg.inst.getServsHandlingEntities()){
         
-        ((SSEntityHandlerImplI) serv.serv()).circleContentChanged(
+        ((SSCircleContentAddedI) serv.serv()).circleContentAdded(
           new SSCircleContentChangedPar(
             adminUri,
             circle3Uri, //circle
@@ -1028,7 +1029,7 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
       
       for(SSServContainerI serv : SSServReg.inst.getServsHandlingEntities()){
         
-        ((SSEntityHandlerImplI) serv.serv()).circleContentChanged(
+        ((SSCircleContentAddedI) serv.serv()).circleContentAdded(
           new SSCircleContentChangedPar(
             adminUri,
             circle2Uri, //circle
@@ -1096,7 +1097,7 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
       
       for(SSServContainerI serv : SSServReg.inst.getServsHandlingEntities()){
         
-        ((SSEntityHandlerImplI) serv.serv()).circleContentChanged(
+        ((SSCircleContentAddedI) serv.serv()).circleContentAdded(
           new SSCircleContentChangedPar(
             adminUri,
             circle1Uri, //circle

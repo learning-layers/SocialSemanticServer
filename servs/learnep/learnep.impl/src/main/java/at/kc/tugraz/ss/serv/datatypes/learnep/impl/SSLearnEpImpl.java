@@ -81,8 +81,8 @@ import at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.access.SSLearnEpAccessCon
 import at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.activity.SSLearnEpActivityFct;
 import at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.misc.SSLearnEpMiscFct;
 import at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.sql.SSLearnEpSQLFct;
+import at.tugraz.sss.serv.SSCircleContentAddedI;
 import at.tugraz.sss.serv.SSCircleContentChangedPar;
-import at.tugraz.sss.serv.SSCircleContentRemovedPar;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSSocketCon;
 import at.tugraz.sss.serv.SSDBSQLI;
@@ -115,6 +115,7 @@ implements
   SSLearnEpClientI,
   SSLearnEpServerI,
   SSEntityHandlerImplI,
+  SSCircleContentAddedI,
   SSUsersResourcesGathererI{
   
   private final SSLearnEpSQLFct  sqlFct;
@@ -191,12 +192,7 @@ implements
   }
   
   @Override
-  public void circleContentRemoved (final SSCircleContentRemovedPar par) throws Exception{
-    
-  }
-  
-  @Override
-  public void circleContentChanged(final SSCircleContentChangedPar par) throws Exception{
+  public void circleContentAdded(final SSCircleContentChangedPar par) throws Exception{
     
     try{
       for(SSEntity entityToAdd : par.entitiesToAdd){

@@ -28,6 +28,7 @@ import at.kc.tugraz.ss.circle.impl.SSCircleImpl;
 import at.tugraz.sss.serv.SSObjU;
 import at.tugraz.sss.serv.SSStrU;
 import at.kc.tugraz.ss.circle.impl.fct.sql.SSCircleSQLFct;
+import at.tugraz.sss.serv.SSCircleContentAddedI;
 import at.tugraz.sss.serv.SSCircleContentChangedPar;
 import at.tugraz.sss.serv.SSCircleE;
 import at.tugraz.sss.serv.SSCircleRightE;
@@ -361,7 +362,7 @@ public class SSCircleMiscFct{
         
         for(SSServContainerI entityHandler : SSServReg.inst.getServsHandlingEntities()){
           
-          ((SSEntityHandlerImplI) entityHandler.serv()).circleContentChanged(
+          ((SSCircleContentAddedI) entityHandler.serv()).circleContentAdded(
             new SSCircleContentChangedPar(
               forUser,
               newCircle.id, //circle
@@ -481,7 +482,7 @@ public class SSCircleMiscFct{
       
       for(SSServContainerI entityHandler : SSServReg.inst.getServsHandlingEntities()){
         
-        ((SSEntityHandlerImplI) entityHandler.serv()).circleContentChanged(
+        ((SSCircleContentAddedI) entityHandler.serv()).circleContentAdded(
           new SSCircleContentChangedPar(
             par.user,
             targetCircle.id, //circle

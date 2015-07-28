@@ -78,14 +78,15 @@ implements
       knowBrainTaggingStudy2015.addCircle2Entities             (userUris, circle2.id);
       knowBrainTaggingStudy2015.addCircle3Entities             (userUris, circle3.id);
       knowBrainTaggingStudy2015.updateTagRecomm                ();
+      
       knowBrainTaggingStudy2015.getTagRecomms                  (circle1.id, circle2.id, circle3.id, userUris);
-      knowBrainTaggingStudy2015.removeTags                     (userUris);
       knowBrainTaggingStudy2015.splitCircle1                   (adminUri, circle1.id, userUris);
-      knowBrainTaggingStudy2015.mergeCircle2And3               (adminUri, circle2.id, circle3.id);
-      knowBrainTaggingStudy2015.removeUsersFromOldCircles      (adminUri, circle1.id, circle2.id, circle3.id, userUris);
-      knowBrainTaggingStudy2015.getUsersCircles                (userUris);
-      knowBrainTaggingStudy2015.updateTagRecomm                ();
-      knowBrainTaggingStudy2015.getTagRecommsAfterSplitAndMerge(userUris);
+//      knowBrainTaggingStudy2015.mergeCircle2And3               (adminUri, circle2.id, circle3.id);
+//      knowBrainTaggingStudy2015.removeTags                     (userUris);
+//      knowBrainTaggingStudy2015.removeUsersFromOldCircles      (adminUri, circle1.id, circle2.id, circle3.id, userUris);
+//      knowBrainTaggingStudy2015.getUsersCircles                (userUris);
+//      knowBrainTaggingStudy2015.updateTagRecomm                ();
+//      knowBrainTaggingStudy2015.getTagRecommsAfterSplitAndMerge(userUris);
       
       dbSQL.commit(true);
       

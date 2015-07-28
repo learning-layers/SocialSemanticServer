@@ -136,6 +136,10 @@ public class SSActivitySQLFct extends SSDBSQLFct{
         
       for(SSUri user : users){
 
+        if(SSStrU.equals(author, user)){
+          continue;
+        }
+        
         inserts.clear();
         insert(inserts, SSSQLVarNames.activityId,     activity);
         insert(inserts, SSSQLVarNames.userId,         user);

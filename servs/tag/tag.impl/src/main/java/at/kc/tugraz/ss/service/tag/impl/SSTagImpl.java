@@ -214,7 +214,7 @@ implements
             new SSTagAddPar(
               null,
               null,
-              ((SSTag)tag).user,  //user
+              par.targetUser,  //user
               ((SSTag)tag).entity, //entity
               ((SSTag)tag).tagLabel, //label
               ((SSTag)tag).space, //space
@@ -244,16 +244,6 @@ implements
     final SSEntityE     type) throws Exception{
     
     return null;
-  }
-  
-  @Override
-  public void circleContentChanged(final SSCircleContentChangedPar par) throws Exception{
-    
-  } 
-  
-  @Override
-  public void circleContentRemoved (final SSCircleContentRemovedPar par) throws Exception{
-    
   }
   
   @Override
@@ -548,20 +538,21 @@ implements
           null));  //descPar
       
       if(
-        par.space    == null &&
+        par.space  == null &&
         par.entity == null){
         
         dbSQL.startTrans(par.shouldCommit);
         
         sqlFct.removeMetadataAsss(par.user, null, tagUri, SSSpaceE.privateSpace);
         sqlFct.removeMetadataAsss(par.user, null, tagUri, SSSpaceE.sharedSpace);
+        sqlFct.removeMetadataAsss(par.user, null, tagUri, SSSpaceE.circleSpace);
         
         dbSQL.commit(par.shouldCommit);
         return true;
       }
       
       if(
-        par.space    != null &&
+        par.space  != null &&
         par.entity == null){
         
         dbSQL.startTrans(par.shouldCommit);
@@ -573,20 +564,21 @@ implements
       }
       
       if(
-        par.space    == null &&
+        par.space  == null &&
         par.entity != null){
         
         dbSQL.startTrans(par.shouldCommit);
         
         sqlFct.removeMetadataAsss (par.user, par.entity, tagUri, SSSpaceE.privateSpace);
         sqlFct.removeMetadataAsss (null,     par.entity, tagUri, SSSpaceE.sharedSpace);
+        sqlFct.removeMetadataAsss (null,     par.entity, tagUri, SSSpaceE.circleSpace);
         
         dbSQL.commit(par.shouldCommit);
         return true;
       }
       
       if(
-        par.space    != null &&
+        par.space  != null &&
         par.entity != null){
         
         dbSQL.startTrans(par.shouldCommit);

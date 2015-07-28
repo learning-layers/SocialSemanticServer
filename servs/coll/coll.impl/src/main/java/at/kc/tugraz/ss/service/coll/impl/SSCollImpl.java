@@ -81,6 +81,7 @@ implements
   SSCollClientI, 
   SSCollServerI, 
   SSEntityHandlerImplI, 
+  SSCircleContentAddedI,
   SSUserRelationGathererI{
 
   private final SSCollSQLFct sqlFct;
@@ -209,11 +210,6 @@ implements
   }
   
   @Override
-  public void circleContentRemoved (final SSCircleContentRemovedPar par) throws Exception{
-    
-  }
-  
-  @Override
   public List<SSUri> getParentEntities(
     final SSUri         user,
     final SSUri         entity,
@@ -263,7 +259,7 @@ implements
   }
       
   @Override
-  public void circleContentChanged(final SSCircleContentChangedPar par) throws Exception{
+  public void circleContentAdded(final SSCircleContentChangedPar par) throws Exception{
     
     SSColl rootColl;
     

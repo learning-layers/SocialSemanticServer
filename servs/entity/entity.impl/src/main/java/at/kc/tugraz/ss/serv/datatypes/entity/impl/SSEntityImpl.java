@@ -69,8 +69,8 @@ import at.tugraz.sss.serv.SSUsersResourcesGathererI;
 import at.tugraz.sss.util.SSServCallerU;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUEE;
 import at.kc.tugraz.ss.service.userevent.datatypes.pars.SSUEAddPar;
+import at.tugraz.sss.serv.SSCircleContentAddedI;
 import at.tugraz.sss.serv.SSCircleContentChangedPar;
-import at.tugraz.sss.serv.SSCircleContentRemovedPar;
 import at.tugraz.sss.serv.SSCircleE;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
@@ -114,15 +114,6 @@ implements
   }
   
   @Override
-  public void circleContentChanged(final SSCircleContentChangedPar par) throws Exception{
-    
-  }
-  
-  @Override
-  public void circleContentRemoved (final SSCircleContentRemovedPar par) throws Exception{
-    
-  }
-@Override
   public void copyEntity(
     final SSEntity                  entity,
     final SSEntityCopyPar           par) throws Exception{
@@ -918,7 +909,7 @@ implements
         
         for(SSServContainerI serv : SSServReg.inst.getServsHandlingEntities()){
           
-          ((SSEntityHandlerImplI) serv.serv()).circleContentChanged(
+          ((SSCircleContentAddedI) serv.serv()).circleContentAdded(
             new SSCircleContentChangedPar(
               par.user,
               circleUri,
@@ -958,7 +949,7 @@ implements
           
           for(SSServContainerI serv : SSServReg.inst.getServsHandlingEntities()){
             
-            ((SSEntityHandlerImplI) serv.serv()).circleContentChanged(
+            ((SSCircleContentAddedI) serv.serv()).circleContentAdded(
               new SSCircleContentChangedPar(
                 par.user,
                 circleURI,
@@ -994,7 +985,7 @@ implements
         
         for(SSServContainerI serv : SSServReg.inst.getServsHandlingEntities()){
             
-            ((SSEntityHandlerImplI) serv.serv()).circleContentChanged(
+            ((SSCircleContentAddedI) serv.serv()).circleContentAdded(
               new SSCircleContentChangedPar(
                 par.user,
                 pubCircleURI,

@@ -29,7 +29,6 @@ import at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.access.SSLearnEpRemaining
 import at.tugraz.sss.serv.SSDateU;
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSCoreConfA;
-import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServImplA;
@@ -61,6 +60,7 @@ public class SSLearnEpServ extends SSServContainerI{
     SSServReg.inst.regServ(this);
     
     SSServReg.inst.regServForHandlingEntities(this);
+    SSServReg.inst.regServForHandlingCircleContentAdded(this);
     SSServReg.inst.regServForGatheringUsersResources (this);
     
     final Map<SSServOpE, Integer> maxRequestsForOps = new EnumMap<>(SSServOpE.class);

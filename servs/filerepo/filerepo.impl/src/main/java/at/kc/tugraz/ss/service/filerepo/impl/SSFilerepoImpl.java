@@ -108,16 +108,6 @@ implements
   }
   
   @Override
-  public void circleContentChanged(final SSCircleContentChangedPar par) throws Exception{
-    
-  }
-  
-  @Override
-  public void circleContentRemoved (final SSCircleContentRemovedPar par) throws Exception{
-    
-  }
-  
-  @Override
   public SSEntity getUserEntity(
     final SSEntity             entity, 
     final SSEntityDescriberPar par) throws Exception{

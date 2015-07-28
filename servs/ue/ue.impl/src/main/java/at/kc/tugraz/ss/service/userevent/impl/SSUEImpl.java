@@ -150,11 +150,6 @@ implements
   }
   
   @Override
-  public void circleContentRemoved (final SSCircleContentRemovedPar par) throws Exception{
-    
-  }
-  
-  @Override
   public List<SSUri> getParentEntities(
     final SSUri         user,
     final SSUri         entity,
@@ -172,11 +167,6 @@ implements
     return null;
   }
 
-  @Override
-  public void circleContentChanged(final SSCircleContentChangedPar par) throws Exception{
-    
-  }
-  
   @Override
   public SSEntity getUserEntity(
     final SSEntity             entity, 

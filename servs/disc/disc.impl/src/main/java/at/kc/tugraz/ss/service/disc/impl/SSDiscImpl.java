@@ -62,8 +62,8 @@ import at.kc.tugraz.ss.service.disc.impl.fct.activity.SSDiscActivityFct;
 import at.kc.tugraz.ss.service.disc.impl.fct.misc.SSDiscMiscFct;
 import at.kc.tugraz.ss.service.disc.impl.fct.op.SSDiscUserEntryAddFct;
 import at.kc.tugraz.ss.service.disc.impl.fct.sql.SSDiscSQLFct;
+import at.tugraz.sss.serv.SSCircleContentAddedI;
 import at.tugraz.sss.serv.SSCircleContentChangedPar;
-import at.tugraz.sss.serv.SSCircleContentRemovedPar;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
@@ -84,6 +84,7 @@ public class SSDiscImpl
   SSDiscClientI,
   SSDiscServerI,
   SSEntityHandlerImplI,
+  SSCircleContentAddedI,
   SSUserRelationGathererI,
   SSUsersResourcesGathererI{
 
@@ -237,12 +238,7 @@ public class SSDiscImpl
   }
 
   @Override
-  public void circleContentRemoved (final SSCircleContentRemovedPar par) throws Exception{
-    
-  }
-  
-  @Override
-  public void circleContentChanged(final SSCircleContentChangedPar par) throws Exception{
+  public void circleContentAdded(final SSCircleContentChangedPar par) throws Exception{
     
     for(SSEntity entityToAdd : par.entitiesToAdd){
       

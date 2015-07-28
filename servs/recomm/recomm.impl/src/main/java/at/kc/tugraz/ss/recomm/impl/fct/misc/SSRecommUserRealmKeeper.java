@@ -98,49 +98,33 @@ public class SSRecommUserRealmKeeper{
             return userRealmEngine;
           }
         }
+      }
         
-        throw new SSErr(SSErrE.realmIncorrectForUser, "user already defined recomm realms; reuse these!");
+      if(checkForUpdate){
+        
+        engineLock.readLock().unlock();
+        
+        engineLock.writeLock().lock();
+        
+        final SSRecommUserRealmEngine userRealmEngine  = SSRecommUserRealmEngine.get(engine, realm);
+        
+        //refactor this to loadSingleUserRealm
+        
+        if(storeToDB){
+          sqlFct.addUserRealm(user, realm);
+        }
+        
+        if(!userRealmEngines.containsKey(userStr)){
+          userRealmEngines.put(userStr, new ArrayList());
+        }
+        
+        userRealmEngines.get(userStr).add(userRealmEngine);
+        
+        return userRealmEngine;
         
       }else{
-        
-        if(checkForUpdate){
-          
-          engineLock.readLock().unlock();
-          
-          engineLock.writeLock().lock();
-          
-          final SSRecommUserRealmEngine userRealmEngine  = SSRecommUserRealmEngine.get(engine, realm);
-          FileOutputStream              userRealmFileOut = null;
-          
-          //refactor this to loadSingleUserRealm
-          try{
-            userRealmFileOut =
-              SSFileU.openOrCreateFileWithPathForWrite(
-                SSFileU.dirWorkingDataCsv() + userRealmEngine.realm + SSStrU.dot + SSFileExtE.txt);
-            
-            if(storeToDB){
-              sqlFct.addUserRealm(user, realm);
-            }
-            
-            userRealmEngines.put(userStr, new ArrayList());
-            
-            userRealmEngines.get(userStr).add(userRealmEngine);
-            
-            return userRealmEngine;
-            
-          }catch(Exception error){
-            SSServErrReg.regErrThrow(new Exception("user realm engine file creation failed"));
-          }finally{
-            if(userRealmFileOut != null){
-              userRealmFileOut.close();
-            }
-          }
-        }else{
-          throw new Exception("realm to recommend from doesnt exist");
-        }
+        throw new Exception("realm to recommend from doesnt exist");
       }
-      
-      throw new SSErr(SSErrE.codeUnreachable);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

@@ -29,13 +29,17 @@ import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesAddPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesRemoveFromClientPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesRemovePar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleGetPar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleRemovePar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleUsersAddPar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleUsersRemovePar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclesGetPar;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleCreateRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleEntitiesAddRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleEntitiesRemoveRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleGetRet;
+import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleRemoveRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleUsersAddRet;
+import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleUsersRemoveRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCirclesGetRet;
 import at.tugraz.sss.serv.SSUri;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
@@ -283,4 +287,82 @@ public class SSRESTCircle{
     
     return SSRestMainV2.handleRequest(headers, par, false, true).response;
   }
+  
+  @DELETE
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path("{circle}/users/{users}")
+  @ApiOperation(
+    value = "remove users from circle",
+    response = SSCircleUsersRemoveRet.class)
+  public Response circleUsersRemove(
+    @Context
+    final HttpHeaders headers,
+    
+    @PathParam(SSVarNames.circle)
+    final String circle,
+    
+    @PathParam(SSVarNames.users)
+    final String users){
+    
+    final SSCircleUsersRemovePar par;
+    
+    try{
+      
+      par =
+        new SSCircleUsersRemovePar(
+          SSServOpE.circleUsersRemove,
+          null,
+          null,
+          SSUri.get(circle, SSVocConf.sssUri), //circle
+          SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(users, SSStrU.comma), SSVocConf.sssUri), //users
+          true, //withUserRestriction 
+          true); //shouldCommit
+
+    }catch(Exception error){
+      return Response.status(422).build();
+    }
+    
+    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+  }
+  
+  @DELETE
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path("{circle}")
+  @ApiOperation(
+    value = "remove circle",
+    response = SSCircleRemoveRet.class)
+  public Response circleRemove(
+    @Context
+    final HttpHeaders headers,
+    
+    @PathParam(SSVarNames.circle)
+    final String circle,
+    
+    @PathParam(SSVarNames.users)
+    final String users){
+    
+    final SSCircleRemovePar par;
+    
+    try{
+      
+      par =
+        new SSCircleRemovePar(
+          SSServOpE.circleRemove,
+          null,
+          null,
+          SSUri.get(circle, SSVocConf.sssUri), //circle
+          true, //withUserRestriction 
+          true); //shouldCommit
+
+    }catch(Exception error){
+      return Response.status(422).build();
+    }
+    
+    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+  }
 }
+
+
+

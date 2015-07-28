@@ -200,7 +200,7 @@ implements
             new SSCategoryAddPar(
               null,
               null,
-              ((SSCategory)category).user,  //user
+              par.targetUser,  //user
               ((SSCategory)category).entity, //entity
               ((SSCategory)category).categoryLabel, //label
               ((SSCategory)category).space, //space
@@ -231,16 +231,6 @@ implements
     final SSEntityE     type) throws Exception{
 
     return new ArrayList<>();
-  }
-  
-  @Override
-  public void circleContentChanged(final SSCircleContentChangedPar par) throws Exception{
-    
-  }
-  
-  @Override
-  public void circleContentRemoved (final SSCircleContentRemovedPar par) throws Exception{
-    
   }
   
   @Override
@@ -508,6 +498,7 @@ implements
         
         sqlFct.removeMetadataAsss(par.user, null, categoryUri, SSSpaceE.privateSpace);
         sqlFct.removeMetadataAsss(par.user, null, categoryUri, SSSpaceE.sharedSpace);
+        sqlFct.removeMetadataAsss(par.user, null, categoryUri, SSSpaceE.circleSpace);
         
         dbSQL.commit(par.shouldCommit);
         return true;
@@ -533,6 +524,7 @@ implements
         
         sqlFct.removeMetadataAsss (par.user, par.entity, categoryUri, SSSpaceE.privateSpace);
         sqlFct.removeMetadataAsss (null,     par.entity, categoryUri, SSSpaceE.sharedSpace);
+        sqlFct.removeMetadataAsss (null,     par.entity, categoryUri, SSSpaceE.circleSpace);
         
         dbSQL.commit(par.shouldCommit);
         return true;

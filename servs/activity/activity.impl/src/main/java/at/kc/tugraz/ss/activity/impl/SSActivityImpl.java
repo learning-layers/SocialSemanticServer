@@ -139,16 +139,6 @@ implements
   }
   
   @Override
-  public void circleContentChanged(final SSCircleContentChangedPar par) throws Exception{
-    
-  }
-  
-  @Override
-  public void circleContentRemoved (final SSCircleContentRemovedPar par) throws Exception{
-    
-  }
-  
-  @Override
   public void activityTypesGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
     
     SSServCallerU.checkKey(parA);
