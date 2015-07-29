@@ -32,7 +32,6 @@ import java.util.List;
 public class SSEvalLogPar extends SSServPar{
 
   public SSToolContextE   toolContext  = null;
-  public SSUri            forUser      = null;
   public SSEvalLogE       type         = null;
   public SSUri            entity       = null;
   public String           content      = null;
@@ -43,10 +42,6 @@ public class SSEvalLogPar extends SSServPar{
     this.toolContext = SSToolContextE.get(toolContext);
   }
 
-  public void setForUser(final String forUser) throws Exception{
-    this.forUser = SSUri.get(forUser);
-  }
-  
   public void setType(final String type) throws Exception{
     this.type = SSEvalLogE.get(type);
   }
@@ -65,10 +60,6 @@ public class SSEvalLogPar extends SSServPar{
   
   public String getToolContext(){
     return SSStrU.toStr(toolContext);
-  }
-  
-  public String getForUser(){
-    return SSStrU.removeTrailingSlash(forUser);
   }
   
   public String getType(){
@@ -90,11 +81,8 @@ public class SSEvalLogPar extends SSServPar{
   public SSEvalLogPar(){}
   
   public SSEvalLogPar(
-    final SSServOpE      op,
-    final String         key,
     final SSUri          user,
     final SSToolContextE toolContext,
-    final SSUri          forUser, 
     final SSEvalLogE     type, 
     final SSUri          entity, 
     final String         content, 
@@ -102,10 +90,9 @@ public class SSEvalLogPar extends SSServPar{
     final List<SSUri>    users, 
     final Boolean        shouldCommit){
     
-    super(op, key, user);
+    super(SSServOpE.evalLog, null, user);
     
     this.toolContext  = toolContext;
-    this.forUser      = forUser;
     this.type         = type;
     this.entity       = entity;
     this.content      = content;

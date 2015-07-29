@@ -20,6 +20,9 @@
 */
 package at.kc.tugraz.ss.category.impl;
 
+import at.kc.tugraz.ss.activity.api.SSActivityServerI;
+import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
+import at.kc.tugraz.ss.activity.datatypes.par.SSActivityAddPar;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSSocketCon;
 import at.kc.tugraz.ss.category.api.SSCategoryClientI;
@@ -41,14 +44,11 @@ import at.kc.tugraz.ss.category.datatypes.ret.SSCategoriesRemoveRet;
 import at.kc.tugraz.ss.category.datatypes.ret.SSCategoryAddRet;
 import at.kc.tugraz.ss.category.datatypes.ret.SSCategoryEntitiesForCategoriesGetRet;
 import at.kc.tugraz.ss.category.datatypes.ret.SSCategoryFrequsGetRet;
-import at.kc.tugraz.ss.category.impl.fct.activity.SSCategoryActivityFct;
 import at.kc.tugraz.ss.category.impl.fct.userrelationgatherer.SSCategoryUserRelationGathererFct;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityFromTypeAndLabelGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
-import at.tugraz.sss.serv.SSCircleContentChangedPar;
-import at.tugraz.sss.serv.SSCircleContentRemovedPar;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
@@ -60,11 +60,11 @@ import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
+import at.tugraz.sss.serv.SSDescribeEntityI;
 import at.tugraz.sss.serv.SSEntityA;
+import at.tugraz.sss.serv.SSEntityCopiedI;
 import at.tugraz.sss.serv.SSEntityCopiedPar;
-import at.tugraz.sss.serv.SSEntityCopyPar;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
-import at.tugraz.sss.serv.SSEntityHandlerImplI;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSUserRelationGathererI;
 import at.tugraz.sss.serv.caller.SSServCaller;
@@ -78,30 +78,39 @@ import at.tugraz.sss.serv.SSObjU;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServReg;
+import at.tugraz.sss.serv.SSToolContextE;
 import at.tugraz.sss.servs.common.impl.tagcategory.SSTagAndCategoryCommonMisc;
 import at.tugraz.sss.servs.common.impl.tagcategory.SSTagAndCategoryCommonSQL;
+import sss.serv.eval.api.SSEvalServerI;
+import sss.serv.eval.datatypes.SSEvalLogE;
+import sss.serv.eval.datatypes.par.SSEvalLogPar;
 
 public class SSCategoryImpl 
 extends SSServImplWithDBA 
 implements 
   SSCategoryClientI, 
   SSCategoryServerI, 
-  SSEntityHandlerImplI, 
+  SSDescribeEntityI, 
+  SSEntityCopiedI,
   SSUserRelationGathererI{
   
   final SSTagAndCategoryCommonSQL  sqlFct;
   final SSTagAndCategoryCommonMisc commonMiscFct;
+  final SSActivityServerI          activityServ;
+  final SSEvalServerI              evalServ;
   
   public SSCategoryImpl(final SSConfA conf) throws Exception{
     
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
     
-    sqlFct        = new SSTagAndCategoryCommonSQL (dbSQL, SSEntityE.category);
-    commonMiscFct = new SSTagAndCategoryCommonMisc(dbSQL, SSEntityE.category);
+    this.sqlFct        = new SSTagAndCategoryCommonSQL (dbSQL, SSEntityE.category);
+    this.commonMiscFct = new SSTagAndCategoryCommonMisc(dbSQL, SSEntityE.category);
+    this.activityServ  = (SSActivityServerI) SSServReg.getServ(SSActivityServerI.class);
+    this.evalServ      = (SSEvalServerI)     SSServReg.getServ(SSEvalServerI.class);
   }
   
   @Override
-  public SSEntity getUserEntity(
+  public SSEntity describeEntity(
     final SSEntity             entity, 
     final SSEntityDescriberPar par) throws Exception{
   
@@ -165,13 +174,6 @@ implements
   }
   
   @Override
-  public void copyEntity(
-    final SSEntity                  entity,
-    final SSEntityCopyPar           par) throws Exception{
-    
-  }
-  
-  @Override
   public void entityCopied(final SSEntityCopiedPar par) throws Exception{
     
     if(!par.includeMetadataSpecificToEntityAndItsEntities){
@@ -213,24 +215,6 @@ implements
         break;
       }
     }
-  }
-  
-  @Override
-  public List<SSUri> getParentEntities(
-    final SSUri         user,
-    final SSUri         entity,
-    final SSEntityE     type) throws Exception{
-    
-    return new ArrayList<>();
-  }
-  
-  @Override
-  public List<SSUri> getSubEntities(
-    final SSUri         user,
-    final SSUri         entity,
-    final SSEntityE     type) throws Exception{
-
-    return new ArrayList<>();
   }
   
   @Override
@@ -286,9 +270,35 @@ implements
     
     SSServCallerU.checkKey(parA);
     
-    final SSUri categoryUri = categoryAdd((SSCategoryAddPar) parA.getFromJSON(SSCategoryAddPar.class));
+    final SSCategoryAddPar par = (SSCategoryAddPar) parA.getFromJSON(SSCategoryAddPar.class);
+    
+    final SSUri categoryUri = categoryAdd(par);
     
     sSCon.writeRetFullToClient(SSCategoryAddRet.get(categoryUri));
+    
+    activityServ.activityAdd(
+      new SSActivityAddPar(
+        null,
+        null,
+        par.user,
+        SSActivityE.addCategory,
+        par.entity,
+        null,
+        SSUri.asListWithoutNullAndEmpty(categoryUri),
+        null,
+        null,
+        par.shouldCommit));
+    
+    evalServ.evalLog(
+      new SSEvalLogPar(
+        par.user,
+        SSToolContextE.sss,
+        SSEvalLogE.categoryAdd,
+        par.entity,  //entity
+        SSStrU.toStr(par.label), //content,
+        null, //entities
+        null, //users
+        par.shouldCommit));
   }
   
   @Override
@@ -429,7 +439,29 @@ implements
     
     sSCon.writeRetFullToClient(SSCategoriesRemoveRet.get(categoriesRemove(par)));
     
-    SSCategoryActivityFct.removeCategories(par);
+    activityServ.activityAdd(
+      new SSActivityAddPar(
+        null,
+        null,
+        par.user,
+        SSActivityE.removeCategories,
+        par.entity,
+        null,
+        null,
+        null,
+        null,
+        par.shouldCommit));
+    
+    evalServ.evalLog(
+      new SSEvalLogPar(
+        par.user,
+        SSToolContextE.sss,
+        SSEvalLogE.categoriesRemove,
+        par.entity,  //entity
+        SSStrU.toStr(par.label), //content,
+        null, //entities
+        null, //users
+        par.shouldCommit));
   }
   
   @Override

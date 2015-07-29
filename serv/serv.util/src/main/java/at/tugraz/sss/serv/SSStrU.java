@@ -317,6 +317,27 @@ public class SSStrU{
     return result;
   }
   
+  public static String toCommaSeparatedStrNotNull(
+    final List<? extends Object> objects) throws Exception{
+    
+    String result = new String();
+    
+    if(objects == null){
+      return result;
+    }
+    
+    for(Object object : objects){
+      
+      if(object == null){
+        continue;
+      }
+      
+      result += object.toString() + comma;
+    }
+    
+    return removeTrailingString(result, comma);
+  }
+  
   public static List<String> toStrWithoutEmptyAndNull(
     final List<? extends Object> objects) throws Exception{
     

@@ -20,6 +20,9 @@
 */
 package at.kc.tugraz.ss.circle.impl;
 
+import at.kc.tugraz.ss.activity.api.SSActivityServerI;
+import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
+import at.kc.tugraz.ss.activity.datatypes.par.SSActivityAddPar;
 import at.tugraz.sss.serv.SSObjU;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSSocketCon;
@@ -71,13 +74,13 @@ import at.tugraz.sss.serv.SSCircleContentRemovedI;
 import at.tugraz.sss.serv.SSCircleContentRemovedPar;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSConfA;
+import at.tugraz.sss.serv.SSCopyEntityI;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
-import at.tugraz.sss.serv.SSEntityCopiedPar;
+import at.tugraz.sss.serv.SSDescribeEntityI;
 import at.tugraz.sss.serv.SSEntityCopyPar;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
-import at.tugraz.sss.serv.SSEntityHandlerImplI;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.tugraz.sss.util.SSServCallerU;
@@ -89,28 +92,37 @@ import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
+import at.tugraz.sss.serv.SSToolContextE;
 import at.tugraz.sss.serv.SSWarnE;
+import sss.serv.eval.api.SSEvalServerI;
+import sss.serv.eval.datatypes.SSEvalLogE;
+import sss.serv.eval.datatypes.par.SSEvalLogPar;
 
 public class SSCircleImpl
 extends SSServImplWithDBA
 implements
   SSCircleClientI,
   SSCircleServerI,
-  SSEntityHandlerImplI{
+  SSDescribeEntityI,
+  SSCopyEntityI{
   
-  private final  SSCircleSQLFct  sqlFct;
-  private final  SSCircleMiscFct miscFct;
-  private static SSUri           pubCircleUri = null;
+  private static SSUri             pubCircleUri = null;
+  private final  SSCircleSQLFct    sqlFct;
+  private final  SSCircleMiscFct   miscFct;
+  private final  SSActivityServerI activityServ;
+  private final  SSEvalServerI     evalServ;
   
   public SSCircleImpl(final SSConfA conf) throws Exception{
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
     
-    this.sqlFct  = new SSCircleSQLFct  (dbSQL);
-    this.miscFct = new SSCircleMiscFct (this, sqlFct);
+    this.sqlFct       = new SSCircleSQLFct  (dbSQL);
+    this.miscFct      = new SSCircleMiscFct (this, sqlFct);
+    this.activityServ = (SSActivityServerI) SSServReg.getServ(SSActivityServerI.class);
+    this.evalServ     = (SSEvalServerI)     SSServReg.getServ(SSEvalServerI.class);
   }
   
   @Override
-  public SSEntity getUserEntity(
+  public SSEntity describeEntity(
     final SSEntity             entity,
     final SSEntityDescriberPar par) throws Exception{
     
@@ -171,11 +183,6 @@ implements
   }
   
   @Override
-  public void entityCopied(final SSEntityCopiedPar par) throws Exception{
-    
-  }
-  
-  @Override
   public void copyEntity(
     final SSEntity                  entity,
     final SSEntityCopyPar           par) throws Exception{
@@ -217,24 +224,6 @@ implements
   }
   
   @Override
-  public List<SSUri> getSubEntities(
-    final SSUri         user,
-    final SSUri         entity,
-    final SSEntityE     type) throws Exception{
-    
-    return new ArrayList<>();
-  }
-  
-  @Override
-  public List<SSUri> getParentEntities(
-    final SSUri         user,
-    final SSUri         entity,
-    final SSEntityE     type) throws Exception{
-    
-    return new ArrayList<>();
-  }
-  
-  @Override
   public void circleEntitiesRemove(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
     
     SSServCallerU.checkKey(parA);
@@ -258,6 +247,17 @@ implements
     }
     
     sSCon.writeRetFullToClient(SSCircleEntitiesRemoveRet.get(result));
+    
+    evalServ.evalLog(
+      new SSEvalLogPar(
+        par.user,
+        SSToolContextE.sss,
+        SSEvalLogE.circleEntitiesRemove,
+        par.circle,  //entity
+        null, //content,
+        par.entities, //entities
+        null, //users
+        par.shouldCommit));
   }
   
   @Override
@@ -311,6 +311,17 @@ implements
     final List<SSUri>               result = circleUsersRemove(par);
     
     sSCon.writeRetFullToClient(SSCircleUsersRemoveRet.get(result));
+    
+    evalServ.evalLog(
+      new SSEvalLogPar(
+        par.user,
+        SSToolContextE.sss,
+        SSEvalLogE.circleUsersRemove,
+        par.circle,  //entity
+        null, //content,
+        null, //entities
+        par.users, //users
+        par.shouldCommit));
   }
   
   @Override
@@ -402,7 +413,7 @@ implements
             par.withUserRestriction, //withUserRestriction,
             true)); //invokeEntityHandlers
       
-      for(SSServContainerI serv : SSServReg.inst.getServsHandlingEntities()){
+      for(SSServContainerI serv : SSServReg.inst.getServsHandlingCircleContentAdded()){
         
         ((SSCircleContentAddedI) serv.serv()).circleContentAdded(
           new SSCircleContentChangedPar(
@@ -419,7 +430,29 @@ implements
     
     sSCon.writeRetFullToClient(SSCircleCreateRet.get(circleURI));
     
-    SSCircleServFct.createCircle(par, circleURI);
+    activityServ.activityAdd(
+      new SSActivityAddPar(
+        null,
+        null,
+        par.user,
+        SSActivityE.createCircle,
+        circleURI,
+        par.users, //users,
+        par.entities, //entities,
+        null,
+        null,
+        par.shouldCommit));
+    
+    evalServ.evalLog(
+      new SSEvalLogPar(
+        par.user,
+        SSToolContextE.sss,
+        SSEvalLogE.circleCreate,
+        circleURI,  //entity
+        null, //content,
+        par.entities,
+        par.users,
+        par.shouldCommit));
   }
   
   @Override
@@ -512,7 +545,16 @@ implements
 
     sSCon.writeRetFullToClient(SSCircleRemoveRet.get(circleURI));
     
-//    SSCircleActivityFct.createCircle(par, circleURI);
+    evalServ.evalLog(
+      new SSEvalLogPar(
+        par.user,
+        SSToolContextE.sss,
+        SSEvalLogE.circleRemove,
+        par.circle,  //entity
+        null, //content,
+        null, //entities
+        null, //users
+        par.shouldCommit));
   }
   
   @Override
@@ -574,7 +616,7 @@ implements
           par.withUserRestriction, //withUserRestriction, 
           true)); //invokeEntityHandlers))
     
-    for(SSServContainerI serv : SSServReg.inst.getServsHandlingEntities()){
+    for(SSServContainerI serv : SSServReg.inst.getServsHandlingCircleContentAdded()){
       
       ((SSCircleContentAddedI) serv.serv()).circleContentAdded(
         new SSCircleContentChangedPar(
@@ -590,7 +632,29 @@ implements
     
     sSCon.writeRetFullToClient(SSCircleUsersAddRet.get(circleURI));
     
-    SSCircleServFct.addUsersToCircle(par);
+    activityServ.activityAdd(
+      new SSActivityAddPar(
+        null,
+        null,
+        par.user,
+        SSActivityE.addUsersToCircle,
+        par.circle,
+        par.users,
+        null,
+        null,
+        null,
+        par.shouldCommit));
+    
+    evalServ.evalLog(
+      new SSEvalLogPar(
+        par.user,
+        SSToolContextE.sss,
+        SSEvalLogE.circleUsersAdd,
+        par.circle,  //entity
+        null, //content,
+        null, //entities
+        par.users, //users
+        par.shouldCommit));
   }
   
   @Override
@@ -679,7 +743,7 @@ implements
           null, //descPar, 
           par.withUserRestriction)); //withUserRestriction, 
     
-    for(SSServContainerI serv : SSServReg.inst.getServsHandlingEntities()){
+    for(SSServContainerI serv : SSServReg.inst.getServsHandlingCircleContentAdded()){
       
       ((SSCircleContentAddedI) serv.serv()).circleContentAdded(
         new SSCircleContentChangedPar(
@@ -695,7 +759,51 @@ implements
     
     sSCon.writeRetFullToClient(SSCircleEntitiesAddRet.get(cicleURI));
     
-    SSCircleServFct.addEntitiesToCircle(par);
+    activityServ.activityAdd(
+      new SSActivityAddPar(
+        null,
+        null,
+        par.user,
+        SSActivityE.addEntitiesToCircle,
+        par.circle,
+        SSUri.asListWithoutNullAndEmpty(),
+        par.entities,
+        null,
+        null,
+        par.shouldCommit));
+    
+    evalServ.evalLog(
+      new SSEvalLogPar(
+        par.user,
+        SSToolContextE.sss,
+        SSEvalLogE.circleEntitiesAdd,
+        par.circle,  //entity
+        null, //content,
+        par.entities,
+        null, //users
+        par.shouldCommit));
+    
+    evalServ.evalLog(
+      new SSEvalLogPar(
+        par.user,
+        SSToolContextE.sss,
+        SSEvalLogE.circleEntitiesAddTagsAdd,
+        par.circle,  //entity
+        SSStrU.toCommaSeparatedStrNotNull(par.tags), //content,
+        par.entities,
+        null, //users
+        par.shouldCommit));
+    
+    evalServ.evalLog(
+      new SSEvalLogPar(
+        par.user,
+        SSToolContextE.sss,
+        SSEvalLogE.circleEntitiesAddCategoriesAdd,
+        par.circle,  //entity
+        SSStrU.toCommaSeparatedStrNotNull(par.categories), //content,
+        par.entities,
+        null, //users
+        par.shouldCommit));
   }
   
   @Override

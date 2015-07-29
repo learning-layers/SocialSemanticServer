@@ -25,7 +25,6 @@ import at.tugraz.sss.serv.SSCoreConfA;
 import at.kc.tugraz.ss.message.api.SSMessageClientI;
 import at.kc.tugraz.ss.message.api.SSMessageServerI;
 import at.kc.tugraz.ss.message.impl.SSMessageImpl;
-import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServImplA;
@@ -54,7 +53,7 @@ public class SSMessageServ extends SSServContainerI{
     
     SSServReg.inst.regServ(this);
     
-    SSServReg.inst.regServForHandlingEntities(this);
+    SSServReg.inst.regServForHandlingDescribeEntity(this);
     
     return this;
   }

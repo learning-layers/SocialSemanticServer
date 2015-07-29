@@ -44,7 +44,6 @@ import at.kc.tugraz.ss.service.disc.datatypes.*;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscEntryAddFromClientPar;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSConfA;
-import at.tugraz.sss.serv.SSEntityHandlerImplI;
 import at.tugraz.sss.serv.SSUserRelationGathererI;
 import at.tugraz.sss.serv.SSUsersResourcesGathererI;
 import at.tugraz.sss.serv.caller.SSServCaller;
@@ -67,12 +66,13 @@ import at.tugraz.sss.serv.SSCircleContentChangedPar;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
-import at.tugraz.sss.serv.SSEntityCopiedPar;
-import at.tugraz.sss.serv.SSEntityCopyPar;
+import at.tugraz.sss.serv.SSDescribeEntityI;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
 import at.tugraz.sss.serv.SSErr;
 import java.util.*;
 import at.tugraz.sss.serv.SSErrE;
+import at.tugraz.sss.serv.SSGetParentEntitiesI;
+import at.tugraz.sss.serv.SSGetSubEntitiesI;
 import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServPar;
@@ -83,8 +83,10 @@ public class SSDiscImpl
   implements
   SSDiscClientI,
   SSDiscServerI,
-  SSEntityHandlerImplI,
+  SSDescribeEntityI,
   SSCircleContentAddedI,
+  SSGetSubEntitiesI, 
+  SSGetParentEntitiesI,
   SSUserRelationGathererI,
   SSUsersResourcesGathererI{
 
@@ -176,18 +178,6 @@ public class SSDiscImpl
     for(Map.Entry<String, List<SSUri>> resourcesPerUser : usersResources.entrySet()){
       SSStrU.distinctWithoutNull2(resourcesPerUser.getValue());
     }
-  }
-
-  @Override
-  public void copyEntity(
-    final SSEntity                  entity,
-    final SSEntityCopyPar           par) throws Exception{
-    
-  }
-  
-  @Override
-  public void entityCopied(final SSEntityCopiedPar par) throws Exception{
-    
   }
 
   @Override
@@ -319,7 +309,7 @@ public class SSDiscImpl
   }
   
   @Override
-  public SSEntity getUserEntity(
+  public SSEntity describeEntity(
     final SSEntity             entity, 
     final SSEntityDescriberPar par) throws Exception{
 

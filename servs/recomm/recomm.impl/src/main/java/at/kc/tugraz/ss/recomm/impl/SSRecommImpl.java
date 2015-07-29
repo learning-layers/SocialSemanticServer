@@ -78,22 +78,28 @@ import java.util.Map;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
+import at.tugraz.sss.serv.SSToolContextE;
 import engine.EntityRecommenderEngine;
 import engine.TagRecommenderEvalEngine;
 import java.util.HashMap;
 import java.util.Random;
+import sss.serv.eval.api.SSEvalServerI;
+import sss.serv.eval.datatypes.SSEvalLogE;
+import sss.serv.eval.datatypes.par.SSEvalLogPar;
 
 public class SSRecommImpl extends SSServImplWithDBA implements SSRecommClientI, SSRecommServerI{
   
   private final SSRecommConf   recommConf;
   private final SSRecommSQLFct sqlFct;
+  private final SSEvalServerI  evalServ;
   
   public SSRecommImpl(final SSConfA conf) throws Exception{
     
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
     
-    recommConf = ((SSRecommConf)conf);
-    sqlFct     = new SSRecommSQLFct(dbSQL);
+    this.recommConf = ((SSRecommConf)conf);
+    this.sqlFct     = new SSRecommSQLFct(dbSQL);
+    this.evalServ   = (SSEvalServerI) SSServReg.getServ(SSEvalServerI.class);
   }
   
   @Override
@@ -208,13 +214,49 @@ public class SSRecommImpl extends SSServImplWithDBA implements SSRecommClientI, 
   }
   
   @Override
-  public void recommTags(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
+  public void recommTags(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
     
     SSServCallerU.checkKey(parA);
     
     final SSRecommTagsPar par = (SSRecommTagsPar) parA.getFromJSON(SSRecommTagsPar.class);
     
-    sSCon.writeRetFullToClient(SSRecommTagsRet.get(recommTags(par)));
+    evalServ.evalLog(
+      new SSEvalLogPar(
+        par.user, 
+        SSToolContextE.sss, 
+        SSEvalLogE.recommTagsQuery, 
+        par.entity,
+        SSStrU.toCommaSeparatedStrNotNull(par.categories),  //content
+        null, //entities, 
+        SSUri.asListWithoutNullAndEmpty(par.forUser), //users, 
+        par.shouldCommit));
+    
+    final List<SSTagLikelihood> result = recommTags(par);
+    
+    sSCon.writeRetFullToClient(SSRecommTagsRet.get(result));
+    
+    String tagRecommStrResult = new String();
+    
+    tagRecommStrResult += result.stream().map((tagLikelihood) -> 
+      tagLikelihood.getLabel()      + 
+      SSStrU.colon                  +
+      tagLikelihood.getLikelihood() +
+      SSStrU.comma).reduce(
+        tagRecommStrResult, 
+        String::concat);
+    
+    tagRecommStrResult = SSStrU.removeTrailingString(tagRecommStrResult, SSStrU.comma);
+    
+    evalServ.evalLog(
+      new SSEvalLogPar(
+        par.user, 
+        SSToolContextE.sss, 
+        SSEvalLogE.recommTagsResult, 
+        par.entity,
+        tagRecommStrResult,  //content
+        null, //entities, 
+        null, //users, 
+        par.shouldCommit));
   }
   
   @Override

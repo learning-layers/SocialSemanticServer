@@ -52,7 +52,6 @@ import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntriesAddPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntriesDeletePar;
 import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollUserEntriesAddRet;
 import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollUserEntriesDeleteRet;
-import at.tugraz.sss.serv.SSEntityHandlerImplI;
 import at.tugraz.sss.serv.SSUserRelationGathererI;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.tugraz.sss.util.SSServCallerU;
@@ -80,7 +79,9 @@ extends SSServImplWithDBA
 implements 
   SSCollClientI, 
   SSCollServerI, 
-  SSEntityHandlerImplI, 
+  SSDescribeEntityI, 
+  SSGetParentEntitiesI, 
+  SSGetSubEntitiesI,
   SSCircleContentAddedI,
   SSUserRelationGathererI{
 
@@ -94,7 +95,7 @@ implements
   }
 
   @Override
-  public SSEntity getUserEntity(
+  public SSEntity describeEntity(
     final SSEntity             entity, 
     final SSEntityDescriberPar par) throws Exception{
     
@@ -195,18 +196,6 @@ implements
     for(Map.Entry<String, List<SSUri>> usersPerUser : userRelations.entrySet()){
       SSStrU.distinctWithoutNull2(usersPerUser.getValue());
     }
-  }
-  
-@Override
-  public void copyEntity(
-    final SSEntity                  entity,
-    final SSEntityCopyPar           par) throws Exception{
-    
-  }
-  
-  @Override
-  public void entityCopied(final SSEntityCopiedPar par) throws Exception{
-    
   }
   
   @Override

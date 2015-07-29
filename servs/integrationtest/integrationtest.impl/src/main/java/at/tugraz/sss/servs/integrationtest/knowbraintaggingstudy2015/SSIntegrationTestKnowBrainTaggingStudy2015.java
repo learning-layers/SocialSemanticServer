@@ -51,7 +51,6 @@ import at.tugraz.sss.serv.SSCircleE;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSEntityCircle;
 import at.tugraz.sss.serv.SSEntityCopyPar;
-import at.tugraz.sss.serv.SSEntityHandlerImplI;
 import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.SSObjU;
 import at.tugraz.sss.serv.SSServContainerI;
@@ -529,7 +528,7 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
             null, //descPar,
             true)); //withUserRestriction,
       
-      for(SSServContainerI serv : SSServReg.inst.getServsHandlingEntities()){
+      for(SSServContainerI serv : SSServReg.inst.getServsHandlingCircleContentAdded()){
         
         ((SSCircleContentAddedI) serv.serv()).circleContentAdded(
           new SSCircleContentChangedPar(
@@ -603,7 +602,7 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
             null, //descPar,
             true)); //withUserRestriction,
       
-      for(SSServContainerI serv : SSServReg.inst.getServsHandlingEntities()){
+      for(SSServContainerI serv : SSServReg.inst.getServsHandlingCircleContentAdded()){
         
         ((SSCircleContentAddedI) serv.serv()).circleContentAdded(
           new SSCircleContentChangedPar(
@@ -694,7 +693,7 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
             null, //descPar,
             true)); //withUserRestriction,
       
-      for(SSServContainerI serv : SSServReg.inst.getServsHandlingEntities()){
+      for(SSServContainerI serv : SSServReg.inst.getServsHandlingCircleContentAdded()){
         
         ((SSCircleContentAddedI) serv.serv()).circleContentAdded(
           new SSCircleContentChangedPar(
@@ -769,7 +768,7 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
             null, //descPar,
             true))); //withUserRestriction,
       
-      for(SSServContainerI serv : SSServReg.inst.getServsHandlingEntities()){
+      for(SSServContainerI serv : SSServReg.inst.getServsHandlingCircleContentAdded()){
         
         ((SSCircleContentAddedI) serv.serv()).circleContentAdded(
           new SSCircleContentChangedPar(
@@ -899,7 +898,7 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
             true, //withUserRestriction,
             true)); //invokeEntityHandlers
       
-      for(SSServContainerI serv : SSServReg.inst.getServsHandlingEntities()){
+      for(SSServContainerI serv : SSServReg.inst.getServsHandlingCircleContentAdded()){
         
         ((SSCircleContentAddedI) serv.serv()).circleContentAdded(
           new SSCircleContentChangedPar(
@@ -963,7 +962,7 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
             true, //withUserRestriction,
             true)); //invokeEntityHandlers
       
-      for(SSServContainerI serv : SSServReg.inst.getServsHandlingEntities()){
+      for(SSServContainerI serv : SSServReg.inst.getServsHandlingCircleContentAdded()){
         
         ((SSCircleContentAddedI) serv.serv()).circleContentAdded(
           new SSCircleContentChangedPar(
@@ -1027,7 +1026,7 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
             true, //withUserRestriction,
             true)); //invokeEntityHandlers
       
-      for(SSServContainerI serv : SSServReg.inst.getServsHandlingEntities()){
+      for(SSServContainerI serv : SSServReg.inst.getServsHandlingCircleContentAdded()){
         
         ((SSCircleContentAddedI) serv.serv()).circleContentAdded(
           new SSCircleContentChangedPar(
@@ -1095,7 +1094,7 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
             true, //withUserRestriction,
             true)); //invokeEntityHandlers
       
-      for(SSServContainerI serv : SSServReg.inst.getServsHandlingEntities()){
+      for(SSServContainerI serv : SSServReg.inst.getServsHandlingCircleContentAdded()){
         
         ((SSCircleContentAddedI) serv.serv()).circleContentAdded(
           new SSCircleContentChangedPar(

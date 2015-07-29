@@ -90,16 +90,15 @@ import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSConfA;
+import at.tugraz.sss.serv.SSCopyEntityI;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
+import at.tugraz.sss.serv.SSDescribeEntityI;
 import at.tugraz.sss.serv.SSEntity;
-import at.tugraz.sss.serv.SSEntityCopiedPar;
 import at.tugraz.sss.serv.SSEntityCopyPar;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
-import at.tugraz.sss.serv.SSEntityHandlerImplI;
 import at.tugraz.sss.serv.SSServImplWithDBA;
-import at.tugraz.sss.serv.SSUsersResourcesGathererI;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.tugraz.sss.util.SSServCallerU;
 import java.util.ArrayList;
@@ -108,14 +107,16 @@ import java.util.Map;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
+import at.tugraz.sss.serv.SSUsersResourcesGathererI;
 
 public class SSLearnEpImpl
 extends SSServImplWithDBA
 implements
   SSLearnEpClientI,
   SSLearnEpServerI,
-  SSEntityHandlerImplI,
+  SSDescribeEntityI,
   SSCircleContentAddedI,
+  SSCopyEntityI,
   SSUsersResourcesGathererI{
   
   private final SSLearnEpSQLFct  sqlFct;
@@ -133,7 +134,7 @@ implements
   }
   
   @Override
-  public SSEntity getUserEntity(
+  public SSEntity describeEntity(
     final SSEntity             entity,
     final SSEntityDescriberPar par) throws Exception{
     
@@ -171,24 +172,6 @@ implements
     for(Map.Entry<String, List<SSUri>> resourcesPerUser : usersResources.entrySet()){
       SSStrU.distinctWithoutNull2(resourcesPerUser.getValue());
     }
-  }
-  
-  @Override
-  public List<SSUri> getParentEntities(
-    final SSUri         user,
-    final SSUri         entity,
-    final SSEntityE     type) throws Exception{
-    
-    return new ArrayList<>();
-  }
-  
-  @Override
-  public List<SSUri> getSubEntities(
-    final SSUri     user,
-    final SSUri     entity,
-    final SSEntityE type) throws Exception{
-    
-    return null;
   }
   
   @Override
@@ -245,11 +228,6 @@ implements
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
-  }
-  
-  @Override
-  public void entityCopied(final SSEntityCopiedPar par) throws Exception{
-    
   }
   
   @Override

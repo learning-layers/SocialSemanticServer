@@ -22,8 +22,6 @@ package at.kc.tugraz.ss.service.tag.service;
 
 import at.tugraz.sss.serv.SSCoreConfA;
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
-import at.tugraz.sss.serv.SSDBSQL;
-import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSServImplA;
 import at.kc.tugraz.ss.serv.tag.conf.SSTagConf;
@@ -56,7 +54,8 @@ public class SSTagServ extends SSServContainerI{
     
     SSServReg.inst.regServ(this);
     
-    SSServReg.inst.regServForHandlingEntities(this);
+    SSServReg.inst.regServForHandlingDescribeEntity(this);
+    SSServReg.inst.regServForHandlingEntityCopied(this);
     SSServReg.inst.regServForGatheringUserRelations (this);
     SSServReg.inst.regServForGatheringUsersResources(this);
     

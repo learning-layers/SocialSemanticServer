@@ -27,7 +27,6 @@ import at.kc.tugraz.ss.service.filerepo.conf.SSFileRepoConf;
 import at.kc.tugraz.ss.service.solr.api.SSSolrClientI;
 import at.kc.tugraz.ss.service.solr.api.SSSolrServerI;
 import at.kc.tugraz.ss.service.solr.impl.*;
-import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSServContainerI;
 import java.util.List;
@@ -49,20 +48,20 @@ public class SSSolrServ extends SSServContainerI{
   protected SSServImplA createServImplForThread() throws Exception{
     return new SSSolrImpl((SSFileRepoConf)conf, solrServer);
   }
-
-    @Override
+  
+  @Override
   public SSServContainerI regServ() throws Exception{
     
     this.conf = SSCoreConf.instGet().getSolr();
     
-      SSServReg.inst.regServ(this);
+    SSServReg.inst.regServ(this);
     
     return this;
   }
   
   @Override
   public void initServ() throws Exception{
-     
+    
     if(!conf.use){
       return;
     }

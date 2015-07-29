@@ -46,16 +46,6 @@ public class SSEvalLogRESTAPIV2Par {
   }
 
   @ApiModelProperty(
-    required = false,
-    value = "user to be logged")
-  public SSUri            forUser      = null;
-
-  @XmlElement
-  public void setForUser(final String forUser) throws Exception{
-    this.forUser = SSUri.get(forUser, SSVocConf.sssUri);
-  }
-  
-  @ApiModelProperty(
     required = true,
     value = "type of the log event")
   public SSEvalLogE       type         = null;

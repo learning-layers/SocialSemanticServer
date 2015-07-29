@@ -3,7 +3,7 @@
 * http://www.learning-layers.eu
 * Development is partly funded by the FP7 Programme of the European Commission under
 * Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+* Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
 * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,27 +20,9 @@
 */
 package at.tugraz.sss.serv;
 
-import java.util.List;
-
-public interface SSEntityHandlerImplI{
-
-  public SSEntity getUserEntity(
+public interface SSDescribeEntityI {
+  
+  public SSEntity describeEntity(
     final SSEntity             entity, 
     final SSEntityDescriberPar par) throws Exception;
-  
-  public void entityCopied        (final SSEntityCopiedPar         par) throws Exception;
-  
-  public void copyEntity(
-    final SSEntity                  entity,
-    final SSEntityCopyPar           par) throws Exception;
-  
-  public List<SSUri> getSubEntities(
-    final SSUri         user,
-    final SSUri         entity,
-    final SSEntityE     type) throws Exception;
-  
-  public List<SSUri> getParentEntities(
-    final SSUri         user,
-    final SSUri         entity,
-    final SSEntityE     type) throws Exception;
 }

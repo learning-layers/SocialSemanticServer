@@ -34,9 +34,9 @@ import at.tugraz.sss.serv.SSCircleE;
 import at.tugraz.sss.serv.SSCircleRightE;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSEntityCircle;
+import at.tugraz.sss.serv.SSEntityCopiedI;
 import at.tugraz.sss.serv.SSEntityCopiedPar;
 import at.tugraz.sss.serv.SSEntityCopyPar;
-import at.tugraz.sss.serv.SSEntityHandlerImplI;
 import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSUri;
@@ -44,6 +44,9 @@ import java.util.ArrayList;
 import java.util.List;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
+import at.tugraz.sss.serv.SSToolContextE;
+import sss.serv.eval.datatypes.SSEvalLogE;
+import sss.serv.eval.datatypes.par.SSEvalLogPar;
 
 public class SSCircleMiscFct{
   
@@ -310,8 +313,8 @@ public class SSCircleMiscFct{
           
           entityCopiedPar.includeMetadataSpecificToEntityAndItsEntities = true;
           
-          for(SSServContainerI entityHandler : SSServReg.inst.getServsHandlingEntities()){
-            ((SSEntityHandlerImplI) entityHandler.serv()).entityCopied(entityCopiedPar);
+          for(SSServContainerI entityHandler : SSServReg.inst.getServsHandlingEntityCopied()){
+            ((SSEntityCopiedI) entityHandler.serv()).entityCopied(entityCopiedPar);
           }
         }
         
@@ -336,8 +339,8 @@ public class SSCircleMiscFct{
               copyCircleURI, //targetEntity
               par.withUserRestriction);
           
-          for(SSServContainerI entityHandler : SSServReg.inst.getServsHandlingEntities()){
-            ((SSEntityHandlerImplI) entityHandler.serv()).entityCopied(entityCopiedPar);
+          for(SSServContainerI entityHandler : SSServReg.inst.getServsHandlingEntityCopied()){
+            ((SSEntityCopiedI) entityHandler.serv()).entityCopied(entityCopiedPar);
           }
         }
         
@@ -360,7 +363,7 @@ public class SSCircleMiscFct{
           SSUri.addDistinctWithoutNull(usersToAdd, SSUri.getDistinctNotNullFromEntities(circle.users));
         }
         
-        for(SSServContainerI entityHandler : SSServReg.inst.getServsHandlingEntities()){
+        for(SSServContainerI entityHandler : SSServReg.inst.getServsHandlingCircleContentAdded()){
           
           ((SSCircleContentAddedI) entityHandler.serv()).circleContentAdded(
             new SSCircleContentChangedPar(
@@ -438,8 +441,8 @@ public class SSCircleMiscFct{
         
         entityCopiedPar.includeMetadataSpecificToEntityAndItsEntities = true;
         
-        for(SSServContainerI entityHandler : SSServReg.inst.getServsHandlingEntities()){
-          ((SSEntityHandlerImplI) entityHandler.serv()).entityCopied(entityCopiedPar);
+        for(SSServContainerI entityHandler : SSServReg.inst.getServsHandlingEntityCopied()){
+          ((SSEntityCopiedI) entityHandler.serv()).entityCopied(entityCopiedPar);
         }
       }
       
@@ -464,8 +467,8 @@ public class SSCircleMiscFct{
             targetCircle.id,  //targetEntity
             par.withUserRestriction);
         
-        for(SSServContainerI entityHandler : SSServReg.inst.getServsHandlingEntities()){
-          ((SSEntityHandlerImplI) entityHandler.serv()).entityCopied(entityCopiedPar);
+        for(SSServContainerI entityHandler : SSServReg.inst.getServsHandlingEntityCopied()){
+          ((SSEntityCopiedI) entityHandler.serv()).entityCopied(entityCopiedPar);
         }
       }
       
@@ -480,7 +483,7 @@ public class SSCircleMiscFct{
             par.withUserRestriction,
             true)); //invokeEntityHandlers
       
-      for(SSServContainerI entityHandler : SSServReg.inst.getServsHandlingEntities()){
+      for(SSServContainerI entityHandler : SSServReg.inst.getServsHandlingCircleContentAdded()){
         
         ((SSCircleContentAddedI) entityHandler.serv()).circleContentAdded(
           new SSCircleContentChangedPar(

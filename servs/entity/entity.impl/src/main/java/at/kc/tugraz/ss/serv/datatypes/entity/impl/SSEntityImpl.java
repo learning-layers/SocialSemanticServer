@@ -20,6 +20,9 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.entity.impl;
 
+import at.kc.tugraz.ss.activity.api.SSActivityServerI;
+import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
+import at.kc.tugraz.ss.activity.datatypes.par.SSActivityAddPar;
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleCreatePar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesAddPar;
@@ -62,7 +65,6 @@ import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.tugraz.sss.serv.SSConfA;
-import at.tugraz.sss.serv.SSEntityHandlerImplI;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSUserRelationGathererI;
 import at.tugraz.sss.serv.SSUsersResourcesGathererI;
@@ -72,20 +74,28 @@ import at.kc.tugraz.ss.service.userevent.datatypes.pars.SSUEAddPar;
 import at.tugraz.sss.serv.SSCircleContentAddedI;
 import at.tugraz.sss.serv.SSCircleContentChangedPar;
 import at.tugraz.sss.serv.SSCircleE;
+import at.tugraz.sss.serv.SSCopyEntityI;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
+import at.tugraz.sss.serv.SSDescribeEntityI;
 import at.tugraz.sss.serv.SSEntityCircle;
-import at.tugraz.sss.serv.SSEntityCopiedPar;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSErrE;
+import at.tugraz.sss.serv.SSGetParentEntitiesI;
+import at.tugraz.sss.serv.SSGetSubEntitiesI;
 import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSTextComment;
+import at.tugraz.sss.serv.SSToolContextE;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityAttatchmentsRemovePar;
+import sss.serv.eval.api.SSEvalServerI;
+import sss.serv.eval.datatypes.SSEvalLogE;
+import sss.serv.eval.datatypes.par.SSEvalLogPar;
 
 public class SSEntityImpl 
 extends SSServImplWithDBA
@@ -93,54 +103,28 @@ implements
   SSEntityClientI, 
   SSEntityServerI,
   SSUserRelationGathererI,
-  SSEntityHandlerImplI,
+  SSDescribeEntityI,
   SSUsersResourcesGathererI{
   
-  private final SSEntitySQLFct         sqlFct;
+  private final SSEntitySQLFct    sqlFct;
+  private final SSActivityServerI activityServ;
+  private final SSEvalServerI     evalServ;
   
   public SSEntityImpl(final SSConfA conf) throws Exception{
     
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
     
-    sqlFct = new SSEntitySQLFct(this);
+    this.sqlFct       = new SSEntitySQLFct(this);
+    this.activityServ = (SSActivityServerI) SSServReg.getServ(SSActivityServerI.class);
+    this.evalServ     = (SSEvalServerI)     SSServReg.getServ(SSEvalServerI.class);
   }
   
   @Override
-  public SSEntity getUserEntity(
+  public SSEntity describeEntity(
     final SSEntity             entity, 
     final SSEntityDescriberPar par) throws Exception{
 
     return entity;
-  }
-  
-  @Override
-  public void copyEntity(
-    final SSEntity                  entity,
-    final SSEntityCopyPar           par) throws Exception{
-    
-  }
-  
-  @Override
-  public void entityCopied(final SSEntityCopiedPar par) throws Exception{
-    
-  }
-
-  @Override
-  public List<SSUri> getSubEntities(
-    final SSUri user, 
-    final SSUri entity, 
-    final SSEntityE type) throws Exception{
-    
-    return new ArrayList<>();
-  }
-
-  @Override
-  public List<SSUri> getParentEntities(
-    final SSUri user, 
-    final SSUri entity, 
-    final SSEntityE type) throws Exception{
-    
-    return new ArrayList<>();
   }
   
   @Override
@@ -195,7 +179,29 @@ implements
     
     sSCon.writeRetFullToClient(SSEntityCopyRet.get(entityCopy(par)));
     
-    SSEntityActivityFct.copyEntityForUsers(par);
+    activityServ.activityAdd(
+      new SSActivityAddPar(
+        null,
+        null,
+        par.user,
+        SSActivityE.copyEntityForUsers,
+        par.entity,
+        par.forUsers,
+        null,
+        SSTextComment.asListWithoutNullAndEmpty  (par.comment),
+        null,
+        par.shouldCommit));
+    
+    evalServ.evalLog(
+      new SSEvalLogPar(
+        par.user,
+        SSToolContextE.sss,
+        SSEvalLogE.entityCopy,
+        par.entity,  //entity
+        null, //content,
+        SSUri.asListWithoutNullAndEmpty(par.targetEntity), //entities
+        par.forUsers, //users
+        par.shouldCommit));
   }
   
   @Override
@@ -219,8 +225,8 @@ implements
         return false;
       }
       
-      for(SSServContainerI serv : SSServReg.inst.getServsHandlingEntities()){
-        ((SSEntityHandlerImplI) serv.serv()).copyEntity(entity, par);
+      for(SSServContainerI serv : SSServReg.inst.getServsHandlingCopyEntity()){
+        ((SSCopyEntityI) serv.serv()).copyEntity(entity, par);
       }
       
       dbSQL.commit(par.shouldCommit);
@@ -385,8 +391,8 @@ implements
           entity.read = sqlFct.getEntityRead (par.user, entity.id);
         }
         
-        for(SSServContainerI serv : SSServReg.inst.getServsHandlingEntities()){
-          entity = ((SSEntityHandlerImplI) serv.serv()).getUserEntity(entity, par.descPar);
+        for(SSServContainerI serv : SSServReg.inst.getServsHandlingDescribeEntity()){
+          entity = ((SSDescribeEntityI) serv.serv()).describeEntity(entity, par.descPar);
         }
       }
       
@@ -717,8 +723,8 @@ implements
       final SSEntityE    entityType   = sqlFct.getEntity(par.entity).type;
       final List<SSUri>  entities     = new ArrayList<>();
       
-      for(SSServContainerI serv : SSServReg.inst.getServsHandlingEntities()){
-        entities.addAll(((SSEntityHandlerImplI) serv.serv()).getParentEntities(par.user, par.entity, entityType));
+      for(SSServContainerI serv : SSServReg.inst.getServsHandlingGetParentEntities()){
+        entities.addAll(((SSGetParentEntitiesI) serv.serv()).getParentEntities(par.user, par.entity, entityType));
       }
       
       SSStrU.distinctWithoutNull2(entities);
@@ -751,10 +757,10 @@ implements
         
         default: {
           
-          for(SSServContainerI serv : SSServReg.inst.getServsHandlingEntities()){
+          for(SSServContainerI serv : SSServReg.inst.getServsHandlingGetSubEntities()){
             
             subEntities.addAll(
-              ((SSEntityHandlerImplI) serv.serv()).getSubEntities(
+              ((SSGetSubEntitiesI) serv.serv()).getSubEntities(
                 par.user, 
                 par.entity, 
                 entityType));
@@ -907,7 +913,7 @@ implements
             false, //withUserRestriction
             false)); //shouldCommit
         
-        for(SSServContainerI serv : SSServReg.inst.getServsHandlingEntities()){
+        for(SSServContainerI serv : SSServReg.inst.getServsHandlingCircleContentAdded()){
           
           ((SSCircleContentAddedI) serv.serv()).circleContentAdded(
             new SSCircleContentChangedPar(
@@ -947,7 +953,7 @@ implements
                 par.withUserRestriction, //withUserRestriction
                 false)); //invokeEntityHandlers
           
-          for(SSServContainerI serv : SSServReg.inst.getServsHandlingEntities()){
+          for(SSServContainerI serv : SSServReg.inst.getServsHandlingCircleContentAdded()){
             
             ((SSCircleContentAddedI) serv.serv()).circleContentAdded(
               new SSCircleContentChangedPar(
@@ -983,7 +989,7 @@ implements
             false, //withUserRestriction
             false)); //shouldCommit
         
-        for(SSServContainerI serv : SSServReg.inst.getServsHandlingEntities()){
+        for(SSServContainerI serv : SSServReg.inst.getServsHandlingCircleContentAdded()){
             
             ((SSCircleContentAddedI) serv.serv()).circleContentAdded(
               new SSCircleContentChangedPar(

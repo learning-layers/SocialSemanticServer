@@ -53,7 +53,7 @@ public class SSFriendServ extends SSServContainerI{
     
     SSServReg.inst.regServ(this);
     
-    SSServReg.inst.regServForHandlingEntities(this);
+    SSServReg.inst.regServForHandlingDescribeEntity(this);
     return this;
   }
   

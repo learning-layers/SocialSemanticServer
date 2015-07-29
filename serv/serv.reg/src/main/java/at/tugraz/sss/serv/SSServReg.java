@@ -35,9 +35,14 @@ public class SSServReg{
   public static final Map<Class,         SSServContainerI> servsForServerI                    = new HashMap<>();
   public static final List<SSServContainerI>               servsForGatheringUsersResources    = new ArrayList<>();
   public static final List<SSServContainerI>               servsForGatheringUserRelations     = new ArrayList<>();
-  public static final List<SSServContainerI>               servsHandlingEntities              = new ArrayList<>();
   public static final List<SSServContainerI>               servsHandlingCircleContentRemoved  = new ArrayList<>();
   public static final List<SSServContainerI>               servsHandlingCircleContentAdded    = new ArrayList<>();
+  public static final List<SSServContainerI>               servsHandlingEntityCopied          = new ArrayList<>();
+  public static final List<SSServContainerI>               servsHandlingGetSubEntities        = new ArrayList<>();
+  public static final List<SSServContainerI>               servsHandlingGetParentEntities     = new ArrayList<>();
+  public static final List<SSServContainerI>               servsHandlingCopyEntity            = new ArrayList<>();
+  public static final List<SSServContainerI>               servsHandlingDescribeEntity        = new ArrayList<>();
+  
   public static final Map<SSServOpE, Integer>                         requsLimitsForClientOpsPerUser  = new EnumMap<>(SSServOpE.class);
   public static final Map<SSServOpE, Map<String, List<SSServImplA>>>  currentRequsForClientOpsPerUser = new EnumMap<>(SSServOpE.class);
   
@@ -152,6 +157,116 @@ public class SSServReg{
     }
   }
   
+  public void regServForHandlingDescribeEntity(
+    final SSServContainerI servContainer) throws Exception{
+    
+    try{
+      
+      if(!servContainer.conf.use){
+        return;
+      }
+      
+      synchronized(servsHandlingDescribeEntity){
+        
+        if(servsHandlingDescribeEntity.contains(servContainer)){
+          throw new SSErr(SSErrE.servAlreadyRegistered);
+        }
+        
+        servsHandlingDescribeEntity.add(servContainer);
+      }
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  public void regServForHandlingCopyEntity(
+    final SSServContainerI servContainer) throws Exception{
+    
+    try{
+      
+      if(!servContainer.conf.use){
+        return;
+      }
+      
+      synchronized(servsHandlingCopyEntity){
+        
+        if(servsHandlingCopyEntity.contains(servContainer)){
+          throw new SSErr(SSErrE.servAlreadyRegistered);
+        }
+        
+        servsHandlingCopyEntity.add(servContainer);
+      }
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  public void regServForHandlingGetParentEntities(
+    final SSServContainerI servContainer) throws Exception{
+    
+    try{
+      
+      if(!servContainer.conf.use){
+        return;
+      }
+      
+      synchronized(servsHandlingGetParentEntities){
+        
+        if(servsHandlingGetParentEntities.contains(servContainer)){
+          throw new SSErr(SSErrE.servAlreadyRegistered);
+        }
+        
+        servsHandlingGetParentEntities.add(servContainer);
+      }
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  public void regServForHandlingGetSubEntities(
+    final SSServContainerI servContainer) throws Exception{
+    
+    try{
+      
+      if(!servContainer.conf.use){
+        return;
+      }
+      
+      synchronized(servsHandlingGetSubEntities){
+        
+        if(servsHandlingGetSubEntities.contains(servContainer)){
+          throw new SSErr(SSErrE.servAlreadyRegistered);
+        }
+        
+        servsHandlingGetSubEntities.add(servContainer);
+      }
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  public void regServForHandlingEntityCopied(
+    final SSServContainerI servContainer) throws Exception{
+    
+    try{
+      
+      if(!servContainer.conf.use){
+        return;
+      }
+      
+      synchronized(servsHandlingEntityCopied){
+        
+        if(servsHandlingEntityCopied.contains(servContainer)){
+          throw new SSErr(SSErrE.servAlreadyRegistered);
+        }
+        
+        servsHandlingEntityCopied.add(servContainer);
+      }
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
   public void regServForHandlingCircleContentAdded(
     final SSServContainerI servContainer) throws Exception{
     
@@ -190,28 +305,6 @@ public class SSServReg{
         }
         
         servsHandlingCircleContentRemoved.add(servContainer);
-      }
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
-  public void regServForHandlingEntities(
-    final SSServContainerI servContainer) throws Exception{
-    
-    try{
-      
-      if(!servContainer.conf.use){
-        return;
-      }
-      
-      synchronized(servsHandlingEntities){
-        
-        if(servsHandlingEntities.contains(servContainer)){
-          throw new SSErr(SSErrE.servAlreadyRegistered);
-        }
-        
-        servsHandlingEntities.add(servContainer);
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -357,18 +450,34 @@ public class SSServReg{
     }
   }
   
+  public List<SSServContainerI> getServsHandlingDescribeEntity(){
+    return new ArrayList<>(servsHandlingDescribeEntity);
+  }
+    
+  public List<SSServContainerI> getServsHandlingCopyEntity(){
+    return new ArrayList<>(servsHandlingCopyEntity);
+  }
+  
+  public List<SSServContainerI> getServsHandlingGetParentEntities(){
+    return new ArrayList<>(servsHandlingGetParentEntities);
+  }
+  
+  public List<SSServContainerI> getServsHandlingGetSubEntities(){
+    return new ArrayList<>(servsHandlingGetSubEntities);
+  }
+  
+  public List<SSServContainerI> getServsHandlingEntityCopied(){
+    return new ArrayList<>(servsHandlingEntityCopied);
+  }
+  
   public List<SSServContainerI> getServsHandlingCircleContentAdded(){
-    return new ArrayList<>(servsHandlingCircleContentRemoved);
+    return new ArrayList<>(servsHandlingCircleContentAdded);
   }
   
   public List<SSServContainerI> getServsHandlingCircleContentRemoved(){
     return new ArrayList<>(servsHandlingCircleContentRemoved);
   }
     
-  public List<SSServContainerI> getServsHandlingEntities(){
-    return new ArrayList<>(servsHandlingEntities);
-  }
-  
   public List<SSServContainerI> getServsGatheringUserRelations(){
     return new ArrayList<>(servsForGatheringUserRelations);
   }

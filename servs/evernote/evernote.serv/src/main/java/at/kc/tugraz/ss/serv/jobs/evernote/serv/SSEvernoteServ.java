@@ -52,7 +52,7 @@ public class SSEvernoteServ extends SSServContainerI{
     this.conf = SSCoreConf.instGet().getEvernote();
     
     SSServReg.inst.regServ(this);
-    SSServReg.inst.regServForHandlingEntities(this);
+    SSServReg.inst.regServForHandlingDescribeEntity(this);
     
     return this;
   }

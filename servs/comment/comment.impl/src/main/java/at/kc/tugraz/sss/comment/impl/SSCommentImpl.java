@@ -41,15 +41,11 @@ import at.kc.tugraz.sss.comment.datatypes.par.SSCommentsGetPar;
 import at.kc.tugraz.sss.comment.datatypes.ret.SSCommentsGetRet;
 import at.kc.tugraz.sss.comment.impl.fct.sql.SSCommentSQLFct;
 import at.kc.tugraz.sss.comment.impl.fct.userrelationgather.SSCommentUserRelationGatherFct;
-import at.tugraz.sss.serv.SSCircleContentChangedPar;
-import at.tugraz.sss.serv.SSCircleContentRemovedPar;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
-import at.tugraz.sss.serv.SSEntityCopiedPar;
-import at.tugraz.sss.serv.SSEntityCopyPar;
+import at.tugraz.sss.serv.SSDescribeEntityI;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
-import at.tugraz.sss.serv.SSEntityHandlerImplI;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
@@ -65,7 +61,7 @@ extends SSServImplWithDBA
 implements 
   SSCommentClientI, 
   SSCommentServerI, 
-  SSEntityHandlerImplI,
+  SSDescribeEntityI,
   SSUserRelationGathererI{
   
   private final SSCommentSQLFct sqlFct;
@@ -88,7 +84,7 @@ implements
   }
   
   @Override
-  public SSEntity getUserEntity(
+  public SSEntity describeEntity(
     final SSEntity             entity, 
     final SSEntityDescriberPar par) throws Exception{
 
@@ -112,36 +108,6 @@ implements
       SSServErrReg.regErrThrow(error);
       return null;
     }
-  }
-  
-  @Override
-  public void copyEntity(
-    final SSEntity                  entity,
-    final SSEntityCopyPar           par) throws Exception{
-    
-  }
-  
-  @Override
-  public void entityCopied(final SSEntityCopiedPar par) throws Exception{
-    
-  }
-  
-  @Override
-  public List<SSUri> getSubEntities(
-    final SSUri         user,
-    final SSUri         entity,
-    final SSEntityE     type) throws Exception{
-    
-    return new ArrayList<>();
-  }
-  
-  @Override
-  public List<SSUri> getParentEntities(
-    final SSUri         user,
-    final SSUri         entity,
-    final SSEntityE     type) throws Exception{
-    
-    return new ArrayList<>();
   }
   
   @Override

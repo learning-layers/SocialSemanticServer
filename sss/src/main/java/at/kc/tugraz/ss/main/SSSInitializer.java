@@ -147,8 +147,8 @@ public class SSSInitializer extends SSServImplStartA{
       }
       
       try{ //initializing
-        SSCircleServ.inst.initServ();
         SSAuthServ.inst.initServ();
+        SSCircleServ.inst.initServ();
         SSDataImportServ.inst.initServ();
         SSCategoryServ.inst.initServ();
         SSSolrServ.inst.initServ();

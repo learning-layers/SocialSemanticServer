@@ -22,13 +22,11 @@ package at.tugraz.sss.adapter.rest.v2.evallog;
 
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
 import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.serv.SSVarNames;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
@@ -48,12 +46,9 @@ public class SSRESTEval {
   @ApiOperation(
     value = "log events for evaluation purposes",
     response = SSEvalLogRet.class)
-  public Response entitiesGet(
+  public Response evalLog(
     @Context
     final HttpHeaders headers,
-    
-    @PathParam(SSVarNames.entities)
-    final String entities, 
     
     final SSEvalLogRESTAPIV2Par input){
     
@@ -63,11 +58,8 @@ public class SSRESTEval {
       
       par =
         new SSEvalLogPar(
-          SSServOpE.evalLog, 
-          null, 
-          null, 
+          null,
           input.toolContext, 
-          input.forUser, 
           input.type, 
           input.entity, 
           input.content, 

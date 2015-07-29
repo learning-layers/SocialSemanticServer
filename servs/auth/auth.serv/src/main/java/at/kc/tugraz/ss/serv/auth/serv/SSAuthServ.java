@@ -59,15 +59,6 @@ public class SSAuthServ extends SSServContainerI{
     
     SSServReg.inst.regServ(this);
     
-    SSServCaller.authRegisterUser(
-      SSVocConf.systemUserUri,
-      SSLabel.get(SSVocConf.systemUserLabel),
-      SSVocConf.systemUserEmail,
-      ((SSAuthConf)conf).systemUserPassword,
-      true,
-      true,
-      true);
-    
     return this;
   }
   
@@ -77,6 +68,15 @@ public class SSAuthServ extends SSServContainerI{
     if(!conf.use){
       return;
     }
+    
+    SSServCaller.authRegisterUser(
+      SSVocConf.systemUserUri,
+      SSLabel.get(SSVocConf.systemUserLabel),
+      SSVocConf.systemUserEmail,
+      ((SSAuthConf)conf).systemUserPassword,
+      true,
+      true,
+      true);
     
     if(((SSAuthConf)conf).initAtStartUp){
       

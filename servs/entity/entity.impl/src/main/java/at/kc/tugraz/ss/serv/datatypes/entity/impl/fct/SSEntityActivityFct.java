@@ -34,36 +34,6 @@ import at.tugraz.sss.serv.SSUri;
 
 public class SSEntityActivityFct{
   
-  public static void copyEntityForUsers(
-    final SSEntityCopyPar par) throws Exception{
-    
-    try{
-      
-      ((SSActivityServerI) SSServReg.getServ(SSActivityServerI.class)).activityAdd(
-        new SSActivityAddPar(
-          null,
-          null,
-          par.user,
-          SSActivityE.copyEntityForUsers,
-          par.entity,
-          par.forUsers,
-          null,
-          SSTextComment.asListWithoutNullAndEmpty  (par.comment),
-          null,
-          par.shouldCommit));
-
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
-        default: SSServErrReg.regErrThrow(error);
-      }
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
   public static void shareEntityWithUsers(
     final SSEntitySharePar par) throws Exception{
     

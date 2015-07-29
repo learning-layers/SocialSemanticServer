@@ -28,6 +28,26 @@ import java.util.List;
 
 public enum SSEvalLogE implements SSJSONLDPropI{
   
+  //knowbrain
+  circleCreate,
+  circleEntitiesAdd,
+  circleEntitiesAddTagsAdd,
+  circleEntitiesAddCategoriesAdd,
+  circleUsersAdd,
+  circleEntitiesRemove,
+  circleRemove,
+  circleUsersRemove,
+  entityCopy,
+  fileUpload,
+  fileDowload,
+  tagAdd,
+  categoryAdd,
+  tagsRemove,
+  categoriesRemove,
+  recommTagsQuery,
+  recommTagsResult,
+  
+  //bits and pieces
   clickBit, 
   clickTag, 
   clickLabelRecommendation, 
@@ -41,7 +61,7 @@ public enum SSEvalLogE implements SSJSONLDPropI{
   changeLabel, 
   changeDescription, 
   setImportance, 
-  addTag ,
+  addTag,
   removeTag,  
   copyLearnEpForUser, 
   shareLearnEpWithUser, 

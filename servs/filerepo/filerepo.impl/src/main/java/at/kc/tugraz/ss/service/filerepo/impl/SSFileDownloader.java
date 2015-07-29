@@ -30,10 +30,15 @@ import at.kc.tugraz.ss.service.filerepo.conf.SSFileRepoConf;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileDownloadPar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileDownloadRet;
 import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSServReg;
+import at.tugraz.sss.serv.SSToolContextE;
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import sss.serv.eval.api.SSEvalServerI;
+import sss.serv.eval.datatypes.SSEvalLogE;
+import sss.serv.eval.datatypes.par.SSEvalLogPar;
 
 public class SSFileDownloader extends SSServImplStartA{
   
@@ -43,7 +48,7 @@ public class SSFileDownloader extends SSServImplStartA{
   private int                      fileChunkLength   = -1;
   private SSFileDownloadPar        par               = null;
   private SSFilerepoImpl           servImpl          = null;
-  
+  private SSEvalServerI            evalServ          = null;
 //  private InputStream webdavInputStream;
   
   public SSFileDownloader(
@@ -88,6 +93,20 @@ public class SSFileDownloader extends SSServImplStartA{
           fileReader.close();
           
 //          saveActivity();
+          
+          evalServ = (SSEvalServerI)     SSServReg.getServ(SSEvalServerI.class);
+          
+          evalServ.evalLog(
+            new SSEvalLogPar(
+              par.user,
+              SSToolContextE.sss,
+              SSEvalLogE.fileDowload,
+              par.file,  //entity
+              null, //content,
+              null, //entities
+              null, //users
+              par.shouldCommit));
+          
           return;
         }
         

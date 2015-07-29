@@ -162,11 +162,8 @@ public class SSDataImportEvernoteHandler {
     
     ((SSEvalServerI) SSServReg.getServ(SSEvalServerI.class)).evalLog(
       new SSEvalLogPar(
-        null, 
-        null, 
         userUri, 
         SSToolContextE.evernoteImport, 
-        userUri,  //forUser
         SSEvalLogE.addNotebook, 
         notebookUri, 
         null,  //content
@@ -348,11 +345,8 @@ public class SSDataImportEvernoteHandler {
         
         ((SSEvalServerI) SSServReg.getServ(SSEvalServerI.class)).evalLog(
           new SSEvalLogPar(
-            null,
-            null,
             userUri,
             SSToolContextE.evernoteImport,
-            userUri,
             SSEvalLogE.addTag,
             noteUri,
             noteTag, //content
@@ -623,11 +617,8 @@ public class SSDataImportEvernoteHandler {
       
       ((SSEvalServerI) SSServReg.getServ(SSEvalServerI.class)).evalLog(
         new SSEvalLogPar(
-          null,
-          null,
           userUri,
           SSToolContextE.evernoteImport,
-          userUri,
           SSEvalLogE.addNote,
           noteUri,
           null, //content
@@ -757,11 +748,8 @@ public class SSDataImportEvernoteHandler {
     
     ((SSEvalServerI) SSServReg.getServ(SSEvalServerI.class)).evalLog(
       new SSEvalLogPar(
-        null,
-        null,
         userUri,
         SSToolContextE.evernoteImport,
-        userUri,
         SSEvalLogE.addResource,
         resourceUri,
         null, //content

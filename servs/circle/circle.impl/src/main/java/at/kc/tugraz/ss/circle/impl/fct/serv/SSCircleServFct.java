@@ -20,17 +20,12 @@
   */
 package at.kc.tugraz.ss.circle.impl.fct.serv;
 
-import at.kc.tugraz.ss.activity.api.SSActivityServerI;
 import at.tugraz.sss.serv.SSLogU;
-import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
-import at.kc.tugraz.ss.activity.datatypes.par.SSActivityAddPar;
 import at.kc.tugraz.ss.category.api.SSCategoryServerI;
 import at.kc.tugraz.ss.category.datatypes.SSCategoryLabel;
 import at.kc.tugraz.ss.category.datatypes.par.SSCategoriesAddPar;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCircleCreateFromClientPar;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesAddPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleUsersAddPar;
 import at.kc.tugraz.ss.service.tag.api.SSTagServerI;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
@@ -100,97 +95,6 @@ public class SSCircleServFct{
             null, //creationTime,
             true, //withUserRestriction
             false)); //shouldCommit)
-      }
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
-  public static void createCircle(
-    final SSCircleCreateFromClientPar par,
-    final SSUri                       circle) throws Exception{
-    
-    try{
-      
-      ((SSActivityServerI) SSServReg.getServ(SSActivityServerI.class)).activityAdd(
-        new SSActivityAddPar(
-          null, 
-          null, 
-          par.user, 
-          SSActivityE.createCircle, 
-          circle, 
-          par.users, //users, 
-          par.entities, //entities, 
-          SSTextComment.asListWithoutNullAndEmpty(), 
-          null, 
-          par.shouldCommit));
-      
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
-        default: SSServErrReg.regErrThrow(error);
-      }
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
-  public static void addEntitiesToCircle(
-    final SSCircleEntitiesAddPar par) throws Exception{
-    
-    try{
-      
-      ((SSActivityServerI) SSServReg.getServ(SSActivityServerI.class)).activityAdd(
-        new SSActivityAddPar(
-          null, 
-          null, 
-          par.user, 
-          SSActivityE.addEntitiesToCircle, 
-          par.circle,
-          SSUri.asListWithoutNullAndEmpty(),
-          par.entities, 
-          SSTextComment.asListWithoutNullAndEmpty(), 
-          null, 
-          par.shouldCommit));
-      
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
-        default: SSServErrReg.regErrThrow(error);
-      }
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
-  public static void addUsersToCircle(
-    final SSCircleUsersAddPar par) throws Exception{
-    
-    try{
-      
-      ((SSActivityServerI) SSServReg.getServ(SSActivityServerI.class)).activityAdd(
-        new SSActivityAddPar(
-          null, 
-          null, 
-          par.user, 
-          SSActivityE.addUsersToCircle, 
-          par.circle,
-          par.users,
-          SSUri.asListWithoutNullAndEmpty(), 
-          SSTextComment.asListWithoutNullAndEmpty(), 
-          null, 
-          par.shouldCommit));
-      
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
-        default: SSServErrReg.regErrThrow(error);
       }
       
     }catch(Exception error){

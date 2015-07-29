@@ -20,6 +20,9 @@
   */
 package at.kc.tugraz.ss.service.tag.impl;
 
+import at.kc.tugraz.ss.activity.api.SSActivityServerI;
+import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
+import at.kc.tugraz.ss.activity.datatypes.par.SSActivityAddPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityFromTypeAndLabelGetPar;
@@ -36,7 +39,6 @@ import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSConfA;
-import at.tugraz.sss.serv.SSEntityHandlerImplI;
 import at.tugraz.sss.serv.SSUserRelationGathererI;
 import at.tugraz.sss.serv.SSUsersResourcesGathererI;
 import at.tugraz.sss.serv.caller.SSServCaller;
@@ -54,16 +56,14 @@ import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagEntitiesForTagsGetRet;
 import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagFrequsGetRet;
 import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagsGetRet;
 import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagsRemoveRet;
-import at.kc.tugraz.ss.service.tag.impl.fct.activity.SSTagActivityFct;
 import at.kc.tugraz.ss.service.tag.impl.fct.userrelationgatherer.SSTagUserRelationGathererFct;
-import at.tugraz.sss.serv.SSCircleContentChangedPar;
-import at.tugraz.sss.serv.SSCircleContentRemovedPar;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
+import at.tugraz.sss.serv.SSDescribeEntityI;
 import at.tugraz.sss.serv.SSEntityA;
+import at.tugraz.sss.serv.SSEntityCopiedI;
 import at.tugraz.sss.serv.SSEntityCopiedPar;
-import at.tugraz.sss.serv.SSEntityCopyPar;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
 import at.tugraz.sss.serv.SSErr;
 import java.util.*;
@@ -72,27 +72,38 @@ import at.tugraz.sss.serv.SSObjU;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServReg;
+import at.tugraz.sss.serv.SSToolContextE;
 import at.tugraz.sss.servs.common.impl.tagcategory.SSTagAndCategoryCommonMisc;
 import at.tugraz.sss.servs.common.impl.tagcategory.SSTagAndCategoryCommonSQL;
+import sss.serv.eval.api.SSEvalServerI;
+import sss.serv.eval.datatypes.SSEvalLogE;
+import sss.serv.eval.datatypes.par.SSEvalLogPar;
 
 public class SSTagImpl
 extends SSServImplWithDBA
 implements
   SSTagClientI,
   SSTagServerI,
-  SSEntityHandlerImplI,
+  SSDescribeEntityI,
+  SSEntityCopiedI,
   SSUserRelationGathererI,
   SSUsersResourcesGathererI{
   
   final SSTagAndCategoryCommonSQL  sqlFct;
   final SSTagAndCategoryCommonMisc commonMiscFct;
+  final SSActivityServerI          activityServ;
+  final SSEvalServerI              evalServ;
+  final SSEntityServerI            entityServ;
   
   public SSTagImpl(final SSConfA conf) throws Exception{
     
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
     
-    sqlFct        = new SSTagAndCategoryCommonSQL (dbSQL, SSEntityE.tag);
-    commonMiscFct = new SSTagAndCategoryCommonMisc(dbSQL, SSEntityE.tag);
+    this.sqlFct        = new SSTagAndCategoryCommonSQL (dbSQL, SSEntityE.tag);
+    this.commonMiscFct = new SSTagAndCategoryCommonMisc(dbSQL, SSEntityE.tag);
+    this.activityServ  = (SSActivityServerI) SSServReg.getServ(SSActivityServerI.class);
+    this.evalServ      = (SSEvalServerI)     SSServReg.getServ(SSEvalServerI.class);
+    this.entityServ    = (SSEntityServerI)   SSServReg.getServ(SSEntityServerI.class);
   }
   
   @Override
@@ -179,13 +190,6 @@ implements
   }
   
   @Override
-  public void copyEntity(
-    final SSEntity                  entity,
-    final SSEntityCopyPar           par) throws Exception{
-    
-  }
-  
-  @Override
   public void entityCopied(final SSEntityCopiedPar par) throws Exception{
    
     if(!par.includeMetadataSpecificToEntityAndItsEntities){
@@ -229,25 +233,7 @@ implements
   }
   
   @Override
-  public List<SSUri> getParentEntities(
-    final SSUri         user,
-    final SSUri         entity,
-    final SSEntityE     type) throws Exception{
-    
-    return new ArrayList<>();
-  }
-  
-  @Override
-  public List<SSUri> getSubEntities(
-    final SSUri         user,
-    final SSUri         entity,
-    final SSEntityE     type) throws Exception{
-    
-    return null;
-  }
-  
-  @Override
-  public SSEntity getUserEntity(
+  public SSEntity describeEntity(
     final SSEntity             entity, 
     final SSEntityDescriberPar par) throws Exception{
     
@@ -335,7 +321,29 @@ implements
     
     sSCon.writeRetFullToClient(SSTagAddRet.get(tagUri));
     
-    SSTagActivityFct.addTag(par, tagUri);
+    activityServ.activityAdd(
+        new SSActivityAddPar(
+          null,
+          null,
+          par.user,
+          SSActivityE.tagEntity,
+          par.entity,
+          null,
+          SSUri.asListWithoutNullAndEmpty(tagUri),
+          null,
+          null,
+          false));
+    
+    evalServ.evalLog(
+      new SSEvalLogPar(
+        par.user,
+        SSToolContextE.sss,
+        SSEvalLogE.tagAdd,
+        par.entity,  //entity
+        SSStrU.toStr(par.label), //content,
+        null, //entities
+        null, //users
+        par.shouldCommit));
   }
   
   @Override
@@ -476,7 +484,29 @@ implements
     
     sSCon.writeRetFullToClient(SSTagsRemoveRet.get(tagsRemove(par)));
     
-    SSTagActivityFct.removeTags(par);
+    activityServ.activityAdd(
+        new SSActivityAddPar(
+          null,
+          null,
+          par.user,
+          SSActivityE.removeTags,
+          par.entity,
+          SSUri.asListWithoutNullAndEmpty(),
+          SSUri.asListWithoutNullAndEmpty(),
+          null,
+          null,
+          par.shouldCommit));
+        
+    evalServ.evalLog(
+      new SSEvalLogPar(
+        par.user,
+        SSToolContextE.sss,
+        SSEvalLogE.tagsRemove,
+        par.entity,  //entity
+        SSStrU.toStr(par.label), //content,
+        null, //entities
+        null, //users
+        par.shouldCommit));
   }
   
   @Override

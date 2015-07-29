@@ -40,6 +40,7 @@ import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSImageE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
+import at.tugraz.sss.serv.SSToolContextE;
 import at.tugraz.sss.servs.image.api.SSImageServerI;
 import at.tugraz.sss.servs.image.datatype.par.SSImageAddPar;
 import com.googlecode.sardine.SardineFactory;
@@ -48,6 +49,9 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import javax.imageio.ImageIO;
+import sss.serv.eval.api.SSEvalServerI;
+import sss.serv.eval.datatypes.SSEvalLogE;
+import sss.serv.eval.datatypes.par.SSEvalLogPar;
 
 public class SSFileUploader extends SSServImplStartA{
   
@@ -59,6 +63,7 @@ public class SSFileUploader extends SSServImplStartA{
   private       byte[]                fileChunk         = null;
   private       SSUri                 uri               = null;
   private       String                localWorkPath     = null;
+  private       SSEvalServerI         evalServ          = null;
   
   public SSFileUploader(
     final SSFileRepoConf     fileRepoConf, 
@@ -117,6 +122,19 @@ public class SSFileUploader extends SSServImplStartA{
         createFileThumb();
         
         dbSQL.commit(par.shouldCommit);
+        
+        evalServ = (SSEvalServerI)     SSServReg.getServ(SSEvalServerI.class);
+        
+        evalServ.evalLog(
+          new SSEvalLogPar(
+            par.user,
+            SSToolContextE.sss,
+            SSEvalLogE.fileUpload,
+            uri,  //entity
+            null, //content,
+            null, //entities
+            null, //users
+            par.shouldCommit));
         
         sendAnswer();
         return;

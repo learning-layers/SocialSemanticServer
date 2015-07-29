@@ -32,7 +32,8 @@ public enum SSToolContextE implements SSJSONLDPropI{
   episodeTab,
   bitTab,
   notificationTab,
-  evernoteImport;
+  evernoteImport,
+  sss;
   
   @Override
   public Object jsonLDDesc() {
