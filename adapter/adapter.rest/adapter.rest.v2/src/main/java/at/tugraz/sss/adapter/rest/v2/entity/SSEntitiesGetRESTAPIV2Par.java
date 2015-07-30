@@ -20,8 +20,12 @@
 */
 package at.tugraz.sss.adapter.rest.v2.entity;
 
+import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.tugraz.sss.serv.SSSpaceE;
+import at.tugraz.sss.serv.SSUri;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
@@ -31,33 +35,60 @@ public class SSEntitiesGetRESTAPIV2Par{
   @ApiModelProperty( 
     required = false, 
     value = "")
+  public SSUri     circle             = null;
+  
+  @XmlElement
+  public void setCircle(final String circle) throws Exception{
+    this.circle = SSUri.get(circle, SSVocConf.sssUri);
+  }
+  
+  @XmlElement
+  @ApiModelProperty( 
+    required = false, 
+    value = "")
   public Boolean     setTags             = false;
   
+  @ApiModelProperty(
+    required = false,
+    value = "")
+  public SSSpaceE     tagSpace             = null;
+  
+  @XmlElement
+  public void setTagSpace(final String tagSpace) throws Exception{
+    this.tagSpace = SSSpaceE.get(tagSpace);
+  }
+  
+  @XmlElement
   @ApiModelProperty( 
     required = false, 
     value = "")
   public Boolean     setOverallRating    = false;
   
+  @XmlElement
   @ApiModelProperty( 
     required = false, 
     value = "")
   public Boolean     setDiscs            = false;
   
+  @XmlElement
   @ApiModelProperty( 
     required = false, 
     value = "")
   public Boolean     setUEs              = false;
   
+  @XmlElement
   @ApiModelProperty( 
     required = false, 
     value = "")
   public Boolean     setThumb            = false;
   
+  @XmlElement
   @ApiModelProperty( 
     required = false, 
     value = "")
   public Boolean     setFlags            = false;
   
+  @XmlElement
   @ApiModelProperty( 
     required = false, 
     value = "")

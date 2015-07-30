@@ -109,6 +109,8 @@ public class SSRESTEntity {
     
     try{
       
+      descPar.circle           = input.circle;
+      descPar.space            = input.tagSpace;
       descPar.setTags          = input.setTags;
       descPar.setOverallRating = input.setOverallRating;
       descPar.setDiscs         = input.setDiscs;
@@ -116,6 +118,7 @@ public class SSRESTEntity {
       descPar.setThumb         = input.setThumb;
       descPar.setFlags         = input.setFlags;
       descPar.setCircles       = input.setCircles;
+      
         
       par =
         new SSEntitiesGetPar(

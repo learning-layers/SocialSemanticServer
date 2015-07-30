@@ -995,6 +995,7 @@ implements
       descPar.setOverallRating = true;
       descPar.setTags          = par.setTags;
       descPar.space            = par.tagSpace;
+      descPar.circle           = par.circle;
       
       circleEntities =
         ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
