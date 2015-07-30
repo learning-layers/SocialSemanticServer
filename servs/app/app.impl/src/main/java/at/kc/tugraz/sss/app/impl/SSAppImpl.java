@@ -53,6 +53,7 @@ import at.tugraz.sss.serv.SSImageE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServReg;
+import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.servs.image.api.SSImageServerI;
 import at.tugraz.sss.servs.image.datatype.par.SSImageAddPar;
 
@@ -81,6 +82,10 @@ implements
       
       case app:{
 
+        if(SSStrU.equals(entity, par.recursiveEntity)){
+          return entity;
+        }
+        
         return SSApp.get(
           appGet(
             new SSAppGetPar(

@@ -103,6 +103,10 @@ implements
       
       case coll:{
         
+        if(SSStrU.equals(entity, par.recursiveEntity)){
+          return entity;
+        }
+        
         return SSColl.get(
           collGet(
             new SSCollGetPar(

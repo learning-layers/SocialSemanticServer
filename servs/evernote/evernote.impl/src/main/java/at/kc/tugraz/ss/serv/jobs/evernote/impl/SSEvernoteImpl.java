@@ -98,12 +98,20 @@ implements
         
         case evernoteNote:{
           
+          if(SSStrU.equals(entity, par.recursiveEntity)){
+            return entity;
+          }
+          
           return SSEvernoteNote.get(
             sqlFct.getNote(entity.id),
             entity);
         }
         
         case evernoteResource:{
+          
+          if(SSStrU.equals(entity, par.recursiveEntity)){
+            return entity;
+          }
           
           SSFileExtE      fileExt  = null;
           SSMimeTypeE     mimeType = null;

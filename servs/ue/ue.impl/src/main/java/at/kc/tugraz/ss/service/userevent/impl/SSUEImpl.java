@@ -161,6 +161,10 @@ implements
         
         case userEvent:{
           
+          if(SSStrU.equals(entity, par.recursiveEntity)){
+            return entity;
+          }
+          
           return SSUE.get(
             userEventGet(
               new SSUEGetPar(

@@ -159,6 +159,10 @@ implements
         
         case circle:{
           
+          if(SSStrU.equals(entity, par.recursiveEntity)){
+            return entity;
+          }
+          
           final SSEntityCircle circle =
             circleGet(
               new SSCircleGetPar(

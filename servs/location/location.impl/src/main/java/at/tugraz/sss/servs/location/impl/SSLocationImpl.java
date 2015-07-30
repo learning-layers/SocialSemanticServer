@@ -42,6 +42,7 @@ import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.servs.location.datatype.SSLocation;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
+import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.tugraz.sss.servs.location.api.SSLocationClientI;
 import at.tugraz.sss.servs.location.api.SSLocationServerI;
@@ -83,7 +84,12 @@ implements
     }
     
     switch(entity.type){
+      
       case location:{
+      
+        if(SSStrU.equals(entity, par.recursiveEntity)){
+          return entity;
+        }
         
         return SSLocation.get(
           locationGet(

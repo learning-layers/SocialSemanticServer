@@ -100,6 +100,10 @@ implements
         
         case file:{
           
+          if(SSStrU.equals(entity, par.recursiveEntity)){
+            return entity;
+          }
+          
           final SSFileExtE  fileExt  = SSFileExtE.ext(SSStrU.removeTrailingSlash(entity));
           final SSMimeTypeE mimeType = SSMimeTypeE.mimeTypeForFileExt (fileExt);
           

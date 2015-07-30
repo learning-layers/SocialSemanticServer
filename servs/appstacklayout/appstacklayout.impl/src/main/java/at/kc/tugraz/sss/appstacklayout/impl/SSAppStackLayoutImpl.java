@@ -56,6 +56,7 @@ import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServReg;
+import at.tugraz.sss.serv.SSStrU;
 
 public class SSAppStackLayoutImpl
 extends SSServImplWithDBA
@@ -82,6 +83,10 @@ implements
       
       case appStackLayout:{
       
+        if(SSStrU.equals(entity, par.recursiveEntity)){
+          return entity;
+        }
+        
         return SSAppStackLayout.get(
           appStackLayoutGet(
             new SSAppStackLayoutGetPar(

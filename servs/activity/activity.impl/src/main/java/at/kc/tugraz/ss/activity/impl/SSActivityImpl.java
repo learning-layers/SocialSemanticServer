@@ -89,6 +89,10 @@ implements
       
       case activity:{
 
+        if(SSStrU.equals(entity, par.recursiveEntity)){
+          return entity;
+        }
+        
         return SSActivity.get(
           activityGet(
             new SSActivityGetPar(

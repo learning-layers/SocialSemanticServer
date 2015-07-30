@@ -47,6 +47,7 @@ import at.tugraz.sss.serv.SSImage;
 import at.tugraz.sss.serv.SSImageE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
+import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.tugraz.sss.servs.image.api.SSImageClientI;
 import at.tugraz.sss.servs.image.api.SSImageServerI;
@@ -102,6 +103,10 @@ implements
     switch(entity.type){
       
       case image:{
+        
+        if(SSStrU.equals(entity, par.recursiveEntity)){
+          return entity;
+        }
         
         return SSImage.get(
           imageGet(

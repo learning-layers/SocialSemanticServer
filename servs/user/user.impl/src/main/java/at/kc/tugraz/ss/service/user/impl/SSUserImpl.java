@@ -87,13 +87,18 @@ implements
       switch(entity.type){
         
         case user:{
+          
+          if(SSStrU.equals(entity, par.recursiveEntity)){
+            return entity;
+          }
+          
           return SSUser.get(
             userGet(
               new SSUserGetPar(
-                null, 
-                null, 
-                par.user, 
-                entity.id, 
+                null,
+                null,
+                par.user,
+                entity.id,
                 false)),
             entity);
         }

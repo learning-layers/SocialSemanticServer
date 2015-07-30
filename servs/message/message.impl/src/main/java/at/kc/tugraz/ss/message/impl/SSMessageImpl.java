@@ -51,6 +51,7 @@ import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.SSServReg;
+import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntitySharePar;
 import at.tugraz.sss.util.SSServCallerU;
@@ -81,6 +82,10 @@ implements
     switch(entity.type){
       
       case message:{
+        
+        if(SSStrU.equals(entity, par.recursiveEntity)){
+          return entity;
+        }
         
         return SSMessage.get(
           messageGet(
