@@ -32,6 +32,7 @@ public class SSEntityCopyPar extends SSServPar{
   public Boolean       includeUsers                                  = false;
   public Boolean       includeEntities                               = false;
   public Boolean       includeMetadataSpecificToEntityAndItsEntities = false;
+  public Boolean       includeOriginUser                             = false;
   public List<SSUri>   entitiesToExclude                             = new ArrayList<>();
   public SSTextComment comment                                       = null;
     
@@ -96,6 +97,7 @@ public class SSEntityCopyPar extends SSServPar{
     final Boolean       includeUsers,
     final Boolean       includeEntities,
     final Boolean       includeMetadataSpecificToEntityAndItsEntities,
+    final Boolean       includeOriginUser,
     final List<SSUri>   entitiesToExclude, 
     final SSTextComment comment, 
     final Boolean       withUserRestriction,
@@ -112,6 +114,7 @@ public class SSEntityCopyPar extends SSServPar{
     this.includeUsers                                    = includeUsers;
     this.includeEntities                                 = includeEntities;
     this.includeMetadataSpecificToEntityAndItsEntities   = includeMetadataSpecificToEntityAndItsEntities;
+    this.includeOriginUser                               = includeOriginUser;
     
     SSUri.addDistinctWithoutNull(this.entitiesToExclude, entitiesToExclude);    
     

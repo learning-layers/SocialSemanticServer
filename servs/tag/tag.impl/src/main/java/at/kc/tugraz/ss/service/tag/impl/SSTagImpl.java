@@ -214,18 +214,35 @@ implements
               null, //startTime,
               par.withUserRestriction))){
           
-          tagAdd(
-            new SSTagAddPar(
-              null,
-              null,
-              par.targetUser,  //user
-              ((SSTag)tag).entity, //entity
-              ((SSTag)tag).tagLabel, //label
-              ((SSTag)tag).space, //space
-              par.targetEntity, //circle
-              tag.creationTime, //creationTime
-              par.withUserRestriction, //withUserRestriction
-              false)); //shouldCommmit
+          if(par.targetUser != null){
+            
+            tagAdd(
+              new SSTagAddPar(
+                null,
+                null,
+                par.targetUser,  //user
+                ((SSTag)tag).entity, //entity
+                ((SSTag)tag).tagLabel, //label
+                ((SSTag)tag).space, //space
+                par.targetEntity, //circle
+                tag.creationTime, //creationTime
+                par.withUserRestriction, //withUserRestriction
+                false)); //shouldCommmit
+          }else{
+            
+            tagAdd(
+              new SSTagAddPar(
+                null,
+                null,
+                ((SSTag)tag).user, //user
+                ((SSTag)tag).entity, //entity
+                ((SSTag)tag).tagLabel, //label
+                ((SSTag)tag).space, //space
+                par.targetEntity, //circle
+                tag.creationTime, //creationTime
+                par.withUserRestriction, //withUserRestriction
+                false)); //shouldCommmit
+          }
         }
         break;
       }
@@ -250,8 +267,8 @@ implements
               null, //forUser
               SSUri.asListWithoutNullAndEmpty(entity.id), //entities
               null, //labels
-              null, //space
-              null, //circle
+              par.space, //space
+              SSUri.asListWithoutNullAndEmpty(par.circle), //circles
               null, //startTime
               par.withUserRestriction))); //withUserRestriction
       }

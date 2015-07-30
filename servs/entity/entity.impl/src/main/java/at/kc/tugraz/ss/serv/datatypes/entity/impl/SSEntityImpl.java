@@ -950,6 +950,8 @@ implements
                 par.user,
                 circleURI, //circle
                 SSEntityE.asListWithoutNullAndEmpty(), //entityTypesToIncludeOnly
+                false,  //setTags
+                null, //tagSpace
                 par.withUserRestriction, //withUserRestriction
                 false)); //invokeEntityHandlers
           

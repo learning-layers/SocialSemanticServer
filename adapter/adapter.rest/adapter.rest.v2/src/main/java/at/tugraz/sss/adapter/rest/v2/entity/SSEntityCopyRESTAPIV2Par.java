@@ -64,10 +64,31 @@ public class SSEntityCopyRESTAPIV2Par{
     this.label = SSLabel.get(label);
   }
   
-  public Boolean includeUsers                              = null;
-  public Boolean includeEntities                           = null;
-  public Boolean includeMetaSpecificToEntityAndItsEntities = null;
+  @XmlElement
+  @ApiModelProperty(
+    required = false,
+    value = "include users from the origin entity")
+  public Boolean includeUsers                              = false;
   
+  @XmlElement
+  @ApiModelProperty(
+    required = false,
+    value = "include entities from the origin entity")
+  public Boolean includeEntities                           = false;
+  
+  @XmlElement
+  @ApiModelProperty(
+    required = false,
+    value = "include metadata which is specific to the copied entity and its entities within")
+  public Boolean includeMetaSpecificToEntityAndItsEntities = false;
+  
+  @XmlElement
+  @ApiModelProperty(
+    required = false,
+    value = "include the user which triggers the copy process")
+  public Boolean includeOriginUser = false;
+  
+  @XmlElement
   @ApiModelProperty(
     required = false,
     value = "entities to exclude in copying")

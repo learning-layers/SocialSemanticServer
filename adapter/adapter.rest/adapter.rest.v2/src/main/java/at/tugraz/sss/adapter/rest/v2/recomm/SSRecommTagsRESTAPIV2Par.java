@@ -75,7 +75,13 @@ public class SSRecommTagsRESTAPIV2Par{
   @ApiModelProperty(
     required = false,
     value = "whether own tags should be included in the result")
-  public Boolean includeOwn = true;
+  public Boolean includeOwn = false;
+  
+  @XmlElement
+  @ApiModelProperty(
+    required = false,
+    value = "whether access rights shall be ignored, as data from external tool is used")
+  public Boolean ignoreAccessRights = false;
   
   public SSRecommTagsRESTAPIV2Par(){}
 }

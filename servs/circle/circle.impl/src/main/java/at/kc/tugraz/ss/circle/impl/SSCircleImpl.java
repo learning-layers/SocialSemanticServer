@@ -167,6 +167,8 @@ implements
                 par.user,
                 entity.id,                    //circle
                 par.entityTypesToIncludeOnly, //entityTypesToIncludeOnly
+                false,  //setTags
+                null, //tagSpace
                 par.withUserRestriction,  //withUserRestriction
                 false));                   //invokeEntityHandlers
           
@@ -209,6 +211,8 @@ implements
             par.user,
             entity.id,
             null, //entityTypesToIncludeOnly
+            false,  //setTags
+            null, //tagSpace
             par.withUserRestriction,
             true)); //invokeEntityHandlers
       
@@ -410,6 +414,8 @@ implements
             par.user,
             circleURI, //circle
             null, //entityTypesToIncludeOnly,
+            false,  //setTags
+            null, //tagSpace
             par.withUserRestriction, //withUserRestriction,
             true)); //invokeEntityHandlers
       
@@ -609,11 +615,13 @@ implements
       circleGet(
         new SSCircleGetPar(
           null, 
-          null, 
-          par.user, 
+          null,
+          par.user,
           circleURI, //circle
-          null, //entityTypesToIncludeOnly, 
-          par.withUserRestriction, //withUserRestriction, 
+          null, //entityTypesToIncludeOnly,
+          false,  //setTags
+          null, //tagSpace
+          par.withUserRestriction, //withUserRestriction,
           true)); //invokeEntityHandlers))
     
     for(SSServContainerI serv : SSServReg.inst.getServsHandlingCircleContentAdded()){
@@ -717,6 +725,8 @@ implements
           par.user,
           par.circle, //circle
           null, //entityTypesToIncludeOnly,
+          false,  //setTags
+          null, //tagSpace
           par.withUserRestriction, //withUserRestriction,
           true)); //invokeEntityHandlers))
     
@@ -976,9 +986,11 @@ implements
         return circle;
       }
         
-      final SSEntityDescriberPar descPar = new SSEntityDescriberPar(null);
+      SSEntityDescriberPar descPar = new SSEntityDescriberPar(null);
       
       descPar.setOverallRating = true;
+      descPar.setTags          = par.setTags;
+      descPar.space            = par.tagSpace;
       
       circleEntities =
         ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
@@ -993,6 +1005,8 @@ implements
       
       circle.entities.clear();
       circle.entities.addAll(circleEntities);
+      
+      descPar = new SSEntityDescriberPar(null);
       
       circleUsers =
         ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
@@ -1086,6 +1100,8 @@ implements
               par.user,
               circleURI,
               par.entityTypesToIncludeOnly,
+              false,  //setTags
+              null, //tagSpace
               par.withUserRestriction,
               par.invokeEntityHandlers)));
       }

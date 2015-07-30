@@ -21,6 +21,7 @@
 package at.tugraz.sss.adapter.rest.v2.circle;
 
 import at.tugraz.sss.serv.SSEntityE;
+import at.tugraz.sss.serv.SSSpaceE;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 import java.util.List;
@@ -39,6 +40,22 @@ public class SSCircleGetRESTAPIV2Par{
   @XmlElement
   public void setEntityTypesToIncludeOnly(final List<String> entityTypesToIncludeOnly) throws Exception{
      this.entityTypesToIncludeOnly = SSEntityE.get(entityTypesToIncludeOnly);
+  }
+  
+  @XmlElement
+  @ApiModelProperty(
+    required = false,
+    value = "whether tags for contained entities shall be set")
+  public Boolean setTags = null;
+  
+  @ApiModelProperty(
+    required = false,
+    value = "space to set tags from")
+  public SSSpaceE tagSpace = null;
+  
+  @XmlElement
+  public void setTagSpace(final String tagSpace) throws Exception{
+     this.tagSpace = SSSpaceE.get(tagSpace);
   }
   
   public SSCircleGetRESTAPIV2Par(){}

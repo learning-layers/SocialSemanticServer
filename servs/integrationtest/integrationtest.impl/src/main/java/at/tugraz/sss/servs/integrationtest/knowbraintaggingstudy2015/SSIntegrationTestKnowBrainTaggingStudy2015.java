@@ -1,23 +1,23 @@
- /**
-  * Code contributed to the Learning Layers project
-  * http://www.learning-layers.eu
-  * Development is partly funded by the FP7 Programme of the European Commission under
-  * Grant Agreement FP7-ICT-318209.
-  * Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
-  * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
-  *
-  * Licensed under the Apache License, Version 2.0 (the "License");
-  * you may not use this file except in compliance with the License.
-  * You may obtain a copy of the License at
-  *
-  * http://www.apache.org/licenses/LICENSE-2.0
-  *
-  * Unless required by applicable law or agreed to in writing, software
-  * distributed under the License is distributed on an "AS IS" BASIS,
-  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  * See the License for the specific language governing permissions and
-  * limitations under the License.
-  */
+/**
+ * Code contributed to the Learning Layers project
+ * http://www.learning-layers.eu
+ * Development is partly funded by the FP7 Programme of the European Commission under
+ * Grant Agreement FP7-ICT-318209.
+ * Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
+ * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package at.tugraz.sss.servs.integrationtest.knowbraintaggingstudy2015;
 
 import at.kc.tugraz.ss.category.api.SSCategoryServerI;
@@ -136,7 +136,7 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
   public void removeUsersFromOldCircles(
     final SSUri       adminUri,
     final SSUri       circle1Uri,
-    final SSUri       circle2Uri, 
+    final SSUri       circle2Uri,
     final SSUri       circle3Uri,
     final List<SSUri> userUris) throws Exception{
     
@@ -144,34 +144,34 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
       
       circleServ.circleUsersRemove(
         new SSCircleUsersRemovePar(
-          null, 
-          null, 
-          adminUri, 
-          circle1Uri, 
-          userUris.subList(0, 2), 
+          null,
+          null,
+          adminUri,
+          circle1Uri,
+          userUris.subList(0, 2),
           true, //withUserRestriction
           false)); //shouldCommit
       
       circleServ.circleUsersRemove(
         new SSCircleUsersRemovePar(
-          null, 
-          null, 
-          adminUri, 
-          circle2Uri, 
-          SSUri.asListWithoutNullAndEmpty(userUris.get(2)), 
+          null,
+          null,
+          adminUri,
+          circle2Uri,
+          SSUri.asListWithoutNullAndEmpty(userUris.get(2)),
           true, //withUserRestriction
           false)); //shouldCommit
       
       circleServ.circleUsersRemove(
         new SSCircleUsersRemovePar(
-          null, 
-          null, 
-          adminUri, 
-          circle3Uri, 
-          SSUri.asListWithoutNullAndEmpty(userUris.get(3)), 
+          null,
+          null,
+          adminUri,
+          circle3Uri,
+          SSUri.asListWithoutNullAndEmpty(userUris.get(3)),
           true, //withUserRestriction
           false)); //shouldCommit
-
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
@@ -209,6 +209,7 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
           true, //includeUsers,
           true, //includeEntities,
           true, //includeMetadataSpecificToEntityAndItsEntities,
+          true, //includeOriginUser
           null, //entitiesToExclude,
           null, //comment,
           true, //withUserRestriction,
@@ -226,6 +227,7 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
           true, //includeUsers,
           true, //includeEntities,
           true, //includeMetadataSpecificToEntityAndItsEntities,
+          true, //includeOriginUser
           null, //entitiesToExclude,
           null, //comment,
           true, //withUserRestriction,
@@ -238,7 +240,7 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
   
   public void splitCircle1(
     final SSUri       adminUri,
-    final SSUri       circle1Uri, 
+    final SSUri       circle1Uri,
     final List<SSUri> userUris) throws Exception{
     
     try{
@@ -255,6 +257,7 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
           false, //includeUsers,
           true, //includeEntities,
           true, //includeMetadataSpecificToEntityAndItsEntities,
+          true, //includeOriginUser
           null, //entitiesToExclude,
           null, //comment,
           true, //withUserRestriction,
@@ -358,9 +361,9 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
           new SSRecommTagsPar(
             null,
             null,
-            userUris.get(3),
-            SSStrU.toStr(circle7Uri),
-            userUris.get(3),
+            userUris.get(2), //user
+            SSStrU.toStr(circle7Uri), //realm
+            userUris.get(2), //forUser
             null,  //entity
             null, //categories,
             10, //maxTags,
@@ -372,12 +375,12 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
       SSServErrReg.regErrThrow(error);
     }
   }
-    
+  
   public void getTagRecomms(
-     final SSUri       circle1Uri, 
-     final SSUri       circle2Uri, 
-     final SSUri       circle3Uri, 
-     final List<SSUri> userUris) throws Exception{
+    final SSUri       circle1Uri,
+    final SSUri       circle2Uri,
+    final SSUri       circle3Uri,
+    final List<SSUri> userUris) throws Exception{
     
     try{
       System.out.println(
@@ -459,7 +462,7 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
       SSServErrReg.regErrThrow(error);
     }
   }
-   
+  
   public void addCircle3Entities(
     final List<SSUri>    userUris,
     final SSUri          circle3Uri) throws Exception{
@@ -488,6 +491,8 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
             user4,
             circle3Uri, //circle
             null, //entityTypesToIncludeOnly,
+            false,  //setTags
+            null, //tagSpace
             true, //withUserRestriction,
             true)); //invokeEntityHandlers))
       
@@ -505,17 +510,17 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
           false)); //shouldCommit)
       
       categoryServ.categoriesAdd(
-          new SSCategoriesAddPar(
-            null,
-            null,
-            user4,
-            SSCategoryLabel.asListWithoutNullAndEmpty(SSCategoryLabel.get("category4")), //labels
-            link4, //file
-            null, //space
-            circle3.id, //circle
-            null, //creationTime,
-            true, //withUserRestriction
-            false)); //shouldCommit)
+        new SSCategoriesAddPar(
+          null,
+          null,
+          user4,
+          SSCategoryLabel.asListWithoutNullAndEmpty(SSCategoryLabel.get("category4")), //labels
+          link4, //file
+          null, //space
+          circle3.id, //circle
+          null, //creationTime,
+          true, //withUserRestriction
+          false)); //shouldCommit)
       
       final List<SSEntity> entities =
         ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
@@ -575,21 +580,23 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
             user3,
             circle2Uri, //circle
             null, //entityTypesToIncludeOnly,
+            false,  //setTags
+            null, //tagSpace
             true, //withUserRestriction,
             true)); //invokeEntityHandlers))
       
       categoryServ.categoriesAdd(
-          new SSCategoriesAddPar(
-            null,
-            null,
-            user3,
-            SSCategoryLabel.asListWithoutNullAndEmpty(SSCategoryLabel.get("category3")), //labels
-            link3, //file
-            null, //space
-            circle2.id, //circle
-            null, //creationTime,
-            true, //withUserRestriction
-            false)); //shouldCommit)
+        new SSCategoriesAddPar(
+          null,
+          null,
+          user3,
+          SSCategoryLabel.asListWithoutNullAndEmpty(SSCategoryLabel.get("category3")), //labels
+          link3, //file
+          null, //space
+          circle2.id, //circle
+          null, //creationTime,
+          true, //withUserRestriction
+          false)); //shouldCommit)
       
       final List<SSEntity> entities =
         entityServ.entitiesGet(
@@ -620,7 +627,7 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
       SSServErrReg.regErrThrow(error);
     }
   }
-   
+  
   public void addCircle1Entities(
     final List<SSUri>    userUris,
     final SSUri          circle1Uri) throws Exception{
@@ -653,6 +660,8 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
             user1,
             circle1Uri, //circle
             null, //entityTypesToIncludeOnly,
+            false,  //setTags
+            null, //tagSpace
             true, //withUserRestriction,
             true)); //invokeEntityHandlers))
       
@@ -670,17 +679,17 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
           false)); //shouldCommit)
       
       categoryServ.categoriesAdd(
-          new SSCategoriesAddPar(
-            null,
-            null,
-            user1,
-            SSCategoryLabel.asListWithoutNullAndEmpty(SSCategoryLabel.get("category1")), //labels
-            link1, //file
-            null, //space
-            circle1.id, //circle
-            null, //creationTime,
-            true, //withUserRestriction
-            false)); //shouldCommit)
+        new SSCategoriesAddPar(
+          null,
+          null,
+          user1,
+          SSCategoryLabel.asListWithoutNullAndEmpty(SSCategoryLabel.get("category1")), //labels
+          link1, //file
+          null, //space
+          circle1.id, //circle
+          null, //creationTime,
+          true, //withUserRestriction
+          false)); //shouldCommit)
       
       final List<SSEntity> entities =
         entityServ.entitiesGet(
@@ -727,6 +736,8 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
             user2,
             circle1Uri, //circle
             null, //entityTypesToIncludeOnly,
+            false,  //setTags
+            null, //tagSpace
             true, //withUserRestriction,
             true)); //invokeEntityHandlers))
       
@@ -744,17 +755,17 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
           false)); //shouldCommit)
       
       categoryServ.categoriesAdd(
-          new SSCategoriesAddPar(
-            null,
-            null,
-            user2,
-            SSCategoryLabel.asListWithoutNullAndEmpty(SSCategoryLabel.get("category2")), //labels
-            link2, //file
-            null, //space
-            circle1.id, //circle
-            null, //creationTime,
-            true, //withUserRestriction
-            false)); //shouldCommit)
+        new SSCategoriesAddPar(
+          null,
+          null,
+          user2,
+          SSCategoryLabel.asListWithoutNullAndEmpty(SSCategoryLabel.get("category2")), //labels
+          link2, //file
+          null, //space
+          circle1.id, //circle
+          null, //creationTime,
+          true, //withUserRestriction
+          false)); //shouldCommit)
       
       entities.clear();
       entities.addAll(
@@ -785,7 +796,7 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
       SSServErrReg.regErrThrow(error);
     }
   }
-    
+  
   public void deleteCircle4(
     final SSUri          adminUri,
     final SSEntityCircle circle4) throws Exception{
@@ -794,13 +805,13 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
       
       circleServ.circleRemove(
         new SSCircleRemovePar(
-          null, 
-          null, 
-          adminUri, 
-          circle4.id, 
-          true, //withUserRestriction, 
+          null,
+          null,
+          adminUri,
+          circle4.id,
+          true, //withUserRestriction,
           false)); //shouldCommit)
-
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
@@ -808,18 +819,18 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
   
   public void removeCircle1User3(
     final SSUri          adminUri,
-    final SSEntityCircle circle1, 
+    final SSEntityCircle circle1,
     final SSUri          userUriToRemove) throws Exception{
     
     try{
       
       circleServ.circleUsersRemove(
         new SSCircleUsersRemovePar(
-          null, 
-          null, 
-          adminUri, 
-          circle1.id, 
-          SSUri.asListWithoutNullAndEmpty(userUriToRemove), 
+          null,
+          null,
+          adminUri,
+          circle1.id,
+          SSUri.asListWithoutNullAndEmpty(userUriToRemove),
           true, //withUserRestriction
           false)); //shouldCommit
       
@@ -895,6 +906,8 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
             adminUri,
             circle4Uri, //circle
             null, //entityTypesToIncludeOnly,
+            false,  //setTags
+            null, //tagSpace
             true, //withUserRestriction,
             true)); //invokeEntityHandlers
       
@@ -959,6 +972,8 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
             adminUri,
             circle3Uri, //circle
             null, //entityTypesToIncludeOnly,
+            false,  //setTags
+            null, //tagSpace
             true, //withUserRestriction,
             true)); //invokeEntityHandlers
       
@@ -1023,6 +1038,8 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
             adminUri,
             circle2Uri, //circle
             null, //entityTypesToIncludeOnly,
+            false,  //setTags
+            null, //tagSpace
             true, //withUserRestriction,
             true)); //invokeEntityHandlers
       
@@ -1091,6 +1108,8 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
             adminUri,
             circle1Uri, //circle
             null, //entityTypesToIncludeOnly,
+            false,  //setTags
+            null, //tagSpace
             true, //withUserRestriction,
             true)); //invokeEntityHandlers
       

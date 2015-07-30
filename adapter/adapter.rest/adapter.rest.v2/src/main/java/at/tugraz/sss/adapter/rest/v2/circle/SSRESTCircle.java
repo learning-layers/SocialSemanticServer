@@ -122,6 +122,8 @@ public class SSRESTCircle{
           null, //user
           SSUri.get(circle, SSVocConf.sssUri), //circle
           input.entityTypesToIncludeOnly, //entityTypesToIncludeOnly
+          input.setTags,
+          input.tagSpace,
           true,  //withUserRestriction
           true); //invokeEntityHandlers
       

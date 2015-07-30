@@ -1,23 +1,23 @@
-/**
- * Code contributed to the Learning Layers project
- * http://www.learning-layers.eu
- * Development is partly funded by the FP7 Programme of the European Commission under
- * Grant Agreement FP7-ICT-318209.
- * Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
- * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+ /**
+  * Code contributed to the Learning Layers project
+  * http://www.learning-layers.eu
+  * Development is partly funded by the FP7 Programme of the European Commission under
+  * Grant Agreement FP7-ICT-318209.
+  * Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+  * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
+  *
+  * Licensed under the Apache License, Version 2.0 (the "License");
+  * you may not use this file except in compliance with the License.
+  * You may obtain a copy of the License at
+  *
+  * http://www.apache.org/licenses/LICENSE-2.0
+  *
+  * Unless required by applicable law or agreed to in writing, software
+  * distributed under the License is distributed on an "AS IS" BASIS,
+  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  * See the License for the specific language governing permissions and
+  * limitations under the License.
+  */
 package at.kc.tugraz.ss.circle.impl.fct.misc;
 
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleCreatePar;
@@ -28,6 +28,8 @@ import at.kc.tugraz.ss.circle.impl.SSCircleImpl;
 import at.tugraz.sss.serv.SSObjU;
 import at.tugraz.sss.serv.SSStrU;
 import at.kc.tugraz.ss.circle.impl.fct.sql.SSCircleSQLFct;
+import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
 import at.tugraz.sss.serv.SSCircleContentAddedI;
 import at.tugraz.sss.serv.SSCircleContentChangedPar;
 import at.tugraz.sss.serv.SSCircleE;
@@ -44,9 +46,6 @@ import java.util.ArrayList;
 import java.util.List;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
-import at.tugraz.sss.serv.SSToolContextE;
-import sss.serv.eval.datatypes.SSEvalLogE;
-import sss.serv.eval.datatypes.par.SSEvalLogPar;
 
 public class SSCircleMiscFct{
   
@@ -149,26 +148,26 @@ public class SSCircleMiscFct{
       switch(circleType){
         case priv: return true;
         case pub:{
-
+          
           if(SSCircleRightE.equals(accessRight, SSCircleRightE.read)){
             return true;
           }
-
+          
           break;
         }
-
+        
         default:{
-
+          
           if(
             SSCircleRightE.equals(accessRight, SSCircleRightE.read) ||
             SSCircleRightE.equals(accessRight, SSCircleRightE.edit)){
             return true;
           }
-
+          
           break;
         }
       }
-
+      
       return false;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -203,7 +202,7 @@ public class SSCircleMiscFct{
   }
   
   public Boolean canUserForEntityType(
-    final SSUri          user, 
+    final SSUri          user,
     final SSEntity       entity,
     final SSCircleRightE accessRight) throws Exception{
     
@@ -230,7 +229,7 @@ public class SSCircleMiscFct{
       return null;
     }
   }
-
+  
   public void addCircle(
     final SSUri          circleUri,
     final SSCircleE      circleType,
@@ -344,6 +343,44 @@ public class SSCircleMiscFct{
           }
         }
         
+        if(par.includeOriginUser){
+          
+          serv.circleUsersAdd(
+            new SSCircleUsersAddPar(
+              null,
+              null,
+              forUser,
+              copyCircleURI,
+              SSUri.asListWithoutNullAndEmpty(par.user),
+              false, //withUserRestriction,
+              false)); //shouldCommit
+          
+          final List<SSEntity> originUsers = new ArrayList<>();
+          
+          originUsers.add(
+            ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+              new SSEntityGetPar(
+                null,
+                null,
+                par.user, //user
+                par.user, //entity
+                par.withUserRestriction,  //withUserRestriction
+                null))); //descPar
+          
+          entityCopiedPar =
+            new SSEntityCopiedPar(
+              par.user,
+              forUser,
+              circle, //entity
+              originUsers, //entities
+              copyCircleURI, //targetEntity
+              par.withUserRestriction);
+          
+          for(SSServContainerI entityHandler : SSServReg.inst.getServsHandlingEntityCopied()){
+            ((SSEntityCopiedI) entityHandler.serv()).entityCopied(entityCopiedPar);
+          }
+        }
+        
         newCircle =
           serv.circleGet(
             new SSCircleGetPar(
@@ -352,6 +389,8 @@ public class SSCircleMiscFct{
               forUser,
               copyCircleURI,
               null, //entityTypesToIncludeOnly
+              false,  //setTags
+              null, //tagSpace
               par.withUserRestriction,
               true)); //invokeEntityHandlers
         
@@ -415,6 +454,8 @@ public class SSCircleMiscFct{
             par.user,
             par.targetEntity,
             null, //entityTypesToIncludeOnly
+            false,  //setTags
+            null, //tagSpace
             par.withUserRestriction,
             true)); //invokeEntityHandlers
       
@@ -472,6 +513,44 @@ public class SSCircleMiscFct{
         }
       }
       
+      if(par.includeOriginUser){
+        
+        serv.circleUsersAdd(
+          new SSCircleUsersAddPar(
+            null,
+            null,
+            par.user,
+            par.targetEntity, //circle
+            SSUri.asListWithoutNullAndEmpty(par.user), //users
+            false, //withUserRestriction,
+            false)); //shouldCommit
+        
+        final List<SSEntity> originUsers = new ArrayList<>();
+        
+        originUsers.add(
+          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+            new SSEntityGetPar(
+              null,
+              null,
+              par.user, //user
+              par.user, //entity
+              par.withUserRestriction,  //withUserRestriction
+              null))); //descPar
+        
+        entityCopiedPar =
+          new SSEntityCopiedPar(
+            par.user, //user
+            null, //targetUser
+            circle, //entity
+            originUsers, //entities
+            par.targetEntity, //targetEntity
+            par.withUserRestriction);
+        
+        for(SSServContainerI entityHandler : SSServReg.inst.getServsHandlingEntityCopied()){
+          ((SSEntityCopiedI) entityHandler.serv()).entityCopied(entityCopiedPar);
+        }
+      }
+      
       targetCircle =
         serv.circleGet(
           new SSCircleGetPar(
@@ -480,6 +559,8 @@ public class SSCircleMiscFct{
             par.user,
             par.targetEntity,
             null, //entityTypesToIncludeOnly
+            false,  //setTags
+            null, //tagSpace
             par.withUserRestriction,
             true)); //invokeEntityHandlers
       

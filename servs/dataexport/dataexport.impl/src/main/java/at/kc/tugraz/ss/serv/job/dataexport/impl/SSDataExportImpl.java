@@ -1,23 +1,23 @@
-/**
- * Code contributed to the Learning Layers project
- * http://www.learning-layers.eu
- * Development is partly funded by the FP7 Programme of the European Commission under
- * Grant Agreement FP7-ICT-318209.
- * Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
- * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+ /**
+  * Code contributed to the Learning Layers project
+  * http://www.learning-layers.eu
+  * Development is partly funded by the FP7 Programme of the European Commission under
+  * Grant Agreement FP7-ICT-318209.
+  * Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+  * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
+  *
+  * Licensed under the Apache License, Version 2.0 (the "License");
+  * you may not use this file except in compliance with the License.
+  * You may obtain a copy of the License at
+  *
+  * http://www.apache.org/licenses/LICENSE-2.0
+  *
+  * Unless required by applicable law or agreed to in writing, software
+  * distributed under the License is distributed on an "AS IS" BASIS,
+  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  * See the License for the specific language governing permissions and
+  * limitations under the License.
+  */
 package at.kc.tugraz.ss.serv.job.dataexport.impl;
 
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
@@ -96,52 +96,54 @@ public class SSDataExportImpl extends SSServImplWithDBA implements SSDataExportC
             par.user,
             par.circle,
             null, //entityTypesToIncludeOnly
+            false,  //setTags
+            null, //tagSpace
             false,  //withUserRestriction
             false)); //invokeEntityHandlers
       
-        tagsPerEntities.clear();
-        categoriesPerEntities.clear();
+      tagsPerEntities.clear();
+      categoriesPerEntities.clear();
+      
+      tagsPerEntities.putAll(
+        SSDataExportFct.getTagsOfUserPerEntities(
+          par.user,
+          null,
+          null,
+          par.circle));
+      
+      categoriesPerEntities.putAll(
+        SSDataExportFct.getCategoriesPerEntities(
+          par.user, //forUser
+          null, //forUser
+          null,
+          par.circle));
+      
+      for(SSEntity entity : circle.entities){
         
-        tagsPerEntities.putAll(
-          SSDataExportFct.getTagsOfUserPerEntities(
-            par.user,
-            null,
-            null,
-            par.circle));
+        resourceString = SSStrU.toStr(entity.id);
         
-        categoriesPerEntities.putAll(
-          SSDataExportFct.getCategoriesPerEntities(
-            par.user, //forUser
-            null, //forUser
-            null,
-            par.circle));
+        lineParts.clear();
         
-        for(SSEntity entity : circle.entities){
-          
-          resourceString = SSStrU.toStr(entity.id);
-          
-          lineParts.clear();
-          
-          lineParts.add(SSStrU.toStr     (circle.id)); //user
-          lineParts.add(resourceString);
-          lineParts.add(SSStrU.toStr     (SSDateU.dateAsLong() / 1000)); //TODO: provide tag time stamps for tags
-          
-          if(
-            tagsPerEntities.containsKey(resourceString)){
-            lineParts.add(StringUtils.join(tagsPerEntities.get(resourceString),SSStrU.comma));
-          }else{
-            lineParts.add(SSStrU.empty);
-          }
-          
-          if(
-            categoriesPerEntities.containsKey(resourceString)){
-            lineParts.add(StringUtils.join(categoriesPerEntities.get(resourceString),SSStrU.comma));
-          }else{
-            lineParts.add(SSStrU.empty);
-          }
-          
-          fileWriter.writeNext((String[]) lineParts.toArray(new String[lineParts.size()]));
+        lineParts.add(SSStrU.toStr     (circle.id)); //user
+        lineParts.add(resourceString);
+        lineParts.add(SSStrU.toStr     (SSDateU.dateAsLong() / 1000)); //TODO: provide tag time stamps for tags
+        
+        if(
+          tagsPerEntities.containsKey(resourceString)){
+          lineParts.add(StringUtils.join(tagsPerEntities.get(resourceString),SSStrU.comma));
+        }else{
+          lineParts.add(SSStrU.empty);
         }
+        
+        if(
+          categoriesPerEntities.containsKey(resourceString)){
+          lineParts.add(StringUtils.join(categoriesPerEntities.get(resourceString),SSStrU.comma));
+        }else{
+          lineParts.add(SSStrU.empty);
+        }
+        
+        fileWriter.writeNext((String[]) lineParts.toArray(new String[lineParts.size()]));
+      }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }finally{
@@ -187,9 +189,9 @@ public class SSDataExportImpl extends SSServImplWithDBA implements SSDataExportC
       if(!par.users.isEmpty()){
         allUsers = SSStrU.toStr(par.users);
       }else{
-      
+        
         try{
-          allUsers = 
+          allUsers =
             SSStrU.toStr(
               ((SSUserServerI) SSServReg.getServ(SSUserServerI.class)).usersGet(
                 new SSUsersGetPar(
@@ -198,9 +200,9 @@ public class SSDataExportImpl extends SSServImplWithDBA implements SSDataExportC
                   par.user, //user
                   null, //users
                   false))); //invokeEntityHandlers
-
+          
         }catch(SSErr error){
-
+          
           switch(error.code){
             case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); return;
             default: SSServErrReg.regErrThrow(error); return;
@@ -232,7 +234,7 @@ public class SSDataExportImpl extends SSServImplWithDBA implements SSDataExportC
         if(par.exportCategories){
           categoriesPerEntities.putAll(
             SSDataExportFct.getCategoriesPerEntities(
-              user, 
+              user,
               user, //forUser
               resourcesForUser.getValue(),
               null)); //circle

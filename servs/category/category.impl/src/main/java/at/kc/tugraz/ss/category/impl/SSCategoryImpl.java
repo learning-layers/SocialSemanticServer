@@ -198,18 +198,36 @@ implements
               null, //startTime,
               par.withUserRestriction))){
           
-          categoryAdd(
-            new SSCategoryAddPar(
-              null,
-              null,
-              par.targetUser,  //user
-              ((SSCategory)category).entity, //entity
-              ((SSCategory)category).categoryLabel, //label
-              ((SSCategory)category).space, //space
-              par.targetEntity, //circle
-              category.creationTime, //creationTime
-              par.withUserRestriction, //withUserRestriction
-              false)); //shouldCommmit
+          if(par.targetUser != null){ //user copied for others users
+            
+            categoryAdd(
+              new SSCategoryAddPar(
+                null,
+                null,
+                par.targetUser,  //user
+                ((SSCategory)category).entity, //entity
+                ((SSCategory)category).categoryLabel, //label
+                ((SSCategory)category).space, //space
+                par.targetEntity, //circle
+                category.creationTime, //creationTime
+                par.withUserRestriction, //withUserRestriction
+                false)); //shouldCommmit
+          
+          }else{ //user merged into other circle
+
+            categoryAdd(
+              new SSCategoryAddPar(
+                null,
+                null,
+                ((SSCategory)category).user,  //user
+                ((SSCategory)category).entity, //entity
+                ((SSCategory)category).categoryLabel, //label
+                ((SSCategory)category).space, //space
+                par.targetEntity, //circle
+                category.creationTime, //creationTime
+                par.withUserRestriction, //withUserRestriction
+                false)); //shouldCommmit
+          }
         }
         
         break;

@@ -795,7 +795,7 @@ public class SSRESTRecomm{
           input.categories,  //categories
           input.maxTags,    //maxTags
           input.includeOwn, //includeOwn
-          false, //ignoreAccessRights
+          input.ignoreAccessRights, //ignoreAccessRights
           true); //withUserRestriction
       
     }catch(Exception error){

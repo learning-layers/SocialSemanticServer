@@ -28,6 +28,8 @@ public class SSEntityDescriberPar{
   public SSUri recursiveEntity           = null;     
   
   public SSUri       user                = null;
+  public SSSpaceE    space               = null;
+  public SSUri       circle              = null;
   public Boolean     withUserRestriction = null;
   public Boolean     setAttachedEntities = false;
   public Boolean     setRead             = false;
@@ -47,6 +49,14 @@ public class SSEntityDescriberPar{
   
   public List<SSEntityE> entityTypesToIncludeOnly = new ArrayList<>();
 
+  public String getCircle() {
+    return SSStrU.removeTrailingSlash(circle);
+  }
+
+  public void setCircle(final String circle) throws Exception {
+    this.circle = SSUri.get(circle);
+  }
+  
   public String getRecursiveEntity() {
     return SSStrU.removeTrailingSlash(recursiveEntity);
   }

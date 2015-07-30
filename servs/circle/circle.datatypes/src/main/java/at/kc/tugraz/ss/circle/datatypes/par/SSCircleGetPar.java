@@ -25,6 +25,7 @@ import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSSpaceE;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +34,17 @@ public class SSCircleGetPar extends SSServPar{
   public SSUri           circle                     = null;
   public List<SSEntityE> entityTypesToIncludeOnly   = new ArrayList<>();
   public Boolean         invokeEntityHandlers       = false;
+  public Boolean         setTags                    = false;
+  public SSSpaceE        tagSpace                   = null;
 
+  public void setTagSpace(final String tagSpace) throws Exception{
+    this.tagSpace = SSSpaceE.get(tagSpace);
+  }
+  
+  public String getTagSpace() throws Exception{
+    return SSStrU.toStr(tagSpace);
+  }
+  
   public void setCircle(final String circle) throws Exception{
     this.circle = SSUri.get(circle);
   }
@@ -58,6 +69,8 @@ public class SSCircleGetPar extends SSServPar{
     final SSUri           user,
     final SSUri           circle,
     final List<SSEntityE> entityTypesToIncludeOnly,
+    final Boolean         setTags,
+    final SSSpaceE        tagSpace,
     final Boolean         withUserRestriction,
     final Boolean         invokeEntityHandlers) throws Exception{
     
@@ -69,6 +82,8 @@ public class SSCircleGetPar extends SSServPar{
       this.entityTypesToIncludeOnly.addAll(entityTypesToIncludeOnly);
     }
     
+    this.setTags              = setTags;
+    this.tagSpace             = tagSpace;
     this.withUserRestriction  = withUserRestriction;
     this.invokeEntityHandlers = invokeEntityHandlers;
   }

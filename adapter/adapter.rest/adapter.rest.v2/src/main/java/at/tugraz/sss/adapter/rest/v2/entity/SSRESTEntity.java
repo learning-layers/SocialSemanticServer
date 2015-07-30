@@ -246,6 +246,7 @@ public class SSRESTEntity {
           input.includeUsers, 
           input.includeEntities, 
           input.includeMetaSpecificToEntityAndItsEntities,
+          input.includeOriginUser,
           input.entitiesToExclude, 
           input.comment, 
           true, //withUserRestriction, 
