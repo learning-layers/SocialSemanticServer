@@ -70,40 +70,45 @@ implements
     final SSEntity             entity,
     final SSEntityDescriberPar par) throws Exception{
     
-    if(par.setLocations){
-      
-      entity.locations.addAll(
-        locationsGet(
-          new SSLocationsGetPar(
-            null,
-            null,
-            par.user,
-            entity.id,
-            par.withUserRestriction, //withUserRestriction
-            false))); //invokeEntityHandlers
-    }
-    
-    switch(entity.type){
-      
-      case location:{
-      
-        if(SSStrU.equals(entity, par.recursiveEntity)){
-          return entity;
-        }
+    try{
+      if(par.setLocations){
         
-        return SSLocation.get(
-          locationGet(
-            new SSLocationGetPar(
+        entity.locations.addAll(
+          locationsGet(
+            new SSLocationsGetPar(
               null,
               null,
               par.user,
               entity.id,
-              par.withUserRestriction,
-              false)), //invokeEntityHandlers
-          entity);
+              par.withUserRestriction, //withUserRestriction
+              false))); //invokeEntityHandlers
       }
       
-      default: return entity;
+      switch(entity.type){
+        
+        case location:{
+          
+          if(SSStrU.equals(entity, par.recursiveEntity)){
+            return entity;
+          }
+          
+          return SSLocation.get(
+            locationGet(
+              new SSLocationGetPar(
+                null,
+                null,
+                par.user,
+                entity.id,
+                par.withUserRestriction,
+                false)), //invokeEntityHandlers
+            entity);
+        }
+        
+        default: return entity;
+      }
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   

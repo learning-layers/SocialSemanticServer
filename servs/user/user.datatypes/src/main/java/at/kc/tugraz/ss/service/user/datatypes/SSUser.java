@@ -28,8 +28,8 @@ import java.util.List;
 
 public class SSUser extends SSEntity{
 
-  public Boolean        friend      = null;
   public List<SSEntity> friends     = new ArrayList<>();
+  public Boolean        friend      = null;
   public String         email       = null;
   
   @Override
@@ -52,6 +52,10 @@ public class SSUser extends SSEntity{
     
     this.email  = user.email;
     this.friend = user.friend;
+    
+    if(entity instanceof SSUser){
+      SSEntity.addEntitiesDistinctWithoutNull(this.friends, ((SSUser) entity).friends);
+    }
     
     SSEntity.addEntitiesDistinctWithoutNull(this.friends, user.friends);
   }

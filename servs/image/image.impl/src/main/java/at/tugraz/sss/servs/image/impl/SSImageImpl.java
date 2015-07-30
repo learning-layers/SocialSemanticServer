@@ -78,48 +78,53 @@ implements
     final SSEntity             entity,
     final SSEntityDescriberPar par) throws Exception{
     
-    if(par.setThumb){
+    try{
+      if(par.setThumb){
+        
+        switch(entity.type){
+          
+          case file:
+          case evernoteNote:
+          case evernoteResource:{
+            
+            entity.thumb =
+              ((SSImageServerI) SSServReg.getServ(SSImageServerI.class)).imageBase64Get(
+                new SSImageBase64GetPar(
+                  null,
+                  null,
+                  par.user,
+                  entity.id,
+                  SSImageE.thumb,
+                  false)); //withUserRestriction));
+            break;
+          }
+        }
+      }
       
       switch(entity.type){
         
-        case file:
-        case evernoteNote:
-        case evernoteResource:{
+        case image:{
           
-          entity.thumb =
-            ((SSImageServerI) SSServReg.getServ(SSImageServerI.class)).imageBase64Get(
-              new SSImageBase64GetPar(
+          if(SSStrU.equals(entity, par.recursiveEntity)){
+            return entity;
+          }
+          
+          return SSImage.get(
+            imageGet(
+              new SSImageGetPar(
                 null,
                 null,
                 par.user,
                 entity.id,
-                SSImageE.thumb,
-                false)); //withUserRestriction));
-          break;
-        }
-      }
-    }
-    
-    switch(entity.type){
-      
-      case image:{
-        
-        if(SSStrU.equals(entity, par.recursiveEntity)){
-          return entity;
+                par.withUserRestriction)),
+            entity);
         }
         
-        return SSImage.get(
-          imageGet(
-            new SSImageGetPar(
-              null, 
-              null, 
-              par.user,
-              entity.id,
-              par.withUserRestriction)), 
-          entity);
+        default: return entity;
       }
-      
-      default: return entity;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   

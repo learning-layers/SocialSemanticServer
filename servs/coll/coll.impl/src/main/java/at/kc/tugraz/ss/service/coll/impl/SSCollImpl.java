@@ -99,27 +99,32 @@ implements
     final SSEntity             entity, 
     final SSEntityDescriberPar par) throws Exception{
     
-    switch(entity.type){
-      
-      case coll:{
+    try{
+      switch(entity.type){
         
-        if(SSStrU.equals(entity, par.recursiveEntity)){
-          return entity;
+        case coll:{
+          
+          if(SSStrU.equals(entity, par.recursiveEntity)){
+            return entity;
+          }
+          
+          return SSColl.get(
+            collGet(
+              new SSCollGetPar(
+                null,
+                null,
+                par.user,
+                entity.id,
+                par.withUserRestriction,
+                false)), //invokeEntityHandlers
+            entity);
         }
         
-        return SSColl.get(
-          collGet(
-            new SSCollGetPar(
-              null, 
-              null, 
-              par.user, 
-              entity.id, 
-              par.withUserRestriction, 
-              false)), //invokeEntityHandlers
-          entity);
+        default: return entity;
       }
-      
-      default: return entity;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   

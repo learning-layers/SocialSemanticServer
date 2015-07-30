@@ -72,8 +72,6 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
   private final SSRecommServerI    recommServ;
   
   private SSUri circle5Uri = null;
-  private SSUri circle6Uri = null;
-  private SSUri circle7Uri = null;
   
   public SSIntegrationTestKnowBrainTaggingStudy2015() throws Exception{
     circleServ      = (SSCircleServerI)   SSServReg.getServ (SSCircleServerI.class);
@@ -96,32 +94,6 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
               null,
               null,
               userUris.get(0), //user
-              null, //entity,
-              null, //entityTypesToIncludeOnly,
-              true, //withUserRestriction,
-              false, //withSystemCircles,
-              true))).get(0); //invokeEntityHandlers
-      
-      circle6Uri =
-        SSUri.getDistinctNotNullFromEntities(
-          circleServ.circlesGet(
-            new SSCirclesGetPar(
-              null,
-              null,
-              userUris.get(1), //user
-              null, //entity,
-              null, //entityTypesToIncludeOnly,
-              true, //withUserRestriction,
-              false, //withSystemCircles,
-              true))).get(0); //invokeEntityHandlers
-      
-      circle7Uri =
-        SSUri.getDistinctNotNullFromEntities(
-          circleServ.circlesGet(
-            new SSCirclesGetPar(
-              null,
-              null,
-              userUris.get(2), //user
               null, //entity,
               null, //entityTypesToIncludeOnly,
               true, //withUserRestriction,
@@ -319,51 +291,6 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
             userUris.get(0),
             SSStrU.toStr(circle5Uri),
             userUris.get(0),
-            null,  //entity
-            null, //categories,
-            10, //maxTags,
-            true, //includeOwn,
-            false, //ignoreAccessRights,
-            true))); //withUserRestriction);
-      
-      System.out.println(
-        recommServ.recommTags(
-          new SSRecommTagsPar(
-            null,
-            null,
-            userUris.get(1),
-            SSStrU.toStr(circle5Uri),
-            userUris.get(1),
-            null,  //entity
-            null, //categories,
-            10, //maxTags,
-            true, //includeOwn,
-            false, //ignoreAccessRights,
-            true))); //withUserRestriction);
-      
-      System.out.println(
-        recommServ.recommTags(
-          new SSRecommTagsPar(
-            null,
-            null,
-            userUris.get(2),
-            SSStrU.toStr(circle6Uri),
-            userUris.get(2),
-            null,  //entity
-            null, //categories,
-            10, //maxTags,
-            true, //includeOwn,
-            false, //ignoreAccessRights,
-            true))); //withUserRestriction);
-      
-      System.out.println(
-        recommServ.recommTags(
-          new SSRecommTagsPar(
-            null,
-            null,
-            userUris.get(2), //user
-            SSStrU.toStr(circle7Uri), //realm
-            userUris.get(2), //forUser
             null,  //entity
             null, //categories,
             10, //maxTags,

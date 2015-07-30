@@ -79,27 +79,32 @@ implements
     final SSEntity             entity, 
     final SSEntityDescriberPar par) throws Exception{
     
-    switch(entity.type){
-      
-      case message:{
+    try{
+      switch(entity.type){
         
-        if(SSStrU.equals(entity, par.recursiveEntity)){
-          return entity;
+        case message:{
+          
+          if(SSStrU.equals(entity, par.recursiveEntity)){
+            return entity;
+          }
+          
+          return SSMessage.get(
+            messageGet(
+              new SSMessageGetPar(
+                null,
+                null,
+                par.user,
+                entity.id,
+                par.withUserRestriction,
+                false)),
+            entity);
         }
         
-        return SSMessage.get(
-          messageGet(
-            new SSMessageGetPar(
-              null,
-              null,
-              par.user,
-              entity.id,
-              par.withUserRestriction,
-              false)),
-          entity);
+        default: return entity;
       }
-      
-      default: return entity;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
