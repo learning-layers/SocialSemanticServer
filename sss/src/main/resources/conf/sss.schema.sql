@@ -232,13 +232,13 @@ CREATE TABLE `categoryass` (
   `userId` varchar(100) NOT NULL,
   `categorySpace` varchar(100) NOT NULL,
   `creationTime` varchar(200) NOT NULL,
-  `circleId` varchar(200) DEFAULT NULL,
-  PRIMARY KEY (`categoryId`,`entityId`,`userId`,`categorySpace`),
+  `circleId` varchar(150) NOT NULL DEFAULT '',
+  PRIMARY KEY (`categoryId`,`entityId`,`userId`,`categorySpace`,`circleId`),
   KEY `categorySpaceFKcategoryass_idx` (`categorySpace`),
   KEY `circleIdFKcategoryass_idx` (`circleId`),
-  CONSTRAINT `circleIdFKcategoryass` FOREIGN KEY (`circleId`) REFERENCES `circle` (`circleId`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `categoryIdFKcategoryass` FOREIGN KEY (`categoryId`) REFERENCES `category` (`categoryId`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  CONSTRAINT `categorySpaceFKcategoryass` FOREIGN KEY (`categorySpace`) REFERENCES `space` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+  CONSTRAINT `categorySpaceFKcategoryass` FOREIGN KEY (`categorySpace`) REFERENCES `space` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `circleIdFKcategoryass` FOREIGN KEY (`circleId`) REFERENCES `circle` (`circleId`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1412,7 +1412,7 @@ CREATE TABLE `space` (
 
 LOCK TABLES `space` WRITE;
 /*!40000 ALTER TABLE `space` DISABLE KEYS */;
-INSERT INTO `space` VALUES ('followSpace'),('privateSpace'),('sharedSpace'),('circleSpace');
+INSERT INTO `space` VALUES ('circleSpace'),('followSpace'),('privateSpace'),('sharedSpace');
 /*!40000 ALTER TABLE `space` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1429,8 +1429,8 @@ CREATE TABLE `tagass` (
   `tagId` varchar(200) NOT NULL,
   `tagSpace` varchar(200) NOT NULL,
   `creationTime` varchar(200) NOT NULL,
-  `circleId` varchar(200) DEFAULT NULL,
-  PRIMARY KEY (`userId`,`entityId`,`tagId`,`tagSpace`),
+  `circleId` varchar(150) NOT NULL DEFAULT '',
+  PRIMARY KEY (`userId`,`entityId`,`tagId`,`tagSpace`,`circleId`),
   KEY `entityIdFKtagass_idx` (`entityId`),
   KEY `tagIdFKtagass_idx` (`tagId`),
   KEY `tagSpaceFKtagass_idx` (`tagSpace`),
@@ -1642,4 +1642,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-07-23 15:46:26
+-- Dump completed on 2015-08-03 10:41:15
