@@ -8,7 +8,7 @@ echo "done --> extracting SSS package"
 echo "importing SSS MySQL db ..."
 cd /sss.package/sss.app/
 sed -i "s#SSS_MYSQL_SCHEME#${SSS_MYSQL_SCHEME}#g" ./sss.schema.sql
-mysql -u$MYSQL_ROOT_USERNAME -p$MYSQL_ROOT_PASSWORD -hmysql < ./sss.schema.sql
+mysql -u$SSS_MYSQL_USERNAME -p$SSS_MYSQL_PASSWORD -hmysql < ./sss.schema.sql
 echo "done -> importing SSS MySQL db"
 
 echo "setting Tomcat SSS config ..."
