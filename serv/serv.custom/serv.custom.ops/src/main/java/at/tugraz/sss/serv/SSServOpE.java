@@ -21,9 +21,20 @@
 package at.tugraz.sss.serv;
 
 public enum SSServOpE{
+
+  //integrationtest
+  integrationTestKnowBrainTaggingStudy2015,
   
-  //deprecated
-  fileExtGet,
+  //location
+  locationGet,
+  locationAdd,
+  locationsGet,
+  
+  //image
+  imageGet,
+  imageAdd,
+  imagesGet,
+  imageBase64Get,
   
   //eval
   evalLog,
@@ -35,47 +46,45 @@ public enum SSServOpE{
   likeSet,
   
   //video
-  videoUserGet,
+  videoGet,
   videosGet,
-  videosUserGet,
   videoAdd,
-  videoUserAdd,
   videoAnnotationAdd,
-  videoUserAnnotationAdd,
   
   //friend
+  friendGet,
   friendsGet,
-  friendsUserGet,
   friendAdd,
-  friendUserAdd,
   
   //appStackLayout
+  appStackLayoutGet,
   appStackLayoutsGet,
   appStackLayoutCreate,
   appStackLayoutDelete,
   appStackLayoutUpdate,
   
   //app
+  appGet,
   appsGet,
   appAdd,
   
   //message
+  messageGet,
   messageSend,
   messagesGet,
   
   //comment
   commentsGet,
-  commentsUserGet,
-  commentEntitiesCommentedGet,
+  commentEntitiesGet,
+  commentsAdd,
+  
   
   //system
   systemVersionGet,
   
   //flag
   flagsGet,
-  flagsUserGet,
   flagsSet,
-  flagsUserSet,
   
   //cloud
   cloudPublishService,
@@ -103,7 +112,6 @@ public enum SSServOpE{
   
   //circle
   circleCreate,
-  circleEntitiesGet,
   circleEntitiesAdd,
   circleUsersAdd,
   circleMostOpenCircleTypeGet,
@@ -113,45 +121,27 @@ public enum SSServOpE{
   circleEntityUsersGet,
   circlePrivURIGet,
   circlePubURIGet,
-  circleUserCan,
-  circleEntityShare,
-  circlePrivEntityAdd,
-  circlePubEntityAdd,
-  circleEntityPublicSet,
+  circleCanAccess,
   circleEntitiesRemove,
+  circleUsersRemove,
+  circlesFromEntityEntitiesAdd,
+  circleRemove,
   
   //entity
+  entitiesGet,
   entitiesForLabelsAndDescriptionsGet,
   entitiesForLabelsGet,
   entitiesForDescriptionsGet,
-  entityDescGet                                       ,
-  entityDescsGet,
   entityAdd                                           ,
   entityGet                                           ,
-  entityExists,
+  entityFromTypeAndLabelGet,
   entityUserSubEntitiesGet                            ,
   entityUserParentEntitiesGet,
-  entityUserDirectlyAdjoinedEntitiesRemove            ,
   entityRemove                                        ,
-  entityUserUpdate                                    ,
-  entityThumbAdd,
-  entityThumbsGet,
-  entityFilesGet,
-  entityFileAdd,
   entityUpdate,
-  entityUserGet,
-  entityUserEntitiesAttach,
   entityCopy,
-  entityUserCopy,
-  entityDirectlyAdjoinedEntitiesRemove,
-  entityEntitiesAttachedGet,
-  entityUserCommentsGet,
-  entityReadGet,
-  entityScreenShotsGet,
-  entityDownloadURIsGet,
-  entityLocationsAdd,
-  entityLocationsGet,
-  entityUserAdd,
+  entityShare,
+  entityAttachmentsRemove,
   
   //learn ep
   learnEpsGet                                         ,
@@ -160,44 +150,43 @@ public enum SSServOpE{
   learnEpVersionCurrentGet                            ,
   learnEpVersionCurrentSet                            ,
   learnEpVersionCreate                                ,
-  learnEpVersionAddCircle                             ,
-  learnEpVersionAddEntity                             ,
-  learnEpUserCopyForUser                              ,
+  learnEpVersionCircleAdd                             ,
+  learnEpVersionEntityAdd                             ,
   learnEpCreate                                       ,
-  learnEpVersionUpdateCircle                          ,
-  learnEpVersionUpdateEntity                          ,
-  learnEpVersionRemoveCircle                          ,
-  learnEpVersionRemoveEntity                          ,
-  learnEpVersionSetTimelineState                      ,
-  learnEpVersionGetTimelineState                      ,
+  learnEpVersionCircleUpdate                          ,
+  learnEpVersionEntityUpdate                          ,
+  learnEpVersionCircleRemove                          ,
+  learnEpVersionEntityRemove                          ,
+  learnEpVersionTimelineStateSet                      ,
+  learnEpVersionTimelineStateGet                      ,
   learnEpLockRemove,
   learnEpLockSet,
-  learnEpLockHold,
   learnEpsLockHold,
+  learnEpLockHold,
   learnEpRemove,
   
   //data export
   dataExportUserRelations,
-  dataExportUserEntityTagCategoryTimestamps           ,
-  dataExportAddTagsCategoriesTimestampsForUserEntity,
+  dataExportUsersEntitiesTagsCategoriesTimestampsFile,
+  dataExportUserEntityTagsCategoriesTimestampsLine,
+  dataExportUsersEntitiesTagsCategoriesTimestampsFileFromCircle,
   
   //json ld
   jsonLD                                              ,
   
   //user
   userURIGet,
-  userAll                                             ,
+  userURIsGet,
   userExists                                          ,
+  userGet,
   usersGet,
   userAdd,
   
   //user event
-  uEsGet                                              ,
-  uEAdd                                               ,
-  uEsRemove,
-  uEAddAtCreationTime                                 ,
-  uEGet                                               ,
-  uECountGet                                          ,
+  userEventsGet                                              ,
+  userEventAdd                                               ,
+  userEventGet                                               ,
+  userEventCountGet                                          ,
   
   //tag
   tagsAdd,                    
@@ -206,7 +195,6 @@ public enum SSServOpE{
   tagAdd,                     
   tagFrequsGet,
   tagEntitiesForTagsGet,
-  tagEdit,
   
 //  category
   categoriesPredefinedGet,
@@ -217,7 +205,6 @@ public enum SSServOpE{
   categoryAdd,                                              
   categoryFrequsGet,
   categoryEntitiesForCategoriesGet,
-  categoryEdit,
   
   //solr
   solrAddDoc                                          ,
@@ -234,11 +221,10 @@ public enum SSServOpE{
   searchResultPagesCacheClean,
   
   //rating
-  ratingUserSet                                       ,
-  ratingUserGet                                       ,
+  ratingGet                                           ,
   ratingOverallGet                                    ,
-  ratingsUserRemove                                   ,
   ratingSet,
+  ratingsRemove,
   
   //model ue
   modelUEUpdate                                       ,
@@ -259,17 +245,12 @@ public enum SSServOpE{
   lomExtractFromDir                                   ,
   
   //file
-  fileUserFileWrites                                  ,
   fileUpload                                          ,
-  fileUpdateWritingMinutes                            ,
-  fileSetReaderOrWriter                               ,
   fileReplace                                         ,
-  fileRemoveReaderOrWriter                            ,
-  fileWritingMinutesLeft                              ,
   fileDownload                                        ,
-  fileCanWrite                                        ,
   fileIDFromURI                                       ,
-  fileThumbBase64Get,
+  filesGet, 
+  fileAdd,
   
   //data import
   dataImportUserResourceTagFromWikipedia              ,
@@ -299,33 +280,17 @@ public enum SSServOpE{
   authCheckCred                                       ,
   authCheckKey                                        ,
   
-  
   //coll
-  collUserRootGet                                     ,
-  collUserParentGet                                   ,
-  collUserEntryAdd                                    ,
-  collUserWithEntries                                 ,
-  collUserRootAdd                                     ,
-  collUserEntryDelete                                 ,
-  collUserEntryChangePos                              ,
-  collUserEntriesAdd                                  ,
-  collUserEntriesDelete                               ,
-  collsUserWithEntries                                ,
-  collsUserEntityIsInGet                              ,
-  collUserHierarchyGet                                ,
-  collUserCumulatedTagsGet                            ,
-  collsUserCouldSubscribeGet                          ,
+  collGet,
+  collsGet,
   collsEntityIsInGet,
-  collsCouldSubscribeGet,
   collRootGet,
+  collRootAdd,
   collParentGet,
   collEntryAdd,
   collEntriesAdd,
-  collEntryChangePos,
   collEntryDelete,
   collEntriesDelete,
-  collWithEntries,
-  collsWithEntries,
   collHierarchyGet,
   collCumulatedTagsGet,
   
@@ -337,6 +302,8 @@ public enum SSServOpE{
   recommUpdate,
   recommUpdateBulkEntities,
   recommUpdateBulk,
+  recommUpdateBulkUserRealmsFromConf,
+  recommUpdateBulkUserRealmsFromCircles,
   
   //i5cloud
   i5CloudAuth,
@@ -350,9 +317,18 @@ public enum SSServOpE{
   activityContentAdd,
   activityContentsAdd,
   activitiesGet,
-  activitiesUserGet,
   activityTypesGet,
-  activityGet;
+  activityGet,
+  
+  //overlapping community detection - ocd
+  ocdCreateGraph,
+  ocdGetGraphs,
+  ocdGetGraph,
+  ocdDeleteGraph,
+  ocdCreateCover,
+  ocdGetAlgorithmNames,
+  ocdGetCovers,
+  ocdDeleteCover;
   
   public static SSServOpE get(final String value) throws Exception{
     

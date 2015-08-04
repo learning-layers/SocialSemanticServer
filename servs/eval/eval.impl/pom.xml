@@ -1,25 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <parent>
-        <groupId>sss.servs</groupId>
-        <artifactId>eval</artifactId>
-        <version>1.0-SNAPSHOT</version>
-    </parent>
-    <artifactId>eval.impl</artifactId>
-    <packaging>jar</packaging>
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>sss.servs</groupId>
+    <artifactId>eval</artifactId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
+  <artifactId>eval.impl</artifactId>
+  <packaging>jar</packaging>
 
-    <dependencies>
+  <dependencies>
     
-      <dependency>
+    <dependency>
+      <groupId>sss</groupId>
+      <artifactId>util</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>circle.serv</artifactId>
+      <artifactId>entity.api</artifactId>
+      <version>${project.version}</version>
+    </dependency> 
+      
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>learnep.api</artifactId>
+      <version>${project.version}</version>
+    </dependency> 
+      
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>circle.api</artifactId>
       <version>${project.version}</version>
     </dependency> 
     
     <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>voc.serv</artifactId>
+      <artifactId>voc.api</artifactId>
       <version>${project.version}</version>
     </dependency> 
     
@@ -44,6 +62,12 @@
     <dependency>
       <groupId>sss.servs</groupId>
       <artifactId>eval.datatypes</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>activity.api</artifactId>
       <version>${project.version}</version>
     </dependency>
     

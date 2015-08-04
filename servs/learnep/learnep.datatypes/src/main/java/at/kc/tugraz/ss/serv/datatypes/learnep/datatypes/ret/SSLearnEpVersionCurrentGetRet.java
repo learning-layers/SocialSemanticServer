@@ -29,19 +29,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SSLearnEpVersionCurrentGetRet extends SSServRetI{
-
-  public SSLearnEpVersion learnEpVersion = null;
-
-  public static SSLearnEpVersionCurrentGetRet get(SSLearnEpVersion learnEpVersion, SSServOpE op){
-    return new SSLearnEpVersionCurrentGetRet(learnEpVersion, op);
-  }
   
-  private SSLearnEpVersionCurrentGetRet(SSLearnEpVersion learnEpVersion, SSServOpE op){
-    
-    super(op);
-    this.learnEpVersion = learnEpVersion;
-  }
-
+  public SSLearnEpVersion learnEpVersion = null;
+  
   @Override
   public Map<String, Object> jsonLDDesc(){
     
@@ -52,8 +42,14 @@ public class SSLearnEpVersionCurrentGetRet extends SSServRetI{
     return ld;
   }
   
-  /* getters to allow for json enconding */
-  public SSLearnEpVersion getLearnEpVersion() {
-    return learnEpVersion;
+  public static SSLearnEpVersionCurrentGetRet get(SSLearnEpVersion learnEpVersion){
+    return new SSLearnEpVersionCurrentGetRet(learnEpVersion);
+  }
+  
+  private SSLearnEpVersionCurrentGetRet(SSLearnEpVersion learnEpVersion){
+    
+    super(SSServOpE.learnEpVersionCurrentGet);
+    
+    this.learnEpVersion = learnEpVersion;
   }
 }

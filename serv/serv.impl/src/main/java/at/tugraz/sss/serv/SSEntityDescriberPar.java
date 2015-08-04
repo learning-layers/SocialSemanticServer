@@ -20,14 +20,20 @@
 */
 package at.tugraz.sss.serv;
 
-import at.tugraz.sss.serv.SSEntity;
-import at.tugraz.sss.serv.SSUri;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SSEntityDescriberPar{
   
+  public SSUri recursiveEntity           = null;     
+  
   public SSUri       user                = null;
-  public SSEntity    entity              = null;
-  public Boolean     withUserRestriction = false;
+  public SSSpaceE    space               = null;
+  public SSUri       circle              = null;
+  public Boolean     withUserRestriction = null;
+  public Boolean     setAttachedEntities = false;
+  public Boolean     setRead             = false;
+  public Boolean     setFiles            = false;
   public Boolean     setTags             = false;
   public Boolean     setOverallRating    = false;
   public Boolean     setDiscs            = false;
@@ -35,22 +41,41 @@ public class SSEntityDescriberPar{
   public Boolean     setThumb            = false;
   public Boolean     setFlags            = false;
   public Boolean     setCircles          = false;
+  public Boolean     setComments         = false;
+  public Boolean     setFriends          = false;
+  public Boolean     setCategories       = false;
+  public Boolean     setCircleTypes      = false;
+  public Boolean     setLocations        = false;
   
-  public static SSEntityDescriberPar get(
-    final SSUri    user, 
-    final SSEntity entity, 
-    final Boolean  withUserRestriction){
-    
-    return new SSEntityDescriberPar(user, entity, withUserRestriction);
+  public List<SSEntityE> entityTypesToIncludeOnly = new ArrayList<>();
+
+  public String getCircle() {
+    return SSStrU.removeTrailingSlash(circle);
+  }
+
+  public void setCircle(final String circle) throws Exception {
+    this.circle = SSUri.get(circle);
   }
   
-  private SSEntityDescriberPar(
-    final SSUri    user,
-    final SSEntity entity,
-    final Boolean  withUserRestriction){
-    
-    this.user                = user;
-    this.entity              = entity;
-    this.withUserRestriction = withUserRestriction;
+  public String getRecursiveEntity() {
+    return SSStrU.removeTrailingSlash(recursiveEntity);
+  }
+
+  public void setRecursiveEntity(final String recursiveEntity) throws Exception {
+    this.recursiveEntity = SSUri.get(recursiveEntity);
+  }
+
+  public List<String> getEntityTypesToIncludeOnly() {
+    return SSStrU.toStr(entityTypesToIncludeOnly);
+  }
+
+  public void setEntityTypesToIncludeOnly(final List<String> entityTypesToIncludeOnly) throws Exception {
+    this.entityTypesToIncludeOnly = SSEntityE.get(entityTypesToIncludeOnly);
+  }
+  
+  public SSEntityDescriberPar(){}
+  
+  public SSEntityDescriberPar(final SSUri recursiveEntity){
+    this.recursiveEntity = recursiveEntity;
   }
 }

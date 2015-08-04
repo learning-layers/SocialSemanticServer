@@ -3,7 +3,7 @@
 * http://www.learning-layers.eu
 * Development is partly funded by the FP7 Programme of the European Commission under
 * Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+* Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
 * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,47 +20,39 @@
 */
 package at.kc.tugraz.ss.service.filerepo.impl;
 
+import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesGetPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
+import at.tugraz.sss.servs.file.datatype.par.SSEntityFileAddPar;
+import at.tugraz.sss.servs.file.datatype.par.SSEntityFilesGetPar;
 import at.tugraz.sss.serv.SSFileExtE;
-import at.tugraz.sss.serv.SSFileU;
-import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSMimeTypeE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
-import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileSetReaderOrWriterPar;
-import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileUserFileWritesPar;
-import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileRemoveReaderOrWriterPar;
-import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileWritingMinutesLeftPar;
-import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileCanWritePar;
 import at.tugraz.sss.serv.SSSocketCon;
-import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import at.tugraz.sss.serv.SSEntityE;
 import at.kc.tugraz.ss.service.filerepo.api.*;
 import at.kc.tugraz.ss.service.filerepo.conf.*;
 import at.kc.tugraz.ss.service.filerepo.datatypes.*;
-import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileCanWriteRet;
-import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileGetEditingFilesRet;
-import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileWritingMinutesLeftRet;
-import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileRemoveReaderOrWriterRet;
-import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileSetReaderOrWriterRet;
 import at.tugraz.sss.serv.SSEntity;
-import at.tugraz.sss.serv.SSEntityDescriberI;
-import at.tugraz.sss.serv.SSEntityHandlerImplI;
-import at.tugraz.sss.serv.caller.SSServCaller;
-import at.tugraz.sss.serv.caller.SSServCallerU;
+import at.tugraz.sss.util.SSServCallerU;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileDownloadPar;
-import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileIDFromURIPar;
-import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileThumbBase64GetPar;
-import at.kc.tugraz.ss.service.filerepo.impl.fct.SSFileFct;
-import at.kc.tugraz.ss.service.filerepo.impl.fct.activity.SSFileRepoActivityFct;
+import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileReplacePar;
+import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileUploadPar;
+import at.kc.tugraz.ss.service.filerepo.impl.fct.SSFileSQLFct;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSDBSQLI;
-import at.tugraz.sss.serv.SSEntityCircle;
+import at.tugraz.sss.serv.SSDescribeEntityI;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
+import at.tugraz.sss.serv.SSErr;
+import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServReg;
+import at.tugraz.sss.serv.caller.SSServCaller;
 import java.util.*;
 import java.util.List;
 
@@ -69,136 +61,61 @@ extends SSServImplWithDBA
 implements 
   SSFileRepoClientI, 
   SSFileRepoServerI, 
-  SSEntityHandlerImplI, 
-  SSEntityDescriberI{
+  SSDescribeEntityI{
 
-  private final Map<String, SSFileRepoFileAccessProperty> fileAccessProps;
-
+  private final SSFileSQLFct sqlFct;
+  
   public SSFilerepoImpl(
-    final SSFileRepoConf                           conf, 
-    final Map<String, SSFileRepoFileAccessProperty> fileAccessProps) throws Exception{
+    final SSFileRepoConf conf) throws Exception{
 
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
-
-    this.fileAccessProps = fileAccessProps;
-  }
-  
-  @Override
-  public Boolean copyEntity(
-    final SSUri        user,
-    final List<SSUri>  users,
-    final SSUri        entity,
-    final List<SSUri>  entitiesToExclude,
-    final SSEntityE    entityType) throws Exception{
     
-    return false;
+    sqlFct = new SSFileSQLFct   (this);
   }
   
   @Override
-  public List<SSUri> getSubEntities(
-    final SSUri         user,
-    final SSUri         entity,
-    final SSEntityE     type) throws Exception{
-
-    return null;
-  }
-  
-  @Override
-  public List<SSUri> getParentEntities(
-    final SSUri         user,
-    final SSUri         entity,
-    final SSEntityE     type) throws Exception{
-    
-    return new ArrayList<>();
-  }
-  
-  @Override
-  public Boolean setEntityPublic(
-    final SSUri          userUri,
-    final SSUri          entityUri, 
-    final SSEntityE      entityType,
-    final SSUri          publicCircleUri) throws Exception{
-
-    return false;
-  }
-  
-  @Override
-  public void shareEntityWithUsers(
-    final SSUri          user, 
-    final List<SSUri>    usersToShareWith,
-    final SSUri          entity, 
-    final SSUri          circleUri,
-    final SSEntityE      entityType,
-    final Boolean        saveActivity) throws Exception{
-    
-    switch(entityType){
-      case file: 
-        SSFileRepoActivityFct.shareFileWithUser(user, entity, usersToShareWith, saveActivity);
-    }
-  }
-  
-  @Override
-  public void addEntityToCircle(
-    final SSUri        userUri,
-    final SSUri        circleUri,
-    final List<SSUri>  circleUsers,
-    final SSUri        entityUri,
-    final SSEntityE    entityType) throws Exception{
-    
-  }
-  
-  @Override
-  public void addUsersToCircle(
-    final SSUri        user,
-    final List<SSUri>  users,
-    final SSEntityCircle        circle) throws Exception{
-    
-    
-    
-  }
-  
-  @Override
-  public void removeDirectlyAdjoinedEntitiesForUser(
-    final SSUri       userUri, 
-    final SSEntityE   entityType,
-    final SSUri       entityUri,
-    final Boolean     removeUserTags,
-    final Boolean     removeUserRatings,
-    final Boolean     removeFromUserColls,
-    final Boolean     removeUserLocations) throws Exception{
-  }
-  
-  @Override
-  public SSEntity getUserEntity(final SSEntityDescriberPar par) throws Exception{
+  public SSEntity describeEntity(
+    final SSEntity             entity, 
+    final SSEntityDescriberPar par) throws Exception{
     
     try{
       
-      switch(par.entity.type){
+      if(par.setFiles){
         
-        case file:{
-          
-          final SSFileExtE  fileExt  = SSFileExtE.ext(SSStrU.removeTrailingSlash(par.entity));
-          final SSMimeTypeE mimeType = SSMimeTypeE.mimeTypeForFileExt (fileExt);
-          
-          if(par.setThumb){
-            
-            par.entity.thumb =
-              SSServCaller.fileThumbBase64Get(
-                par.user,
-                par.entity.id);
-          }
-          
-          par.entity =
-            SSFile.get(
-              par.entity,
-              fileExt,
-              mimeType);
-           
-           break;
+        final List<SSUri> files =
+          filesGet(
+            new SSEntityFilesGetPar(
+              null, 
+              null, 
+              par.user, 
+              entity.id, 
+              par.withUserRestriction));
+
+        if(!files.isEmpty()){
+          entity.file = files.get(0);
         }
       }
       
-      return par.entity;
+      switch(entity.type){
+        
+        case file:{
+          
+          if(SSStrU.equals(entity, par.recursiveEntity)){
+            return entity;
+          }
+          
+          final SSFileExtE  fileExt  = SSFileExtE.ext(SSStrU.removeTrailingSlash(entity));
+          final SSMimeTypeE mimeType = SSMimeTypeE.mimeTypeForFileExt (fileExt);
+          
+          final SSFile file = SSFile.get(entity.id, fileExt, mimeType);
+          
+          return SSFile.get(
+              file,
+              entity);
+        }
+      }
+      
+      return entity;
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -206,58 +123,52 @@ implements
     }
   }
   
-  @Override
-  public void fileCanWrite(SSSocketCon sSCon, SSServPar parA) throws Exception{
-
-    SSServCallerU.checkKey(parA);
-
-    sSCon.writeRetFullToClient(fileCanWrite(parA), parA.op);
-  }
-
-  @Override
-  public void fileSetReaderOrWriter(SSSocketCon sSCon, SSServPar parA) throws Exception{
-
-    SSServCallerU.checkKey(parA);
-
-    sSCon.writeRetFullToClient(fileSetReaderOrWriter(parA), parA.op);
-  }
-
-  @Override
-  public void fileRemoveReaderOrWriter(SSSocketCon sSCon, SSServPar parA) throws Exception{
-
-    SSServCallerU.checkKey(parA);
-
-    sSCon.writeRetFullToClient(fileRemoveReaderOrWriter(parA), parA.op);
-  }
-
-  @Override
-  public void fileWritingMinutesLeft(SSSocketCon sSCon, SSServPar parA) throws Exception{
-
-    SSServCallerU.checkKey(parA);
-
-    sSCon.writeRetFullToClient(fileWritingMinutesLeft(parA), parA.op);
-  }
-
-  @Override
-  public void fileUserFileWrites(SSSocketCon sSCon, SSServPar parA) throws Exception{
-
-    SSServCallerU.checkKey(parA);
-
-    sSCon.writeRetFullToClient(fileUserFileWrites(parA), parA.op);
-  }
-
   @Override
   public void fileDownload(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
     
     SSServCallerU.checkKey(parA);
     
+    final SSFileDownloadPar par = (SSFileDownloadPar) parA.getFromJSON(SSFileDownloadPar.class);
+    
+    par.sSCon = sSCon;
+    
+    fileDownload(par);
+  }
+
+  @Override
+  public void fileDownload(final SSFileDownloadPar par) throws Exception{
+    
     try{
       
-      final SSFileDownloadPar par = new SSFileDownloadPar(parA);
-
       SSServCallerU.canUserReadEntity(par.user, par.file);
       
-      new Thread(new SSFileDownloader((SSFileRepoConf)conf, sSCon, par)).start();
+      new Thread(new SSFileDownloader((SSFileRepoConf)conf, par, this)).start();
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  @Override
+  public void fileReplace(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
+
+    SSServCallerU.checkKey(parA);
+
+    final SSFileReplacePar par = (SSFileReplacePar) parA.getFromJSON(SSFileReplacePar.class);
+    
+    par.sSCon = sSCon;
+    
+    fileReplace(par);
+  }
+  
+  @Override
+  public void fileReplace(final SSFileReplacePar par) throws Exception{
+    
+    try{
+      
+      SSServCallerU.canUserReadEntity(par.user, par.file);
+      
+      new Thread(new SSFileReplacer((SSFileRepoConf)conf, par, this)).start();
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -265,142 +176,138 @@ implements
   }
 
   @Override
-  public void fileReplace(SSSocketCon sSCon, SSServPar parA) throws Exception{
+  public void fileUpload(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
 
     SSServCallerU.checkKey(parA);
 
-    new Thread(new SSFileReplacer((SSFileRepoConf)conf, sSCon, parA, fileAccessProps)).start();
-  }
-
-  @Override
-  public void fileUpload(SSSocketCon sSCon, SSServPar parA) throws Exception{
-
-    SSServCallerU.checkKey(parA);
-
-    new Thread(new SSFileUploader((SSFileRepoConf)conf, sSCon, parA)).start();
-  }
-
-  @Override
-  public void fileUpdateWritingMinutes(SSServPar parI){
-
-    synchronized(fileAccessProps){
-
-      for(SSFileRepoFileAccessProperty fileAccessProperty : fileAccessProps.values()){
-        fileAccessProperty.updateWritingMinutes();
-      }
-    }
-  }
-
-  @Override
-  public SSFileGetEditingFilesRet fileUserFileWrites(SSServPar parI) throws Exception{
-
-    SSFileUserFileWritesPar par = new SSFileUserFileWritesPar(parI);
-    final SSFileGetEditingFilesRet result;
-    List<SSUri> fileUris = new ArrayList<>();
-
-    SSFileFct.getEditingFileUris(fileAccessProps, par.user, fileUris);
-
-    result = 
-      new SSFileGetEditingFilesRet(
-        par.op, 
-        SSStrU.distinctWithoutEmptyAndNull(fileUris), 
-        null);
-
-    for(String fileUri : result.files){
-      result.labels.add(SSStrU.toStr(SSServCaller.entityGet(SSUri.get(fileUri)).label));
-    }
-
-    return result;
-  }
-
-  @Override
-  public SSFileCanWriteRet fileCanWrite(SSServPar parI) throws Exception{
-
-    SSFileCanWritePar par = new SSFileCanWritePar(parI);
-    SSFileCanWriteRet result = new SSFileCanWriteRet(SSStrU.toStr(par.file), par.op);
-
-    result.canWrite = SSFileFct.canWrite(fileAccessProps, par.user, par.file);
-
-    return result;
-  }
-
-  @Override
-  public SSFileSetReaderOrWriterRet fileSetReaderOrWriter(SSServPar parI) throws Exception{
-
-    SSFileSetReaderOrWriterPar par = new SSFileSetReaderOrWriterPar(parI);
-
-    SSFileSetReaderOrWriterRet result = new SSFileSetReaderOrWriterRet(SSStrU.toStr(par.file), par.op);
-
-    result.worked = SSFileFct.setReaderOrWriter(fileAccessProps, par.user, par.file, par.write);
-
-    return result;
-  }
-
-  @Override
-  public SSFileRemoveReaderOrWriterRet fileRemoveReaderOrWriter(SSServPar parI) throws Exception{
-
-    SSFileRemoveReaderOrWriterPar par = new SSFileRemoveReaderOrWriterPar(parI);
-
-    SSFileRemoveReaderOrWriterRet result = new SSFileRemoveReaderOrWriterRet(SSStrU.toStr(par.file), par.op);
-
-    result.worked = SSFileFct.removeReaderOrWriter(fileAccessProps, par.user, par.file, par.write);
-
-    return result;
-  }
-
-  @Override
-  public SSFileWritingMinutesLeftRet fileWritingMinutesLeft(SSServPar parI) throws Exception{
-
-    SSFileWritingMinutesLeftPar par = new SSFileWritingMinutesLeftPar(parI);
-
-    SSFileWritingMinutesLeftRet result = new SSFileWritingMinutesLeftRet(par.file, par.op);
-
-    result.writingMinutesLeft = SSFileFct.getWritingMinutesLeft(fileAccessProps, par.user, par.file);
-
-    return result;
-  }
-
-  @Override
-  public String fileIDFromURI(final SSServPar parA) throws Exception{
-
-    final SSFileIDFromURIPar par = new SSFileIDFromURIPar(parA);
-    String result;
-
-    try{
-      result = SSStrU.removeTrailingSlash(SSStrU.toStr(par.file));
-      result = result.substring(result.lastIndexOf(SSStrU.slash) + 1);
-
-      return result;
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(new Exception("given file uri not valid"));
-      return null;
-    }
+    final SSFileUploadPar par = (SSFileUploadPar) parA.getFromJSON(SSFileUploadPar.class);
+    
+    par.sSCon = sSCon;
+    
+    fileUpload(par);
   }
   
   @Override
-  public String fileThumbBase64Get(final SSServPar parA) throws Exception{
+  public void fileUpload(final SSFileUploadPar par) throws Exception{
+    
+    try{
+      new Thread(new SSFileUploader((SSFileRepoConf) conf, par)).start();
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+
+  @Override
+  public SSUri fileAdd(final SSEntityFileAddPar par) throws Exception{
     
     try{
       
-      final SSFileThumbBase64GetPar par = new SSFileThumbBase64GetPar(parA);
-      final List<SSUri>             thumbUris = SSServCaller.entityThumbsGet(par.user, par.file);
-      
-      if(thumbUris.isEmpty()){
-        SSLogU.warn("thumb couldnt be retrieved from file " + par.file);
-        return null;
+     if(par.file == null){
+        par.file = SSServCaller.vocURICreate();
       }
       
-      final String pngFilePath = SSCoreConf.instGet().getSss().getLocalWorkPath() + SSServCaller.fileIDFromURI (par.user, thumbUris.get(0));
+      dbSQL.startTrans(par.shouldCommit);
       
-      return SSFileU.readPNGToBase64Str(pngFilePath);
+      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+        new SSEntityUpdatePar(
+          null, 
+          null, 
+          par.user, 
+          par.file,  //entity
+          SSEntityE.file,  //type
+          null, //label, 
+          null, //description, 
+          null, //entitiesToAttach,
+          null, //creationTime, 
+          null, //read, 
+          null, //setPublic, 
+          par.withUserRestriction, //withUserRestriction
+          false)); //shouldCommit)
+      
+      sqlFct.addFile(par.file);
+      
+      if(par.entity != null){
+        
+        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+          new SSEntityUpdatePar(
+            null,
+            null,
+            par.user,
+            par.entity,  //entity
+            null,  //type
+            null, //label,
+            null, //description,
+            SSUri.asListWithoutNullAndEmpty(par.file), //entitiesToAttach,
+            null, //creationTime,
+            null, //read,
+            null, //setPublic,
+            par.withUserRestriction, //withUserRestriction
+            false)); //shouldCommit)
+      }
+      
+      dbSQL.commit(par.shouldCommit);
+      
+      return par.file;
+    }catch(Exception error){
+      
+      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+        
+        if(dbSQL.rollBack(par.shouldCommit)){
+          
+          SSServErrReg.reset();
+          
+          return fileAdd(par);
+        }else{
+          SSServErrReg.regErrThrow(error);
+          return null;
+        }
+      }
+      
+      dbSQL.rollBack(par.shouldCommit);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+
+  @Override
+  public List<SSUri> filesGet(final SSEntityFilesGetPar par) throws Exception{
+    
+    try{
+    
+      final List<SSUri> files = new ArrayList<>();
+      
+      if(par.entity == null){
+        throw new SSErr(SSErrE.parameterMissing);
+      }
+      
+      if(par.withUserRestriction){
+        SSServCallerU.canUserReadEntity(par.user, par.entity);
+      }
+      
+      files.addAll(sqlFct.getFiles(par.entity));
+      
+      if(!par.withUserRestriction){
+        return files;
+      }
+      
+      return SSUri.getDistinctNotNullFromEntities(
+        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
+          new SSEntitiesGetPar(
+            null,
+            null,
+            par.user,
+            files,  //entities
+            null, //types,
+            null, //descPar,
+            par.withUserRestriction)));// withUserRestriction
       
     }catch(Exception error){
-      SSLogU.warn("base 64 file thumb couldnt be retrieved");
-      SSServErrReg.reset();
+      SSServErrReg.regErrThrow(error);
       return null;
     }
   }
 }
+  
 //  public static SSUri getFileDefaultUri(
 //     String fileId) throws Exception{
 //    

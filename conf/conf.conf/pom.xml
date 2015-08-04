@@ -20,6 +20,24 @@
     
     <dependency>
       <groupId>sss.servs</groupId>
+      <artifactId>integrationtest.conf</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>location.conf</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>image.conf</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
       <artifactId>eval.conf</artifactId>
       <version>${project.version}</version>
     </dependency>
@@ -219,6 +237,12 @@
     <dependency>
       <groupId>sss.servs</groupId>
       <artifactId>broadcast.conf</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>ocd.conf</artifactId>
       <version>${project.version}</version>
     </dependency>
     

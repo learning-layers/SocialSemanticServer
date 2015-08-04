@@ -31,14 +31,44 @@
   <dependencies>
 
     <dependency>
-      <groupId>sss.servs</groupId>
-      <artifactId>disc.serv</artifactId>
+      <groupId>sss</groupId>
+      <artifactId>util</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>tag.serv</artifactId>
+      <artifactId>recomm.api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>entity.api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>circle.api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>rating.api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+          
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>disc.api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>tag.api</artifactId>
       <version>${project.version}</version>
     </dependency>
     

@@ -19,8 +19,44 @@
   <dependencies>
   
     <dependency>
+      <groupId>sss</groupId>
+      <artifactId>util</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>voc.serv</artifactId>
+      <artifactId>eval.api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>entity.api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>tag.api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+     <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>category.api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>activity.api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>voc.api</artifactId>
       <version>${project.version}</version>
     </dependency>
     

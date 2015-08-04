@@ -20,16 +20,13 @@
 */
 package at.kc.tugraz.ss.service.coll.impl.fct.misc;
 
-import at.kc.tugraz.ss.circle.api.SSCircleServerI;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCircleTypesGetPar;
-import at.kc.tugraz.ss.circle.serv.SSCircleServ;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
-
-import at.tugraz.sss.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.coll.datatypes.SSColl;
-import at.kc.tugraz.ss.service.coll.datatypes.SSCollEntry;
 import at.kc.tugraz.ss.service.coll.impl.fct.sql.SSCollSQLFct;
+import at.tugraz.sss.serv.SSEntity;
+import at.tugraz.sss.serv.SSErr;
+import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,13 +38,13 @@ public class SSCollMiscFct{
     final SSUri        userUri,
     final SSUri        collUri) throws Exception{
     
-    final List<String> subCollUris = new ArrayList<>();
+    final List<SSUri> subCollUris = new ArrayList<>();
     
-    getAllChildCollURIs(sqlFct, collUri.toString(), collUri.toString(), subCollUris);
+    getAllChildCollURIs(sqlFct, collUri, collUri, subCollUris);
     
-    for(String subCollUri : subCollUris){
+    for(SSUri subCollUri : subCollUris){
       
-      if(sqlFct.ownsUserColl(userUri, SSUri.get(subCollUri))){
+      if(sqlFct.ownsUserColl(userUri, subCollUri)){
         return true;
       }
     }
@@ -57,99 +54,48 @@ public class SSCollMiscFct{
   
   public static void getAllChildCollURIs(
     final SSCollSQLFct sqlFct,
-    final String       startCollUri, 
-    final String       currentCollUri, 
-    final List<String> subCollUris) throws Exception{
+    final SSUri        startCollUri, 
+    final SSUri        currentCollUri, 
+    final List<SSUri>  subCollUris) throws Exception{
     
-    for(String directSubCollUri : sqlFct.getDirectChildCollURIs(currentCollUri)){
+    for(SSUri directSubCollUri : sqlFct.getDirectChildCollURIs(currentCollUri)){
       getAllChildCollURIs(sqlFct, startCollUri, directSubCollUri, subCollUris);
     }
     
-    if(startCollUri.equals(currentCollUri)){
+    if(SSStrU.equals(startCollUri, currentCollUri)){
       return;
     }
     
-    if(!subCollUris.contains(currentCollUri)){
+    if(!SSStrU.contains(subCollUris, currentCollUri)){
       subCollUris.add(currentCollUri);
     }
   }
    
-  public static SSColl getCollWithEntriesWithCircleTypes(
-    final SSCollSQLFct sqlFct,
-    final SSUri userUri,
-    final SSUri collUri) throws Exception{
-
-    SSCollEntry collEntry;
-    
-    try{
-      
-      final SSColl coll =
-        sqlFct.getCollWithEntries(
-          collUri,
-          ((SSCircleServerI) SSCircleServ.inst.serv()).circleTypesGet(
-            new SSCircleTypesGetPar(
-              null,
-              null,
-              userUri,
-              userUri,
-              collUri,
-              false)));
-      
-      for(Object entry : coll.entries){
-        
-        collEntry = (SSCollEntry) entry;
-        
-        collEntry.circleTypes.clear();
-        collEntry.circleTypes.addAll(
-          ((SSCircleServerI) SSCircleServ.inst.serv()).circleTypesGet(
-            new SSCircleTypesGetPar(
-              null,
-              null,
-              userUri,
-              userUri,
-              collEntry.id,
-              false)));
-      }
-
-      return coll;
-
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-
   public static List<SSUri> getCollSubCollAndEntryURIs(
     final SSCollSQLFct sqlFct,
     final SSColl       startColl) throws Exception{
 
-    SSCollEntry collEntry;
-    
     try{
 
-      final List<String> subCollUris          = new ArrayList<>();
+      final List<SSUri>  subCollUris          = new ArrayList<>();
       final List<SSUri>  collAndCollEntryUris = new ArrayList<>();
 
       //add coll and coll direct entry uris
       collAndCollEntryUris.add(startColl.id);
 
-      for(Object entry : startColl.entries){
-        collAndCollEntryUris.add(((SSCollEntry)entry).id);
-      }
+      collAndCollEntryUris.addAll(SSUri.getDistinctNotNullFromEntities(startColl.entries));
 
       //add all coll sub coll und entry uris
-      getAllChildCollURIs(sqlFct, SSStrU.toStr(startColl.id), SSStrU.toStr(startColl.id), subCollUris);
+      getAllChildCollURIs(sqlFct, startColl.id, startColl.id, subCollUris);
 
-      for(String subCollUri : subCollUris){
+      for(SSUri subCollUri : subCollUris){
 
-        if(!SSStrU.contains(collAndCollEntryUris, SSUri.get(subCollUri))){
-          collAndCollEntryUris.add(SSUri.get(subCollUri));
+        if(!SSStrU.contains(collAndCollEntryUris, subCollUri)){
+          collAndCollEntryUris.add(subCollUri);
         }
 
-        for(Object entry : sqlFct.getCollWithEntries(SSUri.get(subCollUri), new ArrayList<>()).entries){
+        for(SSEntity collEntry : sqlFct.getCollWithEntries(subCollUri).entries){
 
-          collEntry = (SSCollEntry) entry;
-            
           if(!SSStrU.contains(collAndCollEntryUris, collEntry.id)){
             collAndCollEntryUris.add(collEntry.id);
           }
@@ -174,14 +120,14 @@ public class SSCollMiscFct{
         return childColl;
       }
       
-      for(String parentCollUri : sqlFct.getDirectParentCollURIs(childColl.toString())){
+      for(SSUri parentCollUri : sqlFct.getDirectParentCollURIs(childColl)){
         
-        if(sqlFct.ownsUserColl(userUri, SSUri.get(parentCollUri))){
-          return SSUri.get(parentCollUri);
+        if(sqlFct.ownsUserColl(userUri, parentCollUri)){
+          return parentCollUri;
         }
       }
       
-      throw new Exception("user doesnt own coll");
+      throw new SSErr(SSErrE.userDoesntOwnColl);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -207,20 +153,6 @@ public class SSCollMiscFct{
 //      parentCollUris.add(currentCollUri);
 //    }
 //  }
-
-  public static void shareEntityWithUser(
-    final SSCollSQLFct sqlFct, 
-    final SSUri        sharedWithMeFilesCollUri,
-    final SSUri        entityUri) throws Exception{
-    
-    try{
-      
-      sqlFct.addCollEntry(sharedWithMeFilesCollUri, entityUri);
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
 }
 
 //  public static void addCollAndSubEntitiesToCircle(
@@ -267,5 +199,50 @@ public class SSCollMiscFct{
 //      
 //    }catch(Exception error){
 //      SSServErrReg.regErrThrow(error);
+//    }
+//  }
+
+//public static SSColl getCollWithEntriesWithCircleTypes(
+//    final SSCollSQLFct sqlFct,
+//    final SSUri userUri,
+//    final SSUri collUri) throws Exception{
+//
+//    SSCollEntry collEntry;
+//    
+//    try{
+//      
+//      final SSColl coll =
+//        sqlFct.getCollWithEntries(
+//          collUri,
+//          ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleTypesGet(
+//            new SSCircleTypesGetPar(
+//              null,
+//              null,
+//              userUri,
+//              userUri,
+//              collUri,
+//              false)));
+//      
+//      for(Object entry : coll.entries){
+//        
+//        collEntry = (SSCollEntry) entry;
+//        
+//        collEntry.circleTypes.clear();
+//        collEntry.circleTypes.addAll(
+//          ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleTypesGet(
+//            new SSCircleTypesGetPar(
+//              null,
+//              null,
+//              userUri,
+//              userUri,
+//              collEntry.id,
+//              false)));
+//      }
+//
+//      return coll;
+//
+//    }catch(Exception error){
+//      SSServErrReg.regErrThrow(error);
+//      return null;
 //    }
 //  }

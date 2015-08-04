@@ -17,16 +17,52 @@
   </properties>
   
   <dependencies>
-
+    
     <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>category.serv</artifactId>
+      <artifactId>eval.api</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>tag.serv</artifactId>
+      <artifactId>image.api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>ue.api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>entity.api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>filerepo.api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>circle.api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>category.api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>tag.api</artifactId>
       <version>${project.version}</version>
     </dependency>
 
@@ -92,7 +128,7 @@
     
     <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>evernote.serv</artifactId>
+      <artifactId>evernote.api</artifactId>
       <version>${project.version}</version>
     </dependency>
             

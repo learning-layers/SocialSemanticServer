@@ -20,9 +20,8 @@
 */
 package at.kc.tugraz.ss.serv.voc.serv;
 
+import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import at.tugraz.sss.serv.SSCoreConfA;
-import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSConfA;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.kc.tugraz.ss.serv.voc.impl.SSVocImpl;
 import at.tugraz.sss.serv.SSServReg;
@@ -35,13 +34,12 @@ import java.util.List;
 public class SSVoc extends SSServContainerI{
   
   public static final SSVoc inst                           = new SSVoc(null, SSVocI.class);
-  public static SSUri         systemUserUri                  = null;
 
   protected SSVoc(
     final Class servImplClientInteraceClass, 
-    final Class servImplServerInteraceClass){
+    final Class servServerI){
     
-    super(servImplClientInteraceClass, servImplServerInteraceClass);
+    super(servImplClientInteraceClass, servServerI);
   }
   
   @Override
@@ -50,13 +48,13 @@ public class SSVoc extends SSServContainerI{
   }
   
   @Override
-  public SSServContainerI regServ(final SSConfA conf) throws Exception{
+  public SSServContainerI regServ() throws Exception{
 
-    this.conf = conf;
+    this.conf = SSCoreConf.instGet().getVoc();
     
     SSServReg.inst.regServ(this);
     
-    systemUserUri   = SSServCaller.vocURICreateFromId(SSVocConf.systemUserLabel);
+    SSVocConf.systemUserUri  = SSServCaller.vocURICreateFromId(SSVocConf.systemUserLabel);
     
     return this;
   }

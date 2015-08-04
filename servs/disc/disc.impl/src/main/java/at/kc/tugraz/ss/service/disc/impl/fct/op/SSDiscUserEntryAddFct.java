@@ -22,22 +22,24 @@ package at.kc.tugraz.ss.service.disc.impl.fct.op;
 
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesAddPar;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivEntityAddPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclesGetPar;
-import at.kc.tugraz.ss.circle.serv.SSCircleServ;
+import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.tugraz.sss.serv.SSObjU;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSLabel;
-import at.tugraz.sss.serv.SSEntityCircle;
-
 import at.tugraz.sss.serv.caller.SSServCaller;
-import at.tugraz.sss.serv.caller.SSServCallerU;
+import at.tugraz.sss.util.SSServCallerU;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscEntryAddPar;
 import at.kc.tugraz.ss.service.disc.impl.fct.sql.SSDiscSQLFct;
+import at.tugraz.sss.serv.SSEntity;
+import at.tugraz.sss.serv.SSErr;
+import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
-import java.util.ArrayList;
+import at.tugraz.sss.serv.SSServReg;
 
 public class SSDiscUserEntryAddFct{
   
@@ -60,30 +62,38 @@ public class SSDiscUserEntryAddFct{
         tmpTargetUri = targetUri;
       }
       
-      ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
-        new SSCirclePrivEntityAddPar(
+      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+        new SSEntityUpdatePar(
           null,
           null,
           userUri,
           discUri,
-          discType,
-          discLabel,
-          description,
-          null,
-          false));
+          discType, //type,
+          discLabel, //label
+          description, //description,
+          null, //entitiesToAttach,
+          null, //creationTime,
+          null, //read,
+          false, //setPublic
+          false, //withUserRestriction
+          false)); //shouldCommit)
       
-      ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
-        new SSCirclePrivEntityAddPar(
+      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+        new SSEntityUpdatePar(
           null,
           null,
           userUri,
           tmpTargetUri,
-          SSEntityE.entity,
-          null,
-          description,
-          null,
-          false));
-      
+          null, //type,
+          null, //label
+          null, //description,
+          null, //entitiesToAttach,
+          null, //creationTime,
+          null, //read,
+          false, //setPublic
+          false, //withUserRestriction
+          false)); //shouldCommit)
+            
       sqlFct.createDisc(
         userUri, 
         discUri, 
@@ -102,8 +112,17 @@ public class SSDiscUserEntryAddFct{
     
     try{
       final SSUri     discEntryUri  = SSServCaller.vocURICreate();
-      final SSEntityE discType      = SSServCaller.entityGet    (discUri).type;
-      SSEntityE       discEntryType = null;
+      final SSEntityE discType      =
+        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+          new SSEntityGetPar(
+            null,
+            null,
+            null,
+            discUri,  //entity
+            false, //withUserRestriction
+            null)).type; //descPar
+      
+      SSEntityE discEntryType = null;
       
       switch(discType){
         case disc: discEntryType = SSEntityE.discEntry;   break;
@@ -112,39 +131,41 @@ public class SSDiscUserEntryAddFct{
         default: throw new Exception("disc type not valid");
       }
       
-      ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
-        new SSCirclePrivEntityAddPar(
+      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+        new SSEntityUpdatePar(
           null,
           null,
           userUri,
           discEntryUri,
-          discEntryType,
-          SSLabel.get(discEntryUri),
-          null,
-          null,
-          false));
-            
-      for(SSEntityCircle entityUserCircle : 
-        ((SSCircleServerI) SSCircleServ.inst.serv()).circlesGet(
-            new SSCirclesGetPar(
-              null,
-              null,
-              userUri,
-              null,
-              discUri,
-              SSEntityE.asListWithoutNullAndEmpty(),
-              false,
-              true,
-              false))){
+          discEntryType, //type,
+          SSLabel.get(discEntryUri), //label
+          null, //description,
+          null, //entitiesToAttach,
+          null, //creationTime,
+          null, //read,
+          false, //setPublic
+          false, //withUserRestriction
+          false)); //shouldCommit)
+      
+      for(SSEntity entityUserCircle :
+        ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlesGet(
+          new SSCirclesGetPar(
+            null,
+            null,
+            userUri,
+            discUri,
+            null,
+            false,
+            true,
+            false))){
         
-        ((SSCircleServerI) SSCircleServ.inst.serv()).circleEntitiesAdd(
+        ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleEntitiesAdd(
           new SSCircleEntitiesAddPar(
             null,
             null,
             userUri,
             entityUserCircle.id,
             SSUri.asListWithoutNullAndEmpty(discEntryUri),
-            false,
             false,
             false));
       }
@@ -168,7 +189,7 @@ public class SSDiscUserEntryAddFct{
     try{
       
       if(SSObjU.isNull(par.label, par.type)){
-        throw new Exception("label, disc type null");
+        throw new SSErr(SSErrE.parameterMissing);
       }
       
       switch(par.type){
@@ -176,10 +197,6 @@ public class SSDiscUserEntryAddFct{
         case qa:
         case chat: break;
         default: throw new Exception("disc type not valid");
-      }
-      
-      if(!SSObjU.isNull(par.entity)){
-        SSServCallerU.canUserReadEntity(par.user, par.entity);
       }
       
     }catch(Exception error){

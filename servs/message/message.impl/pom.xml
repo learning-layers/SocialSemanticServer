@@ -17,10 +17,22 @@
   </properties>
 
   <dependencies>
-      
+     
+    <dependency>
+      <groupId>sss</groupId>
+      <artifactId>util</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
     <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>circle.serv</artifactId>
+      <artifactId>entity.api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+     
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>circle.api</artifactId>
       <version>${project.version}</version>
     </dependency>
     
@@ -32,7 +44,7 @@
     
     <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>voc.serv</artifactId>
+      <artifactId>voc.api</artifactId>
       <version>${project.version}</version>
     </dependency>
     
@@ -57,6 +69,12 @@
     <dependency>
       <groupId>sss.servs</groupId>
       <artifactId>message.api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>activity.api</artifactId>
       <version>${project.version}</version>
     </dependency>
 

@@ -20,120 +20,25 @@
   */
 package at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.misc;
 
-import at.kc.tugraz.ss.circle.api.SSCircleServerI;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivEntityAddPar;
-import at.kc.tugraz.ss.circle.serv.SSCircleServ;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEp;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpCircle;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpEntity;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpVersion;
 import at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.sql.SSLearnEpSQLFct;
-import at.tugraz.sss.serv.SSObjU;
+import at.kc.tugraz.ss.service.filerepo.api.SSFileRepoServerI;
+import at.tugraz.sss.serv.SSImageE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSServErrReg;
-import at.tugraz.sss.serv.caller.SSServCaller;
+import at.tugraz.sss.serv.SSServReg;
+import at.tugraz.sss.servs.file.datatype.par.SSEntityFilesGetPar;
+import at.tugraz.sss.servs.image.api.SSImageServerI;
+import at.tugraz.sss.servs.image.datatype.par.SSImagesGetPar;
 import java.util.ArrayList;
 import java.util.List;
 
 public class SSLearnEpMiscFct{
   
-  public static SSUri copyLearnEpForUser(
-    final SSLearnEpSQLFct sqlFct,
-    final SSUri           user,
-    final SSUri           forUser,
-    final List<SSUri>     entitiesToExclude,
-    final SSUri           learnEpUri) throws Exception{
-    
-    try{
-      
-      if(SSObjU.isNull(sqlFct, user, forUser, learnEpUri)){
-        throw new Exception("pars null");
-      }
-      
-      final SSLearnEp learnEp = sqlFct.getLearnEpWithVersions(user, learnEpUri, true);
-      SSUri           copyVersionUri;
-      
-      final SSUri copyLearnEpUri = 
-        SSServCaller.learnEpCreate(
-          forUser, 
-          learnEp.label,
-          learnEp.description,
-          false);
-      
-      for(SSLearnEpVersion version : learnEp.versions){
-
-        copyVersionUri = SSServCaller.learnEpVersionCreate(forUser, copyLearnEpUri, false);
-        
-        for(SSLearnEpCircle circle : version.learnEpCircles){
-          
-          if(SSStrU.contains(entitiesToExclude, circle.id)){
-            continue;
-          }
-            
-          SSServCaller.learnEpVersionAddCircle(
-            forUser, 
-            copyVersionUri, 
-            circle.label, 
-            circle.xLabel, 
-            circle.yLabel, 
-            circle.xR, 
-            circle.yR, 
-            circle.xC, 
-            circle.yC,
-            false);
-        }
-        
-        for(SSLearnEpEntity entity : version.learnEpEntities){
-          
-          if(
-            SSStrU.contains(entitiesToExclude, entity.id) ||
-            SSStrU.contains(entitiesToExclude, entity.entity)){
-            continue;
-          }
-          
-          ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
-            new SSCirclePrivEntityAddPar(
-              null,
-              null,
-              forUser,
-              entity.entity.id,
-              SSEntityE.entity,
-              null,
-              null,
-              null,
-              false));
-          
-          SSServCaller.learnEpVersionAddEntity(
-            forUser,
-            copyVersionUri, 
-            entity.entity.id,
-            entity.x, 
-            entity.y, 
-            false);
-        }
-        
-        if(version.learnEpTimelineState != null){
-        
-          SSServCaller.learnEpVersionSetTimelineState(
-            forUser, 
-            copyVersionUri, 
-            version.learnEpTimelineState.startTime,
-            version.learnEpTimelineState.endTime, 
-            false);
-        }
-      }
-      
-      return copyLearnEpUri;
-
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
-  public static List<SSUri> getLearnEpContentURIs(
+  public List<SSUri> getLearnEpContentURIs(
     final SSUri           user,
     final SSLearnEpSQLFct sqlFct,
     final SSUri           learnEp) throws Exception{
@@ -155,18 +60,10 @@ public class SSLearnEpMiscFct{
           learnEpContentUris.add(circle.id);
         }
         
-        for(SSLearnEpEntity entity : learnEpVersion.learnEpEntities){
-          learnEpContentUris.add(entity.id);
-          
-          learnEpContentUris.add(entity.entity.id);
-          
-          for(SSUri file : SSServCaller.entityFilesGet(user, entity.entity.id)){
-            learnEpContentUris.add(file);
-          }
-          
-          for(SSUri thumb : SSServCaller.entityThumbsGet(user, entity.entity.id)){
-            learnEpContentUris.add(thumb);
-          }
+        for(SSLearnEpEntity learnEpEntity : learnEpVersion.learnEpEntities){
+          learnEpContentUris.add   (learnEpEntity.id);
+          learnEpContentUris.add   (learnEpEntity.entity.id);
+          learnEpContentUris.addAll(getLearnEpEntityAttachedEntities(user, learnEpEntity.entity.id));
         }
         
         if(learnEpVersion.learnEpTimelineState != null){
@@ -177,6 +74,41 @@ public class SSLearnEpMiscFct{
       SSStrU.distinctWithoutNull2(learnEpContentUris);
       
       return learnEpContentUris;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  public List<SSUri> getLearnEpEntityAttachedEntities(
+    final SSUri  user,
+    final SSUri  entity) throws Exception{
+    
+    try{
+      final List<SSUri> attachedEntities = new ArrayList<>();
+      
+      attachedEntities.addAll(
+        ((SSFileRepoServerI) SSServReg.getServ(SSFileRepoServerI.class)).filesGet(
+          new SSEntityFilesGetPar(
+            null,
+            null,
+            user,
+            entity,
+            true)));  //withUserRestcrition);
+      
+      attachedEntities.addAll(
+        SSUri.getDistinctNotNullFromEntities(
+          ((SSImageServerI) SSServReg.getServ(SSImageServerI.class)).imagesGet(
+            new SSImagesGetPar(
+              null,
+              null,
+              user,
+              entity, //entity
+              SSImageE.thumb, //imageType
+              false))));
+      
+      return attachedEntities;
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;

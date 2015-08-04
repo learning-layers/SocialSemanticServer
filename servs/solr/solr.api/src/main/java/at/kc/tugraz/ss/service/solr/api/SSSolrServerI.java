@@ -21,9 +21,10 @@
 package at.kc.tugraz.ss.service.solr.api;
 
 import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServServerI;
 import java.util.List;
 
-public interface SSSolrServerI{
+public interface SSSolrServerI extends SSServServerI{
 
   public void                     solrAddDoc           (SSServPar parA)   throws Exception;
   public List<String>             solrSearch           (SSServPar parA)   throws Exception;

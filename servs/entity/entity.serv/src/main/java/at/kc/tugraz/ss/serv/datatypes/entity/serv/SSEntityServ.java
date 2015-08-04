@@ -20,21 +20,15 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.entity.serv;
 
+import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityClientI;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.datatypes.entity.impl.SSEntityImpl;
-import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSCoreConfA;
-import at.tugraz.sss.serv.SSDBSQLI;
-import at.tugraz.sss.serv.SSDBSQL;
-import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServImplA;
-import at.tugraz.sss.serv.caller.SSServCaller;
-import java.util.EnumMap;
 import java.util.List;
-import java.util.Map;
 
 public class SSEntityServ extends SSServContainerI{
   
@@ -53,21 +47,21 @@ public class SSEntityServ extends SSServContainerI{
   }
   
   @Override
-  public SSServContainerI regServ(final SSConfA conf) throws Exception{
+  public SSServContainerI regServ() throws Exception{
     
-    this.conf = conf;
+    this.conf = SSCoreConf.instGet().getEntity();
     
     SSServReg.inst.regServ(this);
     
-    SSServReg.inst.regServForGatheringUserRelations(this);
+    SSServReg.inst.regServForHandlingDescribeEntity(this);
     SSServReg.inst.regServForGatheringUsersResources(this);
     
-    final Map<SSServOpE, Integer> maxRequestsForOps = new EnumMap<>(SSServOpE.class);
+//    final Map<SSServOpE, Integer> maxRequestsForOps = new EnumMap<>(SSServOpE.class);
     
-    maxRequestsForOps.put(SSServOpE.entityDescsGet, 15);
-    maxRequestsForOps.put(SSServOpE.entityDescGet,  20);
-    
-    SSServReg.inst.regClientRequestLimit(servImplClientInteraceClass, maxRequestsForOps);
+//    maxRequestsForOps.put(SSServOpE.entitiesGet, 15);
+//    maxRequestsForOps.put(SSServOpE.entityGet,   20);
+//    
+//    SSServReg.inst.regClientRequestLimit(servImplClientInteraceClass, maxRequestsForOps);
     
     return this;
   }
@@ -75,11 +69,7 @@ public class SSEntityServ extends SSServContainerI{
   @Override
   public void initServ() throws Exception{
     
-    if(!conf.use){
-      return;
-    }
     
-    SSServCaller.circlePubURIGet(true);    
   }
   
   @Override

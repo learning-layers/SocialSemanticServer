@@ -28,6 +28,9 @@ import at.tugraz.sss.serv.SSDBSQLFct;
 import at.tugraz.sss.serv.SSDBSQLI;
 
 import at.kc.tugraz.sss.app.datatypes.SSApp;
+import at.tugraz.sss.serv.SSEntity;
+import at.tugraz.sss.serv.SSErr;
+import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -41,12 +44,17 @@ public class SSAppSQLFct extends SSDBSQLFct{
     super(dbSQL);
   }
   
-  public List<SSApp> getApps() throws Exception{
+  public SSApp getApp(
+    final SSUri app) throws Exception{
     
     ResultSet resultSet = null;
       
     try{
-      final List<SSApp>         apps    = new ArrayList<>();
+      
+      if(app == null){
+        throw new SSErr(SSErrE.parameterMissing);
+      }
+      
       final List<String>        columns = new ArrayList<>();
       final Map<String, String> wheres  = new HashMap<>();
       
@@ -59,21 +67,44 @@ public class SSAppSQLFct extends SSDBSQLFct{
       column(columns, SSSQLVarNames.downloadAndroid);
       column(columns, SSSQLVarNames.fork);
       
+      where(wheres, SSSQLVarNames.appId, app);
+      
       resultSet = dbSQL.select(SSSQLVarNames.appTable, columns, wheres, null, null, null);
       
-      while(resultSet.next()){
-        
-        apps.add(SSApp.get(bindingStrToUri         (resultSet, SSSQLVarNames.appId), 
-            bindingStrToTextComment (resultSet, SSSQLVarNames.descriptionShort), 
-            bindingStrToTextComment (resultSet, SSSQLVarNames.descriptionFunctional),  
-            bindingStrToTextComment (resultSet, SSSQLVarNames.descriptionTechnical),  
-            bindingStrToTextComment (resultSet, SSSQLVarNames.descriptionInstall),  
-            bindingStrToUri         (resultSet, SSSQLVarNames.downloadIOS), 
-            bindingStrToUri         (resultSet, SSSQLVarNames.downloadAndroid), 
-            bindingStrToUri         (resultSet, SSSQLVarNames.fork)));
-      }
+      checkFirstResult(resultSet);
       
-      return apps;
+      return SSApp.get(
+        bindingStrToUri         (resultSet, SSSQLVarNames.appId),
+        bindingStrToTextComment (resultSet, SSSQLVarNames.descriptionShort),
+        bindingStrToTextComment (resultSet, SSSQLVarNames.descriptionFunctional),
+        bindingStrToTextComment (resultSet, SSSQLVarNames.descriptionTechnical),
+        bindingStrToTextComment (resultSet, SSSQLVarNames.descriptionInstall),
+        bindingStrToUri         (resultSet, SSSQLVarNames.downloadIOS),
+        bindingStrToUri         (resultSet, SSSQLVarNames.downloadAndroid),
+        bindingStrToUri         (resultSet, SSSQLVarNames.fork));
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
+    }
+  }
+  
+  public List<SSUri> getAppURIs() throws Exception{
+    
+    ResultSet resultSet = null;
+      
+    try{
+      final List<String>        columns = new ArrayList<>();
+      final Map<String, String> wheres  = new HashMap<>();
+      
+      column(columns, SSSQLVarNames.appId);
+      
+      resultSet = dbSQL.select(SSSQLVarNames.appTable, columns, wheres, null, null, null);
+      
+      return getURIsFromResult(resultSet, SSSQLVarNames.appId);
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;

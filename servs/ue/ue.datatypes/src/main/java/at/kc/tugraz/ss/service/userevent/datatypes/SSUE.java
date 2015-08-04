@@ -22,87 +22,86 @@ package at.kc.tugraz.ss.service.userevent.datatypes;
 
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSEntityE;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 public class SSUE extends SSEntity {
 
-  public         SSUri            user       = null;
-  public         SSUri            entity     = null;
-  public         SSUEE            ueType     = null;
-  public         String           content    = null;
+  public         SSEntity         user           = null;
+  public         SSEntity         entity         = null;
+  public         SSUEE            userEventType  = null;
+  public         String           content        = null;
+
+  public void setUserEventType(final String userEventType) throws Exception{
+    this.userEventType = SSUEE.get(userEventType);
+  }
+  
+  public String getUserEventType(){
+    return SSStrU.toStr(userEventType);
+  }
 
   public static SSUE get(
+    final SSUE           userEvent, 
+    final SSEntity       entity) throws Exception{
+    
+    return new SSUE(userEvent, entity);
+  }
+  
+  protected SSUE(
+    final SSUE           userEvent, 
+    final SSEntity       entity) throws Exception{
+     
+    super(userEvent, entity);
+    
+    this.user          = userEvent.user;
+    this.entity        = userEvent.entity;
+    this.userEventType = userEvent.userEventType;
+    this.content       = userEvent.content;    
+   }
+  
+  public static SSUE get(
     final SSUri           id, 
-    final SSUri           user,
-    final SSUEE           ueType,
-    final SSUri           entity,
+    final SSEntity        user,
+    final SSUEE           userEventType,
+    final SSEntity        entity,
     final String          content) throws Exception{
     
-    return new SSUE(id, user, ueType, entity, content);
+    return new SSUE(id, user, userEventType, entity, content);
   }
   
   protected SSUE(
     final SSUri           id, 
-    final SSUri           user,
-    final SSUEE           ueType,
-    final SSUri           entity,
+    final SSEntity        user,
+    final SSUEE           userEventType,
+    final SSEntity        entity,
     final String          content) throws Exception{
 
     super(id, SSEntityE.userEvent);
     
-    this.user       = user;
-    this.ueType     = ueType;
-    this.entity     = entity;
-    this.content    = content;
+    this.user              = user;
+    this.userEventType     = userEventType;
+    this.entity            = entity;
+    this.content           = content;
   }
   
   @Override
   public Object jsonLDDesc(){
-    
-    final Map<String, Object> ld = (Map<String, Object>) super.jsonLDDesc();
-
-    ld.put(SSVarNames.user,       SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarNames.entity,     SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarNames.ueType,     SSVarNames.sss + SSStrU.colon + SSUEE.class.getName());
-    ld.put(SSVarNames.content,    SSVarNames.xsd + SSStrU.colon + SSStrU.valueString);
-    
-    return ld;
-  }
-  
-  /* json getters  */
-  public String getUser() throws Exception{
-    return SSStrU.removeTrailingSlash(user);
-  }
-
-  public String getUeType(){
-    return SSStrU.toStr(ueType);
-  }
-
-  public String getEntity() throws Exception{
-    return SSStrU.removeTrailingSlash(entity);
-  }
-
-  public String getContent(){
-    return content;
+    throw new UnsupportedOperationException();
   }
 
   /* sorts SSUserEventEnum array ascending according to time */
-  public static List<SSUE> sort(final List<SSUE> toSortUserEvents) {
+  public static List<SSUE> sort(final List<SSEntity> toSortUserEvents) {
 
-    boolean    changedSomething = true;
-    SSUE[]     helper           = new SSUE[toSortUserEvents.size()];
-    List<SSUE> result           = new ArrayList<>();
-    SSUE       storage;
+    boolean        changedSomething = true;
+    SSUE[]         helper           = new SSUE[toSortUserEvents.size()];
+    List<SSUE>     result           = new ArrayList<>();
+    SSUE           storage;
     
     for (int counter = 0; counter < toSortUserEvents.size(); counter++) {
-
-      helper[counter] = toSortUserEvents.get(counter);
+      helper[counter] = (SSUE) toSortUserEvents.get(counter);
     }
 
     while (changedSomething) {

@@ -21,11 +21,9 @@
 package at.kc.tugraz.ss.message.datatypes.par;
 
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServOpE;
 
 public class SSMessageSendPar extends SSServPar{
@@ -64,27 +62,5 @@ public class SSMessageSendPar extends SSServPar{
     this.forUser      = forUser;
     this.message      = message;
     this.shouldCommit = shouldCommit;
-  }
-  
-  public static SSMessageSendPar get(final SSServPar par) throws Exception{
-    
-    try{
-      
-      if(par.clientCon != null){
-        return (SSMessageSendPar) par.getFromJSON(SSMessageSendPar.class);
-      }
-      
-      return new SSMessageSendPar(
-        par.op,
-        par.key,
-        par.user,
-        (SSUri)           par.pars.get(SSVarNames.forUser),
-        (SSTextComment)   par.pars.get(SSVarNames.message), 
-        (Boolean)         par.pars.get(SSVarNames.shouldCommit));
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
   }
 }

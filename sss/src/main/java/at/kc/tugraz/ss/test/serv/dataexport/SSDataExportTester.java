@@ -35,7 +35,7 @@ public class SSDataExportTester extends Thread{
     }
     
     switch(dataExportConf.op){
-      case dataExportUserRelations: new Thread(new SSDataExportUserRelationsTest(dataExportConf)).start();                       break;
+//      case dataExportUserRelations: new Thread(new SSDataExportUserRelationsTest(dataExportConf)).start();                       break;
     }
   }
 }

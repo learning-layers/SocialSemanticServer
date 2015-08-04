@@ -32,20 +32,8 @@ public class SSAppStackLayoutUpdateRet extends SSServRetI{
   
   public SSUri stack = null;
   
-  public static SSAppStackLayoutUpdateRet get(
-    final SSUri    stack,
-    final SSServOpE  op){
-    
-    return new SSAppStackLayoutUpdateRet(stack, op);
-  }
-  
-  private SSAppStackLayoutUpdateRet(
-    final SSUri    stack,
-    final SSServOpE  op) {
-    
-    super(op);
-    
-    this.stack = stack;
+  public String getStack() {
+    return SSStrU.removeTrailingSlash(stack);
   }
   
   @Override
@@ -58,9 +46,17 @@ public class SSAppStackLayoutUpdateRet extends SSServRetI{
     return ld;
   }
   
-  /* json getters */
+  public static SSAppStackLayoutUpdateRet get(
+    final SSUri    stack){
+    
+    return new SSAppStackLayoutUpdateRet(stack);
+  }
   
-  public String getStack() {
-    return SSStrU.removeTrailingSlash(stack);
+  private SSAppStackLayoutUpdateRet(
+    final SSUri    stack) {
+    
+    super(SSServOpE.appStackLayoutUpdate);
+    
+    this.stack = stack;
   }
 }

@@ -29,9 +29,11 @@ circle:
 jsonLD:
   uri: 
 eval:
-  tools:
-    #- leave empty for no tool usage to be traced
-    - bnp
+  tools: #- leave empty for no tool usage to be traced
+    #- bnp
+integrationTest: 
+  tests:
+    #- knowBrainTaggingStudy2015
 
 #services
 like:
@@ -98,21 +100,33 @@ learnEp:
   useEpisodeLocking: true
 recomm: #files have to be provided in sss's_working_dir/data/csv/
   use: true
-  initAtStartUp: true
+  initAtStartUp: false
   initAtStartUpOps:
     - recommUpdate
   schedule: true
-  executeScheduleAtStartUp: false
+  executeScheduleAtStartUp: true
   scheduleOps:
     - recommUpdate
   scheduleIntervals:
     - 10
   fileNameForRec: sss_recomm
-  usePrivateTagsToo: true
   recommTagAlgorithm: BLL #BLL, BLLacMPr
   recommResourceAlgorithm: RESOURCETAGCB #RESOURCECF, RESOURCETAGCB
   recommUserAlgorithm: USERTAGCB #USERTAGCB
-  recommTagsGroups:
+  recommTagsAlgoPerRealm:
+    #- circle1:BLL
+    #- circle2:BLLacMPr
+  recommTagsRandomAlgos:
+    #- BLLcoll
+    #- THREELcoll
+  recommTagsUserPerRealm:
+    #- circle1:userEmail1
+    #- circle1:userEmail2
+    #- circle2:userEmail3
+    #- circle2:userEmail4
+  recommTagsUsersToSetRealmsFromCircles: #provide user's emails
+    #- userEmail1
+    #- userEmail2
 #log:
 #  use: false
 #fileSysLocal:
@@ -179,4 +193,10 @@ category:
     - Complaints
     - Records
 flag:
-  use: true
+  use: true  
+ocd:
+    use: true
+image:
+    use: true   
+location:
+    use: true

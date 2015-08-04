@@ -22,8 +22,8 @@ package at.tugraz.sss.serv;
 
 public abstract class SSServImplWithDBA extends SSServImplA{
   
-  public final SSDBSQLI   dbSQL;
-  public final SSDBNoSQLI dbNoSQL;
+  public        SSDBSQLI   dbSQL;
+  public final SSDBNoSQLI  dbNoSQL;
 
   public SSServImplWithDBA(
     final SSConfA    conf, 

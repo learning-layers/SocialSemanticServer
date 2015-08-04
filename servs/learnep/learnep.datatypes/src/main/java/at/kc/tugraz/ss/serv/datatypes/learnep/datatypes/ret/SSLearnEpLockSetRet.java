@@ -31,22 +31,6 @@ public class SSLearnEpLockSetRet extends SSServRetI{
 
   public Boolean worked = null;
 
-  public static SSLearnEpLockSetRet get(
-    final Boolean worked, 
-    final SSServOpE op){
-    
-    return new SSLearnEpLockSetRet(worked, op);
-  }
-  
-  private SSLearnEpLockSetRet(
-    final Boolean worked,
-    final SSServOpE op){
-    
-    super(op);
-    
-    this.worked = worked;
-  }
-
   @Override
   public Map<String, Object> jsonLDDesc(){
     
@@ -55,5 +39,19 @@ public class SSLearnEpLockSetRet extends SSServRetI{
     ld.put(SSVarNames.worked, SSVarNames.xsd + SSStrU.colon + SSStrU.valueBoolean);
     
     return ld;
+  }
+  
+  public static SSLearnEpLockSetRet get(
+    final Boolean worked){
+    
+    return new SSLearnEpLockSetRet(worked);
+  }
+  
+  private SSLearnEpLockSetRet(
+    final Boolean worked){
+    
+    super(SSServOpE.learnEpLockSet);
+    
+    this.worked = worked;
   }
 }

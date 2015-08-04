@@ -25,8 +25,8 @@ import at.tugraz.sss.serv.SSServPar;
 
 public interface SSUEClientI {
   
-  public void uECountGet (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void uEGet      (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void uEsGet     (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void uEAdd      (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void userEventCountGet (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void userEventGet      (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void userEventsGet     (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void userEventAdd      (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
 }

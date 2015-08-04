@@ -20,10 +20,8 @@
 */
 package at.kc.tugraz.sss.video.serv;
 
+import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import at.tugraz.sss.serv.SSCoreConfA;
-import at.tugraz.sss.serv.SSDBSQLI;
-import at.tugraz.sss.serv.SSDBSQL;
-import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSServImplA;
 import at.kc.tugraz.sss.video.api.SSVideoClientI;
@@ -49,15 +47,14 @@ public class SSVideoServ extends SSServContainerI{
   }
 
   @Override
-  public SSServContainerI regServ(final SSConfA conf) throws Exception{
+  public SSServContainerI regServ() throws Exception{
     
-    this.conf = conf;
+    this.conf = SSCoreConf.instGet().getVideo();
     
     SSServReg.inst.regServ(this);
     
-    SSServReg.inst.regServForDescribingEntities(this);
-    SSServReg.inst.regServForUpdatingEntities(this);
-    SSServReg.inst.regServForManagingEntities(this);
+    SSServReg.inst.regServForHandlingDescribeEntity(this);
+    SSServReg.inst.regServForHandlingCircleContentAdded(this);
     
     return this;
   }

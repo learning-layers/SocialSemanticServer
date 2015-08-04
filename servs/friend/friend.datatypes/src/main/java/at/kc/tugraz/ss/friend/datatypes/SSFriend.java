@@ -27,6 +27,14 @@ import java.util.Map;
 
 public class SSFriend extends SSEntity{
   
+  @Override
+  public Object jsonLDDesc() {
+    
+    final Map<String, Object> ld = (Map<String, Object>) super.jsonLDDesc();
+    
+    return ld;
+  } 
+  
   public static SSFriend get(
     final SSFriend  friend,
     final SSEntity  entity) throws Exception{
@@ -38,7 +46,7 @@ public class SSFriend extends SSEntity{
     final SSFriend friend,
     final SSEntity entity) throws Exception{
     
-    super(entity);
+    super(friend, entity);
   }
   
   public static SSFriend get(
@@ -52,12 +60,4 @@ public class SSFriend extends SSEntity{
     
     super(id, SSEntityE.user);
 	}
-
-  @Override
-  public Object jsonLDDesc() {
-  
-    final Map<String, Object> ld = (Map<String, Object>) super.jsonLDDesc();
-    
-    return ld;
-  }  
 }

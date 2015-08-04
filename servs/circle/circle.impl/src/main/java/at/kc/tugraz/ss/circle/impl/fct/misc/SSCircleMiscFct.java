@@ -1,145 +1,63 @@
-/**
- * Code contributed to the Learning Layers project
- * http://www.learning-layers.eu
- * Development is partly funded by the FP7 Programme of the European Commission under
- * Grant Agreement FP7-ICT-318209.
- * Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
- * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+ /**
+  * Code contributed to the Learning Layers project
+  * http://www.learning-layers.eu
+  * Development is partly funded by the FP7 Programme of the European Commission under
+  * Grant Agreement FP7-ICT-318209.
+  * Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+  * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
+  *
+  * Licensed under the Apache License, Version 2.0 (the "License");
+  * you may not use this file except in compliance with the License.
+  * You may obtain a copy of the License at
+  *
+  * http://www.apache.org/licenses/LICENSE-2.0
+  *
+  * Unless required by applicable law or agreed to in writing, software
+  * distributed under the License is distributed on an "AS IS" BASIS,
+  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  * See the License for the specific language governing permissions and
+  * limitations under the License.
+  */
 package at.kc.tugraz.ss.circle.impl.fct.misc;
 
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleCreatePar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesAddPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleGetPar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleUsersAddPar;
 import at.kc.tugraz.ss.circle.impl.SSCircleImpl;
-import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSObjU;
 import at.tugraz.sss.serv.SSStrU;
 import at.kc.tugraz.ss.circle.impl.fct.sql.SSCircleSQLFct;
+import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
+import at.tugraz.sss.serv.SSCircleContentAddedI;
+import at.tugraz.sss.serv.SSCircleContentChangedPar;
 import at.tugraz.sss.serv.SSCircleE;
 import at.tugraz.sss.serv.SSCircleRightE;
 import at.tugraz.sss.serv.SSEntity;
-import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSEntityE;
-import at.tugraz.sss.serv.SSEntityHandlerImplI;
-import at.tugraz.sss.serv.SSServReg;
-import at.tugraz.sss.serv.caller.SSServCaller;
-import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 import at.tugraz.sss.serv.SSEntityCircle;
+import at.tugraz.sss.serv.SSEntityCopiedI;
+import at.tugraz.sss.serv.SSEntityCopiedPar;
+import at.tugraz.sss.serv.SSEntityCopyPar;
+import at.tugraz.sss.serv.SSLabel;
+import at.tugraz.sss.serv.SSServContainerI;
+import at.tugraz.sss.serv.SSUri;
 import java.util.ArrayList;
 import java.util.List;
-import at.tugraz.sss.serv.SSErr;
-import at.tugraz.sss.serv.SSErrE;
-import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSServReg;
 
 public class SSCircleMiscFct{
   
-  private static SSUri pubCircleUri = null;
+  private final SSCircleSQLFct sqlFct;
+  private final SSCircleImpl   serv;
   
-  public static void checkWhetherUserIsAllowedToEditCircle(
-    final SSCircleSQLFct sqlFct,
-    final SSUri          userUri,
-    final SSUri          circleUri) throws Exception{
+  public SSCircleMiscFct(
+    final SSCircleImpl   serv,
+    final SSCircleSQLFct sqlFct){
     
-    try{
-      
-      try{
-        if(
-          sqlFct.isSystemCircle  (circleUri) ||
-          !sqlFct.isGroupCircle  (circleUri) ||
-          !sqlFct.isUserInCircle (userUri, circleUri)){
-          
-          throw new Exception("user is not allowed to edit circle");
-        }
-      }catch(Exception error){
-        SSLogU.err(error);
-        throw new Exception("user is not allowed to edit circle");
-      }
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
-  public static void checkWhetherCircleIsGroupCircle(
-    final SSCircleE circleType) throws Exception{
-    
-    try{
-      
-      if(!SSCircleE.isGroupCircle(circleType)){
-        throw new Exception("circle is no group circle");
-      }
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
-  public static void addEntitiesToCircleByEntityHandlers(
-    final SSCircleSQLFct                     sqlFct,
-    final SSUri                              userUri,
-    final List<SSUri>                        entityUris,
-    final SSUri                              circleUri) throws Exception{
-    
-    try{
-      
-      for(SSUri entityUri : entityUris){
-        
-        final SSEntityE entityType = SSServCaller.entityGet(entityUri).type;
-        
-        if(SSStrU.equals(entityType, SSEntityE.entity)){
-          continue;
-        }
-        
-        for(SSServContainerI serv : SSServReg.inst.getServsManagingEntities()){
-          ((SSEntityHandlerImplI) serv.serv()).addEntityToCircle(
-            userUri, 
-            circleUri, 
-            sqlFct.getUserURIsForCircle(circleUri),
-            entityUri, 
-            entityType);
-        }
-      }
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
-  public static void addUsersToCircleByEntityHandlers(
-    final SSCircleImpl                       circleServ,
-    final SSUri                              user,
-    final List<SSUri>                        users,
-    final SSUri                              circleUri) throws Exception{
-    
-    try{
-      final SSEntityCircle circle = 
-        circleServ.circleGet(
-        new SSCircleGetPar(
-          null,
-          null,
-          user,
-          circleUri, 
-          user,
-          SSEntityE.asListWithoutNullAndEmpty(),
-          false,
-          true, 
-          true));
-        
-        for(SSServContainerI serv : SSServReg.inst.getServsManagingEntities()){
-          ((SSEntityHandlerImplI) serv.serv()).addUsersToCircle(user, users, circle);
-        }
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
+    this.serv   = serv;
+    this.sqlFct = sqlFct;
   }
   
   public static List<SSCircleRightE> getCircleRights(
@@ -166,16 +84,49 @@ public class SSCircleMiscFct{
     }
   }
   
-  public static Boolean doesUserHaveRightInAnyCircleOfEntity(
-    final SSCircleSQLFct sqlFct,
-    final SSUri          user,
-    final SSUri          entity,
-    final SSCircleRightE accessRight,
-    final Boolean        logErr) throws Exception{
+  public Boolean isUserAllowedToEditCircle(
+    final SSUri          userUri,
+    final SSUri          circleUri) throws Exception{
     
     try{
-
-      for(SSCircleE circleType : sqlFct.getCircleTypesCommonForUserAndEntity(user, entity)){
+      
+      if(
+        sqlFct.isSystemCircle  (circleUri) ||
+        !sqlFct.isGroupCircle  (circleUri) ||
+        !sqlFct.isUserInCircle (userUri, circleUri)){
+        
+        return false;
+      }
+      
+      return true;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  public void checkWhetherCircleIsGroupCircle(
+    final SSCircleE circleType) throws Exception{
+    
+    try{
+      
+      if(!SSCircleE.isGroupCircle(circleType)){
+        throw new Exception("circle is no group circle");
+      }
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  public Boolean doesUserHaveRightInAnyCircleOfEntity(
+    final SSUri          user,
+    final SSUri          entity,
+    final SSCircleRightE accessRight) throws Exception{
+    
+    try{
+      final List<SSCircleE> circleTypes = sqlFct.getCircleTypesCommonForUserAndEntity(user, entity);
+      
+      for(SSCircleE circleType : circleTypes){
         
         if(doesCircleOfTypeHaveRight(circleType, accessRight)){
           return true;
@@ -184,281 +135,447 @@ public class SSCircleMiscFct{
       
       return false;
     }catch(Exception error){
-      SSServErrReg.regErrThrow(error, logErr);
+      SSServErrReg.regErrThrow(error);
       return null;
     }
   }
   
-  public static Boolean doesCircleOfTypeHaveRight(
+  private Boolean doesCircleOfTypeHaveRight(
     final SSCircleE      circleType,
     final SSCircleRightE accessRight) throws Exception{
     
-    switch(circleType){
-      case priv: return true;
-      case pub:{
-        
-        if(SSCircleRightE.equals(accessRight, SSCircleRightE.read)){
-          return true;
-        }
-        
-        break;
-      }
-      
-      default:{
-        
-        if(
-          SSCircleRightE.equals(accessRight, SSCircleRightE.read) ||
-          SSCircleRightE.equals(accessRight, SSCircleRightE.edit)){
-          return true;
-        }
-        
-        break;
-      }
-    }
-    
-    return false;
-  }
-  
-  public static SSUri getPubCircleURI(
-    final SSCircleSQLFct sqlFct) throws Exception{
-    
-    if(pubCircleUri != null){
-      return pubCircleUri;
-    }
-    
-    pubCircleUri = addOrGetPubCircleURI(sqlFct);
-    
-    return pubCircleUri;
-  }
-  
-  public static void checkWhetherUserIsInCircle(
-    final SSCircleSQLFct sqlFct,
-    final SSUri          user,
-    final SSUri          circle,
-    final Boolean        logErr) throws Exception{
-    
     try{
-      if(!isUserInCircle(sqlFct, user, circle)){
-        throw new SSErr(SSErrE.userIsNotInCircle);
-      }
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error, logErr);
-    }
-  }
-  
-  public static Boolean isUserInCircle(
-    final SSCircleSQLFct sqlFct,
-    final SSUri          user,
-    final SSUri          circle) throws Exception{
-    
-    try{
-      return SSStrU.contains(sqlFct.getUsersForCircle(circle), user);
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
-  public static void checkWhetherCircleOfTypeHasRight(
-    final SSCircleSQLFct sqlFct,
-    final SSUri          circle,
-    final SSCircleRightE accessRight,
-    final Boolean        logErr) throws Exception{
-    
-    try{
-      final SSCircleE circleType = sqlFct.getTypeForCircle(circle);
-      
-      if(!doesCircleOfTypeHaveRight(circleType, accessRight)){
-        throw new SSErr(SSErrE.circleDoesntHaveQueriedRight);
-      }
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error, logErr);
-    }
-  }
-  
-  public static SSUri addOrGetPrivCircleURI(
-    final SSCircleSQLFct sqlFct,
-    final SSUri          user) throws Exception{
-    
-    try{
-      
-      try{
-        return sqlFct.getPrivCircleURI(user);
-      }catch(SSErr error){
-        
-        switch(error.code){
-          case entityDoesntExist: break;
-          default: throw error;
-        }
-      }
-      
-      final SSUri circleUri  = SSServCaller.vocURICreate();
-      
-      SSServCaller.entityAdd(
-        SSVoc.systemUserUri,
-        circleUri,
-        SSEntityE.circle,
-        null,
-        null,
-        null,
-        false);
-      
-      sqlFct.addCircle(
-        circleUri,
-        SSCircleE.priv,
-        true);
-      
-      sqlFct.addUserToCircleIfNotExists(
-        circleUri,
-        user);
-      
-      return circleUri;
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
-  public static SSUri addOrGetPubCircleURI(
-    final SSCircleSQLFct sqlFct) throws Exception{
-    
-    try{
-      
-      try{
-        return sqlFct.getPubCircleURI();
-      }catch(SSErr error){
-        
-        switch(error.code){
-          case entityDoesntExist: break;
-          default: throw error;
-        }
-      }
-      
-      final SSUri circleUri  = SSServCaller.vocURICreate();
-      
-      SSServCaller.entityAdd(
-        SSVoc.systemUserUri,
-        circleUri,
-        SSEntityE.circle,
-        null,
-        null,
-        null,
-        false);
-      
-      sqlFct.addCircle(
-        circleUri,
-        SSCircleE.pub,
-        true);
-      
-      return circleUri;
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
-  public static void checkWhetherUserCanForEntityType(
-    final SSCircleSQLFct sqlFct,
-    final SSUri          user, 
-    final SSEntity       entity,
-    final SSCircleRightE accessRight,
-    final Boolean        logErr) throws Exception{
-    
-    try{
-      switch(entity.type){
-        case entity: return; //TODO dtheiler: break down general entity types so that checks on e.g. videos will be present
-        case circle: {
+      switch(circleType){
+        case priv: return true;
+        case pub:{
           
-          try{
-            checkWhetherUserIsInCircle       (sqlFct, user,      entity.id,   logErr);
-            checkWhetherCircleOfTypeHasRight (sqlFct, entity.id, accessRight, logErr);
-          }catch(Exception error){
-            throw new SSErr(SSErrE.userNotAllowedToAccessEntity);
+          if(SSCircleRightE.equals(accessRight, SSCircleRightE.read)){
+            return true;
           }
           
           break;
         }
         
         default:{
-          if(!doesUserHaveRightInAnyCircleOfEntity(sqlFct, user, entity.id, accessRight, logErr)){
-            throw new SSErr(SSErrE.userDoesntHaveRightInAnyCircleOfEntity);
+          
+          if(
+            SSCircleRightE.equals(accessRight, SSCircleRightE.read) ||
+            SSCircleRightE.equals(accessRight, SSCircleRightE.edit)){
+            return true;
           }
+          
+          break;
         }
       }
-    }catch(SSErr error){
-      SSServErrReg.regErrThrow(new SSErr(SSErrE.userNotAllowedToAccessEntity), logErr);
+      
+      return false;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  public Boolean isUserInCircle(
+    final SSUri          user,
+    final SSUri          circle) throws Exception{
+    
+    try{
+      final List<SSEntity> usersForCircle = sqlFct.getUsersForCircle(circle);
+      
+      return SSStrU.contains(usersForCircle, user);
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  public Boolean hasCircleOfTypeRight(
+    final SSUri          circle,
+    final SSCircleRightE accessRight) throws Exception{
+    
+    try{
+      return doesCircleOfTypeHaveRight(sqlFct.getTypeForCircle(circle), accessRight);
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  public Boolean canUserForEntityType(
+    final SSUri          user,
+    final SSEntity       entity,
+    final SSCircleRightE accessRight) throws Exception{
+    
+    try{
+      switch(entity.type){
+        case entity: return true; //TODO dtheiler: break down general entity types so that checks on e.g. videos will be present
+        case circle: {
+          
+          if(
+            isUserInCircle       (user,      entity.id) &&
+            hasCircleOfTypeRight (entity.id, accessRight)){
+            return true;
+          }
+          
+          return false;
+        }
+        
+        default:{
+          return doesUserHaveRightInAnyCircleOfEntity(user, entity.id, accessRight);
+        }
+      }
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  public void addCircle(
+    final SSUri          circleUri,
+    final SSCircleE      circleType,
+    final Boolean        isSystemCircle,
+    final SSUri          userToAdd) throws Exception{
+    
+    try{
+      sqlFct.addCircle(
+        circleUri,
+        circleType,
+        isSystemCircle);
+      
+      sqlFct.addUserToCircleIfNotExists(
+        circleUri,
+        userToAdd);
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
   }
   
-  public static void setPublicByEntityHandlers(
-    final SSUri        userUri,
-    final SSUri        entityUri) throws Exception{
+  public void copyCircleToNewCircle(
+    final SSEntityCopyPar par,
+    final SSEntityCircle  circle) throws Exception{
     
     try{
       
-      final SSEntityE entityType = SSServCaller.entityGet(entityUri).type;
+      final List<SSUri>    usersToAdd    = new ArrayList<>();
+      final List<SSEntity> entitiesToAdd = new ArrayList<>();
+      final SSLabel        label;
+      SSUri                copyCircleURI;
+      SSEntityCopiedPar    entityCopiedPar;
+      SSEntityCircle       newCircle;
       
-      if(SSStrU.equals(entityType, SSEntityE.entity)){
-        return;
+      if(par.label != null){
+        label = par.label;
+      }else{
+        label = circle.label;
       }
       
-      for(SSServContainerI serv : SSServReg.inst.getServsManagingEntities()){
+      if(par.includeEntities){
+        SSEntity.addEntitiesDistinctWithoutNull(entitiesToAdd, circle.entities);
+      }
+      
+      for(SSUri forUser : par.forUsers){
         
-        if(((SSEntityHandlerImplI) serv.serv()).setEntityPublic(
-          userUri, 
-          entityUri, 
-          entityType, 
-          pubCircleUri)){
+        copyCircleURI =
+          serv.circleCreate(
+            new SSCircleCreatePar(
+              null,
+              null,
+              forUser,
+              circle.circleType,
+              label,
+              circle.description,
+              circle.isSystemCircle,
+              false, //withUserRestriction
+              false)); //shouldCommit
+        
+        if(par.includeEntities){
+          
+          serv.circleEntitiesAdd(
+            new SSCircleEntitiesAddPar(
+              null,
+              null,
+              forUser,
+              copyCircleURI,
+              SSUri.getDistinctNotNullFromEntities(circle.entities),
+              false, //withUserRestriction
+              false)); //shouldCommit
+          
+          entityCopiedPar =
+            new SSEntityCopiedPar(
+              par.user,
+              forUser,
+              circle, //entity
+              circle.entities, //entities
+              copyCircleURI, //targetEntity
+              par.withUserRestriction);
+          
+          entityCopiedPar.includeMetadataSpecificToEntityAndItsEntities = true;
+          
+          for(SSServContainerI entityHandler : SSServReg.inst.getServsHandlingEntityCopied()){
+            ((SSEntityCopiedI) entityHandler.serv()).entityCopied(entityCopiedPar);
+          }
+        }
+        
+        if(par.includeUsers){
+          
+          serv.circleUsersAdd(
+            new SSCircleUsersAddPar(
+              null,
+              null,
+              forUser,
+              copyCircleURI,
+              SSUri.getDistinctNotNullFromEntities(circle.users),
+              false, //withUserRestriction,
+              false)); //shouldCommit
+          
+          entityCopiedPar =
+            new SSEntityCopiedPar(
+              par.user,
+              forUser,
+              circle, //entity
+              circle.users, //entities
+              copyCircleURI, //targetEntity
+              par.withUserRestriction);
+          
+          for(SSServContainerI entityHandler : SSServReg.inst.getServsHandlingEntityCopied()){
+            ((SSEntityCopiedI) entityHandler.serv()).entityCopied(entityCopiedPar);
+          }
+        }
+        
+        if(par.includeOriginUser){
+          
+          serv.circleUsersAdd(
+            new SSCircleUsersAddPar(
+              null,
+              null,
+              forUser,
+              copyCircleURI,
+              SSUri.asListWithoutNullAndEmpty(par.user),
+              false, //withUserRestriction,
+              false)); //shouldCommit
+          
+          final List<SSEntity> originUsers = new ArrayList<>();
+          
+          originUsers.add(
+            ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+              new SSEntityGetPar(
+                null,
+                null,
+                par.user, //user
+                par.user, //entity
+                par.withUserRestriction,  //withUserRestriction
+                null))); //descPar
+          
+          entityCopiedPar =
+            new SSEntityCopiedPar(
+              par.user,
+              forUser,
+              circle, //entity
+              originUsers, //entities
+              copyCircleURI, //targetEntity
+              par.withUserRestriction);
+          
+          for(SSServContainerI entityHandler : SSServReg.inst.getServsHandlingEntityCopied()){
+            ((SSEntityCopiedI) entityHandler.serv()).entityCopied(entityCopiedPar);
+          }
+        }
+        
+        newCircle =
+          serv.circleGet(
+            new SSCircleGetPar(
+              null,
+              null,
+              forUser,
+              copyCircleURI,
+              null, //entityTypesToIncludeOnly
+              false,  //setTags
+              null, //tagSpace
+              par.withUserRestriction,
+              true)); //invokeEntityHandlers
+        
+        usersToAdd.clear();
+        
+        SSUri.addDistinctWithoutNull(usersToAdd, forUser);
+        
+        if(par.includeUsers){
+          SSUri.addDistinctWithoutNull(usersToAdd, SSUri.getDistinctNotNullFromEntities(circle.users));
+        }
+        
+        for(SSServContainerI entityHandler : SSServReg.inst.getServsHandlingCircleContentAdded()){
+          
+          ((SSCircleContentAddedI) entityHandler.serv()).circleContentAdded(
+            new SSCircleContentChangedPar(
+              forUser,
+              newCircle.id, //circle
+              false, //isPublicCircle
+              usersToAdd,  //usersToAdd
+              entitiesToAdd, //entitiesToAdd,
+              null,  //usersToPushEntitiesTo
+              SSUri.getDistinctNotNullFromEntities(newCircle.users), //circleUsers
+              newCircle.entities)); //circleEntities
+        }
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  public void copyCircleToExistingCircle(
+    final SSEntityCopyPar           par,
+    final SSEntity                  circle) throws Exception{
+    
+    try{
+      
+      if(par.withUserRestriction){
+        if(!isUserAllowedToEditCircle(par.user, par.targetEntity)){
           return;
         }
       }
-          
-      throw new Exception("entity couldnt be set to be public by entity handlers");
       
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
-  public static void shareEntityWithUsersByHandlers(
-    final SSUri        userUri, 
-    final List<SSUri>  userUris,
-    final SSUri        entityUri,
-    final SSUri        circleUri) throws Exception{
-    
-    try{
+      final List<SSUri>    usersToAdd    = new ArrayList<>();
+      final List<SSEntity> entitiesToAdd = new ArrayList<>();
+      SSEntityCopiedPar    entityCopiedPar;
       
-      final SSEntityE entityType = SSServCaller.entityGet(entityUri).type;
-      
-      for(SSServContainerI serv : SSServReg.inst.getServsManagingEntities()){
-        ((SSEntityHandlerImplI) serv.serv()).shareEntityWithUsers(
-          userUri, 
-          userUris, 
-          entityUri, 
-          circleUri, 
-          entityType, 
-          true);
+      if(par.includeEntities){
+        SSEntity.addEntitiesDistinctWithoutNull(entitiesToAdd, circle.entities);
       }
       
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
-  public static void checkWhetherUserWantsToShareWithHimself(
-    final SSUri       userUri, 
-    final List<SSUri> userUrisToShareWith) throws Exception{
-    
-    try{
-      
-      if(SSObjU.isNull(userUri, userUrisToShareWith)){
-        throw new Exception("pars null");
+      if(par.includeUsers){
+        SSUri.addDistinctWithoutNull(usersToAdd, SSUri.getDistinctNotNullFromEntities(circle.users));
       }
       
-      if(SSStrU.contains(userUrisToShareWith, userUri)){
-        throw new Exception("user cannot share with himself");
+      SSEntityCircle targetCircle =
+        serv.circleGet(
+          new SSCircleGetPar(
+            null,
+            null,
+            par.user,
+            par.targetEntity,
+            null, //entityTypesToIncludeOnly
+            false,  //setTags
+            null, //tagSpace
+            par.withUserRestriction,
+            true)); //invokeEntityHandlers
+      
+      if(par.includeEntities){
+        
+        serv.circleEntitiesAdd(
+          new SSCircleEntitiesAddPar(
+            null,
+            null,
+            par.user,
+            targetCircle.id,
+            SSUri.getDistinctNotNullFromEntities(circle.entities),
+            par.withUserRestriction, //withUserRestriction
+            false)); //shouldCommit
+        
+        entityCopiedPar =
+          new SSEntityCopiedPar(
+            par.user,
+            null, //forUser
+            circle, //entity
+            circle.entities, //entities
+            targetCircle.id, //targetEntity
+            par.withUserRestriction);
+        
+        entityCopiedPar.includeMetadataSpecificToEntityAndItsEntities = true;
+        
+        for(SSServContainerI entityHandler : SSServReg.inst.getServsHandlingEntityCopied()){
+          ((SSEntityCopiedI) entityHandler.serv()).entityCopied(entityCopiedPar);
+        }
+      }
+      
+      if(par.includeUsers){
+        
+        serv.circleUsersAdd(
+          new SSCircleUsersAddPar(
+            null,
+            null,
+            par.user,
+            targetCircle.id,
+            SSUri.getDistinctNotNullFromEntities(circle.users),
+            par.withUserRestriction, //withUserRestriction,
+            false)); //shouldCommit
+        
+        entityCopiedPar =
+          new SSEntityCopiedPar(
+            par.user,
+            null, //forUser,
+            circle, //entity
+            circle.users, //entities
+            targetCircle.id,  //targetEntity
+            par.withUserRestriction);
+        
+        for(SSServContainerI entityHandler : SSServReg.inst.getServsHandlingEntityCopied()){
+          ((SSEntityCopiedI) entityHandler.serv()).entityCopied(entityCopiedPar);
+        }
+      }
+      
+      if(par.includeOriginUser){
+        
+        serv.circleUsersAdd(
+          new SSCircleUsersAddPar(
+            null,
+            null,
+            par.user,
+            par.targetEntity, //circle
+            SSUri.asListWithoutNullAndEmpty(par.user), //users
+            false, //withUserRestriction,
+            false)); //shouldCommit
+        
+        final List<SSEntity> originUsers = new ArrayList<>();
+        
+        originUsers.add(
+          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+            new SSEntityGetPar(
+              null,
+              null,
+              par.user, //user
+              par.user, //entity
+              par.withUserRestriction,  //withUserRestriction
+              null))); //descPar
+        
+        entityCopiedPar =
+          new SSEntityCopiedPar(
+            par.user, //user
+            null, //targetUser
+            circle, //entity
+            originUsers, //entities
+            par.targetEntity, //targetEntity
+            par.withUserRestriction);
+        
+        for(SSServContainerI entityHandler : SSServReg.inst.getServsHandlingEntityCopied()){
+          ((SSEntityCopiedI) entityHandler.serv()).entityCopied(entityCopiedPar);
+        }
+      }
+      
+      targetCircle =
+        serv.circleGet(
+          new SSCircleGetPar(
+            null,
+            null,
+            par.user,
+            par.targetEntity,
+            null, //entityTypesToIncludeOnly
+            false,  //setTags
+            null, //tagSpace
+            par.withUserRestriction,
+            true)); //invokeEntityHandlers
+      
+      for(SSServContainerI entityHandler : SSServReg.inst.getServsHandlingCircleContentAdded()){
+        
+        ((SSCircleContentAddedI) entityHandler.serv()).circleContentAdded(
+          new SSCircleContentChangedPar(
+            par.user,
+            targetCircle.id, //circle
+            false, //isPublicCircle
+            usersToAdd,  //usersToAdd
+            entitiesToAdd, //entitiesToAdd,
+            null,  //usersToPushEntitiesTo
+            SSUri.getDistinctNotNullFromEntities(targetCircle.users), //circleUsers
+            targetCircle.entities)); //circleEntities
       }
       
     }catch(Exception error){

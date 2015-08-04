@@ -24,36 +24,31 @@ import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServRetI;
+import at.tugraz.sss.serv.SSUri;
 import java.util.HashMap;
 import java.util.Map;
 
 public class SSUEAddRet extends SSServRetI{
 
-  public Boolean worked = false;
+  public SSUri userEvent = null;
 
-  public static SSUEAddRet get(Boolean worked, SSServOpE op){
-    return new SSUEAddRet(worked, op);
+  public String getUserEvent(){
+    return SSStrU.removeTrailingSlash(userEvent);
   }
   
-  private SSUEAddRet(Boolean worked, SSServOpE op){
-    
-    super(op);
-    
-    this.worked = worked;
-  }
-
   @Override
   public Map<String, Object> jsonLDDesc(){
-    
-    Map<String, Object> ld = new HashMap<>();
-    
-    ld.put(SSVarNames.worked, SSVarNames.xsd + SSStrU.colon + SSStrU.valueBoolean);
-    
-    return ld;
+    throw new UnsupportedOperationException();
   }
   
-  /* getters to allow for json enconding */
-  public Boolean isWorked() {
-    return worked;
+  public static SSUEAddRet get(SSUri userEvent){
+    return new SSUEAddRet(userEvent);
+  }
+  
+  protected SSUEAddRet(SSUri userEvent){
+    
+    super(SSServOpE.userEventAdd);
+    
+    this.userEvent = userEvent;
   }
 }

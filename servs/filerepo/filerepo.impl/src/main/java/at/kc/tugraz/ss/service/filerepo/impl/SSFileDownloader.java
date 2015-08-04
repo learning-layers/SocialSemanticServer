@@ -20,21 +20,25 @@
 */
 package at.kc.tugraz.ss.service.filerepo.impl;
 
+import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.tugraz.sss.serv.SSHTMLU;
 import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSSocketU;
-import at.tugraz.sss.serv.SSSocketCon;
-
 import at.tugraz.sss.serv.SSServImplStartA;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.filerepo.conf.SSFileRepoConf;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileDownloadPar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileDownloadRet;
 import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSServReg;
+import at.tugraz.sss.serv.SSToolContextE;
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import sss.serv.eval.api.SSEvalServerI;
+import sss.serv.eval.datatypes.SSEvalLogE;
+import sss.serv.eval.datatypes.par.SSEvalLogPar;
 
 public class SSFileDownloader extends SSServImplStartA{
   
@@ -42,20 +46,21 @@ public class SSFileDownloader extends SSServImplStartA{
   private byte[]                   chunk             = new byte[SSSocketU.socketTranmissionSize];
   private String                   fileId            = null;
   private int                      fileChunkLength   = -1;
-  private SSSocketCon              sSCon             = null;
   private SSFileDownloadPar        par               = null;
+  private SSFilerepoImpl           servImpl          = null;
+  private SSEvalServerI            evalServ          = null;
 //  private InputStream webdavInputStream;
   
   public SSFileDownloader(
     final SSFileRepoConf    fileRepoConf, 
-    final SSSocketCon       sSCon, 
-    final SSFileDownloadPar par) throws Exception{
+    final SSFileDownloadPar par,
+    final SSFilerepoImpl    servImpl) throws Exception{
     
     super(fileRepoConf, null);
     
-    this.sSCon             = sSCon;
     this.par               = par;
-    this.fileId            = SSServCaller.fileIDFromURI(this.par.user, this.par.file);
+    this.servImpl          = servImpl;
+    this.fileId            = SSVocConf.fileIDFromSSSURI(this.par.file);
   }
   
   @Override
@@ -63,7 +68,7 @@ public class SSFileDownloader extends SSServImplStartA{
     
     try{
       
-      sSCon.writeRetFullToClient(new SSFileDownloadRet(par.file, par.op), par.op);
+      par.sSCon.writeRetFullToClient(new SSFileDownloadRet(par.file));
       
       switch(((SSFileRepoConf)conf).fileRepoType){
         case i5Cloud: downloadFromI5Cloud(); break;    
@@ -75,7 +80,7 @@ public class SSFileDownloader extends SSServImplStartA{
 
       fileReader = new DataInputStream (new FileInputStream(new File(((SSFileRepoConf)conf).getPath() + fileId)));
       
-      sSCon.readMsgFullFromClient();
+      par.sSCon.readMsgFullFromClient();
       
       while(true){
         
@@ -84,14 +89,28 @@ public class SSFileDownloader extends SSServImplStartA{
         fileChunkLength = fileReader.read(chunk);
         
         if(fileChunkLength == -1){
-          sSCon.writeFileChunkToClient(new byte[0], fileChunkLength);
+          par.sSCon.writeFileChunkToClient(new byte[0], fileChunkLength);
           fileReader.close();
           
 //          saveActivity();
+          
+          evalServ = (SSEvalServerI)     SSServReg.getServ(SSEvalServerI.class);
+          
+          evalServ.evalLog(
+            new SSEvalLogPar(
+              par.user,
+              SSToolContextE.sss,
+              SSEvalLogE.fileDowload,
+              par.file,  //entity
+              null, //content,
+              null, //entities
+              null, //users
+              par.shouldCommit));
+          
           return;
         }
         
-        sSCon.writeFileChunkToClient(chunk, fileChunkLength);
+        par.sSCon.writeFileChunkToClient(chunk, fileChunkLength);
       }
       
     }catch(Exception error1){
@@ -99,7 +118,7 @@ public class SSFileDownloader extends SSServImplStartA{
       SSServErrReg.regErr(error1);
       
       try{
-        sSCon.writeErrorFullToClient(SSServErrReg.getServiceImplErrors(), par.op);
+        par.sSCon.writeErrorFullToClient(SSServErrReg.getServiceImplErrors(), par.op);
       }catch(Exception error2){
         SSServErrReg.regErr(error2);
       }

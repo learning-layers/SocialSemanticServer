@@ -22,13 +22,14 @@ package at.kc.tugraz.ss.serv.jobs.evernote.api;
 
 import at.tugraz.sss.serv.SSServPar;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteInfo;
+import at.tugraz.sss.serv.SSServServerI;
 import com.evernote.edam.type.Note;
 import com.evernote.edam.type.Notebook;
 import com.evernote.edam.type.Resource;
 import com.evernote.edam.type.SharedNotebook;
 import java.util.List;
 
-public interface SSEvernoteServerI {
+public interface SSEvernoteServerI extends SSServServerI{
   public Resource             evernoteResourceGet        (final SSServPar parA) throws Exception;
   public Note                 evernoteNoteGet            (final SSServPar parA) throws Exception;
   public List<String>         evernoteNoteTagNamesGet    (final SSServPar parA) throws Exception;

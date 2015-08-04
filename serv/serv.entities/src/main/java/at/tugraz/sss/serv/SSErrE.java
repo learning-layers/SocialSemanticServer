@@ -21,14 +21,40 @@
 package at.tugraz.sss.serv;
 
 public enum SSErrE{
+
+  //collection
+  cannotSetSpecialCollectionPublic,
+  cannotShareSpecialCollection,
+  userDoesntOwnColl,
   
-  servParCreationFailed,
-  restAdapterInternalError,
+  //circle
+  cannotShareWithPublicCircle,
+  notAllowedToCreateCircle,
+  userDoesntHaveRightInAnyCircleOfEntity,
+  circleDoesntHaveQueriedRight,
+  userCannotShareWithHimself,
   
+  //sql
+  sqlNoResultFound,
+  sqlDeadLock,
+  
+  //user //auth
+  userNotRegistered,
+  userKeyWrong,
+  userNeedsLockOnEntity,
+  userIsNotInCircle,
   authCouldntConnectToOIDC,
   authCouldntParseOIDCUserInfoResponse,
   authOIDCUserInfoRequestFailed,
   authNoUserForKey,
+  userNotAllowToAccessSystemCircle,
+  userCannotAddUser,
+  
+  parameterMissing,
+  servParCreationFailed,
+  restAdapterInternalError,
+  
+  realmIncorrectForUser,
   
   sssConnectionFailed,
   sssJsonRequestEncodingFailed,
@@ -38,22 +64,12 @@ public enum SSErrE{
   sssResponseFailed,
   searchResultPageUnavailable,
   searchResultOutDated,
-  sqlDeadLock,
-  sqlNoResultFound,
-  userIsNotRegistered,
-  userAccessedOtherUsersPrivateGroup,
-  providedCircleDoesntExist,
-  providedUserIsNotRegistered,
-  userDoesntHaveRightInAnyCircleOfEntity,
-  circleDoesntHaveQueriedRight,
-  userIsNotInCircle,
-  userNotAllowedToAccessCircle,
-  userKeyWrong,
-  userNeedsLockOnEntity,
+  
+  servAlreadyRegistered,
+  
   entityTypeNotSupported,
   entityCouldntBeQueried,
   learnEpCurrentVersionNotSet,
-  entityDoesntExist,                      //entity doesnt exist
   deployingServiceOnNodeFailed,           //could not deploy requested service on new node
   noClientServiceForOpAvailableOnNodes,   //no service found on nodes to handle client op
   notServerServiceForOpAvailable,         //no service found on machine to handle server op

@@ -20,11 +20,16 @@
 */
 package at.kc.tugraz.ss.serv.job.dataexport.api;
 
+import at.kc.tugraz.ss.serv.job.dataexport.datatypes.par.SSDataExportUsersEntitiesTagsCategoriesTimestampsFileFromCirclePar;
 import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServServerI;
 
-public interface SSDataExportServerI {
+public interface SSDataExportServerI extends SSServServerI{
 
-  public void dataExportUserEntityTagCategoryTimestamps         (final SSServPar parA) throws Exception;
-  public void dataExportAddTagsCategoriesTimestampsForUserEntity(final SSServPar parA) throws Exception;
-  public void dataExportUserRelations                           (final SSServPar parA) throws Exception;
+  public void dataExportUsersEntitiesTagsCategoriesTimestampsFileFromCircle(
+    final SSDataExportUsersEntitiesTagsCategoriesTimestampsFileFromCirclePar par) throws Exception;
+  
+  public void dataExportUsersEntitiesTagsCategoriesTimestampsFile  (final SSServPar parA) throws Exception;
+  public void dataExportUserEntityTagsCategoriesTimestampsLine     (final SSServPar parA) throws Exception;
+  public void dataExportUserRelations                              (final SSServPar parA) throws Exception;
 }

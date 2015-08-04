@@ -585,10 +585,10 @@ public class SSFileU{
     }
   }
   
-  public static String readPNGToBase64Str(
-    final String pngFilePath) throws Exception{
+  public static String readImageToBase64Str(
+    final String filePath) throws Exception{
     
-    final DataInputStream fileReader = new DataInputStream (new FileInputStream(new File(pngFilePath)));
+    final DataInputStream fileReader = new DataInputStream (new FileInputStream(new File(filePath)));
     final List<Byte>      bytes      = new ArrayList<>();
     byte[]                chunk      = new byte[SSSocketU.socketTranmissionSize];
     int                   fileChunkLength;

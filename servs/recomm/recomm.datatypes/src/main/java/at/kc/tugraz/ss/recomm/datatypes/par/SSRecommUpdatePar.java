@@ -39,7 +39,7 @@ public class SSRecommUpdatePar extends SSServPar{
   public List<String>   categories  = new ArrayList<>();
   
   public SSRecommUpdatePar(
-    final SSServOpE             op,
+    final SSServOpE           op,
     final String              key,
     final SSUri               user,
     final String              realm,

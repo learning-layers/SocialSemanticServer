@@ -20,9 +20,10 @@
   */
 package at.kc.tugraz.ss.serv.dataimport.impl.evernote;
 
-import at.kc.tugraz.ss.circle.api.SSCircleServerI;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivEntityAddPar;
-import at.kc.tugraz.ss.circle.serv.SSCircleServ;
+import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
+import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.kc.tugraz.ss.service.filerepo.api.SSFileRepoServerI;
 import at.tugraz.sss.serv.SSFileExtE;
 import at.tugraz.sss.serv.SSFileU;
 import at.tugraz.sss.serv.SSLogU;
@@ -31,7 +32,10 @@ import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.caller.SSServCaller;
+import at.tugraz.sss.servs.file.datatype.par.SSEntityFileAddPar;
+import at.tugraz.sss.servs.file.datatype.par.SSEntityFilesGetPar;
 import com.evernote.clients.NoteStoreClient;
 import com.evernote.edam.type.Note;
 import com.evernote.edam.type.Resource;
@@ -75,9 +79,15 @@ public class SSDataImportEvernoteNoteContentHandler{
     
     try{
       
-      xhtmlFilePath    = localWorkPath + SSServCaller.fileIDFromURI (user, SSServCaller.vocURICreate(SSFileExtE.xhtml));
+      xhtmlFilePath    = 
+        localWorkPath + 
+        SSVocConf.fileIDFromSSSURI(
+            SSServCaller.vocURICreate(SSFileExtE.xhtml));
+      
       fileUri          = SSServCaller.vocURICreate                  (SSFileExtE.pdf);
-      pdfFilePath      = localWorkPath + SSServCaller.fileIDFromURI (user, fileUri);
+      pdfFilePath      = localWorkPath + 
+        SSVocConf.fileIDFromSSSURI(
+            fileUri);
       
       SSFileU.writeStr(
         note.getContent(),
@@ -126,34 +136,52 @@ public class SSDataImportEvernoteNoteContentHandler{
         }catch(Exception error){}
       }
       
-      ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
-        new SSCirclePrivEntityAddPar(
+      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+        new SSEntityUpdatePar(
           null,
           null,
           user,
           fileUri,
-          SSEntityE.file,
-          null,
-          null,
-          null,
-          false));
-      
-      for(SSUri file : SSServCaller.entityFilesGet(user, noteUri)){
+          SSEntityE.file, //type,
+          null, //label
+          null, //description,
+          null, //entitiesToAttach,
+          null, //creationTime,
+          null, //read,
+          false, //setPublic
+          true, //withUserRestriction
+          false)); //shouldCommit)
+          
+      for(SSUri file : ((SSFileRepoServerI) SSServReg.getServ(SSFileRepoServerI.class)).filesGet(
+        new SSEntityFilesGetPar(
+          null, 
+          null, 
+          user, 
+          noteUri, //entity
+          true))){ //withUserRestriction
         
         SSServCaller.entityRemove(file, false);
         
         try{
-          SSFileU.delFile(localWorkPath + SSServCaller.fileIDFromURI (user, file));
+          SSFileU.delFile(
+            localWorkPath +
+              SSVocConf.fileIDFromSSSURI(
+                  file));
+          
         }catch(Exception error){
           SSLogU.warn("evernote note file couldnt be removed");
         }
       }
       
-      SSServCaller.entityFileAdd(
-        user,
-        noteUri,
-        fileUri,
-        false);
+      ((SSFileRepoServerI) SSServReg.getServ(SSFileRepoServerI.class)).fileAdd(
+        new SSEntityFileAddPar(
+          null, 
+          null, 
+          user, 
+          fileUri, //file
+          noteUri, //entity
+          true, //withUserRestriction
+          false));//shouldCommit
       
       SSDataImportEvernoteThumbHelper.addThumbFromFile(
         user,
@@ -517,7 +545,9 @@ public class SSDataImportEvernoteNoteContentHandler{
             hashEndIndex = tmpLine.indexOf            ("\"", hashIndex + 6);
             hash         = tmpLine.substring          (hashIndex + 6, hashEndIndex);
             fileURI      = SSServCaller.vocURICreate  (SSMimeTypeE.fileExtForMimeType(mimeType));
-            fileID       = SSServCaller.fileIDFromURI (user, fileURI);
+            fileID       = 
+              SSVocConf.fileIDFromSSSURI(
+                  fileURI);
             
             resource =
               SSServCaller.evernoteResourceByHashGet(
@@ -535,8 +565,18 @@ public class SSDataImportEvernoteNoteContentHandler{
           result += tmpLine.substring(0, startIndex);
           
           if(SSStrU.equals(mimeType, SSMimeTypeE.applicationPdf)){
-            thumbnailURI = SSDataImportEvernoteThumbHelper.createThumbnail(user, localWorkPath, fileURI, 500, 500);
-            fileID       = SSServCaller.fileIDFromURI(user, thumbnailURI);
+            
+            thumbnailURI = 
+              SSDataImportEvernoteThumbHelper.createThumbnail(
+                user, 
+                localWorkPath, 
+                fileURI, 
+                500, 
+                500);
+            
+            fileID       = 
+              SSVocConf.fileIDFromSSSURI(
+                  thumbnailURI);
             
             result +=
               "<div>Included PDF (preview):</div>" +

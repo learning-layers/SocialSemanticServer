@@ -19,14 +19,50 @@
   <dependencies>
     
     <dependency>
-      <groupId>sss.servs</groupId>
-      <artifactId>circle.serv</artifactId>
+      <groupId>sss</groupId>
+      <artifactId>util</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>voc.serv</artifactId>
+      <artifactId>eval.api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>user.api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>dataexport.datatypes</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>dataexport.api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>entity.api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>circle.api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>voc.api</artifactId>
       <version>${project.version}</version>
     </dependency>
     
@@ -52,12 +88,6 @@
       <groupId>sss.servs</groupId>
       <artifactId>recomm.api</artifactId>
       <version>${project.version}</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>tagrec</groupId>
-      <artifactId>tagrec</artifactId>
-      <version>2.2</version>
     </dependency>
     
     <dependency>

@@ -27,6 +27,8 @@ import at.tugraz.sss.serv.SSDBSQLFct;
 import at.tugraz.sss.serv.SSUri;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUE;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUEE;
+import at.tugraz.sss.serv.SSEntity;
+import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSServErrReg;
 
 import at.tugraz.sss.serv.SSServImplWithDBA;
@@ -75,10 +77,11 @@ public class SSUESQLFct extends SSDBSQLFct{
         eventTypeFromDB = null;
       }
       
-      return SSUE.get(ue, 
-        bindingStrToUri (resultSet, SSSQLVarNames.userId), 
+      return SSUE.get(
+        ue, 
+        SSEntity.get(bindingStrToUri (resultSet, SSSQLVarNames.userId), SSEntityE.user), 
         eventTypeFromDB, 
-        bindingStrToUri (resultSet, SSSQLVarNames.entityId), 
+        SSEntity.get(bindingStrToUri (resultSet, SSSQLVarNames.entityId), SSEntityE.entity), 
         bindingStr      (resultSet, SSSQLVarNames.content));
       
     }catch(Exception error){
@@ -89,7 +92,7 @@ public class SSUESQLFct extends SSDBSQLFct{
     }
   }
   
-  public List<SSUE> getUEs(
+  public List<SSUri> getUEURIs(
     final SSUri       forUser,
     final SSUri       entity,
     final List<SSUEE> eventTypes,
@@ -104,15 +107,9 @@ public class SSUESQLFct extends SSDBSQLFct{
       final List<String>                                           tableCons     = new ArrayList<>();
       final List<MultivaluedMap<String, String>>                   wheres        = new ArrayList<>();
       final MultivaluedMap<String, MultivaluedMap<String, String>> wheresNumeric = new MultivaluedHashMap<>();
-      final List<SSUE>                                             ues           = new ArrayList<>();
-      SSUE                                                         ueObj;
-      SSUEE                                                        eventTypeFromDB;
+      final List<SSUri>                                            userEventURIs = new ArrayList<>();
       
       column   (columns,   SSSQLVarNames.userEventId);
-      column   (columns,   SSSQLVarNames.userId);
-      column   (columns,   SSSQLVarNames.entityId);
-      column   (columns,   SSSQLVarNames.content);
-      column   (columns,   SSSQLVarNames.creationTime);
       column   (columns,   SSSQLVarNames.eventType);
       
       table    (tables, SSSQLVarNames.uesTable);
@@ -188,7 +185,7 @@ public class SSUESQLFct extends SSDBSQLFct{
       while(resultSet.next()){
         
         try{
-          eventTypeFromDB = SSUEE.get(bindingStr(resultSet, SSSQLVarNames.eventType));
+          SSUEE.get(bindingStr(resultSet, SSSQLVarNames.eventType));
         }catch(Exception error){
           SSLogU.warn("user event type doesnt exist in current model " + bindingStr(resultSet, SSSQLVarNames.eventType));
           continue;
@@ -202,19 +199,10 @@ public class SSUESQLFct extends SSDBSQLFct{
 //          continue;
 //        }
         
-        ueObj = 
-         SSUE.get(bindingStrToUri       (resultSet, SSSQLVarNames.userEventId), 
-           bindingStrToUri       (resultSet, SSSQLVarNames.userId), 
-           eventTypeFromDB, 
-           bindingStrToUri       (resultSet, SSSQLVarNames.entityId), 
-           bindingStr            (resultSet, SSSQLVarNames.content));
-        
-        ueObj.creationTime = bindingStrToLong(resultSet, SSSQLVarNames.creationTime);
-
-        ues.add(ueObj);
+        userEventURIs.add(bindingStrToUri       (resultSet, SSSQLVarNames.userEventId));
       }
       
-      return ues;
+      return userEventURIs;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;

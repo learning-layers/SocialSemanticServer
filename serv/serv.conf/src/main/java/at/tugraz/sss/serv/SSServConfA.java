@@ -20,8 +20,6 @@
 */
 package at.tugraz.sss.serv;
 
-import at.tugraz.sss.serv.SSConfA;
-
 public abstract class SSServConfA extends SSConfA{
   
   public static SSConfA copy(

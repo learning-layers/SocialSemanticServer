@@ -348,14 +348,13 @@ public class SSDiscSQLFct extends SSDBSQLFct {
       
       table     (tables, SSSQLVarNames.entityTable);
       table     (tables, SSSQLVarNames.discTable);
-      column    (columns,   SSSQLVarNames.label);
-      column    (columns,   SSSQLVarNames.author);
+      
       column    (columns,   SSSQLVarNames.discId);
       column    (columns,   SSSQLVarNames.entityId);
       column    (columns,   SSSQLVarNames.type);
-      column    (columns,   SSSQLVarNames.description);
-      column    (columns,   SSSQLVarNames.creationTime);
+      
       where     (wheres,    SSSQLVarNames.discId, discUri);
+      
       tableCon  (tableCons, SSSQLVarNames.discTable,        SSSQLVarNames.discId, SSSQLVarNames.entityTable, SSSQLVarNames.id);
       
       resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
@@ -363,14 +362,11 @@ public class SSDiscSQLFct extends SSDBSQLFct {
       checkFirstResult(resultSet);
       
       discObj =
-        SSDisc.get(discUri,
+        SSDisc.get(
+          discUri,
           bindingStrToEntityType (resultSet, SSSQLVarNames.type),
-          bindingStrToLabel      (resultSet, SSSQLVarNames.label),
+          null, //label
           bindingStrToUri        (resultSet, SSSQLVarNames.entityId));
-      
-      discObj.author       = bindingStrToAuthor        (resultSet, SSSQLVarNames.author);
-      discObj.creationTime = bindingStrToLong          (resultSet, SSSQLVarNames.creationTime);
-      discObj.description  = bindingStrToTextComment   (resultSet, SSSQLVarNames.description);
       
       return discObj;
         
@@ -443,23 +439,19 @@ public class SSDiscSQLFct extends SSDBSQLFct {
     ResultSet resultSet = null;
     
     try{
-      final List<SSEntityA>     discEntries   = new ArrayList<>();
       final List<String>        tables        = new ArrayList<>();
       final List<String>        columns       = new ArrayList<>();
       final List<String>        tableCons     = new ArrayList<>();
       final Map<String, String> wheres        = new HashMap<>();
       final SSDisc              disc          = getDiscWithoutEntries(discUri);
-      SSDiscEntry               discEntryObj;
       
       table(tables, SSSQLVarNames.entityTable);
       table(tables, SSSQLVarNames.discEntriesTable);
       table(tables, SSSQLVarNames.discEntryTable);
       
-      column(columns, SSSQLVarNames.author);
       column(columns, SSSQLVarNames.discEntryContent);
       column(columns, SSSQLVarNames.pos);
       column(columns, SSSQLVarNames.type);
-      column(columns, SSSQLVarNames.creationTime);
       column(columns, SSSQLVarNames.discEntriesTable, SSSQLVarNames.discEntryId);
       
       where(wheres, SSSQLVarNames.discId, discUri);
@@ -471,19 +463,13 @@ public class SSDiscSQLFct extends SSDBSQLFct {
       
       while(resultSet.next()){
         
-        discEntryObj = 
-          SSDiscEntry.get(bindingStrToUri         (resultSet, SSSQLVarNames.discEntryId),
+        disc.entries.add( 
+          SSDiscEntry.get(
+            bindingStrToUri         (resultSet, SSSQLVarNames.discEntryId),
             bindingStrToEntityType  (resultSet, SSSQLVarNames.type),
             bindingStrToInteger     (resultSet, SSSQLVarNames.pos),
-            bindingStrToTextComment (resultSet, SSSQLVarNames.discEntryContent));
-          
-        discEntryObj.creationTime = bindingStrToLong       (resultSet, SSSQLVarNames.creationTime);
-        discEntryObj.author       = bindingStrToAuthor     (resultSet, SSSQLVarNames.author);
-          
-        discEntries.add(discEntryObj);
+            bindingStrToTextComment (resultSet, SSSQLVarNames.discEntryContent)));
       }
-      
-      disc.entries.addAll(discEntries);
       
       return disc;
     }catch(Exception error){

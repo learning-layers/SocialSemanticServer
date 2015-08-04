@@ -156,7 +156,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
     }
   }
   
-   public SSUri getCollSpecialURI(
+   public SSUri getSpecialCollURI(
      final SSUri userUri) throws Exception{
     
      ResultSet  resultSet = null;
@@ -256,7 +256,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
     }
   }
   
-  public List<SSColl> getCollsPublic() throws Exception{
+  public List<SSUri> getPublicCollURIs() throws Exception{
     
     ResultSet resultSet = null;
     
@@ -266,41 +266,28 @@ public class SSCollSQLFct extends SSDBSQLFct{
       final List<String>        columns     = new ArrayList<>();
       final Map<String, String> wheres      = new HashMap<>();
       final List<String>        tableCons   = new ArrayList<>();
-      final List<SSColl>        publicColls = new ArrayList<>();
-      SSColl                    collObj;
+      
+      column(columns, SSSQLVarNames.id);
+      column(columns, SSSQLVarNames.collId);
+      column(columns, SSSQLVarNames.entityId);
+      column(columns, SSSQLVarNames.circleType);
+      column(columns, SSSQLVarNames.circleTable,          SSSQLVarNames.circleId);
+      column(columns, SSSQLVarNames.circleEntitiesTable,  SSSQLVarNames.circleId);
       
       table(tables, SSSQLVarNames.collTable);
       table(tables, SSSQLVarNames.entityTable);
       table(tables, SSSQLVarNames.circleTable);
       table(tables, SSSQLVarNames.circleEntitiesTable);
-      column(columns, SSSQLVarNames.id);
-      column(columns, SSSQLVarNames.collId);
-      column(columns, SSSQLVarNames.author);
-      column(columns, SSSQLVarNames.label);
-      column(columns, SSSQLVarNames.entityId);
-      column(columns, SSSQLVarNames.circleType);
-      column(columns, SSSQLVarNames.circleTable,          SSSQLVarNames.circleId);
-      column(columns, SSSQLVarNames.circleEntitiesTable,  SSSQLVarNames.circleId);
+      
       where (wheres,  SSSQLVarNames.circleType, SSCircleE.toStr(SSCircleE.pub));
       
-      tableCon(tableCons, SSSQLVarNames.entityTable,         SSSQLVarNames.id, SSSQLVarNames.collTable,   SSSQLVarNames.collId);
+      tableCon(tableCons, SSSQLVarNames.entityTable,         SSSQLVarNames.id,       SSSQLVarNames.collTable,   SSSQLVarNames.collId);
       tableCon(tableCons, SSSQLVarNames.circleEntitiesTable, SSSQLVarNames.circleId, SSSQLVarNames.circleTable, SSSQLVarNames.circleId);
       tableCon(tableCons, SSSQLVarNames.circleEntitiesTable, SSSQLVarNames.entityId, SSSQLVarNames.collTable,   SSSQLVarNames.collId);
       
       resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
       
-      while(resultSet.next()){
-        
-        collObj = 
-          SSColl.get(bindingStrToUri   (resultSet, SSSQLVarNames.id),
-            bindingStrToLabel (resultSet, SSSQLVarNames.label));
-        
-        collObj.author = bindingStrToAuthor   (resultSet, SSSQLVarNames.author);
-          
-        publicColls.add(collObj);
-      }
-      
-      return publicColls;
+      return getURIsFromResult(resultSet, SSSQLVarNames.id);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -310,12 +297,13 @@ public class SSCollSQLFct extends SSDBSQLFct{
     }
   } 
   
-  public List<String> getCollURIsForUser(
+  public List<SSUri> getUserCollURIs(
     final SSUri userUri) throws Exception{
      
     ResultSet resultSet = null;
     
     try{
+      
       final List<String>        columns = new ArrayList<>();
       final Map<String, String> wheres  = new HashMap<>();
     
@@ -325,7 +313,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
       
       resultSet = dbSQL.select(SSSQLVarNames.collUserTable, columns, wheres, null, null, null);      
       
-      return getStringsFromResult(resultSet, SSSQLVarNames.collId);
+      return getURIsFromResult(resultSet, SSSQLVarNames.collId);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -408,7 +396,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
         
         for(SSUri coUserUri : getCollUserURIs(collParent)){
           
-          if(SSStrU.equals(coUserUri.toString(), user.toString())){
+          if(SSStrU.equals(coUserUri, user)){
             continue;
           }
           
@@ -421,14 +409,14 @@ public class SSCollSQLFct extends SSDBSQLFct{
       //add sub colls of shared / pub coll for this user as well
       if(addedCollIsSharedOrPublic){
         
-        final List<String> subCollUris = new ArrayList<>();
+        final List<SSUri> subCollUris = new ArrayList<>();
         
-        SSCollMiscFct.getAllChildCollURIs(this, collChild.toString(), collChild.toString(), subCollUris);
+        SSCollMiscFct.getAllChildCollURIs(this, collChild, collChild, subCollUris);
         
         inserts.clear();
         insert(inserts, SSSQLVarNames.userId, user);
         
-        for(String subCollUri : subCollUris){
+        for(SSUri subCollUri : subCollUris){
           
           insert(inserts, SSSQLVarNames.collId, subCollUri);
           
@@ -448,15 +436,15 @@ public class SSCollSQLFct extends SSDBSQLFct{
     
     try{
       final Map<String, String> deletes     = new HashMap<>();
-      final List<String>        subCollUris = new ArrayList<>();
+      final List<SSUri>         subCollUris = new ArrayList<>();
       
       //remove sub colls of followed coll from user coll table as well
-      SSCollMiscFct.getAllChildCollURIs(this, collUri.toString(), collUri.toString(), subCollUris);
+      SSCollMiscFct.getAllChildCollURIs(this, collUri, collUri, subCollUris);
       
       deletes.clear();
       delete(deletes, SSSQLVarNames.userId, userUri);
       
-      for(String subCollUri : subCollUris){
+      for(SSUri subCollUri : subCollUris){
         
         delete(deletes, SSSQLVarNames.collId, subCollUri);
         
@@ -488,8 +476,8 @@ public class SSCollSQLFct extends SSDBSQLFct{
     }
   }
   
-  public List<String> getDirectChildCollURIs(
-    final String collUri) throws Exception{
+  public List<SSUri> getDirectChildCollURIs(
+    final SSUri collUri) throws Exception{
     
     ResultSet resultSet = null;
     
@@ -503,7 +491,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
       
       resultSet = dbSQL.select(SSSQLVarNames.collHierarchyTable, columns, wheres, null, null, null);
       
-      return getStringsFromResult(resultSet, SSSQLVarNames.collChildId);
+      return getURIsFromResult(resultSet, SSSQLVarNames.collChildId);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -513,8 +501,8 @@ public class SSCollSQLFct extends SSDBSQLFct{
     }
   }
   
-  public List<String> getDirectParentCollURIs(
-    final String collUri) throws Exception{
+  public List<SSUri> getDirectParentCollURIs(
+    final SSUri collUri) throws Exception{
 
     ResultSet resultSet = null;
     
@@ -529,7 +517,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
       
       resultSet = dbSQL.select(SSSQLVarNames.collHierarchyTable, columns, wheres, null, null, null);
       
-      return getStringsFromResult(resultSet, SSSQLVarNames.collParentId);
+      return getURIsFromResult(resultSet, SSSQLVarNames.collParentId);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -546,15 +534,16 @@ public class SSCollSQLFct extends SSDBSQLFct{
     try{
       
       final Map<String, String> deletes             = new HashMap<>();
-      final List<String>        directChildCollURIs = getDirectChildCollURIs(collUri.toString());
+      final List<SSUri>         directChildCollURIs = getDirectChildCollURIs(collUri);
       
       //unlink all direct sub colls (and hence their sub colls as well)
-      for(String subCollUri : directChildCollURIs){
-        unlinkCollAndSubColls(userUri, collUri, SSUri.get(subCollUri));
+      for(SSUri subCollUri : directChildCollURIs){
+        unlinkCollAndSubColls(userUri, collUri, subCollUri);
       }
       
       deletes.clear();
       delete(deletes, SSSQLVarNames.id, collUri);
+      
       dbSQL.delete(SSSQLVarNames.entityTable, deletes);
       
     }catch(Exception error){
@@ -569,7 +558,6 @@ public class SSCollSQLFct extends SSDBSQLFct{
     try{
       final Map<String, String> deletes = new HashMap<>();
       
-      //remove coll entry from coll entry pos table
       delete(deletes, SSSQLVarNames.collId,  collUri);
       delete(deletes, SSSQLVarNames.entryId, collEntryUri);
       
@@ -606,8 +594,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
   }
   
   private SSColl getColl(
-    final SSUri           collUri,
-    final List<SSCircleE> circleTypes) throws Exception{
+    final SSUri           collUri) throws Exception{
     
     ResultSet resultSet = null;
     
@@ -617,29 +604,16 @@ public class SSCollSQLFct extends SSDBSQLFct{
       final List<String>        columns    = new ArrayList<>();
       final List<String>        tableCons  = new ArrayList<>();
       final Map<String, String> wheres     = new HashMap<>();
-      final SSColl              collObj;
       
-      table    (tables, SSSQLVarNames.collTable);
-      table    (tables, SSSQLVarNames.entityTable);
-      column   (columns,   SSSQLVarNames.collId);
-      column   (columns,   SSSQLVarNames.author);
-      column   (columns,   SSSQLVarNames.label);
       where    (wheres,    SSSQLVarNames.collId, collUri);
-      tableCon (tableCons, SSSQLVarNames.collTable, SSSQLVarNames.collId, SSSQLVarNames.entityTable, SSSQLVarNames.id);
+      
+      table    (tables,    SSSQLVarNames.collTable);
       
       resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
       
       checkFirstResult(resultSet);
       
-      collObj =
-        SSColl.get(collUri,
-          bindingStrToLabel (resultSet, SSSQLVarNames.label));
-      
-      collObj.author = bindingStrToAuthor   (resultSet, SSSQLVarNames.author);
-      
-      collObj.circleTypes.addAll(circleTypes);
-      
-      return collObj;
+      return SSColl.get(collUri);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -650,8 +624,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
   }
   
   public SSColl getCollWithEntries(
-    final SSUri                 collUri,
-    final List<SSCircleE>       circleTypes) throws Exception{
+    final SSUri  collUri) throws Exception{
 
     ResultSet  resultSet = null;
     
@@ -661,30 +634,28 @@ public class SSCollSQLFct extends SSDBSQLFct{
       final List<String>        columns   = new ArrayList<>();
       final List<String>        tableCons = new ArrayList<>();
       final Map<String, String> wheres    = new HashMap<>();
-      final SSColl              coll      = getColl(collUri, circleTypes);
-      SSCollEntry               collEntry;
-
-      table    (tables, SSSQLVarNames.collEntryPosTable);
-      table    (tables, SSSQLVarNames.entityTable);
+      final SSColl              coll      = getColl(collUri);
+      
       column   (columns,   SSSQLVarNames.entryId);
       column   (columns,   SSSQLVarNames.pos);
-      column   (columns,   SSSQLVarNames.label);
       column   (columns,   SSSQLVarNames.type);
-      where    (wheres,    SSSQLVarNames.collId,  coll.id);
-      tableCon (tableCons, SSSQLVarNames.collEntryPosTable, SSSQLVarNames.entryId, SSSQLVarNames.entityTable, SSSQLVarNames.id);
+      
+      table    (tables,    SSSQLVarNames.collEntryPosTable);
+      table    (tables,    SSSQLVarNames.entityTable);
+      
+      where(wheres, SSSQLVarNames.collEntryPosTable, SSSQLVarNames.collId, collUri);
+        
+      tableCon (tableCons, SSSQLVarNames.collEntryPosTable, SSSQLVarNames.entryId, SSSQLVarNames.entityTable,       SSSQLVarNames.id);
       
       resultSet = dbSQL.select(tables, columns, wheres, tableCons, SSSQLVarNames.pos, "ASC", null);
       
       while(resultSet.next()){
         
-        collEntry =
-          SSCollEntry.get(bindingStrToUri        (resultSet, SSSQLVarNames.entryId),
-            bindingStr             (resultSet, SSSQLVarNames.label),
-            new ArrayList<>(),
-            bindingStrToInteger    (resultSet, SSSQLVarNames.pos),
-            bindingStrToEntityType (resultSet, SSSQLVarNames.type));
-        
-        coll.entries.add(collEntry);
+        coll.entries.add(
+          SSCollEntry.get(
+            bindingStrToUri        (resultSet, SSSQLVarNames.entryId),
+            bindingStrToEntityType (resultSet, SSSQLVarNames.type), 
+            bindingStrToInteger    (resultSet, SSSQLVarNames.pos)));
       }
       
       return coll;
@@ -696,7 +667,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
     }
   }
 
-  public SSUri getRootCollURIForUser(
+  public SSUri getRootCollURI(
     final SSUri userUri) throws Exception{
     
     ResultSet resultSet = null;
@@ -798,7 +769,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
     }
   }
   
-  public List<String> getCollURIsContainingEntity(
+  public List<SSUri> getCollURIsContainingEntity(
     final SSUri entityUri) throws Exception{
     
     ResultSet resultSet = null;
@@ -814,7 +785,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
       
       resultSet = dbSQL.select(SSSQLVarNames.collEntryPosTable, columns, wheres, null, null, null);
       
-      return getStringsFromResult(resultSet, SSSQLVarNames.collId);
+      return getURIsFromResult(resultSet, SSSQLVarNames.collId);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

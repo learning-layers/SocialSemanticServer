@@ -20,20 +20,19 @@
 */
 package at.tugraz.sss.serv;
 
-import at.tugraz.sss.serv.SSServOpE;
 import java.util.ArrayList;
 import java.util.List;
 
 public abstract class SSConfA{
   
-  public Boolean       use                        = false;
-  public Boolean       initAtStartUp              = false;
+  public Boolean         use                        = false;
+  public Boolean         initAtStartUp              = false;
   public List<SSServOpE> initAtStartUpOps           = new ArrayList<>();
-  public Boolean       schedule                   = false;
-  public Boolean       executeScheduleAtStartUp   = false;
+  public Boolean         schedule                   = false;
+  public Boolean         executeScheduleAtStartUp   = false;
   public List<SSServOpE> scheduleOps                = new ArrayList<>();
-  public List<Integer> scheduleIntervals          = new ArrayList<>();
-  public Boolean       executeOpAtStartUp         = false;
+  public List<Integer>   scheduleIntervals          = new ArrayList<>();
+  public Boolean         executeOpAtStartUp         = false;
   public SSServOpE       op                         = null;
 
   public static SSConfA copy(

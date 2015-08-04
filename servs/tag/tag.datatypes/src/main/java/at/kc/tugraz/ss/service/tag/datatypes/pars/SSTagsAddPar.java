@@ -34,6 +34,7 @@ public class SSTagsAddPar extends SSServPar{
   public SSUri             entity       = null;
   public List<SSTagLabel>  labels       = new ArrayList<>();
   public SSSpaceE          space        = null;
+  public SSUri             circle       = null;
   public Long              creationTime = null;
 
   public String getEntity(){
@@ -60,6 +61,14 @@ public class SSTagsAddPar extends SSServPar{
     this.space = SSSpaceE.get(space);
   }
   
+  public String getCircle(){
+    return SSStrU.removeTrailingSlash(circle);
+  }
+  
+  public void setCircle(final String circle) throws Exception{
+    this.circle = SSUri.get(circle);
+  }
+  
   public SSTagsAddPar(){}
   
   public SSTagsAddPar(
@@ -69,16 +78,20 @@ public class SSTagsAddPar extends SSServPar{
     final List<SSTagLabel>   labels,
     final SSUri              entity,
     final SSSpaceE           space,
+    final SSUri              circle,
     final Long               creationTime,
+    final Boolean            withUserRestriction,
     final Boolean            shouldCommit){
     
     super(op, key, user);
     
     SSTagLabel.addDistinctWithoutNull(this.labels, labels);
     
-    this.entity       = entity;
-    this.space        = space;
-    this.creationTime = creationTime;
-    this.shouldCommit = shouldCommit;
+    this.entity              = entity;
+    this.space               = space;
+    this.circle              = circle;
+    this.creationTime        = creationTime;
+    this.withUserRestriction = withUserRestriction;
+    this.shouldCommit        = shouldCommit;
   }
 }

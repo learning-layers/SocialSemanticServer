@@ -21,6 +21,7 @@
 package at.kc.tugraz.ss.category.datatypes.ret;
 
 import at.kc.tugraz.ss.category.datatypes.SSCategory;
+import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSJSONLDU;
 import at.tugraz.sss.serv.SSStrU;
@@ -33,24 +34,20 @@ import java.util.Map;
 
 public class SSCategoriesGetRet extends SSServRetI{
   
-  public List<SSCategory> categories = new ArrayList<>();
-  
-  public List<SSCategory> getCategories() {
-    return categories;
-  }
+  public List<SSEntity> categories = new ArrayList<>();
   
   public static SSCategoriesGetRet get(
-    final List<SSCategory> categories){
+    final List<SSEntity> categories){
     
     return new SSCategoriesGetRet(categories);
   }
   
   private SSCategoriesGetRet(
-    final List<SSCategory> categories){
+    final List<SSEntity> categories){
     
     super(SSServOpE.categoriesGet);
     
-    SSCategory.addDistinctWithoutNull(this.categories, categories);
+    SSEntity.addEntitiesDistinctWithoutNull(this.categories, categories);
   }
   
   @Override

@@ -20,8 +20,7 @@
 */
 package at.kc.tugraz.ss.serv.voc.api;
 
-import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServServerI;
 
-public interface SSVocI{
+public interface SSVocI extends SSServServerI{
 }

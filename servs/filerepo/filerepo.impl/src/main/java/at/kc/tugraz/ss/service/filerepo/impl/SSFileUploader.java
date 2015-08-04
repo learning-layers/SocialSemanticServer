@@ -20,9 +20,6 @@
 */
 package at.kc.tugraz.ss.service.filerepo.impl;
 
-import at.kc.tugraz.ss.circle.api.SSCircleServerI;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivEntityAddPar;
-import at.kc.tugraz.ss.circle.serv.SSCircleServ;
 import at.tugraz.sss.serv.SSFileExtE;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSFileU;
@@ -30,24 +27,31 @@ import at.tugraz.sss.serv.SSHTMLU;
 import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSMimeTypeE;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSSocketCon;
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
-import at.tugraz.sss.serv.SSEntityE;
-import at.tugraz.sss.serv.SSServPar;
-
+import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.tugraz.sss.serv.SSServImplStartA;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.filerepo.conf.SSFileRepoConf;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileUploadPar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileUploadRet;
 import at.kc.tugraz.ss.service.filerepo.impl.fct.SSFileServCaller;
+import at.tugraz.sss.serv.SSDBSQL;
+import at.tugraz.sss.serv.SSDBSQLI;
+import at.tugraz.sss.serv.SSImageE;
 import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSServReg;
+import at.tugraz.sss.serv.SSToolContextE;
+import at.tugraz.sss.servs.image.api.SSImageServerI;
+import at.tugraz.sss.servs.image.datatype.par.SSImageAddPar;
 import com.googlecode.sardine.SardineFactory;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import javax.imageio.ImageIO;
+import sss.serv.eval.api.SSEvalServerI;
+import sss.serv.eval.datatypes.SSEvalLogE;
+import sss.serv.eval.datatypes.par.SSEvalLogPar;
 
 public class SSFileUploader extends SSServImplStartA{
   
@@ -58,24 +62,22 @@ public class SSFileUploader extends SSServImplStartA{
   private       String                fileId            = null;
   private       byte[]                fileChunk         = null;
   private       SSUri                 uri               = null;
-  private       SSSocketCon           sSCon             = null;
   private       String                localWorkPath     = null;
+  private       SSEvalServerI         evalServ          = null;
   
   public SSFileUploader(
     final SSFileRepoConf     fileRepoConf, 
-    final SSSocketCon        sSCon, 
-    final SSServPar          par) throws Exception{
+    final SSFileUploadPar    par) throws Exception{
     
     super(fileRepoConf, null);
     
-    this.sSCon             = sSCon;
-    this.par               = new SSFileUploadPar(par);
+    this.par               = par;
     this.localWorkPath     = SSCoreConf.instGet().getSss().getLocalWorkPath();
     
     try{
       this.fileExt           = SSMimeTypeE.fileExtForMimeType             (this.par.mimeType);
       this.uri               = SSServCaller.vocURICreate                  (this.fileExt);
-      this.fileId            = SSServCaller.fileIDFromURI                 (par.user, uri);
+      this.fileId            = SSVocConf.fileIDFromSSSURI(uri);
       this.fileOutputStream  = SSFileU.openOrCreateFileWithPathForWrite   (localWorkPath + fileId);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -87,19 +89,18 @@ public class SSFileUploader extends SSServImplStartA{
     
     try{
       
-//    check whether WebSocket connections need this: 
+      this.dbSQL = (SSDBSQLI) SSDBSQL.inst.serv();
+      
       sendAnswer();
       
       while(true){
         
-        fileChunk = sSCon.readFileChunkFromClient();
+        fileChunk = par.sSCon.readFileChunkFromClient();
         
         if(fileChunk.length != 0){
           
           fileOutputStream.write        (fileChunk);
           fileOutputStream.flush        ();
-          
-//     check whether WebSocket connections need this: sendAnswer(SSStrU.valueGot);
           continue;
         }
         
@@ -111,12 +112,29 @@ public class SSFileUploader extends SSServImplStartA{
           case i5Cloud: uploadFileToI5Cloud(); break;
         }
         
-        SSFileServCaller.addFileEntity           (par, uri,    true);
-        SSFileServCaller.addFileContentsToSolr   (par, fileId, true);
+        dbSQL.startTrans(par.shouldCommit);
+        
+        SSFileServCaller.addFileEntity           (par, uri);
+        SSFileServCaller.addFileContentsToSolr   (par, fileId);
 
         removeFileFromLocalWorkFolder();
         
         createFileThumb();
+        
+        dbSQL.commit(par.shouldCommit);
+        
+        evalServ = (SSEvalServerI)     SSServReg.getServ(SSEvalServerI.class);
+        
+        evalServ.evalLog(
+          new SSEvalLogPar(
+            par.user,
+            SSToolContextE.sss,
+            SSEvalLogE.fileUpload,
+            uri,  //entity
+            null, //content,
+            null, //entities
+            null, //users
+            par.shouldCommit));
         
         sendAnswer();
         return;
@@ -126,7 +144,7 @@ public class SSFileUploader extends SSServImplStartA{
       SSServErrReg.regErr(error1);
       
       try{
-        sSCon.writeErrorFullToClient(SSServErrReg.getServiceImplErrors(), par.op);
+        par.sSCon.writeErrorFullToClient(SSServErrReg.getServiceImplErrors(), par.op);
       }catch(Exception error2){
         SSServErrReg.regErr(error2);
       }
@@ -155,7 +173,7 @@ public class SSFileUploader extends SSServImplStartA{
   }
   
   private void sendAnswer() throws Exception{
-    sSCon.writeRetFullToClient(SSFileUploadRet.get(uri, par.op), par.op);
+    par.sSCon.writeRetFullToClient(SSFileUploadRet.get(uri));
   }
   
   private void removeFileFromLocalWorkFolder() throws Exception{
@@ -218,8 +236,9 @@ public class SSFileUploader extends SSServImplStartA{
     try{
       final String filePath          = localWorkPath + fileId;
       final SSUri  pngFileUri        = SSServCaller.vocURICreate                  (SSFileExtE.png);
-      final String pngFilePath       = localWorkPath + SSServCaller.fileIDFromURI (par.user, pngFileUri);
-      final String pdfFilePath       = localWorkPath + SSServCaller.fileIDFromURI (par.user, SSServCaller.vocURICreate     (SSFileExtE.pdf));
+      final String pngFilePath       = localWorkPath + SSVocConf.fileIDFromSSSURI(pngFileUri);
+      final String pdfFilePath       = localWorkPath + SSVocConf.fileIDFromSSSURI(SSServCaller.vocURICreate     (SSFileExtE.pdf));
+
       Boolean      thumbCreated      = false;
       
       if(SSStrU.contains(SSFileExtE.imageFileExts, fileExt)){
@@ -244,23 +263,16 @@ public class SSFileUploader extends SSServImplStartA{
       
       if(thumbCreated){
         
-        ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
-          new SSCirclePrivEntityAddPar(
+        ((SSImageServerI) SSServReg.getServ(SSImageServerI.class)).imageAdd(
+          new SSImageAddPar(
             null,
             null,
             par.user,
             pngFileUri,
-            SSEntityE.thumbnail,
-            par.label,
-            null,
-            null,
-            false));
-        
-        SSServCaller.entityThumbAdd(
-          par.user, 
-          uri, 
-          pngFileUri, 
-          true);
+            SSImageE.thumb, //imageType,
+            uri, //entity
+            false, //withUserRestriction,
+            false)); //shouldCommit
       }
       
     }catch(Exception error){

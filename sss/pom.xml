@@ -159,6 +159,24 @@
     
     <dependency>
       <groupId>sss.servs</groupId>
+      <artifactId>location.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>integrationtest.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>image.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
       <artifactId>eval.serv</artifactId>
       <version>${project.version}</version>
     </dependency>
@@ -430,6 +448,24 @@
     <dependency>
       <groupId>sss.servs</groupId>
       <artifactId>broadcast.conf</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+     <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>ocd.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>ocd.conf</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>ocd.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>
     

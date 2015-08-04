@@ -24,10 +24,10 @@ import at.kc.tugraz.socialserver.service.broadcast.api.SSBroadcasterClientI;
 import at.kc.tugraz.socialserver.service.broadcast.api.SSBroadcasterServerI;
 import at.kc.tugraz.ss.serv.broadcast.impl.SSBroadcasterImpl;
 import at.kc.tugraz.socialserver.service.broadcast.conf.SSBroadcasterConf;
+import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import at.tugraz.sss.serv.SSDateU;
 import at.tugraz.sss.serv.SSCoreConfA;
 import at.kc.tugraz.ss.serv.broadcast.impl.SSBroadcastUpdateTask;
-import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServImplA;
@@ -50,9 +50,9 @@ public class SSBroadcasterServ extends SSServContainerI{
   }
 
     @Override
-  public SSServContainerI regServ(final SSConfA conf) throws Exception{
+  public SSServContainerI regServ() throws Exception{
     
-    this.conf = conf;
+    this.conf = SSCoreConf.instGet().getBroadcaster();
     
       SSServReg.inst.regServ(this);
     

@@ -20,17 +20,26 @@
 */
 package at.kc.tugraz.ss.service.coll.datatypes.pars;
 
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSServPar;
-import com.wordnik.swagger.annotations.ApiModel;
-import javax.xml.bind.annotation.XmlRootElement;
+import at.tugraz.sss.serv.SSUri;
 
-@XmlRootElement
-@ApiModel(value = "collUserRootGet request parameter")
 public class SSCollUserRootGetPar extends SSServPar{
 
+  public Boolean invokeEntityHandlers = false;
+  
   public SSCollUserRootGetPar(){}
     
-  public SSCollUserRootGetPar(SSServPar par) throws Exception{
-    super(par);
+  public SSCollUserRootGetPar(
+    final SSServOpE     op,
+    final String        key,
+    final SSUri         user,
+    final Boolean       withUserRestriction,
+    final Boolean       invokeEntityHandlers){
+    
+    super(op, key, user);
+    
+    this.withUserRestriction  = withUserRestriction;
+    this.invokeEntityHandlers = invokeEntityHandlers;
   }
 }

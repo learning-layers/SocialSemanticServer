@@ -28,18 +28,23 @@ import java.util.Map;
 
 public class SSServReg{
   
-  public static final Map<SSServOpE, SSServContainerI> servs                           = new EnumMap<>(SSServOpE.class);
-  public static final Map<SSServOpE, SSServContainerI> servsForClientOps               = new EnumMap<>(SSServOpE.class);
-  public static final Map<SSServOpE, SSServContainerI> servsForServerOps               = new EnumMap<>(SSServOpE.class);
-  public static final List<SSServContainerI>           servsForUpdatingEntities        = new ArrayList<>();
-  public static final List<SSServContainerI>           servsForGatheringUsersResources = new ArrayList<>();
-  public static final List<SSServContainerI>           servsForGatheringUserRelations  = new ArrayList<>();
-  public static final List<SSServContainerI>           servsForDescribingEntities      = new ArrayList<>();
-  public static final List<SSServContainerI>           servsForManagingEntities        = new ArrayList<>();
+  public static final SSServReg                            inst                               = new SSServReg();
+  public static final Map<SSServOpE,     SSServContainerI> servs                              = new EnumMap<>(SSServOpE.class);
+  public static final Map<SSServOpE,     SSServContainerI> servsForClientOps                  = new EnumMap<>(SSServOpE.class);
+  public static final Map<SSServOpE,     SSServContainerI> servsForServerOps                  = new EnumMap<>(SSServOpE.class);
+  public static final Map<Class,         SSServContainerI> servsForServerI                    = new HashMap<>();
+  public static final List<SSServContainerI>               servsForGatheringUsersResources    = new ArrayList<>();
+  public static final List<SSServContainerI>               servsForGatheringUserRelations     = new ArrayList<>();
+  public static final List<SSServContainerI>               servsHandlingCircleContentRemoved  = new ArrayList<>();
+  public static final List<SSServContainerI>               servsHandlingCircleContentAdded    = new ArrayList<>();
+  public static final List<SSServContainerI>               servsHandlingEntityCopied          = new ArrayList<>();
+  public static final List<SSServContainerI>               servsHandlingGetSubEntities        = new ArrayList<>();
+  public static final List<SSServContainerI>               servsHandlingGetParentEntities     = new ArrayList<>();
+  public static final List<SSServContainerI>               servsHandlingCopyEntity            = new ArrayList<>();
+  public static final List<SSServContainerI>               servsHandlingDescribeEntity        = new ArrayList<>();
   
   public static final Map<SSServOpE, Integer>                         requsLimitsForClientOpsPerUser  = new EnumMap<>(SSServOpE.class);
   public static final Map<SSServOpE, Map<String, List<SSServImplA>>>  currentRequsForClientOpsPerUser = new EnumMap<>(SSServOpE.class);
-  public static final SSServReg inst = new SSServReg();
   
   public SSServImplA callServViaClient(
     final SSServPar    par,
@@ -152,7 +157,7 @@ public class SSServReg{
     }
   }
   
-  public void regServForUpdatingEntities(
+  public void regServForHandlingDescribeEntity(
     final SSServContainerI servContainer) throws Exception{
     
     try{
@@ -161,20 +166,20 @@ public class SSServReg{
         return;
       }
       
-      synchronized(servsForUpdatingEntities){
+      synchronized(servsHandlingDescribeEntity){
         
-        if(servsForUpdatingEntities.contains(servContainer)){
-          throw new Exception("service for updating entities already registered");
+        if(servsHandlingDescribeEntity.contains(servContainer)){
+          throw new SSErr(SSErrE.servAlreadyRegistered);
         }
         
-        servsForUpdatingEntities.add(servContainer);
+        servsHandlingDescribeEntity.add(servContainer);
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
   }
   
-  public void regServForManagingEntities(
+  public void regServForHandlingCopyEntity(
     final SSServContainerI servContainer) throws Exception{
     
     try{
@@ -183,20 +188,20 @@ public class SSServReg{
         return;
       }
       
-      synchronized(servsForManagingEntities){
+      synchronized(servsHandlingCopyEntity){
         
-        if(servsForManagingEntities.contains(servContainer)){
-          throw new Exception("service already registered");
+        if(servsHandlingCopyEntity.contains(servContainer)){
+          throw new SSErr(SSErrE.servAlreadyRegistered);
         }
         
-        servsForManagingEntities.add(servContainer);
+        servsHandlingCopyEntity.add(servContainer);
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
   }
   
-  public void regServForDescribingEntities(
+  public void regServForHandlingGetParentEntities(
     final SSServContainerI servContainer) throws Exception{
     
     try{
@@ -205,13 +210,101 @@ public class SSServReg{
         return;
       }
       
-      synchronized(servsForDescribingEntities){
+      synchronized(servsHandlingGetParentEntities){
         
-        if(servsForDescribingEntities.contains(servContainer)){
-          throw new Exception("service for describing entities already registered");
+        if(servsHandlingGetParentEntities.contains(servContainer)){
+          throw new SSErr(SSErrE.servAlreadyRegistered);
         }
         
-        servsForDescribingEntities.add(servContainer);
+        servsHandlingGetParentEntities.add(servContainer);
+      }
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  public void regServForHandlingGetSubEntities(
+    final SSServContainerI servContainer) throws Exception{
+    
+    try{
+      
+      if(!servContainer.conf.use){
+        return;
+      }
+      
+      synchronized(servsHandlingGetSubEntities){
+        
+        if(servsHandlingGetSubEntities.contains(servContainer)){
+          throw new SSErr(SSErrE.servAlreadyRegistered);
+        }
+        
+        servsHandlingGetSubEntities.add(servContainer);
+      }
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  public void regServForHandlingEntityCopied(
+    final SSServContainerI servContainer) throws Exception{
+    
+    try{
+      
+      if(!servContainer.conf.use){
+        return;
+      }
+      
+      synchronized(servsHandlingEntityCopied){
+        
+        if(servsHandlingEntityCopied.contains(servContainer)){
+          throw new SSErr(SSErrE.servAlreadyRegistered);
+        }
+        
+        servsHandlingEntityCopied.add(servContainer);
+      }
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  public void regServForHandlingCircleContentAdded(
+    final SSServContainerI servContainer) throws Exception{
+    
+    try{
+      
+      if(!servContainer.conf.use){
+        return;
+      }
+      
+      synchronized(servsHandlingCircleContentAdded){
+        
+        if(servsHandlingCircleContentAdded.contains(servContainer)){
+          throw new SSErr(SSErrE.servAlreadyRegistered);
+        }
+        
+        servsHandlingCircleContentAdded.add(servContainer);
+      }
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  public void regServForHandlingCircleContentRemoved(
+    final SSServContainerI servContainer) throws Exception{
+    
+    try{
+      
+      if(!servContainer.conf.use){
+        return;
+      }
+      
+      synchronized(servsHandlingCircleContentRemoved){
+        
+        if(servsHandlingCircleContentRemoved.contains(servContainer)){
+          throw new SSErr(SSErrE.servAlreadyRegistered);
+        }
+        
+        servsHandlingCircleContentRemoved.add(servContainer);
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -230,7 +323,7 @@ public class SSServReg{
       synchronized(servsForGatheringUserRelations){
         
         if(servsForGatheringUserRelations.contains(servContainer)){
-          throw new Exception("service for gathering user relations already registered");
+          throw new SSErr(SSErrE.servAlreadyRegistered);
         }
         
         servsForGatheringUserRelations.add(servContainer);
@@ -252,7 +345,7 @@ public class SSServReg{
       synchronized(servsForGatheringUsersResources){
         
         if(servsForGatheringUsersResources.contains(servContainer)){
-          throw new Exception("service for gathering users resources already registered");
+          throw new SSErr(SSErrE.servAlreadyRegistered);
         }
         
         servsForGatheringUsersResources.add(servContainer);
@@ -283,12 +376,45 @@ public class SSServReg{
         return null;
       }
       
-      regServOps(servContainer);
+      regServOps    (servContainer);
+      regServServerI(servContainer);
       
       return servContainer;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
+    }
+  }
+  
+  public static SSServImplA getServ(final Class servServerI) throws Exception{
+    
+    SSServContainerI serv;
+    
+    try{
+      
+      serv = servsForServerI.get(servServerI);
+      
+      if(serv == null){
+        throw new SSErr(SSErrE.notServerServiceForOpAvailable);
+      }
+      
+      return serv.serv();
+    }catch(SSErr error){
+      
+      switch(error.code){
+        
+        case notServerServiceForOpAvailable:{
+          throw error;
+        }
+        
+        default: {
+          SSServErrReg.regErrThrow(error);
+        }
+      }
+      
+      return null;
+    }catch(Exception error){
+      throw error;
     }
   }
   
@@ -324,18 +450,34 @@ public class SSServReg{
     }
   }
   
-  public List<SSServContainerI> getServsUpdatingEntities(){
-    return new ArrayList<>(servsForUpdatingEntities);
+  public List<SSServContainerI> getServsHandlingDescribeEntity(){
+    return new ArrayList<>(servsHandlingDescribeEntity);
+  }
+    
+  public List<SSServContainerI> getServsHandlingCopyEntity(){
+    return new ArrayList<>(servsHandlingCopyEntity);
   }
   
-  public List<SSServContainerI> getServsManagingEntities(){
-    return new ArrayList<>(servsForManagingEntities);
+  public List<SSServContainerI> getServsHandlingGetParentEntities(){
+    return new ArrayList<>(servsHandlingGetParentEntities);
   }
   
-  public List<SSServContainerI> getServsDescribingEntities(){
-    return new ArrayList<>(servsForDescribingEntities);
+  public List<SSServContainerI> getServsHandlingGetSubEntities(){
+    return new ArrayList<>(servsHandlingGetSubEntities);
   }
   
+  public List<SSServContainerI> getServsHandlingEntityCopied(){
+    return new ArrayList<>(servsHandlingEntityCopied);
+  }
+  
+  public List<SSServContainerI> getServsHandlingCircleContentAdded(){
+    return new ArrayList<>(servsHandlingCircleContentAdded);
+  }
+  
+  public List<SSServContainerI> getServsHandlingCircleContentRemoved(){
+    return new ArrayList<>(servsHandlingCircleContentRemoved);
+  }
+    
   public List<SSServContainerI> getServsGatheringUserRelations(){
     return new ArrayList<>(servsForGatheringUserRelations);
   }
@@ -353,7 +495,7 @@ public class SSServReg{
     opPars.put(SSVarNames.user, par.user);
     opPars.put(SSVarNames.serv, serv);
     
-    par.clientCon.writeRetFullToClient(callServViaServer(new SSServPar(SSServOpE.cloudPublishService, opPars)), par.op);
+    par.clientCon.writeRetFullToClient((SSServRetI) callServViaServer(new SSServPar(SSServOpE.cloudPublishService, opPars)));
   }
   
   private SSServContainerI getClientServAvailableOnNodes(
@@ -408,6 +550,7 @@ public class SSServReg{
   
   private void regServOps(
     final SSServContainerI servContainer) throws Exception{
+   
     try{
       
       synchronized(servsForClientOps){
@@ -436,7 +579,30 @@ public class SSServReg{
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
-    
+  }
+  
+  private void regServServerI(
+    final SSServContainerI servContainer) throws Exception{
+   
+    try{
+      
+      synchronized(servsForServerI){
+        
+        if(servsForServerI.containsKey(servContainer.servImplServerInteraceClass)){
+          throw new Exception("serv server interface already registered");
+        }
+        
+        if(servContainer.servImplServerInteraceClass == null){
+          SSLogU.warn("servContainer has no serv server impl");
+          return;
+        }
+        
+        servsForServerI.put(servContainer.servImplServerInteraceClass, servContainer);
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
   }
 }
 

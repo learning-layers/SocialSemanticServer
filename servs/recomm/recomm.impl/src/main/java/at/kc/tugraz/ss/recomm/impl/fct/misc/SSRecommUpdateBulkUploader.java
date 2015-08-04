@@ -24,40 +24,35 @@ import at.tugraz.sss.serv.SSFileExtE;
 import at.tugraz.sss.serv.SSFileU;
 import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSSocketCon;
 import at.kc.tugraz.ss.recomm.conf.SSRecommConf;
+import at.kc.tugraz.ss.recomm.datatypes.SSRecommUserRealmEngine;
 import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommUpdateBulkPar;
 import at.kc.tugraz.ss.recomm.datatypes.ret.SSRecommUpdateBulkRet;
+import at.kc.tugraz.ss.recomm.impl.fct.sql.SSRecommSQLFct;
+import at.tugraz.sss.serv.SSDBSQL;
+import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSServErrReg;
-
 import at.tugraz.sss.serv.SSServImplStartA;
+import engine.EntityRecommenderEngine;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class SSRecommUpdateBulkUploader extends SSServImplStartA{
   
   private final SSRecommUpdateBulkPar       par;
+  private       SSRecommSQLFct              sqlFct;
   private       FileOutputStream            fileOutputStream  = null;
   private       byte[]                      fileChunk         = null;
-  private       SSSocketCon                 sSCon             = null;
-  private       String                      dataCSVPath     = null;
-
+  private       String                      dataCSVPath       = null;
+  
   public SSRecommUpdateBulkUploader(
-    final SSRecommConf           recommConf, 
-    final SSSocketCon            sSCon, 
+    final SSRecommConf           recommConf,
     final SSRecommUpdateBulkPar  par) throws Exception{
     
     super(recommConf, null);
     
-    this.sSCon             = sSCon;
     this.par               = par;
     this.dataCSVPath       = SSFileU.dirWorkingDataCsv();
-    
-    try{
-      this.fileOutputStream = SSFileU.openOrCreateFileWithPathForWrite (dataCSVPath + par.realm + SSStrU.dot + SSFileExtE.txt);
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
   }
   
   @Override
@@ -65,11 +60,28 @@ public class SSRecommUpdateBulkUploader extends SSServImplStartA{
     
     try{
       
+      dbSQL  = (SSDBSQLI) SSDBSQL.inst.serv();
+      sqlFct = new SSRecommSQLFct(dbSQL);
+      
+      dbSQL.startTrans(par.shouldCommit);
+      
+      final SSRecommUserRealmEngine userRealmEngine =
+        SSRecommUserRealmKeeper.checkAddAndGetUserRealmEngine(
+          (SSRecommConf)conf,
+          par.user,
+          par.realm,
+          true, //checkForUpdate
+          new EntityRecommenderEngine(), //engine
+          sqlFct,
+          true);
+      
+      this.fileOutputStream = SSFileU.openOrCreateFileWithPathForWrite (dataCSVPath + userRealmEngine.realm + SSStrU.dot + SSFileExtE.txt);
+      
       sendAnswer();
       
       while(true){
         
-        fileChunk = sSCon.readFileChunkFromClient();
+        fileChunk = par.sSCon.readFileChunkFromClient();
         
         if(fileChunk.length != 0){
           
@@ -81,6 +93,8 @@ public class SSRecommUpdateBulkUploader extends SSServImplStartA{
         fileOutputStream.close();
         
         sendAnswer();
+        
+        dbSQL.commit(par.shouldCommit);
         return;
       }
     }catch(Exception error1){
@@ -88,7 +102,7 @@ public class SSRecommUpdateBulkUploader extends SSServImplStartA{
       SSServErrReg.regErr(error1);
       
       try{
-        sSCon.writeErrorFullToClient(SSServErrReg.getServiceImplErrors(), par.op);
+        par.sSCon.writeErrorFullToClient(SSServErrReg.getServiceImplErrors(), par.op);
       }catch(Exception error2){
         SSServErrReg.regErr(error2);
       }
@@ -117,6 +131,6 @@ public class SSRecommUpdateBulkUploader extends SSServImplStartA{
   }
   
   private void sendAnswer() throws Exception{
-    sSCon.writeRetFullToClient(SSRecommUpdateBulkRet.get(true, par.op), par.op);
+    par.sSCon.writeRetFullToClient(SSRecommUpdateBulkRet.get(true));
   }
 }

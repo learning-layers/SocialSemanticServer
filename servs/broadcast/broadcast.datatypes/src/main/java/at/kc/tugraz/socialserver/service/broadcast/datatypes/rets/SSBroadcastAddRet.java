@@ -30,8 +30,18 @@ import java.util.Map;
 
 public class SSBroadcastAddRet extends SSServRetI{
 
-  public boolean worked = false;
+  public Boolean worked = false;
 
+  @Override
+  public Map<String, Object> jsonLDDesc() {
+    
+    final Map<String, Object> ld = new HashMap<>();
+    
+    ld.put(SSVarNames.worked, SSLinkU.xsd + SSStrU.valueBoolean);
+    
+    return ld;
+  } 
+  
   public static SSBroadcastAddRet get(boolean  worked, SSServOpE op) {
     return new SSBroadcastAddRet(worked, op);
   }
@@ -42,18 +52,4 @@ public class SSBroadcastAddRet extends SSServRetI{
     
     this.worked = worked;
   }
-
-  @Override
-  public Map<String, Object> jsonLDDesc() {
-    
-    Map<String, Object> ld = new HashMap<>();
-    
-    ld.put(SSVarNames.worked, SSLinkU.xsd + SSStrU.valueBoolean);
-    
-    return ld;
-  }
-  
-  public boolean isWorked() {
-    return worked;
-  }  
 }

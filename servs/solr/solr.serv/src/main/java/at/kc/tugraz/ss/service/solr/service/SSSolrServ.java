@@ -20,13 +20,13 @@
 */
  package at.kc.tugraz.ss.service.solr.service;
 
+import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import at.tugraz.sss.serv.SSCoreConfA;
 import at.tugraz.sss.serv.SSServImplA;
 import at.kc.tugraz.ss.service.filerepo.conf.SSFileRepoConf;
 import at.kc.tugraz.ss.service.solr.api.SSSolrClientI;
 import at.kc.tugraz.ss.service.solr.api.SSSolrServerI;
 import at.kc.tugraz.ss.service.solr.impl.*;
-import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSServContainerI;
 import java.util.List;
@@ -48,20 +48,20 @@ public class SSSolrServ extends SSServContainerI{
   protected SSServImplA createServImplForThread() throws Exception{
     return new SSSolrImpl((SSFileRepoConf)conf, solrServer);
   }
-
-    @Override
-  public SSServContainerI regServ(final SSConfA conf) throws Exception{
+  
+  @Override
+  public SSServContainerI regServ() throws Exception{
     
-    this.conf = conf;
+    this.conf = SSCoreConf.instGet().getSolr();
     
-      SSServReg.inst.regServ(this);
+    SSServReg.inst.regServ(this);
     
     return this;
   }
   
   @Override
   public void initServ() throws Exception{
-     
+    
     if(!conf.use){
       return;
     }

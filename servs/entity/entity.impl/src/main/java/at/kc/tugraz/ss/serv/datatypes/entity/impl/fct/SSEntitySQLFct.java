@@ -31,10 +31,8 @@ import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityA;
 import at.tugraz.sss.serv.SSEntity;
-
-import at.tugraz.sss.serv.SSImageE;
-import at.tugraz.sss.serv.SSLocation;
 import at.tugraz.sss.serv.SSDBSQLI;
+import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -43,8 +41,8 @@ import java.util.List;
 import java.util.Map;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
-import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSErrE;
+import at.tugraz.sss.serv.SSObjU;
 import at.tugraz.sss.serv.SSServErrReg;
 
 public class SSEntitySQLFct extends SSDBSQLFct{
@@ -127,7 +125,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     }catch(Exception error){
       
       if(SSServErrReg.containsErr(SSErrE.sqlNoResultFound)){
-        SSServErrReg.regErrThrow(new SSErr(SSErrE.entityDoesntExist), false);
+        SSServErrReg.reset();
         return null;
       }
         
@@ -164,7 +162,8 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       checkFirstResult(resultSet);
       
       entityObj =
-        SSEntity.get(bindingStrToUri        (resultSet, SSSQLVarNames.id),
+        SSEntity.get(
+          bindingStrToUri        (resultSet, SSSQLVarNames.id),
           type,
           label);
       
@@ -176,7 +175,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     }catch(Exception error){
       
       if(SSServErrReg.containsErr(SSErrE.sqlNoResultFound)){
-        SSServErrReg.regErrThrow(new SSErr(SSErrE.entityDoesntExist), false);
+        SSServErrReg.reset();
         return null;
       }
         
@@ -320,6 +319,58 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     }
   }
   
+  //TODO remove duplicate from circle service
+  public void addEntityToCircleIfNotExists(
+    final SSUri circleUri,
+    final SSUri entityUri) throws Exception{
+    
+    try{
+      
+      if(hasCircleEntity(circleUri, entityUri)){
+        return;
+      }
+      
+      final Map<String, String> inserts = new HashMap<>();
+      
+      insert(inserts, SSSQLVarNames.circleId, circleUri);
+      insert(inserts, SSSQLVarNames.entityId, entityUri);
+      
+      dbSQL.insert(SSSQLVarNames.circleEntitiesTable, inserts);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  //TODO remove duplicate from circle service
+  private Boolean hasCircleEntity(
+    final SSUri circleUri,
+    final SSUri entityUri) throws Exception{
+    
+    ResultSet resultSet = null;
+    
+    try{
+      final List<String>          columns   = new ArrayList<>();
+      final Map<String, String>   wheres    = new HashMap<>();
+      
+      column(columns, SSSQLVarNames.circleId);
+      column(columns, SSSQLVarNames.entityId);
+      
+      where(wheres, SSSQLVarNames.circleId, circleUri);
+      where(wheres, SSSQLVarNames.entityId, entityUri);
+      
+      resultSet = dbSQL.select(SSSQLVarNames.circleEntitiesTable, columns, wheres, null, null, null);
+      
+      return resultSet.first();
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
+    }
+  }
+  
   public void addEntityIfNotExists(
     final SSUri         entity, 
     final SSEntityE     entityType,
@@ -383,6 +434,12 @@ public class SSEntitySQLFct extends SSDBSQLFct{
           update (updates, SSSQLVarNames.description, description);
         }
         
+        if(
+          creationTime != null &&
+          creationTime != 0){
+          update(updates, SSSQLVarNames.creationTime, creationTime);
+        }
+        
         if(updates.isEmpty()){
           return;
         }
@@ -418,19 +475,34 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     }
   }
   
-  public void addThumb(
-    final SSUri entity,
-    final SSUri thumb) throws Exception{
+  public void removeAttachments(
+    final SSUri       entity,
+    final List<SSUri> attachments) throws Exception{
     
     try{
+      
+      if(
+        SSObjU.isNull(entity, attachments) ||
+        attachments.isEmpty()){
+        throw new SSErr(SSErrE.parameterMissing);
+      }
+      
+      final List<MultivaluedMap<String, String>> wheres                = new ArrayList<>();
+      final MultivaluedMap<String, String>       whereEntity           = new MultivaluedHashMap<>();
+      final MultivaluedMap<String, String>       whereAttachedEntities = new MultivaluedHashMap<>();
+      
+      where(whereEntity, SSSQLVarNames.entitiesTable, SSSQLVarNames.entityId, entity);
+        
+      wheres.add(whereEntity);
+      
+      for(SSUri attachment : attachments){
+        where(whereAttachedEntities, SSSQLVarNames.entitiesTable, SSSQLVarNames.attachedEntityId, attachment);
+      }
 
-      final Map<String, String> inserts = new HashMap<>();
+      wheres.add(whereAttachedEntities);
       
-      insert(inserts, SSSQLVarNames.entityId,   entity);
-      insert(inserts, SSSQLVarNames.thumbId, thumb);
-      
-      dbSQL.insert(SSSQLVarNames.thumbnailsTable, inserts);
-      
+      dbSQL.deleteIgnore(SSSQLVarNames.entitiesTable, wheres);
+        
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
@@ -442,7 +514,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     
     try{
 
-      final Map<String, String> inserts = new HashMap<>();
+      final Map<String, String> inserts    = new HashMap<>();
       final Map<String, String> uniqueKeys = new HashMap<>();
       
       insert(inserts, SSSQLVarNames.entityId,         entity);
@@ -458,25 +530,22 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     }
   }
   
-  public List<SSEntity> getAttachedEntities(
+  public List<SSUri> getAttachedEntityURIs(
     final SSUri entity) throws Exception{
     
     ResultSet resultSet = null;
     
+    if(entity == null){
+      throw new SSErr(SSErrE.parameterMissing);
+    }
+    
     try{
-      final List<SSEntity>      attachedEntities = new ArrayList<>();
       final List<String>        columns          = new ArrayList<>();
       final List<String>        tables           = new ArrayList<>();
       final Map<String, String> wheres           = new HashMap<>();
       final List<String>        tableCons        = new ArrayList<>();
-      SSEntity                  entityObj;
       
       column(columns, SSSQLVarNames.id);
-      column(columns, SSSQLVarNames.label);
-      column(columns, SSSQLVarNames.creationTime);
-      column(columns, SSSQLVarNames.type);
-      column(columns, SSSQLVarNames.author);
-      column(columns, SSSQLVarNames.description);
 
       table(tables, SSSQLVarNames.entityTable);
       table(tables, SSSQLVarNames.entitiesTable);
@@ -487,153 +556,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       
       resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
       
-      while(resultSet.next()){
-        
-        entityObj =
-          SSEntity.get(bindingStrToUri           (resultSet, SSSQLVarNames.id),
-            bindingStrToEntityType    (resultSet, SSSQLVarNames.type),
-            bindingStrToLabel         (resultSet, SSSQLVarNames.label));
-        
-        entityObj.creationTime = bindingStrToLong          (resultSet, SSSQLVarNames.creationTime);
-        entityObj.author       = bindingStrToAuthor        (resultSet, SSSQLVarNames.author);
-        entityObj.description  = bindingStrToTextComment   (resultSet, SSSQLVarNames.description);
-
-        attachedEntities.add(entityObj);
-      }
-      
-      return attachedEntities;
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }finally{
-      dbSQL.closeStmt(resultSet);
-    }
-  }
-  
-  public void addFile(
-    final SSUri entity,
-    final SSUri file) throws Exception{
-    
-    try{
-
-      final Map<String, String> inserts = new HashMap<>();
-      
-      insert(inserts, SSSQLVarNames.entityId,   entity);
-      insert(inserts, SSSQLVarNames.fileId,     file);
-      
-      dbSQL.insert(SSSQLVarNames.filesTable, inserts);
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
-  public List<SSUri> getThumbs(final SSUri entity) throws Exception{
-    
-    ResultSet resultSet = null;
-    
-    try{
-      final List<String>        columns = new ArrayList<>();
-      final Map<String, String> wheres  = new HashMap<>();
-      
-      column(columns, SSSQLVarNames.thumbId);
-      
-      where(wheres, SSSQLVarNames.entityId, entity);
-      
-      resultSet = dbSQL.select(SSSQLVarNames.thumbnailsTable, columns, wheres, null, null, null);
-      
-      return getURIsFromResult(resultSet, SSSQLVarNames.thumbId);
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }finally{
-      dbSQL.closeStmt(resultSet);
-    }
-  }
-  
-  public List<SSUri> getImages(
-    final SSUri    forEntity,
-    final SSImageE type) throws Exception{
-    
-    ResultSet resultSet = null;
-    
-    try{
-      final List<String>        columns    = new ArrayList<>();
-      final List<String>        tables     = new ArrayList<>();
-      final Map<String, String> wheres     = new HashMap<>();
-      final List<String>        tableCons  = new ArrayList<>();
-      
-      column (columns, SSSQLVarNames.imageTable, SSSQLVarNames.imageId);
-      table  (tables, SSSQLVarNames.imageTable);
-      
-      if(forEntity != null){
-        where   (wheres, SSSQLVarNames.entitiesTable, SSSQLVarNames.entityId, forEntity);
-        table   (tables, SSSQLVarNames.entitiesTable);
-        tableCon(tableCons, SSSQLVarNames.imageTable, SSSQLVarNames.imageId, SSSQLVarNames.entitiesTable, SSSQLVarNames.attachedEntityId);
-      }
-      
-      if(type != null){
-        where(wheres, SSSQLVarNames.imageTable, SSSQLVarNames.type, type);
-      }
-      
-      if(!tableCons.isEmpty()){
-        resultSet = dbSQL.select(tables,     columns, wheres, tableCons, null, null, null);
-      }else{
-        resultSet = dbSQL.select(SSSQLVarNames.imageTable, columns, wheres, null, null, null);
-      }
-      
-      return getURIsFromResult(resultSet, SSSQLVarNames.imageId);
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }finally{
-      dbSQL.closeStmt(resultSet);
-    }
-  }
-  
-  public List<SSUri> getDownloads(final SSUri entity) throws Exception{
-    
-    ResultSet resultSet = null;
-    
-    try{
-      
-      final List<String>        columns           = new ArrayList<>();
-      final Map<String, String> wheres            = new HashMap<>();
-      
-      column(columns, SSSQLVarNames.downloadId);
-      
-      where(wheres, SSSQLVarNames.entityId, entity);
-      
-      resultSet = dbSQL.select(SSSQLVarNames.downloadsTable, columns, wheres, null, null, null);
-      
-      return getURIsFromResult(resultSet, SSSQLVarNames.downloadId);
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }finally{
-      dbSQL.closeStmt(resultSet);
-    }
-  }
-    
-  public List<SSUri> getFiles(final SSUri entity) throws Exception{
-    
-    ResultSet resultSet = null;
-    
-    try{
-      final List<String>        columns           = new ArrayList<>();
-      final Map<String, String> wheres            = new HashMap<>();
-      
-      column(columns, SSSQLVarNames.fileId);
-      
-      where(wheres, SSSQLVarNames.entityId, entity);
-      
-      resultSet = dbSQL.select(SSSQLVarNames.filesTable, columns, wheres, null, null, null);
-      
-      return getURIsFromResult(resultSet, SSSQLVarNames.fileId);
+      return getURIsFromResult(resultSet, SSSQLVarNames.id);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -939,152 +862,66 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     }
   }
 
-  public void addDownload(
-    final SSUri   entity, 
-    final SSUri   download) throws Exception{
+  public List<SSEntity> getAccessibleEntityURIs(
+    final SSUri           user,
+    final Boolean         withSystemCircles,
+    final List<SSEntityE> types) throws Exception{
     
-    try{
-
-      final Map<String, String> inserts    = new HashMap<>();
-      final Map<String, String> uniqueKeys = new HashMap<>();
-      
-      insert(inserts, SSSQLVarNames.entityId,      entity);
-      insert(inserts, SSSQLVarNames.downloadId,     download);
-      
-      uniqueKey(uniqueKeys, SSSQLVarNames.entityId,    entity);
-      uniqueKey(uniqueKeys, SSSQLVarNames.downloadId,  download);
-      
-      dbSQL.insertIfNotExists(SSSQLVarNames.downloadsTable, inserts, uniqueKeys);
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
-//  public void addImage(
-//    final SSUri   entity, 
-//    final SSUri   image) throws Exception{
-//    
-//    try{
-//
-//      final Map<String, String> inserts    = new HashMap<>();
-//      final Map<String, String> uniqueKeys = new HashMap<>();
-//      
-//      insert(inserts, SSSQLVarU.entityId,      entity);
-//      insert(inserts, SSSQLVarU.imageId,       image);
-//
-//      uniqueKey(uniqueKeys, SSSQLVarU.entityId,    entity);
-//      uniqueKey(uniqueKeys, SSSQLVarU.imageId,     image);
-//      
-//      dbSQL.insertIfNotExists(entityImagesTable, inserts, uniqueKeys);
-//      
-//    }catch(Exception error){
-//      SSServErrReg.regErrThrow(error);
-//    }
-//  }
-  
-  public void addImage(
-    final SSUri    image,
-    final SSImageE type) throws Exception{
-    
-    try{
-
-      final Map<String, String> inserts    = new HashMap<>();
-      final Map<String, String> uniqueKeys = new HashMap<>();
-      
-      insert(inserts, SSSQLVarNames.imageId,    image);
-      insert(inserts, SSSQLVarNames.type,       type);
-      
-      uniqueKey(uniqueKeys, SSSQLVarNames.imageId, image);
-      
-      dbSQL.insertIfNotExists(SSSQLVarNames.imageTable, inserts, uniqueKeys);
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-
-  public void addLocation(
-    final SSUri      locationURI,
-    final SSUri      entity, 
-    final SSLocation location) throws Exception{
-    
-    try{
-
-      final Map<String, String> inserts    = new HashMap<>();
-      
-      insert(inserts, SSSQLVarNames.locationId,        locationURI);
-      insert(inserts, SSSQLVarNames.latitude,          location.latitude);
-      insert(inserts, SSSQLVarNames.longitude,         location.longitude);
-      
-      if(location.accuracy == null){
-        insert(inserts, SSSQLVarNames.accuracy,         SSStrU.empty);
-      }else{
-        insert(inserts, SSSQLVarNames.accuracy,         location.accuracy);
-      }
-      
-      dbSQL.insert(SSSQLVarNames.locationTable, inserts);
-      
-      inserts.clear();
-      
-      insert(inserts, SSSQLVarNames.entityId,           entity);
-      insert(inserts, SSSQLVarNames.locationId,         locationURI);
-      
-      dbSQL.insert(SSSQLVarNames.entityLocationsTable, inserts);
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-
-  public List<SSLocation> getLocations(
-    final SSUri forEntity) throws Exception{
-   
     ResultSet resultSet = null;
     
-    try{
-      final List<SSLocation>     locations  = new ArrayList<>();
-      final List<String>         columns    = new ArrayList<>();              
-      final Map<String, String>  wheres     = new HashMap<>();
-
-      column(columns, SSSQLVarNames.locationTable, SSSQLVarNames.locationId);
-      column(columns, SSSQLVarNames.locationTable, SSSQLVarNames.latitude);
-      column(columns, SSSQLVarNames.locationTable, SSSQLVarNames.longitude);
-      column(columns, SSSQLVarNames.locationTable, SSSQLVarNames.accuracy);
-        
-      if(forEntity != null){
-        
-        final List<String>         tables     = new ArrayList<>();
-        final List<String>         tableCons  = new ArrayList<>();
+    final List<MultivaluedMap<String, String>> wheres         = new ArrayList<>();
+    final List<String>                         tables         = new ArrayList<>();
+    final List<String>                         columns        = new ArrayList<>();
+    final List<String>                         tableCons      = new ArrayList<>();
+    
+    column(columns, SSSQLVarNames.circleEntitiesTable,   SSSQLVarNames.entityId);
+//      column(columns, circleUsersTable,      SSSQLVarU.circleId);
+    
+    table    (tables, SSSQLVarNames.circleUsersTable);
+    table    (tables, SSSQLVarNames.circleEntitiesTable);
+    table    (tables, SSSQLVarNames.entityTable);
+    
+    tableCon (tableCons, SSSQLVarNames.circleUsersTable,    SSSQLVarNames.circleId, SSSQLVarNames.circleEntitiesTable, SSSQLVarNames.circleId);
+    tableCon (tableCons, SSSQLVarNames.circleEntitiesTable, SSSQLVarNames.entityId, SSSQLVarNames.entityTable,         SSSQLVarNames.id);
+    
+    if(user == null){
+      throw new Exception("user has to be given");
+    }
+    
+    final MultivaluedMap<String, String> whereUsers = new MultivaluedHashMap<>();
+    
+    where(whereUsers, SSSQLVarNames.circleUsersTable, SSSQLVarNames.userId, user);
+    
+    wheres.add(whereUsers);
+    
+    if(!withSystemCircles){
       
-        table(tables, SSSQLVarNames.locationTable);
-        table(tables, SSSQLVarNames.entityLocationsTable);
-        
-        where(wheres, SSSQLVarNames.entityId, forEntity);
-        
-        tableCon(tableCons, SSSQLVarNames.locationTable, SSSQLVarNames.locationId, SSSQLVarNames.entityLocationsTable, SSSQLVarNames.locationId);
-        
-        resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
-      }else{
-        resultSet = dbSQL.select(SSSQLVarNames.locationTable, columns, wheres, null, null, null);
+      table    (tables, SSSQLVarNames.circleTable);
+      tableCon (tableCons, SSSQLVarNames.circleTable, SSSQLVarNames.circleId, SSSQLVarNames.circleUsersTable,         SSSQLVarNames.circleId);
+      
+      final MultivaluedMap<String, String> whereIsSystemCircles = new MultivaluedHashMap<>();
+      
+      where(whereIsSystemCircles, SSSQLVarNames.circleTable, SSSQLVarNames.isSystemCircle, withSystemCircles);
+      
+      wheres.add(whereIsSystemCircles);
+    }
+    
+    if(
+      types != null &&
+      !types.isEmpty()){
+      
+      final MultivaluedMap<String, String> whereTypes = new MultivaluedHashMap<>();
+      
+      for(SSEntityE type : types){
+        where(whereTypes, SSSQLVarNames.entityTable, SSSQLVarNames.type, type);
       }
       
-      while(resultSet.next()){
-        
-        locations.add(SSLocation.get(bindingStrToUri   (resultSet, SSSQLVarNames.locationId), 
-            bindingStrToDouble(resultSet, SSSQLVarNames.latitude), 
-            bindingStrToDouble(resultSet, SSSQLVarNames.longitude),
-            bindingStrToFloat (resultSet, SSSQLVarNames.accuracy)));
-      }      
-      
-      return locations;
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }finally{
-      dbSQL.closeStmt(resultSet);
+      wheres.add(whereTypes);
     }
+    
+    resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
+    
+    return SSEntity.get(getURIsFromResult(resultSet, SSSQLVarNames.entityId), SSEntityE.entity);
   }
 }
 

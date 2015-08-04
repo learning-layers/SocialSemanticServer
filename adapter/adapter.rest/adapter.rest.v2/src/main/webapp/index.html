@@ -80,3 +80,67 @@
   <div id="swagger-ui-container" class="swagger-ui-wrap"></div>
 </body>
 </html>
+
+<!--  for Swagger UI file Uploads to set manually
+{
+    "path" : "/files/upload",
+    "operations" : [ {
+      "method" : "POST",
+      "summary" : "upload a file",
+      "notes" : "",
+      "type" : "SSFileUploadRet",
+      "nickname" : "fileUpload",
+      "produces" : [ "application/json" ],
+      "consumes" : [ "multipart/form-data" ],
+	"parameters" : [ 
+{
+        "name" : "file",
+        "description" : "file to upload",
+        "required" : true,
+        "type" : "file",
+        "paramType" : "body",
+        "allowMultiple" : false
+      },
+{
+        "name" : "label",
+        "description" : "",
+        "required" : true,
+        "type" : "string",
+        "paramType" : "form",
+        "allowMultiple" : false
+      },
+{
+        "name" : "mimeType",
+        "description" : "",
+        "required" : true,
+        "type" : "string",
+        "paramType" : "form",
+        "allowMultiple" : false
+      },
+{
+        "name" : "tags",
+        "description" : "",
+        "required" : false,
+        "type" : "string",
+        "paramType" : "form",
+        "allowMultiple" : false
+},
+{
+        "name" : "categories",
+        "description" : "",
+        "required" : false,
+        "type" : "string",
+        "paramType" : "form",
+        "allowMultiple" : false
+} ]
+
+
+
+    } ]
+  }
+
+
+
+  
+,
+ -->

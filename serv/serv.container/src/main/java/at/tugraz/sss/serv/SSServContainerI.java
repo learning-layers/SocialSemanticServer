@@ -37,7 +37,7 @@ public abstract class SSServContainerI{
   public    abstract SSCoreConfA      getConfForCloudDeployment (final SSCoreConfA coreConfA, final List<Class> configuredServs) throws Exception;
   public    abstract void             initServ                  () throws Exception;
   public    abstract void             schedule                  () throws Exception;
-  public    abstract SSServContainerI regServ                   (final SSConfA conf) throws Exception;
+  public    abstract SSServContainerI regServ                   () throws Exception;
   
   protected SSCoreConfA getConfForCloudDeployment(
     final Class       servI,

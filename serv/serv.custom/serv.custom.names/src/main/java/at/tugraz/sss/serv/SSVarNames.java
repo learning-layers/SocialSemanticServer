@@ -24,6 +24,7 @@ public class SSVarNames{
   
   private SSVarNames(){}
 
+  public static final String version                                        = "version";
   public static final String code                                           = "code";
   public static final String errClass                                       = "errClass";
   public static final String realm                                          = "realm";
@@ -315,4 +316,8 @@ public class SSVarNames{
   public static final String xsd                                            = "xsd";
   public static final String set                                            = "set";
   public static final String desc                                           = "desc";
+  public static String graphName                                            = "graphName";
+  public static String graphCreationType                                    = "graphCreationType";
+  public static String graphInputFormat                                     = "graphInputFormat";
+  public static String doMakeUndirected                                     = "doMakeUndirected";
 }

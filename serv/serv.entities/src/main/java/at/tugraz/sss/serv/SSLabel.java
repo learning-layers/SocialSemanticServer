@@ -25,6 +25,11 @@ import java.util.List;
 
 public class SSLabel extends SSEntityA{
 
+  @Override
+  public Object jsonLDDesc() {
+    return SSVarNames.xsd + SSStrU.colon + SSStrU.valueString;
+  }
+  
   public static SSLabel get(final String label) throws Exception{
     
     if(label == null){
@@ -62,8 +67,63 @@ public class SSLabel extends SSEntityA{
     super(string);
   }
   
-  @Override
-  public Object jsonLDDesc() {
-    return SSVarNames.xsd + SSStrU.colon + SSStrU.valueString;
+  public static void addDistinctWithoutNull(
+    final List<SSLabel>     entities,
+    final SSLabel...        toAddEntities){
+    
+    if(SSObjU.isNull  (entities, toAddEntities)){
+      return;
+    }
+    
+    for(SSLabel entity : toAddEntities){
+      
+      if(entity == null){
+        continue;
+      }
+      
+      if(!SSStrU.contains(entities, entity)){
+        entities.add(entity);
+      }
+    }
+  }
+  
+  public static void addDistinctWithoutNull(
+    final List<SSLabel>  entities,
+    final List<SSLabel>  toAddEntities){
+    
+    if(SSObjU.isNull(entities, toAddEntities)){
+      return;
+    }
+    
+    for(SSLabel entity : toAddEntities){
+      
+      if(entity == null){
+        continue;
+      }
+      
+      if(!SSStrU.contains(entities, entity)){
+        entities.add(entity);
+      }
+    }
+  }
+  
+  public static List<SSLabel> asListWithoutNull(final SSLabel... labels){
+   
+    final List<SSLabel> result = new ArrayList<>();
+    
+    if(labels == null){
+      return result;
+    }
+    
+    for(SSLabel label : labels){
+      
+      if(label == null){
+        continue;
+      }
+      
+      result.add(label);
+    }
+    
+    return result;
   }
 }

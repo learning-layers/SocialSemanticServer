@@ -19,8 +19,26 @@
   <dependencies>
   
     <dependency>
+      <groupId>sss</groupId>
+      <artifactId>util</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>voc.serv</artifactId>
+      <artifactId>user.api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>entity.api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>voc.api</artifactId>
       <version>${project.version}</version>
     </dependency>
     
@@ -45,6 +63,12 @@
     <dependency>
       <groupId>sss.servs</groupId>
       <artifactId>friend.api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>activity.api</artifactId>
       <version>${project.version}</version>
     </dependency>
 

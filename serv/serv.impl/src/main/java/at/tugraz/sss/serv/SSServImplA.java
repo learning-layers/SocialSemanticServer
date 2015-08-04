@@ -43,15 +43,15 @@ public abstract class SSServImplA{
   }
 
   public Object handleServerOp(
-    final Class     serverInterfaceClass, 
-    final SSServPar par) throws Exception{
+    final Class         servServerI, 
+    final SSServPar     par) throws Exception{
     
-    if(serverInterfaceClass == null){
+    if(servServerI == null){
       SSLogU.err(new Exception("service op shouldnt be instantiated this way"));
       return null;
     }
     
-    return serverInterfaceClass.getMethod(SSStrU.toStr(par.op), SSServPar.class).invoke(this, par);
+    return servServerI.getMethod(SSStrU.toStr(par.op), SSServPar.class).invoke(this, par);
   }
 }
 

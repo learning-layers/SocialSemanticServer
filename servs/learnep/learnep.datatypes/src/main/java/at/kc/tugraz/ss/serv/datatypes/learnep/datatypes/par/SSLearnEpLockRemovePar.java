@@ -21,48 +21,47 @@
 package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par;
 
 import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSStrU;
 
 public class SSLearnEpLockRemovePar extends SSServPar{
   
   public SSUri         learnEp       = null;
   public SSUri         forUser       = null;
+
+  public String getLearnEp(){
+    return SSStrU.removeTrailingSlash(learnEp);
+  }
+
+  public void setLearnEp(final String learnEp) throws Exception{
+    this.learnEp = SSUri.get(learnEp);
+  }
+
+  public String getForUser(){
+    return SSStrU.removeTrailingSlash(forUser);
+  }
+
+  public void setForUser(final String forUser) throws Exception{
+    this.forUser = SSUri.get(forUser);
+  }
   
+  public SSLearnEpLockRemovePar(){}
+    
   public SSLearnEpLockRemovePar(
     final SSServOpE  op,
-    final String   key,
-    final SSUri    user,
-    final SSUri    forUser, 
-    final SSUri    learnEp){
+    final String     key,
+    final SSUri      user,
+    final SSUri      forUser, 
+    final SSUri      learnEp,
+    final Boolean    withUserRestriction,
+    final Boolean    shouldCommit){
     
     super(op, key, user);
    
-    this.forUser = forUser;
-    this.learnEp = learnEp;
-  }
-  
-  public SSLearnEpLockRemovePar(SSServPar par) throws Exception{
-      
-    super(par);
-    
-    try{
-      
-      if(pars != null){
-        forUser    = (SSUri)  pars.get(SSVarNames.forUser);
-        learnEp    = (SSUri)  pars.get(SSVarNames.learnEp);
-        
-      }
-      
-      if(par.clientJSONObj != null){
-        forUser   = SSUri.get (par.clientJSONObj.get(SSVarNames.forUser).getTextValue());
-        learnEp   = SSUri.get (par.clientJSONObj.get(SSVarNames.learnEp).getTextValue());
-      }
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
+    this.forUser             = forUser;
+    this.learnEp             = learnEp;
+    this.withUserRestriction = withUserRestriction;
+    this.shouldCommit        = shouldCommit;
   }
 }

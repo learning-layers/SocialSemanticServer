@@ -20,10 +20,6 @@
 */
 package at.tugraz.sss.serv;
 
-import at.tugraz.sss.serv.SSConfA;
-import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSStrU;
-
 public abstract class SSServImplDBA extends SSServImplA{
   
   public SSServImplDBA(final SSConfA conf) throws Exception{
@@ -40,7 +36,7 @@ public abstract class SSServImplDBA extends SSServImplA{
   
   @Override
   public Object handleServerOp(
-    final Class      servImplServerInteraceClass, 
+    final Class      servServerI, 
     final SSServPar  par) throws Exception{
     
     throw new UnsupportedOperationException(SSStrU.empty);

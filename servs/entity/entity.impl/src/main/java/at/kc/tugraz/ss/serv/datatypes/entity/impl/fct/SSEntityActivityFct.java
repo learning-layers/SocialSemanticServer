@@ -20,32 +20,97 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.entity.impl.fct;
 
+import at.kc.tugraz.ss.activity.api.SSActivityServerI;
 import at.tugraz.sss.serv.SSLogU;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserCopyPar;
+import at.kc.tugraz.ss.activity.datatypes.par.SSActivityAddPar;
+import at.tugraz.sss.servs.entity.datatypes.par.SSEntitySharePar;
+import at.tugraz.sss.serv.SSEntityCopyPar;
 import at.tugraz.sss.serv.SSTextComment;
-import at.tugraz.sss.serv.SSUri;
-
-import at.tugraz.sss.serv.caller.SSServCaller;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSServReg;
+import at.tugraz.sss.serv.SSUri;
 
 public class SSEntityActivityFct{
   
-  public static void copyEntityForUsers(
-    final SSEntityUserCopyPar par) throws Exception{
+  public static void shareEntityWithUsers(
+    final SSEntitySharePar par) throws Exception{
     
     try{
       
-      SSServCaller.activityAdd(
-        par.user,
-        SSActivityE.copyEntityForUsers,
-        par.entity,
-        par.users,
-        SSUri.asListWithoutNullAndEmpty          (),
-        SSTextComment.asListWithoutNullAndEmpty  (par.comment),
-        null,
-        false);
+     ((SSActivityServerI) SSServReg.getServ(SSActivityServerI.class)).activityAdd(
+        new SSActivityAddPar(
+          null, 
+          null, 
+          par.user, 
+          SSActivityE.shareEntityWithUsers, 
+          par.entity,
+          par.users, 
+          SSUri.asListWithoutNullAndEmpty(), 
+          SSTextComment.asListWithoutNullAndEmpty(par.comment), 
+          null, 
+          par.shouldCommit));
+     
+    }catch(SSErr error){
+      
+      switch(error.code){
+        case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
+        default: SSServErrReg.regErrThrow(error);
+      }
+
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  public static void shareEntityWithCircles(
+    final SSEntitySharePar par) throws Exception{
+    
+    try{
+      
+      ((SSActivityServerI) SSServReg.getServ(SSActivityServerI.class)).activityAdd(
+        new SSActivityAddPar(
+          null, 
+          null, 
+          par.user, 
+          SSActivityE.shareEntityWithCircles, 
+          par.entity,
+          null,
+          SSUri.asListWithoutNullAndEmpty(par.circles),
+          SSTextComment.asListWithoutNullAndEmpty(par.comment), 
+          null, 
+          par.shouldCommit));
+      
+    }catch(SSErr error){
+      
+      switch(error.code){
+        case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
+        default: SSServErrReg.regErrThrow(error);
+      }
+
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  public static void setEntityPublic(
+   final SSEntitySharePar par) throws Exception{
+    
+     try{
+      
+      ((SSActivityServerI) SSServReg.getServ(SSActivityServerI.class)).activityAdd(
+        new SSActivityAddPar(
+          null, 
+          null, 
+          par.user, 
+          SSActivityE.setEntityPublic, 
+          par.entity,
+          null, 
+          null, 
+          SSTextComment.asListWithoutNullAndEmpty(par.comment),  
+          null, 
+          par.shouldCommit));
       
     }catch(SSErr error){
       

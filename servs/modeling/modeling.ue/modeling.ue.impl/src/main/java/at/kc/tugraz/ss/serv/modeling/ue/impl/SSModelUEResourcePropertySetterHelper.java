@@ -61,7 +61,7 @@ public class SSModelUEResourcePropertySetterHelper {
 			
 			if(!SSStrU.contains(resource.personsChanged, event.user)){
 				
-				resource.personsChanged.add(event.user);
+				resource.personsChanged.add(event.user.id);
 				
 				resource.counters.put(
 						SSModelUEResourceCounterEnum.counterChangePerson.toString(),
@@ -149,7 +149,7 @@ public class SSModelUEResourcePropertySetterHelper {
 						SSModelUEResourceCounterEnum.counterViewPerson.toString(),
 						resource.counters.get(SSModelUEResourceCounterEnum.counterViewPerson.toString()) + 1);
 				
-				resource.personsView.add(event.user);
+				resource.personsView.add(event.user.id);
 			}
 		}		
 	}
@@ -306,7 +306,7 @@ public class SSModelUEResourcePropertySetterHelper {
 			
 			if(!SSStrU.contains(resource.editors, event.user)){
 
-				resource.editors.add(event.user);		
+				resource.editors.add(event.user.id);		
 			}
 		}		
 	}
@@ -327,7 +327,7 @@ public class SSModelUEResourcePropertySetterHelper {
 					SSModelUEResourceCounterEnum.counterAssociatePerson.toString(),
 					resource.counters.get(SSModelUEResourceCounterEnum.counterAssociatePerson.toString()) + 1);
 			
-			resource.relatedPersons.add(event.user);				
+			resource.relatedPersons.add(event.user.id);				
 		}		
 	}
 	

@@ -35,7 +35,7 @@ public class SSLikeTester extends Thread{
     }      
     
     switch(likeConf.op){
-      case likesGet: new Thread(new SSLikesGetTest(likeConf)).start(); break;
+//      case likesGet: new Thread(new SSLikesGetTest(likeConf)).start(); break;
     }
   }  
 }

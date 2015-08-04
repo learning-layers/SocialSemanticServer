@@ -26,12 +26,7 @@ import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSStrU;
 import at.kc.tugraz.ss.category.datatypes.SSCategoryLabel;
 import at.kc.tugraz.ss.category.datatypes.par.SSCategoriesAddPar;
-import at.kc.tugraz.ss.category.ss.category.serv.SSCategoryServ;
-import at.kc.tugraz.ss.circle.api.SSCircleServerI;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivEntityAddPar;
-import at.kc.tugraz.ss.circle.serv.SSCircleServ;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSSpaceE;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSLabel;
@@ -48,7 +43,8 @@ import at.kc.tugraz.ss.serv.dataimport.impl.evernote.SSDataImportEvernoteHandler
 import at.kc.tugraz.ss.serv.dataimport.impl.fct.op.SSDataImportAchsoFct;
 import at.kc.tugraz.ss.serv.dataimport.impl.fct.reader.SSDataImportReaderFct;
 import at.kc.tugraz.ss.serv.dataimport.impl.fct.sql.SSDataImportSQLFct;
-
+import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.kc.tugraz.ss.serv.job.i5cloud.datatypes.SSi5CloudAchsoVideo;
 import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSServImplWithDBA;
@@ -58,7 +54,6 @@ import at.kc.tugraz.ss.service.tag.api.SSTagServerI;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsAddPar;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsRemovePar;
-import at.kc.tugraz.ss.service.tag.service.SSTagServ;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
@@ -73,6 +68,7 @@ import java.util.Map;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSServReg;
 
 public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportClientI, SSDataImportServerI{
   
@@ -300,28 +296,34 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
             false, 
             true);
         
-        ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
-          new SSCirclePrivEntityAddPar(
+        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+          new SSEntityUpdatePar(
             null,
             null,
             authorUri,
             video.id,
-            SSEntityE.entity,
-            video.label,
-            null,
-            video.creationTime,
-            true));
-
-        ((SSTagServerI) SSTagServ.inst.serv()).tagsAdd(
+            null, //type,
+            video.label, //label
+            null, //description,
+            null, //entitiesToAttach,
+            video.creationTime, //creationTime,
+            null, //read,
+            false, //setPublic
+            true, //withUserRestriction
+            true)); //shouldCommit)
+                
+        ((SSTagServerI) SSServReg.getServ(SSTagServerI.class)).tagsAdd(
           new SSTagsAddPar(
             null,
             null,
             authorUri,
-            SSTagLabel.get(video.keywords),
-            video.id,
-            SSSpaceE.sharedSpace,
-            video.creationTime,
-            true));
+            SSTagLabel.get(video.keywords), //labels,
+            video.id, //entity
+            SSSpaceE.sharedSpace, //space
+            null, //circles
+            video.creationTime,  //creationTime
+            true, //withUserRestriction
+            true)); //shouldCommit
         
         final List<String> categoryLabels = new ArrayList<>();
         
@@ -336,7 +338,7 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
           categoryLabels.add(annotation);
         }
 
-        ((SSCategoryServerI) SSCategoryServ.inst.serv()).categoriesAdd(
+        ((SSCategoryServerI) SSServReg.getServ(SSCategoryServerI.class)).categoriesAdd(
           new SSCategoriesAddPar(
             null,
             null,
@@ -344,7 +346,9 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
             SSCategoryLabel.asListWithoutNullAndEmpty(SSCategoryLabel.get(categoryLabels)),
             video.id,
             SSSpaceE.sharedSpace,
+            null, //circle
             video.creationTime,
+            false,
             true));
       }
       
@@ -374,7 +378,7 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
     Long                                              timestamp;
     
     try{
-      ((SSTagServerI) SSTagServ.inst.serv()).tagsRemove(
+      ((SSTagServerI) SSServReg.getServ(SSTagServerI.class)).tagsRemove(
         new SSTagsRemovePar(
           null,
           null,
@@ -435,16 +439,18 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
         tagList     = SSStrU.splitDistinctWithoutEmptyAndNull(tags, SSStrU.comma);
         tagCounter += tagList.size();
 
-        ((SSTagServerI) SSTagServ.inst.serv()).tagsAdd(
+        ((SSTagServerI) SSServReg.getServ(SSTagServerI.class)).tagsAdd(
           new SSTagsAddPar(
             null,
             null,
             user,
-            SSTagLabel.get(tagList),
-            resource,
-            SSSpaceE.sharedSpace,
-            timestamp,
-            par.shouldCommit));
+            SSTagLabel.get(tagList), //labels
+            resource, //entity
+            SSSpaceE.sharedSpace, //space
+            null, //circles
+            timestamp, //creationTime
+            true, //withUserRestriction
+            par.shouldCommit)); //shouldCommit
 
         SSLogU.info("line " + counter++ + " " + tagCounter + " time : " + new Date().getTime() + " user: " + user.toString() + " tags: " + tags);
 

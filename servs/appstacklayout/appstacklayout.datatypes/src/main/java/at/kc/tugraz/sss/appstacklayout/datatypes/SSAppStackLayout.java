@@ -3,7 +3,7 @@
 * http://www.learning-layers.eu
 * Development is partly funded by the FP7 Programme of the European Commission under
 * Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+* Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
 * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,14 +24,19 @@ import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 public class SSAppStackLayout extends SSEntity{
   
   public SSUri            app         = null;
-  public List<SSAppTile>  tiles       = new ArrayList<>();
+  
+  public String getApp(){
+    return SSStrU.removeTrailingSlash(app);
+  }
+  
+  @Override
+  public Object jsonLDDesc(){
+    throw new UnsupportedOperationException();
+  }
   
   public static SSAppStackLayout get(
     final SSAppStackLayout     appStackLayout,
@@ -44,56 +49,26 @@ public class SSAppStackLayout extends SSEntity{
     final SSAppStackLayout     appStackLayout,
     final SSEntity             entity) throws Exception{
     
-    super(entity);
+    super(appStackLayout, entity);
     
     this.app               = appStackLayout.app;
-   
-    if(appStackLayout.tiles != null){
-      this.tiles.addAll(appStackLayout.tiles);
-    }
   }
   
   public static SSAppStackLayout get(
     final SSUri           id,
-    final SSUri           app,
-    final List<SSAppTile> tiles) throws Exception{
+    final SSUri           app) throws Exception{
     
     return new SSAppStackLayout(
       id,
-      app,
-      tiles);
+      app);
   }
   
   protected SSAppStackLayout(
     final SSUri           id,
-    final SSUri           app,
-    final List<SSAppTile> tiles) throws Exception{
+    final SSUri           app) throws Exception{
     
     super(id, SSEntityE.appStackLayout);
     
     this.app               = app;
-    
-    if(tiles != null){
-      this.tiles.addAll(tiles);
-    }
-  }
-
-  @Override
-  public Object jsonLDDesc(){
-  
-    final Map<String, Object> ld = (Map<String, Object>) super.jsonLDDesc();
-    
-//    ld.put(SSVarU.user,         SSVarU.sss + SSStrU.colon + SSUri.class.getName());
-//    ld.put(SSVarU.entity,       SSVarU.sss + SSStrU.colon + SSUri.class.getName());
-//    ld.put(SSVarU.appType,      SSVarU.sss + SSStrU.colon + SSAppE.class.getName());
-//    ld.put(SSVarU.endTime,      SSVarU.xsd + SSStrU.colon + SSStrU.valueLong);
-//    ld.put(SSVarU.value,        SSVarU.xsd + SSStrU.colon + SSStrU.valueInteger);
-    
-    return ld;
-  }
-  
-  /* json getters */
-  public String getApp(){
-    return SSStrU.removeTrailingSlash(app);
   }
 }

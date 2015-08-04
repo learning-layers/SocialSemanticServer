@@ -20,6 +20,7 @@
 */
 package at.kc.tugraz.ss.recomm.serv;
 
+import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import at.tugraz.sss.serv.SSDateU;
 import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSServOpE;
@@ -30,12 +31,11 @@ import at.kc.tugraz.ss.recomm.api.SSRecommServerI;
 import at.kc.tugraz.ss.recomm.conf.SSRecommConf;
 import at.kc.tugraz.ss.recomm.impl.SSRecommImpl;
 import at.kc.tugraz.ss.recomm.serv.task.SSRecommUpdateBulkTask;
-import at.tugraz.sss.serv.SSDBSQLI;
-import at.tugraz.sss.serv.SSDBSQL;
+import at.kc.tugraz.ss.recomm.serv.task.SSRecommUpdateBulkUserRealmsFromCirclesTask;
+import at.kc.tugraz.ss.recomm.serv.task.SSRecommUpdateBulkUserRealmsFromConfTask;
+import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.tugraz.sss.serv.SSServImplA;
 import at.tugraz.sss.serv.caller.SSServCaller;
-import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
-import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSServContainerI;
 import java.util.List;
@@ -57,9 +57,9 @@ public class SSRecommServ extends SSServContainerI{
   }
   
     @Override
-  public SSServContainerI regServ(final SSConfA conf) throws Exception{
+  public SSServContainerI regServ() throws Exception{
     
-    this.conf = conf;
+    this.conf = SSCoreConf.instGet().getRecomm();
     
       SSServReg.inst.regServ(this);
     
@@ -75,7 +75,7 @@ public class SSRecommServ extends SSServContainerI{
       return;
     }
     
-    SSServCaller.recommLoadUserRealms(SSVoc.systemUserUri);
+    SSServCaller.recommLoadUserRealms(SSVocConf.systemUserUri);
     
     if(!recommConf.initAtStartUp){
       return;
@@ -94,7 +94,9 @@ public class SSRecommServ extends SSServContainerI{
       switch(initAtStartUpOp){
         
         case recommUpdate:{
-          SSDateU.scheduleNow(new SSRecommUpdateBulkTask(recommConf));
+          SSDateU.scheduleNow(new SSRecommUpdateBulkTask                     (recommConf));
+          SSDateU.scheduleNow(new SSRecommUpdateBulkUserRealmsFromConfTask   (recommConf));
+          SSDateU.scheduleNow(new SSRecommUpdateBulkUserRealmsFromCirclesTask(recommConf));
           break;
         }
         
@@ -133,7 +135,9 @@ public class SSRecommServ extends SSServContainerI{
         switch(scheduleOp){
           
           case recommUpdate:{
-            SSDateU.scheduleNow(new SSRecommUpdateBulkTask(recommConf));
+            SSDateU.scheduleNow(new SSRecommUpdateBulkTask                     (recommConf));
+            SSDateU.scheduleNow(new SSRecommUpdateBulkUserRealmsFromConfTask   (recommConf));
+            SSDateU.scheduleNow(new SSRecommUpdateBulkUserRealmsFromCirclesTask(recommConf));
             break;
           }
           
@@ -151,6 +155,14 @@ public class SSRecommServ extends SSServContainerI{
         case recommUpdate:{
           
           SSDateU.scheduleAtFixedRate(new SSRecommUpdateBulkTask(recommConf),
+            SSDateU.getDatePlusMinutes(recommConf.scheduleIntervals.get(counter)),
+            recommConf.scheduleIntervals.get(counter) * SSDateU.minuteInMilliSeconds);
+          
+          SSDateU.scheduleAtFixedRate(new SSRecommUpdateBulkUserRealmsFromConfTask(recommConf),
+            SSDateU.getDatePlusMinutes(recommConf.scheduleIntervals.get(counter)),
+            recommConf.scheduleIntervals.get(counter) * SSDateU.minuteInMilliSeconds);
+          
+          SSDateU.scheduleAtFixedRate(new SSRecommUpdateBulkUserRealmsFromCirclesTask(recommConf),
             SSDateU.getDatePlusMinutes(recommConf.scheduleIntervals.get(counter)),
             recommConf.scheduleIntervals.get(counter) * SSDateU.minuteInMilliSeconds);
           break;

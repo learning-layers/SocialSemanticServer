@@ -20,11 +20,11 @@
   */
 package at.kc.tugraz.ss.serv.job.dataexport.serv;
 
+import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import at.tugraz.sss.serv.SSCoreConfA;
 import at.kc.tugraz.ss.serv.job.dataexport.api.SSDataExportClientI;
 import at.kc.tugraz.ss.serv.job.dataexport.api.SSDataExportServerI;
 import at.kc.tugraz.ss.serv.job.dataexport.impl.SSDataExportImpl;
-import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServImplA;
@@ -46,12 +46,12 @@ public class SSDataExportServ extends SSServContainerI{
     return new SSDataExportImpl(conf);
   }
   
-    @Override
-  public SSServContainerI regServ(final SSConfA conf) throws Exception{
+  @Override
+  public SSServContainerI regServ() throws Exception{
     
-    this.conf = conf;
+    this.conf = SSCoreConf.instGet().getDataExport();
     
-      SSServReg.inst.regServ(this);
+    SSServReg.inst.regServ(this);
     
     return this;
   }

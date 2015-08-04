@@ -19,20 +19,26 @@
   <dependencies>
 
     <dependency>
-      <groupId>sss.servs</groupId>
-      <artifactId>entity.datatypes</artifactId>
+      <groupId>sss</groupId>
+      <artifactId>util</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>circle.serv</artifactId>
+      <artifactId>entity.api</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>voc.serv</artifactId>
+      <artifactId>circle.api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>voc.api</artifactId>
       <version>${project.version}</version>
     </dependency>
     

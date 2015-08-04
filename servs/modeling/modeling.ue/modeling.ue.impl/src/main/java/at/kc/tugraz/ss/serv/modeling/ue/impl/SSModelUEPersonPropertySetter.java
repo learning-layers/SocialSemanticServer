@@ -24,12 +24,9 @@ import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSUri;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.SSModelUEEntity;
-import at.kc.tugraz.ss.serv.modeling.ue.datatypes.SSModelUETopicScore;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.enums.SSModelUEResourceCounterEnum;
 import at.kc.tugraz.ss.serv.modeling.ue.utils.SSModelUEU;
 import at.tugraz.sss.serv.SSServImplA;
-import at.tugraz.sss.serv.caller.SSServCaller;
-import at.kc.tugraz.ss.service.tag.datatypes.*;
 import at.kc.tugraz.ss.service.userevent.datatypes.*;
 import java.util.*;
 
@@ -259,7 +256,7 @@ public class SSModelUEPersonPropertySetter {
     
     if (event.creationTime > recentTimeStamps.get(0)){
       
-      resource.personsRecentArtifact   = event.entity;
+      resource.personsRecentArtifact   = event.entity.id;
       recentTimeStamps.set(0, event.creationTime);
     }
     
@@ -296,7 +293,7 @@ public class SSModelUEPersonPropertySetter {
         SSModelUEResourceCounterEnum.counterPersonsRelatedResources.toString(),
         resource.counters.get(SSModelUEResourceCounterEnum.counterPersonsRelatedResources.toString()) + 1);
       
-      resource.personsRelatedResources.add(event.entity);
+      resource.personsRelatedResources.add(event.entity.id);
     }
   }
 }

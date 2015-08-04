@@ -20,13 +20,25 @@
 
     <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>tag.serv</artifactId>
+      <artifactId>circle.api</artifactId>
       <version>${project.version}</version>
     </dependency> 
     
     <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>user.serv</artifactId>
+      <artifactId>tag.api</artifactId>
+      <version>${project.version}</version>
+    </dependency> 
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>category.api</artifactId>
+      <version>${project.version}</version>
+    </dependency> 
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>user.api</artifactId>
       <version>${project.version}</version>
     </dependency> 
 

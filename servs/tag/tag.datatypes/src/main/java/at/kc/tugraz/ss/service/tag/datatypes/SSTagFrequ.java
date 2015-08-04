@@ -25,7 +25,6 @@ import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSEntityA;
 import at.tugraz.sss.serv.SSObjU;
 import at.tugraz.sss.serv.SSSpaceE;
-import at.tugraz.sss.serv.SSUri;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

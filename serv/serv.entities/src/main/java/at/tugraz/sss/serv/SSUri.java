@@ -28,6 +28,11 @@ import java.util.*;
 
 public class SSUri extends SSEntityA{
   
+  @Override
+  public Object jsonLDDesc(){
+    return SSLinkU.schemaOrgUrl;
+  }
+  
   public static Boolean isURI(final String string) throws Exception{
     
 //    URIUtil.encodeQuery(string)
@@ -132,7 +137,7 @@ public class SSUri extends SSEntityA{
     return new SSUri(uri.toString() + append);
   }
   
-  public static List<SSUri> getFromEntitites(final List<? extends SSEntity> entities) throws Exception{
+  public static List<SSUri> getDistinctNotNullFromEntities(final List<? extends SSEntity> entities) throws Exception{
 
     final List<SSUri> result = new ArrayList<>();
     
@@ -141,7 +146,36 @@ public class SSUri extends SSEntityA{
     }
     
     for(SSEntity entity : entities){
-      result.add(entity.id);
+      
+      if(entity == null){
+        continue;
+      }
+      
+      if(!SSStrU.contains(result, entity)){
+        result.add(entity.id);
+      }
+    }
+    
+    return result;
+  }
+  
+  public static List<SSUri> getDistinctNotNullFromEntities(final SSEntity... entities) throws Exception{
+
+    final List<SSUri> result = new ArrayList<>();
+    
+    if(entities == null){
+      return result;
+    }
+    
+    for(SSEntity entity : entities){
+      
+      if(entity == null){
+        continue;
+      }
+      
+      if(!SSStrU.contains(result, entity)){
+        result.add(entity.id);
+      }
     }
     
     return result;
@@ -229,11 +263,6 @@ public class SSUri extends SSEntityA{
     if(!isURI(val)){
       throw new Exception("invalid uri " + val);
     }
-  }
-  
-  @Override
-  public Object jsonLDDesc(){
-    return SSLinkU.schemaOrgUrl;
   }
 }
 

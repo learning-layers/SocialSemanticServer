@@ -20,40 +20,48 @@
  */
 package at.kc.tugraz.ss.service.filerepo.impl.fct;
 
-import at.kc.tugraz.ss.circle.api.SSCircleServerI;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivEntityAddPar;
-import at.kc.tugraz.ss.circle.serv.SSCircleServ;
+import at.kc.tugraz.ss.category.api.SSCategoryServerI;
+import at.kc.tugraz.ss.category.datatypes.SSCategoryLabel;
+import at.kc.tugraz.ss.category.datatypes.par.SSCategoriesAddPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSMimeTypeE;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
-
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileUploadPar;
+import at.kc.tugraz.ss.service.tag.api.SSTagServerI;
+import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
+import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsAddPar;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSFileExtE;
 import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSServReg;
 
 public class SSFileServCaller{
   
   public static void addFileEntity(
     final SSFileUploadPar par,
-    final SSUri           file,
-    final Boolean         shouldCommit) throws Exception{
+    final SSUri           file) throws Exception{
     
     try{
       
-      ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
-        new SSCirclePrivEntityAddPar(
-          null,
-          null,
-          par.user,
-          file,
-          SSEntityE.file,
-          par.label,
-          null,
-          null,
-          shouldCommit));
+      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+          new SSEntityUpdatePar(
+            null,
+            null,
+            par.user,
+            file,
+            SSEntityE.file, //type,
+            par.label, //label
+            null, //description,
+            null, //entitiesToAttach,
+            null, //creationTime,
+            null, //read,
+            false, //setPublic
+            false, //withUserRestriction
+            false)); //shouldCommit)
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -62,8 +70,7 @@ public class SSFileServCaller{
   
   public static void addFileContentsToSolr(
     final SSFileUploadPar par,
-    final String          fileId,
-    final Boolean         shouldCommit) throws Exception{
+    final String          fileId) throws Exception{
     
     try{
       
@@ -71,7 +78,7 @@ public class SSFileServCaller{
         par.user,
         fileId,
         par.mimeType,
-        shouldCommit);
+        false);
       
     }catch(Exception error){
       

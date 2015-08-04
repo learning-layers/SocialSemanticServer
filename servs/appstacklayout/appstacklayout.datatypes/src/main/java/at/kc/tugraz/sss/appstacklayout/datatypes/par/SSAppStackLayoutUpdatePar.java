@@ -22,12 +22,10 @@ package at.kc.tugraz.sss.appstacklayout.datatypes.par;
 
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServErrReg;
 
 public class SSAppStackLayoutUpdatePar extends SSServPar{
   
@@ -35,59 +33,23 @@ public class SSAppStackLayoutUpdatePar extends SSServPar{
   public SSUri               app              = null;
   public SSLabel             label            = null;
   public SSTextComment       description      = null;
-  
-  public SSAppStackLayoutUpdatePar(
-    final SSServOpE        op,
-    final String         key,
-    final SSUri          user,
-    final SSUri          stack,
-    final SSUri          app,
-    final SSLabel        label,
-    final SSTextComment  description){
-    
-    super(op, key, user);
-    
-    this.stack          = stack;
-    this.app            = app;
-    this.label          = label;
-    this.description    = description;
+
+  public void setStack(final String stack) throws Exception{
+    this.stack = SSUri.get(stack);
+  }
+
+  public void setApp(final String app)throws Exception{
+    this.app = SSUri.get(app);
+  }
+
+  public void setLabel(final String label)throws Exception{
+    this.label = SSLabel.get(label);
+  }
+
+  public void setDescription(final String description)throws Exception{
+    this.description = SSTextComment.get(description);
   }
   
-  public SSAppStackLayoutUpdatePar(SSServPar par) throws Exception{
-    
-    super(par);
-    
-    try{
-      
-      if(pars != null){
-        stack             = (SSUri)           pars.get(SSVarNames.stack);
-        label             = (SSLabel)         pars.get(SSVarNames.label);
-        description       = (SSTextComment)   pars.get(SSVarNames.description);
-      }
-      
-      if(par.clientJSONObj != null){
-        
-        stack = SSUri.get(par.clientJSONObj.get(SSVarNames.stack).getTextValue());
-        
-        try{
-          app =  SSUri.get(par.clientJSONObj.get(SSVarNames.app).getTextValue());
-        }catch(Exception error){}
-        
-        try{
-          label =  SSLabel.get      (par.clientJSONObj.get(SSVarNames.label).getTextValue());
-        }catch(Exception error){}
-        
-        try{
-          description =  SSTextComment.get      (par.clientJSONObj.get(SSVarNames.description).getTextValue());
-        }catch(Exception error){}
-      
-      }
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
-  /* json getters */
   public String getStack(){
     return SSStrU.removeTrailingSlash(stack);
   }
@@ -102,5 +64,28 @@ public class SSAppStackLayoutUpdatePar extends SSServPar{
 
   public String getDescription(){
     return SSStrU.toStr(description);
+  }
+  
+  public SSAppStackLayoutUpdatePar(){}
+  
+  public SSAppStackLayoutUpdatePar(
+    final SSServOpE      op,
+    final String         key,
+    final SSUri          user,
+    final SSUri          stack,
+    final SSUri          app,
+    final SSLabel        label,
+    final SSTextComment  description, 
+    final Boolean        withUserDescription, 
+    final Boolean        shouldCommit){
+    
+    super(op, key, user);
+    
+    this.stack               = stack;
+    this.app                 = app;
+    this.label               = label;
+    this.description         = description;
+    this.withUserRestriction = withUserDescription;
+    this.shouldCommit        = shouldCommit;
   }
 }

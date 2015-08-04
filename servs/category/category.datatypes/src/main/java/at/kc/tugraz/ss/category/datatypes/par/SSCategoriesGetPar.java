@@ -35,6 +35,7 @@ public class SSCategoriesGetPar extends SSServPar{
   public List<SSUri>             entities       = new ArrayList<>();
   public List<SSCategoryLabel>   labels         = new ArrayList<>();
   public SSSpaceE                space          = null;
+  public List<SSUri>             circles        = new ArrayList<>();
   public Long                    startTime      = null;
 
   public void setForUser(final String forUser) throws Exception{
@@ -53,6 +54,10 @@ public class SSCategoriesGetPar extends SSServPar{
     this.space = SSSpaceE.get(space);
   }
   
+  public void setCircles(final List<String> circles) throws Exception{
+    this.circles = SSUri.get(circles);
+  }
+  
   public String getForUser(){
     return SSStrU.removeTrailingSlash(forUser);
   }
@@ -69,6 +74,10 @@ public class SSCategoriesGetPar extends SSServPar{
     return SSStrU.toStr(space);
   }
   
+  public List<String> getCircles(){
+    return SSStrU.removeTrailingSlash(circles);
+  }
+  
   public SSCategoriesGetPar(){}
   
   public SSCategoriesGetPar(
@@ -79,7 +88,9 @@ public class SSCategoriesGetPar extends SSServPar{
     final List<SSUri>           entities,
     final List<SSCategoryLabel> labels,
     final SSSpaceE              space,
-    final Long                  startTime){
+    final List<SSUri>           circles,
+    final Long                  startTime,
+    final Boolean               withUserRestriction){
     
     super(op, key, user);
     
@@ -88,7 +99,11 @@ public class SSCategoriesGetPar extends SSServPar{
     SSUri.addDistinctWithoutNull           (this.entities, entities);
     SSCategoryLabel.addDistinctWithoutNull (this.labels, labels);
     
-    this.space        = space;
-    this.startTime    = startTime;
+    this.space               = space;
+    
+    SSUri.addDistinctWithoutNull     (this.circles, circles);
+    
+    this.startTime           = startTime;
+    this.withUserRestriction = withUserRestriction;
   }
 }

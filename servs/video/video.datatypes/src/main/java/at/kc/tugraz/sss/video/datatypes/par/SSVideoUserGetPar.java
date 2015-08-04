@@ -20,26 +20,38 @@
 */
 package at.kc.tugraz.sss.video.datatypes.par;
 
-import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSStrU;
 
 public class SSVideoUserGetPar extends SSServPar{
   
-  public SSUri    video            = null;
+  public SSUri    video                = null;
+  public Boolean  invokeEntityHandlers = false;
   
-  public SSVideoUserGetPar(SSServPar par) throws Exception{
+  public void setVideo(final String video) throws Exception{
+    this.video = SSUri.get(video);
+  }
+  
+  public String getVideo(){
+    return SSStrU.removeTrailingSlash(video);
+  }
+  
+  public SSVideoUserGetPar(){}
+  
+  public SSVideoUserGetPar(
+    final SSServOpE      op,
+    final String         key,
+    final SSUri          user,
+    final SSUri          video, 
+    final Boolean        withUserRestriction, 
+    final Boolean        invokeEntityHandlers){
     
-    super(par);
+    super(op, key, user);
     
-    try{
-      
-      if(pars != null){
-        video           = (SSUri)   pars.get(SSVarNames.video);
-      }
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
+    this.video                = video;
+    this.withUserRestriction  = withUserRestriction;
+    this.invokeEntityHandlers = invokeEntityHandlers;
   }
 }

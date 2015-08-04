@@ -27,6 +27,10 @@ import at.tugraz.sss.serv.SSUri;
 import at.kc.tugraz.ss.message.datatypes.SSMessage;
 import at.tugraz.sss.serv.SSDBSQLFct;
 import at.tugraz.sss.serv.SSDBSQLI;
+import at.tugraz.sss.serv.SSEntity;
+import at.tugraz.sss.serv.SSEntityE;
+import at.tugraz.sss.serv.SSErr;
+import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
 
 import java.sql.ResultSet;
@@ -64,33 +68,70 @@ public class SSMessageSQLFct extends SSDBSQLFct{
     }
   }
 
-  public List<SSMessage> getMessages(
+  public SSMessage getMessage(
+    final SSUri   messageURI) throws Exception{
+    
+    ResultSet resultSet = null;
+    
+    try{
+      
+      if(messageURI == null){
+        throw new SSErr(SSErrE.parameterMissing);
+      }
+      
+      final List<String>                                           tables         = new ArrayList<>();
+      final Map<String, String>                                    wheres         = new HashMap<>();
+      final List<String>                                           columns        = new ArrayList<>();
+      
+      column    (columns, SSSQLVarNames.messageTable,       SSSQLVarNames.userId);
+      column    (columns, SSSQLVarNames.messageTable,       SSSQLVarNames.messageId);
+      column    (columns, SSSQLVarNames.messageTable,       SSSQLVarNames.messageContent);
+      column    (columns, SSSQLVarNames.messageTable,       SSSQLVarNames.forEntityId);
+
+      table     (tables, SSSQLVarNames.messageTable);
+      
+      where(wheres, SSSQLVarNames.messageTable, SSSQLVarNames.messageId, messageURI);
+      
+      checkFirstResult(resultSet);
+        
+      return SSMessage.get(
+        bindingStrToUri(resultSet, SSSQLVarNames.messageId), 
+        SSEntity.get(bindingStrToUri(resultSet, SSSQLVarNames.userId),      SSEntityE.user), 
+        SSEntity.get(bindingStrToUri(resultSet, SSSQLVarNames.forEntityId), SSEntityE.user),
+        bindingStrToTextComment(resultSet, SSSQLVarNames.messageContent));
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
+    }
+  }
+  
+  public List<SSUri> getMessageURIs(
     final SSUri   targetUserURI,
     final Long    startTime) throws Exception{
     
     ResultSet resultSet = null;
     
     try{
-      final List<SSMessage>                                        messages       = new ArrayList<>();
+      
+      if(targetUserURI == null){
+        throw new SSErr(SSErrE.parameterMissing);
+      }
+      
       final List<String>                                           tables         = new ArrayList<>();
       final List<MultivaluedMap<String, String>>                   wheres         = new ArrayList<>();
       final MultivaluedMap<String, MultivaluedMap<String, String>> wheresNumeric  = new MultivaluedHashMap<>();
       final List<String>                                           columns        = new ArrayList<>();
       final List<String>                                           tableCons      = new ArrayList<>();
       
-      column    (columns, SSSQLVarNames.messageTable,       SSSQLVarNames.userId);
       column    (columns, SSSQLVarNames.messageTable,       SSSQLVarNames.messageId);
-      column    (columns, SSSQLVarNames.messageTable,       SSSQLVarNames.messageContent);
-      column    (columns, SSSQLVarNames.entityTable,        SSSQLVarNames.creationTime);
 
       table     (tables, SSSQLVarNames.messageTable);
       table     (tables, SSSQLVarNames.entityTable);     
       
       tableCon  (tableCons, SSSQLVarNames.messageTable, SSSQLVarNames.messageId, SSSQLVarNames.entityTable, SSSQLVarNames.id);
-
-      if(targetUserURI == null){
-        throw new Exception("target user has to be given");
-      }
        
       final MultivaluedMap<String, String> whereUsers = new MultivaluedHashMap<>();
       
@@ -118,16 +159,7 @@ public class SSMessageSQLFct extends SSDBSQLFct{
         resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
       }
       
-      while(resultSet.next()){
-        
-        messages.add(SSMessage.get(bindingStrToUri(resultSet, SSSQLVarNames.messageId), 
-            bindingStrToUri(resultSet, SSSQLVarNames.userId), 
-            targetUserURI, 
-            bindingStrToTextComment(resultSet, SSSQLVarNames.messageContent),
-            bindingStrToLong(resultSet, SSSQLVarNames.creationTime)));
-      }
-      
-      return messages;
+      return getURIsFromResult(resultSet, SSSQLVarNames.messageId);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

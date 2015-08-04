@@ -49,13 +49,15 @@ public class SSUserAddPar extends SSServPar{
     final Boolean   shouldCommit,
     final SSLabel   label,
     final String    email, 
-    final Boolean   isSystemUser){
+    final Boolean   isSystemUser,
+    final Boolean   withUserRestriction){
     
     super(op, key, user);
     
-    this.shouldCommit = shouldCommit;
-    this.label        = label;
-    this.email        = email;
-    this.isSystemUser = isSystemUser;
+    this.shouldCommit        = shouldCommit;
+    this.label               = label;
+    this.email               = email;
+    this.isSystemUser        = isSystemUser;
+    this.withUserRestriction = withUserRestriction;
   }
 }

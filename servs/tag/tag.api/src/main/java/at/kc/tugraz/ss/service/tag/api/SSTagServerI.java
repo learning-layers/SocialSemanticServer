@@ -21,24 +21,23 @@
 package at.kc.tugraz.ss.service.tag.api;
 
 import at.tugraz.sss.serv.SSUri;
-import at.kc.tugraz.ss.service.tag.datatypes.SSTag;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagFrequ;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagAddPar;
-import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagEditPar;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagEntitiesForTagsGetPar;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagFrequsGetPar;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsAddPar;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsGetPar;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsRemovePar;
+import at.tugraz.sss.serv.SSEntity;
+import at.tugraz.sss.serv.SSServServerI;
 import java.util.List;
 
-public interface SSTagServerI {
+public interface SSTagServerI extends SSServServerI{
   
-  public SSUri                           tagEdit                      (final SSTagEditPar               par) throws Exception;
   public List<SSUri>                     tagEntitiesForTagsGet        (final SSTagEntitiesForTagsGetPar par) throws Exception;
   public List<SSUri>                     tagsAdd                      (final SSTagsAddPar               par) throws Exception;
   public SSUri                           tagAdd                       (final SSTagAddPar                par) throws Exception;
   public Boolean                         tagsRemove                   (final SSTagsRemovePar            par) throws Exception;
-  public List<SSTag>                     tagsGet                      (final SSTagsGetPar               par) throws Exception;
+  public List<SSEntity>                  tagsGet                      (final SSTagsGetPar               par) throws Exception;
   public List<SSTagFrequ>                tagFrequsGet                 (final SSTagFrequsGetPar          par) throws Exception;
 }

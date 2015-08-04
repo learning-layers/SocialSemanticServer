@@ -42,24 +42,20 @@ public class SSSearchRet extends SSServRetI{
     final List<SSEntity> entities,
     final String         pagesID,
     final Integer        pageNumber,
-    final Integer        pageNumbers,
-    final SSServOpE        op){
+    final Integer        pageNumbers){
     
-    return new SSSearchRet(entities, pagesID, pageNumber, pageNumbers, op);
+    return new SSSearchRet(entities, pagesID, pageNumber, pageNumbers);
   }
   
   private SSSearchRet(
     final List<SSEntity> entities,
     final String         pagesID,
     final Integer        pageNumber,
-    final Integer        pageNumbers,
-    final SSServOpE        op){
+    final Integer        pageNumbers){
     
-    super(op);
+    super(SSServOpE.search);
     
-    if(entities != null){
-      this.entities.addAll(entities);
-    }
+    SSEntity.addEntitiesDistinctWithoutNull(this.entities, entities);
     
     this.pagesID     = pagesID;
     this.pageNumber  = pageNumber;

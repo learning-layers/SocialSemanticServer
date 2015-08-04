@@ -20,61 +20,38 @@
   */
 package at.kc.tugraz.ss.service.coll.impl.fct.activity;
 
+import at.kc.tugraz.ss.activity.api.SSActivityServerI;
 import at.tugraz.sss.serv.SSLogU;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
+import at.kc.tugraz.ss.activity.datatypes.par.SSActivityAddPar;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
-
-import at.tugraz.sss.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntriesAddPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntriesDeletePar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntryAddPar;
-import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntryDeletePar;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSServReg;
 
 public class SSCollActivityFct{
-  
-  public static void removeCollEntry(final SSCollUserEntryDeletePar par) throws Exception{
-    
-    try{
-      
-      SSServCaller.activityAdd(
-        par.user,
-        SSActivityE.removeCollEntry,
-        par.coll,
-        SSUri.asListWithoutNullAndEmpty(),
-        SSUri.asListWithoutNullAndEmpty(par.entry),
-        SSTextComment.asListWithoutNullAndEmpty(),
-        null,
-        false);
-      
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
-        default: SSServErrReg.regErrThrow(error);
-      }
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
   
   public static void removeCollEntries(
     final SSCollUserEntriesDeletePar par) throws Exception{
     
     try{
       
-      SSServCaller.activityAdd(
-        par.user,
-        SSActivityE.removeCollEntry,
-        par.coll,
-        SSUri.asListWithoutNullAndEmpty(),
-        par.entries,
-        SSTextComment.asListWithoutNullAndEmpty(),
-        null,
-        false);
+      ((SSActivityServerI) SSServReg.getServ(SSActivityServerI.class)).activityAdd(
+        new SSActivityAddPar(
+          null,
+          null,
+          par.user,
+          SSActivityE.removeCollEntry,
+          par.coll,
+          SSUri.asListWithoutNullAndEmpty(),
+          par.entries,
+          SSTextComment.asListWithoutNullAndEmpty(),
+          null,
+          par.shouldCommit));
       
     }catch(SSErr error){
       
@@ -93,16 +70,18 @@ public class SSCollActivityFct{
     
     try{
       
-      SSServCaller.activityAdd(
-        par.user,
-        SSActivityE.addCollEntry,
-        par.coll,
-        SSUri.asListWithoutNullAndEmpty(),
-        SSUri.asListWithoutNullAndEmpty(par.entry),
-        SSTextComment.asListWithoutNullAndEmpty(),
-        null,
-        
-        false);
+      ((SSActivityServerI) SSServReg.getServ(SSActivityServerI.class)).activityAdd(
+        new SSActivityAddPar(
+          null,
+          null,
+          par.user,
+          SSActivityE.addCollEntry,
+          par.coll,
+          SSUri.asListWithoutNullAndEmpty(),
+          SSUri.asListWithoutNullAndEmpty(par.entry),
+          SSTextComment.asListWithoutNullAndEmpty(),
+          null,
+          par.shouldCommit));
       
     }catch(SSErr error){
       
@@ -120,15 +99,18 @@ public class SSCollActivityFct{
     
     try{
       
-      SSServCaller.activityAdd(
-        par.user,
-        SSActivityE.addCollEntry,
-        par.coll,
-        SSUri.asListWithoutNullAndEmpty(),
-        par.entries,
-        SSTextComment.asListWithoutNullAndEmpty(),
-        null,
-        false);
+      ((SSActivityServerI) SSServReg.getServ(SSActivityServerI.class)).activityAdd(
+        new SSActivityAddPar(
+          null,
+          null,
+          par.user,
+          SSActivityE.addCollEntry,
+          par.coll,
+          SSUri.asListWithoutNullAndEmpty(),
+          par.entries,
+          SSTextComment.asListWithoutNullAndEmpty(),
+          null,
+          par.shouldCommit));
       
     }catch(SSErr error){
       

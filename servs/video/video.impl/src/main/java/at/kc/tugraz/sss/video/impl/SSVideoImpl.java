@@ -22,8 +22,9 @@ package at.kc.tugraz.sss.video.impl;
 
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesAddPar;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivEntityAddPar;
-import at.kc.tugraz.ss.circle.serv.SSCircleServ;
+import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesGetPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.tugraz.sss.serv.SSSocketCon;
 import at.tugraz.sss.serv.SSEntity;
@@ -31,12 +32,9 @@ import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSConfA;
-import at.tugraz.sss.serv.SSEntityDescriberI;
-import at.tugraz.sss.serv.SSEntityHandlerImplI;
-import at.tugraz.sss.serv.SSEntityUpdaterI;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.caller.SSServCaller;
-import at.tugraz.sss.serv.caller.SSServCallerU;
+import at.tugraz.sss.util.SSServCallerU;
 import at.kc.tugraz.sss.video.api.SSVideoClientI;
 import at.kc.tugraz.sss.video.api.SSVideoServerI;
 import at.kc.tugraz.sss.video.datatypes.SSVideo;
@@ -49,25 +47,30 @@ import at.kc.tugraz.sss.video.datatypes.ret.SSVideoUserAddRet;
 import at.kc.tugraz.sss.video.datatypes.ret.SSVideoUserAnnotationAddRet;
 import at.kc.tugraz.sss.video.datatypes.ret.SSVideosUserGetRet;
 import at.kc.tugraz.sss.video.impl.fct.sql.SSVideoSQLFct;
+import at.tugraz.sss.serv.SSCircleContentAddedI;
+import at.tugraz.sss.serv.SSCircleContentChangedPar;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
-import at.tugraz.sss.serv.SSEntityCircle;
+import at.tugraz.sss.serv.SSDescribeEntityI;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
 import java.util.ArrayList;
 import java.util.List;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServReg;
+import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.servs.location.api.SSLocationServerI;
+import at.tugraz.sss.servs.location.datatype.par.SSLocationAddPar;
 
 public class SSVideoImpl 
 extends SSServImplWithDBA 
 implements 
   SSVideoClientI, 
   SSVideoServerI, 
-  SSEntityDescriberI, 
-  SSEntityUpdaterI, 
-  SSEntityHandlerImplI{
+  SSDescribeEntityI, 
+  SSCircleContentAddedI{
   
   private final SSVideoSQLFct sqlFct;
   
@@ -79,65 +82,41 @@ implements
   }
   
   @Override
-  public void removeDirectlyAdjoinedEntitiesForUser(
-    final SSUri     userUri, 
-    final SSEntityE entityType, 
-    final SSUri     entityUri, 
-    final Boolean   removeUserTags, 
-    final Boolean   removeUserRatings, 
-    final Boolean   removeFromUserColls, 
-    final Boolean   removeUserLocations) throws Exception{
-    
-  }
-
-  @Override
-  public Boolean setEntityPublic(
-    final SSUri     userUri, 
-    final SSUri     entityUri, 
-    final SSEntityE entityType, 
-    final SSUri     publicCircleUri) throws Exception{
-   
-   return false; 
-  }
-
-  @Override
-  public void shareEntityWithUsers(
-    final SSUri       user, 
-    final List<SSUri> usersToShareWith, 
-    final SSUri       entity, 
-    final SSUri       circle,
-    final SSEntityE   type,
-    final Boolean     saveActivity) throws Exception{
+  public void circleContentAdded(final SSCircleContentChangedPar par) throws Exception{
     
     try{
-      switch(type){
+      
+      for(SSEntity entityToAdd : par.entitiesToAdd){
         
-        case video:{
+        switch(entityToAdd.type){
           
-          for(SSUri userToShareWith : usersToShareWith){
-
-            sqlFct.addVideoToUser(userToShareWith, entity);
+          case video:{
             
-            for(SSVideoAnnotation annotation : sqlFct.getAnnotations(entity)){
+            for(SSVideoAnnotation annotation : sqlFct.getAnnotations(entityToAdd.id)){
               
               try{
-                SSServCallerU.canUserReadEntity(user, annotation.id);
+                SSServCallerU.canUserReadEntity(par.user, annotation.id);
               }catch(Exception error){
                 SSServErrReg.reset();
                 continue;
               }
               
-              ((SSCircleServerI) SSCircleServ.inst.serv()).circleEntitiesAdd(
+              ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleEntitiesAdd(
                 new SSCircleEntitiesAddPar(
                   null,
                   null,
-                  userToShareWith,
-                  circle,
+                  par.user,
+                  par.circle,
                   SSUri.asListWithoutNullAndEmpty(annotation.id),
-                  false,
                   false,
                   false));
             }
+
+            for(SSUri userToPushEntityTo : par.usersToPushEntitiesTo){
+              sqlFct.addVideoToUser(userToPushEntityTo, entityToAdd.id);
+            }
+            
+            break;
           }
         }
       }
@@ -147,116 +126,33 @@ implements
   }
 
   @Override
-  public Boolean copyEntity(
-    final SSUri       user, 
-    final List<SSUri> users, 
-    final SSUri       entity, 
-    final List<SSUri> entitiesToExclude, 
-    final SSEntityE   entityType) throws Exception{
-    
-    return false;
-  }
-
-  @Override
-  public void addEntityToCircle(
-    final SSUri        user, 
-    final SSUri        circle,
-    final List<SSUri>  circleUsers,
-    final SSUri        entity, 
-    final SSEntityE    type) throws Exception{
-
-    switch(type){
-      
-      case video:{
-      
-        for(SSVideoAnnotation annotation : sqlFct.getAnnotations(entity)){
-        
-          try{
-            SSServCallerU.canUserReadEntity(user, annotation.id);
-          }catch(Exception error){
-            SSServErrReg.reset();
-            continue;
-          }
-          
-          ((SSCircleServerI) SSCircleServ.inst.serv()).circleEntitiesAdd(
-            new SSCircleEntitiesAddPar(
-              null,
-              null,
-              user,
-              circle,
-              SSUri.asListWithoutNullAndEmpty(annotation.id),
-              false,
-              false,
-              false));
-        }
-      }
-    }
-  }
-  
-  @Override
-  public void addUsersToCircle(
-    final SSUri        user,
-    final List<SSUri>  users,
-    final SSEntityCircle        circle) throws Exception{
-    
-    
-    
-  }
-
-  @Override
-  public List<SSUri> getSubEntities(
-    final SSUri     user, 
-    final SSUri     entity, 
-    final SSEntityE type) throws Exception{
-    
-    return null;
-  }
-
-  @Override
-  public List<SSUri> getParentEntities(
-    final SSUri     user, 
-    final SSUri     entity, 
-    final SSEntityE type) throws Exception{
-    
-    return null;
-  }
-  
-  @Override
-  public void updateEntity(
-    final SSServPar parA) throws Exception{
-
-    final SSEntityUpdatePar par = (SSEntityUpdatePar)parA;
-    
-    if(!par.videos.isEmpty()){
-
-      for(SSUri video : par.videos){
-
-        SSServCaller.videoUserAdd(
-          par.user, 
-          video, 
-          par.entity, 
-          null,
-          false);
-      }
-    }
-  }
-  
-  
-  @Override
-  public SSEntity getUserEntity(final SSEntityDescriberPar par) throws Exception{
+  public SSEntity describeEntity(
+    final SSEntity             entity, 
+    final SSEntityDescriberPar par) throws Exception{
     
     try{
-      switch(par.entity.type){
+      switch(entity.type){
         
         case video:{
           
-          final SSVideo video = (SSVideo) SSServCaller.videoUserGet(par.user, par.entity.id);
+          if(SSStrU.equals(entity, par.recursiveEntity)){
+            return entity;
+          }
           
-          return SSVideo.get(video, par.entity);
+          return SSVideo.get(
+            videoGet(
+              new SSVideoUserGetPar(
+                null,
+                null,
+                par.user,
+                entity.id,
+                par.withUserRestriction,
+                false)), //invokeEntityHandlers
+            entity);
         }
       }
       
-      return par.entity;
+      return entity;
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -269,15 +165,16 @@ implements
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSVideoUserAddRet.get(videoUserAdd(parA), parA.op), parA.op);
+    final SSVideoUserAddPar par = (SSVideoUserAddPar) parA.getFromJSON(SSVideoUserAddPar.class);
+    
+    sSCon.writeRetFullToClient(SSVideoUserAddRet.get(videoAdd(par)));
   }
 
   @Override
-  public SSUri videoUserAdd(final SSServPar parA) throws Exception{
+  public SSUri videoAdd(final SSVideoUserAddPar par) throws Exception{
     
     try{
       
-      final SSVideoUserAddPar par      = new SSVideoUserAddPar(parA);
       final SSUri             videoUri;
       
       if(par.uuid != null){
@@ -302,56 +199,60 @@ implements
 //        }
 //      }
       
-      if(par.forEntity != null){
-        SSServCallerU.canUserReadEntity(par.user, par.forEntity);
-      }
-      
-      if(par.link != null){
-        SSServCallerU.canUserReadEntity(par.user, par.link);
-      }
-      
       dbSQL.startTrans(par.shouldCommit);
       
-      ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
-        new SSCirclePrivEntityAddPar(
+      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+        new SSEntityUpdatePar(
           null,
           null,
           par.user,
           videoUri,
-          SSEntityE.video,
-          par.label,
-          par.description,
-          par.creationTime,
-          false));
+          SSEntityE.video, //type,
+          par.label, //label
+          par.description,//description,
+          null, //entitiesToAttach,
+          par.creationTime, //creationTime,
+          null, //read,
+          false, //setPublic
+          par.withUserRestriction, //withUserRestriction
+          false)); //shouldCommit)
       
       if(par.forEntity != null){
         
-        ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
-          new SSCirclePrivEntityAddPar(
+        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+          new SSEntityUpdatePar(
             null,
             null,
             par.user,
             par.forEntity,
-            SSEntityE.entity,
-            null,
-            null,
-            null,
-            false));
-      }
+            null, //type,
+            null, //label
+            null,//description,
+            null, //entitiesToAttach,
+            par.creationTime, //creationTime,
+            null, //read,
+            false, //setPublic
+            par.withUserRestriction, //withUserRestriction
+            false)); //shouldCommit)
+      }      
       
       if(par.link != null){
         
-        ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
-          new SSCirclePrivEntityAddPar(
+        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+          new SSEntityUpdatePar(
             null,
             null,
             par.user,
             par.link,
-            SSEntityE.entity,
-            null,
-            null,
-            null,
-            false));
+            null, //type,
+            null, //label
+            null,//description,
+            null, //entitiesToAttach,
+            par.creationTime, //creationTime,
+            null, //read,
+            false, //setPublic
+            par.withUserRestriction, //withUserRestriction
+            false)); //shouldCommit)
       }
       
       sqlFct.addVideo(
@@ -368,13 +269,17 @@ implements
         par.latitude  != null &&
         par.longitude != null){
         
-        SSServCaller.entityLocationsAdd(
-          par.user, 
-          videoUri,
-          par.latitude,
-          par.longitude,
-          par.accuracy,
-          false);
+        ((SSLocationServerI) SSServReg.getServ(SSLocationServerI.class)).locationAdd(
+          new SSLocationAddPar(
+            null, 
+            null,
+            par.user,
+            videoUri,
+            par.latitude,
+            par.longitude,
+            par.accuracy,
+            par.withUserRestriction, //withUserRestriction,
+            false)); //shouldCommit
       }
       
       dbSQL.commit(par.shouldCommit);
@@ -385,18 +290,18 @@ implements
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(dbSQL.rollBack(parA.shouldCommit)){
+        if(dbSQL.rollBack(par.shouldCommit)){
           
           SSServErrReg.reset();
           
-          return videoUserAdd(parA);
+          return videoAdd(par);
         }else{
           SSServErrReg.regErrThrow(error);
           return null;
         }
       }
       
-      dbSQL.rollBack(parA.shouldCommit);
+      dbSQL.rollBack(par.shouldCommit);
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -407,32 +312,51 @@ implements
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSVideoUserAnnotationAddRet.get(videoUserAnnotationAdd(parA), parA.op), parA.op);
+    final SSVideoUserAnnotationAddPar par = (SSVideoUserAnnotationAddPar) parA.getFromJSON(SSVideoUserAnnotationAddPar.class);
+    
+    sSCon.writeRetFullToClient(SSVideoUserAnnotationAddRet.get(videoAnnotationAdd(par)));
   }
   
   @Override
-  public SSUri videoUserAnnotationAdd(final SSServPar parA) throws Exception{
+  public SSUri videoAnnotationAdd(final SSVideoUserAnnotationAddPar par) throws Exception{
   
     try{
-      final SSVideoUserAnnotationAddPar    par           = new SSVideoUserAnnotationAddPar(parA);
-      final SSUri                          annotationUri = SSServCaller.vocURICreate();
+      final SSUri annotationUri = SSServCaller.vocURICreate();
 
-      SSServCallerU.canUserReadEntity(par.user, par.video);
-      
       dbSQL.startTrans(par.shouldCommit);
       
-      ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
-        new SSCirclePrivEntityAddPar(
+      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+        new SSEntityUpdatePar(
+          null,
+          null,
+          par.user,
+          par.video,
+          null, //type,
+          null, //label
+          null,//description,
+          null, //entitiesToAttach,
+          null, //creationTime,
+          null, //read,
+          false, //setPublic
+          par.withUserRestriction, //withUserRestriction
+          false)); //shouldCommit)
+      
+      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+        new SSEntityUpdatePar(
           null,
           null,
           par.user,
           annotationUri,
-          SSEntityE.videoAnnotation,
-          par.label,
-          par.description,
-          null,
-          false));
-       
+          SSEntityE.videoAnnotation, //type,
+          par.label, //label
+          par.description,//description,
+          null, //entitiesToAttach,
+          null, //creationTime,
+          null, //read,
+          false, //setPublic
+          par.withUserRestriction, //withUserRestriction
+          false)); //shouldCommit)
+      
       sqlFct.createAnnotation(
         par.video, 
         annotationUri, 
@@ -448,50 +372,67 @@ implements
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(dbSQL.rollBack(parA.shouldCommit)){
+        if(dbSQL.rollBack(par.shouldCommit)){
           
           SSServErrReg.reset();
           
-          return videoUserAnnotationAdd(parA);
+          return videoAnnotationAdd(par);
         }else{
           SSServErrReg.regErrThrow(error);
           return null;
         }
       }
       
-      dbSQL.rollBack(parA.shouldCommit);
+      dbSQL.rollBack(par.shouldCommit);
       SSServErrReg.regErrThrow(error);
       return null;
     }
   }
   
   @Override
-  public SSVideo videoUserGet(final SSServPar parA) throws Exception{
+  public SSVideo videoGet(final SSVideoUserGetPar par) throws Exception{
     
     try{
-      final SSVideoUserGetPar      par         = new SSVideoUserGetPar(parA);
       final SSVideo                video;
+      final SSEntityDescriberPar   descPar;
       
-      SSServCallerU.canUserReadEntity(par.user, par.video);
-      
-      video = sqlFct.getVideo(par.user, par.video);
+      if(par.withUserRestriction){
         
-      for(SSVideoAnnotation annotation : sqlFct.getAnnotations(video.id)){
-
-        try{
-          SSServCallerU.canUserReadEntity(par.user, annotation.id);
-        }catch(Exception error){
-          SSServErrReg.reset();
-          continue;
+        if(!SSServCallerU.canUserRead(par.user, par.video)){
+          return null;
         }
-        
-        video.annotations.add(annotation);
       }
       
-      video.locations.addAll(
-        SSServCaller.entityLocationsGet(
-          par.user,
-          video.id));
+      if(par.invokeEntityHandlers){
+        descPar              = new SSEntityDescriberPar(par.video);
+        descPar.setLocations = true;
+      }else{
+        descPar = null;
+      }
+      
+      video = 
+        SSVideo.get(
+          sqlFct.getVideo(par.user, par.video), 
+          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+            new SSEntityGetPar(
+              null, 
+              null, 
+              par.user,
+              par.video,
+              par.withUserRestriction, 
+              descPar))); //descPar
+      
+      SSEntity.addEntitiesDistinctWithoutNull(
+        video.annotations,
+        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
+          new SSEntitiesGetPar(
+            null,
+            null,
+            par.user,
+            SSUri.getDistinctNotNullFromEntities(sqlFct.getAnnotations(video.id)),
+            null, //types
+            null, //descPar
+            par.withUserRestriction)));
       
       return video;
       
@@ -506,40 +447,41 @@ implements
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSVideosUserGetRet.get(videosUserGet(parA), parA.op), parA.op);
+    final SSVideosUserGetPar par = (SSVideosUserGetPar) parA.getFromJSON(SSVideosUserGetPar.class);
+    
+    sSCon.writeRetFullToClient(SSVideosUserGetRet.get(videosGet(par)));
   }
   
   @Override
-  public List<SSVideo> videosUserGet(final SSServPar parA) throws Exception{
+  public List<SSEntity> videosGet(final SSVideosUserGetPar par) throws Exception{
     
     try{
-      final SSVideosUserGetPar      par         = new SSVideosUserGetPar(parA);
-      final List<SSVideo>           videos      = new ArrayList<>();
       
-      if(par.forEntity != null){
-        SSServCallerU.canUserReadEntity(par.user, par.forEntity);
+      if(par.withUserRestriction){
+      
+        if(par.forEntity != null){
+          
+          if(!SSServCallerU.canUserRead(par.user, par.forEntity)){
+            return new ArrayList<>();
+          }
+        }
       }
       
-      for(SSVideo video : sqlFct.getVideos(par.forUser, par.forEntity)){
+      final List<SSEntity> videos    = new ArrayList<>();
+      final List<SSUri>    videoURIs = sqlFct.getVideoURIs(par.user, par.forEntity);
+      
+      for(SSUri videoURI : videoURIs){
         
-        for(SSVideoAnnotation annotation : sqlFct.getAnnotations(video.id)){
-        
-          try{
-            SSServCallerU.canUserReadEntity(par.user, annotation.id);
-          }catch(Exception error){
-            SSServErrReg.reset();
-            continue;
-          }
-          
-          video.annotations.add(annotation);
-        }
-        
-        video.locations.addAll(
-          SSServCaller.entityLocationsGet(
-            par.user,
-            video.id));
-        
-        videos.add(video);
+        SSEntity.addEntitiesDistinctWithoutNull(
+          videos,
+          videoGet(
+            new SSVideoUserGetPar(
+              null,
+              null,
+              par.user,
+              videoURI,
+              par.withUserRestriction,
+              par.invokeEntityHandlers)));
       }
       
       return videos;

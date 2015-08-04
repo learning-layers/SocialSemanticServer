@@ -25,27 +25,48 @@ import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
-import com.wordnik.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class SSActivity extends SSEntity{
   
-  @ApiModelProperty(
-    required = false,
-    value = "type of the activity")
-  public SSActivityE         activityType = null;
+  public SSActivityE              activityType = null;
+  public SSEntity                 entity       = null;
+  public List<SSActivityContent>  contents     = new ArrayList<>();
   
-  @ApiModelProperty(
-    required = false,
-    value = "entity")
-  public SSEntity         entity = null;
+  public String getActivityType() throws Exception{
+    return SSStrU.toStr(activityType);
+  }
   
-  @ApiModelProperty(
-    required = false,
-    value = "contents")
-  public List<SSActivityContent>         contents = new ArrayList<>();
+  public List<String> getContents() throws Exception {
+    return SSStrU.toStr(contents);
+  }
+  
+  @Override
+  public Object jsonLDDesc(){
+    throw new UnsupportedOperationException();
+  }
+  
+  public static SSActivity get(
+    final SSActivity              activity,
+    final SSEntity                entity) throws Exception{
+    
+    return new SSActivity(activity, entity);
+  }
+  
+  protected SSActivity(
+    final SSActivity           activity,
+    final SSEntity             entity) throws Exception{
+    
+    super(activity, entity);
+    
+    this.activityType = activity.activityType;
+    this.entity       = activity.entity;
+    
+    if(activity.contents != null){
+      this.contents.addAll(activity.contents);
+    }
+  }
   
   public static SSActivity get(
     final SSUri                   id,
@@ -70,22 +91,5 @@ public class SSActivity extends SSEntity{
     if(contents != null){
       this.contents.addAll(contents);
     }
-  }
-  
-  @Override
-  public Object jsonLDDesc(){
-    
-    final Map<String, Object> ld = (Map<String, Object>) super.jsonLDDesc();
-   
-    return ld;
-  }
-  
-  /* json getters */
-  public String getActivityType() throws Exception{
-    return SSStrU.toStr(activityType);
-  }
-  
-  public List<String> getContents() throws Exception {
-    return SSStrU.toStr(contents);
   }
 }

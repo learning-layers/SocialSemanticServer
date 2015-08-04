@@ -32,20 +32,8 @@ public class SSAppAddRet extends SSServRetI{
   
   public SSUri app = null;
   
-  public static SSAppAddRet get(
-    final SSUri    app,
-    final SSServOpE  op){
-    
-    return new SSAppAddRet(app, op);
-  }
-  
-  private SSAppAddRet(
-    final SSUri    app,
-    final SSServOpE  op) {
-    
-    super(op);
-    
-    this.app = app;
+  public String getApp() {
+    return SSStrU.removeTrailingSlash(app);
   }
   
   @Override
@@ -57,10 +45,18 @@ public class SSAppAddRet extends SSServRetI{
     
     return ld;
   }
+    
+  public static SSAppAddRet get(
+    final SSUri    app){
+    
+    return new SSAppAddRet(app);
+  }
   
-  /* json getters */
-  
-  public String getApp() {
-    return SSStrU.removeTrailingSlash(app);
+  private SSAppAddRet(
+    final SSUri    app) {
+    
+    super(SSServOpE.appAdd);
+    
+    this.app = app;
   }
 }

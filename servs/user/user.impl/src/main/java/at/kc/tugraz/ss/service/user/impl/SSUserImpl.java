@@ -21,10 +21,11 @@
 package at.kc.tugraz.ss.service.user.impl;
 
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesAddPar;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivEntityAddPar;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCirclesGetPar;
-import at.kc.tugraz.ss.circle.serv.SSCircleServ;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePubURIGetPar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleUsersAddPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSSocketCon;
@@ -33,39 +34,38 @@ import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.SSConfA;
-import at.tugraz.sss.serv.SSEntityDescriberI;
-import at.tugraz.sss.serv.SSEntityHandlerImplI;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.caller.SSServCaller;
-import at.tugraz.sss.serv.caller.SSServCallerU;
+import at.tugraz.sss.util.SSServCallerU;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
-import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 import at.kc.tugraz.ss.service.user.api.*;
 import at.kc.tugraz.ss.service.user.datatypes.SSUser;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserAddPar;
-import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserAllPar;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserExistsPar;
+import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserGetPar;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserURIGetPar;
+import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserURIsGetPar;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUsersGetPar;
-import at.kc.tugraz.ss.service.user.datatypes.ret.SSUserAllRet;
+import at.kc.tugraz.ss.service.user.datatypes.ret.SSUsersGetRet;
 import at.kc.tugraz.ss.service.user.impl.functions.sql.SSUserSQLFct;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
-import at.tugraz.sss.serv.SSEntityCircle;
+import at.tugraz.sss.serv.SSDescribeEntityI;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
+import at.tugraz.sss.serv.SSErr;
 import java.util.*;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServReg;
 
 public class SSUserImpl 
 extends SSServImplWithDBA 
 implements 
   SSUserClientI, 
   SSUserServerI, 
-  SSEntityHandlerImplI, 
-  SSEntityDescriberI{
+  SSDescribeEntityI{
   
 //  private final SSUserGraphFct       graphFct;
   private final SSUserSQLFct         sqlFct;
@@ -79,127 +79,37 @@ implements
   }
   
   @Override
-  public SSEntity getUserEntity(final SSEntityDescriberPar par) throws Exception{
+  public SSEntity describeEntity(
+    final SSEntity             entity, 
+    final SSEntityDescriberPar par) throws Exception{
     
     try{
-      switch(par.entity.type){
+      switch(entity.type){
         
         case user:{
           
-          final SSUser user = sqlFct.getUser(par.entity.id);
-
-          user.friends.addAll(
-            SSServCaller.friendsUserGet(
-              par.entity.id));
-          
-          if(par.setCircles){
-            
-            user.circles.addAll(
-              ((SSCircleServerI) SSCircleServ.inst.serv()).circlesGet(
-                new SSCirclesGetPar(
-                  null, 
-                  null, 
-                  par.user,
-                  par.user,
-                  null,
-                  SSEntityE.asListWithoutNullAndEmpty(), 
-                  true, 
-                  false, 
-                  false)));
+          if(SSStrU.equals(entity, par.recursiveEntity)){
+            return entity;
           }
           
-          par.entity = 
-            SSUser.get(
-              user,
-              par.entity);
-          
-          break;
+          return SSUser.get(
+            userGet(
+              new SSUserGetPar(
+                null,
+                null,
+                par.user,
+                entity.id,
+                false)),
+            entity);
         }
+        
+        default: return entity;
       }
-      
-      return par.entity;
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }
-  }
-  
-  @Override
-  public Boolean copyEntity(
-    final SSUri        user,
-    final List<SSUri>  users,
-    final SSUri        entity,
-    final List<SSUri>  entitiesToExclude,
-    final SSEntityE    entityType) throws Exception{
-    
-    return false;
-  }
-  
-  @Override
-  public List<SSUri> getParentEntities(
-    final SSUri         user,
-    final SSUri         entity,
-    final SSEntityE     type) throws Exception{
-    
-    return new ArrayList<>();
-  }
-  
-  @Override
-  public List<SSUri> getSubEntities(
-    final SSUri         user,
-    final SSUri         entity,
-    final SSEntityE     type) throws Exception{
-
-    return null;
-  }
-  
-  @Override
-  public void removeDirectlyAdjoinedEntitiesForUser(
-    final SSUri       userUri, 
-    final SSEntityE   entityType,
-    final SSUri       entityUri,
-    final Boolean     removeUserTags,
-    final Boolean     removeUserRatings,
-    final Boolean     removeFromUserColls,
-    final Boolean     removeUserLocations) throws Exception{
-  }
-  
-  @Override
-  public Boolean setEntityPublic(
-    final SSUri          userUri,
-    final SSUri          entityUri, 
-    final SSEntityE      entityType,
-    final SSUri          publicCircleUri) throws Exception{
-
-    return false;
-  }
-  
-  @Override
-  public void shareEntityWithUsers(
-    final SSUri          userUri, 
-    final List<SSUri>    userUrisToShareWith,
-    final SSUri          entityUri, 
-    final SSUri          entityCircleUri,
-    final SSEntityE      entityType,
-    final Boolean        saveActivity) throws Exception{
-  }
- 
-  @Override
-  public void addEntityToCircle(
-    final SSUri        userUri, 
-    final SSUri        circleUri,
-    final List<SSUri>  circleUsers,
-    final SSUri        entityUri,
-    final SSEntityE    entityType) throws Exception{
-  }  
-  
-  @Override
-  public void addUsersToCircle(
-    final SSUri            user, 
-    final List<SSUri>      users,
-    final SSEntityCircle   circle) throws Exception{
-    
   }
   
   @Override
@@ -224,8 +134,67 @@ implements
     }
   }
   
-    @Override
-  public void userAll(SSSocketCon sSCon, SSServPar parA) throws Exception {
+  
+  @Override
+  public List<SSUri> userURIsGet(final SSUserURIsGetPar par) throws Exception{
+    
+    try{
+      
+      final List<SSUri> uris = new ArrayList<>();
+      
+      for(String email : par.emails){
+        uris.add(sqlFct.getUserURIForEmail(email));
+      }
+
+      return uris;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override 
+  public SSUser userGet(final SSUserGetPar par) throws Exception{
+    
+    try{
+      
+      final SSUser               userToGet = sqlFct.getUser(par.userToGet);
+      final SSUser               user;
+      final SSEntityDescriberPar descPar; 
+      
+      if(par.invokeEntityHandlers){
+        descPar = new SSEntityDescriberPar(userToGet.id);
+        
+        descPar.setFriends = true;
+      }else{
+        descPar = null;
+      }
+
+      user =
+        SSUser.get(
+          userToGet,
+          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+            new SSEntityGetPar(
+              null,
+              null,
+              par.user,
+              userToGet.id,
+              par.withUserRestriction,
+              descPar)));
+      
+      if(par.invokeEntityHandlers){
+        user.friend = SSStrU.contains(user.friends, par.user);
+      }
+
+      return user;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public void usersGet(SSSocketCon sSCon, SSServPar parA) throws Exception {
     
 //      if(SSAuthEnum.isSame(SSAuthServ.inst().getAuthType(), SSAuthEnum.wikiAuth)){
 //        returnObj.object =  new SSAuthWikiDbCon(new SSAuthWikiConf()).getUserList(); //TODO remove new SSAuthWikiConf() --> take it from config
@@ -233,44 +202,31 @@ implements
         
     SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(
-      new SSUserAllRet(
-        userAll((SSUserAllPar) parA.getFromJSON(SSUserAllPar.class))), 
-      parA.op);
+    final SSUsersGetPar par = (SSUsersGetPar) parA.getFromJSON(SSUsersGetPar.class);
+    
+    sSCon.writeRetFullToClient(new SSUsersGetRet(usersGet(par)));
 //      }
   }
   
-  @Override
-  public List<SSUser> userAll(final SSUserAllPar par) throws Exception {
-    
-    try{
-      
-      return usersGet(
-        new SSUsersGetPar(
-          null,
-          null,
-          par.user,
-          SSUri.asListWithoutNullAndEmpty(),
-          par.setFriends));
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-
   @Override 
-  public List<SSUser> usersGet(final SSUsersGetPar par) throws Exception{
+  public List<SSEntity> usersGet(final SSUsersGetPar par) throws Exception{
     
     try{
-      final List<SSUser>  users = sqlFct.getUsers(par.users);
       
-      for(SSUser user : users){
+      final List<SSUri>    userURIs = sqlFct.getUserURIs(par.users);
+      final List<SSEntity> users    = new ArrayList<>();
+      
+      for(SSUri userURI : userURIs){
         
-        if(par.setFriends){
-          user.friends.addAll(SSServCaller.friendsUserGet(user.id));
-          user.friend = SSStrU.contains(user.friends, par.user);
-        }
+        SSEntity.addEntitiesDistinctWithoutNull(
+          users,
+          userGet(
+            new SSUserGetPar(
+              null,
+              null,
+              par.user,
+              userURI,
+              par.invokeEntityHandlers)));
       }
       
       return users;
@@ -284,12 +240,18 @@ implements
   public SSUri userAdd(final SSUserAddPar par) throws Exception{
     
     try{
+      
+      if(par.withUserRestriction){
+        throw new SSErr(SSErrE.userCannotAddUser);
+      }
+      
       final SSUri         userUri;
       final SSLabel       tmpLabel;
       final String        tmpEmail;
+      final SSUri         publicCircleURI;
       
       if(par.isSystemUser){
-        userUri  = SSVoc.systemUserUri;
+        userUri  = SSVocConf.systemUserUri;
         tmpLabel = SSLabel.get(SSVocConf.systemUserLabel);
         tmpEmail = SSVocConf.systemUserEmail; 
       }else{
@@ -301,28 +263,39 @@ implements
       
       dbSQL.startTrans(par.shouldCommit);
       
-      ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
-        new SSCirclePrivEntityAddPar(
+      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+        new SSEntityUpdatePar(
           null,
           null,
-          SSVoc.systemUserUri,
+          SSVocConf.systemUserUri,
           userUri,
-          SSEntityE.user,
-          tmpLabel,
-          null,
-          null,
-          false));
+          SSEntityE.user, //type,
+          tmpLabel, //label
+          null,//description,
+          null, //entitiesToAttach,
+          null, //creationTime,
+          null, //read,
+          true, //setPublic
+          par.withUserRestriction, //withUserRestriction
+          false)); //shouldCommit)
       
-      ((SSCircleServerI) SSCircleServ.inst.serv()).circleEntitiesAdd(
-          new SSCircleEntitiesAddPar(
-            null, 
-            null, 
-            SSVoc.systemUserUri,  
-            SSServCaller.circlePubURIGet(false),
-            SSUri.asListWithoutNullAndEmpty(userUri), 
-            false,
-            true, 
+      publicCircleURI = 
+        ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePubURIGet(
+          new SSCirclePubURIGetPar(
+            null,
+            null,
+            par.user,
             false));
+      
+      ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleUsersAdd(
+        new SSCircleUsersAddPar(
+          null,
+          null,
+          SSVocConf.systemUserUri, 
+          publicCircleURI, //circle
+          SSUri.asListWithoutNullAndEmpty(userUri), //users
+          par.withUserRestriction, //withUserRestriction
+          false)); //shouldCommit
       
       sqlFct.addUser(userUri, tmpEmail);
       

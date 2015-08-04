@@ -31,22 +31,6 @@ public class SSUECountGetRet extends SSServRetI{
 
   public Integer count = null;
 
-  public static SSUECountGetRet get(
-    final Integer count, 
-    final SSServOpE op){
-    
-    return new SSUECountGetRet(count, op);
-  }
-  
-  private SSUECountGetRet(
-    final Integer count, 
-    final SSServOpE op){
-    
-    super(op);
-    
-    this.count = count;
-  }
-
   @Override
   public Map<String, Object> jsonLDDesc(){
     
@@ -56,9 +40,19 @@ public class SSUECountGetRet extends SSServRetI{
     
     return ld;
   }
+
+  public static SSUECountGetRet get(
+    final Integer count){
+    
+    return new SSUECountGetRet(count);
+  }
   
-  /* getters to allow for json enconding */
-  public Integer getCount() {
-    return count;
+  private SSUECountGetRet(
+    final Integer count){
+    
+    super(SSServOpE.userEventCountGet);
+    
+    this.count = count;
   }
 }
+  

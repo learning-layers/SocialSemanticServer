@@ -18,32 +18,20 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-
 package at.kc.tugraz.ss.service.coll.datatypes.ret;
 
-import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServRetI;
 import at.kc.tugraz.ss.service.coll.datatypes.SSColl;
+import at.tugraz.sss.serv.SSServOpE;
 import java.util.HashMap;
 import java.util.Map;
 
 public class SSCollUserRootGetRet extends SSServRetI{
-
-  public SSColl coll = null;
-
-  public static SSCollUserRootGetRet get(SSColl coll, SSServOpE op){
-    return new SSCollUserRootGetRet(coll, op);
-  }
   
-  private SSCollUserRootGetRet(SSColl coll, SSServOpE op) {
-
-    super(op);
-    
-    this.coll = coll;
-  }
-
+  public SSColl coll = null;
+  
   @Override
   public Map<String, Object> jsonLDDesc(){
     
@@ -54,7 +42,14 @@ public class SSCollUserRootGetRet extends SSServRetI{
     return ld;
   }
   
-  public SSColl getColl() {
-    return coll;
+  public static SSCollUserRootGetRet get(SSColl coll){
+    return new SSCollUserRootGetRet(coll);
+  }
+  
+  private SSCollUserRootGetRet(SSColl coll) {
+    
+    super(SSServOpE.collRootGet);
+    
+    this.coll = coll;
   }
 }

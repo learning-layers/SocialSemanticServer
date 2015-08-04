@@ -37,64 +37,18 @@ public class SSVideoUserAnnotationAddPar extends SSServPar{
   public Float               y                  = null;
   public SSLabel             label              = null;
   public SSTextComment       description        = null;
-  
-  public SSVideoUserAnnotationAddPar(
-    final SSServOpE              op,
-    final String               key,
-    final SSUri                user,
-    final SSUri                video,
-    final Long                 timePoint,
-    final Float                x,
-    final Float                y,
-    final SSLabel              label,
-    final SSTextComment        description){
-    
-    super(op, key, user);
-    
-    this.video              = video;
-    this.timePoint          = timePoint;
-    this.x                  = x;
-    this.y                  = y;
-    this.label              = label;
-    this.description        = description;
+
+  public void setVideo(final String video) throws Exception{
+    this.video = SSUri.get(video);
   }
   
-  public SSVideoUserAnnotationAddPar(final SSServPar par) throws Exception{
-    
-    super(par);
-    
-    try{
-      
-      if(pars != null){
-        video               = (SSUri)          pars.get(SSVarNames.video);
-        timePoint           = (Long)           pars.get(SSVarNames.timePoint);
-        x                   = (Float)          pars.get(SSVarNames.x);
-        y                   = (Float)          pars.get(SSVarNames.y);
-        label               = (SSLabel)        pars.get(SSVarNames.label);
-        description         = (SSTextComment)  pars.get(SSVarNames.description);
-      }
-      
-      if(par.clientJSONObj != null){
-        
-        video               = SSUri.get(par.clientJSONObj.get(SSVarNames.video).getTextValue());
-        timePoint           =  par.clientJSONObj.get(SSVarNames.timePoint).getLongValue();
-        x                   =  par.clientJSONObj.get(SSVarNames.x).getNumberValue().floatValue();
-        y                   =  par.clientJSONObj.get(SSVarNames.y).getNumberValue().floatValue();
-        
-        try{
-          label =  SSLabel.get(par.clientJSONObj.get(SSVarNames.label).getTextValue());
-        }catch(Exception error){}
-        
-        try{
-          description =  SSTextComment.get(par.clientJSONObj.get(SSVarNames.description).getTextValue());
-        }catch(Exception error){}
-      }
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
+  public void setLabel(final String label) throws Exception{
+    this.label = SSLabel.get(label);
   }
   
-  /* json getters */
+  public void setDescription(final String description) throws Exception{
+    this.description = SSTextComment.get(description);
+  }
   
   public String getVideo(){
     return SSStrU.removeTrailingSlash(video);
@@ -106,5 +60,32 @@ public class SSVideoUserAnnotationAddPar extends SSServPar{
   
   public String getDescription(){
     return SSStrU.toStr(description);
+  }
+  
+  public SSVideoUserAnnotationAddPar(){}
+    
+  public SSVideoUserAnnotationAddPar(
+    final SSServOpE            op,
+    final String               key,
+    final SSUri                user,
+    final SSUri                video,
+    final Long                 timePoint,
+    final Float                x,
+    final Float                y,
+    final SSLabel              label,
+    final SSTextComment        description, 
+    final Boolean              withUserRestriction, 
+    final Boolean              shouldCommit){
+    
+    super(op, key, user);
+    
+    this.video               = video;
+    this.timePoint           = timePoint;
+    this.x                   = x;
+    this.y                   = y;
+    this.label               = label;
+    this.description         = description;
+    this.withUserRestriction = withUserRestriction;
+    this.shouldCommit        = shouldCommit;
   }
 }

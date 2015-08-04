@@ -21,28 +21,19 @@
 package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret;
 
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpVersion;
-import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSJSONLDU;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSServRetI;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class SSLearnEpVersionsGetRet extends SSServRetI{
 
-  public List<SSLearnEpVersion> learnEpVersions = null;
-
-  public static SSLearnEpVersionsGetRet get(List<SSLearnEpVersion> learnEpVersions, SSServOpE op){
-    return new SSLearnEpVersionsGetRet(learnEpVersions, op);
-  }
-  
-  private SSLearnEpVersionsGetRet(List<SSLearnEpVersion> learnEpVersions, SSServOpE op){
-    
-    super(op);
-    this.learnEpVersions = learnEpVersions;
-  }
+  public List<SSLearnEpVersion> learnEpVersions = new ArrayList<>();
 
   @Override
   public Map<String, Object> jsonLDDesc(){
@@ -58,8 +49,14 @@ public class SSLearnEpVersionsGetRet extends SSServRetI{
     return ld;
   }
   
-  /*************** getters to allow for json enconding ********************/
-  public List<SSLearnEpVersion>  getLearnEpVersions() {
-    return learnEpVersions;
+  public static SSLearnEpVersionsGetRet get(List<SSLearnEpVersion> learnEpVersions){
+    return new SSLearnEpVersionsGetRet(learnEpVersions);
+  }
+  
+  private SSLearnEpVersionsGetRet(List<SSLearnEpVersion> learnEpVersions){
+    
+    super(SSServOpE.learnEpVersionsGet);
+    
+    this.learnEpVersions = learnEpVersions;
   }
 }

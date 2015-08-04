@@ -19,8 +19,6 @@
   
   <dependencies>
   
-   
-    
      <dependency>
       <groupId>sss.serv</groupId>
       <artifactId>serv.reg</artifactId>

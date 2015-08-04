@@ -22,14 +22,13 @@ package at.kc.tugraz.ss.serv.datatypes.entity.impl.fct;
 
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclesGetPar;
-import at.kc.tugraz.ss.circle.serv.SSCircleServ;
+import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityCircle;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSServErrReg;
-
-import at.tugraz.sss.serv.caller.SSServCaller;
+import at.tugraz.sss.serv.SSServReg;
 import java.util.List;
 import java.util.Map;
 
@@ -66,12 +65,11 @@ public class SSEntityUserRelationsGatherFct{
     
     final String userStr = SSStrU.toStr(userUri);
     
-    for(SSEntityCircle circle : 
-      ((SSCircleServerI) SSCircleServ.inst.serv()).circlesGet(
+    for(SSEntity circle : 
+      ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlesGet(
           new SSCirclesGetPar(
             null,
             null,
-            userUri,
             userUri,
             null,
             SSEntityE.asListWithoutNullAndEmpty(),
@@ -80,9 +78,9 @@ public class SSEntityUserRelationsGatherFct{
             false))){
       
       if(userRelations.containsKey(userStr)){
-        userRelations.get(userStr).addAll(SSUri.getFromEntitites(circle.users));
+        userRelations.get(userStr).addAll(SSUri.getDistinctNotNullFromEntities(circle.users));
       }else{
-        userRelations.put(userStr, SSUri.getFromEntitites(circle.users));
+        userRelations.put(userStr, SSUri.getDistinctNotNullFromEntities(circle.users));
       }
     }
   }

@@ -22,60 +22,36 @@ package at.kc.tugraz.sss.video.datatypes.par;
 
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServErrReg;
 
 public class SSVideosUserGetPar extends SSServPar{
   
-  public SSUri forEntity  = null;
-  public SSUri forUser    = null;
-  
-  public SSVideosUserGetPar(
-    final SSServOpE op,
-    final String  key,
-    final SSUri   user, 
-    final SSUri   forEntity,
-    final SSUri   forUser){
-    
-    super(op, key, user);
-    
-    this.forEntity = forEntity;
-    this.forUser   = forUser;
-  }
-  
-  public SSVideosUserGetPar(final SSServPar par) throws Exception{
-    super(par);
-    
-    try{
-      
-      if(pars != null){
-        forEntity           = (SSUri)   pars.get(SSVarNames.forEntity);
-        forUser             = (SSUri)   pars.get(SSVarNames.forUser);
-      }
-      
-      if(par.clientJSONObj != null){
-        
-         try{
-          forUser          = SSUri.get        (par.clientJSONObj.get(SSVarNames.forUser).getTextValue());
-        }catch(Exception error){}
-        
-        try{
-          forEntity          = SSUri.get        (par.clientJSONObj.get(SSVarNames.forEntity).getTextValue());
-        }catch(Exception error){}
-      }
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
-  /* json getters */
+  public SSUri   forEntity            = null;
+  public Boolean invokeEntityHandlers = false;
+
   public String getForEntity(){
     return SSStrU.removeTrailingSlash(forEntity);
   }
+
+  public void setForEntity(String forEntity) throws Exception{
+    this.forEntity = SSUri.get(forEntity);
+  }
+
+  public SSVideosUserGetPar(){}
   
-  public String getForUser(){
-    return SSStrU.removeTrailingSlash(forUser);
+  public SSVideosUserGetPar(
+    final SSServOpE op,
+    final String    key,
+    final SSUri     user, 
+    final SSUri     forEntity,
+    final Boolean   withUserRestriction, 
+    final Boolean   invokeEntityHandlers){
+    
+    super(op, key, user);
+    
+    this.forEntity            = forEntity;
+    this.withUserRestriction  = withUserRestriction;
+    this.invokeEntityHandlers = invokeEntityHandlers;
   }
 }

@@ -25,7 +25,7 @@ import java.util.List;
 
 public abstract class SSServImplStartA extends SSServImplA implements Runnable{
 
-  public final SSDBSQLI dbSQL;
+  public SSDBSQLI dbSQL;
   
   protected static final ThreadLocal<List<SSServImplA>> servImplsUsedByThread = new ThreadLocal<List<SSServImplA>>(){
     
@@ -88,8 +88,8 @@ public abstract class SSServImplStartA extends SSServImplA implements Runnable{
   
   @Override
   public Object handleServerOp(
-    final Class      servImplServerInteraceClass, 
-    final SSServPar  par) throws Exception{
+    final Class              servServerI, 
+    final SSServPar          par) throws Exception{
     
     throw new UnsupportedOperationException(SSStrU.empty);
   }

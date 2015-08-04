@@ -32,6 +32,7 @@ public class SSTagAddPar extends SSServPar{
   public SSUri        entity       = null;
   public SSTagLabel   label        = null;
   public SSSpaceE     space        = null;
+  public SSUri        circle       = null;
   public Long         creationTime = null;
 
   public void setEntity(final String entity) throws Exception{
@@ -46,6 +47,10 @@ public class SSTagAddPar extends SSServPar{
     this.space = SSSpaceE.get(space);
   }
   
+  public void setCircle(final String circle) throws Exception{
+    this.circle = SSUri.get(circle);
+  }
+  
   public String getEntity(){
     return SSStrU.removeTrailingSlash(entity);
   }
@@ -57,6 +62,10 @@ public class SSTagAddPar extends SSServPar{
   public String getSpace(){
     return SSStrU.toStr(space);
   }
+ 
+  public String getCircle(){
+    return SSStrU.removeTrailingSlash(circle);
+  } 
   
   public SSTagAddPar(){}
   
@@ -67,15 +76,19 @@ public class SSTagAddPar extends SSServPar{
     final SSUri          entity,
     final SSTagLabel     label,
     final SSSpaceE       space,
+    final SSUri          circle,
     final Long           creationTime,
+    final Boolean        withUserRestriction,
     final Boolean        shouldCommit) {
   
     super(op, key, user);
     
-    this.entity       = entity;
-    this.label        = label;
-    this.space        = space;
-    this.creationTime = creationTime;
-    this.shouldCommit = shouldCommit;
+    this.entity              = entity;
+    this.label               = label;
+    this.space               = space;
+    this.circle              = circle;
+    this.creationTime        = creationTime;
+    this.withUserRestriction = withUserRestriction;
+    this.shouldCommit        = shouldCommit;
   }
 }

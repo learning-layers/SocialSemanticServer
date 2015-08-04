@@ -21,43 +21,25 @@
 package at.kc.tugraz.ss.recomm.datatypes.par;
 
 import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSSocketCon;
 
 public class SSRecommUpdateBulkPar extends SSServPar{
   
-  public String  realm     = null;
+  public String      realm     = null;
+  public SSSocketCon sSCon     = null;
   
   public SSRecommUpdateBulkPar(
-    final SSServOpE             op,
+    final SSServOpE           op,
     final String              key,
     final SSUri               user,
-    final String              realm){
+    final String              realm,
+    final SSSocketCon         sSCon){
     
     super(op, key, user);
     
     this.realm = realm;
+    this.sSCon = sSCon;
   }
-  
-  public SSRecommUpdateBulkPar(final SSServPar par) throws Exception{
-    
-    super(par);
-    
-    try{
-      
-      if(pars != null){
-        realm      = (String)    pars.get(SSVarNames.realm);
-      }
-      
-      if(par.clientJSONObj != null){
-        realm    = par.clientJSONObj.get(SSVarNames.realm).getTextValue();
-      }
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
-  /* json getters */
 }

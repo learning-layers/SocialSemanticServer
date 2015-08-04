@@ -3,7 +3,7 @@
 * http://www.learning-layers.eu
 * Development is partly funded by the FP7 Programme of the European Commission under
 * Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+* Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
 * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -27,18 +27,23 @@ import at.kc.tugraz.ss.serv.jsonld.api.SSJSONLDClientI;
 import at.kc.tugraz.ss.serv.jsonld.api.SSJSONLDServerI;
 import at.kc.tugraz.ss.serv.jsonld.conf.SSJSONLDConf;
 import at.kc.tugraz.ss.serv.jsonld.datatypes.par.SSJSONLDPar;
-import at.kc.tugraz.ss.serv.jsonld.datatypes.par.ret.SSJSONLDDescRet;
+import at.kc.tugraz.ss.serv.jsonld.datatypes.par.ret.SSJSONLDRet;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSJSONLDPropI;
+import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.caller.SSServCallerU;
+import at.tugraz.sss.util.SSServCallerU;
 
-public class SSJSONLDImpl extends SSServImplWithDBA implements SSJSONLDClientI, SSJSONLDServerI{
+public class SSJSONLDImpl 
+extends SSServImplWithDBA 
+implements 
+  SSJSONLDClientI, 
+  SSJSONLDServerI{
 
   public SSJSONLDImpl(final SSJSONLDConf conf) throws Exception{
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
@@ -49,21 +54,28 @@ public class SSJSONLDImpl extends SSServImplWithDBA implements SSJSONLDClientI, 
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSJSONLDDescRet.get(jsonLD(parA), parA.op), parA.op);
+    final SSJSONLDPar par = (SSJSONLDPar) parA.getFromJSON(SSJSONLDPar.class);
+    
+    sSCon.writeRetFullToClient(SSJSONLDRet.get(jsonLD(par)));
   }
 
   @Override
-  public Object jsonLD(SSServPar parA) throws Exception{
+  public Object jsonLD(final SSJSONLDPar par) throws Exception{
     
-    SSJSONLDPar par = new SSJSONLDPar(parA);
-    
-    Class<?> clz    = Class.forName(par.type);
-    Object[] consts = clz.getEnumConstants();
-    
-    if(!SSObjU.isNull(consts)){
-      return consts[0].getClass().getDeclaredMethod(SSStrU.toStr(SSServOpE.jsonLD)).invoke(consts[0]);
+    try{
+      
+      Class<?> clz    = Class.forName(par.type);
+      Object[] consts = clz.getEnumConstants();
+      
+      if(!SSObjU.isNull(consts)){
+        return consts[0].getClass().getDeclaredMethod(SSStrU.toStr(SSServOpE.jsonLD)).invoke(consts[0]);
+      }
+      
+      return ((SSJSONLDPropI) clz.newInstance()).jsonLDDesc();
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
-    
-    return ((SSJSONLDPropI) clz.newInstance()).jsonLDDesc();
   }
 }

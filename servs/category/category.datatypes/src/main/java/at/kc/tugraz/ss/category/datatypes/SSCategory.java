@@ -21,13 +21,11 @@
 package at.kc.tugraz.ss.category.datatypes;
 
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSSpaceE;
 import at.tugraz.sss.serv.SSLabel;
-import at.tugraz.sss.serv.SSObjU;
 import java.util.*;
 
 public class SSCategory extends SSEntity{
@@ -36,6 +34,7 @@ public class SSCategory extends SSEntity{
   public  SSUri               entity         = null;
   public  SSUri               user           = null;
   public  SSSpaceE            space          = null;
+  public  SSUri               circle         = null;
 
   public String getEntity(){
     return SSStrU.removeTrailingSlash(entity);
@@ -49,6 +48,10 @@ public class SSCategory extends SSEntity{
     return SSStrU.toStr(space);
   }
   
+  public String getCircle() throws Exception{
+    return SSStrU.removeTrailingSlash(circle);
+  }
+  
   @Override
   public String getLabel(){
     return SSStrU.toStr(categoryLabel);
@@ -58,14 +61,40 @@ public class SSCategory extends SSEntity{
     return SSStrU.toStr(categoryLabel);
   }
   
+  @Override
+  public Object jsonLDDesc() {
+    throw new UnsupportedOperationException();
+  } 
+  
+   public static SSCategory get(
+    final SSCategory            category,
+    final SSEntity              entity) throws Exception{
+    
+    return new SSCategory(category, entity);
+  }
+   
+   protected SSCategory(
+    final SSCategory            category,
+    final SSEntity              entity) throws Exception{
+    
+    super(category, entity);
+    
+    this.entity        = category.entity;
+    this.user          = category.user;
+    this.space         = category.space;
+    this.categoryLabel = category.categoryLabel;
+  }
+     
   public static SSCategory get(
     final SSUri            id       ,
     final SSUri            entity   ,
     final SSUri            user     ,
     final SSSpaceE         space    ,
-    final SSCategoryLabel  categoryLabel) throws Exception{
+    final SSCategoryLabel  categoryLabel,
+    final SSUri            circle, 
+    final Long             creationTime) throws Exception{
     
-    return new SSCategory(id, entity, user, space, categoryLabel);
+    return new SSCategory(id, entity, user, space, categoryLabel, circle, creationTime);
   }
   
   protected SSCategory(
@@ -73,7 +102,9 @@ public class SSCategory extends SSEntity{
     final SSUri             entity,
     final SSUri             user,
     final SSSpaceE          space,
-    final SSCategoryLabel   categoryLabel) throws Exception{
+    final SSCategoryLabel   categoryLabel,
+    final SSUri             circle, 
+    final Long              creationTime) throws Exception{
     
     super(id, SSEntityE.category, SSLabel.get(SSStrU.toStr(categoryLabel)));
     
@@ -81,65 +112,34 @@ public class SSCategory extends SSEntity{
     this.user          = user;
     this.space         = space;
     this.categoryLabel = categoryLabel;
+    this.circle        = circle;
+    this.creationTime  = creationTime;
   }
   
-  public static void addDistinctWithoutNull(
-    final List<SSCategory>     entities,
-    final SSCategory           entity){
-    
-    if(
-      SSObjU.isNull  (entities, entity) ||
-      SSStrU.contains(entities, entity)){
-      return;
-    }
-    
-    entities.add(entity);
-  }
-  
-  public static void addDistinctWithoutNull(
-    final List<SSCategory>  entities,
-    final List<SSCategory>  toAddEntities){
-    
-    if(SSObjU.isNull(entities, toAddEntities)){
-      return;
-    }
-    
-    for(SSCategory entity : toAddEntities){
-      
-      if(entity == null){
-        continue;
-      }
-      
-      if(!SSStrU.contains(entities, entity)){
-        entities.add(entity);
-      }
-    }
-  }
-  
-  public static Map<String, List<String>> getCategoryLabelsPerEntities(final List<SSCategory> categories) throws Exception{
+  public static Map<String, List<String>> getCategoryLabelsPerEntities(final List<SSEntity> categories) throws Exception{
     
     final Map<String, List<String>>     categorysPerEntity = new HashMap<>();
     List<String>                        categoryLabels;
     String                              entity;
     
-    for(SSCategory userCategory : categories){
+    for(SSEntity categoryEntity : categories){
       
-      entity = SSStrU.toStr(userCategory.entity);
+      entity = SSStrU.toStr(((SSCategory)categoryEntity).entity);
       
       if(categorysPerEntity.containsKey(entity)){
         
         categoryLabels = categorysPerEntity.get(entity);
         
-        if(SSStrU.contains(categoryLabels, userCategory.label)){
+        if(SSStrU.contains(categoryLabels, ((SSCategory)categoryEntity).label)){
           continue;
         }
         
-        categoryLabels.add(userCategory.label.toString());
+        categoryLabels.add(((SSCategory)categoryEntity).label.toString());
       }else{
         
         categoryLabels = new ArrayList<>();
         
-        categoryLabels.add(SSStrU.toStr(userCategory.label));
+        categoryLabels.add(SSStrU.toStr(((SSCategory)categoryEntity).label));
         
         categorysPerEntity.put(entity, categoryLabels);
       }
@@ -147,19 +147,6 @@ public class SSCategory extends SSEntity{
     
     return categorysPerEntity;
   }
-  
-  @Override
-  public Object jsonLDDesc() {
-  
-    final Map<String, Object> ld = (Map<String, Object>)super.jsonLDDesc();
-    
-    ld.put(SSVarNames.entity,     SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarNames.user,       SSVarNames.sss + SSStrU.colon + SSUri.class.getName());    
-    ld.put(SSVarNames.space,      SSVarNames.sss + SSStrU.colon + SSSpaceE.class.getName());
-    ld.put(SSVarNames.label,      SSVarNames.sss + SSStrU.colon + SSCategoryLabel.class.getName());
-    
-    return ld;
-  } 
 }
 
 

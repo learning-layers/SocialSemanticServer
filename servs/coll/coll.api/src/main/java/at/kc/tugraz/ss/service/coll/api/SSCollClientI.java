@@ -25,17 +25,12 @@ import at.tugraz.sss.serv.SSServPar;
 
 public interface SSCollClientI{
   
-  public void collParentGet         (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
   public void collRootGet           (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void collEntryDelete       (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
   public void collEntriesDelete     (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
   public void collEntryAdd          (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
   public void collEntriesAdd        (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void collEntryChangePos    (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void collWithEntries       (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void collsWithEntries      (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void collGet               (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
   public void collHierarchyGet      (final SSSocketCon sSCon, final SSServPar parA) throws Exception; 
   public void collCumulatedTagsGet  (final SSSocketCon sSCon, final SSServPar parA) throws Exception; 
   public void collsEntityIsInGet    (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void collsCouldSubscribeGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception;
 }

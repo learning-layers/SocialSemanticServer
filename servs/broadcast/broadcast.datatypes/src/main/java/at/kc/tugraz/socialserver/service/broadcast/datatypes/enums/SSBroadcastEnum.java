@@ -32,6 +32,11 @@ public enum SSBroadcastEnum implements SSJSONLDPropI{
   learnEpLockRemoved,
   learnEpLockSet;
 
+  @Override
+  public Object jsonLDDesc(){
+    return SSVarNames.xsd + SSStrU.colon + SSStrU.valueString;
+  }
+  
   public static SSBroadcastEnum get(String type) throws Exception{
     
     if(SSStrU.isEmpty(type)){
@@ -39,10 +44,5 @@ public enum SSBroadcastEnum implements SSJSONLDPropI{
     }
     
     return SSBroadcastEnum.valueOf(type);
-  }
-  
-  @Override
-  public Object jsonLDDesc(){
-    return SSLinkU.xsd + SSStrU.valueString;
   }
 }

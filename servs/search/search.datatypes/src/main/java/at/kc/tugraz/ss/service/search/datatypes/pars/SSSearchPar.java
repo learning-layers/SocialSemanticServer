@@ -22,11 +22,9 @@ package at.kc.tugraz.ss.service.search.datatypes.pars;
 
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServErrReg;
 import at.kc.tugraz.ss.service.search.datatypes.SSSearchLabel;
 import at.kc.tugraz.ss.service.search.datatypes.SSSearchOpE;
 import java.util.ArrayList;
@@ -34,15 +32,10 @@ import java.util.List;
 
 public class SSSearchPar extends SSServPar{
   
-  public Boolean             includeTextualContent      = null;
   public List<String>        wordsToSearchFor           = new ArrayList<>();
-  public Boolean             includeTags                = null;
   public List<String>        tagsToSearchFor            = new ArrayList<>();
-  public Boolean             includeAuthors             = null;
   public List<SSUri>         authorsToSearchFor         = new ArrayList<>();
-  public Boolean             includeLabel               = null;
   public List<SSSearchLabel> labelsToSearchFor          = new ArrayList<>();
-  public Boolean             includeDescription         = null;
   public List<SSSearchLabel> descriptionsToSearchFor    = new ArrayList<>();
   public List<SSEntityE>     typesToSearchOnlyFor       = new ArrayList<>();
   public Boolean             includeOnlySubEntities     = null;
@@ -56,6 +49,7 @@ public class SSSearchPar extends SSServPar{
   public Integer             maxRating                  = null;
   public SSSearchOpE         localSearchOp              = SSSearchOpE.or;
   public SSSearchOpE         globalSearchOp             = SSSearchOpE.or;
+  public Boolean             invokeEntityHandlers       = false;
 
   public void setAuthorsToSearchFor(final List<String> authorsToSearchFor) throws Exception{
     this.authorsToSearchFor = SSUri.get(authorsToSearchFor);
@@ -119,15 +113,10 @@ public class SSSearchPar extends SSServPar{
     final SSServOpE           op,
     final String              key,
     final SSUri               user,
-    final Boolean             includeTextualContent      ,
     final List<String>        wordsToSearchFor           ,
-    final Boolean             includeTags                ,
     final List<String>        tagsToSearchFor            ,
-    final Boolean             includeAuthors,
     final List<SSUri>         authorsToSearchFor         , 
-    final Boolean             includeLabel               ,
     final List<SSSearchLabel> labelsToSearchFor          ,
-    final Boolean             includeDescription         ,
     final List<SSSearchLabel> descriptionsToSearchFor    ,
     final List<SSEntityE>     typesToSearchOnlyFor       ,
     final Boolean             includeOnlySubEntities     ,
@@ -140,35 +129,27 @@ public class SSSearchPar extends SSServPar{
     final Integer             minRating                  ,
     final Integer             maxRating                  ,
     final SSSearchOpE         localSearchOp              ,
-    final SSSearchOpE         globalSearchOp             ){
+    final SSSearchOpE         globalSearchOp             , 
+    final Boolean             withUserRestriction, 
+    final Boolean             invokeEntityHandlers){
     
     super(op, key, user);
-    
-    this.includeTextualContent      = includeTextualContent;
     
     if(wordsToSearchFor != null){
       this.wordsToSearchFor.addAll(wordsToSearchFor);
     }
     
-    this.includeTags                = includeTags;
-    
     if(tagsToSearchFor != null){
       this.tagsToSearchFor.addAll(tagsToSearchFor);
     }
-    
-    this.includeAuthors             = includeAuthors;
     
     if(authorsToSearchFor != null){
       this.authorsToSearchFor.addAll(authorsToSearchFor);
     }
     
-    this.includeLabel               = includeLabel;
-    
     if(labelsToSearchFor != null){
       this.labelsToSearchFor.addAll(labelsToSearchFor);
     }
-    
-    this.includeDescription         = includeDescription;
     
     if(descriptionsToSearchFor != null){
       this.descriptionsToSearchFor.addAll(descriptionsToSearchFor);
@@ -193,45 +174,7 @@ public class SSSearchPar extends SSServPar{
     this.maxRating                  = maxRating;
     this.localSearchOp              = localSearchOp;
     this.globalSearchOp             = globalSearchOp;
-  }
-  
-  public static SSSearchPar get(final SSServPar par) throws Exception{
-    
-    try{
-      if(par.clientCon != null){
-        return (SSSearchPar) par.getFromJSON(SSSearchPar.class);
-      }
-      
-      return new SSSearchPar(
-        par.op,
-        par.key,
-        par.user,
-        (Boolean)                par.pars.get(SSVarNames.includeTextualContent),
-        (List<String>)           par.pars.get(SSVarNames.wordsToSearchFor),
-        (Boolean)                par.pars.get(SSVarNames.includeTags),
-        (List<String>)           par.pars.get(SSVarNames.tagsToSearchFor),
-        (Boolean)                par.pars.get(SSVarNames.includeAuthors),
-        (List<SSUri>)            par.pars.get(SSVarNames.authorsToSearchFor),
-        (Boolean)                par.pars.get(SSVarNames.includeLabel),
-        (List<SSSearchLabel>)    par.pars.get(SSVarNames.labelsToSearchFor),
-        (Boolean)                par.pars.get(SSVarNames.includeDescription),
-        (List<SSSearchLabel>)    par.pars.get(SSVarNames.descriptionsToSearchFor),
-        (List<SSEntityE>)        par.pars.get(SSVarNames.typesToSearchOnlyFor),
-        (Boolean)                par.pars.get(SSVarNames.includeOnlySubEntities),
-        (List<SSUri>)            par.pars.get(SSVarNames.entitiesToSearchWithin),
-        (Boolean)                par.pars.get(SSVarNames.extendToParents),
-        (Boolean)                par.pars.get(SSVarNames.includeRecommendedResults),
-        (Boolean)                par.pars.get(SSVarNames.provideEntries),
-        (String)                 par.pars.get(SSVarNames.pagesID),
-        (Integer)                par.pars.get(SSVarNames.pageNumber),
-        (Integer)                par.pars.get(SSVarNames.minRating),
-        (Integer)                par.pars.get(SSVarNames.maxRating),
-        (SSSearchOpE)            par.pars.get(SSVarNames.localSearchOp), 
-        (SSSearchOpE)            par.pars.get(SSVarNames.globalSearchOp));
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
+    this.withUserRestriction        = withUserRestriction;
+    this.invokeEntityHandlers       = invokeEntityHandlers;
   }
 }

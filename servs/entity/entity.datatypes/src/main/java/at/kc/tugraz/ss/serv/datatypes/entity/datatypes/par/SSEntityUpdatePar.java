@@ -20,46 +20,97 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par;
 
-import at.tugraz.sss.serv.SSVarNames;
+import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSLabel;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
 import java.util.ArrayList;
 import java.util.List;
-import at.tugraz.sss.serv.SSErr;
-import at.tugraz.sss.serv.SSErrE;
-import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSStrU;
 
 public class SSEntityUpdatePar extends SSServPar{
-  
-  public SSUri               entity        = null;
-  public SSLabel             label         = null;
-  public SSTextComment       description   = null;
-  public List<SSTextComment> comments      = new ArrayList<>();
-  public List<SSUri>         downloads     = new ArrayList<>();
-  public List<SSUri>         screenShots   = new ArrayList<>();
-  public List<SSUri>         images        = new ArrayList<>();
-  public List<SSUri>         videos        = new ArrayList<>();
 
-  public SSEntityUpdatePar(SSServPar par) throws Exception{
-      
-    super(par);
+  public SSUri               entity           = null;
+  public SSEntityE           type             = null;
+  public SSLabel             label            = null;
+  public SSTextComment       description      = null;
+  public List<SSUri>         entitiesToAttach = new ArrayList<>();
+  public Long                creationTime     = null;
+  public Boolean             read             = null;
+  public Boolean             setPublic        = false;
+
+  public String getEntity(){
+    return SSStrU.removeTrailingSlash(entity);
+  }
+
+  public void setEntity(final String entity) throws Exception{
+    this.entity = SSUri.get(entity);
+  }
+  
+  public String getType(){
+    return SSStrU.toStr(type);
+  }
+
+  public void setType(final String type) throws Exception{
+    this.type = SSEntityE.get(type);
+  }
+  
+  public String getLabel(){
+    return SSStrU.toStr(label);
+  }
+
+  public void setLabel(final String label) throws Exception{
+    this.label = SSLabel.get(label);
+  }
+
+  public String getDescription(){
+    return SSStrU.toStr(description);
+  }
+
+  public void setDescription(final String description) throws Exception{
+    this.description = SSTextComment.get(description);
+  }
+
+  public List<String> getEntitiesToAttach(){
+    return SSStrU.removeTrailingSlash(entitiesToAttach);
+  }
+
+  public void setEntitiesToAttach(final List<String> entitiesToAttach) throws Exception{
+    this.entitiesToAttach = SSUri.get(entitiesToAttach);
+  }
+  
+  public SSEntityUpdatePar(){}
+  
+  public SSEntityUpdatePar(
+    final SSServOpE           op,
+    final String              key,
+    final SSUri               user,
+    final SSUri               entity,
+    final SSEntityE           type, 
+    final SSLabel             label,
+    final SSTextComment       description,
+    final List<SSUri>         entitiesToAttach,
+    final Long                creationTime, 
+    final Boolean             read,
+    final Boolean             setPublic, 
+    final Boolean             withUserRestriction, 
+    final Boolean             shouldCommit){
+
+    super(op, key, user);
+  
+    this.entity         = entity;
+    this.type           = type;
+    this.label          = label;
+    this.description    = description;
     
-    try{
-      
-      if(pars != null){
-        entity         = (SSUri)               pars.get(SSVarNames.entity);
-        label          = (SSLabel)             pars.get(SSVarNames.label);
-        description    = (SSTextComment)       pars.get(SSVarNames.description);
-        comments       = (List<SSTextComment>) pars.get(SSVarNames.comments);
-        downloads      = (List<SSUri>) pars.get(SSVarNames.downloads);
-        screenShots    = (List<SSUri>) pars.get(SSVarNames.screenShots);
-        images         = (List<SSUri>) pars.get(SSVarNames.images);
-        videos         = (List<SSUri>) pars.get(SSVarNames.videos);
-      }
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(new SSErr(SSErrE.servParCreationFailed));
-    }
+    SSUri.addDistinctWithoutNull(this.entitiesToAttach,  entitiesToAttach);
+    
+    this.creationTime        = creationTime;
+    this.read                = read;
+    this.setPublic           = setPublic;
+    this.withUserRestriction = withUserRestriction;
+    this.shouldCommit        = shouldCommit;
   }
 }

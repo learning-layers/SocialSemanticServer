@@ -26,13 +26,19 @@
     
     <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>user.serv</artifactId>
+      <artifactId>coll.api</artifactId>
+      <version>${project.version}</version>
+    </dependency> 
+
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>user.api</artifactId>
       <version>${project.version}</version>
     </dependency> 
     
     <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>voc.serv</artifactId>
+      <artifactId>voc.api</artifactId>
       <version>${project.version}</version>
     </dependency> 
     

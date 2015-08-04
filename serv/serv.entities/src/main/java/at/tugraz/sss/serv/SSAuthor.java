@@ -20,10 +20,13 @@
 */
 package at.tugraz.sss.serv;
 
-import java.util.Map;
-
 public class SSAuthor extends SSEntity{
 
+  @Override
+  public Object jsonLDDesc(){
+    return super.jsonLDDesc();
+  }
+  
   public static SSAuthor get(
     final SSAuthor         author,
     final SSEntity         entity) throws Exception{
@@ -35,7 +38,7 @@ public class SSAuthor extends SSEntity{
     final SSAuthor         author,
     final SSEntity         entity) throws Exception{
     
-    super(entity);
+    super(author, entity);
   }
   
   public static SSAuthor get(
@@ -62,13 +65,5 @@ public class SSAuthor extends SSEntity{
     final SSUri   id) throws Exception{
     
     super(id, SSEntityE.user);
-  }
-  
-  @Override
-  public Object jsonLDDesc(){
-    
-    final Map<String, Object> ld         = (Map<String, Object>) super.jsonLDDesc();
-    
-    return ld;
   }
 }

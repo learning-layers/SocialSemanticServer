@@ -20,8 +20,8 @@
 */
 package at.kc.tugraz.ss.service.user.service;
 
+import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import at.tugraz.sss.serv.SSCoreConfA;
-import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSServImplA;
 import at.kc.tugraz.ss.service.user.api.SSUserClientI;
@@ -47,14 +47,13 @@ public class SSUserServ extends SSServContainerI{
   }
 
   @Override
-  public SSServContainerI regServ(final SSConfA conf) throws Exception{
+  public SSServContainerI regServ() throws Exception{
     
-    this.conf = conf;
+    this.conf = SSCoreConf.instGet().getUser();
     
     SSServReg.inst.regServ(this);
     
-    SSServReg.inst.regServForManagingEntities   (this);
-    SSServReg.inst.regServForDescribingEntities (this);
+    SSServReg.inst.regServForHandlingDescribeEntity(this);
     
     return this;
   }

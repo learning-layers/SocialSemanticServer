@@ -28,7 +28,7 @@ import javax.ws.rs.core.MultivaluedMap;
 
 public class SSDBSQLFct extends SSDBFct{
 
-  protected        final SSDBSQLI dbSQL;
+  protected final SSDBSQLI dbSQL;
   
   public SSDBSQLFct(final SSDBSQLI dbSQL) throws Exception{
     super();
@@ -196,10 +196,10 @@ public class SSDBSQLFct extends SSDBFct{
     final Map<String, String> wheres,
     final String              table, 
     final String              key,
-    final String              value) throws Exception{
+    final Object              value) throws Exception{
     
     try{
-      wheres.put(table + SSStrU.dot + key, value);
+      wheres.put(table + SSStrU.dot + key, value.toString());
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
@@ -300,10 +300,8 @@ public class SSDBSQLFct extends SSDBFct{
         throw new SSErr(SSErrE.sqlNoResultFound);
       }
       
-    }catch(SSErr error){
-      SSServErrReg.regErrThrow(error, false);
     }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
+      SSServErrReg.regErrThrow(error, false);
     }
   }
   

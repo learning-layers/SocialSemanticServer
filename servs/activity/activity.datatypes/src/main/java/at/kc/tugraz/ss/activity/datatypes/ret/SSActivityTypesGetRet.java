@@ -3,7 +3,7 @@
 * http://www.learning-layers.eu
 * Development is partly funded by the FP7 Programme of the European Commission under
 * Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+* Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
 * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,7 +23,6 @@ package at.kc.tugraz.ss.activity.datatypes.ret;
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarNames;
-import at.kc.tugraz.ss.activity.datatypes.SSActivity;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
 import at.tugraz.sss.serv.SSServRetI;
 import at.tugraz.sss.serv.SSJSONLDU;
@@ -36,31 +35,17 @@ public class SSActivityTypesGetRet extends SSServRetI{
  
   public List<SSActivityE> types = new ArrayList<>();
 
-  public static SSActivityTypesGetRet get(
-    final List<SSActivityE> types, 
-    final SSServOpE           op){
-    
-    return new SSActivityTypesGetRet(types, op);
+  public List<String> getTypes() throws Exception {
+    return SSStrU.toStr(types);
   }
   
-  private SSActivityTypesGetRet(
-    final List<SSActivityE> types, 
-    final SSServOpE           op){
-
-    super(op);
-    
-    if(types != null){
-      this.types.addAll(types);
-    }
-  }
-
   @Override
   public Map<String, Object> jsonLDDesc(){
     
-    final Map<String, Object> ld              = new HashMap<>();
+    final Map<String, Object> ld                 = new HashMap<>();
     final Map<String, Object> activityTpyesObj   = new HashMap<>();
     
-    activityTpyesObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSActivity.class.getName());
+    activityTpyesObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSActivityE.class.getName());
     activityTpyesObj.put(SSJSONLDU.container, SSJSONLDU.set);
     
     ld.put(SSVarNames.types, activityTpyesObj);
@@ -68,9 +53,19 @@ public class SSActivityTypesGetRet extends SSServRetI{
     return ld;
   }
   
-  /* json getters */
+  public static SSActivityTypesGetRet get(
+    final List<SSActivityE> types){
+    
+    return new SSActivityTypesGetRet(types);
+  }
   
-  public List<String> getTypes() throws Exception {
-    return SSStrU.toStr(types);
+  private SSActivityTypesGetRet(
+    final List<SSActivityE> types){
+
+    super(SSServOpE.activityTypesGet);
+    
+    if(types != null){
+      this.types.addAll(types);
+    }
   }
 }

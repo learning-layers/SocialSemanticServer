@@ -20,14 +20,16 @@
 */
 package at.tugraz.sss.serv;
 
-import at.tugraz.sss.serv.SSEntityA;
-import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarNames;
 import java.util.ArrayList;
 import java.util.List;
 
 public class SSTextComment extends SSEntityA {
 
+  @Override
+  public Object jsonLDDesc() {
+    return SSVarNames.xsd + SSStrU.colon + SSStrU.valueString;
+  }
+  
   public static SSTextComment get(final String comment) throws Exception{
     
     if(comment == null){
@@ -71,13 +73,28 @@ public class SSTextComment extends SSEntityA {
     
     return result;
   }
-
-  private SSTextComment(final String value) throws Exception{
-    super(value);
+  
+  public static void addDistinctWithoutNull(
+    final List<SSTextComment>  comments,
+    final List<SSTextComment>  toAddComments){
+    
+    if(SSObjU.isNull(comments, toAddComments)){
+      return;
+    }
+    
+    for(SSTextComment comment : toAddComments){
+      
+      if(comment == null){
+        continue;
+      }
+      
+      if(!SSStrU.contains(comments, comment)){
+        comments.add(comment);
+      }
+    }
   }
   
-  @Override
-  public Object jsonLDDesc() {
-    return SSVarNames.xsd + SSStrU.colon + SSStrU.valueString;
+  private SSTextComment(final String value) throws Exception{
+    super(value);
   }
 }

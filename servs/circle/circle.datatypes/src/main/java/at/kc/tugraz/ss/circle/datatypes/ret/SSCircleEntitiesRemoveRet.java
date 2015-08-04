@@ -25,7 +25,6 @@ import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSServRetI;
 import at.tugraz.sss.serv.SSUri;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -33,33 +32,26 @@ public class SSCircleEntitiesRemoveRet extends SSServRetI{
 
   public List<SSUri> entities = new ArrayList<>();
 
+  public List<String> getEntities() throws Exception {
+    return SSStrU.removeTrailingSlash(entities);
+  }
+
+  @Override
+  public Map<String, Object> jsonLDDesc(){
+    throw new UnsupportedOperationException();
+  }
+  
   public static SSCircleEntitiesRemoveRet get(
-    final List<SSUri>    entities,
-    final SSServOpE        op){
+    final List<SSUri>    entities){
     
-    return new SSCircleEntitiesRemoveRet(entities, op);
+    return new SSCircleEntitiesRemoveRet(entities);
   }
   
   private SSCircleEntitiesRemoveRet(
-    final List<SSUri>    entities,
-    final SSServOpE        op) {
+    final List<SSUri>    entities) {
 
-    super(op);
+    super(SSServOpE.circleEntitiesRemove);
     
-    if(entities != null){
-      this.entities.addAll(entities);
-    }
-  }
-
-   @Override
-  public Map<String, Object> jsonLDDesc(){
-    
-    final Map<String, Object> ld         = new HashMap<>();
-    return ld;
-  }
-  
-  /* json getters */
-  public List<String> getEntities() throws Exception {
-    return SSStrU.removeTrailingSlash(entities);
+    SSUri.addDistinctWithoutNull(this.entities, entities);
   }
 }

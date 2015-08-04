@@ -52,9 +52,6 @@ public class SSServPar{
   @JsonIgnore
   public JsonNode             clientJSONObj       = null;
   
-  @JsonIgnore
-  public Boolean              logErr              = true;
-  
   @XmlElement
   public void setOp(final String op) throws Exception{
     this.op = SSServOpE.get(op);
@@ -138,10 +135,6 @@ public class SSServPar{
     try{
       withUserRestriction = (Boolean) pars.get(SSVarNames.withUserRestriction);
     }catch(Exception error){}
-    
-    try{
-      logErr = (Boolean) pars.get(SSVarNames.logErr);
-    }catch(Exception error){}
   }
   
   protected SSServPar(
@@ -167,10 +160,6 @@ public class SSServPar{
     
     if(par.withUserRestriction != null){
       this.withUserRestriction = par.withUserRestriction;
-    }
-    
-    if(par.logErr != null){
-      this.logErr = par.logErr;
     }
     
     this.pars         = par.pars;

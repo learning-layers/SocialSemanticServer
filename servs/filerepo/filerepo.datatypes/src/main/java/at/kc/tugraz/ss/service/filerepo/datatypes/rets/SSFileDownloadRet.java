@@ -30,15 +30,12 @@ import java.util.Map;
 
 public class SSFileDownloadRet extends SSServRetI{
   
-  public  SSUri file;
+  public  SSUri file = null;
 
-  public SSFileDownloadRet(SSUri uri, SSServOpE op){
-    
-    super(op);
-    
-    this.file = uri;
+  public String getFile() throws Exception{
+    return SSStrU.removeTrailingSlash(file);
   }
-
+   
   @Override
   public Map<String, Object> jsonLDDesc(){
     
@@ -49,8 +46,10 @@ public class SSFileDownloadRet extends SSServRetI{
     return ld;
   }
   
-  /* getters to allow for json enconding */
-  public String getFile() throws Exception{
-    return SSStrU.removeTrailingSlash(file);
+  public SSFileDownloadRet(SSUri uri){
+    
+    super(SSServOpE.fileDownload);
+    
+    this.file = uri;
   }
 }

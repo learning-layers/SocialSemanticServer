@@ -21,7 +21,6 @@
 package at.kc.tugraz.ss.recomm.datatypes.ret;
 
 import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.serv.SSEntity;
 import at.kc.tugraz.ss.recomm.datatypes.SSUserLikelihood;
 import at.tugraz.sss.serv.SSServRetI;
 import java.util.ArrayList;
@@ -34,24 +33,18 @@ public class SSRecommUsersRet extends SSServRetI{
   public List<SSUserLikelihood> users = new ArrayList<>();
 
   public static SSRecommUsersRet get(
-    final Map<SSEntity, Double> usersWithLikelihood, 
-    final SSServOpE               op) throws Exception{
+    final List<SSUserLikelihood> usersWithLikelihoods) throws Exception{
     
-    return new SSRecommUsersRet(usersWithLikelihood, op);
+    return new SSRecommUsersRet(usersWithLikelihoods);
   }
   
   private SSRecommUsersRet(
-    final Map<SSEntity, Double> usersWithLikelihood, 
-    final SSServOpE               op) throws Exception{
+    final List<SSUserLikelihood> usersWithLikelihood) throws Exception{
     
-    super(op);
+    super(SSServOpE.recommUsers);
     
-    for(Map.Entry<SSEntity, Double> userWithLikelihood : usersWithLikelihood.entrySet()){
-      
-      this.users.add(
-        SSUserLikelihood.get(
-          userWithLikelihood.getKey(), 
-          userWithLikelihood.getValue()));
+    if(usersWithLikelihood != null){
+      this.users.addAll(usersWithLikelihood);
     }
   }
 

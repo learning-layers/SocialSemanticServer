@@ -20,16 +20,11 @@
 */
 package sss.serv.eval.impl;
 
-import at.tugraz.sss.serv.SSDateU;
+import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesGetPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
 import at.tugraz.sss.serv.SSLogU;
-import at.tugraz.sss.serv.SSStrU;
-import at.kc.tugraz.ss.activity.datatypes.SSActivity;
-import at.kc.tugraz.ss.circle.api.SSCircleServerI;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCircleMostOpenCircleTypeGetPar;
-import at.kc.tugraz.ss.circle.serv.SSCircleServ;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpVersion;
 import at.tugraz.sss.serv.SSSocketCon;
-import at.tugraz.sss.serv.SSCircleE;
 import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
@@ -38,11 +33,10 @@ import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServImplWithDBA;
-import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSToolE;
 import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.caller.SSServCaller;
-import at.tugraz.sss.serv.caller.SSServCallerU;
+import at.tugraz.sss.serv.SSServReg;
+import at.tugraz.sss.util.SSServCallerU;
 import java.util.ArrayList;
 import java.util.List;
 import sss.serv.eval.api.SSEvalClientI;
@@ -50,19 +44,24 @@ import sss.serv.eval.api.SSEvalServerI;
 import sss.serv.eval.conf.SSEvalConf;
 import sss.serv.eval.datatypes.par.SSEvalLogPar;
 import sss.serv.eval.datatypes.ret.SSEvalLogRet;
-import sss.serv.eval.impl.fct.sql.SSEvalSQLFct;
 
-public class SSEvalImpl extends SSServImplWithDBA implements SSEvalClientI, SSEvalServerI{
+public class SSEvalImpl 
+extends SSServImplWithDBA 
+implements 
+  SSEvalClientI, 
+  SSEvalServerI{
 
-  private final SSEvalSQLFct sqlFct;
-  private final SSEvalConf   evalConf;
+  private final SSEvalConf                evalConf;
+  private final SSEvalLogKnowBrain        evalLogKnowBrain;
+  private final SSEvalLogBNP              evalLogBNP;
 
   public SSEvalImpl(final SSConfA conf) throws Exception{
 
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
 
-    sqlFct     = new SSEvalSQLFct(this);
-    evalConf   = (SSEvalConf) conf;
+    evalConf         = (SSEvalConf) conf;
+    evalLogKnowBrain = new SSEvalLogKnowBrain();
+    evalLogBNP       = new SSEvalLogBNP();
   }
 
   @Override
@@ -70,285 +69,108 @@ public class SSEvalImpl extends SSServImplWithDBA implements SSEvalClientI, SSEv
 
     SSServCallerU.checkKey(parA);
 
-    sSCon.writeRetFullToClient(SSEvalLogRet.get(evalLog(parA), parA.op), parA.op);
+    final SSEvalLogPar par = (SSEvalLogPar) parA.getFromJSON(SSEvalLogPar.class);
+    
+    sSCon.writeRetFullToClient(SSEvalLogRet.get(evalLog(par)));
   }
 
   @Override
-  public Boolean evalLog(final SSServPar parA) throws Exception{
+  public Boolean evalLog(final SSEvalLogPar par) throws Exception{
     
     try{
       
-      final SSEvalLogPar     par                 = new SSEvalLogPar(parA);
-      final List<SSEntity>   targetEntities      = new ArrayList<>();
-      final List<SSEntity>   targetUsers         = new ArrayList<>();
-      final List<SSEntity>   notSelectedEntities = new ArrayList<>();
-      String                 logText             = new String();
-      String                 selectBitsMeasure   = SSStrU.empty;
-      SSEntity               targetEntity        = null;
-      SSActivity             activity            = null;
-      SSCircleE              episodeSpace        = null;
-      SSEntity               originUser;
-      
       if(
+        evalConf.tools == null                ||
         evalConf.tools.isEmpty()              ||
-        !evalConf.tools.contains(SSToolE.bnp) ||
         par.type == null){
         return false;
       }
-
-      if(par.forUser != null){
-        originUser = SSServCaller.entityGet(par.forUser);
-      }else{
-        originUser = SSServCaller.entityGet(par.user);
-      }
+      
+      final List<SSEntity>   targetEntities = new ArrayList<>();
+      final List<SSEntity>   targetUsers    = new ArrayList<>();
+      SSEntity               targetEntity   = null;
+      SSEntity               originUser;
+      
+      originUser = 
+        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+          new SSEntityGetPar(
+            null,
+            null,
+            null,
+            par.user,  //entity
+            false, //withUserRestriction
+            null)); //descPar
       
       if(par.entity != null){
-        targetEntity = SSServCaller.entityGet(par.entity);
+        targetEntity =
+          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+            new SSEntityGetPar(
+              null,
+              null,
+              null,
+              par.entity,  //entity
+              false, //withUserRestriction
+              null)); //descPar
       }
       
-      for(SSUri entity : par.entities){
-        targetEntities.add(SSServCaller.entityGet(entity));
+      if(!par.entities.isEmpty()){
+      
+        SSEntity.addEntitiesDistinctWithoutNull(
+          targetEntities,
+          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
+            new SSEntitiesGetPar(
+              null,
+              null,
+              par.user,
+              par.entities,  //entities
+              null,  //types
+              null,  //descPar
+              false))); //withUserRestriction
       }
       
-      for(SSUri user : par.users){
-        targetUsers.add(SSServCaller.entityGet(user));
-      }
-      
-      if(targetEntity != null){
+      if(!par.users.isEmpty()){
         
-        switch(targetEntity.type){
-          
-          case learnEp:
-            
-            episodeSpace = 
-              ((SSCircleServerI)SSCircleServ.inst.serv()).circleMostOpenCircleTypeGet(
-                new SSCircleMostOpenCircleTypeGetPar(
-                  null,
-                  null,
-                  originUser.id,
-                  originUser.id,
-                  targetEntity.id,
-                  true));
-              
-            break;
-        }
-      }
-      
-      switch(par.type){
-        
-        case clickBit:{
-          
-          if(targetEntity == null){
-            break;
-          }
-          
-          switch(targetEntity.type){
-            
-            case activity:{
-              activity = SSServCaller.activityGet(par.user, targetEntity.id);
-              
-              targetEntities.addAll (activity.entities);
-              targetUsers.addAll    (activity.users);
-              break;
-            }
-          }          
-          break;
-        }
-      }
-      
-      //timestamp;tool context;user label;log type;entity;entity type;entity label;content;tag type;entities' ids;entities' labels;users' labels;episodespace;selected bits measure;not selected entities' ids;not selected entities' labels
-      //time stamp
-      logText += SSDateU.dateAsLong();
-      logText += SSStrU.semiColon;
-      
-      //tool context
-      if(par.toolContext != null){
-        logText += par.toolContext;
-      }
-      
-      logText += SSStrU.semiColon;
-      
-      //user
-      if(originUser != null){
-        logText += originUser.label;
-      }
-      
-      logText += SSStrU.semiColon;
-      
-      // log type
-      logText += par.type;
-      logText += SSStrU.semiColon;
-      
-      // entity 
-      if(targetEntity != null){
-        logText += targetEntity.id;
-      }
-      
-      logText += SSStrU.semiColon;
-      
-      // entity type
-      if(targetEntity != null){
-        logText += targetEntity.type;
-      }
-      
-      logText += SSStrU.semiColon;
-      
-      // entity label
-      if(targetEntity != null){
-        logText += targetEntity.label;
-      }
-      
-      logText += SSStrU.semiColon;
-      
-      // content
-      if(par.content != null){
-        logText += par.content;
-      }else{
-        if(activity != null){
-          logText += activity.activityType;
-        }
-      }
-      
-      logText += SSStrU.semiColon;
-      
-      // tag type
-      switch(par.type){
-        
-        case addTag:{
-          
-          if(par.content != null){
-
-            if(par.content.startsWith("*")){
-              logText += 2;
-            }else{
-              logText += 1;
-            }
-          }
-          
-          break;
-        }
-      }
-      
-      logText += SSStrU.semiColon;
-      
-      // entities' ids
-      for(SSEntity entity : targetEntities){
-        
-        logText += entity.id;
-        logText += SSStrU.comma;
-        
-        if(episodeSpace != null){
-          continue;
-        }
-        
-        switch(entity.type){
-          
-          case learnEp:
-            
-            episodeSpace = 
-              ((SSCircleServerI)SSCircleServ.inst.serv()).circleMostOpenCircleTypeGet(
-                new SSCircleMostOpenCircleTypeGetPar(
-                  null,
-                  null,
-                  originUser.id,
-                  originUser.id,
-                  targetEntity.id,
-                  true));
-            break;
-        }
-      }
-      
-      logText += SSStrU.semiColon;
-      
-      // entities' labels
-      for(SSEntity entity : targetEntities){
-        logText += entity.label;
-        logText += SSStrU.comma;
-      }
-      
-      logText += SSStrU.semiColon;
-      
-      // users' labels
-      for(SSEntity user : targetUsers){
-        logText += user.label;
-        logText += SSStrU.comma;
-      }
-      
-      logText += SSStrU.semiColon;
-      
-      // episode space
-      if(episodeSpace != null){
-        logText += episodeSpace;
-      }
-      
-      logText += SSStrU.semiColon;
-      
-      switch(par.type){
-        
-        case copyLearnEpForUser:{
-
-          if(
-            episodeSpace  == null ||
-            targetEntity  == null ||
-            targetEntities.isEmpty()){
-            break;
-          }
-          
-          try{
-          
-            final SSLearnEpVersion learnEpVersion = SSServCaller.learnEpVersionCurrentGet(originUser.id);
-            final Integer          itemCount      = learnEpVersion.learnEpCircles.size() + learnEpVersion.learnEpEntities.size();
-            
-            selectBitsMeasure = targetEntities.size() + SSStrU.slash + itemCount;
-            
-            for(SSEntity circle : learnEpVersion.learnEpCircles){
-              
-              if(!SSStrU.contains(targetEntities, circle)){
-                notSelectedEntities.add(circle);
-              }
-            }
-            
-            for(SSEntity entity : learnEpVersion.learnEpEntities){
-              
-              if(!SSStrU.contains(targetEntities, entity)){
-                notSelectedEntities.add(entity);
-              }
-            }
-          }catch(Exception error){
-            SSServErrReg.reset();
-            SSLogU.warn("learn ep version couldnt be retrieved");
-          }
-          
-          break;
-        }
+        SSEntity.addEntitiesDistinctWithoutNull(
+          targetUsers,
+          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
+            new SSEntitiesGetPar(
+              null,
+              null,
+              par.user,
+              par.users,  //entities
+              null,  //types
+              null,  //descPar
+              false))); //withUserRestriction
       }
 
-      //selected bits measure 
-      logText += selectBitsMeasure;
-      logText += SSStrU.semiColon;
-      
-      //not selected entities' ids
-      for(SSEntity entity : notSelectedEntities){
-        logText += entity.id;
-        logText += SSStrU.comma;
+      for(SSToolE tool : evalConf.tools){
+        
+        switch(tool){
+          
+          case knowbrain:{
+            evalLogKnowBrain.log(
+              par, 
+              originUser, 
+              targetEntity, 
+              targetEntities, 
+              targetUsers);
+            
+            break;
+          }
+          
+          case bnp:{
+            evalLogBNP.log(
+              par, 
+              originUser, 
+              targetEntity, 
+              targetEntities, 
+              targetUsers);
+            break; 
+          }
+        }
       }
-      
-      logText += SSStrU.semiColon;
-      
-      //not selected entities' labels
-      for(SSEntity entity : notSelectedEntities){
-        logText += entity.label;
-        logText += SSStrU.comma;
-      }
-      
-      logText += SSStrU.semiColon;
-      
-      logText = SSStrU.replaceAllLineFeedsWithTextualRepr(logText);
-      
-      SSLogU.trace(logText, false);
       
       return true;
-      
     }catch(Exception error){
       SSServErrReg.reset();
       SSLogU.warn("eval logging failed");

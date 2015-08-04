@@ -19,8 +19,20 @@
   <dependencies>
   
     <dependency>
+      <groupId>sss</groupId>
+      <artifactId>util</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>circle.serv</artifactId>
+      <artifactId>location.api</artifactId>
+      <version>${project.version}</version>
+    </dependency>  
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>circle.api</artifactId>
       <version>${project.version}</version>
     </dependency>  
     

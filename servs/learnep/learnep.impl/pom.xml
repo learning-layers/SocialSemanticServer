@@ -33,19 +33,49 @@
     
     <dependency>
       <groupId>sss</groupId>
-      <artifactId>conf.conf</artifactId>
+      <artifactId>util</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>circle.serv</artifactId>
+      <artifactId>image.api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+   
+    <dependency>
+      <groupId>sss</groupId>
+      <artifactId>conf.conf</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+   
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>entity.api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>activity.api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>filerepo.api</artifactId>
       <version>${project.version}</version>
     </dependency>
           
     <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>voc.serv</artifactId>
+      <artifactId>circle.api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+          
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>voc.api</artifactId>
       <version>${project.version}</version>
     </dependency> 
 

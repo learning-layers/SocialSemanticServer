@@ -28,6 +28,8 @@ import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.kc.tugraz.ss.service.rating.datatypes.SSRating;
 import at.kc.tugraz.ss.service.rating.datatypes.SSRatingOverall;
+import at.tugraz.sss.serv.SSErr;
+import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -132,8 +134,7 @@ public class SSRatingSQLFct extends SSDBSQLFct{
     final Integer ratingValue) throws Exception{
    
     if(SSObjU.isNull(ratingUri, userUri, entityUri, ratingValue)){
-      SSServErrReg.regErrThrow(new Exception("pars null"));
-      return;
+      throw new SSErr(SSErrE.parameterMissing);
     }
         
     final Map<String, String> insertPars = new HashMap<>();
@@ -190,8 +191,7 @@ public class SSRatingSQLFct extends SSDBSQLFct{
     final SSUri entityUri) throws Exception{
     
     if(SSObjU.isNull(userUri, entityUri)){
-      SSServErrReg.regErrThrow(new Exception("pars null"));
-      return null;
+      throw new SSErr(SSErrE.parameterMissing);
     }
     
     ResultSet               resultSet   = null;

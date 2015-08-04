@@ -20,40 +20,44 @@
 */
 package at.kc.tugraz.sss.flag.impl;
 
-import at.kc.tugraz.ss.circle.api.SSCircleServerI;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivEntityAddPar;
-import at.kc.tugraz.ss.circle.serv.SSCircleServ;
-import at.tugraz.sss.serv.SSStrU;
+import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.tugraz.sss.serv.SSSocketCon;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSConfA;
-import at.tugraz.sss.serv.SSEntityDescriberI;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.caller.SSServCaller;
-import at.tugraz.sss.serv.caller.SSServCallerU;
+import at.tugraz.sss.util.SSServCallerU;
 import at.kc.tugraz.sss.flag.api.SSFlagClientI;
 import at.kc.tugraz.sss.flag.api.SSFlagServerI;
-import at.kc.tugraz.sss.flag.datatypes.ret.SSFlagsUserGetRet;
+import at.kc.tugraz.sss.flag.datatypes.ret.SSFlagsGetRet;
 import at.kc.tugraz.sss.flag.datatypes.SSFlag;
 import at.kc.tugraz.sss.flag.datatypes.SSFlagE;
 import at.kc.tugraz.sss.flag.datatypes.par.SSFlagsGetPar;
-import at.kc.tugraz.sss.flag.datatypes.par.SSFlagsUserGetPar;
-import at.kc.tugraz.sss.flag.datatypes.par.SSFlagsUserSetPar;
-import at.kc.tugraz.sss.flag.datatypes.ret.SSFlagsUserSetRet;
+import at.kc.tugraz.sss.flag.datatypes.par.SSFlagsSetPar;
+import at.kc.tugraz.sss.flag.datatypes.ret.SSFlagsSetRet;
 import at.kc.tugraz.sss.flag.impl.fct.sql.SSFlagSQLFct;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
+import at.tugraz.sss.serv.SSDescribeEntityI;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
 import java.util.List;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServReg;
+import java.util.ArrayList;
 
-public class SSFlagImpl extends SSServImplWithDBA implements SSFlagClientI, SSFlagServerI, SSEntityDescriberI{
+public class SSFlagImpl 
+extends SSServImplWithDBA 
+implements 
+  SSFlagClientI, 
+  SSFlagServerI, 
+  SSDescribeEntityI{
   
   private final SSFlagSQLFct sqlFct;
   
@@ -65,22 +69,28 @@ public class SSFlagImpl extends SSServImplWithDBA implements SSFlagClientI, SSFl
   }
   
   @Override
-  public SSEntity getUserEntity(final SSEntityDescriberPar par) throws Exception{
+  public SSEntity describeEntity(
+    final SSEntity             entity, 
+    final SSEntityDescriberPar par) throws Exception{
     
      try{
 
        if(par.setFlags){
-        
-        par.entity.flags.addAll(
-          SSServCaller.flagsGet(
-            par.user,
-            SSUri.asListWithoutNullAndEmpty(par.entity.id),
-            SSStrU.toStrWithoutEmptyAndNull(),
-            null,
-            null));
-      }
+         
+         entity.flags.addAll(
+           flagsGet(
+             new SSFlagsGetPar(
+               null,
+               null,
+               par.user,
+               SSUri.asListWithoutNullAndEmpty(entity.id), //entities,
+               null, //types,
+               null, //startTime,
+               null, //endTime,
+               par.withUserRestriction))); //withUserRestriction
+       }
       
-      return par.entity;
+      return entity;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -92,62 +102,68 @@ public class SSFlagImpl extends SSServImplWithDBA implements SSFlagClientI, SSFl
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSFlagsUserSetRet.get(flagsUserSet(parA), parA.op), parA.op);
+    final SSFlagsSetPar par = (SSFlagsSetPar) parA.getFromJSON(SSFlagsSetPar.class);
+    
+    sSCon.writeRetFullToClient(SSFlagsSetRet.get(flagsSet(par)));
   }
 
   @Override
-  public Boolean flagsUserSet(final SSServPar parA) throws Exception{
+  public Boolean flagsSet(final SSFlagsSetPar par) throws Exception{
     
     try{
       
-      final SSFlagsUserSetPar par = SSFlagsUserSetPar.get(parA);
-      
-      SSServCallerU.canUserEditEntities(par.user, par.entities);
-      
       for(SSUri entity : par.entities){
 
-        ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
-          new SSCirclePrivEntityAddPar(
+        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+          new SSEntityUpdatePar(
             null,
             null,
             par.user,
             entity,
-            SSEntityE.entity,
-            null,
-            null,
-            null,
-            false));
-      }
+            null, //type,
+            null, //label
+            null, //description,
+            null, //entitiesToAttach,
+            null, //creationTime,
+            null, //read,
+            false, //setPublic
+            true, //withUserRestriction
+            false)); //shouldCommit)
+      }      
       
       for(SSUri entity : par.entities){
-       
-        for(SSFlagE flag : par.types){
+        
+        for(SSFlagE flagType : par.types){
           
           SSUri flagUri = SSServCaller.vocURICreate();
           
-          ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
-            new SSCirclePrivEntityAddPar(
+          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+            new SSEntityUpdatePar(
               null,
               null,
               par.user,
               flagUri,
-              SSEntityE.flag,
-              null,
-              null,
-              null,
-              false));
-            
+              SSEntityE.flag, //type,
+              null, //label
+              null, //description,
+              null, //entitiesToAttach,
+              null, //creationTime,
+              null, //read,
+              true, //setPublic
+              false, //withUserRestriction
+              false)); //shouldCommit)
+          
           sqlFct.createFlag(
             flagUri,
-            flag,
+            flagType,
             par.endTime,
             par.value);
           
-          switch(flag){
+          switch(flagType){
             
             case importance:
               
-              final List<SSUri> existingFlagUris = sqlFct.getFlagURIs(par.user, flag, entity);
+              final List<SSUri> existingFlagUris = sqlFct.getFlagURIs(par.user, flagType, entity);
               
               for(SSUri existingFlagUri : existingFlagUris){
                
@@ -174,18 +190,18 @@ public class SSFlagImpl extends SSServImplWithDBA implements SSFlagClientI, SSFl
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(dbSQL.rollBack(parA.shouldCommit)){
+        if(dbSQL.rollBack(par.shouldCommit)){
           
           SSServErrReg.reset();
           
-          return flagsUserSet(parA);
+          return flagsSet(par);
         }else{
           SSServErrReg.regErrThrow(error);
           return null;
         }
       }
       
-      dbSQL.rollBack(parA.shouldCommit);
+      dbSQL.rollBack(par.shouldCommit);
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -196,46 +212,50 @@ public class SSFlagImpl extends SSServImplWithDBA implements SSFlagClientI, SSFl
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSFlagsUserGetRet.get(flagsUserGet(parA), parA.op), parA.op);
+    final SSFlagsGetPar par = (SSFlagsGetPar) parA.getFromJSON(SSFlagsGetPar.class);
+    
+    sSCon.writeRetFullToClient(SSFlagsGetRet.get(flagsGet(par)));
   }
   
   @Override
-  public List<SSFlag> flagsGet(final SSServPar parA) throws Exception{
+  public List<SSFlag> flagsGet(final SSFlagsGetPar par) throws Exception{
     
     try{
       
-      final SSFlagsGetPar par = new SSFlagsGetPar(parA);
+      final List<SSFlag>  result = new ArrayList<>();
+        
+      if(par.withUserRestriction){
+        SSServCallerU.canUserReadEntities(par.user, par.entities);
+      }
       
       //TODO for flags which should be retrieved for user-entity combination and not only based on the entity, change here:
-      return sqlFct.getFlags(
-        SSUri.asListWithoutNullAndEmpty(), //        SSUri.asListWithoutNullAndEmpty(par.user),
-        par.entities,
-        par.types, 
-        par.startTime,
-        par.endTime);
+      final List<SSFlag> flags =
+        sqlFct.getFlags(
+          SSUri.asListWithoutNullAndEmpty(), //        SSUri.asListWithoutNullAndEmpty(par.user),
+          par.entities,
+          par.types,
+          par.startTime,
+          par.endTime);
       
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
+      if(par.withUserRestriction){
+//        &&
+//        !SSStrU.equals(par.user,  par.forUser)
+      
+        for(SSFlag flag : flags){
 
-  @Override
-  public List<SSFlag> flagsUserGet(final SSServPar parA) throws Exception{
-    
-    try{
+          try{
+            SSServCallerU.canUserReadEntity(par.user, flag.entity);
+            
+            result.add(flag);
+          }catch(Exception error){
+            SSServErrReg.reset();
+          }
+        }
+      }else{
+        result.addAll(flags);
+      }
       
-      final SSFlagsUserGetPar par = SSFlagsUserGetPar.get(parA);
-      
-      SSServCallerU.canUserReadEntities(par.user, par.entities);
-      
-      //TODO for flags which should be retrieved for user-entity combination and not only based on the entity, change here:
-      return sqlFct.getFlags(
-        SSUri.asListWithoutNullAndEmpty(), //        SSUri.asListWithoutNullAndEmpty(par.user),
-        par.entities,
-        par.types, 
-        par.startTime,
-        par.endTime);
+      return result;
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

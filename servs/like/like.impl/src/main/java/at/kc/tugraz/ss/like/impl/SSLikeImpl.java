@@ -20,13 +20,9 @@
 */
 package at.kc.tugraz.ss.like.impl;
 
-import at.kc.tugraz.ss.circle.api.SSCircleServerI;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivEntityAddPar;
-import at.kc.tugraz.ss.circle.serv.SSCircleServ;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSSocketCon;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSEntityE;
 import at.kc.tugraz.ss.like.api.SSLikeClientI;
 import at.kc.tugraz.ss.like.api.SSLikeServerI;
 import at.kc.tugraz.ss.like.datatypes.SSLikes;
@@ -34,6 +30,8 @@ import at.kc.tugraz.ss.like.datatypes.par.SSLikeUserSetPar;
 import at.kc.tugraz.ss.like.datatypes.par.SSLikesUserGetPar;
 import at.kc.tugraz.ss.like.datatypes.ret.SSLikeUserSetRet;
 import at.kc.tugraz.ss.like.impl.fct.sql.SSLikeSQLFct;
+import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
@@ -44,10 +42,14 @@ import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.caller.SSServCaller;
-import at.tugraz.sss.serv.caller.SSServCallerU;
+import at.tugraz.sss.serv.SSServReg;
+import at.tugraz.sss.util.SSServCallerU;
 
-public class SSLikeImpl extends SSServImplWithDBA implements SSLikeClientI, SSLikeServerI{
+public class SSLikeImpl 
+extends SSServImplWithDBA 
+implements 
+  SSLikeClientI, 
+  SSLikeServerI{
   
   private final SSLikeSQLFct sqlFct;
 
@@ -62,7 +64,7 @@ public class SSLikeImpl extends SSServImplWithDBA implements SSLikeClientI, SSLi
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSLikeUserSetRet.get(likeUserSet(parA), parA.op), parA.op);
+    sSCon.writeRetFullToClient(SSLikeUserSetRet.get(likeUserSet(parA), parA.op));
   }
    
   @Override
@@ -94,28 +96,25 @@ public class SSLikeImpl extends SSServImplWithDBA implements SSLikeClientI, SSLi
   public SSUri likeUserSet(final SSServPar parA) throws Exception{
     
     try{
-      final SSLikeUserSetPar par = SSLikeUserSetPar.get(parA);
-      
-      SSServCallerU.canUserReadEntity(par.user, par.entity);
-      
-      final Boolean existsEntity = SSServCaller.entityExists(par.entity);
+      final SSLikeUserSetPar par    = SSLikeUserSetPar.get(parA);
       
       dbSQL.startTrans(par.shouldCommit);
       
-      if(!existsEntity){
-        
-        ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
-          new SSCirclePrivEntityAddPar(
-            null,
-            null,
-            par.user,
-            par.entity,
-            SSEntityE.entity,
-            null,
-            null,
-            null,
-            false));
-      }
+      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+        new SSEntityUpdatePar(
+          null,
+          null,
+          par.user,
+          par.entity,
+          null, //type,
+          null, //label
+          null, //description,
+          null, //entitiesToAttach,
+          null, //creationTime,
+          null, //read,
+          false, //setPublic
+          false, //withUserRestriction
+          false)); //shouldCommit)
       
       sqlFct.like(
         par.user, 

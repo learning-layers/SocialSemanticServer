@@ -27,7 +27,13 @@ public enum SSSpaceE implements SSJSONLDPropI{
   
   followSpace,
   sharedSpace,
+  circleSpace,
   privateSpace;
+  
+  @Override
+  public Object jsonLDDesc() {
+    return SSVarNames.xsd + SSStrU.colon + SSStrU.valueString;
+  }
   
   public static SSSpaceE get(final String space) throws Exception{
     
@@ -39,7 +45,7 @@ public enum SSSpaceE implements SSJSONLDPropI{
       
       return SSSpaceE.valueOf(space);
     }catch(Exception error){
-      throw new Exception("spaceInvalid");
+      throw new Exception("space invalid");
     }
   }
   
@@ -61,24 +67,13 @@ public enum SSSpaceE implements SSJSONLDPropI{
   public static Boolean isShared(
     final SSSpaceE space){
     
-    return equals(space, SSSpaceE.sharedSpace);
-  }
-  
-  public static Boolean equals(
-    final SSSpaceE space1, 
-    final SSSpaceE space2){
-    
-    if(SSObjU.isNull(space1, space2)){
-      return false;
-    }
-    
-    return space1.toString().equals(space2.toString());
+    return SSStrU.equals(space, SSSpaceE.sharedSpace);
   }
   
   public static Boolean isPrivate(
     final SSSpaceE space) {
     
-    return equals(space, SSSpaceE.privateSpace);
+    return SSStrU.equals(space, SSSpaceE.privateSpace);
   }
   
   public static Boolean isPrivateOrShared(
@@ -90,17 +85,12 @@ public enum SSSpaceE implements SSJSONLDPropI{
   public static Boolean isFollow(
     final SSSpaceE space){
     
-    return equals(space, SSSpaceE.followSpace);
+    return SSStrU.equals(space, SSSpaceE.followSpace);
   }
   
   public static Boolean isSharedOrFollow(
     final SSSpaceE space){
     
     return isShared(space) || isFollow(space);
-  }
-
-  @Override
-  public Object jsonLDDesc() {
-    return SSVarNames.xsd + SSStrU.colon + SSStrU.valueString;
   }
 }

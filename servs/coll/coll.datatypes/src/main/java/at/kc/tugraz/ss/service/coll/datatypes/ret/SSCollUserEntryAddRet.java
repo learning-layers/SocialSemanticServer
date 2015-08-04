@@ -30,20 +30,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SSCollUserEntryAddRet extends SSServRetI{
-
+  
   public SSUri entity = null;
-
-  public static SSCollUserEntryAddRet get(SSUri uri, SSServOpE op){
-    return new SSCollUserEntryAddRet(uri, op);
+  
+  public String getEntity() throws Exception {
+    return SSStrU.removeTrailingSlash(entity);
   }
   
-  private SSCollUserEntryAddRet(SSUri uri, SSServOpE op) {
-
-    super(op);
-    
-    this.entity = uri;
-  }
-
   @Override
   public Map<String, Object> jsonLDDesc(){
     
@@ -54,7 +47,14 @@ public class SSCollUserEntryAddRet extends SSServRetI{
     return ld;
   }
   
-  public String getEntity() throws Exception {
-    return SSStrU.removeTrailingSlash(entity);
+  public static SSCollUserEntryAddRet get(SSUri uri){
+    return new SSCollUserEntryAddRet(uri);
+  }
+  
+  private SSCollUserEntryAddRet(SSUri uri) {
+    
+    super(SSServOpE.collEntryAdd);
+    
+    this.entity = uri;
   }
 }

@@ -20,19 +20,24 @@
 */
 package at.kc.tugraz.ss.serv.dataimport.impl.evernote;
 
-import at.kc.tugraz.ss.circle.api.SSCircleServerI;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivEntityAddPar;
-import at.kc.tugraz.ss.circle.serv.SSCircleServ;
+import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSFileExtE;
 import at.tugraz.sss.serv.SSFileU;
 import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSEntityE;
+import at.tugraz.sss.serv.SSImageE;
 import at.tugraz.sss.serv.SSServErrReg;
-
+import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.caller.SSServCaller;
+import at.tugraz.sss.servs.entity.datatypes.par.SSEntityAttatchmentsRemovePar;
+import at.tugraz.sss.servs.image.api.SSImageServerI;
+import at.tugraz.sss.servs.image.datatype.par.SSImageAddPar;
+import at.tugraz.sss.servs.image.datatype.par.SSImagesGetPar;
 import java.io.File;
+import java.util.List;
 import javax.imageio.ImageIO;
 
 public class SSDataImportEvernoteThumbHelper{
@@ -64,35 +69,46 @@ public class SSDataImportEvernoteThumbHelper{
         return;
       }
       
-      ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
-        new SSCirclePrivEntityAddPar(
-          null,
-          null,
-          user,
-          pngFileUri,
-          SSEntityE.thumbnail,
-          null,
-          null,
-          null,
-          false));
+      final List<SSEntity> thumbs = 
+        ((SSImageServerI) SSServReg.getServ(SSImageServerI.class)).imagesGet(
+          new SSImagesGetPar(
+            null, 
+            null, 
+            user, 
+            entity,
+            SSImageE.thumb,
+            true)); //withUserRestriction
       
-      for(SSUri thumb : SSServCaller.entityThumbsGet(user, entity)){
-        
-        SSServCaller.entityRemove(thumb, false);
+      for(SSEntity thumb : thumbs){
         
         try{
-          SSFileU.delFile(localWorkPath + SSServCaller.fileIDFromURI (user, thumb));  
+          SSFileU.delFile(localWorkPath + SSVocConf.fileIDFromSSSURI(thumb.id));
         }catch(Exception error){
           SSLogU.warn("thumbnail file couldnt be removed");
         }
       }
       
-      SSServCaller.entityThumbAdd(
-        user,
-        entity,
-        pngFileUri,
-        shouldCommit);
+      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityAttachmentsRemove(
+        new SSEntityAttatchmentsRemovePar(
+          null,
+          null,
+          user,
+          entity,
+          SSUri.getDistinctNotNullFromEntities(thumbs), //attachments
+          true, //withUserRestriction
+          false)); //shouldCommit
       
+      ((SSImageServerI) SSServReg.getServ(SSImageServerI.class)).imageAdd(
+        new SSImageAddPar(
+          null,
+          null,
+          user,
+          pngFileUri,
+          SSImageE.thumb, //imageType,
+          entity, //entity
+          true, //withUserRestriction,
+          false)); //shouldCommit
+              
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
@@ -107,10 +123,17 @@ public class SSDataImportEvernoteThumbHelper{
     
     try{
     
-      final String      filePath          = localWorkPath + SSServCaller.fileIDFromURI (user, fileURI);
+      final String      filePath          =
+        localWorkPath +
+        SSVocConf.fileIDFromSSSURI(
+            fileURI);
+      
       final SSFileExtE  fileExt           = SSFileExtE.ext(SSStrU.removeTrailingSlash(fileURI));
       final SSUri       thumbnailFileURI  = SSServCaller.vocURICreate                  (SSFileExtE.png);
-      final String      thumbnailPath     = localWorkPath + SSServCaller.fileIDFromURI (user, thumbnailFileURI);
+      final String      thumbnailPath     =
+        localWorkPath +
+        SSVocConf.fileIDFromSSSURI(
+            thumbnailFileURI);
 
       if(SSStrU.contains(SSFileExtE.imageFileExts, fileExt)){
         SSFileU.scalePNGAndWrite(ImageIO.read(new File(filePath)), thumbnailPath, width, width);
@@ -127,7 +150,10 @@ public class SSDataImportEvernoteThumbHelper{
         
         case doc:{
           
-          final String pdfFilePath       = localWorkPath + SSServCaller.fileIDFromURI (user, SSServCaller.vocURICreate     (SSFileExtE.pdf));
+          final String pdfFilePath  =
+            localWorkPath +
+            SSVocConf.fileIDFromSSSURI(
+                SSServCaller.vocURICreate     (SSFileExtE.pdf));
           
           SSFileU.writePDFFromDoc       (filePath,    pdfFilePath);
           SSFileU.writeScaledPNGFromPDF (pdfFilePath, thumbnailPath, width, width, false);

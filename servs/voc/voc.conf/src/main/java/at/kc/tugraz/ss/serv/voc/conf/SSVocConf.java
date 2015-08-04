@@ -21,6 +21,8 @@
 package at.kc.tugraz.ss.serv.voc.conf;
 
 import at.tugraz.sss.serv.SSCoreServConfA;
+import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.SSUri;
 
 public class SSVocConf extends SSCoreServConfA{
 
@@ -38,10 +40,23 @@ public class SSVocConf extends SSCoreServConfA{
   public static final String dirNameLib                     = "lib/";
   public static final String dirNameConf                    = "conf/";
   
+  public static       SSUri systemUserUri                   = null;
+  
   public static SSVocConf copy(final SSVocConf orig){
     
     final SSVocConf copy = (SSVocConf) SSCoreServConfA.copy(orig, new SSVocConf());
     
     return copy;
+  }
+  
+  public static String fileIDFromSSSURI(final SSUri uri){
+    
+    String result = SSStrU.removeTrailingSlash(uri);
+    
+    if(result == null){
+      return null;
+    }
+    
+    return result.substring(result.lastIndexOf(SSStrU.slash) + 1);
   }
 }

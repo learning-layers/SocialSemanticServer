@@ -25,7 +25,6 @@ import at.tugraz.sss.serv.SSFileExtE;
 import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSMimeTypeE;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSDBSQLI;
@@ -51,12 +50,9 @@ import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
-import at.tugraz.sss.serv.SSEntityCircle;
-import at.tugraz.sss.serv.SSEntityDescriberI;
+import at.tugraz.sss.serv.SSDescribeEntityI;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
-import at.tugraz.sss.serv.SSEntityHandlerImplI;
 import at.tugraz.sss.serv.SSServImplWithDBA;
-import at.tugraz.sss.serv.caller.SSServCaller;
 import com.evernote.auth.EvernoteAuth;
 import com.evernote.auth.EvernoteService;
 import com.evernote.clients.ClientFactory;
@@ -70,7 +66,6 @@ import com.evernote.edam.type.Note;
 import com.evernote.edam.type.Notebook;
 import com.evernote.edam.type.Resource;
 import com.evernote.edam.type.SharedNotebook;
-import java.util.ArrayList;
 import java.util.List;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
@@ -81,8 +76,7 @@ extends SSServImplWithDBA
 implements 
   SSEvernoteClientI, 
   SSEvernoteServerI, 
-  SSEntityHandlerImplI, 
-  SSEntityDescriberI{
+  SSDescribeEntityI{
   
   private final SSEvernoteSQLFct sqlFct;
   
@@ -94,45 +88,37 @@ implements
   }
   
   @Override
-  public SSEntity getUserEntity(final SSEntityDescriberPar par) throws Exception{
+  public SSEntity describeEntity(
+    final SSEntity             entity,
+    final SSEntityDescriberPar par) throws Exception{
     
     try{
       
-      switch(par.entity.type){
-        
-        case evernoteNote:
-        case evernoteResource:{
-          
-          if(par.setThumb){
-            
-            par.entity.thumb =
-              SSServCaller.fileThumbBase64Get(
-                par.user,
-                par.entity.id);
-          }
-        }
-      }
-      
-      switch(par.entity.type){
+      switch(entity.type){
         
         case evernoteNote:{
           
-          final SSUri noteBook = sqlFct.getNote(par.entity.id).notebook;
+          if(SSStrU.equals(entity, par.recursiveEntity)){
+            return entity;
+          }
           
-          par.entity = SSEvernoteNote.get(par.entity, noteBook);
-          
-          break;
+          return SSEvernoteNote.get(
+            sqlFct.getNote(entity.id),
+            entity);
         }
         
         case evernoteResource:{
           
-          final SSUri     note;
+          if(SSStrU.equals(entity, par.recursiveEntity)){
+            return entity;
+          }
+          
           SSFileExtE      fileExt  = null;
           SSMimeTypeE     mimeType = null;
           
           
           try{
-            fileExt        = SSFileExtE.ext(SSStrU.removeTrailingSlash(par.entity.file));
+            fileExt        = SSFileExtE.ext(SSStrU.removeTrailingSlash(entity.file));
             mimeType       = SSMimeTypeE.mimeTypeForFileExt (fileExt);
             
           }catch(Exception error){
@@ -140,106 +126,23 @@ implements
             SSServErrReg.reset();
           }
           
-          note = 
-            sqlFct.getResource(
-              par.entity.id).note;
-          
-          par.entity = 
-            SSEvernoteResource.get(
-              par.entity,
-              note,
-              fileExt,
-              mimeType);
-          
-          break;
+        final SSEvernoteResource resource = sqlFct.getResource(entity.id);
+        
+        resource.fileExt  = fileExt;
+        resource.mimeType = mimeType;
+            
+        return SSEvernoteResource.get(
+          resource,
+          entity);
         }
       }
       
-      return par.entity;
+      return entity;
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }
-  }
-  
-  @Override
-  public Boolean copyEntity(
-    final SSUri        user,
-    final List<SSUri>  users,
-    final SSUri        entity,
-    final List<SSUri>  entitiesToExclude,
-    final SSEntityE    entityType) throws Exception{
-    
-    return false;
-  }
-  
-  @Override
-  public List<SSUri> getSubEntities(
-    final SSUri         user,
-    final SSUri         entity,
-    final SSEntityE     type) throws Exception{
-
-    return null;
-  }
-  
-  @Override
-  public List<SSUri> getParentEntities(
-    final SSUri         user,
-    final SSUri         entity,
-    final SSEntityE     type) throws Exception{
-    
-    return new ArrayList<>();
-  }
-    
-  @Override
-  public Boolean setEntityPublic(
-    final SSUri          userUri,
-    final SSUri          entityUri, 
-    final SSEntityE   entityType,
-    final SSUri          publicCircleUri) throws Exception{
-
-    return false;
-  }
-  
-  @Override
-  public void shareEntityWithUsers(
-    final SSUri          userUri, 
-    final List<SSUri>    userUrisToShareWith,
-    final SSUri          entityUri, 
-    final SSUri          entityCircleUri,
-    final SSEntityE      entityType,
-    final Boolean        saveActivity) throws Exception{
-  }
-  
-  @Override
-  public void addEntityToCircle(
-    final SSUri        userUri, 
-    final SSUri        circleUri, 
-    final List<SSUri>  circleUsers,
-    final SSUri        entityUri, 
-    final SSEntityE    entityType) throws Exception{
-  }
-  
-  @Override
-  public void addUsersToCircle(
-    final SSUri        user,
-    final List<SSUri>  users,
-    final SSEntityCircle        circle) throws Exception{
-    
-    
-    
-  }
-  
-  @Override
-  public void removeDirectlyAdjoinedEntitiesForUser(
-    final SSUri       userUri, 
-    final SSEntityE   entityType,
-    final SSUri       entityUri,
-    final Boolean     removeUserTags,
-    final Boolean     removeUserRatings,
-    final Boolean     removeFromUserColls,
-    final Boolean     removeUserLocations) throws Exception{
   }
   
   @Override

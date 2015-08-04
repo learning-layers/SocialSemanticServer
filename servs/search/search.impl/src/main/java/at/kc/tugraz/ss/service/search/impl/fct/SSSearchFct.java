@@ -20,22 +20,26 @@
 */
 package at.kc.tugraz.ss.service.search.impl.fct;
 
+import at.kc.tugraz.ss.recomm.api.SSRecommServerI;
+import at.kc.tugraz.ss.recomm.datatypes.SSResourceLikelihood;
+import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommResourcesPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
+import at.kc.tugraz.ss.service.rating.api.SSRatingServerI;
 import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntity;
-
-import at.tugraz.sss.serv.caller.SSServCaller;
-import at.tugraz.sss.serv.caller.SSServCallerU;
 import at.kc.tugraz.ss.service.rating.datatypes.SSRatingOverall;
+import at.kc.tugraz.ss.service.rating.datatypes.pars.SSRatingOverallGetPar;
 import at.kc.tugraz.ss.service.search.datatypes.SSSearchOpE;
 import at.kc.tugraz.ss.service.search.datatypes.pars.SSSearchPar;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import at.tugraz.sss.serv.SSErr;
-import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSServReg;
 
 public class SSSearchFct {
 
@@ -106,26 +110,6 @@ public class SSSearchFct {
     return true;
   }
   
-  public static SSEntity handleAccess(
-    final SSSearchPar par, 
-    final SSUri       entityID) throws Exception{
-    
-    try{
-      
-      return SSServCallerU.canUserReadEntity(
-        par.user,
-        entityID);
-      
-    }catch(Exception error){
-      if(SSServErrReg.containsErr(SSErrE.userNotAllowedToAccessEntity)){
-        SSServErrReg.reset();
-        return null;
-      }
-      
-      throw error;
-    }
-  }
-
   public static List<SSEntity> recommendEntities(
     final SSSearchPar par) throws Exception{
     
@@ -137,8 +121,11 @@ public class SSSearchFct {
     
     try{
       
-      result.addAll(
-        SSServCaller.recommResources(
+      final List<SSResourceLikelihood> recommendedResources = 
+        ((SSRecommServerI) SSServReg.getServ(SSRecommServerI.class)).recommResources(
+        new SSRecommResourcesPar(
+          null,
+          null,
           par.user,
           null, //realm
           par.user, //forUser
@@ -146,8 +133,18 @@ public class SSSearchFct {
           new ArrayList<>(),
           10,
           par.typesToSearchOnlyFor,
-          false,
-          true).keySet());
+          false, //setCircleTypes
+          true, //includeOwn
+          false, //ignoreAccessRights
+          par.withUserRestriction, //withUserRestriction
+          false)); //invokeEntityHandlers
+          
+      for(SSResourceLikelihood reommendedResource : recommendedResources){
+        result.add(reommendedResource.resource);
+      }
+      
+      return result;
+
     }catch(Exception error){
       SSLogU.warn("reomm entities for search failed");
       SSServErrReg.reset();
@@ -214,23 +211,19 @@ public class SSSearchFct {
     final SSSearchPar par, 
     final SSEntity    entity) throws Exception{
     
-    if(
-      !par.includeAuthors              ||
-      par.authorsToSearchFor.isEmpty()){
+    if(par.authorsToSearchFor.isEmpty()){
       return true;
     }
     
     final SSEntity tmpEntity =
-        SSServCaller.entityDescGet(
+      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+        new SSEntityGetPar(
+          null,
+          null,
           par.user,
           entity.id,
-          false,
-          false,
-          false,
-          false,
-          false,
-          false,
-          false);
+          false, //withUserRestriction
+          null)); //descPar,
     
     return SSStrU.contains(par.authorsToSearchFor, tmpEntity.author);
   }
@@ -247,8 +240,19 @@ public class SSSearchFct {
     
     try{
       
-      final SSRatingOverall rating = SSServCaller.ratingOverallGet(par.user, entity.id);
+      final SSRatingOverall rating = 
+        ((SSRatingServerI) SSServReg.getServ(SSRatingServerI.class)).ratingOverallGet(
+          new SSRatingOverallGetPar(
+            null, 
+            null, 
+            par.user, 
+            entity.id, 
+            par.withUserRestriction));
        
+      if(rating == null){
+        return false;
+      }
+      
       if(
         par.minRating != null &&
         par.minRating > rating.score){

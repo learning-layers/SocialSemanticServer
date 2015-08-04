@@ -22,46 +22,35 @@ package at.kc.tugraz.sss.appstacklayout.datatypes.par;
 
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServErrReg;
 
 public class SSAppStackLayoutDeletePar extends SSServPar{
   
   public SSUri               stack              = null;
+
+  public void setStack(final String stack) throws Exception{
+    this.stack = SSUri.get(stack);
+  }
   
+  public String getStack(){
+    return SSStrU.removeTrailingSlash(stack);
+  }
+  
+  public SSAppStackLayoutDeletePar(){}
+    
   public SSAppStackLayoutDeletePar(
     final SSServOpE        op,
-    final String         key,
-    final SSUri          user,
-    final SSUri          stack){
+    final String           key,
+    final SSUri            user,
+    final SSUri            stack, 
+    final Boolean          withUserRestriction, 
+    final Boolean          shouldCommit){
     
     super(op, key, user);
     
-    this.stack       = stack;
-  }
-  
-  public SSAppStackLayoutDeletePar(SSServPar par) throws Exception{
-    
-    super(par);
-    
-    try{
-      
-      if(pars != null){
-        stack             = (SSUri)         pars.get(SSVarNames.stack);
-      }
-      
-      if(par.clientJSONObj != null){
-        stack =  SSUri.get(par.clientJSONObj.get(SSVarNames.stack).getTextValue());
-      }
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
-  /* json getters */
-  public String getStack(){
-    return SSStrU.removeTrailingSlash(stack);
+    this.stack               = stack;
+    this.withUserRestriction = withUserRestriction;
+    this.shouldCommit        = shouldCommit;
   }
 }

@@ -20,18 +20,22 @@
 */
  package at.kc.tugraz.ss.service.userevent.api;
 
-import at.tugraz.sss.serv.SSServPar;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUE;
+import at.kc.tugraz.ss.service.userevent.datatypes.pars.SSUEAddPar;
+import at.kc.tugraz.ss.service.userevent.datatypes.pars.SSUECountGetPar;
+import at.kc.tugraz.ss.service.userevent.datatypes.pars.SSUEGetPar;
+import at.kc.tugraz.ss.service.userevent.datatypes.pars.SSUEsGetPar;
+import at.tugraz.sss.serv.SSEntity;
+import at.tugraz.sss.serv.SSServServerI;
+import at.tugraz.sss.serv.SSUri;
 import java.util.List;
 
-public interface SSUEServerI {
+public interface SSUEServerI extends SSServServerI{
 
-  public Integer     uECountGet          (final SSServPar parA) throws Exception;
-  public SSUE        uEGet               (final SSServPar parA) throws Exception;
-  public List<SSUE>  uEsGet              (final SSServPar parA) throws Exception;
-  public Boolean     uEAdd               (final SSServPar parA) throws Exception;
-  public Boolean     uEAddAtCreationTime (final SSServPar parA) throws Exception;
-  public Boolean     uEsRemove           (final SSServPar parA) throws Exception;
+  public SSUE            userEventGet               (final SSUEGetPar      par) throws Exception;
+  public SSUri           userEventAdd               (final SSUEAddPar      par) throws Exception;
+  public Integer         userEventCountGet          (final SSUECountGetPar par) throws Exception;
+  public List<SSEntity>  userEventsGet              (final SSUEsGetPar     par) throws Exception;
   
 //  addUserEvent(shouldCommit, user, SSUserEventEnum.appearsInSearchResult, resource, strU.empty);
 //  addUserEvent(shouldCommit, user, SSUserEventEnum.shareCollection, coll, strU.empty);

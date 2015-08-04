@@ -20,12 +20,11 @@
 */
 package at.kc.tugraz.ss.recomm.datatypes.ret;
 
-import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSJSONLDU;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarNames;
-import at.tugraz.sss.serv.SSEntity;
 import at.kc.tugraz.ss.recomm.datatypes.SSResourceLikelihood;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSServRetI;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,24 +36,18 @@ public class SSRecommResourcesRet extends SSServRetI{
   public List<SSResourceLikelihood> resources = new ArrayList<>();
 
   public static SSRecommResourcesRet get(
-    final Map<SSEntity, Double> resourcesWithLikelihood, 
-    final SSServOpE               op) throws Exception{
+    final List<SSResourceLikelihood> resourcesWithLikelihood) throws Exception{
     
-    return new SSRecommResourcesRet(resourcesWithLikelihood, op);
+    return new SSRecommResourcesRet(resourcesWithLikelihood);
   }
   
   private SSRecommResourcesRet(
-    final Map<SSEntity, Double> resourcesWithLikelihood, 
-    final SSServOpE               op) throws Exception{
+    final List<SSResourceLikelihood> resourcesWithLikelihood) throws Exception{
     
-    super(op);
+    super(SSServOpE.recommResources);
     
-    for(Map.Entry<SSEntity, Double> resourceWithLikelihood : resourcesWithLikelihood.entrySet()){
-      
-      this.resources.add(
-        SSResourceLikelihood.get(
-          resourceWithLikelihood.getKey(), 
-          resourceWithLikelihood.getValue()));
+    if(resourcesWithLikelihood != null){
+      this.resources.addAll(resourcesWithLikelihood);
     }
   }
 

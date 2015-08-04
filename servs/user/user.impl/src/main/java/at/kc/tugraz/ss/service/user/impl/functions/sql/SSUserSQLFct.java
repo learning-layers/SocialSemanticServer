@@ -113,14 +113,13 @@ public class SSUserSQLFct extends SSDBSQLFct{
     ResultSet resultSet  = null;
     
     try{
-      final List<String>       columns          = new ArrayList<>();
+      final List<String>        columns          = new ArrayList<>();
       final List<String>        tables           = new ArrayList<>();
       final Map<String, String> wheres           = new HashMap<>();
       final List<String>        tableCons        = new ArrayList<>();
       
       column(columns, SSSQLVarNames.id);
       column(columns, SSSQLVarNames.email);
-      column(columns, SSSQLVarNames.label);
       
       table(tables, SSSQLVarNames.entityTable);
       table(tables, SSSQLVarNames.userTable);
@@ -133,8 +132,8 @@ public class SSUserSQLFct extends SSDBSQLFct{
       
       checkFirstResult(resultSet);
       
-      return SSUser.get(user,
-        bindingStrToLabel(resultSet, SSSQLVarNames.label),
+      return SSUser.get(
+        user,
         bindingStr(resultSet, SSSQLVarNames.email));
       
     }catch(Exception error){
@@ -145,7 +144,7 @@ public class SSUserSQLFct extends SSDBSQLFct{
     }
   }
   
-  public List<SSUser> getUsers(
+  public List<SSUri> getUserURIs(
     final List<SSUri> userURIs) throws Exception{
     
     ResultSet resultSet  = null;
@@ -158,8 +157,6 @@ public class SSUserSQLFct extends SSDBSQLFct{
       final List<String>                         tableCons        = new ArrayList<>();
       
       column(columns, SSSQLVarNames.id);
-      column(columns, SSSQLVarNames.email);
-      column(columns, SSSQLVarNames.label);
       
       table(tables, SSSQLVarNames.entityTable);
       table(tables, SSSQLVarNames.userTable);
@@ -181,14 +178,7 @@ public class SSUserSQLFct extends SSDBSQLFct{
       
       resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
       
-      while(resultSet.next()){
-        
-        users.add(SSUser.get(bindingStrToUri   (resultSet, SSSQLVarNames.id),
-            bindingStrToLabel (resultSet, SSSQLVarNames.label),
-            bindingStr        (resultSet, SSSQLVarNames.email)));
-      }
-      
-      return users;
+      return getURIsFromResult(resultSet, SSSQLVarNames.id);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

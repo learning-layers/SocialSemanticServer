@@ -15,13 +15,13 @@
  */
 package at.kc.tugraz.ss.circle.datatypes.ret;
 
+import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServRetI;
 import at.tugraz.sss.serv.SSEntityCircle;
 import at.tugraz.sss.serv.SSJSONLDU;
-import at.tugraz.sss.serv.SSUri;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -29,25 +29,7 @@ import java.util.Map;
 
 public class SSCirclesGetRet extends SSServRetI{
 
-  public List<SSEntityCircle> circles = new ArrayList<>();
-
-   public List<SSEntityCircle> getCircles() {
-    return circles;
-  }
-   
-  public static SSCirclesGetRet get(
-    final List<SSEntityCircle> circles){
-    
-    return new SSCirclesGetRet(circles);
-  }
-  
-  private SSCirclesGetRet(
-    final List<SSEntityCircle> circles){
-
-    super(SSServOpE.circlesGet);
-    
-    SSEntityCircle.addDistinctWithoutNull(this.circles, circles);
-  }
+  public List<SSEntity> circles = new ArrayList<>();
 
   @Override
   public Map<String, Object> jsonLDDesc(){
@@ -61,5 +43,19 @@ public class SSCirclesGetRet extends SSServRetI{
     ld.put(SSVarNames.circles, circlesObj);
     
     return ld;
+  }
+   
+  public static SSCirclesGetRet get(
+    final List<SSEntity> circles){
+    
+    return new SSCirclesGetRet(circles);
+  }
+  
+  private SSCirclesGetRet(
+    final List<SSEntity> circles){
+
+    super(SSServOpE.circlesGet);
+    
+    SSEntity.addEntitiesDistinctWithoutNull(this.circles, circles);
   }
 }

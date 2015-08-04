@@ -25,6 +25,8 @@ import at.tugraz.sss.serv.SSSQLVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.kc.tugraz.sss.appstacklayout.datatypes.SSAppStackLayout;
+import at.tugraz.sss.serv.SSErr;
+import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -38,28 +40,55 @@ public class SSAppStackLayoutSQLFct extends SSDBSQLFct{
     super(dbSQL);
   }
   
-  public List<SSAppStackLayout> getAppStackLayouts() throws Exception{
+  public SSAppStackLayout getAppStackLayout(
+    final SSUri stack) throws Exception{
     
     ResultSet resultSet = null;
-      
+    
     try{
-      final List<SSAppStackLayout> appStackLayouts = new ArrayList<>();
+      
+      if(stack == null){
+        throw new SSErr(SSErrE.parameterMissing);
+      }
+      
       final List<String>           columns         = new ArrayList<>();
       final Map<String, String>    wheres          = new HashMap<>();
       
       column(columns, SSSQLVarNames.stackId);
       column(columns, SSSQLVarNames.app);
         
+      where(wheres, SSSQLVarNames.stackId, stack);
+      
       resultSet = dbSQL.select(SSSQLVarNames.appStackLayoutTable, columns, wheres, null, null, null);
       
-      while(resultSet.next()){
+      checkFirstResult(resultSet);
         
-        appStackLayouts.add(SSAppStackLayout.get(bindingStrToUri         (resultSet, SSSQLVarNames.stackId), 
-            bindingStrToUri         (resultSet, SSSQLVarNames.app),
-            new ArrayList<>()));
-      }
+      return SSAppStackLayout.get(
+        bindingStrToUri         (resultSet, SSSQLVarNames.stackId),
+        bindingStrToUri         (resultSet, SSSQLVarNames.app));
       
-      return appStackLayouts;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
+    }
+  }
+  
+  public List<SSUri> getStackURIs() throws Exception{
+    
+    ResultSet resultSet = null;
+      
+    try{
+      final List<String>           columns         = new ArrayList<>();
+      final Map<String, String>    wheres          = new HashMap<>();
+      
+      column(columns, SSSQLVarNames.stackId);
+        
+      resultSet = dbSQL.select(SSSQLVarNames.appStackLayoutTable, columns, wheres, null, null, null);
+      
+      return getURIsFromResult(resultSet, SSSQLVarNames.stackId);
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;

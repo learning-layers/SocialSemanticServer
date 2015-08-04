@@ -20,6 +20,8 @@
 */
  package at.kc.tugraz.ss.serv.modeling.ue.impl;
 
+import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.SSModelUETopicScore;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.SSModelUEEntity;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.SSModelUERelation;
@@ -47,7 +49,7 @@ import at.kc.tugraz.ss.serv.modeling.ue.datatypes.rets.SSModelUEMIsForEntityGetR
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.rets.SSModelUERelatedPersonsRet;
 import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.caller.SSServCaller;
-import at.tugraz.sss.serv.caller.SSServCallerU;
+import at.tugraz.sss.util.SSServCallerU;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUE;
 import java.util.*;
 
@@ -69,7 +71,7 @@ public class SSModelUEImpl extends SSServImplWithDBA implements SSModelUEClientI
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(modelUEResourceDetails(parA), parA.op);
+    sSCon.writeRetFullToClient(modelUEResourceDetails(parA));
   }
   
   @Override
@@ -77,7 +79,7 @@ public class SSModelUEImpl extends SSServImplWithDBA implements SSModelUEClientI
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSModelUERelatedPersonsRet.get(modelUERelatedPersons(parA), parA.op), parA.op);
+    sSCon.writeRetFullToClient(SSModelUERelatedPersonsRet.get(modelUERelatedPersons(parA), parA.op));
   }
   
   @Override
@@ -85,7 +87,7 @@ public class SSModelUEImpl extends SSServImplWithDBA implements SSModelUEClientI
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSModelUEMIsForEntityGetRet.get(modelUEMIsForEntityGet(parA), parA.op), parA.op);
+    sSCon.writeRetFullToClient(SSModelUEMIsForEntityGetRet.get(modelUEMIsForEntityGet(parA), parA.op));
   }
   
   /* SSModelUEServerI  */
@@ -151,7 +153,7 @@ public class SSModelUEImpl extends SSServImplWithDBA implements SSModelUEClientI
     
     final SSModelUEResourcePropertySetter resourcePropertySetter        = new SSModelUEResourcePropertySetter (resources);
     final SSModelUEMIThresholdSetter      thresholdSetter               = new SSModelUEMIThresholdSetter      (resources);
-    final SSModelUEMISetter               maturingIndicatorSetter       = new SSModelUEMISetter               ();
+//    final SSModelUEMISetter               maturingIndicatorSetter       = new SSModelUEMISetter               ();
     final SSModelUEUESetter               eventSetter                   = new SSModelUEUESetter               (this, resources);
     final List<SSUE>                      sortedEventsSinceLastUpdate;
     final SSModelUEPersonPropertySetter   personPropertySetter;
@@ -168,7 +170,16 @@ public class SSModelUEImpl extends SSServImplWithDBA implements SSModelUEClientI
       for (SSModelUEEntity resource : resources.values()){
 
         try{
-          resource.type = SSServCaller.entityGet(resource.entity).type;
+          resource.type = 
+            ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+              new SSEntityGetPar(
+                null,
+                null,
+                null,
+                resource.entity,  //entity
+                false, //withUserRestriction
+                null)).type; //descPar
+          
         }catch(Exception error){
           resource.type = SSEntityE.entity;
           
@@ -186,16 +197,16 @@ public class SSModelUEImpl extends SSServImplWithDBA implements SSModelUEClientI
 
       thresholdSetter.calculateThresholds();
 
-      for(SSModelUEEntity resource : resources.values()){
-        maturingIndicatorSetter.calculateIndependentMI(resource);
-      }
+//      for(SSModelUEEntity resource : resources.values()){
+//        maturingIndicatorSetter.calculateIndependentMI(resource);
+//      }
 
-      for(SSModelUEEntity resource : resources.values()){
-
-        maturingIndicatorSetter.calculateDependentMI(resource, resources);
-
-        maturingIndicatorSetter.setTextualMI(resource);
-      }
+//      for(SSModelUEEntity resource : resources.values()){
+//
+//        maturingIndicatorSetter.calculateDependentMI(resource, resources);
+//
+//        maturingIndicatorSetter.setTextualMI(resource);
+//      }
     }
     
     //		maturingIndicatorTripleStoreSetter.saveMI();
@@ -359,11 +370,30 @@ public class SSModelUEImpl extends SSServImplWithDBA implements SSModelUEClientI
     for(SSModelUERelation relation : modelRelations){
       
       if(counter == 0){
-        subjectLabel = SSStrU.toStr(SSServCaller.entityGet(SSUri.get(relation.subject)).label);
+        
+        subjectLabel =
+          SSStrU.toStr(
+            ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+              new SSEntityGetPar(
+                null,
+                null,
+                null,
+                SSUri.get(relation.subject),  //entity
+                false, //withUserRestriction
+                null)).label); //descPar
       }
       
       relation.subjectLabel = subjectLabel;
-      relation.objectLabel  = SSStrU.toStr(SSServCaller.entityGet(SSUri.get(relation.object)));      
+      relation.objectLabel  =
+        SSStrU.toStr(
+          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+            new SSEntityGetPar(
+              null,
+              null,
+              null,
+              SSUri.get(relation.object),  //entity
+              false, //withUserRestriction
+              null)).label); //descPar
       
       counter++;
     }

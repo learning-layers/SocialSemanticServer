@@ -21,14 +21,19 @@
 package at.kc.tugraz.sss.video.api;
 
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServPar;
 import at.kc.tugraz.sss.video.datatypes.SSVideo;
+import at.kc.tugraz.sss.video.datatypes.par.SSVideoUserAddPar;
+import at.kc.tugraz.sss.video.datatypes.par.SSVideoUserAnnotationAddPar;
+import at.kc.tugraz.sss.video.datatypes.par.SSVideoUserGetPar;
+import at.kc.tugraz.sss.video.datatypes.par.SSVideosUserGetPar;
+import at.tugraz.sss.serv.SSEntity;
+import at.tugraz.sss.serv.SSServServerI;
 import java.util.List;
 
-public interface SSVideoServerI{
+public interface SSVideoServerI extends SSServServerI{
   
-  public SSVideo                 videoUserGet            (final SSServPar parA) throws Exception;
-  public List<SSVideo>           videosUserGet           (final SSServPar parA) throws Exception;
-  public SSUri                   videoUserAdd            (final SSServPar parA) throws Exception;
-  public SSUri                   videoUserAnnotationAdd  (final SSServPar parA) throws Exception;
+  public SSUri                   videoAdd            (final SSVideoUserAddPar            par) throws Exception;
+  public SSVideo                 videoGet            (final SSVideoUserGetPar            par) throws Exception;
+  public List<SSEntity>          videosGet           (final SSVideosUserGetPar           par) throws Exception;
+  public SSUri                   videoAnnotationAdd  (final SSVideoUserAnnotationAddPar  par) throws Exception;
 }

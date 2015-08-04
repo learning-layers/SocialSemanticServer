@@ -23,8 +23,9 @@ package at.kc.tugraz.ss.like.api;
 import at.tugraz.sss.serv.SSUri;
 import at.kc.tugraz.ss.like.datatypes.SSLikes;
 import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServServerI;
 
-public interface SSLikeServerI{
+public interface SSLikeServerI extends SSServServerI{
   public SSUri   likeUserSet (final SSServPar parA) throws Exception;
   public SSLikes likesUserGet(final SSServPar parA) throws Exception;
 }

@@ -20,12 +20,8 @@
 */
 package at.kc.tugraz.ss.service.search.impl;
 
-import at.kc.tugraz.ss.circle.api.SSCircleServerI;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCircleTypesGetPar;
-import at.kc.tugraz.ss.circle.serv.SSCircleServ;
-import at.kc.tugraz.ss.service.disc.api.SSDiscServerI;
-import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscEntryURIsGetPar;
-import at.kc.tugraz.ss.service.disc.service.SSDiscServ;
+import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
 import at.tugraz.sss.serv.SSDateU;
 import at.tugraz.sss.serv.SSIDU;
 import at.tugraz.sss.serv.SSLogU;
@@ -39,7 +35,7 @@ import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.caller.SSServCaller;
-import at.tugraz.sss.serv.caller.SSServCallerU;
+import at.tugraz.sss.util.SSServCallerU;
 import at.kc.tugraz.ss.service.search.api.*;
 import at.kc.tugraz.ss.service.search.datatypes.*;
 import at.kc.tugraz.ss.service.search.datatypes.pars.SSSearchPar;
@@ -52,16 +48,17 @@ import at.kc.tugraz.ss.service.tag.api.SSTagServerI;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagEntitiesForTagsGetPar;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsGetPar;
-import at.kc.tugraz.ss.service.tag.service.SSTagServ;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSDBSQLI;
+import at.tugraz.sss.serv.SSEntityDescriberPar;
 import java.util.*;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServImplWithDBA;
+import at.tugraz.sss.serv.SSServReg;
 
 public class SSSearchImpl extends SSServImplWithDBA implements SSSearchClientI, SSSearchServerI{
   
@@ -76,22 +73,24 @@ public class SSSearchImpl extends SSServImplWithDBA implements SSSearchClientI, 
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(search(parA), parA.op);
+    final SSSearchPar par = (SSSearchPar) parA.getFromJSON(SSSearchPar.class);
+      
+    sSCon.writeRetFullToClient(search(par));
     
 //    SSSearchActivityFct.search(new SSSearchPar((parA)));
   }
 
   @Override
-  public SSSearchRet search(final SSServPar parA) throws Exception{
+  public SSSearchRet search(final SSSearchPar par) throws Exception{
     
     try{
       
-      final SSSearchPar             par                           = SSSearchPar.get(parA);
       final List<SSEntity>          results                       = new ArrayList<>();
       final List<SSUri>             uris                          = new ArrayList<>();
       final List<SSUri>             tagResultUris                 = new ArrayList<>();
       final List<SSUri>             contentResultUris             = new ArrayList<>();
-      final List<SSUri>             labelAndDescriptionResultUris = new ArrayList<>();
+      final List<SSUri>             labelResultUris               = new ArrayList<>();
+      final List<SSUri>             descriptionResultUris         = new ArrayList<>();
       final List<List<SSEntity>>    pages;
       final List<SSEntity>          page;
       final List<SSEntity>          recommendedEntities;
@@ -99,13 +98,14 @@ public class SSSearchImpl extends SSServImplWithDBA implements SSSearchClientI, 
       SSEntity                      entity;
       Boolean                       tagsThere;
       Boolean                       contentThere;
-      Boolean                       labelsAndDescsThere;
+      Boolean                       labelsThere;
+      Boolean                       descriptionsThere;
       
       if(
         par.pagesID    != null &&
         par.pageNumber != null){
         
-        return handleSearchPageRequest(parA.op, par);
+        return handleSearchPageRequest(par.op, par);
       }
       
       tagResultUris.addAll                 (getTagResults(par));
@@ -126,8 +126,11 @@ public class SSSearchImpl extends SSServImplWithDBA implements SSSearchClientI, 
         SSServErrReg.regErrThrow(error);
       }
       
-      labelAndDescriptionResultUris.addAll (getLabelAndDescriptionResults(par));
-      uris.addAll                          (labelAndDescriptionResultUris);
+      labelResultUris.addAll       (getLabelResults(par));
+      uris.addAll                  (labelResultUris);
+      
+      descriptionResultUris.addAll (getDescriptionResults(par));
+      uris.addAll                  (descriptionResultUris);
       
       SSStrU.distinctWithoutNull2(uris);
       
@@ -143,12 +146,11 @@ public class SSSearchImpl extends SSServImplWithDBA implements SSSearchClientI, 
           for(SSUri uri : tmpUris){
             
             tagsThere           = false;
-            labelsAndDescsThere = false;
+            labelsThere         = false;
+            descriptionsThere   = false;
             contentThere        = false;
             
-            if(
-              !par.includeTags ||
-              par.tagsToSearchFor.isEmpty()){
+            if(par.tagsToSearchFor.isEmpty()){
               tagsThere = true;
             }else{
               if(SSStrU.contains(tagResultUris,uri)){
@@ -156,22 +158,23 @@ public class SSSearchImpl extends SSServImplWithDBA implements SSSearchClientI, 
               }
             }
                        
-            if(
-              (!par.includeLabel &&
-              !par.includeDescription)
-              ||
-              (par.labelsToSearchFor.isEmpty() &&
-              par.descriptionsToSearchFor.isEmpty())){
-              labelsAndDescsThere = true;
+            if(par.labelsToSearchFor.isEmpty()){
+              labelsThere = true;
             }else{
-              if(SSStrU.contains(labelAndDescriptionResultUris, uri)){
-                labelsAndDescsThere = true;
+              if(SSStrU.contains(labelResultUris, uri)){
+                labelsThere = true;
               }
             }
             
-            if(
-              !par.includeTextualContent ||
-              par.wordsToSearchFor.isEmpty()){
+            if(par.descriptionsToSearchFor.isEmpty()){
+              descriptionsThere = true;
+            }else{
+              if(SSStrU.contains(descriptionResultUris, uri)){
+                descriptionsThere = true;
+              }
+            }
+            
+            if(par.wordsToSearchFor.isEmpty()){
               contentThere        = true;
             }else{
               if(SSStrU.contains(contentResultUris, uri)){
@@ -179,7 +182,7 @@ public class SSSearchImpl extends SSServImplWithDBA implements SSSearchClientI, 
               }
             }
             
-            if(tagsThere && labelsAndDescsThere && contentThere){
+            if(tagsThere && labelsThere && descriptionsThere && contentThere){
               uris.add(uri);
             }
           }
@@ -196,8 +199,16 @@ public class SSSearchImpl extends SSServImplWithDBA implements SSSearchClientI, 
       page  = new ArrayList<>();
       
       for(SSUri result : extendToParentEntities(par, filterForSubEntities(par, uris))){
-        
-        entity = SSSearchFct.handleAccess(par, result);
+
+        entity = 
+          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+          new SSEntityGetPar(
+            null, 
+            null, 
+            par.user, 
+            result, 
+            par.withUserRestriction, 
+            null)); //descPar))
         
         if(
           entity == null ||
@@ -250,8 +261,7 @@ public class SSSearchImpl extends SSServImplWithDBA implements SSSearchClientI, 
         results, 
         pagesID,
         1,
-        pages.size(), 
-        parA.op);
+        pages.size());
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -264,34 +274,58 @@ public class SSSearchImpl extends SSServImplWithDBA implements SSSearchClientI, 
     final SSUri       result) throws Exception{
     
     try{
+      
+      final SSEntityDescriberPar descPar = new SSEntityDescriberPar(null);
+      
+      descPar.setTags          = true;
+      descPar.setOverallRating = true;
+      descPar.setCircleTypes   = true;
+      
       final SSEntity entity =
-        SSServCaller.entityDescGet(
-          par.user,
-          result,
-          true,
-          true,
-          false,
-          false,
-          false,
-          false,
-          false);
-      
-      entity.entries.addAll(
-        SSStrU.removeTrailingSlash(
-          getEntries(
-            par,
-            entity)));
-      
-      entity.circleTypes =
-        ((SSCircleServerI) SSCircleServ.inst.serv()).circleTypesGet(
-          new SSCircleTypesGetPar(
+        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+          new SSEntityGetPar(
             null,
             null,
             par.user,
-            par.user,
-            entity.id,
-            false));
+            result,
+            false, //withUserRestriction
+            descPar)); //descPar
       
+//      entity.entries.addAll(
+//        SSStrU.removeTrailingSlash(
+//          getEntries(
+//            par,
+//            entity)));
+//      
+//      private List<SSEntity> getEntries(
+//    final SSSearchPar par, 
+//    final SSEntity    entity) throws Exception{
+//    
+//    final List<SSEntity> entries = new ArrayList<>();
+//    
+//    if(!par.provideEntries){
+//      return entries;
+//    }
+//          
+//    switch(entity.type){
+//      case chat:
+//      case disc:
+//      case qa:
+//
+//        entries.addAll(
+//          ((SSDiscServerI) SSServReg.getServ(SSDiscServerI.class)).discEntryURIsGet(
+//            new SSDiscEntryURIsGetPar(op, key, user, disc, withUserRestriction)
+//              null, 
+//              null, 
+//              par.user, 
+//              entity.id, 
+//              )));
+//          
+//        break;
+//    }
+//    
+//    return entries;
+//  }
       
       return entity;
     }catch(Exception error){
@@ -329,42 +363,12 @@ public class SSSearchImpl extends SSServImplWithDBA implements SSSearchClientI, 
         results,
         par.pagesID,
         par.pageNumber,
-        pages.pages.size(),
-        op);
+        pages.pages.size());
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }
-  }
-  
-  private List<SSUri> getEntries(
-    final SSSearchPar par, 
-    final SSEntity    entity) throws Exception{
-    
-    final List<SSUri> entries = new ArrayList<>();
-    
-    if(!par.provideEntries){
-      return entries;
-    }
-          
-    switch(entity.type){
-      case chat:
-      case disc:
-      case qa:
-
-        entries.addAll(
-          ((SSDiscServerI)SSDiscServ.inst.serv()).discEntryURIsGet(
-            new SSDiscEntryURIsGetPar(
-              null, 
-              null, 
-              par.user, 
-              entity.id)));
-          
-        break;
-    }
-    
-    return entries;
   }
   
   private List<SSUri> getMIResults(final SSSearchPar par) throws Exception{
@@ -375,23 +379,20 @@ public class SSSearchImpl extends SSServImplWithDBA implements SSSearchClientI, 
     
     final List<SSUri> tagResults = new ArrayList<>();
     SSSearchTagsPar   searchTagsPar;
-      
-    if(!par.includeTags){
+    
+    if(par.tagsToSearchFor.isEmpty()){
       return tagResults;
     }
     
-    if(!par.tagsToSearchFor.isEmpty()){
-      
-      searchTagsPar =
-        SSSearchTagsPar.get(
-          par.user,
-          par.tagsToSearchFor,
-          par.localSearchOp,
-          10);
-      
-      for(SSEntity result : searchTags(searchTagsPar)){
-        tagResults.add(result.id);
-      }
+    searchTagsPar =
+      SSSearchTagsPar.get(
+        par.user,
+        par.tagsToSearchFor,
+        par.localSearchOp,
+        10);
+    
+    for(SSEntity result : searchTags(searchTagsPar)){
+      tagResults.add(result.id);
     }
     
     return tagResults;
@@ -402,30 +403,63 @@ public class SSSearchImpl extends SSServImplWithDBA implements SSSearchClientI, 
     final List<SSUri> textualContentResults = new ArrayList<>();
     SSSearchSolrPar   searchSolrPar;
     
-    if(!par.includeTextualContent){
+    if(par.wordsToSearchFor.isEmpty()){
       return textualContentResults;
     }
     
-    if(!par.wordsToSearchFor.isEmpty()){
-      
-      searchSolrPar =
-        SSSearchSolrPar.get(
-          par.user,
-          par.wordsToSearchFor,
-          par.localSearchOp);
-      
-      for(SSEntity solrResult : searchSolr(searchSolrPar)){
-        textualContentResults.add(solrResult.id);
-      }
+    searchSolrPar =
+      SSSearchSolrPar.get(
+        par.user,
+        par.wordsToSearchFor,
+        par.localSearchOp);
+    
+    for(SSEntity solrResult : searchSolr(searchSolrPar)){
+      textualContentResults.add(solrResult.id);
     }
     
     return textualContentResults;
   }
   
-  private List<SSUri> getLabelAndDescriptionResults(final SSSearchPar par) throws Exception{
+  private List<SSUri> getDescriptionResults(final SSSearchPar par) throws Exception{
     
     final List<SSUri>         results            = new ArrayList<>();
-    final List<String>        combinedKeywords   = new ArrayList<>();
+    
+    for(int counter = par.descriptionsToSearchFor.size() - 1; counter >= 0; counter--){
+      
+      if(SSStrU.isEmpty(par.descriptionsToSearchFor.get(counter))){
+        par.descriptionsToSearchFor.remove(counter);
+      }
+    }
+    
+    if(par.descriptionsToSearchFor.isEmpty()){
+      return results;
+    }
+    
+    switch(par.localSearchOp){
+      
+      case or:{
+        for(SSEntity entity : SSServCaller.entitiesForDescriptionsGet(new ArrayList<>(), new ArrayList<>(), SSStrU.toStr(par.descriptionsToSearchFor))){
+          results.add(entity.id);
+        }
+        
+        break;
+      }
+      
+      case and:{
+        
+        for(SSEntity entity : SSServCaller.entitiesForDescriptionsGet(SSStrU.toStr(par.descriptionsToSearchFor), new ArrayList<>(), new ArrayList<>())){
+          results.add(entity.id);
+        }
+        
+        break;
+      }
+    }
+    return results;
+  }
+    
+  private List<SSUri> getLabelResults(final SSSearchPar par) throws Exception{
+    
+    final List<SSUri>         results            = new ArrayList<>();
     
     for(int counter = par.labelsToSearchFor.size() - 1; counter >= 0; counter--){
       
@@ -434,101 +468,28 @@ public class SSSearchImpl extends SSServImplWithDBA implements SSSearchClientI, 
       }
     }
   
-    for(int counter = par.descriptionsToSearchFor.size() - 1; counter >= 0; counter--){
-      
-      if(SSStrU.isEmpty(par.descriptionsToSearchFor.get(counter))){
-        par.descriptionsToSearchFor.remove(counter);
-      }
-    }
-     
-    if(
-      par.includeDescription &&
-      par.includeLabel){
-      
-      switch(par.localSearchOp){
-        
-        case or:{
-          combinedKeywords.addAll(SSStrU.toStr(par.labelsToSearchFor));
-          
-          for(SSEntity entity : SSServCaller.entitiesForLabelsGet(new ArrayList<>(), new ArrayList<>(), combinedKeywords)){
-            results.add     (entity.id);
-          }
-          
-          combinedKeywords.clear();
-          combinedKeywords.addAll(SSStrU.toStr(par.descriptionsToSearchFor));
-          
-          for(SSEntity entity : SSServCaller.entitiesForDescriptionsGet(new ArrayList<>(), new ArrayList<>(), combinedKeywords)){
-            results.add           (entity.id);
-          }
-          
-          break;
-        }
-        
-        case and:{
-          
-          combinedKeywords.addAll(SSStrU.toStr(par.labelsToSearchFor));
-          
-          for(SSEntity entity : SSServCaller.entitiesForLabelsGet(combinedKeywords, new ArrayList<>(), new ArrayList<>())){
-            results.add     (entity.id);
-          }
-          
-          combinedKeywords.clear();
-          combinedKeywords.addAll(SSStrU.toStr(par.descriptionsToSearchFor));
-          
-          for(SSEntity entity : SSServCaller.entitiesForDescriptionsGet(combinedKeywords, new ArrayList<>(), new ArrayList<>())){
-            results.add           (entity.id);
-          }
-          break;
-        }
-      }
+    if(par.labelsToSearchFor.isEmpty()){
+      return results;
     }
     
-    if(
-      par.includeDescription &&
-      !par.includeLabel){
+    switch(par.localSearchOp){
       
-      combinedKeywords.addAll(SSStrU.toStr(par.descriptionsToSearchFor));
-      
-      switch(par.localSearchOp){
+      case or:{
         
-        case or:{
-          for(SSEntity entity : SSServCaller.entitiesForDescriptionsGet(new ArrayList<>(), new ArrayList<>(), combinedKeywords)){
-            results.add(entity.id);
-          }
-          break;
+        for(SSEntity entity : SSServCaller.entitiesForLabelsGet(new ArrayList<>(), new ArrayList<>(), SSStrU.toStr(par.labelsToSearchFor))){
+          results.add     (entity.id);
         }
         
-        case and:{
-          for(SSEntity entity : SSServCaller.entitiesForDescriptionsGet(combinedKeywords, new ArrayList<>(), new ArrayList<>())){
-            results.add(entity.id);
-          }
-          break;
-        }
+        break;
       }
-    }
-        
-    if(
-      !par.includeDescription &&
-      par.includeLabel){
       
-      combinedKeywords.addAll(SSStrU.toStr(par.labelsToSearchFor));
-      
-      switch(par.localSearchOp){
+      case and:{
         
-        case or:{
-          
-          for(SSEntity entity : SSServCaller.entitiesForLabelsGet(new ArrayList<>(), new ArrayList<>(), combinedKeywords)){
-            results.add(entity.id);
-          }
-          break;
+        for(SSEntity entity : SSServCaller.entitiesForLabelsGet(SSStrU.toStr(par.labelsToSearchFor), new ArrayList<>(), new ArrayList<>())){
+          results.add     (entity.id);
         }
         
-        case and:{
-          for(SSEntity entity : SSServCaller.entitiesForLabelsGet(combinedKeywords, new ArrayList<>(), new ArrayList<>())){
-            results.add(entity.id);
-          }
-          break;
-        }
+        break;
       }
     }
     
@@ -608,7 +569,7 @@ public class SSSearchImpl extends SSServImplWithDBA implements SSSearchClientI, 
         searchResultsForTagOneTag = new ArrayList<>();
         
         for(SSUri foundEntity :
-          ((SSTagServerI) SSTagServ.inst.serv()).tagEntitiesForTagsGet(
+          ((SSTagServerI) SSServReg.getServ(SSTagServerI.class)).tagEntitiesForTagsGet(
             new SSTagEntitiesForTagsGetPar(
               null,
               null,
@@ -618,11 +579,19 @@ public class SSSearchImpl extends SSServImplWithDBA implements SSSearchClientI, 
               SSSpaceE.sharedSpace, 
               null))){
           
-          searchResultsForTagOneTag.add(SSServCaller.entityGet(foundEntity));
+          searchResultsForTagOneTag.add(
+            ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+              new SSEntityGetPar(
+                null,
+                null,
+                null,
+                foundEntity,  //entity
+                false, //withUserRestriction
+                null))); //descPar
         }
         
         for(SSUri foundEntity :
-          ((SSTagServerI) SSTagServ.inst.serv()).tagEntitiesForTagsGet(
+          ((SSTagServerI) SSServReg.getServ(SSTagServerI.class)).tagEntitiesForTagsGet(
             new SSTagEntitiesForTagsGetPar(
               null,
               null,
@@ -632,7 +601,15 @@ public class SSSearchImpl extends SSServImplWithDBA implements SSSearchClientI, 
               SSSpaceE.privateSpace, 
               null))){
 
-          searchResultsForTagOneTag.add(SSServCaller.entityGet(foundEntity));
+          searchResultsForTagOneTag.add(
+            ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+              new SSEntityGetPar(
+                null,
+                null,
+                null,
+                foundEntity,  //entity
+                false, //withUserRestriction
+                null))); //descPar
         }
         
         searchResultsPerTag.put(tagLabel, searchResultsForTagOneTag);
@@ -670,14 +647,20 @@ public class SSSearchImpl extends SSServImplWithDBA implements SSSearchClientI, 
         for(String entityId : SSServCaller.solrSearch(keyword, 20)){
           
           try{
-            
             entityObj =
-              SSServCaller.entityGet(
-                SSServCaller.vocURICreateFromId(entityId));
-
+              ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+                new SSEntityGetPar(
+                  null,
+                  null,
+                  null,
+                  SSServCaller.vocURICreateFromId(entityId),  //entity
+                  false, //withUserRestriction
+                  null)); //descPar
+              
             searchResultsForOneKeyword.add(entityObj);
           }catch(Exception error){
             SSLogU.warn("solr result entity not found in sss");
+            SSServErrReg.reset();
           }
         }
 
@@ -716,20 +699,30 @@ public class SSSearchImpl extends SSServImplWithDBA implements SSSearchClientI, 
         for(SSUri entityUri : SSSearchMiscFct.getSubEntities(par.user, SSUri.asListWithoutNullAndEmpty(par.entity))){
           
           if(
-            ((SSTagServerI) SSTagServ.inst.serv()).tagsGet(
+            ((SSTagServerI) SSServReg.getServ(SSTagServerI.class)).tagsGet(
               new SSTagsGetPar(
-                null, 
+                null,
                 null,
                 par.user,
-                null,
-                SSUri.asListWithoutNullAndEmpty(entityUri),
-                SSTagLabel.asListWithoutNullAndEmpty(SSTagLabel.get(tag)), 
-                null, 
-                null)).isEmpty()){
+                null, //forUser
+                SSUri.asListWithoutNullAndEmpty(entityUri), //entities
+                SSTagLabel.asListWithoutNullAndEmpty(SSTagLabel.get(tag)),  //labels
+                null, //space
+                null, //circles
+                null, //startTime
+                false)).isEmpty()){ //withUserRestriction
             continue;
           }
           
-          entityObj = SSServCaller.entityGet(entityUri);
+          entityObj =
+            ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+              new SSEntityGetPar(
+                null,
+                null,
+                null,
+                entityUri,  //entity
+                false, //withUserRestriction
+                null)); //descPar
           
           searchResultsForOneKeyword.add(entityObj);
         }

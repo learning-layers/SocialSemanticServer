@@ -20,13 +20,17 @@
 */
 package at.kc.tugraz.ss.friend.api;
 
-import at.tugraz.sss.serv.SSUri;
 import at.kc.tugraz.ss.friend.datatypes.SSFriend;
-import at.tugraz.sss.serv.SSServPar;
+import at.kc.tugraz.ss.friend.datatypes.par.SSFriendGetPar;
+import at.kc.tugraz.ss.friend.datatypes.par.SSFriendAddPar;
+import at.tugraz.sss.serv.SSUri;
+import at.kc.tugraz.ss.friend.datatypes.par.SSFriendsGetPar;
+import at.tugraz.sss.serv.SSServServerI;
 import java.util.List;
 
-public interface SSFriendServerI{
+public interface SSFriendServerI extends SSServServerI{
 
-  public SSUri                 friendUserAdd             (final SSServPar parA) throws Exception;
-  public List<SSFriend>        friendsUserGet            (final SSServPar parA) throws Exception;
+  public SSFriend           friendGet             (final SSFriendGetPar     par) throws Exception;
+  public SSUri              friendAdd             (final SSFriendAddPar     par) throws Exception;
+  public List<SSFriend>     friendsGet            (final SSFriendsGetPar    par) throws Exception;
 }

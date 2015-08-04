@@ -20,109 +20,111 @@
  */
 package at.kc.tugraz.ss.recomm.impl.fct.misc;
 
-import at.tugraz.sss.serv.SSFileExtE;
-import at.tugraz.sss.serv.SSFileU;
+import at.kc.tugraz.ss.recomm.conf.SSRecommConf;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 import at.kc.tugraz.ss.recomm.datatypes.SSRecommUserRealmEngine;
 import at.kc.tugraz.ss.recomm.impl.fct.sql.SSRecommSQLFct;
-
-import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
+import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.tugraz.sss.serv.SSErr;
+import at.tugraz.sss.serv.SSErrE;
+import at.tugraz.sss.serv.SSFileExtE;
+import at.tugraz.sss.serv.SSFileU;
+import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSServErrReg;
+import engine.EngineInterface;
 import engine.EntityRecommenderEngine;
-import java.util.Collection;
+import java.io.FileOutputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class SSRecommUserRealmKeeper{
   
-  private static String                                     sssRealm            = null;
-  private static final Map<String, SSRecommUserRealmEngine> userRealmEngines    = new HashMap<>();
+  private static final Map<String, List<SSRecommUserRealmEngine>> userRealmEngines   = new HashMap<>();
+  private static final ReentrantReadWriteLock                     engineLock         = new ReentrantReadWriteLock();  
   
-  public static Collection<SSRecommUserRealmEngine> getUserRealmEngines(){
-    
-    return userRealmEngines.values();
-  }
-  
-  private static final ReentrantReadWriteLock               engineLock     = new ReentrantReadWriteLock();
-  
-  public static String getSssRealm() throws Exception{
-    
-    try{
-      engineLock.readLock().lock();
-      
-      return sssRealm;
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }finally{
-      engineLock.readLock().unlock();
-    }
-  }
+//  public static Collection<SSRecommUserRealmEngine> getUserRealmEngines(){
+//    return userRealmEngines.values();
+//  }
   
   public static SSRecommUserRealmEngine checkAddAndGetUserRealmEngine(
-    final SSUri          user,
-    final String         realm,
-    final Boolean        checkForUpdate,
-    final SSRecommSQLFct sqlFct) throws Exception{
+    final SSRecommConf    conf,
+    final SSUri           user,
+    String                realm,
+    final Boolean         checkForUpdate,
+    final EngineInterface engine, 
+    final SSRecommSQLFct  sqlFct,
+    final Boolean         storeToDB) throws Exception{
     
     try{
       
       engineLock.readLock().lock();
+      
+      if(user == null){
+        throw new SSErr(SSErrE.parameterMissing);
+      }
+      
+      if(realm == null){
+        realm = ((SSRecommConf)conf).fileNameForRec;
+      }
       
       final String userStr = SSStrU.toStr(user);
       
       if(checkForUpdate){
         
-        if(SSStrU.equals(user, SSVoc.systemUserUri)){
+        if(
+          SSStrU.equals  (realm,   conf.fileNameForRec) &&
+          !SSStrU.equals (userStr, SSVocConf.systemUserUri)){
           
-          if(realm == null){
-            throw new Exception("realm has to be set");
-          }
-        }else{
-          
-          if(
-            realm == null ||
-            SSStrU.equals(realm, SSRecommUserRealmKeeper.getSssRealm())){
-            
-            throw new Exception("realm has to be set");
-          }
+          throw new SSErr(SSErrE.userNotAllowedToRetrieveForOtherUser);
         }
       }else{
         
-        if(
-          realm == null ||
-          SSStrU.equals(realm, SSRecommUserRealmKeeper.getSssRealm())){
+        if(SSStrU.equals(realm, conf.fileNameForRec)){
+          final List<SSRecommUserRealmEngine> systemUserRealmEngines = userRealmEngines.get(SSStrU.toStr(SSVocConf.systemUserUri));
           
-          return SSRecommUserRealmKeeper.userRealmEngines.get(SSStrU.toStr(SSVoc.systemUserUri));
+          return systemUserRealmEngines.get(0);
         }
       }
       
       if(userRealmEngines.containsKey(userStr)){
         
-        if(!SSStrU.equals(userRealmEngines.get(userStr).realm, realm)){
-          throw new Exception("user already defined recomm realm: '" + userRealmEngines.get(userStr).realm + "'; re-use this!");
-        }
-      }else{
+        for(SSRecommUserRealmEngine userRealmEngine : userRealmEngines.get(userStr)){
         
-        if(checkForUpdate){
-          
-          engineLock.readLock().unlock();
-          
-          engineLock.writeLock().lock();
-          
-          userRealmEngines.put(userStr, SSRecommUserRealmEngine.get(new EntityRecommenderEngine(), realm));
-          
-          sqlFct.addUserRealm(user, realm);
-          
-        }else{
-          throw new Exception("realm to recommend from doesnt exist");
+          if(SSStrU.equals(userRealmEngine.realm, realm)){
+            return userRealmEngine;
+          }
         }
       }
-      
-      return userRealmEngines.get(userStr);
+        
+      if(checkForUpdate){
+        
+        engineLock.readLock().unlock();
+        
+        engineLock.writeLock().lock();
+        
+        final SSRecommUserRealmEngine userRealmEngine  = SSRecommUserRealmEngine.get(engine, realm);
+        
+        //refactor this to loadSingleUserRealm
+        
+        if(storeToDB){
+          sqlFct.addUserRealm(user, realm);
+        }
+        
+        if(!userRealmEngines.containsKey(userStr)){
+          userRealmEngines.put(userStr, new ArrayList());
+        }
+        
+        userRealmEngines.get(userStr).add(userRealmEngine);
+        
+        return userRealmEngine;
+        
+      }else{
+        throw new Exception("realm to recommend from doesnt exist");
+      }
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -137,53 +139,49 @@ public class SSRecommUserRealmKeeper{
     }
   }
   
-  public static void setSssRealmAndEngine(final String sssRealmValue) throws Exception{
+  public static void setAndLoadUserRealmEnginesFromDB(
+    final Map<String, List<String>> usersRealms) throws Exception{
+    
+    FileOutputStream userRealmFileOut = null;
     
     try{
       
-      engineLock.writeLock().lock();
-      
-      if(sssRealm == null){
-        sssRealm = sssRealmValue;
-      }
-      
-      if(!userRealmEngines.containsKey(SSStrU.toStr(SSVoc.systemUserUri))){
-        
-        userRealmEngines.put(
-          SSStrU.toStr(SSVoc.systemUserUri),
-          SSRecommUserRealmEngine.get(
-            new EntityRecommenderEngine(),
-            sssRealm));
-      }
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }finally{
-      
-      if(engineLock.isWriteLockedByCurrentThread()){
-        engineLock.writeLock().unlock();
-      }
-    }
-  }
-  
-  public static void setUserRealmEngines(
-    final Map<String, String> userRealms) throws Exception{
-    
-    try{
+      SSRecommUserRealmEngine userRealmEngine;
       
       engineLock.writeLock().lock();
       
-      for(Map.Entry<String, String> userRealm : userRealms.entrySet()){
+      for(Map.Entry<String, List<String>> userRealms : usersRealms.entrySet()){
         
-        if(userRealmEngines.containsKey(userRealm.getKey())){
-          continue;
+        for(String userRealm : userRealms.getValue()){
+          
+          if(!userRealmEngines.containsKey(userRealms.getKey())){
+            userRealmEngines.put(userRealms.getKey(), new ArrayList<>());
+          }
+          
+          userRealmEngine =
+            SSRecommUserRealmEngine.get(
+              new EntityRecommenderEngine(),
+              userRealm);
+          
+          //refactor this to loadSingleUserRealm
+          try{
+            userRealmFileOut =
+              SSFileU.openOrCreateFileWithPathForWrite(
+                SSFileU.dirWorkingDataCsv() + userRealm + SSStrU.dot + SSFileExtE.txt);
+            
+            userRealmEngine.engine.loadFile(userRealm);
+            
+            userRealmEngines.get(userRealms.getKey()).add(userRealmEngine);
+          }catch(Exception error){
+            SSLogU.warn("user realm engine creation of file failed");
+          }finally{
+            
+            if(userRealmFileOut != null){
+              userRealmFileOut.close();
+              userRealmFileOut = null;
+            }
+          }
         }
-        
-        userRealmEngines.put(
-          userRealm.getKey(),
-          SSRecommUserRealmEngine.get(
-            new EntityRecommenderEngine(),
-            userRealm.getValue()));
       }
       
     }catch(Exception error){
@@ -196,3 +194,111 @@ public class SSRecommUserRealmKeeper{
     }
   }
 }
+
+//public static void setUserRealmEnginesFromConf(
+//    final SSRecommConf        conf) throws Exception{
+//    
+//    FileOutputStream userRealmFileOut = null;
+//    String    realm;
+//    SSUri     userURI;
+//    String    userEmail;
+//    
+//    try{
+//      
+//      SSRecommUserRealmEngine userRealmEngine;
+//      
+//      engineLock.writeLock().lock();
+//      
+//      if(
+//        conf.recommTagsUserPerRealm == null ||
+//        conf.recommTagsUserPerRealm.isEmpty()){
+//        return;
+//      }
+//        
+//      for(String realmAndUser : conf.recommTagsUserPerRealm){
+//        
+//        realm     = SSStrU.split(realmAndUser, SSStrU.colon).get(0);
+//        userEmail = SSStrU.split(realmAndUser, SSStrU.colon).get(1);
+//        userURI   =
+//          ((SSUserServerI) SSServReg.getServ(SSUserServerI.class)).userURIGet(
+//            new SSUserURIGetPar(
+//              null, 
+//              null, 
+//              SSVocConf.systemUserUri, 
+//              userEmail));
+//        
+//        if(!userRealmEngines.containsKey(SSStrU.toStr(userURI))){
+//          userRealmEngines.put(SSStrU.toStr(userURI), new ArrayList<>());
+//        }
+//        
+//        userRealmEngine =
+//          SSRecommUserRealmEngine.get(
+//            new EntityRecommenderEngine(),
+//            realm);
+//        
+//        //refactor this to loadSingleUserRealm
+//        try{
+//          userRealmFileOut =
+//            SSFileU.openOrCreateFileWithPathForWrite(
+//              SSFileU.dirWorkingDataCsv() + realm + SSStrU.dot + SSFileExtE.txt);
+//          
+//          userRealmEngine.engine.loadFile(realm);
+//          
+//          userRealmEngines.get(SSStrU.toStr(userURI)).add(userRealmEngine);
+//        }catch(Exception error){
+//          SSLogU.warn("user realm engine creation of file failed");
+//        }finally{
+//          
+//          if(userRealmFileOut != null){
+//            userRealmFileOut.close();
+//            userRealmFileOut = null;
+//          }
+//        }
+//      }
+//      
+//    }catch(Exception error){
+//      SSServErrReg.regErrThrow(error);
+//    }finally{
+//      
+//      if(engineLock.isWriteLockedByCurrentThread()){
+//        engineLock.writeLock().unlock();
+//      }
+//    }
+//  }
+
+//public static void setSSSRealmEngine(final SSRecommConf conf) throws Exception{
+//    
+//    FileOutputStream sssRealmFileOut = null;
+//    
+//    try{
+//      
+//      engineLock.writeLock().lock();
+//      
+//      if(!userRealmEngines.containsKey(SSStrU.toStr(SSVocConf.systemUserUri))){
+//        
+//        userRealmEngines.put(SSStrU.toStr(SSVocConf.systemUserUri), new ArrayList());
+//        
+//        sssRealmFileOut =
+//          SSFileU.openOrCreateFileWithPathForWrite(
+//            SSFileU.dirWorkingDataCsv() + conf.fileNameForRec + SSStrU.dot + SSFileExtE.txt);
+//        
+//        userRealmEngines.get(
+//          SSStrU.toStr(SSVocConf.systemUserUri)).add(
+//          SSRecommUserRealmEngine.get(
+//            new EntityRecommenderEngine(),
+//            conf.fileNameForRec));
+//      }
+//      
+//    }catch(Exception error){
+//      SSServErrReg.regErrThrow(error);
+//    }finally{
+//      
+//      if(sssRealmFileOut != null){
+//        sssRealmFileOut.close();
+//      }
+//      
+//      if(engineLock.isWriteLockedByCurrentThread()){
+//        engineLock.writeLock().unlock();
+//      }
+//    }
+//  }

@@ -30,31 +30,21 @@ import java.util.Map;
 
 public class SSUEGetRet extends SSServRetI{
   
-  public SSUE uE = null;
-  
-  public static SSUEGetRet get(SSUE uE, SSServOpE op){
-    return new SSUEGetRet(uE, op);
-  }
-  
-  private SSUEGetRet(SSUE uE, SSServOpE op){
-    
-    super(op);
-    
-    this.uE = uE;
-  }
-  
+  public SSUE userEvent = null;
+ 
   @Override
   public Map<String, Object> jsonLDDesc(){
-    
-    Map<String, Object> ld         = new HashMap<>();
-    
-    ld.put(SSVarNames.uE, SSVarNames.sss + SSStrU.colon + SSUE.class.getName());
-    
-    return ld;
+    throw new UnsupportedOperationException();
   }
   
-  /* getters to allow for json enconding */
-  public SSUE getuE() {
-    return uE;
+  public static SSUEGetRet get(SSUE userEvent){
+    return new SSUEGetRet(userEvent);
+  }
+  
+  private SSUEGetRet(SSUE userEvent){
+    
+    super(SSServOpE.userEventGet);
+    
+    this.userEvent = userEvent;
   }
 }

@@ -22,7 +22,6 @@ package at.kc.tugraz.ss.test.serv.entity;
 
 import at.kc.tugraz.ss.serv.datatypes.entity.serv.SSEntityServ;
 import at.kc.tugraz.ss.serv.serv.datatypes.entity.conf.SSEntityConf;
-import at.tugraz.sss.serv.caller.SSServCaller;
 
 public class SSEntityTester extends Thread{
   
@@ -36,8 +35,7 @@ public class SSEntityTester extends Thread{
     }
     
     switch(entityConf.op){
-      case entityUserDirectlyAdjoinedEntitiesRemove: new Thread(new SSEntityUserDirectlyAdjoinedEntitiesRemoveTest(entityConf)).start(); break;
-      case entityDescGet:                            new Thread(new SSEntityDescGetTest                           (entityConf)).start(); break;
+//      case entityDescGet:                            new Thread(new SSEntityDescGetTest                           (entityConf)).start(); break;
     }
   }
 }

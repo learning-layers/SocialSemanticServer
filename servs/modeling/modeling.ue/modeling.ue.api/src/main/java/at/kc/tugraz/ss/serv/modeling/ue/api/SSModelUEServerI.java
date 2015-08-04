@@ -25,9 +25,10 @@ import at.kc.tugraz.ss.serv.modeling.ue.datatypes.SSModelUERelation;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.SSModelUETopicScore;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.rets.SSModelUEResourceDetailsRet;
 import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServServerI;
 import java.util.List;
 
-public interface SSModelUEServerI {
+public interface SSModelUEServerI extends SSServServerI{
   
   public SSModelUEResourceDetailsRet        modelUEResourceDetails         (final SSServPar parA)     throws Exception;
   public List<SSUri>                        modelUERelatedPersons          (final SSServPar parA)     throws Exception;

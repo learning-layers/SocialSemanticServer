@@ -36,7 +36,7 @@ import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.SSSocketCon;
 import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.caller.SSServCallerU;
+import at.tugraz.sss.util.SSServCallerU;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -55,7 +55,7 @@ public class SSBroadcasterImpl extends SSServImplWithDBA implements SSBroadcaste
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSBroadcastAddRet.get(broadcastAdd(parA), parA.op), parA.op);
+    sSCon.writeRetFullToClient(SSBroadcastAddRet.get(broadcastAdd(parA), parA.op));
   }
 
   @Override
@@ -63,7 +63,7 @@ public class SSBroadcasterImpl extends SSServImplWithDBA implements SSBroadcaste
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSBroadcastsGetRet.get(broadcastsGet(parA), parA.op), parA.op);
+    sSCon.writeRetFullToClient(SSBroadcastsGetRet.get(broadcastsGet(parA), parA.op));
   }
 
   @Override
@@ -71,7 +71,7 @@ public class SSBroadcasterImpl extends SSServImplWithDBA implements SSBroadcaste
 
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSBroadcastServerTimeRet.get(broadcastServerTime(parA), parA.op), parA.op);
+    sSCon.writeRetFullToClient(SSBroadcastServerTimeRet.get(broadcastServerTime(parA), parA.op));
   }
   
   @Override

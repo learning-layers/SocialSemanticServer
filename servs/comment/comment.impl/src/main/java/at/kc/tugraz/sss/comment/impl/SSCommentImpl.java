@@ -20,38 +20,39 @@
 */
 package at.kc.tugraz.sss.comment.impl;
 
-import at.kc.tugraz.ss.circle.api.SSCircleServerI;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivEntityAddPar;
-import at.kc.tugraz.ss.circle.serv.SSCircleServ;
+import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
-import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSSocketCon;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSEntity;
-import at.kc.tugraz.sss.comment.datatypes.par.SSCommentEntitiesCommentedGetPar;
+import at.kc.tugraz.sss.comment.datatypes.par.SSCommentEntitiesGetPar;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSConfA;
-import at.tugraz.sss.serv.SSEntityDescriberI;
-import at.tugraz.sss.serv.SSEntityUpdaterI;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.SSUserRelationGathererI;
-import at.tugraz.sss.serv.caller.SSServCaller;
-import at.tugraz.sss.serv.caller.SSServCallerU;
+import at.tugraz.sss.util.SSServCallerU;
 import at.kc.tugraz.sss.comment.api.SSCommentClientI;
 import at.kc.tugraz.sss.comment.api.SSCommentServerI;
+import at.kc.tugraz.sss.comment.datatypes.par.SSCommentsAddPar;
 import at.kc.tugraz.sss.comment.datatypes.par.SSCommentsGetPar;
-import at.kc.tugraz.sss.comment.datatypes.par.SSCommentsUserGetPar;
-import at.kc.tugraz.sss.comment.datatypes.ret.SSCommentsUserGetRet;
+import at.kc.tugraz.sss.comment.datatypes.ret.SSCommentsGetRet;
 import at.kc.tugraz.sss.comment.impl.fct.sql.SSCommentSQLFct;
 import at.kc.tugraz.sss.comment.impl.fct.userrelationgather.SSCommentUserRelationGatherFct;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
+import at.tugraz.sss.serv.SSDescribeEntityI;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
+import at.tugraz.sss.serv.SSErr;
+import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServReg;
+import at.tugraz.sss.serv.caller.SSServCaller;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -60,8 +61,7 @@ extends SSServImplWithDBA
 implements 
   SSCommentClientI, 
   SSCommentServerI, 
-  SSEntityUpdaterI, 
-  SSEntityDescriberI, 
+  SSDescribeEntityI,
   SSUserRelationGathererI{
   
   private final SSCommentSQLFct sqlFct;
@@ -84,17 +84,25 @@ implements
   }
   
   @Override
-  public SSEntity getUserEntity(final SSEntityDescriberPar par) throws Exception{
+  public SSEntity describeEntity(
+    final SSEntity             entity, 
+    final SSEntityDescriberPar par) throws Exception{
 
     try{
       
-      par.entity.comments.addAll(
-        SSServCaller.commentsGet(
-          par.user,
-          null,
-          par.entity.id));
+      if(par.setComments){
+        
+        entity.comments.addAll(
+          commentsGet(
+            new SSCommentsGetPar(
+              null, 
+              null,
+              par.user, 
+              entity.id,
+              par.withUserRestriction)));
+      }
 
-      return par.entity;
+      return entity;
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -103,41 +111,80 @@ implements
   }
   
   @Override
-  public void updateEntity(
-    final SSServPar parA) throws Exception{
-
-    final SSEntityUpdatePar par = (SSEntityUpdatePar) parA;
-    
-    if(par.comments.isEmpty()){
-      return;
-    }
+  public SSUri commentsAdd(final SSCommentsAddPar par) throws Exception{
     
     try{
       
+      if(par.entity == null){
+        throw new SSErr(SSErrE.parameterMissing);
+      }
+      
       SSUri commentUri;
+      
+      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+        new SSEntityUpdatePar(
+          null,
+          null,
+          par.user,
+          par.entity,
+          null, //type,
+          null, //label,
+          null, //description,
+          null, //entitiesToAttach,
+          null, //creationTime,
+          null, //read,
+          false, //setPublic
+          par.withUserRestriction, //withUserRestriction,
+          false)); //shouldCommit))
       
       for(SSTextComment content : par.comments){
         
         commentUri = SSServCaller.vocURICreate();
         
-        ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
-          new SSCirclePrivEntityAddPar(
+        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+          new SSEntityUpdatePar(
             null,
             null,
             par.user,
             commentUri,
-            SSEntityE.comment,
-            par.label,
-            null,
-            null,
-            false));
+            SSEntityE.comment, //type,
+            null, //label
+            null, //description,
+            null, //entitiesToAttach,
+            null, //creationTime,
+            null, //read,
+            true, //setPublic
+            false, //withUserRestriction
+            false)); //shouldCommit)
         
-        sqlFct.createComment (commentUri, content);
-        sqlFct.addComment    (par.entity, commentUri);
+        sqlFct.createComment(
+          commentUri, 
+          content);
+        
+        sqlFct.addComment(
+          par.entity, 
+          commentUri);
       }
       
+      return par.entity;
     }catch(Exception error){
+      
+      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+        
+        if(dbSQL.rollBack(par.shouldCommit)){
+          
+          SSServErrReg.reset();
+          
+          return commentsAdd(par);
+        }else{
+          SSServErrReg.regErrThrow(error);
+          return null;
+        }
+      }
+      
+      dbSQL.rollBack(par.shouldCommit);
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -146,27 +193,27 @@ implements
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSCommentsUserGetRet.get(commentsUserGet(parA), parA.op), parA.op);
+    final SSCommentsGetPar par = (SSCommentsGetPar) parA.getFromJSON(SSCommentsGetPar.class);
+    
+    sSCon.writeRetFullToClient(SSCommentsGetRet.get(commentsGet(par)));
   }
   
   @Override
-  public List<SSTextComment> commentsUserGet(final SSServPar parA) throws Exception{
+  public List<SSTextComment> commentsGet(final SSCommentsGetPar par) throws Exception{
     
     try{
       
-      final SSCommentsUserGetPar par = new SSCommentsUserGetPar(parA);
-      
-      if(par.entity != null){
-        SSServCallerU.canUserReadEntity(par.user, par.entity);
+      if(par.entity == null){
+        throw new SSErr(SSErrE.parameterMissing);
       }
       
-      if(
-        par.forUser != null &&
-        !SSStrU.equals(par.user, par.forUser)){
-        throw new Exception("user cannot access comments for user " + par.forUser);
+      if(par.withUserRestriction){
+        if(!SSServCallerU.canUserRead(par.user, par.entity)){
+          return new ArrayList<>();
+        }
       }
       
-      return sqlFct.getComments(par.entity, par.forUser);
+      return sqlFct.getComments(par.entity, null);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -175,27 +222,35 @@ implements
   }
   
   @Override
-  public List<SSTextComment> commentsGet(final SSServPar parA) throws Exception{
+  public List<SSUri> commentEntitiesGet(final SSCommentEntitiesGetPar par) throws Exception{
     
     try{
       
-      final SSCommentsGetPar par = new SSCommentsGetPar(parA);
+      if(par.user == null){
+        throw new SSErr(SSErrE.parameterMissing);
+      }
       
-      return sqlFct.getComments(par.entity, par.forUser);
+      final List<SSUri>    entityURIs = sqlFct.getEntityURIsCommented(par.user);
       
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
-  @Override
-  public List<SSUri> commentEntitiesCommentedGet(final SSServPar parA) throws Exception{
-    
-    try{
-      final SSCommentEntitiesCommentedGetPar par = new SSCommentEntitiesCommentedGetPar(parA);
+      if(!par.withUserRestriction){
+        return entityURIs;
+      }
+
+      final List<SSEntity> entities   = new ArrayList<>();
       
-      return sqlFct.getEntityURIsCommented(par.forUser);
+      SSEntity.addEntitiesDistinctWithoutNull(
+        entities,
+        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
+          new SSEntitiesGetPar(
+            null,
+            null,
+            par.user,
+            entityURIs, //entities
+            null, //types,
+            null, //descPar,
+            par.withUserRestriction)));
+      
+      return SSUri.getDistinctNotNullFromEntities(entities);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

@@ -22,31 +22,49 @@ package at.kc.tugraz.ss.recomm.datatypes.par;
 
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServErrReg;
 import java.util.ArrayList;
 import java.util.List;
-import org.codehaus.jackson.JsonNode;
 
 public class SSRecommUsersPar extends SSServPar{
 
-  public String        realm      = null;
-  public SSUri         forUser    = null;
-  public SSUri         entity     = null;
-  public List<String>  categories = new ArrayList<>();
-  public Integer       maxUsers    = 10;
-    
+  public String        realm                = null;
+  public SSUri         forUser              = null;
+  public SSUri         entity               = null;
+  public List<String>  categories           = new ArrayList<>();
+  public Integer       maxUsers             = 10;
+  public Boolean       ignoreAccessRights   = false;
+  public Boolean       invokeEntityHandlers = false;
+
+  public void setForUser(final String forUser) throws Exception{
+    this.forUser = SSUri.get(forUser);
+  }
+
+  public void setEntity(final String entity) throws Exception{
+    this.entity =  SSUri.get(entity);
+  }
+  
+  public String getForUser(){
+    return SSStrU.removeTrailingSlash(forUser);
+  }
+  
+  public String getEntity(){
+    return SSStrU.removeTrailingSlash(entity);
+  }
+  
   public SSRecommUsersPar(
-    final SSServOpE      op,
+    final SSServOpE    op,
     final String       key,
     final SSUri        user,
     final String       realm,
     final SSUri        forUser,
     final SSUri        entity, 
     final List<String> categories, 
-    final Integer      maxUsers){
+    final Integer      maxUsers, 
+    final Boolean      ignoreAccessRights, 
+    final Boolean      withUserRestriction, 
+    final Boolean      invokeEntityHandlers){
   
     super(op, key, user);
     
@@ -58,58 +76,9 @@ public class SSRecommUsersPar extends SSServPar{
       this.categories.addAll(categories);
     }
     
-    this.maxUsers = maxUsers;
-  }
-    
-  public SSRecommUsersPar(final SSServPar par) throws Exception{
-    
-    super(par);
-    
-    try{
-      if(pars != null){
-        realm                         = (String)          pars.get(SSVarNames.realm);
-        forUser                       = (SSUri)           pars.get(SSVarNames.forUser);
-        entity                        = (SSUri)           pars.get(SSVarNames.entity);
-        categories                    = (List<String>)    pars.get(SSVarNames.categories);
-        maxUsers                      = (Integer)         pars.get(SSVarNames.maxUsers);
-      }
-      
-      if(par.clientJSONObj != null){
-        
-        try{
-          this.realm = par.clientJSONObj.get(SSVarNames.realm).getTextValue();
-        }catch(Exception error){}
-        
-        try{
-          this.forUser   = SSUri.get         (par.clientJSONObj.get(SSVarNames.forUser).getTextValue());
-        }catch(Exception error){}
-        
-        try{
-          this.entity = SSUri.get         (par.clientJSONObj.get(SSVarNames.entity).getTextValue());
-        }catch(Exception error){}
-        
-        try{
-          for (final JsonNode objNode : par.clientJSONObj.get(SSVarNames.categories)) {
-            categories.add(objNode.getTextValue());
-          }
-        }catch(Exception error){}
-        
-        try{
-          this.maxUsers   = par.clientJSONObj.get(SSVarNames.maxUsers).getIntValue();
-        }catch(Exception error){}
-        
-      }      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
-  /* json getters */
-  public String getForUser(){
-    return SSStrU.removeTrailingSlash(forUser);
-  }
-
-  public String getEntity(){
-    return SSStrU.removeTrailingSlash(entity);
+    this.maxUsers             = maxUsers;
+    this.ignoreAccessRights   = ignoreAccessRights;
+    this.withUserRestriction  = withUserRestriction;
+    this.invokeEntityHandlers = invokeEntityHandlers;
   }
 }

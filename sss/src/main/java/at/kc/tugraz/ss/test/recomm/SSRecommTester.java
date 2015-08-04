@@ -35,8 +35,8 @@ public class SSRecommTester extends Thread{
     }
     
     switch(recommConf.op){
-      case recommTags:       new Thread(new SSRecommTagsTest             (recommConf)).start(); break;
-      case recommResources:  new Thread(new SSRecommResourcesTest        (recommConf)).start(); break;
+//      case recommTags:       new Thread(new SSRecommTagsTest             (recommConf)).start(); break;
+//      case recommResources:  new Thread(new SSRecommResourcesTest        (recommConf)).start(); break;
     }
   }
 }

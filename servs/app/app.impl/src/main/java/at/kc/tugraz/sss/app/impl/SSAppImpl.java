@@ -20,25 +20,23 @@
 */
 package at.kc.tugraz.sss.app.impl;
 
-import at.kc.tugraz.ss.circle.api.SSCircleServerI;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePubEntityAddPar;
-import at.kc.tugraz.ss.circle.serv.SSCircleServ;
-import at.tugraz.sss.serv.SSLogU;
+import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.tugraz.sss.serv.SSSocketCon;
 import at.tugraz.sss.serv.SSEntity;
-import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSConfA;
-import at.tugraz.sss.serv.SSEntityDescriberI;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.caller.SSServCaller;
-import at.tugraz.sss.serv.caller.SSServCallerU;
+import at.tugraz.sss.util.SSServCallerU;
 import at.kc.tugraz.sss.app.api.SSAppServerI;
 import at.kc.tugraz.sss.app.api.SSAppClientI;
 import at.kc.tugraz.sss.app.datatypes.SSApp;
 import at.kc.tugraz.sss.app.datatypes.par.SSAppAddPar;
+import at.kc.tugraz.sss.app.datatypes.par.SSAppGetPar;
 import at.kc.tugraz.sss.app.datatypes.par.SSAppsGetPar;
 import at.kc.tugraz.sss.app.datatypes.ret.SSAppAddRet;
 import at.kc.tugraz.sss.app.datatypes.ret.SSAppsGetRet;
@@ -46,15 +44,25 @@ import at.kc.tugraz.sss.app.impl.fct.sql.SSAppSQLFct;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
+import at.tugraz.sss.serv.SSDescribeEntityI;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
 import java.util.ArrayList;
 import java.util.List;
-import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSErrE;
+import at.tugraz.sss.serv.SSImageE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServReg;
+import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.servs.image.api.SSImageServerI;
+import at.tugraz.sss.servs.image.datatype.par.SSImageAddPar;
 
-public class SSAppImpl extends SSServImplWithDBA implements SSAppClientI, SSAppServerI, SSEntityDescriberI{
+public class SSAppImpl 
+extends SSServImplWithDBA 
+implements 
+  SSAppClientI, 
+  SSAppServerI, 
+  SSDescribeEntityI{
   
   private final SSAppSQLFct sqlFct;
   
@@ -66,13 +74,30 @@ public class SSAppImpl extends SSServImplWithDBA implements SSAppClientI, SSAppS
   }
   
   @Override
-  public SSEntity getUserEntity(final SSEntityDescriberPar par) throws Exception{
+  public SSEntity describeEntity(
+    final SSEntity             entity, 
+    final SSEntityDescriberPar par) throws Exception{
     
-    try{
-      return par.entity;
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
+    switch(entity.type){
+      
+      case app:{
+
+        if(SSStrU.equals(entity, par.recursiveEntity)){
+          return entity;
+        }
+        
+        return SSApp.get(
+          appGet(
+            new SSAppGetPar(
+              null,
+              null,
+              par.user,
+              entity.id, 
+              false)), //invokeEntityHandlers
+          entity);
+      }
+      
+      default: return entity;
     }
   }
   
@@ -81,30 +106,70 @@ public class SSAppImpl extends SSServImplWithDBA implements SSAppClientI, SSAppS
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSAppAddRet.get(appAdd(parA), parA.op), parA.op);
+    final SSAppAddPar         par     = (SSAppAddPar) parA.getFromJSON(SSAppAddPar.class);
+    
+    sSCon.writeRetFullToClient(SSAppAddRet.get(appAdd(par)));
   }
 
   @Override
-  public SSUri appAdd(final SSServPar parA) throws Exception{
+  public SSUri appAdd(final SSAppAddPar par) throws Exception{
     
     try{
       
-      final SSAppAddPar par    = new SSAppAddPar(parA);
-      final SSUri       appUri = SSServCaller.vocURICreate();
+      final SSUri appUri = SSServCaller.vocURICreate();
       
       dbSQL.startTrans(par.shouldCommit);
 
-      ((SSCircleServerI) SSCircleServ.inst.serv()).circlePubEntityAdd(
-        new SSCirclePubEntityAddPar(
+      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+        new SSEntityUpdatePar(
           null,
           null,
           par.user,
-          appUri,
-          false,
-          SSEntityE.app,
-          par.label,
-          null,
-          null));
+          appUri, //entity,
+          SSEntityE.app, //type,
+          par.label, //label,
+          null, //description,
+          null, //entitiesToAttach,
+          null, //creationTime,
+          null, //read,
+          true, //setPublic
+          par.withUserRestriction, //withUserRestriction,
+          false)); //shouldCommit
+      
+      for(SSUri screenShot : par.screenShots){
+      
+        ((SSImageServerI) SSServReg.getServ(SSImageServerI.class)).imageAdd(
+          new SSImageAddPar(
+            null, 
+            null, 
+            par.user, 
+            screenShot, 
+            SSImageE.screenShot, //imageType
+            appUri, //entity, 
+            par.withUserRestriction, 
+            false)); //shouldCommit
+      }
+      
+      //TODO handle below
+//      for(SSUri download : par.downloads){
+//      
+//        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+//          new SSEntityUpdatePar(
+//            null,
+//            null,
+//            par.user,
+//            download, //entity,
+//            null, //type,
+//            null, //label,
+//            null, //description,
+//            null, //entitiesToAttach,
+//            null, //creationTime,
+//            null, //read,
+//            true, //setPublic
+//            true, //withUserRestriction,
+//            false)); //shouldCommit
+//      }    
+//          par.videos, //videos,
       
       sqlFct.createApp(
         appUri,
@@ -116,48 +181,6 @@ public class SSAppImpl extends SSServImplWithDBA implements SSAppClientI, SSAppS
         par.downloadAndroid,
         par.fork);
       
-      for(SSUri download : par.downloads){
-      
-        ((SSCircleServerI) SSCircleServ.inst.serv()).circlePubEntityAdd(
-          new SSCirclePubEntityAddPar(
-            null,
-            null,
-            par.user,
-            download,
-            false,
-            SSEntityE.entity,
-            null,
-            null,
-            null));
-      }
-      
-      for(SSUri screenShot : par.screenShots){
-      
-        ((SSCircleServerI) SSCircleServ.inst.serv()).circlePubEntityAdd(
-          new SSCirclePubEntityAddPar(
-            null,
-            null,
-            par.user,
-            screenShot,
-            false,
-            SSEntityE.image,
-            null,
-            null,
-            null));
-      }
-      
-      SSServCaller.entityUpdate(
-        par.user,
-        appUri,
-        null,
-        null,
-        SSTextComment.asListWithoutNullAndEmpty(),
-        par.downloads,
-        par.screenShots,
-        SSUri.asListWithoutNullAndEmpty(),
-        par.videos,
-        false);
-      
       dbSQL.commit(par.shouldCommit);
       
       return appUri;
@@ -166,18 +189,73 @@ public class SSAppImpl extends SSServImplWithDBA implements SSAppClientI, SSAppS
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(dbSQL.rollBack(parA.shouldCommit)){
+        if(dbSQL.rollBack(par.shouldCommit)){
           
           SSServErrReg.reset();
           
-          return appAdd(parA);
+          return appAdd(par);
         }else{
           SSServErrReg.regErrThrow(error);
           return null;
         }
       }
       
-      dbSQL.rollBack(parA.shouldCommit);
+      dbSQL.rollBack(par.shouldCommit);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public SSApp appGet(final SSAppGetPar par) throws Exception{
+    
+    try{
+      
+      final SSEntityDescriberPar descPar;
+      
+      if(par.invokeEntityHandlers){
+        descPar = new SSEntityDescriberPar(par.app);
+        
+        descPar.setAttachedEntities = true;
+      }else{
+        descPar = null;
+      }
+
+      return SSApp.get(
+        sqlFct.getApp(par.app), 
+        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+          new SSEntityGetPar(
+            null, 
+            null, 
+            par.user, 
+            par.app, 
+            par.withUserRestriction, //withUserRestriction, 
+            descPar))); //descPar)));
+      
+//      if(par.invokeEntityHandlers)
+            //TODO handle
+//        entity.downloads.addAll(
+//          SSServCaller.entityDownloadURIsGet(
+//            par.user,
+//            app.id));
+      
+//        try{
+//
+//          entity.attachedEntities.addAll(
+//            SSServCaller.videosUserGet(
+//              par.user,
+//              null,
+//              app.id));
+//
+//        }catch(SSErr error){
+//
+//          switch(error.code){
+//            case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
+//            default: SSServErrReg.regErrThrow(error);
+//          }
+//        }
+      
+    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -188,64 +266,33 @@ public class SSAppImpl extends SSServImplWithDBA implements SSAppClientI, SSAppS
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSAppsGetRet.get(appsGet(parA), parA.op), parA.op);
+    final SSAppsGetPar par     = (SSAppsGetPar) parA.getFromJSON(SSAppsGetPar.class);
+      
+    sSCon.writeRetFullToClient(SSAppsGetRet.get(appsGet(par)));
   }
   
   @Override
-  public List<SSApp> appsGet(final SSServPar parA) throws Exception{
+  public List<SSEntity> appsGet(final SSAppsGetPar par) throws Exception{
     
     try{
+      final List<SSEntity>       apps     = new ArrayList<>();
+      final List<SSUri>          appURIs  = sqlFct.getAppURIs();
       
-      final SSAppsGetPar par  = new SSAppsGetPar(parA);
-      final List<SSApp>  apps = new ArrayList<>();
-      SSApp              entity;
-      
-      for(SSApp app : sqlFct.getApps()){
-
-        entity =
-          SSApp.get(
-            app,
-            SSServCaller.entityDescGet(
-              par.user,
-              app.id,
-              true,
-              true,
-              false,
-              false,
-              false,
-              false,
-              false));
+      for(SSUri appURI : appURIs){
         
-        entity.downloads.addAll(
-          SSServCaller.entityDownloadURIsGet(
-            par.user, 
-            app.id));
-        
-        entity.attachedEntities.addAll(
-          SSServCaller.entityScreenShotsGet(
-            par.user, 
-            app.id));
-        
-        try{
-          
-          entity.attachedEntities.addAll(
-            SSServCaller.videosUserGet(
-              par.user,
+        SSEntity.addEntitiesDistinctWithoutNull(
+          apps,
+          appGet(
+            new SSAppGetPar(
               null,
-              app.id));
-          
-        }catch(SSErr error){
-          
-          switch(error.code){
-            case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
-            default: SSServErrReg.regErrThrow(error);
-          }
-        }
-         
-         apps.add(entity);
+              null,
+              par.user,
+              appURI,
+              par.invokeEntityHandlers)));
       }
       
       return apps;
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;

@@ -32,20 +32,8 @@ public class SSMessageSendRet extends SSServRetI{
   
   public SSUri message = null;
   
-  public static SSMessageSendRet get(
-    final SSUri   message,
-    final SSServOpE op){
-    
-    return new SSMessageSendRet(message, op);
-  }
-  
-  private SSMessageSendRet(
-    final SSUri   message,
-    final SSServOpE op){
-    
-    super(op);
-    
-    this.message = message;
+  public String getMessage(){
+    return SSStrU.removeTrailingSlash(message);
   }
   
   @Override
@@ -58,9 +46,17 @@ public class SSMessageSendRet extends SSServRetI{
     return ld;
   }
   
-  /* json getters */
+  public static SSMessageSendRet get(
+    final SSUri   message){
+    
+    return new SSMessageSendRet(message);
+  }
   
-  public String getMessage(){
-    return SSStrU.removeTrailingSlash(message);
+  private SSMessageSendRet(
+    final SSUri   message){
+    
+    super(SSServOpE.messageSend);
+    
+    this.message = message;
   }
 }

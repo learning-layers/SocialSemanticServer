@@ -20,13 +20,14 @@
 */
 package at.kc.tugraz.ss.recomm.serv.task;
 
+import at.kc.tugraz.ss.recomm.api.SSRecommServerI;
 import at.tugraz.sss.serv.SSLogU;
 import at.kc.tugraz.ss.recomm.conf.SSRecommConf;
-
-import at.tugraz.sss.serv.SSServImplStartA;
-import at.tugraz.sss.serv.caller.SSServCaller;
-import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
+import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommUpdateBulkPar;
+import at.kc.tugraz.ss.recomm.serv.SSRecommServ;
+import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSServImplStartA;
 import java.util.TimerTask;
 
 public class SSRecommUpdateBulkTask extends TimerTask {
@@ -65,7 +66,15 @@ public class SSRecommUpdateBulkTask extends TimerTask {
     public void run() {
       
       try{
-        SSServCaller.recommUpdateBulk(SSVoc.systemUserUri, recommConf.fileNameForRec);
+        ((SSRecommServerI)SSRecommServ.inst.serv()).recommUpdateBulk(
+          new SSRecommUpdateBulkPar(
+            null, 
+            null,
+            SSVocConf.systemUserUri, 
+            recommConf.fileNameForRec, 
+            null));
+        
+//        SSServCaller.recommUpdateBulk(SSVoc.systemUserUri, recommConf.fileNameForRec);
       }catch(Exception error1){
         SSServErrReg.regErr(error1);
       }finally{

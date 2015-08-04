@@ -29,8 +29,8 @@ import java.util.List;
 
 public class SSUsersGetPar extends SSServPar{
   
-  public List<SSUri> users          = new ArrayList<>();
-  public Boolean     setFriends     = null;
+  public List<SSUri> users                = new ArrayList<>();
+  public Boolean     invokeEntityHandlers = false;
 
   public List<String> getUsers() throws Exception{
     return SSStrU.removeTrailingSlash(users);
@@ -47,12 +47,12 @@ public class SSUsersGetPar extends SSServPar{
     final String      key,
     final SSUri       user,
     final List<SSUri> users, 
-    final Boolean     setFriends){
+    final Boolean     invokeEntityHandlers){
    
     super(op, key, user);
     
     SSUri.addDistinctWithoutNull(this.users, users);
     
-    this.setFriends = setFriends;
+    this.invokeEntityHandlers = invokeEntityHandlers;
   }
 }

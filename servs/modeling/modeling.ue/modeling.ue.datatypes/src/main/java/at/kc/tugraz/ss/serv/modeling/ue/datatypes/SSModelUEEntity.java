@@ -28,6 +28,7 @@ import at.kc.tugraz.ss.serv.modeling.ue.datatypes.enums.SSModelUEResourceCounter
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityA;
 import at.kc.tugraz.ss.service.userevent.datatypes.*;
+import at.tugraz.sss.serv.SSEntity;
 import java.util.*;
 
 public class SSModelUEEntity extends SSEntityA{

@@ -20,12 +20,13 @@
 */
 package at.kc.tugraz.ss.service.coll.datatypes.ret;
 
-import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSJSONLDU;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServRetI;
 import at.kc.tugraz.ss.service.coll.datatypes.SSColl;
+import at.tugraz.sss.serv.SSEntity;
+import at.tugraz.sss.serv.SSServOpE;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -33,20 +34,7 @@ import java.util.Map;
 
 public class SSCollUserHierarchyGetRet extends SSServRetI{
 
-  public List<SSColl> colls = new ArrayList<>();
-
-  public static SSCollUserHierarchyGetRet get(List<SSColl> colls, SSServOpE op){
-    return new SSCollUserHierarchyGetRet(colls, op);
-  }
-  
-  private SSCollUserHierarchyGetRet(List<SSColl> colls, SSServOpE op) {
-
-    super(op);
-    
-    if(colls != null){
-      this.colls.addAll(colls);
-    }
-  }
+  public List<SSEntity> colls = new ArrayList<>();
 
   @Override
   public Map<String, Object> jsonLDDesc(){
@@ -62,7 +50,14 @@ public class SSCollUserHierarchyGetRet extends SSServRetI{
     return ld;
   }
   
-  public List<SSColl> getColls() {
-    return colls;
+  public static SSCollUserHierarchyGetRet get(List<SSEntity> colls){
+    return new SSCollUserHierarchyGetRet(colls);
+  }
+  
+  private SSCollUserHierarchyGetRet(List<SSEntity> colls) {
+
+    super(SSServOpE.collHierarchyGet);
+    
+    SSEntity.addEntitiesDistinctWithoutNull(this.colls, colls);
   }
 }

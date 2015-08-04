@@ -18,22 +18,11 @@
   
   <dependencies>
   
-   
-    
-   
-    
     <dependency>
       <groupId>sss.servs</groupId>
       <artifactId>recomm.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>
-    
-    <dependency>
-      <groupId>tagrec</groupId>
-      <artifactId>tagrec</artifactId>
-      <version>2.2</version>
-    </dependency>
-    
     
     <dependency>
       <groupId>junit</groupId>

@@ -20,16 +20,15 @@
 */
 package at.kc.tugraz.ss.message.datatypes.par;
 
-import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSUri;
 
 public class SSMessagesGetPar extends SSServPar{
   
-  public Boolean includeRead = false;
-  public Long    startTime = null;
+  public Boolean includeRead          = false;
+  public Long    startTime            = null;
+  public Boolean invokeEntityHandlers = false;
   
   public SSMessagesGetPar(){}
   
@@ -38,32 +37,15 @@ public class SSMessagesGetPar extends SSServPar{
     final String    key,
     final SSUri     user, 
     final Boolean   includeRead, 
-    final Long      startTime){
+    final Long      startTime, 
+    final Boolean   withUserRestriction, 
+    final Boolean   invokeEntityHandlers){
     
     super(op, key, user);
     
-    this.includeRead = includeRead;
-    this.startTime   = startTime;
-  }
-  
-  public static SSMessagesGetPar get(final SSServPar par) throws Exception{
-    
-    try{
-      
-      if(par.clientCon != null){
-        return (SSMessagesGetPar) par.getFromJSON(SSMessagesGetPar.class);
-      }
-      
-      return new SSMessagesGetPar(
-        par.op,
-        par.key,
-        par.user,
-        (Boolean)      par.pars.get(SSVarNames.includeRead),
-        (Long)         par.pars.get(SSVarNames.startTime));
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
+    this.includeRead          = includeRead;
+    this.startTime            = startTime;
+    this.withUserRestriction  = withUserRestriction;
+    this.invokeEntityHandlers = invokeEntityHandlers;
   }
 }

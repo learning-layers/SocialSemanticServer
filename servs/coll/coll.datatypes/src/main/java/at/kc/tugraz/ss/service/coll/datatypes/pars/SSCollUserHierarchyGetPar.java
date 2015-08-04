@@ -22,50 +22,36 @@ package at.kc.tugraz.ss.service.coll.datatypes.pars;
 
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServErrReg;
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import at.tugraz.sss.serv.SSServErrReg;
-@XmlRootElement
-@ApiModel(value = "collUserHierarchyGet request parameter")
+import at.tugraz.sss.serv.SSServOpE;
+
 public class SSCollUserHierarchyGetPar extends SSServPar{
   
-  @ApiModelProperty( 
-    required = true, 
-    value = "collection to retrieve it's parent hierarchy for")
-  public SSUri  coll = null;
+  public SSUri   coll                 = null;
+  public Boolean invokeEntityHandlers = false;
       
-  @XmlElement
   public void setColl(final String coll) throws Exception{
     this.coll = SSUri.get(coll);
   }
   
-  public SSCollUserHierarchyGetPar(){}
-    
-  public SSCollUserHierarchyGetPar(SSServPar par) throws Exception{
-    
-    super(par);
-     
-    try{
-      
-      if(pars != null){
-        coll = (SSUri) pars.get(SSVarNames.coll);
-      }
-      
-      if(par.clientJSONObj != null){
-        coll = SSUri.get(par.clientJSONObj.get(SSVarNames.coll).getTextValue());
-      }
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
-  /* json getters */
   public String getColl(){
     return SSStrU.removeTrailingSlash(coll);
   }
+  
+  public SSCollUserHierarchyGetPar(){}
+    
+  public SSCollUserHierarchyGetPar(
+    final SSServOpE     op,
+    final String        key,
+    final SSUri         user,
+    final SSUri         coll, 
+    final Boolean       withUserRestriction, 
+    final Boolean       invokeEntityHandlers){
+    
+    super(op, key, user);
+     
+    this.coll                 = coll;
+    this.withUserRestriction  = withUserRestriction;
+    this.invokeEntityHandlers = invokeEntityHandlers;
+  }      
 }

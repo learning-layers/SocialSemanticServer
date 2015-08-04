@@ -20,26 +20,20 @@
 */
  package at.kc.tugraz.ss.service.filerepo.service;
 
-import at.tugraz.sss.serv.SSDateU;
+import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import at.tugraz.sss.serv.SSCoreConfA;
-import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSServReg;
 import at.kc.tugraz.ss.service.filerepo.conf.SSFileRepoConf;
 import at.kc.tugraz.ss.service.filerepo.impl.SSFilerepoImpl;
 import at.tugraz.sss.serv.SSServImplA;
 import at.kc.tugraz.ss.service.filerepo.api.SSFileRepoClientI;
 import at.kc.tugraz.ss.service.filerepo.api.SSFileRepoServerI;
-import at.kc.tugraz.ss.service.filerepo.datatypes.SSFileRepoFileAccessProperty;
-import at.kc.tugraz.ss.service.filerepo.service.task.SSFileRepoWritingMinutesUpdateTask;
 import at.tugraz.sss.serv.SSServContainerI;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class SSFilerepoServ extends SSServContainerI{
   
   public  static final SSFilerepoServ                            inst            = new SSFilerepoServ(SSFileRepoClientI.class, SSFileRepoServerI.class);
-  private static final Map<String, SSFileRepoFileAccessProperty> fileAccessProps = new HashMap<>();
   
   protected SSFilerepoServ(
     final Class servImplClientInteraceClass, 
@@ -50,30 +44,21 @@ public class SSFilerepoServ extends SSServContainerI{
   
   @Override
   protected SSServImplA createServImplForThread() throws Exception{
-    return new SSFilerepoImpl((SSFileRepoConf)conf, fileAccessProps);
+    return new SSFilerepoImpl((SSFileRepoConf)conf);
   }
   
   @Override
   public void schedule() throws Exception{
-    
-    if(conf.use){
-      
-      SSDateU.scheduleAtFixedRate(
-        new SSFileRepoWritingMinutesUpdateTask(),
-        SSDateU.getDateForNextMinute(),
-        SSDateU.minuteInMilliSeconds);
-    }
   }
   
   @Override
-  public SSServContainerI regServ(final SSConfA conf) throws Exception{
+  public SSServContainerI regServ() throws Exception{
     
-    this.conf = conf;
+    this.conf = SSCoreConf.instGet().getFilerepo();
     
     SSServReg.inst.regServ(this);
     
-    SSServReg.inst.regServForManagingEntities   (this);
-    SSServReg.inst.regServForDescribingEntities (this);
+    SSServReg.inst.regServForHandlingDescribeEntity(this);
     
     return this;
   }

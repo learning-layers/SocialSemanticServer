@@ -20,8 +20,121 @@
 */
 package at.tugraz.sss.serv;
 
-public enum SSImageE{
+import java.util.ArrayList;
+import java.util.List;
+
+public enum SSImageE implements SSJSONLDPropI{
   
   image,
+  thumb,
   screenShot;
+
+  @Override
+  public Object jsonLDDesc(){
+    return SSVarNames.xsd + SSStrU.colon + SSStrU.valueString;
+  }
+  
+  public static List<SSImageE> get(final List<String> values) throws Exception{
+  
+    final List<SSImageE> result = new ArrayList<>();
+    
+    if(values == null){
+      return result;
+    }
+    
+    for(String value : values){
+      result.add(get(value));
+    }
+    
+    return result;
+  }
+  
+  public static SSImageE get(final String value) throws Exception{
+    
+    try{
+    
+      if(value == null){
+        return null;
+      }
+      
+      return SSImageE.valueOf(value);
+    }catch(Exception error){
+      throw new Exception("image type not available: " + value);
+    }
+  }
+  
+  public static void addDistinctWithoutNull(
+    final List<SSImageE>     entities,
+    final SSImageE           entity){
+    
+    if(
+      SSObjU.isNull  (entities, entity) ||
+      SSStrU.contains(entities, entity)){
+      return;
+    }
+    
+    entities.add(entity);
+  }
+  
+  public static void addDistinctWithoutNull(
+    final List<SSImageE>  entities,
+    final List<SSImageE>  toAddEntities){
+    
+    if(SSObjU.isNull(entities, toAddEntities)){
+      return;
+    }
+    
+    for(SSImageE entity : toAddEntities){
+      
+      if(entity == null){
+        continue;
+      }
+      
+      if(!SSStrU.contains(entities, entity)){
+        entities.add(entity);
+      }
+    }
+  }
+  
+  //TODO rename to asListWithoutNull
+  public static List<SSImageE> asListWithoutNullAndEmpty(final SSImageE... types){
+   
+    final List<SSImageE> result = new ArrayList<>();
+    
+    if(types == null){
+      return result;
+    }
+    
+    for(SSImageE type : types){
+      
+      if(type == null){
+        continue;
+      }
+      
+      result.add(type);
+    }
+    
+    return result;
+  }
+  
+  //TODO rename to asListWithoutNull
+  public static List<SSImageE> asListWithoutNullAndEmpty(final List<SSImageE> types){
+   
+    final List<SSImageE> result = new ArrayList<>();
+    
+    if(types == null){
+      return result;
+    }
+    
+    for(SSImageE type : types){
+      
+      if(type == null){
+        continue;
+      }
+      
+      result.add(type);
+    }
+    
+    return result;
+  }
 }

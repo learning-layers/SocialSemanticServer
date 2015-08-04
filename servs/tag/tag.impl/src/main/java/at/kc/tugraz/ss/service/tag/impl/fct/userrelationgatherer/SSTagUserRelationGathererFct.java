@@ -23,6 +23,7 @@ package at.kc.tugraz.ss.service.tag.impl.fct.userrelationgatherer;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTag;
+import at.tugraz.sss.serv.SSEntity;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -30,48 +31,48 @@ import java.util.Map;
 public class SSTagUserRelationGathererFct{
   
   public static void addUserForEntity(
-    final SSTag                    tag,
+    final SSEntity                 tagEntity,
     final Map<String, List<SSUri>> usersPerEntity) throws Exception{
 
-    final String            entityStr = SSStrU.toStr(tag.entity);
+    final String            entityStr = SSStrU.toStr(((SSTag)tagEntity).entity);
     final List<SSUri>       usersForEntity;
     
     if(usersPerEntity.containsKey(entityStr)){
       
       usersForEntity = usersPerEntity.get(entityStr);
       
-      if(!SSStrU.contains(usersForEntity, tag.user)){
-        usersForEntity.add(tag.user);
+      if(!SSStrU.contains(usersForEntity, ((SSTag)tagEntity).user)){
+        usersForEntity.add(((SSTag)tagEntity).user);
       }
     }else{
       
       usersForEntity = new ArrayList<>();
       
-      usersForEntity.add(tag.user);
+      usersForEntity.add(((SSTag)tagEntity).user);
       
       usersPerEntity.put(entityStr, usersForEntity);
     }
   }
   
   public static void addUserForTag(
-    final SSTag                    tag,
+    final SSEntity                 tagEntity,
     final Map<String, List<SSUri>> usersPerTag) throws Exception{
     
-    final String            tagLabel = SSStrU.toStr(tag.label);
+    final String            tagLabel = SSStrU.toStr(((SSTag)tagEntity).label);
     final List<SSUri>       usersForTag;
     
     if(usersPerTag.containsKey(tagLabel)){
       
       usersForTag = usersPerTag.get(tagLabel);
       
-      if(!SSStrU.contains(usersForTag, tag.user)){
-        usersForTag.add(tag.user);
+      if(!SSStrU.contains(usersForTag, ((SSTag)tagEntity).user)){
+        usersForTag.add(((SSTag)tagEntity).user);
       }
     }else{
       
       usersForTag = new ArrayList<>();
       
-      usersForTag.add(tag.user);
+      usersForTag.add(((SSTag)tagEntity).user);
       
       usersPerTag.put(tagLabel, usersForTag);
     }

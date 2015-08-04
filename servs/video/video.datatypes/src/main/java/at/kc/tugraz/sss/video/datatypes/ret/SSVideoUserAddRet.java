@@ -32,18 +32,20 @@ public class SSVideoUserAddRet extends SSServRetI{
   
   public SSUri video = null;
   
+  public String getVideo() {
+    return SSStrU.removeTrailingSlash(video);
+  }
+  
   public static SSVideoUserAddRet get(
-    final SSUri    video,
-    final SSServOpE  op){
+    final SSUri    video){
     
-    return new SSVideoUserAddRet(video, op);
+    return new SSVideoUserAddRet(video);
   }
   
   private SSVideoUserAddRet(
-    final SSUri    video,
-    final SSServOpE  op) {
+    final SSUri    video) {
     
-    super(op);
+    super(SSServOpE.videoAdd);
     
     this.video = video;
   }
@@ -56,11 +58,5 @@ public class SSVideoUserAddRet extends SSServRetI{
     ld.put(SSVarNames.video, SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
     
     return ld;
-  }
-  
-  /* json getters */
-  
-  public String getVideo() {
-    return SSStrU.removeTrailingSlash(video);
   }
 }

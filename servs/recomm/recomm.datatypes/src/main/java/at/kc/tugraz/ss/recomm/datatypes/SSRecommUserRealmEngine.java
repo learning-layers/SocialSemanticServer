@@ -20,25 +20,25 @@
 */
 package at.kc.tugraz.ss.recomm.datatypes;
 
-import engine.EntityRecommenderEngine;
+import engine.EngineInterface;
 
 public class SSRecommUserRealmEngine{
   
-  public final EntityRecommenderEngine engine;
-  public String                        realm;
+  public final EngineInterface engine;
+  public final String          realm;
   
   public static SSRecommUserRealmEngine get(
-    final EntityRecommenderEngine engine,
-    final String                  realm){
+    final EngineInterface engine,
+    final String          realm){
     
     return new SSRecommUserRealmEngine(engine, realm);
   }
   
   private SSRecommUserRealmEngine(
-    final EntityRecommenderEngine engine,
-    final String                  realm){
+    final EngineInterface engine,
+    final String          realm){
     
     this.engine = engine;
-    this.realm  = realm;
+    this.realm = realm;
   }
 }

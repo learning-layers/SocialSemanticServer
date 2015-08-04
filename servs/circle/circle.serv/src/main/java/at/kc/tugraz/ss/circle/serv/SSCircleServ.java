@@ -22,11 +22,11 @@ package at.kc.tugraz.ss.circle.serv;
 
 import at.kc.tugraz.ss.circle.api.SSCircleClientI;
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePubURIGetPar;
 import at.kc.tugraz.ss.circle.impl.SSCircleImpl;
+import at.kc.tugraz.ss.conf.conf.SSCoreConf;
+import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.tugraz.sss.serv.SSCoreConfA;
-import at.tugraz.sss.serv.SSDBSQLI;
-import at.tugraz.sss.serv.SSDBSQL;
-import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServImplA;
@@ -49,11 +49,14 @@ public class SSCircleServ extends SSServContainerI{
   }
   
   @Override
-  public SSServContainerI regServ(final SSConfA conf) throws Exception{
+  public SSServContainerI regServ() throws Exception{
     
-    this.conf = conf;
+    this.conf = SSCoreConf.instGet().getCircle();
     
     SSServReg.inst.regServ(this);
+    
+    SSServReg.inst.regServForHandlingDescribeEntity(this);
+    SSServReg.inst.regServForHandlingCopyEntity(this);
     
     return this;
   }
@@ -61,6 +64,16 @@ public class SSCircleServ extends SSServContainerI{
   @Override
   public void initServ() throws Exception{
 
+    if(!conf.use){
+      return;
+    }
+    
+    ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePubURIGet(
+      new SSCirclePubURIGetPar(
+        null, 
+        null, 
+        SSVocConf.systemUserUri, 
+        true));
   }
   
   @Override

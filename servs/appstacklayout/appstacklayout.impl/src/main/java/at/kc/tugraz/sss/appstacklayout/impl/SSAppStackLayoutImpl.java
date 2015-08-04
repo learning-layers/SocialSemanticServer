@@ -1,45 +1,43 @@
-/**
-* Code contributed to the Learning Layers project
-* http://www.learning-layers.eu
-* Development is partly funded by the FP7 Programme of the European Commission under
-* Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
-* For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
-*
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-* http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*/
+ /**
+  * Code contributed to the Learning Layers project
+  * http://www.learning-layers.eu
+  * Development is partly funded by the FP7 Programme of the European Commission under
+  * Grant Agreement FP7-ICT-318209.
+  * Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+  * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
+  *
+  * Licensed under the Apache License, Version 2.0 (the "License");
+  * you may not use this file except in compliance with the License.
+  * You may obtain a copy of the License at
+  *
+  * http://www.apache.org/licenses/LICENSE-2.0
+  *
+  * Unless required by applicable law or agreed to in writing, software
+  * distributed under the License is distributed on an "AS IS" BASIS,
+  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  * See the License for the specific language governing permissions and
+  * limitations under the License.
+  */
 package at.kc.tugraz.sss.appstacklayout.impl;
 
-import at.kc.tugraz.ss.circle.api.SSCircleServerI;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivEntityAddPar;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePubEntityAddPar;
-import at.kc.tugraz.ss.circle.serv.SSCircleServ;
+import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.tugraz.sss.serv.SSSocketCon;
 import at.tugraz.sss.serv.SSEntity;
-import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSConfA;
-import at.tugraz.sss.serv.SSEntityDescriberI;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.caller.SSServCaller;
-import at.tugraz.sss.serv.caller.SSServCallerU;
+import at.tugraz.sss.util.SSServCallerU;
 import at.kc.tugraz.sss.appstacklayout.api.SSAppStackLayoutClientI;
 import at.kc.tugraz.sss.appstacklayout.api.SSAppStackLayoutServerI;
 import at.kc.tugraz.sss.appstacklayout.datatypes.SSAppStackLayout;
 import at.kc.tugraz.sss.appstacklayout.datatypes.par.SSAppStackLayoutCreatePar;
 import at.kc.tugraz.sss.appstacklayout.datatypes.par.SSAppStackLayoutDeletePar;
+import at.kc.tugraz.sss.appstacklayout.datatypes.par.SSAppStackLayoutGetPar;
 import at.kc.tugraz.sss.appstacklayout.datatypes.par.SSAppStackLayoutUpdatePar;
 import at.kc.tugraz.sss.appstacklayout.datatypes.par.SSAppStackLayoutsGetPar;
 import at.kc.tugraz.sss.appstacklayout.datatypes.ret.SSAppStackLayoutCreateRet;
@@ -50,32 +48,58 @@ import at.kc.tugraz.sss.appstacklayout.impl.fct.sql.SSAppStackLayoutSQLFct;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
+import at.tugraz.sss.serv.SSDescribeEntityI;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
 import java.util.ArrayList;
 import java.util.List;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServReg;
+import at.tugraz.sss.serv.SSStrU;
 
-public class SSAppStackLayoutImpl extends SSServImplWithDBA implements SSAppStackLayoutClientI, SSAppStackLayoutServerI, SSEntityDescriberI{
+public class SSAppStackLayoutImpl
+extends SSServImplWithDBA
+implements
+  SSAppStackLayoutClientI,
+  SSAppStackLayoutServerI,
+  SSDescribeEntityI{
   
   private final SSAppStackLayoutSQLFct sqlFct;
   
   public SSAppStackLayoutImpl(final SSConfA conf) throws Exception{
-
+    
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
-
+    
     this.sqlFct = new SSAppStackLayoutSQLFct(dbSQL);
   }
   
   @Override
-  public SSEntity getUserEntity(final SSEntityDescriberPar par) throws Exception{
+  public SSEntity describeEntity(
+    final SSEntity             entity,
+    final SSEntityDescriberPar par) throws Exception{
     
-    try{
-      return par.entity;
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
+    switch(entity.type){
+      
+      case appStackLayout:{
+      
+        if(SSStrU.equals(entity, par.recursiveEntity)){
+          return entity;
+        }
+        
+        return SSAppStackLayout.get(
+          appStackLayoutGet(
+            new SSAppStackLayoutGetPar(
+              null,
+              null,
+              par.user,
+              entity.id,
+              par.withUserRestriction, 
+              false)), //invokeEntityHandlers
+          entity);
+      }
+      
+      default: return entity;
     }
   }
   
@@ -84,16 +108,17 @@ public class SSAppStackLayoutImpl extends SSServImplWithDBA implements SSAppStac
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSAppStackLayoutCreateRet.get(appStackLayoutCreate(parA), parA.op), parA.op);
+    final SSAppStackLayoutCreatePar par = (SSAppStackLayoutCreatePar) parA.getFromJSON(SSAppStackLayoutCreatePar.class);
+     
+    sSCon.writeRetFullToClient(SSAppStackLayoutCreateRet.get(appStackLayoutCreate(par)));
   }
-
+  
   @Override
-  public SSUri appStackLayoutCreate(final SSServPar parA) throws Exception{
+  public SSUri appStackLayoutCreate(final SSAppStackLayoutCreatePar par) throws Exception{
     
     try{
       
-      final SSAppStackLayoutCreatePar par               = new SSAppStackLayoutCreatePar(parA);
-      final SSUri                     appStackLayoutUri;
+      final SSUri appStackLayoutUri;
       
       if(par.uuid != null){
         appStackLayoutUri = SSServCaller.vocURICreateFromId(par.uuid);
@@ -103,44 +128,40 @@ public class SSAppStackLayoutImpl extends SSServImplWithDBA implements SSAppStac
       
       dbSQL.startTrans(par.shouldCommit);
       
-      ((SSCircleServerI) SSCircleServ.inst.serv()).circlePrivEntityAdd(
-        new SSCirclePrivEntityAddPar(
-          null,
-          null,
-          par.user,
-          appStackLayoutUri,
-          SSEntityE.appStackLayout,
-          par.label,
-          par.description,
-          null,
-          false));
-      
-      ((SSCircleServerI)SSCircleServ.inst.serv()).circlePubEntityAdd(
-        new SSCirclePubEntityAddPar(
-          null, 
-          null,
-          par.user, 
-          appStackLayoutUri, 
-          false, 
-          SSEntityE.appStackLayout, 
-          par.label, 
-          par.description, 
-          null));
-      
       if(par.app != null){
         
-        ((SSCircleServerI)SSCircleServ.inst.serv()).circlePubEntityAdd(
-          new SSCirclePubEntityAddPar(
+        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+          new SSEntityUpdatePar(
             null,
             null,
             par.user,
             par.app,
-            false,
-            SSEntityE.entity,
-            null,
-            null,
-            null));
+            null, //type,
+            null, //label,
+            null, //par.description,
+            null, //entitiesToAttach,
+            null, //creationTime,
+            null, //read,
+            false, //setPublic
+            par.withUserRestriction, //withUserRestriction
+            false)); //shouldCommit)
       }
+      
+      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+        new SSEntityUpdatePar(
+          null,
+          null,
+          par.user,
+          appStackLayoutUri,
+          SSEntityE.appStackLayout, //type,
+          par.label,
+          par.description,
+          null, //entitiesToAttach,
+          null, //creationTime,
+          null, //read,
+          true, //setPublic
+          par.withUserRestriction, //withUserRestriction
+          false)); //shouldCommit)
       
       sqlFct.createAppStackLayout(
         appStackLayoutUri,
@@ -154,18 +175,18 @@ public class SSAppStackLayoutImpl extends SSServImplWithDBA implements SSAppStac
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(dbSQL.rollBack(parA.shouldCommit)){
+        if(dbSQL.rollBack(par.shouldCommit)){
           
           SSServErrReg.reset();
           
-          return appStackLayoutCreate(parA);
+          return appStackLayoutCreate(par);
         }else{
           SSServErrReg.regErrThrow(error);
           return null;
         }
       }
       
-      dbSQL.rollBack(parA.shouldCommit);
+      dbSQL.rollBack(par.shouldCommit);
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -176,54 +197,55 @@ public class SSAppStackLayoutImpl extends SSServImplWithDBA implements SSAppStac
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSAppStackLayoutUpdateRet.get(appStackLayoutUpdate(parA), parA.op), parA.op);
+    final SSAppStackLayoutUpdatePar par = (SSAppStackLayoutUpdatePar) parA.getFromJSON(SSAppStackLayoutUpdatePar.class);
+    
+    sSCon.writeRetFullToClient(SSAppStackLayoutUpdateRet.get(appStackLayoutUpdate(par)));
   }
-
+  
   @Override
-  public SSUri appStackLayoutUpdate(final SSServPar parA) throws Exception{
+  public SSUri appStackLayoutUpdate(final SSAppStackLayoutUpdatePar par) throws Exception{
     
     try{
       
-      final SSAppStackLayoutUpdatePar par               = new SSAppStackLayoutUpdatePar(parA);
-      
-      SSServCallerU.canUserReadEntity(par.user, par.stack);
-      
       dbSQL.startTrans(par.shouldCommit);
+      
+      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+        new SSEntityUpdatePar(
+          null,
+          null,
+          par.user,
+          par.stack,
+          null, //type
+          par.label,
+          par.description,
+          null, //entitiesToAttach
+          null, //creationTime
+          null, //read
+          false, //setPublic
+          par.withUserRestriction, //withUserRestriction
+          false));
       
       if(par.app != null){
         
-        ((SSCircleServerI)SSCircleServ.inst.serv()).circlePubEntityAdd(
-          new SSCirclePubEntityAddPar(
+        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+          new SSEntityUpdatePar(
             null,
             null,
             par.user,
             par.app,
-            false,
-            SSEntityE.entity,
-            null,
-            null,
-            null));
+            null, //type,
+            null, //label,
+            null, //par.description,
+            null, //entitiesToAttach,
+            null, //creationTime,
+            null, //read,
+            true, //setPublic
+            par.withUserRestriction, //withUserRestriction
+            false)); //shouldCommit)
         
         sqlFct.updateAppStackLayout(
           par.stack,
           par.app);
-      }
-      
-      if(
-        par.label != null || 
-        par.description != null){
-        
-        SSServCaller.entityUpdate(
-          par.user, 
-          par.stack, 
-          par.label, 
-          par.description, 
-          SSTextComment.asListWithoutNullAndEmpty(), 
-          SSUri.asListWithoutNullAndEmpty(), 
-          SSUri.asListWithoutNullAndEmpty(), 
-          SSUri.asListWithoutNullAndEmpty(), 
-          SSUri.asListWithoutNullAndEmpty(), 
-          false);
       }
       
       dbSQL.commit(par.shouldCommit);
@@ -234,18 +256,40 @@ public class SSAppStackLayoutImpl extends SSServImplWithDBA implements SSAppStac
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(dbSQL.rollBack(parA.shouldCommit)){
+        if(dbSQL.rollBack(par.shouldCommit)){
           
           SSServErrReg.reset();
           
-          return appStackLayoutUpdate(parA);
+          return appStackLayoutUpdate(par);
         }else{
           SSServErrReg.regErrThrow(error);
           return null;
         }
       }
       
-      dbSQL.rollBack(parA.shouldCommit);
+      dbSQL.rollBack(par.shouldCommit);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public SSAppStackLayout appStackLayoutGet(final SSAppStackLayoutGetPar par) throws Exception{
+    
+    try{
+      
+      return SSAppStackLayout.get(
+        sqlFct.getAppStackLayout(par.stack),
+        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+          new SSEntityGetPar(
+            null,
+            null,
+            par.user,
+            par.stack,
+            par.withUserRestriction, //withUserRestriction,
+            null))); //descPar)));
+      
+    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }
@@ -256,38 +300,34 @@ public class SSAppStackLayoutImpl extends SSServImplWithDBA implements SSAppStac
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSAppStackLayoutsGetRet.get(appStackLayoutsGet(parA), parA.op), parA.op);
+    final SSAppStackLayoutsGetPar par = (SSAppStackLayoutsGetPar) parA.getFromJSON(SSAppStackLayoutsGetPar.class);
+    
+    sSCon.writeRetFullToClient(SSAppStackLayoutsGetRet.get(appStackLayoutsGet(par)));
   }
   
   @Override
-  public List<SSAppStackLayout> appStackLayoutsGet(final SSServPar parA) throws Exception{
+  public List<SSEntity> appStackLayoutsGet(final SSAppStackLayoutsGetPar par) throws Exception{
     
     try{
+      final List<SSUri>          stackURIs       = sqlFct.getStackURIs();
+      final List<SSEntity>       stacks          = new ArrayList<>();
       
-      final SSAppStackLayoutsGetPar par             = new SSAppStackLayoutsGetPar(parA);
-      final List<SSAppStackLayout>  appStackLayouts = new ArrayList<>();
-      SSAppStackLayout              entity;
-      
-      for(SSAppStackLayout appStackLayout : sqlFct.getAppStackLayouts()){
-
-        entity =
-          SSAppStackLayout.get(
-            appStackLayout,
-            SSServCaller.entityDescGet(
-              par.user,
-              appStackLayout.id,
-              true,
-              true,
-              false,
-              false,
-              false,
-              false,
-              false));
+      for(SSUri stackURI : stackURIs){
         
-         appStackLayouts.add(entity);
+        SSEntity.addEntitiesDistinctWithoutNull(
+          stacks,
+          appStackLayoutGet(
+            new SSAppStackLayoutGetPar(
+              null,
+              null,
+              par.user,
+              stackURI,
+              par.withUserRestriction,
+              par.invokeEntityHandlers)));
       }
       
-      return appStackLayouts;
+      return stacks;
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -299,21 +339,21 @@ public class SSAppStackLayoutImpl extends SSServImplWithDBA implements SSAppStac
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSAppStackLayoutDeleteRet.get(appStackLayoutDelete(parA), parA.op), parA.op);
+    final SSAppStackLayoutDeletePar par = (SSAppStackLayoutDeletePar) parA.getFromJSON(SSAppStackLayoutDeletePar.class);
+    
+    sSCon.writeRetFullToClient(SSAppStackLayoutDeleteRet.get(appStackLayoutDelete(par)));
   }
   
   @Override
-  public Boolean appStackLayoutDelete(final SSServPar parA) throws Exception{
-  
+  public Boolean appStackLayoutDelete(final SSAppStackLayoutDeletePar par) throws Exception{
+    
     try{
-      final SSAppStackLayoutDeletePar par = new SSAppStackLayoutDeletePar(parA);
-
       SSServCallerU.canUserAllEntity(par.user, par.stack);
       
       dbSQL.startTrans(par.shouldCommit);
       
       sqlFct.deleteStack(par.stack);
-    
+      
       dbSQL.commit(par.shouldCommit);
       
       return true;
@@ -322,18 +362,18 @@ public class SSAppStackLayoutImpl extends SSServImplWithDBA implements SSAppStac
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(dbSQL.rollBack(parA.shouldCommit)){
+        if(dbSQL.rollBack(par.shouldCommit)){
           
           SSServErrReg.reset();
           
-          return appStackLayoutDelete(parA);
+          return appStackLayoutDelete(par);
         }else{
           SSServErrReg.regErrThrow(error);
           return null;
         }
       }
       
-      dbSQL.rollBack(parA.shouldCommit);
+      dbSQL.rollBack(par.shouldCommit);
       SSServErrReg.regErrThrow(error);
       return null;
     }

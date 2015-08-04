@@ -21,17 +21,13 @@
 package at.kc.tugraz.ss.serv.dataimport.serv.task;
 
 import at.tugraz.sss.serv.SSLogU;
-import at.tugraz.sss.serv.SSServOpE;
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
-import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
-
 import at.kc.tugraz.ss.serv.jobs.evernote.conf.SSEvernoteConf;
+import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.tugraz.sss.serv.SSServImplStartA;
 import at.tugraz.sss.serv.caller.SSServCaller;
-import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
-import java.util.HashMap;
 import java.util.TimerTask;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
@@ -85,7 +81,7 @@ public class SSDataImportEvernoteTask extends TimerTask {
       try{
         
         SSServCaller.dataImportEvernote(
-          SSVoc.systemUserUri,
+          SSVocConf.systemUserUri,
           authToken,
           email,
           true);
@@ -100,7 +96,7 @@ public class SSDataImportEvernoteTask extends TimerTask {
               SSServErrReg.reset();
               
               SSServCaller.dataImportEvernote(
-                SSVoc.systemUserUri,
+                SSVocConf.systemUserUri,
                 authToken,
                 email,
                 true);

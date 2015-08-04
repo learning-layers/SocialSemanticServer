@@ -20,10 +20,8 @@
 */
 package at.kc.tugraz.ss.service.rating.datatypes.pars;
 
-import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 
@@ -45,30 +43,12 @@ public class SSRatingOverallGetPar extends SSServPar{
     final SSServOpE op,
     final String    key,
     final SSUri     user, 
-    final SSUri     entity){
+    final SSUri     entity, 
+    final Boolean   withUserRestriction){
     
     super(op, key, user);
     
-    this.entity = entity;
-  }
-  
-  public static SSRatingOverallGetPar get(final SSServPar par) throws Exception{
-    
-    try{
-      
-      if(par.clientCon != null){
-        return (SSRatingOverallGetPar) par.getFromJSON(SSRatingOverallGetPar.class);
-      }
-      
-      return new SSRatingOverallGetPar(
-        par.op,
-        par.key,
-        par.user,
-        (SSUri) par.pars.get(SSVarNames.entity));
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
+    this.entity              = entity;
+    this.withUserRestriction = withUserRestriction;
   }
 }

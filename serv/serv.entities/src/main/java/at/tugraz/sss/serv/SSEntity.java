@@ -22,9 +22,7 @@ package at.tugraz.sss.serv;
 
 import com.wordnik.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class SSEntity extends SSEntityA{
   
@@ -66,7 +64,7 @@ public class SSEntity extends SSEntityA{
   @ApiModelProperty(
     required = false,
     value = "entities sub-entities")
-  public List<Object>        entries          = new ArrayList<>();
+  public List<SSEntity>       entries          = new ArrayList<>();
   
   @ApiModelProperty(
     required = false,
@@ -86,7 +84,12 @@ public class SSEntity extends SSEntityA{
   @ApiModelProperty(
     required = false,
     value = "tags assigned")
-  public List<String>        tags             = new ArrayList<>(); //new
+  public List<SSEntity>        tags             = new ArrayList<>(); //new
+  
+  @ApiModelProperty(
+    required = false,
+    value = "categories assigned")
+  public List<SSEntity>        categories     = new ArrayList<>();
   
   @ApiModelProperty(
     required = false,
@@ -96,7 +99,7 @@ public class SSEntity extends SSEntityA{
   @ApiModelProperty(
     required = false,
     value = "user events")
-  public List<SSEntityA>     uEs              = new ArrayList<>(); //new
+  public List<SSEntity>     userEvents              = new ArrayList<>(); //new
   
   @ApiModelProperty(
     required = false,
@@ -141,7 +144,39 @@ public class SSEntity extends SSEntityA{
   @ApiModelProperty(
     required = false,
     value = "likes for the entity")
-  public  SSEntityA       likes;
+  public  SSEntityA       likes = null;
+  
+  public String getId() throws Exception{
+    return SSStrU.removeTrailingSlash(id);
+  }
+  
+  public String getLabel(){
+    return SSStrU.toStr(label);
+  }
+
+  public String getType(){
+    return SSStrU.toStr(type);
+  }
+  
+  public String getDescription() throws Exception{
+    return SSStrU.toStr(description);
+  }
+  
+  public List<String> getCircleTypes(){
+    return SSStrU.toStr(circleTypes);
+  }
+  
+  public List<String> getComments() throws Exception{
+    return SSStrU.toStr(comments);
+  }
+  
+  public List<String> getDiscs() throws Exception{
+    return SSStrU.removeTrailingSlash(discs);
+  }
+  
+  public String getFile(){
+    return SSStrU.removeTrailingSlash(file);
+  }
   
   public static SSEntity get(
     final SSUri     id,
@@ -198,212 +233,253 @@ public class SSEntity extends SSEntityA{
     
     super(entity.id);
     
-    this.id               = entity.id; //entity
-    this.label            = entity.label;
-    this.creationTime     = entity.creationTime;
-    this.type             = entity.type;
-    this.author           = entity.author;
-    this.description      = entity.description;
-    this.overallRating    = entity.overallRating; //new
-    this.tags             = entity.tags; //new
-    this.discs            = entity.discs; //new
-    this.uEs              = entity.uEs; //new
-    this.thumb            = entity.thumb; //new
-    this.file             = entity.file; //new
-    this.flags            = entity.flags; //new
-    this.circleTypes      = entity.circleTypes;
-    this.entries          = entity.entries;
-    this.attachedEntities = entity.attachedEntities;
-    this.comments         = entity.comments;
-    this.users            = entity.users;
-    this.entities         = entity.entities;
-    this.read             = entity.read;
-    this.circles          = entity.circles;
-    this.locations        = entity.locations;
-    this.likes            = entity.likes;
+    this.id            = entity.id;
+    this.label         = entity.label;
+    this.creationTime  = entity.creationTime;
+    this.type          = entity.type;
+    this.author        = entity.author;
+    this.description   = entity.description;
+    this.overallRating = entity.overallRating;
+    
+    addEntitiesDistinctWithoutNull(this.tags,       entity.tags);
+    addEntitiesDistinctWithoutNull(this.categories, entity.categories);
+    
+    if(
+      entity.discs != null &&
+      !entity.discs.isEmpty()){
+      
+      this.discs.addAll(entity.discs);
+    }
+    
+    addEntitiesDistinctWithoutNull(this.userEvents, entity.userEvents);
+    
+    this.thumb = entity.thumb;
+    this.file  = entity.file;
+    
+    if(
+      entity.flags != null &&
+      !entity.flags.isEmpty()){
+      
+      this.flags.addAll(entity.flags);
+    }
+    
+    if(
+      entity.circleTypes != null &&
+      !entity.circleTypes.isEmpty()){
+      
+      this.circleTypes.addAll(entity.circleTypes);
+    }
+    
+    addEntitiesDistinctWithoutNull(this.entries,          entity.entries);
+    addEntitiesDistinctWithoutNull(this.attachedEntities, entity.attachedEntities);
+    addEntitiesDistinctWithoutNull(this.attachedEntities, entity.attachedEntities);
+    
+    if(
+      entity.comments != null &&
+      !entity.comments.isEmpty()){
+      
+      this.comments.addAll(entity.comments);
+    }
+    
+    addEntitiesDistinctWithoutNull(this.users,    entity.users);
+    addEntitiesDistinctWithoutNull(this.entities, entity.entities);
+    
+    this.read = entity.read;
+    
+    addEntitiesDistinctWithoutNull(this.circles,  entity.circles);
+    addEntitiesDistinctWithoutNull(this.locations, entity.locations);
+    
+    this.likes = entity.likes;
   }
   
-  @Override
+  protected SSEntity(
+    final SSEntity specificEntity, 
+    final SSEntity entity) throws Exception{
+    
+    super(specificEntity.id);
+    
+    this.id               = specificEntity.id;
+    
+    if(specificEntity.label != null){
+      this.label = specificEntity.label;
+    }else{
+      this.label = entity.label;
+    }
+    
+    if(specificEntity.creationTime != null){
+      this.creationTime = specificEntity.creationTime;
+    }else{
+      this.creationTime = entity.creationTime;
+    }
+    
+    if(specificEntity.type != null){
+      this.type = specificEntity.type;
+    }else{
+      this.type = entity.type;
+    }
+    
+    if(specificEntity.author != null){
+      this.author = specificEntity.author;
+    }else{
+      this.author = entity.author;
+    }
+    
+    if(specificEntity.description != null){
+      this.description = specificEntity.description;
+    }else{
+      this.description = entity.description;
+    }
+    
+    if(specificEntity.overallRating != null){
+      this.overallRating = specificEntity.overallRating;
+    }else{
+      this.overallRating = entity.overallRating;
+    }
+    
+    addEntitiesDistinctWithoutNull(this.tags, specificEntity.tags);
+    addEntitiesDistinctWithoutNull(this.tags, entity.tags);
+    
+    addEntitiesDistinctWithoutNull(this.categories, specificEntity.categories);
+    addEntitiesDistinctWithoutNull(this.categories, entity.categories);
+    
+    if(
+      specificEntity.discs != null &&
+      !specificEntity.discs.isEmpty()){
+    
+      this.discs.addAll(specificEntity.discs);
+    }else{
+      
+      if(
+        entity.discs != null &&
+        !entity.discs.isEmpty()){
+        
+        this.discs.addAll(entity.discs);
+      }
+    }
+    
+    addEntitiesDistinctWithoutNull(this.userEvents, specificEntity.userEvents);
+    addEntitiesDistinctWithoutNull(this.userEvents, entity.userEvents);
+    
+    if(specificEntity.thumb != null){
+      this.thumb = specificEntity.thumb;
+    }else{
+      this.thumb = entity.thumb;
+    }
+    
+    if(specificEntity.file != null){
+      this.file = specificEntity.file;
+    }else{
+      this.file = entity.file;
+    }
+
+    if(
+      specificEntity.flags != null &&
+      !specificEntity.flags.isEmpty()){
+    
+      this.flags.addAll(specificEntity.flags);
+    }else{
+      
+      if(
+        entity.flags != null &&
+        !entity.flags.isEmpty()){
+        
+        this.flags.addAll(entity.flags);
+      }
+    }
+    
+    if(
+      specificEntity.circleTypes != null &&
+      !specificEntity.circleTypes.isEmpty()){
+    
+      this.circleTypes.addAll(specificEntity.circleTypes);
+    }else{
+      
+      if(
+        entity.circleTypes != null &&
+        !entity.circleTypes.isEmpty()){
+        
+        this.circleTypes.addAll(entity.circleTypes);
+      }
+    }
+    
+    addEntitiesDistinctWithoutNull(this.entries, specificEntity.entries);
+    addEntitiesDistinctWithoutNull(this.entries, entity.entries);
+    
+    addEntitiesDistinctWithoutNull(this.attachedEntities, specificEntity.attachedEntities);
+    addEntitiesDistinctWithoutNull(this.attachedEntities, entity.attachedEntities);
+    
+    addEntitiesDistinctWithoutNull(this.attachedEntities, specificEntity.attachedEntities);
+    addEntitiesDistinctWithoutNull(this.attachedEntities, entity.attachedEntities);
+    
+    if(
+      specificEntity.comments != null &&
+      !specificEntity.comments.isEmpty()){
+    
+      this.comments.addAll(specificEntity.comments);
+    }else{
+      
+      if(
+        entity.comments != null &&
+        !entity.comments.isEmpty()){
+        
+        this.comments.addAll(entity.comments);
+      }
+    }
+    
+    addEntitiesDistinctWithoutNull(this.users, specificEntity.users);
+    addEntitiesDistinctWithoutNull(this.users, entity.users);
+    
+    addEntitiesDistinctWithoutNull(this.entities, specificEntity.entities);
+    addEntitiesDistinctWithoutNull(this.entities, entity.entities);
+    
+    if(specificEntity.read != null){
+      this.read = specificEntity.read;
+    }else{
+      this.read = entity.read;
+    }
+    
+    addEntitiesDistinctWithoutNull(this.circles, specificEntity.circles);
+    addEntitiesDistinctWithoutNull(this.circles, entity.circles);
+    
+    addEntitiesDistinctWithoutNull(this.locations, specificEntity.locations);
+    addEntitiesDistinctWithoutNull(this.locations, entity.locations);
+    
+    if(specificEntity.likes != null){
+      this.likes = specificEntity.likes;
+    }else{
+      this.likes = entity.likes;
+    }
+  }
+  
+  @Override 
   public Object jsonLDDesc() {
-   
-    final Map<String, Object> ld                  = new HashMap<>();
-    final Map<String, Object> circleTypesObj      = new HashMap<>();
-    final Map<String, Object> entriesObj          = new HashMap<>();
-    final Map<String, Object> attachedEntitiesObj = new HashMap<>();
-    final Map<String, Object> commentsObj         = new HashMap<>();
-    final Map<String, Object> tagsObj             = new HashMap<>();
-    final Map<String, Object> discsObj            = new HashMap<>();
-    final Map<String, Object> uEsObj              = new HashMap<>();
-    final Map<String, Object> flagsObj            = new HashMap<>();
-    final Map<String, Object> entitiesObj         = new HashMap<>();
-    final Map<String, Object> circlesObj          = new HashMap<>();
-    final Map<String, Object> usersObj            = new HashMap<>();
-    final Map<String, Object> locationsObj        = new HashMap<>();
-    
-    ld.put(SSVarNames.id,             SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarNames.entity,         SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarNames.label,          SSVarNames.sss + SSStrU.colon + SSLabel.class.getName());
-    ld.put(SSVarNames.creationTime,   SSVarNames.xsd + SSStrU.colon + SSStrU.valueLong);
-    ld.put(SSVarNames.type,           SSVarNames.sss + SSStrU.colon + SSEntityE.class.getName());
-    ld.put(SSVarNames.author,         SSVarNames.sss + SSStrU.colon + SSAuthor.class.getName());
-    ld.put(SSVarNames.description,    SSVarNames.sss + SSStrU.colon + SSTextComment.class.getName());
-    ld.put(SSVarNames.overallRating,  SSVarNames.sss + SSStrU.colon + SSEntityA.class.getName());
-    ld.put(SSVarNames.thumb,          SSVarNames.xsd + SSStrU.colon + SSStrU.valueString);
-    ld.put(SSVarNames.file,           SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarNames.read,           SSVarNames.xsd + SSStrU.colon + SSStrU.valueBoolean);
-    ld.put(SSVarNames.likes,          SSVarNames.sss + SSStrU.colon + SSEntityA.class.getName());
-   
-    entriesObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + Object.class.getName());
-    entriesObj.put(SSJSONLDU.container, SSJSONLDU.set);
-    
-    ld.put(SSVarNames.entries, entriesObj);
-    
-    attachedEntitiesObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSEntity.class.getName());
-    attachedEntitiesObj.put(SSJSONLDU.container, SSJSONLDU.set);
-    
-    ld.put(SSVarNames.attachedEntities, attachedEntitiesObj);
-    
-    commentsObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSTextComment.class.getName());
-    commentsObj.put(SSJSONLDU.container, SSJSONLDU.set);
-    
-    ld.put(SSVarNames.comments, commentsObj);
-    
-    flagsObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSEntityA.class.getName());
-    flagsObj.put(SSJSONLDU.container, SSJSONLDU.set);
-      
-    ld.put(SSVarNames.flags,      flagsObj);
-      
-    tagsObj.put(SSJSONLDU.id,        SSVarNames.xsd + SSStrU.colon + SSStrU.valueString);
-    tagsObj.put(SSJSONLDU.container, SSJSONLDU.set);
-
-    ld.put(SSVarNames.tags,      tagsObj);
-    
-    discsObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSEntityA.class.getName());
-    discsObj.put(SSJSONLDU.container, SSJSONLDU.set);
-
-    ld.put(SSVarNames.discs,      discsObj);
-    
-    uEsObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSEntityA.class.getName());
-    uEsObj.put(SSJSONLDU.container, SSJSONLDU.set);
-
-    ld.put(SSVarNames.uEs,      uEsObj);
-    
-    usersObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSEntity.class.getName());
-    usersObj.put(SSJSONLDU.container, SSJSONLDU.set);
-    
-    ld.put(SSVarNames.users, usersObj);
-    
-    entitiesObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
-    entitiesObj.put(SSJSONLDU.container, SSJSONLDU.set);
-    
-    ld.put(SSVarNames.entities, entitiesObj);
-    
-    circlesObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSEntity.class.getName());
-    circlesObj.put(SSJSONLDU.container, SSJSONLDU.set);
-    
-    ld.put(SSVarNames.circles, circlesObj);
-    
-    circleTypesObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSCircleE.class.getName());
-    circleTypesObj.put(SSJSONLDU.container, SSJSONLDU.set);
-    
-    ld.put(SSVarNames.circleTypes, circleTypesObj);
-    
-    locationsObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSEntity.class.getName());
-    locationsObj.put(SSJSONLDU.container, SSJSONLDU.set);
-    
-    ld.put(SSVarNames.locations, locationsObj);
-    
-    return ld;
+    throw new UnsupportedOperationException();
   }
 
-  /* getters for json */
-  
-  public String getId() throws Exception{
-    return SSStrU.removeTrailingSlash(id);
+  public static void addEntitiesDistinctWithoutNull(
+    final List<SSEntity>   entities,
+    final SSEntity         entity){
+    
+    if(
+      SSObjU.isNull  (entities, entity) ||
+      SSStrU.contains(entities, entity)){
+      return;
+    }
+    
+    entities.add(entity);
   }
   
-  public String getLabel(){
-    return SSStrU.toStr(label);
-  }
-
-  public Long getCreationTime(){
-    return creationTime;
-  }
-
-  public SSEntityE getType(){
-    return type;
-  }
-  
-  public SSAuthor getAuthor() throws Exception{
-    return author;
-  }
-  
-  public String getDescription() throws Exception{
-    return SSStrU.toStr(description);
-  }
-  
-  public List<SSCircleE> getCircleTypes(){
-    return circleTypes;
-  }
-  
-  public List<? extends Object> getEntries() throws Exception{
-    return entries;
-  }
-  
-  public List<? extends SSEntity> getAttachedEntities() throws Exception{
-    return attachedEntities;
-  }
-  
-  public List<? extends SSEntity> getCircles() throws Exception{
-    return circles;
-  }
-  
-  public List<? extends SSEntity> getLocations() throws Exception{
-    return locations;
-  }
-  
-  public List<String> getComments() throws Exception{
-    return SSStrU.toStr(comments);
-  }
-  
-  public List<String> getTags(){
-    return tags;
-  }
-
-  public SSEntityA getOverallRating(){
-    return overallRating;
-  }
-
-  public SSEntityA getLikes(){
-    return likes;
-  }
-  
-  public List<String> getDiscs() throws Exception{
-    return SSStrU.removeTrailingSlash(discs);
-  }
-  
-  public List<SSEntityA> getuEs() throws Exception{
-    return uEs;
-  }
-  
-  public String getThumb(){
-    return thumb;
-  }
-  
-  public String getFile(){
-    return SSStrU.removeTrailingSlash(file);
-  }
-  
-  public List<SSEntityA> getFlags() throws Exception{
-    return flags;
-  }
-  
-  public List<? extends SSEntity> getUsers() throws Exception{
-    return users;
-  }
-
-  public List<? extends SSEntity> getEntities() throws Exception{
-    return entities;
+  public static void addEntitiesDistinctWithoutNull(
+    final List<SSEntity>  entities,
+    final List<SSEntity>  toAddEntities){
+    
+    if(SSObjU.isNull(entities, toAddEntities)){
+      return;
+    }
+    
+    toAddEntities.stream().filter((entity)-> ! (entity == null)).filter((entity)->(!SSStrU.contains(entities, entity))).forEach((entity)->{
+      entities.add(entity);
+    });
   }
 }
 

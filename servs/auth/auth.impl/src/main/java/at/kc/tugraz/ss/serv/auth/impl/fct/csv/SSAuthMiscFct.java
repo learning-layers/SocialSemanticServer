@@ -23,7 +23,6 @@ package at.kc.tugraz.ss.serv.auth.impl.fct.csv;
 import at.tugraz.sss.serv.SSEncodingU;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSLabel;
 import at.kc.tugraz.ss.serv.auth.impl.fct.sql.SSAuthSQLFct;
 
 import java.security.MessageDigest;
@@ -72,7 +71,7 @@ public class SSAuthMiscFct{
     try{
       
       if(!sqlFct.hasKey(userUri)){
-        throw new SSErr(SSErrE.userIsNotRegistered);
+        throw new SSErr(SSErrE.userNotRegistered);
       }
        
       final String key = sqlFct.getKey(userUri);

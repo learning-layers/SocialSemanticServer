@@ -20,58 +20,10 @@
 */
 package at.kc.tugraz.ss.recomm.impl.fct.misc;
 
-import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSUri;
-
-import at.tugraz.sss.serv.caller.SSServCallerU;
-import at.tugraz.sss.serv.SSErrE;
-import at.tugraz.sss.serv.SSServErrReg;
 
 public class SSRecommFct{
         
-  public static void checkPar(
-    final SSUri  user,
-    final SSUri  forUser,
-    final String realm) throws Exception{
-    
-    if(user == null){
-      throw new Exception("user cannot be null");
-    }
-    
-    if(
-      realm == null ||
-      SSStrU.equals(realm, SSRecommUserRealmKeeper.getSssRealm())){
-      
-      if(
-        forUser != null &&
-        !SSStrU.equals(user, forUser)){
-        throw new Exception("user cannot retrieve recommendations for other users");
-      }
-    }
-  }
-  
-  public static SSEntity handleAccess(
-    final SSUri  user, 
-    final SSUri  entityID) throws Exception{
-    
-    try{
-      
-      return SSServCallerU.canUserReadEntity(
-        user,
-        entityID,
-        false);
-      
-    }catch(Exception error){
-      if(SSServErrReg.containsErr(SSErrE.userNotAllowedToAccessEntity)){
-        SSServErrReg.reset();
-        return null;
-      }
-      
-      throw error;
-    }
-  }
-  
 //  private static Long getTimestampInMillisecOfAUserTagForEntity(
 //    final SSUri       userUri, 
 //    final String      entityUri) throws Exception{

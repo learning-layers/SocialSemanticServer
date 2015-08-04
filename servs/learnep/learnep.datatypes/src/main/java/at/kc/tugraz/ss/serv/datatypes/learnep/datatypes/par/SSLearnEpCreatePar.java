@@ -3,7 +3,7 @@
 * http://www.learning-layers.eu
 * Development is partly funded by the FP7 Programme of the European Commission under
 * Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+* Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
 * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,38 +20,48 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par;
 
-import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.SSUri;
 
 public class SSLearnEpCreatePar extends SSServPar{
   
   public SSLabel       label       = null;
   public SSTextComment description = null;
+
+  public String getLabel(){
+    return SSStrU.toStr(label);
+  }
+
+  public void setLabel(final String label) throws Exception{
+    this.label = SSLabel.get(label);
+  }
+
+  public String getDescription(){
+    return SSStrU.toStr(description);
+  }
+
+  public void setDescription(final String description) throws Exception{
+    this.description = SSTextComment.get(description);
+  }
   
-  public SSLearnEpCreatePar(SSServPar par) throws Exception{
-      
-    super(par);
+  public SSLearnEpCreatePar(){}
+  
+  public SSLearnEpCreatePar(
+    final SSServOpE     op,
+    final String        key,
+    final SSUri         user,
+    final SSLabel       label, 
+    final SSTextComment description, 
+    final Boolean       shouldCommit){
+  
+    super(op, key, user);
     
-    try{
-      
-      if(pars != null){
-        label         = (SSLabel)        pars.get(SSVarNames.label);
-        description   = (SSTextComment)  pars.get(SSVarNames.description);
-      }
-      
-      if(par.clientJSONObj != null){
-        label         = SSLabel.get       (par.clientJSONObj.get(SSVarNames.label).getTextValue());
-        
-        try{
-          description   = SSTextComment.get (par.clientJSONObj.get(SSVarNames.description).getTextValue());
-        }catch(Exception error){}
-      }
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
+    this.label         = label;
+    this.description   = description;
+    this.shouldCommit  = shouldCommit;
   }
 }

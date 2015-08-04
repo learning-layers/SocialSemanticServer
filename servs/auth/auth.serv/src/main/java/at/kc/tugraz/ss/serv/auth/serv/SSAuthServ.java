@@ -20,20 +20,18 @@
 */
 package at.kc.tugraz.ss.serv.auth.serv;
 
+import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import at.tugraz.sss.serv.SSCoreConfA;
 import at.tugraz.sss.serv.SSLabel;
 import at.kc.tugraz.ss.serv.auth.api.SSAuthClientI;
 import at.kc.tugraz.ss.serv.auth.api.SSAuthServerI;
 import at.kc.tugraz.ss.serv.auth.conf.SSAuthConf;
 import at.kc.tugraz.ss.serv.auth.impl.SSAuthImpl;
-import at.tugraz.sss.serv.SSDBSQLI;
-import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSServImplA;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
-import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
 import at.tugraz.sss.serv.SSServContainerI;
 
 import java.util.List;
@@ -55,20 +53,11 @@ public class SSAuthServ extends SSServContainerI{
   }
   
   @Override
-  public SSServContainerI regServ(final SSConfA conf) throws Exception{
+  public SSServContainerI regServ() throws Exception{
     
-    this.conf = conf;
+    this.conf = SSCoreConf.instGet().getAuth();
     
     SSServReg.inst.regServ(this);
-    
-    SSServCaller.authRegisterUser(
-      SSVoc.systemUserUri,
-      SSLabel.get(SSVocConf.systemUserLabel),
-      SSVocConf.systemUserEmail,
-      ((SSAuthConf)conf).systemUserPassword,
-      true,
-      true,
-      true);
     
     return this;
   }
@@ -79,6 +68,15 @@ public class SSAuthServ extends SSServContainerI{
     if(!conf.use){
       return;
     }
+    
+    SSServCaller.authRegisterUser(
+      SSVocConf.systemUserUri,
+      SSLabel.get(SSVocConf.systemUserLabel),
+      SSVocConf.systemUserEmail,
+      ((SSAuthConf)conf).systemUserPassword,
+      true,
+      true,
+      true);
     
     if(((SSAuthConf)conf).initAtStartUp){
       
