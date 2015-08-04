@@ -127,45 +127,10 @@ The source-code can be directly checked-out through this repository. It contains
     * property `basePath` to `http://tomcatHost:tomcatPort/sss.adapter.rest.v2`
     * property `swaggerUIDocBasePath` to `http://tomcatHost:tomcatPort/sss.adapter.rest.v2/api-docs`
  * adapt Swagger property `url` of object `SwaggerUi` in `adapter/adapter.rest/adapter.rest.v2/src/main/webapp/swagger/index.html` to `http://tomcatHost:tomcatPort/sss.adapter.rest.v2/api-docs` 
-* (deprecated) for apiVersion `v1` 
- * adapt `swagger-maven-plugin` in `adapter/adapter.rest/adapter.rest.v1/pom.xml`
-    * property `basePath` to `http://tomcatHost:tomcatPort/sss.adapter.rest.v1/SSAdapterRest`
-    * property `swaggerUIDocBasePath` to `http://tomcatHost:tomcatPort/sss.adapter.rest.v1/api-docs`
- * adapt swagger property `url` of object `SwaggerUi` in `adapter/adapter.rest/adapter.rest.v1/src/main/webapp/swagger/index.html` to `http://tomcatHost:tomcatPort/sss.adapter.rest.v1/api-docs`
-* build and deploy Web projects 
+* build and deploy Web project
  * `adapter/adapter.rest/adapter.rest.v2`
- * (deprecated) `SSS/adapter/adapter.rest/adapter.rest.v1` 
 * access Swagger docs
  * `http://tomcatHost:tomcatPort/sss.adapter.rest.v2/index.html`
- * (deprecated) `http://tomcatHost:tomcatPort/sss.adapter.rest.v1/swagger/index.html`	
-	
-## (deprecated) SSS client-side libraries
-* download [SSS Client Side](https://github.com/learning-layers/SocialSemanticServerClientSide/) libs to use with SSS API version 1
-* link Javascript projects `JSUtilities`, `SSClientInterfaceGlobals` and `SSSClientInterfaceREST` in your application to have access to SSS server-side operations via its REST interface
-
-## (deprecated) SSS plain REST API V1 access
-* access the REST APIs via POST requests to `http://{your-sss-host}:{your-port}/sss.adapter.rest.v1/{API}/{yourOp}/` 
- * `your-sss-host` and `your-port` represents the host and port running the REST APIs
- * `API` stands for the name of the REST API to be targeted:
-  * `SSAdapterRest` for all REST operations except for file handling
-  * `SSAdapterRESTFile` for REST operations dealing with files not using any multipart form parameters as input
-  * `SSAdapterRESTFileDownload` for REST operations dealing with file downloading
-  * `SSAdapterRESTFileUpload` for REST operations dealing with file uploading
-  * `SSAdapterRESTFileReplace` for REST operations dealing with file replacing
- * `yourOp` represents the operation out of the ones provided by SSS (see documentation section and / or client-side SSS JS project)
-* generally JSON strings are expected as input (mime type `application/json`)
-* return values are JSON strings (except for, e.g. file downloading), e.g. `{"op":"collWithEntries", "error":false, "errorMsg":null, "opValue":{"author":"http://dt.ll/user/hugo/",...}}")`
-* additionally, all properties/variables returned by any API call will contain a JSON-LD description
-* following key-value pairs are returned (except for non-JSON returns) normally beside the actual return value described in the server-side REST API documentation
- * `op` the operation returning the result
- * `"opValue"` opValue will always be replaced by the op value provided for the op parameter and contains the actual result for the API request - the value of the operation's return
- * `error` whether an error occured server-side
- * `errorMsg` if error, "errorMsg" gets set to respective exception messages thrown
- * `errorClassNames` if error, class names of errors
- * `errorClassesWhereThrown` if error, class names where the errors got thrown
- * `errorMethodsWhereThrown` if error, method names where the errors got thrown
- * `errorLinesWhereThrown` if error, line numbers where the errors got thrown
- * `errorThreadsWhereThrown` if error, id's of threads where the errors got thrown
  
 ## References
 * D. Kowald, S. Dennerlein, D. Theiler, S. Walk and C. Trattner.: [The Social Semantic Server - A Framework to Provide Services on Social Semantic Network Data](http://ceur-ws.org/Vol-1026/paper11.pdf), 2013. In S. Lohmann (ed.), I-SEMANTICS (Posters & Demos) (p./pp. 50-54), : CEUR-WS.org.
