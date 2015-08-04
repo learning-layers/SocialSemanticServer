@@ -2,7 +2,7 @@ FROM java:8-jre
 
 MAINTAINER Dieter Theiler "dtheiler@tugraz.at"
 
-ADD https://github.com/learning-layers/SocialSemanticServer/releases/download/v9.0.0-alpha/sss.package.zip /
+ADD https://github.com/learning-layers/SocialSemanticServer/releases/download/v11.0.0-alpha/sss.package.zip /
 #COPY sss.package.zip /
 
 RUN apt-get update
