@@ -229,6 +229,70 @@ public class SSEntity extends SSEntityA{
   }
   
   protected SSEntity(
+    final SSEntity entity) throws Exception{
+    
+    super(entity.id);
+    
+    this.id            = entity.id;
+    this.label         = entity.label;
+    this.creationTime  = entity.creationTime;
+    this.type          = entity.type;
+    this.author        = entity.author;
+    this.description   = entity.description;
+    this.overallRating = entity.overallRating;
+    
+    addEntitiesDistinctWithoutNull(this.tags,       entity.tags);
+    addEntitiesDistinctWithoutNull(this.categories, entity.categories);
+    
+    if(
+      entity.discs != null &&
+      !entity.discs.isEmpty()){
+      
+      this.discs.addAll(entity.discs);
+    }
+    
+    addEntitiesDistinctWithoutNull(this.userEvents, entity.userEvents);
+    
+    this.thumb = entity.thumb;
+    this.file  = entity.file;
+    
+    if(
+      entity.flags != null &&
+      !entity.flags.isEmpty()){
+      
+      this.flags.addAll(entity.flags);
+    }
+    
+    if(
+      entity.circleTypes != null &&
+      !entity.circleTypes.isEmpty()){
+      
+      this.circleTypes.addAll(entity.circleTypes);
+    }
+    
+    addEntitiesDistinctWithoutNull(this.entries,          entity.entries);
+    addEntitiesDistinctWithoutNull(this.attachedEntities, entity.attachedEntities);
+    addEntitiesDistinctWithoutNull(this.attachedEntities, entity.attachedEntities);
+    
+    if(
+      entity.comments != null &&
+      !entity.comments.isEmpty()){
+      
+      this.comments.addAll(entity.comments);
+    }
+    
+    addEntitiesDistinctWithoutNull(this.users,    entity.users);
+    addEntitiesDistinctWithoutNull(this.entities, entity.entities);
+    
+    this.read = entity.read;
+    
+    addEntitiesDistinctWithoutNull(this.circles,  entity.circles);
+    addEntitiesDistinctWithoutNull(this.locations, entity.locations);
+    
+    this.likes = entity.likes;
+  }
+  
+  protected SSEntity(
     final SSEntity specificEntity, 
     final SSEntity entity) throws Exception{
     

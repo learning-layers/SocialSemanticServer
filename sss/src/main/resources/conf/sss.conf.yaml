@@ -100,11 +100,11 @@ learnEp:
   useEpisodeLocking: true
 recomm: #files have to be provided in sss's_working_dir/data/csv/
   use: true
-  initAtStartUp: true
+  initAtStartUp: false
   initAtStartUpOps:
     - recommUpdate
   schedule: true
-  executeScheduleAtStartUp: false
+  executeScheduleAtStartUp: true
   scheduleOps:
     - recommUpdate
   scheduleIntervals:

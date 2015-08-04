@@ -15,7 +15,6 @@
   <url>http://maven.apache.org</url>
   
   <modules>
-    <module>adapter.websocket</module>
     <module>adapter.rest</module>
   </modules>
   

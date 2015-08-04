@@ -38,10 +38,30 @@ public class SSUser extends SSEntity{
   }
   
   public static SSUser get(
+    final SSEntity       entity) throws Exception{
+    
+    return new SSUser(entity);
+  }
+  
+  public static SSUser get(
     final SSUser         user,
     final SSEntity       entity) throws Exception{
     
     return new SSUser(user, entity);
+  }
+  
+  protected SSUser(
+    final SSEntity       entity) throws Exception{
+    
+    super(entity);
+    
+    if(entity instanceof SSUser){
+      
+      this.email  = ((SSUser)entity).email;
+      this.friend = ((SSUser)entity).friend;
+      
+      SSEntity.addEntitiesDistinctWithoutNull(this.friends, ((SSUser) entity).friends);
+    }
   }
   
   protected SSUser(

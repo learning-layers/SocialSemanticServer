@@ -48,7 +48,6 @@ import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.SSServReg;
-import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.util.SSServCallerU;
 import java.util.ArrayList;
 import java.util.List;
@@ -80,43 +79,24 @@ implements
         
         case user: {
           
-          if(par.setFriends){
-            
-            if(entity instanceof SSUser){
-              
-              ((SSUser)entity).friends.addAll(
-                friendsGet(
-                  new SSFriendsGetPar(
-                    null,
-                    null,
-                    par.user)));
-              
-              return entity;
-            }else{
-              
-              final SSUser userEntity =
-                SSUser.get(
-                  SSUser.get(
-                    entity.id,
-                    SSStrU.empty),
-                  entity);
-              
-              userEntity.friends.addAll(
-                friendsGet(
-                  new SSFriendsGetPar(
-                    null,
-                    null,
-                    par.user)));
-              
-              return userEntity;
-            }
+          if(!par.setFriends){
+            return entity;
           }
           
-          break;
+          final SSUser userEntity = SSUser.get(entity);
+          
+          userEntity.friends.addAll(
+            friendsGet(
+              new SSFriendsGetPar(
+                null,
+                null,
+                par.user)));
+          
+          return userEntity;
         }
+        
+        default: return entity;
       }
-      
-      return entity;
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
