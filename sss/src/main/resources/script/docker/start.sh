@@ -5,7 +5,6 @@
 # or delete ALL existing containers with:
 docker rm -f $(docker ps -a -q);
 
-MYSQL_ROOT_USERNAME="root"
 MYSQL_ROOT_PASSWORD="sss";
 SSS_MYSQL_USERNAME="sss";
 SSS_MYSQL_SCHEME="sss";
@@ -30,7 +29,7 @@ echo " -> done"
 echo ""
 
 echo "Start SSS MySQL server"
-docker run -d -p 3307:3306 -e "MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD" --volumes-from sss.mysql.data --name sss.mysql dtheiler/sss.mysql
+docker run -d -p $SSS_MYSQL_PORT:3306 -e "MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD" --volumes-from sss.mysql.data --name sss.mysql dtheiler/sss.mysql
 echo " -> done"
 echo ""
 
@@ -65,6 +64,6 @@ docker run -d \
 -e "SSS_TETHYS_LAS_PASSWORD=$SSS_TETHYS_LAS_PASSWORD" \
 -e "SSS_TETHYS_OIDC_CONF_URI=$SSS_TETHYS_OIDC_CONF_URI" \
 -e "SSS_TETHYS_OIDC_USER_END_POINT_URI=$SSS_TETHYS_OIDC_USER_END_POINT_URI" \
--p 8391:8390 --link sss.mysql:mysql --volumes-from sss.tomcat --volumes-from sss.mysql.data --name sss.sss dtheiler/sss.sss
+-p $SSS_PORT_FOR_TOMCAT:$SSS_PORT --link sss.mysql:mysql --volumes-from sss.tomcat --volumes-from sss.mysql.data --name sss.sss dtheiler/sss.sss
 echo " -> done"
 echo ""
