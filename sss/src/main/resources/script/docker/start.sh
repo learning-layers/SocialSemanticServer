@@ -15,11 +15,12 @@ SSS_PORT="8390";
 SSS_PORT_FOR_TOMCAT="8391";
 SSS_MYSQL_HOST=$(ifconfig  eth0 | awk '/inet addr/{print substr($2,6)}');
 SSS_MYSQL_PORT="3307";
+SSS_TOMCAT_PORT="8081";
 SSS_AUTH_TYPE="csvFileAuth";
 SSS_TETHYS_USER="SSSUser";
-SSS_TETHYS_PASSSWORD="f74UH~X#WVQ";
+SSS_TETHYS_PASSSWORD=""; #sss tethys password
 SSS_TETHYS_LAS_USER="sss";
-SSS_TETHYS_LAS_PASSWORD="ssstest";
+SSS_TETHYS_LAS_PASSWORD=""; #sss las password
 SSS_TETHYS_OIDC_CONF_URI="$LAYERS_API_URI/o/oauth2/.well-known/openid-configuration";
 SSS_TETHYS_OIDC_USER_END_POINT_URI="$LAYERS_API_URI/o/oauth2/userinfo";
 
@@ -38,7 +39,7 @@ echo ""
 sleep 8
 
 echo "Start SSS Tomcat server"
-docker run -d -p 8081:8080 --name sss.tomcat dtheiler/sss.tomcat
+docker run -d -p $SSS_TOMCAT_PORT:8080 --name sss.tomcat dtheiler/sss.tomcat
 echo " -> done"
 echo ""
 
