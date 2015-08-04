@@ -247,48 +247,31 @@ public class SSVideoSQLFct extends SSDBSQLFct{
     }
   }
 
-  public List<SSVideoAnnotation> getAnnotations(
-    final SSUri video) throws Exception{
+  public SSVideoAnnotation getAnnotation(
+    final SSUri annotation) throws Exception{
     
     ResultSet resultSet = null;
     
     try{
-      final List<SSVideoAnnotation>   annotations = new ArrayList<>();
       final List<String>              columns     = new ArrayList<>();
-      final List<String>              tables      = new ArrayList<>();
       final Map<String, String>       wheres      = new HashMap<>();
-      final List<String>              tableCons   = new ArrayList<>();
-      SSVideoAnnotation annotation;
       
       column(columns, SSSQLVarNames.videoAnnotationTable, SSSQLVarNames.videoAnnotationId);
       column(columns, SSSQLVarNames.videoAnnotationTable, SSSQLVarNames.x);
       column(columns, SSSQLVarNames.videoAnnotationTable, SSSQLVarNames.y);
       column(columns, SSSQLVarNames.videoAnnotationTable, SSSQLVarNames.timePoint);
       
-      table(tables, SSSQLVarNames.entityTable);
-      table(tables, SSSQLVarNames.videoAnnotationTable);
-      table(tables, SSSQLVarNames.videoAnnotationsTable);
-      
-      where(wheres, SSSQLVarNames.videoAnnotationsTable, SSSQLVarNames.videoId, video);
-      
-      tableCon(tableCons, SSSQLVarNames.entityTable, SSSQLVarNames.id, SSSQLVarNames.videoAnnotationTable,  SSSQLVarNames.videoAnnotationId);
-      tableCon(tableCons, SSSQLVarNames.entityTable, SSSQLVarNames.id, SSSQLVarNames.videoAnnotationsTable, SSSQLVarNames.videoAnnotationId);
+      where(wheres, SSSQLVarNames.videoAnnotationTable, SSSQLVarNames.videoAnnotationId, annotation);
 
-      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
+      resultSet = dbSQL.select(SSSQLVarNames.videoAnnotationTable, columns, wheres, null, null, null);
       
-      while(resultSet.next()){
-        
-        annotation =
-          SSVideoAnnotation.get(
-            bindingStrToUri   (resultSet, SSSQLVarNames.videoAnnotationId),
-            bindingStrToLong  (resultSet, SSSQLVarNames.timePoint),
-            bindingStrToFloat (resultSet, SSSQLVarNames.x),
-            bindingStrToFloat (resultSet, SSSQLVarNames.y));
+      return
+        SSVideoAnnotation.get(
+          bindingStrToUri   (resultSet, SSSQLVarNames.videoAnnotationId),
+          bindingStrToLong  (resultSet, SSSQLVarNames.timePoint),
+          bindingStrToFloat (resultSet, SSSQLVarNames.x),
+          bindingStrToFloat (resultSet, SSSQLVarNames.y));
       
-        annotations.add(annotation);
-      }
-      
-      return annotations;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -296,6 +279,36 @@ public class SSVideoSQLFct extends SSDBSQLFct{
       dbSQL.closeStmt(resultSet);
     }
   }
-
   
+  public List<SSUri> getAnnotations(
+    final SSUri video) throws Exception{
+    
+    ResultSet resultSet = null;
+    
+    try{
+      final List<String>              columns     = new ArrayList<>();
+      final List<String>              tables      = new ArrayList<>();
+      final Map<String, String>       wheres      = new HashMap<>();
+      final List<String>              tableCons   = new ArrayList<>();
+      
+      column(columns, SSSQLVarNames.videoAnnotationTable, SSSQLVarNames.videoAnnotationId);
+      
+      table(tables, SSSQLVarNames.videoAnnotationTable);
+      table(tables, SSSQLVarNames.videoAnnotationsTable);
+      
+      where(wheres, SSSQLVarNames.videoAnnotationsTable, SSSQLVarNames.videoId, video);
+      
+      tableCon(tableCons, SSSQLVarNames.videoAnnotationsTable, SSSQLVarNames.videoAnnotationId, SSSQLVarNames.videoAnnotationTable,  SSSQLVarNames.videoAnnotationId);
+
+      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
+      
+      return getURIsFromResult(resultSet, SSSQLVarNames.videoAnnotationId);
+        
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
+    }
+  }
 }

@@ -48,36 +48,6 @@ import java.util.Map;
 
 public class SSServCaller {
 
-  /* like */
-  
-  public static SSLikes likesUserGet(
-    final SSUri user,
-    final SSUri forUser,
-    final SSUri entity) throws Exception{
-    
-    final Map<String, Object>  opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.user,       user);
-    opPars.put(SSVarNames.entity,     entity);
-    opPars.put(SSVarNames.forUser,    forUser);
-    
-    return (SSLikes) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.likesUserGet, opPars));
-  }
-  
-  public static SSUri likeUserSet(
-    final SSUri   user,
-    final SSUri   entity,
-    final Integer value) throws Exception{
-    
-    final Map<String, Object>  opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.user,      user);
-    opPars.put(SSVarNames.entity,    entity);
-    opPars.put(SSVarNames.value,     value);
-    
-    return (SSUri) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.likeUserSet, opPars));
-  }
-    
   /* evernote */ 
   
   public static Resource evernoteResourceByHashGet(

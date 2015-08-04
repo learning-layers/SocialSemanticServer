@@ -22,6 +22,9 @@ package at.kc.tugraz.sss.video.api;
 
 import at.tugraz.sss.serv.SSUri;
 import at.kc.tugraz.sss.video.datatypes.SSVideo;
+import at.kc.tugraz.sss.video.datatypes.SSVideoAnnotation;
+import at.kc.tugraz.sss.video.datatypes.par.SSVideoAnnotationGetPar;
+import at.kc.tugraz.sss.video.datatypes.par.SSVideoAnnotationsGetPar;
 import at.kc.tugraz.sss.video.datatypes.par.SSVideoUserAddPar;
 import at.kc.tugraz.sss.video.datatypes.par.SSVideoUserAnnotationAddPar;
 import at.kc.tugraz.sss.video.datatypes.par.SSVideoUserGetPar;
@@ -36,4 +39,6 @@ public interface SSVideoServerI extends SSServServerI{
   public SSVideo                 videoGet            (final SSVideoUserGetPar            par) throws Exception;
   public List<SSEntity>          videosGet           (final SSVideosUserGetPar           par) throws Exception;
   public SSUri                   videoAnnotationAdd  (final SSVideoUserAnnotationAddPar  par) throws Exception;
+  public SSVideoAnnotation       videoAnnotationGet  (final SSVideoAnnotationGetPar      par) throws Exception;
+  public List<SSEntity>          videoAnnotationsGet (final SSVideoAnnotationsGetPar    par) throws Exception;
 }

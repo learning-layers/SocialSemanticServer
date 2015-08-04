@@ -33,5 +33,12 @@ public class SSDiscGetRESTAPIV2Par{
   @ApiModelProperty( 
     required = false, 
     value = "whether comments of threads and entries shall be retrieved")
-  public Boolean    includeComments       = null;
+  public Boolean    includeComments       = false;
+  
+  
+  @XmlElement
+  @ApiModelProperty( 
+    required = false, 
+    value = "whether likes for entries shall be set")
+  public Boolean    setLikes       = false;
 }

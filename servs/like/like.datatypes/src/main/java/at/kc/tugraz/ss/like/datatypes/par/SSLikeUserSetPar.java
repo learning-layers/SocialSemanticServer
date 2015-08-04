@@ -22,10 +22,8 @@ package at.kc.tugraz.ss.like.datatypes.par;
 
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServErrReg;
 
 public class SSLikeUserSetPar extends SSServPar{
   
@@ -43,39 +41,17 @@ public class SSLikeUserSetPar extends SSServPar{
   public SSLikeUserSetPar(){}
     
   public SSLikeUserSetPar(
-    final SSServOpE  op,
-    final String     key,
     final SSUri      user,
     final SSUri      entity,
     final Integer    value,
+    final Boolean    withUserRestriction, 
     final Boolean    shouldCommit){
     
-    super(op, key, user);
+    super(SSServOpE.likeSet, null, user);
     
-    this.entity       = entity;
-    this.value        = value;
-    this.shouldCommit = shouldCommit;
-  }
-  
-  public static SSLikeUserSetPar get(final SSServPar par) throws Exception{
-    
-    try{
-      
-      if(par.clientCon != null){
-        return (SSLikeUserSetPar) par.getFromJSON(SSLikeUserSetPar.class);
-      }
-      
-      return new SSLikeUserSetPar(
-        par.op,
-        par.key,
-        par.user,
-        (SSUri)   par.pars.get(SSVarNames.entity),
-        (Integer) par.pars.get(SSVarNames.value), 
-        (Boolean) par.pars.get(SSVarNames.shouldCommit));
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
+    this.entity              = entity;
+    this.value               = value;
+    this.withUserRestriction = withUserRestriction;
+    this.shouldCommit        = shouldCommit;
   }
 }

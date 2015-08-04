@@ -56,7 +56,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import at.tugraz.sss.serv.SSErrE;
-import at.tugraz.sss.serv.SSGetSubEntitiesI;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServReg;
@@ -67,51 +66,48 @@ implements
   SSRatingClientI, 
   SSRatingServerI, 
   SSDescribeEntityI, 
-  SSGetSubEntitiesI,
   SSUserRelationGathererI{
  
   private final SSRatingSQLFct   sqlFct;
+  private final SSEntityServerI  entityServ;
     
   public SSRatingImpl(final SSConfA conf) throws Exception{
     
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
     
-    sqlFct   = new SSRatingSQLFct   (this);
+    this.sqlFct     = new SSRatingSQLFct   (this);
+    this.entityServ = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
   }
 
   @Override
   public void getUserRelations(
-    final List<String>             allUsers, 
+    final List<String>             allUsers,
     final Map<String, List<SSUri>> userRelations) throws Exception{
     
-    final Map<String, List<SSUri>> usersPerEntity = new HashMap<>();
-    List<SSRating>                 userRatings;
-    
-    for(String user : allUsers){
+    try{
       
-      final SSUri userUri = SSUri.get(user);
+      final Map<String, List<SSUri>> usersPerEntity = new HashMap<>();
+      List<SSRating>                 userRatings;
       
-      userRatings = sqlFct.getUserRatings(userUri);
-      
-      for(SSRating rating : userRatings){
-        SSRatingUserRelationGathererFct.addUserForEntity(rating, usersPerEntity);
+      for(String user : allUsers){
+        
+        final SSUri userUri = SSUri.get(user);
+        
+        userRatings = sqlFct.getUserRatings(userUri);
+        
+        for(SSRating rating : userRatings){
+          SSRatingUserRelationGathererFct.addUserForEntity(rating, usersPerEntity);
+        }
       }
+      
+      SSRatingUserRelationGathererFct.addUserRelations(userRelations, usersPerEntity);
+      
+      for(Map.Entry<String, List<SSUri>> usersPerUser : userRelations.entrySet()){
+        SSStrU.distinctWithoutNull2(usersPerUser.getValue());
+      }
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
     }
-    
-    SSRatingUserRelationGathererFct.addUserRelations(userRelations, usersPerEntity);
-    
-    for(Map.Entry<String, List<SSUri>> usersPerUser : userRelations.entrySet()){
-      SSStrU.distinctWithoutNull2(usersPerUser.getValue());
-    }
-  }
-  
-  @Override
-  public List<SSUri> getSubEntities(
-    final SSUri         user,
-    final SSUri         entity,
-    final SSEntityE     type) throws Exception{
-
-    return null;
   }
   
   @Override
@@ -156,6 +152,7 @@ implements
   public Boolean ratingSet(final SSRatingSetPar par) throws Exception {
     
     try{
+      
       if(
         !par.allowToRateAgain &&
         sqlFct.hasUserRatedEntity(par.user, par.entity)){
@@ -166,7 +163,7 @@ implements
       
       dbSQL.startTrans(par.shouldCommit);
         
-      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+      entityServ.entityUpdate(
         new SSEntityUpdatePar(
           null,
           null,
@@ -182,7 +179,7 @@ implements
           par.withUserRestriction, //withUserRestriction,
           false)); //shouldCommit
 
-      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+      entityServ.entityUpdate(
         new SSEntityUpdatePar(
           null,
           null,

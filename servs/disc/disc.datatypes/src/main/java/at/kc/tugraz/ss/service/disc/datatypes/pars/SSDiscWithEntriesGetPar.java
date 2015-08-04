@@ -29,7 +29,8 @@ public class SSDiscWithEntriesGetPar extends SSServPar{
   
   public SSUri      disc             = null;
   public Integer    maxEntries       = 10;
-  public Boolean    includeComments  = null;
+  public Boolean    includeComments  = false;
+  public Boolean    setLikes         = false;
   
   public void setDisc(final String disc) throws Exception{
     this.disc = SSUri.get(disc);
@@ -42,17 +43,15 @@ public class SSDiscWithEntriesGetPar extends SSServPar{
   public SSDiscWithEntriesGetPar(){}
   
   public SSDiscWithEntriesGetPar(
-    final SSServOpE op,
-    final String    key,
     final SSUri     user,
     final SSUri     disc,
     final Integer   maxEntries,
-    final Boolean   includeComments){
+    final Boolean   withUserRestriction){
     
-    super(op, key, user);
+    super(SSServOpE.discsWithEntriesGet, null, user);
     
-    this.disc              = disc;
-    this.maxEntries        = maxEntries;
-    this.includeComments   = includeComments;
+    this.disc                = disc;
+    this.maxEntries          = maxEntries;
+    this.withUserRestriction = withUserRestriction;
   }
 }

@@ -3,7 +3,7 @@
 * http://www.learning-layers.eu
 * Development is partly funded by the FP7 Programme of the European Commission under
 * Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+* Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
 * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,25 +18,35 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.service.disc.datatypes.pars;
+package at.kc.tugraz.sss.video.datatypes.par;
 
 import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.serv.SSVarNames;
-import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.SSServPar;
 
-public class SSDiscsWithEntriesGetPar extends SSServPar{
+public class SSVideoAnnotationsGetPar extends SSServPar{
   
-  public Integer maxEntries = 10;
+  public SSUri   video = null;
+
+  public String getVideo(){
+    return SSStrU.removeTrailingSlash(video);
+  }
+
+  public void setVideo(String video) throws Exception{
+    this.video = SSUri.get(video);
+  }
+
+  public SSVideoAnnotationsGetPar(){}
   
-  public SSDiscsWithEntriesGetPar(){}
+  public SSVideoAnnotationsGetPar(
+    final SSUri     user, 
+    final SSUri     video,
+    final Boolean   withUserRestriction){
     
-  public SSDiscsWithEntriesGetPar(
-    final SSUri   user, 
-    final Boolean withUserRestriction){
+    super(SSServOpE.videoAnnotationsGet, null, user);
     
-    super(SSServOpE.discsWithEntriesGet, null, user);
-    
-    this.maxEntries = (Integer) pars.get(SSVarNames.maxEntries);
+    this.video                = video;
+    this.withUserRestriction  = withUserRestriction;
   }
 }

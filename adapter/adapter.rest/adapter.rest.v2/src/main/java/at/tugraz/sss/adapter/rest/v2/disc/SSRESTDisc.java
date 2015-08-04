@@ -142,12 +142,13 @@ public class SSRESTDisc{
       
       par =
         new SSDiscWithEntriesGetPar(
-          SSServOpE.discWithEntriesGet, //op
-          null, //key
           null, //user
           SSUri.get(disc, SSVocConf.sssUri), //disc
           10, //maxEntries
-          input.includeComments); //includeComments
+          true); //withUserRestriction
+      
+      par.includeComments = input.includeComments;
+      par.setLikes        = input.setLikes;
       
     }catch(Exception error){
       return Response.status(422).build();

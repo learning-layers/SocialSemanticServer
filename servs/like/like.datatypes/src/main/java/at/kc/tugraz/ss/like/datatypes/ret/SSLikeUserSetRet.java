@@ -32,22 +32,10 @@ public class SSLikeUserSetRet extends SSServRetI{
 
   public SSUri entity = null;
 
-  public static SSLikeUserSetRet get(
-    final SSUri     entity, 
-    final SSServOpE   op){
-    
-    return new SSLikeUserSetRet(entity, op);
+  public String getEntity(){
+    return SSStrU.removeTrailingSlash(entity);
   }
-  
-  private SSLikeUserSetRet(
-    final SSUri     entity, 
-    final SSServOpE   op){
     
-    super(op);
-    
-    this.entity = entity;
-  }
-
   @Override
   public Map<String, Object> jsonLDDesc(){
     
@@ -58,8 +46,17 @@ public class SSLikeUserSetRet extends SSServRetI{
     return ld;
   }
   
-  /* json getters */
-  public String getEntity(){
-    return SSStrU.removeTrailingSlash(entity);
+  public static SSLikeUserSetRet get(
+    final SSUri       entity){
+    
+    return new SSLikeUserSetRet(entity);
+  }
+  
+  private SSLikeUserSetRet(
+    final SSUri     entity){
+    
+    super(SSServOpE.likeSet);
+    
+    this.entity = entity;
   }
 }

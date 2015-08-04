@@ -75,13 +75,13 @@ implements
     
     try{
       
+      if(!par.setFriends){
+        return entity;
+      }
+      
       switch(entity.type){
         
         case user: {
-          
-          if(!par.setFriends){
-            return entity;
-          }
           
           final SSUser userEntity = SSUser.get(entity);
           

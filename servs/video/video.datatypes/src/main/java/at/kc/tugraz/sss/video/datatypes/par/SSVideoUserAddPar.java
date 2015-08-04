@@ -37,9 +37,6 @@ public class SSVideoUserAddPar extends SSServPar{
   public SSLabel               label            = null;
   public SSTextComment         description      = null;
   public Long                  creationTime     = null;
-  public Double                latitude         = null;
-  public Double                longitude        = null;
-  public Float                 accuracy         = null;
 
   public void setLink(final String link) throws Exception{
     this.link = SSUri.get(link);
@@ -76,8 +73,6 @@ public class SSVideoUserAddPar extends SSServPar{
   public SSVideoUserAddPar(){}
   
   public SSVideoUserAddPar(
-    final SSServOpE      op,
-    final String         key,
     final SSUri          user,
     final String         uuid,
     final SSUri          link,
@@ -86,13 +81,10 @@ public class SSVideoUserAddPar extends SSServPar{
     final SSLabel        label,
     final SSTextComment  description,
     final Long           creationTime,
-    final Double         latitude,
-    final Double         longitude,
-    final Float          accuracy, 
     final Boolean        withUserRestriction, 
     final Boolean        shouldCommit){
     
-    super(op, key, user);
+    super(SSServOpE.videoAdd, null, user);
     
     this.uuid                = uuid;
     this.link                = link;
@@ -101,9 +93,6 @@ public class SSVideoUserAddPar extends SSServPar{
     this.label               = label;
     this.description         = description;
     this.creationTime        = creationTime;
-    this.latitude            = latitude;
-    this.longitude           = longitude;
-    this.accuracy            = accuracy;
     this.withUserRestriction = withUserRestriction;
     this.shouldCommit        = shouldCommit;
   }

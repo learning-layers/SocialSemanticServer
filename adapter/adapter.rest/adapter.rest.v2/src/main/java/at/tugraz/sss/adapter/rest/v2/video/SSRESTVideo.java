@@ -25,6 +25,7 @@ import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
 import at.tugraz.sss.serv.SSUri;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.kc.tugraz.sss.video.datatypes.par.SSVideoUserAddFromClientPar;
 import at.kc.tugraz.sss.video.datatypes.par.SSVideoUserAddPar;
 import at.kc.tugraz.sss.video.datatypes.par.SSVideoUserAnnotationAddPar;
 import at.kc.tugraz.sss.video.datatypes.par.SSVideosUserGetPar;
@@ -94,10 +95,7 @@ public class SSRESTVideo{
     try{
       
       par =
-        new SSVideoUserAddPar(
-          SSServOpE.videoAdd,
-          null, 
-          null,
+        new SSVideoUserAddFromClientPar(
           input.uuid,
           input.link,
           input.forEntity, 
@@ -107,9 +105,7 @@ public class SSRESTVideo{
           input.creationTime, 
           input.latitude,
           input.longitude,
-          input.accuracy, 
-          true, //withUserRestriction, 
-          true); //shouldCommit);
+          input.accuracy);
       
     }catch(Exception error){
       return Response.status(422).build();

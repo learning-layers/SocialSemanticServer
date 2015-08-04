@@ -69,7 +69,8 @@ public class SSTagEntitiesForTagsGetPar extends SSServPar{
     final SSUri            forUser,
     final List<SSTagLabel> labels,
     final SSSpaceE         space,
-    final Long             startTime){
+    final Long             startTime,
+    final Boolean          withUserRestriction){
     
     super(op, key, user);
     
@@ -77,7 +78,8 @@ public class SSTagEntitiesForTagsGetPar extends SSServPar{
 
     SSTagLabel.addDistinctWithoutNull(this.labels, labels);
     
-    this.space     = space;
-    this.startTime = startTime;
+    this.space               = space;
+    this.startTime           = startTime;
+    this.withUserRestriction = withUserRestriction;
   }
 }

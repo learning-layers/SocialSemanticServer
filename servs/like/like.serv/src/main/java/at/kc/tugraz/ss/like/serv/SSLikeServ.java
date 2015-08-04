@@ -52,6 +52,7 @@ public class SSLikeServ extends SSServContainerI{
     this.conf = SSCoreConf.instGet().getLike();
     
     SSServReg.inst.regServ(this);
+    SSServReg.inst.regServForHandlingDescribeEntity(this);
     
     return this;
   }

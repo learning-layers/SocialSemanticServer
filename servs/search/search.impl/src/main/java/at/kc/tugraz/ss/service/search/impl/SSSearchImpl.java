@@ -60,7 +60,11 @@ import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.SSServReg;
 
-public class SSSearchImpl extends SSServImplWithDBA implements SSSearchClientI, SSSearchServerI{
+public class SSSearchImpl 
+extends SSServImplWithDBA
+implements 
+  SSSearchClientI, 
+  SSSearchServerI{
   
   protected static final Map<String, SSSearchResultPages> searchResultPagesCache = new HashMap<>();
   
@@ -577,7 +581,8 @@ public class SSSearchImpl extends SSServImplWithDBA implements SSSearchClientI, 
               null, 
               SSTagLabel.asListWithoutNullAndEmpty(SSTagLabel.get(tagLabel)), 
               SSSpaceE.sharedSpace, 
-              null))){
+              null,
+            true))){
           
           searchResultsForTagOneTag.add(
             ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
@@ -599,7 +604,8 @@ public class SSSearchImpl extends SSServImplWithDBA implements SSSearchClientI, 
               null, 
               SSTagLabel.asListWithoutNullAndEmpty(SSTagLabel.get(tagLabel)), 
               SSSpaceE.privateSpace, 
-              null))){
+              null, 
+              true))){
 
           searchResultsForTagOneTag.add(
             ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(

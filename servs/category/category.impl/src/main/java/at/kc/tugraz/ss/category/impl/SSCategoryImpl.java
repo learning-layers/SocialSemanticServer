@@ -96,6 +96,7 @@ implements
   
   final SSTagAndCategoryCommonSQL  sqlFct;
   final SSTagAndCategoryCommonMisc commonMiscFct;
+  final SSEntityServerI            entityServ;
   final SSActivityServerI          activityServ;
   final SSEvalServerI              evalServ;
   
@@ -105,33 +106,41 @@ implements
     
     this.sqlFct        = new SSTagAndCategoryCommonSQL (dbSQL, SSEntityE.category);
     this.commonMiscFct = new SSTagAndCategoryCommonMisc(dbSQL, SSEntityE.category);
-    this.activityServ  = (SSActivityServerI) SSServReg.getServ(SSActivityServerI.class);
-    this.evalServ      = (SSEvalServerI)     SSServReg.getServ(SSEvalServerI.class);
+    
+    this.activityServ  = (SSActivityServerI) SSServReg.getServ (SSActivityServerI.class);
+    this.evalServ      = (SSEvalServerI)     SSServReg.getServ (SSEvalServerI.class);
+    this.entityServ    = (SSEntityServerI)   SSServReg.getServ (SSEntityServerI.class);
   }
   
   @Override
   public SSEntity describeEntity(
-    final SSEntity             entity, 
+    final SSEntity             entity,
     final SSEntityDescriberPar par) throws Exception{
-  
-    if(par.setCategories){
-     
-      entity.categories.addAll(
-        categoriesGet(
-          new SSCategoriesGetPar(
-            null,
-            null,
-            par.user,
-            null, //forUser,
-            SSUri.asListWithoutNullAndEmpty(entity.id),
-            null, //labels,
-            null, //space,
-            null, 
-            null, //startTime,
-            par.withUserRestriction))); //withUserRestriction
-    }
     
-    return entity;
+    try{
+      
+      if(par.setCategories){
+        
+        entity.categories.addAll(
+          categoriesGet(
+            new SSCategoriesGetPar(
+              null,
+              null,
+              par.user,
+              null, //forUser,
+              SSUri.asListWithoutNullAndEmpty(entity.id),
+              null, //labels,
+              null, //space,
+              null,
+              null, //startTime,
+              par.withUserRestriction))); //withUserRestriction
+      }
+      
+      return entity;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
   }
   
   @Override
@@ -139,99 +148,108 @@ implements
     final List<String>             allUsers, 
     final Map<String, List<SSUri>> userRelations) throws Exception{
     
-    final Map<String, List<SSUri>> usersPerCategory = new HashMap<>();
-    final Map<String, List<SSUri>> usersPerEntity   = new HashMap<>();
-    
-    for(String user : allUsers){
+    try{
+      final Map<String, List<SSUri>> usersPerCategory = new HashMap<>();
+      final Map<String, List<SSUri>> usersPerEntity   = new HashMap<>();
       
-      final SSUri userUri = SSUri.get(user);
-      
-      for(SSEntity category :
-        categoriesGet(
-          new SSCategoriesGetPar(
-            null,
-            null,
-            userUri,
-            userUri, //forUser
-            null,  //entities
-            null, //labels
-            null, //space
-            null, //circles
-            null, //startTime
-            false))){ //withUserRestriction){
+      for(String user : allUsers){
         
-        SSCategoryUserRelationGathererFct.addUserForCategory     (category, usersPerCategory);
-        SSCategoryUserRelationGathererFct.addUserForEntity       (category, usersPerEntity);
-      }
-    }
-    
-    SSCategoryUserRelationGathererFct.addUserRelations(userRelations, usersPerCategory);
-    SSCategoryUserRelationGathererFct.addUserRelations(userRelations, usersPerEntity);
-    
-    for(Map.Entry<String, List<SSUri>> usersPerUser : userRelations.entrySet()){
-      SSStrU.distinctWithoutNull2(usersPerUser.getValue());
-    }
-  }
-  
-  @Override
-  public void entityCopied(final SSEntityCopiedPar par) throws Exception{
-    
-    if(!par.includeMetadataSpecificToEntityAndItsEntities){
-      return;
-    }
-
-    switch(par.entity.type){
-      
-      case circle:{
+        final SSUri userUri = SSUri.get(user);
         
         for(SSEntity category :
           categoriesGet(
             new SSCategoriesGetPar(
               null,
               null,
-              par.user,
-              null, //forUser
-              SSUri.getDistinctNotNullFromEntities(par.entities), //entities
-              null,
-              SSSpaceE.circleSpace,
-              SSUri.getDistinctNotNullFromEntities(par.entity), //circles
-              null, //startTime,
-              par.withUserRestriction))){
+              userUri,
+              userUri, //forUser
+              null,  //entities
+              null, //labels
+              null, //space
+              null, //circles
+              null, //startTime
+              false))){ //withUserRestriction){
           
-          if(par.targetUser != null){ //user copied for others users
-            
-            categoryAdd(
-              new SSCategoryAddPar(
-                null,
-                null,
-                par.targetUser,  //user
-                ((SSCategory)category).entity, //entity
-                ((SSCategory)category).categoryLabel, //label
-                ((SSCategory)category).space, //space
-                par.targetEntity, //circle
-                category.creationTime, //creationTime
-                par.withUserRestriction, //withUserRestriction
-                false)); //shouldCommmit
-          
-          }else{ //user merged into other circle
-
-            categoryAdd(
-              new SSCategoryAddPar(
-                null,
-                null,
-                ((SSCategory)category).user,  //user
-                ((SSCategory)category).entity, //entity
-                ((SSCategory)category).categoryLabel, //label
-                ((SSCategory)category).space, //space
-                par.targetEntity, //circle
-                category.creationTime, //creationTime
-                par.withUserRestriction, //withUserRestriction
-                false)); //shouldCommmit
-          }
+          SSCategoryUserRelationGathererFct.addUserForCategory     (category, usersPerCategory);
+          SSCategoryUserRelationGathererFct.addUserForEntity       (category, usersPerEntity);
         }
-        
-        break;
       }
+      
+      SSCategoryUserRelationGathererFct.addUserRelations(userRelations, usersPerCategory);
+      SSCategoryUserRelationGathererFct.addUserRelations(userRelations, usersPerEntity);
+      
+      for(Map.Entry<String, List<SSUri>> usersPerUser : userRelations.entrySet()){
+        SSStrU.distinctWithoutNull2(usersPerUser.getValue());
+      }
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  @Override
+  public void entityCopied(final SSEntityCopiedPar par) throws Exception{
+    
+    try{
+      if(!par.includeMetadataSpecificToEntityAndItsEntities){
+        return;
+      }
+      
+      switch(par.entity.type){
+        
+        case circle:{
+          
+          for(SSEntity category :
+            categoriesGet(
+              new SSCategoriesGetPar(
+                null,
+                null,
+                par.user,
+                null, //forUser
+                SSUri.getDistinctNotNullFromEntities(par.entities), //entities
+                null,
+                SSSpaceE.circleSpace,
+                SSUri.getDistinctNotNullFromEntities(par.entity), //circles
+                null, //startTime,
+                par.withUserRestriction))){
+            
+            if(par.targetUser != null){ //user copied for others users
+              
+              categoryAdd(
+                new SSCategoryAddPar(
+                  null,
+                  null,
+                  par.targetUser,  //user
+                  ((SSCategory)category).entity, //entity
+                  ((SSCategory)category).categoryLabel, //label
+                  ((SSCategory)category).space, //space
+                  par.targetEntity, //circle
+                  category.creationTime, //creationTime
+                  par.withUserRestriction, //withUserRestriction
+                  false)); //shouldCommmit
+              
+            }else{ //user merged into other circle
+              
+              categoryAdd(
+                new SSCategoryAddPar(
+                  null,
+                  null,
+                  ((SSCategory)category).user,  //user
+                  ((SSCategory)category).entity, //entity
+                  ((SSCategory)category).categoryLabel, //label
+                  ((SSCategory)category).space, //space
+                  par.targetEntity, //circle
+                  category.creationTime, //creationTime
+                  par.withUserRestriction, //withUserRestriction
+                  false)); //shouldCommmit
+            }
+          }
+          
+          break;
+        }
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
     }
   }
   
@@ -327,7 +345,7 @@ implements
       final SSUri            categoryUri;
       final SSEntity         circleEntity;
       final SSEntity         categoryEntity =
-        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityFromTypeAndLabelGet(
+        entityServ.entityFromTypeAndLabelGet(
           new SSEntityFromTypeAndLabelGetPar(
             null,
             null,
@@ -352,7 +370,7 @@ implements
           }
           
           circleEntity =
-            ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+            entityServ.entityGet(
               new SSEntityGetPar(
                 null,
                 null,
@@ -377,7 +395,7 @@ implements
         categoryUri = SSServCaller.vocURICreate();
       }
       
-      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+      entityServ.entityUpdate(
         new SSEntityUpdatePar(
           null,
           null,
@@ -393,7 +411,7 @@ implements
           par.withUserRestriction, //withUserRestriction
           false)); //shouldCommit)
       
-      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+      entityServ.entityUpdate(
         new SSEntityUpdatePar(
           null,
           null,
@@ -499,7 +517,7 @@ implements
       if(par.label != null){
         
         final SSEntity categoryEntity =
-        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityFromTypeAndLabelGet(
+        entityServ.entityFromTypeAndLabelGet(
           new SSEntityFromTypeAndLabelGetPar(
             null,
             null,
@@ -531,7 +549,7 @@ implements
       }
       
       //check whether user can access the entity
-      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+      entityServ.entityGet(
         new SSEntityGetPar(
           null,
           null,
@@ -649,14 +667,14 @@ implements
       for(SSCategoryLabel label : par.labels){
       
         categoryEntity =
-        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityFromTypeAndLabelGet(
-          new SSEntityFromTypeAndLabelGetPar(
-            null,
-            null,
-            par.user,
-            SSLabel.get(SSStrU.toStr(label)), //label,
-            SSEntityE.category, //type,
-            par.withUserRestriction)); //withUserRestriction
+          entityServ.entityFromTypeAndLabelGet(
+            new SSEntityFromTypeAndLabelGetPar(
+              null,
+              null,
+              par.user,
+              SSLabel.get(SSStrU.toStr(label)), //label,
+              SSEntityE.category, //type,
+              par.withUserRestriction)); //withUserRestriction
         
         if(categoryEntity != null){
           continue;
@@ -664,7 +682,7 @@ implements
           
         categoryUri = SSServCaller.vocURICreate();
 
-        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+        entityServ.entityUpdate(
           new SSEntityUpdatePar(
             null,
             null,
@@ -732,10 +750,13 @@ implements
         throw new SSErr(SSErrE.parameterMissing);
       }
       
-      if(
-        par.forUser != null &&
-        !SSStrU.equals(par.user,  par.forUser)){
-        par.space = SSSpaceE.sharedSpace;
+      if(par.withUserRestriction){
+        
+        if(
+          par.forUser != null &&
+          !SSStrU.equals(par.user,  par.forUser)){
+          par.space = SSSpaceE.sharedSpace;
+        }
       }
       
       if(par.space == null){
@@ -804,10 +825,13 @@ implements
         throw new SSErr(SSErrE.parameterMissing);
       }
       
-      if(
-        par.forUser != null &&
-        !SSStrU.equals(par.user, par.forUser)){
-        par.space = SSSpaceE.sharedSpace;
+      if(par.withUserRestriction){
+        
+        if(
+          par.forUser != null &&
+          !SSStrU.equals(par.user, par.forUser)){
+          par.space = SSSpaceE.sharedSpace;
+        }
       }
       
       if(par.space == null){

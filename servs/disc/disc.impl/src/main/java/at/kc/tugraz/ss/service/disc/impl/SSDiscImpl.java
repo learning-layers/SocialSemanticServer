@@ -564,26 +564,21 @@ public class SSDiscImpl
       
       descPar.recursiveEntity = null;
       descPar.setComments     = par.includeComments;
+      descPar.setLikes        = par.setLikes;
+      
+      for(SSEntity entry : disc.entries){
         
-      for(Object entry : disc.entries){
-
-        discEntry = 
+        discEntry =
           SSDiscEntry.get(
-            (SSDiscEntry) entry, 
+            (SSDiscEntry) entry,
             ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
-            new SSEntityGetPar(
-              null,
-              null,
-              par.user,
-              ((SSDiscEntry) entry).id,
-              par.withUserRestriction, //withUserRestriction,
-              descPar)));
-          
-        discEntry.likes =
-          SSServCaller.likesUserGet(
-            par.user,
-            null,
-            discEntry.id);
+              new SSEntityGetPar(
+                null,
+                null,
+                par.user,
+                ((SSDiscEntry) entry).id,
+                par.withUserRestriction, //withUserRestriction,
+                descPar)));
         
         discEntryEntities.add(discEntry);
       }
@@ -722,12 +717,10 @@ public class SSDiscImpl
         discsWithEntries.add(
           discWithEntriesGet(
             new SSDiscWithEntriesGetPar(
-              null,
-              null,
               par.user,
               disc.id,
               par.maxEntries,
-              false))); //includeComments
+              par.withUserRestriction)));
       }
 
       return discsWithEntries;

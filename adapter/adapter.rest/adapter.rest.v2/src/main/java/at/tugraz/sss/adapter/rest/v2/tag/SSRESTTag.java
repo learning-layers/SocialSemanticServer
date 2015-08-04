@@ -221,7 +221,8 @@ public class SSRESTTag{
           input.forUser,
           input.labels,
           input.space,
-          input.startTime);
+          input.startTime, 
+          true);
       
     }catch(Exception error){
       return Response.status(422).build();

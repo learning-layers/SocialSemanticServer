@@ -21,66 +21,43 @@
 package at.kc.tugraz.ss.like.datatypes.par;
 
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServErrReg;
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import at.tugraz.sss.serv.SSServOpE;
 
-@XmlRootElement
-@ApiModel(value = "likesGet request parameter")
 public class SSLikesUserGetPar extends SSServPar{
   
-  @ApiModelProperty( 
-    required = true, 
-    value = "entity")
   public SSUri               entity        = null;
+  public SSUri               forUser        = null;
   
-  @XmlElement
   public void setEntity(final String entity) throws Exception{
     this.entity = SSUri.get(entity);
   }
   
-  @ApiModelProperty( 
-    required = false, 
-    value = "user to be considered for retrieving likes for")
-  public SSUri               forUser        = null;
-  
-  @XmlElement
   public void setForUser(final String forUser) throws Exception{
-    try { this.forUser = SSUri.get(forUser); }catch(Exception error){}
+    this.forUser = SSUri.get(forUser);
+  }
+  
+  public String getEntity(){
+    return SSStrU.removeTrailingSlash(entity);
+  }
+  
+  public String getForUser(){
+    return SSStrU.removeTrailingSlash(forUser);
   }
   
   public SSLikesUserGetPar(){}
   
-  public SSLikesUserGetPar(SSServPar par) throws Exception{
-      
-    super(par);
+  public SSLikesUserGetPar(
+    final SSUri   user,
+    final SSUri   entity,
+    final SSUri   forUser,
+    final Boolean withUserRestriction){
     
-    try{
-      
-      if(pars != null){
-        entity         = (SSUri)               pars.get(SSVarNames.entity);
-        forUser        = (SSUri)               pars.get(SSVarNames.forUser);
-      }
-      
-      if(par.clientJSONObj != null){
-        entity       = SSUri.get      (par.clientJSONObj.get(SSVarNames.entity).getTextValue());
-        
-        try{
-          forUser       = SSUri.get      (par.clientJSONObj.get(SSVarNames.forUser).getTextValue());
-        }catch(Exception error){}
-      }        
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
-  /* json getters */
-  public String getEntity(){
-    return SSStrU.removeTrailingSlash(entity);
+    super(SSServOpE.likesGet, null, user);
+    
+    this.entity              = entity;
+    this.forUser             = forUser;
+    this.withUserRestriction = withUserRestriction;
   }
 }

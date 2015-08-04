@@ -57,12 +57,14 @@ implements
   SSLocationServerI,
   SSDescribeEntityI{
 
-  private final SSLocationSQLFct         sqlFct;
+  private final SSLocationSQLFct sqlFct;
+  private final SSEntityServerI  entityServ;
   
   public SSLocationImpl(final SSConfA conf) throws Exception{
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
     
-     sqlFct = new SSLocationSQLFct   (this);
+     sqlFct          = new SSLocationSQLFct   (this);
+     this.entityServ = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
   }
 
   @Override
@@ -71,6 +73,7 @@ implements
     final SSEntityDescriberPar par) throws Exception{
     
     try{
+      
       if(par.setLocations){
         
         entity.locations.addAll(
@@ -139,6 +142,7 @@ implements
       }
       
       if(par.withUserRestriction){
+        
         if(!SSServCallerU.canUserRead(par.user, par.entity)){
           return new ArrayList<>();
         }
@@ -175,7 +179,7 @@ implements
     try{
       dbSQL.startTrans(par.shouldCommit);
       
-      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+      entityServ.entityUpdate(
         new SSEntityUpdatePar(
           null,
           null,
@@ -198,7 +202,7 @@ implements
           par.longitude,
           par.accuracy);
       
-      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+      entityServ.entityUpdate(
         new SSEntityUpdatePar(
           null,
           null,

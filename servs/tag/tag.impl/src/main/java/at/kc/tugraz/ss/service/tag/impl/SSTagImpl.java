@@ -101,9 +101,10 @@ implements
     
     this.sqlFct        = new SSTagAndCategoryCommonSQL (dbSQL, SSEntityE.tag);
     this.commonMiscFct = new SSTagAndCategoryCommonMisc(dbSQL, SSEntityE.tag);
-    this.activityServ  = (SSActivityServerI) SSServReg.getServ(SSActivityServerI.class);
-    this.evalServ      = (SSEvalServerI)     SSServReg.getServ(SSEvalServerI.class);
-    this.entityServ    = (SSEntityServerI)   SSServReg.getServ(SSEntityServerI.class);
+    
+    this.activityServ  = (SSActivityServerI) SSServReg.getServ (SSActivityServerI.class);
+    this.evalServ      = (SSEvalServerI)     SSServReg.getServ (SSEvalServerI.class);
+    this.entityServ    = (SSEntityServerI)   SSServReg.getServ (SSEntityServerI.class);
   }
   
   @Override
@@ -111,38 +112,44 @@ implements
     final List<String>             allUsers,
     final Map<String, List<SSUri>> userRelations) throws Exception{
     
-    final Map<String, List<SSUri>> usersPerTag    = new HashMap<>();
-    final Map<String, List<SSUri>> usersPerEntity = new HashMap<>();
-    List<SSTag>                    tags;
-    
-    for(String user : allUsers){
+    try{
       
-      final SSUri userUri = SSUri.get(user);
+      final Map<String, List<SSUri>> usersPerTag    = new HashMap<>();
+      final Map<String, List<SSUri>> usersPerEntity = new HashMap<>();
+      List<SSTag>                    tags;
       
-      for(SSEntity tagEntity : 
-        tagsGet(
-          new SSTagsGetPar(
-            null,
-            null,
-            userUri,
-            userUri, //forUser
-            null, //entities
-            null, //labels,
-            null, //space
-            null, //circles
-            null, //startTime,
-            false))){ //withUserRestriction){
+      for(String user : allUsers){
         
-        SSTagUserRelationGathererFct.addUserForTag     (tagEntity, usersPerTag);
-        SSTagUserRelationGathererFct.addUserForEntity  (tagEntity, usersPerEntity);
+        final SSUri userUri = SSUri.get(user);
+        
+        for(SSEntity tagEntity :
+          tagsGet(
+            new SSTagsGetPar(
+              null,
+              null,
+              userUri,
+              userUri, //forUser
+              null, //entities
+              null, //labels,
+              null, //space
+              null, //circles
+              null, //startTime,
+              false))){ //withUserRestriction){
+          
+          SSTagUserRelationGathererFct.addUserForTag     (tagEntity, usersPerTag);
+          SSTagUserRelationGathererFct.addUserForEntity  (tagEntity, usersPerEntity);
+        }
       }
-    }
-    
-    SSTagUserRelationGathererFct.addUserRelations(userRelations, usersPerTag);
-    SSTagUserRelationGathererFct.addUserRelations(userRelations, usersPerEntity);
-    
-    for(Map.Entry<String, List<SSUri>> usersPerUser : userRelations.entrySet()){
-      SSStrU.distinctWithoutNull2(usersPerUser.getValue());
+      
+      SSTagUserRelationGathererFct.addUserRelations(userRelations, usersPerTag);
+      SSTagUserRelationGathererFct.addUserRelations(userRelations, usersPerEntity);
+      
+      for(Map.Entry<String, List<SSUri>> usersPerUser : userRelations.entrySet()){
+        SSStrU.distinctWithoutNull2(usersPerUser.getValue());
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
     }
   }
   
@@ -151,101 +158,111 @@ implements
     final List<String>             allUsers,
     final Map<String, List<SSUri>> usersResources) throws Exception{
     
-    SSUri userUri;
-    
-    for(String user : allUsers){
+    try{
+      SSUri userUri;
       
-      userUri = SSUri.get(user);
-      
-      for(SSEntity tagEntity :
-        tagsGet(
-          new SSTagsGetPar(
-            null,
-            null,
-            userUri,
-            userUri, //forUser
-            null, //entities
-            null, //labels
-            null, //space
-            null, //circles
-            null, //startTime,
-            false))){ //withUserRestriction
+      for(String user : allUsers){
         
-        if(usersResources.containsKey(user)){
-          usersResources.get(user).add(((SSTag)tagEntity).entity);
-        }else{
+        userUri = SSUri.get(user);
+        
+        for(SSEntity tagEntity :
+          tagsGet(
+            new SSTagsGetPar(
+              null,
+              null,
+              userUri,
+              userUri, //forUser
+              null, //entities
+              null, //labels
+              null, //space
+              null, //circles
+              null, //startTime,
+              false))){ //withUserRestriction
           
-          final List<SSUri> resourceList = new ArrayList<>();
-          
-          resourceList.add(((SSTag)tagEntity).entity);
-          
-          usersResources.put(user, resourceList);
+          if(usersResources.containsKey(user)){
+            usersResources.get(user).add(((SSTag)tagEntity).entity);
+          }else{
+            
+            final List<SSUri> resourceList = new ArrayList<>();
+            
+            resourceList.add(((SSTag)tagEntity).entity);
+            
+            usersResources.put(user, resourceList);
+          }
         }
       }
-    }
-    
-    for(Map.Entry<String, List<SSUri>> resourcesPerUser : usersResources.entrySet()){
-      SSStrU.distinctWithoutNull2(resourcesPerUser.getValue());
+      
+      for(Map.Entry<String, List<SSUri>> resourcesPerUser : usersResources.entrySet()){
+        SSStrU.distinctWithoutNull2(resourcesPerUser.getValue());
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
     }
   }
   
   @Override
   public void entityCopied(final SSEntityCopiedPar par) throws Exception{
-   
-    if(!par.includeMetadataSpecificToEntityAndItsEntities){
-      return;
-    }
-
-    switch(par.entity.type){
+    
+    try{
       
-      case circle:{
-        
-        for(SSEntity tag :
-          tagsGet(
-            new SSTagsGetPar(
-              null,
-              null,
-              par.user,
-              null, //forUser
-              SSUri.getDistinctNotNullFromEntities(par.entities), //entities
-              null,
-              SSSpaceE.circleSpace,
-              SSUri.getDistinctNotNullFromEntities(par.entity), //circles
-              null, //startTime,
-              par.withUserRestriction))){
-          
-          if(par.targetUser != null){
-            
-            tagAdd(
-              new SSTagAddPar(
-                null,
-                null,
-                par.targetUser,  //user
-                ((SSTag)tag).entity, //entity
-                ((SSTag)tag).tagLabel, //label
-                ((SSTag)tag).space, //space
-                par.targetEntity, //circle
-                tag.creationTime, //creationTime
-                par.withUserRestriction, //withUserRestriction
-                false)); //shouldCommmit
-          }else{
-            
-            tagAdd(
-              new SSTagAddPar(
-                null,
-                null,
-                ((SSTag)tag).user, //user
-                ((SSTag)tag).entity, //entity
-                ((SSTag)tag).tagLabel, //label
-                ((SSTag)tag).space, //space
-                par.targetEntity, //circle
-                tag.creationTime, //creationTime
-                par.withUserRestriction, //withUserRestriction
-                false)); //shouldCommmit
-          }
-        }
-        break;
+      if(!par.includeMetadataSpecificToEntityAndItsEntities){
+        return;
       }
+      
+      switch(par.entity.type){
+        
+        case circle:{
+          
+          for(SSEntity tag :
+            tagsGet(
+              new SSTagsGetPar(
+                null,
+                null,
+                par.user,
+                null, //forUser
+                SSUri.getDistinctNotNullFromEntities(par.entities), //entities
+                null,
+                SSSpaceE.circleSpace,
+                SSUri.getDistinctNotNullFromEntities(par.entity), //circles
+                null, //startTime,
+                par.withUserRestriction))){
+            
+            if(par.targetUser != null){
+              
+              tagAdd(
+                new SSTagAddPar(
+                  null,
+                  null,
+                  par.targetUser,  //user
+                  ((SSTag)tag).entity, //entity
+                  ((SSTag)tag).tagLabel, //label
+                  ((SSTag)tag).space, //space
+                  par.targetEntity, //circle
+                  tag.creationTime, //creationTime
+                  par.withUserRestriction, //withUserRestriction
+                  false)); //shouldCommmit
+            }else{
+              
+              tagAdd(
+                new SSTagAddPar(
+                  null,
+                  null,
+                  ((SSTag)tag).user, //user
+                  ((SSTag)tag).entity, //entity
+                  ((SSTag)tag).tagLabel, //label
+                  ((SSTag)tag).space, //space
+                  par.targetEntity, //circle
+                  tag.creationTime, //creationTime
+                  par.withUserRestriction, //withUserRestriction
+                  false)); //shouldCommmit
+            }
+          }
+          break;
+        }
+      }
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
     }
   }
   
@@ -339,17 +356,17 @@ implements
     sSCon.writeRetFullToClient(SSTagAddRet.get(tagUri));
     
     activityServ.activityAdd(
-        new SSActivityAddPar(
-          null,
-          null,
-          par.user,
-          SSActivityE.tagEntity,
-          par.entity,
-          null,
-          SSUri.asListWithoutNullAndEmpty(tagUri),
-          null,
-          null,
-          false));
+      new SSActivityAddPar(
+        null,
+        null,
+        par.user,
+        SSActivityE.tagEntity,
+        par.entity,
+        null,
+        SSUri.asListWithoutNullAndEmpty(tagUri),
+        null,
+        null,
+        par.shouldCommit));
     
     evalServ.evalLog(
       new SSEvalLogPar(
@@ -371,7 +388,7 @@ implements
       final SSUri       tagUri;
       final SSEntity    circleEntity;
       final SSEntity    tagEntity = 
-        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityFromTypeAndLabelGet(
+        entityServ.entityFromTypeAndLabelGet(
           new SSEntityFromTypeAndLabelGetPar(
             null,
             null,
@@ -389,6 +406,7 @@ implements
       }
 
       switch(par.space){
+        
         case circleSpace:{
           
           if(par.circle == null){
@@ -396,7 +414,7 @@ implements
           }
           
           circleEntity =
-            ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+            entityServ.entityGet(
               new SSEntityGetPar(
                 null,
                 null,
@@ -421,7 +439,7 @@ implements
         tagUri = SSServCaller.vocURICreate();
       }
       
-      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+      entityServ.entityUpdate(
         new SSEntityUpdatePar(
           null,
           null,
@@ -437,7 +455,7 @@ implements
           par.withUserRestriction, //withUserRestriction
           false)); //shouldCommit)
       
-      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+      entityServ.entityUpdate(
         new SSEntityUpdatePar(
           null,
           null,
@@ -502,18 +520,18 @@ implements
     sSCon.writeRetFullToClient(SSTagsRemoveRet.get(tagsRemove(par)));
     
     activityServ.activityAdd(
-        new SSActivityAddPar(
-          null,
-          null,
-          par.user,
-          SSActivityE.removeTags,
-          par.entity,
-          SSUri.asListWithoutNullAndEmpty(),
-          SSUri.asListWithoutNullAndEmpty(),
-          null,
-          null,
-          par.shouldCommit));
-        
+      new SSActivityAddPar(
+        null,
+        null,
+        par.user,
+        SSActivityE.removeTags,
+        par.entity,
+        null,
+        null,
+        null,
+        null,
+        par.shouldCommit));
+    
     evalServ.evalLog(
       new SSEvalLogPar(
         par.user,
@@ -543,7 +561,7 @@ implements
       if(par.label != null){
         
         final SSEntity tagEntity =
-          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityFromTypeAndLabelGet(
+          entityServ.entityFromTypeAndLabelGet(
             new SSEntityFromTypeAndLabelGetPar(
               null,
               null,
@@ -575,7 +593,7 @@ implements
       }
       
       //check whether user can access the entity
-      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+      entityServ.entityGet(
         new SSEntityGetPar(
           null,
           null,
@@ -664,9 +682,9 @@ implements
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(
-      SSTagEntitiesForTagsGetRet.get(
-        tagEntitiesForTagsGet((SSTagEntitiesForTagsGetPar) parA.getFromJSON(SSTagEntitiesForTagsGetPar.class))));
+    final SSTagEntitiesForTagsGetPar par = (SSTagEntitiesForTagsGetPar) parA.getFromJSON(SSTagEntitiesForTagsGetPar.class);
+    
+    sSCon.writeRetFullToClient(SSTagEntitiesForTagsGetRet.get(tagEntitiesForTagsGet(par)));
   }
   
   @Override
@@ -678,15 +696,18 @@ implements
       final List<SSUri> entityURIs = new ArrayList<>();
       
       if(par.user == null){
-        throw new Exception("user null");
+        throw new SSErr(SSErrE.parameterMissing);
       }
       
-      if(
-        par.forUser != null &&
-        !SSStrU.equals(par.user,  par.forUser)){
-        par.space = SSSpaceE.sharedSpace;
+      if(par.withUserRestriction){
+       
+        if(
+          par.forUser != null &&
+          !SSStrU.equals(par.user,  par.forUser)){
+          par.space = SSSpaceE.sharedSpace;
+        }
       }
-      
+
       if(par.space == null){
         
         entityURIs.addAll(
@@ -753,10 +774,13 @@ implements
         throw new SSErr(SSErrE.parameterMissing);
       }
       
-      if(
-        par.forUser != null &&
-        !SSStrU.equals(par.user,  par.forUser)){
-        par.space = SSSpaceE.sharedSpace;
+      if(par.withUserRestriction){
+       
+        if(
+          par.forUser != null &&
+          !SSStrU.equals(par.user, par.forUser)){
+          par.space = SSSpaceE.sharedSpace;
+        }
       }
       
       if(par.space == null){
@@ -846,7 +870,7 @@ implements
         
         par.entities.addAll(
           SSUri.getDistinctNotNullFromEntities(
-            ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
+            entityServ.entitiesGet(
               new SSEntitiesGetPar(
                 null,
                 null,
@@ -901,7 +925,7 @@ implements
 //      
 //      final SSUri    tagUri;
 //      final SSEntity tagEntity = 
-//        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+//        entityServ.entityGet(
 //          new SSEntityGetPar(
 //            null,
 //            null,

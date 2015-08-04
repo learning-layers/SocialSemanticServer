@@ -66,12 +66,14 @@ implements
   SSMessageServerI, 
   SSDescribeEntityI{
   
-  private final SSMessageSQLFct sqlFct;
+  private final SSMessageSQLFct  sqlFct;
+  private final SSEntityServerI  entityServ;
 
   public SSMessageImpl(final SSConfA conf) throws Exception{
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
     
-    this.sqlFct = new SSMessageSQLFct(dbSQL);
+    this.sqlFct     = new SSMessageSQLFct(dbSQL);
+    this.entityServ = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
   }
   
   @Override
@@ -131,7 +133,7 @@ implements
       final SSMessage message = 
         SSMessage.get(
           sqlFct.getMessage(par.message),
-          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+          entityServ.entityGet(
             new SSEntityGetPar(
               null, 
               null, 
@@ -147,7 +149,7 @@ implements
       }
       
       message.user =
-        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+        entityServ.entityGet(
           new SSEntityGetPar(
             null,
             null,
@@ -157,7 +159,7 @@ implements
             descPar));
       
       message.forUser =
-        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+        entityServ.entityGet(
           new SSEntityGetPar(
             null,
             null,
@@ -251,7 +253,7 @@ implements
       
       dbSQL.startTrans(par.shouldCommit);
       
-      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+      entityServ.entityUpdate(
         new SSEntityUpdatePar(
           null,
           null,
@@ -273,7 +275,7 @@ implements
         par.forUser,
         par.message);
       
-      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityShare(
+      entityServ.entityShare(
         new SSEntitySharePar(
           null, 
           null, 

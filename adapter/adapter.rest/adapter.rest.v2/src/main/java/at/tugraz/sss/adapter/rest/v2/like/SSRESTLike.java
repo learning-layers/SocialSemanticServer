@@ -24,7 +24,6 @@ import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
 import at.kc.tugraz.ss.like.datatypes.par.SSLikeUserSetPar;
 import at.kc.tugraz.ss.like.datatypes.ret.SSLikeUserSetRet;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
-import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSVarNames;
 import com.wordnik.swagger.annotations.Api;
@@ -66,11 +65,10 @@ public class SSRESTLike{
       
       par =
         new SSLikeUserSetPar(
-          SSServOpE.likeSet, //op
-          null, //key
           null, //user
           SSUri.get(entity, SSVocConf.sssUri), //entity
           value, //value
+          true, //withUserRestriction
           true);  //shouldCommit
       
     }catch(Exception error){

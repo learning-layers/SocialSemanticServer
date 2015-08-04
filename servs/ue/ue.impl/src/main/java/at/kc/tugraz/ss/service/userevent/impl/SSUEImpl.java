@@ -46,7 +46,6 @@ import at.kc.tugraz.ss.service.userevent.datatypes.ret.SSUEAddRet;
 import at.kc.tugraz.ss.service.userevent.datatypes.ret.SSUECountGetRet;
 import at.kc.tugraz.ss.service.userevent.datatypes.ret.SSUEGetRet;
 import at.kc.tugraz.ss.service.userevent.datatypes.ret.SSUEsGetRet;
-import at.kc.tugraz.ss.service.userevent.impl.fct.misc.SSUEMiscFct;
 import at.kc.tugraz.ss.service.userevent.impl.fct.sql.SSUESQLFct;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
@@ -68,15 +67,15 @@ implements
   SSDescribeEntityI, 
   SSUsersResourcesGathererI{
   
-  private final SSUESQLFct   sqlFct;
-  private final SSUEMiscFct  fct;
+  private final SSUESQLFct        sqlFct;
+  private final SSEntityServerI   entityServ;
   
   public SSUEImpl(final SSConfA conf) throws Exception{
     
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
     
-    this.sqlFct   = new SSUESQLFct  (this);
-    this.fct      = new SSUEMiscFct ();
+    this.sqlFct       = new SSUESQLFct(this);
+    this.entityServ   = (SSEntityServerI)   SSServReg.getServ(SSEntityServerI.class);
   }
   
   @Override
@@ -204,7 +203,7 @@ implements
       final SSUE userEvent =
         SSUE.get(
           sqlFct.getUE(par.userEvent),
-          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+          entityServ.entityGet(
             new SSEntityGetPar(
               null,
               null,
@@ -229,7 +228,7 @@ implements
       }
       
       userEvent.entity =
-        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+        entityServ.entityGet(
           new SSEntityGetPar(
             null,
             null,
@@ -239,7 +238,7 @@ implements
             descPar));
       
       userEvent.user =
-        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+        entityServ.entityGet(
           new SSEntityGetPar(
             null,
             null,
@@ -274,6 +273,7 @@ implements
       if(par.withUserRestriction){
         
         if(par.entity != null){
+          
           if(!SSServCallerU.canUserRead(par.user, par.user)){
             return new ArrayList<>();
           }
@@ -379,7 +379,7 @@ implements
       
       dbSQL.startTrans(par.shouldCommit);
       
-      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+      entityServ.entityUpdate(
         new SSEntityUpdatePar(
           null,
           null,
@@ -391,11 +391,11 @@ implements
           null, //entitiesToAttach,
           par.creationTime, //creationTime,
           null, //read,
-          false, //setPublic
+          true, //setPublic
           par.withUserRestriction, //withUserRestriction
           false)); //shouldCommit)
       
-      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+      entityServ.entityUpdate(
         new SSEntityUpdatePar(
           null,
           null,
@@ -442,3 +442,38 @@ implements
     }
   }
 }
+
+//  public static List<SSUE> filterUEs(
+//    final List<SSUE> ues, 
+//    final Long       startTime, 
+//    final Long       endTime){
+//    
+//    final List<SSUE> uesAfterStartTimeExclusion = new ArrayList<SSUE>();
+//    final List<SSUE> uesAfterEndTimeExclusion   = new ArrayList<SSUE>();
+//    
+//    if(startTime != null){
+//      
+//      for(SSUE ue : ues){
+//      
+//        if(ue.timestamp > startTime){
+//          uesAfterStartTimeExclusion.add(ue);
+//        }
+//      }
+//    }else{
+//      uesAfterStartTimeExclusion.addAll(ues);
+//    }
+//    
+//    if(endTime != null){
+//      
+//      for(SSUE ue : uesAfterStartTimeExclusion){
+//      
+//        if(ue.timestamp < endTime){
+//          uesAfterEndTimeExclusion.add(ue);
+//        }
+//      }
+//    }else{
+//      uesAfterEndTimeExclusion.addAll(uesAfterStartTimeExclusion);
+//    }
+//    
+//    return uesAfterEndTimeExclusion;
+//  }

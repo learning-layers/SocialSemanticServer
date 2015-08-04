@@ -40,9 +40,7 @@ public enum SSServOpE{
   evalLog,
   
   //like
-  likesUserGet,
   likesGet,
-  likeUserSet,
   likeSet,
   
   //video
@@ -50,6 +48,8 @@ public enum SSServOpE{
   videosGet,
   videoAdd,
   videoAnnotationAdd,
+  videoAnnotationsGet,
+  videoAnnotationGet,
   
   //friend
   friendGet,

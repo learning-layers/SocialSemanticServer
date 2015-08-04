@@ -37,6 +37,9 @@ import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSDBSQLI;
+import at.tugraz.sss.serv.SSDescribeEntityI;
+import at.tugraz.sss.serv.SSEntity;
+import at.tugraz.sss.serv.SSEntityDescriberPar;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
@@ -49,36 +52,60 @@ public class SSLikeImpl
 extends SSServImplWithDBA 
 implements 
   SSLikeClientI, 
-  SSLikeServerI{
+  SSLikeServerI,
+  SSDescribeEntityI{
   
-  private final SSLikeSQLFct sqlFct;
-
+  private final SSLikeSQLFct     sqlFct;
+  private final SSEntityServerI  entityServ;
+   
   public SSLikeImpl(final SSConfA conf) throws Exception{
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
     
-    this.sqlFct = new SSLikeSQLFct(dbSQL);
+    this.sqlFct     = new SSLikeSQLFct(dbSQL);
+    this.entityServ = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
   }
   
   @Override
-  public void likeSet(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
-    
-    SSServCallerU.checkKey(parA);
-    
-    sSCon.writeRetFullToClient(SSLikeUserSetRet.get(likeUserSet(parA), parA.op));
-  }
-   
-  @Override
-  public SSLikes likesUserGet(final SSServPar parA) throws Exception{
+  public SSEntity describeEntity(
+    final SSEntity             entity, 
+    final SSEntityDescriberPar par) throws Exception{
     
     try{
-      final SSLikesUserGetPar par = new SSLikesUserGetPar(parA);
       
-      SSServCallerU.canUserReadEntity(par.user, par.entity);
+      if(par.setLikes){
+        
+        entity.likes =
+          likesGet(
+            new SSLikesUserGetPar(
+              par.user,
+              entity.id,
+              null,
+              par.withUserRestriction));
+      }
       
-      if(
-        par.forUser != null &&
-        !SSStrU.equals(par.forUser, par.user)){
-        throw new SSErr(SSErrE.userNotAllowedToRetrieveForOtherUser);
+      return entity;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public SSLikes likesGet(final SSLikesUserGetPar par) throws Exception{
+    
+    try{
+      
+      if(par.withUserRestriction){
+        
+        if(!SSServCallerU.canUserRead(par.user, par.entity)){
+          return null;
+        }
+        
+        if(
+          par.forUser != null &&
+          !SSStrU.equals(par.forUser, par.user)){
+          throw new SSErr(SSErrE.userNotAllowedToRetrieveForOtherUser);
+        }
       }
       
       return sqlFct.getLikes(
@@ -93,14 +120,23 @@ implements
   }
   
   @Override
-  public SSUri likeUserSet(final SSServPar parA) throws Exception{
+  public void likeSet(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
+    
+    SSServCallerU.checkKey(parA);
+    
+    final SSLikeUserSetPar par = (SSLikeUserSetPar) parA.getFromJSON(SSLikeUserSetPar.class);
+      
+    sSCon.writeRetFullToClient(SSLikeUserSetRet.get(likeSet(par)));
+  }
+   
+  @Override
+  public SSUri likeSet(final SSLikeUserSetPar par) throws Exception{
     
     try{
-      final SSLikeUserSetPar par    = SSLikeUserSetPar.get(parA);
-      
+
       dbSQL.startTrans(par.shouldCommit);
       
-      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+      entityServ.entityUpdate(
         new SSEntityUpdatePar(
           null,
           null,
@@ -113,7 +149,7 @@ implements
           null, //creationTime,
           null, //read,
           false, //setPublic
-          false, //withUserRestriction
+          par.withUserRestriction, //withUserRestriction
           false)); //shouldCommit)
       
       sqlFct.like(
@@ -129,18 +165,18 @@ implements
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(dbSQL.rollBack(parA.shouldCommit)){
+        if(dbSQL.rollBack(par.shouldCommit)){
           
           SSServErrReg.reset();
           
-          return likeUserSet(parA);
+          return likeSet(par);
         }else{
           SSServErrReg.regErrThrow(error);
           return null;
         }
       }
       
-      dbSQL.rollBack(parA.shouldCommit);
+      dbSQL.rollBack(par.shouldCommit);
       SSServErrReg.regErrThrow(error);
       return null;
     }

@@ -40,7 +40,11 @@ import at.tugraz.sss.servs.ocd.datatypes.pars.SSOCDGetGraphPar;
 import at.tugraz.sss.servs.ocd.datatypes.pars.SSOCDGetGraphsPar;
 import at.tugraz.sss.servs.ocd.impl.jerseyclient.SSOCDResource;
 
-public class SSOCDImpl extends SSServImplWithDBA implements SSOCDClientI, SSOCDServerI {
+public class SSOCDImpl 
+extends SSServImplWithDBA 
+implements 
+  SSOCDClientI, 
+  SSOCDServerI {
 
   private SSOCDConf ocdConf = null;
 

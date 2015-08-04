@@ -67,15 +67,17 @@ implements
   SSUserServerI, 
   SSDescribeEntityI{
   
-//  private final SSUserGraphFct       graphFct;
-  private final SSUserSQLFct         sqlFct;
+  private final SSUserSQLFct      sqlFct;
+  private final SSEntityServerI   entityServ;
+  private final SSCircleServerI   circleServ;
   
   public SSUserImpl(final SSConfA conf) throws Exception{
     
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
     
-//    graphFct = new SSUserGraphFct (this);
-    sqlFct   = new SSUserSQLFct   (this);
+    this.sqlFct       = new SSUserSQLFct(this);
+    this.entityServ   = (SSEntityServerI)   SSServReg.getServ(SSEntityServerI.class);
+    this.circleServ   = (SSCircleServerI)   SSServReg.getServ(SSCircleServerI.class);
   }
   
   @Override
@@ -173,7 +175,7 @@ implements
       user =
         SSUser.get(
           userToGet,
-          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+          entityServ.entityGet(
             new SSEntityGetPar(
               null,
               null,
@@ -263,7 +265,7 @@ implements
       
       dbSQL.startTrans(par.shouldCommit);
       
-      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+      entityServ.entityUpdate(
         new SSEntityUpdatePar(
           null,
           null,
@@ -280,14 +282,14 @@ implements
           false)); //shouldCommit)
       
       publicCircleURI = 
-        ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePubURIGet(
+        circleServ.circlePubURIGet(
           new SSCirclePubURIGetPar(
             null,
             null,
             par.user,
             false));
       
-      ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleUsersAdd(
+      circleServ.circleUsersAdd(
         new SSCircleUsersAddPar(
           null,
           null,
