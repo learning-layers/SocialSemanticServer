@@ -20,31 +20,23 @@
 */
 package at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par;
 
-import at.tugraz.sss.serv.SSFileExtE;
-import at.tugraz.sss.serv.SSMimeTypeE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
-import com.wordnik.swagger.annotations.ApiModelProperty;
-import java.util.Map;
 
 public class SSEvernoteResource extends SSEntity{
   
-  @ApiModelProperty(
-    required = false,
-    value = "note the resource is contained in")
   public SSUri  note     = null;
   
-  @ApiModelProperty(
-    required = false,
-    value = "file extension")
-  public SSFileExtE fileExt  = null;
-  
-  @ApiModelProperty(
-    required = false,
-    value = "mime type")
-  public SSMimeTypeE mimeType = null;
+  public String getNote(){
+    return SSStrU.removeTrailingSlash(note);
+  }
+
+  @Override
+  public Object jsonLDDesc(){
+    throw new UnsupportedOperationException();
+  }
   
   public static SSEvernoteResource get(
     final SSEvernoteResource      resource,
@@ -55,11 +47,9 @@ public class SSEvernoteResource extends SSEntity{
   
   public static SSEvernoteResource get(
     final SSUri           id,
-    final SSUri           note, 
-    final SSFileExtE      fileExt, 
-    final SSMimeTypeE     mimeType) throws Exception{
+    final SSUri           note) throws Exception{
     
-    return new SSEvernoteResource(id, note, fileExt, mimeType);
+    return new SSEvernoteResource(id, note);
   }
   
   protected SSEvernoteResource(
@@ -68,39 +58,23 @@ public class SSEvernoteResource extends SSEntity{
 
     super(resource, entity);
     
-    this.note     = resource.note;
-    this.fileExt  = resource.fileExt;
-    this.mimeType = resource.mimeType;
+    if(resource.note != null){
+      this.note     = resource.note;
+    }else{
+      
+      if(entity instanceof SSEvernoteResource){
+        this.note = ((SSEvernoteResource)entity).note;
+      }
+    }
   }
   
   protected SSEvernoteResource(
     final SSUri       id,
-    final SSUri       note, 
-    final SSFileExtE  fileExt, 
-    final SSMimeTypeE mimeType) throws Exception{
+    final SSUri       note) throws Exception{
 
     super(id, SSEntityE.evernoteResource);
     
     this.id       = id;
     this.note     = note;
-    this.fileExt  = fileExt;
-    this.mimeType = mimeType;
-  }
-
-  @Override
-  public Object jsonLDDesc(){
-    
-    final Map<String, Object> ld = (Map<String, Object>) super.jsonLDDesc();
-    
-//    ld.put(SSVarU.note,      SSVarU.sss + SSStrU.colon + SSUri.class.getName());
-//    ld.put(SSVarU.mimeType,  SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
-//    ld.put(SSVarU.fileExt,   SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
-    
-    return ld;
-  }
-  
-  /* json getters */
-  public String getNote(){
-    return SSStrU.removeTrailingSlash(note);
   }
 }

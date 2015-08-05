@@ -24,6 +24,7 @@ import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarNames;
 import at.kc.tugraz.ss.friend.datatypes.SSFriend;
+import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSServRetI;
 import at.tugraz.sss.serv.SSJSONLDU;
 import java.util.ArrayList;
@@ -33,7 +34,7 @@ import java.util.Map;
 
 public class SSFriendsGetRet extends SSServRetI{
   
-  public List<SSFriend> friends = new ArrayList<>();
+  public List<SSEntity> friends = new ArrayList<>();
   
   @Override
   public Map<String, Object> jsonLDDesc(){
@@ -50,18 +51,16 @@ public class SSFriendsGetRet extends SSServRetI{
   }
   
   public static SSFriendsGetRet get(
-    final List<SSFriend> friends){
+    final List<SSEntity> friends){
     
     return new SSFriendsGetRet(friends);
   }
   
   private SSFriendsGetRet(
-    final List<SSFriend>  friends){
+    final List<SSEntity>  friends){
     
     super(SSServOpE.friendsGet);
     
-    if(friends != null){
-      this.friends.addAll(friends);
-    }
+    SSEntity.addEntitiesDistinctWithoutNull(this.friends, friends);
   }
 }

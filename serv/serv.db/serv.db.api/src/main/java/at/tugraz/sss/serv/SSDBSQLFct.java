@@ -292,11 +292,11 @@ public class SSDBSQLFct extends SSDBFct{
   }
   
   protected static void checkFirstResult(
-    final ResultSet result) throws Exception{
+    final ResultSet resultSet) throws Exception{
     
     try{
       
-      if(!result.first()){
+      if(!resultSet.first()){
         throw new SSErr(SSErrE.sqlNoResultFound);
       }
       
@@ -306,39 +306,39 @@ public class SSDBSQLFct extends SSDBFct{
   }
   
   protected static List<String> getStringsFromResult(
-    final ResultSet result,
+    final ResultSet resultSet,
     final String    key) throws Exception{
     
     final List<String> strings = new ArrayList<>();
     
-    while(result.next()){
-      strings.add(bindingStr(result, key));
+    while(resultSet.next()){
+      strings.add(bindingStr(resultSet, key));
     }
     
     return strings;
   }
   
   protected static List<SSTextComment> getTextCommentsFromResult(
-    final ResultSet result,
+    final ResultSet resultSet,
     final String    key) throws Exception{
     
     final List<SSTextComment> textComments = new ArrayList<>();
     
-    while(result.next()){
-      textComments.add(bindingStrToTextComment(result, key));
+    while(resultSet.next()){
+      textComments.add(bindingStrToTextComment(resultSet, key));
     }
     
     return textComments;
   }
   
   protected static List<SSUri> getURIsFromResult(
-    final ResultSet result,
+    final ResultSet resultSet,
     final String    key) throws Exception{
     
     final List<SSUri> uris = new ArrayList<>();
     
-    while(result.next()){
-      uris.add(bindingStrToUri(result, key));
+    while(resultSet.next()){
+      uris.add(bindingStrToUri(resultSet, key));
     }
     
     return uris;

@@ -51,7 +51,11 @@ public class SSDiscWithEntriesGetPar extends SSServPar{
     super(SSServOpE.discsWithEntriesGet, null, user);
     
     this.disc                = disc;
-    this.maxEntries          = maxEntries;
+    
+    if(maxEntries != null){
+      this.maxEntries          = maxEntries;
+    }
+    
     this.withUserRestriction = withUserRestriction;
   }
 }

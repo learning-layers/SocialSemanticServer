@@ -30,10 +30,11 @@ import java.util.List;
 
 public class SSFlagsGetPar extends SSServPar{
 
-  public List<SSUri>   entities       = new ArrayList<>();
-  public List<SSFlagE> types          = new ArrayList<>();
-  public Long          startTime      = null;
-  public Long          endTime        = null;
+  public List<SSUri>   entities             = new ArrayList<>();
+  public List<SSFlagE> types                = new ArrayList<>();
+  public Long          startTime            = null;
+  public Long          endTime              = null;
+  public Boolean       invokeEntityHandlers = false;
 
   public List<String> getEntities(){
     return SSStrU.removeTrailingSlash(entities);
@@ -54,22 +55,22 @@ public class SSFlagsGetPar extends SSServPar{
   public SSFlagsGetPar(){}
     
   public SSFlagsGetPar(
-    final SSServOpE     op,
-    final String        key,
     final SSUri         user,
     final List<SSUri>   entities,
     final List<SSFlagE> types,
     final Long          startTime, 
     final Long          endTime,
-    final Boolean       withUserRestriction){
+    final Boolean       withUserRestriction, 
+    final Boolean       invokeEntityHandlers){
     
-    super(op, key, user);
+    super(SSServOpE.flagsGet, null, user);
      
     SSUri.addDistinctWithoutNull   (this.entities, entities);
     SSFlagE.addDistinctWithoutNull (this.types,    types);
     
-    this.startTime           = startTime;
-    this.endTime             = endTime;
-    this.withUserRestriction = withUserRestriction;
+    this.startTime            = startTime;
+    this.endTime              = endTime;
+    this.withUserRestriction  = withUserRestriction;
+    this.invokeEntityHandlers = invokeEntityHandlers;
   }
 }

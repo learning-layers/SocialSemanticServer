@@ -25,14 +25,10 @@ import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
-import com.wordnik.swagger.annotations.ApiModelProperty;
 import java.util.Map;
 
 public class SSEvernoteNote extends SSEntity{
   
-  @ApiModelProperty(
-    required = false,
-    value = "notebook containing this note")
   public SSUri notebook = null;
   
   public static SSEvernoteNote get(
@@ -55,7 +51,14 @@ public class SSEvernoteNote extends SSEntity{
 
     super(note, entity);
     
-    this.notebook = note.notebook;
+    if(note.notebook != null){
+      this.notebook     = note.notebook;
+    }else{
+      
+      if(entity instanceof SSEvernoteNote){
+        this.notebook = ((SSEvernoteNote) entity).notebook;
+      }
+    }
   }
   
   protected SSEvernoteNote(

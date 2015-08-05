@@ -25,20 +25,16 @@ import at.tugraz.sss.serv.SSMimeTypeE;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSUri;
-import com.wordnik.swagger.annotations.ApiModelProperty;
-import java.util.Map;
 
 public class SSFile extends SSEntity{
   
-  @ApiModelProperty(
-    required = false,
-    value = "file extension")
-  public SSFileExtE fileExt  = null;
-  
-  @ApiModelProperty(
-    required = false,
-    value = "mime type")
+  public SSFileExtE  fileExt  = null;
   public SSMimeTypeE mimeType = null;
+  
+  @Override
+  public Object jsonLDDesc(){
+    throw new UnsupportedOperationException();
+  }
   
   public static SSFile get(
     final SSFile           file,
@@ -53,8 +49,23 @@ public class SSFile extends SSEntity{
     
     super(file, entity);
     
-    this.fileExt  = file.fileExt;
-    this.mimeType = file.mimeType;
+    if(file.fileExt != null){
+      this.fileExt = file.fileExt;
+    }else{
+      
+      if(entity instanceof SSFile){
+        this.fileExt = ((SSFile) entity).fileExt;
+      }
+    }
+    
+    if(file.mimeType != null){
+      this.mimeType = file.mimeType;
+    }else{
+      
+      if(entity instanceof SSFile){
+        this.mimeType = ((SSFile) entity).mimeType;
+      }
+    }
   }
   
   public static SSFile get(
@@ -74,17 +85,5 @@ public class SSFile extends SSEntity{
     
     this.fileExt  = fileExt;
     this.mimeType = mimeType;
-  }
-  
-  
-  @Override
-  public Object jsonLDDesc(){
-    
-    final Map<String, Object> ld = (Map<String, Object>) super.jsonLDDesc();
-    
-//    ld.put(SSVarU.mimeType,      SSVarU.xsd + SSStrU.colon + SSStrU.valueString);
-//    ld.put(SSVarU.fileExt,       SSVarU.sss + SSStrU.colon + SSFileExtE.class.getName());
-    
-    return ld;
   }
 }

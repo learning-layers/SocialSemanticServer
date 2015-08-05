@@ -109,14 +109,18 @@ implements
   private final SSEntitySQLFct    sqlFct;
   private final SSActivityServerI activityServ;
   private final SSEvalServerI     evalServ;
+  private final SSUEServerI       userEventServ;
+  private final SSCircleServerI   circleServ;
   
   public SSEntityImpl(final SSConfA conf) throws Exception{
     
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
     
-    this.sqlFct       = new SSEntitySQLFct(this);
-    this.activityServ = (SSActivityServerI) SSServReg.getServ(SSActivityServerI.class);
-    this.evalServ     = (SSEvalServerI)     SSServReg.getServ(SSEvalServerI.class);
+    this.sqlFct          = new SSEntitySQLFct(this);
+    this.activityServ    = (SSActivityServerI) SSServReg.getServ(SSActivityServerI.class);
+    this.evalServ        = (SSEvalServerI)     SSServReg.getServ(SSEvalServerI.class);
+    this.userEventServ   = (SSUEServerI)       SSServReg.getServ(SSUEServerI.class);
+    this.circleServ      = (SSCircleServerI)   SSServReg.getServ(SSCircleServerI.class);
   }
   
   @Override
@@ -124,6 +128,25 @@ implements
     final SSEntity             entity, 
     final SSEntityDescriberPar par) throws Exception{
 
+    if(par.setAttachedEntities){
+      
+      SSEntity.addEntitiesDistinctWithoutNull(
+        entity.attachedEntities,
+        entitiesGet(
+          new SSEntitiesGetPar(
+            null,
+            null,
+            par.user,
+            sqlFct.getAttachedEntityURIs(entity.id), //entities
+            null, //types,
+            null, //descPar,
+            par.withUserRestriction)));
+    }
+    
+    if(par.setRead){
+      entity.read = sqlFct.getEntityRead (par.user, entity.id);
+    }
+    
     return entity;
   }
   
@@ -366,31 +389,6 @@ implements
         par.descPar.user                = par.user;
         par.descPar.withUserRestriction = par.withUserRestriction;
         
-        if(par.descPar.setAttachedEntities){
-          
-          final List<SSUri>          attachedEntityURIs    = sqlFct.getAttachedEntityURIs(par.entity);
-          final SSEntityDescriberPar attachedEntityDescPar = new SSEntityDescriberPar(null);
-          
-          attachedEntityDescPar.user                = par.user;
-          attachedEntityDescPar.withUserRestriction = par.withUserRestriction;
-        
-          SSEntity.addEntitiesDistinctWithoutNull(
-            entity.attachedEntities,
-            entitiesGet(
-              new SSEntitiesGetPar(
-                null,
-                null,
-                par.user,
-                attachedEntityURIs, //entities
-                null, //types,
-                attachedEntityDescPar, //descPar,
-                par.withUserRestriction)));
-        }
-        
-        if(par.descPar.setRead){
-          entity.read = sqlFct.getEntityRead (par.user, entity.id);
-        }
-        
         for(SSServContainerI serv : SSServReg.inst.getServsHandlingDescribeEntity()){
           entity = ((SSDescribeEntityI) serv.serv()).describeEntity(entity, par.descPar);
         }
@@ -456,7 +454,7 @@ implements
           
           par.entity = SSServCaller.vocURICreate();
           
-          ((SSUEServerI) SSServReg.getServ(SSUEServerI.class)).userEventAdd(
+          userEventServ.userEventAdd(
             new SSUEAddPar(
               null,
               null,
@@ -507,7 +505,7 @@ implements
         par.creationTime);
       
       final SSUri privateCircleURI =
-        ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePrivURIGet(
+        circleServ.circlePrivURIGet(
           new SSCirclePrivURIGetPar(
             null,
             null,
@@ -881,7 +879,7 @@ implements
         SSServCallerU.checkWhetherUsersAreUsers(par.users);
         
         final SSUri          circleUri =
-          ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleCreate(
+          circleServ.circleCreate(
             new SSCircleCreatePar(
               null,
               null,
@@ -893,7 +891,7 @@ implements
               false, //withUserRestriction
               false)); //shouldCommit
         
-        ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleUsersAdd(
+        circleServ.circleUsersAdd(
           new SSCircleUsersAddPar(
             null,
             null,
@@ -903,7 +901,7 @@ implements
             false, //withUserRestriction
             false)); //shouldCommit
         
-        ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleEntitiesAdd(
+        circleServ.circleEntitiesAdd(
           new SSCircleEntitiesAddPar(
             null,
             null,
@@ -933,7 +931,7 @@ implements
 
         for(SSUri circleURI : par.circles){
           
-          ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleEntitiesAdd(
+          circleServ.circleEntitiesAdd(
             new SSCircleEntitiesAddPar(
               null, 
               null, 
@@ -944,7 +942,7 @@ implements
               false)); //shouldCommit
           
           final SSEntityCircle circle =
-            ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleGet(
+            circleServ.circleGet(
               new SSCircleGetPar(
                 null,
                 null,
@@ -976,14 +974,14 @@ implements
       if(par.setPublic){
         
         final SSUri pubCircleURI = 
-          ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePubURIGet(
+          circleServ.circlePubURIGet(
             new SSCirclePubURIGetPar(
               null,
               null,
               par.user,
               false));
         
-        ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleEntitiesAdd(
+        circleServ.circleEntitiesAdd(
           new SSCircleEntitiesAddPar(
             null,
             null,

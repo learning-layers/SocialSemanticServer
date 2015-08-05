@@ -20,20 +20,24 @@
 */
  package at.kc.tugraz.ss.service.filerepo.api;
 
+import at.kc.tugraz.ss.service.filerepo.datatypes.SSFile;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileDownloadPar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileReplacePar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileUploadPar;
+import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSServServerI;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.servs.file.datatype.par.SSEntityFileAddPar;
+import at.tugraz.sss.servs.file.datatype.par.SSFileGetPar;
 import at.tugraz.sss.servs.file.datatype.par.SSEntityFilesGetPar;
 import java.util.List;
 
 public interface SSFileRepoServerI extends SSServServerI{
 
-  public SSUri       fileAdd                  (final SSEntityFileAddPar      par) throws Exception;
-  public List<SSUri> filesGet                 (final SSEntityFilesGetPar     par) throws Exception;
-  public void        fileDownload             (final SSFileDownloadPar       par) throws Exception;
-  public void        fileUpload               (final SSFileUploadPar         par) throws Exception;
-  public void        fileReplace              (final SSFileReplacePar        par) throws Exception;
+  public SSUri          fileAdd                  (final SSEntityFileAddPar      par) throws Exception;
+  public SSFile         fileGet                  (final SSFileGetPar      par) throws Exception;
+  public List<SSEntity> filesGet                 (final SSEntityFilesGetPar     par) throws Exception;
+  public void           fileDownload             (final SSFileDownloadPar       par) throws Exception;
+  public void           fileUpload               (final SSFileUploadPar         par) throws Exception;
+  public void           fileReplace              (final SSFileReplacePar        par) throws Exception;
 }

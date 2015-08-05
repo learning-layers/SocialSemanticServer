@@ -85,6 +85,7 @@ public enum SSServOpE{
   //flag
   flagsGet,
   flagsSet,
+  flagGet,
   
   //cloud
   cloudPublishService,
@@ -252,6 +253,7 @@ public enum SSServOpE{
   fileIDFromURI                                       ,
   filesGet, 
   fileAdd,
+  fileGet,
   
   //data import
   dataImportUserResourceTagFromWikipedia              ,

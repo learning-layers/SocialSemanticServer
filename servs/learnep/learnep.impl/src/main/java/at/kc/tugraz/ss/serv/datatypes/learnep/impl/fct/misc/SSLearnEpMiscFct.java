@@ -85,19 +85,21 @@ public class SSLearnEpMiscFct{
     final SSUri  entity) throws Exception{
     
     try{
-      final List<SSUri> attachedEntities = new ArrayList<>();
+      final List<SSEntity> attachedEntities = new ArrayList<>();
       
-      attachedEntities.addAll(
+      SSEntity.addEntitiesDistinctWithoutNull(
+        attachedEntities,
         ((SSFileRepoServerI) SSServReg.getServ(SSFileRepoServerI.class)).filesGet(
           new SSEntityFilesGetPar(
             null,
             null,
             user,
             entity,
-            true)));  //withUserRestcrition);
+            true, //withUserRestcrition);
+            false)));   //invokeEntityHandlers
       
-      attachedEntities.addAll(
-        SSUri.getDistinctNotNullFromEntities(
+      SSEntity.addEntitiesDistinctWithoutNull(
+        attachedEntities,
           ((SSImageServerI) SSServReg.getServ(SSImageServerI.class)).imagesGet(
             new SSImagesGetPar(
               null,
@@ -105,9 +107,9 @@ public class SSLearnEpMiscFct{
               user,
               entity, //entity
               SSImageE.thumb, //imageType
-              false))));
+              false)));
       
-      return attachedEntities;
+      return SSUri.getDistinctNotNullFromEntities(attachedEntities);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

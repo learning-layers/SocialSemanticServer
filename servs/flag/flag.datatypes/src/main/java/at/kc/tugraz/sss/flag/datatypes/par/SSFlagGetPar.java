@@ -18,40 +18,37 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.tugraz.sss.servs.file.datatype.par;
+ package at.kc.tugraz.sss.flag.datatypes.par;
 
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 
-public class SSEntityFilesGetPar extends SSServPar{
-  
-  public SSUri   entity               = null;
+public class SSFlagGetPar extends SSServPar{
+
+  public SSUri   flag                 = null;
   public Boolean invokeEntityHandlers = false;
-    
-  public String getEntity(){
-    return SSStrU.removeTrailingSlash(entity);
+
+  public String getFlag(){
+    return SSStrU.removeTrailingSlash(flag);
   }
 
-  public void setEntity(final String entity) throws Exception{
-   this.entity = SSUri.get(entity);
+  public void setFlag(final String flag) throws Exception{
+    this.flag = SSUri.get(flag);
   }
   
-  public SSEntityFilesGetPar(){}
+  public SSFlagGetPar(){}
     
-  public SSEntityFilesGetPar(
-    final SSServOpE     op,
-    final String        key,
+  public SSFlagGetPar(
     final SSUri         user,
-    final SSUri         entity, 
+    final SSUri         flag,
     final Boolean       withUserRestriction,
     final Boolean       invokeEntityHandlers){
-      
-    super(op, key, user);
     
-    this.entity                 = entity;
-    this.withUserRestriction    = withUserRestriction;
-    this.invokeEntityHandlers   = invokeEntityHandlers;
+    super(SSServOpE.flagGet, null, user);
+     
+    this.flag                = flag;
+    this.withUserRestriction = withUserRestriction;
   }
 }

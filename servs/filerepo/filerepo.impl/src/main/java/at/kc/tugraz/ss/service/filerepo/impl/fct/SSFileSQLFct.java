@@ -62,13 +62,14 @@ public class SSFileSQLFct extends SSDBSQLFct{
     }
   }
   
-  public List<SSUri> getFiles(final SSUri forEntity) throws Exception{
+  public List<SSUri> getFileURIsAttachtedToEntity(
+    final SSUri entity) throws Exception{
     
     ResultSet resultSet = null;
     
     try{
       
-      if(SSObjU.isNull(forEntity)){
+      if(SSObjU.isNull(entity)){
         throw new SSErr(SSErrE.parameterMissing);
       }
 
@@ -78,10 +79,12 @@ public class SSFileSQLFct extends SSDBSQLFct{
       final List<String>        tableCons  = new ArrayList<>();
       
       column (columns, SSSQLVarNames.filesTable, SSSQLVarNames.fileId);
+
       table  (tables, SSSQLVarNames.filesTable);
+      table  (tables, SSSQLVarNames.entitiesTable);
+
+      where   (wheres, SSSQLVarNames.entitiesTable, SSSQLVarNames.entityId, entity);
       
-      where   (wheres, SSSQLVarNames.entitiesTable, SSSQLVarNames.entityId, forEntity);
-      table   (tables, SSSQLVarNames.entitiesTable);
       tableCon(tableCons, SSSQLVarNames.filesTable, SSSQLVarNames.fileId, SSSQLVarNames.entitiesTable, SSSQLVarNames.attachedEntityId);
       
       resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);

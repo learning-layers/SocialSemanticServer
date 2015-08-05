@@ -49,7 +49,12 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.*;
 
-public class SSI5CloudImpl extends SSServImplWithDBA implements SSI5CloudClientI, SSI5CloudServerI{
+public class SSI5CloudImpl 
+extends 
+  SSServImplWithDBA 
+implements 
+  SSI5CloudClientI, 
+  SSI5CloudServerI{
 
   private SSI5CloudLASConnector lasCon = null;
   
@@ -57,8 +62,6 @@ public class SSI5CloudImpl extends SSServImplWithDBA implements SSI5CloudClientI
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
   }
   
-   /*  SSI5CloudServerI */
-   
   @Override
   public Map<String, String> i5CloudAuth(final SSServPar parA) throws Exception{
     

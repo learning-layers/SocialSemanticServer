@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.service.filerepo.impl;
 
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesGetPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.tugraz.sss.servs.file.datatype.par.SSEntityFileAddPar;
 import at.tugraz.sss.servs.file.datatype.par.SSEntityFilesGetPar;
@@ -53,6 +53,7 @@ import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.caller.SSServCaller;
+import at.tugraz.sss.servs.file.datatype.par.SSFileGetPar;
 import java.util.*;
 import java.util.List;
 
@@ -63,14 +64,16 @@ implements
   SSFileRepoServerI, 
   SSDescribeEntityI{
 
-  private final SSFileSQLFct sqlFct;
+  private final SSFileSQLFct    sqlFct;
+  private final SSEntityServerI entityServ;
   
   public SSFilerepoImpl(
     final SSFileRepoConf conf) throws Exception{
 
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
     
-    sqlFct = new SSFileSQLFct   (this);
+    this.sqlFct     = new SSFileSQLFct   (this);
+    this.entityServ = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
   }
   
   @Override
@@ -82,14 +85,15 @@ implements
       
       if(par.setFiles){
         
-        final List<SSUri> files =
+        final List<SSEntity> files =
           filesGet(
             new SSEntityFilesGetPar(
               null, 
               null, 
               par.user, 
               entity.id, 
-              par.withUserRestriction));
+              par.withUserRestriction,
+              false)); //invokeEntityHandlers
 
         if(!files.isEmpty()){
           entity.file = files.get(0);
@@ -104,14 +108,14 @@ implements
             return entity;
           }
           
-          final SSFileExtE  fileExt  = SSFileExtE.ext(SSStrU.removeTrailingSlash(entity));
-          final SSMimeTypeE mimeType = SSMimeTypeE.mimeTypeForFileExt (fileExt);
-          
-          final SSFile file = SSFile.get(entity.id, fileExt, mimeType);
-          
           return SSFile.get(
-              file,
-              entity);
+            fileGet(
+              new SSFileGetPar(
+                par.user,
+                entity.id,
+                par.withUserRestriction,
+                false)),
+            entity);
         }
       }
       
@@ -208,7 +212,7 @@ implements
       
       dbSQL.startTrans(par.shouldCommit);
       
-      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+      entityServ.entityUpdate(
         new SSEntityUpdatePar(
           null, 
           null, 
@@ -228,7 +232,7 @@ implements
       
       if(par.entity != null){
         
-        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+        entityServ.entityUpdate(
           new SSEntityUpdatePar(
             null,
             null,
@@ -270,37 +274,77 @@ implements
   }
 
   @Override
-  public List<SSUri> filesGet(final SSEntityFilesGetPar par) throws Exception{
+  public SSFile fileGet(final SSFileGetPar par) throws Exception{
     
     try{
     
-      final List<SSUri> files = new ArrayList<>();
+      if(par.withUserRestriction){
+        
+        if(!SSServCallerU.canUserRead(par.user, par.file)){
+          return null;
+        }
+      }
       
+      final SSEntityDescriberPar descPar;
+      
+      if(par.invokeEntityHandlers){
+        descPar = new SSEntityDescriberPar(par.file);
+      }else{
+        descPar = null;
+      }
+      
+      final SSFileExtE  fileExt  = SSFileExtE.ext(SSStrU.removeTrailingSlash(par.file));
+      final SSMimeTypeE mimeType = SSMimeTypeE.mimeTypeForFileExt (fileExt);
+      final SSFile      file     = SSFile.get(par.file, fileExt, mimeType);
+          
+      return SSFile.get(
+        file,
+        entityServ.entityGet(
+          new SSEntityGetPar(
+            null,
+            null,
+            par.user,
+            par.file,
+            par.withUserRestriction,
+            descPar)));
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public List<SSEntity> filesGet(final SSEntityFilesGetPar par) throws Exception{
+    
+    try{
+    
       if(par.entity == null){
         throw new SSErr(SSErrE.parameterMissing);
       }
       
       if(par.withUserRestriction){
-        SSServCallerU.canUserReadEntity(par.user, par.entity);
+        
+        if(!SSServCallerU.canUserRead(par.user, par.entity)){
+          return new ArrayList<>();
+        }
       }
+
+      final List<SSEntity> files = new ArrayList<>();
       
-      files.addAll(sqlFct.getFiles(par.entity));
-      
-      if(!par.withUserRestriction){
-        return files;
+      for(SSUri file : sqlFct.getFileURIsAttachtedToEntity(par.entity)){
+        
+        SSEntity.addEntitiesDistinctWithoutNull(
+          files, 
+          fileGet(
+            new SSFileGetPar(
+            par.user, 
+            file, 
+            par.withUserRestriction, 
+            par.invokeEntityHandlers)));
       }
-      
-      return SSUri.getDistinctNotNullFromEntities(
-        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
-          new SSEntitiesGetPar(
-            null,
-            null,
-            par.user,
-            files,  //entities
-            null, //types,
-            null, //descPar,
-            par.withUserRestriction)));// withUserRestriction
-      
+
+      return files;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;

@@ -21,9 +21,7 @@
 package at.kc.tugraz.ss.serv.jobs.evernote.impl;
 
 import at.tugraz.sss.serv.SSDateU;
-import at.tugraz.sss.serv.SSFileExtE;
 import at.tugraz.sss.serv.SSLogU;
-import at.tugraz.sss.serv.SSMimeTypeE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntity;
@@ -113,27 +111,9 @@ implements
             return entity;
           }
           
-          SSFileExtE      fileExt  = null;
-          SSMimeTypeE     mimeType = null;
-          
-          
-          try{
-            fileExt        = SSFileExtE.ext(SSStrU.removeTrailingSlash(entity.file));
-            mimeType       = SSMimeTypeE.mimeTypeForFileExt (fileExt);
-            
-          }catch(Exception error){
-            SSLogU.warn("mime type cannot be retrieved from evernoteResource as it has no file attached");
-            SSServErrReg.reset();
-          }
-          
-        final SSEvernoteResource resource = sqlFct.getResource(entity.id);
-        
-        resource.fileExt  = fileExt;
-        resource.mimeType = mimeType;
-            
-        return SSEvernoteResource.get(
-          resource,
-          entity);
+          return SSEvernoteResource.get(
+            sqlFct.getResource(entity.id),
+            entity);
         }
       }
       

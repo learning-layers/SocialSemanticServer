@@ -165,10 +165,9 @@ public class SSEvernoteSQLFct extends SSDBSQLFct {
       
       checkFirstResult(resultSet);
         
-      return SSEvernoteResource.get(resourceId, 
-        bindingStrToUri(resultSet, SSSQLVarNames.noteId), 
-        null, 
-        null);
+      return SSEvernoteResource.get(
+        resourceId, 
+        bindingStrToUri(resultSet, SSSQLVarNames.noteId));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

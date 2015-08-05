@@ -6,7 +6,7 @@ ADD CONSTRAINT `tagIdFKtagass`
   ON UPDATE NO ACTION;
 
 ALTER TABLE `sss`.`tagass` 
-ADD COLUMN `circleId` VARCHAR(200) NULL AFTER `creationTime`,
+ADD COLUMN `circleId` VARCHAR(150) NULL AFTER `creationTime`,
 ADD INDEX `circleIdFKtagass_idx` (`circleId` ASC);
 ALTER TABLE `sss`.`tagass` 
 ADD CONSTRAINT `circleIdFKtagass`
@@ -16,7 +16,7 @@ ADD CONSTRAINT `circleIdFKtagass`
   ON UPDATE NO ACTION;
 
 ALTER TABLE `sss`.`categoryass` 
-ADD COLUMN `circleId` VARCHAR(200) NULL AFTER `creationTime`,
+ADD COLUMN `circleId` VARCHAR(150) NULL AFTER `creationTime`,
 ADD INDEX `circleIdFKcategoryass_idx` (`circleId` ASC);
 ALTER TABLE `sss`.`categoryass` 
 ADD CONSTRAINT `circleIdFKcategoryass`

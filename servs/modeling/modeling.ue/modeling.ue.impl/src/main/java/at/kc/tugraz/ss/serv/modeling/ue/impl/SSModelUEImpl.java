@@ -39,16 +39,13 @@ import at.kc.tugraz.ss.serv.modeling.ue.datatypes.pars.SSModelUERelatedPersonsPa
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.pars.SSModelUEEntityDetailsPar;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.pars.SSModelUEEntityRecentPar;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.pars.SSModelUEEntitiesContributedPar;
-import at.kc.tugraz.ss.serv.modeling.ue.datatypes.pars.SSModelUEEntitiesForForMiGetPar;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.pars.SSModelUETopicRecentPar;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.pars.SSModelUETopicScoresPar;
 import at.kc.tugraz.ss.serv.modeling.ue.utils.SSModelUEU;
 import at.tugraz.sss.serv.SSServPar;
-import at.kc.tugraz.ss.serv.modeling.ue.datatypes.enums.SSModelUEMIEnum;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.rets.SSModelUEMIsForEntityGetRet;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.rets.SSModelUERelatedPersonsRet;
 import at.tugraz.sss.serv.SSConfA;
-import at.tugraz.sss.serv.caller.SSServCaller;
 import at.tugraz.sss.util.SSServCallerU;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUE;
 import java.util.*;

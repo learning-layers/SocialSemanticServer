@@ -96,14 +96,13 @@ public class SSRESTFlag{
       
       par =
         new SSFlagsGetPar(
-          SSServOpE.flagsGet,
-          null,
           null,  
           input.entities,
           input.types, 
           input.startTime, 
           input.endTime,
-          true); //withUserRestriction
+          true, //withUserRestriction
+          true); //invokeEntityHandlers
       
     }catch(Exception error){
       return Response.status(422).build();

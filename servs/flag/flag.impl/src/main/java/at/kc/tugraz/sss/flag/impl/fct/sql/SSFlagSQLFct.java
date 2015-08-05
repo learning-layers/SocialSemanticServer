@@ -28,6 +28,8 @@ import at.tugraz.sss.serv.SSDBSQLFct;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.kc.tugraz.sss.flag.datatypes.SSFlag;
 import at.kc.tugraz.sss.flag.datatypes.SSFlagE;
+import at.tugraz.sss.serv.SSEntity;
+import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSServErrReg;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -43,7 +45,63 @@ public class SSFlagSQLFct extends SSDBSQLFct{
     super(dbSQL);
   }
   
-  public List<SSFlag> getFlags(
+  public SSFlag getFlag(
+    final SSUri flag) throws Exception {
+    
+    ResultSet resultSet = null;
+    
+    try{
+      
+      final List<String>        columns        = new ArrayList<>();
+      final List<String>        tables         = new ArrayList<>();
+      final Map<String, String> wheres         = new HashMap<>();
+      final List<String>        tableCons      = new ArrayList<>();
+      Long                      endTimeForFlag = null;
+      Integer                   value          = null;
+      
+      column   (columns, SSSQLVarNames.flagTable,      SSSQLVarNames.flagId);
+      column   (columns, SSSQLVarNames.flagTable,      SSSQLVarNames.type);
+      column   (columns, SSSQLVarNames.flagTable,      SSSQLVarNames.value);
+      column   (columns, SSSQLVarNames.flagTable,      SSSQLVarNames.endTime);
+      column   (columns, SSSQLVarNames.flagsTable,     SSSQLVarNames.userId);
+      column   (columns, SSSQLVarNames.flagsTable,     SSSQLVarNames.entityId);
+      
+      table(tables, SSSQLVarNames.flagTable);
+      table(tables, SSSQLVarNames.flagsTable);
+      
+      where(wheres, SSSQLVarNames.flagId, flag);
+      
+      tableCon (tableCons, SSSQLVarNames.flagTable,  SSSQLVarNames.flagId, SSSQLVarNames.flagsTable, SSSQLVarNames.flagId);
+      
+      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
+      
+      checkFirstResult(resultSet);
+      
+      try{
+        endTimeForFlag = bindingStrToLong(resultSet, SSSQLVarNames.endTime);
+      }catch(Exception error){}
+      
+      try{
+        value = bindingStrToInteger(resultSet, SSSQLVarNames.value);
+      }catch(Exception error){}
+      
+      return SSFlag.get(
+        bindingStrToUri     (resultSet, SSSQLVarNames.flagId),
+        SSEntity.get        (bindingStrToUri(resultSet, SSSQLVarNames.userId),   SSEntityE.entity),
+        SSEntity.get        (bindingStrToUri(resultSet, SSSQLVarNames.entityId), SSEntityE.entity),
+        SSFlagE.get         (bindingStr(resultSet, SSSQLVarNames.type)),
+        endTimeForFlag,
+        value);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
+    }
+  }
+  
+  public List<SSUri> getFlagURIs(
     final List<SSUri>   users,
     final List<SSUri>   entities,
     final List<SSFlagE> types,
@@ -53,25 +111,19 @@ public class SSFlagSQLFct extends SSDBSQLFct{
     ResultSet resultSet = null;
       
     try{
-      final List<SSFlag>                         flags          = new ArrayList<>();
+      final List<SSUri>                          flagURIs       = new ArrayList<>();
       final List<MultivaluedMap<String, String>> wheres         = new ArrayList<>();
       final List<String>                         tables         = new ArrayList<>();
       final List<String>                         columns        = new ArrayList<>();
       final List<String>                         tableCons      = new ArrayList<>();
       Long                                       timestamp;
-      Long                                       endTimeForFlag;
-      Integer                                    value;
-      SSFlag                                     flagObj;
 
       table    (tables, SSSQLVarNames.flagTable);
       table    (tables, SSSQLVarNames.flagsTable);
       table    (tables, SSSQLVarNames.entityTable);
       
-      column   (columns, SSSQLVarNames.entityTable,   SSSQLVarNames.id);
       column   (columns, SSSQLVarNames.entityTable,   SSSQLVarNames.creationTime);
       column   (columns, SSSQLVarNames.flagTable,     SSSQLVarNames.type);
-      column   (columns, SSSQLVarNames.flagTable,     SSSQLVarNames.endTime);
-      column   (columns, SSSQLVarNames.flagTable,     SSSQLVarNames.value);
       column   (columns, SSSQLVarNames.flagsTable,    SSSQLVarNames.userId);
       column   (columns, SSSQLVarNames.flagsTable,    SSSQLVarNames.entityId);
 
@@ -135,32 +187,11 @@ public class SSFlagSQLFct extends SSDBSQLFct{
           continue;
         }
         
-        try{
-          endTimeForFlag = bindingStrToLong(resultSet, SSSQLVarNames.endTime);
-        }catch(Exception error){
-          endTimeForFlag = null;
-        }
-        
-        try{
-          value = bindingStrToInteger(resultSet, SSSQLVarNames.value);
-        }catch(Exception error){
-          value = null;
-        }
-        
-        flagObj = 
-          SSFlag.get(bindingStrToUri  (resultSet, SSSQLVarNames.id),
-            bindingStrToUri  (resultSet, SSSQLVarNames.userId),
-            bindingStrToUri  (resultSet, SSSQLVarNames.entityId),
-            SSFlagE.get      (bindingStr(resultSet, SSSQLVarNames.type)),
-            endTimeForFlag,
-            value);
-              
-        flagObj.creationTime = timestamp;
-        
-        flags.add(flagObj);
+        SSUri.addDistinctWithoutNull(flagURIs, bindingStrToUri  (resultSet, SSSQLVarNames.flagId));
       }
       
-      return flags;
+      return flagURIs;
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -223,48 +254,6 @@ public class SSFlagSQLFct extends SSDBSQLFct{
       SSServErrReg.regErrThrow(error);
     }
   }
-  
-  public List<SSUri> getFlagURIs(
-    final SSUri   user,
-    final SSFlagE flag,
-    final SSUri   entity) throws Exception{
-    
-    ResultSet resultSet;
-    
-    try{
-      
-      final Map<String, String> wheres    = new HashMap<>();
-      final List<String>        columns   = new ArrayList<>();
-      final List<String>        tables    = new ArrayList<>();
-      final List<String>        tableCons = new ArrayList<>();
-      
-      column(columns, SSSQLVarNames.flagTable, SSSQLVarNames.flagId);
-      
-      where(wheres, SSSQLVarNames.userId, user);
-      
-      table(tables, SSSQLVarNames.flagTable);
-      table(tables, SSSQLVarNames.flagsTable);
-      
-      tableCon(tableCons, SSSQLVarNames.flagTable, SSSQLVarNames.flagId, SSSQLVarNames.flagsTable, SSSQLVarNames.flagId);
-      
-      if(entity != null){
-        where(wheres, SSSQLVarNames.entityId, entity);
-      }
-      
-      if(flag != null){
-        where(wheres, SSSQLVarNames.type, flag);
-      }
-      
-      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
-      
-      return getURIsFromResult(resultSet, SSSQLVarNames.flagId);
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
   
   public void deleteFlagAss(
     final SSUri   user,

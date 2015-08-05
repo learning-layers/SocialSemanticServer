@@ -66,11 +66,13 @@ implements
   SSDescribeEntityI{
 
   private final SSImageSQLFct         sqlFct;
+  private final SSEntityServerI       entityServ;
   
   public SSImageImpl(final SSConfA conf) throws Exception{
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
     
-     sqlFct = new SSImageSQLFct   (this);
+     this.sqlFct     = new SSImageSQLFct   (this);
+     this.entityServ = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
   }
   
   @Override
@@ -88,7 +90,7 @@ implements
           case evernoteResource:{
             
             entity.thumb =
-              ((SSImageServerI) SSServReg.getServ(SSImageServerI.class)).imageBase64Get(
+              imageBase64Get(
                 new SSImageBase64GetPar(
                   null,
                   null,
@@ -241,7 +243,7 @@ implements
       
       dbSQL.startTrans(par.shouldCommit);
       
-      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+      entityServ.entityUpdate(
         new SSEntityUpdatePar(
           null, 
           null, 
@@ -263,7 +265,7 @@ implements
       
       if(par.entity != null){
         
-        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+        entityServ.entityUpdate(
           new SSEntityUpdatePar(
             null,
             null,

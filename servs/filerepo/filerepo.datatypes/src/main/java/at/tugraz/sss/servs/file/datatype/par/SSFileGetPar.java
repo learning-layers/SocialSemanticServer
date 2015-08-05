@@ -25,33 +25,31 @@ import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 
-public class SSEntityFilesGetPar extends SSServPar{
+public class SSFileGetPar extends SSServPar{
   
-  public SSUri   entity               = null;
+  public SSUri   file                  = null;
   public Boolean invokeEntityHandlers = false;
     
-  public String getEntity(){
-    return SSStrU.removeTrailingSlash(entity);
+  public String getFile(){
+    return SSStrU.removeTrailingSlash(file);
   }
 
-  public void setEntity(final String entity) throws Exception{
-   this.entity = SSUri.get(entity);
+  public void setFile(final String file) throws Exception{
+   this.file = SSUri.get(file);
   }
   
-  public SSEntityFilesGetPar(){}
+  public SSFileGetPar(){}
     
-  public SSEntityFilesGetPar(
-    final SSServOpE     op,
-    final String        key,
+  public SSFileGetPar(
     final SSUri         user,
-    final SSUri         entity, 
-    final Boolean       withUserRestriction,
+    final SSUri         file, 
+    final Boolean       withUserRestriction, 
     final Boolean       invokeEntityHandlers){
       
-    super(op, key, user);
+    super(SSServOpE.fileGet, null, user);
     
-    this.entity                 = entity;
-    this.withUserRestriction    = withUserRestriction;
+    this.file                = file;
+    this.withUserRestriction   = withUserRestriction;
     this.invokeEntityHandlers   = invokeEntityHandlers;
   }
 }

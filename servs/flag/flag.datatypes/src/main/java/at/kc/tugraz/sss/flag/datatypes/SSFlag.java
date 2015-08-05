@@ -29,27 +29,104 @@ import java.util.Map;
 
 public class SSFlag extends SSEntity{
   
-  public SSUri   user          = null;
-  public SSUri   entity        = null;
-  public SSFlagE flagType      = null;
-  public Long    endTime       = null;
-  public Integer value         = null;
+  public SSEntity   user          = null;
+  public SSEntity   entity        = null;
+  public SSFlagE    flagType      = null;
+  public Long       endTime       = null;
+  public Integer    value         = null;
+  
+  public String getFlagType() throws Exception{
+    return SSStrU.toStr(flagType);
+  }
+  
+  @Override
+  public Object jsonLDDesc(){
+  
+    final Map<String, Object> ld = (Map<String, Object>) super.jsonLDDesc();
+    
+    ld.put(SSVarNames.user,         SSVarNames.sss + SSStrU.colon + SSEntity.class.getName());
+    ld.put(SSVarNames.entity,       SSVarNames.sss + SSStrU.colon + SSEntity.class.getName());
+    ld.put(SSVarNames.flagType,     SSVarNames.sss + SSStrU.colon + SSFlagE.class.getName());
+    ld.put(SSVarNames.endTime,      SSVarNames.xsd + SSStrU.colon + SSStrU.valueLong);
+    ld.put(SSVarNames.value,        SSVarNames.xsd + SSStrU.colon + SSStrU.valueInteger);
+    
+    return ld;
+  }
   
   public static SSFlag get(
-    final SSUri   id,
-    final SSUri   user,
-    final SSUri   entity,
-    final SSFlagE flagType,
-    final Long    endTime,
-    final Integer value) throws Exception{
+    final SSFlag     flag,
+    final SSEntity   entity) throws Exception{
+    
+    return new SSFlag(flag, entity);
+  }
+  
+  public SSFlag(
+    final SSFlag     flag,
+    final SSEntity   entity) throws Exception{
+   
+    super(flag, entity);
+
+    if(flag.user != null){
+      this.user = flag.user;
+    }else{
+      
+      if(entity instanceof SSFlag){
+        this.user = ((SSFlag) entity).user;
+      }
+    }
+    
+    if(flag.entity != null){
+      this.entity = flag.entity;
+    }else{
+      
+      if(entity instanceof SSFlag){
+        this.entity = ((SSFlag) entity).entity;
+      }
+    }
+    
+    if(flag.flagType != null){
+      this.flagType = flag.flagType;
+    }else{
+      
+      if(entity instanceof SSFlag){
+        this.flagType = ((SSFlag) entity).flagType;
+      }
+    }
+    
+    if(flag.endTime != null){
+      this.endTime = flag.endTime;
+    }else{
+      
+      if(entity instanceof SSFlag){
+        this.endTime = ((SSFlag) entity).endTime;
+      }
+    }
+    
+    if(flag.value != null){
+      this.value = flag.value;
+    }else{
+      
+      if(entity instanceof SSFlag){
+        this.value = ((SSFlag) entity).value;
+      }
+    }
+  }
+    
+  public static SSFlag get(
+    final SSUri      id,
+    final SSEntity   user,
+    final SSEntity   entity,
+    final SSFlagE    flagType,
+    final Long       endTime,
+    final Integer    value) throws Exception{
     
     return new SSFlag(id, user, entity, flagType, endTime, value);
   }
   
   protected SSFlag(
     final SSUri   id,
-    final SSUri   user,
-    final SSUri   entity,
+    final SSEntity   user,
+    final SSEntity   entity,
     final SSFlagE flagType,
     final Long    endTime,
     final Integer value) throws Exception{
@@ -61,32 +138,5 @@ public class SSFlag extends SSEntity{
     this.flagType     = flagType;
     this.endTime      = endTime;
     this.value        = value;
-  }
-
-  @Override
-  public Object jsonLDDesc(){
-  
-    final Map<String, Object> ld = (Map<String, Object>) super.jsonLDDesc();
-    
-    ld.put(SSVarNames.user,         SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarNames.entity,       SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarNames.flagType,     SSVarNames.sss + SSStrU.colon + SSFlagE.class.getName());
-    ld.put(SSVarNames.endTime,      SSVarNames.xsd + SSStrU.colon + SSStrU.valueLong);
-    ld.put(SSVarNames.value,        SSVarNames.xsd + SSStrU.colon + SSStrU.valueInteger);
-    
-    return ld;
-  }
-  
-  /* json getters */
-  public String getUser() throws Exception{
-    return SSStrU.removeTrailingSlash(user);
-  }
-  
-  public String getEntity() throws Exception{
-    return SSStrU.removeTrailingSlash(entity);
-  }
-  
-  public String getFlagType() throws Exception{
-    return SSStrU.toStr(flagType);
   }
 }

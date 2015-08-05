@@ -60,12 +60,14 @@ implements
   SSFriendServerI,
   SSDescribeEntityI{
   
-  private final SSFriendSQLFct sqlFct;
+  private final SSFriendSQLFct  sqlFct;
+  private final SSEntityServerI entityServ;
   
   public SSFriendImpl(final SSConfA conf) throws Exception{
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
     
-    this.sqlFct = new SSFriendSQLFct(dbSQL);
+    this.sqlFct     = new SSFriendSQLFct(dbSQL);
+    this.entityServ = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
   }
   
   @Override
@@ -115,7 +117,7 @@ implements
       
       return SSFriend.get(
         sqlFct.getFriend(par.friend),
-        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+        entityServ.entityGet(
           new SSEntityGetPar(
             null, 
             null, 
@@ -141,15 +143,16 @@ implements
   }
   
   @Override
-  public List<SSFriend> friendsGet(final SSFriendsGetPar par) throws Exception{
+  public List<SSEntity> friendsGet(final SSFriendsGetPar par) throws Exception{
     
     try{
       
-      final List<SSFriend> result = new ArrayList<>();
+      final List<SSEntity> result = new ArrayList<>();
       
       for(SSUri friend : sqlFct.getFriends(par.user)){
         
-        result.add(
+        SSEntity.addEntitiesDistinctWithoutNull(
+          result,
           friendGet(
             new SSFriendGetPar(
               null, 

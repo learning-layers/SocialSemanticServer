@@ -94,7 +94,7 @@ public class SSEntity extends SSEntityA{
   @ApiModelProperty(
     required = false,
     value = "discussions about")
-  public List<SSEntityA>     discs            = new ArrayList<>(); //new
+  public List<SSEntity>     discs            = new ArrayList<>(); //new
   
   @ApiModelProperty(
     required = false,
@@ -109,7 +109,7 @@ public class SSEntity extends SSEntityA{
   @ApiModelProperty(
     required = false,
     value = "physical file")
-  public SSUri               file             = null; //new
+  public SSEntity               file             = null; //new
   
   @ApiModelProperty(
     required = false,
@@ -168,14 +168,6 @@ public class SSEntity extends SSEntityA{
   
   public List<String> getComments() throws Exception{
     return SSStrU.toStr(comments);
-  }
-  
-  public List<String> getDiscs() throws Exception{
-    return SSStrU.removeTrailingSlash(discs);
-  }
-  
-  public String getFile(){
-    return SSStrU.removeTrailingSlash(file);
   }
   
   public static SSEntity get(

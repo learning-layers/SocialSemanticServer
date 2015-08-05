@@ -24,6 +24,7 @@ import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.kc.tugraz.ss.service.filerepo.api.SSFileRepoServerI;
+import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSFileExtE;
 import at.tugraz.sss.serv.SSFileU;
 import at.tugraz.sss.serv.SSLogU;
@@ -98,18 +99,19 @@ public class SSDataImportEvernoteResourceContentHandler{
           true, //withUserRestriction
           false)); //shouldCommit)
       
-      for(SSUri file :((SSFileRepoServerI) SSServReg.getServ(SSFileRepoServerI.class)).filesGet(
+      for(SSEntity file :((SSFileRepoServerI) SSServReg.getServ(SSFileRepoServerI.class)).filesGet(
         new SSEntityFilesGetPar(
           null,
           null,
           user,
           resourceUri, //entity
-          true))){ //withUserRestriction
+          true, //withUserRestriction
+        false))){  //invokeEntityHandlers
         
-        SSServCaller.entityRemove(file, false);
+        SSServCaller.entityRemove(file.id, false);
         
         try{
-          SSFileU.delFile(localWorkPath + SSVocConf.fileIDFromSSSURI(file));
+          SSFileU.delFile(localWorkPath + SSVocConf.fileIDFromSSSURI(file.id));
           
         }catch(Exception error){
           SSLogU.warn("evernote resource file couldnt be removed");
