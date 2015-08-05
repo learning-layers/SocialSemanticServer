@@ -464,6 +464,7 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
         
         ((SSCircleContentAddedI) serv.serv()).circleContentAdded(
           new SSCircleContentChangedPar(
+            null, 
             user4,
             circle3Uri, //circle
             false, //isPublicCircle
@@ -540,6 +541,7 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
         
         ((SSCircleContentAddedI) serv.serv()).circleContentAdded(
           new SSCircleContentChangedPar(
+            null, 
             user3,
             circle2Uri, //circle
             false, //isPublicCircle
@@ -633,6 +635,7 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
         
         ((SSCircleContentAddedI) serv.serv()).circleContentAdded(
           new SSCircleContentChangedPar(
+            null, 
             user1,
             circle1Uri, //circle
             false, //isPublicCircle
@@ -710,6 +713,7 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
         
         ((SSCircleContentAddedI) serv.serv()).circleContentAdded(
           new SSCircleContentChangedPar(
+            null, 
             user2,
             circle1Uri, //circle
             false, //isPublicCircle
@@ -842,6 +846,7 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
         
         ((SSCircleContentAddedI) serv.serv()).circleContentAdded(
           new SSCircleContentChangedPar(
+            null, 
             adminUri,
             circle4Uri, //circle
             false, //isPublicCircle
@@ -908,6 +913,7 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
         
         ((SSCircleContentAddedI) serv.serv()).circleContentAdded(
           new SSCircleContentChangedPar(
+            null, 
             adminUri,
             circle3Uri, //circle
             false, //isPublicCircle
@@ -974,6 +980,7 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
         
         ((SSCircleContentAddedI) serv.serv()).circleContentAdded(
           new SSCircleContentChangedPar(
+            null, 
             adminUri,
             circle2Uri, //circle
             false, //isPublicCircle
@@ -1044,6 +1051,7 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
         
         ((SSCircleContentAddedI) serv.serv()).circleContentAdded(
           new SSCircleContentChangedPar(
+            null, 
             adminUri,
             circle1Uri, //circle
             false, //isPublicCircle

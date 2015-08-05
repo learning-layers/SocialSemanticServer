@@ -22,7 +22,6 @@ package at.tugraz.sss.serv.caller;
 
 import at.kc.tugraz.socialserver.service.broadcast.datatypes.SSBroadcast;
 import at.kc.tugraz.socialserver.service.broadcast.datatypes.enums.SSBroadcastEnum;
-import at.kc.tugraz.ss.like.datatypes.SSLikes;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteInfo;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.ret.SSAuthCheckCredRet;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
@@ -377,32 +376,8 @@ public class SSServCaller {
   
   /* modeling user event */
 
-  public static List<SSUri> modelUEEntitiesForMiGet(
-    final SSUri    user, 
-    final String   mi) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.user, user);
-    opPars.put(SSVarNames.mi,   mi);
-    
-    return (List<SSUri>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.modelUEEntitiesForMiGet, opPars));
-  }
-  
   public static void modelUEUpdate() throws Exception{
     SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.modelUEUpdate, new HashMap<>()));
-  }
-  
-  public static List<String> modelUEMIsForEntityGet(
-    final SSUri user,
-    final SSUri entity) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.user,        user);
-    opPars.put(SSVarNames.entity,   entity);
-    
-    return (List<String>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.modelUEMIsForEntityGet, opPars));
   }
   
   /* data export */

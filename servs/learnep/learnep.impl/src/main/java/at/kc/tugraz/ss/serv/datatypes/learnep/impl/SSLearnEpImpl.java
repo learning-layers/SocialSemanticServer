@@ -38,6 +38,7 @@ import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpEntity;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpTimelineState;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpVersion;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpCreatePar;
+import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpGetPar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpLockHoldPar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpLockRemovePar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpLockSetPar;
@@ -96,8 +97,11 @@ import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSDescribeEntityI;
 import at.tugraz.sss.serv.SSEntity;
+import at.tugraz.sss.serv.SSEntityCopiedI;
+import at.tugraz.sss.serv.SSEntityCopiedPar;
 import at.tugraz.sss.serv.SSEntityCopyPar;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
+import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.tugraz.sss.util.SSServCallerU;
@@ -105,6 +109,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import at.tugraz.sss.serv.SSErrE;
+import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSUsersResourcesGathererI;
@@ -122,15 +127,18 @@ implements
   private final SSLearnEpSQLFct  sqlFct;
   private final SSLearnEpConf    learnEpConf;
   private final SSLearnEpMiscFct miscFct;
+  private final SSEntityServerI  entityServ;
+  private final SSCircleServerI  circleServ;
   
   public SSLearnEpImpl(final SSConfA conf) throws Exception{
     
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
     
-//    graphFct  = new SSLearnEpGraphFct (this);
-    learnEpConf   = (SSLearnEpConf) conf;
-    sqlFct        = new SSLearnEpSQLFct(this);
-    miscFct       = new SSLearnEpMiscFct();
+    learnEpConf     = (SSLearnEpConf) conf;
+    this.sqlFct     = new SSLearnEpSQLFct(this);
+    this.miscFct    = new SSLearnEpMiscFct();
+    this.entityServ = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
+    this.circleServ = (SSCircleServerI) SSServReg.getServ(SSCircleServerI.class);
   }
   
   @Override
@@ -138,7 +146,22 @@ implements
     final SSEntity             entity,
     final SSEntityDescriberPar par) throws Exception{
     
-    return entity;
+    switch(entity.type){
+    
+      case learnEp:{
+        
+        return SSLearnEp.get(
+          learnEpGet(
+            new SSLearnEpGetPar(
+              par.user,
+              entity.id,
+              par.withUserRestriction,
+              false)),
+          entity);
+      }
+      
+      default: return entity;
+    }
   }
   
   @Override
@@ -148,19 +171,19 @@ implements
     
     for(String user : allUsers){
       
-      for(SSUri learnEp : sqlFct.getLearnEpURIs(SSUri.get(user))){
+      for(SSUri learnEp : sqlFct.getLearnEpURIsForUser(SSUri.get(user))){
         
         for(SSUri versionUri : sqlFct.getLearnEpVersionURIs(learnEp)){
           
-          for(SSLearnEpEntity entity : sqlFct.getLearnEpVersion(versionUri, false).learnEpEntities){
+          for(SSEntity entity : sqlFct.getLearnEpVersion(versionUri).learnEpEntities){
             
             if(usersResources.containsKey(user)){
-              usersResources.get(user).add(entity.entity.id);
+              usersResources.get(user).add(((SSLearnEpEntity)entity).entity.id);
             }else{
               
               final List<SSUri> resourceList = new ArrayList<>();
               
-              resourceList.add(entity.entity.id);
+              resourceList.add(((SSLearnEpEntity)entity).entity.id);
               
               usersResources.put(user, resourceList);
             }
@@ -178,11 +201,21 @@ implements
   public void circleContentAdded(final SSCircleContentChangedPar par) throws Exception{
     
     try{
+      
+      final List<SSUri>    learnEpContentURIs = new ArrayList<>();
+      final List<SSEntity> entitiesToAdd      = new ArrayList<>();
+      
       for(SSEntity entityToAdd : par.entitiesToAdd){
         
         switch(entityToAdd.type){
           
           case learnEp:{
+            
+            if(SSStrU.contains(par.recursiveEntities, entityToAdd)){
+              continue;
+            }else{
+              SSUri.addDistinctWithoutNull(par.recursiveEntities, entityToAdd.id);
+            }
             
             for(SSUri userToPushEntityTo : par.usersToPushEntitiesTo){
               
@@ -193,19 +226,23 @@ implements
               sqlFct.addLearnEp(entityToAdd.id, userToPushEntityTo);
             }
             
-            ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleEntitiesAdd(
+            learnEpContentURIs.clear();
+            
+            learnEpContentURIs.addAll(miscFct.getLearnEpContentURIs(par.user, sqlFct, entityToAdd.id));
+              
+            circleServ.circleEntitiesAdd(
               new SSCircleEntitiesAddPar(
                 null,
                 null,
                 par.user,
                 par.circle,
-                miscFct.getLearnEpContentURIs(par.user, sqlFct, entityToAdd.id),
+                learnEpContentURIs,
                 false,
                 false));
             
             if(!par.usersToPushEntitiesTo.isEmpty()){
               
-              ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleUsersAdd(
+              circleServ.circleUsersAdd(
                 new SSCircleUsersAddPar(
                   null,
                   null,
@@ -219,6 +256,46 @@ implements
                 par.user,
                 entityToAdd.id,
                 par.usersToPushEntitiesTo);
+            }
+            
+            //call circleContentAddAgain for all those entities added from within the learn ep
+            entitiesToAdd.clear();
+            
+            for(SSUri learnEpContentURI : learnEpContentURIs){
+              
+              if(SSStrU.contains(par.recursiveEntities, learnEpContentURI)){
+                continue;
+              }
+              
+              entitiesToAdd.add(
+                entityServ.entityGet(
+                  new SSEntityGetPar(
+                    null, 
+                    null, 
+                    par.user, 
+                    learnEpContentURI, 
+                    true, 
+                    null)));
+                
+              par.recursiveEntities.add(learnEpContentURI);
+            }
+            
+            if(!entitiesToAdd.isEmpty()){
+              
+              for(SSServContainerI serv : SSServReg.inst.getServsHandlingCircleContentAdded()){
+
+                ((SSCircleContentAddedI) serv.serv()).circleContentAdded(
+                  new SSCircleContentChangedPar(
+                    SSUri.getDistinctNotNullFromEntities(entitiesToAdd), //recursiveEntitiesToAdd
+                    par.user,
+                    par.circle,
+                    par.isCirclePublic, //isPublicCircle
+                    par.usersToAdd,  //usersToAdd
+                    entitiesToAdd, //entitiesToAdd,
+                    par.usersToPushEntitiesTo,  //usersToPushEntitiesTo
+                    par.circleUsers, //circleUsers
+                    par.circleEntities)); //circleEntities
+              }
             }
             
             break;
@@ -241,12 +318,23 @@ implements
         return;
       }
       
-      final SSLearnEp learnEp = sqlFct.getLearnEpWithVersions(par.user, entity.id, true);
-      SSUri           copyVersionUri;
-      SSUri           copyLearnEpUri;
+      final List<SSEntity> copiedEntities = new ArrayList<>();
+      SSUri                copyVersionUri;
+      SSUri                copyLearnEpUri;
+      SSEntityCopiedPar    entityCopiedPar;
+      
+      final SSLearnEp learnEp = 
+        learnEpGet(
+          new SSLearnEpGetPar(
+            par.user, 
+            entity.id, 
+            par.withUserRestriction, 
+            true)); //invokeEntityHandlers
 
       for(SSUri forUser : par.forUsers){
         
+        copiedEntities.clear();
+          
         copyLearnEpUri =
           learnEpCreate(
             new SSLearnEpCreatePar(
@@ -257,7 +345,7 @@ implements
               learnEp.description,
               false));
         
-        for(SSLearnEpVersion version : learnEp.versions){
+        for(SSEntity version : learnEp.entries){
           
           copyVersionUri =
             learnEpVersionCreate(
@@ -268,7 +356,7 @@ implements
                 copyLearnEpUri,
                 false));
           
-          for(SSLearnEpCircle circle : version.learnEpCircles){
+          for(SSEntity circle : ((SSLearnEpVersion) version).learnEpCircles){
             
             if(SSStrU.contains(par.entitiesToExclude, circle.id)){
               continue;
@@ -281,47 +369,62 @@ implements
                 forUser,
                 copyVersionUri,
                 circle.label,
-                circle.xLabel,
-                circle.yLabel,
-                circle.xR,
-                circle.yR,
-                circle.xC,
-                circle.yC,
+                ((SSLearnEpCircle) circle).xLabel,
+                ((SSLearnEpCircle) circle).yLabel,
+                ((SSLearnEpCircle) circle).xR,
+                ((SSLearnEpCircle) circle).yR,
+                ((SSLearnEpCircle) circle).xC,
+                ((SSLearnEpCircle) circle).yC,
                 false));
           }
           
-          for(SSLearnEpEntity learnEpEntity : version.learnEpEntities){
+          for(SSEntity learnEpEntity : ((SSLearnEpVersion) version).learnEpEntities){
             
             if(
               SSStrU.contains(par.entitiesToExclude, learnEpEntity.id) ||
-              SSStrU.contains(par.entitiesToExclude, learnEpEntity.entity)){
+              SSStrU.contains(par.entitiesToExclude, ((SSLearnEpEntity) learnEpEntity).entity)){
               continue;
             }
             
             learnEpVersionEntityAdd(
               new SSLearnEpVersionEntityAddPar(
-              null,
-              null,
-              forUser,
-              copyVersionUri,
-              learnEpEntity.entity.id,
-              learnEpEntity.x,
-              learnEpEntity.y,
-              false));
+                null,
+                null,
+                forUser,
+                copyVersionUri,
+                ((SSLearnEpEntity) learnEpEntity).entity.id,
+                ((SSLearnEpEntity) learnEpEntity).x,
+                ((SSLearnEpEntity) learnEpEntity).y,
+                false));
+            
+            copiedEntities.add(((SSLearnEpEntity) learnEpEntity).entity);
           }
           
-          if(version.learnEpTimelineState != null){
+          if(((SSLearnEpVersion) version).learnEpTimelineState != null){
             
             learnEpVersionTimelineStateSet(
               new SSLearnEpVersionTimelineStateSetPar(
-              null,
-              null,
-              forUser,
-              copyVersionUri,
-              version.learnEpTimelineState.startTime,
-              version.learnEpTimelineState.endTime,
-              false));
+                null,
+                null,
+                forUser,
+                copyVersionUri,
+                ((SSLearnEpVersion) version).learnEpTimelineState.startTime,
+                ((SSLearnEpVersion) version).learnEpTimelineState.endTime,
+                false));
           }
+        }
+        
+        entityCopiedPar =
+          new SSEntityCopiedPar(
+            par.user,
+            forUser,
+            learnEp, //entity
+            copiedEntities, //entities
+            copyLearnEpUri, //targetEntity
+            par.withUserRestriction);
+        
+        for(SSServContainerI entityHandler : SSServReg.inst.getServsHandlingEntityCopied()){
+          ((SSEntityCopiedI) entityHandler.serv()).entityCopied(entityCopiedPar);
         }
       }
     }catch(Exception error){
@@ -340,47 +443,115 @@ implements
   }
 
   @Override
-  public List<SSLearnEp> learnEpsGet(final SSLearnEpsGetPar par) throws Exception{
+  public SSLearnEp learnEpGet(final SSLearnEpGetPar par) throws Exception{
 
     try{
-      final List<SSLearnEp>      learnEps = sqlFct.getLearnEps(par.user);
-      final SSEntityDescriberPar descPar  = new SSEntityDescriberPar(null);
+      
+      if(par.withUserRestriction){
+       
+        if(!SSServCallerU.canUserRead(par.user, par.learnEp)){
+          return null;
+        }
+      }
+      
+      final SSLearnEp             learnEp; 
+      SSEntityDescriberPar descPar;
+      
+      if(par.invokeEntityHandlers){
+        descPar                  = new SSEntityDescriberPar(par.learnEp);
+        descPar.setRead          = par.setRead;
+        descPar.setCircleTypes   = par.setCircleTypes;
+      }else{
+        descPar = null;
+      }
         
-      descPar.setRead          = true;
-      descPar.setCircleTypes   = true;
-        
-      for(SSLearnEp learnEp : learnEps){
+      learnEp =
+        SSLearnEp.get(
+          sqlFct.getLearnEp(par.learnEp),
+          entityServ.entityGet(
+            new SSEntityGetPar(
+              null,
+              null,
+              par.user,
+              par.learnEp,
+              par.withUserRestriction,
+              descPar)));
+      
+      if(par.invokeEntityHandlers){
+        descPar = new SSEntityDescriberPar(null);
+      }else{
+        descPar = null;
+      }
 
-        descPar.recursiveEntity = learnEp.id;
-        
-        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
-          new SSEntityGetPar(
+      SSEntity.addEntitiesDistinctWithoutNull(
+        learnEp.users,
+        entityServ.entitiesGet(
+          new SSEntitiesGetPar(
+            null,
+            null,
+            par.user,
+            sqlFct.getLearnEpUserURIs(learnEp.id),
+            null, //types,
+            descPar, //descPar
+            par.withUserRestriction))); //withUserRestriction
+      
+      SSEntity.addEntitiesDistinctWithoutNull(
+        learnEp.entries,
+        learnEpVersionsGet(
+          new SSLearnEpVersionsGetPar(
             null,
             null,
             par.user,
             learnEp.id,
             par.withUserRestriction,
-            descPar));
+            par.invokeEntityHandlers)));
         
-         learnEp.users.addAll(
-           ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
-             new SSEntitiesGetPar(
-               null,
-               null,
-               par.user,
-               sqlFct.getLearnEpUserURIs(learnEp.id),
-               null, //types,
-               null, //descPar
-               false))); //withUserRestriction
-         
-         if(!learnEpConf.useEpisodeLocking){
-           learnEp.locked       = false;
-           learnEp.lockedByUser = false;
-         }else{
-           
-           learnEp.locked       = SSLearnEpAccessController.isLocked (learnEp.id);
-           learnEp.lockedByUser = SSLearnEpAccessController.hasLock  (par.user, learnEp.id);
-         }
+      if(!learnEpConf.useEpisodeLocking){
+        learnEp.locked       = false;
+        learnEp.lockedByUser = false;
+      }else{
+        
+        learnEp.locked       = SSLearnEpAccessController.isLocked (learnEp.id);
+        learnEp.lockedByUser = SSLearnEpAccessController.hasLock  (par.user, learnEp.id);
+      }
+
+      return learnEp;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public List<SSEntity> learnEpsGet(final SSLearnEpsGetPar par) throws Exception{
+
+    try{
+      
+      if(par.withUserRestriction){
+        
+        if(par.user == null){
+          throw new SSErr(SSErrE.parameterMissing);
+        }
+      }
+      
+      final List<SSEntity> learnEps = new ArrayList<>();
+      SSLearnEpGetPar      learnEpGetPar;
+        
+      for(SSUri learnEpURI : sqlFct.getLearnEpURIsForUser(par.user)){
+
+        learnEpGetPar =
+          new SSLearnEpGetPar(
+            par.user,
+            learnEpURI,
+            par.withUserRestriction,
+            par.invokeEntityHandlers);
+        
+        learnEpGetPar.setRead        = par.setRead;
+        learnEpGetPar.setCircleTypes = par.setCircleTypes;
+        
+        SSEntity.addEntitiesDistinctWithoutNull(
+          learnEps, 
+          learnEpGet(learnEpGetPar));          
       }
 
       return learnEps;
@@ -401,74 +572,34 @@ implements
   }
   
   @Override
-  public List<SSLearnEpVersion> learnEpVersionsGet(final SSLearnEpVersionsGetPar par) throws Exception{
+  public List<SSEntity> learnEpVersionsGet(final SSLearnEpVersionsGetPar par) throws Exception{
 
     try{
-      final List<SSLearnEpVersion>  result = new ArrayList<>();
-      SSLearnEpVersion              learnEpVersion;
-      
-      SSServCallerU.canUserReadEntity(par.user, par.learnEp);
+
+      if(par.withUserRestriction){
+        
+        if(!SSServCallerU.canUserRead(par.user, par.learnEp)){
+          return new ArrayList<>();
+        }
+      }
+
+      final List<SSEntity> learnEpVersions        = new ArrayList<>();
       
       for(SSUri learnEpVersionUri : sqlFct.getLearnEpVersionURIs(par.learnEp)){
         
-//        learnEpVersion =
-//          SSLearnEpVersion.get(
-//            sqlFct.getLearnEpVersion(
-//              learnEpVersionUri,
-//              false),
-//            SSServCaller.entityDescGet(
-//              par.user,
-//              learnEpVersionUri,
-//              true,
-//              true,
-//              false,
-//              false,
-//              false,
-//              false));
-        
-        //        for(SSLearnEpCircle learnEpEntity : learnEpVersion.learnEpCircles){
-//          
-//          learnEpEntity =
-//            SSLearnEpEntity.get(
-//              learnEpEntity,
-//              SSServCaller.entityDescGet(
-//                par.user,
-//                learnEpEntity.id,
-//                true,
-//                true,
-//                false,
-//                false,
-//                false,
-//                false));
-//        }
-        
-        learnEpVersion =
-          sqlFct.getLearnEpVersion(
-            learnEpVersionUri,
-            false);
-        
-        final SSEntityDescriberPar descPar = new SSEntityDescriberPar(null);
-        
-        descPar.setOverallRating = true;
-        descPar.setTags          = true;
-        
-        for(SSLearnEpEntity learnEpEntity : learnEpVersion.learnEpEntities){
-          
-          learnEpEntity.entity =
-            ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
-              new SSEntityGetPar(
-                null,
-                null,
-                par.user,
-                learnEpEntity.entity.id,
-                par.withUserRestriction, //withUserRestriction
-                descPar)); //descPar
-        }
-
-        result.add(learnEpVersion);
+        SSEntity.addEntitiesDistinctWithoutNull(
+          learnEpVersions,
+          learnEpVersionGet(
+            new SSLearnEpVersionGetPar(
+              null,
+              null,
+              par.user,
+              learnEpVersionUri,
+              par.withUserRestriction,
+              par.invokeEntityHandlers)));
       }
-
-      return result;
+      
+      return learnEpVersions;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -490,33 +621,102 @@ implements
 
     try{
 
-      SSServCallerU.canUserReadEntity(par.user, par.learnEpVersion);
-      
-      final SSLearnEpVersion learnEpVersion =
-        sqlFct.getLearnEpVersion(
-          par.learnEpVersion,
-          false);
-      
-      final SSEntityDescriberPar descPar = new SSEntityDescriberPar(null);
-      
-      descPar.setTags          = true;
-      descPar.setOverallRating = true;
-      
-      for(SSLearnEpEntity learnEpEntity : learnEpVersion.learnEpEntities){
+      if(par.withUserRestriction){
         
-        learnEpEntity.entity =
-          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+        if(!SSServCallerU.canUserRead(par.user, par.learnEpVersion)){
+          return null;
+        }
+      }
+      
+      final List<SSEntity> learnEpVersionEntities = new ArrayList<>();
+      final List<SSEntity> learnEpVersionCircles  = new ArrayList<>();
+      SSEntityDescriberPar descPar;
+      SSLearnEpVersion     learnEpVersion;
+      
+      if(par.invokeEntityHandlers){
+        descPar = new SSEntityDescriberPar(par.learnEpVersion);
+      }else{
+        descPar = null;
+      }
+      
+      learnEpVersion =
+        SSLearnEpVersion.get(
+          sqlFct.getLearnEpVersion(par.learnEpVersion),
+          entityServ.entityGet(
             new SSEntityGetPar(
               null,
               null,
               par.user,
-              learnEpEntity.entity.id,
-              false, //withUserRestriction
-              descPar)); //descPar,
-      }
+              par.learnEpVersion,
+              par.withUserRestriction,
+              descPar)));
+      
+      for(SSEntity learnEpEntity : learnEpVersion.learnEpEntities){
         
+        descPar = null;
+        
+        SSEntity.addEntitiesDistinctWithoutNull(
+          learnEpVersionEntities,
+          SSLearnEpEntity.get(
+            (SSLearnEpEntity) learnEpEntity,
+            entityServ.entityGet(
+              new SSEntityGetPar(
+                null,
+                null,
+                par.user,
+                learnEpEntity.id,
+                par.withUserRestriction,
+                descPar)))); //descPar
+      }
+      
+      learnEpVersion.learnEpEntities.clear();
+      learnEpVersion.learnEpEntities.addAll(learnEpVersionEntities);
+      
+      for(SSEntity learnEpVersionEntity : learnEpVersionEntities){
+        
+        if(par.invokeEntityHandlers){
+          descPar = new SSEntityDescriberPar(((SSLearnEpEntity)learnEpVersionEntity).entity.id);
+          
+          descPar.setOverallRating = true;
+          descPar.setTags          = true;
+        }else{
+          descPar = null;
+        }
+        
+        ((SSLearnEpEntity)learnEpVersionEntity).entity =
+          entityServ.entityGet(
+            new SSEntityGetPar(
+              null,
+              null,
+              par.user,
+              ((SSLearnEpEntity)learnEpVersionEntity).entity.id,
+              par.withUserRestriction,
+              descPar));
+      }
+      
+      for(SSEntity learnEpCircle : learnEpVersion.learnEpCircles){
+        
+        descPar = null;
+        
+        SSEntity.addEntitiesDistinctWithoutNull(
+          learnEpVersionCircles,
+          SSLearnEpCircle.get(
+            (SSLearnEpCircle) learnEpCircle,
+            entityServ.entityGet(
+              new SSEntityGetPar(
+                null,
+                null,
+                par.user,
+                learnEpCircle.id,
+                par.withUserRestriction,
+                descPar)))); //descPar
+      }
+      
+      learnEpVersion.learnEpCircles.clear();
+      learnEpVersion.learnEpCircles.addAll(learnEpVersionCircles);
+      
       return learnEpVersion;
-
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -537,12 +737,18 @@ implements
   public SSUri learnEpRemove(final SSLearnEpRemovePar par) throws Exception{
 
     try{
-      SSServCallerU.canUserEditEntity(par.user, par.learnEp);
+      
+      if(par.withUserRestriction){
+      
+        if(!SSServCallerU.canUserEdit(par.user, par.learnEp)){
+          return null;
+        }
+      }
       
       dbSQL.startTrans(par.shouldCommit);
 
-      sqlFct.removeLearnEpForUser(par.user, par.learnEp);
-      sqlFct.deleteCurrentEpVersion(par.user);
+      sqlFct.removeLearnEpForUser   (par.user, par.learnEp);
+      sqlFct.deleteCurrentEpVersion (par.user);
       
       dbSQL.commit(par.shouldCommit);
 
@@ -588,13 +794,18 @@ implements
     try{
       final SSUri                     learnEpVersionUri = SSServCaller.vocURICreate();
 
-      SSServCallerU.canUserEditEntity(par.user, par.learnEp);
+      if(par.withUserRestriction){
+      
+        if(!SSServCallerU.canUserEdit(par.user, par.learnEp)){
+          return null;
+        }
+      }
       
       SSLearnEpAccessController.checkHasLock(learnEpConf, par.user, par.learnEp);
       
       dbSQL.startTrans(par.shouldCommit);
 
-      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+      entityServ.entityUpdate(
         new SSEntityUpdatePar(
           null,
           null,
@@ -611,7 +822,7 @@ implements
           false)); //shouldCommit)
 
       for(SSEntity entityUserCircle : 
-        ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlesGet(
+        circleServ.circlesGet(
           new SSCirclesGetPar(
             null, 
             null, 
@@ -622,7 +833,7 @@ implements
             true, //withSystemCircles
             false))){ //invokeEntityHandlers
 
-        ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleEntitiesAdd(
+        circleServ.circleEntitiesAdd(
           new SSCircleEntitiesAddPar(
             null, 
             null, 
@@ -678,7 +889,12 @@ implements
       final SSUri                        circleUri  = SSServCaller.vocURICreate();
       final SSUri                        learnEp;
       
-      SSServCallerU.canUserEditEntity        (par.user,    par.learnEpVersion);
+      if(par.withUserRestriction){
+      
+        if(!SSServCallerU.canUserEdit(par.user, par.learnEpVersion)){
+          return null;
+        }
+      }
 
       learnEp = sqlFct.getLearnEpForVersion(par.learnEpVersion);
       
@@ -686,7 +902,7 @@ implements
       
       dbSQL.startTrans(par.shouldCommit);
       
-      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+      entityServ.entityUpdate(
         new SSEntityUpdatePar(
           null,
           null,
@@ -703,7 +919,7 @@ implements
           false)); //shouldCommit)
       
       for(SSEntity entityUserCircle : 
-        ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlesGet(
+        circleServ.circlesGet(
           new SSCirclesGetPar(
             null, 
             null, 
@@ -714,7 +930,7 @@ implements
             true, 
             false))){
 
-        ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleEntitiesAdd(
+        circleServ.circleEntitiesAdd(
           new SSCircleEntitiesAddPar(
             null, 
             null, 
@@ -780,8 +996,15 @@ implements
       final List<SSUri>                  entities         = new ArrayList<>();
       final SSUri                        learnEp;
 
-      SSServCallerU.canUserEditEntity        (par.user,    par.learnEpVersion);
-      SSServCallerU.canUserEditEntity        (par.user,    par.entity);
+      if(par.withUserRestriction){
+      
+        if(
+          !SSServCallerU.canUserEdit(par.user, par.learnEpVersion) ||
+          !SSServCallerU.canUserEdit(par.user, par.entity)){
+          
+          return null;
+        }
+      }
 
       learnEp = sqlFct.getLearnEpForVersion(par.learnEpVersion);
       
@@ -789,7 +1012,7 @@ implements
 
       dbSQL.startTrans(par.shouldCommit);
       
-      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+      entityServ.entityUpdate(
         new SSEntityUpdatePar(
           null,
           null,
@@ -806,6 +1029,7 @@ implements
           false)); //shouldCommit)
             
       //TODO replace this parts with circleContentedChanged:
+      //0. first split / refactor circleContentChanged to. circleEntitiesAdded, circleUsersAdded, sharedWithUsers
       //1. dont retrieve entities for learn ep entity here anymore
       //2. extend circlesFromEntityEntitiesAdd to call "circleContentChanged" upon each circle to be touched
       //3. for each entity targeted in "circleContentChanged" call "circleContentChanged" for its affiliated entities
@@ -816,7 +1040,7 @@ implements
       entities.add   (par.entity);
       entities.addAll(miscFct.getLearnEpEntityAttachedEntities(par.user, par.entity));
       
-      ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlesFromEntityEntitiesAdd(
+      circleServ.circlesFromEntityEntitiesAdd(
         new SSCirclesFromEntityEntitiesAdd(
           null, 
           null, 
@@ -881,7 +1105,7 @@ implements
       
       dbSQL.startTrans(par.shouldCommit);
       
-      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+      entityServ.entityUpdate(
         new SSEntityUpdatePar(
           null,
           null,
@@ -938,7 +1162,12 @@ implements
 
     try{
 
-      SSServCallerU.canUserEditEntity        (par.user,    par.learnEpCircle);
+      if(par.withUserRestriction){
+        
+        if(!SSServCallerU.canUserEdit(par.user, par.learnEpCircle)){
+          return null;
+        }
+      }
 
       final SSUri learnEpVersion = sqlFct.getLearnEpVersionForCircle  (par.learnEpCircle);
       final SSUri learnEp        = sqlFct.getLearnEpForVersion        (learnEpVersion);
@@ -947,7 +1176,7 @@ implements
       
       dbSQL.startTrans(par.shouldCommit);
       
-      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+      entityServ.entityUpdate(
         new SSEntityUpdatePar(
           null,
           null,
@@ -1013,12 +1242,15 @@ implements
     
     try{
       
-      SSServCallerU.canUserEditEntity        (par.user, par.learnEpEntity);
-      
-      if(par.entity != null){
-        SSServCallerU.canUserEditEntity(par.user, par.entity);
+      if(par.withUserRestriction){
+        
+        if(
+          !SSServCallerU.canUserEdit(par.user, par.learnEpEntity) ||
+          !SSServCallerU.canUserEdit(par.user, par.entity)){
+          return null;
+        }
       }
-            
+      
       final SSUri learnEpVersion     = sqlFct.getLearnEpVersionForEntity(par.learnEpEntity);
       final SSUri learnEp            = sqlFct.getLearnEpForVersion      (learnEpVersion);
       
@@ -1028,7 +1260,7 @@ implements
       
       if(par.entity != null){
         
-        ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlesFromEntityEntitiesAdd(
+        circleServ.circlesFromEntityEntitiesAdd(
           new SSCirclesFromEntityEntitiesAdd(
             null,
             null,
@@ -1092,7 +1324,12 @@ implements
 
     try{
 
-      SSServCallerU.canUserEditEntity        (par.user,    par.learnEpCircle);
+      if(par.withUserRestriction){
+        
+        if(!SSServCallerU.canUserEdit(par.user, par.learnEpCircle)){
+          return null;
+        }
+      }
 
       final SSUri learnEpVersion     = sqlFct.getLearnEpVersionForCircle(par.learnEpCircle);
       final SSUri learnEp            = sqlFct.getLearnEpForVersion      (learnEpVersion);
@@ -1143,7 +1380,13 @@ implements
   public Boolean learnEpVersionEntityRemove(final SSLearnEpVersionEntityRemovePar par) throws Exception{
 
     try{
-      SSServCallerU.canUserEditEntity        (par.user,    par.learnEpEntity);
+      
+      if(par.withUserRestriction){
+        
+        if(!SSServCallerU.canUserEdit(par.user, par.learnEpEntity)){
+          return null;
+        }
+      }
 
       final SSUri learnEpVersion       = sqlFct.getLearnEpVersionForEntity       (par.learnEpEntity);
       final SSUri learnEp              = sqlFct.getLearnEpForVersion             (learnEpVersion);
@@ -1198,11 +1441,16 @@ implements
 
       final SSUri                               learnEpTimelineStateUri = SSServCaller.vocURICreate();
 
-      SSServCallerU.canUserEditEntity(par.user, par.learnEpVersion);
+      if(par.withUserRestriction){
+        
+        if(!SSServCallerU.canUserEdit(par.user, par.learnEpVersion)){
+          return null;
+        }
+      }
       
       dbSQL.startTrans(par.shouldCommit);
       
-      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+      entityServ.entityUpdate(
         new SSEntityUpdatePar(
           null,
           null,
@@ -1218,7 +1466,7 @@ implements
           false, //withUserRestriction
           false)); //shouldCommit)
       
-      ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlesFromEntityEntitiesAdd(
+      circleServ.circlesFromEntityEntitiesAdd(
         new SSCirclesFromEntityEntitiesAdd(
           null,
           null,
@@ -1272,7 +1520,12 @@ implements
   public SSLearnEpTimelineState learnEpVersionTimelineStateGet(final SSLearnEpVersionTimelineStateGetPar par) throws Exception{
     try{
       
-      SSServCallerU.canUserReadEntity(par.user, par.learnEpVersion);
+      if(par.withUserRestriction){
+        
+        if(!SSServCallerU.canUserRead(par.user, par.learnEpVersion)){
+          return null;
+        }
+      }
       
       return sqlFct.getLearnEpVersionTimelineState(par.learnEpVersion);
     }catch(Exception error){
@@ -1296,30 +1549,15 @@ implements
     
     try{
       
-      final SSLearnEpVersion learnEpVersion =
-        sqlFct.getLearnEpVersion(
-          sqlFct.getLearnEpCurrentVersionURI(par.user),
-          false);
-      
-      final SSEntityDescriberPar descPar = new SSEntityDescriberPar(null);
-      
-      descPar.setTags          = true;
-      descPar.setOverallRating = true;
-        
-      for(SSLearnEpEntity learnEpEntity : learnEpVersion.learnEpEntities){
-        
-        learnEpEntity.entity =
-          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
-            new SSEntityGetPar(
-              null,
-              null,
-              par.user,
-              learnEpEntity.entity.id,
-              false, //withUserRestriction
-              descPar)); //descPar
-      }
-      
-      return learnEpVersion;
+      return learnEpVersionGet(
+        new SSLearnEpVersionGetPar(
+          null, 
+          null, 
+          par.user, 
+          sqlFct.getLearnEpVersion(sqlFct.getLearnEpCurrentVersionURI(par.user)).id,
+          par.withUserRestriction, 
+          par.invokeEntityHandlers));
+
     }catch(Exception error){
       
       if(SSServErrReg.containsErr(SSErrE.learnEpCurrentVersionNotSet)){
@@ -1349,7 +1587,12 @@ implements
 
     try{
 
-      SSServCallerU.canUserEditEntity(par.user, par.learnEpVersion);
+      if(par.withUserRestriction){
+        
+        if(!SSServCallerU.canUserEdit(par.user, par.learnEpVersion)){
+          return null;
+        }
+      }
       
       dbSQL.startTrans(par.shouldCommit);
 
@@ -1412,7 +1655,7 @@ implements
           }
         }else{
           
-          for(SSUri learnEp : sqlFct.getLearnEpURIs(par.user)){
+          for(SSUri learnEp : sqlFct.getLearnEpURIsForUser(par.user)){
             
             locks.add(
               learnEpLockHold(

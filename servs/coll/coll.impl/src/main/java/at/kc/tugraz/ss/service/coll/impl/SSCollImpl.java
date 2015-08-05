@@ -263,33 +263,46 @@ implements
     
     try{
     
+      final List<SSUri>    collContentURIs = new ArrayList<>();
+      final List<SSEntity> entitiesToAdd   = new ArrayList<>();
+      
       for(SSEntity entityToAdd : par.entitiesToAdd){
 
         switch(entityToAdd.type){
 
           case coll:{
-
+            
+            if(SSStrU.contains(par.recursiveEntities, entityToAdd)){
+              continue;
+            }else{
+              SSUri.addDistinctWithoutNull(par.recursiveEntities, entityToAdd.id);
+            }
+            
             if(sqlFct.isCollSpecial(entityToAdd.id)){
-
+              
               if(par.isCirclePublic){
                 throw new SSErr(SSErrE.cannotSetSpecialCollectionPublic);
               }
-
+              
               throw new SSErr(SSErrE.cannotShareSpecialCollection);
             }
-
+            
             try{
-
+              
+              collContentURIs.clear();
+              
+              collContentURIs.addAll(SSCollMiscFct.getCollSubCollAndEntryURIs(sqlFct, sqlFct.getCollWithEntries(entityToAdd.id)));
+              
               ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleEntitiesAdd(
                 new SSCircleEntitiesAddPar(
                   null,
                   null,
                   par.user,
                   par.circle,
-                  SSCollMiscFct.getCollSubCollAndEntryURIs(sqlFct, sqlFct.getCollWithEntries(entityToAdd.id)),
+                  collContentURIs,
                   false,
                   false));
-
+              
             }catch(Exception error){
               SSServErrReg.regErrThrow(error);
             }
@@ -336,6 +349,46 @@ implements
                   sqlFct.getCollUserURIs(entityToAdd.id),
                   false,
                   false));
+            }
+            
+            //call circleContentAddAgain for all those entities added from within the coll
+            entitiesToAdd.clear();
+            
+            for(SSUri collContentURI : collContentURIs){
+              
+              if(SSStrU.contains(par.recursiveEntities, collContentURI)){
+                continue;
+              }
+              
+              entitiesToAdd.add(
+                ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+                  new SSEntityGetPar(
+                    null,
+                    null,
+                    par.user,
+                    collContentURI,
+                    true,
+                    null)));
+              
+              par.recursiveEntities.add(collContentURI);
+            }
+            
+            if(!entitiesToAdd.isEmpty()){
+              
+              for(SSServContainerI serv : SSServReg.inst.getServsHandlingCircleContentAdded()){
+                
+                ((SSCircleContentAddedI) serv.serv()).circleContentAdded(
+                  new SSCircleContentChangedPar(
+                    SSUri.getDistinctNotNullFromEntities(entitiesToAdd), //recursiveEntitiesToAdd
+                    par.user,
+                    par.circle,
+                    par.isCirclePublic, //isPublicCircle
+                    par.usersToAdd,  //usersToAdd
+                    entitiesToAdd, //entitiesToAdd,
+                    par.usersToPushEntitiesTo,  //usersToPushEntitiesTo
+                    par.circleUsers, //circleUsers
+                    par.circleEntities)); //circleEntities
+              }
             }
             
             break;

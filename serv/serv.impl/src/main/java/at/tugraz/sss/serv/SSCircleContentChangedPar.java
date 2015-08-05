@@ -25,6 +25,8 @@ import java.util.List;
 
 public class SSCircleContentChangedPar{
   
+  public List<SSUri> recursiveEntities        = new ArrayList<>();
+  
   public SSUri          user                  = null;
   public SSUri          circle                = null;
   public Boolean        isCirclePublic        = false;
@@ -35,6 +37,7 @@ public class SSCircleContentChangedPar{
   public List<SSEntity> circleEntities        = new ArrayList<>();
   
   public SSCircleContentChangedPar(
+    final List<SSUri>    recursiveEntitiesToAdd,    
     final SSUri          user,
     final SSUri          circle,
     final Boolean        isCirclePublic,
@@ -44,21 +47,16 @@ public class SSCircleContentChangedPar{
     final List<SSUri>    circleUsers,
     final List<SSEntity> circleEntities){
     
+    SSUri.addDistinctWithoutNull            (this.recursiveEntities, recursiveEntitiesToAdd);
+      
     this.user           = user;
     this.circle         = circle;
     this.isCirclePublic = isCirclePublic;
     
-    SSUri.addDistinctWithoutNull(this.usersToAdd,            usersToAdd);
-    
-    if(entitiesToAdd != null){
-      this.entitiesToAdd.addAll(entitiesToAdd);
-    }
-    
-    SSUri.addDistinctWithoutNull(this.usersToPushEntitiesTo, usersToPushEntitiesTo);
-    SSUri.addDistinctWithoutNull(this.circleUsers,           circleUsers);
-    
-    if(circleEntities != null){
-      this.circleEntities.addAll(circleEntities);
-    }
+    SSUri.addDistinctWithoutNull            (this.usersToAdd,            usersToAdd);
+    SSEntity.addEntitiesDistinctWithoutNull (this.entitiesToAdd,         entitiesToAdd);
+    SSUri.addDistinctWithoutNull            (this.usersToPushEntitiesTo, usersToPushEntitiesTo);
+    SSUri.addDistinctWithoutNull            (this.circleUsers,           circleUsers);
+    SSEntity.addEntitiesDistinctWithoutNull (this.circleEntities,        circleEntities);
   }
 }

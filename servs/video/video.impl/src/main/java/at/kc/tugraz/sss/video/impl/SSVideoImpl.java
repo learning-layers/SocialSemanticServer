@@ -100,6 +100,12 @@ implements
           
           case video:{
             
+            if(SSStrU.contains(par.recursiveEntities, entityToAdd)){
+              continue;
+            }else{
+              SSUri.addDistinctWithoutNull(par.recursiveEntities, entityToAdd.id);
+            }
+            
             circleServ.circleEntitiesAdd(
               new SSCircleEntitiesAddPar(
                 null,

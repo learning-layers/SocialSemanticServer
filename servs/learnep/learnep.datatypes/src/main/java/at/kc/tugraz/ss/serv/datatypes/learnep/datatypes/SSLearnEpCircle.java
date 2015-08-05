@@ -23,7 +23,6 @@ package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSEntity;
-import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
 import java.util.Map;
@@ -36,39 +35,6 @@ public class SSLearnEpCircle extends SSEntity{
   public Float         yR               = null;
   public Float         xC               = null;
   public Float         yC               = null;
-  
-  public static SSLearnEpCircle get(
-    final SSUri   id, 
-    final SSLabel label, 
-    final Float   xLabel, 
-    final Float   yLabel, 
-    final Float   xR, 
-    final Float   yR, 
-    final Float   xC, 
-    final Float   yC) throws Exception{
-    
-    return new SSLearnEpCircle(id, label, xLabel, yLabel, xR, yR, xC, yC);
-  }
-  
-  protected SSLearnEpCircle(
-    final SSUri   id, 
-    final SSLabel label, 
-    final Float   xLabel, 
-    final Float   yLabel, 
-    final Float   xR, 
-    final Float   yR, 
-    final Float   xC, 
-    final Float   yC)throws Exception{
-    
-    super(id, SSEntityE.learnEpCircle, label);
-    
-    this.xLabel              = xLabel;
-    this.yLabel              = yLabel;
-    this.xR                  = xR;
-    this.yR                  = yR;
-    this.xC                  = xC;
-    this.yC                  = yC;
-  }
   
   @Override
   public Object jsonLDDesc(){
@@ -83,5 +49,104 @@ public class SSLearnEpCircle extends SSEntity{
     ld.put(SSVarNames.yC,               SSVarNames.xsd + SSStrU.colon + SSStrU.valueFloat);
     
     return ld;
+  }
+  
+  public static SSLearnEpCircle get(
+    final SSLearnEpCircle learnEpCircle, 
+    final SSEntity        entity) throws Exception{
+    
+    return new SSLearnEpCircle(learnEpCircle, entity);
+  }
+  
+  protected SSLearnEpCircle(
+    final SSLearnEpCircle learnEpCircle,
+    final SSEntity        entity) throws Exception{
+    
+    super(learnEpCircle, entity);
+    
+    if(learnEpCircle.xLabel != null){
+      this.xLabel             = learnEpCircle.xLabel;
+    }else{
+      
+      if(entity instanceof SSLearnEpCircle){
+        this.xLabel = ((SSLearnEpCircle) entity).xLabel;
+      }
+    }
+    
+    if(learnEpCircle.yLabel != null){
+      this.yLabel            = learnEpCircle.yLabel;
+    }else{
+      
+      if(entity instanceof SSLearnEpCircle){
+        this.yLabel = ((SSLearnEpCircle) entity).yLabel;
+      }
+    }
+    
+    if(learnEpCircle.xR != null){
+      this.xR            = learnEpCircle.xR;
+    }else{
+      
+      if(entity instanceof SSLearnEpCircle){
+        this.xR = ((SSLearnEpCircle) entity).xR;
+      }
+    }
+    
+    if(learnEpCircle.yR != null){
+      this.yR            = learnEpCircle.yR;
+    }else{
+      
+      if(entity instanceof SSLearnEpCircle){
+        this.yR = ((SSLearnEpCircle) entity).yR;
+      }
+    }
+    
+    if(learnEpCircle.xC != null){
+      this.xC            = learnEpCircle.xC;
+    }else{
+      
+      if(entity instanceof SSLearnEpCircle){
+        this.xC = ((SSLearnEpCircle) entity).xC;
+      }
+    }
+    
+    if(learnEpCircle.yC != null){
+      this.yC            = learnEpCircle.yC;
+    }else{
+      
+      if(entity instanceof SSLearnEpCircle){
+        this.yC = ((SSLearnEpCircle) entity).yC;
+      }
+    }
+  }
+  
+  public static SSLearnEpCircle get(
+    final SSUri   id, 
+    final Float   xLabel, 
+    final Float   yLabel, 
+    final Float   xR, 
+    final Float   yR, 
+    final Float   xC, 
+    final Float   yC) throws Exception{
+    
+    return new SSLearnEpCircle(id, xLabel, yLabel, xR, yR, xC, yC);
+  }
+  
+  protected SSLearnEpCircle(
+    final SSUri   id, 
+    final Float   xLabel, 
+    final Float   yLabel, 
+    final Float   xR, 
+    final Float   yR, 
+    final Float   xC, 
+    final Float   yC) throws Exception{
+    
+    super(id, SSEntityE.learnEpCircle);
+    
+    this.xLabel              = xLabel;
+    this.yLabel              = yLabel;
+    this.xR                  = xR;
+    this.yR                  = yR;
+    this.xC                  = xC;
+    this.yC                  = yC;
   }
 }

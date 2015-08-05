@@ -20,88 +20,73 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes;
 
-import at.tugraz.sss.serv.SSAuthor;
-import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarNames;
-import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSEntityE;
-import at.tugraz.sss.serv.SSJSONLDU;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class SSLearnEp extends SSEntity {
 
-  public SSUri                   user         = null;
-  public List<SSLearnEpVersion>  versions     = new ArrayList<>();
-  public Boolean                 locked       = false;
-  public Boolean                 lockedByUser = false;
-  
-  public static SSLearnEp get(
-    final SSUri                  id, 
-    final SSLabel                label,
-    final SSUri                  user, 
-    final SSAuthor               author,
-    final List<SSLearnEpVersion> versions) throws Exception{
-    
-    return new SSLearnEp(id, label, user, author, versions);
-  }
-  
-  protected SSLearnEp(
-    final SSUri                  id, 
-    final SSLabel                label,
-    final SSUri                  user,
-    final SSAuthor               author,
-    final List<SSLearnEpVersion> versions) throws Exception{
-    
-    super(id, SSEntityE.learnEp, label);
-    
-    this.user        = user;
-    this.author      = author;
-    
-    if(versions != null){
-      this.versions.addAll(versions);
-    }
-  }
+  public Boolean    locked       = false;
+  public Boolean    lockedByUser = false;
   
   @Override
   public Object jsonLDDesc(){
-    
-    final Map<String, Object> ld             = (Map<String, Object>) super.jsonLDDesc();
-    final Map<String, Object> versionsObj    = new HashMap<>();
-    
-    ld.put(SSVarNames.user,        SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
-    
-    versionsObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSLearnEpVersion.class.getName());
-    versionsObj.put(SSJSONLDU.container, SSJSONLDU.set);
-    
-    ld.put(SSVarNames.versions, versionsObj);
-    
-    return ld;
+    throw new UnsupportedOperationException();
   }
   
-  /* json getters */
-  public String getUser() throws Exception {
-    return SSStrU.removeTrailingSlash(user);
+   public static SSLearnEp get(
+    final SSLearnEp learnEp, 
+    final SSEntity entity) throws Exception{
+    
+    return new SSLearnEp(learnEp, entity);
   }
-
-  public List<SSLearnEpVersion> getVersions() {
-    return versions;
+   
+  public static SSLearnEp get(
+    final SSUri           id) throws Exception{
+    
+    return new SSLearnEp(id);
+  }
+  
+  public static SSLearnEp get(
+    final SSUri           id,
+    final List<SSEntity>  versions) throws Exception{
+    
+    return new SSLearnEp(id, versions);
+  }
+  
+  protected SSLearnEp(
+    final SSUri                  id,
+    final List<SSEntity> versions) throws Exception{
+    
+    super(id, SSEntityE.learnEp);
+    
+    SSEntity.addEntitiesDistinctWithoutNull(this.entries, versions);
+  }
+  
+  protected SSLearnEp(
+    final SSLearnEp   learnEp,
+    final SSEntity    entity) throws Exception{
+    
+    super(learnEp, entity);
+  }
+  
+  protected SSLearnEp(
+    final SSUri                  id) throws Exception{
+    
+    super(id, SSEntityE.learnEp);
   }
 }
 
 
 //  public static SSLearnEp copy(
 //    final SSLearnEp learnEp) throws Exception{
-//    
+//
 //    final SSLearnEp   copy = get(learnEp.user, learnEp.id, learnEp.label, null);
 //    SSLearnEpVersion  versionCopy;
-//    
+//
 //    for(SSLearnEpVersion version : learnEp.versions){
-//      
+//
 //      versionCopy =
 //        SSLearnEpVersion.get(
 //          version.id,

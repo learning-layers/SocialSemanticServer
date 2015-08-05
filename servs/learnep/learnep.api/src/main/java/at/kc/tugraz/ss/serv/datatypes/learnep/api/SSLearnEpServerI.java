@@ -24,6 +24,7 @@ import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEp;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpTimelineState;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpVersion;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpCreatePar;
+import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpGetPar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpRemovePar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpLockHoldPar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpLockRemovePar;
@@ -44,14 +45,16 @@ import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionsGet
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpsGetPar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpsLockHoldPar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpLockHoldRet;
+import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSServServerI;
 import at.tugraz.sss.serv.SSUri;
 import java.util.List;
 
 public interface SSLearnEpServerI extends SSServServerI{
   
-  public List<SSLearnEp>              learnEpsGet                       (final SSLearnEpsGetPar                    par) throws Exception;
-  public List<SSLearnEpVersion>       learnEpVersionsGet                (final SSLearnEpVersionsGetPar             par) throws Exception;
+  public SSLearnEp                    learnEpGet                        (final SSLearnEpGetPar                     par) throws Exception;
+  public List<SSEntity>               learnEpsGet                       (final SSLearnEpsGetPar                    par) throws Exception;
+  public List<SSEntity>               learnEpVersionsGet                (final SSLearnEpVersionsGetPar             par) throws Exception;
   public SSLearnEpVersion             learnEpVersionGet                 (final SSLearnEpVersionGetPar              par) throws Exception;
   public SSUri                        learnEpRemove                     (final SSLearnEpRemovePar                  par) throws Exception;
   public SSUri                        learnEpVersionCreate              (final SSLearnEpVersionCreatePar           par) throws Exception;

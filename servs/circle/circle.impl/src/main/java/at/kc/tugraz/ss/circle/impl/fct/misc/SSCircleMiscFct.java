@@ -406,6 +406,7 @@ public class SSCircleMiscFct{
           
           ((SSCircleContentAddedI) entityHandler.serv()).circleContentAdded(
             new SSCircleContentChangedPar(
+              null,
               forUser,
               newCircle.id, //circle
               false, //isPublicCircle
@@ -568,6 +569,7 @@ public class SSCircleMiscFct{
         
         ((SSCircleContentAddedI) entityHandler.serv()).circleContentAdded(
           new SSCircleContentChangedPar(
+            null,
             par.user,
             targetCircle.id, //circle
             false, //isPublicCircle

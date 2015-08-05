@@ -21,6 +21,7 @@
 package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret;
 
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpVersion;
+import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSJSONLDU;
@@ -33,7 +34,7 @@ import java.util.Map;
 
 public class SSLearnEpVersionsGetRet extends SSServRetI{
 
-  public List<SSLearnEpVersion> learnEpVersions = new ArrayList<>();
+  public List<SSEntity> learnEpVersions = new ArrayList<>();
 
   @Override
   public Map<String, Object> jsonLDDesc(){
@@ -49,14 +50,17 @@ public class SSLearnEpVersionsGetRet extends SSServRetI{
     return ld;
   }
   
-  public static SSLearnEpVersionsGetRet get(List<SSLearnEpVersion> learnEpVersions){
+  public static SSLearnEpVersionsGetRet get(
+    final List<SSEntity> learnEpVersions){
+    
     return new SSLearnEpVersionsGetRet(learnEpVersions);
   }
   
-  private SSLearnEpVersionsGetRet(List<SSLearnEpVersion> learnEpVersions){
+  private SSLearnEpVersionsGetRet(
+    final List<SSEntity> learnEpVersions){
     
     super(SSServOpE.learnEpVersionsGet);
     
-    this.learnEpVersions = learnEpVersions;
+    SSEntity.addEntitiesDistinctWithoutNull(this.learnEpVersions, learnEpVersions);
   }
 }

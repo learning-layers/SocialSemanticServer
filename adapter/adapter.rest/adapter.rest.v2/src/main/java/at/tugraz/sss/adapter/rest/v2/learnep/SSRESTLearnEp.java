@@ -102,7 +102,9 @@ public class SSRESTLearnEp{
         new SSLearnEpsGetPar(
           SSServOpE.learnEpsGet,
           null, 
-          null);
+          null, 
+          true, 
+          true);
       
     }catch(Exception error){
       return Response.status(422).build();
@@ -134,7 +136,9 @@ public class SSRESTLearnEp{
           SSServOpE.learnEpVersionsGet,
           null, 
           null, 
-          SSUri.get(learnEp, SSVocConf.sssUri));
+          SSUri.get(learnEp, SSVocConf.sssUri), 
+          true, 
+          true);
       
     }catch(Exception error){
       return Response.status(422).build();
@@ -166,7 +170,9 @@ public class SSRESTLearnEp{
           SSServOpE.learnEpVersionGet,
           null, 
           null, 
-          SSUri.get(learnEpVersion, SSVocConf.sssUri));
+          SSUri.get(learnEpVersion, SSVocConf.sssUri),
+          true, 
+          true);
       
     }catch(Exception error){
       return Response.status(422).build();
@@ -194,7 +200,9 @@ public class SSRESTLearnEp{
         new SSLearnEpVersionCurrentGetPar(
           SSServOpE.learnEpVersionCurrentGet,
           null, 
-          null);
+          null,
+          true, 
+          true);
       
     }catch(Exception error){
       return Response.status(422).build();

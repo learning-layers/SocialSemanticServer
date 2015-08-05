@@ -27,7 +27,8 @@ import at.tugraz.sss.serv.SSStrU;
 
 public class SSLearnEpVersionsGetPar extends SSServPar{
   
-  public SSUri  learnEp = null;
+  public SSUri   learnEp              = null;
+  public Boolean invokeEntityHandlers = false;
 
   public String getLearnEp(){
     return SSStrU.removeTrailingSlash(learnEp);
@@ -43,10 +44,14 @@ public class SSLearnEpVersionsGetPar extends SSServPar{
     final SSServOpE     op,
     final String        key,
     final SSUri         user,
-    final SSUri         learnEp){
+    final SSUri         learnEp,
+    final Boolean       withUserRestriction, 
+    final Boolean       invokeEntityHandlers){
       
     super(op, key, user);
     
-    this.learnEp   = learnEp;
+    this.learnEp              = learnEp;
+    this.withUserRestriction  = withUserRestriction;
+    this.invokeEntityHandlers = invokeEntityHandlers;
   }
 }

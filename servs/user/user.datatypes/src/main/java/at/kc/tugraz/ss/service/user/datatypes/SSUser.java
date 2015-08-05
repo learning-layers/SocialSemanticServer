@@ -70,14 +70,29 @@ public class SSUser extends SSEntity{
     
     super(user, entity);
     
-    this.email  = user.email;
-    this.friend = user.friend;
+    if(user.email != null){
+      this.email = user.email;
+    }else{
+      
+      if(entity instanceof SSUser){
+        this.email  = ((SSUser) entity).email;
+      }
+    }
+    
+    if(user.friend != null){
+      this.friend = user.friend;
+    }else{
+      
+      if(entity instanceof SSUser){
+        this.friend  = ((SSUser) entity).friend;
+      }
+    }
+    
+    SSEntity.addEntitiesDistinctWithoutNull(this.friends, user.friends);
     
     if(entity instanceof SSUser){
       SSEntity.addEntitiesDistinctWithoutNull(this.friends, ((SSUser) entity).friends);
     }
-    
-    SSEntity.addEntitiesDistinctWithoutNull(this.friends, user.friends);
   }
   
   public static SSUser get(

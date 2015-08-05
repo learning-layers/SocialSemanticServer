@@ -21,6 +21,7 @@
 package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret;
 
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEp;
+import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarNames;
@@ -32,7 +33,7 @@ import java.util.Map;
 
 public class SSLearnEpsGetRet extends SSServRetI{
 
-  public List<SSLearnEp> learnEps = null;
+  public List<SSEntity> learnEps = null;
 
   @Override
   public Map<String, Object> jsonLDDesc(){
@@ -48,14 +49,15 @@ public class SSLearnEpsGetRet extends SSServRetI{
     return ld;
   }
   
-  public static SSLearnEpsGetRet get(List<SSLearnEp> learnEp){
+  public static SSLearnEpsGetRet get(final List<SSEntity> learnEp){
     return new SSLearnEpsGetRet(learnEp);
   }
   
-  private SSLearnEpsGetRet(List<SSLearnEp> learnEps){
+  private SSLearnEpsGetRet(
+    final List<SSEntity> learnEps){
     
     super(SSServOpE.learnEpsGet);
     
-    this.learnEps = learnEps;
+    SSEntity.addEntitiesDistinctWithoutNull(this.learnEps, learnEps);
   }
 }

@@ -33,6 +33,18 @@ public class SSLearnEpEntity extends SSEntity {
   public Float     x        = null;
   public Float     y        = null;
   
+  @Override
+  public Object jsonLDDesc(){
+    
+    final Map<String, Object> ld = (Map<String, Object>) super.jsonLDDesc();
+    
+    ld.put(SSVarNames.entity,  SSVarNames.sss + SSStrU.colon + SSEntity.class.getName());
+    ld.put(SSVarNames.x,       SSVarNames.xsd + SSStrU.colon + SSStrU.valueFloat);
+    ld.put(SSVarNames.y,       SSVarNames.xsd + SSStrU.colon + SSStrU.valueFloat);
+    
+    return ld;
+  }
+  
   public static SSLearnEpEntity get(
     final SSLearnEpEntity learnEpEntity, 
     final SSEntity        entity) throws Exception{
@@ -55,9 +67,32 @@ public class SSLearnEpEntity extends SSEntity {
     
     super(learnEpEntity, entity);
     
-    this.entity             = learnEpEntity.entity;
-    this.x                  = learnEpEntity.x;
-    this.y                  = learnEpEntity.y;
+    if(learnEpEntity.entity != null){
+      this.entity             = learnEpEntity.entity;
+    }else{
+      
+      if(entity instanceof SSLearnEpEntity){
+        this.entity = ((SSLearnEpEntity) entity).entity;
+      }
+    }
+    
+    if(learnEpEntity.x != null){
+      this.x             = learnEpEntity.x;
+    }else{
+      
+      if(entity instanceof SSLearnEpEntity){
+        this.x = ((SSLearnEpEntity) entity).x;
+      }
+    }
+    
+    if(learnEpEntity.y != null){
+      this.y            = learnEpEntity.y;
+    }else{
+      
+      if(entity instanceof SSLearnEpEntity){
+        this.y = ((SSLearnEpEntity) entity).y;
+      }
+    }
   }
   
   protected SSLearnEpEntity(
@@ -71,17 +106,5 @@ public class SSLearnEpEntity extends SSEntity {
     this.entity             = entity;
     this.x                  = x;
     this.y                  = y;
-  }
-  
-  @Override
-  public Object jsonLDDesc(){
-    
-    final Map<String, Object> ld = (Map<String, Object>) super.jsonLDDesc();
-    
-    ld.put(SSVarNames.entity,  SSVarNames.sss + SSStrU.colon + SSEntity.class.getName());
-    ld.put(SSVarNames.x,       SSVarNames.xsd + SSStrU.colon + SSStrU.valueFloat);
-    ld.put(SSVarNames.y,       SSVarNames.xsd + SSStrU.colon + SSStrU.valueFloat);
-    
-    return ld;
   }
 }

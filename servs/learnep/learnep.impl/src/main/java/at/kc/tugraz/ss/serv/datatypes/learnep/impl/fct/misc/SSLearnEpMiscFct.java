@@ -20,11 +20,11 @@
   */
 package at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.misc;
 
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpCircle;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpEntity;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpVersion;
 import at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.sql.SSLearnEpSQLFct;
 import at.kc.tugraz.ss.service.filerepo.api.SSFileRepoServerI;
+import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSImageE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
@@ -54,16 +54,16 @@ public class SSLearnEpMiscFct{
         
         learnEpContentUris.add(learnEpVersionUri);
         
-        learnEpVersion = sqlFct.getLearnEpVersion(learnEpVersionUri, true);
+        learnEpVersion = sqlFct.getLearnEpVersion(learnEpVersionUri);
           
-        for(SSLearnEpCircle circle : learnEpVersion.learnEpCircles){
+        for(SSEntity circle : learnEpVersion.learnEpCircles){
           learnEpContentUris.add(circle.id);
         }
         
-        for(SSLearnEpEntity learnEpEntity : learnEpVersion.learnEpEntities){
+        for(SSEntity learnEpEntity : learnEpVersion.learnEpEntities){
           learnEpContentUris.add   (learnEpEntity.id);
-          learnEpContentUris.add   (learnEpEntity.entity.id);
-          learnEpContentUris.addAll(getLearnEpEntityAttachedEntities(user, learnEpEntity.entity.id));
+          learnEpContentUris.add   (((SSLearnEpEntity) learnEpEntity).entity.id);
+          learnEpContentUris.addAll(getLearnEpEntityAttachedEntities(user, ((SSLearnEpEntity) learnEpEntity).entity.id));
         }
         
         if(learnEpVersion.learnEpTimelineState != null){

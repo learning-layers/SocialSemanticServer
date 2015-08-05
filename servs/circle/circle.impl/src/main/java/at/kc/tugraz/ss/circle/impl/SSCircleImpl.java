@@ -427,6 +427,7 @@ implements
         
         ((SSCircleContentAddedI) serv.serv()).circleContentAdded(
           new SSCircleContentChangedPar(
+            null, 
             par.user,
             circleURI, //circle
             false, //isPublicCircle
@@ -632,6 +633,7 @@ implements
       
       ((SSCircleContentAddedI) serv.serv()).circleContentAdded(
         new SSCircleContentChangedPar(
+          null,
           par.user,
           circleURI, //circle
           false, //isPublicCircle
@@ -761,6 +763,7 @@ implements
       
       ((SSCircleContentAddedI) serv.serv()).circleContentAdded(
         new SSCircleContentChangedPar(
+          null,
           par.user,
           cicleURI, //circle
           false, //isPublicCircle
