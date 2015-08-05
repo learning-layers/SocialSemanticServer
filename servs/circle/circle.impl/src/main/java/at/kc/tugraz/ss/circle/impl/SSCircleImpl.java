@@ -131,7 +131,7 @@ implements
       if(par.setCircles){
         
         entity.circles.addAll(
-          ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlesGet(
+          circlesGet(
             new SSCirclesGetPar(
               null,
               null,

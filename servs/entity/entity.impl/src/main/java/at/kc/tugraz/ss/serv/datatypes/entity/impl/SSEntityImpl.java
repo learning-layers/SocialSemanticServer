@@ -109,7 +109,6 @@ implements
   private final SSEntitySQLFct    sqlFct;
   private final SSActivityServerI activityServ;
   private final SSEvalServerI     evalServ;
-  private final SSUEServerI       userEventServ;
   private final SSCircleServerI   circleServ;
   
   public SSEntityImpl(final SSConfA conf) throws Exception{
@@ -119,7 +118,6 @@ implements
     this.sqlFct          = new SSEntitySQLFct(this);
     this.activityServ    = (SSActivityServerI) SSServReg.getServ(SSActivityServerI.class);
     this.evalServ        = (SSEvalServerI)     SSServReg.getServ(SSEvalServerI.class);
-    this.userEventServ   = (SSUEServerI)       SSServReg.getServ(SSUEServerI.class);
     this.circleServ      = (SSCircleServerI)   SSServReg.getServ(SSCircleServerI.class);
   }
   
@@ -454,7 +452,7 @@ implements
           
           par.entity = SSServCaller.vocURICreate();
           
-          userEventServ.userEventAdd(
+          ((SSUEServerI) SSServReg.getServ(SSUEServerI.class)).userEventAdd(
             new SSUEAddPar(
               null,
               null,
