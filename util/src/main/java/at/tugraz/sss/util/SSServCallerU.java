@@ -24,21 +24,132 @@ import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleCanAccessPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesGetPar;
+import at.tugraz.sss.serv.SSAddAffiliatedEntitiesToCircleI;
+import at.tugraz.sss.serv.SSAddAffiliatedEntitiesToCirclePar;
 import at.tugraz.sss.serv.SSCircleRightE;
 import at.tugraz.sss.serv.SSEntity;
+import at.tugraz.sss.serv.SSEntityCircle;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSErrE;
+import at.tugraz.sss.serv.SSPushEntitiesToUsersI;
+import at.tugraz.sss.serv.SSPushEntitiesToUsersPar;
+import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.caller.SSServCaller;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SSServCallerU{
   
-  public static void checkKey(final SSServPar parA) throws Exception{
+   public static void handleCircleEntitiesAdd(
+    final SSUri          user, 
+    final SSEntityCircle circle, 
+    final List<SSEntity> entities,
+    final Boolean        withUserRestriction) throws Exception{
+    
+     final List<SSEntity> entitiesToPushToUsers   = new ArrayList<>();
+     final List<SSEntity> addedAffiliatedEntities =
+      addAffiliatedEntitiesToCircle(
+        new SSAddAffiliatedEntitiesToCirclePar(
+          user,
+          circle.id,
+          false,
+          entities,
+          withUserRestriction));
+    
+    SSEntity.addEntitiesDistinctWithoutNull(
+      entitiesToPushToUsers,
+      entities);
+    
+    SSEntity.addEntitiesDistinctWithoutNull(
+      entitiesToPushToUsers,
+      addedAffiliatedEntities);
+    
+    pushEntitiesToUsers(
+      new SSPushEntitiesToUsersPar(
+        user,
+        entitiesToPushToUsers,
+        SSUri.getDistinctNotNullFromEntities(circle.users),
+        withUserRestriction));
+  }
+   
+  public static void handleCircleUsersAdd(
+    final SSUri          user, 
+    final SSEntityCircle circle,
+    final List<SSUri>    users, 
+    final Boolean        withUserRestriction) throws Exception {
+    
+    try{
+      
+      final List<SSEntity> entitiesToPushToUsers   = new ArrayList<>();
+      final List<SSEntity> addedAffiliatedEntities =
+        addAffiliatedEntitiesToCircle(
+          new SSAddAffiliatedEntitiesToCirclePar(
+            user,
+            circle.id,
+            false,
+            circle.entities,
+            withUserRestriction));
+      
+      SSEntity.addEntitiesDistinctWithoutNull(
+        entitiesToPushToUsers,
+        circle.entities);
+      
+      SSEntity.addEntitiesDistinctWithoutNull(
+        entitiesToPushToUsers,
+        addedAffiliatedEntities);
+      
+      pushEntitiesToUsers(
+        new SSPushEntitiesToUsersPar(
+          user,
+          entitiesToPushToUsers,
+          users,
+          withUserRestriction));
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
   
+  private static void pushEntitiesToUsers(final SSPushEntitiesToUsersPar par) throws Exception{
+    
+    try{
+      
+      for(SSServContainerI serv : SSServReg.inst.getServsHandlingPushEntitiesToUsers()){
+        ((SSPushEntitiesToUsersI) serv.serv()).pushEntitiesToUsers(par);
+      }      
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  private static List<SSEntity> addAffiliatedEntitiesToCircle(final SSAddAffiliatedEntitiesToCirclePar par) throws Exception{
+    
+    try{
+      
+      final List<SSEntity> addedAffiliatedEntities = new ArrayList<>();
+      
+      for(SSServContainerI serv : SSServReg.inst.getServsHandlingAddAffiliatedEntitiesToCircle()){
+        
+        SSEntity.addEntitiesDistinctWithoutNull(
+          addedAffiliatedEntities,
+          ((SSAddAffiliatedEntitiesToCircleI) serv.serv()).addAffiliatedEntitiesToCircle(par));
+      }      
+      
+      return addedAffiliatedEntities;
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  public static void checkKey(final SSServPar parA) throws Exception{
+    
     final SSUri user = SSServCaller.checkKey(parA);
     
     if(user != null){

@@ -22,7 +22,6 @@ package at.kc.tugraz.ss.service.coll.impl;
 
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesAddPar;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCircleUsersAddPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesGetPar;
@@ -79,19 +78,24 @@ extends SSServImplWithDBA
 implements 
   SSCollClientI, 
   SSCollServerI, 
-  SSDescribeEntityI, 
+  SSDescribeEntityI,
   SSGetParentEntitiesI, 
   SSGetSubEntitiesI,
-  SSCircleContentAddedI,
+  SSAddAffiliatedEntitiesToCircleI,
+  SSPushEntitiesToUsersI,
   SSUserRelationGathererI{
 
-  private final SSCollSQLFct sqlFct;
-
+  private final SSCollSQLFct    sqlFct;
+  private final SSEntityServerI entityServ;
+  private final SSCircleServerI circleServ;
+  
   public SSCollImpl(final SSConfA conf) throws Exception{
 
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
 
-    this.sqlFct = new SSCollSQLFct(dbSQL);
+    this.sqlFct     = new SSCollSQLFct(dbSQL);
+    this.entityServ = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
+    this.circleServ = (SSCircleServerI) SSServReg.getServ(SSCircleServerI.class);
   }
 
   @Override
@@ -154,7 +158,7 @@ implements
       for(SSEntity coll : allColls){
         
         collUserCircles =
-          ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlesGet(
+          circleServ.circlesGet(
             new SSCirclesGetPar(
               null,
               null,
@@ -179,7 +183,7 @@ implements
           collEntry = (SSCollEntry) entry;
           
           collEntryUserCircles =
-            ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlesGet(
+            circleServ.circlesGet(
               new SSCirclesGetPar(
                 null,
                 null,
@@ -255,30 +259,26 @@ implements
       return null;
     }
   }
-      
+  
   @Override
-  public void circleContentAdded(final SSCircleContentChangedPar par) throws Exception{
-    
-    SSColl rootColl;
+  public List<SSEntity> addAffiliatedEntitiesToCircle(final SSAddAffiliatedEntitiesToCirclePar par) throws Exception{
     
     try{
-    
-      final List<SSUri>    collContentURIs = new ArrayList<>();
-      final List<SSEntity> entitiesToAdd   = new ArrayList<>();
+      final List<SSUri>    affiliatedURIs       = new ArrayList<>();
+      final List<SSEntity> affiliatedEntities   = new ArrayList<>();
       
-      for(SSEntity entityToAdd : par.entitiesToAdd){
-
-        switch(entityToAdd.type){
-
+      for(SSEntity entityAdded : par.entities){
+        
+        switch(entityAdded.type){
           case coll:{
             
-            if(SSStrU.contains(par.recursiveEntities, entityToAdd)){
+            if(SSStrU.contains(par.recursiveEntities, entityAdded)){
               continue;
             }else{
-              SSUri.addDistinctWithoutNull(par.recursiveEntities, entityToAdd.id);
+              SSUri.addDistinctWithoutNull(par.recursiveEntities, entityAdded.id);
             }
             
-            if(sqlFct.isCollSpecial(entityToAdd.id)){
+            if(sqlFct.isCollSpecial(entityAdded.id)){
               
               if(par.isCirclePublic){
                 throw new SSErr(SSErrE.cannotSetSpecialCollectionPublic);
@@ -287,108 +287,106 @@ implements
               throw new SSErr(SSErrE.cannotShareSpecialCollection);
             }
             
-            try{
-              
-              collContentURIs.clear();
-              
-              collContentURIs.addAll(SSCollMiscFct.getCollSubCollAndEntryURIs(sqlFct, sqlFct.getCollWithEntries(entityToAdd.id)));
-              
-              ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleEntitiesAdd(
-                new SSCircleEntitiesAddPar(
-                  null,
-                  null,
-                  par.user,
-                  par.circle,
-                  collContentURIs,
-                  false,
-                  false));
-              
-            }catch(Exception error){
-              SSServErrReg.regErrThrow(error);
-            }
-
-            for(SSUri userToPushEntityTo : par.usersToPushEntitiesTo){
-
-              rootColl = 
-                collRootGet(
-                  new SSCollUserRootGetPar(
-                    null, 
-                    null, 
-                    userToPushEntityTo, 
-                    false, //withUserRestriction, 
-                    false)); //invokeEntityHandlers));
-
-              if(
-                sqlFct.containsCollEntry (rootColl.id,        entityToAdd.id) ||
-                sqlFct.ownsUserColl      (userToPushEntityTo, entityToAdd.id)){
-                SSLogU.warn(SSWarnE.collAlreadySharedWithUser);
-                continue;
-              }
-
-              if(SSCollMiscFct.ownsUserASubColl(sqlFct, userToPushEntityTo, entityToAdd.id)){
-                SSLogU.warn(SSWarnE.subCollAlreadySharedWithUser);
-                continue;
-              }
-
-              sqlFct.addCollToColl(
-                userToPushEntityTo,
-                rootColl.id,
-                entityToAdd.id,
-                false,
-                true);
-            }
+            affiliatedURIs.clear();
             
-            if(!par.usersToPushEntitiesTo.isEmpty()){
-              
-              ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleUsersAdd(
-                new SSCircleUsersAddPar(
-                  null,
-                  null,
-                  par.user,
-                  par.circle,
-                  sqlFct.getCollUserURIs(entityToAdd.id),
-                  false,
-                  false));
-            }
+            for(SSUri collContentURI : SSCollMiscFct.getCollSubCollAndEntryURIs(sqlFct, sqlFct.getCollWithEntries(entityAdded.id))){
             
-            //call circleContentAddAgain for all those entities added from within the coll
-            entitiesToAdd.clear();
-            
-            for(SSUri collContentURI : collContentURIs){
-              
               if(SSStrU.contains(par.recursiveEntities, collContentURI)){
                 continue;
               }
               
-              entitiesToAdd.add(
-                ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
-                  new SSEntityGetPar(
-                    null,
-                    null,
-                    par.user,
-                    collContentURI,
-                    true,
-                    null)));
-              
-              par.recursiveEntities.add(collContentURI);
+              SSUri.addDistinctWithoutNull(
+                affiliatedURIs,
+                collContentURI);
             }
             
-            if(!entitiesToAdd.isEmpty()){
+            SSEntity.addEntitiesDistinctWithoutNull(
+              affiliatedEntities,
+              entityServ.entitiesGet(
+                new SSEntitiesGetPar(
+                  null,
+                  null,
+                  par.user,
+                  affiliatedURIs,
+                  null, //types,
+                  null, //descPar
+                  par.withUserRestriction)));
+            
+            circleServ.circleEntitiesAdd(
+              new SSCircleEntitiesAddPar(
+                null,
+                null,
+                par.user,
+                par.circle,
+                affiliatedURIs,
+                par.withUserRestriction, //withUserRestriction
+                false)); //shouldCommit
+            
+            break;
+          }
+        }
+      }
+      
+      if(affiliatedEntities.isEmpty()){
+        return affiliatedEntities;
+      }
+      
+      par.entities.clear();
+      par.entities.addAll(affiliatedEntities);
+      
+      for(SSServContainerI serv : SSServReg.inst.getServsHandlingAddAffiliatedEntitiesToCircle()){
+        ((SSAddAffiliatedEntitiesToCircleI) serv.serv()).addAffiliatedEntitiesToCircle(par);
+      }
+      
+      return affiliatedEntities;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public void pushEntitiesToUsers(
+    final SSPushEntitiesToUsersPar par) throws Exception {
+    
+    try{
+      
+      SSColl rootColl;
+      
+      for(SSEntity entityToPush : par.entities){
+        
+        switch(entityToPush.type){
+          case coll: {
+            
+            for(SSUri userToPushTo : par.users){
               
-              for(SSServContainerI serv : SSServReg.inst.getServsHandlingCircleContentAdded()){
-                
-                ((SSCircleContentAddedI) serv.serv()).circleContentAdded(
-                  new SSCircleContentChangedPar(
-                    SSUri.getDistinctNotNullFromEntities(entitiesToAdd), //recursiveEntitiesToAdd
-                    par.user,
-                    par.circle,
-                    par.isCirclePublic, //isPublicCircle
-                    par.usersToAdd,  //usersToAdd
-                    entitiesToAdd, //entitiesToAdd,
-                    par.usersToPushEntitiesTo,  //usersToPushEntitiesTo
-                    par.circleUsers, //circleUsers
-                    par.circleEntities)); //circleEntities
+              rootColl =
+                collRootGet(
+                  new SSCollUserRootGetPar(
+                    null,
+                    null,
+                    userToPushTo,
+                    false, //withUserRestriction,
+                    false)); //invokeEntityHandlers));
+              
+              if(
+                sqlFct.containsCollEntry (rootColl.id,        entityToPush.id) ||
+                sqlFct.ownsUserColl      (userToPushTo, entityToPush.id)){
+                SSLogU.warn(SSWarnE.collAlreadySharedWithUser);
+                continue;
               }
+              
+              if(SSCollMiscFct.ownsUserASubColl(sqlFct, userToPushTo, entityToPush.id)){
+                SSLogU.warn(SSWarnE.subCollAlreadySharedWithUser);
+                continue;
+              }
+              
+              sqlFct.addCollToColl(
+                userToPushTo,
+                rootColl.id,
+                entityToPush.id,
+                false,
+                true);
             }
             
             break;
@@ -397,28 +395,42 @@ implements
           default:{
 //          case file:
 //          case entity:{
-
+            
             SSUri sharedWithMeFilesCollUri;
-
-            for(SSUri userToPushEntityTo : par.usersToPushEntitiesTo){
-
-              sharedWithMeFilesCollUri = sqlFct.getSpecialCollURI(userToPushEntityTo);
-
-              if(sqlFct.containsCollEntry (sharedWithMeFilesCollUri, entityToAdd.id)){
+            
+            for(SSUri userToPushTo : par.users){
+              
+              sharedWithMeFilesCollUri = sqlFct.getSpecialCollURI(userToPushTo);
+              
+              if(sqlFct.containsCollEntry (sharedWithMeFilesCollUri, entityToPush.id)){
                 continue;
               }
-
-              sqlFct.addCollEntry(sharedWithMeFilesCollUri, entityToAdd.id);
-
+              
+              sqlFct.addCollEntry(sharedWithMeFilesCollUri, entityToPush.id);
+              
               break;
             }
           }
         }
       }
+      
+      
+//      if(!par.usersToPushEntitiesTo.isEmpty()){
+//
+//              circleServ.circleUsersAdd(
+//                new SSCircleUsersAddPar(
+//                  null,
+//                  null,
+//                  par.user,
+//                  par.circle,
+//                  sqlFct.getCollUserURIs(entityToAdd.id),
+//                  false,
+//                  false));
+//            }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
-  }    
+  }
 
   @Override
   public void collGet(SSSocketCon sSCon, SSServPar parA) throws Exception{
@@ -460,7 +472,7 @@ implements
       final SSColl coll = 
         SSColl.get(
           sqlFct.getCollWithEntries(par.coll), 
-          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+          entityServ.entityGet(
             new SSEntityGetPar(
               null, 
               null, 
@@ -474,7 +486,7 @@ implements
       }
       
       collEntries =
-        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
+        entityServ.entitiesGet(
           new SSEntitiesGetPar(
             null,
             null,
@@ -731,7 +743,7 @@ implements
 
       final SSUri rootCollUri = SSServCaller.vocURICreate();
 
-      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+      entityServ.entityUpdate(
         new SSEntityUpdatePar(
           null,
           null,

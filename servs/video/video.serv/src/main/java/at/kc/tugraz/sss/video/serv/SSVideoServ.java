@@ -54,7 +54,8 @@ public class SSVideoServ extends SSServContainerI{
     SSServReg.inst.regServ(this);
     
     SSServReg.inst.regServForHandlingDescribeEntity(this);
-    SSServReg.inst.regServForHandlingCircleContentAdded(this);
+    SSServReg.inst.regServForHandlingPushEntitiesToUsers(this);
+    SSServReg.inst.regServForHandlingAddAffiliatedEntitiesToCircle(this);
     
     return this;
   }

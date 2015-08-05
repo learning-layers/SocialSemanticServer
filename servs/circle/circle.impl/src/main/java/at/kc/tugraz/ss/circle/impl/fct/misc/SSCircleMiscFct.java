@@ -30,8 +30,6 @@ import at.tugraz.sss.serv.SSStrU;
 import at.kc.tugraz.ss.circle.impl.fct.sql.SSCircleSQLFct;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
-import at.tugraz.sss.serv.SSCircleContentAddedI;
-import at.tugraz.sss.serv.SSCircleContentChangedPar;
 import at.tugraz.sss.serv.SSCircleE;
 import at.tugraz.sss.serv.SSCircleRightE;
 import at.tugraz.sss.serv.SSEntity;
@@ -46,6 +44,7 @@ import java.util.ArrayList;
 import java.util.List;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
+import at.tugraz.sss.util.SSServCallerU;
 
 public class SSCircleMiscFct{
   
@@ -257,8 +256,6 @@ public class SSCircleMiscFct{
     
     try{
       
-      final List<SSUri>    usersToAdd    = new ArrayList<>();
-      final List<SSEntity> entitiesToAdd = new ArrayList<>();
       final SSLabel        label;
       SSUri                copyCircleURI;
       SSEntityCopiedPar    entityCopiedPar;
@@ -268,10 +265,6 @@ public class SSCircleMiscFct{
         label = par.label;
       }else{
         label = circle.label;
-      }
-      
-      if(par.includeEntities){
-        SSEntity.addEntitiesDistinctWithoutNull(entitiesToAdd, circle.entities);
       }
       
       for(SSUri forUser : par.forUsers){
@@ -392,30 +385,13 @@ public class SSCircleMiscFct{
               false,  //setTags
               null, //tagSpace
               par.withUserRestriction,
-              true)); //invokeEntityHandlers
+              false)); //invokeEntityHandlers
         
-        usersToAdd.clear();
-        
-        SSUri.addDistinctWithoutNull(usersToAdd, forUser);
-        
-        if(par.includeUsers){
-          SSUri.addDistinctWithoutNull(usersToAdd, SSUri.getDistinctNotNullFromEntities(circle.users));
-        }
-        
-        for(SSServContainerI entityHandler : SSServReg.inst.getServsHandlingCircleContentAdded()){
-          
-          ((SSCircleContentAddedI) entityHandler.serv()).circleContentAdded(
-            new SSCircleContentChangedPar(
-              null,
-              forUser,
-              newCircle.id, //circle
-              false, //isPublicCircle
-              usersToAdd,  //usersToAdd
-              entitiesToAdd, //entitiesToAdd,
-              null,  //usersToPushEntitiesTo
-              SSUri.getDistinctNotNullFromEntities(newCircle.users), //circleUsers
-              newCircle.entities)); //circleEntities
-        }
+        SSServCallerU.handleCircleEntitiesAdd(
+          par.user,
+          newCircle,
+          newCircle.entities,
+          par.withUserRestriction);
       }
       
     }catch(Exception error){
@@ -435,19 +411,8 @@ public class SSCircleMiscFct{
         }
       }
       
-      final List<SSUri>    usersToAdd    = new ArrayList<>();
-      final List<SSEntity> entitiesToAdd = new ArrayList<>();
       SSEntityCopiedPar    entityCopiedPar;
-      
-      if(par.includeEntities){
-        SSEntity.addEntitiesDistinctWithoutNull(entitiesToAdd, circle.entities);
-      }
-      
-      if(par.includeUsers){
-        SSUri.addDistinctWithoutNull(usersToAdd, SSUri.getDistinctNotNullFromEntities(circle.users));
-      }
-      
-      SSEntityCircle targetCircle =
+      SSEntityCircle       targetCircle =
         serv.circleGet(
           new SSCircleGetPar(
             null,
@@ -458,7 +423,7 @@ public class SSCircleMiscFct{
             false,  //setTags
             null, //tagSpace
             par.withUserRestriction,
-            true)); //invokeEntityHandlers
+            false)); //invokeEntityHandlers
       
       if(par.includeEntities){
         
@@ -563,22 +528,13 @@ public class SSCircleMiscFct{
             false,  //setTags
             null, //tagSpace
             par.withUserRestriction,
-            true)); //invokeEntityHandlers
+            false)); //invokeEntityHandlers
       
-      for(SSServContainerI entityHandler : SSServReg.inst.getServsHandlingCircleContentAdded()){
-        
-        ((SSCircleContentAddedI) entityHandler.serv()).circleContentAdded(
-          new SSCircleContentChangedPar(
-            null,
-            par.user,
-            targetCircle.id, //circle
-            false, //isPublicCircle
-            usersToAdd,  //usersToAdd
-            entitiesToAdd, //entitiesToAdd,
-            null,  //usersToPushEntitiesTo
-            SSUri.getDistinctNotNullFromEntities(targetCircle.users), //circleUsers
-            targetCircle.entities)); //circleEntities
-      }
+      SSServCallerU.handleCircleEntitiesAdd(
+        par.user,
+        targetCircle,
+        targetCircle.entities,
+        par.withUserRestriction);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

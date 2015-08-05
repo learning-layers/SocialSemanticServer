@@ -27,14 +27,11 @@ import at.kc.tugraz.ss.serv.datatypes.learnep.conf.SSLearnEpConf;
 import at.kc.tugraz.ss.serv.datatypes.learnep.impl.SSLearnEpImpl;
 import at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.access.SSLearnEpRemainingTimeTask;
 import at.tugraz.sss.serv.SSDateU;
-import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSCoreConfA;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServImplA;
-import java.util.EnumMap;
 import java.util.List;
-import java.util.Map;
 
 public class SSLearnEpServ extends SSServContainerI{
   
@@ -60,8 +57,10 @@ public class SSLearnEpServ extends SSServContainerI{
     SSServReg.inst.regServ(this);
     
     SSServReg.inst.regServForHandlingDescribeEntity(this);
-    SSServReg.inst.regServForHandlingCircleContentAdded(this);
+    SSServReg.inst.regServForHandlingPushEntitiesToUsers(this);
+    SSServReg.inst.regServForHandlingAddAffiliatedEntitiesToCircle(this);
     SSServReg.inst.regServForGatheringUsersResources (this);
+    
     
 //    final Map<SSServOpE, Integer> maxRequestsForOps = new EnumMap<>(SSServOpE.class);
 //    

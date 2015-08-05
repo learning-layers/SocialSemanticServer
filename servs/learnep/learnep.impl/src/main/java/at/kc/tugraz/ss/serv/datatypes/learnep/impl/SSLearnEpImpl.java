@@ -22,7 +22,6 @@ package at.kc.tugraz.ss.serv.datatypes.learnep.impl;
 
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesAddPar;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCircleUsersAddPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclesFromEntityEntitiesAdd;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
@@ -82,8 +81,8 @@ import at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.access.SSLearnEpAccessCon
 import at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.activity.SSLearnEpActivityFct;
 import at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.misc.SSLearnEpMiscFct;
 import at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.sql.SSLearnEpSQLFct;
-import at.tugraz.sss.serv.SSCircleContentAddedI;
-import at.tugraz.sss.serv.SSCircleContentChangedPar;
+import at.tugraz.sss.serv.SSAddAffiliatedEntitiesToCircleI;
+import at.tugraz.sss.serv.SSAddAffiliatedEntitiesToCirclePar;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSSocketCon;
 import at.tugraz.sss.serv.SSDBSQLI;
@@ -109,6 +108,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import at.tugraz.sss.serv.SSErrE;
+import at.tugraz.sss.serv.SSPushEntitiesToUsersI;
+import at.tugraz.sss.serv.SSPushEntitiesToUsersPar;
 import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
@@ -120,7 +121,8 @@ implements
   SSLearnEpClientI,
   SSLearnEpServerI,
   SSDescribeEntityI,
-  SSCircleContentAddedI,
+  SSAddAffiliatedEntitiesToCircleI,
+  SSPushEntitiesToUsersI,
   SSCopyEntityI,
   SSUsersResourcesGathererI{
   
@@ -198,104 +200,100 @@ implements
   }
   
   @Override
-  public void circleContentAdded(final SSCircleContentChangedPar par) throws Exception{
+  public List<SSEntity> addAffiliatedEntitiesToCircle(final SSAddAffiliatedEntitiesToCirclePar par) throws Exception{
     
     try{
+      final List<SSUri>    affiliatedURIs     = new ArrayList<>();
+      final List<SSEntity> affiliatedEntities = new ArrayList<>();
       
-      final List<SSUri>    learnEpContentURIs = new ArrayList<>();
-      final List<SSEntity> entitiesToAdd      = new ArrayList<>();
-      
-      for(SSEntity entityToAdd : par.entitiesToAdd){
+      for(SSEntity entityAdded : par.entities){
         
-        switch(entityToAdd.type){
-          
-          case learnEp:{
+        switch(entityAdded.type){
+          case disc:
+          case chat:
+          case qa:{
             
-            if(SSStrU.contains(par.recursiveEntities, entityToAdd)){
+            if(SSStrU.contains(par.recursiveEntities, entityAdded)){
               continue;
             }else{
-              SSUri.addDistinctWithoutNull(par.recursiveEntities, entityToAdd.id);
+              SSUri.addDistinctWithoutNull(par.recursiveEntities, entityAdded.id);
             }
             
-            for(SSUri userToPushEntityTo : par.usersToPushEntitiesTo){
-              
-              if(sqlFct.ownsUserLearnEp(userToPushEntityTo, entityToAdd.id)){
+            affiliatedURIs.clear();
+            
+            for(SSUri learnEpContentURI : miscFct.getLearnEpContentURIs(par.user, sqlFct, entityAdded.id)){
+            
+              if(SSStrU.contains(par.recursiveEntities, learnEpContentURI)){
                 continue;
               }
               
-              sqlFct.addLearnEp(entityToAdd.id, userToPushEntityTo);
+              SSUri.addDistinctWithoutNull(
+                affiliatedURIs,
+                learnEpContentURI);
             }
             
-            learnEpContentURIs.clear();
+            SSEntity.addEntitiesDistinctWithoutNull(
+              affiliatedEntities,
+              entityServ.entitiesGet(
+                new SSEntitiesGetPar(
+                  null,
+                  null,
+                  par.user,
+                  affiliatedURIs,
+                  null, //types,
+                  null, //descPar
+                  par.withUserRestriction)));
             
-            learnEpContentURIs.addAll(miscFct.getLearnEpContentURIs(par.user, sqlFct, entityToAdd.id));
-              
             circleServ.circleEntitiesAdd(
               new SSCircleEntitiesAddPar(
                 null,
                 null,
                 par.user,
                 par.circle,
-                learnEpContentURIs,
-                false,
-                false));
+                affiliatedURIs,
+                par.withUserRestriction, //withUserRestriction
+                false)); //shouldCommit
             
-            if(!par.usersToPushEntitiesTo.isEmpty()){
-              
-              circleServ.circleUsersAdd(
-                new SSCircleUsersAddPar(
-                  null,
-                  null,
-                  par.user,
-                  par.circle,
-                  sqlFct.getLearnEpUserURIs(entityToAdd.id),
-                  false,
-                  false));
-              
-              SSLearnEpActivityFct.shareLearnEp(
-                par.user,
-                entityToAdd.id,
-                par.usersToPushEntitiesTo);
-            }
+            break;
+          }
+        }
+      }
+      
+      if(affiliatedEntities.isEmpty()){
+        return affiliatedEntities;
+      }
+      
+      par.entities.clear();
+      par.entities.addAll(affiliatedEntities);
+      
+      for(SSServContainerI serv : SSServReg.inst.getServsHandlingAddAffiliatedEntitiesToCircle()){
+        ((SSAddAffiliatedEntitiesToCircleI) serv.serv()).addAffiliatedEntitiesToCircle(par);
+      }
+      
+      return affiliatedEntities;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public void pushEntitiesToUsers(
+    final SSPushEntitiesToUsersPar par) throws Exception {
+    
+    try{
+      for(SSEntity entityToPush : par.entities){
+        
+        switch(entityToPush.type){
+          case learnEp: {
             
-            //call circleContentAddAgain for all those entities added from within the learn ep
-            entitiesToAdd.clear();
-            
-            for(SSUri learnEpContentURI : learnEpContentURIs){
+            for(SSUri userToPushTo : par.users){
               
-              if(SSStrU.contains(par.recursiveEntities, learnEpContentURI)){
+              if(sqlFct.ownsUserLearnEp(userToPushTo, entityToPush.id)){
                 continue;
               }
               
-              entitiesToAdd.add(
-                entityServ.entityGet(
-                  new SSEntityGetPar(
-                    null, 
-                    null, 
-                    par.user, 
-                    learnEpContentURI, 
-                    true, 
-                    null)));
-                
-              par.recursiveEntities.add(learnEpContentURI);
-            }
-            
-            if(!entitiesToAdd.isEmpty()){
-              
-              for(SSServContainerI serv : SSServReg.inst.getServsHandlingCircleContentAdded()){
-
-                ((SSCircleContentAddedI) serv.serv()).circleContentAdded(
-                  new SSCircleContentChangedPar(
-                    SSUri.getDistinctNotNullFromEntities(entitiesToAdd), //recursiveEntitiesToAdd
-                    par.user,
-                    par.circle,
-                    par.isCirclePublic, //isPublicCircle
-                    par.usersToAdd,  //usersToAdd
-                    entitiesToAdd, //entitiesToAdd,
-                    par.usersToPushEntitiesTo,  //usersToPushEntitiesTo
-                    par.circleUsers, //circleUsers
-                    par.circleEntities)); //circleEntities
-              }
+              sqlFct.addLearnEp(entityToPush.id, userToPushTo);
             }
             
             break;
@@ -305,6 +303,24 @@ implements
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
+    
+//    if(!par.usersToPushEntitiesTo.isEmpty()){
+//              
+//              circleServ.circleUsersAdd(
+//                new SSCircleUsersAddPar(
+//                  null,
+//                  null,
+//                  par.user,
+//                  par.circle,
+//                  sqlFct.getLearnEpUserURIs(entityToAdd.id),
+//                  false,
+//                  false));
+//              
+//              SSLearnEpActivityFct.shareLearnEp(
+//                par.user,
+//                entityToAdd.id,
+//                par.usersToPushEntitiesTo);
+//            }
   }
   
   @Override

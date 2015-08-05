@@ -28,20 +28,21 @@ import java.util.Map;
 
 public class SSServReg{
   
-  public static final SSServReg                            inst                               = new SSServReg();
-  public static final Map<SSServOpE,     SSServContainerI> servs                              = new EnumMap<>(SSServOpE.class);
-  public static final Map<SSServOpE,     SSServContainerI> servsForClientOps                  = new EnumMap<>(SSServOpE.class);
-  public static final Map<SSServOpE,     SSServContainerI> servsForServerOps                  = new EnumMap<>(SSServOpE.class);
-  public static final Map<Class,         SSServContainerI> servsForServerI                    = new HashMap<>();
-  public static final List<SSServContainerI>               servsForGatheringUsersResources    = new ArrayList<>();
-  public static final List<SSServContainerI>               servsForGatheringUserRelations     = new ArrayList<>();
-  public static final List<SSServContainerI>               servsHandlingCircleContentRemoved  = new ArrayList<>();
-  public static final List<SSServContainerI>               servsHandlingCircleContentAdded    = new ArrayList<>();
-  public static final List<SSServContainerI>               servsHandlingEntityCopied          = new ArrayList<>();
-  public static final List<SSServContainerI>               servsHandlingGetSubEntities        = new ArrayList<>();
-  public static final List<SSServContainerI>               servsHandlingGetParentEntities     = new ArrayList<>();
-  public static final List<SSServContainerI>               servsHandlingCopyEntity            = new ArrayList<>();
-  public static final List<SSServContainerI>               servsHandlingDescribeEntity        = new ArrayList<>();
+  public static final SSServReg                            inst                                         = new SSServReg();
+  public static final Map<SSServOpE,     SSServContainerI> servs                                        = new EnumMap<>(SSServOpE.class);
+  public static final Map<SSServOpE,     SSServContainerI> servsForClientOps                            = new EnumMap<>(SSServOpE.class);
+  public static final Map<SSServOpE,     SSServContainerI> servsForServerOps                            = new EnumMap<>(SSServOpE.class);
+  public static final Map<Class,         SSServContainerI> servsForServerI                              = new HashMap<>();
+  public static final List<SSServContainerI>               servsForGatheringUsersResources              = new ArrayList<>();
+  public static final List<SSServContainerI>               servsForGatheringUserRelations               = new ArrayList<>();
+  public static final List<SSServContainerI>               servsHandlingCircleContentRemoved            = new ArrayList<>();
+  public static final List<SSServContainerI>               servsHandlingEntityCopied                    = new ArrayList<>();
+  public static final List<SSServContainerI>               servsHandlingGetSubEntities                  = new ArrayList<>();
+  public static final List<SSServContainerI>               servsHandlingGetParentEntities               = new ArrayList<>();
+  public static final List<SSServContainerI>               servsHandlingCopyEntity                      = new ArrayList<>();
+  public static final List<SSServContainerI>               servsHandlingDescribeEntity                  = new ArrayList<>();
+  public static final List<SSServContainerI>               servsHandlingAddAffiliatedEntitiesToCircle   = new ArrayList<>();
+  public static final List<SSServContainerI>               servsHandlingPushEntitiesToUsers             = new ArrayList<>();
   
   public static final Map<SSServOpE, Integer>                         requsLimitsForClientOpsPerUser  = new EnumMap<>(SSServOpE.class);
   public static final Map<SSServOpE, Map<String, List<SSServImplA>>>  currentRequsForClientOpsPerUser = new EnumMap<>(SSServOpE.class);
@@ -179,6 +180,50 @@ public class SSServReg{
     }
   }
   
+  public void regServForHandlingPushEntitiesToUsers(
+    final SSServContainerI servContainer) throws Exception{
+    
+    try{
+      
+      if(!servContainer.conf.use){
+        return;
+      }
+      
+      synchronized(servsHandlingPushEntitiesToUsers){
+        
+        if(servsHandlingPushEntitiesToUsers.contains(servContainer)){
+          throw new SSErr(SSErrE.servAlreadyRegistered);
+        }
+        
+        servsHandlingPushEntitiesToUsers.add(servContainer);
+      }
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  public void regServForHandlingAddAffiliatedEntitiesToCircle(
+    final SSServContainerI servContainer) throws Exception{
+    
+    try{
+      
+      if(!servContainer.conf.use){
+        return;
+      }
+      
+      synchronized(servsHandlingAddAffiliatedEntitiesToCircle){
+        
+        if(servsHandlingAddAffiliatedEntitiesToCircle.contains(servContainer)){
+          throw new SSErr(SSErrE.servAlreadyRegistered);
+        }
+        
+        servsHandlingAddAffiliatedEntitiesToCircle.add(servContainer);
+      }
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
   public void regServForHandlingCopyEntity(
     final SSServContainerI servContainer) throws Exception{
     
@@ -261,28 +306,6 @@ public class SSServReg{
         }
         
         servsHandlingEntityCopied.add(servContainer);
-      }
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
-  public void regServForHandlingCircleContentAdded(
-    final SSServContainerI servContainer) throws Exception{
-    
-    try{
-      
-      if(!servContainer.conf.use){
-        return;
-      }
-      
-      synchronized(servsHandlingCircleContentAdded){
-        
-        if(servsHandlingCircleContentAdded.contains(servContainer)){
-          throw new SSErr(SSErrE.servAlreadyRegistered);
-        }
-        
-        servsHandlingCircleContentAdded.add(servContainer);
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -450,6 +473,14 @@ public class SSServReg{
     }
   }
   
+  public List<SSServContainerI> getServsHandlingAddAffiliatedEntitiesToCircle(){
+    return new ArrayList<>(servsHandlingAddAffiliatedEntitiesToCircle);
+  }
+  
+  public List<SSServContainerI> getServsHandlingPushEntitiesToUsers(){
+    return new ArrayList<>(servsHandlingPushEntitiesToUsers);
+  }
+  
   public List<SSServContainerI> getServsHandlingDescribeEntity(){
     return new ArrayList<>(servsHandlingDescribeEntity);
   }
@@ -468,10 +499,6 @@ public class SSServReg{
   
   public List<SSServContainerI> getServsHandlingEntityCopied(){
     return new ArrayList<>(servsHandlingEntityCopied);
-  }
-  
-  public List<SSServContainerI> getServsHandlingCircleContentAdded(){
-    return new ArrayList<>(servsHandlingCircleContentAdded);
   }
   
   public List<SSServContainerI> getServsHandlingCircleContentRemoved(){

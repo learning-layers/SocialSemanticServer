@@ -45,20 +45,18 @@ import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsAddPar;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsRemovePar;
 import at.kc.tugraz.ss.service.user.api.SSUserServerI;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserURIsGetPar;
-import at.tugraz.sss.serv.SSCircleContentAddedI;
-import at.tugraz.sss.serv.SSCircleContentChangedPar;
 import at.tugraz.sss.serv.SSCircleE;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSEntityCircle;
 import at.tugraz.sss.serv.SSEntityCopyPar;
 import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.SSObjU;
-import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.util.SSServCallerU;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -460,21 +458,12 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
             null, //descPar,
             true)); //withUserRestriction,
       
-      for(SSServContainerI serv : SSServReg.inst.getServsHandlingCircleContentAdded()){
-        
-        ((SSCircleContentAddedI) serv.serv()).circleContentAdded(
-          new SSCircleContentChangedPar(
-            null, 
-            user4,
-            circle3Uri, //circle
-            false, //isPublicCircle
-            null,  //usersToAdd
-            entities, //entitiesToAdd,
-            null,  //usersToPushEntitiesTo
-            SSUri.getDistinctNotNullFromEntities(circle3.users), //circleUsers
-            null)); //circleEntities
-      }
-      
+      SSServCallerU.handleCircleEntitiesAdd(
+        user4,
+        circle3,
+        entities,
+        true);
+            
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
@@ -536,21 +525,6 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
             null, //types,
             null, //descPar,
             true)); //withUserRestriction,
-      
-      for(SSServContainerI serv : SSServReg.inst.getServsHandlingCircleContentAdded()){
-        
-        ((SSCircleContentAddedI) serv.serv()).circleContentAdded(
-          new SSCircleContentChangedPar(
-            null, 
-            user3,
-            circle2Uri, //circle
-            false, //isPublicCircle
-            null,  //usersToAdd
-            entities, //entitiesToAdd,
-            null,  //usersToPushEntitiesTo
-            SSUri.getDistinctNotNullFromEntities(circle2.users), //circleUsers
-            null)); //circleEntities
-      }
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -631,20 +605,11 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
             null, //descPar,
             true)); //withUserRestriction,
       
-      for(SSServContainerI serv : SSServReg.inst.getServsHandlingCircleContentAdded()){
-        
-        ((SSCircleContentAddedI) serv.serv()).circleContentAdded(
-          new SSCircleContentChangedPar(
-            null, 
-            user1,
-            circle1Uri, //circle
-            false, //isPublicCircle
-            null,  //usersToAdd
-            entities, //entitiesToAdd,
-            null,  //usersToPushEntitiesTo
-            SSUri.getDistinctNotNullFromEntities(circle1.users), //circleUsers
-            null)); //circleEntities
-      }
+      SSServCallerU.handleCircleEntitiesAdd(
+        user1,
+        circle1,
+        entities,
+        true);
       
       //user2
       
@@ -709,20 +674,6 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
             null, //descPar,
             true))); //withUserRestriction,
       
-      for(SSServContainerI serv : SSServReg.inst.getServsHandlingCircleContentAdded()){
-        
-        ((SSCircleContentAddedI) serv.serv()).circleContentAdded(
-          new SSCircleContentChangedPar(
-            null, 
-            user2,
-            circle1Uri, //circle
-            false, //isPublicCircle
-            null,  //usersToAdd
-            entities, //entitiesToAdd,
-            null,  //usersToPushEntitiesTo
-            SSUri.getDistinctNotNullFromEntities(circle1.users), //circleUsers
-            null)); //circleEntities
-      }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
@@ -842,21 +793,12 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
             true, //withUserRestriction,
             true)); //invokeEntityHandlers
       
-      for(SSServContainerI serv : SSServReg.inst.getServsHandlingCircleContentAdded()){
-        
-        ((SSCircleContentAddedI) serv.serv()).circleContentAdded(
-          new SSCircleContentChangedPar(
-            null, 
-            adminUri,
-            circle4Uri, //circle
-            false, //isPublicCircle
-            userUris,  //usersToAdd
-            null, //entitiesToAdd,
-            null,  //usersToPushEntitiesTo
-            SSUri.getDistinctNotNullFromEntities(circle4.users), //circleUsers
-            circle4.entities)); //circleEntities
-      }
-      
+      SSServCallerU.handleCircleUsersAdd(
+        adminUri,
+        circle4,
+        userUris,
+        true);
+            
       return circle4;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -909,20 +851,11 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
             true, //withUserRestriction,
             true)); //invokeEntityHandlers
       
-      for(SSServContainerI serv : SSServReg.inst.getServsHandlingCircleContentAdded()){
-        
-        ((SSCircleContentAddedI) serv.serv()).circleContentAdded(
-          new SSCircleContentChangedPar(
-            null, 
-            adminUri,
-            circle3Uri, //circle
-            false, //isPublicCircle
-            SSUri.asListWithoutNullAndEmpty(userUris.get(3)),  //usersToAdd
-            null, //entitiesToAdd,
-            null,  //usersToPushEntitiesTo
-            SSUri.getDistinctNotNullFromEntities(circle3.users), //circleUsers
-            circle3.entities)); //circleEntities
-      }
+      SSServCallerU.handleCircleUsersAdd(
+        adminUri,
+        circle3,
+        SSUri.asListWithoutNullAndEmpty(userUris.get(3)),
+        true);
       
       return circle3;
     }catch(Exception error){
@@ -976,20 +909,11 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
             true, //withUserRestriction,
             true)); //invokeEntityHandlers
       
-      for(SSServContainerI serv : SSServReg.inst.getServsHandlingCircleContentAdded()){
-        
-        ((SSCircleContentAddedI) serv.serv()).circleContentAdded(
-          new SSCircleContentChangedPar(
-            null, 
-            adminUri,
-            circle2Uri, //circle
-            false, //isPublicCircle
-            SSUri.asListWithoutNullAndEmpty(userUris.get(2)),  //usersToAdd
-            null, //entitiesToAdd,
-            null,  //usersToPushEntitiesTo
-            SSUri.getDistinctNotNullFromEntities(circle2.users), //circleUsers
-            circle2.entities)); //circleEntities
-      }
+      SSServCallerU.handleCircleUsersAdd(
+        adminUri,
+        circle2,
+        SSUri.asListWithoutNullAndEmpty(userUris.get(2)),
+        true);
       
       return circle2;
     }catch(Exception error){
@@ -1047,20 +971,11 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
             true, //withUserRestriction,
             true)); //invokeEntityHandlers
       
-      for(SSServContainerI serv : SSServReg.inst.getServsHandlingCircleContentAdded()){
-        
-        ((SSCircleContentAddedI) serv.serv()).circleContentAdded(
-          new SSCircleContentChangedPar(
-            null, 
-            adminUri,
-            circle1Uri, //circle
-            false, //isPublicCircle
-            circle1UserURIs,  //usersToAdd
-            null, //entitiesToAdd,
-            null,  //usersToPushEntitiesTo
-            SSUri.getDistinctNotNullFromEntities(circle1.users), //circleUsers
-            circle1.entities)); //circleEntities
-      }
+      SSServCallerU.handleCircleUsersAdd(
+        adminUri,
+        circle1,
+        circle1UserURIs,
+        true);
       
       return circle1;
     }catch(Exception error){

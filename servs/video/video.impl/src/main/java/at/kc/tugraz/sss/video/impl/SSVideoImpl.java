@@ -49,8 +49,8 @@ import at.kc.tugraz.sss.video.datatypes.ret.SSVideoUserAddRet;
 import at.kc.tugraz.sss.video.datatypes.ret.SSVideoUserAnnotationAddRet;
 import at.kc.tugraz.sss.video.datatypes.ret.SSVideosUserGetRet;
 import at.kc.tugraz.sss.video.impl.fct.sql.SSVideoSQLFct;
-import at.tugraz.sss.serv.SSCircleContentAddedI;
-import at.tugraz.sss.serv.SSCircleContentChangedPar;
+import at.tugraz.sss.serv.SSAddAffiliatedEntitiesToCircleI;
+import at.tugraz.sss.serv.SSAddAffiliatedEntitiesToCirclePar;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
@@ -59,6 +59,9 @@ import at.tugraz.sss.serv.SSEntityDescriberPar;
 import java.util.ArrayList;
 import java.util.List;
 import at.tugraz.sss.serv.SSErrE;
+import at.tugraz.sss.serv.SSPushEntitiesToUsersI;
+import at.tugraz.sss.serv.SSPushEntitiesToUsersPar;
+import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServReg;
@@ -72,7 +75,8 @@ implements
   SSVideoClientI, 
   SSVideoServerI, 
   SSDescribeEntityI, 
-  SSCircleContentAddedI{
+  SSPushEntitiesToUsersI,
+  SSAddAffiliatedEntitiesToCircleI{
   
   private final SSVideoSQLFct     sqlFct;
   private final SSEntityServerI   entityServ;
@@ -90,20 +94,45 @@ implements
   }
   
   @Override
-  public void circleContentAdded(final SSCircleContentChangedPar par) throws Exception{
+  public List<SSEntity> addAffiliatedEntitiesToCircle(final SSAddAffiliatedEntitiesToCirclePar par) throws Exception{
     
     try{
+      final List<SSUri>    affiliatedURIs     = new ArrayList<>();
+      final List<SSEntity> affiliatedEntities = new ArrayList<>();
       
-      for(SSEntity entityToAdd : par.entitiesToAdd){
+      for(SSEntity entityAdded : par.entities){
         
-        switch(entityToAdd.type){
-          
-          case video:{
+        switch(entityAdded.type){
+          case disc:
+          case chat:
+          case qa:{
             
-            if(SSStrU.contains(par.recursiveEntities, entityToAdd)){
+            if(SSStrU.contains(par.recursiveEntities, entityAdded)){
               continue;
             }else{
-              SSUri.addDistinctWithoutNull(par.recursiveEntities, entityToAdd.id);
+              SSUri.addDistinctWithoutNull(par.recursiveEntities, entityAdded.id);
+            }
+            
+            affiliatedURIs.clear();
+            
+            for(SSEntity videoContentEntity :
+              videoAnnotationsGet(
+                new SSVideoAnnotationsGetPar(
+                  par.user,
+                  entityAdded.id,
+                  par.withUserRestriction))){
+            
+              if(SSStrU.contains(par.recursiveEntities, videoContentEntity)){
+                continue;
+              }
+              
+              SSUri.addDistinctWithoutNull(
+                affiliatedURIs,
+                videoContentEntity.id);
+              
+              SSEntity.addEntitiesDistinctWithoutNull(
+                affiliatedEntities, 
+                videoContentEntity);
             }
             
             circleServ.circleEntitiesAdd(
@@ -112,17 +141,46 @@ implements
                 null,
                 par.user,
                 par.circle,
-                SSUri.getDistinctNotNullFromEntities(
-                  videoAnnotationsGet(
-                    new SSVideoAnnotationsGetPar(
-                      par.user,
-                      entityToAdd.id,
-                      true))),
-                false,
-                false));
+                affiliatedURIs,
+                par.withUserRestriction, //withUserRestriction
+                false)); //shouldCommit
             
-            for(SSUri userToPushEntityTo : par.usersToPushEntitiesTo){
-              sqlFct.addVideoToUser(userToPushEntityTo, entityToAdd.id);
+            break;
+          }
+        }
+      }
+      
+      if(affiliatedEntities.isEmpty()){
+        return affiliatedEntities;
+      }
+      
+      par.entities.clear();
+      par.entities.addAll(affiliatedEntities);
+      
+      for(SSServContainerI serv : SSServReg.inst.getServsHandlingAddAffiliatedEntitiesToCircle()){
+        ((SSAddAffiliatedEntitiesToCircleI) serv.serv()).addAffiliatedEntitiesToCircle(par);
+      }
+      
+      return affiliatedEntities;
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+   @Override
+  public void pushEntitiesToUsers(
+    final SSPushEntitiesToUsersPar par) throws Exception {
+    
+    try{
+      for(SSEntity entityToPush : par.entities){
+        
+        switch(entityToPush.type){
+          case video: {
+            
+             for(SSUri userToPushTo : par.users){
+              sqlFct.addVideoToUser(userToPushTo, entityToPush.id);
             }
             
             break;
