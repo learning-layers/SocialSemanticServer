@@ -30,6 +30,10 @@ public class SSLearnEp extends SSEntity {
   public Boolean    locked       = false;
   public Boolean    lockedByUser = false;
   
+  public List<SSEntity> getVersions(){
+    return entries;
+  }
+  
   @Override
   public Object jsonLDDesc(){
     throw new UnsupportedOperationException();

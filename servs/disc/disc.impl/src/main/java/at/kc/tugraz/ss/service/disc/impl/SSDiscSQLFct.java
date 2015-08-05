@@ -18,7 +18,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.service.disc.impl.fct.sql;
+package at.kc.tugraz.ss.service.disc.impl;
 
 import at.tugraz.sss.serv.SSSQLVarNames;
 import at.tugraz.sss.serv.SSDBSQLFct;
@@ -28,8 +28,9 @@ import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.kc.tugraz.ss.service.disc.datatypes.SSDisc;
 import at.kc.tugraz.ss.service.disc.datatypes.SSDiscEntry;
 import at.tugraz.sss.serv.SSTextComment;
-import at.tugraz.sss.serv.SSEntityA;
 import at.tugraz.sss.serv.SSEntityE;
+import at.tugraz.sss.serv.SSErr;
+import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -116,9 +117,13 @@ public class SSDiscSQLFct extends SSDBSQLFct {
       
       column(columns, SSSQLVarNames.discId);
       
-      where(wheres, SSSQLVarNames.userId, userUri);
+      if(userUri != null){
+        where(wheres, SSSQLVarNames.userId, userUri);
       
-      resultSet = dbSQL.select(SSSQLVarNames.discUserTable, columns, wheres, null, null, null);
+        resultSet = dbSQL.select(SSSQLVarNames.discUserTable, columns, wheres, null, null, null);
+      }else{
+        resultSet = dbSQL.select(SSSQLVarNames.discTable, columns, wheres, null, null, null);
+      }
       
       return getURIsFromResult(resultSet, SSSQLVarNames.discId);
     }catch(Exception error){
@@ -129,27 +134,41 @@ public class SSDiscSQLFct extends SSDBSQLFct {
     }
   }
   
-  public List<SSUri> getDiscURIs(
-    final SSUri userUri,
-    final SSUri targetUri) throws Exception{
+  public List<SSUri> getDiscURIsForTarget(
+    final SSUri forUser,
+    final SSUri target) throws Exception{
     
     ResultSet resultSet = null;
     
     try{
       
-      final List<String>        tables    = new ArrayList<>();
+      if(target == null){
+        throw new SSErr(SSErrE.parameterMissing);
+      }
+      
       final Map<String, String> wheres    = new HashMap<>();
       final List<String>        columns   = new ArrayList<>();
-      final List<String>        tableCons = new ArrayList<>();
       
-      table     (tables, SSSQLVarNames.discUserTable);
-      table     (tables, SSSQLVarNames.discTable);     
-      column    (columns, SSSQLVarNames.discUserTable,      SSSQLVarNames.discId);
-      where     (wheres,    SSSQLVarNames.userId,   userUri);
-      where     (wheres,    SSSQLVarNames.entityId, targetUri);
-      tableCon  (tableCons, SSSQLVarNames.discTable,          SSSQLVarNames.discId, SSSQLVarNames.discUserTable, SSSQLVarNames.discId);
+      column    (columns,   SSSQLVarNames.discTable,      SSSQLVarNames.discId);
       
-      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
+      where     (wheres,    SSSQLVarNames.entityId, target);
+      
+      if(forUser != null){
+
+        final List<String>        tables    = new ArrayList<>();
+        final List<String>        tableCons = new ArrayList<>();
+      
+        table     (tables,    SSSQLVarNames.discTable);
+        table     (tables,    SSSQLVarNames.discUserTable);
+        
+        where     (wheres,    SSSQLVarNames.userId,   forUser);
+        
+        tableCon  (tableCons, SSSQLVarNames.discTable, SSSQLVarNames.discId, SSSQLVarNames.discUserTable, SSSQLVarNames.discId);
+        
+        resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
+      }else{
+        resultSet = dbSQL.select(SSSQLVarNames.discTable, columns, wheres, null, null, null);
+      }
       
       return getURIsFromResult(resultSet, SSSQLVarNames.discId);
     }catch(Exception error){
@@ -334,7 +353,7 @@ public class SSDiscSQLFct extends SSDBSQLFct {
     }
   }
   
-  public SSDisc getDiscWithoutEntries(
+  private SSDisc getDiscWithoutEntries(
     final SSUri discUri) throws Exception{
     
     ResultSet resultSet = null;
@@ -433,26 +452,33 @@ public class SSDiscSQLFct extends SSDBSQLFct {
     }
   }
   
-  public SSDisc getDiscWithEntries(
-    final SSUri   discUri) throws Exception {
+  public SSDisc getDisc(
+    final SSUri   discUri,
+    final Boolean setEntries) throws Exception {
     
     ResultSet resultSet = null;
     
     try{
+      
+      final SSDisc              disc          = getDiscWithoutEntries(discUri);
+      
+      if(!setEntries){
+        return disc;
+      }
+      
       final List<String>        tables        = new ArrayList<>();
       final List<String>        columns       = new ArrayList<>();
       final List<String>        tableCons     = new ArrayList<>();
       final Map<String, String> wheres        = new HashMap<>();
-      final SSDisc              disc          = getDiscWithoutEntries(discUri);
-      
-      table(tables, SSSQLVarNames.entityTable);
-      table(tables, SSSQLVarNames.discEntriesTable);
-      table(tables, SSSQLVarNames.discEntryTable);
       
       column(columns, SSSQLVarNames.discEntryContent);
       column(columns, SSSQLVarNames.pos);
       column(columns, SSSQLVarNames.type);
       column(columns, SSSQLVarNames.discEntriesTable, SSSQLVarNames.discEntryId);
+      
+      table(tables, SSSQLVarNames.entityTable);
+      table(tables, SSSQLVarNames.discEntriesTable);
+      table(tables, SSSQLVarNames.discEntryTable);
       
       where(wheres, SSSQLVarNames.discId, discUri);
       

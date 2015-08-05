@@ -20,14 +20,26 @@
 */
 package at.tugraz.sss.adapter.rest.v2.disc;
 
+import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.tugraz.sss.serv.SSUri;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-@ApiModel(value = "discGet request parameter")
-public class SSDiscGetRESTAPIV2Par{
+@ApiModel(value = "discsGet request parameter")
+public class SSDiscsGetRESTAPIV2Par{
+  
+  @ApiModelProperty( 
+    required = false, 
+    value = "user for which discussion will be retrieved")
+  public SSUri    forUser       = null;
+
+  @XmlElement
+  public void setForUser(final String forUser) throws Exception{
+    this.forUser = SSUri.get(forUser, SSVocConf.sssUri);
+  }
   
   @XmlElement
   @ApiModelProperty( 

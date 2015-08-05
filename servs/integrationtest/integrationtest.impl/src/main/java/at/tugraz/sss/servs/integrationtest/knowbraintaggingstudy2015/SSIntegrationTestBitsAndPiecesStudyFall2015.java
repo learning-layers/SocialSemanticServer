@@ -21,38 +21,31 @@
 package at.tugraz.sss.servs.integrationtest.knowbraintaggingstudy2015;
 
 import at.kc.tugraz.ss.category.api.SSCategoryServerI;
-import at.kc.tugraz.ss.circle.api.SSCircleServerI;
-import at.kc.tugraz.ss.recomm.api.SSRecommServerI;
-import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.kc.tugraz.ss.category.datatypes.par.SSCategoriesPredefinedGetPar;
+import at.kc.tugraz.ss.serv.datatypes.learnep.api.SSLearnEpServerI;
+import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpsGetPar;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
-import at.kc.tugraz.ss.service.tag.api.SSTagServerI;
 import at.kc.tugraz.ss.service.user.api.SSUserServerI;
+import at.kc.tugraz.ss.service.user.datatypes.pars.SSUsersGetPar;
 import at.kc.tugraz.ss.service.userevent.api.SSUEServerI;
 import at.kc.tugraz.ss.service.userevent.datatypes.pars.SSUEsGetPar;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
-import java.util.ArrayList;
 import java.util.List;
 
 public class SSIntegrationTestBitsAndPiecesStudyFall2015 {
   
-  private final SSCircleServerI    circleServ;
   private final SSUserServerI      userServ;
-  private final SSEntityServerI    entityServ;
-  private final SSTagServerI       tagServ;
   private final SSCategoryServerI  categoryServ;
-  private final SSRecommServerI    recommServ;
   private final SSUEServerI        userEventServ;
+  private final SSLearnEpServerI   learnEpServ;
   
   public SSIntegrationTestBitsAndPiecesStudyFall2015() throws Exception{
-    circleServ      = (SSCircleServerI)   SSServReg.getServ (SSCircleServerI.class);
     userServ        = (SSUserServerI)     SSServReg.getServ (SSUserServerI.class);
-    entityServ      = (SSEntityServerI)   SSServReg.getServ (SSEntityServerI.class);
-    tagServ         = (SSTagServerI)      SSServReg.getServ (SSTagServerI.class);
     categoryServ    = (SSCategoryServerI) SSServReg.getServ (SSCategoryServerI.class);
-    recommServ      = (SSRecommServerI)   SSServReg.getServ (SSRecommServerI.class);
     userEventServ   = (SSUEServerI)       SSServReg.getServ (SSUEServerI.class);
+    learnEpServ     = (SSLearnEpServerI)  SSServReg.getServ (SSLearnEpServerI.class);
   }
   
   public List<SSEntity> getUserEvents() throws Exception {
@@ -81,16 +74,61 @@ public class SSIntegrationTestBitsAndPiecesStudyFall2015 {
     }
   }
   
-  public List<SSEntity> getPredefinedCategories() {
+  public List<String> getPredefinedCategories() throws Exception {
     
-    return new ArrayList<>();
+    try{
+      
+      final List<String> predefinedCategories =
+        categoryServ.categoriesPredefinedGet(
+          new SSCategoriesPredefinedGetPar(
+            null,
+            null,
+            SSVocConf.systemUserUri));
+    
+      return predefinedCategories;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
   }
   
-  public List<SSEntity> getUsers() {
-    return new ArrayList<>();
+  public List<SSEntity> getUsers() throws Exception {
+   
+    try{
+      
+      final List<SSEntity> users =
+        userServ.usersGet(
+          new SSUsersGetPar(
+            null,
+            null,
+            SSVocConf.systemUserUri,
+            null,  //users
+            true)); //invokeEntityHandlers
+    
+      return users;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
   }
   
-  public List<SSEntity> getLearningEpisodes() {
-    return new ArrayList<>();
+  public List<SSEntity> getLearningEpisodes() throws Exception {
+    
+    try{
+      
+      final List<SSEntity> learnEps =
+        learnEpServ.learnEpsGet(
+          new SSLearnEpsGetPar(
+            null,
+            null,
+            SSVocConf.systemUserUri,
+            true,  //withUserRestriction
+            true)); //invokeEntityHandlers
+    
+      return learnEps;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
   }
 }

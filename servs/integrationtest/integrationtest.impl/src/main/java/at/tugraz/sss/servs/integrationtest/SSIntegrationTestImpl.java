@@ -54,7 +54,7 @@ implements
       final SSIntegrationTestBitsAndPiecesStudyFall2015 bitsAndPiecesStudyFall2015 = new SSIntegrationTestBitsAndPiecesStudyFall2015();
       
       final List<SSEntity> userEvents           = bitsAndPiecesStudyFall2015.getUserEvents();
-      final List<SSEntity> predefinedCategories = bitsAndPiecesStudyFall2015.getPredefinedCategories();
+      final List<String>   predefinedCategories = bitsAndPiecesStudyFall2015.getPredefinedCategories();
       final List<SSEntity> users                = bitsAndPiecesStudyFall2015.getUsers();
       final List<SSEntity> learnEps             = bitsAndPiecesStudyFall2015.getLearningEpisodes();
 

@@ -25,9 +25,8 @@ import at.tugraz.sss.serv.SSServPar;
 
 public interface SSDiscClientI {
   
-  public void discURIsForTargetGet  (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
   public void discRemove            (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void discWithEntriesGet    (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void discGet               (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
   public void discEntryAdd          (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void discsAllGet           (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void discsGet              (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
 }

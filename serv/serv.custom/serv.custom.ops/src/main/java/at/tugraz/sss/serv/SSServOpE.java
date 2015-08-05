@@ -263,13 +263,11 @@ public enum SSServOpE{
   dataImportMediaWikiUser,
   
   //disc
-  discURIsForTargetGet,
   discEntryURIsGet,
   discRemove,
   discEntryAdd,
-  discWithEntriesGet,
-  discsWithEntriesGet,
-  discsAllGet,
+  discGet,
+  discsGet,
   
   //broadcast
   broadcastServerTime                                 ,

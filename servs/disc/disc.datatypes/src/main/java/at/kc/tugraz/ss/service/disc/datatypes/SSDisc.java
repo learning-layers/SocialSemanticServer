@@ -3,7 +3,7 @@
 * http://www.learning-layers.eu
 * Development is partly funded by the FP7 Programme of the European Commission under
 * Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+* Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
 * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -26,14 +26,10 @@ import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSEntity;
-import com.wordnik.swagger.annotations.ApiModelProperty;
 import java.util.*;
 
 public class SSDisc extends SSEntity {
   
-  @ApiModelProperty(
-    required = false,
-    value = "entity discussed")
   public SSUri  entity = null;
 
   public String getEntity() throws Exception{
@@ -72,11 +68,20 @@ public class SSDisc extends SSEntity {
       entity);
   }
 
-   protected SSDisc(
+  protected SSDisc(
     final SSDisc              disc,
     final SSEntity            entity) throws Exception{
     
      super(disc, entity);
+     
+     if(disc.entity != null){
+       this.entity = disc.entity;
+     }else{
+       
+       if(entity instanceof SSDisc){
+         this.entity = ((SSDisc) entity).entity;
+       }
+     }
      
      this.entity = disc.entity;
    }

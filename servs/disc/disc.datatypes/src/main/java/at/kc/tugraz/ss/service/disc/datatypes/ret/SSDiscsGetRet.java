@@ -27,29 +27,15 @@ import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServRetI;
 import at.kc.tugraz.ss.service.disc.datatypes.SSDisc;
+import at.tugraz.sss.serv.SSEntity;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SSDiscsAllGetRet extends SSServRetI{
+public class SSDiscsGetRet extends SSServRetI{
 
-  public List<SSDisc> discs = new ArrayList<>();
-
-  public List<SSDisc> getDiscs(){
-    return discs;
-  }
-  
-  public static SSDiscsAllGetRet get(List<SSDisc> discs){
-    return new SSDiscsAllGetRet(discs);
-  }
-  
-  private SSDiscsAllGetRet(List<SSDisc> discs){
-    
-    super(SSServOpE.discsAllGet);
-    
-    this.discs.addAll(discs);
-  }
+  public List<SSEntity> discs = new ArrayList<>();
 
   @Override
   public Map<String, Object> jsonLDDesc(){
@@ -64,4 +50,15 @@ public class SSDiscsAllGetRet extends SSServRetI{
     
     return ld;
   }  
+  
+  public static SSDiscsGetRet get(final List<SSEntity> discs){
+    return new SSDiscsGetRet(discs);
+  }
+  
+  private SSDiscsGetRet(final List<SSEntity> discs){
+    
+    super(SSServOpE.discsGet);
+    
+    SSEntity.addEntitiesDistinctWithoutNull(this.discs, discs);
+  }
 }

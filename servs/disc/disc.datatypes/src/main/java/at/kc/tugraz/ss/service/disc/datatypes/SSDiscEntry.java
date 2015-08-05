@@ -71,13 +71,28 @@ public class SSDiscEntry extends SSEntity{
   }
   
   protected SSDiscEntry(
-    final SSDiscEntry            entry,
+    final SSDiscEntry            discEntry,
     final SSEntity               entity) throws Exception{
     
-    super(entry, entity);
+    super(discEntry, entity);
     
-    this.pos     = entry.pos;
-    this.content = entry.content;
+    if(discEntry.pos != null){
+      this.pos = discEntry.pos;
+    }else{
+     
+      if(entity instanceof SSDiscEntry){
+        this.pos = ((SSDiscEntry) discEntry).pos;
+      }
+    }
+    
+    if(discEntry.pos != null){
+      this.content = discEntry.content;
+    }else{
+     
+      if(entity instanceof SSDiscEntry){
+        this.content = ((SSDiscEntry) discEntry).content;
+      }
+    }
   }
   
   protected SSDiscEntry(

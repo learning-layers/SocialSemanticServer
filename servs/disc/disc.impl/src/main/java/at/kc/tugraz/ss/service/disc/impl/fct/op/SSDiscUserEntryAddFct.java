@@ -34,7 +34,7 @@ import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.tugraz.sss.util.SSServCallerU;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscEntryAddPar;
-import at.kc.tugraz.ss.service.disc.impl.fct.sql.SSDiscSQLFct;
+import at.kc.tugraz.ss.service.disc.impl.SSDiscSQLFct;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSErrE;
@@ -43,7 +43,13 @@ import at.tugraz.sss.serv.SSServReg;
 
 public class SSDiscUserEntryAddFct{
   
-  public static void addDisc(
+  private final SSEntityServerI entityServ;
+  
+  public SSDiscUserEntryAddFct(final SSEntityServerI entityServ){
+    this.entityServ = entityServ;
+  }
+  
+  public void addDisc(
     final SSDiscSQLFct  sqlFct,
     final SSUri         discUri,
     final SSUri         userUri, 
@@ -62,7 +68,7 @@ public class SSDiscUserEntryAddFct{
         tmpTargetUri = targetUri;
       }
       
-      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+      entityServ.entityUpdate(
         new SSEntityUpdatePar(
           null,
           null,
@@ -78,7 +84,7 @@ public class SSDiscUserEntryAddFct{
           false, //withUserRestriction
           false)); //shouldCommit)
       
-      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+      entityServ.entityUpdate(
         new SSEntityUpdatePar(
           null,
           null,
@@ -104,7 +110,7 @@ public class SSDiscUserEntryAddFct{
     }
   }
 
-  public static SSUri addDiscEntry(
+  public SSUri addDiscEntry(
     final SSDiscSQLFct  sqlFct, 
     final SSUri         userUri,
     final SSUri         discUri, 
@@ -113,7 +119,7 @@ public class SSDiscUserEntryAddFct{
     try{
       final SSUri     discEntryUri  = SSServCaller.vocURICreate();
       final SSEntityE discType      =
-        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+        entityServ.entityGet(
           new SSEntityGetPar(
             null,
             null,
@@ -131,7 +137,7 @@ public class SSDiscUserEntryAddFct{
         default: throw new Exception("disc type not valid");
       }
       
-      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+      entityServ.entityUpdate(
         new SSEntityUpdatePar(
           null,
           null,
@@ -183,7 +189,7 @@ public class SSDiscUserEntryAddFct{
     }
   }
   
-  public static void checkWhetherUserCanAddDisc(
+  public void checkWhetherUserCanAddDisc(
     final SSDiscEntryAddPar par) throws Exception{
     
     try{
@@ -204,7 +210,7 @@ public class SSDiscUserEntryAddFct{
     }
   }
 
-  public static void checkWhetherUserCanAddDiscEntry(
+  public void checkWhetherUserCanAddDiscEntry(
     final SSDiscEntryAddPar par) throws Exception{
     
     try{

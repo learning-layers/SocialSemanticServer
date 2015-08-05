@@ -25,12 +25,14 @@ import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServOpE;
 
-public class SSDiscWithEntriesGetPar extends SSServPar{
+public class SSDiscGetPar extends SSServPar{
   
-  public SSUri      disc             = null;
-  public Integer    maxEntries       = 10;
-  public Boolean    includeComments  = false;
-  public Boolean    setLikes         = false;
+  public SSUri      disc                 = null;
+  public Boolean    invokeEntityHandlers = null;
+  public Boolean    setEntries           = false;
+  public Boolean    setLikes             = false;
+  public Boolean    setCircleTypes       = false;
+  public Boolean    setComments          = false;
   
   public void setDisc(final String disc) throws Exception{
     this.disc = SSUri.get(disc);
@@ -40,22 +42,20 @@ public class SSDiscWithEntriesGetPar extends SSServPar{
     return SSStrU.removeTrailingSlash(disc);
   }
   
-  public SSDiscWithEntriesGetPar(){}
+  public SSDiscGetPar(){}
   
-  public SSDiscWithEntriesGetPar(
+  public SSDiscGetPar(
     final SSUri     user,
     final SSUri     disc,
-    final Integer   maxEntries,
-    final Boolean   withUserRestriction){
+    final Boolean   setEntries,
+    final Boolean   withUserRestriction,
+    final Boolean   invokeEntityHandlers){
     
-    super(SSServOpE.discsWithEntriesGet, null, user);
+    super(SSServOpE.discGet, null, user);
     
-    this.disc                = disc;
-    
-    if(maxEntries != null){
-      this.maxEntries          = maxEntries;
-    }
-    
-    this.withUserRestriction = withUserRestriction;
+    this.disc                 = disc;
+    this.setEntries           = setEntries;
+    this.withUserRestriction  = withUserRestriction;
+    this.invokeEntityHandlers = invokeEntityHandlers;
   }
 }

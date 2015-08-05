@@ -23,14 +23,12 @@ package at.tugraz.sss.adapter.rest.v2.disc;
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscEntryAddFromClientPar;
-import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscURIsForTargetGetPar;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscEntryAddPar;
-import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscWithEntriesGetPar;
-import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscsAllGetPar;
-import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscURIsForTargetGetRet;
+import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscGetPar;
+import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscsGetPar;
 import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscEntryAddRet;
-import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscWithEntriesRet;
-import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscsAllGetRet;
+import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscGetRet;
+import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscsGetRet;
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSVarNames;
@@ -51,26 +49,36 @@ import javax.ws.rs.core.Response;
 @Api( value = "/discs")
 public class SSRESTDisc{
  
-  @GET
+  @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path("")
+  @Path("/filtered")
   @ApiOperation(
     value = "retrieve discussions",
-    response = SSDiscsAllGetRet.class)
+    response = SSDiscsGetRet.class)
   public Response discsGet(
     @Context 
-      final HttpHeaders headers){
+      final HttpHeaders headers,
     
-    final SSDiscsAllGetPar par;
+    final SSDiscsGetRESTAPIV2Par input){
+    
+    final SSDiscsGetPar par;
     
     try{
       
       par =
-        new SSDiscsAllGetPar(
-          SSServOpE.discsAllGet,
-          null,
-          null);
+        new SSDiscsGetPar(
+          null, //user,
+          input.setEntries, //setEntries,
+          input.forUser, //forUser,
+          null, //discs,
+          null, //target,
+          true, //withUserRestriction,
+          true); //invokeEntityHandlers
+      
+      par.setCircleTypes = input.setCircleTypes;
+      par.setComments    = input.setComments;
+      par.setLikes       = input.setLikes;
       
     }catch(Exception error){
       return Response.status(422).build();
@@ -126,7 +134,7 @@ public class SSRESTDisc{
   @Path("/filtered/{disc}")
   @ApiOperation(
     value = "retrieve a discussion with its entries",
-    response = SSDiscWithEntriesRet.class)
+    response = SSDiscGetRet.class)
   public Response discWithEntriesGet(
     @Context                    
       final HttpHeaders  headers,
@@ -136,19 +144,21 @@ public class SSRESTDisc{
     
     final SSDiscGetRESTAPIV2Par input){
     
-    final SSDiscWithEntriesGetPar par;
+    final SSDiscGetPar par;
     
     try{
       
       par =
-        new SSDiscWithEntriesGetPar(
+        new SSDiscGetPar(
           null, //user
           SSUri.get(disc, SSVocConf.sssUri), //disc
-          10, //maxEntries
-          true); //withUserRestriction
+          input.setEntries, //setEntries
+          true, //withUserRestriction
+          true); //invokeEntityHandlers
       
-      par.includeComments = input.includeComments;
-      par.setLikes        = input.setLikes;
+      par.setCircleTypes = input.setCircleTypes;
+      par.setComments    = input.setComments;
+      par.setLikes       = input.setLikes;
       
     }catch(Exception error){
       return Response.status(422).build();
@@ -160,28 +170,30 @@ public class SSRESTDisc{
   @GET
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path("/entities/{entity}")
+  @Path("/targets/{target}")
   @ApiOperation(
-    value = "retrieve discussions for a certain entity",
-    response = SSDiscURIsForTargetGetRet.class)
-  public Response discURIsForTargetGet(
+    value = "retrieve discussions for a certain entity, i.e. target",
+    response = SSDiscsGetRet.class)
+  public Response discsForTargetGet(
     @Context
     final HttpHeaders  headers,
     
-    @PathParam (SSVarNames.entity)
-    final String entity){
+    @PathParam (SSVarNames.target)
+    final String target){
     
-    final SSDiscURIsForTargetGetPar par;
+    final SSDiscsGetPar par;
     
     try{
       
       par =
-        new SSDiscURIsForTargetGetPar(
-          SSServOpE.discURIsForTargetGet, //op
-          null, //key
+        new SSDiscsGetPar(
           null, //user
-          SSUri.get(entity, SSVocConf.sssUri), //entity
-          true); //withUserRestriction
+          true, //setEntries
+          null, //forUser
+          null, //discs
+          SSUri.get(target, SSVocConf.sssUri), //target
+          true, //withUserRestriction
+          true); //invokeEntityHandlers
       
     }catch(Exception error){
       return Response.status(422).build();

@@ -23,8 +23,8 @@ package at.kc.tugraz.ss.service.disc.impl.fct.misc;
 import at.tugraz.sss.serv.SSUri;
 
 import at.kc.tugraz.ss.service.disc.datatypes.SSDisc;
-import at.kc.tugraz.ss.service.disc.datatypes.SSDiscEntry;
-import at.kc.tugraz.ss.service.disc.impl.fct.sql.SSDiscSQLFct;
+import at.kc.tugraz.ss.service.disc.impl.SSDiscSQLFct;
+import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSServErrReg;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,13 +38,13 @@ public class SSDiscMiscFct{
     try{
 
       final List<SSUri>  discContentUris = new ArrayList<>();
-      final SSDisc       disc            = sqlFct.getDiscWithEntries(discUri);
+      final SSDisc       disc            = sqlFct.getDisc(discUri, true);
 
       discContentUris.add(discUri);
       discContentUris.add(disc.entity);
       
-      for(Object entry : disc.entries){
-        discContentUris.add(((SSDiscEntry)entry).id);
+      for(SSEntity entry : disc.entries){
+        discContentUris.add(entry.id);
       }
       
       return discContentUris;

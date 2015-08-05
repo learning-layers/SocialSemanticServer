@@ -3,7 +3,7 @@
 * http://www.learning-layers.eu
 * Development is partly funded by the FP7 Programme of the European Commission under
 * Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
+* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
 * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,21 +18,40 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.service.disc.datatypes.pars;
+package at.kc.tugraz.ss.service.disc.datatypes.ret;
 
 import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.SSVarNames;
+import at.tugraz.sss.serv.SSServRetI;
+import at.kc.tugraz.ss.service.disc.datatypes.SSDisc;
+import java.util.HashMap;
+import java.util.Map;
 
-public class SSDiscsAllGetPar extends SSServPar{
-  
-  public SSDiscsAllGetPar(){}
-  
-  public SSDiscsAllGetPar(
-    final SSServOpE op,
-    final String    key,
-    final SSUri     user){
+public class SSDiscGetRet extends SSServRetI{
+
+  public SSDisc disc = null;
+
+  @Override
+  public Map<String, Object> jsonLDDesc(){
     
-    super(op, key, user);
+    Map<String, Object> ld         = new HashMap<>();
+    
+    ld.put(SSVarNames.disc, SSVarNames.sss + SSStrU.colon + SSDisc.class.getName());
+    
+    return ld;
+  }
+  
+  public static SSDiscGetRet get(
+    final SSDisc disc){
+    return new SSDiscGetRet(disc);
+  }
+  
+  private SSDiscGetRet(
+    final SSDisc disc){
+    
+    super(SSServOpE.discGet);
+    
+    this.disc = disc;
   }
 }
