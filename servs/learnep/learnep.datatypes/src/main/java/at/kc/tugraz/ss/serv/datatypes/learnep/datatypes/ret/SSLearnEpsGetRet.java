@@ -27,13 +27,14 @@ import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSJSONLDU;
 import at.tugraz.sss.serv.SSServRetI;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class SSLearnEpsGetRet extends SSServRetI{
 
-  public List<SSEntity> learnEps = null;
+  public List<SSEntity> learnEps = new ArrayList<>();
 
   @Override
   public Map<String, Object> jsonLDDesc(){
