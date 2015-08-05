@@ -66,11 +66,20 @@ public class SSIntegrationTestServ extends SSServContainerI{
       return;
     }
     
+    final SSIntegrationTestServerI integrationTestServ = 
+      ((SSIntegrationTestServerI) SSServReg.getServ(SSIntegrationTestServerI.class));
+    
+    
     for(SSIntegrationTestE test : ((SSIntegrationTestConf) conf).tests){
 
       switch(test){
         case knowBrainTaggingStudy2015:{
-          ((SSIntegrationTestServerI) SSServReg.getServ(SSIntegrationTestServerI.class)).integrationTestKnowBrainTaggingStudy2015();
+          integrationTestServ.integrationTestKnowBrainTaggingStudy2015();
+          break;
+        }
+        
+        case bitsAndPiecesStudyFall2015:{
+          integrationTestServ.integrationTestBitsAndPiecesStudyFall2015();
           break;
         }
       }

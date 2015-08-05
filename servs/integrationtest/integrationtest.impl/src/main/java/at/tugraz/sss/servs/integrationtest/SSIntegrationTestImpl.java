@@ -26,10 +26,13 @@ import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSDBSQLI;
+import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSEntityCircle;
+import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.servs.integrationtest.knowbraintaggingstudy2015.SSIntegrationTestBitsAndPiecesStudyFall2015;
 import at.tugraz.sss.servs.integrationtest.knowbraintaggingstudy2015.SSIntegrationTestKnowBrainTaggingStudy2015;
 import java.util.List;
 
@@ -40,27 +43,53 @@ implements
   SSIntegrationTestClientI,
   SSIntegrationTestServerI{
   
-  private final SSIntegrationTestKnowBrainTaggingStudy2015 knowBrainTaggingStudy2015;
-  
   public SSIntegrationTestImpl(final SSIntegrationTestConf conf) throws Exception{
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
-    
-    knowBrainTaggingStudy2015 = new SSIntegrationTestKnowBrainTaggingStudy2015();
   }
   
-//  @Override
-//  public void jsonLD(SSSocketCon sSCon, SSServPar parA) throws Exception{
-//
-//    SSServCallerU.checkKey(parA);
-//
-//    sSCon.writeRetFullToClient(SSJSONLDRet.get(jsonLD(par)));
-//  }
-  
+  @Override
+  public Boolean integrationTestBitsAndPiecesStudyFall2015() throws Exception{
+    
+    try{
+      final SSIntegrationTestBitsAndPiecesStudyFall2015 bitsAndPiecesStudyFall2015 = new SSIntegrationTestBitsAndPiecesStudyFall2015();
+      
+      final List<SSEntity> userEvents           = bitsAndPiecesStudyFall2015.getUserEvents();
+      final List<SSEntity> predefinedCategories = bitsAndPiecesStudyFall2015.getPredefinedCategories();
+      final List<SSEntity> users                = bitsAndPiecesStudyFall2015.getUsers();
+      final List<SSEntity> learnEps             = bitsAndPiecesStudyFall2015.getLearningEpisodes();
+
+      dbSQL.startTrans(true);
+      
+      dbSQL.commit(true);
+      
+      return true;
+    }catch(Exception error){
+      
+      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+        
+        if(dbSQL.rollBack(true)){
+          
+          SSServErrReg.reset();
+          
+          return integrationTestKnowBrainTaggingStudy2015();
+        }else{
+          SSServErrReg.regErrThrow(error);
+          return null;
+        }
+      }
+      
+      dbSQL.rollBack(true);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+    
   @Override
   public Boolean integrationTestKnowBrainTaggingStudy2015() throws Exception{
     
     try{
-      
+      final SSIntegrationTestKnowBrainTaggingStudy2015  knowBrainTaggingStudy2015 =  new SSIntegrationTestKnowBrainTaggingStudy2015();
+
       final SSUri          adminUri    = SSVocConf.systemUserUri;
       final List<SSUri>    userUris    = knowBrainTaggingStudy2015.getUserUris(SSCoreConf.instGet().getRecomm());
       
@@ -92,6 +121,21 @@ implements
       
       return true;
     }catch(Exception error){
+      
+      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+        
+        if(dbSQL.rollBack(true)){
+          
+          SSServErrReg.reset();
+          
+          return integrationTestKnowBrainTaggingStudy2015();
+        }else{
+          SSServErrReg.regErrThrow(error);
+          return null;
+        }
+      }
+      
+      dbSQL.rollBack(true);
       SSServErrReg.regErrThrow(error);
       return null;
     }
