@@ -35,7 +35,7 @@ public interface SSModelUEServerI extends SSServServerI{
   public List<String>                       modelUEMIsForEntityGet         (final SSServPar parA)     throws Exception;
   
   public void                               modelUEUpdate                  (final SSServPar parA)     throws Exception;
-	public List<SSUri>                        modelUEEntitiesForMiGet        (final SSServPar parA)     throws Exception;
+//	public List<SSUri>                        modelUEEntitiesForMiGet        (final SSServPar parA)     throws Exception;
 	public List<String>                       modelUEResourcesAll            (final SSServPar parA)     throws Exception;
 	public List<SSUri>                        modelUEEditors                 (final SSServPar parA)     throws Exception;
 	public SSUri                              modelUEResourceRecent          (final SSServPar parA)     throws Exception;

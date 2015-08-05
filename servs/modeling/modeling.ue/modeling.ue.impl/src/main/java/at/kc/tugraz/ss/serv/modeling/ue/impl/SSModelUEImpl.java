@@ -212,27 +212,27 @@ public class SSModelUEImpl extends SSServImplWithDBA implements SSModelUEClientI
     //		maturingIndicatorTripleStoreSetter.saveMI();
   }
   
-  @Override
-  public List<SSUri> modelUEEntitiesForMiGet(final SSServPar parA) throws Exception {
-    
-    final SSModelUEEntitiesForForMiGetPar par         = new SSModelUEEntitiesForForMiGetPar(parA);
-    final List<SSUri>                     entityUris  = new ArrayList<>();
-    
-    if(
-      SSObjU.isNull(par.mi) ||
-      !SSModelUEMIEnum.contains(SSStrU.toStr(par.mi))){
-      return entityUris;
-    }
-    
-    for(SSModelUEEntity resource : resources.values()){
-      
-      if(SSServCaller.modelUEMIsForEntityGet(par.user, resource.entity).contains(par.mi.toString())){
-        entityUris.add(resource.entity);
-      }
-    }
-    
-    return entityUris;
-  }
+//  @Override
+//  public List<SSUri> modelUEEntitiesForMiGet(final SSServPar parA) throws Exception {
+//    
+//    final SSModelUEEntitiesForForMiGetPar par         = new SSModelUEEntitiesForForMiGetPar(parA);
+//    final List<SSUri>                     entityUris  = new ArrayList<>();
+//    
+//    if(
+//      SSObjU.isNull(par.mi) ||
+//      !SSModelUEMIEnum.contains(SSStrU.toStr(par.mi))){
+//      return entityUris;
+//    }
+//    
+//    for(SSModelUEEntity resource : resources.values()){
+//      
+//      if(SSServCaller.modelUEMIsForEntityGet(par.user, resource.entity).contains(par.mi.toString())){
+//        entityUris.add(resource.entity);
+//      }
+//    }
+//    
+//    return entityUris;
+//  }
   
   @Override
   public List<String> modelUEResourcesAll(SSServPar parA) throws Exception {
