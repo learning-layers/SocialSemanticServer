@@ -19,6 +19,18 @@
   
     <dependency>
       <groupId>sss.servs</groupId>
+      <artifactId>activity.api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>message.api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
       <artifactId>learnep.api</artifactId>
       <version>${project.version}</version>
     </dependency>

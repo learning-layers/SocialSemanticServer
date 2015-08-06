@@ -73,16 +73,19 @@ public class SSActivitiesGetRESTAPIV2Par{
     this.circles = SSUri.get(circles, SSVocConf.sssUri);
   }
   
+  @XmlElement
   @ApiModelProperty(
     required = false,
     value = "startTime")
   public Long                   startTime                 = null;
   
+  @XmlElement
   @ApiModelProperty(
     required = false,
     value = "endTime")
   public Long                   endTime                   = null;
   
+  @XmlElement
   @ApiModelProperty(
     required = false,
     value = "includeOnlyLastActivities")

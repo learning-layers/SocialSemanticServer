@@ -54,10 +54,29 @@ implements
       final SSIntegrationTestBitsAndPiecesStudyFall2015 bitsAndPiecesStudyFall2015 = new SSIntegrationTestBitsAndPiecesStudyFall2015();
       
       final List<SSEntity> userEvents           = bitsAndPiecesStudyFall2015.getUserEvents();
+      
+      System.out.println(userEvents);
+      
       final List<String>   predefinedCategories = bitsAndPiecesStudyFall2015.getPredefinedCategories();
+      
+      System.out.println(predefinedCategories);
+      
       final List<SSEntity> users                = bitsAndPiecesStudyFall2015.getUsers();
+      
+      System.out.println(users);
+      
       final List<SSEntity> learnEps             = bitsAndPiecesStudyFall2015.getLearningEpisodes();
+      
+      System.out.println(learnEps);
+      
+      final List<SSEntity> messages = bitsAndPiecesStudyFall2015.getMessages();
 
+      System.out.println(messages);
+      
+      final List<SSEntity> activities = bitsAndPiecesStudyFall2015.getActivities();
+
+      System.out.println(activities);
+      
       dbSQL.startTrans(true);
       
       dbSQL.commit(true);

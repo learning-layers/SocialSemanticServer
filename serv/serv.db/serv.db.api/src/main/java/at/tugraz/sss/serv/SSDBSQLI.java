@@ -69,7 +69,7 @@ public interface SSDBSQLI{
   public ResultSet select(
     final String              table, 
     final List<String>        columns, 
-    final Map<String, String> where,
+    final Map<String, String> wheres,
     final String              orderByColumn, 
     final String              sortType, 
     final Integer             limit) throws Exception;

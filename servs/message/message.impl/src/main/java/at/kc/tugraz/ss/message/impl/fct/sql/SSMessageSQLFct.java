@@ -79,7 +79,6 @@ public class SSMessageSQLFct extends SSDBSQLFct{
         throw new SSErr(SSErrE.parameterMissing);
       }
       
-      final List<String>                                           tables         = new ArrayList<>();
       final Map<String, String>                                    wheres         = new HashMap<>();
       final List<String>                                           columns        = new ArrayList<>();
       
@@ -88,16 +87,16 @@ public class SSMessageSQLFct extends SSDBSQLFct{
       column    (columns, SSSQLVarNames.messageTable,       SSSQLVarNames.messageContent);
       column    (columns, SSSQLVarNames.messageTable,       SSSQLVarNames.forEntityId);
 
-      table     (tables, SSSQLVarNames.messageTable);
-      
       where(wheres, SSSQLVarNames.messageTable, SSSQLVarNames.messageId, messageURI);
+      
+      resultSet = dbSQL.select(SSSQLVarNames.messageTable, columns, wheres, null, null, null);
       
       checkFirstResult(resultSet);
         
       return SSMessage.get(
-        bindingStrToUri(resultSet, SSSQLVarNames.messageId), 
-        SSEntity.get(bindingStrToUri(resultSet, SSSQLVarNames.userId),      SSEntityE.user), 
-        SSEntity.get(bindingStrToUri(resultSet, SSSQLVarNames.forEntityId), SSEntityE.user),
+        bindingStrToUri        (resultSet, SSSQLVarNames.messageId), 
+        SSEntity.get           (bindingStrToUri(resultSet, SSSQLVarNames.userId),      SSEntityE.user), 
+        SSEntity.get           (bindingStrToUri(resultSet, SSSQLVarNames.forEntityId), SSEntityE.user),
         bindingStrToTextComment(resultSet, SSSQLVarNames.messageContent));
       
     }catch(Exception error){

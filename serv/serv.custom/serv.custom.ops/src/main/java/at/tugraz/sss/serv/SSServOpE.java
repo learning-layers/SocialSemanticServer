@@ -24,6 +24,7 @@ public enum SSServOpE{
 
   //integrationtest
   integrationTestKnowBrainTaggingStudy2015,
+  integrationTestBitsAndPiecesStudyFall2015,
   
   //location
   locationGet,

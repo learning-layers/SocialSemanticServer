@@ -72,6 +72,7 @@ public class SSRESTActivity{
           input.startTime,
           input.endTime,
           input.includeOnlyLastActivities, 
+          true, //withUserRestriction
           true); //invokeEntityHandlers
       
     }catch(Exception error){

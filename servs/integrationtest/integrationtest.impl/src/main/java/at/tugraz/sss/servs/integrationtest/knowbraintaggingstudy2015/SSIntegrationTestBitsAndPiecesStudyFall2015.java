@@ -20,8 +20,12 @@
   */
 package at.tugraz.sss.servs.integrationtest.knowbraintaggingstudy2015;
 
+import at.kc.tugraz.ss.activity.api.SSActivityServerI;
+import at.kc.tugraz.ss.activity.datatypes.par.SSActivitiesGetPar;
 import at.kc.tugraz.ss.category.api.SSCategoryServerI;
 import at.kc.tugraz.ss.category.datatypes.par.SSCategoriesPredefinedGetPar;
+import at.kc.tugraz.ss.message.api.SSMessageServerI;
+import at.kc.tugraz.ss.message.datatypes.par.SSMessagesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.api.SSLearnEpServerI;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpsGetPar;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
@@ -40,12 +44,16 @@ public class SSIntegrationTestBitsAndPiecesStudyFall2015 {
   private final SSCategoryServerI  categoryServ;
   private final SSUEServerI        userEventServ;
   private final SSLearnEpServerI   learnEpServ;
+  private final SSMessageServerI   messageServ;
+  private final SSActivityServerI  activityServ;
   
   public SSIntegrationTestBitsAndPiecesStudyFall2015() throws Exception{
-    userServ        = (SSUserServerI)     SSServReg.getServ (SSUserServerI.class);
-    categoryServ    = (SSCategoryServerI) SSServReg.getServ (SSCategoryServerI.class);
-    userEventServ   = (SSUEServerI)       SSServReg.getServ (SSUEServerI.class);
-    learnEpServ     = (SSLearnEpServerI)  SSServReg.getServ (SSLearnEpServerI.class);
+    userServ        = (SSUserServerI)      SSServReg.getServ (SSUserServerI.class);
+    categoryServ    = (SSCategoryServerI)  SSServReg.getServ (SSCategoryServerI.class);
+    userEventServ   = (SSUEServerI)        SSServReg.getServ (SSUEServerI.class);
+    learnEpServ     = (SSLearnEpServerI)   SSServReg.getServ (SSLearnEpServerI.class);
+    messageServ     = (SSMessageServerI)   SSServReg.getServ (SSMessageServerI.class);
+    activityServ    = (SSActivityServerI)  SSServReg.getServ (SSActivityServerI.class);
   }
   
   public List<SSEntity> getUserEvents() throws Exception {
@@ -126,6 +134,55 @@ public class SSIntegrationTestBitsAndPiecesStudyFall2015 {
             true)); //invokeEntityHandlers
     
       return learnEps;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  public List<SSEntity> getMessages() throws Exception {
+    
+    try{
+      
+      final List<SSEntity> messages =
+        messageServ.messagesGet(
+          new SSMessagesGetPar(
+            null,
+            null,
+            SSVocConf.systemUserUri,
+            true, //includeRead
+            null, //startTime
+            true,  //withUserRestriction
+            true)); //invokeEntityHandlers
+      
+      return messages;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  public List<SSEntity> getActivities() throws Exception {
+    
+    try{
+      
+      final List<SSEntity> activities =
+        activityServ.activitiesGet(
+          new SSActivitiesGetPar(
+            null,
+            null,
+            SSVocConf.systemUserUri,
+            null, //types
+            null, //users,
+            null, //entities
+            null, //circles
+            null, //startTime
+            null, //endTime
+            false, //includeOnlyLastActivities
+            true, //withUserRestriction
+            true)); //invokeEntityHandlers
+      
+      return activities;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;

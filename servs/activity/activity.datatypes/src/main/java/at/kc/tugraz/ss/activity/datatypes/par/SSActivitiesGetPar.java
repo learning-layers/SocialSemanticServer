@@ -36,7 +36,7 @@ public class SSActivitiesGetPar extends SSServPar{
   public List<SSUri>            circles                   = new ArrayList<>();
   public Long                   startTime                 = null;
   public Long                   endTime                   = null;
-  public Boolean                includeOnlyLastActivities = null;
+  public Boolean                includeOnlyLastActivities = false;
   public Boolean                invokeEntityHandlers      = false;
   
   public void setTypes(final List<String> types) throws Exception{
@@ -84,6 +84,7 @@ public class SSActivitiesGetPar extends SSServPar{
     final Long                  startTime,
     final Long                  endTime,
     final Boolean               includeOnlyLastActivities, 
+    final Boolean               withUserRestriction,
     final Boolean               invokeEntityHandlers){
     
     super(op, key, user);
@@ -107,6 +108,7 @@ public class SSActivitiesGetPar extends SSServPar{
     this.startTime                   = startTime;
     this.endTime                     = endTime;
     this.includeOnlyLastActivities   = includeOnlyLastActivities;
+    this.withUserRestriction         = withUserRestriction;
     this.invokeEntityHandlers        = invokeEntityHandlers;
   }
 }
