@@ -986,7 +986,7 @@ implements
       if(par.withUserRestriction){
         
         if(
-          !SSServCallerU.canUserEdit(par.user, par.coll) ||
+          !SSServCallerU.canUserRead(par.user, par.coll) ||
           !SSServCallerU.canUserRead(par.user, par.entry)){
           return null;
         }

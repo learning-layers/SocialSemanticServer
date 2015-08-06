@@ -83,27 +83,6 @@ public class SSCircleMiscFct{
     }
   }
   
-  public Boolean isUserAllowedToEditCircle(
-    final SSUri          userUri,
-    final SSUri          circleUri) throws Exception{
-    
-    try{
-      
-      if(
-        sqlFct.isSystemCircle  (circleUri) ||
-        !sqlFct.isGroupCircle  (circleUri) ||
-        !sqlFct.isUserInCircle (userUri, circleUri)){
-        
-        return false;
-      }
-      
-      return true;
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
   public void checkWhetherCircleIsGroupCircle(
     final SSCircleE circleType) throws Exception{
     
@@ -404,12 +383,6 @@ public class SSCircleMiscFct{
     final SSEntity                  circle) throws Exception{
     
     try{
-      
-      if(par.withUserRestriction){
-        if(!isUserAllowedToEditCircle(par.user, par.targetEntity)){
-          return;
-        }
-      }
       
       SSEntityCopiedPar    entityCopiedPar;
       SSEntityCircle       targetCircle =

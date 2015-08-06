@@ -437,6 +437,22 @@ implements
         tagUri = tagEntity.id;
       }else{
         tagUri = SSServCaller.vocURICreate();
+        
+        entityServ.entityUpdate(
+          new SSEntityUpdatePar(
+            null,
+            null,
+            par.user,
+            tagUri,
+            SSEntityE.tag, //type,
+            SSLabel.get(SSStrU.toStr(par.label)), //label
+            null, //description,
+            null, //entitiesToAttach,
+            par.creationTime, //creationTime,
+            null, //read,
+            true, //setPublic
+            par.withUserRestriction, //withUserRestriction
+            false)); //shouldCommit)
       }
       
       entityServ.entityUpdate(
@@ -452,22 +468,6 @@ implements
           null, //creationTime,
           null, //read,
           false, //setPublic
-          par.withUserRestriction, //withUserRestriction
-          false)); //shouldCommit)
-      
-      entityServ.entityUpdate(
-        new SSEntityUpdatePar(
-          null,
-          null,
-          par.user,
-          tagUri,
-          SSEntityE.tag, //type,
-          SSLabel.get(SSStrU.toStr(par.label)), //label
-          null, //description,
-          null, //entitiesToAttach,
-          par.creationTime, //creationTime,
-          null, //read,
-          true, //setPublic
           par.withUserRestriction, //withUserRestriction
           false)); //shouldCommit)
       

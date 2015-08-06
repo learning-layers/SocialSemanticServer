@@ -774,7 +774,7 @@ implements
       
       if(par.withUserRestriction){
       
-        if(!SSServCallerU.canUserEdit(par.user, par.learnEp)){
+        if(!SSServCallerU.canUserRead(par.user, par.learnEp)){
           return null;
         }
       }
@@ -830,7 +830,7 @@ implements
 
       if(par.withUserRestriction){
       
-        if(!SSServCallerU.canUserEdit(par.user, par.learnEp)){
+        if(!SSServCallerU.canUserRead(par.user, par.learnEp)){
           return null;
         }
       }
@@ -925,7 +925,7 @@ implements
       
       if(par.withUserRestriction){
       
-        if(!SSServCallerU.canUserEdit(par.user, par.learnEpVersion)){
+        if(!SSServCallerU.canUserRead(par.user, par.learnEpVersion)){
           return null;
         }
       }
@@ -1033,8 +1033,8 @@ implements
       if(par.withUserRestriction){
       
         if(
-          !SSServCallerU.canUserEdit(par.user, par.learnEpVersion) ||
-          !SSServCallerU.canUserEdit(par.user, par.entity)){
+          !SSServCallerU.canUserRead(par.user, par.learnEpVersion) ||
+          !SSServCallerU.canUserRead(par.user, par.entity)){
           
           return null;
         }
@@ -1198,7 +1198,7 @@ implements
 
       if(par.withUserRestriction){
         
-        if(!SSServCallerU.canUserEdit(par.user, par.learnEpCircle)){
+        if(!SSServCallerU.canUserRead(par.user, par.learnEpCircle)){
           return null;
         }
       }
@@ -1279,8 +1279,8 @@ implements
       if(par.withUserRestriction){
         
         if(
-          !SSServCallerU.canUserEdit(par.user, par.learnEpEntity) ||
-          !SSServCallerU.canUserEdit(par.user, par.entity)){
+          !SSServCallerU.canUserRead(par.user, par.learnEpEntity) ||
+          !SSServCallerU.canUserRead(par.user, par.entity)){
           return null;
         }
       }
@@ -1360,7 +1360,7 @@ implements
 
       if(par.withUserRestriction){
         
-        if(!SSServCallerU.canUserEdit(par.user, par.learnEpCircle)){
+        if(!SSServCallerU.canUserRead(par.user, par.learnEpCircle)){
           return null;
         }
       }
@@ -1417,7 +1417,7 @@ implements
       
       if(par.withUserRestriction){
         
-        if(!SSServCallerU.canUserEdit(par.user, par.learnEpEntity)){
+        if(!SSServCallerU.canUserRead(par.user, par.learnEpEntity)){
           return null;
         }
       }
@@ -1477,7 +1477,7 @@ implements
 
       if(par.withUserRestriction){
         
-        if(!SSServCallerU.canUserEdit(par.user, par.learnEpVersion)){
+        if(!SSServCallerU.canUserRead(par.user, par.learnEpVersion)){
           return null;
         }
       }
@@ -1623,7 +1623,7 @@ implements
 
       if(par.withUserRestriction){
         
-        if(!SSServCallerU.canUserEdit(par.user, par.learnEpVersion)){
+        if(!SSServCallerU.canUserRead(par.user, par.learnEpVersion)){
           return null;
         }
       }
@@ -1721,7 +1721,7 @@ implements
       final SSLearnEpLockHoldRet ret;
 
       if(par.withUserRestriction){
-        SSServCallerU.canUserEditEntity(par.user, par.learnEp);
+        SSServCallerU.canUserRead(par.user, par.learnEp);
       }
       
       if(learnEpConf.useEpisodeLocking){
@@ -1769,7 +1769,7 @@ implements
     try{
       if(par.withUserRestriction){
         
-        SSServCallerU.canUserEditEntity(par.user, par.learnEp);
+        SSServCallerU.canUserRead(par.user, par.learnEp);
         
         if(par.forUser == null){
           par.forUser = par.user;
@@ -1837,7 +1837,7 @@ implements
       
       if(par.withUserRestriction){
         
-        SSServCallerU.canUserEditEntity(par.user, par.learnEp);
+        SSServCallerU.canUserRead(par.user, par.learnEp);
         
         if(par.forUser == null){
           par.forUser = par.user;

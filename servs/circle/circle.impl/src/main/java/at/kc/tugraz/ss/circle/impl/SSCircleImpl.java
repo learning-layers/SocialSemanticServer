@@ -68,7 +68,6 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
-import at.tugraz.sss.serv.SSAddAffiliatedEntitiesToCirclePar;
 import at.tugraz.sss.serv.SSCircleContentRemovedI;
 import at.tugraz.sss.serv.SSCircleContentRemovedPar;
 import at.tugraz.sss.serv.SSDBSQLI;
@@ -88,7 +87,6 @@ import java.util.List;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSLogU;
-import at.tugraz.sss.serv.SSPushEntitiesToUsersPar;
 import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
@@ -202,8 +200,15 @@ implements
       
       if(par.withUserRestriction){
         
-        if(!miscFct.isUserAllowedToEditCircle(par.user, entity.id)){
+        if(!sqlFct.isGroupCircle(entity.id)){
           return;
+        }
+        
+        if(par.targetEntity != null){
+           
+          if(!sqlFct.isGroupCircle(par.targetEntity)){
+            return;
+          }
         }
       }
       
@@ -237,7 +242,13 @@ implements
     SSServCallerU.checkKey(parA);
     
     final SSCircleEntitiesRemoveFromClientPar par    = (SSCircleEntitiesRemoveFromClientPar) parA.getFromJSON(SSCircleEntitiesRemoveFromClientPar.class);
-    final List<SSUri>                         result = circleEntitiesRemove(par);
+    final List<SSUri>                         result;
+    
+    if(!sqlFct.isGroupCircle(par.circle)){
+      result = new ArrayList<>();
+    }else{
+      result = circleEntitiesRemove(par);
+    }
     
     if(!result.isEmpty()){
       
@@ -275,7 +286,7 @@ implements
       
       if(par.withUserRestriction){
         
-        if(!miscFct.isUserAllowedToEditCircle(par.user, par.circle)){
+        if(!SSServCallerU.canUserRead(par.user, par.circle)){
           return new ArrayList<>();
         }
       }
@@ -316,7 +327,13 @@ implements
     SSServCallerU.checkKey(parA);
     
     final SSCircleUsersRemovePar par    = (SSCircleUsersRemovePar) parA.getFromJSON(SSCircleUsersRemovePar.class);
-    final List<SSUri>               result = circleUsersRemove(par);
+    final List<SSUri>            result;
+    
+    if(!sqlFct.isGroupCircle(par.circle)){
+      result = new ArrayList<>();
+    }else{
+      result = circleUsersRemove(par);
+    }
     
     sSCon.writeRetFullToClient(SSCircleUsersRemoveRet.get(result));
     
@@ -339,7 +356,7 @@ implements
       
       if(par.withUserRestriction){
         
-        if(!miscFct.isUserAllowedToEditCircle(par.user, par.circle)){
+        if(!SSServCallerU.canUserRead(par.user, par.circle)){
           return new ArrayList<>();
         }
       }
@@ -561,7 +578,7 @@ implements
       
       if(par.withUserRestriction){
         
-        if(!SSServCallerU.canUserEdit(par.user, par.circle)){
+        if(!SSServCallerU.canUserAll(par.user, par.circle)){
           return null;
         }
       }
@@ -600,8 +617,14 @@ implements
     SSServCallerU.checkKey(parA);
 
     final SSCircleUsersAddPar par = (SSCircleUsersAddPar) parA.getFromJSON(SSCircleUsersAddPar.class);
-      
-    final SSUri          circleURI = circleUsersAdd(par);
+    final SSUri               circleURI;
+    
+    if(!sqlFct.isGroupCircle(par.circle)){
+      circleURI = null;
+    }else{
+      circleURI = circleUsersAdd(par);
+    }
+    
     final SSEntityCircle circle    = 
       circleGet(
         new SSCircleGetPar(
@@ -655,7 +678,7 @@ implements
 
       if(par.withUserRestriction){
         
-        if(!miscFct.isUserAllowedToEditCircle(par.user, par.circle)){
+        if(!SSServCallerU.canUserRead(par.user, par.circle)){
           return par.circle;
         }
       }
@@ -698,7 +721,13 @@ implements
     SSServCallerU.checkKey(parA);
 
     final SSCircleEntitiesAddPar par      = (SSCircleEntitiesAddPar) parA.getFromJSON(SSCircleEntitiesAddPar.class);
-    final SSUri                  cicleURI =  circleEntitiesAdd(par);
+    final SSUri                  cicleURI;
+    
+    if(!sqlFct.isGroupCircle(par.circle)){
+      cicleURI = null;
+    }else{
+      cicleURI = circleEntitiesAdd(par);
+    }
     
     final SSEntityCircle circle =
       circleGet(
@@ -798,7 +827,7 @@ implements
       
       if(par.withUserRestriction){
         
-        if(!miscFct.isUserAllowedToEditCircle(par.user, par.circle)){
+        if(!SSServCallerU.canUserRead(par.user, par.circle)){
           return par.circle;
         }
       }
@@ -1174,7 +1203,7 @@ implements
         tmpPublicCircleURI,
         SSCircleE.pub, 
         true, 
-        par.user);
+        SSVocConf.systemUserUri);
       
       dbSQL.commit(par.shouldCommit);
       

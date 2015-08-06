@@ -478,15 +478,15 @@ implements
       
       SSServCallerU.canUserReadEntity(par.user, par.entity);
       
-      if(par.type == null){
-        par.type = SSEntityE.entity;
-      }
-      
       final SSEntity entity = sqlFct.getEntity(par.entity);
-        
+      
       dbSQL.startTrans(par.shouldCommit);
       
       if(entity == null){
+        
+        if(par.type == null){
+          par.type = SSEntityE.entity;
+        }
         
         sqlFct.addEntityIfNotExists(
           par.entity,
@@ -544,7 +544,7 @@ implements
       if(
         par.setPublic != null &&
         par.setPublic){
-        
+          
         entityShare(
           new SSEntitySharePar(
             null,
@@ -773,8 +773,12 @@ implements
     try{
 
       if(par.withUserRestriction){
-        SSServCallerU.canUserEditEntity   (par.user, par.entity);
-        SSServCallerU.canUserReadEntities (par.user, par.attachments);
+        
+        if(
+          !SSServCallerU.canUserRead(par.user, par.entity) ||
+          !SSServCallerU.canUserRead (par.user, par.attachments)){
+          return null;
+        }
       }
       
       sqlFct.removeAttachments(par.entity, par.attachments);
@@ -845,9 +849,14 @@ implements
         }
         
         if(par.setPublic){
-          SSServCallerU.canUserAllEntity(par.user, par.entity);
+          
+          if(!SSServCallerU.canUserAll(par.user, par.entity)){
+            return null;
+          }
         }else{
-          SSServCallerU.canUserEditEntity(par.user, par.entity);
+          if(!SSServCallerU.canUserRead(par.user, par.entity)){
+            return null;
+          }
         }
       }
       

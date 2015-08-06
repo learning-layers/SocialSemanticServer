@@ -209,20 +209,4 @@ public class SSDiscUserEntryAddFct{
       SSServErrReg.regErrThrow(error);
     }
   }
-
-  public void checkWhetherUserCanAddDiscEntry(
-    final SSDiscEntryAddPar par) throws Exception{
-    
-    try{
-     
-      if(SSObjU.isNull(par.entry)){
-        throw new Exception("content missing");
-      }
-      
-      SSServCallerU.canUserEditEntity(par.user, par.disc);
-       
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
 }

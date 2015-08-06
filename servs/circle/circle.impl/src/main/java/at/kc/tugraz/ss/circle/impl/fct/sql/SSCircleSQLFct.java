@@ -654,14 +654,15 @@ public class SSCircleSQLFct extends SSDBSQLFct{
       final Map<String, String> wheres            = new HashMap<>();
       final List<String>        tableCons         = new ArrayList<>();
       
-      column   (columns,   SSSQLVarNames.circleId);
-      table    (tables, SSSQLVarNames.circleTable);
-      table    (tables, SSSQLVarNames.entityTable);
+      column   (columns,   SSSQLVarNames.circleTable, SSSQLVarNames.circleId);
+      
+      table    (tables,    SSSQLVarNames.circleTable);
+      table    (tables,    SSSQLVarNames.circleUsersTable);
       
       where(wheres, SSSQLVarNames.circleType, SSCircleE.priv);
-      where(wheres, SSSQLVarNames.author,     user);
+      where(wheres, SSSQLVarNames.userId,     user);
       
-      tableCon (tableCons, SSSQLVarNames.circleTable, SSSQLVarNames.circleId, SSSQLVarNames.entityTable, SSSQLVarNames.id);
+      tableCon (tableCons, SSSQLVarNames.circleTable, SSSQLVarNames.circleId, SSSQLVarNames.circleUsersTable, SSSQLVarNames.circleId);
       
       resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
       

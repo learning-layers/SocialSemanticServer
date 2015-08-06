@@ -69,6 +69,7 @@ import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSGetParentEntitiesI;
 import at.tugraz.sss.serv.SSGetSubEntitiesI;
 import at.tugraz.sss.serv.SSLabel;
+import at.tugraz.sss.serv.SSObjU;
 import at.tugraz.sss.serv.SSPushEntitiesToUsersI;
 import at.tugraz.sss.serv.SSPushEntitiesToUsersPar;
 import at.tugraz.sss.serv.SSServContainerI;
@@ -479,7 +480,14 @@ public class SSDiscImpl
       }
 
       if(!par.addNewDisc){
-        discEntryAddFct.checkWhetherUserCanAddDiscEntry(par);
+        
+        if(SSObjU.isNull(par.entry)){
+          throw new SSErr(SSErrE.parameterMissing);
+        }
+        
+        if(!SSServCallerU.canUserRead(par.user, par.disc)){
+          return SSDiscEntryAddRet.get(null, null);
+        }
       }
 
       dbSQL.startTrans(par.shouldCommit);

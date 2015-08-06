@@ -230,18 +230,18 @@ public class SSServCallerU{
     }
   }
   
-  public static Boolean canUserEdit(
+  public static Boolean canUserAll(
     final SSUri   user,
     final SSUri   entityURI) throws Exception{
     
-    try{
-      ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleCanAccess(
+   try{
+      ((SSCircleServerI)SSServReg.getServ(SSCircleServerI.class)).circleCanAccess(
         new SSCircleCanAccessPar(
-          null,
-          null,
-          user,
-          entityURI,
-          SSCircleRightE.edit));
+          null, 
+          null, 
+          user, 
+          entityURI, 
+          SSCircleRightE.all));
       
       return true;
     }catch(Exception error){
@@ -250,10 +250,35 @@ public class SSServCallerU{
         SSServErrReg.reset();
         return false;
       }
-      
+
       throw error;
     }
   }
+  
+//  public static Boolean canUserEdit(
+//    final SSUri   user,
+//    final SSUri   entityURI) throws Exception{
+//    
+//    try{
+//      ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleCanAccess(
+//        new SSCircleCanAccessPar(
+//          null,
+//          null,
+//          user,
+//          entityURI,
+//          SSCircleRightE.edit));
+//      
+//      return true;
+//    }catch(Exception error){
+//      
+//      if(SSServErrReg.containsErr(SSErrE.userNotAllowedToAccessEntity)){
+//        SSServErrReg.reset();
+//        return false;
+//      }
+//      
+//      throw error;
+//    }
+//  }
   
   public static void canUserReadEntity(
     final SSUri user,
@@ -284,34 +309,34 @@ public class SSServCallerU{
     }
   }
   
-  public static void canUserEditEntity(
-    final SSUri   user, 
-    final SSUri   entityURI) throws Exception{
-    
-    ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleCanAccess(
-      new SSCircleCanAccessPar(
-        null,
-        null,
-        user,
-        entityURI,
-        SSCircleRightE.edit));
-  }
+//  public static void canUserEditEntity(
+//    final SSUri   user, 
+//    final SSUri   entityURI) throws Exception{
+//    
+//    ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleCanAccess(
+//      new SSCircleCanAccessPar(
+//        null,
+//        null,
+//        user,
+//        entityURI,
+//        SSCircleRightE.edit));
+//  }
   
-  public static void canUserEditEntities(
-    final SSUri       user, 
-    final List<SSUri> entityURIs) throws Exception{
-    
-    for(SSUri entityURI : entityURIs){
-      
-      ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleCanAccess(
-        new SSCircleCanAccessPar(
-          null,
-          null,
-          user,
-          entityURI,
-          SSCircleRightE.edit)); 
-    }
-  }
+//  public static void canUserEditEntities(
+//    final SSUri       user, 
+//    final List<SSUri> entityURIs) throws Exception{
+//    
+//    for(SSUri entityURI : entityURIs){
+//      
+//      ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleCanAccess(
+//        new SSCircleCanAccessPar(
+//          null,
+//          null,
+//          user,
+//          entityURI,
+//          SSCircleRightE.edit)); 
+//    }
+//  }
   
   public static void canUserAllEntity(
     final SSUri   user,
