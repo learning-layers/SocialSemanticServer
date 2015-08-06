@@ -113,7 +113,8 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       checkFirstResult(resultSet);
       
       entityObj =
-        SSEntity.get(entityUri,
+        SSEntity.get(
+          entityUri,
           bindingStrToEntityType (resultSet, SSSQLVarNames.type),
           bindingStrToLabel      (resultSet, SSSQLVarNames.label));
       

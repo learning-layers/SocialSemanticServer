@@ -20,28 +20,19 @@
 */
 package at.tugraz.sss.serv;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class SSAddAffiliatedEntitiesToCirclePar {
+public class SSEntitiesSharedWithUsersPar {
  
   public SSUri          user                = null;
-  public SSUri          circle              = null;
-  public List<SSEntity> entities            = new ArrayList<>();
+  public SSEntity       circle              = null;
   public Boolean        withUserRestriction = true;
-  public List<SSUri>    recursiveEntities   = new ArrayList<>();
   
-  public SSAddAffiliatedEntitiesToCirclePar(
+  public SSEntitiesSharedWithUsersPar(
     final SSUri          user, 
-    final SSUri          circle,
-    final List<SSEntity> entities, 
+    final SSEntity       circle,
     final Boolean        withUserRestriction){
     
-    this.user           = user;
-    this.circle         = circle;
-    
-    SSEntity.addEntitiesDistinctWithoutNull(this.entities, entities);
-    
+    this.user                = user;
+    this.circle              = circle;
     this.withUserRestriction = withUserRestriction;
   }
 }

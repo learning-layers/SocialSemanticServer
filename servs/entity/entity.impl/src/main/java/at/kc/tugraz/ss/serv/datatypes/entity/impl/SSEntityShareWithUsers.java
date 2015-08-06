@@ -27,6 +27,7 @@ import at.kc.tugraz.ss.circle.datatypes.par.SSCircleGetPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleUsersAddPar;
 import at.tugraz.sss.serv.SSAddAffiliatedEntitiesToCirclePar;
 import at.tugraz.sss.serv.SSCircleE;
+import at.tugraz.sss.serv.SSEntitiesSharedWithUsersPar;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSEntityCircle;
 import at.tugraz.sss.serv.SSErr;
@@ -112,6 +113,12 @@ public class SSEntityShareWithUsers {
         circle,
         circle.entities,
         withUserRestriction);
+      
+      SSServCallerU.entitiesSharedWithUsers(
+        new SSEntitiesSharedWithUsersPar(
+          user,
+          circle,
+          withUserRestriction));
       
     }catch(Exception error){
       SSServErrReg.reset();

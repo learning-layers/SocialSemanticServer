@@ -481,28 +481,33 @@ implements
       if(par.type == null){
         par.type = SSEntityE.entity;
       }
-
+      
+      final SSEntity entity = sqlFct.getEntity(par.entity);
+        
       dbSQL.startTrans(par.shouldCommit);
       
-      sqlFct.addEntityIfNotExists(
-        par.entity,
-        par.type,
-        par.label,
-        par.description,
-        par.user,
-        par.creationTime);
-      
-      final SSUri privateCircleURI =
-        circleServ.circlePrivURIGet(
-          new SSCirclePrivURIGetPar(
-            null,
-            null,
-            par.user, 
-            false)); //shouldCommit
-      
-      sqlFct.addEntityToCircleIfNotExists(
-          privateCircleURI, 
+      if(entity == null){
+        
+        sqlFct.addEntityIfNotExists(
+          par.entity,
+          par.type,
+          par.label,
+          par.description,
+          par.user,
+          par.creationTime);
+        
+        final SSUri privateCircleURI =
+          circleServ.circlePrivURIGet(
+            new SSCirclePrivURIGetPar(
+              null,
+              null,
+              par.user,
+              false)); //shouldCommit
+        
+        sqlFct.addEntityToCircleIfNotExists(
+          privateCircleURI,
           par.entity);
+      }
       
       for(SSUri entityURIToAttach : par.entitiesToAttach){
         

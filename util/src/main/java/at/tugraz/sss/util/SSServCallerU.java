@@ -27,6 +27,8 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesGetPar;
 import at.tugraz.sss.serv.SSAddAffiliatedEntitiesToCircleI;
 import at.tugraz.sss.serv.SSAddAffiliatedEntitiesToCirclePar;
 import at.tugraz.sss.serv.SSCircleRightE;
+import at.tugraz.sss.serv.SSEntitiesSharedWithUsersI;
+import at.tugraz.sss.serv.SSEntitiesSharedWithUsersPar;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSEntityCircle;
 import at.tugraz.sss.serv.SSErr;
@@ -44,6 +46,19 @@ import java.util.List;
 
 public class SSServCallerU{
   
+  public static void entitiesSharedWithUsers(final SSEntitiesSharedWithUsersPar par) throws Exception{  
+        
+    try{
+      
+      for(SSServContainerI serv : SSServReg.inst.getServsHandlingEntitiesSharedWithUsers()){
+        ((SSEntitiesSharedWithUsersI) serv.serv()).entitiesSharedWithUsers(par);
+      }      
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
    public static void handleCircleEntitiesAdd(
     final SSUri          user, 
     final SSEntityCircle circle, 
@@ -52,13 +67,12 @@ public class SSServCallerU{
     
      final List<SSEntity> entitiesToPushToUsers   = new ArrayList<>();
      final List<SSEntity> addedAffiliatedEntities =
-      addAffiliatedEntitiesToCircle(
-        new SSAddAffiliatedEntitiesToCirclePar(
-          user,
-          circle.id,
-          false,
-          entities,
-          withUserRestriction));
+       addAffiliatedEntitiesToCircle(
+         new SSAddAffiliatedEntitiesToCirclePar(
+           user,
+           circle.id,
+           entities,
+           withUserRestriction));
     
     SSEntity.addEntitiesDistinctWithoutNull(
       entitiesToPushToUsers,
@@ -90,7 +104,6 @@ public class SSServCallerU{
           new SSAddAffiliatedEntitiesToCirclePar(
             user,
             circle.id,
-            false,
             circle.entities,
             withUserRestriction));
       

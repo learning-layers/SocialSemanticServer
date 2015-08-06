@@ -25,7 +25,6 @@ import at.tugraz.sss.serv.SSLogU;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
 import at.kc.tugraz.ss.activity.datatypes.par.SSActivityAddPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntitySharePar;
-import at.tugraz.sss.serv.SSEntityCopyPar;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSServErrReg;

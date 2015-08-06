@@ -95,6 +95,8 @@ import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSDescribeEntityI;
+import at.tugraz.sss.serv.SSEntitiesSharedWithUsersI;
+import at.tugraz.sss.serv.SSEntitiesSharedWithUsersPar;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSEntityCopiedI;
 import at.tugraz.sss.serv.SSEntityCopiedPar;
@@ -123,6 +125,7 @@ implements
   SSDescribeEntityI,
   SSAddAffiliatedEntitiesToCircleI,
   SSPushEntitiesToUsersI,
+  SSEntitiesSharedWithUsersI,
   SSCopyEntityI,
   SSUsersResourcesGathererI{
   
@@ -303,9 +306,29 @@ implements
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
+  }
+  
+  @Override
+  public void entitiesSharedWithUsers(SSEntitiesSharedWithUsersPar par) throws Exception {
     
-//    if(!par.usersToPushEntitiesTo.isEmpty()){
-//              
+    for(SSEntity entityShared : par.circle.entities){
+     
+      switch(entityShared.type){
+        
+        case learnEp:{
+          
+          SSLearnEpActivityFct.shareLearnEp(
+            par.user,
+            entityShared.id,
+            SSUri.getDistinctNotNullFromEntities(par.circle.users));
+          
+          break;
+        }
+      }
+    }
+    
+    //    if(!par.usersToPushEntitiesTo.isEmpty()){
+//
 //              circleServ.circleUsersAdd(
 //                new SSCircleUsersAddPar(
 //                  null,
@@ -315,11 +338,6 @@ implements
 //                  sqlFct.getLearnEpUserURIs(entityToAdd.id),
 //                  false,
 //                  false));
-//              
-//              SSLearnEpActivityFct.shareLearnEp(
-//                par.user,
-//                entityToAdd.id,
-//                par.usersToPushEntitiesTo);
 //            }
   }
   

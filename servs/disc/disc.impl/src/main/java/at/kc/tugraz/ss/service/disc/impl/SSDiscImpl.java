@@ -372,21 +372,28 @@ public class SSDiscImpl
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
-    
-//    if(!par.usersToPushEntitiesTo.isEmpty()){
-//              
-//              circleServ.circleUsersAdd(
-//                new SSCircleUsersAddPar(
-//                  null,
-//                  null,
-//                  par.user,
-//                  par.circle,
-//                  sqlFct.getDiscUserURIs(entityToAdd.id),
-//                  false,
-//                  false));
-//            }
   }
   
+  //  @Override
+//  public void entitiesSharedWithUsers(SSEntitiesSharedWithUsersPar par) throws Exception {
+//    
+//    for(SSEntity entityShared : par.circle.entities){
+//     
+//      switch(entityShared.type){
+//        case coll:{
+////              circleServ.circleUsersAdd(
+////                new SSCircleUsersAddPar(
+////                  null,
+////                  null,
+////                  par.user,
+////                  par.circle,
+////                  sqlFct.getDiscUserURIs(entityToAdd.id),
+////                  false,
+////                  false));
+////            }
+//      }
+//  }
+
   @Override
   public List<SSUri> discEntryURIsGet(final SSDiscEntryURIsGetPar par) throws Exception{
 

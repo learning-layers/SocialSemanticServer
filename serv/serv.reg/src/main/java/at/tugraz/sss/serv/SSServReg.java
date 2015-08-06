@@ -43,6 +43,7 @@ public class SSServReg{
   public static final List<SSServContainerI>               servsHandlingDescribeEntity                  = new ArrayList<>();
   public static final List<SSServContainerI>               servsHandlingAddAffiliatedEntitiesToCircle   = new ArrayList<>();
   public static final List<SSServContainerI>               servsHandlingPushEntitiesToUsers             = new ArrayList<>();
+  public static final List<SSServContainerI>               servsHandlingEntitiesSharedWithUsers         = new ArrayList<>();
   
   public static final Map<SSServOpE, Integer>                         requsLimitsForClientOpsPerUser  = new EnumMap<>(SSServOpE.class);
   public static final Map<SSServOpE, Map<String, List<SSServImplA>>>  currentRequsForClientOpsPerUser = new EnumMap<>(SSServOpE.class);
@@ -196,6 +197,28 @@ public class SSServReg{
         }
         
         servsHandlingPushEntitiesToUsers.add(servContainer);
+      }
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  public void regServForHandlingEntitiesSharedWithUsers(
+    final SSServContainerI servContainer) throws Exception{
+    
+    try{
+      
+      if(!servContainer.conf.use){
+        return;
+      }
+      
+      synchronized(servsHandlingEntitiesSharedWithUsers){
+        
+        if(servsHandlingEntitiesSharedWithUsers.contains(servContainer)){
+          throw new SSErr(SSErrE.servAlreadyRegistered);
+        }
+        
+        servsHandlingEntitiesSharedWithUsers.add(servContainer);
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -477,6 +500,10 @@ public class SSServReg{
     return new ArrayList<>(servsHandlingAddAffiliatedEntitiesToCircle);
   }
   
+  public List<SSServContainerI> getServsHandlingEntitiesSharedWithUsers(){
+    return new ArrayList<>(servsHandlingEntitiesSharedWithUsers);
+  }
+    
   public List<SSServContainerI> getServsHandlingPushEntitiesToUsers(){
     return new ArrayList<>(servsHandlingPushEntitiesToUsers);
   }

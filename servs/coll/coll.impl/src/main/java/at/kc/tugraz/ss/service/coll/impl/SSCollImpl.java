@@ -22,6 +22,7 @@ package at.kc.tugraz.ss.service.coll.impl;
 
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesAddPar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePubURIGetPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesGetPar;
@@ -280,7 +281,16 @@ implements
             
             if(sqlFct.isCollSpecial(entityAdded.id)){
               
-              if(par.isCirclePublic){
+              if(
+                SSStrU.equals(
+                  par.circle,
+                  circleServ.circlePubURIGet(
+                    new SSCirclePubURIGetPar(
+                      null,
+                      null,
+                      par.user,
+                      false)))){
+              
                 throw new SSErr(SSErrE.cannotSetSpecialCollectionPublic);
               }
               
@@ -413,24 +423,30 @@ implements
           }
         }
       }
-      
-      
-//      if(!par.usersToPushEntitiesTo.isEmpty()){
-//
-//              circleServ.circleUsersAdd(
-//                new SSCircleUsersAddPar(
-//                  null,
-//                  null,
-//                  par.user,
-//                  par.circle,
-//                  sqlFct.getCollUserURIs(entityToAdd.id),
-//                  false,
-//                  false));
-//            }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
   }
+  
+//  @Override
+//  public void entitiesSharedWithUsers(SSEntitiesSharedWithUsersPar par) throws Exception {
+//    
+//    for(SSEntity entityShared : par.circle.entities){
+//     
+//      switch(entityShared.type){
+//        case coll:{
+////              circleServ.circleUsersAdd(
+////                new SSCircleUsersAddPar(
+////                  null,
+////                  null,
+////                  par.user,
+////                  par.circle,
+////                  sqlFct.getCollUserURIs(entityToAdd.id),
+////                  false,
+////                  false));
+////            }
+//      }
+//  }
 
   @Override
   public void collGet(SSSocketCon sSCon, SSServPar parA) throws Exception{
