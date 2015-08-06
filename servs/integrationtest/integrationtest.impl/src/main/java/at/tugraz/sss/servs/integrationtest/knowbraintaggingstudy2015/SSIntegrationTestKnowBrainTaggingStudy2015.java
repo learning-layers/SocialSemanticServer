@@ -257,6 +257,7 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
           link1, //entity
           tag1, //label
           null, //space,
+          null, //circle
           true, //withUserRestriction,
           false)); //shouldCommit));
       
@@ -269,6 +270,7 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
           link2, //entity
           tag2, //label
           null, //space,
+          null, //circle
           true, //withUserRestriction,
           false)); //shouldCommit));
       

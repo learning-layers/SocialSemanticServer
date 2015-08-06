@@ -22,6 +22,7 @@ package at.tugraz.sss.adapter.rest.v2.tag;
 
 import at.tugraz.sss.serv.SSSpaceE;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
+import at.tugraz.sss.serv.SSUri;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 import javax.xml.bind.annotation.XmlElement;
@@ -49,6 +50,16 @@ public class SSTagsRemoveRESTAPIV2Par{
   @XmlElement
   public void setSpace(final String space) throws Exception{
     this.space = SSSpaceE.get(space);
+  }
+  
+  @ApiModelProperty(
+    required = false,
+    value = "circle if space set to 'circleSpace'")
+  public SSUri     circle      = null;
+
+  @XmlElement
+  public void setCircle(final String circle) throws Exception{
+    this.circle = SSUri.get(circle);
   }
   
   public SSTagsRemoveRESTAPIV2Par(){}

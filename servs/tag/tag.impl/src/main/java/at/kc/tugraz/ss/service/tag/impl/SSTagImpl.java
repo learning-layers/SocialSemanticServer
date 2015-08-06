@@ -556,6 +556,14 @@ implements
         if(SSObjU.isNull(par.user, par.entity)){
           throw new SSErr(SSErrE.parameterMissing);
         }
+        
+        if(!SSServCallerU.canUserRead(par.user, par.circle)){
+          return false;
+        }
+        
+        if(!SSStrU.equals(par.space, SSSpaceE.circleSpace)){
+          par.circle = null;
+        }
       }
       
       if(par.label != null){
@@ -585,7 +593,8 @@ implements
           par.forUser,
           par.entity,
           tagUri,
-          par.space);
+          par.space,
+          par.circle);
         
         dbSQL.commit(par.shouldCommit);
         
@@ -608,9 +617,9 @@ implements
         
         dbSQL.startTrans(par.shouldCommit);
         
-        sqlFct.removeMetadataAsss(par.user, null, tagUri, SSSpaceE.privateSpace);
-        sqlFct.removeMetadataAsss(par.user, null, tagUri, SSSpaceE.sharedSpace);
-        sqlFct.removeMetadataAsss(par.user, null, tagUri, SSSpaceE.circleSpace);
+        sqlFct.removeMetadataAsss(par.user, null, tagUri, SSSpaceE.privateSpace, par.circle);
+        sqlFct.removeMetadataAsss(par.user, null, tagUri, SSSpaceE.sharedSpace,  par.circle);
+        sqlFct.removeMetadataAsss(par.user, null, tagUri, SSSpaceE.circleSpace,  par.circle);
         
         dbSQL.commit(par.shouldCommit);
         return true;
@@ -622,7 +631,7 @@ implements
         
         dbSQL.startTrans(par.shouldCommit);
         
-        sqlFct.removeMetadataAsss(par.user, null, tagUri, par.space);
+        sqlFct.removeMetadataAsss(par.user, null, tagUri, par.space, par.circle);
         
         dbSQL.commit(par.shouldCommit);
         return true;
@@ -634,9 +643,9 @@ implements
         
         dbSQL.startTrans(par.shouldCommit);
         
-        sqlFct.removeMetadataAsss (par.user, par.entity, tagUri, SSSpaceE.privateSpace);
-        sqlFct.removeMetadataAsss (null,     par.entity, tagUri, SSSpaceE.sharedSpace);
-        sqlFct.removeMetadataAsss (null,     par.entity, tagUri, SSSpaceE.circleSpace);
+        sqlFct.removeMetadataAsss (par.user, par.entity, tagUri, SSSpaceE.privateSpace, par.circle);
+        sqlFct.removeMetadataAsss (null,     par.entity, tagUri, SSSpaceE.sharedSpace,  par.circle);
+        sqlFct.removeMetadataAsss (null,     par.entity, tagUri, SSSpaceE.circleSpace,  par.circle);
         
         dbSQL.commit(par.shouldCommit);
         return true;
@@ -648,7 +657,7 @@ implements
         
         dbSQL.startTrans(par.shouldCommit);
         
-        sqlFct.removeMetadataAsss(null, par.entity, tagUri, par.space);
+        sqlFct.removeMetadataAsss(null, par.entity, tagUri, par.space, par.circle);
         
         dbSQL.commit(par.shouldCommit);
         return true;

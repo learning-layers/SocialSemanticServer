@@ -144,7 +144,9 @@ implements
     
     try{
       
-      SSServCallerU.canUserReadEntity(par.user, par.file);
+      if(!SSServCallerU.canUserRead(par.user, par.file)){
+        throw new SSErr(SSErrE.userNotAllowedToAccessEntity);
+      }
       
       new Thread(new SSFileDownloader((SSFileRepoConf)conf, par, this)).start();
       
@@ -170,7 +172,9 @@ implements
     
     try{
       
-      SSServCallerU.canUserReadEntity(par.user, par.file);
+      if(!SSServCallerU.canUserRead(par.user, par.file)){
+        throw new SSErr(SSErrE.userNotAllowedToAccessEntity);
+      }
       
       new Thread(new SSFileReplacer((SSFileRepoConf)conf, par, this)).start();
       

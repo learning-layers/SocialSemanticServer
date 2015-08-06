@@ -387,6 +387,7 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
           null,
           null,
           SSSpaceE.sharedSpace,
+          null, //circle
           false,
           par.shouldCommit));
       

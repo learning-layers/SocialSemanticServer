@@ -484,7 +484,8 @@ public class SSTagAndCategoryCommonSQL extends SSDBSQLFct{
     final SSUri       userUri,
     final SSUri       entityUri, 
     final SSUri       metadataURI, 
-    final SSSpaceE    space) throws Exception{
+    final SSSpaceE    space,
+    final SSUri       circle) throws Exception{
     
     try{
       
@@ -504,6 +505,10 @@ public class SSTagAndCategoryCommonSQL extends SSDBSQLFct{
       
       if(metadataURI != null){
         delete(deletes, metadataIdSQLName,      metadataURI);
+      }
+      
+      if(circle != null){
+        delete(deletes, SSSQLVarNames.circleId,      circle);
       }
       
       if(deletes.size() > 0){

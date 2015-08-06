@@ -33,6 +33,7 @@ public class SSTagsRemovePar extends SSServPar{
   public SSUri        entity     = null;
   public SSTagLabel   label      = null;
   public SSSpaceE     space      = null;
+  public SSUri        circle     = null;
 
   public void setForUser(final String forUser) throws Exception{
     this.forUser = SSUri.get(forUser);
@@ -48,6 +49,10 @@ public class SSTagsRemovePar extends SSServPar{
 
   public void setSpace(final String space) throws Exception{
     this.space =  SSSpaceE.get(space);
+  }
+  
+  public void setCircle(final String circle) throws Exception{
+    this.circle = SSUri.get(circle);
   }
   
   public String getForUser(){
@@ -66,6 +71,10 @@ public class SSTagsRemovePar extends SSServPar{
     return SSStrU.toStr(space);
   }
   
+   public String getCircle(){
+    return SSStrU.removeTrailingSlash(circle);
+  }
+  
   public SSTagsRemovePar(){}
   
   public SSTagsRemovePar(
@@ -76,6 +85,7 @@ public class SSTagsRemovePar extends SSServPar{
     final SSUri        entity,
     final SSTagLabel   label,
     final SSSpaceE     space,
+    final SSUri        circle,
     final Boolean      withUserRestriction,
     final Boolean      shouldCommit){
   
@@ -85,6 +95,7 @@ public class SSTagsRemovePar extends SSServPar{
     this.entity              = entity;
     this.label               = label;
     this.space               = space;
+    this.circle              = circle;
     this.withUserRestriction = withUserRestriction;
     this.shouldCommit        = shouldCommit;
   }

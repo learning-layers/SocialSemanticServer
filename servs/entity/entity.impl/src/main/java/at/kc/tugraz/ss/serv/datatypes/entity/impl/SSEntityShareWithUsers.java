@@ -25,19 +25,16 @@ import at.kc.tugraz.ss.circle.datatypes.par.SSCircleCreatePar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesAddPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleGetPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleUsersAddPar;
-import at.tugraz.sss.serv.SSAddAffiliatedEntitiesToCirclePar;
 import at.tugraz.sss.serv.SSCircleE;
 import at.tugraz.sss.serv.SSEntitiesSharedWithUsersPar;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSEntityCircle;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSErrE;
-import at.tugraz.sss.serv.SSPushEntitiesToUsersPar;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.util.SSServCallerU;
-import java.util.ArrayList;
 import java.util.List;
 
 public class SSEntityShareWithUsers {
@@ -60,7 +57,9 @@ public class SSEntityShareWithUsers {
         throw new SSErr(SSErrE.userCannotShareWithHimself);
       }
       
-      SSServCallerU.checkWhetherUsersAreUsers(users);
+      if(!SSServCallerU.areUsersUsers(users)){
+        return;
+      }
       
       final SSUri circleUri =
         circleServ.circleCreate(

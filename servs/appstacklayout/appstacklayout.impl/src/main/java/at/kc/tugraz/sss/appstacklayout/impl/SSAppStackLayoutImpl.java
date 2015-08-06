@@ -348,7 +348,10 @@ implements
   public Boolean appStackLayoutDelete(final SSAppStackLayoutDeletePar par) throws Exception{
     
     try{
-      SSServCallerU.canUserAllEntity(par.user, par.stack);
+
+      if(!SSServCallerU.canUserAll(par.user, par.stack)){
+        return false;
+      }
       
       dbSQL.startTrans(par.shouldCommit);
       

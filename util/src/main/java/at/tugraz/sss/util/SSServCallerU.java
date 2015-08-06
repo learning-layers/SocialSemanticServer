@@ -46,6 +46,41 @@ import java.util.List;
 
 public class SSServCallerU{
   
+  public static Boolean areUsersUsers(final List<SSUri> users) throws Exception{
+    
+    try{
+      
+      if(users.isEmpty()){
+        return true;
+      }
+      
+      final List<SSEntity> entities =
+        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
+          new SSEntitiesGetPar(
+            null,
+            null,
+            null,
+            users, //entities
+            null, //types
+            null,    //descPar
+            false)); //withUserRestriction
+      
+      for(SSEntity entity : entities){
+        
+        switch(entity.type){
+          
+          case user: continue;
+          default:   throw new SSErr(SSErrE.userNotRegistered);
+        }
+      }
+      
+      return true;
+    }catch(Exception error){
+      SSServErrReg.reset();
+      return false;
+    }
+  }
+  
   public static void entitiesSharedWithUsers(final SSEntitiesSharedWithUsersPar par) throws Exception{  
         
     try{
@@ -59,7 +94,7 @@ public class SSServCallerU{
     }
   }
   
-   public static void handleCircleEntitiesAdd(
+  public static void handleCircleEntitiesAdd(
     final SSUri          user, 
     final SSEntityCircle circle, 
     final List<SSEntity> entities,
@@ -255,62 +290,37 @@ public class SSServCallerU{
     }
   }
   
-//  public static Boolean canUserEdit(
-//    final SSUri   user,
-//    final SSUri   entityURI) throws Exception{
+//  public static void canUserReadEntity(
+//    final SSUri user,
+//    final SSUri entityURI) throws Exception{
 //    
-//    try{
-//      ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleCanAccess(
+//    ((SSCircleServerI)SSServReg.getServ(SSCircleServerI.class)).circleCanAccess(
+//      new SSCircleCanAccessPar(
+//        null, 
+//        null, 
+//        user, 
+//        entityURI, 
+//        SSCircleRightE.read));
+//  }
+//  
+//  public static void canUserReadEntities(
+//    final SSUri       user,
+//    final List<SSUri> entityURIs) throws Exception{
+//    
+//    for(SSUri entityURI : entityURIs){
+//      
+//      ((SSCircleServerI)SSServReg.getServ(SSCircleServerI.class)).circleCanAccess(
 //        new SSCircleCanAccessPar(
 //          null,
 //          null,
 //          user,
 //          entityURI,
-//          SSCircleRightE.edit));
-//      
-//      return true;
-//    }catch(Exception error){
-//      
-//      if(SSServErrReg.containsErr(SSErrE.userNotAllowedToAccessEntity)){
-//        SSServErrReg.reset();
-//        return false;
-//      }
-//      
-//      throw error;
+//          SSCircleRightE.read));
 //    }
 //  }
   
-  public static void canUserReadEntity(
-    final SSUri user,
-    final SSUri entityURI) throws Exception{
-    
-    ((SSCircleServerI)SSServReg.getServ(SSCircleServerI.class)).circleCanAccess(
-      new SSCircleCanAccessPar(
-        null, 
-        null, 
-        user, 
-        entityURI, 
-        SSCircleRightE.read));
-  }
-  
-  public static void canUserReadEntities(
-    final SSUri       user,
-    final List<SSUri> entityURIs) throws Exception{
-    
-    for(SSUri entityURI : entityURIs){
-      
-      ((SSCircleServerI)SSServReg.getServ(SSCircleServerI.class)).circleCanAccess(
-        new SSCircleCanAccessPar(
-          null,
-          null,
-          user,
-          entityURI,
-          SSCircleRightE.read));
-    }
-  }
-  
-//  public static void canUserEditEntity(
-//    final SSUri   user, 
+//  public static void canUserAllEntity(
+//    final SSUri   user,
 //    final SSUri   entityURI) throws Exception{
 //    
 //    ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleCanAccess(
@@ -319,67 +329,6 @@ public class SSServCallerU{
 //        null,
 //        user,
 //        entityURI,
-//        SSCircleRightE.edit));
+//        SSCircleRightE.all));
 //  }
-  
-//  public static void canUserEditEntities(
-//    final SSUri       user, 
-//    final List<SSUri> entityURIs) throws Exception{
-//    
-//    for(SSUri entityURI : entityURIs){
-//      
-//      ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleCanAccess(
-//        new SSCircleCanAccessPar(
-//          null,
-//          null,
-//          user,
-//          entityURI,
-//          SSCircleRightE.edit)); 
-//    }
-//  }
-  
-  public static void canUserAllEntity(
-    final SSUri   user,
-    final SSUri   entityURI) throws Exception{
-    
-    ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleCanAccess(
-      new SSCircleCanAccessPar(
-        null,
-        null,
-        user,
-        entityURI,
-        SSCircleRightE.all));
-  }
-  
-  public static void checkWhetherUsersAreUsers(final List<SSUri> users) throws Exception{
-    
-    try{
-      
-      if(users.isEmpty()){
-        return;
-      }
-      
-      final List<SSEntity> entities =
-        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
-          new SSEntitiesGetPar(
-            null,
-            null,
-            null,
-            users, //entities
-            null, //types
-            null,    //descPar
-            false)); //withUserRestriction
-      
-      for(SSEntity entity : entities){
-        
-        switch(entity.type){
-          
-          case user: continue;
-          default:   throw new SSErr(SSErrE.userNotRegistered);
-        }
-      }
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
 }

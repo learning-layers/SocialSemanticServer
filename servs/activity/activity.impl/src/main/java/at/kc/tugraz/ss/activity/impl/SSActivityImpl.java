@@ -305,7 +305,9 @@ implements
       
       dbSQL.startTrans(par.shouldCommit);
       
-      SSServCallerU.checkWhetherUsersAreUsers(par.users);
+      if(!SSServCallerU.areUsersUsers(par.users)){
+        par.users = new ArrayList<>();
+      }
       
       ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
         new SSEntityUpdatePar(

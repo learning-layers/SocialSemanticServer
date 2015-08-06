@@ -476,7 +476,9 @@ implements
         throw new SSErr(SSErrE.parameterMissing);
       }
       
-      SSServCallerU.canUserReadEntity(par.user, par.entity);
+      if(!SSServCallerU.canUserRead(par.user, par.entity)){
+        throw new SSErr(SSErrE.userNotAllowedToAccessEntity);
+      }
       
       final SSEntity entity = sqlFct.getEntity(par.entity);
       
@@ -526,7 +528,9 @@ implements
         }else{
           
           if(par.withUserRestriction){
-            SSServCallerU.canUserReadEntity(par.user, entityURIToAttach);
+            if(!SSServCallerU.canUserRead(par.user, entityURIToAttach)){
+              continue;
+            }
           }
         }
         
@@ -709,7 +713,9 @@ implements
     try{
       final SSEntityUserParentEntitiesGetPar par = new SSEntityUserParentEntitiesGetPar(parA);
 
-      SSServCallerU.canUserReadEntity(par.user, par.entity);
+      if(!SSServCallerU.canUserRead(par.user, par.entity)){
+        return new ArrayList<>();
+      }
       
       final SSEntityE    entityType   = sqlFct.getEntity(par.entity).type;
       final List<SSUri>  entities     = new ArrayList<>();
@@ -736,7 +742,9 @@ implements
       final List<SSUri>                   subEntities = new ArrayList<>();
       final SSEntityE                     entityType;
       
-      SSServCallerU.canUserReadEntity(par.user, par.entity);
+      if(!SSServCallerU.canUserRead(par.user, par.entity)){
+        return new ArrayList<>();
+      }
       
       entityType = sqlFct.getEntity(par.entity).type;
       

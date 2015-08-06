@@ -259,6 +259,7 @@ public class SSRESTTag{
           SSUri.get(entity, SSVocConf.sssUri), //entity
           input.label, //label
           input.space, //space
+          input.circle, //circle
           true,
           true); 
       

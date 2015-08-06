@@ -683,7 +683,9 @@ implements
         }
       }
       
-      SSServCallerU.checkWhetherUsersAreUsers(par.users);
+      if(!SSServCallerU.areUsersUsers(par.users)){
+        return par.circle;
+      }
         
       dbSQL.startTrans(par.shouldCommit);
       

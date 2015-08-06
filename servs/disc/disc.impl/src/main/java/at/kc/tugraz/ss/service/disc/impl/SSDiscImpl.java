@@ -732,25 +732,37 @@ public class SSDiscImpl
   public SSUri discRemove(final SSDiscRemovePar par) throws Exception{
 
     try{
-      SSServCallerU.canUserAllEntity(par.user, par.disc);
-      
       dbSQL.startTrans(par.shouldCommit);
       
-      switch(circleServ.circleMostOpenCircleTypeGet(
-        new SSCircleMostOpenCircleTypeGetPar(
-          null,
-          null,
-          par.user,
-          par.disc,
-          false))){
+      switch(
+        circleServ.circleMostOpenCircleTypeGet(
+          new SSCircleMostOpenCircleTypeGetPar(
+            null,
+            null,
+            par.user,
+            par.disc,
+            false))){
         
-        case priv:
+        case priv:{
+          
+          if(!SSServCallerU.canUserAll(par.user, par.disc)){
+            return null;
+          }
+          
           sqlFct.deleteDisc(par.disc);
           break;
+        }
+        
         case group:
-        case pub:
+        case pub:{
+          
+          if(!SSServCallerU.canUserRead(par.user, par.disc)){
+            return null;
+          }
+          
           sqlFct.unlinkDisc(par.user, par.disc);
           break;
+        }
       }
       
       dbSQL.commit(par.shouldCommit);
