@@ -106,6 +106,8 @@ public class SSRESTLearnEp{
           true, 
           true);
       
+      par.setCircleTypes = true;
+      
     }catch(Exception error){
       return Response.status(422).build();
     }
