@@ -79,7 +79,7 @@ public class SSEntitySetPublic {
             null, //entityTypesToIncludeOnly, 
             null, //setTags, 
             null, //tagSpace, 
-            withUserRestriction, 
+            withUserRestriction, //withUserRestriction
             false)); //invokeEntityHandlers));
       
       SSServCallerU.handleCircleEntitiesAdd(

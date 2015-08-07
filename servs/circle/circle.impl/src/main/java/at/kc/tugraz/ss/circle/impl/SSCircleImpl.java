@@ -961,7 +961,10 @@ implements
       
       if(par.withUserRestriction){
         
-        if(sqlFct.isSystemCircle(par.circle)){
+        if(
+          sqlFct.isSystemCircle(par.circle) &&
+          !SSStrU.equals(par.circle, pubCircleUri)){
+          
           SSLogU.warn(SSErrE.userNotAllowToAccessSystemCircle);
           return null;
         }

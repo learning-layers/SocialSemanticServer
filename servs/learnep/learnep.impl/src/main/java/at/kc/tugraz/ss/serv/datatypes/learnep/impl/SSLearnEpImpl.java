@@ -1278,9 +1278,7 @@ implements
       
       if(par.withUserRestriction){
         
-        if(
-          !SSServCallerU.canUserRead(par.user, par.learnEpEntity) ||
-          !SSServCallerU.canUserRead(par.user, par.entity)){
+        if(!SSServCallerU.canUserRead(par.user, par.learnEpEntity)){
           return null;
         }
       }
@@ -1293,6 +1291,22 @@ implements
       dbSQL.startTrans(par.shouldCommit);
       
       if(par.entity != null){
+        
+        entityServ.entityUpdate(
+          new SSEntityUpdatePar(
+            null, 
+            null, 
+            par.user, 
+            par.entity,
+            null, //type, 
+            null, //label, 
+            null, //description, 
+            null, //entitiesToAttach, 
+            null, //creationTime,
+            null, //read, 
+            false, //setPublic, 
+            true, //withUserRestriction, 
+            false)); //shouldCommit)
         
         circleServ.circlesFromEntityEntitiesAdd(
           new SSCirclesFromEntityEntitiesAdd(

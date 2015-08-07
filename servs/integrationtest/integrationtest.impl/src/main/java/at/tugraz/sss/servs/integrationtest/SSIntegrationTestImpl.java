@@ -21,6 +21,7 @@
 package at.tugraz.sss.servs.integrationtest;
 
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
+import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEp;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
@@ -51,33 +52,46 @@ implements
   public Boolean integrationTestBitsAndPiecesStudyFall2015() throws Exception{
     
     try{
-      final SSIntegrationTestBitsAndPiecesStudyFall2015 bitsAndPiecesStudyFall2015 = new SSIntegrationTestBitsAndPiecesStudyFall2015();
       
-      final List<SSEntity> userEvents           = bitsAndPiecesStudyFall2015.getUserEvents();
+      final SSIntegrationTestBitsAndPiecesStudyFall2015 bitsAndPiecesStudyFall2015 = new SSIntegrationTestBitsAndPiecesStudyFall2015();
+
+      final SSEntity dieterUser = bitsAndPiecesStudyFall2015.getDieterUser();
+      
+      
+      final List<SSEntity> userEvents           = bitsAndPiecesStudyFall2015.getUserEvents(dieterUser.id);
       
       System.out.println(userEvents);
       
-      final List<String>   predefinedCategories = bitsAndPiecesStudyFall2015.getPredefinedCategories();
+      final List<String>   predefinedCategories = bitsAndPiecesStudyFall2015.getPredefinedCategories(dieterUser.id);
       
       System.out.println(predefinedCategories);
       
-      final List<SSEntity> users                = bitsAndPiecesStudyFall2015.getUsers();
+      final List<SSEntity> users                = bitsAndPiecesStudyFall2015.getUsers(dieterUser.id);
       
       System.out.println(users);
       
-      final List<SSEntity> learnEps             = bitsAndPiecesStudyFall2015.getLearningEpisodes();
+      final List<SSEntity> learnEps             = bitsAndPiecesStudyFall2015.getLearningEpisodes(dieterUser.id);
       
       System.out.println(learnEps);
       
-      final List<SSEntity> messages = bitsAndPiecesStudyFall2015.getMessages();
+      final List<SSEntity> messages = bitsAndPiecesStudyFall2015.getMessages(dieterUser.id);
 
       System.out.println(messages);
       
-      final List<SSEntity> activities = bitsAndPiecesStudyFall2015.getActivities();
+      final List<SSEntity> activities = bitsAndPiecesStudyFall2015.getActivities(dieterUser.id);
 
       System.out.println(activities);
       
-      dbSQL.startTrans(true);
+       dbSQL.startTrans(true);
+      
+      final SSUri     learnEpURI = bitsAndPiecesStudyFall2015.createLearnWithEntitiesAndCircles(dieterUser.id);
+      final SSLearnEp learnEp    = bitsAndPiecesStudyFall2015.getLearnEp(dieterUser.id, learnEpURI);
+      
+      bitsAndPiecesStudyFall2015.updateLearnEpEntity (dieterUser.id, learnEp);
+      bitsAndPiecesStudyFall2015.updateLearnEpCircle (dieterUser.id, learnEp);
+      
+      final SSLearnEp learnEpUpdated    = bitsAndPiecesStudyFall2015.getLearnEp(dieterUser.id, learnEpURI);
+     
       
       dbSQL.commit(true);
       

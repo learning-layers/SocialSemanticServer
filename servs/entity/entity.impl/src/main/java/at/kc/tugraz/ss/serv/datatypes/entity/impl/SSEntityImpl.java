@@ -489,14 +489,17 @@ implements
         if(par.type == null){
           par.type = SSEntityE.entity;
         }
-        
-        sqlFct.addEntityIfNotExists(
-          par.entity,
-          par.type,
-          par.label,
-          par.description,
-          par.user,
-          par.creationTime);
+      }
+      
+      sqlFct.addEntityIfNotExists(
+        par.entity,
+        par.type,
+        par.label,
+        par.description,
+        par.user,
+        par.creationTime);
+      
+      if(entity == null){
         
         final SSUri privateCircleURI =
           circleServ.circlePrivURIGet(
