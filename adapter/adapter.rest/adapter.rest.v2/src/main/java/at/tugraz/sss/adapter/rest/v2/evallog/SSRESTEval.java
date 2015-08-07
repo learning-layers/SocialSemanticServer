@@ -21,7 +21,6 @@
 package at.tugraz.sss.adapter.rest.v2.evallog;
 
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
-import at.tugraz.sss.serv.SSServOpE;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import javax.ws.rs.Consumes;
