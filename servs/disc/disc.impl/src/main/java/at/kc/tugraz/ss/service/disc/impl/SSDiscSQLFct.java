@@ -23,10 +23,10 @@ package at.kc.tugraz.ss.service.disc.impl;
 import at.tugraz.sss.serv.SSSQLVarNames;
 import at.tugraz.sss.serv.SSDBSQLFct;
 import at.tugraz.sss.serv.SSUri;
-
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.kc.tugraz.ss.service.disc.datatypes.SSDisc;
 import at.kc.tugraz.ss.service.disc.datatypes.SSDiscEntry;
+import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSErr;
@@ -148,27 +148,28 @@ public class SSDiscSQLFct extends SSDBSQLFct {
       
       final Map<String, String> wheres    = new HashMap<>();
       final List<String>        columns   = new ArrayList<>();
+      final List<String>        tables    = new ArrayList<>();
+      final List<String>        tableCons = new ArrayList<>();      
       
       column    (columns,   SSSQLVarNames.discTable,      SSSQLVarNames.discId);
       
-      where     (wheres,    SSSQLVarNames.entityId, target);
+      table(tables, SSSQLVarNames.discTable);
+      table(tables, SSSQLVarNames.discTargetsTable);
+      
+      where     (wheres,    SSSQLVarNames.discTargetsTable, SSSQLVarNames.targetId, target);
+      
+      tableCon  (tableCons, SSSQLVarNames.discTable, SSSQLVarNames.discId, SSSQLVarNames.discTargetsTable, SSSQLVarNames.discId);
       
       if(forUser != null){
 
-        final List<String>        tables    = new ArrayList<>();
-        final List<String>        tableCons = new ArrayList<>();
-      
-        table     (tables,    SSSQLVarNames.discTable);
         table     (tables,    SSSQLVarNames.discUserTable);
         
         where     (wheres,    SSSQLVarNames.userId,   forUser);
         
         tableCon  (tableCons, SSSQLVarNames.discTable, SSSQLVarNames.discId, SSSQLVarNames.discUserTable, SSSQLVarNames.discId);
-        
-        resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
-      }else{
-        resultSet = dbSQL.select(SSSQLVarNames.discTable, columns, wheres, null, null, null);
       }
+      
+      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
       
       return getURIsFromResult(resultSet, SSSQLVarNames.discId);
     }catch(Exception error){
@@ -181,19 +182,45 @@ public class SSDiscSQLFct extends SSDBSQLFct {
   
   public void createDisc(
     final SSUri         user,
-    final SSUri         disc,
-    final SSUri         target) throws Exception{
+    final SSUri         disc) throws Exception{
     
     try{
       final Map<String, String> inserts =  new HashMap<>();
       
       insert(inserts, SSSQLVarNames.discId,      disc);
-      insert(inserts, SSSQLVarNames.entityId,    target);
       
       dbSQL.insert(SSSQLVarNames.discTable, inserts);
       
       addDisc(disc, user);
 
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  public void addDiscTargets(
+    final SSUri       disc, 
+    final List<SSUri> targets) throws Exception{
+    
+    try{
+      final Map<String, String> inserts    = new HashMap<>();
+      final Map<String, String> uniqueKeys = new HashMap<>();
+      
+      for(SSUri target : targets){
+      
+        inserts.clear();
+        
+        insert(inserts, SSSQLVarNames.discId,       disc);
+        insert(inserts, SSSQLVarNames.targetId,      target);
+        
+        uniqueKeys.clear();
+        
+        uniqueKey(uniqueKeys, SSSQLVarNames.discId,     disc);
+        uniqueKey(uniqueKeys, SSSQLVarNames.targetId,   target);
+      
+        dbSQL.insertIfNotExists(SSSQLVarNames.discTargetsTable, inserts, uniqueKeys);
+      }
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
@@ -283,8 +310,8 @@ public class SSDiscSQLFct extends SSDBSQLFct {
       final List<String>        columns   = new ArrayList<>();
       final List<String>        tableCons = new ArrayList<>();
       
-      table     (tables, SSSQLVarNames.entityTable);
-      table     (tables, SSSQLVarNames.discTable);      
+      table     (tables,    SSSQLVarNames.entityTable);
+      table     (tables,    SSSQLVarNames.discTable);      
       column    (columns,   SSSQLVarNames.discId);
       column    (columns,   SSSQLVarNames.type);
       where     (wheres,    SSSQLVarNames.discId, entityUri);
@@ -365,16 +392,15 @@ public class SSDiscSQLFct extends SSDBSQLFct {
       final Map<String, String> wheres     = new HashMap<>();
       final SSDisc              discObj;
       
+      column    (columns,   SSSQLVarNames.discId);
+      column    (columns,   SSSQLVarNames.type);
+
       table     (tables, SSSQLVarNames.entityTable);
       table     (tables, SSSQLVarNames.discTable);
       
-      column    (columns,   SSSQLVarNames.discId);
-      column    (columns,   SSSQLVarNames.entityId);
-      column    (columns,   SSSQLVarNames.type);
-      
       where     (wheres,    SSSQLVarNames.discId, discUri);
       
-      tableCon  (tableCons, SSSQLVarNames.discTable,        SSSQLVarNames.discId, SSSQLVarNames.entityTable, SSSQLVarNames.id);
+      tableCon  (tableCons, SSSQLVarNames.discTable,        SSSQLVarNames.discId, SSSQLVarNames.entityTable, SSSQLVarNames.id);      
       
       resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
       
@@ -384,11 +410,35 @@ public class SSDiscSQLFct extends SSDBSQLFct {
         SSDisc.get(
           discUri,
           bindingStrToEntityType (resultSet, SSSQLVarNames.type),
-          null, //label
-          bindingStrToUri        (resultSet, SSSQLVarNames.entityId));
+          getDiscTargets(discUri));
       
       return discObj;
         
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
+    }
+  }
+  
+  private List<SSEntity> getDiscTargets(
+    final SSUri discUri) throws Exception{
+    
+    ResultSet resultSet = null;
+    
+    try{
+      final List<String>        columns    = new ArrayList<>();
+      final Map<String, String> wheres     = new HashMap<>();
+      
+      column(columns, SSSQLVarNames.targetId);
+      
+      where(wheres, SSSQLVarNames.discId, discUri);
+      
+      resultSet = dbSQL.select(SSSQLVarNames.discTargetsTable, columns, wheres, null, null, null);
+      
+      return getEntitiesFromResult(resultSet, SSSQLVarNames.targetId);
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;

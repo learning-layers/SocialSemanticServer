@@ -63,6 +63,7 @@ public class SSSQLVarNames{
   public static final String discEntryContent                               = "discEntryContent";
   public static final String discEntryId                                    = "discEntryId";
   public static final String discId                                         = "discId";
+  public static final String targetId                                       = "targetId";
   public static final String learnEpEntityId                                = "learnEpEntityId";
   public static final String xLabel                                         = "xLabel";
   public static final String yLabel                                         = "yLabel";
@@ -193,6 +194,7 @@ public class SSSQLVarNames{
   //disc
   public static final String discUserTable = "discuser";
   public static final String discTable = "disc";
+  public static final String discTargetsTable = "disctargets";
   public static final String discEntryTable = "discentry";
   public static final String discEntriesTable = "discentries";
   

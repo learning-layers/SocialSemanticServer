@@ -20,9 +20,6 @@
 */
 package at.kc.tugraz.ss.service.disc.datatypes;
 
-import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarNames;
-import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSEntity;
@@ -30,33 +27,22 @@ import java.util.*;
 
 public class SSDisc extends SSEntity {
   
-  public SSUri  entity = null;
-
-  public String getEntity() throws Exception{
-    return SSStrU.removeTrailingSlash(entity);
-  }
+  public List<SSEntity> targets = new ArrayList<>();
   
   @Override
   public Object jsonLDDesc() {
-   
-    final Map<String, Object> ld = (Map<String, Object>) super.jsonLDDesc();
-    
-    ld.put(SSVarNames.entity, SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
-    
-    return ld;
+    throw new UnsupportedOperationException();
   }
     
   public static SSDisc get(
     final SSUri                  id,
     final SSEntityE              type,
-    final SSLabel                label,
-    final SSUri                  target) throws Exception{
+    final List<SSEntity>         targets) throws Exception{
     
     return new SSDisc(
       id, 
       type,
-      label, 
-      target);
+      targets);
   }
   
    public static SSDisc get(
@@ -74,26 +60,20 @@ public class SSDisc extends SSEntity {
     
      super(disc, entity);
      
-     if(disc.entity != null){
-       this.entity = disc.entity;
-     }else{
-       
-       if(entity instanceof SSDisc){
-         this.entity = ((SSDisc) entity).entity;
-       }
+     SSEntity.addEntitiesDistinctWithoutNull(this.targets, disc.targets);
+
+     if(entity instanceof SSDisc){
+       SSEntity.addEntitiesDistinctWithoutNull(this.targets, ((SSDisc) entity).targets);
      }
-     
-     this.entity = disc.entity;
    }
    
   protected SSDisc(
     final SSUri                  id,
     final SSEntityE              type,
-    final SSLabel                label,
-    final SSUri                  target) throws Exception{
+    final List<SSEntity>            targets) throws Exception{
     
-    super(id, type, label);
+    super(id, type);
     
-    this.entity = target;
+    SSEntity.addEntitiesDistinctWithoutNull(this.targets, targets);
   }
 }

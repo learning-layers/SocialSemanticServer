@@ -43,35 +43,24 @@ public class SSDiscActivityFct{
       
       if(par.addNewDisc){
         
-        ((SSActivityServerI) SSServReg.getServ(SSActivityServerI.class)).activityAdd(
-          new SSActivityAddPar(
-            null,
-            null,
-            par.user,
-            SSActivityE.discussEntity,
-            par.entity,
-            SSUri.asListWithoutNullAndEmpty(),
-            SSUri.asListWithoutNullAndEmpty(ret.disc),
-            SSTextComment.asListWithoutNullAndEmpty(),
-            null,
-            shouldCommit));
-        
-        if(par.entry != null){
+        for(SSUri target : par.targets){
           
-        ((SSActivityServerI) SSServReg.getServ(SSActivityServerI.class)).activityAdd(
-          new SSActivityAddPar(
-            null,
-            null,
-            par.user,
-            SSActivityE.addDiscEntry,
-            par.entity,
-            SSUri.asListWithoutNullAndEmpty(),
-            SSUri.asListWithoutNullAndEmpty(ret.entry),
-            SSTextComment.asListWithoutNullAndEmpty(par.entry),
-            null,
-            shouldCommit));
+          ((SSActivityServerI) SSServReg.getServ(SSActivityServerI.class)).activityAdd(
+            new SSActivityAddPar(
+              null,
+              null,
+              par.user,
+              SSActivityE.discussEntity,
+              target, //entity
+              null, //users
+              SSUri.asListWithoutNullAndEmpty(ret.disc), //entities
+              null, //comments
+              null,
+              shouldCommit));
         }
-      }else{
+      }
+      
+      if(par.entry != null){
         
         ((SSActivityServerI) SSServReg.getServ(SSActivityServerI.class)).activityAdd(
           new SSActivityAddPar(
@@ -80,12 +69,13 @@ public class SSDiscActivityFct{
             par.user,
             SSActivityE.addDiscEntry,
             ret.disc,
-            SSUri.asListWithoutNullAndEmpty(),
-            SSUri.asListWithoutNullAndEmpty(ret.entry),
-            SSTextComment.asListWithoutNullAndEmpty(par.entry),
+            null, //users,
+            SSUri.asListWithoutNullAndEmpty(ret.entry), //entities
+            SSTextComment.asListWithoutNullAndEmpty(par.entry), //comment
             null,
             shouldCommit));
       }
+      
     }catch(SSErr error){
       
       switch(error.code){

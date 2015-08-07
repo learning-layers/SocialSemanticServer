@@ -40,8 +40,8 @@ public class SSDiscMiscFct{
       final List<SSUri>  discContentUris = new ArrayList<>();
       final SSDisc       disc            = sqlFct.getDisc(discUri, true);
 
-      discContentUris.add(discUri);
-      discContentUris.add(disc.entity);
+      discContentUris.add   (discUri);
+      discContentUris.addAll(SSUri.getDistinctNotNullFromEntities(disc.targets));
       
       for(SSEntity entry : disc.entries){
         discContentUris.add(entry.id);

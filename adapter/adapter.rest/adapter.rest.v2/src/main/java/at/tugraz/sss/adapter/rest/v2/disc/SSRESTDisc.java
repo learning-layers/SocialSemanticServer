@@ -30,6 +30,7 @@ import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscEntryAddRet;
 import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscGetRet;
 import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscsGetRet;
 import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSVarNames;
 import com.wordnik.swagger.annotations.Api;
@@ -110,7 +111,7 @@ public class SSRESTDisc{
           null,
           null,
           input.disc, //disc
-          input.entity, //entity, 
+          input.targets, //targets, 
           input.entry, //entry
           input.addNewDisc, //addNewDisc
           input.type, //type
@@ -170,16 +171,16 @@ public class SSRESTDisc{
   @GET
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path("/targets/{target}")
+  @Path("/targets/{targets}")
   @ApiOperation(
-    value = "retrieve discussions for a certain entity, i.e. target",
+    value = "retrieve discussions for certain entities, i.e., targets",
     response = SSDiscsGetRet.class)
-  public Response discsForTargetGet(
+  public Response discsForTargetsGet(
     @Context
     final HttpHeaders  headers,
     
-    @PathParam (SSVarNames.target)
-    final String target){
+    @PathParam (SSVarNames.targets)
+    final String targets){
     
     final SSDiscsGetPar par;
     
@@ -191,7 +192,7 @@ public class SSRESTDisc{
           true, //setEntries
           null, //forUser
           null, //discs
-          SSUri.get(target, SSVocConf.sssUri), //target
+          SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(targets, SSStrU.comma), SSVocConf.sssUri), //targets
           true, //withUserRestriction
           true); //invokeEntityHandlers
       

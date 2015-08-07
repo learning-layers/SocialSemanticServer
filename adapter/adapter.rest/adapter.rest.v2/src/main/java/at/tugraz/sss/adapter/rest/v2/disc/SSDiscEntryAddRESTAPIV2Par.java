@@ -117,12 +117,12 @@ public class SSDiscEntryAddRESTAPIV2Par{
   
   @ApiModelProperty(
     required = false,
-    value = "entity to start a discussion for (optional)")
-  public SSUri                entity          = null;
+    value = "entities to start a discussion for (optional)")
+  public List<SSUri>                targets          = null;
   
   @XmlElement
-  public void setEntity(final String entity) throws Exception{
-    this.entity = SSUri.get(entity, SSVocConf.sssUri);
+  public void setTargets(final List<String> targets) throws Exception{
+    this.targets = SSUri.get(targets, SSVocConf.sssUri);
   }
   
   @ApiModelProperty(

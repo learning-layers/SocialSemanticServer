@@ -120,7 +120,7 @@ public class SSDiscImpl
               true,
               null, //forUser
               null, //discs
-              entity.id, //target
+              SSUri.asListWithoutNullAndEmpty(entity.id), //targets
               par.withUserRestriction,
               false))); //invokeEntityHandlers
       }
@@ -456,29 +456,9 @@ public class SSDiscImpl
       final SSDiscUserEntryAddFct discEntryAddFct = new SSDiscUserEntryAddFct(entityServ);
       
       if(par.addNewDisc){
-
         discEntryAddFct.checkWhetherUserCanAddDisc(par);
-
-        if(par.entity != null){
-      
-          entityServ.entityUpdate(
-            new SSEntityUpdatePar(
-              null,
-              null,
-              par.user,
-              par.entity,
-              null, //type,
-              null, //label
-              null, //description,
-              null, //entitiesToAttach,
-              null, //creationTime,
-              null, //read,
-              false, //setPublic
-              true, //withUserRestriction
-              false)); //shouldCommit)
-        }
       }
-
+      
       if(!par.addNewDisc){
         
         if(SSObjU.isNull(par.entry)){
@@ -500,10 +480,11 @@ public class SSDiscImpl
           sqlFct,
           par.disc,
           par.user,
-          par.entity,
+          par.targets,
           par.type,
           par.label,
-          par.description);
+          par.description,
+          par.withUserRestriction);
 
         attachEntities(
           par.user, 
@@ -569,8 +550,8 @@ public class SSDiscImpl
   public SSDisc discGet(final SSDiscGetPar par) throws Exception{
 
     try{
-      final List<SSDiscEntry>    discEntryEntities = new ArrayList<>();
-      SSDiscEntry                discEntry;
+      final List<SSEntity>       discEntryEntities = new ArrayList<>();
+      final List<SSEntity>       discTargets       = new ArrayList<>();
       SSEntityDescriberPar       descPar;
       
       if(par.invokeEntityHandlers){
@@ -595,6 +576,29 @@ public class SSDiscImpl
               par.withUserRestriction, //withUserRestriction,
               descPar)));
       
+      for(SSEntity target : disc.targets){
+        
+        if(par.invokeEntityHandlers){
+          descPar                 = new SSEntityDescriberPar(null);
+        }else{
+          descPar = null;
+        }
+        
+        SSEntity.addEntitiesDistinctWithoutNull(
+          discTargets,
+          entityServ.entityGet(
+            new SSEntityGetPar(
+              null,
+              null,
+              par.user,
+              target.id,
+              par.withUserRestriction, //withUserRestriction,
+              descPar)));
+      }
+      
+      disc.targets.clear();
+      disc.targets.addAll(discTargets);
+      
       if(par.invokeEntityHandlers){
         descPar                 = new SSEntityDescriberPar(null);
         descPar.setCircleTypes  = par.setCircleTypes;
@@ -606,7 +610,8 @@ public class SSDiscImpl
         
       for(SSEntity entry : disc.entries){
         
-        discEntry =
+        SSEntity.addEntitiesDistinctWithoutNull(
+          discEntryEntities,
           SSDiscEntry.get(
             (SSDiscEntry) entry,
             entityServ.entityGet(
@@ -616,9 +621,7 @@ public class SSDiscImpl
                 par.user,
                 ((SSDiscEntry) entry).id,
                 par.withUserRestriction, //withUserRestriction,
-                descPar)));
-        
-        discEntryEntities.add(discEntry);
+                descPar))));
       }
 
       disc.entries.clear();
@@ -652,9 +655,9 @@ public class SSDiscImpl
       
       if(par.withUserRestriction){
         
-        if(par.target != null){
+        if(!par.targets.isEmpty()){
           
-          if(!SSServCallerU.canUserRead(par.user, par.target)){
+          if(!SSServCallerU.canUserRead(par.user, par.targets)){
             return new ArrayList<>();
           }
         }
@@ -687,13 +690,20 @@ public class SSDiscImpl
       discGetPar.setCircleTypes  = par.setCircleTypes;
       discGetPar.setComments     = par.setComments;
       
-      if(par.target != null){
-      
+      if(!par.targets.isEmpty()){
+        
         par.discs.clear();
         
-        par.discs.addAll(sqlFct.getDiscURIsForTarget(par.forUser, par.target));
+        for(SSUri targetURI : par.targets){
+          
+          SSUri.addDistinctWithoutNull(
+            par.discs,
+            sqlFct.getDiscURIsForTarget(
+              par.forUser, 
+              targetURI));
+        }
       }else{
-      
+        
         if(par.discs.isEmpty()){
           par.discs.addAll(sqlFct.getDiscURIs(par.forUser));
         }

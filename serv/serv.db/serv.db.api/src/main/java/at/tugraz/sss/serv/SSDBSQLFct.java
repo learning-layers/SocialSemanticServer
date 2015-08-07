@@ -344,6 +344,23 @@ public class SSDBSQLFct extends SSDBFct{
     return uris;
   }
   
+  protected static List<SSEntity> getEntitiesFromResult(
+    final ResultSet resultSet,
+    final String    key) throws Exception{
+    
+    final List<SSEntity> entities = new ArrayList<>();
+    
+    while(resultSet.next()){
+      
+      entities.add(
+        SSEntity.get(
+          bindingStrToUri(resultSet, key), 
+          SSEntityE.entity));
+    }
+    
+    return entities;
+  }
+  
   protected static SSAuthor bindingStrToAuthor(
     final ResultSet resultSet, 
     final String    binding) throws Exception{

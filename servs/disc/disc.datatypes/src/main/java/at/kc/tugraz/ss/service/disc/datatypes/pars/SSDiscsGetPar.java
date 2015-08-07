@@ -32,7 +32,7 @@ public class SSDiscsGetPar extends SSServPar{
   public Boolean     setEntries           = false;
   public SSUri       forUser              = null;
   public List<SSUri> discs                = new ArrayList<>();
-  public SSUri       target               = null;
+  public List<SSUri> targets              = new ArrayList<>();
   public Boolean     invokeEntityHandlers = false;
   public Boolean     setLikes             = false;
   public Boolean     setCircleTypes       = false;
@@ -54,12 +54,12 @@ public class SSDiscsGetPar extends SSServPar{
     this.discs = SSUri.get(discs);
   }
   
-  public String getTarget() {
-    return SSStrU.removeTrailingSlash(target);
+  public List<String> getTargets() {
+    return SSStrU.removeTrailingSlash(targets);
   }
 
-  public void setTarget(final String target) throws Exception{
-    this.target = SSUri.get(target);
+  public void setTargets(final List<String> targets) throws Exception{
+    this.targets.addAll(SSUri.get(targets));
   }
   
   public SSDiscsGetPar(){}
@@ -69,7 +69,7 @@ public class SSDiscsGetPar extends SSServPar{
     final Boolean     setEntries,
     final SSUri       forUser,
     final List<SSUri> discs,
-    final SSUri       target,
+    final List<SSUri> targets,
     final Boolean     withUserRestriction,
     final Boolean     invokeEntityHandlers){
     
@@ -78,9 +78,9 @@ public class SSDiscsGetPar extends SSServPar{
     this.setEntries           = setEntries;
     this.forUser              = forUser;
     
-    SSUri.addDistinctWithoutNull(this.discs, discs);
+    SSUri.addDistinctWithoutNull(this.discs,   discs);
+    SSUri.addDistinctWithoutNull(this.targets, targets);
     
-    this.target               = target;
     this.withUserRestriction  = withUserRestriction;
     this.invokeEntityHandlers = invokeEntityHandlers;
   }

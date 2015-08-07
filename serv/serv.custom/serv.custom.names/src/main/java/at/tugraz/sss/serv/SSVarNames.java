@@ -24,6 +24,7 @@ public class SSVarNames{
   
   private SSVarNames(){}
 
+  public static final String targets                                        = "targets";
   public static final String target                                         = "target";
   public static final String version                                        = "version";
   public static final String code                                           = "code";

@@ -33,7 +33,7 @@ import java.util.List;
 public class SSDiscEntryAddPar extends SSServPar{
   
   public SSUri               disc           = null;
-  public SSUri               entity         = null;
+  public List<SSUri>         targets        = new ArrayList<>();
   public SSTextComment       entry          = null;
   public Boolean             addNewDisc     = null;
   public SSEntityE           type           = null;
@@ -45,9 +45,9 @@ public class SSDiscEntryAddPar extends SSServPar{
   public void setDisc(final String disc) throws Exception{
     this.disc = SSUri.get(disc);
   }
-  
-  public void setEntity(final String entity) throws Exception{
-    this.entity = SSUri.get(entity);
+
+  public void setTargets(final List<String> targets) throws Exception{
+    this.targets.addAll(SSUri.get(targets));
   }
   
   public void setEntry(final String entry) throws Exception{
@@ -78,10 +78,10 @@ public class SSDiscEntryAddPar extends SSServPar{
     return SSStrU.removeTrailingSlash(disc);
   }
 
-  public String getEntity(){
-    return SSStrU.removeTrailingSlash(entity);
+  public List<String> getTargets(){
+    return SSStrU.removeTrailingSlash(targets);
   }
-
+  
   public String getEntry(){
     return SSStrU.toStr(entry);
   }
@@ -113,7 +113,7 @@ public class SSDiscEntryAddPar extends SSServPar{
     final String        key,
     final SSUri         user,
     final SSUri         disc,
-    final SSUri         entity, 
+    final List<SSUri>   targets, 
     final SSTextComment entry, 
     final Boolean       addNewDisc,
     final SSEntityE     type, 
@@ -126,7 +126,9 @@ public class SSDiscEntryAddPar extends SSServPar{
     super(op, key, user);
   
     this.disc        = disc;
-    this.entity      = entity;
+    
+    SSUri.addDistinctWithoutNull(this.targets, targets);
+    
     this.entry       = entry;
     this.addNewDisc  = addNewDisc;
     this.type        = type;

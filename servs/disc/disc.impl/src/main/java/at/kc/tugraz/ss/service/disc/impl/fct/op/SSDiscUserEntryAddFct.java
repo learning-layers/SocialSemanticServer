@@ -32,7 +32,6 @@ import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.caller.SSServCaller;
-import at.tugraz.sss.util.SSServCallerU;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscEntryAddPar;
 import at.kc.tugraz.ss.service.disc.impl.SSDiscSQLFct;
 import at.tugraz.sss.serv.SSEntity;
@@ -40,6 +39,7 @@ import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
+import java.util.List;
 
 public class SSDiscUserEntryAddFct{
   
@@ -53,20 +53,13 @@ public class SSDiscUserEntryAddFct{
     final SSDiscSQLFct  sqlFct,
     final SSUri         discUri,
     final SSUri         userUri, 
-    final SSUri         targetUri,
+    final List<SSUri>   targetUris,
     final SSEntityE     discType, 
     final SSLabel       discLabel,
-    final SSTextComment description) throws Exception{
+    final SSTextComment description,
+    final Boolean       withUserRestriction) throws Exception{
     
     try{
-      
-      final SSUri         tmpTargetUri;
-      
-      if(targetUri == null){
-        tmpTargetUri = discUri;
-      }else{
-        tmpTargetUri = targetUri;
-      }
       
       entityServ.entityUpdate(
         new SSEntityUpdatePar(
@@ -81,29 +74,37 @@ public class SSDiscUserEntryAddFct{
           null, //creationTime,
           null, //read,
           false, //setPublic
-          false, //withUserRestriction
+          withUserRestriction, //withUserRestriction
           false)); //shouldCommit)
       
-      entityServ.entityUpdate(
-        new SSEntityUpdatePar(
-          null,
-          null,
-          userUri,
-          tmpTargetUri,
-          null, //type,
-          null, //label
-          null, //description,
-          null, //entitiesToAttach,
-          null, //creationTime,
-          null, //read,
-          false, //setPublic
-          false, //withUserRestriction
-          false)); //shouldCommit)
+      for(SSUri targetURI : targetUris){
+        
+        entityServ.entityUpdate(
+          new SSEntityUpdatePar(
+            null,
+            null,
+            userUri,
+            targetURI,
+            null, //type,
+            null, //label
+            null, //description,
+            null, //entitiesToAttach,
+            null, //creationTime,
+            null, //read,
+            false, //setPublic
+            withUserRestriction, //withUserRestriction
+            false)); //shouldCommit)
+      }
             
       sqlFct.createDisc(
         userUri, 
-        discUri, 
-        tmpTargetUri);
+        discUri);
+      
+      if(
+        targetUris != null &&
+        !targetUris.isEmpty()){
+        sqlFct.addDiscTargets(discUri, targetUris);
+      }
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
