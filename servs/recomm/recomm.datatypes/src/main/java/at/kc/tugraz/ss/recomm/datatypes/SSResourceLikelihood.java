@@ -30,6 +30,14 @@ public class SSResourceLikelihood implements SSJSONLDPropI{
   public SSEntity      resource       = null;
 	public Double        likelihood     = 0D;
 
+//  public SSEntity getResource(){
+//    return resource;
+//  }
+  
+//  public Double getLikelihood(){
+//    return likelihood;
+//  }
+  
   public static SSResourceLikelihood get(
     final SSEntity    resource,
     final Double      likelihood){

@@ -35,6 +35,10 @@ public class SSRecommResourcesRet extends SSServRetI{
 
   public List<SSResourceLikelihood> resources = new ArrayList<>();
 
+//  public List<SSResourceLikelihood> getResources(){
+//    return resources;
+//  }
+  
   public static SSRecommResourcesRet get(
     final List<SSResourceLikelihood> resourcesWithLikelihood) throws Exception{
     

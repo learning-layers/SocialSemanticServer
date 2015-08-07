@@ -53,6 +53,8 @@ public class SSRecommUsersPar extends SSServPar{
     return SSStrU.removeTrailingSlash(entity);
   }
   
+  public SSRecommUsersPar(){}
+    
   public SSRecommUsersPar(
     final SSServOpE    op,
     final String       key,
