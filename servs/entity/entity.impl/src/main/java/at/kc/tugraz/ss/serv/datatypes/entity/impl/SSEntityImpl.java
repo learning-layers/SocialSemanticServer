@@ -428,6 +428,7 @@ implements
     
     final SSEntityUpdatePar par = (SSEntityUpdatePar) parA.getFromJSON(SSEntityUpdatePar.class);
     final SSUri             entityURI;
+    Boolean                 isPlaceholderAdd = false;
     
     if(
       par.entity == null &&
@@ -442,17 +443,7 @@ implements
           
           par.entity = SSServCaller.vocURICreate();
           
-          ((SSUEServerI) SSServReg.getServ(SSUEServerI.class)).userEventAdd(
-            new SSUEAddPar(
-              null,
-              null,
-              par.user,
-              par.entity,
-              SSUEE.bnpPlaceholderAdd,
-              null, //content
-              par.creationTime,
-              par.withUserRestriction,
-              false)); //shouldCommit
+          isPlaceholderAdd = true;
           break;
         }
         
@@ -463,6 +454,21 @@ implements
     entityURI = entityUpdate(par);
       
     sSCon.writeRetFullToClient(SSEntityUpdateRet.get(entityURI));
+    
+    if(isPlaceholderAdd){
+    
+      ((SSUEServerI) SSServReg.getServ(SSUEServerI.class)).userEventAdd(
+        new SSUEAddPar(
+          null,
+          null,
+          par.user,
+          par.entity,
+          SSUEE.bnpPlaceholderAdd,
+          null, //content
+          par.creationTime,
+          par.withUserRestriction,
+          par.shouldCommit)); //shouldCommit
+    }
   }
   
   @Override

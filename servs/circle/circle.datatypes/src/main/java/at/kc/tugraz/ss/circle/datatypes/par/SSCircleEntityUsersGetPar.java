@@ -30,7 +30,7 @@ public class SSCircleEntityUsersGetPar extends SSServPar{
   public SSUri        entity               = null;
   public Boolean      invokeEntityHandlers = false;
   
-  public String entity(){
+  public String getEntity(){
     return SSStrU.removeTrailingSlash(entity);
   }
   

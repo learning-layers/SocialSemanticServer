@@ -137,6 +137,45 @@ public class SSRESTEntity {
     return SSRestMainV2.handleRequest(headers, par, false, true).response;
   }
   
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path("")
+  @ApiOperation(
+    value = "adds a new entity with given properties",
+    response = SSEntityUpdateRet.class)
+  public Response entityAdd(
+    @Context
+      final HttpHeaders headers,
+    
+    final SSEntityUpdateRESTAPIV2Par input){
+    
+    final SSEntityUpdatePar par;
+    
+    try{
+      par =
+        new SSEntityUpdatePar(
+          SSServOpE.entityUpdate, 
+          null, //key 
+          null, //user
+          null, //entity
+          input.type, //type
+          input.label,       //label
+          input.description, //description
+          null, //entitiesToAttach
+          input.creationTime, //creationTime
+          input.read,  //read
+          null, //setPublic
+          true, //withUserRestriction, 
+          true); //shouldCommit
+      
+    }catch(Exception error){
+      return Response.status(422).build();
+    }
+    
+    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+  }
+  
   @PUT
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
@@ -268,7 +307,7 @@ public class SSRESTEntity {
   @ApiOperation(
     value = "retrieve users who can access given entity",
     response = SSCircleEntityUsersGetRet.class)
-  @Path("/{entity}")
+  @Path("/{entity}/users")
   public Response entityUsersGet(
     @Context
     final HttpHeaders headers,

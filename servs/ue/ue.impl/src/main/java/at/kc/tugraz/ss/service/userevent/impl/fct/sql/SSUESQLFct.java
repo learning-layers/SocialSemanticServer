@@ -226,7 +226,7 @@ public class SSUESQLFct extends SSDBSQLFct{
       insert(inserts, SSSQLVarNames.entityId,      entity);
       insert(inserts, SSSQLVarNames.eventType,     eventType);
       
-      if(content == null){
+      if(content != null){
         insert(inserts, SSSQLVarNames.content,       content);
       }else{
         insert(inserts, SSSQLVarNames.content,       SSStrU.empty);
