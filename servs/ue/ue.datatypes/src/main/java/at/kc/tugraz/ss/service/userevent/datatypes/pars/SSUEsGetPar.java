@@ -36,6 +36,8 @@ public class SSUEsGetPar extends SSServPar{
   public Long            startTime            = null;
   public Long            endTime              = null;
   public Boolean         invokeEntityHandlers = false;
+  public Boolean         setTags              = false;
+  public Boolean         setFlags             = false;
 
   public void setForUser(final String forUser) throws Exception{
     this.forUser = SSUri.get(forUser);

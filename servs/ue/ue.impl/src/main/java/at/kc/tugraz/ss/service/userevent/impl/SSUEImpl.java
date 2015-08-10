@@ -222,7 +222,10 @@ implements
       final SSEntityDescriberPar descPar;
       
       if(par.invokeEntityHandlers){
-        descPar = new SSEntityDescriberPar(null);
+        
+        descPar          = new SSEntityDescriberPar(null);
+        descPar.setFlags = par.setFlags;
+        descPar.setTags  = par.setTags;
       }else{
         descPar = null;
       }

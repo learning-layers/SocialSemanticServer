@@ -74,5 +74,17 @@ public class SSUEsGetRESTAPIV2Par{
     value = "end timestamp for retrieving user events for")
   public Long            endTime        = null;
   
+  @XmlElement
+  @ApiModelProperty(
+    required = false,
+    value = "whether tags for entitis shall be set")
+  public Boolean            setTags  = false;
+  
+  @XmlElement
+  @ApiModelProperty(
+    required = false,
+    value = "whether flags for entitis shall be set")
+  public Boolean            setFlags  = false;
+  
   public SSUEsGetRESTAPIV2Par(){}
 }
