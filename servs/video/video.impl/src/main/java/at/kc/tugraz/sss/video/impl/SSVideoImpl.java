@@ -490,11 +490,12 @@ implements
               par.withUserRestriction, 
               descPar))); //descPar
       
-      video.annotations.addAll(
+      SSEntity.addEntitiesDistinctWithoutNull(
+        video.annotations,
         videoAnnotationsGet(
           new SSVideoAnnotationsGetPar(
-            par.user, 
-            video.id, 
+            par.user,
+            video.id,
             par.withUserRestriction)));
         
       return video;

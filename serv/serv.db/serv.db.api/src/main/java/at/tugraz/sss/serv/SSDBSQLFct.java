@@ -135,7 +135,31 @@ public class SSDBSQLFct extends SSDBFct{
   protected static void uniqueKey(
     final Map<String, String> uniqueKeys,
     final String              key,
-    final Object              value) throws Exception{
+    final Enum              value) throws Exception{
+    
+    try{
+      uniqueKeys.put(key, value.toString());
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  protected static void uniqueKey(
+    final Map<String, String> uniqueKeys,
+    final String              key,
+    final String              value) throws Exception{
+    
+    try{
+      uniqueKeys.put(key, value);
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  protected static void uniqueKey(
+    final Map<String, String> uniqueKeys,
+    final String              key,
+    final SSEntityA           value) throws Exception{
     
     try{
       uniqueKeys.put(key, value.toString());

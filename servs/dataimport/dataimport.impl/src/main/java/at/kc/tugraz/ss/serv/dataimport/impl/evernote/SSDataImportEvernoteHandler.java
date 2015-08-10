@@ -596,7 +596,7 @@ public class SSDataImportEvernoteHandler {
           new SSEntityGetPar(
             null,
             null,
-            null,
+            userUri,
             notebookUri, //entity
             true, //withUserRestriction
             null)); //descPar

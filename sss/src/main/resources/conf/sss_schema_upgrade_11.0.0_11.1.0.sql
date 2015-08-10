@@ -21,3 +21,9 @@ DROP COLUMN `entityId`,
 DROP PRIMARY KEY,
 ADD PRIMARY KEY (`discId`),
 DROP INDEX `targetFKdisc_idx` ;
+
+ALTER TABLE `sss`.`files` 
+DROP FOREIGN KEY `entityIdFKfiles`;
+ALTER TABLE `sss`.`files` 
+DROP COLUMN `entityId`,
+DROP PRIMARY KEY;

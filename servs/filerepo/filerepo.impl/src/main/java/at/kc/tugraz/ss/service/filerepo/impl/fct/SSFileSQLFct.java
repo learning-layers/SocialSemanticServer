@@ -52,8 +52,8 @@ public class SSFileSQLFct extends SSDBSQLFct{
       final Map<String, String> inserts    = new HashMap<>();
       final Map<String, String> uniqueKeys = new HashMap<>();
       
-      insert   (inserts,    SSSQLVarNames.fileId, file);
-      uniqueKey(uniqueKeys, SSSQLVarNames.fileId, file);
+      insert    (inserts,    SSSQLVarNames.fileId,   file);
+      uniqueKey (uniqueKeys, SSSQLVarNames.fileId,   file);
       
       dbSQL.insertIfNotExists(SSSQLVarNames.filesTable, inserts, uniqueKeys);
       

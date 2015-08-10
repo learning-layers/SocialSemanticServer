@@ -88,6 +88,8 @@ public class SSLocationSQLFct extends SSDBSQLFct{
       
       resultSet = dbSQL.select(SSSQLVarNames.locationTable, columns, wheres, null, null, null);
       
+      checkFirstResult(resultSet);
+      
       return SSLocation.get(
         bindingStrToUri   (resultSet, SSSQLVarNames.locationId),
         bindingStrToDouble(resultSet, SSSQLVarNames.latitude),

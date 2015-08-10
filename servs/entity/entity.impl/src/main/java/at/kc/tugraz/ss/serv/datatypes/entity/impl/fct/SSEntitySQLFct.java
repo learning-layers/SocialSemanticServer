@@ -482,10 +482,12 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     
     try{
       
-      if(
-        SSObjU.isNull(entity, attachments) ||
-        attachments.isEmpty()){
+      if(SSObjU.isNull(entity, attachments)){
         throw new SSErr(SSErrE.parameterMissing);
+      }
+      
+      if(attachments.isEmpty()){
+        return;
       }
       
       final List<MultivaluedMap<String, String>> wheres                = new ArrayList<>();
