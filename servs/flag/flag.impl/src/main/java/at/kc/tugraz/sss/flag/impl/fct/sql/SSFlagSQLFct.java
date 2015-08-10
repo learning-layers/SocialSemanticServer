@@ -69,7 +69,7 @@ public class SSFlagSQLFct extends SSDBSQLFct{
       table(tables, SSSQLVarNames.flagTable);
       table(tables, SSSQLVarNames.flagsTable);
       
-      where(wheres, SSSQLVarNames.flagId, flag);
+      where(wheres, SSSQLVarNames.flagTable, SSSQLVarNames.flagId, flag);
       
       tableCon (tableCons, SSSQLVarNames.flagTable,  SSSQLVarNames.flagId, SSSQLVarNames.flagsTable, SSSQLVarNames.flagId);
       
@@ -126,6 +126,7 @@ public class SSFlagSQLFct extends SSDBSQLFct{
       column   (columns, SSSQLVarNames.flagTable,     SSSQLVarNames.type);
       column   (columns, SSSQLVarNames.flagsTable,    SSSQLVarNames.userId);
       column   (columns, SSSQLVarNames.flagsTable,    SSSQLVarNames.entityId);
+      column   (columns, SSSQLVarNames.flagTable,     SSSQLVarNames.flagId);
 
       tableCon (tableCons, SSSQLVarNames.flagTable,  SSSQLVarNames.flagId, SSSQLVarNames.entityTable, SSSQLVarNames.id);
       tableCon (tableCons, SSSQLVarNames.flagsTable, SSSQLVarNames.flagId, SSSQLVarNames.flagTable,   SSSQLVarNames.flagId);
