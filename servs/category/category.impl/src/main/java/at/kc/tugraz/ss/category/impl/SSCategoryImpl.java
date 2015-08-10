@@ -45,6 +45,8 @@ import at.kc.tugraz.ss.category.datatypes.ret.SSCategoryAddRet;
 import at.kc.tugraz.ss.category.datatypes.ret.SSCategoryEntitiesForCategoriesGetRet;
 import at.kc.tugraz.ss.category.datatypes.ret.SSCategoryFrequsGetRet;
 import at.kc.tugraz.ss.category.impl.fct.userrelationgatherer.SSCategoryUserRelationGathererFct;
+import at.kc.tugraz.ss.circle.api.SSCircleServerI;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePubURIGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityFromTypeAndLabelGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
@@ -76,6 +78,7 @@ import java.util.Map;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSObjU;
 import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSToolContextE;
@@ -356,6 +359,14 @@ implements
       
       if(par.circle != null){
         par.space = SSSpaceE.circleSpace;
+      }else{
+        par.circle =
+          ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePubURIGet(
+            new SSCirclePubURIGetPar(
+              SSServOpE.circlePubURIGet, 
+              null, 
+              null, 
+              false));
       }
       
       if(par.space == null){
@@ -364,10 +375,6 @@ implements
       
       switch(par.space){
         case circleSpace:{
-          
-          if(par.circle == null){
-            throw new SSErr(SSErrE.parameterMissing);
-          }
           
           circleEntity =
             entityServ.entityGet(
@@ -433,7 +440,7 @@ implements
           false);
       }
       
-      sqlFct.addMetadataAssIfNotExists(
+      sqlFct.addMetadataAssIfNotExists1(
         categoryUri,
         par.user,
         par.entity,

@@ -23,6 +23,8 @@ package at.kc.tugraz.ss.service.tag.impl;
 import at.kc.tugraz.ss.activity.api.SSActivityServerI;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
 import at.kc.tugraz.ss.activity.datatypes.par.SSActivityAddPar;
+import at.kc.tugraz.ss.circle.api.SSCircleServerI;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePubURIGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityFromTypeAndLabelGetPar;
@@ -70,6 +72,7 @@ import java.util.*;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSObjU;
 import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSToolContextE;
@@ -399,6 +402,14 @@ implements
       
       if(par.circle != null){
         par.space = SSSpaceE.circleSpace;
+      }else{
+        par.circle =
+          ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePubURIGet(
+            new SSCirclePubURIGetPar(
+              SSServOpE.circlePubURIGet, 
+              null, 
+              null, 
+              false));
       }
       
       if(par.space == null){
@@ -408,10 +419,6 @@ implements
       switch(par.space){
         
         case circleSpace:{
-          
-          if(par.circle == null){
-            throw new SSErr(SSErrE.parameterMissing);
-          }
           
           circleEntity =
             entityServ.entityGet(
@@ -477,7 +484,7 @@ implements
 //          false);
 //      }
       
-      sqlFct.addMetadataAssIfNotExists(
+      sqlFct.addMetadataAssIfNotExists1(
         tagUri,
         par.user,
         par.entity,

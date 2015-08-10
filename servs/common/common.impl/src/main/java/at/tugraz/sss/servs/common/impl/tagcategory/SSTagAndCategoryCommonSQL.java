@@ -32,7 +32,6 @@ import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSSQLVarNames;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSSpaceE;
-import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -434,7 +433,7 @@ public class SSTagAndCategoryCommonSQL extends SSDBSQLFct{
     }
   }
   
-  public void addMetadataAssIfNotExists(
+  public void addMetadataAssIfNotExists1(
     final SSUri       metadataUri, 
     final SSUri       userUri,
     final SSUri       entityUri,
@@ -450,12 +449,7 @@ public class SSTagAndCategoryCommonSQL extends SSDBSQLFct{
       insert    (inserts,    SSSQLVarNames.entityId,     entityUri);
       insert    (inserts,    metadataIdSQLName,          metadataUri);
       insert    (inserts,    metadataSpaceSQLName,       space);
-      
-      if(circleUri != null){
-        insert    (inserts,    SSSQLVarNames.circleId,     circleUri);
-      }else{
-        insert    (inserts,    SSSQLVarNames.circleId,     SSStrU.empty);
-      }
+      insert    (inserts,    SSSQLVarNames.circleId,     circleUri);
       
       if(
         creationTime == null ||
@@ -469,10 +463,7 @@ public class SSTagAndCategoryCommonSQL extends SSDBSQLFct{
       uniqueKey (uniqueKeys, SSSQLVarNames.entityId,     entityUri);
       uniqueKey (uniqueKeys, metadataIdSQLName,          metadataUri);
       uniqueKey (uniqueKeys, metadataSpaceSQLName,       space);
-       
-      if(circleUri != null){
-        uniqueKey (uniqueKeys, SSSQLVarNames.circleId,     circleUri);
-      }
+      uniqueKey (uniqueKeys, SSSQLVarNames.circleId,     circleUri);
       
       dbSQL.insertIfNotExists(metadataAssSQLTableName, inserts, uniqueKeys);
     }catch(Exception error){
