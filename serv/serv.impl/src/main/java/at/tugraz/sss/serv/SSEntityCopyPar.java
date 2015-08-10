@@ -29,6 +29,7 @@ public class SSEntityCopyPar extends SSServPar{
   public SSUri         targetEntity                                  = null;
   public List<SSUri>   forUsers                                      = new ArrayList<>();
   public SSLabel       label                                         = null;
+  public Boolean       appendUserNameToLabel                         = false;
   public Boolean       includeUsers                                  = false;
   public Boolean       includeEntities                               = false;
   public Boolean       includeMetadataSpecificToEntityAndItsEntities = false;

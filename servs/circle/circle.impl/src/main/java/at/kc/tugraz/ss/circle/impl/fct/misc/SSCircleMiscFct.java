@@ -235,10 +235,11 @@ public class SSCircleMiscFct{
     
     try{
       
-      final SSLabel        label;
+      SSLabel              label;
       SSUri                copyCircleURI;
       SSEntityCopiedPar    entityCopiedPar;
       SSEntityCircle       newCircle;
+      String               labelStr;
       
       if(par.label != null){
         label = par.label;
@@ -247,6 +248,24 @@ public class SSCircleMiscFct{
       }
       
       for(SSUri forUser : par.forUsers){
+        
+        if(par.appendUserNameToLabel){
+          
+          labelStr =
+            SSStrU.toStr(label) +
+            SSStrU.underline    +
+            SSStrU.toStr(
+              ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+                new SSEntityGetPar(
+                  null,
+                  null,
+                  par.user, //user
+                  forUser, //entity
+                  par.withUserRestriction,  //withUserRestriction
+                  null)).label); //descPar
+          
+          label = SSLabel.get(labelStr);
+        }
         
         copyCircleURI =
           serv.circleCreate(

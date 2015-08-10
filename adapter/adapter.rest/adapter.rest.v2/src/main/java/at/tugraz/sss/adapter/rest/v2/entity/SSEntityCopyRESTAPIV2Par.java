@@ -67,6 +67,12 @@ public class SSEntityCopyRESTAPIV2Par{
   @XmlElement
   @ApiModelProperty(
     required = false,
+    value = "whether the label of a single 'forUser' shall be appended to the label")
+  public Boolean appendUserNameToLabel                              = false;
+    
+  @XmlElement
+  @ApiModelProperty(
+    required = false,
     value = "include users from the origin entity")
   public Boolean includeUsers                              = false;
   
