@@ -265,6 +265,8 @@ public class SSVideoSQLFct extends SSDBSQLFct{
 
       resultSet = dbSQL.select(SSSQLVarNames.videoAnnotationTable, columns, wheres, null, null, null);
       
+      checkFirstResult(resultSet);
+      
       return
         SSVideoAnnotation.get(
           bindingStrToUri   (resultSet, SSSQLVarNames.videoAnnotationId),
