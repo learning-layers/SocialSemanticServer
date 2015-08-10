@@ -854,11 +854,8 @@ DROP TABLE IF EXISTS `files`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `files` (
-  `entityId` varchar(255) NOT NULL,
   `fileId` varchar(255) NOT NULL,
-  PRIMARY KEY (`entityId`),
   KEY `fileIdFKfiles_idx` (`fileId`),
-  CONSTRAINT `entityIdFKfiles` FOREIGN KEY (`entityId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `fileIdFKfiles` FOREIGN KEY (`fileId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -1642,4 +1639,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-08-03 10:41:15
+-- Dump completed on 2015-08-10 16:46:26
