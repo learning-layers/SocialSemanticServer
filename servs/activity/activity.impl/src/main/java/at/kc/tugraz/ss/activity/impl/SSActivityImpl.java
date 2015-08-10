@@ -1,23 +1,23 @@
-/**
- * Code contributed to the Learning Layers project
- * http://www.learning-layers.eu
- * Development is partly funded by the FP7 Programme of the European Commission under
- * Grant Agreement FP7-ICT-318209.
- * Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
- * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+ /**
+  * Code contributed to the Learning Layers project
+  * http://www.learning-layers.eu
+  * Development is partly funded by the FP7 Programme of the European Commission under
+  * Grant Agreement FP7-ICT-318209.
+  * Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+  * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
+  *
+  * Licensed under the Apache License, Version 2.0 (the "License");
+  * you may not use this file except in compliance with the License.
+  * You may obtain a copy of the License at
+  *
+  * http://www.apache.org/licenses/LICENSE-2.0
+  *
+  * Unless required by applicable law or agreed to in writing, software
+  * distributed under the License is distributed on an "AS IS" BASIS,
+  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  * See the License for the specific language governing permissions and
+  * limitations under the License.
+  */
 package at.kc.tugraz.ss.activity.impl;
 
 import at.tugraz.sss.serv.SSDateU;
@@ -88,7 +88,7 @@ implements
     switch(entity.type){
       
       case activity:{
-
+        
         if(SSStrU.equals(entity, par.recursiveEntity)){
           return entity;
         }
@@ -99,7 +99,7 @@ implements
               null,
               null,
               par.user,
-              entity.id, 
+              entity.id,
               false)), //invokeEntityHandlers
           entity);
       }
@@ -163,7 +163,7 @@ implements
       }
       
       if(!par.circles.isEmpty()){
-      
+        
         for(SSEntity circle :
           ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
             new SSEntitiesGetPar(
@@ -174,11 +174,11 @@ implements
               null, //types,
               new SSEntityDescriberPar(null), //descPar,
               par.withUserRestriction))){
-
+          
           SSEntity.addEntitiesDistinctWithoutNull(
             entitiesToQuery,
             circle);
-
+          
           SSEntity.addEntitiesDistinctWithoutNull(
             entitiesToQuery,
             circle.entities);
@@ -210,7 +210,7 @@ implements
       }
       
       return activities;
-        
+      
 //      final List<SSUri>                descURIs           = new ArrayList<>();
 //      final Map<String, List<SSUri>>   activitiesUsers    = new HashMap<>();
 //      final Map<String, List<SSUri>>   activitiesEntities = new HashMap<>();
@@ -488,7 +488,8 @@ implements
     
     try{
       
-      final SSActivity      activity;
+      SSActivity            activity;
+      SSEntity              activityEntity;
       final List<SSEntity>  activityUserEntities    = new ArrayList<>();
       final List<SSEntity>  activityEntityEntities  = new ArrayList<>();
       SSEntityDescriberPar  descPar;
@@ -499,17 +500,26 @@ implements
         descPar = null;
       }
       
+      activity       = sqlFct.getActivity(par.activity);
+      activityEntity =
+        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+          new SSEntityGetPar(
+            null,
+            null,
+            par.user,
+            par.activity, //entity
+            par.withUserRestriction, //withUserRestriction,
+            descPar));  //descPar
+      
+      if(activityEntity == null){
+        return null;
+      }
+      
       activity =
         SSActivity.get(
-          sqlFct.getActivity(par.activity),
-          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
-            new SSEntityGetPar(
-              null,
-              null,
-              par.user,
-              par.activity, //entity
-              par.withUserRestriction, //withUserRestriction,
-              descPar))); //descPar
+          activity,
+          activityEntity);
+      
       
       if(par.invokeEntityHandlers){
         descPar = new SSEntityDescriberPar(null);
@@ -533,20 +543,21 @@ implements
       activity.contents.addAll(sqlFct.getActivityContents(activity.id));
       
       activityUserEntities.addAll(
-      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
-        new SSEntitiesGetPar(
-          null,
-          null,
-          par.user,
-          sqlFct.getActivityUsers(activity.id),  //entities
-          null, //types,
-          descPar, //descPar,
-          par.withUserRestriction)));
+        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
+          new SSEntitiesGetPar(
+            null,
+            null,
+            par.user,
+            sqlFct.getActivityUsers(activity.id),  //entities
+            null, //types,
+            descPar, //descPar,
+            par.withUserRestriction)));
       
       activity.users.clear();
       activity.users.addAll(activityUserEntities);
       
-      activityEntityEntities.addAll(
+      SSEntity.addEntitiesDistinctWithoutNull(
+        activityEntityEntities,
         ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
           new SSEntitiesGetPar(
             null,
