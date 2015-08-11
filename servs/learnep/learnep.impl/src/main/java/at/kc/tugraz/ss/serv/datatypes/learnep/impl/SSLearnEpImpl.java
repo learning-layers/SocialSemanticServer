@@ -772,17 +772,25 @@ implements
 
     try{
       
-      if(par.withUserRestriction){
+      final SSLearnEp learnEp = 
+        learnEpGet(
+          new SSLearnEpGetPar(
+            par.user, 
+            par.learnEp, 
+            par.withUserRestriction, 
+            false)); //invokeEntityHandlers
       
-        if(!SSServCallerU.canUserRead(par.user, par.learnEp)){
-          return null;
-        }
+      if(learnEp == null){
+        return null;
       }
       
       dbSQL.startTrans(par.shouldCommit);
 
-      sqlFct.removeLearnEpForUser   (par.user, par.learnEp);
-      sqlFct.deleteCurrentEpVersion (par.user);
+      sqlFct.removeLearnEpForUser (par.user, par.learnEp);
+      
+      for(SSEntity version : learnEp.entries){
+        sqlFct.deleteCurrentEpVersion (version.id);
+      }
       
       dbSQL.commit(par.shouldCommit);
 

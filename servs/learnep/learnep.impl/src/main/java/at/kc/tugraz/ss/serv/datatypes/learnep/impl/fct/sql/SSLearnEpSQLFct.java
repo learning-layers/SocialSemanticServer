@@ -560,12 +560,12 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
   }
   
   public void deleteCurrentEpVersion(
-    final SSUri user) throws Exception {
+    final SSUri learnEpVersion) throws Exception {
     
     try{
       final Map<String, String> wheres = new HashMap<>();
       
-      delete(wheres, SSSQLVarNames.userId, user);
+      delete(wheres, SSSQLVarNames.learnEpVersionId, learnEpVersion);
       
       dbSQL.delete(SSSQLVarNames.learnEpVersionCurrentTable, wheres);
       
