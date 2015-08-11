@@ -340,10 +340,7 @@ public class SSRESTCircle{
     final HttpHeaders headers,
     
     @PathParam(SSVarNames.circle)
-    final String circle,
-    
-    @PathParam(SSVarNames.users)
-    final String users){
+    final String circle){
     
     final SSCircleRemovePar par;
     

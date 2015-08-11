@@ -555,8 +555,14 @@ implements
     SSServCallerU.checkKey(parA);
     
     final SSCircleRemovePar par       = (SSCircleRemovePar) parA.getFromJSON(SSCircleRemovePar.class);
-    final SSUri             circleURI = circleRemove(par);
-
+    final SSUri             circleURI;
+    
+    if(!sqlFct.isGroupCircle(par.circle)){
+      circleURI = null;
+    }else{
+      circleURI = circleRemove(par);
+    }
+    
     sSCon.writeRetFullToClient(SSCircleRemoveRet.get(circleURI));
     
     evalServ.evalLog(
@@ -578,7 +584,7 @@ implements
       
       if(par.withUserRestriction){
         
-        if(!SSServCallerU.canUserAll(par.user, par.circle)){
+        if(!SSServCallerU.canUserRead(par.user, par.circle)){
           return null;
         }
       }
