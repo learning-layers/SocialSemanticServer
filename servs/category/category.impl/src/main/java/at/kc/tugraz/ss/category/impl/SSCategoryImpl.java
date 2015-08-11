@@ -520,8 +520,11 @@ implements
           throw new SSErr(SSErrE.parameterMissing);
         }
         
-        if(!SSServCallerU.canUserRead(par.user, par.circle)){
-          return false;
+        if(par.circle != null){
+          
+          if(!SSServCallerU.canUserRead(par.user, par.circle)){
+            return false;
+          }
         }
         
         if(!SSStrU.equals(par.space, SSSpaceE.circleSpace)){
