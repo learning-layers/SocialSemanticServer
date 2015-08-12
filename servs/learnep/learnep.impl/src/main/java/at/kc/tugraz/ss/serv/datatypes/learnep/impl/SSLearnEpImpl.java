@@ -212,9 +212,7 @@ implements
       for(SSEntity entityAdded : par.entities){
         
         switch(entityAdded.type){
-          case disc:
-          case chat:
-          case qa:{
+          case learnEp:{
             
             if(SSStrU.contains(par.recursiveEntities, entityAdded)){
               continue;

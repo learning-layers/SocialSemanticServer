@@ -68,6 +68,7 @@ import java.util.List;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.servs.file.datatype.par.SSEntityFilesGetPar;
 
 public class SSEvernoteImpl 
 extends SSServImplWithDBA
@@ -90,6 +91,19 @@ implements
     final SSEntity             entity,
     final SSEntityDescriberPar par) throws Exception{
     
+//    final List<SSEntity> files =
+//          filesGet(
+//            new SSEntityFilesGetPar(
+//              null, 
+//              null, 
+//              par.user, 
+//              entity.id, 
+//              par.withUserRestriction,
+//              false)); //invokeEntityHandlers
+//
+//        if(!files.isEmpty()){
+//          entity.file = files.get(0);
+//        }
     try{
       
       switch(entity.type){
