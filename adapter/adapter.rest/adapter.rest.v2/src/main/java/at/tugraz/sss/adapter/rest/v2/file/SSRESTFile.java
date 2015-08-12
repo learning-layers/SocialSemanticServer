@@ -218,12 +218,6 @@ public class SSRESTFile{
     final HttpHeaders headers,
     
     @ApiParam(
-      value = "authentication key",
-      required = true)
-    @QueryParam("key")
-    final String key,
-    
-    @ApiParam(
       value = "file to be downloaded",
       required = true)
     @QueryParam("file")
@@ -238,7 +232,7 @@ public class SSRESTFile{
       par =
         new SSFileDownloadPar(
           SSServOpE.fileDownload,
-          key,
+          null,
           null,
           SSUri.get(file, SSVocConf.sssUri), //entity
           null); //shouldCommit
