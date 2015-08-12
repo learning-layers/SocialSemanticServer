@@ -20,6 +20,7 @@
  */
 package at.tugraz.sss.adapter.rest.v2.tag;
 
+import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.tugraz.sss.serv.SSSpaceE;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.tugraz.sss.serv.SSUri;
@@ -59,7 +60,7 @@ public class SSTagsRemoveRESTAPIV2Par{
 
   @XmlElement
   public void setCircle(final String circle) throws Exception{
-    this.circle = SSUri.get(circle);
+    this.circle = SSUri.get(circle, SSVocConf.sssUri);
   }
   
   public SSTagsRemoveRESTAPIV2Par(){}
