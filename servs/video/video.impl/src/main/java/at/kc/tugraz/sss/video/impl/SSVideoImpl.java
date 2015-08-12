@@ -142,7 +142,7 @@ implements
                 par.user,
                 par.circle,
                 affiliatedURIs,
-                par.withUserRestriction, //withUserRestriction
+                false, //withUserRestriction
                 false)); //shouldCommit
             
             break;

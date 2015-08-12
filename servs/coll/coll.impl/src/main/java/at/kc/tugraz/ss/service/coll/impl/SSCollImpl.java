@@ -271,6 +271,7 @@ implements
       for(SSEntity entityAdded : par.entities){
         
         switch(entityAdded.type){
+          
           case coll:{
             
             if(SSStrU.contains(par.recursiveEntities, entityAdded)){
@@ -329,7 +330,7 @@ implements
                 par.user,
                 par.circle,
                 affiliatedURIs,
-                par.withUserRestriction, //withUserRestriction
+                false, //withUserRestriction
                 false)); //shouldCommit
             
             break;

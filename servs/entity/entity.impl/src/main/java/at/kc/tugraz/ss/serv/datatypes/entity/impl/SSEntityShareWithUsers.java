@@ -104,7 +104,7 @@ public class SSEntityShareWithUsers {
             null, //entityTypesToIncludeOnly, 
             null, //setTags, 
             null, //tagSpace, 
-            withUserRestriction, 
+            false, //withUserRestriction,  //as it is a system circle
             false)); //invokeEntityHandlers));
           
       SSServCallerU.handleCircleEntitiesAdd(

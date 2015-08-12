@@ -66,7 +66,7 @@ public class SSEntitySetPublic {
           user,
           pubCircleURI,  //circle
           SSUri.asListWithoutNullAndEmpty(entity.id),  //entities
-          withUserRestriction, //withUserRestriction
+          false, //withUserRestriction
           false)); //shouldCommit
       
       final SSEntityCircle circle = 
@@ -79,7 +79,7 @@ public class SSEntitySetPublic {
             null, //entityTypesToIncludeOnly, 
             null, //setTags, 
             null, //tagSpace, 
-            withUserRestriction, //withUserRestriction
+            false, //withUserRestriction
             false)); //invokeEntityHandlers));
       
       SSServCallerU.handleCircleEntitiesAdd(
