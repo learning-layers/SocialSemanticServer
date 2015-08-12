@@ -56,6 +56,7 @@ public class SSTagServ extends SSServContainerI{
     
     SSServReg.inst.regServForHandlingDescribeEntity(this);
     SSServReg.inst.regServForHandlingEntityCopied(this);
+    SSServReg.inst.regServForHandlingCircleContentRemoved(this);
     SSServReg.inst.regServForGatheringUserRelations (this);
     SSServReg.inst.regServForGatheringUsersResources(this);
     

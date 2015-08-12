@@ -59,8 +59,8 @@ public class SSCategoryServ extends SSServContainerI{
     
     SSServReg.inst.regServForHandlingDescribeEntity(this);
     SSServReg.inst.regServForHandlingEntityCopied(this);
+    SSServReg.inst.regServForHandlingCircleContentRemoved(this);
     SSServReg.inst.regServForGatheringUserRelations(this);
-    
     
     return this;
   }

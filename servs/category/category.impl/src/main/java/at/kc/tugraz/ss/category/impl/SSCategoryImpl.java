@@ -51,6 +51,8 @@ import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityFromTypeAndLabelGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
+import at.tugraz.sss.serv.SSCircleContentRemovedI;
+import at.tugraz.sss.serv.SSCircleContentRemovedPar;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
@@ -95,6 +97,7 @@ implements
   SSCategoryServerI, 
   SSDescribeEntityI, 
   SSEntityCopiedI,
+  SSCircleContentRemovedI,
   SSUserRelationGathererI{
   
   final SSTagAndCategoryCommonSQL  sqlFct;
@@ -187,6 +190,32 @@ implements
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
+  }
+  
+  @Override
+  public void circleContentRemoved(
+    final SSCircleContentRemovedPar par) throws Exception {
+    
+    if(!par.removeCircleSpecificMetadata){
+      return;
+    }
+    
+    for(SSUri entity : par.entities){
+      
+      categoriesRemove(
+        new SSCategoriesRemovePar(
+          null,
+          null,
+          par.user,
+          null, //forUser
+          entity, 
+          null, //label, 
+          SSSpaceE.circleSpace, //space, 
+          par.circle, 
+          par.withUserRestriction, 
+          false));
+    }
+    
   }
   
   @Override

@@ -21,6 +21,5 @@
 package at.tugraz.sss.serv;
 
 public interface SSCircleContentRemovedI {
- 
   public void circleContentRemoved (final SSCircleContentRemovedPar par) throws Exception;
 }

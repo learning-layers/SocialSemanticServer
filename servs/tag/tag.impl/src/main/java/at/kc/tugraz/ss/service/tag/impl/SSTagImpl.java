@@ -23,6 +23,7 @@ package at.kc.tugraz.ss.service.tag.impl;
 import at.kc.tugraz.ss.activity.api.SSActivityServerI;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
 import at.kc.tugraz.ss.activity.datatypes.par.SSActivityAddPar;
+import at.kc.tugraz.ss.category.datatypes.par.SSCategoriesGetPar;
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePubURIGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
@@ -59,6 +60,8 @@ import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagFrequsGetRet;
 import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagsGetRet;
 import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagsRemoveRet;
 import at.kc.tugraz.ss.service.tag.impl.fct.userrelationgatherer.SSTagUserRelationGathererFct;
+import at.tugraz.sss.serv.SSCircleContentRemovedI;
+import at.tugraz.sss.serv.SSCircleContentRemovedPar;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
@@ -90,6 +93,7 @@ implements
   SSDescribeEntityI,
   SSEntityCopiedI,
   SSUserRelationGathererI,
+  SSCircleContentRemovedI,
   SSUsersResourcesGathererI{
   
   final SSTagAndCategoryCommonSQL  sqlFct;
@@ -201,6 +205,31 @@ implements
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  @Override
+  public void circleContentRemoved(
+    final SSCircleContentRemovedPar par) throws Exception {
+    
+    if(!par.removeCircleSpecificMetadata){
+      return;
+    }
+    
+    for(SSUri entity : par.entities){
+      
+      tagsRemove(
+        new SSTagsRemovePar(
+          null,
+          null,
+          par.user,
+          null, //forUser
+          entity, 
+          null, //label, 
+          SSSpaceE.circleSpace, //space, 
+          par.circle, 
+          par.withUserRestriction, 
+          false));
     }
   }
   
