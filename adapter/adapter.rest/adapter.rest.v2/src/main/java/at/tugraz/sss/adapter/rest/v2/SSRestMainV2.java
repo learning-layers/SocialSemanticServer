@@ -239,13 +239,16 @@ public class SSRestMainV2 extends Application {
         if(sssJSONResponseRootNode.get(SSVarNames.error).getBooleanValue()){
 
           restObj.response =
-            Response.status(500).entity(getJSONStrForError(sssJSONResponseRootNode.get(SSVarNames.id).getTextValue(),
+            Response.status(500).entity(
+              getJSONStrForError(
+                sssJSONResponseRootNode.get(SSVarNames.id).getTextValue(),
                 sssJSONResponseRootNode.get(SSVarNames.message).getTextValue())).build();
 
         }else{
           restObj.response =
             Response.status(200).entity(
-              SSJSONU.jsonStr(sssJSONResponseRootNode.get(restObj.par.op.toString()))).build();
+              SSJSONU.jsonStr(
+                sssJSONResponseRootNode.get(restObj.par.op.toString()))).build();
         }
         
       }catch(Exception error){
@@ -330,12 +333,7 @@ public class SSRestMainV2 extends Application {
     try{
 
       try{
-        
-        restObj.sssCon =
-          new SSSocketCon(
-            conf.sss.host,
-            conf.sss.port);
-        
+        restObj.sssCon = new SSSocketCon(conf.sss.host, conf.sss.port);
       }catch(Exception error){
         
         restObj.response =
@@ -381,13 +379,17 @@ public class SSRestMainV2 extends Application {
         if(sssJSONResponseRootNode.get(SSVarNames.error).getBooleanValue()){
 
           restObj.response =
-            Response.status(500).entity(getJSONStrForError(sssJSONResponseRootNode.get(SSVarNames.id).getTextValue(),
+            Response.status(500).entity(
+              getJSONStrForError(
+                sssJSONResponseRootNode.get(SSVarNames.id).getTextValue(),
                 sssJSONResponseRootNode.get(SSVarNames.message).getTextValue())).build();
 
         }else{
+          
           restObj.response =
             Response.status(200).entity(
-              SSJSONU.jsonStr(sssJSONResponseRootNode.get(restObj.par.op.toString()))).build();
+              SSJSONU.jsonStr(
+                sssJSONResponseRootNode.get(restObj.par.op.toString()))).build();
         }
         
       }catch(Exception error){
@@ -430,14 +432,10 @@ public class SSRestMainV2 extends Application {
     final Map<String, Object> jsonObj     = new HashMap<>();
     
     if(id == null){
-      jsonObj.put(SSVarNames.id,                      null);
-    }else{
-      jsonObj.put(SSVarNames.id,                      id.toString());
-    }
-    
-    if(id == null){
+      jsonObj.put(SSVarNames.id,                    null);
       jsonObj.put(SSVarNames.message,               null);
     }else{
+      jsonObj.put(SSVarNames.id,                    id.toString());
       jsonObj.put(SSVarNames.message,               id.toString());
     }
     
@@ -454,19 +452,10 @@ public class SSRestMainV2 extends Application {
     
     final Map<String, Object> jsonObj     = new HashMap<>();
     
-    if(id == null){
-      jsonObj.put(SSVarNames.id,                      null);
-    }else{
-      jsonObj.put(SSVarNames.id,                      id);
-    }
+    jsonObj.put(SSVarNames.id,                      id);
     
     if(message == null){
-      
-      if(id == null){
-        jsonObj.put(SSVarNames.message,               null);
-      }else{
-        jsonObj.put(SSVarNames.message,               id);
-      }
+      jsonObj.put(SSVarNames.message,               id);
     }else{
       jsonObj.put(SSVarNames.message,               message);
     }
