@@ -294,6 +294,8 @@ public class SSRESTEntity {
           true, //withUserRestriction, 
           true); //shouldCommit
           
+      par.appendUserNameToLabel = input.appendUserNameToLabel;
+      
     }catch(Exception error){
       return Response.status(422).build();
     }
