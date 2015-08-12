@@ -44,6 +44,7 @@ import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteUSNSetPar;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteUserAddPar;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteUsersAuthTokenGetPar;
 import at.kc.tugraz.ss.serv.jobs.evernote.impl.fct.sql.SSEvernoteSQLFct;
+import at.kc.tugraz.ss.service.filerepo.api.SSFileRepoServerI;
 import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
@@ -68,6 +69,7 @@ import java.util.List;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.servs.file.datatype.par.SSEntityFilesGetPar;
 
 public class SSEvernoteImpl 
@@ -91,19 +93,6 @@ implements
     final SSEntity             entity,
     final SSEntityDescriberPar par) throws Exception{
     
-//    final List<SSEntity> files =
-//          filesGet(
-//            new SSEntityFilesGetPar(
-//              null, 
-//              null, 
-//              par.user, 
-//              entity.id, 
-//              par.withUserRestriction,
-//              false)); //invokeEntityHandlers
-//
-//        if(!files.isEmpty()){
-//          entity.file = files.get(0);
-//        }
     try{
       
       switch(entity.type){
@@ -114,9 +103,27 @@ implements
             return entity;
           }
           
-          return SSEvernoteNote.get(
-            sqlFct.getNote(entity.id),
-            entity);
+          //TODO remove this hack for BNP; use "setTags" instead
+          final SSEvernoteNote evernoteNote =
+            SSEvernoteNote.get(
+              sqlFct.getNote(entity.id),
+              entity);
+          
+          final List<SSEntity> files =
+            ((SSFileRepoServerI) SSServReg.getServ(SSFileRepoServerI.class)).filesGet(
+              new SSEntityFilesGetPar(
+                null,
+                null,
+                par.user,
+                evernoteNote.id,
+                par.withUserRestriction,
+                false)); //invokeEntityHandlers
+
+          if(!files.isEmpty()){
+            evernoteNote.file = files.get(0);
+          }
+          
+          return evernoteNote;
         }
         
         case evernoteResource:{
@@ -125,9 +132,27 @@ implements
             return entity;
           }
           
-          return SSEvernoteResource.get(
-            sqlFct.getResource(entity.id),
-            entity);
+        //TODO remove this hack for BNP; use "setTags" instead
+          final SSEvernoteResource evernoteResource =
+            SSEvernoteResource.get(
+              sqlFct.getResource(entity.id),
+              entity);
+          
+          final List<SSEntity> files =
+            ((SSFileRepoServerI) SSServReg.getServ(SSFileRepoServerI.class)).filesGet(
+              new SSEntityFilesGetPar(
+                null,
+                null,
+                par.user,
+                evernoteResource.id,
+                par.withUserRestriction,
+                false)); //invokeEntityHandlers
+          
+          if(!files.isEmpty()){
+            evernoteResource.file = files.get(0);
+          }
+          
+          return evernoteResource;
         }
       }
       

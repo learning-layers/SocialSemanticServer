@@ -19,6 +19,12 @@
    
     <dependency>
       <groupId>sss.servs</groupId>
+      <artifactId>filerepo.api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
       <artifactId>image.api</artifactId>
       <version>${project.version}</version>
     </dependency>
