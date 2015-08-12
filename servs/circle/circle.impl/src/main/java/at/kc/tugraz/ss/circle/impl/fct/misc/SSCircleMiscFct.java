@@ -241,13 +241,13 @@ public class SSCircleMiscFct{
       SSEntityCircle       newCircle;
       String               labelStr;
       
-      if(par.label != null){
-        label = par.label;
-      }else{
-        label = circle.label;
-      }
-      
       for(SSUri forUser : par.forUsers){
+        
+        if(par.label != null){
+          label = par.label;
+        }else{
+          label = circle.label;
+        }
         
         if(par.appendUserNameToLabel){
           
