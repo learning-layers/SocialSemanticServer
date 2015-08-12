@@ -57,7 +57,7 @@ public class SSJSONU{
     final ObjectMapper objectMapper = new ObjectMapper();
     
     objectMapper.setSerializationInclusion(JsonSerialize.Inclusion.NON_NULL);
-    objectMapper.setSerializationInclusion(JsonSerialize.Inclusion.NON_EMPTY);
+//    objectMapper.setSerializationInclusion(JsonSerialize.Inclusion.NON_EMPTY);
     
     objectMapper.configure(SerializationConfig.Feature.WRITE_NULL_MAP_VALUES, true);
     
@@ -70,7 +70,7 @@ public class SSJSONU{
     final ObjectMapper objectMapper = new ObjectMapper();
     
     objectMapper.setSerializationInclusion(JsonSerialize.Inclusion.NON_NULL);
-    objectMapper.setSerializationInclusion(JsonSerialize.Inclusion.NON_EMPTY);
+//    objectMapper.setSerializationInclusion(JsonSerialize.Inclusion.NON_EMPTY);
     
     objectMapper.configure(SerializationConfig.Feature.WRITE_NULL_MAP_VALUES, true);
     
