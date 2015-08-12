@@ -541,12 +541,9 @@ DROP TABLE IF EXISTS `disc`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `disc` (
   `discId` varchar(200) NOT NULL,
-  `entityId` varchar(255) NOT NULL,
-  PRIMARY KEY (`discId`,`entityId`),
+  PRIMARY KEY (`discId`),
   KEY `discIdFKdisc_idx` (`discId`),
-  KEY `targetFKdisc_idx` (`entityId`),
-  CONSTRAINT `discIdFKdisc` FOREIGN KEY (`discId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  CONSTRAINT `entityIdFKdisc` FOREIGN KEY (`entityId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+  CONSTRAINT `discIdFKdisc` FOREIGN KEY (`discId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -608,6 +605,32 @@ CREATE TABLE `discentry` (
 LOCK TABLES `discentry` WRITE;
 /*!40000 ALTER TABLE `discentry` DISABLE KEYS */;
 /*!40000 ALTER TABLE `discentry` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `disctargets`
+--
+
+DROP TABLE IF EXISTS `disctargets`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `disctargets` (
+  `discId` varchar(255) NOT NULL,
+  `targetId` varchar(255) NOT NULL,
+  PRIMARY KEY (`discId`,`targetId`),
+  KEY `targetIdFKdisctargets_idx` (`targetId`),
+  CONSTRAINT `discIdFKdisctargets` FOREIGN KEY (`discId`) REFERENCES `disc` (`discId`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `targetIdFKdisctargets` FOREIGN KEY (`targetId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `disctargets`
+--
+
+LOCK TABLES `disctargets` WRITE;
+/*!40000 ALTER TABLE `disctargets` DISABLE KEYS */;
+/*!40000 ALTER TABLE `disctargets` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -1639,4 +1662,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-08-10 16:46:26
+-- Dump completed on 2015-08-12 13:47:02
