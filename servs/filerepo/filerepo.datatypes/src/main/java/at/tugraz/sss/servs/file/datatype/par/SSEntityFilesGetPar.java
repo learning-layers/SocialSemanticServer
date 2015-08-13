@@ -41,14 +41,12 @@ public class SSEntityFilesGetPar extends SSServPar{
   public SSEntityFilesGetPar(){}
     
   public SSEntityFilesGetPar(
-    final SSServOpE     op,
-    final String        key,
     final SSUri         user,
     final SSUri         entity, 
     final Boolean       withUserRestriction,
     final Boolean       invokeEntityHandlers){
       
-    super(op, key, user);
+    super(SSServOpE.filesGet, null, user);
     
     this.entity                 = entity;
     this.withUserRestriction    = withUserRestriction;

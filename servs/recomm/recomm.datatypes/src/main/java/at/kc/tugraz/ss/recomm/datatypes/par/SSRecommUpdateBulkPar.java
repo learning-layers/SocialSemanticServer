@@ -31,13 +31,11 @@ public class SSRecommUpdateBulkPar extends SSServPar{
   public SSSocketCon sSCon     = null;
   
   public SSRecommUpdateBulkPar(
-    final SSServOpE           op,
-    final String              key,
     final SSUri               user,
     final String              realm,
     final SSSocketCon         sSCon){
     
-    super(op, key, user);
+    super(SSServOpE.recommUpdateBulk, null, user);
     
     this.realm = realm;
     this.sSCon = sSCon;

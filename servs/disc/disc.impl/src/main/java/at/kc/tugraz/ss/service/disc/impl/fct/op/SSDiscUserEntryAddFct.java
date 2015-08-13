@@ -63,8 +63,6 @@ public class SSDiscUserEntryAddFct{
       
       entityServ.entityUpdate(
         new SSEntityUpdatePar(
-          null,
-          null,
           userUri,
           discUri,
           discType, //type,
@@ -81,8 +79,6 @@ public class SSDiscUserEntryAddFct{
         
         entityServ.entityUpdate(
           new SSEntityUpdatePar(
-            null,
-            null,
             userUri,
             targetURI,
             null, //type,
@@ -123,8 +119,6 @@ public class SSDiscUserEntryAddFct{
         entityServ.entityGet(
           new SSEntityGetPar(
             null,
-            null,
-            null,
             discUri,  //entity
             false, //withUserRestriction
             null)).type; //descPar
@@ -140,8 +134,6 @@ public class SSDiscUserEntryAddFct{
       
       entityServ.entityUpdate(
         new SSEntityUpdatePar(
-          null,
-          null,
           userUri,
           discEntryUri,
           discEntryType, //type,
@@ -157,8 +149,6 @@ public class SSDiscUserEntryAddFct{
       for(SSEntity entityUserCircle :
         ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlesGet(
           new SSCirclesGetPar(
-            null,
-            null,
             userUri,
             discUri,
             null,
@@ -168,8 +158,6 @@ public class SSDiscUserEntryAddFct{
         
         ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleEntitiesAdd(
           new SSCircleEntitiesAddPar(
-            null,
-            null,
             userUri,
             entityUserCircle.id,
             SSUri.asListWithoutNullAndEmpty(discEntryUri),

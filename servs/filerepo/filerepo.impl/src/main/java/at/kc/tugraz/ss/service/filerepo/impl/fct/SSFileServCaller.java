@@ -20,9 +20,6 @@
  */
 package at.kc.tugraz.ss.service.filerepo.impl.fct;
 
-import at.kc.tugraz.ss.category.api.SSCategoryServerI;
-import at.kc.tugraz.ss.category.datatypes.SSCategoryLabel;
-import at.kc.tugraz.ss.category.datatypes.par.SSCategoriesAddPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.tugraz.sss.serv.SSLogU;
@@ -31,9 +28,6 @@ import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileUploadPar;
-import at.kc.tugraz.ss.service.tag.api.SSTagServerI;
-import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
-import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsAddPar;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSFileExtE;
 import at.tugraz.sss.serv.SSServErrReg;
@@ -49,8 +43,6 @@ public class SSFileServCaller{
       
       ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
           new SSEntityUpdatePar(
-            null,
-            null,
             par.user,
             file,
             SSEntityE.file, //type,

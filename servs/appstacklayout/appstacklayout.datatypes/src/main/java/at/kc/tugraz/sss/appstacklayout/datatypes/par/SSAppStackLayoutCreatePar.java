@@ -61,8 +61,6 @@ public class SSAppStackLayoutCreatePar extends SSServPar{
   public SSAppStackLayoutCreatePar(){}
   
   public SSAppStackLayoutCreatePar(
-    final SSServOpE      op,
-    final String         key,
     final SSUri          user,
     final String         uuid,
     final SSUri          app,
@@ -71,7 +69,7 @@ public class SSAppStackLayoutCreatePar extends SSServPar{
     final Boolean        withUserRestriction, 
     final Boolean        shouldCommit){
     
-    super(op, key, user);
+    super(SSServOpE.appStackLayoutCreate, null, user);
     
     this.uuid                = uuid;
     this.app                 = app;

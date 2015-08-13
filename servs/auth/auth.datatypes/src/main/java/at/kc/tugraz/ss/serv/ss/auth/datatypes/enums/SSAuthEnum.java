@@ -26,7 +26,7 @@ import at.tugraz.sss.serv.SSStrU;
 public enum SSAuthEnum {
   
   wikiAuth, 
-  noAuth,
+//  noAuth,
   csvFileAuth,
   oidc;
 

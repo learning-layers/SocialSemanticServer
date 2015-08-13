@@ -31,13 +31,11 @@ public class SSCollUserRootGetPar extends SSServPar{
   public SSCollUserRootGetPar(){}
     
   public SSCollUserRootGetPar(
-    final SSServOpE     op,
-    final String        key,
     final SSUri         user,
     final Boolean       withUserRestriction,
     final Boolean       invokeEntityHandlers){
     
-    super(op, key, user);
+    super(SSServOpE.collRootGet, null, user);
     
     this.withUserRestriction  = withUserRestriction;
     this.invokeEntityHandlers = invokeEntityHandlers;

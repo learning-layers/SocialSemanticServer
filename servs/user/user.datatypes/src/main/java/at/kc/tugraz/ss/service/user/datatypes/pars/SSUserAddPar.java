@@ -43,8 +43,6 @@ public class SSUserAddPar extends SSServPar{
   public SSUserAddPar(){}
   
   public SSUserAddPar(
-    final SSServOpE op,
-    final String    key,
     final SSUri     user,
     final Boolean   shouldCommit,
     final SSLabel   label,
@@ -52,7 +50,7 @@ public class SSUserAddPar extends SSServPar{
     final Boolean   isSystemUser,
     final Boolean   withUserRestriction){
     
-    super(op, key, user);
+    super(SSServOpE.userAdd, null, user);
     
     this.shouldCommit        = shouldCommit;
     this.label               = label;

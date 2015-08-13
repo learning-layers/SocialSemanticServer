@@ -31,12 +31,10 @@ public class SSJSONLDPar extends SSServPar{
   public SSJSONLDPar(){}
     
   public SSJSONLDPar(
-    final SSServOpE     op,
-    final String        key,
     final SSUri         user,
     final String        type){
     
-    super(op, key, user);
+    super(SSServOpE.jsonLD, null, user);
     
     this.type = type;
   }

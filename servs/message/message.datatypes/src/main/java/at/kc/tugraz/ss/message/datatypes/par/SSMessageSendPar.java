@@ -50,14 +50,12 @@ public class SSMessageSendPar extends SSServPar{
   public SSMessageSendPar(){}
   
   public SSMessageSendPar(
-    final SSServOpE     op,
-    final String        key,
     final SSUri         user,
     final SSUri         forUser, 
     final SSTextComment message, 
     final Boolean       shouldCommit){
     
-    super(op, key, user);
+    super(SSServOpE.messageSend, null, user);
     
     this.forUser      = forUser;
     this.message      = message;

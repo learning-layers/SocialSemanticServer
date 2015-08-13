@@ -31,12 +31,10 @@ public class SSAppsGetPar extends SSServPar{
   public SSAppsGetPar(){}
     
   public SSAppsGetPar(
-    final SSServOpE op,
-    final String    key,
     final SSUri     user, 
     final Boolean   invokeEntityHandlers){
     
-    super(op, key, user);
+    super(SSServOpE.appsGet, null, user);
     
     this.invokeEntityHandlers = invokeEntityHandlers;
   }

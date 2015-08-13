@@ -81,8 +81,6 @@ public class SSCategoriesGetPar extends SSServPar{
   public SSCategoriesGetPar(){}
   
   public SSCategoriesGetPar(
-    final SSServOpE             op,
-    final String                key,
     final SSUri                 user,
     final SSUri                 forUser,
     final List<SSUri>           entities,
@@ -92,7 +90,7 @@ public class SSCategoriesGetPar extends SSServPar{
     final Long                  startTime,
     final Boolean               withUserRestriction){
     
-    super(op, key, user);
+    super(SSServOpE.categoriesGet, null, user);
     
     this.forUser    = forUser;
     

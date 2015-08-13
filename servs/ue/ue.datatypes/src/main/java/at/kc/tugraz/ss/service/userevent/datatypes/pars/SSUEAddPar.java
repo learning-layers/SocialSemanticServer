@@ -52,8 +52,6 @@ public class SSUEAddPar extends SSServPar{
   public SSUEAddPar(){}
     
   public SSUEAddPar(
-    final SSServOpE   op,
-    final String      key,
     final SSUri       user,
     final SSUri       entity,
     final SSUEE       type,
@@ -62,7 +60,7 @@ public class SSUEAddPar extends SSServPar{
     final Boolean     withUserRestriction, 
     final Boolean     shouldCommit){
     
-    super(op, key, user);
+    super(SSServOpE.userEventAdd, null, user);
     
     this.entity              = entity;
     this.type                = type;

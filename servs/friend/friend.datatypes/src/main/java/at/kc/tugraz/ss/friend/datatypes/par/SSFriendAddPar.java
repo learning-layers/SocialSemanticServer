@@ -40,13 +40,11 @@ public class SSFriendAddPar extends SSServPar{
   public SSFriendAddPar(){}
     
   public SSFriendAddPar(
-    final SSServOpE op,
-    final String    key,
     final SSUri     user,
     final SSUri     friend,
     final Boolean   shouldCommit){
     
-    super(op, key, user);
+    super(SSServOpE.friendAdd, null, user);
     
     this.friend       = friend;
     this.shouldCommit = shouldCommit;

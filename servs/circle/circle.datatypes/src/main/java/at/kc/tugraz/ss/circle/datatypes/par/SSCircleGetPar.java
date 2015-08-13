@@ -64,8 +64,6 @@ public class SSCircleGetPar extends SSServPar{
   public SSCircleGetPar(){}
   
   public SSCircleGetPar(
-    final SSServOpE       op,
-    final String          key,
     final SSUri           user,
     final SSUri           circle,
     final List<SSEntityE> entityTypesToIncludeOnly,
@@ -74,7 +72,7 @@ public class SSCircleGetPar extends SSServPar{
     final Boolean         withUserRestriction,
     final Boolean         invokeEntityHandlers) throws Exception{
     
-    super(op, key, user);
+    super(SSServOpE.circleGet, null, user);
     
     this.circle                = circle;
     

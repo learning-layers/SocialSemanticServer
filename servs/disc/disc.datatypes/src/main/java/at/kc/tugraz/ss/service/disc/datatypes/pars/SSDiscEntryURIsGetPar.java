@@ -40,13 +40,11 @@ public class SSDiscEntryURIsGetPar extends SSServPar{
   public SSDiscEntryURIsGetPar(){}
     
   public SSDiscEntryURIsGetPar(
-    final SSServOpE     op,
-    final String        key,
     final SSUri         user,
     final SSUri         disc, 
     final Boolean       withUserRestriction){
     
-    super(op, key, user);
+    super(SSServOpE.discEntryURIsGet, null, user);
     
     this.disc                = disc;
     this.withUserRestriction = withUserRestriction;

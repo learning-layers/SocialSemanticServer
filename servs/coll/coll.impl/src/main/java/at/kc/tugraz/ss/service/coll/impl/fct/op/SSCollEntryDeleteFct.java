@@ -41,8 +41,6 @@ public class SSCollEntryDeleteFct{
       
       switch(((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleMostOpenCircleTypeGet(
         new SSCircleMostOpenCircleTypeGetPar(
-          null,
-          null,
           par.user,
           par.entry,
           false))){

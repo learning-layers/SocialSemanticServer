@@ -50,14 +50,12 @@ public class SSImageBase64GetPar extends SSServPar{
   public SSImageBase64GetPar(){}
   
   public SSImageBase64GetPar(
-    final SSServOpE     op,
-    final String        key,
     final SSUri         user,
     final SSUri         entity,
     final SSImageE      imageType,
     final Boolean       withUserRestriction){
     
-    super(op, key, user);
+    super(SSServOpE.imageBase64Get, null, user);
     
     this.entity              = entity;
     this.imageType           = imageType;

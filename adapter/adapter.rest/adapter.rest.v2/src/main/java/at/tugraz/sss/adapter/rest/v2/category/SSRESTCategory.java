@@ -61,8 +61,6 @@ public class SSRESTCategory{
       
       par =
         new SSCategoriesPredefinedGetPar(
-          SSServOpE.categoriesPredefinedGet,
-          null,
           null);
       
     }catch(Exception error){
@@ -90,8 +88,6 @@ public class SSRESTCategory{
     try{
       par =
         new SSCategoryAddPar(
-          SSServOpE.categoryAdd,
-          null,
           null,
           input.entity, //entity
           input.label, //label
@@ -124,8 +120,6 @@ public class SSRESTCategory{
     try{
       par =
         new SSCategoryFrequsGetPar(
-          SSServOpE.categoryFrequsGet,
-          null,
           null,
           null, //forUser
           null, //entities
@@ -160,8 +154,6 @@ public class SSRESTCategory{
     try{
       par =
         new SSCategoryFrequsGetPar(
-          SSServOpE.categoryFrequsGet,
-          null,
           null,
           input.forUser, //forUser
           input.entities, //entities

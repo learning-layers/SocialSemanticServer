@@ -131,8 +131,6 @@ implements
         entity.circles.addAll(
           circlesGet(
             new SSCirclesGetPar(
-              null,
-              null,
               par.user, //user
               entity.id, //entity
               null, //entityTypesToIncludeOnly
@@ -146,8 +144,6 @@ implements
         entity.circleTypes.addAll(
           circleTypesGet(
             new SSCircleTypesGetPar(
-              null,
-              null,
               par.user,
               entity.id,
               par.withUserRestriction)));
@@ -164,8 +160,6 @@ implements
           final SSEntityCircle circle =
             circleGet(
               new SSCircleGetPar(
-                null,
-                null,
                 par.user,
                 entity.id,                    //circle
                 par.entityTypesToIncludeOnly, //entityTypesToIncludeOnly
@@ -215,8 +209,6 @@ implements
       final SSEntityCircle circle =
         circleGet(
           new SSCircleGetPar(
-            null,
-            null,
             par.user,
             entity.id,
             null, //entityTypesToIncludeOnly
@@ -402,8 +394,6 @@ implements
     if(!par.entities.isEmpty()){
       circleEntitiesAdd(
         new SSCircleEntitiesAddPar(
-          null, 
-          null, 
           par.user, 
           circleURI, 
           par.entities, 
@@ -414,8 +404,6 @@ implements
     if(!par.users.isEmpty()){
       circleUsersAdd(
         new SSCircleUsersAddPar(
-          null, 
-          null, 
           par.user, 
           circleURI, 
           par.users, 
@@ -426,8 +414,6 @@ implements
     final SSEntityCircle circle =
       circleGet(
         new SSCircleGetPar(
-          null,
-          null,
           par.user,
           circleURI, //circle
           null, //entityTypesToIncludeOnly,
@@ -446,8 +432,6 @@ implements
     
     activityServ.activityAdd(
       new SSActivityAddPar(
-        null,
-        null,
         par.user,
         SSActivityE.createCircle,
         circleURI,
@@ -505,8 +489,6 @@ implements
       
       ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
         new SSEntityUpdatePar(
-          null, 
-          null, 
           par.user, 
           circleUri,
           SSEntityE.circle, 
@@ -634,8 +616,6 @@ implements
     final SSEntityCircle circle    = 
       circleGet(
         new SSCircleGetPar(
-          null, 
-          null,
           par.user,
           circleURI, //circle
           null, //entityTypesToIncludeOnly,
@@ -654,8 +634,6 @@ implements
     
     activityServ.activityAdd(
       new SSActivityAddPar(
-        null,
-        null,
         par.user,
         SSActivityE.addUsersToCircle,
         par.circle,
@@ -740,8 +718,6 @@ implements
     final SSEntityCircle circle =
       circleGet(
         new SSCircleGetPar(
-          null,
-          null,
           par.user,
           par.circle, //circle
           null, //entityTypesToIncludeOnly,
@@ -765,8 +741,6 @@ implements
     final List<SSEntity> entities = 
       ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
         new SSEntitiesGetPar(
-          null, 
-          null, 
           par.user, 
           par.entities, 
           null, //types, 
@@ -783,8 +757,6 @@ implements
     
     activityServ.activityAdd(
       new SSActivityAddPar(
-        null,
-        null,
         par.user,
         SSActivityE.addEntitiesToCircle,
         par.circle,
@@ -846,8 +818,6 @@ implements
         
         ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
           new SSEntityUpdatePar(
-            null, 
-            null, 
             par.user, 
             entity, 
             null, //type, 
@@ -899,8 +869,6 @@ implements
       for(SSCircleE circleType :
         circleTypesGet(
           new SSCircleTypesGetPar(
-            null,
-            null,
             par.user,
             par.entity,
             par.withUserRestriction))){
@@ -990,8 +958,6 @@ implements
             par.entityTypesToIncludeOnly),
           ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
             new SSEntityGetPar(
-              null,
-              null,
               par.user,
               par.circle,
               par.withUserRestriction, //withUserRestriction,
@@ -1013,8 +979,6 @@ implements
       circleEntities =
         ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
           new SSEntitiesGetPar(
-            null,
-            null,
             par.user,
             SSUri.getDistinctNotNullFromEntities(circle.entities),
             null, //types,
@@ -1029,8 +993,6 @@ implements
       circleUsers =
         ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
           new SSEntitiesGetPar(
-            null,
-            null,
             par.user,
             SSUri.getDistinctNotNullFromEntities(circle.users),
             null, //types,
@@ -1113,8 +1075,6 @@ implements
           circles,
           circleGet(
             new SSCircleGetPar(
-              null,
-              null,
               par.user,
               circleURI,
               par.entityTypesToIncludeOnly,
@@ -1343,8 +1303,6 @@ implements
       return ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
         new SSEntitiesGetPar(
           null,
-          null,
-          null,
           userUris, //entities
           null, //types
           null, //descPar
@@ -1366,8 +1324,6 @@ implements
       for(SSEntity entityUserCircle :
         circlesGet(
           new SSCirclesGetPar(
-            null,
-            null,
             par.user,
             par.entity,
             null, //entityTypesToIncludeOnly
@@ -1377,8 +1333,6 @@ implements
         
         circleEntitiesAdd(
           new SSCircleEntitiesAddPar(
-            null,
-            null,
             par.user,
             entityUserCircle.id,
             par.entities,  //entities

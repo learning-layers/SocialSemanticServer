@@ -265,8 +265,6 @@ public class SSFileUploader extends SSServImplStartA{
         
         ((SSImageServerI) SSServReg.getServ(SSImageServerI.class)).imageAdd(
           new SSImageAddPar(
-            null,
-            null,
             par.user,
             pngFileUri,
             SSImageE.thumb, //imageType,

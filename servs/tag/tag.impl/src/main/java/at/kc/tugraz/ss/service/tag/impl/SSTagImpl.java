@@ -23,7 +23,6 @@ package at.kc.tugraz.ss.service.tag.impl;
 import at.kc.tugraz.ss.activity.api.SSActivityServerI;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
 import at.kc.tugraz.ss.activity.datatypes.par.SSActivityAddPar;
-import at.kc.tugraz.ss.category.datatypes.par.SSCategoriesGetPar;
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePubURIGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
@@ -75,7 +74,6 @@ import java.util.*;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSObjU;
 import at.tugraz.sss.serv.SSServErrReg;
-import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSToolContextE;
@@ -132,8 +130,6 @@ implements
         for(SSEntity tagEntity :
           tagsGet(
             new SSTagsGetPar(
-              null,
-              null,
               userUri,
               userUri, //forUser
               null, //entities
@@ -175,8 +171,6 @@ implements
         for(SSEntity tagEntity :
           tagsGet(
             new SSTagsGetPar(
-              null,
-              null,
               userUri,
               userUri, //forUser
               null, //entities
@@ -220,8 +214,6 @@ implements
       
       tagsRemove(
         new SSTagsRemovePar(
-          null,
-          null,
           par.user,
           null, //forUser
           entity, 
@@ -249,8 +241,6 @@ implements
           for(SSEntity tag :
             tagsGet(
               new SSTagsGetPar(
-                null,
-                null,
                 par.user,
                 null, //forUser
                 SSUri.getDistinctNotNullFromEntities(par.entities), //entities
@@ -264,8 +254,6 @@ implements
               
               tagAdd(
                 new SSTagAddPar(
-                  null,
-                  null,
                   par.targetUser,  //user
                   ((SSTag)tag).entity, //entity
                   ((SSTag)tag).tagLabel, //label
@@ -278,8 +266,6 @@ implements
               
               tagAdd(
                 new SSTagAddPar(
-                  null,
-                  null,
                   ((SSTag)tag).user, //user
                   ((SSTag)tag).entity, //entity
                   ((SSTag)tag).tagLabel, //label
@@ -310,8 +296,6 @@ implements
         entity.tags.addAll(
           tagsGet(
             new SSTagsGetPar(
-              null,
-              null,
               par.user,
               null, //forUser
               SSUri.asListWithoutNullAndEmpty(entity.id), //entities
@@ -341,8 +325,6 @@ implements
         tags.add(
           tagAdd(
             new SSTagAddPar(
-              null,
-              null,
               par.user,
               par.entity,
               tagLabel,
@@ -389,8 +371,6 @@ implements
     
     activityServ.activityAdd(
       new SSActivityAddPar(
-        null,
-        null,
         par.user,
         SSActivityE.tagEntity,
         par.entity,
@@ -422,8 +402,6 @@ implements
       final SSEntity    tagEntity = 
         entityServ.entityFromTypeAndLabelGet(
           new SSEntityFromTypeAndLabelGetPar(
-            null,
-            null,
             par.user,
             SSLabel.get(SSStrU.toStr(par.label)), //label,
             SSEntityE.tag, //type,
@@ -435,8 +413,6 @@ implements
         par.circle =
           ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePubURIGet(
             new SSCirclePubURIGetPar(
-              SSServOpE.circlePubURIGet, 
-              null, 
               null, 
               false));
       }
@@ -452,8 +428,6 @@ implements
           circleEntity =
             entityServ.entityGet(
               new SSEntityGetPar(
-                null,
-                null,
                 par.user,
                 par.circle,
                 par.withUserRestriction,
@@ -476,8 +450,6 @@ implements
         
         entityServ.entityUpdate(
           new SSEntityUpdatePar(
-            null,
-            null,
             par.user,
             tagUri,
             SSEntityE.tag, //type,
@@ -493,8 +465,6 @@ implements
       
       entityServ.entityUpdate(
         new SSEntityUpdatePar(
-          null,
-          null,
           par.user,
           par.entity,
           null, //type,
@@ -557,8 +527,6 @@ implements
     
     activityServ.activityAdd(
       new SSActivityAddPar(
-        null,
-        null,
         par.user,
         SSActivityE.removeTags,
         par.entity,
@@ -610,8 +578,6 @@ implements
         final SSEntity tagEntity =
           entityServ.entityFromTypeAndLabelGet(
             new SSEntityFromTypeAndLabelGetPar(
-              null,
-              null,
               par.user,
               SSLabel.get(SSStrU.toStr(par.label)), //label,
               SSEntityE.tag, //type,
@@ -643,8 +609,6 @@ implements
       //check whether user can access the entity
       entityServ.entityGet(
         new SSEntityGetPar(
-          null,
-          null,
           par.user,
           par.entity, //entity
           par.withUserRestriction, //withUserRestriction
@@ -920,8 +884,6 @@ implements
           SSUri.getDistinctNotNullFromEntities(
             entityServ.entitiesGet(
               new SSEntitiesGetPar(
-                null,
-                null,
                 par.user,
                 null, //entities
                 types, //types
@@ -935,8 +897,6 @@ implements
         commonMiscFct.getMetadataFrequsFromMetadata(
           tagsGet(
             new SSTagsGetPar(
-              null,
-              null,
               par.user,
               par.forUser,
               par.entities,

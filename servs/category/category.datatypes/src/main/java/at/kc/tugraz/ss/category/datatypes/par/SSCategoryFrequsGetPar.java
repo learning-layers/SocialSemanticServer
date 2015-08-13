@@ -81,8 +81,6 @@ public class SSCategoryFrequsGetPar extends SSServPar{
   public SSCategoryFrequsGetPar(){}
    
   public SSCategoryFrequsGetPar(
-    final SSServOpE               op,
-    final String                  key, 
     final SSUri                   user, 
     final SSUri                   forUser, 
     final List<SSUri>             entities, 
@@ -92,7 +90,7 @@ public class SSCategoryFrequsGetPar extends SSServPar{
     final Long                    startTime,
     final Boolean                 withUserRestriction){
     
-    super(op, key, user);
+    super(SSServOpE.categoryFrequsGet, null, user);
     
     this.forUser = forUser;
     

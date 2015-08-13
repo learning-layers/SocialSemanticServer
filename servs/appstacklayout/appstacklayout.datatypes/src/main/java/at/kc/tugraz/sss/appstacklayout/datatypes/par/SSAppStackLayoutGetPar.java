@@ -41,14 +41,12 @@ public class SSAppStackLayoutGetPar extends SSServPar{
   public SSAppStackLayoutGetPar(){}
   
   public SSAppStackLayoutGetPar(
-    final SSServOpE op,
-    final String    key,
     final SSUri     user, 
     final SSUri     stack, 
     final Boolean   withUserRestriction, 
     final Boolean   invokeEntityHandlers){
     
-    super(op, key, user);
+    super(SSServOpE.appStackLayoutGet, null, user);
     
     this.stack                = stack;
     this.withUserRestriction  = withUserRestriction;

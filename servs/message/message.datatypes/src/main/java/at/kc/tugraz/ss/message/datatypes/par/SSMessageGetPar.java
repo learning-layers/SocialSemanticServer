@@ -41,14 +41,12 @@ public class SSMessageGetPar extends SSServPar{
   public SSMessageGetPar(){}
   
   public SSMessageGetPar(
-    final SSServOpE     op,
-    final String        key,
     final SSUri         user,
     final SSUri         message, 
     final Boolean       withUserRestriction, 
     final Boolean       invokeEntityHandlers){
     
-    super(op, key, user);
+    super(SSServOpE.messageGet, null, user);
     
     this.message              = message;
     this.withUserRestriction  = withUserRestriction;

@@ -23,18 +23,14 @@ package at.kc.tugraz.ss.activity.datatypes.par;
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSUri;
-import com.wordnik.swagger.annotations.ApiModel;
-import javax.xml.bind.annotation.XmlRootElement;
 
 public class SSActivityTypesGetPar extends SSServPar{
   
   public SSActivityTypesGetPar(){}
   
   public SSActivityTypesGetPar(
-    final SSServOpE             op,
-    final String                key,
     final SSUri                 user){
     
-    super(op, key, user);
+    super(SSServOpE.activityTypesGet, null, user);
   }
 }

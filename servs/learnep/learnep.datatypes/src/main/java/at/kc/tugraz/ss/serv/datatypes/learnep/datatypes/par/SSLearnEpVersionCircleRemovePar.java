@@ -40,13 +40,11 @@ public class SSLearnEpVersionCircleRemovePar extends SSServPar{
   public SSLearnEpVersionCircleRemovePar(){}
   
   public SSLearnEpVersionCircleRemovePar(
-    final SSServOpE     op,
-    final String        key,
     final SSUri         user,
     final SSUri         learnEpCircle,
     final Boolean       shouldCommit){
     
-    super(op, key, user);
+    super(SSServOpE.learnEpVersionCircleRemove, null, user);
     
     this.learnEpCircle   = learnEpCircle;
     this.shouldCommit    = shouldCommit;

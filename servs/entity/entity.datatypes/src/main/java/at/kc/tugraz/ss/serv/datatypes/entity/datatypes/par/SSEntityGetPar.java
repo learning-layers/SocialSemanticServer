@@ -42,14 +42,12 @@ public class SSEntityGetPar extends SSServPar{
   public SSEntityGetPar(){}
   
   public SSEntityGetPar(
-    final SSServOpE            op,
-    final String               key,
     final SSUri                user,
     final SSUri                entity, 
     final Boolean              withUserRestriction,
     final SSEntityDescriberPar descPar){
     
-    super(op, key, user);
+    super(SSServOpE.entityGet, null, user);
     
     this.entity               = entity;
     this.withUserRestriction  = withUserRestriction;

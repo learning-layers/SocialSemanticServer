@@ -63,8 +63,6 @@ public class SSRESTFriend{
       
       par =
         new SSFriendsGetPar(
-          SSServOpE.friendsGet,
-          null,
           null);
       
     }catch(Exception error){
@@ -94,8 +92,6 @@ public class SSRESTFriend{
       
       par =
         new SSFriendAddPar(
-          SSServOpE.friendAdd,
-          null,
           null,
           SSUri.get(friend, SSVocConf.sssUri),  //friend
           true);

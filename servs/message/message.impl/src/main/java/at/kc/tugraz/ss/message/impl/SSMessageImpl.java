@@ -93,8 +93,6 @@ implements
           return SSMessage.get(
             messageGet(
               new SSMessageGetPar(
-                null,
-                null,
                 par.user,
                 entity.id,
                 par.withUserRestriction,
@@ -135,8 +133,6 @@ implements
           sqlFct.getMessage(par.message),
           entityServ.entityGet(
             new SSEntityGetPar(
-              null, 
-              null, 
               par.user, 
               par.message, 
               par.withUserRestriction, 
@@ -151,8 +147,6 @@ implements
       message.user =
         entityServ.entityGet(
           new SSEntityGetPar(
-            null,
-            null,
             par.user,
             message.user.id,
             par.withUserRestriction,
@@ -161,8 +155,6 @@ implements
       message.forUser =
         entityServ.entityGet(
           new SSEntityGetPar(
-            null,
-            null,
             par.user,
             message.forUser.id,
             par.withUserRestriction,
@@ -206,8 +198,6 @@ implements
           messages,
           messageGet(
             new SSMessageGetPar(
-              null,
-              null,
               par.user,
               messagURI,
               par.withUserRestriction,
@@ -255,8 +245,6 @@ implements
       
       entityServ.entityUpdate(
         new SSEntityUpdatePar(
-          null,
-          null,
           par.user,
           messageUri,
           SSEntityE.message, //type,
@@ -277,8 +265,6 @@ implements
       
       entityServ.entityShare(
         new SSEntitySharePar(
-          null, 
-          null, 
           par.user, 
           messageUri, 
           SSUri.asListWithoutNullAndEmpty(par.forUser),  //users

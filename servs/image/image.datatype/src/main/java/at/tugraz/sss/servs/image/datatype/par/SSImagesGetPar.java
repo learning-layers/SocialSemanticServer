@@ -50,14 +50,12 @@ public class SSImagesGetPar extends SSServPar{
   public SSImagesGetPar(){}
   
   public SSImagesGetPar(
-    final SSServOpE     op,
-    final String        key,
     final SSUri         user,
     final SSUri         entity,
     final SSImageE      imageType,
     final Boolean       withUserRestriction){
     
-    super(op, key, user);
+    super(SSServOpE.imagesGet, null, user);
     
     this.entity              = entity;
     this.imageType           = imageType;

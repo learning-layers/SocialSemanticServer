@@ -69,7 +69,15 @@ public class SSModelUEUESetter{
     
     newEvents = 
       ((SSUEServerI) SSServReg.getServ(SSUEServerI.class)).userEventsGet(
-        new SSUEsGetPar(null, null, null, null, null, null, lastUpdateTime, null, false, false));
+        new SSUEsGetPar(
+          null, 
+          null, 
+          null, 
+          null, 
+          lastUpdateTime, 
+          null, 
+          false, 
+          false));
       
 		sortedEventsSinceLastUpdate = SSUE.sort(newEvents);
 

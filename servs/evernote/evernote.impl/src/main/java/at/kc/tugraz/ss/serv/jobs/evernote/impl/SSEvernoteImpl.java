@@ -112,8 +112,6 @@ implements
           final List<SSEntity> files =
             ((SSFileRepoServerI) SSServReg.getServ(SSFileRepoServerI.class)).filesGet(
               new SSEntityFilesGetPar(
-                null,
-                null,
                 par.user,
                 evernoteNote.id,
                 par.withUserRestriction,
@@ -141,8 +139,6 @@ implements
           final List<SSEntity> files =
             ((SSFileRepoServerI) SSServReg.getServ(SSFileRepoServerI.class)).filesGet(
               new SSEntityFilesGetPar(
-                null,
-                null,
                 par.user,
                 evernoteResource.id,
                 par.withUserRestriction,

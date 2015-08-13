@@ -31,12 +31,10 @@ public class SSUserURIGetPar extends SSServPar{
   public SSUserURIGetPar(){}
     
   public SSUserURIGetPar(
-    final SSServOpE op,
-    final String    key,
     final SSUri     user,
     final String    email){
    
-    super(op, key, user);
+    super(SSServOpE.userURIGet, null, user);
 
     this.email = email;
   }

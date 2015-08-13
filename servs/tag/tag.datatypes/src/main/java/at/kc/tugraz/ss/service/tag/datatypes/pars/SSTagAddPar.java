@@ -70,8 +70,6 @@ public class SSTagAddPar extends SSServPar{
   public SSTagAddPar(){}
   
   public SSTagAddPar(
-    final SSServOpE      op,
-    final String         key,
     final SSUri          user,
     final SSUri          entity,
     final SSTagLabel     label,
@@ -81,7 +79,7 @@ public class SSTagAddPar extends SSServPar{
     final Boolean        withUserRestriction,
     final Boolean        shouldCommit) {
   
-    super(op, key, user);
+    super(SSServOpE.tagAdd, null, user);
     
     this.entity              = entity;
     this.label               = label;

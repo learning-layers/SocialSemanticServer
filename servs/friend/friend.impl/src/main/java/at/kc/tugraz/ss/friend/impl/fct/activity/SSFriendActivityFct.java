@@ -40,8 +40,6 @@ public class SSFriendActivityFct{
       
       ((SSActivityServerI) SSServReg.getServ(SSActivityServerI.class)).activityAdd(
         new SSActivityAddPar(
-          null,
-          null,
           par.user,
           SSActivityE.friendAdd,
           par.user,

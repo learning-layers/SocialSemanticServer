@@ -41,14 +41,12 @@ public class SSLocationGetPar extends SSServPar{
   public SSLocationGetPar(){}
   
   public SSLocationGetPar(
-    final SSServOpE     op,
-    final String        key,
     final SSUri         user, 
     final SSUri         location, 
     final Boolean       withUserRestriction, 
     final Boolean       invokeEntityHandlers){
       
-    super(op, key, user);
+    super(SSServOpE.locationGet, null, user);
     
     this.location             = location;
     this.withUserRestriction  = withUserRestriction;

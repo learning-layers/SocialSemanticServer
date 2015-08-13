@@ -95,8 +95,6 @@ implements
         entity.comments.addAll(
           commentsGet(
             new SSCommentsGetPar(
-              null, 
-              null,
               par.user, 
               entity.id,
               par.withUserRestriction)));
@@ -123,8 +121,6 @@ implements
       
       ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
         new SSEntityUpdatePar(
-          null,
-          null,
           par.user,
           par.entity,
           null, //type,
@@ -143,8 +139,6 @@ implements
         
         ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
           new SSEntityUpdatePar(
-            null,
-            null,
             par.user,
             commentUri,
             SSEntityE.comment, //type,
@@ -242,8 +236,6 @@ implements
         entities,
         ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
           new SSEntitiesGetPar(
-            null,
-            null,
             par.user,
             entityURIs, //entities
             null, //types,

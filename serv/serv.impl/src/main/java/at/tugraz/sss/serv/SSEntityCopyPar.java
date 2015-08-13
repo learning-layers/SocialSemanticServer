@@ -88,8 +88,6 @@ public class SSEntityCopyPar extends SSServPar{
   public SSEntityCopyPar(){}
     
   public SSEntityCopyPar(
-    final SSServOpE     op,
-    final String        key,
     final SSUri         user,
     final SSUri         entity, 
     final SSUri         targetEntity,
@@ -104,7 +102,7 @@ public class SSEntityCopyPar extends SSServPar{
     final Boolean       withUserRestriction,
     final Boolean       shouldCommit){
     
-    super(op, key, user);
+    super(SSServOpE.entityCopy, null, user);
     
     this.entity       = entity;
     this.targetEntity = targetEntity;

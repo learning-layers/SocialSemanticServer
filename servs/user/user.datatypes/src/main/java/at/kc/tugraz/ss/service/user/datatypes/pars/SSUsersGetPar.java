@@ -43,13 +43,11 @@ public class SSUsersGetPar extends SSServPar{
   public SSUsersGetPar(){}
   
   public SSUsersGetPar(
-    final SSServOpE   op,
-    final String      key,
     final SSUri       user,
     final List<SSUri> users, 
     final Boolean     invokeEntityHandlers){
    
-    super(op, key, user);
+    super(SSServOpE.usersGet, null, user);
     
     SSUri.addDistinctWithoutNull(this.users, users);
     

@@ -63,8 +63,6 @@ public class SSUECountGetPar extends SSServPar{
   public SSUECountGetPar(){}
   
   public SSUECountGetPar(
-    final SSServOpE op,
-    final String    key,
     final SSUri     user,
     final SSUri     forUser, 
     final SSUri     entity,
@@ -73,7 +71,7 @@ public class SSUECountGetPar extends SSServPar{
     final Long      endTime, 
     final Boolean   withUserRestriction){
     
-    super(op, key, user);
+    super(SSServOpE.userEventCountGet, null, user);
   
     this.forUser             = forUser;
     this.entity              = entity;

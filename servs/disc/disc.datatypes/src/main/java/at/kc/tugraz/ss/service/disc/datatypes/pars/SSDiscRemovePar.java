@@ -40,13 +40,11 @@ public class SSDiscRemovePar extends SSServPar{
   public SSDiscRemovePar(){}
   
   public SSDiscRemovePar(
-    final SSServOpE op,
-    final String    key,
     final SSUri     user,
     final SSUri     disc,
     final Boolean   shouldCommit){
     
-    super(op, key, user);
+    super(SSServOpE.discRemove, null, user);
     
     this.shouldCommit = shouldCommit;
   }

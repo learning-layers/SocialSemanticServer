@@ -100,8 +100,6 @@ public class SSRESTLearnEp{
       
       par =
         new SSLearnEpsGetPar(
-          SSServOpE.learnEpsGet,
-          null, 
           null, 
           true, 
           true);
@@ -135,8 +133,6 @@ public class SSRESTLearnEp{
       
       par =
         new SSLearnEpVersionsGetPar(
-          SSServOpE.learnEpVersionsGet,
-          null, 
           null, 
           SSUri.get(learnEp, SSVocConf.sssUri), 
           true, 
@@ -169,8 +165,6 @@ public class SSRESTLearnEp{
       
       par =
         new SSLearnEpVersionGetPar(
-          SSServOpE.learnEpVersionGet,
-          null, 
           null, 
           SSUri.get(learnEpVersion, SSVocConf.sssUri),
           true, 
@@ -200,8 +194,6 @@ public class SSRESTLearnEp{
       
       par =
         new SSLearnEpVersionCurrentGetPar(
-          SSServOpE.learnEpVersionCurrentGet,
-          null, 
           null,
           true, 
           true);
@@ -233,8 +225,6 @@ public class SSRESTLearnEp{
       
       par =
         new SSLearnEpVersionCurrentSetPar(
-          SSServOpE.learnEpVersionCurrentSet,
-          null, 
           null, 
           SSUri.get(learnEpVersion, SSVocConf.sssUri), 
           true);
@@ -265,8 +255,6 @@ public class SSRESTLearnEp{
       
       par =
         new SSLearnEpCreatePar(
-          SSServOpE.learnEpCreate,
-          null, 
           null, 
           input.label, 
           input.description, 
@@ -299,8 +287,6 @@ public class SSRESTLearnEp{
       
       par =
         new SSLearnEpVersionCreatePar(
-          SSServOpE.learnEpVersionCreate,
-          null, 
           null, 
           SSUri.get(learnEp, SSVocConf.sssUri), 
           true);
@@ -332,8 +318,6 @@ public class SSRESTLearnEp{
       
       par =
         new SSLearnEpRemovePar(
-          SSServOpE.learnEpRemove,
-          null, 
           null, 
           SSUri.get(learnEp, SSVocConf.sssUri), 
           true,
@@ -368,8 +352,6 @@ public class SSRESTLearnEp{
       
       par =
         new SSLearnEpVersionCircleAddPar(
-          SSServOpE.learnEpVersionCircleAdd,
-          null, 
           null, 
           SSUri.get(learnEpVersion, SSVocConf.sssUri),
           input.label, 
@@ -410,8 +392,6 @@ public class SSRESTLearnEp{
       
       par =
         new SSLearnEpVersionEntityAddPar(
-          SSServOpE.learnEpVersionEntityAdd,
-          null, 
           null, 
           SSUri.get(learnEpVersion, SSVocConf.sssUri),
           input.entity, 
@@ -448,8 +428,6 @@ public class SSRESTLearnEp{
       
       par =
         new SSLearnEpVersionCircleUpdatePar(
-          SSServOpE.learnEpVersionCircleUpdate,
-          null, 
           null, 
           SSUri.get(learnEpCircle, SSVocConf.sssUri),
           input.label, 
@@ -490,8 +468,6 @@ public class SSRESTLearnEp{
       
       par =
         new SSLearnEpVersionEntityUpdatePar(
-          SSServOpE.learnEpVersionEntityUpdate,
-          null, 
           null, 
           SSUri.get(learnEpEntity, SSVocConf.sssUri),
           input.entity, 
@@ -526,8 +502,6 @@ public class SSRESTLearnEp{
       
       par =
         new SSLearnEpVersionCircleRemovePar(
-          SSServOpE.learnEpVersionCircleRemove,
-          null, 
           null, 
           SSUri.get(learnEpCircle, SSVocConf.sssUri),
           true);
@@ -559,8 +533,6 @@ public class SSRESTLearnEp{
       
       par =
         new SSLearnEpVersionEntityRemovePar(
-          SSServOpE.learnEpVersionEntityRemove,
-          null, 
           null, 
           SSUri.get(learnEpEntity, SSVocConf.sssUri),
           true);
@@ -594,8 +566,6 @@ public class SSRESTLearnEp{
       
       par =
         new SSLearnEpVersionTimelineStateSetPar(
-          SSServOpE.learnEpVersionTimelineStateSet,
-          null, 
           null, 
           SSUri.get(learnEpVersion, SSVocConf.sssUri),
           input.startTime, 
@@ -629,8 +599,6 @@ public class SSRESTLearnEp{
       
       par =
         new SSLearnEpVersionTimelineStateGetPar(
-          SSServOpE.learnEpVersionTimelineStateGet,
-          null, 
           null, 
           SSUri.get(learnEpVersion, SSVocConf.sssUri));
       
@@ -661,8 +629,6 @@ public class SSRESTLearnEp{
       
       par =
         new SSLearnEpsLockHoldPar(
-          SSServOpE.learnEpsLockHold,
-          null, 
           null, 
           SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(learnEps, SSStrU.comma), SSVocConf.sssUri));
       
@@ -693,8 +659,6 @@ public class SSRESTLearnEp{
       
       par =
         new SSLearnEpLockSetPar(
-          SSServOpE.learnEpLockSet,
-          null, 
           null,
           null, //forUser
           SSUri.get(learnEp, SSVocConf.sssUri), 
@@ -728,8 +692,6 @@ public class SSRESTLearnEp{
       
       par =
         new SSLearnEpLockRemovePar(
-          SSServOpE.learnEpLockRemove,
-          null, 
           null,
           null, //forUser
           SSUri.get(learnEp, SSVocConf.sssUri), 

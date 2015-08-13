@@ -56,8 +56,6 @@ public class SSEntityShareWithCircles {
         
         circleServ.circleEntitiesAdd(
           new SSCircleEntitiesAddPar(
-            null,
-            null,
             user,
             circleURI,  //circle
             SSUri.asListWithoutNullAndEmpty(entity.id),  //entities
@@ -67,8 +65,6 @@ public class SSEntityShareWithCircles {
         circle =
           circleServ.circleGet(
             new SSCircleGetPar(
-              null,
-              null,
               user,
               circleURI, //circle
               null, //entityTypesToIncludeOnly

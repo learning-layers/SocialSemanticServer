@@ -49,15 +49,13 @@ public class SSEntityFileAddPar extends SSServPar{
   public SSEntityFileAddPar(){} 
   
   public SSEntityFileAddPar(
-    final SSServOpE     op,
-    final String        key,
     final SSUri         user,
     final SSUri         file, 
     final SSUri         entity, 
     final Boolean       withUserRestriction, 
     final Boolean       shouldCommit) {
     
-    super(op, key, user);
+    super(SSServOpE.fileAdd, null, user);
     
     this.file                 = file;
     this.entity               = entity;

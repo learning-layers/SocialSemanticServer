@@ -43,13 +43,11 @@ public class SSCategoriesPredefinedAddPar extends SSServPar{
   public SSCategoriesPredefinedAddPar(){}
   
   public SSCategoriesPredefinedAddPar(
-    final SSServOpE              op,
-    final String                 key,
     final SSUri                  user,
     final List<SSCategoryLabel>  labels,
     final Boolean                shouldCommit) throws Exception{
     
-    super(op, key, user);
+    super(SSServOpE.categoriesPredefinedAdd, null, user);
     
     SSCategoryLabel.addDistinctWithoutNull(this.labels, labels);
     

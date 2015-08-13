@@ -27,7 +27,6 @@ import static at.tugraz.sss.adapter.rest.v2.SSRestMainV2.getJSONStrForError;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSJSONU;
 import at.tugraz.sss.serv.SSLogU;
-import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSSocketCon;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
@@ -65,11 +64,7 @@ public class SSRESTSystem{
     
     try{
       
-      par =
-        new SSSystemVersionGetPar(
-          SSServOpE.systemVersionGet,
-          null,
-          null);
+      par = new SSSystemVersionGetPar();
       
       restObj = new SSRESTObject(par);
       

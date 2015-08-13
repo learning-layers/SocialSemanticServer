@@ -41,14 +41,12 @@ public class SSCollUserHierarchyGetPar extends SSServPar{
   public SSCollUserHierarchyGetPar(){}
     
   public SSCollUserHierarchyGetPar(
-    final SSServOpE     op,
-    final String        key,
     final SSUri         user,
     final SSUri         coll, 
     final Boolean       withUserRestriction, 
     final Boolean       invokeEntityHandlers){
     
-    super(op, key, user);
+    super(SSServOpE.collHierarchyGet, null, user);
      
     this.coll                 = coll;
     this.withUserRestriction  = withUserRestriction;

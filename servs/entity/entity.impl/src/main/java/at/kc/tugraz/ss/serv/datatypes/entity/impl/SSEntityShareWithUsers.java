@@ -64,8 +64,6 @@ public class SSEntityShareWithUsers {
       final SSUri circleUri =
         circleServ.circleCreate(
           new SSCircleCreatePar(
-            null,
-            null,
             user, //user
             SSCircleE.group,
             null, //label
@@ -76,8 +74,6 @@ public class SSEntityShareWithUsers {
       
       circleServ.circleUsersAdd(
         new SSCircleUsersAddPar(
-          null,
-          null,
           user,
           circleUri, //circle
           users, //users
@@ -86,8 +82,6 @@ public class SSEntityShareWithUsers {
       
       circleServ.circleEntitiesAdd(
         new SSCircleEntitiesAddPar(
-          null,
-          null,
           user,
           circleUri, //circle
           SSUri.asListWithoutNullAndEmpty(entity.id),  //entities
@@ -97,8 +91,6 @@ public class SSEntityShareWithUsers {
       final SSEntityCircle circle = 
         circleServ.circleGet(
           new SSCircleGetPar(
-            null, 
-            null, 
             user, 
             circleUri, 
             null, //entityTypesToIncludeOnly, 

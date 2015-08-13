@@ -59,8 +59,6 @@ public class SSImageAddPar extends SSServPar{
   public SSImageAddPar(){}
   
   public SSImageAddPar(
-    final SSServOpE     op,
-    final String        key,
     final SSUri         user,
     final SSUri         image,
     final SSImageE      imageType,
@@ -68,7 +66,7 @@ public class SSImageAddPar extends SSServPar{
     final Boolean       withUserRestriction,
     final Boolean       shouldCommit){
     
-    super(op, key, user);
+    super(SSServOpE.imageAdd, null, user);
     
     this.image                                = image;
     this.imageType                            = imageType;

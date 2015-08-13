@@ -31,13 +31,11 @@ public class SSLearnEpVersionCurrentGetPar extends SSServPar{
   public SSLearnEpVersionCurrentGetPar(){}
     
   public SSLearnEpVersionCurrentGetPar(
-    final SSServOpE     op,
-    final String        key,
     final SSUri         user,
     final Boolean       withUserRestriction, 
     final Boolean       invokeEntityHandlers){
     
-    super(op, key, user);
+    super(SSServOpE.learnEpVersionCurrentGet, null, user);
     
     this.withUserRestriction  = withUserRestriction;
     this.invokeEntityHandlers = invokeEntityHandlers;

@@ -69,8 +69,6 @@ public class SSRESTTag{
       
       par =
         new SSTagsGetPar(
-          SSServOpE.tagsGet,
-          null,
           null,
           null, //forUser
           null, //entities
@@ -105,8 +103,6 @@ public class SSRESTTag{
     try{
       par =
         new SSTagsGetPar(
-          SSServOpE.tagsGet,
-          null,
           null,
           input.forUser, //forUser
           input.entities, //entities
@@ -139,8 +135,6 @@ public class SSRESTTag{
     try{
       par =
         new SSTagFrequsGetPar(
-          SSServOpE.tagFrequsGet,
-          null,
           null,
           null, //forUser
           null, //entities
@@ -177,8 +171,6 @@ public class SSRESTTag{
     try{
       par =
         new SSTagFrequsGetPar(
-          SSServOpE.tagFrequsGet,
-          null,
           null,
           input.forUser, //forUser
           input.entities, //entities
@@ -215,8 +207,6 @@ public class SSRESTTag{
     try{
       par =
         new SSTagEntitiesForTagsGetPar(
-          SSServOpE.tagEntitiesForTagsGet,
-          null,
           null,
           input.forUser,
           input.labels,
@@ -252,8 +242,6 @@ public class SSRESTTag{
     try{
       par =
         new SSTagsRemovePar(
-          SSServOpE.tagsRemove,
-          null,
           null,
           null,
           SSUri.get(entity, SSVocConf.sssUri), //entity
@@ -288,8 +276,6 @@ public class SSRESTTag{
     try{
       par =
         new SSTagAddPar(
-          SSServOpE.tagAdd,
-          null,
           null,
           input.entity, //entity
           input.label, //label

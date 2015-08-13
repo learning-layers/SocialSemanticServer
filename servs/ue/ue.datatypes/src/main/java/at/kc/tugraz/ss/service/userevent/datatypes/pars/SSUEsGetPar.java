@@ -66,8 +66,6 @@ public class SSUEsGetPar extends SSServPar{
   public SSUEsGetPar(){}
   
   public SSUEsGetPar(
-    final SSServOpE   op, 
-    final String      key, 
     final SSUri       user, 
     final SSUri       forUser, 
     final SSUri       entity, 
@@ -77,7 +75,7 @@ public class SSUEsGetPar extends SSServPar{
     final Boolean     withUserRestriction, 
     final Boolean     invokeEntityHandlers){
     
-    super(op, key, user);
+    super(SSServOpE.userEventsGet, null, user);
 
     this.forUser = forUser;
     this.entity  = entity;

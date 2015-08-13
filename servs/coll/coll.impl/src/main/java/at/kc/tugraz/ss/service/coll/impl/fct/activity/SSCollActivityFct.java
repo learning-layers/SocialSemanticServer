@@ -42,8 +42,6 @@ public class SSCollActivityFct{
       
       ((SSActivityServerI) SSServReg.getServ(SSActivityServerI.class)).activityAdd(
         new SSActivityAddPar(
-          null,
-          null,
           par.user,
           SSActivityE.removeCollEntry,
           par.coll,
@@ -72,8 +70,6 @@ public class SSCollActivityFct{
       
       ((SSActivityServerI) SSServReg.getServ(SSActivityServerI.class)).activityAdd(
         new SSActivityAddPar(
-          null,
-          null,
           par.user,
           SSActivityE.addCollEntry,
           par.coll,
@@ -101,8 +97,6 @@ public class SSCollActivityFct{
       
       ((SSActivityServerI) SSServReg.getServ(SSActivityServerI.class)).activityAdd(
         new SSActivityAddPar(
-          null,
-          null,
           par.user,
           SSActivityE.addCollEntry,
           par.coll,

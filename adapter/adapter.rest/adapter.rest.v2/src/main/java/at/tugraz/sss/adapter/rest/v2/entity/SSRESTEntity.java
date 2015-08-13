@@ -73,8 +73,6 @@ public class SSRESTEntity {
       
       par =
         new SSEntitiesGetPar(
-          SSServOpE.entitiesGet,
-          null,  //key
           null,  //user
           null,  //entities 
           null, //types
@@ -122,8 +120,6 @@ public class SSRESTEntity {
         
       par =
         new SSEntitiesGetPar(
-          SSServOpE.entitiesGet,
-          null,
           null,
           SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(entities, SSStrU.comma), SSVocConf.sssUri), //entities
           null, //types
@@ -155,8 +151,6 @@ public class SSRESTEntity {
     try{
       par =
         new SSEntityUpdatePar(
-          SSServOpE.entityUpdate, 
-          null, //key 
           null, //user
           null, //entity
           input.type, //type
@@ -197,8 +191,6 @@ public class SSRESTEntity {
     try{
       par =
         new SSEntityUpdatePar(
-          SSServOpE.entityUpdate, 
-          null, //key 
           null, //user
           SSUri.get(entity, SSVocConf.sssUri), //entity
           input.type, //type
@@ -239,8 +231,6 @@ public class SSRESTEntity {
     try{
       par =
         new SSEntitySharePar(
-          SSServOpE.entityShare, 
-          null, //key 
           null, //user
           SSUri.get(entity, SSVocConf.sssUri), //entity
           input.users, 
@@ -278,8 +268,6 @@ public class SSRESTEntity {
     try{
       par =
         new SSEntityCopyPar(
-          SSServOpE.entityCopy, 
-          null, //key 
           null, //user
           SSUri.get(entity, SSVocConf.sssUri), //entity
           input.targetEntity, //targetEntity
@@ -323,8 +311,6 @@ public class SSRESTEntity {
       
       par =
         new SSCircleEntityUsersGetPar(
-          SSServOpE.circleEntityUsersGet,
-          null,  //key
           null,  //user
           SSUri.get(entity, SSVocConf.sssUri),  //entity
           false, //invokeEntityHandlers
@@ -359,8 +345,6 @@ public class SSRESTEntity {
       
       par =
         new SSCommentsAddPar(
-          SSServOpE.commentsAdd,
-          null,
           null,
           SSUri.get(entity, SSVocConf.sssUri), //entity
           input.comments, //comments

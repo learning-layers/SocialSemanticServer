@@ -54,15 +54,11 @@ public class SSEntitySetPublic {
       final SSUri pubCircleURI =
         circleServ.circlePubURIGet(
           new SSCirclePubURIGetPar(
-            null,
-            null,
             user,
             false));
       
       circleServ.circleEntitiesAdd(
         new SSCircleEntitiesAddPar(
-          null,
-          null,
           user,
           pubCircleURI,  //circle
           SSUri.asListWithoutNullAndEmpty(entity.id),  //entities
@@ -72,8 +68,6 @@ public class SSEntitySetPublic {
       final SSEntityCircle circle = 
         circleServ.circleGet(
           new SSCircleGetPar(
-            null, 
-            null, 
             user, 
             pubCircleURI, 
             null, //entityTypesToIncludeOnly, 

@@ -41,14 +41,12 @@ public class SSCollsUserEntityIsInGetPar extends SSServPar{
   public SSCollsUserEntityIsInGetPar(){}
   
   public SSCollsUserEntityIsInGetPar(
-    final SSServOpE     op,
-    final String        key,
     final SSUri         user,
     final SSUri         entity, 
     final Boolean       withUserRestriction, 
     final Boolean       invokeEntityHandlers){
     
-    super(op, key, user);
+    super(SSServOpE.collsEntityIsInGet, null, user);
 
     this.entity               = entity;
     this.withUserRestriction  = withUserRestriction;

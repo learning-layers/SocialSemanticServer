@@ -49,15 +49,13 @@ public class SSLearnEpLockSetPar extends SSServPar{
   public SSLearnEpLockSetPar(){}
   
   public SSLearnEpLockSetPar(
-    final SSServOpE  op,
-    final String     key,
     final SSUri      user,
     final SSUri      forUser, 
     final SSUri      learnEp, 
     final Boolean    withUserRestriction,
     final Boolean    shouldCommit){
     
-    super(op, key, user);
+    super(SSServOpE.learnEpLockSet, null, user);
    
     this.forUser             = forUser;
     this.learnEp             = learnEp;

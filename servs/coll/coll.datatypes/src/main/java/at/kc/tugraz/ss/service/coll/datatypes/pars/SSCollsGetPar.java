@@ -31,13 +31,11 @@ public class SSCollsGetPar extends SSServPar{
   public SSCollsGetPar(){}
     
   public SSCollsGetPar(
-    final SSServOpE     op,
-    final String        key,
     final SSUri         user,
     final Boolean       withUserRestriction, 
     final Boolean       invokeEntityHandlers){
     
-    super(op, key, user);
+    super(SSServOpE.collsGet, null, user);
      
     this.withUserRestriction  = withUserRestriction;
     this.invokeEntityHandlers = invokeEntityHandlers;

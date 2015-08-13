@@ -171,8 +171,6 @@ public class SSModelUEImpl extends SSServImplWithDBA implements SSModelUEClientI
             ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
               new SSEntityGetPar(
                 null,
-                null,
-                null,
                 resource.entity,  //entity
                 false, //withUserRestriction
                 null)).type; //descPar
@@ -357,7 +355,6 @@ public class SSModelUEImpl extends SSServImplWithDBA implements SSModelUEClientI
     return fillModelRelationLabels(result);
   }
   
-  
   private List<SSModelUERelation> fillModelRelationLabels(
     List<SSModelUERelation>      modelRelations) throws Exception {
     
@@ -373,8 +370,6 @@ public class SSModelUEImpl extends SSServImplWithDBA implements SSModelUEClientI
             ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
               new SSEntityGetPar(
                 null,
-                null,
-                null,
                 SSUri.get(relation.subject),  //entity
                 false, //withUserRestriction
                 null)).label); //descPar
@@ -385,8 +380,6 @@ public class SSModelUEImpl extends SSServImplWithDBA implements SSModelUEClientI
         SSStrU.toStr(
           ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
             new SSEntityGetPar(
-              null,
-              null,
               null,
               SSUri.get(relation.object),  //entity
               false, //withUserRestriction

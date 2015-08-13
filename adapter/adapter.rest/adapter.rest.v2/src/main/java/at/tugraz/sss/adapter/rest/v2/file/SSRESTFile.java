@@ -30,7 +30,6 @@ import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileReplaceRet;
 import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileUploadRet;
 import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.SSMimeTypeE;
-import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSVarNames;
@@ -98,8 +97,6 @@ public class SSRESTFile{
       
       par =
         new SSFileUploadPar(
-          SSServOpE.fileUpload,
-          null,
           null,
           SSMimeTypeE.get(mimeType),  //mimeType
           SSLabel.get    (label),  //label
@@ -146,8 +143,6 @@ public class SSRESTFile{
       
       par =
         new SSFileReplacePar(
-          SSServOpE.fileReplace,
-          null,
           null,
           SSUri.get(file, SSVocConf.sssUri), //entity
           null, //sSCon
@@ -187,8 +182,6 @@ public class SSRESTFile{
       
       par =
         new SSFileDownloadPar(
-          SSServOpE.fileDownload,
-          null,
           null,
           SSUri.get(file, SSVocConf.sssUri), //entity
           null); //shouldCommit
@@ -231,8 +224,6 @@ public class SSRESTFile{
       
       par =
         new SSFileDownloadPar(
-          SSServOpE.fileDownload,
-          null,
           null,
           SSUri.get(file, SSVocConf.sssUri), //entity
           null); //shouldCommit

@@ -89,8 +89,6 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
         SSUri.getDistinctNotNullFromEntities(
           circleServ.circlesGet(
             new SSCirclesGetPar(
-              null,
-              null,
               userUris.get(0), //user
               null, //entity,
               null, //entityTypesToIncludeOnly,
@@ -114,8 +112,6 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
       
       circleServ.circleUsersRemove(
         new SSCircleUsersRemovePar(
-          null,
-          null,
           adminUri,
           circle1Uri,
           userUris.subList(0, 2),
@@ -124,8 +120,6 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
       
       circleServ.circleUsersRemove(
         new SSCircleUsersRemovePar(
-          null,
-          null,
           adminUri,
           circle2Uri,
           SSUri.asListWithoutNullAndEmpty(userUris.get(2)),
@@ -134,8 +128,6 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
       
       circleServ.circleUsersRemove(
         new SSCircleUsersRemovePar(
-          null,
-          null,
           adminUri,
           circle3Uri,
           SSUri.asListWithoutNullAndEmpty(userUris.get(3)),
@@ -157,8 +149,6 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
       final SSUri targetCircle =
         circleServ.circleCreate(
           new SSCircleCreatePar(
-            null,
-            null,
             adminUri,
             SSCircleE.group,
             SSLabel.get("target circle"),
@@ -169,8 +159,6 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
       
       entityServ.entityCopy(
         new SSEntityCopyPar(
-          null,
-          null,
           adminUri,
           circle2Uri,
           targetCircle, //targetEntity,
@@ -187,8 +175,6 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
       
       entityServ.entityCopy(
         new SSEntityCopyPar(
-          null,
-          null,
           adminUri,
           circle3Uri,
           targetCircle, //targetEntity,
@@ -217,8 +203,6 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
       
       entityServ.entityCopy(
         new SSEntityCopyPar(
-          null,
-          null,
           adminUri,
           circle1Uri,
           null, //targetEntity,
@@ -250,8 +234,6 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
       
       tagServ.tagsRemove(
         new SSTagsRemovePar(
-          null,
-          null,
           userUris.get(1),
           null, //forUser,
           link1, //entity
@@ -263,8 +245,6 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
       
       tagServ.tagsRemove(
         new SSTagsRemovePar(
-          null,
-          null,
           userUris.get(1),
           null, //forUser,
           link2, //entity
@@ -286,8 +266,6 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
       System.out.println(
         recommServ.recommTags(
           new SSRecommTagsPar(
-            null,
-            null,
             userUris.get(0),
             SSStrU.toStr(circle5Uri),
             userUris.get(0),
@@ -313,8 +291,6 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
       System.out.println(
         recommServ.recommTags(
           new SSRecommTagsPar(
-            null,
-            null,
             userUris.get(0),
             SSStrU.toStr(circle1Uri),
             userUris.get(0),
@@ -328,8 +304,6 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
       System.out.println(
         recommServ.recommTags(
           new SSRecommTagsPar(
-            null,
-            null,
             userUris.get(1),
             SSStrU.toStr(circle1Uri),
             userUris.get(1),
@@ -343,8 +317,6 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
       System.out.println(
         recommServ.recommTags(
           new SSRecommTagsPar(
-            null,
-            null,
             userUris.get(2),
             SSStrU.toStr(circle2Uri),
             userUris.get(2),
@@ -358,8 +330,6 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
       System.out.println(
         recommServ.recommTags(
           new SSRecommTagsPar(
-            null,
-            null,
             userUris.get(3),
             SSStrU.toStr(circle3Uri),
             userUris.get(3),
@@ -381,8 +351,6 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
       
       recommServ.recommUpdateBulkUserRealmsFromCircles(
         new SSRecommUpdateBulkUserRealmsFromCirclesPar(
-          null,
-          null,
           SSVocConf.systemUserUri));
       
     }catch(Exception error){
@@ -402,8 +370,6 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
       
       circleServ.circleEntitiesAdd(
         new SSCircleEntitiesAddPar(
-          null,
-          null,
           user4,
           circle3Uri,
           SSUri.asListWithoutNullAndEmpty(link4),
@@ -413,8 +379,6 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
       circle3 =
         circleServ.circleGet(
           new SSCircleGetPar(
-            null,
-            null,
             user4,
             circle3Uri, //circle
             null, //entityTypesToIncludeOnly,
@@ -425,8 +389,6 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
       
       tagServ.tagsAdd(
         new SSTagsAddPar(
-          null,
-          null,
           user4,
           SSTagLabel.asListWithoutNullAndEmpty(SSTagLabel.get("tag4")), //labels
           link4, //entity
@@ -438,8 +400,6 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
       
       categoryServ.categoriesAdd(
         new SSCategoriesAddPar(
-          null,
-          null,
           user4,
           SSCategoryLabel.asListWithoutNullAndEmpty(SSCategoryLabel.get("category4")), //labels
           link4, //file
@@ -452,8 +412,6 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
       final List<SSEntity> entities =
         ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
           new SSEntitiesGetPar(
-            null,
-            null,
             user4,
             SSUri.asListWithoutNullAndEmpty(link4),
             null, //types,
@@ -483,8 +441,6 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
       
       circleServ.circleEntitiesAdd(
         new SSCircleEntitiesAddPar(
-          null,
-          null,
           user3,
           circle2Uri,
           SSUri.asListWithoutNullAndEmpty(link3),
@@ -494,8 +450,6 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
       circle2 =
         circleServ.circleGet(
           new SSCircleGetPar(
-            null,
-            null,
             user3,
             circle2Uri, //circle
             null, //entityTypesToIncludeOnly,
@@ -506,8 +460,6 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
       
       categoryServ.categoriesAdd(
         new SSCategoriesAddPar(
-          null,
-          null,
           user3,
           SSCategoryLabel.asListWithoutNullAndEmpty(SSCategoryLabel.get("category3")), //labels
           link3, //file
@@ -520,8 +472,6 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
       final List<SSEntity> entities =
         entityServ.entitiesGet(
           new SSEntitiesGetPar(
-            null,
-            null,
             user3,
             SSUri.asListWithoutNullAndEmpty(link3),
             null, //types,
@@ -549,8 +499,6 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
       
       circleServ.circleEntitiesAdd(
         new SSCircleEntitiesAddPar(
-          null,
-          null,
           user1,
           circle1Uri,
           SSUri.asListWithoutNullAndEmpty(link1),
@@ -560,8 +508,6 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
       circle1 =
         circleServ.circleGet(
           new SSCircleGetPar(
-            null,
-            null,
             user1,
             circle1Uri, //circle
             null, //entityTypesToIncludeOnly,
@@ -572,8 +518,6 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
       
       tagServ.tagsAdd(
         new SSTagsAddPar(
-          null,
-          null,
           user1,
           SSTagLabel.asListWithoutNullAndEmpty(SSTagLabel.get("tag1")), //labels
           link1, //entity
@@ -585,8 +529,6 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
       
       categoryServ.categoriesAdd(
         new SSCategoriesAddPar(
-          null,
-          null,
           user1,
           SSCategoryLabel.asListWithoutNullAndEmpty(SSCategoryLabel.get("category1")), //labels
           link1, //file
@@ -599,8 +541,6 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
       final List<SSEntity> entities =
         entityServ.entitiesGet(
           new SSEntitiesGetPar(
-            null,
-            null,
             user1,
             SSUri.asListWithoutNullAndEmpty(link1),
             null, //types,
@@ -617,8 +557,6 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
       
       circleServ.circleEntitiesAdd(
         new SSCircleEntitiesAddPar(
-          null,
-          null,
           user2,
           circle1Uri,
           SSUri.asListWithoutNullAndEmpty(link2),
@@ -628,8 +566,6 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
       circle1 =
         circleServ.circleGet(
           new SSCircleGetPar(
-            null,
-            null,
             user2,
             circle1Uri, //circle
             null, //entityTypesToIncludeOnly,
@@ -640,8 +576,6 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
       
       tagServ.tagsAdd(
         new SSTagsAddPar(
-          null,
-          null,
           user2,
           SSTagLabel.asListWithoutNullAndEmpty(SSTagLabel.get("tag2")), //labels
           link2, //entity
@@ -653,8 +587,6 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
       
       categoryServ.categoriesAdd(
         new SSCategoriesAddPar(
-          null,
-          null,
           user2,
           SSCategoryLabel.asListWithoutNullAndEmpty(SSCategoryLabel.get("category2")), //labels
           link2, //file
@@ -668,8 +600,6 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
       entities.addAll(
         entityServ.entitiesGet(
           new SSEntitiesGetPar(
-            null,
-            null,
             user2,
             SSUri.asListWithoutNullAndEmpty(link2),
             null, //types,
@@ -689,8 +619,6 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
       
       circleServ.circleRemove(
         new SSCircleRemovePar(
-          null,
-          null,
           adminUri,
           circle4.id,
           true, //withUserRestriction,
@@ -710,8 +638,6 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
       
       circleServ.circleUsersRemove(
         new SSCircleUsersRemovePar(
-          null,
-          null,
           adminUri,
           circle1.id,
           SSUri.asListWithoutNullAndEmpty(userUriToRemove),
@@ -731,8 +657,6 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
       
       entityServ.entityUpdate(
         new SSEntityUpdatePar(
-          null,
-          null,
           adminUri,
           circle1.id,
           null, //type
@@ -762,8 +686,6 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
       circle4Uri =
         circleServ.circleCreate(
           new SSCircleCreatePar(
-            null,
-            null,
             adminUri,
             SSCircleE.group,  //circleType
             SSLabel.get("circle 4"), //label
@@ -774,8 +696,6 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
       
       circleServ.circleUsersAdd(
         new SSCircleUsersAddPar(
-          null,
-          null,
           adminUri,
           circle4Uri,
           userUris,
@@ -785,8 +705,6 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
       circle4 =
         circleServ.circleGet(
           new SSCircleGetPar(
-            null,
-            null,
             adminUri,
             circle4Uri, //circle
             null, //entityTypesToIncludeOnly,
@@ -820,8 +738,6 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
       circle3Uri =
         circleServ.circleCreate(
           new SSCircleCreatePar(
-            null,
-            null,
             adminUri,
             SSCircleE.group,  //circleType
             SSLabel.get("circle 3"), //label
@@ -832,8 +748,6 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
       
       circleServ.circleUsersAdd(
         new SSCircleUsersAddPar(
-          null,
-          null,
           adminUri,
           circle3Uri,
           SSUri.asListWithoutNullAndEmpty(userUris.get(3)),
@@ -843,8 +757,6 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
       circle3 =
         circleServ.circleGet(
           new SSCircleGetPar(
-            null,
-            null,
             adminUri,
             circle3Uri, //circle
             null, //entityTypesToIncludeOnly,
@@ -878,8 +790,6 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
       circle2Uri =
         circleServ.circleCreate(
           new SSCircleCreatePar(
-            null,
-            null,
             adminUri,
             SSCircleE.group,  //circleType
             SSLabel.get("circle 2"), //label
@@ -890,8 +800,6 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
       
       circleServ.circleUsersAdd(
         new SSCircleUsersAddPar(
-          null,
-          null,
           adminUri,
           circle2Uri,
           SSUri.asListWithoutNullAndEmpty(userUris.get(2)),
@@ -901,8 +809,6 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
       circle2 =
         circleServ.circleGet(
           new SSCircleGetPar(
-            null,
-            null,
             adminUri,
             circle2Uri, //circle
             null, //entityTypesToIncludeOnly,
@@ -937,8 +843,6 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
       circle1Uri =
         circleServ.circleCreate(
           new SSCircleCreatePar(
-            null,
-            null,
             adminUri,
             SSCircleE.group,  //circleType
             SSLabel.get("circle 1"), //label
@@ -952,8 +856,6 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
       
       circleServ.circleUsersAdd(
         new SSCircleUsersAddPar(
-          null,
-          null,
           adminUri,
           circle1Uri,
           circle1UserURIs,
@@ -963,8 +865,6 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
       circle1 =
         circleServ.circleGet(
           new SSCircleGetPar(
-            null,
-            null,
             adminUri,
             circle1Uri, //circle
             null, //entityTypesToIncludeOnly,
@@ -999,8 +899,6 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
       
       return userServ.userURIsGet(
         new SSUserURIsGetPar(
-          null,
-          null,
           SSVocConf.systemUserUri,
           recommConf.recommTagsUsersToSetRealmsFromCircles));
       

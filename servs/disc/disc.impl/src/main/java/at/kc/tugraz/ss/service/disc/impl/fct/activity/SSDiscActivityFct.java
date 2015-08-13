@@ -47,8 +47,6 @@ public class SSDiscActivityFct{
           
           ((SSActivityServerI) SSServReg.getServ(SSActivityServerI.class)).activityAdd(
             new SSActivityAddPar(
-              null,
-              null,
               par.user,
               SSActivityE.discussEntity,
               target, //entity
@@ -64,8 +62,6 @@ public class SSDiscActivityFct{
         
         ((SSActivityServerI) SSServReg.getServ(SSActivityServerI.class)).activityAdd(
           new SSActivityAddPar(
-            null,
-            null,
             par.user,
             SSActivityE.addDiscEntry,
             ret.disc,

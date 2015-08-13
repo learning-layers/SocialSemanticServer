@@ -41,14 +41,12 @@ public class SSCollUserParentGetPar extends SSServPar{
   public SSCollUserParentGetPar(){}
     
   public SSCollUserParentGetPar(
-    final SSServOpE     op,
-    final String        key,
     final SSUri         user,
     final SSUri         coll, 
     final Boolean       withUserRestriction, 
     final Boolean       invokeEntityHandlers){
     
-    super(op, key, user);
+    super(SSServOpE.collParentGet, null, user);
      
     this.coll                 = coll;
     this.withUserRestriction  = withUserRestriction;

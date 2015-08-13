@@ -78,8 +78,6 @@ public class SSCategoriesRemovePar extends SSServPar{
   public SSCategoriesRemovePar(){}
   
   public SSCategoriesRemovePar(
-    final SSServOpE       op,
-    final String          key,
     final SSUri           user,
     final SSUri           forUser,
     final SSUri           entity,
@@ -89,7 +87,7 @@ public class SSCategoriesRemovePar extends SSServPar{
     final Boolean         withUserRestriction,
     final Boolean         shouldCommit){
     
-    super(op, key, user);
+    super(SSServOpE.categoriesRemove, null, user);
     
     this.forUser             = forUser;
     this.entity              = entity;

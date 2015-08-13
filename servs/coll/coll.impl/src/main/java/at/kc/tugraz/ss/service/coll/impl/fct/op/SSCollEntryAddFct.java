@@ -21,10 +21,8 @@
 package at.kc.tugraz.ss.service.coll.impl.fct.op;
 
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesAddPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleMostOpenCircleTypeGetPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclesFromEntityEntitiesAdd;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCirclesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.tugraz.sss.serv.SSEntityE;
@@ -34,7 +32,6 @@ import at.tugraz.sss.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntryAddPar;
 import at.kc.tugraz.ss.service.coll.impl.fct.misc.SSCollMiscFct;
 import at.kc.tugraz.ss.service.coll.impl.fct.sql.SSCollSQLFct;
-import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSServReg;
 
 public class SSCollEntryAddFct{
@@ -48,8 +45,6 @@ public class SSCollEntryAddFct{
     switch(
       ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleMostOpenCircleTypeGet(
         new SSCircleMostOpenCircleTypeGetPar(
-          null,
-          null,
           par.user,
           par.coll,
           false))){
@@ -61,8 +56,6 @@ public class SSCollEntryAddFct{
     
     ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
       new SSEntityUpdatePar(
-        null,
-        null,
         par.user,
         par.entry,
         SSEntityE.coll, //type,
@@ -104,8 +97,6 @@ public class SSCollEntryAddFct{
     if(!SSCircleE.equals(
       ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleMostOpenCircleTypeGet(
         new SSCircleMostOpenCircleTypeGetPar(
-          null,
-          null,
           par.user,
           par.entry,
           false)), 
@@ -116,8 +107,6 @@ public class SSCollEntryAddFct{
     
     switch(((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleMostOpenCircleTypeGet(
         new SSCircleMostOpenCircleTypeGetPar(
-          null,
-          null,
           par.user,
           par.coll,
           false))){
@@ -149,8 +138,6 @@ public class SSCollEntryAddFct{
     
     ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
       new SSEntityUpdatePar(
-        null,
-        null,
         par.user,
         par.entry,
         null, //type,

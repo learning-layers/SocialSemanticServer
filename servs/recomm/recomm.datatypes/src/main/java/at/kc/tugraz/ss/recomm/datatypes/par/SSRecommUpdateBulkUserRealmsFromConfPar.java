@@ -27,10 +27,8 @@ import at.tugraz.sss.serv.SSServPar;
 public class SSRecommUpdateBulkUserRealmsFromConfPar extends SSServPar{
   
   public SSRecommUpdateBulkUserRealmsFromConfPar(
-    final SSServOpE           op,
-    final String              key,
     final SSUri               user){
     
-    super(op, key, user);
+    super(SSServOpE.recommUpdateBulkUserRealmsFromConf, null, user);
   }
 }

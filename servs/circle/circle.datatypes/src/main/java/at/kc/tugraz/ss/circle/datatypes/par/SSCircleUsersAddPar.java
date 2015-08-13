@@ -51,15 +51,13 @@ public class SSCircleUsersAddPar extends SSServPar{
   public SSCircleUsersAddPar(){}
     
   public SSCircleUsersAddPar(
-    final SSServOpE      op,
-    final String         key,
     final SSUri          user,
     final SSUri          circle,
     final List<SSUri>    users,
     final Boolean        withUserRestriction,
     final Boolean        shouldCommit){
     
-    super(op, key, user);
+    super(SSServOpE.circleUsersAdd, null, user);
     
     this.circle = circle;
     

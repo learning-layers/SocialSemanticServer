@@ -22,8 +22,10 @@ package at.tugraz.sss.util;
 
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleCanAccessPar;
+import at.kc.tugraz.ss.serv.auth.api.SSAuthServerI;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesGetPar;
+import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthCheckKeyPar;
 import at.tugraz.sss.serv.SSAddAffiliatedEntitiesToCircleI;
 import at.tugraz.sss.serv.SSAddAffiliatedEntitiesToCirclePar;
 import at.tugraz.sss.serv.SSCircleRightE;
@@ -40,7 +42,6 @@ import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.caller.SSServCaller;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,8 +58,6 @@ public class SSServCallerU{
       final List<SSEntity> entities =
         ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
           new SSEntitiesGetPar(
-            null,
-            null,
             null,
             users, //entities
             null, //types
@@ -198,7 +197,10 @@ public class SSServCallerU{
   
   public static void checkKey(final SSServPar parA) throws Exception{
     
-    final SSUri user = SSServCaller.checkKey(parA);
+    final SSUri user = 
+      ((SSAuthServerI) SSServReg.getServ(SSAuthServerI.class)).authCheckKey(
+        new SSAuthCheckKeyPar(
+          parA.key));
     
     if(user != null){
       parA.user = user;
@@ -218,8 +220,6 @@ public class SSServCallerU{
     try{
       ((SSCircleServerI)SSServReg.getServ(SSCircleServerI.class)).circleCanAccess(
         new SSCircleCanAccessPar(
-          null, 
-          null, 
           user, 
           entityURI, 
           SSCircleRightE.read));
@@ -246,8 +246,6 @@ public class SSServCallerU{
       
         ((SSCircleServerI)SSServReg.getServ(SSCircleServerI.class)).circleCanAccess(
           new SSCircleCanAccessPar(
-            null, 
-            null, 
             user, 
             entityURI, 
             SSCircleRightE.read));
@@ -272,8 +270,6 @@ public class SSServCallerU{
    try{
       ((SSCircleServerI)SSServReg.getServ(SSCircleServerI.class)).circleCanAccess(
         new SSCircleCanAccessPar(
-          null, 
-          null, 
           user, 
           entityURI, 
           SSCircleRightE.all));

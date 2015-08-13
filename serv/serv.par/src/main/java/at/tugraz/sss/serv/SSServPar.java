@@ -139,8 +139,8 @@ public class SSServPar{
   
   protected SSServPar(
     final SSServOpE op,
-    final String  key,
-    final SSUri   user){
+    final String    key,
+    final SSUri     user){
     
     this.op   = op;
     this.key  = key;

@@ -70,8 +70,6 @@ public class SSCategoryAddPar extends SSServPar{
   public SSCategoryAddPar(){}
   
   public SSCategoryAddPar(
-    final SSServOpE       op,
-    final String          key,
     final SSUri           user,
     final SSUri           entity,
     final SSCategoryLabel label,
@@ -81,7 +79,7 @@ public class SSCategoryAddPar extends SSServPar{
     final Boolean         withUserRestriction,
     final Boolean         shouldCommit) {
   
-    super(op, key, user);
+    super(SSServOpE.categoryAdd, null, user);
     
     this.entity              = entity;
     this.label               = label;

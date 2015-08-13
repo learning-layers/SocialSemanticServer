@@ -44,8 +44,6 @@ public class SSMessageActivityFct{
       final SSUri activity =
         ((SSActivityServerI) SSServReg.getServ(SSActivityServerI.class)).activityAdd(
           new SSActivityAddPar(
-            null,
-            null,
             par.user,
             SSActivityE.messageSend,
             message,
@@ -57,8 +55,6 @@ public class SSMessageActivityFct{
         
       ((SSActivityServerI) SSServReg.getServ(SSActivityServerI.class)).activityContentAdd(
         new SSActivityContentAddPar(
-          null, 
-          null, 
           par.user, 
           activity, 
           SSActivityContentE.text, 

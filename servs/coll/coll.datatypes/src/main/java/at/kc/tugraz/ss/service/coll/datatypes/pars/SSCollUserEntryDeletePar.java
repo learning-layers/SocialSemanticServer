@@ -49,15 +49,13 @@ public class SSCollUserEntryDeletePar extends SSServPar{
   public SSCollUserEntryDeletePar(){}
     
   public SSCollUserEntryDeletePar(
-    final SSServOpE      op,
-    final String         key,
     final SSUri          user,
     final SSUri          coll, 
     final SSUri          entry, 
     final Boolean        withUserRestriction, 
     final Boolean        shouldCommit){
     
-    super(op, key, user);
+    super(SSServOpE.collEntryDelete, null, user);
     
     this.coll                = coll;
     this.entry               = entry;

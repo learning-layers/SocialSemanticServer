@@ -139,8 +139,6 @@ public class SSDataImportEvernoteNoteContentHandler{
       
       ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
         new SSEntityUpdatePar(
-          null,
-          null,
           user,
           fileUri,
           SSEntityE.file, //type,
@@ -155,8 +153,6 @@ public class SSDataImportEvernoteNoteContentHandler{
           
       for(SSEntity file : ((SSFileRepoServerI) SSServReg.getServ(SSFileRepoServerI.class)).filesGet(
         new SSEntityFilesGetPar(
-          null, 
-          null, 
           user, 
           noteUri, //entity
           true, //withUserRestriction
@@ -174,8 +170,6 @@ public class SSDataImportEvernoteNoteContentHandler{
       
       ((SSFileRepoServerI) SSServReg.getServ(SSFileRepoServerI.class)).fileAdd(
         new SSEntityFileAddPar(
-          null, 
-          null, 
           user, 
           fileUri, //file
           noteUri, //entity

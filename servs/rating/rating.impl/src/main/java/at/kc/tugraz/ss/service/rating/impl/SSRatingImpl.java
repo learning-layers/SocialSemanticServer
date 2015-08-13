@@ -122,8 +122,6 @@ implements
         entity.overallRating =
           ratingOverallGet(
             new SSRatingOverallGetPar(
-              null, 
-              null, 
               par.user, 
               entity.id,
               par.withUserRestriction));
@@ -165,8 +163,6 @@ implements
         
       entityServ.entityUpdate(
         new SSEntityUpdatePar(
-          null,
-          null,
           par.user,
           par.entity, //entity,
           null, //type,
@@ -181,8 +177,6 @@ implements
 
       entityServ.entityUpdate(
         new SSEntityUpdatePar(
-          null,
-          null,
           par.user,
           ratingUri,
           SSEntityE.rating, //type,

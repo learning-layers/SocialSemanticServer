@@ -81,8 +81,6 @@ public class SSTagsGetPar extends SSServPar{
   public SSTagsGetPar(){}
   
   public SSTagsGetPar(
-    final SSServOpE          op,
-    final String             key,
     final SSUri              user,
     final SSUri              forUser,
     final List<SSUri>        entities,
@@ -92,7 +90,7 @@ public class SSTagsGetPar extends SSServPar{
     final Long               startTime,
     final Boolean            withUserRestriction){
     
-    super(op, key, user);
+    super(SSServOpE.tagsGet, null, user);
     
     this.forUser    = forUser;
     

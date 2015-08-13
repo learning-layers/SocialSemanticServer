@@ -60,8 +60,6 @@ public class SSRESTMessage{
       
       par =
         new SSMessagesGetPar(
-          SSServOpE.messagesGet,
-          null,
           null,  
           input.includeRead,
           input.startTime, 
@@ -94,8 +92,6 @@ public class SSRESTMessage{
       
       par =
         new SSMessageSendPar(
-          SSServOpE.messageSend,
-          null,
           null,
           input.forUser,
           input.message,

@@ -155,8 +155,6 @@ public class SSLearnEpAccessController{
         !SSStrU.contains(
           ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleTypesGet(
             new SSCircleTypesGetPar(
-              null,
-              null,
               user,
               learnEp,
               true)),

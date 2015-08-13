@@ -53,9 +53,6 @@ public class SSDiscEntryAddFromClientPar extends SSDiscEntryAddPar{
   public SSDiscEntryAddFromClientPar(){}
     
   public SSDiscEntryAddFromClientPar(
-    final SSServOpE     op,
-    final String        key,
-    final SSUri         user,
     final SSUri         disc,
     final List<SSUri>   targets, 
     final SSTextComment entry, 
@@ -69,9 +66,7 @@ public class SSDiscEntryAddFromClientPar extends SSDiscEntryAddPar{
     final List<SSLabel> entityLabels){
     
     super(
-      op, 
-      key, 
-      user, 
+      null, 
       disc, 
       targets, 
       entry, 

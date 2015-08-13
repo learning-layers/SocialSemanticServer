@@ -42,14 +42,12 @@ public class SSFileReplacePar extends SSServPar{
   public SSFileReplacePar(){}
   
   public SSFileReplacePar(
-    final SSServOpE     op,
-    final String        key,
     final SSUri         user,
     final SSUri         file,
     final SSSocketCon   sSCon,
     final Boolean       shouldCommit){
     
-    super(op, key, user);
+    super(SSServOpE.fileReplace, null, user);
     
     this.file         = file;
     this.sSCon        = sSCon;

@@ -207,8 +207,6 @@ implements
         entity = 
           ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
           new SSEntityGetPar(
-            null, 
-            null, 
             par.user, 
             result, 
             par.withUserRestriction, 
@@ -288,8 +286,6 @@ implements
       final SSEntity entity =
         ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
           new SSEntityGetPar(
-            null,
-            null,
             par.user,
             result,
             false, //withUserRestriction
@@ -575,8 +571,6 @@ implements
         for(SSUri foundEntity :
           ((SSTagServerI) SSServReg.getServ(SSTagServerI.class)).tagEntitiesForTagsGet(
             new SSTagEntitiesForTagsGetPar(
-              null,
-              null,
               par.user,
               null, 
               SSTagLabel.asListWithoutNullAndEmpty(SSTagLabel.get(tagLabel)), 
@@ -588,8 +582,6 @@ implements
             ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
               new SSEntityGetPar(
                 null,
-                null,
-                null,
                 foundEntity,  //entity
                 false, //withUserRestriction
                 null))); //descPar
@@ -598,8 +590,6 @@ implements
         for(SSUri foundEntity :
           ((SSTagServerI) SSServReg.getServ(SSTagServerI.class)).tagEntitiesForTagsGet(
             new SSTagEntitiesForTagsGetPar(
-              null,
-              null,
               par.user,
               null, 
               SSTagLabel.asListWithoutNullAndEmpty(SSTagLabel.get(tagLabel)), 
@@ -610,8 +600,6 @@ implements
           searchResultsForTagOneTag.add(
             ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
               new SSEntityGetPar(
-                null,
-                null,
                 null,
                 foundEntity,  //entity
                 false, //withUserRestriction
@@ -656,8 +644,6 @@ implements
             entityObj =
               ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
                 new SSEntityGetPar(
-                  null,
-                  null,
                   null,
                   SSServCaller.vocURICreateFromId(entityId),  //entity
                   false, //withUserRestriction
@@ -707,8 +693,6 @@ implements
           if(
             ((SSTagServerI) SSServReg.getServ(SSTagServerI.class)).tagsGet(
               new SSTagsGetPar(
-                null,
-                null,
                 par.user,
                 null, //forUser
                 SSUri.asListWithoutNullAndEmpty(entityUri), //entities
@@ -723,8 +707,6 @@ implements
           entityObj =
             ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
               new SSEntityGetPar(
-                null,
-                null,
                 null,
                 entityUri,  //entity
                 false, //withUserRestriction

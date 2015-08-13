@@ -32,7 +32,6 @@ import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionCirc
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionEntityUpdatePar;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.caller.SSServCaller;
 import java.util.List;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSServErrReg;
@@ -49,8 +48,6 @@ public class SSLearnEpActivityFct{
       
       ((SSActivityServerI) SSServReg.getServ(SSActivityServerI.class)).activityAdd(
         new SSActivityAddPar(
-          null,
-          null,
           par.user,
           SSActivityE.addCircleToLearnEpVersion,
           par.learnEpVersion,
@@ -81,8 +78,6 @@ public class SSLearnEpActivityFct{
       
       ((SSActivityServerI) SSServReg.getServ(SSActivityServerI.class)).activityAdd(
         new SSActivityAddPar(
-          null,
-          null,
           par.user,
           SSActivityE.addEntityToLearnEpVersion,
           par.learnEpVersion,
@@ -113,8 +108,6 @@ public class SSLearnEpActivityFct{
       
       ((SSActivityServerI) SSServReg.getServ(SSActivityServerI.class)).activityAdd(
         new SSActivityAddPar(
-          null,
-          null,
           par.user,
           SSActivityE.removeLearnEpVersionCircle,
           learnEpVersion,
@@ -146,8 +139,6 @@ public class SSLearnEpActivityFct{
       
       ((SSActivityServerI) SSServReg.getServ(SSActivityServerI.class)).activityAdd(
         new SSActivityAddPar(
-          null,
-          null,
           par.user,
           SSActivityE.removeLearnEpVersionEntity,
           learnEpVersion,
@@ -178,8 +169,6 @@ public class SSLearnEpActivityFct{
       
       ((SSActivityServerI) SSServReg.getServ(SSActivityServerI.class)).activityAdd(
         new SSActivityAddPar(
-          null,
-          null,
           user,
           SSActivityE.shareLearnEpWithUser,
           learnEp,
@@ -212,8 +201,6 @@ public class SSLearnEpActivityFct{
         
         ((SSActivityServerI) SSServReg.getServ(SSActivityServerI.class)).activityAdd(
           new SSActivityAddPar(
-            null,
-            null,
             par.user,
             SSActivityE.changeEntityForLearnEpVersionEntity,
             learnEpVersion,
@@ -230,8 +217,6 @@ public class SSLearnEpActivityFct{
         
         ((SSActivityServerI) SSServReg.getServ(SSActivityServerI.class)).activityAdd(
           new SSActivityAddPar(
-            null,
-            null,
             par.user,
             SSActivityE.moveLearnEpVersionEntity,
             learnEpVersion,
@@ -265,8 +250,6 @@ public class SSLearnEpActivityFct{
         
         ((SSActivityServerI) SSServReg.getServ(SSActivityServerI.class)).activityAdd(
           new SSActivityAddPar(
-            null,
-            null,
             par.user,
             SSActivityE.changeLearnEpVersionCircleLabel,
             learnEpVersion,
@@ -285,8 +268,6 @@ public class SSLearnEpActivityFct{
         
         ((SSActivityServerI) SSServReg.getServ(SSActivityServerI.class)).activityAdd(
           new SSActivityAddPar(
-            null,
-            null,
             par.user,
             SSActivityE.moveLearnEpVersionCircle,
             learnEpVersion,

@@ -29,7 +29,6 @@ import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscsGetPar;
 import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscEntryAddRet;
 import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscGetRet;
 import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscsGetRet;
-import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSVarNames;
@@ -107,9 +106,6 @@ public class SSRESTDisc{
       
       par =
         new SSDiscEntryAddFromClientPar(
-          SSServOpE.discEntryAdd,
-          null,
-          null,
           input.disc, //disc
           input.targets, //targets, 
           input.entry, //entry

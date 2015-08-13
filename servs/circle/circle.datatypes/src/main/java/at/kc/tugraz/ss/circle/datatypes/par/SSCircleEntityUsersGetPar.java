@@ -41,14 +41,12 @@ public class SSCircleEntityUsersGetPar extends SSServPar{
   public SSCircleEntityUsersGetPar(){}
   
   public SSCircleEntityUsersGetPar(
-    final SSServOpE     op,
-    final String        key,
     final SSUri         user,
     final SSUri         entity,
     final Boolean       invokeEntityHandlers, 
     final Boolean       withUserRestriction){
     
-    super(op, key, user);
+    super(SSServOpE.circleEntityUsersGet, null, user);
   
     this.entity               = entity;
     this.invokeEntityHandlers = invokeEntityHandlers;

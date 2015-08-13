@@ -40,13 +40,11 @@ public class SSRatingOverallGetPar extends SSServPar{
   public SSRatingOverallGetPar(){}
   
   public SSRatingOverallGetPar(
-    final SSServOpE op,
-    final String    key,
     final SSUri     user, 
     final SSUri     entity, 
     final Boolean   withUserRestriction){
     
-    super(op, key, user);
+    super(SSServOpE.ratingOverallGet, null, user);
     
     this.entity              = entity;
     this.withUserRestriction = withUserRestriction;

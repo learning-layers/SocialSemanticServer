@@ -51,8 +51,6 @@ public class SSLearnEpVersionEntityUpdatePar extends SSServPar{
   public SSLearnEpVersionEntityUpdatePar(){}
   
   public SSLearnEpVersionEntityUpdatePar(
-    final SSServOpE     op,
-    final String        key,
     final SSUri         user,
     final SSUri         learnEpEntity,
     final SSUri         entity,
@@ -60,7 +58,7 @@ public class SSLearnEpVersionEntityUpdatePar extends SSServPar{
     final Float         y,
     final Boolean       shouldCommit){
     
-    super(op, key, user);
+    super(SSServOpE.learnEpVersionEntityUpdate, null, user);
     
     this.learnEpEntity   = learnEpEntity;
     this.entity          = entity;

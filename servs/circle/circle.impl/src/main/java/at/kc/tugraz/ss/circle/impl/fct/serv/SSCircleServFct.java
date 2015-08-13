@@ -20,17 +20,13 @@
   */
 package at.kc.tugraz.ss.circle.impl.fct.serv;
 
-import at.tugraz.sss.serv.SSLogU;
 import at.kc.tugraz.ss.category.api.SSCategoryServerI;
 import at.kc.tugraz.ss.category.datatypes.SSCategoryLabel;
 import at.kc.tugraz.ss.category.datatypes.par.SSCategoriesAddPar;
-import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCircleUsersAddPar;
 import at.kc.tugraz.ss.service.tag.api.SSTagServerI;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsAddPar;
-import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
 import java.util.List;
@@ -53,8 +49,6 @@ public class SSCircleServFct{
         
         ((SSTagServerI) SSServReg.getServ(SSTagServerI.class)).tagsAdd(
           new SSTagsAddPar(
-            null,
-            null,
             user,
             SSTagLabel.get(tags), //labels
             entity, //entity
@@ -85,8 +79,6 @@ public class SSCircleServFct{
         
         ((SSCategoryServerI) SSServReg.getServ(SSCategoryServerI.class)).categoriesAdd(
           new SSCategoriesAddPar(
-            null,
-            null,
             user,
             SSCategoryLabel.get(categories), //labels
             entity, //file

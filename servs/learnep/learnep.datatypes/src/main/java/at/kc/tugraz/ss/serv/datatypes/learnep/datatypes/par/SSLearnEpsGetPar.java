@@ -33,13 +33,11 @@ public class SSLearnEpsGetPar extends SSServPar{
   public SSLearnEpsGetPar(){}
     
   public SSLearnEpsGetPar(
-    final SSServOpE     op,
-    final String        key,
     final SSUri         user,
     final Boolean       withUserRestriction, 
     final Boolean       invokeEntityHandlers){
     
-    super(op, key, user);
+    super(SSServOpE.learnEpsGet, null, user);
     
     this.withUserRestriction  = withUserRestriction;
     this.invokeEntityHandlers = invokeEntityHandlers;

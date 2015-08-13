@@ -103,8 +103,6 @@ implements
       for(SSEntity ue : 
         userEventsGet(
           new SSUEsGetPar(
-            null, 
-            null, 
             userUri, 
             userUri, 
             null, 
@@ -144,8 +142,6 @@ implements
         entity.userEvents.addAll(
           userEventsGet(
             new SSUEsGetPar(
-              null,
-              null,
               par.user,
               null, //forUser,
               entity.id,
@@ -167,8 +163,6 @@ implements
           return SSUE.get(
             userEventGet(
               new SSUEGetPar(
-                null,
-                null,
                 par.user,
                 entity.id,
                 par.withUserRestriction,
@@ -205,8 +199,6 @@ implements
           sqlFct.getUE(par.userEvent),
           entityServ.entityGet(
             new SSEntityGetPar(
-              null,
-              null,
               par.user,
               par.userEvent,
               par.withUserRestriction,
@@ -233,8 +225,6 @@ implements
       userEvent.entity =
         entityServ.entityGet(
           new SSEntityGetPar(
-            null,
-            null,
             par.user,
             userEvent.entity.id,
             par.withUserRestriction,
@@ -243,8 +233,6 @@ implements
       userEvent.user =
         entityServ.entityGet(
           new SSEntityGetPar(
-            null,
-            null,
             par.user,
             userEvent.user.id,
             par.withUserRestriction,
@@ -298,8 +286,6 @@ implements
           userEvents, 
           userEventGet(
             new SSUEGetPar(
-              null, 
-              null, 
               par.user, 
               userEventURI, 
               par.withUserRestriction, 
@@ -384,8 +370,6 @@ implements
       
       entityServ.entityUpdate(
         new SSEntityUpdatePar(
-          null,
-          null,
           par.user,
           ueUri,
           SSEntityE.userEvent, //type,
@@ -400,8 +384,6 @@ implements
       
       entityServ.entityUpdate(
         new SSEntityUpdatePar(
-          null,
-          null,
           par.user,
           par.entity,
           null, //type,

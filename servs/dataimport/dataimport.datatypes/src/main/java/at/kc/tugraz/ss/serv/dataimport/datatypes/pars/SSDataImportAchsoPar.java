@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.serv.dataimport.datatypes.pars;
 
 import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServErrReg;
+
 public class SSDataImportAchsoPar extends SSServPar{
   
   public SSDataImportAchsoPar(final SSServPar par) throws Exception{

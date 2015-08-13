@@ -14,6 +14,12 @@
     
     <dependency>
       <groupId>sss.servs</groupId>
+      <artifactId>auth.api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
       <artifactId>entity.api</artifactId>
       <version>${project.version}</version>
     </dependency>

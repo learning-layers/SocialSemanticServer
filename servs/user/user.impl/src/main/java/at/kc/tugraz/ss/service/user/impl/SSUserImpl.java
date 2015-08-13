@@ -97,8 +97,6 @@ implements
           return SSUser.get(
             userGet(
               new SSUserGetPar(
-                null,
-                null,
                 par.user,
                 entity.id,
                 false)),
@@ -177,8 +175,6 @@ implements
           userToGet,
           entityServ.entityGet(
             new SSEntityGetPar(
-              null,
-              null,
               par.user,
               userToGet.id,
               par.withUserRestriction,
@@ -224,8 +220,6 @@ implements
           users,
           userGet(
             new SSUserGetPar(
-              null,
-              null,
               par.user,
               userURI,
               par.invokeEntityHandlers)));
@@ -267,8 +261,6 @@ implements
       
       entityServ.entityUpdate(
         new SSEntityUpdatePar(
-          null,
-          null,
           SSVocConf.systemUserUri,
           userUri,
           SSEntityE.user, //type,
@@ -284,15 +276,11 @@ implements
       publicCircleURI = 
         circleServ.circlePubURIGet(
           new SSCirclePubURIGetPar(
-            null,
-            null,
             par.user,
             false));
       
       circleServ.circleUsersAdd(
         new SSCircleUsersAddPar(
-          null,
-          null,
           SSVocConf.systemUserUri, 
           publicCircleURI, //circle
           SSUri.asListWithoutNullAndEmpty(userUri), //users

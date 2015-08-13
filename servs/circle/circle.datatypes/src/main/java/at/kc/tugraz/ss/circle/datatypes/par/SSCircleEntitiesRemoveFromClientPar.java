@@ -20,7 +20,6 @@
 */
 package at.kc.tugraz.ss.circle.datatypes.par;
 
-import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSUri;
 import java.util.List;
 
@@ -31,12 +30,11 @@ public class SSCircleEntitiesRemoveFromClientPar extends SSCircleEntitiesRemoveP
   public SSCircleEntitiesRemoveFromClientPar(){}
   
   public SSCircleEntitiesRemoveFromClientPar(
-    final String         key,
     final SSUri          circle,
     final List<SSUri>    entities,
     final Boolean        removeCircleSpecificMetadata) throws Exception{
     
-    super(SSServOpE.circleEntitiesRemove, key, null, circle, entities, true, true);
+    super(null, circle, entities, true, true);
     
     this.removeCircleSpecificMetadata = removeCircleSpecificMetadata;
   }

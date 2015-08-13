@@ -40,13 +40,11 @@ public class SSLearnEpVersionCreatePar extends SSServPar{
   public SSLearnEpVersionCreatePar(){}
     
   public SSLearnEpVersionCreatePar(
-    final SSServOpE  op,
-    final String     key,
     final SSUri      user,
     final SSUri      learnEp,
     final Boolean    shouldCommit){
       
-    super(op, key, user);
+    super(SSServOpE.learnEpVersionCreate, null, user);
     
     this.learnEp      = learnEp;
     this.shouldCommit = shouldCommit;

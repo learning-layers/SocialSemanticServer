@@ -50,8 +50,6 @@ public class SSEvalLogBNP {
             episodeSpace =
               ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleMostOpenCircleTypeGet(
                 new SSCircleMostOpenCircleTypeGetPar(
-                  null,
-                  null,
                   originUser.id,
                   targetEntity.id,
                   true));
@@ -75,8 +73,6 @@ public class SSEvalLogBNP {
               activity =
                 ((SSActivityServerI) SSServReg.getServ(SSActivityServerI.class)).activityGet(
                   new SSActivityGetPar(
-                    null,
-                    null,
                     par.user,
                     targetEntity.id, //activity
                     false)); //invokeEntityHandlers
@@ -183,8 +179,6 @@ public class SSEvalLogBNP {
             episodeSpace =
               ((SSCircleServerI)SSServReg.getServ(SSCircleServerI.class)).circleMostOpenCircleTypeGet(
                 new SSCircleMostOpenCircleTypeGetPar(
-                  null,
-                  null,
                   originUser.id,
                   targetEntity.id,
                   true));
@@ -233,8 +227,6 @@ public class SSEvalLogBNP {
             final SSLearnEpVersion learnEpVersion =
               ((SSLearnEpServerI)SSServReg.getServ(SSLearnEpServerI.class)).learnEpVersionCurrentGet(
                 new SSLearnEpVersionCurrentGetPar(
-                  null,
-                  null,
                   originUser.id, 
                   false, 
                   false));

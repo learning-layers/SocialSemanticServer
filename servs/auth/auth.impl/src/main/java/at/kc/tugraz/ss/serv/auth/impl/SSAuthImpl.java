@@ -37,6 +37,7 @@ import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthCheckCredPar;
+import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthCheckKeyPar;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthRegisterUserPar;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthUsersFromCSVFileAddPar;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.ret.SSAuthCheckCredRet;
@@ -77,14 +78,15 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
 //    wikiauth  = new SSAuthWiki();
   }
   
-  /* SSAuthServClientI */
   
   @Override
   public void authCheckCred(SSSocketCon sSCon, SSServPar parA) throws Exception {
-    sSCon.writeRetFullToClient(authCheckCred(parA));
+    
+    
+    final SSAuthCheckCredPar par = (SSAuthCheckCredPar) parA.getFromJSON(SSAuthCheckCredPar.class);
+    
+    sSCon.writeRetFullToClient(authCheckCred(par));
   }
-  
-  /* SSAuthServServerI */
   
   @Override
   public void authUsersFromCSVFileAdd(final SSServPar parA) throws Exception {
@@ -144,16 +146,12 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
       
       if(!userServ.userExists(
         new SSUserExistsPar(
-          null, 
-          null, 
           SSVocConf.systemUserUri, 
           par.email))){
         
         userUri = 
           userServ.userAdd(
             new SSUserAddPar(
-              null,
-              null,
               SSVocConf.systemUserUri,
               false,
               par.label,
@@ -172,8 +170,6 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
         userUri =
           userServ.userURIGet(
             new SSUserURIGetPar(
-              null,
-              null,
               SSVocConf.systemUserUri,
               par.email));
         
@@ -191,8 +187,6 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
         
         collServ.collRootAdd(
           new SSCollUserRootAddPar(
-            null, 
-            null, 
             SSVocConf.systemUserUri,
             userUri, 
             false));
@@ -216,78 +210,73 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
   }
   
   @Override
-  public SSAuthCheckCredRet authCheckCred(final SSServPar parA) throws Exception {
+  public SSAuthCheckCredRet authCheckCred(final SSAuthCheckCredPar par) throws Exception {
     
     try{
-      final SSAuthCheckCredPar par = SSAuthCheckCredPar.get(parA);
 
       switch(((SSAuthConf)conf).authType){
 
-        case noAuth:{
-
-          final String email = SSStrU.toStr(par.label) + SSStrU.at + SSVocConf.systemEmailPostFix;
-          final SSUri  userUri;
-          
-          if(!userServ.userExists(
-            new SSUserExistsPar(
-              null,
-              null,
-              SSVocConf.systemUserUri,
-              email))){
-                
-            userUri =
-              userServ.userAdd(
-                new SSUserAddPar(
-                  null, 
-                  null, 
-                  SSVocConf.systemUserUri, 
-                  true, 
-                  par.label, 
-                  email, 
-                  false, //isSystemUser
-                  false)); //withUserRestriction
-            
-            try{
-              
-              collServ.collRootAdd(
-                new SSCollUserRootAddPar(
-                  null,
-                  null,
-                  SSVocConf.systemUserUri,
-                  userUri,
-                  true));
-              
-            }catch(SSErr error){
-              
-              switch(error.code){
-                case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
-                default: SSServErrReg.regErrThrow(error);
-              }
-            }
-          }else{
-            
-           userUri = 
-             userServ.userURIGet(
-               new SSUserURIGetPar(
-                 null, 
-                 null, 
-                 SSVocConf.systemUserUri, 
-                 email));
-          }
-          
-          return SSAuthCheckCredRet.get(
-            SSAuthConf.noAuthKey,
-            userUri,
-            SSServOpE.authCheckCred);
-        }
+//        case noAuth:{
+//
+//          final String email = SSStrU.toStr(par.label) + SSStrU.at + SSVocConf.systemEmailPostFix;
+//          final SSUri  userUri;
+//          
+//          if(!userServ.userExists(
+//            new SSUserExistsPar(
+//              null,
+//              null,
+//              SSVocConf.systemUserUri,
+//              email))){
+//                
+//            userUri =
+//              userServ.userAdd(
+//                new SSUserAddPar(
+//                  null, 
+//                  null, 
+//                  SSVocConf.systemUserUri, 
+//                  true, 
+//                  par.label, 
+//                  email, 
+//                  false, //isSystemUser
+//                  false)); //withUserRestriction
+//            
+//            try{
+//              
+//              collServ.collRootAdd(
+//                new SSCollUserRootAddPar(
+//                  SSVocConf.systemUserUri,
+//                  userUri,
+//                  true));
+//              
+//            }catch(SSErr error){
+//              
+//              switch(error.code){
+//                case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
+//                default: SSServErrReg.regErrThrow(error);
+//              }
+//            }
+//          }else{
+//            
+//           userUri = 
+//             userServ.userURIGet(
+//               new SSUserURIGetPar(
+//                 null, 
+//                 null, 
+//                 SSVocConf.systemUserUri, 
+//                 email));
+//          }
+//          
+//          return SSAuthCheckCredRet.get(
+//            SSAuthConf.noAuthKey,
+//            userUri,
+//            SSServOpE.authCheckCred);
+//        }
 
         case csvFileAuth:{
 
           final SSUri userUri;
           
-          if(
-            par.key != null &&
-            !SSStrU.equals(par.key, SSAuthConf.noAuthKey)){
+          if(par.key != null){
             
             userUri = sqlFct.getUserForKey(par.key);
             
@@ -306,8 +295,6 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
 
             if(!userServ.userExists(
               new SSUserExistsPar(
-                null,
-                null,
                 SSVocConf.systemUserUri,
                 email))){
               
@@ -317,8 +304,6 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
             userUri = 
              userServ.userURIGet(
                new SSUserURIGetPar(
-                 null, 
-                 null, 
                  SSVocConf.systemUserUri, 
                  email));
             
@@ -339,16 +324,12 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
           
           if(!userServ.userExists(
             new SSUserExistsPar(
-              null,
-              null,
               SSVocConf.systemUserUri,
               email))){
             
             userUri = 
               userServ.userAdd(
                 new SSUserAddPar(
-                  null, 
-                  null, 
                   SSVocConf.systemUserUri, 
                   true, 
                   SSLabel.get(email), 
@@ -359,8 +340,6 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
             try{
               collServ.collRootAdd(
                 new SSCollUserRootAddPar(
-                  null,
-                  null,
                   SSVocConf.systemUserUri,
                   userUri,
                   true));
@@ -376,8 +355,6 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
             userUri = 
              userServ.userURIGet(
                new SSUserURIGetPar(
-                 null, 
-                 null, 
                  SSVocConf.systemUserUri, 
                  email));
           }
@@ -416,13 +393,13 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
   }
   
   @Override
-  public SSUri authCheckKey(final SSServPar parA) throws Exception {
+  public SSUri authCheckKey(final SSAuthCheckKeyPar par) throws Exception {
     
     try{
       
       switch(((SSAuthConf)conf).authType){
         
-        case noAuth: return null;
+//        case noAuth: return null;
         
         case csvFileAuth:{
           
@@ -430,20 +407,18 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
             csvFileAuthKeys.addAll(sqlFct.getKeys());
           }
           
-          if(
-            SSAuthConf.noAuthKey.equals(parA.key) ||
-            !csvFileAuthKeys.contains(parA.key)){
+          if(!csvFileAuthKeys.contains(par.key)){
             throw new SSErr(SSErrE.userKeyWrong);
           }
           
-          return SSServCaller.authCheckCred(SSVocConf.systemUserUri, parA.key).user;
+          return authCheckCred(new SSAuthCheckCredPar(par.key)).user;
         }
         
         case oidc:{
-          return SSServCaller.authCheckCred(SSVocConf.systemUserUri, parA.key).user;
+          return authCheckCred(new SSAuthCheckCredPar(par.key)).user;
         }
         
-        default: return null;
+        default: throw new SSErr(SSErrE.authNoUserForKey);
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

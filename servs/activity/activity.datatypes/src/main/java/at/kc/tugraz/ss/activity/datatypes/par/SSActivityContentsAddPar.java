@@ -60,15 +60,13 @@ public class SSActivityContentsAddPar extends SSServPar{
   }
   
   public SSActivityContentsAddPar(
-    final SSServOpE               op,
-    final String                  key,
     final SSUri                   user,
     final SSUri                   activity,
     final SSActivityContentE      contentType,
     final List<SSActivityContent> contents,
     final Boolean                 shouldCommit){
     
-    super(op, key, user);
+    super(SSServOpE.activityContentsAdd, null, user);
     
     this.activity      = activity;
     this.contentType   = contentType;

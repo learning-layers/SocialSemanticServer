@@ -298,8 +298,6 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
         
         ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
           new SSEntityUpdatePar(
-            null,
-            null,
             authorUri,
             video.id,
             null, //type,
@@ -314,8 +312,6 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
                 
         ((SSTagServerI) SSServReg.getServ(SSTagServerI.class)).tagsAdd(
           new SSTagsAddPar(
-            null,
-            null,
             authorUri,
             SSTagLabel.get(video.keywords), //labels,
             video.id, //entity
@@ -340,8 +336,6 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
 
         ((SSCategoryServerI) SSServReg.getServ(SSCategoryServerI.class)).categoriesAdd(
           new SSCategoriesAddPar(
-            null,
-            null,
             authorUri,
             SSCategoryLabel.asListWithoutNullAndEmpty(SSCategoryLabel.get(categoryLabels)),
             video.id,
@@ -380,8 +374,6 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
     try{
       ((SSTagServerI) SSServReg.getServ(SSTagServerI.class)).tagsRemove(
         new SSTagsRemovePar(
-          null,
-          null,
           parA.user,
           null,
           null,
@@ -442,8 +434,6 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
 
         ((SSTagServerI) SSServReg.getServ(SSTagServerI.class)).tagsAdd(
           new SSTagsAddPar(
-            null,
-            null,
             user,
             SSTagLabel.get(tagList), //labels
             resource, //entity

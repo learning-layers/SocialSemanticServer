@@ -46,8 +46,6 @@ public class SSLocationAddPar extends SSServPar{
   public SSLocationAddPar(){}
     
   public SSLocationAddPar(
-    final SSServOpE         op,
-    final String            key,
     final SSUri             user,
     final SSUri             entity,
     final Double            latitude,
@@ -56,7 +54,7 @@ public class SSLocationAddPar extends SSServPar{
     final Boolean           withUserRestriction,
     final Boolean           shouldCommit){
     
-    super(op, key, user);
+    super(SSServOpE.locationAdd, null, user);
     
     this.entity              = entity;
     this.latitude            = latitude;

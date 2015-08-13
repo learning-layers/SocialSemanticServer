@@ -109,8 +109,6 @@ public class SSDiscEntryAddPar extends SSServPar{
   public SSDiscEntryAddPar(){}
     
   public SSDiscEntryAddPar(
-    final SSServOpE     op,
-    final String        key,
     final SSUri         user,
     final SSUri         disc,
     final List<SSUri>   targets, 
@@ -123,7 +121,7 @@ public class SSDiscEntryAddPar extends SSServPar{
     final List<SSLabel> entityLabels,
     final Boolean       shouldCommit){
     
-    super(op, key, user);
+    super(SSServOpE.discEntryAdd, null, user);
   
     this.disc        = disc;
     

@@ -71,8 +71,6 @@ public class SSEntitySharePar extends SSServPar{
   public SSEntitySharePar(){}
     
   public SSEntitySharePar(
-    final SSServOpE     op,
-    final String        key,
     final SSUri         user,
     final SSUri         entity,
     final List<SSUri>   users,
@@ -82,7 +80,7 @@ public class SSEntitySharePar extends SSServPar{
     final Boolean       withUserRestriction, 
     final Boolean       shouldCommit){
     
-    super(op, key, user);
+    super(SSServOpE.entityShare, null, user);
     
     this.entity       = entity;
     

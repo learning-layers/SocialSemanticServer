@@ -138,8 +138,6 @@ implements
       
       entityServ.entityUpdate(
         new SSEntityUpdatePar(
-          null,
-          null,
           par.user,
           par.entity,
           null, //type,

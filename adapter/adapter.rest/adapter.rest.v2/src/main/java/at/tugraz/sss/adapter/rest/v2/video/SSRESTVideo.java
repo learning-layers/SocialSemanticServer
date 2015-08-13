@@ -65,8 +65,6 @@ public class SSRESTVideo{
       
       par =
         new SSVideosUserGetPar(
-          SSServOpE.videosGet,
-          null,
           null,
           null, //forEntity
           true, //withUserRestriction
@@ -136,8 +134,6 @@ public class SSRESTVideo{
       
       par =
         new SSVideoUserAnnotationAddPar(
-          SSServOpE.videoAnnotationAdd,
-          null,
           null,
           SSUri.get(video, SSVocConf.sssUri),
           input.timePoint,

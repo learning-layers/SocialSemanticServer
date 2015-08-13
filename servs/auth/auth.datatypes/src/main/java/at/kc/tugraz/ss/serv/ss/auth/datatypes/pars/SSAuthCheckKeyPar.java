@@ -20,11 +20,14 @@
 */
  package at.kc.tugraz.ss.serv.ss.auth.datatypes.pars;
 
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSServPar;
 
 public class SSAuthCheckKeyPar extends SSServPar{
   
-  public SSAuthCheckKeyPar(SSServPar par) throws Exception{
-    super(par);
+  public SSAuthCheckKeyPar(
+    final String key){
+    
+    super(SSServOpE.authCheckKey, key, null);
   }
 }

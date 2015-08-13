@@ -22,7 +22,6 @@ package at.kc.tugraz.ss.circle.datatypes.par;
 
 import at.tugraz.sss.serv.SSCircleE;
 import at.tugraz.sss.serv.SSLabel;
-import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
@@ -53,8 +52,6 @@ public class SSCircleCreateFromClientPar extends SSCircleCreatePar{
   public SSCircleCreateFromClientPar(){}
   
   public SSCircleCreateFromClientPar(
-    final SSServOpE       op,
-    final String          key,
     final SSUri           user,
     final SSLabel         label,
     final SSTextComment   description,
@@ -62,8 +59,6 @@ public class SSCircleCreateFromClientPar extends SSCircleCreatePar{
     final List<SSUri>     entities){
     
     super(
-      op,
-      key,
       user,
       SSCircleE.group,//circleType,
       label,

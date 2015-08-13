@@ -52,15 +52,13 @@ public class SSCommentsAddPar extends SSServPar{
   public SSCommentsAddPar(){}
   
   public SSCommentsAddPar(
-    final SSServOpE            op,
-    final String               key,
     final SSUri                user,
     final SSUri                entity,
     final List<SSTextComment>  comments,
     final Boolean              withUserRestriction,
     final Boolean              shouldCommit){
     
-    super(op, key, user);
+    super(SSServOpE.commentsAdd, null, user);
     
     this.entity = entity;
     

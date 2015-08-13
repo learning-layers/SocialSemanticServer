@@ -72,8 +72,6 @@ public class SSCategoriesAddPar extends SSServPar{
   public SSCategoriesAddPar(){}
   
   public SSCategoriesAddPar(
-    final SSServOpE             op,
-    final String                key,
     final SSUri                 user,
     final List<SSCategoryLabel> labels,
     final SSUri                 entity,
@@ -83,7 +81,7 @@ public class SSCategoriesAddPar extends SSServPar{
     final Boolean               withUserRestriction,
     final Boolean               shouldCommit){
     
-    super(op, key, user);
+    super(SSServOpE.categoriesAdd, null, user);
     
     SSCategoryLabel.addDistinctWithoutNull(this.labels, labels);
     

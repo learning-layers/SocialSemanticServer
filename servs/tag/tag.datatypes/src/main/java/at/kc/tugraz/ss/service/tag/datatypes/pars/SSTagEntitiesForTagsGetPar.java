@@ -63,8 +63,6 @@ public class SSTagEntitiesForTagsGetPar extends SSServPar{
   public SSTagEntitiesForTagsGetPar(){}
     
   public SSTagEntitiesForTagsGetPar(
-    final SSServOpE        op,
-    final String           key,
     final SSUri            user,
     final SSUri            forUser,
     final List<SSTagLabel> labels,
@@ -72,7 +70,7 @@ public class SSTagEntitiesForTagsGetPar extends SSServPar{
     final Long             startTime,
     final Boolean          withUserRestriction){
     
-    super(op, key, user);
+    super(SSServOpE.tagEntitiesForTagsGet, null, user);
     
     this.forUser = forUser;
 

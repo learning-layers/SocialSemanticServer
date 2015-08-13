@@ -40,14 +40,12 @@ public class SSAppStackLayoutDeletePar extends SSServPar{
   public SSAppStackLayoutDeletePar(){}
     
   public SSAppStackLayoutDeletePar(
-    final SSServOpE        op,
-    final String           key,
     final SSUri            user,
     final SSUri            stack, 
     final Boolean          withUserRestriction, 
     final Boolean          shouldCommit){
     
-    super(op, key, user);
+    super(SSServOpE.appStackLayoutDelete, null, user);
     
     this.stack               = stack;
     this.withUserRestriction = withUserRestriction;

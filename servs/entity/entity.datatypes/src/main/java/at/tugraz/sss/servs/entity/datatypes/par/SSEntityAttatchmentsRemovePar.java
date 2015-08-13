@@ -51,15 +51,13 @@ public class SSEntityAttatchmentsRemovePar extends SSServPar{
   public SSEntityAttatchmentsRemovePar(){}
     
   public SSEntityAttatchmentsRemovePar(
-    final SSServOpE     op,
-    final String        key,
     final SSUri         user,
     final SSUri         entity,
     final List<SSUri>   attachments,
     final Boolean       withUserRestriction, 
     final Boolean       shouldCommit){
     
-    super(op, key, user);
+    super(SSServOpE.entityAttachmentsRemove, null, user);
     
     this.entity              = entity;
     

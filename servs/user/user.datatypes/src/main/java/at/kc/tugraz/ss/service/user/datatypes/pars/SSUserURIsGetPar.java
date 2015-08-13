@@ -33,12 +33,10 @@ public class SSUserURIsGetPar extends SSServPar{
   public SSUserURIsGetPar(){}
     
   public SSUserURIsGetPar(
-    final SSServOpE     op,
-    final String        key,
     final SSUri         user,
     final List<String>  emails){
    
-    super(op, key, user);
+    super(SSServOpE.userURIsGet, null, user);
 
     if(emails != null){
       this.emails.addAll(emails);

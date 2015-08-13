@@ -22,7 +22,6 @@ package at.tugraz.sss.adapter.rest.v2.coll;
 
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSLabel;
-import at.tugraz.sss.serv.SSServPar;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 import java.util.List;
@@ -31,7 +30,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 @ApiModel(value = "collUserEntriesAdd request parameter")
-public class SSCollEntriesAddRESTAPIV2Par extends SSServPar{
+public class SSCollEntriesAddRESTAPIV2Par{
   
   @ApiModelProperty(
     required = true,

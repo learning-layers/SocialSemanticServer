@@ -91,8 +91,6 @@ public class SSDataExportImpl extends SSServImplWithDBA implements SSDataExportC
       final SSEntityCircle circle =
         ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleGet(
           new SSCircleGetPar(
-            null,
-            null,
             par.user,
             par.circle,
             null, //entityTypesToIncludeOnly
@@ -195,8 +193,6 @@ public class SSDataExportImpl extends SSServImplWithDBA implements SSDataExportC
             SSStrU.toStr(
               ((SSUserServerI) SSServReg.getServ(SSUserServerI.class)).usersGet(
                 new SSUsersGetPar(
-                  null,
-                  null,
                   par.user, //user
                   null, //users
                   false))); //invokeEntityHandlers
@@ -358,8 +354,6 @@ public class SSDataExportImpl extends SSServImplWithDBA implements SSDataExportC
           SSStrU.toStr(
             ((SSUserServerI) SSServReg.getServ(SSUserServerI.class)).usersGet(
               new SSUsersGetPar(
-                null,
-                null,
                 null, //user
                 null, //users
                 false))); //invokeEntityHandlers

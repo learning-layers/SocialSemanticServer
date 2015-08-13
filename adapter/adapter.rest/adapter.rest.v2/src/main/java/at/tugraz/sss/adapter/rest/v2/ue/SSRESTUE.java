@@ -69,8 +69,6 @@ public class SSRESTUE{
       
       par =
         new SSUEsGetPar(
-          SSServOpE.userEventsGet,
-          null,
           null,  
           input.forUser,
           input.entity, 
@@ -107,8 +105,6 @@ public class SSRESTUE{
       
       par =
         new SSUEGetPar(
-          SSServOpE.userEventGet,
-          null,
           null,  
           SSUri.get(uE, SSVocConf.sssUri), 
           true, // withUserRestriction
@@ -140,8 +136,6 @@ public class SSRESTUE{
       
       par =
         new SSUECountGetPar(
-          SSServOpE.userEventCountGet,
-          null,
           null,  
           input.forUser, 
           input.entity, 
@@ -176,8 +170,6 @@ public class SSRESTUE{
       
       par =
         new SSUEAddPar(
-          SSServOpE.userEventAdd,
-          null,
           null,  
           input.entity, //entity
           input.type,  //type

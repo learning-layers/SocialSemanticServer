@@ -70,8 +70,6 @@ public class SSCircleServ extends SSServContainerI{
     
     ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePubURIGet(
       new SSCirclePubURIGetPar(
-        null, 
-        null, 
         SSVocConf.systemUserUri, 
         true));
   }

@@ -92,8 +92,6 @@ implements
             entity.thumb =
               imageBase64Get(
                 new SSImageBase64GetPar(
-                  null,
-                  null,
                   par.user,
                   entity.id,
                   SSImageE.thumb,
@@ -114,8 +112,6 @@ implements
           return SSImage.get(
             imageGet(
               new SSImageGetPar(
-                null,
-                null,
                 par.user,
                 entity.id,
                 par.withUserRestriction)),
@@ -183,8 +179,6 @@ implements
           images, 
           imageGet(
             new SSImageGetPar(
-              null, 
-              null, 
               par.user, 
               imageURI, 
               par.withUserRestriction)));
@@ -205,8 +199,6 @@ implements
       final List<SSEntity> images =
         imagesGet(
           new SSImagesGetPar(
-            null,
-            null,
             par.user,
             par.entity,
             par.imageType,
@@ -245,8 +237,6 @@ implements
       
       entityServ.entityUpdate(
         new SSEntityUpdatePar(
-          null, 
-          null, 
           par.user, 
           par.image,  //entity
           SSEntityE.image,  //type
@@ -267,8 +257,6 @@ implements
         
         entityServ.entityUpdate(
           new SSEntityUpdatePar(
-            null,
-            null,
             par.user,
             par.entity,  //entity
             null,  //type

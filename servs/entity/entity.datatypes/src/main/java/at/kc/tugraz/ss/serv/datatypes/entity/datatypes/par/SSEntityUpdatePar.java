@@ -84,8 +84,6 @@ public class SSEntityUpdatePar extends SSServPar{
   public SSEntityUpdatePar(){}
   
   public SSEntityUpdatePar(
-    final SSServOpE           op,
-    final String              key,
     final SSUri               user,
     final SSUri               entity,
     final SSEntityE           type, 
@@ -98,7 +96,7 @@ public class SSEntityUpdatePar extends SSServPar{
     final Boolean             withUserRestriction, 
     final Boolean             shouldCommit){
 
-    super(op, key, user);
+    super(SSServOpE.entityUpdate, null, user);
   
     this.entity         = entity;
     this.type           = type;

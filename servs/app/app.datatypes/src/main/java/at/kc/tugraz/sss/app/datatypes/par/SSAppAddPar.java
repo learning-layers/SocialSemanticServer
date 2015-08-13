@@ -134,8 +134,6 @@ public class SSAppAddPar extends SSServPar{
   public SSAppAddPar(){}
     
   public SSAppAddPar(
-    final SSServOpE           op,
-    final String              key,
     final SSUri               user,
     final SSLabel             label                  ,
     final SSTextComment       descriptionShort       ,
@@ -151,7 +149,7 @@ public class SSAppAddPar extends SSServPar{
     final Boolean             withUserRestriction, 
     final Boolean             shouldCommmit){
     
-    super(op, key, user);
+    super(SSServOpE.appAdd, null, user);
     
     this.label                  = label;
     this.descriptionShort       = descriptionShort;

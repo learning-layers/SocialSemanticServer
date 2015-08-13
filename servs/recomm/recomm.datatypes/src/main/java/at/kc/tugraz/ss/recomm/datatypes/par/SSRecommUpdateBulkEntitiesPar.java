@@ -25,7 +25,6 @@ import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServErrReg;
 import java.util.ArrayList;
 import java.util.List;
 import org.codehaus.jackson.JsonNode;
@@ -41,8 +40,6 @@ public class SSRecommUpdateBulkEntitiesPar extends SSServPar{
   public List<List<String>>   categories  = new ArrayList<>();
   
   public SSRecommUpdateBulkEntitiesPar(
-    final SSServOpE             op,
-    final String              key,
     final SSUri               user,
     final String              realm,
     final SSUri               forUser, 
@@ -50,7 +47,7 @@ public class SSRecommUpdateBulkEntitiesPar extends SSServPar{
     final List<List<String>>  tags,
     final List<List<String>>  categories){
     
-    super(op, key, user);
+    super(SSServOpE.recommUpdateBulkEntities, null, user);
     
     this.realm   = realm;
     this.forUser = forUser;

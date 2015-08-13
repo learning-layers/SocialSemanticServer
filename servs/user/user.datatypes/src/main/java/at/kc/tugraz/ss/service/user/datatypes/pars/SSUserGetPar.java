@@ -41,13 +41,11 @@ public class SSUserGetPar extends SSServPar{
   public SSUserGetPar(){}
   
   public SSUserGetPar(
-    final SSServOpE   op,
-    final String      key,
     final SSUri       user, 
     final SSUri       userToGet,
     final Boolean     invokeEntityHandlers){
    
-    super(op, key, user);
+    super(SSServOpE.userGet, null, user);
     
     this.userToGet            = userToGet;
     this.invokeEntityHandlers = invokeEntityHandlers;

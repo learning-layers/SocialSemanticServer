@@ -56,8 +56,6 @@ public class SSRESTUser{
       
       par =
         new SSUsersGetPar(
-          SSServOpE.usersGet,
-          null,
           null,  
           null, //users
           true); //invokeEntityHandlers

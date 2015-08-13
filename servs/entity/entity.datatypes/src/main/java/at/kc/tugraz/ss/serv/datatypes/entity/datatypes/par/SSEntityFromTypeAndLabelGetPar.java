@@ -51,14 +51,12 @@ public class SSEntityFromTypeAndLabelGetPar extends SSServPar{
   public SSEntityFromTypeAndLabelGetPar(){}
   
   public SSEntityFromTypeAndLabelGetPar(
-    final SSServOpE            op,
-    final String               key,
     final SSUri                user,
     final SSLabel              label,
     final SSEntityE            type,
     final Boolean              withUserRestriction){
     
-    super(op, key, user);
+    super(SSServOpE.entityFromTypeAndLabelGet, null, user);
     
     this.label               = label;
     this.type                = type;

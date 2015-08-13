@@ -63,8 +63,6 @@ public class SSCategoryEntitiesForCategoriesGetPar extends SSServPar{
   public SSCategoryEntitiesForCategoriesGetPar(){}
     
   public SSCategoryEntitiesForCategoriesGetPar(
-    final SSServOpE        op,
-    final String           key,
     final SSUri            user,
     final SSUri            forUser,
     final List<SSCategoryLabel> labels,
@@ -72,7 +70,7 @@ public class SSCategoryEntitiesForCategoriesGetPar extends SSServPar{
     final Long             startTime,
     final Boolean          withUserRestriction){
     
-    super(op, key, user);
+    super(SSServOpE.categoryEntitiesForCategoriesGet, null, user);
     
     this.forUser = forUser;
 

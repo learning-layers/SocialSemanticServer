@@ -36,13 +36,11 @@ public class SSOCDGetGraphPar extends SSServPar{
   private SSOCDGraphOutputE graphOutput = null;
   
   public SSOCDGetGraphPar (
-    final SSServOpE op,
-    final String key,
     final SSUri user,
     final String graphId,
     final SSOCDGraphOutputE graphOutput) {
       
-      super(op, key, user);
+      super(SSServOpE.ocdGetGraph, null, user);
   }
   
   public String getGraphId() {

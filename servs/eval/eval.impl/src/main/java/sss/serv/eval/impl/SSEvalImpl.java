@@ -95,8 +95,6 @@ implements
         ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
           new SSEntityGetPar(
             null,
-            null,
-            null,
             par.user,  //entity
             false, //withUserRestriction
             null)); //descPar
@@ -105,8 +103,6 @@ implements
         targetEntity =
           ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
             new SSEntityGetPar(
-              null,
-              null,
               null,
               par.entity,  //entity
               false, //withUserRestriction
@@ -119,8 +115,6 @@ implements
           targetEntities,
           ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
             new SSEntitiesGetPar(
-              null,
-              null,
               par.user,
               par.entities,  //entities
               null,  //types
@@ -134,8 +128,6 @@ implements
           targetUsers,
           ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
             new SSEntitiesGetPar(
-              null,
-              null,
               par.user,
               par.users,  //entities
               null,  //types

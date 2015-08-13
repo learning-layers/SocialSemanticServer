@@ -29,12 +29,10 @@ public class SSCommentEntitiesGetPar extends SSServPar{
   public SSCommentEntitiesGetPar(){}
     
   public SSCommentEntitiesGetPar(
-    final SSServOpE            op,
-    final String               key,
     final SSUri                user,
     final Boolean              withUserRestriction){
     
-    super(op, key, user);
+    super(SSServOpE.commentEntitiesGet, null, user);
     
     this.withUserRestriction = withUserRestriction;
   }

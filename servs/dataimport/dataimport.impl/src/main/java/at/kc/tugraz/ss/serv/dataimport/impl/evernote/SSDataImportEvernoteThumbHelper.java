@@ -72,8 +72,6 @@ public class SSDataImportEvernoteThumbHelper{
       final List<SSEntity> thumbs = 
         ((SSImageServerI) SSServReg.getServ(SSImageServerI.class)).imagesGet(
           new SSImagesGetPar(
-            null, 
-            null, 
             user, 
             entity,
             SSImageE.thumb,
@@ -90,8 +88,6 @@ public class SSDataImportEvernoteThumbHelper{
       
       ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityAttachmentsRemove(
         new SSEntityAttatchmentsRemovePar(
-          null,
-          null,
           user,
           entity,
           SSUri.getDistinctNotNullFromEntities(thumbs), //attachments
@@ -100,8 +96,6 @@ public class SSDataImportEvernoteThumbHelper{
       
       ((SSImageServerI) SSServReg.getServ(SSImageServerI.class)).imageAdd(
         new SSImageAddPar(
-          null,
-          null,
           user,
           pngFileUri,
           SSImageE.thumb, //imageType,

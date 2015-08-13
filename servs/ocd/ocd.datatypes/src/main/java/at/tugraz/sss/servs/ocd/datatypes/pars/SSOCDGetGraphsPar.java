@@ -38,16 +38,13 @@ public class SSOCDGetGraphsPar extends SSServPar{
   private String executionStatuses = null;
   
   public SSOCDGetGraphsPar (
-      
-    final SSServOpE op,
-    final String key,
     final SSUri user,
     final String firstIndex,
     final String length,
     final Boolean includeMeta,
     final String executionStatuses) {
     
-       super(op, key, user);
+       super(SSServOpE.ocdGetGraphs, null, user);
   }
   public String getFirstIndex() {
     return firstIndex;

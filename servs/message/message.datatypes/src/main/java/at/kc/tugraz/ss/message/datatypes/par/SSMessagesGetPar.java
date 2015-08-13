@@ -33,15 +33,13 @@ public class SSMessagesGetPar extends SSServPar{
   public SSMessagesGetPar(){}
   
   public SSMessagesGetPar(
-    final SSServOpE op,
-    final String    key,
     final SSUri     user, 
     final Boolean   includeRead, 
     final Long      startTime, 
     final Boolean   withUserRestriction, 
     final Boolean   invokeEntityHandlers){
     
-    super(op, key, user);
+    super(SSServOpE.messagesGet, null, user);
     
     this.includeRead          = includeRead;
     this.startTime            = startTime;

@@ -79,8 +79,6 @@ implements
         entity.locations.addAll(
           locationsGet(
             new SSLocationsGetPar(
-              null,
-              null,
               par.user,
               entity.id,
               par.withUserRestriction, //withUserRestriction
@@ -98,8 +96,6 @@ implements
           return SSLocation.get(
             locationGet(
               new SSLocationGetPar(
-                null,
-                null,
                 par.user,
                 entity.id,
                 par.withUserRestriction,
@@ -157,8 +153,6 @@ implements
          locations,
          locationGet(
            new SSLocationGetPar(
-             null, 
-             null, 
              par.user, 
              locationURI, 
              par.withUserRestriction, 
@@ -181,8 +175,6 @@ implements
       
       entityServ.entityUpdate(
         new SSEntityUpdatePar(
-          null,
-          null,
           par.user,
           par.entity, //entity,
           null, //type,
@@ -204,8 +196,6 @@ implements
       
       entityServ.entityUpdate(
         new SSEntityUpdatePar(
-          null,
-          null,
           par.user,
           location.id, //entity,
           SSEntityE.location, //type,

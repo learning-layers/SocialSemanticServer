@@ -69,8 +69,6 @@ public class SSAppStackLayoutUpdatePar extends SSServPar{
   public SSAppStackLayoutUpdatePar(){}
   
   public SSAppStackLayoutUpdatePar(
-    final SSServOpE      op,
-    final String         key,
     final SSUri          user,
     final SSUri          stack,
     final SSUri          app,
@@ -79,7 +77,7 @@ public class SSAppStackLayoutUpdatePar extends SSServPar{
     final Boolean        withUserDescription, 
     final Boolean        shouldCommit){
     
-    super(op, key, user);
+    super(SSServOpE.appStackLayoutUpdate, null, user);
     
     this.stack               = stack;
     this.app                 = app;

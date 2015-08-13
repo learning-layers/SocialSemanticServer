@@ -39,8 +39,6 @@ public class SSRecommUpdatePar extends SSServPar{
   public List<String>   categories  = new ArrayList<>();
   
   public SSRecommUpdatePar(
-    final SSServOpE           op,
-    final String              key,
     final SSUri               user,
     final String              realm,
     final SSUri               forUser, 
@@ -48,7 +46,7 @@ public class SSRecommUpdatePar extends SSServPar{
     final List<String>        tags,
     final List<String>        categories){
     
-    super(op, key, user);
+    super(SSServOpE.recommUpdate, null, user);
     
     this.realm   = realm;
     this.forUser = forUser;

@@ -40,14 +40,12 @@ public class SSLearnEpRemovePar extends SSServPar{
   public SSLearnEpRemovePar(){}
     
   public SSLearnEpRemovePar(
-    final SSServOpE  op,
-    final String     key,
     final SSUri      user,
     final SSUri      learnEp,
     final Boolean    withUserRestriction,
     final Boolean    shouldCommit){
     
-    super(op, key, user);
+    super(SSServOpE.learnEpRemove, null, user);
    
     this.learnEp             = learnEp;
     this.withUserRestriction = withUserRestriction;

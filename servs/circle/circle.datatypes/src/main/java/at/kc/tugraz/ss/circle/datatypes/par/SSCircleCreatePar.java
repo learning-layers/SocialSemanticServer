@@ -71,8 +71,6 @@ public class SSCircleCreatePar extends SSServPar{
   public SSCircleCreatePar(){}
     
   public SSCircleCreatePar(
-    final SSServOpE       op,
-    final String          key,
     final SSUri           user,
 //    final SSUri           forUser,
     final SSCircleE       circleType,
@@ -82,7 +80,7 @@ public class SSCircleCreatePar extends SSServPar{
     final Boolean         withUserRestriction, 
     final Boolean         shouldCommit){
     
-    super(op, key, user);
+    super(SSServOpE.circleCreate, null, user);
     
 //    this.forUser                  = forUser;
     this.circleType               = circleType;

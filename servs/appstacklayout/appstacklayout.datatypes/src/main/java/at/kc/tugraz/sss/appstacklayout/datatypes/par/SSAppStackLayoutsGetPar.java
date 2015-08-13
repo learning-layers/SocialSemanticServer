@@ -31,12 +31,10 @@ public class SSAppStackLayoutsGetPar extends SSServPar{
   public SSAppStackLayoutsGetPar(){}
   
   public SSAppStackLayoutsGetPar(
-    final SSServOpE op,
-    final String    key,
     final SSUri     user, 
     final Boolean   invokeEntityHandlers){
     
-    super(op, key, user);
+    super(SSServOpE.appStackLayoutsGet, null, user);
     
     this.invokeEntityHandlers = invokeEntityHandlers;
   }

@@ -41,13 +41,11 @@ public class SSActivityGetPar extends SSServPar{
   public SSActivityGetPar(){}
       
   public SSActivityGetPar(
-    final SSServOpE             op,
-    final String                key,
     final SSUri                 user,
     final SSUri                 activity, 
     final Boolean               invokeEntityHandlers){
     
-    super(op, key, user);
+    super(SSServOpE.activityGet, null, user);
     
     this.activity              = activity;
     this.invokeEntityHandlers  = invokeEntityHandlers;

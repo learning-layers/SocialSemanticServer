@@ -62,8 +62,6 @@ public class SSFileUploadPar extends SSServPar{
   public SSFileUploadPar(){}
   
   public SSFileUploadPar(
-    final SSServOpE     op,
-    final String        key,
     final SSUri         user,
     final SSMimeTypeE   mimeType,
     final SSLabel       label,
@@ -71,7 +69,7 @@ public class SSFileUploadPar extends SSServPar{
     final SSSocketCon   sSCon,
     final Boolean       shouldCommit){
     
-    super (op, key, user);
+    super (SSServOpE.fileUpload, null, user);
     
     this.mimeType     = mimeType;
     this.label        = label;

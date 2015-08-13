@@ -40,13 +40,11 @@ public class SSCollCumulatedTagsGetPar extends SSServPar{
   public SSCollCumulatedTagsGetPar(){}
     
   public SSCollCumulatedTagsGetPar(
-    final SSServOpE          op,
-    final String             key, 
     final SSUri              user,
     final SSUri              coll, 
     final Boolean            withUserRestriction){
     
-    super(op, key, user);
+    super(SSServOpE.collCumulatedTagsGet, null, user);
     
     this.coll                = coll;
     this.withUserRestriction = withUserRestriction;

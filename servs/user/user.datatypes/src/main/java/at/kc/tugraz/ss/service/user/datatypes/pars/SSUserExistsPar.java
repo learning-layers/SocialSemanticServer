@@ -31,12 +31,10 @@ public class SSUserExistsPar extends SSServPar{
   public SSUserExistsPar(){}
   
   public SSUserExistsPar(
-    final SSServOpE op,
-    final String    key,
     final SSUri     user,
     final String    email){
     
-    super(op, key, user);
+    super(SSServOpE.userExists, null, user);
     
     this.email = email;
   }

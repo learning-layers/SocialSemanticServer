@@ -29,10 +29,8 @@ public class SSFriendsGetPar extends SSServPar{
   public SSFriendsGetPar(){}
     
   public SSFriendsGetPar(
-    final SSServOpE  op,
-    final String     key,
     final SSUri      user){
     
-    super(op, key, user);
+    super(SSServOpE.friendsGet, null, user);
   }
 }

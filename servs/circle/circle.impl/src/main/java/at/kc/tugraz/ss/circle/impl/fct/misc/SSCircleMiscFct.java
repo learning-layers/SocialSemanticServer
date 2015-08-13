@@ -257,8 +257,6 @@ public class SSCircleMiscFct{
             SSStrU.toStr(
               ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
                 new SSEntityGetPar(
-                  null,
-                  null,
                   par.user, //user
                   forUser, //entity
                   par.withUserRestriction,  //withUserRestriction
@@ -270,8 +268,6 @@ public class SSCircleMiscFct{
         copyCircleURI =
           serv.circleCreate(
             new SSCircleCreatePar(
-              null,
-              null,
               forUser,
               circle.circleType,
               label,
@@ -284,8 +280,6 @@ public class SSCircleMiscFct{
           
           serv.circleEntitiesAdd(
             new SSCircleEntitiesAddPar(
-              null,
-              null,
               forUser,
               copyCircleURI,
               SSUri.getDistinctNotNullFromEntities(circle.entities),
@@ -312,8 +306,6 @@ public class SSCircleMiscFct{
           
           serv.circleUsersAdd(
             new SSCircleUsersAddPar(
-              null,
-              null,
               forUser,
               copyCircleURI,
               SSUri.getDistinctNotNullFromEntities(circle.users),
@@ -338,8 +330,6 @@ public class SSCircleMiscFct{
           
           serv.circleUsersAdd(
             new SSCircleUsersAddPar(
-              null,
-              null,
               forUser,
               copyCircleURI,
               SSUri.asListWithoutNullAndEmpty(par.user),
@@ -351,8 +341,6 @@ public class SSCircleMiscFct{
           originUsers.add(
             ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
               new SSEntityGetPar(
-                null,
-                null,
                 par.user, //user
                 par.user, //entity
                 par.withUserRestriction,  //withUserRestriction
@@ -375,8 +363,6 @@ public class SSCircleMiscFct{
         newCircle =
           serv.circleGet(
             new SSCircleGetPar(
-              null,
-              null,
               forUser,
               copyCircleURI,
               null, //entityTypesToIncludeOnly
@@ -407,8 +393,6 @@ public class SSCircleMiscFct{
       SSEntityCircle       targetCircle =
         serv.circleGet(
           new SSCircleGetPar(
-            null,
-            null,
             par.user,
             par.targetEntity,
             null, //entityTypesToIncludeOnly
@@ -421,8 +405,6 @@ public class SSCircleMiscFct{
         
         serv.circleEntitiesAdd(
           new SSCircleEntitiesAddPar(
-            null,
-            null,
             par.user,
             targetCircle.id,
             SSUri.getDistinctNotNullFromEntities(circle.entities),
@@ -449,8 +431,6 @@ public class SSCircleMiscFct{
         
         serv.circleUsersAdd(
           new SSCircleUsersAddPar(
-            null,
-            null,
             par.user,
             targetCircle.id,
             SSUri.getDistinctNotNullFromEntities(circle.users),
@@ -475,8 +455,6 @@ public class SSCircleMiscFct{
         
         serv.circleUsersAdd(
           new SSCircleUsersAddPar(
-            null,
-            null,
             par.user,
             par.targetEntity, //circle
             SSUri.asListWithoutNullAndEmpty(par.user), //users
@@ -488,8 +466,6 @@ public class SSCircleMiscFct{
         originUsers.add(
           ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
             new SSEntityGetPar(
-              null,
-              null,
               par.user, //user
               par.user, //entity
               par.withUserRestriction,  //withUserRestriction
@@ -512,8 +488,6 @@ public class SSCircleMiscFct{
       targetCircle =
         serv.circleGet(
           new SSCircleGetPar(
-            null,
-            null,
             par.user,
             par.targetEntity,
             null, //entityTypesToIncludeOnly

@@ -23,10 +23,8 @@ package at.tugraz.sss.serv.caller;
 import at.kc.tugraz.socialserver.service.broadcast.datatypes.SSBroadcast;
 import at.kc.tugraz.socialserver.service.broadcast.datatypes.enums.SSBroadcastEnum;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteInfo;
-import at.kc.tugraz.ss.serv.ss.auth.datatypes.ret.SSAuthCheckCredRet;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.tugraz.sss.serv.SSEntity;
-import at.tugraz.sss.serv.SSEntityCircle;
 import at.tugraz.sss.serv.SSFileExtE;
 import at.tugraz.sss.serv.SSIDU;
 import at.tugraz.sss.serv.SSLabel;
@@ -529,27 +527,6 @@ public class SSServCaller {
     SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.authUsersFromCSVFileAdd, opPars));
   }
     
-  public static SSUri checkKey(final SSServPar par) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.key, par.key);
-    
-    return (SSUri) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.authCheckKey, opPars));
-  }
-  
-  public static SSAuthCheckCredRet authCheckCred(
-    final SSUri  user,
-    final String key) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.user, user);
-    opPars.put(SSVarNames.key, key);
-    
-    return (SSAuthCheckCredRet) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.authCheckCred, opPars));
-  }
-  
   /* i5Cloud */
   
   public static List<String> i5CloudAchsoSemanticAnnotationsSetGet(

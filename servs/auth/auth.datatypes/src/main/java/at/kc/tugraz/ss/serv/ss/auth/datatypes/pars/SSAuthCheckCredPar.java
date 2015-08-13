@@ -21,10 +21,7 @@
 package at.kc.tugraz.ss.serv.ss.auth.datatypes.pars;
 
 import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.serv.SSVarNames;
-import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSLabel;
-import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSStrU;
 
@@ -33,84 +30,29 @@ public class SSAuthCheckCredPar extends SSServPar{
   public SSLabel label    = null;
   public String  password = null;
   
-  public void setLabel(String label){
-    try{ this.label = SSLabel.get(label); }catch(Exception error){}
-  }
-  
-  public void setPassword(String password){
-    this.password = password;
+  public void setLabel(String label) throws Exception{
+    this.label = SSLabel.get(label);
   }
   
   public String getLabel(){
     return SSStrU.toStr(label);
   }
 
-  public String getPassword(){
-    return password;
-  }
-
   public SSAuthCheckCredPar(){}
     
   public SSAuthCheckCredPar(
-    final SSServOpE op,
-    final String    key,
-    final SSUri     user,
     final SSLabel   label, 
     final String    password){
     
-    super(op, key, user);
+    super(SSServOpE.authCheckCred, null, null);
     
     this.label    = label;
     this.password = password;
   }
   
-  public static SSAuthCheckCredPar get(final SSServPar par) throws Exception{
+  public SSAuthCheckCredPar(
+    final String   key){
     
-    try{
-      
-      if(par.clientCon != null){
-        return (SSAuthCheckCredPar) par.getFromJSON(SSAuthCheckCredPar.class);
-      }
-      
-      return new SSAuthCheckCredPar(
-        par.op,
-        par.key,
-        par.user,
-        (SSLabel) par.pars.get(SSVarNames.label),
-        (String)  par.pars.get(SSVarNames.password));
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
+    super(SSServOpE.authCheckCred, null, null);
   }
-  
-//  public SSAuthCheckCredPar(final SSServPar par) throws Exception{
-//    
-//    super(par);
-//    
-//    try{
-//      
-//      if(pars != null){
-//        label         = (SSLabel) pars.get(SSVarU.label);
-//        password      = (String)  pars.get(SSVarU.password);
-//      }
-//      
-//      if(par.clientJSONObj != null){
-//
-//        try{
-//          password  = par.clientJSONObj.get(SSVarU.password).getTextValue();
-//        }catch(Exception error){}
-//
-//        final SSAuthCheckCredPar huha = (SSAuthCheckCredPar) SSJSONU.obj(par.clientJSONRequ, SSAuthCheckCredPar.class);
-//        
-//        try{ 
-//          label     = SSLabel.get(par.clientJSONObj.get(SSVarU.label).getTextValue()); 
-//        }catch(Exception error){}
-//      }
-//      
-//    }catch(Exception error){
-//      SSServErrReg.regErrThrow(error);
-//    }
-//  }
 }

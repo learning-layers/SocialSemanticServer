@@ -27,14 +27,11 @@ import at.tugraz.sss.servs.ocd.datatypes.SSOCDAlgoE;
 import at.tugraz.sss.servs.ocd.datatypes.SSOCDCreationTypeE;
 import at.tugraz.sss.servs.ocd.datatypes.SSOCDGraphInputE;
 
-
 public class SSOCDCreateCoverPar extends SSServPar {
   
   public SSOCDCreateCoverPar() {}
   
   public SSOCDCreateCoverPar ( 
-    final SSServOpE                   op,
-    final String                      key,
     final SSUri                       user,
     final String                      graphID,
     final SSOCDCreationTypeE          creationType,
@@ -43,7 +40,7 @@ public class SSOCDCreateCoverPar extends SSServPar {
     final byte[]                      content,
     final Boolean                     shouldCommit) {
     
-    super(op, key, user);
+    super(SSServOpE.ocdCreateCover, null, user);
     
   }
 }

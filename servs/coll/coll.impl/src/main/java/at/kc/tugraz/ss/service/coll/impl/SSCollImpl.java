@@ -116,8 +116,6 @@ implements
           return SSColl.get(
             collGet(
               new SSCollGetPar(
-                null,
-                null,
                 par.user,
                 entity.id,
                 par.withUserRestriction,
@@ -150,8 +148,6 @@ implements
       allColls =
         collsGet(
           new SSCollsGetPar(
-            null,
-            null,
             userUri,
             false, //withUserRestriction
             false)); //invokeEntityHandlers
@@ -161,8 +157,6 @@ implements
         collUserCircles =
           circleServ.circlesGet(
             new SSCirclesGetPar(
-              null,
-              null,
               userUri,
               coll.id,
               null, //entityTypesToIncludeOnly
@@ -186,8 +180,6 @@ implements
           collEntryUserCircles =
             circleServ.circlesGet(
               new SSCirclesGetPar(
-                null,
-                null,
                 userUri,
                 collEntry.id,
                 null, //entityTypesToIncludeOnly
@@ -222,8 +214,6 @@ implements
       return SSUri.getDistinctNotNullFromEntities(
         collsEntityIsInGet(
           new SSCollsUserEntityIsInGetPar(
-            null,
-            null,
             user,
             entity,
             false, //withUserRestriction,
@@ -287,8 +277,6 @@ implements
                   par.circle,
                   circleServ.circlePubURIGet(
                     new SSCirclePubURIGetPar(
-                      null,
-                      null,
                       par.user,
                       false)))){
               
@@ -315,8 +303,6 @@ implements
               affiliatedEntities,
               entityServ.entitiesGet(
                 new SSEntitiesGetPar(
-                  null,
-                  null,
                   par.user,
                   affiliatedURIs,
                   null, //types,
@@ -325,8 +311,6 @@ implements
             
             circleServ.circleEntitiesAdd(
               new SSCircleEntitiesAddPar(
-                null,
-                null,
                 par.user,
                 par.circle,
                 affiliatedURIs,
@@ -374,8 +358,6 @@ implements
               rootColl =
                 collRootGet(
                   new SSCollUserRootGetPar(
-                    null,
-                    null,
                     userToPushTo,
                     false, //withUserRestriction,
                     false)); //invokeEntityHandlers));
@@ -491,8 +473,6 @@ implements
           sqlFct.getCollWithEntries(par.coll), 
           entityServ.entityGet(
             new SSEntityGetPar(
-              null, 
-              null, 
               par.user, 
               par.coll, //entity, 
               par.withUserRestriction, 
@@ -505,8 +485,6 @@ implements
       collEntries =
         entityServ.entitiesGet(
           new SSEntitiesGetPar(
-            null,
-            null,
             par.user,
             SSUri.getDistinctNotNullFromEntities(coll.entries),  //entities
             null, //types,
@@ -538,8 +516,6 @@ implements
       
       return collGet(
         new SSCollGetPar(
-          null,
-          null,
           par.user,
           SSCollMiscFct.getDirectParentCollURIForUser(
             sqlFct,
@@ -575,8 +551,6 @@ implements
       
       return collGet(
         new SSCollGetPar(
-          null,
-          null,
           par.user,
           sqlFct.getRootCollURI(par.user),
           par.withUserRestriction,
@@ -605,8 +579,6 @@ implements
           colls,
           collGet(
             new SSCollGetPar(
-              null,
-              null,
               par.user,
               collURI,
               par.withUserRestriction,
@@ -678,8 +650,6 @@ implements
           colls,
           collGet(
             new SSCollGetPar(
-              null,
-              null,
               par.user,
               collURI,
               par.withUserRestriction,
@@ -728,8 +698,6 @@ implements
           colls,
           collGet(
             new SSCollGetPar(
-              null,
-              null,
               par.user,
               collURI,
               par.withUserRestriction,
@@ -762,8 +730,6 @@ implements
 
       entityServ.entityUpdate(
         new SSEntityUpdatePar(
-          null,
-          null,
           par.forUser,
           rootCollUri,
           SSEntityE.coll, //type,
@@ -785,8 +751,6 @@ implements
       final SSUri sharedWithMeFilesCollUri =
         collEntryAdd(
           new SSCollUserEntryAddPar(
-            null,
-            null,
             par.forUser,
             rootCollUri, //coll
             null, //entry
@@ -940,8 +904,6 @@ implements
           addedEntries,
           collEntryAdd(
             new SSCollUserEntryAddPar(
-              null,
-              null,
               par.user,
               par.coll, //coll
               par.entries.get(counter), //entry
@@ -1053,8 +1015,6 @@ implements
           deletedEntries,
           collEntryDelete(
             new SSCollUserEntryDeletePar(
-              null,
-              null,
               par.user, 
               par.coll, 
               collEntryUri, 
@@ -1120,8 +1080,6 @@ implements
       
       return ((SSTagServerI) SSServReg.getServ(SSTagServerI.class)).tagFrequsGet(
         new SSTagFrequsGetPar(
-          null, 
-          null, 
           par.user, 
           null, //forUser, 
           entityURIs, 

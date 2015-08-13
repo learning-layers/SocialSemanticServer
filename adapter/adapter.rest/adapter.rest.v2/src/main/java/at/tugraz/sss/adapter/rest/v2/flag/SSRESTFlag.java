@@ -60,8 +60,6 @@ public class SSRESTFlag{
       
       par =
         new SSFlagsSetPar(
-          SSServOpE.flagsSet,
-          null,
           null,  
           input.entities,
           input.types, 

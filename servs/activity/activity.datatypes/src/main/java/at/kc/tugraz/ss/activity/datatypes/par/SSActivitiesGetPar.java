@@ -74,8 +74,6 @@ public class SSActivitiesGetPar extends SSServPar{
   public SSActivitiesGetPar(){}
   
   public SSActivitiesGetPar(
-    final SSServOpE             op,
-    final String                key,
     final SSUri                 user,
     final List<SSActivityE>     types, 
     final List<SSUri>           users, 
@@ -87,7 +85,7 @@ public class SSActivitiesGetPar extends SSServPar{
     final Boolean               withUserRestriction,
     final Boolean               invokeEntityHandlers){
     
-    super(op, key, user);
+    super(SSServOpE.activitiesGet, null, user);
     
     if(types != null){
       this.types.addAll(types);

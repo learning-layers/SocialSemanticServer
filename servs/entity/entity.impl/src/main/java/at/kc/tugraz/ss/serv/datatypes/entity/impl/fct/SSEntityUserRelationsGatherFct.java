@@ -25,7 +25,6 @@ import at.kc.tugraz.ss.circle.datatypes.par.SSCirclesGetPar;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSEntityCircle;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
@@ -68,8 +67,6 @@ public class SSEntityUserRelationsGatherFct{
     for(SSEntity circle : 
       ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlesGet(
           new SSCirclesGetPar(
-            null,
-            null,
             userUri,
             null,
             SSEntityE.asListWithoutNullAndEmpty(),

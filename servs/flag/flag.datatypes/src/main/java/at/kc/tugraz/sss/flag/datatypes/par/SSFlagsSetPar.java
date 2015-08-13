@@ -54,8 +54,6 @@ public class SSFlagsSetPar extends SSServPar{
   public SSFlagsSetPar(){}
   
   public SSFlagsSetPar(
-    final SSServOpE      op,
-    final String         key,
     final SSUri          user, 
     final List<SSUri>    entities, 
     final List<SSFlagE>  types, 
@@ -64,7 +62,7 @@ public class SSFlagsSetPar extends SSServPar{
     final Boolean        withUserRestriction,
     final Boolean        shouldCommit){
     
-    super(op, key, user);
+    super(SSServOpE.flagsSet, null, user);
     
     SSUri.addDistinctWithoutNull    (this.entities, entities);
     SSFlagE.addDistinctWithoutNull  (this.types,    types);

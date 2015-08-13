@@ -89,8 +89,6 @@ implements
         return SSApp.get(
           appGet(
             new SSAppGetPar(
-              null,
-              null,
               par.user,
               entity.id, 
               false)), //invokeEntityHandlers
@@ -122,8 +120,6 @@ implements
 
       ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
         new SSEntityUpdatePar(
-          null,
-          null,
           par.user,
           appUri, //entity,
           SSEntityE.app, //type,
@@ -140,8 +136,6 @@ implements
       
         ((SSImageServerI) SSServReg.getServ(SSImageServerI.class)).imageAdd(
           new SSImageAddPar(
-            null, 
-            null, 
             par.user, 
             screenShot, 
             SSImageE.screenShot, //imageType
@@ -225,8 +219,6 @@ implements
         sqlFct.getApp(par.app), 
         ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
           new SSEntityGetPar(
-            null, 
-            null, 
             par.user, 
             par.app, 
             par.withUserRestriction, //withUserRestriction, 
@@ -284,8 +276,6 @@ implements
           apps,
           appGet(
             new SSAppGetPar(
-              null,
-              null,
               par.user,
               appURI,
               par.invokeEntityHandlers)));

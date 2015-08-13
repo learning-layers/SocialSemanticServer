@@ -80,7 +80,6 @@ import java.util.Map;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSObjU;
 import at.tugraz.sss.serv.SSServErrReg;
-import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSToolContextE;
@@ -130,8 +129,6 @@ implements
         entity.categories.addAll(
           categoriesGet(
             new SSCategoriesGetPar(
-              null,
-              null,
               par.user,
               null, //forUser,
               SSUri.asListWithoutNullAndEmpty(entity.id),
@@ -165,8 +162,6 @@ implements
         for(SSEntity category :
           categoriesGet(
             new SSCategoriesGetPar(
-              null,
-              null,
               userUri,
               userUri, //forUser
               null,  //entities
@@ -204,8 +199,6 @@ implements
       
       categoriesRemove(
         new SSCategoriesRemovePar(
-          null,
-          null,
           par.user,
           null, //forUser
           entity, 
@@ -233,8 +226,6 @@ implements
           for(SSEntity category :
             categoriesGet(
               new SSCategoriesGetPar(
-                null,
-                null,
                 par.user,
                 null, //forUser
                 SSUri.getDistinctNotNullFromEntities(par.entities), //entities
@@ -248,8 +239,6 @@ implements
               
               categoryAdd(
                 new SSCategoryAddPar(
-                  null,
-                  null,
                   par.targetUser,  //user
                   ((SSCategory)category).entity, //entity
                   ((SSCategory)category).categoryLabel, //label
@@ -263,8 +252,6 @@ implements
               
               categoryAdd(
                 new SSCategoryAddPar(
-                  null,
-                  null,
                   ((SSCategory)category).user,  //user
                   ((SSCategory)category).entity, //entity
                   ((SSCategory)category).categoryLabel, //label
@@ -297,8 +284,6 @@ implements
         categories.add(
           categoryAdd(
             new SSCategoryAddPar(
-              null, 
-              null, 
               par.user, 
               par.entity,
               categoryLabel, 
@@ -346,8 +331,6 @@ implements
     
     activityServ.activityAdd(
       new SSActivityAddPar(
-        null,
-        null,
         par.user,
         SSActivityE.addCategory,
         par.entity,
@@ -379,8 +362,6 @@ implements
       final SSEntity         categoryEntity =
         entityServ.entityFromTypeAndLabelGet(
           new SSEntityFromTypeAndLabelGetPar(
-            null,
-            null,
             par.user,
             SSLabel.get(SSStrU.toStr(par.label)), //label,
             SSEntityE.category, //type,
@@ -392,8 +373,6 @@ implements
         par.circle =
           ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePubURIGet(
             new SSCirclePubURIGetPar(
-              SSServOpE.circlePubURIGet, 
-              null, 
               null, 
               false));
       }
@@ -408,8 +387,6 @@ implements
           circleEntity =
             entityServ.entityGet(
               new SSEntityGetPar(
-                null,
-                null,
                 par.user,
                 par.circle,
                 par.withUserRestriction,
@@ -432,8 +409,6 @@ implements
         
         entityServ.entityUpdate(
           new SSEntityUpdatePar(
-            null,
-            null,
             par.user,
             categoryUri,
             SSEntityE.category, //type,
@@ -449,8 +424,6 @@ implements
       
       entityServ.entityUpdate(
         new SSEntityUpdatePar(
-          null,
-          null,
           par.user,
           par.entity,
           null, //type,
@@ -513,8 +486,6 @@ implements
     
     activityServ.activityAdd(
       new SSActivityAddPar(
-        null,
-        null,
         par.user,
         SSActivityE.removeCategories,
         par.entity,
@@ -566,8 +537,6 @@ implements
         final SSEntity categoryEntity =
         entityServ.entityFromTypeAndLabelGet(
           new SSEntityFromTypeAndLabelGetPar(
-            null,
-            null,
             par.user,
             SSLabel.get(SSStrU.toStr(par.label)), //label,
             SSEntityE.category, //type,
@@ -599,8 +568,6 @@ implements
       //check whether user can access the entity
       entityServ.entityGet(
         new SSEntityGetPar(
-          null,
-          null,
           par.user,
           par.entity, //entity
           par.withUserRestriction, //withUserRestriction
@@ -717,8 +684,6 @@ implements
         categoryEntity =
           entityServ.entityFromTypeAndLabelGet(
             new SSEntityFromTypeAndLabelGetPar(
-              null,
-              null,
               par.user,
               SSLabel.get(SSStrU.toStr(label)), //label,
               SSEntityE.category, //type,
@@ -732,8 +697,6 @@ implements
 
         entityServ.entityUpdate(
           new SSEntityUpdatePar(
-            null,
-            null,
             par.user,
             categoryUri,
             SSEntityE.category, //type,
@@ -955,8 +918,6 @@ implements
         commonMiscFct.getMetadataFrequsFromMetadata(
           categoriesGet(
             new SSCategoriesGetPar(
-              null,
-              null,
               par.user,
               par.forUser,
               par.entities,

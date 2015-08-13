@@ -45,12 +45,10 @@ public class SSLearnEpsLockHoldPar extends SSServPar{
   public SSLearnEpsLockHoldPar(){}
   
   public SSLearnEpsLockHoldPar(
-    final SSServOpE   op,
-    final String      key,
-    final SSUri       user,
-    final List<SSUri>       learnEps){
+    final SSUri        user,
+    final List<SSUri>  learnEps){
     
-    super(op, key, user);
+    super(SSServOpE.learnEpsLockHold, null, user);
     
     this.learnEps = learnEps;
   }

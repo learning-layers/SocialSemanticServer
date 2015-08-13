@@ -88,8 +88,6 @@ implements
         final List<SSEntity> files =
           filesGet(
             new SSEntityFilesGetPar(
-              null, 
-              null, 
               par.user, 
               entity.id, 
               par.withUserRestriction,
@@ -218,8 +216,6 @@ implements
       
       entityServ.entityUpdate(
         new SSEntityUpdatePar(
-          null, 
-          null, 
           par.user, 
           par.file,  //entity
           SSEntityE.file,  //type
@@ -238,8 +234,6 @@ implements
         
         entityServ.entityUpdate(
           new SSEntityUpdatePar(
-            null,
-            null,
             par.user,
             par.entity,  //entity
             null,  //type
@@ -305,8 +299,6 @@ implements
         file,
         entityServ.entityGet(
           new SSEntityGetPar(
-            null,
-            null,
             par.user,
             par.file,
             par.withUserRestriction,

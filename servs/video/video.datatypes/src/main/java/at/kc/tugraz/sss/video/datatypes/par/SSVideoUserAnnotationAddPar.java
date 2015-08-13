@@ -65,8 +65,6 @@ public class SSVideoUserAnnotationAddPar extends SSServPar{
   public SSVideoUserAnnotationAddPar(){}
     
   public SSVideoUserAnnotationAddPar(
-    final SSServOpE            op,
-    final String               key,
     final SSUri                user,
     final SSUri                video,
     final Long                 timePoint,
@@ -77,7 +75,7 @@ public class SSVideoUserAnnotationAddPar extends SSServPar{
     final Boolean              withUserRestriction, 
     final Boolean              shouldCommit){
     
-    super(op, key, user);
+    super(SSServOpE.videoAnnotationAdd, null, user);
     
     this.video               = video;
     this.timePoint           = timePoint;

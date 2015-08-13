@@ -61,8 +61,6 @@ public class SSCollUserEntriesAddPar extends SSServPar{
   public SSCollUserEntriesAddPar(){}
   
   public SSCollUserEntriesAddPar(
-    final SSServOpE     op,
-    final String        key,
     final SSUri         user,
     final SSUri         coll, 
     final List<SSUri>   entries, 
@@ -70,7 +68,7 @@ public class SSCollUserEntriesAddPar extends SSServPar{
     final Boolean       withUserRestriction,
     final Boolean       shouldCommit){
     
-    super(op, key, user);
+    super(SSServOpE.collEntriesAdd, null, user);
     
     this.coll           = coll;
     

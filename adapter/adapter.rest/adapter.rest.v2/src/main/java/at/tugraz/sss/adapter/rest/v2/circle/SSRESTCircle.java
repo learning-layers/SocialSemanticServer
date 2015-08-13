@@ -79,8 +79,6 @@ public class SSRESTCircle{
       
       par =
         new SSCirclesGetPar(
-          SSServOpE.circlesGet,
-          null,
           null,
           null, //entity
           null, //entityTypesToIncludeOnly
@@ -117,8 +115,6 @@ public class SSRESTCircle{
       
       par =
         new SSCircleGetPar(
-          SSServOpE.circleGet, //op
-          null, //key
           null, //user
           SSUri.get(circle, SSVocConf.sssUri), //circle
           input.entityTypesToIncludeOnly, //entityTypesToIncludeOnly
@@ -156,8 +152,6 @@ public class SSRESTCircle{
     try{
       par =
         new SSCircleUsersAddPar(
-          SSServOpE.circleUsersAdd,
-          null,
           null,
           SSUri.get(circle, SSVocConf.sssUri), //circle
           SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(users, SSStrU.comma), SSVocConf.sssUri),  //users
@@ -196,8 +190,6 @@ public class SSRESTCircle{
       
       par =
         new SSCircleEntitiesAddPar(
-          SSServOpE.circleEntitiesAdd,
-          null,
           null,
           SSUri.get(circle, SSVocConf.sssUri), //circle
           SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(entities, SSStrU.comma), SSVocConf.sssUri),  //entities
@@ -244,7 +236,6 @@ public class SSRESTCircle{
       
       par =
         new SSCircleEntitiesRemoveFromClientPar(
-          null,
           SSUri.get(circle, SSVocConf.sssUri), //circle
           SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(entities, SSStrU.comma), SSVocConf.sssUri),  //entities
           input.removeCircleSpecificMetadata); //removeCircleSpecificMetadata
@@ -275,8 +266,6 @@ public class SSRESTCircle{
       
       par =
         new SSCircleCreateFromClientPar(
-          SSServOpE.circleCreate,
-          null,
           null,
           input.label, //label
           input.description, //description
@@ -313,8 +302,6 @@ public class SSRESTCircle{
       
       par =
         new SSCircleUsersRemovePar(
-          SSServOpE.circleUsersRemove,
-          null,
           null,
           SSUri.get(circle, SSVocConf.sssUri), //circle
           SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(users, SSStrU.comma), SSVocConf.sssUri), //users
@@ -348,8 +335,6 @@ public class SSRESTCircle{
       
       par =
         new SSCircleRemovePar(
-          SSServOpE.circleRemove,
-          null,
           null,
           SSUri.get(circle, SSVocConf.sssUri), //circle
           true, //withUserRestriction 

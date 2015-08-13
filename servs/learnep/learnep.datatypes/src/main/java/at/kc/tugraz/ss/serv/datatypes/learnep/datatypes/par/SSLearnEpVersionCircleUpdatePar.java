@@ -56,8 +56,6 @@ public class SSLearnEpVersionCircleUpdatePar extends SSServPar{
   public SSLearnEpVersionCircleUpdatePar(){}
   
   public SSLearnEpVersionCircleUpdatePar(
-    final SSServOpE     op,
-    final String        key,
     final SSUri         user,
     final SSUri         learnEpCircle,
     final SSLabel       label,
@@ -69,7 +67,7 @@ public class SSLearnEpVersionCircleUpdatePar extends SSServPar{
     final Float         yC,
     final Boolean       shouldCommit){
     
-    super(op, key, user);
+    super(SSServOpE.learnEpVersionCircleUpdate, null, user);
     
     this.learnEpCircle     = learnEpCircle;
     this.label             = label;

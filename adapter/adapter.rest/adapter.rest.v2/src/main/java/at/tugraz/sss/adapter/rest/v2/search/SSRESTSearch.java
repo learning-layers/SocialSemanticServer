@@ -58,8 +58,6 @@ public class SSRESTSearch{
       
       par =
         new SSSearchPar(
-          SSServOpE.search,
-          null,
           null,
           input.wordsToSearchFor,
           input.tagsToSearchFor,

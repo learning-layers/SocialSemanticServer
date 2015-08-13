@@ -77,8 +77,6 @@ public class SSRESTRecomm{
       
       par =
         new SSRecommUpdatePar(
-          SSServOpE.recommUpdate,
-          null,
           null,
           input.realm,       //realm
           input.forUser,     //forUser
@@ -123,8 +121,6 @@ public class SSRESTRecomm{
       
       par =
         new SSRecommUpdateBulkPar(
-          SSServOpE.recommUpdateBulk,
-          null,
           null,
           realm, 
           null); //sSCon
@@ -157,8 +153,6 @@ public class SSRESTRecomm{
       
       par =
         new SSRecommUpdateBulkEntitiesPar(
-          SSServOpE.recommUpdateBulkEntities,
-          null,
           null,
           input.realm,         //realm
           input.forUser,       //forUser
@@ -190,8 +184,6 @@ public class SSRESTRecomm{
       
       par =
         new SSRecommUsersPar(
-          SSServOpE.recommUsers,
-          null,
           null, 
           null, //realm
           null,  //forUser
@@ -232,8 +224,6 @@ public class SSRESTRecomm{
       
       par =
         new SSRecommUsersPar(
-          SSServOpE.recommUsers,
-          null,
           null, 
           realm, //realm
           null,  //forUser
@@ -274,8 +264,6 @@ public class SSRESTRecomm{
       
       par =
         new SSRecommUsersPar(
-          SSServOpE.recommUsers,
-          null,
           null, 
           realm, //realm
           null,  //forUser
@@ -322,8 +310,6 @@ public class SSRESTRecomm{
       
       par =
         new SSRecommUsersPar(
-          SSServOpE.recommUsers,
-          null,
           null, 
           null,                                //realm
           SSUri.get(forUser, SSVocConf.sssUri), //forUser
@@ -376,8 +362,6 @@ public class SSRESTRecomm{
       
       par =
         new SSRecommUsersPar(
-          SSServOpE.recommUsers,
-          null,
           null, 
           realm,                                //realm
           SSUri.get(forUser, SSVocConf.sssUri), //forUser
@@ -430,8 +414,6 @@ public class SSRESTRecomm{
       
       par =
         new SSRecommUsersPar(
-          SSServOpE.recommUsers,
-          null,
           null, 
           realm,                                //realm
           SSUri.get(forUser, SSVocConf.sssUri), //forUser
@@ -472,8 +454,6 @@ public class SSRESTRecomm{
       
       par =
         new SSRecommUsersPar(
-          SSServOpE.recommUsers,
-          null,
           null, 
           null,                                //realm
           SSUri.get(forUser, SSVocConf.sssUri), //forUser
@@ -520,8 +500,6 @@ public class SSRESTRecomm{
       
       par =
         new SSRecommUsersPar(
-          SSServOpE.recommUsers,
-          null,
           null, 
           realm,                                //realm
           SSUri.get(forUser, SSVocConf.sssUri), //forUser
@@ -569,8 +547,6 @@ public class SSRESTRecomm{
       
       par =
         new SSRecommUsersPar(
-          SSServOpE.recommUsers,
-          null,
           null, 
           realm,                                //realm
           SSUri.get(forUser, SSVocConf.sssUri), //forUser
@@ -611,8 +587,6 @@ public class SSRESTRecomm{
       
       par =
         new SSRecommUsersPar(
-          SSServOpE.recommUsers,
-          null,
           null, 
           null, //realm
           null, //forUser
@@ -659,8 +633,6 @@ public class SSRESTRecomm{
       
       par =
         new SSRecommUsersPar(
-          SSServOpE.recommUsers,
-          null,
           null, 
           realm, //realm
           null, //forUser
@@ -707,8 +679,6 @@ public class SSRESTRecomm{
       
       par =
         new SSRecommUsersPar(
-          SSServOpE.recommUsers,
-          null,
           null, 
           realm, //realm
           null, //forUser
@@ -745,8 +715,6 @@ public class SSRESTRecomm{
       
       par =
         new SSRecommResourcesPar(
-          SSServOpE.recommResources,
-          null,
           null, 
           input.realm,  //realm
           input.forUser,  //forUser
@@ -786,8 +754,6 @@ public class SSRESTRecomm{
       
       par =
         new SSRecommTagsPar(
-          SSServOpE.recommTags,
-          null,
           null, 
           input.realm,  //realm
           input.forUser,  //forUser

@@ -137,8 +137,6 @@ implements
             
             circleServ.circleEntitiesAdd(
               new SSCircleEntitiesAddPar(
-                null,
-                null,
                 par.user,
                 par.circle,
                 affiliatedURIs,
@@ -209,8 +207,6 @@ implements
           return SSVideo.get(
             videoGet(
               new SSVideoUserGetPar(
-                null,
-                null,
                 par.user,
                 entity.id,
                 par.withUserRestriction,
@@ -241,8 +237,6 @@ implements
       
       locationServ.locationAdd(
         new SSLocationAddPar(
-          null,
-          null,
           par.user,
           videoURI,
           par.latitude,
@@ -288,8 +282,6 @@ implements
       
       entityServ.entityUpdate(
         new SSEntityUpdatePar(
-          null,
-          null,
           par.user,
           videoUri,
           SSEntityE.video, //type,
@@ -306,8 +298,6 @@ implements
         
         entityServ.entityUpdate(
           new SSEntityUpdatePar(
-            null,
-            null,
             par.user,
             par.forEntity,
             null, //type,
@@ -325,8 +315,6 @@ implements
         
         entityServ.entityUpdate(
           new SSEntityUpdatePar(
-            null,
-            null,
             par.user,
             par.link,
             null, //type,
@@ -395,8 +383,6 @@ implements
       
       entityServ.entityUpdate(
         new SSEntityUpdatePar(
-          null,
-          null,
           par.user,
           par.video,
           null, //type,
@@ -411,8 +397,6 @@ implements
       
       entityServ.entityUpdate(
         new SSEntityUpdatePar(
-          null,
-          null,
           par.user,
           annotationUri,
           SSEntityE.videoAnnotation, //type,
@@ -483,8 +467,6 @@ implements
           sqlFct.getVideo(par.user, par.video), 
           entityServ.entityGet(
             new SSEntityGetPar(
-              null, 
-              null, 
               par.user,
               par.video,
               par.withUserRestriction, 
@@ -595,8 +577,6 @@ implements
           videos,
           videoGet(
             new SSVideoUserGetPar(
-              null,
-              null,
               par.user,
               videoURI,
               par.withUserRestriction,

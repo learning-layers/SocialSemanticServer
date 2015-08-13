@@ -122,8 +122,6 @@ implements
         entity.attachedEntities,
         entitiesGet(
           new SSEntitiesGetPar(
-            null,
-            null,
             par.user,
             sqlFct.getAttachedEntityURIs(entity.id), //entities
             null, //types,
@@ -192,8 +190,6 @@ implements
     
     activityServ.activityAdd(
       new SSActivityAddPar(
-        null,
-        null,
         par.user,
         SSActivityE.copyEntityForUsers,
         par.entity,
@@ -225,8 +221,6 @@ implements
       final SSEntity entity =
         entityGet(
           new SSEntityGetPar(
-            null,
-            null,
             par.user,
             par.entity,
             par.withUserRestriction,
@@ -301,8 +295,6 @@ implements
             entities,
             entityGet(
               new SSEntityGetPar(
-                null,
-                null,
                 par.user,
                 entity,
                 par.withUserRestriction,
@@ -324,8 +316,6 @@ implements
             entities,
             entityGet(
               new SSEntityGetPar(
-                null,
-                null,
                 par.user,
                 entity.id,
                 par.withUserRestriction, //withUserRestriction
@@ -459,8 +449,6 @@ implements
     
       ((SSUEServerI) SSServReg.getServ(SSUEServerI.class)).userEventAdd(
         new SSUEAddPar(
-          null,
-          null,
           par.user,
           par.entity,
           SSUEE.bnpPlaceholderAdd,
@@ -510,8 +498,6 @@ implements
         final SSUri privateCircleURI =
           circleServ.circlePrivURIGet(
             new SSCirclePrivURIGetPar(
-              null,
-              null,
               par.user,
               false)); //shouldCommit
         
@@ -560,8 +546,6 @@ implements
           
         entityShare(
           new SSEntitySharePar(
-            null,
-            null,
             par.user,
             par.entity, //entity,
             null, //users,
@@ -880,8 +864,6 @@ implements
       final SSEntity entity =
         entityGet(
           new SSEntityGetPar(
-            null,
-            null,
             par.user,
             par.entity,
             par.withUserRestriction,

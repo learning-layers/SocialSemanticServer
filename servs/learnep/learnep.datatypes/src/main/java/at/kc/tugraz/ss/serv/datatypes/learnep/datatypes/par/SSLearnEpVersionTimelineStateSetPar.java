@@ -42,15 +42,13 @@ public class SSLearnEpVersionTimelineStateSetPar extends SSServPar{
   public SSLearnEpVersionTimelineStateSetPar(){}
   
   public SSLearnEpVersionTimelineStateSetPar(
-    final SSServOpE     op,
-    final String        key,
     final SSUri         user,
     final SSUri         learnEpVersion, 
     final Long          startTime,
     final Long          endTime,
     final Boolean       shouldCommit){
     
-    super(op, key, user);
+    super(SSServOpE.learnEpVersionTimelineStateSet, null, user);
     
     this.learnEpVersion     = learnEpVersion;
     this.startTime          = startTime;

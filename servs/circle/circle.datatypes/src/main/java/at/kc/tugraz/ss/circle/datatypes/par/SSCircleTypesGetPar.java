@@ -40,13 +40,11 @@ public class SSCircleTypesGetPar extends SSServPar{
   public SSCircleTypesGetPar(){}
     
   public SSCircleTypesGetPar(
-    final SSServOpE     op,
-    final String        key,
     final SSUri         user,
     final SSUri         entity,
     final Boolean       withUserRestriction){
     
-    super(op, key, user);
+    super(SSServOpE.circleTypesGet, null, user);
     
     this.entity              = entity;
     this.withUserRestriction = withUserRestriction;

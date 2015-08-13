@@ -90,8 +90,6 @@ implements
           userEntity.friends.addAll(
             friendsGet(
               new SSFriendsGetPar(
-                null,
-                null,
                 par.user)));
           
           return userEntity;
@@ -119,8 +117,6 @@ implements
         sqlFct.getFriend(par.friend),
         entityServ.entityGet(
           new SSEntityGetPar(
-            null, 
-            null, 
             par.user, 
             par.friend, 
             par.withUserRestriction, //withUserRestriction, 
@@ -155,8 +151,6 @@ implements
           result,
           friendGet(
             new SSFriendGetPar(
-              null, 
-              null, 
               par.user, 
               friend)));
       }

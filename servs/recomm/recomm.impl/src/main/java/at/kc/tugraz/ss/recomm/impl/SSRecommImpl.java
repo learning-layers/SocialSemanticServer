@@ -184,8 +184,6 @@ public class SSRecommImpl extends SSServImplWithDBA implements SSRecommClientI, 
           entity =
             ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
               new SSEntityGetPar(
-                null,
-                null,
                 par.user,
                 SSUri.get(userWithLikelihood.getKey()), //entity
                 par.withUserRestriction, //withUserRestriction,
@@ -461,8 +459,6 @@ public class SSRecommImpl extends SSServImplWithDBA implements SSRecommClientI, 
           entity =
             ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
               new SSEntityGetPar(
-                null,
-                null,
                 par.user,
                 SSUri.get(entityWithLikelihood.getKey()), //entity
                 par.withUserRestriction, //withUserRestriction,
@@ -609,7 +605,9 @@ public class SSRecommImpl extends SSServImplWithDBA implements SSRecommClientI, 
           
           userURIs.add(
             ((SSUserServerI) SSServReg.getServ(SSUserServerI.class)).userURIGet(
-              new SSUserURIGetPar(null, null, par.user, user)));
+              new SSUserURIGetPar(
+                par.user, 
+                user)));
         }
           
         SSServCaller.dataExportUsersEntitiesTagsCategoriesTimestampsFile(
@@ -682,8 +680,6 @@ public class SSRecommImpl extends SSServImplWithDBA implements SSRecommClientI, 
         userURI =
           ((SSUserServerI) SSServReg.getServ(SSUserServerI.class)).userURIGet(
             new SSUserURIGetPar(
-              null,
-              null,
               par.user,
               userEmail));
         
@@ -694,8 +690,6 @@ public class SSRecommImpl extends SSServImplWithDBA implements SSRecommClientI, 
         circles.addAll(
           ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlesGet(
           new SSCirclesGetPar(
-            null,
-            null,
             userURI,
             null, //entity,
             null, //entityTypesToIncludeOnly,
@@ -725,8 +719,6 @@ public class SSRecommImpl extends SSServImplWithDBA implements SSRecommClientI, 
         
         ((SSDataExportServerI) SSServReg.getServ(SSDataExportServerI.class)).dataExportUsersEntitiesTagsCategoriesTimestampsFileFromCircle(
           new SSDataExportUsersEntitiesTagsCategoriesTimestampsFileFromCirclePar(
-            null, 
-            null, 
             par.user,
             SSUri.get(usersForRealm.getKey(), SSVocConf.sssUri), //circle
             usersForRealm.getKey() + SSStrU.dot + SSFileExtE.txt, //fileName

@@ -62,8 +62,6 @@ public class SSRESTActivity{
       
       par =
         new SSActivitiesGetPar(
-          SSServOpE.activitiesGet,
-          null,
           null,  
           input.types,
           input.users,  
@@ -99,8 +97,6 @@ public class SSRESTActivity{
       
       par =
         new SSActivityTypesGetPar(
-          SSServOpE.activityTypesGet,
-          null,
           null); 
       
     }catch(Exception error){
@@ -129,8 +125,6 @@ public class SSRESTActivity{
       
       par =
         new SSActivityAddPar(
-          SSServOpE.activityAdd,
-          null,
           null,  
           input.type,
           input.entity,  

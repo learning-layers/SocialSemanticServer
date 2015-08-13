@@ -56,8 +56,6 @@ public class SSRecommUsersPar extends SSServPar{
   public SSRecommUsersPar(){}
     
   public SSRecommUsersPar(
-    final SSServOpE    op,
-    final String       key,
     final SSUri        user,
     final String       realm,
     final SSUri        forUser,
@@ -68,7 +66,7 @@ public class SSRecommUsersPar extends SSServPar{
     final Boolean      withUserRestriction, 
     final Boolean      invokeEntityHandlers){
   
-    super(op, key, user);
+    super(SSServOpE.recommUsers, null, user);
     
     this.realm   = realm;
     this.forUser = forUser;

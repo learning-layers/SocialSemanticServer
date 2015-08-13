@@ -96,8 +96,6 @@ implements
         return SSActivity.get(
           activityGet(
             new SSActivityGetPar(
-              null,
-              null,
               par.user,
               entity.id,
               false)), //invokeEntityHandlers
@@ -153,8 +151,6 @@ implements
           entitiesToQuery,
           ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
             new SSEntitiesGetPar(
-              null,
-              null,
               par.user,
               par.entities, //entities
               null, //types,
@@ -167,8 +163,6 @@ implements
         for(SSEntity circle :
           ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
             new SSEntitiesGetPar(
-              null,
-              null,
               par.user,
               par.circles, //entities
               null, //types,
@@ -202,8 +196,6 @@ implements
           activities,
           activityGet(
             new SSActivityGetPar(
-              null,
-              null,
               par.user,
               activityURI,
               par.invokeEntityHandlers)));
@@ -311,8 +303,6 @@ implements
       
       ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
         new SSEntityUpdatePar(
-          null,
-          null,
           par.user,
           activityUri,
           SSEntityE.activity,
@@ -329,8 +319,6 @@ implements
         
         ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
           new SSEntityUpdatePar(
-            null,
-            null,
             par.user,
             par.entity,
             null, //type
@@ -348,8 +336,6 @@ implements
         
         ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
           new SSEntityUpdatePar(
-            null,
-            null,
             par.user,
             entity,
             null, //type
@@ -403,8 +389,6 @@ implements
       
       ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
         new SSEntityUpdatePar(
-          null,
-          null,
           par.user,
           par.activity,
           null, //type
@@ -453,8 +437,6 @@ implements
         
         activityContentAdd(
           new SSActivityContentAddPar(
-            null,
-            null,
             par.user,
             par.activity,
             par.contentType,
@@ -504,8 +486,6 @@ implements
       activityEntity =
         ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
           new SSEntityGetPar(
-            null,
-            null,
             par.user,
             par.activity, //entity
             par.withUserRestriction, //withUserRestriction,
@@ -532,8 +512,6 @@ implements
         activity.entity =
           ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
             new SSEntityGetPar(
-              null,
-              null,
               par.user,
               activity.entity.id,
               par.withUserRestriction, //withUserRestriction,
@@ -545,8 +523,6 @@ implements
       activityUserEntities.addAll(
         ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
           new SSEntitiesGetPar(
-            null,
-            null,
             par.user,
             sqlFct.getActivityUsers(activity.id),  //entities
             null, //types,
@@ -560,8 +536,6 @@ implements
         activityEntityEntities,
         ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
           new SSEntitiesGetPar(
-            null,
-            null,
             par.user,
             sqlFct.getActivityEntities(activity.id),
             null, //types,

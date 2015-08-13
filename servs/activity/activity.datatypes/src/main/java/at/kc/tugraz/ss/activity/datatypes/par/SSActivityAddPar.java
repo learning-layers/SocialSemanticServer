@@ -81,8 +81,6 @@ public class SSActivityAddPar extends SSServPar{
   public SSActivityAddPar(){}
     
   public SSActivityAddPar(
-    final SSServOpE             op,
-    final String                key,
     final SSUri                 user, 
     final SSActivityE           type, 
     final SSUri                 entity, 
@@ -92,7 +90,7 @@ public class SSActivityAddPar extends SSServPar{
     final Long                  creationTime, 
     final Boolean               shouldCommit){
     
-    super(op, key, user);
+    super(SSServOpE.activityAdd, null, user);
     
     this.type          = type;
     this.entity        = entity;

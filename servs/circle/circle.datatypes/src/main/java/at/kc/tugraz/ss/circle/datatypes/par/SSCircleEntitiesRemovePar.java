@@ -51,15 +51,13 @@ public class SSCircleEntitiesRemovePar extends SSServPar{
   public SSCircleEntitiesRemovePar(){}
   
   public SSCircleEntitiesRemovePar(
-    final SSServOpE      op,
-    final String         key,
     final SSUri          user,
     final SSUri          circle,
     final List<SSUri>    entities,
     final Boolean        withUserRestriction,
     final Boolean        shouldCommit) throws Exception{
     
-    super(op, key, user);
+    super(SSServOpE.circleEntitiesRemove, null, user);
     
     this.circle  = circle;
     

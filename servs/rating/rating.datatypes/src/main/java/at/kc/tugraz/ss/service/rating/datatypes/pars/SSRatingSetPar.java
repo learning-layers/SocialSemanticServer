@@ -42,8 +42,6 @@ public class SSRatingSetPar extends SSServPar{
   public SSRatingSetPar(){}
   
   public SSRatingSetPar(
-    final SSServOpE op,
-    final String    key,
     final SSUri     user, 
     final SSUri     entity, 
     final Integer   value, 
@@ -51,7 +49,7 @@ public class SSRatingSetPar extends SSServPar{
     final Boolean   withUserRestriction, 
     final Boolean   shouldCommit){
     
-    super(op, key, user);
+    super(SSServOpE.ratingSet, null, user);
     
     this.entity              = entity;
     this.value               = value;

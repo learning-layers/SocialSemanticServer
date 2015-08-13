@@ -84,8 +84,6 @@ public class SSIntegrationTestBitsAndPiecesStudyFall2015 {
       final List<SSEntity> userEvents =
         userEventServ.userEventsGet(
           new SSUEsGetPar(
-            null,
-            null,
             user,
             null, //forUser,
             null, //entity,
@@ -111,8 +109,6 @@ public class SSIntegrationTestBitsAndPiecesStudyFall2015 {
       final List<String> predefinedCategories =
         categoryServ.categoriesPredefinedGet(
           new SSCategoriesPredefinedGetPar(
-            null,
-            null,
             user));
     
       return predefinedCategories;
@@ -130,8 +126,6 @@ public class SSIntegrationTestBitsAndPiecesStudyFall2015 {
       final List<SSEntity> users =
         userServ.usersGet(
           new SSUsersGetPar(
-            null,
-            null,
             user,
             null,  //users
             true)); //invokeEntityHandlers
@@ -151,8 +145,6 @@ public class SSIntegrationTestBitsAndPiecesStudyFall2015 {
       final List<SSEntity> learnEps =
         learnEpServ.learnEpsGet(
           new SSLearnEpsGetPar(
-            null,
-            null,
             user,
             true,  //withUserRestriction
             true)); //invokeEntityHandlers
@@ -172,8 +164,6 @@ public class SSIntegrationTestBitsAndPiecesStudyFall2015 {
       final List<SSEntity> messages =
         messageServ.messagesGet(
           new SSMessagesGetPar(
-            null,
-            null,
             user,
             true, //includeRead
             null, //startTime
@@ -195,8 +185,6 @@ public class SSIntegrationTestBitsAndPiecesStudyFall2015 {
       final List<SSEntity> activities =
         activityServ.activitiesGet(
           new SSActivitiesGetPar(
-            null,
-            null,
             user,
             null, //types
             null, //users,
@@ -223,8 +211,6 @@ public class SSIntegrationTestBitsAndPiecesStudyFall2015 {
       final SSUri learnEp = 
         learnEpServ.learnEpCreate(
         new SSLearnEpCreatePar(
-          null,
-          null,
           user,
           SSLabel.get("learn ep 1"),
           SSTextComment.get("description"), 
@@ -233,8 +219,6 @@ public class SSIntegrationTestBitsAndPiecesStudyFall2015 {
       final SSUri learnEpVersion = 
         learnEpServ.learnEpVersionCreate(
           new SSLearnEpVersionCreatePar(
-            null, 
-            null, 
             user, 
             learnEp, 
             false));
@@ -242,8 +226,6 @@ public class SSIntegrationTestBitsAndPiecesStudyFall2015 {
       final SSUri circle =
         learnEpServ.learnEpVersionCircleAdd(
           new SSLearnEpVersionCircleAddPar(
-            null,
-            null,
             user,
             learnEpVersion,
             SSLabel.get("version 1"),
@@ -258,8 +240,6 @@ public class SSIntegrationTestBitsAndPiecesStudyFall2015 {
       final SSUri entity = 
         learnEpServ.learnEpVersionEntityAdd(
           new SSLearnEpVersionEntityAddPar(
-            null, 
-            null, 
             user, 
             learnEpVersion, 
             SSUri.get("http://linkToEnttiy"), 
@@ -302,8 +282,6 @@ public class SSIntegrationTestBitsAndPiecesStudyFall2015 {
       final SSEntity dieter =
         entityServ.entityFromTypeAndLabelGet(
           new SSEntityFromTypeAndLabelGetPar(
-            null,
-            null,
             SSVocConf.systemUserUri,
             SSLabel.get("dieter"),
             SSEntityE.user,
@@ -327,8 +305,6 @@ public class SSIntegrationTestBitsAndPiecesStudyFall2015 {
       
       learnEpServ.learnEpVersionEntityUpdate(
         new SSLearnEpVersionEntityUpdatePar(
-          null, 
-          null, 
           user, 
           learnEpEntity, 
           SSUri.get("http://entity2"), 
@@ -338,8 +314,6 @@ public class SSIntegrationTestBitsAndPiecesStudyFall2015 {
 
       entityServ.entityUpdate(
         new SSEntityUpdatePar(
-          null, 
-          null, 
           user, 
           learnEpEntity, 
           null, //type, 
@@ -368,8 +342,6 @@ public class SSIntegrationTestBitsAndPiecesStudyFall2015 {
       
       learnEpServ.learnEpVersionCircleUpdate(
         new SSLearnEpVersionCircleUpdatePar(
-          null,
-          null,
           user,
           learnEpCircle,
           SSLabel.get("new circle label"),

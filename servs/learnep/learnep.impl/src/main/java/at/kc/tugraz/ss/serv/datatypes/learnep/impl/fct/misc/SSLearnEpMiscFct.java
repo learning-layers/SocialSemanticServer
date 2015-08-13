@@ -91,8 +91,6 @@ public class SSLearnEpMiscFct{
         attachedEntities,
         ((SSFileRepoServerI) SSServReg.getServ(SSFileRepoServerI.class)).filesGet(
           new SSEntityFilesGetPar(
-            null,
-            null,
             user,
             entity,
             true, //withUserRestcrition);
@@ -102,8 +100,6 @@ public class SSLearnEpMiscFct{
         attachedEntities,
           ((SSImageServerI) SSServReg.getServ(SSImageServerI.class)).imagesGet(
             new SSImagesGetPar(
-              null,
-              null,
               user,
               entity, //entity
               SSImageE.thumb, //imageType

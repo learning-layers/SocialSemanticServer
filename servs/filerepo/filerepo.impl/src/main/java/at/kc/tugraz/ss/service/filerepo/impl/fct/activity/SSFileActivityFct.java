@@ -43,8 +43,6 @@ public class SSFileActivityFct{
       
       ((SSActivityServerI) SSServReg.getServ(SSActivityServerI.class)).activityAdd(
         new SSActivityAddPar(
-          null, 
-          null, 
           user, 
           SSActivityE.shareFileWithUsers, 
           entity, 

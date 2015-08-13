@@ -23,7 +23,6 @@ package at.tugraz.sss.adapter.rest.v2.jsonld;
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
 import at.kc.tugraz.ss.serv.jsonld.datatypes.par.SSJSONLDPar;
 import at.kc.tugraz.ss.serv.jsonld.datatypes.par.ret.SSJSONLDRet;
-import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSVarNames;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
@@ -60,8 +59,6 @@ public class SSRESTJSONLD{
       
       par =
         new SSJSONLDPar(
-          SSServOpE.jsonLD,
-          null, 
           null,
           type);
       

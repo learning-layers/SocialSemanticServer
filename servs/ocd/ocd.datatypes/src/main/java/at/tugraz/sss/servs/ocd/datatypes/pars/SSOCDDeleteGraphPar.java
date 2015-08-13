@@ -24,22 +24,18 @@ import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSUri;
 
-
 public class SSOCDDeleteGraphPar extends SSServPar {
   
   public SSOCDDeleteGraphPar () {
-    
   }
   
   private String graphId = null;
   
   public SSOCDDeleteGraphPar (
-    final SSServOpE op,
-    final String key,
     final SSUri user,
     final String graphId ) {
     
-      super(op, key, user);
+      super(SSServOpE.ocdDeleteGraph, null, user);
   }
 
   public String getGraphId() {

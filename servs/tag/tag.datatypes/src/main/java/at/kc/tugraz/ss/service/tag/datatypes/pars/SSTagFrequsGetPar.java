@@ -82,8 +82,6 @@ public class SSTagFrequsGetPar extends SSServPar{
   public SSTagFrequsGetPar(){}
    
   public SSTagFrequsGetPar(
-    final SSServOpE          op,
-    final String             key, 
     final SSUri              user, 
     final SSUri              forUser, 
     final List<SSUri>        entities, 
@@ -94,7 +92,7 @@ public class SSTagFrequsGetPar extends SSServPar{
     final Boolean            useUsersEntities,
     final Boolean            withUserRestriction){
     
-    super(op, key, user);
+    super(SSServOpE.tagFrequsGet, null, user);
     
     this.forUser = forUser;
     

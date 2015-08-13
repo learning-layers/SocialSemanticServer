@@ -90,8 +90,6 @@ implements
         return SSAppStackLayout.get(
           appStackLayoutGet(
             new SSAppStackLayoutGetPar(
-              null,
-              null,
               par.user,
               entity.id,
               par.withUserRestriction, 
@@ -132,8 +130,6 @@ implements
         
         ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
           new SSEntityUpdatePar(
-            null,
-            null,
             par.user,
             par.app,
             null, //type,
@@ -149,8 +145,6 @@ implements
       
       ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
         new SSEntityUpdatePar(
-          null,
-          null,
           par.user,
           appStackLayoutUri,
           SSEntityE.appStackLayout, //type,
@@ -211,8 +205,6 @@ implements
       
       ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
         new SSEntityUpdatePar(
-          null,
-          null,
           par.user,
           par.stack,
           null, //type
@@ -229,8 +221,6 @@ implements
         
         ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
           new SSEntityUpdatePar(
-            null,
-            null,
             par.user,
             par.app,
             null, //type,
@@ -282,8 +272,6 @@ implements
         sqlFct.getAppStackLayout(par.stack),
         ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
           new SSEntityGetPar(
-            null,
-            null,
             par.user,
             par.stack,
             par.withUserRestriction, //withUserRestriction,
@@ -318,8 +306,6 @@ implements
           stacks,
           appStackLayoutGet(
             new SSAppStackLayoutGetPar(
-              null,
-              null,
               par.user,
               stackURI,
               par.withUserRestriction,

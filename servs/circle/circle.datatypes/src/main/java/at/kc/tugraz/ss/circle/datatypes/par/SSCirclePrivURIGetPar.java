@@ -29,12 +29,10 @@ public class SSCirclePrivURIGetPar extends SSServPar{
   public SSCirclePrivURIGetPar(){}
   
   public SSCirclePrivURIGetPar(
-    final SSServOpE     op,
-    final String        key,
     final SSUri         user, 
     final Boolean       shouldCommit) throws Exception{
       
-    super(op, key, user);
+    super(SSServOpE.circlePrivURIGet, null, user);
     
     this.shouldCommit = shouldCommit;
   }

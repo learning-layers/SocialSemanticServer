@@ -20,7 +20,6 @@
 */
 package at.tugraz.sss.adapter.rest.v2.app;
 
-import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
 import at.kc.tugraz.sss.app.datatypes.par.SSAppAddPar;
 import at.kc.tugraz.sss.app.datatypes.par.SSAppsGetPar;
@@ -58,8 +57,6 @@ public class SSRESTApp{
       
       par =
         new SSAppsGetPar(
-          SSServOpE.appsGet,
-          null, 
           null, 
           true); //invokeEntityHandlers
       
@@ -87,8 +84,6 @@ public class SSRESTApp{
       
       par =
         new SSAppAddPar(
-          SSServOpE.appAdd,
-          null,
           null,
           input.label,
           input.descriptionShort,

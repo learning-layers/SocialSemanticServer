@@ -124,8 +124,6 @@ public class SSSearchFct {
       final List<SSResourceLikelihood> recommendedResources = 
         ((SSRecommServerI) SSServReg.getServ(SSRecommServerI.class)).recommResources(
         new SSRecommResourcesPar(
-          null,
-          null,
           par.user,
           null, //realm
           par.user, //forUser
@@ -218,8 +216,6 @@ public class SSSearchFct {
     final SSEntity tmpEntity =
       ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
         new SSEntityGetPar(
-          null,
-          null,
           par.user,
           entity.id,
           false, //withUserRestriction
@@ -243,8 +239,6 @@ public class SSSearchFct {
       final SSRatingOverall rating = 
         ((SSRatingServerI) SSServReg.getServ(SSRatingServerI.class)).ratingOverallGet(
           new SSRatingOverallGetPar(
-            null, 
-            null, 
             par.user, 
             entity.id, 
             par.withUserRestriction));

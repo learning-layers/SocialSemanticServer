@@ -40,14 +40,12 @@ public class SSCircleRemovePar extends SSServPar{
   public SSCircleRemovePar(){}
   
   public SSCircleRemovePar(
-    final SSServOpE      op,
-    final String         key,
     final SSUri          user,
     final SSUri          circle,
     final Boolean        withUserRestriction,
     final Boolean        shouldCommit) throws Exception{
     
-    super(op, key, user);
+    super(SSServOpE.circleRemove, null, user);
     
     this.circle  = circle;
     

@@ -78,8 +78,6 @@ public class SSLearnEpRemainingTimeTask extends TimerTask {
             
             serv.learnEpLockRemove(
               new SSLearnEpLockRemovePar(
-                null, 
-                null, 
                 SSVocConf.systemUserUri, 
                 null, 
                 SSUri.get(learnEp), 

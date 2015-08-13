@@ -55,28 +55,28 @@ public class SSSearchPar extends SSServPar{
     this.authorsToSearchFor = SSUri.get(authorsToSearchFor);
   }
   
-  public void setLabelsToSearchFor(final List<String> labelsToSearchFor){
-    try{ this.labelsToSearchFor = SSSearchLabel.get(labelsToSearchFor); }catch(Exception error){}
+  public void setLabelsToSearchFor(final List<String> labelsToSearchFor) throws Exception{
+    this.labelsToSearchFor = SSSearchLabel.get(labelsToSearchFor); 
   }
 
-  public void setDescriptionsToSearchFor(final List<String> descriptionsToSearchFor){
-    try{ this.descriptionsToSearchFor = SSSearchLabel.get(descriptionsToSearchFor); }catch(Exception error){}
+  public void setDescriptionsToSearchFor(final List<String> descriptionsToSearchFor) throws Exception{
+    this.descriptionsToSearchFor = SSSearchLabel.get(descriptionsToSearchFor);
   }
 
-  public void setTypesToSearchOnlyFor(final List<String> typesToSearchOnlyFor){
-    try{ this.typesToSearchOnlyFor = SSEntityE.get(typesToSearchOnlyFor); }catch(Exception error){}
+  public void setTypesToSearchOnlyFor(final List<String> typesToSearchOnlyFor) throws Exception{
+    this.typesToSearchOnlyFor = SSEntityE.get(typesToSearchOnlyFor);
   }
 
-  public void setEntitiesToSearchWithin(final List<String> entitiesToSearchWithin){
-    try{ this.entitiesToSearchWithin = SSUri.get(entitiesToSearchWithin); }catch(Exception error){}
+  public void setEntitiesToSearchWithin(final List<String> entitiesToSearchWithin) throws Exception{
+    this.entitiesToSearchWithin = SSUri.get(entitiesToSearchWithin);
   }
 
-  public void setLocalSearchOp(final String localSearchOp){
-    try{ this.localSearchOp = SSSearchOpE.get(localSearchOp); }catch(Exception error){}
+  public void setLocalSearchOp(final String localSearchOp) throws Exception{
+    this.localSearchOp = SSSearchOpE.get(localSearchOp);
   }
 
-  public void setGlobalSearchOp(final String globalSearchOp){
-    try{ this.globalSearchOp = SSSearchOpE.get(globalSearchOp); }catch(Exception error){}
+  public void setGlobalSearchOp(final String globalSearchOp) throws Exception{
+    this.globalSearchOp = SSSearchOpE.get(globalSearchOp);
   }
   
   public List<String> getAuthorsToSearchFor(){
@@ -110,8 +110,6 @@ public class SSSearchPar extends SSServPar{
   public SSSearchPar(){}
   
   public SSSearchPar(
-    final SSServOpE           op,
-    final String              key,
     final SSUri               user,
     final List<String>        wordsToSearchFor           ,
     final List<String>        tagsToSearchFor            ,
@@ -133,7 +131,7 @@ public class SSSearchPar extends SSServPar{
     final Boolean             withUserRestriction, 
     final Boolean             invokeEntityHandlers){
     
-    super(op, key, user);
+    super(SSServOpE.search, null, user);
     
     if(wordsToSearchFor != null){
       this.wordsToSearchFor.addAll(wordsToSearchFor);

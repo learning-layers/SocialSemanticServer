@@ -30,14 +30,12 @@ public class SSDataExportUsersEntitiesTagsCategoriesTimestampsFileFromCirclePar 
   public String       fileName   = null;
   
   public SSDataExportUsersEntitiesTagsCategoriesTimestampsFileFromCirclePar(
-    final SSServOpE     op,
-    final String        key,
     final SSUri         user,
     final SSUri         circle, 
     final String        fileName,
     final Boolean       withUserRestriction){
     
-    super(op, key, user);
+    super(SSServOpE.dataExportUsersEntitiesTagsCategoriesTimestampsFileFromCircle, null, user);
     
     this.circle              = circle;
     this.fileName            = fileName;

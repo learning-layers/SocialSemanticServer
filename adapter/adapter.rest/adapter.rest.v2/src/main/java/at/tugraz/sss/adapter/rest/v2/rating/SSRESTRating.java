@@ -66,8 +66,6 @@ public class SSRESTRating{
       
       par =
         new SSRatingOverallGetPar(
-          SSServOpE.ratingOverallGet,
-          null,
           null,
           SSUri.get(entity, SSVocConf.sssUri), 
           true); //withUserRestriction
@@ -102,8 +100,6 @@ public class SSRESTRating{
       
       par =
         new SSRatingSetPar(
-          SSServOpE.ratingSet,
-          null,
           null,
           SSUri.get(entity, SSVocConf.sssUri),
           Integer.valueOf(value),

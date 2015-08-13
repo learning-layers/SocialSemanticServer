@@ -146,8 +146,6 @@ public class SSDataImportEvernoteHandler {
     
     ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
       new SSEntityUpdatePar(
-        null,
-        null,
         userUri,
         notebookUri,
         SSEntityE.evernoteNotebook, //type,
@@ -179,8 +177,6 @@ public class SSDataImportEvernoteHandler {
     final List<SSEntity> existingCreationUEs =
       ((SSUEServerI) SSServReg.getServ(SSUEServerI.class)).userEventsGet(
         new SSUEsGetPar(
-          null, 
-          null, 
           userUri, //user 
           userUri, //forUser
           notebookUri, //entity
@@ -194,8 +190,6 @@ public class SSDataImportEvernoteHandler {
       
       ((SSUEServerI) SSServReg.getServ(SSUEServerI.class)).userEventAdd(
         new SSUEAddPar(
-          null,
-          null,
           userUri,
           notebookUri,
           SSUEE.evernoteNotebookCreate,
@@ -208,8 +202,6 @@ public class SSDataImportEvernoteHandler {
     final List<SSEntity> existingUpdatingUEs =
       ((SSUEServerI) SSServReg.getServ(SSUEServerI.class)).userEventsGet(
         new SSUEsGetPar(
-          null,
-          null,
           userUri, //user
           userUri, //forUser
           notebookUri, //entity
@@ -223,8 +215,6 @@ public class SSDataImportEvernoteHandler {
       
       ((SSUEServerI) SSServReg.getServ(SSUEServerI.class)).userEventAdd(
         new SSUEAddPar(
-          null,
-          null,
           userUri,
           notebookUri,
           SSUEE.evernoteNotebookUpdate,
@@ -271,8 +261,6 @@ public class SSDataImportEvernoteHandler {
     final List<SSEntity> existingUEs =
       ((SSUEServerI) SSServReg.getServ(SSUEServerI.class)).userEventsGet(
         new SSUEsGetPar(
-          null,
-          null,
           userUri, //user
           userUri, //forUser
           notebookUri, //entity
@@ -288,8 +276,6 @@ public class SSDataImportEvernoteHandler {
     
     ((SSUEServerI) SSServReg.getServ(SSUEServerI.class)).userEventAdd(
       new SSUEAddPar(
-        null,
-        null,
         userUri,
         notebookUri,
         SSUEE.evernoteNotebookFollow,
@@ -330,8 +316,6 @@ public class SSDataImportEvernoteHandler {
       
       ((SSTagServerI) SSServReg.getServ(SSTagServerI.class)).tagsAdd(
         new SSTagsAddPar(
-          null,
-          null,
           userUri,
           SSTagLabel.get(noteTagNames), //labels
           noteUri, //entity
@@ -375,8 +359,6 @@ public class SSDataImportEvernoteHandler {
     final List<SSEntity> existingCreationUEs =
       ((SSUEServerI) SSServReg.getServ(SSUEServerI.class)).userEventsGet(
         new SSUEsGetPar(
-          null,
-          null,
           userUri, //user
           userUri, //forUser
           noteUri, //entity
@@ -390,8 +372,6 @@ public class SSDataImportEvernoteHandler {
       
       ((SSUEServerI) SSServReg.getServ(SSUEServerI.class)).userEventAdd(
         new SSUEAddPar(
-          null,
-          null,
           userUri,
           noteUri,
           SSUEE.evernoteNoteCreate,
@@ -404,8 +384,6 @@ public class SSDataImportEvernoteHandler {
     final List<SSEntity> existingUpdateUEs =
       ((SSUEServerI) SSServReg.getServ(SSUEServerI.class)).userEventsGet(
         new SSUEsGetPar(
-          null,
-          null,
           userUri, //user
           userUri, //forUser
           noteUri, //entity
@@ -419,8 +397,6 @@ public class SSDataImportEvernoteHandler {
       
       ((SSUEServerI) SSServReg.getServ(SSUEServerI.class)).userEventAdd(
         new SSUEAddPar(
-          null,
-          null,
           userUri,
           noteUri,
           SSUEE.evernoteNoteUpdate,
@@ -435,8 +411,6 @@ public class SSDataImportEvernoteHandler {
       final List<SSEntity> existingDeleteUEs =
         ((SSUEServerI) SSServReg.getServ(SSUEServerI.class)).userEventsGet(
           new SSUEsGetPar(
-            null,
-            null,
             userUri, //user
             userUri, //forUser
             noteUri, //entity
@@ -450,8 +424,6 @@ public class SSDataImportEvernoteHandler {
         
         ((SSUEServerI) SSServReg.getServ(SSUEServerI.class)).userEventAdd(
           new SSUEAddPar(
-            null,
-            null,
             userUri,
             noteUri,
             SSUEE.evernoteNoteDelete,
@@ -473,8 +445,6 @@ public class SSDataImportEvernoteHandler {
       final List<SSEntity> existingShareUEs =
         ((SSUEServerI) SSServReg.getServ(SSUEServerI.class)).userEventsGet(
           new SSUEsGetPar(
-            null,
-            null,
             userUri, //user
             userUri, //forUser
             noteUri, //entity
@@ -488,8 +458,6 @@ public class SSDataImportEvernoteHandler {
         
         ((SSUEServerI) SSServReg.getServ(SSUEServerI.class)).userEventAdd(
           new SSUEAddPar(
-            null,
-            null,
             userUri,
             noteUri,
             SSUEE.evernoteNoteShare,
@@ -505,8 +473,6 @@ public class SSDataImportEvernoteHandler {
       final List<SSEntity> existingReminderUEs =
         ((SSUEServerI) SSServReg.getServ(SSUEServerI.class)).userEventsGet(
           new SSUEsGetPar(
-            null,
-            null,
             userUri, //user
             userUri, //forUser
             noteUri, //entity
@@ -520,8 +486,6 @@ public class SSDataImportEvernoteHandler {
         
         ((SSUEServerI) SSServReg.getServ(SSUEServerI.class)).userEventAdd(
           new SSUEAddPar(
-            null,
-            null,
             userUri,
             noteUri,
             SSUEE.evernoteReminderDone,
@@ -537,8 +501,6 @@ public class SSDataImportEvernoteHandler {
       final List<SSEntity> existingReminder2UEs =
         ((SSUEServerI) SSServReg.getServ(SSUEServerI.class)).userEventsGet(
           new SSUEsGetPar(
-            null,
-            null,
             userUri, //user
             userUri, //forUser
             noteUri, //entity
@@ -552,8 +514,6 @@ public class SSDataImportEvernoteHandler {
         
         ((SSUEServerI) SSServReg.getServ(SSUEServerI.class)).userEventAdd(
           new SSUEAddPar(
-            null,
-            null,
             userUri,
             noteUri,
             SSUEE.evernoteReminderCreate,
@@ -577,8 +537,6 @@ public class SSDataImportEvernoteHandler {
       
       ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
         new SSEntityUpdatePar(
-          null,
-          null,
           userUri,
           noteUri,
           SSEntityE.evernoteNote, //type,
@@ -594,8 +552,6 @@ public class SSDataImportEvernoteHandler {
       nootebookEntity =
         ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
           new SSEntityGetPar(
-            null,
-            null,
             userUri,
             notebookUri, //entity
             true, //withUserRestriction
@@ -691,8 +647,6 @@ public class SSDataImportEvernoteHandler {
     final List<SSEntity> existingUEs =
       ((SSUEServerI) SSServReg.getServ(SSUEServerI.class)).userEventsGet(
         new SSUEsGetPar(
-          null,
-          null,
           userUri, //user
           userUri, //forUser
           resourceUri, //entity
@@ -706,8 +660,6 @@ public class SSDataImportEvernoteHandler {
       
       ((SSUEServerI) SSServReg.getServ(SSUEServerI.class)).userEventAdd(
         new SSUEAddPar(
-          null,
-          null,
           userUri,
           resourceUri,
           SSUEE.evernoteResourceAdd,
@@ -726,8 +678,6 @@ public class SSDataImportEvernoteHandler {
     
     ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
       new SSEntityUpdatePar(
-        null,
-        null,
         userUri,
         resourceUri,
         SSEntityE.evernoteResource, //type,

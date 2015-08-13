@@ -27,10 +27,8 @@ import at.tugraz.sss.serv.SSServPar;
 public class SSRecommUpdateBulkUserRealmsFromCirclesPar extends SSServPar{
   
   public SSRecommUpdateBulkUserRealmsFromCirclesPar(
-    final SSServOpE           op,
-    final String              key,
     final SSUri               user){
     
-    super(op, key, user);
+    super(SSServOpE.recommUpdateBulkUserRealmsFromCircles, null, user);
   }
 }

@@ -43,14 +43,12 @@ public class SSUEGetPar extends SSServPar{
   public SSUEGetPar(){}
   
   public SSUEGetPar(
-    final SSServOpE op,
-    final String    key,
     final SSUri     user,
     final SSUri     userEvent, 
     final Boolean   withUserRestriction, 
     final Boolean   invokeEntityHandlers){
     
-    super(op, key, user);
+    super(SSServOpE.userEventGet, null, user);
     
     this.userEvent            = userEvent;
     this.withUserRestriction  = withUserRestriction;

@@ -158,8 +158,6 @@ public class SSDiscImpl
         discUserCircles = 
           circleServ.circlesGet(
             new SSCirclesGetPar(
-              null,
-              null,
               userUri,
               disc.id,
               null, //entityTypesToIncludeOnly
@@ -303,8 +301,6 @@ public class SSDiscImpl
               affiliatedEntities,
               entityServ.entitiesGet(
                 new SSEntitiesGetPar(
-                  null,
-                  null,
                   par.user,
                   affiliatedURIs,
                   null, //types,
@@ -313,8 +309,6 @@ public class SSDiscImpl
             
             circleServ.circleEntitiesAdd(
               new SSCircleEntitiesAddPar(
-                null,
-                null,
                 par.user,
                 par.circle,
                 affiliatedURIs,
@@ -430,8 +424,6 @@ public class SSDiscImpl
         
         entityServ.entityShare(
           new SSEntitySharePar(
-            null,
-            null,
             par.user,
             ret.disc,
             par.users, //users
@@ -569,8 +561,6 @@ public class SSDiscImpl
           sqlFct.getDisc(par.disc, par.setEntries),
           entityServ.entityGet(
             new SSEntityGetPar(
-              null,
-              null,
               par.user,
               par.disc,
               par.withUserRestriction, //withUserRestriction,
@@ -588,8 +578,6 @@ public class SSDiscImpl
           discTargets,
           entityServ.entityGet(
             new SSEntityGetPar(
-              null,
-              null,
               par.user,
               target.id,
               par.withUserRestriction, //withUserRestriction,
@@ -616,8 +604,6 @@ public class SSDiscImpl
             (SSDiscEntry) entry,
             entityServ.entityGet(
               new SSEntityGetPar(
-                null,
-                null,
                 par.user,
                 ((SSDiscEntry) entry).id,
                 par.withUserRestriction, //withUserRestriction,
@@ -747,8 +733,6 @@ public class SSDiscImpl
       switch(
         circleServ.circleMostOpenCircleTypeGet(
           new SSCircleMostOpenCircleTypeGetPar(
-            null,
-            null,
             par.user,
             par.disc,
             false))){
@@ -813,8 +797,6 @@ public class SSDiscImpl
       
       entityServ.entityUpdate(
         new SSEntityUpdatePar(
-          null,
-          null,
           user,
           entity,
           null, //type
@@ -837,8 +819,6 @@ public class SSDiscImpl
         
         entityServ.entityUpdate(
           new SSEntityUpdatePar(
-            null,
-            null,
             user,
             entitiesToAttach.get(counter), //entity
             null, //type

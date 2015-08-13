@@ -56,8 +56,6 @@ public class SSRecommTagsPar extends SSServPar{
   public SSRecommTagsPar(){}
   
   public SSRecommTagsPar(
-    final SSServOpE     op,
-    final String        key,
     final SSUri         user,
     final String        realm,
     final SSUri         forUser, 
@@ -68,7 +66,7 @@ public class SSRecommTagsPar extends SSServPar{
     final Boolean       ignoreAccessRights,
     final Boolean       withUserRestriction){
     
-    super(op, key, user);
+    super(SSServOpE.recommTags, null, user);
     
     this.realm   = realm;
     this.forUser = forUser;

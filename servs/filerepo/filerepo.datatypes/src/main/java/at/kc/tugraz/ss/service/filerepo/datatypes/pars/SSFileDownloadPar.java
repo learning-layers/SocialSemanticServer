@@ -42,13 +42,11 @@ public class SSFileDownloadPar extends SSServPar{
   public SSFileDownloadPar(){}
   
   public SSFileDownloadPar(
-    final SSServOpE     op,
-    final String        key,
     final SSUri         user,
     final SSUri         file, 
     final SSSocketCon   sSCon){
     
-    super(op, key, user);
+    super(SSServOpE.fileDownload, null, user);
     
     this.file   = file;
     this.sSCon  = sSCon;

@@ -41,14 +41,12 @@ public class SSVideosUserGetPar extends SSServPar{
   public SSVideosUserGetPar(){}
   
   public SSVideosUserGetPar(
-    final SSServOpE op,
-    final String    key,
     final SSUri     user, 
     final SSUri     forEntity,
     final Boolean   withUserRestriction, 
     final Boolean   invokeEntityHandlers){
     
-    super(op, key, user);
+    super(SSServOpE.videosGet, null, user);
     
     this.forEntity            = forEntity;
     this.withUserRestriction  = withUserRestriction;

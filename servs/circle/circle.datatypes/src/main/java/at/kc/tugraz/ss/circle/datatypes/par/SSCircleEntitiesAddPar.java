@@ -53,15 +53,13 @@ public class SSCircleEntitiesAddPar extends SSServPar{
   public SSCircleEntitiesAddPar(){}
   
   public SSCircleEntitiesAddPar(
-    final SSServOpE     op,
-    final String        key,
     final SSUri         user,
     final SSUri         circle,
     final List<SSUri>   entities,
     final Boolean       withUserRestriction,
     final Boolean       shouldCommit){
     
-    super(op, key, user);
+    super(SSServOpE.circleEntitiesAdd, null, user);
     
     this.circle                 = circle;
     

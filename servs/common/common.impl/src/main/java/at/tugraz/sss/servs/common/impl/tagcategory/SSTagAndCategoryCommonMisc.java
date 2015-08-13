@@ -78,8 +78,6 @@ public class SSTagAndCategoryCommonMisc {
       metadataEntity =
         ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityFromTypeAndLabelGet(
           new SSEntityFromTypeAndLabelGetPar(
-            null,
-            null,
             user,
             SSLabel.get(label), //label,
             metadataType, //type,
@@ -130,8 +128,6 @@ public class SSTagAndCategoryCommonMisc {
       metadataEntity =
         ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityFromTypeAndLabelGet(
           new SSEntityFromTypeAndLabelGetPar(
-            null,
-            null,
             user,
             SSLabel.get(label), //label,
             metadataType, //type,
@@ -224,8 +220,6 @@ public class SSTagAndCategoryCommonMisc {
         metadataEntity =
           ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityFromTypeAndLabelGet(
             new SSEntityFromTypeAndLabelGetPar(
-              null,
-              null,
               user,
               SSLabel.get(label), //label,
               metadataType, //type,
@@ -307,8 +301,6 @@ public class SSTagAndCategoryCommonMisc {
         metadataEntity =
           ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityFromTypeAndLabelGet(
             new SSEntityFromTypeAndLabelGetPar(
-              null,
-              null,
               user,
               SSLabel.get(label), //label,
               metadataType, //type,
@@ -395,8 +387,6 @@ public class SSTagAndCategoryCommonMisc {
         metadataEntity =
           ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityFromTypeAndLabelGet(
             new SSEntityFromTypeAndLabelGetPar(
-              null,
-              null,
               userToUse,
               SSLabel.get(label), //label,
               metadataType, //type,
@@ -442,8 +432,6 @@ public class SSTagAndCategoryCommonMisc {
         metadataEntity =
           ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityFromTypeAndLabelGet(
             new SSEntityFromTypeAndLabelGetPar(
-              null,
-              null,
               userToUse,
               SSLabel.get(label), //label,
               metadataType, //type,

@@ -20,7 +20,6 @@
 */
 package at.kc.tugraz.ss.category.datatypes.par;
 
-import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSUri;
@@ -30,10 +29,8 @@ public class SSCategoriesPredefinedGetPar extends SSServPar{
   public SSCategoriesPredefinedGetPar(){}
   
   public SSCategoriesPredefinedGetPar(
-    final SSServOpE op,
-    final String    key,
     final SSUri     user){
     
-    super(op, key, user);
+    super(SSServOpE.categoriesPredefinedGet, null, user);
   }
 }

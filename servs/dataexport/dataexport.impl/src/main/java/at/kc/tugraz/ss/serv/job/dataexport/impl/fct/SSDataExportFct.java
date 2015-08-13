@@ -42,8 +42,6 @@ public class SSDataExportFct{
     return SSTag.getTagLabelsPerEntities(
       ((SSTagServerI) SSServReg.getServ(SSTagServerI.class)).tagsGet(
         new SSTagsGetPar(
-          null,
-          null,
           userUri,
           forUser, //forUser
           entities, //entities
@@ -63,8 +61,6 @@ public class SSDataExportFct{
     return SSCategory.getCategoryLabelsPerEntities(
       ((SSCategoryServerI) SSServReg.getServ(SSCategoryServerI.class)).categoriesGet(
         new SSCategoriesGetPar(
-          null,
-          null,
           userUri,
           forUser, //forUser
           entities, //entities

@@ -20,9 +20,7 @@
 */
 package at.tugraz.sss.adapter.rest.v2.auth;
 
-import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
-import at.kc.tugraz.ss.serv.auth.conf.SSAuthConf;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthCheckCredPar;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.ret.SSAuthCheckCredRet;
 import com.wordnik.swagger.annotations.Api;
@@ -58,9 +56,6 @@ public class SSRESTAuth{
       
       par = 
         new SSAuthCheckCredPar(
-          SSServOpE.authCheckCred,
-          null,
-          null,
           null,
           null);
 
@@ -87,9 +82,6 @@ public class SSRESTAuth{
       
       par =
         new SSAuthCheckCredPar(
-          SSServOpE.authCheckCred,
-          SSAuthConf.noAuthKey,
-          null,
           input.label,
           input.password);
       

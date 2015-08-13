@@ -237,8 +237,6 @@ implements
               affiliatedEntities,
               entityServ.entitiesGet(
                 new SSEntitiesGetPar(
-                  null,
-                  null,
                   par.user,
                   affiliatedURIs,
                   null, //types,
@@ -247,8 +245,6 @@ implements
             
             circleServ.circleEntitiesAdd(
               new SSCircleEntitiesAddPar(
-                null,
-                null,
                 par.user,
                 par.circle,
                 affiliatedURIs,
@@ -370,8 +366,6 @@ implements
         copyLearnEpUri =
           learnEpCreate(
             new SSLearnEpCreatePar(
-              null,
-              null,
               forUser,
               learnEp.label,
               learnEp.description,
@@ -382,8 +376,6 @@ implements
           copyVersionUri =
             learnEpVersionCreate(
               new SSLearnEpVersionCreatePar(
-                null,
-                null,
                 forUser,
                 copyLearnEpUri,
                 false));
@@ -396,8 +388,6 @@ implements
             
             learnEpVersionCircleAdd(
               new SSLearnEpVersionCircleAddPar(
-                null,
-                null,
                 forUser,
                 copyVersionUri,
                 circle.label,
@@ -420,8 +410,6 @@ implements
             
             learnEpVersionEntityAdd(
               new SSLearnEpVersionEntityAddPar(
-                null,
-                null,
                 forUser,
                 copyVersionUri,
                 ((SSLearnEpEntity) learnEpEntity).entity.id,
@@ -436,8 +424,6 @@ implements
             
             learnEpVersionTimelineStateSet(
               new SSLearnEpVersionTimelineStateSetPar(
-                null,
-                null,
                 forUser,
                 copyVersionUri,
                 ((SSLearnEpVersion) version).learnEpTimelineState.startTime,
@@ -502,8 +488,6 @@ implements
           sqlFct.getLearnEp(par.learnEp),
           entityServ.entityGet(
             new SSEntityGetPar(
-              null,
-              null,
               par.user,
               par.learnEp,
               par.withUserRestriction,
@@ -519,8 +503,6 @@ implements
         learnEp.users,
         entityServ.entitiesGet(
           new SSEntitiesGetPar(
-            null,
-            null,
             par.user,
             sqlFct.getLearnEpUserURIs(learnEp.id),
             null, //types,
@@ -531,8 +513,6 @@ implements
         learnEp.entries,
         learnEpVersionsGet(
           new SSLearnEpVersionsGetPar(
-            null,
-            null,
             par.user,
             learnEp.id,
             par.withUserRestriction,
@@ -623,8 +603,6 @@ implements
           learnEpVersions,
           learnEpVersionGet(
             new SSLearnEpVersionGetPar(
-              null,
-              null,
               par.user,
               learnEpVersionUri,
               par.withUserRestriction,
@@ -676,8 +654,6 @@ implements
           sqlFct.getLearnEpVersion(par.learnEpVersion),
           entityServ.entityGet(
             new SSEntityGetPar(
-              null,
-              null,
               par.user,
               par.learnEpVersion,
               par.withUserRestriction,
@@ -693,8 +669,6 @@ implements
             (SSLearnEpEntity) learnEpEntity,
             entityServ.entityGet(
               new SSEntityGetPar(
-                null,
-                null,
                 par.user,
                 learnEpEntity.id,
                 par.withUserRestriction,
@@ -718,8 +692,6 @@ implements
         ((SSLearnEpEntity)learnEpVersionEntity).entity =
           entityServ.entityGet(
             new SSEntityGetPar(
-              null,
-              null,
               par.user,
               ((SSLearnEpEntity)learnEpVersionEntity).entity.id,
               par.withUserRestriction,
@@ -736,8 +708,6 @@ implements
             (SSLearnEpCircle) learnEpCircle,
             entityServ.entityGet(
               new SSEntityGetPar(
-                null,
-                null,
                 par.user,
                 learnEpCircle.id,
                 par.withUserRestriction,
@@ -847,8 +817,6 @@ implements
 
       entityServ.entityUpdate(
         new SSEntityUpdatePar(
-          null,
-          null,
           par.user,
           learnEpVersionUri,
           SSEntityE.learnEpVersion, //type,
@@ -864,8 +832,6 @@ implements
       for(SSEntity entityUserCircle : 
         circleServ.circlesGet(
           new SSCirclesGetPar(
-            null, 
-            null, 
             par.user, 
             par.learnEp, //entity
             null,  //entityTypesToIncludeOnly
@@ -875,8 +841,6 @@ implements
 
         circleServ.circleEntitiesAdd(
           new SSCircleEntitiesAddPar(
-            null, 
-            null, 
             par.user, 
             entityUserCircle.id, 
             SSUri.asListWithoutNullAndEmpty(learnEpVersionUri), 
@@ -944,8 +908,6 @@ implements
       
       entityServ.entityUpdate(
         new SSEntityUpdatePar(
-          null,
-          null,
           par.user,
           circleUri,
           SSEntityE.learnEpCircle, //type,
@@ -961,8 +923,6 @@ implements
       for(SSEntity entityUserCircle : 
         circleServ.circlesGet(
           new SSCirclesGetPar(
-            null, 
-            null, 
             par.user, 
             par.learnEpVersion, 
             null, 
@@ -972,8 +932,6 @@ implements
 
         circleServ.circleEntitiesAdd(
           new SSCircleEntitiesAddPar(
-            null, 
-            null, 
             par.user, 
             entityUserCircle.id, 
             SSUri.asListWithoutNullAndEmpty(circleUri), 
@@ -1054,8 +1012,6 @@ implements
       
       entityServ.entityUpdate(
         new SSEntityUpdatePar(
-          null,
-          null,
           par.user,
           learnEpEntityUri,
           SSEntityE.learnEpEntity, //type,
@@ -1147,8 +1103,6 @@ implements
       
       entityServ.entityUpdate(
         new SSEntityUpdatePar(
-          null,
-          null,
           par.user,
           learnEpUri,
           SSEntityE.learnEp, //type,
@@ -1218,8 +1172,6 @@ implements
       
       entityServ.entityUpdate(
         new SSEntityUpdatePar(
-          null,
-          null,
           par.user,
           par.learnEpCircle,
           SSEntityE.learnEpCircle, //type,
@@ -1300,8 +1252,6 @@ implements
         
         entityServ.entityUpdate(
           new SSEntityUpdatePar(
-            null, 
-            null, 
             par.user, 
             par.entity,
             null, //type, 
@@ -1506,8 +1456,6 @@ implements
       
       entityServ.entityUpdate(
         new SSEntityUpdatePar(
-          null,
-          null,
           par.user,
           learnEpTimelineStateUri,
           SSEntityE.learnEpTimelineState, //type,
@@ -1605,8 +1553,6 @@ implements
       
       return learnEpVersionGet(
         new SSLearnEpVersionGetPar(
-          null, 
-          null, 
           par.user, 
           sqlFct.getLearnEpVersion(sqlFct.getLearnEpCurrentVersionURI(par.user)).id,
           par.withUserRestriction, 
@@ -1701,8 +1647,6 @@ implements
             locks.add(
               learnEpLockHold(
                 new SSLearnEpLockHoldPar(
-                  null, 
-                  null, 
                   par.user, 
                   learnEp, 
                   true)));
@@ -1714,8 +1658,6 @@ implements
             locks.add(
               learnEpLockHold(
                 new SSLearnEpLockHoldPar(
-                  null, 
-                  null, 
                   par.user, 
                   learnEp, 
                   true)));

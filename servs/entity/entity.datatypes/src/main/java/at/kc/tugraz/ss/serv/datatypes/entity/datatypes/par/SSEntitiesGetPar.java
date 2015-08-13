@@ -54,15 +54,13 @@ public class SSEntitiesGetPar extends SSServPar{
   public SSEntitiesGetPar(){}
   
   public SSEntitiesGetPar(
-    final SSServOpE            op,
-    final String               key,
     final SSUri                user,
     final List<SSUri>          entities,
     final List<SSEntityE>      types,
     final SSEntityDescriberPar descPar,
     final Boolean              withUserRestriction) throws Exception{
     
-    super(op, key, user);
+    super(SSServOpE.entitiesGet, null, user);
     
     SSUri.addDistinctWithoutNull     (this.entities, entities);
     SSEntityE.addDistinctWithoutNull (this.types, types);

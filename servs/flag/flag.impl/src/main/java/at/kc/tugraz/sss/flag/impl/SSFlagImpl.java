@@ -143,8 +143,6 @@ implements
 
         entityServ.entityUpdate(
           new SSEntityUpdatePar(
-            null,
-            null,
             par.user,
             entity,
             null, //type,
@@ -166,8 +164,6 @@ implements
           
           entityServ.entityUpdate(
             new SSEntityUpdatePar(
-              null,
-              null,
               par.user,
               flagUri,
               SSEntityE.flag, //type,
@@ -252,8 +248,6 @@ implements
           sqlFct.getFlag(par.flag),
           entityServ.entityGet(
             new SSEntityGetPar(
-              null,
-              null,
               par.user,
               par.flag,
               par.withUserRestriction,
@@ -275,8 +269,6 @@ implements
       flag.entity =
         entityServ.entityGet(
           new SSEntityGetPar(
-            null,
-            null,
             par.user,
             flag.entity.id,
             par.withUserRestriction,
@@ -285,8 +277,6 @@ implements
       flag.user =
         entityServ.entityGet(
           new SSEntityGetPar(
-            null,
-            null,
             par.user,
             flag.user.id,
             par.withUserRestriction,

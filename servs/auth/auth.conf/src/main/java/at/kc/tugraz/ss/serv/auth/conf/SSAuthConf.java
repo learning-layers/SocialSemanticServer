@@ -25,7 +25,7 @@ import at.kc.tugraz.ss.serv.ss.auth.datatypes.enums.SSAuthEnum;
 
 public class SSAuthConf extends SSCoreServConfA{
   
-  public static final String   noAuthKey              = "1234";
+//  public static final String   noAuthKey              = "1234";
   public SSAuthEnum            authType               = null;
   public String                fileName               = null;
   public String                systemUserPassword     = null;

@@ -33,13 +33,11 @@ public class SSCircleCanAccessPar extends SSServPar{
   public SSCircleCanAccessPar(){}
   
   public SSCircleCanAccessPar(
-    final SSServOpE       op,
-    final String          key,
     final SSUri           user,
     final SSUri           entityURI,
     final SSCircleRightE  accessRight){
     
-    super(op, key, user);
+    super(SSServOpE.circleCanAccess, null, user);
     
     this.entityURI       = entityURI;
     this.accessRight     = accessRight;
