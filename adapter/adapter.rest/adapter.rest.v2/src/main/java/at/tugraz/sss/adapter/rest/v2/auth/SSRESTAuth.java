@@ -48,7 +48,7 @@ public class SSRESTAuth{
     response = SSAuthCheckCredRet.class)
   public Response checkCredWithAuthToken(
     @Context 
-      HttpHeaders headers){
+      final HttpHeaders headers){
 
     final SSAuthCheckCredPar par;
     
@@ -71,7 +71,7 @@ public class SSRESTAuth{
   @Produces(MediaType.APPLICATION_JSON)
   @Path("")
   @ApiOperation(
-    value = "retrieve sss authentication key and the user's uri for given user name and password (only available for SSS 'noAuth' and 'csvFileAuth')",
+    value = "retrieve sss authentication key and the user's uri for given user name and password (only available for SSS 'csvFileAuth')",
     response = SSAuthCheckCredRet.class)
   public Response checkCredWithUserNamePassword(
     final SSAuthCheckCredRESTAPIV2Par input){

@@ -62,21 +62,12 @@ public class SSServPar{
     this.user = SSUri.get(user);
   }
   
-  @XmlElement
-  public void setKey(final String key){
-    this.key = key;
-  }
-  
   public String getOp(){
     return SSStrU.toStr(op);
   }
   
   public String getUser(){
     return SSStrU.removeTrailingSlash(user);
-  }
-  
-  public String getKey(){
-    return key;
   }
   
   public SSServPar(){}
@@ -96,12 +87,6 @@ public class SSServPar{
       this.user = SSUri.get(SSJSONU.getValueFromJSON(clientJSONRequ, SSVarNames.user));
     }catch(Exception error){}
     
-    if(
-      SSObjU.isNull  (op)||
-      SSStrU.isEmpty (key)){
-      throw new Exception("op or key is empty");
-    }
-
     //TODO for anchient use of serv par
     clientJSONObj = new ObjectMapper().readTree(clientJSONRequ);
   }

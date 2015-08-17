@@ -53,6 +53,6 @@ public class SSAuthCheckCredPar extends SSServPar{
   public SSAuthCheckCredPar(
     final String   key){
     
-    super(SSServOpE.authCheckCred, null, null);
+    super(SSServOpE.authCheckCred, key, null);
   }
 }
