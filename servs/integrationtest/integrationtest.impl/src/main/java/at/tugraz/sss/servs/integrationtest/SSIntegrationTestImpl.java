@@ -32,6 +32,7 @@ import at.tugraz.sss.serv.SSEntityCircle;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServImplWithDBA;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.servs.integrationtest.knowbraintaggingstudy2015.SSIntegrationTestBitsAndPiecesStudyFall2015;
 import at.tugraz.sss.servs.integrationtest.knowbraintaggingstudy2015.SSIntegrationTestKnowBrainTaggingStudy2015;
@@ -55,9 +56,11 @@ implements
       
       final SSIntegrationTestBitsAndPiecesStudyFall2015 bitsAndPiecesStudyFall2015 = new SSIntegrationTestBitsAndPiecesStudyFall2015();
 
-      final SSEntity dieterUser = bitsAndPiecesStudyFall2015.getDieterUser();
+      final SSEntity       dieterUser                 = bitsAndPiecesStudyFall2015.getDieterUser();
+      final SSEntity       testUser7                  = bitsAndPiecesStudyFall2015.getTestUser7();
       
-      
+      bitsAndPiecesStudyFall2015.doLearnEpManagement(testUser7.id);
+       
       final List<SSEntity> userEvents           = bitsAndPiecesStudyFall2015.getUserEvents(dieterUser.id);
       
       System.out.println(userEvents);
@@ -84,14 +87,13 @@ implements
       
        dbSQL.startTrans(true);
       
-      final SSUri     learnEpURI = bitsAndPiecesStudyFall2015.createLearnWithEntitiesAndCircles(dieterUser.id);
-      final SSLearnEp learnEp    = bitsAndPiecesStudyFall2015.getLearnEp(dieterUser.id, learnEpURI);
+      final SSUri     learnEpURI = bitsAndPiecesStudyFall2015.createLearnEpWithEntitiesAndCircles   (dieterUser.id);
+      final SSLearnEp learnEp    = bitsAndPiecesStudyFall2015.getLearnEp                            (dieterUser.id, learnEpURI);
       
       bitsAndPiecesStudyFall2015.updateLearnEpEntity (dieterUser.id, learnEp);
       bitsAndPiecesStudyFall2015.updateLearnEpCircle (dieterUser.id, learnEp);
       
       final SSLearnEp learnEpUpdated    = bitsAndPiecesStudyFall2015.getLearnEp(dieterUser.id, learnEpURI);
-     
       
       dbSQL.commit(true);
       

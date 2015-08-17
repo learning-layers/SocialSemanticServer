@@ -52,6 +52,7 @@ import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionCirc
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionEntityRemovePar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionTimelineStateSetPar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionCircleUpdatePar;
+import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionCirclesWithEntriesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionEntityUpdatePar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionGetPar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionsGetPar;
@@ -73,6 +74,7 @@ import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpVersionCirc
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpVersionEntityRemoveRet;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpVersionTimelineStateSetRet;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpVersionCircleUpdateRet;
+import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpVersionCirclesWithEntriesGetRet;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpVersionEntityUpdateRet;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpVersionsGetRet;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpsGetRet;
@@ -626,7 +628,7 @@ implements
     sSCon.writeRetFullToClient(SSLearnEpVersionGetRet.get(learnEpVersionGet(par)));
   }
   
-   @Override
+  @Override
   public SSLearnEpVersion learnEpVersionGet(final SSLearnEpVersionGetPar par) throws Exception{
 
     try{
@@ -1507,10 +1509,95 @@ implements
       return null;
     }
   }
+  
+  @Override
+  public void learnEpVersionCirclesWithEntriesGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
+    
+    SSServCallerU.checkKey(parA);
 
+    final SSLearnEpVersionCirclesWithEntriesGetPar par = (SSLearnEpVersionCirclesWithEntriesGetPar) parA.getFromJSON(SSLearnEpVersionCirclesWithEntriesGetPar.class);
+    
+    sSCon.writeRetFullToClient(SSLearnEpVersionCirclesWithEntriesGetRet.get(learnEpVersionCirclesWithEntriesGet(par)));
+  }
+  
+  @Override
+  public List<SSEntity> learnEpVersionCirclesWithEntriesGet(final SSLearnEpVersionCirclesWithEntriesGetPar par) throws Exception{
+    
+    try{
+      
+      final List<SSEntity> circles = new ArrayList<>();
+      
+      if(par.withUserRestriction){
+        
+        if(!SSServCallerU.canUserRead(par.user, par.learnEpVersion)){
+          return circles;
+        }
+      }
+      
+      final SSLearnEpVersion version =
+        learnEpVersionGet(
+          new SSLearnEpVersionGetPar(
+            par.user,
+            par.learnEpVersion,
+            par.withUserRestriction,
+            false)); //invokeEntityHandlers
+      
+      if(version == null){
+        return circles;
+      }
+      
+      SSLearnEpCircle circle;
+      SSLearnEpEntity entity;
+      double first, firstDivisor, second, secondDivisor, firstResult, secondResult, result;
+      
+      for(SSEntity circleEntity : version.learnEpCircles){
+        
+        circle = (SSLearnEpCircle) circleEntity;
+
+        for(SSEntity entityEntity : version.learnEpEntities){
+          
+          entity = (SSLearnEpEntity) entityEntity;
+          
+          //(xEntity - xCircle)^2 / rxCircle^2 + same for y <= 1 then the entiy is wihtin the circle
+          
+          first         = Math.pow(Math.subtractExact(entity.x.longValue(), circle.xC.longValue()), 2);
+          firstDivisor  = Math.pow(circle.xR.longValue(), 2);
+          second        = Math.pow(Math.subtractExact(entity.y.longValue(), circle.yC.longValue()), 2);
+          secondDivisor = Math.pow(circle.yR.longValue(), 2);
+          
+          if(firstDivisor == 0 || secondDivisor == 0){
+            continue;
+          }
+          
+          firstResult  = first / firstDivisor;
+          secondResult = second / secondDivisor;
+          result       = firstResult + secondResult;
+
+          if(result > 1){
+            continue;
+          }
+
+          SSEntity.addEntitiesDistinctWithoutNull(
+            circle.entries,
+            entity);
+        }
+      }
+
+      SSEntity.addEntitiesDistinctWithoutNull(
+        circles, 
+        version.learnEpCircles);
+      
+      return circles;
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
   @Override
   public void learnEpVersionTimelineStateGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
-
+    
     SSServCallerU.checkKey(parA);
 
     final SSLearnEpVersionTimelineStateGetPar par = (SSLearnEpVersionTimelineStateGetPar) parA.getFromJSON(SSLearnEpVersionTimelineStateGetPar.class);
@@ -1520,6 +1607,7 @@ implements
   
   @Override
   public SSLearnEpTimelineState learnEpVersionTimelineStateGet(final SSLearnEpVersionTimelineStateGetPar par) throws Exception{
+   
     try{
       
       if(par.withUserRestriction){

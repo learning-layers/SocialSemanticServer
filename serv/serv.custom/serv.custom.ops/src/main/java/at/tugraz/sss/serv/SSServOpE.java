@@ -167,6 +167,7 @@ public enum SSServOpE{
   learnEpLockHold,
   learnEpRemove,
   learnEpGet,
+  learnEpVersionCirclesWithEntriesGet,
   
   //data export
   dataExportUserRelations,

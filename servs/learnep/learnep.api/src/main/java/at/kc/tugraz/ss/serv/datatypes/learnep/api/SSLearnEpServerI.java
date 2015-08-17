@@ -40,6 +40,7 @@ import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionCirc
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionEntityRemovePar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionTimelineStateSetPar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionCircleUpdatePar;
+import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionCirclesWithEntriesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionEntityUpdatePar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionsGetPar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpsGetPar;
@@ -52,25 +53,26 @@ import java.util.List;
 
 public interface SSLearnEpServerI extends SSServServerI{
   
-  public SSLearnEp                    learnEpGet                        (final SSLearnEpGetPar                     par) throws Exception;
-  public List<SSEntity>               learnEpsGet                       (final SSLearnEpsGetPar                    par) throws Exception;
-  public List<SSEntity>               learnEpVersionsGet                (final SSLearnEpVersionsGetPar             par) throws Exception;
-  public SSLearnEpVersion             learnEpVersionGet                 (final SSLearnEpVersionGetPar              par) throws Exception;
-  public SSUri                        learnEpRemove                     (final SSLearnEpRemovePar                  par) throws Exception;
-  public SSUri                        learnEpVersionCreate              (final SSLearnEpVersionCreatePar           par) throws Exception;
-  public SSUri                        learnEpVersionCircleAdd           (final SSLearnEpVersionCircleAddPar        par) throws Exception;
-  public SSUri                        learnEpVersionEntityAdd           (final SSLearnEpVersionEntityAddPar        par) throws Exception;
-  public SSUri                        learnEpCreate                     (final SSLearnEpCreatePar                  par) throws Exception;
-  public Boolean                      learnEpVersionCircleUpdate        (final SSLearnEpVersionCircleUpdatePar     par) throws Exception;
-  public Boolean                      learnEpVersionEntityUpdate        (final SSLearnEpVersionEntityUpdatePar     par) throws Exception;
-  public Boolean                      learnEpVersionCircleRemove        (final SSLearnEpVersionCircleRemovePar     par) throws Exception;
-  public Boolean                      learnEpVersionEntityRemove        (final SSLearnEpVersionEntityRemovePar     par) throws Exception;
-  public SSUri                        learnEpVersionTimelineStateSet    (final SSLearnEpVersionTimelineStateSetPar par) throws Exception;
-  public SSLearnEpTimelineState       learnEpVersionTimelineStateGet    (final SSLearnEpVersionTimelineStateGetPar par) throws Exception;
-  public SSLearnEpVersion             learnEpVersionCurrentGet          (final SSLearnEpVersionCurrentGetPar       par) throws Exception;
-  public SSUri                        learnEpVersionCurrentSet          (final SSLearnEpVersionCurrentSetPar       par) throws Exception;
-  public List<SSLearnEpLockHoldRet>   learnEpsLockHold                  (final SSLearnEpsLockHoldPar               par) throws Exception;
-  public SSLearnEpLockHoldRet         learnEpLockHold                   (final SSLearnEpLockHoldPar                par) throws Exception;
-  public Boolean                      learnEpLockSet                    (final SSLearnEpLockSetPar                 par) throws Exception;
-  public Boolean                      learnEpLockRemove                 (final SSLearnEpLockRemovePar              par) throws Exception;
+  public SSLearnEp                    learnEpGet                           (final SSLearnEpGetPar                          par) throws Exception;
+  public List<SSEntity>               learnEpsGet                          (final SSLearnEpsGetPar                         par) throws Exception;
+  public List<SSEntity>               learnEpVersionsGet                   (final SSLearnEpVersionsGetPar                  par) throws Exception;
+  public SSLearnEpVersion             learnEpVersionGet                    (final SSLearnEpVersionGetPar                   par) throws Exception;
+  public SSUri                        learnEpRemove                        (final SSLearnEpRemovePar                       par) throws Exception;
+  public SSUri                        learnEpVersionCreate                 (final SSLearnEpVersionCreatePar                par) throws Exception;
+  public SSUri                        learnEpVersionCircleAdd              (final SSLearnEpVersionCircleAddPar             par) throws Exception;
+  public SSUri                        learnEpVersionEntityAdd              (final SSLearnEpVersionEntityAddPar             par) throws Exception;
+  public SSUri                        learnEpCreate                        (final SSLearnEpCreatePar                       par) throws Exception;
+  public Boolean                      learnEpVersionCircleUpdate           (final SSLearnEpVersionCircleUpdatePar          par) throws Exception;
+  public Boolean                      learnEpVersionEntityUpdate           (final SSLearnEpVersionEntityUpdatePar          par) throws Exception;
+  public Boolean                      learnEpVersionCircleRemove           (final SSLearnEpVersionCircleRemovePar          par) throws Exception;
+  public Boolean                      learnEpVersionEntityRemove           (final SSLearnEpVersionEntityRemovePar          par) throws Exception;
+  public SSUri                        learnEpVersionTimelineStateSet       (final SSLearnEpVersionTimelineStateSetPar      par) throws Exception;
+  public SSLearnEpTimelineState       learnEpVersionTimelineStateGet       (final SSLearnEpVersionTimelineStateGetPar      par) throws Exception;
+  public SSLearnEpVersion             learnEpVersionCurrentGet             (final SSLearnEpVersionCurrentGetPar            par) throws Exception;
+  public SSUri                        learnEpVersionCurrentSet             (final SSLearnEpVersionCurrentSetPar            par) throws Exception;
+  public List<SSLearnEpLockHoldRet>   learnEpsLockHold                     (final SSLearnEpsLockHoldPar                    par) throws Exception;
+  public SSLearnEpLockHoldRet         learnEpLockHold                      (final SSLearnEpLockHoldPar                     par) throws Exception;
+  public Boolean                      learnEpLockSet                       (final SSLearnEpLockSetPar                      par) throws Exception;
+  public Boolean                      learnEpLockRemove                    (final SSLearnEpLockRemovePar                   par) throws Exception;
+  public List<SSEntity>               learnEpVersionCirclesWithEntriesGet  (final SSLearnEpVersionCirclesWithEntriesGetPar par) throws Exception;
 }

@@ -38,9 +38,11 @@ import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpCreatePar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpGetPar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionCircleAddPar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionCircleUpdatePar;
+import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionCirclesWithEntriesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionCreatePar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionEntityAddPar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionEntityUpdatePar;
+import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionsGetPar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpsGetPar;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.kc.tugraz.ss.service.user.api.SSUserServerI;
@@ -76,6 +78,50 @@ public class SSIntegrationTestBitsAndPiecesStudyFall2015 {
     entityServ      = (SSEntityServerI)    SSServReg.getServ (SSEntityServerI.class);
   }
   
+  public void doLearnEpManagement(
+    final SSUri testUser7) throws Exception {
+    
+    try{
+      
+      final List<SSEntity> learnEps =
+        learnEpServ.learnEpsGet(
+          new SSLearnEpsGetPar(
+            testUser7,
+            true,
+            false));
+      
+      List<SSEntity> versions;
+      List<SSEntity> circlesWithEntries;
+      
+      for(SSEntity learnEp : learnEps){
+        
+        versions =
+          learnEpServ.learnEpVersionsGet(
+            new SSLearnEpVersionsGetPar(
+              testUser7,
+              learnEp.id,
+              true,
+              false));
+        
+        for(SSEntity version : versions){
+          
+          circlesWithEntries =
+            learnEpServ.learnEpVersionCirclesWithEntriesGet(
+              new SSLearnEpVersionCirclesWithEntriesGetPar(
+                testUser7,
+                version.id,
+                true,
+                false));
+          
+          System.out.println(circlesWithEntries);
+        }
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+    
   public List<SSEntity> getUserEvents(
     final SSUri user) throws Exception {
     
@@ -203,7 +249,7 @@ public class SSIntegrationTestBitsAndPiecesStudyFall2015 {
     }
   }
 
-  public SSUri createLearnWithEntitiesAndCircles(
+  public SSUri createLearnEpWithEntitiesAndCircles(
     final SSUri user) throws Exception {
     
     try{
@@ -275,6 +321,25 @@ public class SSIntegrationTestBitsAndPiecesStudyFall2015 {
     }
   }
   
+  public SSEntity getTestUser7() throws Exception {
+    
+    try{
+      
+      final SSEntity testUser7 =
+        entityServ.entityFromTypeAndLabelGet(
+          new SSEntityFromTypeAndLabelGetPar(
+            SSVocConf.systemUserUri,
+            SSLabel.get("bn-testuser7@know-center.at"),
+            SSEntityE.user,
+            true));
+      
+      return testUser7;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+    
   public SSEntity getDieterUser() throws Exception {
     
     try{

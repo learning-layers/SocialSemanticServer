@@ -25,23 +25,24 @@ import at.tugraz.sss.serv.SSServPar;
 
 public interface SSLearnEpClientI {
 
-  public void learnEpRemove                     (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void learnEpsGet                       (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void learnEpVersionsGet                (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void learnEpVersionGet                 (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void learnEpVersionCreate              (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void learnEpVersionCircleAdd           (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void learnEpVersionEntityAdd           (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void learnEpCreate                     (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void learnEpVersionCircleUpdate        (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void learnEpVersionEntityUpdate        (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void learnEpVersionCircleRemove        (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void learnEpVersionEntityRemove        (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void learnEpVersionTimelineStateSet    (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void learnEpVersionTimelineStateGet    (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void learnEpVersionCurrentGet          (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void learnEpVersionCurrentSet          (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void learnEpsLockHold                  (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void learnEpLockSet                    (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void learnEpLockRemove                 (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void learnEpRemove                       (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void learnEpsGet                         (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void learnEpVersionsGet                  (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void learnEpVersionGet                   (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void learnEpVersionCreate                (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void learnEpVersionCircleAdd             (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void learnEpVersionEntityAdd             (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void learnEpCreate                       (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void learnEpVersionCircleUpdate          (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void learnEpVersionEntityUpdate          (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void learnEpVersionCircleRemove          (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void learnEpVersionEntityRemove          (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void learnEpVersionTimelineStateSet      (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void learnEpVersionTimelineStateGet      (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void learnEpVersionCurrentGet            (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void learnEpVersionCurrentSet            (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void learnEpsLockHold                    (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void learnEpLockSet                      (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void learnEpLockRemove                   (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void learnEpVersionCirclesWithEntriesGet (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
 }
