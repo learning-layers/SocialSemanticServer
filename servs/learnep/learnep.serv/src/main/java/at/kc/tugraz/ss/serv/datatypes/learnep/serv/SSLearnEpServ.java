@@ -57,6 +57,7 @@ public class SSLearnEpServ extends SSServContainerI{
     SSServReg.inst.regServ(this);
     
     SSServReg.inst.regServForHandlingDescribeEntity(this);
+    SSServReg.inst.regServForHandlingCopyEntity(this);
     SSServReg.inst.regServForHandlingPushEntitiesToUsers(this);
     SSServReg.inst.regServForHandlingAddAffiliatedEntitiesToCircle(this);
     SSServReg.inst.regServForHandlingEntitiesSharedWithUsers(this);
