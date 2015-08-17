@@ -47,7 +47,7 @@ public class SSLearnEpsLockHoldRet extends SSServRetI{
     super(SSServOpE.learnEpsLockHold);
     
     if(learnEpLocks != null){
-      learnEpLocks.addAll(learnEpLocks);
+      this.learnEpLocks.addAll(learnEpLocks);
     }
   }
 }
