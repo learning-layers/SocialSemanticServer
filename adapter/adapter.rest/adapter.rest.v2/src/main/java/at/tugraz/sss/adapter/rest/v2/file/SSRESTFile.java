@@ -211,6 +211,12 @@ public class SSRESTFile{
     final HttpHeaders headers,
     
     @ApiParam(
+      value = "authentication token",
+      required = true)
+    @QueryParam("key")
+    final String key,
+      
+    @ApiParam(
       value = "file to be downloaded",
       required = true)
     @QueryParam("file")
@@ -228,6 +234,8 @@ public class SSRESTFile{
           SSUri.get(file, SSVocConf.sssUri), //entity
           null); //shouldCommit
       
+      par.key  = key;
+      
       fileName = SSStrU.removeTrailingSlash(par.file);
       fileName = fileName.substring(fileName.lastIndexOf(SSStrU.slash) + 1);
       
@@ -237,7 +245,7 @@ public class SSRESTFile{
       return Response.status(422).build();
     }
 
-    return SSRestMainV2.handleFileDownloadRequest(headers, restObj, fileName, true).response;
+    return SSRestMainV2.handleFileDownloadRequest(headers, restObj, fileName, false).response;
   }
 }
 
