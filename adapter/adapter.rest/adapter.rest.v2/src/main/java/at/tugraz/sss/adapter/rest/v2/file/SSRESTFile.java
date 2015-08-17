@@ -237,7 +237,7 @@ public class SSRESTFile{
       return Response.status(422).build();
     }
 
-    return SSRestMainV2.handleFileDownloadRequest(headers, restObj, fileName, false).response;
+    return SSRestMainV2.handleFileDownloadRequest(headers, restObj, fileName, true).response;
   }
 }
 
