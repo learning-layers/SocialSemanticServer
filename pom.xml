@@ -75,10 +75,10 @@
               <goal>install-file</goal>
             </goals>
             <configuration>
-              <file>./3rdpartylibs/libs/tagrec_v2.3.jar</file>
+              <file>./3rdpartylibs/libs/tagrec_v2.4.jar</file>
               <groupId>tagrec</groupId>
               <artifactId>tagrec</artifactId>
-              <version>2.3</version>
+              <version>2.4</version>
               <packaging>jar</packaging>
             </configuration>
           </execution>
