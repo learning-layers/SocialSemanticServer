@@ -53,13 +53,15 @@ public class SSLearnEpCreatePar extends SSServPar{
   public SSLearnEpCreatePar(
     final SSUri         user,
     final SSLabel       label, 
-    final SSTextComment description, 
+    final SSTextComment description,
+    final Boolean       withUserRestriction,
     final Boolean       shouldCommit){
   
     super(SSServOpE.learnEpCreate, null, user);
     
-    this.label         = label;
-    this.description   = description;
-    this.shouldCommit  = shouldCommit;
+    this.label               = label;
+    this.description         = description;
+    this.withUserRestriction = withUserRestriction;
+    this.shouldCommit        = shouldCommit;
   }
 }

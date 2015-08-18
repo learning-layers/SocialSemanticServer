@@ -41,7 +41,8 @@ public class SSLearnEpMiscFct{
   public List<SSUri> getLearnEpContentURIs(
     final SSUri           user,
     final SSLearnEpSQLFct sqlFct,
-    final SSUri           learnEp) throws Exception{
+    final SSUri           learnEp,
+    final Boolean         withUserRestriction) throws Exception{
 
     try{
 
@@ -61,9 +62,15 @@ public class SSLearnEpMiscFct{
         }
         
         for(SSEntity learnEpEntity : learnEpVersion.learnEpEntities){
+          
           learnEpContentUris.add   (learnEpEntity.id);
           learnEpContentUris.add   (((SSLearnEpEntity) learnEpEntity).entity.id);
-          learnEpContentUris.addAll(getLearnEpEntityAttachedEntities(user, ((SSLearnEpEntity) learnEpEntity).entity.id));
+          
+          learnEpContentUris.addAll(
+            getLearnEpEntityAttachedEntities(
+              user,
+              ((SSLearnEpEntity) learnEpEntity).entity.id,
+              withUserRestriction));
         }
         
         if(learnEpVersion.learnEpTimelineState != null){
@@ -81,8 +88,9 @@ public class SSLearnEpMiscFct{
   }
   
   public List<SSUri> getLearnEpEntityAttachedEntities(
-    final SSUri  user,
-    final SSUri  entity) throws Exception{
+    final SSUri   user,
+    final SSUri   entity,
+    final Boolean withUserRestriction) throws Exception{
     
     try{
       final List<SSEntity> attachedEntities = new ArrayList<>();
@@ -93,7 +101,7 @@ public class SSLearnEpMiscFct{
           new SSEntityFilesGetPar(
             user,
             entity,
-            true, //withUserRestcrition);
+            withUserRestriction, //withUserRestcrition);
             false)));   //invokeEntityHandlers
       
       SSEntity.addEntitiesDistinctWithoutNull(
@@ -103,7 +111,7 @@ public class SSLearnEpMiscFct{
               user,
               entity, //entity
               SSImageE.thumb, //imageType
-              false)));
+              withUserRestriction)));
       
       return SSUri.getDistinctNotNullFromEntities(attachedEntities);
       

@@ -289,7 +289,7 @@ public class SSCircleMiscFct{
           entityCopiedPar =
             new SSEntityCopiedPar(
               par.user,
-              forUser,
+              forUser, //targetUser
               circle, //entity
               circle.entities, //entities
               copyCircleURI, //targetEntity
@@ -315,7 +315,7 @@ public class SSCircleMiscFct{
           entityCopiedPar =
             new SSEntityCopiedPar(
               par.user,
-              forUser,
+              forUser, //targetUser
               circle, //entity
               circle.users, //entities
               copyCircleURI, //targetEntity
@@ -349,7 +349,7 @@ public class SSCircleMiscFct{
           entityCopiedPar =
             new SSEntityCopiedPar(
               par.user,
-              forUser,
+              forUser, //targetUser
               circle, //entity
               originUsers, //entities
               copyCircleURI, //targetEntity

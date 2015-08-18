@@ -65,18 +65,20 @@ public class SSLearnEpVersionCircleUpdatePar extends SSServPar{
     final Float         yR,
     final Float         xC,
     final Float         yC,
+    final Boolean       withUserRestriction,
     final Boolean       shouldCommit){
     
     super(SSServOpE.learnEpVersionCircleUpdate, null, user);
     
-    this.learnEpCircle     = learnEpCircle;
-    this.label             = label;
-    this.xLabel            = xLabel;
-    this.yLabel            = yLabel;
-    this.xR                = xR;
-    this.yR                = yR;
-    this.xC                = xC;
-    this.yC                = yC;
-    this.shouldCommit      = shouldCommit;
+    this.learnEpCircle       = learnEpCircle;
+    this.label               = label;
+    this.xLabel              = xLabel;
+    this.yLabel              = yLabel;
+    this.xR                  = xR;
+    this.yR                  = yR;
+    this.xC                  = xC;
+    this.yC                  = yC;
+    this.withUserRestriction = withUserRestriction;
+    this.shouldCommit        = shouldCommit;
   }
 }

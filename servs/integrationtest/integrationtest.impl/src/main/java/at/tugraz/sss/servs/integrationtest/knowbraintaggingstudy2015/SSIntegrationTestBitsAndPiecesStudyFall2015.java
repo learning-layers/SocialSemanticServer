@@ -260,6 +260,7 @@ public class SSIntegrationTestBitsAndPiecesStudyFall2015 {
           user,
           SSLabel.get("learn ep 1"),
           SSTextComment.get("description"), 
+          true,
           false));
       
       final SSUri learnEpVersion = 
@@ -267,6 +268,7 @@ public class SSIntegrationTestBitsAndPiecesStudyFall2015 {
           new SSLearnEpVersionCreatePar(
             user, 
             learnEp, 
+            true,
             false));
       
       final SSUri circle =
@@ -281,6 +283,7 @@ public class SSIntegrationTestBitsAndPiecesStudyFall2015 {
             2F,
             3F,
             4F,
+            true,
             false));
       
       final SSUri entity = 
@@ -291,6 +294,7 @@ public class SSIntegrationTestBitsAndPiecesStudyFall2015 {
             SSUri.get("http://linkToEnttiy"), 
             10F, 
             11F, 
+            true,
             false));
       
       return learnEp;
@@ -375,6 +379,7 @@ public class SSIntegrationTestBitsAndPiecesStudyFall2015 {
           SSUri.get("http://entity2"), 
           100F, 
           100F, 
+          true,
           false));
 
       entityServ.entityUpdate(
@@ -416,6 +421,7 @@ public class SSIntegrationTestBitsAndPiecesStudyFall2015 {
           3F,
           3F,
           3F,
+          true,
           false));
       
     }catch(Exception error){

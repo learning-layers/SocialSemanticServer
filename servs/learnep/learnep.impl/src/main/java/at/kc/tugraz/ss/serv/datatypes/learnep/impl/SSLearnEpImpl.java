@@ -224,7 +224,12 @@ implements
             
             affiliatedURIs.clear();
             
-            for(SSUri learnEpContentURI : miscFct.getLearnEpContentURIs(par.user, sqlFct, entityAdded.id)){
+            for(SSUri learnEpContentURI : 
+              miscFct.getLearnEpContentURIs(
+                par.user, 
+                sqlFct, 
+                entityAdded.id, 
+                par.withUserRestriction)){
             
               if(SSStrU.contains(par.recursiveEntities, learnEpContentURI)){
                 continue;
@@ -371,6 +376,7 @@ implements
               forUser,
               learnEp.label,
               learnEp.description,
+              false,
               false));
         
         for(SSEntity version : learnEp.entries){
@@ -380,6 +386,7 @@ implements
               new SSLearnEpVersionCreatePar(
                 forUser,
                 copyLearnEpUri,
+                false,
                 false));
           
           for(SSEntity circle : ((SSLearnEpVersion) version).learnEpCircles){
@@ -399,6 +406,7 @@ implements
                 ((SSLearnEpCircle) circle).yR,
                 ((SSLearnEpCircle) circle).xC,
                 ((SSLearnEpCircle) circle).yC,
+                false,
                 false));
           }
           
@@ -417,6 +425,7 @@ implements
                 ((SSLearnEpEntity) learnEpEntity).entity.id,
                 ((SSLearnEpEntity) learnEpEntity).x,
                 ((SSLearnEpEntity) learnEpEntity).y,
+                false,
                 false));
             
             copiedEntities.add(((SSLearnEpEntity) learnEpEntity).entity);
@@ -430,6 +439,7 @@ implements
                 copyVersionUri,
                 ((SSLearnEpVersion) version).learnEpTimelineState.startTime,
                 ((SSLearnEpVersion) version).learnEpTimelineState.endTime,
+                false,
                 false));
           }
         }
@@ -1036,7 +1046,7 @@ implements
       
       entities.add   (learnEpEntityUri);
       entities.add   (par.entity);
-      entities.addAll(miscFct.getLearnEpEntityAttachedEntities(par.user, par.entity));
+      entities.addAll(miscFct.getLearnEpEntityAttachedEntities(par.user, par.entity, par.withUserRestriction));
       
       circleServ.circlesFromEntityEntitiesAdd(
         new SSCirclesFromEntityEntitiesAdd(
@@ -1114,7 +1124,7 @@ implements
           null, //creationTime,
           null, //read,
           false, //setPublic
-          false, //withUserRestriction
+          par.withUserRestriction, //withUserRestriction
           false)); //shouldCommit)
             
       sqlFct.createLearnEp(learnEpUri, par.user);

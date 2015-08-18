@@ -60,7 +60,6 @@ import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpsGetRet;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpsLockHoldRet;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
-import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSVarNames;
@@ -227,6 +226,7 @@ public class SSRESTLearnEp{
         new SSLearnEpVersionCurrentSetPar(
           null, 
           SSUri.get(learnEpVersion, SSVocConf.sssUri), 
+          true,
           true);
       
     }catch(Exception error){
@@ -258,6 +258,7 @@ public class SSRESTLearnEp{
           null, 
           input.label, 
           input.description, 
+          true,
           true);
       
     }catch(Exception error){
@@ -289,6 +290,7 @@ public class SSRESTLearnEp{
         new SSLearnEpVersionCreatePar(
           null, 
           SSUri.get(learnEp, SSVocConf.sssUri), 
+          true,
           true);
       
     }catch(Exception error){
@@ -361,6 +363,7 @@ public class SSRESTLearnEp{
           input.yR, 
           input.xC, 
           input.yC, 
+          true,
           true);
       
     }catch(Exception error){
@@ -397,6 +400,7 @@ public class SSRESTLearnEp{
           input.entity, 
           input.x, 
           input.y, 
+          true,
           true);
       
     }catch(Exception error){
@@ -437,6 +441,7 @@ public class SSRESTLearnEp{
           input.yR, 
           input.xC, 
           input.yC, 
+          true,
           true);
       
     }catch(Exception error){
@@ -473,6 +478,7 @@ public class SSRESTLearnEp{
           input.entity, 
           input.x, 
           input.y, 
+          true,
           true);
       
     }catch(Exception error){
@@ -504,6 +510,7 @@ public class SSRESTLearnEp{
         new SSLearnEpVersionCircleRemovePar(
           null, 
           SSUri.get(learnEpCircle, SSVocConf.sssUri),
+          true,
           true);
       
     }catch(Exception error){
@@ -535,6 +542,7 @@ public class SSRESTLearnEp{
         new SSLearnEpVersionEntityRemovePar(
           null, 
           SSUri.get(learnEpEntity, SSVocConf.sssUri),
+          true,
           true);
       
     }catch(Exception error){
@@ -570,6 +578,7 @@ public class SSRESTLearnEp{
           SSUri.get(learnEpVersion, SSVocConf.sssUri),
           input.startTime, 
           input.endTime,
+          true,
           true);
       
     }catch(Exception error){
@@ -600,7 +609,8 @@ public class SSRESTLearnEp{
       par =
         new SSLearnEpVersionTimelineStateGetPar(
           null, 
-          SSUri.get(learnEpVersion, SSVocConf.sssUri));
+          SSUri.get(learnEpVersion, SSVocConf.sssUri),
+          true);
       
     }catch(Exception error){
       return Response.status(422).build();
@@ -630,7 +640,8 @@ public class SSRESTLearnEp{
       par =
         new SSLearnEpsLockHoldPar(
           null, 
-          SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(learnEps, SSStrU.comma), SSVocConf.sssUri));
+          SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(learnEps, SSStrU.comma), SSVocConf.sssUri), 
+          true);
       
     }catch(Exception error){
       return Response.status(422).build();

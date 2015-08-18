@@ -41,10 +41,12 @@ public class SSLearnEpVersionTimelineStateGetPar extends SSServPar{
   
   public SSLearnEpVersionTimelineStateGetPar(
     final SSUri         user,
-    final SSUri         learnEpVersion){
+    final SSUri         learnEpVersion,
+    final Boolean       withUserRestriction){
     
     super(SSServOpE.learnEpVersionTimelineStateGet, null, user);
     
-    this.learnEpVersion   = learnEpVersion;
+    this.learnEpVersion      = learnEpVersion;
+    this.withUserRestriction = withUserRestriction;
   }
 }

@@ -42,10 +42,13 @@ public class SSLearnEpVersionCurrentSetPar extends SSServPar{
   public SSLearnEpVersionCurrentSetPar(
     final SSUri         user,
     final SSUri         learnEpVersion,
+    final Boolean       withUserRestriction,
     final Boolean       shouldCommit){
     
     super(SSServOpE.learnEpVersionCurrentSet, null, user);
     
-    this.learnEpVersion   = learnEpVersion;
+    this.learnEpVersion      = learnEpVersion;
+    this.withUserRestriction = withUserRestriction;
+    this.shouldCommit        = shouldCommit;
   }
 }

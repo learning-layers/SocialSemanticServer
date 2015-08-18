@@ -56,14 +56,16 @@ public class SSLearnEpVersionEntityUpdatePar extends SSServPar{
     final SSUri         entity,
     final Float         x,
     final Float         y,
+    final Boolean       withUserRestriction,
     final Boolean       shouldCommit){
     
     super(SSServOpE.learnEpVersionEntityUpdate, null, user);
     
-    this.learnEpEntity   = learnEpEntity;
-    this.entity          = entity;
-    this.x               = x;
-    this.y               = y;
-    this.shouldCommit    = shouldCommit;
+    this.learnEpEntity       = learnEpEntity;
+    this.entity              = entity;
+    this.x                   = x;
+    this.y                   = y;
+    this.withUserRestriction = withUserRestriction;
+    this.shouldCommit        = shouldCommit;
   }
 }

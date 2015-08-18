@@ -470,8 +470,11 @@ implements
         throw new SSErr(SSErrE.parameterMissing);
       }
       
-      if(!SSServCallerU.canUserRead(par.user, par.entity)){
-        throw new SSErr(SSErrE.userNotAllowedToAccessEntity);
+      if(par.withUserRestriction){
+        
+        if(!SSServCallerU.canUserRead(par.user, par.entity)){
+          throw new SSErr(SSErrE.userNotAllowedToAccessEntity);
+        }  
       }
       
       final SSEntity entity = sqlFct.getEntity(par.entity);

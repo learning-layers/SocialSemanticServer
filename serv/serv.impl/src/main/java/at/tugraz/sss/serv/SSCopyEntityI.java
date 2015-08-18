@@ -21,5 +21,5 @@
 package at.tugraz.sss.serv;
 
 public interface SSCopyEntityI {
-    public void copyEntity(final SSEntity entity, final SSEntityCopyPar par) throws Exception;
+  public void copyEntity(final SSEntity entity, final SSEntityCopyPar par) throws Exception;
 }

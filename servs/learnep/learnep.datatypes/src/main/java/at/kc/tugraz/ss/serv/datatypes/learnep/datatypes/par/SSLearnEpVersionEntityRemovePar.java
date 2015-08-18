@@ -42,11 +42,13 @@ public class SSLearnEpVersionEntityRemovePar extends SSServPar{
   public SSLearnEpVersionEntityRemovePar(
     final SSUri         user,
     final SSUri         learnEpEntity,
+    final Boolean       withUserRestriction,
     final Boolean       shouldCommit){
     
     super(SSServOpE.learnEpVersionEntityRemove, null, user);
     
-    this.learnEpEntity   = learnEpEntity;
-    this.shouldCommit    = shouldCommit;
+    this.learnEpEntity       = learnEpEntity;
+    this.withUserRestriction = withUserRestriction;
+    this.shouldCommit        = shouldCommit;
   }
 }
