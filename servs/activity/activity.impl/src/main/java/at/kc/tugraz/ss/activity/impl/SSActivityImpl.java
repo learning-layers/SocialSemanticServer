@@ -516,6 +516,10 @@ implements
               activity.entity.id,
               par.withUserRestriction, //withUserRestriction,
               descPar)); //descPar,
+        
+        if(activity.entity == null){
+          return null;
+        }
       }
       
       activity.contents.addAll(sqlFct.getActivityContents(activity.id));
