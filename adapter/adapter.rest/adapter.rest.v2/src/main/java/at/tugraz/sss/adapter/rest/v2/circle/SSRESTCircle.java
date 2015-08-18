@@ -21,7 +21,6 @@
 package at.tugraz.sss.adapter.rest.v2.circle;
 
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleCreateFromClientPar;
-import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleCreatePar;

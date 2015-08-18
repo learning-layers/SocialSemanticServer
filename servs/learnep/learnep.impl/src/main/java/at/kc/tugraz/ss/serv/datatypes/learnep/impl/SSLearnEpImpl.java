@@ -1303,6 +1303,26 @@ implements
       
       dbSQL.commit(par.shouldCommit);
 
+      final List<SSEntity> circles = 
+        learnEpVersionCirclesWithEntriesGet(
+          new SSLearnEpVersionCirclesWithEntriesGetPar(
+            par.user,
+            learnEpVersion,
+            par.withUserRestriction,
+            false));
+      
+      for(SSEntity circle : circles){
+        
+        System.out.println(circle.label.toString() + " contains");
+        
+        for(SSEntity entry : circle.entries){
+          System.out.println(((SSLearnEpEntity)entry).entity.label.toString());
+        }
+        
+        System.out.println();
+      }
+      
+      
       return true;
     }catch(Exception error){
       
