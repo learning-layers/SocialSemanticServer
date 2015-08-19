@@ -28,6 +28,8 @@ import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSMimeTypeE;
 import at.tugraz.sss.serv.SSStrU;
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
+import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.tugraz.sss.serv.SSServImplStartA;
 import at.tugraz.sss.serv.caller.SSServCaller;
@@ -37,6 +39,7 @@ import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileUploadRet;
 import at.kc.tugraz.ss.service.filerepo.impl.fct.SSFileServCaller;
 import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSDBSQLI;
+import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSImageE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
@@ -61,7 +64,8 @@ public class SSFileUploader extends SSServImplStartA{
   private       FileInputStream       fileInputStream   = null;
   private       String                fileId            = null;
   private       byte[]                fileChunk         = null;
-  private       SSUri                 uri               = null;
+  private       SSUri                 fileUri           = null;
+  private       SSUri                 thumbUri          = null;
   private       String                localWorkPath     = null;
   private       SSEvalServerI         evalServ          = null;
   
@@ -76,8 +80,8 @@ public class SSFileUploader extends SSServImplStartA{
     
     try{
       this.fileExt           = SSMimeTypeE.fileExtForMimeType             (this.par.mimeType);
-      this.uri               = SSServCaller.vocURICreate                  (this.fileExt);
-      this.fileId            = SSVocConf.fileIDFromSSSURI(uri);
+      this.fileUri           = SSServCaller.vocURICreate                  (this.fileExt);
+      this.fileId            = SSVocConf.fileIDFromSSSURI(fileUri);
       this.fileOutputStream  = SSFileU.openOrCreateFileWithPathForWrite   (localWorkPath + fileId);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -114,7 +118,20 @@ public class SSFileUploader extends SSServImplStartA{
         
         dbSQL.startTrans(par.shouldCommit);
         
-        SSFileServCaller.addFileEntity           (par, uri);
+        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+          new SSEntityUpdatePar(
+            par.user,
+            fileUri,
+            SSEntityE.file, //type,
+            par.label, //label
+            null, //description,
+            null, //entitiesToAttach,
+            null, //creationTime,
+            null, //read,
+            false, //setPublic
+            false, //withUserRestriction
+            false)); //shouldCommit)
+        
         SSFileServCaller.addFileContentsToSolr   (par, fileId);
 
         removeFileFromLocalWorkFolder();
@@ -130,7 +147,7 @@ public class SSFileUploader extends SSServImplStartA{
             par.user,
             SSToolContextE.sss,
             SSEvalLogE.fileUpload,
-            uri,  //entity
+            fileUri,  //entity
             null, //content,
             null, //entities
             null, //users
@@ -173,7 +190,7 @@ public class SSFileUploader extends SSServImplStartA{
   }
   
   private void sendAnswer() throws Exception{
-    par.sSCon.writeRetFullToClient(SSFileUploadRet.get(uri));
+    par.sSCon.writeRetFullToClient(SSFileUploadRet.get(fileUri, thumbUri));
   }
   
   private void removeFileFromLocalWorkFolder() throws Exception{
@@ -234,11 +251,11 @@ public class SSFileUploader extends SSServImplStartA{
   private void createFileThumb(){
     
     try{
+      
+      thumbUri = SSServCaller.vocURICreate                  (SSFileExtE.png);
+      
       final String filePath          = localWorkPath + fileId;
-      final SSUri  pngFileUri        = SSServCaller.vocURICreate                  (SSFileExtE.png);
-      final String pngFilePath       = localWorkPath + SSVocConf.fileIDFromSSSURI(pngFileUri);
-      final String pdfFilePath       = localWorkPath + SSVocConf.fileIDFromSSSURI(SSServCaller.vocURICreate     (SSFileExtE.pdf));
-
+      final String pngFilePath       = localWorkPath + SSVocConf.fileIDFromSSSURI (thumbUri);
       Boolean      thumbCreated      = false;
       
       if(SSStrU.contains(SSFileExtE.imageFileExts, fileExt)){
@@ -255,6 +272,9 @@ public class SSFileUploader extends SSServImplStartA{
         }
         
         case doc:{
+          
+          final String pdfFilePath = localWorkPath + SSVocConf.fileIDFromSSSURI(SSServCaller.vocURICreate     (SSFileExtE.pdf));
+          
           SSFileU.writePDFFromDoc       (filePath,    pdfFilePath);
           SSFileU.writeScaledPNGFromPDF (pdfFilePath, pngFilePath, 500, 500, false);
           thumbCreated = true;          
@@ -266,9 +286,10 @@ public class SSFileUploader extends SSServImplStartA{
         ((SSImageServerI) SSServReg.getServ(SSImageServerI.class)).imageAdd(
           new SSImageAddPar(
             par.user,
-            pngFileUri,
+            thumbUri,
             SSImageE.thumb, //imageType,
-            uri, //entity
+            fileUri, //entity
+            fileUri, //file
             false, //withUserRestriction,
             false)); //shouldCommit
       }

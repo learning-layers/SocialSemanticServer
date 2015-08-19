@@ -245,7 +245,7 @@ implements
           null, //entitiesToAttach,
           null, //creationTime, 
           null, //read, 
-          null, //setPublic, 
+          false, //setPublic, 
           par.withUserRestriction, //withUserRestriction
           false)); //shouldCommit)
       
@@ -265,7 +265,7 @@ implements
             SSUri.asListWithoutNullAndEmpty(par.image), //entitiesToAttach,
             null, //creationTime,
             null, //read,
-            null, //setPublic,
+            false, //setPublic,
             par.withUserRestriction, //withUserRestriction
             false)); //shouldCommit)
       }

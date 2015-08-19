@@ -31,6 +31,7 @@ public class SSImageAddPar extends SSServPar{
   public SSUri    image                                = null;
   public SSImageE imageType                            = null;
   public SSUri    entity                               = null;
+  public SSUri    file                                 = null;
   
   public String getImage(){
     return SSStrU.removeTrailingSlash(image);
@@ -40,10 +41,14 @@ public class SSImageAddPar extends SSServPar{
     this.image = SSUri.get(image);
   }
   
-   public String getEntity(){
+  public String getEntity(){
     return SSStrU.removeTrailingSlash(entity);
   }
 
+  public String getFile(){
+    return SSStrU.removeTrailingSlash(file);
+  }
+  
   public void setEntity(final String entity) throws Exception{
     this.entity = SSUri.get(entity);
   }
@@ -56,6 +61,10 @@ public class SSImageAddPar extends SSServPar{
     this.imageType = SSImageE.get(imageType);
   }
   
+  public void setFile(final String file) throws Exception{
+    this.file = SSUri.get(file);
+  }
+  
   public SSImageAddPar(){}
   
   public SSImageAddPar(
@@ -63,6 +72,7 @@ public class SSImageAddPar extends SSServPar{
     final SSUri         image,
     final SSImageE      imageType,
     final SSUri         entity,
+    final SSUri         file, 
     final Boolean       withUserRestriction,
     final Boolean       shouldCommit){
     
@@ -71,6 +81,7 @@ public class SSImageAddPar extends SSServPar{
     this.image                                = image;
     this.imageType                            = imageType;
     this.entity                               = entity;
+    this.file                                 = file;
     this.withUserRestriction                  = withUserRestriction;
     this.shouldCommit                         = shouldCommit;
   }

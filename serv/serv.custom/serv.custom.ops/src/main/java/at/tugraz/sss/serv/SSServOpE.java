@@ -186,6 +186,7 @@ public enum SSServOpE{
   userGet,
   usersGet,
   userAdd,
+  userProfilePictureSet,
   
   //user event
   userEventsGet                                              ,

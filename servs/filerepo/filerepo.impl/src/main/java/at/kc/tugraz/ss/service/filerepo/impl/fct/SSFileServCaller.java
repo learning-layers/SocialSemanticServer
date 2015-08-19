@@ -20,45 +20,16 @@
  */
 package at.kc.tugraz.ss.service.filerepo.impl.fct;
 
-import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSMimeTypeE;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileUploadPar;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSFileExtE;
 import at.tugraz.sss.serv.SSServErrReg;
-import at.tugraz.sss.serv.SSServReg;
 
 public class SSFileServCaller{
-  
-  public static void addFileEntity(
-    final SSFileUploadPar par,
-    final SSUri           file) throws Exception{
-    
-    try{
-      
-      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
-          new SSEntityUpdatePar(
-            par.user,
-            file,
-            SSEntityE.file, //type,
-            par.label, //label
-            null, //description,
-            null, //entitiesToAttach,
-            null, //creationTime,
-            null, //read,
-            false, //setPublic
-            false, //withUserRestriction
-            false)); //shouldCommit)
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
   
   public static void addFileContentsToSolr(
     final SSFileUploadPar par,

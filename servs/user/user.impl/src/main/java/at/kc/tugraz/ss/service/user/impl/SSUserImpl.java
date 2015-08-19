@@ -38,14 +38,18 @@ import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.tugraz.sss.util.SSServCallerU;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.kc.tugraz.ss.service.filerepo.api.SSFileRepoServerI;
+import at.kc.tugraz.ss.service.filerepo.datatypes.SSFile;
 import at.kc.tugraz.ss.service.user.api.*;
 import at.kc.tugraz.ss.service.user.datatypes.SSUser;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserAddPar;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserExistsPar;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserGetPar;
+import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserProfilePictureSetPar;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserURIGetPar;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserURIsGetPar;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUsersGetPar;
+import at.kc.tugraz.ss.service.user.datatypes.ret.SSUserProfilePictureSetRet;
 import at.kc.tugraz.ss.service.user.datatypes.ret.SSUsersGetRet;
 import at.kc.tugraz.ss.service.user.impl.functions.sql.SSUserSQLFct;
 import at.tugraz.sss.serv.SSDBNoSQL;
@@ -56,9 +60,13 @@ import at.tugraz.sss.serv.SSEntityDescriberPar;
 import at.tugraz.sss.serv.SSErr;
 import java.util.*;
 import at.tugraz.sss.serv.SSErrE;
+import at.tugraz.sss.serv.SSImageE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServReg;
+import at.tugraz.sss.servs.file.datatype.par.SSFileGetPar;
+import at.tugraz.sss.servs.image.api.SSImageServerI;
+import at.tugraz.sss.servs.image.datatype.par.SSImageAddPar;
 
 public class SSUserImpl 
 extends SSServImplWithDBA 
@@ -309,6 +317,68 @@ implements
       }
       
       dbSQL.rollBack(par.shouldCommit);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  
+  @Override
+  public void userProfilePictureSet(SSSocketCon sSCon, SSServPar parA) throws Exception {
+    
+    SSServCallerU.checkKey(parA);
+
+    final SSUserProfilePictureSetPar par = (SSUserProfilePictureSetPar) parA.getFromJSON(SSUserProfilePictureSetPar.class);
+    
+    sSCon.writeRetFullToClient(new SSUserProfilePictureSetRet(userProfilePictureSet(par)));
+  }
+  
+  @Override 
+  public SSUri userProfilePictureSet(final SSUserProfilePictureSetPar par) throws Exception{
+    
+    try{
+      
+      if(par.withUserRestriction){
+        
+        if(!SSServCallerU.canUserRead(par.user, par.file)){
+          return null;
+        }
+      }
+
+      final SSFile file = 
+        ((SSFileRepoServerI) SSServReg.getServ(SSFileRepoServerI.class)).fileGet(
+          new SSFileGetPar(
+            par.user,
+            par.file,
+            par.withUserRestriction,
+            false));
+        
+      if(file == null){
+        return null;
+      }
+      
+      dbSQL.startTrans(par.shouldCommit);
+      
+      final SSUri image =
+        ((SSImageServerI) SSServReg.getServ(SSImageServerI.class)).imageAdd(
+          new SSImageAddPar(
+            par.user,
+            null,
+            SSImageE.image,
+            par.user,
+            par.file,
+            par.withUserRestriction,
+            false));
+        
+      if(image != null){
+        sqlFct.setProfilePicture(par.user, image);
+      }
+      
+      dbSQL.commit(par.shouldCommit);
+      
+      return image;
+      
+    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }

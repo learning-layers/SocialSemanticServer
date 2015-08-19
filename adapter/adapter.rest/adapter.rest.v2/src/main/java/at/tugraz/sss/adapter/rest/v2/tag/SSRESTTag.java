@@ -20,7 +20,6 @@
 */
 package at.tugraz.sss.adapter.rest.v2.tag;
 
-import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
 import at.tugraz.sss.serv.SSUri;

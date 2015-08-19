@@ -207,4 +207,11 @@ public class SSUserSQLFct extends SSDBSQLFct{
       SSServErrReg.regErrThrow(error);
     }
   }
+
+  public void setProfilePicture(
+    final SSUri user, 
+    final SSUri image){
+    
+        
+  }
 }

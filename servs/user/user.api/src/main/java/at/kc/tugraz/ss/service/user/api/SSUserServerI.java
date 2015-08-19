@@ -25,6 +25,7 @@ import at.kc.tugraz.ss.service.user.datatypes.SSUser;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserAddPar;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserExistsPar;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserGetPar;
+import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserProfilePictureSetPar;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserURIGetPar;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserURIsGetPar;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUsersGetPar;
@@ -34,10 +35,11 @@ import java.util.List;
 
 public interface SSUserServerI extends SSServServerI{
 
-  public SSUser         userGet              (final SSUserGetPar     par) throws Exception;
-  public List<SSEntity> usersGet             (final SSUsersGetPar    par) throws Exception;
-  public Boolean        userExists           (final SSUserExistsPar  par) throws Exception;
-  public SSUri          userURIGet           (final SSUserURIGetPar  par) throws Exception;
-  public List<SSUri>    userURIsGet          (final SSUserURIsGetPar par) throws Exception;
-  public SSUri          userAdd              (final SSUserAddPar     par) throws Exception;
+  public SSUser         userGet               (final SSUserGetPar               par) throws Exception;
+  public List<SSEntity> usersGet              (final SSUsersGetPar              par) throws Exception;
+  public Boolean        userExists            (final SSUserExistsPar            par) throws Exception;
+  public SSUri          userURIGet            (final SSUserURIGetPar            par) throws Exception;
+  public List<SSUri>    userURIsGet           (final SSUserURIsGetPar           par) throws Exception;
+  public SSUri          userAdd               (final SSUserAddPar               par) throws Exception;
+  public SSUri          userProfilePictureSet (final SSUserProfilePictureSetPar par) throws Exception;
 }
