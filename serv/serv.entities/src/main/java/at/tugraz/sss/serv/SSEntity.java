@@ -262,9 +262,8 @@ public class SSEntity extends SSEntityA{
       this.circleTypes.addAll(entity.circleTypes);
     }
     
-    addEntitiesDistinctWithoutNull(this.entries,          entity.entries);
-    addEntitiesDistinctWithoutNull(this.attachedEntities, entity.attachedEntities);
-    addEntitiesDistinctWithoutNull(this.attachedEntities, entity.attachedEntities);
+    addEntitiesDistinctWithoutNull(this.entries,           entity.entries);
+    addEntitiesDistinctWithoutNull(this.attachedEntities,  entity.attachedEntities);
     
     if(
       entity.comments != null &&
@@ -396,9 +395,6 @@ public class SSEntity extends SSEntityA{
     
     addEntitiesDistinctWithoutNull(this.entries, specificEntity.entries);
     addEntitiesDistinctWithoutNull(this.entries, entity.entries);
-    
-    addEntitiesDistinctWithoutNull(this.attachedEntities, specificEntity.attachedEntities);
-    addEntitiesDistinctWithoutNull(this.attachedEntities, entity.attachedEntities);
     
     addEntitiesDistinctWithoutNull(this.attachedEntities, specificEntity.attachedEntities);
     addEntitiesDistinctWithoutNull(this.attachedEntities, entity.attachedEntities);

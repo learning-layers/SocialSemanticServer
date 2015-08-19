@@ -180,7 +180,6 @@ implements
           null, //type,
           null, //label,
           null, //description,
-          null, //entitiesToAttach,
           null, //creationTime,
           null, //read,
           null, //setPublic
@@ -201,7 +200,6 @@ implements
           SSEntityE.location, //type,
           null, //label,
           null, //description,
-          null, //entitiesToAttach,
           null, //creationTime,
           null, //read,
           true, //setPublic

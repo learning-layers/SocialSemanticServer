@@ -24,6 +24,7 @@ import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
+import at.tugraz.sss.serv.SSImage;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,23 +42,7 @@ public class SSVideo extends SSEntity{
   public Object jsonLDDesc(){
     throw new UnsupportedOperationException();
   }
-  public static List<SSVideo> get(final List<SSUri> uris) throws Exception{
-    
-    final List<SSVideo> videos = new ArrayList<>();
-    
-    for(SSUri uri : uris){
-      videos.add(SSVideo.get(uri));
-    }
-    
-    return videos;
-  }
-  
-  public static SSVideo get(
-    final SSUri           id) throws Exception{
-    
-    return new SSVideo(id, null, null, null);
-  }
-  
+
   public static SSVideo get(
     final SSVideo      video,
     final SSEntity     entity) throws Exception{
@@ -71,10 +56,29 @@ public class SSVideo extends SSEntity{
     
     super(video, entity);
     
-    this.genre               = video.genre;
-    this.link                = video.link;
+    if(video.genre != null){
+      this.genre = video.genre;
+    }else{
+      
+      if(entity instanceof SSVideo){
+        this.genre = ((SSVideo) entity).genre;
+      }
+    }
+    
+    if(video.link != null){
+      this.link = video.link;
+    }else{
+      
+      if(entity instanceof SSVideo){
+        this.link = ((SSVideo) entity).link;
+      }
+    }
    
     SSEntity.addEntitiesDistinctWithoutNull(this.annotations, video.annotations);
+    
+    if(entity instanceof SSVideo){
+      SSEntity.addEntitiesDistinctWithoutNull(this.annotations, ((SSVideo) entity).annotations);
+    }
   }
   
   public static SSVideo get(

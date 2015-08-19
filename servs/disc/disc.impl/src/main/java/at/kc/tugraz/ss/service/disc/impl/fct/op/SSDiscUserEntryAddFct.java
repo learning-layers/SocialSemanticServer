@@ -68,7 +68,6 @@ public class SSDiscUserEntryAddFct{
           discType, //type,
           discLabel, //label
           description, //description,
-          null, //entitiesToAttach,
           null, //creationTime,
           null, //read,
           false, //setPublic
@@ -84,7 +83,6 @@ public class SSDiscUserEntryAddFct{
             null, //type,
             null, //label
             null, //description,
-            null, //entitiesToAttach,
             null, //creationTime,
             null, //read,
             false, //setPublic
@@ -139,7 +137,6 @@ public class SSDiscUserEntryAddFct{
           discEntryType, //type,
           SSLabel.get(discEntryUri), //label
           null, //description,
-          null, //entitiesToAttach,
           null, //creationTime,
           null, //read,
           false, //setPublic

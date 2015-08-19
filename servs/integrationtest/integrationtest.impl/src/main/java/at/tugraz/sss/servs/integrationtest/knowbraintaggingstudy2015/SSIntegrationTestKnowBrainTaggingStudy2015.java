@@ -662,7 +662,6 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
           null, //type
           SSLabel.get("circle new 1"), //label
           null, //description,
-          null, //entitiesToAttach,
           null, //creationTime,
           null, //read,
           false, //setPublic,

@@ -108,14 +108,16 @@ public class SSUser extends SSEntity{
   
   public static SSUser get(
     final SSUri    id,
-    final String   email) throws Exception{
+    final String   email,
+    final SSEntity profilePicture) throws Exception{
     
-    return new SSUser(id, email);
+    return new SSUser(id, email, profilePicture);
   }
   
   protected SSUser(
     final SSUri   id,
-    final String  email) throws Exception{
+    final String  email,
+    final SSEntity profilePicture) throws Exception{
     
     super(id, SSEntityE.user);
     

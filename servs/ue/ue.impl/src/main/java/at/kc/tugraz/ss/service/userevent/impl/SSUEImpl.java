@@ -375,7 +375,6 @@ implements
           SSEntityE.userEvent, //type,
           null, //label
           null,//description,
-          null, //entitiesToAttach,
           par.creationTime, //creationTime,
           null, //read,
           true, //setPublic
@@ -389,7 +388,6 @@ implements
           null, //type,
           null, //label
           null,//description,
-          null, //entitiesToAttach,
           null, //creationTime,
           null, //read,
           false, //setPublic

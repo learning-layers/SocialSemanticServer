@@ -22,6 +22,8 @@ package at.tugraz.sss.serv;
 
 public class SSSQLVarNames{
 
+  public static final String attachedEntityId                               = "attachedEntityId";
+  public static final String profilePictureId                               = "profilePictureId";
   public static final String realm                                          = "realm";
   public static final String usn                                            = "usn";
   public static final String link                                           = "link";
@@ -98,7 +100,6 @@ public class SSSQLVarNames{
   public static final String commentId                                      = "commentId";
   public static final String commentContent                                 = "commentContent";
   public static final String messageContent                                 = "messageContent";
-  public static final String attachedEntityId                               = "attachedEntityId";
   public static final String thumbId                                        = "thumbId";
   public static final String fileId                                         = "fileId";
   public static final String categoryId                                     = "categoryId";
@@ -141,7 +142,7 @@ public class SSSQLVarNames{
   public static final String uesTable = "ues";
   
   //file
-  public static final String filesTable = "files";
+  public static final String fileTable = "file";
 
   //image
   public static final String imageTable = "image";
@@ -149,7 +150,7 @@ public class SSSQLVarNames{
   //video
   public static final String videoTable = "video";
   public static final String videoAnnotationTable = "videoannotation";
-  public static final String userVideosTable = "uservideos";
+  public static final String videoUsersTable = "videousers";
   public static final String videoAnnotationsTable = "videoannotations";
   
   //app stack
@@ -160,9 +161,6 @@ public class SSSQLVarNames{
   //message
   public static final String messageTable = "message";
 
-  //thumb
-  public static final String thumbnailsTable = "thumbnails";
-  
   //flag
   public static final String flagTable = "flag";
   public static final String flagsTable = "flags";
@@ -181,7 +179,7 @@ public class SSSQLVarNames{
   public static final String learnEpTable = "learnep";
 
   //tag
-  public static final String tagAssTable = "tagass";
+  public static final String tagsTable = "tags";
   
   //comment
   public static final String commentTable = "comment";
@@ -208,7 +206,12 @@ public class SSSQLVarNames{
   //entity
   public static final String entityTable = "entity";
   public static final String entityReadsTable = "entityreads";
-  public static final String entitiesTable = "entities";
+  public static final String entityImagesTable = "entityimages";
+  public static final String entityLocationsTable = "entitylocations";
+  public static final String entityDownloadsTable = "entitydownloads";
+  public static final String entityVideosTable = "entityvideos";
+  public static final String entityFilesTable = "entityfiles";
+  public static final String entityAttachedEntitiesTable = "entityattachedentities";
   
   //user
   public static final String userTable = "user";
@@ -219,19 +222,16 @@ public class SSSQLVarNames{
   public static final String circleTable = "circle";
   public static final String circleInviteesTable = "circleinvitees";
   
-  
-  //downloads
-  public static final String downloadsTable = "downloads";
-  
   //auth
   public static final String authTable = "auth";
   
   //category
-  public static final String categoryAssTable = "categoryass";
   public static final String categoryTable = "category";
-  
+  public static final String categoriesTable = "categories";
+
+  //rating
+  public static final String ratingsTable = "ratings";
   
   //location
   public static final String locationTable = "location";
-  public static final String entityLocationsTable = "entitylocations";
 }

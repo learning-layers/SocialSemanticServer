@@ -308,7 +308,6 @@ implements
           SSEntityE.activity,
           SSLabel.get(SSStrU.toStr(par.type)), //label,
           null, //description,
-          null, //entitiesToAttach,
           null, //creationTime,
           null, //read,
           true, //setPublic
@@ -324,7 +323,6 @@ implements
             null, //type
             null, //label,
             null, //description,
-            null, //entitiesToAttach,
             null, //creationTime,
             null, //read,
             false, //setPublic
@@ -341,7 +339,6 @@ implements
             null, //type
             null, //label,
             null, //description,
-            null, //entitiesToAttach,
             null, //creationTime,
             null, //read,
             false, //setPublic
@@ -394,7 +391,6 @@ implements
           null, //type
           null, //label,
           null, //description,
-          null, //entitiesToAttach,
           null, //creationTime,
           null, //read,
           false, //setPublic

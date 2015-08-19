@@ -21,6 +21,9 @@
 package at.kc.tugraz.ss.serv.datatypes.entity.api;
 
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesGetPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityAttachEntitiesPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityDownloadURIsGetPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityDownloadsAddPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityFromTypeAndLabelGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
@@ -29,7 +32,6 @@ import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSEntityCopyPar;
 import at.tugraz.sss.serv.SSServServerI;
-import at.tugraz.sss.servs.entity.datatypes.par.SSEntityAttatchmentsRemovePar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntitySharePar;
 import java.util.List;
 
@@ -41,7 +43,9 @@ public interface SSEntityServerI extends SSServServerI{
   public SSEntity       entityGet                 (final SSEntityGetPar                  par) throws Exception;
   public SSEntity       entityFromTypeAndLabelGet (final SSEntityFromTypeAndLabelGetPar  par) throws Exception;
   public SSUri          entityShare               (final SSEntitySharePar                par) throws Exception;
-  public SSUri          entityAttachmentsRemove   (final SSEntityAttatchmentsRemovePar   par) throws Exception;
+  public List<SSUri>    entityDownloadsGet        (final SSEntityDownloadURIsGetPar      par) throws Exception;
+  public SSUri          entityDownloadsAdd        (final SSEntityDownloadsAddPar         par) throws Exception;
+  public SSUri          entityEntitiesAttach      (final SSEntityAttachEntitiesPar       par) throws Exception;
   
   public List<SSUri>                     entityUserSubEntitiesGet                 (final SSServPar parA) throws Exception;
   public List<SSUri>                     entityUserParentEntitiesGet              (final SSServPar parA) throws Exception;

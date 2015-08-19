@@ -37,37 +37,46 @@ public class SSVideoUserAddPar extends SSServPar{
   public SSLabel               label            = null;
   public SSTextComment         description      = null;
   public Long                  creationTime     = null;
+  public SSUri                 file             = null;
 
   public void setLink(final String link) throws Exception{
     this.link = SSUri.get(link);
   }
 
+  public String getLink(){
+    return SSStrU.removeTrailingSlash(link);
+  }
+  
   public void setForEntity(final String forEntity) throws Exception{
     this.forEntity = SSUri.get(forEntity);
-  }
-
-  public void setLabel(final String label) throws Exception{
-    this.label = SSLabel.get(label);
-  }
-
-  public void setDescription(final String description) throws Exception{
-    this.description = SSTextComment.get(description);
   }
 
   public String getForEntity(){
     return SSStrU.removeTrailingSlash(forEntity);
   }
   
-  public String getLink(){
-    return SSStrU.removeTrailingSlash(link);
+  public void setLabel(final String label) throws Exception{
+    this.label = SSLabel.get(label);
   }
-  
-  public String getLabel(){
+
+   public String getLabel(){
     return SSStrU.toStr(label);
+  }
+   
+  public void setDescription(final String description) throws Exception{
+    this.description = SSTextComment.get(description);
   }
 
   public String getDescription(){
     return SSStrU.toStr(description);
+  }
+  
+  public void setFile(final String file) throws Exception{
+    this.file = SSUri.get(file);
+  }
+
+  public String getFile(){
+    return SSStrU.toStr(file);
   }
   
   public SSVideoUserAddPar(){}
@@ -81,6 +90,7 @@ public class SSVideoUserAddPar extends SSServPar{
     final SSLabel        label,
     final SSTextComment  description,
     final Long           creationTime,
+    final SSUri          file, 
     final Boolean        withUserRestriction, 
     final Boolean        shouldCommit){
     
@@ -93,6 +103,7 @@ public class SSVideoUserAddPar extends SSServPar{
     this.label               = label;
     this.description         = description;
     this.creationTime        = creationTime;
+    this.file                = null;
     this.withUserRestriction = withUserRestriction;
     this.shouldCommit        = shouldCommit;
   }

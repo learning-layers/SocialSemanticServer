@@ -735,7 +735,6 @@ implements
           SSEntityE.coll, //type,
           SSLabel.get(SSStrU.valueRoot), //label
           null, //description,
-          null, //entitiesToAttach,
           null, //creationTime,
           null, //read,
           false, //setPublic

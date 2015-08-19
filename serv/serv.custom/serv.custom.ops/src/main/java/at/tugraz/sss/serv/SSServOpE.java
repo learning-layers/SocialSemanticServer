@@ -144,7 +144,9 @@ public enum SSServOpE{
   entityUpdate,
   entityCopy,
   entityShare,
-  entityAttachmentsRemove,
+  entityDownloadsGet,
+  entityDownloadsAdd,
+  entityEntitiesAttach,
   
   //learn ep
   learnEpsGet                                         ,

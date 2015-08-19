@@ -27,6 +27,7 @@ import at.tugraz.sss.serv.SSUri;
 
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.kc.tugraz.ss.service.user.datatypes.SSUser;
+import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSServErrReg;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -117,9 +118,11 @@ public class SSUserSQLFct extends SSDBSQLFct{
       final List<String>        tables           = new ArrayList<>();
       final Map<String, String> wheres           = new HashMap<>();
       final List<String>        tableCons        = new ArrayList<>();
+      final SSEntity            profilePic;
       
       column(columns, SSSQLVarNames.id);
       column(columns, SSSQLVarNames.email);
+      column(columns, SSSQLVarNames.profilePictureId);
       
       table(tables, SSSQLVarNames.entityTable);
       table(tables, SSSQLVarNames.userTable);
@@ -132,9 +135,16 @@ public class SSUserSQLFct extends SSDBSQLFct{
       
       checkFirstResult(resultSet);
       
+      if(bindingStrToUri(resultSet, SSSQLVarNames.profilePictureId) == null){
+        profilePic = null;
+      }else{
+        profilePic = SSEntity.get(bindingStrToUri(resultSet, SSSQLVarNames.profilePictureId), SSEntityE.entity);
+      }
+      
       return SSUser.get(
         user,
-        bindingStr(resultSet, SSSQLVarNames.email));
+        bindingStr(resultSet, SSSQLVarNames.email),
+        profilePic);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -210,8 +220,22 @@ public class SSUserSQLFct extends SSDBSQLFct{
 
   public void setProfilePicture(
     final SSUri user, 
-    final SSUri image){
+    final SSUri image) throws Exception{
     
-        
+    try{
+      final Map<String, String> updates    = new HashMap<>();
+      final Map<String, String> wheres     = new HashMap<>();
+      
+      where(wheres, SSSQLVarNames.userId, user);
+      
+      if(image != null){
+        update(updates,    SSSQLVarNames.profilePictureId,     image);
+      }
+      
+      dbSQL.updateIgnore(SSSQLVarNames.userTable, wheres, updates);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
   }
 }

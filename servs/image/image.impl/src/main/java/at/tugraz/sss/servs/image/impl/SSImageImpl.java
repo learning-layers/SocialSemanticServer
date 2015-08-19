@@ -20,10 +20,15 @@
 */
 package at.tugraz.sss.servs.image.impl;
 
+import at.kc.tugraz.ss.circle.api.SSCircleServerI;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesAddPar;
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.kc.tugraz.ss.service.filerepo.api.SSFileRepoServerI;
+import at.tugraz.sss.serv.SSAddAffiliatedEntitiesToCircleI;
+import at.tugraz.sss.serv.SSAddAffiliatedEntitiesToCirclePar;
 import at.tugraz.sss.serv.SSSocketCon;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSEntityE;
@@ -45,10 +50,13 @@ import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSFileU;
 import at.tugraz.sss.serv.SSImage;
 import at.tugraz.sss.serv.SSImageE;
+import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.caller.SSServCaller;
+import at.tugraz.sss.servs.file.datatype.par.SSEntityFileAddPar;
+import at.tugraz.sss.servs.file.datatype.par.SSEntityFilesGetPar;
 import at.tugraz.sss.servs.image.api.SSImageClientI;
 import at.tugraz.sss.servs.image.api.SSImageServerI;
 import at.tugraz.sss.servs.image.datatype.par.SSImageBase64GetPar;
@@ -63,7 +71,8 @@ extends SSServImplWithDBA
 implements 
   SSImageClientI, 
   SSImageServerI,
-  SSDescribeEntityI{
+  SSDescribeEntityI,
+  SSAddAffiliatedEntitiesToCircleI{
 
   private final SSImageSQLFct         sqlFct;
   private final SSEntityServerI       entityServ;
@@ -81,6 +90,7 @@ implements
     final SSEntityDescriberPar par) throws Exception{
     
     try{
+      
       if(par.setThumb){
         
         switch(entity.type){
@@ -125,6 +135,79 @@ implements
       return null;
     }
   }
+
+  @Override
+  public List<SSEntity> addAffiliatedEntitiesToCircle(final SSAddAffiliatedEntitiesToCirclePar par) throws Exception{
+    
+    try{
+      final List<SSUri>    affiliatedURIs     = new ArrayList<>();
+      final List<SSEntity> affiliatedEntities = new ArrayList<>();
+      
+      for(SSEntity entityAdded : par.entities){
+        
+        switch(entityAdded.type){
+          case image:{
+            
+            if(SSStrU.contains(par.recursiveEntities, entityAdded)){
+              continue;
+            }else{
+              SSUri.addDistinctWithoutNull(par.recursiveEntities, entityAdded.id);
+            }
+            
+            affiliatedURIs.clear();
+            
+             //replace with method addAffiliatedEntitiesToCircle in file repo service
+            for(SSEntity file :
+              ((SSFileRepoServerI) SSServReg.getServ(SSFileRepoServerI.class)).filesGet(
+                new SSEntityFilesGetPar(
+                  par.user,
+                  entityAdded.id,
+                  par.withUserRestriction,
+                  false))){ //invokeEntityHandlers
+              
+              if(SSStrU.contains(par.recursiveEntities, file)){
+                continue;
+              }
+              
+              SSUri.addDistinctWithoutNull(
+                affiliatedURIs,
+                file.id);
+              
+              SSEntity.addEntitiesDistinctWithoutNull(
+                affiliatedEntities,
+                file);
+            }
+            
+            ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleEntitiesAdd(
+              new SSCircleEntitiesAddPar(
+                par.user,
+                par.circle,
+                affiliatedURIs,
+                false, //withUserRestriction
+                false)); //shouldCommit
+            
+            break;
+          }
+        }
+      }
+      
+      if(affiliatedEntities.isEmpty()){
+        return affiliatedEntities;
+      }
+      
+      par.entities.clear();
+      par.entities.addAll(affiliatedEntities);
+      
+      for(SSServContainerI serv : SSServReg.inst.getServsHandlingAddAffiliatedEntitiesToCircle()){
+        ((SSAddAffiliatedEntitiesToCircleI) serv.serv()).addAffiliatedEntitiesToCircle(par);
+      }
+      
+      return affiliatedEntities;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
   
   @Override
   public SSImage imageGet(final SSImageGetPar par) throws Exception{
@@ -138,7 +221,21 @@ implements
         }
       }
       
-      return sqlFct.getImage(par.image);
+      final SSImage image = sqlFct.getImage(par.image);
+      
+      for(SSEntity file :
+        ((SSFileRepoServerI) SSServReg.getServ(SSFileRepoServerI.class)).filesGet(
+          new SSEntityFilesGetPar(
+            par.user,
+            par.image,
+            par.withUserRestriction,
+            false))){ //invokeEntityHandlers
+        
+        image.file = file;
+        break;
+      }
+      
+      return image;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -229,8 +326,17 @@ implements
         throw new SSErr(SSErrE.parameterMissing);
       }
       
-      if(par.image == null){
-        par.image = SSServCaller.vocURICreate();
+      final SSUri imageUri;
+      
+      if(par.uuid != null){
+        imageUri = SSServCaller.vocURICreateFromId(par.uuid);
+      }else{
+        
+        if(par.link != null){
+          imageUri = par.link;
+        }else{
+          imageUri = SSServCaller.vocURICreate();
+        }
       }
       
       dbSQL.startTrans(par.shouldCommit);
@@ -238,11 +344,10 @@ implements
       entityServ.entityUpdate(
         new SSEntityUpdatePar(
           par.user, 
-          par.image,  //entity
+          imageUri,  //entity
           SSEntityE.image,  //type
           null, //label, 
           null, //description, 
-          null, //entitiesToAttach,
           null, //creationTime, 
           null, //read, 
           false, //setPublic, 
@@ -250,8 +355,9 @@ implements
           false)); //shouldCommit)
       
       sqlFct.addImage(
-        par.image, 
-        par.imageType);
+        imageUri, 
+        par.imageType,
+        par.link);
       
       if(par.entity != null){
         
@@ -262,17 +368,29 @@ implements
             null,  //type
             null, //label,
             null, //description,
-            SSUri.asListWithoutNullAndEmpty(par.image), //entitiesToAttach,
             null, //creationTime,
             null, //read,
             false, //setPublic,
             par.withUserRestriction, //withUserRestriction
             false)); //shouldCommit)
+        
+        sqlFct.addImageToEntity(imageUri, par.entity);
+      }
+      
+      if(par.file != null){
+        
+        ((SSFileRepoServerI) SSServReg.getServ(SSFileRepoServerI.class)).fileAdd(
+          new SSEntityFileAddPar(
+            par.user,
+            par.file,
+            imageUri,
+            par.withUserRestriction,
+            par.shouldCommit));
       }
       
       dbSQL.commit(par.shouldCommit);
 
-      return par.image;
+      return imageUri;
     }catch(Exception error){
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){

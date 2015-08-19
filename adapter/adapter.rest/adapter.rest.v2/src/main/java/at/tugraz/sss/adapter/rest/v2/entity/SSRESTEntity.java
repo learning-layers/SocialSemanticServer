@@ -156,7 +156,6 @@ public class SSRESTEntity {
           input.type, //type
           input.label,       //label
           input.description, //description
-          null, //entitiesToAttach
           input.creationTime, //creationTime
           input.read,  //read
           null, //setPublic
@@ -196,7 +195,6 @@ public class SSRESTEntity {
           input.type, //type
           input.label,       //label
           input.description, //description
-          null, //entitiesToAttach
           input.creationTime, //creationTime
           input.read,  //read
           null, //setPublic

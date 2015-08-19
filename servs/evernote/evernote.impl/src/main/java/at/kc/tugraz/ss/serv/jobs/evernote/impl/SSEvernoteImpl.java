@@ -103,22 +103,22 @@ implements
             return entity;
           }
           
-          //TODO remove this hack for BNP; use "setTags" instead
+          //TODO create evernoteEvernoteNoteGet instead
           final SSEvernoteNote evernoteNote =
             SSEvernoteNote.get(
               sqlFct.getNote(entity.id),
               entity);
           
-          final List<SSEntity> files =
+          for(SSEntity file : 
             ((SSFileRepoServerI) SSServReg.getServ(SSFileRepoServerI.class)).filesGet(
               new SSEntityFilesGetPar(
                 par.user,
                 evernoteNote.id,
                 par.withUserRestriction,
-                false)); //invokeEntityHandlers
+                false))){ //invokeEntityHandlers
 
-          if(!files.isEmpty()){
-            evernoteNote.file = files.get(0);
+            evernoteNote.file = file;
+            break;
           }
           
           return evernoteNote;
@@ -130,22 +130,22 @@ implements
             return entity;
           }
           
-        //TODO remove this hack for BNP; use "setTags" instead
+          //TODO create evernoteEvernoteResourceGet instead
           final SSEvernoteResource evernoteResource =
             SSEvernoteResource.get(
               sqlFct.getResource(entity.id),
               entity);
           
-          final List<SSEntity> files =
+          for(SSEntity file :
             ((SSFileRepoServerI) SSServReg.getServ(SSFileRepoServerI.class)).filesGet(
               new SSEntityFilesGetPar(
                 par.user,
                 evernoteResource.id,
                 par.withUserRestriction,
-                false)); //invokeEntityHandlers
-          
-          if(!files.isEmpty()){
-            evernoteResource.file = files.get(0);
+                false))){ //invokeEntityHandlers
+            
+            evernoteResource.file = file;
+            break;
           }
           
           return evernoteResource;

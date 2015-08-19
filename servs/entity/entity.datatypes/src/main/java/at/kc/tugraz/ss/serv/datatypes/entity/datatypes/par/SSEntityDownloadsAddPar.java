@@ -18,50 +18,50 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.tugraz.sss.servs.entity.datatypes.par;
+package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par;
 
 import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.SSServPar;
 import java.util.ArrayList;
 import java.util.List;
+import at.tugraz.sss.serv.SSStrU;
 
-public class SSEntityAttatchmentsRemovePar extends SSServPar{
-  
-  public SSUri       entity          = null;
-  public List<SSUri> attachments     = new ArrayList<>();
-  
-  public void setEntity(final String entity) throws Exception{
-    this.entity = SSUri.get(entity);
-  }
-  
+public class SSEntityDownloadsAddPar extends SSServPar{
+
+  public SSUri               entity    = null;
+  public List<SSUri>         downloads = new ArrayList<>();
+
   public String getEntity(){
     return SSStrU.removeTrailingSlash(entity);
   }
 
-  public List<String> getAttachments(){
-    return SSStrU.removeTrailingSlash(attachments);
-  }
-
-  public void setAttachments(final List<String> attachments) throws Exception{
-    this.attachments = SSUri.get(attachments);
+  public void setEntity(final String entity) throws Exception{
+    this.entity = SSUri.get(entity);
   }
   
-  public SSEntityAttatchmentsRemovePar(){}
+  public List<String> getDownloads(){
+    return SSStrU.removeTrailingSlash(downloads);
+  }
+
+  public void setDownloads(final List<String> downloads) throws Exception{
+    this.downloads = SSUri.get(downloads);
+  }
+  
+  public SSEntityDownloadsAddPar(){}
+  
+  public SSEntityDownloadsAddPar(
+    final SSUri               user,
+    final SSUri               entity,
+    final List<SSUri>         downloads,
+    final Boolean             withUserRestriction, 
+    final Boolean             shouldCommit){
+
+    super(SSServOpE.entityDownloadsAdd, null, user);
+  
+    this.entity         = entity;
     
-  public SSEntityAttatchmentsRemovePar(
-    final SSUri         user,
-    final SSUri         entity,
-    final List<SSUri>   attachments,
-    final Boolean       withUserRestriction, 
-    final Boolean       shouldCommit){
-    
-    super(SSServOpE.entityAttachmentsRemove, null, user);
-    
-    this.entity              = entity;
-    
-    SSUri.addDistinctWithoutNull(this.attachments, attachments);
+    SSUri.addDistinctWithoutNull(this.downloads, downloads);
     
     this.withUserRestriction = withUserRestriction;
     this.shouldCommit        = shouldCommit;

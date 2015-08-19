@@ -39,8 +39,6 @@ import java.util.Map;
 
 public class SSRatingSQLFct extends SSDBSQLFct{
 
-  protected final String ratingAssTable = "ratingass";
-  
   public SSRatingSQLFct(final SSServImplWithDBA serv) throws Exception{
     super(serv.dbSQL);
   }
@@ -58,7 +56,7 @@ public class SSRatingSQLFct extends SSDBSQLFct{
       
       where(wheres, SSSQLVarNames.userId, user);
       
-      resultSet = dbSQL.select(ratingAssTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(SSSQLVarNames.ratingsTable, columns, wheres, null, null, null);
       
       return getURIsFromResult(resultSet, SSSQLVarNames.entityId);
       
@@ -86,9 +84,9 @@ public class SSRatingSQLFct extends SSDBSQLFct{
       }
 
       if(deletes.isEmpty()){
-        dbSQL.delete(ratingAssTable);
+        dbSQL.delete(SSSQLVarNames.ratingsTable);
       }else{
-        dbSQL.delete(ratingAssTable, deletes);
+        dbSQL.delete(SSSQLVarNames.ratingsTable, deletes);
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -116,7 +114,7 @@ public class SSRatingSQLFct extends SSDBSQLFct{
       where(wheres, SSSQLVarNames.userId,   userUri);
       where(wheres, SSSQLVarNames.entityId, entityUri);
       
-      resultSet = dbSQL.select(ratingAssTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(SSSQLVarNames.ratingsTable, columns, wheres, null, null, null);
       
       return resultSet.first();
     }catch(Exception error){
@@ -144,7 +142,7 @@ public class SSRatingSQLFct extends SSDBSQLFct{
     insertPars.put(SSSQLVarNames.entityId,     entityUri.toString());
     insertPars.put(SSSQLVarNames.ratingValue,  ratingValue.toString());
     
-    dbSQL.insert(ratingAssTable, insertPars);
+    dbSQL.insert(SSSQLVarNames.ratingsTable, insertPars);
   }
   
   public List<SSRating> getUserRatings(
@@ -165,7 +163,7 @@ public class SSRatingSQLFct extends SSDBSQLFct{
       
       where(wheres, SSSQLVarNames.userId,   userUri);
       
-      resultSet = dbSQL.select(ratingAssTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(SSSQLVarNames.ratingsTable, columns, wheres, null, null, null);
       
       while(resultSet.next()){
         
@@ -208,7 +206,7 @@ public class SSRatingSQLFct extends SSDBSQLFct{
     where   (wheres, SSSQLVarNames.entityId, entityUri);
     
     try{
-      resultSet = dbSQL.select(ratingAssTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(SSSQLVarNames.ratingsTable, columns, wheres, null, null, null);
       
       while(resultSet.next()){
         ratingValue += bindingStrToInteger(resultSet, SSSQLVarNames.ratingValue);
@@ -247,7 +245,7 @@ public class SSRatingSQLFct extends SSDBSQLFct{
     where(wheres, SSSQLVarNames.entityId, entityUri);
     
     try{
-      resultSet = dbSQL.select(ratingAssTable, columns, wheres, null, null, null);
+      resultSet = dbSQL.select(SSSQLVarNames.ratingsTable, columns, wheres, null, null, null);
       
       while(resultSet.next()){
         ratingValue += bindingStrToInteger(resultSet, SSSQLVarNames.ratingValue);

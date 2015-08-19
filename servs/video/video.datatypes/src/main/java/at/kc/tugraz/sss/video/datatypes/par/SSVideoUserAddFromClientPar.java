@@ -53,6 +53,7 @@ public class SSVideoUserAddFromClientPar extends SSVideoUserAddPar{
       label, 
       description, 
       creationTime, 
+      null, //file
       true, 
       true);
       

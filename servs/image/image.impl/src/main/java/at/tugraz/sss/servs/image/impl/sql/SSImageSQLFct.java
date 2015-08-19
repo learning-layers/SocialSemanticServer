@@ -29,6 +29,7 @@ import at.tugraz.sss.serv.SSObjU;
 import at.tugraz.sss.serv.SSSQLVarNames;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServImplWithDBA;
+import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -44,7 +45,8 @@ public class SSImageSQLFct extends SSDBSQLFct{
   
   public void addImage(
     final SSUri    image,
-    final SSImageE imageType) throws Exception{
+    final SSImageE imageType,
+    final SSUri    link) throws Exception{
     
     try{
 
@@ -57,6 +59,12 @@ public class SSImageSQLFct extends SSDBSQLFct{
       
       insert(inserts, SSSQLVarNames.imageId,    image);
       insert(inserts, SSSQLVarNames.type,       imageType);
+      
+      if(link != null){
+        insert(inserts, SSSQLVarNames.link,       link);
+      }else{
+        insert(inserts, SSSQLVarNames.link,       SSStrU.empty);
+      }
       
       uniqueKey(uniqueKeys, SSSQLVarNames.imageId, image);
       
@@ -82,6 +90,7 @@ public class SSImageSQLFct extends SSDBSQLFct{
       
       column (columns, SSSQLVarNames.imageTable, SSSQLVarNames.imageId);
       column (columns, SSSQLVarNames.imageTable, SSSQLVarNames.type);
+      column (columns, SSSQLVarNames.imageTable, SSSQLVarNames.link);
       
       where   (wheres, SSSQLVarNames.imageTable, SSSQLVarNames.imageId, image);
       
@@ -91,7 +100,8 @@ public class SSImageSQLFct extends SSDBSQLFct{
       
       return SSImage.get(
         bindingStrToUri(resultSet, SSSQLVarNames.imageId),
-        SSImageE.get(bindingStr(resultSet, SSSQLVarNames.type)));
+        SSImageE.get(bindingStr(resultSet, SSSQLVarNames.type)),
+        bindingStrToUri(resultSet, SSSQLVarNames.link));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -100,7 +110,6 @@ public class SSImageSQLFct extends SSDBSQLFct{
       dbSQL.closeStmt(resultSet);
     }
   }
-  
   
   public List<SSUri> getImages(
     final SSUri    forEntity,
@@ -118,9 +127,9 @@ public class SSImageSQLFct extends SSDBSQLFct{
       table  (tables, SSSQLVarNames.imageTable);
       
       if(forEntity != null){
-        where   (wheres, SSSQLVarNames.entitiesTable, SSSQLVarNames.entityId, forEntity);
-        table   (tables, SSSQLVarNames.entitiesTable);
-        tableCon(tableCons, SSSQLVarNames.imageTable, SSSQLVarNames.imageId, SSSQLVarNames.entitiesTable, SSSQLVarNames.attachedEntityId);
+        where   (wheres, SSSQLVarNames.entityImagesTable, SSSQLVarNames.entityId, forEntity);
+        table   (tables, SSSQLVarNames.entityImagesTable);
+        tableCon(tableCons, SSSQLVarNames.imageTable, SSSQLVarNames.imageId, SSSQLVarNames.entityImagesTable, SSSQLVarNames.imageId);
       }
       
       if(imageType != null){
@@ -142,4 +151,51 @@ public class SSImageSQLFct extends SSDBSQLFct{
       dbSQL.closeStmt(resultSet);
     }
   }
+
+  public void addImageToEntity(
+    final SSUri image,
+    final SSUri entity) throws Exception{
+    
+    try{
+      
+      final Map<String, String> inserts    = new HashMap<>();
+      final Map<String, String> uniqueKeys = new HashMap<>();
+      
+      insert(inserts, SSSQLVarNames.entityId,       entity);
+      insert(inserts, SSSQLVarNames.imageId,        image);
+      
+      uniqueKey(uniqueKeys, SSSQLVarNames.entityId, entity);
+      uniqueKey(uniqueKeys, SSSQLVarNames.imageId,  image);
+      
+      dbSQL.insertIfNotExists(SSSQLVarNames.entityImagesTable, inserts, uniqueKeys);
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+
+//  public List<SSUri> getImageFiles(
+//    final SSUri image) throws Exception{
+//    
+//    ResultSet resultSet = null;
+//    
+//    try{
+//      
+//      final List<String>        columns           = new ArrayList<>();
+//      final Map<String, String> wheres            = new HashMap<>();
+//      
+//      column(columns, SSSQLVarNames.fileId);
+//      
+//      where(wheres, SSSQLVarNames.entityId, image);
+//      
+//      resultSet = dbSQL.select(SSSQLVarNames.entityFilesTable, columns, wheres, null, null, null);
+//      
+//      return getURIsFromResult(resultSet, SSSQLVarNames.fileId);
+//      
+//    }catch(Exception error){
+//      SSServErrReg.regErrThrow(error);
+//      return null;
+//    }finally{
+//      dbSQL.closeStmt(resultSet);
+//    }
+//  }
 }

@@ -28,17 +28,18 @@ import at.tugraz.sss.serv.SSUri;
 
 public class SSImageAddPar extends SSServPar{
   
-  public SSUri    image                                = null;
+  public String   uuid                                 = null;  
+  public SSUri    link                                 = null;
   public SSImageE imageType                            = null;
   public SSUri    entity                               = null;
   public SSUri    file                                 = null;
   
-  public String getImage(){
-    return SSStrU.removeTrailingSlash(image);
+  public String getLink(){
+    return SSStrU.removeTrailingSlash(link);
   }
   
-  public void getImage(final String image) throws Exception{
-    this.image = SSUri.get(image);
+  public void setLink(final String link) throws Exception{
+    this.link = SSUri.get(link);
   }
   
   public String getEntity(){
@@ -69,7 +70,8 @@ public class SSImageAddPar extends SSServPar{
   
   public SSImageAddPar(
     final SSUri         user,
-    final SSUri         image,
+    final String        uuid,
+    final SSUri         link,
     final SSImageE      imageType,
     final SSUri         entity,
     final SSUri         file, 
@@ -78,7 +80,8 @@ public class SSImageAddPar extends SSServPar{
     
     super(SSServOpE.imageAdd, null, user);
     
-    this.image                                = image;
+    this.uuid                                 = uuid;
+    this.link                                 = link;
     this.imageType                            = imageType;
     this.entity                               = entity;
     this.file                                 = file;

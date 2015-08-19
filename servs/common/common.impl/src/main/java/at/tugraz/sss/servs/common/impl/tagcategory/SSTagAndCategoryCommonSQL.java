@@ -62,7 +62,7 @@ public class SSTagAndCategoryCommonSQL extends SSDBSQLFct{
       case tag:{
         metadataIdSQLName       = SSSQLVarNames.tagId;
         metadataSpaceSQLName    = SSSQLVarNames.tagSpace;
-        metadataAssSQLTableName = SSSQLVarNames.tagAssTable;
+        metadataAssSQLTableName = SSSQLVarNames.tagsTable;
         metadataSQLTableName    = null;
         break;
       }
@@ -70,7 +70,7 @@ public class SSTagAndCategoryCommonSQL extends SSDBSQLFct{
       case category:{
         metadataIdSQLName       = SSSQLVarNames.categoryId;
         metadataSpaceSQLName    = SSSQLVarNames.categorySpace;
-        metadataAssSQLTableName = SSSQLVarNames.categoryAssTable;
+        metadataAssSQLTableName = SSSQLVarNames.categoriesTable;
         metadataSQLTableName    = SSSQLVarNames.categoryTable;
         break;
       }

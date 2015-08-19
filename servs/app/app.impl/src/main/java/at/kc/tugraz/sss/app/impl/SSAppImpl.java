@@ -21,6 +21,7 @@
 package at.kc.tugraz.sss.app.impl;
 
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityDownloadsAddPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.tugraz.sss.serv.SSSocketCon;
@@ -41,6 +42,8 @@ import at.kc.tugraz.sss.app.datatypes.par.SSAppsGetPar;
 import at.kc.tugraz.sss.app.datatypes.ret.SSAppAddRet;
 import at.kc.tugraz.sss.app.datatypes.ret.SSAppsGetRet;
 import at.kc.tugraz.sss.app.impl.fct.sql.SSAppSQLFct;
+import at.kc.tugraz.sss.video.api.SSVideoServerI;
+import at.kc.tugraz.sss.video.datatypes.par.SSVideoUserAddPar;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
@@ -105,8 +108,51 @@ implements
     SSServCallerU.checkKey(parA);
     
     final SSAppAddPar         par     = (SSAppAddPar) parA.getFromJSON(SSAppAddPar.class);
+    final SSUri               app     = appAdd(par);
     
-    sSCon.writeRetFullToClient(SSAppAddRet.get(appAdd(par)));
+    if(!par.downloads.isEmpty()){
+      
+      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityDownloadsAdd(
+        new SSEntityDownloadsAddPar(
+          par.user,
+          app,
+          par.downloads,
+          par.withUserRestriction,
+          par.shouldCommit));
+    }
+    
+    for(SSUri screenshot : par.screenShots){
+      
+      ((SSImageServerI) SSServReg.getServ(SSImageServerI.class)).imageAdd(
+        new SSImageAddPar(
+          par.user,
+          null,  //uuid
+          screenshot, //link
+          SSImageE.screenShot, //image type
+          app, //forEntity
+          null, //file
+          par.withUserRestriction,
+          par.shouldCommit));
+    }
+    
+    for(SSUri video : par.videos){
+      
+      ((SSVideoServerI) SSServReg.getServ(SSVideoServerI.class)).videoAdd(
+        new SSVideoUserAddPar(
+          par.user,
+          null, //uuid
+          video, //link
+          app,  //forEntity
+          null, //genre
+          null, //label
+          null, //description
+          null, //creationTime
+          null, //file
+          par.withUserRestriction,
+          par.shouldCommit));
+    }
+    
+    sSCon.writeRetFullToClient(SSAppAddRet.get(app));
   }
 
   @Override
@@ -125,45 +171,11 @@ implements
           SSEntityE.app, //type,
           par.label, //label,
           null, //description,
-          null, //entitiesToAttach,
           null, //creationTime,
           null, //read,
           true, //setPublic
           par.withUserRestriction, //withUserRestriction,
           false)); //shouldCommit
-      
-      for(SSUri screenShot : par.screenShots){
-      
-        ((SSImageServerI) SSServReg.getServ(SSImageServerI.class)).imageAdd(
-          new SSImageAddPar(
-            par.user, 
-            screenShot, 
-            SSImageE.screenShot, //imageType
-            appUri, //entity, 
-            par.withUserRestriction, 
-            false)); //shouldCommit
-      }
-      
-      //TODO handle below
-//      for(SSUri download : par.downloads){
-//      
-//        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
-//          new SSEntityUpdatePar(
-//            null,
-//            null,
-//            par.user,
-//            download, //entity,
-//            null, //type,
-//            null, //label,
-//            null, //description,
-//            null, //entitiesToAttach,
-//            null, //creationTime,
-//            null, //read,
-//            true, //setPublic
-//            true, //withUserRestriction,
-//            false)); //shouldCommit
-//      }    
-//          par.videos, //videos,
       
       sqlFct.createApp(
         appUri,

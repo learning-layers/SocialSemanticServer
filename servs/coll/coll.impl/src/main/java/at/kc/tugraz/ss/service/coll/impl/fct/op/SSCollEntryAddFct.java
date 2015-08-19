@@ -61,7 +61,6 @@ public class SSCollEntryAddFct{
         SSEntityE.coll, //type,
         par.label, //label
         null, //description,
-        null, //entitiesToAttach,
         null, //creationTime,
         null, //read,
         false, //setPublic
@@ -143,7 +142,6 @@ public class SSCollEntryAddFct{
         null, //type,
         par.label, //label
         null, //description,
-        null, //entitiesToAttach,
         null, //creationTime,
         null, //read,
         false, //setPublic

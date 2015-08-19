@@ -26,8 +26,6 @@ import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
-import java.util.ArrayList;
-import java.util.List;
 import at.tugraz.sss.serv.SSStrU;
 
 public class SSEntityUpdatePar extends SSServPar{
@@ -36,7 +34,6 @@ public class SSEntityUpdatePar extends SSServPar{
   public SSEntityE           type             = null;
   public SSLabel             label            = null;
   public SSTextComment       description      = null;
-  public List<SSUri>         entitiesToAttach = new ArrayList<>();
   public Long                creationTime     = null;
   public Boolean             read             = null;
   public Boolean             setPublic        = false;
@@ -73,14 +70,6 @@ public class SSEntityUpdatePar extends SSServPar{
     this.description = SSTextComment.get(description);
   }
 
-  public List<String> getEntitiesToAttach(){
-    return SSStrU.removeTrailingSlash(entitiesToAttach);
-  }
-
-  public void setEntitiesToAttach(final List<String> entitiesToAttach) throws Exception{
-    this.entitiesToAttach = SSUri.get(entitiesToAttach);
-  }
-  
   public SSEntityUpdatePar(){}
   
   public SSEntityUpdatePar(
@@ -89,7 +78,6 @@ public class SSEntityUpdatePar extends SSServPar{
     final SSEntityE           type, 
     final SSLabel             label,
     final SSTextComment       description,
-    final List<SSUri>         entitiesToAttach,
     final Long                creationTime, 
     final Boolean             read,
     final Boolean             setPublic, 
@@ -98,13 +86,10 @@ public class SSEntityUpdatePar extends SSServPar{
 
     super(SSServOpE.entityUpdate, null, user);
   
-    this.entity         = entity;
-    this.type           = type;
-    this.label          = label;
-    this.description    = description;
-    
-    SSUri.addDistinctWithoutNull(this.entitiesToAttach,  entitiesToAttach);
-    
+    this.entity              = entity;
+    this.type                = type;
+    this.label               = label;
+    this.description         = description;
     this.creationTime        = creationTime;
     this.read                = read;
     this.setPublic           = setPublic;

@@ -55,39 +55,28 @@ public class SSFileSQLFct extends SSDBSQLFct{
       insert    (inserts,    SSSQLVarNames.fileId,   file);
       uniqueKey (uniqueKeys, SSSQLVarNames.fileId,   file);
       
-      dbSQL.insertIfNotExists(SSSQLVarNames.filesTable, inserts, uniqueKeys);
+      dbSQL.insertIfNotExists(SSSQLVarNames.fileTable, inserts, uniqueKeys);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
   }
   
-  public List<SSUri> getFileURIsAttachtedToEntity(
+  public List<SSUri> getEntityFiles(
     final SSUri entity) throws Exception{
     
     ResultSet resultSet = null;
     
     try{
       
-      if(SSObjU.isNull(entity)){
-        throw new SSErr(SSErrE.parameterMissing);
-      }
-
-      final List<String>        columns    = new ArrayList<>();
-      final List<String>        tables     = new ArrayList<>();
-      final Map<String, String> wheres     = new HashMap<>();
-      final List<String>        tableCons  = new ArrayList<>();
+      final List<String>        columns           = new ArrayList<>();
+      final Map<String, String> wheres            = new HashMap<>();
       
-      column (columns, SSSQLVarNames.filesTable, SSSQLVarNames.fileId);
-
-      table  (tables, SSSQLVarNames.filesTable);
-      table  (tables, SSSQLVarNames.entitiesTable);
-
-      where   (wheres, SSSQLVarNames.entitiesTable, SSSQLVarNames.entityId, entity);
+      column(columns, SSSQLVarNames.fileId);
       
-      tableCon(tableCons, SSSQLVarNames.filesTable, SSSQLVarNames.fileId, SSSQLVarNames.entitiesTable, SSSQLVarNames.attachedEntityId);
+      where(wheres, SSSQLVarNames.entityId, entity);
       
-      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
+      resultSet = dbSQL.select(SSSQLVarNames.entityFilesTable, columns, wheres, null, null, null);
       
       return getURIsFromResult(resultSet, SSSQLVarNames.fileId);
       
@@ -96,6 +85,27 @@ public class SSFileSQLFct extends SSDBSQLFct{
       return null;
     }finally{
       dbSQL.closeStmt(resultSet);
+    }
+  }
+
+  public void addFileToEntity(
+    final SSUri file, 
+    final SSUri entity) throws Exception {
+    
+    try{
+      
+      final Map<String, String> inserts    = new HashMap<>();
+      final Map<String, String> uniqueKeys = new HashMap<>();
+      
+      insert(inserts, SSSQLVarNames.entityId,      entity);
+      insert(inserts, SSSQLVarNames.fileId,        file);
+      
+      uniqueKey(uniqueKeys, SSSQLVarNames.entityId, entity);
+      uniqueKey(uniqueKeys, SSSQLVarNames.fileId,   file);
+      
+      dbSQL.insertIfNotExists(SSSQLVarNames.entityFilesTable, inserts, uniqueKeys);
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
     }
   }
 }

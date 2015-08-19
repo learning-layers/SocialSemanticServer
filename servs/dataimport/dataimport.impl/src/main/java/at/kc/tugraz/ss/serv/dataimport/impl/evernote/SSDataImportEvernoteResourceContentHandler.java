@@ -90,19 +90,19 @@ public class SSDataImportEvernoteResourceContentHandler{
           SSEntityE.file, //type,
           null, //label
           null, //description,
-          null, //entitiesToAttach,
           null, //creationTime,
           null, //read,
           false, //setPublic
           true, //withUserRestriction
           false)); //shouldCommit)
       
-      for(SSEntity file :((SSFileRepoServerI) SSServReg.getServ(SSFileRepoServerI.class)).filesGet(
-        new SSEntityFilesGetPar(
-          user,
-          resourceUri, //entity
-          true, //withUserRestriction
-        false))){  //invokeEntityHandlers
+      for(SSEntity file :
+        ((SSFileRepoServerI) SSServReg.getServ(SSFileRepoServerI.class)).filesGet(
+          new SSEntityFilesGetPar(
+            user,
+            resourceUri, //entity
+            true, //withUserRestriction
+            false))){  //invokeEntityHandlers
         
         SSServCaller.entityRemove(file.id, false);
         

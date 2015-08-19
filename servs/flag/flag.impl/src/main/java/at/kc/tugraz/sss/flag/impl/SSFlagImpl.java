@@ -148,7 +148,6 @@ implements
             null, //type,
             null, //label
             null, //description,
-            null, //entitiesToAttach,
             null, //creationTime,
             null, //read,
             false, //setPublic
@@ -169,7 +168,6 @@ implements
               SSEntityE.flag, //type,
               null, //label
               null, //description,
-              null, //entitiesToAttach,
               null, //creationTime,
               null, //read,
               true, //setPublic

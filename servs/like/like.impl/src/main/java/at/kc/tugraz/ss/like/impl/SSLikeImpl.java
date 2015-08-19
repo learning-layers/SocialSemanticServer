@@ -143,7 +143,6 @@ implements
           null, //type,
           null, //label
           null, //description,
-          null, //entitiesToAttach,
           null, //creationTime,
           null, //read,
           false, //setPublic

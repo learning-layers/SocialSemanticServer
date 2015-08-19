@@ -834,7 +834,6 @@ implements
           SSEntityE.learnEpVersion, //type,
           null, //label
           null, //description,
-          null, //entitiesToAttach,
           null, //creationTime,
           null, //read,
           false, //setPublic
@@ -925,7 +924,6 @@ implements
           SSEntityE.learnEpCircle, //type,
           par.label, //label
           null, //description,
-          null, //entitiesToAttach,
           null, //creationTime,
           null, //read,
           false, //setPublic
@@ -1029,7 +1027,6 @@ implements
           SSEntityE.learnEpEntity, //type,
           null, //label
           null, //description,
-          null, //entitiesToAttach,
           null, //creationTime,
           null, //read,
           false, //setPublic
@@ -1120,7 +1117,6 @@ implements
           SSEntityE.learnEp, //type,
           par.label, //label
           par.description,//description,
-          null, //entitiesToAttach,
           null, //creationTime,
           null, //read,
           false, //setPublic
@@ -1189,7 +1185,6 @@ implements
           SSEntityE.learnEpCircle, //type,
           par.label, //label
           null,//description,
-          null, //entitiesToAttach,
           null, //creationTime,
           null, //read,
           false, //setPublic
@@ -1269,7 +1264,6 @@ implements
             null, //type, 
             null, //label, 
             null, //description, 
-            null, //entitiesToAttach, 
             null, //creationTime,
             null, //read, 
             false, //setPublic, 
@@ -1493,7 +1487,6 @@ implements
           SSEntityE.learnEpTimelineState, //type,
           null, //label
           null,//description,
-          null, //entitiesToAttach,
           null, //creationTime,
           null, //read,
           false, //setPublic

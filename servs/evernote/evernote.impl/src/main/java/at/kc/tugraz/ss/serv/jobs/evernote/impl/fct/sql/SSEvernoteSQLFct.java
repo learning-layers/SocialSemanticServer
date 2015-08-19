@@ -228,7 +228,8 @@ public class SSEvernoteSQLFct extends SSDBSQLFct {
       
       checkFirstResult(resultSet);
       
-      return SSEvernoteNote.get(noteUri,
+      return SSEvernoteNote.get(
+        noteUri,
         bindingStrToUri(resultSet, SSSQLVarNames.notebookId));
       
     }catch(Exception error){

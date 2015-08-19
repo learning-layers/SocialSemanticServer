@@ -126,23 +126,6 @@ implements
       
       dbSQL.startTrans(par.shouldCommit);
       
-      if(par.app != null){
-        
-        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
-          new SSEntityUpdatePar(
-            par.user,
-            par.app,
-            null, //type,
-            null, //label,
-            null, //par.description,
-            null, //entitiesToAttach,
-            null, //creationTime,
-            null, //read,
-            false, //setPublic
-            par.withUserRestriction, //withUserRestriction
-            false)); //shouldCommit)
-      }
-      
       ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
         new SSEntityUpdatePar(
           par.user,
@@ -150,7 +133,6 @@ implements
           SSEntityE.appStackLayout, //type,
           par.label,
           par.description,
-          null, //entitiesToAttach,
           null, //creationTime,
           null, //read,
           true, //setPublic
@@ -210,7 +192,6 @@ implements
           null, //type
           par.label,
           par.description,
-          null, //entitiesToAttach
           null, //creationTime
           null, //read
           false, //setPublic
@@ -218,20 +199,6 @@ implements
           false));
       
       if(par.app != null){
-        
-        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
-          new SSEntityUpdatePar(
-            par.user,
-            par.app,
-            null, //type,
-            null, //label,
-            null, //par.description,
-            null, //entitiesToAttach,
-            null, //creationTime,
-            null, //read,
-            true, //setPublic
-            par.withUserRestriction, //withUserRestriction
-            false)); //shouldCommit)
         
         sqlFct.updateAppStackLayout(
           par.stack,

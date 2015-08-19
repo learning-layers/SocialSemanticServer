@@ -25,7 +25,6 @@ import at.tugraz.sss.serv.SSSQLVarNames;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSDBSQLI;
-
 import at.kc.tugraz.sss.video.datatypes.SSVideo;
 import at.kc.tugraz.sss.video.datatypes.SSVideoAnnotation;
 import at.tugraz.sss.serv.SSServErrReg;
@@ -55,7 +54,7 @@ public class SSVideoSQLFct extends SSDBSQLFct{
       uniqueKey(uniqueKeys, SSSQLVarNames.userId,  user);
       uniqueKey(uniqueKeys, SSSQLVarNames.videoId, video);
       
-      dbSQL.insertIfNotExists(SSSQLVarNames.userVideosTable, inserts, uniqueKeys);
+      dbSQL.insertIfNotExists(SSSQLVarNames.videoUsersTable, inserts, uniqueKeys);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
@@ -64,7 +63,6 @@ public class SSVideoSQLFct extends SSDBSQLFct{
   public void addVideo(
     final SSUri         video,
     final String        genre,
-    final SSUri         forEntity,
     final SSUri         link) throws Exception{
     
      try{
@@ -88,20 +86,6 @@ public class SSVideoSQLFct extends SSDBSQLFct{
       uniqueKey (uniqueKeys, SSSQLVarNames.videoId, video);
         
       dbSQL.insertIfNotExists(SSSQLVarNames.videoTable, inserts, uniqueKeys);
-      
-      if(forEntity != null){
-        
-        uniqueKeys.clear();
-        inserts.clear();
-        
-        insert(inserts, SSSQLVarNames.entityId,          forEntity);
-        insert(inserts, SSSQLVarNames.attachedEntityId,  video);
-        
-        uniqueKey(uniqueKeys, SSSQLVarNames.entityId,          forEntity);
-        uniqueKey(uniqueKeys, SSSQLVarNames.attachedEntityId,  video);
-        
-        dbSQL.insertIfNotExists(SSSQLVarNames.entitiesTable, inserts, uniqueKeys);
-      }
       
      }catch(Exception error){
        SSServErrReg.regErrThrow(error);
@@ -176,9 +160,9 @@ public class SSVideoSQLFct extends SSDBSQLFct{
       table(tables, SSSQLVarNames.videoTable);
       
       if(user != null){
-        where    (wheres, SSSQLVarNames.userVideosTable, SSSQLVarNames.userId, user);
-        table    (tables, SSSQLVarNames.userVideosTable);
-        tableCon (tableCons, SSSQLVarNames.entityTable, SSSQLVarNames.id, SSSQLVarNames.userVideosTable, SSSQLVarNames.videoId);
+        where    (wheres, SSSQLVarNames.videoUsersTable, SSSQLVarNames.userId, user);
+        table    (tables, SSSQLVarNames.videoUsersTable);
+        tableCon (tableCons, SSSQLVarNames.entityTable, SSSQLVarNames.id, SSSQLVarNames.videoUsersTable, SSSQLVarNames.videoId);
       }
       
       tableCon(tableCons, SSSQLVarNames.entityTable, SSSQLVarNames.id, SSSQLVarNames.videoTable,      SSSQLVarNames.videoId);
@@ -223,15 +207,15 @@ public class SSVideoSQLFct extends SSDBSQLFct{
       table(tables, SSSQLVarNames.videoTable);
       
       if(forUser != null){
-        where    (wheres, SSSQLVarNames.userVideosTable, SSSQLVarNames.userId, forUser);
-        table    (tables, SSSQLVarNames.userVideosTable);
-        tableCon (tableCons, SSSQLVarNames.entityTable, SSSQLVarNames.id, SSSQLVarNames.userVideosTable, SSSQLVarNames.videoId);
+        where    (wheres, SSSQLVarNames.videoUsersTable, SSSQLVarNames.userId, forUser);
+        table    (tables, SSSQLVarNames.videoUsersTable);
+        tableCon (tableCons, SSSQLVarNames.entityTable, SSSQLVarNames.id, SSSQLVarNames.videoUsersTable, SSSQLVarNames.videoId);
       }
       
       if(forEntity != null){
-        where    (wheres, SSSQLVarNames.entitiesTable, SSSQLVarNames.entityId, forEntity);
-        table    (tables, SSSQLVarNames.entitiesTable);
-        tableCon (tableCons, SSSQLVarNames.entityTable, SSSQLVarNames.id, SSSQLVarNames.entitiesTable, SSSQLVarNames.attachedEntityId);
+        where    (wheres, SSSQLVarNames.entityVideosTable, SSSQLVarNames.entityId, forEntity);
+        table    (tables, SSSQLVarNames.entityVideosTable);
+        tableCon (tableCons, SSSQLVarNames.entityTable, SSSQLVarNames.id, SSSQLVarNames.entityVideosTable, SSSQLVarNames.videoId);
       }
       
       tableCon(tableCons, SSSQLVarNames.entityTable, SSSQLVarNames.id, SSSQLVarNames.videoTable,      SSSQLVarNames.videoId);
@@ -311,6 +295,28 @@ public class SSVideoSQLFct extends SSDBSQLFct{
       return null;
     }finally{
       dbSQL.closeStmt(resultSet);
+    }
+  }
+  
+  public void addVideoToEntity(
+    final SSUri video,
+    final SSUri entity) throws Exception{
+    
+    try{
+      
+      final Map<String, String> inserts    = new HashMap<>();
+      final Map<String, String> uniqueKeys = new HashMap<>();
+      
+      insert(inserts, SSSQLVarNames.entityId,       entity);
+      insert(inserts, SSSQLVarNames.videoId,        video);
+      
+      uniqueKey(uniqueKeys, SSSQLVarNames.entityId, entity);
+      uniqueKey(uniqueKeys, SSSQLVarNames.videoId,  video);
+      
+      dbSQL.insertIfNotExists(SSSQLVarNames.entityVideosTable, inserts, uniqueKeys);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
     }
   }
 }

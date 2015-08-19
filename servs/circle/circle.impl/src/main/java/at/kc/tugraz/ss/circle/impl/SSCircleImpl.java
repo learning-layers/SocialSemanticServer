@@ -509,7 +509,6 @@ implements
           SSEntityE.circle, 
           par.label, 
           par.description, 
-          null, //entitiesToAttach, 
           null, //creationTime, 
           null, //read,
           null, //setPublic
@@ -853,7 +852,6 @@ implements
             null, //type, 
             null, //label, 
             null, //description, 
-            null, //entitiesToAttach,
             null, //creationTime, 
             null, //read, 
             null, //setPublic

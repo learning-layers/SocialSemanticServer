@@ -28,9 +28,8 @@ import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSMimeTypeE;
 import at.tugraz.sss.serv.SSStrU;
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
-import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.kc.tugraz.ss.service.filerepo.api.SSFileRepoServerI;
 import at.tugraz.sss.serv.SSServImplStartA;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.filerepo.conf.SSFileRepoConf;
@@ -39,11 +38,11 @@ import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileUploadRet;
 import at.kc.tugraz.ss.service.filerepo.impl.fct.SSFileServCaller;
 import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSDBSQLI;
-import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSImageE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSToolContextE;
+import at.tugraz.sss.servs.file.datatype.par.SSEntityFileAddPar;
 import at.tugraz.sss.servs.image.api.SSImageServerI;
 import at.tugraz.sss.servs.image.datatype.par.SSImageAddPar;
 import com.googlecode.sardine.SardineFactory;
@@ -118,19 +117,13 @@ public class SSFileUploader extends SSServImplStartA{
         
         dbSQL.startTrans(par.shouldCommit);
         
-        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
-          new SSEntityUpdatePar(
-            par.user,
-            fileUri,
-            SSEntityE.file, //type,
-            par.label, //label
-            null, //description,
-            null, //entitiesToAttach,
-            null, //creationTime,
-            null, //read,
-            false, //setPublic
-            false, //withUserRestriction
-            false)); //shouldCommit)
+        ((SSFileRepoServerI) SSServReg.getServ(SSFileRepoServerI.class)).fileAdd(
+          new SSEntityFileAddPar(
+            par.user, 
+            fileUri, 
+            null, 
+            par.withUserRestriction, 
+            false));
         
         SSFileServCaller.addFileContentsToSolr   (par, fileId);
 
@@ -283,13 +276,22 @@ public class SSFileUploader extends SSServImplStartA{
       
       if(thumbCreated){
         
+        ((SSFileRepoServerI) SSServReg.getServ(SSFileRepoServerI.class)).fileAdd(
+          new SSEntityFileAddPar(
+            par.user,
+            thumbUri, //file
+            null, //entity
+            false, //withUserRestriction
+            false));//shouldCommit
+        
         ((SSImageServerI) SSServReg.getServ(SSImageServerI.class)).imageAdd(
           new SSImageAddPar(
             par.user,
-            thumbUri,
+            null, //uuid
+            null, //link
             SSImageE.thumb, //imageType,
             fileUri, //entity
-            fileUri, //file
+            thumbUri, //file
             false, //withUserRestriction,
             false)); //shouldCommit
       }

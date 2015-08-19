@@ -52,7 +52,6 @@ import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServReg;
-import at.tugraz.sss.serv.caller.SSServCaller;
 import at.tugraz.sss.servs.file.datatype.par.SSFileGetPar;
 import java.util.*;
 import java.util.List;
@@ -208,8 +207,8 @@ implements
     
     try{
       
-     if(par.file == null){
-        par.file = SSServCaller.vocURICreate();
+      if(par.file == null){
+        throw new SSErr(SSErrE.parameterMissing);
       }
       
       dbSQL.startTrans(par.shouldCommit);
@@ -221,7 +220,6 @@ implements
           SSEntityE.file,  //type
           null, //label, 
           null, //description, 
-          null, //entitiesToAttach,
           null, //creationTime, 
           null, //read, 
           null, //setPublic, 
@@ -235,16 +233,17 @@ implements
         entityServ.entityUpdate(
           new SSEntityUpdatePar(
             par.user,
-            par.entity,  //entity
-            null,  //type
-            null, //label,
-            null, //description,
-            SSUri.asListWithoutNullAndEmpty(par.file), //entitiesToAttach,
+            par.entity,
+            null, //type,
+            null, //label
+            null,//description,
             null, //creationTime,
             null, //read,
-            null, //setPublic,
+            false, //setPublic
             par.withUserRestriction, //withUserRestriction
             false)); //shouldCommit)
+        
+        sqlFct.addFileToEntity(par.file, par.entity);
       }
       
       dbSQL.commit(par.shouldCommit);
@@ -328,7 +327,7 @@ implements
 
       final List<SSEntity> files = new ArrayList<>();
       
-      for(SSUri file : sqlFct.getFileURIsAttachtedToEntity(par.entity)){
+      for(SSUri file : sqlFct.getEntityFiles(par.entity)){
         
         SSEntity.addEntitiesDistinctWithoutNull(
           files, 

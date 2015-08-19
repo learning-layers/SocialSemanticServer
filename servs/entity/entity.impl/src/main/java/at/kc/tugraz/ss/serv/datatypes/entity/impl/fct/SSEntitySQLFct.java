@@ -42,7 +42,6 @@ import java.util.Map;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 import at.tugraz.sss.serv.SSErrE;
-import at.tugraz.sss.serv.SSObjU;
 import at.tugraz.sss.serv.SSServErrReg;
 
 public class SSEntitySQLFct extends SSDBSQLFct{
@@ -476,64 +475,70 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     }
   }
   
-  public void removeAttachments(
-    final SSUri       entity,
-    final List<SSUri> attachments) throws Exception{
-    
-    try{
-      
-      if(SSObjU.isNull(entity, attachments)){
-        throw new SSErr(SSErrE.parameterMissing);
-      }
-      
-      if(attachments.isEmpty()){
-        return;
-      }
-      
-      final List<MultivaluedMap<String, String>> wheres                = new ArrayList<>();
-      final MultivaluedMap<String, String>       whereEntity           = new MultivaluedHashMap<>();
-      final MultivaluedMap<String, String>       whereAttachedEntities = new MultivaluedHashMap<>();
-      
-      where(whereEntity, SSSQLVarNames.entitiesTable, SSSQLVarNames.entityId, entity);
-        
-      wheres.add(whereEntity);
-      
-      for(SSUri attachment : attachments){
-        where(whereAttachedEntities, SSSQLVarNames.entitiesTable, SSSQLVarNames.attachedEntityId, attachment);
-      }
-
-      wheres.add(whereAttachedEntities);
-      
-      dbSQL.deleteIgnore(SSSQLVarNames.entitiesTable, wheres);
-        
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
+//  public void removeAttachments(
+//    final SSUri       entity,
+//    final List<SSUri> attachments) throws Exception{
+//    
+//    try{
+//      
+//      if(SSObjU.isNull(entity, attachments)){
+//        throw new SSErr(SSErrE.parameterMissing);
+//      }
+//      
+//      if(attachments.isEmpty()){
+//        return;
+//      }
+//      
+//      final List<MultivaluedMap<String, String>> wheres                = new ArrayList<>();
+//      final MultivaluedMap<String, String>       whereEntity           = new MultivaluedHashMap<>();
+//      final MultivaluedMap<String, String>       whereAttachedEntities = new MultivaluedHashMap<>();
+//      
+//      where(whereEntity, SSSQLVarNames.entitiesTable, SSSQLVarNames.entityId, entity);
+//        
+//      wheres.add(whereEntity);
+//      
+//      for(SSUri attachment : attachments){
+//        where(whereAttachedEntities, SSSQLVarNames.entitiesTable, SSSQLVarNames.attachedEntityId, attachment);
+//      }
+//
+//      wheres.add(whereAttachedEntities);
+//      
+//      dbSQL.deleteIgnore(SSSQLVarNames.entitiesTable, wheres);
+//        
+//    }catch(Exception error){
+//      SSServErrReg.regErrThrow(error);
+//    }
+//  }
   
-  public void attachEntity(
-    final SSUri entity,
-    final SSUri entityToAttach) throws Exception{
+  public void attachEntities(
+    final SSUri       entity,
+    final List<SSUri> entitiesToAttach) throws Exception{
     
     try{
 
       final Map<String, String> inserts    = new HashMap<>();
       final Map<String, String> uniqueKeys = new HashMap<>();
       
-      insert(inserts, SSSQLVarNames.entityId,         entity);
-      insert(inserts, SSSQLVarNames.attachedEntityId, entityToAttach);
+      for(SSUri entityToAttach : entitiesToAttach){
       
-      uniqueKey(uniqueKeys, SSSQLVarNames.entityId,          entity);
-      uniqueKey(uniqueKeys, SSSQLVarNames.attachedEntityId,  entityToAttach);
-      
-      dbSQL.insertIfNotExists(SSSQLVarNames.entitiesTable, inserts, uniqueKeys);
+        inserts.clear();
+        uniqueKeys.clear();
+        
+        insert(inserts, SSSQLVarNames.entityId,         entity);
+        insert(inserts, SSSQLVarNames.attachedEntityId, entityToAttach);
+
+        uniqueKey(uniqueKeys, SSSQLVarNames.entityId,          entity);
+        uniqueKey(uniqueKeys, SSSQLVarNames.attachedEntityId,  entityToAttach);
+
+        dbSQL.insertIfNotExists(SSSQLVarNames.entityAttachedEntitiesTable, inserts, uniqueKeys);
+      }
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
   }
   
-  public List<SSUri> getAttachedEntityURIs(
+  public List<SSUri> getAttachedEntities(
     final SSUri entity) throws Exception{
     
     ResultSet resultSet = null;
@@ -551,11 +556,11 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       column(columns, SSSQLVarNames.id);
 
       table(tables, SSSQLVarNames.entityTable);
-      table(tables, SSSQLVarNames.entitiesTable);
+      table(tables, SSSQLVarNames.entityAttachedEntitiesTable);
       
-      where(wheres, SSSQLVarNames.entitiesTable, SSSQLVarNames.entityId, entity);
+      where(wheres, SSSQLVarNames.entityAttachedEntitiesTable, SSSQLVarNames.entityId, entity);
       
-      tableCon(tableCons, SSSQLVarNames.entityTable, SSSQLVarNames.id, SSSQLVarNames.entitiesTable, SSSQLVarNames.attachedEntityId);
+      tableCon(tableCons, SSSQLVarNames.entityTable, SSSQLVarNames.id, SSSQLVarNames.entityAttachedEntitiesTable, SSSQLVarNames.attachedEntityId);
       
       resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
       
@@ -925,6 +930,59 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
     
     return SSEntity.get(getURIsFromResult(resultSet, SSSQLVarNames.entityId), SSEntityE.entity);
+  }
+  
+  public void addDownloads(
+    final SSUri         entity,
+    final List<SSUri>   downloads) throws Exception{
+    
+    try{
+      
+      final Map<String, String> inserts    = new HashMap<>();
+      final Map<String, String> uniqueKeys = new HashMap<>();
+      
+      for(SSUri download : downloads){
+        
+        inserts.clear();
+        uniqueKeys.clear();
+        
+        insert(inserts, SSSQLVarNames.entityId,       entity);
+        insert(inserts, SSSQLVarNames.downloadId,     download);
+        
+        uniqueKey(uniqueKeys, SSSQLVarNames.entityId,    entity);
+        uniqueKey(uniqueKeys, SSSQLVarNames.downloadId,  download);
+        
+        dbSQL.insertIfNotExists(SSSQLVarNames.entityDownloadsTable, inserts, uniqueKeys);
+      }
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  public List<SSUri> getDownloads(
+    final SSUri entity) throws Exception{
+    
+    ResultSet resultSet = null;
+    
+    try{
+      
+      final List<String>        columns           = new ArrayList<>();
+      final Map<String, String> wheres            = new HashMap<>();
+      
+      column(columns, SSSQLVarNames.downloadId);
+      
+      where(wheres, SSSQLVarNames.entityId, entity);
+      
+      resultSet = dbSQL.select(SSSQLVarNames.entityDownloadsTable, columns, wheres, null, null, null);
+      
+      return getURIsFromResult(resultSet, SSSQLVarNames.downloadId);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
+    }
   }
 }
 

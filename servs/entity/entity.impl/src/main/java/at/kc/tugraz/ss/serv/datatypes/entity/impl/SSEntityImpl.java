@@ -33,6 +33,9 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesForDescript
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesForLabelsAndDescriptionsGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesForLabelsGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesGetPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityAttachEntitiesPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityDownloadURIsGetPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityDownloadsAddPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityRemovePar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
@@ -82,7 +85,6 @@ import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSToolContextE;
-import at.tugraz.sss.servs.entity.datatypes.par.SSEntityAttatchmentsRemovePar;
 import sss.serv.eval.api.SSEvalServerI;
 import sss.serv.eval.datatypes.SSEvalLogE;
 import sss.serv.eval.datatypes.par.SSEvalLogPar;
@@ -123,7 +125,7 @@ implements
         entitiesGet(
           new SSEntitiesGetPar(
             par.user,
-            sqlFct.getAttachedEntityURIs(entity.id), //entities
+            sqlFct.getAttachedEntities(entity.id), //entities
             null, //types,
             null, //descPar,
             par.withUserRestriction)));
@@ -509,31 +511,31 @@ implements
           par.entity);
       }
       
-      for(SSUri entityURIToAttach : par.entitiesToAttach){
-        
-        entityToAttach = sqlFct.getEntity(entityURIToAttach);
-        
-        if(entityToAttach == null){
-          
-          sqlFct.addEntityIfNotExists(
-            entityURIToAttach,
-            SSEntityE.entity,
-            null,
-            null,
-            par.user,
-            null);
-          
-        }else{
-          
-          if(par.withUserRestriction){
-            if(!SSServCallerU.canUserRead(par.user, entityURIToAttach)){
-              continue;
-            }
-          }
-        }
-        
-        sqlFct.attachEntity(par.entity, entityURIToAttach);
-      }
+//      for(SSUri entityURIToAttach : par.entitiesToAttach){
+//        
+//        entityToAttach = sqlFct.getEntity(entityURIToAttach);
+//        
+//        if(entityToAttach == null){
+//          
+//          sqlFct.addEntityIfNotExists(
+//            entityURIToAttach,
+//            SSEntityE.entity,
+//            null,
+//            null,
+//            par.user,
+//            null);
+//          
+//        }else{
+//          
+//          if(par.withUserRestriction){
+//            if(!SSServCallerU.canUserRead(par.user, entityURIToAttach)){
+//              continue;
+//            }
+//          }
+//        }
+//        
+//        sqlFct.attachEntity(par.entity, entityURIToAttach);
+//      }
       
       if(par.read != null){
         
@@ -772,20 +774,20 @@ implements
   }
   
   @Override
-  public SSUri entityAttachmentsRemove(final SSEntityAttatchmentsRemovePar par) throws Exception{
+  public SSUri entityEntitiesAttach(final SSEntityAttachEntitiesPar par) throws Exception{
     
     try{
 
       if(par.withUserRestriction){
         
         if(
-          !SSServCallerU.canUserRead(par.user, par.entity) ||
-          !SSServCallerU.canUserRead (par.user, par.attachments)){
+          !SSServCallerU.canUserRead (par.user, par.entity) ||
+          !SSServCallerU.canUserRead (par.user, par.entities)){
           return null;
         }
       }
       
-      sqlFct.removeAttachments(par.entity, par.attachments);
+      sqlFct.attachEntities(par.entity, par.entities);
       
       return par.entity;
     }catch(Exception error){
@@ -796,7 +798,7 @@ implements
           
           SSServErrReg.reset();
           
-          return entityAttachmentsRemove(par);
+          return entityEntitiesAttach(par);
         }else{
           SSServErrReg.regErrThrow(error);
           return null;
@@ -808,6 +810,113 @@ implements
       return null;
     }
   }
+  
+  @Override
+  public SSUri entityDownloadsAdd(final SSEntityDownloadsAddPar par) throws Exception{
+    
+    try{
+
+      if(par.withUserRestriction){
+        
+        if(
+          !SSServCallerU.canUserRead (par.user, par.entity) ||
+          !SSServCallerU.canUserRead (par.user, par.downloads)){
+          return null;
+        }
+      }
+      
+      sqlFct.addDownloads(par.entity, par.downloads);
+      
+      return par.entity;
+    }catch(Exception error){
+      
+      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+        
+        if(dbSQL.rollBack(par.shouldCommit)){
+          
+          SSServErrReg.reset();
+          
+          return entityDownloadsAdd(par);
+        }else{
+          SSServErrReg.regErrThrow(error);
+          return null;
+        }
+      }
+      
+      dbSQL.rollBack(par.shouldCommit);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public List<SSUri> entityDownloadsGet(final SSEntityDownloadURIsGetPar par) throws Exception{
+    
+    try{
+      
+      final List<SSUri> downloads = new ArrayList<>();
+      
+      if(par.withUserRestriction){
+        
+        if(!SSServCallerU.canUserRead (par.user, par.entity)){
+          return downloads;
+        }
+      }
+      
+      for(SSUri download : sqlFct.getDownloads(par.entity)){
+        
+        if(!SSServCallerU.canUserRead (par.user, download)){
+          continue;
+        }
+        
+        downloads.add(download);
+      }
+      
+      return downloads;
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+//  @Override
+//  public SSUri entityAttachmentsRemove(final SSEntityAttatchmentsRemovePar par) throws Exception{
+//    
+//    try{
+//
+////      if(par.withUserRestriction){
+////        
+////        if(
+////          !SSServCallerU.canUserRead(par.user, par.entity) ||
+////          !SSServCallerU.canUserRead (par.user, par.attachments)){
+////          return null;
+////        }
+////      }
+////      
+////      sqlFct.removeAttachments(par.entity, par.attachments);
+//      
+//      return par.entity;
+//    }catch(Exception error){
+//      
+//      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+//        
+//        if(dbSQL.rollBack(par.shouldCommit)){
+//          
+//          SSServErrReg.reset();
+//          
+//          return entityAttachmentsRemove(par);
+//        }else{
+//          SSServErrReg.regErrThrow(error);
+//          return null;
+//        }
+//      }
+//      
+//      dbSQL.rollBack(par.shouldCommit);
+//      SSServErrReg.regErrThrow(error);
+//      return null;
+//    }
+//  }
   
   @Override
   public void entityShare(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
@@ -965,68 +1074,3 @@ implements
 //    }
 
 //    return SSEntityEnum.entity.toString();
-
-
-//download section
-//@Override
-//  public List<SSUri> entityDownloadURIsGet(SSServPar parA) throws Exception{
-//    
-//    try{
-//      final SSEntityDownloadURIsGetPar par = new SSEntityDownloadURIsGetPar(parA);
-//      
-//      return sqlFct.getDownloads(par.entity);
-//      
-//    }catch(Exception error){
-//      SSServErrReg.regErrThrow(error);
-//      return null;
-//    }
-//  }
-
-//public void addDownload(
-//    final SSUri   entity, 
-//    final SSUri   download) throws Exception{
-//    
-//    try{
-//
-//      final Map<String, String> inserts    = new HashMap<>();
-//      final Map<String, String> uniqueKeys = new HashMap<>();
-//      
-//      insert(inserts, SSSQLVarNames.entityId,      entity);
-//      insert(inserts, SSSQLVarNames.downloadId,     download);
-//      
-//      uniqueKey(uniqueKeys, SSSQLVarNames.entityId,    entity);
-//      uniqueKey(uniqueKeys, SSSQLVarNames.downloadId,  download);
-//      
-//      dbSQL.insertIfNotExists(SSSQLVarNames.downloadsTable, inserts, uniqueKeys);
-//      
-//    }catch(Exception error){
-//      SSServErrReg.regErrThrow(error);
-//    }
-//  }
-
-//public List<SSUri> getDownloads(final SSUri entity) throws Exception{
-//    
-//    ResultSet resultSet = null;
-//    
-//    try{
-//      
-//      final List<String>        columns           = new ArrayList<>();
-//      final Map<String, String> wheres            = new HashMap<>();
-//      
-//      column(columns, SSSQLVarNames.downloadId);
-//      
-//      where(wheres, SSSQLVarNames.entityId, entity);
-//      
-//      resultSet = dbSQL.select(SSSQLVarNames.downloadsTable, columns, wheres, null, null, null);
-//      
-//      return getURIsFromResult(resultSet, SSSQLVarNames.downloadId);
-//      
-//    }catch(Exception error){
-//      SSServErrReg.regErrThrow(error);
-//      return null;
-//    }finally{
-//      dbSQL.closeStmt(resultSet);
-//    }
-//  }
-
-//public List<SSUri>                     entityDownloadURIsGet                    (final SSServPar parA) throws Exception;

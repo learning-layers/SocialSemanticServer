@@ -414,7 +414,6 @@ implements
             SSEntityE.category, //type,
             SSLabel.get(SSStrU.toStr(par.label)), //label
             null, //description,
-            null, //entitiesToAttach,
             par.creationTime, //creationTime,
             null, //read,
             true, //setPublic
@@ -429,7 +428,6 @@ implements
           null, //type,
           null, //label
           null, //description,
-          null, //entitiesToAttach,
           null, //creationTime,
           null, //read,
           false, //setPublic
@@ -702,7 +700,6 @@ implements
             SSEntityE.category, //type,
             SSLabel.get(SSStrU.toStr(label)), //label
             null, //description,
-            null, //entitiesToAttach,
             null, //creationTime,
             null, //read,
             true, //setPublic

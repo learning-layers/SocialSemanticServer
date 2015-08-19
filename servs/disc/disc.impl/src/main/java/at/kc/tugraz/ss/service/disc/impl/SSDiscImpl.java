@@ -27,6 +27,7 @@ import at.kc.tugraz.ss.circle.datatypes.par.SSCircleMostOpenCircleTypeGetPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesGetPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityAttachEntitiesPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.tugraz.sss.serv.SSStrU;
@@ -482,7 +483,8 @@ public class SSDiscImpl
           par.user, 
           par.disc, 
           par.entities, 
-          par.entityLabels);
+          par.entityLabels,
+          par.withUserRestriction);
       }
 
       if(par.entry != null){
@@ -498,7 +500,8 @@ public class SSDiscImpl
           par.user, 
           discEntryUri, 
           par.entities, 
-          par.entityLabels);
+          par.entityLabels, 
+          par.withUserRestriction);
       }
 
       dbSQL.commit(par.shouldCommit);
@@ -787,7 +790,8 @@ public class SSDiscImpl
     final SSUri         user,
     final SSUri         entity,
     final List<SSUri>   entitiesToAttach,
-    final List<SSLabel> entityLabels) throws Exception{
+    final List<SSLabel> entityLabels,
+    final Boolean       withUserRestriction) throws Exception{
     
     if(entitiesToAttach.isEmpty()){
       return;
@@ -795,19 +799,13 @@ public class SSDiscImpl
     
     try{
       
-      entityServ.entityUpdate(
-        new SSEntityUpdatePar(
+      entityServ.entityEntitiesAttach(
+        new SSEntityAttachEntitiesPar(
           user,
           entity,
-          null, //type
-          null, //label,
-          null, //description,
-          entitiesToAttach,  //entitiesToAttach
-          null, //creationTime
-          null, //read,
-          false, //setPublic
-          true, //withUserRestriction
-          false)); //shouldCommit
+          entitiesToAttach,
+          withUserRestriction,
+          false));
       
       if(
         entityLabels.isEmpty() ||
@@ -824,11 +822,10 @@ public class SSDiscImpl
             null, //type
             entityLabels.get(counter), //label,
             null, //description,
-            null, //entitiesToAttach
             null, //creationTime
             null, //read,
             false, //setPublic
-            false, //withUserRestriction
+            withUserRestriction, //withUserRestriction
             false)); //shouldCommit
       }
       

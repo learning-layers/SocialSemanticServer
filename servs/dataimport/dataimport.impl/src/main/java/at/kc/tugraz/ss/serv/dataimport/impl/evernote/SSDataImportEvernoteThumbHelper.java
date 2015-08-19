@@ -20,8 +20,8 @@
 */
 package at.kc.tugraz.ss.serv.dataimport.impl.evernote;
 
-import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.kc.tugraz.ss.service.filerepo.api.SSFileRepoServerI;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSFileExtE;
 import at.tugraz.sss.serv.SSFileU;
@@ -32,12 +32,11 @@ import at.tugraz.sss.serv.SSImageE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.caller.SSServCaller;
-import at.tugraz.sss.servs.entity.datatypes.par.SSEntityAttatchmentsRemovePar;
+import at.tugraz.sss.servs.file.datatype.par.SSEntityFileAddPar;
 import at.tugraz.sss.servs.image.api.SSImageServerI;
 import at.tugraz.sss.servs.image.datatype.par.SSImageAddPar;
 import at.tugraz.sss.servs.image.datatype.par.SSImagesGetPar;
 import java.io.File;
-import java.util.List;
 import javax.imageio.ImageIO;
 
 public class SSDataImportEvernoteThumbHelper{
@@ -50,15 +49,15 @@ public class SSDataImportEvernoteThumbHelper{
     final SSUri   fileUri,
     final Boolean shouldCommit) throws Exception{
 
-    SSUri pngFileUri; 
+    SSUri thumbUri; 
           
     try{
       
       try{
         
-        pngFileUri = createThumbnail(user, localWorkPath, fileUri, 500, 500);
+        thumbUri = createThumbnail(user, localWorkPath, fileUri, 500, 500);
         
-        if(pngFileUri == null){
+        if(thumbUri == null){
           return;
         }
         
@@ -69,37 +68,39 @@ public class SSDataImportEvernoteThumbHelper{
         return;
       }
       
-      final List<SSEntity> thumbs = 
+      for(SSEntity thumb :
         ((SSImageServerI) SSServReg.getServ(SSImageServerI.class)).imagesGet(
           new SSImagesGetPar(
-            user, 
+            user,
             entity,
             SSImageE.thumb,
-            true)); //withUserRestriction
-      
-      for(SSEntity thumb : thumbs){
+            true))){
+        
+        SSServCaller.entityRemove(thumb.id, false);
         
         try{
-          SSFileU.delFile(localWorkPath + SSVocConf.fileIDFromSSSURI(thumb.id));
+          SSFileU.delFile(localWorkPath + SSVocConf.fileIDFromSSSURI(thumb.file.id));
         }catch(Exception error){
           SSLogU.warn("thumbnail file couldnt be removed");
         }
       }
       
-      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityAttachmentsRemove(
-        new SSEntityAttatchmentsRemovePar(
+      ((SSFileRepoServerI) SSServReg.getServ(SSFileRepoServerI.class)).fileAdd(
+        new SSEntityFileAddPar(
           user,
-          entity,
-          SSUri.getDistinctNotNullFromEntities(thumbs), //attachments
+          thumbUri, //file
+          null, //entity
           true, //withUserRestriction
-          false)); //shouldCommit
+          false));//shouldCommit
       
       ((SSImageServerI) SSServReg.getServ(SSImageServerI.class)).imageAdd(
         new SSImageAddPar(
-          user,
-          pngFileUri,
+          user, 
+          null, //uuid, 
+          null, //link, 
           SSImageE.thumb, //imageType,
           entity, //entity
+          thumbUri, //file
           true, //withUserRestriction,
           false)); //shouldCommit
               

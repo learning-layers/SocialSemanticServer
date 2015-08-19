@@ -151,7 +151,6 @@ public class SSDataImportEvernoteHandler {
         SSEntityE.evernoteNotebook, //type,
         notebookLabel, //label
         null, //description,
-        null, //entitiesToAttach,
         notebookCreationTime, //creationTime,
         null, //read,
         false, //setPublic
@@ -542,7 +541,6 @@ public class SSDataImportEvernoteHandler {
           SSEntityE.evernoteNote, //type,
           noteLabel, //label
           null, //description,
-          null, //entitiesToAttach,
           note.getCreated(), //creationTime,
           null, //read,
           false, //setPublic
@@ -683,7 +681,6 @@ public class SSDataImportEvernoteHandler {
         SSEntityE.evernoteResource, //type,
         resourceLabel, //label
         null, //description,
-        null, //entitiesToAttach,
         resourceAddTime, //creationTime,
         null, //read,
         false, //setPublic

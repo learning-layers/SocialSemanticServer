@@ -25,6 +25,7 @@ import java.util.List;
 public class SSImage extends SSEntity{
   
   public SSImageE imageType = null;
+  public SSUri    link      = null;
 
   public String getImageType(){
     return SSStrU.toStr(imageType);
@@ -32,6 +33,14 @@ public class SSImage extends SSEntity{
 
   public void setImageType(final String imageType) throws Exception{
     this.imageType = SSImageE.get(imageType);
+  }
+
+  public String getLink(){
+    return SSStrU.toStr(link);
+  }
+
+  public void setLink(final String link) throws Exception{
+    this.link = SSUri.get(link);
   }
   
   @Override
@@ -52,23 +61,42 @@ public class SSImage extends SSEntity{
     
     super(image, entity);
     
-    this.imageType = image.imageType;
+    if(image.imageType != null){
+      this.imageType = image.imageType;
+    }else{
+      
+      if(entity instanceof SSImage){
+        this.imageType = ((SSImage)entity).imageType;
+      }
+    }
+    
+    if(image.link != null){
+      this.link = image.link;
+    }else{
+      
+      if(entity instanceof SSImage){
+        this.link = ((SSImage)entity).link;
+      }
+    }
   }
   
   public static SSImage get(
     final SSUri           id, 
-    final SSImageE        imageType) throws Exception{
+    final SSImageE        imageType,
+    final SSUri           link) throws Exception{
     
-    return new SSImage(id, imageType);
+    return new SSImage(id, imageType, link);
   }
   
   protected SSImage(
     final SSUri           id, 
-    final SSImageE        imageType) throws Exception{
+    final SSImageE        imageType,
+    final SSUri           link) throws Exception{
     
     super(id, SSEntityE.image);
     
     this.imageType = imageType;
+    this.link      = link;
   }
   
   public static void addDistinctWithoutNull(

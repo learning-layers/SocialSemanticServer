@@ -28,6 +28,7 @@ import at.kc.tugraz.sss.appstacklayout.datatypes.SSAppStackLayout;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSStrU;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -106,6 +107,8 @@ public class SSAppStackLayoutSQLFct extends SSDBSQLFct{
       
       if(app != null){
         insert    (inserts,    SSSQLVarNames.app,     app);
+      }else{
+        insert    (inserts,    SSSQLVarNames.app,     SSStrU.empty);
       }
       
       insert    (inserts,    SSSQLVarNames.stackId,     stack);
@@ -147,8 +150,8 @@ public class SSAppStackLayoutSQLFct extends SSDBSQLFct{
       
       dbSQL.updateIgnore(SSSQLVarNames.appStackLayoutTable, wheres, updates);
       
-     }catch(Exception error){
-       SSServErrReg.regErrThrow(error);
-     }
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
   }
 }

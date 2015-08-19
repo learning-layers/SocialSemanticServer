@@ -38,8 +38,6 @@ import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.tugraz.sss.util.SSServCallerU;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
-import at.kc.tugraz.ss.service.filerepo.api.SSFileRepoServerI;
-import at.kc.tugraz.ss.service.filerepo.datatypes.SSFile;
 import at.kc.tugraz.ss.service.user.api.*;
 import at.kc.tugraz.ss.service.user.datatypes.SSUser;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserAddPar;
@@ -64,7 +62,6 @@ import at.tugraz.sss.serv.SSImageE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServReg;
-import at.tugraz.sss.servs.file.datatype.par.SSFileGetPar;
 import at.tugraz.sss.servs.image.api.SSImageServerI;
 import at.tugraz.sss.servs.image.datatype.par.SSImageAddPar;
 
@@ -168,7 +165,7 @@ implements
       
       final SSUser               userToGet = sqlFct.getUser(par.userToGet);
       final SSUser               user;
-      final SSEntityDescriberPar descPar; 
+      SSEntityDescriberPar       descPar; 
       
       if(par.invokeEntityHandlers){
         descPar = new SSEntityDescriberPar(userToGet.id);
@@ -190,6 +187,23 @@ implements
       
       if(par.invokeEntityHandlers){
         user.friend = SSStrU.contains(user.friends, par.user);
+      }
+      
+      if(user.profilePicture != null){
+        
+        if(par.invokeEntityHandlers){
+          descPar = new SSEntityDescriberPar(user.profilePicture.id);
+        }else{
+          descPar = null;
+        }
+        
+        user.profilePicture =
+          entityServ.entityGet(
+            new SSEntityGetPar(
+              par.user,
+              user.profilePicture.id,
+              par.withUserRestriction,
+              descPar));
       }
 
       return user;
@@ -274,7 +288,6 @@ implements
           SSEntityE.user, //type,
           tmpLabel, //label
           null,//description,
-          null, //entitiesToAttach,
           null, //creationTime,
           null, //read,
           true, //setPublic
@@ -321,8 +334,7 @@ implements
       return null;
     }
   }
-  
-  
+
   @Override
   public void userProfilePictureSet(SSSocketCon sSCon, SSServPar parA) throws Exception {
     
@@ -345,31 +357,20 @@ implements
         }
       }
 
-      final SSFile file = 
-        ((SSFileRepoServerI) SSServReg.getServ(SSFileRepoServerI.class)).fileGet(
-          new SSFileGetPar(
-            par.user,
-            par.file,
-            par.withUserRestriction,
-            false));
-        
-      if(file == null){
-        return null;
-      }
-      
       dbSQL.startTrans(par.shouldCommit);
       
       final SSUri image =
         ((SSImageServerI) SSServReg.getServ(SSImageServerI.class)).imageAdd(
           new SSImageAddPar(
             par.user,
-            null,
-            SSImageE.image,
-            par.user,
-            par.file,
+            null, //uuid
+            null, //link
+            SSImageE.image, //imageType
+            par.user, //entity
+            par.file, //file
             par.withUserRestriction,
             false));
-        
+      
       if(image != null){
         sqlFct.setProfilePicture(par.user, image);
       }
@@ -384,19 +385,3 @@ implements
     }
   }
 }
-
-//@Override
-//  public String userNameFromUri(SSServPar parI) throws Exception {
-//    
-//    SSUserNameFromUriPar par = new SSUserNameFromUriPar (parI);
-//    
-//    String userUri;
-//    
-//    if(SSObjU.isNull(par.user)){
-//      return null;
-//    }
-//    
-//    userUri = SSStrU.removeTrailingSlash(SSStrU.toStr(par.user));
-//    
-//    return userUri.substring(userUri.lastIndexOf(SSStrU.slash) + 1, userUri.length());
-//  }

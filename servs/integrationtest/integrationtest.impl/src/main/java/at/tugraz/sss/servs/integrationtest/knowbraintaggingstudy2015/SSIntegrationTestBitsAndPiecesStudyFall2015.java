@@ -389,7 +389,6 @@ public class SSIntegrationTestBitsAndPiecesStudyFall2015 {
           null, //type, 
           SSLabel.get("new label"), 
           SSTextComment.get("new description"), 
-          null, //entitiesToAttach, 
           null, //creationTime, 
           null, //read, 
           false, //setPublic, 
