@@ -823,7 +823,11 @@ implements
       }
       
       if(par.addNewColl){
-
+        
+        if(par.label == null){
+          throw new SSErr(SSErrE.parameterMissing);
+        }
+        
         dbSQL.startTrans(par.shouldCommit);
 
         SSCollEntryAddFct.addNewColl(sqlFct, par);

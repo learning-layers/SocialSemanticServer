@@ -20,6 +20,7 @@
  */
 package at.tugraz.sss.adapter.rest.v2.search;
 
+import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
 import at.kc.tugraz.ss.service.search.datatypes.SSSearchLabel;
@@ -53,7 +54,7 @@ public class SSSearchRESTAPIV2Par{
   
   @XmlElement
   public void setAuthorsToSearchFor(final List<String> authorsToSearchFor) throws Exception{
-    this.authorsToSearchFor = SSUri.get(authorsToSearchFor);
+    this.authorsToSearchFor = SSUri.get(authorsToSearchFor, SSVocConf.sssUri);
   }
   
   @ApiModelProperty( 
