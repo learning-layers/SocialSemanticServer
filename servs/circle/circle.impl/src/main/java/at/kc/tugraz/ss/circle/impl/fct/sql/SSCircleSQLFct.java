@@ -951,4 +951,52 @@ public class SSCircleSQLFct extends SSDBSQLFct{
       dbSQL.closeStmt(resultSet);
     }
   }
+  
+  public void inviteUsers(
+    final SSUri        circle,
+    final List<String> emails) throws Exception{
+    
+    final Map<String, String> inserts    = new HashMap<>();
+    final Map<String, String> uniqueKeys = new HashMap<>();
+      
+    for(String email : emails){
+      
+      inserts.clear();
+      uniqueKeys.clear();
+      
+      insert    (inserts, SSSQLVarNames.circleId,  circle);
+      insert    (inserts, SSSQLVarNames.inviteeId, email);
+      
+      uniqueKey(uniqueKeys, SSSQLVarNames.circleId,   circle);
+      uniqueKey(uniqueKeys, SSSQLVarNames.inviteeId,  email);
+      
+      dbSQL.insertIfNotExists(SSSQLVarNames.circleInviteesTable, inserts, uniqueKeys);
+    }
+  }
+
+  public List<String> getInvitedUsers(
+    final SSUri circle) throws Exception{
+  
+    ResultSet resultSet = null;
+    
+    try{
+      
+      final List<String>        columns     = new ArrayList<>();
+      final Map<String, String> wheres      = new HashMap<>();
+      
+      column(columns, SSSQLVarNames.inviteeId);
+      
+      where(wheres, SSSQLVarNames.circleId, circle);
+      
+      resultSet = dbSQL.select(SSSQLVarNames.circleInviteesTable, columns, wheres, null, null, null);
+      
+      return getStringsFromResult(resultSet, SSSQLVarNames.inviteeId);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
+    }
+  }
 }

@@ -30,20 +30,11 @@ import at.tugraz.sss.serv.SSStrU;
 
 public class SSCircleCreatePar extends SSServPar{
   
-//  public SSUri                 forUser              = null;
   public SSLabel               label                = null;
   public SSTextComment         description          = null;
   public SSCircleE             circleType           = null;               
   public Boolean               isSystemCircle       = false;
 
-//  public String getForUser(){
-//    return SSStrU.removeTrailingSlash(forUser);
-//  }
-//
-//  public void setForUser(final String forUser) throws Exception{
-//    this.forUser = SSUri.get(forUser);
-//  }
-  
   public void setLabel(final String label) throws Exception{
     this.label = SSLabel.get(label);
   }
@@ -72,7 +63,6 @@ public class SSCircleCreatePar extends SSServPar{
     
   public SSCircleCreatePar(
     final SSUri           user,
-//    final SSUri           forUser,
     final SSCircleE       circleType,
     final SSLabel         label,
     final SSTextComment   description,
@@ -82,7 +72,6 @@ public class SSCircleCreatePar extends SSServPar{
     
     super(SSServOpE.circleCreate, null, user);
     
-//    this.forUser                  = forUser;
     this.circleType               = circleType;
     this.label                    = label;
     this.description              = description;

@@ -141,11 +141,11 @@ implements
     
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
     
-    learnEpConf     = (SSLearnEpConf) conf;
-    this.sqlFct     = new SSLearnEpSQLFct(this);
-    this.miscFct    = new SSLearnEpMiscFct();
-    this.entityServ = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
-    this.circleServ = (SSCircleServerI) SSServReg.getServ(SSCircleServerI.class);
+    this.learnEpConf  = (SSLearnEpConf) conf;
+    this.sqlFct       = new SSLearnEpSQLFct(this);
+    this.miscFct      = new SSLearnEpMiscFct();
+    this.entityServ   = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
+    this.circleServ   = (SSCircleServerI) SSServReg.getServ(SSCircleServerI.class);
   }
   
   @Override

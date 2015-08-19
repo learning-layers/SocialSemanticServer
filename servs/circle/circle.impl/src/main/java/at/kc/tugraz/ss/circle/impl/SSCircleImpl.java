@@ -58,16 +58,21 @@ import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleEntityUsersGetRet;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesRemovePar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePubURIGetPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleRemovePar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleUsersInvitePar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleUsersRemovePar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclesFromEntityEntitiesAdd;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleEntitiesRemoveRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleRemoveRet;
+import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleUsersInviteRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleUsersRemoveRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.kc.tugraz.ss.service.user.api.SSUserServerI;
+import at.kc.tugraz.ss.service.user.datatypes.SSUser;
+import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserGetPar;
 import at.tugraz.sss.serv.SSCircleContentRemovedI;
 import at.tugraz.sss.serv.SSCircleContentRemovedPar;
 import at.tugraz.sss.serv.SSDBSQLI;
@@ -405,10 +410,20 @@ implements
       circleUsersAdd(
         new SSCircleUsersAddPar(
           par.user, 
-          circleURI, 
+          circleURI,
           par.users, 
           par.withUserRestriction, //withUserRestriction, 
           par.shouldCommit)); //shouldCommit));
+    }
+    
+    if(!par.invitees.isEmpty()){
+      circleUsersInvite(
+        new SSCircleUsersInvitePar(
+          par.user, 
+          circleURI, 
+          par.invitees, 
+          par.withUserRestriction, 
+          par.shouldCommit));
     }
     
     final SSEntityCircle circle =
@@ -663,7 +678,22 @@ implements
       if(par.withUserRestriction){
         
         if(!SSServCallerU.canUserRead(par.user, par.circle)){
-          return par.circle;
+          
+          SSUser userEntity;
+          
+          for(SSUri user : par.users){
+            
+            userEntity =
+              ((SSUserServerI) SSServReg.getServ(SSUserServerI.class)).userGet(
+                new SSUserGetPar(
+                  par.user,
+                  user,
+                  false)); //invokeEntityHandlers
+
+            if(!SSStrU.contains(sqlFct.getInvitedUsers(par.circle), userEntity.email)){
+              return null;
+            }
+          }
         }
       }
       
@@ -1358,6 +1388,57 @@ implements
       
       dbSQL.rollBack(par.shouldCommit);
       SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  @Override
+  public void circleUsersInvite(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
+    
+    SSServCallerU.checkKey(parA);
+    
+    final SSCircleUsersInvitePar par = (SSCircleUsersInvitePar) parA.getFromJSON(SSCircleUsersInvitePar.class);
+    
+    sSCon.writeRetFullToClient(SSCircleUsersInviteRet.get(circleUsersInvite(par)));
+  }
+  
+  @Override
+  public SSUri circleUsersInvite(final SSCircleUsersInvitePar par) throws Exception{
+    
+    try{
+      
+      dbSQL.startTrans(par.shouldCommit);
+      
+      if(par.withUserRestriction){
+        
+        if(!SSServCallerU.canUserRead(par.user, par.circle)){
+          return null;
+        }
+      }
+      
+      sqlFct.inviteUsers(par.circle, par.emails);
+      
+      dbSQL.commit(par.shouldCommit);
+    
+      return par.circle;
+      
+    }catch(Exception error){
+      
+      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+        
+        if(dbSQL.rollBack(par.shouldCommit)){
+          
+          SSServErrReg.reset();
+          
+          return circleUsersInvite(par);
+        }else{
+          SSServErrReg.regErrThrow(error);
+          return null;
+        }
+      }
+      
+      dbSQL.rollBack(par.shouldCommit);
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
 }

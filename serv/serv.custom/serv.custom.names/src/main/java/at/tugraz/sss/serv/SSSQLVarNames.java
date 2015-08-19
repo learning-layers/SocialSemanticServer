@@ -74,6 +74,7 @@ public class SSSQLVarNames{
   public static final String learnEpCircleId                                = "learnEpCircleId";
   public static final String learnEpVersionId                               = "learnEpVersionId";
   public static final String learnEpId                                      = "learnEpId";
+  public static final String inviteeId                                      = "inviteeId";
   public static final String id                                             = "id";
   public static final String creationTime                                   = "creationTime";
   public static final String activityId                                     = "activityId";
@@ -216,6 +217,8 @@ public class SSSQLVarNames{
   public static final String circleUsersTable = "circleusers";
   public static final String circleEntitiesTable = "circleentities";
   public static final String circleTable = "circle";
+  public static final String circleInviteesTable = "circleinvitees";
+  
   
   //downloads
   public static final String downloadsTable = "downloads";

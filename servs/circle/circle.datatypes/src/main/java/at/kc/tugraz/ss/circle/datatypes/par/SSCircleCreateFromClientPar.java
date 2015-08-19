@@ -31,6 +31,7 @@ import java.util.List;
 public class SSCircleCreateFromClientPar extends SSCircleCreatePar{
   
   public List<SSUri>     users    = new ArrayList<>();
+  public List<String>    invitees = new ArrayList<>();
   public List<SSUri>     entities = new ArrayList<>();
   
   public List<String> getUsers(){
@@ -56,6 +57,7 @@ public class SSCircleCreateFromClientPar extends SSCircleCreatePar{
     final SSLabel         label,
     final SSTextComment   description,
     final List<SSUri>     users,
+    final List<String>    invitees,
     final List<SSUri>     entities){
     
     super(
@@ -68,6 +70,11 @@ public class SSCircleCreateFromClientPar extends SSCircleCreatePar{
       true); //shouldCommit
     
     SSUri.addDistinctWithoutNull(this.users,    users);
+
+    if(invitees != null){
+      this.invitees.addAll(invitees);
+    }
+
     SSUri.addDistinctWithoutNull(this.entities, entities);
   }
 }

@@ -66,6 +66,16 @@ public class SSCircleCreateRESTAPIV2Par{
   
   @ApiModelProperty(
     required = false,
+    value = "user (emails) to invite")
+  public List<String>            invitees          = null;
+  
+  @XmlElement
+  public void setInvitees(final List<String> invitees) throws Exception{
+    this.invitees = invitees;
+  }
+  
+  @ApiModelProperty(
+    required = false,
     value = "textual annotation")
   public SSTextComment          description    = null;
 

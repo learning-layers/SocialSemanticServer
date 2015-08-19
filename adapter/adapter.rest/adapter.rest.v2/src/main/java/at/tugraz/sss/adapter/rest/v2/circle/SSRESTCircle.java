@@ -30,6 +30,7 @@ import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesRemovePar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleGetPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleRemovePar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleUsersAddPar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleUsersInvitePar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleUsersRemovePar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclesGetPar;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleCreateRet;
@@ -38,6 +39,7 @@ import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleEntitiesRemoveRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleGetRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleRemoveRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleUsersAddRet;
+import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleUsersInviteRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleUsersRemoveRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCirclesGetRet;
 import at.tugraz.sss.serv.SSUri;
@@ -269,8 +271,9 @@ public class SSRESTCircle{
           input.label, //label
           input.description, //description
           input.users, //users
+          input.invitees, //invitees
           input.entities);//entities
-
+      
     }catch(Exception error){
       return Response.status(422).build();
     }
@@ -345,7 +348,40 @@ public class SSRESTCircle{
     
     return SSRestMainV2.handleRequest(headers, par, false, true).response;
   }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path("{circle}/users/invite/{emails}")
+  @ApiOperation(
+    value = "invite users to a circle",
+    response = SSCircleUsersInviteRet.class)
+  public Response circleUsersInvite(
+    @Context
+    final HttpHeaders headers,
+    
+    @PathParam(SSVarNames.circle)
+    final String circle,
+    
+    @PathParam(SSVarNames.emails)
+    final String emails){
+    
+    final SSCircleUsersInvitePar par;
+    
+    try{
+      
+      par =
+        new SSCircleUsersInvitePar(
+          null, 
+          SSUri.get(circle, SSVocConf.sssUri), 
+          SSStrU.splitDistinctWithoutEmptyAndNull(emails, SSStrU.comma), 
+          true, 
+          true);
+      
+    }catch(Exception error){
+      return Response.status(422).build();
+    }
+    
+    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+  }
 }
-
-
-
