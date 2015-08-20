@@ -34,6 +34,7 @@ public class SSCirclesGetPar extends SSServPar{
   public List<SSEntityE> entityTypesToIncludeOnly = new ArrayList<>();
   public Boolean         withSystemCircles        = false;
   public Boolean         invokeEntityHandlers     = false;
+  public Boolean         setProfilePicture        = false;
 
   public void setEntity(final String entity)throws Exception{
     this.entity = SSUri.get(entity);

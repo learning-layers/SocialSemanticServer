@@ -20,22 +20,14 @@
  */
 package at.tugraz.sss.adapter.rest.v2.user;
 
-import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
-import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserProfilePictureSetPar;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUsersGetPar;
-import at.kc.tugraz.ss.service.user.datatypes.ret.SSUserProfilePictureSetRet;
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
 import at.kc.tugraz.ss.service.user.datatypes.ret.SSUsersGetRet;
-import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSVarNames;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
@@ -67,37 +59,7 @@ public class SSRESTUser{
           null, //users
           true); //invokeEntityHandlers
       
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
-  }
-  
-  @PUT
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  @Path("/profile/picture/{file}")
-  @ApiOperation(
-    value = "set the user's profile picture",
-    response = SSUserProfilePictureSetRet.class)
-  public Response userProfilePictureSet(
-    @Context 
-      final HttpHeaders headers,
-    
-    @PathParam(SSVarNames.file) 
-      final String file){
-    
-    final SSUserProfilePictureSetPar par;
-    
-    try{
-      
-      par =
-        new SSUserProfilePictureSetPar(
-          null, 
-          SSUri.get(file,  SSVocConf.sssUri), 
-          true, 
-          true);
+      par.setProfilePicture = true;
       
     }catch(Exception error){
       return Response.status(422).build();

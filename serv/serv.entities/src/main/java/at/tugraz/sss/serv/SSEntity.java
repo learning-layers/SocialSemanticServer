@@ -146,6 +146,11 @@ public class SSEntity extends SSEntityA{
     value = "likes for the entity")
   public  SSEntityA       likes = null;
   
+  @ApiModelProperty(
+    required = false,
+    value = "profile picture for entity")
+  public SSEntity       profilePicture = null;
+  
   public String getId() throws Exception{
     return SSStrU.removeTrailingSlash(id);
   }
@@ -280,7 +285,8 @@ public class SSEntity extends SSEntityA{
     addEntitiesDistinctWithoutNull(this.circles,  entity.circles);
     addEntitiesDistinctWithoutNull(this.locations, entity.locations);
     
-    this.likes = entity.likes;
+    this.likes          = entity.likes;
+    this.profilePicture = entity.profilePicture;
   }
   
   protected SSEntity(
@@ -436,6 +442,12 @@ public class SSEntity extends SSEntityA{
       this.likes = specificEntity.likes;
     }else{
       this.likes = entity.likes;
+    }
+    
+    if(specificEntity.profilePicture != null){
+      this.profilePicture = specificEntity.profilePicture;
+    }else{
+      this.profilePicture = entity.profilePicture;
     }
   }
   

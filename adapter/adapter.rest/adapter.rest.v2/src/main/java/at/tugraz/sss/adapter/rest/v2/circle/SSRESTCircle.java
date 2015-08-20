@@ -87,6 +87,8 @@ public class SSRESTCircle{
           false, //withSystemCircles
           true); //invokeEntityHandlers
       
+      par.setProfilePicture = false;
+      
     }catch(Exception error){
       return Response.status(422).build();
     }
@@ -123,6 +125,8 @@ public class SSRESTCircle{
           input.tagSpace,
           true,  //withUserRestriction
           true); //invokeEntityHandlers
+      
+      par.setProfilePicture = input.setProfilePicture;
       
     }catch(Exception error){
       return Response.status(422).build();

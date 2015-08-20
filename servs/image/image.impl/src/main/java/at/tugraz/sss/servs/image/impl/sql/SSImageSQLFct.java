@@ -172,6 +172,66 @@ public class SSImageSQLFct extends SSDBSQLFct{
       SSServErrReg.regErrThrow(error);
     }
   }
+  
+  public void removeProfilePictures(final SSUri entity) throws Exception{
+    
+    try{
+      final Map<String, String> deletes = new HashMap<>();
+      
+      delete(deletes, SSSQLVarNames.entityId, entity);
+      
+      dbSQL.deleteIgnore(SSSQLVarNames.entityProfilePicturesTable, deletes);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  public void addProfilePicture(
+    final SSUri entity,
+    final SSUri image) throws Exception{
+    
+    try{
+      final Map<String, String> inserts    = new HashMap<>();
+      final Map<String, String> uniqueKeys = new HashMap<>();
+      
+      insert(inserts, SSSQLVarNames.entityId,       entity);
+      insert(inserts, SSSQLVarNames.imageId,        image);
+      
+      uniqueKey(uniqueKeys, SSSQLVarNames.entityId, entity);
+      uniqueKey(uniqueKeys, SSSQLVarNames.imageId,  image);
+      
+      dbSQL.insertIfNotExists(SSSQLVarNames.entityProfilePicturesTable, inserts, uniqueKeys);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  public List<SSUri> getProfilePictures(
+    final SSUri entity) throws Exception{
+    
+    ResultSet resultSet  = null;
+    
+    try{
+      final List<String>        columns          = new ArrayList<>();
+      final Map<String, String> wheres           = new HashMap<>();
+      
+      column(columns, SSSQLVarNames.imageId);
+      
+      where(wheres, SSSQLVarNames.entityProfilePicturesTable, SSSQLVarNames.entityId, entity);
+      
+      resultSet = dbSQL.select(SSSQLVarNames.entityProfilePicturesTable, columns, wheres, null, null, null);
+      
+      return getURIsFromResult(resultSet, SSSQLVarNames.imageId);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
+    }
+  }
 
 //  public List<SSUri> getImageFiles(
 //    final SSUri image) throws Exception{

@@ -211,10 +211,10 @@ public class SSSQLVarNames{
   public static final String entityVideosTable = "entityvideos";
   public static final String entityFilesTable = "entityfiles";
   public static final String entityAttachedEntitiesTable = "entityattachedentities";
+  public static final String entityProfilePicturesTable = "entityprofilepictures";
   
   //user
   public static final String userTable = "user";
-  public static final String userProfilePicturesTable = "userprofilepictures";
   
   //circle
   public static final String circleUsersTable = "circleusers";

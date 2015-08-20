@@ -31,7 +31,6 @@ public class SSUser extends SSEntity{
   public List<SSEntity> friends        = new ArrayList<>();
   public Boolean        friend         = null;
   public String         email          = null;
-  public SSEntity       profilePicture = null;
   
   @Override
   public Object jsonLDDesc(){
@@ -60,7 +59,6 @@ public class SSUser extends SSEntity{
       
       this.email          = ((SSUser)entity).email;
       this.friend         = ((SSUser)entity).friend;
-      this.profilePicture = ((SSUser)entity).profilePicture;
       
       SSEntity.addEntitiesDistinctWithoutNull(this.friends, ((SSUser) entity).friends);
     }
@@ -87,15 +85,6 @@ public class SSUser extends SSEntity{
       
       if(entity instanceof SSUser){
         this.friend  = ((SSUser) entity).friend;
-      }
-    }
-    
-    if(user.profilePicture != null){
-      this.profilePicture = user.profilePicture;
-    }else{
-      
-      if(entity instanceof SSUser){
-        this.profilePicture  = ((SSUser) entity).profilePicture;
       }
     }
     

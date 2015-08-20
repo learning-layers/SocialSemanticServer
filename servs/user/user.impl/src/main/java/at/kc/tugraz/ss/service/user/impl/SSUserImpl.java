@@ -43,11 +43,9 @@ import at.kc.tugraz.ss.service.user.datatypes.SSUser;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserAddPar;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserExistsPar;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserGetPar;
-import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserProfilePictureSetPar;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserURIGetPar;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserURIsGetPar;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUsersGetPar;
-import at.kc.tugraz.ss.service.user.datatypes.ret.SSUserProfilePictureSetRet;
 import at.kc.tugraz.ss.service.user.datatypes.ret.SSUsersGetRet;
 import at.kc.tugraz.ss.service.user.impl.functions.sql.SSUserSQLFct;
 import at.tugraz.sss.serv.SSDBNoSQL;
@@ -58,12 +56,9 @@ import at.tugraz.sss.serv.SSEntityDescriberPar;
 import at.tugraz.sss.serv.SSErr;
 import java.util.*;
 import at.tugraz.sss.serv.SSErrE;
-import at.tugraz.sss.serv.SSImageE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServReg;
-import at.tugraz.sss.servs.image.api.SSImageServerI;
-import at.tugraz.sss.servs.image.datatype.par.SSImageAddPar;
 
 public class SSUserImpl 
 extends SSServImplWithDBA 
@@ -170,8 +165,8 @@ implements
       if(par.invokeEntityHandlers){
         descPar = new SSEntityDescriberPar(userToGet.id);
         
-        descPar.setFriends = true;
-        descPar.setThumb   = true;
+        descPar.setFriends        = true;
+        descPar.setProfilePicture = par.setProfilePicture;
       }else{
         descPar = null;
       }
@@ -190,26 +185,6 @@ implements
         user.friend = SSStrU.contains(user.friends, par.user);
       }
       
-      if(par.invokeEntityHandlers){
-        descPar           = new SSEntityDescriberPar(userToGet.id);
-        descPar.setThumb  = true;
-      }else{
-        descPar = null;
-      }
-      
-      for(SSUri profilePicture : sqlFct.getProfilePictures(par.userToGet)){
-        
-        user.profilePicture =
-          entityServ.entityGet(
-            new SSEntityGetPar(
-              par.user,
-              profilePicture,
-              par.withUserRestriction,
-              descPar));
-        
-        break;
-      }
-
       return user;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -239,16 +214,21 @@ implements
       
       final List<SSUri>    userURIs = sqlFct.getUserURIs(par.users);
       final List<SSEntity> users    = new ArrayList<>();
+      SSUserGetPar         userGetPar;
       
       for(SSUri userURI : userURIs){
         
+        userGetPar = 
+          new SSUserGetPar(
+            par.user,
+            userURI,
+            par.invokeEntityHandlers);
+        
+        userGetPar.setProfilePicture = par.setProfilePicture;
+          
         SSEntity.addEntitiesDistinctWithoutNull(
           users,
-          userGet(
-            new SSUserGetPar(
-              par.user,
-              userURI,
-              par.invokeEntityHandlers)));
+          userGet(userGetPar));
       }
       
       return users;
@@ -334,61 +314,6 @@ implements
       }
       
       dbSQL.rollBack(par.shouldCommit);
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-
-  @Override
-  public void userProfilePictureSet(SSSocketCon sSCon, SSServPar parA) throws Exception {
-    
-    SSServCallerU.checkKey(parA);
-
-    final SSUserProfilePictureSetPar par = (SSUserProfilePictureSetPar) parA.getFromJSON(SSUserProfilePictureSetPar.class);
-    
-    sSCon.writeRetFullToClient(new SSUserProfilePictureSetRet(userProfilePictureSet(par)));
-  }
-  
-  @Override 
-  public SSUri userProfilePictureSet(final SSUserProfilePictureSetPar par) throws Exception{
-    
-    try{
-      
-      if(par.withUserRestriction){
-        
-        if(!SSServCallerU.canUserRead(par.user, par.file)){
-          return null;
-        }
-      }
-
-      dbSQL.startTrans(par.shouldCommit);
-      
-      if(par.file != null){
-        
-        final SSUri image =
-          ((SSImageServerI) SSServReg.getServ(SSImageServerI.class)).imageAdd(
-            new SSImageAddPar(
-              par.user,
-              null, //uuid
-              null, //link
-              SSImageE.image, //imageType
-              par.user, //entity
-              par.file, //file
-              par.withUserRestriction,
-              false));
-        
-        if(image != null){
-          
-          sqlFct.removeProfilePictures (par.user);
-          sqlFct.addProfilePicture     (par.user, image);
-        }
-      }
-      
-      dbSQL.commit(par.shouldCommit);
-      
-      return par.user;
-      
-    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }

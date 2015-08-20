@@ -58,5 +58,11 @@ public class SSCircleGetRESTAPIV2Par{
      this.tagSpace = SSSpaceE.get(tagSpace);
   }
   
+  @XmlElement
+  @ApiModelProperty(
+    required = false,
+    value = "whether the profile picture of the circle shall be set")
+  public Boolean setProfilePicture = null;
+    
   public SSCircleGetRESTAPIV2Par(){}
 }

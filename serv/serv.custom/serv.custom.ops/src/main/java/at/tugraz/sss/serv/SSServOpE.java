@@ -36,6 +36,7 @@ public enum SSServOpE{
   imageAdd,
   imagesGet,
   imageBase64Get,
+  imageProfilePictureSet,
   
   //eval
   evalLog,
@@ -188,7 +189,6 @@ public enum SSServOpE{
   userGet,
   usersGet,
   userAdd,
-  userProfilePictureSet,
   
   //user event
   userEventsGet                                              ,

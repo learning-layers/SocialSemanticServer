@@ -841,6 +841,32 @@ LOCK TABLES `entitylocations` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `entityprofilepictures`
+--
+
+DROP TABLE IF EXISTS `entityprofilepictures`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `entityprofilepictures` (
+  `entityId` varchar(255) NOT NULL,
+  `imageId` varchar(255) NOT NULL,
+  PRIMARY KEY (`entityId`,`imageId`),
+  KEY `imageId_idx` (`imageId`),
+  CONSTRAINT `imageIdFKentityprofilepictures` FOREIGN KEY (`imageId`) REFERENCES `image` (`imageId`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `entityIdFKentityprofilepictures` FOREIGN KEY (`entityId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `entityprofilepictures`
+--
+
+LOCK TABLES `entityprofilepictures` WRITE;
+/*!40000 ALTER TABLE `entityprofilepictures` DISABLE KEYS */;
+/*!40000 ALTER TABLE `entityprofilepictures` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `entityreads`
 --
 
@@ -1628,32 +1654,6 @@ LOCK TABLES `user` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `userprofilepictures`
---
-
-DROP TABLE IF EXISTS `userprofilepictures`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `userprofilepictures` (
-  `userId` varchar(255) NOT NULL,
-  `imageId` varchar(255) NOT NULL,
-  PRIMARY KEY (`userId`,`imageId`),
-  KEY `imageId_idx` (`imageId`),
-  CONSTRAINT `userIdFKuserprofilepictures` FOREIGN KEY (`userId`) REFERENCES `user` (`userId`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  CONSTRAINT `imageIdFKuserprofilepictures` FOREIGN KEY (`imageId`) REFERENCES `image` (`imageId`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `userprofilepictures`
---
-
-LOCK TABLES `userprofilepictures` WRITE;
-/*!40000 ALTER TABLE `userprofilepictures` DISABLE KEYS */;
-/*!40000 ALTER TABLE `userprofilepictures` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `video`
 --
 
@@ -1765,4 +1765,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-08-20 10:54:00
+-- Dump completed on 2015-08-20 14:22:53

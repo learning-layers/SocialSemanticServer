@@ -25,5 +25,4 @@ import at.tugraz.sss.serv.SSServPar;
 
 public interface SSUserClientI {
   public void usersGet             (SSSocketCon sSCon, SSServPar parA) throws Exception;
-  public void userProfilePictureSet(SSSocketCon sSCon, SSServPar parA) throws Exception;
 }

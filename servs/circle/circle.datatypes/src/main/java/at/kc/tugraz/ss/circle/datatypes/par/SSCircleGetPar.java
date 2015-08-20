@@ -36,6 +36,7 @@ public class SSCircleGetPar extends SSServPar{
   public Boolean         invokeEntityHandlers       = false;
   public Boolean         setTags                    = false;
   public SSSpaceE        tagSpace                   = null;
+  public Boolean         setProfilePicture          = false;
 
   public void setTagSpace(final String tagSpace) throws Exception{
     this.tagSpace = SSSpaceE.get(tagSpace);

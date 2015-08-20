@@ -144,35 +144,6 @@ public class SSUserSQLFct extends SSDBSQLFct{
     }
   }
   
-  public List<SSUri> getProfilePictures(
-    final SSUri user) throws Exception{
-    
-    ResultSet resultSet  = null;
-    
-    try{
-      final List<String>        columns          = new ArrayList<>();
-      final List<String>        tables           = new ArrayList<>();
-      final Map<String, String> wheres           = new HashMap<>();
-      final List<String>        tableCons        = new ArrayList<>();
-      
-      column(columns, SSSQLVarNames.imageId);
-      
-      table(tables, SSSQLVarNames.userProfilePicturesTable);
-      
-      where(wheres, SSSQLVarNames.userProfilePicturesTable, SSSQLVarNames.userId, user);
-      
-      resultSet = dbSQL.select(SSSQLVarNames.userProfilePicturesTable, columns, wheres, null, null, null);
-      
-      return getURIsFromResult(resultSet, SSSQLVarNames.imageId);
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }finally{
-      dbSQL.closeStmt(resultSet);
-    }
-  }
-  
   public List<SSUri> getUserURIs(
     final List<SSUri> userURIs) throws Exception{
     
@@ -231,41 +202,6 @@ public class SSUserSQLFct extends SSDBSQLFct{
       uniqueKey(uniqueKeys, SSSQLVarNames.userId, user);
       
       dbSQL.insertIfNotExists(SSSQLVarNames.userTable, inserts, uniqueKeys);
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-
-  public void removeProfilePictures(final SSUri user) throws Exception{
-    
-    try{
-      final Map<String, String> deletes = new HashMap<>();
-      
-      delete(deletes, SSSQLVarNames.userId, user);
-      
-      dbSQL.deleteIgnore(SSSQLVarNames.userProfilePicturesTable, deletes);
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
-  public void addProfilePicture(
-    final SSUri user, 
-    final SSUri image) throws Exception{
-    
-    try{
-      final Map<String, String> inserts    = new HashMap<>();
-      final Map<String, String> uniqueKeys = new HashMap<>();
-      
-      insert(inserts, SSSQLVarNames.userId,       user);
-      insert(inserts, SSSQLVarNames.imageId,      image);
-      
-      uniqueKey(uniqueKeys, SSSQLVarNames.userId,  user);
-      uniqueKey(uniqueKeys, SSSQLVarNames.imageId, image);
-      
-      dbSQL.insertIfNotExists(SSSQLVarNames.userProfilePicturesTable, inserts, uniqueKeys);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

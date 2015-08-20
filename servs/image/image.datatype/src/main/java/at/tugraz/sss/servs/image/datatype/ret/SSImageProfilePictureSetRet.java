@@ -18,37 +18,32 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
- package at.kc.tugraz.ss.service.user.datatypes.pars;
+package at.tugraz.sss.servs.image.datatype.ret;
 
-import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSServRetI;
 import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.SSUri;
+import java.util.Map;
 
-public class SSUserProfilePictureSetPar extends SSServPar{
-
-  public SSUri file  = null;
+public class SSImageProfilePictureSetRet extends SSServRetI{
   
-  public String getFile() throws Exception{
-    return SSStrU.removeTrailingSlash(file);
-  }
+  public SSUri user = null;
 
-  public void setFile(final String file) throws Exception{
-    this.file = SSUri.get(file);
+  public String getUser() {
+    return SSStrU.removeTrailingSlash(user);
   }
   
-  public SSUserProfilePictureSetPar(){}
+  @Override
+  public Map<String, Object> jsonLDDesc(){
+    throw new UnsupportedOperationException();
+  }
   
-  public SSUserProfilePictureSetPar(
-    final SSUri       user,
-    final SSUri       file,
-    final Boolean     withUserRestriction, 
-    final Boolean     shouldCommit){
-   
-    super(SSServOpE.userProfilePictureSet, null, user);
+  public SSImageProfilePictureSetRet(
+    final SSUri user){
     
-    this.file                = file;
-    this.withUserRestriction = withUserRestriction;
-    this.shouldCommit        = shouldCommit;
+    super(SSServOpE.imageProfilePictureSet);
+    
+    this.user = user;
   }
 }

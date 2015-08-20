@@ -59,10 +59,12 @@ import at.tugraz.sss.servs.file.datatype.par.SSEntityFileAddPar;
 import at.tugraz.sss.servs.file.datatype.par.SSEntityFilesGetPar;
 import at.tugraz.sss.servs.image.api.SSImageClientI;
 import at.tugraz.sss.servs.image.api.SSImageServerI;
+import at.tugraz.sss.servs.image.datatype.par.SSImageProfilePictureSetPar;
 import at.tugraz.sss.servs.image.datatype.par.SSImageBase64GetPar;
 import at.tugraz.sss.servs.image.datatype.par.SSImageAddPar;
 import at.tugraz.sss.servs.image.datatype.par.SSImageGetPar;
 import at.tugraz.sss.servs.image.datatype.par.SSImagesGetPar;
+import at.tugraz.sss.servs.image.datatype.ret.SSImageProfilePictureSetRet;
 import at.tugraz.sss.servs.image.datatype.ret.SSImagesGetRet;
 import at.tugraz.sss.servs.image.impl.sql.SSImageSQLFct;
 
@@ -91,7 +93,45 @@ implements
     
     try{
       
-      SSImage imageEntity = null;
+      if(par.setThumb){
+        
+        entity.thumb =
+          imageBase64Get(
+            new SSImageBase64GetPar(
+              par.user,
+              entity.id,
+              SSImageE.thumb,
+              false)); //withUserRestriction));
+      }
+      
+      if(par.setProfilePicture){
+        
+        for(SSUri profilePicture : sqlFct.getProfilePictures(entity.id)){
+          
+          entity.profilePicture =
+            imageGet(
+              new SSImageGetPar(
+                par.user,
+                profilePicture,
+                par.withUserRestriction));
+          
+          if(entity.profilePicture.file == null){
+            continue;
+          }
+          
+          entity.profilePicture.thumb =
+            imageBase64Get(
+              new SSImageBase64GetPar(
+                par.user,
+                entity.profilePicture.file.id,
+                SSImageE.thumb,
+                false)); //withUserRestriction));
+          
+          if(entity.profilePicture.thumb != null){
+            break;
+          }
+        }
+      }
       
       switch(entity.type){
         
@@ -101,57 +141,14 @@ implements
             break;
           }
           
-          imageEntity =
-            SSImage.get(
-              imageGet(
-                new SSImageGetPar(
-                  par.user,
-                  entity.id,
-                  par.withUserRestriction)),
-              entity);
-          break;
+          return SSImage.get(
+            imageGet(
+              new SSImageGetPar(
+                par.user,
+                entity.id,
+                par.withUserRestriction)),
+            entity);
         }
-        
-        default: break;
-      }
-      
-      if(par.setThumb){
-        
-        switch(entity.type){
-          
-          case image:{
-            
-            if(
-              imageEntity      != null &&
-              imageEntity.file != null){
-              
-              imageEntity.thumb =
-                imageBase64Get(
-                  new SSImageBase64GetPar(
-                    par.user,
-                    imageEntity.file.id,
-                    SSImageE.thumb,
-                    false)); //withUserRestriction));
-            }
-            
-            break;
-          }
-          
-          default:{
-            entity.thumb =
-              imageBase64Get(
-                new SSImageBase64GetPar(
-                  par.user,
-                  entity.id,
-                  SSImageE.thumb,
-                  false)); //withUserRestriction));
-            
-          }
-        }
-      }
-      
-      if(imageEntity != null){
-        return imageEntity;
       }
       
       return entity;
@@ -428,6 +425,104 @@ implements
           SSServErrReg.reset();
           
           return imageAdd(par);
+        }else{
+          SSServErrReg.regErrThrow(error);
+          return null;
+        }
+      }
+      
+      dbSQL.rollBack(par.shouldCommit);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public void imageProfilePictureSet(SSSocketCon sSCon, SSServPar parA) throws Exception {
+    
+    SSServCallerU.checkKey(parA);
+
+    final SSImageProfilePictureSetPar par = (SSImageProfilePictureSetPar) parA.getFromJSON(SSImageProfilePictureSetPar.class);
+    
+    sSCon.writeRetFullToClient(new SSImageProfilePictureSetRet(imageProfilePictureSet(par)));
+  }
+  
+  @Override 
+  public SSUri imageProfilePictureSet(final SSImageProfilePictureSetPar par) throws Exception{
+    
+    try{
+      
+      if(par.withUserRestriction){
+        
+        if(
+          !SSServCallerU.canUserRead(par.user, par.entity) ||
+          !SSServCallerU.canUserRead(par.user, par.file)){
+          return null;
+        }
+      }
+
+      dbSQL.startTrans(par.shouldCommit);
+      
+      if(par.file != null){
+        
+        final SSUri image =
+          imageAdd(
+            new SSImageAddPar(
+              par.user,
+              null, //uuid
+              null, //link
+              SSImageE.image, //imageType
+              par.entity, //entity
+              par.file, //file
+              par.withUserRestriction,
+              false));
+        
+        if(image != null){
+          
+          sqlFct.removeProfilePictures (par.entity);
+          sqlFct.addProfilePicture     (par.entity, image);
+          
+//          for(SSEntity thumb : 
+//            imagesGet(
+//              new SSImagesGetPar(
+//                par.user, 
+//                par.file, 
+//                SSImageE.thumb,
+//                par.withUserRestriction))){
+//            
+//            if(thumb.file == null){
+//              continue;
+//            }
+//            
+//            imageAdd(
+//              new SSImageAddPar(
+//                par.user,
+//                null, //uuid
+//                null, //link
+//                SSImageE.thumb,
+//                par.entity, //entity
+//                thumb.file.id, //file
+//                par.withUserRestriction,
+//                false));
+            
+//            break;
+//          }
+        }
+      }
+      
+      dbSQL.commit(par.shouldCommit);
+      
+      return par.entity;
+      
+   }catch(Exception error){
+      
+      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+        
+        if(dbSQL.rollBack(par.shouldCommit)){
+          
+          SSServErrReg.reset();
+          
+          return imageProfilePictureSet(par);
         }else{
           SSServErrReg.regErrThrow(error);
           return null;

@@ -118,18 +118,12 @@ ALTER TABLE `sss`.`user`
 DROP COLUMN `profilePictureId`,
 DROP INDEX `profilePictureId_idx` ;
 
-CREATE TABLE `sss`.`userprofilepictures` (
-  `userId` VARCHAR(255) NOT NULL,
-  `imageId` VARCHAR(255) NOT NULL,
-  PRIMARY KEY (`userId`, `imageId`),
-  INDEX `imageId_idx` (`imageId` ASC),
-  CONSTRAINT `userIdFKuserprofilepictures`
-    FOREIGN KEY (`userId`)
-    REFERENCES `sss`.`user` (`userId`)
-    ON DELETE CASCADE
-    ON UPDATE NO ACTION,
-  CONSTRAINT `imageIdFKuserprofilepictures`
-    FOREIGN KEY (`imageId`)
-    REFERENCES `sss`.`image` (`imageId`)
-    ON DELETE CASCADE
-    ON UPDATE NO ACTION);
+DROP TABLE IF EXISTS `entityprofilepictures`;
+CREATE TABLE `entityprofilepictures` (
+  `entityId` varchar(255) NOT NULL,
+  `imageId` varchar(255) NOT NULL,
+  PRIMARY KEY (`entityId`,`imageId`),
+  KEY `imageId_idx` (`imageId`),
+  CONSTRAINT `imageIdFKentityprofilepictures` FOREIGN KEY (`imageId`) REFERENCES `image` (`imageId`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `entityIdFKentityprofilepictures` FOREIGN KEY (`entityId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

@@ -29,6 +29,7 @@ public class SSUserGetPar extends SSServPar{
   
   public SSUri   userToGet            = null;
   public Boolean invokeEntityHandlers = false;
+  public Boolean setProfilePicture    = false;
 
   public String getUserToGet() throws Exception{
     return SSStrU.removeTrailingSlash(userToGet);

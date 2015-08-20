@@ -976,6 +976,16 @@ implements
         }
       }
       
+      SSEntityDescriberPar descPar;
+      
+      if(par.invokeEntityHandlers){
+        descPar = new SSEntityDescriberPar(par.circle);
+        
+        descPar.setProfilePicture = par.setProfilePicture;
+      }else{
+        descPar = null;
+      }
+      
       circle =
         SSEntityCircle.get(
           sqlFct.getCircle(
@@ -989,12 +999,10 @@ implements
               par.user,
               par.circle,
               par.withUserRestriction, //withUserRestriction,
-              null))); //descPar
-      
-      SSEntityDescriberPar descPar;
+              descPar))); //descPar
       
       if(par.invokeEntityHandlers){
-        descPar = new SSEntityDescriberPar(null);
+        descPar = new SSEntityDescriberPar(par.circle);
         
         descPar.setOverallRating = true;
         descPar.setTags          = par.setTags;
@@ -1016,7 +1024,7 @@ implements
       circle.entities.clear();
       circle.entities.addAll(circleEntities);
       
-      descPar = new SSEntityDescriberPar(null);
+      descPar = new SSEntityDescriberPar(par.circle);
       
       circleUsers =
         ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
@@ -1097,19 +1105,25 @@ implements
         }
       }
       
+      SSCircleGetPar circleGetPar;
+         
       for(SSUri circleURI : circleUris){
         
+        circleGetPar =
+          new SSCircleGetPar(
+            par.user,
+            circleURI,
+            par.entityTypesToIncludeOnly,
+            false,  //setTags
+            null, //tagSpace
+            par.withUserRestriction,
+            par.invokeEntityHandlers);
+        
+        circleGetPar.setProfilePicture = par.setProfilePicture;
+          
         SSEntity.addEntitiesDistinctWithoutNull(
           circles,
-          circleGet(
-            new SSCircleGetPar(
-              par.user,
-              circleURI,
-              par.entityTypesToIncludeOnly,
-              false,  //setTags
-              null, //tagSpace
-              par.withUserRestriction,
-              par.invokeEntityHandlers)));
+          circleGet(circleGetPar));
       }
       
       return circles;

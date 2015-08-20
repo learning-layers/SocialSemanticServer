@@ -94,5 +94,11 @@ public class SSEntitiesGetRESTAPIV2Par{
     value = "")
   public Boolean     setCircles          = false;
   
+  @XmlElement
+  @ApiModelProperty( 
+    required = false, 
+    value = "")
+  public Boolean     setProfilePicture   = false;
+  
   public SSEntitiesGetRESTAPIV2Par(){}
 }

@@ -18,40 +18,48 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
- package at.kc.tugraz.ss.service.user.datatypes.pars;
+ package at.tugraz.sss.servs.image.datatype.par;
 
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
-import java.util.ArrayList;
-import java.util.List;
 
-public class SSUsersGetPar extends SSServPar{
+public class SSImageProfilePictureSetPar extends SSServPar{
+
+  public SSUri entity = null;
+  public SSUri file   = null;
   
-  public List<SSUri> users                = new ArrayList<>();
-  public Boolean     invokeEntityHandlers = false;
-  public Boolean     setProfilePicture    = false;
-
-  public List<String> getUsers() throws Exception{
-    return SSStrU.removeTrailingSlash(users);
+  public String getEntity() throws Exception{
+    return SSStrU.removeTrailingSlash(entity);
   }
 
-  public void setUsers(final List<String> users) throws Exception{
-    this.users = SSUri.get(users);
+  public void setEntity(final String entity) throws Exception{
+    this.entity = SSUri.get(entity);
   }
   
-  public SSUsersGetPar(){}
+  public String getFile() throws Exception{
+    return SSStrU.removeTrailingSlash(file);
+  }
+
+  public void setFile(final String file) throws Exception{
+    this.file = SSUri.get(file);
+  }
   
-  public SSUsersGetPar(
+  public SSImageProfilePictureSetPar(){}
+  
+  public SSImageProfilePictureSetPar(
     final SSUri       user,
-    final List<SSUri> users, 
-    final Boolean     invokeEntityHandlers){
+    final SSUri       entity,
+    final SSUri       file,
+    final Boolean     withUserRestriction, 
+    final Boolean     shouldCommit){
    
-    super(SSServOpE.usersGet, null, user);
+    super(SSServOpE.imageProfilePictureSet, null, user);
     
-    SSUri.addDistinctWithoutNull(this.users, users);
-    
-    this.invokeEntityHandlers = invokeEntityHandlers;
+    this.entity              = entity;
+    this.file                = file;
+    this.withUserRestriction = withUserRestriction;
+    this.shouldCommit        = shouldCommit;
   }
 }

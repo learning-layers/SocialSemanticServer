@@ -30,7 +30,6 @@
   </properties>
   
   <dependencies>
-
     <dependency>
       <groupId>sss</groupId>
       <artifactId>util</artifactId>
@@ -100,6 +99,12 @@
     <dependency>
       <groupId>sss.servs</groupId>
       <artifactId>entity.datatypes</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>image.api</artifactId>
       <version>${project.version}</version>
     </dependency>
     

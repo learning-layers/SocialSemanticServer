@@ -47,6 +47,7 @@ public class SSEntityDescriberPar{
   public Boolean     setCircleTypes      = false;
   public Boolean     setLocations        = false;
   public Boolean     setLikes            = false;
+  public Boolean     setProfilePicture   = false;
   
   public List<SSEntityE> entityTypesToIncludeOnly = new ArrayList<>();
 

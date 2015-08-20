@@ -29,7 +29,6 @@ import at.tugraz.sss.serv.SSEntityCopyPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntitiesGetRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityCopyRet;
-import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
 import at.tugraz.sss.serv.SSUri;
@@ -107,16 +106,16 @@ public class SSRESTEntity {
     
     try{
       
-      descPar.circle           = input.circle;
-      descPar.space            = input.tagSpace;
-      descPar.setTags          = input.setTags;
-      descPar.setOverallRating = input.setOverallRating;
-      descPar.setDiscs         = input.setDiscs;
-      descPar.setUEs           = input.setUEs;
-      descPar.setThumb         = input.setThumb;
-      descPar.setFlags         = input.setFlags;
-      descPar.setCircles       = input.setCircles;
-      
+      descPar.circle            = input.circle;
+      descPar.space             = input.tagSpace;
+      descPar.setTags           = input.setTags;
+      descPar.setOverallRating  = input.setOverallRating;
+      descPar.setDiscs          = input.setDiscs;
+      descPar.setUEs            = input.setUEs;
+      descPar.setThumb          = input.setThumb;
+      descPar.setFlags          = input.setFlags;
+      descPar.setCircles        = input.setCircles;
+      descPar.setProfilePicture = input.setProfilePicture;
         
       par =
         new SSEntitiesGetPar(
