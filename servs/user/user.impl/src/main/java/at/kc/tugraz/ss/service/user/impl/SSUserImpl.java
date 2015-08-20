@@ -190,20 +190,20 @@ implements
         user.friend = SSStrU.contains(user.friends, par.user);
       }
       
+      if(par.invokeEntityHandlers){
+        descPar           = new SSEntityDescriberPar(userToGet.id);
+        descPar.setThumb  = true;
+      }else{
+        descPar = null;
+      }
+      
       for(SSUri profilePicture : sqlFct.getProfilePictures(par.userToGet)){
-
-        if(par.invokeEntityHandlers){
-          descPar           = new SSEntityDescriberPar(profilePicture);
-          descPar.setThumb  = true;
-        }else{
-          descPar = null;
-        }
         
         user.profilePicture =
           entityServ.entityGet(
             new SSEntityGetPar(
               par.user,
-              user.profilePicture.id,
+              profilePicture,
               par.withUserRestriction,
               descPar));
         

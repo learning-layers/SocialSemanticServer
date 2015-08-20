@@ -91,45 +91,71 @@ implements
     
     try{
       
-      if(par.setThumb){
-        
-//        switch(entity.type){
-//
-//          case file:
-//          case evernoteNote:
-//          case evernoteResource:{
-        
-        entity.thumb =
-          imageBase64Get(
-            new SSImageBase64GetPar(
-              par.user,
-              entity.id,
-              SSImageE.thumb,
-              false)); //withUserRestriction));
-//            break;
-//          }
-//        }
-      }
+      SSImage imageEntity = null;
       
       switch(entity.type){
         
         case image:{
           
           if(SSStrU.equals(entity, par.recursiveEntity)){
-            return entity;
+            break;
           }
           
-          return SSImage.get(
-            imageGet(
-              new SSImageGetPar(
-                par.user,
-                entity.id,
-                par.withUserRestriction)),
-            entity);
+          imageEntity =
+            SSImage.get(
+              imageGet(
+                new SSImageGetPar(
+                  par.user,
+                  entity.id,
+                  par.withUserRestriction)),
+              entity);
+          break;
         }
         
-        default: return entity;
+        default: break;
       }
+      
+      if(par.setThumb){
+        
+        switch(entity.type){
+          
+          case image:{
+            
+            if(
+              imageEntity      != null &&
+              imageEntity.file != null){
+              
+              imageEntity.thumb =
+                imageBase64Get(
+                  new SSImageBase64GetPar(
+                    par.user,
+                    imageEntity.file.id,
+                    SSImageE.thumb,
+                    false)); //withUserRestriction));
+            }
+            
+            break;
+          }
+          
+          default:{
+            entity.thumb =
+              imageBase64Get(
+                new SSImageBase64GetPar(
+                  par.user,
+                  entity.id,
+                  SSImageE.thumb,
+                  false)); //withUserRestriction));
+            
+          }
+        }
+      }
+      
+      if(imageEntity != null){
+        return imageEntity;
+      }
+      
+      return entity;
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;

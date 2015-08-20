@@ -22,12 +22,17 @@ package at.kc.tugraz.ss.service.user.datatypes.ret;
 
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSServRetI;
+import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 import java.util.Map;
 
 public class SSUserProfilePictureSetRet extends SSServRetI{
   
-  public SSUri image = null;
+  public SSUri user = null;
+
+  public String getUser() {
+    return SSStrU.removeTrailingSlash(user);
+  }
   
   @Override
   public Map<String, Object> jsonLDDesc(){
@@ -35,10 +40,10 @@ public class SSUserProfilePictureSetRet extends SSServRetI{
   }
   
   public SSUserProfilePictureSetRet(
-    final SSUri image){
+    final SSUri user){
     
     super(SSServOpE.userProfilePictureSet);
     
-    this.image = image;
+    this.user = user;
   }
 }
