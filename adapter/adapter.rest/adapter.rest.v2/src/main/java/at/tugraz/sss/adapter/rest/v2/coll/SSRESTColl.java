@@ -194,7 +194,7 @@ public class SSRESTColl{
   @ApiOperation(
     value = "add existing collections or (new) entities to a collection",
     response = SSCollUserEntriesAddRet.class)
-  @Path("/{coll}/entries}")
+  @Path("/{coll}/entries")
   public Response collEntriesAdd(
     @Context
     final HttpHeaders headers,
