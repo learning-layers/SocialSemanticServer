@@ -111,3 +111,25 @@ CREATE TABLE `sss`.`entityattachedentities` (
     REFERENCES `sss`.`entity` (`id`)
     ON DELETE CASCADE
     ON UPDATE NO ACTION);
+
+ALTER TABLE `sss`.`user` 
+DROP FOREIGN KEY `profilePictureId`;
+ALTER TABLE `sss`.`user` 
+DROP COLUMN `profilePictureId`,
+DROP INDEX `profilePictureId_idx` ;
+
+CREATE TABLE `sss`.`userprofilepictures` (
+  `userId` VARCHAR(255) NOT NULL,
+  `imageId` VARCHAR(255) NOT NULL,
+  PRIMARY KEY (`userId`, `imageId`),
+  INDEX `imageId_idx` (`imageId` ASC),
+  CONSTRAINT `userIdFKuserprofilepictures`
+    FOREIGN KEY (`userId`)
+    REFERENCES `sss`.`user` (`userId`)
+    ON DELETE CASCADE
+    ON UPDATE NO ACTION,
+  CONSTRAINT `imageIdFKuserprofilepictures`
+    FOREIGN KEY (`imageId`)
+    REFERENCES `sss`.`image` (`imageId`)
+    ON DELETE CASCADE
+    ON UPDATE NO ACTION);

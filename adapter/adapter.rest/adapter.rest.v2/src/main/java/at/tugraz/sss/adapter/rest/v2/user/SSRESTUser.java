@@ -94,7 +94,7 @@ public class SSRESTUser{
       par =
         new SSUserProfilePictureSetPar(
           null, 
-          SSUri.get(file, SSVocConf.sssUri),
+          SSUri.get(file,  SSVocConf.sssUri), 
           true, 
           true);
       

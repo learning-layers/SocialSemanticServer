@@ -23,7 +23,6 @@ package at.tugraz.sss.serv;
 public class SSSQLVarNames{
 
   public static final String attachedEntityId                               = "attachedEntityId";
-  public static final String profilePictureId                               = "profilePictureId";
   public static final String realm                                          = "realm";
   public static final String usn                                            = "usn";
   public static final String link                                           = "link";
@@ -215,6 +214,7 @@ public class SSSQLVarNames{
   
   //user
   public static final String userTable = "user";
+  public static final String userProfilePicturesTable = "userprofilepictures";
   
   //circle
   public static final String circleUsersTable = "circleusers";

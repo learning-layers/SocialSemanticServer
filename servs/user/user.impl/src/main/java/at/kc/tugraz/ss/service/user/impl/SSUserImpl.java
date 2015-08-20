@@ -171,6 +171,7 @@ implements
         descPar = new SSEntityDescriberPar(userToGet.id);
         
         descPar.setFriends = true;
+        descPar.setThumb   = true;
       }else{
         descPar = null;
       }
@@ -189,10 +190,11 @@ implements
         user.friend = SSStrU.contains(user.friends, par.user);
       }
       
-      if(user.profilePicture != null){
-        
+      for(SSUri profilePicture : sqlFct.getProfilePictures(par.userToGet)){
+
         if(par.invokeEntityHandlers){
-          descPar = new SSEntityDescriberPar(user.profilePicture.id);
+          descPar           = new SSEntityDescriberPar(profilePicture);
+          descPar.setThumb  = true;
         }else{
           descPar = null;
         }
@@ -204,6 +206,8 @@ implements
               user.profilePicture.id,
               par.withUserRestriction,
               descPar));
+        
+        break;
       }
 
       return user;
@@ -359,25 +363,30 @@ implements
 
       dbSQL.startTrans(par.shouldCommit);
       
-      final SSUri image =
-        ((SSImageServerI) SSServReg.getServ(SSImageServerI.class)).imageAdd(
-          new SSImageAddPar(
-            par.user,
-            null, //uuid
-            null, //link
-            SSImageE.image, //imageType
-            par.user, //entity
-            par.file, //file
-            par.withUserRestriction,
-            false));
-      
-      if(image != null){
-        sqlFct.setProfilePicture(par.user, image);
+      if(par.file != null){
+        
+        final SSUri image =
+          ((SSImageServerI) SSServReg.getServ(SSImageServerI.class)).imageAdd(
+            new SSImageAddPar(
+              par.user,
+              null, //uuid
+              null, //link
+              SSImageE.image, //imageType
+              par.user, //entity
+              par.file, //file
+              par.withUserRestriction,
+              false));
+        
+        if(image != null){
+          
+          sqlFct.removeProfilePictures (par.user);
+          sqlFct.addProfilePicture     (par.user, image);
+        }
       }
       
       dbSQL.commit(par.shouldCommit);
       
-      return image;
+      return par.user;
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

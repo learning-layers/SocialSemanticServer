@@ -93,22 +93,22 @@ implements
       
       if(par.setThumb){
         
-        switch(entity.type){
-          
-          case file:
-          case evernoteNote:
-          case evernoteResource:{
-            
-            entity.thumb =
-              imageBase64Get(
-                new SSImageBase64GetPar(
-                  par.user,
-                  entity.id,
-                  SSImageE.thumb,
-                  false)); //withUserRestriction));
-            break;
-          }
-        }
+//        switch(entity.type){
+//
+//          case file:
+//          case evernoteNote:
+//          case evernoteResource:{
+        
+        entity.thumb =
+          imageBase64Get(
+            new SSImageBase64GetPar(
+              par.user,
+              entity.id,
+              SSImageE.thumb,
+              false)); //withUserRestriction));
+//            break;
+//          }
+//        }
       }
       
       switch(entity.type){
@@ -301,13 +301,15 @@ implements
             par.imageType,
             par.withUserRestriction));
       
-      if(images.isEmpty()){
+      if(
+        images.isEmpty() ||
+        images.get(0).file == null){
         return null;
       }
       
       final String pngFilePath =
         SSCoreConf.instGet().getSss().getLocalWorkPath() +
-        SSVocConf.fileIDFromSSSURI(images.get(0).id);
+        SSVocConf.fileIDFromSSSURI(images.get(0).file.id);
       
       return SSFileU.readImageToBase64Str(pngFilePath);
       

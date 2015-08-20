@@ -27,7 +27,7 @@ import at.tugraz.sss.serv.SSStrU;
 
 public class SSUserProfilePictureSetPar extends SSServPar{
 
-  public SSUri file = null;
+  public SSUri file  = null;
   
   public String getFile() throws Exception{
     return SSStrU.removeTrailingSlash(file);

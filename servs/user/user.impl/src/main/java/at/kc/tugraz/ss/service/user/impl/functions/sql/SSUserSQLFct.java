@@ -27,7 +27,6 @@ import at.tugraz.sss.serv.SSUri;
 
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.kc.tugraz.ss.service.user.datatypes.SSUser;
-import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSServErrReg;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -118,11 +117,9 @@ public class SSUserSQLFct extends SSDBSQLFct{
       final List<String>        tables           = new ArrayList<>();
       final Map<String, String> wheres           = new HashMap<>();
       final List<String>        tableCons        = new ArrayList<>();
-      final SSEntity            profilePic;
       
       column(columns, SSSQLVarNames.id);
       column(columns, SSSQLVarNames.email);
-      column(columns, SSSQLVarNames.profilePictureId);
       
       table(tables, SSSQLVarNames.entityTable);
       table(tables, SSSQLVarNames.userTable);
@@ -135,16 +132,38 @@ public class SSUserSQLFct extends SSDBSQLFct{
       
       checkFirstResult(resultSet);
       
-      if(bindingStrToUri(resultSet, SSSQLVarNames.profilePictureId) == null){
-        profilePic = null;
-      }else{
-        profilePic = SSEntity.get(bindingStrToUri(resultSet, SSSQLVarNames.profilePictureId), SSEntityE.entity);
-      }
-      
       return SSUser.get(
         user,
-        bindingStr(resultSet, SSSQLVarNames.email),
-        profilePic);
+        bindingStr(resultSet, SSSQLVarNames.email));
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
+    }
+  }
+  
+  public List<SSUri> getProfilePictures(
+    final SSUri user) throws Exception{
+    
+    ResultSet resultSet  = null;
+    
+    try{
+      final List<String>        columns          = new ArrayList<>();
+      final List<String>        tables           = new ArrayList<>();
+      final Map<String, String> wheres           = new HashMap<>();
+      final List<String>        tableCons        = new ArrayList<>();
+      
+      column(columns, SSSQLVarNames.imageId);
+      
+      table(tables, SSSQLVarNames.userProfilePicturesTable);
+      
+      where(wheres, SSSQLVarNames.userProfilePicturesTable, SSSQLVarNames.userId, user);
+      
+      resultSet = dbSQL.select(SSSQLVarNames.userProfilePicturesTable, columns, wheres, null, null, null);
+      
+      return getURIsFromResult(resultSet, SSSQLVarNames.imageId);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -206,8 +225,8 @@ public class SSUserSQLFct extends SSDBSQLFct{
       final Map<String, String> inserts    = new HashMap<>();
       final Map<String, String> uniqueKeys = new HashMap<>();
       
-      insert(inserts, SSSQLVarNames.userId, user);
-      insert(inserts, SSSQLVarNames.email,  email);
+      insert(inserts, SSSQLVarNames.userId,     user);
+      insert(inserts, SSSQLVarNames.email,      email);
       
       uniqueKey(uniqueKeys, SSSQLVarNames.userId, user);
       
@@ -218,21 +237,35 @@ public class SSUserSQLFct extends SSDBSQLFct{
     }
   }
 
-  public void setProfilePicture(
+  public void removeProfilePictures(final SSUri user) throws Exception{
+    
+    try{
+      final Map<String, String> deletes = new HashMap<>();
+      
+      delete(deletes, SSSQLVarNames.userId, user);
+      
+      dbSQL.deleteIgnore(SSSQLVarNames.userProfilePicturesTable, deletes);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  public void addProfilePicture(
     final SSUri user, 
     final SSUri image) throws Exception{
     
     try{
-      final Map<String, String> updates    = new HashMap<>();
-      final Map<String, String> wheres     = new HashMap<>();
+      final Map<String, String> inserts    = new HashMap<>();
+      final Map<String, String> uniqueKeys = new HashMap<>();
       
-      where(wheres, SSSQLVarNames.userId, user);
+      insert(inserts, SSSQLVarNames.userId,       user);
+      insert(inserts, SSSQLVarNames.imageId,      image);
       
-      if(image != null){
-        update(updates,    SSSQLVarNames.profilePictureId,     image);
-      }
+      uniqueKey(uniqueKeys, SSSQLVarNames.userId,  user);
+      uniqueKey(uniqueKeys, SSSQLVarNames.imageId, image);
       
-      dbSQL.updateIgnore(SSSQLVarNames.userTable, wheres, updates);
+      dbSQL.insertIfNotExists(SSSQLVarNames.userProfilePicturesTable, inserts, uniqueKeys);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
