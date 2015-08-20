@@ -27,8 +27,7 @@
     <dependency>
       <groupId>sss.servs</groupId>
       <artifactId>filerepo.api</artifactId>
-      <version>1.0-SNAPSHOT</version>
-      <type>jar</type>
+      <version>${project.version}</version>
     </dependency>  
     
     <dependency>

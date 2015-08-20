@@ -4,7 +4,7 @@ USE `SSS_MYSQL_SCHEME`;
 --
 -- Host: localhost    Database: sss
 -- ------------------------------------------------------
--- Server version	5.6.17-log
+-- Server version	5.6.10
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -1613,10 +1613,7 @@ DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
   `userId` varchar(255) NOT NULL,
   `email` varchar(200) NOT NULL,
-  `profilePictureId` varchar(255) NOT NULL,
   PRIMARY KEY (`userId`),
-  KEY `profilePictureId_idx` (`profilePictureId`),
-  CONSTRAINT `profilePictureId` FOREIGN KEY (`profilePictureId`) REFERENCES `image` (`imageId`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `userIdFKuser` FOREIGN KEY (`userId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -1628,6 +1625,32 @@ CREATE TABLE `user` (
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `userprofilepictures`
+--
+
+DROP TABLE IF EXISTS `userprofilepictures`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `userprofilepictures` (
+  `userId` varchar(255) NOT NULL,
+  `imageId` varchar(255) NOT NULL,
+  PRIMARY KEY (`userId`,`imageId`),
+  KEY `imageId_idx` (`imageId`),
+  CONSTRAINT `userIdFKuserprofilepictures` FOREIGN KEY (`userId`) REFERENCES `user` (`userId`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `imageIdFKuserprofilepictures` FOREIGN KEY (`imageId`) REFERENCES `image` (`imageId`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `userprofilepictures`
+--
+
+LOCK TABLES `userprofilepictures` WRITE;
+/*!40000 ALTER TABLE `userprofilepictures` DISABLE KEYS */;
+/*!40000 ALTER TABLE `userprofilepictures` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -1742,4 +1765,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-08-19 23:33:00
+-- Dump completed on 2015-08-20 10:54:00
