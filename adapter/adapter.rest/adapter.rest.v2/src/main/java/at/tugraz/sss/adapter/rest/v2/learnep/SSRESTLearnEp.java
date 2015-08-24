@@ -435,6 +435,7 @@ public class SSRESTLearnEp{
           null, 
           SSUri.get(learnEpCircle, SSVocConf.sssUri),
           input.label, 
+          input.description, 
           input.xLabel, 
           input.yLabel, 
           input.xR, 

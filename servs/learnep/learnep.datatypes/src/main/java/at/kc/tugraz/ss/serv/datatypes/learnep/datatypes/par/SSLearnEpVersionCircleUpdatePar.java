@@ -25,11 +25,13 @@ import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.SSTextComment;
 
 public class SSLearnEpVersionCircleUpdatePar extends SSServPar{
   
   public SSUri         learnEpCircle     = null;
   public SSLabel       label             = null;
+  public SSTextComment description       = null;
   public Float         xLabel            = null;
   public Float         yLabel            = null;
   public Float         xR                = null;
@@ -53,12 +55,21 @@ public class SSLearnEpVersionCircleUpdatePar extends SSServPar{
     this.label = SSLabel.get(label);
   }
   
+  public String getDescription(){
+    return SSStrU.toStr(description);
+  }
+
+  public void setDescription(final String description) throws Exception{
+    this.description = SSTextComment.get(description);
+  }
+  
   public SSLearnEpVersionCircleUpdatePar(){}
   
   public SSLearnEpVersionCircleUpdatePar(
     final SSUri         user,
     final SSUri         learnEpCircle,
     final SSLabel       label,
+    final SSTextComment description, 
     final Float         xLabel,
     final Float         yLabel,
     final Float         xR,
@@ -72,6 +83,7 @@ public class SSLearnEpVersionCircleUpdatePar extends SSServPar{
     
     this.learnEpCircle       = learnEpCircle;
     this.label               = label;
+    this.description         = description;
     this.xLabel              = xLabel;
     this.yLabel              = yLabel;
     this.xR                  = xR;

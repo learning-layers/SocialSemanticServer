@@ -1184,7 +1184,7 @@ implements
           par.learnEpCircle,
           SSEntityE.learnEpCircle, //type,
           par.label, //label
-          null,//description,
+          par.description,//description,
           null, //creationTime,
           null, //read,
           false, //setPublic

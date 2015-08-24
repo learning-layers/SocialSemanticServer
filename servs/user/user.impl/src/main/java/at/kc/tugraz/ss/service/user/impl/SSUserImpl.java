@@ -167,6 +167,7 @@ implements
         
         descPar.setFriends        = true;
         descPar.setProfilePicture = par.setProfilePicture;
+        descPar.setThumb          = par.setThumb;
       }else{
         descPar = null;
       }
@@ -225,6 +226,7 @@ implements
             par.invokeEntityHandlers);
         
         userGetPar.setProfilePicture = par.setProfilePicture;
+        userGetPar.setThumb          = par.setThumb;
           
         SSEntity.addEntitiesDistinctWithoutNull(
           users,

@@ -982,6 +982,7 @@ implements
         descPar = new SSEntityDescriberPar(par.circle);
         
         descPar.setProfilePicture = par.setProfilePicture;
+        descPar.setThumb          = par.setThumb;
       }else{
         descPar = null;
       }
@@ -1120,6 +1121,7 @@ implements
             par.invokeEntityHandlers);
         
         circleGetPar.setProfilePicture = par.setProfilePicture;
+        circleGetPar.setThumb          = par.setThumb;
           
         SSEntity.addEntitiesDistinctWithoutNull(
           circles,

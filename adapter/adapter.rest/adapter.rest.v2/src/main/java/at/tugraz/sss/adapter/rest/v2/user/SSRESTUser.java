@@ -59,7 +59,7 @@ public class SSRESTUser{
           null, //users
           true); //invokeEntityHandlers
       
-      par.setProfilePicture = true;
+      par.setThumb = true;
       
     }catch(Exception error){
       return Response.status(422).build();

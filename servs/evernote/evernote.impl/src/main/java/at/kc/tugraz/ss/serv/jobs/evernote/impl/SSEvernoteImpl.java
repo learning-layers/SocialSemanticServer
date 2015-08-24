@@ -103,7 +103,7 @@ implements
             return entity;
           }
           
-          //TODO create evernoteEvernoteNoteGet instead
+          //TODO use (implement) evernoteEvernoteNoteGet instead
           final SSEvernoteNote evernoteNote =
             SSEvernoteNote.get(
               sqlFct.getNote(entity.id),
@@ -130,7 +130,7 @@ implements
             return entity;
           }
           
-          //TODO create evernoteEvernoteResourceGet instead
+          //TODO use (implement) evernoteEvernoteResourceGet instead
           final SSEvernoteResource evernoteResource =
             SSEvernoteResource.get(
               sqlFct.getResource(entity.id),

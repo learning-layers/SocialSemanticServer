@@ -87,6 +87,7 @@ public class SSRESTCircle{
           false, //withSystemCircles
           true); //invokeEntityHandlers
       
+      par.setThumb          = false;
       par.setProfilePicture = false;
       
     }catch(Exception error){
@@ -127,6 +128,7 @@ public class SSRESTCircle{
           true); //invokeEntityHandlers
       
       par.setProfilePicture = input.setProfilePicture;
+      par.setThumb          = input.setThumb;
       
     }catch(Exception error){
       return Response.status(422).build();

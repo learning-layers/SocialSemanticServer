@@ -63,6 +63,12 @@ public class SSCircleGetRESTAPIV2Par{
     required = false,
     value = "whether the profile picture of the circle shall be set")
   public Boolean setProfilePicture = null;
+  
+  @XmlElement
+  @ApiModelProperty(
+    required = false,
+    value = "")
+  public Boolean setThumb = null;
     
   public SSCircleGetRESTAPIV2Par(){}
 }

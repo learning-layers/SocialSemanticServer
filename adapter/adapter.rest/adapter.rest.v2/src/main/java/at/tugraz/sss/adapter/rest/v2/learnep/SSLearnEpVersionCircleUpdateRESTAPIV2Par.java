@@ -21,6 +21,7 @@
 package at.tugraz.sss.adapter.rest.v2.learnep;
 
 import at.tugraz.sss.serv.SSLabel;
+import at.tugraz.sss.serv.SSTextComment;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 import javax.xml.bind.annotation.XmlElement;
@@ -31,7 +32,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class SSLearnEpVersionCircleUpdateRESTAPIV2Par{
   
   @ApiModelProperty(
-    required = true, 
+    required = false, 
     value = "")
   public SSLabel   label       = null;
   
@@ -41,32 +42,42 @@ public class SSLearnEpVersionCircleUpdateRESTAPIV2Par{
   }
   
   @ApiModelProperty(
-    required = true, 
+    required = false, 
+    value = "")
+  public SSTextComment   description       = null;
+  
+  @XmlElement
+  public void setDescription(final String description) throws Exception{
+    this.description = SSTextComment.get(description);
+  }
+  
+  @ApiModelProperty(
+    required = false, 
     value = "")
   public Float      xLabel            = null;
   
   @ApiModelProperty(
-    required = true, 
+    required = false, 
     value = "")
   public Float      yLabel            = null;
   
   @ApiModelProperty(
-    required = true, 
+    required = false, 
     value = "")
   public Float      xR                = null;
   
   @ApiModelProperty(
-    required = true, 
+    required = false, 
     value = "")
   public Float      yR                = null;
   
   @ApiModelProperty(
-    required = true, 
+    required = false, 
     value = "")
   public Float      xC                = null;
   
   @ApiModelProperty(
-    required = true, 
+    required = false, 
     value = "")
   public Float      yC                = null;
   
