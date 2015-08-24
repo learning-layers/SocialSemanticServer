@@ -127,3 +127,6 @@ CREATE TABLE `entityprofilepictures` (
   CONSTRAINT `imageIdFKentityprofilepictures` FOREIGN KEY (`imageId`) REFERENCES `image` (`imageId`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `entityIdFKentityprofilepictures` FOREIGN KEY (`entityId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+ALTER TABLE `sss`.`discentry` 
+ADD COLUMN `accepted` VARCHAR(200) NOT NULL AFTER `discEntryContent`;

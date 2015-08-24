@@ -22,16 +22,15 @@ package at.kc.tugraz.ss.service.disc.datatypes;
 
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSEntity;
-import java.util.Map;
 
 public class SSDiscEntry extends SSEntity{
   
   public  Integer             pos;
   public  SSTextComment       content;
+  public  Boolean             accepted = false;
   
   public String getContent(){
     return SSStrU.toStr(content);
@@ -39,26 +38,22 @@ public class SSDiscEntry extends SSEntity{
   
   @Override
   public Object jsonLDDesc(){
-    
-    final Map<String, Object> ld = (Map<String, Object>) super.jsonLDDesc();
-    
-    ld.put(SSVarNames.pos,           SSVarNames.xsd + SSStrU.colon + SSStrU.valueInteger);
-    ld.put(SSVarNames.content,       SSVarNames.sss + SSStrU.colon + SSTextComment.class.getName());
-    
-    return ld;
+    throw new UnsupportedOperationException();
   }
   
   public static SSDiscEntry get(
     final SSUri                  id,
     final SSEntityE              type,
     final int                    pos,
-    final SSTextComment          content) throws Exception{
+    final SSTextComment          content,
+    final Boolean                accepted) throws Exception{
     
     return new SSDiscEntry(
       id,
       type,
       pos,
-      content);
+      content, 
+    accepted);
   }
   
   public static SSDiscEntry get(
@@ -85,12 +80,21 @@ public class SSDiscEntry extends SSEntity{
       }
     }
     
-    if(discEntry.pos != null){
+    if(discEntry.content != null){
       this.content = discEntry.content;
     }else{
-     
+      
       if(entity instanceof SSDiscEntry){
         this.content = ((SSDiscEntry) discEntry).content;
+      }
+    }
+    
+    if(discEntry.accepted != null){
+      this.accepted = discEntry.accepted;
+    }else{
+      
+      if(entity instanceof SSDiscEntry){
+        this.accepted = ((SSDiscEntry) discEntry).accepted;
       }
     }
   }
@@ -99,11 +103,13 @@ public class SSDiscEntry extends SSEntity{
     final SSUri                  id,
     final SSEntityE              type,
     final int                    pos,
-    final SSTextComment          content) throws Exception{
+    final SSTextComment          content, 
+    final Boolean                accepted) throws Exception{
     
     super(id, type);
     
-    this.pos     = pos;
-    this.content = content;
+    this.pos      = pos;
+    this.content  = content;
+    this.accepted = accepted;
   }
 }

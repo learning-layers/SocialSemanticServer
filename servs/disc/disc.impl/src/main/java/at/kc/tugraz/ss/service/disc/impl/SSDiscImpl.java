@@ -41,6 +41,7 @@ import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.kc.tugraz.ss.service.disc.api.*;
 import at.kc.tugraz.ss.service.disc.datatypes.*;
+import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscEntryAcceptPar;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscEntryAddFromClientPar;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSConfA;
@@ -50,6 +51,7 @@ import at.tugraz.sss.serv.caller.SSServCaller;
 import at.tugraz.sss.util.SSServCallerU;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscEntryURIsGetPar;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscRemovePar;
+import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscEntryAcceptRet;
 import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscEntryAddRet;
 import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscRemoveRet;
 import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscGetRet;
@@ -252,7 +254,9 @@ public class SSDiscImpl
         
         try{
           final List<String> userDiscUris = sqlFct.getDiscURIsForUser(user);
-          final List<String> discUris = sqlFct.getDiscURIsContainingEntry(entity);
+          final List<String> discUris     = new ArrayList<>();
+          
+          discUris.add(SSStrU.toStr(sqlFct.getDiscURIContainingEntry(entity)));
           
           return SSUri.get(SSStrU.retainAll(discUris, userDiscUris));
         }catch(Exception error){
@@ -519,6 +523,83 @@ public class SSDiscImpl
           SSServErrReg.reset();
 
           return discEntryAdd(par);
+        }else{
+          SSServErrReg.regErrThrow(error);
+          return null;
+        }
+      }
+
+      dbSQL.rollBack(par.shouldCommit);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+
+  @Override
+  public void discEntryAccept(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
+
+    SSServCallerU.checkKey(parA);
+
+    final SSDiscEntryAcceptPar par = (SSDiscEntryAcceptPar) parA.getFromJSON(SSDiscEntryAcceptPar.class);
+
+    sSCon.writeRetFullToClient(SSDiscEntryAcceptRet.get(discEntryAccept(par)));
+  }
+  
+  @Override
+  public SSUri discEntryAccept(final SSDiscEntryAcceptPar par) throws Exception{
+
+    try{
+      if(par.withUserRestriction){
+        
+        if(!SSServCallerU.canUserRead(par.user, par.entry)){
+          return null;
+        }
+      }
+
+      final SSUri   discURI = sqlFct.getDiscURIContainingEntry(par.entry);
+      final SSDisc  disc    = 
+        discGet(
+          new SSDiscGetPar(
+            par.user, 
+            discURI, 
+            true,  //setEntries
+            par.withUserRestriction, 
+            false));
+      
+      if(disc == null){
+        return null;
+      }
+      
+      if(par.withUserRestriction){
+      
+        if(!SSStrU.equals(disc.author, par.user)){
+          return null;
+        }
+      }
+
+      for(SSEntity entry : disc.entries){
+        if(((SSDiscEntry)entry).accepted){
+          return null;
+        }
+      }
+      
+      dbSQL.startTrans(par.shouldCommit);
+
+      sqlFct.acceptEntry(par.entry);
+
+      dbSQL.commit(par.shouldCommit);
+
+      return par.entry;
+
+    }catch(Exception error){
+
+      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+
+        if(dbSQL.rollBack(par.shouldCommit)){
+
+          SSServErrReg.reset();
+
+          return discEntryAccept(par);
         }else{
           SSServErrReg.regErrThrow(error);
           return null;

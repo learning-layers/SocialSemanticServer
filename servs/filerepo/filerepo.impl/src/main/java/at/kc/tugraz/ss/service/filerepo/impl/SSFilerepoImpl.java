@@ -55,9 +55,13 @@ import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServReg;
+import at.tugraz.sss.serv.SSToolContextE;
 import at.tugraz.sss.servs.file.datatype.par.SSFileGetPar;
 import java.util.*;
 import java.util.List;
+import sss.serv.eval.api.SSEvalServerI;
+import sss.serv.eval.datatypes.SSEvalLogE;
+import sss.serv.eval.datatypes.par.SSEvalLogPar;
 
 public class SSFilerepoImpl 
 extends SSServImplWithDBA
@@ -141,6 +145,20 @@ implements
     par.sSCon = sSCon;
     
     fileDownload(par);
+    
+    if(!par.isPublicDownload){
+      
+      ((SSEvalServerI)     SSServReg.getServ(SSEvalServerI.class)).evalLog(
+        new SSEvalLogPar(
+          par.user,
+          SSToolContextE.sss,
+          SSEvalLogE.fileDowload,
+          par.file,  //entity
+          null, //content,
+          null, //entities
+          null, //users
+          par.shouldCommit));
+    }
   }
 
   @Override
@@ -305,8 +323,9 @@ implements
       final SSUri       downloadLink  =
         SSUri.get(
           SSFileU.correctDirPath(SSCoreConf.instGet().getSss().restAPIHost) +
-            SSVocConf.restAPIPathFileDownloadPublic +
-            SSVocConf.fileIDFromSSSURI(par.file));
+            SSFileU.correctDirPath(SSVocConf.restAPIResourceFile)           +
+            SSFileU.correctDirPath(SSVocConf.fileIDFromSSSURI(par.file))    +
+            SSVocConf.restAPIPathFileDownloadPublic);
       
       final SSFile      file  = 
         SSFile.get(

@@ -62,6 +62,7 @@ public class SSSQLVarNames{
   public static final String value                                          = "value";
   public static final String learnEpTimelineStateId                         = "learnEpTimelineStateId";
   public static final String discEntryContent                               = "discEntryContent";
+  public static final String accepted                                       = "accepted";
   public static final String discEntryId                                    = "discEntryId";
   public static final String discId                                         = "discId";
   public static final String targetId                                       = "targetId";

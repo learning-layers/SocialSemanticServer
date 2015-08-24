@@ -87,6 +87,18 @@ public class SSDBSQLFct extends SSDBFct{
   protected static void update(
     final Map<String, String> updates,
     final String              key,
+    final Boolean             value) throws Exception{
+    
+    try{
+      updates.put(key, value.toString());
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+    
+  protected static void update(
+    final Map<String, String> updates,
+    final String              key,
     final SSEntityA           value) throws Exception{
     
     try{

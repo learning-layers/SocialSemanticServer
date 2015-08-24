@@ -252,7 +252,7 @@ public class SSRESTFile{
   @GET
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_OCTET_STREAM)
-  @Path("/download/public/{file}")
+  @Path("/{file}/download/public/")
   @ApiOperation(
     value = "download a public file",
     response = byte.class)

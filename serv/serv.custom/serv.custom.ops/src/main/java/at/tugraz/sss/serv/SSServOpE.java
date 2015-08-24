@@ -273,6 +273,7 @@ public enum SSServOpE{
   discEntryAdd,
   discGet,
   discsGet,
+  discEntryAccept,
   
   //broadcast
   broadcastServerTime                                 ,

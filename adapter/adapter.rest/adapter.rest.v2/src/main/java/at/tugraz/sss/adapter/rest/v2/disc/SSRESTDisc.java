@@ -22,10 +22,12 @@ package at.tugraz.sss.adapter.rest.v2.disc;
 
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscEntryAcceptPar;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscEntryAddFromClientPar;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscEntryAddPar;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscGetPar;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscsGetPar;
+import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscEntryAcceptRet;
 import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscEntryAddRet;
 import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscGetRet;
 import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscsGetRet;
@@ -191,6 +193,38 @@ public class SSRESTDisc{
           SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(targets, SSStrU.comma), SSVocConf.sssUri), //targets
           true, //withUserRestriction
           true); //invokeEntityHandlers
+      
+    }catch(Exception error){
+      return Response.status(422).build();
+    }
+    
+    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path("/entry/{entry}/accept")
+  @ApiOperation(
+    value = "accept a qa answer",
+    response = SSDiscEntryAcceptRet.class)
+  public Response discEntryAccept(
+    @Context
+    final HttpHeaders headers,
+    
+    @PathParam (SSVarNames.entry)
+    final String entry){
+    
+    final SSDiscEntryAcceptPar par;
+    
+    try{
+      
+      par =
+        new SSDiscEntryAcceptPar(
+          null, //user
+          SSUri.get(entry, SSVocConf.sssUri), //entry
+          true, //withUserRestriction,
+          true); //shouldComit
       
     }catch(Exception error){
       return Response.status(422).build();

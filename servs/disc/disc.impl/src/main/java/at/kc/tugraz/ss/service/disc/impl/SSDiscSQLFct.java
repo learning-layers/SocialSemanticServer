@@ -254,6 +254,7 @@ public class SSDiscSQLFct extends SSDBSQLFct {
       
       insert(inserts, SSSQLVarNames.discEntryId,      discEntryUri);
       insert(inserts, SSSQLVarNames.discEntryContent, content);
+      insert(inserts, SSSQLVarNames.accepted,         false);
       
       dbSQL.insert(SSSQLVarNames.discEntryTable, inserts);
       
@@ -524,6 +525,7 @@ public class SSDiscSQLFct extends SSDBSQLFct {
       column(columns, SSSQLVarNames.discEntryContent);
       column(columns, SSSQLVarNames.pos);
       column(columns, SSSQLVarNames.type);
+      column(columns, SSSQLVarNames.accepted);
       column(columns, SSSQLVarNames.discEntriesTable, SSSQLVarNames.discEntryId);
       
       table(tables, SSSQLVarNames.entityTable);
@@ -544,7 +546,8 @@ public class SSDiscSQLFct extends SSDBSQLFct {
             bindingStrToUri         (resultSet, SSSQLVarNames.discEntryId),
             bindingStrToEntityType  (resultSet, SSSQLVarNames.type),
             bindingStrToInteger     (resultSet, SSSQLVarNames.pos),
-            bindingStrToTextComment (resultSet, SSSQLVarNames.discEntryContent)));
+            bindingStrToTextComment (resultSet, SSSQLVarNames.discEntryContent), 
+            bindingStrToBoolean     (resultSet, SSSQLVarNames.accepted)));
       }
       
       return disc;
@@ -607,7 +610,7 @@ public class SSDiscSQLFct extends SSDBSQLFct {
     }
   }
 
-  public List<String> getDiscURIsContainingEntry(
+  public SSUri getDiscURIContainingEntry(
     final SSUri entityUri) throws Exception{
     
     ResultSet resultSet = null;
@@ -622,13 +625,32 @@ public class SSDiscSQLFct extends SSDBSQLFct {
       
       resultSet = dbSQL.select(SSSQLVarNames.discEntriesTable, columns, wheres, null, null, null);
       
-      return getStringsFromResult(resultSet, SSSQLVarNames.discId);
+      checkFirstResult(resultSet);
+      
+      return bindingStrToUri(resultSet, SSSQLVarNames.discId);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }finally{
       dbSQL.closeStmt(resultSet);
+    }
+  }
+
+  public void acceptEntry(final SSUri entry) throws Exception {
+    
+    try{
+      final Map<String, String>  wheres   = new HashMap<>();
+      final Map<String, String>  updates  = new HashMap<>();
+      
+      where(wheres, SSSQLVarNames.discEntryId, entry);
+      
+      update (updates, SSSQLVarNames.accepted, true);
+      
+      dbSQL.update(SSSQLVarNames.discEntryTable, wheres, updates);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
     }
   }
 }

@@ -3,7 +3,7 @@
 * http://www.learning-layers.eu
 * Development is partly funded by the FP7 Programme of the European Commission under
 * Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+* Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
 * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,16 +18,38 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
- package at.kc.tugraz.ss.service.disc.api;
+package at.kc.tugraz.ss.service.disc.datatypes.ret;
 
-import at.tugraz.sss.serv.SSSocketCon;
-import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.SSServRetI;
+import at.tugraz.sss.serv.SSUri;
+import java.util.Map;
 
-public interface SSDiscClientI {
+public class SSDiscEntryAcceptRet extends SSServRetI{
+
+  public SSUri entry = null;
+
+  public String getEntry() {
+    return SSStrU.removeTrailingSlash(entry);
+  }
   
-  public void discRemove            (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void discGet               (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void discEntryAdd          (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void discsGet              (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void discEntryAccept       (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  @Override
+  public Map<String, Object> jsonLDDesc(){
+    throw new UnsupportedOperationException();
+  }
+  
+  public static SSDiscEntryAcceptRet get(
+    final SSUri entry){
+    
+    return new SSDiscEntryAcceptRet(entry);
+  }
+  
+  private SSDiscEntryAcceptRet(
+    final SSUri entry){
+    
+    super(SSServOpE.discEntryAccept);
+    
+    this.entry = entry;
+  }
 }
