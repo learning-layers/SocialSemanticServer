@@ -787,6 +787,21 @@ implements
         }
       }
       
+      for(SSUri entity : par.entities){
+        
+        entityUpdate(
+          new SSEntityUpdatePar(par.user,
+            entity,
+            SSEntityE.entity,
+            null, //label,
+            null, //description,
+            null, //creationTime,
+            null, //read,
+            false, //setPublic,
+            par.withUserRestriction, //withUserRestriction,
+            false)); //shouldCommit
+      }
+      
       sqlFct.attachEntities(par.entity, par.entities);
       
       return par.entity;

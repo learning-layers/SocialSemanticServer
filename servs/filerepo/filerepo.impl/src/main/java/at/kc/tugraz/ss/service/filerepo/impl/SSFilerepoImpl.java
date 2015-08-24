@@ -130,11 +130,13 @@ implements
   @Override
   public void fileDownload(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
     
-    final SSFileDownloadPar par = (SSFileDownloadPar) parA.getFromJSON(SSFileDownloadPar.class);
+    SSFileDownloadPar par = (SSFileDownloadPar) parA.getFromJSON(SSFileDownloadPar.class);
     
     if(!par.isPublicDownload){
       SSServCallerU.checkKey(parA);
     }
+    
+    par = (SSFileDownloadPar) parA.getFromJSON(SSFileDownloadPar.class);
     
     par.sSCon = sSCon;
     
