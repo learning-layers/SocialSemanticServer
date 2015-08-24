@@ -616,6 +616,7 @@ DROP TABLE IF EXISTS `discentry`;
 CREATE TABLE `discentry` (
   `discEntryId` varchar(200) NOT NULL,
   `discEntryContent` varchar(10000) NOT NULL,
+  `accepted` varchar(200) NOT NULL,
   PRIMARY KEY (`discEntryId`),
   CONSTRAINT `discEntryIdFKdiscEntry` FOREIGN KEY (`discEntryId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -724,8 +725,8 @@ CREATE TABLE `entityattachedentities` (
   `attachedEntityId` varchar(255) NOT NULL,
   PRIMARY KEY (`entityId`,`attachedEntityId`),
   KEY `attachedEntityIdFKentityattachedentities_idx` (`attachedEntityId`),
-  CONSTRAINT `entityIdFKentityattachedentities` FOREIGN KEY (`entityId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  CONSTRAINT `attachedEntityIdFKentityattachedentities` FOREIGN KEY (`attachedEntityId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+  CONSTRAINT `attachedEntityIdFKentityattachedentities` FOREIGN KEY (`attachedEntityId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `entityIdFKentityattachedentities` FOREIGN KEY (`entityId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -852,8 +853,8 @@ CREATE TABLE `entityprofilepictures` (
   `imageId` varchar(255) NOT NULL,
   PRIMARY KEY (`entityId`,`imageId`),
   KEY `imageId_idx` (`imageId`),
-  CONSTRAINT `imageIdFKentityprofilepictures` FOREIGN KEY (`imageId`) REFERENCES `image` (`imageId`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  CONSTRAINT `entityIdFKentityprofilepictures` FOREIGN KEY (`entityId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+  CONSTRAINT `entityIdFKentityprofilepictures` FOREIGN KEY (`entityId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `imageIdFKentityprofilepictures` FOREIGN KEY (`imageId`) REFERENCES `image` (`imageId`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1765,4 +1766,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-08-20 14:22:53
+-- Dump completed on 2015-08-24 15:04:40
