@@ -145,9 +145,12 @@ implements
   public void fileDownload(final SSFileDownloadPar par) throws Exception{
     
     try{
-      
-      if(!SSServCallerU.canUserRead(par.user, par.file)){
-        throw new SSErr(SSErrE.userNotAllowedToAccessEntity);
+
+      if(!par.isPublicDownload){
+        
+        if(!SSServCallerU.canUserRead(par.user, par.file)){
+          throw new SSErr(SSErrE.userNotAllowedToAccessEntity);
+        }
       }
       
       new Thread(new SSFileDownloader((SSFileRepoConf)conf, par, this)).start();

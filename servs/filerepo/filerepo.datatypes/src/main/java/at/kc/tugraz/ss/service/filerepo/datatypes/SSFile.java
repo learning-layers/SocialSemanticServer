@@ -24,6 +24,7 @@ import at.tugraz.sss.serv.SSFileExtE;
 import at.tugraz.sss.serv.SSMimeTypeE;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSEntityE;
+import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 
 public class SSFile extends SSEntity{
@@ -31,6 +32,10 @@ public class SSFile extends SSEntity{
   public SSFileExtE  fileExt      = null;
   public SSMimeTypeE mimeType     = null;
   public SSUri       downloadLink = null;
+  
+  public String getDownloadLink(){
+    return SSStrU.removeTrailingSlash(downloadLink);
+  }
   
   @Override
   public Object jsonLDDesc(){
