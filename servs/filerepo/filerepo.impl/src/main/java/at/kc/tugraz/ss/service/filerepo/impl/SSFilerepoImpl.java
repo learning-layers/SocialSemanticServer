@@ -20,9 +20,11 @@
 */
 package at.kc.tugraz.ss.service.filerepo.impl;
 
+import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
+import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.tugraz.sss.servs.file.datatype.par.SSEntityFileAddPar;
 import at.tugraz.sss.servs.file.datatype.par.SSEntityFilesGetPar;
 import at.tugraz.sss.serv.SSFileExtE;
@@ -48,6 +50,7 @@ import at.tugraz.sss.serv.SSDescribeEntityI;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSErrE;
+import at.tugraz.sss.serv.SSFileU;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.SSServPar;
@@ -127,9 +130,11 @@ implements
   @Override
   public void fileDownload(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
     
-    SSServCallerU.checkKey(parA);
-    
     final SSFileDownloadPar par = (SSFileDownloadPar) parA.getFromJSON(SSFileDownloadPar.class);
+    
+    if(!par.isPublicDownload){
+      SSServCallerU.checkKey(parA);
+    }
     
     par.sSCon = sSCon;
     
@@ -290,9 +295,20 @@ implements
         descPar = null;
       }
       
-      final SSFileExtE  fileExt  = SSFileExtE.ext(SSStrU.removeTrailingSlash(par.file));
-      final SSMimeTypeE mimeType = SSMimeTypeE.mimeTypeForFileExt (fileExt);
-      final SSFile      file     = SSFile.get(par.file, fileExt, mimeType);
+      final SSFileExtE  fileExt       = SSFileExtE.ext(SSStrU.removeTrailingSlash(par.file));
+      final SSMimeTypeE mimeType      = SSMimeTypeE.mimeTypeForFileExt (fileExt);
+      final SSUri       downloadLink  =
+        SSUri.get(
+          SSFileU.correctDirPath(SSCoreConf.instGet().getSss().restAPIHost) +
+            SSVocConf.restAPIPathFileDownloadPublic +
+            SSVocConf.fileIDFromSSSURI(par.file));
+      
+      final SSFile      file  = 
+        SSFile.get(
+          par.file, 
+          fileExt, 
+          mimeType,
+          downloadLink);
           
       return SSFile.get(
         file,

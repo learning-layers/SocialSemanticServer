@@ -39,6 +39,7 @@ public class SSVocConf extends SSCoreServConfA{
   public static final String fileNameRunitBat               = "runit.bat";
   public static final String dirNameLib                     = "lib/";
   public static final String dirNameConf                    = "conf/";
+  public static final String restAPIPathFileDownloadPublic  = "files/files/download/public/";
   
   public static       SSUri systemUserUri                   = null;
   

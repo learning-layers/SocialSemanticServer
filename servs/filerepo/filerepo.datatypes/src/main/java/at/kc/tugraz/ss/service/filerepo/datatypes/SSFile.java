@@ -28,8 +28,9 @@ import at.tugraz.sss.serv.SSUri;
 
 public class SSFile extends SSEntity{
   
-  public SSFileExtE  fileExt  = null;
-  public SSMimeTypeE mimeType = null;
+  public SSFileExtE  fileExt      = null;
+  public SSMimeTypeE mimeType     = null;
+  public SSUri       downloadLink = null;
   
   @Override
   public Object jsonLDDesc(){
@@ -66,24 +67,36 @@ public class SSFile extends SSEntity{
         this.mimeType = ((SSFile) entity).mimeType;
       }
     }
+    
+    if(file.downloadLink != null){
+      this.downloadLink = file.downloadLink;
+    }else{
+      
+      if(entity instanceof SSFile){
+        this.downloadLink = ((SSFile) entity).downloadLink;
+      }
+    }
   }
   
   public static SSFile get(
     final SSUri        id, 
     final SSFileExtE   fileExt,
-    final SSMimeTypeE  mimeType) throws Exception{
+    final SSMimeTypeE  mimeType, 
+    final SSUri        downloadLink) throws Exception{
     
-    return new SSFile(id, fileExt, mimeType);
+    return new SSFile(id, fileExt, mimeType, downloadLink);
   }
   
   public SSFile(
     final SSUri        id,
     final SSFileExtE   fileExt,
-    final SSMimeTypeE  mimeType) throws Exception{
+    final SSMimeTypeE  mimeType, 
+    final SSUri        downloadLink) throws Exception{
     
     super(id, SSEntityE.file);
     
-    this.fileExt  = fileExt;
-    this.mimeType = mimeType;
+    this.fileExt      = fileExt;
+    this.mimeType     = mimeType;
+    this.downloadLink = downloadLink;
   }
 }

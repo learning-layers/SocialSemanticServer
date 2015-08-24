@@ -28,8 +28,9 @@ import at.tugraz.sss.serv.SSSocketCon;
 
 public class SSFileDownloadPar extends SSServPar{
   
-  public SSUri        file    = null;
-  public SSSocketCon  sSCon   = null;
+  public SSUri        file             = null;
+  public SSSocketCon  sSCon            = null;
+  public Boolean      isPublicDownload = false;
   
   public String getFile(){
     return SSStrU.removeTrailingSlash(file);
@@ -44,11 +45,13 @@ public class SSFileDownloadPar extends SSServPar{
   public SSFileDownloadPar(
     final SSUri         user,
     final SSUri         file, 
-    final SSSocketCon   sSCon){
+    final SSSocketCon   sSCon, 
+    final Boolean       isPublicDownload){
     
     super(SSServOpE.fileDownload, null, user);
     
-    this.file   = file;
-    this.sSCon  = sSCon;
+    this.file             = file;
+    this.sSCon            = sSCon;
+    this.isPublicDownload = isPublicDownload;
   }  
 }

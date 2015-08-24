@@ -184,7 +184,8 @@ public class SSRESTFile{
         new SSFileDownloadPar(
           null,
           SSUri.get(file, SSVocConf.sssUri), //entity
-          null); //shouldCommit
+          null, //sScon
+          false); //isPublicDownload
       
       fileName = SSStrU.removeTrailingSlash(par.file);
       fileName = fileName.substring(fileName.lastIndexOf(SSStrU.slash) + 1);
@@ -198,13 +199,12 @@ public class SSRESTFile{
     return SSRestMainV2.handleFileDownloadRequest(headers, restObj, fileName, true).response;
   }
   
-  @Deprecated
   @GET
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_OCTET_STREAM)
   @Path("/download")
   @ApiOperation(
-    value = "download a file via GET request with query params",
+    value = "download a file with query params",
     response = byte.class)
   public Response fileDownloadQueryParam(
     @Context
@@ -232,7 +232,8 @@ public class SSRESTFile{
         new SSFileDownloadPar(
           null,
           SSUri.get(file, SSVocConf.sssUri), //entity
-          null); //shouldCommit
+          null, //sSCon
+          false); //isPublicDownload
       
       par.key  = key;
       
@@ -246,6 +247,45 @@ public class SSRESTFile{
     }
 
     return SSRestMainV2.handleFileDownloadRequest(headers, restObj, fileName, false).response;
+  }
+  
+  @GET
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_OCTET_STREAM)
+  @Path("/download/public/{file}")
+  @ApiOperation(
+    value = "download a public file",
+    response = byte.class)
+  public Response fileDownloadPublic(
+    @ApiParam(
+      value = "file to be downloaded",
+      required = true)
+    @PathParam(SSVarNames.file)
+    final String file) throws Exception{
+    
+    final SSFileDownloadPar par;
+    final SSRESTObject      restObj;
+    String                  fileName;
+    
+    try{
+      
+      par =
+        new SSFileDownloadPar(
+          null,
+          SSUri.get(file, SSVocConf.sssUri), //entity
+          null, //sSCon
+          true); 
+      
+      fileName = SSStrU.removeTrailingSlash(par.file);
+      fileName = fileName.substring(fileName.lastIndexOf(SSStrU.slash) + 1);
+      
+      restObj = new SSRESTObject(par);
+      
+    }catch(Exception error){
+      return Response.status(422).build();
+    }
+
+    return SSRestMainV2.handleFileDownloadRequest(null, restObj, fileName, false).response;
   }
 }
 
