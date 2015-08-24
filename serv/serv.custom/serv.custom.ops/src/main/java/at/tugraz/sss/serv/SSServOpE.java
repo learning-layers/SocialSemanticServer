@@ -35,7 +35,6 @@ public enum SSServOpE{
   imageGet,
   imageAdd,
   imagesGet,
-  imageBase64Get,
   imageProfilePictureSet,
   
   //eval

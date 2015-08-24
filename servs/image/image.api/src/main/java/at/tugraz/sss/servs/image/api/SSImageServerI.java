@@ -23,7 +23,6 @@ package at.tugraz.sss.servs.image.api;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSImage;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.servs.image.datatype.par.SSImageBase64GetPar;
 import at.tugraz.sss.servs.image.datatype.par.SSImageAddPar;
 import at.tugraz.sss.servs.image.datatype.par.SSImageGetPar;
 import at.tugraz.sss.servs.image.datatype.par.SSImageProfilePictureSetPar;
@@ -35,6 +34,5 @@ public interface SSImageServerI{
   public SSImage        imageGet               (final SSImageGetPar                par) throws Exception;
   public List<SSEntity> imagesGet              (final SSImagesGetPar               par) throws Exception;
   public SSUri          imageAdd               (final SSImageAddPar                par) throws Exception;
-  public String         imageBase64Get         (final SSImageBase64GetPar          par) throws Exception;
   public SSUri          imageProfilePictureSet (final SSImageProfilePictureSetPar  par) throws Exception;
 }

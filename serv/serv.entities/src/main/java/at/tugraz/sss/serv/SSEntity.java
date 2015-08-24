@@ -104,7 +104,7 @@ public class SSEntity extends SSEntityA{
   @ApiModelProperty(
     required = false,
     value = "thumbnail")
-  public String              thumb            = null; //new
+  public SSEntity              thumb            = null; //new
   
   @ApiModelProperty(
     required = false,

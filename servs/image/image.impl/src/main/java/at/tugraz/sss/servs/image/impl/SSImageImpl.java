@@ -22,10 +22,8 @@ package at.tugraz.sss.servs.image.impl;
 
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesAddPar;
-import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
-import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.kc.tugraz.ss.service.filerepo.api.SSFileRepoServerI;
 import at.tugraz.sss.serv.SSAddAffiliatedEntitiesToCircleI;
 import at.tugraz.sss.serv.SSAddAffiliatedEntitiesToCirclePar;
@@ -47,7 +45,6 @@ import at.tugraz.sss.util.SSServCallerU;
 import java.util.ArrayList;
 import java.util.List;
 import at.tugraz.sss.serv.SSErrE;
-import at.tugraz.sss.serv.SSFileU;
 import at.tugraz.sss.serv.SSImage;
 import at.tugraz.sss.serv.SSImageE;
 import at.tugraz.sss.serv.SSServContainerI;
@@ -60,7 +57,6 @@ import at.tugraz.sss.servs.file.datatype.par.SSEntityFilesGetPar;
 import at.tugraz.sss.servs.image.api.SSImageClientI;
 import at.tugraz.sss.servs.image.api.SSImageServerI;
 import at.tugraz.sss.servs.image.datatype.par.SSImageProfilePictureSetPar;
-import at.tugraz.sss.servs.image.datatype.par.SSImageBase64GetPar;
 import at.tugraz.sss.servs.image.datatype.par.SSImageAddPar;
 import at.tugraz.sss.servs.image.datatype.par.SSImageGetPar;
 import at.tugraz.sss.servs.image.datatype.par.SSImagesGetPar;
@@ -95,13 +91,17 @@ implements
       
       if(par.setThumb){
         
-        entity.thumb =
-          imageBase64Get(
-            new SSImageBase64GetPar(
+        for(SSEntity thumb :
+          imagesGet(
+            new SSImagesGetPar(
               par.user,
               entity.id,
               SSImageE.thumb,
-              false)); //withUserRestriction));
+              par.withUserRestriction))){
+          
+          entity.thumb = thumb;
+          break;
+        }
       }
       
       if(par.setProfilePicture){
@@ -115,21 +115,23 @@ implements
                 profilePicture,
                 par.withUserRestriction));
           
-          if(entity.profilePicture.file == null){
-            continue;
-          }
+          break;
           
-          entity.profilePicture.thumb =
-            imageBase64Get(
-              new SSImageBase64GetPar(
-                par.user,
-                entity.profilePicture.file.id,
-                SSImageE.thumb,
-                false)); //withUserRestriction));
-          
-          if(entity.profilePicture.thumb != null){
-            break;
-          }
+//          if(entity.profilePicture.file == null){
+//            continue;
+//          }
+//          
+//          entity.profilePicture.thumb =
+//            imageBase64Get(
+//              new SSImageBase64GetPar(
+//                par.user,
+//                entity.profilePicture.file.id,
+//                SSImageE.thumb,
+//                false)); //withUserRestriction));
+//          
+//          if(entity.profilePicture.thumb != null){
+//            break;
+//          }
         }
       }
       
@@ -284,7 +286,7 @@ implements
         
         if(par.entity != null){
           
-          if(SSServCallerU.canUserRead(par.user, par.entity)){
+          if(!SSServCallerU.canUserRead(par.user, par.entity)){
             return new ArrayList<>();
           }
         }
@@ -305,36 +307,6 @@ implements
       }
       
       return images;
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
-  @Override
-  public String imageBase64Get(final SSImageBase64GetPar par) throws Exception{
-    
-    try{
-      final List<SSEntity> images =
-        imagesGet(
-          new SSImagesGetPar(
-            par.user,
-            par.entity,
-            par.imageType,
-            par.withUserRestriction));
-      
-      if(
-        images.isEmpty() ||
-        images.get(0).file == null){
-        return null;
-      }
-      
-      final String pngFilePath =
-        SSCoreConf.instGet().getSss().getLocalWorkPath() +
-        SSVocConf.fileIDFromSSSURI(images.get(0).file.id);
-      
-      return SSFileU.readImageToBase64Str(pngFilePath);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -482,31 +454,31 @@ implements
           sqlFct.removeProfilePictures (par.entity);
           sqlFct.addProfilePicture     (par.entity, image);
           
-//          for(SSEntity thumb : 
-//            imagesGet(
-//              new SSImagesGetPar(
-//                par.user, 
-//                par.file, 
-//                SSImageE.thumb,
-//                par.withUserRestriction))){
-//            
-//            if(thumb.file == null){
-//              continue;
-//            }
-//            
-//            imageAdd(
-//              new SSImageAddPar(
-//                par.user,
-//                null, //uuid
-//                null, //link
-//                SSImageE.thumb,
-//                par.entity, //entity
-//                thumb.file.id, //file
-//                par.withUserRestriction,
-//                false));
+          for(SSEntity thumb : 
+            imagesGet(
+              new SSImagesGetPar(
+                par.user, 
+                par.file, 
+                SSImageE.thumb,
+                par.withUserRestriction))){
             
-//            break;
-//          }
+            if(thumb.file == null){
+              continue;
+            }
+            
+            imageAdd(
+              new SSImageAddPar(
+                par.user,
+                null, //uuid
+                null, //link
+                SSImageE.thumb,
+                par.entity, //entity
+                thumb.file.id, //file
+                par.withUserRestriction,
+                false));
+            
+            break;
+          }
         }
       }
       
@@ -535,3 +507,34 @@ implements
     }
   }
 }
+
+
+//@Override
+//  public String imageBase64Get(final SSImageBase64GetPar par) throws Exception{
+//    
+//    try{
+//      final List<SSEntity> images =
+//        imagesGet(
+//          new SSImagesGetPar(
+//            par.user,
+//            par.entity,
+//            par.imageType,
+//            par.withUserRestriction));
+//      
+//      if(
+//        images.isEmpty() ||
+//        images.get(0).file == null){
+//        return null;
+//      }
+//      
+//      final String pngFilePath =
+//        SSCoreConf.instGet().getSss().getLocalWorkPath() +
+//        SSVocConf.fileIDFromSSSURI(images.get(0).file.id);
+//      
+//      return SSFileU.readImageToBase64Str(pngFilePath);
+//      
+//    }catch(Exception error){
+//      SSServErrReg.regErrThrow(error);
+//      return null;
+//    }
+//  }
