@@ -51,5 +51,6 @@
     <module>image</module>
     <module>common</module>
     <module>integrationtest</module>
+    <module>livingdocument</module>
   </modules>
 </project>

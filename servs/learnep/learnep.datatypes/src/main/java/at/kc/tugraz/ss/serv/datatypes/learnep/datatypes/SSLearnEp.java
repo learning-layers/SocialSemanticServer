@@ -39,7 +39,7 @@ public class SSLearnEp extends SSEntity {
     throw new UnsupportedOperationException();
   }
   
-   public static SSLearnEp get(
+  public static SSLearnEp get(
     final SSLearnEp learnEp, 
     final SSEntity entity) throws Exception{
     

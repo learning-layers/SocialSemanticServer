@@ -30,7 +30,7 @@ public class SSConf extends SSCoreServConfA{
   public  Integer   port           = null;
   private String    localWorkPath  = null;
   public  String    version        = null;
-  public  String    restAPIHost    = null;
+  public  String    restAPIPath    = null;
   
   public static SSConf copy(final SSConf orig){
     
@@ -40,7 +40,7 @@ public class SSConf extends SSCoreServConfA{
     copy.port          = orig.port;
     copy.localWorkPath = orig.localWorkPath;
     copy.version       = orig.version;
-    copy.restAPIHost   = orig.restAPIHost;
+    copy.restAPIPath   = orig.restAPIPath;
     
     return copy;
   }

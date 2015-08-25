@@ -22,6 +22,10 @@ package at.tugraz.sss.serv;
 
 public enum SSServOpE{
 
+  //livingDocument
+  livingDocumentGet,
+  livingDocumentAdd,
+  
   //integrationtest
   integrationTestKnowBrainTaggingStudy2015,
   integrationTestBitsAndPiecesStudyFall2015,

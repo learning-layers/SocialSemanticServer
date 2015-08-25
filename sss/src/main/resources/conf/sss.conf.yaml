@@ -4,6 +4,7 @@ sss:
   version: x.x.x
   host: SSS_HOST
   port: SSS_PORT
+  restAPIPath: SSS_REST_API_PATH
   localWorkPath: #leave empty for workingDir/tmp
 dbSQL: !!at.tugraz.sss.serv.SSDBSQLConf
   host: SSS_MYSQL_HOST
@@ -195,8 +196,11 @@ category:
 flag:
   use: true  
 ocd:
-    use: true
+  use: true
 image:
-    use: true   
+  use: true   
 location:
-    use: true
+  use: true
+livingDocument:
+  use: true
+    

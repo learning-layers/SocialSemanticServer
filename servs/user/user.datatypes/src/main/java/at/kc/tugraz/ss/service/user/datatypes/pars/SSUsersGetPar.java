@@ -32,7 +32,6 @@ public class SSUsersGetPar extends SSServPar{
   public List<SSUri> users                = new ArrayList<>();
   public Boolean     invokeEntityHandlers = false;
   public Boolean     setProfilePicture    = false;
-  public Boolean     setThumb             = false;
 
   public List<String> getUsers() throws Exception{
     return SSStrU.removeTrailingSlash(users);

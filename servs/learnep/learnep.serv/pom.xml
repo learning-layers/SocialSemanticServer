@@ -24,8 +24,6 @@
       <version>${project.version}</version>
     </dependency>
     
-    
-    
     <dependency>
       <groupId>sss.servs</groupId>
       <artifactId>learnep.impl</artifactId>
@@ -37,8 +35,6 @@
       <artifactId>learnep.api</artifactId>
       <version>${project.version}</version>
     </dependency> 
-    
-    
     
     <dependency>
       <groupId>junit</groupId>

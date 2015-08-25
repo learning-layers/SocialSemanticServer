@@ -56,9 +56,12 @@ import at.tugraz.sss.serv.SSEntityDescriberPar;
 import at.tugraz.sss.serv.SSErr;
 import java.util.*;
 import at.tugraz.sss.serv.SSErrE;
+import at.tugraz.sss.serv.SSImageE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServReg;
+import at.tugraz.sss.servs.image.api.SSImageServerI;
+import at.tugraz.sss.servs.image.datatype.par.SSImagesGetPar;
 
 public class SSUserImpl 
 extends SSServImplWithDBA 
@@ -86,6 +89,17 @@ implements
     final SSEntityDescriberPar par) throws Exception{
     
     try{
+      
+      if(!SSStrU.equals(entity.author, SSVocConf.systemUserUri)){
+        
+        entity.author =
+          userGet(
+            new SSUserGetPar(
+              par.user,
+              entity.author.id,
+              false));
+      }
+      
       switch(entity.type){
         
         case user:{
@@ -167,7 +181,6 @@ implements
         
         descPar.setFriends        = true;
         descPar.setProfilePicture = par.setProfilePicture;
-        descPar.setThumb          = par.setThumb;
       }else{
         descPar = null;
       }
@@ -181,6 +194,11 @@ implements
               userToGet.id,
               par.withUserRestriction,
               descPar)));
+      
+      setUserThumb(
+        par.user, 
+        user, 
+        par.withUserRestriction);
       
       if(par.invokeEntityHandlers){
         user.friend = SSStrU.contains(user.friends, par.user);
@@ -226,7 +244,6 @@ implements
             par.invokeEntityHandlers);
         
         userGetPar.setProfilePicture = par.setProfilePicture;
-        userGetPar.setThumb          = par.setThumb;
           
         SSEntity.addEntitiesDistinctWithoutNull(
           users,
@@ -318,6 +335,29 @@ implements
       dbSQL.rollBack(par.shouldCommit);
       SSServErrReg.regErrThrow(error);
       return null;
+    }
+  }
+  
+  private void setUserThumb(
+    final SSUri   callingUser,
+    final SSUser  user,
+    final Boolean withUserRestriction) throws Exception{
+    
+    try{
+      
+      for(SSEntity thumb :
+        ((SSImageServerI) SSServReg.getServ(SSImageServerI.class)).imagesGet(
+          new SSImagesGetPar(
+            callingUser,
+            user.id,
+            SSImageE.thumb,
+            withUserRestriction))){
+        
+        user.thumb = thumb;
+        break;
+      }
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
     }
   }
 }

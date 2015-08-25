@@ -59,8 +59,6 @@ public class SSRESTUser{
           null, //users
           true); //invokeEntityHandlers
       
-      par.setThumb = true;
-      
     }catch(Exception error){
       return Response.status(422).build();
     }

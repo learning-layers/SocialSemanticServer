@@ -322,7 +322,7 @@ implements
       final SSMimeTypeE mimeType      = SSMimeTypeE.mimeTypeForFileExt (fileExt);
       final SSUri       downloadLink  =
         SSUri.get(
-          SSFileU.correctDirPath(SSCoreConf.instGet().getSss().restAPIHost) +
+          SSFileU.correctDirPath(SSCoreConf.instGet().getSss().restAPIPath) +
             SSFileU.correctDirPath(SSVocConf.restAPIResourceFile)           +
             SSFileU.correctDirPath(SSVocConf.fileIDFromSSSURI(par.file))    +
             SSVocConf.restAPIPathFileDownloadPublic);

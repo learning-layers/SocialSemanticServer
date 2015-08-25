@@ -49,7 +49,7 @@ public class SSEntity extends SSEntityA{
   @ApiModelProperty(
     required = false,
     value = "creator")
-  public SSAuthor               author           = null;
+  public SSEntity               author           = null;
   
   @ApiModelProperty(
     required = false,
