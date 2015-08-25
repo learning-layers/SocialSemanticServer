@@ -414,6 +414,7 @@ public class SSIntegrationTestBitsAndPiecesStudyFall2015 {
           user,
           learnEpCircle,
           SSLabel.get("new circle label"),
+          SSTextComment.get("desc"),
           3F,
           3F,
           3F,
