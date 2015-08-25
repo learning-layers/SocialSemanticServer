@@ -47,7 +47,7 @@ public class SSLivingDocument extends SSEntity{
   protected SSLivingDocument(
     final SSUri id) throws Exception{
     
-    super(id, SSEntityE.livingDocument);
+    super(id, SSEntityE.livingDoc);
   }
   
   protected SSLivingDocument(

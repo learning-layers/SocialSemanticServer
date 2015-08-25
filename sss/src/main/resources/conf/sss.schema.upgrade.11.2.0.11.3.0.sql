@@ -130,3 +130,28 @@ CREATE TABLE `entityprofilepictures` (
 
 ALTER TABLE `sss`.`discentry` 
 ADD COLUMN `accepted` VARCHAR(200) NOT NULL AFTER `discEntryContent`;
+
+CREATE TABLE `sss`.`livingdoc` (
+  `livingDocId` VARCHAR(255) NOT NULL,
+  PRIMARY KEY (`livingDocId`),
+  CONSTRAINT `livingDocIdFKlivingdoc`
+    FOREIGN KEY (`livingDocId`)
+    REFERENCES `sss`.`entity` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE NO ACTION);
+
+CREATE TABLE `sss`.`livingdocusers` (
+  `livingDocId` VARCHAR(255) NOT NULL,
+  `userId` VARCHAR(255) NOT NULL,
+  PRIMARY KEY (`livingDocId`, `userId`),
+  INDEX `userId_idx` (`userId` ASC),
+  CONSTRAINT `livingDocIdFKlivingdocusers`
+    FOREIGN KEY (`livingDocId`)
+    REFERENCES `sss`.`livingdoc` (`livingDocId`)
+    ON DELETE CASCADE
+    ON UPDATE NO ACTION,
+  CONSTRAINT `userIdFKlivingdocusers`
+    FOREIGN KEY (`userId`)
+    REFERENCES `sss`.`user` (`userId`)
+    ON DELETE CASCADE
+    ON UPDATE NO ACTION);

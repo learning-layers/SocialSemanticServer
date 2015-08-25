@@ -115,7 +115,7 @@ public class SSRESTLearnEp{
   @GET
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    ("{learnEp}/versions")
+  @Path    ("/{learnEp}/versions")
   @ApiOperation(
     value = "retrieve learning episode versions for given episode",
     response = SSLearnEpVersionsGetRet.class)

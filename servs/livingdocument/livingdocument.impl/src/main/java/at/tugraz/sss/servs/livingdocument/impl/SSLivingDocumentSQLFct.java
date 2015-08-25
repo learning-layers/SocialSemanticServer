@@ -21,10 +21,112 @@
 package at.tugraz.sss.servs.livingdocument.impl;
 
 import at.tugraz.sss.serv.SSDBSQLFct;
+import at.tugraz.sss.serv.SSSQLVarNames;
+import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.servs.livingdocument.datatype.SSLivingDocument;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class SSLivingDocumentSQLFct extends SSDBSQLFct{
 
-  SSLivingDocumentSQLFct(final SSLivingDocumentImpl serv) throws Exception {
+  public SSLivingDocumentSQLFct(final SSLivingDocumentImpl serv) throws Exception {
     super(serv.dbSQL);
+  }
+  
+  public SSLivingDocument getLivingDoc(
+    final SSUri livingDoc) throws Exception{
+    
+    ResultSet resultSet  = null;
+    
+    try{
+      
+      final Map<String, String> wheres    = new HashMap<>();
+      final List<String>        columns   = new ArrayList<>();
+      
+      where(wheres, SSSQLVarNames.livingDocId, livingDoc);
+      
+      resultSet = dbSQL.select(SSSQLVarNames.livingDocTable, columns, wheres, null, null, null);
+      
+      checkFirstResult(resultSet);
+      
+      return SSLivingDocument.get(livingDoc);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
+    }
+  }
+
+  public List<SSUri> getLivingDocURIsForUser(
+    final SSUri           user) throws Exception{
+    
+    ResultSet resultSet  = null;
+    
+    try{
+      
+      final Map<String, String> wheres    = new HashMap<>();
+      final List<String>        columns   = new ArrayList<>();
+      
+      column(columns, SSSQLVarNames.livingDocId);
+      
+      where(wheres, SSSQLVarNames.userId, user);
+      
+      resultSet = dbSQL.select(SSSQLVarNames.livingDocUsersTable, columns, wheres, null, null, null);
+      
+      return getURIsFromResult(resultSet, SSSQLVarNames.livingDocId);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
+    }
+  }
+  
+  public void createLivingDoc(
+    final SSUri    livingDocURI,
+    final SSUri    user) throws Exception{
+    
+    try{
+      final Map<String, String> inserts    = new HashMap<>();
+      final Map<String, String> uniqueKeys = new HashMap<>();
+      
+      insert   (inserts,    SSSQLVarNames.livingDocId, livingDocURI);
+      uniqueKey(uniqueKeys, SSSQLVarNames.livingDocId, livingDocURI);
+      
+      dbSQL.insertIfNotExists(SSSQLVarNames.livingDocTable, inserts, uniqueKeys);
+      
+      addLivingDoc(livingDocURI, user);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  public void addLivingDoc(
+    final SSUri    livingDocURI,
+    final SSUri    user) throws Exception{
+    
+    try{
+      final Map<String, String> inserts    = new HashMap<>();
+      final Map<String, String> uniqueKeys = new HashMap<>();
+      
+      insert(inserts, SSSQLVarNames.userId,      user);
+      insert(inserts, SSSQLVarNames.livingDocId, livingDocURI);
+      
+      uniqueKey(uniqueKeys, SSSQLVarNames.userId,      user);
+      uniqueKey(uniqueKeys, SSSQLVarNames.livingDocId, livingDocURI);
+      
+      dbSQL.insertIfNotExists(SSSQLVarNames.livingDocUsersTable, inserts, uniqueKeys);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
   }
 }

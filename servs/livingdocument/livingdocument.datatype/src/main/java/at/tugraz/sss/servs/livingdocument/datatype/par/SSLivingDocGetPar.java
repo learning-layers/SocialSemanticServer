@@ -25,30 +25,30 @@ import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 
-public class SSLivingDocumentGetPar extends SSServPar{
+public class SSLivingDocGetPar extends SSServPar{
   
-  public SSUri   livingDocument       = null;
+  public SSUri   livingDoc            = null;
   public Boolean invokeEntityHandlers = false;
   
-  public void setLivingDocument(final String livingDocument) throws Exception{
-    this.livingDocument = SSUri.get(livingDocument);
+  public void setLivingDoc(final String livingDoc) throws Exception{
+    this.livingDoc = SSUri.get(livingDoc);
   }
   
-  public String getLivingDocument(){
-    return SSStrU.removeTrailingSlash(livingDocument);
+  public String getLivingDoc(){
+    return SSStrU.removeTrailingSlash(livingDoc);
   }
   
-  public SSLivingDocumentGetPar(){}
+  public SSLivingDocGetPar(){}
     
-  public SSLivingDocumentGetPar(
+  public SSLivingDocGetPar(
     final SSUri         user,
-    final SSUri         livingDocument, 
+    final SSUri         livingDoc, 
     final Boolean       withUserRestriction,
     final Boolean       invokeEntityHandlers){
     
-    super(SSServOpE.livingDocumentGet, null, user);
+    super(SSServOpE.livingDocGet, null, user);
     
-    this.livingDocument       = livingDocument;
+    this.livingDoc            = livingDoc;
     this.withUserRestriction  = withUserRestriction;
     this.invokeEntityHandlers = invokeEntityHandlers;
   }

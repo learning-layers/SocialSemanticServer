@@ -22,6 +22,7 @@ package at.tugraz.sss.serv;
 
 public class SSSQLVarNames{
 
+  public static final String livingDocId                                    = "livingDocId";
   public static final String attachedEntityId                               = "attachedEntityId";
   public static final String realm                                          = "realm";
   public static final String usn                                            = "usn";
@@ -235,4 +236,8 @@ public class SSSQLVarNames{
   
   //location
   public static final String locationTable = "location";
+  
+  //livingDocument
+  public static final String livingDocTable       = "livingdoc";
+  public static final String livingDocUsersTable  = "livingdocusers";
 }

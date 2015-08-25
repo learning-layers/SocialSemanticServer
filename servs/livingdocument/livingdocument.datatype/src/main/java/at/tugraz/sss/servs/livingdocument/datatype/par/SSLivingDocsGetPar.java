@@ -18,8 +18,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package at.tugraz.sss.servs.livingdocument.datatype.ret;
+package at.tugraz.sss.servs.livingdocument.datatype.par;
 
-public class SSLivingDocumentAddRet {
+import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSUri;
+
+public class SSLivingDocsGetPar extends SSServPar{
   
+  public Boolean invokeEntityHandlers = false;
+  
+  public SSLivingDocsGetPar(){}
+    
+  public SSLivingDocsGetPar(
+    final SSUri         user,
+    final Boolean       withUserRestriction,
+    final Boolean       invokeEntityHandlers){
+    
+    super(SSServOpE.livingDocsGet, null, user);
+    
+    this.withUserRestriction  = withUserRestriction;
+    this.invokeEntityHandlers = invokeEntityHandlers;
+  }
 }

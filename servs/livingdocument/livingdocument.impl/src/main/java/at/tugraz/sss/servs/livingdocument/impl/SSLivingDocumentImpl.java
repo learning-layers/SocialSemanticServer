@@ -20,6 +20,9 @@
  */
 package at.tugraz.sss.servs.livingdocument.impl;
 
+import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.tugraz.sss.serv.SSAddAffiliatedEntitiesToCircleI;
 import at.tugraz.sss.serv.SSAddAffiliatedEntitiesToCirclePar;
 import at.tugraz.sss.serv.SSConfA;
@@ -30,6 +33,9 @@ import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSDescribeEntityI;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
+import at.tugraz.sss.serv.SSEntityE;
+import at.tugraz.sss.serv.SSErr;
+import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSPushEntitiesToUsersI;
 import at.tugraz.sss.serv.SSPushEntitiesToUsersPar;
 import at.tugraz.sss.serv.SSServContainerI;
@@ -44,8 +50,12 @@ import at.tugraz.sss.servs.livingdocument.api.SSLivingDocumentClientI;
 import at.tugraz.sss.servs.livingdocument.api.SSLivingDocumentServerI;
 import at.tugraz.sss.servs.livingdocument.conf.SSLivingDocumentConf;
 import at.tugraz.sss.servs.livingdocument.datatype.SSLivingDocument;
-import at.tugraz.sss.servs.livingdocument.datatype.par.SSLivingDocumentAddPar;
-import at.tugraz.sss.servs.livingdocument.datatype.par.SSLivingDocumentGetPar;
+import at.tugraz.sss.servs.livingdocument.datatype.par.SSLivingDocAddPar;
+import at.tugraz.sss.servs.livingdocument.datatype.par.SSLivingDocGetPar;
+import at.tugraz.sss.servs.livingdocument.datatype.par.SSLivingDocsGetPar;
+import at.tugraz.sss.servs.livingdocument.datatype.ret.SSLivingDocAddRet;
+import at.tugraz.sss.servs.livingdocument.datatype.ret.SSLivingDocGetRet;
+import at.tugraz.sss.servs.livingdocument.datatype.ret.SSLivingDocsGetRet;
 import at.tugraz.sss.util.SSServCallerU;
 import java.util.ArrayList;
 import java.util.List;
@@ -60,16 +70,14 @@ implements
   SSPushEntitiesToUsersI{
   
   private final SSLivingDocumentSQLFct  sqlFct;
-  private final SSLivingDocumentConf    livingDocumentConf;
+  private final SSLivingDocumentConf    livingDocConf;
   
   public SSLivingDocumentImpl(final SSConfA conf) throws Exception{
     
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
     
-    this.livingDocumentConf  = (SSLivingDocumentConf) conf;
-    this.sqlFct               = new SSLivingDocumentSQLFct(this);
-//    this.entityServ   = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
-//    this.circleServ   = (SSCircleServerI) SSServReg.getServ(SSCircleServerI.class);
+    this.livingDocConf  = (SSLivingDocumentConf) conf;
+    this.sqlFct         = new SSLivingDocumentSQLFct(this);
   }
   
   @Override
@@ -78,12 +86,12 @@ implements
     final SSEntityDescriberPar par) throws Exception{
     
     switch(entity.type){
-    
-      case livingDocument:{
+      
+      case livingDoc:{
         
         return SSLivingDocument.get(
-          livingDocumentGet(
-            new SSLivingDocumentGetPar(
+          livingDocGet(
+            new SSLivingDocGetPar(
               par.user,
               entity.id,
               par.withUserRestriction,
@@ -106,7 +114,7 @@ implements
         
         switch(entityAdded.type){
           
-          case livingDocument:{
+          case livingDoc:{
             
             if(SSStrU.contains(par.recursiveEntities, entityAdded)){
               continue;
@@ -181,6 +189,7 @@ implements
       for(SSEntity entityToPush : par.entities){
         
         switch(entityToPush.type){
+          
           case learnEp: {
             
             for(SSUri userToPushTo : par.users){
@@ -201,101 +210,147 @@ implements
     }
   }
   
-//  @Override
-//  public void livingDocumentsGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
-//    
-//    SSServCallerU.checkKey(parA);
-//
-//    final SSLivingDocumentsGetPar par = (SSLivingDocumentsGetPar) parA.getFromJSON(SSLivingDocumentsGetPar.class);
-//    
-//    sSCon.writeRetFullToClient(SSLivingDocumentsGetRet.get(livingDocumentsGet(par)));
-//  }
-  
-//  @Override
-//  public List<SSEntity> livingDocumentsGet(final SSLearnEpsGetPar par) throws Exception{
-//
-//    try{
-//      
-//      if(par.withUserRestriction){
-//        
-//        if(par.user == null){
-//          throw new SSErr(SSErrE.parameterMissing);
-//        }
-//      }
-//      
-//      final List<SSEntity>     livingDocuments = new ArrayList<>();
-//      SSLivingDocumentGetPar   livingDocumentGetPar;
-//        
-//      for(SSUri livingDocumentURI : sqlFct.getLivingDocumentURIsForUser(par.user)){
-//
-//        livingDocumentGetPar =
-//          new SSLivingDocumentGetPar(
-//            par.user,
-//            livingDocumentURI,
-//            par.withUserRestriction,
-//            par.invokeEntityHandlers);
-//        
-//        SSEntity.addEntitiesDistinctWithoutNull(
-//          livingDocuments, 
-//          livingDocumentGet(livingDocumentGetPar));          
-//      }
-//
-//      return livingDocuments;
-//    }catch(Exception error){
-//      SSServErrReg.regErrThrow(error);
-//      return null;
-//    }
-//  }
-  
-  
   @Override
-  public void livingDocumentAdd(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
+  public void livingDocAdd(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
     
     SSServCallerU.checkKey(parA);
     
-    final SSLivingDocumentAddPar par = (SSLivingDocumentAddPar) parA.getFromJSON(SSLivingDocumentAddPar.class);
+    final SSLivingDocAddPar par = (SSLivingDocAddPar) parA.getFromJSON(SSLivingDocAddPar.class);
     
-//    sSCon.writeRetFullToClient(SSLivingDocumentAddRet.get(livingDocumentAdd(par)));
+    sSCon.writeRetFullToClient(SSLivingDocAddRet.get(livingDocAdd(par)));
   }
   
   @Override
-  public SSLivingDocument livingDocumentGet(final SSLivingDocumentGetPar par) throws Exception{
+  public SSUri livingDocAdd(final SSLivingDocAddPar par) throws Exception{
+    
+    try{
+      
+      if(par.uri == null){
+        throw new SSErr(SSErrE.parameterMissing);
+      }
+      
+      final SSEntityServerI  entityServ   = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
+//      final SSUri            livingDocURI = SSServCaller.vocURICreate();
+      
+      dbSQL.startTrans(par.shouldCommit);
+      
+      entityServ.entityUpdate(
+        new SSEntityUpdatePar(
+          par.user,
+          par.uri,
+          SSEntityE.livingDoc, //type,
+          par.label, //label
+          par.description,//description,
+          null, //creationTime,
+          null, //read,
+          false, //setPublic
+          par.withUserRestriction, //withUserRestriction
+          false)); //shouldCommit)
+      
+      sqlFct.createLivingDoc(par.uri, par.user);
+      
+      dbSQL.commit(par.shouldCommit);
+      
+      return par.uri;
+      
+    }catch(Exception error){
+      
+      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+        
+        if(dbSQL.rollBack(par.shouldCommit)){
+          
+          SSServErrReg.reset();
+          
+          return livingDocAdd(par);
+        }else{
+          SSServErrReg.regErrThrow(error);
+          return null;
+        }
+      }
+      
+      dbSQL.rollBack(par.shouldCommit);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public void livingDocGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
+    
+    SSServCallerU.checkKey(parA);
+    
+    final SSLivingDocGetPar par = (SSLivingDocGetPar) parA.getFromJSON(SSLivingDocGetPar.class);
+    
+    sSCon.writeRetFullToClient(SSLivingDocGetRet.get(livingDocGet(par)));
+  }
+  
+  @Override
+  public SSLivingDocument livingDocGet(final SSLivingDocGetPar par) throws Exception{
 
     try{
       
       if(par.withUserRestriction){
        
-        if(!SSServCallerU.canUserRead(par.user, par.livingDocument)){
+        if(!SSServCallerU.canUserRead(par.user, par.livingDoc)){
           return null;
         }
       }
-      
-      final SSLivingDocument livingDocument = null; 
+
+      final SSEntityServerI  entityServ       = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
+      final SSLivingDocument livingDoc;
       SSEntityDescriberPar   descPar;
       
       if(par.invokeEntityHandlers){
-        descPar                  = new SSEntityDescriberPar(par.livingDocument);
+        descPar = new SSEntityDescriberPar(par.livingDoc);
       }else{
         descPar = null;
       }
         
-//      livingDocument =
-//        SSLivingDocument.get(
-//          sqlFct.getLearnEp(par.learnEp),
-//          entityServ.entityGet(
-//            new SSEntityGetPar(
-//              par.user,
-//              par.learnEp,
-//              par.withUserRestriction,
-//              descPar)));
-//      
-//      if(par.invokeEntityHandlers){
-//        descPar = new SSEntityDescriberPar(null);
-//      }else{
-//        descPar = null;
-//      }
+      livingDoc =
+        SSLivingDocument.get(
+          sqlFct.getLivingDoc(par.livingDoc),
+          entityServ.entityGet(
+            new SSEntityGetPar(
+              par.user,
+              par.livingDoc,
+              par.withUserRestriction,
+              descPar)));
+      
+      return livingDoc;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public void livingDocsGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
+    
+    SSServCallerU.checkKey(parA);
+    
+    final SSLivingDocsGetPar par = (SSLivingDocsGetPar) parA.getFromJSON(SSLivingDocsGetPar.class);
+    
+    sSCon.writeRetFullToClient(SSLivingDocsGetRet.get(livingDocsGet(par)));
+  }
+  
+  @Override
+  public List<SSEntity> livingDocsGet(final SSLivingDocsGetPar par) throws Exception{
 
-      return livingDocument;
+    try{
+      
+      final List<SSEntity>   docs        = new ArrayList<>();
+      
+      for(SSUri livingDocUri : sqlFct.getLivingDocURIsForUser(par.user)){
+      
+        SSEntity.addEntitiesDistinctWithoutNull(docs,
+          livingDocGet(new SSLivingDocGetPar(
+              par.user,
+              livingDocUri,
+              par.withUserRestriction,
+              par.invokeEntityHandlers)));
+      }
+      
+      return docs;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;

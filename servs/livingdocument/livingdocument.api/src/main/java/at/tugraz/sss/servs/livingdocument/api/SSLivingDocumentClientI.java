@@ -25,5 +25,7 @@ import at.tugraz.sss.serv.SSSocketCon;
 
 public interface SSLivingDocumentClientI {
   
-  public void livingDocumentAdd                       (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void livingDocGet   (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void livingDocAdd   (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void livingDocsGet  (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
 }

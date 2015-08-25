@@ -27,7 +27,7 @@ import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
 
-public class SSLivingDocumentAddPar extends SSServPar{
+public class SSLivingDocAddPar extends SSServPar{
   
   public SSUri           uri                  = null;
   public SSLabel         label                = null;
@@ -57,9 +57,9 @@ public class SSLivingDocumentAddPar extends SSServPar{
     this.description = SSTextComment.get(description);
   }
   
-  public SSLivingDocumentAddPar(){}
+  public SSLivingDocAddPar(){}
     
-  public SSLivingDocumentAddPar(
+  public SSLivingDocAddPar(
     final SSUri         user,
     final SSUri         uri, 
     final SSLabel       label, 
@@ -67,7 +67,7 @@ public class SSLivingDocumentAddPar extends SSServPar{
     final Boolean       withUserRestriction,
     final Boolean       shouldCommit){
     
-    super(SSServOpE.livingDocumentAdd, null, user);
+    super(SSServOpE.livingDocAdd, null, user);
     
     this.uri                  = uri;
     this.label                = label;

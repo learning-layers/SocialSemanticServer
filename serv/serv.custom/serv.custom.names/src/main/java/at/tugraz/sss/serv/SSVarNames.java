@@ -24,6 +24,7 @@ public class SSVarNames{
   
   private SSVarNames(){}
 
+  public static final String livingDoc                                      = "livingDoc";
   public static final String emails                                         = "emails";
   public static final String targets                                        = "targets";
   public static final String target                                         = "target";

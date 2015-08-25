@@ -20,31 +20,36 @@
 */
 package at.tugraz.sss.servs.livingdocument.datatype.ret;
 
-import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSServRetI;
+import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.SSUri;
 import java.util.Map;
 
-public class SSLivingDocumentGetRet extends SSServRetI{
+public class SSLivingDocAddRet extends SSServRetI{
 
-  public SSEntity livingDocument = null;
+  public SSUri livingDoc = null;
 
+  public String getLivingDoc() {
+    return SSStrU.removeTrailingSlash(livingDoc);
+  }
+  
   @Override
   public Map<String, Object> jsonLDDesc(){
     throw new UnsupportedOperationException();
   }
   
-  public static SSLivingDocumentGetRet get(
-    final SSEntity livingDocument){
+  public static SSLivingDocAddRet get(
+    final SSUri livingDoc){
     
-    return new SSLivingDocumentGetRet(livingDocument);
+    return new SSLivingDocAddRet(livingDoc);
   }
   
-  private SSLivingDocumentGetRet(
-    final SSEntity livingDocument){
+  private SSLivingDocAddRet(
+    final SSUri livingDoc){
     
-    super(SSServOpE.livingDocumentGet);
+    super(SSServOpE.livingDocAdd);
     
-    this.livingDocument = livingDocument;
+    this.livingDoc = livingDoc;
   }
 }
