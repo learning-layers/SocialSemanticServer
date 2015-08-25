@@ -1438,6 +1438,55 @@ LOCK TABLES `likes` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `livingdoc`
+--
+
+DROP TABLE IF EXISTS `livingdoc`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `livingdoc` (
+  `livingDocId` varchar(255) NOT NULL,
+  PRIMARY KEY (`livingDocId`),
+  CONSTRAINT `livingDocIdFKlivingdoc` FOREIGN KEY (`livingDocId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `livingdoc`
+--
+
+LOCK TABLES `livingdoc` WRITE;
+/*!40000 ALTER TABLE `livingdoc` DISABLE KEYS */;
+/*!40000 ALTER TABLE `livingdoc` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `livingdocusers`
+--
+
+DROP TABLE IF EXISTS `livingdocusers`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `livingdocusers` (
+  `livingDocId` varchar(255) NOT NULL,
+  `userId` varchar(255) NOT NULL,
+  PRIMARY KEY (`livingDocId`,`userId`),
+  KEY `userId_idx` (`userId`),
+  CONSTRAINT `livingDocIdFKlivingdocusers` FOREIGN KEY (`livingDocId`) REFERENCES `livingdoc` (`livingDocId`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `userIdFKlivingdocusers` FOREIGN KEY (`userId`) REFERENCES `user` (`userId`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `livingdocusers`
+--
+
+LOCK TABLES `livingdocusers` WRITE;
+/*!40000 ALTER TABLE `livingdocusers` DISABLE KEYS */;
+/*!40000 ALTER TABLE `livingdocusers` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `location`
 --
 
@@ -1766,4 +1815,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-08-24 15:04:40
+-- Dump completed on 2015-08-25 15:59:28
