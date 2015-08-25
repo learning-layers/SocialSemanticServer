@@ -130,6 +130,7 @@ public class SSRESTLivingDoc {
           input.uri,
           input.label,
           input.description,
+          input.discussion,
           true,  //withUserRestriction
           true); //shouldCommit
       

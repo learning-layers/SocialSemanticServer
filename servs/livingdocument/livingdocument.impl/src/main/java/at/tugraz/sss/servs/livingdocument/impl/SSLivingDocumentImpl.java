@@ -23,6 +23,8 @@ package at.tugraz.sss.servs.livingdocument.impl;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
+import at.kc.tugraz.ss.service.disc.api.SSDiscServerI;
+import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscTargetsAddPar;
 import at.tugraz.sss.serv.SSAddAffiliatedEntitiesToCircleI;
 import at.tugraz.sss.serv.SSAddAffiliatedEntitiesToCirclePar;
 import at.tugraz.sss.serv.SSConfA;
@@ -215,9 +217,28 @@ implements
     
     SSServCallerU.checkKey(parA);
     
-    final SSLivingDocAddPar par = (SSLivingDocAddPar) parA.getFromJSON(SSLivingDocAddPar.class);
+    final SSLivingDocAddPar par          = (SSLivingDocAddPar) parA.getFromJSON(SSLivingDocAddPar.class);
+    final SSUri             livingDocURI = livingDocAdd(par);
     
-    sSCon.writeRetFullToClient(SSLivingDocAddRet.get(livingDocAdd(par)));
+    if(livingDocURI != null){
+      
+      if(par.discussion != null){
+        
+        final List<SSUri> targets = new ArrayList<>();
+        
+        targets.add(livingDocURI);
+        
+        ((SSDiscServerI) SSServReg.getServ(SSDiscServerI.class)).discTargetsAdd(
+          new SSDiscTargetsAddPar(
+            par.user, 
+            par.discussion, 
+            targets, 
+            par.withUserRestriction, 
+            par.shouldCommit));
+      }
+    }
+    
+    sSCon.writeRetFullToClient(SSLivingDocAddRet.get(livingDocURI));
   }
   
   @Override

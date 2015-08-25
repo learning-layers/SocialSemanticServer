@@ -51,6 +51,7 @@ import at.tugraz.sss.serv.caller.SSServCaller;
 import at.tugraz.sss.util.SSServCallerU;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscEntryURIsGetPar;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscRemovePar;
+import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscTargetsAddPar;
 import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscEntryAcceptRet;
 import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscEntryAddRet;
 import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscRemoveRet;
@@ -912,6 +913,48 @@ public class SSDiscImpl
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+    }
+  }
+
+  @Override
+  public SSUri discTargetsAdd(final SSDiscTargetsAddPar par) throws Exception {
+    
+    try{
+      
+      if(par.withUserRestriction){
+        
+        if(
+          !SSServCallerU.canUserRead(par.user, par.discussion) ||
+          !SSServCallerU.canUserRead(par.user, par.targets)){
+          return null;
+        }
+      }
+      
+      dbSQL.startTrans(par.shouldCommit);
+      
+      sqlFct.addDiscTargets(par.discussion, par.targets);
+      
+      dbSQL.commit(par.shouldCommit);
+      
+      return par.discussion;
+    }catch(Exception error){
+
+      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+
+        if(dbSQL.rollBack(par.shouldCommit)){
+
+          SSServErrReg.reset();
+
+          return discTargetsAdd(par);
+        }else{
+          SSServErrReg.regErrThrow(error);
+          return null;
+        }
+      }
+
+      dbSQL.rollBack(par.shouldCommit);
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
 }

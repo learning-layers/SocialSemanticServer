@@ -32,6 +32,7 @@ public class SSLivingDocAddPar extends SSServPar{
   public SSUri           uri                  = null;
   public SSLabel         label                = null;
   public SSTextComment   description          = null;
+  public SSUri           discussion           = null;
   
   public void setUri(final String uri) throws Exception{
     this.uri = SSUri.get(uri);
@@ -57,6 +58,14 @@ public class SSLivingDocAddPar extends SSServPar{
     this.description = SSTextComment.get(description);
   }
   
+  public void setDiscussion(final String discussion) throws Exception{
+    this.discussion = SSUri.get(discussion);
+  }
+  
+  public String getDiscussion(){
+    return SSStrU.removeTrailingSlash(discussion);
+  }
+  
   public SSLivingDocAddPar(){}
     
   public SSLivingDocAddPar(
@@ -64,6 +73,7 @@ public class SSLivingDocAddPar extends SSServPar{
     final SSUri         uri, 
     final SSLabel       label, 
     final SSTextComment description, 
+    final SSUri         discussion, 
     final Boolean       withUserRestriction,
     final Boolean       shouldCommit){
     
@@ -72,6 +82,7 @@ public class SSLivingDocAddPar extends SSServPar{
     this.uri                  = uri;
     this.label                = label;
     this.description          = description;
+    this.discussion           = discussion;
     this.withUserRestriction  = withUserRestriction;
     this.shouldCommit         = shouldCommit;
   }

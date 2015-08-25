@@ -44,7 +44,7 @@ public class SSLivingDocAddRESTAPIV2Par{
   }
   
   @ApiModelProperty(
-    required = true, 
+    required = false, 
     value = "")
   public SSLabel   label       = null;
   
@@ -54,13 +54,23 @@ public class SSLivingDocAddRESTAPIV2Par{
   }
   
   @ApiModelProperty(
-    required = true, 
+    required = false, 
     value = "")
   public SSTextComment   description       = null;
   
   @XmlElement
   public void setDescription(final String description) throws Exception{
     this.description = SSTextComment.get(description);
+  }
+  
+  @ApiModelProperty(
+    required = false,
+    value = "")
+  public SSUri discussion       = null;
+  
+  @XmlElement
+  public void setDiscussion(final String discussion) throws Exception{
+    this.discussion = SSUri.get(discussion, SSVocConf.sssUri);
   }
   
   public SSLivingDocAddRESTAPIV2Par(){}
