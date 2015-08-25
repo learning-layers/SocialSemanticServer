@@ -89,6 +89,7 @@ public class SSDataImportEvernoteThumbHelper{
         new SSEntityFileAddPar(
           user,
           thumbUri, //file
+          null, //label
           null, //entity
           true, //withUserRestriction
           false));//shouldCommit

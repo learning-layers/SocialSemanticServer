@@ -20,6 +20,7 @@
 */
 package at.tugraz.sss.servs.file.datatype.par;
 
+import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServOpE;
@@ -27,8 +28,9 @@ import at.tugraz.sss.serv.SSStrU;
 
 public class SSEntityFileAddPar extends SSServPar{
   
-  public SSUri file     = null;
-  public SSUri entity   = null;
+  public SSUri   file     = null;
+  public SSLabel label    = null;
+  public SSUri   entity   = null;
 
   public String getFile(){
     return SSStrU.removeTrailingSlash(file);
@@ -36,6 +38,14 @@ public class SSEntityFileAddPar extends SSServPar{
 
   public void setFile(final String file) throws Exception{
     this.file = SSUri.get(file);
+  }
+  
+  public String getLabel(){
+    return SSStrU.toStr(label);
+  }
+
+  public void setLabel(final String label) throws Exception{
+    this.label = SSLabel.get(label);
   }
 
   public String getEntity(){
@@ -50,7 +60,8 @@ public class SSEntityFileAddPar extends SSServPar{
   
   public SSEntityFileAddPar(
     final SSUri         user,
-    final SSUri         file, 
+    final SSUri         file,
+    final SSLabel       label,
     final SSUri         entity, 
     final Boolean       withUserRestriction, 
     final Boolean       shouldCommit) {
@@ -58,6 +69,7 @@ public class SSEntityFileAddPar extends SSServPar{
     super(SSServOpE.fileAdd, null, user);
     
     this.file                 = file;
+    this.label                = label;
     this.entity               = entity;
     this.withUserRestriction  = withUserRestriction;
     this.shouldCommit         = shouldCommit;

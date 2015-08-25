@@ -119,8 +119,9 @@ public class SSFileUploader extends SSServImplStartA{
         
         ((SSFileRepoServerI) SSServReg.getServ(SSFileRepoServerI.class)).fileAdd(
           new SSEntityFileAddPar(
-            par.user, 
+            par.user,
             fileUri, 
+            par.label,
             null, 
             par.withUserRestriction, 
             false));
@@ -280,6 +281,7 @@ public class SSFileUploader extends SSServImplStartA{
           new SSEntityFileAddPar(
             par.user,
             thumbUri, //file
+            null, //label
             null, //entity
             false, //withUserRestriction
             false));//shouldCommit

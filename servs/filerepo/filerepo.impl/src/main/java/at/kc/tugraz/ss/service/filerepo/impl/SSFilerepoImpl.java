@@ -246,7 +246,7 @@ implements
           par.user, 
           par.file,  //entity
           SSEntityE.file,  //type
-          null, //label, 
+          par.label, //label, 
           null, //description, 
           null, //creationTime, 
           null, //read, 

@@ -33,7 +33,6 @@ import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
-
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.tugraz.sss.servs.file.datatype.par.SSEntityFileAddPar;
 import at.tugraz.sss.servs.file.datatype.par.SSEntityFilesGetPar;
@@ -118,6 +117,7 @@ public class SSDataImportEvernoteResourceContentHandler{
         new SSEntityFileAddPar(
           user,
           fileUri, //file
+          null, //label
           resourceUri, //entity
           true, //withUserRestriction
           false));//shouldCommit

@@ -364,6 +364,7 @@ implements
           new SSEntityFileAddPar(
             par.user,
             par.file,
+            null, //label
             imageUri,
             par.withUserRestriction,
             par.shouldCommit));

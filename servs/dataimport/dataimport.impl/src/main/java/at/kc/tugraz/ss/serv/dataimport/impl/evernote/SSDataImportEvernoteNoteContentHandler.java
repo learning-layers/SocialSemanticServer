@@ -172,6 +172,7 @@ public class SSDataImportEvernoteNoteContentHandler{
         new SSEntityFileAddPar(
           user, 
           fileUri, //file
+          null, //label
           noteUri, //entity
           true, //withUserRestriction
           false));//shouldCommit

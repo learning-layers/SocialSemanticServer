@@ -335,7 +335,8 @@ implements
         ((SSFileRepoServerI) SSServReg.getServ(SSFileRepoServerI.class)).fileAdd(
           new SSEntityFileAddPar(
             par.user,
-            par.file,
+            par.file, //file
+            null, //label
             videoUri,
             par.withUserRestriction,
             par.shouldCommit));
