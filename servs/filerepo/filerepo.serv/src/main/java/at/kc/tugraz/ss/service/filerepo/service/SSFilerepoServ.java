@@ -59,6 +59,7 @@ public class SSFilerepoServ extends SSServContainerI{
     SSServReg.inst.regServ(this);
     
     SSServReg.inst.regServForHandlingDescribeEntity(this);
+    SSServReg.inst.regServForHandlingAddAffiliatedEntitiesToCircle(this);
     
     return this;
   }

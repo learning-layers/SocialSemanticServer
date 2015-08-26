@@ -237,7 +237,6 @@ public class SSCircleMiscFct{
       
       SSLabel              label;
       SSUri                copyCircleURI;
-      SSEntityCopiedPar    entityCopiedPar;
       SSEntityCircle       newCircle;
       String               labelStr;
       
@@ -286,20 +285,13 @@ public class SSCircleMiscFct{
               false, //withUserRestriction
               false)); //shouldCommit
           
-          entityCopiedPar =
-            new SSEntityCopiedPar(
-              par.user,
-              forUser, //targetUser
-              circle, //entity
-              circle.entities, //entities
-              copyCircleURI, //targetEntity
-              par.withUserRestriction);
-          
-          entityCopiedPar.includeMetadataSpecificToEntityAndItsEntities = true;
-          
-          for(SSServContainerI entityHandler : SSServReg.inst.getServsHandlingEntityCopied()){
-            ((SSEntityCopiedI) entityHandler.serv()).entityCopied(entityCopiedPar);
-          }
+          SSServCallerU.handleEntityCopied(
+            par.user, 
+            forUser, 
+            circle, 
+            circle.entities, 
+            copyCircleURI, 
+            par.withUserRestriction);
         }
         
         if(par.includeUsers){
@@ -312,18 +304,13 @@ public class SSCircleMiscFct{
               false, //withUserRestriction,
               false)); //shouldCommit
           
-          entityCopiedPar =
-            new SSEntityCopiedPar(
-              par.user,
-              forUser, //targetUser
-              circle, //entity
-              circle.users, //entities
-              copyCircleURI, //targetEntity
-              par.withUserRestriction);
-          
-          for(SSServContainerI entityHandler : SSServReg.inst.getServsHandlingEntityCopied()){
-            ((SSEntityCopiedI) entityHandler.serv()).entityCopied(entityCopiedPar);
-          }
+          SSServCallerU.handleEntityCopied(
+            par.user, 
+            forUser, 
+            circle, 
+            circle.users, 
+            copyCircleURI, 
+            par.withUserRestriction);
         }
         
         if(par.includeOriginUser){
@@ -346,18 +333,13 @@ public class SSCircleMiscFct{
                 par.withUserRestriction,  //withUserRestriction
                 null))); //descPar
           
-          entityCopiedPar =
-            new SSEntityCopiedPar(
-              par.user,
-              forUser, //targetUser
-              circle, //entity
-              originUsers, //entities
-              copyCircleURI, //targetEntity
-              par.withUserRestriction);
-          
-          for(SSServContainerI entityHandler : SSServReg.inst.getServsHandlingEntityCopied()){
-            ((SSEntityCopiedI) entityHandler.serv()).entityCopied(entityCopiedPar);
-          }
+          SSServCallerU.handleEntityCopied(
+            par.user, 
+            forUser, 
+            circle, 
+            originUsers, 
+            copyCircleURI, 
+            par.withUserRestriction);
         }
         
         newCircle =

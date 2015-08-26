@@ -52,8 +52,8 @@ public class SSDiscEntry extends SSEntity{
       id,
       type,
       pos,
-      content, 
-    accepted);
+      content,
+      accepted);
   }
   
   public static SSDiscEntry get(

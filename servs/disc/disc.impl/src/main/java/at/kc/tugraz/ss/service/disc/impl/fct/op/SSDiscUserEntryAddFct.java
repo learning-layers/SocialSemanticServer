@@ -39,6 +39,7 @@ import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
+import at.tugraz.sss.util.SSServCallerU;
 import java.util.List;
 
 public class SSDiscUserEntryAddFct{
@@ -74,31 +75,31 @@ public class SSDiscUserEntryAddFct{
           withUserRestriction, //withUserRestriction
           false)); //shouldCommit)
       
-      for(SSUri targetURI : targetUris){
-        
-        entityServ.entityUpdate(
-          new SSEntityUpdatePar(
-            userUri,
-            targetURI,
-            null, //type,
-            null, //label
-            null, //description,
-            null, //creationTime,
-            null, //read,
-            false, //setPublic
-            withUserRestriction, //withUserRestriction
-            false)); //shouldCommit)
-      }
-            
       sqlFct.createDisc(
         userUri, 
         discUri);
       
-      if(
-        targetUris != null &&
-        !targetUris.isEmpty()){
-        sqlFct.addDiscTargets(discUri, targetUris);
-      }
+//      for(SSUri targetURI : targetUris){
+//        
+//        entityServ.entityUpdate(
+//          new SSEntityUpdatePar(
+//            userUri,
+//            targetURI,
+//            null, //type,
+//            null, //label
+//            null, //description,
+//            null, //creationTime,
+//            null, //read,
+//            false, //setPublic
+//            withUserRestriction, //withUserRestriction
+//            false)); //shouldCommit)
+//      }
+//      
+//      if(
+//        targetUris != null &&
+//        !targetUris.isEmpty()){
+//        sqlFct.addDiscTargets(discUri, targetUris);
+//      }
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -109,7 +110,8 @@ public class SSDiscUserEntryAddFct{
     final SSDiscSQLFct  sqlFct, 
     final SSUri         userUri,
     final SSUri         discUri, 
-    final SSTextComment content) throws Exception{
+    final SSTextComment content,
+    final Boolean       withUserRestriction) throws Exception{
     
     try{
       final SSUri     discEntryUri  = SSServCaller.vocURICreate();
@@ -143,29 +145,35 @@ public class SSDiscUserEntryAddFct{
           false, //withUserRestriction
           false)); //shouldCommit)
       
-      for(SSEntity entityUserCircle :
-        ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlesGet(
-          new SSCirclesGetPar(
-            userUri,
-            discUri,
-            null,
-            false,
-            true,
-            false))){
-        
-        ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleEntitiesAdd(
-          new SSCircleEntitiesAddPar(
-            userUri,
-            entityUserCircle.id,
-            SSUri.asListWithoutNullAndEmpty(discEntryUri),
-            false,
-            false));
-      }
-      
       sqlFct.addDiscEntry(
         discEntryUri, 
         discUri, 
         content);
+      
+      SSServCallerU.handleCirclesFromEntityEntitiesAdd(
+        userUri,
+        discUri,
+        SSUri.asListWithoutNullAndEmpty(discEntryUri), //entities
+        withUserRestriction);
+      
+//      for(SSEntity entityUserCircle :
+//        ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlesGet(
+//          new SSCirclesGetPar(
+//            userUri,
+//            discUri,
+//            null,
+//            false,
+//            true,
+//            false))){
+//        
+//        ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleEntitiesAdd(
+//          new SSCircleEntitiesAddPar(
+//            userUri,
+//            entityUserCircle.id,
+//            SSUri.asListWithoutNullAndEmpty(discEntryUri),
+//            false,
+//            false));
+//      }
       
       return discEntryUri;
       

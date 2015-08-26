@@ -105,7 +105,7 @@ public class SSEntityShareWithUsers {
         circle.entities,
         withUserRestriction);
       
-      SSServCallerU.entitiesSharedWithUsers(
+      SSServCallerU.handleEntitiesSharedWithUsers(
         new SSEntitiesSharedWithUsersPar(
           user,
           circle,

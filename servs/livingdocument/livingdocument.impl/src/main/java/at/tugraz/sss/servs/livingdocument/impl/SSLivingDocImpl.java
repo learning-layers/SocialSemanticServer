@@ -27,7 +27,6 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.kc.tugraz.ss.service.disc.api.SSDiscServerI;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscTargetsAddPar;
 import at.tugraz.sss.serv.SSAddAffiliatedEntitiesToCircleI;
-import at.tugraz.sss.serv.SSAddAffiliatedEntitiesToCirclePar;
 import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
@@ -41,13 +40,11 @@ import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSPushEntitiesToUsersI;
 import at.tugraz.sss.serv.SSPushEntitiesToUsersPar;
-import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSSocketCon;
-import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.servs.livingdocument.api.SSLivingDocClientI;
 import at.tugraz.sss.servs.livingdocument.api.SSLivingDocServerI;
@@ -71,7 +68,6 @@ implements
   SSLivingDocClientI,
   SSLivingDocServerI,
   SSDescribeEntityI,
-  SSAddAffiliatedEntitiesToCircleI,
   SSPushEntitiesToUsersI{
   
   private final SSLivingDocSQLFct  sqlFct;
@@ -105,84 +101,6 @@ implements
       }
       
       default: return entity;
-    }
-  }
-  
-  @Override
-  public List<SSEntity> addAffiliatedEntitiesToCircle(final SSAddAffiliatedEntitiesToCirclePar par) throws Exception{
-    
-    try{
-      final List<SSUri>    affiliatedURIs     = new ArrayList<>();
-      final List<SSEntity> affiliatedEntities = new ArrayList<>();
-      
-      for(SSEntity entityAdded : par.entities){
-        
-        switch(entityAdded.type){
-          
-          case livingDoc:{
-            
-            if(SSStrU.contains(par.recursiveEntities, entityAdded)){
-              continue;
-            }else{
-              SSUri.addDistinctWithoutNull(par.recursiveEntities, entityAdded.id);
-            }
-            
-            affiliatedURIs.clear();
-            
-//            for(SSUri learnEpContentURI : 
-//              miscFct.getLearnEpContentURIs(
-//                par.user, 
-//                sqlFct, 
-//                entityAdded.id, 
-//                par.withUserRestriction)){
-//            
-//              if(SSStrU.contains(par.recursiveEntities, learnEpContentURI)){
-//                continue;
-//              }
-//              
-//              SSUri.addDistinctWithoutNull(
-//                affiliatedURIs,
-//                learnEpContentURI);
-//            }
-//            
-//            SSEntity.addEntitiesDistinctWithoutNull(
-//              affiliatedEntities,
-//              entityServ.entitiesGet(
-//                new SSEntitiesGetPar(
-//                  par.user,
-//                  affiliatedURIs,
-//                  null, //types,
-//                  null, //descPar
-//                  par.withUserRestriction)));
-//            
-//            circleServ.circleEntitiesAdd(
-//              new SSCircleEntitiesAddPar(
-//                par.user,
-//                par.circle,
-//                affiliatedURIs,
-//                false, //withUserRestriction
-//                false)); //shouldCommit
-            
-            break;
-          }
-        }
-      }
-      
-      if(affiliatedEntities.isEmpty()){
-        return affiliatedEntities;
-      }
-      
-      par.entities.clear();
-      par.entities.addAll(affiliatedEntities);
-      
-      for(SSServContainerI serv : SSServReg.inst.getServsHandlingAddAffiliatedEntitiesToCircle()){
-        ((SSAddAffiliatedEntitiesToCircleI) serv.serv()).addAffiliatedEntitiesToCircle(par);
-      }
-      
-      return affiliatedEntities;
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
     }
   }
   

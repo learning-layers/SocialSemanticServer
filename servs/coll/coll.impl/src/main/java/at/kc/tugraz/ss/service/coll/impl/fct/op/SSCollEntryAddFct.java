@@ -22,7 +22,6 @@ package at.kc.tugraz.ss.service.coll.impl.fct.op;
 
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleMostOpenCircleTypeGetPar;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCirclesFromEntityEntitiesAdd;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.tugraz.sss.serv.SSEntityE;
@@ -33,6 +32,7 @@ import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntryAddPar;
 import at.kc.tugraz.ss.service.coll.impl.fct.misc.SSCollMiscFct;
 import at.kc.tugraz.ss.service.coll.impl.fct.sql.SSCollSQLFct;
 import at.tugraz.sss.serv.SSServReg;
+import at.tugraz.sss.util.SSServCallerU;
 
 public class SSCollEntryAddFct{
   
@@ -76,15 +76,12 @@ public class SSCollEntryAddFct{
       isParentCollSharedOrPublic, 
       false);
     
-    ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlesFromEntityEntitiesAdd(
-      new SSCirclesFromEntityEntitiesAdd(
-        null, 
-        null, 
-        par.user, 
-        par.coll, //entity
-        SSUri.asListWithoutNullAndEmpty(par.entry),  //entities
-        false)); //shouldCommit
-        
+     SSServCallerU.handleCirclesFromEntityEntitiesAdd(
+        par.user,
+        par.coll,
+        SSUri.asListWithoutNullAndEmpty(par.entry), //entities
+        par.withUserRestriction);
+     
     return par.entry;
   }
   
@@ -150,14 +147,11 @@ public class SSCollEntryAddFct{
         
     sqlFct.addCollEntry(par.coll, par.entry);
     
-    ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlesFromEntityEntitiesAdd(
-      new SSCirclesFromEntityEntitiesAdd(
-        null,
-        null,
+    SSServCallerU.handleCirclesFromEntityEntitiesAdd(
         par.user,
-        par.coll, //entity
-        SSUri.asListWithoutNullAndEmpty(par.entry),  //entities
-        false)); //shouldCommit
+        par.coll,
+        SSUri.asListWithoutNullAndEmpty(par.entry), //entities
+        par.withUserRestriction);
     
     return par.entry;
   }

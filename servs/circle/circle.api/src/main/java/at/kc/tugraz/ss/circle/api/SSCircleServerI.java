@@ -34,7 +34,6 @@ import at.kc.tugraz.ss.circle.datatypes.par.SSCircleTypesGetPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleUsersAddPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleUsersInvitePar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleUsersRemovePar;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCirclesFromEntityEntitiesAdd;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclesGetPar;
 import at.tugraz.sss.serv.SSCircleE;
 import at.tugraz.sss.serv.SSEntity;
@@ -58,7 +57,6 @@ public interface SSCircleServerI extends SSServServerI{
   public List<SSEntity>                  circleEntityUsersGet                     (final SSCircleEntityUsersGetPar        par) throws Exception;  
   public List<SSUri>                     circleEntitiesRemove                     (final SSCircleEntitiesRemovePar        par) throws Exception;
   public List<SSUri>                     circleUsersRemove                        (final SSCircleUsersRemovePar           par) throws Exception;
-  public void                            circlesFromEntityEntitiesAdd             (final SSCirclesFromEntityEntitiesAdd   par) throws Exception;
   public SSUri                           circleRemove                             (final SSCircleRemovePar                par) throws Exception;
   public SSUri                           circleUsersInvite                        (final SSCircleUsersInvitePar           par) throws Exception;
 }

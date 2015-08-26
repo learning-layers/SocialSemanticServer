@@ -47,7 +47,6 @@ import java.util.List;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSImage;
 import at.tugraz.sss.serv.SSImageE;
-import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSStrU;
@@ -149,54 +148,26 @@ implements
   public List<SSEntity> addAffiliatedEntitiesToCircle(final SSAddAffiliatedEntitiesToCirclePar par) throws Exception{
     
     try{
-      final List<SSUri>    affiliatedURIs     = new ArrayList<>();
-      final List<SSEntity> affiliatedEntities = new ArrayList<>();
+      final SSCircleServerI circleServ         = (SSCircleServerI) SSServReg.getServ(SSCircleServerI.class);
+      final List<SSEntity>  affiliatedEntities = new ArrayList<>();
       
       for(SSEntity entityAdded : par.entities){
         
-        switch(entityAdded.type){
-          case image:{
-            
-            if(SSStrU.contains(par.recursiveEntities, entityAdded)){
-              continue;
-            }else{
-              SSUri.addDistinctWithoutNull(par.recursiveEntities, entityAdded.id);
-            }
-            
-            affiliatedURIs.clear();
-            
-             //replace with method addAffiliatedEntitiesToCircle in file repo service
-            for(SSEntity file :
-              ((SSFileRepoServerI) SSServReg.getServ(SSFileRepoServerI.class)).filesGet(
-                new SSEntityFilesGetPar(
-                  par.user,
-                  entityAdded.id,
-                  par.withUserRestriction,
-                  false))){ //invokeEntityHandlers
-              
-              if(SSStrU.contains(par.recursiveEntities, file)){
-                continue;
-              }
-              
-              SSUri.addDistinctWithoutNull(
-                affiliatedURIs,
-                file.id);
-              
-              SSEntity.addEntitiesDistinctWithoutNull(
-                affiliatedEntities,
-                file);
-            }
-            
-            ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleEntitiesAdd(
-              new SSCircleEntitiesAddPar(
-                par.user,
-                par.circle,
-                affiliatedURIs,
-                false, //withUserRestriction
-                false)); //shouldCommit
-            
-            break;
+        for(SSEntity image :
+          imagesGet(
+            new SSImagesGetPar(
+              par.user, 
+              entityAdded.id, 
+              null, 
+              par.withUserRestriction))){
+          
+          if(SSStrU.contains(par.recursiveEntities, image.id)){
+            continue;
           }
+          
+          SSEntity.addEntitiesDistinctWithoutNull(
+            affiliatedEntities,
+            image);
         }
       }
       
@@ -204,13 +175,22 @@ implements
         return affiliatedEntities;
       }
       
-      par.entities.clear();
-      par.entities.addAll(affiliatedEntities);
+      circleServ.circleEntitiesAdd(
+        new SSCircleEntitiesAddPar(
+          par.user,
+          par.circle,
+          SSUri.getDistinctNotNullFromEntities(affiliatedEntities), //entities
+          false, //withUserRestriction
+          false)); //shouldCommit
       
-      for(SSServContainerI serv : SSServReg.inst.getServsHandlingAddAffiliatedEntitiesToCircle()){
-        ((SSAddAffiliatedEntitiesToCircleI) serv.serv()).addAffiliatedEntitiesToCircle(par);
-      }
-      
+      SSEntity.addEntitiesDistinctWithoutNull(
+        affiliatedEntities, 
+        SSServCallerU.handleAddAffiliatedEntitiesToCircle(
+          par.user, 
+          par.circle, 
+          affiliatedEntities,  //entities
+          par.withUserRestriction));
+        
       return affiliatedEntities;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

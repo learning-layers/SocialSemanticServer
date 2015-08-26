@@ -255,6 +255,7 @@ implements
   public List<SSEntity> addAffiliatedEntitiesToCircle(final SSAddAffiliatedEntitiesToCirclePar par) throws Exception{
     
     try{
+      
       final List<SSUri>    affiliatedURIs       = new ArrayList<>();
       final List<SSEntity> affiliatedEntities   = new ArrayList<>();
       
@@ -286,8 +287,6 @@ implements
               throw new SSErr(SSErrE.cannotShareSpecialCollection);
             }
             
-            affiliatedURIs.clear();
-            
             for(SSUri collContentURI : SSCollMiscFct.getCollSubCollAndEntryURIs(sqlFct, sqlFct.getCollWithEntries(entityAdded.id))){
             
               if(SSStrU.contains(par.recursiveEntities, collContentURI)){
@@ -298,40 +297,39 @@ implements
                 affiliatedURIs,
                 collContentURI);
             }
-            
-            SSEntity.addEntitiesDistinctWithoutNull(
-              affiliatedEntities,
-              entityServ.entitiesGet(
-                new SSEntitiesGetPar(
-                  par.user,
-                  affiliatedURIs,
-                  null, //types,
-                  null, //descPar
-                  par.withUserRestriction)));
-            
-            circleServ.circleEntitiesAdd(
-              new SSCircleEntitiesAddPar(
-                par.user,
-                par.circle,
-                affiliatedURIs,
-                false, //withUserRestriction
-                false)); //shouldCommit
-            
-            break;
           }
         }
       }
       
-      if(affiliatedEntities.isEmpty()){
+      if(affiliatedURIs.isEmpty()){
         return affiliatedEntities;
       }
       
-      par.entities.clear();
-      par.entities.addAll(affiliatedEntities);
+      circleServ.circleEntitiesAdd(
+        new SSCircleEntitiesAddPar(
+          par.user,
+          par.circle, //circle
+          affiliatedURIs, //entities
+          false, //withUserRestriction
+          false)); //shouldCommit
       
-      for(SSServContainerI serv : SSServReg.inst.getServsHandlingAddAffiliatedEntitiesToCircle()){
-        ((SSAddAffiliatedEntitiesToCircleI) serv.serv()).addAffiliatedEntitiesToCircle(par);
-      }
+      SSEntity.addEntitiesDistinctWithoutNull(
+        affiliatedEntities,
+        entityServ.entitiesGet(
+          new SSEntitiesGetPar(
+            par.user,
+            affiliatedURIs, //entities
+            null, //types,
+            null, //descPar
+            par.withUserRestriction)));
+      
+      SSEntity.addEntitiesDistinctWithoutNull(
+        affiliatedEntities,
+        SSServCallerU.handleAddAffiliatedEntitiesToCircle(
+          par.user,
+          par.circle,
+          affiliatedEntities, //entities
+          par.withUserRestriction));
       
       return affiliatedEntities;
     }catch(Exception error){
@@ -351,6 +349,7 @@ implements
       for(SSEntity entityToPush : par.entities){
         
         switch(entityToPush.type){
+          
           case coll: {
             
             for(SSUri userToPushTo : par.users){

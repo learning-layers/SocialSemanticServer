@@ -30,11 +30,11 @@ import at.tugraz.sss.servs.livingdocument.api.SSLivingDocServerI;
 import at.tugraz.sss.servs.livingdocument.impl.SSLivingDocImpl;
 import java.util.List;
 
-public class SSLivingDocumentServ extends SSServContainerI{
+public class SSLivingDocServ extends SSServContainerI{
   
-  public static final SSLivingDocumentServ inst = new SSLivingDocumentServ(SSLivingDocClientI.class, SSLivingDocServerI.class);
+  public static final SSLivingDocServ inst = new SSLivingDocServ(SSLivingDocClientI.class, SSLivingDocServerI.class);
   
-  protected SSLivingDocumentServ(
+  protected SSLivingDocServ(
     final Class servImplClientInteraceClass, 
     final Class servImplServerInteraceClass){
     
@@ -55,7 +55,6 @@ public class SSLivingDocumentServ extends SSServContainerI{
     
     SSServReg.inst.regServForHandlingDescribeEntity(this);
     SSServReg.inst.regServForHandlingPushEntitiesToUsers(this);
-    SSServReg.inst.regServForHandlingAddAffiliatedEntitiesToCircle(this);
     return this;
   }
   

@@ -20,6 +20,8 @@
 */
 package at.kc.tugraz.ss.service.filerepo.impl;
 
+import at.kc.tugraz.ss.circle.api.SSCircleServerI;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesAddPar;
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
@@ -42,6 +44,8 @@ import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileDownloadPar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileReplacePar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileUploadPar;
 import at.kc.tugraz.ss.service.filerepo.impl.fct.SSFileSQLFct;
+import at.tugraz.sss.serv.SSAddAffiliatedEntitiesToCircleI;
+import at.tugraz.sss.serv.SSAddAffiliatedEntitiesToCirclePar;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
@@ -51,6 +55,7 @@ import at.tugraz.sss.serv.SSEntityDescriberPar;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSFileU;
+import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.SSServPar;
@@ -68,7 +73,8 @@ extends SSServImplWithDBA
 implements 
   SSFileRepoClientI, 
   SSFileRepoServerI, 
-  SSDescribeEntityI{
+  SSDescribeEntityI,
+  SSAddAffiliatedEntitiesToCircleI{
 
   private final SSFileSQLFct    sqlFct;
   private final SSEntityServerI entityServ;
@@ -125,6 +131,52 @@ implements
       
       return entity;
       
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public List<SSEntity> addAffiliatedEntitiesToCircle(final SSAddAffiliatedEntitiesToCirclePar par) throws Exception{
+    
+    try{
+      final List<SSUri>     affiliatedURIs  = new ArrayList<>();
+      final SSCircleServerI circleServ      = (SSCircleServerI) SSServReg.getServ(SSCircleServerI.class);
+      
+      for(SSEntity entityAdded : par.entities){
+        
+        for(SSEntity file :
+          filesGet(
+            new SSEntityFilesGetPar(
+              par.user,
+              entityAdded.id,
+              par.withUserRestriction,
+              false))){ //invokeEntityHandlers
+          
+          if(SSStrU.contains(par.recursiveEntities, file)){
+            continue;
+          } 
+          
+          SSUri.addDistinctWithoutNull(
+            affiliatedURIs,
+            file.id);
+        }
+      }
+      
+      if(affiliatedURIs.isEmpty()){
+        return new ArrayList<>();
+      }
+      
+      circleServ.circleEntitiesAdd(
+        new SSCircleEntitiesAddPar(
+          par.user,
+          par.circle,
+          affiliatedURIs,
+          false, //withUserRestriction
+          false)); //shouldCommit
+      
+      return new ArrayList<>();
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;

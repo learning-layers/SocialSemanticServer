@@ -26,7 +26,6 @@ public class SSImage extends SSEntity{
   
   public SSImageE imageType     = null;
   public SSUri    link          = null;
-  public SSUri    downloadLink  = null;
 
   public String getImageType(){
     return SSStrU.toStr(imageType);

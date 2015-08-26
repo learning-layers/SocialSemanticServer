@@ -790,7 +790,8 @@ implements
       for(SSUri entity : par.entities){
         
         entityUpdate(
-          new SSEntityUpdatePar(par.user,
+          new SSEntityUpdatePar(
+            par.user,
             entity,
             SSEntityE.entity,
             null, //label,
@@ -803,6 +804,12 @@ implements
       }
       
       sqlFct.attachEntities(par.entity, par.entities);
+      
+      SSServCallerU.handleCirclesFromEntityEntitiesAdd(
+        par.user,
+        par.entity,
+        par.entities, //entities
+        par.withUserRestriction);
       
       return par.entity;
     }catch(Exception error){

@@ -47,33 +47,6 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
     super(serv.dbSQL);
   }
   
-  public Boolean ownsUserLearnEp(
-    final SSUri user, 
-    final SSUri learnEp) throws Exception {
-    
-    ResultSet resultSet = null;
-    
-    try{
-
-      final List<String>        columns = new ArrayList<>();
-      final Map<String, String> wheres  = new HashMap<>();
-      
-      column(columns, SSSQLVarNames.learnEpId);
-      
-      where(wheres, SSSQLVarNames.userId,    user);
-      where(wheres, SSSQLVarNames.learnEpId, learnEp);
-    
-      resultSet = dbSQL.select(SSSQLVarNames.learnEpUserTable, columns, wheres, null, null, null);
-
-      return resultSet.first();
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }finally{
-      dbSQL.closeStmt(resultSet);
-    }
-  }  
-  
   public SSLearnEp getLearnEp(
     final SSUri learnEpUri) throws Exception{
     
@@ -547,12 +520,16 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
     final SSUri    user) throws Exception{
     
     try{
-      final Map<String, String> inserts = new HashMap<>();
+      final Map<String, String> inserts    = new HashMap<>();
+      final Map<String, String> uniqueKeys = new HashMap<>();
       
       insert(inserts, SSSQLVarNames.userId,    user);
       insert(inserts, SSSQLVarNames.learnEpId, learnEpUri);
       
-      dbSQL.insert(SSSQLVarNames.learnEpUserTable, inserts);
+      uniqueKey(uniqueKeys, SSSQLVarNames.userId,    user);
+      uniqueKey(uniqueKeys, SSSQLVarNames.learnEpId, learnEpUri);
+      
+      dbSQL.insertIfNotExists(SSSQLVarNames.learnEpUserTable, inserts, uniqueKeys);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -1020,3 +997,30 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
 //    
 //    return isTimelineState;
 //  }
+
+//  public Boolean ownsUserLearnEp(
+//    final SSUri user, 
+//    final SSUri learnEp) throws Exception {
+//    
+//    ResultSet resultSet = null;
+//    
+//    try{
+//
+//      final List<String>        columns = new ArrayList<>();
+//      final Map<String, String> wheres  = new HashMap<>();
+//      
+//      column(columns, SSSQLVarNames.learnEpId);
+//      
+//      where(wheres, SSSQLVarNames.userId,    user);
+//      where(wheres, SSSQLVarNames.learnEpId, learnEp);
+//    
+//      resultSet = dbSQL.select(SSSQLVarNames.learnEpUserTable, columns, wheres, null, null, null);
+//
+//      return resultSet.first();
+//    }catch(Exception error){
+//      SSServErrReg.regErrThrow(error);
+//      return null;
+//    }finally{
+//      dbSQL.closeStmt(resultSet);
+//    }
+//  } 

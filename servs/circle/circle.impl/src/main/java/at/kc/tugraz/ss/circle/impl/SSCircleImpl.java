@@ -60,7 +60,6 @@ import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePubURIGetPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleRemovePar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleUsersInvitePar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleUsersRemovePar;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCirclesFromEntityEntitiesAdd;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleEntitiesRemoveRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleRemoveRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleUsersInviteRet;
@@ -1358,52 +1357,52 @@ implements
     }
   }
   
-  @Override
-  public void circlesFromEntityEntitiesAdd(final SSCirclesFromEntityEntitiesAdd par) throws Exception{
-    
-    try{
-      
-      dbSQL.startTrans(par.shouldCommit);
-      
-      for(SSEntity entityUserCircle :
-        circlesGet(
-          new SSCirclesGetPar(
-            par.user,
-            par.entity,
-            null, //entityTypesToIncludeOnly
-            false, //withUserRestriction
-            true,  //withSystemCircles
-            false))){ //invokeEntityHandlers
-        
-        circleEntitiesAdd(
-          new SSCircleEntitiesAddPar(
-            par.user,
-            entityUserCircle.id,
-            par.entities,  //entities
-            false,  //withUserRestriction
-            false)); //shouldCommit
-      }
-      
-      dbSQL.commit(par.shouldCommit);
-    
-    }catch(Exception error){
-      
-      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
-        
-        if(dbSQL.rollBack(par.shouldCommit)){
-          
-          SSServErrReg.reset();
-          
-          circlesFromEntityEntitiesAdd(par);
-        }else{
-          SSServErrReg.regErrThrow(error);
-        }
-      }
-      
-      dbSQL.rollBack(par.shouldCommit);
-      SSServErrReg.regErrThrow(error);
-    }
-  }
+//  @Override
+//  public void circlesFromEntityEntitiesAdd(final SSCirclesFromEntityEntitiesAdd par) throws Exception{
+//    
+//    try{
+//      
+//      dbSQL.startTrans(par.shouldCommit);
+//      
+//      for(SSEntity entityUserCircle :
+//        circlesGet(
+//          new SSCirclesGetPar(
+//            par.user,
+//            par.entity,
+//            null, //entityTypesToIncludeOnly
+//            false, //withUserRestriction
+//            true,  //withSystemCircles
+//            false))){ //invokeEntityHandlers
+//        
+//        circleEntitiesAdd(
+//          new SSCircleEntitiesAddPar(
+//            par.user,
+//            entityUserCircle.id,
+//            par.entities,  //entities
+//            false,  //withUserRestriction
+//            false)); //shouldCommit
+//      }
+//      
+//      dbSQL.commit(par.shouldCommit);
+//    
+//    }catch(Exception error){
+//      
+//      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+//        
+//        if(dbSQL.rollBack(par.shouldCommit)){
+//          
+//          SSServErrReg.reset();
+//          
+//          circlesFromEntityEntitiesAdd(par);
+//        }else{
+//          SSServErrReg.regErrThrow(error);
+//        }
+//      }
+//      
+//      dbSQL.rollBack(par.shouldCommit);
+//      SSServErrReg.regErrThrow(error);
+//    }
+//  }
   
   @Override
   public void circleUsersInvite(final SSSocketCon sSCon, final SSServPar parA) throws Exception{

@@ -62,7 +62,6 @@ import java.util.List;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSPushEntitiesToUsersI;
 import at.tugraz.sss.serv.SSPushEntitiesToUsersPar;
-import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServReg;
@@ -100,15 +99,14 @@ implements
   public List<SSEntity> addAffiliatedEntitiesToCircle(final SSAddAffiliatedEntitiesToCirclePar par) throws Exception{
     
     try{
-      final List<SSUri>    affiliatedURIs     = new ArrayList<>();
+      
       final List<SSEntity> affiliatedEntities = new ArrayList<>();
       
       for(SSEntity entityAdded : par.entities){
         
         switch(entityAdded.type){
-          case disc:
-          case chat:
-          case qa:{
+          
+          case video:{
             
             if(SSStrU.contains(par.recursiveEntities, entityAdded)){
               continue;
@@ -116,31 +114,7 @@ implements
               SSUri.addDistinctWithoutNull(par.recursiveEntities, entityAdded.id);
             }
             
-            affiliatedURIs.clear();
-            
-            //replace with method addAffiliatedEntitiesToCircle in file repo service
-            for(SSEntity file :
-              ((SSFileRepoServerI) SSServReg.getServ(SSFileRepoServerI.class)).filesGet(
-                new SSEntityFilesGetPar(
-                  par.user,
-                  entityAdded.id,
-                  par.withUserRestriction,
-                  false))){ //invokeEntityHandlers
-              
-              if(SSStrU.contains(par.recursiveEntities, file)){
-                continue;
-              }
-              
-              SSUri.addDistinctWithoutNull(
-                affiliatedURIs,
-                file.id);
-              
-              SSEntity.addEntitiesDistinctWithoutNull(
-                affiliatedEntities,
-                file);
-            }
-            
-            for(SSEntity videoContentEntity :
+            for(SSEntity videoContentEntity : 
               videoAnnotationsGet(
                 new SSVideoAnnotationsGetPar(
                   par.user,
@@ -151,25 +125,28 @@ implements
                 continue;
               }
               
-              SSUri.addDistinctWithoutNull(
-                affiliatedURIs,
-                videoContentEntity.id);
-              
               SSEntity.addEntitiesDistinctWithoutNull(
-                affiliatedEntities, 
+                affiliatedEntities,
                 videoContentEntity);
             }
-            
-            circleServ.circleEntitiesAdd(
-              new SSCircleEntitiesAddPar(
-                par.user,
-                par.circle,
-                affiliatedURIs,
-                false, //withUserRestriction
-                false)); //shouldCommit
-            
-            break;
           }
+        }
+        
+        for(SSEntity video :
+          videosGet(
+            new SSVideosUserGetPar(
+              par.user,
+              entityAdded.id,
+              par.withUserRestriction,
+              false))){
+          
+          if(SSStrU.contains(par.recursiveEntities, video)){
+            continue;
+          }
+          
+          SSEntity.addEntitiesDistinctWithoutNull(
+            affiliatedEntities,
+            video);
         }
       }
       
@@ -177,12 +154,21 @@ implements
         return affiliatedEntities;
       }
       
-      par.entities.clear();
-      par.entities.addAll(affiliatedEntities);
+      circleServ.circleEntitiesAdd(
+        new SSCircleEntitiesAddPar(
+          par.user,
+          par.circle, //circle
+          SSUri.getDistinctNotNullFromEntities(affiliatedEntities), //entities
+          false, //withUserRestriction
+          false)); //shouldCommit
       
-      for(SSServContainerI serv : SSServReg.inst.getServsHandlingAddAffiliatedEntitiesToCircle()){
-        ((SSAddAffiliatedEntitiesToCircleI) serv.serv()).addAffiliatedEntitiesToCircle(par);
-      }
+      SSEntity.addEntitiesDistinctWithoutNull(
+        affiliatedEntities,
+        SSServCallerU.handleAddAffiliatedEntitiesToCircle(
+          par.user,
+          par.circle,
+          affiliatedEntities, //entities
+          par.withUserRestriction));
       
       return affiliatedEntities;
       
