@@ -49,15 +49,17 @@ import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSSocketCon;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.servs.livingdocument.api.SSLivingDocumentClientI;
-import at.tugraz.sss.servs.livingdocument.api.SSLivingDocumentServerI;
+import at.tugraz.sss.servs.livingdocument.api.SSLivingDocClientI;
+import at.tugraz.sss.servs.livingdocument.api.SSLivingDocServerI;
 import at.tugraz.sss.servs.livingdocument.conf.SSLivingDocConf;
 import at.tugraz.sss.servs.livingdocument.datatype.SSLivingDocument;
 import at.tugraz.sss.servs.livingdocument.datatype.par.SSLivingDocAddPar;
 import at.tugraz.sss.servs.livingdocument.datatype.par.SSLivingDocGetPar;
+import at.tugraz.sss.servs.livingdocument.datatype.par.SSLivingDocRemovePar;
 import at.tugraz.sss.servs.livingdocument.datatype.par.SSLivingDocsGetPar;
 import at.tugraz.sss.servs.livingdocument.datatype.ret.SSLivingDocAddRet;
 import at.tugraz.sss.servs.livingdocument.datatype.ret.SSLivingDocGetRet;
+import at.tugraz.sss.servs.livingdocument.datatype.ret.SSLivingDocRemoveRet;
 import at.tugraz.sss.servs.livingdocument.datatype.ret.SSLivingDocsGetRet;
 import at.tugraz.sss.util.SSServCallerU;
 import java.util.ArrayList;
@@ -66,8 +68,8 @@ import java.util.List;
 public class SSLivingDocImpl 
 extends SSServImplWithDBA
 implements
-  SSLivingDocumentClientI,
-  SSLivingDocumentServerI,
+  SSLivingDocClientI,
+  SSLivingDocServerI,
   SSDescribeEntityI,
   SSAddAffiliatedEntitiesToCircleI,
   SSPushEntitiesToUsersI{
@@ -280,6 +282,59 @@ implements
           SSServErrReg.reset();
           
           return livingDocAdd(par);
+        }else{
+          SSServErrReg.regErrThrow(error);
+          return null;
+        }
+      }
+      
+      dbSQL.rollBack(par.shouldCommit);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public void livingDocRemove(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
+    
+    SSServCallerU.checkKey(parA);
+    
+    final SSLivingDocRemovePar par = (SSLivingDocRemovePar) parA.getFromJSON(SSLivingDocRemovePar.class);
+    
+    sSCon.writeRetFullToClient(SSLivingDocRemoveRet.get(livingDocRemove(par)));
+  }
+  
+  @Override
+  public SSUri livingDocRemove(final SSLivingDocRemovePar par) throws Exception{
+    
+    try{
+      
+      if(par.withUserRestriction){
+        
+        if(!SSServCallerU.canUserRead(par.user, par.livingDoc)){
+          return null;
+        }
+      }
+      
+      final SSEntityServerI  entityServ = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
+      
+      dbSQL.startTrans(par.shouldCommit);
+      
+      sqlFct.removeLivingDoc(par.livingDoc);
+      
+      dbSQL.commit(par.shouldCommit);
+      
+      return par.livingDoc;
+      
+    }catch(Exception error){
+      
+      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+        
+        if(dbSQL.rollBack(par.shouldCommit)){
+          
+          SSServErrReg.reset();
+          
+          return livingDocRemove(par);
         }else{
           SSServErrReg.regErrThrow(error);
           return null;

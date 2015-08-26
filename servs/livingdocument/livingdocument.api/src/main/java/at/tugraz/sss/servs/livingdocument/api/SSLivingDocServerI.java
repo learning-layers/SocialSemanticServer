@@ -20,12 +20,19 @@
  */
 package at.tugraz.sss.servs.livingdocument.api;
 
-import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSSocketCon;
+import at.tugraz.sss.serv.SSEntity;
+import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.servs.livingdocument.datatype.SSLivingDocument;
+import at.tugraz.sss.servs.livingdocument.datatype.par.SSLivingDocAddPar;
+import at.tugraz.sss.servs.livingdocument.datatype.par.SSLivingDocGetPar;
+import at.tugraz.sss.servs.livingdocument.datatype.par.SSLivingDocRemovePar;
+import at.tugraz.sss.servs.livingdocument.datatype.par.SSLivingDocsGetPar;
+import java.util.List;
 
-public interface SSLivingDocumentClientI {
+public interface SSLivingDocServerI {
   
-  public void livingDocGet   (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void livingDocAdd   (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void livingDocsGet  (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public SSUri              livingDocAdd    (final SSLivingDocAddPar    par) throws Exception;
+  public SSLivingDocument   livingDocGet    (final SSLivingDocGetPar    par) throws Exception;
+  public List<SSEntity>     livingDocsGet   (final SSLivingDocsGetPar   par) throws Exception;
+  public SSUri              livingDocRemove (final SSLivingDocRemovePar par) throws Exception;
 }

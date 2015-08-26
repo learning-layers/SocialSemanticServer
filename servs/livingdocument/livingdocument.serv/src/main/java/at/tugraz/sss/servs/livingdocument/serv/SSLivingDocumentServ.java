@@ -25,14 +25,14 @@ import at.tugraz.sss.serv.SSCoreConfA;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServImplA;
-import at.tugraz.sss.servs.livingdocument.api.SSLivingDocumentClientI;
-import at.tugraz.sss.servs.livingdocument.api.SSLivingDocumentServerI;
+import at.tugraz.sss.servs.livingdocument.api.SSLivingDocClientI;
+import at.tugraz.sss.servs.livingdocument.api.SSLivingDocServerI;
 import at.tugraz.sss.servs.livingdocument.impl.SSLivingDocImpl;
 import java.util.List;
 
 public class SSLivingDocumentServ extends SSServContainerI{
   
-  public static final SSLivingDocumentServ inst = new SSLivingDocumentServ(SSLivingDocumentClientI.class, SSLivingDocumentServerI.class);
+  public static final SSLivingDocumentServ inst = new SSLivingDocumentServ(SSLivingDocClientI.class, SSLivingDocServerI.class);
   
   protected SSLivingDocumentServ(
     final Class servImplClientInteraceClass, 

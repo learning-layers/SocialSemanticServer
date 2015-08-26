@@ -18,7 +18,7 @@
   * See the License for the specific language governing permissions and
   * limitations under the License.
   */
-package at.tugraz.sss.adapter.rest.v2.SSRESTLivingDoc;
+package at.tugraz.sss.adapter.rest.v2.livingdoc;
 
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
@@ -26,13 +26,16 @@ import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.servs.livingdocument.datatype.par.SSLivingDocAddPar;
 import at.tugraz.sss.servs.livingdocument.datatype.par.SSLivingDocGetPar;
+import at.tugraz.sss.servs.livingdocument.datatype.par.SSLivingDocRemovePar;
 import at.tugraz.sss.servs.livingdocument.datatype.par.SSLivingDocsGetPar;
 import at.tugraz.sss.servs.livingdocument.datatype.ret.SSLivingDocAddRet;
 import at.tugraz.sss.servs.livingdocument.datatype.ret.SSLivingDocGetRet;
+import at.tugraz.sss.servs.livingdocument.datatype.ret.SSLivingDocRemoveRet;
 import at.tugraz.sss.servs.livingdocument.datatype.ret.SSLivingDocsGetRet;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -199,6 +202,38 @@ public class SSRESTLivingDoc {
           input.label,
           input.description,
           input.discussion,
+          true,  //withUserRestriction
+          true); //shouldCommit
+      
+    }catch(Exception error){
+      return Response.status(422).build();
+    }
+    
+    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+  }
+  
+  @DELETE
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    ("/{livingDoc}")
+  @ApiOperation(
+    value = "remove a living doc",
+    response = SSLivingDocRemoveRet.class)
+  public Response livingDocRemove(
+    @Context
+    final HttpHeaders headers,
+    
+    @PathParam(SSVarNames.livingDoc)
+    final String livingDoc){
+    
+    final SSLivingDocRemovePar par;
+    
+    try{
+      
+      par =
+        new SSLivingDocRemovePar(
+          null,
+          SSUri.get(livingDoc, SSVocConf.sssUri),
           true,  //withUserRestriction
           true); //shouldCommit
       

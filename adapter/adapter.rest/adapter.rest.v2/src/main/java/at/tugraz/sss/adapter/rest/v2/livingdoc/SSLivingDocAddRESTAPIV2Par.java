@@ -18,20 +18,60 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package at.tugraz.sss.adapter.rest.v2.SSRESTLivingDoc;
+package at.tugraz.sss.adapter.rest.v2.livingdoc;
 
+import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.tugraz.sss.serv.SSLabel;
+import at.tugraz.sss.serv.SSTextComment;
+import at.tugraz.sss.serv.SSUri;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-@ApiModel(value = "living docs get request parameter")
-public class SSLivingDocsGetRESTAPIV2Par {
- 
+@ApiModel(value = "living doc add request parameter")
+public class SSLivingDocAddRESTAPIV2Par{
+  
+  @ApiModelProperty(
+    required = true, 
+    value = "")
+  public SSUri uri       = null;
+  
   @XmlElement
+  public void setUri(final String uri) throws Exception{
+    this.uri = SSUri.get(uri, SSVocConf.sssUri);
+  }
+  
+  @ApiModelProperty(
+    required = false, 
+    value = "")
+  public SSLabel   label       = null;
+  
+  @XmlElement
+  public void setLabel(final String label) throws Exception{
+    this.label = SSLabel.get(label);
+  }
+  
+  @ApiModelProperty(
+    required = false, 
+    value = "")
+  public SSTextComment   description       = null;
+  
+  @XmlElement
+  public void setDescription(final String description) throws Exception{
+    this.description = SSTextComment.get(description);
+  }
+  
   @ApiModelProperty(
     required = false,
     value = "")
-  public Boolean setUsers       = null;
+  public SSUri discussion       = null;
+  
+  @XmlElement
+  public void setDiscussion(final String discussion) throws Exception{
+    this.discussion = SSUri.get(discussion, SSVocConf.sssUri);
+  }
+  
+  public SSLivingDocAddRESTAPIV2Par(){}
 }

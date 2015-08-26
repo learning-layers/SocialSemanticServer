@@ -18,19 +18,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package at.tugraz.sss.servs.livingdocument.api;
+package at.tugraz.sss.adapter.rest.v2.livingdoc;
 
-import at.tugraz.sss.serv.SSEntity;
-import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.servs.livingdocument.datatype.SSLivingDocument;
-import at.tugraz.sss.servs.livingdocument.datatype.par.SSLivingDocAddPar;
-import at.tugraz.sss.servs.livingdocument.datatype.par.SSLivingDocGetPar;
-import at.tugraz.sss.servs.livingdocument.datatype.par.SSLivingDocsGetPar;
-import java.util.List;
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
-public interface SSLivingDocumentServerI {
-  
-  public SSUri              livingDocAdd    (final SSLivingDocAddPar    par) throws Exception;
-  public SSLivingDocument   livingDocGet    (final SSLivingDocGetPar    par) throws Exception;
-  public List<SSEntity>     livingDocsGet   (final SSLivingDocsGetPar   par) throws Exception;
+@XmlRootElement
+@ApiModel(value = "living docs get request parameter")
+public class SSLivingDocsGetRESTAPIV2Par {
+ 
+  @XmlElement
+  @ApiModelProperty(
+    required = false,
+    value = "")
+  public Boolean setUsers       = null;
 }
