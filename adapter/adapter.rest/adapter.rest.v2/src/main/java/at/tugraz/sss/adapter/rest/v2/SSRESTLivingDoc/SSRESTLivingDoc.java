@@ -75,6 +75,74 @@ public class SSRESTLivingDoc {
     return SSRestMainV2.handleRequest(headers, par, false, true).response;
   }
   
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    ("/filtered/{livingDoc}")
+  @ApiOperation(
+    value = "retrieve living doc for a user",
+    response = SSLivingDocGetRet.class)
+  public Response livingDocFilteredGet(
+    @Context
+    final HttpHeaders headers,
+    
+    @PathParam(SSVarNames.livingDoc)
+    final String livingDoc,
+    
+    final SSLivingDocsGetRESTAPIV2Par input){
+    
+    final SSLivingDocGetPar par;
+    
+    try{
+      
+      par =
+        new SSLivingDocGetPar(
+          null,
+          SSUri.get(livingDoc, SSVocConf.sssUri),
+          true,  //withUserRestriction
+          true); //invokeEntityHandlers
+      
+      par.setUsers = input.setUsers;
+      
+    }catch(Exception error){
+      return Response.status(422).build();
+    }
+    
+    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    ("/filtered")
+  @ApiOperation(
+    value = "retrieve living docs for a user",
+    response = SSLivingDocsGetRet.class)
+  public Response livingDocsFilteredGet(
+    @Context
+    final HttpHeaders headers,
+    
+    final SSLivingDocsGetRESTAPIV2Par input){
+    
+    final SSLivingDocsGetPar par;
+    
+    try{
+      
+      par =
+        new SSLivingDocsGetPar(
+          null,
+          true,  //withUserRestriction
+          true); //invokeEntityHandlers
+      
+      par.setUsers = input.setUsers;
+      
+    }catch(Exception error){
+      return Response.status(422).build();
+    }
+    
+    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+  }
+  
   @GET
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)

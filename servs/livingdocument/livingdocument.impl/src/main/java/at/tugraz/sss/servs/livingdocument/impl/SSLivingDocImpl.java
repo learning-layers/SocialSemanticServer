@@ -21,6 +21,7 @@
 package at.tugraz.sss.servs.livingdocument.impl;
 
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.kc.tugraz.ss.service.disc.api.SSDiscServerI;
@@ -50,7 +51,7 @@ import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.servs.livingdocument.api.SSLivingDocumentClientI;
 import at.tugraz.sss.servs.livingdocument.api.SSLivingDocumentServerI;
-import at.tugraz.sss.servs.livingdocument.conf.SSLivingDocumentConf;
+import at.tugraz.sss.servs.livingdocument.conf.SSLivingDocConf;
 import at.tugraz.sss.servs.livingdocument.datatype.SSLivingDocument;
 import at.tugraz.sss.servs.livingdocument.datatype.par.SSLivingDocAddPar;
 import at.tugraz.sss.servs.livingdocument.datatype.par.SSLivingDocGetPar;
@@ -62,7 +63,7 @@ import at.tugraz.sss.util.SSServCallerU;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SSLivingDocumentImpl 
+public class SSLivingDocImpl 
 extends SSServImplWithDBA
 implements
   SSLivingDocumentClientI,
@@ -71,15 +72,15 @@ implements
   SSAddAffiliatedEntitiesToCircleI,
   SSPushEntitiesToUsersI{
   
-  private final SSLivingDocumentSQLFct  sqlFct;
-  private final SSLivingDocumentConf    livingDocConf;
+  private final SSLivingDocSQLFct  sqlFct;
+  private final SSLivingDocConf    livingDocConf;
   
-  public SSLivingDocumentImpl(final SSConfA conf) throws Exception{
+  public SSLivingDocImpl(final SSConfA conf) throws Exception{
     
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
     
-    this.livingDocConf  = (SSLivingDocumentConf) conf;
-    this.sqlFct         = new SSLivingDocumentSQLFct(this);
+    this.livingDocConf  = (SSLivingDocConf) conf;
+    this.sqlFct         = new SSLivingDocSQLFct(this);
   }
   
   @Override
@@ -192,15 +193,10 @@ implements
         
         switch(entityToPush.type){
           
-          case learnEp: {
+          case livingDoc: {
             
             for(SSUri userToPushTo : par.users){
-              
-//              if(sqlFct.ownsUserLivingDocument(userToPushTo, entityToPush.id)){
-//                continue;
-//              }
-//              
-//              sqlFct.addLivingDocument(entityToPush.id, userToPushTo);
+              sqlFct.addLivingDoc(entityToPush.id, userToPushTo);
             }
             
             break;
@@ -224,11 +220,12 @@ implements
       
       if(par.discussion != null){
         
-        final List<SSUri> targets = new ArrayList<>();
+        final SSDiscServerI discServ = (SSDiscServerI) SSServReg.getServ(SSDiscServerI.class);
+        final List<SSUri>   targets  = new ArrayList<>();
         
         targets.add(livingDocURI);
         
-        ((SSDiscServerI) SSServReg.getServ(SSDiscServerI.class)).discTargetsAdd(
+        discServ.discTargetsAdd(
           new SSDiscTargetsAddPar(
             par.user, 
             par.discussion, 
@@ -337,6 +334,21 @@ implements
               par.withUserRestriction,
               descPar)));
       
+      if(par.setUsers){
+        
+        descPar = new SSEntityDescriberPar(livingDoc.id);
+        
+        SSEntity.addEntitiesDistinctWithoutNull(
+          livingDoc.users,
+          entityServ.entitiesGet(
+            new SSEntitiesGetPar(
+              par.user,
+              sqlFct.getLivingDocUserURIs(livingDoc.id), //entities
+              null, //types
+              descPar, //descpar
+              par.withUserRestriction)));
+      }
+      
       return livingDoc;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -360,15 +372,22 @@ implements
     try{
       
       final List<SSEntity>   docs        = new ArrayList<>();
+      SSLivingDocGetPar      livingDocGetPar;
       
       for(SSUri livingDocUri : sqlFct.getLivingDocURIsForUser(par.user)){
       
-        SSEntity.addEntitiesDistinctWithoutNull(docs,
-          livingDocGet(new SSLivingDocGetPar(
-              par.user,
-              livingDocUri,
-              par.withUserRestriction,
-              par.invokeEntityHandlers)));
+        livingDocGetPar =
+          new SSLivingDocGetPar(
+            par.user,
+            livingDocUri,
+            par.withUserRestriction,
+            par.invokeEntityHandlers);
+        
+        livingDocGetPar.setUsers = par.setUsers;
+        
+        SSEntity.addEntitiesDistinctWithoutNull(
+          docs,
+          livingDocGet(livingDocGetPar));
       }
       
       return docs;

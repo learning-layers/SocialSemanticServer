@@ -18,42 +18,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package at.tugraz.sss.servs.livingdocument.datatype;
+package at.tugraz.sss.adapter.rest.v2.SSRESTLivingDoc;
 
-import at.tugraz.sss.serv.SSEntity;
-import at.tugraz.sss.serv.SSEntityE;
-import at.tugraz.sss.serv.SSUri;
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
-public class SSLivingDocument extends SSEntity{
-
-  @Override
-  public Object jsonLDDesc(){
-    throw new UnsupportedOperationException();
-  }
-  
-  public static SSLivingDocument get(
-    final SSLivingDocument livingDocument, 
-    final SSEntity         entity) throws Exception{
-    
-    return new SSLivingDocument(livingDocument, entity);
-  }
-   
-  public static SSLivingDocument get(
-    final SSUri           id) throws Exception{
-    
-    return new SSLivingDocument(id);
-  }
-  
-  protected SSLivingDocument(
-    final SSUri id) throws Exception{
-    
-    super(id, SSEntityE.livingDoc);
-  }
-  
-  protected SSLivingDocument(
-    final SSLivingDocument   livingDocument,
-    final SSEntity           entity) throws Exception{
-    
-    super(livingDocument, entity);
-  }
+@XmlRootElement
+@ApiModel(value = "living docs get request parameter")
+public class SSLivingDocsGetRESTAPIV2Par {
+ 
+  @XmlElement
+  @ApiModelProperty(
+    required = false,
+    value = "")
+  public Boolean setUsers       = null;
 }

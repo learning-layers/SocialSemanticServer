@@ -29,6 +29,7 @@ public class SSLivingDocGetPar extends SSServPar{
   
   public SSUri   livingDoc            = null;
   public Boolean invokeEntityHandlers = false;
+  public Boolean setUsers             = false;
   
   public void setLivingDoc(final String livingDoc) throws Exception{
     this.livingDoc = SSUri.get(livingDoc);

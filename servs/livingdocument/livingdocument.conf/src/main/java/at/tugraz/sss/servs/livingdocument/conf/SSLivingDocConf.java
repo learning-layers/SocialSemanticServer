@@ -22,11 +22,11 @@ package at.tugraz.sss.servs.livingdocument.conf;
 
 import at.tugraz.sss.serv.SSCoreServConfA;
 
-public class SSLivingDocumentConf extends SSCoreServConfA{
+public class SSLivingDocConf extends SSCoreServConfA{
   
-  public static SSLivingDocumentConf copy(final SSLivingDocumentConf orig){
+  public static SSLivingDocConf copy(final SSLivingDocConf orig){
 
-    final SSLivingDocumentConf copy = (SSLivingDocumentConf) SSCoreServConfA.copy(orig, new SSLivingDocumentConf());
+    final SSLivingDocConf copy = (SSLivingDocConf) SSCoreServConfA.copy(orig, new SSLivingDocConf());
     
     return copy;
   }

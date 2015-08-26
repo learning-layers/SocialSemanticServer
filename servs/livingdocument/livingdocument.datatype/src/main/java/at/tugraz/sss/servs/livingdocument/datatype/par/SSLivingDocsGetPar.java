@@ -27,6 +27,7 @@ import at.tugraz.sss.serv.SSUri;
 public class SSLivingDocsGetPar extends SSServPar{
   
   public Boolean invokeEntityHandlers = false;
+  public Boolean setUsers             = false;
   
   public SSLivingDocsGetPar(){}
     

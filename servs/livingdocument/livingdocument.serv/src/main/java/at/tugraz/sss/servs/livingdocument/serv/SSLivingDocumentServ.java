@@ -27,7 +27,7 @@ import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServImplA;
 import at.tugraz.sss.servs.livingdocument.api.SSLivingDocumentClientI;
 import at.tugraz.sss.servs.livingdocument.api.SSLivingDocumentServerI;
-import at.tugraz.sss.servs.livingdocument.impl.SSLivingDocumentImpl;
+import at.tugraz.sss.servs.livingdocument.impl.SSLivingDocImpl;
 import java.util.List;
 
 public class SSLivingDocumentServ extends SSServContainerI{
@@ -43,7 +43,7 @@ public class SSLivingDocumentServ extends SSServContainerI{
   
   @Override
   protected SSServImplA createServImplForThread() throws Exception{
-    return new SSLivingDocumentImpl(conf);
+    return new SSLivingDocImpl(conf);
   }
 
   @Override

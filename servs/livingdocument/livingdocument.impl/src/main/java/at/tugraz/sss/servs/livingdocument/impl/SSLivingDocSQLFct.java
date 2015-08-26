@@ -31,9 +31,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SSLivingDocumentSQLFct extends SSDBSQLFct{
+public class SSLivingDocSQLFct extends SSDBSQLFct{
 
-  public SSLivingDocumentSQLFct(final SSLivingDocumentImpl serv) throws Exception {
+  public SSLivingDocSQLFct(final SSLivingDocImpl serv) throws Exception {
     super(serv.dbSQL);
   }
   
@@ -127,6 +127,31 @@ public class SSLivingDocumentSQLFct extends SSDBSQLFct{
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  public List<SSUri> getLivingDocUserURIs(
+    final SSUri livingDoc) throws Exception{
+
+    ResultSet resultSet   = null;
+    
+    try{
+      
+      final List<String>        columns = new ArrayList<>();
+      final Map<String, String> wheres  = new HashMap<>();
+
+      column(columns, SSSQLVarNames.userId);
+      
+      where(wheres, SSSQLVarNames.livingDocId, livingDoc);
+      
+      resultSet = dbSQL.select(SSSQLVarNames.livingDocUsersTable, columns, wheres, null, null, null);
+      
+      return getURIsFromResult(resultSet, SSSQLVarNames.userId);
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
     }
   }
 }

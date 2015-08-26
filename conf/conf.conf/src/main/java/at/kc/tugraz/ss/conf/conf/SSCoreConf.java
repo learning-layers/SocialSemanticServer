@@ -61,7 +61,7 @@ import at.tugraz.sss.servs.location.conf.SSLocationConf;
 import at.tugraz.sss.servs.ocd.conf.SSOCDConf;
 import at.tugraz.sss.servs.image.conf.SSImageConf;
 import at.tugraz.sss.servs.integrationtest.SSIntegrationTestConf;
-import at.tugraz.sss.servs.livingdocument.conf.SSLivingDocumentConf;
+import at.tugraz.sss.servs.livingdocument.conf.SSLivingDocConf;
 
 public class SSCoreConf extends SSCoreConfA {
   
@@ -109,7 +109,7 @@ public class SSCoreConf extends SSCoreConfA {
   private SSImageConf image = null;
   private SSLocationConf location = null;
   private SSIntegrationTestConf integrationTest = null;
-  private SSLivingDocumentConf  livingDocument = null;
+  private SSLivingDocConf  livingDocument = null;
   
   public static synchronized SSCoreConf instSet(final String pathToFile) throws Exception {
     
@@ -187,7 +187,7 @@ public class SSCoreConf extends SSCoreConfA {
       copy.image = SSImageConf.copy(inst.image);
       copy.location = SSLocationConf.copy(inst.location);
       copy.integrationTest = SSIntegrationTestConf.copy(inst.integrationTest);
-      copy.livingDocument = SSLivingDocumentConf.copy(inst.livingDocument);
+      copy.livingDocument = SSLivingDocConf.copy(inst.livingDocument);
       
       return copy;
     } catch (Exception error) {
@@ -524,11 +524,11 @@ public class SSCoreConf extends SSCoreConfA {
     this.integrationTest = integrationTest;
   }
   
-  public SSLivingDocumentConf getLivingDocument() {
+  public SSLivingDocConf getLivingDocument() {
     return livingDocument;
   }
   
-  public void setLivingDocument(SSLivingDocumentConf livingDocument) {
+  public void setLivingDocument(SSLivingDocConf livingDocument) {
     this.livingDocument = livingDocument;
   }
 }
