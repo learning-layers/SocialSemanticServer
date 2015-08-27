@@ -55,7 +55,7 @@ public class SSRestMainV2 extends Application {
 
   public SSRestMainV2() throws Exception{
    
-    SSAdapterRestConf.instSet (SSFileU.dirCatalinaBase() + SSVocConf.dirNameConf + "discussion.tool.yaml");
+    SSAdapterRestConf.instSet (SSFileU.dirCatalinaBase() + SSVocConf.dirNameConf + "knowbrain.yaml");
     
     conf = SSAdapterRestConf.instGet();
     

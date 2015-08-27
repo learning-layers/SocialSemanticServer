@@ -38,6 +38,7 @@ import at.kc.tugraz.sss.comment.api.SSCommentClientI;
 import at.kc.tugraz.sss.comment.api.SSCommentServerI;
 import at.kc.tugraz.sss.comment.datatypes.par.SSCommentsAddPar;
 import at.kc.tugraz.sss.comment.datatypes.par.SSCommentsGetPar;
+import at.kc.tugraz.sss.comment.datatypes.ret.SSCommentsAddRet;
 import at.kc.tugraz.sss.comment.datatypes.ret.SSCommentsGetRet;
 import at.kc.tugraz.sss.comment.impl.fct.sql.SSCommentSQLFct;
 import at.kc.tugraz.sss.comment.impl.fct.userrelationgather.SSCommentUserRelationGatherFct;
@@ -106,6 +107,16 @@ implements
       SSServErrReg.regErrThrow(error);
       return null;
     }
+  }
+  
+  @Override
+  public void commentsAdd(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
+    
+    SSServCallerU.checkKey(parA);
+    
+    final SSCommentsAddPar par = (SSCommentsAddPar) parA.getFromJSON(SSCommentsAddPar.class);
+    
+    sSCon.writeRetFullToClient(SSCommentsAddRet.get(commentsAdd(par)));
   }
   
   @Override

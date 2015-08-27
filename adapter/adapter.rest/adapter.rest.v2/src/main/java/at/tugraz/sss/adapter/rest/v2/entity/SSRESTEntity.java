@@ -323,7 +323,7 @@ public class SSRESTEntity {
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path("{entity}/comments")
+  @Path("/{entity}/comments")
   @ApiOperation(
     value = "add comments to the entity",
     response = SSCommentsAddPar.class)

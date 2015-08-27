@@ -25,5 +25,6 @@ import at.tugraz.sss.serv.SSServPar;
 
 public interface SSCommentClientI{
   
+  public void commentsAdd  (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
   public void commentsGet  (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
 }
