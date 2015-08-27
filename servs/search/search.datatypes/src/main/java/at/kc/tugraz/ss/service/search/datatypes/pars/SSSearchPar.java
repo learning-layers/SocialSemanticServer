@@ -32,24 +32,25 @@ import java.util.List;
 
 public class SSSearchPar extends SSServPar{
   
-  public List<String>        wordsToSearchFor           = new ArrayList<>();
-  public List<String>        tagsToSearchFor            = new ArrayList<>();
-  public List<SSUri>         authorsToSearchFor         = new ArrayList<>();
-  public List<SSSearchLabel> labelsToSearchFor          = new ArrayList<>();
-  public List<SSSearchLabel> descriptionsToSearchFor    = new ArrayList<>();
-  public List<SSEntityE>     typesToSearchOnlyFor       = new ArrayList<>();
-  public Boolean             includeOnlySubEntities     = null;
-  public List<SSUri>         entitiesToSearchWithin     = new ArrayList<>();
-  public Boolean             extendToParents            = null;
-  public Boolean             includeRecommendedResults  = null;
-  public Boolean             provideEntries             = null;
-  public String              pagesID                    = null;
-  public Integer             pageNumber                 = null;
-  public Integer             minRating                  = null;
-  public Integer             maxRating                  = null;
-  public SSSearchOpE         localSearchOp              = SSSearchOpE.or;
-  public SSSearchOpE         globalSearchOp             = SSSearchOpE.or;
-  public Boolean             invokeEntityHandlers       = false;
+  public List<String>        wordsToSearchFor                              = new ArrayList<>();
+  public List<String>        tagsToSearchFor                               = new ArrayList<>();
+  public List<SSUri>         authorsToSearchFor                            = new ArrayList<>();
+  public List<SSSearchLabel> labelsToSearchFor                             = new ArrayList<>();
+  public List<SSSearchLabel> descriptionsToSearchFor                       = new ArrayList<>();
+  public Boolean             applyGlobalSearchOpBetweenLabelAndDescription = false;
+  public List<SSEntityE>     typesToSearchOnlyFor                          = new ArrayList<>();
+  public Boolean             includeOnlySubEntities                        = null;
+  public List<SSUri>         entitiesToSearchWithin                        = new ArrayList<>();
+  public Boolean             extendToParents                               = null;
+  public Boolean             includeRecommendedResults                     = null;
+  public Boolean             provideEntries                                = null;
+  public String              pagesID                                       = null;
+  public Integer             pageNumber                                    = null;
+  public Integer             minRating                                     = null;
+  public Integer             maxRating                                     = null;
+  public SSSearchOpE         localSearchOp                                 = SSSearchOpE.or;
+  public SSSearchOpE         globalSearchOp                                = SSSearchOpE.or;
+  public Boolean             invokeEntityHandlers                          = false;
 
   public void setAuthorsToSearchFor(final List<String> authorsToSearchFor) throws Exception{
     this.authorsToSearchFor = SSUri.get(authorsToSearchFor);
@@ -116,6 +117,7 @@ public class SSSearchPar extends SSServPar{
     final List<SSUri>         authorsToSearchFor         , 
     final List<SSSearchLabel> labelsToSearchFor          ,
     final List<SSSearchLabel> descriptionsToSearchFor    ,
+    final Boolean             applyGlobalSearchOpBetweenLabelAndDescription,
     final List<SSEntityE>     typesToSearchOnlyFor       ,
     final Boolean             includeOnlySubEntities     ,
     final List<SSUri>         entitiesToSearchWithin     ,
@@ -152,6 +154,8 @@ public class SSSearchPar extends SSServPar{
     if(descriptionsToSearchFor != null){
       this.descriptionsToSearchFor.addAll(descriptionsToSearchFor);
     }
+    
+    this.applyGlobalSearchOpBetweenLabelAndDescription = applyGlobalSearchOpBetweenLabelAndDescription;
     
     if(typesToSearchOnlyFor != null){
       this.typesToSearchOnlyFor.addAll(typesToSearchOnlyFor);

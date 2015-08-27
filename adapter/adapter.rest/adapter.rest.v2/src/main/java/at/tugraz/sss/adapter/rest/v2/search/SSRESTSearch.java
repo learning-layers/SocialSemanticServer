@@ -20,7 +20,6 @@
  */
 package at.tugraz.sss.adapter.rest.v2.search;
 
-import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
 import at.kc.tugraz.ss.service.search.datatypes.pars.SSSearchPar;
 import at.kc.tugraz.ss.service.search.datatypes.ret.SSSearchRet;
@@ -64,6 +63,7 @@ public class SSRESTSearch{
           input.authorsToSearchFor,
           input.labelsToSearchFor,
           input.descriptionsToSearchFor,
+          input.applyGlobalSearchOpBetweenLabelAndDescription,
           input.typesToSearchOnlyFor,
           input.includeOnlySubEntities,
           input.entitiesToSearchWithin,

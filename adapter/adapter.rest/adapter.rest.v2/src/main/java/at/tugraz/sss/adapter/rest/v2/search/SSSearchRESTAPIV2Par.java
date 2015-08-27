@@ -77,6 +77,12 @@ public class SSSearchRESTAPIV2Par{
     this.descriptionsToSearchFor = SSSearchLabel.get(descriptionsToSearchFor);
   }
   
+  @XmlElement
+  @ApiModelProperty( 
+    required = false, 
+    value = "whether the global search op shall hold between label and description, i.e., same keywords in label and description for AND" )
+  public Boolean             applyGlobalSearchOpBetweenLabelAndDescription     = null;
+  
   @ApiModelProperty( 
     required = false,
     value = "list of entity types to be considered for search exclusively " )
@@ -91,7 +97,7 @@ public class SSSearchRESTAPIV2Par{
   @ApiModelProperty( 
     required = false, 
     value = "whether only sub-entities (e.g. collection entries) of entitiesToSearchWithin should be considered" )
-  public Boolean             includeOnlySubEntities     = false;
+  public Boolean             includeOnlySubEntities     = null;
   
   @XmlElement
   @ApiModelProperty( 
@@ -108,19 +114,19 @@ public class SSSearchRESTAPIV2Par{
   @ApiModelProperty( 
     required = false, 
     value = "whether search results shall contain the parents of found entities as search result" )
-  public Boolean             extendToParents            = false;
+  public Boolean             extendToParents            = null;
   
   @XmlElement
   @ApiModelProperty( 
     required = false, 
     value = "whether possibly recommended entities should be included in search results" )
-  public Boolean             includeRecommendedResults  = false;
+  public Boolean             includeRecommendedResults  = null;
   
   @XmlElement
   @ApiModelProperty( 
     required = false, 
     value = "whether entries (if available) of search results (e.g. the entries of a found collection) should be returned as well" )
-  public Boolean             provideEntries             = false;
+  public Boolean             provideEntries             = null;
   
   @XmlElement
   @ApiModelProperty(

@@ -186,6 +186,29 @@ implements
               }
             }
             
+            if(par.applyGlobalSearchOpBetweenLabelAndDescription){
+              
+              if(
+                !par.labelsToSearchFor.isEmpty() &&
+                !par.descriptionsToSearchFor.isEmpty()){
+                
+                if(
+                  !labelsThere ||
+                  !descriptionsThere){
+                  continue;
+                }
+              }
+            }else{
+              
+              if(
+                labelsThere ||
+                descriptionsThere){
+                
+                labelsThere       = true;
+                descriptionsThere = true;
+              }
+            }
+          
             if(tagsThere && labelsThere && descriptionsThere && contentThere){
               uris.add(uri);
             }
