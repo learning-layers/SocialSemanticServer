@@ -79,9 +79,11 @@ public class SSRESTDisc{
           true, //withUserRestriction,
           true); //invokeEntityHandlers
       
-      par.setCircleTypes = input.setCircleTypes;
-      par.setComments    = input.setComments;
-      par.setLikes       = input.setLikes;
+      par.setCircleTypes      = input.setCircleTypes;
+      par.setComments         = input.setComments;
+      par.setLikes            = input.setLikes;
+      par.setTags             = input.setTags;
+      par.setAttachedEntities = input.setAttachedEntities;
       
     }catch(Exception error){
       return Response.status(422).build();
@@ -156,9 +158,11 @@ public class SSRESTDisc{
           true, //withUserRestriction
           true); //invokeEntityHandlers
       
-      par.setCircleTypes = input.setCircleTypes;
-      par.setComments    = input.setComments;
-      par.setLikes       = input.setLikes;
+      par.setCircleTypes      = input.setCircleTypes;
+      par.setComments         = input.setComments;
+      par.setLikes            = input.setLikes;
+      par.setTags             = input.setTags;
+      par.setAttachedEntities = input.setAttachedEntities;
       
     }catch(Exception error){
       return Response.status(422).build();
@@ -194,6 +198,49 @@ public class SSRESTDisc{
           SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(targets, SSStrU.comma), SSVocConf.sssUri), //targets
           true, //withUserRestriction
           true); //invokeEntityHandlers
+      
+    }catch(Exception error){
+      return Response.status(422).build();
+    }
+    
+    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path("/filtered/targets/{targets}")
+  @ApiOperation(
+    value = "retrieve discussions for certain entities, i.e., targets",
+    response = SSDiscsGetRet.class)
+  public Response discsForTargetsFilteredGet(
+    @Context
+    final HttpHeaders  headers,
+    
+    @PathParam (SSVarNames.targets)
+    final String targets, 
+    
+    final SSDiscsForTargetsFilteredGetRESTAPIV2Par input){
+    
+    final SSDiscsGetPar par;
+    
+    try{
+      
+      par =
+        new SSDiscsGetPar(
+          null, //user
+          true, //setEntries
+          null, //forUser
+          null, //discs
+          SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(targets, SSStrU.comma), SSVocConf.sssUri), //targets
+          true, //withUserRestriction
+          true); //invokeEntityHandlers
+      
+      par.setCircleTypes      = input.setCircleTypes;
+      par.setComments         = input.setComments;
+      par.setLikes            = input.setLikes;
+      par.setTags             = input.setTags;
+      par.setAttachedEntities = input.setAttachedEntities;
       
     }catch(Exception error){
       return Response.status(422).build();

@@ -26,10 +26,10 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-@ApiModel(value = "discGet request parameter")
-public class SSDiscGetRESTAPIV2Par{
+@ApiModel(value = "discs for targets get request parameter")
+public class SSDiscsForTargetsFilteredGetRESTAPIV2Par {
   
-  @XmlElement
+    @XmlElement
   @ApiModelProperty( 
     required = false, 
     value = "whether comments of threads and entries shall be retrieved")
@@ -54,14 +54,14 @@ public class SSDiscGetRESTAPIV2Par{
   public Boolean    setEntries   = null;
   
   @XmlElement
-  @ApiModelProperty(
-    required = false,
+  @ApiModelProperty( 
+    required = false, 
     value = "whether tags for disc and entries shall be set")
   public Boolean    setTags   = null;
   
   @XmlElement
-  @ApiModelProperty(
-    required = false,
+  @ApiModelProperty( 
+    required = false, 
     value = "whether attached entities shall be set for disc and entries")
   public Boolean    setAttachedEntities   = null;
 }

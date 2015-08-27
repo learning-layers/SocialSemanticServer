@@ -24,6 +24,7 @@ import at.kc.tugraz.ss.activity.api.SSActivityServerI;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
 import at.kc.tugraz.ss.activity.datatypes.par.SSActivityAddPar;
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesAddPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntitySharePar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivURIGetPar;
 import at.tugraz.sss.servs.entity.datatypes.ret.SSEntityShareRet;
@@ -68,6 +69,8 @@ import at.tugraz.sss.serv.SSUsersResourcesGathererI;
 import at.tugraz.sss.util.SSServCallerU;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUEE;
 import at.kc.tugraz.ss.service.userevent.datatypes.pars.SSUEAddPar;
+import at.tugraz.sss.serv.SSAddAffiliatedEntitiesToCircleI;
+import at.tugraz.sss.serv.SSAddAffiliatedEntitiesToCirclePar;
 import at.tugraz.sss.serv.SSCopyEntityI;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
@@ -96,6 +99,7 @@ implements
   SSEntityServerI,
   SSUserRelationGathererI,
   SSDescribeEntityI,
+  SSAddAffiliatedEntitiesToCircleI,
   SSUsersResourcesGathererI{
   
   private final SSEntitySQLFct    sqlFct;
@@ -111,6 +115,66 @@ implements
     this.activityServ    = (SSActivityServerI) SSServReg.getServ(SSActivityServerI.class);
     this.evalServ        = (SSEvalServerI)     SSServReg.getServ(SSEvalServerI.class);
     this.circleServ      = (SSCircleServerI)   SSServReg.getServ(SSCircleServerI.class);
+  }
+  
+  @Override
+  public List<SSEntity> addAffiliatedEntitiesToCircle(final SSAddAffiliatedEntitiesToCirclePar par) throws Exception{
+    
+    try{
+      
+      final List<SSUri>    affiliatedURIs     = new ArrayList<>();
+      final List<SSEntity> affiliatedEntities = new ArrayList<>();
+      
+      for(SSEntity entityAdded : par.entities){
+        
+        for(SSUri attachedEntity : sqlFct.getAttachedEntities(entityAdded.id)){
+          
+          if(SSStrU.contains(par.recursiveEntities, attachedEntity)){
+            continue;
+          }
+          
+          SSUri.addDistinctWithoutNull(
+            affiliatedURIs,
+            attachedEntity);
+        }
+      }
+      
+      if(affiliatedURIs.isEmpty()){
+        return affiliatedEntities;
+      }
+      
+      SSEntity.addEntitiesDistinctWithoutNull(
+        affiliatedEntities,
+        entitiesGet(
+          new SSEntitiesGetPar(
+            par.user, 
+            affiliatedURIs, 
+            null, 
+            null, 
+            par.withUserRestriction)));
+      
+      circleServ.circleEntitiesAdd(
+        new SSCircleEntitiesAddPar(
+          par.user,
+          par.circle, //circle
+          affiliatedURIs, //entities
+          false, //withUserRestriction
+          false)); //shouldCommit
+      
+      SSEntity.addEntitiesDistinctWithoutNull(
+        affiliatedEntities,
+        SSServCallerU.handleAddAffiliatedEntitiesToCircle(
+          par.user,
+          par.circle,
+          affiliatedEntities, //entities
+          par.withUserRestriction));
+      
+      return affiliatedEntities;
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
   }
   
   @Override

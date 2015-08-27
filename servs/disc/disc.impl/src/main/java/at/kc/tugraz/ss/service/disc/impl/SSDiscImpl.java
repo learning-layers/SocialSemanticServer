@@ -669,16 +669,20 @@ public class SSDiscImpl
       SSEntityDescriberPar       descPar;
       
       if(par.invokeEntityHandlers){
+        
         descPar = new SSEntityDescriberPar(par.disc);
         
-        descPar.setCircleTypes = par.setCircleTypes;
-        descPar.setLikes       = par.setLikes;
-        descPar.setComments    = par.setComments;
+        descPar.setCircleTypes       = par.setCircleTypes;
+        descPar.setLikes             = par.setLikes;
+        descPar.setComments          = par.setComments;
+        descPar.setTags              = par.setTags;
+        descPar.setAttachedEntities  = par.setAttachedEntities;
+        
       }else{
         descPar = null;
       }
       
-      final SSDisc               disc =
+      final SSDisc disc =
         SSDisc.get(
           sqlFct.getDisc(par.disc, par.setEntries),
           entityServ.entityGet(
@@ -692,6 +696,7 @@ public class SSDiscImpl
         
         if(par.invokeEntityHandlers){
           descPar                 = new SSEntityDescriberPar(null);
+          descPar.setTags         = par.setTags;
         }else{
           descPar = null;
         }
@@ -710,10 +715,12 @@ public class SSDiscImpl
       disc.targets.addAll(discTargets);
       
       if(par.invokeEntityHandlers){
-        descPar                 = new SSEntityDescriberPar(null);
-        descPar.setCircleTypes  = par.setCircleTypes;
-        descPar.setLikes        = par.setLikes;
-        descPar.setComments     = par.setComments;
+        descPar                      = new SSEntityDescriberPar(null);
+        descPar.setCircleTypes       = par.setCircleTypes;
+        descPar.setLikes             = par.setLikes;
+        descPar.setComments          = par.setComments;
+        descPar.setTags              = par.setTags;
+        descPar.setAttachedEntities  = par.setAttachedEntities;
       }else{
         descPar = null;
       }
@@ -793,10 +800,12 @@ public class SSDiscImpl
           par.withUserRestriction,
           par.invokeEntityHandlers);
       
-      discGetPar.setEntries      = par.setEntries;
-      discGetPar.setLikes        = par.setLikes;
-      discGetPar.setCircleTypes  = par.setCircleTypes;
-      discGetPar.setComments     = par.setComments;
+      discGetPar.setEntries           = par.setEntries;
+      discGetPar.setLikes             = par.setLikes;
+      discGetPar.setCircleTypes       = par.setCircleTypes;
+      discGetPar.setComments          = par.setComments;
+      discGetPar.setTags              = par.setTags;
+      discGetPar.setAttachedEntities  = par.setAttachedEntities;
       
       if(!par.targets.isEmpty()){
         

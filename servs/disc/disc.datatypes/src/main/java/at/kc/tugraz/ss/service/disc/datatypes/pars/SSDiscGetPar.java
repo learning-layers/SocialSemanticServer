@@ -33,6 +33,8 @@ public class SSDiscGetPar extends SSServPar{
   public Boolean    setLikes             = false;
   public Boolean    setCircleTypes       = false;
   public Boolean    setComments          = false;
+  public Boolean     setTags             = false;
+  public Boolean     setAttachedEntities = false;
   
   public void setDisc(final String disc) throws Exception{
     this.disc = SSUri.get(disc);
