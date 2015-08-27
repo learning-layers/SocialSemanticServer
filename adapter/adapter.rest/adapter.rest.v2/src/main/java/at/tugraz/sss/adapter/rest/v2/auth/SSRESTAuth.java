@@ -22,13 +22,16 @@ package at.tugraz.sss.adapter.rest.v2.auth;
 
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthCheckCredPar;
+import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthRegisterUserPar;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.ret.SSAuthCheckCredRet;
+import at.tugraz.sss.serv.SSVarNames;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
@@ -84,6 +87,40 @@ public class SSRESTAuth{
         new SSAuthCheckCredPar(
           input.label,
           input.password);
+      
+    }catch(Exception error){
+      return Response.status(422).build();
+    }
+    
+    return SSRestMainV2.handleRequest(null, par, false, false).response;
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path("/{email}")
+  @ApiOperation(
+    value = "",
+    response = SSAuthCheckCredRet.class)
+  public Response authRegisterUser(
+    @PathParam(SSVarNames.email)
+    final String email,
+    
+    final SSAuthRegisterUserRESTAPIV2Par input){
+    
+    final SSAuthRegisterUserPar par;
+    
+    try{
+      
+      par =
+        new SSAuthRegisterUserPar(
+          email,
+          input.password,
+          input.label,
+          false, //updatePassword,
+          false, //isSystemUser,
+          false, //withUserRestriction,
+          true); //shouldCommitsss
       
     }catch(Exception error){
       return Response.status(422).build();

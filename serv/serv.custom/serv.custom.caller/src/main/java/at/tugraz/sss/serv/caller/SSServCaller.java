@@ -495,28 +495,6 @@ public class SSServCaller {
   
   /* auth */
   
-  public static SSUri authRegisterUser(
-    final SSUri   user,
-    final SSLabel label,
-    final String  email, 
-    final String  password,
-    final Boolean isSystemUser,
-    final Boolean updatePassword,
-    final Boolean shouldCommit) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.user,              user);
-    opPars.put(SSVarNames.label,             label);
-    opPars.put(SSVarNames.email,             email);
-    opPars.put(SSVarNames.password,          password);
-    opPars.put(SSVarNames.isSystemUser,      isSystemUser);
-    opPars.put(SSVarNames.updatePassword,    updatePassword);
-    opPars.put(SSVarNames.shouldCommit,      shouldCommit);
-    
-    return (SSUri) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.authRegisterUser, opPars));
-  }
-   
   public static void authUsersFromCSVFileAdd(
     final Boolean shouldCommit) throws Exception{
     

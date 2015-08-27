@@ -26,6 +26,7 @@ import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSStrU;
 import at.kc.tugraz.ss.category.datatypes.SSCategoryLabel;
 import at.kc.tugraz.ss.category.datatypes.par.SSCategoriesAddPar;
+import at.kc.tugraz.ss.serv.auth.api.SSAuthServerI;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSSpaceE;
 import at.tugraz.sss.serv.SSDBSQLI;
@@ -46,6 +47,7 @@ import at.kc.tugraz.ss.serv.dataimport.impl.fct.sql.SSDataImportSQLFct;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.kc.tugraz.ss.serv.job.i5cloud.datatypes.SSi5CloudAchsoVideo;
+import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthRegisterUserPar;
 import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.caller.SSServCaller;
@@ -276,6 +278,7 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
   public void dataImportAchso(final SSServPar parA) throws Exception {
     
     try{
+      final SSAuthServerI             authServ     = (SSAuthServerI) SSServReg.getServ(SSAuthServerI.class);
       final SSDataImportAchsoPar      par          = new SSDataImportAchsoPar(parA);
       final List<SSi5CloudAchsoVideo> videoObjs    = 
         SSDataImportAchsoFct.getVideoObjs(
@@ -286,15 +289,16 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
 
       for(SSi5CloudAchsoVideo video : videoObjs){
         
-        authorUri =
-          SSServCaller.authRegisterUser(
-            par.user,
-            video.authorLabel,
-            video.authorLabel + SSStrU.at + SSVocConf.systemEmailPostFix,
-            "1234",
-            false,
-            false, 
-            true);
+        authorUri=
+          authServ.authRegisterUser(
+            new SSAuthRegisterUserPar(
+              video.authorLabel + SSStrU.at + SSVocConf.systemEmailPostFix, //email
+              "1234", //password
+              video.authorLabel,//evernoteInfo.userName,
+              false, //updatePassword,
+              false, //isSystemUser,
+              false, //withUserRestriction,
+              true)); //shouldCommit
         
         ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
           new SSEntityUpdatePar(
@@ -355,6 +359,7 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
   @Override
   public Boolean dataImportUserResourceTagFromWikipedia(final SSServPar parA) throws Exception {
     
+    final SSAuthServerI                               authServ      = (SSAuthServerI) SSServReg.getServ(SSAuthServerI.class);
     final SSDataImportUserResourceTagFromWikipediaPar par           = new SSDataImportUserResourceTagFromWikipediaPar(parA);
     int                                               counter       = 1;
     int                                               tagCounter    = 0;
@@ -418,15 +423,16 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
         timestamp   = Long.parseLong  (lineSplit.get(2)) * 1000;
         tags        = lineSplit.get   (3);
         
-        user = 
-          SSServCaller.authRegisterUser(
-            par.user, 
-            SSLabel.get(userLabel), 
-            userLabel + SSStrU.at + SSVocConf.systemEmailPostFix,
-            "1234",
-            false,
-            false,
-            false);
+        user=
+          authServ.authRegisterUser(
+            new SSAuthRegisterUserPar(
+              userLabel + SSStrU.at + SSVocConf.systemEmailPostFix, //email
+              "1234", //password
+              SSLabel.get(userLabel),
+              false, //updatePassword,
+              false, //isSystemUser,
+              false, //withUserRestriction,
+              false)); //shouldCommit
         
         tagList     = SSStrU.splitDistinctWithoutEmptyAndNull(tags, SSStrU.comma);
         tagCounter += tagList.size();

@@ -22,6 +22,7 @@
 
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthCheckCredPar;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthCheckKeyPar;
+import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthRegisterUserPar;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.ret.SSAuthCheckCredRet;
@@ -29,9 +30,10 @@ import at.tugraz.sss.serv.SSServServerI;
 
 public interface SSAuthServerI extends SSServServerI{
 
-  public SSAuthCheckCredRet  authCheckCred           (final SSAuthCheckCredPar par) throws Exception;
-  public SSUri               authCheckKey            (final SSAuthCheckKeyPar  par) throws Exception;
+  public SSAuthCheckCredRet  authCheckCred           (final SSAuthCheckCredPar    par) throws Exception;
+  public SSUri               authCheckKey            (final SSAuthCheckKeyPar     par) throws Exception;
+  public SSUri               authRegisterUser        (final SSAuthRegisterUserPar par) throws Exception;
   
   public void                authUsersFromCSVFileAdd (final SSServPar parA) throws Exception;
-  public SSUri               authRegisterUser        (final SSServPar parA) throws Exception;
+  
 }

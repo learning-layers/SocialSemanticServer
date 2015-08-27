@@ -41,6 +41,7 @@ import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthCheckKeyPar;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthRegisterUserPar;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthUsersFromCSVFileAddPar;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.ret.SSAuthCheckCredRet;
+import at.kc.tugraz.ss.serv.ss.auth.datatypes.ret.SSAuthRegisterUserRet;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.kc.tugraz.ss.service.coll.api.SSCollServerI;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserRootAddPar;
@@ -78,16 +79,6 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
 //    wikiauth  = new SSAuthWiki();
   }
   
-  
-  @Override
-  public void authCheckCred(SSSocketCon sSCon, SSServPar parA) throws Exception {
-    
-    
-    final SSAuthCheckCredPar par = (SSAuthCheckCredPar) parA.getFromJSON(SSAuthCheckCredPar.class);
-    
-    sSCon.writeRetFullToClient(authCheckCred(par));
-  }
-  
   @Override
   public void authUsersFromCSVFileAdd(final SSServPar parA) throws Exception {
     
@@ -117,14 +108,15 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
           email = passwordForUser.getKey() + SSStrU.at + SSVocConf.systemEmailPostFix;
         }
         
-        SSServCaller.authRegisterUser(
-          SSVocConf.systemUserUri,
-          SSLabel.get(passwordForUser.getKey()),
-          email,
-          passwordForUser.getValue(),
-          false,
-          false,
-          false);
+        authRegisterUser(
+          new SSAuthRegisterUserPar(
+            email, 
+            passwordForUser.getValue(), 
+            SSLabel.get(passwordForUser.getKey()), 
+            false, //updatePassword, 
+            false, //isSystemUser, 
+            false, //withUserRestriction, 
+            false)); //shouldCommit)
       }
       
       dbSQL.commit(par.shouldCommit);
@@ -134,20 +126,35 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
     }
   }
   
+  @Override
+  public void authRegisterUser(SSSocketCon sSCon, SSServPar parA) throws Exception {
+    
+    final SSAuthRegisterUserPar par = (SSAuthRegisterUserPar) parA.getFromJSON(SSAuthRegisterUserPar.class);
+    
+    sSCon.writeRetFullToClient(SSAuthRegisterUserRet.get(authRegisterUser(par)));
+  }
+  
   @Override 
-  public SSUri authRegisterUser(final SSServPar parA) throws Exception{
+  public SSUri authRegisterUser(final SSAuthRegisterUserPar par) throws Exception{
     
     try{
       
-      final SSAuthRegisterUserPar par      = new SSAuthRegisterUserPar(parA);
-      final SSUri                 userUri;
+      if(par.email == null){
+        throw new SSErr(SSErrE.parameterMissing);
+      }
       
+      final SSUri     userUri;
+      final Boolean   userExists;
+      
+      userExists = 
+        userServ.userExists(
+          new SSUserExistsPar(
+            SSVocConf.systemUserUri,
+            par.email));
+        
       dbSQL.startTrans(par.shouldCommit);
       
-      if(!userServ.userExists(
-        new SSUserExistsPar(
-          SSVocConf.systemUserUri, 
-          par.email))){
+      if(!userExists){
         
         userUri = 
           userServ.userAdd(
@@ -207,6 +214,14 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
       SSServErrReg.regErrThrow(error);
       return null;
     }
+  }
+ 
+  @Override
+  public void authCheckCred(SSSocketCon sSCon, SSServPar parA) throws Exception {
+    
+    final SSAuthCheckCredPar par = (SSAuthCheckCredPar) parA.getFromJSON(SSAuthCheckCredPar.class);
+    
+    sSCon.writeRetFullToClient(authCheckCred(par));
   }
   
   @Override
@@ -327,6 +342,7 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
               SSVocConf.systemUserUri,
               email))){
             
+            //TODO use authRegisterUser
             userUri = 
               userServ.userAdd(
                 new SSUserAddPar(

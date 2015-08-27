@@ -3,7 +3,7 @@
 * http://www.learning-layers.eu
 * Development is partly funded by the FP7 Programme of the European Commission under
 * Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+* Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
 * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,34 +20,46 @@
 */
 package at.kc.tugraz.ss.serv.ss.auth.datatypes.pars;
 
-import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSStrU;
 
 public class SSAuthRegisterUserPar extends SSServPar{
   
-  public SSLabel  label             = null;
   public String   email             = null;
   public String   password          = null;
+  public SSLabel  label             = null;
   public Boolean  updatePassword    = null;
   public Boolean  isSystemUser      = null;
+
+  public String getLabel() {
+    return SSStrU.toStr(label);
+  }
+
+  public void setLabel(final String label) throws Exception {
+    this.label = SSLabel.get(label);
+  }
   
-  public SSAuthRegisterUserPar(final SSServPar par) throws Exception{
+  public SSAuthRegisterUserPar(){}
+     
+  public SSAuthRegisterUserPar(
+    final String     email, 
+    final String     password, 
+    final SSLabel    label,
+    final Boolean    updatePassword, 
+    final Boolean    isSystemUser,
+    final Boolean    withUserRestriction, 
+    final Boolean    shouldCommit){
     
-    super(par);
+    super(SSServOpE.authRegisterUser, null, null);
     
-    try{
-      
-      if(pars != null){
-        password           = (String)  pars.get(SSVarNames.password);
-        email              = (String)  pars.get(SSVarNames.email);
-        label              = (SSLabel) pars.get(SSVarNames.label);
-        updatePassword     = (Boolean) pars.get(SSVarNames.updatePassword);
-        isSystemUser       = (Boolean) pars.get(SSVarNames.isSystemUser);
-      }
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
+    this.email                 = email;
+    this.password              = password;
+    this.label                 = label;
+    this.updatePassword        = updatePassword;
+    this.isSystemUser          = isSystemUser;
+    this.withUserRestriction   = withUserRestriction;
+    this.shouldCommit          = shouldCommit;
   }
 }

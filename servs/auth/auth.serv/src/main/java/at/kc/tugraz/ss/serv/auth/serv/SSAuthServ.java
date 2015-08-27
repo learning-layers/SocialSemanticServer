@@ -27,6 +27,7 @@ import at.kc.tugraz.ss.serv.auth.api.SSAuthClientI;
 import at.kc.tugraz.ss.serv.auth.api.SSAuthServerI;
 import at.kc.tugraz.ss.serv.auth.conf.SSAuthConf;
 import at.kc.tugraz.ss.serv.auth.impl.SSAuthImpl;
+import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthRegisterUserPar;
 import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSServImplA;
@@ -49,7 +50,7 @@ public class SSAuthServ extends SSServContainerI{
   
   @Override
   protected SSServImplA createServImplForThread() throws Exception{
-    return new SSAuthImpl((SSAuthConf)conf);
+    return new SSAuthImpl((SSAuthConf) conf);
   }
   
   @Override
@@ -69,14 +70,15 @@ public class SSAuthServ extends SSServContainerI{
       return;
     }
     
-    SSServCaller.authRegisterUser(
-      SSVocConf.systemUserUri,
-      SSLabel.get(SSVocConf.systemUserLabel),
-      SSVocConf.systemUserEmail,
-      ((SSAuthConf)conf).systemUserPassword,
-      true,
-      true,
-      true);
+    ((SSAuthImpl)inst.serv()).authRegisterUser(
+      new SSAuthRegisterUserPar(
+        SSVocConf.systemUserEmail,
+        ((SSAuthConf)conf).systemUserPassword,
+        SSLabel.get(SSVocConf.systemUserLabel),
+        true,
+        true,
+        false,
+        true));
     
     if(((SSAuthConf)conf).initAtStartUp){
       

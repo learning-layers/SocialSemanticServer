@@ -25,6 +25,7 @@ import at.tugraz.sss.serv.SSLinkU;
 import at.tugraz.sss.serv.SSObjU;
 import at.tugraz.sss.serv.SSStrU;
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
+import at.kc.tugraz.ss.serv.auth.api.SSAuthServerI;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.SSUri;
@@ -36,6 +37,7 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteInfo;
+import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthRegisterUserPar;
 import at.kc.tugraz.ss.service.tag.api.SSTagServerI;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsAddPar;
@@ -75,6 +77,8 @@ public class SSDataImportEvernoteHandler {
   
   public void setBasicEvernoteInfo(final SSDataImportEvernotePar par) throws Exception{
     
+    final SSAuthServerI authServ = (SSAuthServerI) SSServReg.getServ(SSAuthServerI.class);
+    
     if(par.authToken == null){
       par.authToken = SSServCaller.evernoteUsersAuthTokenGet(par.user);
     }
@@ -83,14 +87,15 @@ public class SSDataImportEvernoteHandler {
     evernoteInfo.userName = SSLabel.get(evernoteInfo.userStore.getUser().getUsername());
     
     this.userUri         =
-      SSServCaller.authRegisterUser(
-        par.user,
-        SSLabel.get(par.authEmail),//evernoteInfo.userName,
-        par.authEmail,
-        "1234",
-        false,
-        false,
-        false);
+      authServ.authRegisterUser(
+        new SSAuthRegisterUserPar(
+          par.authEmail, //email
+          "1234", //password
+          SSLabel.get(par.authEmail),//evernoteInfo.userName,
+          false, //updatePassword,
+          false, //isSystemUser,
+          false, //withUserRestriction,
+          false)); //shouldCommit
     
     SSServCaller.evernoteUserAdd(
       this.userUri,
