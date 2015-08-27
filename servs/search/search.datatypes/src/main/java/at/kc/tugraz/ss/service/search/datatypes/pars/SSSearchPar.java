@@ -39,11 +39,11 @@ public class SSSearchPar extends SSServPar{
   public List<SSSearchLabel> descriptionsToSearchFor                       = new ArrayList<>();
   public Boolean             applyGlobalSearchOpBetweenLabelAndDescription = false;
   public List<SSEntityE>     typesToSearchOnlyFor                          = new ArrayList<>();
-  public Boolean             includeOnlySubEntities                        = null;
+  public Boolean             includeOnlySubEntities                        = false;
   public List<SSUri>         entitiesToSearchWithin                        = new ArrayList<>();
-  public Boolean             extendToParents                               = null;
-  public Boolean             includeRecommendedResults                     = null;
-  public Boolean             provideEntries                                = null;
+  public Boolean             extendToParents                               = false;
+  public Boolean             includeRecommendedResults                     = false;
+  public Boolean             provideEntries                                = false;
   public String              pagesID                                       = null;
   public Integer             pageNumber                                    = null;
   public Integer             minRating                                     = null;
