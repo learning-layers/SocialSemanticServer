@@ -329,6 +329,7 @@ implements
           par.user,
           par.circle,
           affiliatedEntities, //entities
+          par.recursiveEntities, 
           par.withUserRestriction));
       
       return affiliatedEntities;

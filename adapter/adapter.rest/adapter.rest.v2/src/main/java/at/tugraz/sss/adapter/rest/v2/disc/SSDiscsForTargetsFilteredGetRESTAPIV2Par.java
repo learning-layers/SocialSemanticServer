@@ -1,25 +1,27 @@
-/**
-* Code contributed to the Learning Layers project
-* http://www.learning-layers.eu
-* Development is partly funded by the FP7 Programme of the European Commission under
-* Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
-* For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
-*
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-* http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*/
+ /**
+  * Code contributed to the Learning Layers project
+  * http://www.learning-layers.eu
+  * Development is partly funded by the FP7 Programme of the European Commission under
+  * Grant Agreement FP7-ICT-318209.
+  * Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
+  * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
+  *
+  * Licensed under the Apache License, Version 2.0 (the "License");
+  * you may not use this file except in compliance with the License.
+  * You may obtain a copy of the License at
+  *
+  * http://www.apache.org/licenses/LICENSE-2.0
+  *
+  * Unless required by applicable law or agreed to in writing, software
+  * distributed under the License is distributed on an "AS IS" BASIS,
+  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  * See the License for the specific language governing permissions and
+  * limitations under the License.
+  */
 package at.tugraz.sss.adapter.rest.v2.disc;
 
+import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.tugraz.sss.serv.SSUri;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 import javax.xml.bind.annotation.XmlElement;
@@ -29,39 +31,49 @@ import javax.xml.bind.annotation.XmlRootElement;
 @ApiModel(value = "discs for targets get request parameter")
 public class SSDiscsForTargetsFilteredGetRESTAPIV2Par {
   
-    @XmlElement
   @ApiModelProperty( 
     required = false, 
+    value = "user for which discussion will be retrieved")
+  public SSUri    forUser       = null;
+
+  @XmlElement
+  public void setForUser(final String forUser) throws Exception{
+    this.forUser = SSUri.get(forUser, SSVocConf.sssUri);
+  }
+  
+  @XmlElement
+  @ApiModelProperty(
+    required = false,
     value = "whether comments of threads and entries shall be retrieved")
   public Boolean    setComments       = null;
   
   @XmlElement
-  @ApiModelProperty( 
-    required = false, 
+  @ApiModelProperty(
+    required = false,
     value = "whether likes for entries shall be set")
   public Boolean    setLikes       = null;
   
   @XmlElement
-  @ApiModelProperty( 
-    required = false, 
+  @ApiModelProperty(
+    required = false,
     value = "whether the types of circles the discussion is in shall be set")
   public Boolean    setCircleTypes   = null;
   
   @XmlElement
-  @ApiModelProperty( 
-    required = false, 
+  @ApiModelProperty(
+    required = false,
     value = "whether the entries of the discussion shall be returned")
   public Boolean    setEntries   = null;
   
   @XmlElement
-  @ApiModelProperty( 
-    required = false, 
+  @ApiModelProperty(
+    required = false,
     value = "whether tags for disc and entries shall be set")
   public Boolean    setTags   = null;
   
   @XmlElement
-  @ApiModelProperty( 
-    required = false, 
+  @ApiModelProperty(
+    required = false,
     value = "whether attached entities shall be set for disc and entries")
   public Boolean    setAttachedEntities   = null;
 }

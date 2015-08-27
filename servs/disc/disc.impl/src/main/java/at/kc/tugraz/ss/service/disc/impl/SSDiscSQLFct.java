@@ -586,30 +586,6 @@ public class SSDiscSQLFct extends SSDBSQLFct {
     }
   } 
 
-  public List<String> getDiscURIsForUser(
-    final SSUri user) throws Exception{
-    
-    ResultSet resultSet = null;
-    
-    try{
-      final List<String>        columns = new ArrayList<>();
-      final Map<String, String> wheres  = new HashMap<>();
-      
-      column(columns, SSSQLVarNames.discId);
-      
-      where(wheres, SSSQLVarNames.userId, user);
-    
-      resultSet = dbSQL.select(SSSQLVarNames.discUserTable, columns, wheres, null, null, null);
-
-      return getStringsFromResult(resultSet, SSSQLVarNames.discId);
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }finally{
-      dbSQL.closeStmt(resultSet);
-    }
-  }
-
   public SSUri getDiscURIContainingEntry(
     final SSUri entityUri) throws Exception{
     

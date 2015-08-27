@@ -34,13 +34,15 @@ public class SSAddAffiliatedEntitiesToCirclePar {
   public SSAddAffiliatedEntitiesToCirclePar(
     final SSUri          user, 
     final SSUri          circle,
-    final List<SSEntity> entities, 
+    final List<SSEntity> entities,
+    final List<SSUri>    recursiveEntities,
     final Boolean        withUserRestriction){
     
     this.user           = user;
     this.circle         = circle;
     
-    SSEntity.addEntitiesDistinctWithoutNull(this.entities, entities);
+    SSEntity.addEntitiesDistinctWithoutNull(this.entities,          entities);
+    SSUri.addDistinctWithoutNull           (this.recursiveEntities, recursiveEntities);
     
     this.withUserRestriction = withUserRestriction;
   }

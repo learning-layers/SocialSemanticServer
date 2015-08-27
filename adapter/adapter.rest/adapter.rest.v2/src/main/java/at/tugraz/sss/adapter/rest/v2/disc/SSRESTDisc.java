@@ -230,7 +230,7 @@ public class SSRESTDisc{
         new SSDiscsGetPar(
           null, //user
           true, //setEntries
-          null, //forUser
+          input.forUser, //forUser
           null, //discs
           SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(targets, SSStrU.comma), SSVocConf.sssUri), //targets
           true, //withUserRestriction

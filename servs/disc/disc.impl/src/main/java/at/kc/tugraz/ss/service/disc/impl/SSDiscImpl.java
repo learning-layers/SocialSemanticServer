@@ -245,8 +245,8 @@ public class SSDiscImpl
 
   @Override
   public List<SSUri> getParentEntities(
-    final SSUri user,
-    final SSUri entity,
+    final SSUri     user,
+    final SSUri     entity,
     final SSEntityE type) throws Exception{
     
     switch(type){
@@ -256,12 +256,12 @@ public class SSDiscImpl
       case chatEntry: {
         
         try{
-          final List<String> userDiscUris = sqlFct.getDiscURIsForUser(user);
+          final List<SSUri>  userDiscUris = sqlFct.getDiscURIs(user);
           final List<String> discUris     = new ArrayList<>();
           
           discUris.add(SSStrU.toStr(sqlFct.getDiscURIContainingEntry(entity)));
           
-          return SSUri.get(SSStrU.retainAll(discUris, userDiscUris));
+          return SSUri.get(SSStrU.retainAll(discUris, SSStrU.toStr(userDiscUris)));
         }catch(Exception error){
           SSServErrReg.regErrThrow(error);
           return null;
@@ -360,7 +360,8 @@ public class SSDiscImpl
         SSServCallerU.handleAddAffiliatedEntitiesToCircle(
           par.user, 
           par.circle, 
-          affiliatedEntities, 
+          affiliatedEntities,
+          par.recursiveEntities,
           par.withUserRestriction));
       
       return affiliatedEntities;

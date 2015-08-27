@@ -22,7 +22,6 @@ package at.tugraz.sss.util;
 
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleCanAccessPar;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesAddPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclesGetPar;
 import at.kc.tugraz.ss.serv.auth.api.SSAuthServerI;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
@@ -155,6 +154,7 @@ public class SSServCallerU{
           user, 
           circle.id, 
           entities, 
+          new ArrayList<>(),
           withUserRestriction);
       
       SSEntity.addEntitiesDistinctWithoutNull(
@@ -191,6 +191,7 @@ public class SSServCallerU{
             user,
             circle.id,
             circle.entities,
+            new ArrayList<>(),
             withUserRestriction);
       
       SSEntity.addEntitiesDistinctWithoutNull(
@@ -217,16 +218,18 @@ public class SSServCallerU{
     final SSUri             user,
     final SSUri             circle,
     final List<SSEntity>    entities,
+    final List<SSUri>       recursiveEntities,
     final Boolean           withUserRestriction) throws Exception{
     
     try{
       final List<SSEntity>                     addedAffiliatedEntities = new ArrayList<>();
-      final SSAddAffiliatedEntitiesToCirclePar par = 
+      final SSAddAffiliatedEntitiesToCirclePar par =
         new SSAddAffiliatedEntitiesToCirclePar(
-        user, 
-        circle, 
-        entities, 
-        withUserRestriction);
+          user,
+          circle,
+          entities,
+          recursiveEntities,
+          withUserRestriction);
       
       for(SSServContainerI serv : SSServReg.inst.getServsHandlingAddAffiliatedEntitiesToCircle()){
         
