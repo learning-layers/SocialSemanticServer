@@ -539,9 +539,7 @@ public class SSDataImportEvernoteNoteContentHandler{
             hashEndIndex = tmpLine.indexOf            ("\"", hashIndex + 6);
             hash         = tmpLine.substring          (hashIndex + 6, hashEndIndex);
             fileURI      = SSServCaller.vocURICreate  (SSMimeTypeE.fileExtForMimeType(mimeType));
-            fileID       = 
-              SSVocConf.fileIDFromSSSURI(
-                  fileURI);
+            fileID       = SSVocConf.fileIDFromSSSURI (fileURI);
             
             resource =
               SSServCaller.evernoteResourceByHashGet(
@@ -568,9 +566,7 @@ public class SSDataImportEvernoteNoteContentHandler{
                 500, 
                 500);
             
-            fileID       = 
-              SSVocConf.fileIDFromSSSURI(
-                  thumbnailURI);
+            fileID = SSVocConf.fileIDFromSSSURI(thumbnailURI);
             
             result +=
               "<div>Included PDF (preview):</div>" +

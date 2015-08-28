@@ -47,6 +47,7 @@ import at.kc.tugraz.ss.service.userevent.datatypes.SSUEE;
 import at.kc.tugraz.ss.service.userevent.datatypes.pars.SSUEAddPar;
 import at.kc.tugraz.ss.service.userevent.datatypes.pars.SSUEsGetPar;
 import at.tugraz.sss.serv.SSEntity;
+import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
 import com.evernote.edam.type.LinkedNotebook;
@@ -606,13 +607,28 @@ public class SSDataImportEvernoteHandler {
       
       resourceWithContent = SSServCaller.evernoteResourceGet                  (evernoteInfo.noteStore, resource.getGuid(), false);
       
+      if(resourceWithContent.getAttributes().isSetSourceURL()){
+        SSLogU.info(resourceWithContent.getAttributes().getSourceURL());
+        continue;
+      }
+      
+      if(
+        !resourceWithContent.isSetHeight() ||
+        !resourceWithContent.isSetWidth()){
+        
+        SSLogU.info("evernote resource height or width not set");
+        continue;
+      }
+      
       if(
         resourceWithContent.isSetHeight() &&
         resourceWithContent.isSetWidth()){
         
         if(
-          resourceWithContent.getWidth()  <= 200||
-          resourceWithContent.getHeight() <= 200){
+          resourceWithContent.getWidth()  <= 250||
+          resourceWithContent.getHeight() <= 250){
+          
+          SSLogU.info("evernote resource height or width < 250");
           continue;
         }
       }else{
