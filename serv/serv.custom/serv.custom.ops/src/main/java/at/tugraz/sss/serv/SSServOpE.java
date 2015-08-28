@@ -27,6 +27,7 @@ public enum SSServOpE{
   livingDocAdd,
   livingDocsGet,
   livingDocRemove,
+  livingDocUpdate,
   
   //integrationtest
   integrationTestKnowBrainTaggingStudy2015,

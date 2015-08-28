@@ -26,7 +26,6 @@ import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
 import at.kc.tugraz.ss.service.disc.api.SSDiscServerI;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscTargetsAddPar;
-import at.tugraz.sss.serv.SSAddAffiliatedEntitiesToCircleI;
 import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
@@ -53,10 +52,12 @@ import at.tugraz.sss.servs.livingdocument.datatype.SSLivingDocument;
 import at.tugraz.sss.servs.livingdocument.datatype.par.SSLivingDocAddPar;
 import at.tugraz.sss.servs.livingdocument.datatype.par.SSLivingDocGetPar;
 import at.tugraz.sss.servs.livingdocument.datatype.par.SSLivingDocRemovePar;
+import at.tugraz.sss.servs.livingdocument.datatype.par.SSLivingDocUpdatePar;
 import at.tugraz.sss.servs.livingdocument.datatype.par.SSLivingDocsGetPar;
 import at.tugraz.sss.servs.livingdocument.datatype.ret.SSLivingDocAddRet;
 import at.tugraz.sss.servs.livingdocument.datatype.ret.SSLivingDocGetRet;
 import at.tugraz.sss.servs.livingdocument.datatype.ret.SSLivingDocRemoveRet;
+import at.tugraz.sss.servs.livingdocument.datatype.ret.SSLivingDocUpdateRet;
 import at.tugraz.sss.servs.livingdocument.datatype.ret.SSLivingDocsGetRet;
 import at.tugraz.sss.util.SSServCallerU;
 import java.util.ArrayList;
@@ -200,6 +201,83 @@ implements
           SSServErrReg.reset();
           
           return livingDocAdd(par);
+        }else{
+          SSServErrReg.regErrThrow(error);
+          return null;
+        }
+      }
+      
+      dbSQL.rollBack(par.shouldCommit);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public void livingDocUpdate(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
+    
+    SSServCallerU.checkKey(parA);
+    
+    final SSLivingDocUpdatePar par          = (SSLivingDocUpdatePar) parA.getFromJSON(SSLivingDocUpdatePar.class);
+    final SSUri                livingDocURI = livingDocUpdate(par);
+    
+    if(livingDocURI != null){
+      
+      if(par.discussion != null){
+        
+        final SSDiscServerI discServ = (SSDiscServerI) SSServReg.getServ(SSDiscServerI.class);
+        final List<SSUri>   targets  = new ArrayList<>();
+        
+        targets.add(livingDocURI);
+        
+        discServ.discTargetsAdd(
+          new SSDiscTargetsAddPar(
+            par.user, 
+            par.discussion, 
+            targets, 
+            par.withUserRestriction, 
+            par.shouldCommit));
+      }
+    }
+    
+    sSCon.writeRetFullToClient(SSLivingDocUpdateRet.get(livingDocURI));
+  }
+  
+  @Override
+  public SSUri livingDocUpdate(final SSLivingDocUpdatePar par) throws Exception{
+    
+    try{
+      
+      final SSEntityServerI  entityServ   = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
+      
+      dbSQL.startTrans(par.shouldCommit);
+      
+      entityServ.entityUpdate(
+        new SSEntityUpdatePar(
+          par.user,
+          par.livingDoc,
+          SSEntityE.livingDoc, //type,
+          par.label, //label
+          par.description,//description,
+          null, //creationTime,
+          null, //read,
+          false, //setPublic
+          par.withUserRestriction, //withUserRestriction
+          false)); //shouldCommit)
+      
+      dbSQL.commit(par.shouldCommit);
+      
+      return par.livingDoc;
+      
+    }catch(Exception error){
+      
+      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+        
+        if(dbSQL.rollBack(par.shouldCommit)){
+          
+          SSServErrReg.reset();
+          
+          return livingDocUpdate(par);
         }else{
           SSServErrReg.regErrThrow(error);
           return null;

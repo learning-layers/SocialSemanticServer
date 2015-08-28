@@ -27,6 +27,7 @@ public interface SSLivingDocClientI {
   
   public void livingDocGet    (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
   public void livingDocAdd    (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void livingDocUpdate (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
   public void livingDocsGet   (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
   public void livingDocRemove (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
 }

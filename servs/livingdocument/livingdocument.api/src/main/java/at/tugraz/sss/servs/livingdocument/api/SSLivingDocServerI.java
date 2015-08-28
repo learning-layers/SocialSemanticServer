@@ -26,13 +26,15 @@ import at.tugraz.sss.servs.livingdocument.datatype.SSLivingDocument;
 import at.tugraz.sss.servs.livingdocument.datatype.par.SSLivingDocAddPar;
 import at.tugraz.sss.servs.livingdocument.datatype.par.SSLivingDocGetPar;
 import at.tugraz.sss.servs.livingdocument.datatype.par.SSLivingDocRemovePar;
+import at.tugraz.sss.servs.livingdocument.datatype.par.SSLivingDocUpdatePar;
 import at.tugraz.sss.servs.livingdocument.datatype.par.SSLivingDocsGetPar;
 import java.util.List;
 
 public interface SSLivingDocServerI {
   
-  public SSUri              livingDocAdd    (final SSLivingDocAddPar    par) throws Exception;
-  public SSLivingDocument   livingDocGet    (final SSLivingDocGetPar    par) throws Exception;
-  public List<SSEntity>     livingDocsGet   (final SSLivingDocsGetPar   par) throws Exception;
-  public SSUri              livingDocRemove (final SSLivingDocRemovePar par) throws Exception;
+  public SSUri              livingDocAdd    (final SSLivingDocAddPar      par) throws Exception;
+  public SSUri              livingDocUpdate (final SSLivingDocUpdatePar   par) throws Exception;
+  public SSLivingDocument   livingDocGet    (final SSLivingDocGetPar      par) throws Exception;
+  public List<SSEntity>     livingDocsGet   (final SSLivingDocsGetPar     par) throws Exception;
+  public SSUri              livingDocRemove (final SSLivingDocRemovePar   par) throws Exception;
 }
