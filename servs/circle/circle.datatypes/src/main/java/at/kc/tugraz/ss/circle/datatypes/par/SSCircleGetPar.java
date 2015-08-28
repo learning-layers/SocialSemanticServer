@@ -38,29 +38,29 @@ public class SSCircleGetPar extends SSServPar{
   public SSSpaceE        tagSpace                   = null;
   public Boolean         setProfilePicture          = false;
   public Boolean         setThumb                   = false;
-
-  public void setTagSpace(final String tagSpace) throws Exception{
-    this.tagSpace = SSSpaceE.get(tagSpace);
-  }
-  
-  public String getTagSpace() throws Exception{
-    return SSStrU.toStr(tagSpace);
-  }
-  
+ 
   public void setCircle(final String circle) throws Exception{
     this.circle = SSUri.get(circle);
-  }
-
-  public void setEntityTypesToIncludeOnly(final List<String> entityTypesToIncludeOnly){
-    try{ this.entityTypesToIncludeOnly = SSEntityE.get(entityTypesToIncludeOnly); }catch(Exception error){}
   }
   
   public String getCircle() throws Exception{
     return SSStrU.removeTrailingSlash(circle);
   }
   
+  public void setEntityTypesToIncludeOnly(final List<String> entityTypesToIncludeOnly){
+    try{ this.entityTypesToIncludeOnly = SSEntityE.get(entityTypesToIncludeOnly); }catch(Exception error){}
+  }
+  
   public List<String> getEntityTypesToIncludeOnly() throws Exception{
     return SSStrU.toStr(entityTypesToIncludeOnly);
+  }
+  
+  public void setTagSpace(final String tagSpace) throws Exception{
+    this.tagSpace = SSSpaceE.get(tagSpace);
+  }
+  
+  public String getTagSpace() throws Exception{
+    return SSStrU.toStr(tagSpace);
   }
   
   public SSCircleGetPar(){}
@@ -75,13 +75,13 @@ public class SSCircleGetPar extends SSServPar{
     final Boolean         invokeEntityHandlers) throws Exception{
     
     super(SSServOpE.circleGet, null, user);
-    
+
     this.circle                = circle;
     
     if(entityTypesToIncludeOnly != null){
       this.entityTypesToIncludeOnly.addAll(entityTypesToIncludeOnly);
     }
-    
+
     this.setTags              = setTags;
     this.tagSpace             = tagSpace;
     this.withUserRestriction  = withUserRestriction;

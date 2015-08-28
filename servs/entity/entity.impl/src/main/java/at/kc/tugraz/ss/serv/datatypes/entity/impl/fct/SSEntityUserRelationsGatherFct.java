@@ -68,6 +68,7 @@ public class SSEntityUserRelationsGatherFct{
       ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlesGet(
           new SSCirclesGetPar(
             userUri,
+            userUri,
             null,
             SSEntityE.asListWithoutNullAndEmpty(),
             false,

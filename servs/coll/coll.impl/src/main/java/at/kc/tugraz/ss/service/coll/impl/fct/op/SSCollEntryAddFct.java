@@ -76,7 +76,7 @@ public class SSCollEntryAddFct{
       isParentCollSharedOrPublic, 
       false);
     
-     SSServCallerU.handleCirclesFromEntityEntitiesAdd(
+     SSServCallerU.handleCirclesFromEntityGetEntitiesAdd(
         par.user,
         par.coll,
         SSUri.asListWithoutNullAndEmpty(par.entry), //entities
@@ -147,7 +147,7 @@ public class SSCollEntryAddFct{
         
     sqlFct.addCollEntry(par.coll, par.entry);
     
-    SSServCallerU.handleCirclesFromEntityEntitiesAdd(
+    SSServCallerU.handleCirclesFromEntityGetEntitiesAdd(
         par.user,
         par.coll,
         SSUri.asListWithoutNullAndEmpty(par.entry), //entities

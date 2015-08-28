@@ -71,7 +71,7 @@ public class SSRESTCircle{
     value = "retrieve circles",
     response = SSCirclesGetRet.class)
   public Response circlesGet(
-    @Context 
+    @Context
       final HttpHeaders headers){
     
     final SSCirclesGetPar par;
@@ -80,7 +80,8 @@ public class SSRESTCircle{
       
       par =
         new SSCirclesGetPar(
-          null,
+          null, //user,
+          null, //forUser,
           null, //entity
           null, //entityTypesToIncludeOnly
           true,  //withUserRestriction

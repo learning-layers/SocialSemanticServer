@@ -95,7 +95,6 @@ import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSToolContextE;
-import at.tugraz.sss.serv.SSWarnE;
 import sss.serv.eval.api.SSEvalServerI;
 import sss.serv.eval.datatypes.SSEvalLogE;
 import sss.serv.eval.datatypes.par.SSEvalLogPar;
@@ -136,6 +135,7 @@ implements
           circlesGet(
             new SSCirclesGetPar(
               par.user, //user
+              null, //forUser
               entity.id, //entity
               null, //entityTypesToIncludeOnly
               par.withUserRestriction, //withUserRestriction
@@ -436,7 +436,7 @@ implements
           par.withUserRestriction, //withUserRestriction,
           false)); //invokeEntityHandlers
     
-    SSServCallerU.handleCircleEntitiesAdd(
+    SSServCallerU.handleCircleEntitiesAdded(
       par.user, 
       circle,
       circle.entities, 
@@ -637,7 +637,7 @@ implements
           par.withUserRestriction, //withUserRestriction,
           true)); //invokeEntityHandlers))
     
-    SSServCallerU.handleCircleUsersAdd(
+    SSServCallerU.handleCircleUsersAdded(
       par.user, 
       circle,
       par.users, 
@@ -775,7 +775,7 @@ implements
           null, //descPar, 
           par.withUserRestriction)); //withUserRestriction, 
     
-    SSServCallerU.handleCircleEntitiesAdd(
+    SSServCallerU.handleCircleEntitiesAdded(
       par.user, 
       circle,
       entities, 
@@ -1066,6 +1066,12 @@ implements
       
       if(par.withUserRestriction){
         
+        if(
+          par.forUser != null &&
+          !SSStrU.equals(par.user,  par.forUser)){
+          throw new SSErr(SSErrE.parameterMissing);
+        }
+        
         if(par.withSystemCircles){
           SSLogU.warn(SSErrE.userNotAllowToAccessSystemCircle);
           return circles;
@@ -1079,24 +1085,24 @@ implements
         }
       }
       
-      if(!SSObjU.isNull(par.user, par.entity)){
+      if(!SSObjU.isNull(par.forUser, par.entity)){
         
         circleUris.addAll(
           sqlFct.getCircleURIsCommonForUserAndEntity(
-            par.user,
+            par.forUser,
             par.entity,
             par.withSystemCircles));
       }else{
         
         if(
-          par.user    == null &&
-          par.entity  == null){
+          par.forUser   == null &&
+          par.entity    == null){
           
           circleUris.addAll(sqlFct.getCircleURIs(par.withSystemCircles));
         }else{
           
-          if(par.user != null){
-            circleUris.addAll(sqlFct.getCircleURIsForUser(par.user, par.withSystemCircles));
+          if(par.forUser != null){
+            circleUris.addAll(sqlFct.getCircleURIsForUser(par.forUser, par.withSystemCircles));
           }
           
           if(par.entity != null){
@@ -1269,7 +1275,6 @@ implements
           sqlFct.getEntity(par.entityURI),
           par.accessRight)){
         
-        SSLogU.warn(SSWarnE.userNotAllowedToAccessEntity);
         throw new SSErr(SSErrE.userNotAllowedToAccessEntity);
       }
       

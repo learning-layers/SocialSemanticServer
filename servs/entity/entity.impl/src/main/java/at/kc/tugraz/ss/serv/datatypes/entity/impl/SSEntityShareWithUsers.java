@@ -99,7 +99,7 @@ public class SSEntityShareWithUsers {
             false, //withUserRestriction,  //as it is a system circle
             false)); //invokeEntityHandlers));
           
-      SSServCallerU.handleCircleEntitiesAdd(
+      SSServCallerU.handleCircleEntitiesAdded(
         user,
         circle,
         circle.entities,

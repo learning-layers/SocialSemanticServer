@@ -158,6 +158,7 @@ implements
           circleServ.circlesGet(
             new SSCirclesGetPar(
               userUri,
+              userUri,
               coll.id,
               null, //entityTypesToIncludeOnly
               false, // withUserRestriction
@@ -180,6 +181,7 @@ implements
           collEntryUserCircles =
             circleServ.circlesGet(
               new SSCirclesGetPar(
+                userUri,
                 userUri,
                 collEntry.id,
                 null, //entityTypesToIncludeOnly

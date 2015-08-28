@@ -22,7 +22,6 @@ package at.kc.tugraz.ss.serv.datatypes.learnep.impl;
 
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesAddPar;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCirclesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
@@ -98,8 +97,6 @@ import at.tugraz.sss.serv.SSDescribeEntityI;
 import at.tugraz.sss.serv.SSEntitiesSharedWithUsersI;
 import at.tugraz.sss.serv.SSEntitiesSharedWithUsersPar;
 import at.tugraz.sss.serv.SSEntity;
-import at.tugraz.sss.serv.SSEntityCopiedI;
-import at.tugraz.sss.serv.SSEntityCopiedPar;
 import at.tugraz.sss.serv.SSEntityCopyPar;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
 import at.tugraz.sss.serv.SSErr;
@@ -112,7 +109,6 @@ import java.util.Map;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSPushEntitiesToUsersI;
 import at.tugraz.sss.serv.SSPushEntitiesToUsersPar;
-import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSUsersResourcesGathererI;
@@ -342,7 +338,6 @@ implements
       final List<SSEntity> copiedEntities = new ArrayList<>();
       SSUri                copyVersionUri;
       SSUri                copyLearnEpUri;
-      SSEntityCopiedPar    entityCopiedPar;
       
       final SSLearnEp learnEp = 
         learnEpGet(
@@ -430,25 +425,19 @@ implements
           }
         }
         
-        entityCopiedPar =
-          new SSEntityCopiedPar(
-            par.user,
-            forUser,
-            learnEp, //entity
-            copiedEntities, //entities
-            copyLearnEpUri, //targetEntity
-            par.withUserRestriction);
+        SSServCallerU.handleEntityCopied(
+          par.user,  //user
+          forUser,  //forUser
+          learnEp, //entity
+          copiedEntities, //entities
+          copyLearnEpUri, //targetEntity
+          par.withUserRestriction);
         
-        for(SSServContainerI entityHandler : SSServReg.inst.getServsHandlingEntityCopied()){
-          ((SSEntityCopiedI) entityHandler.serv()).entityCopied(entityCopiedPar);
-        }
-        
-        SSServCallerU.handleCirclesFromEntityEntitiesAdd(
-          par.user, 
-          copyLearnEpUri, 
+        SSServCallerU.handleCirclesFromEntityGetEntitiesAdd(
+          par.user,
+          copyLearnEpUri,
           getLearnEpAffiliatedURIs(copyLearnEpUri), //entities
           par.withUserRestriction);
-      
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -832,32 +821,19 @@ implements
           false, //setPublic
           false, //withUserRestriction
           false)); //shouldCommit)
-
-      for(SSEntity entityUserCircle : 
-        circleServ.circlesGet(
-          new SSCirclesGetPar(
-            par.user, 
-            par.learnEp, //entity
-            null,  //entityTypesToIncludeOnly
-            false, //withUserRestriction
-            true, //withSystemCircles
-            false))){ //invokeEntityHandlers
-
-        circleServ.circleEntitiesAdd(
-          new SSCircleEntitiesAddPar(
-            par.user, 
-            entityUserCircle.id, 
-            SSUri.asListWithoutNullAndEmpty(learnEpVersionUri), 
-            false,
-            false));
-      }
-
+      
       sqlFct.createLearnEpVersion(
         learnEpVersionUri,
         par.learnEp);
-
+      
+      SSServCallerU.handleCirclesFromEntityGetEntitiesAdd(
+        par.user,
+        par.learnEp,
+        SSUri.asListWithoutNullAndEmpty(learnEpVersionUri),
+        par.withUserRestriction);
+      
       dbSQL.commit(par.shouldCommit);
-
+      
       return learnEpVersionUri;
     }catch(Exception error){
       
@@ -923,25 +899,6 @@ implements
           false, //withUserRestriction
           false)); //shouldCommit)
       
-      for(SSEntity entityUserCircle : 
-        circleServ.circlesGet(
-          new SSCirclesGetPar(
-            par.user, 
-            par.learnEpVersion, 
-            null, 
-            false, 
-            true, 
-            false))){
-
-        circleServ.circleEntitiesAdd(
-          new SSCircleEntitiesAddPar(
-            par.user, 
-            entityUserCircle.id, 
-            SSUri.asListWithoutNullAndEmpty(circleUri), 
-            false,
-            false));
-      }
-      
       sqlFct.addCircleToLearnEpVersion(
         circleUri,
         par.learnEpVersion,
@@ -952,6 +909,12 @@ implements
         par.yR,
         par.xC,
         par.yC);
+      
+      SSServCallerU.handleCirclesFromEntityGetEntitiesAdd(
+        par.user,
+        par.learnEpVersion,
+        SSUri.asListWithoutNullAndEmpty(circleUri),
+        par.withUserRestriction);
       
       SSLearnEpActivityFct.addCircleToLearnEpVersion(par, circleUri, learnEp);
 
@@ -1049,7 +1012,7 @@ implements
 //          entities, 
 //          false));
       
-      SSServCallerU.handleCirclesFromEntityEntitiesAdd(
+      SSServCallerU.handleCirclesFromEntityGetEntitiesAdd(
         par.user, 
         par.learnEpVersion,
         SSUri.asListWithoutNullAndEmpty(learnEpEntityUri, par.entity), 
@@ -1267,7 +1230,7 @@ implements
             true, //withUserRestriction, 
             false)); //shouldCommit)
         
-        SSServCallerU.handleCirclesFromEntityEntitiesAdd(
+        SSServCallerU.handleCirclesFromEntityGetEntitiesAdd(
           par.user,
           par.learnEpEntity,
           SSUri.asListWithoutNullAndEmpty(par.entity),
@@ -1487,20 +1450,20 @@ implements
           false, //withUserRestriction
           false)); //shouldCommit)
       
-      SSServCallerU.handleCirclesFromEntityEntitiesAdd(
-        par.user, 
-        par.learnEpVersion,
-        SSUri.asListWithoutNullAndEmpty(learnEpTimelineStateUri), 
-        par.withUserRestriction);
-      
       sqlFct.setLearnEpVersionTimelineState(
         learnEpTimelineStateUri,
         par.learnEpVersion,
         par.startTime,
         par.endTime);
-
+      
+      SSServCallerU.handleCirclesFromEntityGetEntitiesAdd(
+        par.user,
+        par.learnEpVersion,
+        SSUri.asListWithoutNullAndEmpty(learnEpTimelineStateUri),
+        par.withUserRestriction);
+      
       dbSQL.commit(par.shouldCommit);
-
+      
       return learnEpTimelineStateUri;
 
     }catch(Exception error){

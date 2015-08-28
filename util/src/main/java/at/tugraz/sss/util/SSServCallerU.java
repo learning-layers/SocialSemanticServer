@@ -22,6 +22,7 @@ package at.tugraz.sss.util;
 
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleCanAccessPar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesAddPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclesGetPar;
 import at.kc.tugraz.ss.serv.auth.api.SSAuthServerI;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
@@ -91,7 +92,7 @@ public class SSServCallerU{
     }
   }
   
-  public static void handleCirclesFromEntityEntitiesAdd(
+  public static void handleCirclesFromEntityGetEntitiesAdd(
     final SSUri          user,
     final SSUri          entity,
     final List<SSUri>    entityURIs,
@@ -100,7 +101,14 @@ public class SSServCallerU{
     try{
       final SSCircleServerI circleServ              = (SSCircleServerI) SSServReg.getServ(SSCircleServerI.class);
       final SSEntityServerI entityServ              = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
-      final List<SSEntity>  entities                =
+      
+      if(
+        entityURIs == null || 
+        entityURIs.isEmpty()){
+        return;
+      }
+      
+      final List<SSEntity>  entities =
         entityServ.entitiesGet(
           new SSEntitiesGetPar(
             user,
@@ -109,30 +117,30 @@ public class SSServCallerU{
             null,
             withUserRestriction));
       
-      for(SSEntity entityUserCircle :
+      for(SSEntity circle :
         circleServ.circlesGet(
           new SSCirclesGetPar(
-            user,
+            user, //user
+            null, //forUser
             entity,
             null, //entityTypesToIncludeOnly
             false, //withUserRestriction
             true,  //withSystemCircles
-            false))){ //invokeEntityHandlers
+            false))){
         
-        handleCircleEntitiesAdd(
+      circleServ.circleEntitiesAdd(
+        new SSCircleEntitiesAddPar(
           user,
-          (SSEntityCircle) entityUserCircle,
+          circle.id,
+          SSUri.getDistinctNotNullFromEntities(entities),
+          false,
+          false));
+      
+        handleCircleEntitiesAdded(
+          user,
+          (SSEntityCircle) circle,
           entities,
           withUserRestriction);
-        
-//      circleServ.circleEntitiesAdd(
-//        new SSCircleEntitiesAddPar(
-//          user,
-//          entityUserCircle.id,
-//          entities,  //entities
-//          false,  //withUserRestriction
-//          false)); //shouldCommit
-//    }
       }
       
     }catch(Exception error){
@@ -140,7 +148,7 @@ public class SSServCallerU{
     }
   }
   
-  public static void handleCircleEntitiesAdd(
+  public static void handleCircleEntitiesAdded(
     final SSUri          user, 
     final SSEntityCircle circle,
     final List<SSEntity> entities,
@@ -148,12 +156,18 @@ public class SSServCallerU{
     
     try{
       
+      if(
+        entities == null ||
+        entities.isEmpty()){
+        return;
+      }
+      
       final List<SSEntity>  entitiesToPushToUsers   = new ArrayList<>();
       final List<SSEntity>  addedAffiliatedEntities =
         handleAddAffiliatedEntitiesToCircle(
-          user, 
-          circle.id, 
-          entities, 
+          user,
+          circle.id,
+          entities,
           new ArrayList<>(),
           withUserRestriction);
       
@@ -177,13 +191,19 @@ public class SSServCallerU{
     }
   }
    
-  public static void handleCircleUsersAdd(
+  public static void handleCircleUsersAdded(
     final SSUri          user, 
     final SSEntityCircle circle,
     final List<SSUri>    users, 
     final Boolean        withUserRestriction) throws Exception {
     
     try{
+      
+      if(
+        users == null ||
+        users.isEmpty()){
+        return;
+      }
       
       final List<SSEntity>  entitiesToPushToUsers   = new ArrayList<>();
       final List<SSEntity>  addedAffiliatedEntities =

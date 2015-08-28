@@ -870,7 +870,7 @@ implements
       
       sqlFct.attachEntities(par.entity, par.entities);
       
-      SSServCallerU.handleCirclesFromEntityEntitiesAdd(
+      SSServCallerU.handleCirclesFromEntityGetEntitiesAdd(
         par.user,
         par.entity,
         par.entities, //entities

@@ -74,6 +74,7 @@ public class SSCommentUserRelationGatherFct{
         ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlesGet(
           new SSCirclesGetPar(
             userUri,
+            userUri,
             entity,
             null, //entityTypesToIncludeOnly
             false, //withUserRestriction

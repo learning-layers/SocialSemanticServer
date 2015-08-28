@@ -76,7 +76,7 @@ public class SSEntitySetPublic {
             false, //withUserRestriction
             false)); //invokeEntityHandlers));
       
-      SSServCallerU.handleCircleEntitiesAdd(
+      SSServCallerU.handleCircleEntitiesAdded(
         user,
         circle,
         entities,

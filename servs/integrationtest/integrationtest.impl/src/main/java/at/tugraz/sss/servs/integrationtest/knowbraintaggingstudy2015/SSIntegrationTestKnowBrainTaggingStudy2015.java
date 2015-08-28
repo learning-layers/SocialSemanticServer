@@ -90,6 +90,7 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
           circleServ.circlesGet(
             new SSCirclesGetPar(
               userUris.get(0), //user
+              userUris.get(0), //user
               null, //entity,
               null, //entityTypesToIncludeOnly,
               true, //withUserRestriction,
@@ -418,7 +419,7 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
             null, //descPar,
             true)); //withUserRestriction,
       
-      SSServCallerU.handleCircleEntitiesAdd(
+      SSServCallerU.handleCircleEntitiesAdded(
         user4,
         circle3,
         entities,
@@ -547,7 +548,7 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
             null, //descPar,
             true)); //withUserRestriction,
       
-      SSServCallerU.handleCircleEntitiesAdd(
+      SSServCallerU.handleCircleEntitiesAdded(
         user1,
         circle1,
         entities,
@@ -712,7 +713,7 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
             true, //withUserRestriction,
             true)); //invokeEntityHandlers
       
-      SSServCallerU.handleCircleUsersAdd(
+      SSServCallerU.handleCircleUsersAdded(
         adminUri,
         circle4,
         userUris,
@@ -764,7 +765,7 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
             true, //withUserRestriction,
             true)); //invokeEntityHandlers
       
-      SSServCallerU.handleCircleUsersAdd(
+      SSServCallerU.handleCircleUsersAdded(
         adminUri,
         circle3,
         SSUri.asListWithoutNullAndEmpty(userUris.get(3)),
@@ -816,7 +817,7 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
             true, //withUserRestriction,
             true)); //invokeEntityHandlers
       
-      SSServCallerU.handleCircleUsersAdd(
+      SSServCallerU.handleCircleUsersAdded(
         adminUri,
         circle2,
         SSUri.asListWithoutNullAndEmpty(userUris.get(2)),
@@ -872,7 +873,7 @@ public class SSIntegrationTestKnowBrainTaggingStudy2015 {
             true, //withUserRestriction,
             true)); //invokeEntityHandlers
       
-      SSServCallerU.handleCircleUsersAdd(
+      SSServCallerU.handleCircleUsersAdded(
         adminUri,
         circle1,
         circle1UserURIs,

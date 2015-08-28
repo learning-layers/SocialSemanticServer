@@ -353,7 +353,7 @@ public class SSCircleMiscFct{
               par.withUserRestriction,
               false)); //invokeEntityHandlers
         
-        SSServCallerU.handleCircleEntitiesAdd(
+        SSServCallerU.handleCircleEntitiesAdded(
           par.user,
           newCircle,
           newCircle.entities,
@@ -478,7 +478,7 @@ public class SSCircleMiscFct{
             par.withUserRestriction,
             false)); //invokeEntityHandlers
       
-      SSServCallerU.handleCircleEntitiesAdd(
+      SSServCallerU.handleCircleEntitiesAdded(
         par.user,
         targetCircle,
         targetCircle.entities,

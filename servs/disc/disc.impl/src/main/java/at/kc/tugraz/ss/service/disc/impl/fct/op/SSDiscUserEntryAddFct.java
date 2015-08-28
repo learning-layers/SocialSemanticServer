@@ -150,7 +150,7 @@ public class SSDiscUserEntryAddFct{
         discUri, 
         content);
       
-      SSServCallerU.handleCirclesFromEntityEntitiesAdd(
+      SSServCallerU.handleCirclesFromEntityGetEntitiesAdd(
         userUri,
         discUri,
         SSUri.asListWithoutNullAndEmpty(discEntryUri), //entities

@@ -161,6 +161,7 @@ public class SSDiscImpl
           circleServ.circlesGet(
             new SSCirclesGetPar(
               userUri,
+              userUri, //forUser
               disc.id,
               null, //entityTypesToIncludeOnly
               false, //withUserRestriction
@@ -997,7 +998,7 @@ public class SSDiscImpl
         
       sqlFct.addDiscTargets(par.discussion, par.targets);
       
-      SSServCallerU.handleCirclesFromEntityEntitiesAdd(
+      SSServCallerU.handleCirclesFromEntityGetEntitiesAdd(
         par.user,
         par.discussion,
         par.targets, //entities
