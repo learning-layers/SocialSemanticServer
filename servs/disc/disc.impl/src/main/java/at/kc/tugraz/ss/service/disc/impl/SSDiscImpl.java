@@ -56,6 +56,7 @@ import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscEntryAcceptRet;
 import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscEntryAddRet;
 import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscRemoveRet;
 import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscGetRet;
+import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscTargetsAddRet;
 import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscsGetRet;
 import at.kc.tugraz.ss.service.disc.impl.fct.activity.SSDiscActivityFct;
 import at.kc.tugraz.ss.service.disc.impl.fct.op.SSDiscUserEntryAddFct;
@@ -917,54 +918,16 @@ public class SSDiscImpl
     }
   }
 
-  private void attachEntities(
-    final SSUri         user,
-    final SSUri         entity,
-    final List<SSUri>   entitiesToAttach,
-    final List<SSLabel> entityLabels,
-    final Boolean       withUserRestriction) throws Exception{
-    
-    if(entitiesToAttach.isEmpty()){
-      return;
-    }
-    
-    try{
-      
-      entityServ.entityEntitiesAttach(
-        new SSEntityAttachEntitiesPar(
-          user,
-          entity,
-          entitiesToAttach,
-          withUserRestriction,
-          false));
-      
-      if(
-        entityLabels.isEmpty() ||
-        entitiesToAttach.size() != entityLabels.size()){
-        return;
-      }
-      
-      for(Integer counter = 0; counter < entitiesToAttach.size(); counter++){
-        
-        entityServ.entityUpdate(
-          new SSEntityUpdatePar(
-            user,
-            entitiesToAttach.get(counter), //entity
-            null, //type
-            entityLabels.get(counter), //label,
-            null, //description,
-            null, //creationTime
-            null, //read,
-            false, //setPublic
-            withUserRestriction, //withUserRestriction
-            false)); //shouldCommit
-      }
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
+  @Override
+  public void discTargetsAdd(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
 
+    SSServCallerU.checkKey(parA);
+
+    final SSDiscTargetsAddPar par = (SSDiscTargetsAddPar) parA.getFromJSON(SSDiscTargetsAddPar.class);
+
+    sSCon.writeRetFullToClient(SSDiscTargetsAddRet.get(discTargetsAdd(par)));
+  }
+  
   @Override
   public SSUri discTargetsAdd(final SSDiscTargetsAddPar par) throws Exception {
     
@@ -1047,6 +1010,54 @@ public class SSDiscImpl
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
+    }
+  }
+  
+  private void attachEntities(
+    final SSUri         user,
+    final SSUri         entity,
+    final List<SSUri>   entitiesToAttach,
+    final List<SSLabel> entityLabels,
+    final Boolean       withUserRestriction) throws Exception{
+    
+    if(entitiesToAttach.isEmpty()){
+      return;
+    }
+    
+    try{
+      
+      entityServ.entityEntitiesAttach(
+        new SSEntityAttachEntitiesPar(
+          user,
+          entity,
+          entitiesToAttach,
+          withUserRestriction,
+          false));
+      
+      if(
+        entityLabels.isEmpty() ||
+        entitiesToAttach.size() != entityLabels.size()){
+        return;
+      }
+      
+      for(Integer counter = 0; counter < entitiesToAttach.size(); counter++){
+        
+        entityServ.entityUpdate(
+          new SSEntityUpdatePar(
+            user,
+            entitiesToAttach.get(counter), //entity
+            null, //type
+            entityLabels.get(counter), //label,
+            null, //description,
+            null, //creationTime
+            null, //read,
+            false, //setPublic
+            withUserRestriction, //withUserRestriction
+            false)); //shouldCommit
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
     }
   }
 }

@@ -26,10 +26,12 @@ import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscEntryAcceptPar;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscEntryAddFromClientPar;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscEntryAddPar;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscGetPar;
+import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscTargetsAddPar;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscsGetPar;
 import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscEntryAcceptRet;
 import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscEntryAddRet;
 import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscGetRet;
+import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscTargetsAddRet;
 import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscsGetRet;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
@@ -274,6 +276,42 @@ public class SSRESTDisc{
           true, //withUserRestriction,
           true); //shouldComit
       
+    }catch(Exception error){
+      return Response.status(422).build();
+    }
+    
+    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+  }
+  
+  @PUT
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path("/{disc}/targets/{targets}")
+  @ApiOperation(
+    value = "add targets to a discussion",
+    response = SSDiscTargetsAddRet.class)
+  public Response discTargetsAdd(
+    @Context
+    final HttpHeaders headers,
+    
+    @PathParam (SSVarNames.disc)
+    final String disc,
+    
+    @PathParam (SSVarNames.targets)
+    final String targets){
+    
+    final SSDiscTargetsAddPar par;
+    
+    try{
+      
+      par =
+        new SSDiscTargetsAddPar(
+          null, //user,
+          SSUri.get(disc, SSVocConf.sssUri),
+          SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(targets, SSStrU.comma), SSVocConf.sssUri),
+          true, //withUserRestriction,
+          true); //shouldCommit
+          
     }catch(Exception error){
       return Response.status(422).build();
     }
