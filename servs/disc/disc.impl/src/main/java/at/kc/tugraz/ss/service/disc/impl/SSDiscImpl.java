@@ -276,6 +276,7 @@ public class SSDiscImpl
   public List<SSEntity> addAffiliatedEntitiesToCircle(final SSAddAffiliatedEntitiesToCirclePar par) throws Exception{
     
     try{
+      
       final List<SSUri>    affiliatedURIs     = new ArrayList<>();
       final List<SSEntity> affiliatedEntities = new ArrayList<>();
       

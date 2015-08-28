@@ -223,6 +223,13 @@ public class SSServCallerU{
     
     try{
       final List<SSEntity>                     addedAffiliatedEntities = new ArrayList<>();
+      
+      if(
+        entities == null || 
+        entities.isEmpty()){
+        return addedAffiliatedEntities;
+      }
+      
       final SSAddAffiliatedEntitiesToCirclePar par =
         new SSAddAffiliatedEntitiesToCirclePar(
           user,
