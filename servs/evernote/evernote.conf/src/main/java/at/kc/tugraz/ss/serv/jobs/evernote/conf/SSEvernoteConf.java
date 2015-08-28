@@ -21,6 +21,7 @@
 package at.kc.tugraz.ss.serv.jobs.evernote.conf;
 
 import at.tugraz.sss.serv.SSServConfA;
+import at.tugraz.sss.serv.SSStrU;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +33,8 @@ public class SSEvernoteConf extends SSServConfA{
   public String       evernoteEnvironment = "sandbox";
   public List<String> authTokens          = new ArrayList<>();
   public List<String> authEmails          = new ArrayList<>();
-  public List<String> groups              = new ArrayList<>();
+  public List<String> emailInEmails       = new ArrayList<>();
+  public List<String> emailInPasswords    = new ArrayList<>();
   
   public static SSEvernoteConf copy(final SSEvernoteConf orig){
     
@@ -43,17 +45,10 @@ public class SSEvernoteConf extends SSServConfA{
     copy.appVersion              = orig.appVersion;
     copy.evernoteEnvironment     = orig.evernoteEnvironment;
     
-    if(orig.authTokens != null){
-      copy.authTokens.addAll(orig.authTokens);
-    }
-    
-    if(orig.authEmails != null){
-      copy.authEmails = orig.authEmails;
-    }
-    
-    if(orig.groups != null){
-      copy.groups.addAll(orig.groups);
-    }
+    SSStrU.addDistinctNotNull(copy.authTokens,       orig.authTokens);
+    SSStrU.addDistinctNotNull(copy.authEmails,       orig.authEmails);
+    SSStrU.addDistinctNotNull(copy.emailInEmails,    orig.emailInEmails);
+    SSStrU.addDistinctNotNull(copy.emailInPasswords, orig.emailInPasswords);
     
     return copy;
   }

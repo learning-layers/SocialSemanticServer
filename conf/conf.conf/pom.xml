@@ -20,6 +20,12 @@
     
     <dependency>
       <groupId>sss.servs</groupId>
+      <artifactId>mail.conf</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
       <artifactId>livingdocument.conf</artifactId>
       <version>${project.version}</version>
     </dependency>

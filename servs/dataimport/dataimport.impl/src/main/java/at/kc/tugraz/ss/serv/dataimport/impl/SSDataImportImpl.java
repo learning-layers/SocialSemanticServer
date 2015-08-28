@@ -135,7 +135,7 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
         return false;
       }
       
-      SSLogU.info("start data import for evernote account " + authToken);                
+      SSLogU.info("start data import for evernote account " +  par.authEmail);              
       
       dbSQL.startTrans(par.shouldCommit);
       
@@ -151,7 +151,14 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
       
       dbSQL.commit(par.shouldCommit);
       
-      SSLogU.info("end data import for evernote account " + authToken);
+      SSLogU.info("end data import for evernote account " + par.authEmail);
+      
+      SSLogU.info("start email import for evernote account " + par.authEmail);      
+      
+      
+      
+      
+      SSLogU.info("end email import for evernote account " + par.authToken);      
       
       return true;
     }catch(Exception error){

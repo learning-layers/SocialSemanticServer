@@ -59,7 +59,8 @@ public enum SSEntityE implements SSJSONLDPropI{
   appStackLayout,
   location,
   placeholder,
-  livingDoc;
+  livingDoc,
+  mail;
 
 //  entityDesc,
 //  collDesc,

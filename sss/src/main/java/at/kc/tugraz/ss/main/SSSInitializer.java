@@ -68,6 +68,7 @@ import at.tugraz.sss.servs.ocd.service.SSOCDServ;
 import at.tugraz.sss.servs.image.serv.SSImageServ;
 import at.tugraz.sss.servs.integrationtest.SSIntegrationTestServ;
 import at.tugraz.sss.servs.livingdocument.serv.SSLivingDocServ;
+import at.tugraz.sss.servs.mail.serv.SSMailServ;
 import sss.serv.eval.serv.SSEvalServ;
 
 public class SSSInitializer extends SSServImplStartA{
@@ -140,7 +141,8 @@ public class SSSInitializer extends SSServImplStartA{
         SSImageServ.inst.regServ           ();
         SSLocationServ.inst.regServ        ();
         SSIntegrationTestServ.inst.regServ ();
-        SSLivingDocServ.inst.regServ  ();
+        SSLivingDocServ.inst.regServ       ();
+        SSMailServ.inst.regServ            ();
         
       }catch(Exception error1){
         SSServErrReg.regErr(error1);

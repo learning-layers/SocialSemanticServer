@@ -22,6 +22,10 @@ package at.tugraz.sss.serv;
 
 public enum SSServOpE{
 
+  //mail
+  mailSend,
+  mailsReceive,
+  
   //livingDocument
   livingDocGet,
   livingDocAdd,
@@ -32,6 +36,7 @@ public enum SSServOpE{
   //integrationtest
   integrationTestKnowBrainTaggingStudy2015,
   integrationTestBitsAndPiecesStudyFall2015,
+  integrationTestEvernoteEmailIn,
   
   //location
   locationGet,

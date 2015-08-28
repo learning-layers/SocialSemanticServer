@@ -142,6 +142,8 @@ evernote:
   evernoteEnvironment: production #sandbox, production
   authTokens:
   authEmails: 
+  emailInEmails:
+  emailInPasswords:
 dataImport:
   use: true
   initAtStartUp: false
@@ -203,4 +205,9 @@ location:
   use: true
 livingDocument:
   use: true
-    
+mail:
+  use: true
+  sendProvider:
+  sendUserName:
+  sendPassword:
+  receiveProvider:

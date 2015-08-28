@@ -62,6 +62,7 @@ import at.tugraz.sss.servs.ocd.conf.SSOCDConf;
 import at.tugraz.sss.servs.image.conf.SSImageConf;
 import at.tugraz.sss.servs.integrationtest.SSIntegrationTestConf;
 import at.tugraz.sss.servs.livingdocument.conf.SSLivingDocConf;
+import at.tugraz.sss.servs.mail.conf.SSMailConf;
 
 public class SSCoreConf extends SSCoreConfA {
   
@@ -110,6 +111,7 @@ public class SSCoreConf extends SSCoreConfA {
   private SSLocationConf location = null;
   private SSIntegrationTestConf integrationTest = null;
   private SSLivingDocConf  livingDocument = null;
+  private SSMailConf  mail = null;
   
   public static synchronized SSCoreConf instSet(final String pathToFile) throws Exception {
     
@@ -188,6 +190,7 @@ public class SSCoreConf extends SSCoreConfA {
       copy.location = SSLocationConf.copy(inst.location);
       copy.integrationTest = SSIntegrationTestConf.copy(inst.integrationTest);
       copy.livingDocument = SSLivingDocConf.copy(inst.livingDocument);
+      copy.mail = SSMailConf.copy(inst.mail);
       
       return copy;
     } catch (Exception error) {
@@ -530,6 +533,14 @@ public class SSCoreConf extends SSCoreConfA {
   
   public void setLivingDocument(SSLivingDocConf livingDocument) {
     this.livingDocument = livingDocument;
+  }
+  
+  public SSMailConf getMail() {
+    return mail;
+  }
+  
+  public void setMail(SSMailConf mail) {
+    this.mail = mail;
   }
 }
 

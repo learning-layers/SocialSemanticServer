@@ -24,6 +24,26 @@ import java.util.*;
 
 public class SSStrU{
 
+  public static void addDistinctNotNull(
+    final List<String> strings, 
+    final List<String> stringsToAdd){
+    
+     if(SSObjU.isNull(strings, stringsToAdd)){
+      return;
+    }
+    
+    for(String string : stringsToAdd){
+      
+      if(
+        string == null ||
+        strings.contains(string)){
+        continue;
+      }
+
+      strings.add(string);
+    }
+  }
+
   private SSStrU(){}
 
 //  public static final String apiCircle                = "circles/circles";

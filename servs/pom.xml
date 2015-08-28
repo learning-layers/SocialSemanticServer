@@ -52,5 +52,6 @@
     <module>common</module>
     <module>integrationtest</module>
     <module>livingdocument</module>
+    <module>mail</module>
   </modules>
 </project>
