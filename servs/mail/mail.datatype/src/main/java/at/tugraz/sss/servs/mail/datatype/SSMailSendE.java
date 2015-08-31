@@ -28,7 +28,8 @@ import java.util.List;
 
 public enum SSMailSendE implements SSJSONLDPropI{
   
-  gmxSMTP;
+  gmxSMTP, 
+  kcDavMailSMTP;
   
   @Override
   public Object jsonLDDesc() {

@@ -28,7 +28,8 @@ import java.util.List;
 
 public enum SSMailReceiveE implements SSJSONLDPropI{
   
-  gmailIMAP;
+  gmailIMAP,
+  kcDavMailIMAP;
   
   @Override
   public Object jsonLDDesc() {

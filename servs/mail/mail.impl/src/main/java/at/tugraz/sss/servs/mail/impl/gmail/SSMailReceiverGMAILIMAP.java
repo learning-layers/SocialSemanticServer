@@ -18,7 +18,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package at.tugraz.sss.servs.mail.impl.gmx.gmail;
+package at.tugraz.sss.servs.mail.impl.gmail;
 
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSServErrReg;
@@ -34,13 +34,13 @@ import javax.mail.Message;
 import javax.mail.Session;
 import javax.mail.Store;
 
-public class SSMailsReceiverGMAILIMAP {
+public class SSMailReceiverGMAILIMAP {
   
   private static final String     receivingHost    = "imap.gmail.com";
   private static final String     receivingPort    = "993";
   private final        SSMailConf mailConf;
   
-  public SSMailsReceiverGMAILIMAP(
+  public SSMailReceiverGMAILIMAP(
     final SSMailConf mailConf){
     
     this.mailConf = mailConf;
@@ -60,7 +60,7 @@ public class SSMailsReceiverGMAILIMAP {
       props.put("mail.store.protocol",        "imap");
       props.put("mail.imap.host",             receivingHost);
       props.put("mail.imap.port",             receivingPort);
-      props.put("mail.imap.user",             mailConf.use);
+      props.put("mail.imap.user",             fromEmail); //was mail.use
       props.put("mail.imap.password",         fromPassword);
       props.put("mail.imap.auth",             "true");
       props.put("mail.imap.ssl.enable",  "true");
