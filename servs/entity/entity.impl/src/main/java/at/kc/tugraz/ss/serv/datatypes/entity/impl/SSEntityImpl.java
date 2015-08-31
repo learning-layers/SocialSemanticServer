@@ -429,6 +429,11 @@ implements
         }
       }
         
+      if(par.descPar == null){
+        entity.author = sqlFct.getEntity(entity.author.id);
+      }
+      
+      
       if(par.descPar != null){
       
         par.descPar.user                = par.user;
