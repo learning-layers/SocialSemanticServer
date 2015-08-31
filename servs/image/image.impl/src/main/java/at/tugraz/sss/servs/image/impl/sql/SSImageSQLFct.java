@@ -187,6 +187,26 @@ public class SSImageSQLFct extends SSDBSQLFct{
     }
   }
   
+  public void removeImagesFromEntity(final List<SSUri> images) throws Exception{
+    
+    try{
+      
+      final Map<String, String> deletes = new HashMap<>();
+      
+      for(SSUri image : images){
+      
+        deletes.clear();
+       
+        delete(deletes, SSSQLVarNames.imageId, image);
+        
+        dbSQL.deleteIgnore(SSSQLVarNames.entityImagesTable, deletes);
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
   public void addProfilePicture(
     final SSUri entity,
     final SSUri image) throws Exception{

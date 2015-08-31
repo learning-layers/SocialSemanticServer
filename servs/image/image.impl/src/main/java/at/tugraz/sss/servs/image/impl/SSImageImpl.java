@@ -403,8 +403,6 @@ implements
         }
       }
 
-      //TODO refactor public setting: shall be done with hooks for entityPublicSet in respective entity type service implementations
-      
       dbSQL.startTrans(par.shouldCommit);
       
       entityServ.entityUpdate(
@@ -452,61 +450,17 @@ implements
           
         sqlFct.removeProfilePictures (par.entity);
         sqlFct.addProfilePicture     (par.entity, profilePicture);
+        
+        removeThumbsFromEntity(
+          par.user, 
+          par.entity, 
+          par.withUserRestriction);
           
-        SSUri thumbForUser;
-          
-        for(SSEntity fileThumb :
-          imagesGet(
-            new SSImagesGetPar(
-              par.user,
-              par.file,
-              SSImageE.thumb,
-              par.withUserRestriction))){
-          
-          if(fileThumb.file == null){
-            continue;
-          }
-          
-          thumbForUser =
-            imageAdd(
-              new SSImageAddPar(
-                par.user,
-                null, //uuid
-                null, //link
-                SSImageE.thumb,
-                par.entity, //entity
-                fileThumb.file.id, //file
-                par.withUserRestriction,
-                false));
-          
-          entityServ.entityUpdate(
-            new SSEntityUpdatePar(
-              par.user,
-              thumbForUser, //entity
-              null,  //type
-              null, //label,
-              null, //description,
-              null, //creationTime,
-              null, //read,
-              true, //setPublic,
-              par.withUserRestriction,
-              false));
-          
-          entityServ.entityUpdate(
-            new SSEntityUpdatePar(
-              par.user,
-              fileThumb.file.id, //entity
-              null,  //type
-              null, //label,
-              null, //description,
-              null, //creationTime,
-              null, //read,
-              true, //setPublic,
-              par.withUserRestriction,
-              false));
-          
-          break;
-        }
+        addThumbFromFileToEntity(
+          par.user, 
+          par.entity, 
+          par.file, 
+          par.withUserRestriction);
         
         dbSQL.commit(par.shouldCommit);
         
@@ -532,12 +486,100 @@ implements
       return null;
     }
   }
+
+  private void removeThumbsFromEntity(
+    final SSUri   user,
+    final SSUri   entity,
+    final Boolean withUserRestriction) throws Exception{
+    
+    try{
+      
+      final List<SSEntity> existingThumbs =
+        imagesGet(
+          new SSImagesGetPar(
+            user,
+            entity, //entity
+            SSImageE.thumb,
+            withUserRestriction));
+      
+      sqlFct.removeImagesFromEntity(SSUri.getDistinctNotNullFromEntities(existingThumbs));
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+
+  private void addThumbFromFileToEntity(
+    final SSUri   user,
+    final SSUri   entity,
+    final SSUri   file,
+    final Boolean withUserRestriction) throws Exception{
+    
+    try{
+      //TODO refactor public setting: shall be done with hooks for entityPublicSet in respective entity type service implementations
+      SSUri thumbForEntity;
+      
+      for(SSEntity fileThumb :
+        imagesGet(
+          new SSImagesGetPar(
+            user,
+            file,
+            SSImageE.thumb,
+            withUserRestriction))){
+        
+        if(fileThumb.file == null){
+          continue;
+        }
+        
+        thumbForEntity =
+          imageAdd(
+            new SSImageAddPar(
+              user,
+              null, //uuid
+              null, //link
+              SSImageE.thumb,
+              entity, //entity
+              fileThumb.file.id, //file
+              withUserRestriction,
+              false));
+        
+        entityServ.entityUpdate(
+          new SSEntityUpdatePar(
+            user,
+            thumbForEntity, //entity
+            null,  //type
+            null, //label,
+            null, //description,
+            null, //creationTime,
+            null, //read,
+            true, //setPublic,
+            withUserRestriction,
+            false));
+        
+        entityServ.entityUpdate(
+          new SSEntityUpdatePar(
+            user,
+            fileThumb.file.id, //entity
+            null,  //type
+            null, //label,
+            null, //description,
+            null, //creationTime,
+            null, //read,
+            true, //setPublic,
+            withUserRestriction,
+            false));
+        
+        break;
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
 }
-
-
 //@Override
 //  public String imageBase64Get(final SSImageBase64GetPar par) throws Exception{
-//    
+//
 //    try{
 //      final List<SSEntity> images =
 //        imagesGet(
@@ -546,17 +588,17 @@ implements
 //            par.entity,
 //            par.imageType,
 //            par.withUserRestriction));
-//      
+//
 //      if(
 //        images.isEmpty() ||
 //        images.get(0).file == null){
 //        return null;
 //      }
-//      
+//
 //      final String pngFilePath =
 //        SSCoreConf.instGet().getSss().getLocalWorkPath() +
 //        SSVocConf.fileIDFromSSSURI(images.get(0).file.id);
-//      
+//
 //      return SSFileU.readImageToBase64Str(pngFilePath);
 //      
 //    }catch(Exception error){
