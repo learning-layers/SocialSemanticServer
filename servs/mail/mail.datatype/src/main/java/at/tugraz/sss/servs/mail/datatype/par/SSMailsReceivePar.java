@@ -26,6 +26,7 @@ import at.tugraz.sss.serv.SSUri;
 
 public class SSMailsReceivePar extends SSServPar{
   
+  //TODO change name to fromUser
   public String fromEmail    = null;
   public String fromPassword = null;
   

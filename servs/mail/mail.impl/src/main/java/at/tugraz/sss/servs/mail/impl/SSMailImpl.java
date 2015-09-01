@@ -20,6 +20,7 @@
  */
 package at.tugraz.sss.servs.mail.impl;
 
+import at.tugraz.sss.servs.mail.impl.kc.SSMailReceiverKCDavIMAP;
 import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
@@ -35,7 +36,7 @@ import at.tugraz.sss.servs.mail.conf.SSMailConf;
 import at.tugraz.sss.servs.mail.datatype.par.SSMailSendPar;
 import at.tugraz.sss.servs.mail.datatype.par.SSMailsReceivePar;
 import at.tugraz.sss.servs.mail.impl.gmx.SSMailSenderGMXSMTP;
-import at.tugraz.sss.servs.mail.impl.gmx.gmail.SSMailsReceiverGMAILIMAP;
+import at.tugraz.sss.servs.mail.impl.gmail.SSMailReceiverGMAILIMAP;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -109,9 +110,16 @@ implements
         
         case gmailIMAP:{
           
-          final SSMailsReceiverGMAILIMAP gmailIMAPReceive = new SSMailsReceiverGMAILIMAP(mailConf);
+          final SSMailReceiverGMAILIMAP gmailIMAPReceive = new SSMailReceiverGMAILIMAP(mailConf);
           
           return gmailIMAPReceive.receiveMails(par.fromEmail, par.fromPassword); 
+        }
+        
+        case kcDavMailIMAP:{
+          
+          final SSMailReceiverKCDavIMAP kcReceive = new SSMailReceiverKCDavIMAP(mailConf);
+          
+          return kcReceive.receiveMails(par.fromEmail, par.fromPassword); 
         }
       }
     
