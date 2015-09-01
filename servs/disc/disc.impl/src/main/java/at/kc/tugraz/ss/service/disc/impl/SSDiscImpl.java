@@ -128,7 +128,29 @@ public class SSDiscImpl
               false))); //invokeEntityHandlers
       }
       
-      return entity;
+      switch(entity.type){
+        
+        case disc:
+        case qa:
+        case chat: {
+          
+          if(SSStrU.equals(entity, par.recursiveEntity)){
+            return entity;
+          }
+          
+          return SSDisc.get(
+            discGet(
+              new SSDiscGetPar(
+                par.user,
+                entity.id,
+                true, //setEntries
+                par.withUserRestriction,
+                false)), //invokeEntityHandlers
+            entity);
+        }
+        
+        default: return entity;
+      }
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
