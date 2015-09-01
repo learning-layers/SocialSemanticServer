@@ -1024,7 +1024,11 @@ implements
       circle.entities.clear();
       circle.entities.addAll(circleEntities);
       
-      descPar = new SSEntityDescriberPar(par.circle);
+      if(par.invokeEntityHandlers){
+        descPar = new SSEntityDescriberPar(par.circle);
+      }else{
+        descPar = null;
+      }
       
       circleUsers =
         ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(

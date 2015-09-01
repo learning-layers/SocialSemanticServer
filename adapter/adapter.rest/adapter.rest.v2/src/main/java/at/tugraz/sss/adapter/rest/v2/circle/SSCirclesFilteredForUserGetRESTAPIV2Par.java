@@ -29,8 +29,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-@ApiModel(value = "circleGet request parameter")
-public class SSCircleGetRESTAPIV2Par{
+@ApiModel(value = "circles filtered for user get request parameter")
+public class SSCirclesFilteredForUserGetRESTAPIV2Par{
   
   @ApiModelProperty(
     required = false,
@@ -40,22 +40,6 @@ public class SSCircleGetRESTAPIV2Par{
   @XmlElement
   public void setEntityTypesToIncludeOnly(final List<String> entityTypesToIncludeOnly) throws Exception{
      this.entityTypesToIncludeOnly = SSEntityE.get(entityTypesToIncludeOnly);
-  }
-  
-  @XmlElement
-  @ApiModelProperty(
-    required = false,
-    value = "whether tags for contained entities shall be set")
-  public Boolean setTags = null;
-  
-  @ApiModelProperty(
-    required = false,
-    value = "space to set tags from")
-  public SSSpaceE tagSpace = null;
-  
-  @XmlElement
-  public void setTagSpace(final String tagSpace) throws Exception{
-     this.tagSpace = SSSpaceE.get(tagSpace);
   }
   
   @XmlElement
@@ -76,5 +60,5 @@ public class SSCircleGetRESTAPIV2Par{
     value = "")
   public Boolean invokeEntityHandlers = null;
     
-  public SSCircleGetRESTAPIV2Par(){}
+  public SSCirclesFilteredForUserGetRESTAPIV2Par(){}
 }

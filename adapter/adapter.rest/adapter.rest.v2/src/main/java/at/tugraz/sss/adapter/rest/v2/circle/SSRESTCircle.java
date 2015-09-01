@@ -98,10 +98,122 @@ public class SSRESTCircle{
     return SSRestMainV2.handleRequest(headers, par, false, true).response;
   }
   
+  @GET
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path("/users/{forUser}")
+  @ApiOperation(
+    value = "retrieve circles for user",
+    response = SSCirclesGetRet.class)
+  public Response circlesForUsersGet(
+    @Context
+      final HttpHeaders headers,
+    
+    @PathParam (SSVarNames.forUser)  
+      final String forUser){
+    
+    final SSCirclesGetPar par;
+    
+    try{
+      
+      par =
+        new SSCirclesGetPar(
+          null, //user,
+          SSUri.get(forUser, SSVocConf.sssUri), //forUser,
+          null, //entity
+          null, //entityTypesToIncludeOnly
+          true,  //withUserRestriction
+          false, //withSystemCircles
+          true); //invokeEntityHandlers
+      
+    }catch(Exception error){
+      return Response.status(422).build();
+    }
+    
+    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+  }
+  
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path("/filtered/{circle}")
+  @Path("/filtered")
+  @ApiOperation(
+    value = "retrieve filtered circles",
+    response = SSCirclesGetRet.class)
+  public Response circlesFilteredGet(
+    @Context
+      final HttpHeaders headers,
+    
+    final SSCirclesGetRESTAPIV2Par input){
+    
+    final SSCirclesGetPar par;
+    
+    try{
+      
+      par =
+        new SSCirclesGetPar(
+          null, //user,
+          input.forUser, //forUser,
+          null, //entity
+          input.entityTypesToIncludeOnly, //entityTypesToIncludeOnly
+          true,  //withUserRestriction
+          false, //withSystemCircles
+          input.invokeEntityHandlers); //invokeEntityHandlers
+      
+      par.setThumb          = input.setThumb;
+      par.setProfilePicture = input.setProfilePicture;
+      
+    }catch(Exception error){
+      return Response.status(422).build();
+    }
+    
+    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path("/filtered/users/{forUser}")
+  @ApiOperation(
+    value = "retrieve filtered circles for user",
+    response = SSCirclesGetRet.class)
+  public Response circlesFilteredForUserGet(
+    @Context
+      final HttpHeaders headers,
+    
+    @PathParam (SSVarNames.forUser)  
+      final String forUser,
+    
+    final SSCirclesFilteredForUserGetRESTAPIV2Par input){
+    
+    final SSCirclesGetPar par;
+    
+    try{
+      
+      par =
+        new SSCirclesGetPar(
+          null, //user,
+          SSUri.get(forUser, SSVocConf.sssUri), //forUser,
+          null, //entity
+          input.entityTypesToIncludeOnly, //entityTypesToIncludeOnly
+          true,  //withUserRestriction
+          false, //withSystemCircles
+          input.invokeEntityHandlers); //invokeEntityHandlers
+      
+      par.setThumb          = input.setThumb;
+      par.setProfilePicture = input.setProfilePicture;
+      
+    }catch(Exception error){
+      return Response.status(422).build();
+    }
+    
+    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+  }
+  
+  @GET
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path("/{circle}")
   @ApiOperation(
     value = "retrieve a circle",
     response = SSCircleGetRet.class)
@@ -110,7 +222,42 @@ public class SSRESTCircle{
       final HttpHeaders  headers,
     
     @PathParam (SSVarNames.circle)  
-      final String circle, 
+      final String circle){
+    
+    final SSCircleGetPar par;
+    
+    try{
+      
+      par =
+        new SSCircleGetPar(
+          null, //user
+          SSUri.get(circle, SSVocConf.sssUri), //circle
+          null, //entityTypesToIncludeOnly
+          false, //setTags
+          null, //circle
+          true,  //withUserRestriction
+          true); //invokeEntityHandlers
+      
+    }catch(Exception error){
+      return Response.status(422).build();
+    }
+    
+    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path("/filtered/{circle}")
+  @ApiOperation(
+    value = "retrieve a filtered circle",
+    response = SSCircleGetRet.class)
+  public Response circleFilteredGet(
+    @Context
+    final HttpHeaders  headers,
+    
+    @PathParam (SSVarNames.circle)
+    final String circle,
     
     final SSCircleGetRESTAPIV2Par input){
     
@@ -126,7 +273,7 @@ public class SSRESTCircle{
           input.setTags,
           input.tagSpace,
           true,  //withUserRestriction
-          true); //invokeEntityHandlers
+          input.invokeEntityHandlers); //invokeEntityHandlers
       
       par.setProfilePicture = input.setProfilePicture;
       par.setThumb          = input.setThumb;

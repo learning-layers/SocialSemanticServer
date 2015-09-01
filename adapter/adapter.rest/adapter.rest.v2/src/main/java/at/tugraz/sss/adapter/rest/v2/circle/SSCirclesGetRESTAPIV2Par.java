@@ -22,6 +22,7 @@ package at.tugraz.sss.adapter.rest.v2.circle;
 
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSSpaceE;
+import at.tugraz.sss.serv.SSUri;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 import java.util.List;
@@ -29,8 +30,18 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-@ApiModel(value = "circleGet request parameter")
-public class SSCircleGetRESTAPIV2Par{
+@ApiModel(value = "circles get request parameter")
+public class SSCirclesGetRESTAPIV2Par{
+  
+  @ApiModelProperty(
+    required = false,
+    value = "user to retrieve circles for")
+  public SSUri   forUser             = null;
+  
+  @XmlElement
+  public void setForUser(final String forUser) throws Exception{
+     this.forUser = SSUri.get(forUser);
+  }
   
   @ApiModelProperty(
     required = false,
@@ -40,22 +51,6 @@ public class SSCircleGetRESTAPIV2Par{
   @XmlElement
   public void setEntityTypesToIncludeOnly(final List<String> entityTypesToIncludeOnly) throws Exception{
      this.entityTypesToIncludeOnly = SSEntityE.get(entityTypesToIncludeOnly);
-  }
-  
-  @XmlElement
-  @ApiModelProperty(
-    required = false,
-    value = "whether tags for contained entities shall be set")
-  public Boolean setTags = null;
-  
-  @ApiModelProperty(
-    required = false,
-    value = "space to set tags from")
-  public SSSpaceE tagSpace = null;
-  
-  @XmlElement
-  public void setTagSpace(final String tagSpace) throws Exception{
-     this.tagSpace = SSSpaceE.get(tagSpace);
   }
   
   @XmlElement
@@ -76,5 +71,5 @@ public class SSCircleGetRESTAPIV2Par{
     value = "")
   public Boolean invokeEntityHandlers = null;
     
-  public SSCircleGetRESTAPIV2Par(){}
+  public SSCirclesGetRESTAPIV2Par(){}
 }
