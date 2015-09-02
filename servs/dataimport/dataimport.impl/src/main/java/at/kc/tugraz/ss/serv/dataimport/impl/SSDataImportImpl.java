@@ -153,13 +153,6 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
       
       SSLogU.info("end data import for evernote account " + par.authEmail);
       
-      SSLogU.info("start email import for evernote account " + par.authEmail);      
-      
-      
-      
-      
-      SSLogU.info("end email import for evernote account " + par.authToken);      
-      
       return true;
     }catch(Exception error){
       
