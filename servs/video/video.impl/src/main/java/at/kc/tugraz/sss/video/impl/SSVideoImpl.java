@@ -323,6 +323,7 @@ implements
           new SSEntityFileAddPar(
             par.user,
             par.file, //file
+            null, //type
             null, //label
             videoUri,
             par.withUserRestriction,

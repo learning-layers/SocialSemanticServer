@@ -55,6 +55,7 @@ import at.tugraz.sss.serv.SSEntityDescriberPar;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSFileU;
+import at.tugraz.sss.serv.SSObjU;
 import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServImplWithDBA;
@@ -112,6 +113,7 @@ implements
       
       switch(entity.type){
         
+        case uploadedFile:
         case file:{
           
           if(SSStrU.equals(entity, par.recursiveEntity)){
@@ -287,8 +289,25 @@ implements
     
     try{
       
+      //TODO fix that when time: allow to add a file from null == par.file
       if(par.file == null){
         throw new SSErr(SSErrE.parameterMissing);
+      }
+      
+      if(
+        par.file == null &&
+        par.type == null){
+        throw new SSErr(SSErrE.parameterMissing);
+      }
+      
+      if(
+        par.entity != null &&
+        par.file   == null){
+        throw new SSErr(SSErrE.parameterMissing);
+      }
+
+      if(par.type == null){
+        par.type = SSEntityE.file;
       }
       
       dbSQL.startTrans(par.shouldCommit);
@@ -297,7 +316,7 @@ implements
         new SSEntityUpdatePar(
           par.user, 
           par.file,  //entity
-          SSEntityE.file,  //type
+          par.type,  //type
           par.label, //label, 
           null, //description, 
           null, //creationTime, 

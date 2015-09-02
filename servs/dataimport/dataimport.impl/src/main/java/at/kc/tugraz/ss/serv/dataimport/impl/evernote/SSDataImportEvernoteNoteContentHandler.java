@@ -86,9 +86,7 @@ public class SSDataImportEvernoteNoteContentHandler{
             SSServCaller.vocURICreate(SSFileExtE.xhtml));
       
       fileUri          = SSServCaller.vocURICreate                  (SSFileExtE.pdf);
-      pdfFilePath      = localWorkPath + 
-        SSVocConf.fileIDFromSSSURI(
-            fileUri);
+      pdfFilePath      = localWorkPath + SSVocConf.fileIDFromSSSURI (fileUri);
       
       SSFileU.writeStr(
         note.getContent(),
@@ -137,18 +135,18 @@ public class SSDataImportEvernoteNoteContentHandler{
         }catch(Exception error){}
       }
       
-      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
-        new SSEntityUpdatePar(
-          user,
-          fileUri,
-          SSEntityE.file, //type,
-          null, //label
-          null, //description,
-          null, //creationTime,
-          null, //read,
-          false, //setPublic
-          true, //withUserRestriction
-          false)); //shouldCommit)
+//      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+//        new SSEntityUpdatePar(
+//          user,
+//          fileUri,
+//          SSEntityE.file, //type,
+//          null, //label
+//          null, //description,
+//          null, //creationTime,
+//          null, //read,
+//          false, //setPublic
+//          true, //withUserRestriction
+//          false)); //shouldCommit)
           
       for(SSEntity file :
         ((SSFileRepoServerI) SSServReg.getServ(SSFileRepoServerI.class)).filesGet(
@@ -172,6 +170,7 @@ public class SSDataImportEvernoteNoteContentHandler{
         new SSEntityFileAddPar(
           user, 
           fileUri, //file
+          SSEntityE.file, //type,
           null, //label
           noteUri, //entity
           true, //withUserRestriction

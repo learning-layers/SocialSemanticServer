@@ -27,8 +27,8 @@ import at.tugraz.sss.serv.SSStrU;
 
 public class SSEntityFilesGetPar extends SSServPar{
   
-  public SSUri   entity               = null;
-  public Boolean invokeEntityHandlers = false;
+  public SSUri     entity               = null;
+  public Boolean   invokeEntityHandlers = false;
     
   public String getEntity(){
     return SSStrU.removeTrailingSlash(entity);

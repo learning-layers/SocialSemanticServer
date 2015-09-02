@@ -20,6 +20,7 @@
 */
 package at.tugraz.sss.servs.file.datatype.par;
 
+import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
@@ -28,9 +29,10 @@ import at.tugraz.sss.serv.SSStrU;
 
 public class SSEntityFileAddPar extends SSServPar{
   
-  public SSUri   file     = null;
-  public SSLabel label    = null;
-  public SSUri   entity   = null;
+  public SSUri     file     = null;
+  public SSEntityE type     = null;
+  public SSLabel   label    = null;
+  public SSUri     entity   = null;
 
   public String getFile(){
     return SSStrU.removeTrailingSlash(file);
@@ -38,6 +40,14 @@ public class SSEntityFileAddPar extends SSServPar{
 
   public void setFile(final String file) throws Exception{
     this.file = SSUri.get(file);
+  }
+  
+  public String getType(){
+    return SSStrU.toStr(type);
+  }
+
+  public void setType(final String type) throws Exception{
+    this.type = SSEntityE.get(type);
   }
   
   public String getLabel(){
@@ -61,6 +71,7 @@ public class SSEntityFileAddPar extends SSServPar{
   public SSEntityFileAddPar(
     final SSUri         user,
     final SSUri         file,
+    final SSEntityE     type,
     final SSLabel       label,
     final SSUri         entity, 
     final Boolean       withUserRestriction, 
@@ -69,6 +80,7 @@ public class SSEntityFileAddPar extends SSServPar{
     super(SSServOpE.fileAdd, null, user);
     
     this.file                 = file;
+    this.type                 = type;
     this.label                = label;
     this.entity               = entity;
     this.withUserRestriction  = withUserRestriction;

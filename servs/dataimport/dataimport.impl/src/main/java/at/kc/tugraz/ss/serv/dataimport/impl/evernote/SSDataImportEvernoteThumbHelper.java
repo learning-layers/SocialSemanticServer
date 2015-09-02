@@ -23,6 +23,7 @@ package at.kc.tugraz.ss.serv.dataimport.impl.evernote;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.kc.tugraz.ss.service.filerepo.api.SSFileRepoServerI;
 import at.tugraz.sss.serv.SSEntity;
+import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSFileExtE;
 import at.tugraz.sss.serv.SSFileU;
 import at.tugraz.sss.serv.SSLogU;
@@ -89,6 +90,7 @@ public class SSDataImportEvernoteThumbHelper{
         new SSEntityFileAddPar(
           user,
           thumbUri, //file
+          SSEntityE.file, //type
           null, //label
           null, //entity
           true, //withUserRestriction

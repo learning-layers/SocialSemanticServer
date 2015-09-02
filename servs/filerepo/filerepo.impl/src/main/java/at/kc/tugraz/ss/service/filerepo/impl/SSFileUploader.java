@@ -38,6 +38,7 @@ import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileUploadRet;
 import at.kc.tugraz.ss.service.filerepo.impl.fct.SSFileServCaller;
 import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSDBSQLI;
+import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSImageE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
@@ -121,6 +122,7 @@ public class SSFileUploader extends SSServImplStartA{
           new SSEntityFileAddPar(
             par.user,
             fileUri, 
+            SSEntityE.uploadedFile, //type
             par.label,
             null, 
             par.withUserRestriction, 
@@ -281,6 +283,7 @@ public class SSFileUploader extends SSServImplStartA{
           new SSEntityFileAddPar(
             par.user,
             thumbUri, //file
+            SSEntityE.file, //type
             null, //label
             null, //entity
             false, //withUserRestriction
