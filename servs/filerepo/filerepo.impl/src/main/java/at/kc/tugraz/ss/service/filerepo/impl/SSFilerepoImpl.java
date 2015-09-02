@@ -397,10 +397,12 @@ implements
             SSFileU.correctDirPath(SSVocConf.restAPIResourceFile)           +
             SSFileU.correctDirPath(SSVocConf.fileIDFromSSSURI(par.file))    +
             SSVocConf.restAPIPathFileDownloadPublic);
+      final SSEntityE fileType = sqlFct.getFileType(par.file);
       
       final SSFile      file  = 
         SSFile.get(
-          par.file, 
+          par.file,
+          fileType,
           fileExt, 
           mimeType,
           downloadLink);

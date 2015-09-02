@@ -21,6 +21,7 @@
 package at.kc.tugraz.ss.service.filerepo.impl.fct;
 
 import at.tugraz.sss.serv.SSDBSQLFct;
+import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSObjU;
@@ -106,6 +107,33 @@ public class SSFileSQLFct extends SSDBSQLFct{
       dbSQL.insertIfNotExists(SSSQLVarNames.entityFilesTable, inserts, uniqueKeys);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  public SSEntityE getFileType(final SSUri file) throws  Exception{
+    
+    ResultSet resultSet = null;
+    
+    try{
+      
+      final List<String>        columns           = new ArrayList<>();
+      final Map<String, String> wheres            = new HashMap<>();
+      
+      column(columns, SSSQLVarNames.type);
+      
+      where(wheres, SSSQLVarNames.id, file);
+      
+      resultSet = dbSQL.select(SSSQLVarNames.entityTable, columns, wheres, null, null, null);
+      
+      checkFirstResult(resultSet);
+      
+      return bindingStrToEntityType(resultSet, SSSQLVarNames.type);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
     }
   }
 }

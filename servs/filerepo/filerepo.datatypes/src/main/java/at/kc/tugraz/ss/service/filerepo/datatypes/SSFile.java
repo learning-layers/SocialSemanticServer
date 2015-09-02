@@ -85,20 +85,22 @@ public class SSFile extends SSEntity{
   
   public static SSFile get(
     final SSUri        id, 
+    final SSEntityE    type,
     final SSFileExtE   fileExt,
     final SSMimeTypeE  mimeType, 
     final SSUri        downloadLink) throws Exception{
     
-    return new SSFile(id, fileExt, mimeType, downloadLink);
+    return new SSFile(id, type, fileExt, mimeType, downloadLink);
   }
   
   public SSFile(
     final SSUri        id,
+    final SSEntityE    type,
     final SSFileExtE   fileExt,
     final SSMimeTypeE  mimeType, 
     final SSUri        downloadLink) throws Exception{
     
-    super(id, SSEntityE.file);
+    super(id, type);
     
     this.fileExt      = fileExt;
     this.mimeType     = mimeType;
