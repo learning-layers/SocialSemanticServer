@@ -129,20 +129,35 @@ public class SSRatingSQLFct extends SSDBSQLFct{
     final SSUri   ratingUri, 
     final SSUri   userUri, 
     final SSUri   entityUri, 
-    final Integer ratingValue) throws Exception{
+    final Integer ratingValue, 
+    final Boolean userRatedEntityBefore) throws Exception{
    
     if(SSObjU.isNull(ratingUri, userUri, entityUri, ratingValue)){
       throw new SSErr(SSErrE.parameterMissing);
     }
-        
-    final Map<String, String> insertPars = new HashMap<>();
-
-    insertPars.put(SSSQLVarNames.ratingId,     ratingUri.toString());
-    insertPars.put(SSSQLVarNames.userId,       userUri.toString());
-    insertPars.put(SSSQLVarNames.entityId,     entityUri.toString());
-    insertPars.put(SSSQLVarNames.ratingValue,  ratingValue.toString());
     
-    dbSQL.insert(SSSQLVarNames.ratingsTable, insertPars);
+    if(userRatedEntityBefore){
+      
+      final HashMap<String, String> wheres      = new HashMap<>();
+      final HashMap<String, String> updates      = new HashMap<>();
+      
+      where(wheres, SSSQLVarNames.userId,        userUri);
+      where(wheres, SSSQLVarNames.entityId,      entityUri);
+      
+      update(updates, SSSQLVarNames.ratingValue, ratingValue);
+      
+      dbSQL.update(SSSQLVarNames.ratingsTable, wheres, updates);
+    }else{
+    
+      final Map<String, String> inserts= new HashMap<>();
+
+      insert(inserts, SSSQLVarNames.ratingId,     ratingUri);
+      insert(inserts, SSSQLVarNames.userId,       userUri);
+      insert(inserts, SSSQLVarNames.entityId,     entityUri);
+      insert(inserts, SSSQLVarNames.ratingValue,  ratingValue);
+
+      dbSQL.insert(SSSQLVarNames.ratingsTable, inserts);
+    }
   }
   
   public List<SSRating> getUserRatings(

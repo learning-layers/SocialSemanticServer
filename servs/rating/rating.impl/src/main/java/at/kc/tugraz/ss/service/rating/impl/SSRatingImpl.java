@@ -151,14 +151,14 @@ implements
     
     try{
       
+      final Boolean userRatedEntityBefore = sqlFct.hasUserRatedEntity(par.user, par.entity);
+        
       if(
         !par.allowToRateAgain &&
-        sqlFct.hasUserRatedEntity(par.user, par.entity)){
+        userRatedEntityBefore){
         return false;
       } 
 
-      final SSUri ratingUri = SSServCaller.vocURICreate();
-      
       dbSQL.startTrans(par.shouldCommit);
         
       entityServ.entityUpdate(
@@ -174,24 +174,32 @@ implements
           par.withUserRestriction, //withUserRestriction,
           false)); //shouldCommit
 
-      entityServ.entityUpdate(
-        new SSEntityUpdatePar(
-          par.user,
-          ratingUri,
-          SSEntityE.rating, //type,
-          null, //label,
-          null, //description,
-          null, //creationTime,
-          null, //read,
-          true, //setPublic
-          false, //withUserRestriction
-          false)); //shouldCommit)
+      SSUri ratingUri = null;
+      
+      if(!userRatedEntityBefore){
+        
+        ratingUri = SSServCaller.vocURICreate();
+
+        entityServ.entityUpdate(
+          new SSEntityUpdatePar(
+            par.user,
+            ratingUri,
+            SSEntityE.rating, //type,
+            null, //label,
+            null, //description,
+            null, //creationTime,
+            null, //read,
+            true, //setPublic
+            false, //withUserRestriction
+            false)); //shouldCommit)
+      }
         
       sqlFct.rateEntityByUser(
         ratingUri, 
         par.user,
         par.entity, 
-        par.value);
+        par.value,
+        userRatedEntityBefore);
       
       dbSQL.commit(par.shouldCommit);
       

@@ -118,7 +118,7 @@ public interface SSDBSQLI{
   public void update(
     final String              table, 
     final Map<String, String> wheres, 
-    final Map<String, String> values) throws Exception;
+    final Map<String, String> updates) throws Exception;
   
   public void updateIgnore(
     final String              table, 

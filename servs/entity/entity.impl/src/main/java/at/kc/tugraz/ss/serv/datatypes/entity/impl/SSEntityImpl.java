@@ -205,33 +205,38 @@ implements
   
   @Override
   public void getUsersResources(
-    final List<String>             allUsers, 
+    final List<String>             allUsers,
     final Map<String, List<SSUri>> usersResources) throws Exception{
     
-    final List<SSEntityE> types = new ArrayList<>();
-    
-    types.add(SSEntityE.file);
-    types.add(SSEntityE.entity);
-    
-    for(String user : allUsers){
+    try{
+      final List<SSEntityE> types = new ArrayList<>();
       
-      for(SSUri entity : sqlFct.getEntityURIs(SSUri.get(user), types)){
+      types.add(SSEntityE.file);
+      types.add(SSEntityE.entity);
+      
+      for(String user : allUsers){
         
-        if(usersResources.containsKey(user)){
-          usersResources.get(user).add(entity);
-        }else{
+        for(SSUri entity : sqlFct.getEntityURIs(SSUri.get(user), types)){
           
-          final List<SSUri> resourceList = new ArrayList<>();
-          
-          resourceList.add(entity);
-          
-          usersResources.put(user, resourceList);
+          if(usersResources.containsKey(user)){
+            usersResources.get(user).add(entity);
+          }else{
+            
+            final List<SSUri> resourceList = new ArrayList<>();
+            
+            resourceList.add(entity);
+            
+            usersResources.put(user, resourceList);
+          }
         }
       }
-    }
-    
-    for(Map.Entry<String, List<SSUri>> resourcesPerUser : usersResources.entrySet()){
-      SSStrU.distinctWithoutNull2(resourcesPerUser.getValue());
+      
+      for(Map.Entry<String, List<SSUri>> resourcesPerUser : usersResources.entrySet()){
+        SSStrU.distinctWithoutNull2(resourcesPerUser.getValue());
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
     }
   }
   

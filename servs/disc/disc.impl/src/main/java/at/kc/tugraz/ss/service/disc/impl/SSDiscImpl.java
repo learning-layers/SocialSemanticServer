@@ -212,34 +212,39 @@ public class SSDiscImpl
     final List<String> allUsers,
     final Map<String, List<SSUri>> usersResources) throws Exception{
 
-    for(String user : allUsers){
-
-      for(SSEntity disc :
-        discsGet(
-          new SSDiscsGetPar(
-            SSUri.get(user),
-            false, //setEntries,
-            SSUri.get(user), //forUser,
-            null, //discs,
-            null, //target,
-            true, //withUserRestriction,
-            false))){ //invokeEntityHandlers)
-
-        if(usersResources.containsKey(user)){
-          usersResources.get(user).add(disc.id);
-        }else{
-
-          final List<SSUri> resourceList = new ArrayList<>();
-
-          resourceList.add(disc.id);
-
-          usersResources.put(user, resourceList);
+    try{
+      for(String user : allUsers){
+        
+        for(SSEntity disc :
+          discsGet(
+            new SSDiscsGetPar(
+              SSUri.get(user),
+              false, //setEntries,
+              SSUri.get(user), //forUser,
+              null, //discs,
+              null, //target,
+              true, //withUserRestriction,
+              false))){ //invokeEntityHandlers)
+          
+          if(usersResources.containsKey(user)){
+            usersResources.get(user).add(disc.id);
+          }else{
+            
+            final List<SSUri> resourceList = new ArrayList<>();
+            
+            resourceList.add(disc.id);
+            
+            usersResources.put(user, resourceList);
+          }
         }
       }
-    }
-
-    for(Map.Entry<String, List<SSUri>> resourcesPerUser : usersResources.entrySet()){
-      SSStrU.distinctWithoutNull2(resourcesPerUser.getValue());
+      
+      for(Map.Entry<String, List<SSUri>> resourcesPerUser : usersResources.entrySet()){
+        SSStrU.distinctWithoutNull2(resourcesPerUser.getValue());
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
     }
   }
 
@@ -708,15 +713,22 @@ public class SSDiscImpl
         descPar = null;
       }
       
-      final SSDisc disc =
+      final SSEntity discEntity  = 
+        entityServ.entityGet(
+          new SSEntityGetPar(
+            par.user,
+            par.disc,
+            par.withUserRestriction, //withUserRestriction,
+            descPar));
+      
+      if(discEntity == null){
+        return null;
+      }
+      
+      final SSDisc disc = 
         SSDisc.get(
           sqlFct.getDisc(par.disc, par.setEntries),
-          entityServ.entityGet(
-            new SSEntityGetPar(
-              par.user,
-              par.disc,
-              par.withUserRestriction, //withUserRestriction,
-              descPar)));
+          discEntity);
       
       for(SSEntity target : disc.targets){
         

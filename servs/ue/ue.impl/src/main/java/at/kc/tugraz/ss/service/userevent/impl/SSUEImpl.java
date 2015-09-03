@@ -80,53 +80,57 @@ implements
   
   @Override
   public void getUsersResources(
-    final List<String>             allUsers, 
+    final List<String>             allUsers,
     final Map<String, List<SSUri>> usersResources) throws Exception{
     
-    final List<SSUEE> ueTypes = new ArrayList<>();
-    
-    SSUri userUri;
-    
-    ueTypes.add(SSUEE.evernoteNotebookUpdate);
-    ueTypes.add(SSUEE.evernoteNotebookFollow);
-    ueTypes.add(SSUEE.evernoteNoteUpdate);
-    ueTypes.add(SSUEE.evernoteNoteDelete);
-    ueTypes.add(SSUEE.evernoteNoteShare);
-    ueTypes.add(SSUEE.evernoteReminderDone);
-    ueTypes.add(SSUEE.evernoteReminderCreate);
-    ueTypes.add(SSUEE.evernoteResourceAdd);
+    try{
+      final List<SSUEE> ueTypes = new ArrayList<>();
       
-    for(String user : allUsers){
+      SSUri userUri;
       
-      userUri = SSUri.get(user);
+      ueTypes.add(SSUEE.evernoteNotebookUpdate);
+      ueTypes.add(SSUEE.evernoteNotebookFollow);
+      ueTypes.add(SSUEE.evernoteNoteUpdate);
+      ueTypes.add(SSUEE.evernoteNoteDelete);
+      ueTypes.add(SSUEE.evernoteNoteShare);
+      ueTypes.add(SSUEE.evernoteReminderDone);
+      ueTypes.add(SSUEE.evernoteReminderCreate);
+      ueTypes.add(SSUEE.evernoteResourceAdd);
       
-      for(SSEntity ue : 
-        userEventsGet(
-          new SSUEsGetPar(
-            userUri, 
-            userUri, 
-            null, 
-            ueTypes,
-            null, 
-            null, 
-            false, 
-            false))){
+      for(String user : allUsers){
         
-        if(usersResources.containsKey(user)){
-          usersResources.get(user).add(((SSUE)ue).entity.id);
-        }else{
+        userUri = SSUri.get(user);
+        
+        for(SSEntity ue :
+          userEventsGet(
+            new SSUEsGetPar(
+              userUri,
+              userUri,
+              null,
+              ueTypes,
+              null,
+              null,
+              false,
+              false))){
           
-          final List<SSUri> resourceList = new ArrayList<>();
-          
-          resourceList.add(((SSUE)ue).entity.id);
-          
-          usersResources.put(user, resourceList);
+          if(usersResources.containsKey(user)){
+            usersResources.get(user).add(((SSUE)ue).entity.id);
+          }else{
+            
+            final List<SSUri> resourceList = new ArrayList<>();
+            
+            resourceList.add(((SSUE)ue).entity.id);
+            
+            usersResources.put(user, resourceList);
+          }
         }
       }
-    }
-    
-    for(Map.Entry<String, List<SSUri>> resourcesPerUser : usersResources.entrySet()){
-      SSStrU.distinctWithoutNull2(resourcesPerUser.getValue());
+      
+      for(Map.Entry<String, List<SSUri>> resourcesPerUser : usersResources.entrySet()){
+        SSStrU.distinctWithoutNull2(resourcesPerUser.getValue());
+      }
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
     }
   }
   

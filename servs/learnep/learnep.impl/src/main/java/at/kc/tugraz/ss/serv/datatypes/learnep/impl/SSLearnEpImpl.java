@@ -168,31 +168,35 @@ implements
     final List<String>             allUsers,
     final Map<String, List<SSUri>> usersResources) throws Exception{
     
-    for(String user : allUsers){
-      
-      for(SSUri learnEp : sqlFct.getLearnEpURIsForUser(SSUri.get(user))){
+    try{
+      for(String user : allUsers){
         
-        for(SSUri versionUri : sqlFct.getLearnEpVersionURIs(learnEp)){
+        for(SSUri learnEp : sqlFct.getLearnEpURIsForUser(SSUri.get(user))){
           
-          for(SSEntity entity : sqlFct.getLearnEpVersion(versionUri).learnEpEntities){
+          for(SSUri versionUri : sqlFct.getLearnEpVersionURIs(learnEp)){
             
-            if(usersResources.containsKey(user)){
-              usersResources.get(user).add(((SSLearnEpEntity)entity).entity.id);
-            }else{
+            for(SSEntity entity : sqlFct.getLearnEpVersion(versionUri).learnEpEntities){
               
-              final List<SSUri> resourceList = new ArrayList<>();
-              
-              resourceList.add(((SSLearnEpEntity)entity).entity.id);
-              
-              usersResources.put(user, resourceList);
+              if(usersResources.containsKey(user)){
+                usersResources.get(user).add(((SSLearnEpEntity)entity).entity.id);
+              }else{
+                
+                final List<SSUri> resourceList = new ArrayList<>();
+                
+                resourceList.add(((SSLearnEpEntity)entity).entity.id);
+                
+                usersResources.put(user, resourceList);
+              }
             }
           }
         }
       }
-    }
-    
-    for(Map.Entry<String, List<SSUri>> resourcesPerUser : usersResources.entrySet()){
-      SSStrU.distinctWithoutNull2(resourcesPerUser.getValue());
+      
+      for(Map.Entry<String, List<SSUri>> resourcesPerUser : usersResources.entrySet()){
+        SSStrU.distinctWithoutNull2(resourcesPerUser.getValue());
+      }
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
     }
   }
   
