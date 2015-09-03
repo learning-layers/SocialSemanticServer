@@ -132,10 +132,6 @@ public class SSRatingSQLFct extends SSDBSQLFct{
     final Integer ratingValue, 
     final Boolean userRatedEntityBefore) throws Exception{
    
-    if(SSObjU.isNull(ratingUri, userUri, entityUri, ratingValue)){
-      throw new SSErr(SSErrE.parameterMissing);
-    }
-    
     if(userRatedEntityBefore){
       
       final HashMap<String, String> wheres      = new HashMap<>();
