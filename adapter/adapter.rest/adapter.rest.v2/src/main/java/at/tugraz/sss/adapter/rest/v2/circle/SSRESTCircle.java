@@ -162,6 +162,7 @@ public class SSRESTCircle{
       
       par.setThumb          = input.setThumb;
       par.setProfilePicture = input.setProfilePicture;
+      par.setTags           = input.setTags;
       
     }catch(Exception error){
       return Response.status(422).build();
@@ -202,6 +203,7 @@ public class SSRESTCircle{
       
       par.setThumb          = input.setThumb;
       par.setProfilePicture = input.setProfilePicture;
+      par.setTags           = input.setTags;
       
     }catch(Exception error){
       return Response.status(422).build();

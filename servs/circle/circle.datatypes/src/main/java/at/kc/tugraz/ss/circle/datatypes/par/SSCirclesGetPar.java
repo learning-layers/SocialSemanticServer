@@ -37,6 +37,7 @@ public class SSCirclesGetPar extends SSServPar{
   public Boolean         invokeEntityHandlers     = false;
   public Boolean         setProfilePicture        = false;
   public Boolean         setThumb                 = false;
+  public Boolean         setTags                  = false;
   
   public void setForUser(final String forUser) throws Exception{
     this.forUser = SSUri.get(forUser);

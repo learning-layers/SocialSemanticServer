@@ -58,6 +58,12 @@ public class SSCirclesFilteredForUserGetRESTAPIV2Par{
   @ApiModelProperty(
     required = false,
     value = "")
+  public Boolean setTags = null;
+    
+  @XmlElement
+  @ApiModelProperty(
+    required = false,
+    value = "")
   public Boolean invokeEntityHandlers = null;
     
   public SSCirclesFilteredForUserGetRESTAPIV2Par(){}

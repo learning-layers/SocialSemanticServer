@@ -1007,7 +1007,17 @@ implements
         descPar.setOverallRating = true;
         descPar.setTags          = par.setTags;
         descPar.space            = par.tagSpace;
-        descPar.circle           = par.circle;
+        
+        if(par.tagSpace != null){
+          
+          switch(par.tagSpace){
+            case circleSpace:{
+              descPar.circle = par.circle;
+              break;
+            }
+          }
+        }
+        
       }else{
         descPar = null;
       }
@@ -1124,7 +1134,7 @@ implements
             par.user,
             circleURI,
             par.entityTypesToIncludeOnly,
-            false,  //setTags
+            par.setTags,  //setTags
             null, //tagSpace
             par.withUserRestriction,
             par.invokeEntityHandlers);

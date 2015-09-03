@@ -69,6 +69,12 @@ public class SSCirclesGetRESTAPIV2Par{
   @ApiModelProperty(
     required = false,
     value = "")
+  public Boolean setTags = null;
+    
+  @XmlElement
+  @ApiModelProperty(
+    required = false,
+    value = "")
   public Boolean invokeEntityHandlers = null;
     
   public SSCirclesGetRESTAPIV2Par(){}
