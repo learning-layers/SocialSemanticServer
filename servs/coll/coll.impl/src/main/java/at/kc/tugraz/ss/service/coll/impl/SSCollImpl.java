@@ -387,9 +387,8 @@ implements
             break;
           }
           
-          default:{
-//          case file:
-//          case entity:{
+          case uploadedFile:
+          case entity:{
             
             SSUri sharedWithMeFilesCollUri;
             
