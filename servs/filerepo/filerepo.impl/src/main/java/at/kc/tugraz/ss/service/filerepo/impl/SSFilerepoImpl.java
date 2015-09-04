@@ -381,14 +381,6 @@ implements
         }
       }
       
-      final SSEntityDescriberPar descPar;
-      
-      if(par.invokeEntityHandlers){
-        descPar = new SSEntityDescriberPar(par.file);
-      }else{
-        descPar = null;
-      }
-      
       final SSFileExtE  fileExt       = SSFileExtE.ext(SSStrU.removeTrailingSlash(par.file));
       final SSMimeTypeE mimeType      = SSMimeTypeE.mimeTypeForFileExt (fileExt);
       final SSUri       downloadLink  =
@@ -406,7 +398,23 @@ implements
           fileExt, 
           mimeType,
           downloadLink);
-          
+      
+      final SSEntityDescriberPar descPar;
+      
+      if(par.invokeEntityHandlers){
+        descPar = new SSEntityDescriberPar(par.file);
+        
+        switch(fileType){
+          case uploadedFile:{
+            descPar.setThumb = true;
+            break;
+          }
+        }
+        
+      }else{
+        descPar = null;
+      }
+      
       return SSFile.get(
         file,
         entityServ.entityGet(
