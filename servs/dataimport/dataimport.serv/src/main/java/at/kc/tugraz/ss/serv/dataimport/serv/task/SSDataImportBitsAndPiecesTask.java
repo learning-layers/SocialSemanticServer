@@ -22,19 +22,21 @@ package at.kc.tugraz.ss.serv.dataimport.serv.task;
 
 import at.tugraz.sss.serv.SSLogU;
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
+import at.kc.tugraz.ss.serv.dataimport.api.SSDataImportServerI;
+import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportBitsAndPiecesPar;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
 import at.kc.tugraz.ss.serv.jobs.evernote.conf.SSEvernoteConf;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.tugraz.sss.serv.SSServImplStartA;
-import at.tugraz.sss.serv.caller.SSServCaller;
 import java.util.TimerTask;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSServReg;
 
-public class SSDataImportEvernoteTask extends TimerTask {
+public class SSDataImportBitsAndPiecesTask extends TimerTask {
   
-  public SSDataImportEvernoteTask() throws Exception{
+  public SSDataImportBitsAndPiecesTask() throws Exception{
   }
   
   @Override
@@ -48,31 +50,43 @@ public class SSDataImportEvernoteTask extends TimerTask {
         return;
       }
       
+      String emailInEmail    = null;
+      String emailInPassword = null;
+      
       for(int counter = 0; counter < evernoteConf.authTokens.size(); counter++){
         
+        if(evernoteConf.emailInEmails != null){
+          emailInEmail    = evernoteConf.emailInEmails.get(counter);
+          emailInPassword = evernoteConf.emailInPasswords.get(counter);
+        }
+        
         new Thread(
-          new SSDataImportEvernoteUpdater(
-            evernoteConf.authTokens.get(counter),
-            evernoteConf.authEmails.get(counter))).start();
+          new SSDataImportBitsAndPiecesUpdater(
+            new SSDataImportBitsAndPiecesPar(
+              SSVocConf.systemUserUri,
+              evernoteConf.authTokens.get(counter),
+              evernoteConf.authEmails.get(counter),
+              emailInEmail,
+              emailInPassword,
+              true, //withUserRestriction,
+              true))).start();
       }
+      
     }catch(Exception error){
       SSServErrReg.regErr(error);
     }
   }
   
-  protected class SSDataImportEvernoteUpdater extends SSServImplStartA{
+  protected class SSDataImportBitsAndPiecesUpdater extends SSServImplStartA{
     
-    private final String authToken;
-    private final String email;
+    private final SSDataImportBitsAndPiecesPar par;
     
-    public SSDataImportEvernoteUpdater(
-      final String   authToken,
-      final String   email) throws Exception{
+    public SSDataImportBitsAndPiecesUpdater(
+      final SSDataImportBitsAndPiecesPar par) throws Exception{
       
       super(null, (SSDBSQLI) SSDBSQL.inst.serv());
       
-      this.authToken = authToken;
-      this.email     = email;
+      this.par = par;
     }
     
     @Override
@@ -80,39 +94,24 @@ public class SSDataImportEvernoteTask extends TimerTask {
       
       try{
         
-        SSServCaller.dataImportEvernote(
-          SSVocConf.systemUserUri,
-          authToken,
-          email,
-          true);
+        ((SSDataImportServerI) SSServReg.getServ(SSDataImportServerI.class)).dataImportBitsAndPieces(par);
         
       }catch(Exception error){
         
         if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
           
           try{
-            if(dbSQL.rollBack(true)){
-              
-              SSServErrReg.reset();
-              
-              SSServCaller.dataImportEvernote(
-                SSVocConf.systemUserUri,
-                authToken,
-                email,
-                true);
-            }else{
-              SSLogU.warn("evernote import failed: " + authToken);
-              
-              SSServErrReg.logServImplErrors(true);
-            }
-          }catch(Exception error1){
-            SSLogU.warn("evernote import failed: " + authToken);
             
+            if(!dbSQL.rollBack(true)){
+              SSServErrReg.logServImplErrors(true);
+            }else{
+              SSServErrReg.reset();
+            }
+            
+          }catch(Exception error1){
             SSServErrReg.logServImplErrors(true);
           }
         }else{
-          SSLogU.warn("evernote import failed: " + authToken);
-          
           SSServErrReg.logServImplErrors(true);
         }
       }finally{

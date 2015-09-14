@@ -21,45 +21,29 @@
 package at.kc.tugraz.ss.serv.dataimport.datatypes.pars;
 
 import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServRetI;
-import java.util.HashMap;
 import java.util.Map;
 
-public class SSDataImportEvernoteRet extends SSServRetI{
+public class SSDataImportBitsAndPiecesRet extends SSServRetI{
   
   public Boolean worked   = null; 
   
-  public static SSDataImportEvernoteRet get(
-    final Boolean   worked, 
-    final SSServOpE   op){
-    
-    return new SSDataImportEvernoteRet(worked, op);
-  }
-  
-  private SSDataImportEvernoteRet(
-    final Boolean   worked, 
-    final SSServOpE   op){
-    
-    super(op);
-    
-    this.worked  = worked;
-  }
-  
   @Override
   public Map<String, Object> jsonLDDesc(){
-    
-    final Map<String, Object> ld         = new HashMap<>();
-    
-    ld.put(SSVarNames.worked,  SSVarNames.xsd + SSStrU.colon + SSStrU.valueBoolean);
-    
-    return ld;
+    throw new UnsupportedOperationException();
   }
   
-  /* json getters */
+  public static SSDataImportBitsAndPiecesRet get(
+    final Boolean   worked){
+    
+    return new SSDataImportBitsAndPiecesRet(worked);
+  }
   
-  public Boolean isWorked() throws Exception {
-    return worked;
+  private SSDataImportBitsAndPiecesRet(
+    final Boolean   worked){
+    
+    super(SSServOpE.dataImportBitsAndPieces);
+    
+    this.worked  = worked;
   }
 }

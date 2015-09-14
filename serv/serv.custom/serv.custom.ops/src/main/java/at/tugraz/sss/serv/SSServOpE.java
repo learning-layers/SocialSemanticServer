@@ -275,7 +275,7 @@ public enum SSServOpE{
   dataImportUserResourceTagFromWikipedia              ,
   dataImportAchso,
   dataImportSSSUsersFromCSVFile                       ,
-  dataImportEvernote                                  ,
+  dataImportBitsAndPieces                             ,
   dataImportMediaWikiUser,
   
   //disc

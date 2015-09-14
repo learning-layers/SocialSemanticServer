@@ -80,31 +80,6 @@ public class SSRecommServ extends SSServContainerI{
     if(!recommConf.initAtStartUp){
       return;
     }
-    
-    if(
-      recommConf.initAtStartUpOps == null ||
-      recommConf.initAtStartUpOps.isEmpty()){
-      
-      SSLogU.warn("attempt to init at startup | ops empty");
-      return;
-    }
-    
-    for(SSServOpE initAtStartUpOp : recommConf.initAtStartUpOps){
-      
-      switch(initAtStartUpOp){
-        
-        case recommUpdate:{
-          SSDateU.scheduleNow(new SSRecommUpdateBulkTask                     (recommConf));
-          SSDateU.scheduleNow(new SSRecommUpdateBulkUserRealmsFromConfTask   (recommConf));
-          SSDateU.scheduleNow(new SSRecommUpdateBulkUserRealmsFromCirclesTask(recommConf));
-          break;
-        }
-        
-        default:{
-          SSLogU.warn("attempt to init op with no init task defined");
-        }
-      }
-    }
   }
   
   @Override

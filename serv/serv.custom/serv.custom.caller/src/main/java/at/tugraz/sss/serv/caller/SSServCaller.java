@@ -27,7 +27,6 @@ import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSFileExtE;
 import at.tugraz.sss.serv.SSIDU;
-import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSMimeTypeE;
 import at.tugraz.sss.serv.SSServReg;
@@ -463,22 +462,6 @@ public class SSServCaller {
     opPars.put(SSVarNames.fileName, fileName);
     
     return (Map<String, String>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.dataImportSSSUsersFromCSVFile, opPars));
-  }
-  
-  public static void dataImportEvernote(
-    final SSUri   user, 
-    final String  authToken, 
-    final String  authEmail,
-    final Boolean shouldCommit) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.shouldCommit, shouldCommit);
-    opPars.put(SSVarNames.user,         user);
-    opPars.put(SSVarNames.authToken,    authToken);
-    opPars.put(SSVarNames.authEmail,    authEmail);
-    
-    SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.dataImportEvernote, opPars));
   }
   
   public static void dataImportMediaWikiUser(

@@ -30,7 +30,7 @@ import at.kc.tugraz.ss.serv.dataimport.api.SSDataImportClientI;
 import at.kc.tugraz.ss.serv.dataimport.api.SSDataImportServerI;
 import at.kc.tugraz.ss.serv.dataimport.conf.SSDataImportConf;
 import at.kc.tugraz.ss.serv.dataimport.impl.SSDataImportImpl;
-import at.kc.tugraz.ss.serv.dataimport.serv.task.SSDataImportEvernoteTask;
+import at.kc.tugraz.ss.serv.dataimport.serv.task.SSDataImportBitsAndPiecesTask;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServImplA;
@@ -74,29 +74,6 @@ public class SSDataImportServ extends SSServContainerI{
     if(!dataImportConf.initAtStartUp){
       return;
     }
-    
-    if(
-      dataImportConf.initAtStartUpOps == null ||
-      dataImportConf.initAtStartUpOps.isEmpty()){
-      
-      SSLogU.warn("attempt to init at startup | ops empty");
-      return;
-    }
-    
-    for(SSServOpE initAtStartUpOp : dataImportConf.initAtStartUpOps){
-      
-      switch(initAtStartUpOp){
-        
-        case dataImportEvernote:{
-          SSDateU.scheduleNow(new SSDataImportEvernoteTask());
-          break;
-        }
-        
-        default:{
-          SSLogU.warn("attempt to init op with no init task defined");
-        }
-      }
-    }
   }
   
   @Override
@@ -126,8 +103,8 @@ public class SSDataImportServ extends SSServContainerI{
         
         switch(scheduleOp){
           
-          case dataImportEvernote:{
-            SSDateU.scheduleNow(new SSDataImportEvernoteTask());
+          case dataImportBitsAndPieces:{
+            SSDateU.scheduleNow(new SSDataImportBitsAndPiecesTask());
             break;
           }
           
@@ -142,10 +119,9 @@ public class SSDataImportServ extends SSServContainerI{
       
       switch(dataImportConf.scheduleOps.get(counter)){
         
-        case dataImportEvernote:{
+        case dataImportBitsAndPieces:{
           
-          SSDateU.scheduleAtFixedRate(
-            new SSDataImportEvernoteTask(),
+          SSDateU.scheduleAtFixedRate(new SSDataImportBitsAndPiecesTask(),
             SSDateU.getDatePlusMinutes(dataImportConf.scheduleIntervals.get(counter)),
             dataImportConf.scheduleIntervals.get(counter) * SSDateU.minuteInMilliSeconds);
           break;

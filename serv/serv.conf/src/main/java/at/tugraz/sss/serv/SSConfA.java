@@ -27,7 +27,6 @@ public abstract class SSConfA{
   
   public Boolean         use                        = false;
   public Boolean         initAtStartUp              = false;
-  public List<SSServOpE> initAtStartUpOps           = new ArrayList<>();
   public Boolean         schedule                   = false;
   public Boolean         executeScheduleAtStartUp   = false;
   public List<SSServOpE> scheduleOps                = new ArrayList<>();
@@ -39,15 +38,8 @@ public abstract class SSConfA{
     final SSConfA orig, 
     final SSConfA copy){
     
-    copy.use                    = orig.use;
-    copy.initAtStartUp          = orig.initAtStartUp;
-    
-    if(orig.initAtStartUpOps == null){
-      copy.initAtStartUpOps = new ArrayList<>();
-    }else{
-      copy.initAtStartUpOps.addAll(orig.initAtStartUpOps);
-    }
-    
+    copy.use                      = orig.use;
+    copy.initAtStartUp            = orig.initAtStartUp;
     copy.schedule                 = orig.schedule;
     copy.executeScheduleAtStartUp = orig.executeScheduleAtStartUp;
     

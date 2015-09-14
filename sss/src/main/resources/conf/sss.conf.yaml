@@ -101,9 +101,6 @@ learnEp:
   useEpisodeLocking: true
 recomm: #files have to be provided in sss's_working_dir/data/csv/
   use: true
-  initAtStartUp: false
-  initAtStartUpOps:
-    - recommUpdate
   schedule: true
   executeScheduleAtStartUp: true
   scheduleOps:
@@ -146,13 +143,10 @@ evernote:
   emailInPasswords:
 dataImport:
   use: true
-  initAtStartUp: false
-  initAtStartUpOps:
-  - dataImportEvernote 
   schedule: false
   executeScheduleAtStartUp: false
   scheduleOps:
-    - dataImportEvernote
+    - dataImportBitsAndPieces #dataImportBitsAndPieces 
   scheduleIntervals:
     - 60
   fileName: #ssRecommLanguageModelData.txt #file has to be provided in in SSS/ss/src/main/resources/data/csv/ or to be written in sss's_working_dir/data/csv/

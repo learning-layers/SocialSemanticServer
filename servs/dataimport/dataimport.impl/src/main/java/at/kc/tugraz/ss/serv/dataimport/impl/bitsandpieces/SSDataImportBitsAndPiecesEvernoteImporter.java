@@ -18,7 +18,7 @@
   * See the License for the specific language governing permissions and
   * limitations under the License.
   */
-package at.kc.tugraz.ss.serv.dataimport.impl.evernote;
+package at.kc.tugraz.ss.serv.dataimport.impl.bitsandpieces;
 
 import at.tugraz.sss.serv.SSDateU;
 import at.tugraz.sss.serv.SSLinkU;
@@ -31,11 +31,12 @@ import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSSpaceE;
 import at.tugraz.sss.serv.SSToolContextE;
-import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportEvernotePar;
+import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportBitsAndPiecesPar;
+import at.kc.tugraz.ss.serv.dataimport.impl.evernote.SSDataImportEvernoteNoteContentHandler;
+import at.kc.tugraz.ss.serv.dataimport.impl.evernote.SSDataImportEvernoteResourceContentHandler;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
-import at.tugraz.sss.serv.SSDBSQLI;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteInfo;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthRegisterUserPar;
 import at.kc.tugraz.ss.service.tag.api.SSTagServerI;
@@ -59,24 +60,55 @@ import com.evernote.edam.type.SharedNotebook;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 import sss.serv.eval.api.SSEvalServerI;
 import sss.serv.eval.datatypes.SSEvalLogE;
 import sss.serv.eval.datatypes.par.SSEvalLogPar;
 
-public class SSDataImportEvernoteHandler {
+public class SSDataImportBitsAndPiecesEvernoteImporter {
+  
+  private static final ReentrantReadWriteLock  currentlyRunEvernoteImportsLock  = new ReentrantReadWriteLock();
+  private static final List<String>            currentlyRunEvernoteImports      = new ArrayList<>();
   
   private final  String                  localWorkPath;
+  private final  List<String>            sharedNotebookGuids      = new ArrayList<>();
   private        SSEvernoteInfo          evernoteInfo             = null;
   private        SSUri                   userUri                  = null;
   private        List<SharedNotebook>    sharedNotebooks          = null;
-  private        List<String>            sharedNotebookGuids      = null;
-//  private        long                    april01                  = new Date().getTime() - SSDateU.dayInMilliSeconds * 109;
   
-  public SSDataImportEvernoteHandler(final SSDBSQLI dbSQL) throws Exception{
+  public SSDataImportBitsAndPiecesEvernoteImporter() throws Exception{
     this.localWorkPath   = SSCoreConf.instGet().getSss().getLocalWorkPath();
   }
   
-  public void setBasicEvernoteInfo(final SSDataImportEvernotePar par) throws Exception{
+  public void handle(final SSDataImportBitsAndPiecesPar par) throws Exception{
+    
+    try{
+  
+      addCurrentlyRunEvernotImport(par.authToken, par.authEmail);
+      
+      SSLogU.info("start B&P evernote import for " +  par.authEmail);
+      
+      setBasicEvernoteInfo  (par);
+      
+      handleLinkedNotebooks ();
+      setSharedNotebooks    ();
+      handleNotebooks       ();
+      handleNotes           ();
+      handleResources       ();
+      
+      setUSN();
+      
+      SSLogU.info("end B&P evernote import for evernote account " + par.authEmail);
+      
+    }catch(Exception error){
+      SSLogU.warn("B&P evernote import failed for " + par.authEmail);
+      SSServErrReg.regErrThrow(error);
+    }finally{
+      removeCurrentlyRunEvernoteImport(par.authToken);
+    }
+  }
+  
+  private void setBasicEvernoteInfo(final SSDataImportBitsAndPiecesPar par) throws Exception{
     
     final SSAuthServerI authServ = (SSAuthServerI) SSServReg.getServ(SSAuthServerI.class);
     
@@ -104,7 +136,7 @@ public class SSDataImportEvernoteHandler {
       false);
   }
   
-  public void setUSN() throws Exception{
+  private void setUSN() throws Exception{
     
     SSServCaller.evernoteUSNSet(
       this.userUri,
@@ -113,13 +145,22 @@ public class SSDataImportEvernoteHandler {
       false);
   }
   
-  public void setSharedNotebooks() throws Exception{
+  private void setSharedNotebooks() throws Exception{
     
     sharedNotebooks     = SSServCaller.evernoteNotebooksSharedGet (evernoteInfo.noteStore);
-    sharedNotebookGuids = getSharedNotebookGuids   (sharedNotebooks);
+    
+    sharedNotebookGuids.clear();
+
+    if(sharedNotebooks == null){
+      return;
+    }
+    
+    sharedNotebooks.stream().forEach((sharedNotebook)->{
+      sharedNotebookGuids.add(sharedNotebook.getNotebookGuid());
+    });
   }
   
-  public void handleNotebooks() throws Exception{
+  private void handleNotebooks() throws Exception{
     
     final List<Notebook> notebooks      = evernoteInfo.noteStoreSyncChunk.getNotebooks();
     SSUri                notebookUri;
@@ -230,7 +271,7 @@ public class SSDataImportEvernoteHandler {
     }
   }
   
-  public void handleLinkedNotebooks() throws Exception{
+  private void handleLinkedNotebooks() throws Exception{
     
     final List<LinkedNotebook> linkedNotebooks = evernoteInfo.noteStoreSyncChunk.getLinkedNotebooks();
     int                        timeCounter     = 1;
@@ -290,7 +331,7 @@ public class SSDataImportEvernoteHandler {
         false)); //shouldCommit
   }
   
-  public void handleNotes() throws Exception{
+  private void handleNotes() throws Exception{
     
     final List<Note>     notes = evernoteInfo.noteStoreSyncChunk.getNotes();
     Note                 noteWithContent;
@@ -591,7 +632,7 @@ public class SSDataImportEvernoteHandler {
     }
   }
   
-  public void handleResources() throws Exception{
+  private void handleResources() throws Exception{
     
     final List<Resource> resources = evernoteInfo.noteStoreSyncChunk.getResources();
     Resource             resourceWithContent;
@@ -726,22 +767,7 @@ public class SSDataImportEvernoteHandler {
         false)); //shouldCommit
   }
   
-  private static List<String> getSharedNotebookGuids(final List<SharedNotebook> sharedNotebooks) {
-    
-    final List<String> sharedNotebookGuids = new ArrayList<>();
-    
-    if(sharedNotebooks == null){
-      return sharedNotebookGuids;
-    }
-    
-    sharedNotebooks.stream().forEach((sharedNotebook)->{
-      sharedNotebookGuids.add(sharedNotebook.getNotebookGuid());
-    });
-    
-    return sharedNotebookGuids;
-  }
-  
-  private static SSUri getNormalOrSharedNotebookUri(SSLabel userName, Notebook notebook, List<String> sharedNotebookGuids) throws Exception{
+  private SSUri getNormalOrSharedNotebookUri(SSLabel userName, Notebook notebook, List<String> sharedNotebookGuids) throws Exception{
     
     try{
       
@@ -756,25 +782,25 @@ public class SSDataImportEvernoteHandler {
     return getNotebookDefaultUri(notebook);
   }
   
-  private static SSUri getNormalOrSharedNoteUri(SSEvernoteInfo evernoteInfo, Note note) throws Exception {
+  private SSUri getNormalOrSharedNoteUri(SSEvernoteInfo evernoteInfo, Note note) throws Exception {
     return SSUri.get(evernoteInfo.shardUri + "view/notebook/" + note.getGuid());
   }
   
-  private static SSUri getLinkedNotebookUri(LinkedNotebook linkedNotebook) throws Exception {
+  private SSUri getLinkedNotebookUri(LinkedNotebook linkedNotebook) throws Exception {
     return SSUri.get(linkedNotebook.getWebApiUrlPrefix() + "share/" + linkedNotebook.getShareKey());
   }
   
-  private static SSUri getResourceUri(SSEvernoteInfo evernoteInfo, Resource resource) throws Exception{
+  private SSUri getResourceUri(SSEvernoteInfo evernoteInfo, Resource resource) throws Exception{
     return SSUri.get(evernoteInfo.shardUri + "res/" + resource.getGuid());
   }
   
-  private static String createSharedNotebookUriStr(SSLabel userName, Notebook notebook) throws Exception{
+  private String createSharedNotebookUriStr(SSLabel userName, Notebook notebook) throws Exception{
     
     //TODO dtheiler: check evernote environment to use here
     return SSLinkU.httpsEvernote + "pub/" + SSStrU.toStr(userName) + SSStrU.slash + notebook.getPublishing().getUri(); //7SSStrU.replaceAllBlanksSpecialCharactersDoubleDots(notebook.getName(), SSStrU.empty)
   }
   
-  private static SSUri getNotebookDefaultUri(Notebook notebook) throws Exception{
+  private SSUri getNotebookDefaultUri(Notebook notebook) throws Exception{
     
     if(
       notebook                  == null ||
@@ -785,7 +811,7 @@ public class SSDataImportEvernoteHandler {
     return SSUri.get(SSLinkU.httpsEvernote + "Home.action#b=" + notebook.getGuid());
   }
   
-  private static SSLabel getNormalOrSharedNotebookLabel(
+  private SSLabel getNormalOrSharedNotebookLabel(
     final Notebook notebook) throws Exception{
     
     try{
@@ -801,7 +827,7 @@ public class SSDataImportEvernoteHandler {
     }
   }
   
-  private static SSLabel getLinkedNotebookLabel(
+  private SSLabel getLinkedNotebookLabel(
     final LinkedNotebook linkedNotebook) throws Exception{
     
     try{
@@ -817,7 +843,7 @@ public class SSDataImportEvernoteHandler {
     }
   }
   
-  public static SSLabel getNoteLabel(
+  public SSLabel getNoteLabel(
     final Note  note) throws Exception {
     
     try{
@@ -833,7 +859,7 @@ public class SSDataImportEvernoteHandler {
     }
   }
   
-  private static SSLabel getResourceLabel(
+  private SSLabel getResourceLabel(
     final Resource resource,
     final Note     note) throws Exception{
     
@@ -852,8 +878,44 @@ public class SSDataImportEvernoteHandler {
     }
   }
   
-  private static SSLabel getDefaultLabel() throws Exception{
+  private SSLabel getDefaultLabel() throws Exception{
     return SSLabel.get("no label");
+  }
+  
+  private void addCurrentlyRunEvernotImport(
+    final String authToken,
+    final String authEmail) throws Exception{
+    
+    try{
+      
+      if(!currentlyRunEvernoteImportsLock.isWriteLocked()){
+        currentlyRunEvernoteImportsLock.writeLock().lock();
+      }
+      
+      if(currentlyRunEvernoteImports.contains(authToken)){
+        SSLogU.warn("B&P evernote data import currently runs for " + authEmail);
+        throw new Exception("B&P evernote data import currently runs for " + authEmail);
+      }else{
+        currentlyRunEvernoteImports.add(authToken);
+        
+        currentlyRunEvernoteImportsLock.writeLock().unlock();
+      }
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  private void removeCurrentlyRunEvernoteImport(final String authToken){
+    
+    if(!currentlyRunEvernoteImportsLock.isWriteLocked()){
+      currentlyRunEvernoteImportsLock.writeLock().lock();
+    }
+    
+    if(authToken != null){
+      currentlyRunEvernoteImports.remove(authToken);
+    }
+    
+    currentlyRunEvernoteImportsLock.writeLock().unlock();
   }
 }
 

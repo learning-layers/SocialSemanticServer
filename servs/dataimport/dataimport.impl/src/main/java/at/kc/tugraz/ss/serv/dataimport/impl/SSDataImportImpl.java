@@ -37,10 +37,11 @@ import at.kc.tugraz.ss.serv.dataimport.conf.SSDataImportConf;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportAchsoPar;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportUserResourceTagFromWikipediaPar;
 import at.tugraz.sss.serv.SSServPar;
-import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportEvernotePar;
+import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportBitsAndPiecesPar;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportMediaWikiUserPar;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportSSSUsersFromCSVFilePar;
-import at.kc.tugraz.ss.serv.dataimport.impl.evernote.SSDataImportEvernoteHandler;
+import at.kc.tugraz.ss.serv.dataimport.impl.bitsandpieces.SSDataImportBitsAndPiecesEvernoteImporter;
+import at.kc.tugraz.ss.serv.dataimport.impl.bitsandpieces.SSDataImportBitsAndPiecesMailImporter;
 import at.kc.tugraz.ss.serv.dataimport.impl.fct.op.SSDataImportAchsoFct;
 import at.kc.tugraz.ss.serv.dataimport.impl.fct.reader.SSDataImportReaderFct;
 import at.kc.tugraz.ss.serv.dataimport.impl.fct.sql.SSDataImportSQLFct;
@@ -67,25 +68,66 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
 
 public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportClientI, SSDataImportServerI{
   
-  private static final ReentrantReadWriteLock  currentlyRunEvernoteImportsLock  = new ReentrantReadWriteLock();
-  private static final List<String>            currentlyRunEvernoteImports      = new ArrayList<>();
-    
-  private final SSDataImportSQLFct          sqlFct;
-  private final SSDataImportEvernoteHandler dataImpEvernoteHelper;
-  
+  private final SSDataImportSQLFct sqlFct;
   
   public SSDataImportImpl(final SSConfA conf) throws Exception{
+    
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
     
-    this.sqlFct                = new SSDataImportSQLFct         (dbSQL);
-    this.dataImpEvernoteHelper = new SSDataImportEvernoteHandler (dbSQL); 
+    this.sqlFct = new SSDataImportSQLFct         (dbSQL);
+  }
+  
+  @Override
+  public Boolean dataImportBitsAndPieces(final SSDataImportBitsAndPiecesPar par) throws Exception{
+    
+    try{
+      
+      Boolean worked = true;
+      
+      try{
+
+        dbSQL.startTrans(par.shouldCommit);
+        new SSDataImportBitsAndPiecesEvernoteImporter().handle(par);
+        dbSQL.commit(par.shouldCommit);
+      }catch(Exception error){
+        
+        worked = false;
+        
+        if(!dbSQL.rollBack(par.shouldCommit)){
+          SSLogU.warn("sql rollback failed");
+        }
+        
+        SSServErrReg.reset();
+      }
+      
+      try{
+        
+        dbSQL.startTrans(par.shouldCommit);
+        new SSDataImportBitsAndPiecesMailImporter().handle(par);
+        dbSQL.commit(par.shouldCommit);
+      }catch(Exception error){
+        
+        worked = false;
+        
+        if(!dbSQL.rollBack(par.shouldCommit)){
+          SSLogU.warn("sql rollback failed");
+        }
+        
+        SSServErrReg.reset();
+      }
+      
+      return worked;
+    }catch(Exception error){
+      dbSQL.rollBack(par.shouldCommit);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
   }
   
   @Override
@@ -118,95 +160,6 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
       SSServErrReg.regErrThrow(error);
       return null;
     }
-  }
-  
-  @Override
-  public Boolean dataImportEvernote(final SSServPar parA) throws Exception{
-    
-    String authToken = null;
-    
-    try{
-      
-      final SSDataImportEvernotePar par = new SSDataImportEvernotePar(parA);
-     
-      authToken = par.authToken;
-        
-      if(!addCurrentlyRunEvernotImport(authToken)){
-        return false;
-      }
-      
-      SSLogU.info("start data import for evernote account " +  par.authEmail);              
-      
-      dbSQL.startTrans(par.shouldCommit);
-      
-      dataImpEvernoteHelper.setBasicEvernoteInfo  (par);
-      
-      dataImpEvernoteHelper.handleLinkedNotebooks ();
-      dataImpEvernoteHelper.setSharedNotebooks    ();
-      dataImpEvernoteHelper.handleNotebooks       ();
-      dataImpEvernoteHelper.handleNotes           ();
-      dataImpEvernoteHelper.handleResources       ();
-      
-      dataImpEvernoteHelper.setUSN();
-      
-      dbSQL.commit(par.shouldCommit);
-      
-      SSLogU.info("end data import for evernote account " + par.authEmail);
-      
-      return true;
-    }catch(Exception error){
-      
-      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
-        
-        if(dbSQL.rollBack(parA.shouldCommit)){
-       
-          SSServErrReg.reset();
-          
-          removeCurrentlyRunEvernoteImport(authToken);
-          
-          return dataImportEvernote(parA);
-        }else{
-          SSServErrReg.regErrThrow(error);
-          return null;
-        }
-      }
-      
-      dbSQL.rollBack(parA.shouldCommit);
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }finally{
-      removeCurrentlyRunEvernoteImport(authToken);
-    }
-  }
-  
-  private Boolean addCurrentlyRunEvernotImport(final String authToken){
-    
-    if(!currentlyRunEvernoteImportsLock.isWriteLocked()){
-      currentlyRunEvernoteImportsLock.writeLock().lock();
-    }
-    
-    if(currentlyRunEvernoteImports.contains(authToken)){
-      SSLogU.warn("import currently runs for " + authToken);
-      return false;
-    }else{
-      currentlyRunEvernoteImports.add(authToken);
-      
-      currentlyRunEvernoteImportsLock.writeLock().unlock();
-      return true;
-    }
-  }
-  
-  private void removeCurrentlyRunEvernoteImport(final String authToken){
-    
-    if(!currentlyRunEvernoteImportsLock.isWriteLocked()){
-      currentlyRunEvernoteImportsLock.writeLock().lock();
-    }
-    
-    if(authToken != null){
-      currentlyRunEvernoteImports.remove(authToken);
-    }
-    
-    currentlyRunEvernoteImportsLock.writeLock().unlock();
   }
   
   @Override
