@@ -21,8 +21,14 @@
 package at.kc.tugraz.ss.serv.dataimport.impl.bitsandpieces;
 
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportBitsAndPiecesPar;
+import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSServReg;
+import at.tugraz.sss.servs.mail.SSMailServerI;
+import at.tugraz.sss.servs.mail.datatype.par.SSMailsReceivePar;
+import java.util.List;
 
 public class SSDataImportBitsAndPiecesMailImporter {
 
@@ -31,8 +37,22 @@ public class SSDataImportBitsAndPiecesMailImporter {
 
     try{
      
+      if(par.emailInEmail == null){
+        return;
+      }
+      
+      final SSMailServerI mail = (SSMailServerI) SSServReg.getServ(SSMailServerI.class);
+      
       SSLogU.info("start B&P mail import for " +  par.authEmail);
       
+      final List<SSEntity> mails =
+        mail.mailsReceive(
+          new SSMailsReceivePar(
+            SSVocConf.systemUserUri,
+            par.emailInEmail,
+            par.emailInPassword,
+            true,  //withUserRestriction
+            par.shouldCommit));
       
       SSLogU.info("end B&P mail import for " +  par.authEmail);
       

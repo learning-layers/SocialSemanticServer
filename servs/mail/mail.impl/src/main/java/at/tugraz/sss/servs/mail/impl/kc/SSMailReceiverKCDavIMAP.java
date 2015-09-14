@@ -25,7 +25,9 @@ import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSFileU;
 import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.caller.SSServCaller;
 import at.tugraz.sss.servs.mail.conf.SSMailConf;
+import at.tugraz.sss.servs.mail.datatype.SSMail;
 import com.mysql.jdbc.StringUtils;
 import com.sun.mail.imap.IMAPMessage;
 import java.io.InputStream;
@@ -41,9 +43,9 @@ import javax.mail.Store;
 
 public class SSMailReceiverKCDavIMAP {
   
-  private final  SSMailConf mailConf;
-  private final  String     localWorkPath;
-  
+  private final  SSMailConf      mailConf;
+  private final  String          localWorkPath;
+  private final  List<SSEntity>   mails   = new ArrayList<>();
   
   public SSMailReceiverKCDavIMAP(
     final SSMailConf mailConf) throws Exception{
@@ -60,7 +62,6 @@ public class SSMailReceiverKCDavIMAP {
     Folder folder = null;
     
     try{
-      final List<SSEntity>            mails   = new ArrayList<>();
       final Properties                props   = new Properties();
       final SSMailKCIMAPAuthenticator auth    = new SSMailKCIMAPAuthenticator(fromUser, fromPassword);
       final Session                   session = Session.getDefaultInstance(props, auth); //session.setDebug(true);
@@ -74,15 +75,21 @@ public class SSMailReceiverKCDavIMAP {
       folder.open(Folder.READ_ONLY);
       
       final Message messages [] = folder.getMessages();
+      SSMail        mail;
       IMAPMessage   message;
       
       for(int counter = 0; counter < messages.length; counter++){
         
         message = (IMAPMessage) messages[counter];
+        mail    =
+          SSMail.get(
+            SSServCaller.vocURICreate(),
+            messages[counter].getSubject());
         
-        if(!getSaveAddMessageParts (message)){
-          
-          SSLogU.info(
+        if(createMessageFromMessageParts (message, mail)){
+          mails.add(mail);
+        }else{
+          SSLogU.warn(
             "subject    : " + message.getSubject() +
             "date       : " + message.getSentDate() +
             "id         : " + message.getMessageID() +
@@ -90,12 +97,6 @@ public class SSMailReceiverKCDavIMAP {
             "contentType: " + message.getContentType() +
             "encoding:    " + message.getEncoding());
         }
-        
-//        mails.add(
-//          SSMail.get(
-//            SSServCaller.vocURICreate(),
-//            messages[counter].getSubject(),
-//            SSStrU.toStr(messages[counter].getContent())));
       }
       
       return mails;
@@ -118,12 +119,14 @@ public class SSMailReceiverKCDavIMAP {
     }
   }
 
-  private Boolean getSaveAddMessageParts(final Part message) throws Exception{
+  private Boolean createMessageFromMessageParts(
+    final Part   message, 
+    final SSMail mail) throws Exception{
     
     try{
       
       if(message.getContent() instanceof Multipart){
-        return handleMultiPartContent((Multipart) message.getContent());
+        return handleMultiPartContent((Multipart) message.getContent(), mail);
       }
       
       if(message.getContent() instanceof String){
@@ -138,7 +141,7 @@ public class SSMailReceiverKCDavIMAP {
       
       if(message.getContent() instanceof Message){
 //        System.out.println("content is message!!");
-        return getSaveAddMessageParts((Part) message.getContent());
+        return createMessageFromMessageParts((Part) message.getContent(), mail);
       }
       
       SSLogU.warn("unhandled content!!!");
@@ -150,7 +153,9 @@ public class SSMailReceiverKCDavIMAP {
     }
   }
   
-  private Boolean handleMultiPartContent(final Multipart multipart) throws Exception{
+  private Boolean handleMultiPartContent(
+    final Multipart multipart, 
+    final SSMail    mail) throws Exception{
     
     try{
       
@@ -174,12 +179,12 @@ public class SSMailReceiverKCDavIMAP {
 //        System.out.println("content is multipart; no attachment");
         
         if(bodyPart.getContent() instanceof Multipart){
-          return handleMultiPartContent((Multipart) bodyPart.getContent());
+          return handleMultiPartContent((Multipart) bodyPart.getContent(), mail);
         }
         
         if(bodyPart.getContent() instanceof Part){
 //          System.out.println("content is multipart; no attachment; part again");
-          if(getSaveAddMessageParts((Part) bodyPart.getContent())){
+          if(createMessageFromMessageParts((Part) bodyPart.getContent(), mail)){
             continue;
           }
           

@@ -31,8 +31,6 @@ public abstract class SSConfA{
   public Boolean         executeScheduleAtStartUp   = false;
   public List<SSServOpE> scheduleOps                = new ArrayList<>();
   public List<Integer>   scheduleIntervals          = new ArrayList<>();
-  public Boolean         executeOpAtStartUp         = false;
-  public SSServOpE       op                         = null;
 
   public static SSConfA copy(
     final SSConfA orig, 
@@ -54,9 +52,6 @@ public abstract class SSConfA{
     }else{
       copy.scheduleIntervals.addAll(orig.scheduleIntervals);
     }
-    
-    copy.executeOpAtStartUp = orig.executeOpAtStartUp;
-    copy.op                 = orig.op;
     
     return copy;
   }

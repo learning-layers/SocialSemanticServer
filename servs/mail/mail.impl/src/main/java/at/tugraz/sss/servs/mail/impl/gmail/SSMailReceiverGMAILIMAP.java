@@ -79,14 +79,18 @@ public class SSMailReceiverGMAILIMAP {
       folder.open(Folder.READ_ONLY);
       
       final Message messages [] = folder.getMessages();
+      SSMail        mail; 
       
       for(int counter = 0; counter < messages.length; counter++){
         
-        mails.add(
+        mail =
           SSMail.get(
             SSServCaller.vocURICreate(),
-            messages[counter].getSubject(),
-            SSStrU.toStr(messages[counter].getContent())));
+            messages[counter].getSubject());
+        
+        mail.content = SSStrU.toStr(messages[counter].getContent());
+          
+        mails.add(mail);
       }
       
       return mails;

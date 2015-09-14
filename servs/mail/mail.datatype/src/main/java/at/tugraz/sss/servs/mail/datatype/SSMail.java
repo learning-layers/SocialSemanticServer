@@ -23,11 +23,15 @@ package at.tugraz.sss.servs.mail.datatype;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSUri;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SSMail extends SSEntity{
   
-  public String subject = null;
-  public String content = null;
+  public String         subject           = null;
+  public String         content           = null;
+  public List<SSEntity> contentMultimedia = new ArrayList<>();
+  public List<SSEntity> attachments       = new ArrayList<>();
 
   @Override
   public Object jsonLDDesc(){
@@ -43,10 +47,9 @@ public class SSMail extends SSEntity{
    
   public static SSMail get(
     final SSUri  id,
-    final String subject, 
-    final String content) throws Exception{
+    final String subject) throws Exception{
     
-    return new SSMail(id, subject, content);
+    return new SSMail(id, subject);
   }
   
   protected SSMail(
@@ -57,13 +60,11 @@ public class SSMail extends SSEntity{
   }
   
   protected SSMail(
-    final SSUri  id,
-    final String subject, 
-    final String content) throws Exception{
+    final SSUri          id,
+    final String         subject) throws Exception{
     
     super(id, SSEntityE.mail);
     
     this.subject = subject;
-    this.content = content;
   }
 }

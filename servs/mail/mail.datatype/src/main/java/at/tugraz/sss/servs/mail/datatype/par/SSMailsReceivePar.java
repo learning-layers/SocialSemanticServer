@@ -26,22 +26,21 @@ import at.tugraz.sss.serv.SSUri;
 
 public class SSMailsReceivePar extends SSServPar{
   
-  //TODO change name to fromUser
-  public String fromEmail    = null;
+  public String fromUser     = null;
   public String fromPassword = null;
   
   public SSMailsReceivePar(){}
   
   public SSMailsReceivePar(
     final SSUri     user,
-    final String    fromEmail,
+    final String    fromUser,
     final String    fromPassword,
     final Boolean   withUserRestriction,
     final Boolean   shouldCommit){
     
     super(SSServOpE.mailsReceive, null, user);
     
-    this.fromEmail            = fromEmail;
+    this.fromUser             = fromUser;
     this.fromPassword         = fromPassword;
     this.withUserRestriction  = withUserRestriction;
     this.shouldCommit         = shouldCommit;

@@ -55,7 +55,6 @@ comment:
   use: true  
 i5Cloud:
   use: true
-  op: #i5CloudAuth, i5CloudUploadFile, i5CloudFileDownload
   uri: #http://137.226.58.11:8081/i5Cloud/services/4/
   userLabel: SSS_TETHYS_USER
   pass: SSS_TETHYS_PASSSWORD
@@ -139,7 +138,7 @@ evernote:
   evernoteEnvironment: production #sandbox, production
   authTokens:
   authEmails: 
-  emailInEmails:
+  emailInUsers:
   emailInPasswords:
 dataImport:
   use: true
@@ -152,7 +151,6 @@ dataImport:
   fileName: #ssRecommLanguageModelData.txt #file has to be provided in in SSS/ss/src/main/resources/data/csv/ or to be written in sss's_working_dir/data/csv/
 activity:
   use: true
-  op: #activitiesUserGet
 category:
   use: true
   initAtStartUp: true

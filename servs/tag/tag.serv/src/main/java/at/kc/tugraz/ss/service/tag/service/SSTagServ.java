@@ -77,7 +77,6 @@ public class SSTagServ extends SSServContainerI{
     final SSTagConf  tagConf  = ((SSCoreConf)coreConfA).getTag();
     
     tagConf.use                = true;
-    tagConf.executeOpAtStartUp = false;
 //    collConf.op                 = null;
     
     return coreConfA;

@@ -50,8 +50,6 @@ public class SSMain{
       return;
     }
     
-    new Thread(new SSTester()).start();
-    
     /* socket adapter */
     if(SSCoreConf.instGet().getSss().use){
       

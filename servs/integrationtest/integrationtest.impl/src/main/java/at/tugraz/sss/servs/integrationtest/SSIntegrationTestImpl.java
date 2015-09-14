@@ -64,9 +64,9 @@ implements
       String email;
       String password;
       
-      for(int counter = 0; counter < evernoteConf.emailInEmails.size(); counter++){
+      for(int counter = 0; counter < evernoteConf.emailInUsers.size(); counter++){
         
-        email    = evernoteConf.emailInEmails.get    (counter);
+        email    = evernoteConf.emailInUsers.get     (counter);
         password = evernoteConf.emailInPasswords.get (counter);
         
         mails.clear();

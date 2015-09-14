@@ -33,7 +33,7 @@ public class SSEvernoteConf extends SSServConfA{
   public String       evernoteEnvironment = "sandbox";
   public List<String> authTokens          = new ArrayList<>();
   public List<String> authEmails          = new ArrayList<>();
-  public List<String> emailInEmails       = new ArrayList<>();
+  public List<String> emailInUsers        = new ArrayList<>();
   public List<String> emailInPasswords    = new ArrayList<>();
   
   public static SSEvernoteConf copy(final SSEvernoteConf orig){
@@ -47,7 +47,7 @@ public class SSEvernoteConf extends SSServConfA{
     
     SSStrU.addDistinctNotNull(copy.authTokens,       orig.authTokens);
     SSStrU.addDistinctNotNull(copy.authEmails,       orig.authEmails);
-    SSStrU.addDistinctNotNull(copy.emailInEmails,    orig.emailInEmails);
+    SSStrU.addDistinctNotNull(copy.emailInUsers,     orig.emailInUsers);
     SSStrU.addDistinctNotNull(copy.emailInPasswords, orig.emailInPasswords);
     
     return copy;

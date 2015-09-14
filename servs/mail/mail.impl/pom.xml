@@ -26,7 +26,8 @@
     <dependency>
       <groupId>sss</groupId>
       <artifactId>conf.conf</artifactId>
-      <version>${project.version}</version>
+      <version>1.0-SNAPSHOT</version>
+      <type>jar</type>
     </dependency>
    
     <dependency>
@@ -58,6 +59,7 @@
       <artifactId>mail.conf</artifactId>
       <version>${project.version}</version>
     </dependency>
+    
     <dependency>
       <groupId>javax.mail</groupId>
       <artifactId>mail</artifactId>

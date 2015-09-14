@@ -112,14 +112,14 @@ implements
           
           final SSMailReceiverGMAILIMAP gmailIMAPReceive = new SSMailReceiverGMAILIMAP(mailConf);
           
-          return gmailIMAPReceive.receiveMails(par.fromEmail, par.fromPassword); 
+          return gmailIMAPReceive.receiveMails(par.fromUser, par.fromPassword); 
         }
         
         case kcDavMailIMAP:{
           
           final SSMailReceiverKCDavIMAP kcReceive = new SSMailReceiverKCDavIMAP(mailConf);
           
-          return kcReceive.receiveMails(par.fromEmail, par.fromPassword); 
+          return kcReceive.receiveMails(par.fromUser, par.fromPassword); 
         }
       }
     
