@@ -33,6 +33,10 @@ public class SSFile extends SSEntity{
   public SSMimeTypeE mimeType     = null;
   public SSUri       downloadLink = null;
   
+  public String getMimeType(){
+    return SSStrU.toStr(mimeType);
+  }
+  
   public String getDownloadLink(){
     return SSStrU.removeTrailingSlash(downloadLink);
   }
