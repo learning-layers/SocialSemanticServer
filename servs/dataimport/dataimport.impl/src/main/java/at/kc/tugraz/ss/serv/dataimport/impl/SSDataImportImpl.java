@@ -124,7 +124,11 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
       
       return worked;
     }catch(Exception error){
-      dbSQL.rollBack(par.shouldCommit);
+      
+      if(!dbSQL.rollBack(par.shouldCommit)){
+        SSLogU.warn("sql rollback failed");
+      }
+      
       SSServErrReg.regErrThrow(error);
       return null;
     }

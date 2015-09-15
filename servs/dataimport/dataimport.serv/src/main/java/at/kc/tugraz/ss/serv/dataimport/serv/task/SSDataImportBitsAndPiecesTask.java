@@ -97,23 +97,7 @@ public class SSDataImportBitsAndPiecesTask extends TimerTask {
         ((SSDataImportServerI) SSServReg.getServ(SSDataImportServerI.class)).dataImportBitsAndPieces(par);
         
       }catch(Exception error){
-        
-        if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
-          
-          try{
-            
-            if(!dbSQL.rollBack(true)){
-              SSServErrReg.logServImplErrors(true);
-            }else{
-              SSServErrReg.reset();
-            }
-            
-          }catch(Exception error1){
-            SSServErrReg.logServImplErrors(true);
-          }
-        }else{
-          SSServErrReg.logServImplErrors(true);
-        }
+        SSServErrReg.regErr(error);
       }finally{
         
         try{

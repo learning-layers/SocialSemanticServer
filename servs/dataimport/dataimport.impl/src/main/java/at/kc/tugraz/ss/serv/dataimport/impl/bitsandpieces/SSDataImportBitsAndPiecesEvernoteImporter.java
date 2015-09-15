@@ -59,7 +59,9 @@ import com.evernote.edam.type.Resource;
 import com.evernote.edam.type.SharedNotebook;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import sss.serv.eval.api.SSEvalServerI;
 import sss.serv.eval.datatypes.SSEvalLogE;
@@ -68,7 +70,7 @@ import sss.serv.eval.datatypes.par.SSEvalLogPar;
 public class SSDataImportBitsAndPiecesEvernoteImporter {
   
   private static final ReentrantReadWriteLock  currentlyRunEvernoteImportsLock  = new ReentrantReadWriteLock();
-  private static final List<String>            currentlyRunEvernoteImports      = new ArrayList<>();
+  private static final Map<Thread, String>     currentlyRunEvernoteImports      = new HashMap<>();
   
   private final  String                  localWorkPath;
   private final  List<String>            sharedNotebookGuids      = new ArrayList<>();
@@ -84,7 +86,7 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
     
     try{
   
-      addCurrentlyRunEvernotImport(par.authToken, par.authEmail);
+      addCurrentlyRunEvernoteImport(par.authToken, par.authEmail);
       
       SSLogU.info("start B&P evernote import for " +  par.authEmail);
       
@@ -882,40 +884,55 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
     return SSLabel.get("no label");
   }
   
-  private void addCurrentlyRunEvernotImport(
+  private void addCurrentlyRunEvernoteImport(
     final String authToken,
     final String authEmail) throws Exception{
     
     try{
       
-      if(!currentlyRunEvernoteImportsLock.isWriteLocked()){
+      if(currentlyRunEvernoteImportsLock.isWriteLocked()){
+        SSLogU.warn("B&P evernote data import currently runs for " + authEmail);
+        throw new Exception("B&P evernote data import currently runs for " + authEmail);
+      }
+      
+      if(!currentlyRunEvernoteImportsLock.isWriteLockedByCurrentThread()){
         currentlyRunEvernoteImportsLock.writeLock().lock();
       }
       
-      if(currentlyRunEvernoteImports.contains(authToken)){
+      if(currentlyRunEvernoteImports.containsValue(authToken)){
         SSLogU.warn("B&P evernote data import currently runs for " + authEmail);
         throw new Exception("B&P evernote data import currently runs for " + authEmail);
       }else{
-        currentlyRunEvernoteImports.add(authToken);
+        currentlyRunEvernoteImports.put(Thread.currentThread(), authToken);
         
-        currentlyRunEvernoteImportsLock.writeLock().unlock();
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+    }finally{
+      
+      if(currentlyRunEvernoteImportsLock.isWriteLockedByCurrentThread()){
+        currentlyRunEvernoteImportsLock.writeLock().unlock();
+      }
     }
   }
   
-  private void removeCurrentlyRunEvernoteImport(final String authToken){
+  private void removeCurrentlyRunEvernoteImport(final String authToken) throws Exception{
     
-    if(!currentlyRunEvernoteImportsLock.isWriteLocked()){
+    try{
       currentlyRunEvernoteImportsLock.writeLock().lock();
+      
+      if(authToken != null){
+        currentlyRunEvernoteImports.remove(Thread.currentThread());
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }finally{
+      
+      if(currentlyRunEvernoteImportsLock.isWriteLockedByCurrentThread()){
+        currentlyRunEvernoteImportsLock.writeLock().unlock();
+      }
     }
-    
-    if(authToken != null){
-      currentlyRunEvernoteImports.remove(authToken);
-    }
-    
-    currentlyRunEvernoteImportsLock.writeLock().unlock();
   }
 }
 
