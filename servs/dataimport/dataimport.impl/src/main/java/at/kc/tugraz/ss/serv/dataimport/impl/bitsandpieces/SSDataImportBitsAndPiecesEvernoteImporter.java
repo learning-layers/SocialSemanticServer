@@ -94,11 +94,11 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
       
       setBasicEvernoteInfo  (par);
       
-      handleLinkedNotebooks ();
-      setSharedNotebooks    ();
-      handleNotebooks       ();
-      handleNotes           ();
-      handleResources       ();
+//      handleLinkedNotebooks ();
+//      setSharedNotebooks    ();
+//      handleNotebooks       ();
+//      handleNotes           ();
+//      handleResources       ();
       
       setUSN();
       
@@ -147,10 +147,23 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
   
   private void setUSN() throws Exception{
     
+    final Integer usn;
+    
+    if(evernoteInfo.noteStoreSyncChunk.isSetChunkHighUSN()){
+      usn = evernoteInfo.noteStoreSyncChunk.getChunkHighUSN();
+    }else{
+      if(evernoteInfo.noteStoreSyncChunk.isSetUpdateCount()){
+        usn = evernoteInfo.noteStoreSyncChunk.getUpdateCount();
+      }else{
+        SSLogU.warn("couldnt set USN as Evernote didnt provide one");
+        usn = 0;
+      }
+    }
+      
     SSServCaller.evernoteUSNSet(
       this.userUri,
       evernoteInfo.authToken,
-      evernoteInfo.noteStoreSyncChunk.getUpdateCount(),
+      usn,
       false);
   }
   
