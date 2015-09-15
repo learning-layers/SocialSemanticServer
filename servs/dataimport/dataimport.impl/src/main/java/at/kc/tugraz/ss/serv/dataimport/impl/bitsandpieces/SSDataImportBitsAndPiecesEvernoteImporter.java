@@ -94,11 +94,11 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
       
       setBasicEvernoteInfo  (par);
       
-//      handleLinkedNotebooks ();
-//      setSharedNotebooks    ();
-//      handleNotebooks       ();
-//      handleNotes           ();
-//      handleResources       ();
+      handleLinkedNotebooks ();
+      setSharedNotebooks    ();
+      handleNotebooks       ();
+      handleNotes           ();
+      handleResources       ();
       
       setUSN();
       
