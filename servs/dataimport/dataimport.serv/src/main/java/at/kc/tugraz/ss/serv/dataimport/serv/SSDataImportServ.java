@@ -121,7 +121,8 @@ public class SSDataImportServ extends SSServContainerI{
         
         case dataImportBitsAndPieces:{
           
-          SSDateU.scheduleAtFixedRate(new SSDataImportBitsAndPiecesTask(),
+          SSDateU.scheduleAtFixedRate(
+            new SSDataImportBitsAndPiecesTask(),
             SSDateU.getDatePlusMinutes(dataImportConf.scheduleIntervals.get(counter)),
             dataImportConf.scheduleIntervals.get(counter) * SSDateU.minuteInMilliSeconds);
           break;

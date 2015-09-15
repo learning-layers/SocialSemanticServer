@@ -86,7 +86,9 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
     
     try{
   
-      addCurrentlyRunEvernoteImport(par.authToken, par.authEmail);
+      if(!addCurrentlyRunEvernoteImport(par.authToken, par.authEmail)){
+        return;
+      }
       
       SSLogU.info("start B&P evernote import for " +  par.authEmail);
       
@@ -103,10 +105,15 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
       SSLogU.info("end B&P evernote import for evernote account " + par.authEmail);
       
     }catch(Exception error){
-      SSLogU.warn("B&P evernote import failed for " + par.authEmail);
+      SSLogU.err("B&P evernote import failed for " + par.authEmail);
       SSServErrReg.regErrThrow(error);
     }finally{
-      removeCurrentlyRunEvernoteImport(par.authToken);
+      
+      try{
+        removeCurrentlyRunEvernoteImport(par.authToken);
+      }catch(Exception error){
+        SSLogU.warn("removing evernote import thread failed");
+      }
     }
   }
   
@@ -884,15 +891,15 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
     return SSLabel.get("no label");
   }
   
-  private void addCurrentlyRunEvernoteImport(
+  private Boolean addCurrentlyRunEvernoteImport(
     final String authToken,
     final String authEmail) throws Exception{
     
     try{
       
       if(currentlyRunEvernoteImportsLock.isWriteLocked()){
-        SSLogU.warn("B&P evernote data import currently runs for " + authEmail);
-        throw new Exception("B&P evernote data import currently runs for " + authEmail);
+        SSLogU.warn("attempted to start B&P evernote import concurrently for " + authEmail);
+        return false;
       }
       
       if(!currentlyRunEvernoteImportsLock.isWriteLockedByCurrentThread()){
@@ -900,14 +907,17 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
       }
       
       if(currentlyRunEvernoteImports.containsValue(authToken)){
-        SSLogU.warn("B&P evernote data import currently runs for " + authEmail);
-        throw new Exception("B&P evernote data import currently runs for " + authEmail);
-      }else{
-        currentlyRunEvernoteImports.put(Thread.currentThread(), authToken);
-        
+        SSLogU.warn("attempted to start B&P evernote import concurrently for " + authEmail);
+        return false;
       }
+      
+      currentlyRunEvernoteImports.put(Thread.currentThread(), authToken);
+      
+      return true;
+        
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return false;
     }finally{
       
       if(currentlyRunEvernoteImportsLock.isWriteLockedByCurrentThread()){
