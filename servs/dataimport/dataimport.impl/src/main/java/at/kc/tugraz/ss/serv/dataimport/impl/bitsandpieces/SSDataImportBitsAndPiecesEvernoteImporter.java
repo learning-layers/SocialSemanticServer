@@ -670,18 +670,18 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
       
       resourceWithContent = SSServCaller.evernoteResourceGet                  (evernoteInfo.noteStore, resource.getGuid(), false);
       
-      if(resourceWithContent.getAttributes().isSetSourceURL()){
-        SSLogU.info(resourceWithContent.getAttributes().getSourceURL());
-        continue;
-      }
-      
-      if(
-        !resourceWithContent.isSetHeight() ||
-        !resourceWithContent.isSetWidth()){
-        
-        SSLogU.info("evernote resource height or width not set");
-        continue;
-      }
+//      if(resourceWithContent.getAttributes().isSetSourceURL()){
+//        SSLogU.info(resourceWithContent.getAttributes().getSourceURL());
+//        continue;
+//      }
+//      
+//      if(
+//        !resourceWithContent.isSetHeight() ||
+//        !resourceWithContent.isSetWidth()){
+//        
+//        SSLogU.info("evernote resource height or width not set");
+//        continue;
+//      }
       
       if(
         resourceWithContent.isSetHeight() &&
@@ -694,7 +694,6 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
           SSLogU.info("evernote resource height or width < 250");
           continue;
         }
-      }else{
       }
       
       resourceWithContent = SSServCaller.evernoteResourceGet                  (evernoteInfo.noteStore, resource.getGuid(), true);
