@@ -90,6 +90,7 @@ public class SSRESTEntity {
     value = "retrieve entities",
     response = SSEntitiesGetRet.class)
   @Path("")
+  @Deprecated
   public Response entitiesAccessibleGet(
     @Context
     final HttpHeaders headers){
