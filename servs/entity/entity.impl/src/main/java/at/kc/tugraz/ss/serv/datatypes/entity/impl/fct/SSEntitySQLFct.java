@@ -456,11 +456,11 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     final SSUri entityUri) throws Exception{
     
     try{
-      final Map<String, String> deletes = new HashMap<>();
+      final Map<String, String> wheres = new HashMap<>();
       
-      delete(deletes, SSSQLVarNames.id, entityUri);
+      where(wheres, SSSQLVarNames.id, entityUri);
       
-      dbSQL.deleteIgnore(SSSQLVarNames.entityTable, deletes);
+      dbSQL.deleteIgnore(SSSQLVarNames.entityTable, wheres);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
@@ -857,12 +857,12 @@ public class SSEntitySQLFct extends SSDBSQLFct{
 
         dbSQL.insertIfNotExists(SSSQLVarNames.entityReadsTable, inserts, uniqueKeys);
       }else{
-        final Map<String, String> deletes = new HashMap<>();
+        final Map<String, String> wheres = new HashMap<>();
         
-        delete(deletes, SSSQLVarNames.userId,   user);
-        delete(deletes, SSSQLVarNames.entityId, entity);
+        where(wheres, SSSQLVarNames.userId,   user);
+        where(wheres, SSSQLVarNames.entityId, entity);
         
-        dbSQL.deleteIgnore(SSSQLVarNames.entityReadsTable, deletes);
+        dbSQL.deleteIgnore(SSSQLVarNames.entityReadsTable, wheres);
       }
       
     }catch(Exception error){

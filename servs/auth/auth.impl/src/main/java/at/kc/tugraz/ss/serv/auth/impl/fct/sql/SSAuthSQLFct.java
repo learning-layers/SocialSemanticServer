@@ -169,11 +169,11 @@ public class SSAuthSQLFct extends SSDBSQLFct{
   public void removeKey(final SSUri user) throws Exception{
     
     try{
-      final Map<String, String> deletes = new HashMap<>();
+      final Map<String, String> wheres = new HashMap<>();
       
-      delete(deletes, SSSQLVarNames.userId, user);
+      where(wheres, SSSQLVarNames.userId, user);
       
-      dbSQL.deleteIgnore(SSSQLVarNames.authTable, deletes);
+      dbSQL.deleteIgnore(SSSQLVarNames.authTable, wheres);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

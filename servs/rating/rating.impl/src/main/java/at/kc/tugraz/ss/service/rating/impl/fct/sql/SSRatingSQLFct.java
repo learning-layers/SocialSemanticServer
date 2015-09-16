@@ -73,20 +73,20 @@ public class SSRatingSQLFct extends SSDBSQLFct{
     final SSUri entityUri) throws Exception{
     
     try{
-      final Map<String, String> deletes = new HashMap<>();
+      final Map<String, String> wheres = new HashMap<>();
 
       if(user != null){
-        delete(deletes, SSSQLVarNames.userId, user);
+        where(wheres, SSSQLVarNames.userId, user);
       }
 
       if(entityUri != null){
-        delete(deletes, SSSQLVarNames.entityId, entityUri);
+        where(wheres, SSSQLVarNames.entityId, entityUri);
       }
 
-      if(deletes.isEmpty()){
+      if(wheres.isEmpty()){
         dbSQL.delete(SSSQLVarNames.ratingsTable);
       }else{
-        dbSQL.delete(SSSQLVarNames.ratingsTable, deletes);
+        dbSQL.delete(SSSQLVarNames.ratingsTable, wheres);
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

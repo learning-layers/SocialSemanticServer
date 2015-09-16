@@ -480,30 +480,30 @@ public class SSTagAndCategoryCommonSQL extends SSDBSQLFct{
     
     try{
       
-      final Map<String, String> deletes = new HashMap<>();
+      final Map<String, String> wheres = new HashMap<>();
       
       if(space != null){
-        delete(deletes, metadataSpaceSQLName, space);
+        where(wheres, metadataSpaceSQLName, space);
       }
       
       if(userUri != null){
-        delete(deletes, SSSQLVarNames.userId,     userUri);
+        where(wheres, SSSQLVarNames.userId,     userUri);
       }
       
       if(entityUri != null){
-        delete(deletes, SSSQLVarNames.entityId,    entityUri);
+        where(wheres, SSSQLVarNames.entityId,    entityUri);
       }
       
       if(metadataURI != null){
-        delete(deletes, metadataIdSQLName,      metadataURI);
+        where(wheres, metadataIdSQLName,      metadataURI);
       }
       
       if(circle != null){
-        delete(deletes, SSSQLVarNames.circleId,      circle);
+        where(wheres, SSSQLVarNames.circleId,      circle);
       }
       
-      if(deletes.size() > 0){
-        dbSQL.delete(metadataAssSQLTableName, deletes);
+      if(wheres.size() > 0){
+        dbSQL.delete(metadataAssSQLTableName, wheres);
       }else{
         dbSQL.delete(metadataAssSQLTableName);
       }

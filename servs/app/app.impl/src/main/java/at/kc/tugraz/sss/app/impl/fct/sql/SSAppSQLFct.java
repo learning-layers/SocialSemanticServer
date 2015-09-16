@@ -178,4 +178,23 @@ public class SSAppSQLFct extends SSDBSQLFct{
        SSServErrReg.regErrThrow(error);
      }
   }
+
+  public void removeApps(final List<SSUri> apps) throws Exception {
+    
+    try{
+      final Map<String, String> wheres = new HashMap<>();
+      
+      for(SSUri app : apps){
+      
+        wheres.clear();
+        
+        where(wheres, SSSQLVarNames.appId, app);
+      
+        dbSQL.deleteIgnore(SSSQLVarNames.appTable, wheres);
+      }
+      
+     }catch(Exception error){
+       SSServErrReg.regErrThrow(error);
+     }
+  }
 }

@@ -158,11 +158,11 @@ public class SSLivingDocSQLFct extends SSDBSQLFct{
   public void removeLivingDoc(final SSUri livingDoc) throws Exception{
     
     try{
-      final Map<String, String> deletes = new HashMap<>();
+      final Map<String, String> wheres = new HashMap<>();
       
-      delete(deletes, SSSQLVarNames.livingDocId, livingDoc);
+      where(wheres, SSSQLVarNames.livingDocId, livingDoc);
       
-      dbSQL.deleteIgnore(SSSQLVarNames.livingDocTable, deletes);
+      dbSQL.deleteIgnore(SSSQLVarNames.livingDocTable, wheres);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }

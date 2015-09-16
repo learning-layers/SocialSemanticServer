@@ -452,11 +452,11 @@ public class SSDiscSQLFct extends SSDBSQLFct {
     final SSUri discUri) throws Exception{
     
     try{
-      final Map<String, String> deletes = new HashMap<>();
+      final Map<String, String> wheres = new HashMap<>();
       
-      delete(deletes, SSSQLVarNames.discId, discUri);
+      where(wheres, SSSQLVarNames.discId, discUri);
       
-      dbSQL.delete(SSSQLVarNames.discTable, deletes);
+      dbSQL.delete(SSSQLVarNames.discTable, wheres);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
@@ -467,12 +467,12 @@ public class SSDiscSQLFct extends SSDBSQLFct {
     final SSUri discUri) throws Exception{
     
     try{
-      final Map<String, String> deletes = new HashMap<>();
+      final Map<String, String> wheres = new HashMap<>();
       
-      delete(deletes, SSSQLVarNames.userId, userUri);
-      delete(deletes, SSSQLVarNames.discId, discUri);
+      where(wheres, SSSQLVarNames.userId, userUri);
+      where(wheres, SSSQLVarNames.discId, discUri);
       
-      dbSQL.delete(SSSQLVarNames.discUserTable, deletes);
+      dbSQL.delete(SSSQLVarNames.discUserTable, wheres);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }

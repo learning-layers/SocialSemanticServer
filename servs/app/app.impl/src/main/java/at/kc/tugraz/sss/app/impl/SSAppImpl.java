@@ -38,8 +38,10 @@ import at.kc.tugraz.sss.app.api.SSAppClientI;
 import at.kc.tugraz.sss.app.datatypes.SSApp;
 import at.kc.tugraz.sss.app.datatypes.par.SSAppAddPar;
 import at.kc.tugraz.sss.app.datatypes.par.SSAppGetPar;
+import at.kc.tugraz.sss.app.datatypes.par.SSAppsDeletePar;
 import at.kc.tugraz.sss.app.datatypes.par.SSAppsGetPar;
 import at.kc.tugraz.sss.app.datatypes.ret.SSAppAddRet;
+import at.kc.tugraz.sss.app.datatypes.ret.SSAppsDeleteRet;
 import at.kc.tugraz.sss.app.datatypes.ret.SSAppsGetRet;
 import at.kc.tugraz.sss.app.impl.fct.sql.SSAppSQLFct;
 import at.kc.tugraz.sss.video.api.SSVideoServerI;
@@ -270,7 +272,7 @@ implements
     
     SSServCallerU.checkKey(parA);
     
-    final SSAppsGetPar par     = (SSAppsGetPar) parA.getFromJSON(SSAppsGetPar.class);
+    final SSAppsGetPar par = (SSAppsGetPar) parA.getFromJSON(SSAppsGetPar.class);
       
     sSCon.writeRetFullToClient(SSAppsGetRet.get(appsGet(par)));
   }
@@ -299,5 +301,51 @@ implements
       SSServErrReg.regErrThrow(error);
       return null;
     }
+  }
+  
+  @Override
+  public void appsDelete(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
+    
+    SSServCallerU.checkKey(parA);
+    
+    final SSAppsDeletePar par = (SSAppsDeletePar) parA.getFromJSON(SSAppsDeletePar.class);
+      
+    sSCon.writeRetFullToClient(SSAppsDeleteRet.get(appsDelete(par)));
+    
+  }
+
+  @Override
+  public List<SSUri> appsDelete(final SSAppsDeletePar par) throws Exception {
+    
+    try{
+      
+      dbSQL.startTrans(par.shouldCommit);
+
+      sqlFct.removeApps(par.apps);
+      
+      dbSQL.commit(par.shouldCommit);
+      
+      return par.apps;
+      
+    }catch(Exception error){
+      
+      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+        
+        if(dbSQL.rollBack(par.shouldCommit)){
+          
+          SSServErrReg.reset();
+          
+          return appsDelete(par);
+        }else{
+          SSServErrReg.regErrThrow(error);
+          return null;
+        }
+      }
+      
+      dbSQL.rollBack(par.shouldCommit);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+    
   }
 }

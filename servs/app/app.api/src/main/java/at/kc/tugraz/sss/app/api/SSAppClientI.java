@@ -25,6 +25,7 @@ import at.tugraz.sss.serv.SSServPar;
 
 public interface SSAppClientI{
   
-  public void appsGet  (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void appAdd   (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void appsGet    (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void appsDelete (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void appAdd     (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
 }

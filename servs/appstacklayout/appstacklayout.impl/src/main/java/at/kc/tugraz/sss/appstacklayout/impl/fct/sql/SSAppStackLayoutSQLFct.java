@@ -123,11 +123,11 @@ public class SSAppStackLayoutSQLFct extends SSDBSQLFct{
     final SSUri stack) throws Exception{
     
     try{
-      final Map<String, String> deletes    = new HashMap<>();
+      final Map<String, String> wheres = new HashMap<>();
       
-      delete(deletes, SSSQLVarNames.stackId, stack);
+      where(wheres, SSSQLVarNames.stackId, stack);
       
-      dbSQL.delete(SSSQLVarNames.appStackLayoutTable, deletes);
+      dbSQL.delete(SSSQLVarNames.appStackLayoutTable, wheres);
       
      }catch(Exception error){
        SSServErrReg.regErrThrow(error);

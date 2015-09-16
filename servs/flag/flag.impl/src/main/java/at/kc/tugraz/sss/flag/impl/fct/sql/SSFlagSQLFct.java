@@ -263,30 +263,30 @@ public class SSFlagSQLFct extends SSDBSQLFct{
     final SSUri   entity) throws Exception{
     
     try{
-      final Map<String, String> deletes = new HashMap<>();
+      final Map<String, String> wheres = new HashMap<>();
       
       if(user != null){
-        delete(deletes, SSSQLVarNames.userId,   user);
+        where(wheres, SSSQLVarNames.userId,   user);
       }
 
       if(flagUri != null){
-        delete(deletes, SSSQLVarNames.flagId, flagUri);
+        where(wheres, SSSQLVarNames.flagId, flagUri);
       }
       
       if(entity != null){
-        delete(deletes, SSSQLVarNames.entityId, entity);
+        where(wheres, SSSQLVarNames.entityId, entity);
       }
       
       if(flag != null){
-        delete(deletes, SSSQLVarNames.type,     flag);
+        where(wheres, SSSQLVarNames.type,     flag);
       }
       
-      if(deletes.isEmpty()){
+      if(wheres.isEmpty()){
         SSLogU.warn("not setting any pars would delete the whole flag ass table content");
         return;
       }
       
-      dbSQL.deleteIgnore(SSSQLVarNames.flagsTable, deletes);
+      dbSQL.deleteIgnore(SSSQLVarNames.flagsTable, wheres);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }

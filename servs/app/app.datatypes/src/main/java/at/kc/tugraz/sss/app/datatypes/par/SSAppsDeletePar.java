@@ -18,22 +18,40 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.sss.app.api;
+package at.kc.tugraz.sss.app.datatypes.par;
 
-import at.kc.tugraz.sss.app.datatypes.SSApp;
-import at.kc.tugraz.sss.app.datatypes.par.SSAppAddPar;
-import at.kc.tugraz.sss.app.datatypes.par.SSAppGetPar;
-import at.kc.tugraz.sss.app.datatypes.par.SSAppsDeletePar;
-import at.kc.tugraz.sss.app.datatypes.par.SSAppsGetPar;
-import at.tugraz.sss.serv.SSEntity;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServServerI;
+import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSStrU;
+import java.util.ArrayList;
 import java.util.List;
 
-public interface SSAppServerI extends SSServServerI{
+public class SSAppsDeletePar extends SSServPar{
   
-  public SSApp           appGet      (final SSAppGetPar     par) throws Exception;
-  public List<SSEntity>  appsGet     (final SSAppsGetPar    par) throws Exception;
-  public List<SSUri>     appsDelete  (final SSAppsDeletePar par) throws Exception;
-  public SSUri           appAdd      (final SSAppAddPar     par) throws Exception;
+  public List<SSUri> apps = new ArrayList<>();
+
+  public List<String> getApps() {
+    return SSStrU.removeTrailingSlash(apps);
+  }
+
+  public void setApps(final List<String> apps) throws Exception {
+    this.apps = SSUri.get(apps);
+  }
+  
+  public SSAppsDeletePar(){}
+    
+  public SSAppsDeletePar(
+    final SSUri       user, 
+    final List<SSUri> apps, 
+    final Boolean     withUserRestriction, 
+    final Boolean     shouldCommit){
+    
+    super(SSServOpE.appsDelete, null, user);
+    
+    SSUri.addDistinctWithoutNull(this.apps, apps);
+    
+    this.withUserRestriction = withUserRestriction;
+    this.shouldCommit        = shouldCommit;
+  }
 }

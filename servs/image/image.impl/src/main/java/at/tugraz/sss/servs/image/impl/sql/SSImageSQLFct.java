@@ -176,11 +176,11 @@ public class SSImageSQLFct extends SSDBSQLFct{
   public void removeProfilePictures(final SSUri entity) throws Exception{
     
     try{
-      final Map<String, String> deletes = new HashMap<>();
+      final Map<String, String> wheres = new HashMap<>();
       
-      delete(deletes, SSSQLVarNames.entityId, entity);
+      where(wheres, SSSQLVarNames.entityId, entity);
       
-      dbSQL.deleteIgnore(SSSQLVarNames.entityProfilePicturesTable, deletes);
+      dbSQL.deleteIgnore(SSSQLVarNames.entityProfilePicturesTable, wheres);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -191,15 +191,15 @@ public class SSImageSQLFct extends SSDBSQLFct{
     
     try{
       
-      final Map<String, String> deletes = new HashMap<>();
+      final Map<String, String> wheres = new HashMap<>();
       
       for(SSUri image : images){
       
-        deletes.clear();
+        wheres.clear();
        
-        delete(deletes, SSSQLVarNames.imageId, image);
+        where(wheres, SSSQLVarNames.imageId, image);
         
-        dbSQL.deleteIgnore(SSSQLVarNames.entityImagesTable, deletes);
+        dbSQL.deleteIgnore(SSSQLVarNames.entityImagesTable, wheres);
       }
       
     }catch(Exception error){

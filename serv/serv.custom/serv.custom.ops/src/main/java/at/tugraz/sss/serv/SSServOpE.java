@@ -80,6 +80,7 @@ public enum SSServOpE{
   appGet,
   appsGet,
   appAdd,
+  appsDelete,
   
   //message
   messageGet,

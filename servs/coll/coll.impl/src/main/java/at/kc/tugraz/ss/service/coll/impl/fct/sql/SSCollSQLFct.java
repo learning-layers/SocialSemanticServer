@@ -435,42 +435,42 @@ public class SSCollSQLFct extends SSDBSQLFct{
     final SSUri collUri) throws Exception{
     
     try{
-      final Map<String, String> deletes     = new HashMap<>();
+      final Map<String, String> wheres     = new HashMap<>();
       final List<SSUri>         subCollUris = new ArrayList<>();
       
       //remove sub colls of followed coll from user coll table as well
       SSCollMiscFct.getAllChildCollURIs(this, collUri, collUri, subCollUris);
       
-      deletes.clear();
-      delete(deletes, SSSQLVarNames.userId, userUri);
+      wheres.clear();
+      where(wheres, SSSQLVarNames.userId, userUri);
       
       for(SSUri subCollUri : subCollUris){
         
-        delete(deletes, SSSQLVarNames.collId, subCollUri);
+        where(wheres, SSSQLVarNames.collId, subCollUri);
         
-        dbSQL.delete(SSSQLVarNames.collUserTable, deletes);
+        dbSQL.delete(SSSQLVarNames.collUserTable, wheres);
       }
       
       //remove coll from user coll table
-      deletes.clear();
-      delete(deletes, SSSQLVarNames.userId,     userUri);
-      delete(deletes, SSSQLVarNames.collId,     collUri);
+      wheres.clear();
+      where(wheres, SSSQLVarNames.userId,     userUri);
+      where(wheres, SSSQLVarNames.collId,     collUri);
       
-      dbSQL.delete(SSSQLVarNames.collUserTable, deletes);
+      dbSQL.delete(SSSQLVarNames.collUserTable, wheres);
       
       //remove coll from coll hierarchy table
-      deletes.clear();
-      delete(deletes, SSSQLVarNames.collParentId, parentCollUri);
-      delete(deletes, SSSQLVarNames.collChildId,  collUri);
+      wheres.clear();
+      where(wheres, SSSQLVarNames.collParentId, parentCollUri);
+      where(wheres, SSSQLVarNames.collChildId,  collUri);
       
-      dbSQL.delete(SSSQLVarNames.collHierarchyTable, deletes);
+      dbSQL.delete(SSSQLVarNames.collHierarchyTable, wheres);
       
       //remove coll from coll entries pos table
-      deletes.clear();
-      delete(deletes, SSSQLVarNames.collId,   parentCollUri.toString());
-      delete(deletes, SSSQLVarNames.entryId,  collUri.toString());
+      wheres.clear();
+      where(wheres, SSSQLVarNames.collId,   parentCollUri.toString());
+      where(wheres, SSSQLVarNames.entryId,  collUri.toString());
       
-      dbSQL.delete(SSSQLVarNames.collEntryPosTable, deletes);
+      dbSQL.delete(SSSQLVarNames.collEntryPosTable, wheres);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
@@ -533,7 +533,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
     
     try{
       
-      final Map<String, String> deletes             = new HashMap<>();
+      final Map<String, String> wheres             = new HashMap<>();
       final List<SSUri>         directChildCollURIs = getDirectChildCollURIs(collUri);
       
       //unlink all direct sub colls (and hence their sub colls as well)
@@ -541,10 +541,10 @@ public class SSCollSQLFct extends SSDBSQLFct{
         unlinkCollAndSubColls(userUri, collUri, subCollUri);
       }
       
-      deletes.clear();
-      delete(deletes, SSSQLVarNames.id, collUri);
+      wheres.clear();
+      where(wheres, SSSQLVarNames.id, collUri);
       
-      dbSQL.delete(SSSQLVarNames.entityTable, deletes);
+      dbSQL.delete(SSSQLVarNames.entityTable, wheres);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -556,12 +556,12 @@ public class SSCollSQLFct extends SSDBSQLFct{
     final SSUri collEntryUri) throws Exception{
     
     try{
-      final Map<String, String> deletes = new HashMap<>();
+      final Map<String, String> wheres = new HashMap<>();
       
-      delete(deletes, SSSQLVarNames.collId,  collUri);
-      delete(deletes, SSSQLVarNames.entryId, collEntryUri);
+      where(wheres, SSSQLVarNames.collId,  collUri);
+      where(wheres, SSSQLVarNames.entryId, collEntryUri);
       
-      dbSQL.delete(SSSQLVarNames.collEntryPosTable, deletes);
+      dbSQL.delete(SSSQLVarNames.collEntryPosTable, wheres);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }

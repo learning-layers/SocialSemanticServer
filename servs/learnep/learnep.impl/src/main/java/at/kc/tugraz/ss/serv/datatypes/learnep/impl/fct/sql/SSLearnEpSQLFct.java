@@ -542,7 +542,7 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
     try{
       final Map<String, String> wheres = new HashMap<>();
       
-      delete(wheres, SSSQLVarNames.learnEpVersionId, learnEpVersion);
+      where(wheres, SSSQLVarNames.learnEpVersionId, learnEpVersion);
       
       dbSQL.delete(SSSQLVarNames.learnEpVersionCurrentTable, wheres);
       
@@ -602,7 +602,7 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
     
     try{
       final Map<String, String> inserts = new HashMap<>();
-      final Map<String, String> deletes = new HashMap<>();
+      final Map<String, String> wheres = new HashMap<>();
       
       insert(inserts, SSSQLVarNames.learnEpTimelineStateId, learnEpTimelineStateUri);
       insert(inserts, SSSQLVarNames.startTime,              startTime);
@@ -610,9 +610,9 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
       
       dbSQL.insert(SSSQLVarNames.learnEpTimelineStateTable, inserts);
       
-      delete(deletes, SSSQLVarNames.learnEpVersionId, learnEpVersionUri);
+      where(wheres, SSSQLVarNames.learnEpVersionId, learnEpVersionUri);
       
-      dbSQL.delete(SSSQLVarNames.learnEpVersionTimelineStatesTable, deletes);
+      dbSQL.delete(SSSQLVarNames.learnEpVersionTimelineStatesTable, wheres);
       
       inserts.clear();
       insert(inserts, SSSQLVarNames.learnEpVersionId,       learnEpVersionUri);
@@ -746,11 +746,11 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
   public void deleteCircle(final SSUri learnEpCircle) throws Exception{
     
     try{
-      final Map<String, String> deletes = new HashMap<>();
+      final Map<String, String> wheres = new HashMap<>();
       
-      delete(deletes, SSSQLVarNames.learnEpCircleId, learnEpCircle);
+      where(wheres, SSSQLVarNames.learnEpCircleId, learnEpCircle);
       
-      dbSQL.deleteIgnore(SSSQLVarNames.learnEpVersionCirclesTable, deletes);
+      dbSQL.deleteIgnore(SSSQLVarNames.learnEpVersionCirclesTable, wheres);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
@@ -759,11 +759,11 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
   public void deleteEntity(final SSUri learnEpEntity) throws Exception{
     
     try{
-      final Map<String, String> deletes = new HashMap<>();
+      final Map<String, String> wheres = new HashMap<>();
       
-      delete(deletes, SSSQLVarNames.learnEpEntityId, learnEpEntity);
+      where(wheres, SSSQLVarNames.learnEpEntityId, learnEpEntity);
       
-      dbSQL.deleteIgnore(SSSQLVarNames.learnEpVersionEntitiesTable, deletes);
+      dbSQL.deleteIgnore(SSSQLVarNames.learnEpVersionEntitiesTable, wheres);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
@@ -809,8 +809,8 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
     try{
       final Map<String, String> wheres = new HashMap<>();
       
-      delete(wheres, SSSQLVarNames.learnEpId, learnEp);
-      delete(wheres, SSSQLVarNames.userId,    user);
+      where(wheres, SSSQLVarNames.learnEpId, learnEp);
+      where(wheres, SSSQLVarNames.userId,    user);
 
       dbSQL.delete(SSSQLVarNames.learnEpUserTable, wheres);
       

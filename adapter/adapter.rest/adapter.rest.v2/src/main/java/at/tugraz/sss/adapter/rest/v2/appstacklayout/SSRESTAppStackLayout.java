@@ -60,7 +60,8 @@ public class SSRESTAppStackLayout{
     value = "retrieve appStackLayouts",
     response = SSAppStackLayoutsGetRet.class)
   public Response appStackLayoutsAccessibleGet(
-    @Context HttpHeaders                     headers){
+    @Context 
+    final HttpHeaders headers){
     
     final SSAppStackLayoutsGetPar par;
     
