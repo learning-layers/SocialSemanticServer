@@ -18,50 +18,42 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret;
+package at.tugraz.sss.servs.entity.datatypes.ret;
 
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarNames;
-import at.tugraz.sss.serv.SSEntity;
+import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSServRetI;
-import at.tugraz.sss.serv.SSJSONLDU;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SSEntitiesGetRet extends SSServRetI{
+public class SSEntityTypesGetRet extends SSServRetI{
+ 
+  public List<SSEntityE> types = new ArrayList<>();
 
-  public List<SSEntity> entities = new ArrayList<>();
-
+  public List<String> getTypes() throws Exception {
+    return SSStrU.toStr(types);
+  }
+  
   @Override
   public Map<String, Object> jsonLDDesc(){
-        
-    final Map<String, Object> ld         = new HashMap<>();
-    final Map<String, Object> descsObj   = new HashMap<>();
-    
-    descsObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSEntity.class.getName());
-    descsObj.put(SSJSONLDU.container, SSJSONLDU.set);
-    
-    ld.put(SSVarNames.entities, descsObj);
-    
-    return ld;
+    throw new UnsupportedOperationException();
   }
   
-  public static SSEntitiesGetRet get(
-    final List<SSEntity> entities){
+  public static SSEntityTypesGetRet get(
+    final List<SSEntityE> types){
     
-    return new SSEntitiesGetRet(entities);
+    return new SSEntityTypesGetRet(types);
   }
   
-  private SSEntitiesGetRet(
-    final List<SSEntity> entities){
+  private SSEntityTypesGetRet(
+    final List<SSEntityE> types){
+
+    super(SSServOpE.entityTypesGet);
     
-    super(SSServOpE.entitiesGet);
-    
-    if(entities != null){
-      this.entities.addAll(entities);
+    if(types != null){
+      this.types.addAll(types);
     }
   }
 }

@@ -32,7 +32,7 @@ import at.kc.tugraz.ss.friend.datatypes.ret.SSFriendAddRet;
 import at.kc.tugraz.ss.friend.datatypes.ret.SSFriendsGetRet;
 import at.kc.tugraz.ss.friend.impl.fct.sql.SSFriendSQLFct;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
+import at.tugraz.sss.servs.entity.datatypes.par.SSEntityGetPar;
 import at.kc.tugraz.ss.service.user.datatypes.SSUser;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSDBSQLI;

@@ -18,42 +18,41 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret;
+package at.tugraz.sss.servs.entity.datatypes.ret;
 
-import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarNames;
+import at.tugraz.sss.serv.SSEntity;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSServRetI;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SSEntityCopyRet extends SSServRetI{
+public class SSEntityGetRet extends SSServRetI{
 
-  public Boolean worked = null;
+  public SSEntity entity = null;
 
   @Override
   public Map<String, Object> jsonLDDesc(){
     
     final Map<String, Object> ld = new HashMap<>();
     
-    ld.put(SSVarNames.worked, SSVarNames.sss + SSStrU.colon + SSStrU.valueBoolean);
+    ld.put(SSVarNames.entity, SSVarNames.sss + SSStrU.colon + SSEntity.class.getName());
     
     return ld;
   }
   
-  public static SSEntityCopyRet get(
-    final Boolean  worked){
+  public static SSEntityGetRet get(
+    final SSEntity     entity){
     
-    return new SSEntityCopyRet(worked);
+    return new SSEntityGetRet(entity);
   }
   
-  private SSEntityCopyRet(
-    final Boolean   worked){
+  private SSEntityGetRet(
+    final SSEntity     entity){
     
-    super(SSServOpE.entityCopy);
+    super(SSServOpE.entityGet);
     
-    this.worked = worked;
+    this.entity = entity;
   }
-
-  
 }

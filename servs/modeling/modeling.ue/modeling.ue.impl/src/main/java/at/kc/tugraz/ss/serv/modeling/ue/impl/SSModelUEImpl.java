@@ -21,7 +21,7 @@
  package at.kc.tugraz.ss.serv.modeling.ue.impl;
 
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
+import at.tugraz.sss.servs.entity.datatypes.par.SSEntityGetPar;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.SSModelUETopicScore;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.SSModelUEEntity;
 import at.kc.tugraz.ss.serv.modeling.ue.datatypes.SSModelUERelation;

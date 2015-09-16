@@ -18,7 +18,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par;
+package at.tugraz.sss.servs.entity.datatypes.par;
 
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSUri;
@@ -27,10 +27,10 @@ import java.util.ArrayList;
 import java.util.List;
 import at.tugraz.sss.serv.SSStrU;
 
-public class SSEntityAttachEntitiesPar extends SSServPar{
+public class SSEntityDownloadsAddPar extends SSServPar{
 
   public SSUri               entity    = null;
-  public List<SSUri>         entities  = new ArrayList<>();
+  public List<SSUri>         downloads = new ArrayList<>();
 
   public String getEntity(){
     return SSStrU.removeTrailingSlash(entity);
@@ -40,28 +40,28 @@ public class SSEntityAttachEntitiesPar extends SSServPar{
     this.entity = SSUri.get(entity);
   }
   
-  public List<String> getEntities(){
-    return SSStrU.removeTrailingSlash(entities);
+  public List<String> getDownloads(){
+    return SSStrU.removeTrailingSlash(downloads);
   }
 
-  public void setEntities(final List<String> entities) throws Exception{
-    this.entities = SSUri.get(entities);
+  public void setDownloads(final List<String> downloads) throws Exception{
+    this.downloads = SSUri.get(downloads);
   }
   
-  public SSEntityAttachEntitiesPar(){}
+  public SSEntityDownloadsAddPar(){}
   
-  public SSEntityAttachEntitiesPar(
+  public SSEntityDownloadsAddPar(
     final SSUri               user,
     final SSUri               entity,
-    final List<SSUri>         entities,
+    final List<SSUri>         downloads,
     final Boolean             withUserRestriction, 
     final Boolean             shouldCommit){
 
-    super(SSServOpE.entityEntitiesAttach, null, user);
+    super(SSServOpE.entityDownloadsAdd, null, user);
   
     this.entity         = entity;
     
-    SSUri.addDistinctWithoutNull(this.entities, entities);
+    SSUri.addDistinctWithoutNull(this.downloads, downloads);
     
     this.withUserRestriction = withUserRestriction;
     this.shouldCommit        = shouldCommit;

@@ -1,4 +1,4 @@
- /**
+/**
   * Code contributed to the Learning Layers project
   * http://www.learning-layers.eu
   * Development is partly funded by the FP7 Programme of the European Commission under
@@ -35,8 +35,8 @@ import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportBitsAndPiecesP
 import at.kc.tugraz.ss.serv.dataimport.impl.evernote.SSDataImportEvernoteNoteContentHandler;
 import at.kc.tugraz.ss.serv.dataimport.impl.evernote.SSDataImportEvernoteResourceContentHandler;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
+import at.tugraz.sss.servs.entity.datatypes.par.SSEntityGetPar;
+import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUpdatePar;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteInfo;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthRegisterUserPar;
 import at.kc.tugraz.ss.service.tag.api.SSTagServerI;

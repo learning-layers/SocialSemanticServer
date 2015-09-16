@@ -46,7 +46,7 @@ import at.kc.tugraz.ss.serv.dataimport.impl.fct.op.SSDataImportAchsoFct;
 import at.kc.tugraz.ss.serv.dataimport.impl.fct.reader.SSDataImportReaderFct;
 import at.kc.tugraz.ss.serv.dataimport.impl.fct.sql.SSDataImportSQLFct;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
+import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUpdatePar;
 import at.kc.tugraz.ss.serv.job.i5cloud.datatypes.SSi5CloudAchsoVideo;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthRegisterUserPar;
 import at.tugraz.sss.serv.SSConfA;

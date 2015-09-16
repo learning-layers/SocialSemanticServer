@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.service.search.impl;
 
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
+import at.tugraz.sss.servs.entity.datatypes.par.SSEntityGetPar;
 import at.tugraz.sss.serv.SSDateU;
 import at.tugraz.sss.serv.SSIDU;
 import at.tugraz.sss.serv.SSLogU;

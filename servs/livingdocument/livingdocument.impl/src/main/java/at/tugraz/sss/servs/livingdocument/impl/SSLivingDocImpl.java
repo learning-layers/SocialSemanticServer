@@ -21,9 +21,9 @@
 package at.tugraz.sss.servs.livingdocument.impl;
 
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesGetPar;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
+import at.tugraz.sss.servs.entity.datatypes.par.SSEntitiesGetPar;
+import at.tugraz.sss.servs.entity.datatypes.par.SSEntityGetPar;
+import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUpdatePar;
 import at.kc.tugraz.ss.service.disc.api.SSDiscServerI;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscTargetsAddPar;
 import at.tugraz.sss.serv.SSConfA;

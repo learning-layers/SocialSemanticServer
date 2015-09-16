@@ -18,7 +18,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par;
+package at.tugraz.sss.servs.entity.datatypes.par;
 
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSTextComment;

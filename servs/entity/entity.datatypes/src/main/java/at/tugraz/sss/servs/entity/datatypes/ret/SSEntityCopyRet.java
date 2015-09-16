@@ -18,36 +18,42 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par;
+package at.tugraz.sss.servs.entity.datatypes.ret;
 
+import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarNames;
-import at.tugraz.sss.serv.SSErr;
-import at.tugraz.sss.serv.SSErrE;
-import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServErrReg;
-import java.util.ArrayList;
-import java.util.List;
+import at.tugraz.sss.serv.SSServRetI;
+import java.util.HashMap;
+import java.util.Map;
 
-public class SSEntitiesForLabelsGetPar extends SSServPar{
-  
-  public List<String> requireds = new ArrayList<>();
-  public List<String> absents   = new ArrayList<>();
-  public List<String> eithers   = new ArrayList<>();
+public class SSEntityCopyRet extends SSServRetI{
+
+  public Boolean worked = null;
+
+  @Override
+  public Map<String, Object> jsonLDDesc(){
     
-  public SSEntitiesForLabelsGetPar(SSServPar par) throws Exception{
-      
-    super(par);
+    final Map<String, Object> ld = new HashMap<>();
     
-    try{
-      
-      if(pars != null){
-        requireds       = (List<String>)            pars.get(SSVarNames.requireds);
-        absents         = (List<String>)            pars.get(SSVarNames.absents);
-        eithers         = (List<String>)            pars.get(SSVarNames.eithers);
-      }
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(new SSErr(SSErrE.servParCreationFailed));
-    }
+    ld.put(SSVarNames.worked, SSVarNames.sss + SSStrU.colon + SSStrU.valueBoolean);
+    
+    return ld;
   }
+  
+  public static SSEntityCopyRet get(
+    final Boolean  worked){
+    
+    return new SSEntityCopyRet(worked);
+  }
+  
+  private SSEntityCopyRet(
+    final Boolean   worked){
+    
+    super(SSServOpE.entityCopy);
+    
+    this.worked = worked;
+  }
+
+  
 }

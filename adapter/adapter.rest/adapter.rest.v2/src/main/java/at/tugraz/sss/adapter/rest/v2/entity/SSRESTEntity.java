@@ -1,42 +1,44 @@
-/**
-* Code contributed to the Learning Layers project
-* http://www.learning-layers.eu
-* Development is partly funded by the FP7 Programme of the European Commission under
-* Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
-* For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
-*
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-* http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*/
+ /**
+  * Code contributed to the Learning Layers project
+  * http://www.learning-layers.eu
+  * Development is partly funded by the FP7 Programme of the European Commission under
+  * Grant Agreement FP7-ICT-318209.
+  * Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+  * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
+  *
+  * Licensed under the Apache License, Version 2.0 (the "License");
+  * you may not use this file except in compliance with the License.
+  * You may obtain a copy of the License at
+  *
+  * http://www.apache.org/licenses/LICENSE-2.0
+  *
+  * Unless required by applicable law or agreed to in writing, software
+  * distributed under the License is distributed on an "AS IS" BASIS,
+  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  * See the License for the specific language governing permissions and
+  * limitations under the License.
+  */
 package at.tugraz.sss.adapter.rest.v2.entity;
 
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntitySharePar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntityUsersGetPar;
 import at.tugraz.sss.servs.entity.datatypes.ret.SSEntityShareRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleEntityUsersGetRet;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesGetPar;
+import at.tugraz.sss.servs.entity.datatypes.par.SSEntitiesGetPar;
+import at.tugraz.sss.servs.entity.datatypes.par.SSEntityTypesGetPar;
 import at.tugraz.sss.serv.SSEntityCopyPar;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntitiesGetRet;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityCopyRet;
+import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUpdatePar;
+import at.tugraz.sss.servs.entity.datatypes.ret.SSEntitiesGetRet;
+import at.tugraz.sss.servs.entity.datatypes.ret.SSEntityCopyRet;
 import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
 import at.tugraz.sss.serv.SSUri;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUpdateRet;
+import at.tugraz.sss.servs.entity.datatypes.ret.SSEntityUpdateRet;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.kc.tugraz.sss.comment.datatypes.par.SSCommentsAddPar;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
 import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.servs.entity.datatypes.ret.SSEntityTypesGetRet;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import javax.ws.rs.Consumes;
@@ -54,7 +56,33 @@ import javax.ws.rs.core.Response;
 @Path("/entities")
 @Api( value = "/entities") //, basePath = "/entities"
 public class SSRESTEntity {
-
+  
+  @GET
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path("/types")
+  @ApiOperation(
+    value = "retrieve available entity types",
+    response = SSEntityTypesGetRet.class)
+  public Response entityTypesGet(
+    @Context 
+      final HttpHeaders headers){
+    
+    final SSEntityTypesGetPar par;
+    
+    try{
+      
+      par =
+        new SSEntityTypesGetPar(
+          null); 
+      
+    }catch(Exception error){
+      return Response.status(422).build();
+    }
+    
+    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+  }
+  
   @GET
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
@@ -63,8 +91,8 @@ public class SSRESTEntity {
     response = SSEntitiesGetRet.class)
   @Path("")
   public Response entitiesAccessibleGet(
-    @Context 
-      final HttpHeaders headers){
+    @Context
+    final HttpHeaders headers){
     
     final SSEntitiesGetPar par;
     
@@ -73,7 +101,7 @@ public class SSRESTEntity {
       par =
         new SSEntitiesGetPar(
           null,  //user
-          null,  //entities 
+          null,  //entities
           null, //types
           null, //descPar
           true); //withUserRestriction
@@ -97,7 +125,7 @@ public class SSRESTEntity {
     final HttpHeaders headers,
     
     @PathParam(SSVarNames.entities)
-    final String entities, 
+    final String entities,
     
     final SSEntitiesGetRESTAPIV2Par input){
     
@@ -116,7 +144,7 @@ public class SSRESTEntity {
       descPar.setFlags          = input.setFlags;
       descPar.setCircles        = input.setCircles;
       descPar.setProfilePicture = input.setProfilePicture;
-        
+      
       par =
         new SSEntitiesGetPar(
           null,
@@ -141,7 +169,7 @@ public class SSRESTEntity {
     response = SSEntityUpdateRet.class)
   public Response entityAdd(
     @Context
-      final HttpHeaders headers,
+    final HttpHeaders headers,
     
     final SSEntityUpdateRESTAPIV2Par input){
     
@@ -158,7 +186,7 @@ public class SSRESTEntity {
           input.creationTime, //creationTime
           input.read,  //read
           null, //setPublic
-          true, //withUserRestriction, 
+          true, //withUserRestriction,
           true); //shouldCommit
       
     }catch(Exception error){
@@ -177,10 +205,10 @@ public class SSRESTEntity {
     response = SSEntityUpdateRet.class)
   public Response entityUpdate(
     @Context
-      final HttpHeaders headers,
+    final HttpHeaders headers,
     
     @PathParam (SSVarNames.entity)
-      final String entity,
+    final String entity,
     
     final SSEntityUpdateRESTAPIV2Par input){
     
@@ -197,7 +225,7 @@ public class SSRESTEntity {
           input.creationTime, //creationTime
           input.read,  //read
           null, //setPublic
-          true, //withUserRestriction, 
+          true, //withUserRestriction,
           true); //shouldCommit
       
     }catch(Exception error){
@@ -216,10 +244,10 @@ public class SSRESTEntity {
     response = SSEntityShareRet.class)
   public Response entityShare(
     @Context
-      final HttpHeaders headers,
+    final HttpHeaders headers,
     
     @PathParam (SSVarNames.entity)
-      final String entity, 
+    final String entity,
     
     final SSEntityShareRESTAPIV2Par input){
     
@@ -230,11 +258,11 @@ public class SSRESTEntity {
         new SSEntitySharePar(
           null, //user
           SSUri.get(entity, SSVocConf.sssUri), //entity
-          input.users, 
-          input.circles, 
-          input.setPublic, //setPublic, 
+          input.users,
+          input.circles,
+          input.setPublic, //setPublic,
           input.comment, //comment
-          true, //withUserRestriction, 
+          true, //withUserRestriction,
           true); //shouldCommit
       
     }catch(Exception error){
@@ -253,10 +281,10 @@ public class SSRESTEntity {
     response = SSEntityCopyRet.class)
   public Response entityCopy(
     @Context
-      final HttpHeaders headers,
+    final HttpHeaders headers,
     
     @PathParam (SSVarNames.entity)
-      final String entity, 
+    final String entity,
     
     final SSEntityCopyRESTAPIV2Par input){
     
@@ -269,16 +297,16 @@ public class SSRESTEntity {
           SSUri.get(entity, SSVocConf.sssUri), //entity
           input.targetEntity, //targetEntity
           input.forUsers,
-          input.label, 
-          input.includeUsers, 
-          input.includeEntities, 
+          input.label,
+          input.includeUsers,
+          input.includeEntities,
           input.includeMetaSpecificToEntityAndItsEntities,
           input.includeOriginUser,
-          input.entitiesToExclude, 
-          input.comment, 
-          true, //withUserRestriction, 
+          input.entitiesToExclude,
+          input.comment,
+          true, //withUserRestriction,
           true); //shouldCommit
-          
+      
       par.appendUserNameToLabel = input.appendUserNameToLabel;
       
     }catch(Exception error){
@@ -287,7 +315,7 @@ public class SSRESTEntity {
     
     return SSRestMainV2.handleRequest(headers, par, false, true).response;
   }
-    
+  
   @GET
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
@@ -332,7 +360,7 @@ public class SSRESTEntity {
     final HttpHeaders headers,
     
     @PathParam(SSVarNames.entity)
-    final String entity, 
+    final String entity,
     
     final SSCommentsAddRESTAPIV2Par input){
     

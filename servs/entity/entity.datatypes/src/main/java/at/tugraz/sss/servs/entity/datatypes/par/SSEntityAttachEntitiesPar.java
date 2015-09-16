@@ -18,19 +18,20 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
- package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par;
+package at.tugraz.sss.servs.entity.datatypes.par;
 
-import at.tugraz.sss.serv.SSEntityDescriberPar;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServOpE;
+import java.util.ArrayList;
+import java.util.List;
 import at.tugraz.sss.serv.SSStrU;
- 
-public class SSEntityGetPar extends SSServPar{
-  
-  public SSUri                entity               = null;
-  public SSEntityDescriberPar descPar              = null;
-  
+
+public class SSEntityAttachEntitiesPar extends SSServPar{
+
+  public SSUri               entity    = null;
+  public List<SSUri>         entities  = new ArrayList<>();
+
   public String getEntity(){
     return SSStrU.removeTrailingSlash(entity);
   }
@@ -38,19 +39,31 @@ public class SSEntityGetPar extends SSServPar{
   public void setEntity(final String entity) throws Exception{
     this.entity = SSUri.get(entity);
   }
-
-  public SSEntityGetPar(){}
   
-  public SSEntityGetPar(
-    final SSUri                user,
-    final SSUri                entity, 
-    final Boolean              withUserRestriction,
-    final SSEntityDescriberPar descPar){
+  public List<String> getEntities(){
+    return SSStrU.removeTrailingSlash(entities);
+  }
+
+  public void setEntities(final List<String> entities) throws Exception{
+    this.entities = SSUri.get(entities);
+  }
+  
+  public SSEntityAttachEntitiesPar(){}
+  
+  public SSEntityAttachEntitiesPar(
+    final SSUri               user,
+    final SSUri               entity,
+    final List<SSUri>         entities,
+    final Boolean             withUserRestriction, 
+    final Boolean             shouldCommit){
+
+    super(SSServOpE.entityEntitiesAttach, null, user);
+  
+    this.entity         = entity;
     
-    super(SSServOpE.entityGet, null, user);
+    SSUri.addDistinctWithoutNull(this.entities, entities);
     
-    this.entity               = entity;
-    this.withUserRestriction  = withUserRestriction;
-    this.descPar              = descPar;
+    this.withUserRestriction = withUserRestriction;
+    this.shouldCommit        = shouldCommit;
   }
 }

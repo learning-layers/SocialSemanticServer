@@ -18,30 +18,45 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par;
+package at.tugraz.sss.servs.entity.datatypes.ret;
 
+import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarNames;
+import at.tugraz.sss.serv.SSServRetI;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSErr;
-import at.tugraz.sss.serv.SSErrE;
-import at.tugraz.sss.serv.SSServErrReg;
-public class SSEntityScreenShotsGetPar extends SSServPar{
+import java.util.HashMap;
+import java.util.Map;
+
+public class SSEntityUpdateRet extends SSServRetI{
+
+  public SSUri entity = null;
+
+  public String getEntity() throws Exception {
+    return SSStrU.removeTrailingSlash(entity);
+  }
   
-  public SSUri entity   = null;
+  @Override
+  public Map<String, Object> jsonLDDesc(){
     
-  public SSEntityScreenShotsGetPar(SSServPar par) throws Exception{
-      
-    super(par);
+    final Map<String, Object> ld         = new HashMap<>();
     
-    try{
-      
-      if(pars != null){
-        entity   = (SSUri) pars.get(SSVarNames.entity);
-      }
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(new SSErr(SSErrE.servParCreationFailed));
-    }
+    ld.put(SSVarNames.entity, SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
+    
+    return ld;
+  }
+  
+  public static SSEntityUpdateRet get(
+    final SSUri   entity){
+    
+    return new SSEntityUpdateRet(entity);
+  }
+  
+  private SSEntityUpdateRet(
+    final SSUri   entity){
+    
+    super(SSServOpE.entityUpdate);
+    
+    this.entity = entity;
   }
 }

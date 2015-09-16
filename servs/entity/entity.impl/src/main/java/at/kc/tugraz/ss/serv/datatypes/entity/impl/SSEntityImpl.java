@@ -30,24 +30,25 @@ import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivURIGetPar;
 import at.tugraz.sss.servs.entity.datatypes.ret.SSEntityShareRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityClientI;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesForDescriptionsGetPar;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesForLabelsAndDescriptionsGetPar;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesForLabelsGetPar;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntitiesGetPar;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityAttachEntitiesPar;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityDownloadURIsGetPar;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityDownloadsAddPar;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityGetPar;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityRemovePar;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
+import at.tugraz.sss.servs.entity.datatypes.par.SSEntitiesForDescriptionsGetPar;
+import at.tugraz.sss.servs.entity.datatypes.par.SSEntitiesForLabelsAndDescriptionsGetPar;
+import at.tugraz.sss.servs.entity.datatypes.par.SSEntitiesForLabelsGetPar;
+import at.tugraz.sss.servs.entity.datatypes.par.SSEntitiesGetPar;
+import at.tugraz.sss.servs.entity.datatypes.par.SSEntityAttachEntitiesPar;
+import at.tugraz.sss.servs.entity.datatypes.par.SSEntityDownloadURIsGetPar;
+import at.tugraz.sss.servs.entity.datatypes.par.SSEntityDownloadsAddPar;
+import at.tugraz.sss.servs.entity.datatypes.par.SSEntityGetPar;
+import at.tugraz.sss.servs.entity.datatypes.par.SSEntityRemovePar;
+import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUpdatePar;
 import at.tugraz.sss.serv.SSEntityCopyPar;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityFromTypeAndLabelGetPar;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserParentEntitiesGetPar;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUserSubEntitiesGetPar;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntitiesGetRet;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityCopyRet;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityGetRet;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.ret.SSEntityUpdateRet;
+import at.tugraz.sss.servs.entity.datatypes.par.SSEntityFromTypeAndLabelGetPar;
+import at.tugraz.sss.servs.entity.datatypes.par.SSEntityTypesGetPar;
+import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUserParentEntitiesGetPar;
+import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUserSubEntitiesGetPar;
+import at.tugraz.sss.servs.entity.datatypes.ret.SSEntitiesGetRet;
+import at.tugraz.sss.servs.entity.datatypes.ret.SSEntityCopyRet;
+import at.tugraz.sss.servs.entity.datatypes.ret.SSEntityGetRet;
+import at.tugraz.sss.servs.entity.datatypes.ret.SSEntityUpdateRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.SSEntityActivityFct;
 import at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.SSEntitySQLFct;
 import at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.SSEntityUserRelationsGatherFct;
@@ -88,6 +89,8 @@ import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSToolContextE;
+import at.tugraz.sss.servs.entity.datatypes.ret.SSEntityTypesGetRet;
+import java.util.Arrays;
 import sss.serv.eval.api.SSEvalServerI;
 import sss.serv.eval.datatypes.SSEvalLogE;
 import sss.serv.eval.datatypes.par.SSEvalLogPar;
@@ -1129,6 +1132,27 @@ implements
       }
       
       dbSQL.rollBack(par.shouldCommit);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public void entityTypesGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
+    
+    SSServCallerU.checkKey(parA);
+    
+    final SSEntityTypesGetPar par = (SSEntityTypesGetPar) parA.getFromJSON(SSEntityTypesGetPar.class);
+    
+    sSCon.writeRetFullToClient(SSEntityTypesGetRet.get(entityTypesGet(par)));
+  }
+  
+  @Override
+  public List<SSEntityE> entityTypesGet(final SSEntityTypesGetPar parA) throws Exception{
+    
+    try{
+      return Arrays.asList(SSEntityE.values());
+    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }

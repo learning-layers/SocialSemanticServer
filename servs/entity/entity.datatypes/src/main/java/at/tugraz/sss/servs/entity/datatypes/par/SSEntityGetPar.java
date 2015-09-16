@@ -18,20 +18,19 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par;
+ package at.tugraz.sss.servs.entity.datatypes.par;
 
-import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSEntityDescriberPar;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
-import java.util.ArrayList;
-import java.util.List;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
-
-public class SSEntityDownloadsAddPar extends SSServPar{
-
-  public SSUri               entity    = null;
-  public List<SSUri>         downloads = new ArrayList<>();
-
+ 
+public class SSEntityGetPar extends SSServPar{
+  
+  public SSUri                entity               = null;
+  public SSEntityDescriberPar descPar              = null;
+  
   public String getEntity(){
     return SSStrU.removeTrailingSlash(entity);
   }
@@ -39,31 +38,19 @@ public class SSEntityDownloadsAddPar extends SSServPar{
   public void setEntity(final String entity) throws Exception{
     this.entity = SSUri.get(entity);
   }
-  
-  public List<String> getDownloads(){
-    return SSStrU.removeTrailingSlash(downloads);
-  }
 
-  public void setDownloads(final List<String> downloads) throws Exception{
-    this.downloads = SSUri.get(downloads);
-  }
+  public SSEntityGetPar(){}
   
-  public SSEntityDownloadsAddPar(){}
-  
-  public SSEntityDownloadsAddPar(
-    final SSUri               user,
-    final SSUri               entity,
-    final List<SSUri>         downloads,
-    final Boolean             withUserRestriction, 
-    final Boolean             shouldCommit){
-
-    super(SSServOpE.entityDownloadsAdd, null, user);
-  
-    this.entity         = entity;
+  public SSEntityGetPar(
+    final SSUri                user,
+    final SSUri                entity, 
+    final Boolean              withUserRestriction,
+    final SSEntityDescriberPar descPar){
     
-    SSUri.addDistinctWithoutNull(this.downloads, downloads);
+    super(SSServOpE.entityGet, null, user);
     
-    this.withUserRestriction = withUserRestriction;
-    this.shouldCommit        = shouldCommit;
+    this.entity               = entity;
+    this.withUserRestriction  = withUserRestriction;
+    this.descPar              = descPar;
   }
 }

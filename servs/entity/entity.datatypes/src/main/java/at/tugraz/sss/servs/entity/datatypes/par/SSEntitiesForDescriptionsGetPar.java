@@ -18,27 +18,32 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
- package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par;
+package at.tugraz.sss.servs.entity.datatypes.par;
 
 import at.tugraz.sss.serv.SSVarNames;
-import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSErrE;
+import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServErrReg;
+import java.util.ArrayList;
+import java.util.List;
 
-public class SSEntityUserSubEntitiesGetPar extends SSServPar{
+public class SSEntitiesForDescriptionsGetPar extends SSServPar{
   
-  public SSUri     entity    = null;
+  public List<String> requireds = new ArrayList<>();
+  public List<String> absents   = new ArrayList<>();
+  public List<String> eithers   = new ArrayList<>();
     
-  public SSEntityUserSubEntitiesGetPar(SSServPar par) throws Exception{
+  public SSEntitiesForDescriptionsGetPar(SSServPar par) throws Exception{
       
     super(par);
     
     try{
       
       if(pars != null){
-        entity      = (SSUri)  pars.get(SSVarNames.entity);
+        requireds       = (List<String>)            pars.get(SSVarNames.requireds);
+        absents         = (List<String>)            pars.get(SSVarNames.absents);
+        eithers         = (List<String>)            pars.get(SSVarNames.eithers);
       }
       
     }catch(Exception error){

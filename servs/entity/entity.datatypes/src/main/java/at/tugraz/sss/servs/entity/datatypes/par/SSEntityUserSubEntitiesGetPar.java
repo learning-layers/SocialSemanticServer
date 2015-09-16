@@ -18,13 +18,31 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
- package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par;
+ package at.tugraz.sss.servs.entity.datatypes.par;
 
+import at.tugraz.sss.serv.SSVarNames;
+import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSErr;
+import at.tugraz.sss.serv.SSErrE;
+import at.tugraz.sss.serv.SSServErrReg;
 
-public class SSEntityRemoveAllPar extends SSServPar{
+public class SSEntityUserSubEntitiesGetPar extends SSServPar{
   
-  public SSEntityRemoveAllPar(SSServPar par) throws Exception{
+  public SSUri     entity    = null;
+    
+  public SSEntityUserSubEntitiesGetPar(SSServPar par) throws Exception{
+      
     super(par);
+    
+    try{
+      
+      if(pars != null){
+        entity      = (SSUri)  pars.get(SSVarNames.entity);
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(new SSErr(SSErrE.servParCreationFailed));
+    }
   }
 }

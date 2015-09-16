@@ -159,6 +159,7 @@ public enum SSServOpE{
   entityDownloadsGet,
   entityDownloadsAdd,
   entityEntitiesAttach,
+  entityTypesGet,
   
   //learn ep
   learnEpsGet                                         ,

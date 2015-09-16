@@ -18,36 +18,13 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par;
+ package at.tugraz.sss.servs.entity.datatypes.par;
 
-import at.tugraz.sss.serv.SSVarNames;
-import at.tugraz.sss.serv.SSErr;
-import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServErrReg;
-import java.util.ArrayList;
-import java.util.List;
 
-public class SSEntitiesForLabelsAndDescriptionsGetPar extends SSServPar{
+public class SSEntityRemoveAllPar extends SSServPar{
   
-  public List<String> requireds = new ArrayList<>();
-  public List<String> absents   = new ArrayList<>();
-  public List<String> eithers   = new ArrayList<>();
-    
-  public SSEntitiesForLabelsAndDescriptionsGetPar(SSServPar par) throws Exception{
-      
+  public SSEntityRemoveAllPar(SSServPar par) throws Exception{
     super(par);
-    
-    try{
-      
-      if(pars != null){
-        requireds       = (List<String>)            pars.get(SSVarNames.requireds);
-        absents         = (List<String>)            pars.get(SSVarNames.absents);
-        eithers         = (List<String>)            pars.get(SSVarNames.eithers);
-      }
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(new SSErr(SSErrE.servParCreationFailed));
-    }
   }
 }

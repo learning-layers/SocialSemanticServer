@@ -31,7 +31,7 @@ import at.kc.tugraz.ss.like.datatypes.par.SSLikesUserGetPar;
 import at.kc.tugraz.ss.like.datatypes.ret.SSLikeUserSetRet;
 import at.kc.tugraz.ss.like.impl.fct.sql.SSLikeSQLFct;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
-import at.kc.tugraz.ss.serv.datatypes.entity.datatypes.par.SSEntityUpdatePar;
+import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUpdatePar;
 import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
