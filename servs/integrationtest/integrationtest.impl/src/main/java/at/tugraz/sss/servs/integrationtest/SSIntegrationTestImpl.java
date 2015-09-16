@@ -29,14 +29,12 @@ import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSEntity;
-import at.tugraz.sss.serv.SSEntityCircle;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.servs.integrationtest.knowbraintaggingstudy2015.SSIntegrationTestBitsAndPiecesStudyFall2015;
-import at.tugraz.sss.servs.integrationtest.knowbraintaggingstudy2015.SSIntegrationTestKnowBrainTaggingStudy2015;
 import at.tugraz.sss.servs.mail.SSMailServerI;
 import at.tugraz.sss.servs.mail.datatype.par.SSMailsReceivePar;
 import java.util.ArrayList;
@@ -161,64 +159,7 @@ implements
           
           SSServErrReg.reset();
           
-          return integrationTestKnowBrainTaggingStudy2015();
-        }else{
-          SSServErrReg.regErrThrow(error);
-          return null;
-        }
-      }
-      
-      dbSQL.rollBack(true);
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-    
-  @Override
-  public Boolean integrationTestKnowBrainTaggingStudy2015() throws Exception{
-    
-    try{
-      final SSIntegrationTestKnowBrainTaggingStudy2015  knowBrainTaggingStudy2015 =  new SSIntegrationTestKnowBrainTaggingStudy2015();
-
-      final SSUri          adminUri    = SSVocConf.systemUserUri;
-      final List<SSUri>    userUris    = knowBrainTaggingStudy2015.getUserUris(SSCoreConf.instGet().getRecomm());
-      
-      dbSQL.startTrans(true);
-      
-      final SSEntityCircle circle1     = knowBrainTaggingStudy2015.createCircle1(adminUri, userUris);
-      final SSEntityCircle circle2     = knowBrainTaggingStudy2015.createCircle2(adminUri, userUris);
-      final SSEntityCircle circle3     = knowBrainTaggingStudy2015.createCircle3(adminUri, userUris);
-      final SSEntityCircle circle4     = knowBrainTaggingStudy2015.createCircle4(adminUri, userUris);
-      
-      knowBrainTaggingStudy2015.changeCircle1Label             (adminUri, circle1);
-      knowBrainTaggingStudy2015.removeCircle1User3             (adminUri, circle1, userUris.get(2));
-      knowBrainTaggingStudy2015.deleteCircle4                  (adminUri, circle4);
-      knowBrainTaggingStudy2015.addCircle1Entities             (userUris, circle1.id);
-      knowBrainTaggingStudy2015.addCircle2Entities             (userUris, circle2.id);
-      knowBrainTaggingStudy2015.addCircle3Entities             (userUris, circle3.id);
-      knowBrainTaggingStudy2015.updateTagRecomm                ();
-      
-      knowBrainTaggingStudy2015.getTagRecomms                  (circle1.id, circle2.id, circle3.id, userUris);
-      knowBrainTaggingStudy2015.splitCircle1                   (adminUri, circle1.id, userUris);
-      knowBrainTaggingStudy2015.mergeCircle2And3               (adminUri, circle2.id, circle3.id);
-      knowBrainTaggingStudy2015.removeTags                     (userUris);
-      knowBrainTaggingStudy2015.removeUsersFromOldCircles      (adminUri, circle1.id, circle2.id, circle3.id, userUris);
-      knowBrainTaggingStudy2015.getUsersCircles                (userUris);
-      knowBrainTaggingStudy2015.updateTagRecomm                ();
-      knowBrainTaggingStudy2015.getTagRecommsAfterSplitAndMerge(userUris);
-      
-      dbSQL.commit(true);
-      
-      return true;
-    }catch(Exception error){
-      
-      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
-        
-        if(dbSQL.rollBack(true)){
-          
-          SSServErrReg.reset();
-          
-          return integrationTestKnowBrainTaggingStudy2015();
+          return integrationTestBitsAndPiecesStudyFall2015();
         }else{
           SSServErrReg.regErrThrow(error);
           return null;

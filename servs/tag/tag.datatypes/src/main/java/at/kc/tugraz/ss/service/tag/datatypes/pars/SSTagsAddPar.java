@@ -31,18 +31,18 @@ import at.tugraz.sss.serv.SSStrU;
 
 public class SSTagsAddPar extends SSServPar{
   
-  public SSUri             entity       = null;
+  public List<SSUri>       entities     = new ArrayList<>();
   public List<SSTagLabel>  labels       = new ArrayList<>();
   public SSSpaceE          space        = null;
   public SSUri             circle       = null;
   public Long              creationTime = null;
 
-  public String getEntity(){
-    return SSStrU.removeTrailingSlash(entity);
+  public List<String> getEntities() {
+    return SSStrU.removeTrailingSlash(entities);
   }
 
-  public void setEntity(final String entity) throws Exception{
-    this.entity = SSUri.get(entity);
+  public void setEntities(final List<String> entities) throws Exception {
+    this.entities = SSUri.get(entities);
   }
 
   public List<String> getLabels(){
@@ -74,7 +74,7 @@ public class SSTagsAddPar extends SSServPar{
   public SSTagsAddPar(
     final SSUri              user,
     final List<SSTagLabel>   labels,
-    final SSUri              entity,
+    final List<SSUri>        entities,
     final SSSpaceE           space,
     final SSUri              circle,
     final Long               creationTime,
@@ -83,9 +83,9 @@ public class SSTagsAddPar extends SSServPar{
     
     super(SSServOpE.tagsAdd, null, user);
     
-    SSTagLabel.addDistinctWithoutNull(this.labels, labels);
-    
-    this.entity              = entity;
+    SSTagLabel.addDistinctWithoutNull (this.labels,   labels);
+    SSUri.addDistinctWithoutNull      (this.entities, entities);
+
     this.space               = space;
     this.circle              = circle;
     this.creationTime        = creationTime;

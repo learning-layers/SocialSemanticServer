@@ -34,7 +34,7 @@ eval:
     #- bnp
 integrationTest: 
   tests:
-    #- knowBrainTaggingStudy2015
+    #- something
 
 #services
 like:

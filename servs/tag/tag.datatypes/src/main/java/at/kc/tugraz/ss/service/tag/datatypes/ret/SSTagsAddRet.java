@@ -18,50 +18,40 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.tugraz.sss.servs.integrationtest;
+package at.kc.tugraz.ss.service.tag.datatypes.ret;
 
-import at.tugraz.sss.serv.SSJSONLDPropI;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarNames;
+import at.tugraz.sss.serv.SSServRetI;
+import at.tugraz.sss.serv.SSUri;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
-public enum SSIntegrationTestE implements SSJSONLDPropI{
+public class SSTagsAddRet extends SSServRetI{
   
-  bitsAndPiecesStudyFall2015,
-  evernoteEmailIn;
+  public List<SSUri> tags = new ArrayList<>();
+
+  public List<String> getTags(){
+    return SSStrU.removeTrailingSlash(tags);
+  }
   
   @Override
-  public Object jsonLDDesc() {
-    return SSVarNames.xsd + SSStrU.colon + SSStrU.valueString;
+  public Map<String, Object> jsonLDDesc(){
+    throw new UnsupportedOperationException();
   }
   
-  public static SSIntegrationTestE get(final String space) throws Exception{
+  public static SSTagsAddRet get(
+    final List<SSUri> tags){
     
-    try{
-      
-      if(space == null){
-        return null;
-      }
-      
-      return SSIntegrationTestE.valueOf(space);
-    }catch(Exception error){
-      throw new Exception("integration test identifier invalid");
-    }
+    return new SSTagsAddRet(tags);
   }
   
-  public static List<SSIntegrationTestE> get(final List<String> strings) throws Exception{
-
-    final List<SSIntegrationTestE> result = new ArrayList<>();
+  private SSTagsAddRet(
+    final List<SSUri> tags){
     
-    if(strings == null){
-      return result;
-    }
+    super(SSServOpE.tagsAdd);
     
-    for(String string : strings){
-      result.add(get(string));
-    }
-    
-    return result;
+    SSUri.addDistinctWithoutNull(this.tags, tags);
   }
 }

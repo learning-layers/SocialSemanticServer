@@ -73,11 +73,6 @@ public class SSIntegrationTestServ extends SSServContainerI{
     for(SSIntegrationTestE test : ((SSIntegrationTestConf) conf).tests){
 
       switch(test){
-        case knowBrainTaggingStudy2015:{
-          integrationTestServ.integrationTestKnowBrainTaggingStudy2015();
-          break;
-        }
-        
         case bitsAndPiecesStudyFall2015:{
           integrationTestServ.integrationTestBitsAndPiecesStudyFall2015();
           break;

@@ -26,6 +26,7 @@ import at.tugraz.sss.serv.SSServPar;
 public interface SSTagClientI {
 
   public void tagAdd                       (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void tagsAdd                      (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
   public void tagsRemove                   (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
   public void tagsGet                      (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
   public void tagEntitiesForTagsGet        (final SSSocketCon sSCon, final SSServPar parA) throws Exception;

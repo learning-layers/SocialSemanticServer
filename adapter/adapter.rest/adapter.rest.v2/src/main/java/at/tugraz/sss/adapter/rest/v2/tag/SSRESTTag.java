@@ -27,13 +27,16 @@ import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagAddPar;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagEntitiesForTagsGetPar;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagFrequsGetPar;
+import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsAddPar;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsGetPar;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsRemovePar;
 import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagAddRet;
 import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagEntitiesForTagsGetRet;
 import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagFrequsGetRet;
+import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagsAddRet;
 import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagsGetRet;
 import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagsRemoveRet;
+import at.tugraz.sss.serv.SSStrU;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import javax.ws.rs.Consumes;
@@ -212,6 +215,43 @@ public class SSRESTTag{
           input.space,
           input.startTime, 
           true);
+      
+    }catch(Exception error){
+      return Response.status(422).build();
+    }
+    
+    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    ("/entities/{entities}")
+  @ApiOperation(
+    value = "add tags for entities",
+    response = SSTagsAddRet.class)
+  public Response tagsAdd(
+    @Context
+    final HttpHeaders headers,
+    
+    @PathParam(SSVarNames.entities)
+    final String entities,
+    
+    final SSTagsAddRESTAPIV2Par     input){
+    
+    final SSTagsAddPar par;
+    
+    try{
+      par =
+        new SSTagsAddPar(
+          null,
+          input.labels, //labels
+          SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(entities, SSStrU.comma), SSVocConf.sssUri), //entities
+          input.space, //space
+          input.circle, //circle
+          input.creationTime,
+          true, //withUserRestriction
+          true); //commit
       
     }catch(Exception error){
       return Response.status(422).build();

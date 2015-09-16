@@ -45,19 +45,17 @@ public class SSCircleServFct{
         return;
       }
       
-      for(SSUri entity : entities){
-        
-        ((SSTagServerI) SSServReg.getServ(SSTagServerI.class)).tagsAdd(
-          new SSTagsAddPar(
-            user,
-            SSTagLabel.get(tags), //labels
-            entity, //entity
-            null, //space
-            circleAsSpace, //circle
-            null, //creationTime,
-            true, //withUserRestriction
-            false)); //shouldCommit)
-      }
+      ((SSTagServerI) SSServReg.getServ(SSTagServerI.class)).tagsAdd(
+        new SSTagsAddPar(
+          user,
+          SSTagLabel.get(tags), //labels
+          entities, //entity
+          null, //space
+          circleAsSpace, //circle
+          null, //creationTime,
+          true, //withUserRestriction
+          false)); //shouldCommit)
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }

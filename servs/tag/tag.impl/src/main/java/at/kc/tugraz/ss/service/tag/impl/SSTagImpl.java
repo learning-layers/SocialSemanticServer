@@ -56,6 +56,7 @@ import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsAddPar;
 import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagAddRet;
 import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagEntitiesForTagsGetRet;
 import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagFrequsGetRet;
+import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagsAddRet;
 import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagsGetRet;
 import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagsRemoveRet;
 import at.kc.tugraz.ss.service.tag.impl.fct.userrelationgatherer.SSTagUserRelationGathererFct;
@@ -314,25 +315,68 @@ implements
   }
   
   @Override
+  public void tagsAdd(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
+    
+    SSServCallerU.checkKey(parA);
+    
+    final SSTagsAddPar par     = (SSTagsAddPar) parA.getFromJSON(SSTagsAddPar.class);
+    final List<SSUri>  tagUris = tagsAdd(par);
+    
+    sSCon.writeRetFullToClient(SSTagsAddRet.get(tagUris));
+    
+    for(SSUri entity : par.entities){
+      
+      activityServ.activityAdd(
+        new SSActivityAddPar(
+          par.user,
+          SSActivityE.tagEntity,
+          entity,
+          null,
+          tagUris,
+          null,
+          null,
+          par.shouldCommit));
+      
+      for(SSTagLabel label : par.labels){
+        
+        evalServ.evalLog(
+          new SSEvalLogPar(
+            par.user,
+            SSToolContextE.sss,
+            SSEvalLogE.tagAdd,
+            entity,  //entity
+            SSStrU.toStr(label), //content,
+            null, //entities
+            null, //users
+            par.shouldCommit));
+      }
+    }
+  }
+  
+  @Override
   public List<SSUri> tagsAdd(final SSTagsAddPar par) throws Exception {
     
     try{
       
-      final List<SSUri>  tags   = new ArrayList<>();
+      final List<SSUri> tags = new ArrayList<>();
       
       for(SSTagLabel tagLabel : par.labels) {
         
-        tags.add(
-          tagAdd(
-            new SSTagAddPar(
-              par.user,
-              par.entity,
-              tagLabel,
-              par.space,
-              par.circle,
-              par.creationTime,
-              par.withUserRestriction,
-              par.shouldCommit)));
+        for(SSUri entity : par.entities){
+        
+          SSUri.addDistinctWithoutNull(
+            tags,
+            tagAdd(
+              new SSTagAddPar(
+                par.user,
+                entity,
+                tagLabel,
+                par.space,
+                par.circle,
+                par.creationTime,
+                par.withUserRestriction,
+                par.shouldCommit)));
+        }
       }
       
       SSStrU.distinctWithoutNull2(tags);

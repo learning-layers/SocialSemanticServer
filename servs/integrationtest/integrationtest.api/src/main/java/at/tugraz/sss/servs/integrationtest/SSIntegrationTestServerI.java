@@ -25,6 +25,5 @@ import at.tugraz.sss.serv.SSServServerI;
 public interface SSIntegrationTestServerI extends SSServServerI {
   
   public Boolean integrationTestBitsAndPiecesStudyFall2015 () throws Exception;
-  public Boolean integrationTestKnowBrainTaggingStudy2015  () throws Exception;
   public Boolean integrationTestEvernoteEmailIn            () throws Exception;
 }

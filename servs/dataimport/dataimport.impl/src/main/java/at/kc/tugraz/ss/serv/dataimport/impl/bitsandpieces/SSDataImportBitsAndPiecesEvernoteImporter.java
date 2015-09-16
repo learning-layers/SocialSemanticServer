@@ -388,7 +388,7 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
         new SSTagsAddPar(
           userUri,
           SSTagLabel.get(noteTagNames), //labels
-          noteUri, //entity
+          SSUri.asListWithoutNullAndEmpty(noteUri), //entities
           SSSpaceE.sharedSpace, //space
           null, //circles
           note.getUpdated(), //creationTime

@@ -274,7 +274,7 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
           new SSTagsAddPar(
             authorUri,
             SSTagLabel.get(video.keywords), //labels,
-            video.id, //entity
+            SSUri.asListWithoutNullAndEmpty(video.id), //entities
             SSSpaceE.sharedSpace, //space
             null, //circles
             video.creationTime,  //creationTime
@@ -398,7 +398,7 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
           new SSTagsAddPar(
             user,
             SSTagLabel.get(tagList), //labels
-            resource, //entity
+            SSUri.asListWithoutNullAndEmpty(resource), //entities
             SSSpaceE.sharedSpace, //space
             null, //circles
             timestamp, //creationTime
