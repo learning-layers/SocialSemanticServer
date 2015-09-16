@@ -347,19 +347,17 @@ implements
   @Override
   public List<SSEntity> entitiesGet(final SSEntitiesGetPar par) throws Exception{
     
-    //TODO to be handled via entity handler like service overarching call; now its done with the help of access restrictions (i.e., circles)
     try{
       
       final List<SSEntity> entities = new ArrayList<>();
       
       if(
-        par.user == null &&
         par.entities.isEmpty() &&
         par.types.isEmpty()){ //no information on what to query given
         
         return entities;
       }
-        
+      
       if(!par.entities.isEmpty()){
         
         SSStrU.distinctWithoutNull2(par.entities);
@@ -381,18 +379,14 @@ implements
       
       if(!par.types.isEmpty()){
         
-        for(SSEntity entity : sqlFct.getAccessibleEntityURIs(par.user, true, par.types)){
-          
-//      for(SSUri circle : sqlFct.getCircleURIsForUser(par.forUser, par.withSystemCircles)){
-          
-//        for(SSEntity entity : sqlFct.getEntitiesForCircle(circle, par.types)){
+        for(SSUri entityURI : sqlFct.getEntityURIsForTypes(par.types)){
           
           SSEntity.addEntitiesDistinctWithoutNull(
             entities,
             entityGet(
               new SSEntityGetPar(
                 par.user,
-                entity.id,
+                entityURI,
                 par.withUserRestriction, //withUserRestriction
                 par.descPar))); //descPar
         }

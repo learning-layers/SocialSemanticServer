@@ -83,43 +83,43 @@ public class SSRESTEntity {
     return SSRestMainV2.handleRequest(headers, par, false, true).response;
   }
   
-  @GET
-  @Consumes(MediaType.APPLICATION_JSON)
-  @Produces(MediaType.APPLICATION_JSON)
-  @ApiOperation(
-    value = "retrieve entities",
-    response = SSEntitiesGetRet.class)
-  @Path("")
-  @Deprecated
-  public Response entitiesAccessibleGet(
-    @Context
-    final HttpHeaders headers){
-    
-    final SSEntitiesGetPar par;
-    
-    try{
-      
-      par =
-        new SSEntitiesGetPar(
-          null,  //user
-          null,  //entities
-          null, //types
-          null, //descPar
-          true); //withUserRestriction
-      
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
-  }
+//  @GET
+//  @Consumes(MediaType.APPLICATION_JSON)
+//  @Produces(MediaType.APPLICATION_JSON)
+//  @ApiOperation(
+//    value = "retrieve entities",
+//    response = SSEntitiesGetRet.class)
+//  @Path("")
+//  @Deprecated
+//  public Response entitiesAccessibleGet(
+//    @Context
+//    final HttpHeaders headers){
+//    
+//    final SSEntitiesGetPar par;
+//    
+//    try{
+//      
+//      par =
+//        new SSEntitiesGetPar(
+//          null,  //user
+//          null,  //entities
+//          null, //types
+//          null, //descPar
+//          true); //withUserRestriction
+//      
+//    }catch(Exception error){
+//      return Response.status(422).build();
+//    }
+//    
+//    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+//  }
   
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
   @Path("/filtered/{entities}")
   @ApiOperation(
-    value = "retrieve entity/entities information for given ID(s) or encoded URI(s)",
+    value = "retrieve entities information for given ID(s) or encoded URI(s)",
     response = SSEntitiesGetRet.class)
   public Response entitiesGet(
     @Context
