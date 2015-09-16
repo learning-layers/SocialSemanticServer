@@ -264,10 +264,14 @@ implements
   public List<SSEntity> appStackLayoutsGet(final SSAppStackLayoutsGetPar par) throws Exception{
     
     try{
-      final List<SSUri>          stackURIs       = sqlFct.getStackURIs();
+      
+      if(par.stacks.isEmpty()){
+        par.stacks.addAll(sqlFct.getStackURIs());
+      }
+      
       final List<SSEntity>       stacks          = new ArrayList<>();
       
-      for(SSUri stackURI : stackURIs){
+      for(SSUri stackURI : par.stacks){
         
         SSEntity.addEntitiesDistinctWithoutNull(
           stacks,

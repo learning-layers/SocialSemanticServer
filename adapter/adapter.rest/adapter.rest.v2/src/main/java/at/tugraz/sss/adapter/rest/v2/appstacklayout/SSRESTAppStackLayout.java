@@ -1,23 +1,23 @@
-/**
-* Code contributed to the Learning Layers project
-* http://www.learning-layers.eu
-* Development is partly funded by the FP7 Programme of the European Commission under
-* Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
-* For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
-*
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-* http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*/
+ /**
+  * Code contributed to the Learning Layers project
+  * http://www.learning-layers.eu
+  * Development is partly funded by the FP7 Programme of the European Commission under
+  * Grant Agreement FP7-ICT-318209.
+  * Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
+  * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
+  *
+  * Licensed under the Apache License, Version 2.0 (the "License");
+  * you may not use this file except in compliance with the License.
+  * You may obtain a copy of the License at
+  *
+  * http://www.apache.org/licenses/LICENSE-2.0
+  *
+  * Unless required by applicable law or agreed to in writing, software
+  * distributed under the License is distributed on an "AS IS" BASIS,
+  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  * See the License for the specific language governing permissions and
+  * limitations under the License.
+  */
 package at.tugraz.sss.adapter.rest.v2.appstacklayout;
 
 import at.tugraz.sss.serv.SSVarNames;
@@ -32,6 +32,7 @@ import at.kc.tugraz.sss.appstacklayout.datatypes.ret.SSAppStackLayoutCreateRet;
 import at.kc.tugraz.sss.appstacklayout.datatypes.ret.SSAppStackLayoutDeleteRet;
 import at.kc.tugraz.sss.appstacklayout.datatypes.ret.SSAppStackLayoutUpdateRet;
 import at.kc.tugraz.sss.appstacklayout.datatypes.ret.SSAppStackLayoutsGetRet;
+import at.tugraz.sss.serv.SSStrU;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import javax.ws.rs.Consumes;
@@ -58,7 +59,7 @@ public class SSRESTAppStackLayout{
   @ApiOperation(
     value = "retrieve appStackLayouts",
     response = SSAppStackLayoutsGetRet.class)
-  public Response appStackLayoutsGet(
+  public Response appStackLayoutsAccessibleGet(
     @Context HttpHeaders                     headers){
     
     final SSAppStackLayoutsGetPar par;
@@ -66,7 +67,40 @@ public class SSRESTAppStackLayout{
     try{
       par =
         new SSAppStackLayoutsGetPar(
-          null, 
+          null,
+          null, //stacks
+          true, //withUserRestriction
+          true); //invokeEntityHandlers
+      
+    }catch(Exception error){
+      return Response.status(422).build();
+    }
+    
+    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+  }
+  
+  @GET
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    ("/{stacks}")
+  @ApiOperation(
+    value = "retrieve given appStackLayouts",
+    response = SSAppStackLayoutsGetRet.class)
+  public Response appStackLayoutsGet(
+    @Context
+    final HttpHeaders headers,
+    
+    @PathParam(SSVarNames.stacks) 
+    final String stacks){
+    
+    final SSAppStackLayoutsGetPar par;
+    
+    try{
+      par =
+        new SSAppStackLayoutsGetPar(
+          null,
+          SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(stacks, SSStrU.comma), SSVocConf.sssUri), //stacks
+          true, //withUserRestriction
           true); //invokeEntityHandlers
       
     }catch(Exception error){
@@ -96,10 +130,10 @@ public class SSRESTAppStackLayout{
           input.uuid,
           input.app,
           input.label,
-          input.description, 
-          true, //withUserRestriction, 
+          input.description,
+          true, //withUserRestriction,
           true); //shouldCommit);
-    
+      
     }catch(Exception error){
       return Response.status(422).build();
     }
@@ -115,8 +149,11 @@ public class SSRESTAppStackLayout{
     value = "delete an arrangement of tiles within an app",
     response = SSAppStackLayoutDeleteRet.class)
   public Response appStackLayoutDelete(
-    @Context HttpHeaders              headers,
-    @PathParam(SSVarNames.stack) String   stack){
+    @Context 
+    final HttpHeaders headers,
+    
+    @PathParam(SSVarNames.stack) 
+    final String stack){
     
     final SSAppStackLayoutDeletePar par;
     
@@ -124,10 +161,10 @@ public class SSRESTAppStackLayout{
       par =
         new SSAppStackLayoutDeletePar(
           null,
-          SSUri.get(stack, SSVocConf.sssUri), //stack, 
+          SSUri.get(stack, SSVocConf.sssUri), //stack,
           true, //withUserRestriction
           true); //shouldCommit
-    
+      
     }catch(Exception error){
       return Response.status(422).build();
     }
@@ -143,10 +180,10 @@ public class SSRESTAppStackLayout{
     value = "update an arrangement of tiles within an app",
     response = SSAppStackLayoutUpdateRet.class)
   public Response appStackLayoutUpdate(
-    @Context 
+    @Context
       HttpHeaders headers,
     
-    @PathParam(SSVarNames.stack) 
+    @PathParam(SSVarNames.stack)
       String stack,
     
     final SSAppStackLayoutUpdateRESTAPIV2Par input){
@@ -158,12 +195,12 @@ public class SSRESTAppStackLayout{
         new SSAppStackLayoutUpdatePar(
           null,
           SSUri.get(stack, SSVocConf.sssUri),
-          input.app, 
+          input.app,
           input.label,
-          input.description, 
+          input.description,
           true,  //withUserDescription
           true); //shouldCommit
-    
+      
     }catch(Exception error){
       return Response.status(422).build();
     }

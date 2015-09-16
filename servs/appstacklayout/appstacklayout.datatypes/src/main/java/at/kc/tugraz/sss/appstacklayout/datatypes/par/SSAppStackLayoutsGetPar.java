@@ -23,19 +23,27 @@ package at.kc.tugraz.sss.appstacklayout.datatypes.par;
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SSAppStackLayoutsGetPar extends SSServPar{
   
-  public Boolean invokeEntityHandlers = false;
+  public List<SSUri> stacks               = new ArrayList<>();
+  public Boolean     invokeEntityHandlers = false;
   
   public SSAppStackLayoutsGetPar(){}
   
   public SSAppStackLayoutsGetPar(
-    final SSUri     user, 
-    final Boolean   invokeEntityHandlers){
+    final SSUri       user, 
+    final List<SSUri> stacks,
+    final Boolean     withUserRestriction,
+    final Boolean     invokeEntityHandlers){
     
     super(SSServOpE.appStackLayoutsGet, null, user);
+   
+    SSUri.addDistinctWithoutNull(this.stacks, stacks);
     
+    this.withUserRestriction = withUserRestriction;
     this.invokeEntityHandlers = invokeEntityHandlers;
   }
 }
