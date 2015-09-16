@@ -129,6 +129,10 @@ public enum SSFileExtE{
     return false;
   }
   
+  public static boolean isImageFileExt(final SSFileExtE fileExt){
+      return SSStrU.contains(imageFileExts, fileExt);
+  }
+  
   public static SSFileExtE ext(final String fileName) throws Exception {
     
     try{

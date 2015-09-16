@@ -48,7 +48,9 @@ import at.kc.tugraz.ss.service.userevent.datatypes.SSUEE;
 import at.kc.tugraz.ss.service.userevent.datatypes.pars.SSUEAddPar;
 import at.kc.tugraz.ss.service.userevent.datatypes.pars.SSUEsGetPar;
 import at.tugraz.sss.serv.SSEntity;
+import at.tugraz.sss.serv.SSFileExtE;
 import at.tugraz.sss.serv.SSLogU;
+import at.tugraz.sss.serv.SSMimeTypeE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
 import com.evernote.edam.type.LinkedNotebook;
@@ -670,30 +672,31 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
       
       resourceWithContent = SSServCaller.evernoteResourceGet                  (evernoteInfo.noteStore, resource.getGuid(), false);
       
-//      if(resourceWithContent.getAttributes().isSetSourceURL()){
-//        SSLogU.info(resourceWithContent.getAttributes().getSourceURL());
-//        continue;
-//      }
-//      
-//      if(
-//        !resourceWithContent.isSetHeight() ||
-//        !resourceWithContent.isSetWidth()){
-//        
-//        SSLogU.info("evernote resource height or width not set");
-//        continue;
-//      }
-      
-      if(
-        resourceWithContent.isSetHeight() &&
-        resourceWithContent.isSetWidth()){
-        
-        if(
-          resourceWithContent.getWidth()  <= 250||
-          resourceWithContent.getHeight() <= 250){
-          
-          SSLogU.info("evernote resource height or width < 250");
-          continue;
-        }
+      try{
+          if(SSFileExtE.isImageFileExt(SSMimeTypeE.fileExtForMimeType1(resourceWithContent.getMime()))){
+              
+              if(resourceWithContent.getAttributes().isSetSourceURL()){
+                  SSLogU.info("evernote image with source url ignored: " + resourceWithContent.getAttributes().getSourceURL());
+                  continue;
+              }
+              
+              if(
+                      !resourceWithContent.isSetHeight() ||
+                      !resourceWithContent.isSetWidth()){
+                  
+                  SSLogU.info("evernote image resource height or width not set");
+                  continue;
+              }
+              
+              if(
+                      resourceWithContent.getWidth()  <= 250||
+                      resourceWithContent.getHeight() <= 250){
+                  
+                  SSLogU.info("evernote image resource height or width < 250");
+                  continue;
+              }
+          }
+      }catch(Exception error){
       }
       
       resourceWithContent = SSServCaller.evernoteResourceGet                  (evernoteInfo.noteStore, resource.getGuid(), true);
@@ -908,11 +911,6 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
     final String authEmail) throws Exception{
     
     try{
-      
-      if(currentlyRunEvernoteImportsLock.isWriteLocked()){
-        SSLogU.warn("attempted to start B&P evernote import concurrently for " + authEmail);
-        return false;
-      }
       
       if(!currentlyRunEvernoteImportsLock.isWriteLockedByCurrentThread()){
         currentlyRunEvernoteImportsLock.writeLock().lock();
