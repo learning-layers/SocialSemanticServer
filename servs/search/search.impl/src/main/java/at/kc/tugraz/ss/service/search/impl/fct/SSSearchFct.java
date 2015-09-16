@@ -110,47 +110,6 @@ public class SSSearchFct {
     return true;
   }
   
-  public static List<SSEntity> recommendEntities(
-    final SSSearchPar par) throws Exception{
-    
-    final List<SSEntity> result = new ArrayList<>();
-    
-    if(!par.includeRecommendedResults){
-      return result;
-    }
-    
-    try{
-      
-      final List<SSResourceLikelihood> recommendedResources = 
-        ((SSRecommServerI) SSServReg.getServ(SSRecommServerI.class)).recommResources(
-        new SSRecommResourcesPar(
-          par.user,
-          null, //realm
-          par.user, //forUser
-          null,
-          new ArrayList<>(),
-          10,
-          par.typesToSearchOnlyFor,
-          false, //setCircleTypes
-          true, //includeOwn
-          false, //ignoreAccessRights
-          par.withUserRestriction, //withUserRestriction
-          false)); //invokeEntityHandlers
-          
-      for(SSResourceLikelihood reommendedResource : recommendedResources){
-        result.add(reommendedResource.resource);
-      }
-      
-      return result;
-
-    }catch(Exception error){
-      SSLogU.warn("reomm entities for search failed");
-      SSServErrReg.reset();
-    }
-    
-    return result;
-  }
-
   public static Integer addRecommendedResult(
     final List<SSEntity> page,
     final List<SSUri>    uris,

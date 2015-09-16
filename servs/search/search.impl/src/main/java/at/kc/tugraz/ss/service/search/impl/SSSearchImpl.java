@@ -20,6 +20,9 @@
 */
 package at.kc.tugraz.ss.service.search.impl;
 
+import at.kc.tugraz.ss.recomm.api.SSRecommServerI;
+import at.kc.tugraz.ss.recomm.datatypes.SSResourceLikelihood;
+import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommResourcesPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityGetPar;
 import at.tugraz.sss.serv.SSDateU;
@@ -87,23 +90,9 @@ implements
   @Override
   public SSSearchRet search(final SSSearchPar par) throws Exception{
     
+    //TODO take into account typesToSearchOnlyFor, authorsToSearchFor in e.g., getTagResults, getTextualContentResults, etc. 
+    //TODO clean up this method regarding single entityGet calls in e.g., getTagResults, getTextualContentResults, etc. 
     try{
-      
-      final List<SSEntity>          results                       = new ArrayList<>();
-      final List<SSUri>             uris                          = new ArrayList<>();
-      final List<SSUri>             tagResultUris                 = new ArrayList<>();
-      final List<SSUri>             contentResultUris             = new ArrayList<>();
-      final List<SSUri>             labelResultUris               = new ArrayList<>();
-      final List<SSUri>             descriptionResultUris         = new ArrayList<>();
-      final List<List<SSEntity>>    pages;
-      final List<SSEntity>          page;
-      final List<SSEntity>          recommendedEntities;
-      Integer                       recommendedEntityCounter = 0;
-      SSEntity                      entity;
-      Boolean                       tagsThere;
-      Boolean                       contentThere;
-      Boolean                       labelsThere;
-      Boolean                       descriptionsThere;
       
       if(
         par.pagesID    != null &&
@@ -112,28 +101,40 @@ implements
         return handleSearchPageRequest(par.op, par);
       }
       
-      tagResultUris.addAll                 (getTagResults(par));
-      uris.addAll                          (tagResultUris);
-      uris.addAll                          (getMIResults(par));
-      
-      try{
-        contentResultUris.addAll             (getTextualContentResults(par));
-        uris.addAll                          (contentResultUris);
-      }catch(SSErr error){
-        
-        switch(error.code){
-          case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
-          default: SSServErrReg.regErrThrow(error);
-        }
-        
-      }catch(Exception error){
-        SSServErrReg.regErrThrow(error);
+      if(
+        par.wordsToSearchFor.isEmpty()        &&
+        par.tagsToSearchFor.isEmpty()         &&
+        par.labelsToSearchFor.isEmpty()       &&
+        par.descriptionsToSearchFor.isEmpty() &&
+        !par.includeRecommendedResults){
+       
+        //TODO
+        //1) use circle service to retrieve all entities the user can access (take into account typesToSearchOnlyFor)
+        //2) use solr service to retrieve a ranked list of entities taking into account the author, min / max rating, typesToSearchOnlyFor
+        //3) mix results from solr and circle service
+        SSLogU.warn("no search query input given");
       }
       
-      labelResultUris.addAll       (getLabelResults(par));
-      uris.addAll                  (labelResultUris);
+      final List<SSEntity>          results                       = new ArrayList<>();
+      final List<SSUri>             uris                          = new ArrayList<>();
+      final List<SSUri>             tagResultUris                 = getTagResults(par);
+      final List<SSUri>             contentResultUris             = getTextualContentResults(par);
+      final List<SSUri>             labelResultUris               = getLabelResults(par);
+      final List<SSUri>             descriptionResultUris         = getDescriptionResults(par);
+      final List<SSEntity>          recommendedEntities           = getRecommendedResults(par);
+      final String                  pagesID                       = SSIDU.uniqueID();
+      final List<List<SSEntity>>    pages                         = new ArrayList<>();
+      final List<SSEntity>          page                          = new ArrayList<>();
+      Integer                       recommendedEntityCounter      = 0;
+      SSEntity                      entity;
+      Boolean                       tagsThere;
+      Boolean                       contentThere;
+      Boolean                       labelsThere;
+      Boolean                       descriptionsThere;
       
-      descriptionResultUris.addAll (getDescriptionResults(par));
+      uris.addAll                  (tagResultUris);
+      uris.addAll                  (contentResultUris);
+      uris.addAll                  (labelResultUris);
       uris.addAll                  (descriptionResultUris);
       
       SSStrU.distinctWithoutNull2(uris);
@@ -217,23 +218,16 @@ implements
           break;
         }
       }
-      
-      recommendedEntities = SSSearchFct.recommendEntities(par);
-      
-      final String pagesID = SSIDU.uniqueID();
-      
-      pages = new ArrayList<>();
-      page  = new ArrayList<>();
-      
-      for(SSUri result : extendToParentEntities(par, filterForSubEntities(par, uris))){
 
-        entity = 
+      for(SSUri result : extendToParentEntities(par, filterForSubEntities(par, uris))){
+        
+        entity =
           ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
-          new SSEntityGetPar(
-            par.user, 
-            result, 
-            par.withUserRestriction, 
-            null)); //descPar))
+            new SSEntityGetPar(
+              par.user,
+              result,
+              par.withUserRestriction,
+              null)); //descPar))
         
         if(
           entity == null ||
@@ -394,10 +388,6 @@ implements
     }
   }
   
-  private List<SSUri> getMIResults(final SSSearchPar par) throws Exception{
-    return new ArrayList<>();
-  }
-  
   private List<SSUri> getTagResults(final SSSearchPar par) throws Exception{
     
     final List<SSUri> tagResults = new ArrayList<>();
@@ -422,25 +412,47 @@ implements
   }
   
   private List<SSUri> getTextualContentResults(final SSSearchPar par) throws Exception{
-    
+
     final List<SSUri> textualContentResults = new ArrayList<>();
-    SSSearchSolrPar   searchSolrPar;
     
-    if(par.wordsToSearchFor.isEmpty()){
+    try{
+      
+      SSSearchSolrPar   searchSolrPar;
+      
+      if(par.wordsToSearchFor.isEmpty()){
+        return textualContentResults;
+      }
+      
+      searchSolrPar =
+        SSSearchSolrPar.get(
+          par.user,
+          par.wordsToSearchFor,
+          par.localSearchOp);
+      
+      for(SSEntity solrResult : searchSolr(searchSolrPar)){
+        textualContentResults.add(solrResult.id);
+      }
+      
+      return textualContentResults;
+    }catch(SSErr error){
+      
+      switch(error.code){
+        
+        case notServerServiceForOpAvailable:{
+          SSLogU.warn(error.getMessage());
+          break;
+        }
+        
+        default:{
+          SSServErrReg.regErrThrow(error);
+        }
+      }
+      
+      return textualContentResults;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
       return textualContentResults;
     }
-    
-    searchSolrPar =
-      SSSearchSolrPar.get(
-        par.user,
-        par.wordsToSearchFor,
-        par.localSearchOp);
-    
-    for(SSEntity solrResult : searchSolr(searchSolrPar)){
-      textualContentResults.add(solrResult.id);
-    }
-    
-    return textualContentResults;
   }
   
   private List<SSUri> getDescriptionResults(final SSSearchPar par) throws Exception{
@@ -517,6 +529,47 @@ implements
     }
     
     return results;
+  }
+  
+  private List<SSEntity> getRecommendedResults(
+    final SSSearchPar par) throws Exception{
+    
+    final List<SSEntity> result = new ArrayList<>();
+    
+    if(!par.includeRecommendedResults){
+      return result;
+    }
+    
+    try{
+      
+      final List<SSResourceLikelihood> recommendedResources =
+        ((SSRecommServerI) SSServReg.getServ(SSRecommServerI.class)).recommResources(
+          new SSRecommResourcesPar(
+            par.user,
+            null, //realm
+            par.user, //forUser
+            null,
+            new ArrayList<>(),
+            10,
+            par.typesToSearchOnlyFor,
+            false, //setCircleTypes
+            true, //includeOwn
+            false, //ignoreAccessRights
+            par.withUserRestriction, //withUserRestriction
+            false)); //invokeEntityHandlers
+          
+      for(SSResourceLikelihood reommendedResource : recommendedResources){
+        result.add(reommendedResource.resource);
+      }
+      
+      return result;
+
+    }catch(Exception error){
+      SSLogU.warn("reomm entities for search failed");
+      SSServErrReg.reset();
+    }
+    
+    return result;
   }
     
   private List<SSUri> filterForSubEntities(
