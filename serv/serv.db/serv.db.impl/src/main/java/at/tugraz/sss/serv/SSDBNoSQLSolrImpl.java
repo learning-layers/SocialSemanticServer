@@ -116,9 +116,12 @@ implements SSDBNoSQLI{
     
     try{
       final List<String>    searchResults = new ArrayList<>();
-      final SSSolrQueryPars qp            = new SSSolrQueryPars(par.keyword, par.maxResults);
-      
-      for(SSSolrSearchResult result : SSSolrSearchResult.get(query(qp))){
+      final SolrQuery       query         = new SolrQuery();
+    
+      query.setQuery(SSSolrSearchFieldEnum.docText.val + SSStrU.colon + SSStrU.toStr(par.keyword));
+      query.setRows (par.maxResults);
+    
+      for(SSSolrSearchResult result : SSSolrSearchResult.get(solrServer.query(query).getResults())){
         searchResults.add(result.id);
       }
       
@@ -128,17 +131,6 @@ implements SSDBNoSQLI{
       return null;
     }
 	}
-  
-  private SolrDocumentList query(
-    final SSSolrQueryPars queryPars) throws Exception{
-    
-    final SolrQuery solrQuery = new SolrQuery();
-    
-    solrQuery.setQuery(queryPars.query);
-    solrQuery.setRows (queryPars.numRows);
-    
-    return solrServer.query(solrQuery).getResults();
-  }
 }
 
 //	@Override
