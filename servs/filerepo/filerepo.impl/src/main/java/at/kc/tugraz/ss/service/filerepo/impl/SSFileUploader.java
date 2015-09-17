@@ -34,6 +34,7 @@ import at.tugraz.sss.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.filerepo.conf.SSFileRepoConf;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileUploadPar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileUploadRet;
+import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLAddDocPar;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
@@ -87,7 +88,7 @@ public class SSFileUploader extends SSServImplStartA{
     try{
       
       this.dbSQL   = (SSDBSQLI)   SSDBSQL.inst.serv();
-      this.dbNoSQL = (SSDBNoSQLI) SSDBSQL.inst.serv();
+      this.dbNoSQL = (SSDBNoSQLI) SSDBNoSQL.inst.serv();
       
       sendAnswer();
       readFileFromStreamAndSave();
@@ -145,7 +146,7 @@ public class SSFileUploader extends SSServImplStartA{
       
     try{
       
-      byte[] fileChunk;
+      byte[] fileChunk = null;
       
       fileOutputStream = SSFileU.openOrCreateFileWithPathForWrite   (localWorkPath + fileId);
 
@@ -161,6 +162,7 @@ public class SSFileUploader extends SSServImplStartA{
         }
         
         fileOutputStream.close();
+        break;
       }
       
     }catch(Exception error){
