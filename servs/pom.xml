@@ -20,7 +20,6 @@
     <module>search</module>
     <module>auth</module>
     <module>dataimport</module>
-    <module>solr</module>
     <module>message</module>
     <module>recomm</module>
     <module>dataexport</module>

@@ -30,6 +30,7 @@ import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSErrE;
+import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.SSServReg;
@@ -167,6 +168,25 @@ implements
       }
       
       dbSQL.rollBack(true);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+
+  @Override
+  public Boolean integrationTestSolrForSearch() throws Exception {
+    
+    try{
+      
+      SSLogU.info("start intgration test solr for search");
+      
+//      dbNoSQL.
+        
+      
+      SSLogU.info("end intgration test solr for search");
+      
+      return true;
+    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }

@@ -21,13 +21,6 @@
       
   <dependencies>
     
-<!--    <dependency>
-      <groupId>sss.serv</groupId>
-      <artifactId>serv.custom.caller</artifactId>
-      <version>${project.version}</version>
-    </dependency>-->
-    
-   
    <dependency>
       <groupId>sss.serv</groupId>
       <artifactId>serv.impl</artifactId>
@@ -46,12 +39,12 @@
       <version>${project.version}</version>
     </dependency>
     
-<!--     <dependency>
-      <groupId>org.openrdf</groupId>
-      <artifactId>openrdf-sesame</artifactId>
-      <version>2.1.2</version>
-    </dependency>-->
-
+    <dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+      <version>5.1.22</version>
+    </dependency>
+    
     <dependency>
       <groupId>org.apache.tomcat</groupId>
       <artifactId>tomcat-jdbc</artifactId>
@@ -64,7 +57,14 @@
       <version>7.0.42</version>
     </dependency>
 
-<!--    <dependency>
+<!--    
+    <dependency>
+      <groupId>org.openrdf</groupId>
+      <artifactId>openrdf-sesame</artifactId>
+      <version>2.1.2</version>
+    </dependency>
+
+     <dependency>
       <groupId>virtuoso</groupId>
       <artifactId>sesame</artifactId>
       <version>2</version>
@@ -74,20 +74,27 @@
       <groupId>virtuoso</groupId>
       <artifactId>jdbc</artifactId>
       <version>3</version>
-    </dependency>-->
+    </dependency>
     
-   <dependency>
-      <groupId>mysql</groupId>
-      <artifactId>mysql-connector-java</artifactId>
-      <version>5.1.22</version>
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpmime</artifactId>
+      <version>4.3.2</version>
     </dependency>
 
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpclient</artifactId>
+      <version>4.3.2</version>
+    </dependency>
+    -->
+    
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>3.8.1</version>
       <scope>test</scope>
     </dependency>
-    
+
   </dependencies>
 </project>

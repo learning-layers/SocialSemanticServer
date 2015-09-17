@@ -255,41 +255,10 @@ public class SSServCaller {
     return SSUri.get(vocURIPrefixGet() + SSIDU.uniqueID() + SSStrU.dot + fileExt.toString());
   }
   
-  
   /* search */
   
   public static void searchResultPagesCacheClean() throws Exception{
     SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.searchResultPagesCacheClean, new HashMap<>()));
-  }
-  
-  /* solr */
-
-  public static List<String> solrSearch(
-    final String       keyword,
-    final Integer      maxResults) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.keyword,    keyword);
-    opPars.put(SSVarNames.maxResults, maxResults);
-    
-    return (List<String>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.solrSearch, opPars));
-  }
-  
-  public static void solrAddDoc(
-    final SSUri        user,
-    final String       fileID,
-    final SSMimeTypeE  mimeType,
-    final Boolean      shouldCommit) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.shouldCommit,    shouldCommit);
-    opPars.put(SSVarNames.user,            user);
-    opPars.put(SSVarNames.id,              fileID);
-    opPars.put(SSVarNames.mimeType,        mimeType);
-    
-    SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.solrAddDoc, opPars));
   }
   
   /* entity */

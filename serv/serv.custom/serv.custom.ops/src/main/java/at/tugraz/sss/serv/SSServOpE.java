@@ -34,9 +34,9 @@ public enum SSServOpE{
   livingDocUpdate,
   
   //integrationtest
-  integrationTestKnowBrainTaggingStudy2015,
   integrationTestBitsAndPiecesStudyFall2015,
   integrationTestEvernoteEmailIn,
+  integrationTestSolrForSearch,
   
   //location
   locationGet,
@@ -226,15 +226,8 @@ public enum SSServOpE{
   categoryFrequsGet,
   categoryEntitiesForCategoriesGet,
   
-  //solr
-  solrAddDoc                                          ,
-  solrSearch                                          ,
-  solrRemoveDoc                                       ,
-  solrRemoveDocsAll                                   ,
-  
   //search
   searchTags                                          ,
-  searchSolr                                          ,
   searchMIs                                           ,
   searchTagsWithinEntity                              ,
   search,

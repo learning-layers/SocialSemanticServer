@@ -21,12 +21,9 @@
 package at.kc.tugraz.ss.service.filerepo.impl.fct;
 
 import at.tugraz.sss.serv.SSLogU;
-import at.tugraz.sss.serv.SSMimeTypeE;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileUploadPar;
 import at.tugraz.sss.serv.SSErrE;
-import at.tugraz.sss.serv.SSFileExtE;
 import at.tugraz.sss.serv.SSServErrReg;
 
 public class SSFileServCaller{
@@ -37,11 +34,11 @@ public class SSFileServCaller{
     
     try{
       
-      SSServCaller.solrAddDoc(
-        par.user,
-        fileId,
-        par.mimeType,
-        false);
+//      SSServCaller.solrAddDoc(
+//        par.user,
+//        fileId,
+//        par.mimeType,
+//        false);
       
     }catch(Exception error){
       
@@ -63,11 +60,11 @@ public class SSFileServCaller{
     
     try{
       
-      SSServCaller.solrAddDoc(
-        user,
-        fileId,
-        SSMimeTypeE.mimeTypeForFileExt(SSFileExtE.ext(fileId)), 
-        shouldCommit);
+//      SSServCaller.solrAddDoc(
+//        user,
+//        fileId,
+//        SSMimeTypeE.mimeTypeForFileExt(SSFileExtE.ext(fileId)), 
+//        shouldCommit);
       
     }catch(Exception error){
       

@@ -16,5 +16,6 @@
     <module>serv.db.impl</module>
     <module>serv.db.conf</module>
     <module>serv.db.api</module>
+    <module>serv.db.datatype</module>
   </modules>
 </project>

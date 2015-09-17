@@ -3,7 +3,7 @@
 * http://www.learning-layers.eu
 * Development is partly funded by the FP7 Programme of the European Commission under
 * Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
+* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
 * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,20 +20,27 @@
 */
  package at.tugraz.sss.serv;
 
-public class SSDBNoSQLConf extends SSCoreServConfA{
+public enum SSSolrSearchFieldEnum {
+
+  id          ("id"),
+  content     ("content"),
+  docText     ("doc_text"),
+  abstracT    ("abstract"),
+  title       ("title"),
+  docLang     ("doc_lang"),
+  lastAuthor  ("last_author"),
+  keywords    ("keywords"),
+  all         ("*"), 
+  text        ("text");
   
-  public       String         uri         = null;
-  public       String         username    = null;
-  public       String         password    = null;
-  
-  public static SSDBNoSQLConf copy(final SSDBNoSQLConf orig){
-    
-    final SSDBNoSQLConf copy = (SSDBNoSQLConf) SSCoreServConfA.copy(orig, new SSDBNoSQLConf());
-    
-    copy.uri      = orig.uri;
-    copy.username = orig.username;
-    copy.password = orig.password;
-    
-    return copy;
+  final public String val;
+
+  private SSSolrSearchFieldEnum(final String val) {
+    this.val = val;
+  }
+
+  @Override
+  public String toString() {
+    return super.toString().toLowerCase();
   }
 }

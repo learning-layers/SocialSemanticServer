@@ -37,7 +37,4 @@ public interface SSSearchServerI extends SSServServerI{
   
   @Deprecated
   public List<SSEntity> searchTagsWithinEntity (final SSServPar parA) throws Exception;
-  
-  @Deprecated
-  public List<SSEntity> searchSolr             (final SSServPar parA) throws Exception;
 }

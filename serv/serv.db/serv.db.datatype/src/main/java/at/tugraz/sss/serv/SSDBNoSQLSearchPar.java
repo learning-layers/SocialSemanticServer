@@ -18,22 +18,18 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
- package at.tugraz.sss.serv;
+package at.tugraz.sss.serv;
 
-public class SSDBNoSQLConf extends SSCoreServConfA{
+public class SSDBNoSQLSearchPar {
   
-  public       String         uri         = null;
-  public       String         username    = null;
-  public       String         password    = null;
+  public SSSolrKeywordLabel   keyword    = null;
+  public Integer              maxResults = null;
   
-  public static SSDBNoSQLConf copy(final SSDBNoSQLConf orig){
+  public SSDBNoSQLSearchPar(
+    final SSSolrKeywordLabel keyword,
+    final Integer            maxResults) {
     
-    final SSDBNoSQLConf copy = (SSDBNoSQLConf) SSCoreServConfA.copy(orig, new SSDBNoSQLConf());
-    
-    copy.uri      = orig.uri;
-    copy.username = orig.username;
-    copy.password = orig.password;
-    
-    return copy;
+    this.keyword    = keyword;
+    this.maxResults = maxResults;
   }
 }

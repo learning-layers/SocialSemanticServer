@@ -20,6 +20,20 @@
 */
 package at.tugraz.sss.serv;
 
+import java.util.List;
+
 public interface SSDBNoSQLI{
   
+  public void                   addDoc           (final SSDBNoSQLAddDocPar     par)   throws Exception;
+  public List<String>           search           (final SSDBNoSQLSearchPar     par)   throws Exception;
+  public void                   removeDoc        (final SSDBNoSQLRemoveDocPar  par)   throws Exception;
+//  public void                   removeDocsAll    (SSServPar parA)   throws Exception;
 }
+
+
+//  /**
+//	 * in case the schema of solr has changed use this method in order to re-index all
+//	 * the documents
+//	 * @throws Exception
+//	 */
+//	public void reindexDocuments() throws Exception;

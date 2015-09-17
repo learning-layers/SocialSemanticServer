@@ -24,6 +24,5 @@ import at.tugraz.sss.serv.SSSocketCon;
 import at.tugraz.sss.serv.SSServPar;
 
 public interface SSSearchClientI {
-  
   public void search                  (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
 }

@@ -20,18 +20,37 @@
 */
 package at.tugraz.sss.serv;
 
-public class SSDBNoSQLSolrImpl extends SSServImplDBA implements SSDBNoSQLI{
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import org.apache.solr.client.solrj.SolrQuery;
+import org.apache.solr.client.solrj.impl.ConcurrentUpdateSolrClient;
+import org.apache.solr.client.solrj.request.AbstractUpdateRequest;
+import org.apache.solr.client.solrj.request.ContentStreamUpdateRequest;
+import org.apache.solr.common.SolrDocumentList;
+import org.apache.solr.common.util.ContentStreamBase;
+import org.apache.solr.common.util.NamedList;
+
+public class SSDBNoSQLSolrImpl
+extends SSServImplDBA
+implements SSDBNoSQLI{
 
 //  private static DataSource   connectionPool           = null;
 //  public         Connection   connector                = null;
 //  private        Boolean      gotCon                   = false;
 //  private        Integer      numberTimesTriedToGetCon = 0;
   
+  private final SSDBNoSQLConf solrConf;
+  
+  protected static ConcurrentUpdateSolrClient solrServer = null;
+  
   public SSDBNoSQLSolrImpl(final SSConfA conf) throws Exception{
     
     super(conf);
     
-//    connectToSolr();
+    solrConf = (SSDBNoSQLConf) conf;
+      
+    connectToSolr();
   }
 
   @Override
@@ -43,4 +62,127 @@ public class SSDBNoSQLSolrImpl extends SSServImplDBA implements SSDBNoSQLI{
       SSServErrReg.regErrThrow(error);
     }
   }
+
+  private void connectToSolr() {
+    
+    if(solrServer == null){
+      solrServer = new ConcurrentUpdateSolrClient(solrConf.uri, 1, 10);
+    }
+  }
+  
+  @Override
+  public void addDoc(final SSDBNoSQLAddDocPar par) throws Exception {
+    
+//    according to Solr specification by adding a document with an ID already
+//	  existing in the index will replace the document (eg. refer to 
+//	  http://stackoverflow.com/questions/8494923/solr-block-updating-of-existing-document or
+//	  http://lucene.apache.org/solr/api-4_0_0-ALPHA/doc-files/tutorial.html ) 
+   
+    try{
+      final ContentStreamUpdateRequest csur = new ContentStreamUpdateRequest("/update/extract");
+      final NamedList<Object>          response;
+      
+      csur.addContentStream(new ContentStreamBase.FileStream(new File(par.localWorkPath + par.id)));
+
+      csur.setParam  ("literal.id", par.id);
+      csur.setAction (AbstractUpdateRequest.ACTION.COMMIT, true, true);
+
+      response = solrServer.request(csur);
+
+      SSLogU.info("document w/ id " + par.id + " added successfully. ");
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+	
+  @Override
+  public void removeDoc(final SSDBNoSQLRemoveDocPar par) throws Exception{
+
+    try{
+      
+      solrServer.deleteById(par.id);
+      solrServer.commit();
+
+      SSLogU.info("document w/ id " + par.id + " deleted successfully.");
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+
+  @Override
+  public List<String> search(final SSDBNoSQLSearchPar par) throws Exception {
+    
+    try{
+      final List<String>    searchResults = new ArrayList<>();
+      final SSSolrQueryPars qp            = new SSSolrQueryPars(par.keyword, par.maxResults);
+      
+      for(SSSolrSearchResult result : SSSolrSearchResult.get(query(qp))){
+        searchResults.add(result.id);
+      }
+      
+      return searchResults;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+	}
+  
+  private SolrDocumentList query(
+    final SSSolrQueryPars queryPars) throws Exception{
+    
+    final SolrQuery solrQuery = new SolrQuery();
+    
+    solrQuery.setQuery(queryPars.query);
+    solrQuery.setRows (queryPars.numRows);
+    
+    return solrServer.query(solrQuery).getResults();
+  }
 }
+
+//	@Override
+//	public void reindexDocuments() throws Exception { //not yet tested w/ subfolders in webdav!
+		
+//		int    cnt = 0;
+//    String filename;
+//		
+//    for (String url : SSWebdavServ.inst().serv().getFolderListing()){
+//			
+//			if (url.endsWith("/")) {
+//				log.debug("ignoring a folder");
+//				continue;
+//			}
+//      
+//			filename = SSFileUtils.getFilename(url, true);
+//			
+//      SSWebdavServ.inst().serv().copyWebdavDocToTempFolder(filename);
+//
+//      updateDocument(filename, SSFileUtils.tempFolder(), false);
+//      
+//      SSFileUtils.deleteFile(SSFileUtils.tempFolder() + filename);
+//
+//      cnt++;
+//		}
+//		
+//    server.commit();
+//	}
+
+//@Override
+//  public void solrRemoveDocsAll(final SSServPar parA) throws Exception {
+//    
+//    try{
+//      
+//      NamedList<Object>      nl;
+//      UpdateResponse         ur;
+//      
+//      SSLogU.info("starting to remove all documents from index.");
+//      
+//      ur = solrUpdater.deleteByQuery("*:*");
+//      solrUpdater.commit();
+//      
+//      nl = ur.getResponse();
+//      
+//      SSLogU.info("removed all documents from index.");
+//    }catch(Exception error){
+//      SSServErrReg.regErrThrow(error);
+//    }
+//  }

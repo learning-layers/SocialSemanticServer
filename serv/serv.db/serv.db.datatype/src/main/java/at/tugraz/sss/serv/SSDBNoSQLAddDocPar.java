@@ -18,22 +18,21 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
- package at.tugraz.sss.serv;
+package at.tugraz.sss.serv;
 
-public class SSDBNoSQLConf extends SSCoreServConfA{
+public class SSDBNoSQLAddDocPar{
   
-  public       String         uri         = null;
-  public       String         username    = null;
-  public       String         password    = null;
+  public String  localWorkPath      = null;
+  public String  id                 = null;
+  public String  mimeType           = null;
   
-  public static SSDBNoSQLConf copy(final SSDBNoSQLConf orig){
+  public SSDBNoSQLAddDocPar(
+    final String localWorkPath, 
+    final String id,
+    final String mimeType){
     
-    final SSDBNoSQLConf copy = (SSDBNoSQLConf) SSCoreServConfA.copy(orig, new SSDBNoSQLConf());
-    
-    copy.uri      = orig.uri;
-    copy.username = orig.username;
-    copy.password = orig.password;
-    
-    return copy;
+    this.localWorkPath    = localWorkPath;
+    this.id               = id;
+    this.mimeType         = mimeType;
   }
 }

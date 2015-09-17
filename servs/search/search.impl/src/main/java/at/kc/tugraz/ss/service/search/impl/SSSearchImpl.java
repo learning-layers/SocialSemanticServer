@@ -42,7 +42,6 @@ import at.tugraz.sss.util.SSServCallerU;
 import at.kc.tugraz.ss.service.search.api.*;
 import at.kc.tugraz.ss.service.search.datatypes.*;
 import at.kc.tugraz.ss.service.search.datatypes.pars.SSSearchPar;
-import at.kc.tugraz.ss.service.search.datatypes.pars.SSSearchSolrPar;
 import at.kc.tugraz.ss.service.search.datatypes.pars.SSSearchTagsWithinEntityPar;
 import at.kc.tugraz.ss.service.search.datatypes.ret.SSSearchRet;
 import at.kc.tugraz.ss.service.search.impl.fct.SSSearchFct;
@@ -416,40 +415,71 @@ implements
     final List<SSUri> textualContentResults = new ArrayList<>();
     
     try{
+//      
+//      SSSearchSolrPar   searchSolrPar;
+//      
+//      if(par.wordsToSearchFor.isEmpty()){
+//        return textualContentResults;
+//      }
+//      
+//      searchSolrPar =
+//        SSSearchSolrPar.get(
+//          par.user,
+//          par.wordsToSearchFor,
+//          par.localSearchOp);
+//      
+//      for(SSEntity solrResult : searchSolr(searchSolrPar)){
+//        textualContentResults.add(solrResult.id);
+//      }
       
-      SSSearchSolrPar   searchSolrPar;
-      
-      if(par.wordsToSearchFor.isEmpty()){
-        return textualContentResults;
-      }
-      
-      searchSolrPar =
-        SSSearchSolrPar.get(
-          par.user,
-          par.wordsToSearchFor,
-          par.localSearchOp);
-      
-      for(SSEntity solrResult : searchSolr(searchSolrPar)){
-        textualContentResults.add(solrResult.id);
-      }
-      
-      return textualContentResults;
-    }catch(SSErr error){
-      
-      switch(error.code){
-        
-        case notServerServiceForOpAvailable:{
-          SSLogU.warn(error.getMessage());
-          break;
-        }
-        
-        default:{
-          SSServErrReg.regErrThrow(error);
-        }
-      }
+//      final Map<String, List<SSEntity>> searchResultsPerKeyword    = new HashMap<>();
+//      final List<SSEntity>              searchResultsForOneKeyword = new ArrayList<>();
+//      SSEntity                          entityObj;
+//      
+//      for(String keyword : par.keywords){
+//        
+//        searchResultsForOneKeyword.clear();
+//        
+//        for(String entityId : SSServCaller.solrSearch(keyword, 20)){
+//          
+//          try{
+//            entityObj =
+//              ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+//                new SSEntityGetPar(
+//                  null,
+//                  SSServCaller.vocURICreateFromId(entityId),  //entity
+//                  false, //withUserRestriction
+//                  null)); //descPar
+//              
+//            searchResultsForOneKeyword.add(entityObj);
+//          }catch(Exception error){
+//            SSLogU.warn("solr result entity not found in sss");
+//            SSServErrReg.reset();
+//          }
+//        }
+//
+//        searchResultsPerKeyword.put(keyword, new ArrayList<>(searchResultsForOneKeyword));
+//      }
+//      
+//      return SSSearchFct.selectSearchResultsWithRegardToSearchOp(
+//        par.searchOp, 
+//        searchResultsPerKeyword);
       
       return textualContentResults;
     }catch(Exception error){
+      
+//      switch(error.code){
+//        
+//        case notServerServiceForOpAvailable:{
+//          SSLogU.warn(error.getMessage());
+//          break;
+//        }
+//        
+//        default:{
+//          SSServErrReg.regErrThrow(error);
+//        }
+//      }
+      
       SSServErrReg.regErrThrow(error);
       return textualContentResults;
     }
@@ -688,56 +718,6 @@ implements
       return SSSearchFct.selectSearchResultsWithRegardToSearchOp(
         par.searchOp, 
         searchResultsPerTag);
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
-  @Deprecated
-  @Override
-  public List<SSEntity> searchSolr(final SSServPar parA) throws Exception {
-    return searchSolr(new SSSearchSolrPar(parA));
-  }
-  
-  @Deprecated
-  protected List<SSEntity> searchSolr(final SSSearchSolrPar par) throws Exception{
-
-    try{
-      
-      final Map<String, List<SSEntity>> searchResultsPerKeyword    = new HashMap<>();
-      final List<SSEntity>              searchResultsForOneKeyword = new ArrayList<>();
-      SSEntity                          entityObj;
-      
-      for(String keyword : par.keywords){
-        
-        searchResultsForOneKeyword.clear();
-        
-        for(String entityId : SSServCaller.solrSearch(keyword, 20)){
-          
-          try{
-            entityObj =
-              ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
-                new SSEntityGetPar(
-                  null,
-                  SSServCaller.vocURICreateFromId(entityId),  //entity
-                  false, //withUserRestriction
-                  null)); //descPar
-              
-            searchResultsForOneKeyword.add(entityObj);
-          }catch(Exception error){
-            SSLogU.warn("solr result entity not found in sss");
-            SSServErrReg.reset();
-          }
-        }
-
-        searchResultsPerKeyword.put(keyword, new ArrayList<>(searchResultsForOneKeyword));
-      }
-      
-      return SSSearchFct.selectSearchResultsWithRegardToSearchOp(
-        par.searchOp, 
-        searchResultsPerKeyword);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
