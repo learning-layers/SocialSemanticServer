@@ -24,6 +24,7 @@ import at.kc.tugraz.ss.recomm.api.SSRecommServerI;
 import at.kc.tugraz.ss.recomm.datatypes.SSResourceLikelihood;
 import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommResourcesPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityGetPar;
 import at.tugraz.sss.serv.SSDateU;
 import at.tugraz.sss.serv.SSIDU;
@@ -52,15 +53,18 @@ import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagEntitiesForTagsGetPar;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsGetPar;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
+import at.tugraz.sss.serv.SSDBNoSQLSearchPar;
 import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
+import at.tugraz.sss.serv.SSEntityE;
 import java.util.*;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.SSServReg;
+import at.tugraz.sss.serv.SSSolrKeywordLabel;
 
 public class SSSearchImpl 
 extends SSServImplWithDBA
@@ -117,7 +121,7 @@ implements
       final List<SSEntity>          results                       = new ArrayList<>();
       final List<SSUri>             uris                          = new ArrayList<>();
       final List<SSUri>             tagResultUris                 = getTagResults(par);
-      final List<SSUri>             contentResultUris             = getTextualContentResults(par);
+      final List<SSUri>             contentResultUris             = getTextualContentResults(dbNoSQL, par);
       final List<SSUri>             labelResultUris               = getLabelResults(par);
       final List<SSUri>             descriptionResultUris         = getDescriptionResults(par);
       final List<SSEntity>          recommendedEntities           = getRecommendedResults(par);
@@ -410,78 +414,55 @@ implements
     return tagResults;
   }
   
-  private List<SSUri> getTextualContentResults(final SSSearchPar par) throws Exception{
+  private List<SSUri> getTextualContentResults(
+    final SSDBNoSQLI  dbNoSQL,
+    final SSSearchPar par) throws Exception{
 
-    final List<SSUri> textualContentResults = new ArrayList<>();
-    
     try{
-//      
-//      SSSearchSolrPar   searchSolrPar;
-//      
-//      if(par.wordsToSearchFor.isEmpty()){
-//        return textualContentResults;
-//      }
-//      
-//      searchSolrPar =
-//        SSSearchSolrPar.get(
-//          par.user,
-//          par.wordsToSearchFor,
-//          par.localSearchOp);
-//      
-//      for(SSEntity solrResult : searchSolr(searchSolrPar)){
-//        textualContentResults.add(solrResult.id);
-//      }
+
+      if(par.wordsToSearchFor.isEmpty()){
+        return new ArrayList<>();
+      }
+
+      final Map<String, List<SSEntity>> searchResultsPerKeyword    = new HashMap<>();
+      final List<SSEntity>              searchResultsForOneKeyword = new ArrayList<>();
       
-//      final Map<String, List<SSEntity>> searchResultsPerKeyword    = new HashMap<>();
-//      final List<SSEntity>              searchResultsForOneKeyword = new ArrayList<>();
-//      SSEntity                          entityObj;
-//      
-//      for(String keyword : par.keywords){
-//        
-//        searchResultsForOneKeyword.clear();
-//        
-//        for(String entityId : SSServCaller.solrSearch(keyword, 20)){
-//          
-//          try{
-//            entityObj =
-//              ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
-//                new SSEntityGetPar(
-//                  null,
-//                  SSServCaller.vocURICreateFromId(entityId),  //entity
-//                  false, //withUserRestriction
-//                  null)); //descPar
-//              
-//            searchResultsForOneKeyword.add(entityObj);
-//          }catch(Exception error){
-//            SSLogU.warn("solr result entity not found in sss");
-//            SSServErrReg.reset();
-//          }
-//        }
-//
-//        searchResultsPerKeyword.put(keyword, new ArrayList<>(searchResultsForOneKeyword));
-//      }
-//      
-//      return SSSearchFct.selectSearchResultsWithRegardToSearchOp(
-//        par.searchOp, 
-//        searchResultsPerKeyword);
+      for(String wordToSearchFor : par.wordsToSearchFor){
+        
+        searchResultsForOneKeyword.clear();
+
+        for(String searchResultID :
+          dbNoSQL.search(
+            new SSDBNoSQLSearchPar(
+              SSSolrKeywordLabel.get(wordToSearchFor),
+              100))){
+          
+          searchResultsForOneKeyword.add(
+            SSEntity.get(
+              SSUri.get(
+                searchResultID,
+                SSVocConf.sssUri),
+              SSEntityE.entity));
+        }
+        
+        searchResultsPerKeyword.put(wordToSearchFor, new ArrayList<>(searchResultsForOneKeyword));
+      }
       
-      return textualContentResults;
+      return SSUri.getDistinctNotNullFromEntities(
+        SSSearchFct.selectSearchResultsWithRegardToSearchOp(
+          par.localSearchOp,
+          searchResultsPerKeyword));
+      
     }catch(Exception error){
       
-//      switch(error.code){
-//        
-//        case notServerServiceForOpAvailable:{
-//          SSLogU.warn(error.getMessage());
-//          break;
-//        }
-//        
-//        default:{
-//          SSServErrReg.regErrThrow(error);
-//        }
-//      }
+      if(SSServErrReg.containsErr(SSErrE.notServerServiceForOpAvailable)){
+        SSLogU.warn(SSErrE.notServerServiceForOpAvailable.toString());
+      }else{
+        SSLogU.warn(error.getMessage());
+      }
       
-      SSServErrReg.regErrThrow(error);
-      return textualContentResults;
+       SSServErrReg.reset();
+       return new ArrayList<>();
     }
   }
   
