@@ -24,8 +24,10 @@ import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEp;
 import at.kc.tugraz.ss.serv.jobs.evernote.conf.SSEvernoteConf;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.tugraz.sss.serv.SSDBNoSQLAddDocPar;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
+import at.tugraz.sss.serv.SSDBNoSQLSearchPar;
 import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSEntity;
@@ -34,6 +36,7 @@ import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.SSServReg;
+import at.tugraz.sss.serv.SSSolrKeywordLabel;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.servs.integrationtest.knowbraintaggingstudy2015.SSIntegrationTestBitsAndPiecesStudyFall2015;
 import at.tugraz.sss.servs.mail.SSMailServerI;
@@ -180,8 +183,19 @@ implements
       
       SSLogU.info("start intgration test solr for search");
       
-//      dbNoSQL.
-        
+      dbNoSQL.addDoc(
+        new SSDBNoSQLAddDocPar(
+          SSCoreConf.instGet().getSss().getLocalWorkPath(), 
+          "muell.pdf", 
+          null)); //mimeType
+      
+      final List<String> result =
+        dbNoSQL.search(
+          new SSDBNoSQLSearchPar(
+            SSSolrKeywordLabel.get("Halbjahr"),
+            100));
+      
+      System.err.println(result);
       
       SSLogU.info("end intgration test solr for search");
       

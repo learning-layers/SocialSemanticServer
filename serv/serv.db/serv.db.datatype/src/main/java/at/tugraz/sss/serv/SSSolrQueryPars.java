@@ -32,6 +32,6 @@ public class SSSolrQueryPars {
 		
     this.searchTerm  = searchTerm;
     this.numRows     = numRows;
-    this.query       = SSSolrSearchFieldEnum.text.val + SSStrU.colon + searchTerm;
+    this.query       = SSSolrSearchFieldEnum.text.val + SSStrU.colon + SSStrU.toStr(searchTerm);
 	}
 }

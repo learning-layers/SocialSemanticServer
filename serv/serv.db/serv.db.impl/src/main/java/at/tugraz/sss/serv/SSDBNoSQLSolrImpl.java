@@ -84,7 +84,9 @@ implements SSDBNoSQLI{
       
       csur.addContentStream(new ContentStreamBase.FileStream(new File(par.localWorkPath + par.id)));
 
-      csur.setParam  ("literal.id", par.id);
+      csur.setParam  ("literal.id",  par.id);
+//      csur.setParam  ("stream.type", "application/octet-stream");
+      
       csur.setAction (AbstractUpdateRequest.ACTION.COMMIT, true, true);
 
       response = solrServer.request(csur);

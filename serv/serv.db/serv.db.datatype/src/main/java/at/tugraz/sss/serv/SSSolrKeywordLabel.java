@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
-public class SSSolrKeywordLabel{
+public class SSSolrKeywordLabel extends SSEntityA{
 
   public static SSSolrKeywordLabel get(final String string) throws Exception{
     return new SSSolrKeywordLabel(string);
@@ -62,9 +62,16 @@ public class SSSolrKeywordLabel{
   
   private SSSolrKeywordLabel(final String label) throws Exception{
     
+    super(label);
+    
     if(!isSolrKeywordLabel(label)){
       throw new Exception("invalid solr keyword " + label);
     }
+  }
+
+  @Override
+  public Object jsonLDDesc() {
+    throw new UnsupportedOperationException();
   }
 }
 
