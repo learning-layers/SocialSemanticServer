@@ -41,7 +41,6 @@ import at.kc.tugraz.ss.service.filerepo.datatypes.*;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.util.SSServCallerU;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileDownloadPar;
-import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileReplacePar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileUploadPar;
 import at.kc.tugraz.ss.service.filerepo.impl.fct.SSFileSQLFct;
 import at.tugraz.sss.serv.SSAddAffiliatedEntitiesToCircleI;
@@ -55,8 +54,6 @@ import at.tugraz.sss.serv.SSEntityDescriberPar;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSFileU;
-import at.tugraz.sss.serv.SSObjU;
-import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.SSServPar;
@@ -228,34 +225,6 @@ implements
       }
       
       new Thread(new SSFileDownloader((SSFileRepoConf)conf, par, this)).start();
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
-  @Override
-  public void fileReplace(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
-
-    SSServCallerU.checkKey(parA);
-
-    final SSFileReplacePar par = (SSFileReplacePar) parA.getFromJSON(SSFileReplacePar.class);
-    
-    par.sSCon = sSCon;
-    
-    fileReplace(par);
-  }
-  
-  @Override
-  public void fileReplace(final SSFileReplacePar par) throws Exception{
-    
-    try{
-      
-      if(!SSServCallerU.canUserRead(par.user, par.file)){
-        throw new SSErr(SSErrE.userNotAllowedToAccessEntity);
-      }
-      
-      new Thread(new SSFileReplacer((SSFileRepoConf)conf, par, this)).start();
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

@@ -27,5 +27,4 @@ public interface SSFileRepoClientI{
   
   public void fileDownload              (final SSSocketCon sSCon, final SSServPar par) throws Exception;
   public void fileUpload                (final SSSocketCon sSCon, final SSServPar par) throws Exception;
-  public void fileReplace               (final SSSocketCon sSCon, final SSServPar par) throws Exception;
 }

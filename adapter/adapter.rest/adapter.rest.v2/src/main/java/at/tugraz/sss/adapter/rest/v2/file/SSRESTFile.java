@@ -24,9 +24,7 @@ import at.tugraz.sss.adapter.rest.v2.SSRESTObject;
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileDownloadPar;
-import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileReplacePar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileUploadPar;
-import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileReplaceRet;
 import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileUploadRet;
 import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.SSMimeTypeE;
@@ -40,7 +38,6 @@ import java.io.InputStream;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -106,50 +103,6 @@ public class SSRESTFile{
 
       restObj = new SSRESTObject(par);
       
-    }catch(Exception error){
-      return Response.status(422).build();
-    }
-    
-    return SSRestMainV2.handleFileUploadRequest(headers, restObj, fileHandle).response;
-  }
-  
-  @PUT
-  @Consumes(MediaType.MULTIPART_FORM_DATA)
-  @Produces(MediaType.APPLICATION_JSON)
-  @Path("{file}/replace")
-  @ApiOperation(
-    value = "replace a file",
-    response = SSFileReplaceRet.class)
-  public Response fileReplace(
-    @Context
-    final HttpHeaders headers,
-    
-    @ApiParam(
-      value = "entity to be replaced",
-      required = true)
-    @PathParam(SSVarNames.file)
-    final String file,
-    
-    @ApiParam(
-      value = "file data",
-      required = true)
-    @FormDataParam("file") 
-    final InputStream fileHandle){
-    
-    final SSFileReplacePar par;
-    final SSRESTObject     restObj;
-    
-    try{
-      
-      par =
-        new SSFileReplacePar(
-          null,
-          SSUri.get(file, SSVocConf.sssUri), //entity
-          null, //sSCon
-          true); //shouldCommit
-      
-      restObj = new SSRESTObject(par);
-        
     }catch(Exception error){
       return Response.status(422).build();
     }
@@ -303,3 +256,47 @@ public class SSRESTFile{
 //    }
     
 //      "Content-Disposition", "attachment; filename=\"" + fileName + "\"").
+//
+//  @PUT
+//  @Consumes(MediaType.MULTIPART_FORM_DATA)
+//  @Produces(MediaType.APPLICATION_JSON)
+//  @Path("{file}/replace")
+//  @ApiOperation(
+//    value = "replace a file",
+//    response = SSFileReplaceRet.class)
+//  public Response fileReplace(
+//    @Context
+//    final HttpHeaders headers,
+//    
+//    @ApiParam(
+//      value = "entity to be replaced",
+//      required = true)
+//    @PathParam(SSVarNames.file)
+//    final String file,
+//    
+//    @ApiParam(
+//      value = "file data",
+//      required = true)
+//    @FormDataParam("file") 
+//    final InputStream fileHandle){
+//    
+//    final SSFileReplacePar par;
+//    final SSRESTObject     restObj;
+//    
+//    try{
+//      
+//      par =
+//        new SSFileReplacePar(
+//          null,
+//          SSUri.get(file, SSVocConf.sssUri), //entity
+//          null, //sSCon
+//          true); //shouldCommit
+//      
+//      restObj = new SSRESTObject(par);
+//        
+//    }catch(Exception error){
+//      return Response.status(422).build();
+//    }
+//    
+//    return SSRestMainV2.handleFileUploadRequest(headers, restObj, fileHandle).response;
+//  }

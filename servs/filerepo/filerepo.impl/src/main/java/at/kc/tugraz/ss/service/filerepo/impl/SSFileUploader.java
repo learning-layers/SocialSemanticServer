@@ -23,7 +23,6 @@ package at.kc.tugraz.ss.service.filerepo.impl;
 import at.tugraz.sss.serv.SSFileExtE;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSFileU;
-import at.tugraz.sss.serv.SSHTMLU;
 import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSMimeTypeE;
 import at.tugraz.sss.serv.SSStrU;
@@ -35,10 +34,12 @@ import at.tugraz.sss.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.filerepo.conf.SSFileRepoConf;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileUploadPar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileUploadRet;
-import at.kc.tugraz.ss.service.filerepo.impl.fct.SSFileServCaller;
+import at.tugraz.sss.serv.SSDBNoSQLAddDocPar;
+import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSEntityE;
+import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSImageE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
@@ -46,7 +47,6 @@ import at.tugraz.sss.serv.SSToolContextE;
 import at.tugraz.sss.servs.file.datatype.par.SSEntityFileAddPar;
 import at.tugraz.sss.servs.image.api.SSImageServerI;
 import at.tugraz.sss.servs.image.datatype.par.SSImageAddPar;
-import com.googlecode.sardine.SardineFactory;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -59,33 +59,26 @@ import sss.serv.eval.datatypes.par.SSEvalLogPar;
 public class SSFileUploader extends SSServImplStartA{
   
   private final SSFileUploadPar       par;
-  private       SSFileExtE            fileExt;
-  private       FileOutputStream      fileOutputStream  = null;
+  private final String                localWorkPath;
+  private final SSFileRepoConf        fileConf;
+  private final SSFileExtE            fileExt;
+  private final SSUri                 fileUri;
+  private final String                fileId;
   private       FileInputStream       fileInputStream   = null;
-  private       String                fileId            = null;
-  private       byte[]                fileChunk         = null;
-  private       SSUri                 fileUri           = null;
   private       SSUri                 thumbUri          = null;
-  private       String                localWorkPath     = null;
-  private       SSEvalServerI         evalServ          = null;
-  
+
   public SSFileUploader(
-    final SSFileRepoConf     fileRepoConf, 
+    final SSFileRepoConf     fileConf, 
     final SSFileUploadPar    par) throws Exception{
     
-    super(fileRepoConf, null);
+    super(fileConf);
     
     this.par               = par;
     this.localWorkPath     = SSCoreConf.instGet().getSss().getLocalWorkPath();
-    
-    try{
-      this.fileExt           = SSMimeTypeE.fileExtForMimeType             (this.par.mimeType);
-      this.fileUri           = SSServCaller.vocURICreate                  (this.fileExt);
-      this.fileId            = SSVocConf.fileIDFromSSSURI(fileUri);
-      this.fileOutputStream  = SSFileU.openOrCreateFileWithPathForWrite   (localWorkPath + fileId);
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
+    this.fileConf          = fileConf;
+    this.fileExt           = SSMimeTypeE.fileExtForMimeType             (par.mimeType);
+    this.fileUri           = SSServCaller.vocURICreate                  (fileExt);
+    this.fileId            = SSVocConf.fileIDFromSSSURI                 (fileUri);
   }
   
   @Override
@@ -93,10 +86,69 @@ public class SSFileUploader extends SSServImplStartA{
     
     try{
       
-      this.dbSQL = (SSDBSQLI) SSDBSQL.inst.serv();
+      this.dbSQL   = (SSDBSQLI)   SSDBSQL.inst.serv();
+      this.dbNoSQL = (SSDBNoSQLI) SSDBSQL.inst.serv();
       
       sendAnswer();
+      readFileFromStreamAndSave();
+      disposeUploadedFile      ();
       
+      dbSQL.startTrans(par.shouldCommit);
+      
+      registerFile                 ();
+      createFileThumb              ();
+      
+      dbSQL.commit(par.shouldCommit);
+
+      sendAnswer();
+      
+      addFileContentsToNoSQLStore  ();
+      removeFileFromLocalWorkFolder();
+      
+      evalLogFileUpload();
+      
+    }catch(Exception error1){
+      
+      SSServErrReg.regErr(error1);
+      
+      try{
+        par.sSCon.writeErrorFullToClient(SSServErrReg.getServiceImplErrors(), par.op);
+      }catch(Exception error2){
+        SSServErrReg.regErr(error2);
+      }
+    }finally{
+      
+      try{
+        finalizeImpl();
+      }catch(Exception error3){
+        SSLogU.err(error3);
+      }
+    }
+  }
+  
+  private void disposeUploadedFile() throws Exception{
+    
+    try{
+      
+      switch(fileConf.fileRepoType){
+        case fileSys: moveFileToLocalRepo(); break;
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  private void readFileFromStreamAndSave() throws Exception{
+    
+    FileOutputStream fileOutputStream = null;
+      
+    try{
+      
+      byte[] fileChunk;
+      
+      fileOutputStream = SSFileU.openOrCreateFileWithPathForWrite   (localWorkPath + fileId);
+
       while(true){
         
         fileChunk = par.sSCon.readFileChunkFromClient();
@@ -109,58 +161,10 @@ public class SSFileUploader extends SSServImplStartA{
         }
         
         fileOutputStream.close();
-        
-        switch(((SSFileRepoConf)conf).fileRepoType){
-          case fileSys: moveFileToLocalRepo(); break;
-          case webdav:  uploadFileToWebDav();  break;
-          case i5Cloud: uploadFileToI5Cloud(); break;
-        }
-        
-        dbSQL.startTrans(par.shouldCommit);
-        
-        ((SSFileRepoServerI) SSServReg.getServ(SSFileRepoServerI.class)).fileAdd(
-          new SSEntityFileAddPar(
-            par.user,
-            fileUri, 
-            SSEntityE.uploadedFile, //type
-            par.label,
-            null, 
-            par.withUserRestriction, 
-            false));
-        
-        SSFileServCaller.addFileContentsToSolr   (par, fileId);
-
-        removeFileFromLocalWorkFolder();
-        
-        createFileThumb();
-        
-        dbSQL.commit(par.shouldCommit);
-        
-        evalServ = (SSEvalServerI)     SSServReg.getServ(SSEvalServerI.class);
-        
-        evalServ.evalLog(
-          new SSEvalLogPar(
-            par.user,
-            SSToolContextE.sss,
-            SSEvalLogE.fileUpload,
-            fileUri,  //entity
-            null, //content,
-            null, //entities
-            null, //users
-            par.shouldCommit));
-        
-        sendAnswer();
-        return;
       }
-    }catch(Exception error1){
       
-      SSServErrReg.regErr(error1);
-      
-      try{
-        par.sSCon.writeErrorFullToClient(SSServErrReg.getServiceImplErrors(), par.op);
-      }catch(Exception error2){
-        SSServErrReg.regErr(error2);
-      }
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
     }finally{
       
       if(fileOutputStream != null){
@@ -168,15 +172,51 @@ public class SSFileUploader extends SSServImplStartA{
         try{
           fileOutputStream.close();
         }catch(IOException ex){
-          SSLogU.err(ex);
+          SSLogU.warn("closing file output stream failed");
         }
       }
+    }
+  }
+  
+  private void registerFile() throws Exception{
+    
+    try{
       
-      try{
-        finalizeImpl();
-      }catch(Exception error3){
-        SSLogU.err(error3);
+      final SSFileRepoServerI fileServ = (SSFileRepoServerI) SSServReg.getServ(SSFileRepoServerI.class);
+      
+      fileServ.fileAdd(
+        new SSEntityFileAddPar(
+          par.user,
+          fileUri,
+          SSEntityE.uploadedFile, //type
+          par.label,
+          null,
+          par.withUserRestriction,
+          false));
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  private void addFileContentsToNoSQLStore(){
+    
+    try{
+      
+      dbNoSQL.addDoc(
+        new SSDBNoSQLAddDocPar(
+          localWorkPath,
+          fileId));
+      
+    }catch(Exception error){
+      
+      if(SSServErrReg.containsErr(SSErrE.notServerServiceForOpAvailable)){
+        SSLogU.warn(SSErrE.notServerServiceForOpAvailable.toString());
+      }else{
+        SSLogU.warn(error.getMessage());
       }
+      
+       SSServErrReg.reset();
     }
   }
   
@@ -191,7 +231,7 @@ public class SSFileUploader extends SSServImplStartA{
   
   private void removeFileFromLocalWorkFolder() throws Exception{
     
-    if(SSStrU.equals(localWorkPath, ((SSFileRepoConf)conf).getPath())){
+    if(SSStrU.equals(localWorkPath, fileConf.getPath())){
       return;
     }
     
@@ -204,14 +244,14 @@ public class SSFileUploader extends SSServImplStartA{
   
   private void moveFileToLocalRepo() throws Exception{
     
-    if(SSStrU.equals(localWorkPath, ((SSFileRepoConf)conf).getPath())){
+    if(SSStrU.equals(localWorkPath, fileConf.getPath())){
       return;
     }
     
     try{
       final File file = new File(localWorkPath + fileId);
       
-      if(!file.renameTo(new File(((SSFileRepoConf)conf).getPath() + fileId))){
+      if(!file.renameTo(new File(fileConf.getPath() + fileId))){
         throw new Exception("couldnt move file to local file repo");
       }
     }catch(Exception error){
@@ -219,35 +259,15 @@ public class SSFileUploader extends SSServImplStartA{
     }
   }
   
-  private void uploadFileToWebDav() throws Exception{
-    
-    try{
-      fileInputStream = SSFileU.openFileForRead(localWorkPath + fileId);
-      
-      SardineFactory.begin(
-        ((SSFileRepoConf)conf).user,
-        ((SSFileRepoConf)conf).password).put(((SSFileRepoConf)conf).getPath() + fileId, fileInputStream);
-      
-      fileInputStream.close();
-    }catch(Exception error){
-      SSServErrReg.regErr(error);
-    }
-  }
-  
-  private void uploadFileToI5Cloud() throws Exception{
-
-    try{
-      SSServCaller.i5CloudFileUpload(this.fileId, "private", SSServCaller.i5CloudAuth().get(SSHTMLU.xAuthToken));
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
-  //TODO dtheiler: currently works with local file repository only (not web dav or any remote stuff; even dont if localWorkPath != local file repo path)
+  //TODO currently works with local file repository only (even dont if localWorkPath != local file repo path)
+  //TODO move createFileThumb to image service
   private void createFileThumb(){
     
     try{
       
+      final SSFileRepoServerI fileServ  = (SSFileRepoServerI) SSServReg.getServ (SSFileRepoServerI.class);
+      final SSImageServerI    imageServ = (SSImageServerI)    SSServReg.getServ (SSImageServerI.class);
+        
       thumbUri = SSServCaller.vocURICreate                  (SSFileExtE.png);
       
       final String filePath          = localWorkPath + fileId;
@@ -279,7 +299,7 @@ public class SSFileUploader extends SSServImplStartA{
       
       if(thumbCreated){
         
-        ((SSFileRepoServerI) SSServReg.getServ(SSFileRepoServerI.class)).fileAdd(
+        fileServ.fileAdd(
           new SSEntityFileAddPar(
             par.user,
             thumbUri, //file
@@ -289,7 +309,7 @@ public class SSFileUploader extends SSServImplStartA{
             false, //withUserRestriction
             false));//shouldCommit
         
-        ((SSImageServerI) SSServReg.getServ(SSImageServerI.class)).imageAdd(
+        imageServ.imageAdd(
           new SSImageAddPar(
             par.user,
             null, //uuid
@@ -305,4 +325,49 @@ public class SSFileUploader extends SSServImplStartA{
       SSLogU.warn("thumb couldnt be created from file with ext :" + fileExt);
     }
   }
+
+  private void evalLogFileUpload() {
+    
+    try{
+      final SSEvalServerI evalServ = (SSEvalServerI) SSServReg.getServ(SSEvalServerI.class);
+      
+      evalServ.evalLog(
+        new SSEvalLogPar(
+          par.user,
+          SSToolContextE.sss,
+          SSEvalLogE.fileUpload,
+          fileUri,  //entity
+          null, //content,
+          null, //entities
+          null, //users
+          par.shouldCommit));
+    }catch(Exception error){
+      SSLogU.warn(error);
+      SSServErrReg.reset();
+    }
+  }
 }
+
+//private void uploadFileToWebDav() throws Exception{
+//    
+//    try{
+//      fileInputStream = SSFileU.openFileForRead(localWorkPath + fileId);
+//      
+//      SardineFactory.begin(
+//        fileConf.user,
+//        fileConf.password).put(fileConf.getPath() + fileId, fileInputStream);
+//      
+//      fileInputStream.close();
+//    }catch(Exception error){
+//      SSServErrReg.regErr(error);
+//    }
+//  }
+
+//  private void uploadFileToI5Cloud() throws Exception{
+//
+//    try{
+//      SSServCaller.i5CloudFileUpload(this.fileId, "private", SSServCaller.i5CloudAuth().get(SSHTMLU.xAuthToken));
+//    }catch(Exception error){
+//      SSServErrReg.regErrThrow(error);
+//    }
+//  }

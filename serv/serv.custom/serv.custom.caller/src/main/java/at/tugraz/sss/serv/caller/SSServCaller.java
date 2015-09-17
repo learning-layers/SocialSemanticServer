@@ -477,34 +477,6 @@ public class SSServCaller {
     return (Map<String, String>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.i5CloudAuth, new HashMap<>()));
   }
   
-  public static Boolean i5CloudFileUpload(
-    final String fileName,
-    final String containerSpace,
-    final String authToken) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.fileName,   fileName);
-    opPars.put(SSVarNames.space,      containerSpace);
-    opPars.put(SSVarNames.authToken,  authToken);
-    
-    return (Boolean) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.i5CloudFileUpload, opPars));
-  }
-  
-  public static Boolean i5CloudFileDownload(
-    final String fileName,
-    final String containerSpace,
-    final String authToken) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.fileName,   fileName);
-    opPars.put(SSVarNames.space,      containerSpace);
-    opPars.put(SSVarNames.authToken,  authToken);
-    
-    return (Boolean) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.i5CloudFileDownload, opPars));
-  } 
-
   public static void recommLoadUserRealms(
     final SSUri user) throws Exception{
     

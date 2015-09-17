@@ -24,8 +24,6 @@ import at.tugraz.sss.serv.SSLogU;
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import at.kc.tugraz.ss.serv.dataimport.api.SSDataImportServerI;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportBitsAndPiecesPar;
-import at.tugraz.sss.serv.SSDBSQLI;
-import at.tugraz.sss.serv.SSDBSQL;
 import at.kc.tugraz.ss.serv.jobs.evernote.conf.SSEvernoteConf;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.tugraz.sss.serv.SSServImplStartA;
@@ -83,7 +81,7 @@ public class SSDataImportBitsAndPiecesTask extends TimerTask {
     public SSDataImportBitsAndPiecesUpdater(
       final SSDataImportBitsAndPiecesPar par) throws Exception{
       
-      super(null, (SSDBSQLI) SSDBSQL.inst.serv());
+      super(null);
       
       this.par = par;
     }

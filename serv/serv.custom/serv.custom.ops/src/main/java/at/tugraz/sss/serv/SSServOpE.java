@@ -259,7 +259,6 @@ public enum SSServOpE{
   
   //file
   fileUpload                                          ,
-  fileReplace                                         ,
   fileDownload                                        ,
   fileIDFromURI                                       ,
   filesGet, 

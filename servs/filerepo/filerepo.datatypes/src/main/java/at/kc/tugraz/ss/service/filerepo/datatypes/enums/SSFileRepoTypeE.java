@@ -24,10 +24,9 @@ import at.tugraz.sss.serv.*;
 
 public enum SSFileRepoTypeE {
   
-  fileSys,
-  webdav, 
-  solr,
-  i5Cloud;
+  fileSys;
+//  webdav, 
+//  i5Cloud;
   
   public static String toStr(final SSFileRepoTypeE value){
     return SSStrU.toStr(value);

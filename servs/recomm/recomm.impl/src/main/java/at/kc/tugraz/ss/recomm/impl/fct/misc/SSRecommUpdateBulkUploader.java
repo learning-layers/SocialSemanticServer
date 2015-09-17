@@ -49,7 +49,7 @@ public class SSRecommUpdateBulkUploader extends SSServImplStartA{
     final SSRecommConf           recommConf,
     final SSRecommUpdateBulkPar  par) throws Exception{
     
-    super(recommConf, null);
+    super(recommConf);
     
     this.par               = par;
     this.dataCSVPath       = SSFileU.dirWorkingDataCsv();

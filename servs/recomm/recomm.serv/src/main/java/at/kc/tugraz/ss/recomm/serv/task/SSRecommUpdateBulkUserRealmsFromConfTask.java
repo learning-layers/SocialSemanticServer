@@ -57,7 +57,7 @@ public class SSRecommUpdateBulkUserRealmsFromConfTask extends TimerTask {
     public SSRecommBulkUserRealmsFromConfUpdater(
       final SSRecommConf recommConf) throws Exception{
       
-      super(null, null);
+      super(null);
       
       this.recommConf = recommConf;
     }

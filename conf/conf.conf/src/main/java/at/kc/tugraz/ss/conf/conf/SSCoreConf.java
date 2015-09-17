@@ -75,7 +75,6 @@ public class SSCoreConf extends SSCoreConfA {
   private SSDBNoSQLConf dbNoSQL = null;
   private SSModelUEConf model = null;
   private SSFileRepoConf filerepo = null;
-  private SSFileRepoConf solr = null;
   private SSVocConf voc = null;
   private SSBroadcasterConf broadcaster = null;
   private SSRecommConf recomm = null;
@@ -154,7 +153,6 @@ public class SSCoreConf extends SSCoreConfA {
       copy.dbSQL = SSDBSQLConf.copy(inst.dbSQL);
       copy.model = SSModelUEConf.copy(inst.model);
       copy.filerepo = SSFileRepoConf.copy(inst.filerepo);
-      copy.solr = SSFileRepoConf.copy(inst.solr);
       copy.voc = SSVocConf.copy(inst.voc);
       copy.broadcaster = SSBroadcasterConf.copy(inst.broadcaster);
       copy.recomm = SSRecommConf.copy(inst.recomm);
@@ -245,14 +243,6 @@ public class SSCoreConf extends SSCoreConfA {
   
   public void setFilerepo(SSFileRepoConf filerepo) {
     this.filerepo = filerepo;
-  }
-  
-  public SSFileRepoConf getSolr() {
-    return solr;
-  }
-  
-  public void setSolr(SSFileRepoConf solr) {
-    this.solr = solr;
   }
   
   public SSVocConf getVoc() {

@@ -24,15 +24,12 @@ public class SSDBNoSQLAddDocPar{
   
   public String  localWorkPath      = null;
   public String  id                 = null;
-  public String  mimeType           = null;
   
   public SSDBNoSQLAddDocPar(
     final String localWorkPath, 
-    final String id,
-    final String mimeType){
+    final String id){
     
     this.localWorkPath    = localWorkPath;
     this.id               = id;
-    this.mimeType         = mimeType;
   }
 }

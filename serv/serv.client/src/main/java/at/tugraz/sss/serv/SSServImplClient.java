@@ -34,7 +34,7 @@ public class SSServImplClient extends SSServImplStartA implements Runnable{
     final Socket  clientSocket,
     final Boolean useCloud) throws Exception{
     
-    super(null, null);
+    super(null);
     
     clientCon          = new SSSocketCon(clientSocket);
     this.useCloud      = useCloud;

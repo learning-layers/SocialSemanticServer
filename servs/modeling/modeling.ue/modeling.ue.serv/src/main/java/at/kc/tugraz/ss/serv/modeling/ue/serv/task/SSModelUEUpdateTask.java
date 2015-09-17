@@ -44,7 +44,7 @@ public class SSModelUEUpdateTask extends TimerTask{
   protected class SSModelUEUpdater extends SSServImplStartA{
     
     public SSModelUEUpdater() throws Exception{
-      super(null, null);
+      super(null);
     }
     
     @Override

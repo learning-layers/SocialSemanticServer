@@ -43,7 +43,7 @@ public class SSSearchResultPagesCacheCleanerTask extends TimerTask {
   protected class SSSearchResultPagesCacheCleaner extends SSServImplStartA{
     
     public SSSearchResultPagesCacheCleaner() throws Exception{
-      super(null, null);
+      super(null);
     }
     
     @Override

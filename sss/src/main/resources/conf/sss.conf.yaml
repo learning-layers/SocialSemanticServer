@@ -67,15 +67,9 @@ model:
 filerepo: 
   use: true
   path: #leave empty for workingDir/tmp; http://127.0.0.1:80/webdav/knowBrainWeb/
-  fileRepoType: fileSys #fileSys, webdav, solr, i5Cloud
+  fileRepoType: fileSys #fileSys
   user: #wduza
   password: #w!123a scaff
-solr:
-  use: false
-  path: http://path_to_solr/solr/
-  fileRepoType: solr #fileSys, webdav, solr
-  user: 
-  password: 
 broadcaster:
   use: true
 dataExport:

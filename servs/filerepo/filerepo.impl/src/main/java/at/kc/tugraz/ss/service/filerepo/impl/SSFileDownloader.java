@@ -21,11 +21,9 @@
 package at.kc.tugraz.ss.service.filerepo.impl;
 
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
-import at.tugraz.sss.serv.SSHTMLU;
 import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSSocketU;
 import at.tugraz.sss.serv.SSServImplStartA;
-import at.tugraz.sss.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.filerepo.conf.SSFileRepoConf;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileDownloadPar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileDownloadRet;
@@ -50,7 +48,7 @@ public class SSFileDownloader extends SSServImplStartA{
     final SSFileDownloadPar par,
     final SSFilerepoImpl    servImpl) throws Exception{
     
-    super(fileRepoConf, null);
+    super(fileRepoConf);
     
     this.par               = par;
     this.servImpl          = servImpl;
@@ -65,7 +63,7 @@ public class SSFileDownloader extends SSServImplStartA{
       par.sSCon.writeRetFullToClient(new SSFileDownloadRet(par.file));
       
       switch(((SSFileRepoConf)conf).fileRepoType){
-        case i5Cloud: downloadFromI5Cloud(); break;    
+//        case i5Cloud: downloadFromI5Cloud(); break;    
 //    if(SSFileRepoTypeEnum.isSame(fileRepoConf.fileRepoType, SSFileRepoTypeEnum.webdav)){
 //      this.webdavInputStream = SardineFactory.begin(fileRepoConf.getUser(), fileRepoConf.getPassword()).getInputStream(fileRepoConf.getPath() + fileId);
 ////      fileReader = new DataInputStream(SardineFactory.begin(fileRepoConf.getUser(), fileRepoConf.getPassword()).getInputStream(fileRepoConf.getPath() + fileId));
@@ -120,15 +118,6 @@ public class SSFileDownloader extends SSServImplStartA{
     }
   }
   
-  private void downloadFromI5Cloud() throws Exception{
-    
-    try{
-      SSServCaller.i5CloudFileDownload(this.fileId, "private", SSServCaller.i5CloudAuth().get(SSHTMLU.xAuthToken));
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
   @Override
   protected void finalizeImpl() throws Exception{
     finalizeThread(true);
@@ -159,3 +148,12 @@ public class SSFileDownloader extends SSServImplStartA{
 //    }
 //  }
 }
+
+//  private void downloadFromI5Cloud() throws Exception{
+//    
+//    try{
+//      SSServCaller.i5CloudFileDownload(this.fileId, "private", SSServCaller.i5CloudAuth().get(SSHTMLU.xAuthToken));
+//    }catch(Exception error){
+//      SSServErrReg.regErrThrow(error);
+//    }
+//  }

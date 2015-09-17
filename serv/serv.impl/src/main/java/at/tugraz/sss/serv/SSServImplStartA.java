@@ -25,7 +25,8 @@ import java.util.List;
 
 public abstract class SSServImplStartA extends SSServImplA implements Runnable{
 
-  public SSDBSQLI dbSQL;
+  protected SSDBSQLI   dbSQL;
+  protected SSDBNoSQLI dbNoSQL;
   
   protected static final ThreadLocal<List<SSServImplA>> servImplsUsedByThread = new ThreadLocal<List<SSServImplA>>(){
     
@@ -40,10 +41,8 @@ public abstract class SSServImplStartA extends SSServImplA implements Runnable{
     }
   };
   
-  public SSServImplStartA(final SSConfA conf, final SSDBSQLI dbSQL){
+  public SSServImplStartA(final SSConfA conf){
     super(conf);
-    
-    this.dbSQL = dbSQL;
   }
   
   public static void regServImplUsedByThread(final SSServImplA servImpl){

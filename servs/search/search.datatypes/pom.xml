@@ -32,12 +32,6 @@
     
     <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>solr.datatypes</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>sss.servs</groupId>
       <artifactId>jsonld.api</artifactId>
       <version>${project.version}</version>
     </dependency>    

@@ -52,7 +52,6 @@ import at.kc.tugraz.ss.service.disc.service.SSDiscServ;
 import at.kc.tugraz.ss.service.filerepo.service.SSFilerepoServ;
 import at.kc.tugraz.ss.service.rating.service.SSRatingServ;
 import at.kc.tugraz.ss.service.search.service.SSSearchServ;
-import at.kc.tugraz.ss.service.solr.service.SSSolrServ;
 import at.kc.tugraz.ss.service.tag.service.SSTagServ;
 import at.kc.tugraz.ss.service.user.service.SSUserServ;
 import at.kc.tugraz.ss.service.userevent.service.SSUEServ;
@@ -76,7 +75,7 @@ public class SSSInitializer extends SSServImplStartA{
   protected static Boolean finished = false;
   
   public SSSInitializer() throws Exception{
-    super(null, null);
+    super(null);
   }
   
   @Override
@@ -122,7 +121,6 @@ public class SSSInitializer extends SSServImplStartA{
         SSActivityServ.inst.regServ        ();
         SSSearchServ.inst.regServ          ();
         SSDataExportServ.inst.regServ      ();
-        SSSolrServ.inst.regServ            ();
         SSModelUEServ.inst.regServ         ();
         SSBroadcasterServ.inst.regServ     ();
         SSRecommServ.inst.regServ          ();
@@ -154,7 +152,6 @@ public class SSSInitializer extends SSServImplStartA{
         SSCircleServ.inst.initServ();
         SSDataImportServ.inst.initServ();
         SSCategoryServ.inst.initServ();
-        SSSolrServ.inst.initServ();
         SSModelUEServ.inst.initServ();
         SSRecommServ.inst.initServ();
       }catch(Exception error1){

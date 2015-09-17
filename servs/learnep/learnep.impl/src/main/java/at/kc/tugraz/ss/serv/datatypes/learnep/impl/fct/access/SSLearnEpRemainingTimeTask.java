@@ -52,7 +52,7 @@ public class SSLearnEpRemainingTimeTask extends TimerTask {
   protected class SSLearnEpRemaingTimeHandler extends SSServImplStartA{
     
     public SSLearnEpRemaingTimeHandler() throws Exception{
-      super(null, null);
+      super(null);
     }
     
     @Override

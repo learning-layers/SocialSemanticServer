@@ -27,6 +27,7 @@ import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.tugraz.sss.serv.SSDBNoSQLAddDocPar;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
+import at.tugraz.sss.serv.SSDBNoSQLRemoveDocPar;
 import at.tugraz.sss.serv.SSDBNoSQLSearchPar;
 import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSDBSQLI;
@@ -186,8 +187,7 @@ implements
       dbNoSQL.addDoc(
         new SSDBNoSQLAddDocPar(
           SSCoreConf.instGet().getSss().getLocalWorkPath(), 
-          "muell.pdf", 
-          null)); //mimeType
+          "muell.pdf")); 
       
       final List<String> result =
         dbNoSQL.search(
@@ -196,6 +196,8 @@ implements
             100));
       
       System.err.println(result);
+      
+      dbNoSQL.removeDoc(new SSDBNoSQLRemoveDocPar("muell.pdf"));
       
       SSLogU.info("end intgration test solr for search");
       
