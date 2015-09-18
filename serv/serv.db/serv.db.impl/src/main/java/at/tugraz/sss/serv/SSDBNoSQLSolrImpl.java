@@ -82,7 +82,7 @@ implements SSDBNoSQLI{
     try{
       final ContentStreamUpdateRequest csur = new ContentStreamUpdateRequest("/update/extract");
       final NamedList<Object>          response;
-      
+
       csur.addContentStream(new ContentStreamBase.FileStream(new File(par.localWorkPath + par.id)));
 
       csur.setParam  ("literal.id",  par.id);

@@ -28,6 +28,7 @@ public class SSLivingDocsGetPar extends SSServPar{
   
   public Boolean invokeEntityHandlers = false;
   public Boolean setUsers             = false;
+  public Boolean setDiscs             = false;
   
   public SSLivingDocsGetPar(){}
     

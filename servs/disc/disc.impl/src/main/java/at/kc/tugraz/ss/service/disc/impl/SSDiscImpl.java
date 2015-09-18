@@ -120,7 +120,7 @@ public class SSDiscImpl
           discsGet(
             new SSDiscsGetPar(
               par.user,
-              true,
+              true, //setEntries
               null, //forUser
               null, //discs
               SSUri.asListWithoutNullAndEmpty(entity.id), //targets

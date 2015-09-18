@@ -34,4 +34,10 @@ public class SSLivingDocsGetRESTAPIV2Par {
     required = false,
     value = "")
   public Boolean setUsers       = null;
+  
+  @XmlElement
+  @ApiModelProperty(
+    required = false,
+    value = "")
+  public Boolean setDiscs       = null;
 }

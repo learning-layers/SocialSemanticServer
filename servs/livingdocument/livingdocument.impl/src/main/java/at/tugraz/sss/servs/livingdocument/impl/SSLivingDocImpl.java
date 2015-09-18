@@ -371,6 +371,8 @@ implements
       
       if(par.invokeEntityHandlers){
         descPar = new SSEntityDescriberPar(par.livingDoc);
+        
+        descPar.setDiscs = par.setDiscs;
       }else{
         descPar = null;
       }
@@ -435,6 +437,7 @@ implements
             par.invokeEntityHandlers);
         
         livingDocGetPar.setUsers = par.setUsers;
+        livingDocGetPar.setDiscs = par.setDiscs;
         
         SSEntity.addEntitiesDistinctWithoutNull(
           docs,

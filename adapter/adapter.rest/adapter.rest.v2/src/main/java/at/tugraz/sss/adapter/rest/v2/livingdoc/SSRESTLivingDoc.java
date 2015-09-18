@@ -109,6 +109,7 @@ public class SSRESTLivingDoc {
           true); //invokeEntityHandlers
       
       par.setUsers = input.setUsers;
+      par.setDiscs = input.setDiscs;
       
     }catch(Exception error){
       return Response.status(422).build();
@@ -141,6 +142,7 @@ public class SSRESTLivingDoc {
           true); //invokeEntityHandlers
       
       par.setUsers = input.setUsers;
+      par.setDiscs = input.setDiscs;
       
     }catch(Exception error){
       return Response.status(422).build();
