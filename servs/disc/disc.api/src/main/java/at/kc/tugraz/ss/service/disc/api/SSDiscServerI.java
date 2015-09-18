@@ -29,9 +29,11 @@ import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscEntryUpdatePar;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscRemovePar;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscGetPar;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscTargetsAddPar;
+import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscUpdatePar;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscsGetPar;
 import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscEntryAddRet;
 import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscEntryUpdateRet;
+import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscUpdateRet;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSServServerI;
 import java.util.List;
@@ -45,5 +47,6 @@ public interface SSDiscServerI extends SSServServerI{
   public List<SSUri>          discEntryURIsGet          (final SSDiscEntryURIsGetPar     par) throws Exception;
   public SSUri                discEntryAccept           (final SSDiscEntryAcceptPar      par) throws Exception;
   public SSUri                discTargetsAdd            (final SSDiscTargetsAddPar       par) throws Exception;
+  public SSDiscUpdateRet      discUpdate                (final SSDiscUpdatePar           par) throws Exception;
   public SSDiscEntryUpdateRet discEntryUpdate           (final SSDiscEntryUpdatePar      par) throws Exception;
 }

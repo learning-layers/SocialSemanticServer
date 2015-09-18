@@ -53,12 +53,14 @@ import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscEntryURIsGetPar;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscEntryUpdatePar;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscRemovePar;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscTargetsAddPar;
+import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscUpdatePar;
 import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscEntryAcceptRet;
 import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscEntryAddRet;
 import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscEntryUpdateRet;
 import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscRemoveRet;
 import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscGetRet;
 import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscTargetsAddRet;
+import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscUpdateRet;
 import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscsGetRet;
 import at.kc.tugraz.ss.service.disc.impl.fct.activity.SSDiscActivityFct;
 import at.kc.tugraz.ss.service.disc.impl.fct.op.SSDiscUserEntryAddFct;
@@ -607,6 +609,84 @@ public class SSDiscImpl
     }
   }
 
+  @Override
+  public void discUpdate(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
+    
+    SSServCallerU.checkKey(parA);
+    
+    final SSDiscUpdatePar par = (SSDiscUpdatePar) parA.getFromJSON(SSDiscUpdatePar.class);
+    final SSDiscUpdateRet ret = discUpdate(par);
+
+    sSCon.writeRetFullToClient(ret);
+  }
+
+  @Override
+  public SSDiscUpdateRet discUpdate(final SSDiscUpdatePar par) throws Exception{
+    
+    try{
+      
+      if(par.withUserRestriction){
+        
+        if(
+          !SSServCallerU.canUserRead (par.user, par.disc) ||
+          !SSServCallerU.isUserAuthor(par.user, par.disc, par.withUserRestriction)){
+          return SSDiscUpdateRet.get(null);
+        }
+      }
+      
+      dbSQL.startTrans(par.shouldCommit);
+
+      entityServ.entityUpdate(
+        new SSEntityUpdatePar(
+          par.user,
+          par.disc,
+          null, //type
+          par.label,
+          par.content,
+          null, //creationTime
+          null, //read
+          false, //setPublic
+          true, //withUserRestriction
+          false)); //shouldCommit
+      
+      attachEntities(
+        par.user,
+        par.disc,
+        par.entitiesToAttach,
+        par.entityLabels,
+        par.withUserRestriction);
+      
+      removeEntities(
+        par.user,
+        par.disc,
+        par.entitiesToRemove,
+        par.withUserRestriction);
+
+      dbSQL.commit(par.shouldCommit);
+
+      return SSDiscUpdateRet.get(par.disc);
+
+    }catch(Exception error){
+
+      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+
+        if(dbSQL.rollBack(par.shouldCommit)){
+
+          SSServErrReg.reset();
+
+          return discUpdate(par);
+        }else{
+          SSServErrReg.regErrThrow(error);
+          return null;
+        }
+      }
+
+      dbSQL.rollBack(par.shouldCommit);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
   @Override
   public void discEntryUpdate(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
     

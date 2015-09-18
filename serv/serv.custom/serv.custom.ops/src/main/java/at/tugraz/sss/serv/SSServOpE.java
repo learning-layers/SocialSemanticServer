@@ -281,6 +281,7 @@ public enum SSServOpE{
   discsGet,
   discEntryAccept,
   discTargetsAdd,
+  discUpdate,
   discEntryUpdate,
   
   //broadcast

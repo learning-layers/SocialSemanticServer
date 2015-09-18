@@ -18,7 +18,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
- package at.kc.tugraz.ss.service.disc.datatypes.pars;
+package at.kc.tugraz.ss.service.disc.datatypes.pars;
 
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
@@ -29,22 +29,31 @@ import at.tugraz.sss.serv.SSStrU;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SSDiscEntryUpdatePar extends SSServPar{
+public class SSDiscUpdatePar extends SSServPar{
   
-  public SSUri               entry                  = null;
+  public SSUri               disc                   = null;
+  public SSLabel             label                  = null;
   public SSTextComment       content                = null;
   public List<SSUri>         entitiesToRemove       = new ArrayList<>();
   public List<SSUri>         entitiesToAttach       = new ArrayList<>();
   public List<SSLabel>       entityLabels           = new ArrayList<>();
-
-  public String getEntry() {
-    return SSStrU.removeTrailingSlash(entry);
+  
+  public String getDisc() {
+    return SSStrU.removeTrailingSlash(disc);
   }
 
-  public void setEntry(String entry) throws Exception {
-    this.entry = SSUri.get(entry);
+  public void setDisc(String disc) throws Exception {
+    this.disc = SSUri.get(disc);
+  }
+  
+  public String getLabel() {
+    return SSStrU.toStr(label);
   }
 
+  public void setLabel(String label) throws Exception {
+    this.label = SSLabel.get(label);
+  }
+  
   public String getContent() {
     return SSStrU.toStr(content);
   }
@@ -69,11 +78,12 @@ public class SSDiscEntryUpdatePar extends SSServPar{
     this.entitiesToAttach = SSUri.get(entitiesToAttach);
   }
   
-  public SSDiscEntryUpdatePar(){}
+  public SSDiscUpdatePar(){}
   
-  public SSDiscEntryUpdatePar(
+  public SSDiscUpdatePar(
     final SSUri               user,
-    final SSUri               entry, 
+    final SSUri               disc,
+    final SSLabel             labe,
     final SSTextComment       content,
     final List<SSUri>         entitiesToRemove,
     final List<SSUri>         entitiesToAttach,
@@ -81,9 +91,10 @@ public class SSDiscEntryUpdatePar extends SSServPar{
     final Boolean             withUserRestriction,
     final Boolean             shouldCommit){
     
-    super(SSServOpE.discEntryUpdate, null, user);
+    super(SSServOpE.discUpdate, null, user);
     
-    this.entry          = entry;
+    this.disc           = disc;
+    this.label          = label;
     this.content        = content;
     
     SSUri.addDistinctWithoutNull   (this.entitiesToRemove, entitiesToRemove);

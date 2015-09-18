@@ -28,12 +28,14 @@ import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscEntryAddPar;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscEntryUpdatePar;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscGetPar;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscTargetsAddPar;
+import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscUpdatePar;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscsGetPar;
 import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscEntryAcceptRet;
 import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscEntryAddRet;
 import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscEntryUpdateRet;
 import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscGetRet;
 import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscTargetsAddRet;
+import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscUpdateRet;
 import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscsGetRet;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
@@ -126,6 +128,45 @@ public class SSRESTDisc{
           input.circles, //circles
           input.entities, //entities
           input.entityLabels); //entityLabels); 
+      
+    }catch(Exception error){
+      return Response.status(422).build();
+    }
+    
+    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+  }
+  
+  @PUT
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path("/{disc}")
+  @ApiOperation(
+    value = "update discussion",
+    response = SSDiscUpdateRet.class)
+  public Response discEntryUpdate(
+    @Context
+    final HttpHeaders headers,
+    
+    @PathParam (SSVarNames.disc)
+    final String disc,
+    
+    final SSDiscUpdateRESTAPIV2Par input){
+    
+    final SSDiscUpdatePar par;
+    
+    try{
+      
+      par =
+        new SSDiscUpdatePar(
+          null,
+          SSUri.get(disc, SSVocConf.sssUri),
+          input.label,
+          input.content,
+          input.entitiesToRemove,
+          input.entitiesToAttach,
+          input.entityLabels, 
+          true, //withUserRestriction,
+          true);//shouldCommit);
       
     }catch(Exception error){
       return Response.status(422).build();

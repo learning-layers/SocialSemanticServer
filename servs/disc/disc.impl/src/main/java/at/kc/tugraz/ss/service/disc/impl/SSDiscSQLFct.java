@@ -674,4 +674,23 @@ public class SSDiscSQLFct extends SSDBSQLFct {
       SSServErrReg.regErrThrow(error);
     }
   }
+
+  public void updateDiscContent(
+    final SSUri         disc, 
+    final SSTextComment content) throws Exception{
+    
+    try{
+      final Map<String, String>  wheres   = new HashMap<>();
+      final Map<String, String>  updates  = new HashMap<>();
+      
+      where(wheres, SSSQLVarNames.discId, disc);
+      
+      update (updates, SSSQLVarNames.discTable, content);
+      
+      dbSQL.update(SSSQLVarNames.discTable, wheres, updates);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
 }
