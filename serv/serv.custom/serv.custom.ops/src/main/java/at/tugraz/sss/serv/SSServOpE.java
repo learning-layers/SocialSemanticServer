@@ -159,6 +159,7 @@ public enum SSServOpE{
   entityDownloadsGet,
   entityDownloadsAdd,
   entityEntitiesAttach,
+  entityEntitiesAttachedRemove,
   entityTypesGet,
   
   //learn ep
@@ -280,6 +281,7 @@ public enum SSServOpE{
   discsGet,
   discEntryAccept,
   discTargetsAdd,
+  discEntryUpdate,
   
   //broadcast
   broadcastServerTime                                 ,

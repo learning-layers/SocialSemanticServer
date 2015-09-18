@@ -629,4 +629,49 @@ public class SSDiscSQLFct extends SSDBSQLFct {
       SSServErrReg.regErrThrow(error);
     }
   }
+
+  public SSUri getDiscForEntry(final SSUri entry) throws Exception {
+    
+    ResultSet resultSet = null;
+    
+    try{
+      final List<String>        columns = new ArrayList<>();
+      final Map<String, String> wheres  = new HashMap<>();
+      
+      column(columns, SSSQLVarNames.discId);
+      
+      where(wheres, SSSQLVarNames.discEntryId, entry);
+      
+      resultSet = dbSQL.select(SSSQLVarNames.discEntriesTable, columns, wheres, null, null, null);
+      
+      checkFirstResult(resultSet);
+      
+      return bindingStrToUri(resultSet, SSSQLVarNames.discId);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
+    }
+  }
+
+  public void updateEntryContent(
+    final SSUri         entry, 
+    final SSTextComment content) throws Exception{
+    
+    try{
+      final Map<String, String>  wheres   = new HashMap<>();
+      final Map<String, String>  updates  = new HashMap<>();
+      
+      where(wheres, SSSQLVarNames.discEntryId, entry);
+      
+      update (updates, SSSQLVarNames.discEntryContent, content);
+      
+      dbSQL.update(SSSQLVarNames.discEntryTable, wheres, updates);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
 }

@@ -25,11 +25,13 @@ import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscEntryAcceptPar;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscEntryAddFromClientPar;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscEntryAddPar;
+import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscEntryUpdatePar;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscGetPar;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscTargetsAddPar;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscsGetPar;
 import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscEntryAcceptRet;
 import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscEntryAddRet;
+import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscEntryUpdateRet;
 import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscGetRet;
 import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscTargetsAddRet;
 import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscsGetRet;
@@ -132,6 +134,44 @@ public class SSRESTDisc{
     return SSRestMainV2.handleRequest(headers, par, false, true).response;
   }
   
+  @PUT
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path("/entries/{entry}")
+  @ApiOperation(
+    value = "update a textual comment/answer/opinion of a discussion",
+    response = SSDiscEntryUpdateRet.class)
+  public Response discEntryUpdate(
+    @Context
+    final HttpHeaders headers,
+    
+    @PathParam (SSVarNames.entry)
+    final String entry,
+    
+    final SSDiscEntryUpdateRESTAPIV2Par input){
+    
+    final SSDiscEntryUpdatePar par;
+    
+    try{
+      
+      par =
+        new SSDiscEntryUpdatePar(
+          null,
+          SSUri.get(entry, SSVocConf.sssUri),
+          input.content,
+          input.entitiesToRemove,
+          input.entitiesToAttach,
+          input.entityLabels, 
+          true, //withUserRestriction,
+          true);//shouldCommit);
+      
+    }catch(Exception error){
+      return Response.status(422).build();
+    }
+    
+    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+  }
+  
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
@@ -140,11 +180,11 @@ public class SSRESTDisc{
     value = "retrieve a discussion with its entries",
     response = SSDiscGetRet.class)
   public Response discWithEntriesGet(
-    @Context                    
-      final HttpHeaders  headers,
+    @Context
+    final HttpHeaders  headers,
     
-    @PathParam (SSVarNames.disc)  
-      final String disc, 
+    @PathParam (SSVarNames.disc)
+    final String disc,
     
     final SSDiscGetRESTAPIV2Par input){
     

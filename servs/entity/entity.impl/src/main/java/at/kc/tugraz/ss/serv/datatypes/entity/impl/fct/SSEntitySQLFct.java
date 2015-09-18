@@ -476,40 +476,32 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     }
   }
   
-//  public void removeAttachments(
-//    final SSUri       entity,
-//    final List<SSUri> attachments) throws Exception{
-//    
-//    try{
-//      
-//      if(SSObjU.isNull(entity, attachments)){
-//        throw new SSErr(SSErrE.parameterMissing);
-//      }
-//      
-//      if(attachments.isEmpty()){
-//        return;
-//      }
-//      
-//      final List<MultivaluedMap<String, String>> wheres                = new ArrayList<>();
-//      final MultivaluedMap<String, String>       whereEntity           = new MultivaluedHashMap<>();
-//      final MultivaluedMap<String, String>       whereAttachedEntities = new MultivaluedHashMap<>();
-//      
-//      where(whereEntity, SSSQLVarNames.entitiesTable, SSSQLVarNames.entityId, entity);
-//        
-//      wheres.add(whereEntity);
-//      
-//      for(SSUri attachment : attachments){
-//        where(whereAttachedEntities, SSSQLVarNames.entitiesTable, SSSQLVarNames.attachedEntityId, attachment);
-//      }
-//
-//      wheres.add(whereAttachedEntities);
-//      
-//      dbSQL.deleteIgnore(SSSQLVarNames.entitiesTable, wheres);
-//        
-//    }catch(Exception error){
-//      SSServErrReg.regErrThrow(error);
-//    }
-//  }
+  public void removeAttachedEntities(
+    final SSUri       entity,
+    final List<SSUri> attachments) throws Exception{
+    
+    try{
+      
+      final List<MultivaluedMap<String, String>> wheres                = new ArrayList<>();
+      final MultivaluedMap<String, String>       whereEntity           = new MultivaluedHashMap<>();
+      final MultivaluedMap<String, String>       whereAttachedEntities = new MultivaluedHashMap<>();
+      
+      where(whereEntity, SSSQLVarNames.entityAttachedEntitiesTable, SSSQLVarNames.entityId, entity);
+        
+      wheres.add(whereEntity);
+      
+      for(SSUri attachment : attachments){
+        where(whereAttachedEntities, SSSQLVarNames.entityAttachedEntitiesTable, SSSQLVarNames.attachedEntityId, attachment);
+      }
+
+      wheres.add(whereAttachedEntities);
+      
+      dbSQL.deleteIgnore(SSSQLVarNames.entityAttachedEntitiesTable, wheres);
+        
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
   
   public void attachEntities(
     final SSUri       entity,

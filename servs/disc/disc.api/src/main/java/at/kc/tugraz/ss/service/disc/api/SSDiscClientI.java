@@ -31,4 +31,5 @@ public interface SSDiscClientI {
   public void discsGet              (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
   public void discEntryAccept       (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
   public void discTargetsAdd        (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void discEntryUpdate       (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
 }

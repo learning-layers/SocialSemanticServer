@@ -89,6 +89,7 @@ import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSToolContextE;
+import at.tugraz.sss.servs.entity.datatypes.par.SSEntityEntitiesAttachedRemovePar;
 import at.tugraz.sss.servs.entity.datatypes.ret.SSEntityTypesGetRet;
 import java.util.Arrays;
 import sss.serv.eval.api.SSEvalServerI;
@@ -893,6 +894,44 @@ implements
           SSServErrReg.reset();
           
           return entityEntitiesAttach(par);
+        }else{
+          SSServErrReg.regErrThrow(error);
+          return null;
+        }
+      }
+      
+      dbSQL.rollBack(par.shouldCommit);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public SSUri entityEntitiesAttachedRemove(final SSEntityEntitiesAttachedRemovePar par) throws Exception{
+    
+    try{
+
+      if(par.withUserRestriction){
+        
+        if(
+          !SSServCallerU.canUserRead (par.user, par.entity) ||
+          !SSServCallerU.canUserRead (par.user, par.entities)){
+          return null;
+        }
+      }
+      
+      sqlFct.removeAttachedEntities(par.entity, par.entities);
+      
+      return par.entity;
+    }catch(Exception error){
+      
+      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+        
+        if(dbSQL.rollBack(par.shouldCommit)){
+          
+          SSServErrReg.reset();
+          
+          return entityEntitiesAttachedRemove(par);
         }else{
           SSServErrReg.regErrThrow(error);
           return null;

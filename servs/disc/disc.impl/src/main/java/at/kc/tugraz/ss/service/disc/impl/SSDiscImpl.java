@@ -50,10 +50,12 @@ import at.tugraz.sss.serv.SSUsersResourcesGathererI;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.tugraz.sss.util.SSServCallerU;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscEntryURIsGetPar;
+import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscEntryUpdatePar;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscRemovePar;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscTargetsAddPar;
 import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscEntryAcceptRet;
 import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscEntryAddRet;
+import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscEntryUpdateRet;
 import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscRemoveRet;
 import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscGetRet;
 import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscTargetsAddRet;
@@ -79,6 +81,7 @@ import at.tugraz.sss.serv.SSPushEntitiesToUsersPar;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServReg;
+import at.tugraz.sss.servs.entity.datatypes.par.SSEntityEntitiesAttachedRemovePar;
 
 public class SSDiscImpl
   extends SSServImplWithDBA
@@ -605,6 +608,76 @@ public class SSDiscImpl
   }
 
   @Override
+  public void discEntryUpdate(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
+    
+    SSServCallerU.checkKey(parA);
+    
+    final SSDiscEntryUpdatePar par = (SSDiscEntryUpdatePar) parA.getFromJSON(SSDiscEntryUpdatePar.class);
+    final SSDiscEntryUpdateRet ret = discEntryUpdate(par);
+
+    sSCon.writeRetFullToClient(ret);
+  }
+
+  @Override
+  public SSDiscEntryUpdateRet discEntryUpdate(final SSDiscEntryUpdatePar par) throws Exception{
+    
+    try{
+      
+      if(par.withUserRestriction){
+        if(!SSServCallerU.canUserRead(par.user, par.entry)){
+          return SSDiscEntryUpdateRet.get(null, null);
+        }
+      }
+      
+      final SSUri discURI = sqlFct.getDiscForEntry(par.entry);
+
+      dbSQL.startTrans(par.shouldCommit);
+
+      if(par.content != null){
+        sqlFct.updateEntryContent(par.entry, par.content);
+      }
+      
+      attachEntities(
+        par.user,
+        par.entry,
+        par.entitiesToAttach,
+        par.entityLabels,
+        par.withUserRestriction);
+      
+      removeEntities(
+        par.user,
+        par.entry,
+        par.entitiesToRemove,
+        par.withUserRestriction);
+
+      dbSQL.commit(par.shouldCommit);
+
+      return SSDiscEntryUpdateRet.get(
+        discURI,
+        par.entry);
+
+    }catch(Exception error){
+
+      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+
+        if(dbSQL.rollBack(par.shouldCommit)){
+
+          SSServErrReg.reset();
+
+          return discEntryUpdate(par);
+        }else{
+          SSServErrReg.regErrThrow(error);
+          return null;
+        }
+      }
+
+      dbSQL.rollBack(par.shouldCommit);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
   public void discEntryAccept(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
 
     SSServCallerU.checkKey(parA);
@@ -1054,11 +1127,10 @@ public class SSDiscImpl
     final List<SSLabel> entityLabels,
     final Boolean       withUserRestriction) throws Exception{
     
-    if(entitiesToAttach.isEmpty()){
-      return;
-    }
-    
     try{
+      if(entitiesToAttach.isEmpty()){
+        return;
+      }
       
       entityServ.entityEntitiesAttach(
         new SSEntityAttachEntitiesPar(
@@ -1089,6 +1161,31 @@ public class SSDiscImpl
             withUserRestriction, //withUserRestriction
             false)); //shouldCommit
       }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+
+  private void removeEntities(
+    final SSUri       user, 
+    final SSUri       entity, 
+    final List<SSUri> entitiesToRemove, 
+    final Boolean     withUserRestriction) throws Exception{
+    
+    try{
+      
+      if(entitiesToRemove.isEmpty()){
+        return;
+      }
+          
+      entityServ.entityEntitiesAttachedRemove(
+        new SSEntityEntitiesAttachedRemovePar(
+          user,
+          entity,
+          entitiesToRemove,
+          withUserRestriction,
+          false));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
