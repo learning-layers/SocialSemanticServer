@@ -20,16 +20,30 @@
 */
 package at.tugraz.sss.serv;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 public class SSDBNoSQLSearchPar {
   
-  public SSSolrKeywordLabel   keyword    = null;
-  public Integer              maxResults = null;
+  public String                                            globalSearchOp = null;
+  public String                                            localSearchOp  = null;
+  public Map<SSSolrSearchFieldE, List<SSSolrKeywordLabel>> wheres         = new HashMap<>();
+  public Integer                                           maxResults     = null;
+  public Boolean                                           useFuzzySearch = true;
   
   public SSDBNoSQLSearchPar(
-    final SSSolrKeywordLabel keyword,
-    final Integer            maxResults) {
+    final String                                            globalSearchOp,
+    final String                                            localSearchOp,
+    final Map<SSSolrSearchFieldE, List<SSSolrKeywordLabel>> wheres, 
+    final Integer                                           maxResults){
     
-    this.keyword    = keyword;
+    this.globalSearchOp = globalSearchOp;
+    this.localSearchOp  = localSearchOp;
+    
+    if(wheres != null){
+      this.wheres.putAll(wheres);
+    }
+    
     this.maxResults = maxResults;
   }
 }

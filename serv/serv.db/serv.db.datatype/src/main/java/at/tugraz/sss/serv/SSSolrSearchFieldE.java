@@ -20,7 +20,7 @@
 */
  package at.tugraz.sss.serv;
 
-public enum SSSolrSearchFieldEnum {
+public enum SSSolrSearchFieldE {
 
   id          ("id"),
   content     ("content"),
@@ -35,7 +35,7 @@ public enum SSSolrSearchFieldEnum {
   
   final public String val;
 
-  private SSSolrSearchFieldEnum(final String val) {
+  private SSSolrSearchFieldE(final String val) {
     this.val = val;
   }
 

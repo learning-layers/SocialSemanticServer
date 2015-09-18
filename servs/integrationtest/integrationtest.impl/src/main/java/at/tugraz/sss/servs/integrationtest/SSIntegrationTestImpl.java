@@ -24,6 +24,7 @@ import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEp;
 import at.kc.tugraz.ss.serv.jobs.evernote.conf.SSEvernoteConf;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.kc.tugraz.ss.service.search.datatypes.SSSearchOpE;
 import at.tugraz.sss.serv.SSDBNoSQLAddDocPar;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
@@ -38,12 +39,15 @@ import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSSolrKeywordLabel;
+import at.tugraz.sss.serv.SSSolrSearchFieldE;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.servs.integrationtest.knowbraintaggingstudy2015.SSIntegrationTestBitsAndPiecesStudyFall2015;
 import at.tugraz.sss.servs.mail.SSMailServerI;
 import at.tugraz.sss.servs.mail.datatype.par.SSMailsReceivePar;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SSIntegrationTestImpl
 extends
@@ -189,13 +193,23 @@ implements
           SSCoreConf.instGet().getSss().getLocalWorkPath(), 
           "muell.pdf")); 
       
+      final Map<SSSolrSearchFieldE, List<SSSolrKeywordLabel>> wheres   = new HashMap<>();
+      final List<String>                                      keywords = new ArrayList<>();
+      
+      keywords.add("Halbjahr 1");
+      keywords.add("Muell");
+      
+      wheres.put(SSSolrSearchFieldE.docText, SSSolrKeywordLabel.get(keywords));
+        
       final List<String> result =
         dbNoSQL.search(
           new SSDBNoSQLSearchPar(
-            SSSolrKeywordLabel.get("Halbjahr"),
+            SSSearchOpE.and.toString(),
+            SSSearchOpE.or.toString(),
+            wheres,
             100));
       
-      System.err.println(result);
+      System.out.println(result);
       
       dbNoSQL.removeDoc(new SSDBNoSQLRemoveDocPar("muell.pdf"));
       

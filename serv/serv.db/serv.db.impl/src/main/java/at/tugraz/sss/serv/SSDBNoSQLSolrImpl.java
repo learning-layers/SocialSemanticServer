@@ -23,6 +23,8 @@ package at.tugraz.sss.serv;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.regex.Pattern;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.impl.ConcurrentUpdateSolrClient;
 import org.apache.solr.client.solrj.request.AbstractUpdateRequest;
@@ -114,10 +116,42 @@ implements SSDBNoSQLI{
   public List<String> search(final SSDBNoSQLSearchPar par) throws Exception {
     
     try{
-      final List<String>    searchResults = new ArrayList<>();
-      final SolrQuery       query         = new SolrQuery();
-    
-      query.setQuery(SSSolrSearchFieldEnum.docText.val + SSStrU.colon + SSStrU.toStr(par.keyword));
+      final List<String>    searchResults   = new ArrayList<>();
+      final SolrQuery       query           = new SolrQuery();
+      final String          globalSearchOp  = par.globalSearchOp.toUpperCase();
+      final String          localSearchOp   = par.localSearchOp.toUpperCase();
+      String                queryString     = new String();
+      
+      if(par.wheres.isEmpty()){
+        throw new Exception("no search fields given");
+      }
+        
+      for(Map.Entry<SSSolrSearchFieldE, List<SSSolrKeywordLabel>> where : par.wheres.entrySet()){
+        
+        if(where.getValue().isEmpty()){
+          throw new Exception("values for search field empty");
+        }
+
+        queryString += where.getKey().val + SSStrU.colon + "(";
+        
+        for(SSSolrKeywordLabel value : where.getValue()){
+          
+          if(
+            par.useFuzzySearch &&
+            !SSStrU.contains(value, SSStrU.blank)){
+
+            queryString += value + SSStrU.tilde + SSStrU.blank + localSearchOp + SSStrU.blank;
+          }else{
+            queryString += SSStrU.doubleQuote + value + SSStrU.doubleQuote + SSStrU.blank + localSearchOp + SSStrU.blank;
+          }
+        }
+        
+        queryString = SSStrU.removeTrailingString(queryString, SSStrU.blank + localSearchOp + SSStrU.blank) + ")" + SSStrU.blank + globalSearchOp + SSStrU.blank;
+      }
+      
+      queryString = SSStrU.removeTrailingString(queryString, SSStrU.blank + globalSearchOp + SSStrU.blank);
+      
+      query.setQuery(queryString);
       query.setRows (par.maxResults);
     
       for(SSSolrSearchResult result : SSSolrSearchResult.get(solrServer.query(query).getResults())){

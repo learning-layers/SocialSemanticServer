@@ -44,7 +44,7 @@ public class SSSolrSearchResult {
         get(
           getFieldAsString (
             doc, 
-            SSSolrSearchFieldEnum.id)));
+            SSSolrSearchFieldE.id)));
 		}
     
     return result;
@@ -59,7 +59,7 @@ public class SSSolrSearchResult {
    */
   private static synchronized String getFieldAsString(
     final SolrDocument sdoc, 
-    final SSSolrSearchFieldEnum    field) {
+    final SSSolrSearchFieldE    field) {
     
     Object tmp = sdoc.get(field.toString());
     

@@ -299,7 +299,8 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       while(resultSet.next()){
         
         entity =
-          SSEntity.get(bindingStrToUri        (resultSet, SSSQLVarNames.id),
+          SSEntity.get(
+            bindingStrToUri        (resultSet, SSSQLVarNames.id),
             bindingStrToEntityType (resultSet, SSSQLVarNames.type),
             bindingStrToLabel      (resultSet, SSSQLVarNames.label));
         

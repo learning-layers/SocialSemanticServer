@@ -22,7 +22,6 @@ package at.tugraz.sss.serv;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Pattern;
 
 public class SSSolrKeywordLabel extends SSEntityA{
 
@@ -48,14 +47,16 @@ public class SSSolrKeywordLabel extends SSEntityA{
       return false;
     }
     
-    final String tmpTag = string.replaceAll("[/\\*\\?<>]", "");
+//    final String tmpTag = string.replaceAll("[/\\*\\?<>]", "");
+    final String tmpKeyword = string.replaceAll("[^\\p{L}\\p{Zs}0-9_-]+", SSStrU.empty);
     
-    if(
-      tmpTag == null          ||
-      tmpTag.trim().isEmpty() ||
-      !Pattern.matches("^[a-zA-Z0-9_-]*$", tmpTag)){
-      return false;
-    }
+//    if(!Pattern.matches("^[a-zA-Z0-9_-]*$\\s", tmpTag)){return false};
+      
+//    if(
+//      tmpKeyword == null          ||
+//      tmpKeyword.trim().isEmpty()){
+//      return false;
+//    }
     
     return true;
   }

@@ -65,6 +65,7 @@ import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSSolrKeywordLabel;
+import at.tugraz.sss.serv.SSSolrSearchFieldE;
 
 public class SSSearchImpl 
 extends SSServImplWithDBA
@@ -417,41 +418,25 @@ implements
   private List<SSUri> getTextualContentResults(
     final SSDBNoSQLI  dbNoSQL,
     final SSSearchPar par) throws Exception{
-
+    
     try{
-
+      
       if(par.wordsToSearchFor.isEmpty()){
         return new ArrayList<>();
       }
-
-      final Map<String, List<SSEntity>> searchResultsPerKeyword    = new HashMap<>();
-      final List<SSEntity>              searchResultsForOneKeyword = new ArrayList<>();
       
-      for(String wordToSearchFor : par.wordsToSearchFor){
+      final Map<SSSolrSearchFieldE, List<SSSolrKeywordLabel>> wheres = new HashMap<>();
         
-        searchResultsForOneKeyword.clear();
-
-        for(String searchResultID :
-          dbNoSQL.search(
-            new SSDBNoSQLSearchPar(
-              SSSolrKeywordLabel.get(wordToSearchFor),
-              100))){
-          
-          searchResultsForOneKeyword.add(
-            SSEntity.get(
-              SSUri.get(
-                searchResultID,
-                SSVocConf.sssUri),
-              SSEntityE.entity));
-        }
+      wheres.put(SSSolrSearchFieldE.docText, SSSolrKeywordLabel.get(par.wordsToSearchFor));
         
-        searchResultsPerKeyword.put(wordToSearchFor, new ArrayList<>(searchResultsForOneKeyword));
-      }
-      
-      return SSUri.getDistinctNotNullFromEntities(
-        SSSearchFct.selectSearchResultsWithRegardToSearchOp(
-          par.localSearchOp,
-          searchResultsPerKeyword));
+      return SSUri.get(
+        dbNoSQL.search(
+          new SSDBNoSQLSearchPar(
+            par.globalSearchOp.toString(),
+            par.localSearchOp.toString(),
+            wheres,
+            100)),
+        SSVocConf.sssUri);
       
     }catch(Exception error){
       

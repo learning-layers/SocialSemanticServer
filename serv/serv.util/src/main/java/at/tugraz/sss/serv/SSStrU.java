@@ -90,6 +90,7 @@ public class SSStrU{
   public  static final String underline                                       = "_";
   public  static final String questionMark                                    = "?";
   public  static final String slash                                           = "/";
+  public  static final String tilde                                           = "~";
   public  static final String empty                                           = "";
   public  static final String ampersand                                       = "&";
   public  static final String backslashN                                      = "\n";
