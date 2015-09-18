@@ -38,14 +38,17 @@ import at.tugraz.sss.serv.SSEntityCopiedI;
 import at.tugraz.sss.serv.SSEntityCopiedPar;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSErrE;
+import at.tugraz.sss.serv.SSObjU;
 import at.tugraz.sss.serv.SSPushEntitiesToUsersI;
 import at.tugraz.sss.serv.SSPushEntitiesToUsersPar;
 import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServReg;
+import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntitiesGetPar;
+import at.tugraz.sss.servs.entity.datatypes.par.SSEntityGetPar;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -310,6 +313,38 @@ public class SSServCallerU{
           case user: continue;
           default:   throw new SSErr(SSErrE.userNotRegistered);
         }
+      }
+      
+      return true;
+    }catch(Exception error){
+      SSServErrReg.reset();
+      return false;
+    }
+  }
+  
+  public static Boolean isUserAuthor(
+    final SSUri   user, 
+    final SSUri   entityURI,
+    final Boolean withUserRestriction) throws Exception{
+    
+    try{
+      
+      if(SSObjU.isNull(user, entityURI)){
+        return false;
+      }
+      
+      final SSEntity entity =
+        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+          new SSEntityGetPar(
+            user,
+            entityURI,
+            withUserRestriction, //withUserRestriction
+            null));
+      
+      if(
+        entity == null ||
+        !SSStrU.equals(user, entity.author)){
+        return false;
       }
       
       return true;

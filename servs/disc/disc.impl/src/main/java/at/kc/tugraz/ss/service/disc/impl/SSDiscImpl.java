@@ -624,7 +624,10 @@ public class SSDiscImpl
     try{
       
       if(par.withUserRestriction){
-        if(!SSServCallerU.canUserRead(par.user, par.entry)){
+        
+        if(
+          !SSServCallerU.canUserRead (par.user, par.entry) ||
+          !SSServCallerU.isUserAuthor(par.user, par.entry, par.withUserRestriction)){
           return SSDiscEntryUpdateRet.get(null, null);
         }
       }
