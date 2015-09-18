@@ -20,6 +20,7 @@
 */
 package at.kc.tugraz.ss.service.userevent.impl.fct.sql;
 
+import at.kc.tugraz.ss.service.search.datatypes.SSSearchOpE;
 import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSSQLVarNames;
 import at.tugraz.sss.serv.SSStrU;
@@ -177,9 +178,20 @@ public class SSUESQLFct extends SSDBSQLFct{
       }
       
       if(!wheresNumeric.isEmpty()){
-        resultSet = dbSQL.select(tables, columns, wheres, wheresNumeric, tableCons, null, null, null);
+        resultSet = dbSQL.selectWithNumerics(tables, columns, wheres, wheresNumeric, tableCons, null, null, null);
       }else{
-        resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
+        
+        resultSet = 
+          dbSQL.select(
+            tables, 
+            columns, 
+            wheres, 
+            tableCons, 
+            SSSearchOpE.and.toString(),
+            SSSearchOpE.or.toString(),
+            null,
+            null,
+            null);
       }
       
       while(resultSet.next()){

@@ -83,7 +83,7 @@ public class SSDiscUpdatePar extends SSServPar{
   public SSDiscUpdatePar(
     final SSUri               user,
     final SSUri               disc,
-    final SSLabel             labe,
+    final SSLabel             label,
     final SSTextComment       content,
     final List<SSUri>         entitiesToRemove,
     final List<SSUri>         entitiesToAttach,

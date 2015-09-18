@@ -20,6 +20,7 @@
 */
 package at.kc.tugraz.sss.flag.impl.fct.sql;
 
+import at.kc.tugraz.ss.service.search.datatypes.SSSearchOpE;
 import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSSQLVarNames;
 import at.tugraz.sss.serv.SSStrU;
@@ -170,7 +171,17 @@ public class SSFlagSQLFct extends SSDBSQLFct{
         wheres.add(whereTypes);
       }
       
-      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
+      resultSet =
+        dbSQL.select(
+          tables,
+          columns,
+          wheres,
+          tableCons,
+          SSSearchOpE.and.toString(),
+          SSSearchOpE.or.toString(),
+          null,
+          null,
+          null);
       
       while(resultSet.next()){
         

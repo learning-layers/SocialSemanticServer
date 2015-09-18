@@ -574,7 +574,6 @@ public class SSTagAndCategoryCommonMisc {
     
     //because its supposed that a user can read all entities he attached tags to,
     //but not that he necessarly can read the entities another user tagged
-    
     if(
       withUserRestriction &&
       !SSStrU.equals(user,  forUser)){
@@ -584,7 +583,7 @@ public class SSTagAndCategoryCommonMisc {
         if(!SSServCallerU.canUserRead(user, entityURI)){
           continue;
         }
-          
+        
         filtered.add(entityURI);
       }
       

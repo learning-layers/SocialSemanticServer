@@ -20,6 +20,7 @@
   */
 package at.kc.tugraz.ss.service.user.impl.functions.sql;
 
+import at.kc.tugraz.ss.service.search.datatypes.SSSearchOpE;
 import at.tugraz.sss.serv.SSSQLVarNames;
 import at.tugraz.sss.serv.SSDBSQLFct;
 import at.tugraz.sss.serv.SSEntityE;
@@ -150,7 +151,6 @@ public class SSUserSQLFct extends SSDBSQLFct{
     ResultSet resultSet  = null;
     
     try{
-      final List<SSUser>                         users            = new ArrayList<>();
       final List<String>                         columns          = new ArrayList<>();
       final List<String>                         tables           = new ArrayList<>();
       final List<MultivaluedMap<String, String>> wheres           = new ArrayList<>();
@@ -176,7 +176,17 @@ public class SSUserSQLFct extends SSDBSQLFct{
         wheres.add(whereUsers);
       }
       
-      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
+      resultSet =
+        dbSQL.select(
+          tables,
+          columns,
+          wheres,
+          tableCons,
+          SSSearchOpE.and.toString(),
+          SSSearchOpE.or.toString(),
+          null,
+          null,
+          null);
       
       return getURIsFromResult(resultSet, SSSQLVarNames.id);
       

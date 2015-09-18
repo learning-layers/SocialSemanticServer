@@ -186,13 +186,17 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     }
   }
   
-  public List<SSUri> getEntityURIs(
+  public List<SSUri> getEntityURIsForAuthor(
     final SSUri           author,
     final List<SSEntityE> types) throws Exception{
     
     ResultSet resultSet = null;
     
     try{
+      
+      if(author == null){
+        throw new Exception("author has to be given");
+      }
       
       final List<String>                         columns    = new ArrayList<>();
       final List<String>                         tables     = new ArrayList<>();
@@ -202,10 +206,6 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       column (columns, SSSQLVarNames.id);
       
       table  (tables, SSSQLVarNames.entityTable);
-      
-      if(author == null){
-        throw new Exception("author has to be given");
-      }
       
       final MultivaluedMap<String, String> whereAuthors = new MultivaluedHashMap<>();
       
@@ -226,7 +226,17 @@ public class SSEntitySQLFct extends SSDBSQLFct{
         wheres.add(whereTypes);
       }
       
-      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
+      resultSet = 
+        dbSQL.select(
+          tables, 
+          columns, 
+          wheres, 
+          tableCons, 
+          SSSearchOpE.and.toString(),
+          SSSearchOpE.or.toString(),
+          null, 
+          null, 
+          null);
       
       return getURIsFromResult(resultSet, SSSQLVarNames.id);
     }catch(Exception error){
@@ -237,6 +247,49 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     }
   }
   
+  public List<SSUri> getEntityURIsForTypes(
+    final List<SSEntityE> types) throws Exception{
+    
+    ResultSet resultSet = null;
+    
+    try{
+      
+      final List<MultivaluedMap<String, String>> wheres         = new ArrayList<>();
+      final List<String>                         tables         = new ArrayList<>();
+      final List<String>                         columns        = new ArrayList<>();
+      final List<String>                         tableCons      = new ArrayList<>();
+      
+      column(columns, SSSQLVarNames.entityTable, SSSQLVarNames.entityId);
+      
+      table (tables, SSSQLVarNames.entityTable);
+      
+      final MultivaluedMap<String, String> whereTypes = new MultivaluedHashMap<>();
+      
+      for(SSEntityE type : types){
+        where(whereTypes, SSSQLVarNames.entityTable, SSSQLVarNames.type, type);
+      }
+      
+      wheres.add(whereTypes);
+      
+      resultSet = 
+        dbSQL.select(
+          tables, 
+          columns, 
+          wheres, 
+          tableCons, 
+          SSSearchOpE.and.toString(),
+          SSSearchOpE.or.toString(),
+          null, 
+          null, 
+          null);
+      
+      return getURIsFromResult(resultSet, SSSQLVarNames.entityId);
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
   public List<SSEntity> getEntities(
     final List<SSUri>     entityURIs,
     final List<SSEntityE> types) throws Exception{
@@ -244,6 +297,13 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     ResultSet resultSet = null;
     
     try{
+      
+      if(
+        (entityURIs == null || entityURIs.isEmpty()) &&
+        (types      == null || types.isEmpty())){
+        
+        throw new SSErr(SSErrE.parameterMissing);
+      }
       
       final List<String>                         columns    = new ArrayList<>();
       final List<String>                         tables     = new ArrayList<>();
@@ -260,13 +320,6 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       column (columns, SSSQLVarNames.description);
       
       table  (tables, SSSQLVarNames.entityTable);
-      
-      if(
-        (entityURIs == null || entityURIs.isEmpty()) &&
-        (types      == null || types.isEmpty())){
-        
-        throw new Exception("at least one parameter has to be set");
-      }
       
       if(
         entityURIs != null &&
@@ -294,7 +347,17 @@ public class SSEntitySQLFct extends SSDBSQLFct{
         wheres.add(whereTypes);
       }
       
-      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
+      resultSet = 
+        dbSQL.select(
+          tables, 
+          columns, 
+          wheres, 
+          tableCons,  
+          SSSearchOpE.and.toString(),
+          SSSearchOpE.or.toString(),
+          null,
+          null,
+          null);
       
       while(resultSet.next()){
         
@@ -863,39 +926,6 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     }
   }
 
-  public List<SSUri> getEntityURIsForTypes(
-    final List<SSEntityE> types) throws Exception{
-    
-    ResultSet resultSet = null;
-    
-    try{
-      
-      final List<MultivaluedMap<String, String>> wheres         = new ArrayList<>();
-      final List<String>                         tables         = new ArrayList<>();
-      final List<String>                         columns        = new ArrayList<>();
-      final List<String>                         tableCons      = new ArrayList<>();
-      
-      column(columns, SSSQLVarNames.entityTable, SSSQLVarNames.entityId);
-      
-      table (tables, SSSQLVarNames.entityTable);
-      
-      final MultivaluedMap<String, String> whereTypes = new MultivaluedHashMap<>();
-      
-      for(SSEntityE type : types){
-        where(whereTypes, SSSQLVarNames.entityTable, SSSQLVarNames.type, type);
-      }
-      
-      wheres.add(whereTypes);
-      
-      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
-      
-      return getURIsFromResult(resultSet, SSSQLVarNames.entityId);
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
   public void addDownloads(
     final SSUri         entity,
     final List<SSUri>   downloads) throws Exception{

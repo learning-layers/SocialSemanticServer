@@ -646,29 +646,10 @@ implements
               par.user,
               null, 
               SSTagLabel.asListWithoutNullAndEmpty(SSTagLabel.get(tagLabel)), 
-              SSSpaceE.sharedSpace, 
-              null,
-            true))){
+              null, //spaces
+              null, //startTime
+              true))){ //withUserRestriction
           
-          searchResultsForTagOneTag.add(
-            ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
-              new SSEntityGetPar(
-                null,
-                foundEntity,  //entity
-                false, //withUserRestriction
-                null))); //descPar
-        }
-        
-        for(SSUri foundEntity :
-          ((SSTagServerI) SSServReg.getServ(SSTagServerI.class)).tagEntitiesForTagsGet(
-            new SSTagEntitiesForTagsGetPar(
-              par.user,
-              null, 
-              SSTagLabel.asListWithoutNullAndEmpty(SSTagLabel.get(tagLabel)), 
-              SSSpaceE.privateSpace, 
-              null, 
-              true))){
-
           searchResultsForTagOneTag.add(
             ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
               new SSEntityGetPar(

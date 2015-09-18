@@ -22,6 +22,7 @@ package at.tugraz.sss.servs.common.impl.tagcategory;
 
 import at.kc.tugraz.ss.category.datatypes.SSCategory;
 import at.kc.tugraz.ss.category.datatypes.SSCategoryLabel;
+import at.kc.tugraz.ss.service.search.datatypes.SSSearchOpE;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTag;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.tugraz.sss.serv.SSDBSQLFct;
@@ -29,6 +30,8 @@ import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSDateU;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSEntityE;
+import at.tugraz.sss.serv.SSErr;
+import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSSQLVarNames;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSSpaceE;
@@ -350,14 +353,24 @@ public class SSTagAndCategoryCommonSQL extends SSDBSQLFct{
       }
       
       if(wheres.isEmpty()){
-        throw new Exception("wheres empty");
+        throw new SSErr(SSErrE.parameterMissing);
       }
       
-      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
+      resultSet = 
+        dbSQL.select(
+          tables, 
+          columns, 
+          wheres, 
+          tableCons, 
+          SSSearchOpE.and.toString(),
+          SSSearchOpE.or.toString(),
+          null, 
+          null, 
+          null);
       
       while(resultSet.next()){
         
-        //TODO dtheiler: use db for date restriction here
+        //TODO dtheiler: use db for date restriction here (i.e. select with numerics)
         if(
           startTime != null &&
           startTime != 0    &&

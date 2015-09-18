@@ -23,6 +23,7 @@ package at.kc.tugraz.ss.circle.impl.fct.sql;
 import at.tugraz.sss.serv.SSSQLVarNames;
 import at.tugraz.sss.serv.SSStrU;
 import at.kc.tugraz.ss.circle.impl.fct.misc.SSCircleMiscFct;
+import at.kc.tugraz.ss.service.search.datatypes.SSSearchOpE;
 import at.tugraz.sss.serv.SSDBSQLFct;
 import at.tugraz.sss.serv.SSCircleE;
 import at.tugraz.sss.serv.SSEntity;
@@ -817,6 +818,11 @@ public class SSCircleSQLFct extends SSDBSQLFct{
     ResultSet resultSet = null;
     
     try{
+      
+      if(circleUri == null){
+        throw new Exception("circle has to be given");
+      }
+      
       final List<MultivaluedMap<String, String>> wheres         = new ArrayList<>();
       final List<String>                         tables         = new ArrayList<>();
       final List<String>                         columns        = new ArrayList<>();
@@ -829,10 +835,6 @@ public class SSCircleSQLFct extends SSDBSQLFct{
 
       tableCon (tableCons, SSSQLVarNames.circleEntitiesTable, SSSQLVarNames.entityId, SSSQLVarNames.entityTable, SSSQLVarNames.id);
       
-      if(circleUri == null){
-        throw new Exception("circle has to be given");
-      }
-        
       final MultivaluedMap<String, String> whereCircles = new MultivaluedHashMap<>();
       
       where(whereCircles, SSSQLVarNames.circleEntitiesTable, SSSQLVarNames.circleId, circleUri);
@@ -852,7 +854,17 @@ public class SSCircleSQLFct extends SSDBSQLFct{
         wheres.add(whereTypes);
       }
       
-      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
+      resultSet = 
+        dbSQL.select(
+          tables, 
+          columns, 
+          wheres, 
+          tableCons, 
+          SSSearchOpE.and.toString(), 
+          SSSearchOpE.or.toString(), 
+          null, 
+          null, 
+          null);
       
       return SSEntity.get(getURIsFromResult(resultSet, SSSQLVarNames.entityId), 
         SSEntityE.entity);
@@ -1005,60 +1017,80 @@ public class SSCircleSQLFct extends SSDBSQLFct{
     final Boolean         withSystemCircles,
     final List<SSEntityE> types) throws Exception{
     
-    if(user == null){
-      throw new Exception("user has to be given");
-    }
-    
     ResultSet resultSet = null;
     
-    final List<MultivaluedMap<String, String>> wheres         = new ArrayList<>();
-    final List<String>                         tables         = new ArrayList<>();
-    final List<String>                         columns        = new ArrayList<>();
-    final List<String>                         tableCons      = new ArrayList<>();
-    
-    column(columns, SSSQLVarNames.circleEntitiesTable,   SSSQLVarNames.entityId);
-//      column(columns, circleUsersTable,      SSSQLVarU.circleId);
-    
-    table    (tables, SSSQLVarNames.circleUsersTable);
-    table    (tables, SSSQLVarNames.circleEntitiesTable);
-    table    (tables, SSSQLVarNames.entityTable);
-    
-    tableCon (tableCons, SSSQLVarNames.circleUsersTable,    SSSQLVarNames.circleId, SSSQLVarNames.circleEntitiesTable, SSSQLVarNames.circleId);
-    tableCon (tableCons, SSSQLVarNames.circleEntitiesTable, SSSQLVarNames.entityId, SSSQLVarNames.entityTable,         SSSQLVarNames.id);
-    
-    final MultivaluedMap<String, String> whereUsers = new MultivaluedHashMap<>();
-    
-    where(whereUsers, SSSQLVarNames.circleUsersTable, SSSQLVarNames.userId, user);
-    
-    wheres.add(whereUsers);
-    
-    if(!withSystemCircles){
-      
-      table    (tables, SSSQLVarNames.circleTable);
-      tableCon (tableCons, SSSQLVarNames.circleTable, SSSQLVarNames.circleId, SSSQLVarNames.circleUsersTable,         SSSQLVarNames.circleId);
-      
-      final MultivaluedMap<String, String> whereIsSystemCircles = new MultivaluedHashMap<>();
-      
-      where(whereIsSystemCircles, SSSQLVarNames.circleTable, SSSQLVarNames.isSystemCircle, withSystemCircles);
-      
-      wheres.add(whereIsSystemCircles);
-    }
-    
-    if(
-      types != null &&
-      !types.isEmpty()){
-      
-      final MultivaluedMap<String, String> whereTypes = new MultivaluedHashMap<>();
-      
-      for(SSEntityE type : types){
-        where(whereTypes, SSSQLVarNames.entityTable, SSSQLVarNames.type, type);
+    try{
+     
+      if(user == null){
+        throw new Exception("user has to be given");
       }
       
-      wheres.add(whereTypes);
+      final List<MultivaluedMap<String, String>> wheres         = new ArrayList<>();
+      final List<String>                         tables         = new ArrayList<>();
+      final List<String>                         columns        = new ArrayList<>();
+      final List<String>                         tableCons      = new ArrayList<>();
+      
+      column(columns, SSSQLVarNames.circleEntitiesTable,   SSSQLVarNames.entityId);
+      //      column(columns, circleUsersTable,      SSSQLVarU.circleId);
+      
+      table    (tables, SSSQLVarNames.circleUsersTable);
+      table    (tables, SSSQLVarNames.circleEntitiesTable);
+      table    (tables, SSSQLVarNames.entityTable);
+      
+      tableCon (tableCons, SSSQLVarNames.circleUsersTable,    SSSQLVarNames.circleId, SSSQLVarNames.circleEntitiesTable, SSSQLVarNames.circleId);
+      tableCon (tableCons, SSSQLVarNames.circleEntitiesTable, SSSQLVarNames.entityId, SSSQLVarNames.entityTable,         SSSQLVarNames.id);
+      
+      final MultivaluedMap<String, String> whereUsers = new MultivaluedHashMap<>();
+      
+      where(whereUsers, SSSQLVarNames.circleUsersTable, SSSQLVarNames.userId, user);
+      
+      wheres.add(whereUsers);
+      
+      if(
+        withSystemCircles != null &&
+        !withSystemCircles){
+        
+        table    (tables, SSSQLVarNames.circleTable);
+        tableCon (tableCons, SSSQLVarNames.circleTable, SSSQLVarNames.circleId, SSSQLVarNames.circleUsersTable,         SSSQLVarNames.circleId);
+        
+        final MultivaluedMap<String, String> whereIsSystemCircles = new MultivaluedHashMap<>();
+        
+        where(whereIsSystemCircles, SSSQLVarNames.circleTable, SSSQLVarNames.isSystemCircle, withSystemCircles);
+        
+        wheres.add(whereIsSystemCircles);
+      }
+      
+      if(
+        types != null &&
+        !types.isEmpty()){
+        
+        final MultivaluedMap<String, String> whereTypes = new MultivaluedHashMap<>();
+        
+        for(SSEntityE type : types){
+          where(whereTypes, SSSQLVarNames.entityTable, SSSQLVarNames.type, type);
+        }
+        
+        wheres.add(whereTypes);
+      }
+      
+      resultSet =
+        dbSQL.select(
+          tables,
+          columns,
+          wheres,
+          tableCons,
+          SSSearchOpE.and.toString(),
+          SSSearchOpE.or.toString(),
+          null,
+          null,
+          null);
+      
+      return getURIsFromResult(resultSet, SSSQLVarNames.entityId);
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
     }
-    
-    resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
-    
-    return getURIsFromResult(resultSet, SSSQLVarNames.entityId);
   }
 }

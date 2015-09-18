@@ -25,7 +25,6 @@ import java.util.List;
 
 public enum SSSpaceE implements SSJSONLDPropI{
   
-  followSpace,
   sharedSpace,
   circleSpace,
   privateSpace;
@@ -82,15 +81,43 @@ public enum SSSpaceE implements SSJSONLDPropI{
     return isPrivate(space) || isShared(space);
   }
   
-  public static Boolean isFollow(
-    final SSSpaceE space){
+  public static void addDistinctWithoutNull(
+    final List<SSSpaceE>  entities,
+    final List<SSSpaceE>  toAddEntities){
     
-    return SSStrU.equals(space, SSSpaceE.followSpace);
+    if(SSObjU.isNull(entities, toAddEntities)){
+      return;
+    }
+    
+    for(SSSpaceE entity : toAddEntities){
+      
+      if(entity == null){
+        continue;
+      }
+      
+      if(!SSStrU.contains(entities, entity)){
+        entities.add(entity);
+      }
+    }
   }
   
-  public static Boolean isSharedOrFollow(
-    final SSSpaceE space){
+  public static List<SSSpaceE> asListWithoutNull(final SSSpaceE... spaces){
+   
+    final List<SSSpaceE> result = new ArrayList<>();
     
-    return isShared(space) || isFollow(space);
+    if(spaces == null){
+      return result;
+    }
+    
+    for(SSSpaceE space : spaces){
+      
+      if(space == null){
+        continue;
+      }
+      
+      result.add(space);
+    }
+    
+    return result;
   }
 }

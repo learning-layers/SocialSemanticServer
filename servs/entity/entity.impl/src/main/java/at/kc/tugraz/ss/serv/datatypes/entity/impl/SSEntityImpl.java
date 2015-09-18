@@ -220,7 +220,7 @@ implements
       
       for(String user : allUsers){
         
-        for(SSUri entity : sqlFct.getEntityURIs(SSUri.get(user), types)){
+        for(SSUri entity : sqlFct.getEntityURIsForAuthor(SSUri.get(user), types)){
           
           if(usersResources.containsKey(user)){
             usersResources.get(user).add(entity);

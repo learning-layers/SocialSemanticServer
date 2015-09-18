@@ -757,40 +757,49 @@ implements
        
         if(
           par.forUser != null &&
-          !SSStrU.equals(par.user,  par.forUser)){
-          par.space = SSSpaceE.sharedSpace;
+          !SSStrU.equals(par.user, par.forUser)){
+          throw new SSErr(SSErrE.userNotAllowedToRetrieveForOtherUser);
         }
       }
 
-      if(par.space == null){
+      if(par.spaces.isEmpty()){
         
-        entityURIs.addAll(
+        SSUri.addDistinctWithoutNull(
+          entityURIs,
           commonMiscFct.getEntitiesForMetadataIfSpaceNotSet(
             par.user, 
             par.forUser, 
             SSStrU.toStr(par.labels)));
       }else{
         
-        switch(par.space){
+        for(SSSpaceE space : par.spaces){
           
-          case privateSpace:{
-            entityURIs.addAll(
-              commonMiscFct.getEntitiesForMetadataIfSpaceSet(
-                par.user, 
-                SSStrU.toStr(par.labels), 
-                par.space, 
-                par.user));
-            break;
-          }
-          
-          case sharedSpace:{
-            entityURIs.addAll(
-              commonMiscFct.getEntitiesForMetadataIfSpaceSet(
-                par.user, 
-                SSStrU.toStr(par.labels), 
-                par.space, 
-                par.forUser));
-            break;
+          switch(space){
+            
+            case privateSpace:{
+              
+              SSUri.addDistinctWithoutNull(
+                entityURIs,
+                commonMiscFct.getEntitiesForMetadataIfSpaceSet(
+                  par.user,
+                  SSStrU.toStr(par.labels),
+                  space,
+                  par.user));
+              
+              break;
+            }
+            
+            case sharedSpace:{
+              
+              SSUri.addDistinctWithoutNull(
+                entityURIs,
+                commonMiscFct.getEntitiesForMetadataIfSpaceSet(
+                  par.user,
+                  SSStrU.toStr(par.labels),
+                  space,
+                  par.forUser));
+              break;
+            }
           }
         }
       } 

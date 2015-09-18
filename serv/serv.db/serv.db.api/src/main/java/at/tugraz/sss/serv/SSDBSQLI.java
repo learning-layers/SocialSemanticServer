@@ -43,11 +43,13 @@ public interface SSDBSQLI{
     final List<String>                         columns,
     final List<MultivaluedMap<String, String>> wheres,
     final List<String>                         tableCons,
+    final String                               globalSearchOp,
+    final String                               localSearchOp,
     final String                               orderByColumn,
     final String                               sortType, 
     final Integer                              limit) throws Exception;
   
-  public ResultSet select(
+  public ResultSet selectWithNumerics(
     final List<String>                                           tables,
     final List<String>                                           columns,
     final List<MultivaluedMap<String, String>>                   wheres,

@@ -30,34 +30,34 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SSTagEntitiesForTagsGetPar extends SSServPar{
-
+  
   public SSUri             forUser   = null;
   public List<SSTagLabel>  labels    = new ArrayList<>();
-  public SSSpaceE          space     = null;
+  public List<SSSpaceE>    spaces    = new ArrayList<>();
   public Long              startTime = null;
-
-  public void setForUser(final String forUser) throws Exception{
-    this.forUser = SSUri.get(forUser);
-  }
-
-  public void setLabels(final List<String> labels) throws Exception{
-    this.labels = SSTagLabel.get(labels);
-  }
-
-  public void setSpace(final String space) throws Exception{
-    this.space = SSSpaceE.get(space);
-  }
   
   public String getForUser(){
     return SSStrU.removeTrailingSlash(forUser);
   }
-
+  
+  public void setForUser(final String forUser) throws Exception{
+    this.forUser = SSUri.get(forUser);
+  }
+  
   public List<String> getLabels() throws Exception{
     return SSStrU.toStr(labels);
   }
-
-  public String getSpace(){
-    return SSStrU.toStr(space);
+  
+  public void setLabels(final List<String> labels) throws Exception{
+    this.labels = SSTagLabel.get(labels);
+  }
+  
+  public List<String> getSpaces(){
+    return SSStrU.toStr(spaces);
+  }
+  
+  public void setSpaces(final List<String> spaces) throws Exception{
+    this.spaces = SSSpaceE.get(spaces);
   }
   
   public SSTagEntitiesForTagsGetPar(){}
@@ -66,7 +66,7 @@ public class SSTagEntitiesForTagsGetPar extends SSServPar{
     final SSUri            user,
     final SSUri            forUser,
     final List<SSTagLabel> labels,
-    final SSSpaceE         space,
+    final List<SSSpaceE>   spaces,
     final Long             startTime,
     final Boolean          withUserRestriction){
     
@@ -74,9 +74,9 @@ public class SSTagEntitiesForTagsGetPar extends SSServPar{
     
     this.forUser = forUser;
 
-    SSTagLabel.addDistinctWithoutNull(this.labels, labels);
-    
-    this.space               = space;
+    SSTagLabel.addDistinctWithoutNull (this.labels, labels);
+    SSSpaceE.addDistinctWithoutNull   (this.spaces, spaces);
+
     this.startTime           = startTime;
     this.withUserRestriction = withUserRestriction;
   }

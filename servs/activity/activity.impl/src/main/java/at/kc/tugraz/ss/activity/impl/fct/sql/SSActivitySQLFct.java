@@ -26,6 +26,7 @@ import at.kc.tugraz.ss.activity.datatypes.SSActivity;
 import at.kc.tugraz.ss.activity.datatypes.SSActivityContent;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityContentE;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
+import at.kc.tugraz.ss.service.search.datatypes.SSSearchOpE;
 import at.tugraz.sss.serv.SSAuthor;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSTextComment;
@@ -161,7 +162,7 @@ public class SSActivitySQLFct extends SSDBSQLFct{
     }
   }
   
-  public List<SSUri>    getActivityURIs(
+  public List<SSUri> getActivityURIs(
     final List<SSUri>       users,
     final List<SSUri>       entities,
     final List<SSActivityE> types,
@@ -269,17 +270,39 @@ public class SSActivitySQLFct extends SSDBSQLFct{
       if(!wheresNumeric.isEmpty()){
         
         if(sortByTime){
-          resultSet = dbSQL.select(tables, columns, wheres, wheresNumeric, tableCons, SSSQLVarNames.creationTime, "DESC", limit);
+          resultSet = dbSQL.selectWithNumerics(tables, columns, wheres, wheresNumeric, tableCons, SSSQLVarNames.creationTime, "DESC", limit);
         }else{
-          resultSet = dbSQL.select(tables, columns, wheres, wheresNumeric, tableCons, null, null, limit);
+          resultSet = dbSQL.selectWithNumerics(tables, columns, wheres, wheresNumeric, tableCons, null, null, limit);
         }
         
       }else{
         
         if(sortByTime){
-          resultSet = dbSQL.select(tables, columns, wheres, tableCons, SSSQLVarNames.creationTime, "DESC", limit);
+          
+          resultSet = 
+            dbSQL.select(
+              tables, 
+              columns, 
+              wheres, 
+              tableCons,
+              SSSearchOpE.and.toString(),
+              SSSearchOpE.or.toString(),
+              SSSQLVarNames.creationTime, 
+              "DESC", 
+              limit);
         }else{
-          resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, limit);
+          
+          resultSet = 
+            dbSQL.select(
+              tables, 
+              columns, 
+              wheres, 
+              tableCons, 
+              SSSearchOpE.and.toString(),
+              SSSearchOpE.or.toString(),
+              null, 
+              null, 
+              limit);
         }
       }
       

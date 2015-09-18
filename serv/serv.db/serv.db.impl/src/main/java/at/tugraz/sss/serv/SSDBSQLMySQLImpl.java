@@ -59,7 +59,7 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
   }
   
   @Override
-  public ResultSet select(
+  public ResultSet selectWithNumerics(
     final List<String>                                           tables,
     final List<String>                                           columns,
     final List<MultivaluedMap<String, String>>                   wheres,
@@ -208,6 +208,8 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
     final List<String>                         columns,
     final List<MultivaluedMap<String, String>> wheres,
     final List<String>                         tableCons,
+    final String                               globalSearchOp, 
+    final String                               localSearchOp,
     final String                               orderByColumn, 
     final String                               sortType, 
     final Integer                              limit) throws Exception{
@@ -217,6 +219,9 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
     PreparedStatement                         stmt;
     Iterator<Map.Entry<String, List<String>>> iteratorMultiValue;
     Map.Entry<String, List<String>>           entrySet;
+    
+    final String gSOp = globalSearchOp.toUpperCase();
+    final String lSOp = localSearchOp.toUpperCase();
     
     for(String columnName : columns){
       query += columnName + SSStrU.comma;
@@ -254,14 +259,14 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
         entrySet = iteratorMultiValue.next();
 
         for(String value : entrySet.getValue()){
-          query += entrySet.getKey() + SSStrU.equal + SSStrU.questionMark + " OR ";
+          query += entrySet.getKey() + SSStrU.equal + SSStrU.questionMark + SSStrU.blank + lSOp + SSStrU.blank;
         }
       }
       
-      query = SSStrU.removeTrailingString(query, " OR ") + ") AND ";
+      query = SSStrU.removeTrailingString(query, SSStrU.blank + lSOp + SSStrU.blank) + ")" + SSStrU.blank + gSOp + SSStrU.blank;
     }
     
-    query = SSStrU.removeTrailingString(query, " AND ");
+    query = SSStrU.removeTrailingString(query, SSStrU.blank + gSOp + SSStrU.blank);
       
     if(
       !wheres.isEmpty() &&
