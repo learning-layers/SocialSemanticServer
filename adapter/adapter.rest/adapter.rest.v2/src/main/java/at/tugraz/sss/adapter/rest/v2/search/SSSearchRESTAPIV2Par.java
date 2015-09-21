@@ -24,7 +24,7 @@ import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
 import at.kc.tugraz.ss.service.search.datatypes.SSSearchLabel;
-import at.kc.tugraz.ss.service.search.datatypes.SSSearchOpE;
+import at.tugraz.sss.serv.SSSearchOpE;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 import java.util.List;

@@ -34,49 +34,49 @@ public class SSTagFrequsGetPar extends SSServPar{
   public SSUri              forUser              = null;
   public List<SSUri>        entities             = new ArrayList<>();
   public List<SSTagLabel>   labels               = new ArrayList<>();
-  public SSSpaceE           space                = null;
+  public List<SSSpaceE>     spaces               = new ArrayList<>();
   public List<SSUri>        circles              = new ArrayList<>();
   public Long               startTime            = null;
   public Boolean            useUsersEntities     = false;
 
+  public String getForUser(){
+    return SSStrU.removeTrailingSlash(forUser);
+  }
+    
   public void setForUser(final String forUser) throws Exception{
     this.forUser = SSUri.get(forUser);
   } 
 
-  public void setEntities(final List<String> entities) throws Exception{
-    this.entities = SSUri.get(entities);
-  }
-
-  public void setLabels(final List<String> labels) throws Exception{
-    this.labels = SSTagLabel.get(labels);
-  }
-
-  public void setSpace(final String space) throws Exception{
-    this.space = SSSpaceE.get(space);
-  }
-  
-  public void setCircles(final List<String> circles) throws Exception{
-    this.circles = SSUri.get(circles);
-  }
-   
-  public String getForUser(){
-    return SSStrU.removeTrailingSlash(forUser);
-  }
-
   public List<String> getEntities() throws Exception{
     return SSStrU.removeTrailingSlash(entities);
+  }
+  
+  public void setEntities(final List<String> entities) throws Exception{
+    this.entities = SSUri.get(entities);
   }
 
   public List<String> getLabels() throws Exception{
     return SSStrU.toStr(labels);
   }
-
-  public String getSpace(){
-    return SSStrU.toStr(space);
+  
+  public void setLabels(final List<String> labels) throws Exception{
+    this.labels = SSTagLabel.get(labels);
   }
   
+  public List<String> getSpaces(){
+    return SSStrU.toStr(spaces);
+  }
+  
+  public void setSpaces(final List<String> spaces) throws Exception{
+    this.spaces = SSSpaceE.get(spaces);
+  }
+
   public List<String> getCircles() throws Exception{
     return SSStrU.removeTrailingSlash(circles);
+  }
+  
+  public void setCircles(final List<String> circles) throws Exception{
+    this.circles = SSUri.get(circles);
   }
   
   public SSTagFrequsGetPar(){}
@@ -86,7 +86,7 @@ public class SSTagFrequsGetPar extends SSServPar{
     final SSUri              forUser, 
     final List<SSUri>        entities, 
     final List<SSTagLabel>   labels, 
-    final SSSpaceE           space, 
+    final List<SSSpaceE>     spaces, 
     final List<SSUri>        circles, 
     final Long               startTime,
     final Boolean            useUsersEntities,
@@ -98,10 +98,8 @@ public class SSTagFrequsGetPar extends SSServPar{
     
     SSUri.addDistinctWithoutNull      (this.entities, entities);
     SSTagLabel.addDistinctWithoutNull (this.labels,   labels);
-    
-    this.space                = space;
-    
-    SSUri.addDistinctWithoutNull      (this.circles, circles);
+    SSSpaceE.addDistinctWithoutNull   (this.spaces,   spaces);
+    SSUri.addDistinctWithoutNull      (this.circles,  circles);
     
     this.startTime            = startTime;
     this.useUsersEntities     = useUsersEntities;

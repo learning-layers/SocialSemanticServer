@@ -31,6 +31,7 @@ import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSEntityA;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSLabel;
+import at.tugraz.sss.serv.SSSearchOpE;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSSpaceE;
 import at.tugraz.sss.serv.SSStrU;
@@ -54,112 +55,12 @@ public class SSTagAndCategoryCommonMisc {
     this.sqlFct       = new SSTagAndCategoryCommonSQL(dbSQL, metadataType);
   }
   
-  public List<SSUri> getEntitiesForMetadataIfSpaceSet(
-    final SSUri        user,
-    final List<String> labels,
-    final SSSpaceE     space,
-    final SSUri        userToUse) throws Exception{
-    
-    final List<SSUri> entities = new ArrayList<>();
-    SSEntity          metadataEntity;
-    
-    if(labels.isEmpty()){
-      
-      entities.addAll(
-        sqlFct.getEntities(
-          userToUse,
-          space,
-          null));
-    }
-    
-    //TODO dtheiler: handle loop in db
-    for(String label : labels){
-    
-      metadataEntity =
-        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityFromTypeAndLabelGet(
-          new SSEntityFromTypeAndLabelGetPar(
-            user,
-            SSLabel.get(label), //label,
-            metadataType, //type,
-            false)); //withUserRestriction
-      
-      if(metadataEntity == null){
-        continue;
-      }
-      
-      entities.addAll(
-        sqlFct.getEntities(
-          userToUse,
-          space,
-          metadataEntity.id));
-    }
-    
-    SSStrU.distinctWithoutEmptyAndNull2(entities);
-    
-    return entities;
-  }
-  
-  public List<SSUri> getEntitiesForMetadataIfSpaceNotSet(
-    final SSUri        user,
-    final SSUri        forUser,
-    final List<String> labels)throws Exception{
-    
-    final List<SSUri> entities = new ArrayList<>();
-    SSEntity          metadataEntity;
-    
-    if(labels.isEmpty()){
-      
-      entities.addAll(
-        sqlFct.getEntities(
-          user,
-          SSSpaceE.privateSpace, 
-          null));
-      
-      entities.addAll(
-        sqlFct.getEntities(
-          forUser,
-          SSSpaceE.sharedSpace,
-          null));
-    }
-    
-    //TODO dtheiler: handle loop in db
-    for(String label : labels){
-      
-      metadataEntity =
-        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityFromTypeAndLabelGet(
-          new SSEntityFromTypeAndLabelGetPar(
-            user,
-            SSLabel.get(label), //label,
-            metadataType, //type,
-            false)); //withUserRestriction
-      
-      if(metadataEntity == null){
-        continue;
-      }
-      
-      entities.addAll(
-        sqlFct.getEntities(
-          user,
-          SSSpaceE.privateSpace,
-          metadataEntity.id));
-      
-      entities.addAll(
-        sqlFct.getEntities(
-          forUser,
-          SSSpaceE.sharedSpace,
-          metadataEntity.id));
-    }
-    
-    SSStrU.distinctWithoutEmptyAndNull2(entities);
-    
-    return entities;
-  }
-    
   public List<SSEntity> getMetadataIfSpaceNotSet(
     final SSUri        user,
     final SSUri        forUser,
     final List<SSUri>  entities,
     final List<String> labels,
+    final SSSearchOpE  labelSearchOp,
     final List<SSUri>  circles, 
     final Long         startTime) throws Exception{
     
@@ -188,6 +89,7 @@ public class SSTagAndCategoryCommonMisc {
           SSSpaceE.privateSpace,
           startTime,
           null,
+          null, //labelSearchOp
           circles));
       
       metadata.addAll(
@@ -197,6 +99,7 @@ public class SSTagAndCategoryCommonMisc {
           SSSpaceE.sharedSpace,
           startTime,
           null,
+          null, //labelSearchOp
           circles));
       
       metadata.addAll(
@@ -206,6 +109,7 @@ public class SSTagAndCategoryCommonMisc {
           SSSpaceE.circleSpace,
           startTime,
           null,
+          null, //labelSearchOp
           circles));
     }
     
@@ -239,6 +143,7 @@ public class SSTagAndCategoryCommonMisc {
           SSSpaceE.privateSpace,
           startTime,
           metadataURIs,
+          labelSearchOp, //labelSearchOp
           circles));
       
       metadata.addAll (
@@ -248,6 +153,7 @@ public class SSTagAndCategoryCommonMisc {
           SSSpaceE.sharedSpace,
           startTime,
           metadataURIs,
+          labelSearchOp, //labelSearchOp
           circles));
       
       metadata.addAll (
@@ -257,6 +163,7 @@ public class SSTagAndCategoryCommonMisc {
           SSSpaceE.circleSpace,
           startTime,
           metadataURIs,
+          labelSearchOp, //labelSearchOp
           circles));
     }
     
@@ -271,6 +178,7 @@ public class SSTagAndCategoryCommonMisc {
           SSSpaceE.sharedSpace,  
           startTime, 
           null,
+          null, //labelSearchOp
           circles));
       
       metadata.addAll (
@@ -280,6 +188,7 @@ public class SSTagAndCategoryCommonMisc {
           SSSpaceE.circleSpace,  
           startTime, 
           null,
+          null, //labelSearchOp
           circles));
       
       metadata.addAll(
@@ -289,6 +198,7 @@ public class SSTagAndCategoryCommonMisc {
           SSSpaceE.privateSpace, 
           startTime, 
           null,
+          null, //labelSearchOp
           circles));
     }
     
@@ -317,6 +227,7 @@ public class SSTagAndCategoryCommonMisc {
             SSSpaceE.sharedSpace,  
             startTime, 
             SSUri.asListWithoutNullAndEmpty(metadataEntity.id),
+            labelSearchOp, //labelSearchOp
             circles));
         
         metadata.addAll (
@@ -326,6 +237,7 @@ public class SSTagAndCategoryCommonMisc {
             SSSpaceE.circleSpace,  
             startTime, 
             SSUri.asListWithoutNullAndEmpty(metadataEntity.id), 
+            labelSearchOp, //labelSearchOp
             circles));
         
         metadata.addAll (
@@ -335,6 +247,7 @@ public class SSTagAndCategoryCommonMisc {
             SSSpaceE.privateSpace, 
             startTime, 
             SSUri.asListWithoutNullAndEmpty(metadataEntity.id), 
+            labelSearchOp, //labelSearchOp
             circles));
       }
     }
@@ -346,6 +259,7 @@ public class SSTagAndCategoryCommonMisc {
     final SSUri        userToUse,
     final List<SSUri>  entities,
     final List<String> labels,
+    final SSSearchOpE  labelSearchOp,
     final List<SSUri>  circles, 
     final SSSpaceE     space,
     final Long         startTime) throws Exception{
@@ -373,6 +287,7 @@ public class SSTagAndCategoryCommonMisc {
           space, 
           startTime,
           null,
+          null, //labelSearchOp
           circles));
     }
       
@@ -406,6 +321,7 @@ public class SSTagAndCategoryCommonMisc {
           space, 
           startTime,
           metadataURIs,
+          labelSearchOp, //labelSearchOp
           circles));
     }
     
@@ -420,6 +336,7 @@ public class SSTagAndCategoryCommonMisc {
           space, 
           startTime, 
           null,
+          null, //labelSearchOp
           circles));
     }
     
@@ -448,6 +365,7 @@ public class SSTagAndCategoryCommonMisc {
             space, 
             startTime, 
             SSUri.asListWithoutNullAndEmpty(metadataEntity.id),
+            labelSearchOp, //labelSearchOp
             circles));
       }
     }
@@ -456,8 +374,7 @@ public class SSTagAndCategoryCommonMisc {
   }
   
   public List<SSEntityA> getMetadataFrequsFromMetadata(
-    final List<SSEntity> metadata,
-    final SSSpaceE       space) throws Exception{
+    final List<SSEntity> metadata) throws Exception{
     
     final Map<String, SSEntityA> metadataFrequs = new HashMap<>();
     
@@ -474,7 +391,7 @@ public class SSTagAndCategoryCommonMisc {
           if(metadataFrequs.containsKey(metaLabel)){
             ((SSTagFrequ) metadataFrequs.get(metaLabel)).frequ += 1;
           }else{
-            metadataFrequs.put(metaLabel, SSTagFrequ.get(((SSTag)meta).tagLabel, space, 1));
+            metadataFrequs.put(metaLabel, SSTagFrequ.get(((SSTag)meta).tagLabel, ((SSTag)meta).space, 1));
           }
           
           break;
@@ -487,7 +404,7 @@ public class SSTagAndCategoryCommonMisc {
           if(metadataFrequs.containsKey(metaLabel)){
             ((SSCategoryFrequ) metadataFrequs.get(metaLabel)).frequ += 1;
           }else{
-            metadataFrequs.put(metaLabel, SSCategoryFrequ.get(((SSCategory) meta).categoryLabel, space, 1));
+            metadataFrequs.put(metaLabel, SSCategoryFrequ.get(((SSCategory) meta).categoryLabel, ((SSCategory) meta).space, 1));
           }
           break;
         }
@@ -562,35 +479,6 @@ public class SSTagAndCategoryCommonMisc {
     }
     
     return metadata;
-  }
-  
-  public List<SSUri> filterEntitiesUserCanAccess(
-    final List<SSUri> entityURIs, 
-    final Boolean     withUserRestriction, 
-    final SSUri       user, 
-    final SSUri       forUser) throws Exception{
-    
-    final List<SSUri> filtered     = new ArrayList<>();
-    
-    //because its supposed that a user can read all entities he attached tags to,
-    //but not that he necessarly can read the entities another user tagged
-    if(
-      withUserRestriction &&
-      !SSStrU.equals(user,  forUser)){
-      
-      for(SSUri entityURI : entityURIs){
-        
-        if(!SSServCallerU.canUserRead(user, entityURI)){
-          continue;
-        }
-        
-        filtered.add(entityURI);
-      }
-      
-      return filtered;
-    }
-    
-    return entityURIs;
   }
 }
 
@@ -1103,4 +991,134 @@ public class SSTagAndCategoryCommonMisc {
 //    }
 //    
 //    return creationTimesPerTag;
+//  }
+
+//public List<SSUri> getEntitiesForMetadataIfSpaceSet(
+//    final SSUri        user,
+//    final List<String> labels,
+//    final SSSpaceE     space,
+//    final SSUri        userToUse) throws Exception{
+//    
+//    final List<SSUri> entities = new ArrayList<>();
+//    SSEntity          metadataEntity;
+//    
+//    if(labels.isEmpty()){
+//      
+//      entities.addAll(
+//        sqlFct.getEntities(
+//          userToUse,
+//          space,
+//          null));
+//    }
+//    
+//    //TODO dtheiler: handle loop in db
+//    for(String label : labels){
+//    
+//      metadataEntity =
+//        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityFromTypeAndLabelGet(
+//          new SSEntityFromTypeAndLabelGetPar(
+//            user,
+//            SSLabel.get(label), //label,
+//            metadataType, //type,
+//            false)); //withUserRestriction
+//      
+//      if(metadataEntity == null){
+//        continue;
+//      }
+//      
+//      entities.addAll(
+//        sqlFct.getEntities(
+//          userToUse,
+//          space,
+//          metadataEntity.id));
+//    }
+//    
+//    SSStrU.distinctWithoutEmptyAndNull2(entities);
+//    
+//    return entities;
+//  }
+//  
+//  public List<SSUri> getEntitiesForMetadataIfSpaceNotSet(
+//    final SSUri        user,
+//    final SSUri        forUser,
+//    final List<String> labels)throws Exception{
+//    
+//    final List<SSUri> entities = new ArrayList<>();
+//    SSEntity          metadataEntity;
+//    
+//    if(labels.isEmpty()){
+//      
+//      entities.addAll(
+//        sqlFct.getEntities(
+//          user,
+//          SSSpaceE.privateSpace, 
+//          null));
+//      
+//      entities.addAll(
+//        sqlFct.getEntities(
+//          forUser,
+//          SSSpaceE.sharedSpace,
+//          null));
+//    }
+//    
+//    //TODO dtheiler: handle loop in db
+//    for(String label : labels){
+//      
+//      metadataEntity =
+//        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityFromTypeAndLabelGet(
+//          new SSEntityFromTypeAndLabelGetPar(
+//            user,
+//            SSLabel.get(label), //label,
+//            metadataType, //type,
+//            false)); //withUserRestriction
+//      
+//      if(metadataEntity == null){
+//        continue;
+//      }
+//      
+//      entities.addAll(
+//        sqlFct.getEntities(
+//          user,
+//          SSSpaceE.privateSpace,
+//          metadataEntity.id));
+//      
+//      entities.addAll(
+//        sqlFct.getEntities(
+//          forUser,
+//          SSSpaceE.sharedSpace,
+//          metadataEntity.id));
+//    }
+//    
+//    SSStrU.distinctWithoutEmptyAndNull2(entities);
+//    
+//    return entities;
+//  }
+
+//public List<SSUri> filterEntitiesUserCanAccess(
+//    final List<SSUri> entityURIs, 
+//    final Boolean     withUserRestriction, 
+//    final SSUri       user, 
+//    final SSUri       forUser) throws Exception{
+//    
+//    final List<SSUri> filtered = new ArrayList<>();
+//    
+//    //because its supposed that a user can read all entities he attached tags to,
+//    //but not that he necessarly can read the entities another user tagged
+//    if(
+//      withUserRestriction &&
+//      !SSStrU.equals(user,  forUser)){
+//      
+//      for(SSUri entityURI : entityURIs){
+//        
+//        if(!SSServCallerU.canUserRead(user, entityURI)){
+//          continue;
+//        }
+//        
+//        filtered.add(entityURI);
+//      }
+//      
+//      return filtered;
+//    }
+//    
+//    return entityURIs;
 //  }

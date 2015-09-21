@@ -48,6 +48,8 @@ import at.kc.tugraz.ss.category.impl.fct.userrelationgatherer.SSCategoryUserRela
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePubURIGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.kc.tugraz.ss.service.tag.datatypes.SSTag;
+import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsGetPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityFromTypeAndLabelGetPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityGetPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUpdatePar;
@@ -79,6 +81,7 @@ import java.util.List;
 import java.util.Map;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSObjU;
+import at.tugraz.sss.serv.SSSearchOpE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServReg;
@@ -133,7 +136,8 @@ implements
               null, //forUser,
               SSUri.asListWithoutNullAndEmpty(entity.id),
               null, //labels,
-              null, //space,
+              null, //labelSearchOp
+              null, //spaces,
               null,
               null, //startTime,
               par.withUserRestriction))); //withUserRestriction
@@ -166,7 +170,8 @@ implements
               userUri, //forUser
               null,  //entities
               null, //labels
-              null, //space
+              null, //labelSearchOp
+              null, //spaces
               null, //circles
               null, //startTime
               false))){ //withUserRestriction){
@@ -229,8 +234,9 @@ implements
                 par.user,
                 null, //forUser
                 SSUri.getDistinctNotNullFromEntities(par.entities), //entities
-                null,
-                SSSpaceE.circleSpace,
+                null, //labels,
+                null, //labelSearchOp
+                SSSpaceE.asListWithoutNull(SSSpaceE.circleSpace), //spaces
                 SSUri.getDistinctNotNullFromEntities(par.entity), //circles
                 null, //startTime,
                 par.withUserRestriction))){
@@ -749,62 +755,22 @@ implements
   @Override
   public List<SSUri> categoryEntitiesForCategoriesGet(final SSCategoryEntitiesForCategoriesGetPar par) throws Exception{
     
-    //TODO dtheiler: use start time for this call as well
     try{
 
-      final List<SSUri> entityURIs = new ArrayList<>();
-        
-      if(par.user == null){
-        throw new SSErr(SSErrE.parameterMissing);
-      }
+      final List<SSEntity> tagAsss =
+        categoriesGet(
+          new SSCategoriesGetPar(
+            par.user,
+            par.forUser,
+            par.entities,
+            par.labels,
+            par.labelSearchOp,
+            par.spaces,
+            par.circles,
+            par.startTime,
+            par.withUserRestriction));
       
-      if(par.withUserRestriction){
-        
-        if(
-          par.forUser != null &&
-          !SSStrU.equals(par.user,  par.forUser)){
-          par.space = SSSpaceE.sharedSpace;
-        }
-      }
-      
-      if(par.space == null){
-        
-        entityURIs.addAll(
-          commonMiscFct.getEntitiesForMetadataIfSpaceNotSet(
-            par.user, 
-            par.forUser, 
-            SSStrU.toStr(par.labels)));
-      }else{
-        
-        switch(par.space){
-          
-          case privateSpace:{
-            entityURIs.addAll(
-              commonMiscFct.getEntitiesForMetadataIfSpaceSet(
-                par.user, 
-                SSStrU.toStr(par.labels), 
-                par.space, 
-                par.user));
-            break;
-          }
-          
-          case sharedSpace:{
-            entityURIs.addAll(
-              commonMiscFct.getEntitiesForMetadataIfSpaceSet(
-                par.user, 
-                SSStrU.toStr(par.labels), 
-                par.space, 
-                par.forUser));
-            break;
-          }
-        }
-      } 
-      
-      return commonMiscFct.filterEntitiesUserCanAccess(
-        entityURIs, 
-        par.withUserRestriction, 
-        par.user, 
-        par.forUser);
+      return SSTag.getEntitiesFromTagsDistinctNotNull(tagAsss);
 
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -838,46 +804,53 @@ implements
         if(
           par.forUser != null &&
           !SSStrU.equals(par.user, par.forUser)){
-          par.space = SSSpaceE.sharedSpace;
+          throw new SSErr(SSErrE.userNotAllowedToRetrieveForOtherUser);
         }
       }
       
-      if(par.space == null){
+      if(par.spaces.isEmpty()){
         categories.addAll(
           commonMiscFct.getMetadataIfSpaceNotSet(
             par.user, 
-            par.forUser, 
+            par.forUser,
             par.entities, 
-            SSStrU.toStr(par.labels), 
+            SSStrU.toStr(par.labels),
+            par.labelSearchOp,
             par.circles, 
             par.startTime));
         
       }else{
-        switch(par.space){
-          
-          case privateSpace:{
-            categories.addAll(
-              commonMiscFct.getMetadataIfSpaceSet(
-                par.user, 
-                par.entities, 
-                SSStrU.toStr(par.labels), 
-                par.circles, 
-                par.space, 
-                par.startTime));
-            break;
-          }
-          
-          case sharedSpace:
-          case circleSpace:{
-            categories.addAll(
-              commonMiscFct.getMetadataIfSpaceSet(
-                par.forUser, 
-                par.entities, 
-                SSStrU.toStr(par.labels), 
-                par.circles, 
-                par.space, 
-                par.startTime));
-            break;
+        
+        for(SSSpaceE space : par.spaces){
+        
+          switch(space){
+            
+            case privateSpace:{
+              categories.addAll(
+                commonMiscFct.getMetadataIfSpaceSet(
+                  par.user,
+                  par.entities,
+                  SSStrU.toStr(par.labels),
+                  par.labelSearchOp,
+                  par.circles,
+                  space,
+                  par.startTime));
+              break;
+            }
+            
+            case sharedSpace:
+            case circleSpace:{
+              categories.addAll(
+                commonMiscFct.getMetadataIfSpaceSet(
+                  par.forUser,
+                  par.entities,
+                  SSStrU.toStr(par.labels),
+                  par.labelSearchOp,
+                  par.circles,
+                  space,
+                  par.startTime));
+              break;
+            }
           }
         }
       }
@@ -919,11 +892,11 @@ implements
               par.forUser,
               par.entities,
               par.labels,
-              par.space,
+              SSSearchOpE.or,
+              par.spaces,
               par.circles,
               par.startTime,
-              par.withUserRestriction)),
-          par.space)){
+              par.withUserRestriction)))){
         
         categoryFrequs.add((SSCategoryFrequ) categoryFrequ);
       }

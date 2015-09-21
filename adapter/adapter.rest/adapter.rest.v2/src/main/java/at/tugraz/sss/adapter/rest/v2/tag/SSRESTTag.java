@@ -36,6 +36,7 @@ import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagFrequsGetRet;
 import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagsAddRet;
 import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagsGetRet;
 import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagsRemoveRet;
+import at.tugraz.sss.serv.SSSearchOpE;
 import at.tugraz.sss.serv.SSSpaceE;
 import at.tugraz.sss.serv.SSStrU;
 import com.wordnik.swagger.annotations.Api;
@@ -72,11 +73,12 @@ public class SSRESTTag{
       
       par =
         new SSTagsGetPar(
-          null,
+          null, //user
           null, //forUser
           null, //entities
           null, //labels
-          null, //space
+          null, //spaces
+          null, //labelSearchOp
           null, //circles
           null, //startTime
           true); //withUserRestriction
@@ -110,7 +112,8 @@ public class SSRESTTag{
           input.forUser, //forUser
           input.entities, //entities
           input.labels, //labels
-          input.space, //space
+          SSSearchOpE.or, //labelSearchOp
+          SSSpaceE.asListWithoutNull(input.space), //spaces
           input.circles, //circles
           input.startTime, //startTime, 
           true); //withUserRestriction
@@ -178,12 +181,11 @@ public class SSRESTTag{
           input.forUser, //forUser
           input.entities, //entities
           input.labels, //labels
-          input.space, //space
+          SSSpaceE.asListWithoutNull(input.space), //spaces
           input.circles, //circles
           input.startTime, //startTime
           input.useUsersEntities, //useUsersEntities
           true); //withUserRestriction
-            
       
     }catch(Exception error){
       return Response.status(422).build();
@@ -210,13 +212,16 @@ public class SSRESTTag{
     try{
       par =
         new SSTagEntitiesForTagsGetPar(
-          null,
-          input.forUser,
-          input.labels,
-          SSSpaceE.asListWithoutNull(input.space),
-          input.startTime, 
-          true);
-      
+          null, //user
+          input.forUser, //forUser
+          null, //entities
+          input.labels, //labels
+          SSSearchOpE.or, //labelSearchOp
+          SSSpaceE.asListWithoutNull(input.space), //spaces
+          null, //circles
+          input.startTime, //startTime, 
+          true); //withUserRestriction
+          
     }catch(Exception error){
       return Response.status(422).build();
     }

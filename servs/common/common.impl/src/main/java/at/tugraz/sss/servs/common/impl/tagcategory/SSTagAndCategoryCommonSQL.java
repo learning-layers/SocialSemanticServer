@@ -22,19 +22,19 @@ package at.tugraz.sss.servs.common.impl.tagcategory;
 
 import at.kc.tugraz.ss.category.datatypes.SSCategory;
 import at.kc.tugraz.ss.category.datatypes.SSCategoryLabel;
-import at.kc.tugraz.ss.service.search.datatypes.SSSearchOpE;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTag;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.tugraz.sss.serv.SSDBSQLFct;
 import at.tugraz.sss.serv.SSDBSQLI;
+import at.tugraz.sss.serv.SSDBSQLSelectPar;
 import at.tugraz.sss.serv.SSDateU;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSEntityE;
-import at.tugraz.sss.serv.SSErr;
-import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSSQLVarNames;
+import at.tugraz.sss.serv.SSSearchOpE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSSpaceE;
+import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -81,44 +81,6 @@ public class SSTagAndCategoryCommonSQL extends SSDBSQLFct{
       default:{
         throw new UnsupportedOperationException();
       }
-    }
-  }
-  
-  public List<SSUri> getEntities(
-    final SSUri       userUri,
-    final SSSpaceE    space,
-    final SSUri       metadataURI) throws Exception{
-    
-    ResultSet resultSet = null;
-    
-    try{
-      
-      final Map<String, String> wheres       = new HashMap<>();
-      final List<String>        columns      = new ArrayList<>();
-      
-      column(columns, SSSQLVarNames.entityId);
-      
-      if(metadataURI != null){
-        where(wheres, metadataIdSQLName, metadataURI);
-      }
-      
-      if(space != null){
-        where(wheres, metadataSpaceSQLName, space);
-      }
-      
-      if(userUri != null){
-        where(wheres, SSSQLVarNames.userId, userUri);
-      }
-      
-      resultSet = dbSQL.select(metadataAssSQLTableName, columns, wheres, null, null, null);
-      
-      return getURIsFromResult(resultSet, SSSQLVarNames.entityId);
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }finally{
-      dbSQL.closeStmt(resultSet);
     }
   }
   
@@ -266,13 +228,15 @@ public class SSTagAndCategoryCommonSQL extends SSDBSQLFct{
     final SSSpaceE    space,
     final Long        startTime,
     final List<SSUri> metadataURIs,
+    final SSSearchOpE metadataSearchOp,
     final List<SSUri> circleURIs) throws Exception{
     
     ResultSet resultSet = null;
     
     try{
       
-      final List<MultivaluedMap<String, String>> wheres         = new ArrayList<>();
+      final List<MultivaluedMap<String, String>> orWheres       = new ArrayList<>();
+      final List<MultivaluedMap<String, String>> andWheres      = new ArrayList<>();
       final List<SSEntity>                       metadataAsss   = new ArrayList<>();
       final List<String>                         tables         = new ArrayList<>();
       final List<String>                         columns        = new ArrayList<>();
@@ -301,7 +265,7 @@ public class SSTagAndCategoryCommonSQL extends SSDBSQLFct{
           where(whereUsers, metadataAssSQLTableName, SSSQLVarNames.userId, user);
         }
         
-        wheres.add(whereUsers);
+        orWheres.add(whereUsers);
       }
       
       if(
@@ -314,7 +278,7 @@ public class SSTagAndCategoryCommonSQL extends SSDBSQLFct{
           where(whereEntities, metadataAssSQLTableName, SSSQLVarNames.entityId, entity);
         }
         
-        wheres.add(whereEntities);
+        orWheres.add(whereEntities);
       }
       
       if(
@@ -327,7 +291,11 @@ public class SSTagAndCategoryCommonSQL extends SSDBSQLFct{
           where(whereTags, metadataAssSQLTableName, metadataIdSQLName, metadataURI);
         }
         
-        wheres.add(whereTags);
+        if(SSStrU.equals(metadataSearchOp, SSSearchOpE.and)){
+          andWheres.add(whereTags);
+        }else{
+          orWheres.add(whereTags);
+        }
       }
       
       if(
@@ -340,7 +308,7 @@ public class SSTagAndCategoryCommonSQL extends SSDBSQLFct{
           where(whereCircles, metadataAssSQLTableName, SSSQLVarNames.circleId, circleURI);
         }
         
-        wheres.add(whereCircles);
+        orWheres.add(whereCircles);
       }
       
       if(space != null){
@@ -349,28 +317,22 @@ public class SSTagAndCategoryCommonSQL extends SSDBSQLFct{
         
         where(whereTags, metadataAssSQLTableName, metadataSpaceSQLName, space);
         
-        wheres.add(whereTags);
+        orWheres.add(whereTags);
       }
       
-      if(wheres.isEmpty()){
-        throw new SSErr(SSErrE.parameterMissing);
-      }
-      
-      resultSet = 
+      resultSet =
         dbSQL.select(
-          tables, 
-          columns, 
-          wheres, 
-          tableCons, 
-          SSSearchOpE.and.toString(),
-          SSSearchOpE.or.toString(),
-          null, 
-          null, 
-          null);
+          new SSDBSQLSelectPar(
+            tables,
+            columns,
+            orWheres,
+            andWheres,
+            null,
+            tableCons));
       
       while(resultSet.next()){
         
-        //TODO dtheiler: use db for date restriction here (i.e. select with numerics)
+        //TODO dtheiler: use db for date restriction here (i.e., select with numerics)
         if(
           startTime != null &&
           startTime != 0    &&
@@ -761,6 +723,44 @@ public class SSTagAndCategoryCommonSQL extends SSDBSQLFct{
 //      }
 //      
 //      resultSet = dbSQL.select(SSSQLVarNames.tagAssTable, columns, wheres, null, null, null);
+//      
+//      return getURIsFromResult(resultSet, SSSQLVarNames.entityId);
+//      
+//    }catch(Exception error){
+//      SSServErrReg.regErrThrow(error);
+//      return null;
+//    }finally{
+//      dbSQL.closeStmt(resultSet);
+//    }
+//  }
+
+//public List<SSUri> getEntities(
+//    final SSUri       userUri,
+//    final SSSpaceE    space,
+//    final SSUri       metadataURI) throws Exception{
+//    
+//    ResultSet resultSet = null;
+//    
+//    try{
+//      
+//      final Map<String, String> wheres       = new HashMap<>();
+//      final List<String>        columns      = new ArrayList<>();
+//      
+//      column(columns, SSSQLVarNames.entityId);
+//      
+//      if(metadataURI != null){
+//        where(wheres, metadataIdSQLName, metadataURI);
+//      }
+//      
+//      if(space != null){
+//        where(wheres, metadataSpaceSQLName, space);
+//      }
+//      
+//      if(userUri != null){
+//        where(wheres, SSSQLVarNames.userId, userUri);
+//      }
+//      
+//      resultSet = dbSQL.select(metadataAssSQLTableName, columns, wheres, null, null, null);
 //      
 //      return getURIsFromResult(resultSet, SSSQLVarNames.entityId);
 //      

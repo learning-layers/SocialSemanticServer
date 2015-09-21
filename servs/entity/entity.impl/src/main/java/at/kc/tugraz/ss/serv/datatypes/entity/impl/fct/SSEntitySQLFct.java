@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.serv.datatypes.entity.impl.fct;
 
 import at.tugraz.sss.serv.SSDBSQLFct;
-import at.kc.tugraz.ss.service.search.datatypes.SSSearchOpE;
+import at.tugraz.sss.serv.SSSearchOpE;
 import at.tugraz.sss.serv.SSDateU;
 import at.tugraz.sss.serv.SSSQLVarNames;
 import at.tugraz.sss.serv.SSStrU;
@@ -32,6 +32,7 @@ import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityA;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSDBSQLI;
+import at.tugraz.sss.serv.SSDBSQLSelectPar;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import java.sql.ResultSet;
@@ -226,17 +227,15 @@ public class SSEntitySQLFct extends SSDBSQLFct{
         wheres.add(whereTypes);
       }
       
-      resultSet = 
+      resultSet =
         dbSQL.select(
-          tables, 
-          columns, 
-          wheres, 
-          tableCons, 
-          SSSearchOpE.and.toString(),
-          SSSearchOpE.or.toString(),
-          null, 
-          null, 
-          null);
+          new SSDBSQLSelectPar(
+            tables,
+            columns,
+            wheres,
+            null,
+            null,
+            tableCons));
       
       return getURIsFromResult(resultSet, SSSQLVarNames.id);
     }catch(Exception error){
@@ -271,17 +270,15 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       
       wheres.add(whereTypes);
       
-      resultSet = 
+      resultSet =
         dbSQL.select(
-          tables, 
-          columns, 
-          wheres, 
-          tableCons, 
-          SSSearchOpE.and.toString(),
-          SSSearchOpE.or.toString(),
-          null, 
-          null, 
-          null);
+          new SSDBSQLSelectPar(
+            tables,
+            columns,
+            wheres,
+            null,
+            null,
+            tableCons));
       
       return getURIsFromResult(resultSet, SSSQLVarNames.entityId);
     }catch(Exception error){
@@ -347,17 +344,15 @@ public class SSEntitySQLFct extends SSDBSQLFct{
         wheres.add(whereTypes);
       }
       
-      resultSet = 
+      resultSet =
         dbSQL.select(
-          tables, 
-          columns, 
-          wheres, 
-          tableCons,  
-          SSSearchOpE.and.toString(),
-          SSSearchOpE.or.toString(),
-          null,
-          null,
-          null);
+          new SSDBSQLSelectPar(
+            tables,
+            columns,
+            wheres,
+            null,
+            null,
+            tableCons));
       
       while(resultSet.next()){
         

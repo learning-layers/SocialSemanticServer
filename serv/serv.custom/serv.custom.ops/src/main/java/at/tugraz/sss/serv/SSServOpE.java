@@ -228,9 +228,7 @@ public enum SSServOpE{
   categoryEntitiesForCategoriesGet,
   
   //search
-  searchTags                                          ,
   searchMIs                                           ,
-  searchTagsWithinEntity                              ,
   search,
   searchResultPagesCacheClean,
   

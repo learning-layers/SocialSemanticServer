@@ -20,7 +20,6 @@
 */
 package at.kc.tugraz.sss.flag.impl.fct.sql;
 
-import at.kc.tugraz.ss.service.search.datatypes.SSSearchOpE;
 import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSSQLVarNames;
 import at.tugraz.sss.serv.SSStrU;
@@ -29,6 +28,7 @@ import at.tugraz.sss.serv.SSDBSQLFct;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.kc.tugraz.sss.flag.datatypes.SSFlag;
 import at.kc.tugraz.sss.flag.datatypes.SSFlagE;
+import at.tugraz.sss.serv.SSDBSQLSelectPar;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSServErrReg;
@@ -173,15 +173,13 @@ public class SSFlagSQLFct extends SSDBSQLFct{
       
       resultSet =
         dbSQL.select(
-          tables,
-          columns,
-          wheres,
-          tableCons,
-          SSSearchOpE.and.toString(),
-          SSSearchOpE.or.toString(),
-          null,
-          null,
-          null);
+          new SSDBSQLSelectPar(
+            tables,
+            columns,
+            wheres,
+            null,
+            null,
+            tableCons));
       
       while(resultSet.next()){
         

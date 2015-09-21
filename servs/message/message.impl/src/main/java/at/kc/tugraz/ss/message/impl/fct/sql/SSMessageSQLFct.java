@@ -25,9 +25,9 @@ import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
 import at.kc.tugraz.ss.message.datatypes.SSMessage;
-import at.kc.tugraz.ss.service.search.datatypes.SSSearchOpE;
 import at.tugraz.sss.serv.SSDBSQLFct;
 import at.tugraz.sss.serv.SSDBSQLI;
+import at.tugraz.sss.serv.SSDBSQLSelectPar;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSErr;
@@ -153,22 +153,15 @@ public class SSMessageSQLFct extends SSDBSQLFct{
         greaterWheres.add(whereNumbericStartTimes);
       }
       
-      if(!wheresNumeric.isEmpty()){
-        resultSet = dbSQL.selectWithNumerics(tables, columns, wheres, wheresNumeric, tableCons, null, null, null);
-      }else{
-        
-        resultSet = 
-          dbSQL.select(
-            tables, 
-            columns, 
-            wheres, 
-            tableCons, 
-            SSSearchOpE.and.toString(),
-            SSSearchOpE.or.toString(),
+      resultSet =
+        dbSQL.select(
+          new SSDBSQLSelectPar(
+            tables,
+            columns,
+            wheres,
             null,
-            null,
-            null);
-      }
+            wheresNumeric,
+            tableCons));
       
       return getURIsFromResult(resultSet, SSSQLVarNames.messageId);
       

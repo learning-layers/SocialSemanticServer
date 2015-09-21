@@ -20,7 +20,6 @@
 */
 package at.kc.tugraz.ss.service.userevent.impl.fct.sql;
 
-import at.kc.tugraz.ss.service.search.datatypes.SSSearchOpE;
 import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSSQLVarNames;
 import at.tugraz.sss.serv.SSStrU;
@@ -28,10 +27,10 @@ import at.tugraz.sss.serv.SSDBSQLFct;
 import at.tugraz.sss.serv.SSUri;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUE;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUEE;
+import at.tugraz.sss.serv.SSDBSQLSelectPar;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSServErrReg;
-
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -177,22 +176,15 @@ public class SSUESQLFct extends SSDBSQLFct{
         lessWheres.add(whereNumbericEndTimes);
       }
       
-      if(!wheresNumeric.isEmpty()){
-        resultSet = dbSQL.selectWithNumerics(tables, columns, wheres, wheresNumeric, tableCons, null, null, null);
-      }else{
-        
-        resultSet = 
-          dbSQL.select(
-            tables, 
-            columns, 
-            wheres, 
-            tableCons, 
-            SSSearchOpE.and.toString(),
-            SSSearchOpE.or.toString(),
+      resultSet =
+        dbSQL.select(
+          new SSDBSQLSelectPar(
+            tables,
+            columns,
+            wheres,
             null,
-            null,
-            null);
-      }
+            wheresNumeric,
+            tableCons));
       
       while(resultSet.next()){
         

@@ -26,7 +26,7 @@ import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSServPar;
 import at.kc.tugraz.ss.service.search.datatypes.SSSearchLabel;
-import at.kc.tugraz.ss.service.search.datatypes.SSSearchOpE;
+import at.tugraz.sss.serv.SSSearchOpE;
 import java.util.ArrayList;
 import java.util.List;
 

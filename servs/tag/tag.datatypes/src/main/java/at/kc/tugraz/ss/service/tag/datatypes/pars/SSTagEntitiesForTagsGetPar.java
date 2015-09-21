@@ -25,16 +25,20 @@ import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSSpaceE;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
+import at.tugraz.sss.serv.SSSearchOpE;
 import at.tugraz.sss.serv.SSServPar;
 import java.util.ArrayList;
 import java.util.List;
 
 public class SSTagEntitiesForTagsGetPar extends SSServPar{
-  
-  public SSUri             forUser   = null;
-  public List<SSTagLabel>  labels    = new ArrayList<>();
-  public List<SSSpaceE>    spaces    = new ArrayList<>();
-  public Long              startTime = null;
+
+  public SSUri              forUser        = null;
+  public List<SSUri>        entities       = new ArrayList<>();
+  public List<SSTagLabel>   labels         = new ArrayList<>();
+  public SSSearchOpE        labelSearchOp  = SSSearchOpE.or;
+  public List<SSSpaceE>     spaces         = new ArrayList<>();
+  public List<SSUri>        circles        = new ArrayList<>();
+  public Long               startTime      = null;
   
   public String getForUser(){
     return SSStrU.removeTrailingSlash(forUser);
@@ -44,8 +48,24 @@ public class SSTagEntitiesForTagsGetPar extends SSServPar{
     this.forUser = SSUri.get(forUser);
   }
   
+  public void setEntities(final List<String> entities) throws Exception{
+    this.entities = SSUri.get(entities);
+  }
+  
+  public List<String> getEntities(){
+    return SSStrU.removeTrailingSlash(entities);
+  }
+  
   public List<String> getLabels() throws Exception{
     return SSStrU.toStr(labels);
+  }
+  
+  public String getLabelSearchOp() {
+    return SSStrU.toStr(labelSearchOp);
+  }
+
+  public void setLabelSearchOp(final String labelSearchOp) throws Exception{
+    this.labelSearchOp = SSSearchOpE.get(labelSearchOp);
   }
   
   public void setLabels(final List<String> labels) throws Exception{
@@ -60,22 +80,38 @@ public class SSTagEntitiesForTagsGetPar extends SSServPar{
     this.spaces = SSSpaceE.get(spaces);
   }
   
+  public List<String> getCircles(){
+    return SSStrU.removeTrailingSlash(circles);
+  }
+  
+  public void setCircles(final List<String> circles) throws Exception{
+    this.circles = SSUri.get(circles);
+  }
+  
   public SSTagEntitiesForTagsGetPar(){}
     
   public SSTagEntitiesForTagsGetPar(
     final SSUri            user,
     final SSUri            forUser,
+    final List<SSUri>      entities,
     final List<SSTagLabel> labels,
+    final SSSearchOpE      labelSearchOp, 
     final List<SSSpaceE>   spaces,
+    final List<SSUri>      circles,
     final Long             startTime,
     final Boolean          withUserRestriction){
     
     super(SSServOpE.tagEntitiesForTagsGet, null, user);
     
     this.forUser = forUser;
-
+    
+    SSUri.addDistinctWithoutNull      (this.entities, entities);
     SSTagLabel.addDistinctWithoutNull (this.labels, labels);
-    SSSpaceE.addDistinctWithoutNull   (this.spaces, spaces);
+    
+    this.labelSearchOp = labelSearchOp;
+    
+    SSSpaceE.addDistinctWithoutNull   (this.spaces,  spaces);
+    SSUri.addDistinctWithoutNull      (this.circles, circles);
 
     this.startTime           = startTime;
     this.withUserRestriction = withUserRestriction;

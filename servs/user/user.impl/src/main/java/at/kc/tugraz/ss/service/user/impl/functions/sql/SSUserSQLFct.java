@@ -20,14 +20,13 @@
   */
 package at.kc.tugraz.ss.service.user.impl.functions.sql;
 
-import at.kc.tugraz.ss.service.search.datatypes.SSSearchOpE;
 import at.tugraz.sss.serv.SSSQLVarNames;
 import at.tugraz.sss.serv.SSDBSQLFct;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSUri;
-
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.kc.tugraz.ss.service.user.datatypes.SSUser;
+import at.tugraz.sss.serv.SSDBSQLSelectPar;
 import at.tugraz.sss.serv.SSServErrReg;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -178,15 +177,13 @@ public class SSUserSQLFct extends SSDBSQLFct{
       
       resultSet =
         dbSQL.select(
-          tables,
-          columns,
-          wheres,
-          tableCons,
-          SSSearchOpE.and.toString(),
-          SSSearchOpE.or.toString(),
-          null,
-          null,
-          null);
+          new SSDBSQLSelectPar(
+            tables,
+            columns,
+            wheres,
+            null,
+            null,
+            tableCons));
       
       return getURIsFromResult(resultSet, SSSQLVarNames.id);
       

@@ -24,7 +24,7 @@ import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEp;
 import at.kc.tugraz.ss.serv.jobs.evernote.conf.SSEvernoteConf;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
-import at.kc.tugraz.ss.service.search.datatypes.SSSearchOpE;
+import at.tugraz.sss.serv.SSSearchOpE;
 import at.tugraz.sss.serv.SSDBNoSQLAddDocPar;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;

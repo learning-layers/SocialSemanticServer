@@ -32,7 +32,7 @@ import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntity;
 import at.kc.tugraz.ss.service.rating.datatypes.SSRatingOverall;
 import at.kc.tugraz.ss.service.rating.datatypes.pars.SSRatingOverallGetPar;
-import at.kc.tugraz.ss.service.search.datatypes.SSSearchOpE;
+import at.tugraz.sss.serv.SSSearchOpE;
 import at.kc.tugraz.ss.service.search.datatypes.pars.SSSearchPar;
 import java.util.ArrayList;
 import java.util.List;

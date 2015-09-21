@@ -74,6 +74,7 @@ import at.tugraz.sss.serv.SSErr;
 import java.util.*;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSObjU;
+import at.tugraz.sss.serv.SSSearchOpE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServReg;
@@ -135,7 +136,8 @@ implements
               userUri, //forUser
               null, //entities
               null, //labels,
-              null, //space
+              null, //labelSearchOp, 
+              null, //spaces
               null, //circles
               null, //startTime,
               false))){ //withUserRestriction){
@@ -176,7 +178,8 @@ implements
               userUri, //forUser
               null, //entities
               null, //labels
-              null, //space
+              null, //labelSearchOp, 
+              null, //spaces
               null, //circles
               null, //startTime,
               false))){ //withUserRestriction
@@ -245,8 +248,9 @@ implements
                 par.user,
                 null, //forUser
                 SSUri.getDistinctNotNullFromEntities(par.entities), //entities
-                null,
-                SSSpaceE.circleSpace,
+                null, //labels
+                null, //labelSearchOp, 
+                SSSpaceE.asListWithoutNull(SSSpaceE.circleSpace), //spaces
                 SSUri.getDistinctNotNullFromEntities(par.entity), //circles
                 null, //startTime,
                 par.withUserRestriction))){
@@ -301,7 +305,8 @@ implements
               null, //forUser
               SSUri.asListWithoutNullAndEmpty(entity.id), //entities
               null, //labels
-              par.space, //space
+              null, //labelSearchOp, 
+              SSSpaceE.asListWithoutNull(par.space), //spaces
               SSUri.asListWithoutNullAndEmpty(par.circle), //circles
               null, //startTime
               par.withUserRestriction))); //withUserRestriction
@@ -746,70 +751,22 @@ implements
     
     //TODO dtheiler: use start time for this call as well
     try{
-      
-      final List<SSUri> entityURIs = new ArrayList<>();
-      
-      if(par.user == null){
-        throw new SSErr(SSErrE.parameterMissing);
-      }
-      
-      if(par.withUserRestriction){
-       
-        if(
-          par.forUser != null &&
-          !SSStrU.equals(par.user, par.forUser)){
-          throw new SSErr(SSErrE.userNotAllowedToRetrieveForOtherUser);
-        }
-      }
 
-      if(par.spaces.isEmpty()){
-        
-        SSUri.addDistinctWithoutNull(
-          entityURIs,
-          commonMiscFct.getEntitiesForMetadataIfSpaceNotSet(
-            par.user, 
-            par.forUser, 
-            SSStrU.toStr(par.labels)));
-      }else{
-        
-        for(SSSpaceE space : par.spaces){
-          
-          switch(space){
-            
-            case privateSpace:{
-              
-              SSUri.addDistinctWithoutNull(
-                entityURIs,
-                commonMiscFct.getEntitiesForMetadataIfSpaceSet(
-                  par.user,
-                  SSStrU.toStr(par.labels),
-                  space,
-                  par.user));
-              
-              break;
-            }
-            
-            case sharedSpace:{
-              
-              SSUri.addDistinctWithoutNull(
-                entityURIs,
-                commonMiscFct.getEntitiesForMetadataIfSpaceSet(
-                  par.user,
-                  SSStrU.toStr(par.labels),
-                  space,
-                  par.forUser));
-              break;
-            }
-          }
-        }
-      } 
-          
-      return commonMiscFct.filterEntitiesUserCanAccess(
-        entityURIs, 
-        par.withUserRestriction, 
-        par.user, 
-        par.forUser);
+      final List<SSEntity> tagAsss =
+        tagsGet(
+          new SSTagsGetPar(
+            par.user,
+            par.forUser,
+            par.entities,
+            par.labels,
+            par.labelSearchOp,
+            par.spaces,
+            par.circles,
+            par.startTime,
+            par.withUserRestriction));
       
+      return SSTag.getEntitiesFromTagsDistinctNotNull(tagAsss);
+
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -842,46 +799,54 @@ implements
         if(
           par.forUser != null &&
           !SSStrU.equals(par.user, par.forUser)){
-          par.space = SSSpaceE.sharedSpace;
+          throw new SSErr(SSErrE.userNotAllowedToRetrieveForOtherUser);
         }
       }
       
-      if(par.space == null){
+      if(par.spaces.isEmpty()){
+        
         tags.addAll(
           commonMiscFct.getMetadataIfSpaceNotSet(
             par.user, 
             par.forUser, 
             par.entities, 
             SSStrU.toStr(par.labels), 
+            par.labelSearchOp,
             par.circles, 
             par.startTime));
         
       }else{
-        switch(par.space){
+        
+        for(SSSpaceE space : par.spaces){
           
-          case privateSpace:{
-            tags.addAll(
-              commonMiscFct.getMetadataIfSpaceSet(
-                par.user, 
-                par.entities, 
-                SSStrU.toStr(par.labels), 
-                par.circles, 
-                par.space, 
-                par.startTime));
-            break;
-          }
-          
-          case sharedSpace:
-          case circleSpace:{
-            tags.addAll(
-              commonMiscFct.getMetadataIfSpaceSet(
-                par.forUser, 
-                par.entities, 
-                SSStrU.toStr(par.labels), 
-                par.circles, 
-                par.space, 
-                par.startTime));
-            break;
+          switch(space){
+            
+            case privateSpace:{
+              tags.addAll(
+                commonMiscFct.getMetadataIfSpaceSet(
+                  par.user,
+                  par.entities,
+                  SSStrU.toStr(par.labels),
+                  par.labelSearchOp,
+                  par.circles,
+                  space,
+                  par.startTime));
+              break;
+            }
+            
+            case sharedSpace:
+            case circleSpace:{
+              tags.addAll(
+                commonMiscFct.getMetadataIfSpaceSet(
+                  par.forUser,
+                  par.entities,
+                  SSStrU.toStr(par.labels),
+                  par.labelSearchOp,
+                  par.circles,
+                  space,
+                  par.startTime));
+              break;
+            }
           }
         }
       }
@@ -952,11 +917,11 @@ implements
               par.forUser,
               par.entities,
               par.labels,
-              par.space,
+              SSSearchOpE.or, //labelSearchOp
+              par.spaces,
               par.circles,
               par.startTime,
-              par.withUserRestriction)),
-          par.space)){
+              par.withUserRestriction)))){
         
         tagFrequs.add((SSTagFrequ) tagFrequ);
       }
@@ -1065,6 +1030,81 @@ implements
 //      }
 //      
 //      dbSQL.rollBack(par.shouldCommit);
+//      SSServErrReg.regErrThrow(error);
+//      return null;
+//    }
+//  }
+
+//@Override
+//  public List<SSUri> tagEntitiesForTagsGet(final SSTagEntitiesForTagsGetPar par) throws Exception{
+//    
+//    //TODO dtheiler: use start time for this call as well
+//    try{
+//
+//      final List<SSUri> entityURIs = new ArrayList<>();
+//      
+//      if(par.user == null){
+//        throw new SSErr(SSErrE.parameterMissing);
+//      }
+//      
+//      if(par.withUserRestriction){
+//       
+//        if(
+//          par.forUser != null &&
+//          !SSStrU.equals(par.user, par.forUser)){
+//          throw new SSErr(SSErrE.userNotAllowedToRetrieveForOtherUser);
+//        }
+//      }
+//
+//      if(par.spaces.isEmpty()){
+//        
+//        SSUri.addDistinctWithoutNull(
+//          entityURIs,
+//          commonMiscFct.getEntitiesForMetadataIfSpaceNotSet(
+//            par.user, 
+//            par.forUser, 
+//            SSStrU.toStr(par.labels)));
+//      }else{
+//        
+//        for(SSSpaceE space : par.spaces){
+//          
+//          switch(space){
+//            
+//            case privateSpace:{
+//              
+//              SSUri.addDistinctWithoutNull(
+//                entityURIs,
+//                commonMiscFct.getEntitiesForMetadataIfSpaceSet(
+//                  par.user,
+//                  SSStrU.toStr(par.labels),
+//                  space,
+//                  par.user));
+//              
+//              break;
+//            }
+//            
+//            case sharedSpace:{
+//              
+//              SSUri.addDistinctWithoutNull(
+//                entityURIs,
+//                commonMiscFct.getEntitiesForMetadataIfSpaceSet(
+//                  par.user,
+//                  SSStrU.toStr(par.labels),
+//                  space,
+//                  par.forUser));
+//              break;
+//            }
+//          }
+//        }
+//      } 
+//          
+//      return commonMiscFct.filterEntitiesUserCanAccess(
+//        entityURIs, 
+//        par.withUserRestriction, 
+//        par.user, 
+//        par.forUser);
+//      
+//    }catch(Exception error){
 //      SSServErrReg.regErrThrow(error);
 //      return null;
 //    }

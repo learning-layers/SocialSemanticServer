@@ -18,11 +18,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package at.kc.tugraz.ss.service.search.datatypes;
-
-import at.tugraz.sss.serv.SSServErrReg;
+package at.tugraz.sss.serv;
 
 public enum SSSearchOpE{
+  
   and,
   or;
   
@@ -33,8 +32,7 @@ public enum SSSearchOpE{
       return valueOf(value);
       
     }catch(Exception error){
-      SSServErrReg.regErrThrow(new Exception("search op not available " + value));
-      return null;
+      throw new Exception("search op invalid");
     }
   }
 }

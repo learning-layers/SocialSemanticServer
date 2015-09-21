@@ -23,7 +23,7 @@ package at.kc.tugraz.ss.circle.impl.fct.sql;
 import at.tugraz.sss.serv.SSSQLVarNames;
 import at.tugraz.sss.serv.SSStrU;
 import at.kc.tugraz.ss.circle.impl.fct.misc.SSCircleMiscFct;
-import at.kc.tugraz.ss.service.search.datatypes.SSSearchOpE;
+import at.tugraz.sss.serv.SSSearchOpE;
 import at.tugraz.sss.serv.SSDBSQLFct;
 import at.tugraz.sss.serv.SSCircleE;
 import at.tugraz.sss.serv.SSEntity;
@@ -31,6 +31,7 @@ import at.tugraz.sss.serv.SSEntityCircle;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSDBSQLI;
+import at.tugraz.sss.serv.SSDBSQLSelectPar;
 import at.tugraz.sss.serv.SSDateU;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -854,17 +855,15 @@ public class SSCircleSQLFct extends SSDBSQLFct{
         wheres.add(whereTypes);
       }
       
-      resultSet = 
+      resultSet =
         dbSQL.select(
-          tables, 
-          columns, 
-          wheres, 
-          tableCons, 
-          SSSearchOpE.and.toString(), 
-          SSSearchOpE.or.toString(), 
-          null, 
-          null, 
-          null);
+          new SSDBSQLSelectPar(
+            tables,
+            columns,
+            wheres,
+            null,
+            null,
+            tableCons));
       
       return SSEntity.get(getURIsFromResult(resultSet, SSSQLVarNames.entityId), 
         SSEntityE.entity);
@@ -1075,15 +1074,13 @@ public class SSCircleSQLFct extends SSDBSQLFct{
       
       resultSet =
         dbSQL.select(
-          tables,
-          columns,
-          wheres,
-          tableCons,
-          SSSearchOpE.and.toString(),
-          SSSearchOpE.or.toString(),
-          null,
-          null,
-          null);
+          new SSDBSQLSelectPar(
+            tables,
+            columns,
+            wheres,
+            null,
+            null,
+            tableCons));
       
       return getURIsFromResult(resultSet, SSSQLVarNames.entityId);
     }catch(Exception error){

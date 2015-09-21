@@ -28,6 +28,7 @@ import at.kc.tugraz.ss.category.datatypes.ret.SSCategoriesPredefinedGetRet;
 import at.kc.tugraz.ss.category.datatypes.ret.SSCategoryAddRet;
 import at.kc.tugraz.ss.category.datatypes.ret.SSCategoryFrequsGetRet;
 import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSSpaceE;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import javax.ws.rs.Consumes;
@@ -120,11 +121,11 @@ public class SSRESTCategory{
     try{
       par =
         new SSCategoryFrequsGetPar(
-          null,
+          null, //user
           null, //forUser
           null, //entities
           null, //labels
-          null, //space
+          null, //spaces
           null, //circles
           null, //startTime
           true); //withUserRestriction
@@ -158,7 +159,7 @@ public class SSRESTCategory{
           input.forUser, //forUser
           input.entities, //entities
           input.labels, //labels
-          input.space, //space
+          SSSpaceE.asListWithoutNull(input.space), //spaces
           input.circles, //circles
           input.startTime, //startTime
           true); //withUserRestriction

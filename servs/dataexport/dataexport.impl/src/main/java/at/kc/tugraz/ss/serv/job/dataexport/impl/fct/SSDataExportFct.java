@@ -28,6 +28,7 @@ import at.kc.tugraz.ss.service.tag.api.SSTagServerI;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTag;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsGetPar;
 import at.tugraz.sss.serv.SSServReg;
+import at.tugraz.sss.serv.SSSpaceE;
 import java.util.List;
 import java.util.Map;
 
@@ -46,7 +47,8 @@ public class SSDataExportFct{
           forUser, //forUser
           entities, //entities
           null, //labels
-          null, //space
+          null, //labelSearchOp
+          SSSpaceE.asListWithoutNull(), //spaces
           SSUri.asListWithoutNullAndEmpty(circle), //circles
           null, //startTime
           false))); //withUserRestriction
@@ -65,7 +67,8 @@ public class SSDataExportFct{
           forUser, //forUser
           entities, //entities
           null, //labels
-          null, //space
+          null, //labelSearchOp
+          null, //spaces
           SSUri.asListWithoutNullAndEmpty(circle), //circles
           null, //startTime
           false))); //withUserRestriction

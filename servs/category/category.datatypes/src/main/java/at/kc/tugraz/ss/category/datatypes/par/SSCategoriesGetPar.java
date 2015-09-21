@@ -21,6 +21,7 @@
 package at.kc.tugraz.ss.category.datatypes.par;
 
 import at.kc.tugraz.ss.category.datatypes.SSCategoryLabel;
+import at.tugraz.sss.serv.SSSearchOpE;
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
@@ -34,61 +35,71 @@ public class SSCategoriesGetPar extends SSServPar{
   public SSUri                   forUser        = null;
   public List<SSUri>             entities       = new ArrayList<>();
   public List<SSCategoryLabel>   labels         = new ArrayList<>();
-  public SSSpaceE                space          = null;
+  public SSSearchOpE             labelSearchOp  = SSSearchOpE.or;
+  public List<SSSpaceE>          spaces         = new ArrayList<>();
   public List<SSUri>             circles        = new ArrayList<>();
   public Long                    startTime      = null;
 
-  public void setForUser(final String forUser) throws Exception{
-    this.forUser = SSUri.get(forUser);
-  }
-
-  public void setEntities(final List<String> entities) throws Exception{
-    this.entities = SSUri.get(entities);
-  }
-
-  public void setLabels(final List<String> labels) throws Exception{
-    this.labels = SSCategoryLabel.get(labels);
-  }
-
-  public void setSpace(final String space) throws Exception{
-    this.space = SSSpaceE.get(space);
-  }
-  
-  public void setCircles(final List<String> circles) throws Exception{
-    this.circles = SSUri.get(circles);
-  }
-  
   public String getForUser(){
     return SSStrU.removeTrailingSlash(forUser);
   }
-
+  
+  public void setForUser(final String forUser) throws Exception{
+    this.forUser = SSUri.get(forUser);
+  }
+  
   public List<String> getEntities(){
     return SSStrU.removeTrailingSlash(entities);
   }
-
+  
+  public void setEntities(final List<String> entities) throws Exception{
+    this.entities = SSUri.get(entities);
+  }
+  
   public List<String> getLabels(){
     return SSStrU.toStr(labels);
   }
+  
+  public void setLabels(final List<String> labels) throws Exception{
+    this.labels = SSCategoryLabel.get(labels);
+  }
+  
+  public String getLabelSearchOp() {
+    return SSStrU.toStr(labelSearchOp);
+  }
 
-  public String getSpace(){
-    return SSStrU.toStr(space);
+  public void setLabelSearchOp(final String labelSearchOp) throws Exception{
+    this.labelSearchOp = SSSearchOpE.get(labelSearchOp);
+  }
+  
+  public List<String> getSpaces(){
+    return SSStrU.toStr(spaces);
+  }
+  
+  public void setSpaces(final List<String> spaces) throws Exception{
+    this.spaces = SSSpaceE.get(spaces);
   }
   
   public List<String> getCircles(){
     return SSStrU.removeTrailingSlash(circles);
   }
   
+  public void setCircles(final List<String> circles) throws Exception{
+    this.circles = SSUri.get(circles);
+  }
+  
   public SSCategoriesGetPar(){}
   
   public SSCategoriesGetPar(
-    final SSUri                 user,
-    final SSUri                 forUser,
-    final List<SSUri>           entities,
-    final List<SSCategoryLabel> labels,
-    final SSSpaceE              space,
-    final List<SSUri>           circles,
-    final Long                  startTime,
-    final Boolean               withUserRestriction){
+    final SSUri                   user,
+    final SSUri                   forUser,
+    final List<SSUri>             entities,
+    final List<SSCategoryLabel>   labels,
+    final SSSearchOpE             labelSearchOp,
+    final List<SSSpaceE>          spaces,
+    final List<SSUri>             circles,
+    final Long                    startTime,
+    final Boolean                 withUserRestriction){
     
     super(SSServOpE.categoriesGet, null, user);
     
@@ -97,9 +108,10 @@ public class SSCategoriesGetPar extends SSServPar{
     SSUri.addDistinctWithoutNull           (this.entities, entities);
     SSCategoryLabel.addDistinctWithoutNull (this.labels, labels);
     
-    this.space               = space;
+    this.labelSearchOp = labelSearchOp;
     
-    SSUri.addDistinctWithoutNull     (this.circles, circles);
+    SSSpaceE.addDistinctWithoutNull   (this.spaces,   spaces);
+    SSUri.addDistinctWithoutNull      (this.circles,  circles);
     
     this.startTime           = startTime;
     this.withUserRestriction = withUserRestriction;

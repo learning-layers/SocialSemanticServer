@@ -52,7 +52,7 @@ import at.tugraz.sss.servs.entity.datatypes.ret.SSEntityUpdateRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.SSEntityActivityFct;
 import at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.SSEntitySQLFct;
 import at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.SSEntityUserRelationsGatherFct;
-import at.kc.tugraz.ss.service.search.datatypes.SSSearchOpE;
+import at.tugraz.sss.serv.SSSearchOpE;
 import at.kc.tugraz.ss.service.userevent.api.SSUEServerI;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSSocketCon;

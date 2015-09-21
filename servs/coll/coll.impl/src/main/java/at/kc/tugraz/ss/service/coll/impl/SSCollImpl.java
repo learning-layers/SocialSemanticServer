@@ -1088,7 +1088,7 @@ implements
           null, //forUser, 
           entityURIs, 
           null, //labels, 
-          null, //space, 
+          null, //spaces, 
           null, //circles
           null, //startTime, 
           false, //useUsersEntities,

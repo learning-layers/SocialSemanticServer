@@ -39,25 +39,7 @@ public interface SSDBSQLI{
     final Boolean shouldCommit);
 
   public ResultSet select(
-    final List<String>                         tables,
-    final List<String>                         columns,
-    final List<MultivaluedMap<String, String>> wheres,
-    final List<String>                         tableCons,
-    final String                               globalSearchOp,
-    final String                               localSearchOp,
-    final String                               orderByColumn,
-    final String                               sortType, 
-    final Integer                              limit) throws Exception;
-  
-  public ResultSet selectWithNumerics(
-    final List<String>                                           tables,
-    final List<String>                                           columns,
-    final List<MultivaluedMap<String, String>>                   wheres,
-    final MultivaluedMap<String, MultivaluedMap<String, String>> wheresNumbericComparision,
-    final List<String>                                           tableCons,
-    final String                                                 orderByColumn, 
-    final String                                                 sortType, 
-    final Integer                                                limit) throws Exception;
+    final SSDBSQLSelectPar par) throws Exception;
   
   public ResultSet select(
     final List<String>        tables, 
@@ -170,3 +152,28 @@ public interface SSDBSQLI{
 //    final String              tableCon,
 //    final String              orderByColumn,
 //    final String              sortType) throws Exception;
+
+
+
+
+//  public ResultSet select(
+//    final List<String>                         tables,
+//    final List<String>                         columns,
+//    final List<MultivaluedMap<String, String>> orWheres,
+//    final List<MultivaluedMap<String, String>> andWheres,
+//    final List<String>                         tableCons,
+//    final String                               globalSearchOp,
+//    final String                               localSearchOp,
+//    final String                               orderByColumn,
+//    final String                               sortType, 
+//    final Integer                              limit) throws Exception;
+  
+//  public ResultSet selectWithNumerics(
+//    final List<String>                                           tables,
+//    final List<String>                                           columns,
+//    final List<MultivaluedMap<String, String>>                   wheres,
+//    final MultivaluedMap<String, MultivaluedMap<String, String>> wheresNumbericComparision,
+//    final List<String>                                           tableCons,
+//    final String                                                 orderByColumn, 
+//    final String                                                 sortType, 
+//    final Integer                                                limit) throws Exception;

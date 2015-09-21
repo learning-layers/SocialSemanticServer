@@ -31,10 +31,4 @@ public interface SSSearchServerI extends SSServServerI{
 
   public void           searchResultPagesCacheClean  (final SSServPar   parA) throws Exception;
   public SSSearchRet    search                       (final SSSearchPar par)  throws Exception;
-  
-  @Deprecated
-  public List<SSEntity> searchTags             (final SSServPar parA) throws Exception;
-  
-  @Deprecated
-  public List<SSEntity> searchTagsWithinEntity (final SSServPar parA) throws Exception;
 }

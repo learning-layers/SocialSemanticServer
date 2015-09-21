@@ -59,42 +59,38 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
   }
   
   @Override
-  public ResultSet selectWithNumerics(
-    final List<String>                                           tables,
-    final List<String>                                           columns,
-    final List<MultivaluedMap<String, String>>                   wheres,
-    final MultivaluedMap<String, MultivaluedMap<String, String>> wheresNumbericComparision,
-    final List<String>                                           tableCons,
-    final String                                                 orderByColumn, 
-    final String                                                 sortType, 
-    final Integer                                                limit) throws Exception{
-           
+  public ResultSet select(final SSDBSQLSelectPar par) throws Exception{
+    
     String                                    query   = "SELECT DISTINCT "; //caution do not remove distinct here without checks
-    int                                       counter = 1;
     PreparedStatement                         stmt;
     Iterator<Map.Entry<String, List<String>>> iteratorMultiValue;
     Map.Entry<String, List<String>>           entrySet;
+    String                                    comparator;
+    Integer                                   counter  = 1;
     
-    for(String columnName : columns){
+    for(String columnName : par.columns){
       query += columnName + SSStrU.comma;
     }
     
-    if(
-      columns == null ||
-      columns.isEmpty()){
-      
+    if(par.columns.isEmpty()){
       query += "*";
     }
     
     query = SSStrU.removeTrailingString(query, SSStrU.comma) + " FROM ";
     
-    for(String tableName : tables){
+    for(String tableName : par.tables){
       query += tableName + SSStrU.comma;
     }
     
-    query = SSStrU.removeTrailingString(query, SSStrU.comma) + " WHERE ";
+    if(
+      par.orWheres.isEmpty() &&
+      par.tableCons.isEmpty()){
+      query = SSStrU.removeTrailingString(query, SSStrU.comma);
+    }else{
+      query = SSStrU.removeTrailingString(query, SSStrU.comma) + " WHERE ";      
+    }
       
-    for(MultivaluedMap<String, String> where : wheres){
+    for(MultivaluedMap<String, String> where : par.orWheres){
       
       query += "(";
       
@@ -105,16 +101,34 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
         entrySet = iteratorMultiValue.next();
 
         for(String value : entrySet.getValue()){
-          query += entrySet.getKey() + SSStrU.equal + SSStrU.questionMark + " OR ";
+          query += entrySet.getKey() + SSStrU.equal + SSStrU.questionMark + SSStrU.valueBlankORBlank;
         }
       }
       
-      query = SSStrU.removeTrailingString(query, " OR ") + ") AND ";
+      query = SSStrU.removeTrailingString(query, SSStrU.valueBlankORBlank) + ")" + SSStrU.blank + par.globalSearchOp + SSStrU.blank;
     }
     
-    for(Map.Entry<String, List<MultivaluedMap<String, String>>> wheresNumberic : wheresNumbericComparision.entrySet()){
+    for(MultivaluedMap<String, String> where : par.andWheres){
       
-      String comparator = wheresNumberic.getKey();
+      query += "(";
+      
+      iteratorMultiValue = where.entrySet().iterator();
+
+      while(iteratorMultiValue.hasNext()){
+        
+        entrySet = iteratorMultiValue.next();
+
+        for(String value : entrySet.getValue()){
+          query += entrySet.getKey() + SSStrU.equal + SSStrU.questionMark + SSStrU.valueBlankANDBlank;
+        }
+      }
+      
+      query = SSStrU.removeTrailingString(query, SSStrU.valueBlankANDBlank) + ")" + SSStrU.blank + par.globalSearchOp + SSStrU.blank;
+    }
+    
+    for(Map.Entry<String, List<MultivaluedMap<String, String>>> wheresNumberic : par.numbericWheres.entrySet()){
+      
+      comparator = wheresNumberic.getKey();
 
       for(MultivaluedMap<String, String> whereNumeric : wheresNumberic.getValue()){
       
@@ -127,48 +141,43 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
           entrySet = iteratorMultiValue.next();
 
           for(String value : entrySet.getValue()){
-            query += entrySet.getKey() + comparator + SSStrU.questionMark + " OR ";
+            query += entrySet.getKey() + comparator + SSStrU.questionMark + SSStrU.valueBlankORBlank;
           }
         }
         
-        query = SSStrU.removeTrailingString(query, " OR ") + ") AND ";
-      }
-    }
-
-//    if(wheresNumbericComparision.isEmpty()){
-//      query = SSStrU.removeTrailingString(query, ") AND ");
-//    }else{
-      query = SSStrU.removeTrailingString(query, " AND ");
-//    }
-      
-    if(
-      !wheres.isEmpty() || 
-      !wheresNumbericComparision.isEmpty()){
-      
-      if(!tableCons.isEmpty()){
-        query += " AND ";
+        query = SSStrU.removeTrailingString(query, SSStrU.valueBlankORBlank) + ")" + SSStrU.blank + par.globalSearchOp + SSStrU.blank;
       }
     }
     
-    for(String tableCon : tableCons){
-      query += tableCon + " AND ";
+    query = SSStrU.removeTrailingString(query, SSStrU.blank + par.globalSearchOp + SSStrU.blank);
+      
+    if(
+      (!par.orWheres.isEmpty() || !par.andWheres.isEmpty() || !par.numbericWheres.isEmpty()) &&
+      !par.tableCons.isEmpty()){
+      
+      query += SSStrU.valueBlankANDBlank;
     }
     
-    query = SSStrU.removeTrailingString(query, " AND ");
+    for(String tableCon : par.tableCons){
+      query += tableCon + SSStrU.valueBlankANDBlank;
+    }
+    
+    query = SSStrU.removeTrailingString(query, SSStrU.valueBlankANDBlank);
     
     if(
-      orderByColumn != null &&
-      sortType      != null){
-      query         += " ORDER BY " + orderByColumn + SSStrU.blank + sortType;
+      par.orderByColumn != null &&
+      par.sortType      != null){
+      
+      query += " ORDER BY " + par.orderByColumn + SSStrU.blank + par.sortType;
     }
     
-    if(limit != null){
-      query += " LIMIT " + limit;
+    if(par.limit != null){
+      query += " LIMIT " + par.limit;
     }
     
-    stmt           = connector.prepareStatement(query);
+    stmt = connector.prepareStatement(query);
     
-    for(MultivaluedMap<String, String> where : wheres){
+    for(MultivaluedMap<String, String> where : par.orWheres){
       
       iteratorMultiValue = where.entrySet().iterator();
       
@@ -182,131 +191,37 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
       }
     }
     
-    for(Map.Entry<String, List<MultivaluedMap<String, String>>> wheresNumberic : wheresNumbericComparision.entrySet()){
+    for(MultivaluedMap<String, String> where : par.andWheres){
+      
+      iteratorMultiValue = where.entrySet().iterator();
+      
+      while(iteratorMultiValue.hasNext()){
+        
+        entrySet = iteratorMultiValue.next();
+        
+        for(String value : entrySet.getValue()){
+          stmt.setObject(counter++, value);
+        }
+      }
+    }
+
+    for(Map.Entry<String, List<MultivaluedMap<String, String>>> wheresNumberic : par.numbericWheres.entrySet()){
       
       for(MultivaluedMap<String, String> whereNumeric : wheresNumberic.getValue()){
-      
+        
         iteratorMultiValue = whereNumeric.entrySet().iterator();
-
+        
         while(iteratorMultiValue.hasNext()){
-
+          
           entrySet = iteratorMultiValue.next();
-
+          
           for(String value : entrySet.getValue()){
             stmt.setObject(counter++, value);
           }
         }
       }
     }
-
-    return stmt.executeQuery();
-  }
-  
-  @Override
-  public ResultSet select(
-    final List<String>                         tables,
-    final List<String>                         columns,
-    final List<MultivaluedMap<String, String>> wheres,
-    final List<String>                         tableCons,
-    final String                               globalSearchOp, 
-    final String                               localSearchOp,
-    final String                               orderByColumn, 
-    final String                               sortType, 
-    final Integer                              limit) throws Exception{
-    
-    String                                    query   = "SELECT DISTINCT "; //caution do not remove distinct here without checks
-    int                                       counter = 1;
-    PreparedStatement                         stmt;
-    Iterator<Map.Entry<String, List<String>>> iteratorMultiValue;
-    Map.Entry<String, List<String>>           entrySet;
-    
-    final String gSOp = globalSearchOp.toUpperCase();
-    final String lSOp = localSearchOp.toUpperCase();
-    
-    for(String columnName : columns){
-      query += columnName + SSStrU.comma;
-    }
-    
-    if(
-      columns == null ||
-      columns.isEmpty()){
-      
-      query += "*";
-    }
-    
-    query = SSStrU.removeTrailingString(query, SSStrU.comma) + " FROM ";
-    
-    for(String tableName : tables){
-      query += tableName + SSStrU.comma;
-    }
-    
-    if(
-      wheres.isEmpty() &&
-      tableCons.isEmpty()){
-      query = SSStrU.removeTrailingString(query, SSStrU.comma);
-    }else{
-      query = SSStrU.removeTrailingString(query, SSStrU.comma) + " WHERE ";      
-    }
-      
-    for(MultivaluedMap<String, String> where : wheres){
-      
-      query += "(";
-      
-      iteratorMultiValue = where.entrySet().iterator();
-
-      while(iteratorMultiValue.hasNext()){
-        
-        entrySet = iteratorMultiValue.next();
-
-        for(String value : entrySet.getValue()){
-          query += entrySet.getKey() + SSStrU.equal + SSStrU.questionMark + SSStrU.blank + lSOp + SSStrU.blank;
-        }
-      }
-      
-      query = SSStrU.removeTrailingString(query, SSStrU.blank + lSOp + SSStrU.blank) + ")" + SSStrU.blank + gSOp + SSStrU.blank;
-    }
-    
-    query = SSStrU.removeTrailingString(query, SSStrU.blank + gSOp + SSStrU.blank);
-      
-    if(
-      !wheres.isEmpty() &&
-      !tableCons.isEmpty()){
-      
-      query += " AND ";
-    }
-    
-    for(String tableCon : tableCons){
-      query += tableCon + " AND ";
-    }
-    
-    query          = SSStrU.removeTrailingString(query, " AND ");
-    
-    if(
-      orderByColumn != null &&
-      sortType      != null){
-      query         += " ORDER BY " + orderByColumn + SSStrU.blank + sortType;
-    }
-    
-    if(limit != null){
-      query += " LIMIT " + limit;
-    }
-    
-    stmt           = connector.prepareStatement(query);
-    
-    for(MultivaluedMap<String, String> where : wheres){
-      
-      iteratorMultiValue = where.entrySet().iterator();
-      
-      while(iteratorMultiValue.hasNext()){
-        
-        entrySet = iteratorMultiValue.next();
-        
-        for(String value : entrySet.getValue()){
-          stmt.setObject(counter++, value);
-        }
-      }
-    }
-
+     
     return stmt.executeQuery();
   }
   
@@ -1365,6 +1280,150 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
 //    
 //    while(iterator.hasNext()){
 //      stmt.setObject(counter++, iterator.next().getValue());
+//    }
+//
+//    return stmt.executeQuery();
+//  }
+
+//@Override
+//  public ResultSet selectWithNumerics(
+//    final List<String>                                           tables,
+//    final List<String>                                           columns,
+//    final List<MultivaluedMap<String, String>>                   wheres,
+//    final MultivaluedMap<String, MultivaluedMap<String, String>> wheresNumbericComparision,
+//    final List<String>                                           tableCons,
+//    final String                                                 orderByColumn, 
+//    final String                                                 sortType, 
+//    final Integer                                                limit) throws Exception{
+//           
+//    String                                    query   = "SELECT DISTINCT "; //caution do not remove distinct here without checks
+//    int                                       counter = 1;
+//    PreparedStatement                         stmt;
+//    Iterator<Map.Entry<String, List<String>>> iteratorMultiValue;
+//    Map.Entry<String, List<String>>           entrySet;
+//    
+//    for(String columnName : columns){
+//      query += columnName + SSStrU.comma;
+//    }
+//    
+//    if(
+//      columns == null ||
+//      columns.isEmpty()){
+//      
+//      query += "*";
+//    }
+//    
+//    query = SSStrU.removeTrailingString(query, SSStrU.comma) + " FROM ";
+//    
+//    for(String tableName : tables){
+//      query += tableName + SSStrU.comma;
+//    }
+//    
+//    query = SSStrU.removeTrailingString(query, SSStrU.comma) + " WHERE ";
+//      
+//    for(MultivaluedMap<String, String> where : wheres){
+//      
+//      query += "(";
+//      
+//      iteratorMultiValue = where.entrySet().iterator();
+//
+//      while(iteratorMultiValue.hasNext()){
+//        
+//        entrySet = iteratorMultiValue.next();
+//
+//        for(String value : entrySet.getValue()){
+//          query += entrySet.getKey() + SSStrU.equal + SSStrU.questionMark + " OR ";
+//        }
+//      }
+//      
+//      query = SSStrU.removeTrailingString(query, " OR ") + ") AND ";
+//    }
+//    
+//    for(Map.Entry<String, List<MultivaluedMap<String, String>>> wheresNumberic : wheresNumbericComparision.entrySet()){
+//      
+//      String comparator = wheresNumberic.getKey();
+//
+//      for(MultivaluedMap<String, String> whereNumeric : wheresNumberic.getValue()){
+//      
+//        query += "(";
+//        
+//        iteratorMultiValue = whereNumeric.entrySet().iterator();
+//
+//        while(iteratorMultiValue.hasNext()){
+//
+//          entrySet = iteratorMultiValue.next();
+//
+//          for(String value : entrySet.getValue()){
+//            query += entrySet.getKey() + comparator + SSStrU.questionMark + " OR ";
+//          }
+//        }
+//        
+//        query = SSStrU.removeTrailingString(query, " OR ") + ") AND ";
+//      }
+//    }
+//
+////    if(wheresNumbericComparision.isEmpty()){
+////      query = SSStrU.removeTrailingString(query, ") AND ");
+////    }else{
+//      query = SSStrU.removeTrailingString(query, " AND ");
+////    }
+//      
+//    if(
+//      !wheres.isEmpty() || 
+//      !wheresNumbericComparision.isEmpty()){
+//      
+//      if(!tableCons.isEmpty()){
+//        query += " AND ";
+//      }
+//    }
+//    
+//    for(String tableCon : tableCons){
+//      query += tableCon + " AND ";
+//    }
+//    
+//    query = SSStrU.removeTrailingString(query, " AND ");
+//    
+//    if(
+//      orderByColumn != null &&
+//      sortType      != null){
+//      query         += " ORDER BY " + orderByColumn + SSStrU.blank + sortType;
+//    }
+//    
+//    if(limit != null){
+//      query += " LIMIT " + limit;
+//    }
+//    
+//    stmt           = connector.prepareStatement(query);
+//    
+//    for(MultivaluedMap<String, String> where : wheres){
+//      
+//      iteratorMultiValue = where.entrySet().iterator();
+//      
+//      while(iteratorMultiValue.hasNext()){
+//        
+//        entrySet = iteratorMultiValue.next();
+//        
+//        for(String value : entrySet.getValue()){
+//          stmt.setObject(counter++, value);
+//        }
+//      }
+//    }
+//    
+//    for(Map.Entry<String, List<MultivaluedMap<String, String>>> wheresNumberic : wheresNumbericComparision.entrySet()){
+//      
+//      for(MultivaluedMap<String, String> whereNumeric : wheresNumberic.getValue()){
+//      
+//        iteratorMultiValue = whereNumeric.entrySet().iterator();
+//
+//        while(iteratorMultiValue.hasNext()){
+//
+//          entrySet = iteratorMultiValue.next();
+//
+//          for(String value : entrySet.getValue()){
+//            stmt.setObject(counter++, value);
+//          }
+//        }
+//      }
 //    }
 //
 //    return stmt.executeQuery();

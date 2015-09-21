@@ -31,9 +31,7 @@ import at.tugraz.sss.serv.SSIDU;
 import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
-import at.kc.tugraz.ss.service.search.datatypes.pars.SSSearchTagsPar;
 import at.tugraz.sss.serv.SSSocketCon;
-import at.tugraz.sss.serv.SSSpaceE;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSEntity;
@@ -43,21 +41,18 @@ import at.tugraz.sss.util.SSServCallerU;
 import at.kc.tugraz.ss.service.search.api.*;
 import at.kc.tugraz.ss.service.search.datatypes.*;
 import at.kc.tugraz.ss.service.search.datatypes.pars.SSSearchPar;
-import at.kc.tugraz.ss.service.search.datatypes.pars.SSSearchTagsWithinEntityPar;
 import at.kc.tugraz.ss.service.search.datatypes.ret.SSSearchRet;
 import at.kc.tugraz.ss.service.search.impl.fct.SSSearchFct;
 import at.kc.tugraz.ss.service.search.impl.fct.misc.SSSearchMiscFct;
 import at.kc.tugraz.ss.service.tag.api.SSTagServerI;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagEntitiesForTagsGetPar;
-import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsGetPar;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBNoSQLSearchPar;
 import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
-import at.tugraz.sss.serv.SSEntityE;
 import java.util.*;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSErrE;
@@ -394,25 +389,37 @@ implements
   
   private List<SSUri> getTagResults(final SSSearchPar par) throws Exception{
     
-    final List<SSUri> tagResults = new ArrayList<>();
-    SSSearchTagsPar   searchTagsPar;
-    
-    if(par.tagsToSearchFor.isEmpty()){
-      return tagResults;
+    try{
+      
+      if(par.tagsToSearchFor.isEmpty()){
+        return new ArrayList<>();
+      }
+      
+      final SSTagServerI tagServ = (SSTagServerI) SSServReg.getServ(SSTagServerI.class);
+      
+      return tagServ.tagEntitiesForTagsGet(
+        new SSTagEntitiesForTagsGetPar(
+          par.user, //user
+          null, //forUser
+          null, //entities
+          SSTagLabel.get(par.tagsToSearchFor), //labels
+          par.localSearchOp, //labelSearchOp
+          null, //spaces
+          null, //circles
+          null, //startTime
+          true)); //withUserRestriction
+      
+    }catch(Exception error){
+      
+      if(SSServErrReg.containsErr(SSErrE.notServerServiceForOpAvailable)){
+        SSLogU.warn(SSErrE.notServerServiceForOpAvailable.toString());
+      }else{
+        SSLogU.warn(error.getMessage());
+      }
+      
+      SSServErrReg.reset();
+      return new ArrayList<>();
     }
-    
-    searchTagsPar =
-      SSSearchTagsPar.get(
-        par.user,
-        par.tagsToSearchFor,
-        par.localSearchOp,
-        10);
-    
-    for(SSEntity result : searchTags(searchTagsPar)){
-      tagResults.add(result.id);
-    }
-    
-    return tagResults;
   }
   
   private List<SSUri> getTextualContentResults(
@@ -616,115 +623,6 @@ implements
       SSStrU.distinctWithoutNull2(results);
       
       return results;
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
-  @Deprecated
-  @Override
-  public List<SSEntity> searchTags(final SSServPar parA) throws Exception {
-    return searchTags(new SSSearchTagsPar(parA));
-  }
-  
-  @Deprecated
-  protected List<SSEntity> searchTags(final SSSearchTagsPar par) throws Exception {
-    
-    try{
-      
-      final Map<String, List<SSEntity>> searchResultsPerTag = new HashMap<>();
-      List<SSEntity>                    searchResultsForTagOneTag;
-      
-      for(String tagLabel : par.tags){
-        
-        searchResultsForTagOneTag = new ArrayList<>();
-        
-        for(SSUri foundEntity :
-          ((SSTagServerI) SSServReg.getServ(SSTagServerI.class)).tagEntitiesForTagsGet(
-            new SSTagEntitiesForTagsGetPar(
-              par.user,
-              null, 
-              SSTagLabel.asListWithoutNullAndEmpty(SSTagLabel.get(tagLabel)), 
-              null, //spaces
-              null, //startTime
-              true))){ //withUserRestriction
-          
-          searchResultsForTagOneTag.add(
-            ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
-              new SSEntityGetPar(
-                null,
-                foundEntity,  //entity
-                false, //withUserRestriction
-                null))); //descPar
-        }
-        
-        searchResultsPerTag.put(tagLabel, searchResultsForTagOneTag);
-      }
-      
-      return SSSearchFct.selectSearchResultsWithRegardToSearchOp(
-        par.searchOp, 
-        searchResultsPerTag);
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
-  @Deprecated
-  @Override
-  public List<SSEntity> searchTagsWithinEntity(final SSServPar parA) throws Exception{
-    return searchTagsWithinEntity(new SSSearchTagsWithinEntityPar(parA));
-  }
-  
-  @Deprecated
-  protected List<SSEntity> searchTagsWithinEntity(final SSSearchTagsWithinEntityPar par) throws Exception{
-    
-    try{
-      
-      final Map<String, List<SSEntity>> searchResultsPerTag        = new HashMap<>();
-      final List<SSEntity>              searchResultsForOneKeyword = new ArrayList<>();
-      SSEntity                          entityObj;
-      
-      for(String tag : par.tags){
-        
-        searchResultsForOneKeyword.clear();
-        
-        for(SSUri entityUri : SSSearchMiscFct.getSubEntities(par.user, SSUri.asListWithoutNullAndEmpty(par.entity))){
-          
-          if(
-            ((SSTagServerI) SSServReg.getServ(SSTagServerI.class)).tagsGet(
-              new SSTagsGetPar(
-                par.user,
-                null, //forUser
-                SSUri.asListWithoutNullAndEmpty(entityUri), //entities
-                SSTagLabel.asListWithoutNullAndEmpty(SSTagLabel.get(tag)),  //labels
-                null, //space
-                null, //circles
-                null, //startTime
-                false)).isEmpty()){ //withUserRestriction
-            continue;
-          }
-          
-          entityObj =
-            ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
-              new SSEntityGetPar(
-                null,
-                entityUri,  //entity
-                false, //withUserRestriction
-                null)); //descPar
-          
-          searchResultsForOneKeyword.add(entityObj);
-        }
-        
-        searchResultsPerTag.put(tag, new ArrayList<>(searchResultsForOneKeyword));
-      }
-      
-      return SSSearchFct.selectSearchResultsWithRegardToSearchOp(
-        par.searchOp, 
-        searchResultsPerTag);
-      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;

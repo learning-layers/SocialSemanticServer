@@ -141,6 +141,10 @@ public class SSStrU{
   public  static final String        valueCollRootCircle                      = "collRootCircle";
   public  static final String        valueUser                                = "user";
   public  static final String        valueSystem                              = "system";
+  public  static final String        valueBlankANDBlank                       = " AND ";
+  public  static final String        valueBlankORBlank                        = " OR ";
+  public  static final String        valueASC                                 = "ASC";
+  public  static final String        valueDESC                                = "DESC";
   
   public static String[] toArray(final List<String> toConverts) {
     

@@ -26,7 +26,6 @@ import at.kc.tugraz.ss.activity.datatypes.SSActivity;
 import at.kc.tugraz.ss.activity.datatypes.SSActivityContent;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityContentE;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
-import at.kc.tugraz.ss.service.search.datatypes.SSSearchOpE;
 import at.tugraz.sss.serv.SSAuthor;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSTextComment;
@@ -34,6 +33,7 @@ import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSDBSQLFct;
 import at.tugraz.sss.serv.SSDBSQLI;
+import at.tugraz.sss.serv.SSDBSQLSelectPar;
 import at.tugraz.sss.serv.SSServErrReg;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -181,6 +181,7 @@ public class SSActivitySQLFct extends SSDBSQLFct{
       final List<String>                                           tables         = new ArrayList<>();
       final List<String>                                           columns        = new ArrayList<>();
       final List<String>                                           tableCons      = new ArrayList<>();
+      final SSDBSQLSelectPar                                       selectPar;
 
       table    (tables, SSSQLVarNames.activityTable);
       table    (tables, SSSQLVarNames.entityTable);
@@ -267,44 +268,24 @@ public class SSActivitySQLFct extends SSDBSQLFct{
         lessWheres.add(whereNumbericEndTimes);
       }
       
-      if(!wheresNumeric.isEmpty()){
+      selectPar =
+        new SSDBSQLSelectPar(
+          tables,
+          columns,
+          wheres,
+          null,
+          wheresNumeric,
+          tableCons);
+      
+      selectPar.limit = limit;
+      
+      if(sortByTime){
         
-        if(sortByTime){
-          resultSet = dbSQL.selectWithNumerics(tables, columns, wheres, wheresNumeric, tableCons, SSSQLVarNames.creationTime, "DESC", limit);
-        }else{
-          resultSet = dbSQL.selectWithNumerics(tables, columns, wheres, wheresNumeric, tableCons, null, null, limit);
-        }
-        
-      }else{
-        
-        if(sortByTime){
-          
-          resultSet = 
-            dbSQL.select(
-              tables, 
-              columns, 
-              wheres, 
-              tableCons,
-              SSSearchOpE.and.toString(),
-              SSSearchOpE.or.toString(),
-              SSSQLVarNames.creationTime, 
-              "DESC", 
-              limit);
-        }else{
-          
-          resultSet = 
-            dbSQL.select(
-              tables, 
-              columns, 
-              wheres, 
-              tableCons, 
-              SSSearchOpE.and.toString(),
-              SSSearchOpE.or.toString(),
-              null, 
-              null, 
-              limit);
-        }
+        selectPar.orderByColumn = SSSQLVarNames.creationTime;
+        selectPar.sortType      = SSStrU.valueDESC;
       }
+      
+      resultSet = dbSQL.select(selectPar);
       
       final         List<String> latestActivities = new ArrayList<>();
       SSUri         entity;
