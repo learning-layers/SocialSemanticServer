@@ -32,6 +32,7 @@ import at.tugraz.sss.serv.SSEntityA;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.SSSearchOpE;
+import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSSpaceE;
 import at.tugraz.sss.serv.SSStrU;
@@ -55,74 +56,26 @@ public class SSTagAndCategoryCommonMisc {
     this.sqlFct       = new SSTagAndCategoryCommonSQL(dbSQL, metadataType);
   }
   
-  public List<SSEntity> getMetadataIfSpaceNotSet(
-    final SSUri        user,
-    final SSUri        forUser,
-    final List<SSUri>  entities,
-    final List<String> labels,
-    final SSSearchOpE  labelSearchOp,
-    final List<SSUri>  circles, 
-    final Long         startTime) throws Exception{
+  public List<SSEntity> getMetadata(
+    final SSUri          user,
+    final SSUri          forUser,
+    final List<SSUri>    entities,
+    final List<String>   labels,
+    final SSSearchOpE    labelSearchOp,
+    final List<SSSpaceE> spaces, 
+    final List<SSUri>    circles, 
+    final Long           startTime) throws Exception{
     
-    final List<SSEntity> metadata    = new ArrayList<>();
-    SSEntity             metadataEntity;
-    
-    if(
-      entities.isEmpty() &&
-      labels.isEmpty() &&
-      circles.isEmpty()){
-      
-      metadata.addAll (sqlFct.getMetadataAsss(forUser, null, SSSpaceE.sharedSpace,  startTime, null));
-      metadata.addAll (sqlFct.getMetadataAsss(forUser, null, SSSpaceE.circleSpace,  startTime, null));
-      metadata.addAll (sqlFct.getMetadataAsss(user,    null, SSSpaceE.privateSpace, startTime, null));
-    }
-    
-    if(
-      entities.isEmpty() &&
-      labels.isEmpty()   &&
-      !circles.isEmpty()){
-      
-      metadata.addAll(
-        sqlFct.getMetadataAsss(
-          SSUri.asListWithoutNullAndEmpty(user),
-          null,
-          SSSpaceE.privateSpace,
-          startTime,
-          null,
-          null, //labelSearchOp
-          circles));
-      
-      metadata.addAll(
-        sqlFct.getMetadataAsss(
-          SSUri.asListWithoutNullAndEmpty(forUser),
-          null,
-          SSSpaceE.sharedSpace,
-          startTime,
-          null,
-          null, //labelSearchOp
-          circles));
-      
-      metadata.addAll(
-        sqlFct.getMetadataAsss(
-          SSUri.asListWithoutNullAndEmpty(forUser),
-          null,
-          SSSpaceE.circleSpace,
-          startTime,
-          null,
-          null, //labelSearchOp
-          circles));
-    }
-    
-    if(
-      entities.isEmpty() &&
-      !labels.isEmpty()){
-      
-      final List<SSUri> metadataURIs    = new ArrayList<>();
+    try{
+      final SSEntityServerI entityServ   = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
+      final List<SSEntity>  metadata     = new ArrayList<>();
+      final List<SSUri>     metadataURIs = new ArrayList<>();
+      SSEntity              metadataEntity;
       
       for(String label : labels){
         
         metadataEntity =
-          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityFromTypeAndLabelGet(
+          entityServ.entityFromTypeAndLabelGet(
             new SSEntityFromTypeAndLabelGetPar(
               user,
               SSLabel.get(label), //label,
@@ -130,247 +83,88 @@ public class SSTagAndCategoryCommonMisc {
               false)); //withUserRestriction
         
         if(metadataEntity == null){
+          
+          if(labelSearchOp != null){
+            
+            switch(labelSearchOp){
+            
+              case and:{
+                return metadata;
+              }
+            }
+          }
+          
           continue;
         }
         
         metadataURIs.add(metadataEntity.id);
       }
       
-      metadata.addAll (
-        sqlFct.getMetadataAsss(
-          SSUri.asListWithoutNullAndEmpty(user),
-          null,
-          SSSpaceE.privateSpace,
-          startTime,
-          metadataURIs,
-          labelSearchOp, //labelSearchOp
-          circles));
+      if(spaces.isEmpty()){
       
-      metadata.addAll (
-        sqlFct.getMetadataAsss(
-          SSUri.asListWithoutNullAndEmpty(forUser),
-          null,
-          SSSpaceE.sharedSpace,
-          startTime,
-          metadataURIs,
-          labelSearchOp, //labelSearchOp
-          circles));
-      
-      metadata.addAll (
-        sqlFct.getMetadataAsss(
-          SSUri.asListWithoutNullAndEmpty(forUser),
-          null,
-          SSSpaceE.circleSpace,
-          startTime,
-          metadataURIs,
-          labelSearchOp, //labelSearchOp
-          circles));
-    }
-    
-    if(
-      !entities.isEmpty() &&
-      labels.isEmpty()){
-      
-      metadata.addAll (
-        sqlFct.getMetadataAsss(
-          SSUri.asListWithoutNullAndEmpty(forUser), 
-          entities, 
-          SSSpaceE.sharedSpace,  
-          startTime, 
-          null,
-          null, //labelSearchOp
-          circles));
-      
-      metadata.addAll (
-        sqlFct.getMetadataAsss(
-          SSUri.asListWithoutNullAndEmpty(forUser), 
-          entities, 
-          SSSpaceE.circleSpace,  
-          startTime, 
-          null,
-          null, //labelSearchOp
-          circles));
-      
-      metadata.addAll(
-        sqlFct.getMetadataAsss(
-          SSUri.asListWithoutNullAndEmpty(user),    
-          entities, 
-          SSSpaceE.privateSpace, 
-          startTime, 
-          null,
-          null, //labelSearchOp
-          circles));
-    }
-    
-    if(
-      !entities.isEmpty() &&
-      !labels.isEmpty()){
-      
-      for(String label : labels){
+        metadata.addAll(
+          sqlFct.getMetadataAsss(
+            SSUri.asListWithoutNullAndEmpty(user), //user
+            entities, //entities
+            SSSpaceE.asListWithoutNull(SSSpaceE.privateSpace), //spaces
+            startTime, //startTime
+            metadataURIs, //metadataUris
+            circles)); //circles
+
+        metadata.addAll(
+          sqlFct.getMetadataAsss(
+            SSUri.asListWithoutNullAndEmpty(forUser), //user
+            entities, //entities
+            SSSpaceE.asListWithoutNull(SSSpaceE.sharedSpace, SSSpaceE.circleSpace), //spaces
+            startTime, //startTime
+            metadataURIs, //metadataUris
+            circles)); //circles
         
-        metadataEntity =
-          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityFromTypeAndLabelGet(
-            new SSEntityFromTypeAndLabelGetPar(
-              user,
-              SSLabel.get(label), //label,
-              metadataType, //type,
-              false)); //withUserRestriction
+      }else{
         
-        if(metadataEntity == null){
-          continue;
+        for(SSSpaceE space : spaces){
+        
+          switch(space){
+            
+            case privateSpace:{
+              
+              metadata.addAll(
+                sqlFct.getMetadataAsss(
+                  SSUri.asListWithoutNullAndEmpty(user), //user
+                  entities, //entities
+                  SSSpaceE.asListWithoutNull(space), //spaces
+                  startTime, //startTime
+                  metadataURIs, //metadataUris
+                  circles)); //circles
+              break;
+            }
+            
+            case sharedSpace:
+            case circleSpace:{
+              
+              metadata.addAll(
+                sqlFct.getMetadataAsss(
+                  SSUri.asListWithoutNullAndEmpty(forUser), //user
+                  entities, //entities
+                  SSSpaceE.asListWithoutNull(space), //spaces
+                  startTime, //startTime
+                  metadataURIs, //metadataUris
+                  circles)); //circles
+              break;
+            }
+          }
         }
-        
-        metadata.addAll (
-          sqlFct.getMetadataAsss(
-            SSUri.asListWithoutNullAndEmpty(forUser),     
-            entities, 
-            SSSpaceE.sharedSpace,  
-            startTime, 
-            SSUri.asListWithoutNullAndEmpty(metadataEntity.id),
-            labelSearchOp, //labelSearchOp
-            circles));
-        
-        metadata.addAll (
-          sqlFct.getMetadataAsss(
-            SSUri.asListWithoutNullAndEmpty(forUser),     
-            entities, 
-            SSSpaceE.circleSpace,  
-            startTime, 
-            SSUri.asListWithoutNullAndEmpty(metadataEntity.id), 
-            labelSearchOp, //labelSearchOp
-            circles));
-        
-        metadata.addAll (
-          sqlFct.getMetadataAsss(
-            SSUri.asListWithoutNullAndEmpty(user),
-            entities, 
-            SSSpaceE.privateSpace, 
-            startTime, 
-            SSUri.asListWithoutNullAndEmpty(metadataEntity.id), 
-            labelSearchOp, //labelSearchOp
-            circles));
-      }
-    }
-    
-    return metadata;
-  }
-  
-  public List<SSEntity> getMetadataIfSpaceSet(
-    final SSUri        userToUse,
-    final List<SSUri>  entities,
-    final List<String> labels,
-    final SSSearchOpE  labelSearchOp,
-    final List<SSUri>  circles, 
-    final SSSpaceE     space,
-    final Long         startTime) throws Exception{
-    
-    final List<SSEntity>   metadata   = new ArrayList<>();
-    SSEntity               metadataEntity;
-    
-    if(
-      entities.isEmpty() &&
-      labels.isEmpty()   &&
-      circles.isEmpty()){
-      
-      metadata.addAll (sqlFct.getMetadataAsss(userToUse, null, space, startTime, null));
-    }
-    
-    if(
-      entities.isEmpty() &&
-      labels.isEmpty()   &&
-      !circles.isEmpty()){
-      
-      metadata.addAll(
-        sqlFct.getMetadataAsss(
-          SSUri.asListWithoutNullAndEmpty(userToUse), 
-          null, 
-          space, 
-          startTime,
-          null,
-          null, //labelSearchOp
-          circles));
-    }
-      
-    if(
-      entities.isEmpty() &&
-      !labels.isEmpty()){
-      
-      final List<SSUri> metadataURIs    = new ArrayList<>();
-        
-      for(String label : labels){
-        
-        metadataEntity =
-          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityFromTypeAndLabelGet(
-            new SSEntityFromTypeAndLabelGetPar(
-              userToUse,
-              SSLabel.get(label), //label,
-              metadataType, //type,
-              false)); //withUserRestriction
-        
-        if(metadataEntity == null){
-          continue;
-        }
-        
-        metadataURIs.add(metadataEntity.id);
       }
       
-      metadata.addAll(
-        sqlFct.getMetadataAsss(
-          SSUri.asListWithoutNullAndEmpty(userToUse), 
-          null, 
-          space, 
-          startTime,
-          metadataURIs,
-          labelSearchOp, //labelSearchOp
-          circles));
-    }
-    
-    if(
-      !entities.isEmpty() &&
-      labels.isEmpty()){
+      return filterMetadataRegardingLabelSearchOp(
+        metadata, //metadata
+        metadataURIs.size(),  //differentTagCount
+        labelSearchOp); //labelSearchOp
       
-      metadata.addAll(
-        sqlFct.getMetadataAsss(
-          SSUri.asListWithoutNullAndEmpty(userToUse), 
-          entities, 
-          space, 
-          startTime, 
-          null,
-          null, //labelSearchOp
-          circles));
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
-    
-    if(
-      !entities.isEmpty() &&
-      !labels.isEmpty()){
-    
-      for(String label : labels){
-        
-        metadataEntity =
-          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityFromTypeAndLabelGet(
-            new SSEntityFromTypeAndLabelGetPar(
-              userToUse,
-              SSLabel.get(label), //label,
-              metadataType, //type,
-              false)); //withUserRestriction
-        
-        if(metadataEntity == null){
-          continue;
-        }
-        
-        metadata.addAll (
-          sqlFct.getMetadataAsss(
-            SSUri.asListWithoutNullAndEmpty(userToUse), 
-            entities, 
-            space, 
-            startTime, 
-            SSUri.asListWithoutNullAndEmpty(metadataEntity.id),
-            labelSearchOp, //labelSearchOp
-            circles));
-      }
-    }
-    
-    return metadata;
   }
   
   public List<SSEntityA> getMetadataFrequsFromMetadata(
@@ -406,6 +200,7 @@ public class SSTagAndCategoryCommonMisc {
           }else{
             metadataFrequs.put(metaLabel, SSCategoryFrequ.get(((SSCategory) meta).categoryLabel, ((SSCategory) meta).space, 1));
           }
+          
           break;
         }
         
@@ -479,6 +274,90 @@ public class SSTagAndCategoryCommonMisc {
     }
     
     return metadata;
+  }
+  
+  private List<SSEntity> filterMetadataRegardingLabelSearchOp(
+    final List<SSEntity> metadata,
+    final Integer        differentTagCount,
+    final SSSearchOpE    labelSearchOp) throws Exception{
+    
+    try{
+    
+      if(labelSearchOp == null){
+        return metadata;
+      }
+      
+      final List<SSEntity> result = new ArrayList<>();
+      
+      switch(labelSearchOp){
+        
+        case or:{
+          return metadata;
+        }
+        
+        case and:{
+          
+          final Map<String, List<SSEntity>> metadataForEntities = new HashMap<>();
+          
+          switch(metadataType){
+            
+            case tag:{
+              
+              for(SSEntity tag : metadata){
+                
+                if(!metadataForEntities.containsKey(((SSTag) tag).entity.toString())){
+                  metadataForEntities.put(((SSTag) tag).entity.toString(), new ArrayList<>());
+                }
+                
+                SSEntity.addEntitiesDistinctWithoutNull(metadataForEntities.get(((SSTag) tag).entity.toString()), tag);
+              }
+              
+              for(Map.Entry<String, List<SSEntity>> metadataForEntity : metadataForEntities.entrySet()){
+                
+                if(metadataForEntity.getValue().size() != differentTagCount){
+                  continue;
+                }
+                
+                result.addAll(metadataForEntity.getValue());
+              }
+              
+              return result;
+            }
+            
+            case category:{
+              
+              for(SSEntity category : metadata){
+                
+                if(!metadataForEntities.containsKey(((SSCategory) category).entity.toString())){
+                  metadataForEntities.put(((SSCategory) category).entity.toString(), new ArrayList<>());
+                }
+                
+                SSEntity.addEntitiesDistinctWithoutNull(metadataForEntities.get(((SSCategory) category).entity.toString()), category);
+              }
+              
+              for(Map.Entry<String, List<SSEntity>> metadataForEntity : metadataForEntities.entrySet()){
+                
+                if(metadataForEntity.getValue().size() != differentTagCount){
+                  continue;
+                }
+                
+                result.addAll(metadataForEntity.getValue());
+              }
+              
+              return result;
+            }
+            
+            default: throw new UnsupportedOperationException();
+          }
+        }
+        
+        default: throw new UnsupportedOperationException();
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
   }
 }
 

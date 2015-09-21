@@ -30,9 +30,6 @@ import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivURIGetPar;
 import at.tugraz.sss.servs.entity.datatypes.ret.SSEntityShareRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityClientI;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
-import at.tugraz.sss.servs.entity.datatypes.par.SSEntitiesForDescriptionsGetPar;
-import at.tugraz.sss.servs.entity.datatypes.par.SSEntitiesForLabelsAndDescriptionsGetPar;
-import at.tugraz.sss.servs.entity.datatypes.par.SSEntitiesForLabelsGetPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntitiesGetPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityAttachEntitiesPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityDownloadURIsGetPar;
@@ -52,7 +49,6 @@ import at.tugraz.sss.servs.entity.datatypes.ret.SSEntityUpdateRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.SSEntityActivityFct;
 import at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.SSEntitySQLFct;
 import at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.SSEntityUserRelationsGatherFct;
-import at.tugraz.sss.serv.SSSearchOpE;
 import at.kc.tugraz.ss.service.userevent.api.SSUEServerI;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSSocketCon;
@@ -654,94 +650,6 @@ implements
       }
       
       dbSQL.rollBack(par.shouldCommit);
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
-  @Override
-  public List<SSEntity> entitiesForLabelsAndDescriptionsGet(final SSServPar parA) throws Exception{
-    
-    try{
-      final SSEntitiesForLabelsAndDescriptionsGetPar  par = new SSEntitiesForLabelsAndDescriptionsGetPar(parA);
-      
-      //TODO a lot of improvement and error handling here
-      
-      if(!par.requireds.isEmpty()){
-        return sqlFct.getEntitiesForLabelsAndDescriptionsWithSQLLike(par.requireds, par.requireds, SSSearchOpE.and);
-      }
-      
-      if(!par.eithers.isEmpty()){
-        return sqlFct.getEntitiesForLabelsAndDescriptionsWithSQLLike(par.eithers, par.eithers, SSSearchOpE.or);
-      }
-      
-      if(!par.absents.isEmpty()){
-        throw new UnsupportedOperationException("absents not suppported yet");
-      }
-      
-      return new ArrayList<>();
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
-  @Override
-  public List<SSEntity> entitiesForLabelsGet(final SSServPar parA) throws Exception{
-    
-    try{
-      final SSEntitiesForLabelsGetPar  par      = new SSEntitiesForLabelsGetPar(parA);
-
-      //TODO a lot of improvment and error handling here
-      
-      if(!par.requireds.isEmpty()){
-        return sqlFct.getEntitiesForLabelsAndDescriptionsWithSQLLike(par.requireds, new ArrayList<>(), SSSearchOpE.and);
-        //TODO could also use public List<SSEntity> getEntitiesForLabelsAndDescriptions(final List<String> requireds,final List<String> absents,final List<String> eithers);
-        //here, although it depends on the innodb_ft_min_token_size setting for InnoDB MYSQL tables then, and stopwords and so on
-        //see http://dba.stackexchange.com/questions/51144/mysql-match-against-boolean-mode and http://dev.mysql.com/doc/refman/5.6/en/fulltext-stopwords.html
-        //please consider that the actual version doesnt exploit MYSQL indexes on labels and descriptions
-      }
-      
-      if(!par.eithers.isEmpty()){
-        return sqlFct.getEntitiesForLabelsAndDescriptionsWithSQLLike(par.eithers, new ArrayList<>(), SSSearchOpE.or);
-      }
-      
-      if(!par.absents.isEmpty()){
-        throw new UnsupportedOperationException("absents not suppported yet");
-      }
-      
-      return new ArrayList<>();
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
-  @Override
-  public List<SSEntity> entitiesForDescriptionsGet(final SSServPar parA) throws Exception{
-    
-    try{
-      final SSEntitiesForDescriptionsGetPar  par = new SSEntitiesForDescriptionsGetPar(parA);
-      
-      //TODO a lot of improvement and error handling here
-      
-      if(!par.requireds.isEmpty()){
-        return sqlFct.getEntitiesForLabelsAndDescriptionsWithSQLLike(new ArrayList<>(), par.requireds, SSSearchOpE.and);
-      }
-      
-      if(!par.eithers.isEmpty()){
-        return sqlFct.getEntitiesForLabelsAndDescriptionsWithSQLLike(new ArrayList<>(), par.eithers, SSSearchOpE.or);
-      }
-      
-      if(!par.absents.isEmpty()){
-        throw new UnsupportedOperationException("absents not suppported yet");
-      }
-      
-      return new ArrayList<>();
-      
-    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }

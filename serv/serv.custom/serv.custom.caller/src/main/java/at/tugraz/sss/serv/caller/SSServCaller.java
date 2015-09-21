@@ -24,11 +24,9 @@ import at.kc.tugraz.socialserver.service.broadcast.datatypes.SSBroadcast;
 import at.kc.tugraz.socialserver.service.broadcast.datatypes.enums.SSBroadcastEnum;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteInfo;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
-import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSFileExtE;
 import at.tugraz.sss.serv.SSIDU;
 import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.serv.SSMimeTypeE;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSStrU;
@@ -262,48 +260,6 @@ public class SSServCaller {
   }
   
   /* entity */
-  
-  public static List<SSEntity> entitiesForLabelsAndDescriptionsGet(
-    final List<String> requireds,
-    final List<String> absents,
-    final List<String> eithers) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.requireds, requireds);
-    opPars.put(SSVarNames.absents,   absents);
-    opPars.put(SSVarNames.eithers,   eithers);
-    
-    return (List<SSEntity>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entitiesForLabelsAndDescriptionsGet, opPars));
-  }
-  
-  public static List<SSEntity> entitiesForLabelsGet(
-    final List<String> requireds,
-    final List<String> absents,
-    final List<String> eithers) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.requireds, requireds);
-    opPars.put(SSVarNames.absents,   absents);
-    opPars.put(SSVarNames.eithers,   eithers);
-    
-    return (List<SSEntity>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entitiesForLabelsGet, opPars));
-  }
-  
-  public static List<SSEntity> entitiesForDescriptionsGet(
-    final List<String> requireds,
-    final List<String> absents,
-    final List<String> eithers) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.requireds, requireds);
-    opPars.put(SSVarNames.absents,   absents);
-    opPars.put(SSVarNames.eithers,   eithers);
-    
-    return (List<SSEntity>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entitiesForDescriptionsGet, opPars));
-  }
   
   public static List<SSUri> entityUserParentEntitiesGet(
     final SSUri      user, 

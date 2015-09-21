@@ -54,6 +54,28 @@ import java.util.List;
 
 public class SSServCallerU{
   
+  public static List<SSEntity> filterExistingAndAccessibleEntities(
+    final SSUri       user,
+    final List<SSUri> entities,
+    final Boolean     withUserRestriction) throws Exception{
+    
+    try{
+      final SSEntityServerI entityServ = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
+      
+      return entityServ.entitiesGet(
+        new SSEntitiesGetPar(
+          user,
+          entities,
+          null, //types
+          null, //descPar,
+          withUserRestriction));
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
   public static void handleEntityCopied(
     final SSUri          user,
     final SSUri          targetUser,
@@ -444,7 +466,8 @@ public class SSServCallerU{
       throw error;
     }
   }
-  
+}
+
 //  public static void canUserReadEntity(
 //    final SSUri user,
 //    final SSUri entityURI) throws Exception{
@@ -486,4 +509,3 @@ public class SSServCallerU{
 //        entityURI,
 //        SSCircleRightE.all));
 //  }
-}

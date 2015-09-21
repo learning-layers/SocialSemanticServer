@@ -749,7 +749,6 @@ implements
   @Override
   public List<SSUri> tagEntitiesForTagsGet(final SSTagEntitiesForTagsGetPar par) throws Exception{
     
-    //TODO dtheiler: use start time for this call as well
     try{
 
       final List<SSEntity> tagAsss =
@@ -788,7 +787,7 @@ implements
     
     try{
       
-      final List<SSEntity>      tags   = new ArrayList<>();
+      final List<SSEntity> tags = new ArrayList<>();
       
       if(par.user == null){
         throw new SSErr(SSErrE.parameterMissing);
@@ -803,53 +802,16 @@ implements
         }
       }
       
-      if(par.spaces.isEmpty()){
-        
-        tags.addAll(
-          commonMiscFct.getMetadataIfSpaceNotSet(
-            par.user, 
-            par.forUser, 
-            par.entities, 
-            SSStrU.toStr(par.labels), 
-            par.labelSearchOp,
-            par.circles, 
-            par.startTime));
-        
-      }else{
-        
-        for(SSSpaceE space : par.spaces){
-          
-          switch(space){
-            
-            case privateSpace:{
-              tags.addAll(
-                commonMiscFct.getMetadataIfSpaceSet(
-                  par.user,
-                  par.entities,
-                  SSStrU.toStr(par.labels),
-                  par.labelSearchOp,
-                  par.circles,
-                  space,
-                  par.startTime));
-              break;
-            }
-            
-            case sharedSpace:
-            case circleSpace:{
-              tags.addAll(
-                commonMiscFct.getMetadataIfSpaceSet(
-                  par.forUser,
-                  par.entities,
-                  SSStrU.toStr(par.labels),
-                  par.labelSearchOp,
-                  par.circles,
-                  space,
-                  par.startTime));
-              break;
-            }
-          }
-        }
-      }
+      tags.addAll(
+        commonMiscFct.getMetadata(
+          par.user,
+          par.forUser,
+          par.entities,
+          SSStrU.toStr(par.labels),
+          par.labelSearchOp,
+          par.spaces,
+          par.circles,
+          par.startTime));
       
       return commonMiscFct.filterMetadataByEntitiesUserCanAccess(
         tags, 

@@ -44,6 +44,17 @@ public class SSStrU{
     }
   }
 
+  public static void addDistinctNotNull(final List<String> strings, final Object toAdd){
+    
+    if(
+      SSObjU.isNull(strings, toAdd) ||
+      contains(strings, toAdd)){
+      return;
+    }
+        
+    strings.add(toAdd.toString());
+  }
+  
   private SSStrU(){}
 
 //  public static final String apiCircle                = "circles/circles";

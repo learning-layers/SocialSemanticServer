@@ -49,7 +49,6 @@ import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePubURIGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTag;
-import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsGetPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityFromTypeAndLabelGetPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityGetPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUpdatePar;
@@ -808,55 +807,19 @@ implements
         }
       }
       
-      if(par.spaces.isEmpty()){
-        categories.addAll(
-          commonMiscFct.getMetadataIfSpaceNotSet(
-            par.user, 
-            par.forUser,
-            par.entities, 
-            SSStrU.toStr(par.labels),
-            par.labelSearchOp,
-            par.circles, 
-            par.startTime));
-        
-      }else{
-        
-        for(SSSpaceE space : par.spaces){
-        
-          switch(space){
-            
-            case privateSpace:{
-              categories.addAll(
-                commonMiscFct.getMetadataIfSpaceSet(
-                  par.user,
-                  par.entities,
-                  SSStrU.toStr(par.labels),
-                  par.labelSearchOp,
-                  par.circles,
-                  space,
-                  par.startTime));
-              break;
-            }
-            
-            case sharedSpace:
-            case circleSpace:{
-              categories.addAll(
-                commonMiscFct.getMetadataIfSpaceSet(
-                  par.forUser,
-                  par.entities,
-                  SSStrU.toStr(par.labels),
-                  par.labelSearchOp,
-                  par.circles,
-                  space,
-                  par.startTime));
-              break;
-            }
-          }
-        }
-      }
+      categories.addAll(
+        commonMiscFct.getMetadata(
+          par.user,
+          par.forUser,
+          par.entities,
+          SSStrU.toStr(par.labels),
+          par.labelSearchOp,
+          par.spaces,
+          par.circles,
+          par.startTime));
       
       return commonMiscFct.filterMetadataByEntitiesUserCanAccess(
-        categories, 
+        categories,
         par.withUserRestriction, 
         par.user, 
         par.forUser);

@@ -55,8 +55,5 @@ public interface SSEntityServerI extends SSServServerI{
   public List<SSUri>                     entityUserSubEntitiesGet                 (final SSServPar parA) throws Exception;
   public List<SSUri>                     entityUserParentEntitiesGet              (final SSServPar parA) throws Exception;
   
-  public List<SSEntity>                  entitiesForLabelsAndDescriptionsGet      (final SSServPar parA) throws Exception;
-  public List<SSEntity>                  entitiesForLabelsGet                     (final SSServPar parA) throws Exception;
-  public List<SSEntity>                  entitiesForDescriptionsGet               (final SSServPar parA) throws Exception;
   public SSUri                           entityRemove                             (final SSServPar parA) throws Exception;
 }

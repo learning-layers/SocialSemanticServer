@@ -87,9 +87,7 @@ public class SSRecommResourcesPar extends SSServPar{
     this.forUser = forUser;
     this.entity   = entity;
     
-    if(categories != null){
-      this.categories.addAll(categories);
-    }
+    SSStrU.addDistinctNotNull(this.categories, categories);
     
     this.maxResources = maxResources;
     

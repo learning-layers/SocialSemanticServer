@@ -31,10 +31,8 @@ import at.tugraz.sss.serv.SSDateU;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSSQLVarNames;
-import at.tugraz.sss.serv.SSSearchOpE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSSpaceE;
-import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -120,123 +118,121 @@ public class SSTagAndCategoryCommonSQL extends SSDBSQLFct{
     }
   }
   
-  public List<SSEntity> getMetadataAsss(
-    final SSUri       userUri,
-    final SSUri       entity,
-    final SSSpaceE    space,
-    final Long        startTime,
-    final SSUri       metadataURI) throws Exception{
-    
-    ResultSet resultSet = null;
-    
-    try{
-      
-      final Map<String, String> wheres         = new HashMap<>();
-      final List<SSEntity>      metadataAsss   = new ArrayList<>();
-      final List<String>        tables         = new ArrayList<>();
-      final List<String>        columns        = new ArrayList<>();
-      final List<String>        tableCons      = new ArrayList<>();
-      
-      column   (columns,   metadataIdSQLName);
-      column   (columns,   SSSQLVarNames.entityId);
-      column   (columns,   SSSQLVarNames.userId);
-      column   (columns,   metadataSpaceSQLName);
-      column   (columns,   SSSQLVarNames.label);
-      column   (columns,   metadataAssSQLTableName, SSSQLVarNames.creationTime);
-      column   (columns,   SSSQLVarNames.circleId);
-      
-      table    (tables, metadataAssSQLTableName);
-      table    (tables, SSSQLVarNames.entityTable);
-      
-      tableCon (tableCons, metadataAssSQLTableName, metadataIdSQLName, SSSQLVarNames.entityTable, SSSQLVarNames.id);
-      
-      if(userUri != null){
-        where(wheres, SSSQLVarNames.userId, userUri);
-      }
-      
-      if(entity != null){
-        where(wheres, SSSQLVarNames.entityId, entity);
-      }
-      
-      if(metadataURI != null){
-        where(wheres, metadataIdSQLName, metadataURI);
-      }
-      
-      if(space != null){
-        where(wheres, metadataSpaceSQLName, space);
-      }
-      
-      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
-      
-      while(resultSet.next()){
-        
-        //TODO dtheiler: use db for date restriction here
-        if(
-          startTime != null &&
-          startTime != 0    &&
-          bindingStrToLong(resultSet, SSSQLVarNames.creationTime) < startTime){
-          continue;
-        }
-        
-        switch(metadataType){
-          
-          case tag:{
-            
-            metadataAsss.add(
-              SSTag.get(
-                bindingStrToUri  (resultSet, metadataIdSQLName),
-                bindingStrToUri  (resultSet, SSSQLVarNames.entityId),
-                bindingStrToUri  (resultSet, SSSQLVarNames.userId),
-                bindingStrToSpace(resultSet, metadataSpaceSQLName),
-                SSTagLabel.get   (bindingStr(resultSet, SSSQLVarNames.label)),
-                bindingStrToUri  (resultSet, SSSQLVarNames.circleId),
-                bindingStrToLong (resultSet, SSSQLVarNames.creationTime)));
-            break;
-          }
-          
-          case category:{
-            metadataAsss.add(
-              SSCategory.get(
-                bindingStrToUri     (resultSet, metadataIdSQLName),
-                bindingStrToUri     (resultSet, SSSQLVarNames.entityId),
-                bindingStrToUri     (resultSet, SSSQLVarNames.userId),
-                bindingStrToSpace   (resultSet, metadataSpaceSQLName),
-                SSCategoryLabel.get (bindingStr(resultSet, SSSQLVarNames.label)),
-                bindingStrToUri     (resultSet, SSSQLVarNames.circleId),
-                bindingStrToLong (resultSet, SSSQLVarNames.creationTime)));
-            break;
-          }
-          
-          default:{
-            throw new UnsupportedOperationException();
-          }
-        }
-      }
-      
-      return metadataAsss;
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }finally{
-      dbSQL.closeStmt(resultSet);
-    }
-  }
+//  public List<SSEntity> getMetadataAsss(
+//    final SSUri       userUri,
+//    final SSUri       entity,
+//    final SSSpaceE    space,
+//    final Long        startTime,
+//    final SSUri       metadataURI) throws Exception{
+//    
+//    ResultSet resultSet = null;
+//    
+//    try{
+//      
+//      final Map<String, String> wheres         = new HashMap<>();
+//      final List<SSEntity>      metadataAsss   = new ArrayList<>();
+//      final List<String>        tables         = new ArrayList<>();
+//      final List<String>        columns        = new ArrayList<>();
+//      final List<String>        tableCons      = new ArrayList<>();
+//      
+//      column   (columns,   metadataIdSQLName);
+//      column   (columns,   SSSQLVarNames.entityId);
+//      column   (columns,   SSSQLVarNames.userId);
+//      column   (columns,   metadataSpaceSQLName);
+//      column   (columns,   SSSQLVarNames.label);
+//      column   (columns,   metadataAssSQLTableName, SSSQLVarNames.creationTime);
+//      column   (columns,   SSSQLVarNames.circleId);
+//      
+//      table    (tables, metadataAssSQLTableName);
+//      table    (tables, SSSQLVarNames.entityTable);
+//      
+//      tableCon (tableCons, metadataAssSQLTableName, metadataIdSQLName, SSSQLVarNames.entityTable, SSSQLVarNames.id);
+//      
+//      if(userUri != null){
+//        where(wheres, SSSQLVarNames.userId, userUri);
+//      }
+//      
+//      if(entity != null){
+//        where(wheres, SSSQLVarNames.entityId, entity);
+//      }
+//      
+//      if(metadataURI != null){
+//        where(wheres, metadataIdSQLName, metadataURI);
+//      }
+//      
+//      if(space != null){
+//        where(wheres, metadataSpaceSQLName, space);
+//      }
+//      
+//      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
+//      
+//      while(resultSet.next()){
+//        
+//        //TODO dtheiler: use db for date restriction here
+//        if(
+//          startTime != null &&
+//          startTime != 0    &&
+//          bindingStrToLong(resultSet, SSSQLVarNames.creationTime) < startTime){
+//          continue;
+//        }
+//        
+//        switch(metadataType){
+//          
+//          case tag:{
+//            
+//            metadataAsss.add(
+//              SSTag.get(
+//                bindingStrToUri  (resultSet, metadataIdSQLName),
+//                bindingStrToUri  (resultSet, SSSQLVarNames.entityId),
+//                bindingStrToUri  (resultSet, SSSQLVarNames.userId),
+//                bindingStrToSpace(resultSet, metadataSpaceSQLName),
+//                SSTagLabel.get   (bindingStr(resultSet, SSSQLVarNames.label)),
+//                bindingStrToUri  (resultSet, SSSQLVarNames.circleId),
+//                bindingStrToLong (resultSet, SSSQLVarNames.creationTime)));
+//            break;
+//          }
+//          
+//          case category:{
+//            metadataAsss.add(
+//              SSCategory.get(
+//                bindingStrToUri     (resultSet, metadataIdSQLName),
+//                bindingStrToUri     (resultSet, SSSQLVarNames.entityId),
+//                bindingStrToUri     (resultSet, SSSQLVarNames.userId),
+//                bindingStrToSpace   (resultSet, metadataSpaceSQLName),
+//                SSCategoryLabel.get (bindingStr(resultSet, SSSQLVarNames.label)),
+//                bindingStrToUri     (resultSet, SSSQLVarNames.circleId),
+//                bindingStrToLong (resultSet, SSSQLVarNames.creationTime)));
+//            break;
+//          }
+//          
+//          default:{
+//            throw new UnsupportedOperationException();
+//          }
+//        }
+//      }
+//      
+//      return metadataAsss;
+//    }catch(Exception error){
+//      SSServErrReg.regErrThrow(error);
+//      return null;
+//    }finally{
+//      dbSQL.closeStmt(resultSet);
+//    }
+//  }
   
   public List<SSEntity> getMetadataAsss(
-    final List<SSUri> users,
-    final List<SSUri> entities,
-    final SSSpaceE    space,
-    final Long        startTime,
-    final List<SSUri> metadataURIs,
-    final SSSearchOpE metadataSearchOp,
-    final List<SSUri> circleURIs) throws Exception{
+    final List<SSUri>     users,
+    final List<SSUri>     entities,
+    final List<SSSpaceE>  spaces,
+    final Long            startTime,
+    final List<SSUri>     metadataURIs,
+    final List<SSUri>     circleURIs) throws Exception{
     
     ResultSet resultSet = null;
     
     try{
       
       final List<MultivaluedMap<String, String>> orWheres       = new ArrayList<>();
-      final List<MultivaluedMap<String, String>> andWheres      = new ArrayList<>();
       final List<SSEntity>                       metadataAsss   = new ArrayList<>();
       final List<String>                         tables         = new ArrayList<>();
       final List<String>                         columns        = new ArrayList<>();
@@ -291,11 +287,7 @@ public class SSTagAndCategoryCommonSQL extends SSDBSQLFct{
           where(whereTags, metadataAssSQLTableName, metadataIdSQLName, metadataURI);
         }
         
-        if(SSStrU.equals(metadataSearchOp, SSSearchOpE.and)){
-          andWheres.add(whereTags);
-        }else{
-          orWheres.add(whereTags);
-        }
+        orWheres.add(whereTags);
       }
       
       if(
@@ -311,13 +303,17 @@ public class SSTagAndCategoryCommonSQL extends SSDBSQLFct{
         orWheres.add(whereCircles);
       }
       
-      if(space != null){
+      if(
+        spaces != null  &&
+        !spaces.isEmpty()){
         
-        final MultivaluedMap<String, String> whereTags = new MultivaluedHashMap<>();
+        final MultivaluedMap<String, String> whereSpaces = new MultivaluedHashMap<>();
         
-        where(whereTags, metadataAssSQLTableName, metadataSpaceSQLName, space);
+        for(SSSpaceE space : spaces){
+          where(whereSpaces, metadataAssSQLTableName, metadataSpaceSQLName, space);
+        }
         
-        orWheres.add(whereTags);
+        orWheres.add(whereSpaces);
       }
       
       resultSet =
@@ -326,7 +322,7 @@ public class SSTagAndCategoryCommonSQL extends SSDBSQLFct{
             tables,
             columns,
             orWheres,
-            andWheres,
+            null,
             null,
             tableCons));
       

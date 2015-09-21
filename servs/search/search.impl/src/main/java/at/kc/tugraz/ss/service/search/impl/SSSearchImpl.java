@@ -25,11 +25,9 @@ import at.kc.tugraz.ss.recomm.datatypes.SSResourceLikelihood;
 import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommResourcesPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
-import at.tugraz.sss.servs.entity.datatypes.par.SSEntityGetPar;
 import at.tugraz.sss.serv.SSDateU;
 import at.tugraz.sss.serv.SSIDU;
 import at.tugraz.sss.serv.SSLogU;
-import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSSocketCon;
 import at.tugraz.sss.serv.SSUri;
@@ -43,7 +41,6 @@ import at.kc.tugraz.ss.service.search.datatypes.*;
 import at.kc.tugraz.ss.service.search.datatypes.pars.SSSearchPar;
 import at.kc.tugraz.ss.service.search.datatypes.ret.SSSearchRet;
 import at.kc.tugraz.ss.service.search.impl.fct.SSSearchFct;
-import at.kc.tugraz.ss.service.search.impl.fct.misc.SSSearchMiscFct;
 import at.kc.tugraz.ss.service.tag.api.SSTagServerI;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagEntitiesForTagsGetPar;
@@ -61,6 +58,7 @@ import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSSolrKeywordLabel;
 import at.tugraz.sss.serv.SSSolrSearchFieldE;
+import at.tugraz.sss.servs.entity.datatypes.par.SSEntitiesGetPar;
 
 public class SSSearchImpl 
 extends SSServImplWithDBA
@@ -69,9 +67,12 @@ implements
   SSSearchServerI{
   
   protected static final Map<String, SSSearchResultPages> searchResultPagesCache = new HashMap<>();
+  private          final SSSearchSQLFct                   sqlFct;
   
   public SSSearchImpl(final SSConfA conf) throws Exception{
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
+    
+    this.sqlFct = new SSSearchSQLFct(dbSQL);
   }
   
   @Override
@@ -93,11 +94,13 @@ implements
     //TODO clean up this method regarding single entityGet calls in e.g., getTagResults, getTextualContentResults, etc. 
     try{
       
+      final SSEntityServerI entityServ = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
+      
       if(
         par.pagesID    != null &&
         par.pageNumber != null){
         
-        return handleSearchPageRequest(par.op, par);
+        return handleSearchPageRequest(entityServ, par);
       }
       
       if(
@@ -117,7 +120,7 @@ implements
       final List<SSEntity>          results                       = new ArrayList<>();
       final List<SSUri>             uris                          = new ArrayList<>();
       final List<SSUri>             tagResultUris                 = getTagResults(par);
-      final List<SSUri>             contentResultUris             = getTextualContentResults(dbNoSQL, par);
+      final List<SSUri>             contentResultUris             = getTextualContentResults(par);
       final List<SSUri>             labelResultUris               = getLabelResults(par);
       final List<SSUri>             descriptionResultUris         = getDescriptionResults(par);
       final List<SSEntity>          recommendedEntities           = getRecommendedResults(par);
@@ -125,11 +128,7 @@ implements
       final List<List<SSEntity>>    pages                         = new ArrayList<>();
       final List<SSEntity>          page                          = new ArrayList<>();
       Integer                       recommendedEntityCounter      = 0;
-      SSEntity                      entity;
-      Boolean                       tagsThere;
-      Boolean                       contentThere;
-      Boolean                       labelsThere;
-      Boolean                       descriptionsThere;
+      SSEntityDescriberPar          descPar;
       
       uris.addAll                  (tagResultUris);
       uris.addAll                  (contentResultUris);
@@ -138,14 +137,116 @@ implements
       
       SSStrU.distinctWithoutNull2(uris);
       
+      final List<SSUri> filteredResults = 
+        filterSearchResultsRegardingGlobalSearchOp(
+          par,
+          uris,
+          tagResultUris, 
+          contentResultUris,
+          labelResultUris,
+          descriptionResultUris);
+
+//TODO extend entitiesGet with types, authors
+//TODO use search with Query Expansion
+      for(SSEntity entity :
+        entityServ.entitiesGet(
+          new SSEntitiesGetPar(
+            par.user,
+            extendToParentEntities(
+              par,
+              filterForSubEntities(
+                par,
+                filteredResults)),
+            null, //types
+            null, //descPar,
+            par.withUserRestriction))){
+        
+        if(
+          !SSSearchFct.handleType     (par, entity) ||
+          !SSSearchFct.handleRating   (par, entity) ||
+          !SSSearchFct.handleAuthors  (par, entity)){
+          continue;
+        }
+        
+        if(page.size() == 10){
+          pages.add(new ArrayList<>(page));
+          page.clear();
+        }
+        
+        page.add(entity);
+        
+        recommendedEntityCounter =
+          SSSearchFct.addRecommendedResult(
+            page,
+            filteredResults,
+            par,
+            recommendedEntities,
+            recommendedEntityCounter);
+      }
+      
+      if(!page.isEmpty()){
+        pages.add(page);
+      }
+      
+      SSSearchFct.fillPagesIfEmpty(
+        par, 
+        pages, 
+        recommendedEntities);
+      
+      if(!pages.isEmpty()){
+        
+        searchResultPagesCache.put(
+          pagesID, 
+          SSSearchResultPages.get(
+            pages, 
+            SSDateU.dateAsLong(), 
+            pagesID));
+      
+        results.addAll(
+          fillSearchResults(
+            entityServ, 
+            par, 
+            pages.get(0)));
+      }
+      
+      return SSSearchRet.get(
+        results, 
+        pagesID,
+        1,
+        pages.size());
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  private List<SSUri> filterSearchResultsRegardingGlobalSearchOp(
+    final SSSearchPar par,
+    final List<SSUri> currentResults,
+    final List<SSUri> tagResultUris, 
+    final List<SSUri> contentResultUris,
+    final List<SSUri> labelResultUris, 
+    final List<SSUri> descriptionResultUris) throws Exception{
+    
+    try{
+      
       switch(par.globalSearchOp){
         
+        case or:{
+          return currentResults;
+        }
+        
         case and:{
-
-          final List<SSUri> tmpUris = new ArrayList<>();
           
-          tmpUris.addAll(uris);
-          uris.clear();
+          final List<SSUri> filteredResults = new ArrayList<>();
+          final List<SSUri> tmpUris         = new ArrayList<>();
+          Boolean           tagsThere;
+          Boolean           contentThere;
+          Boolean           labelsThere;
+          Boolean           descriptionsThere;
+          
+          tmpUris.addAll(currentResults);
           
           for(SSUri uri : tmpUris){
             
@@ -161,7 +262,7 @@ implements
                 tagsThere = true;
               }
             }
-                       
+            
             if(par.labelsToSearchFor.isEmpty()){
               labelsThere = true;
             }else{
@@ -208,142 +309,18 @@ implements
                 descriptionsThere = true;
               }
             }
-          
+            
             if(tagsThere && labelsThere && descriptionsThere && contentThere){
-              uris.add(uri);
+              filteredResults.add(uri);
             }
           }
           
-          break;
-        }
-      }
-
-      for(SSUri result : extendToParentEntities(par, filterForSubEntities(par, uris))){
-        
-        entity =
-          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
-            new SSEntityGetPar(
-              par.user,
-              result,
-              par.withUserRestriction,
-              null)); //descPar))
-        
-        if(
-          entity == null ||
-          !SSSearchFct.handleType     (par, entity) ||
-          !SSSearchFct.handleRating   (par, entity) ||
-          !SSSearchFct.handleAuthors  (par, entity)){
-          continue;
+          return filteredResults;
         }
         
-        if(page.size() == 10){
-          pages.add(new ArrayList<>(page));
-          page.clear();
-        }
-        
-        page.add(entity);
-        
-        recommendedEntityCounter =
-          SSSearchFct.addRecommendedResult(
-            page,
-            uris,
-            par,
-            recommendedEntities,
-            recommendedEntityCounter);
+        default: throw new UnsupportedOperationException();
       }
       
-      if(!page.isEmpty()){
-        pages.add(page);
-      }
-      
-      SSSearchFct.fillPagesIfEmpty(
-        par, 
-        pages, 
-        recommendedEntities);
-      
-      if(!pages.isEmpty()){
-        
-        searchResultPagesCache.put(
-          pagesID, 
-          SSSearchResultPages.get(
-            pages, 
-            SSDateU.dateAsLong(), 
-            pagesID));
-        
-        for(SSEntity result : pages.get(0)){
-          results.add(fillSearchResult(par, result.id));
-        }
-      }
-      
-      return SSSearchRet.get(
-        results, 
-        pagesID,
-        1,
-        pages.size());
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
-  private SSEntity fillSearchResult(
-    final SSSearchPar par,
-    final SSUri       result) throws Exception{
-    
-    try{
-      
-      final SSEntityDescriberPar descPar = new SSEntityDescriberPar(null);
-      
-      descPar.setTags          = true;
-      descPar.setOverallRating = true;
-      descPar.setCircleTypes   = true;
-      
-      final SSEntity entity =
-        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
-          new SSEntityGetPar(
-            par.user,
-            result,
-            false, //withUserRestriction
-            descPar)); //descPar
-      
-//      entity.entries.addAll(
-//        SSStrU.removeTrailingSlash(
-//          getEntries(
-//            par,
-//            entity)));
-//      
-//      private List<SSEntity> getEntries(
-//    final SSSearchPar par, 
-//    final SSEntity    entity) throws Exception{
-//    
-//    final List<SSEntity> entries = new ArrayList<>();
-//    
-//    if(!par.provideEntries){
-//      return entries;
-//    }
-//          
-//    switch(entity.type){
-//      case chat:
-//      case disc:
-//      case qa:
-//
-//        entries.addAll(
-//          ((SSDiscServerI) SSServReg.getServ(SSDiscServerI.class)).discEntryURIsGet(
-//            new SSDiscEntryURIsGetPar(op, key, user, disc, withUserRestriction)
-//              null, 
-//              null, 
-//              par.user, 
-//              entity.id, 
-//              )));
-//          
-//        break;
-//    }
-//    
-//    return entries;
-//  }
-      
-      return entity;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -351,11 +328,10 @@ implements
   }
   
   private SSSearchRet handleSearchPageRequest(
-    final SSServOpE     op,
-    final SSSearchPar par) throws Exception{
+    final SSEntityServerI entityServ, 
+    final SSSearchPar     par) throws Exception{
     
     try{
-      final List<SSEntity>          results = new ArrayList<>();
       final SSSearchResultPages     pages;
       final List<SSEntity>          page;
       
@@ -371,12 +347,11 @@ implements
         throw new SSErr(SSErrE.searchResultPageUnavailable);
       }
       
-      for(SSEntity result : page){
-        results.add(fillSearchResult(par, result.id));
-      }
-      
       return SSSearchRet.get(
-        results,
+        fillSearchResults(
+          entityServ,
+          par,
+          page),
         par.pagesID,
         par.pageNumber,
         pages.pages.size());
@@ -407,7 +382,7 @@ implements
           null, //spaces
           null, //circles
           null, //startTime
-          true)); //withUserRestriction
+          false)); //withUserRestriction
       
     }catch(Exception error){
       
@@ -422,143 +397,139 @@ implements
     }
   }
   
-  private List<SSUri> getTextualContentResults(
-    final SSDBNoSQLI  dbNoSQL,
-    final SSSearchPar par) throws Exception{
+  private List<SSUri> getDescriptionResults(final SSSearchPar par) throws Exception{
     
     try{
       
-      if(par.wordsToSearchFor.isEmpty()){
+        //search with "match against" depends on the innodb_ft_min_token_size setting for InnoDB MYSQL tables, stopwords, etc.
+        //http://dba.stackexchange.com/questions/51144/mysql-match-against-boolean-mode and http://dev.mysql.com/doc/refman/5.6/en/fulltext-stopwords.html
+        //please consider that MYSQL LIKE doesnt exploit MYSQL indexes on labels and descriptions
+//        return sqlFct.getEntitiesForLabelsAndDescriptionsWithSQLLike(par.requireds, new ArrayList<>(), SSSearchOpE.and);
+//        return sqlFct.getEntitiesForLabelsAndDescriptionsWithSQLLike(par.eithers, new ArrayList<>(), SSSearchOpE.or);
+      
+      for(int counter = par.descriptionsToSearchFor.size() - 1; counter >= 0; counter--){
+        
+        if(SSStrU.isEmpty(par.descriptionsToSearchFor.get(counter))){
+          par.descriptionsToSearchFor.remove(counter);
+        }
+      }
+      
+      if(par.descriptionsToSearchFor.isEmpty()){
         return new ArrayList<>();
       }
       
-      final Map<SSSolrSearchFieldE, List<SSSolrKeywordLabel>> wheres = new HashMap<>();
+      switch(par.localSearchOp){
         
-      wheres.put(SSSolrSearchFieldE.docText, SSSolrKeywordLabel.get(par.wordsToSearchFor));
+        case or:{
+          
+          final List<SSUri> orResults = new ArrayList<>();
+          
+          orResults.addAll(
+            sqlFct.getEntitiesForDescriptionsWithMatch(
+              new ArrayList<>(), //requireds
+              new ArrayList<>(), //absents
+              SSStrU.toStr(par.descriptionsToSearchFor))); //eithers
+          
+          if(!orResults.isEmpty()){
+            return orResults;
+          }
+          
+          return sqlFct.getEntitiesForDescriptionsWithLike(SSStrU.toStr(par.descriptionsToSearchFor));
+        }
         
-      return SSUri.get(
-        dbNoSQL.search(
-          new SSDBNoSQLSearchPar(
-            par.globalSearchOp.toString(),
-            par.localSearchOp.toString(),
-            wheres,
-            100)),
-        SSVocConf.sssUri);
+        case and:{
+          
+          return sqlFct.getEntitiesForDescriptionsWithMatch(
+            SSStrU.toStr(par.descriptionsToSearchFor), //requireds
+            new ArrayList<>(), //absents
+            new ArrayList<>()); //eithers
+        }
+        
+        default: throw new UnsupportedOperationException();
+      }
       
     }catch(Exception error){
-      
-      if(SSServErrReg.containsErr(SSErrE.notServerServiceForOpAvailable)){
-        SSLogU.warn(SSErrE.notServerServiceForOpAvailable.toString());
-      }else{
-        SSLogU.warn(error.getMessage());
-      }
-      
-       SSServErrReg.reset();
-       return new ArrayList<>();
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
-  private List<SSUri> getDescriptionResults(final SSSearchPar par) throws Exception{
-    
-    final List<SSUri>         results            = new ArrayList<>();
-    
-    for(int counter = par.descriptionsToSearchFor.size() - 1; counter >= 0; counter--){
-      
-      if(SSStrU.isEmpty(par.descriptionsToSearchFor.get(counter))){
-        par.descriptionsToSearchFor.remove(counter);
-      }
-    }
-    
-    if(par.descriptionsToSearchFor.isEmpty()){
-      return results;
-    }
-    
-    switch(par.localSearchOp){
-      
-      case or:{
-        for(SSEntity entity : SSServCaller.entitiesForDescriptionsGet(new ArrayList<>(), new ArrayList<>(), SSStrU.toStr(par.descriptionsToSearchFor))){
-          results.add(entity.id);
-        }
-        
-        break;
-      }
-      
-      case and:{
-        
-        for(SSEntity entity : SSServCaller.entitiesForDescriptionsGet(SSStrU.toStr(par.descriptionsToSearchFor), new ArrayList<>(), new ArrayList<>())){
-          results.add(entity.id);
-        }
-        
-        break;
-      }
-    }
-    return results;
-  }
-    
   private List<SSUri> getLabelResults(final SSSearchPar par) throws Exception{
     
-    final List<SSUri>         results            = new ArrayList<>();
-    
-    for(int counter = par.labelsToSearchFor.size() - 1; counter >= 0; counter--){
+    try{
       
-      if(SSStrU.isEmpty(par.labelsToSearchFor.get(counter))){
-        par.labelsToSearchFor.remove(counter);
-      }
-    }
-  
-    if(par.labelsToSearchFor.isEmpty()){
-      return results;
-    }
-    
-    switch(par.localSearchOp){
-      
-      case or:{
+      for(int counter = par.labelsToSearchFor.size() - 1; counter >= 0; counter--){
         
-        for(SSEntity entity : SSServCaller.entitiesForLabelsGet(new ArrayList<>(), new ArrayList<>(), SSStrU.toStr(par.labelsToSearchFor))){
-          results.add     (entity.id);
+        if(SSStrU.isEmpty(par.labelsToSearchFor.get(counter))){
+          par.labelsToSearchFor.remove(counter);
+        }
+      }
+      
+      if(par.labelsToSearchFor.isEmpty()){
+        return new ArrayList<>();
+      }
+      
+      switch(par.localSearchOp){
+        
+        case or:{
+          
+          final List<SSUri> orResults = new ArrayList<>();
+          
+          orResults.addAll(
+            sqlFct.getEntitiesForLabelsWithMatch(
+              new ArrayList<>(), //requireds
+              new ArrayList<>(), //absents
+              SSStrU.toStr(par.labelsToSearchFor))); //eithers
+          
+          if(!orResults.isEmpty()){
+            return orResults;
+          }
+          
+          return sqlFct.getEntitiesForLabelsWithLike(SSStrU.toStr(par.labelsToSearchFor));
         }
         
-        break;
-      }
-      
-      case and:{
-        
-        for(SSEntity entity : SSServCaller.entitiesForLabelsGet(SSStrU.toStr(par.labelsToSearchFor), new ArrayList<>(), new ArrayList<>())){
-          results.add     (entity.id);
+        case and:{
+          
+          return sqlFct.getEntitiesForLabelsWithMatch(
+            SSStrU.toStr(par.labelsToSearchFor), //requireds
+            new ArrayList<>(), //absents
+            new ArrayList<>()); //eithers
         }
         
-        break;
+        default: throw new UnsupportedOperationException();
       }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
-    
-    return results;
   }
   
   private List<SSEntity> getRecommendedResults(
     final SSSearchPar par) throws Exception{
     
-    final List<SSEntity> result = new ArrayList<>();
-    
-    if(!par.includeRecommendedResults){
-      return result;
-    }
-    
     try{
       
+      if(!par.includeRecommendedResults){
+        return new ArrayList<>();
+      }
+
+      final List<SSEntity>             result               = new ArrayList<>();
+      final SSRecommServerI            recommServ           = (SSRecommServerI) SSServReg.getServ(SSRecommServerI.class);
       final List<SSResourceLikelihood> recommendedResources =
-        ((SSRecommServerI) SSServReg.getServ(SSRecommServerI.class)).recommResources(
+        recommServ.recommResources(
           new SSRecommResourcesPar(
             par.user,
             null, //realm
             par.user, //forUser
-            null,
-            new ArrayList<>(),
-            10,
-            par.typesToSearchOnlyFor,
+            null, //entity
+            null, //categories
+            10, //maxResources
+            par.typesToSearchOnlyFor, //typesToRecommOnly
             false, //setCircleTypes
             true, //includeOwn
             false, //ignoreAccessRights
-            par.withUserRestriction, //withUserRestriction
+            false, //withUserRestriction
             false)); //invokeEntityHandlers
           
       for(SSResourceLikelihood reommendedResource : recommendedResources){
@@ -568,11 +539,16 @@ implements
       return result;
 
     }catch(Exception error){
-      SSLogU.warn("reomm entities for search failed");
+      
+      if(SSServErrReg.containsErr(SSErrE.notServerServiceForOpAvailable)){
+        SSLogU.warn(SSErrE.notServerServiceForOpAvailable.toString());
+      }else{
+        SSLogU.warn(error.getMessage());
+      }
+      
       SSServErrReg.reset();
+      return new ArrayList<>();
     }
-    
-    return result;
   }
     
   private List<SSUri> filterForSubEntities(
@@ -592,7 +568,7 @@ implements
           SSStrU.toStrWithoutEmptyAndNull(
             results),
           SSStrU.toStrWithoutEmptyAndNull(
-            SSSearchMiscFct.getSubEntities(
+            getSubEntities(
               par.user,
               par.entitiesToSearchWithin))));
   }
@@ -649,6 +625,119 @@ implements
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  private List<SSUri> getTextualContentResults(
+    final SSSearchPar par) throws Exception{
+    
+    try{
+      
+      if(par.wordsToSearchFor.isEmpty()){
+        return new ArrayList<>();
+      }
+      
+      final Map<SSSolrSearchFieldE, List<SSSolrKeywordLabel>> wheres = new HashMap<>();
+      
+      wheres.put(SSSolrSearchFieldE.docText, SSSolrKeywordLabel.get(par.wordsToSearchFor));
+      
+      return SSUri.get(
+        dbNoSQL.search(
+          new SSDBNoSQLSearchPar(
+            par.globalSearchOp.toString(),
+            par.localSearchOp.toString(),
+            wheres,
+            100)),
+        SSVocConf.sssUri);
+      
+    }catch(Exception error){
+      
+      if(SSServErrReg.containsErr(SSErrE.notServerServiceForOpAvailable)){
+        SSLogU.warn(SSErrE.notServerServiceForOpAvailable.toString());
+      }else{
+        SSLogU.warn(error.getMessage());
+      }
+      
+       SSServErrReg.reset();
+       return new ArrayList<>();
+    }
+  }
+  
+  private List<SSEntity> fillSearchResults(
+    final SSEntityServerI    entityServ,
+    final SSSearchPar        par,
+    final List<SSEntity>     results) throws Exception{
+    
+    try{
+      
+      final SSEntityDescriberPar descPar = new SSEntityDescriberPar(null);
+      
+      descPar.setTags          = true;
+      descPar.setOverallRating = true;
+      descPar.setCircleTypes   = true;
+      
+      return entityServ.entitiesGet(
+        new SSEntitiesGetPar(
+          par.user,
+          SSUri.getDistinctNotNullFromEntities(results), //entities
+          null, //types
+          null, //descPar,
+          par.withUserRestriction));
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  private List<SSUri> getSubEntities(
+    final SSUri       user, 
+    final List<SSUri> entities) throws Exception{
+    
+    try{
+    
+      final List<SSUri> subEntities  = new ArrayList<>();
+      
+      for(SSUri entity : entities){
+        subEntities.addAll(SSServCaller.entityUserSubEntitiesGet(user, entity));
+      }
+      
+      SSStrU.distinctWithoutNull2(subEntities);
+      
+      return subEntities;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+
+  private List<SSEntity> filterSearchResultsForSubEntitySearch(
+    final List<SSEntity> searchResults,
+    final Boolean        onlySubEntities,
+    final List<SSUri>    subEntities) throws Exception{
+    
+    try{
+      
+      if(!onlySubEntities){
+        return searchResults;
+      }
+      
+      final List<SSEntity> filteredResults = new ArrayList<>();
+      
+      for(SSEntity mIResult : searchResults){
+        
+        if(!SSStrU.contains(subEntities, mIResult.id)){
+          continue;
+        }
+        
+        filteredResults.add(mIResult);
+      }
+      
+      return filteredResults;
+    
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
 }

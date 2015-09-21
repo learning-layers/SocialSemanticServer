@@ -20,11 +20,6 @@
 */
 package at.kc.tugraz.ss.service.search.impl.fct;
 
-import at.kc.tugraz.ss.recomm.api.SSRecommServerI;
-import at.kc.tugraz.ss.recomm.datatypes.SSResourceLikelihood;
-import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommResourcesPar;
-import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
-import at.tugraz.sss.servs.entity.datatypes.par.SSEntityGetPar;
 import at.kc.tugraz.ss.service.rating.api.SSRatingServerI;
 import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSStrU;
@@ -42,7 +37,7 @@ import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
 
 public class SSSearchFct {
-
+  
   public static List<SSEntity> selectSearchResultsWithRegardToSearchOp(
     final SSSearchOpE                 searchOp,
     final Map<String, List<SSEntity>> searchResultsPerKeyword) throws Exception{
@@ -172,15 +167,7 @@ public class SSSearchFct {
       return true;
     }
     
-    final SSEntity tmpEntity =
-      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
-        new SSEntityGetPar(
-          par.user,
-          entity.id,
-          false, //withUserRestriction
-          null)); //descPar,
-    
-    return SSStrU.contains(par.authorsToSearchFor, tmpEntity.author);
+    return SSStrU.contains(par.authorsToSearchFor, entity.author);
   }
   
   public static Boolean handleRating(
