@@ -350,6 +350,14 @@ implements
     
     try{
       
+      if(
+        (par.entities.isEmpty()) &&
+        (par.types.isEmpty())    &&
+        (par.authors.isEmpty())){
+        
+        return new ArrayList<>();
+      }
+      
       final List<SSEntity> entities = new ArrayList<>();
       
       for(SSUri entityURI :
