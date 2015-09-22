@@ -57,7 +57,7 @@ public class SSDBSQLSelectPar {
     this.tables.addAll(tables);
     
     if(columns != null){
-      this.columns.addAll(tables);
+      this.columns.addAll(columns);
     }
     
     if(orWheres != null){
@@ -73,13 +73,5 @@ public class SSDBSQLSelectPar {
     }
     
     this.tableCons.addAll(tableCons);
-
-    if(
-      this.orWheres.isEmpty()  && 
-      this.andWheres.isEmpty() && 
-      this.numbericWheres.isEmpty()){
-      
-      throw new SSErr(SSErrE.parameterMissing); 
-    }
   }
 }

@@ -39,11 +39,7 @@ public class SSSearchPar extends SSServPar{
   public List<SSSearchLabel> descriptionsToSearchFor                       = new ArrayList<>();
   public Boolean             applyGlobalSearchOpBetweenLabelAndDescription = false;
   public List<SSEntityE>     typesToSearchOnlyFor                          = new ArrayList<>();
-  public Boolean             includeOnlySubEntities                        = false;
-  public List<SSUri>         entitiesToSearchWithin                        = new ArrayList<>();
-  public Boolean             extendToParents                               = false;
   public Boolean             includeRecommendedResults                     = false;
-  public Boolean             provideEntries                                = false;
   public String              pagesID                                       = null;
   public Integer             pageNumber                                    = null;
   public Integer             minRating                                     = null;
@@ -66,10 +62,6 @@ public class SSSearchPar extends SSServPar{
 
   public void setTypesToSearchOnlyFor(final List<String> typesToSearchOnlyFor) throws Exception{
     this.typesToSearchOnlyFor = SSEntityE.get(typesToSearchOnlyFor);
-  }
-
-  public void setEntitiesToSearchWithin(final List<String> entitiesToSearchWithin) throws Exception{
-    this.entitiesToSearchWithin = SSUri.get(entitiesToSearchWithin);
   }
 
   public void setLocalSearchOp(final String localSearchOp) throws Exception{
@@ -96,10 +88,6 @@ public class SSSearchPar extends SSServPar{
     return SSStrU.toStr(typesToSearchOnlyFor);
   }
   
-  public List<String> getEntitiesToSearchWithin() throws Exception{
-    return SSStrU.removeTrailingSlash(entitiesToSearchWithin);
-  }
-  
   public String getLocalSearchOp() throws Exception{
     return SSStrU.toStr(localSearchOp);
   }
@@ -119,11 +107,7 @@ public class SSSearchPar extends SSServPar{
     final List<SSSearchLabel> descriptionsToSearchFor    ,
     final Boolean             applyGlobalSearchOpBetweenLabelAndDescription,
     final List<SSEntityE>     typesToSearchOnlyFor       ,
-    final Boolean             includeOnlySubEntities     ,
-    final List<SSUri>         entitiesToSearchWithin     ,
-    final Boolean             extendToParents            ,
     final Boolean             includeRecommendedResults  ,
-    final Boolean             provideEntries             ,
     final String              pagesID                    ,
     final Integer             pageNumber                 ,
     final Integer             minRating                  ,
@@ -161,15 +145,7 @@ public class SSSearchPar extends SSServPar{
       this.typesToSearchOnlyFor.addAll(typesToSearchOnlyFor);
     }    
     
-    this.includeOnlySubEntities     = includeOnlySubEntities;
-    
-    if(entitiesToSearchWithin != null){
-      this.entitiesToSearchWithin.addAll(entitiesToSearchWithin);
-    }    
-    
-    this.extendToParents            = extendToParents;
     this.includeRecommendedResults  = includeRecommendedResults;
-    this.provideEntries             = provideEntries;
     this.pagesID                    = pagesID;
     this.pageNumber                 = pageNumber;
     this.minRating                  = minRating;

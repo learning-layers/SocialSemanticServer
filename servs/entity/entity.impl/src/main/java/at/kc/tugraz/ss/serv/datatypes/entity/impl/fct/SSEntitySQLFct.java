@@ -196,9 +196,9 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     try{
       
       if(
-        entities.isEmpty() &&
-        types.isEmpty()    &&
-        authors.isEmpty()){
+        (entities == null || entities.isEmpty()) &&
+        (types    == null || types.isEmpty())    &&
+        (authors  == null || authors.isEmpty())){
         
         throw new SSErr(SSErrE.parameterMissing);
       }
@@ -208,11 +208,13 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       final List<String>                         columns        = new ArrayList<>();
       final List<String>                         tableCons      = new ArrayList<>();
       
-      column(columns, SSSQLVarNames.entityTable, SSSQLVarNames.entityId);
+      column(columns, SSSQLVarNames.entityTable, SSSQLVarNames.id);
       
       table (tables, SSSQLVarNames.entityTable);
       
-      if(!types.isEmpty()){
+      if(
+        types != null &&
+        !types.isEmpty()){
         
         final MultivaluedMap<String, String> whereTypes = new MultivaluedHashMap<>();
         
@@ -223,7 +225,9 @@ public class SSEntitySQLFct extends SSDBSQLFct{
         wheres.add(whereTypes);
       }
       
-      if(!entities.isEmpty()){
+      if(
+        entities != null &&
+        !entities.isEmpty()){
         
         final MultivaluedMap<String, String> whereEntities = new MultivaluedHashMap<>();
         
@@ -234,7 +238,9 @@ public class SSEntitySQLFct extends SSDBSQLFct{
         wheres.add(whereEntities);
       }
       
-      if(!authors.isEmpty()){
+      if(
+        authors != null &&
+        !authors.isEmpty()){
         
         final MultivaluedMap<String, String> whereAuthors = new MultivaluedHashMap<>();
         
@@ -255,7 +261,7 @@ public class SSEntitySQLFct extends SSDBSQLFct{
             null,
             tableCons));
       
-      return getURIsFromResult(resultSet, SSSQLVarNames.entityId);
+      return getURIsFromResult(resultSet, SSSQLVarNames.id);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;

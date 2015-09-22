@@ -96,37 +96,8 @@ public class SSSearchRESTAPIV2Par{
   @XmlElement
   @ApiModelProperty( 
     required = false, 
-    value = "whether only sub-entities (e.g. collection entries) of entitiesToSearchWithin should be considered" )
-  public Boolean             includeOnlySubEntities     = null;
-  
-  @XmlElement
-  @ApiModelProperty( 
-    required = false, 
-    value = "entities for whom only sub entities get search for")
-  public List<SSUri>         entitiesToSearchWithin     = null;
-  
-  @XmlElement
-  public void setEntitiesToSearchWithin(final List<String> entitiesToSearchWithin) throws Exception{
-    this.entitiesToSearchWithin = SSUri.get(entitiesToSearchWithin);
-  }
-  
-  @XmlElement
-  @ApiModelProperty( 
-    required = false, 
-    value = "whether search results shall contain the parents of found entities as search result" )
-  public Boolean             extendToParents            = null;
-  
-  @XmlElement
-  @ApiModelProperty( 
-    required = false, 
     value = "whether possibly recommended entities should be included in search results" )
   public Boolean             includeRecommendedResults  = null;
-  
-  @XmlElement
-  @ApiModelProperty( 
-    required = false, 
-    value = "whether entries (if available) of search results (e.g. the entries of a found collection) should be returned as well" )
-  public Boolean             provideEntries             = null;
   
   @XmlElement
   @ApiModelProperty(
