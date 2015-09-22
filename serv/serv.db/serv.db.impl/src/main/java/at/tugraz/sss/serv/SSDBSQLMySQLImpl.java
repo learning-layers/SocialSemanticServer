@@ -159,7 +159,7 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
         query += either + "*" + SSStrU.blank;
       }
 
-      query = SSStrU.removeTrailingString(query, SSStrU.blank) + "' IN BOOLEAN MODE WITH QUERY EXPANSION)" + SSStrU.blank;
+      query = SSStrU.removeTrailingString(query, SSStrU.blank) + "' IN BOOLEAN MODE)" + SSStrU.blank;
     }
     
     for(Map.Entry<String, List<MultivaluedMap<String, String>>> wheresNumberic : par.numbericWheres.entrySet()){

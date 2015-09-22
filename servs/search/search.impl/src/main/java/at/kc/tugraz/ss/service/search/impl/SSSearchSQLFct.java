@@ -345,12 +345,12 @@ public class SSSearchSQLFct extends SSDBSQLFct{
           null,
           tableCons);
       
-      resultSet = dbSQL.select(selectPar);
-      
       selectPar.matches.addAll   (matches);
       selectPar.requireds.addAll (requireds);
       selectPar.absents.addAll   (absents);
       selectPar.eithers.addAll   (eithers);
+      
+      resultSet = dbSQL.select(selectPar);
       
       return getURIsFromResult(resultSet, SSSQLVarNames.id);
       
@@ -411,7 +411,9 @@ public class SSSearchSQLFct extends SSDBSQLFct{
         wheres.add(whereIsSystemCircles);
       }
       
-      if(!entities.isEmpty()){
+      if(
+        entities != null &&
+        !entities.isEmpty()){
         
         final MultivaluedMap<String, String> whereEntities = new MultivaluedHashMap<>();
         
@@ -422,7 +424,9 @@ public class SSSearchSQLFct extends SSDBSQLFct{
         wheres.add(whereEntities);
       }
       
-      if(!authors.isEmpty()){
+      if(
+        authors != null &&
+        !authors.isEmpty()){
         
         final MultivaluedMap<String, String> whereAuthors = new MultivaluedHashMap<>();
         

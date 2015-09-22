@@ -155,32 +155,35 @@ implements
           descriptionResults, 
           ratingResultUris));
       
-      entitiesGetPar = 
-        new SSEntitiesGetPar(
-          par.user, 
-          resultsAfterGlobalSearchOp, 
-          par.typesToSearchOnlyFor, 
-          null, //descPar, 
-          par.withUserRestriction);
-      
-      entitiesGetPar.authors.addAll(par.authorsToSearchFor);
-      
-      for(SSEntity entity : entityServ.entitiesGet(entitiesGetPar)){
+      if(!resultsAfterGlobalSearchOp.isEmpty()){
         
-        if(page.size() == 10){
-          pages.add(new ArrayList<>(page));
-          page.clear();
+        entitiesGetPar = 
+          new SSEntitiesGetPar(
+            par.user, 
+            resultsAfterGlobalSearchOp, 
+            par.typesToSearchOnlyFor, 
+            null, //descPar, 
+            par.withUserRestriction);
+
+        entitiesGetPar.authors.addAll(par.authorsToSearchFor);
+
+        for(SSEntity entity : entityServ.entitiesGet(entitiesGetPar)){
+
+          if(page.size() == 10){
+            pages.add(new ArrayList<>(page));
+            page.clear();
+          }
+
+          page.add(entity);
+
+          recommendedEntityCounter =
+            SSSearchFct.addRecommendedResult(
+              page,
+              entitiesGetPar.entities,
+              par,
+              recommendedResults,
+              recommendedEntityCounter);
         }
-        
-        page.add(entity);
-        
-        recommendedEntityCounter =
-          SSSearchFct.addRecommendedResult(
-            page,
-            entitiesGetPar.entities,
-            par,
-            recommendedResults,
-            recommendedEntityCounter);
       }
       
       if(!page.isEmpty()){
