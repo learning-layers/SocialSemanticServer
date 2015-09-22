@@ -216,7 +216,11 @@ implements
       
       for(String user : allUsers){
         
-        for(SSUri entity : sqlFct.getEntityURIsForAuthor(SSUri.get(user), types)){
+        for(SSUri entity : 
+          sqlFct.getEntityURIs(
+            null, //entities, 
+            types, //types, 
+            SSUri.asListWithoutNullAndEmpty(SSUri.get(user)))){ //authors
           
           if(usersResources.containsKey(user)){
             usersResources.get(user).add(entity);
@@ -348,45 +352,20 @@ implements
       
       final List<SSEntity> entities = new ArrayList<>();
       
-      if(
-        par.entities.isEmpty() &&
-        par.types.isEmpty()){ //no information on what to query given
+      for(SSUri entityURI :
+        sqlFct.getEntityURIs(
+          par.entities,
+          par.types,
+          par.authors)){
         
-        return entities;
-      }
-      
-      if(!par.entities.isEmpty()){
-        
-        SSStrU.distinctWithoutNull2(par.entities);
-        
-        for(SSUri entity : par.entities){
-          
-          SSEntity.addEntitiesDistinctWithoutNull(
-            entities,
-            entityGet(
-              new SSEntityGetPar(
-                par.user,
-                entity,
-                par.withUserRestriction,
-                par.descPar)));
-        }
-        
-        return entities;
-      }
-      
-      if(!par.types.isEmpty()){
-        
-        for(SSUri entityURI : sqlFct.getEntityURIsForTypes(par.types)){
-          
-          SSEntity.addEntitiesDistinctWithoutNull(
-            entities,
-            entityGet(
-              new SSEntityGetPar(
-                par.user,
-                entityURI,
-                par.withUserRestriction, //withUserRestriction
-                par.descPar))); //descPar
-        }
+        SSEntity.addEntitiesDistinctWithoutNull(
+          entities,
+          entityGet(
+            new SSEntityGetPar(
+              par.user,
+              entityURI,
+              par.withUserRestriction, //withUserRestriction
+              par.descPar))); //descPar
       }
       
       return entities;

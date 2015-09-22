@@ -3,7 +3,7 @@
 * http://www.learning-layers.eu
 * Development is partly funded by the FP7 Programme of the European Commission under
 * Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+* Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
 * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,37 +20,52 @@
 */
  package at.kc.tugraz.ss.service.rating.datatypes;
 
+import at.tugraz.sss.serv.SSEntity;
+import at.tugraz.sss.serv.SSEntityE;
+import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 
-public class SSRating{
+public class SSRating extends SSEntity{
 
-  public SSUri  uri;
-  public int    score;
-  public SSUri  resource;
-  public SSUri  user;
-  public long   timestamp;
+  public SSUri      user     = null;
+  public SSUri      entity   = null;
+  public Integer    value    = null;
 
-  public static SSRating get(
-    SSUri  uri,
-    int    score,
-    SSUri  resource,
-    SSUri  user,
-    long   timestamp){
-    
-    return new SSRating(uri, score, resource, user, timestamp);
+  public String getUser() {
+    return SSStrU.removeTrailingSlash(user);
+  }
+
+  public void setUser(final String user) throws Exception {
+    this.user = SSUri.get(user);
+  }
+
+  public String getEntity() {
+    return SSStrU.removeTrailingSlash(entity);
+  }
+
+  public void setEntity(final String entity) throws Exception {
+    this.entity = SSUri.get(entity);
   }
   
-  private SSRating(
-    SSUri  uri,
-    int    score,
-    SSUri  resource,
-    SSUri  user,
-    long   timestamp){
+  public static SSRating get(
+    final SSUri   id,
+    final SSUri   user,
+    final SSUri   entity,
+    final Integer value) throws Exception{
     
-    this.uri           = uri;
-    this.score         = score;
-    this.resource      = resource;
-    this.user          = user;
-    this.timestamp     = timestamp;
+    return new SSRating(id, user, entity, value);
+  }
+  
+  protected SSRating(
+    final SSUri   id,
+    final SSUri   user,
+    final SSUri   entity,
+    final Integer value) throws Exception{
+    
+    super(id, SSEntityE.rating);
+    
+    this.user        = user;
+    this.entity      = entity;
+    this.value       = value;
   }
 }

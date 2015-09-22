@@ -23,7 +23,6 @@ package at.kc.tugraz.ss.circle.impl.fct.sql;
 import at.tugraz.sss.serv.SSSQLVarNames;
 import at.tugraz.sss.serv.SSStrU;
 import at.kc.tugraz.ss.circle.impl.fct.misc.SSCircleMiscFct;
-import at.tugraz.sss.serv.SSSearchOpE;
 import at.tugraz.sss.serv.SSDBSQLFct;
 import at.tugraz.sss.serv.SSCircleE;
 import at.tugraz.sss.serv.SSEntity;
@@ -33,6 +32,7 @@ import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSDBSQLSelectPar;
 import at.tugraz.sss.serv.SSDateU;
+import at.tugraz.sss.serv.SSErr;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -1003,86 +1003,6 @@ public class SSCircleSQLFct extends SSDBSQLFct{
       
       return getStringsFromResult(resultSet, SSSQLVarNames.inviteeId);
       
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }finally{
-      dbSQL.closeStmt(resultSet);
-    }
-  }
-  
-  public List<SSUri> getEntityURIsUserHasInCircles(
-    final SSUri           user,
-    final Boolean         withSystemCircles,
-    final List<SSEntityE> types) throws Exception{
-    
-    ResultSet resultSet = null;
-    
-    try{
-     
-      if(user == null){
-        throw new Exception("user has to be given");
-      }
-      
-      final List<MultivaluedMap<String, String>> wheres         = new ArrayList<>();
-      final List<String>                         tables         = new ArrayList<>();
-      final List<String>                         columns        = new ArrayList<>();
-      final List<String>                         tableCons      = new ArrayList<>();
-      
-      column(columns, SSSQLVarNames.circleEntitiesTable,   SSSQLVarNames.entityId);
-      //      column(columns, circleUsersTable,      SSSQLVarU.circleId);
-      
-      table    (tables, SSSQLVarNames.circleUsersTable);
-      table    (tables, SSSQLVarNames.circleEntitiesTable);
-      table    (tables, SSSQLVarNames.entityTable);
-      
-      tableCon (tableCons, SSSQLVarNames.circleUsersTable,    SSSQLVarNames.circleId, SSSQLVarNames.circleEntitiesTable, SSSQLVarNames.circleId);
-      tableCon (tableCons, SSSQLVarNames.circleEntitiesTable, SSSQLVarNames.entityId, SSSQLVarNames.entityTable,         SSSQLVarNames.id);
-      
-      final MultivaluedMap<String, String> whereUsers = new MultivaluedHashMap<>();
-      
-      where(whereUsers, SSSQLVarNames.circleUsersTable, SSSQLVarNames.userId, user);
-      
-      wheres.add(whereUsers);
-      
-      if(
-        withSystemCircles != null &&
-        !withSystemCircles){
-        
-        table    (tables, SSSQLVarNames.circleTable);
-        tableCon (tableCons, SSSQLVarNames.circleTable, SSSQLVarNames.circleId, SSSQLVarNames.circleUsersTable,         SSSQLVarNames.circleId);
-        
-        final MultivaluedMap<String, String> whereIsSystemCircles = new MultivaluedHashMap<>();
-        
-        where(whereIsSystemCircles, SSSQLVarNames.circleTable, SSSQLVarNames.isSystemCircle, withSystemCircles);
-        
-        wheres.add(whereIsSystemCircles);
-      }
-      
-      if(
-        types != null &&
-        !types.isEmpty()){
-        
-        final MultivaluedMap<String, String> whereTypes = new MultivaluedHashMap<>();
-        
-        for(SSEntityE type : types){
-          where(whereTypes, SSSQLVarNames.entityTable, SSSQLVarNames.type, type);
-        }
-        
-        wheres.add(whereTypes);
-      }
-      
-      resultSet =
-        dbSQL.select(
-          new SSDBSQLSelectPar(
-            tables,
-            columns,
-            wheres,
-            null,
-            null,
-            tableCons));
-      
-      return getURIsFromResult(resultSet, SSSQLVarNames.entityId);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;

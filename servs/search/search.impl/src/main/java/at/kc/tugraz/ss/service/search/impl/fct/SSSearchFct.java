@@ -20,21 +20,14 @@
 */
 package at.kc.tugraz.ss.service.search.impl.fct;
 
-import at.kc.tugraz.ss.service.rating.api.SSRatingServerI;
-import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntity;
-import at.kc.tugraz.ss.service.rating.datatypes.SSRatingOverall;
-import at.kc.tugraz.ss.service.rating.datatypes.pars.SSRatingOverallGetPar;
 import at.tugraz.sss.serv.SSSearchOpE;
 import at.kc.tugraz.ss.service.search.datatypes.pars.SSSearchPar;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import at.tugraz.sss.serv.SSErr;
-import at.tugraz.sss.serv.SSServErrReg;
-import at.tugraz.sss.serv.SSServReg;
 
 public class SSSearchFct {
   
@@ -92,19 +85,6 @@ public class SSSearchFct {
     return searchResults;
   }
   
-  public static Boolean handleType(
-    final SSSearchPar par, 
-    final SSEntity    entity){
-    
-    if(
-      !par.typesToSearchOnlyFor.isEmpty() &&
-      !SSStrU.contains(par.typesToSearchOnlyFor, entity.type)){
-      return false;
-    }
-    
-    return true;
-  }
-  
   public static Integer addRecommendedResult(
     final List<SSEntity> page,
     final List<SSUri>    uris,
@@ -124,10 +104,7 @@ public class SSSearchFct {
       
     while(recommendedEntityCounter < recommendedEntities.size()){
       
-      if(
-        SSStrU.contains(uris, recommendedEntities.get(recommendedEntityCounter).id) || 
-        !handleRating  (par,  recommendedEntities.get(recommendedEntityCounter))){
-        
+      if(SSStrU.contains(uris, recommendedEntities.get(recommendedEntityCounter).id)){
         recommendedEntityCounter++;
         continue;
       }
@@ -157,66 +134,5 @@ public class SSSearchFct {
     }else{
       pages.add(new ArrayList<>(recommendedEntities.subList(0, 9)));
     }
-  }
-
-  public static Boolean handleAuthors(
-    final SSSearchPar par, 
-    final SSEntity    entity) throws Exception{
-    
-    if(par.authorsToSearchFor.isEmpty()){
-      return true;
-    }
-    
-    return SSStrU.contains(par.authorsToSearchFor, entity.author);
-  }
-  
-  public static Boolean handleRating(
-    final SSSearchPar par,
-    final SSEntity    entity) throws Exception{
-    
-    if(
-      par.minRating == null && 
-      par.maxRating == null){
-      return true;
-    }
-    
-    try{
-      
-      final SSRatingOverall rating = 
-        ((SSRatingServerI) SSServReg.getServ(SSRatingServerI.class)).ratingOverallGet(
-          new SSRatingOverallGetPar(
-            par.user, 
-            entity.id, 
-            par.withUserRestriction));
-       
-      if(rating == null){
-        return false;
-      }
-      
-      if(
-        par.minRating != null &&
-        par.minRating > rating.score){
-        return false;
-      }
-      
-      if(
-        par.maxRating != null &&
-        par.maxRating < rating.score){
-        return false;
-      }
-      
-      return true;
-      
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
-        default: SSServErrReg.regErrThrow(error);
-      }
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-    
-    return true;
   }
 }

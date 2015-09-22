@@ -126,6 +126,42 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
       query = SSStrU.removeTrailingString(query, SSStrU.valueBlankANDBlank) + ")" + SSStrU.blank + par.globalSearchOp + SSStrU.blank;
     }
     
+    if(!par.matches.isEmpty()){
+      
+      if(
+        par.requireds.isEmpty() &&
+        par.absents.isEmpty()   &&
+        par.eithers.isEmpty()){
+        throw new SSErr(SSErrE.parameterMissing);
+      }
+            
+      //      SELECT * FROM articles
+//    -> WHERE MATCH (title,body)
+//    -> AGAINST ('database' IN NATURAL LANGUAGE MODE);
+      
+      query += " MATCH (";
+
+      for(String match : par.matches){
+        query += match + SSStrU.comma;
+      }
+
+      query = SSStrU.removeTrailingString(query, SSStrU.comma) + ") AGAINST ('";
+
+      for(String required : par.requireds){
+        query += "+" + required + "*" + SSStrU.blank;
+      }
+
+      for(String absent : par.absents){
+        query += "-" + absent + "*" + SSStrU.blank;
+      }
+
+      for(String either : par.eithers){
+        query += either + "*" + SSStrU.blank;
+      }
+
+      query = SSStrU.removeTrailingString(query, SSStrU.blank) + "' IN BOOLEAN MODE WITH QUERY EXPANSION)" + SSStrU.blank;
+    }
+    
     for(Map.Entry<String, List<MultivaluedMap<String, String>>> wheresNumberic : par.numbericWheres.entrySet()){
       
       comparator = wheresNumberic.getKey();
@@ -152,7 +188,7 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
     query = SSStrU.removeTrailingString(query, SSStrU.blank + par.globalSearchOp + SSStrU.blank);
       
     if(
-      (!par.orWheres.isEmpty() || !par.andWheres.isEmpty() || !par.numbericWheres.isEmpty()) &&
+      (!par.orWheres.isEmpty() || !par.andWheres.isEmpty() || !par.numbericWheres.isEmpty() || !par.matches.isEmpty()) &&
       !par.tableCons.isEmpty()){
       
       query += SSStrU.valueBlankANDBlank;
@@ -475,60 +511,6 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
       }
     }
 
-    return stmt.executeQuery();
-  }
-  
-  @Override
-  public ResultSet select(
-    final String       table, 
-    final List<String> columns, 
-    final List<String> matches, 
-    final List<String> requireds,
-    final List<String> absents,
-    final List<String> eithers) throws Exception{
-    
-//      SELECT * FROM articles
-//    -> WHERE MATCH (title,body)
-//    -> AGAINST ('database' IN NATURAL LANGUAGE MODE);
-    
-    String                              query   = "SELECT DISTINCT ";
-    PreparedStatement                   stmt;
-    
-    for(String certain : columns){
-      query += certain + SSStrU.comma + SSStrU.blank;
-    }
-    
-    if(
-      columns == null ||
-      columns.isEmpty()){
-      
-      query += "*";
-    }
-    
-    query = SSStrU.removeTrailingString(query, SSStrU.comma + SSStrU.blank) + " FROM " + table + " WHERE MATCH (";
-    
-    for(String match : matches){
-      query += match + SSStrU.comma;
-    }
-    
-    query = SSStrU.removeTrailingString(query, SSStrU.comma) + ") AGAINST ('";
-    
-    for(String required : requireds){
-      query += "+" + required + "*" + SSStrU.blank;
-    }
-    
-    for(String absent : absents){
-      query += "-" + absent + "*" + SSStrU.blank;
-    }
-    
-    for(String either : eithers){
-      query += either + "*" + SSStrU.blank;
-    }
-    
-    query = SSStrU.removeTrailingString(query, SSStrU.blank) + "' IN BOOLEAN MODE);";
-    
-    stmt = connector.prepareStatement(query);
-    
     return stmt.executeQuery();
   }
   

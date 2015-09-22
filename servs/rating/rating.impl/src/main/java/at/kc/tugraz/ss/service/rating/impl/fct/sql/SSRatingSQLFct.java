@@ -24,10 +24,11 @@ import at.tugraz.sss.serv.SSObjU;
 import at.tugraz.sss.serv.SSSQLVarNames;
 import at.tugraz.sss.serv.SSDBSQLFct;
 import at.tugraz.sss.serv.SSUri;
-
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.kc.tugraz.ss.service.rating.datatypes.SSRating;
 import at.kc.tugraz.ss.service.rating.datatypes.SSRatingOverall;
+import at.tugraz.sss.serv.SSDBSQLSelectPar;
+import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
@@ -36,6 +37,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.ws.rs.core.MultivaluedHashMap;
+import javax.ws.rs.core.MultivaluedMap;
 
 public class SSRatingSQLFct extends SSDBSQLFct{
 
@@ -43,12 +46,48 @@ public class SSRatingSQLFct extends SSDBSQLFct{
     super(serv.dbSQL);
   }
   
-  public List<SSUri> getEntitiesRated(
+  public Boolean hasUserRatedEntity(
+    final SSUri   userUri, 
+    final SSUri   entityUri) throws Exception{
+    
+    if(SSObjU.isNull(userUri, entityUri)){
+      throw new SSErr(SSErrE.parameterMissing);
+    }
+    
+    ResultSet                 resultSet   = null;
+    
+    final List<String>        columns = new ArrayList<>();
+    final Map<String, String> wheres  = new HashMap<>();
+    
+    try{
+
+      column(columns, SSSQLVarNames.entityId);
+      
+      where(wheres, SSSQLVarNames.userId,   userUri);
+      where(wheres, SSSQLVarNames.entityId, entityUri);
+      
+      resultSet = dbSQL.select(SSSQLVarNames.ratingsTable, columns, wheres, null, null, null);
+      
+      return resultSet.first();
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
+    }
+  }
+  
+  public List<SSUri> getEntitiesRatedByUser(
     final SSUri user) throws Exception{
     
     ResultSet resultSet = null;
     
     try{
+    
+      if(user == null){
+        throw new SSErr(SSErrE.parameterMissing);
+      }
+      
       final List<String>        columns = new ArrayList<>();
       final Map<String, String> wheres  = new HashMap<>();
       
@@ -93,38 +132,6 @@ public class SSRatingSQLFct extends SSDBSQLFct{
     }
   }
 
-  public Boolean hasUserRatedEntity(
-    final SSUri   userUri, 
-    final SSUri   entityUri) throws Exception{
-    
-    if(SSObjU.isNull(userUri, entityUri)){
-      SSServErrReg.regErrThrow(new Exception("pars null"));
-      return null;
-    }
-    
-    ResultSet                 resultSet   = null;
-    
-    final List<String>        columns = new ArrayList<>();
-    final Map<String, String> wheres  = new HashMap<>();
-    
-    try{
-
-      column(columns, SSSQLVarNames.entityId);
-      
-      where(wheres, SSSQLVarNames.userId,   userUri);
-      where(wheres, SSSQLVarNames.entityId, entityUri);
-      
-      resultSet = dbSQL.select(SSSQLVarNames.ratingsTable, columns, wheres, null, null, null);
-      
-      return resultSet.first();
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }finally{
-      dbSQL.closeStmt(resultSet);
-    }
-  }
-  
   public void rateEntityByUser(
     final SSUri   ratingUri, 
     final SSUri   userUri, 
@@ -153,45 +160,6 @@ public class SSRatingSQLFct extends SSDBSQLFct{
       insert(inserts, SSSQLVarNames.ratingValue,  ratingValue);
 
       dbSQL.insert(SSSQLVarNames.ratingsTable, inserts);
-    }
-  }
-  
-  public List<SSRating> getUserRatings(
-    final SSUri userUri) throws Exception{
-    
-    ResultSet resultSet   = null;
-    
-    try{
-      
-      final List<SSRating>          ratings     = new ArrayList<>();
-      final List<String>            columns     = new ArrayList<>();
-      final HashMap<String, String> wheres      = new HashMap<>();
-      
-      column(columns, SSSQLVarNames.ratingId);
-      column(columns, SSSQLVarNames.ratingValue);
-      column(columns, SSSQLVarNames.entityId);
-      column(columns, SSSQLVarNames.userId);
-      
-      where(wheres, SSSQLVarNames.userId,   userUri);
-      
-      resultSet = dbSQL.select(SSSQLVarNames.ratingsTable, columns, wheres, null, null, null);
-      
-      while(resultSet.next()){
-        
-        ratings.add(SSRating.get(bindingStrToUri     (resultSet, SSSQLVarNames.ratingId), 
-            bindingStrToInteger (resultSet, SSSQLVarNames.ratingValue), 
-            bindingStrToUri     (resultSet, SSSQLVarNames.entityId), 
-            bindingStrToUri     (resultSet, SSSQLVarNames.userId), 
-            0L));
-      }
-      
-      return ratings;
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }finally{
-      dbSQL.closeStmt(resultSet);
     }
   }
   
@@ -239,23 +207,24 @@ public class SSRatingSQLFct extends SSDBSQLFct{
 
   public SSRatingOverall getOverallRating(final SSUri entityUri) throws Exception{
     
-    if(SSObjU.isNull(entityUri)){
-      SSServErrReg.regErrThrow(new Exception("pars null"));
-      return null;
-    }
-    
-    final List<String>        columns      = new ArrayList<>();
-    final Map<String, String> wheres       = new HashMap<>();
-    Double                    ratingValue  = 0d;
-    int                       counter      = 0;
-    ResultSet                 resultSet    = null;
-    
-    column(columns, SSSQLVarNames.ratingId);
-    column(columns, SSSQLVarNames.ratingValue);
-    
-    where(wheres, SSSQLVarNames.entityId, entityUri);
+    ResultSet resultSet = null;
     
     try{
+      
+      if(SSObjU.isNull(entityUri)){
+        throw new SSErr(SSErrE.parameterMissing);
+      }
+      
+      final List<String>        columns      = new ArrayList<>();
+      final Map<String, String> wheres       = new HashMap<>();
+      Double                    ratingValue  = 0d;
+      int                       counter      = 0;
+      
+      column(columns, SSSQLVarNames.ratingId);
+      column(columns, SSSQLVarNames.ratingValue);
+      
+      where(wheres, SSSQLVarNames.entityId, entityUri);
+      
       resultSet = dbSQL.select(SSSQLVarNames.ratingsTable, columns, wheres, null, null, null);
       
       while(resultSet.next()){
@@ -263,17 +232,99 @@ public class SSRatingSQLFct extends SSDBSQLFct{
         counter++;
       }
       
+      if(counter != 0){
+        ratingValue = ratingValue / counter;
+      }
+      
+      return SSRatingOverall.get(ratingValue, counter);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }finally{
       dbSQL.closeStmt(resultSet);
     }
+  }
+
+  public List<SSEntity> getRatingAsss(
+    final List<SSUri>     users,
+    final List<SSUri>     entities) throws Exception{
     
-    if(counter != 0){
-      ratingValue = ratingValue / counter;
-    }  
+    ResultSet resultSet = null;
     
-    return SSRatingOverall.get(ratingValue, counter);
+    try{
+
+      if(
+        (users    == null || users.isEmpty()) &&
+        (entities == null || entities.isEmpty())){
+        
+        throw new SSErr(SSErrE.parameterMissing);
+      }
+      
+      final List<MultivaluedMap<String, String>> orWheres       = new ArrayList<>();
+      final List<SSEntity>                       ratingAsss     = new ArrayList<>();
+      final List<String>                         tables         = new ArrayList<>();
+      final List<String>                         columns        = new ArrayList<>();
+      final List<String>                         tableCons      = new ArrayList<>();
+      
+      column   (columns,   SSSQLVarNames.ratingId);
+      column   (columns,   SSSQLVarNames.userId);
+      column   (columns,   SSSQLVarNames.entityId);
+      column   (columns,   SSSQLVarNames.ratingValue);
+      
+      table    (tables,   SSSQLVarNames.ratingsTable);
+      
+      if(
+        users != null &&
+        !users.isEmpty()){
+        
+        final MultivaluedMap<String, String> whereUsers = new MultivaluedHashMap<>();
+        
+        for(SSUri user : users){
+          where(whereUsers, SSSQLVarNames.ratingsTable, SSSQLVarNames.userId, user);
+        }
+        
+        orWheres.add(whereUsers);
+      }
+      
+      if(
+        entities != null &&
+        !entities.isEmpty()){
+        
+        final MultivaluedMap<String, String> whereEntities = new MultivaluedHashMap<>();
+        
+        for(SSUri entity : entities){
+          where(whereEntities, SSSQLVarNames.ratingsTable, SSSQLVarNames.entityId, entity);
+        }
+        
+        orWheres.add(whereEntities);
+      }
+      
+      resultSet =
+        dbSQL.select(
+          new SSDBSQLSelectPar(
+            tables,
+            columns,
+            orWheres,
+            null,
+            null,
+            tableCons));
+      
+      while(resultSet.next()){
+        
+        ratingAsss.add(
+          SSRating.get(
+            bindingStrToUri     (resultSet, SSSQLVarNames.ratingId),
+            bindingStrToUri     (resultSet, SSSQLVarNames.userId),
+            bindingStrToUri     (resultSet, SSSQLVarNames.entityId),
+            bindingStrToInteger (resultSet, SSSQLVarNames.ratingValue)));
+      }
+      
+      return ratingAsss;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
+    }
   }
 }
-

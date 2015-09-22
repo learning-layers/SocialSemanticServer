@@ -25,6 +25,10 @@ import at.kc.tugraz.ss.recomm.datatypes.SSResourceLikelihood;
 import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommResourcesPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.kc.tugraz.ss.service.rating.api.SSRatingServerI;
+import at.kc.tugraz.ss.service.rating.datatypes.SSRatingOverall;
+import at.kc.tugraz.ss.service.rating.datatypes.pars.SSRatingEntityURIsGetPar;
+import at.kc.tugraz.ss.service.rating.datatypes.pars.SSRatingOverallGetPar;
 import at.tugraz.sss.serv.SSDateU;
 import at.tugraz.sss.serv.SSIDU;
 import at.tugraz.sss.serv.SSLogU;
@@ -90,8 +94,6 @@ implements
   @Override
   public SSSearchRet search(final SSSearchPar par) throws Exception{
     
-    //TODO take into account typesToSearchOnlyFor, authorsToSearchFor in e.g., getTagResults, getTextualContentResults, etc. 
-    //TODO clean up this method regarding single entityGet calls in e.g., getTagResults, getTextualContentResults, etc. 
     try{
       
       final SSEntityServerI entityServ = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
@@ -116,57 +118,54 @@ implements
         //3) mix results from solr and circle service
         SSLogU.warn("no search query input given");
       }
-      
+
       final List<SSEntity>          results                       = new ArrayList<>();
       final List<SSUri>             uris                          = new ArrayList<>();
-      final List<SSUri>             tagResultUris                 = getTagResults(par);
-      final List<SSUri>             contentResultUris             = getTextualContentResults(par);
-      final List<SSUri>             labelResultUris               = getLabelResults(par);
-      final List<SSUri>             descriptionResultUris         = getDescriptionResults(par);
-      final List<SSEntity>          recommendedEntities           = getRecommendedResults(par);
+      final List<SSUri>             initiallyFilteredResults      = filterResultsInitially   (par);
+      final List<SSUri>             tagResults                    = getTagResults            (par, initiallyFilteredResults);
+      final List<SSUri>             labelResults                  = getLabelResults          (par, initiallyFilteredResults);
+      final List<SSUri>             descriptionResults            = getDescriptionResults    (par, initiallyFilteredResults);
+      final List<SSUri>             contentResults                = getTextualContentResults (par);
+      final List<SSEntity>          recommendedResults            = getRecommendedResults    (par);
+      final List<SSUri>             ratingResultUris              = new ArrayList<>();
+      final List<SSUri>             resultsAfterGlobalSearchOp    = new ArrayList<>();
       final String                  pagesID                       = SSIDU.uniqueID();
       final List<List<SSEntity>>    pages                         = new ArrayList<>();
       final List<SSEntity>          page                          = new ArrayList<>();
       Integer                       recommendedEntityCounter      = 0;
-      SSEntityDescriberPar          descPar;
+      final SSEntitiesGetPar        entitiesGetPar;
+      final SSEntityDescriberPar    descPar;
       
-      uris.addAll                  (tagResultUris);
-      uris.addAll                  (contentResultUris);
-      uris.addAll                  (labelResultUris);
-      uris.addAll                  (descriptionResultUris);
+      uris.addAll                  (tagResults);
+      uris.addAll                  (contentResults);
+      uris.addAll                  (labelResults);
+      uris.addAll                  (descriptionResults);
       
       SSStrU.distinctWithoutNull2(uris);
       
-      final List<SSUri> filteredResults = 
+      ratingResultUris.addAll(getRatingResults(par, uris));
+      
+      resultsAfterGlobalSearchOp.addAll(
         filterSearchResultsRegardingGlobalSearchOp(
           par,
           uris,
-          tagResultUris, 
-          contentResultUris,
-          labelResultUris,
-          descriptionResultUris);
-
-//TODO extend entitiesGet with types, authors
-//TODO use search with Query Expansion
-      for(SSEntity entity :
-        entityServ.entitiesGet(
-          new SSEntitiesGetPar(
-            par.user,
-            extendToParentEntities(
-              par,
-              filterForSubEntities(
-                par,
-                filteredResults)),
-            null, //types
-            null, //descPar,
-            par.withUserRestriction))){
-        
-        if(
-          !SSSearchFct.handleType     (par, entity) ||
-          !SSSearchFct.handleRating   (par, entity) ||
-          !SSSearchFct.handleAuthors  (par, entity)){
-          continue;
-        }
+          tagResults, 
+          contentResults,
+          labelResults,
+          descriptionResults, 
+          ratingResultUris));
+      
+      entitiesGetPar = 
+        new SSEntitiesGetPar(
+          par.user, 
+          resultsAfterGlobalSearchOp, 
+          par.typesToSearchOnlyFor, 
+          null, //descPar, 
+          par.withUserRestriction);
+      
+      entitiesGetPar.authors.addAll(par.authorsToSearchFor);
+      
+      for(SSEntity entity : entityServ.entitiesGet(entitiesGetPar)){
         
         if(page.size() == 10){
           pages.add(new ArrayList<>(page));
@@ -178,9 +177,9 @@ implements
         recommendedEntityCounter =
           SSSearchFct.addRecommendedResult(
             page,
-            filteredResults,
+            entitiesGetPar.entities,
             par,
-            recommendedEntities,
+            recommendedResults,
             recommendedEntityCounter);
       }
       
@@ -191,7 +190,7 @@ implements
       SSSearchFct.fillPagesIfEmpty(
         par, 
         pages, 
-        recommendedEntities);
+        recommendedResults);
       
       if(!pages.isEmpty()){
         
@@ -207,13 +206,25 @@ implements
             entityServ, 
             par, 
             pages.get(0)));
+        
       }
       
-      return SSSearchRet.get(
-        results, 
-        pagesID,
-        1,
-        pages.size());
+      if(results.isEmpty()){
+        
+        return SSSearchRet.get(
+          results,
+          null,
+          0,
+          0);
+        
+      }else{
+        
+        return SSSearchRet.get(
+          results,
+          pagesID,
+          1,
+          pages.size());
+      }
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -227,7 +238,8 @@ implements
     final List<SSUri> tagResultUris, 
     final List<SSUri> contentResultUris,
     final List<SSUri> labelResultUris, 
-    final List<SSUri> descriptionResultUris) throws Exception{
+    final List<SSUri> descriptionResultUris, 
+    final List<SSUri> ratingResultUris) throws Exception{
     
     try{
       
@@ -245,6 +257,7 @@ implements
           Boolean           contentThere;
           Boolean           labelsThere;
           Boolean           descriptionsThere;
+          Boolean           ratingsThere;
           
           tmpUris.addAll(currentResults);
           
@@ -254,6 +267,18 @@ implements
             labelsThere         = false;
             descriptionsThere   = false;
             contentThere        = false;
+            ratingsThere        = false;
+            
+            
+            if(
+              par.minRating == null &&
+              par.maxRating == null){
+              ratingsThere = true;
+            }else{
+              if(SSStrU.contains(ratingResultUris, uri)){
+                ratingsThere = true;
+              }
+            }
             
             if(par.tagsToSearchFor.isEmpty()){
               tagsThere = true;
@@ -310,7 +335,7 @@ implements
               }
             }
             
-            if(tagsThere && labelsThere && descriptionsThere && contentThere){
+            if(tagsThere && labelsThere && descriptionsThere && contentThere && ratingsThere){
               filteredResults.add(uri);
             }
           }
@@ -362,7 +387,9 @@ implements
     }
   }
   
-  private List<SSUri> getTagResults(final SSSearchPar par) throws Exception{
+  private List<SSUri> getTagResults(
+    final SSSearchPar par,
+    final List<SSUri> filteredResults) throws Exception{
     
     try{
       
@@ -376,7 +403,7 @@ implements
         new SSTagEntitiesForTagsGetPar(
           par.user, //user
           null, //forUser
-          null, //entities
+          filteredResults, //entities
           SSTagLabel.get(par.tagsToSearchFor), //labels
           par.localSearchOp, //labelSearchOp
           null, //spaces
@@ -397,7 +424,9 @@ implements
     }
   }
   
-  private List<SSUri> getDescriptionResults(final SSSearchPar par) throws Exception{
+  private List<SSUri> getDescriptionResults(
+    final SSSearchPar par,
+    final List<SSUri> filteredResults) throws Exception{
     
     try{
       
@@ -426,6 +455,7 @@ implements
           
           orResults.addAll(
             sqlFct.getEntitiesForDescriptionsWithMatch(
+              filteredResults,
               new ArrayList<>(), //requireds
               new ArrayList<>(), //absents
               SSStrU.toStr(par.descriptionsToSearchFor))); //eithers
@@ -440,6 +470,7 @@ implements
         case and:{
           
           return sqlFct.getEntitiesForDescriptionsWithMatch(
+            filteredResults,
             SSStrU.toStr(par.descriptionsToSearchFor), //requireds
             new ArrayList<>(), //absents
             new ArrayList<>()); //eithers
@@ -454,7 +485,9 @@ implements
     }
   }
   
-  private List<SSUri> getLabelResults(final SSSearchPar par) throws Exception{
+  private List<SSUri> getLabelResults(
+    final SSSearchPar par, 
+    final List<SSUri> filteredResults) throws Exception{
     
     try{
       
@@ -477,6 +510,7 @@ implements
           
           orResults.addAll(
             sqlFct.getEntitiesForLabelsWithMatch(
+              filteredResults,
               new ArrayList<>(), //requireds
               new ArrayList<>(), //absents
               SSStrU.toStr(par.labelsToSearchFor))); //eithers
@@ -491,6 +525,7 @@ implements
         case and:{
           
           return sqlFct.getEntitiesForLabelsWithMatch(
+            filteredResults,
             SSStrU.toStr(par.labelsToSearchFor), //requireds
             new ArrayList<>(), //absents
             new ArrayList<>()); //eithers
@@ -524,7 +559,7 @@ implements
             par.user, //forUser
             null, //entity
             null, //categories
-            10, //maxResources
+            50, //maxResources
             par.typesToSearchOnlyFor, //typesToRecommOnly
             false, //setCircleTypes
             true, //includeOwn
@@ -550,61 +585,7 @@ implements
       return new ArrayList<>();
     }
   }
-    
-  private List<SSUri> filterForSubEntities(
-    final SSSearchPar    par,
-    final List<SSUri>    results) throws Exception{
-    
-    if(
-      !par.includeOnlySubEntities ||
-      par.entitiesToSearchWithin.isEmpty()){
 
-      return results;
-    }
-    
-    return
-      SSUri.get(
-        SSStrU.retainAll(
-          SSStrU.toStrWithoutEmptyAndNull(
-            results),
-          SSStrU.toStrWithoutEmptyAndNull(
-            getSubEntities(
-              par.user,
-              par.entitiesToSearchWithin))));
-  }
-  
-  private List<SSUri> extendToParentEntities(
-    final SSSearchPar par,
-    final List<SSUri> results) throws Exception{
-    
-    if(!par.extendToParents){
-      return results;
-    }
-    
-    try{
-    
-      final List<SSUri> parentEntities  = new ArrayList<>();
-      
-      for(SSUri entity : results){
-        
-        try{
-          parentEntities.addAll(SSServCaller.entityUserParentEntitiesGet(par.user, entity));
-        }catch(Exception error){
-          SSServErrReg.reset();
-        }
-      }
-      
-      results.addAll(parentEntities);
-      
-      SSStrU.distinctWithoutNull2(results);
-      
-      return results;
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
   @Override
   public void searchResultPagesCacheClean(final SSServPar parA) throws Exception{
     
@@ -662,6 +643,42 @@ implements
        return new ArrayList<>();
     }
   }
+      
+  private List<SSUri> getRatingResults(
+    final SSSearchPar par,
+    final List<SSUri> searchResults) throws Exception{
+    
+    try{
+      
+      if(
+        par.minRating == null &&
+        par.maxRating == null){
+       
+        return searchResults;
+      }
+      
+      final SSRatingServerI ratingServ = (SSRatingServerI) SSServReg.getServ(SSRatingServerI.class);
+      
+      return ratingServ.ratingEntityURIsGet(
+        new SSRatingEntityURIsGetPar(
+          par.user,
+          searchResults, 
+          par.minRating, 
+          par.maxRating, 
+          false));
+      
+    }catch(Exception error){
+      
+      if(SSServErrReg.containsErr(SSErrE.notServerServiceForOpAvailable)){
+        SSLogU.warn(SSErrE.notServerServiceForOpAvailable.toString());
+      }else{
+        SSLogU.warn(error.getMessage());
+      }
+      
+      SSServErrReg.reset();
+      return new ArrayList<>();
+    }
+  }
   
   private List<SSEntity> fillSearchResults(
     final SSEntityServerI    entityServ,
@@ -689,55 +706,126 @@ implements
       return null;
     }
   }
-  
-  private List<SSUri> getSubEntities(
-    final SSUri       user, 
-    final List<SSUri> entities) throws Exception{
-    
-    try{
-    
-      final List<SSUri> subEntities  = new ArrayList<>();
-      
-      for(SSUri entity : entities){
-        subEntities.addAll(SSServCaller.entityUserSubEntitiesGet(user, entity));
-      }
-      
-      SSStrU.distinctWithoutNull2(subEntities);
-      
-      return subEntities;
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
 
-  private List<SSEntity> filterSearchResultsForSubEntitySearch(
-    final List<SSEntity> searchResults,
-    final Boolean        onlySubEntities,
-    final List<SSUri>    subEntities) throws Exception{
+  private List<SSUri> filterResultsInitially(final SSSearchPar par) throws Exception{
     
     try{
       
-      if(!onlySubEntities){
-        return searchResults;
-      }
+      return sqlFct.getEntityURIsUserCanAccess(
+        par.user, 
+        true, //withSystemCircles, 
+        null, //entities, 
+        par.typesToSearchOnlyFor, 
+        par.authorsToSearchFor);
       
-      final List<SSEntity> filteredResults = new ArrayList<>();
-      
-      for(SSEntity mIResult : searchResults){
-        
-        if(!SSStrU.contains(subEntities, mIResult.id)){
-          continue;
-        }
-        
-        filteredResults.add(mIResult);
-      }
-      
-      return filteredResults;
-    
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }
   }
 }
+
+//private List<SSUri> getSubEntities(
+//    final SSUri       user, 
+//    final List<SSUri> entities) throws Exception{
+//    
+//    try{
+//    
+//      final List<SSUri> subEntities  = new ArrayList<>();
+//      
+//      for(SSUri entity : entities){
+//        subEntities.addAll(SSServCaller.entityUserSubEntitiesGet(user, entity));
+//      }
+//      
+//      SSStrU.distinctWithoutNull2(subEntities);
+//      
+//      return subEntities;
+//    }catch(Exception error){
+//      SSServErrReg.regErrThrow(error);
+//      return null;
+//    }
+//  }
+//
+//  private List<SSEntity> filterSearchResultsForSubEntitySearch(
+//    final List<SSEntity> searchResults,
+//    final Boolean        onlySubEntities,
+//    final List<SSUri>    subEntities) throws Exception{
+//    
+//    try{
+//      
+//      if(!onlySubEntities){
+//        return searchResults;
+//      }
+//      
+//      final List<SSEntity> filteredResults = new ArrayList<>();
+//      
+//      for(SSEntity mIResult : searchResults){
+//        
+//        if(!SSStrU.contains(subEntities, mIResult.id)){
+//          continue;
+//        }
+//        
+//        filteredResults.add(mIResult);
+//      }
+//      
+//      return filteredResults;
+//    
+//    }catch(Exception error){
+//      SSServErrReg.regErrThrow(error);
+//      return null;
+//    }
+//  }
+//
+//private List<SSUri> filterForSubEntities(
+//    final SSSearchPar    par,
+//    final List<SSUri>    results) throws Exception{
+//    
+//    if(
+//      !par.includeOnlySubEntities ||
+//      par.entitiesToSearchWithin.isEmpty()){
+//
+//      return results;
+//    }
+//    
+//    return
+//      SSUri.get(
+//        SSStrU.retainAll(
+//          SSStrU.toStrWithoutEmptyAndNull(
+//            results),
+//          SSStrU.toStrWithoutEmptyAndNull(
+//            getSubEntities(
+//              par.user,
+//              par.entitiesToSearchWithin))));
+//  }
+//  
+//  private List<SSUri> extendToParentEntities(
+//    final SSSearchPar par,
+//    final List<SSUri> results) throws Exception{
+//    
+//    if(!par.extendToParents){
+//      return results;
+//    }
+//    
+//    try{
+//    
+//      final List<SSUri> parentEntities  = new ArrayList<>();
+//      
+//      for(SSUri entity : results){
+//        
+//        try{
+//          parentEntities.addAll(SSServCaller.entityUserParentEntitiesGet(par.user, entity));
+//        }catch(Exception error){
+//          SSServErrReg.reset();
+//        }
+//      }
+//      
+//      results.addAll(parentEntities);
+//      
+//      SSStrU.distinctWithoutNull2(results);
+//      
+//      return results;
+//    }catch(Exception error){
+//      SSServErrReg.regErrThrow(error);
+//      return null;
+//    }
+//  }

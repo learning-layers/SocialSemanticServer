@@ -40,6 +40,7 @@ import at.tugraz.sss.serv.caller.SSServCaller;
 import at.tugraz.sss.util.SSServCallerU;
 import at.kc.tugraz.ss.service.rating.datatypes.SSRating;
 import at.kc.tugraz.ss.service.rating.datatypes.SSRatingOverall;
+import at.kc.tugraz.ss.service.rating.datatypes.pars.SSRatingEntityURIsGetPar;
 import at.kc.tugraz.ss.service.rating.datatypes.ret.SSRatingOverallGetRet;
 import at.kc.tugraz.ss.service.rating.datatypes.ret.SSRatingGetRet;
 import at.kc.tugraz.ss.service.rating.datatypes.ret.SSRatingSetRet;
@@ -59,6 +60,7 @@ import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServReg;
+import java.util.ArrayList;
 
 public class SSRatingImpl 
 extends SSServImplWithDBA 
@@ -87,16 +89,15 @@ implements
     try{
       
       final Map<String, List<SSUri>> usersPerEntity = new HashMap<>();
-      List<SSRating>                 userRatings;
       
       for(String user : allUsers){
         
-        final SSUri userUri = SSUri.get(user);
-        
-        userRatings = sqlFct.getUserRatings(userUri);
-        
-        for(SSRating rating : userRatings){
-          SSRatingUserRelationGathererFct.addUserForEntity(rating, usersPerEntity);
+        for(SSEntity rating :
+          sqlFct.getRatingAsss(
+            SSUri.asListWithoutNullAndEmpty(SSUri.get(user)),
+            null)){
+          
+          SSRatingUserRelationGathererFct.addUserForEntity((SSRating) rating, usersPerEntity);
         }
       }
       
@@ -105,6 +106,7 @@ implements
       for(Map.Entry<String, List<SSUri>> usersPerUser : userRelations.entrySet()){
         SSStrU.distinctWithoutNull2(usersPerUser.getValue());
       }
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
@@ -276,6 +278,58 @@ implements
       }
       
       return sqlFct.getOverallRating(par.entity);
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public List<SSUri> ratingEntityURIsGet(final SSRatingEntityURIsGetPar par) throws Exception {
+
+    try{
+      
+      if(par.entities.isEmpty()){
+        throw new SSErr(SSErrE.parameterMissing);
+      }
+      
+      if(
+        par.withUserRestriction &&
+        !SSServCallerU.canUserRead(par.user, par.entities)){
+        return new ArrayList<>();
+      }
+      
+      final List<SSEntity>         ratings             = sqlFct.getRatingAsss(null, par.entities);
+      final List<SSUri>            entityURIs          = new ArrayList<>();
+      final SSRatingOverallGetPar  overallRatingGetPar = new SSRatingOverallGetPar(par.user, null, par.withUserRestriction);
+      SSRatingOverall              overallRating;
+      
+      for(SSEntity rating : ratings){
+
+        overallRatingGetPar.entity = ((SSRating)rating).entity;
+          
+        if(SSStrU.contains(entityURIs, overallRatingGetPar.entity)){
+          continue;
+        }
+        
+        overallRating = ratingOverallGet(overallRatingGetPar);
+        
+        if(
+          par.minOverallRating != null &&
+          par.minOverallRating > overallRating.score){
+          continue;
+        }
+        
+        if(
+          par.maxOverallRating != null &&
+          par.maxOverallRating < overallRating.score){
+          continue;
+        }
+        
+        SSUri.addDistinctWithoutNull(entityURIs, overallRatingGetPar.entity);
+      }
+      
+      return entityURIs;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;

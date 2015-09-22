@@ -20,18 +20,21 @@
 */
  package at.kc.tugraz.ss.service.rating.api;
 
-import at.tugraz.sss.serv.SSServPar;
 import at.kc.tugraz.ss.service.rating.datatypes.SSRatingOverall;
+import at.kc.tugraz.ss.service.rating.datatypes.pars.SSRatingEntityURIsGetPar;
 import at.kc.tugraz.ss.service.rating.datatypes.pars.SSRatingSetPar;
 import at.kc.tugraz.ss.service.rating.datatypes.pars.SSRatingGetPar;
 import at.kc.tugraz.ss.service.rating.datatypes.pars.SSRatingOverallGetPar;
 import at.kc.tugraz.ss.service.rating.datatypes.pars.SSRatingsRemovePar;
 import at.tugraz.sss.serv.SSServServerI;
+import at.tugraz.sss.serv.SSUri;
+import java.util.List;
 
 public interface SSRatingServerI extends SSServServerI{
   
-  public Boolean               ratingSet         (final SSRatingSetPar         par)     throws Exception;
-  public Integer               ratingGet         (final SSRatingGetPar         par)     throws Exception;
-  public SSRatingOverall       ratingOverallGet  (final SSRatingOverallGetPar  par)     throws Exception;
-  public Boolean               ratingsRemove     (final SSRatingsRemovePar par)     throws Exception;
+  public Boolean               ratingSet           (final SSRatingSetPar           par)     throws Exception;
+  public Integer               ratingGet           (final SSRatingGetPar           par)     throws Exception;
+  public SSRatingOverall       ratingOverallGet    (final SSRatingOverallGetPar    par)     throws Exception;
+  public Boolean               ratingsRemove       (final SSRatingsRemovePar       par)     throws Exception;
+  public List<SSUri>           ratingEntityURIsGet (final SSRatingEntityURIsGetPar par)     throws Exception;
 }

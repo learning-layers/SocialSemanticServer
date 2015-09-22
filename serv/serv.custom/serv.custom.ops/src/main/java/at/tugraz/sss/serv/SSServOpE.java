@@ -234,6 +234,7 @@ public enum SSServOpE{
   ratingOverallGet                                    ,
   ratingSet,
   ratingsRemove,
+  ratingEntityURIsGet,
   
   //model ue
   modelUEUpdate                                       ,

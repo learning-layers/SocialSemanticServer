@@ -34,6 +34,7 @@ public class SSEntitiesGetPar extends SSServPar{
   public List<SSUri>          entities              = new ArrayList<>();
   public List<SSEntityE>      types                 = new ArrayList<>();
   public SSEntityDescriberPar descPar               = null;
+  public List<SSUri>          authors               = new ArrayList<>();
 
   public List<String> getEntities(){
     return SSStrU.removeTrailingSlash(entities);
@@ -49,6 +50,14 @@ public class SSEntitiesGetPar extends SSServPar{
   
   public void setTypes(List<String> types) throws Exception{
     this.types = SSEntityE.get(types);
+  }
+  
+  public List<String> getAuthors(){
+    return SSStrU.removeTrailingSlash(authors);
+  }
+
+  public void setAuthors(final List<String> authors) throws Exception{
+    this.authors = SSUri.get(authors);
   }
   
   public SSEntitiesGetPar(){}

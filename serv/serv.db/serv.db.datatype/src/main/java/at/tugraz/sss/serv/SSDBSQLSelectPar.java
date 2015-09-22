@@ -32,6 +32,10 @@ public class SSDBSQLSelectPar {
   public List<MultivaluedMap<String, String>>                   orWheres                  = new ArrayList<>();
   public List<MultivaluedMap<String, String>>                   andWheres                 = new ArrayList<>();
   public MultivaluedMap<String, MultivaluedMap<String, String>> numbericWheres            = new MultivaluedHashMap<>();
+  public List<String>                                           matches                   = new ArrayList<>();
+  public List<String>                                           requireds                 = new ArrayList<>();
+  public List<String>                                           absents                   = new ArrayList<>();
+  public List<String>                                           eithers                   = new ArrayList<>();
   public List<String>                                           tableCons                 = new ArrayList<>();
   public String                                                 globalSearchOp            = "AND";
   public String                                                 orderByColumn             = null;

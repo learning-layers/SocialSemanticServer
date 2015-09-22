@@ -1,13 +1,3 @@
-package at.kc.tugraz.ss.service.rating.impl.fct.userraltionsgathering;
-
-
-import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSUri;
-import at.kc.tugraz.ss.service.rating.datatypes.SSRating;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 /**
 * Code contributed to the Learning Layers project
 * http://www.learning-layers.eu
@@ -28,13 +18,22 @@ import java.util.Map;
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
+package at.kc.tugraz.ss.service.rating.impl.fct.userraltionsgathering;
+
+import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.SSUri;
+import at.kc.tugraz.ss.service.rating.datatypes.SSRating;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 public class SSRatingUserRelationGathererFct{
   
   public static void addUserForEntity(
     final SSRating                    rating,
     final Map<String, List<SSUri>>    usersPerEntity) throws Exception{
 
-    final String            entityStr = SSStrU.toStr(rating.resource);
+    final String            entityStr = SSStrU.toStr(rating.entity);
     final List<SSUri>       usersForEntity;
     
     if(usersPerEntity.containsKey(entityStr)){
