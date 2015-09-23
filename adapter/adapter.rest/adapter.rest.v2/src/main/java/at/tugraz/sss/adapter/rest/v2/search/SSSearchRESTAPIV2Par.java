@@ -37,9 +37,9 @@ public class SSSearchRESTAPIV2Par{
   
   @XmlElement
   @ApiModelProperty(
-    value = "keywords to be used in textual content search",
+    value = "keywords to be used in textual content search in documents",
     required = false)
-  public List<String>        wordsToSearchFor           = null;
+  public List<String>        documentContentsToSearchFor           = null;
   
   @XmlElement
   @ApiModelProperty( 

@@ -32,7 +32,7 @@ import java.util.List;
 
 public class SSSearchPar extends SSServPar{
   
-  public List<String>        wordsToSearchFor                              = new ArrayList<>();
+  public List<String>        documentContentsToSearchFor                   = new ArrayList<>();
   public List<String>        tagsToSearchFor                               = new ArrayList<>();
   public List<SSUri>         authorsToSearchFor                            = new ArrayList<>();
   public List<SSSearchLabel> labelsToSearchFor                             = new ArrayList<>();
@@ -100,7 +100,7 @@ public class SSSearchPar extends SSServPar{
   
   public SSSearchPar(
     final SSUri               user,
-    final List<String>        wordsToSearchFor           ,
+    final List<String>        documentContentsToSearchFor,
     final List<String>        tagsToSearchFor            ,
     final List<SSUri>         authorsToSearchFor         , 
     final List<SSSearchLabel> labelsToSearchFor          ,
@@ -119,8 +119,8 @@ public class SSSearchPar extends SSServPar{
     
     super(SSServOpE.search, null, user);
     
-    if(wordsToSearchFor != null){
-      this.wordsToSearchFor.addAll(wordsToSearchFor);
+    if(documentContentsToSearchFor != null){
+      this.documentContentsToSearchFor.addAll(documentContentsToSearchFor);
     }
     
     if(tagsToSearchFor != null){

@@ -58,7 +58,7 @@ public class SSRESTSearch{
       par =
         new SSSearchPar(
           null,
-          input.wordsToSearchFor,
+          input.documentContentsToSearchFor,
           input.tagsToSearchFor,
           input.authorsToSearchFor,
           input.labelsToSearchFor,

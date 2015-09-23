@@ -26,9 +26,7 @@ import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommResourcesPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.kc.tugraz.ss.service.rating.api.SSRatingServerI;
-import at.kc.tugraz.ss.service.rating.datatypes.SSRatingOverall;
 import at.kc.tugraz.ss.service.rating.datatypes.pars.SSRatingEntityURIsGetPar;
-import at.kc.tugraz.ss.service.rating.datatypes.pars.SSRatingOverallGetPar;
 import at.tugraz.sss.serv.SSDateU;
 import at.tugraz.sss.serv.SSIDU;
 import at.tugraz.sss.serv.SSLogU;
@@ -38,7 +36,6 @@ import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSConfA;
-import at.tugraz.sss.serv.caller.SSServCaller;
 import at.tugraz.sss.util.SSServCallerU;
 import at.kc.tugraz.ss.service.search.api.*;
 import at.kc.tugraz.ss.service.search.datatypes.*;
@@ -106,10 +103,10 @@ implements
       }
       
       if(
-        par.wordsToSearchFor.isEmpty()        &&
-        par.tagsToSearchFor.isEmpty()         &&
-        par.labelsToSearchFor.isEmpty()       &&
-        par.descriptionsToSearchFor.isEmpty() &&
+        par.documentContentsToSearchFor.isEmpty()  &&
+        par.tagsToSearchFor.isEmpty()              &&
+        par.labelsToSearchFor.isEmpty()            &&
+        par.descriptionsToSearchFor.isEmpty()      &&
         !par.includeRecommendedResults){
        
         //TODO
@@ -238,11 +235,11 @@ implements
   private List<SSUri> filterSearchResultsRegardingGlobalSearchOp(
     final SSSearchPar par,
     final List<SSUri> currentResults,
-    final List<SSUri> tagResultUris, 
-    final List<SSUri> contentResultUris,
-    final List<SSUri> labelResultUris, 
-    final List<SSUri> descriptionResultUris, 
-    final List<SSUri> ratingResultUris) throws Exception{
+    final List<SSUri> tagResults, 
+    final List<SSUri> documentResults,
+    final List<SSUri> labelResuls, 
+    final List<SSUri> descriptionResults, 
+    final List<SSUri> ratingResults) throws Exception{
     
     try{
       
@@ -278,7 +275,7 @@ implements
               par.maxRating == null){
               ratingsThere = true;
             }else{
-              if(SSStrU.contains(ratingResultUris, uri)){
+              if(SSStrU.contains(ratingResults, uri)){
                 ratingsThere = true;
               }
             }
@@ -286,7 +283,7 @@ implements
             if(par.tagsToSearchFor.isEmpty()){
               tagsThere = true;
             }else{
-              if(SSStrU.contains(tagResultUris,uri)){
+              if(SSStrU.contains(tagResults,uri)){
                 tagsThere = true;
               }
             }
@@ -294,7 +291,7 @@ implements
             if(par.labelsToSearchFor.isEmpty()){
               labelsThere = true;
             }else{
-              if(SSStrU.contains(labelResultUris, uri)){
+              if(SSStrU.contains(labelResuls, uri)){
                 labelsThere = true;
               }
             }
@@ -302,15 +299,15 @@ implements
             if(par.descriptionsToSearchFor.isEmpty()){
               descriptionsThere = true;
             }else{
-              if(SSStrU.contains(descriptionResultUris, uri)){
+              if(SSStrU.contains(descriptionResults, uri)){
                 descriptionsThere = true;
               }
             }
             
-            if(par.wordsToSearchFor.isEmpty()){
+            if(par.documentContentsToSearchFor.isEmpty()){
               contentThere        = true;
             }else{
-              if(SSStrU.contains(contentResultUris, uri)){
+              if(SSStrU.contains(documentResults, uri)){
                 contentThere        = true;
               }
             }
@@ -617,13 +614,13 @@ implements
     
     try{
       
-      if(par.wordsToSearchFor.isEmpty()){
+      if(par.documentContentsToSearchFor.isEmpty()){
         return new ArrayList<>();
       }
       
       final Map<SSSolrSearchFieldE, List<SSSolrKeywordLabel>> wheres = new HashMap<>();
       
-      wheres.put(SSSolrSearchFieldE.docText, SSSolrKeywordLabel.get(par.wordsToSearchFor));
+      wheres.put(SSSolrSearchFieldE.docText, SSSolrKeywordLabel.get(par.documentContentsToSearchFor));
       
       return SSUri.get(
         dbNoSQL.search(
