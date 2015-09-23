@@ -33,6 +33,7 @@ import at.tugraz.sss.serv.SSServImplStartA;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.filerepo.conf.SSFileRepoConf;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileUploadPar;
+import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileAddRet;
 import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileUploadRet;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLAddDocPar;
@@ -238,22 +239,24 @@ public class SSFileUploader extends SSServImplStartA{
     try{
       
       final SSFileRepoServerI fileServ = (SSFileRepoServerI) SSServReg.getServ (SSFileRepoServerI.class);
+      final SSFileAddRet      result   = 
+        fileServ.fileAdd(
+          new SSEntityFileAddPar(
+            par.user,
+            null,
+            null, //fileLength
+            null, //fileExt,
+            fileUri, //file,
+            SSEntityE.uploadedFile, //type,
+            par.label, //label,
+            null, //entity
+            true, //createThumb,
+            fileUri, //entityToAddThumbTo,
+            false, //removeExistingFilesForEntity,
+            par.withUserRestriction,
+            false));
       
-      fileServ.fileAdd(
-        new SSEntityFileAddPar(
-          par.user, 
-          null, 
-          null, //fileLength
-          null, //fileExt, 
-          fileUri, //file, 
-          SSEntityE.uploadedFile, //type, 
-          par.label, //label, 
-          null, //entity
-          true, //createThumb, 
-          fileUri, //entityToAddThumbTo, 
-          false, //removeExistingFilesForEntity, 
-          par.withUserRestriction, 
-          false));
+      thumbUri = result.thumb;
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
