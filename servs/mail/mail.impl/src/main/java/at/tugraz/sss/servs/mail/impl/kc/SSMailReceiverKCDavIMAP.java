@@ -21,10 +21,15 @@
 package at.tugraz.sss.servs.mail.impl.kc;
 
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
+import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.tugraz.sss.serv.SSEntity;
+import at.tugraz.sss.serv.SSEntityE;
+import at.tugraz.sss.serv.SSFileExtE;
 import at.tugraz.sss.serv.SSFileU;
+import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.tugraz.sss.servs.mail.conf.SSMailConf;
 import at.tugraz.sss.servs.mail.datatype.SSMail;
@@ -86,17 +91,9 @@ public class SSMailReceiverKCDavIMAP {
             SSServCaller.vocURICreate(),
             messages[counter].getSubject());
         
-        if(createMessageFromMessageParts (message, mail)){
-          mails.add(mail);
-        }else{
-          SSLogU.warn(
-            "subject    : " + message.getSubject() +
-            "date       : " + message.getSentDate() +
-            "id         : " + message.getMessageID() +
-            "number     : " + message.getMessageNumber() +
-            "contentType: " + message.getContentType() +
-            "encoding:    " + message.getEncoding());
-        }
+        createMessageFromMessageParts (message, mail, true);
+        
+        mails.add(mail);
       }
       
       return mails;
@@ -119,49 +116,97 @@ public class SSMailReceiverKCDavIMAP {
     }
   }
 
-  private Boolean createMessageFromMessageParts(
-    final Part   message, 
-    final SSMail mail) throws Exception{
+  private void createMessageFromMessageParts(
+    final Part    message, 
+    final SSMail  mail,
+    final Boolean isFirstLevel) throws Exception{
     
     try{
       
       if(message.getContent() instanceof Multipart){
-        return handleMultiPartContent((Multipart) message.getContent(), mail);
+        handleMultiPartContent((Multipart) message.getContent(), mail, isFirstLevel);
+        return;
       }
       
       if(message.getContent() instanceof String){
 //        System.out.println("content as string: " + message.getContent());
-        return true;
+        mail.content = (String) message.getContent();
+        return;
       }
       
       if(message.getContent() instanceof InputStream){
         SSLogU.warn("unhandled content!!! inputstream");
-        return false;
+        return;
       }
       
       if(message.getContent() instanceof Message){
 //        System.out.println("content is message!!");
-        return createMessageFromMessageParts((Part) message.getContent(), mail);
+        createMessageFromMessageParts((Part) message.getContent(), mail, isFirstLevel);
+        return;
       }
       
       SSLogU.warn("unhandled content!!!");
-      return false;
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
-      return null;
     }
   }
   
-  private Boolean handleMultiPartContent(
-    final Multipart multipart, 
-    final SSMail    mail) throws Exception{
+  private SSEntity getAttachmentObj(final String fileName) throws Exception{
+    
+    SSEntity result;
     
     try{
       
-      Part         bodyPart;
+      result = 
+        SSEntity.get(
+          SSServCaller.vocURICreate(SSFileExtE.getFromStrToFormat(fileName)), 
+          SSEntityE.file);
       
-      for (int counter = 0; counter < multipart.getCount(); counter++) {
+      result.label = SSLabel.get(fileName);
+      
+      return result;
+            
+    }catch(Exception error){
+      throw error;
+    }
+  }
+  
+  private void handleAttachment(
+    final Part      bodyPart,
+    final SSMail    mail, 
+    final Boolean   isFirstLevel){
+    
+    try{
+      
+      final SSEntity attachment = getAttachmentObj(bodyPart.getFileName());
+      
+      SSFileU.writeFileBytes(
+        SSFileU.openOrCreateFileWithPathForWrite(localWorkPath + SSVocConf.fileIDFromSSSURI(attachment.id)),
+        bodyPart.getInputStream());
+      
+      if(isFirstLevel){
+        mail.attachments.add(attachment);
+      }else{
+        mail.contentMultimedia.add(attachment);
+      }
+      
+    }catch(Exception error){
+      SSLogU.warn("mail attachment creation failed");
+    }
+  }
+  
+  private void handleMultiPartContent(
+    final Multipart multipart, 
+    final SSMail    mail, 
+    final Boolean   isFirstLevel) throws Exception{
+    
+    try{
+      
+      Part      bodyPart;
+      String    strContent;
+      
+      for(int counter = 0; counter < multipart.getCount(); counter++) {
         
         bodyPart = multipart.getBodyPart(counter);
         
@@ -169,48 +214,49 @@ public class SSMailReceiverKCDavIMAP {
           Part.ATTACHMENT.equalsIgnoreCase(bodyPart.getDisposition()) ||
           !StringUtils.isEmptyOrWhitespaceOnly(bodyPart.getFileName())){
           
-          //Attachment
-          SSFileU.writeFileBytes(
-            SSFileU.openOrCreateFileWithPathForWrite(localWorkPath + bodyPart.getFileName()),
-            bodyPart.getInputStream());
+          handleAttachment(bodyPart, mail, isFirstLevel);
           continue;
         }
         
 //        System.out.println("content is multipart; no attachment");
         
         if(bodyPart.getContent() instanceof Multipart){
-          return handleMultiPartContent((Multipart) bodyPart.getContent(), mail);
+          handleMultiPartContent((Multipart) bodyPart.getContent(), mail, false);
+          continue;
         }
         
         if(bodyPart.getContent() instanceof Part){
 //          System.out.println("content is multipart; no attachment; part again");
-          if(createMessageFromMessageParts((Part) bodyPart.getContent(), mail)){
-            continue;
-          }
-          
-          return false;
+          createMessageFromMessageParts((Part) bodyPart.getContent(), mail, false);
+          continue;
         }
         
         if(bodyPart.getContent() instanceof String){
 //          System.out.println("content is multipart; no attachment; string");
 //          System.out.println(bodyPart.getContent());
-          return true;
+          
+          strContent = (String) bodyPart.getContent();
+          
+          if(
+            strContent.startsWith("<html") || 
+            strContent.startsWith("<xhtml")){
+            continue;
+          }
+          
+          mail.content = strContent;
+          continue;
         }
         
         if(bodyPart.getContent() instanceof InputStream){
           SSLogU.warn("unhandled content!!! content is multipart; no attachment; input stream");
-          return false;
+          continue;
         }
         
         SSLogU.warn("unhandled content!!!");
-        return false;
       }
-      
-      return true;
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
-      return null;
     }
   }
 }

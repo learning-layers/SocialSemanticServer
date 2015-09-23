@@ -41,18 +41,13 @@ import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSErrE;
-import at.tugraz.sss.serv.SSImageE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSToolContextE;
 import at.tugraz.sss.servs.file.datatype.par.SSEntityFileAddPar;
-import at.tugraz.sss.servs.image.api.SSImageServerI;
-import at.tugraz.sss.servs.image.datatype.par.SSImageAddPar;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import javax.imageio.ImageIO;
 import sss.serv.eval.api.SSEvalServerI;
 import sss.serv.eval.datatypes.SSEvalLogE;
 import sss.serv.eval.datatypes.par.SSEvalLogPar;
@@ -65,7 +60,6 @@ public class SSFileUploader extends SSServImplStartA{
   private final SSFileExtE            fileExt;
   private final SSUri                 fileUri;
   private final String                fileId;
-  private       FileInputStream       fileInputStream   = null;
   private       SSUri                 thumbUri          = null;
 
   public SSFileUploader(
@@ -96,8 +90,7 @@ public class SSFileUploader extends SSServImplStartA{
       
       dbSQL.startTrans(par.shouldCommit);
       
-      registerFile                 ();
-      createFileThumb              ();
+      registerFileAndCreateThumb();
       
       dbSQL.commit(par.shouldCommit);
 
@@ -180,27 +173,6 @@ public class SSFileUploader extends SSServImplStartA{
     }
   }
   
-  private void registerFile() throws Exception{
-    
-    try{
-      
-      final SSFileRepoServerI fileServ = (SSFileRepoServerI) SSServReg.getServ(SSFileRepoServerI.class);
-      
-      fileServ.fileAdd(
-        new SSEntityFileAddPar(
-          par.user,
-          fileUri,
-          SSEntityE.uploadedFile, //type
-          par.label,
-          null,
-          par.withUserRestriction,
-          false));
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
   private void addFileContentsToNoSQLStore(){
     
     try{
@@ -261,70 +233,30 @@ public class SSFileUploader extends SSServImplStartA{
     }
   }
   
-  //TODO currently works with local file repository only (even dont if localWorkPath != local file repo path)
-  //TODO move createFileThumb to image service
-  private void createFileThumb(){
+  private void registerFileAndCreateThumb() throws Exception{
     
     try{
       
-      final SSFileRepoServerI fileServ  = (SSFileRepoServerI) SSServReg.getServ (SSFileRepoServerI.class);
-      final SSImageServerI    imageServ = (SSImageServerI)    SSServReg.getServ (SSImageServerI.class);
-        
-      thumbUri = SSServCaller.vocURICreate                  (SSFileExtE.png);
+      final SSFileRepoServerI fileServ = (SSFileRepoServerI) SSServReg.getServ (SSFileRepoServerI.class);
       
-      final String filePath          = localWorkPath + fileId;
-      final String pngFilePath       = localWorkPath + SSVocConf.fileIDFromSSSURI (thumbUri);
-      Boolean      thumbCreated      = false;
-      
-      if(SSStrU.contains(SSFileExtE.imageFileExts, fileExt)){
-        SSFileU.scalePNGAndWrite(ImageIO.read(new File(filePath)), pngFilePath, 500, 500);
-        thumbCreated = true;
-      }
-      
-      switch(fileExt){
-        
-        case pdf:{
-          SSFileU.writeScaledPNGFromPDF(filePath, pngFilePath, 500, 500, false);
-          thumbCreated = true;
-          break;
-        }
-        
-        case doc:{
-          
-          final String pdfFilePath = localWorkPath + SSVocConf.fileIDFromSSSURI(SSServCaller.vocURICreate     (SSFileExtE.pdf));
-          
-          SSFileU.writePDFFromDoc       (filePath,    pdfFilePath);
-          SSFileU.writeScaledPNGFromPDF (pdfFilePath, pngFilePath, 500, 500, false);
-          thumbCreated = true;          
-        }
-      }
-      
-      if(thumbCreated){
-        
-        fileServ.fileAdd(
-          new SSEntityFileAddPar(
-            par.user,
-            thumbUri, //file
-            SSEntityE.file, //type
-            null, //label
-            null, //entity
-            false, //withUserRestriction
-            false));//shouldCommit
-        
-        imageServ.imageAdd(
-          new SSImageAddPar(
-            par.user,
-            null, //uuid
-            null, //link
-            SSImageE.thumb, //imageType,
-            fileUri, //entity
-            thumbUri, //file
-            false, //withUserRestriction,
-            false)); //shouldCommit
-      }
+      fileServ.fileAdd(
+        new SSEntityFileAddPar(
+          par.user, 
+          null, 
+          null, //fileLength
+          null, //fileExt, 
+          fileUri, //file, 
+          SSEntityE.uploadedFile, //type, 
+          par.label, //label, 
+          null, //entity
+          true, //createThumb, 
+          fileUri, //entityToAddThumbTo, 
+          false, //removeExistingFilesForEntity, 
+          par.withUserRestriction, 
+          false));
       
     }catch(Exception error){
-      SSLogU.warn("thumb couldnt be created from file with ext :" + fileExt);
+      SSServErrReg.regErrThrow(error);
     }
   }
 

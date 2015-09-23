@@ -109,8 +109,10 @@ implements
     
     SSServCallerU.checkKey(parA);
     
-    final SSAppAddPar         par     = (SSAppAddPar) parA.getFromJSON(SSAppAddPar.class);
-    final SSUri               app     = appAdd(par);
+    final SSAppAddPar         par       = (SSAppAddPar) parA.getFromJSON(SSAppAddPar.class);
+    final SSUri               app       = appAdd(par);
+    final SSImageServerI      imageServ = (SSImageServerI) SSServReg.getServ(SSImageServerI.class);
+    final SSVideoServerI      videoServ = (SSVideoServerI) SSServReg.getServ(SSVideoServerI.class);
     
     if(!par.downloads.isEmpty()){
       
@@ -125,7 +127,7 @@ implements
     
     for(SSUri screenshot : par.screenShots){
       
-      ((SSImageServerI) SSServReg.getServ(SSImageServerI.class)).imageAdd(
+      imageServ.imageAdd(
         new SSImageAddPar(
           par.user,
           null,  //uuid
@@ -133,13 +135,16 @@ implements
           SSImageE.screenShot, //image type
           app, //forEntity
           null, //file
+          false, //createThumb
+          false, //isImageToAddTheThumb
+          false, //removeThumbsFromEntity
           par.withUserRestriction,
           par.shouldCommit));
     }
     
     for(SSUri video : par.videos){
       
-      ((SSVideoServerI) SSServReg.getServ(SSVideoServerI.class)).videoAdd(
+      videoServ.videoAdd(
         new SSVideoUserAddPar(
           par.user,
           null, //uuid

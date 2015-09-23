@@ -21,6 +21,7 @@
 package at.tugraz.sss.servs.file.datatype.par;
 
 import at.tugraz.sss.serv.SSEntityE;
+import at.tugraz.sss.serv.SSFileExtE;
 import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
@@ -29,11 +30,25 @@ import at.tugraz.sss.serv.SSStrU;
 
 public class SSEntityFileAddPar extends SSServPar{
   
-  public SSUri     file     = null;
-  public SSEntityE type     = null;
-  public SSLabel   label    = null;
-  public SSUri     entity   = null;
+  public byte[]     fileBytes                    = null;
+  public Integer    fileLength                   = null;
+  public SSFileExtE fileExt                      = null;
+  public SSUri      file                         = null;
+  public SSEntityE  type                         = null;
+  public SSLabel    label                        = null;
+  public SSUri      entity                       = null;
+  public Boolean    createThumb                  = false;
+  public SSUri      entityToAddThumbTo           = null;
+  public Boolean    removeExistingFilesForEntity = false;
 
+  public String getFileExt() {
+    return SSStrU.toStr(fileExt);
+  }
+
+  public void setFileExt(final String fileExt) throws Exception {
+    this.fileExt = SSFileExtE.get(fileExt);
+  }
+  
   public String getFile(){
     return SSStrU.removeTrailingSlash(file);
   }
@@ -66,24 +81,44 @@ public class SSEntityFileAddPar extends SSServPar{
    this.entity = SSUri.get(entity);
   }
   
+  public String getEntityToAddThumbTo(){
+    return SSStrU.removeTrailingSlash(entityToAddThumbTo);
+  }
+
+  public void setEntityToAddThumbTo(final String entityToAddThumbTo) throws Exception{
+   this.entity = SSUri.get(entityToAddThumbTo);
+  }
+  
   public SSEntityFileAddPar(){} 
   
   public SSEntityFileAddPar(
-    final SSUri         user,
-    final SSUri         file,
-    final SSEntityE     type,
-    final SSLabel       label,
-    final SSUri         entity, 
-    final Boolean       withUserRestriction, 
-    final Boolean       shouldCommit) {
+    final SSUri      user,
+    final byte[]     fileBytes, 
+    final Integer    fileLength,
+    final SSFileExtE fileExt,
+    final SSUri      file,
+    final SSEntityE  type,
+    final SSLabel    label,
+    final SSUri      entity,
+    final Boolean    createThumb,
+    final SSUri      entityToAddThumbTo, 
+    final Boolean    removeExistingFilesForEntity,
+    final Boolean    withUserRestriction, 
+    final Boolean    shouldCommit) {
     
     super(SSServOpE.fileAdd, null, user);
     
-    this.file                 = file;
-    this.type                 = type;
-    this.label                = label;
-    this.entity               = entity;
-    this.withUserRestriction  = withUserRestriction;
-    this.shouldCommit         = shouldCommit;
+    this.fileBytes                    = fileBytes;
+    this.fileLength                   = fileLength;
+    this.fileExt                      = fileExt;
+    this.file                         = file;
+    this.type                         = type;
+    this.label                        = label;
+    this.entity                       = entity;
+    this.createThumb                  = createThumb;
+    this.entityToAddThumbTo           = entityToAddThumbTo;
+    this.removeExistingFilesForEntity = removeExistingFilesForEntity;
+    this.withUserRestriction          = withUserRestriction;
+    this.shouldCommit                 = shouldCommit;
   }
 }

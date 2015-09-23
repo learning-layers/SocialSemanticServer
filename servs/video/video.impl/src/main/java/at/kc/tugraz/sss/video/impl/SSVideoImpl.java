@@ -267,6 +267,7 @@ implements
     try{
       
       final SSUri             videoUri;
+      final SSFileRepoServerI fileServ = (SSFileRepoServerI) SSServReg.getServ(SSFileRepoServerI.class);
       
       if(par.uuid != null){
         videoUri = SSServCaller.vocURICreateFromId(par.uuid);
@@ -319,13 +320,19 @@ implements
       
       if(par.file != null){
         
-        ((SSFileRepoServerI) SSServReg.getServ(SSFileRepoServerI.class)).fileAdd(
+        fileServ.fileAdd(
           new SSEntityFileAddPar(
             par.user,
+            null,  //fileBytes
+            null,  //fileLength
+            null,  //fileExt
             par.file, //file
             null, //type
             null, //label
-            videoUri,
+            videoUri, //entity, 
+            false, //createThumb
+            null, //entityToAddThumbTo
+            true, //removeExistingFilesForEntity
             par.withUserRestriction,
             par.shouldCommit));
       }

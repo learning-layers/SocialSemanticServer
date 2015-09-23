@@ -18,22 +18,39 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.tugraz.sss.servs.image.api;
+ package at.tugraz.sss.servs.image.datatype.ret;
 
-import at.tugraz.sss.serv.SSEntity;
-import at.tugraz.sss.serv.SSImage;
+import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.SSServRetI;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.servs.image.datatype.par.SSImageAddPar;
-import at.tugraz.sss.servs.image.datatype.par.SSImageGetPar;
-import at.tugraz.sss.servs.image.datatype.par.SSImageProfilePictureSetPar;
-import at.tugraz.sss.servs.image.datatype.par.SSImagesGetPar;
-import at.tugraz.sss.servs.image.datatype.ret.SSImageAddRet;
-import java.util.List;
+import java.util.Map;
 
-public interface SSImageServerI{
+public class SSImageAddRet extends SSServRetI{
   
-  public SSImage        imageGet               (final SSImageGetPar                par) throws Exception;
-  public List<SSEntity> imagesGet              (final SSImagesGetPar               par) throws Exception;
-  public SSImageAddRet  imageAdd               (final SSImageAddPar                par) throws Exception;
-  public SSUri          imageProfilePictureSet (final SSImageProfilePictureSetPar  par) throws Exception;
+  public SSUri image  = null;
+  public SSUri thumb = null;
+  
+  public String getImage() throws Exception{
+    return SSStrU.removeTrailingSlash(image);
+  }
+   
+  public String getThumb() throws Exception{
+    return SSStrU.removeTrailingSlash(thumb);
+  }
+    
+  @Override
+  public Map<String, Object> jsonLDDesc(){
+    throw new UnsupportedOperationException();
+  }
+  
+  public SSImageAddRet(
+    final SSUri image,
+    final SSUri thumb){
+    
+    super(SSServOpE.imageAdd);
+    
+    this.image  = image;
+    this.thumb  = thumb;
+  }
 }

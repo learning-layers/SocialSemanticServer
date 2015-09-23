@@ -33,12 +33,12 @@ import at.tugraz.sss.serv.SSSpaceE;
 import at.tugraz.sss.serv.SSToolContextE;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportBitsAndPiecesPar;
 import at.kc.tugraz.ss.serv.dataimport.impl.evernote.SSDataImportEvernoteNoteContentHandler;
-import at.kc.tugraz.ss.serv.dataimport.impl.evernote.SSDataImportEvernoteResourceContentHandler;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityGetPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUpdatePar;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteInfo;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthRegisterUserPar;
+import at.kc.tugraz.ss.service.filerepo.api.SSFileRepoServerI;
 import at.kc.tugraz.ss.service.tag.api.SSTagServerI;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsAddPar;
@@ -53,6 +53,7 @@ import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSMimeTypeE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
+import at.tugraz.sss.servs.file.datatype.par.SSEntityFileAddPar;
 import com.evernote.edam.type.LinkedNotebook;
 import com.evernote.edam.type.Note;
 import com.evernote.edam.type.NoteAttributes;
@@ -74,6 +75,7 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
   private static final ReentrantReadWriteLock  currentlyRunEvernoteImportsLock  = new ReentrantReadWriteLock();
   private static final Map<Thread, String>     currentlyRunEvernoteImports      = new HashMap<>();
   
+  private final  SSFileRepoServerI       fileServ;
   private final  String                  localWorkPath;
   private final  List<String>            sharedNotebookGuids      = new ArrayList<>();
   private        SSEvernoteInfo          evernoteInfo             = null;
@@ -82,6 +84,7 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
   
   public SSDataImportBitsAndPiecesEvernoteImporter() throws Exception{
     this.localWorkPath   = SSCoreConf.instGet().getSss().getLocalWorkPath();
+    this.fileServ        = (SSFileRepoServerI) SSServReg.getServ(SSFileRepoServerI.class);
   }
   
   public void handle(final SSDataImportBitsAndPiecesPar par) throws Exception{
@@ -414,6 +417,7 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
         noteUri);
       
       new SSDataImportEvernoteNoteContentHandler(
+        fileServ,
         userUri,
         noteWithContent,
         noteUri,
@@ -673,29 +677,29 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
       resourceWithContent = SSServCaller.evernoteResourceGet                  (evernoteInfo.noteStore, resource.getGuid(), false);
       
       try{
-          if(SSFileExtE.isImageFileExt(SSMimeTypeE.fileExtForMimeType1(resourceWithContent.getMime()))){
-              
-              if(resourceWithContent.getAttributes().isSetSourceURL()){
-                  SSLogU.info("evernote image with source url ignored: " + resourceWithContent.getAttributes().getSourceURL());
-                  continue;
-              }
-              
-              if(
-                      !resourceWithContent.isSetHeight() ||
-                      !resourceWithContent.isSetWidth()){
-                  
-                  SSLogU.info("evernote image resource height or width not set");
-                  continue;
-              }
-              
-              if(
-                      resourceWithContent.getWidth()  <= 250||
-                      resourceWithContent.getHeight() <= 250){
-                  
-                  SSLogU.info("evernote image resource height or width < 250");
-                  continue;
-              }
+        if(SSFileExtE.isImageFileExt(SSMimeTypeE.fileExtForMimeType1(resourceWithContent.getMime()))){
+          
+          if(resourceWithContent.getAttributes().isSetSourceURL()){
+            SSLogU.info("evernote image with source url ignored: " + resourceWithContent.getAttributes().getSourceURL());
+            continue;
           }
+          
+          if(
+            !resourceWithContent.isSetHeight() ||
+            !resourceWithContent.isSetWidth()){
+            
+            SSLogU.info("evernote image resource height or width not set");
+            continue;
+          }
+          
+          if(
+            resourceWithContent.getWidth()  <= 250||
+            resourceWithContent.getHeight() <= 250){
+            
+            SSLogU.info("evernote image resource height or width < 250");
+            continue;
+          }
+        }
       }catch(Exception error){
       }
       
@@ -712,11 +716,21 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
         note.getUpdated(),
         noteUri);
       
-      new SSDataImportEvernoteResourceContentHandler(
-        userUri,
-        resourceWithContent,
-        resourceUri,
-        localWorkPath).handleResourceContent();
+      fileServ.fileAdd(
+        new SSEntityFileAddPar(
+          userUri,
+          resourceWithContent.getData().getBody(), //fileBytes, 
+          resourceWithContent.getData().getSize(), //fileLength
+          SSMimeTypeE.fileExtForMimeType1(resourceWithContent.getMime()), //fileExt
+          null, //file
+          SSEntityE.file, //type,
+          null, //label
+          resourceUri, //entity
+          true, //createThumb,
+          resourceUri, //entityToAddThumbTo
+          true, //removeExistingFilesForEntity
+          true, //withUserRestriction
+          false));//shouldCommit
       
       addResourceUEs(
         resourceUri,

@@ -42,6 +42,7 @@ import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.util.SSServCallerU;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileDownloadPar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileUploadPar;
+import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileAddRet;
 import at.kc.tugraz.ss.service.filerepo.impl.fct.SSFileSQLFct;
 import at.tugraz.sss.serv.SSAddAffiliatedEntitiesToCircleI;
 import at.tugraz.sss.serv.SSAddAffiliatedEntitiesToCirclePar;
@@ -54,14 +55,24 @@ import at.tugraz.sss.serv.SSEntityDescriberPar;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSFileU;
+import at.tugraz.sss.serv.SSImageE;
+import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSToolContextE;
+import at.tugraz.sss.serv.caller.SSServCaller;
 import at.tugraz.sss.servs.file.datatype.par.SSFileGetPar;
+import at.tugraz.sss.servs.image.api.SSImageServerI;
+import at.tugraz.sss.servs.image.datatype.par.SSImageAddPar;
+import at.tugraz.sss.servs.image.datatype.par.SSImagesGetPar;
+import com.lowagie.text.pdf.PdfName;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.*;
 import java.util.List;
+import javax.imageio.ImageIO;
 import sss.serv.eval.api.SSEvalServerI;
 import sss.serv.eval.datatypes.SSEvalLogE;
 import sss.serv.eval.datatypes.par.SSEvalLogPar;
@@ -76,14 +87,16 @@ implements
 
   private final SSFileSQLFct    sqlFct;
   private final SSEntityServerI entityServ;
+  private final String          localWorkPath;
   
   public SSFilerepoImpl(
     final SSFileRepoConf conf) throws Exception{
 
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
     
-    this.sqlFct     = new SSFileSQLFct   (this);
-    this.entityServ = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
+    this.sqlFct         = new SSFileSQLFct   (this);
+    this.entityServ     = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
+    this.localWorkPath  = SSCoreConf.instGet().getSss().getLocalWorkPath();
   }
   
   @Override
@@ -254,14 +267,9 @@ implements
   }
 
   @Override
-  public SSUri fileAdd(final SSEntityFileAddPar par) throws Exception{
+  public SSFileAddRet fileAdd(final SSEntityFileAddPar par) throws Exception{
     
     try{
-      
-      //TODO fix that when time: allow to add a file from null == par.file
-      if(par.file == null){
-        throw new SSErr(SSErrE.parameterMissing);
-      }
       
       if(
         par.file == null &&
@@ -269,24 +277,59 @@ implements
         throw new SSErr(SSErrE.parameterMissing);
       }
       
-      if(
-        par.entity != null &&
-        par.file   == null){
-        throw new SSErr(SSErrE.parameterMissing);
-      }
-
       if(par.type == null){
         par.type = SSEntityE.file;
       }
       
       dbSQL.startTrans(par.shouldCommit);
       
+      if(
+        par.file       == null &&
+        par.fileBytes  != null &&
+        par.fileLength != null &&
+        par.fileExt    != null){
+
+        par.file                       = SSServCaller.vocURICreate  (par.fileExt);
+        final String     fileId        = SSVocConf.fileIDFromSSSURI (par.file);
+        
+        SSFileU.writeFileBytes(
+          new FileOutputStream(localWorkPath + fileId),
+          par.fileBytes,
+          par.fileLength);
+      }
+      
+      if(par.file == null){
+        throw new SSErr(SSErrE.parameterMissing);
+      }
+      
+      if(
+        par.removeExistingFilesForEntity &&
+        par.entity != null){
+        
+        for(SSEntity file :
+          filesGet(
+            new SSEntityFilesGetPar(
+              par.user,
+              par.entity, //entity
+              par.withUserRestriction, //withUserRestriction
+              false))){  //invokeEntityHandlers
+          
+          SSServCaller.entityRemove(file.id, false);
+          
+          try{
+            SSFileU.delFile(localWorkPath + SSVocConf.fileIDFromSSSURI(file.id));
+          }catch(Exception error){
+            SSLogU.warn("file couldnt be removed from file system");
+          }
+        }
+      }
+        
       entityServ.entityUpdate(
         new SSEntityUpdatePar(
           par.user, 
           par.file,  //entity
           par.type,  //type
-          par.label, //label, 
+          par.label, //label,
           null, //description, 
           null, //creationTime, 
           null, //read, 
@@ -314,9 +357,44 @@ implements
         sqlFct.addFileToEntity(par.file, par.entity);
       }
       
+      SSUri thumbURI = null;
+      
+      if(par.createThumb){
+        
+        final SSImageServerI imageServ = (SSImageServerI) SSServReg.getServ(SSImageServerI.class);
+        final SSUri          entityToAddThumbTo;
+        
+        if(par.entityToAddThumbTo != null){
+          entityToAddThumbTo = par.entityToAddThumbTo;
+        }else{
+          
+          if(par.file != null){
+            entityToAddThumbTo = par.file;
+          }else{
+            entityToAddThumbTo =  null;
+          }
+        }
+        
+        thumbURI =
+          imageServ.imageAdd(
+            new SSImageAddPar(
+              par.user,
+              null, //uuid,
+              null, //link,
+              SSImageE.thumb, //imageType,
+              entityToAddThumbTo, //entity
+              par.file, //file
+              true, //createThumb
+              true, //isImageToAddTheThumb,
+              true, //removeThumbsFromEntity
+              par.withUserRestriction, //withUserRestriction,
+              false)).thumb; //shouldCommit
+      }
+      
       dbSQL.commit(par.shouldCommit);
       
-      return par.file;
+      return new SSFileAddRet(par.file, thumbURI);
+      
     }catch(Exception error){
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){

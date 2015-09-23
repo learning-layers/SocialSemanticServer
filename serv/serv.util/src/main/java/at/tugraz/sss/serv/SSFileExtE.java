@@ -158,4 +158,28 @@ public enum SSFileExtE{
       throw new Exception("file ext not available for: " + value);
     }
   }
+
+  public static SSFileExtE getFromStrToFormat(final String string) throws Exception {
+    
+    try{
+      
+      if(string == null){
+        throw new Exception();
+      }
+      
+      final String  myStr    = SSStrU.removeTrailingSlash(string);
+      final Integer dotIndex = myStr.lastIndexOf(SSStrU.dot);
+      
+      if(
+        dotIndex < 0 ||
+        dotIndex + 1 >= myStr.length()){
+        throw new Exception();
+      }
+      
+      return SSFileExtE.get(myStr.substring(dotIndex + 1, myStr.length()));
+      
+    }catch(Exception error){
+      throw new Exception("couldnt get file ext for : " + string);
+    }
+  }
 }

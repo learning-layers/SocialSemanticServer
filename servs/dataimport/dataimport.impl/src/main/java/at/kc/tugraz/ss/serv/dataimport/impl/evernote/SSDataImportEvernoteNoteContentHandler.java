@@ -20,11 +20,8 @@
   */
 package at.kc.tugraz.ss.serv.dataimport.impl.evernote;
 
-import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
-import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUpdatePar;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.kc.tugraz.ss.service.filerepo.api.SSFileRepoServerI;
-import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSFileExtE;
 import at.tugraz.sss.serv.SSFileU;
 import at.tugraz.sss.serv.SSLogU;
@@ -33,10 +30,8 @@ import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSServErrReg;
-import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.tugraz.sss.servs.file.datatype.par.SSEntityFileAddPar;
-import at.tugraz.sss.servs.file.datatype.par.SSEntityFilesGetPar;
 import com.evernote.clients.NoteStoreClient;
 import com.evernote.edam.type.Note;
 import com.evernote.edam.type.Resource;
@@ -44,26 +39,25 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
-import java.util.HashMap;
-import java.util.Map;
 
 public class SSDataImportEvernoteNoteContentHandler{
   
-  private static final Map<String, SSUri> hashsPerFileURIs = new HashMap<>();
-  
-  private final SSUri           user;
-  private final SSUri           noteUri;
-  private final Note            note;
-  private final NoteStoreClient noteStore;
-  private final String          localWorkPath;
+  private final SSUri             user;
+  private final SSUri             noteUri;
+  private final Note              note;
+  private final NoteStoreClient   noteStore;
+  private final String            localWorkPath;
+  private final SSFileRepoServerI fileServ;
   
   public SSDataImportEvernoteNoteContentHandler(
-    final SSUri   user,
-    final Note    note,
-    final SSUri   noteUri,
-    final NoteStoreClient noteStore,
-    final String  localWorkPath){
+    final SSFileRepoServerI fileServ,
+    final SSUri             user,
+    final Note              note,
+    final SSUri             noteUri,
+    final NoteStoreClient   noteStore,
+    final String            localWorkPath){
     
+    this.fileServ      = fileServ;
     this.user          = user;
     this.note          = note;
     this.noteUri       = noteUri;
@@ -71,7 +65,6 @@ public class SSDataImportEvernoteNoteContentHandler{
     this.localWorkPath = localWorkPath;
   }
   
-  //TODO dtheiler: currently works with local file repository only (not web dav or any remote stuff; even dont if localWorkPath != local file repo path)
   public void handleNoteContent() throws Exception{
     
     String                    xhtmlFilePath;
@@ -80,17 +73,11 @@ public class SSDataImportEvernoteNoteContentHandler{
     
     try{
       
-      xhtmlFilePath    = 
-        localWorkPath + 
-        SSVocConf.fileIDFromSSSURI(
-            SSServCaller.vocURICreate(SSFileExtE.xhtml));
-      
+      xhtmlFilePath    = localWorkPath + SSVocConf.fileIDFromSSSURI(SSServCaller.vocURICreate(SSFileExtE.xhtml));
       fileUri          = SSServCaller.vocURICreate                  (SSFileExtE.pdf);
       pdfFilePath      = localWorkPath + SSVocConf.fileIDFromSSSURI (fileUri);
-      
-      SSFileU.writeStr(
-        note.getContent(),
-        xhtmlFilePath);
+
+      SSFileU.writeStr(note.getContent(), xhtmlFilePath);
       
       try{
         
@@ -135,53 +122,21 @@ public class SSDataImportEvernoteNoteContentHandler{
         }catch(Exception error){}
       }
       
-//      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
-//        new SSEntityUpdatePar(
-//          user,
-//          fileUri,
-//          SSEntityE.file, //type,
-//          null, //label
-//          null, //description,
-//          null, //creationTime,
-//          null, //read,
-//          false, //setPublic
-//          true, //withUserRestriction
-//          false)); //shouldCommit)
-          
-      for(SSEntity file :
-        ((SSFileRepoServerI) SSServReg.getServ(SSFileRepoServerI.class)).filesGet(
-          new SSEntityFilesGetPar(
-            user,
-            noteUri, //entity
-            true, //withUserRestriction
-            false))){ //invokeEntityHandlers
-        
-        SSServCaller.entityRemove(file.id, false);
-        
-        try{
-          SSFileU.delFile(localWorkPath + SSVocConf.fileIDFromSSSURI(file.id));
-          
-        }catch(Exception error){
-          SSLogU.warn("evernote note file couldnt be removed");
-        }
-      }
-      
-      ((SSFileRepoServerI) SSServReg.getServ(SSFileRepoServerI.class)).fileAdd(
+      fileServ.fileAdd(
         new SSEntityFileAddPar(
           user, 
+          null, //fileBytes
+          null, //fileLength
+          null, //fileExt
           fileUri, //file
           SSEntityE.file, //type,
           null, //label
           noteUri, //entity
+          true, //createThumb
+          noteUri, //entityToAddThumbTo
+          true, //removeExistingFilesForEntity
           true, //withUserRestriction
           false));//shouldCommit
-      
-      SSDataImportEvernoteThumbHelper.addThumbFromFile(
-        user,
-        localWorkPath,
-        noteUri,
-        fileUri,
-        false);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -321,7 +276,7 @@ public class SSDataImportEvernoteNoteContentHandler{
     SSUri          fileURI         = null;
     String         fileID          = null;
     Resource       resource        = null;
-    SSUri          thumbnailURI;
+//    SSUri          thumbnailURI;
     String         line;
     String         tmpLine;
     String         hash;
@@ -532,8 +487,10 @@ public class SSDataImportEvernoteNoteContentHandler{
             SSStrU.equals(mimeType, SSMimeTypeE.imageJpeg)      ||
             SSStrU.equals(mimeType, SSMimeTypeE.imagePng)       ||
             SSStrU.equals(mimeType, SSMimeTypeE.imageGif)       ||
-            SSStrU.equals(mimeType, SSMimeTypeE.imageTiff)      ||
-            SSStrU.equals(mimeType, SSMimeTypeE.applicationPdf)){
+            SSStrU.equals(mimeType, SSMimeTypeE.imageTiff)      
+//            ||
+//            SSStrU.equals(mimeType, SSMimeTypeE.applicationPdf)
+            ){
 
             hashEndIndex = tmpLine.indexOf            ("\"", hashIndex + 6);
             hash         = tmpLine.substring          (hashIndex + 6, hashEndIndex);
@@ -555,28 +512,28 @@ public class SSDataImportEvernoteNoteContentHandler{
           
           result += tmpLine.substring(0, startIndex);
           
-          if(SSStrU.equals(mimeType, SSMimeTypeE.applicationPdf)){
+//          if(SSStrU.equals(mimeType, SSMimeTypeE.applicationPdf)){
             
-            thumbnailURI = 
-              SSDataImportEvernoteThumbHelper.createThumbnail(
-                user, 
-                localWorkPath, 
-                fileURI, 
-                500, 
-                500);
+//            thumbnailURI = 
+//              SSDataImportEvernoteThumbHelper.createThumbnail(
+//                user, 
+//                localWorkPath, 
+//                fileURI, 
+//                500, 
+//                500);
             
-            fileID = SSVocConf.fileIDFromSSSURI(thumbnailURI);
+//            fileID = SSVocConf.fileIDFromSSSURI(thumbnailURI);
             
-            result +=
-              "<div>Included PDF (preview):</div>" +
-              "<img width=\"" +
-              500 +
-              "\" height=\"" +
-              500 +
-              "\" class=\"xmyImagex\" src=\"" +
-              localWorkPath + fileID +
-              "\"/>";
-          }
+//            result += "<div>PDF Included here (please see for resoruces)</div>";
+//              +
+//              "<img width=\"" +
+//              500 +
+//              "\" height=\"" +
+//              500 +
+//              "\" class=\"xmyImagex\" src=\"" +
+//              localWorkPath + fileID +
+//              "\"/>";
+//          }
           
           if(
             resource != null                                    &&
@@ -592,6 +549,10 @@ public class SSDataImportEvernoteNoteContentHandler{
               "\"/>";
           }
           
+           if(SSStrU.equals(mimeType, SSMimeTypeE.applicationZip)){
+            result += "<div>Includes PDF (no preview available; see timeline for resources)</div>";
+          }
+           
           if(SSStrU.equals(mimeType, SSMimeTypeE.applicationZip)){
             result += "<div>Includes Compressed Archive (no preview available)</div>";
           }

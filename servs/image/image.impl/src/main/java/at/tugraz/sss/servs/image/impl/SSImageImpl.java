@@ -22,7 +22,9 @@ package at.tugraz.sss.servs.image.impl;
 
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesAddPar;
+import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUpdatePar;
 import at.kc.tugraz.ss.service.filerepo.api.SSFileRepoServerI;
 import at.tugraz.sss.serv.SSAddAffiliatedEntitiesToCircleI;
@@ -45,8 +47,12 @@ import at.tugraz.sss.util.SSServCallerU;
 import java.util.ArrayList;
 import java.util.List;
 import at.tugraz.sss.serv.SSErrE;
+import at.tugraz.sss.serv.SSFileExtE;
+import at.tugraz.sss.serv.SSFileU;
 import at.tugraz.sss.serv.SSImage;
 import at.tugraz.sss.serv.SSImageE;
+import at.tugraz.sss.serv.SSLogU;
+import at.tugraz.sss.serv.SSMimeTypeE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSStrU;
@@ -59,9 +65,12 @@ import at.tugraz.sss.servs.image.datatype.par.SSImageProfilePictureSetPar;
 import at.tugraz.sss.servs.image.datatype.par.SSImageAddPar;
 import at.tugraz.sss.servs.image.datatype.par.SSImageGetPar;
 import at.tugraz.sss.servs.image.datatype.par.SSImagesGetPar;
+import at.tugraz.sss.servs.image.datatype.ret.SSImageAddRet;
 import at.tugraz.sss.servs.image.datatype.ret.SSImageProfilePictureSetRet;
 import at.tugraz.sss.servs.image.datatype.ret.SSImagesGetRet;
 import at.tugraz.sss.servs.image.impl.sql.SSImageSQLFct;
+import java.io.File;
+import javax.imageio.ImageIO;
 
 public class SSImageImpl 
 extends SSServImplWithDBA 
@@ -73,12 +82,14 @@ implements
 
   private final SSImageSQLFct         sqlFct;
   private final SSEntityServerI       entityServ;
+  private final String                localWorkPath;
   
   public SSImageImpl(final SSConfA conf) throws Exception{
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
     
-     this.sqlFct     = new SSImageSQLFct   (this);
-     this.entityServ = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
+     this.sqlFct         = new SSImageSQLFct   (this);
+     this.entityServ     = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
+     this.localWorkPath  = SSCoreConf.instGet().getSss().getLocalWorkPath();
   }
   
   @Override
@@ -280,7 +291,7 @@ implements
   }
   
   @Override
-  public SSUri imageAdd(final SSImageAddPar par) throws Exception{
+  public SSImageAddRet imageAdd(final SSImageAddPar par) throws Exception{
 
     try{
       
@@ -288,8 +299,18 @@ implements
         throw new SSErr(SSErrE.parameterMissing);
       }
       
-      final SSUri imageUri;
+      if(
+        par.createThumb &&
+        par.file == null){
+        
+        throw new SSErr(SSErrE.parameterMissing);
+      }
       
+      final SSFileRepoServerI fileServ = (SSFileRepoServerI) SSServReg.getServ(SSFileRepoServerI.class);
+      SSUri                   thumbURI = null;
+      SSUri                   thumbUri = null;
+      SSUri                   imageUri;
+
       if(par.uuid != null){
         imageUri = SSServCaller.vocURICreateFromId(par.uuid);
       }else{
@@ -301,7 +322,62 @@ implements
         }
       }
       
+      if(par.createThumb){
+        
+        thumbUri = SSServCaller.vocURICreate(SSFileExtE.png);
+        
+        if(par.isImageToAddTheThumb){
+          imageUri = thumbUri;
+        }
+      }
+      
       dbSQL.startTrans(par.shouldCommit);
+      
+      if(par.createThumb){
+        
+        try{
+          
+          createThumbnail(
+            thumbUri,
+            par.file,
+            500);
+          
+          thumbURI = thumbUri;
+            
+        }catch(Exception error){
+          SSServErrReg.reset();
+          SSLogU.warn("thumb couldnt be created from file");
+          
+          if(par.isImageToAddTheThumb){
+            
+            dbSQL.commit(par.shouldCommit);
+            
+            return new SSImageAddRet(null, null);
+          }
+        }
+        
+        if(
+          par.removeThumbsFromEntity &&
+          par.entity != null){
+          
+          for(SSEntity thumb :
+            imagesGet(
+              new SSImagesGetPar(
+                par.user,
+                par.entity,
+                SSImageE.thumb,
+                par.withUserRestriction))){
+            
+            SSServCaller.entityRemove(thumb.id, false);
+            
+            try{
+              SSFileU.delFile(localWorkPath + SSVocConf.fileIDFromSSSURI(thumb.file.id));
+            }catch(Exception error){
+              SSLogU.warn("couldnt remove thumbnail files from filesys");
+            }
+          }
+        }
+      }
       
       entityServ.entityUpdate(
         new SSEntityUpdatePar(
@@ -341,20 +417,47 @@ implements
       
       if(par.file != null){
         
-        ((SSFileRepoServerI) SSServReg.getServ(SSFileRepoServerI.class)).fileAdd(
+        fileServ.fileAdd(
           new SSEntityFileAddPar(
             par.user,
-            par.file,
+            null, //fileBytes
+            null, //fileLength
+            null, //fileExt
+            par.file, //file
             null, //type
             null, //label
-            imageUri,
+            imageUri, //entity
+            false, //entityToAddThumbTo
+            null, //entityToAddThumbTo
+            false, //removeExistingFilesForEntity
             par.withUserRestriction,
             par.shouldCommit));
+        
+        if(
+          par.createThumb &&
+          !par.isImageToAddTheThumb){
+          
+          fileServ.fileAdd(
+            new SSEntityFileAddPar(
+              par.user,
+              null, //fileBytes
+              null, //fileLength
+              null, //fileExt
+              par.file, //file
+              null, //type
+              null, //label
+              thumbUri, //entity
+              false, //entityToAddThumbTo
+              null, //entityToAddThumbTo
+              false, //removeExistingFilesForEntity
+              par.withUserRestriction,
+              par.shouldCommit));
+        }
       }
       
       dbSQL.commit(par.shouldCommit);
 
-      return imageUri;
+      return new SSImageAddRet(imageUri, thumbURI);
     }catch(Exception error){
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
@@ -428,8 +531,11 @@ implements
             SSImageE.image, //imageType
             par.entity, //entity
             par.file, //file
+            false, //createThumb
+            false, //isImageToAddTheThumb
+            false, //removeThumbsFromEntity
             par.withUserRestriction,
-            false));
+            false)).image;
       
         if(profilePicture == null){
           dbSQL.commit(par.shouldCommit);
@@ -541,8 +647,11 @@ implements
               SSImageE.thumb,
               entity, //entity
               fileThumb.file.id, //file
+              false, //createThumb
+              false, //isImageToAddTheThumb
+              false, //removeThumbsFromEntity
               withUserRestriction,
-              false));
+              false)).image;
         
         entityServ.entityUpdate(
           new SSEntityUpdatePar(
@@ -575,6 +684,48 @@ implements
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+    }
+  }
+
+  private SSUri createThumbnail(
+    final SSUri      thumnailUri,
+    final SSUri      fileURI,
+    final Integer    width) throws Exception{
+    
+    try{
+    
+      final String      filePath          = localWorkPath + SSVocConf.fileIDFromSSSURI(fileURI);
+      final SSFileExtE  fileExt           = SSFileExtE.getFromStrToFormat(SSVocConf.fileIDFromSSSURI(fileURI));
+      final String      thumbnailPath     = localWorkPath + SSVocConf.fileIDFromSSSURI(thumnailUri);
+
+      if(SSStrU.contains(SSFileExtE.imageFileExts, fileExt)){
+        SSFileU.scalePNGAndWrite(ImageIO.read(new File(filePath)), thumbnailPath, width, width);
+        return thumnailUri;
+      }
+
+      switch(fileExt){
+        
+        case pdf:{
+          
+          SSFileU.writeScaledPNGFromPDF(filePath, thumbnailPath, width, width, false);
+          return thumnailUri;
+        }
+        
+        case doc:{
+          
+          final String pdfFilePath  = localWorkPath + SSVocConf.fileIDFromSSSURI(SSServCaller.vocURICreate(SSFileExtE.pdf));
+          
+          SSFileU.writePDFFromDoc       (filePath,    pdfFilePath);
+          SSFileU.writeScaledPNGFromPDF (pdfFilePath, thumbnailPath, width, width, false);
+          return thumnailUri;
+        }
+      }
+      
+      throw new UnsupportedOperationException();
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
 }
