@@ -308,7 +308,6 @@ implements
       
       final SSFileRepoServerI fileServ = (SSFileRepoServerI) SSServReg.getServ(SSFileRepoServerI.class);
       SSUri                   thumbURI = null;
-      SSUri                   thumbUri = null;
       SSUri                   imageUri;
 
       if(par.uuid != null){
@@ -322,38 +321,22 @@ implements
         }
       }
       
-      if(par.createThumb){
-        
-        thumbUri = SSServCaller.vocURICreate(SSFileExtE.png);
-        
-        if(par.isImageToAddTheThumb){
-          imageUri = thumbUri;
-        }
-      }
-      
       dbSQL.startTrans(par.shouldCommit);
+      
+      SSUri thumbFileURI = null;
       
       if(par.createThumb){
         
         try{
           
-          createThumbnail(
-            thumbUri,
-            par.file,
-            500);
+          thumbFileURI =
+            createThumbnail(
+              par.file,
+              500);
           
-          thumbURI = thumbUri;
-            
         }catch(Exception error){
           SSServErrReg.reset();
           SSLogU.warn("thumb couldnt be created from file");
-          
-          if(par.isImageToAddTheThumb){
-            
-            dbSQL.commit(par.shouldCommit);
-            
-            return new SSImageAddRet(null, null);
-          }
         }
         
         if(
@@ -415,7 +398,30 @@ implements
         sqlFct.addImageToEntity(imageUri, par.entity);
       }
       
-      if(par.file != null){
+      if(
+        par.createThumb &&
+        thumbFileURI != null){
+        
+        fileServ.fileAdd(
+          new SSEntityFileAddPar(
+            par.user,
+            null, //fileBytes
+            null, //fileLength
+            null, //fileExt
+            thumbFileURI, //file
+            null, //type
+            null, //label
+            imageUri, //entity
+            false, //createThumb
+            null, //entityToAddThumbTo
+            false, //removeExistingFilesForEntity
+            par.withUserRestriction,
+            par.shouldCommit));
+      }
+      
+      if(
+        par.file != null &&
+        !par.isImageToAddTheThumb){
         
         fileServ.fileAdd(
           new SSEntityFileAddPar(
@@ -427,32 +433,11 @@ implements
             null, //type
             null, //label
             imageUri, //entity
-            false, //entityToAddThumbTo
+            false, //createThumb
             null, //entityToAddThumbTo
             false, //removeExistingFilesForEntity
             par.withUserRestriction,
             par.shouldCommit));
-        
-        if(
-          par.createThumb &&
-          !par.isImageToAddTheThumb){
-          
-          fileServ.fileAdd(
-            new SSEntityFileAddPar(
-              par.user,
-              null, //fileBytes
-              null, //fileLength
-              null, //fileExt
-              par.file, //file
-              null, //type
-              null, //label
-              thumbUri, //entity
-              false, //entityToAddThumbTo
-              null, //entityToAddThumbTo
-              false, //removeExistingFilesForEntity
-              par.withUserRestriction,
-              par.shouldCommit));
-        }
       }
       
       dbSQL.commit(par.shouldCommit);
@@ -688,7 +673,6 @@ implements
   }
 
   private SSUri createThumbnail(
-    final SSUri      thumnailUri,
     final SSUri      fileURI,
     final Integer    width) throws Exception{
     
@@ -696,11 +680,12 @@ implements
     
       final String      filePath          = localWorkPath + SSVocConf.fileIDFromSSSURI(fileURI);
       final SSFileExtE  fileExt           = SSFileExtE.getFromStrToFormat(SSVocConf.fileIDFromSSSURI(fileURI));
-      final String      thumbnailPath     = localWorkPath + SSVocConf.fileIDFromSSSURI(thumnailUri);
+      final SSUri       thumbFileURI      = SSServCaller.vocURICreate(SSFileExtE.png);
+      final String      thumbnailPath     = localWorkPath + SSVocConf.fileIDFromSSSURI(thumbFileURI);
 
       if(SSStrU.contains(SSFileExtE.imageFileExts, fileExt)){
         SSFileU.scalePNGAndWrite(ImageIO.read(new File(filePath)), thumbnailPath, width, width);
-        return thumnailUri;
+        return thumbFileURI;
       }
 
       switch(fileExt){
@@ -708,7 +693,7 @@ implements
         case pdf:{
           
           SSFileU.writeScaledPNGFromPDF(filePath, thumbnailPath, width, width, false);
-          return thumnailUri;
+          return thumbFileURI;
         }
         
         case doc:{
@@ -717,7 +702,7 @@ implements
           
           SSFileU.writePDFFromDoc       (filePath,    pdfFilePath);
           SSFileU.writeScaledPNGFromPDF (pdfFilePath, thumbnailPath, width, width, false);
-          return thumnailUri;
+          return thumbFileURI;
         }
       }
       

@@ -90,27 +90,27 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
       
       Boolean worked = true;
       
-//      try{
-//
-//        dbSQL.startTrans(par.shouldCommit);
-//        new SSDataImportBitsAndPiecesEvernoteImporter().handle(par);
-//        dbSQL.commit(par.shouldCommit);
-//      }catch(Exception error){
-//        
-//        worked = false;
-//        
-//        if(!dbSQL.rollBack(par.shouldCommit)){
-//          SSLogU.warn("sql rollback failed");
-//        }
-//        
-//        SSServErrReg.reset();
-//      }
+      try{
+
+        dbSQL.startTrans(par.shouldCommit);
+        new SSDataImportBitsAndPiecesEvernoteImporter().handle(par);
+        dbSQL.commit(par.shouldCommit);
+      }catch(Exception error){
+        
+        worked = false;
+        
+        if(!dbSQL.rollBack(par.shouldCommit)){
+          SSLogU.warn("sql rollback failed");
+        }
+        
+        SSServErrReg.reset();
+      }
       
       try{
         
-        dbSQL.startTrans(par.shouldCommit);
-        new SSDataImportBitsAndPiecesMailImporter().handle(par);
-        dbSQL.commit(par.shouldCommit);
+//        dbSQL.startTrans(par.shouldCommit);
+//        new SSDataImportBitsAndPiecesMailImporter().handle(par);
+//        dbSQL.commit(par.shouldCommit);
       }catch(Exception error){
         
         worked = false;
