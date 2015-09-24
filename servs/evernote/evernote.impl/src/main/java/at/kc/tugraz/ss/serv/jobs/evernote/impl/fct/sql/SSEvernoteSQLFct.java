@@ -117,14 +117,9 @@ public class SSEvernoteSQLFct extends SSDBSQLFct {
       final Map<String, String> uniqueKeys =  new HashMap<>();
       
       insert(inserts, SSSQLVarNames.noteId,      noteUri);
-      
-      if(notebookUri == null){
-        insert(inserts, SSSQLVarNames.notebookId,  SSStrU.empty);
-      }else{
-        insert(inserts, SSSQLVarNames.notebookId,  notebookUri);
-      }
-      
-      uniqueKey(uniqueKeys, SSSQLVarNames.noteId, noteUri);
+      insert(inserts, SSSQLVarNames.notebookId,  notebookUri);
+
+        uniqueKey(uniqueKeys, SSSQLVarNames.noteId, noteUri);
       
       dbSQL.insertIfNotExists(SSSQLVarNames.evernoteNoteTable, inserts, uniqueKeys);
       

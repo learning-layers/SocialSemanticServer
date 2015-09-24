@@ -56,7 +56,7 @@ public class SSDataImportBitsAndPiecesTask extends TimerTask {
         if(!evernoteConf.getEmailInUsers().isEmpty()){
           emailInUser     = evernoteConf.getEmailInUsers().get(counter);
           emailInPassword = evernoteConf.getEmailInPasswords().get(counter);
-          emailInEmail    = evernoteConf.getEmailInPasswords().get(counter);
+          emailInEmail    = evernoteConf.getEmailInEmails().get(counter);
         }
         
         new Thread(

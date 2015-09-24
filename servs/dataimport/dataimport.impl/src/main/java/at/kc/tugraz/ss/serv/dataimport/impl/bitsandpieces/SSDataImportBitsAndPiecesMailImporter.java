@@ -25,6 +25,7 @@ import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.kc.tugraz.ss.service.filerepo.api.SSFileRepoServerI;
 import at.kc.tugraz.ss.service.userevent.api.SSUEServerI;
+import at.tugraz.sss.serv.SSDateU;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSFileExtE;
@@ -35,6 +36,7 @@ import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.caller.SSServCaller;
+import at.tugraz.sss.servs.entity.datatypes.par.SSEntityGetPar;
 import at.tugraz.sss.servs.file.datatype.par.SSEntityFileAddPar;
 import at.tugraz.sss.servs.mail.SSMailServerI;
 import at.tugraz.sss.servs.mail.datatype.SSMail;
@@ -45,6 +47,7 @@ public class SSDataImportBitsAndPiecesMailImporter {
   
   private final SSDataImportBitsAndPiecesPar     par;
   private final String                           localWorkPath;
+  private final SSEntityServerI                  entityServ;
   private final SSFileRepoServerI                fileServ;
   private final SSUri                            userUri;
   private final SSDataImportBitsAndPiecesMiscFct miscFct;
@@ -60,6 +63,7 @@ public class SSDataImportBitsAndPiecesMailImporter {
     
     this.par           = par;
     this.localWorkPath = localWorkPath;
+    this.entityServ    = entityServ;
     this.fileServ      = fileServ;
     this.userUri       = userUri;
     
@@ -83,11 +87,12 @@ public class SSDataImportBitsAndPiecesMailImporter {
         return;
       }
       
-      final SSMailServerI mailServ = (SSMailServerI) SSServReg.getServ(SSMailServerI.class);
-      SSMail mail;
-      SSUri  noteUri;
-      
       SSLogU.info("start B&P mail import for " +  par.authEmail);
+      
+      final SSMailServerI mailServ     = (SSMailServerI) SSServReg.getServ(SSMailServerI.class);
+      final SSUri         notebookUri  = handleEmailNotebook();
+      SSMail              mail;
+      SSUri               noteUri;
       
       for(SSEntity mailEntity : 
         mailServ.mailsReceive(
@@ -97,12 +102,12 @@ public class SSDataImportBitsAndPiecesMailImporter {
             par.emailInPassword,
             par.emailInEmail, 
             true,  //withUserRestriction
-            par.shouldCommit))){
+            false))){
         
         mail    = (SSMail) mailEntity;
         noteUri = SSServCaller.vocURICreate();
         
-        handleMailContent          (mail, noteUri);
+        handleMailContent          (mail, notebookUri, noteUri);
         handleMailContentMultimedia(mail, noteUri);
         handleMailAttachments      (mail, noteUri);
       }
@@ -112,15 +117,45 @@ public class SSDataImportBitsAndPiecesMailImporter {
     }catch(Exception error){
       SSLogU.warn("B&P mail import failed for " + par.authEmail);
       SSServErrReg.regErrThrow(error);
-    }finally{
+    }
+  }
+  
+  private SSUri handleEmailNotebook() throws Exception{
+    
+    try{
+      
+      final SSUri notebookUri = SSUri.get(par.emailInUser + "_email_inbox", SSVocConf.sssUri);
+      
+      final SSEntity notebook =
+        entityServ.entityGet(
+          new SSEntityGetPar(
+            par.user,
+            notebookUri,
+            false,
+            null));
+      
+      if(notebook == null){
+        
+        miscFct.addNotebook(
+          notebookUri,
+          SSLabel.get(par.emailInEmail + " inbox"),
+          SSDateU.dateAsLong());
+      }
+      
+      return notebookUri;
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
 
   private void handleMailContent(
     final SSMail mail,
+    final SSUri  notebookUri,
     final SSUri  noteUri) throws Exception{
     
-    String                    xhtmlFilePath;
+    String                    txtFilePath;
     SSUri                     pdfFileUri;
     String                    pdfFilePath;
     
@@ -130,18 +165,17 @@ public class SSDataImportBitsAndPiecesMailImporter {
         return;
       }
       
-      xhtmlFilePath    = localWorkPath + SSVocConf.fileIDFromSSSURI(SSServCaller.vocURICreate(SSFileExtE.xhtml));
+      txtFilePath    = localWorkPath + SSVocConf.fileIDFromSSSURI(SSServCaller.vocURICreate(SSFileExtE.txt));
       pdfFileUri       = SSServCaller.vocURICreate                  (SSFileExtE.pdf);
       pdfFilePath      = localWorkPath + SSVocConf.fileIDFromSSSURI (pdfFileUri);
       
-      SSFileU.writeStr(mail.content, xhtmlFilePath);
+      SSFileU.writeStr(mail.content, txtFilePath);
       
       try{
         
-        SSFileU.writePDFFromXHTML(
+        SSFileU.writePDFFromText(
           pdfFilePath,
-          xhtmlFilePath,
-          false);
+          txtFilePath);
         
       }catch(Exception error){
         
@@ -151,14 +185,14 @@ public class SSDataImportBitsAndPiecesMailImporter {
       }finally{
         
         try{
-          SSFileU.delFile(xhtmlFilePath);
+          SSFileU.delFile(txtFilePath);
         }catch(Exception error){}
       }
       
       miscFct.addNote(
         noteUri, //noteUri
         SSLabel.get(mail.subject), //noteLabel
-        null, //notebookUri, 
+        notebookUri, //notebookUri, 
         mail.creationTime);
       
        miscFct.addNoteUEs(

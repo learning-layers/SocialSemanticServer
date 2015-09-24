@@ -70,7 +70,7 @@ public class SSEvernoteConf extends SSServConfA{
   }
   
   public List<String> getEmailInEmails() {
-    return emailInPasswords;
+    return emailInEmails;
   }
 
   public void setEmailInEmails(final List<String> emailInEmails) {

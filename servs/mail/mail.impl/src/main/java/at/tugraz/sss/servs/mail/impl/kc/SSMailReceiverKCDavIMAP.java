@@ -21,6 +21,7 @@
 package at.tugraz.sss.servs.mail.impl.kc;
 
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
+import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSEntity;
@@ -31,7 +32,9 @@ import at.tugraz.sss.serv.SSFileU;
 import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.caller.SSServCaller;
+import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUpdatePar;
 import at.tugraz.sss.servs.mail.conf.SSMailConf;
 import at.tugraz.sss.servs.mail.datatype.SSMail;
 import at.tugraz.sss.servs.mail.datatype.par.SSMailsReceivePar;
@@ -56,6 +59,7 @@ public class SSMailReceiverKCDavIMAP {
   private final List<SSEntity>   mails   = new ArrayList<>();
   private final SSDBSQLI         dbSQL;
   private final SSMailSQLFct     sqlFct;
+  private final SSEntityServerI  entityServ;
   
   public SSMailReceiverKCDavIMAP(
     final SSDBSQLI      dbSQL,
@@ -65,6 +69,7 @@ public class SSMailReceiverKCDavIMAP {
     this.localWorkPath   = SSCoreConf.instGet().getSss().getLocalWorkPath();
     this.dbSQL           = dbSQL;
     this.sqlFct          = new SSMailSQLFct(dbSQL);
+    this.entityServ      = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
   }
 
 //  final String  fromUser,
@@ -94,8 +99,7 @@ public class SSMailReceiverKCDavIMAP {
       final Message messages [] = folder.getMessages();
       SSMail        mail;
       IMAPMessage   message;
-      
-      dbSQL.startTrans(par.shouldCommit);
+      String        hash;
       
       for(int counter = 0; counter < messages.length; counter++){
         
@@ -105,8 +109,10 @@ public class SSMailReceiverKCDavIMAP {
             SSServCaller.vocURICreate(),
             messages[counter].getSubject(),
             messages[counter].getSentDate().getTime());
+
+        hash = message.getMessageID() + par.receiverEmail;
         
-        if(sqlFct.existsMail(null, message.getContentMD5(), par.receiverEmail)){
+        if(sqlFct.existsMail(null, hash, par.receiverEmail)){
           continue;
         }
         
@@ -115,33 +121,29 @@ public class SSMailReceiverKCDavIMAP {
           mail, 
           true);
         
+        entityServ.entityUpdate(
+          new SSEntityUpdatePar(
+            par.user, 
+            mail.id, 
+            SSEntityE.mail, 
+            mail.label, //label 
+            null, //description, 
+            mail.creationTime, //creationTime
+            null, //read, 
+            false, //setPublic, 
+            par.withUserRestriction, 
+            false));
+        
         sqlFct.addMailIfNotExists(
           mail.id, 
           par.receiverEmail, 
-          message.getContentMD5());
+          hash);
         
         mails.add(mail);
       }
       
-      dbSQL.commit(par.shouldCommit);
-      
       return mails;
     }catch(Exception error){
-      
-      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
-        
-        if(dbSQL.rollBack(par.shouldCommit)){
-          
-          SSServErrReg.reset();
-          
-          return receiveMails(par);
-        }else{
-          SSServErrReg.regErrThrow(error);
-          return null;
-        }
-      }
-      
-      dbSQL.rollBack(par.shouldCommit);
       SSServErrReg.regErrThrow(error);
       return null;
     }finally{
