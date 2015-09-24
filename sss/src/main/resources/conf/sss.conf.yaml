@@ -134,6 +134,7 @@ evernote:
   authEmails: 
   emailInUsers:
   emailInPasswords:
+  emailInEmails:
 dataImport:
   use: true
   schedule: false

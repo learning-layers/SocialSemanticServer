@@ -240,4 +240,10 @@ public class SSSQLVarNames{
   //livingDocument
   public static final String livingDocTable       = "livingdoc";
   public static final String livingDocUsersTable  = "livingdocusers";
+  
+  //mail
+  public static final String mailTable     = "mail";
+  public static final String mailId        = "mailId";
+  public static final String hash          = "hash";
+  public static final String receiverEmail = "receiverEmail";
 }

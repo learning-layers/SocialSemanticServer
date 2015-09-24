@@ -28,8 +28,9 @@ public class SSDataImportBitsAndPiecesPar extends SSServPar{
   
   public String authToken        = null;
   public String authEmail        = null;
+  public String emailInUser      = null;
+  public String emailInPassword  = null;
   public String emailInEmail     = null;
-  public String emailInPassword = null;
   
   public SSDataImportBitsAndPiecesPar(){}
   
@@ -37,8 +38,9 @@ public class SSDataImportBitsAndPiecesPar extends SSServPar{
     final SSUri   user,
     final String  authToken,
     final String  authEmail,
-    final String  emailInEmail,
+    final String  emailInUser,
     final String  emailInPassword,
+    final String  emailInEmail,
     final Boolean withUserRestriction,
     final Boolean shouldCommit){
     
@@ -46,8 +48,9 @@ public class SSDataImportBitsAndPiecesPar extends SSServPar{
     
     this.authToken           = authToken;
     this.authEmail           = authEmail;
-    this.emailInEmail        = emailInEmail;
+    this.emailInUser         = emailInUser;
     this.emailInPassword     = emailInPassword;
+    this.emailInEmail        = emailInEmail;
     this.withUserRestriction = withUserRestriction;
     this.shouldCommit        = shouldCommit;
   }

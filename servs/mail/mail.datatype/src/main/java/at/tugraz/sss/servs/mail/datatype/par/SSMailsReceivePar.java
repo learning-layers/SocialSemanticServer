@@ -26,8 +26,9 @@ import at.tugraz.sss.serv.SSUri;
 
 public class SSMailsReceivePar extends SSServPar{
   
-  public String fromUser     = null;
-  public String fromPassword = null;
+  public String fromUser      = null;
+  public String fromPassword  = null;
+  public String receiverEmail = null;
   
   public SSMailsReceivePar(){}
   
@@ -35,6 +36,7 @@ public class SSMailsReceivePar extends SSServPar{
     final SSUri     user,
     final String    fromUser,
     final String    fromPassword,
+    final String    receiverEmail, 
     final Boolean   withUserRestriction,
     final Boolean   shouldCommit){
     
@@ -42,6 +44,7 @@ public class SSMailsReceivePar extends SSServPar{
     
     this.fromUser             = fromUser;
     this.fromPassword         = fromPassword;
+    this.receiverEmail        = receiverEmail;
     this.withUserRestriction  = withUserRestriction;
     this.shouldCommit         = shouldCommit;
   }

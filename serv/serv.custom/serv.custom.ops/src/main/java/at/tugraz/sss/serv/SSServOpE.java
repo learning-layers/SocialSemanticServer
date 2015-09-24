@@ -35,7 +35,6 @@ public enum SSServOpE{
   
   //integrationtest
   integrationTestBitsAndPiecesStudyFall2015,
-  integrationTestEvernoteEmailIn,
   integrationTestSolrForSearch,
   
   //location

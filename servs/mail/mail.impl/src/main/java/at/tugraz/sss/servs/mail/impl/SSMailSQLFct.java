@@ -21,10 +21,141 @@
 package at.tugraz.sss.servs.mail.impl;
 
 import at.tugraz.sss.serv.SSDBSQLFct;
+import at.tugraz.sss.serv.SSDBSQLI;
+import at.tugraz.sss.serv.SSErr;
+import at.tugraz.sss.serv.SSErrE;
+import at.tugraz.sss.serv.SSSQLVarNames;
+import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.SSUri;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class SSMailSQLFct extends SSDBSQLFct{
 
-  public SSMailSQLFct(final SSMailImpl serv) throws Exception {
-    super(serv.dbSQL);
+  public SSMailSQLFct(final SSDBSQLI dbSQL) throws Exception {
+    super(dbSQL);
+  }
+  
+  public Boolean existsMail(
+    final SSUri  mail,
+    final String hash,
+    final String receiverEmail) throws Exception{
+    
+    ResultSet resultSet  = null;
+    
+    try{
+      
+      if(
+        mail == null &&
+        hash == null){
+        throw new SSErr(SSErrE.parameterMissing);
+      }
+      
+      final List<String>        columns = new ArrayList<>();
+      final Map<String, String> where   = new HashMap<>();
+      
+      column(columns, SSSQLVarNames.mailId);
+      
+      if(mail != null){
+        where(where, SSSQLVarNames.mailId, mail);
+      }
+      
+      if(hash != null){
+        where(where, SSSQLVarNames.hash, hash);
+      }
+      
+      if(receiverEmail != null){
+        where(where, SSSQLVarNames.receiverEmail, receiverEmail);
+      }
+            
+      resultSet = 
+        dbSQL.select(
+          SSSQLVarNames.mailTable, 
+          columns, 
+          where, 
+          null, 
+          null, 
+          null);
+      
+      try{
+        checkFirstResult(resultSet);
+      }catch(Exception error){
+        
+        if(SSServErrReg.containsErr(SSErrE.sqlNoResultFound)){
+          SSServErrReg.reset();
+          return false;
+        }
+        
+        throw error;
+      }
+      
+      return true;
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
+    }
+  }
+  
+  public void addMailIfNotExists(
+    final SSUri         mail, 
+    final String        receiverEmail,
+    final String        hash) throws Exception{
+    
+    if(!existsMail(mail, hash, receiverEmail)){
+      
+      final Map<String, String> inserts = new HashMap<>();
+      
+      insert    (inserts, SSSQLVarNames.mailId, mail);
+      
+      if(receiverEmail == null){
+        insert(inserts, SSSQLVarNames.receiverEmail, SSStrU.empty);
+      }else{
+        insert(inserts, SSSQLVarNames.receiverEmail, receiverEmail);
+      }
+      
+      if(hash == null){
+        insert(inserts, SSSQLVarNames.hash, SSStrU.empty);
+      }else{
+        insert(inserts, SSSQLVarNames.hash, hash);
+      }
+      
+      dbSQL.insert(SSSQLVarNames.mailTable, inserts);
+    }else{
+      
+      if(mail == null){
+        throw new SSErr(SSErrE.parameterMissing);
+      }
+      
+      try{
+        final Map<String, String>  wheres   = new HashMap<>();
+        final Map<String, String>  updates  = new HashMap<>();
+        
+        where(wheres, SSSQLVarNames.mailId, mail);
+        
+        if(receiverEmail != null){
+          update (updates, SSSQLVarNames.receiverEmail, receiverEmail);
+        }
+        
+        if(hash != null){
+          update (updates, SSSQLVarNames.hash, hash);
+        }
+        
+        if(updates.isEmpty()){
+          return;
+        }
+        
+        dbSQL.update(SSSQLVarNames.mailTable, wheres, updates);
+        
+      }catch(Exception error){
+        SSServErrReg.regErrThrow(error);
+      }
+    }
   }
 }

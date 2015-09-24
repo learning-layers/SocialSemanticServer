@@ -22,17 +22,20 @@ package at.tugraz.sss.servs.mail.impl.kc;
 
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSEntityE;
+import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSFileExtE;
 import at.tugraz.sss.serv.SSFileU;
 import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSServErrReg;
-import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.tugraz.sss.servs.mail.conf.SSMailConf;
 import at.tugraz.sss.servs.mail.datatype.SSMail;
+import at.tugraz.sss.servs.mail.datatype.par.SSMailsReceivePar;
+import at.tugraz.sss.servs.mail.impl.SSMailSQLFct;
 import com.mysql.jdbc.StringUtils;
 import com.sun.mail.imap.IMAPMessage;
 import java.io.InputStream;
@@ -48,32 +51,41 @@ import javax.mail.Store;
 
 public class SSMailReceiverKCDavIMAP {
   
-  private final  SSMailConf      mailConf;
-  private final  String          localWorkPath;
-  private final  List<SSEntity>   mails   = new ArrayList<>();
+  private final SSMailConf       mailConf;
+  private final String           localWorkPath;
+  private final List<SSEntity>   mails   = new ArrayList<>();
+  private final SSDBSQLI         dbSQL;
+  private final SSMailSQLFct     sqlFct;
   
   public SSMailReceiverKCDavIMAP(
-    final SSMailConf mailConf) throws Exception{
+    final SSDBSQLI      dbSQL,
+    final SSMailConf    mailConf) throws Exception{
     
     this.mailConf        = mailConf;
     this.localWorkPath   = SSCoreConf.instGet().getSss().getLocalWorkPath();
+    this.dbSQL           = dbSQL;
+    this.sqlFct          = new SSMailSQLFct(dbSQL);
   }
 
+//  final String  fromUser,
+//    final String  receiverEmail,
+//    final String  fromPassword,
+//    final Boolean shouldCommit
+  
   public List<SSEntity> receiveMails(
-    final String fromUser,
-    final String fromPassword) throws Exception {
+    final SSMailsReceivePar par) throws Exception {
     
     Store  store  = null;
     Folder folder = null;
     
     try{
       final Properties                props   = new Properties();
-      final SSMailKCIMAPAuthenticator auth    = new SSMailKCIMAPAuthenticator(fromUser, fromPassword);
+      final SSMailKCIMAPAuthenticator auth    = new SSMailKCIMAPAuthenticator(par.fromUser, par.fromPassword);
       final Session                   session = Session.getDefaultInstance(props, auth); //session.setDebug(true);
       
       store = session.getStore("imap");
       
-      store.connect("kcs-davmail.know.know-center.at", 1143, fromUser, fromPassword);
+      store.connect("kcs-davmail.know.know-center.at", 1143, par.fromUser, par.fromPassword);
       
       folder = store.getFolder("INBOX");
       
@@ -83,21 +95,53 @@ public class SSMailReceiverKCDavIMAP {
       SSMail        mail;
       IMAPMessage   message;
       
+      dbSQL.startTrans(par.shouldCommit);
+      
       for(int counter = 0; counter < messages.length; counter++){
         
         message = (IMAPMessage) messages[counter];
         mail    =
           SSMail.get(
             SSServCaller.vocURICreate(),
-            messages[counter].getSubject());
+            messages[counter].getSubject(),
+            messages[counter].getSentDate().getTime());
         
-        createMessageFromMessageParts (message, mail, true);
+        if(sqlFct.existsMail(null, message.getContentMD5(), par.receiverEmail)){
+          continue;
+        }
+        
+        createMessageFromMessageParts(
+          message, 
+          mail, 
+          true);
+        
+        sqlFct.addMailIfNotExists(
+          mail.id, 
+          par.receiverEmail, 
+          message.getContentMD5());
         
         mails.add(mail);
       }
       
+      dbSQL.commit(par.shouldCommit);
+      
       return mails;
     }catch(Exception error){
+      
+      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+        
+        if(dbSQL.rollBack(par.shouldCommit)){
+          
+          SSServErrReg.reset();
+          
+          return receiveMails(par);
+        }else{
+          SSServErrReg.regErrThrow(error);
+          return null;
+        }
+      }
+      
+      dbSQL.rollBack(par.shouldCommit);
       SSServErrReg.regErrThrow(error);
       return null;
     }finally{

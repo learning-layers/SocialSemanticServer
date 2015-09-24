@@ -43,28 +43,31 @@ public class SSDataImportBitsAndPiecesTask extends TimerTask {
       
       final SSEvernoteConf evernoteConf = SSCoreConf.instGet().getEvernote();
       
-      if(evernoteConf.authTokens == null){
+      if(evernoteConf.getAuthTokens().isEmpty()){
         return;
       }
       
-      String emailInEmail    = null;
+      String emailInUser     = null;
       String emailInPassword = null;
+      String emailInEmail    = null;
       
-      for(int counter = 0; counter < evernoteConf.authTokens.size(); counter++){
+      for(int counter = 0; counter < evernoteConf.getAuthTokens().size(); counter++){
         
-        if(evernoteConf.emailInUsers != null){
-          emailInEmail    = evernoteConf.emailInUsers.get(counter);
-          emailInPassword = evernoteConf.emailInPasswords.get(counter);
+        if(!evernoteConf.getEmailInUsers().isEmpty()){
+          emailInUser     = evernoteConf.getEmailInUsers().get(counter);
+          emailInPassword = evernoteConf.getEmailInPasswords().get(counter);
+          emailInEmail    = evernoteConf.getEmailInPasswords().get(counter);
         }
         
         new Thread(
           new SSDataImportBitsAndPiecesUpdater(
             new SSDataImportBitsAndPiecesPar(
               SSVocConf.systemUserUri,
-              evernoteConf.authTokens.get(counter),
-              evernoteConf.authEmails.get(counter),
-              emailInEmail,
+              evernoteConf.getAuthTokens().get(counter),
+              evernoteConf.getAuthEmails().get(counter),
+              emailInUser,
               emailInPassword,
+              emailInEmail,
               true, //withUserRestriction,
               true))).start();
       }

@@ -46,7 +46,6 @@ implements
   SSMailClientI,
   SSMailServerI{
   
-  private   final SSMailSQLFct  sqlFct;
   private   final SSMailConf    mailConf;
   
   public SSMailImpl(final SSConfA conf) throws Exception{
@@ -54,7 +53,6 @@ implements
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
     
     this.mailConf       = (SSMailConf) conf;
-    this.sqlFct         = new SSMailSQLFct(this);
   }
   
   @Override
@@ -106,24 +104,40 @@ implements
     
     try{
       
+      final List<SSEntity> mails = new ArrayList<>();
+      
+      dbSQL.startTrans(par.shouldCommit);
+      
       switch(mailConf.receiveProvider){
         
         case gmailIMAP:{
           
           final SSMailReceiverGMAILIMAP gmailIMAPReceive = new SSMailReceiverGMAILIMAP(mailConf);
           
-          return gmailIMAPReceive.receiveMails(par.fromUser, par.fromPassword); 
+          SSEntity.addEntitiesDistinctWithoutNull(
+            mails, 
+            gmailIMAPReceive.receiveMails(
+              par.fromUser, 
+              par.fromPassword)); 
+          
+          break;
         }
         
         case kcDavMailIMAP:{
           
-          final SSMailReceiverKCDavIMAP kcReceive = new SSMailReceiverKCDavIMAP(mailConf);
+          final SSMailReceiverKCDavIMAP kcReceive = new SSMailReceiverKCDavIMAP(dbSQL, mailConf);
           
-          return kcReceive.receiveMails(par.fromUser, par.fromPassword); 
+          SSEntity.addEntitiesDistinctWithoutNull(
+            mails, 
+            kcReceive.receiveMails(par));
+          
+          break;
         }
       }
     
-      return new ArrayList<>();
+      dbSQL.commit(par.shouldCommit);
+      
+      return mails;
       
     }catch(Exception error){
       

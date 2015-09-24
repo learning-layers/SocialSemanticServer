@@ -86,7 +86,8 @@ public class SSMailReceiverGMAILIMAP {
         mail =
           SSMail.get(
             SSServCaller.vocURICreate(),
-            messages[counter].getSubject());
+            messages[counter].getSubject(),
+            messages[counter].getSentDate().getTime());
         
         mail.content = SSStrU.toStr(messages[counter].getContent());
           

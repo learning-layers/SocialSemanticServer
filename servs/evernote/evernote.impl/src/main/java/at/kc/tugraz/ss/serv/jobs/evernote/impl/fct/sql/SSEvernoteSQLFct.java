@@ -28,6 +28,7 @@ import at.tugraz.sss.serv.SSDBSQLI;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteNote;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteResource;
 import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSStrU;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -116,7 +117,12 @@ public class SSEvernoteSQLFct extends SSDBSQLFct {
       final Map<String, String> uniqueKeys =  new HashMap<>();
       
       insert(inserts, SSSQLVarNames.noteId,      noteUri);
-      insert(inserts, SSSQLVarNames.notebookId,  notebookUri);
+      
+      if(notebookUri == null){
+        insert(inserts, SSSQLVarNames.notebookId,  SSStrU.empty);
+      }else{
+        insert(inserts, SSSQLVarNames.notebookId,  notebookUri);
+      }
       
       uniqueKey(uniqueKeys, SSSQLVarNames.noteId, noteUri);
       

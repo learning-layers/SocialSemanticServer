@@ -47,9 +47,10 @@ public class SSMail extends SSEntity{
    
   public static SSMail get(
     final SSUri  id,
-    final String subject) throws Exception{
+    final String subject,
+    final Long   creationTime) throws Exception{
     
-    return new SSMail(id, subject);
+    return new SSMail(id, subject, creationTime);
   }
   
   protected SSMail(
@@ -61,10 +62,12 @@ public class SSMail extends SSEntity{
   
   protected SSMail(
     final SSUri          id,
-    final String         subject) throws Exception{
+    final String         subject,
+    final Long           creationTime) throws Exception{
     
     super(id, SSEntityE.mail);
     
-    this.subject = subject;
+    this.subject      = subject;
+    this.creationTime = creationTime;
   }
 }

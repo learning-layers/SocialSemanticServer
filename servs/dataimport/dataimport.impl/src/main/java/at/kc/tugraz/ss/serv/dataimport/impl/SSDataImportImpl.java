@@ -26,6 +26,7 @@ import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSStrU;
 import at.kc.tugraz.ss.category.datatypes.SSCategoryLabel;
 import at.kc.tugraz.ss.category.datatypes.par.SSCategoriesAddPar;
+import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import at.kc.tugraz.ss.serv.auth.api.SSAuthServerI;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSSpaceE;
@@ -48,15 +49,18 @@ import at.kc.tugraz.ss.serv.dataimport.impl.fct.sql.SSDataImportSQLFct;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUpdatePar;
 import at.kc.tugraz.ss.serv.job.i5cloud.datatypes.SSi5CloudAchsoVideo;
+import at.kc.tugraz.ss.serv.jobs.evernote.api.SSEvernoteServerI;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthRegisterUserPar;
 import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.kc.tugraz.ss.service.filerepo.api.SSFileRepoServerI;
 import at.kc.tugraz.ss.service.tag.api.SSTagServerI;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsAddPar;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsRemovePar;
+import at.kc.tugraz.ss.service.userevent.api.SSUEServerI;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
@@ -71,8 +75,13 @@ import java.util.Map;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
+import sss.serv.eval.api.SSEvalServerI;
 
 public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportClientI, SSDataImportServerI{
+  
+  private static final ReentrantReadWriteLock  bitsAndPiecesImportsLock  = new ReentrantReadWriteLock();
+  private static final Map<Thread, String>     bitsAndPiecesImports      = new HashMap<>();
   
   private final SSDataImportSQLFct sqlFct;
   
@@ -80,7 +89,56 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
     
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
     
-    this.sqlFct = new SSDataImportSQLFct         (dbSQL);
+    this.sqlFct = new SSDataImportSQLFct(dbSQL);
+  }
+  
+  private Boolean addBitsAndPiecesImport(
+    final String authToken,
+    final String authEmail) throws Exception{
+    
+    try{
+      
+      if(!bitsAndPiecesImportsLock.isWriteLockedByCurrentThread()){
+        bitsAndPiecesImportsLock.writeLock().lock();
+      }
+      
+      if(bitsAndPiecesImports.containsValue(authToken)){
+        SSLogU.warn("attempted to start B&P evernote import concurrently for " + authEmail);
+        return false;
+      }
+      
+      bitsAndPiecesImports.put(Thread.currentThread(), authToken);
+      
+      return true;
+        
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return false;
+    }finally{
+      
+      if(bitsAndPiecesImportsLock.isWriteLockedByCurrentThread()){
+        bitsAndPiecesImportsLock.writeLock().unlock();
+      }
+    }
+  }
+  
+  private void removeBitsAndPiecesImport(final String authToken) throws Exception{
+    
+    try{
+      bitsAndPiecesImportsLock.writeLock().lock();
+      
+      if(authToken != null){
+        bitsAndPiecesImports.remove(Thread.currentThread());
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }finally{
+      
+      if(bitsAndPiecesImportsLock.isWriteLockedByCurrentThread()){
+        bitsAndPiecesImportsLock.writeLock().unlock();
+      }
+    }
   }
   
   @Override
@@ -88,12 +146,36 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
     
     try{
       
-      Boolean worked = true;
+      if(!addBitsAndPiecesImport(par.authToken, par.authEmail)){
+        return false;
+      }
+      
+      final String            localWorkPath   = SSCoreConf.instGet().getSss().getLocalWorkPath();
+      final SSEntityServerI   entityServ      = (SSEntityServerI)   SSServReg.getServ(SSEntityServerI.class);
+      final SSUEServerI       ueServ          = (SSUEServerI)       SSServReg.getServ(SSUEServerI.class);
+      final SSFileRepoServerI fileServ        = (SSFileRepoServerI) SSServReg.getServ(SSFileRepoServerI.class);
+      final SSAuthServerI     authServ        = (SSAuthServerI)     SSServReg.getServ(SSAuthServerI.class);
+      final SSEvernoteServerI evernoteServ    = (SSEvernoteServerI) SSServReg.getServ(SSEvernoteServerI.class);
+      final SSTagServerI      tagServ         = (SSTagServerI)      SSServReg.getServ(SSTagServerI.class);
+      final SSEvalServerI     evalServ        = (SSEvalServerI)     SSServReg.getServ(SSEvalServerI.class);
+      Boolean                 worked          = true;
+      SSUri                   userUri         = null;
       
       try{
 
         dbSQL.startTrans(par.shouldCommit);
-        new SSDataImportBitsAndPiecesEvernoteImporter().handle(par);
+
+        userUri =
+          authServ.authRegisterUser(
+            new SSAuthRegisterUserPar(
+              par.authEmail, //email
+              "1234", //password
+              SSLabel.get(par.authEmail),//evernoteInfo.userName,
+              false, //updatePassword,
+              false, //isSystemUser,
+              false, //withUserRestriction,
+              false)); //shouldCommit
+            
         dbSQL.commit(par.shouldCommit);
       }catch(Exception error){
         
@@ -104,22 +186,66 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
         }
         
         SSServErrReg.reset();
+        SSLogU.warn("evernote import for " + par.authEmail + " failed");
       }
       
-      try{
+      if(worked){
         
-//        dbSQL.startTrans(par.shouldCommit);
-//        new SSDataImportBitsAndPiecesMailImporter().handle(par);
-//        dbSQL.commit(par.shouldCommit);
-      }catch(Exception error){
-        
-        worked = false;
-        
-        if(!dbSQL.rollBack(par.shouldCommit)){
-          SSLogU.warn("sql rollback failed");
+        try{
+
+          dbSQL.startTrans(par.shouldCommit);
+
+          new SSDataImportBitsAndPiecesEvernoteImporter(
+            par,
+            localWorkPath,
+            entityServ,
+            fileServ,
+            evernoteServ,
+            ueServ,
+            tagServ,
+            evalServ,
+            userUri).handle();
+
+          dbSQL.commit(par.shouldCommit);
+        }catch(Exception error){
+
+          worked = false;
+
+          if(!dbSQL.rollBack(par.shouldCommit)){
+            SSLogU.warn("sql rollback failed");
+          }
+
+          SSServErrReg.reset();
         }
+      }
+      
+      if(userUri != null){
         
-        SSServErrReg.reset();
+        try{
+
+          dbSQL.startTrans(par.shouldCommit);
+
+          new SSDataImportBitsAndPiecesMailImporter(
+            par,
+            localWorkPath,
+            entityServ,
+            fileServ, 
+            evalServ, 
+            ueServ,
+            userUri).handle();
+
+          dbSQL.commit(par.shouldCommit);
+
+        }catch(Exception error){
+
+          worked = false;
+
+          if(!dbSQL.rollBack(par.shouldCommit)){
+            SSLogU.warn("sql rollback failed");
+          }
+
+          SSServErrReg.reset();
+        }
       }
       
       return worked;
@@ -131,6 +257,13 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
       
       SSServErrReg.regErrThrow(error);
       return null;
+    }finally{
+      
+      try{
+        removeBitsAndPiecesImport(par.authToken);
+      }catch(Exception error){
+        SSLogU.warn("removing evernote import thread failed");
+      }
     }
   }
   

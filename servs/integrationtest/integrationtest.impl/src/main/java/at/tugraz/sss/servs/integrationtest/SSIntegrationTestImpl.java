@@ -22,8 +22,6 @@ package at.tugraz.sss.servs.integrationtest;
 
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEp;
-import at.kc.tugraz.ss.serv.jobs.evernote.conf.SSEvernoteConf;
-import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.tugraz.sss.serv.SSSearchOpE;
 import at.tugraz.sss.serv.SSDBNoSQLAddDocPar;
 import at.tugraz.sss.serv.SSDBNoSQL;
@@ -37,13 +35,10 @@ import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServImplWithDBA;
-import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSSolrKeywordLabel;
 import at.tugraz.sss.serv.SSSolrSearchFieldE;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.servs.integrationtest.knowbraintaggingstudy2015.SSIntegrationTestBitsAndPiecesStudyFall2015;
-import at.tugraz.sss.servs.mail.SSMailServerI;
-import at.tugraz.sss.servs.mail.datatype.par.SSMailsReceivePar;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -60,57 +55,6 @@ implements
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
   }
   
-  @Override
-  public Boolean integrationTestEvernoteEmailIn() throws Exception{
-    
-    try{
-      
-      final SSMailServerI  mailServ      = (SSMailServerI)   SSServReg.getServ (SSMailServerI.class);
-      final SSEvernoteConf evernoteConf  = SSCoreConf.instGet().getEvernote();
-      final List<SSEntity> mails         = new ArrayList<>();
-      String email;
-      String password;
-      
-      for(int counter = 0; counter < evernoteConf.emailInUsers.size(); counter++){
-        
-        email    = evernoteConf.emailInUsers.get     (counter);
-        password = evernoteConf.emailInPasswords.get (counter);
-        
-        mails.clear();
-        
-        SSEntity.addEntitiesDistinctWithoutNull(
-          mails, 
-          mailServ.mailsReceive(
-            new SSMailsReceivePar(
-              SSVocConf.systemUserUri,
-              email,
-              password,
-              true,
-              false)));
-      }
-      
-      return true;
-    }catch(Exception error){
-      
-      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
-        
-        if(dbSQL.rollBack(true)){
-          
-          SSServErrReg.reset();
-          
-          return integrationTestEvernoteEmailIn();
-        }else{
-          SSServErrReg.regErrThrow(error);
-          return null;
-        }
-      }
-      
-      dbSQL.rollBack(true);
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-
   @Override
   public Boolean integrationTestBitsAndPiecesStudyFall2015() throws Exception{
     

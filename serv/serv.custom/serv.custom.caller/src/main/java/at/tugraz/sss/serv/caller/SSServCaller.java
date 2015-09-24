@@ -109,16 +109,6 @@ public class SSServCaller {
     return (Boolean) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.evernoteNoteAdd, opPars));
   }
     
-  public static String evernoteUsersAuthTokenGet(
-    final SSUri    user) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.user,           user);
-    
-    return (String) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.evernoteUsersAuthTokenGet, opPars));
-  }
-  
   public static Boolean evernoteUserAdd(
     final SSUri    user, 
     final String   authToken,
@@ -181,18 +171,6 @@ public class SSServCaller {
     opPars.put(SSVarNames.includeContent,  includeContent);
     
     return (Note) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.evernoteNoteGet, opPars));
-  }
-  
-  public static SSEvernoteInfo evernoteNoteStoreGet(
-    final SSUri  user, 
-    final String authToken) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.user,      user);
-    opPars.put(SSVarNames.authToken, authToken);
-    
-    return (SSEvernoteInfo) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.evernoteNoteStoreGet, opPars));
   }
   
    public static List<String> evernoteNoteTagNamesGet(

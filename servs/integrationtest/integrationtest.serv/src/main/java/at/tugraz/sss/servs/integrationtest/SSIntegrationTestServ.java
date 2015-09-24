@@ -83,11 +83,6 @@ public class SSIntegrationTestServ extends SSServContainerI{
           integrationTestServ.integrationTestBitsAndPiecesStudyFall2015();
           break;
         }
-        
-        case evernoteEmailIn:{
-          integrationTestServ.integrationTestEvernoteEmailIn();
-          break;
-        }
       }
     }
   }

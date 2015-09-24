@@ -29,8 +29,7 @@ import java.util.List;
 public enum SSIntegrationTestE implements SSJSONLDPropI{
   
   solrForSearch,
-  bitsAndPiecesStudyFall2015,
-  evernoteEmailIn;
+  bitsAndPiecesStudyFall2015;
   
   @Override
   public Object jsonLDDesc() {

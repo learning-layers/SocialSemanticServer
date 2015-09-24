@@ -42,7 +42,6 @@ import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteResourceByHash
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteResourceGetPar;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteUSNSetPar;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteUserAddPar;
-import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteUsersAuthTokenGetPar;
 import at.kc.tugraz.ss.serv.jobs.evernote.impl.fct.sql.SSEvernoteSQLFct;
 import at.kc.tugraz.ss.service.filerepo.api.SSFileRepoServerI;
 import at.tugraz.sss.serv.SSConfA;
@@ -161,10 +160,9 @@ implements
   }
   
   @Override
-  public SSEvernoteInfo evernoteNoteStoreGet(SSServPar parA) throws Exception {
+  public SSEvernoteInfo evernoteNoteStoreGet(final SSEvernoteNoteStoreGetPar par) throws Exception {
     
     try{
-      final SSEvernoteNoteStoreGetPar par                = new SSEvernoteNoteStoreGetPar(parA);
       final EvernoteAuth              evernoteAuth       = new EvernoteAuth   (EvernoteService.PRODUCTION, par.authToken);
       final ClientFactory             clientFactory      = new ClientFactory  (evernoteAuth);
       final UserStoreClient           userStore          = clientFactory.createUserStoreClient();
@@ -204,13 +202,13 @@ implements
         !noteStoreSyncChunk.isSetChunkHighUSN() || 
         (lastUSN >= noteStoreSyncChunk.getUpdateCount()) && lastUSN >= sqlFct.getUSN(par.authToken)){
         
-        SSLogU.debug(par.authToken + " received full evernote content");
+        SSLogU.debug(par.authEmail + " received full evernote content");
       }else{
-        SSLogU.warn(par.authToken + " needs further syncing to retrieve full evernote content");
+        SSLogU.warn(par.authEmail + " needs further syncing to retrieve full evernote content");
       }
       
 //      if(lastUSN != noteStoreSyncChunk.getUpdateCount()){
-//        SSLogU.warn(par.authToken + " didnt receive latest information from evernote | more than 1.000.000 (new) entries available");
+//        SSLogU.warn(par.authEmail + " didnt receive latest information from evernote | more than 1.000.000 (new) entries available");
 //      }
       
       return SSEvernoteInfo.get(
@@ -230,11 +228,11 @@ implements
         
         SSServErrReg.reset();
         
-        SSLogU.info("evernoteNoteStoreGet goes to sleep for " + ((EDAMSystemException)error).getRateLimitDuration() + " seconds for RATE EXCEPTION");
+        SSLogU.info("evernoteNoteStoreGet goes to sleep for " + ((EDAMSystemException)error).getRateLimitDuration() + " seconds for RATE EXCEPTION for " + par.authEmail);
         
         Thread.sleep(((EDAMSystemException)error).getRateLimitDuration() * SSDateU.secondInMilliseconds  + SSDateU.secondInMilliseconds * 10) ;
         
-        return evernoteNoteStoreGet (parA);
+        return evernoteNoteStoreGet (par);
       }
       
       SSServErrReg.regErrThrow(error);
@@ -465,20 +463,6 @@ implements
   }
   
   @Override
-  public String evernoteUsersAuthTokenGet(final SSServPar parA) throws Exception{
-     
-    try{
-      final SSEvernoteUsersAuthTokenGetPar par = new SSEvernoteUsersAuthTokenGetPar(parA);
-      
-      return sqlFct.getAuthToken(par.user);
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
-  @Override
   public Boolean evernoteNoteAdd(final SSServPar parA) throws Exception{
      
     try{
@@ -671,3 +655,17 @@ implements
 //    }
 //  }
 }
+
+// @Override
+//  public String evernoteUsersAuthTokenGet(final SSServPar parA) throws Exception{
+//     
+//    try{
+//      final SSEvernoteUsersAuthTokenGetPar par = new SSEvernoteUsersAuthTokenGetPar(parA);
+//      
+//      return sqlFct.getAuthToken(par.user);
+//      
+//    }catch(Exception error){
+//      SSServErrReg.regErrThrow(error);
+//      return null;
+//    }
+//  }
