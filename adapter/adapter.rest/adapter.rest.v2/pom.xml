@@ -94,11 +94,10 @@
                        
             <apiSource>
               <apiVersion>v2</apiVersion>
-              <basePath>http://localhost:8080/sss.adapter.rest.v2</basePath> 
+              <basePath>http://test-ll.know-center.tugraz.at/layers.test</basePath> 
               <!-- 
                 localhost:8080/sss.adapter.rest.v2  
-                test-ll.know-center.tugraz.at/ltb.v2   
-                test-ll.know-center.tugraz.at/ld
+                test-ll.know-center.tugraz.at/layers.test
               -->
               <locations>at.tugraz.sss.adapter.rest.v2</locations>
               
@@ -111,11 +110,10 @@
                 <licenseUrl>${project.licenseURI}</licenseUrl>
               </apiInfo>
               
-              <swaggerUIDocBasePath>http://localhost:8080/sss.adapter.rest.v2/api-docs</swaggerUIDocBasePath> 
+              <swaggerUIDocBasePath>http://test-ll.know-center.tugraz.at/layers.test/api-docs</swaggerUIDocBasePath> 
               <!-- 
                 localhost:8080/sss.adapter.rest.v2/api-docs 
-                test-ll.know-center.tugraz.at/ltb.v2/api-docs  
-                test-ll.know-center.tugraz.at/ld/api-docs
+                test-ll.know-center.tugraz.at/layers.test/api-docs  
               -->
               <swaggerInternalFilter>com.wordnik.swagger.config.DefaultSpecFilter</swaggerInternalFilter>
               <!--<overridingModels>/swagger-overriding-models.json</overridingModels>-->

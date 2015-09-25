@@ -437,7 +437,6 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
   
   public void updateEntity(
     final SSUri    learnEpEntityUri,
-    final SSUri    entityUri,
     final Float    x,
     final Float    y) throws Exception{
     
@@ -446,10 +445,6 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
       final Map<String, String> updates = new HashMap<>();
       
       where(wheres ,  SSSQLVarNames.learnEpEntityId,   learnEpEntityUri);
-      
-      if(entityUri != null){
-        update(updates, SSSQLVarNames.entityId,          entityUri);
-      }
       
       if(x != null){
         update(updates, SSSQLVarNames.x,                 x);
@@ -594,6 +589,7 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
     }
   }
   
+  //TODO improve
   public SSUri setLearnEpVersionTimelineState(
     final SSUri learnEpTimelineStateUri, 
     final SSUri learnEpVersionUri, 

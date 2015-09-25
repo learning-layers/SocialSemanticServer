@@ -64,10 +64,7 @@ public enum SSActivityE{
   addEntityToLearnEpVersion,
   addCircleToLearnEpVersion,
   shareLearnEpWithUser,
-  changeEntityForLearnEpVersionEntity,
-  moveLearnEpVersionEntity,
   changeLearnEpVersionCircleLabel,
-  moveLearnEpVersionCircle,
   
   //entity circles
   createCircle,

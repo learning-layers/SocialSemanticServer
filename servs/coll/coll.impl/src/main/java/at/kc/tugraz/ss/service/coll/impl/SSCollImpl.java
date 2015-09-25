@@ -830,7 +830,11 @@ implements
         
         dbSQL.startTrans(par.shouldCommit);
 
-        SSCollEntryAddFct.addNewColl(sqlFct, par);
+        SSCollEntryAddFct.addNewColl(
+          circleServ, 
+          entityServ, 
+          sqlFct, 
+          par);
 
         dbSQL.commit(par.shouldCommit);
 
@@ -854,7 +858,11 @@ implements
 
       dbSQL.startTrans(par.shouldCommit);
 
-      SSCollEntryAddFct.addCollEntry(sqlFct, par);
+      SSCollEntryAddFct.addCollEntry(
+        circleServ, 
+        entityServ, 
+        sqlFct, 
+        par);
 
       dbSQL.commit(par.shouldCommit);
 

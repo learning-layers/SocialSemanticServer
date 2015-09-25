@@ -774,10 +774,13 @@ implements
       sqlFct.attachEntities(par.entity, par.entities);
       
       SSServCallerU.handleCirclesFromEntityGetEntitiesAdd(
+        circleServ, 
+        this,
         par.user,
         par.entity,
         par.entities, //entities
-        par.withUserRestriction);
+        par.withUserRestriction,
+        true); //invokeEntityHandlers);
       
       return par.entity;
     }catch(Exception error){

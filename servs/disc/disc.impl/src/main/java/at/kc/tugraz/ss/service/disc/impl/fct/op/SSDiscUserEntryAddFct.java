@@ -21,8 +21,6 @@
 package at.kc.tugraz.ss.service.disc.impl.fct.op;
 
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesAddPar;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCirclesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityGetPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUpdatePar;
@@ -34,19 +32,22 @@ import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscEntryAddPar;
 import at.kc.tugraz.ss.service.disc.impl.SSDiscSQLFct;
-import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
-import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.util.SSServCallerU;
 import java.util.List;
 
 public class SSDiscUserEntryAddFct{
   
+  private final SSCircleServerI circleServ;
   private final SSEntityServerI entityServ;
   
-  public SSDiscUserEntryAddFct(final SSEntityServerI entityServ){
+  public SSDiscUserEntryAddFct(
+    final SSCircleServerI circleServ,
+    final SSEntityServerI entityServ){
+    
+    this.circleServ = circleServ;
     this.entityServ = entityServ;
   }
   
@@ -151,10 +152,13 @@ public class SSDiscUserEntryAddFct{
         content);
       
       SSServCallerU.handleCirclesFromEntityGetEntitiesAdd(
+        circleServ,
+        entityServ,
         userUri,
         discUri,
         SSUri.asListWithoutNullAndEmpty(discEntryUri), //entities
-        withUserRestriction);
+        withUserRestriction,
+        false); //invokeEntityHandlers
       
 //      for(SSEntity entityUserCircle :
 //        ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlesGet(

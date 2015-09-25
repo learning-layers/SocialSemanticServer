@@ -513,7 +513,7 @@ public class SSDiscImpl
     try{
       SSUri discEntryUri = null;
 
-      final SSDiscUserEntryAddFct discEntryAddFct = new SSDiscUserEntryAddFct(entityServ);
+      final SSDiscUserEntryAddFct discEntryAddFct = new SSDiscUserEntryAddFct(circleServ, entityServ);
       
       if(par.addNewDisc){
         discEntryAddFct.checkWhetherUserCanAddDisc(par);
@@ -1152,10 +1152,13 @@ public class SSDiscImpl
       sqlFct.addDiscTargets(par.discussion, par.targets);
       
       SSServCallerU.handleCirclesFromEntityGetEntitiesAdd(
+        circleServ, 
+        entityServ,
         par.user,
         par.discussion,
         par.targets, //entities
-        par.withUserRestriction);
+        par.withUserRestriction,
+        true); //invokeEntityhandlers
       
       dbSQL.commit(par.shouldCommit);
       

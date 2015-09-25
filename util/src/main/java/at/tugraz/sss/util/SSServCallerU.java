@@ -118,29 +118,35 @@ public class SSServCallerU{
   }
   
   public static void handleCirclesFromEntityGetEntitiesAdd(
-    final SSUri          user,
-    final SSUri          entity,
-    final List<SSUri>    entityURIs,
-    final Boolean        withUserRestriction) throws Exception{
+    final SSCircleServerI       circleServ,
+    final SSEntityServerI       entityServ,
+    final SSUri                 user,
+    final SSUri                 entity,
+    final List<SSUri>           entityURIs,
+    final Boolean               withUserRestriction,
+    final Boolean               invokeEntityHandlers) throws Exception{
     
     try{
-      final SSCircleServerI circleServ              = (SSCircleServerI) SSServReg.getServ(SSCircleServerI.class);
-      final SSEntityServerI entityServ              = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
       
       if(
         entityURIs == null || 
         entityURIs.isEmpty()){
         return;
       }
-      
-      final List<SSEntity>  entities =
-        entityServ.entitiesGet(
-          new SSEntitiesGetPar(
-            user,
-            entityURIs,
-            null,
-            null,
-            withUserRestriction));
+
+      final List<SSEntity> entities = new ArrayList<>();
+        
+      if(invokeEntityHandlers){
+     
+        entities.addAll(
+          entityServ.entitiesGet(
+            new SSEntitiesGetPar(
+              user,
+              entityURIs,
+              null,
+              null,
+              withUserRestriction)));
+      }
       
       for(SSEntity circle :
         circleServ.circlesGet(
@@ -151,21 +157,24 @@ public class SSServCallerU{
             null, //entityTypesToIncludeOnly
             false, //withUserRestriction
             true,  //withSystemCircles
-            false))){
+            false))){ //invokeEntityHandlers
         
-      circleServ.circleEntitiesAdd(
-        new SSCircleEntitiesAddPar(
-          user,
-          circle.id,
-          SSUri.getDistinctNotNullFromEntities(entities),
-          false,
-          false));
-      
-        handleCircleEntitiesAdded(
-          user,
-          (SSEntityCircle) circle,
-          entities,
-          withUserRestriction);
+        circleServ.circleEntitiesAdd(
+          new SSCircleEntitiesAddPar(
+            user,
+            circle.id,
+            entityURIs,
+            false,
+            false));
+        
+        if(invokeEntityHandlers){
+          
+          handleCircleEntitiesAdded(
+            user,
+            (SSEntityCircle) circle,
+            entities,
+            withUserRestriction);
+        }
       }
       
     }catch(Exception error){
