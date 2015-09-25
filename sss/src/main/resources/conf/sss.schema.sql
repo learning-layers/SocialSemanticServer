@@ -1,10 +1,11 @@
 CREATE DATABASE  IF NOT EXISTS `SSS_MYSQL_SCHEME` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `SSS_MYSQL_SCHEME`;
--- MySQL dump 10.13  Distrib 5.6.13, for Win32 (x86)
+
+-- MySQL dump 10.13  Distrib 5.6.24, for Win64 (x86_64)
 --
 -- Host: localhost    Database: sss
 -- ------------------------------------------------------
--- Server version	5.6.10
+-- Server version	5.6.26-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -932,8 +933,8 @@ CREATE TABLE `evernotenote` (
   PRIMARY KEY (`noteId`),
   KEY `noteIdFKevernotenotes_idx` (`noteId`),
   KEY `notebookIdFKevernotenote` (`notebookId`),
-  CONSTRAINT `notebookIdFKevernotenote` FOREIGN KEY (`notebookId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  CONSTRAINT `noteIdFKevernotenote` FOREIGN KEY (`noteId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+  CONSTRAINT `noteIdFKevernotenote` FOREIGN KEY (`noteId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `notebookIdFKevernotenote` FOREIGN KEY (`notebookId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1513,6 +1514,31 @@ LOCK TABLES `location` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `mail`
+--
+
+DROP TABLE IF EXISTS `mail`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mail` (
+  `mailId` varchar(255) NOT NULL,
+  `receiverEmail` varchar(255) NOT NULL,
+  `hash` varchar(255) NOT NULL,
+  PRIMARY KEY (`mailId`),
+  CONSTRAINT `mailIdFKmail` FOREIGN KEY (`mailId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `mail`
+--
+
+LOCK TABLES `mail` WRITE;
+/*!40000 ALTER TABLE `mail` DISABLE KEYS */;
+/*!40000 ALTER TABLE `mail` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `message`
 --
 
@@ -1815,4 +1841,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-08-25 15:59:28
+-- Dump completed on 2015-09-25 12:22:22
