@@ -80,8 +80,10 @@ import sss.serv.eval.api.SSEvalServerI;
 
 public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportClientI, SSDataImportServerI{
   
-  private static final ReentrantReadWriteLock  bitsAndPiecesImportsLock  = new ReentrantReadWriteLock();
-  private static final Map<Thread, String>     bitsAndPiecesImports      = new HashMap<>();
+  public  static final Integer                 bitsAndPiecesImageMinWidth  = 250;
+  public  static final Integer                 bitsAndPiecesImageMinHeight = 250;
+  private static final ReentrantReadWriteLock  bitsAndPiecesImportsLock    = new ReentrantReadWriteLock();
+  private static final Map<Thread, String>     bitsAndPiecesImports        = new HashMap<>();
   
   private final SSDataImportSQLFct sqlFct;
   

@@ -30,6 +30,7 @@ import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSSpaceE;
 import at.tugraz.sss.serv.SSToolContextE;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportBitsAndPiecesPar;
+import at.kc.tugraz.ss.serv.dataimport.impl.SSDataImportImpl;
 import at.kc.tugraz.ss.serv.dataimport.impl.evernote.SSDataImportEvernoteNoteContentHandler;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.jobs.evernote.api.SSEvernoteServerI;
@@ -411,6 +412,7 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
       resourceWithContent = SSServCaller.evernoteResourceGet                  (evernoteInfo.noteStore, resource.getGuid(), false);
       
       try{
+        
         if(SSFileExtE.isImageFileExt(SSMimeTypeE.fileExtForMimeType1(resourceWithContent.getMime()))){
           
           if(resourceWithContent.getAttributes().isSetSourceURL()){
@@ -427,10 +429,10 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
           }
           
           if(
-            resourceWithContent.getWidth()  <= 250||
-            resourceWithContent.getHeight() <= 250){
+            resourceWithContent.getWidth()  <= SSDataImportImpl.bitsAndPiecesImageMinWidth ||
+            resourceWithContent.getHeight() <= SSDataImportImpl.bitsAndPiecesImageMinHeight){
             
-            SSLogU.info("evernote image resource height or width < 250");
+            SSLogU.info("evernote image resource height or width < " + SSDataImportImpl.bitsAndPiecesImageMinWidth);
             continue;
           }
         }

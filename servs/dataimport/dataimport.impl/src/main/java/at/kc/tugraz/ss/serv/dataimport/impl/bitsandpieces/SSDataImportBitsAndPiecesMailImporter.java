@@ -21,6 +21,7 @@
 package at.kc.tugraz.ss.serv.dataimport.impl.bitsandpieces;
 
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportBitsAndPiecesPar;
+import at.kc.tugraz.ss.serv.dataimport.impl.SSDataImportImpl;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.kc.tugraz.ss.service.filerepo.api.SSFileRepoServerI;
@@ -34,6 +35,7 @@ import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
+import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityGetPar;
@@ -41,6 +43,9 @@ import at.tugraz.sss.servs.file.datatype.par.SSEntityFileAddPar;
 import at.tugraz.sss.servs.mail.SSMailServerI;
 import at.tugraz.sss.servs.mail.datatype.SSMail;
 import at.tugraz.sss.servs.mail.datatype.par.SSMailsReceivePar;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import javax.imageio.ImageIO;
 import sss.serv.eval.api.SSEvalServerI;
 
 public class SSDataImportBitsAndPiecesMailImporter {
@@ -232,6 +237,10 @@ public class SSDataImportBitsAndPiecesMailImporter {
       
       for(SSEntity attachment : mail.contentMultimedia){
        
+        if(!areResourceDimensionsOk(attachment.id)){
+          continue;
+        }
+          
         resourceUri = SSServCaller.vocURICreate();
           
         miscFct.addResource(
@@ -276,6 +285,10 @@ public class SSDataImportBitsAndPiecesMailImporter {
       
       for(SSEntity attachment : mail.attachments){
        
+        if(!areResourceDimensionsOk(attachment.id)){
+          continue;
+        }
+        
         resourceUri = SSServCaller.vocURICreate();
           
         miscFct.addResource(
@@ -307,6 +320,32 @@ public class SSDataImportBitsAndPiecesMailImporter {
     
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+    }
+  }
+
+  private Boolean areResourceDimensionsOk(final SSUri resource) throws Exception{
+    
+    try{
+
+      if(!SSFileExtE.isImageFileExt(SSFileExtE.getFromStrToFormat(SSStrU.toStr(resource)))){
+        return true;
+      }
+              
+      final BufferedImage image = ImageIO.read(new File(localWorkPath + SSVocConf.fileIDFromSSSURI(resource)));
+      
+      if(
+        image.getWidth()  <= SSDataImportImpl.bitsAndPiecesImageMinWidth ||
+        image.getHeight() <= SSDataImportImpl.bitsAndPiecesImageMinHeight){
+        
+        SSLogU.info("mail attachment height or width < " + SSDataImportImpl.bitsAndPiecesImageMinWidth);
+        return false;
+      }
+      
+      return true;
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return false;
     }
   }
 }
