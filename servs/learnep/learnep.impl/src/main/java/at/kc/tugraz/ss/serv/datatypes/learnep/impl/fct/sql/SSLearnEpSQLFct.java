@@ -792,8 +792,8 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
       table(tables, SSSQLVarNames.learnEpVersionsTable);
       table(tables, SSSQLVarNames.learnEpTable);
       
-      tableCon(tableCons, SSSQLVarNames.learnEpVersionEntitiesTable, SSSQLVarNames.learnEpEntityId, SSSQLVarNames.learnEpVersionsTable, SSSQLVarNames.learnEpVersionId);
-      tableCon(tableCons, SSSQLVarNames.learnEpTable,                SSSQLVarNames.learnEpId,       SSSQLVarNames.learnEpVersionsTable, SSSQLVarNames.learnEpVersionId);
+      tableCon(tableCons, SSSQLVarNames.learnEpVersionEntitiesTable, SSSQLVarNames.learnEpVersionId, SSSQLVarNames.learnEpVersionsTable, SSSQLVarNames.learnEpVersionId);
+      tableCon(tableCons, SSSQLVarNames.learnEpTable,                SSSQLVarNames.learnEpId,        SSSQLVarNames.learnEpVersionsTable, SSSQLVarNames.learnEpId);
       
       resultSet = 
         dbSQL.select(
@@ -832,8 +832,8 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
       table(tables, SSSQLVarNames.learnEpVersionsTable);
       table(tables, SSSQLVarNames.learnEpTable);
       
-      tableCon(tableCons, SSSQLVarNames.learnEpVersionCirclesTable,  SSSQLVarNames.learnEpCircleId, SSSQLVarNames.learnEpVersionsTable, SSSQLVarNames.learnEpVersionId);
-      tableCon(tableCons, SSSQLVarNames.learnEpTable,                SSSQLVarNames.learnEpId,       SSSQLVarNames.learnEpVersionsTable, SSSQLVarNames.learnEpVersionId);
+      tableCon(tableCons, SSSQLVarNames.learnEpVersionCirclesTable,  SSSQLVarNames.learnEpVersionId, SSSQLVarNames.learnEpVersionsTable, SSSQLVarNames.learnEpVersionId);
+      tableCon(tableCons, SSSQLVarNames.learnEpTable,                SSSQLVarNames.learnEpId,        SSSQLVarNames.learnEpVersionsTable, SSSQLVarNames.learnEpId);
       
       resultSet = 
         dbSQL.select(

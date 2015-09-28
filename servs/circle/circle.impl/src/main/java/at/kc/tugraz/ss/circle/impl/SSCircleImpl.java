@@ -1002,8 +1002,8 @@ implements
         SSEntityCircle.get(
           sqlFct.getCircle(
             par.circle,
-            true, //withUsers
-            true, //withEntities
+            par.setUsers, //withUsers
+            par.setEntities, //withEntities
             true, //withCircleRights
             par.entityTypesToIncludeOnly),
           ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
