@@ -23,6 +23,8 @@ package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSEntityE;
+import at.tugraz.sss.serv.SSLabel;
+import at.tugraz.sss.serv.SSTextComment;
 import java.util.List;
 
 public class SSLearnEp extends SSEntity {
@@ -41,7 +43,7 @@ public class SSLearnEp extends SSEntity {
   
   public static SSLearnEp get(
     final SSLearnEp learnEp, 
-    final SSEntity entity) throws Exception{
+    final SSEntity  entity) throws Exception{
     
     return new SSLearnEp(learnEp, entity);
   }
@@ -61,7 +63,7 @@ public class SSLearnEp extends SSEntity {
   
   protected SSLearnEp(
     final SSUri                  id,
-    final List<SSEntity> versions) throws Exception{
+    final List<SSEntity>         versions) throws Exception{
     
     super(id, SSEntityE.learnEp);
     
@@ -76,9 +78,40 @@ public class SSLearnEp extends SSEntity {
   }
   
   protected SSLearnEp(
-    final SSUri                  id) throws Exception{
+    final SSUri id) throws Exception{
     
     super(id, SSEntityE.learnEp);
+  }
+  
+  public static SSLearnEp get(
+    final SSUri         id,
+    final SSLabel       label,
+    final SSTextComment description,
+    final Long          creationTime,
+    final SSEntity      author) throws Exception{
+    
+    return new SSLearnEp(
+      id,
+      label,
+      description,
+      creationTime,
+      author);
+  }
+  
+  protected SSLearnEp(
+    final SSUri         id,
+    final SSLabel       label,
+    final SSTextComment description,
+    final Long          creationTime,
+    final SSEntity      author) throws Exception{
+    
+    super(
+      id,
+      SSEntityE.learnEp,
+      label,
+      description,
+      creationTime,
+      author);
   }
 }
 

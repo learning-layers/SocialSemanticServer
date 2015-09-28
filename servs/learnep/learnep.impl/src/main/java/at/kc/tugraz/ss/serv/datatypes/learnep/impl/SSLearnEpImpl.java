@@ -467,13 +467,13 @@ implements
     try{
       
       if(par.withUserRestriction){
-       
         if(!SSServCallerU.canUserRead(par.user, par.learnEp)){
           return null;
         }
       }
       
-      final SSLearnEp             learnEp; 
+      final List<SSUri>    learnEpUserURIs = new ArrayList<>();
+      SSLearnEp            learnEp;
       SSEntityDescriberPar descPar;
       
       if(par.invokeEntityHandlers){
@@ -483,16 +483,16 @@ implements
       }else{
         descPar = null;
       }
-        
-      learnEp =
+      
+      learnEp = sqlFct.getLearnEp(par.learnEp);
+      learnEp = 
         SSLearnEp.get(
-          sqlFct.getLearnEp(par.learnEp),
-          entityServ.entityGet(
-            new SSEntityGetPar(
-              par.user,
-              par.learnEp,
-              par.withUserRestriction,
-              descPar)));
+          learnEp, 
+          SSServCallerU.describeEntity(
+            par.user, 
+            learnEp, 
+            descPar, 
+            false)); //withUserRestriction
       
       if(par.invokeEntityHandlers){
         descPar = new SSEntityDescriberPar(null);
@@ -500,15 +500,17 @@ implements
         descPar = null;
       }
 
+      learnEpUserURIs.addAll(sqlFct.getLearnEpUserURIs(learnEp.id));
+        
       SSEntity.addEntitiesDistinctWithoutNull(
         learnEp.users,
         entityServ.entitiesGet(
           new SSEntitiesGetPar(
             par.user,
-            sqlFct.getLearnEpUserURIs(learnEp.id),
+            learnEpUserURIs, //entities
             null, //types,
             descPar, //descPar
-            par.withUserRestriction))); //withUserRestriction
+            false))); //withUserRestriction
       
       SSEntity.addEntitiesDistinctWithoutNull(
         learnEp.entries,
@@ -516,9 +518,9 @@ implements
           new SSLearnEpVersionsGetPar(
             par.user,
             learnEp.id,
-            par.withUserRestriction,
+            false, //withUserRestriction
             par.invokeEntityHandlers)));
-        
+      
       if(!learnEpConf.useEpisodeLocking){
         learnEp.locked       = false;
         learnEp.lockedByUser = false;
@@ -596,7 +598,7 @@ implements
         }
       }
 
-      final List<SSEntity> learnEpVersions        = new ArrayList<>();
+      final List<SSEntity> learnEpVersions = new ArrayList<>();
       
       for(SSUri learnEpVersionUri : sqlFct.getLearnEpVersionURIs(par.learnEp)){
         
@@ -639,84 +641,28 @@ implements
         }
       }
       
-      final List<SSEntity> learnEpVersionEntities = new ArrayList<>();
-      final List<SSEntity> learnEpVersionCircles  = new ArrayList<>();
-      SSEntityDescriberPar descPar;
-      SSLearnEpVersion     learnEpVersion;
+      final SSLearnEpVersion     learnEpVersion         = sqlFct.getLearnEpVersion(par.learnEpVersion);
+      SSEntityDescriberPar       descPar;
       
       if(par.invokeEntityHandlers){
-        descPar = new SSEntityDescriberPar(par.learnEpVersion);
-      }else{
-        descPar = null;
-      }
-      
-      learnEpVersion =
-        SSLearnEpVersion.get(
-          sqlFct.getLearnEpVersion(par.learnEpVersion),
-          entityServ.entityGet(
-            new SSEntityGetPar(
-              par.user,
-              par.learnEpVersion,
-              par.withUserRestriction,
-              descPar)));
-      
-      for(SSEntity learnEpEntity : learnEpVersion.learnEpEntities){
-        
-        descPar = null;
-        
-        SSEntity.addEntitiesDistinctWithoutNull(
-          learnEpVersionEntities,
-          SSLearnEpEntity.get(
-            (SSLearnEpEntity) learnEpEntity,
-            entityServ.entityGet(
-              new SSEntityGetPar(
-                par.user,
-                learnEpEntity.id,
-                par.withUserRestriction,
-                descPar)))); //descPar
-      }
-      
-      learnEpVersion.learnEpEntities.clear();
-      learnEpVersion.learnEpEntities.addAll(learnEpVersionEntities);
-      
-      for(SSEntity learnEpVersionEntity : learnEpVersionEntities){
-        
-        if(par.invokeEntityHandlers){
-          descPar = new SSEntityDescriberPar(((SSLearnEpEntity)learnEpVersionEntity).entity.id);
+          descPar = new SSEntityDescriberPar(learnEpVersion.id);
           
           descPar.setOverallRating = true;
           descPar.setTags          = true;
         }else{
           descPar = null;
         }
+      
+      for(SSEntity learnEpVersionEntity : learnEpVersion.learnEpEntities){
         
-        ((SSLearnEpEntity)learnEpVersionEntity).entity =
+        ((SSLearnEpEntity) learnEpVersionEntity).entity =
           entityServ.entityGet(
             new SSEntityGetPar(
               par.user,
-              ((SSLearnEpEntity)learnEpVersionEntity).entity.id,
-              par.withUserRestriction,
+              ((SSLearnEpEntity) learnEpVersionEntity).entity.id,
+              false, //withUserRestriction
               descPar));
       }
-      
-      for(SSEntity learnEpCircle : learnEpVersion.learnEpCircles){
-        
-        descPar = null;
-        
-        SSEntity.addEntitiesDistinctWithoutNull(
-          learnEpVersionCircles,
-          SSLearnEpCircle.get(
-            (SSLearnEpCircle) learnEpCircle,
-            entityServ.entityGet(
-              new SSEntityGetPar(
-                par.user,
-                learnEpCircle.id,
-                par.withUserRestriction,
-                descPar)))); //descPar
-      }
-      
-      learnEpVersion.learnEpCircles.clear();
-      learnEpVersion.learnEpCircles.addAll(learnEpVersionCircles);
       
       return learnEpVersion;
       
@@ -1605,7 +1551,7 @@ implements
       return learnEpVersionGet(
         new SSLearnEpVersionGetPar(
           par.user, 
-          sqlFct.getLearnEpVersion(sqlFct.getLearnEpCurrentVersionURI(par.user)).id,
+          sqlFct.getLearnEpCurrentVersionURI(par.user),
           par.withUserRestriction, 
           par.invokeEntityHandlers));
 
@@ -1733,9 +1679,9 @@ implements
     try{
       final SSLearnEpLockHoldRet ret;
 
-      if(par.withUserRestriction){
-        SSServCallerU.canUserRead(par.user, par.learnEp);
-      }
+//      if(par.withUserRestriction){
+//        SSServCallerU.canUserRead(par.user, par.learnEp);
+//      }
       
       if(learnEpConf.useEpisodeLocking){
         

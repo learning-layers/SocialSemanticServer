@@ -88,53 +88,53 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     }
   }
   
-  public SSEntity getEntity(
-    final SSUri entityUri) throws Exception{
-    
-    ResultSet resultSet  = null;
-    
-    try{
-      final List<String>        columns = new ArrayList<>();
-      final Map<String, String> where   = new HashMap<>();
-      final SSEntity            entityObj;
-      
-      column(columns, SSSQLVarNames.id);
-      column(columns, SSSQLVarNames.type);
-      column(columns, SSSQLVarNames.label);
-      column(columns, SSSQLVarNames.creationTime);
-      column(columns, SSSQLVarNames.author);
-      column(columns, SSSQLVarNames.description);
-      
-      where(where, SSSQLVarNames.id, entityUri);
-      
-      resultSet = dbSQL.select(SSSQLVarNames.entityTable, columns, where, null, null, null);
-      
-      checkFirstResult(resultSet);
-      
-      entityObj =
-        SSEntity.get(
-          entityUri,
-          bindingStrToEntityType (resultSet, SSSQLVarNames.type),
-          bindingStrToLabel      (resultSet, SSSQLVarNames.label));
-      
-      entityObj.creationTime = bindingStrToLong       (resultSet, SSSQLVarNames.creationTime);
-      entityObj.author       = bindingStrToAuthor     (resultSet, SSSQLVarNames.author);
-      entityObj.description  = bindingStrToTextComment(resultSet, SSSQLVarNames.description);
-
-      return entityObj;
-    }catch(Exception error){
-      
-      if(SSServErrReg.containsErr(SSErrE.sqlNoResultFound)){
-        SSServErrReg.reset();
-        return null;
-      }
-        
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }finally{
-      dbSQL.closeStmt(resultSet);
-    }
-  }
+//  public SSEntity getEntity(
+//    final SSUri entityUri) throws Exception{
+//    
+//    ResultSet resultSet  = null;
+//    
+//    try{
+//      final List<String>        columns = new ArrayList<>();
+//      final Map<String, String> where   = new HashMap<>();
+//      final SSEntity            entityObj;
+//      
+//      column(columns, SSSQLVarNames.id);
+//      column(columns, SSSQLVarNames.type);
+//      column(columns, SSSQLVarNames.label);
+//      column(columns, SSSQLVarNames.creationTime);
+//      column(columns, SSSQLVarNames.author);
+//      column(columns, SSSQLVarNames.description);
+//      
+//      where(where, SSSQLVarNames.id, entityUri);
+//      
+//      resultSet = dbSQL.select(SSSQLVarNames.entityTable, columns, where, null, null, null);
+//      
+//      checkFirstResult(resultSet);
+//      
+//      entityObj =
+//        SSEntity.get(
+//          entityUri,
+//          bindingStrToEntityType (resultSet, SSSQLVarNames.type),
+//          bindingStrToLabel      (resultSet, SSSQLVarNames.label));
+//      
+//      entityObj.creationTime = bindingStrToLong       (resultSet, SSSQLVarNames.creationTime);
+//      entityObj.author       = bindingStrToAuthor     (resultSet, SSSQLVarNames.author);
+//      entityObj.description  = bindingStrToTextComment(resultSet, SSSQLVarNames.description);
+//
+//      return entityObj;
+//    }catch(Exception error){
+//      
+//      if(SSServErrReg.containsErr(SSErrE.sqlNoResultFound)){
+//        SSServErrReg.reset();
+//        return null;
+//      }
+//        
+//      SSServErrReg.regErrThrow(error);
+//      return null;
+//    }finally{
+//      dbSQL.closeStmt(resultSet);
+//    }
+//  }
   
   public SSEntity getEntity(
     final SSLabel   label,

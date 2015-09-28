@@ -25,6 +25,8 @@ import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
+import at.tugraz.sss.serv.SSLabel;
+import at.tugraz.sss.serv.SSTextComment;
 import java.util.Map;
 
 public class SSLearnEpCircle extends SSEntity{
@@ -120,27 +122,52 @@ public class SSLearnEpCircle extends SSEntity{
   }
   
   public static SSLearnEpCircle get(
-    final SSUri   id, 
-    final Float   xLabel, 
-    final Float   yLabel, 
-    final Float   xR, 
-    final Float   yR, 
-    final Float   xC, 
-    final Float   yC) throws Exception{
+    final SSUri                  id, 
+    final SSLabel                label, 
+    final SSTextComment          description, 
+    final Long                   creationTime, 
+    final SSEntity               author,
+    final Float                  xLabel, 
+    final Float                  yLabel, 
+    final Float                  xR, 
+    final Float                  yR, 
+    final Float                  xC, 
+    final Float                  yC) throws Exception{
     
-    return new SSLearnEpCircle(id, xLabel, yLabel, xR, yR, xC, yC);
+    return new SSLearnEpCircle(
+      id,
+      label,
+      description,
+      creationTime,
+      author,
+      xLabel, 
+      yLabel, 
+      xR, 
+      yR, 
+      xC, 
+      yC);
   }
   
   protected SSLearnEpCircle(
-    final SSUri   id, 
-    final Float   xLabel, 
-    final Float   yLabel, 
-    final Float   xR, 
-    final Float   yR, 
-    final Float   xC, 
-    final Float   yC) throws Exception{
+    final SSUri         id, 
+    final SSLabel       label,
+    final SSTextComment description,
+    final Long          creationTime,
+    final SSEntity      author,
+    final Float         xLabel, 
+    final Float         yLabel, 
+    final Float         xR, 
+    final Float         yR, 
+    final Float         xC, 
+    final Float         yC) throws Exception{
     
-    super(id, SSEntityE.learnEpCircle);
+    super(
+      id, 
+      SSEntityE.learnEpCircle,
+      label, 
+      description, 
+      creationTime, 
+      author);
     
     this.xLabel              = xLabel;
     this.yLabel              = yLabel;

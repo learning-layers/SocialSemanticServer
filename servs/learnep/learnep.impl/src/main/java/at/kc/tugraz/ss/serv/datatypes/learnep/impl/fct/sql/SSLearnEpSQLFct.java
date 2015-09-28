@@ -28,6 +28,7 @@ import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpVersion;
 import at.tugraz.sss.serv.SSSQLVarNames;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSDBSQLFct;
+import at.tugraz.sss.serv.SSDBSQLSelectPar;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.SSUri;
@@ -40,6 +41,8 @@ import java.util.Map;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
+import javax.ws.rs.core.MultivaluedHashMap;
+import javax.ws.rs.core.MultivaluedMap;
 
 public class SSLearnEpSQLFct extends SSDBSQLFct{
   
@@ -54,16 +57,42 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
     
     try{
       
-      final Map<String, String> wheres    = new HashMap<>();
-      final List<String>        columns   = new ArrayList<>();
+      final List<String>                          columns   = new ArrayList<>();
+      final List<MultivaluedMap<String, String>>  wheres    = new ArrayList<>();
+      final List<String>                          tables    = new ArrayList<>();
+      final List<String>                          tableCons = new ArrayList<>();
       
-      where(wheres, SSSQLVarNames.learnEpId, learnEpUri);
+      setEntityColumns(columns);
+      setEntityTable  (tables);
       
-      resultSet = dbSQL.select(SSSQLVarNames.learnEpTable, columns, wheres, null, null, null);
+      table(tables, SSSQLVarNames.learnEpTable);
       
+      final MultivaluedMap<String, String> whereLearnEp = new MultivaluedHashMap<>();
+      
+      where(whereLearnEp, SSSQLVarNames.learnEpTable, SSSQLVarNames.learnEpId, learnEpUri);
+      
+      wheres.add(whereLearnEp);
+      
+      tableCon(tableCons, SSSQLVarNames.entityTable, SSSQLVarNames.id, SSSQLVarNames.learnEpTable, SSSQLVarNames.learnEpId);
+      
+      resultSet = 
+        dbSQL.select(
+          new SSDBSQLSelectPar(
+            tables, 
+            columns, 
+            wheres, 
+            null, 
+            null, 
+            tableCons));
+        
       checkFirstResult(resultSet);
       
-      return SSLearnEp.get(learnEpUri);
+      return SSLearnEp.get(
+        bindingStrToUri          (resultSet, SSSQLVarNames.id),
+        bindingStrToLabel        (resultSet, SSSQLVarNames.label),
+        bindingStrToTextComment  (resultSet, SSSQLVarNames.description),
+        bindingStrToLong         (resultSet, SSSQLVarNames.creationTime),
+        getEntity(bindingStrToUri(resultSet, SSSQLVarNames.author)));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -166,11 +195,11 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
       final List<String>           columns     = new ArrayList<>();
       final List<String>           tableCons   = new ArrayList<>();
       SSLearnEpVersion             learnEpVersion;
-      
-      column(columns, SSSQLVarNames.creationTime);
+
+      setEntityColumns(columns);
       column(columns, SSSQLVarNames.learnEpId);
       
-      table(tables, SSSQLVarNames.entityTable);
+      setEntityTable(tables);
       table(tables, SSSQLVarNames.learnEpVersionsTable);
       
       where(wheres, SSSQLVarNames.learnEpVersionId, learnEpVersionUri);
@@ -179,19 +208,19 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
       
       resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
       
-      if(!resultSet.first()){
-        throw new Exception("learn ep version doesnt exist");
-      }
+      checkFirstResult(resultSet);
       
       learnEpVersion =
         SSLearnEpVersion.get(
-          learnEpVersionUri,
+          bindingStrToUri               (resultSet, SSSQLVarNames.id),
+          bindingStrToLabel             (resultSet, SSSQLVarNames.label),
+          bindingStrToTextComment       (resultSet, SSSQLVarNames.description),
+          bindingStrToLong              (resultSet, SSSQLVarNames.creationTime),
+          getEntity(bindingStrToUri     (resultSet, SSSQLVarNames.author)),
           bindingStrToUri               (resultSet, SSSQLVarNames.learnEpId),
           getLearnEpVersionEntities     (learnEpVersionUri),
           getLearnEpVersionCircles      (learnEpVersionUri),
-          null);
-      
-      learnEpVersion.learnEpTimelineState = getLearnEpVersionTimelineState(learnEpVersionUri);
+          getLearnEpVersionTimelineState(learnEpVersionUri));
       
       return learnEpVersion;
       
@@ -241,20 +270,22 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
       final List<String>               tableCons          = new ArrayList<>();
       final Map<String, String>        wheres             = new HashMap<>();
 
+      setEntityColumns(columns);
       column(columns, SSSQLVarNames.learnEpCircleTable, SSSQLVarNames.learnEpCircleId);
-      column(columns, SSSQLVarNames.xLabel);
-      column(columns, SSSQLVarNames.yLabel);
-      column(columns, SSSQLVarNames.xR);
-      column(columns, SSSQLVarNames.yR);
-      column(columns, SSSQLVarNames.xC);
-      column(columns, SSSQLVarNames.yC);
+      column(columns, SSSQLVarNames.learnEpCircleTable, SSSQLVarNames.xLabel);
+      column(columns, SSSQLVarNames.learnEpCircleTable, SSSQLVarNames.yLabel);
+      column(columns, SSSQLVarNames.learnEpCircleTable, SSSQLVarNames.xR);
+      column(columns, SSSQLVarNames.learnEpCircleTable, SSSQLVarNames.yR);
+      column(columns, SSSQLVarNames.learnEpCircleTable, SSSQLVarNames.xC);
+      column(columns, SSSQLVarNames.learnEpCircleTable, SSSQLVarNames.yC);
       
       where(wheres, SSSQLVarNames.learnEpVersionId, learnEpVersionUri);
       
-      table(tables, SSSQLVarNames.entityTable);
+      setEntityTable(tables);
       table(tables, SSSQLVarNames.learnEpVersionCirclesTable);
       table(tables, SSSQLVarNames.learnEpCircleTable);
       
+      tableCon(tableCons, SSSQLVarNames.entityTable,                SSSQLVarNames.id,              SSSQLVarNames.learnEpCircleTable, SSSQLVarNames.learnEpCircleId);
       tableCon(tableCons, SSSQLVarNames.learnEpVersionCirclesTable, SSSQLVarNames.learnEpCircleId, SSSQLVarNames.learnEpCircleTable, SSSQLVarNames.learnEpCircleId);
       
       resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
@@ -263,13 +294,17 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
         
         learnEpCircles.add(
           SSLearnEpCircle.get(
-            bindingStrToUri   (resultSet, SSSQLVarNames.learnEpCircleId),
-            bindingStrToFloat (resultSet, SSSQLVarNames.xLabel),
-            bindingStrToFloat (resultSet, SSSQLVarNames.yLabel),
-            bindingStrToFloat (resultSet, SSSQLVarNames.xR),
-            bindingStrToFloat (resultSet, SSSQLVarNames.yR),
-            bindingStrToFloat (resultSet, SSSQLVarNames.xC),
-            bindingStrToFloat (resultSet, SSSQLVarNames.yC)));
+            bindingStrToUri          (resultSet, SSSQLVarNames.id),
+            bindingStrToLabel        (resultSet, SSSQLVarNames.label),
+            bindingStrToTextComment  (resultSet, SSSQLVarNames.description),
+            bindingStrToLong         (resultSet, SSSQLVarNames.creationTime),
+            getEntity(bindingStrToUri(resultSet, SSSQLVarNames.author)),
+            bindingStrToFloat        (resultSet, SSSQLVarNames.xLabel),
+            bindingStrToFloat        (resultSet, SSSQLVarNames.yLabel),
+            bindingStrToFloat        (resultSet, SSSQLVarNames.xR),
+            bindingStrToFloat        (resultSet, SSSQLVarNames.yR),
+            bindingStrToFloat        (resultSet, SSSQLVarNames.xC),
+            bindingStrToFloat        (resultSet, SSSQLVarNames.yC)));
       }
       
       return learnEpCircles;

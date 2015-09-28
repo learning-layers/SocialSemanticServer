@@ -26,6 +26,8 @@ import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSJSONLDU;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
+import at.tugraz.sss.serv.SSLabel;
+import at.tugraz.sss.serv.SSTextComment;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -73,13 +75,26 @@ public class SSLearnEpVersion extends SSEntity{
   }
   
   public static SSLearnEpVersion get(
-    final SSUri                  id, 
+    final SSUri                  id,
+    final SSLabel                label, 
+    final SSTextComment          description, 
+    final Long                   creationTime, 
+    final SSEntity               author,
     final SSUri                  learnEp,
     final List<SSEntity>         learnEpEntities,
     final List<SSEntity>         learnEpCircles,
     final SSLearnEpTimelineState learnEpTimelineState) throws Exception{
     
-    return new SSLearnEpVersion(id, learnEp, learnEpEntities, learnEpCircles, learnEpTimelineState);
+    return new SSLearnEpVersion(
+      id,
+      label,
+      description,
+      creationTime,
+      author,
+      learnEp,
+      learnEpEntities, 
+      learnEpCircles, 
+      learnEpTimelineState);
   }
   
   protected SSLearnEpVersion(
@@ -116,13 +131,23 @@ public class SSLearnEpVersion extends SSEntity{
   }
   
   protected SSLearnEpVersion(
-    final SSUri                  id, 
+    final SSUri                  id,
+    final SSLabel                label, 
+    final SSTextComment          description, 
+    final Long                   creationTime, 
+    final SSEntity               author,
     final SSUri                  learnEp,
     final List<SSEntity>         learnEpEntities,
     final List<SSEntity>         learnEpCircles,
     final SSLearnEpTimelineState learnEpTimelineState) throws Exception{
     
-    super(id, SSEntityE.learnEpVersion);
+    super(
+      id, 
+      SSEntityE.learnEpVersion,
+      label,
+      description, 
+      creationTime, 
+      author);
     
     this.learnEp               = learnEp;
     this.learnEpTimelineState  = learnEpTimelineState;

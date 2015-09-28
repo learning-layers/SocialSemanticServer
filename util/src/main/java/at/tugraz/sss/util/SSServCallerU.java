@@ -30,12 +30,14 @@ import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthCheckKeyPar;
 import at.tugraz.sss.serv.SSAddAffiliatedEntitiesToCircleI;
 import at.tugraz.sss.serv.SSAddAffiliatedEntitiesToCirclePar;
 import at.tugraz.sss.serv.SSCircleRightE;
+import at.tugraz.sss.serv.SSDescribeEntityI;
 import at.tugraz.sss.serv.SSEntitiesSharedWithUsersI;
 import at.tugraz.sss.serv.SSEntitiesSharedWithUsersPar;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSEntityCircle;
 import at.tugraz.sss.serv.SSEntityCopiedI;
 import at.tugraz.sss.serv.SSEntityCopiedPar;
+import at.tugraz.sss.serv.SSEntityDescriberPar;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSObjU;
@@ -53,6 +55,39 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SSServCallerU{
+
+  public static SSEntity describeEntity(
+    final SSUri                user,
+    final SSEntity             entity,
+    final SSEntityDescriberPar descPar,
+    final Boolean              withUserRestriction) throws Exception{
+    
+    try{
+      
+      if(entity == null){
+        return null;
+      }
+      
+      if(descPar == null){
+        return entity;
+      }
+        
+      descPar.user                = user;
+      descPar.withUserRestriction = withUserRestriction;
+      
+      SSEntity describedEntity = entity;
+      
+      for(SSServContainerI serv : SSServReg.inst.getServsHandlingDescribeEntity()){
+        describedEntity = ((SSDescribeEntityI) serv.serv()).describeEntity(describedEntity, descPar);
+      }
+
+      return describedEntity;
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
   
   public static List<SSEntity> filterExistingAndAccessibleEntities(
     final SSUri       user,

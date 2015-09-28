@@ -92,12 +92,15 @@ implements
       
       if(!SSStrU.equals(entity.author, SSVocConf.systemUserUri)){
         
-        entity.author =
-          userGet(
-            new SSUserGetPar(
-              par.user,
-              entity.author.id,
-              false));
+        if(entity.author != null){
+          
+          entity.author =
+            userGet(
+              new SSUserGetPar(
+                par.user,
+                entity.author.id,
+                false));
+        }
       }
       
       switch(entity.type){

@@ -22,6 +22,7 @@ package at.tugraz.sss.serv;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.ws.rs.core.MultivaluedMap;
@@ -359,7 +360,11 @@ public class SSDBSQLFct extends SSDBFct{
       return null;
     }
     
-    return SSAuthor.get(SSUri.get(tmp));
+    final SSAuthor author = SSAuthor.get(SSUri.get(tmp));
+    
+    author.author = SSAuthor.get(SSUri.get("http://sss.eu/system"), SSLabel.get("system"));
+    
+    return author;
   }
   
   protected static SSUri bindingStrToUri(
@@ -443,5 +448,69 @@ public class SSDBSQLFct extends SSDBFct{
     final String    binding) throws Exception{
     
     return Long.parseLong(bindingStr(resultSet, binding));
+  }
+  
+  protected static void setEntityColumns(
+    final List<String> columns) throws Exception{
+    
+    try{
+      column(columns, SSSQLVarNames.entityTable, SSSQLVarNames.id);
+      column(columns, SSSQLVarNames.entityTable, SSSQLVarNames.type);
+      column(columns, SSSQLVarNames.entityTable, SSSQLVarNames.label);
+      column(columns, SSSQLVarNames.entityTable, SSSQLVarNames.creationTime);
+      column(columns, SSSQLVarNames.entityTable, SSSQLVarNames.author);
+      column(columns, SSSQLVarNames.entityTable, SSSQLVarNames.description);
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  protected static void setEntityTable(
+    final List<String> tables) throws Exception{
+    
+    try{
+      table(tables, SSSQLVarNames.entityTable);
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  public SSEntity getEntity(
+    final SSUri entityUri) throws Exception{
+    
+    ResultSet resultSet  = null;
+    
+    try{
+      final List<String>        columns = new ArrayList<>();
+      final Map<String, String> where   = new HashMap<>();
+      
+      setEntityColumns(columns);
+      
+      where(where, SSSQLVarNames.id, entityUri);
+      
+      resultSet = dbSQL.select(SSSQLVarNames.entityTable, columns, where, null, null, null);
+      
+      checkFirstResult(resultSet);
+      
+      return SSEntity.get(
+          bindingStrToUri        (resultSet, SSSQLVarNames.id),
+          bindingStrToEntityType (resultSet, SSSQLVarNames.type), 
+          bindingStrToLabel      (resultSet, SSSQLVarNames.label), 
+          bindingStrToTextComment(resultSet, SSSQLVarNames.description), 
+          bindingStrToLong       (resultSet, SSSQLVarNames.creationTime), 
+          bindingStrToAuthor     (resultSet, SSSQLVarNames.author));
+          
+    }catch(Exception error){
+      
+      if(SSServErrReg.containsErr(SSErrE.sqlNoResultFound)){
+        SSServErrReg.reset();
+        return null;
+      }
+        
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
+    }
   }
 }

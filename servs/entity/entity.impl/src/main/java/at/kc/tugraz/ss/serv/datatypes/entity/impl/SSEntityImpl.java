@@ -358,13 +358,23 @@ implements
         return new ArrayList<>();
       }
       
-      final List<SSEntity> entities = new ArrayList<>();
+      final List<SSEntity> entities   = new ArrayList<>();
+      final List<SSUri>    entityURIs = new ArrayList<>();
       
-      for(SSUri entityURI :
-        sqlFct.getEntityURIs(
-          par.entities,
-          par.types,
-          par.authors)){
+      if(
+        !par.types.isEmpty() ||
+        !par.authors.isEmpty()){
+        
+        entityURIs.addAll(
+          sqlFct.getEntityURIs(
+            par.entities,
+            par.types,
+            par.authors));
+      }else{
+        entityURIs.addAll(par.entities);
+      }
+      
+      for(SSUri entityURI : entityURIs){
         
         SSEntity.addEntitiesDistinctWithoutNull(
           entities,
@@ -415,10 +425,11 @@ implements
         }
       }
         
-      if(par.descPar == null){
+      if(
+        par.descPar   == null &&
+        entity.author != null){
         entity.author = sqlFct.getEntity(entity.author.id);
       }
-      
       
       if(par.descPar != null){
       

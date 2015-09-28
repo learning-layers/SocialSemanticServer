@@ -203,6 +203,35 @@ public class SSEntity extends SSEntityA{
     return new SSEntity(id, type, label);
   }
   
+  public static SSEntity get(
+    final SSUri         id,
+    final SSEntityE     type,
+    final SSLabel       label,
+    final SSTextComment description,
+    final Long          creationTime,
+    final SSEntity      author) throws Exception{
+    
+    return new SSEntity(id, type, label, description, creationTime, author);
+  }
+  
+  protected SSEntity(
+    final SSUri         id,
+    final SSEntityE     type,
+    final SSLabel       label,
+    final SSTextComment description,
+    final Long          creationTime,
+    final SSEntity      author) throws Exception{
+    
+    super(id);
+    
+    this.id           = id;
+    this.type         = type;
+    this.label        = label;
+    this.description  = description;
+    this.creationTime = creationTime;
+    this.author       = author;
+  }
+  
   protected SSEntity(
     final SSUri     id,
     final SSEntityE type) throws Exception{
