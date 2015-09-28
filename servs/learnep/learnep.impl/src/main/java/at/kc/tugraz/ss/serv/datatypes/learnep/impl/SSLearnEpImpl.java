@@ -446,6 +446,9 @@ implements
           par.withUserRestriction,
           true); //invokeEntityHandlers
       }
+      
+      SSLearnEpActivityFct.copyLearnEp(par.user, entity.id, par.forUsers);
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
