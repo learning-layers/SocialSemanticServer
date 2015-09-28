@@ -24,37 +24,34 @@ import at.kc.tugraz.ss.activity.api.SSActivityServerI;
 import at.tugraz.sss.serv.SSLogU;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
 import at.kc.tugraz.ss.activity.datatypes.par.SSActivityAddPar;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionCircleAddPar;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionEntityAddPar;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionCircleRemovePar;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionEntityRemovePar;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionCircleUpdatePar;
-import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
 import java.util.List;
 import at.tugraz.sss.serv.SSErr;
+import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
 
 public class SSLearnEpActivityFct{
   
   public static void addCircleToLearnEpVersion(
-    final SSLearnEpVersionCircleAddPar par,
+    final SSUri                        user,
+    final SSUri                        learnEpVersion,
     final SSUri                        circle,
-    final SSUri                        learnEp) throws Exception{
+    final SSUri                        learnEp,
+    final Boolean                      shouldCommit) throws Exception{
     
     try{
       
       ((SSActivityServerI) SSServReg.getServ(SSActivityServerI.class)).activityAdd(
         new SSActivityAddPar(
-          par.user,
+          user,
           SSActivityE.addCircleToLearnEpVersion,
-          par.learnEpVersion,
-          SSUri.asListWithoutNullAndEmpty(),
-          SSUri.asListWithoutNullAndEmpty(circle, learnEp),
-          SSTextComment.asListWithoutNullAndEmpty(),
+          learnEpVersion,
           null,
-          false));
+          SSUri.asListWithoutNullAndEmpty(circle, learnEp),
+          null,
+          null,
+          shouldCommit));
       
     }catch(SSErr error){
       
@@ -69,22 +66,25 @@ public class SSLearnEpActivityFct{
   }
   
   public static void addEntityToLearnEpVersion(
-    final SSLearnEpVersionEntityAddPar par,
+    final SSUri                        user,
+    final SSUri                        learnEpVersion,
+    final SSUri                        entity,
     final SSUri                        learnEpEntity,
-    final SSUri                        learnEp) throws Exception{
+    final SSUri                        learnEp,
+    final Boolean                      shouldCommit) throws Exception{
     
     try{
       
       ((SSActivityServerI) SSServReg.getServ(SSActivityServerI.class)).activityAdd(
         new SSActivityAddPar(
-          par.user,
+          user,
           SSActivityE.addEntityToLearnEpVersion,
-          par.learnEpVersion,
-          SSUri.asListWithoutNullAndEmpty(),
-          SSUri.asListWithoutNullAndEmpty(learnEpEntity, par.entity, learnEp),
-          SSTextComment.asListWithoutNullAndEmpty(),
+          learnEpVersion,
           null,
-          false));
+          SSUri.asListWithoutNullAndEmpty(learnEpEntity, entity, learnEp),
+          null,
+          null,
+          shouldCommit));
       
     }catch(SSErr error){
       
@@ -99,22 +99,24 @@ public class SSLearnEpActivityFct{
   }
   
   public static void removeLearnEpVersionCircle(
-    final SSLearnEpVersionCircleRemovePar par,
+    final SSUri                           user,
     final SSUri                           learnEpVersion,
-    final SSUri                           learnEp) throws Exception{
+    final SSUri                           learnEp, 
+    final SSUri                           learnEpCircle,
+    final Boolean                         shouldCommit) throws Exception{
     
     try{
       
       ((SSActivityServerI) SSServReg.getServ(SSActivityServerI.class)).activityAdd(
         new SSActivityAddPar(
-          par.user,
+          user,
           SSActivityE.removeLearnEpVersionCircle,
           learnEpVersion,
-          SSUri.asListWithoutNullAndEmpty(),
-          SSUri.asListWithoutNullAndEmpty(par.learnEpCircle, learnEp),
-          SSTextComment.asListWithoutNullAndEmpty(),
           null,
-          false));
+          SSUri.asListWithoutNullAndEmpty(learnEpCircle, learnEp),
+          null,
+          null,
+          shouldCommit));
       
     }catch(SSErr error){
       
@@ -129,23 +131,25 @@ public class SSLearnEpActivityFct{
   }
   
   public static void removeLearnEpVersionEntity(
-    final SSLearnEpVersionEntityRemovePar par,
+    final SSUri                           user,
     final SSUri                           learnEpVersion,
+    final SSUri                           learnEpEntity,
     final SSUri                           entity,
-    final SSUri                           learnEp) throws Exception{
+    final SSUri                           learnEp,
+    final Boolean                         shouldCommit) throws Exception{
     
     try{
       
       ((SSActivityServerI) SSServReg.getServ(SSActivityServerI.class)).activityAdd(
         new SSActivityAddPar(
-          par.user,
+          user,
           SSActivityE.removeLearnEpVersionEntity,
           learnEpVersion,
-          SSUri.asListWithoutNullAndEmpty(),
-          SSUri.asListWithoutNullAndEmpty(par.learnEpEntity, entity, learnEp),
-          SSTextComment.asListWithoutNullAndEmpty(),
           null,
-          false));
+          SSUri.asListWithoutNullAndEmpty(learnEpEntity, entity, learnEp),
+          null,
+          null,
+          shouldCommit));
       
     }catch(SSErr error){
       
@@ -162,7 +166,8 @@ public class SSLearnEpActivityFct{
   public static void shareLearnEp(
     final SSUri       user,
     final SSUri       learnEp,
-    final List<SSUri> usersToShareWith) throws Exception{
+    final List<SSUri> usersToShareWith,
+    final Boolean     shouldCommit) throws Exception{
     
     try{
       
@@ -175,7 +180,7 @@ public class SSLearnEpActivityFct{
           null,
           null,
           null,
-          false));
+          shouldCommit));
       
     }catch(SSErr error){
       
@@ -192,7 +197,8 @@ public class SSLearnEpActivityFct{
   public static void copyLearnEp(
     final SSUri       user,
     final SSUri       learnEp,
-    final List<SSUri> usersToCopyFor) throws Exception{
+    final List<SSUri> usersToCopyFor,
+    final Boolean     shouldCommit) throws Exception{
     
     try{
       
@@ -205,7 +211,7 @@ public class SSLearnEpActivityFct{
           null,
           null,
           null,
-          false));
+          shouldCommit));
       
     }catch(SSErr error){
       
@@ -219,26 +225,92 @@ public class SSLearnEpActivityFct{
     }
   }
   
-  public static void handleLearnEpVersionUpdateCircle(
-    final SSLearnEpVersionCircleUpdatePar par,
+  public static void changeLearnEpVersionCircleLabel(
+    final SSUri                           user,
+    final SSLabel                         label,
     final SSUri                           learnEpVersion,
-    final SSUri                           learnEp) throws Exception{
+    final SSUri                           learnEpCircle,
+    final SSUri                           learnEp,
+    final Boolean                         shouldCommit) throws Exception{
     
     try{
       
-      if(par.label != null){
-        
-        ((SSActivityServerI) SSServReg.getServ(SSActivityServerI.class)).activityAdd(
-          new SSActivityAddPar(
-            par.user,
-            SSActivityE.changeLearnEpVersionCircleLabel,
-            learnEpVersion,
-            SSUri.asListWithoutNullAndEmpty(),
-            SSUri.asListWithoutNullAndEmpty(par.learnEpCircle, learnEp),
-            SSTextComment.asListWithoutNullAndEmpty(),
-            null,
-            false));
+      if(label == null){
+        return;
       }
+      
+      ((SSActivityServerI) SSServReg.getServ(SSActivityServerI.class)).activityAdd(
+        new SSActivityAddPar(
+          user,
+          SSActivityE.changeLearnEpVersionCircleLabel,
+          learnEpVersion,
+          null,
+          SSUri.asListWithoutNullAndEmpty(learnEpCircle, learnEp),
+          null,
+          null,
+          shouldCommit));
+      
+    }catch(SSErr error){
+      
+      switch(error.code){
+        case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
+        default: SSServErrReg.regErrThrow(error);
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+
+  public static void removeEntityFromLearnEpCircle(
+    final SSUri   user, 
+    final SSUri   learnEpEntity,
+    final SSUri   circle,
+    final Boolean shouldCommit) throws Exception{
+    
+    try{
+      
+      ((SSActivityServerI) SSServReg.getServ(SSActivityServerI.class)).activityAdd(
+        new SSActivityAddPar(
+          user,
+          SSActivityE.removeEntityFromLearnEpCircle, //type
+          learnEpEntity, //entity
+          null, //users
+          SSUri.asListWithoutNullAndEmpty(circle), //entities
+          null, //comments
+          null, //creationTime
+          shouldCommit));
+      
+    }catch(SSErr error){
+      
+      switch(error.code){
+        case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
+        default: SSServErrReg.regErrThrow(error);
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+
+  public static void addEntityToLearnEpCircle(
+    final SSUri   user, 
+    final SSUri   learnEpEntity,
+    final SSUri   circle,
+    final Boolean shouldCommit) throws Exception{
+    
+    try{
+      
+      ((SSActivityServerI) SSServReg.getServ(SSActivityServerI.class)).activityAdd(
+        new SSActivityAddPar(
+          user,
+          SSActivityE.addEntityToLearnEpCircle, //type
+          learnEpEntity, //entity
+          null, //users
+          SSUri.asListWithoutNullAndEmpty(circle), //entities
+          null, //comments
+          null, //creationTime
+          shouldCommit));
       
     }catch(SSErr error){
       

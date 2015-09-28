@@ -44,5 +44,4 @@ public interface SSLearnEpClientI {
   public void learnEpsLockHold                    (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
   public void learnEpLockSet                      (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
   public void learnEpLockRemove                   (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void learnEpVersionCirclesWithEntriesGet (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
 }

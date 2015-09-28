@@ -199,7 +199,7 @@ public class SSServCallerU{
             user,
             circle.id,
             entityURIs,
-            false,
+            false, //withUserRestriction
             false));
         
         if(invokeEntityHandlers){

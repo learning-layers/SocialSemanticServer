@@ -774,6 +774,86 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
     }
   }
 
+  public SSUri getLearnEpForEntity(final SSUri learnEpEntity) throws Exception{
+    
+    ResultSet resultSet;
+    
+    try{
+      final List<String>        columns   = new ArrayList<>();
+      final Map<String, String> wheres    = new HashMap<>();
+      final List<String>        tables    = new ArrayList<>();
+      final List<String>        tableCons = new ArrayList<>();
+      
+      column(columns, SSSQLVarNames.learnEpTable, SSSQLVarNames.learnEpId);
+      
+      where(wheres, SSSQLVarNames.learnEpVersionEntitiesTable, SSSQLVarNames.learnEpEntityId, learnEpEntity);
+      
+      table(tables, SSSQLVarNames.learnEpVersionEntitiesTable);
+      table(tables, SSSQLVarNames.learnEpVersionsTable);
+      table(tables, SSSQLVarNames.learnEpTable);
+      
+      tableCon(tableCons, SSSQLVarNames.learnEpVersionEntitiesTable, SSSQLVarNames.learnEpEntityId, SSSQLVarNames.learnEpVersionsTable, SSSQLVarNames.learnEpVersionId);
+      tableCon(tableCons, SSSQLVarNames.learnEpTable,                SSSQLVarNames.learnEpId,       SSSQLVarNames.learnEpVersionsTable, SSSQLVarNames.learnEpVersionId);
+      
+      resultSet = 
+        dbSQL.select(
+          tables,
+          columns, 
+          wheres, 
+          tableCons, 
+          null, 
+          null, 
+          null);
+      
+      checkFirstResult(resultSet);
+      
+      return bindingStrToUri(resultSet, SSSQLVarNames.learnEpId);
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  public SSUri getLearnEpForCircle(final SSUri learnEpCircle) throws Exception{
+    
+    ResultSet resultSet;
+    
+    try{
+      final List<String>        columns   = new ArrayList<>();
+      final Map<String, String> wheres    = new HashMap<>();
+      final List<String>        tables    = new ArrayList<>();
+      final List<String>        tableCons = new ArrayList<>();
+      
+      column(columns, SSSQLVarNames.learnEpTable, SSSQLVarNames.learnEpId);
+      
+      where(wheres, SSSQLVarNames.learnEpVersionCirclesTable, SSSQLVarNames.learnEpCircleId, learnEpCircle);
+      
+      table(tables, SSSQLVarNames.learnEpVersionCirclesTable);
+      table(tables, SSSQLVarNames.learnEpVersionsTable);
+      table(tables, SSSQLVarNames.learnEpTable);
+      
+      tableCon(tableCons, SSSQLVarNames.learnEpVersionCirclesTable,  SSSQLVarNames.learnEpCircleId, SSSQLVarNames.learnEpVersionsTable, SSSQLVarNames.learnEpVersionId);
+      tableCon(tableCons, SSSQLVarNames.learnEpTable,                SSSQLVarNames.learnEpId,       SSSQLVarNames.learnEpVersionsTable, SSSQLVarNames.learnEpVersionId);
+      
+      resultSet = 
+        dbSQL.select(
+          tables,
+          columns, 
+          wheres, 
+          tableCons, 
+          null, 
+          null, 
+          null);
+      
+      checkFirstResult(resultSet);
+      
+      return bindingStrToUri(resultSet, SSSQLVarNames.learnEpId);
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
   public void deleteCircle(final SSUri learnEpCircle) throws Exception{
     
     try{

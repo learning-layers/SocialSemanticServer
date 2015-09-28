@@ -112,6 +112,7 @@ import at.tugraz.sss.serv.SSPushEntitiesToUsersPar;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSUsersResourcesGathererI;
+import java.util.HashMap;
 
 public class SSLearnEpImpl
 extends SSServImplWithDBA
@@ -307,25 +308,13 @@ implements
           SSLearnEpActivityFct.shareLearnEp(
             par.user,
             entityShared.id,
-            SSUri.getDistinctNotNullFromEntities(par.circle.users));
+            SSUri.getDistinctNotNullFromEntities(par.circle.users),
+            false);
           
           break;
         }
       }
     }
-    
-    //    if(!par.usersToPushEntitiesTo.isEmpty()){
-//
-//              circleServ.circleUsersAdd(
-//                new SSCircleUsersAddPar(
-//                  null,
-//                  null,
-//                  par.user,
-//                  par.circle,
-//                  sqlFct.getLearnEpUserURIs(entityToAdd.id),
-//                  false,
-//                  false));
-//            }
   }
   
   @Override
@@ -447,7 +436,11 @@ implements
           true); //invokeEntityHandlers
       }
       
-      SSLearnEpActivityFct.copyLearnEp(par.user, entity.id, par.forUsers);
+      SSLearnEpActivityFct.copyLearnEp(
+        par.user, 
+        entity.id, 
+        par.forUsers,
+        false);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -463,6 +456,45 @@ implements
     
     sSCon.writeRetFullToClient(SSLearnEpsGetRet.get(learnEpsGet(par)));
   }
+  
+  @Override
+  public List<SSEntity> learnEpsGet(final SSLearnEpsGetPar par) throws Exception{
+
+    try{
+      
+      if(par.withUserRestriction){
+        
+        if(par.user == null){
+          throw new SSErr(SSErrE.parameterMissing);
+        }
+      }
+      
+      final List<SSEntity>    learnEps      = new ArrayList<>();
+      final SSLearnEpGetPar   learnEpGetPar = 
+          new SSLearnEpGetPar(
+            par.user,
+            null,
+            false, //withUserRestriction,
+            par.invokeEntityHandlers);
+      
+      learnEpGetPar.setRead        = par.setRead;
+      learnEpGetPar.setCircleTypes = par.setCircleTypes;
+      
+      for(SSUri learnEpURI : sqlFct.getLearnEpURIsForUser(par.user)){
+
+        learnEpGetPar.learnEp = learnEpURI;
+        
+        SSEntity.addEntitiesDistinctWithoutNull(
+          learnEps, 
+          learnEpGet(learnEpGetPar));          
+      }
+
+      return learnEps;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
 
   @Override
   public SSLearnEp learnEpGet(final SSLearnEpGetPar par) throws Exception{
@@ -470,6 +502,7 @@ implements
     try{
       
       if(par.withUserRestriction){
+       
         if(!SSServCallerU.canUserRead(par.user, par.learnEp)){
           return null;
         }
@@ -494,7 +527,7 @@ implements
           SSServCallerU.describeEntity(
             par.user, 
             learnEp, 
-            descPar, 
+            descPar,
             false)); //withUserRestriction
       
       if(par.invokeEntityHandlers){
@@ -538,46 +571,7 @@ implements
       SSServErrReg.regErrThrow(error);
       return null;
     }
-  }
-  
-  @Override
-  public List<SSEntity> learnEpsGet(final SSLearnEpsGetPar par) throws Exception{
-
-    try{
-      
-      if(par.withUserRestriction){
-        
-        if(par.user == null){
-          throw new SSErr(SSErrE.parameterMissing);
-        }
-      }
-      
-      final List<SSEntity> learnEps = new ArrayList<>();
-      SSLearnEpGetPar      learnEpGetPar;
-        
-      for(SSUri learnEpURI : sqlFct.getLearnEpURIsForUser(par.user)){
-
-        learnEpGetPar =
-          new SSLearnEpGetPar(
-            par.user,
-            learnEpURI,
-            par.withUserRestriction,
-            par.invokeEntityHandlers);
-        
-        learnEpGetPar.setRead        = par.setRead;
-        learnEpGetPar.setCircleTypes = par.setCircleTypes;
-        
-        SSEntity.addEntitiesDistinctWithoutNull(
-          learnEps, 
-          learnEpGet(learnEpGetPar));          
-      }
-
-      return learnEps;
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
+  }  
   
   @Override
   public void learnEpVersionsGet(SSSocketCon sSCon, SSServPar parA) throws Exception{
@@ -611,7 +605,7 @@ implements
             new SSLearnEpVersionGetPar(
               par.user,
               learnEpVersionUri,
-              par.withUserRestriction,
+              false, //withUserRestriction
               par.invokeEntityHandlers)));
       }
       
@@ -690,12 +684,19 @@ implements
 
     try{
       
+      if(par.withUserRestriction){
+        
+        if(!SSServCallerU.canUserRead(par.user, par.learnEp)){
+          return null;
+        }
+      }
+            
       final SSLearnEp learnEp = 
         learnEpGet(
           new SSLearnEpGetPar(
             par.user, 
             par.learnEp, 
-            par.withUserRestriction, 
+            false, //withUserRestriction
             false)); //invokeEntityHandlers
       
       if(learnEp == null){
@@ -741,6 +742,11 @@ implements
 
     final SSLearnEpVersionCreatePar par = (SSLearnEpVersionCreatePar) parA.getFromJSON(SSLearnEpVersionCreatePar.class);
     
+    SSLearnEpAccessController.checkHasLock(
+      learnEpConf, 
+      par.user, 
+      par.learnEp);
+    
     final SSUri result = learnEpVersionCreate(par);
     
     sSCon.writeRetFullToClient(SSLearnEpVersionCreateRet.get(result));
@@ -752,7 +758,6 @@ implements
   public SSUri learnEpVersionCreate(final SSLearnEpVersionCreatePar par) throws Exception{
 
     try{
-      final SSUri                     learnEpVersionUri = SSServCaller.vocURICreate();
 
       if(par.withUserRestriction){
       
@@ -761,7 +766,7 @@ implements
         }
       }
       
-      SSLearnEpAccessController.checkHasLock(learnEpConf, par.user, par.learnEp);
+      final SSUri learnEpVersionUri = SSServCaller.vocURICreate();
       
       dbSQL.startTrans(par.shouldCommit);
 
@@ -788,7 +793,7 @@ implements
         par.user,
         par.learnEp,
         SSUri.asListWithoutNullAndEmpty(learnEpVersionUri),
-        par.withUserRestriction,
+        false, //withUserRestriction
         false); //invokeEntityHandlers
       
       dbSQL.commit(par.shouldCommit);
@@ -820,18 +825,35 @@ implements
 
     SSServCallerU.checkKey(parA);
     
-    final SSLearnEpVersionCircleAddPar par = (SSLearnEpVersionCircleAddPar) parA.getFromJSON(SSLearnEpVersionCircleAddPar.class);
+    final SSLearnEpVersionCircleAddPar par     = (SSLearnEpVersionCircleAddPar) parA.getFromJSON(SSLearnEpVersionCircleAddPar.class);
+    final SSUri                        learnEp = sqlFct.getLearnEpForVersion(par.learnEpVersion);
+    final SSUri                        circle;
     
-    sSCon.writeRetFullToClient(SSLearnEpVersionCircleAddRet.get(learnEpVersionCircleAdd(par)));
+    SSLearnEpAccessController.checkHasLock(
+      learnEpConf, 
+      par.user, 
+      learnEp);
+
+    circle = learnEpVersionCircleAdd(par);
+    
+    sSCon.writeRetFullToClient(SSLearnEpVersionCircleAddRet.get(circle));
+    
+    if(circle != null){
+      
+      SSLearnEpActivityFct.addCircleToLearnEpVersion(
+        par.user,
+        par.learnEpVersion,
+        circle,
+        learnEp,
+        par.shouldCommit);
+    }
   }
   
   @Override
   public SSUri learnEpVersionCircleAdd(final SSLearnEpVersionCircleAddPar par) throws Exception{
 
     try{
-      final SSUri                        circleUri  = SSServCaller.vocURICreate();
-      final SSUri                        learnEp;
-      
+
       if(par.withUserRestriction){
       
         if(!SSServCallerU.canUserRead(par.user, par.learnEpVersion)){
@@ -839,9 +861,7 @@ implements
         }
       }
 
-      learnEp = sqlFct.getLearnEpForVersion(par.learnEpVersion);
-      
-      SSLearnEpAccessController.checkHasLock (learnEpConf, par.user, learnEp);
+      final SSUri circleUri  = SSServCaller.vocURICreate();
       
       dbSQL.startTrans(par.shouldCommit);
       
@@ -875,11 +895,9 @@ implements
         par.user,
         par.learnEpVersion,
         SSUri.asListWithoutNullAndEmpty(circleUri),
-        par.withUserRestriction,
+        false, //withUserRestriction
         false); //invokeEntityHandlers
       
-      SSLearnEpActivityFct.addCircleToLearnEpVersion(par, circleUri, learnEp);
-
       dbSQL.commit(par.shouldCommit);
 
       return circleUri;
@@ -909,17 +927,34 @@ implements
 
     SSServCallerU.checkKey(parA);
 
-    final SSLearnEpVersionEntityAddPar par = (SSLearnEpVersionEntityAddPar) parA.getFromJSON(SSLearnEpVersionEntityAddPar.class);
+    final SSLearnEpVersionEntityAddPar par     = (SSLearnEpVersionEntityAddPar) parA.getFromJSON(SSLearnEpVersionEntityAddPar.class);
+    final SSUri                        learnEp = sqlFct.getLearnEpForVersion(par.learnEpVersion);
+      
+    SSLearnEpAccessController.checkHasLock (
+      learnEpConf, 
+      par.user, 
+      learnEp);
     
-    sSCon.writeRetFullToClient(SSLearnEpVersionEntityAddRet.get(learnEpVersionEntityAdd(par)));
+    final SSUri learnEpEntity = learnEpVersionEntityAdd(par);
+    
+    sSCon.writeRetFullToClient(SSLearnEpVersionEntityAddRet.get(learnEpEntity));
+    
+    if(learnEpEntity != null){
+      
+      SSLearnEpActivityFct.addEntityToLearnEpVersion(
+        par.user,
+        par.learnEpVersion,
+        par.entity,
+        learnEpEntity,
+        learnEp,
+        par.shouldCommit);
+    }
   }
   
   @Override
   public SSUri learnEpVersionEntityAdd(final SSLearnEpVersionEntityAddPar par) throws Exception{
 
     try{
-      final SSUri                        learnEpEntityUri = SSServCaller.vocURICreate();
-      final SSUri                        learnEp;
 
       if(par.withUserRestriction){
       
@@ -931,10 +966,8 @@ implements
         }
       }
 
-      learnEp = sqlFct.getLearnEpForVersion(par.learnEpVersion);
+      final SSUri learnEpEntityUri = SSServCaller.vocURICreate();
       
-      SSLearnEpAccessController.checkHasLock (learnEpConf, par.user, learnEp);
-
       dbSQL.startTrans(par.shouldCommit);
       
       entityServ.entityUpdate(
@@ -975,18 +1008,22 @@ implements
 //          false));
       
       SSServCallerU.handleCirclesFromEntityGetEntitiesAdd(
-        circleServ, 
+        circleServ,
         entityServ,
         par.user, 
         par.learnEpVersion,
-        SSUri.asListWithoutNullAndEmpty(learnEpEntityUri, par.entity), 
-        par.withUserRestriction,
-        true); //invokeEntityHandlers);
+        SSUri.asListWithoutNullAndEmpty(learnEpEntityUri), 
+        false, //withUserRestriction,
+        false); //invokeEntityHandlers);
      
-      SSLearnEpActivityFct.addEntityToLearnEpVersion(
-        par, 
-        learnEpEntityUri, 
-        learnEp);
+      SSServCallerU.handleCirclesFromEntityGetEntitiesAdd(
+        circleServ,
+        entityServ,
+        par.user, 
+        par.learnEpVersion,
+        SSUri.asListWithoutNullAndEmpty(par.entity), 
+        par.withUserRestriction, //withUserRestriction
+        true); //invokeEntityHandlers);
       
       dbSQL.commit(par.shouldCommit);
 
@@ -1031,7 +1068,7 @@ implements
   public SSUri learnEpCreate(final SSLearnEpCreatePar par) throws Exception{
 
     try{
-      final SSUri              learnEpUri = SSServCaller.vocURICreate();
+      final SSUri learnEpUri = SSServCaller.vocURICreate();
       
       dbSQL.startTrans(par.shouldCommit);
       
@@ -1045,7 +1082,7 @@ implements
           null, //creationTime,
           null, //read,
           false, //setPublic
-          par.withUserRestriction, //withUserRestriction
+          false, //withUserRestriction
           false)); //shouldCommit)
             
       sqlFct.createLearnEp(learnEpUri, par.user);
@@ -1079,9 +1116,148 @@ implements
 
     SSServCallerU.checkKey(parA);
 
-    final SSLearnEpVersionCircleUpdatePar par = (SSLearnEpVersionCircleUpdatePar) parA.getFromJSON(SSLearnEpVersionCircleUpdatePar.class);
+    final SSLearnEpVersionCircleUpdatePar par             = (SSLearnEpVersionCircleUpdatePar) parA.getFromJSON(SSLearnEpVersionCircleUpdatePar.class);
+    final SSUri                           learnEp         = sqlFct.getLearnEpForCircle       (par.learnEpCircle);
+    final SSUri                           learnEpVersion  = sqlFct.getLearnEpVersionForCircle(par.learnEpCircle);
+  
+    SSLearnEpAccessController.checkHasLock(
+      learnEpConf,
+      par.user,
+      learnEp);
     
-    sSCon.writeRetFullToClient(SSLearnEpVersionCircleUpdateRet.get(learnEpVersionCircleUpdate(par)));
+    final List<SSEntity>                  versionCirclesBefore   = new ArrayList<>();
+    final List<SSEntity>                  versionCirclesAfter    = new ArrayList<>();
+    final Map<String, List<SSUri>>        entityCircleUrisBefore = new HashMap<>();
+    final Map<String, List<SSUri>>        entityCircleUrisAfter  = new HashMap<>();
+    final Boolean                         worked;
+    
+    if(
+      par.xLabel  != null ||
+      par.yLabel  != null ||
+      par.xR      != null ||
+      par.yR      != null ||
+      par.xC      != null ||
+      par.yC      != null){
+      
+      versionCirclesBefore.addAll(
+        learnEpVersionCirclesWithEntriesGet(
+          new SSLearnEpVersionCirclesWithEntriesGetPar(
+            par.user,
+            learnEpVersion,
+            false, //withUserRestriction
+            false))); //invokeEntityHandlers
+    }
+
+    worked = learnEpVersionCircleUpdate(par);
+    
+    sSCon.writeRetFullToClient(SSLearnEpVersionCircleUpdateRet.get(worked));
+    
+    if(!worked){
+      return;
+    }
+
+    SSLearnEpActivityFct.changeLearnEpVersionCircleLabel(
+      par.user,
+      par.label,
+      learnEpVersion,
+      par.learnEpCircle,
+      learnEp,
+      par.shouldCommit);
+    
+    if(
+      par.xLabel  == null &&
+      par.yLabel  == null &&
+      par.xR      == null &&
+      par.yR      == null &&
+      par.xC      == null &&
+      par.yC      == null){
+      
+      return;
+    }
+    
+    versionCirclesAfter.addAll(
+      learnEpVersionCirclesWithEntriesGet(
+        new SSLearnEpVersionCirclesWithEntriesGetPar(
+          par.user,
+          learnEpVersion,
+          false, //withUserRestriction
+          false))); //invokeEntityHandlers
+    
+    versionCirclesAfter.addAll(
+      learnEpVersionCirclesWithEntriesGet(
+        new SSLearnEpVersionCirclesWithEntriesGetPar(
+          par.user,
+          learnEpVersion,
+          false, //withUserRestriction
+          false))); //invokeEntityHandlers
+    
+    for(SSEntity circle : versionCirclesBefore){
+      
+      for(SSEntity entity : circle.entries){
+        
+        if(!entityCircleUrisBefore.containsKey(entity.toString())){
+          entityCircleUrisBefore.put(entity.toString(), new ArrayList<>());
+        }
+        
+        SSUri.addDistinctWithoutNull(entityCircleUrisBefore.get(entity.toString()), circle.id);
+      }
+    }
+    
+    for(SSEntity circle : versionCirclesAfter){
+      
+      for(SSEntity entity : circle.entries){
+        
+        if(!entityCircleUrisAfter.containsKey(entity.toString())){
+          entityCircleUrisAfter.put(entity.toString(), new ArrayList<>());
+        }
+        
+        SSUri.addDistinctWithoutNull(entityCircleUrisAfter.get(entity.toString()), circle.id);
+      }
+    }
+    
+    String entity;
+    
+    for(Map.Entry<String, List<SSUri>> entityCircles : entityCircleUrisBefore.entrySet()){
+      
+      entity = entityCircles.getKey();
+      
+      if(!entityCircleUrisAfter.containsKey(entity)){
+        continue;
+      }
+      
+      for(SSUri circle : entityCircles.getValue()){
+        
+        if(!SSStrU.contains(entityCircleUrisAfter.get(entity), circle)){
+          
+          SSLearnEpActivityFct.removeEntityFromLearnEpCircle(
+            par.user,
+            SSUri.get(entity),
+            circle,
+            par.shouldCommit);
+        }
+      }
+    }
+    
+    for(Map.Entry<String, List<SSUri>> entityCircles : entityCircleUrisAfter.entrySet()){
+      
+      entity = entityCircles.getKey();
+      
+      if(!entityCircleUrisBefore.containsKey(entity)){
+        continue;
+      }
+      
+      for(SSUri circle : entityCircles.getValue()){
+        
+        if(!SSStrU.contains(entityCircleUrisBefore.get(entity), circle)){
+          
+          SSLearnEpActivityFct.addEntityToLearnEpCircle(
+            par.user,
+            SSUri.get(entity),
+            circle,
+            par.shouldCommit);
+        }
+      }
+    }
   }
   
   @Override
@@ -1096,11 +1272,6 @@ implements
         }
       }
 
-      final SSUri learnEpVersion = sqlFct.getLearnEpVersionForCircle  (par.learnEpCircle);
-      final SSUri learnEp        = sqlFct.getLearnEpForVersion        (learnEpVersion);
-      
-      SSLearnEpAccessController.checkHasLock (learnEpConf, par.user, learnEp);
-      
       dbSQL.startTrans(par.shouldCommit);
       
       entityServ.entityUpdate(
@@ -1125,8 +1296,6 @@ implements
         par.xC,
         par.yC);
 
-      SSLearnEpActivityFct.handleLearnEpVersionUpdateCircle(par, learnEpVersion, learnEp);
-      
       dbSQL.commit(par.shouldCommit);
 
       return true;
@@ -1156,9 +1325,82 @@ implements
 
     SSServCallerU.checkKey(parA);
 
-    final SSLearnEpVersionEntityUpdatePar par = (SSLearnEpVersionEntityUpdatePar) parA.getFromJSON(SSLearnEpVersionEntityUpdatePar.class);
+    final SSLearnEpVersionEntityUpdatePar par            = (SSLearnEpVersionEntityUpdatePar) parA.getFromJSON(SSLearnEpVersionEntityUpdatePar.class);
+    final SSUri                           learnEp        = sqlFct.getLearnEpForEntity        (par.learnEpEntity);
+    final SSUri                           learnEpVersion = sqlFct.getLearnEpVersionForEntity (par.entity);
     
-    sSCon.writeRetFullToClient(SSLearnEpVersionEntityUpdateRet.get(learnEpVersionEntityUpdate(par)));
+    SSLearnEpAccessController.checkHasLock(
+      learnEpConf, 
+      par.user, 
+      learnEp);
+    
+    final List<SSEntity>                  versionCirclesBefore   = new ArrayList<>();
+    final List<SSEntity>                  versionCirclesAfter    = new ArrayList<>();
+    final List<SSUri>                     entityCircleUrisBefore = new ArrayList<>();
+    final List<SSUri>                     entityCircleUrisAfter  = new ArrayList<>();
+    final Boolean                         worked;
+    
+    versionCirclesBefore.addAll(
+      learnEpVersionCirclesWithEntriesGet(
+        new SSLearnEpVersionCirclesWithEntriesGetPar(
+          par.user,
+          learnEpVersion,
+          false, //withUserRestriction
+          false))); //invokeEntityHandlers
+    
+    worked = learnEpVersionEntityUpdate(par);
+    
+    sSCon.writeRetFullToClient(SSLearnEpVersionEntityUpdateRet.get(worked));
+    
+    if(!worked){
+      return;
+    }
+
+    versionCirclesAfter.addAll(
+      learnEpVersionCirclesWithEntriesGet(
+        new SSLearnEpVersionCirclesWithEntriesGetPar(
+          par.user,
+          learnEpVersion,
+          false, //withUserRestriction
+          false))); //invokeEntityHandlers
+    
+    for(SSEntity circle : versionCirclesBefore){
+      
+      if(SSStrU.contains(circle.entries, par.learnEpEntity)){
+        SSUri.addDistinctWithoutNull(entityCircleUrisBefore, circle.id);
+      }
+    }
+    
+    for(SSEntity circle : versionCirclesAfter){
+      
+      if(SSStrU.contains(circle.entries, par.learnEpEntity)){
+        SSUri.addDistinctWithoutNull(entityCircleUrisAfter, circle.id);
+      }
+    }
+    
+    for(SSUri circle : entityCircleUrisBefore){
+      
+      if(!SSStrU.contains(entityCircleUrisAfter, circle)){
+        
+        SSLearnEpActivityFct.removeEntityFromLearnEpCircle(
+          par.user,
+          par.learnEpEntity,
+          circle,
+          par.shouldCommit);
+      }
+    }
+    
+    for(SSUri circle : entityCircleUrisAfter){
+      
+      if(!SSStrU.contains(entityCircleUrisBefore, circle)){
+        
+        SSLearnEpActivityFct.addEntityToLearnEpCircle(
+          par.user,
+          par.learnEpEntity,
+          circle,
+          par.shouldCommit);
+      }
+    }
   }
   
   @Override
@@ -1173,38 +1415,14 @@ implements
         }
       }
       
-      final SSUri learnEpVersion     = sqlFct.getLearnEpVersionForEntity(par.learnEpEntity);
-      final SSUri learnEp            = sqlFct.getLearnEpForVersion      (learnEpVersion);
-      
-      SSLearnEpAccessController.checkHasLock (learnEpConf, par.user, learnEp);
-      
       dbSQL.startTrans(par.shouldCommit);
       
       sqlFct.updateEntity(
         par.learnEpEntity,
         par.x,
         par.y);
-
+      
       dbSQL.commit(par.shouldCommit);
-
-//      final List<SSEntity> circles = 
-//        learnEpVersionCirclesWithEntriesGet(
-//          new SSLearnEpVersionCirclesWithEntriesGetPar(
-//            par.user,
-//            learnEpVersion,
-//            par.withUserRestriction,
-//            false));
-//      
-//      for(SSEntity circle : circles){
-//        
-//        System.out.println(circle.label.toString() + " contains");
-//        
-//        for(SSEntity entry : circle.entries){
-//          System.out.println(((SSLearnEpEntity)entry).entity.label.toString());
-//        }
-//        
-//        System.out.println();
-//      }
       
       return true;
     }catch(Exception error){
@@ -1233,9 +1451,29 @@ implements
 
     SSServCallerU.checkKey(parA);
 
-    final SSLearnEpVersionCircleRemovePar par = (SSLearnEpVersionCircleRemovePar) parA.getFromJSON(SSLearnEpVersionCircleRemovePar.class);
+    final SSLearnEpVersionCircleRemovePar par              = (SSLearnEpVersionCircleRemovePar) parA.getFromJSON(SSLearnEpVersionCircleRemovePar.class);
+    final SSUri                           learnEp          = sqlFct.getLearnEpForCircle        (par.learnEpCircle);
+    final SSUri                           learnEpVersion   = sqlFct.getLearnEpVersionForCircle (par.learnEpCircle);
+    final Boolean                         worked;
     
-    sSCon.writeRetFullToClient(SSLearnEpVersionCircleRemoveRet.get(learnEpVersionCircleRemove(par)));
+    SSLearnEpAccessController.checkHasLock (
+      learnEpConf, 
+      par.user, 
+      learnEp);
+    
+    worked = learnEpVersionCircleRemove(par);
+      
+    sSCon.writeRetFullToClient(SSLearnEpVersionCircleRemoveRet.get(worked));
+    
+    if(worked){
+      
+      SSLearnEpActivityFct.removeLearnEpVersionCircle(
+        par.user, 
+        learnEpVersion, 
+        learnEp, 
+        par.learnEpCircle, 
+        par.shouldCommit);
+    }
   }
   
   @Override
@@ -1250,16 +1488,9 @@ implements
         }
       }
 
-      final SSUri learnEpVersion     = sqlFct.getLearnEpVersionForCircle(par.learnEpCircle);
-      final SSUri learnEp            = sqlFct.getLearnEpForVersion      (learnEpVersion);
-        
-      SSLearnEpAccessController.checkHasLock (learnEpConf, par.user, learnEp);
-      
       dbSQL.startTrans(par.shouldCommit);
 
       sqlFct.deleteCircle(par.learnEpCircle);
-      
-      SSLearnEpActivityFct.removeLearnEpVersionCircle(par, learnEpVersion, learnEp);
       
       dbSQL.commit(par.shouldCommit);
 
@@ -1290,9 +1521,31 @@ implements
 
     SSServCallerU.checkKey(parA);
 
-    final SSLearnEpVersionEntityRemovePar par = (SSLearnEpVersionEntityRemovePar) parA.getFromJSON(SSLearnEpVersionEntityRemovePar.class);
+    final SSLearnEpVersionEntityRemovePar par            = (SSLearnEpVersionEntityRemovePar) parA.getFromJSON(SSLearnEpVersionEntityRemovePar.class);
+    final SSUri                           learnEpVersion = sqlFct.getLearnEpVersionForEntity       (par.learnEpEntity);
+    final SSUri                           learnEp        = sqlFct.getLearnEpForVersion             (learnEpVersion);
+    final SSUri                           entity         = sqlFct.getEntity                        (learnEpVersion, par.learnEpEntity);
+    final Boolean                         worked;
+      
+    SSLearnEpAccessController.checkHasLock(
+      learnEpConf, 
+      par.user, 
+      learnEp);
     
-    sSCon.writeRetFullToClient(SSLearnEpVersionEntityRemoveRet.get(learnEpVersionEntityRemove(par)));
+    worked = learnEpVersionEntityRemove(par);
+    
+    sSCon.writeRetFullToClient(SSLearnEpVersionEntityRemoveRet.get(worked));
+    
+    if(worked){
+      
+      SSLearnEpActivityFct.removeLearnEpVersionEntity(
+        par.user, 
+        learnEpVersion, 
+        par.learnEpEntity,
+        entity, 
+        learnEp,
+        par.shouldCommit);
+    }
   }
   
   @Override
@@ -1307,18 +1560,10 @@ implements
         }
       }
 
-      final SSUri learnEpVersion       = sqlFct.getLearnEpVersionForEntity       (par.learnEpEntity);
-      final SSUri learnEp              = sqlFct.getLearnEpForVersion             (learnEpVersion);
-      final SSUri entity               = sqlFct.getEntity                        (learnEpVersion, par.learnEpEntity);
-      
-      SSLearnEpAccessController.checkHasLock (learnEpConf, par.user, learnEp);
-      
       dbSQL.startTrans(par.shouldCommit);
 
       sqlFct.deleteEntity(par.learnEpEntity);
       
-      SSLearnEpActivityFct.removeLearnEpVersionEntity(par, learnEpVersion, entity, learnEp);
-
       dbSQL.commit(par.shouldCommit);
 
       return true;
@@ -1358,7 +1603,7 @@ implements
 
     try{
 
-      final SSUri                               learnEpTimelineStateUri = SSServCaller.vocURICreate();
+      final SSUri learnEpTimelineStateUri = SSServCaller.vocURICreate();
 
       if(par.withUserRestriction){
         
@@ -1394,7 +1639,7 @@ implements
         par.user,
         par.learnEpVersion,
         SSUri.asListWithoutNullAndEmpty(learnEpTimelineStateUri),
-        par.withUserRestriction,
+        false, //withUserRestriction
         false); //invokeEntityHandlers);
       
       dbSQL.commit(par.shouldCommit);
@@ -1423,16 +1668,6 @@ implements
   }
   
   @Override
-  public void learnEpVersionCirclesWithEntriesGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
-    
-    SSServCallerU.checkKey(parA);
-
-    final SSLearnEpVersionCirclesWithEntriesGetPar par = (SSLearnEpVersionCirclesWithEntriesGetPar) parA.getFromJSON(SSLearnEpVersionCirclesWithEntriesGetPar.class);
-    
-    sSCon.writeRetFullToClient(SSLearnEpVersionCirclesWithEntriesGetRet.get(learnEpVersionCirclesWithEntriesGet(par)));
-  }
-  
-  @Override
   public List<SSEntity> learnEpVersionCirclesWithEntriesGet(final SSLearnEpVersionCirclesWithEntriesGetPar par) throws Exception{
     
     try{
@@ -1451,7 +1686,7 @@ implements
           new SSLearnEpVersionGetPar(
             par.user,
             par.learnEpVersion,
-            par.withUserRestriction,
+            false, //withUserRestriction
             false)); //invokeEntityHandlers
       
       if(version == null){
@@ -1799,7 +2034,9 @@ implements
       
       if(par.withUserRestriction){
         
-        SSServCallerU.canUserRead(par.user, par.learnEp);
+        if(!SSServCallerU.canUserRead(par.user, par.learnEp)){
+          return false;
+        }
         
         if(par.forUser == null){
           par.forUser = par.user;
