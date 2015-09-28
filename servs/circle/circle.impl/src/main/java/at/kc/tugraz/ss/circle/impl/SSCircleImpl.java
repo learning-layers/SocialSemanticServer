@@ -138,6 +138,8 @@ implements
               null, //forUser
               entity.id, //entity
               null, //entityTypesToIncludeOnly
+              true, //setEntities,
+              true, //setUsers,
               par.withUserRestriction, //withUserRestriction
               false,  //withSystemCircles
               false))); //invokeEntityHandlers
@@ -169,6 +171,8 @@ implements
                 par.entityTypesToIncludeOnly, //entityTypesToIncludeOnly
                 false,  //setTags
                 null, //tagSpace
+                true, //setEntities
+                true, //setUsers
                 par.withUserRestriction,  //withUserRestriction
                 false));                   //invokeEntityHandlers
           
@@ -218,6 +222,8 @@ implements
             null, //entityTypesToIncludeOnly
             false,  //setTags
             null, //tagSpace
+            true, //setEntities 
+            true, //setUsers,
             par.withUserRestriction,
             true)); //invokeEntityHandlers
       
@@ -433,6 +439,8 @@ implements
           null, //entityTypesToIncludeOnly,
           false,  //setTags
           null, //tagSpace
+          true, //setEntities,
+          true, //setUsers,
           par.withUserRestriction, //withUserRestriction,
           false)); //invokeEntityHandlers
     
@@ -634,6 +642,8 @@ implements
           null, //entityTypesToIncludeOnly,
           false,  //setTags
           null, //tagSpace
+          true, //setEntities
+          true, //setUsers,
           par.withUserRestriction, //withUserRestriction,
           true)); //invokeEntityHandlers))
     
@@ -751,6 +761,8 @@ implements
           null, //entityTypesToIncludeOnly,
           false,  //setTags
           null, //tagSpace
+          false, //setEntities
+          true, //setUsers, 
           par.withUserRestriction, //withUserRestriction,
           false)); //invokeEntityHandlers
     
@@ -1125,23 +1137,25 @@ implements
         }
       }
       
-      SSCircleGetPar circleGetPar;
-         
+      final SSCircleGetPar circleGetPar =
+        new SSCircleGetPar(
+          par.user,
+          null, //circle
+          par.entityTypesToIncludeOnly,
+          par.setTags,  //setTags
+          null, //tagSpace
+          par.setEntities, //setEntities,
+          par.setUsers, //setUsers
+          par.withUserRestriction,
+          par.invokeEntityHandlers);
+      
+      circleGetPar.setProfilePicture = par.setProfilePicture;
+      circleGetPar.setThumb          = par.setThumb;
+      
       for(SSUri circleURI : circleUris){
+
+        circleGetPar.circle = circleURI;
         
-        circleGetPar =
-          new SSCircleGetPar(
-            par.user,
-            circleURI,
-            par.entityTypesToIncludeOnly,
-            par.setTags,  //setTags
-            null, //tagSpace
-            par.withUserRestriction,
-            par.invokeEntityHandlers);
-        
-        circleGetPar.setProfilePicture = par.setProfilePicture;
-        circleGetPar.setThumb          = par.setThumb;
-          
         SSEntity.addEntitiesDistinctWithoutNull(
           circles,
           circleGet(circleGetPar));

@@ -188,8 +188,10 @@ public class SSServCallerU{
           new SSCirclesGetPar(
             user, //user
             null, //forUser
-            entity,
+            entity, //entity
             null, //entityTypesToIncludeOnly
+            false, //setEntities, 
+            invokeEntityHandlers, //setUsers,
             false, //withUserRestriction
             true,  //withSystemCircles
             false))){ //invokeEntityHandlers

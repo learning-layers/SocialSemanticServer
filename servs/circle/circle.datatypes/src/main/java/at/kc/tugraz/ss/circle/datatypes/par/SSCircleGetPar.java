@@ -33,9 +33,11 @@ public class SSCircleGetPar extends SSServPar{
   
   public SSUri           circle                     = null;
   public List<SSEntityE> entityTypesToIncludeOnly   = new ArrayList<>();
-  public Boolean         invokeEntityHandlers       = false;
   public Boolean         setTags                    = false;
   public SSSpaceE        tagSpace                   = null;
+  public Boolean         setEntities                = false;
+  public Boolean         setUsers                   = false;
+  public Boolean         invokeEntityHandlers       = false;
   public Boolean         setProfilePicture          = false;
   public Boolean         setThumb                   = false;
  
@@ -71,6 +73,8 @@ public class SSCircleGetPar extends SSServPar{
     final List<SSEntityE> entityTypesToIncludeOnly,
     final Boolean         setTags,
     final SSSpaceE        tagSpace,
+    final Boolean         setEntities,
+    final Boolean         setUsers,
     final Boolean         withUserRestriction,
     final Boolean         invokeEntityHandlers) throws Exception{
     
@@ -84,6 +88,8 @@ public class SSCircleGetPar extends SSServPar{
 
     this.setTags              = setTags;
     this.tagSpace             = tagSpace;
+    this.setEntities          = setEntities;
+    this.setUsers             = setUsers;
     this.withUserRestriction  = withUserRestriction;
     this.invokeEntityHandlers = invokeEntityHandlers;
   }

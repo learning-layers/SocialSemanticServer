@@ -689,14 +689,16 @@ public class SSRecommImpl extends SSServImplWithDBA implements SSRecommClientI, 
         
         circles.addAll(
           ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlesGet(
-          new SSCirclesGetPar(
-            userURI,
-            userURI, //forUser
-            null, //entity,
-            null, //entityTypesToIncludeOnly,
-            false, //withUserRestriction,
-            false, //withSystemCircles, 
-            false))); //invokeEntityHandlers
+            new SSCirclesGetPar(
+              userURI,
+              userURI, //forUser
+              null, //entity,
+              null, //entityTypesToIncludeOnly,
+              false, //setEntities,
+              false, //setUsers
+              false, //withUserRestriction,
+              false, //withSystemCircles,
+              false))); //invokeEntityHandlers
 
         for(SSEntity circle : circles){
           

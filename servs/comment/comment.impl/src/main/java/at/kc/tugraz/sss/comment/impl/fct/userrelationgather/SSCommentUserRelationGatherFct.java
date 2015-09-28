@@ -77,6 +77,8 @@ public class SSCommentUserRelationGatherFct{
             userUri,
             entity,
             null, //entityTypesToIncludeOnly
+            false, //setEntities,
+            true, //setUsers
             false, //withUserRestriction
             true, //withSystemCircles
             false))){ //invokeEntityHandlers

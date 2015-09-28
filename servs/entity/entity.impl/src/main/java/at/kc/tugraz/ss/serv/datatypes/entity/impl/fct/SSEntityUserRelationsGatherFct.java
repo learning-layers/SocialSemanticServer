@@ -70,7 +70,9 @@ public class SSEntityUserRelationsGatherFct{
             userUri,
             userUri,
             null,
-            SSEntityE.asListWithoutNullAndEmpty(),
+            null,
+            false, //setEntities,
+            true, //setUsers
             false,
             true,
             false))){

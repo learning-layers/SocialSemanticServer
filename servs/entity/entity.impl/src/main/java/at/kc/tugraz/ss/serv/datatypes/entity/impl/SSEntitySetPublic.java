@@ -73,6 +73,8 @@ public class SSEntitySetPublic {
             null, //entityTypesToIncludeOnly, 
             null, //setTags, 
             null, //tagSpace, 
+            false, //setEntities,
+            true, //setUsers
             false, //withUserRestriction
             false)); //invokeEntityHandlers));
       

@@ -95,7 +95,9 @@ public class SSEntityShareWithUsers {
             circleUri, 
             null, //entityTypesToIncludeOnly, 
             null, //setTags, 
-            null, //tagSpace, 
+            null, //tagSpace,
+            true, //setEntities,
+            true, //setUsers
             false, //withUserRestriction,  //as it is a system circle
             false)); //invokeEntityHandlers));
           

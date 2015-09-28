@@ -161,6 +161,8 @@ implements
               userUri,
               coll.id,
               null, //entityTypesToIncludeOnly
+              false, //setEntities
+              true, //setUsers
               false, // withUserRestriction
               true, // withSystemCircles
               false)); //invokeEntityHandlers
@@ -185,6 +187,8 @@ implements
                 userUri,
                 collEntry.id,
                 null, //entityTypesToIncludeOnly
+                false, //setEntities,
+                true, //setUsers
                 false, // withUserRestriction
                 true, // withSystemCircles
                 false)); //invokeEntityHandlers

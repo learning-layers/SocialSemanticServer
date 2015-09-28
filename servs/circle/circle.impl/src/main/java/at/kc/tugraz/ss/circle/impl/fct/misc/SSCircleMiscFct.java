@@ -350,6 +350,8 @@ public class SSCircleMiscFct{
               null, //entityTypesToIncludeOnly
               false,  //setTags
               null, //tagSpace
+              true, //setEntities,
+              true, //setUsers
               par.withUserRestriction,
               false)); //invokeEntityHandlers
         
@@ -380,6 +382,8 @@ public class SSCircleMiscFct{
             null, //entityTypesToIncludeOnly
             false,  //setTags
             null, //tagSpace
+            true, //setEntities,
+            true, //setUsers
             par.withUserRestriction,
             false)); //invokeEntityHandlers
       
@@ -475,6 +479,8 @@ public class SSCircleMiscFct{
             null, //entityTypesToIncludeOnly
             false,  //setTags
             null, //tagSpace
+            true, //setEntities,
+            true, //setUsers
             par.withUserRestriction,
             false)); //invokeEntityHandlers
       

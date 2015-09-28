@@ -96,6 +96,8 @@ public class SSDataExportImpl extends SSServImplWithDBA implements SSDataExportC
             null, //entityTypesToIncludeOnly
             false,  //setTags
             null, //tagSpace
+            true, //setEntities,
+            false, //setUsers
             false,  //withUserRestriction
             false)); //invokeEntityHandlers
       

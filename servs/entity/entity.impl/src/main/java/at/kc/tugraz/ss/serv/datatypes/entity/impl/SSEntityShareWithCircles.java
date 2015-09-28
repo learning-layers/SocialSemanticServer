@@ -70,6 +70,8 @@ public class SSEntityShareWithCircles {
               null, //entityTypesToIncludeOnly
               false,  //setTags
               null, //tagSpace
+              false, //setEntities,
+              true, //setUsers
               withUserRestriction, //withUserRestriction
               false)); //invokeEntityHandlers
         

@@ -84,6 +84,8 @@ public class SSRESTCircle{
           null, //forUser,
           null, //entity
           null, //entityTypesToIncludeOnly
+          true, //setEntities,
+          true, //setUsers
           true,  //withUserRestriction
           false, //withSystemCircles
           true); //invokeEntityHandlers
@@ -122,6 +124,8 @@ public class SSRESTCircle{
           SSUri.get(forUser, SSVocConf.sssUri), //forUser,
           null, //entity
           null, //entityTypesToIncludeOnly
+          true, //setEntities,
+          true, //setUsers
           true,  //withUserRestriction
           false, //withSystemCircles
           true); //invokeEntityHandlers
@@ -156,6 +160,8 @@ public class SSRESTCircle{
           input.forUser, //forUser,
           null, //entity
           input.entityTypesToIncludeOnly, //entityTypesToIncludeOnly
+          true, //setEntities,
+          true, //setUsers
           true,  //withUserRestriction
           false, //withSystemCircles
           input.invokeEntityHandlers); //invokeEntityHandlers
@@ -197,6 +203,8 @@ public class SSRESTCircle{
           SSUri.get(forUser, SSVocConf.sssUri), //forUser,
           null, //entity
           input.entityTypesToIncludeOnly, //entityTypesToIncludeOnly
+          true, //setEntities,
+          true, //setUsers
           true,  //withUserRestriction
           false, //withSystemCircles
           input.invokeEntityHandlers); //invokeEntityHandlers
@@ -237,6 +245,8 @@ public class SSRESTCircle{
           null, //entityTypesToIncludeOnly
           false, //setTags
           null, //circle
+          true, //setEntities,
+          true, //setUsers
           true,  //withUserRestriction
           true); //invokeEntityHandlers
       
@@ -274,6 +284,8 @@ public class SSRESTCircle{
           input.entityTypesToIncludeOnly, //entityTypesToIncludeOnly
           input.setTags,
           input.tagSpace,
+          true, //setEntities,
+          true, //setUsers
           true,  //withUserRestriction
           input.invokeEntityHandlers); //invokeEntityHandlers
       

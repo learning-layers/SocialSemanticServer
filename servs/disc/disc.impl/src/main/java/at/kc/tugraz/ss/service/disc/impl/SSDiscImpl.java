@@ -192,6 +192,8 @@ public class SSDiscImpl
               userUri, //forUser
               disc.id,
               null, //entityTypesToIncludeOnly
+              false, //setEntities,
+              true, //setUsers
               false, //withUserRestriction
               true, //withSystemCircles
               false)); //invokeEntityHandlers
