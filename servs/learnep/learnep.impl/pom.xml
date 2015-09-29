@@ -48,7 +48,13 @@
       <artifactId>conf.conf</artifactId>
       <version>${project.version}</version>
     </dependency>
-   
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>eval.api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
     <dependency>
       <groupId>sss.servs</groupId>
       <artifactId>entity.api</artifactId>

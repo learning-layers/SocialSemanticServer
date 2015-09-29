@@ -232,7 +232,11 @@ implements
       
     sSCon.writeRetFullToClient(SSMessageSendRet.get(messageURI));
     
-    SSMessageActivityFct.messageSend(par, messageURI);
+    SSMessageActivityFct.messageSend(
+      par.user, 
+      par.forUser, 
+      messageURI, 
+      par.shouldCommit);
   }
   
   @Override

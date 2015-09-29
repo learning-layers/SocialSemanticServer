@@ -48,35 +48,39 @@ public enum SSEvalLogE implements SSJSONLDPropI{
   recommTagsResult,
   
   //bits and pieces
-  clickBit, 
-  clickTag, 
-  clickLabelRecommendation, 
-  clickTagRecommendation,
-  clickJumpToDateButton, 
-  clickAffectButton,
-  clickHelpButton, 
-  searchWithKeyword, 
-  sendMessage, 
-  readMessage,
-  changeLabel, 
-  changeDescription, 
-  setImportance, 
-  addTag,
-  removeTag,  
-  copyLearnEpForUser, 
-  shareLearnEpWithUser, 
-  removeLearnEpVersionCircle, 
-  removeLearnEpVersionEntity, 
-  addEntityToLearnEpVersion, 
-  addCircleToLearnEpVersion, 
-  setFilter, 
-  removeFilter, 
-  executeJumpToDateButton,
-  requestEditButton, 
-  releaseEditButton,
-  addNotebook,
-  addNote,
-  addResource;
+  addNotebook, //server
+  addNote, //server
+  addResource, //server
+  copyLearnEpForUser, //server
+  shareLearnEpWithUser,  //server
+  removeLearnEpVersionCircle, //server
+  removeLearnEpVersionEntity, //server
+  addEntityToLearnEpVersion, //server
+  addCircleToLearnEpVersion, //server
+  addEntityToLearnEpCircle, //server
+  removeEntityFromLearnEpCircle, //server
+  removeLearnEpVersionCircleWithEntitites, //server
+  changeLabel,  //client | server
+  changeDescription, //client | server
+  addTag, //client | server
+  clickBit,  //client
+  clickTag,  //client
+  clickLabelRecommendation,   //client
+  clickTagRecommendation, //client
+  clickJumpToDateButton,   //client
+  clickAffectButton, //client
+  clickHelpButton,  //client
+  searchWithKeyword,//client
+  readMessage, //client
+  sendMessage, //client
+  setImportance, //client
+  removeTag, //client
+  setFilter, //client
+  removeFilter, //client
+  executeJumpToDateButton, //client
+  requestEditButton,  //client
+  releaseEditButton //client
+  ; 
   
   @Override
   public Object jsonLDDesc() {

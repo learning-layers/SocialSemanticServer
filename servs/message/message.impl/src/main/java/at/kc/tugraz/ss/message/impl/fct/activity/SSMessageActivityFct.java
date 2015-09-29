@@ -28,7 +28,6 @@ import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
 import at.kc.tugraz.ss.activity.datatypes.par.SSActivityAddPar;
 import at.kc.tugraz.ss.activity.datatypes.par.SSActivityContentAddPar;
 import at.tugraz.sss.serv.SSUri;
-import at.kc.tugraz.ss.message.datatypes.par.SSMessageSendPar;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
@@ -36,30 +35,32 @@ import at.tugraz.sss.serv.SSServReg;
 public class SSMessageActivityFct{
   
   public static void messageSend(
-    final SSMessageSendPar par,
-    final SSUri            message) throws Exception{
+    final SSUri           user,
+    final SSUri           forUser,
+    final SSUri   message,
+    final Boolean         shouldCommit) throws Exception{
     
     try{
       
       final SSUri activity =
         ((SSActivityServerI) SSServReg.getServ(SSActivityServerI.class)).activityAdd(
           new SSActivityAddPar(
-            par.user,
+            user,
             SSActivityE.messageSend,
             message,
-            SSUri.asListWithoutNullAndEmpty(par.forUser),
+            SSUri.asListWithoutNullAndEmpty(forUser),
             null,
             null,
             null,
-            par.shouldCommit));
+            shouldCommit));
         
       ((SSActivityServerI) SSServReg.getServ(SSActivityServerI.class)).activityContentAdd(
         new SSActivityContentAddPar(
-          par.user, 
+          user, 
           activity, 
           SSActivityContentE.text, 
-          SSActivityContent.get(par.message),
-          par.shouldCommit));
+          SSActivityContent.get(message),
+          shouldCommit));
       
     }catch(SSErr error){
       

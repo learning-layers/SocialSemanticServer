@@ -369,10 +369,10 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
         
         evalServ.evalLog(
           new SSEvalLogPar(
-            userUri,
-            SSToolContextE.evernoteImport,
-            SSEvalLogE.addTag,
-            noteUri,
+            userUri, //user
+            SSToolContextE.evernoteImport, //toolContext
+            SSEvalLogE.addTag, //type
+            noteUri, //entity
             noteTag, //content
             SSUri.asListWithoutNullAndEmpty(notebookUri), //entities
             null, //users

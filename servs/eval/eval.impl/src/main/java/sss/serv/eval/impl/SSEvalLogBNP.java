@@ -35,6 +35,47 @@ public class SSEvalLogBNP {
     
     try{
       
+      switch(par.type){
+        
+        case addNotebook: //server
+        case addNote: //server
+        case addResource: //server
+        case copyLearnEpForUser: //server
+        case shareLearnEpWithUser:  //server
+        case removeLearnEpVersionCircle: //server
+        case removeLearnEpVersionEntity: //server
+        case addEntityToLearnEpVersion: //server
+        case addCircleToLearnEpVersion: //server
+        case addEntityToLearnEpCircle: //server
+        case removeEntityFromLearnEpCircle: //server
+        case removeLearnEpVersionCircleWithEntitites: //server
+        case changeLabel:  //client | server
+        case changeDescription: //client | server
+        case addTag: //client | server
+        case clickBit:  //client
+        case clickTag:  //client
+        case clickLabelRecommendation:   //client
+        case clickTagRecommendation: //client
+        case clickJumpToDateButton:   //client
+        case clickAffectButton: //client
+        case clickHelpButton:  //client
+        case searchWithKeyword://client
+        case readMessage: //client
+        case sendMessage: //client
+        case setImportance: //client
+        case removeTag: //client
+        case setFilter: //client
+        case removeFilter: //client
+        case executeJumpToDateButton: //client
+        case requestEditButton:  //client
+        case releaseEditButton:{ //client
+          
+          break;
+        }
+        
+        default: return;
+      }
+      
       final List<SSEntity>   notSelectedEntities = new ArrayList<>();
       String                 logText             = new String();
       String                 selectBitsMeasure   = SSStrU.empty;
