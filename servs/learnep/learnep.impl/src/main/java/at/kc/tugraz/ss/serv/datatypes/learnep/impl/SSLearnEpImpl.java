@@ -1689,9 +1689,9 @@ implements
           
           //(xEntity - xCircle)^2 / rxCircle^2 + same for y <= 1 then the entiy is wihtin the circle
           
-          first         = Math.pow(Math.subtractExact(entity.x.longValue(), circle.xC.longValue()), 2);
+          first         = Math.pow(Math.subtractExact(entity.x.longValue() + 25, circle.xC.longValue()), 2);
           firstDivisor  = Math.pow(circle.xR.longValue(), 2);
-          second        = Math.pow(Math.subtractExact(entity.y.longValue(), circle.yC.longValue()), 2);
+          second        = Math.pow(Math.subtractExact(entity.y.longValue() + 25, circle.yC.longValue()), 2);
           secondDivisor = Math.pow(circle.yR.longValue(), 2);
           
           if(firstDivisor == 0 || secondDivisor == 0){
