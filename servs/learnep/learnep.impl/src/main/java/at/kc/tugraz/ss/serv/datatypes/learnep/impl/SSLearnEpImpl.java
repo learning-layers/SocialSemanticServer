@@ -933,18 +933,32 @@ implements
       par.user, 
       learnEp);
     
+    final List<SSEntity> versionCirclesBefore   = new ArrayList<>();
+    
+    versionCirclesBefore.addAll(
+      learnEpVersionCirclesWithEntriesGet(
+        new SSLearnEpVersionCirclesWithEntriesGetPar(
+          par.user,
+          par.learnEpVersion,
+          false, //withUserRestriction
+          false))); //invokeEntityHandlers
+    
     final SSUri learnEpEntity = learnEpVersionEntityAdd(par);
     
     sSCon.writeRetFullToClient(SSLearnEpVersionEntityAddRet.get(learnEpEntity));
     
     if(learnEpEntity != null){
       
-      SSLearnEpActivityFct.addEntityToLearnEpVersion(
+      SSLearnEpActivityFct.handleEntityAddToOrRemoveFromLearnEpCircle(
+        this,
         par.user,
-        par.learnEpVersion,
-        par.entity,
-        learnEpEntity,
         learnEp,
+        par.learnEpVersion, 
+        learnEpEntity,
+        par.entity,
+        versionCirclesBefore,
+        false, //calledFromRemove
+        true, //calledFromAdd 
         par.shouldCommit);
     }
   }
@@ -1117,6 +1131,13 @@ implements
     final SSLearnEpVersionCircleUpdatePar par             = (SSLearnEpVersionCircleUpdatePar) parA.getFromJSON(SSLearnEpVersionCircleUpdatePar.class);
     final SSUri                           learnEp         = sqlFct.getLearnEpForCircle       (par.learnEpCircle);
     final SSUri                           learnEpVersion  = sqlFct.getLearnEpVersionForCircle(par.learnEpCircle);
+    final SSEntity                        circleEntity    = 
+      entityServ.entityGet(
+        new SSEntityGetPar(
+          par.user, 
+          par.learnEpCircle, 
+          false, 
+          null));
   
     SSLearnEpAccessController.checkHasLock(
       learnEpConf,
@@ -1156,6 +1177,7 @@ implements
 
     SSLearnEpActivityFct.changeLearnEpVersionCircleLabel(
       par.user,
+      circleEntity,
       par.label,
       learnEpVersion,
       par.learnEpCircle,
@@ -1204,22 +1226,22 @@ implements
       if(!SSStrU.contains(entityURIsAfter, entityURI)){
         
         SSLearnEpActivityFct.removeEntityFromLearnEpCircle(
-            par.user,
-            entityURI,
-            par.learnEpCircle,
-            par.shouldCommit);
+          par.user,
+          entityURI,
+          par.learnEpCircle,
+          par.shouldCommit);
       }
     }
     
     for(SSUri entityURI : entityURIsAfter){
       
       if(!SSStrU.contains(entityURIsBefore, entityURI)){
-         
+        
         SSLearnEpActivityFct.addEntityToLearnEpCircle(
-            par.user,
-            entityURI,
-            par.learnEpCircle,
-            par.shouldCommit);
+          par.user,
+          entityURI,
+          par.learnEpCircle,
+          par.shouldCommit);
       }
     }
   }
@@ -1299,9 +1321,6 @@ implements
       learnEp);
     
     final List<SSEntity>                  versionCirclesBefore   = new ArrayList<>();
-    final List<SSEntity>                  versionCirclesAfter    = new ArrayList<>();
-    final List<SSUri>                     entityCircleUrisBefore = new ArrayList<>();
-    final List<SSUri>                     entityCircleUrisAfter  = new ArrayList<>();
     final Boolean                         worked;
     
     versionCirclesBefore.addAll(
@@ -1320,51 +1339,17 @@ implements
       return;
     }
 
-    versionCirclesAfter.addAll(
-      learnEpVersionCirclesWithEntriesGet(
-        new SSLearnEpVersionCirclesWithEntriesGetPar(
-          par.user,
-          learnEpVersion,
-          false, //withUserRestriction
-          false))); //invokeEntityHandlers
-    
-    for(SSEntity circle : versionCirclesBefore){
-      
-      if(SSStrU.contains(circle.entries, par.learnEpEntity)){
-        SSUri.addDistinctWithoutNull(entityCircleUrisBefore, circle.id);
-      }
-    }
-    
-    for(SSEntity circle : versionCirclesAfter){
-      
-      if(SSStrU.contains(circle.entries, par.learnEpEntity)){
-        SSUri.addDistinctWithoutNull(entityCircleUrisAfter, circle.id);
-      }
-    }
-    
-    for(SSUri circle : entityCircleUrisBefore){
-      
-      if(!SSStrU.contains(entityCircleUrisAfter, circle)){
-        
-        SSLearnEpActivityFct.removeEntityFromLearnEpCircle(
-          par.user,
-          par.learnEpEntity,
-          circle,
-          par.shouldCommit);
-      }
-    }
-    
-    for(SSUri circle : entityCircleUrisAfter){
-      
-      if(!SSStrU.contains(entityCircleUrisBefore, circle)){
-        
-        SSLearnEpActivityFct.addEntityToLearnEpCircle(
-          par.user,
-          par.learnEpEntity,
-          circle,
-          par.shouldCommit);
-      }
-    }
+    SSLearnEpActivityFct.handleEntityAddToOrRemoveFromLearnEpCircle(
+      this, 
+      par.user, 
+      learnEp, 
+      learnEpVersion, 
+      par.learnEpEntity, 
+      null, //entity
+      versionCirclesBefore,
+      false, //calledFromRemove
+      false, //calledFromAdd 
+      par.shouldCommit);
   }
   
   @Override
@@ -1425,18 +1410,37 @@ implements
       par.user, 
       learnEp);
     
+    final List<SSEntity> versionCirclesBefore   = new ArrayList<>();
+    
+    versionCirclesBefore.addAll(
+      learnEpVersionCirclesWithEntriesGet(
+        new SSLearnEpVersionCirclesWithEntriesGetPar(
+          par.user,
+          learnEpVersion,
+          false, //withUserRestriction
+          false))); //invokeEntityHandlers
+    
     worked = learnEpVersionCircleRemove(par);
       
     sSCon.writeRetFullToClient(SSLearnEpVersionCircleRemoveRet.get(worked));
     
     if(worked){
       
-      SSLearnEpActivityFct.removeLearnEpVersionCircle(
-        par.user, 
-        learnEpVersion, 
-        learnEp, 
-        par.learnEpCircle, 
-        par.shouldCommit);
+      for(SSEntity circle : versionCirclesBefore){
+        
+        if(!SSStrU.equals(par.learnEpCircle, circle)){
+          continue;
+        }
+
+        SSLearnEpActivityFct.handleRemoveLearnEpVersionCircleWithEntities(
+          par.user, 
+          learnEpVersion, 
+          learnEp, 
+          circle, 
+          par.shouldCommit);
+        
+        break;
+      }
     }
   }
   
@@ -1496,18 +1500,32 @@ implements
       par.user, 
       learnEp);
     
+    final List<SSEntity> versionCirclesBefore   = new ArrayList<>();
+    
+    versionCirclesBefore.addAll(
+      learnEpVersionCirclesWithEntriesGet(
+        new SSLearnEpVersionCirclesWithEntriesGetPar(
+          par.user,
+          learnEpVersion,
+          false, //withUserRestriction
+          false))); //invokeEntityHandlers
+    
     worked = learnEpVersionEntityRemove(par);
     
     sSCon.writeRetFullToClient(SSLearnEpVersionEntityRemoveRet.get(worked));
     
     if(worked){
       
-      SSLearnEpActivityFct.removeLearnEpVersionEntity(
-        par.user, 
+      SSLearnEpActivityFct.handleEntityAddToOrRemoveFromLearnEpCircle(
+        this,
+        par.user,
+        learnEp,
         learnEpVersion, 
         par.learnEpEntity,
-        entity, 
-        learnEp,
+        entity,
+        versionCirclesBefore,
+        true, //calledFromRemove
+        false, //calledFromAdd 
         par.shouldCommit);
     }
   }

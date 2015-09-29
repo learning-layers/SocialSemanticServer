@@ -528,7 +528,7 @@ public class SSStrU{
       return false;
     }
     
-    return object1.toString().equals(object2.toString());
+    return object1.toString().trim().equals(object2.toString().trim());
   }
   
   public static List<String> distinctWithoutNull(
