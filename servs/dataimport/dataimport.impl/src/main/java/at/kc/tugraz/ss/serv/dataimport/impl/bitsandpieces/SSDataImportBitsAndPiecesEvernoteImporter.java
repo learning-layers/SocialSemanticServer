@@ -416,7 +416,7 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
         if(SSFileExtE.isImageFileExt(SSMimeTypeE.fileExtForMimeType1(resourceWithContent.getMime()))){
           
           if(resourceWithContent.getAttributes().isSetSourceURL()){
-            SSLogU.info("evernote image with source url ignored: " + resourceWithContent.getAttributes().getSourceURL());
+//            SSLogU.info("evernote image with source url ignored: " + resourceWithContent.getAttributes().getSourceURL());
             continue;
           }
           
@@ -424,7 +424,7 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
             !resourceWithContent.isSetHeight() ||
             !resourceWithContent.isSetWidth()){
             
-            SSLogU.info("evernote image resource height or width not set");
+//            SSLogU.info("evernote image resource height or width not set");
             continue;
           }
           
@@ -432,7 +432,7 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
             resourceWithContent.getWidth()  <= SSDataImportImpl.bitsAndPiecesImageMinWidth ||
             resourceWithContent.getHeight() <= SSDataImportImpl.bitsAndPiecesImageMinHeight){
             
-            SSLogU.info("evernote image resource height or width < " + SSDataImportImpl.bitsAndPiecesImageMinWidth);
+//            SSLogU.info("evernote image resource height or width < " + SSDataImportImpl.bitsAndPiecesImageMinWidth);
             continue;
           }
         }

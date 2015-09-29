@@ -26,6 +26,7 @@ import java.util.Map;
 
 public enum SSMimeTypeE {
   
+  applicationZipCompressed                                   ("application/x-zip-compressed"),
   applicationZip                                             ("application/zip"),
   applicationBin                                             ("application/octet-stream"),
   applicationOpenOfficeDoc                                   ("application/vnd.oasis.opendocument.text"),
@@ -92,6 +93,7 @@ public enum SSMimeTypeE {
   
   public static synchronized void init() throws Exception{
     
+    mimeTypes.put(applicationZipCompressed.toString(),         applicationZipCompressed);
     mimeTypes.put(applicationZip.toString(),                   applicationZip);
     mimeTypes.put(applicationBin.toString(),                   applicationBin);
     mimeTypes.put(applicationOpenOfficeDoc.toString(),         applicationOpenOfficeDoc);
@@ -133,6 +135,7 @@ public enum SSMimeTypeE {
     mimeTypes.put(audioMpeg.toString(),                        audioMpeg);
     mimeTypes.put(audioWav.toString(),                         audioWav);
     
+    fileExtPerMimeType.put(applicationZipCompressed,     SSFileExtE.zip);
     fileExtPerMimeType.put(applicationZip,               SSFileExtE.zip);
     fileExtPerMimeType.put(applicationBin,               SSFileExtE.bin);
     fileExtPerMimeType.put(applicationOpenOfficeDoc,     SSFileExtE.odt);
@@ -172,6 +175,7 @@ public enum SSMimeTypeE {
     fileExtPerMimeType.put(applicationRdf,               SSFileExtE.rdf);
     fileExtPerMimeType.put(applicationOgg,               SSFileExtE.ogg);
     
+    mimeTypePerFileExt.put(SSFileExtE.zip,   applicationZipCompressed);
     mimeTypePerFileExt.put(SSFileExtE.zip,   applicationZip);
     mimeTypePerFileExt.put(SSFileExtE.bin,   applicationBin);
     mimeTypePerFileExt.put(SSFileExtE.odt,   applicationOpenOfficeDoc);

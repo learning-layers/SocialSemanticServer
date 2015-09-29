@@ -188,10 +188,9 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
         }
         
         SSServErrReg.reset();
-        SSLogU.warn("evernote import for " + par.authEmail + " failed");
       }
       
-      if(worked){
+      if(userUri != null){
         
         try{
 

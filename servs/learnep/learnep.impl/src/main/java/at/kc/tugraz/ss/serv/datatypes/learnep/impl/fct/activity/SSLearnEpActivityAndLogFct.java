@@ -647,7 +647,7 @@ public class SSLearnEpActivityAndLogFct{
           SSActivityE.removeEntityFromLearnEpCircle, //type
           learnEpVersion,
           null,
-          SSUri.asListWithoutNullAndEmpty(learnEpEntity, entity, learnEp),
+          SSUri.asListWithoutNullAndEmpty(learnEpEntity, entity, circle, learnEp),
           null, //comments
           null, //creationTime
           shouldCommit));

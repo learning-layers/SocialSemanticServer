@@ -96,23 +96,40 @@ public class SSDataImportEvernoteNoteContentHandler{
         SSLogU.warn("PDF from XHTML failed");
         
         try{
-          SSFileU.writeStr(
-            reduceXHTMLToTextAndImage(xhtmlFilePath),
-            xhtmlFilePath);
           
-          SSFileU.writeStr(
-            downnloadNoteResourcesAndFillXHTMLWithLocalImageLinks(xhtmlFilePath),
-            xhtmlFilePath);
+          try{
+            SSFileU.writeStr(
+              reduceXHTMLToTextAndImage(xhtmlFilePath),
+              xhtmlFilePath);
+            
+          }catch(Exception error1){
+            SSLogU.warn("reducing XHTML failed");            
+            throw error;
+          }
           
-          SSFileU.writePDFFromXHTML(
-            pdfFilePath,
-            xhtmlFilePath,
-            true);
+          try{
+            SSFileU.writeStr(
+              downnloadNoteResourcesAndFillXHTMLWithLocalImageLinks(xhtmlFilePath),
+              xhtmlFilePath);
+            
+          }catch(Exception error1){
+            SSLogU.warn("filling reduced XHTML failed");
+            throw error;
+          }
+          
+          try{
+            SSFileU.writePDFFromXHTML(
+              pdfFilePath,
+              xhtmlFilePath,
+              true);
+          }catch(Exception error1){
+            SSLogU.warn("PDF reduced and filled XHTML failed");
+            throw error;
+          }
           
         }catch(Exception error1){
           
           SSServErrReg.reset();
-          SSLogU.warn("PDF from reduced XHTML failed");
           return;
         }
       }finally{
@@ -549,11 +566,13 @@ public class SSDataImportEvernoteNoteContentHandler{
               "\"/>";
           }
           
-           if(SSStrU.equals(mimeType, SSMimeTypeE.applicationZip)){
+           if(SSStrU.equals(mimeType, SSMimeTypeE.applicationPdf)){
             result += "<div>Includes PDF (no preview available; see timeline for resources)</div>";
           }
            
-          if(SSStrU.equals(mimeType, SSMimeTypeE.applicationZip)){
+          if(
+            SSStrU.equals(mimeType, SSMimeTypeE.applicationZip) ||
+            SSStrU.equals(mimeType, SSMimeTypeE.applicationZipCompressed)){
             result += "<div>Includes Compressed Archive (no preview available)</div>";
           }
           

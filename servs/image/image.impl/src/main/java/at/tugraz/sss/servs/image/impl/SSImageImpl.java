@@ -52,7 +52,6 @@ import at.tugraz.sss.serv.SSFileU;
 import at.tugraz.sss.serv.SSImage;
 import at.tugraz.sss.serv.SSImageE;
 import at.tugraz.sss.serv.SSLogU;
-import at.tugraz.sss.serv.SSMimeTypeE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSStrU;
@@ -70,6 +69,7 @@ import at.tugraz.sss.servs.image.datatype.ret.SSImageProfilePictureSetRet;
 import at.tugraz.sss.servs.image.datatype.ret.SSImagesGetRet;
 import at.tugraz.sss.servs.image.impl.sql.SSImageSQLFct;
 import java.io.File;
+import java.io.FileInputStream;
 import javax.imageio.ImageIO;
 
 public class SSImageImpl 
@@ -689,6 +689,31 @@ implements
       }
 
       switch(fileExt){
+        
+        case txt:{
+          
+          try{
+            
+            final String pdfFilePath = localWorkPath + SSVocConf.fileIDFromSSSURI(SSServCaller.vocURICreate(SSFileExtE.pdf));
+            
+            SSFileU.writePDFFromText(
+              pdfFilePath,
+              filePath);
+            
+             SSFileU.writeScaledPNGFromPDF(
+               pdfFilePath, 
+               thumbnailPath, 
+               width, 
+               width, 
+               false);
+             
+            return thumbFileURI;
+            
+          }catch(Exception error){
+            SSLogU.warn("thumb creation from txt failed");
+            throw error;
+          }
+        }
         
         case pdf:{
           
