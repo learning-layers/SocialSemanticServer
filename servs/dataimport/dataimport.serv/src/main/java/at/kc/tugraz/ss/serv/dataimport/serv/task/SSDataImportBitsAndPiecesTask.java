@@ -47,17 +47,7 @@ public class SSDataImportBitsAndPiecesTask extends TimerTask {
         return;
       }
       
-      String emailInUser     = null;
-      String emailInPassword = null;
-      String emailInEmail    = null;
-      
       for(int counter = 0; counter < evernoteConf.getAuthTokens().size(); counter++){
-        
-        if(!evernoteConf.getEmailInUsers().isEmpty()){
-          emailInUser     = evernoteConf.getEmailInUsers().get(counter);
-          emailInPassword = evernoteConf.getEmailInPasswords().get(counter);
-          emailInEmail    = evernoteConf.getEmailInEmails().get(counter);
-        }
         
         new Thread(
           new SSDataImportBitsAndPiecesUpdater(
@@ -65,15 +55,82 @@ public class SSDataImportBitsAndPiecesTask extends TimerTask {
               SSVocConf.systemUserUri,
               evernoteConf.getAuthTokens().get(counter),
               evernoteConf.getAuthEmails().get(counter),
-              emailInUser,
-              emailInPassword,
-              emailInEmail,
+              null,
+              null,
+              null,
+              true, //importEvernote,
+              false, //importEmail,
               true, //withUserRestriction,
               true))).start();
       }
       
+      new Thread(new SSDataImportBitsAndPiecesEmailUpdater()).start();
+      
     }catch(Exception error){
       SSServErrReg.regErr(error);
+    }
+  }
+  
+  protected class SSDataImportBitsAndPiecesEmailUpdater extends SSServImplStartA{
+    
+    public SSDataImportBitsAndPiecesEmailUpdater() throws Exception{
+      super(null);
+    }
+    
+    @Override
+    public void run() {
+      
+      try{
+        
+        final SSEvernoteConf evernoteConf = SSCoreConf.instGet().getEvernote();
+        
+        if(evernoteConf.getEmailInEmails().isEmpty()){
+          return;
+        }
+        
+        String emailInUser     = null;
+        String emailInPassword = null;
+        String emailInEmail    = null;
+        
+        for(int counter = 0; counter < evernoteConf.getEmailInEmails().size(); counter++){
+          
+          emailInUser     = evernoteConf.getEmailInUsers().get(counter);
+          emailInPassword = evernoteConf.getEmailInPasswords().get(counter);
+          emailInEmail    = evernoteConf.getEmailInEmails().get(counter);
+          
+          try{
+            ((SSDataImportServerI) SSServReg.getServ(SSDataImportServerI.class)).dataImportBitsAndPieces(
+              new SSDataImportBitsAndPiecesPar(
+                SSVocConf.systemUserUri,
+                evernoteConf.getAuthTokens().get(counter),
+                evernoteConf.getAuthEmails().get(counter),
+                emailInUser,
+                emailInPassword,
+                emailInEmail,
+                false, //importEvernote,
+                true, //importEmail,
+                true, //withUserRestriction,
+                true));
+          }catch(Exception error){
+            SSServErrReg.reset();
+          }
+        }
+        
+      }catch(Exception error){
+        SSServErrReg.regErr(error);
+      }finally{
+        
+        try{
+          finalizeImpl();
+        }catch(Exception error2){
+          SSLogU.err(error2);
+        }
+      }
+    }
+    
+    @Override
+    protected void finalizeImpl() throws Exception{
+      finalizeThread(true);
     }
   }
   

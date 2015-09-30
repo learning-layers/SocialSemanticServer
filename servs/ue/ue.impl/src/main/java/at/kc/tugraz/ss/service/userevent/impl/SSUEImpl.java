@@ -96,6 +96,7 @@ implements
       ueTypes.add(SSUEE.evernoteReminderDone);
       ueTypes.add(SSUEE.evernoteReminderCreate);
       ueTypes.add(SSUEE.evernoteResourceAdd);
+      ueTypes.add(SSUEE.bnpPlaceholderAdd);
       
       for(String user : allUsers){
         
@@ -198,19 +199,13 @@ implements
     
     try{
       
-      final SSUE userEvent =
-        SSUE.get(
-          sqlFct.getUE(par.userEvent),
-          entityServ.entityGet(
-            new SSEntityGetPar(
-              par.user,
-              par.userEvent,
-              par.withUserRestriction,
-              null))); //descPar
+      final SSUE userEvent = sqlFct.getUE(par.userEvent);
       
       if(par.withUserRestriction){
         
-        if(!SSServCallerU.canUserRead(par.user, userEvent.entity.id)){
+        if(
+          userEvent.entity != null &&
+          !SSServCallerU.canUserRead(par.user, userEvent.entity.id)){
           return null;
         }
       }
@@ -226,22 +221,28 @@ implements
         descPar = null;
       }
       
-      userEvent.entity =
-        entityServ.entityGet(
-          new SSEntityGetPar(
-            par.user,
-            userEvent.entity.id,
-            par.withUserRestriction,
-            descPar));
+      if(userEvent.entity != null){
+        
+        userEvent.entity =
+          entityServ.entityGet(
+            new SSEntityGetPar(
+              par.user,
+              userEvent.entity.id,
+              par.withUserRestriction, //withUserRestriction
+              descPar));
+      }
       
-      userEvent.user =
-        entityServ.entityGet(
-          new SSEntityGetPar(
-            par.user,
-            userEvent.user.id,
-            par.withUserRestriction,
-            descPar));
-      
+      if(userEvent.user != null){
+        
+        userEvent.user =
+          entityServ.entityGet(
+            new SSEntityGetPar(
+              par.user,
+              userEvent.user.id,
+              par.withUserRestriction,
+              descPar));
+      }
+
       return userEvent;
         
     }catch(Exception error){
@@ -269,31 +270,33 @@ implements
         
         if(par.entity != null){
           
-          if(!SSServCallerU.canUserRead(par.user, par.user)){
+          if(!SSServCallerU.canUserRead(par.user, par.entity)){
             return new ArrayList<>();
           }
         }
       }
       
       final List<SSEntity> userEvents    = new ArrayList<>();
-      final List<SSUri>    userEventURIs =
+      final SSUEGetPar     ueGetPar = 
+        new SSUEGetPar(
+          par.user,
+          null,
+          par.withUserRestriction,
+          par.invokeEntityHandlers);
+      
+      for(SSUri userEventURI : 
         sqlFct.getUEURIs(
           par.forUser,
           par.entity,
           par.types,
           par.startTime,
-          par.endTime);
-      
-      for(SSUri userEventURI : userEventURIs){
+          par.endTime)){
+        
+        ueGetPar.userEvent = userEventURI;
         
         SSEntity.addEntitiesDistinctWithoutNull(
           userEvents, 
-          userEventGet(
-            new SSUEGetPar(
-              par.user, 
-              userEventURI, 
-              par.withUserRestriction, 
-              par.invokeEntityHandlers)));
+          userEventGet(ueGetPar));
       }
 
       return userEvents;

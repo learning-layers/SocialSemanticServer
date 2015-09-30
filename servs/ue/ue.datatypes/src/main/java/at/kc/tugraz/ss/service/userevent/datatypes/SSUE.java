@@ -24,6 +24,8 @@ import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSEntityE;
+import at.tugraz.sss.serv.SSLabel;
+import at.tugraz.sss.serv.SSTextComment;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -63,23 +65,46 @@ public class SSUE extends SSEntity {
    }
   
   public static SSUE get(
-    final SSUri           id, 
+    final SSUri           id,
+    final SSLabel         label,
+    final SSTextComment   description,
+    final Long            creationTime,
+    final SSEntity        author,
     final SSEntity        user,
     final SSUEE           userEventType,
     final SSEntity        entity,
     final String          content) throws Exception{
     
-    return new SSUE(id, user, userEventType, entity, content);
+    return new SSUE(
+      id,
+      label,
+      description,
+      creationTime,
+      author, 
+      user, 
+      userEventType, 
+      entity, 
+      content);
   }
   
   protected SSUE(
-    final SSUri           id, 
+    final SSUri           id,
+    final SSLabel         label,
+    final SSTextComment   description,
+    final Long            creationTime,
+    final SSEntity        author, 
     final SSEntity        user,
     final SSUEE           userEventType,
     final SSEntity        entity,
     final String          content) throws Exception{
 
-    super(id, SSEntityE.userEvent);
+    super(
+      id,
+      SSEntityE.userEvent,
+      label,
+      description,
+      creationTime,
+      author);
     
     this.user              = user;
     this.userEventType     = userEventType;

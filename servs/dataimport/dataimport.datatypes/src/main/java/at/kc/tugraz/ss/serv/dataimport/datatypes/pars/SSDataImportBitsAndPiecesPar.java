@@ -26,11 +26,13 @@ import at.tugraz.sss.serv.SSUri;
 
 public class SSDataImportBitsAndPiecesPar extends SSServPar{
   
-  public String authToken        = null;
-  public String authEmail        = null;
-  public String emailInUser      = null;
-  public String emailInPassword  = null;
-  public String emailInEmail     = null;
+  public String  authToken        = null;
+  public String  authEmail        = null;
+  public String  emailInUser      = null;
+  public String  emailInPassword  = null;
+  public String  emailInEmail     = null;
+  public Boolean importEvernote   = false;
+  public Boolean importEmails     = false;
   
   public SSDataImportBitsAndPiecesPar(){}
   
@@ -41,6 +43,8 @@ public class SSDataImportBitsAndPiecesPar extends SSServPar{
     final String  emailInUser,
     final String  emailInPassword,
     final String  emailInEmail,
+    final Boolean importEvernote, 
+    final Boolean importEmails,
     final Boolean withUserRestriction,
     final Boolean shouldCommit){
     
@@ -51,6 +55,8 @@ public class SSDataImportBitsAndPiecesPar extends SSServPar{
     this.emailInUser         = emailInUser;
     this.emailInPassword     = emailInPassword;
     this.emailInEmail        = emailInEmail;
+    this.importEvernote      = importEvernote;
+    this.importEmails        = importEmails;
     this.withUserRestriction = withUserRestriction;
     this.shouldCommit        = shouldCommit;
   }

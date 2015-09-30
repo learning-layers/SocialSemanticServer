@@ -367,6 +367,20 @@ public class SSDBSQLFct extends SSDBFct{
     return author;
   }
   
+  protected static SSEntity bindingStrToEntity(
+    final ResultSet resultSet, 
+    final String    binding,
+    final SSEntityE type) throws Exception{
+    
+    final String tmp = bindingStr(resultSet, binding);
+    
+    if(SSStrU.isEmpty(tmp)){
+      return null;
+    }
+    
+    return SSEntity.get(SSUri.get(tmp), type);
+  }
+    
   protected static SSUri bindingStrToUri(
     final ResultSet resultSet, 
     final String    binding) throws Exception{

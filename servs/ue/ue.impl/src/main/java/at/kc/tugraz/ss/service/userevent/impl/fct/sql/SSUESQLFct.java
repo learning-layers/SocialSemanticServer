@@ -20,7 +20,6 @@
 */
 package at.kc.tugraz.ss.service.userevent.impl.fct.sql;
 
-import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSSQLVarNames;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSDBSQLFct;
@@ -28,7 +27,6 @@ import at.tugraz.sss.serv.SSUri;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUE;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUEE;
 import at.tugraz.sss.serv.SSDBSQLSelectPar;
-import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServImplWithDBA;
@@ -52,37 +50,54 @@ public class SSUESQLFct extends SSDBSQLFct{
     ResultSet            resultSet  = null;
     
     try{
-      final List<String>         columns = new ArrayList<>();
-      final Map<String, String>  wheres  = new HashMap<>();
-      SSUEE                      eventTypeFromDB;
+      final List<String>         columns   = new ArrayList<>();
+      final List<String>         tables    = new ArrayList<>();
+      final Map<String, String>  wheres    = new HashMap<>();
+      final List<String>         tableCons = new ArrayList<>();
       
-      column(columns, SSSQLVarNames.userEventId);
-      column(columns, SSSQLVarNames.eventType);
-      column(columns, SSSQLVarNames.userId);
-      column(columns, SSSQLVarNames.entityId);
-      column(columns, SSSQLVarNames.content);
+      setEntityColumns(columns);
+      column(columns, SSSQLVarNames.uesTable, SSSQLVarNames.userEventId);
+      column(columns, SSSQLVarNames.uesTable, SSSQLVarNames.eventType);
+      column(columns, SSSQLVarNames.uesTable, SSSQLVarNames.userId);
+      column(columns, SSSQLVarNames.uesTable, SSSQLVarNames.entityId);
+      column(columns, SSSQLVarNames.uesTable, SSSQLVarNames.content);
+
+      setEntityTable  (tables);
+      table(tables, SSSQLVarNames.uesTable);
       
-      where(wheres, SSSQLVarNames.userEventId, ue);
+      where(wheres, SSSQLVarNames.uesTable, SSSQLVarNames.userEventId, ue);
       
-      resultSet = dbSQL.select(SSSQLVarNames.uesTable, columns, wheres, null, null, null);
+      tableCon(tableCons, SSSQLVarNames.entityTable, SSSQLVarNames.id, SSSQLVarNames.uesTable, SSSQLVarNames.userEventId);
       
+      resultSet = 
+        dbSQL.select(
+          tables, 
+          columns, 
+          wheres, 
+          tableCons, 
+          null, 
+          null,
+          null);
+        
       checkFirstResult(resultSet);
       
-      try{
-        eventTypeFromDB = 
-          SSUEE.get(bindingStr(resultSet, SSSQLVarNames.eventType));
-        
-      }catch(Exception error){
-        SSLogU.warn("user event type doesnt exist in current model " + bindingStr(resultSet, SSSQLVarNames.eventType));
-        eventTypeFromDB = null;
-      }
+//      try{
+//        eventTypeFromDB = SSUEE.get(bindingStr(resultSet, SSSQLVarNames.eventType));
+//      }catch(Exception error){
+//        SSLogU.warn("user event type doesnt exist in current model " + bindingStr(resultSet, SSSQLVarNames.eventType));
+//        eventTypeFromDB = null;
+//      }
       
       return SSUE.get(
-        ue, 
-        SSEntity.get(bindingStrToUri (resultSet, SSSQLVarNames.userId), SSEntityE.user), 
-        eventTypeFromDB, 
-        SSEntity.get(bindingStrToUri (resultSet, SSSQLVarNames.entityId), SSEntityE.entity), 
-        bindingStr      (resultSet, SSSQLVarNames.content));
+        bindingStrToUri              (resultSet, SSSQLVarNames.id),
+        bindingStrToLabel            (resultSet, SSSQLVarNames.label),
+        bindingStrToTextComment      (resultSet, SSSQLVarNames.description),
+        bindingStrToLong             (resultSet, SSSQLVarNames.creationTime),
+        getEntity(bindingStrToUri    (resultSet, SSSQLVarNames.author)),
+        bindingStrToEntity           (resultSet, SSSQLVarNames.userId,   SSEntityE.user), 
+        SSUEE.get(bindingStr         (resultSet, SSSQLVarNames.eventType)),
+        bindingStrToEntity           (resultSet, SSSQLVarNames.entityId, SSEntityE.entity), 
+        bindingStr                   (resultSet, SSSQLVarNames.content));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -107,7 +122,6 @@ public class SSUESQLFct extends SSDBSQLFct{
       final List<String>                                           tableCons     = new ArrayList<>();
       final List<MultivaluedMap<String, String>>                   wheres        = new ArrayList<>();
       final MultivaluedMap<String, MultivaluedMap<String, String>> wheresNumeric = new MultivaluedHashMap<>();
-      final List<SSUri>                                            userEventURIs = new ArrayList<>();
       
       column   (columns,   SSSQLVarNames.userEventId);
       column   (columns,   SSSQLVarNames.eventType);
@@ -186,27 +200,20 @@ public class SSUESQLFct extends SSDBSQLFct{
             wheresNumeric,
             tableCons));
       
-      while(resultSet.next()){
-        
-        try{
-          SSUEE.get(bindingStr(resultSet, SSSQLVarNames.eventType));
-        }catch(Exception error){
-          SSLogU.warn("user event type doesnt exist in current model " + bindingStr(resultSet, SSSQLVarNames.eventType));
-          continue;
-        }
-        
-        //TODO check whether really needed
+      return getURIsFromResult(resultSet, SSSQLVarNames.userEventId);
+      
+//      while(resultSet.next()){
+//        
 //        try{
-//          timestamp = bindingStrToLong(resultSet, SSSQLVarU.creationTime);
+//          SSUEE.get(bindingStr(resultSet, SSSQLVarNames.eventType));
 //        }catch(Exception error){
-//          SSLogU.warn("timestamp isn't valid " + bindingStrToLong(resultSet, SSSQLVarU.creationTime));
+//          SSLogU.warn("user event type doesnt exist in current model " + bindingStr(resultSet, SSSQLVarNames.eventType));
 //          continue;
 //        }
-        
-        userEventURIs.add(bindingStrToUri       (resultSet, SSSQLVarNames.userEventId));
-      }
+//
+//        userEventURIs.add(bindingStrToUri       (resultSet, SSSQLVarNames.userEventId));
+//      }
       
-      return userEventURIs;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;

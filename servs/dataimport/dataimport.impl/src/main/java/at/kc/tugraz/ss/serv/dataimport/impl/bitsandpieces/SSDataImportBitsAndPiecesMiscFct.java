@@ -384,11 +384,36 @@ public class SSDataImportBitsAndPiecesMiscFct {
         true, //withUserRestriction
         false)); //shouldCommit)
     
-    SSServCaller.evernoteResourceAdd(
-      this.userUri,
-      noteUri,
-      resourceUri,
-      false);
+    //TODO fix this hack
+    try{
+      
+      SSServCaller.evernoteResourceAdd(
+        this.userUri,
+        noteUri,
+        resourceUri,
+        false);
+      
+    }catch(Exception error){
+      
+      entityServ.entityUpdate(
+        new SSEntityUpdatePar(
+          userUri,
+          noteUri,
+          SSEntityE.evernoteNote, //type,
+          null, //label
+          null, //description,
+          resourceAddTime, //creationTime,
+          null, //read,
+          false, //setPublic
+          true, //withUserRestriction
+          false)); //shouldCommit)
+      
+      SSServCaller.evernoteResourceAdd(
+        this.userUri,
+        noteUri,
+        resourceUri,
+        false);
+    }
     
     evalServ.evalLog(
       new SSEvalLogPar(

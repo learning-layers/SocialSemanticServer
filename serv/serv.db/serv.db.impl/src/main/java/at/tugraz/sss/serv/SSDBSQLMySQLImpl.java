@@ -1,23 +1,23 @@
-/**
-* Code contributed to the Learning Layers project
-* http://www.learning-layers.eu
-* Development is partly funded by the FP7 Programme of the European Commission under
-* Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
-* For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
-*
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-* http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*/
+ /**
+  * Code contributed to the Learning Layers project
+  * http://www.learning-layers.eu
+  * Development is partly funded by the FP7 Programme of the European Commission under
+  * Grant Agreement FP7-ICT-318209.
+  * Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+  * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
+  *
+  * Licensed under the Apache License, Version 2.0 (the "License");
+  * you may not use this file except in compliance with the License.
+  * You may obtain a copy of the License at
+  *
+  * http://www.apache.org/licenses/LICENSE-2.0
+  *
+  * Unless required by applicable law or agreed to in writing, software
+  * distributed under the License is distributed on an "AS IS" BASIS,
+  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  * See the License for the specific language governing permissions and
+  * limitations under the License.
+  */
 package at.tugraz.sss.serv;
 
 import com.mysql.jdbc.exceptions.jdbc4.CommunicationsException;
@@ -35,7 +35,7 @@ import org.apache.tomcat.jdbc.pool.DataSource;
 import org.apache.tomcat.jdbc.pool.PoolProperties;
 
 public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
-
+  
   private static DataSource   connectionPool           = null;
   public         Connection   connector                = null;
   private        Boolean      gotCon                   = false;
@@ -53,7 +53,7 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
     return connectionPool.getActive();
   }
   
-  @Override 
+  @Override
   public Integer getMaxActive() throws Exception {
     return connectionPool.getMaxActive();
   }
@@ -61,191 +61,162 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
   @Override
   public ResultSet select(final SSDBSQLSelectPar par) throws Exception{
     
-    String                                    query   = "SELECT DISTINCT "; //caution do not remove distinct here without checks
-    PreparedStatement                         stmt;
-    Iterator<Map.Entry<String, List<String>>> iteratorMultiValue;
-    Map.Entry<String, List<String>>           entrySet;
-    String                                    comparator;
-    Integer                                   counter  = 1;
-    
-    for(String columnName : par.columns){
-      query += columnName + SSStrU.comma;
-    }
-    
-    if(par.columns.isEmpty()){
-      query += "*";
-    }
-    
-    query = SSStrU.removeTrailingString(query, SSStrU.comma) + " FROM ";
-    
-    for(String tableName : par.tables){
-      query += tableName + SSStrU.comma;
-    }
-    
-    if(
-      par.orWheres.isEmpty() &&
-      par.tableCons.isEmpty()){
-      query = SSStrU.removeTrailingString(query, SSStrU.comma);
-    }else{
-      query = SSStrU.removeTrailingString(query, SSStrU.comma) + " WHERE ";      
-    }
+    try{
+      String                                    query   = "SELECT DISTINCT "; //caution do not remove distinct here without checks
+      PreparedStatement                         stmt;
+      Iterator<Map.Entry<String, List<String>>> iteratorMultiValue;
+      Map.Entry<String, List<String>>           entrySet;
+      String                                    comparator;
+      Integer                                   counter  = 1;
       
-    for(MultivaluedMap<String, String> where : par.orWheres){
-      
-      query += "(";
-      
-      iteratorMultiValue = where.entrySet().iterator();
-
-      while(iteratorMultiValue.hasNext()){
-        
-        entrySet = iteratorMultiValue.next();
-
-        for(String value : entrySet.getValue()){
-          query += entrySet.getKey() + SSStrU.equal + SSStrU.questionMark + SSStrU.valueBlankORBlank;
-        }
+      for(String columnName : par.columns){
+        query += columnName + SSStrU.comma;
       }
       
-      query = SSStrU.removeTrailingString(query, SSStrU.valueBlankORBlank) + ")" + SSStrU.blank + par.globalSearchOp + SSStrU.blank;
-    }
-    
-    for(MultivaluedMap<String, String> where : par.andWheres){
-      
-      query += "(";
-      
-      iteratorMultiValue = where.entrySet().iterator();
-
-      while(iteratorMultiValue.hasNext()){
-        
-        entrySet = iteratorMultiValue.next();
-
-        for(String value : entrySet.getValue()){
-          query += entrySet.getKey() + SSStrU.equal + SSStrU.questionMark + SSStrU.valueBlankANDBlank;
-        }
+      if(par.columns.isEmpty()){
+        query += "*";
       }
       
-      query = SSStrU.removeTrailingString(query, SSStrU.valueBlankANDBlank) + ")" + SSStrU.blank + par.globalSearchOp + SSStrU.blank;
-    }
-    
-    if(!par.matches.isEmpty()){
+      query = SSStrU.removeTrailingString(query, SSStrU.comma) + " FROM ";
+      
+      for(String tableName : par.tables){
+        query += tableName + SSStrU.comma;
+      }
       
       if(
-        par.requireds.isEmpty() &&
-        par.absents.isEmpty()   &&
-        par.eithers.isEmpty()){
-        throw new SSErr(SSErrE.parameterMissing);
+        par.orWheres.isEmpty() &&
+        par.tableCons.isEmpty()){
+        query = SSStrU.removeTrailingString(query, SSStrU.comma);
+      }else{
+        query = SSStrU.removeTrailingString(query, SSStrU.comma) + " WHERE ";
       }
-            
-      //      SELECT * FROM articles
-//    -> WHERE MATCH (title,body)
-//    -> AGAINST ('database' IN NATURAL LANGUAGE MODE);
       
-      query += " MATCH (";
-
-      for(String match : par.matches){
-        query += match + SSStrU.comma;
-      }
-
-      query = SSStrU.removeTrailingString(query, SSStrU.comma) + ") AGAINST ('";
-
-      for(String required : par.requireds){
-        query += "+" + required + "*" + SSStrU.blank;
-      }
-
-      for(String absent : par.absents){
-        query += "-" + absent + "*" + SSStrU.blank;
-      }
-
-      for(String either : par.eithers){
-        query += either + "*" + SSStrU.blank;
-      }
-
-      query = SSStrU.removeTrailingString(query, SSStrU.blank) + "' IN BOOLEAN MODE)" + SSStrU.blank;
-    }
-    
-    for(Map.Entry<String, List<MultivaluedMap<String, String>>> wheresNumberic : par.numbericWheres.entrySet()){
-      
-      comparator = wheresNumberic.getKey();
-
-      for(MultivaluedMap<String, String> whereNumeric : wheresNumberic.getValue()){
-      
+      for(MultivaluedMap<String, String> where : par.orWheres){
+        
         query += "(";
         
-        iteratorMultiValue = whereNumeric.entrySet().iterator();
-
+        iteratorMultiValue = where.entrySet().iterator();
+        
         while(iteratorMultiValue.hasNext()){
-
+          
           entrySet = iteratorMultiValue.next();
-
+          
           for(String value : entrySet.getValue()){
-            query += entrySet.getKey() + comparator + SSStrU.questionMark + SSStrU.valueBlankORBlank;
+            query += entrySet.getKey() + SSStrU.equal + SSStrU.questionMark + SSStrU.valueBlankORBlank;
           }
         }
         
         query = SSStrU.removeTrailingString(query, SSStrU.valueBlankORBlank) + ")" + SSStrU.blank + par.globalSearchOp + SSStrU.blank;
       }
-    }
-    
-    query = SSStrU.removeTrailingString(query, SSStrU.blank + par.globalSearchOp + SSStrU.blank);
       
-    if(
-      (!par.orWheres.isEmpty() || !par.andWheres.isEmpty() || !par.numbericWheres.isEmpty() || !par.matches.isEmpty()) &&
-      !par.tableCons.isEmpty()){
-      
-      query += SSStrU.valueBlankANDBlank;
-    }
-    
-    for(String tableCon : par.tableCons){
-      query += tableCon + SSStrU.valueBlankANDBlank;
-    }
-    
-    query = SSStrU.removeTrailingString(query, SSStrU.valueBlankANDBlank);
-    
-    if(
-      par.orderByColumn != null &&
-      par.sortType      != null){
-      
-      query += " ORDER BY " + par.orderByColumn + SSStrU.blank + par.sortType;
-    }
-    
-    if(par.limit != null){
-      query += " LIMIT " + par.limit;
-    }
-    
-    stmt = connector.prepareStatement(query);
-    
-    for(MultivaluedMap<String, String> where : par.orWheres){
-      
-      iteratorMultiValue = where.entrySet().iterator();
-      
-      while(iteratorMultiValue.hasNext()){
+      for(MultivaluedMap<String, String> where : par.andWheres){
         
-        entrySet = iteratorMultiValue.next();
+        query += "(";
         
-        for(String value : entrySet.getValue()){
-          stmt.setObject(counter++, value);
+        iteratorMultiValue = where.entrySet().iterator();
+        
+        while(iteratorMultiValue.hasNext()){
+          
+          entrySet = iteratorMultiValue.next();
+          
+          for(String value : entrySet.getValue()){
+            query += entrySet.getKey() + SSStrU.equal + SSStrU.questionMark + SSStrU.valueBlankANDBlank;
+          }
+        }
+        
+        query = SSStrU.removeTrailingString(query, SSStrU.valueBlankANDBlank) + ")" + SSStrU.blank + par.globalSearchOp + SSStrU.blank;
+      }
+      
+      if(!par.matches.isEmpty()){
+        
+        if(
+          par.requireds.isEmpty() &&
+          par.absents.isEmpty()   &&
+          par.eithers.isEmpty()){
+          throw new SSErr(SSErrE.parameterMissing);
+        }
+        
+        //      SELECT * FROM articles
+//    -> WHERE MATCH (title,body)
+//    -> AGAINST ('database' IN NATURAL LANGUAGE MODE);
+        
+        query += " MATCH (";
+        
+        for(String match : par.matches){
+          query += match + SSStrU.comma;
+        }
+        
+        query = SSStrU.removeTrailingString(query, SSStrU.comma) + ") AGAINST ('";
+        
+        for(String required : par.requireds){
+          query += "+" + required + "*" + SSStrU.blank;
+        }
+        
+        for(String absent : par.absents){
+          query += "-" + absent + "*" + SSStrU.blank;
+        }
+        
+        for(String either : par.eithers){
+          query += either + "*" + SSStrU.blank;
+        }
+        
+        query = SSStrU.removeTrailingString(query, SSStrU.blank) + "' IN BOOLEAN MODE)" + SSStrU.blank;
+      }
+      
+      for(Map.Entry<String, List<MultivaluedMap<String, String>>> wheresNumberic : par.numbericWheres.entrySet()){
+        
+        comparator = wheresNumberic.getKey();
+        
+        for(MultivaluedMap<String, String> whereNumeric : wheresNumberic.getValue()){
+          
+          query += "(";
+          
+          iteratorMultiValue = whereNumeric.entrySet().iterator();
+          
+          while(iteratorMultiValue.hasNext()){
+            
+            entrySet = iteratorMultiValue.next();
+            
+            for(String value : entrySet.getValue()){
+              query += entrySet.getKey() + comparator + SSStrU.questionMark + SSStrU.valueBlankORBlank;
+            }
+          }
+          
+          query = SSStrU.removeTrailingString(query, SSStrU.valueBlankORBlank) + ")" + SSStrU.blank + par.globalSearchOp + SSStrU.blank;
         }
       }
-    }
-    
-    for(MultivaluedMap<String, String> where : par.andWheres){
       
-      iteratorMultiValue = where.entrySet().iterator();
+      query = SSStrU.removeTrailingString(query, SSStrU.blank + par.globalSearchOp + SSStrU.blank);
       
-      while(iteratorMultiValue.hasNext()){
+      if(
+        (!par.orWheres.isEmpty() || !par.andWheres.isEmpty() || !par.numbericWheres.isEmpty() || !par.matches.isEmpty()) &&
+        !par.tableCons.isEmpty()){
         
-        entrySet = iteratorMultiValue.next();
-        
-        for(String value : entrySet.getValue()){
-          stmt.setObject(counter++, value);
-        }
+        query += SSStrU.valueBlankANDBlank;
       }
-    }
-
-    for(Map.Entry<String, List<MultivaluedMap<String, String>>> wheresNumberic : par.numbericWheres.entrySet()){
       
-      for(MultivaluedMap<String, String> whereNumeric : wheresNumberic.getValue()){
+      for(String tableCon : par.tableCons){
+        query += tableCon + SSStrU.valueBlankANDBlank;
+      }
+      
+      query = SSStrU.removeTrailingString(query, SSStrU.valueBlankANDBlank);
+      
+      if(
+        par.orderByColumn != null &&
+        par.sortType      != null){
         
-        iteratorMultiValue = whereNumeric.entrySet().iterator();
+        query += " ORDER BY " + par.orderByColumn + SSStrU.blank + par.sortType;
+      }
+      
+      if(par.limit != null){
+        query += " LIMIT " + par.limit;
+      }
+      
+      stmt = connector.prepareStatement(query);
+      
+      for(MultivaluedMap<String, String> where : par.orWheres){
+        
+        iteratorMultiValue = where.entrySet().iterator();
         
         while(iteratorMultiValue.hasNext()){
           
@@ -256,21 +227,55 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
           }
         }
       }
+      
+      for(MultivaluedMap<String, String> where : par.andWheres){
+        
+        iteratorMultiValue = where.entrySet().iterator();
+        
+        while(iteratorMultiValue.hasNext()){
+          
+          entrySet = iteratorMultiValue.next();
+          
+          for(String value : entrySet.getValue()){
+            stmt.setObject(counter++, value);
+          }
+        }
+      }
+      
+      for(Map.Entry<String, List<MultivaluedMap<String, String>>> wheresNumberic : par.numbericWheres.entrySet()){
+        
+        for(MultivaluedMap<String, String> whereNumeric : wheresNumberic.getValue()){
+          
+          iteratorMultiValue = whereNumeric.entrySet().iterator();
+          
+          while(iteratorMultiValue.hasNext()){
+            
+            entrySet = iteratorMultiValue.next();
+            
+            for(String value : entrySet.getValue()){
+              stmt.setObject(counter++, value);
+            }
+          }
+        }
+      }
+      
+      return stmt.executeQuery();
+    }catch(Exception error){
+      throw error;
     }
-     
-    return stmt.executeQuery();
   }
   
   @Override
   public ResultSet select(
-    final List<String>        tables, 
-    final List<String>        columns, 
+    final List<String>        tables,
+    final List<String>        columns,
     final Map<String, String> wheres,
     final List<String>        tableCons,
-    final String              orderByColumn, 
+    final String              orderByColumn,
     final String              sortType,
     final Integer             limit) throws Exception{
     
+    try{
     String                              query   = "SELECT DISTINCT "; //caution do not remove distinct here without checks
     PreparedStatement                   stmt;
     Iterator<Map.Entry<String, String>> iterator;
@@ -327,31 +332,35 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
     if(limit != null){
       query += " LIMIT " + limit;
     }
-        
+    
     stmt           = connector.prepareStatement(query);
     
     if(
       wheres != null &&
       !wheres.isEmpty()){
       iterator       = wheres.entrySet().iterator();
-
+      
       while(iterator.hasNext()){
         stmt.setObject(counter++, iterator.next().getValue());
       }
     }
-
+    
     return stmt.executeQuery();
+    }catch(Exception error){
+      throw error;
+    }
   }
   
   @Override
   public ResultSet select(
-    final String              table, 
-    final List<String>        columns, 
+    final String              table,
+    final List<String>        columns,
     final Map<String, String> wheres,
-    final String              orderByColumn, 
+    final String              orderByColumn,
     final String              sortType,
     final Integer             limit) throws Exception{
     
+    try{
     String                              query   = "SELECT DISTINCT ";
     int                                 counter = 1;
     PreparedStatement                   stmt;
@@ -394,13 +403,13 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
     if(limit != null){
       query += " LIMIT " + limit;
     }
-        
+    
     stmt           = connector.prepareStatement(query);
     
     if(
       wheres != null &&
       !wheres.isEmpty()){
-
+      
       iterator       = wheres.entrySet().iterator();
       
       while(iterator.hasNext()){
@@ -409,6 +418,9 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
     }
     
     return stmt.executeQuery();
+    }catch(Exception error){
+      throw error;
+    }
   }
   
   @Override
@@ -417,10 +429,11 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
     final List<String>                         columns,
     final List<MultivaluedMap<String, String>> likes,
     final List<String>                         tableCons,
-    final String                               orderByColumn, 
-    final String                               sortType, 
+    final String                               orderByColumn,
+    final String                               sortType,
     final Integer                              limit) throws Exception{
     
+    try{
     String                                    query   = "SELECT DISTINCT "; //caution do not remove distinct here without checks
     int                                       counter = 1;
     PreparedStatement                         stmt;
@@ -449,19 +462,19 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
       tableCons.isEmpty()){
       query = SSStrU.removeTrailingString(query, SSStrU.comma);
     }else{
-      query = SSStrU.removeTrailingString(query, SSStrU.comma) + " WHERE ";      
+      query = SSStrU.removeTrailingString(query, SSStrU.comma) + " WHERE ";
     }
-      
+    
     for(MultivaluedMap<String, String> like : likes){
       
       query += "(";
       
       iteratorMultiValue = like.entrySet().iterator();
-
+      
       while(iteratorMultiValue.hasNext()){
         
         entrySet = iteratorMultiValue.next();
-
+        
         for(String value : entrySet.getValue()){
           query += entrySet.getKey() + " LIKE " + SSStrU.questionMark + " OR ";
         }
@@ -471,7 +484,7 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
     }
     
     query = SSStrU.removeTrailingString(query, " AND ");
-      
+    
     if(
       !likes.isEmpty() &&
       !tableCons.isEmpty()){
@@ -510,16 +523,19 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
         }
       }
     }
-
+    
     return stmt.executeQuery();
+    }catch(Exception error){
+      throw error;
+    }
   }
   
-  @Override 
+  @Override
   public void insertIfNotExists(
-    final String              table, 
+    final String              table,
     final Map<String, String> inserts,
     final Map<String, String> uniqueKeys) throws Exception{
-
+    
     PreparedStatement stmt = null;
     
     try{
@@ -569,6 +585,8 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
       stmt.executeUpdate();
     }catch(MySQLTransactionRollbackException error){
       SSServErrReg.regErrThrow(new SSErr(SSErrE.sqlDeadLock));
+    }catch(Exception error1){
+      throw error1;
     }finally{
       if(stmt != null){
         stmt.close();
@@ -590,6 +608,8 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
       
     }catch(MySQLTransactionRollbackException error){
       SSServErrReg.regErrThrow(new SSErr(SSErrE.sqlDeadLock));
+    }catch(Exception error1){
+      throw error1;
     }finally{
       
       if(stmt != null){
@@ -600,8 +620,8 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
   
   @Override
   public void updateIgnore(
-    final String              table, 
-    final Map<String, String> wheres, 
+    final String              table,
+    final Map<String, String> wheres,
     final Map<String, String> values) throws Exception{
     
     PreparedStatement stmt    = null;
@@ -640,6 +660,8 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
       
     }catch(MySQLTransactionRollbackException error){
       SSServErrReg.regErrThrow(new SSErr(SSErrE.sqlDeadLock));
+    }catch(Exception error1){
+      throw error1;
     }finally{
       
       if(stmt != null){
@@ -650,8 +672,8 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
   
   @Override
   public void update(
-    final String              table, 
-    final Map<String, String> wheres, 
+    final String              table,
+    final Map<String, String> wheres,
     final Map<String, String> updates) throws Exception{
     
     PreparedStatement stmt    = null;
@@ -691,6 +713,8 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
       
     }catch(MySQLTransactionRollbackException error){
       SSServErrReg.regErrThrow(new SSErr(SSErrE.sqlDeadLock));
+    }catch(Exception error1){
+      throw error1;
     }finally{
       
       if(stmt != null){
@@ -701,7 +725,7 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
   
   @Override
   public void insert(
-    final String              table, 
+    final String              table,
     final Map<String, String> inserts) throws Exception{
     
     PreparedStatement stmt    = null;
@@ -734,6 +758,8 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
       stmt.executeUpdate();
     }catch(MySQLTransactionRollbackException error){
       SSServErrReg.regErrThrow(new SSErr(SSErrE.sqlDeadLock));
+    }catch(Exception error1){
+      throw error1;
     }finally{
       if(stmt != null){
         stmt.close();
@@ -814,9 +840,10 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
   
   @Override
   public void deleteIgnore(
-    final String                               table, 
+    final String                               table,
     final List<MultivaluedMap<String, String>> wheres) throws Exception{
     
+    try{
     String                                    query   = "DELETE IGNORE FROM " + table + " WHERE ";
     int                                       counter = 1;
     PreparedStatement                         stmt;
@@ -826,17 +853,17 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
     if(wheres.isEmpty()){
       throw new SSErr(SSErrE.parameterMissing);
     }
-      
+    
     for(MultivaluedMap<String, String> where : wheres){
       
       query += "(";
       
       iteratorMultiValue = where.entrySet().iterator();
-
+      
       while(iteratorMultiValue.hasNext()){
         
         entrySet = iteratorMultiValue.next();
-
+        
         for(String value : entrySet.getValue()){
           query += entrySet.getKey() + SSStrU.equal + SSStrU.questionMark + " OR ";
         }
@@ -861,15 +888,18 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
         }
       }
     }
-
+    
     stmt.executeUpdate();
+    }catch(Exception error){
+      throw error;
+    }
   }
-    
-    
+  
+  
   public Connection getConnection(){
     return connector;
   }
-   
+  
   @Override
   protected void finalizeImpl() throws Exception{
     
@@ -912,13 +942,13 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
         connector = null;
         return;
       }
-
+      
       connector.close();
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
   }
-    
+  
   @Override
   public void closeStmt(final ResultSet resultSet) throws Exception{
     
@@ -952,7 +982,7 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
       }
       
       connector.rollback();
-
+      
       return true;
       
     }catch(Exception error){
@@ -1019,9 +1049,9 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
 //    config.setAcquireRetryAttempts(1);
 //    config.setAcquireRetryDelayInMs(1100);
 //    config.setConnectionTimeoutInMs(1300);
-//    
+//
 //    config.setTransactionRecoveryEnabled(false);
-//    
+//
 //    connectionPool = new BoneCP(config);
     
     
@@ -1048,55 +1078,55 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
 
 //  @Override
 //  public void insertIgnore(String tableName, Map<String, String> parNamesWithValues) throws Exception {
-//   
+//
 //    String                              query   = "INSERT IGNORE INTO ";
 //    int                                 counter = 1;
 //    PreparedStatement                   stmt;
 //    Iterator<Map.Entry<String, String>> iterator;
-//    
+//
 //    if(
 //      SSStrU.isEmpty (tableName) ||
 //      SSObjU.isNull  (parNamesWithValues)){
 //      SSLogU.logAndThrow(new Exception("table not spec or pars null"));
 //    }
-//    
+//
 //    query         += tableName + SSStrU.bracketOpen;
 //    iterator       = parNamesWithValues.entrySet().iterator();
-//    
+//
 //    while(iterator.hasNext()){
 //      query += iterator.next().getKey() + SSStrU.comma;
 //    }
-//    
+//
 //    query          = SSStrU.removeTrailingString(query, SSStrU.comma);
 //    query         += SSStrU.bracketClose + " VALUES " + SSStrU.bracketOpen;
 //    iterator       = parNamesWithValues.entrySet().iterator();
-//    
+//
 //    while(iterator.hasNext()){
 //      query += SSStrU.questionMark + SSStrU.comma;
 //      iterator.next();
 //    }
-//    
+//
 //    query          = SSStrU.removeTrailingString(query, SSStrU.comma);
 //    query         += SSStrU.bracketClose;
 //    stmt           = connector.prepareStatement(query);
 //    iterator       = parNamesWithValues.entrySet().iterator();
-//    
+//
 //    while(iterator.hasNext()){
 //      stmt.setObject(counter++, iterator.next().getValue());
 //    }
-//    
+//
 //    stmt.executeUpdate();
 //    stmt.close();
-//    
+//
 ////    "insert into table (id, name, age) values(1, "A", 19) on duplicate key update name=values(name), age=values(age)";
 //  }
 
 //@Override
 //  public ResultSet query(String query) throws Exception{
-//    
+//
 //    Statement   stmt    = connector.createStatement();
 //    ResultSet   results = stmt.executeQuery(query);
-//    
+//
 //    return results;
 //  }
 
@@ -1125,33 +1155,33 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
 //    final List<String>        columns,
 //    final Map<String, String> wheres,
 //    final String              tableConnection) throws Exception{
-//    
-//    String                              query   = "SELECT "; 
+//
+//    String                              query   = "SELECT ";
 //    int                                 counter = 1;
 //    PreparedStatement                   stmt;
 //    Iterator<Map.Entry<String, String>> iterator;
-//    
+//
 //    for(String columnName : columns){
 //      query += columnName + SSStrU.comma;
 //    }
-//    
+//
 //    query = SSStrU.removeTrailingString(query, SSStrU.comma) + " FROM ";
-//    
+//
 //    for(String tableName : tables){
 //      query += tableName + SSStrU.comma;
 //    }
-//    
+//
 //    query         = SSStrU.removeTrailingString(query, SSStrU.comma) + " WHERE ";
 //    iterator      = wheres.entrySet().iterator();
-//    
+//
 //    while(iterator.hasNext()){
 //      query += iterator.next().getKey() + SSStrU.equal + SSStrU.questionMark + " AND ";
 //    }
-//    
+//
 //    query         += tableConnection;
 //    stmt           = connector.prepareStatement(query);
 //    iterator       = wheres.entrySet().iterator();
-//    
+//
 //    while(iterator.hasNext()){
 //      stmt.setObject(counter++, iterator.next().getValue());
 //    }
@@ -1161,26 +1191,26 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
 
 //  @Override
 //  public ResultSet select(
-//    final String              table, 
+//    final String              table,
 //    final Map<String, String> wheres) throws Exception{
-//    
+//
 //    String                              query    = "SELECT * FROM " + table + " WHERE ";
 //    Iterator<Map.Entry<String, String>> iterator = wheres.entrySet().iterator();
 //    int                                 counter  = 1;
 //    PreparedStatement                   stmt;
-//    
+//
 //    while(iterator.hasNext()){
 //      query += iterator.next().getKey() + SSStrU.equal + SSStrU.questionMark + " AND ";
 //    }
-//    
+//
 //    query          = SSStrU.removeTrailingString(query, " AND ");
 //    stmt           = connector.prepareStatement(query);
 //    iterator       = wheres.entrySet().iterator();
-//    
+//
 //    while(iterator.hasNext()){
 //      stmt.setObject(counter++, iterator.next().getValue());
 //    }
-//    
+//
 //    return stmt.executeQuery();
 //  }
 
@@ -1192,11 +1222,11 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
 
 //  @Override
 //  public ResultSet select(
-//    String              table, 
-//    Map<String, String> wheres, 
-//    String              orderByColumn, 
+//    String              table,
+//    Map<String, String> wheres,
+//    String              orderByColumn,
 //    String              sortType) throws Exception{
-//   
+//
 //    String                              query    = "SELECT * FROM " + table + " WHERE ";
 //    Iterator<Map.Entry<String, String>> iterator = wheres.entrySet().iterator();
 //    int                                 counter  = 1;
@@ -1205,61 +1235,61 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
 //    while(iterator.hasNext()){
 //      query += iterator.next().getKey() + SSStrU.equal + SSStrU.questionMark + " AND ";
 //    }
-//    
+//
 //    query          = SSStrU.removeTrailingString(query, " AND ") + " ORDER BY " + orderByColumn + SSStrU.blank + sortType;
 //    stmt           = connector.prepareStatement(query);
 //    iterator       = wheres.entrySet().iterator();
-//    
+//
 //    while(iterator.hasNext()){
 //      stmt.setObject(counter++, iterator.next().getValue());
 //    }
-//    
+//
 //    return stmt.executeQuery();
 //  }
 
 
 //  @Override
 //  public ResultSet select(
-//    final List<String>        tables, 
-//    final List<String>        columns, 
-//    final Map<String, String> wheres, 
+//    final List<String>        tables,
+//    final List<String>        columns,
+//    final Map<String, String> wheres,
 //    final String              tableCon,
-//    final String              orderByColumn, 
+//    final String              orderByColumn,
 //    final String              sortType) throws Exception{
-//    
+//
 //    String                              query   = "SELECT ";
 //    int                                 counter = 1;
 //    PreparedStatement                   stmt;
 //    Iterator<Map.Entry<String, String>> iterator;
-//    
+//
 //    for(String columnName : columns){
 //      query += columnName + SSStrU.comma;
 //    }
-//    
+//
 //    query = SSStrU.removeTrailingString(query, SSStrU.comma) + " FROM ";
-//    
+//
 //    for(String tableName : tables){
 //      query += tableName + SSStrU.comma;
 //    }
-//    
+//
 //    query         = SSStrU.removeTrailingString(query, SSStrU.comma) + " WHERE ";
 //    iterator      = wheres.entrySet().iterator();
-//    
+//
 //    while(iterator.hasNext()){
 //      query += iterator.next().getKey() + SSStrU.equal + SSStrU.questionMark + " AND ";
 //    }
-//    
+//
 //    query         += tableCon;
-//    
+//
 //    if(
 //      orderByColumn != null &&
 //      sortType      != null){
 //      query         += " ORDER BY " + orderByColumn + SSStrU.blank + sortType;
 //    }
-//    
+//
 //    stmt           = connector.prepareStatement(query);
 //    iterator       = wheres.entrySet().iterator();
-//    
+//
 //    while(iterator.hasNext()){
 //      stmt.setObject(counter++, iterator.next().getValue());
 //    }
@@ -1274,61 +1304,61 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
 //    final List<MultivaluedMap<String, String>>                   wheres,
 //    final MultivaluedMap<String, MultivaluedMap<String, String>> wheresNumbericComparision,
 //    final List<String>                                           tableCons,
-//    final String                                                 orderByColumn, 
-//    final String                                                 sortType, 
+//    final String                                                 orderByColumn,
+//    final String                                                 sortType,
 //    final Integer                                                limit) throws Exception{
-//           
+//
 //    String                                    query   = "SELECT DISTINCT "; //caution do not remove distinct here without checks
 //    int                                       counter = 1;
 //    PreparedStatement                         stmt;
 //    Iterator<Map.Entry<String, List<String>>> iteratorMultiValue;
 //    Map.Entry<String, List<String>>           entrySet;
-//    
+//
 //    for(String columnName : columns){
 //      query += columnName + SSStrU.comma;
 //    }
-//    
+//
 //    if(
 //      columns == null ||
 //      columns.isEmpty()){
-//      
+//
 //      query += "*";
 //    }
-//    
+//
 //    query = SSStrU.removeTrailingString(query, SSStrU.comma) + " FROM ";
-//    
+//
 //    for(String tableName : tables){
 //      query += tableName + SSStrU.comma;
 //    }
-//    
+//
 //    query = SSStrU.removeTrailingString(query, SSStrU.comma) + " WHERE ";
-//      
+//
 //    for(MultivaluedMap<String, String> where : wheres){
-//      
+//
 //      query += "(";
-//      
+//
 //      iteratorMultiValue = where.entrySet().iterator();
 //
 //      while(iteratorMultiValue.hasNext()){
-//        
+//
 //        entrySet = iteratorMultiValue.next();
 //
 //        for(String value : entrySet.getValue()){
 //          query += entrySet.getKey() + SSStrU.equal + SSStrU.questionMark + " OR ";
 //        }
 //      }
-//      
+//
 //      query = SSStrU.removeTrailingString(query, " OR ") + ") AND ";
 //    }
-//    
+//
 //    for(Map.Entry<String, List<MultivaluedMap<String, String>>> wheresNumberic : wheresNumbericComparision.entrySet()){
-//      
+//
 //      String comparator = wheresNumberic.getKey();
 //
 //      for(MultivaluedMap<String, String> whereNumeric : wheresNumberic.getValue()){
-//      
+//
 //        query += "(";
-//        
+//
 //        iteratorMultiValue = whereNumeric.entrySet().iterator();
 //
 //        while(iteratorMultiValue.hasNext()){
@@ -1339,7 +1369,7 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
 //            query += entrySet.getKey() + comparator + SSStrU.questionMark + " OR ";
 //          }
 //        }
-//        
+//
 //        query = SSStrU.removeTrailingString(query, " OR ") + ") AND ";
 //      }
 //    }
@@ -1349,52 +1379,52 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
 ////    }else{
 //      query = SSStrU.removeTrailingString(query, " AND ");
 ////    }
-//      
+//
 //    if(
-//      !wheres.isEmpty() || 
+//      !wheres.isEmpty() ||
 //      !wheresNumbericComparision.isEmpty()){
-//      
+//
 //      if(!tableCons.isEmpty()){
 //        query += " AND ";
 //      }
 //    }
-//    
+//
 //    for(String tableCon : tableCons){
 //      query += tableCon + " AND ";
 //    }
-//    
+//
 //    query = SSStrU.removeTrailingString(query, " AND ");
-//    
+//
 //    if(
 //      orderByColumn != null &&
 //      sortType      != null){
 //      query         += " ORDER BY " + orderByColumn + SSStrU.blank + sortType;
 //    }
-//    
+//
 //    if(limit != null){
 //      query += " LIMIT " + limit;
 //    }
-//    
+//
 //    stmt           = connector.prepareStatement(query);
-//    
+//
 //    for(MultivaluedMap<String, String> where : wheres){
-//      
+//
 //      iteratorMultiValue = where.entrySet().iterator();
-//      
+//
 //      while(iteratorMultiValue.hasNext()){
-//        
+//
 //        entrySet = iteratorMultiValue.next();
-//        
+//
 //        for(String value : entrySet.getValue()){
 //          stmt.setObject(counter++, value);
 //        }
 //      }
 //    }
-//    
+//
 //    for(Map.Entry<String, List<MultivaluedMap<String, String>>> wheresNumberic : wheresNumbericComparision.entrySet()){
-//      
+//
 //      for(MultivaluedMap<String, String> whereNumeric : wheresNumberic.getValue()){
-//      
+//
 //        iteratorMultiValue = whereNumeric.entrySet().iterator();
 //
 //        while(iteratorMultiValue.hasNext()){

@@ -80,10 +80,12 @@ import sss.serv.eval.api.SSEvalServerI;
 
 public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportClientI, SSDataImportServerI{
   
-  public  static final Integer                 bitsAndPiecesImageMinWidth  = 250;
-  public  static final Integer                 bitsAndPiecesImageMinHeight = 250;
-  private static final ReentrantReadWriteLock  bitsAndPiecesImportsLock    = new ReentrantReadWriteLock();
-  private static final Map<Thread, String>     bitsAndPiecesImports        = new HashMap<>();
+  public  static final Integer                 bitsAndPiecesImageMinWidth          = 250;
+  public  static final Integer                 bitsAndPiecesImageMinHeight         = 250;
+  private static final ReentrantReadWriteLock  bitsAndPiecesEvernoteImportsLock    = new ReentrantReadWriteLock();
+  private static final Map<Thread, String>     bitsAndPiecesEvernoteImports        = new HashMap<>();
+  private static final ReentrantReadWriteLock  bitsAndPiecesEmailsImportsLock      = new ReentrantReadWriteLock();
+  private static final Map<Thread, String>     bitsAndPiecesEmailsImports          = new HashMap<>();
   
   private final SSDataImportSQLFct sqlFct;
   
@@ -94,22 +96,22 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
     this.sqlFct = new SSDataImportSQLFct(dbSQL);
   }
   
-  private Boolean addBitsAndPiecesImport(
+  private Boolean addBitsAndPiecesEvernoteImport(
     final String authToken,
     final String authEmail) throws Exception{
     
     try{
       
-      if(!bitsAndPiecesImportsLock.isWriteLockedByCurrentThread()){
-        bitsAndPiecesImportsLock.writeLock().lock();
+      if(!bitsAndPiecesEvernoteImportsLock.isWriteLockedByCurrentThread()){
+        bitsAndPiecesEvernoteImportsLock.writeLock().lock();
       }
       
-      if(bitsAndPiecesImports.containsValue(authToken)){
+      if(bitsAndPiecesEvernoteImports.containsValue(authToken)){
         SSLogU.warn("attempted to start B&P evernote import concurrently for " + authEmail);
         return false;
       }
       
-      bitsAndPiecesImports.put(Thread.currentThread(), authToken);
+      bitsAndPiecesEvernoteImports.put(Thread.currentThread(), authToken);
       
       return true;
         
@@ -118,27 +120,76 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
       return false;
     }finally{
       
-      if(bitsAndPiecesImportsLock.isWriteLockedByCurrentThread()){
-        bitsAndPiecesImportsLock.writeLock().unlock();
+      if(bitsAndPiecesEvernoteImportsLock.isWriteLockedByCurrentThread()){
+        bitsAndPiecesEvernoteImportsLock.writeLock().unlock();
       }
     }
   }
   
-  private void removeBitsAndPiecesImport(final String authToken) throws Exception{
+  private void removeBitsAndPiecesEvernoteImport(final String authToken) throws Exception{
     
     try{
-      bitsAndPiecesImportsLock.writeLock().lock();
+      bitsAndPiecesEvernoteImportsLock.writeLock().lock();
       
       if(authToken != null){
-        bitsAndPiecesImports.remove(Thread.currentThread());
+        bitsAndPiecesEvernoteImports.remove(Thread.currentThread());
       }
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }finally{
       
-      if(bitsAndPiecesImportsLock.isWriteLockedByCurrentThread()){
-        bitsAndPiecesImportsLock.writeLock().unlock();
+      if(bitsAndPiecesEvernoteImportsLock.isWriteLockedByCurrentThread()){
+        bitsAndPiecesEvernoteImportsLock.writeLock().unlock();
+      }
+    }
+  }
+  
+  private Boolean addBitsAndPiecesEmailImport(
+    final String authToken,
+    final String authEmail) throws Exception{
+    
+    try{
+      
+      if(!bitsAndPiecesEmailsImportsLock.isWriteLockedByCurrentThread()){
+        bitsAndPiecesEmailsImportsLock.writeLock().lock();
+      }
+      
+      if(bitsAndPiecesEmailsImports.containsValue(authToken)){
+        SSLogU.warn("attempted to start B&P evernote import concurrently for " + authEmail);
+        return false;
+      }
+      
+      bitsAndPiecesEmailsImports.put(Thread.currentThread(), authToken);
+      
+      return true;
+        
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return false;
+    }finally{
+      
+      if(bitsAndPiecesEmailsImportsLock.isWriteLockedByCurrentThread()){
+        bitsAndPiecesEmailsImportsLock.writeLock().unlock();
+      }
+    }
+  }
+  
+  private void removeBitsAndPiecesEmailImport(final String authToken) throws Exception{
+    
+    try{
+      bitsAndPiecesEmailsImportsLock.writeLock().lock();
+      
+      if(authToken != null){
+        bitsAndPiecesEmailsImports.remove(Thread.currentThread());
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }finally{
+      
+      if(bitsAndPiecesEmailsImportsLock.isWriteLockedByCurrentThread()){
+        bitsAndPiecesEmailsImportsLock.writeLock().unlock();
       }
     }
   }
@@ -148,10 +199,18 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
     
     try{
       
-      if(!addBitsAndPiecesImport(par.authToken, par.authEmail)){
+      if(
+        par.importEvernote &&
+        !addBitsAndPiecesEvernoteImport(par.authToken, par.authEmail)){
         return false;
       }
       
+      if(
+        par.importEmails &&
+        !addBitsAndPiecesEmailImport(par.authToken, par.authEmail)){
+        return false;
+      }
+            
       final String            localWorkPath   = SSCoreConf.instGet().getSss().getLocalWorkPath();
       final SSEntityServerI   entityServ      = (SSEntityServerI)   SSServReg.getServ(SSEntityServerI.class);
       final SSUEServerI       ueServ          = (SSUEServerI)       SSServReg.getServ(SSUEServerI.class);
@@ -190,7 +249,9 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
         SSServErrReg.reset();
       }
       
-      if(userUri != null){
+      if(
+      par.importEvernote &&
+      userUri != null){
         
         try{
 
@@ -220,7 +281,9 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
         }
       }
       
-      if(userUri != null){
+      if(
+        par.importEmails &&
+        userUri != null){
         
         try{
 
@@ -261,7 +324,14 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
     }finally{
       
       try{
-        removeBitsAndPiecesImport(par.authToken);
+        
+        if(par.importEvernote){
+          removeBitsAndPiecesEvernoteImport(par.authToken);
+        }
+        
+        if(par.importEmails){
+          removeBitsAndPiecesEmailImport(par.authToken);
+        }
       }catch(Exception error){
         SSLogU.warn("removing evernote import thread failed");
       }
