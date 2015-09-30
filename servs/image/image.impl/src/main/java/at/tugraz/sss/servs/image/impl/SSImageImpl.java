@@ -69,7 +69,6 @@ import at.tugraz.sss.servs.image.datatype.ret.SSImageProfilePictureSetRet;
 import at.tugraz.sss.servs.image.datatype.ret.SSImagesGetRet;
 import at.tugraz.sss.servs.image.impl.sql.SSImageSQLFct;
 import java.io.File;
-import java.io.FileInputStream;
 import javax.imageio.ImageIO;
 
 public class SSImageImpl 
@@ -336,7 +335,7 @@ implements
           
         }catch(Exception error){
           SSServErrReg.reset();
-          SSLogU.warn("thumb couldnt be created from file");
+          SSLogU.warn("thumb creation failed");
         }
         
         if(
@@ -731,8 +730,8 @@ implements
         }
       }
       
-      throw new UnsupportedOperationException();
-      
+      SSLogU.info("thumb creation for file ext not supported: " + fileExt);
+      return null;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;

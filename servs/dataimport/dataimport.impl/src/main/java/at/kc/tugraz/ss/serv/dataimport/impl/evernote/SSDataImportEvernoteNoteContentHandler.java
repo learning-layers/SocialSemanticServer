@@ -93,7 +93,7 @@ public class SSDataImportEvernoteNoteContentHandler{
       }catch(Exception error){
         
         SSServErrReg.reset();
-        SSLogU.warn("PDF from XHTML failed");
+        SSLogU.info("PDF creation from XHTML failed");
         
         try{
           
@@ -123,12 +123,11 @@ public class SSDataImportEvernoteNoteContentHandler{
               xhtmlFilePath,
               true);
           }catch(Exception error1){
-            SSLogU.warn("PDF reduced and filled XHTML failed");
+            SSLogU.warn("PDF creation from reduced and filled XHTML failed");
             throw error;
           }
           
         }catch(Exception error1){
-          
           SSServErrReg.reset();
           return;
         }
@@ -349,6 +348,12 @@ public class SSDataImportEvernoteNoteContentHandler{
             mimeType = SSMimeTypeE.applicationZip;
           }
           
+          if(
+            tmpLine.contains("type=\"" + SSMimeTypeE.applicationZipCompressed + "\"")  &&
+            endIndex > tmpLine.indexOf("type=\"" + SSMimeTypeE.applicationZipCompressed  + "\"")){
+            mimeType = SSMimeTypeE.applicationZipCompressed;
+          }
+
           if(
             tmpLine.contains("type=\"" + SSMimeTypeE.textPlain + "\"")  &&
             endIndex > tmpLine.indexOf("type=\"" + SSMimeTypeE.textPlain  + "\"")){
