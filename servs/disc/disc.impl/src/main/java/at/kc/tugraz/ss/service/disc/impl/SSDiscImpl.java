@@ -20,6 +20,7 @@
 */
 package at.kc.tugraz.ss.service.disc.impl;
 
+import at.kc.tugraz.ss.activity.api.SSActivityServerI;
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesAddPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntitySharePar;
@@ -62,7 +63,7 @@ import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscGetRet;
 import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscTargetsAddRet;
 import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscUpdateRet;
 import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscsGetRet;
-import at.kc.tugraz.ss.service.disc.impl.fct.activity.SSDiscActivityFct;
+import at.kc.tugraz.ss.service.disc.impl.fct.activity.SSDiscActAndLogFct;
 import at.kc.tugraz.ss.service.disc.impl.fct.op.SSDiscUserEntryAddFct;
 import at.tugraz.sss.serv.SSAddAffiliatedEntitiesToCircleI;
 import at.tugraz.sss.serv.SSAddAffiliatedEntitiesToCirclePar;
@@ -84,6 +85,7 @@ import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityEntitiesAttachedRemovePar;
+import sss.serv.eval.api.SSEvalServerI;
 
 public class SSDiscImpl
   extends SSServImplWithDBA
@@ -98,17 +100,23 @@ public class SSDiscImpl
   SSUserRelationGathererI,
   SSUsersResourcesGathererI{
 
-  private final SSDiscSQLFct     sqlFct;
-  private final SSEntityServerI  entityServ;
-  private final SSCircleServerI  circleServ;
+  private final SSDiscSQLFct       sqlFct;
+  private final SSEntityServerI    entityServ;
+  private final SSCircleServerI    circleServ;
+  private final SSDiscActAndLogFct actAndLogFct;
 
   public SSDiscImpl(final SSConfA conf) throws Exception{
 
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
 
-    this.sqlFct     = new SSDiscSQLFct(this);
-    this.entityServ = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
-    this.circleServ = (SSCircleServerI) SSServReg.getServ(SSCircleServerI.class);
+    this.sqlFct       = new SSDiscSQLFct(this);
+    this.entityServ   = (SSEntityServerI)   SSServReg.getServ(SSEntityServerI.class);
+    this.circleServ   = (SSCircleServerI)   SSServReg.getServ(SSCircleServerI.class);
+    
+    this.actAndLogFct = 
+      new SSDiscActAndLogFct(
+        (SSActivityServerI) SSServReg.getServ(SSActivityServerI.class),
+        (SSEvalServerI)     SSServReg.getServ(SSEvalServerI.class));
   }
 
   @Override
@@ -168,11 +176,25 @@ public class SSDiscImpl
     final List<String> allUsers,
     final Map<String, List<SSUri>> userRelations) throws Exception{
 
-    List<SSEntity> discUserCircles;
+    SSCirclesGetPar circlesGetPar;
 
+    SSUri userUri;
+    
     for(String user : allUsers){
       
-      final SSUri userUri = SSUri.get(user);
+      userUri = SSUri.get(user);
+      
+      circlesGetPar =
+        new SSCirclesGetPar(
+          userUri,
+          userUri, //forUser
+          null, //entity
+          null, //entityTypesToIncludeOnly
+          false, //setEntities,
+          true, //setUsers
+          false, //withUserRestriction
+          true, //withSystemCircles
+          false); //invokeEntityHandlers
       
       for(SSEntity disc :
         discsGet(
@@ -185,20 +207,9 @@ public class SSDiscImpl
             false, //withUserRestriction,
             false))){ //invokeEntityHandlers);){
 
-        discUserCircles = 
-          circleServ.circlesGet(
-            new SSCirclesGetPar(
-              userUri,
-              userUri, //forUser
-              disc.id,
-              null, //entityTypesToIncludeOnly
-              false, //setEntities,
-              true, //setUsers
-              false, //withUserRestriction
-              true, //withSystemCircles
-              false)); //invokeEntityHandlers
-
-        for(SSEntity circle : discUserCircles){
+        circlesGetPar.entity = disc.id;
+          
+        for(SSEntity circle : circleServ.circlesGet(circlesGetPar)){
 
           if(userRelations.containsKey(user)){
             userRelations.get(user).addAll(SSUri.getDistinctNotNullFromEntities(circle.users));
@@ -439,26 +450,6 @@ public class SSDiscImpl
     }
   }
   
-  //  @Override
-//  public void entitiesSharedWithUsers(SSEntitiesSharedWithUsersPar par) throws Exception {
-//    
-//    for(SSEntity entityShared : par.circle.entities){
-//     
-//      switch(entityShared.type){
-//        case coll:{
-////              circleServ.circleUsersAdd(
-////                new SSCircleUsersAddPar(
-////                  null,
-////                  null,
-////                  par.user,
-////                  par.circle,
-////                  sqlFct.getDiscUserURIs(entityToAdd.id),
-////                  false,
-////                  false));
-////            }
-//      }
-//  }
-
   @Override
   public List<SSUri> discEntryURIsGet(final SSDiscEntryURIsGetPar par) throws Exception{
 
@@ -506,7 +497,18 @@ public class SSDiscImpl
     
     sSCon.writeRetFullToClient(ret);
     
-    SSDiscActivityFct.discEntryAdd(par, ret, true);
+    actAndLogFct.discEntryAdd(
+      par.user, 
+      par.addNewDisc,
+      par.targets,
+      ret.disc, 
+      par.type,
+      par.description,
+      ret.entry, 
+      par.entry, 
+      par.entities,
+      par.entityLabels,
+      par.shouldCommit);
   }
 
   @Override
@@ -1157,11 +1159,23 @@ public class SSDiscImpl
         circleServ, 
         entityServ,
         par.user,
-        par.discussion,
-        par.targets, //entities
+        par.discussion, //entity
+        par.targets, //entities 
         par.withUserRestriction,
         true); //invokeEntityhandlers
       
+      for(SSUri target : par.targets){
+        
+        SSServCallerU.handleCirclesFromEntityGetEntitiesAdd(
+          circleServ,
+          entityServ,
+          par.user,
+          target, //entity
+          SSUri.asListWithoutNullAndEmpty(par.discussion), //entities
+          par.withUserRestriction,
+          true); //invokeEntityhandlers
+      }
+            
       dbSQL.commit(par.shouldCommit);
       
       return par.discussion;

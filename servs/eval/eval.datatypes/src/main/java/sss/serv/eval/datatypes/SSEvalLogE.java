@@ -79,7 +79,12 @@ public enum SSEvalLogE implements SSJSONLDPropI{
   removeFilter, //client
   executeJumpToDateButton, //client
   requestEditButton,  //client
-  releaseEditButton //client
+  releaseEditButton, //client
+  
+  
+  addDiscEntry, //server
+  discussEntity, //server
+  attachEntities, //server
   ; 
   
   @Override
