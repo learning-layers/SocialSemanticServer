@@ -491,8 +491,8 @@ public class SSDiscImpl
             par.circles, //circles
             false, //setPublic,
             null, //comment,
-            true, //withUserRestriction,
-            true)); //shouldCommit
+            par.withUserRestriction, //withUserRestriction,
+            par.shouldCommit)); //shouldCommit
     }
     
     sSCon.writeRetFullToClient(ret);
@@ -622,6 +622,16 @@ public class SSDiscImpl
     final SSDiscUpdateRet ret = discUpdate(par);
 
     sSCon.writeRetFullToClient(ret);
+    
+    if(ret.disc != null){
+      
+      actAndLogFct.discUpdate(
+        par.user, 
+        par.disc, 
+        par.label, 
+        par.content,
+        par.shouldCommit);
+    }
   }
 
   @Override
@@ -700,6 +710,15 @@ public class SSDiscImpl
     final SSDiscEntryUpdateRet ret = discEntryUpdate(par);
 
     sSCon.writeRetFullToClient(ret);
+    
+    if(ret.entry != null){
+      
+      actAndLogFct.discEntryUpdate(
+        par.user, 
+        ret.entry,
+        par.content,
+        par.shouldCommit);
+    }
   }
 
   @Override
@@ -1117,9 +1136,16 @@ public class SSDiscImpl
 
     SSServCallerU.checkKey(parA);
 
-    final SSDiscTargetsAddPar par = (SSDiscTargetsAddPar) parA.getFromJSON(SSDiscTargetsAddPar.class);
+    final SSDiscTargetsAddPar par        = (SSDiscTargetsAddPar) parA.getFromJSON(SSDiscTargetsAddPar.class);
+    final SSUri               discussion = discTargetsAdd(par);
 
-    sSCon.writeRetFullToClient(SSDiscTargetsAddRet.get(discTargetsAdd(par)));
+    sSCon.writeRetFullToClient(SSDiscTargetsAddRet.get(discussion));
+    
+    actAndLogFct.discTargetsAdd(
+      par.user,
+      discussion,
+      par.targets,
+      par.shouldCommit);
   }
   
   @Override

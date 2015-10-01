@@ -38,6 +38,8 @@ public class SSEntityUpdatePar extends SSServPar{
   public Boolean             read             = null;
   public Boolean             setPublic        = false;
 
+  public Boolean             fromClient       = false;
+  
   public String getEntity(){
     return SSStrU.removeTrailingSlash(entity);
   }

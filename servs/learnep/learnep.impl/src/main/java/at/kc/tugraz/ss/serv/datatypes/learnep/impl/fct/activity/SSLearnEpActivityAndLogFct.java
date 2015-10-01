@@ -570,64 +570,6 @@ public class SSLearnEpActivityAndLogFct{
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
-    
-    try{
-      
-      if(
-        label != null &&
-        !SSStrU.equals(circleEntity.label, label)){
-        
-        evalServ.evalLog(
-          new SSEvalLogPar(
-            user,
-            SSToolContextE.organizeArea,
-            SSEvalLogE.changeLabel,
-            learnEpCircle,
-            SSStrU.toStr(label), //content
-            SSUri.asListWithoutNullAndEmpty(learnEp), //entities
-            null, //users
-            shouldCommit));
-      }
-      
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
-        default: SSServErrReg.regErrThrow(error);
-      }
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-    
-    try{
-      
-      if(
-        description != null &&
-        !SSStrU.equals(circleEntity.description, description)){
-        
-        evalServ.evalLog(
-          new SSEvalLogPar(
-            user,
-            SSToolContextE.organizeArea,
-            SSEvalLogE.changeDescription,
-            learnEpCircle,
-            SSStrU.toStr(description), //content
-            SSUri.asListWithoutNullAndEmpty(learnEp), //entities
-            null, //users
-            shouldCommit));
-      }
-
-    }catch(SSErr error){
-      
-      switch(error.code){
-        case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
-        default: SSServErrReg.regErrThrow(error);
-      }
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
   }
   
   public void removeEntityFromLearnEpCircle(

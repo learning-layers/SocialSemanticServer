@@ -33,7 +33,6 @@ public enum SSToolContextE implements SSJSONLDPropI{
   bitTab,
   notificationTab,
   evernoteImport,
-  discussionTool,
   sss;
   
   @Override

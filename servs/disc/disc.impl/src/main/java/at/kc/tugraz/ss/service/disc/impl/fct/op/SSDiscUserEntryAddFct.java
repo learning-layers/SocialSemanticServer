@@ -160,25 +160,6 @@ public class SSDiscUserEntryAddFct{
         withUserRestriction,
         false); //invokeEntityHandlers
       
-//      for(SSEntity entityUserCircle :
-//        ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlesGet(
-//          new SSCirclesGetPar(
-//            userUri,
-//            discUri,
-//            null,
-//            false,
-//            true,
-//            false))){
-//        
-//        ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleEntitiesAdd(
-//          new SSCircleEntitiesAddPar(
-//            userUri,
-//            entityUserCircle.id,
-//            SSUri.asListWithoutNullAndEmpty(discEntryUri),
-//            false,
-//            false));
-//      }
-      
       return discEntryUri;
       
     }catch(Exception error){

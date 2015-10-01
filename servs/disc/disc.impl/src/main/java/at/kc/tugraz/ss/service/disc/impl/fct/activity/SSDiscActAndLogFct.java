@@ -1,23 +1,23 @@
-/**
- * Code contributed to the Learning Layers project
- * http://www.learning-layers.eu
- * Development is partly funded by the FP7 Programme of the European Commission under
- * Grant Agreement FP7-ICT-318209.
- * Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
- * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+ /**
+  * Code contributed to the Learning Layers project
+  * http://www.learning-layers.eu
+  * Development is partly funded by the FP7 Programme of the European Commission under
+  * Grant Agreement FP7-ICT-318209.
+  * Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+  * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
+  *
+  * Licensed under the Apache License, Version 2.0 (the "License");
+  * you may not use this file except in compliance with the License.
+  * You may obtain a copy of the License at
+  *
+  * http://www.apache.org/licenses/LICENSE-2.0
+  *
+  * Unless required by applicable law or agreed to in writing, software
+  * distributed under the License is distributed on an "AS IS" BASIS,
+  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  * See the License for the specific language governing permissions and
+  * limitations under the License.
+  */
 package at.kc.tugraz.ss.service.disc.impl.fct.activity;
 
 import at.kc.tugraz.ss.activity.api.SSActivityServerI;
@@ -26,14 +26,10 @@ import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
 import at.kc.tugraz.ss.activity.datatypes.par.SSActivityAddPar;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
-import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscEntryAddPar;
-import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscEntryAddRet;
-import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.SSServErrReg;
-import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSToolContextE;
 import java.util.List;
@@ -55,15 +51,15 @@ public class SSDiscActAndLogFct{
   }
   
   public void discEntryAdd(
-    final SSUri         user, 
+    final SSUri         user,
     final Boolean       addNewDisc,
     final List<SSUri>   targets,
     final SSUri         disc,
-    final SSEntityE     discType, 
+    final SSEntityE     discType,
     final SSTextComment discDescription,
     final SSUri         entry,
     final SSTextComment entryContent,
-    final List<SSUri>   entities, 
+    final List<SSUri>   entities,
     final List<SSLabel> entityLabels,
     final Boolean       shouldCommit) throws Exception{
     
@@ -105,7 +101,7 @@ public class SSDiscActAndLogFct{
           evalServ.evalLog(
             new SSEvalLogPar(
               user,
-              SSToolContextE.discussionTool,
+              SSToolContextE.sss,
               SSEvalLogE.discussEntity,
               target, //entity
               null, //content
@@ -121,7 +117,7 @@ public class SSDiscActAndLogFct{
           evalServ.evalLog(
             new SSEvalLogPar(
               user,
-              SSToolContextE.discussionTool,
+              SSToolContextE.sss,
               SSEvalLogE.addDiscEntry,
               disc, //entity
               SSStrU.toStr(discDescription), //content
@@ -174,7 +170,7 @@ public class SSDiscActAndLogFct{
         evalServ.evalLog(
           new SSEvalLogPar(
             user,
-            SSToolContextE.discussionTool,
+            SSToolContextE.sss,
             SSEvalLogE.addDiscEntry,
             disc, //entity
             SSStrU.toStr(entryContent), //content
@@ -193,45 +189,142 @@ public class SSDiscActAndLogFct{
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
+  }
+  
+  public void discTargetsAdd(
+    final SSUri       user,
+    final SSUri       disc,
+    final List<SSUri> targets,
+    final Boolean     shouldCommit) throws Exception{
     
-//    try{
-//      
-//      if(addNewDisc){
-//        
-//        if(!entities.isEmpty()){
-//
-//          evalServ.evalLog(
-//            new SSEvalLogPar(
-//              user,
-//              SSToolContextE.discussionTool,
-//              SSEvalLogE.attachEntities,
-//              disc, //entity
-//              null, //content
-//              entities, //entities
-//              null, //users
-//              shouldCommit));
-//        }
-//      }
-//      
-//    }catch(SSErr error){
-//      
-//      switch(error.code){
-//        case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
-//        default: SSServErrReg.regErrThrow(error);
-//      }
-//      
-//    }catch(Exception error){
-//      SSServErrReg.regErrThrow(error);
-//    }
+    if(disc == null){
+      return;
+    }
+    
+    try{
+      
+      for(SSUri target : targets){
+        
+        evalServ.evalLog(
+          new SSEvalLogPar(
+            user,
+            SSToolContextE.sss,
+            SSEvalLogE.discussEntity,
+            target, //entity
+            null, //content
+            SSUri.asListWithoutNullAndEmpty(disc), //entities
+            null, //users
+            shouldCommit));
+      }
+      
+    }catch(SSErr error){
+      
+      switch(error.code){
+        case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
+        default: SSServErrReg.regErrThrow(error);
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  public void discUpdate(
+    final SSUri   user,
+    final Boolean shouldCommit) throws Exception{
+    
+  }
+  
+  public void discUpdate(
+    final SSUri         user,
+    final SSUri         disc,
+    final SSLabel       label,
+    final SSTextComment content,
+    final Boolean       shouldCommit) throws Exception {
+    
+    try{
+      
+      if(label != null){
+        
+        evalServ.evalLog(
+          new SSEvalLogPar(
+            user,
+            SSToolContextE.sss,
+            SSEvalLogE.changeLabel,
+            disc,
+            SSStrU.toStr(label), //content
+            null, //entities
+            null, //users
+            shouldCommit));
+      }
+      
+      if(content != null){
+        
+        evalServ.evalLog(
+          new SSEvalLogPar(
+            user,
+            SSToolContextE.sss,
+            SSEvalLogE.changeDescription,
+            disc,
+            SSStrU.toStr(content), //content
+            null, //entities
+            null, //users
+            shouldCommit));
+      }
+      
+    }catch(SSErr error){
+      
+      switch(error.code){
+        case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
+        default: SSServErrReg.regErrThrow(error);
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  public void discEntryUpdate(
+    final SSUri         user,
+    final SSUri         entry,
+    final SSTextComment content,
+    final Boolean       shouldCommit) throws Exception{
+    
+    try{
+      
+      if(content != null){
+        
+        evalServ.evalLog(
+          new SSEvalLogPar(
+            user,
+            SSToolContextE.sss,
+            SSEvalLogE.changeDescription,
+            entry,
+            SSStrU.toStr(content), //content
+            null, //entities
+            null, //users
+            shouldCommit));
+      }
+      
+    }catch(SSErr error){
+      
+      switch(error.code){
+        case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
+        default: SSServErrReg.regErrThrow(error);
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
   }
 }
 
 //try{
-//      
+//
 //      if(
 //        label != null &&
 //        !SSStrU.equals(circleEntity.label, label)){
-//        
+//
 //        evalServ.evalLog(
 //          new SSEvalLogPar(
 //            user,
@@ -243,24 +336,24 @@ public class SSDiscActAndLogFct{
 //            null, //users
 //            shouldCommit));
 //      }
-//      
+//
 //    }catch(SSErr error){
-//      
+//
 //      switch(error.code){
 //        case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
 //        default: SSServErrReg.regErrThrow(error);
 //      }
-//      
+//
 //    }catch(Exception error){
 //      SSServErrReg.regErrThrow(error);
 //    }
-//    
+//
 //    try{
-//      
+//
 //      if(
 //        description != null &&
 //        !SSStrU.equals(circleEntity.description, description)){
-//        
+//
 //        evalServ.evalLog(
 //          new SSEvalLogPar(
 //            user,
@@ -274,12 +367,12 @@ public class SSDiscActAndLogFct{
 //      }
 //
 //    }catch(SSErr error){
-//      
+//
 //      switch(error.code){
 //        case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
 //        default: SSServErrReg.regErrThrow(error);
 //      }
-//      
+//
 //    }catch(Exception error){
 //      SSServErrReg.regErrThrow(error);
 //    }

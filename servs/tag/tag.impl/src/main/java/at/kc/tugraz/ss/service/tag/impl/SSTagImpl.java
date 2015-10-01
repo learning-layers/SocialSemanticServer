@@ -96,11 +96,10 @@ implements
   SSCircleContentRemovedI,
   SSUsersResourcesGathererI{
   
-  final SSTagAndCategoryCommonSQL  sqlFct;
-  final SSTagAndCategoryCommonMisc commonMiscFct;
-  final SSActivityServerI          activityServ;
-  final SSEvalServerI              evalServ;
-  final SSEntityServerI            entityServ;
+  private final SSTagActAndLogFct          actAndLogFct;
+  private final SSTagAndCategoryCommonSQL  sqlFct;
+  private final SSTagAndCategoryCommonMisc commonMiscFct;
+  private final SSEntityServerI            entityServ;
   
   public SSTagImpl(final SSConfA conf) throws Exception{
     
@@ -108,10 +107,13 @@ implements
     
     this.sqlFct        = new SSTagAndCategoryCommonSQL (dbSQL, SSEntityE.tag);
     this.commonMiscFct = new SSTagAndCategoryCommonMisc(dbSQL, SSEntityE.tag);
+
+    this.actAndLogFct = 
+      new SSTagActAndLogFct(
+        (SSActivityServerI) SSServReg.getServ (SSActivityServerI.class),
+        (SSEvalServerI)     SSServReg.getServ (SSEvalServerI.class));
     
-    this.activityServ  = (SSActivityServerI) SSServReg.getServ (SSActivityServerI.class);
-    this.evalServ      = (SSEvalServerI)     SSServReg.getServ (SSEvalServerI.class);
-    this.entityServ    = (SSEntityServerI)   SSServReg.getServ (SSEntityServerI.class);
+    this.entityServ = (SSEntityServerI)   SSServReg.getServ (SSEntityServerI.class);
   }
   
   @Override
@@ -325,37 +327,16 @@ implements
     SSServCallerU.checkKey(parA);
     
     final SSTagsAddPar par     = (SSTagsAddPar) parA.getFromJSON(SSTagsAddPar.class);
-    final List<SSUri>  tagUris = tagsAdd(par);
+    final List<SSUri>  tagURIs = tagsAdd(par);
     
-    sSCon.writeRetFullToClient(SSTagsAddRet.get(tagUris));
+    sSCon.writeRetFullToClient(SSTagsAddRet.get(tagURIs));
     
-    for(SSUri entity : par.entities){
-      
-      activityServ.activityAdd(
-        new SSActivityAddPar(
-          par.user,
-          SSActivityE.tagEntity,
-          entity,
-          null,
-          tagUris,
-          null,
-          null,
-          par.shouldCommit));
-      
-      for(SSTagLabel label : par.labels){
-        
-        evalServ.evalLog(
-          new SSEvalLogPar(
-            par.user,
-            SSToolContextE.sss,
-            SSEvalLogE.tagAdd,
-            entity,  //entity
-            SSStrU.toStr(label), //content,
-            null, //entities
-            null, //users
-            par.shouldCommit));
-      }
-    }
+    actAndLogFct.tagsAdd(
+      par.user,
+      par.entities, 
+      tagURIs, 
+      par.labels, 
+      par.shouldCommit);
   }
   
   @Override
@@ -414,31 +395,19 @@ implements
     SSServCallerU.checkKey(parA);
     
     final SSTagAddPar par    = (SSTagAddPar) parA.getFromJSON(SSTagAddPar.class);
-    final SSUri       tagUri = tagAdd(par);
+    final SSUri       tagURI = tagAdd(par);
     
-    sSCon.writeRetFullToClient(SSTagAddRet.get(tagUri));
+    sSCon.writeRetFullToClient(SSTagAddRet.get(tagURI));
     
-    activityServ.activityAdd(
-      new SSActivityAddPar(
-        par.user,
-        SSActivityE.tagEntity,
-        par.entity,
-        null,
-        SSUri.asListWithoutNullAndEmpty(tagUri),
-        null,
-        null,
-        par.shouldCommit));
+    if(tagURI != null){
     
-    evalServ.evalLog(
-      new SSEvalLogPar(
-        par.user,
-        SSToolContextE.sss,
-        SSEvalLogE.tagAdd,
-        par.entity,  //entity
-        SSStrU.toStr(par.label), //content,
-        null, //entities
-        null, //users
-        par.shouldCommit));
+      actAndLogFct.tagsAdd(
+        par.user, 
+        SSUri.asListWithoutNullAndEmpty(par.entity), 
+        SSUri.asListWithoutNullAndEmpty(tagURI), 
+        SSTagLabel.asListWithoutNullAndEmpty(par.label), 
+        par.shouldCommit);
+    }
   }
   
   @Override
@@ -568,31 +537,19 @@ implements
     
     SSServCallerU.checkKey(parA);
     
-    final SSTagsRemovePar par = (SSTagsRemovePar) parA.getFromJSON(SSTagsRemovePar.class);
+    final SSTagsRemovePar par    = (SSTagsRemovePar) parA.getFromJSON(SSTagsRemovePar.class);
+    final Boolean         worked = tagsRemove(par);
     
-    sSCon.writeRetFullToClient(SSTagsRemoveRet.get(tagsRemove(par)));
+    sSCon.writeRetFullToClient(SSTagsRemoveRet.get(worked));
     
-    activityServ.activityAdd(
-      new SSActivityAddPar(
-        par.user,
-        SSActivityE.removeTags,
-        par.entity,
-        null,
-        null,
-        null,
-        null,
-        par.shouldCommit));
-    
-    evalServ.evalLog(
-      new SSEvalLogPar(
-        par.user,
-        SSToolContextE.sss,
-        SSEvalLogE.tagsRemove,
-        par.entity,  //entity
-        SSStrU.toStr(par.label), //content,
-        null, //entities
-        null, //users
-        par.shouldCommit));
+    if(worked){
+      
+      actAndLogFct.tagsRemove(
+        par.user, 
+        par.entity, 
+        par.label, 
+        par.shouldCommit);
+    }
   }
   
   @Override

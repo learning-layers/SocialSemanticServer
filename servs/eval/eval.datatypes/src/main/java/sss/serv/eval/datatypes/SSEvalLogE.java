@@ -40,7 +40,6 @@ public enum SSEvalLogE implements SSJSONLDPropI{
   entityCopy,
   fileUpload,
   fileDowload,
-  tagAdd,
   categoryAdd,
   tagsRemove,
   categoriesRemove,
@@ -81,11 +80,15 @@ public enum SSEvalLogE implements SSJSONLDPropI{
   requestEditButton,  //client
   releaseEditButton, //client
   
-  
   addDiscEntry, //server
   discussEntity, //server
   attachEntities, //server
-  ; 
+  removeEntities, //server
+  
+  //knowbrain && bits and pieces
+  tagAdd //server
+  
+  ;
   
   @Override
   public Object jsonLDDesc() {

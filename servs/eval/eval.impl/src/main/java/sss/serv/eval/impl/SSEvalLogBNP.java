@@ -68,7 +68,13 @@ public class SSEvalLogBNP {
         case removeFilter: //client
         case executeJumpToDateButton: //client
         case requestEditButton:  //client
-        case releaseEditButton:{ //client
+        case releaseEditButton: //client
+        case addDiscEntry: //server
+        case discussEntity: //server
+        case attachEntities: //server
+        case tagAdd: //server
+        case removeEntities: //server
+        { 
           
           break;
         }

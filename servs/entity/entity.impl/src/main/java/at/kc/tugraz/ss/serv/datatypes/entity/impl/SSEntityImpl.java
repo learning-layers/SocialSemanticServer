@@ -30,6 +30,7 @@ import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivURIGetPar;
 import at.tugraz.sss.servs.entity.datatypes.ret.SSEntityShareRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityClientI;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.SSEntityActAndLogFct;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntitiesGetPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityAttachEntitiesPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityDownloadURIsGetPar;
@@ -102,19 +103,21 @@ implements
   SSAddAffiliatedEntitiesToCircleI,
   SSUsersResourcesGathererI{
   
-  private final SSEntitySQLFct    sqlFct;
-  private final SSActivityServerI activityServ;
-  private final SSEvalServerI     evalServ;
-  private final SSCircleServerI   circleServ;
+  private final SSEntitySQLFct       sqlFct;
+  private final SSCircleServerI      circleServ;
+  private final SSEntityActAndLogFct actAndLogFct;
   
   public SSEntityImpl(final SSConfA conf) throws Exception{
     
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
     
     this.sqlFct          = new SSEntitySQLFct(this);
-    this.activityServ    = (SSActivityServerI) SSServReg.getServ(SSActivityServerI.class);
-    this.evalServ        = (SSEvalServerI)     SSServReg.getServ(SSEvalServerI.class);
     this.circleServ      = (SSCircleServerI)   SSServReg.getServ(SSCircleServerI.class);
+    
+    this.actAndLogFct = 
+      new SSEntityActAndLogFct(
+        (SSActivityServerI) SSServReg.getServ(SSActivityServerI.class), 
+        (SSEvalServerI)     SSServReg.getServ(SSEvalServerI.class));
   }
   
   @Override
@@ -260,31 +263,21 @@ implements
     
     SSServCallerU.checkKey(parA);
     
-    final SSEntityCopyPar par = (SSEntityCopyPar) parA.getFromJSON(SSEntityCopyPar.class);
+    final SSEntityCopyPar par    = (SSEntityCopyPar) parA.getFromJSON(SSEntityCopyPar.class);
+    final Boolean         worked = entityCopy(par);
     
-    sSCon.writeRetFullToClient(SSEntityCopyRet.get(entityCopy(par)));
+    sSCon.writeRetFullToClient(SSEntityCopyRet.get(worked));
     
-    activityServ.activityAdd(
-      new SSActivityAddPar(
-        par.user,
-        SSActivityE.copyEntityForUsers,
-        par.entity,
-        par.forUsers,
-        null,
-        SSTextComment.asListWithoutNullAndEmpty  (par.comment),
-        null,
-        par.shouldCommit));
-    
-    evalServ.evalLog(
-      new SSEvalLogPar(
-        par.user,
-        SSToolContextE.sss,
-        SSEvalLogE.entityCopy,
-        par.entity,  //entity
-        null, //content,
-        SSUri.asListWithoutNullAndEmpty(par.targetEntity), //entities
-        par.forUsers, //users
-        par.shouldCommit));
+    if(worked){
+      
+      actAndLogFct.entityCopy(
+        par.user, 
+        par.entity, 
+        par.targetEntity, 
+        par.forUsers, 
+        par.comment,
+        par.shouldCommit);
+    }
   }
   
   @Override
@@ -489,6 +482,8 @@ implements
     final SSUri             entityURI;
     Boolean                 isPlaceholderAdd = false;
     
+    par.fromClient = true;
+    
     if(
       par.entity == null &&
       par.type   == null){
@@ -530,8 +525,6 @@ implements
   
   @Override
   public SSUri entityUpdate(final SSEntityUpdatePar par) throws Exception{
-    
-    SSEntity entityToAttach;
     
     try{
       
@@ -578,32 +571,6 @@ implements
           par.entity);
       }
       
-//      for(SSUri entityURIToAttach : par.entitiesToAttach){
-//        
-//        entityToAttach = sqlFct.getEntity(entityURIToAttach);
-//        
-//        if(entityToAttach == null){
-//          
-//          sqlFct.addEntityIfNotExists(
-//            entityURIToAttach,
-//            SSEntityE.entity,
-//            null,
-//            null,
-//            par.user,
-//            null);
-//          
-//        }else{
-//          
-//          if(par.withUserRestriction){
-//            if(!SSServCallerU.canUserRead(par.user, entityURIToAttach)){
-//              continue;
-//            }
-//          }
-//        }
-//        
-//        sqlFct.attachEntity(par.entity, entityURIToAttach);
-//      }
-      
       if(par.read != null){
         
         sqlFct.setEntityRead(
@@ -630,6 +597,14 @@ implements
       
       dbSQL.commit(par.shouldCommit);
       
+      actAndLogFct.entityUpdate(
+        par.user,
+        par.fromClient,
+        entity,
+        par.label,
+        par.description,
+        par.shouldCommit);
+        
       return par.entity;
       
    }catch(Exception error){
@@ -766,6 +741,8 @@ implements
         }
       }
       
+      dbSQL.startTrans(par.shouldCommit);
+      
       for(SSUri entity : par.entities){
         
         entityUpdate(
@@ -792,6 +769,14 @@ implements
         par.entities, //entities
         par.withUserRestriction,
         true); //invokeEntityHandlers);
+      
+      dbSQL.commit(par.shouldCommit);
+      
+      actAndLogFct.attachEntities(
+        par.user, 
+        par.entity,
+        par.entities, 
+        par.shouldCommit);
       
       return par.entity;
     }catch(Exception error){
@@ -828,8 +813,18 @@ implements
           return null;
         }
       }
+
+      dbSQL.startTrans(par.shouldCommit);
       
       sqlFct.removeAttachedEntities(par.entity, par.entities);
+     
+      dbSQL.commit(par.shouldCommit);
+      
+      actAndLogFct.removeEntities(
+        par.user, 
+        par.entity, 
+        par.entities, 
+        par.shouldCommit);
       
       return par.entity;
     }catch(Exception error){
