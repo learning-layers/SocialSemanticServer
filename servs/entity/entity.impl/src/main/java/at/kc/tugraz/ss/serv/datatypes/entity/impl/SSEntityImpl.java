@@ -21,8 +21,6 @@
 package at.kc.tugraz.ss.serv.datatypes.entity.impl;
 
 import at.kc.tugraz.ss.activity.api.SSActivityServerI;
-import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
-import at.kc.tugraz.ss.activity.datatypes.par.SSActivityAddPar;
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesAddPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntitySharePar;
@@ -84,14 +82,10 @@ import at.tugraz.sss.serv.SSGetParentEntitiesI;
 import at.tugraz.sss.serv.SSGetSubEntitiesI;
 import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServErrReg;
-import at.tugraz.sss.serv.SSTextComment;
-import at.tugraz.sss.serv.SSToolContextE;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityEntitiesAttachedRemovePar;
 import at.tugraz.sss.servs.entity.datatypes.ret.SSEntityTypesGetRet;
 import java.util.Arrays;
 import sss.serv.eval.api.SSEvalServerI;
-import sss.serv.eval.datatypes.SSEvalLogE;
-import sss.serv.eval.datatypes.par.SSEvalLogPar;
 
 public class SSEntityImpl 
 extends SSServImplWithDBA
@@ -401,23 +395,16 @@ implements
     
     try{
       
-      if(par.entity == null){
-        throw new SSErr(SSErrE.parameterMissing);
-      }
-      
-      SSEntity entity = sqlFct.getEntity(par.entity);
+      SSEntity entity =
+        sqlFct.getEntityTest(
+          par.user,
+          par.entity,
+          par.withUserRestriction);
       
       if(entity == null){
         return null;
       }
       
-      if(par.withUserRestriction){
-        
-        if(!SSServCallerU.canUserRead(par.user, entity.id)){
-          return null;
-        }
-      }
-        
       if(
         par.descPar   == null &&
         entity.author != null){

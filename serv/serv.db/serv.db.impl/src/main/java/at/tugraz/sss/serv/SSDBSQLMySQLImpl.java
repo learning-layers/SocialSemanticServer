@@ -27,6 +27,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -58,6 +59,22 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
     return connectionPool.getMaxActive();
   }
   
+  @Override
+  public ResultSet select(final String query) throws Exception{
+    
+    Statement stmt = null;
+      
+    try{
+      stmt = connector.createStatement();
+      
+      return stmt.executeQuery(query);
+      
+    }catch (Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+
   @Override
   public ResultSet select(final SSDBSQLSelectPar par) throws Exception{
     

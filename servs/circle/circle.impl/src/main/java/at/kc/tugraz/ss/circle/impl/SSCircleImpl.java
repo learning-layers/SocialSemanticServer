@@ -1300,8 +1300,7 @@ implements
       if(
         !miscFct.canUserForEntityType(
           par.user,
-          sqlFct.getEntity(par.entityURI),
-          par.accessRight)){
+          sqlFct.getEntity(par.entityURI))){
         
         throw new SSErr(SSErrE.userNotAllowedToAccessEntity);
       }

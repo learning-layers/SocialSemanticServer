@@ -27,6 +27,7 @@ import at.kc.tugraz.ss.circle.datatypes.par.SSCirclesGetPar;
 import at.kc.tugraz.ss.serv.auth.api.SSAuthServerI;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthCheckKeyPar;
+import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.tugraz.sss.serv.SSAddAffiliatedEntitiesToCircleI;
 import at.tugraz.sss.serv.SSAddAffiliatedEntitiesToCirclePar;
 import at.tugraz.sss.serv.SSCircleRightE;
@@ -357,7 +358,8 @@ public class SSServCallerU{
     }
   }
   
-  public static Boolean areUsersUsers(final List<SSUri> users) throws Exception{
+  public static Boolean areUsersUsers(
+      final List<SSUri> users) throws Exception{
     
     try{
       
@@ -368,7 +370,7 @@ public class SSServCallerU{
       final List<SSEntity> entities =
         ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
           new SSEntitiesGetPar(
-            null,
+            SSVocConf.systemUserUri,
             users, //entities
             null, //types
             null,    //descPar

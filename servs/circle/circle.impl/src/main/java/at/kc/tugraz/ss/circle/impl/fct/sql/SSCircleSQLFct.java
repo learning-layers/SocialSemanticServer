@@ -41,6 +41,7 @@ import java.util.Map;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 import at.tugraz.sss.serv.SSErrE;
+import at.tugraz.sss.serv.SSObjU;
 import at.tugraz.sss.serv.SSServErrReg;
 
 public class SSCircleSQLFct extends SSDBSQLFct{
@@ -326,6 +327,55 @@ public class SSCircleSQLFct extends SSDBSQLFct{
     }
   }
   
+  public List<SSUri> getCirclesCommonForUserAndEntity(
+    final SSUri userUri,
+    final SSUri entityUri) throws Exception{
+    
+    ResultSet resultSet = null;
+    
+    try{
+      
+      if(SSObjU.isNull(userUri, entityUri)){
+        throw new SSErr(SSErrE.parameterMissing);
+      }
+      
+      final List<String>              tables       = new ArrayList<>();
+      final Map<String, String>       wheres       = new HashMap<>();
+      final List<String>              columns      = new ArrayList<>();
+      final List<String>              tableCons    = new ArrayList<>();
+      
+      table    (tables, SSSQLVarNames.circleTable);
+      table    (tables, SSSQLVarNames.circleEntitiesTable);
+      table    (tables, SSSQLVarNames.circleUsersTable);
+      
+      column   (columns,   SSSQLVarNames.circleTable, SSSQLVarNames.circleId);
+      
+      where    (wheres,    SSSQLVarNames.entityId, entityUri);
+      where    (wheres,    SSSQLVarNames.userId,   userUri);
+      
+      tableCon (tableCons, SSSQLVarNames.circleTable, SSSQLVarNames.circleId, SSSQLVarNames.circleEntitiesTable, SSSQLVarNames.circleId);
+      tableCon (tableCons, SSSQLVarNames.circleTable, SSSQLVarNames.circleId, SSSQLVarNames.circleUsersTable,    SSSQLVarNames.circleId);
+      
+      resultSet = 
+        dbSQL.select(
+          tables, 
+          columns, 
+          wheres, 
+          tableCons, 
+          null, 
+          null, 
+          null);
+      
+      return getURIsFromResult(resultSet, SSSQLVarNames.circleId);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
+    }
+  }
+  
   public List<SSCircleE> getCircleTypesCommonForUserAndEntity(
     final SSUri userUri,
     final SSUri entityUri) throws Exception{
@@ -342,13 +392,24 @@ public class SSCircleSQLFct extends SSDBSQLFct{
       table    (tables, SSSQLVarNames.circleUsersTable);
       table    (tables, SSSQLVarNames.circleEntitiesTable);
       table    (tables, SSSQLVarNames.circleTable);
+      
       column   (columns,   SSSQLVarNames.circleType);
+      
       where    (wheres,    SSSQLVarNames.entityId, entityUri);
       where    (wheres,    SSSQLVarNames.userId,   userUri);
+      
       tableCon (tableCons, SSSQLVarNames.circleTable, SSSQLVarNames.circleId, SSSQLVarNames.circleEntitiesTable, SSSQLVarNames.circleId);
       tableCon (tableCons, SSSQLVarNames.circleTable, SSSQLVarNames.circleId, SSSQLVarNames.circleUsersTable,    SSSQLVarNames.circleId);
       
-      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
+      resultSet = 
+        dbSQL.select(
+          tables, 
+          columns, 
+          wheres, 
+          tableCons, 
+          null, 
+          null, 
+          null);
       
       return SSCircleE.get(getStringsFromResult(resultSet, SSSQLVarNames.circleType));
       
@@ -869,93 +930,6 @@ public class SSCircleSQLFct extends SSDBSQLFct{
         SSEntityE.entity);
       
     }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }finally{
-      dbSQL.closeStmt(resultSet);
-    }
-  }
-  
-  //remove duplication from entity service
-  public Boolean existsEntity(
-    final SSUri entity) throws Exception{
-    
-    ResultSet resultSet  = null;
-    
-    try{
-      
-      final List<String>        columns = new ArrayList<>();
-      final Map<String, String> where   = new HashMap<>();
-      
-      column(columns, SSSQLVarNames.id);
-      
-      where(where, SSSQLVarNames.id, entity);
-      
-      resultSet = dbSQL.select(SSSQLVarNames.entityTable, columns, where, null, null, null);
-      
-      try{
-        checkFirstResult(resultSet);
-      }catch(Exception error){
-        
-        if(SSServErrReg.containsErr(SSErrE.sqlNoResultFound)){
-          SSServErrReg.reset();
-          return false;
-        }
-        
-        throw error;
-      }
-      
-      return true;
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }finally{
-      dbSQL.closeStmt(resultSet);
-    }
-  }
-  
-  //remove duplication from entity service  
-  public SSEntity getEntity(
-    final SSUri entityUri) throws Exception{
-    
-    ResultSet resultSet  = null;
-    
-    try{
-      final List<String>        columns = new ArrayList<>();
-      final Map<String, String> where   = new HashMap<>();
-      final SSEntity            entityObj;
-      
-      column(columns, SSSQLVarNames.id);
-      column(columns, SSSQLVarNames.type);
-      column(columns, SSSQLVarNames.label);
-      column(columns, SSSQLVarNames.creationTime);
-      column(columns, SSSQLVarNames.author);
-      column(columns, SSSQLVarNames.description);
-      
-      where(where, SSSQLVarNames.id, entityUri);
-      
-      resultSet = dbSQL.select(SSSQLVarNames.entityTable, columns, where, null, null, null);
-      
-      checkFirstResult(resultSet);
-      
-      entityObj =
-        SSEntity.get(entityUri,
-          bindingStrToEntityType (resultSet, SSSQLVarNames.type),
-          bindingStrToLabel      (resultSet, SSSQLVarNames.label));
-      
-      entityObj.creationTime = bindingStrToLong       (resultSet, SSSQLVarNames.creationTime);
-      entityObj.author       = bindingStrToAuthor     (resultSet, SSSQLVarNames.author);
-      entityObj.description  = bindingStrToTextComment(resultSet, SSSQLVarNames.description);
-
-      return entityObj;
-    }catch(Exception error){
-      
-      if(SSServErrReg.containsErr(SSErrE.sqlNoResultFound)){
-        SSServErrReg.reset();
-        return null;
-      }
-        
       SSServErrReg.regErrThrow(error);
       return null;
     }finally{

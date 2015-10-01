@@ -96,62 +96,75 @@ public class SSCircleMiscFct{
     }
   }
   
-  public Boolean doesUserHaveRightInAnyCircleOfEntity(
-    final SSUri          user,
-    final SSUri          entity,
-    final SSCircleRightE accessRight) throws Exception{
-    
-    try{
-      final List<SSCircleE> circleTypes = sqlFct.getCircleTypesCommonForUserAndEntity(user, entity);
-      
-      for(SSCircleE circleType : circleTypes){
-        
-        if(doesCircleOfTypeHaveRight(circleType, accessRight)){
-          return true;
-        }
-      }
-      
-      return false;
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
   
-  private Boolean doesCircleOfTypeHaveRight(
-    final SSCircleE      circleType,
-    final SSCircleRightE accessRight) throws Exception{
-    
-    try{
-      switch(circleType){
-        case priv: return true;
-        case pub:{
-          
-          if(SSCircleRightE.equals(accessRight, SSCircleRightE.read)){
-            return true;
-          }
-          
-          break;
-        }
-        
-        default:{
-          
-          if(
-            SSCircleRightE.equals(accessRight, SSCircleRightE.read) ||
-            SSCircleRightE.equals(accessRight, SSCircleRightE.edit)){
-            return true;
-          }
-          
-          break;
-        }
-      }
-      
-      return false;
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
+  //    public Boolean hasCircleOfTypeRight(
+//    final SSUri          circle,
+//    final SSCircleRightE accessRight) throws Exception{
+//    
+//    try{
+//      return doesCircleOfTypeHaveRight(sqlFct.getTypeForCircle(circle), accessRight);
+//    }catch(Exception error){
+//      SSServErrReg.regErrThrow(error);
+//      return null;
+//    }
+//  }
+  
+//  public Boolean doesUserHaveRightInAnyCircleOfEntity(
+//    final SSUri          user,
+//    final SSUri          entity,
+//    final SSCircleRightE accessRight) throws Exception{
+//    
+//    try{
+//      final List<SSCircleE> circleTypes = sqlFct.getCircleTypesCommonForUserAndEntity(user, entity);
+//      
+//      for(SSCircleE circleType : circleTypes){
+//        
+//        if(doesCircleOfTypeHaveRight(circleType, accessRight)){
+//          return true;
+//        }
+//      }
+//      
+//      return false;
+//    }catch(Exception error){
+//      SSServErrReg.regErrThrow(error);
+//      return null;
+//    }
+//  }
+  
+//  private Boolean doesCircleOfTypeHaveRight(
+//    final SSCircleE      circleType,
+//    final SSCircleRightE accessRight) throws Exception{
+//    
+//    try{
+//      switch(circleType){
+//        case priv: return true;
+//        case pub:{
+//          
+//          if(SSCircleRightE.equals(accessRight, SSCircleRightE.read)){
+//            return true;
+//          }
+//          
+//          break;
+//        }
+//        
+//        default:{
+//          
+//          if(
+//            SSCircleRightE.equals(accessRight, SSCircleRightE.read) ||
+//            SSCircleRightE.equals(accessRight, SSCircleRightE.edit)){
+//            return true;
+//          }
+//          
+//          break;
+//        }
+//      }
+//      
+//      return false;
+//    }catch(Exception error){
+//      SSServErrReg.regErrThrow(error);
+//      return null;
+//    }
+//  }
   
   public Boolean isUserInCircle(
     final SSUri          user,
@@ -167,31 +180,18 @@ public class SSCircleMiscFct{
     }
   }
   
-  public Boolean hasCircleOfTypeRight(
-    final SSUri          circle,
-    final SSCircleRightE accessRight) throws Exception{
-    
-    try{
-      return doesCircleOfTypeHaveRight(sqlFct.getTypeForCircle(circle), accessRight);
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
   public Boolean canUserForEntityType(
     final SSUri          user,
-    final SSEntity       entity,
-    final SSCircleRightE accessRight) throws Exception{
+    final SSEntity       entity) throws Exception{
     
     try{
       switch(entity.type){
         case entity: return true; //TODO dtheiler: break down general entity types so that checks on e.g. videos will be present
         case circle: {
           
-          if(
-            isUserInCircle       (user,      entity.id) &&
-            hasCircleOfTypeRight (entity.id, accessRight)){
+          if(isUserInCircle       (user, entity.id)){
+//            &&
+//            hasCircleOfTypeRight (entity.id, accessRight)
             return true;
           }
           
@@ -199,7 +199,8 @@ public class SSCircleMiscFct{
         }
         
         default:{
-          return doesUserHaveRightInAnyCircleOfEntity(user, entity.id, accessRight);
+          return !sqlFct.getCirclesCommonForUserAndEntity(user, entity.id).isEmpty();
+//          return doesUserHaveRightInAnyCircleOfEntity(user, entity.id, accessRight);
         }
       }
     }catch(Exception error){

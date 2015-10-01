@@ -39,6 +39,9 @@ public interface SSDBSQLI{
     final Boolean shouldCommit);
 
   public ResultSet select(
+    final String query) throws Exception;
+  
+  public ResultSet select(
     final SSDBSQLSelectPar par) throws Exception;
   
   public ResultSet select(

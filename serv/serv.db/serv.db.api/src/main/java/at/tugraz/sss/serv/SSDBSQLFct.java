@@ -489,6 +489,44 @@ public class SSDBSQLFct extends SSDBFct{
     }
   }
   
+  public Boolean existsEntity(
+    final SSUri entity) throws Exception{
+    
+    ResultSet resultSet  = null;
+    
+    try{
+      
+      final List<String>        columns = new ArrayList<>();
+      final Map<String, String> where   = new HashMap<>();
+      
+      column(columns, SSSQLVarNames.id);
+      
+      where(where, SSSQLVarNames.id, entity);
+      
+      resultSet = dbSQL.select(SSSQLVarNames.entityTable, columns, where, null, null, null);
+      
+      try{
+        checkFirstResult(resultSet);
+      }catch(Exception error){
+        
+        if(SSServErrReg.containsErr(SSErrE.sqlNoResultFound)){
+          SSServErrReg.reset();
+          return false;
+        }
+        
+        throw error;
+      }
+      
+      return true;
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
+    }
+  }
+  
   public SSEntity getEntity(
     final SSUri entityUri) throws Exception{
     
@@ -502,18 +540,86 @@ public class SSDBSQLFct extends SSDBFct{
       
       where(where, SSSQLVarNames.id, entityUri);
       
-      resultSet = dbSQL.select(SSSQLVarNames.entityTable, columns, where, null, null, null);
+      resultSet = 
+        dbSQL.select(
+          SSSQLVarNames.entityTable, 
+          columns, 
+          where, 
+          null, 
+          null, 
+          null);
       
       checkFirstResult(resultSet);
       
       return SSEntity.get(
-          bindingStrToUri        (resultSet, SSSQLVarNames.id),
-          bindingStrToEntityType (resultSet, SSSQLVarNames.type), 
-          bindingStrToLabel      (resultSet, SSSQLVarNames.label), 
-          bindingStrToTextComment(resultSet, SSSQLVarNames.description), 
-          bindingStrToLong       (resultSet, SSSQLVarNames.creationTime), 
-          bindingStrToAuthor     (resultSet, SSSQLVarNames.author));
+        bindingStrToUri        (resultSet, SSSQLVarNames.id),
+        bindingStrToEntityType (resultSet, SSSQLVarNames.type),
+        bindingStrToLabel      (resultSet, SSSQLVarNames.label),
+        bindingStrToTextComment(resultSet, SSSQLVarNames.description),
+        bindingStrToLong       (resultSet, SSSQLVarNames.creationTime),
+        bindingStrToAuthor     (resultSet, SSSQLVarNames.author));
           
+    }catch(Exception error){
+      
+      if(SSServErrReg.containsErr(SSErrE.sqlNoResultFound)){
+        SSServErrReg.reset();
+        return null;
+      }
+        
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
+    }
+  }
+  
+  public SSEntity getEntityTest(
+    final SSUri   user,
+    final SSUri   entity,
+    final Boolean withUserRestriction) throws Exception{
+    
+    ResultSet resultSet  = null;
+    
+    try{
+      
+      if(SSObjU.isNull(user, entity)){
+        throw new SSErr(SSErrE.parameterMissing);
+      }
+      
+      final String entityStr = entity.toString();
+      final String userStr   = user.toString();
+      String       query     = "select entity.id, entity.type, entity.label, entity.description, entity.author, entity.creationTime ";
+      
+      if(
+        withUserRestriction &&
+        !SSStrU.equals(userStr, "http://sss.eu/system/")){
+        
+        query += "from entity, circle, circleentities, circleusers ";
+        query += "where entity.id ='" + entityStr + "' and ";
+        query += "((entity.type = 'entity') or (";
+        query += "entity.type != 'entity' and ";
+        query += "circleentities.entityId = '" + entityStr + "' and ";
+        query += "entity.id = circleentities.entityId and ";
+        query += "circleusers.userId = '" + userStr + "' and ";
+        query += "circle.circleId = circleentities.circleId and ";
+        query += "circle.circleId = circleusers.circleId))";
+      }else{
+        query += "from entity ";
+        query += "where entity.id ='" + entityStr + "'";
+      }
+      
+      resultSet = dbSQL.select(query);
+      
+      checkFirstResult(resultSet);
+      
+      return SSEntity.get(
+        bindingStrToUri        (resultSet, SSSQLVarNames.id),
+        bindingStrToEntityType (resultSet, SSSQLVarNames.type),
+        bindingStrToLabel      (resultSet, SSSQLVarNames.label),
+        bindingStrToTextComment(resultSet, SSSQLVarNames.description),
+        bindingStrToLong       (resultSet, SSSQLVarNames.creationTime),
+        bindingStrToAuthor     (resultSet, SSSQLVarNames.author)); 
+      
     }catch(Exception error){
       
       if(SSServErrReg.containsErr(SSErrE.sqlNoResultFound)){

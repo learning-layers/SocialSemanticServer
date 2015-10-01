@@ -42,6 +42,7 @@ import java.util.Map;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 import at.tugraz.sss.serv.SSErrE;
+import at.tugraz.sss.serv.SSObjU;
 import at.tugraz.sss.serv.SSServErrReg;
 
 public class SSEntitySQLFct extends SSDBSQLFct{
@@ -50,92 +51,6 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     super(serv.dbSQL);
   }
   
-  public Boolean existsEntity(
-    final SSUri entity) throws Exception{
-    
-    ResultSet resultSet  = null;
-    
-    try{
-      
-      final List<String>        columns = new ArrayList<>();
-      final Map<String, String> where   = new HashMap<>();
-      
-      column(columns, SSSQLVarNames.id);
-      
-      where(where, SSSQLVarNames.id, entity);
-      
-      resultSet = dbSQL.select(SSSQLVarNames.entityTable, columns, where, null, null, null);
-      
-      try{
-        checkFirstResult(resultSet);
-      }catch(Exception error){
-        
-        if(SSServErrReg.containsErr(SSErrE.sqlNoResultFound)){
-          SSServErrReg.reset();
-          return false;
-        }
-        
-        throw error;
-      }
-      
-      return true;
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }finally{
-      dbSQL.closeStmt(resultSet);
-    }
-  }
-  
-//  public SSEntity getEntity(
-//    final SSUri entityUri) throws Exception{
-//    
-//    ResultSet resultSet  = null;
-//    
-//    try{
-//      final List<String>        columns = new ArrayList<>();
-//      final Map<String, String> where   = new HashMap<>();
-//      final SSEntity            entityObj;
-//      
-//      column(columns, SSSQLVarNames.id);
-//      column(columns, SSSQLVarNames.type);
-//      column(columns, SSSQLVarNames.label);
-//      column(columns, SSSQLVarNames.creationTime);
-//      column(columns, SSSQLVarNames.author);
-//      column(columns, SSSQLVarNames.description);
-//      
-//      where(where, SSSQLVarNames.id, entityUri);
-//      
-//      resultSet = dbSQL.select(SSSQLVarNames.entityTable, columns, where, null, null, null);
-//      
-//      checkFirstResult(resultSet);
-//      
-//      entityObj =
-//        SSEntity.get(
-//          entityUri,
-//          bindingStrToEntityType (resultSet, SSSQLVarNames.type),
-//          bindingStrToLabel      (resultSet, SSSQLVarNames.label));
-//      
-//      entityObj.creationTime = bindingStrToLong       (resultSet, SSSQLVarNames.creationTime);
-//      entityObj.author       = bindingStrToAuthor     (resultSet, SSSQLVarNames.author);
-//      entityObj.description  = bindingStrToTextComment(resultSet, SSSQLVarNames.description);
-//
-//      return entityObj;
-//    }catch(Exception error){
-//      
-//      if(SSServErrReg.containsErr(SSErrE.sqlNoResultFound)){
-//        SSServErrReg.reset();
-//        return null;
-//      }
-//        
-//      SSServErrReg.regErrThrow(error);
-//      return null;
-//    }finally{
-//      dbSQL.closeStmt(resultSet);
-//    }
-//  }
-  
   public SSEntity getEntity(
     final SSLabel   label,
     final SSEntityE type) throws Exception{
@@ -143,6 +58,11 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     ResultSet resultSet  = null;
     
     try{
+      
+      if(SSObjU.isNull(label, type)){
+        throw new SSErr(SSErrE.parameterMissing);
+      }
+      
       final List<String>        columns = new ArrayList<>();
       final Map<String, String> where   = new HashMap<>();
       final SSEntity            entityObj;
@@ -165,12 +85,11 @@ public class SSEntitySQLFct extends SSDBSQLFct{
         SSEntity.get(
           bindingStrToUri        (resultSet, SSSQLVarNames.id),
           type,
-          label);
+          label, 
+          bindingStrToTextComment   (resultSet, SSSQLVarNames.description),
+          bindingStrToLong          (resultSet, SSSQLVarNames.creationTime), 
+          bindingStrToAuthor        (resultSet, SSSQLVarNames.author));
       
-      entityObj.creationTime = bindingStrToLong          (resultSet, SSSQLVarNames.creationTime);
-      entityObj.author       = bindingStrToAuthor        (resultSet, SSSQLVarNames.author);
-      entityObj.description  = bindingStrToTextComment   (resultSet, SSSQLVarNames.description);
-
       return entityObj;
     }catch(Exception error){
       
@@ -265,6 +184,8 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
     }
   }
   
