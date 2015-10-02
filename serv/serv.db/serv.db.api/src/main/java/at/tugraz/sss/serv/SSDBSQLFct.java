@@ -582,12 +582,19 @@ public class SSDBSQLFct extends SSDBFct{
     
     try{
       
-      if(SSObjU.isNull(user, entity)){
+      if(
+        user == null &&
+        withUserRestriction){
+        
+        throw new SSErr(SSErrE.parameterMissing);
+      }
+      
+      if(entity == null){
         throw new SSErr(SSErrE.parameterMissing);
       }
       
       final String entityStr = entity.toString();
-      final String userStr   = user.toString();
+      final String userStr   = SSStrU.toStr(user);
       String       query;
       
       if(
