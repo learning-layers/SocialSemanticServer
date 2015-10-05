@@ -52,12 +52,13 @@ public class SSLikeSQLFct extends SSDBSQLFct{
       final List<String>        columns   = new ArrayList<>();
       final Map<String, String> wheres    = new HashMap<>();
       
+      column(columns, SSSQLVarNames.userId); //to be able to apply DISTINCT in select 
+      column(columns, SSSQLVarNames.entityId);
+      column(columns, SSSQLVarNames.value);
+            
       if(forUser != null){
         where(wheres, SSSQLVarNames.userId, forUser);
       }
-      
-      column(columns, SSSQLVarNames.entityId);
-      column(columns, SSSQLVarNames.value);
       
       where (wheres,    SSSQLVarNames.entityId, entity);
       

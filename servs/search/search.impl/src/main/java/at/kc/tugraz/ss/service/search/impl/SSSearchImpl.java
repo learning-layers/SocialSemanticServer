@@ -714,7 +714,7 @@ implements
       return sqlFct.getEntityURIsUserCanAccess(
         par.user, 
         true, //withSystemCircles, 
-        null, //entities, 
+        null, //entities,
         par.typesToSearchOnlyFor, 
         par.authorsToSearchFor);
       
