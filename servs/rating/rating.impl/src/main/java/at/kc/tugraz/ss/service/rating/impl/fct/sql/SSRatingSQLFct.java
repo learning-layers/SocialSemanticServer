@@ -178,6 +178,7 @@ public class SSRatingSQLFct extends SSDBSQLFct{
     Integer                   ratingValue = 0;
     int                       counter     = 0;
     
+    column(columns, SSSQLVarNames.userId); //to be able to apply DISTINCT in select
     column(columns, SSSQLVarNames.ratingId);
     column(columns, SSSQLVarNames.ratingValue);
     
@@ -220,6 +221,7 @@ public class SSRatingSQLFct extends SSDBSQLFct{
       Double                    ratingValue  = 0d;
       int                       counter      = 0;
       
+      column(columns, SSSQLVarNames.userId); //to be able to apply DISTINCT in select
       column(columns, SSSQLVarNames.ratingId);
       column(columns, SSSQLVarNames.ratingValue);
       

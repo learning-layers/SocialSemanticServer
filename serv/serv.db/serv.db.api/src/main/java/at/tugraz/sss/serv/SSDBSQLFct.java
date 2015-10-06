@@ -601,9 +601,10 @@ public class SSDBSQLFct extends SSDBFct{
         withUserRestriction &&
         !SSStrU.equals(userStr, "http://sss.eu/system/")){
         
-        query = "select DISTINCT id, type, label, description, author, creationTime from entity where (id = '" + entityStr + "' AND type = 'entity') OR " ;
-        query += "entity.id = (select DISTINCT circleentities.entityId from circle, circleentities, circleusers where ";
-        query += "entityId = '" + entityStr + "' and userId = '" + userStr + "' and circle.circleId = circleentities.circleId and circle.circleId = circleusers.circleId);";
+        query = "select DISTINCT id, type, label, description, author, creationTime from entity where ";
+        query += "(id = '" + entityStr + "' AND type  = 'entity') OR ";
+        query += "(id = '" + entityStr + "' AND type  = 'circle' AND id = (select DISTINCT circle.circleId from circle, circleusers where circle.circleId = '" + entityStr + "' and circleusers.userId = '" + userStr + "' and circle.circleId = circleusers.circleId)) OR ";
+        query += "(id = '" + entityStr + "' AND type != 'entity' AND type != 'circle' AND id = (select DISTINCT circleentities.entityId from circle, circleentities, circleusers where entityId = '" + entityStr + "' and userId = '" + userStr + "' and circle.circleId = circleentities.circleId and circle.circleId = circleusers.circleId))";
   
       }else{
         query = "select DISTINCT id, type, label, description, author, creationTime from entity where entity.id ='" + entityStr + "'";
