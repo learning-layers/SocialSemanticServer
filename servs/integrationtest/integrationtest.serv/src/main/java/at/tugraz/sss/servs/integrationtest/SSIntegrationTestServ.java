@@ -78,11 +78,6 @@ public class SSIntegrationTestServ extends SSServContainerI{
           integrationTestServ.integrationTestSolrForSearch();
           break;
         }
-        
-        case bitsAndPiecesStudyFall2015:{
-          integrationTestServ.integrationTestBitsAndPiecesStudyFall2015();
-          break;
-        }
       }
     }
   }

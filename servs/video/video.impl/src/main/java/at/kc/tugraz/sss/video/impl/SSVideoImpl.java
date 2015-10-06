@@ -26,6 +26,7 @@ import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityGetPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUpdatePar;
 import at.kc.tugraz.ss.service.filerepo.api.SSFileRepoServerI;
+import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileAddRet;
 import at.tugraz.sss.serv.SSSocketCon;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSUri;
@@ -266,8 +267,7 @@ implements
     
     try{
       
-      final SSUri             videoUri;
-      final SSFileRepoServerI fileServ = (SSFileRepoServerI) SSServReg.getServ(SSFileRepoServerI.class);
+      final SSUri videoUri;
       
       if(par.uuid != null){
         videoUri = SSServCaller.vocURICreateFromId(par.uuid);
@@ -279,71 +279,95 @@ implements
           videoUri = SSServCaller.vocURICreate();
         }
       }
+
+      final SSFileRepoServerI fileServ = (SSFileRepoServerI) SSServReg.getServ(SSFileRepoServerI.class);
       
       dbSQL.startTrans(par.shouldCommit);
       
-      entityServ.entityUpdate(
-        new SSEntityUpdatePar(
-          par.user,
-          videoUri,
-          SSEntityE.video, //type,
-          par.label, //label
-          par.description,//description,
-          par.creationTime, //creationTime,
-          null, //read,
-          false, //setPublic
-          par.withUserRestriction, //withUserRestriction
-          false)); //shouldCommit)
+      final SSUri video =
+        entityServ.entityUpdate(
+          new SSEntityUpdatePar(
+            par.user,
+            videoUri,
+            SSEntityE.video, //type,
+            par.label, //label
+            par.description,//description,
+            par.creationTime, //creationTime,
+            null, //read,
+            false, //setPublic
+            true, //createIfNotExists,
+            par.withUserRestriction, //withUserRestriction
+            false)); //shouldCommit)
+      
+      if(video == null){
+        dbSQL.rollBack(par.shouldCommit);
+        return null;
+      }
       
       sqlFct.addVideo(
-        videoUri,
+        video,
         par.genre,
         par.link);
       
       if(par.forEntity != null){
         
-        entityServ.entityUpdate(
-          new SSEntityUpdatePar(
-            par.user,
-            par.forEntity,
-            null, //type,
-            null, //label
-            null,//description,
-            null, //creationTime,
-            null, //read,
-            false, //setPublic
-            par.withUserRestriction, //withUserRestriction
-            false)); //shouldCommit)
+        final SSUri forEntity =
+          entityServ.entityUpdate(
+            new SSEntityUpdatePar(
+              par.user,
+              par.forEntity,
+              null, //type,
+              null, //label
+              null,//description,
+              null, //creationTime,
+              null, //read,
+              false, //setPublic
+              true, //createIfNotExists
+              par.withUserRestriction, //withUserRestriction
+              false)); //shouldCommit)
+        
+        if(forEntity == null){
+          dbSQL.rollBack(par.shouldCommit);
+          return null;
+        }
         
         sqlFct.addVideoToEntity(videoUri, par.forEntity);
       }      
       
       if(par.file != null){
         
-        fileServ.fileAdd(
-          new SSEntityFileAddPar(
-            par.user,
-            null,  //fileBytes
-            null,  //fileLength
-            null,  //fileExt
-            par.file, //file
-            null, //type
-            null, //label
-            videoUri, //entity, 
-            false, //createThumb
-            null, //entityToAddThumbTo
-            true, //removeExistingFilesForEntity
-            par.withUserRestriction,
-            par.shouldCommit));
+        final SSFileAddRet fileAddRet =
+          fileServ.fileAdd(
+            new SSEntityFileAddPar(
+              par.user,
+              null,  //fileBytes
+              null,  //fileLength
+              null,  //fileExt
+              par.file, //file
+              null, //type
+              null, //label
+              video, //entity,
+              false, //createThumb
+              null, //entityToAddThumbTo
+              true, //removeExistingFilesForEntity
+              par.withUserRestriction,
+              par.shouldCommit));
+        
+         if(
+           fileAddRet      == null ||
+           fileAddRet.file == null){
+          dbSQL.rollBack(par.shouldCommit);
+          return null;
+        }
       }
       
       sqlFct.addVideoToUser(
         par.user,
-        videoUri);
+        video);
       
       dbSQL.commit(par.shouldCommit);
       
-      return videoUri;
+      return video;
       
     }catch(Exception error){
       
@@ -380,46 +404,59 @@ implements
   public SSUri videoAnnotationAdd(final SSVideoUserAnnotationAddPar par) throws Exception{
   
     try{
-      final SSUri annotationUri = SSServCaller.vocURICreate();
 
       dbSQL.startTrans(par.shouldCommit);
       
-      entityServ.entityUpdate(
-        new SSEntityUpdatePar(
-          par.user,
-          par.video,
-          null, //type,
-          null, //label
-          null,//description,
-          null, //creationTime,
-          null, //read,
-          false, //setPublic
-          par.withUserRestriction, //withUserRestriction
-          false)); //shouldCommit)
+      final SSUri video =
+        entityServ.entityUpdate(
+          new SSEntityUpdatePar(
+            par.user,
+            par.video,
+            null, //type,
+            null, //label
+            null,//description,
+            null, //creationTime,
+            null, //read,
+            false, //setPublic
+            false, //createIfNotExists
+            par.withUserRestriction, //withUserRestriction
+            false)); //shouldCommit)
       
-      entityServ.entityUpdate(
-        new SSEntityUpdatePar(
-          par.user,
-          annotationUri,
-          SSEntityE.videoAnnotation, //type,
-          par.label, //label
-          par.description,//description,
-          null, //creationTime,
-          null, //read,
-          false, //setPublic
-          par.withUserRestriction, //withUserRestriction
-          false)); //shouldCommit)
+      if(video == null){
+        dbSQL.rollBack(par.shouldCommit);
+        return null;
+      }
+      
+      final SSUri annotation =
+        entityServ.entityUpdate(
+          new SSEntityUpdatePar(
+            par.user,
+            SSServCaller.vocURICreate(), //entity
+            SSEntityE.videoAnnotation, //type,
+            par.label, //label
+            par.description,//description,
+            null, //creationTime,
+            null, //read,
+            false, //setPublic
+            true, //createIfNotExists
+            par.withUserRestriction, //withUserRestriction
+            false)); //shouldCommit)
+      
+      if(annotation == null){
+        dbSQL.rollBack(par.shouldCommit);
+        return null;
+      }
       
       sqlFct.createAnnotation(
         par.video, 
-        annotationUri, 
+        annotation, 
         par.x,
         par.y, 
         par.timePoint);
     
       dbSQL.commit(par.shouldCommit);
       
-      return annotationUri;
+      return annotation;
       
     }catch(Exception error){
       
@@ -446,15 +483,15 @@ implements
   public SSVideo videoGet(final SSVideoUserGetPar par) throws Exception{
     
     try{
-      final SSVideo          video;
-      SSEntityDescriberPar   descPar;
+
       
-      if(par.withUserRestriction){
-        
-        if(!SSServCallerU.canUserRead(par.user, par.video)){
-          return null;
-        }
+      SSVideo video = sqlFct.getVideo(par.user, par.video);
+      
+      if(video == null){
+        return null;
       }
+      
+      SSEntityDescriberPar   descPar;
       
       if(par.invokeEntityHandlers){
         descPar              = new SSEntityDescriberPar(par.video);
@@ -463,15 +500,20 @@ implements
         descPar = null;
       }
       
-      video = 
+      final SSFileRepoServerI fileServ = (SSFileRepoServerI) SSServReg.getServ(SSFileRepoServerI.class);
+        
+      final SSEntity videoEntity =
+        entityServ.entityGet(
+          new SSEntityGetPar(
+            par.user,
+            par.video,
+            par.withUserRestriction,
+            descPar)); //descPar
+      
+      video =
         SSVideo.get(
-          sqlFct.getVideo(par.user, par.video), 
-          entityServ.entityGet(
-            new SSEntityGetPar(
-              par.user,
-              par.video,
-              par.withUserRestriction, 
-              descPar))); //descPar
+          video,
+          videoEntity); 
       
       SSEntity.addEntitiesDistinctWithoutNull(
         video.annotations,
@@ -482,7 +524,7 @@ implements
             par.withUserRestriction)));
       
       for(SSEntity file :
-        ((SSFileRepoServerI) SSServReg.getServ(SSFileRepoServerI.class)).filesGet(
+        fileServ.filesGet(
           new SSEntityFilesGetPar(
             par.user,
             par.video,
@@ -506,11 +548,14 @@ implements
     
     try{
      
-      if(par.withUserRestriction){
+      final SSEntity annotation =
+        sqlFct.getEntityTest(
+          par.user,
+          par.annotation,
+          par.withUserRestriction);
       
-        if(!SSServCallerU.canUserRead(par.user, par.annotation)){
-          return null;
-        }
+      if(annotation == null){
+        return null;
       }
       
       return sqlFct.getAnnotation(par.annotation);
@@ -526,26 +571,31 @@ implements
     
     try{
      
-      if(par.withUserRestriction){
+      final SSEntity video =
+        sqlFct.getEntityTest(
+          par.user,
+          par.video,
+          par.withUserRestriction);
       
-        if(!SSServCallerU.canUserRead(par.user, par.video)){
-          return new ArrayList<>();
-        }
+      if(video == null){
+        return null;
       }
       
-      final List<SSEntity> annotations    = new ArrayList<>();
-      final List<SSUri>    annotationURIs = sqlFct.getAnnotations(par.video);
+      final List<SSEntity>          annotations           = new ArrayList<>();
+      final List<SSUri>             annotationURIs        = sqlFct.getAnnotations(par.video);
+      final SSVideoAnnotationGetPar videoAnnotationGetPar =
+        new SSVideoAnnotationGetPar(
+          par.user,
+          null, //annotation
+          par.withUserRestriction);
       
       for(SSUri annotation : annotationURIs){
         
+        videoAnnotationGetPar.annotation = annotation;
+        
         SSEntity.addEntitiesDistinctWithoutNull(
           annotations,
-          videoAnnotationGet(
-            new SSVideoAnnotationGetPar(
-              par.user, 
-              annotation, 
-              par.withUserRestriction)));
-        
+          videoAnnotationGet(videoAnnotationGetPar));
       }
       
       return annotations;
@@ -575,25 +625,34 @@ implements
       
         if(par.forEntity != null){
           
-          if(!SSServCallerU.canUserRead(par.user, par.forEntity)){
+          final SSEntity forEntity = 
+            sqlFct.getEntityTest(
+              par.user, 
+              par.forEntity, 
+              par.withUserRestriction);
+          
+          if(forEntity == null){
             return new ArrayList<>();
           }
         }
       }
       
-      final List<SSEntity> videos    = new ArrayList<>();
-      final List<SSUri>    videoURIs = sqlFct.getVideoURIs(par.user, par.forEntity);
+      final List<SSEntity>    videos      = new ArrayList<>();
+      final List<SSUri>       videoURIs   = sqlFct.getVideoURIs(par.user, par.forEntity);
+      final SSVideoUserGetPar videoGetPar =
+        new SSVideoUserGetPar(
+          par.user,
+          null, //video
+          par.withUserRestriction,
+          par.invokeEntityHandlers);
       
       for(SSUri videoURI : videoURIs){
         
+        videoGetPar.video = videoURI;
+        
         SSEntity.addEntitiesDistinctWithoutNull(
           videos,
-          videoGet(
-            new SSVideoUserGetPar(
-              par.user,
-              videoURI,
-              par.withUserRestriction,
-              par.invokeEntityHandlers)));
+          videoGet(videoGetPar));
       }
       
       return videos;

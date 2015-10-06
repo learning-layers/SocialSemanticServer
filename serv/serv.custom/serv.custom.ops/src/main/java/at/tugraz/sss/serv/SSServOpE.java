@@ -34,7 +34,6 @@ public enum SSServOpE{
   livingDocUpdate,
   
   //integrationtest
-  integrationTestBitsAndPiecesStudyFall2015,
   integrationTestSolrForSearch,
   
   //location

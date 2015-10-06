@@ -95,11 +95,21 @@ implements
     
     try{
       
+      if(par.entity == null){
+        throw new SSErr(SSErrE.parameterMissing);
+      }
+      
+      final SSEntity entity = 
+        sqlFct.getEntityTest(
+          par.user, 
+          par.entity, 
+          par.withUserRestriction);
+      
+      if(entity == null){
+        return null;
+      }
+      
       if(par.withUserRestriction){
-        
-        if(!SSServCallerU.canUserRead(par.user, par.entity)){
-          return null;
-        }
         
         if(
           par.forUser != null &&
@@ -136,18 +146,25 @@ implements
 
       dbSQL.startTrans(par.shouldCommit);
       
-      entityServ.entityUpdate(
-        new SSEntityUpdatePar(
-          par.user,
-          par.entity,
-          null, //type,
-          null, //label
-          null, //description,
-          null, //creationTime,
-          null, //read,
-          false, //setPublic
-          par.withUserRestriction, //withUserRestriction
-          false)); //shouldCommit)
+      final SSUri entity =
+        entityServ.entityUpdate(
+          new SSEntityUpdatePar(
+            par.user,
+            par.entity,
+            null, //type,
+            null, //label
+            null, //description,
+            null, //creationTime,
+            null, //read,
+            false, //setPublic
+            true, //createIfNotExists
+            par.withUserRestriction, //withUserRestriction
+            false)); //shouldCommit)
+      
+      if(entity == null){
+        dbSQL.rollBack(par.shouldCommit);
+        return null;
+      }
       
       sqlFct.like(
         par.user, 

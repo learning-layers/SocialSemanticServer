@@ -519,15 +519,34 @@ implements
         throw new SSErr(SSErrE.parameterMissing);
       }
       
-      if(par.withUserRestriction){
+      SSEntity entity = 
+        sqlFct.getEntityTest(
+          null, //user
+          par.entity, //entity
+          false); //withUserRestriction
+      
+      if(
+        entity != null &&
+        par.withUserRestriction){
         
-        if(!SSServCallerU.canUserRead(par.user, par.entity)){
+        entity = 
+          sqlFct.getEntityTest(
+            par.user, //user
+            par.entity, //entity
+            true); //withUserRestriction
+        
+        if(entity == null){
           throw new SSErr(SSErrE.userNotAllowedToAccessEntity);
-        }  
+        }
       }
       
-      final SSEntity entity = sqlFct.getEntity(par.entity);
-      
+      if(
+        entity == null &&
+        !par.createIfNotExists){
+        
+        return null;
+      }
+        
       dbSQL.startTrans(par.shouldCommit);
       
       if(entity == null){

@@ -168,29 +168,36 @@ implements
         throw new SSErr(SSErrE.parameterMissing);
       }
       
-      final SSEntityServerI  entityServ   = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
-//      final SSUri            livingDocURI = SSServCaller.vocURICreate();
+      final SSEntityServerI  entityServ    = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
+      final SSUri            livingDocUri;
       
       dbSQL.startTrans(par.shouldCommit);
       
-      entityServ.entityUpdate(
-        new SSEntityUpdatePar(
-          par.user,
-          par.uri,
-          SSEntityE.livingDoc, //type,
-          par.label, //label
-          par.description,//description,
-          null, //creationTime,
-          null, //read,
-          false, //setPublic
-          par.withUserRestriction, //withUserRestriction
-          false)); //shouldCommit)
+      livingDocUri =
+        entityServ.entityUpdate(
+          new SSEntityUpdatePar(
+            par.user,
+            par.uri,
+            SSEntityE.livingDoc, //type,
+            par.label, //label
+            par.description,//description,
+            null, //creationTime,
+            null, //read,
+            false, //setPublic
+            true, //createIfNotExists
+            par.withUserRestriction, //withUserRestriction
+            false)); //shouldCommit)
+      
+      if(livingDocUri == null){
+        dbSQL.rollBack(par.shouldCommit);
+        return null;
+      }
       
       sqlFct.createLivingDoc(par.uri, par.user);
       
       dbSQL.commit(par.shouldCommit);
       
-      return par.uri;
+      return livingDocUri;
       
     }catch(Exception error){
       
@@ -248,26 +255,29 @@ implements
     
     try{
       
-      final SSEntityServerI  entityServ   = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
+      final SSEntityServerI  entityServ = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
+      final SSUri            livingDocURI;
       
       dbSQL.startTrans(par.shouldCommit);
       
-      entityServ.entityUpdate(
-        new SSEntityUpdatePar(
-          par.user,
-          par.livingDoc,
-          SSEntityE.livingDoc, //type,
-          par.label, //label
-          par.description,//description,
-          null, //creationTime,
-          null, //read,
-          false, //setPublic
-          par.withUserRestriction, //withUserRestriction
-          false)); //shouldCommit)
+      livingDocURI =
+        entityServ.entityUpdate(
+          new SSEntityUpdatePar(
+            par.user,
+            par.livingDoc,
+            SSEntityE.livingDoc, //type,
+            par.label, //label
+            par.description,//description,
+            null, //creationTime,
+            null, //read,
+            false, //setPublic
+            false, //createIfNotExists
+            par.withUserRestriction, //withUserRestriction
+            false)); //shouldCommit)
       
       dbSQL.commit(par.shouldCommit);
       
-      return par.livingDoc;
+      return livingDocURI;
       
     }catch(Exception error){
       
@@ -305,14 +315,15 @@ implements
     
     try{
       
-      if(par.withUserRestriction){
-        
-        if(!SSServCallerU.canUserRead(par.user, par.livingDoc)){
-          return null;
-        }
+      final SSEntity livingDoc = 
+        sqlFct.getEntityTest(
+          par.user, 
+          par.livingDoc, 
+          par.withUserRestriction);
+
+      if(livingDoc == null){
+        return null;
       }
-      
-      final SSEntityServerI  entityServ = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
       
       dbSQL.startTrans(par.shouldCommit);
       
@@ -358,15 +369,12 @@ implements
 
     try{
       
-      if(par.withUserRestriction){
-       
-        if(!SSServCallerU.canUserRead(par.user, par.livingDoc)){
-          return null;
-        }
+      SSLivingDocument       livingDoc        = sqlFct.getLivingDoc(par.livingDoc);
+      
+      if(livingDoc == null){
+        return null;
       }
-
-      final SSEntityServerI  entityServ       = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
-      final SSLivingDocument livingDoc;
+      
       SSEntityDescriberPar   descPar;
       
       if(par.invokeEntityHandlers){
@@ -376,31 +384,41 @@ implements
       }else{
         descPar = null;
       }
+
+      final SSEntityServerI  entityServ       = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
+      final SSEntity         livingDocEntity  =
+        entityServ.entityGet(
+          new SSEntityGetPar(
+            par.user,
+            par.livingDoc,
+            par.withUserRestriction,
+            descPar));
         
-      livingDoc =
-        SSLivingDocument.get(
-          sqlFct.getLivingDoc(par.livingDoc),
-          entityServ.entityGet(
-            new SSEntityGetPar(
-              par.user,
-              par.livingDoc,
-              par.withUserRestriction,
-              descPar)));
-      
-      if(par.setUsers){
-        
-        descPar = new SSEntityDescriberPar(livingDoc.id);
-        
-        SSEntity.addEntitiesDistinctWithoutNull(
-          livingDoc.users,
-          entityServ.entitiesGet(
-            new SSEntitiesGetPar(
-              par.user,
-              sqlFct.getLivingDocUserURIs(livingDoc.id), //entities
-              null, //types
-              descPar, //descpar
-              par.withUserRestriction)));
+      if(livingDocEntity == null){
+        return null;
       }
+        
+      livingDoc = 
+        SSLivingDocument.get(
+          livingDoc, 
+          livingDocEntity);
+      
+      if(!par.setUsers){
+        return livingDoc;
+      }
+
+      final List<SSUri> userURIs = sqlFct.getLivingDocUserURIs(livingDoc.id);
+      
+      descPar = new SSEntityDescriberPar(livingDoc.id);
+      
+      livingDoc.users.addAll(
+        entityServ.entitiesGet(
+          new SSEntitiesGetPar(
+            par.user,
+            userURIs, //entities
+            null, //types
+            descPar, //descpar
+            par.withUserRestriction)));
       
       return livingDoc;
     }catch(Exception error){
@@ -424,20 +442,20 @@ implements
 
     try{
       
-      final List<SSEntity>   docs        = new ArrayList<>();
-      SSLivingDocGetPar      livingDocGetPar;
+      final List<SSEntity>    docs            = new ArrayList<>();
+      final SSLivingDocGetPar livingDocGetPar =
+        new SSLivingDocGetPar(
+          par.user,
+          null, //livingDoc
+          par.withUserRestriction,
+          par.invokeEntityHandlers);
+      
+      livingDocGetPar.setUsers = par.setUsers;
+      livingDocGetPar.setDiscs = par.setDiscs;
       
       for(SSUri livingDocUri : sqlFct.getLivingDocURIsForUser(par.user)){
       
-        livingDocGetPar =
-          new SSLivingDocGetPar(
-            par.user,
-            livingDocUri,
-            par.withUserRestriction,
-            par.invokeEntityHandlers);
-        
-        livingDocGetPar.setUsers = par.setUsers;
-        livingDocGetPar.setDiscs = par.setDiscs;
+        livingDocGetPar.livingDoc = livingDocUri;
         
         SSEntity.addEntitiesDistinctWithoutNull(
           docs,

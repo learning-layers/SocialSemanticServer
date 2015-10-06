@@ -30,13 +30,14 @@ import at.tugraz.sss.serv.SSStrU;
 
 public class SSEntityUpdatePar extends SSServPar{
 
-  public SSUri               entity           = null;
-  public SSEntityE           type             = null;
-  public SSLabel             label            = null;
-  public SSTextComment       description      = null;
-  public Long                creationTime     = null;
-  public Boolean             read             = null;
-  public Boolean             setPublic        = false;
+  public SSUri               entity            = null;
+  public SSEntityE           type              = null;
+  public SSLabel             label             = null;
+  public SSTextComment       description       = null;
+  public Long                creationTime      = null;
+  public Boolean             read              = null;
+  public Boolean             setPublic         = false;
+  public Boolean             createIfNotExists = false;
 
   public Boolean             fromClient       = false;
   
@@ -82,7 +83,8 @@ public class SSEntityUpdatePar extends SSServPar{
     final SSTextComment       description,
     final Long                creationTime, 
     final Boolean             read,
-    final Boolean             setPublic, 
+    final Boolean             setPublic,
+    final Boolean             createIfNotExists, 
     final Boolean             withUserRestriction, 
     final Boolean             shouldCommit){
 
@@ -95,6 +97,7 @@ public class SSEntityUpdatePar extends SSServPar{
     this.creationTime        = creationTime;
     this.read                = read;
     this.setPublic           = setPublic;
+    this.createIfNotExists   = createIfNotExists;
     this.withUserRestriction = withUserRestriction;
     this.shouldCommit        = shouldCommit;
   }
