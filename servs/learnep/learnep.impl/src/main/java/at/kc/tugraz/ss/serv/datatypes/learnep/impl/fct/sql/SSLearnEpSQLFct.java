@@ -62,8 +62,7 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
       final List<String>                          tables    = new ArrayList<>();
       final List<String>                          tableCons = new ArrayList<>();
       
-      setEntityColumns(columns);
-      setEntityTable  (tables);
+      column(columns, SSSQLVarNames.learnEpTable, SSSQLVarNames.learnEpId);
       
       table(tables, SSSQLVarNames.learnEpTable);
       
@@ -72,8 +71,6 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
       where(whereLearnEp, SSSQLVarNames.learnEpTable, SSSQLVarNames.learnEpId, learnEpUri);
       
       wheres.add(whereLearnEp);
-      
-      tableCon(tableCons, SSSQLVarNames.entityTable, SSSQLVarNames.id, SSSQLVarNames.learnEpTable, SSSQLVarNames.learnEpId);
       
       resultSet = 
         dbSQL.select(
@@ -87,12 +84,7 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
         
       checkFirstResult(resultSet);
       
-      return SSLearnEp.get(
-        bindingStrToUri          (resultSet, SSSQLVarNames.id),
-        bindingStrToLabel        (resultSet, SSSQLVarNames.label),
-        bindingStrToTextComment  (resultSet, SSSQLVarNames.description),
-        bindingStrToLong         (resultSet, SSSQLVarNames.creationTime),
-        getEntity(bindingStrToUri(resultSet, SSSQLVarNames.author)));
+      return SSLearnEp.get(bindingStrToUri(resultSet, SSSQLVarNames.learnEpId));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -194,35 +186,36 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
       final List<String>           tables      = new ArrayList<>();
       final List<String>           columns     = new ArrayList<>();
       final List<String>           tableCons   = new ArrayList<>();
-      SSLearnEpVersion             learnEpVersion;
 
-      setEntityColumns(columns);
+      column(columns, SSSQLVarNames.learnEpVersionId);
       column(columns, SSSQLVarNames.learnEpId);
       
-      setEntityTable(tables);
       table(tables, SSSQLVarNames.learnEpVersionsTable);
       
       where(wheres, SSSQLVarNames.learnEpVersionId, learnEpVersionUri);
       
-      tableCon(tableCons, SSSQLVarNames.entityTable, SSSQLVarNames.id, SSSQLVarNames.learnEpVersionsTable, SSSQLVarNames.learnEpVersionId);
-      
-      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
+      resultSet = 
+        dbSQL.select(
+          tables, 
+          columns, 
+          wheres, 
+          tableCons, 
+          null, 
+          null, 
+          null);
       
       checkFirstResult(resultSet);
       
-      learnEpVersion =
-        SSLearnEpVersion.get(
-          bindingStrToUri               (resultSet, SSSQLVarNames.id),
-          bindingStrToLabel             (resultSet, SSSQLVarNames.label),
-          bindingStrToTextComment       (resultSet, SSSQLVarNames.description),
-          bindingStrToLong              (resultSet, SSSQLVarNames.creationTime),
-          getEntity(bindingStrToUri     (resultSet, SSSQLVarNames.author)),
-          bindingStrToUri               (resultSet, SSSQLVarNames.learnEpId),
-          getLearnEpVersionEntities     (learnEpVersionUri),
-          getLearnEpVersionCircles      (learnEpVersionUri),
-          getLearnEpVersionTimelineState(learnEpVersionUri));
-      
-      return learnEpVersion;
+      return SSLearnEpVersion.get(
+        bindingStrToUri               (resultSet, SSSQLVarNames.learnEpVersionId),
+        null,
+        null,
+        null,
+        null,
+        bindingStrToUri               (resultSet, SSSQLVarNames.learnEpId),
+        getLearnEpVersionEntities     (learnEpVersionUri),
+        getLearnEpVersionCircles      (learnEpVersionUri),
+        getLearnEpVersionTimelineState(learnEpVersionUri));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -567,11 +560,13 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
   }
   
   public void deleteCurrentEpVersion(
+    final SSUri user,
     final SSUri learnEpVersion) throws Exception {
     
     try{
       final Map<String, String> wheres = new HashMap<>();
       
+      where(wheres, SSSQLVarNames.userId,           user);
       where(wheres, SSSQLVarNames.learnEpVersionId, learnEpVersion);
       
       dbSQL.delete(SSSQLVarNames.learnEpVersionCurrentTable, wheres);
@@ -580,7 +575,6 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
       SSServErrReg.regErrThrow(error);
     }
   }
-  
   
   public void setLearnEpCurrentVersion(
     final SSUri user, 

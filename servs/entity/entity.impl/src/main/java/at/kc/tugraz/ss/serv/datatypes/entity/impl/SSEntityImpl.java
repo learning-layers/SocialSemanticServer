@@ -80,6 +80,7 @@ import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSGetParentEntitiesI;
 import at.tugraz.sss.serv.SSGetSubEntitiesI;
+import at.tugraz.sss.serv.SSObjU;
 import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityEntitiesAttachedRemovePar;
@@ -434,9 +435,7 @@ implements
     
     try{
       
-      if(
-        par.type == null ||
-        par.label == null){
+      if(SSObjU.isNull(par.type, par.label)){
         throw new SSErr(SSErrE.parameterMissing);
       }
         
@@ -446,14 +445,15 @@ implements
         return null;
       }
       
-      if(par.withUserRestriction){
-        
-        if(!SSServCallerU.canUserRead(par.user, entity.id)){
-          return null;
-        }
+      if(!par.withUserRestriction){
+        return entity;
       }
       
-      return entity;
+      return sqlFct.getEntityTest(
+        par.user,
+        entity.id,
+        par.withUserRestriction);
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -589,16 +589,22 @@ implements
         par.setPublic != null &&
         par.setPublic){
           
-        entityShare(
-          new SSEntitySharePar(
-            par.user,
-            par.entity, //entity,
-            null, //users,
-            null, //circles,
-            true, //setPublic,
-            null, //comment,
-            par.withUserRestriction,
-            false)); //shouldCommit))
+        final SSUri entityURI =
+          entityShare(
+            new SSEntitySharePar(
+              par.user,
+              par.entity, //entity,
+              null, //users,
+              null, //circles,
+              true, //setPublic,
+              null, //comment,
+              par.withUserRestriction,
+              false)); //shouldCommit))
+        
+        if(entityURI == null){
+          dbSQL.rollBack(par.shouldCommit);
+          return null;
+        }
       }
       
       dbSQL.commit(par.shouldCommit);
@@ -670,16 +676,19 @@ implements
     
     try{
       final SSEntityUserParentEntitiesGetPar par = new SSEntityUserParentEntitiesGetPar(parA);
-
-      if(!SSServCallerU.canUserRead(par.user, par.entity)){
-        return new ArrayList<>();
+      final List<SSUri>  entities     = new ArrayList<>();
+      final SSEntity     entity       = 
+        sqlFct.getEntityTest(
+          par.user, 
+          par.entity, 
+          par.withUserRestriction);
+      
+      if(entity == null){
+        return entities;
       }
       
-      final SSEntityE    entityType   = sqlFct.getEntity(par.entity).type;
-      final List<SSUri>  entities     = new ArrayList<>();
-      
       for(SSServContainerI serv : SSServReg.inst.getServsHandlingGetParentEntities()){
-        entities.addAll(((SSGetParentEntitiesI) serv.serv()).getParentEntities(par.user, par.entity, entityType));
+        entities.addAll(((SSGetParentEntitiesI) serv.serv()).getParentEntities(par.user, par.entity, entity.type));
       }
       
       SSStrU.distinctWithoutNull2(entities);
@@ -696,20 +705,23 @@ implements
   public List<SSUri> entityUserSubEntitiesGet(final SSServPar parA) throws Exception{
     
     try{
-      final SSEntityUserSubEntitiesGetPar par = new SSEntityUserSubEntitiesGetPar(parA);
+      final SSEntityUserSubEntitiesGetPar par         = new SSEntityUserSubEntitiesGetPar(parA);
       final List<SSUri>                   subEntities = new ArrayList<>();
-      final SSEntityE                     entityType;
+      final SSEntity                      entity      =
+        sqlFct.getEntityTest(
+          par.user,
+          par.entity,
+          par.withUserRestriction);
       
-      if(!SSServCallerU.canUserRead(par.user, par.entity)){
-        return new ArrayList<>();
+      if(entity == null){
+        return subEntities;
       }
       
-      entityType = sqlFct.getEntity(par.entity).type;
       
-      switch(entityType){
+      switch(entity.type){
         
         case entity: {
-          return new ArrayList<>();
+          return subEntities;
         }
         
         default: {
@@ -720,7 +732,7 @@ implements
               ((SSGetSubEntitiesI) serv.serv()).getSubEntities(
                 par.user, 
                 par.entity, 
-                entityType));
+                entity.type));
           }
           
           return subEntities;
@@ -738,31 +750,41 @@ implements
     
     try{
 
-      if(par.withUserRestriction){
+      final SSEntity entity = 
+        sqlFct.getEntityTest(
+          par.user, 
+          par.entity, 
+          par.withUserRestriction);
         
-        if(
-          !SSServCallerU.canUserRead (par.user, par.entity) ||
-          !SSServCallerU.canUserRead (par.user, par.entities)){
-          return null;
-        }
+      if(entity == null){
+        return null;
       }
+      
+      SSUri entityToAttachURI;
       
       dbSQL.startTrans(par.shouldCommit);
       
-      for(SSUri entity : par.entities){
+      for(SSUri entityToAttach : par.entities){
         
-        entityUpdate(
-          new SSEntityUpdatePar(
-            par.user,
-            entity,
-            SSEntityE.entity,
-            null, //label,
-            null, //description,
-            null, //creationTime,
-            null, //read,
-            false, //setPublic,
-            par.withUserRestriction, //withUserRestriction,
-            false)); //shouldCommit
+        entityToAttachURI =
+          entityUpdate(
+            new SSEntityUpdatePar(
+              par.user,
+              entityToAttach,
+              SSEntityE.entity,
+              null, //label,
+              null, //description,
+              null, //creationTime,
+              null, //read,
+              false, //setPublic,
+              true, //createIfNotExists
+              par.withUserRestriction, //withUserRestriction,
+              false)); //shouldCommit
+        
+        if(entityToAttachURI == null){
+          dbSQL.rollBack(par.shouldCommit);
+          return null;
+        }
       }
       
       sqlFct.attachEntities(par.entity, par.entities);
@@ -811,13 +833,14 @@ implements
     
     try{
 
-      if(par.withUserRestriction){
-        
-        if(
-          !SSServCallerU.canUserRead (par.user, par.entity) ||
-          !SSServCallerU.canUserRead (par.user, par.entities)){
-          return null;
-        }
+      final SSEntity entity =
+        sqlFct.getEntityTest(
+          par.user,
+          par.entity,
+          par.withUserRestriction);
+      
+      if(entity == null){
+        return null;
       }
 
       dbSQL.startTrans(par.shouldCommit);
@@ -859,16 +882,46 @@ implements
     
     try{
 
-      if(par.withUserRestriction){
+      final SSEntity entity =
+        sqlFct.getEntityTest(
+          par.user,
+          par.entity,
+          par.withUserRestriction);
+      
+      if(entity == null){
+        return null;
+      }
+      
+      SSUri downloadURI;
+      
+      dbSQL.startTrans(par.shouldCommit);
+      
+      for(SSUri download : par.downloads){
         
-        if(
-          !SSServCallerU.canUserRead (par.user, par.entity) ||
-          !SSServCallerU.canUserRead (par.user, par.downloads)){
+        downloadURI =
+          entityUpdate(
+            new SSEntityUpdatePar(
+              par.user,
+              download,
+              SSEntityE.entity,
+              null, //label,
+              null, //description,
+              null, //creationTime,
+              null, //read,
+              false, //setPublic,
+              true, //createIfNotExists
+              par.withUserRestriction, //withUserRestriction,
+              false)); //shouldCommit
+        
+        if(downloadURI == null){
+          dbSQL.rollBack(par.shouldCommit);
           return null;
         }
       }
       
       sqlFct.addDownloads(par.entity, par.downloads);
+      
+      dbSQL.commit(par.shouldCommit);
       
       return par.entity;
     }catch(Exception error){
@@ -899,20 +952,33 @@ implements
       
       final List<SSUri> downloads = new ArrayList<>();
       
-      if(par.withUserRestriction){
-        
-        if(!SSServCallerU.canUserRead (par.user, par.entity)){
-          return downloads;
-        }
+      SSEntity entity =
+        sqlFct.getEntityTest(
+          par.user,
+          par.entity,
+          par.withUserRestriction);
+      
+      if(entity == null){
+        return downloads;
       }
+      
+      SSEntity downloadEntity;
       
       for(SSUri download : sqlFct.getDownloads(par.entity)){
         
-        if(!SSServCallerU.canUserRead (par.user, download)){
+        downloadEntity = 
+          sqlFct.getEntityTest(
+            par.user, 
+            download, 
+            par.withUserRestriction);
+        
+        if(downloadEntity == null){
           continue;
         }
-        
-        downloads.add(download);
+          
+        SSUri.addDistinctWithoutNull(
+          downloads, 
+          downloadEntity.id);
       }
       
       return downloads;
@@ -922,44 +988,6 @@ implements
       return null;
     }
   }
-  
-//  @Override
-//  public SSUri entityAttachmentsRemove(final SSEntityAttatchmentsRemovePar par) throws Exception{
-//    
-//    try{
-//
-////      if(par.withUserRestriction){
-////        
-////        if(
-////          !SSServCallerU.canUserRead(par.user, par.entity) ||
-////          !SSServCallerU.canUserRead (par.user, par.attachments)){
-////          return null;
-////        }
-////      }
-////      
-////      sqlFct.removeAttachments(par.entity, par.attachments);
-//      
-//      return par.entity;
-//    }catch(Exception error){
-//      
-//      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
-//        
-//        if(dbSQL.rollBack(par.shouldCommit)){
-//          
-//          SSServErrReg.reset();
-//          
-//          return entityAttachmentsRemove(par);
-//        }else{
-//          SSServErrReg.regErrThrow(error);
-//          return null;
-//        }
-//      }
-//      
-//      dbSQL.rollBack(par.shouldCommit);
-//      SSServErrReg.regErrThrow(error);
-//      return null;
-//    }
-//  }
   
   @Override
   public void entityShare(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
@@ -1003,26 +1031,13 @@ implements
         if(par.user == null){
           throw new SSErr(SSErrE.parameterMissing);
         }
-        
-        if(par.setPublic){
-          
-          if(!SSServCallerU.canUserAll(par.user, par.entity)){
-            return null;
-          }
-        }else{
-          if(!SSServCallerU.canUserRead(par.user, par.entity)){
-            return null;
-          }
-        }
       }
       
-      final SSEntity entity =
-        entityGet(
-          new SSEntityGetPar(
-            par.user,
-            par.entity,
-            par.withUserRestriction,
-            null)); //descPar
+      final SSEntity entity = 
+        sqlFct.getEntityTest(
+          par.user,
+          par.entity, 
+          par.withUserRestriction);
       
       if(entity == null){
         return null;
@@ -1091,7 +1106,7 @@ implements
   }
   
   @Override
-  public List<SSEntityE> entityTypesGet(final SSEntityTypesGetPar parA) throws Exception{
+  public List<SSEntityE> entityTypesGet(final SSEntityTypesGetPar par) throws Exception{
     
     try{
       return Arrays.asList(SSEntityE.values());
