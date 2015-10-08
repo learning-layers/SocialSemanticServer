@@ -80,6 +80,7 @@ public class SSDataImportBitsAndPiecesMiscFct {
         notebookCreationTime, //creationTime,
         null, //read,
         false, //setPublic
+        true, //createIfNotExists
         true, //withUserRestriction
         false)); //shouldCommit)
     
@@ -113,6 +114,7 @@ public class SSDataImportBitsAndPiecesMiscFct {
           creationTime, //creationTime,
           null, //read,
           false, //setPublic
+          true, //createIfNotExists
           true, //withUserRestriction
           false)); //shouldCommit)
       
@@ -381,6 +383,7 @@ public class SSDataImportBitsAndPiecesMiscFct {
         resourceAddTime, //creationTime,
         null, //read,
         false, //setPublic
+        true, //createIfNotExists
         true, //withUserRestriction
         false)); //shouldCommit)
     
@@ -405,6 +408,7 @@ public class SSDataImportBitsAndPiecesMiscFct {
           resourceAddTime, //creationTime,
           null, //read,
           false, //setPublic
+          true, //createIfNotExists
           true, //withUserRestriction
           false)); //shouldCommit)
       

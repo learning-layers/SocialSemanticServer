@@ -471,6 +471,7 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
             video.creationTime, //creationTime,
             null, //read,
             false, //setPublic
+            true, //createIfNotExists
             true, //withUserRestriction
             true)); //shouldCommit)
                 

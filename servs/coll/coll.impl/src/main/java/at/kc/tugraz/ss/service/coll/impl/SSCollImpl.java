@@ -455,15 +455,13 @@ implements
         throw new SSErr(SSErrE.parameterMissing);
       }
       
-      if(par.withUserRestriction){
-        
-        if(!SSServCallerU.canUserRead(par.user, par.coll)){
-          return null;
-        }
+      SSColl coll = sqlFct.getCollWithEntries(par.coll);
+      
+      if(coll == null){
+        return null;
       }
       
       final SSEntityDescriberPar descPar;
-      final List<SSEntity>       collEntries;
       
       if(par.invokeEntityHandlers){
         descPar = new SSEntityDescriberPar(par.coll);
@@ -473,21 +471,25 @@ implements
         descPar = null;
       }
       
-      final SSColl coll = 
-        SSColl.get(
-          sqlFct.getCollWithEntries(par.coll), 
-          entityServ.entityGet(
-            new SSEntityGetPar(
-              par.user, 
-              par.coll, //entity, 
-              par.withUserRestriction, 
-              descPar))); //descPar
+      final SSEntity collEntity =
+        entityServ.entityGet(
+          new SSEntityGetPar(
+            par.user,
+            par.coll, //entity,
+            par.withUserRestriction,
+            descPar));
+      
+      if(collEntity == null){
+        return null;
+      }
+      
+      coll = SSColl.get(coll, collEntity); 
       
       if(descPar != null){
         descPar.recursiveEntity = null;
       }
       
-      collEntries =
+      final List<SSEntity> collEntries =
         entityServ.entitiesGet(
           new SSEntitiesGetPar(
             par.user,
@@ -576,18 +578,21 @@ implements
         throw new SSErr(SSErrE.parameterMissing);
       }
       
-      final List<SSEntity> colls = new ArrayList<>();
-      
+      final List<SSEntity> colls      = new ArrayList<>();
+      final SSCollGetPar   collGetPar =
+        new SSCollGetPar(
+          par.user,
+          null, //coll
+          par.withUserRestriction,
+          par.invokeEntityHandlers);
+        
       for(SSUri collURI : sqlFct.getUserCollURIs(par.user)){
         
+        collGetPar.coll = collURI;
+          
         SSEntity.addEntitiesDistinctWithoutNull(
           colls,
-          collGet(
-            new SSCollGetPar(
-              par.user,
-              collURI,
-              par.withUserRestriction,
-              par.invokeEntityHandlers)));
+          collGet(collGetPar));
       }
       
       return colls;
@@ -616,7 +621,7 @@ implements
         throw new SSErr(SSErrE.parameterMissing);
       }
             
-      final List<SSEntity> colls          = new ArrayList<>();      
+      final List<SSEntity> colls = new ArrayList<>();      
 
       if(par.withUserRestriction){
         

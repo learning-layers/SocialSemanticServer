@@ -137,7 +137,14 @@ public class SSRecommImpl extends SSServImplWithDBA implements SSRecommClientI, 
           }
           
           if(par.entity != null){
-            if(!SSServCallerU.canUserRead(par.user, par.entity)){
+            
+            final SSEntity entity =
+              sqlFct.getEntityTest(
+                par.user,
+                par.entity,
+                par.withUserRestriction);
+            
+            if(entity == null){
               return new ArrayList<>();
             }
           }
@@ -169,25 +176,20 @@ public class SSRecommImpl extends SSServImplWithDBA implements SSRecommClientI, 
           recommConf.recommUserAlgorithm, //algo
           EntityType.USER);  //entity type to recommend
 
+      final SSEntityServerI entityServ   = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class); 
+      final SSEntityGetPar  entityGetPar = 
+        new SSEntityGetPar(
+          par.user,
+          null, //entity
+          par.withUserRestriction, //withUserRestriction,
+          descPar); //descPar
+        
       for(Map.Entry<String, Double> userWithLikelihood : usersWithLikelihood.entrySet()){
         
-        if(par.ignoreAccessRights){
+        if(!par.ignoreAccessRights){
           
-          users.add(
-            SSUserLikelihood.get(
-              SSEntity.get(
-                SSUri.get(userWithLikelihood.getKey()),
-                SSEntityE.user),
-              userWithLikelihood.getValue()));
-        }else{
-          
-          entity =
-            ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
-              new SSEntityGetPar(
-                par.user,
-                SSUri.get(userWithLikelihood.getKey()), //entity
-                par.withUserRestriction, //withUserRestriction,
-                descPar)); //descPar
+          entityGetPar.entity = SSUri.get(userWithLikelihood.getKey());
+          entity              = entityServ.entityGet(entityGetPar);
           
           if(entity == null){
             continue;
@@ -196,6 +198,15 @@ public class SSRecommImpl extends SSServImplWithDBA implements SSRecommClientI, 
           users.add(
             SSUserLikelihood.get(
               entity,
+              userWithLikelihood.getValue()));
+          
+        }else{
+          
+          users.add(
+            SSUserLikelihood.get(
+              SSEntity.get(
+                SSUri.get(userWithLikelihood.getKey()),
+                SSEntityE.user),
               userWithLikelihood.getValue()));
         }
         
@@ -235,13 +246,13 @@ public class SSRecommImpl extends SSServImplWithDBA implements SSRecommClientI, 
     
     String tagRecommStrResult = new String();
     
-    tagRecommStrResult += result.stream().map((tagLikelihood) -> 
-      tagLikelihood.getLabel()      + 
-      SSStrU.colon                  +
-      tagLikelihood.getLikelihood() +
-      SSStrU.comma).reduce(
-        tagRecommStrResult, 
-        String::concat);
+    tagRecommStrResult += result.stream().map((tagLikelihood) ->
+      tagLikelihood.getLabel()        +
+        SSStrU.colon                  +
+        tagLikelihood.getLikelihood() +
+        SSStrU.comma).reduce(
+          tagRecommStrResult,
+          String::concat);
     
     tagRecommStrResult = SSStrU.removeTrailingString(tagRecommStrResult, SSStrU.comma);
     
@@ -262,7 +273,7 @@ public class SSRecommImpl extends SSServImplWithDBA implements SSRecommClientI, 
     
     try{
       
-      String realmToUse = null;
+      String realmToUse;
       
       try{
         
@@ -304,7 +315,14 @@ public class SSRecommImpl extends SSServImplWithDBA implements SSRecommClientI, 
           }
           
           if(par.entity != null){
-            if(!SSServCallerU.canUserRead(par.user, par.entity)){
+            
+            final SSEntity entity =
+              sqlFct.getEntityTest(
+                par.user,
+                par.entity,
+                par.withUserRestriction);
+            
+            if(entity == null){
               return new ArrayList<>();
             }
           }
@@ -408,7 +426,14 @@ public class SSRecommImpl extends SSServImplWithDBA implements SSRecommClientI, 
           }
           
           if(par.entity != null){
-            if(!SSServCallerU.canUserRead(par.user, par.entity)){
+            
+            final SSEntity entity =
+              sqlFct.getEntityTest(
+                par.user,
+                par.entity,
+                par.withUserRestriction);
+            
+            if(entity == null){
               return new ArrayList<>();
             }
           }
@@ -444,25 +469,20 @@ public class SSRecommImpl extends SSServImplWithDBA implements SSRecommClientI, 
           recommConf.recommResourceAlgorithm, //algo
           EntityType.RESOURCE);  //entity type to recommend
 
+      final SSEntityServerI entityServ   = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
+      final SSEntityGetPar  entityGetPar = 
+        new SSEntityGetPar(
+          par.user,
+          null, //entity
+          par.withUserRestriction, //withUserRestriction,
+          descPar);
+      
       for(Map.Entry<String, Double> entityWithLikelihood : entitiesWithLikelihood.entrySet()){
 
-        if(par.ignoreAccessRights){
+        if(!par.ignoreAccessRights){
           
-          resources.add(
-            SSResourceLikelihood.get(
-              SSEntity.get(
-                SSUri.get(entityWithLikelihood.getKey()),
-                SSEntityE.entity),
-              entityWithLikelihood.getValue()));
-        }else{
-          
-          entity =
-            ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
-              new SSEntityGetPar(
-                par.user,
-                SSUri.get(entityWithLikelihood.getKey()), //entity
-                par.withUserRestriction, //withUserRestriction,
-                descPar)); //descPar
+          entityGetPar.entity = SSUri.get(entityWithLikelihood.getKey());
+          entity              = entityServ.entityGet(entityGetPar);
           
           if(
             entity == null ||
@@ -473,6 +493,15 @@ public class SSRecommImpl extends SSServImplWithDBA implements SSRecommClientI, 
           resources.add(
             SSResourceLikelihood.get(
               entity,
+              entityWithLikelihood.getValue()));
+          
+        }else{
+          
+          resources.add(
+            SSResourceLikelihood.get(
+              SSEntity.get(
+                SSUri.get(entityWithLikelihood.getKey()),
+                SSEntityE.entity),
               entityWithLikelihood.getValue()));
         }
 
@@ -666,41 +695,41 @@ public class SSRecommImpl extends SSServImplWithDBA implements SSRecommClientI, 
         return;
       }
       
+      final SSUserServerI             userServ       = (SSUserServerI)       SSServReg.getServ(SSUserServerI.class);
+      final SSCircleServerI           circleServ     = (SSCircleServerI)     SSServReg.getServ(SSCircleServerI.class);
+      final SSDataExportServerI       dataExportServ = (SSDataExportServerI) SSServReg.getServ(SSDataExportServerI.class);
       final Map<String, List<String>> usersForRealms = new HashMap<>();
-      final List<SSEntity>            circles        = new ArrayList<>();
-      final List<SSUri>               userURIs       = new ArrayList<>();
       SSUri                           userURI;
       String                          circleIDStr;
       String                          userURIStr;
       
-      SSRecommUserRealmEngine         userRealmEngine;
+      
+      final SSUserURIGetPar userURIGetPar = 
+        new SSUserURIGetPar(
+          par.user,
+          null); //email
+      
+      final SSCirclesGetPar circlesGetPar =
+        new SSCirclesGetPar(
+          null, //user
+          null, //forUser
+          null, //entity,
+          null, //entityTypesToIncludeOnly,
+          false, //setEntities,
+          false, //setUsers
+          false, //withUserRestriction,
+          false, //withSystemCircles,
+          false); //invokeEntityHandlers
       
       for(String userEmail : ((SSRecommConf)conf).recommTagsUsersToSetRealmsFromCircles){
         
-        userURI =
-          ((SSUserServerI) SSServReg.getServ(SSUserServerI.class)).userURIGet(
-            new SSUserURIGetPar(
-              par.user,
-              userEmail));
-        
-        userURIStr = SSStrU.toStr(userURI);
-        
-        circles.clear();
-        
-        circles.addAll(
-          ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlesGet(
-            new SSCirclesGetPar(
-              userURI,
-              userURI, //forUser
-              null, //entity,
-              null, //entityTypesToIncludeOnly,
-              false, //setEntities,
-              false, //setUsers
-              false, //withUserRestriction,
-              false, //withSystemCircles,
-              false))); //invokeEntityHandlers
-
-        for(SSEntity circle : circles){
+        userURIGetPar.email    = userEmail;
+        userURI                = userServ.userURIGet(userURIGetPar);
+        userURIStr             = SSStrU.toStr(userURI);
+        circlesGetPar.user     = userURI;
+        circlesGetPar.forUser  = userURI;
+          
+        for(SSEntity circle : circleServ.circlesGet(circlesGetPar)){
           
           circleIDStr = SSStrU.removeTrailingSlash(circle.id);
           circleIDStr = circleIDStr.substring(circleIDStr.lastIndexOf(SSStrU.slash) + 1, circleIDStr.length());
@@ -718,14 +747,21 @@ public class SSRecommImpl extends SSServImplWithDBA implements SSRecommClientI, 
         }
       }
       
-      for(Map.Entry<String, List<String>> usersForRealm : usersForRealms.entrySet()){
-        
-        ((SSDataExportServerI) SSServReg.getServ(SSDataExportServerI.class)).dataExportUsersEntitiesTagsCategoriesTimestampsFileFromCircle(
-          new SSDataExportUsersEntitiesTagsCategoriesTimestampsFileFromCirclePar(
+      final SSDataExportUsersEntitiesTagsCategoriesTimestampsFileFromCirclePar dataExportPar = 
+        new SSDataExportUsersEntitiesTagsCategoriesTimestampsFileFromCirclePar(
             par.user,
-            SSUri.get(usersForRealm.getKey(), SSVocConf.sssUri), //circle
-            usersForRealm.getKey() + SSStrU.dot + SSFileExtE.txt, //fileName
-            false)); //withUserRestriction
+            null, //circle
+            null, //fileName
+            false); //withUserRestriction
+      
+      SSRecommUserRealmEngine userRealmEngine;
+      
+      for(Map.Entry<String, List<String>> usersForRealm : usersForRealms.entrySet()){
+
+        dataExportPar.circle   = SSUri.get(usersForRealm.getKey(), SSVocConf.sssUri);
+        dataExportPar.fileName = usersForRealm.getKey() + SSStrU.dot + SSFileExtE.txt;
+        
+        dataExportServ.dataExportUsersEntitiesTagsCategoriesTimestampsFileFromCircle(dataExportPar);
           
         for(SSUri user : SSUri.get(usersForRealm.getValue())){
           

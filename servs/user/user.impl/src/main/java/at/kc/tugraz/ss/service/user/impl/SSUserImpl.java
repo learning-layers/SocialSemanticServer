@@ -175,8 +175,12 @@ implements
     
     try{
       
-      final SSUser               userToGet = sqlFct.getUser(par.userToGet);
-      final SSUser               user;
+      SSUser userToGet = sqlFct.getUser(par.userToGet);
+      
+      if(userToGet == null){
+        return null;
+      }
+      
       SSEntityDescriberPar       descPar; 
       
       if(par.invokeEntityHandlers){
@@ -188,26 +192,33 @@ implements
         descPar = null;
       }
 
-      user =
+      final SSEntity userEntityToGet =
+        entityServ.entityGet(
+          new SSEntityGetPar(
+            par.user,
+            userToGet.id,
+            par.withUserRestriction,
+            descPar));
+      
+      if(userEntityToGet == null){
+        return null;
+      }
+      
+      userToGet =
         SSUser.get(
           userToGet,
-          entityServ.entityGet(
-            new SSEntityGetPar(
-              par.user,
-              userToGet.id,
-              par.withUserRestriction,
-              descPar)));
+          userEntityToGet);
       
       setUserThumb(
         par.user, 
-        user, 
+        userToGet, 
         par.withUserRestriction);
       
       if(par.invokeEntityHandlers){
-        user.friend = SSStrU.contains(user.friends, par.user);
+        userToGet.friend = SSStrU.contains(userToGet.friends, par.user);
       }
       
-      return user;
+      return userToGet;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -234,18 +245,17 @@ implements
     
     try{
       
-      final List<SSUri>    userURIs = sqlFct.getUserURIs(par.users);
-      final List<SSEntity> users    = new ArrayList<>();
-      SSUserGetPar         userGetPar;
+      final List<SSUri>    userURIs   = sqlFct.getUserURIs(par.users);
+      final List<SSEntity> users      = new ArrayList<>();
+      final SSUserGetPar   userGetPar = 
+          new SSUserGetPar(
+            par.user,
+            null, //userToGet
+            par.invokeEntityHandlers);
       
       for(SSUri userURI : userURIs){
         
-        userGetPar = 
-          new SSUserGetPar(
-            par.user,
-            userURI,
-            par.invokeEntityHandlers);
-        
+        userGetPar.userToGet         = userURI;
         userGetPar.setProfilePicture = par.setProfilePicture;
           
         SSEntity.addEntitiesDistinctWithoutNull(
@@ -269,17 +279,16 @@ implements
         throw new SSErr(SSErrE.userCannotAddUser);
       }
       
-      final SSUri         userUri;
       final SSLabel       tmpLabel;
       final String        tmpEmail;
-      final SSUri         publicCircleURI;
+      SSUri               publicCircleURI;
+      SSUri               userUri;
       
       if(par.isSystemUser){
         userUri  = SSVocConf.systemUserUri;
         tmpLabel = SSLabel.get(SSVocConf.systemUserLabel);
         tmpEmail = SSVocConf.systemUserEmail; 
       }else{
-        
         userUri  = SSServCaller.vocURICreate();
         tmpLabel = par.label;
         tmpEmail = par.email;        
@@ -287,18 +296,25 @@ implements
       
       dbSQL.startTrans(par.shouldCommit);
       
-      entityServ.entityUpdate(
-        new SSEntityUpdatePar(
-          SSVocConf.systemUserUri,
-          userUri,
-          SSEntityE.user, //type,
-          tmpLabel, //label
-          null,//description,
-          null, //creationTime,
-          null, //read,
-          true, //setPublic
-          par.withUserRestriction, //withUserRestriction
-          false)); //shouldCommit)
+      userUri =
+        entityServ.entityUpdate(
+          new SSEntityUpdatePar(
+            SSVocConf.systemUserUri,
+            userUri,
+            SSEntityE.user, //type,
+            tmpLabel, //label
+            null,//description,
+            null, //creationTime,
+            null, //read,
+            true, //setPublic
+            true, //createIfNotExists
+            par.withUserRestriction, //withUserRestriction
+            false)); //shouldCommit)
+      
+      if(userUri == null){
+        dbSQL.rollBack(par.shouldCommit);
+        return null;
+      }
       
       publicCircleURI = 
         circleServ.circlePubURIGet(
@@ -306,13 +322,19 @@ implements
             par.user,
             false));
       
-      circleServ.circleUsersAdd(
-        new SSCircleUsersAddPar(
-          SSVocConf.systemUserUri, 
-          publicCircleURI, //circle
-          SSUri.asListWithoutNullAndEmpty(userUri), //users
-          par.withUserRestriction, //withUserRestriction
-          false)); //shouldCommit
+      publicCircleURI =
+        circleServ.circleUsersAdd(
+          new SSCircleUsersAddPar(
+            SSVocConf.systemUserUri,
+            publicCircleURI, //circle
+            SSUri.asListWithoutNullAndEmpty(userUri), //users
+            par.withUserRestriction, //withUserRestriction
+            false)); //shouldCommit
+      
+      if(publicCircleURI == null){
+        dbSQL.rollBack(par.shouldCommit);
+        return null;
+      }
       
       sqlFct.addUser(userUri, tmpEmail);
       
@@ -347,9 +369,10 @@ implements
     final Boolean withUserRestriction) throws Exception{
     
     try{
+      final SSImageServerI imageServ = (SSImageServerI) SSServReg.getServ(SSImageServerI.class);
       
       for(SSEntity thumb :
-        ((SSImageServerI) SSServReg.getServ(SSImageServerI.class)).imagesGet(
+        imageServ.imagesGet(
           new SSImagesGetPar(
             callingUser,
             user.id,

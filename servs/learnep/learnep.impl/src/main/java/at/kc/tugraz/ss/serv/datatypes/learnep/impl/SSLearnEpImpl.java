@@ -1527,16 +1527,19 @@ implements
 
     try{
 
-      if(par.withUserRestriction){
-        
-        if(!SSServCallerU.canUserRead(par.user, par.learnEpCircle)){
-          return null;
-        }
+      final SSEntity learnEpCircle = 
+        sqlFct.getEntityTest(
+          par.user, 
+          par.learnEpCircle,
+          par.withUserRestriction);
+      
+      if(learnEpCircle == null){
+        return false;
       }
 
       dbSQL.startTrans(par.shouldCommit);
 
-      sqlFct.deleteCircle(par.learnEpCircle);
+      sqlFct.deleteCircle(learnEpCircle.id);
       
       dbSQL.commit(par.shouldCommit);
 
@@ -1613,16 +1616,19 @@ implements
 
     try{
       
-      if(par.withUserRestriction){
-        
-        if(!SSServCallerU.canUserRead(par.user, par.learnEpEntity)){
-          return null;
-        }
+      final SSEntity learnEpEntity = 
+        sqlFct.getEntityTest(
+          par.user, 
+          par.learnEpEntity,
+          par.withUserRestriction);
+      
+      if(learnEpEntity == null){
+        return false;
       }
 
       dbSQL.startTrans(par.shouldCommit);
 
-      sqlFct.deleteEntity(par.learnEpEntity);
+      sqlFct.deleteEntity(learnEpEntity.id);
       
       dbSQL.commit(par.shouldCommit);
 
@@ -1663,29 +1669,37 @@ implements
 
     try{
 
-      final SSUri learnEpTimelineStateUri = SSServCaller.vocURICreate();
-
-      if(par.withUserRestriction){
-        
-        if(!SSServCallerU.canUserRead(par.user, par.learnEpVersion)){
-          return null;
-        }
+      final SSEntity learnEpVerison = 
+        sqlFct.getEntityTest(
+          par.user, 
+          par.learnEpVersion,
+          par.withUserRestriction);
+      
+      if(learnEpVerison == null){
+        return null;
       }
       
       dbSQL.startTrans(par.shouldCommit);
       
-      entityServ.entityUpdate(
-        new SSEntityUpdatePar(
-          par.user,
-          learnEpTimelineStateUri,
-          SSEntityE.learnEpTimelineState, //type,
-          null, //label
-          null,//description,
-          null, //creationTime,
-          null, //read,
-          false, //setPublic
-          false, //withUserRestriction
-          false)); //shouldCommit)
+      final SSUri learnEpTimelineStateUri =
+        entityServ.entityUpdate(
+          new SSEntityUpdatePar(
+            par.user,
+            SSServCaller.vocURICreate(),
+            SSEntityE.learnEpTimelineState, //type,
+            null, //label
+            null,//description,
+            null, //creationTime,
+            null, //read,
+            false, //setPublic
+            true, //createIfNotExists
+            false, //withUserRestriction
+            false)); //shouldCommit)
+      
+      if(learnEpTimelineStateUri == null){
+        dbSQL.rollBack(par.shouldCommit);
+        return null;
+      }
       
       sqlFct.setLearnEpVersionTimelineState(
         learnEpTimelineStateUri,
@@ -1810,14 +1824,17 @@ implements
    
     try{
       
-      if(par.withUserRestriction){
-        
-        if(!SSServCallerU.canUserRead(par.user, par.learnEpVersion)){
-          return null;
-        }
+      final SSEntity learnEpVerison =
+        sqlFct.getEntityTest(
+          par.user,
+          par.learnEpVersion,
+          par.withUserRestriction);
+      
+      if(learnEpVerison == null){
+        return null;
       }
       
-      return sqlFct.getLearnEpVersionTimelineState(par.learnEpVersion);
+      return sqlFct.getLearnEpVersionTimelineState(learnEpVerison.id);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -1841,7 +1858,7 @@ implements
       
       return learnEpVersionGet(
         new SSLearnEpVersionGetPar(
-          par.user, 
+          par.user,
           sqlFct.getLearnEpCurrentVersionURI(par.user),
           par.withUserRestriction, 
           par.invokeEntityHandlers));
@@ -1875,11 +1892,14 @@ implements
 
     try{
 
-      if(par.withUserRestriction){
-        
-        if(!SSServCallerU.canUserRead(par.user, par.learnEpVersion)){
-          return null;
-        }
+      final SSEntity learnEpVerison =
+        sqlFct.getEntityTest(
+          par.user,
+          par.learnEpVersion,
+          par.withUserRestriction);
+      
+      if(learnEpVerison == null){
+        return null;
       }
       
       dbSQL.startTrans(par.shouldCommit);
@@ -1929,14 +1949,14 @@ implements
       
       if(learnEpConf.useEpisodeLocking){
         
-        if(!par.learnEps.isEmpty()){
-          
-          learnEpLockHoldPar = 
+        learnEpLockHoldPar = 
             new SSLearnEpLockHoldPar(
               par.user,
               null,
               true);
-            
+        
+        if(!par.learnEps.isEmpty()){
+          
           for(SSUri learnEp : par.learnEps){
             
             learnEpLockHoldPar.learnEp = learnEp;
@@ -1944,12 +1964,6 @@ implements
             locks.add(learnEpLockHold(learnEpLockHoldPar));
           }
         }else{
-          
-          learnEpLockHoldPar =
-            new SSLearnEpLockHoldPar(
-              par.user,
-              null,
-              true);
           
           for(SSUri learnEp : sqlFct.getLearnEpURIsForUser(par.user)){
             
@@ -2022,7 +2036,15 @@ implements
     try{
       if(par.withUserRestriction){
         
-        SSServCallerU.canUserRead(par.user, par.learnEp);
+        final SSEntity learnEp =
+          sqlFct.getEntityTest(
+            par.user,
+            par.learnEp,
+            par.withUserRestriction);
+        
+        if(learnEp == null){
+          return false;
+        }
         
         if(par.forUser == null){
           par.forUser = par.user;
@@ -2090,7 +2112,13 @@ implements
       
       if(par.withUserRestriction){
         
-        if(!SSServCallerU.canUserRead(par.user, par.learnEp)){
+        final SSEntity learnEp =
+          sqlFct.getEntityTest(
+            par.user,
+            par.learnEp,
+            par.withUserRestriction);
+        
+        if(learnEp == null){
           return false;
         }
         
