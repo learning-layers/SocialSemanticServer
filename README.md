@@ -133,7 +133,7 @@ The source-code can be directly checked-out through this repository. It contains
  * `http://tomcatHost:tomcatPort/sss.adapter.rest.v2/index.html`
  
 ## References
-* [The Social Semantic Server: A Flexible Framework to Support Informal Learning at the Workplace](https://www.researchgate.net/publication/280920425_The_Social_Semantic_Server_A_Flexible_Framework_to_Support_Informal_Learning_at_the_Workplace#full-text), 2015. 15th International Conference on Knowledge Technologies and Data-driven Business (i-KNOW 2015), Graz, Austria
+* S. Dennerlein, D. Kowald, E. Lex, D. Theiler, E. Lacic, T. Ley, V. Tomberg, A. Ruiz-Calleja [The Social Semantic Server: A Flexible Framework to Support Informal Learning at the Workplace](https://www.researchgate.net/publication/280920425_The_Social_Semantic_Server_A_Flexible_Framework_to_Support_Informal_Learning_at_the_Workplace#full-text), 2015. 15th International Conference on Knowledge Technologies and Data-driven Business (i-KNOW 2015), Graz, Austria
 * D. Kowald, S. Dennerlein, D. Theiler, S. Walk and C. Trattner.: [The Social Semantic Server - A Framework to Provide Services on Social Semantic Network Data](http://ceur-ws.org/Vol-1026/paper11.pdf), 2013. In S. Lohmann (ed.), I-SEMANTICS (Posters & Demos) (p./pp. 50-54), : CEUR-WS.org.
 * Dennerlein, S., Rella, M, Tomberg, V. Theiler, D., Treasure-Jones, T., Kerr, M., Ley, T., Al-Smadi, M. & Trattner, C. (2014). Making Sense of Bits and Pieces: A Sensemaking Tool for Informal Workplace Learning. In: Proceedings of EC-TEL 2014. In press.
 
