@@ -9,7 +9,7 @@ By creating an infrastructure that allows for social negotiation of semantic mea
 
 ![alt tag](https://raw.githubusercontent.com/learning-layers/SocialSemanticServer/bba6324551551b41f43e3b630e2376ecde83c807/desc.jpg)
 
-Please cite [the paper](https://github.com/learning-layers/SocialSemanticServer#references) if you use this software in one of your publications.
+Please cite one of the [papers](https://github.com/learning-layers/SocialSemanticServer#references) if you use this software in one of your publications.
 
 ## Download
 The source-code can be directly checked-out through this repository. It contains a Maven project to edit and build it.
