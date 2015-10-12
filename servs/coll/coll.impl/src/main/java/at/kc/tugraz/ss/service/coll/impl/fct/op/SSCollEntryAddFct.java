@@ -31,7 +31,6 @@ import at.tugraz.sss.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntryAddPar;
 import at.kc.tugraz.ss.service.coll.impl.fct.misc.SSCollMiscFct;
 import at.kc.tugraz.ss.service.coll.impl.fct.sql.SSCollSQLFct;
-import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.util.SSServCallerU;
 
 public class SSCollEntryAddFct{
@@ -54,27 +53,31 @@ public class SSCollEntryAddFct{
       default:   isParentCollSharedOrPublic = true;
     }
     
-    par.entry = SSServCaller.vocURICreate();
-    
-    entityServ.entityUpdate(
+    final SSUri newColl = 
+      entityServ.entityUpdate(
       new SSEntityUpdatePar(
         par.user,
-        par.entry,
+        SSServCaller.vocURICreate(),
         SSEntityE.coll, //type,
         par.label, //label
         null, //description,
         null, //creationTime,
         null, //read,
         false, //setPublic
+        true, //createIfNotExists
         false, //withUserRestriction
         false)); //shouldCommit)
     
-    sqlFct.addColl(par.entry);
+    if(newColl == null){
+      return null;
+    }
+    
+    sqlFct.addColl(newColl);
     
     sqlFct.addCollToColl(
       par.user,
       par.coll,
-      par.entry,
+      newColl,
       isParentCollSharedOrPublic,
       false);
     
@@ -83,20 +86,20 @@ public class SSCollEntryAddFct{
       entityServ,
       par.user,
       par.coll,
-      SSUri.asListWithoutNullAndEmpty(par.entry), //entities
+      SSUri.asListWithoutNullAndEmpty(newColl), //entities
       par.withUserRestriction,
       false); //invokeEntityHandlers
     
-    return par.entry;
+    return newColl;
   }
   
   public static SSUri addPublicColl(
     final SSCollSQLFct          sqlFct,
+    final SSCircleServerI       circleServ,
     final SSCollUserEntryAddPar par) throws Exception{
     
-    
     if(!SSCircleE.equals(
-      ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleMostOpenCircleTypeGet(
+      circleServ.circleMostOpenCircleTypeGet(
         new SSCircleMostOpenCircleTypeGetPar(
           par.user,
           par.entry,
@@ -106,7 +109,7 @@ public class SSCollEntryAddFct{
       throw new Exception("coll to add is not public");
     }
     
-    switch(((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleMostOpenCircleTypeGet(
+    switch(circleServ.circleMostOpenCircleTypeGet(
         new SSCircleMostOpenCircleTypeGetPar(
           par.user,
           par.coll,
@@ -139,30 +142,36 @@ public class SSCollEntryAddFct{
     final SSCollSQLFct          sqlFct, 
     final SSCollUserEntryAddPar par) throws Exception{
     
-    entityServ.entityUpdate(
-      new SSEntityUpdatePar(
-        par.user,
-        par.entry,
-        null, //type,
-        par.label, //label
-        null, //description,
-        null, //creationTime,
-        null, //read,
-        false, //setPublic
-        false, //withUserRestriction
-        false)); //shouldCommit)
+    final SSUri entry =
+      entityServ.entityUpdate(
+        new SSEntityUpdatePar(
+          par.user,
+          par.entry, //entity
+          null, //type,
+          par.label, //label
+          null, //description,
+          null, //creationTime,
+          null, //read,
+          false, //setPublic
+          true, //createIfNotExists
+          false, //withUserRestriction
+          false)); //shouldCommit)
     
-    sqlFct.addCollEntry(par.coll, par.entry);
+    if(entry == null){
+      return null;
+    }
+    
+    sqlFct.addCollEntry(par.coll, entry);
     
     SSServCallerU.handleCirclesFromEntityGetEntitiesAdd(
       circleServ,
       entityServ,
       par.user,
       par.coll,
-      SSUri.asListWithoutNullAndEmpty(par.entry), //entities
+      SSUri.asListWithoutNullAndEmpty(entry), //entities
       par.withUserRestriction,
       true); //invokeEntityHandlers
     
-    return par.entry;
+    return entry;
   }
 }

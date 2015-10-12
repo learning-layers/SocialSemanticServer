@@ -392,38 +392,6 @@ public class SSServCallerU{
     }
   }
   
-  public static Boolean isUserAuthor(
-    final SSUri   user, 
-    final SSUri   entityURI,
-    final Boolean withUserRestriction) throws Exception{
-    
-    try{
-      
-      if(SSObjU.isNull(user, entityURI)){
-        return false;
-      }
-      
-      final SSEntity entity =
-        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
-          new SSEntityGetPar(
-            user,
-            entityURI,
-            withUserRestriction, //withUserRestriction
-            null));
-      
-      if(
-        entity == null ||
-        !SSStrU.equals(user, entity.author)){
-        return false;
-      }
-      
-      return true;
-    }catch(Exception error){
-      SSServErrReg.reset();
-      return false;
-    }
-  }
-  
   public static void checkKey(final SSServPar parA) throws Exception{
     
     final SSUri user = 

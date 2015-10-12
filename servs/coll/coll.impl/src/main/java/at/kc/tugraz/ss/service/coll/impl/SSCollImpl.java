@@ -624,8 +624,14 @@ implements
       final List<SSEntity> colls = new ArrayList<>();      
 
       if(par.withUserRestriction){
-        
-        if(!SSServCallerU.canUserRead(par.user, par.coll)){
+       
+        final SSEntity coll = 
+          sqlFct.getEntityTest(
+            par.user, 
+            par.coll, 
+            par.withUserRestriction);
+          
+        if(coll == null){
           return colls;
         }
       }
@@ -654,16 +660,20 @@ implements
       
       hierarchy.add(rootCollUri);
       
+      final SSCollGetPar collGetPar =
+        new SSCollGetPar(
+          par.user,
+          null, //collURI,
+          par.withUserRestriction,
+          par.invokeEntityHandlers);
+      
       for(SSUri collURI : hierarchy){
+        
+        collGetPar.coll = collURI;
         
         SSEntity.addEntitiesDistinctWithoutNull(
           colls,
-          collGet(
-            new SSCollGetPar(
-              par.user,
-              collURI,
-              par.withUserRestriction,
-              par.invokeEntityHandlers)));
+          collGet(collGetPar));
       }
       
       return colls;
@@ -689,29 +699,38 @@ implements
 
     try{
       
-      final List<SSEntity> colls         = new ArrayList<>();
+      final List<SSEntity> colls = new ArrayList<>();
       
       if(par.withUserRestriction){
         
-        if(!SSServCallerU.canUserRead(par.user, par.entity)){
+        final SSEntity entity = 
+          sqlFct.getEntityTest(
+            par.user, 
+            par.entity, 
+            par.withUserRestriction);
+        
+        if(entity == null){
           return colls;
         }
       }
-
-      final List<SSUri>                userCollUris   = sqlFct.getUserCollURIs(par.user);
-      final List<SSUri>                entityCollUris = sqlFct.getCollURIsContainingEntity(par.entity);
-      final List<String>               commonCollUris = SSStrU.retainAll(SSStrU.toStr(entityCollUris), SSStrU.toStr(userCollUris));
-
+          
+      final List<SSUri>   userCollUris   = sqlFct.getUserCollURIs(par.user);
+      final List<SSUri>   entityCollUris = sqlFct.getCollURIsContainingEntity(par.entity);
+      final List<String>  commonCollUris = SSStrU.retainAll(SSStrU.toStr(entityCollUris), SSStrU.toStr(userCollUris));
+      final SSCollGetPar  collGetPar =
+        new SSCollGetPar(
+          par.user,
+          null, //coll,
+          par.withUserRestriction,
+          par.invokeEntityHandlers);
+      
       for(SSUri collURI : SSUri.get(commonCollUris)){
         
+        collGetPar.coll = collURI;
+          
         SSEntity.addEntitiesDistinctWithoutNull(
           colls,
-          collGet(
-            new SSCollGetPar(
-              par.user,
-              collURI,
-              par.withUserRestriction,
-              par.invokeEntityHandlers)));
+          collGet(collGetPar));
       }
       
       return colls;
@@ -736,37 +755,47 @@ implements
 
       dbSQL.startTrans(par.shouldCommit);
 
-      final SSUri rootCollUri = SSServCaller.vocURICreate();
-
-      entityServ.entityUpdate(
-        new SSEntityUpdatePar(
-          par.forUser,
-          rootCollUri,
-          SSEntityE.coll, //type,
-          SSLabel.get(SSStrU.valueRoot), //label
-          null, //description,
-          null, //creationTime,
-          null, //read,
-          false, //setPublic
-          par.withUserRestriction, //withUserRestriction
-          false)); //shouldCommit)
+      final SSUri rootColl =
+        entityServ.entityUpdate(
+          new SSEntityUpdatePar(
+            par.forUser,
+            SSServCaller.vocURICreate(), //entity
+            SSEntityE.coll, //type,
+            SSLabel.get(SSStrU.valueRoot), //label
+            null, //description,
+            null, //creationTime,
+            null, //read,
+            false, //setPublic
+            true, //createIfNotExists
+            par.withUserRestriction, //withUserRestriction
+            false)); //shouldCommit)
       
-      sqlFct.addColl (rootCollUri);
+      if(rootColl == null){
+        dbSQL.rollBack(par.shouldCommit);
+        return false;
+      }
+      
+      sqlFct.addColl(rootColl);
 
       sqlFct.addCollRoot(
-        rootCollUri, 
+        rootColl, 
         par.forUser);
       
       final SSUri sharedWithMeFilesCollUri =
         collEntryAdd(
           new SSCollUserEntryAddPar(
             par.forUser,
-            rootCollUri, //coll
+            rootColl, //coll
             null, //entry
             SSLabel.get(SSStrU.valueSharedWithMeFiles), //label
             true, //addNewColl
             par.withUserRestriction, //withUserRestriction
             false)); //shouldCommit
+      
+      if(sharedWithMeFilesCollUri == null){
+        dbSQL.rollBack(par.shouldCommit);
+        return false;
+      }
       
       sqlFct.addCollSpecial(
         sharedWithMeFilesCollUri,
@@ -819,15 +848,24 @@ implements
       
       if(par.withUserRestriction){
         
-        if(!SSServCallerU.canUserRead(par.user, par.coll)){
+        final SSEntity coll = 
+          sqlFct.getEntityTest(
+            par.user, 
+            par.coll, 
+            par.withUserRestriction);
+        
+        if(coll == null){
           return null;
         }
         
-        if(par.entry != null){
-          
-          if(!SSServCallerU.canUserRead(par.user, par.entry)){
-            return null;
-          }
+        final SSEntity entry = 
+          sqlFct.getEntityTest(
+            par.user, 
+            par.coll, 
+            par.withUserRestriction);
+        
+        if(entry == null){
+          return null;
         }
       }
       
@@ -839,15 +877,21 @@ implements
         
         dbSQL.startTrans(par.shouldCommit);
 
-        SSCollEntryAddFct.addNewColl(
-          circleServ, 
-          entityServ, 
-          sqlFct, 
-          par);
+        final SSUri newColl =
+          SSCollEntryAddFct.addNewColl(
+            circleServ,
+            entityServ,
+            sqlFct,
+            par);
+        
+        if(newColl == null){
+          dbSQL.rollBack(par.shouldCommit);
+          return null;
+        }
 
         dbSQL.commit(par.shouldCommit);
 
-        return par.entry;
+        return newColl;
       }
       
       if(sqlFct.containsCollEntry(par.coll, par.entry)){
@@ -858,7 +902,10 @@ implements
 
         dbSQL.startTrans(par.shouldCommit);
 
-        SSCollEntryAddFct.addPublicColl(sqlFct, par);
+        SSCollEntryAddFct.addPublicColl(
+          sqlFct, 
+          circleServ, 
+          par);
 
         dbSQL.commit(par.shouldCommit);
 
@@ -867,11 +914,17 @@ implements
 
       dbSQL.startTrans(par.shouldCommit);
 
-      SSCollEntryAddFct.addCollEntry(
-        circleServ, 
-        entityServ, 
-        sqlFct, 
-        par);
+      final SSUri entry =
+        SSCollEntryAddFct.addCollEntry(
+          circleServ,
+          entityServ,
+          sqlFct,
+          par);
+      
+      if(entry == null){
+        dbSQL.rollBack(par.shouldCommit);
+        return null;
+      }
 
       dbSQL.commit(par.shouldCommit);
 
@@ -919,19 +972,24 @@ implements
         
       dbSQL.startTrans(par.shouldCommit);
 
+      final SSCollUserEntryAddPar collEntryAddPar =
+        new SSCollUserEntryAddPar(
+          par.user,
+          par.coll, //coll
+          null, //entry
+          null, //label
+          false, //addNewColl
+          par.withUserRestriction, //withUserRestriction
+          false); //shouldCommit
+        
       for(int counter = 0; counter < par.entries.size(); counter++){
+
+        collEntryAddPar.entry = par.entries.get(counter);
+        collEntryAddPar.label = par.labels.get(counter);
 
         SSUri.addDistinctWithoutNull(
           addedEntries,
-          collEntryAdd(
-            new SSCollUserEntryAddPar(
-              par.user,
-              par.coll, //coll
-              par.entries.get(counter), //entry
-              par.labels.get(counter), //label
-              false, //addNewColl
-              par.withUserRestriction, //withUserRestriction
-              false))); //shouldCommit
+          collEntryAdd(collEntryAddPar));
       }
       
       dbSQL.commit(par.shouldCommit);
@@ -969,9 +1027,13 @@ implements
       
       if(par.withUserRestriction){
         
-        if(
-          !SSServCallerU.canUserRead(par.user, par.coll) ||
-          !SSServCallerU.canUserRead(par.user, par.entry)){
+        final SSEntity coll =
+          sqlFct.getEntityTest(
+            par.user, 
+            par.coll, 
+            par.withUserRestriction);
+        
+        if(coll == null){
           return null;
         }
       }
@@ -980,7 +1042,11 @@ implements
 
       if(sqlFct.isColl(par.entry)){
         
-        SSCollEntryDeleteFct.removeColl(sqlFct, par);
+        SSCollEntryDeleteFct.removeColl(
+          sqlFct, 
+          circleServ, 
+          par);
+        
       }else{
         SSCollEntryDeleteFct.removeCollEntry(sqlFct, par);
       }
@@ -1030,17 +1096,21 @@ implements
       
       dbSQL.startTrans(par.shouldCommit);
 
+      final SSCollUserEntryDeletePar collEntryDeletePar =
+        new SSCollUserEntryDeletePar(
+          par.user,
+          par.coll,
+          null,  //entry
+          par.withUserRestriction,
+          false);
+        
       for(SSUri collEntryUri : par.entries){
         
+        collEntryDeletePar.entry = collEntryUri;
+          
         SSUri.addDistinctWithoutNull(
           deletedEntries,
-          collEntryDelete(
-            new SSCollUserEntryDeletePar(
-              par.user, 
-              par.coll, 
-              collEntryUri, 
-              par.withUserRestriction, 
-              false)));
+          collEntryDelete(collEntryDeletePar));
       }
 
       dbSQL.commit(par.shouldCommit);
@@ -1089,7 +1159,13 @@ implements
       
       if(par.withUserRestriction){
         
-        if(!SSServCallerU.canUserRead(par.user, par.coll)){
+        final SSEntity coll = 
+          sqlFct.getEntityTest(
+            par.user, 
+            par.coll, 
+            par.withUserRestriction);
+        
+        if(coll == null){
           return new ArrayList<>();
         }
       }
@@ -1099,7 +1175,9 @@ implements
           sqlFct, 
           sqlFct.getCollWithEntries(par.coll));
       
-      return ((SSTagServerI) SSServReg.getServ(SSTagServerI.class)).tagFrequsGet(
+      final SSTagServerI tagServ = (SSTagServerI) SSServReg.getServ(SSTagServerI.class);
+      
+      return tagServ.tagFrequsGet(
         new SSTagFrequsGetPar(
           par.user, 
           null, //forUser, 

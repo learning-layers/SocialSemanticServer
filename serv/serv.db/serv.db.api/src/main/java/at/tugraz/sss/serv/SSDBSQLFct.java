@@ -635,4 +635,34 @@ public class SSDBSQLFct extends SSDBFct{
       dbSQL.closeStmt(resultSet);
     }
   }
+  
+  public Boolean isUserAuthor(
+    final SSUri   user, 
+    final SSUri   entityURI,
+    final Boolean withUserRestriction) throws Exception{
+    
+    try{
+      
+      if(SSObjU.isNull(user, entityURI)){
+        return false;
+      }
+      
+      final SSEntity entity =
+        getEntityTest(
+          user, 
+          entityURI, 
+          withUserRestriction);
+        
+      if(
+        entity == null ||
+        !SSStrU.equals(user, entity.author)){
+        return false;
+      }
+      
+      return true;
+    }catch(Exception error){
+      SSServErrReg.reset();
+      return false;
+    }
+  }
 }

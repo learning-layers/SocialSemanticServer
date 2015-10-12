@@ -306,7 +306,7 @@ public class SSDiscImpl
           final List<SSUri>  userDiscUris = sqlFct.getDiscURIs(user);
           final List<String> discUris     = new ArrayList<>();
           
-          discUris.add(SSStrU.toStr(sqlFct.getDiscURIContainingEntry(entity)));
+          discUris.add(SSStrU.toStr(sqlFct.getDiscForEntry(entity)));
           
           return SSUri.get(SSStrU.retainAll(discUris, SSStrU.toStr(userDiscUris)));
         }catch(Exception error){
@@ -529,7 +529,13 @@ public class SSDiscImpl
           throw new SSErr(SSErrE.parameterMissing);
         }
         
-        if(!SSServCallerU.canUserRead(par.user, par.disc)){
+        final SSEntity disc = 
+          sqlFct.getEntityTest(
+            par.user, 
+            par.disc, 
+            par.withUserRestriction);
+        
+        if(disc == null){
           return SSDiscEntryAddRet.get(null, null);
         }
       }
@@ -538,17 +544,19 @@ public class SSDiscImpl
 
       if(par.addNewDisc){
 
-        par.disc = SSServCaller.vocURICreate();
-
-        discEntryAddFct.addDisc(
-          sqlFct,
-          par.disc,
-          par.user,
-          par.targets,
-          par.type,
-          par.label,
-          par.description,
-          par.withUserRestriction);
+        par.disc =
+          discEntryAddFct.addDisc(
+            sqlFct,
+            par.user,
+            par.type,
+            par.label,
+            par.description,
+            par.withUserRestriction);
+        
+        if(par.disc == null){
+          dbSQL.rollBack(par.shouldCommit);
+          return SSDiscEntryAddRet.get(null, null);
+        }
 
         discTargetsAdd(
           new SSDiscTargetsAddPar(
@@ -577,6 +585,11 @@ public class SSDiscImpl
             par.entry,
             par.withUserRestriction);
 
+        if(discEntryUri == null){
+          dbSQL.rollBack(par.shouldCommit);
+          return SSDiscEntryAddRet.get(null, null);
+        }
+        
         //TODO move to client call
         attachEntities(
           par.user, 
@@ -641,27 +654,32 @@ public class SSDiscImpl
       
       if(par.withUserRestriction){
         
-        if(
-          !SSServCallerU.canUserRead (par.user, par.disc) ||
-          !SSServCallerU.isUserAuthor(par.user, par.disc, par.withUserRestriction)){
+        if(!sqlFct.isUserAuthor(par.user, par.disc, par.withUserRestriction)){
           return SSDiscUpdateRet.get(null);
         }
       }
       
       dbSQL.startTrans(par.shouldCommit);
 
-      entityServ.entityUpdate(
-        new SSEntityUpdatePar(
-          par.user,
-          par.disc,
-          null, //type
-          par.label,
-          par.content,
-          null, //creationTime
-          null, //read
-          false, //setPublic
-          true, //withUserRestriction
-          false)); //shouldCommit
+      final SSUri disc =
+        entityServ.entityUpdate(
+          new SSEntityUpdatePar(
+            par.user,
+            par.disc,
+            null, //type
+            par.label,
+            par.content,
+            null, //creationTime
+            null, //read
+            false, //setPublic
+            false, //createIfNotExists
+            true, //withUserRestriction
+            false)); //shouldCommit
+      
+      if(disc == null){
+        dbSQL.rollBack(par.shouldCommit);
+        return SSDiscUpdateRet.get(null);
+      }
       
       attachEntities(
         par.user,
@@ -728,9 +746,7 @@ public class SSDiscImpl
       
       if(par.withUserRestriction){
         
-        if(
-          !SSServCallerU.canUserRead (par.user, par.entry) ||
-          !SSServCallerU.isUserAuthor(par.user, par.entry, par.withUserRestriction)){
+        if(!sqlFct.isUserAuthor(par.user, par.entry, par.withUserRestriction)){
           return SSDiscEntryUpdateRet.get(null, null);
         }
       }
@@ -797,34 +813,26 @@ public class SSDiscImpl
   public SSUri discEntryAccept(final SSDiscEntryAcceptPar par) throws Exception{
 
     try{
+      
+      final SSUri discURI = sqlFct.getDiscForEntry(par.entry);
+      
       if(par.withUserRestriction){
+
+        final SSEntity entry = 
+          sqlFct.getEntityTest(
+            par.user,
+            par.entry, 
+            par.withUserRestriction);
+          
+        if(entry == null){
+          return null;
+        }
         
-        if(!SSServCallerU.canUserRead(par.user, par.entry)){
+        if(!sqlFct.isUserAuthor(par.user, discURI, par.withUserRestriction)){
           return null;
         }
       }
-
-      final SSUri   discURI = sqlFct.getDiscURIContainingEntry(par.entry);
-      final SSDisc  disc    = 
-        discGet(
-          new SSDiscGetPar(
-            par.user, 
-            discURI, 
-            true,  //setEntries
-            par.withUserRestriction, 
-            false));
       
-      if(disc == null){
-        return null;
-      }
-      
-      if(par.withUserRestriction){
-      
-        if(!SSStrU.equals(disc.author, par.user)){
-          return null;
-        }
-      }
-
       for(SSEntity entry : disc.entries){
         if(((SSDiscEntry)entry).accepted){
           return null;
