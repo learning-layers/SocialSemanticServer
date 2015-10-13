@@ -163,46 +163,67 @@ implements
 
       dbSQL.startTrans(par.shouldCommit);
         
-      entityServ.entityUpdate(
-        new SSEntityUpdatePar(
-          par.user,
-          par.entity, //entity,
-          null, //type,
-          null, //label,
-          null, //description,
-          null, //creationTime,
-          null, //read,
-          false, //setPublic
-          par.withUserRestriction, //withUserRestriction,
-          false)); //shouldCommit
+      par.entity =
+        entityServ.entityUpdate(
+          new SSEntityUpdatePar(
+            par.user,
+            par.entity, //entity,
+            null, //type,
+            null, //label,
+            null, //description,
+            null, //creationTime,
+            null, //read,
+            false, //setPublic
+            true, //createIfNotExists
+            par.withUserRestriction, //withUserRestriction,
+            false)); //shouldCommit
+      
+      if(par.entity == null){
+        dbSQL.rollBack(par.shouldCommit);
+        return false;
+      }
 
       SSUri ratingUri = null;
       
       if(!userRatedEntityBefore){
         
-        ratingUri = SSServCaller.vocURICreate();
-
-        entityServ.entityUpdate(
-          new SSEntityUpdatePar(
-            par.user,
-            ratingUri,
-            SSEntityE.rating, //type,
-            null, //label,
-            null, //description,
-            null, //creationTime,
-            null, //read,
-            true, //setPublic
-            false, //withUserRestriction
-            false)); //shouldCommit)
+        ratingUri =
+          entityServ.entityUpdate(
+            new SSEntityUpdatePar(
+              par.user,
+              SSServCaller.vocURICreate(),
+              SSEntityE.rating, //type,
+              null, //label,
+              null, //description,
+              null, //creationTime,
+              null, //read,
+              true, //setPublic
+              true, //createIfNotExists
+              false, //withUserRestriction
+              false)); //shouldCommit)
+        
+        if(ratingUri == null){
+          dbSQL.rollBack(par.shouldCommit);
+          return null;
+        }
+        
+        sqlFct.rateEntityByUser(
+          ratingUri,
+          par.user,
+          par.entity,
+          par.value,
+          userRatedEntityBefore);
+        
+      }else{
+        
+        sqlFct.rateEntityByUser(
+          null,
+          par.user,
+          par.entity,
+          par.value,
+          userRatedEntityBefore);
       }
         
-      sqlFct.rateEntityByUser(
-        ratingUri, 
-        par.user,
-        par.entity, 
-        par.value,
-        userRatedEntityBefore);
-      
       dbSQL.commit(par.shouldCommit);
       
       return true;
@@ -243,7 +264,14 @@ implements
     try{
       
       if(par.withUserRestriction){
-        if(!SSServCallerU.canUserRead(par.user, par.entity)){
+        
+        final SSEntity entityEntity = 
+          sqlFct.getEntityTest(
+            par.user, 
+            par.entity, 
+            par.withUserRestriction);
+        
+        if(entityEntity == null){
           return -1;
         }
       }
@@ -272,7 +300,13 @@ implements
       
       if(par.withUserRestriction){
         
-        if(!SSServCallerU.canUserRead(par.user, par.entity)){
+        final SSEntity entityEntity = 
+          sqlFct.getEntityTest(
+            par.user, 
+            par.entity, 
+            par.withUserRestriction);
+        
+        if(entityEntity == null){
           return null;
         }
       }
@@ -293,16 +327,39 @@ implements
         throw new SSErr(SSErrE.parameterMissing);
       }
       
-      if(
-        par.withUserRestriction &&
-        !SSServCallerU.canUserRead(par.user, par.entities)){
-        return new ArrayList<>();
+      if(par.withUserRestriction){
+
+        final List<SSUri> entitiesToQuery = new ArrayList<>();
+        SSEntity          entityEntity;
+        
+        for(SSUri entity : par.entities){
+          
+          entityEntity = 
+            sqlFct.getEntityTest(
+              par.user, 
+              entity, 
+              par.withUserRestriction);
+          
+          if(entityEntity == null){
+            continue;
+          }
+          
+          SSUri.addDistinctWithoutNull(entitiesToQuery, entity);
+        }
+       
+        par.entities.clear();
+        par.entities.addAll(entitiesToQuery);
       }
       
       final List<SSEntity>         ratings             = sqlFct.getRatingAsss(null, par.entities);
       final List<SSUri>            entityURIs          = new ArrayList<>();
-      final SSRatingOverallGetPar  overallRatingGetPar = new SSRatingOverallGetPar(par.user, null, par.withUserRestriction);
       SSRatingOverall              overallRating;
+
+      final SSRatingOverallGetPar overallRatingGetPar = 
+        new SSRatingOverallGetPar(
+          par.user, 
+          null, //entity
+          par.withUserRestriction);
       
       for(SSEntity rating : ratings){
 
@@ -341,15 +398,21 @@ implements
     
     try{
       
-      if(par.withUserRestriction){
+      if(par.user == null){
+        throw new SSErr(SSErrE.parameterMissing);
+      }
       
-        if(par.user == null){
-          throw new SSErr(SSErrE.parameterMissing);
-        }
+      if(par.withUserRestriction){
         
-        if(!SSServCallerU.canUserRead(par.user, par.entity)){
+        final SSEntity entityEntity = 
+          sqlFct.getEntityTest(
+            par.user, 
+            par.entity, 
+            par.withUserRestriction);
+          
+        if(entityEntity == null){
           return false;
-        }
+        }        
       }
       
       dbSQL.startTrans(par.shouldCommit);

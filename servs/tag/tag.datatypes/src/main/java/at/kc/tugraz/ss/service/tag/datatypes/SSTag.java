@@ -126,24 +126,6 @@ public class SSTag extends SSEntity{
     return tagsPerEntity;
   }
   
-  public static List<SSUri> getEntitiesFromTagsDistinctNotNull(
-    final List<SSEntity> tags) throws Exception{
-    
-    final List<SSUri> entities = new ArrayList<>();
-
-    for(SSEntity tag : tags){
-      
-      if(tag == null){
-        continue;
-      }
-      
-      SSUri.addDistinctWithoutNull(entities, ((SSTag)tag).entity);
-    }
-    
-    return entities;
-  }
-  
-  
   @Override
   public Object jsonLDDesc() {
   

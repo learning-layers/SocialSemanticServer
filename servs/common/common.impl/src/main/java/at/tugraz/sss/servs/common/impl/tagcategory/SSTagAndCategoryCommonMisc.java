@@ -37,7 +37,6 @@ import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSSpaceE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.util.SSServCallerU;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -167,6 +166,34 @@ public class SSTagAndCategoryCommonMisc {
     }
   }
   
+  public List<SSUri> getEntitiesFromMetadataDistinctNotNull(
+    final List<SSEntity> metadata) throws Exception{
+    
+    final List<SSUri> entities = new ArrayList<>();
+
+    for(SSEntity meta : metadata){
+      
+      if(meta == null){
+        continue;
+      }
+      
+      switch(metadataType){
+        
+        case tag:{
+          SSUri.addDistinctWithoutNull(entities, ((SSTag)meta).entity);
+          break;
+        }
+        
+        case category:{
+          SSUri.addDistinctWithoutNull(entities, ((SSCategory) meta).entity);
+          break;
+        }
+      }
+    }
+    
+    return entities;
+  }
+    
   public List<SSEntityA> getMetadataFrequsFromMetadata(
     final List<SSEntity> metadata) throws Exception{
     
@@ -226,19 +253,34 @@ public class SSTagAndCategoryCommonMisc {
       withUserRestriction &&
       !SSStrU.equals(user, forUser)){
       
+      SSEntity entity;
+      SSEntity circle;
+      
       for(SSEntity meta : metadata){
         
         switch(metadataType){
           
           case tag:{
             
-            if(!SSServCallerU.canUserRead(user, ((SSTag) meta).entity)){
+            entity =
+              sqlFct.getEntityTest(
+                user,
+                ((SSTag) meta).entity,
+                withUserRestriction);
+            
+            if(entity == null){
               continue;
             }
             
             if(((SSTag) meta).circle != null){
               
-              if(!SSServCallerU.canUserRead(user, ((SSTag) meta).circle)){
+              circle =
+                sqlFct.getEntityTest(
+                  user,
+                  ((SSTag) meta).circle,
+                  withUserRestriction);
+              
+              if(circle == null){
                 continue;
               }
             }
@@ -249,7 +291,13 @@ public class SSTagAndCategoryCommonMisc {
           
           case category:{
             
-            if(!SSServCallerU.canUserRead(user, ((SSCategory) meta).entity)){
+            entity =
+              sqlFct.getEntityTest(
+                user,
+                ((SSCategory) meta).entity,
+                withUserRestriction);
+            
+            if(entity == null){
               continue;
             }
             

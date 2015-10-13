@@ -156,25 +156,4 @@ public class SSDiscUserEntryAddFct{
       return null;
     }
   }
-  
-  public void checkWhetherUserCanAddDisc(
-    final SSDiscEntryAddPar par) throws Exception{
-    
-    try{
-      
-      if(SSObjU.isNull(par.label, par.type)){
-        throw new SSErr(SSErrE.parameterMissing);
-      }
-      
-      switch(par.type){
-        case disc:
-        case qa:
-        case chat: break;
-        default: throw new Exception("disc type not valid");
-      }
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
 }

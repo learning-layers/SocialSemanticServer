@@ -187,6 +187,7 @@ public class SSRESTEntity {
           input.creationTime, //creationTime
           input.read,  //read
           null, //setPublic
+          true, //createIfNotExists
           true, //withUserRestriction,
           true); //shouldCommit
       
@@ -226,6 +227,7 @@ public class SSRESTEntity {
           input.creationTime, //creationTime
           input.read,  //read
           null, //setPublic
+          true,  //createIfNotExists
           true, //withUserRestriction,
           true); //shouldCommit
       

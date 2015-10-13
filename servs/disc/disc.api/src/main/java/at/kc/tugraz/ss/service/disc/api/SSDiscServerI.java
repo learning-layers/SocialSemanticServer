@@ -24,7 +24,6 @@ import at.tugraz.sss.serv.SSUri;
 import at.kc.tugraz.ss.service.disc.datatypes.SSDisc;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscEntryAcceptPar;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscEntryAddPar;
-import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscEntryURIsGetPar;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscEntryUpdatePar;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscRemovePar;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscGetPar;
@@ -44,7 +43,6 @@ public interface SSDiscServerI extends SSServServerI{
   public List<SSEntity>       discsGet                  (final SSDiscsGetPar             par) throws Exception;
   public SSUri                discRemove                (final SSDiscRemovePar           par) throws Exception;
   public SSDiscEntryAddRet    discEntryAdd              (final SSDiscEntryAddPar         par) throws Exception;
-  public List<SSUri>          discEntryURIsGet          (final SSDiscEntryURIsGetPar     par) throws Exception;
   public SSUri                discEntryAccept           (final SSDiscEntryAcceptPar      par) throws Exception;
   public SSUri                discTargetsAdd            (final SSDiscTargetsAddPar       par) throws Exception;
   public SSDiscUpdateRet      discUpdate                (final SSDiscUpdatePar           par) throws Exception;

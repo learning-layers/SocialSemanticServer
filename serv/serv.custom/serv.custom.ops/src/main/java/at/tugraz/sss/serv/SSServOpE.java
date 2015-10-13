@@ -268,7 +268,6 @@ public enum SSServOpE{
   dataImportMediaWikiUser,
   
   //disc
-  discEntryURIsGet,
   discRemove,
   discEntryAdd,
   discGet,
