@@ -262,7 +262,7 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
       final List<String>               tables             = new ArrayList<>();
       final List<String>               tableCons          = new ArrayList<>();
       final Map<String, String>        wheres             = new HashMap<>();
-
+      
       setEntityColumns(columns);
       column(columns, SSSQLVarNames.learnEpCircleTable, SSSQLVarNames.learnEpCircleId);
       column(columns, SSSQLVarNames.learnEpCircleTable, SSSQLVarNames.xLabel);
@@ -291,7 +291,7 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
             bindingStrToLabel        (resultSet, SSSQLVarNames.label),
             bindingStrToTextComment  (resultSet, SSSQLVarNames.description),
             bindingStrToLong         (resultSet, SSSQLVarNames.creationTime),
-            getEntity(bindingStrToUri(resultSet, SSSQLVarNames.author)),
+            getEntityTest            (null, bindingStrToUri(resultSet, SSSQLVarNames.author), false),
             bindingStrToFloat        (resultSet, SSSQLVarNames.xLabel),
             bindingStrToFloat        (resultSet, SSSQLVarNames.yLabel),
             bindingStrToFloat        (resultSet, SSSQLVarNames.xR),

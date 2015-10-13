@@ -51,7 +51,7 @@ public interface SSCircleServerI extends SSServServerI{
   public List<SSCircleE>                 circleTypesGet                           (final SSCircleTypesGetPar              par) throws Exception;
   public SSEntityCircle                  circleGet                                (final SSCircleGetPar                   par) throws Exception;
   public List<SSEntity>                  circlesGet                               (final SSCirclesGetPar                  par) throws Exception;
-  public void                            circleCanAccess                          (final SSCircleCanAccessPar             par) throws Exception;
+//  public void                            circleCanAccess                          (final SSCircleCanAccessPar             par) throws Exception;
   public SSUri                           circlePrivURIGet                         (final SSCirclePrivURIGetPar            par) throws Exception;
   public SSUri                           circlePubURIGet                          (final SSCirclePubURIGetPar             par) throws Exception;
   public List<SSEntity>                  circleEntityUsersGet                     (final SSCircleEntityUsersGetPar        par) throws Exception;  

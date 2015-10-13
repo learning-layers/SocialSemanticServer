@@ -134,7 +134,7 @@ public enum SSServOpE{
   circleEntityUsersGet,
   circlePrivURIGet,
   circlePubURIGet,
-  circleCanAccess,
+//  circleCanAccess,
   circleEntitiesRemove,
   circleUsersRemove,
   circleRemove,

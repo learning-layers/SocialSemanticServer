@@ -50,7 +50,6 @@ import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleEntitiesAddRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleUsersAddRet;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSEntityE;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCircleCanAccessPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleCreateFromClientPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesRemoveFromClientPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntityUsersGetPar;
@@ -1351,35 +1350,35 @@ implements
     }
   }
   
-  @Override
-  public void circleCanAccess(final SSCircleCanAccessPar par) throws Exception{
-    
-    try{
-      
-      if(par.entityURI == null){
-        throw new SSErr(SSErrE.parameterMissing);
-      }
-      
-      if(!sqlFct.existsEntity(par.entityURI)){
-        return;
-      }
-      
-      if(SSStrU.equals(par.user, SSVocConf.systemUserUri)){
-        return;
-      }
-      
-      if(
-        !miscFct.canUserForEntityType(
-          par.user,
-          sqlFct.getEntity(par.entityURI))){
-        
-        throw new SSErr(SSErrE.userNotAllowedToAccessEntity);
-      }
-      
-    }catch(SSErr error){
-      SSServErrReg.regErrThrow(error, false);
-    }
-  }
+//  @Override
+//  public void circleCanAccess(final SSCircleCanAccessPar par) throws Exception{
+//    
+//    try{
+//      
+//      if(par.entityURI == null){
+//        throw new SSErr(SSErrE.parameterMissing);
+//      }
+//      
+//      if(!sqlFct.existsEntity(par.entityURI)){
+//        return;
+//      }
+//      
+//      if(SSStrU.equals(par.user, SSVocConf.systemUserUri)){
+//        return;
+//      }
+//      
+//      if(
+//        !miscFct.canUserForEntityType(
+//          par.user,
+//          sqlFct.getEntity(par.entityURI))){
+//        
+//        throw new SSErr(SSErrE.userNotAllowedToAccessEntity);
+//      }
+//      
+//    }catch(SSErr error){
+//      SSServErrReg.regErrThrow(error, false);
+//    }
+//  }
   
   @Override
   public void circleEntityUsersGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception{

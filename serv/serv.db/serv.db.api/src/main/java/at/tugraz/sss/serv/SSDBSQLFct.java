@@ -503,7 +503,14 @@ public class SSDBSQLFct extends SSDBFct{
       
       where(where, SSSQLVarNames.id, entity);
       
-      resultSet = dbSQL.select(SSSQLVarNames.entityTable, columns, where, null, null, null);
+      resultSet = 
+        dbSQL.select(
+          SSSQLVarNames.entityTable, 
+          columns, 
+          where, 
+          null, 
+          null, 
+          null);
       
       try{
         checkFirstResult(resultSet);
@@ -527,51 +534,51 @@ public class SSDBSQLFct extends SSDBFct{
     }
   }
   
-  public SSEntity getEntity(
-    final SSUri entityUri) throws Exception{
-    
-    ResultSet resultSet  = null;
-    
-    try{
-      final List<String>        columns = new ArrayList<>();
-      final Map<String, String> where   = new HashMap<>();
-      
-      setEntityColumns(columns);
-      
-      where(where, SSSQLVarNames.id, entityUri);
-      
-      resultSet = 
-        dbSQL.select(
-          SSSQLVarNames.entityTable, 
-          columns, 
-          where, 
-          null, 
-          null, 
-          null);
-      
-      checkFirstResult(resultSet);
-      
-      return SSEntity.get(
-        bindingStrToUri        (resultSet, SSSQLVarNames.id),
-        bindingStrToEntityType (resultSet, SSSQLVarNames.type),
-        bindingStrToLabel      (resultSet, SSSQLVarNames.label),
-        bindingStrToTextComment(resultSet, SSSQLVarNames.description),
-        bindingStrToLong       (resultSet, SSSQLVarNames.creationTime),
-        bindingStrToAuthor     (resultSet, SSSQLVarNames.author));
-          
-    }catch(Exception error){
-      
-      if(SSServErrReg.containsErr(SSErrE.sqlNoResultFound)){
-        SSServErrReg.reset();
-        return null;
-      }
-        
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }finally{
-      dbSQL.closeStmt(resultSet);
-    }
-  }
+//  public SSEntity getEntity(
+//    final SSUri entityUri) throws Exception{
+//    
+//    ResultSet resultSet  = null;
+//    
+//    try{
+//      final List<String>        columns = new ArrayList<>();
+//      final Map<String, String> where   = new HashMap<>();
+//      
+//      setEntityColumns(columns);
+//      
+//      where(where, SSSQLVarNames.id, entityUri);
+//      
+//      resultSet = 
+//        dbSQL.select(
+//          SSSQLVarNames.entityTable, 
+//          columns, 
+//          where, 
+//          null, 
+//          null, 
+//          null);
+//      
+//      checkFirstResult(resultSet);
+//      
+//      return SSEntity.get(
+//        bindingStrToUri        (resultSet, SSSQLVarNames.id),
+//        bindingStrToEntityType (resultSet, SSSQLVarNames.type),
+//        bindingStrToLabel      (resultSet, SSSQLVarNames.label),
+//        bindingStrToTextComment(resultSet, SSSQLVarNames.description),
+//        bindingStrToLong       (resultSet, SSSQLVarNames.creationTime),
+//        bindingStrToAuthor     (resultSet, SSSQLVarNames.author));
+//          
+//    }catch(Exception error){
+//      
+//      if(SSServErrReg.containsErr(SSErrE.sqlNoResultFound)){
+//        SSServErrReg.reset();
+//        return null;
+//      }
+//        
+//      SSServErrReg.regErrThrow(error);
+//      return null;
+//    }finally{
+//      dbSQL.closeStmt(resultSet);
+//    }
+//  }
   
   public SSEntity getEntityTest(
     final SSUri   user,

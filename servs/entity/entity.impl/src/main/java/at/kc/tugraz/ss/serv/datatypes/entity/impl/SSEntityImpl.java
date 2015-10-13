@@ -409,7 +409,7 @@ implements
       if(
         par.descPar   == null &&
         entity.author != null){
-        entity.author = sqlFct.getEntity(entity.author.id);
+        entity.author = sqlFct.getEntityTest(null, entity.author.id, false);
       }
       
       if(par.descPar != null){
