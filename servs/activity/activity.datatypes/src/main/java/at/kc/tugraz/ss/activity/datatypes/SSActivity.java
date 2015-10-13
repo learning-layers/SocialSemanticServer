@@ -25,6 +25,8 @@ import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
+import at.tugraz.sss.serv.SSLabel;
+import at.tugraz.sss.serv.SSTextComment;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,20 +72,42 @@ public class SSActivity extends SSEntity{
   
   public static SSActivity get(
     final SSUri                   id,
+    final SSLabel                 label,
+    final SSTextComment           description,
+    final Long                    creationTime,
+    final SSEntity                author,
     final SSActivityE             activityType,
     final SSEntity                entity,
     final List<SSActivityContent> contents) throws Exception{
     
-    return new SSActivity(id, activityType, entity, contents);
+    return new SSActivity(
+      id,
+      label,
+      description,
+      creationTime,
+      author,
+      activityType,
+      entity,
+      contents);
   }
   
   protected SSActivity(
     final SSUri                   id,
+    final SSLabel                 label,
+    final SSTextComment           description,
+    final Long                    creationTime,
+    final SSEntity                author,
     final SSActivityE             activityType,
     final SSEntity                entity,
     final List<SSActivityContent> contents) throws Exception{
     
-    super(id, SSEntityE.activity);
+    super(
+      id, 
+      SSEntityE.activity,
+      label,
+      description,
+      creationTime,
+      author);
     
     this.activityType = activityType;
     this.entity       = entity;

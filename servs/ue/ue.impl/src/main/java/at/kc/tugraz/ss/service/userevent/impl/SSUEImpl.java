@@ -282,7 +282,7 @@ implements
       }
       
       final List<SSEntity> userEvents    = new ArrayList<>();
-      final SSUEGetPar     ueGetPar = 
+      final SSUEGetPar     ueGetPar      = 
         new SSUEGetPar(
           par.user,
           null,

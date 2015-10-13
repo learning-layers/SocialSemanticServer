@@ -408,32 +408,22 @@ implements
     
     try{
       
-      final SSEntityServerI entityServ = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
-      final SSUri           activity   =
-        entityServ.entityUpdate(
-          new SSEntityUpdatePar(
-            par.user,
-            par.activity,
-            null, //type
-            null, //label,
-            null, //description,
-            null, //creationTime,
-            null, //read,
-            false, //setPublic
-            false, //createIfNotExists
-            par.withUserRestriction, //withUserRestriction,
-            false)); //shouldCommit))
+      final SSEntity activity = 
+        sqlFct.getEntityTest(
+          par.user, 
+          par.activity, 
+          false); //withUserRestriction
       
       if(activity == null){
         return null;
       }
       
       sqlFct.addActivityContent(
-        activity,
+        activity.id,
         par.contentType,
         par.content);
       
-      return activity;
+      return activity.id;
     }catch(Exception error){
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
@@ -498,37 +488,14 @@ implements
     
     try{
       
-      SSActivity activity = sqlFct.getActivity(par.activity);
+      final SSActivity activity = sqlFct.getActivity(par.activity);
       
       if(activity == null){
         return null;
       }
-      
-      SSEntityDescriberPar  descPar;
-      
-      if(par.invokeEntityHandlers){
-        descPar = new SSEntityDescriberPar(par.activity);
-      }else{
-        descPar = null;
-      }
-      
-      final SSEntityServerI entityServ     = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
-      final SSEntity        activityEntity = 
-        entityServ.entityGet(
-          new SSEntityGetPar(
-            par.user,
-            par.activity, //entity
-            par.withUserRestriction, //withUserRestriction,
-            descPar));  //descPar
-      
-      if(activityEntity == null){
-        return null;
-      }
-      
-      activity =
-        SSActivity.get(
-          activity,
-          activityEntity);
+
+      final SSEntityServerI      entityServ     = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
+      final SSEntityDescriberPar descPar; 
       
       if(par.invokeEntityHandlers){
         descPar = new SSEntityDescriberPar(activity.id);
@@ -547,31 +514,25 @@ implements
               descPar)); //descPar
       }
       
-      activity.contents.addAll(sqlFct.getActivityContents(activity.id));
-      
-      final List<SSEntity>  activityUserEntities =
+      activity.users.addAll(
         entityServ.entitiesGet(
           new SSEntitiesGetPar(
             par.user,
             sqlFct.getActivityUsers(activity.id),  //entities
             null, //types,
             descPar, //descPar,
-            par.withUserRestriction));
+            par.withUserRestriction)));
       
-      activity.users.clear();
-      activity.users.addAll(activityUserEntities);
-      
-      final List<SSEntity> activityEntityEntities = 
+      activity.entities.addAll(
         entityServ.entitiesGet(
           new SSEntitiesGetPar(
             par.user,
             sqlFct.getActivityEntities(activity.id),
             null, //types,
             descPar, //descPar
-            par.withUserRestriction));
-      
-      activity.entities.clear();
-      activity.entities.addAll(activityEntityEntities);
+            par.withUserRestriction)));
+
+      activity.contents.addAll(sqlFct.getActivityContents(activity.id));
       
       return activity;
     }catch(Exception error){

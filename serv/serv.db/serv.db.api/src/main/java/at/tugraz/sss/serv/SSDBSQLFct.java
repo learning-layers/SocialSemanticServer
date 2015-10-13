@@ -350,6 +350,15 @@ public class SSDBSQLFct extends SSDBFct{
     return entities;
   }
   
+  protected static SSEntity getEntityFromResult(
+    final ResultSet resultSet,
+    final String    key) throws Exception{
+    
+    return SSEntity.get(
+      bindingStrToUri(resultSet, key),
+      SSEntityE.entity);
+  }
+  
   protected static SSAuthor bindingStrToAuthor(
     final ResultSet resultSet, 
     final String    binding) throws Exception{
