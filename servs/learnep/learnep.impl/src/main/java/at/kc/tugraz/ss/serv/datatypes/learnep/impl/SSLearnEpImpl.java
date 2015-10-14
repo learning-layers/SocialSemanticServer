@@ -107,6 +107,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import at.tugraz.sss.serv.SSErrE;
+import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSPushEntitiesToUsersI;
 import at.tugraz.sss.serv.SSPushEntitiesToUsersPar;
 import at.tugraz.sss.serv.SSServErrReg;
@@ -203,7 +204,9 @@ implements
         SSStrU.distinctWithoutNull2(resourcesPerUser.getValue());
       }
     }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
+      
+      SSLogU.err(error);
+      SSServErrReg.reset();
     }
   }
   

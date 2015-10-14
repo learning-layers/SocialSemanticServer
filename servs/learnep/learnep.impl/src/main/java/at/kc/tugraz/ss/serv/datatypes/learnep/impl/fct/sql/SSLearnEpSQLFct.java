@@ -683,7 +683,8 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
         return null;
       }
       
-      return SSLearnEpTimelineState.get(bindingStrToUri (resultSet, SSSQLVarNames.learnEpTimelineStateId),
+      return SSLearnEpTimelineState.get(
+bindingStrToUri (resultSet, SSSQLVarNames.learnEpTimelineStateId),
         learnEpVersionUri,
         bindingStrToLong(resultSet, SSSQLVarNames.startTime),
         bindingStrToLong(resultSet, SSSQLVarNames.endTime));

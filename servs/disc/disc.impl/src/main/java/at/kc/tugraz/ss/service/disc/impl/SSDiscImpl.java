@@ -1377,7 +1377,7 @@ public class SSDiscImpl
       if(
         entityLabels.isEmpty() ||
         entitiesToAttach.size() != entityLabels.size()){
-        return null;
+        return entity;
       }
       
       SSUri attachedEntity;

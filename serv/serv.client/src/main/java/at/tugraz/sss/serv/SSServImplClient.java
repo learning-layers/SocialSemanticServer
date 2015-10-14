@@ -50,7 +50,7 @@ public class SSServImplClient extends SSServImplStartA implements Runnable{
           clientCon, 
           clientCon.readMsgFullFromClient());
       
-      SSLogU.info(par.clientJSONRequ);
+      SSLogU.info(par.op + " start "); //par.clientJSONRequ);
       
       servImpl = 
         SSServReg.inst.callServViaClient(
@@ -74,6 +74,7 @@ public class SSServImplClient extends SSServImplStartA implements Runnable{
       
       try{
         finalizeImpl();
+        SSLogU.info(par.op + " end ");
       }catch(Exception error3){
         SSLogU.err(error3);
       }

@@ -153,6 +153,6 @@ public class SSLearnEpVersion extends SSEntity{
     this.learnEpTimelineState  = learnEpTimelineState;
     
     SSEntity.addEntitiesDistinctWithoutNull(this.learnEpEntities, learnEpEntities);
-    SSEntity.addEntitiesDistinctWithoutNull(this.learnEpCircles, learnEpCircles);
+    SSEntity.addEntitiesDistinctWithoutNull(this.learnEpCircles,  learnEpCircles);
   }
 }
