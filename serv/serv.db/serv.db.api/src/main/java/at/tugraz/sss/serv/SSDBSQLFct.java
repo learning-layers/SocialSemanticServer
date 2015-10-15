@@ -350,6 +350,15 @@ public class SSDBSQLFct extends SSDBFct{
     return entities;
   }
   
+  protected static SSEntity getEntityFromResult(
+    final ResultSet resultSet,
+    final String    key) throws Exception{
+    
+    return SSEntity.get(
+      bindingStrToUri(resultSet, key),
+      SSEntityE.entity);
+  }
+  
   protected static SSAuthor bindingStrToAuthor(
     final ResultSet resultSet, 
     final String    binding) throws Exception{
@@ -503,7 +512,14 @@ public class SSDBSQLFct extends SSDBFct{
       
       where(where, SSSQLVarNames.id, entity);
       
-      resultSet = dbSQL.select(SSSQLVarNames.entityTable, columns, where, null, null, null);
+      resultSet = 
+        dbSQL.select(
+          SSSQLVarNames.entityTable, 
+          columns, 
+          where, 
+          null, 
+          null, 
+          null);
       
       try{
         checkFirstResult(resultSet);
@@ -527,51 +543,51 @@ public class SSDBSQLFct extends SSDBFct{
     }
   }
   
-  public SSEntity getEntity(
-    final SSUri entityUri) throws Exception{
-    
-    ResultSet resultSet  = null;
-    
-    try{
-      final List<String>        columns = new ArrayList<>();
-      final Map<String, String> where   = new HashMap<>();
-      
-      setEntityColumns(columns);
-      
-      where(where, SSSQLVarNames.id, entityUri);
-      
-      resultSet = 
-        dbSQL.select(
-          SSSQLVarNames.entityTable, 
-          columns, 
-          where, 
-          null, 
-          null, 
-          null);
-      
-      checkFirstResult(resultSet);
-      
-      return SSEntity.get(
-        bindingStrToUri        (resultSet, SSSQLVarNames.id),
-        bindingStrToEntityType (resultSet, SSSQLVarNames.type),
-        bindingStrToLabel      (resultSet, SSSQLVarNames.label),
-        bindingStrToTextComment(resultSet, SSSQLVarNames.description),
-        bindingStrToLong       (resultSet, SSSQLVarNames.creationTime),
-        bindingStrToAuthor     (resultSet, SSSQLVarNames.author));
-          
-    }catch(Exception error){
-      
-      if(SSServErrReg.containsErr(SSErrE.sqlNoResultFound)){
-        SSServErrReg.reset();
-        return null;
-      }
-        
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }finally{
-      dbSQL.closeStmt(resultSet);
-    }
-  }
+//  public SSEntity getEntity(
+//    final SSUri entityUri) throws Exception{
+//    
+//    ResultSet resultSet  = null;
+//    
+//    try{
+//      final List<String>        columns = new ArrayList<>();
+//      final Map<String, String> where   = new HashMap<>();
+//      
+//      setEntityColumns(columns);
+//      
+//      where(where, SSSQLVarNames.id, entityUri);
+//      
+//      resultSet = 
+//        dbSQL.select(
+//          SSSQLVarNames.entityTable, 
+//          columns, 
+//          where, 
+//          null, 
+//          null, 
+//          null);
+//      
+//      checkFirstResult(resultSet);
+//      
+//      return SSEntity.get(
+//        bindingStrToUri        (resultSet, SSSQLVarNames.id),
+//        bindingStrToEntityType (resultSet, SSSQLVarNames.type),
+//        bindingStrToLabel      (resultSet, SSSQLVarNames.label),
+//        bindingStrToTextComment(resultSet, SSSQLVarNames.description),
+//        bindingStrToLong       (resultSet, SSSQLVarNames.creationTime),
+//        bindingStrToAuthor     (resultSet, SSSQLVarNames.author));
+//          
+//    }catch(Exception error){
+//      
+//      if(SSServErrReg.containsErr(SSErrE.sqlNoResultFound)){
+//        SSServErrReg.reset();
+//        return null;
+//      }
+//        
+//      SSServErrReg.regErrThrow(error);
+//      return null;
+//    }finally{
+//      dbSQL.closeStmt(resultSet);
+//    }
+//  }
   
   public SSEntity getEntityTest(
     final SSUri   user,
@@ -633,6 +649,36 @@ public class SSDBSQLFct extends SSDBFct{
       return null;
     }finally{
       dbSQL.closeStmt(resultSet);
+    }
+  }
+  
+  public Boolean isUserAuthor(
+    final SSUri   user, 
+    final SSUri   entityURI,
+    final Boolean withUserRestriction) throws Exception{
+    
+    try{
+      
+      if(SSObjU.isNull(user, entityURI)){
+        return false;
+      }
+      
+      final SSEntity entity =
+        getEntityTest(
+          user, 
+          entityURI, 
+          withUserRestriction);
+        
+      if(
+        entity == null ||
+        !SSStrU.equals(user, entity.author)){
+        return false;
+      }
+      
+      return true;
+    }catch(Exception error){
+      SSServErrReg.reset();
+      return false;
     }
   }
 }

@@ -26,7 +26,6 @@ import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSEntityE;
-import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSFileExtE;
 import at.tugraz.sss.serv.SSFileU;
 import at.tugraz.sss.serv.SSLabel;
@@ -124,13 +123,14 @@ public class SSMailReceiverKCDavIMAP {
         entityServ.entityUpdate(
           new SSEntityUpdatePar(
             par.user, 
-            mail.id, 
+            mail.id,
             SSEntityE.mail, 
             mail.label, //label 
             null, //description, 
             mail.creationTime, //creationTime
             null, //read, 
             false, //setPublic, 
+            true, //createIfNotExists,
             par.withUserRestriction, 
             false));
         

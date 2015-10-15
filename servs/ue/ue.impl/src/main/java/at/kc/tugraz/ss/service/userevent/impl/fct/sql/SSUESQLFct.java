@@ -61,7 +61,7 @@ public class SSUESQLFct extends SSDBSQLFct{
       column(columns, SSSQLVarNames.uesTable, SSSQLVarNames.userId);
       column(columns, SSSQLVarNames.uesTable, SSSQLVarNames.entityId);
       column(columns, SSSQLVarNames.uesTable, SSSQLVarNames.content);
-
+      
       setEntityTable  (tables);
       table(tables, SSSQLVarNames.uesTable);
       
@@ -93,7 +93,7 @@ public class SSUESQLFct extends SSDBSQLFct{
         bindingStrToLabel            (resultSet, SSSQLVarNames.label),
         bindingStrToTextComment      (resultSet, SSSQLVarNames.description),
         bindingStrToLong             (resultSet, SSSQLVarNames.creationTime),
-        getEntity(bindingStrToUri    (resultSet, SSSQLVarNames.author)),
+        getEntityTest                (null, bindingStrToUri(resultSet, SSSQLVarNames.author), false),
         bindingStrToEntity           (resultSet, SSSQLVarNames.userId,   SSEntityE.user), 
         SSUEE.get(bindingStr         (resultSet, SSSQLVarNames.eventType)),
         bindingStrToEntity           (resultSet, SSSQLVarNames.entityId, SSEntityE.entity), 

@@ -23,7 +23,6 @@ package at.kc.tugraz.ss.circle.datatypes.par;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSCircleRightE;
-import at.tugraz.sss.serv.SSServOpE;
 
 public class SSCircleCanAccessPar extends SSServPar{
 
@@ -37,7 +36,8 @@ public class SSCircleCanAccessPar extends SSServPar{
     final SSUri           entityURI,
     final SSCircleRightE  accessRight){
     
-    super(SSServOpE.circleCanAccess, null, user);
+//    super(SSServOpE.circleCanAccess, null, user);
+    super(null, null, user);
     
     this.entityURI       = entityURI;
     this.accessRight     = accessRight;

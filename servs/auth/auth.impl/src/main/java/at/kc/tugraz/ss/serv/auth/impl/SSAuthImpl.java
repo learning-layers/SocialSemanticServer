@@ -68,6 +68,8 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
   private final SSUserServerI   userServ;
   private final SSCollServerI   collServ;
   
+  private static final Map<String, String> oidcAuthTokens = new HashMap<>();
+  
   public SSAuthImpl(final SSAuthConf conf) throws Exception {
     
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
@@ -334,45 +336,67 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
         }
         
         case oidc:{
-          final String email = SSAuthOIDC.getOIDCUserEmail(par.key);
+          
           SSUri        userUri;
           
-          if(!userServ.userExists(
-            new SSUserExistsPar(
-              SSVocConf.systemUserUri,
-              email))){
+          if(oidcAuthTokens.containsKey(par.key)){
+            userUri = SSUri.get(oidcAuthTokens.get(par.key));
+          }else{
+          
+            final String email = SSAuthOIDC.getOIDCUserEmail(par.key);
+          
+            if(!userServ.userExists(
+              new SSUserExistsPar(
+                SSVocConf.systemUserUri,
+                email))){
+
+              //TODO use authRegisterUser
+              userUri = 
+                userServ.userAdd(
+                  new SSUserAddPar(
+                    SSVocConf.systemUserUri, 
+                    true, 
+                    SSLabel.get(email), 
+                    email, 
+                    false, //isSystemUser
+                    false)); //withUserRestriction
+
+              try{
+                collServ.collRootAdd(
+                  new SSCollUserRootAddPar(
+                    SSVocConf.systemUserUri,
+                    userUri,
+                    true));
+              }catch(SSErr error){
+
+                switch(error.code){
+                  case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
+                  default: SSServErrReg.regErrThrow(error);
+                }
+              }
+            }else{
+
+              userUri = 
+               userServ.userURIGet(
+                 new SSUserURIGetPar(
+                   SSVocConf.systemUserUri, 
+                   email));
+            }
             
-            //TODO use authRegisterUser
-            userUri = 
-              userServ.userAdd(
-                new SSUserAddPar(
-                  SSVocConf.systemUserUri, 
-                  true, 
-                  SSLabel.get(email), 
-                  email, 
-                  false, //isSystemUser
-                  false)); //withUserRestriction
+            final String userStr = SSStrU.toStr(userUri);
             
-            try{
-              collServ.collRootAdd(
-                new SSCollUserRootAddPar(
-                  SSVocConf.systemUserUri,
-                  userUri,
-                  true));
-            }catch(SSErr error){
+            if(oidcAuthTokens.containsValue(userStr)){
               
-              switch(error.code){
-                case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
-                default: SSServErrReg.regErrThrow(error);
+              for(Map.Entry<String, String> entrySet : oidcAuthTokens.entrySet()){
+                
+                if(SSStrU.equals(entrySet.getValue(), userStr)){
+                  oidcAuthTokens.remove(entrySet.getKey());
+                  break;
+                }
               }
             }
-          }else{
             
-            userUri = 
-             userServ.userURIGet(
-               new SSUserURIGetPar(
-                 SSVocConf.systemUserUri, 
-                 email));
+            oidcAuthTokens.put(par.key, userStr);
           }
 
           return SSAuthCheckCredRet.get(

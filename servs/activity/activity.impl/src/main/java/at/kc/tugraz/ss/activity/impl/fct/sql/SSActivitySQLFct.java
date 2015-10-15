@@ -27,10 +27,8 @@ import at.kc.tugraz.ss.activity.datatypes.SSActivityContent;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityContentE;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
 import at.tugraz.sss.serv.SSAuthor;
-import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSDBSQLFct;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSDBSQLSelectPar;
@@ -340,13 +338,23 @@ public class SSActivitySQLFct extends SSDBSQLFct{
       final Map<String, String>       wheres         = new HashMap<>();
       final List<String>              tableCons      = new ArrayList<>();
       
+      column   (columns,   SSSQLVarNames.userId);
+      
       table    (tables, SSSQLVarNames.activityTable);
       table    (tables, SSSQLVarNames.activityUsersTable);
-      column   (columns,   SSSQLVarNames.userId);
-      where    (wheres, SSSQLVarNames.activityTable,        SSSQLVarNames.activityId, activity);
-      tableCon (tableCons, SSSQLVarNames.activityTable,        SSSQLVarNames.activityId, SSSQLVarNames.activityUsersTable, SSSQLVarNames.activityId);
       
-      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
+      where    (wheres, SSSQLVarNames.activityTable, SSSQLVarNames.activityId, activity);
+      
+      tableCon (tableCons, SSSQLVarNames.activityTable, SSSQLVarNames.activityId, SSSQLVarNames.activityUsersTable, SSSQLVarNames.activityId);
+      
+      resultSet = dbSQL.select(
+        tables, 
+        columns, 
+        wheres, 
+        tableCons,
+        null, 
+        null,
+        null);
       
       return getURIsFromResult(resultSet, SSSQLVarNames.userId);
     }catch(Exception error){
@@ -368,13 +376,24 @@ public class SSActivitySQLFct extends SSDBSQLFct{
       final Map<String, String>       wheres         = new HashMap<>();
       final List<String>              tableCons      = new ArrayList<>();
       
+      column   (columns, SSSQLVarNames.activityEntitiesTable,  SSSQLVarNames.entityId);
+
       table    (tables, SSSQLVarNames.activityTable);
       table    (tables, SSSQLVarNames.activityEntitiesTable);
-      column   (columns, SSSQLVarNames.activityEntitiesTable,  SSSQLVarNames.entityId);
-      where    (wheres, SSSQLVarNames.activityTable,          SSSQLVarNames.activityId, activity);
-      tableCon (tableCons, SSSQLVarNames.activityTable,          SSSQLVarNames.activityId, SSSQLVarNames.activityEntitiesTable, SSSQLVarNames.activityId);
       
-      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
+      where    (wheres, SSSQLVarNames.activityTable, SSSQLVarNames.activityId, activity);
+      
+      tableCon (tableCons, SSSQLVarNames.activityTable, SSSQLVarNames.activityId, SSSQLVarNames.activityEntitiesTable, SSSQLVarNames.activityId);
+      
+      resultSet = 
+        dbSQL.select(
+          tables, 
+          columns, 
+          wheres, 
+          tableCons, 
+          null, 
+          null, 
+          null);
       
       return getURIsFromResult(resultSet, SSSQLVarNames.entityId);
     }catch(Exception error){
@@ -394,45 +413,40 @@ public class SSActivitySQLFct extends SSDBSQLFct{
       final List<String>                         tables         = new ArrayList<>();
       final List<String>                         columns        = new ArrayList<>();
       final List<String>                         tableCons      = new ArrayList<>();
-      final SSActivity                           activityObj;
-      final SSUri                                entity;
-
-      column(columns, SSSQLVarNames.entityTable,   SSSQLVarNames.id);
+      
+      setEntityColumns(columns);
       column(columns, SSSQLVarNames.activityTable, SSSQLVarNames.activityType);
       column(columns, SSSQLVarNames.activityTable, SSSQLVarNames.entityId);
-      
+
+      setEntityTable(tables);
       table(tables, SSSQLVarNames.activityTable);
-      table(tables, SSSQLVarNames.entityTable);
       
       where(wheres, SSSQLVarNames.activityId, activity);
       
       tableCon(tableCons, SSSQLVarNames.activityTable, SSSQLVarNames.activityId, SSSQLVarNames.entityTable, SSSQLVarNames.id);
       
-      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
+      resultSet = 
+        dbSQL.select(
+          tables, 
+          columns, 
+          wheres, 
+          tableCons, 
+          null, 
+          null, 
+          null);
       
       checkFirstResult(resultSet);
       
-      activityObj = 
-        SSActivity.get(
-          bindingStrToUri  (resultSet, SSSQLVarNames.id), 
-          SSActivityE.get  (bindingStr(resultSet, SSSQLVarNames.activityType)),
-          null,
-          new ArrayList<>());
+      return SSActivity.get(
+        bindingStrToUri           (resultSet, SSSQLVarNames.id),
+        bindingStrToLabel         (resultSet, SSSQLVarNames.label),
+        bindingStrToTextComment   (resultSet, SSSQLVarNames.description),
+        bindingStrToLong          (resultSet, SSSQLVarNames.creationTime),
+        getEntityTest             (null,      bindingStrToUri(resultSet, SSSQLVarNames.author), false),
+        SSActivityE.get           (bindingStr(resultSet, SSSQLVarNames.activityType)),
+        getEntityFromResult       (resultSet, SSSQLVarNames.entityId),
+        null); //contents
         
-      entity = bindingStrToUri  (resultSet, SSSQLVarNames.entityId);
-      
-      if(entity != null){
-        
-        activityObj.entity =
-          SSEntity.get(
-            entity,
-            SSEntityE.entity);
-      }else{
-        activityObj.entity = null;
-      }
-    
-      return activityObj;
-      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;

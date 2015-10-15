@@ -54,6 +54,7 @@ import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSDescribeEntityI;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
+import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.tugraz.sss.util.SSServCallerU;
@@ -293,62 +294,85 @@ implements
   public SSUri activityAdd(final SSActivityAddPar par) throws Exception{
     
     try{
-      final SSUri activityUri = SSServCaller.vocURICreate();
+      
+      if(!SSServCallerU.areUsersUsers(par.users)){
+        throw new SSErr(SSErrE.parameterMissing);
+      }
+      
+      final SSEntityServerI entityServ = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
+      SSUri                 entityEntity;
       
       dbSQL.startTrans(par.shouldCommit);
       
-      if(!SSServCallerU.areUsersUsers(par.users)){
-        par.users = new ArrayList<>();
-      }
-      
-      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
-        new SSEntityUpdatePar(
-          par.user,
-          activityUri,
-          SSEntityE.activity,
-          SSLabel.get(SSStrU.toStr(par.type)), //label,
-          null, //description,
-          null, //creationTime,
-          null, //read,
-          true, //setPublic
-          par.withUserRestriction, //withUserRestriction,
-          false)); //shouldCommit))
-      
-      if(par.entity != null){
-        
-        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+      final SSUri activity   =
+        entityServ.entityUpdate(
           new SSEntityUpdatePar(
             par.user,
-            par.entity,
-            null, //type
-            null, //label,
+            SSServCaller.vocURICreate(),
+            SSEntityE.activity,
+            SSLabel.get(SSStrU.toStr(par.type)), //label,
             null, //description,
             null, //creationTime,
             null, //read,
-            false, //setPublic
+            true, //setPublic
+            true, //createIfNotExists
             par.withUserRestriction, //withUserRestriction,
             false)); //shouldCommit))
+      
+      if(activity == null){
+        dbSQL.rollBack(par.shouldCommit);
+        return null;
+      }
+      
+      if(par.entity != null){
+        
+        entityEntity =
+          entityServ.entityUpdate(
+            new SSEntityUpdatePar(
+              par.user,
+              par.entity,
+              null, //type
+              null, //label,
+              null, //description,
+              null, //creationTime,
+              null, //read,
+              false, //setPublic
+              true, //createIfNotExists
+              par.withUserRestriction, //withUserRestriction,
+              false)); //shouldCommit))
+        
+        if(entityEntity == null){
+          dbSQL.rollBack(par.shouldCommit);
+          return null;
+        }
       }
       
       for(SSUri entity : par.entities){
         
-        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
-          new SSEntityUpdatePar(
-            par.user,
-            entity,
-            null, //type
-            null, //label,
-            null, //description,
-            null, //creationTime,
-            null, //read,
-            false, //setPublic
-            par.withUserRestriction, //withUserRestriction,
-            false)); //shouldCommit))
+        entityEntity =
+          entityServ.entityUpdate(
+            new SSEntityUpdatePar(
+              par.user,
+              entity,
+              null, //type
+              null, //label,
+              null, //description,
+              null, //creationTime,
+              null, //read,
+              false, //setPublic
+              true, //createIfNotExists
+              par.withUserRestriction, //withUserRestriction,
+              false)); //shouldCommit))
+        
+        if(entityEntity == null){
+          dbSQL.rollBack(par.shouldCommit);
+          return null;
+        }
       }
       
       sqlFct.addActivity(
         par.user,
-        activityUri,
+        activity,
         par.type,
         par.entity,
         par.users,
@@ -357,7 +381,7 @@ implements
       
       dbSQL.commit(par.shouldCommit);
       
-      return activityUri;
+      return activity;
     }catch(Exception error){
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
@@ -384,25 +408,22 @@ implements
     
     try{
       
-      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
-        new SSEntityUpdatePar(
-          par.user,
-          par.activity,
-          null, //type
-          null, //label,
-          null, //description,
-          null, //creationTime,
-          null, //read,
-          false, //setPublic
-          par.withUserRestriction, //withUserRestriction,
-          false)); //shouldCommit))
+      final SSEntity activity = 
+        sqlFct.getEntityTest(
+          par.user, 
+          par.activity, 
+          false); //withUserRestriction
+      
+      if(activity == null){
+        return null;
+      }
       
       sqlFct.addActivityContent(
-        par.activity,
+        activity.id,
         par.contentType,
         par.content);
       
-      return par.activity;
+      return activity.id;
     }catch(Exception error){
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
@@ -429,15 +450,16 @@ implements
     
     try{
       
+      final SSActivityContentAddPar activityContentAddPar =
+        new SSActivityContentAddPar(
+          par.user,
+          par.activity,
+          par.contentType,
+          null, //content
+          false);
+      
       for(SSActivityContent content : par.contents){
-        
-        activityContentAdd(
-          new SSActivityContentAddPar(
-            par.user,
-            par.activity,
-            par.contentType,
-            content,
-            false));
+        activityContentAdd(activityContentAddPar);
       }
       
     }catch(Exception error){
@@ -466,39 +488,17 @@ implements
     
     try{
       
-      SSActivity            activity;
-      SSEntity              activityEntity;
-      final List<SSEntity>  activityUserEntities    = new ArrayList<>();
-      final List<SSEntity>  activityEntityEntities  = new ArrayList<>();
-      SSEntityDescriberPar  descPar;
+      final SSActivity activity = sqlFct.getActivity(par.activity);
       
-      if(par.invokeEntityHandlers){
-        descPar = new SSEntityDescriberPar(par.activity);
-      }else{
-        descPar = null;
-      }
-      
-      activity       = sqlFct.getActivity(par.activity);
-      activityEntity =
-        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
-          new SSEntityGetPar(
-            par.user,
-            par.activity, //entity
-            par.withUserRestriction, //withUserRestriction,
-            descPar));  //descPar
-      
-      if(activityEntity == null){
+      if(activity == null){
         return null;
       }
-      
-      activity =
-        SSActivity.get(
-          activity,
-          activityEntity);
-      
+
+      final SSEntityServerI      entityServ     = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
+      final SSEntityDescriberPar descPar; 
       
       if(par.invokeEntityHandlers){
-        descPar = new SSEntityDescriberPar(null);
+        descPar = new SSEntityDescriberPar(activity.id);
       }else{
         descPar = null;
       }
@@ -506,22 +506,16 @@ implements
       if(activity.entity != null){
         
         activity.entity =
-          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+          entityServ.entityGet(
             new SSEntityGetPar(
               par.user,
               activity.entity.id,
               par.withUserRestriction, //withUserRestriction,
-              descPar)); //descPar,
-        
-        if(activity.entity == null){
-          return null;
-        }
+              descPar)); //descPar
       }
       
-      activity.contents.addAll(sqlFct.getActivityContents(activity.id));
-      
-      activityUserEntities.addAll(
-        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
+      activity.users.addAll(
+        entityServ.entitiesGet(
           new SSEntitiesGetPar(
             par.user,
             sqlFct.getActivityUsers(activity.id),  //entities
@@ -529,21 +523,16 @@ implements
             descPar, //descPar,
             par.withUserRestriction)));
       
-      activity.users.clear();
-      activity.users.addAll(activityUserEntities);
-      
-      SSEntity.addEntitiesDistinctWithoutNull(
-        activityEntityEntities,
-        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
+      activity.entities.addAll(
+        entityServ.entitiesGet(
           new SSEntitiesGetPar(
             par.user,
             sqlFct.getActivityEntities(activity.id),
             null, //types,
             descPar, //descPar
             par.withUserRestriction)));
-      
-      activity.entities.clear();
-      activity.entities.addAll(activityEntityEntities);
+
+      activity.contents.addAll(sqlFct.getActivityContents(activity.id));
       
       return activity;
     }catch(Exception error){

@@ -25,12 +25,12 @@ import at.kc.tugraz.ss.circle.datatypes.par.SSCircleMostOpenCircleTypeGetPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntryDeletePar;
 import at.kc.tugraz.ss.service.coll.impl.fct.sql.SSCollSQLFct;
 import at.tugraz.sss.serv.SSServErrReg;
-import at.tugraz.sss.serv.SSServReg;
 
 public class SSCollEntryDeleteFct{
   
   public static Boolean removeColl(
     final SSCollSQLFct             sqlFct,
+    final SSCircleServerI          circleServ,
     final SSCollUserEntryDeletePar par) throws Exception{
     
     try{
@@ -39,7 +39,7 @@ public class SSCollEntryDeleteFct{
         throw new Exception("cant delete special collection");
       }
       
-      switch(((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleMostOpenCircleTypeGet(
+      switch(circleServ.circleMostOpenCircleTypeGet(
         new SSCircleMostOpenCircleTypeGetPar(
           par.user,
           par.entry,

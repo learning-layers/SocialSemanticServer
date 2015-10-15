@@ -51,6 +51,7 @@ import at.tugraz.sss.serv.SSDBNoSQLSearchPar;
 import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
+import at.tugraz.sss.serv.SSEntityE;
 import java.util.*;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSErrE;
@@ -130,8 +131,6 @@ implements
       final List<List<SSEntity>>    pages                         = new ArrayList<>();
       final List<SSEntity>          page                          = new ArrayList<>();
       Integer                       recommendedEntityCounter      = 0;
-      final SSEntitiesGetPar        entitiesGetPar;
-      final SSEntityDescriberPar    descPar;
       
       uris.addAll                  (tagResults);
       uris.addAll                  (contentResults);
@@ -154,29 +153,26 @@ implements
       
       if(!resultsAfterGlobalSearchOp.isEmpty()){
         
-        entitiesGetPar = 
-          new SSEntitiesGetPar(
-            par.user, 
-            resultsAfterGlobalSearchOp, 
-            par.typesToSearchOnlyFor, 
-            null, //descPar, 
-            par.withUserRestriction);
-
-        entitiesGetPar.authors.addAll(par.authorsToSearchFor);
-
-        for(SSEntity entity : entityServ.entitiesGet(entitiesGetPar)){
+        final List<String> entities =
+          SSStrU.retainAll(
+            SSStrU.toStr(resultsAfterGlobalSearchOp),
+            SSStrU.toStr(initiallyFilteredResults));
+          
+        final List<SSUri> entityURIs = SSUri.get(entities);
+        
+        for(SSUri entityURI : entityURIs){//entityServ.entitiesGet(entitiesGetPar)){
 
           if(page.size() == 10){
             pages.add(new ArrayList<>(page));
             page.clear();
           }
 
-          page.add(entity);
+          page.add(SSEntity.get(entityURI, SSEntityE.entity));
 
           recommendedEntityCounter =
             SSSearchFct.addRecommendedResult(
               page,
-              entitiesGetPar.entities,
+              entityURIs,
               par,
               recommendedResults,
               recommendedEntityCounter);
@@ -206,7 +202,6 @@ implements
             entityServ, 
             par, 
             pages.get(0)));
-        
       }
       
       if(results.isEmpty()){

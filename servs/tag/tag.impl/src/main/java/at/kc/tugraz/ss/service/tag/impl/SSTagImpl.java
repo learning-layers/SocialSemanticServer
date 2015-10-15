@@ -21,14 +21,11 @@
 package at.kc.tugraz.ss.service.tag.impl;
 
 import at.kc.tugraz.ss.activity.api.SSActivityServerI;
-import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
-import at.kc.tugraz.ss.activity.datatypes.par.SSActivityAddPar;
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePubURIGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntitiesGetPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityFromTypeAndLabelGetPar;
-import at.tugraz.sss.servs.entity.datatypes.par.SSEntityGetPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUpdatePar;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.tugraz.sss.serv.SSStrU;
@@ -78,12 +75,9 @@ import at.tugraz.sss.serv.SSSearchOpE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServReg;
-import at.tugraz.sss.serv.SSToolContextE;
 import at.tugraz.sss.servs.common.impl.tagcategory.SSTagAndCategoryCommonMisc;
 import at.tugraz.sss.servs.common.impl.tagcategory.SSTagAndCategoryCommonSQL;
 import sss.serv.eval.api.SSEvalServerI;
-import sss.serv.eval.datatypes.SSEvalLogE;
-import sss.serv.eval.datatypes.par.SSEvalLogPar;
 
 public class SSTagImpl
 extends SSServImplWithDBA
@@ -416,7 +410,6 @@ implements
     try{
       
       final SSUri       tagUri;
-      final SSEntity    circleEntity;
       final SSEntity    tagEntity = 
         entityServ.entityFromTypeAndLabelGet(
           new SSEntityFromTypeAndLabelGetPar(
@@ -425,14 +418,15 @@ implements
             SSEntityE.tag, //type,
             par.withUserRestriction)); //withUserRestriction
       
-      if(par.circle != null){
-        par.space = SSSpaceE.circleSpace;
-      }else{
+      if(SSObjU.isNull(par.circle)){
+        
         par.circle =
           ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePubURIGet(
             new SSCirclePubURIGetPar(
               null, 
               false));
+      }else{
+        par.space = SSSpaceE.circleSpace;
       }
       
       if(par.space == null){
@@ -443,15 +437,13 @@ implements
         
         case circleSpace:{
           
-          circleEntity =
-            entityServ.entityGet(
-              new SSEntityGetPar(
-                par.user,
-                par.circle,
-                par.withUserRestriction,
-                null)); //descPar
+          final SSEntity circle = 
+            sqlFct.getEntityTest(
+              par.user, 
+              par.circle, 
+              par.withUserRestriction);
           
-          if(circleEntity == null){
+          if(circle == null){
             return null;
           }
           
@@ -461,43 +453,50 @@ implements
       
       dbSQL.startTrans(par.shouldCommit);
       
-      if(tagEntity != null){
-        tagUri = tagEntity.id;
-      }else{
-        tagUri = SSServCaller.vocURICreate();
-        
+      par.entity =
         entityServ.entityUpdate(
           new SSEntityUpdatePar(
             par.user,
-            tagUri,
-            SSEntityE.tag, //type,
-            SSLabel.get(SSStrU.toStr(par.label)), //label
+            par.entity,
+            null, //type,
+            null, //label
             null, //description,
-            par.creationTime, //creationTime,
+            null, //creationTime,
             null, //read,
-            true, //setPublic
+            false, //setPublic
+            true, //createIfNotExists
             par.withUserRestriction, //withUserRestriction
             false)); //shouldCommit)
+      
+      if(par.entity == null){
+        dbSQL.rollBack(par.shouldCommit);
+        return null;
       }
       
-      entityServ.entityUpdate(
-        new SSEntityUpdatePar(
-          par.user,
-          par.entity,
-          null, //type,
-          null, //label
-          null, //description,
-          null, //creationTime,
-          null, //read,
-          false, //setPublic
-          par.withUserRestriction, //withUserRestriction
-          false)); //shouldCommit)
-      
-//      if(tagEntity == null){
-//        sqlFct.addTagIfNotExists(
-//          tagUri, 
-//          false);
-//      }
+      if(tagEntity == null){
+       
+        tagUri =
+          entityServ.entityUpdate(
+            new SSEntityUpdatePar(
+              par.user,
+              SSServCaller.vocURICreate(),
+              SSEntityE.tag, //type,
+              SSLabel.get(SSStrU.toStr(par.label)), //label
+              null, //description,
+              par.creationTime, //creationTime,
+              null, //read,
+              true, //setPublic
+              true, //createIfNotExists
+              par.withUserRestriction, //withUserRestriction
+              false)); //shouldCommit)
+        
+        if(tagUri == null){
+          dbSQL.rollBack(par.shouldCommit);
+          return null;
+        }
+      }else{
+        tagUri = tagEntity.id;
+      }
       
       sqlFct.addMetadataAssIfNotExists1(
         tagUri,
@@ -557,17 +556,38 @@ implements
     
     try{
       
-      SSUri tagUri = null;
+      if(SSObjU.isNull(par.user)){
+         throw new SSErr(SSErrE.parameterMissing);
+      }
+      
+      if(par.entity != null){
+      
+        final SSEntity entity = 
+          sqlFct.getEntityTest(
+            par.user, 
+            par.entity, 
+            par.withUserRestriction);
+
+        if(entity == null){
+          return false;
+        }
+      }
       
       if(par.withUserRestriction){
         
-        if(SSObjU.isNull(par.user, par.entity)){
+        if(SSObjU.isNull(par.entity)){
           throw new SSErr(SSErrE.parameterMissing);
         }
         
         if(par.circle != null){
           
-          if(!SSServCallerU.canUserRead(par.user, par.circle)){
+          final SSEntity circle = 
+            sqlFct.getEntityTest(
+              par.user, 
+              par.circle, 
+              par.withUserRestriction);
+          
+          if(circle == null){
             return false;
           }
         }
@@ -576,6 +596,8 @@ implements
           par.circle = null;
         }
       }
+      
+      SSUri tagUri = null;
       
       if(par.label != null){
         
@@ -609,14 +631,6 @@ implements
         
         return true;
       }
-      
-      //check whether user can access the entity
-      entityServ.entityGet(
-        new SSEntityGetPar(
-          par.user,
-          par.entity, //entity
-          par.withUserRestriction, //withUserRestriction
-          null));  //descPar
       
       if(
         par.space  == null &&
@@ -721,7 +735,7 @@ implements
             par.startTime,
             par.withUserRestriction));
       
-      return SSTag.getEntitiesFromTagsDistinctNotNull(tagAsss);
+      return commonMiscFct.getEntitiesFromMetadataDistinctNotNull(tagAsss);
 
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -744,8 +758,6 @@ implements
     
     try{
       
-      final List<SSEntity> tags = new ArrayList<>();
-      
       if(par.user == null){
         throw new SSErr(SSErrE.parameterMissing);
       }
@@ -759,7 +771,7 @@ implements
         }
       }
       
-      tags.addAll(
+      final List<SSEntity> tags = 
         commonMiscFct.getMetadata(
           par.user,
           par.forUser,
@@ -768,7 +780,7 @@ implements
           par.labelSearchOp,
           par.spaces,
           par.circles,
-          par.startTime));
+          par.startTime);
       
       return commonMiscFct.filterMetadataByEntitiesUserCanAccess(
         tags, 

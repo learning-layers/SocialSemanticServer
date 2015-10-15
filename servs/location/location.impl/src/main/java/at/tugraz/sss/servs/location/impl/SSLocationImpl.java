@@ -48,7 +48,6 @@ import at.tugraz.sss.servs.location.api.SSLocationClientI;
 import at.tugraz.sss.servs.location.api.SSLocationServerI;
 import at.tugraz.sss.servs.location.datatype.par.SSLocationGetPar;
 import at.tugraz.sss.servs.location.impl.sql.SSLocationSQLFct;
-import at.tugraz.sss.util.SSServCallerU;
 
 public class SSLocationImpl 
 extends SSServImplWithDBA 
@@ -137,26 +136,32 @@ implements
         throw new SSErr(SSErrE.parameterMissing);
       }
       
-      if(par.withUserRestriction){
-        
-        if(!SSServCallerU.canUserRead(par.user, par.entity)){
-          return new ArrayList<>();
-        }
+      final SSEntity entity = 
+        sqlFct.getEntityTest(
+          par.user, 
+          par.entity, 
+          par.withUserRestriction);
+      
+      if(entity == null){
+        return new ArrayList<>();
       }
       
-     final List<SSUri>      locationURIs = sqlFct.getLocationURIs(par.entity);
-     final List<SSEntity>   locations    = new ArrayList<>();
-     
+     final List<SSUri>      locationURIs    = sqlFct.getLocationURIs(par.entity);
+     final List<SSEntity>   locations       = new ArrayList<>();
+     final SSLocationGetPar locationsGetPar =
+       new SSLocationGetPar(
+         par.user,
+         null, //location,
+         par.withUserRestriction,
+         par.invokeEntityHandlers);
+       
      for(SSUri locationURI : locationURIs){
 
+       locationsGetPar.location = locationURI;
+       
        SSEntity.addEntitiesDistinctWithoutNull(
          locations,
-         locationGet(
-           new SSLocationGetPar(
-             par.user, 
-             locationURI, 
-             par.withUserRestriction, 
-             par.invokeEntityHandlers)));
+         locationGet(locationsGetPar));
      }
      
      return locations;
@@ -171,40 +176,59 @@ implements
   public SSUri locationAdd(final SSLocationAddPar par) throws Exception{
     
     try{
+      
+      final SSUri      entity;
+      final SSUri      locationURI;
+      final SSLocation location;
+      
       dbSQL.startTrans(par.shouldCommit);
       
-      entityServ.entityUpdate(
-        new SSEntityUpdatePar(
-          par.user,
-          par.entity, //entity,
-          null, //type,
-          null, //label,
-          null, //description,
-          null, //creationTime,
-          null, //read,
-          null, //setPublic
-          par.withUserRestriction, //withUserRestriction,
-          false)); //shouldCommit
+      entity =
+        entityServ.entityUpdate(
+          new SSEntityUpdatePar(
+            par.user,
+            par.entity, //entity,
+            null, //type,
+            null, //label,
+            null, //description,
+            null, //creationTime,
+            null, //read,
+            null, //setPublic
+            true, //createIfNotExists,
+            par.withUserRestriction, //withUserRestriction,
+            false)); //shouldCommit
       
-      final SSLocation location =
+      if(entity == null){
+        dbSQL.rollBack(par.shouldCommit);
+        return null;
+      }
+        
+      location =
         SSLocation.get(
           SSServCaller.vocURICreate(),
           par.latitude,
           par.longitude,
           par.accuracy);
       
-      entityServ.entityUpdate(
-        new SSEntityUpdatePar(
-          par.user,
-          location.id, //entity,
-          SSEntityE.location, //type,
-          null, //label,
-          null, //description,
-          null, //creationTime,
-          null, //read,
-          true, //setPublic
-          par.withUserRestriction, //withUserRestriction,
-          false)); //shouldCommit
+      locationURI =
+        entityServ.entityUpdate(
+          new SSEntityUpdatePar(
+            par.user,
+            location.id, //entity,
+            SSEntityE.location, //type,
+            null, //label,
+            null, //description,
+            null, //creationTime,
+            null, //read,
+            true, //setPublic
+            true, //createIfNotExists,
+            par.withUserRestriction, //withUserRestriction,
+            false)); //shouldCommit
+      
+      if(locationURI == null){
+        dbSQL.rollBack(par.shouldCommit);
+        return null;
+      }
       
       sqlFct.addLocation(
         location.id,
@@ -213,7 +237,7 @@ implements
       
       dbSQL.commit(par.shouldCommit);
       
-      return location.id;
+      return locationURI;
       
     }catch(Exception error){
       

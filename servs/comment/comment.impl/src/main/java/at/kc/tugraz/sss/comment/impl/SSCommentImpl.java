@@ -128,37 +128,53 @@ implements
         throw new SSErr(SSErrE.parameterMissing);
       }
       
-      SSUri commentUri;
+      final SSEntityServerI entityServ = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
       
-      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
-        new SSEntityUpdatePar(
-          par.user,
-          par.entity,
-          null, //type,
-          null, //label,
-          null, //description,
-          null, //creationTime,
-          null, //read,
-          false, //setPublic
-          par.withUserRestriction, //withUserRestriction,
-          false)); //shouldCommit))
+      dbSQL.startTrans(par.shouldCommit);
       
-      for(SSTextComment content : par.comments){
-        
-        commentUri = SSServCaller.vocURICreate();
-        
-        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
+      final SSUri entity =
+        entityServ.entityUpdate(
           new SSEntityUpdatePar(
             par.user,
-            commentUri,
-            SSEntityE.comment, //type,
-            null, //label
+            par.entity,
+            null, //type,
+            null, //label,
             null, //description,
             null, //creationTime,
             null, //read,
-            true, //setPublic
-            false, //withUserRestriction
-            false)); //shouldCommit)
+            false, //setPublic
+            true, //createIfNotExists
+            par.withUserRestriction, //withUserRestriction,
+            false)); //shouldCommit))
+      
+      if(entity == null){
+        dbSQL.rollBack(par.shouldCommit);
+        return null;
+      }
+      
+      SSUri commentUri;
+      
+      for(SSTextComment content : par.comments){
+        
+        commentUri =
+          entityServ.entityUpdate(
+            new SSEntityUpdatePar(
+              par.user,
+              SSServCaller.vocURICreate(),
+              SSEntityE.comment, //type,
+              null, //label
+              null, //description,
+              null, //creationTime,
+              null, //read,
+              true, //setPublic
+              true, //createIfNotExists,
+              false, //withUserRestriction
+              false)); //shouldCommit)
+        
+        if(commentUri == null){
+          dbSQL.rollBack(par.shouldCommit);
+          return null;
+        }
         
         sqlFct.createComment(
           commentUri, 
@@ -168,6 +184,8 @@ implements
           par.entity, 
           commentUri);
       }
+      
+      dbSQL.commit(par.shouldCommit);
       
       return par.entity;
     }catch(Exception error){
@@ -211,7 +229,14 @@ implements
       }
       
       if(par.withUserRestriction){
-        if(!SSServCallerU.canUserRead(par.user, par.entity)){
+        
+        final SSEntity entity = 
+          sqlFct.getEntityTest(
+            par.user, 
+            par.entity, 
+            par.withUserRestriction);
+        
+        if(entity == null){
           return new ArrayList<>();
         }
       }
@@ -233,17 +258,18 @@ implements
         throw new SSErr(SSErrE.parameterMissing);
       }
       
-      final List<SSUri>    entityURIs = sqlFct.getEntityURIsCommented(par.user);
+      final List<SSUri> entityURIs = sqlFct.getEntityURIsCommented(par.user);
       
       if(!par.withUserRestriction){
         return entityURIs;
       }
 
-      final List<SSEntity> entities   = new ArrayList<>();
+      final SSEntityServerI entityServ = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
+      final List<SSEntity>  entities   = new ArrayList<>();
       
       SSEntity.addEntitiesDistinctWithoutNull(
         entities,
-        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
+        entityServ.entitiesGet(
           new SSEntitiesGetPar(
             par.user,
             entityURIs, //entities

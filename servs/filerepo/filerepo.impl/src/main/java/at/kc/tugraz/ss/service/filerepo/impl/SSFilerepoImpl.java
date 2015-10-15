@@ -196,6 +196,7 @@ implements
     
     SSFileDownloadPar par = (SSFileDownloadPar) parA.getFromJSON(SSFileDownloadPar.class);
     
+    //TODO fix this public download: get user and check whether he can read
     if(!par.isPublicDownload){
       SSServCallerU.checkKey(parA);
     }
@@ -208,7 +209,7 @@ implements
     
     if(!par.isPublicDownload){
       
-      ((SSEvalServerI)     SSServReg.getServ(SSEvalServerI.class)).evalLog(
+      ((SSEvalServerI) SSServReg.getServ(SSEvalServerI.class)).evalLog(
         new SSEvalLogPar(
           par.user,
           SSToolContextE.sss,
@@ -226,9 +227,17 @@ implements
     
     try{
 
-      if(!par.isPublicDownload){
+      if(
+        !par.isPublicDownload &&
+        par.withUserRestriction){
         
-        if(!SSServCallerU.canUserRead(par.user, par.file)){
+        final SSEntity file = 
+          sqlFct.getEntityTest(
+            par.user, 
+            par.file, 
+            par.withUserRestriction);
+        
+        if(file == null){
           throw new SSErr(SSErrE.userNotAllowedToAccessEntity);
         }
       }
@@ -320,7 +329,8 @@ implements
         }
       }
         
-      entityServ.entityUpdate(
+      par.file = 
+        entityServ.entityUpdate(
         new SSEntityUpdatePar(
           par.user, 
           par.file,  //entity
@@ -330,14 +340,21 @@ implements
           null, //creationTime, 
           null, //read, 
           null, //setPublic, 
+          true, //createIfNotExists
           par.withUserRestriction, //withUserRestriction
           false)); //shouldCommit)
+      
+      if(par.file == null){
+        dbSQL.rollBack(par.shouldCommit);
+        return null;
+      }
       
       sqlFct.addFile(par.file);
       
       if(par.entity != null){
         
-        entityServ.entityUpdate(
+        par.entity = 
+          entityServ.entityUpdate(
           new SSEntityUpdatePar(
             par.user,
             par.entity,
@@ -347,8 +364,14 @@ implements
             null, //creationTime,
             null, //read,
             false, //setPublic
+            true, //createIfNotExists
             par.withUserRestriction, //withUserRestriction
             false)); //shouldCommit)
+        
+        if(par.file == null){
+          dbSQL.rollBack(par.shouldCommit);
+          return null;
+        }
         
         sqlFct.addFileToEntity(par.file, par.entity);
       }
@@ -417,13 +440,6 @@ implements
     
     try{
     
-      if(par.withUserRestriction){
-        
-        if(!SSServCallerU.canUserRead(par.user, par.file)){
-          return null;
-        }
-      }
-      
       final SSFileExtE  fileExt       = SSFileExtE.ext(SSStrU.removeTrailingSlash(par.file));
       final SSMimeTypeE mimeType      = SSMimeTypeE.mimeTypeForFileExt (fileExt);
       final SSUri       downloadLink  =
@@ -434,7 +450,7 @@ implements
             SSVocConf.restAPIPathFileDownloadPublic);
       final SSEntityE fileType = sqlFct.getFileType(par.file);
       
-      final SSFile      file  = 
+      final SSFile file = 
         SSFile.get(
           par.file,
           fileType,
@@ -458,14 +474,21 @@ implements
         descPar = null;
       }
       
-      return SSFile.get(
-        file,
+      final SSEntity fileEntity =
         entityServ.entityGet(
           new SSEntityGetPar(
             par.user,
             par.file,
             par.withUserRestriction,
-            descPar)));
+            descPar));
+      
+      if(fileEntity == null){
+        return null;
+      }
+      
+      return SSFile.get(
+        file,
+        fileEntity);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -482,25 +505,35 @@ implements
         throw new SSErr(SSErrE.parameterMissing);
       }
       
-      if(par.withUserRestriction){
-        
-        if(!SSServCallerU.canUserRead(par.user, par.entity)){
-          return new ArrayList<>();
-        }
-      }
-
       final List<SSEntity> files = new ArrayList<>();
       
+      if(par.withUserRestriction){
+        
+        final SSEntity entity = 
+          sqlFct.getEntityTest(
+            par.user, 
+            par.entity, 
+            par.withUserRestriction);
+          
+        if(entity == null){
+          return files;
+        }
+      }
+      
+      final SSFileGetPar fileGetPar =
+        new SSFileGetPar(
+          par.user,
+          null, //file
+          par.withUserRestriction,
+          par.invokeEntityHandlers);
+
       for(SSUri file : sqlFct.getEntityFiles(par.entity)){
+        
+        fileGetPar.file = file;
         
         SSEntity.addEntitiesDistinctWithoutNull(
           files, 
-          fileGet(
-            new SSFileGetPar(
-            par.user, 
-            file, 
-            par.withUserRestriction, 
-            par.invokeEntityHandlers)));
+          fileGet(fileGetPar));
       }
 
       return files;

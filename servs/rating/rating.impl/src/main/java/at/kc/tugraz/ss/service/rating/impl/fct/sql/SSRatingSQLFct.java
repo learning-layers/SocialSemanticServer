@@ -66,7 +66,14 @@ public class SSRatingSQLFct extends SSDBSQLFct{
       where(wheres, SSSQLVarNames.userId,   userUri);
       where(wheres, SSSQLVarNames.entityId, entityUri);
       
-      resultSet = dbSQL.select(SSSQLVarNames.ratingsTable, columns, wheres, null, null, null);
+      resultSet = 
+        dbSQL.select(
+          SSSQLVarNames.ratingsTable, 
+          columns, 
+          wheres, 
+          null, 
+          null, 
+          null);
       
       return resultSet.first();
     }catch(Exception error){
@@ -142,7 +149,7 @@ public class SSRatingSQLFct extends SSDBSQLFct{
     if(userRatedEntityBefore){
       
       final HashMap<String, String> wheres      = new HashMap<>();
-      final HashMap<String, String> updates      = new HashMap<>();
+      final HashMap<String, String> updates     = new HashMap<>();
       
       where(wheres, SSSQLVarNames.userId,        userUri);
       where(wheres, SSSQLVarNames.entityId,      entityUri);

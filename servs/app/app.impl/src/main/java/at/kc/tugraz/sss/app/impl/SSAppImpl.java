@@ -166,26 +166,33 @@ implements
   public SSUri appAdd(final SSAppAddPar par) throws Exception{
     
     try{
-      
-      final SSUri appUri = SSServCaller.vocURICreate();
+
+      final SSEntityServerI  entityServ = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
       
       dbSQL.startTrans(par.shouldCommit);
 
-      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
-        new SSEntityUpdatePar(
-          par.user,
-          appUri, //entity,
-          SSEntityE.app, //type,
-          par.label, //label,
-          null, //description,
-          null, //creationTime,
-          null, //read,
-          true, //setPublic
-          par.withUserRestriction, //withUserRestriction,
-          false)); //shouldCommit
+      final SSUri app =
+        entityServ.entityUpdate(
+          new SSEntityUpdatePar(
+            par.user,
+            SSServCaller.vocURICreate(), //entity,
+            SSEntityE.app, //type,
+            par.label, //label,
+            null, //description,
+            null, //creationTime,
+            null, //read,
+            true, //setPublic
+            true, //createIfNotExists,
+            par.withUserRestriction, //withUserRestriction,
+            false)); //shouldCommit
+      
+      if(app == null){
+        dbSQL.rollBack(par.shouldCommit);
+        return null;
+      }
       
       sqlFct.createApp(
-        appUri,
+        app,
         par.descriptionShort, 
         par.descriptionFunctional, 
         par.descriptionTechnical, 
@@ -196,7 +203,7 @@ implements
       
       dbSQL.commit(par.shouldCommit);
       
-      return appUri;
+      return app;
       
     }catch(Exception error){
       
@@ -234,14 +241,24 @@ implements
         descPar = null;
       }
 
-      return SSApp.get(
-        sqlFct.getApp(par.app), 
-        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+      final SSApp app = sqlFct.getApp(par.app);
+      
+      if(app == null){
+        return null;
+      }
+      
+      final SSEntityServerI entityServ = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
+      final SSEntity        appEntity  =
+        entityServ.entityGet(
           new SSEntityGetPar(
-            par.user, 
-            par.app, 
-            par.withUserRestriction, //withUserRestriction, 
-            descPar))); //descPar)));
+            par.user,
+            par.app,
+            par.withUserRestriction, //withUserRestriction,
+            descPar));
+      
+      return SSApp.get(
+        app,
+        appEntity); //descPar)));
       
 //      if(par.invokeEntityHandlers)
             //TODO handle
@@ -288,16 +305,19 @@ implements
     try{
       final List<SSEntity>       apps     = new ArrayList<>();
       final List<SSUri>          appURIs  = sqlFct.getAppURIs();
+      final SSAppGetPar          appGetPar =
+        new SSAppGetPar(
+          par.user,
+          null, //app
+          par.invokeEntityHandlers);
       
       for(SSUri appURI : appURIs){
         
+        appGetPar.app = appURI;
+        
         SSEntity.addEntitiesDistinctWithoutNull(
           apps,
-          appGet(
-            new SSAppGetPar(
-              par.user,
-              appURI,
-              par.invokeEntityHandlers)));
+          appGet(appGetPar));
       }
       
       return apps;
@@ -351,6 +371,5 @@ implements
       SSServErrReg.regErrThrow(error);
       return null;
     }
-    
   }
 }

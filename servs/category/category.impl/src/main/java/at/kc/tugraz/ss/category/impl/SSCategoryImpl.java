@@ -48,7 +48,6 @@ import at.kc.tugraz.ss.category.impl.fct.userrelationgatherer.SSCategoryUserRela
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePubURIGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
-import at.kc.tugraz.ss.service.tag.datatypes.SSTag;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityFromTypeAndLabelGetPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityGetPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUpdatePar;
@@ -282,24 +281,24 @@ implements
     
     try{
 
-      final List<SSUri> categories  = new ArrayList<>();
+      final List<SSUri>      categories     = new ArrayList<>();
+      final SSCategoryAddPar categoryAddPar =
+        new SSCategoryAddPar(
+          par.user,
+          par.entity,
+          null, //label
+          par.space,
+          par.circle,
+          par.creationTime,
+          par.withUserRestriction,
+          par.shouldCommit);
       
-      for(SSCategoryLabel categoryLabel : par.labels) {
+      for(SSCategoryLabel categoryLabel : par.labels){
         
-        categories.add(
-          categoryAdd(
-            new SSCategoryAddPar(
-              par.user, 
-              par.entity,
-              categoryLabel, 
-              par.space,
-              par.circle,
-              par.creationTime,
-              par.withUserRestriction,
-              par.shouldCommit)));
+        categoryAddPar.label = categoryLabel;
+        
+        SSUri.addDistinctWithoutNull(categories, categoryAdd(categoryAddPar));
       }
-      
-      SSStrU.distinctWithoutNull2(categories);
       
       return categories;
     }catch(Exception error){
@@ -361,9 +360,7 @@ implements
   public SSUri categoryAdd(final SSCategoryAddPar par) throws Exception {
     
     try{
-      
       final SSUri            categoryUri;
-      final SSEntity         circleEntity;
       final SSEntity         categoryEntity =
         entityServ.entityFromTypeAndLabelGet(
           new SSEntityFromTypeAndLabelGetPar(
@@ -372,14 +369,14 @@ implements
             SSEntityE.category, //type,
             par.withUserRestriction)); //withUserRestriction
       
-      if(par.circle != null){
-        par.space = SSSpaceE.circleSpace;
-      }else{
+      if(par.circle == null){
         par.circle =
           ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePubURIGet(
             new SSCirclePubURIGetPar(
-              null, 
+              null,
               false));
+      }else{
+        par.space = SSSpaceE.circleSpace;
       }
       
       if(par.space == null){
@@ -387,17 +384,16 @@ implements
       }
       
       switch(par.space){
+        
         case circleSpace:{
           
-          circleEntity =
-            entityServ.entityGet(
-              new SSEntityGetPar(
-                par.user,
-                par.circle,
-                par.withUserRestriction,
-                null)); //descPar
+          final SSEntity circle = 
+            sqlFct.getEntityTest(
+              par.user, 
+              par.circle, 
+              par.withUserRestriction);
           
-          if(circleEntity == null){
+          if(circle == null){
             return null;
           }
           
@@ -407,42 +403,54 @@ implements
       
       dbSQL.startTrans(par.shouldCommit);
       
-      if(categoryEntity != null){
-        categoryUri = categoryEntity.id;
-      }else{
-        categoryUri = SSServCaller.vocURICreate();
-        
+      par.entity =
         entityServ.entityUpdate(
           new SSEntityUpdatePar(
             par.user,
-            categoryUri,
-            SSEntityE.category, //type,
-            SSLabel.get(SSStrU.toStr(par.label)), //label
+            par.entity, //entity
+            null, //type,
+            null, //label
             null, //description,
-            par.creationTime, //creationTime,
+            null, //creationTime,
             null, //read,
-            true, //setPublic
+            false, //setPublic
+            true, //createIfNotExists
             par.withUserRestriction, //withUserRestriction
-            false)); //shouldCommit)
+            false)); //shouldCommit
+      
+      if(par.entity == null){
+        dbSQL.rollBack(par.shouldCommit);
+        return null;
       }
       
-      entityServ.entityUpdate(
-        new SSEntityUpdatePar(
-          par.user,
-          par.entity,
-          null, //type,
-          null, //label
-          null, //description,
-          null, //creationTime,
-          null, //read,
-          false, //setPublic
-          par.withUserRestriction, //withUserRestriction
-          false)); //shouldCommit)
-      
       if(categoryEntity == null){
+
+        categoryUri =
+          entityServ.entityUpdate(
+            new SSEntityUpdatePar(
+              par.user,
+              SSServCaller.vocURICreate(),
+              SSEntityE.category, //type,
+              SSLabel.get(SSStrU.toStr(par.label)), //label
+              null, //description,
+              par.creationTime, //creationTime,
+              null, //read,
+              true, //setPublic
+              true, //createIfNotExists
+              par.withUserRestriction, //withUserRestriction
+              false)); //shouldCommit)
+        
+        if(categoryUri == null){
+          dbSQL.rollBack(par.shouldCommit);
+          return null;
+        }
+        
         sqlFct.addMetadataIfNotExists(
-          categoryUri, 
-          false);
+          categoryUri, //metadataURI
+          false); //isPredefined
+        
+      }else{
+        categoryUri = categoryEntity.id;
       }
       
       sqlFct.addMetadataAssIfNotExists1(
@@ -515,17 +523,38 @@ implements
     
     try{
       
-      SSUri categoryUri = null;
+      if(SSObjU.isNull(par.user)){
+        throw new SSErr(SSErrE.parameterMissing);
+      }
+
+      if(par.entity != null){
+      
+        final SSEntity entity = 
+          sqlFct.getEntityTest(
+            par.user, 
+            par.entity, 
+            par.withUserRestriction);
+
+        if(entity == null){
+          return false;
+        }
+      }
       
       if(par.withUserRestriction){
         
-        if(SSObjU.isNull(par.user, par.entity)){
+        if(SSObjU.isNull(par.entity)){
           throw new SSErr(SSErrE.parameterMissing);
         }
         
         if(par.circle != null){
           
-          if(!SSServCallerU.canUserRead(par.user, par.circle)){
+          final SSEntity circle = 
+            sqlFct.getEntityTest(
+              par.user, 
+              par.circle, 
+              par.withUserRestriction);
+          
+          if(circle == null){
             return false;
           }
         }
@@ -535,15 +564,17 @@ implements
         }
       }
       
+      SSUri categoryUri = null;
+      
       if(par.label != null){
         
         final SSEntity categoryEntity =
-        entityServ.entityFromTypeAndLabelGet(
-          new SSEntityFromTypeAndLabelGetPar(
-            par.user,
-            SSLabel.get(SSStrU.toStr(par.label)), //label,
-            SSEntityE.category, //type,
-            par.withUserRestriction)); //withUserRestriction
+          entityServ.entityFromTypeAndLabelGet(
+            new SSEntityFromTypeAndLabelGetPar(
+              par.user,
+              SSLabel.get(SSStrU.toStr(par.label)), //label,
+              SSEntityE.category, //type,
+              par.withUserRestriction)); //withUserRestriction
         
         if(categoryEntity == null){
           return true;
@@ -564,17 +595,8 @@ implements
           par.circle);
         
         dbSQL.commit(par.shouldCommit);
-        
         return true;
       }
-      
-      //check whether user can access the entity
-      entityServ.entityGet(
-        new SSEntityGetPar(
-          par.user,
-          par.entity, //entity
-          par.withUserRestriction, //withUserRestriction
-          null));  //descPar
       
       if(
         par.space  == null &&
@@ -583,15 +605,15 @@ implements
         dbSQL.startTrans(par.shouldCommit);
         
         sqlFct.removeMetadataAsss(par.user, null, categoryUri, SSSpaceE.privateSpace, par.circle);
-        sqlFct.removeMetadataAsss(par.user, null, categoryUri, SSSpaceE.sharedSpace, par.circle);
-        sqlFct.removeMetadataAsss(par.user, null, categoryUri, SSSpaceE.circleSpace, par.circle);
+        sqlFct.removeMetadataAsss(par.user, null, categoryUri, SSSpaceE.sharedSpace,  par.circle);
+        sqlFct.removeMetadataAsss(par.user, null, categoryUri, SSSpaceE.circleSpace,  par.circle);
         
         dbSQL.commit(par.shouldCommit);
         return true;
       }
       
        if(
-         par.space    != null &&
+         par.space  != null &&
          par.entity == null){
          
          dbSQL.startTrans(par.shouldCommit);
@@ -609,8 +631,8 @@ implements
         dbSQL.startTrans(par.shouldCommit);
         
         sqlFct.removeMetadataAsss (par.user, par.entity, categoryUri, SSSpaceE.privateSpace, par.circle);
-        sqlFct.removeMetadataAsss (null,     par.entity, categoryUri, SSSpaceE.sharedSpace, par.circle);
-        sqlFct.removeMetadataAsss (null,     par.entity, categoryUri, SSSpaceE.circleSpace, par.circle);
+        sqlFct.removeMetadataAsss (null,     par.entity, categoryUri, SSSpaceE.sharedSpace,  par.circle);
+        sqlFct.removeMetadataAsss (null,     par.entity, categoryUri, SSSpaceE.circleSpace,  par.circle);
         
         dbSQL.commit(par.shouldCommit);
         return true;
@@ -618,7 +640,7 @@ implements
       
       if(
         par.space    != null &&
-        par.entity != null){
+        par.entity   != null){
         
         dbSQL.startTrans(par.shouldCommit);
       
@@ -678,7 +700,7 @@ implements
     try{
       
       SSEntity categoryEntity;
-      SSUri   categoryUri;
+      SSUri    categoryUri;
       
       dbSQL.startTrans(par.shouldCommit);
       
@@ -696,28 +718,32 @@ implements
           continue;
         }
           
-        categoryUri = SSServCaller.vocURICreate();
+        categoryUri =
+          entityServ.entityUpdate(
+            new SSEntityUpdatePar(
+              par.user,
+              SSServCaller.vocURICreate(),
+              SSEntityE.category, //type,
+              SSLabel.get(SSStrU.toStr(label)), //label
+              null, //description,
+              null, //creationTime,
+              null, //read,
+              true, //setPublic
+              true, //createIfNotExists
+              par.withUserRestriction, //withUserRestriction
+              false)); //shouldCommit)
 
-        entityServ.entityUpdate(
-          new SSEntityUpdatePar(
-            par.user,
-            categoryUri,
-            SSEntityE.category, //type,
-            SSLabel.get(SSStrU.toStr(label)), //label
-            null, //description,
-            null, //creationTime,
-            null, //read,
-            true, //setPublic
-            par.withUserRestriction, //withUserRestriction
-            false)); //shouldCommit)
-
+        if(categoryUri == null){
+          dbSQL.rollBack(par.shouldCommit);
+          return false;
+        }
+        
         sqlFct.addMetadataIfNotExists(
-          categoryUri,
-          true);
+          categoryUri, //metadataURI
+          true); //isPredefined
       }
       
       dbSQL.commit(par.shouldCommit);
-            
       return true;
       
     }catch(Exception error){
@@ -756,7 +782,7 @@ implements
     
     try{
 
-      final List<SSEntity> tagAsss =
+      final List<SSEntity> categoryAsss =
         categoriesGet(
           new SSCategoriesGetPar(
             par.user,
@@ -769,7 +795,7 @@ implements
             par.startTime,
             par.withUserRestriction));
       
-      return SSTag.getEntitiesFromTagsDistinctNotNull(tagAsss);
+      return commonMiscFct.getEntitiesFromMetadataDistinctNotNull(categoryAsss);
 
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -792,8 +818,6 @@ implements
     
     try{
 
-      final List<SSEntity> categories = new ArrayList<>();
-      
       if(par.user == null){
         throw new SSErr(SSErrE.parameterMissing);
       }
@@ -807,7 +831,7 @@ implements
         }
       }
       
-      categories.addAll(
+      final List<SSEntity> categories = 
         commonMiscFct.getMetadata(
           par.user,
           par.forUser,
@@ -816,7 +840,7 @@ implements
           par.labelSearchOp,
           par.spaces,
           par.circles,
-          par.startTime));
+          par.startTime);
       
       return commonMiscFct.filterMetadataByEntitiesUserCanAccess(
         categories,
@@ -841,7 +865,7 @@ implements
   }
   
   @Override
-  public List<SSCategoryFrequ> categoryFrequsGet(final SSCategoryFrequsGetPar par) throws Exception {
+  public List<SSCategoryFrequ> categoryFrequsGet(final SSCategoryFrequsGetPar par) throws Exception{
     
     try{
       

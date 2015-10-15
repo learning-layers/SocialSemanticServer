@@ -51,11 +51,9 @@ public class SSDiscUserEntryAddFct{
     this.entityServ = entityServ;
   }
   
-  public void addDisc(
+  public SSUri addDisc(
     final SSDiscSQLFct  sqlFct,
-    final SSUri         discUri,
     final SSUri         userUri, 
-    final List<SSUri>   targetUris,
     final SSEntityE     discType, 
     final SSLabel       discLabel,
     final SSTextComment description,
@@ -63,47 +61,33 @@ public class SSDiscUserEntryAddFct{
     
     try{
       
-      entityServ.entityUpdate(
-        new SSEntityUpdatePar(
-          userUri,
-          discUri,
-          discType, //type,
-          discLabel, //label
-          description, //description,
-          null, //creationTime,
-          null, //read,
-          false, //setPublic
-          withUserRestriction, //withUserRestriction
-          false)); //shouldCommit)
+      final SSUri disc =
+        entityServ.entityUpdate(
+          new SSEntityUpdatePar(
+            userUri,
+            SSServCaller.vocURICreate(),
+            discType, //type,
+            discLabel, //label
+            description, //description,
+            null, //creationTime,
+            null, //read,
+            false, //setPublic
+            true, //createIfNotExists
+            withUserRestriction, //withUserRestriction
+            false)); //shouldCommit)
+      
+      if(disc == null){
+        return null;
+      }
       
       sqlFct.createDisc(
         userUri, 
-        discUri);
+        disc);
       
-//      for(SSUri targetURI : targetUris){
-//        
-//        entityServ.entityUpdate(
-//          new SSEntityUpdatePar(
-//            userUri,
-//            targetURI,
-//            null, //type,
-//            null, //label
-//            null, //description,
-//            null, //creationTime,
-//            null, //read,
-//            false, //setPublic
-//            withUserRestriction, //withUserRestriction
-//            false)); //shouldCommit)
-//      }
-//      
-//      if(
-//        targetUris != null &&
-//        !targetUris.isEmpty()){
-//        sqlFct.addDiscTargets(discUri, targetUris);
-//      }
-      
+      return disc;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
 
@@ -115,8 +99,7 @@ public class SSDiscUserEntryAddFct{
     final Boolean       withUserRestriction) throws Exception{
     
     try{
-      final SSUri     discEntryUri  = SSServCaller.vocURICreate();
-      final SSEntityE discType      =
+      final SSEntityE discType =
         entityServ.entityGet(
           new SSEntityGetPar(
             null,
@@ -133,21 +116,27 @@ public class SSDiscUserEntryAddFct{
         default: throw new Exception("disc type not valid");
       }
       
-      entityServ.entityUpdate(
-        new SSEntityUpdatePar(
-          userUri,
-          discEntryUri,
-          discEntryType, //type,
-          SSLabel.get(discEntryUri), //label
-          null, //description,
-          null, //creationTime,
-          null, //read,
-          false, //setPublic
-          false, //withUserRestriction
-          false)); //shouldCommit)
+      final SSUri discEntry =
+        entityServ.entityUpdate(
+          new SSEntityUpdatePar(
+            userUri,
+            SSServCaller.vocURICreate(),
+            discEntryType, //type,
+            null, //label
+            null, //description,
+            null, //creationTime,
+            null, //read,
+            false, //setPublic
+            true, //createIfNotExists
+            false, //withUserRestriction
+            false)); //shouldCommit)
+      
+      if(discEntry == null){
+        return null;
+      }
       
       sqlFct.addDiscEntry(
-        discEntryUri, 
+        discEntry, 
         discUri, 
         content);
       
@@ -156,36 +145,15 @@ public class SSDiscUserEntryAddFct{
         entityServ,
         userUri,
         discUri,
-        SSUri.asListWithoutNullAndEmpty(discEntryUri), //entities
+        SSUri.asListWithoutNullAndEmpty(discEntry), //entities
         withUserRestriction,
         false); //invokeEntityHandlers
       
-      return discEntryUri;
+      return discEntry;
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
-    }
-  }
-  
-  public void checkWhetherUserCanAddDisc(
-    final SSDiscEntryAddPar par) throws Exception{
-    
-    try{
-      
-      if(SSObjU.isNull(par.label, par.type)){
-        throw new SSErr(SSErrE.parameterMissing);
-      }
-      
-      switch(par.type){
-        case disc:
-        case qa:
-        case chat: break;
-        default: throw new Exception("disc type not valid");
-      }
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
     }
   }
 }

@@ -16,7 +16,6 @@
     <module>category.api</module>
     <module>category.impl</module>
     <module>category.conf</module>
-    <module>category.util</module>
     <module>category.serv</module>
   </modules>
 </project>

@@ -34,7 +34,6 @@ public enum SSServOpE{
   livingDocUpdate,
   
   //integrationtest
-  integrationTestBitsAndPiecesStudyFall2015,
   integrationTestSolrForSearch,
   
   //location
@@ -135,7 +134,7 @@ public enum SSServOpE{
   circleEntityUsersGet,
   circlePrivURIGet,
   circlePubURIGet,
-  circleCanAccess,
+//  circleCanAccess,
   circleEntitiesRemove,
   circleUsersRemove,
   circleRemove,
@@ -269,7 +268,6 @@ public enum SSServOpE{
   dataImportMediaWikiUser,
   
   //disc
-  discEntryURIsGet,
   discRemove,
   discEntryAdd,
   discGet,

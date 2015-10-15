@@ -52,6 +52,7 @@ import at.tugraz.sss.serv.SSFileU;
 import at.tugraz.sss.serv.SSImage;
 import at.tugraz.sss.serv.SSImageE;
 import at.tugraz.sss.serv.SSLogU;
+import at.tugraz.sss.serv.SSObjU;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSStrU;
@@ -214,17 +215,18 @@ implements
 
     try{
       
-      if(par.withUserRestriction){
-        
-        if(!SSServCallerU.canUserRead(par.user, par.image)){
-          return null;
-        }
+      SSEntity image = sqlFct.getEntityTest(par.user, par.image, par.withUserRestriction);
+      
+      if(image == null){
+        return null;
       }
       
-      final SSImage image = sqlFct.getImage(par.image);
+      final SSFileRepoServerI fileServ = (SSFileRepoServerI) SSServReg.getServ(SSFileRepoServerI.class);
+      
+      image = sqlFct.getImage(par.image);
       
       for(SSEntity file :
-        ((SSFileRepoServerI) SSServReg.getServ(SSFileRepoServerI.class)).filesGet(
+        fileServ.filesGet(
           new SSEntityFilesGetPar(
             par.user,
             par.image,
@@ -235,7 +237,7 @@ implements
         break;
       }
       
-      return image;
+      return (SSImage) image;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -261,7 +263,9 @@ implements
         
         if(par.entity != null){
           
-          if(!SSServCallerU.canUserRead(par.user, par.entity)){
+          final SSEntity enity = sqlFct.getEntityTest(par.user, par.entity, par.withUserRestriction);
+            
+          if(enity == null){
             return new ArrayList<>();
           }
         }
@@ -269,16 +273,19 @@ implements
       
       final List<SSUri>    imageURIs = sqlFct.getImages(par.entity, par.imageType);
       final List<SSEntity> images    = new ArrayList<>();
+      final SSImageGetPar  imageGetPar =
+        new SSImageGetPar(
+          par.user,
+          null, //image
+          par.withUserRestriction);
         
       for(SSUri imageURI : imageURIs){
         
+        imageGetPar.image = imageURI;
+        
         SSEntity.addEntitiesDistinctWithoutNull(
           images, 
-          imageGet(
-            new SSImageGetPar(
-              par.user, 
-              imageURI, 
-              par.withUserRestriction)));
+          imageGet(imageGetPar));
       }
       
       return images;
@@ -320,8 +327,6 @@ implements
         }
       }
       
-      dbSQL.startTrans(par.shouldCommit);
-      
       SSUri thumbFileURI = null;
       
       if(par.createThumb){
@@ -337,6 +342,11 @@ implements
           SSServErrReg.reset();
           SSLogU.warn("thumb creation failed");
         }
+      }
+      
+      dbSQL.startTrans(par.shouldCommit);
+      
+      if(par.createThumb){
         
         if(
           par.removeThumbsFromEntity &&
@@ -361,18 +371,25 @@ implements
         }
       }
       
-      entityServ.entityUpdate(
-        new SSEntityUpdatePar(
-          par.user, 
-          imageUri,  //entity
-          SSEntityE.image,  //type
-          null, //label, 
-          null, //description, 
-          null, //creationTime, 
-          null, //read, 
-          false, //setPublic, 
-          par.withUserRestriction, //withUserRestriction
-          false)); //shouldCommit)
+      final SSUri image =
+        entityServ.entityUpdate(
+          new SSEntityUpdatePar(
+            par.user,
+            imageUri,  //entity
+            SSEntityE.image,  //type
+            null, //label,
+            null, //description,
+            null, //creationTime,
+            null, //read,
+            false, //setPublic,
+            true, //createIfNotExists
+            par.withUserRestriction, //withUserRestriction
+            false)); //shouldCommit)
+      
+      if(image == null){
+        dbSQL.rollBack(par.shouldCommit);
+        return new SSImageAddRet(null, null);
+      }
       
       sqlFct.addImage(
         imageUri, 
@@ -381,20 +398,24 @@ implements
       
       if(par.entity != null){
         
-        entityServ.entityUpdate(
-          new SSEntityUpdatePar(
-            par.user,
-            par.entity,  //entity
-            null,  //type
-            null, //label,
-            null, //description,
-            null, //creationTime,
-            null, //read,
-            false, //setPublic,
-            par.withUserRestriction, //withUserRestriction
-            false)); //shouldCommit)
+        final SSUri entity =
+          entityServ.entityUpdate(
+            new SSEntityUpdatePar(
+              par.user,
+              par.entity,  //entity
+              null,  //type
+              null, //label,
+              null, //description,
+              null, //creationTime,
+              null, //read,
+              false, //setPublic,
+              false, //createIfNotExists
+              par.withUserRestriction, //withUserRestriction
+              false)); //shouldCommit)
         
-        sqlFct.addImageToEntity(imageUri, par.entity);
+        if(entity != null){
+          sqlFct.addImageToEntity(imageUri, par.entity);
+        }
       }
       
       if(
@@ -478,35 +499,49 @@ implements
     
     try{
       
-      if(par.file == null){
+      if(SSObjU.isNull(par.file, par.entity)){
         throw new SSErr(SSErrE.parameterMissing);
       }
       
-      if(par.withUserRestriction){
-        
-        if(
-          !SSServCallerU.canUserRead(par.user, par.entity) ||
-          !SSServCallerU.canUserRead(par.user, par.file)){
-          return null;
-        }
+      SSEntity file = 
+        sqlFct.getEntityTest(
+          par.user, 
+          par.file,   
+          par.withUserRestriction);
+      
+      final SSEntity entity = 
+        sqlFct.getEntityTest(
+          par.user, 
+          par.entity, 
+          par.withUserRestriction);
+      
+      if(SSObjU.isNull(file, entity)){
+        return null;
       }
-
+      
       dbSQL.startTrans(par.shouldCommit);
       
-      entityServ.entityUpdate(
-        new SSEntityUpdatePar(
-          par.user,
-          par.file, //entity
-          null,  //type
-          null, //label,
-          null, //description,
-          null, //creationTime,
-          null, //read,
-          true, //setPublic,
-          par.withUserRestriction,
-          false));
+      final SSUri entityURI =
+        entityServ.entityUpdate(
+          new SSEntityUpdatePar(
+            par.user,
+            par.file, //entity
+            null,  //type
+            null, //label,
+            null, //description,
+            null, //creationTime,
+            null, //read,
+            true, //setPublic,
+            false, //createIfNotExists
+            par.withUserRestriction,
+            false));
       
-      final SSUri profilePicture =
+      if(entityURI == null){
+        dbSQL.rollBack(par.shouldCommit);
+        return null;
+      }
+      
+      SSUri profilePicture =
         imageAdd(
           new SSImageAddPar(
             par.user,
@@ -521,11 +556,12 @@ implements
             par.withUserRestriction,
             false)).image;
       
-        if(profilePicture == null){
-          dbSQL.commit(par.shouldCommit);
-          return null;
-        }
+      if(profilePicture == null){
+        dbSQL.rollBack(par.shouldCommit);
+        return null;
+      }
           
+      profilePicture =
         entityServ.entityUpdate(
           new SSEntityUpdatePar(
             par.user,
@@ -536,26 +572,36 @@ implements
             null, //creationTime,
             null, //read,
             true, //setPublic,
+            false, //createIfNotExists
             par.withUserRestriction,
             false));
           
-        sqlFct.removeProfilePictures (par.entity);
-        sqlFct.addProfilePicture     (par.entity, profilePicture);
+      if(profilePicture == null){
+        dbSQL.rollBack(par.shouldCommit);
+        return null;
+      }
+      
+      sqlFct.removeProfilePictures (par.entity);
+      sqlFct.addProfilePicture     (par.entity, profilePicture);
+      
+      removeThumbsFromEntity(
+        par.user,
+        par.entity,
+        par.withUserRestriction);
+      
+      if(!addThumbFromFileToEntity(
+        par.user,
+        par.entity,
+        par.file,
+        par.withUserRestriction)){
         
-        removeThumbsFromEntity(
-          par.user, 
-          par.entity, 
-          par.withUserRestriction);
-          
-        addThumbFromFileToEntity(
-          par.user, 
-          par.entity, 
-          par.file, 
-          par.withUserRestriction);
-        
-        dbSQL.commit(par.shouldCommit);
-        
-        return par.entity;
+        dbSQL.rollBack(par.shouldCommit);
+        return null;
+      }
+      
+      dbSQL.commit(par.shouldCommit);
+      
+      return par.entity;
         
     }catch(Exception error){
       
@@ -600,7 +646,7 @@ implements
     }
   }
 
-  private void addThumbFromFileToEntity(
+  private Boolean addThumbFromFileToEntity(
     final SSUri   user,
     final SSUri   entity,
     final SSUri   file,
@@ -608,7 +654,10 @@ implements
     
     try{
       //TODO refactor public setting: shall be done with hooks for entityPublicSet in respective entity type service implementations
-      SSUri thumbForEntity;
+      Boolean worked = false;
+      SSUri   thumbForEntity;
+      SSUri   thumbURI;
+      SSUri   thumbFileURI;
       
       for(SSEntity fileThumb :
         imagesGet(
@@ -637,37 +686,57 @@ implements
               withUserRestriction,
               false)).image;
         
-        entityServ.entityUpdate(
-          new SSEntityUpdatePar(
-            user,
-            thumbForEntity, //entity
-            null,  //type
-            null, //label,
-            null, //description,
-            null, //creationTime,
-            null, //read,
-            true, //setPublic,
-            withUserRestriction,
-            false));
+        if(thumbForEntity == null){
+          continue;
+        }
         
-        entityServ.entityUpdate(
-          new SSEntityUpdatePar(
-            user,
-            fileThumb.file.id, //entity
-            null,  //type
-            null, //label,
-            null, //description,
-            null, //creationTime,
-            null, //read,
-            true, //setPublic,
-            withUserRestriction,
-            false));
+        thumbURI =
+          entityServ.entityUpdate(
+            new SSEntityUpdatePar(
+              user,
+              thumbForEntity, //entity
+              null,  //type
+              null, //label,
+              null, //description,
+              null, //creationTime,
+              null, //read,
+              true, //setPublic,
+              false, //createIfNotExists
+              withUserRestriction,
+              false));
         
+        if(thumbURI == null){
+          continue;
+        }
+        
+        thumbFileURI =
+          entityServ.entityUpdate(
+            new SSEntityUpdatePar(
+              user,
+              fileThumb.file.id, //entity
+              null,  //type
+              null, //label,
+              null, //description,
+              null, //creationTime,
+              null, //read,
+              true, //setPublic,
+              false, //createIfNotExists
+              withUserRestriction,
+              false));
+        
+        if(thumbFileURI == null){
+          continue;
+        }
+        
+        worked = true;
         break;
       }
       
+      return worked;
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
 

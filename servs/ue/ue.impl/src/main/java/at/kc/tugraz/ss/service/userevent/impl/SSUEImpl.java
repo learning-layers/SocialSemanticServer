@@ -201,15 +201,10 @@ implements
       
       final SSUE userEvent = sqlFct.getUE(par.userEvent);
       
-      if(par.withUserRestriction){
-        
-        if(
-          userEvent.entity != null &&
-          !SSServCallerU.canUserRead(par.user, userEvent.entity.id)){
-          return null;
-        }
+      if(userEvent == null){
+        return null;
       }
-        
+      
       final SSEntityDescriberPar descPar;
       
       if(par.invokeEntityHandlers){
@@ -230,6 +225,10 @@ implements
               userEvent.entity.id,
               par.withUserRestriction, //withUserRestriction
               descPar));
+        
+        if(userEvent.entity == null){
+         return null; 
+        }
       }
       
       if(userEvent.user != null){
@@ -262,7 +261,7 @@ implements
   }
   
   @Override
-  public List<SSEntity> userEventsGet(final SSUEsGetPar par) throws Exception {
+  public List<SSEntity> userEventsGet(final SSUEsGetPar par) throws Exception{
 
     try{
       
@@ -270,14 +269,20 @@ implements
         
         if(par.entity != null){
           
-          if(!SSServCallerU.canUserRead(par.user, par.entity)){
+          SSEntity entity = 
+            sqlFct.getEntityTest(
+              par.user, 
+              par.entity, 
+              par.withUserRestriction);
+            
+          if(entity == null){
             return new ArrayList<>();
           }
         }
       }
       
       final List<SSEntity> userEvents    = new ArrayList<>();
-      final SSUEGetPar     ueGetPar = 
+      final SSUEGetPar     ueGetPar      = 
         new SSUEGetPar(
           par.user,
           null,
@@ -330,7 +335,13 @@ implements
           throw new SSErr(SSErrE.parameterMissing);
         }
         
-        if(!SSServCallerU.canUserRead(par.user, par.entity)){
+        SSEntity entity =
+          sqlFct.getEntityTest(
+            par.user,
+            par.entity,
+            par.withUserRestriction);
+        
+        if(entity == null){
           return -1;
         }
       }
@@ -362,44 +373,52 @@ implements
   public SSUri userEventAdd(final SSUEAddPar par) throws Exception{
     
     try{
-      final SSUri ueUri = SSServCaller.vocURICreate();
-      
+
       if(par.entity == null){
         par.entity = SSUri.get(SSVocConf.sssUri);
-      }else{
-
-        if(!SSServCallerU.canUserRead(par.user, par.entity)){
-          return null;
-        }
       }
       
       dbSQL.startTrans(par.shouldCommit);
       
-      entityServ.entityUpdate(
-        new SSEntityUpdatePar(
-          par.user,
-          ueUri,
-          SSEntityE.userEvent, //type,
-          null, //label
-          null,//description,
-          par.creationTime, //creationTime,
-          null, //read,
-          true, //setPublic
-          par.withUserRestriction, //withUserRestriction
-          false)); //shouldCommit)
+      final SSUri entity =
+        entityServ.entityUpdate(
+          new SSEntityUpdatePar(
+            par.user,
+            par.entity,
+            null, //type,
+            null, //label
+            null,//description,
+            null, //creationTime,
+            null, //read,
+            false, //setPublic
+            true, //createIfNotExists
+            par.withUserRestriction, //withUserRestriction
+            false)); //shouldCommit)
       
-      entityServ.entityUpdate(
-        new SSEntityUpdatePar(
-          par.user,
-          par.entity,
-          null, //type,
-          null, //label
-          null,//description,
-          null, //creationTime,
-          null, //read,
-          false, //setPublic
-          par.withUserRestriction, //withUserRestriction
-          false)); //shouldCommit)
+      if(entity == null){
+        dbSQL.rollBack(par.shouldCommit);
+        return null;
+      }
+      
+      final SSUri ueUri =
+        entityServ.entityUpdate(
+          new SSEntityUpdatePar(
+            par.user,
+            SSServCaller.vocURICreate(),
+            SSEntityE.userEvent, //type,
+            null, //label
+            null,//description,
+            par.creationTime, //creationTime,
+            null, //read,
+            true, //setPublic
+            true, //createIfNotExists
+            par.withUserRestriction, //withUserRestriction
+            false)); //shouldCommit)
+      
+      if(ueUri == null){
+        dbSQL.rollBack(par.shouldCommit);
+        return null;
+      }
       
       sqlFct.addUE(
         ueUri,

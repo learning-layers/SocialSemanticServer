@@ -38,7 +38,6 @@ import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.SSSolrKeywordLabel;
 import at.tugraz.sss.serv.SSSolrSearchFieldE;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.servs.integrationtest.knowbraintaggingstudy2015.SSIntegrationTestBitsAndPiecesStudyFall2015;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -55,76 +54,6 @@ implements
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
   }
   
-  @Override
-  public Boolean integrationTestBitsAndPiecesStudyFall2015() throws Exception{
-    
-    try{
-      
-      final SSIntegrationTestBitsAndPiecesStudyFall2015 bitsAndPiecesStudyFall2015 = new SSIntegrationTestBitsAndPiecesStudyFall2015();
-
-      final SSEntity       dieterUser                 = bitsAndPiecesStudyFall2015.getDieterUser();
-      final SSEntity       testUser7                  = bitsAndPiecesStudyFall2015.getTestUser7();
-      
-      bitsAndPiecesStudyFall2015.doLearnEpManagement(testUser7.id);
-       
-      final List<SSEntity> userEvents           = bitsAndPiecesStudyFall2015.getUserEvents(dieterUser.id);
-      
-      System.out.println(userEvents);
-      
-      final List<String>   predefinedCategories = bitsAndPiecesStudyFall2015.getPredefinedCategories(dieterUser.id);
-      
-      System.out.println(predefinedCategories);
-      
-      final List<SSEntity> users                = bitsAndPiecesStudyFall2015.getUsers(dieterUser.id);
-      
-      System.out.println(users);
-      
-      final List<SSEntity> learnEps             = bitsAndPiecesStudyFall2015.getLearningEpisodes(dieterUser.id);
-      
-      System.out.println(learnEps);
-      
-      final List<SSEntity> messages = bitsAndPiecesStudyFall2015.getMessages(dieterUser.id);
-
-      System.out.println(messages);
-      
-      final List<SSEntity> activities = bitsAndPiecesStudyFall2015.getActivities(dieterUser.id);
-
-      System.out.println(activities);
-      
-       dbSQL.startTrans(true);
-      
-      final SSUri     learnEpURI = bitsAndPiecesStudyFall2015.createLearnEpWithEntitiesAndCircles   (dieterUser.id);
-      final SSLearnEp learnEp    = bitsAndPiecesStudyFall2015.getLearnEp                            (dieterUser.id, learnEpURI);
-      
-      bitsAndPiecesStudyFall2015.updateLearnEpEntity (dieterUser.id, learnEp);
-      bitsAndPiecesStudyFall2015.updateLearnEpCircle (dieterUser.id, learnEp);
-      
-      final SSLearnEp learnEpUpdated    = bitsAndPiecesStudyFall2015.getLearnEp(dieterUser.id, learnEpURI);
-      
-      dbSQL.commit(true);
-      
-      return true;
-    }catch(Exception error){
-      
-      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
-        
-        if(dbSQL.rollBack(true)){
-          
-          SSServErrReg.reset();
-          
-          return integrationTestBitsAndPiecesStudyFall2015();
-        }else{
-          SSServErrReg.regErrThrow(error);
-          return null;
-        }
-      }
-      
-      dbSQL.rollBack(true);
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-
   @Override
   public Boolean integrationTestSolrForSearch() throws Exception {
     

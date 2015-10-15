@@ -139,43 +139,57 @@ implements
     
     try{
       
-      for(SSUri entity : par.entities){
-
-        entityServ.entityUpdate(
-          new SSEntityUpdatePar(
-            par.user,
-            entity,
-            null, //type,
-            null, //label
-            null, //description,
-            null, //creationTime,
-            null, //read,
-            false, //setPublic
-            true, //withUserRestriction
-            false)); //shouldCommit)
-      }      
+      dbSQL.startTrans(par.shouldCommit);
       
-      for(SSUri entity : par.entities){
-        
-        for(SSFlagE flagType : par.types){
-          
-          SSUri flagUri = SSServCaller.vocURICreate();
-          
+      SSUri entity;
+      SSUri flag;
+      
+      for(SSUri entityToAddFlag : par.entities){
+
+        entity =
           entityServ.entityUpdate(
             new SSEntityUpdatePar(
               par.user,
-              flagUri,
-              SSEntityE.flag, //type,
+              entityToAddFlag,
+              null, //type,
               null, //label
               null, //description,
               null, //creationTime,
               null, //read,
-              true, //setPublic
-              false, //withUserRestriction
+              false, //setPublic
+              true, //createIfNotExists
+              par.withUserRestriction, //withUserRestriction
               false)); //shouldCommit)
+        
+        if(entity == null){
+          dbSQL.rollBack(par.shouldCommit);
+          return false;
+        }
+        
+        for(SSFlagE flagType : par.types){
+          
+          flag =
+            entityServ.entityUpdate(
+              new SSEntityUpdatePar(
+                par.user,
+                SSServCaller.vocURICreate(),
+                SSEntityE.flag, //type,
+                null, //label
+                null, //description,
+                null, //creationTime,
+                null, //read,
+                true, //setPublic
+                true, //createIfNotExist
+                false, //withUserRestriction
+                false)); //shouldCommit)
+          
+          if(flag == null){
+            dbSQL.rollBack(par.shouldCommit);
+            return false;
+          }
           
           sqlFct.createFlag(
-            flagUri,
+            flag,
             flagType,
             par.endTime,
             par.value);
@@ -206,10 +220,12 @@ implements
           
           sqlFct.addFlagAssIfNotExists(
             par.user,
-            flagUri,
+            flag,
             entity);
         }
       }
+      
+      dbSQL.commit(par.shouldCommit);
       
       return true;
       
@@ -238,47 +254,46 @@ implements
   public SSFlag flagGet(final SSFlagGetPar par) throws Exception{
     
     try{
-      final SSEntityDescriberPar descPar;
-      final SSFlag               flag;
+      SSFlag                     flag    = sqlFct.getFlag(par.flag);
+      
+      if(flag == null){
+        return null;
+      }
+      
+      final SSEntityGetPar entityGetPar =
+        new SSEntityGetPar(
+          par.user,
+          par.flag,
+          par.withUserRestriction,
+          null); //descPar
+        
+      final SSEntity flagEntity = entityServ.entityGet(entityGetPar);
+      
+      if(flagEntity == null){
+        return null;
+      }
       
       flag =
         SSFlag.get(
-          sqlFct.getFlag(par.flag),
-          entityServ.entityGet(
-            new SSEntityGetPar(
-              par.user,
-              par.flag,
-              par.withUserRestriction,
-              null)));
-      
-      if(par.withUserRestriction){
-        
-        if(!SSServCallerU.canUserRead(par.user, flag.entity.id)){
-          return null;
-        }
-      }
+          flag,
+          flagEntity);
       
       if(par.invokeEntityHandlers){
-        descPar = new SSEntityDescriberPar(par.flag);
+        entityGetPar.descPar = new SSEntityDescriberPar(par.flag);
       }else{
-        descPar = null;
+        entityGetPar.descPar = null;
       }
       
-      flag.entity =
-        entityServ.entityGet(
-          new SSEntityGetPar(
-            par.user,
-            flag.entity.id,
-            par.withUserRestriction,
-            descPar));
+      entityGetPar.entity  = flag.entity.id;
+      flag.entity          = entityServ.entityGet(entityGetPar);
       
-      flag.user =
-        entityServ.entityGet(
-          new SSEntityGetPar(
-            par.user,
-            flag.user.id,
-            par.withUserRestriction,
-            null));
+      if(flag.entity == null){
+        return null;
+      }
+      
+      entityGetPar.entity  = flag.user.id;
+      entityGetPar.descPar = null;
+      flag.user            = entityServ.entityGet(entityGetPar);
       
       return flag;
     }catch(Exception error){
@@ -302,14 +317,25 @@ implements
     
     try{
       
-      final List<SSEntity>  flags = new ArrayList<>();
-        
       if(par.withUserRestriction){
         
-        if(!SSServCallerU.canUserRead(par.user, par.entities)){
-          return new ArrayList<>();
+        SSEntity enityEntity;
+        
+        for(SSUri entity : par.entities){
+
+          enityEntity = 
+            sqlFct.getEntityTest(
+              par.user, 
+              entity, 
+              par.withUserRestriction);
+          
+          if(enityEntity == null){
+            return new ArrayList<>();
+          }
         }
       }
+
+      final List<SSEntity> flags = new ArrayList<>();
       
       //TODO for flags which should be retrieved for user-entity combination and not only based on the entity, change here:
       final List<SSUri> flagURIs =
@@ -320,16 +346,20 @@ implements
           par.startTime,
           par.endTime);
       
+      final SSFlagGetPar flagGetPar =
+        new SSFlagGetPar(
+          par.user,
+          null, //flag
+          par.withUserRestriction,
+          par.invokeEntityHandlers);
+      
       for(SSUri flagURI : flagURIs){
         
+        flagGetPar.flag = flagURI;
+        
         SSEntity.addEntitiesDistinctWithoutNull(
-          flags, 
-          flagGet(
-            new SSFlagGetPar(
-              par.user, 
-              flagURI, 
-              par.withUserRestriction, 
-              par.invokeEntityHandlers)));
+          flags,
+          flagGet(flagGetPar));
       }
 
       return flags;

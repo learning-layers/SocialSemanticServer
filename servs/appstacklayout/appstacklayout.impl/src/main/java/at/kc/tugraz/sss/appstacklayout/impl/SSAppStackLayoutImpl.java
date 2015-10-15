@@ -124,28 +124,37 @@ implements
         appStackLayoutUri = SSServCaller.vocURICreate();
       }
       
+      final SSEntityServerI entityServ = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
+      
       dbSQL.startTrans(par.shouldCommit);
       
-      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
-        new SSEntityUpdatePar(
-          par.user,
-          appStackLayoutUri,
-          SSEntityE.appStackLayout, //type,
-          par.label,
-          par.description,
-          null, //creationTime,
-          null, //read,
-          true, //setPublic
-          par.withUserRestriction, //withUserRestriction
-          false)); //shouldCommit)
+      final SSUri appStackLayout =
+        entityServ.entityUpdate(
+          new SSEntityUpdatePar(
+            par.user,
+            appStackLayoutUri,
+            SSEntityE.appStackLayout, //type,
+            par.label,
+            par.description,
+            null, //creationTime,
+            null, //read,
+            true, //setPublic
+            true, //createIfNotExists
+            par.withUserRestriction, //withUserRestriction
+            false)); //shouldCommit)
+      
+      if(appStackLayout == null){
+        dbSQL.rollBack(par.shouldCommit);
+        return null;
+      }
       
       sqlFct.createAppStackLayout(
-        appStackLayoutUri,
+        appStackLayout,
         par.app);
       
       dbSQL.commit(par.shouldCommit);
       
-      return appStackLayoutUri;
+      return appStackLayout;
       
     }catch(Exception error){
       
@@ -183,31 +192,40 @@ implements
     
     try{
       
+      final SSEntityServerI entityServ = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
+      
       dbSQL.startTrans(par.shouldCommit);
       
-      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
-        new SSEntityUpdatePar(
-          par.user,
-          par.stack,
-          null, //type
-          par.label,
-          par.description,
-          null, //creationTime
-          null, //read
-          false, //setPublic
-          par.withUserRestriction, //withUserRestriction
-          false));
+      final SSUri appStackLayout =
+        entityServ.entityUpdate(
+          new SSEntityUpdatePar(
+            par.user,
+            par.stack,
+            null, //type
+            par.label,
+            par.description,
+            null, //creationTime
+            null, //read
+            false, //setPublic
+            false, //createIfNotExists
+            par.withUserRestriction, //withUserRestriction
+            false));
+      
+      if(appStackLayout == null){
+        dbSQL.rollBack(par.shouldCommit);
+        return null;
+      }
       
       if(par.app != null){
         
         sqlFct.updateAppStackLayout(
-          par.stack,
+          appStackLayout,
           par.app);
       }
       
       dbSQL.commit(par.shouldCommit);
       
-      return par.stack;
+      return appStackLayout;
       
     }catch(Exception error){
       
@@ -235,14 +253,28 @@ implements
     
     try{
       
-      return SSAppStackLayout.get(
-        sqlFct.getAppStackLayout(par.stack),
-        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityGet(
+      final SSAppStackLayout appStackLayout = sqlFct.getAppStackLayout(par.stack);
+      
+      if(appStackLayout == null){
+        return null;
+      }
+      
+      final SSEntityServerI  entityServ           = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
+      final SSEntity         appStackLayoutEntity =
+        entityServ.entityGet(
           new SSEntityGetPar(
             par.user,
             par.stack,
             par.withUserRestriction, //withUserRestriction,
-            null))); //descPar)));
+            null)); //descPar)));
+      
+      if(appStackLayoutEntity == null){
+        return null;
+      }
+      
+      return SSAppStackLayout.get(
+        appStackLayout,
+        appStackLayoutEntity);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -269,18 +301,21 @@ implements
         par.stacks.addAll(sqlFct.getStackURIs());
       }
       
-      final List<SSEntity>       stacks          = new ArrayList<>();
+      final List<SSEntity>         stacks = new ArrayList<>();
+      final SSAppStackLayoutGetPar appStackLayoutGetPar =
+        new SSAppStackLayoutGetPar(
+          par.user,
+          null, //stack
+          par.withUserRestriction,
+          par.invokeEntityHandlers);
       
       for(SSUri stackURI : par.stacks){
         
+        appStackLayoutGetPar.stack = stackURI;
+
         SSEntity.addEntitiesDistinctWithoutNull(
           stacks,
-          appStackLayoutGet(
-            new SSAppStackLayoutGetPar(
-              par.user,
-              stackURI,
-              par.withUserRestriction,
-              par.invokeEntityHandlers)));
+          appStackLayoutGet(appStackLayoutGetPar));
       }
       
       return stacks;
@@ -306,7 +341,13 @@ implements
     
     try{
 
-      if(!SSServCallerU.canUserAll(par.user, par.stack)){
+      final SSEntity appStackLayout = 
+        sqlFct.getEntityTest(
+          par.user, 
+          par.stack, 
+          par.withUserRestriction);
+      
+      if(appStackLayout == null){
         return false;
       }
       

@@ -48,9 +48,7 @@ import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSUserRelationGathererI;
 import at.tugraz.sss.serv.SSUsersResourcesGathererI;
-import at.tugraz.sss.serv.caller.SSServCaller;
 import at.tugraz.sss.util.SSServCallerU;
-import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscEntryURIsGetPar;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscEntryUpdatePar;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscRemovePar;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscTargetsAddPar;
@@ -306,7 +304,7 @@ public class SSDiscImpl
           final List<SSUri>  userDiscUris = sqlFct.getDiscURIs(user);
           final List<String> discUris     = new ArrayList<>();
           
-          discUris.add(SSStrU.toStr(sqlFct.getDiscURIContainingEntry(entity)));
+          discUris.add(SSStrU.toStr(sqlFct.getDiscForEntry(entity)));
           
           return SSUri.get(SSStrU.retainAll(discUris, SSStrU.toStr(userDiscUris)));
         }catch(Exception error){
@@ -451,25 +449,6 @@ public class SSDiscImpl
   }
   
   @Override
-  public List<SSUri> discEntryURIsGet(final SSDiscEntryURIsGetPar par) throws Exception{
-
-    try{
-      
-      if(par.withUserRestriction){
-        
-        if(!SSServCallerU.canUserRead(par.user, par.disc)){
-          return new ArrayList<>();
-        }
-      }
-      
-      return sqlFct.getDiscEntryURIs(par.disc);
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
-  @Override
   public void discEntryAdd(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
     
     SSServCallerU.checkKey(parA);
@@ -520,7 +499,17 @@ public class SSDiscImpl
       final SSDiscUserEntryAddFct discEntryAddFct = new SSDiscUserEntryAddFct(circleServ, entityServ);
       
       if(par.addNewDisc){
-        discEntryAddFct.checkWhetherUserCanAddDisc(par);
+        
+        if(SSObjU.isNull(par.label, par.type)){
+          throw new SSErr(SSErrE.parameterMissing);
+        }
+        
+        switch(par.type){
+          case disc:
+          case qa:
+          case chat: break;
+          default: throw new Exception("disc type not valid");
+        }
       }
       
       if(!par.addNewDisc){
@@ -529,7 +518,13 @@ public class SSDiscImpl
           throw new SSErr(SSErrE.parameterMissing);
         }
         
-        if(!SSServCallerU.canUserRead(par.user, par.disc)){
+        final SSEntity disc = 
+          sqlFct.getEntityTest(
+            par.user, 
+            par.disc, 
+            par.withUserRestriction);
+        
+        if(disc == null){
           return SSDiscEntryAddRet.get(null, null);
         }
       }
@@ -538,17 +533,19 @@ public class SSDiscImpl
 
       if(par.addNewDisc){
 
-        par.disc = SSServCaller.vocURICreate();
-
-        discEntryAddFct.addDisc(
-          sqlFct,
-          par.disc,
-          par.user,
-          par.targets,
-          par.type,
-          par.label,
-          par.description,
-          par.withUserRestriction);
+        par.disc =
+          discEntryAddFct.addDisc(
+            sqlFct,
+            par.user,
+            par.type,
+            par.label,
+            par.description,
+            par.withUserRestriction);
+        
+        if(par.disc == null){
+          dbSQL.rollBack(par.shouldCommit);
+          return SSDiscEntryAddRet.get(null, null);
+        }
 
         discTargetsAdd(
           new SSDiscTargetsAddPar(
@@ -559,12 +556,18 @@ public class SSDiscImpl
             false));
         
         //TODO move to client call
-        attachEntities(
-          par.user, 
-          par.disc, 
-          par.entities, 
-          par.entityLabels,
-          par.withUserRestriction);
+        par.disc = 
+          attachEntities(
+            par.user,
+            par.disc,
+            par.entities,
+            par.entityLabels,
+            par.withUserRestriction);
+        
+        if(par.disc == null){
+          dbSQL.rollBack(par.shouldCommit);
+          return SSDiscEntryAddRet.get(null, null);
+        }
       }
 
       if(par.entry != null){
@@ -577,13 +580,24 @@ public class SSDiscImpl
             par.entry,
             par.withUserRestriction);
 
+        if(discEntryUri == null){
+          dbSQL.rollBack(par.shouldCommit);
+          return SSDiscEntryAddRet.get(null, null);
+        }
+        
         //TODO move to client call
-        attachEntities(
-          par.user, 
-          discEntryUri, 
-          par.entities, 
-          par.entityLabels, 
-          par.withUserRestriction);
+        discEntryUri =
+          attachEntities(
+            par.user,
+            discEntryUri,
+            par.entities,
+            par.entityLabels,
+            par.withUserRestriction);
+        
+        if(discEntryUri == null){
+          dbSQL.rollBack(par.shouldCommit);
+          return SSDiscEntryAddRet.get(null, null);
+        }
       }
 
       dbSQL.commit(par.shouldCommit);
@@ -641,41 +655,58 @@ public class SSDiscImpl
       
       if(par.withUserRestriction){
         
-        if(
-          !SSServCallerU.canUserRead (par.user, par.disc) ||
-          !SSServCallerU.isUserAuthor(par.user, par.disc, par.withUserRestriction)){
+        if(!sqlFct.isUserAuthor(par.user, par.disc, par.withUserRestriction)){
           return SSDiscUpdateRet.get(null);
         }
       }
       
       dbSQL.startTrans(par.shouldCommit);
 
-      entityServ.entityUpdate(
-        new SSEntityUpdatePar(
+      par.disc =
+        entityServ.entityUpdate(
+          new SSEntityUpdatePar(
+            par.user,
+            par.disc,
+            null, //type
+            par.label,
+            par.content,
+            null, //creationTime
+            null, //read
+            false, //setPublic
+            false, //createIfNotExists
+            true, //withUserRestriction
+            false)); //shouldCommit
+      
+      if(par.disc == null){
+        dbSQL.rollBack(par.shouldCommit);
+        return SSDiscUpdateRet.get(null);
+      }
+      
+      par.disc =
+        attachEntities(
           par.user,
           par.disc,
-          null, //type
-          par.label,
-          par.content,
-          null, //creationTime
-          null, //read
-          false, //setPublic
-          true, //withUserRestriction
-          false)); //shouldCommit
+          par.entitiesToAttach,
+          par.entityLabels,
+          par.withUserRestriction);
       
-      attachEntities(
-        par.user,
-        par.disc,
-        par.entitiesToAttach,
-        par.entityLabels,
-        par.withUserRestriction);
+      if(par.disc == null){
+        dbSQL.rollBack(par.shouldCommit);
+        return SSDiscUpdateRet.get(null);
+      }
       
-      removeEntities(
-        par.user,
-        par.disc,
-        par.entitiesToRemove,
-        par.withUserRestriction);
+      par.disc =
+        removeAttachedEntities(
+          par.user,
+          par.disc,
+          par.entitiesToRemove,
+          par.withUserRestriction);
 
+      if(par.disc == null){
+        dbSQL.rollBack(par.shouldCommit);
+        return SSDiscUpdateRet.get(null);
+      }
+      
       dbSQL.commit(par.shouldCommit);
 
       return SSDiscUpdateRet.get(par.disc);
@@ -728,14 +759,16 @@ public class SSDiscImpl
       
       if(par.withUserRestriction){
         
-        if(
-          !SSServCallerU.canUserRead (par.user, par.entry) ||
-          !SSServCallerU.isUserAuthor(par.user, par.entry, par.withUserRestriction)){
+        if(!sqlFct.isUserAuthor(par.user, par.entry, par.withUserRestriction)){
           return SSDiscEntryUpdateRet.get(null, null);
         }
       }
       
       final SSUri discURI = sqlFct.getDiscForEntry(par.entry);
+      
+      if(discURI == null){
+        return SSDiscEntryUpdateRet.get(null, null);
+      }
 
       dbSQL.startTrans(par.shouldCommit);
 
@@ -743,19 +776,31 @@ public class SSDiscImpl
         sqlFct.updateEntryContent(par.entry, par.content);
       }
       
-      attachEntities(
-        par.user,
-        par.entry,
-        par.entitiesToAttach,
-        par.entityLabels,
-        par.withUserRestriction);
+      par.entry =
+        attachEntities(
+          par.user,
+          par.entry,
+          par.entitiesToAttach,
+          par.entityLabels,
+          par.withUserRestriction);
       
-      removeEntities(
-        par.user,
-        par.entry,
-        par.entitiesToRemove,
-        par.withUserRestriction);
+      if(par.entry == null){
+        dbSQL.rollBack(par.shouldCommit);
+        return SSDiscEntryUpdateRet.get(null, null);
+      }
+        
+      par.entry =
+        removeAttachedEntities(
+          par.user,
+          par.entry,
+          par.entitiesToRemove,
+          par.withUserRestriction);
 
+      if(par.entry == null){
+        dbSQL.rollBack(par.shouldCommit);
+        return SSDiscEntryUpdateRet.get(null, null);
+      }
+      
       dbSQL.commit(par.shouldCommit);
 
       return SSDiscEntryUpdateRet.get(
@@ -797,34 +842,39 @@ public class SSDiscImpl
   public SSUri discEntryAccept(final SSDiscEntryAcceptPar par) throws Exception{
 
     try{
-      if(par.withUserRestriction){
-        
-        if(!SSServCallerU.canUserRead(par.user, par.entry)){
-          return null;
-        }
-      }
-
-      final SSUri   discURI = sqlFct.getDiscURIContainingEntry(par.entry);
-      final SSDisc  disc    = 
-        discGet(
-          new SSDiscGetPar(
-            par.user, 
-            discURI, 
-            true,  //setEntries
-            par.withUserRestriction, 
-            false));
       
-      if(disc == null){
+      final SSUri discURI = sqlFct.getDiscForEntry(par.entry);
+      
+      if(discURI == null){
         return null;
       }
       
       if(par.withUserRestriction){
-      
-        if(!SSStrU.equals(disc.author, par.user)){
+
+        final SSEntity entry = 
+          sqlFct.getEntityTest(
+            par.user,
+            par.entry, 
+            par.withUserRestriction);
+          
+        if(entry == null){
+          return null;
+        }
+        
+        if(!sqlFct.isUserAuthor(par.user, discURI, par.withUserRestriction)){
           return null;
         }
       }
-
+      
+      final SSDisc disc =
+        discGet(
+          new SSDiscGetPar(
+            par.user,
+            discURI,
+            true, //setEntries
+            par.withUserRestriction,
+            false));
+      
       for(SSEntity entry : disc.entries){
         if(((SSDiscEntry)entry).accepted){
           return null;
@@ -874,8 +924,13 @@ public class SSDiscImpl
   public SSDisc discGet(final SSDiscGetPar par) throws Exception{
 
     try{
-      final List<SSEntity>       discEntryEntities = new ArrayList<>();
-      final List<SSEntity>       discTargets       = new ArrayList<>();
+      
+      SSDisc disc = sqlFct.getDisc(par.disc, par.setEntries);
+      
+      if(disc == null){
+        return null;
+      }
+      
       SSEntityDescriberPar       descPar;
       
       if(par.invokeEntityHandlers){
@@ -892,7 +947,7 @@ public class SSDiscImpl
         descPar = null;
       }
       
-      final SSEntity discEntity  = 
+      final SSEntity discEntity =
         entityServ.entityGet(
           new SSEntityGetPar(
             par.user,
@@ -904,28 +959,30 @@ public class SSDiscImpl
         return null;
       }
       
-      final SSDisc disc = 
-        SSDisc.get(
-          sqlFct.getDisc(par.disc, par.setEntries),
-          discEntity);
+      disc = SSDisc.get(disc, discEntity);
+      
+      if(par.invokeEntityHandlers){
+        descPar                 = new SSEntityDescriberPar(null);
+        descPar.setTags         = par.setTags;
+      }else{
+        descPar = null;
+      }
+      
+      final List<SSEntity>  discTargets  = new ArrayList<>();
+      SSEntityGetPar        entityGetPar =
+        new SSEntityGetPar(
+          par.user,
+          null, //entity,
+          par.withUserRestriction, //withUserRestriction,
+          descPar);
       
       for(SSEntity target : disc.targets){
         
-        if(par.invokeEntityHandlers){
-          descPar                 = new SSEntityDescriberPar(null);
-          descPar.setTags         = par.setTags;
-        }else{
-          descPar = null;
-        }
+        entityGetPar.entity = target.id;
         
         SSEntity.addEntitiesDistinctWithoutNull(
           discTargets,
-          entityServ.entityGet(
-            new SSEntityGetPar(
-              par.user,
-              target.id,
-              par.withUserRestriction, //withUserRestriction,
-              descPar)));
+          entityServ.entityGet(entityGetPar));
       }
       
       disc.targets.clear();
@@ -942,18 +999,22 @@ public class SSDiscImpl
         descPar = null;
       }
         
+      final List<SSEntity> discEntryEntities = new ArrayList<>();
+      
+      entityGetPar =
+        new SSEntityGetPar(
+          par.user,
+          null, //entity
+          par.withUserRestriction, //withUserRestriction,
+          descPar);
+      
       for(SSEntity entry : disc.entries){
         
+        entityGetPar.entity = ((SSDiscEntry) entry).id;
+          
         SSEntity.addEntitiesDistinctWithoutNull(
           discEntryEntities,
-          SSDiscEntry.get(
-            (SSDiscEntry) entry,
-            entityServ.entityGet(
-              new SSEntityGetPar(
-                par.user,
-                ((SSDiscEntry) entry).id,
-                par.withUserRestriction, //withUserRestriction,
-                descPar))));
+          SSDiscEntry.get((SSDiscEntry) entry, entityServ.entityGet(entityGetPar)));
       }
 
       disc.entries.clear();
@@ -988,16 +1049,38 @@ public class SSDiscImpl
       if(par.withUserRestriction){
         
         if(!par.targets.isEmpty()){
+                    
+          SSEntity targetEntity;
           
-          if(!SSServCallerU.canUserRead(par.user, par.targets)){
-            return new ArrayList<>();
+          for(SSUri target : par.targets){
+            
+            targetEntity = 
+              sqlFct.getEntityTest(
+                par.user,
+                target, 
+                par.withUserRestriction);
+            
+            if(targetEntity == null){
+              return new ArrayList<>();
+            }
           }
         }
         
         if(!par.discs.isEmpty()){
           
-          if(!SSServCallerU.canUserRead(par.user, par.discs)){
-            return new ArrayList<>();
+          SSEntity discEntity;
+          
+          for(SSUri disc : par.discs){
+            
+            discEntity = 
+              sqlFct.getEntityTest(
+                par.user,
+                disc, 
+                par.withUserRestriction);
+            
+            if(discEntity == null){
+              return new ArrayList<>();
+            }
           }
         }
         
@@ -1008,11 +1091,11 @@ public class SSDiscImpl
         }
       }
       
-      final List<SSEntity> discs     = new ArrayList<>();
+      final List<SSEntity> discs      = new ArrayList<>();
       final SSDiscGetPar   discGetPar =
         new SSDiscGetPar(
           par.user,
-          null,
+          null, //disc
           par.setEntries,
           par.withUserRestriction,
           par.invokeEntityHandlers);
@@ -1028,13 +1111,13 @@ public class SSDiscImpl
         
         par.discs.clear();
         
-        for(SSUri targetURI : par.targets){
+        for(SSUri target : par.targets){
           
           SSUri.addDistinctWithoutNull(
             par.discs,
             sqlFct.getDiscURIsForTarget(
               par.forUser, 
-              targetURI));
+              target));
         }
       }else{
         
@@ -1043,9 +1126,9 @@ public class SSDiscImpl
         }
       }
       
-      for(SSUri discURI : par.discs){
+      for(SSUri disc : par.discs){
         
-        discGetPar.disc = discURI;
+        discGetPar.disc = disc;
         
         SSEntity.addEntitiesDistinctWithoutNull(
           discs,
@@ -1076,6 +1159,17 @@ public class SSDiscImpl
   public SSUri discRemove(final SSDiscRemovePar par) throws Exception{
 
     try{
+      
+      final SSEntity disc = 
+        sqlFct.getEntityTest(
+          par.user, 
+          par.disc, 
+          par.withUserRestriction);
+      
+      if(disc == null){
+        return null;
+      }
+      
       dbSQL.startTrans(par.shouldCommit);
       
       switch(
@@ -1083,24 +1177,15 @@ public class SSDiscImpl
           new SSCircleMostOpenCircleTypeGetPar(
             par.user,
             par.disc,
-            false))){
+            false))){ //withUserRestriction
         
         case priv:{
-          
-          if(!SSServCallerU.canUserAll(par.user, par.disc)){
-            return null;
-          }
-          
           sqlFct.deleteDisc(par.disc);
           break;
         }
         
         case group:
         case pub:{
-          
-          if(!SSServCallerU.canUserRead(par.user, par.disc)){
-            return null;
-          }
           
           sqlFct.unlinkDisc(par.user, par.disc);
           break;
@@ -1153,30 +1238,45 @@ public class SSDiscImpl
     
     try{
       
-      if(par.withUserRestriction){
-        
-        if(
-          !SSServCallerU.canUserRead(par.user, par.discussion)){
-          return null;
-        }
+      if(par.targets.isEmpty()){
+        return null;
+      }
+      
+      final SSEntity disc = 
+        sqlFct.getEntityTest(
+          par.user, 
+          par.discussion, 
+          par.withUserRestriction);
+      
+      if(disc == null){
+        return null;
       }
       
       dbSQL.startTrans(par.shouldCommit);
       
-      for(SSUri targetURI :  par.targets){
+      SSUri target;
+      
+      for(SSUri targetURI : par.targets){
         
-        entityServ.entityUpdate(
-          new SSEntityUpdatePar(
-            par.user,
-            targetURI,
-            null, //type,
-            null, //label
-            null, //description,
-            null, //creationTime,
-            null, //read,
-            false, //setPublic
-            par.withUserRestriction, //withUserRestriction
-            false)); //shouldCommit)
+        target =
+          entityServ.entityUpdate(
+            new SSEntityUpdatePar(
+              par.user,
+              targetURI,
+              null, //type,
+              null, //label
+              null, //description,
+              null, //creationTime,
+              null, //read,
+              false, //setPublic
+              true, //creatIfNotExists
+              par.withUserRestriction,
+              false)); //shouldCommit)
+        
+        if(target == null){
+          dbSQL.rollBack(par.shouldCommit);
+          return null;
+        }
       }
         
       sqlFct.addDiscTargets(par.discussion, par.targets);
@@ -1190,13 +1290,13 @@ public class SSDiscImpl
         par.withUserRestriction,
         true); //invokeEntityhandlers
       
-      for(SSUri target : par.targets){
+      for(SSUri targetURI : par.targets){
         
         SSServCallerU.handleCirclesFromEntityGetEntitiesAdd(
           circleServ,
           entityServ,
           par.user,
-          target, //entity
+          targetURI, //entity
           SSUri.asListWithoutNullAndEmpty(par.discussion), //entities
           par.withUserRestriction,
           true); //invokeEntityhandlers
@@ -1248,7 +1348,7 @@ public class SSDiscImpl
     }
   }
   
-  private void attachEntities(
+  private SSUri attachEntities(
     final SSUri         user,
     final SSUri         entity,
     final List<SSUri>   entitiesToAttach,
@@ -1256,67 +1356,88 @@ public class SSDiscImpl
     final Boolean       withUserRestriction) throws Exception{
     
     try{
+      
       if(entitiesToAttach.isEmpty()){
-        return;
+        return entity;
       }
       
-      entityServ.entityEntitiesAttach(
-        new SSEntityAttachEntitiesPar(
-          user,
-          entity,
-          entitiesToAttach,
-          withUserRestriction,
-          false));
+      final SSUri entityURI =
+        entityServ.entityEntitiesAttach(
+          new SSEntityAttachEntitiesPar(
+            user,
+            entity,
+            entitiesToAttach,
+            withUserRestriction,
+            false));
+      
+      if(entityURI == null){
+        return null;
+      }
       
       if(
         entityLabels.isEmpty() ||
         entitiesToAttach.size() != entityLabels.size()){
-        return;
+        return entity;
       }
+      
+      SSUri attachedEntity;
       
       for(Integer counter = 0; counter < entitiesToAttach.size(); counter++){
         
-        entityServ.entityUpdate(
-          new SSEntityUpdatePar(
-            user,
-            entitiesToAttach.get(counter), //entity
-            null, //type
-            entityLabels.get(counter), //label,
-            null, //description,
-            null, //creationTime
-            null, //read,
-            false, //setPublic
-            withUserRestriction, //withUserRestriction
-            false)); //shouldCommit
+        attachedEntity =
+          entityServ.entityUpdate(
+            new SSEntityUpdatePar(
+              user,
+              entitiesToAttach.get(counter), //entity
+              null, //type
+              entityLabels.get(counter), //label,
+              null, //description,
+              null, //creationTime
+              null, //read,
+              false, //setPublic
+              true, //createIfNotExists
+              withUserRestriction, //withUserRestriction
+              false)); //shouldCommit
+        
+        if(attachedEntity == null){
+          return null;
+        }
       }
+      
+      return entityURI;
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
 
-  private void removeEntities(
+  private SSUri removeAttachedEntities(
     final SSUri       user, 
     final SSUri       entity, 
-    final List<SSUri> entitiesToRemove, 
+    final List<SSUri> entitiesToRemove,
     final Boolean     withUserRestriction) throws Exception{
     
     try{
       
       if(entitiesToRemove.isEmpty()){
-        return;
+        return entity;
       }
-          
-      entityServ.entityEntitiesAttachedRemove(
-        new SSEntityEntitiesAttachedRemovePar(
-          user,
-          entity,
-          entitiesToRemove,
-          withUserRestriction,
-          false));
+      
+      final SSUri entityURI =
+        entityServ.entityEntitiesAttachedRemove(
+          new SSEntityEntitiesAttachedRemovePar(
+            user,
+            entity,
+            entitiesToRemove,
+            withUserRestriction,
+            false));
+      
+      return entityURI;
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
 }
