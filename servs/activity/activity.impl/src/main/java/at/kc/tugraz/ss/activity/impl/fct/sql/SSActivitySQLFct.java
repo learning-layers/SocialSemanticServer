@@ -112,12 +112,7 @@ public class SSActivitySQLFct extends SSDBSQLFct{
       
       insert(inserts, SSSQLVarNames.activityId,     activity);
       insert(inserts, SSSQLVarNames.activityType,   type);
-      
-      if(entity != null){
-        insert(inserts, SSSQLVarNames.entityId,   entity);
-      }else{
-        insert(inserts, SSSQLVarNames.entityId,   SSStrU.empty);
-      }
+      insert(inserts, SSSQLVarNames.entityId,       entity);
       
       if(!textComments.isEmpty()){
         insert(inserts, SSSQLVarNames.textComment,   textComments.get(0));
@@ -181,18 +176,20 @@ public class SSActivitySQLFct extends SSDBSQLFct{
       final List<String>                                           tableCons      = new ArrayList<>();
       final SSDBSQLSelectPar                                       selectPar;
 
+      setEntityTable(tables);
       table    (tables, SSSQLVarNames.activityTable);
-      table    (tables, SSSQLVarNames.entityTable);
       
       column   (columns, SSSQLVarNames.entityTable,   SSSQLVarNames.id);
       column   (columns, SSSQLVarNames.entityTable,   SSSQLVarNames.author);
+      column   (columns, SSSQLVarNames.entityTable,   SSSQLVarNames.creationTime);
+      
       column   (columns, SSSQLVarNames.activityTable, SSSQLVarNames.activityType);
       column   (columns, SSSQLVarNames.activityTable, SSSQLVarNames.entityId);
-      column   (columns, SSSQLVarNames.entityTable,   SSSQLVarNames.creationTime);
       column   (columns, SSSQLVarNames.activityTable, SSSQLVarNames.textComment);
 
       tableCon (tableCons, SSSQLVarNames.activityTable, SSSQLVarNames.activityId, SSSQLVarNames.entityTable, SSSQLVarNames.id);
       
+      //TODO users provided are not checked for the author of the activity itself
       if(
         users != null &&
         !users.isEmpty()){
@@ -209,6 +206,7 @@ public class SSActivitySQLFct extends SSDBSQLFct{
         wheres.add(whereUsers);
       }
       
+      //TODO entities provided are not checked for the entity of the activity itself
       if(
         entities != null &&
         !entities.isEmpty()){
@@ -285,6 +283,8 @@ public class SSActivitySQLFct extends SSDBSQLFct{
       
       resultSet = dbSQL.select(selectPar);
       
+//      return getURIsFromResult(resultSet, SSSQLVarNames.id);
+      
       final         List<String> latestActivities = new ArrayList<>();
       SSUri         entity;
       SSAuthor      author;
@@ -313,12 +313,8 @@ public class SSActivitySQLFct extends SSDBSQLFct{
         result.add(bindingStrToUri  (resultSet, SSSQLVarNames.id));
       }
       
-//      SSActivity.get(
-//            bindingStrToUri  (resultSet, SSSQLVarNames.id), 
-//            type,
-//            SSEntity.get(entity, SSEntityE.entity), 
-//            getActivityContents(bindingStrToUri  (resultSet, SSSQLVarNames.id))));
       return result;
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;

@@ -327,7 +327,6 @@ public enum SSServOpE{
   activityContentsAdd,
   activitiesGet,
   activityTypesGet,
-  activityGet,
   
   //overlapping community detection - ocd
   ocdCreateGraph,

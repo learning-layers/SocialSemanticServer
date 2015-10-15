@@ -62,6 +62,7 @@ public class SSRESTActivity{
       par =
         new SSActivitiesGetPar(
           null,  
+          null, //activities
           input.types,
           input.users,  
           input.entities,

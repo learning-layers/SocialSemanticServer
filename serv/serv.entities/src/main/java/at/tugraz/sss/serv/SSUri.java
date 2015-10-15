@@ -137,7 +137,7 @@ public class SSUri extends SSEntityA{
     return new SSUri(uri.toString() + append);
   }
   
-  public static List<SSUri> getDistinctNotNullFromEntities(final List<? extends SSEntity> entities) throws Exception{
+  public static List<SSUri> getDistinctNotNullFromEntities(final List<? extends SSEntity> entities){
 
     final List<SSUri> result = new ArrayList<>();
     

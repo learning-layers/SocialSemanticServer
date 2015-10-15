@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 
 public class SSDBSQLFct extends SSDBFct{
@@ -645,6 +646,153 @@ public class SSDBSQLFct extends SSDBFct{
         return null;
       }
         
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
+    }
+  }
+  
+  public List<SSUri> getAccessibleURIs(
+    final SSUri user) throws Exception{
+    
+    ResultSet resultSet  = null;
+    
+    try{
+      
+      if(
+        user == null ||
+        SSStrU.equals(user, "http://sss.eu/system/")){
+        
+        throw new SSErr(SSErrE.parameterMissing);
+      }
+      
+      final String userStr = SSStrU.toStr(user);
+      String       query;
+      
+      query = "select DISTINCT id from entity where ";
+      query += "(type = 'entity') OR ";
+      query += "(type = 'circle' AND id IN (select DISTINCT circle.circleId from circle, circleusers where circleusers.userId = '" + userStr + "' and circle.circleId = circleusers.circleId)) OR ";
+      query += "(type != 'entity' AND type != 'circle' AND id IN (select DISTINCT circleentities.entityId from circle, circleentities, circleusers where userId = '" + userStr + "' and circle.circleId = circleentities.circleId and circle.circleId = circleusers.circleId))";
+      
+      resultSet = dbSQL.select(query);
+      
+      return getURIsFromResult(resultSet, SSSQLVarNames.id);
+      
+    }catch(Exception error){
+      
+      if(SSServErrReg.containsErr(SSErrE.sqlNoResultFound)){
+        SSServErrReg.reset();
+        return null;
+      }
+        
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
+    }
+  }
+  
+  public List<SSUri> getEntityURIsUserCanAccess(
+    final SSUri           user,
+    final Boolean         withSystemCircles,
+    final List<SSUri>     entities,
+    final List<SSEntityE> types,
+    final List<SSUri>     authors) throws Exception{
+    
+    ResultSet resultSet = null;
+    
+    try{
+     
+      if(user == null){
+        throw new SSErr(SSErrE.parameterMissing);
+      }
+      
+      final List<MultivaluedMap<String, String>> wheres         = new ArrayList<>();
+      final List<String>                         tables         = new ArrayList<>();
+      final List<String>                         columns        = new ArrayList<>();
+      final List<String>                         tableCons      = new ArrayList<>();
+      
+      column(columns, SSSQLVarNames.circleEntitiesTable,   SSSQLVarNames.entityId);
+      
+      table    (tables, SSSQLVarNames.circleUsersTable);
+      table    (tables, SSSQLVarNames.circleEntitiesTable);
+      table    (tables, SSSQLVarNames.entityTable);
+      
+      tableCon (tableCons, SSSQLVarNames.circleUsersTable,    SSSQLVarNames.circleId, SSSQLVarNames.circleEntitiesTable, SSSQLVarNames.circleId);
+      tableCon (tableCons, SSSQLVarNames.circleEntitiesTable, SSSQLVarNames.entityId, SSSQLVarNames.entityTable,         SSSQLVarNames.id);
+      
+      final MultivaluedMap<String, String> whereUsers = new MultivaluedHashMap<>();
+      
+      where(whereUsers, SSSQLVarNames.circleUsersTable, SSSQLVarNames.userId, user);
+      
+      wheres.add(whereUsers);
+      
+      if(
+        withSystemCircles != null &&
+        !withSystemCircles){
+        
+        table    (tables, SSSQLVarNames.circleTable);
+        tableCon (tableCons, SSSQLVarNames.circleTable, SSSQLVarNames.circleId, SSSQLVarNames.circleUsersTable,         SSSQLVarNames.circleId);
+        
+        final MultivaluedMap<String, String> whereIsSystemCircles = new MultivaluedHashMap<>();
+        
+        where(whereIsSystemCircles, SSSQLVarNames.circleTable, SSSQLVarNames.isSystemCircle, withSystemCircles);
+        
+        wheres.add(whereIsSystemCircles);
+      }
+      
+      if(
+        entities != null &&
+        !entities.isEmpty()){
+        
+        final MultivaluedMap<String, String> whereEntities = new MultivaluedHashMap<>();
+        
+        for(SSUri entity : entities){
+          where(whereEntities, SSSQLVarNames.entityTable, SSSQLVarNames.id, entity);
+        }
+        
+        wheres.add(whereEntities);
+      }
+      
+      if(
+        authors != null &&
+        !authors.isEmpty()){
+        
+        final MultivaluedMap<String, String> whereAuthors = new MultivaluedHashMap<>();
+        
+        for(SSUri author : authors){
+          where(whereAuthors, SSSQLVarNames.entityTable, SSSQLVarNames.author, author);
+        }
+        
+        wheres.add(whereAuthors);
+      }
+      
+      if(
+        types != null &&
+        !types.isEmpty()){
+        
+        final MultivaluedMap<String, String> whereTypes = new MultivaluedHashMap<>();
+        
+        for(SSEntityE type : types){
+          where(whereTypes, SSSQLVarNames.entityTable, SSSQLVarNames.type, type);
+        }
+        
+        wheres.add(whereTypes);
+      }
+      
+      resultSet =
+        dbSQL.select(
+          new SSDBSQLSelectPar(
+            tables,
+            columns,
+            wheres,
+            null,
+            null,
+            tableCons));
+      
+      return getURIsFromResult(resultSet, SSSQLVarNames.entityId);
+    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }finally{

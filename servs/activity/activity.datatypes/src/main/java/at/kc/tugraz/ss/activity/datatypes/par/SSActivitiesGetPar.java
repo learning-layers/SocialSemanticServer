@@ -30,6 +30,7 @@ import at.tugraz.sss.serv.SSServOpE;
 
 public class SSActivitiesGetPar extends SSServPar{
   
+  public List<SSUri>            activities                = new ArrayList<>();
   public List<SSActivityE>      types                     = new ArrayList<>();
   public List<SSUri>            users                     = new ArrayList<>();
   public List<SSUri>            entities                  = new ArrayList<>();
@@ -38,6 +39,14 @@ public class SSActivitiesGetPar extends SSServPar{
   public Long                   endTime                   = null;
   public Boolean                includeOnlyLastActivities = false;
   public Boolean                invokeEntityHandlers      = false;
+
+  public List<String> getActivities() {
+    return SSStrU.removeTrailingSlash(activities);
+  }
+
+  public void setActivities(final List<String> activities) throws Exception {
+    this.activities = SSUri.get(activities);
+  }
   
   public void setTypes(final List<String> types) throws Exception{
     this.types = SSActivityE.get(types);
@@ -75,6 +84,7 @@ public class SSActivitiesGetPar extends SSServPar{
   
   public SSActivitiesGetPar(
     final SSUri                 user,
+    final List<SSUri>           activities,
     final List<SSActivityE>     types, 
     final List<SSUri>           users, 
     final List<SSUri>           entities, 
@@ -86,23 +96,17 @@ public class SSActivitiesGetPar extends SSServPar{
     final Boolean               invokeEntityHandlers){
     
     super(SSServOpE.activitiesGet, null, user);
+
+    SSUri.addDistinctWithoutNull(this.activities, activities);
     
     if(types != null){
       this.types.addAll(types);
     }
     
-    if(users != null){
-      this.users.addAll(users);
-    }
-    
-    if(entities != null){
-      this.entities.addAll(entities);
-    }
-    
-    if(circles != null){
-      this.circles.addAll(circles);
-    }
-    
+    SSUri.addDistinctWithoutNull(this.users,    users);
+    SSUri.addDistinctWithoutNull(this.entities, entities);
+    SSUri.addDistinctWithoutNull(this.circles,  circles);
+
     this.startTime                   = startTime;
     this.endTime                     = endTime;
     this.includeOnlyLastActivities   = includeOnlyLastActivities;

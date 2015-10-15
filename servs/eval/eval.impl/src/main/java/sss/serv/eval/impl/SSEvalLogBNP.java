@@ -7,7 +7,7 @@ package sss.serv.eval.impl;
 
 import at.kc.tugraz.ss.activity.api.SSActivityServerI;
 import at.kc.tugraz.ss.activity.datatypes.SSActivity;
-import at.kc.tugraz.ss.activity.datatypes.par.SSActivityGetPar;
+import at.kc.tugraz.ss.activity.datatypes.par.SSActivitiesGetPar;
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleMostOpenCircleTypeGetPar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.api.SSLearnEpServerI;
@@ -20,6 +20,7 @@ import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.SSUri;
 import java.util.ArrayList;
 import java.util.List;
 import sss.serv.eval.datatypes.par.SSEvalLogPar;
@@ -83,9 +84,9 @@ public class SSEvalLogBNP {
       }
       
       final List<SSEntity>   notSelectedEntities = new ArrayList<>();
+      final List<SSEntity>   activities          = new ArrayList<>();
       String                 logText             = new String();
       String                 selectBitsMeasure   = SSStrU.empty;
-      SSActivity             activity            = null;
       SSCircleE              episodeSpace        = null;
       
       if(targetEntity != null){
@@ -117,15 +118,27 @@ public class SSEvalLogBNP {
             
             case activity:{
               
-              activity =
-                ((SSActivityServerI) SSServReg.getServ(SSActivityServerI.class)).activityGet(
-                  new SSActivityGetPar(
-                    par.user,
-                    targetEntity.id, //activity
-                    false)); //invokeEntityHandlers
+              activities.addAll(
+                ((SSActivityServerI) SSServReg.getServ(SSActivityServerI.class)).activitiesGet(
+                  new SSActivitiesGetPar(
+                    par.user, 
+                    SSUri.asListWithoutNullAndEmpty(targetEntity.id),
+                    null, //types, 
+                    null, //users, 
+                    null, //entities, 
+                    null, //circles, 
+                    null, //startTime,
+                    null, //endTime, 
+                    false, //includeOnlyLastActivities, 
+                    false, //withUserRestriction, 
+                    false))); //invokeEntityHandlers));
+                  
+              if(activities.isEmpty()){
+                throw new Exception("activity doesnt exist");
+              }
               
-              targetEntities.addAll (activity.entities);
-              targetUsers.addAll    (activity.users);
+              targetEntities.addAll (((SSActivity)activities.get(0)).entities);
+              targetUsers.addAll    (((SSActivity)activities.get(0)).users);
               break;
             }
           }
@@ -182,8 +195,8 @@ public class SSEvalLogBNP {
       if(par.content != null){
         logText += par.content;
       }else{
-        if(activity != null){
-          logText += activity.activityType;
+        if(!activities.isEmpty()){
+          logText += ((SSActivity)activities.get(0)).activityType;
         }
       }
       
