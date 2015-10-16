@@ -133,7 +133,8 @@ public class SSRESTLearnEp{
       par =
         new SSLearnEpVersionsGetPar(
           null, 
-          SSUri.get(learnEp, SSVocConf.sssUri), 
+          SSUri.get(learnEp, SSVocConf.sssUri),  //learnEp
+          null, //learnEpVersions
           true, 
           true);
       

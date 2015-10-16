@@ -177,7 +177,10 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
   }
   
   public SSLearnEpVersion getLearnEpVersion(
-    final SSUri   learnEpVersionUri) throws Exception {
+    final SSUri   learnEpVersionUri,
+    final Boolean setCircles,
+    final Boolean setEntities, 
+    final Boolean setTimelineState) throws Exception {
     
     ResultSet                  resultSet       = null;
     
@@ -206,16 +209,32 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
       
       checkFirstResult(resultSet);
       
-      return SSLearnEpVersion.get(
-        bindingStrToUri               (resultSet, SSSQLVarNames.learnEpVersionId),
-        null,
-        null,
-        null,
-        null,
-        bindingStrToUri               (resultSet, SSSQLVarNames.learnEpId),
-        getLearnEpVersionEntities     (learnEpVersionUri),
-        getLearnEpVersionCircles      (learnEpVersionUri),
-        getLearnEpVersionTimelineState(learnEpVersionUri));
+      final SSLearnEpVersion learnEpVersion =
+        SSLearnEpVersion.get(
+          bindingStrToUri               (resultSet, SSSQLVarNames.learnEpVersionId),
+          null,
+          null,
+          null,
+          null,
+          bindingStrToUri               (resultSet, SSSQLVarNames.learnEpId),
+          null, //entities, 
+          null, //circles, 
+          null); //timelineState
+        
+      
+      if(setCircles){
+        learnEpVersion.circles.addAll(getLearnEpVersionCircles      (learnEpVersionUri));
+      }
+      
+      if(setEntities){
+        learnEpVersion.entities.addAll(getLearnEpVersionEntities     (learnEpVersionUri));
+      }
+      
+      if(setTimelineState){
+        learnEpVersion.learnEpTimelineState = getLearnEpVersionTimelineState(learnEpVersionUri);
+      }
+      
+      return learnEpVersion;
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -251,7 +270,7 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
     }
   }
   
-  private List<SSEntity> getLearnEpVersionCircles(
+  public List<SSEntity> getLearnEpVersionCircles(
     final SSUri learnEpVersionUri) throws Exception{
     
     ResultSet resultSet          = null;

@@ -24,12 +24,15 @@ import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SSLearnEpVersionsGetPar extends SSServPar{
   
-  public SSUri   learnEp              = null;
-  public Boolean invokeEntityHandlers = false;
-
+  public SSUri        learnEp              = null;
+  public List<SSUri>  learnEpVersions      = new ArrayList<>();
+  public Boolean      invokeEntityHandlers = false;
+  
   public String getLearnEp(){
     return SSStrU.removeTrailingSlash(learnEp);
   }
@@ -37,18 +40,30 @@ public class SSLearnEpVersionsGetPar extends SSServPar{
   public void setLearnEp(final String learnEp) throws Exception{
     this.learnEp = SSUri.get(learnEp);
   }
+
+  public List<String> getLearnEpVersions() {
+    return SSStrU.removeTrailingSlash(learnEpVersions);
+  }
+
+  public void setLearnEpVersions(final List<String> learnEpVersions) throws Exception {
+    this.learnEpVersions = SSUri.get(learnEpVersions);
+  }
   
   public SSLearnEpVersionsGetPar(){}
   
   public SSLearnEpVersionsGetPar(
     final SSUri         user,
     final SSUri         learnEp,
+    final List<SSUri>   learnEpVersions,
     final Boolean       withUserRestriction, 
     final Boolean       invokeEntityHandlers){
       
     super(SSServOpE.learnEpVersionsGet, null, user);
     
     this.learnEp              = learnEp;
+    
+    SSUri.addDistinctWithoutNull(this.learnEpVersions, learnEpVersions);
+    
     this.withUserRestriction  = withUserRestriction;
     this.invokeEntityHandlers = invokeEntityHandlers;
   }
