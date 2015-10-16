@@ -159,7 +159,7 @@ public class SSUri extends SSEntityA{
     return result;
   }
   
-  public static List<SSUri> getDistinctNotNullFromEntities(final SSEntity... entities) throws Exception{
+  public static List<SSUri> getDistinctNotNullFromEntities(final SSEntity... entities){
 
     final List<SSUri> result = new ArrayList<>();
     

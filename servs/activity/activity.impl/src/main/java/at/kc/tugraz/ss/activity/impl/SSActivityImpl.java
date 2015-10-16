@@ -35,10 +35,7 @@ import at.kc.tugraz.ss.activity.datatypes.par.SSActivityTypesGetPar;
 import at.kc.tugraz.ss.activity.datatypes.ret.SSActivitiesGetRet;
 import at.kc.tugraz.ss.activity.datatypes.ret.SSActivityTypesGetRet;
 import at.kc.tugraz.ss.activity.datatypes.ret.SSActivityAddRet;
-import at.kc.tugraz.ss.activity.impl.fct.sql.SSActivitySQLFct;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
-import at.tugraz.sss.servs.entity.datatypes.par.SSEntitiesGetPar;
-import at.tugraz.sss.servs.entity.datatypes.par.SSEntityGetPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUpdatePar;
 import at.tugraz.sss.serv.SSSocketCon;
 import at.tugraz.sss.serv.SSEntity;
@@ -61,11 +58,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import at.tugraz.sss.serv.SSErrE;
-import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
-import java.util.HashMap;
-import java.util.Map;
 
 public class SSActivityImpl
 extends SSServImplWithDBA
@@ -157,81 +151,25 @@ implements
   public List<SSEntity> activitiesGet(final SSActivitiesGetPar par) throws Exception{
     
     try{
-      final List<SSEntity>             activities         = new ArrayList<>();
-      final List<SSUri>                entityURIsToQuery  = new ArrayList<>();
-      final List<SSUri>                activityURIs       = new ArrayList<>();
-      final SSEntityServerI            entityServ         = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
-      final SSEntitiesGetPar           entitiesGetPar     =
-        new SSEntitiesGetPar(
-          par.user,
-          null, //entities
-          null, //types,
-          null, //descPar,
-          par.withUserRestriction);
+      final List<SSEntity>             activities           = new ArrayList<>();
+      final List<SSUri>                activityURIsToQuery  = new ArrayList<>();
+      final SSEntityServerI            entityServ           = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
+      final SSActivitiesGetFct         fct                  = new SSActivitiesGetFct(entityServ, sqlFct);
+      SSActivity                       activity;
+      SSEntityDescriberPar             descPar;
       
-      if(par.activities.isEmpty()){
-      
-        if(!par.entities.isEmpty()){
-
-          entitiesGetPar.entities.clear();
-          entitiesGetPar.entities.addAll(par.entities);
-
-          entityURIsToQuery.addAll(
-            SSUri.getDistinctNotNullFromEntities(
-              entityServ.entitiesGet(entitiesGetPar)));
-        }
-
-        if(!par.circles.isEmpty()){
-
-          entitiesGetPar.entities.clear();
-          entitiesGetPar.entities.addAll(par.circles);
-
-          entitiesGetPar.descPar = new SSEntityDescriberPar(null);
-
-          final List<SSEntity> circles = entityServ.entitiesGet(entitiesGetPar);
-
-          SSUri.addDistinctWithoutNull(
-            entityURIsToQuery,
-            SSUri.getDistinctNotNullFromEntities(circles));
-
-          circles.stream().forEach((circle) -> {
-            SSUri.addDistinctWithoutNull(
-              entityURIsToQuery,
-              SSUri.getDistinctNotNullFromEntities(circle.entities));
-          });
-        }
-
-  //      entityURIsToQuery.addAll(sqlFct.getAccessibleURIs(par.user));
-
-        activityURIs.addAll(
-          sqlFct.getActivityURIs(
-            par.users,
-            entityURIsToQuery,
-            par.types,
-            par.startTime,
-            par.endTime,
-            true,
-            1000,
-            par.includeOnlyLastActivities));
+      if(par.invokeEntityHandlers){
+        descPar = new SSEntityDescriberPar(null);
       }else{
-        activityURIs.addAll(par.activities);
+        descPar = null;
       }
       
-      SSActivity                  activity;
-      SSEntityDescriberPar        descPar;
-      SSEntity                    filledEntity;
-      final List<SSUri>           activityUsers     = new ArrayList<>();
-      final List<SSUri>           activityEntities  = new ArrayList<>();
-      final SSEntityGetPar        entityGetPar =
-        new SSEntityGetPar(
-          par.user,
-          null, //entity,
-          par.withUserRestriction, //withUserRestriction,
-          null); //descPar
+      fct.setActivityURIsToFill(
+        par,
+        descPar,
+        activityURIsToQuery);
       
-      final Map<String, SSEntity> filledEntities = new HashMap<>();
-      
-      for(SSUri activityURI : activityURIs){
+      for(SSUri activityURI : activityURIsToQuery){
         
         activity = sqlFct.getActivity(activityURI);
         
@@ -245,151 +183,37 @@ implements
           descPar = null;
         }
         
+        activity.entity = 
+          fct.getActivityEntity(
+            par, 
+            descPar, 
+            activity.entity);
+        
         if(activity.entity == null){
-          SSLogU.warn("entity for activity null : " + activity.type);
           continue;
         }
         
-        if(filledEntities.containsKey(activity.entity.id.toString())){
-          
-          activity.entity = filledEntities.get(activity.entity.id.toString());
-          
-          if(activity.entity == null){
-            continue;
-          }
-        }else{
-          
-          entityGetPar.entity  = activity.entity.id;
-          entityGetPar.descPar = descPar;
-          
-          filledEntity = entityServ.entityGet(entityGetPar);
-          
-          filledEntities.put(activity.entity.id.toString(), filledEntity);
-          
-          if(filledEntity == null){
-            continue;
-          }
-        }
+        fct.setActivityEntities(
+          activity, 
+          par, 
+          descPar);
         
-        activityEntities.clear();
-        activityUsers.clear ();
-        activityEntities.addAll(sqlFct.getActivityEntities (activity.id));
-        activityUsers.addAll   (sqlFct.getActivityUsers    (activity.id));
-        
-        entitiesGetPar.entities.clear();
-        
-        for(SSUri entity : activityEntities){
-          
-          if(filledEntities.containsKey(entity.toString())){
-            SSEntity.addEntitiesDistinctWithoutNull(activity.entities, filledEntities.get(entity.toString()));
-          }else{
-            entitiesGetPar.entities.add(entity);
-          }
-        }
-        
-        for(SSUri entity : activityUsers){
-          
-          if(filledEntities.containsKey(entity.toString())){
-            SSEntity.addEntitiesDistinctWithoutNull(activity.users, filledEntities.get(entity.toString()));
-          }else{
-            entitiesGetPar.entities.add(entity);
-          }
-        }
-        
-        SSStrU.distinctWithoutEmptyAndNull2(entitiesGetPar.entities);
-        
-        entitiesGetPar.descPar = descPar;
-        
-        for(SSEntity entityFilled : entityServ.entitiesGet(entitiesGetPar)){
-          
-          if(SSStrU.contains(activityEntities, entityFilled.id)){
-            activity.entities.add(entityFilled);
-            filledEntities.put(entityFilled.id.toString(), entityFilled);
-          }
-          
-          if(SSStrU.contains(activityUsers, entityFilled.id)){
-            activity.users.add(entityFilled);
-            filledEntities.put(entityFilled.id.toString(), entityFilled);
-          }
-        }
+        fct.setActivityUsers(
+          activity, 
+          par, 
+          descPar);
         
         activity.contents.addAll(sqlFct.getActivityContents(activity.id));
         
         activities.add(activity);
+        
+        if(activities.size() > 30){
+          break;
+        }
       }
       
       return activities;
-      
-//      final List<SSUri>                descURIs           = new ArrayList<>();
-//      final Map<String, List<SSUri>>   activitiesUsers    = new HashMap<>();
-//      final Map<String, List<SSUri>>   activitiesEntities = new HashMap<>();
-//      final Map<String, SSUri>         activitiesEntity   = new HashMap<>();
-//      final List<SSEntity>             descs              = new ArrayList<>();
-//      String                           activityID;
-//      for(SSActivity activity : activities){
-//
-//        result.add(activity);
-//
-//        activityID = SSStrU.toStr(activity);
-//
-//        activitiesUsers.put   (SSStrU.toStr(activity), new ArrayList<>());
-//        activitiesEntities.put(SSStrU.toStr(activity), new ArrayList<>());
-//
-//        if(activity.entity != null){
-//          activitiesEntity.put (activityID, activity.entity.id);
-//          descURIs.add         (activity.entity.id);
-//        }
-//
-//        activitiesUsers.get(activityID).addAll(sqlFct.getActivityUsers(activity.id));
-//        descURIs.addAll                       (activitiesUsers.get(activityID));
-//
-//        activitiesEntities.get(activityID).addAll(sqlFct.getActivityEntities(activity.id));
-//        descURIs.addAll                          (activitiesEntities.get(activityID));
-//
-//        activity.contents.addAll(sqlFct.getActivityContents(activity.id));
-//      }
-//
-//      SSStrU.distinctWithoutEmptyAndNull2(descURIs);
-//
-//      SSEntity.addEntitiesDistinctWithoutNull(
-//        descs,
-//        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
-//          new SSEntitiesGetPar(
-//            null,
-//            null,
-//            par.user,
-//            descURIs,
-//            null, //forUser,
-//            null, //types,
-//            null, //descPar
-//            par.withUserRestriction))); //withUserRestriction,
-//
-//      if(descs.isEmpty()){
-//        return result;
-//      }
-//
-//      for(SSActivity activity : result){
-//
-//        activityID = SSStrU.toStr(activity);
-//
-//        for(SSEntity desc : descs){
-//
-//          if(SSStrU.equals(activitiesEntity.get(activityID), desc)){
-//            activity.entity = desc;
-//            continue;
-//          }
-//
-//          if(SSStrU.contains(activitiesUsers.get(activityID), desc)){
-//            activity.users.add(desc);
-//            continue;
-//          }
-//
-//          if(SSStrU.contains(activitiesEntities.get(activityID), desc)){
-//            activity.entities.add(desc);
-//          }
-//        }
-//      }
-      
+
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -605,3 +429,74 @@ implements
     }
   }
 }
+
+
+//      final List<SSUri>                descURIs           = new ArrayList<>();
+//      final Map<String, List<SSUri>>   activitiesUsers    = new HashMap<>();
+//      final Map<String, List<SSUri>>   activitiesEntities = new HashMap<>();
+//      final Map<String, SSUri>         activitiesEntity   = new HashMap<>();
+//      final List<SSEntity>             descs              = new ArrayList<>();
+//      String                           activityID;
+//      for(SSActivity activity : activities){
+//
+//        result.add(activity);
+//
+//        activityID = SSStrU.toStr(activity);
+//
+//        activitiesUsers.put   (SSStrU.toStr(activity), new ArrayList<>());
+//        activitiesEntities.put(SSStrU.toStr(activity), new ArrayList<>());
+//
+//        if(activity.entity != null){
+//          activitiesEntity.put (activityID, activity.entity.id);
+//          descURIs.add         (activity.entity.id);
+//        }
+//
+//        activitiesUsers.get(activityID).addAll(sqlFct.getActivityUsers(activity.id));
+//        descURIs.addAll                       (activitiesUsers.get(activityID));
+//
+//        activitiesEntities.get(activityID).addAll(sqlFct.getActivityEntities(activity.id));
+//        descURIs.addAll                          (activitiesEntities.get(activityID));
+//
+//        activity.contents.addAll(sqlFct.getActivityContents(activity.id));
+//      }
+//
+//      SSStrU.distinctWithoutEmptyAndNull2(descURIs);
+//
+//      SSEntity.addEntitiesDistinctWithoutNull(
+//        descs,
+//        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
+//          new SSEntitiesGetPar(
+//            null,
+//            null,
+//            par.user,
+//            descURIs,
+//            null, //forUser,
+//            null, //types,
+//            null, //descPar
+//            par.withUserRestriction))); //withUserRestriction,
+//
+//      if(descs.isEmpty()){
+//        return result;
+//      }
+//
+//      for(SSActivity activity : result){
+//
+//        activityID = SSStrU.toStr(activity);
+//
+//        for(SSEntity desc : descs){
+//
+//          if(SSStrU.equals(activitiesEntity.get(activityID), desc)){
+//            activity.entity = desc;
+//            continue;
+//          }
+//
+//          if(SSStrU.contains(activitiesUsers.get(activityID), desc)){
+//            activity.users.add(desc);
+//            continue;
+//          }
+//
+//          if(SSStrU.contains(activitiesEntities.get(activityID), desc)){
+//            activity.entities.add(desc);
+//          }
+//        }
+//      }
