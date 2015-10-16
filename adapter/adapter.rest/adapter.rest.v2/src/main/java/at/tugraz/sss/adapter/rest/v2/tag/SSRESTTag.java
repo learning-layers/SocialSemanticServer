@@ -269,7 +269,7 @@ public class SSRESTTag{
   @DELETE
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-    @Path    ("/entities/{entity}")
+  @Path    ("/entities/{entity}")
   @ApiOperation(
     value = "remove tag, user, entity, space combinations for given entity",
     response = SSTagsRemoveRet.class)

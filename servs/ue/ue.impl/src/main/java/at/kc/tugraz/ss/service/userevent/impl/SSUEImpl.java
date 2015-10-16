@@ -21,7 +21,6 @@
  package at.kc.tugraz.ss.service.userevent.impl;
 
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
-import at.tugraz.sss.servs.entity.datatypes.par.SSEntityGetPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUpdatePar;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSSocketCon;
@@ -105,14 +104,15 @@ implements
         for(SSEntity ue :
           userEventsGet(
             new SSUEsGetPar(
-              userUri,
-              userUri,
-              null,
-              ueTypes,
-              null,
-              null,
-              false,
-              false))){
+              userUri, //user
+              null, //userEvents,
+              userUri, //forUser
+              null, //entity
+              ueTypes, //types
+              null, //startTime
+              null, //endTime
+              false, //withUserRestriction
+              false))){ //invokeEntityHandlers
           
           if(usersResources.containsKey(user)){
             usersResources.get(user).add(((SSUE)ue).entity.id);
@@ -148,8 +148,9 @@ implements
           userEventsGet(
             new SSUEsGetPar(
               par.user,
+              null, //userEvents
               null, //forUser,
-              entity.id,
+              entity.id, //entity
               null, //types,
               null, //startTime,
               null, //endTime,
@@ -199,51 +200,29 @@ implements
     
     try{
       
-      final SSUE userEvent = sqlFct.getUE(par.userEvent);
+      final SSUEsGetPar uesGetPar =
+        new SSUEsGetPar(
+          par.user,
+          SSUri.asListWithoutNullAndEmpty(par.userEvent),  //userEvents
+          null, //forUser,
+          null, //entity,
+          null, //types,
+          null, //startTime,
+          null, //endTime,
+          par.withUserRestriction,
+          par.invokeEntityHandlers);
       
-      if(userEvent == null){
+      uesGetPar.setFlags = par.setFlags;
+      uesGetPar.setTags  = par.setTags;
+      
+      final List<SSEntity> ues = userEventsGet(uesGetPar);
+      
+      if(ues.isEmpty()){
         return null;
       }
       
-      final SSEntityDescriberPar descPar;
+      return (SSUE) ues.get(0);
       
-      if(par.invokeEntityHandlers){
-        
-        descPar          = new SSEntityDescriberPar(null);
-        descPar.setFlags = par.setFlags;
-        descPar.setTags  = par.setTags;
-      }else{
-        descPar = null;
-      }
-      
-      if(userEvent.entity != null){
-        
-        userEvent.entity =
-          entityServ.entityGet(
-            new SSEntityGetPar(
-              par.user,
-              userEvent.entity.id,
-              par.withUserRestriction, //withUserRestriction
-              descPar));
-        
-        if(userEvent.entity == null){
-         return null; 
-        }
-      }
-      
-      if(userEvent.user != null){
-        
-        userEvent.user =
-          entityServ.entityGet(
-            new SSEntityGetPar(
-              par.user,
-              userEvent.user.id,
-              par.withUserRestriction,
-              descPar));
-      }
-
-      return userEvent;
-        
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -265,46 +244,30 @@ implements
 
     try{
       
-      if(par.withUserRestriction){
+      final List<SSEntity> ues    = new ArrayList<>();
+      final SSUEsGetFct    fct    = new SSUEsGetFct(entityServ, sqlFct);
+      SSUE                 ue;
+      
+      for(SSUri ueURI : fct.getUEsToFill(par)){
         
-        if(par.entity != null){
-          
-          SSEntity entity = 
-            sqlFct.getEntityTest(
-              par.user, 
-              par.entity, 
-              par.withUserRestriction);
-            
-          if(entity == null){
-            return new ArrayList<>();
-          }
+        ue = sqlFct.getUE(ueURI);
+        
+        if(ue == null){
+          continue;
         }
-      }
-      
-      final List<SSEntity> userEvents    = new ArrayList<>();
-      final SSUEGetPar     ueGetPar      = 
-        new SSUEGetPar(
-          par.user,
-          null,
-          par.withUserRestriction,
-          par.invokeEntityHandlers);
-      
-      for(SSUri userEventURI : 
-        sqlFct.getUEURIs(
-          par.forUser,
-          par.entity,
-          par.types,
-          par.startTime,
-          par.endTime)){
         
-        ueGetPar.userEvent = userEventURI;
+        fct.setUEEntity(par, ue);
         
-        SSEntity.addEntitiesDistinctWithoutNull(
-          userEvents, 
-          userEventGet(ueGetPar));
+        if(ue.entity == null){
+          continue;
+        }
+        
+        fct.setUEUser(par, ue);
+        
+        ues.add(ue);
       }
 
-      return userEvents;
+      return ues;
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

@@ -30,7 +30,6 @@ import at.kc.tugraz.ss.service.userevent.datatypes.ret.SSUEAddRet;
 import at.kc.tugraz.ss.service.userevent.datatypes.ret.SSUECountGetRet;
 import at.kc.tugraz.ss.service.userevent.datatypes.ret.SSUEGetRet;
 import at.kc.tugraz.ss.service.userevent.datatypes.ret.SSUEsGetRet;
-import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSVarNames;
 import com.wordnik.swagger.annotations.Api;
@@ -70,6 +69,7 @@ public class SSRESTUE{
       par =
         new SSUEsGetPar(
           null,  
+          null, //userEvents
           input.forUser,
           input.entity, 
           input.types, 

@@ -70,7 +70,8 @@ public class SSModelUEUESetter{
     newEvents = 
       ((SSUEServerI) SSServReg.getServ(SSUEServerI.class)).userEventsGet(
         new SSUEsGetPar(
-          null, 
+          null,
+          null,
           null, 
           null, 
           null, 

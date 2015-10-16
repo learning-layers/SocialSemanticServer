@@ -27,18 +27,17 @@ import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionsGet
 import at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.sql.SSLearnEpSQLFct;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
+import at.tugraz.sss.serv.SSEntityFiller;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityGetPar;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class SSLearnEpVersionsGetFct {
 
+  private final SSEntityFiller        entityFiller =  new SSEntityFiller();
   private final SSEntityServerI       entityServ;
   private final SSLearnEpSQLFct       sqlFct;
-  private final Map<String, SSEntity> filledEntities = new HashMap<>();
   
   public SSLearnEpVersionsGetFct(
     final SSEntityServerI  entityServ, 
@@ -46,88 +45,6 @@ public class SSLearnEpVersionsGetFct {
     
     this.entityServ = entityServ;
     this.sqlFct     = sqlFct;
-  }
-  
-  public void addFilledEntity(
-    final SSUri    id, 
-    final SSEntity entity) throws Exception{
-    
-    try{
-      
-      if(id == null){
-        return;
-      }
-      
-      if(!filledEntities.containsKey(id.toString())){
-        filledEntities.put(id.toString(), entity);
-      }
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-    
-  public Boolean containsFilledEntity(final SSUri entityURI) throws Exception {
-    
-    try{
-      
-      if(entityURI == null){
-        return false;
-      }
-    
-      return filledEntities.containsKey(entityURI.toString());
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
-  public Boolean containsFilledEntity(final SSEntity entity) throws Exception {
-    
-    try{
-      
-      if(entity == null){
-        return false;
-      }
-    
-      return filledEntities.containsKey(entity.id.toString());
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
-  public SSEntity getFilledEntity(final SSEntity entity) throws Exception{
-    
-    try{
-      
-      if(entity == null){
-        return null;
-      }
-      
-      return filledEntities.getOrDefault(entity.id.toString(), null);
-
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
-  public SSEntity getFilledEntity(final SSUri entityURI) throws Exception{
-    
-    try{
-      
-      if(entityURI == null){
-        return null;
-      }
-      
-      return filledEntities.getOrDefault(entityURI.toString(), null);
-
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
   }
   
   public void setLearnEpVersionCircles(
@@ -185,9 +102,9 @@ public class SSLearnEpVersionsGetFct {
           continue;
         }
         
-        if(containsFilledEntity(learnEpEntity.entity)){
+        if(entityFiller.containsFilledEntity(learnEpEntity.entity)){
           
-          learnEpEntity.entity = getFilledEntity(learnEpEntity.entity);
+          learnEpEntity.entity = entityFiller.getFilledEntity(learnEpEntity.entity);
           
           SSEntity.addEntitiesDistinctWithoutNull(learnEpVersion.learnEpEntities, learnEpEntity);
           continue;
@@ -196,7 +113,7 @@ public class SSLearnEpVersionsGetFct {
         entityGetPar.entity   = learnEpEntity.entity.id;
         filledEntity          = entityServ.entityGet(entityGetPar);
 
-        addFilledEntity(learnEpEntity.entity.id, filledEntity);
+        entityFiller.addFilledEntity(learnEpEntity.entity.id, filledEntity);
 
         learnEpEntity.entity = filledEntity;
         

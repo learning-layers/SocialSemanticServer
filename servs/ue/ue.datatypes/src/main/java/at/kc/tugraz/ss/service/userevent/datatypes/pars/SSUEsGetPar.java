@@ -30,6 +30,7 @@ import java.util.List;
 
 public class SSUEsGetPar extends SSServPar{
   
+  public List<SSUri>     userEvents           = new ArrayList<>();
   public SSUri           forUser              = null;
   public SSUri           entity               = null;
   public List<SSUEE>     types                = new ArrayList<>();
@@ -39,6 +40,14 @@ public class SSUEsGetPar extends SSServPar{
   public Boolean         setTags              = false;
   public Boolean         setFlags             = false;
 
+  public List<String> getUserEvents() {
+    return SSStrU.removeTrailingSlash(userEvents);
+  }
+
+  public void setUserEvents(final List<String> userEvents) throws Exception {
+    this.userEvents = SSUri.get(userEvents);
+  }
+  
   public void setForUser(final String forUser) throws Exception{
     this.forUser = SSUri.get(forUser);
   }
@@ -67,6 +76,7 @@ public class SSUEsGetPar extends SSServPar{
   
   public SSUEsGetPar(
     final SSUri       user, 
+    final List<SSUri> userEvents,
     final SSUri       forUser, 
     final SSUri       entity, 
     final List<SSUEE> types, 
@@ -77,6 +87,8 @@ public class SSUEsGetPar extends SSServPar{
     
     super(SSServOpE.userEventsGet, null, user);
 
+    SSUri.addDistinctWithoutNull(this.userEvents, userEvents);
+    
     this.forUser = forUser;
     this.entity  = entity;
     

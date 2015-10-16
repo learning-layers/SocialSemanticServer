@@ -25,6 +25,7 @@ import at.kc.tugraz.ss.activity.datatypes.par.SSActivitiesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
+import at.tugraz.sss.serv.SSEntityFiller;
 import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSStrU;
@@ -32,15 +33,13 @@ import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntitiesGetPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityGetPar;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class SSActivitiesGetFct {
 
+  private final SSEntityFiller        entityFiller = new SSEntityFiller();
   private final SSEntityServerI       entityServ;
   private final SSActivitySQLFct      sqlFct;
-  private final Map<String, SSEntity> filledEntities = new HashMap<>();
   
   public SSActivitiesGetFct(
     final SSEntityServerI  entityServ, 
@@ -50,24 +49,6 @@ public class SSActivitiesGetFct {
     this.sqlFct     = sqlFct;
   }
   
-  public void addFilledEntity(
-    final SSUri    id, 
-    final SSEntity entity) throws Exception{
-    
-    try{
-      
-      if(id == null){
-        return;
-      }
-      
-      if(!filledEntities.containsKey(id.toString())){
-        filledEntities.put(id.toString(), entity);
-      }
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-    
   public void setEntitiesToQuery(
     final SSActivitiesGetPar   par,
     final SSEntityDescriberPar descPar,
@@ -91,7 +72,7 @@ public class SSActivitiesGetFct {
       
       for(SSEntity entity : entities){
         
-        addFilledEntity(entity.id, entity);
+        entityFiller.addFilledEntity(entity.id, entity);
         
         entityURIsToQuery.add(entity.id);
       }
@@ -122,13 +103,13 @@ public class SSActivitiesGetFct {
       
       for(SSEntity circle : entityServ.entitiesGet(entitiesGetPar)){
         
-        addFilledEntity(circle.id, circle);
+        entityFiller.addFilledEntity(circle.id, circle);
         
         entityURIsToQuery.add(circle.id);
         
         for(SSEntity circleEntity : circle.entities){
           
-          addFilledEntity(circleEntity.id, circleEntity);
+          entityFiller.addFilledEntity(circleEntity.id, circleEntity);
           
           entityURIsToQuery.add(circleEntity.id);
         }
@@ -183,72 +164,8 @@ public class SSActivitiesGetFct {
     }
   }
   
-  public Boolean containsFilledEntity(final SSUri entityURI) throws Exception {
-    
-    try{
-      
-      if(entityURI == null){
-        return false;
-      }
-    
-      return filledEntities.containsKey(entityURI.toString());
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
-  public Boolean containsFilledEntity(final SSEntity entity) throws Exception {
-    
-    try{
-      
-      if(entity == null){
-        return false;
-      }
-    
-      return filledEntities.containsKey(entity.id.toString());
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
-  public SSEntity getFilledEntity(final SSEntity entity) throws Exception{
-    
-    try{
-      
-      if(entity == null){
-        return null;
-      }
-      
-      return filledEntities.getOrDefault(entity.id.toString(), null);
-
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
-  public SSEntity getFilledEntity(final SSUri entityURI) throws Exception{
-    
-    try{
-      
-      if(entityURI == null){
-        return null;
-      }
-      
-      return filledEntities.getOrDefault(entityURI.toString(), null);
-
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
   public SSEntity getActivityEntity(
-    final SSActivitiesGetPar   par, 
+    final SSActivitiesGetPar   par,
     final SSEntityDescriberPar descPar, 
     final SSEntity             activityEntity) throws Exception{
     
@@ -261,9 +178,8 @@ public class SSActivitiesGetFct {
       
       final SSEntity filledActivityEntity;
       
-      if(containsFilledEntity(activityEntity)){
-        
-        filledActivityEntity = getFilledEntity(activityEntity);
+      if(entityFiller.containsFilledEntity(activityEntity)){
+        filledActivityEntity = entityFiller.getFilledEntity(activityEntity);
       }else{
         
         final SSEntityGetPar entityGetPar =
@@ -275,7 +191,7 @@ public class SSActivitiesGetFct {
         
         filledActivityEntity = entityServ.entityGet(entityGetPar);
         
-        filledEntities.put(activityEntity.id.toString(), filledActivityEntity);
+        entityFiller.addFilledEntity(activityEntity.id, filledActivityEntity);
       }
       
       return filledActivityEntity;
@@ -304,15 +220,15 @@ public class SSActivitiesGetFct {
       
       for(SSUri entity : sqlFct.getActivityEntities (activity.id)){
         
-        if(containsFilledEntity(entity)){
-          SSEntity.addEntitiesDistinctWithoutNull(activity.entities, getFilledEntity(entity));
+        if(entityFiller.containsFilledEntity(entity)){
+          SSEntity.addEntitiesDistinctWithoutNull(activity.entities, entityFiller.getFilledEntity(entity));
           continue;
         }
         
         entityGetPar.entity = entity;
         activityEntity      = entityServ.entityGet(entityGetPar);
         
-        addFilledEntity(entity, activityEntity);
+        entityFiller.addFilledEntity(entity, activityEntity);
         
         SSEntity.addEntitiesDistinctWithoutNull(activity.entities, activityEntity);
       }
@@ -340,15 +256,15 @@ public class SSActivitiesGetFct {
       
       for(SSUri user : sqlFct.getActivityUsers (activity.id)){
         
-        if(containsFilledEntity(user)){
-          SSEntity.addEntitiesDistinctWithoutNull(activity.users, getFilledEntity(user));
+        if(entityFiller.containsFilledEntity(user)){
+          SSEntity.addEntitiesDistinctWithoutNull(activity.users, entityFiller.getFilledEntity(user));
           continue;
         }
         
         entityGetPar.entity = user;
         activityUser        = entityServ.entityGet(entityGetPar);
         
-        addFilledEntity(user, activityUser);
+        entityFiller.addFilledEntity(user, activityUser);
         
         SSEntity.addEntitiesDistinctWithoutNull(activity.users, activityUser);
       }

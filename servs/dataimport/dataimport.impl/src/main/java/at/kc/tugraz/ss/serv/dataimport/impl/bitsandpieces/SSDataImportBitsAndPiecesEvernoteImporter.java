@@ -219,6 +219,7 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
       ueServ.userEventsGet(
         new SSUEsGetPar(
           userUri, //user 
+          null, //userEvents
           userUri, //forUser
           notebookUri, //entity
           SSUEE.asListWithoutEmptyAndNull(SSUEE.evernoteNotebookCreate), //types
@@ -244,6 +245,7 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
       ueServ.userEventsGet(
         new SSUEsGetPar(
           userUri, //user
+          null, //userEvents
           userUri, //forUser
           notebookUri, //entity
           SSUEE.asListWithoutEmptyAndNull(SSUEE.evernoteNotebookUpdate), //types
@@ -303,6 +305,7 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
       ueServ.userEventsGet(
         new SSUEsGetPar(
           userUri, //user
+          null, //userEvents
           userUri, //forUser
           notebookUri, //entity
           SSUEE.asListWithoutEmptyAndNull(SSUEE.evernoteNotebookFollow), //types

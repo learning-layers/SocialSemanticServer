@@ -169,6 +169,7 @@ public class SSDataImportBitsAndPiecesMiscFct {
       ueServ.userEventsGet(
         new SSUEsGetPar(
           userUri, //user
+          null, //userEvents
           userUri, //forUser
           noteUri, //entity
           SSUEE.asListWithoutEmptyAndNull(SSUEE.evernoteNoteCreate), //types
@@ -194,6 +195,7 @@ public class SSDataImportBitsAndPiecesMiscFct {
       ueServ.userEventsGet(
         new SSUEsGetPar(
           userUri, //user
+          null, //userEvents
           userUri, //forUser
           noteUri, //entity
           SSUEE.asListWithoutEmptyAndNull(SSUEE.evernoteNoteUpdate), //types
@@ -223,6 +225,7 @@ public class SSDataImportBitsAndPiecesMiscFct {
           ueServ.userEventsGet(
             new SSUEsGetPar(
               userUri, //user
+              null, //userEvents
               userUri, //forUser
               noteUri, //entity
               SSUEE.asListWithoutEmptyAndNull(SSUEE.evernoteNoteDelete), //types
@@ -257,6 +260,7 @@ public class SSDataImportBitsAndPiecesMiscFct {
           ueServ.userEventsGet(
             new SSUEsGetPar(
               userUri, //user
+              null, //userEvents
               userUri, //forUser
               noteUri, //entity
               SSUEE.asListWithoutEmptyAndNull(SSUEE.evernoteNoteShare), //types
@@ -285,6 +289,7 @@ public class SSDataImportBitsAndPiecesMiscFct {
           ueServ.userEventsGet(
             new SSUEsGetPar(
               userUri, //user
+              null, //userEvents
               userUri, //forUser
               noteUri, //entity
               SSUEE.asListWithoutEmptyAndNull(SSUEE.evernoteReminderDone), //types
@@ -313,6 +318,7 @@ public class SSDataImportBitsAndPiecesMiscFct {
           ueServ.userEventsGet(
             new SSUEsGetPar(
               userUri, //user
+              null, //userEvents
               userUri, //forUser
               noteUri, //entity
               SSUEE.asListWithoutEmptyAndNull(SSUEE.evernoteReminderCreate), //types
@@ -345,6 +351,7 @@ public class SSDataImportBitsAndPiecesMiscFct {
       ueServ.userEventsGet(
         new SSUEsGetPar(
           userUri, //user
+          null, //userEvents
           userUri, //forUser
           resourceUri, //entity
           SSUEE.asListWithoutEmptyAndNull(SSUEE.evernoteResourceAdd), //types
