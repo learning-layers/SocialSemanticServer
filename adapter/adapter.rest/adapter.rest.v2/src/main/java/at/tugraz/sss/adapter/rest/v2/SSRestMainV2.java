@@ -57,7 +57,7 @@ public class SSRestMainV2 extends Application {
    
     //sss.adapter.rest.v2.conf
     //layers.test
-    SSAdapterRestConf.instSet (SSFileU.dirCatalinaBase() + SSVocConf.dirNameConf + "bp.study.yaml");
+    SSAdapterRestConf.instSet (SSFileU.dirCatalinaBase() + SSVocConf.dirNameConf + "ectel.yaml");
     
     conf = SSAdapterRestConf.instGet();
     
