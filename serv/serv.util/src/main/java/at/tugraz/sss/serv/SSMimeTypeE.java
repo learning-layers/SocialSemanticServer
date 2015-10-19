@@ -32,6 +32,7 @@ public enum SSMimeTypeE {
   applicationOpenOfficeDoc                                   ("application/vnd.oasis.opendocument.text"),
   applicationPdf                                             ("application/pdf"),
   applicationMsword                                          ("application/msword"),
+  applicationMsword2                                         ("application/vnd.ms-word"), 
   applicationMsaccess                                        ("application/msaccess"),
   applicationMsexcel                                         ("application/vnd.ms-excel"),
   applicationMspowerpoint                                    ("application/vnd.ms-powerpoint"),
@@ -99,6 +100,7 @@ public enum SSMimeTypeE {
     mimeTypes.put(applicationOpenOfficeDoc.toString(),         applicationOpenOfficeDoc);
     mimeTypes.put(applicationPdf.toString(),                   applicationPdf);
     mimeTypes.put(applicationMsword.toString(),                applicationMsword);
+    mimeTypes.put(applicationMsword2.toString(),               applicationMsword2);
     mimeTypes.put(applicationMsaccess.toString(),              applicationMsaccess);
     mimeTypes.put(applicationMsexcel.toString(),               applicationMsexcel);
     mimeTypes.put(applicationMspowerpoint.toString(),          applicationMspowerpoint);
@@ -141,6 +143,7 @@ public enum SSMimeTypeE {
     fileExtPerMimeType.put(applicationOpenOfficeDoc,     SSFileExtE.odt);
     fileExtPerMimeType.put(applicationPdf,               SSFileExtE.pdf);
     fileExtPerMimeType.put(applicationMsword,            SSFileExtE.doc);
+    fileExtPerMimeType.put(applicationMsword2,           SSFileExtE.doc);
     fileExtPerMimeType.put(applicationMspowerpoint,      SSFileExtE.ppt);
     fileExtPerMimeType.put(applicationMsaccess,          SSFileExtE.mdb);
     fileExtPerMimeType.put(applicationMsexcel,           SSFileExtE.xls);

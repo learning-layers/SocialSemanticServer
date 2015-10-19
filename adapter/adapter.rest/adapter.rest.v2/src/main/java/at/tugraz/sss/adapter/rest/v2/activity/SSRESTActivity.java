@@ -26,10 +26,8 @@ import at.kc.tugraz.ss.activity.datatypes.par.SSActivityTypesGetPar;
 import at.kc.tugraz.ss.activity.datatypes.ret.SSActivitiesGetRet;
 import at.kc.tugraz.ss.activity.datatypes.ret.SSActivityTypesGetRet;
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
-import at.tugraz.sss.serv.SSLogU;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
-import java.util.Date;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -59,7 +57,7 @@ public class SSRESTActivity{
     
     final SSActivitiesGetPar par;
     
-    System.out.println("activity start " + new Date().getTime());
+//    System.out.println("activity start " + new Date().getTime());
     
     try{
       
@@ -80,12 +78,9 @@ public class SSRESTActivity{
     }catch(Exception error){
       return Response.status(422).build();
     }
+//    System.out.println("activity end " + new Date().getTime());
     
-    final Response response = SSRestMainV2.handleRequest(headers, par, false, true).response;
-    
-    System.out.println("activity end " + new Date().getTime());
-    
-    return response;
+    return SSRestMainV2.handleRequest(headers, par, false, true).response;
   }
   
   @GET

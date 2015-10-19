@@ -445,6 +445,12 @@ public class SSDataImportEvernoteNoteContentHandler{
           } 
           
           if(
+            tmpLine.contains("type=\"" + SSMimeTypeE.applicationMsword2  + "\"") &&
+            endIndex > tmpLine.indexOf("type=\"" + SSMimeTypeE.applicationMsword2  + "\"")){
+            mimeType = SSMimeTypeE.applicationMsword2;
+          } 
+          
+          if(
             tmpLine.contains("type=\"" + SSMimeTypeE.applicationMspowerpoint2007  + "\"") &&
             endIndex > tmpLine.indexOf("type=\"" + SSMimeTypeE.applicationMspowerpoint2007  + "\"")){
             mimeType = SSMimeTypeE.applicationMspowerpoint2007;
@@ -582,7 +588,8 @@ public class SSDataImportEvernoteNoteContentHandler{
           }
           
           if(
-            SSStrU.equals(mimeType, SSMimeTypeE.applicationMsword) ||
+            SSStrU.equals(mimeType, SSMimeTypeE.applicationMsword)  ||
+            SSStrU.equals(mimeType, SSMimeTypeE.applicationMsword2) ||
             SSStrU.equals(mimeType, SSMimeTypeE.applicationMsword2007)){
             
             result += "<div>Includes Microsoft Office Document (no preview available)</div>";
