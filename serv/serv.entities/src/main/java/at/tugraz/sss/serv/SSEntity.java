@@ -331,6 +331,10 @@ public class SSEntity extends SSEntityA{
     
     this.likes          = entity.likes;
     this.profilePicture = entity.profilePicture;
+
+    this.activityPage = entity.activityPage;
+    this.messagesPage = entity.messagesPage;
+    this.collsPage    = entity.collsPage;
   }
   
   protected SSEntity(
