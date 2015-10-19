@@ -31,13 +31,15 @@ import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
+import at.tugraz.sss.serv.SSTextComment;
 
 public class SSMessageActivityFct{
   
   public static void messageSend(
     final SSUri           user,
     final SSUri           forUser,
-    final SSUri   message,
+    final SSUri           message,
+    final SSTextComment   content,
     final Boolean         shouldCommit) throws Exception{
     
     try{
@@ -59,7 +61,7 @@ public class SSMessageActivityFct{
           user, 
           activity, 
           SSActivityContentE.text, 
-          SSActivityContent.get(message),
+          SSActivityContent.get(content),
           shouldCommit));
       
     }catch(SSErr error){

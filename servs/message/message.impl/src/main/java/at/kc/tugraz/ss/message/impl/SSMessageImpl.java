@@ -242,6 +242,7 @@ implements
       par.user, 
       par.forUser, 
       messageURI, 
+      par.message,
       par.shouldCommit);
   }
   
