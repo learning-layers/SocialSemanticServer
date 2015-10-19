@@ -405,6 +405,7 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
     SSUri                resourceUri;
     Note                 note;
     SSUri                noteUri;
+    SSFileExtE           fileExt;
     
     if(resources == null){
       return;
@@ -415,8 +416,17 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
       resourceWithContent = SSServCaller.evernoteResourceGet                  (evernoteInfo.noteStore, resource.getGuid(), false);
       
       try{
+        fileExt = SSMimeTypeE.fileExtForMimeType1(resourceWithContent.getMime());
+      }catch(Exception error){
         
-        if(SSFileExtE.isImageFileExt(SSMimeTypeE.fileExtForMimeType1(resourceWithContent.getMime()))){
+        SSLogU.warn("resource with mimetype " + resourceWithContent.getMime() + " not stored");
+        SSServErrReg.reset();
+        continue;
+      }
+        
+      try{
+        
+        if(SSFileExtE.isImageFileExt(fileExt)){
           
           if(
             !resourceWithContent.isSetHeight() ||
@@ -458,7 +468,7 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
           userUri,
           resourceWithContent.getData().getBody(), //fileBytes, 
           resourceWithContent.getData().getSize(), //fileLength
-          SSMimeTypeE.fileExtForMimeType1(resourceWithContent.getMime()), //fileExt
+          fileExt, //fileExt
           null, //file
           SSEntityE.file, //type,
           null, //label
