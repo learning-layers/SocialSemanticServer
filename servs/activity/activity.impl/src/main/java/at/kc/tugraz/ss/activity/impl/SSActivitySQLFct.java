@@ -141,8 +141,18 @@ public class SSActivitySQLFct extends SSDBSQLFct{
         dbSQL.insert(SSSQLVarNames.activityUsersTable, inserts);
       }
       
+      inserts.clear();
+      insert(inserts, SSSQLVarNames.activityId,     activity);
+      insert(inserts, SSSQLVarNames.entityId,       entity);
+      
+      dbSQL.insert(SSSQLVarNames.activityEntitiesTable, inserts);
+      
       for(SSUri entityUri : entityUris){
 
+        if(SSStrU.equals(entity, entityUri)){
+          continue;
+        }
+        
         inserts.clear();
         insert(inserts, SSSQLVarNames.activityId,     activity);
         insert(inserts, SSSQLVarNames.entityId,       entityUri);
@@ -189,7 +199,6 @@ public class SSActivitySQLFct extends SSDBSQLFct{
 
       tableCon (tableCons, SSSQLVarNames.activityTable, SSSQLVarNames.activityId, SSSQLVarNames.entityTable, SSSQLVarNames.id);
       
-      //TODO users provided are not checked for the author of the activity itself
       if(
         users != null &&
         !users.isEmpty()){
@@ -206,7 +215,6 @@ public class SSActivitySQLFct extends SSDBSQLFct{
         wheres.add(whereUsers);
       }
       
-      //TODO entities provided are not checked for the entity of the activity itself
       if(
         entities != null &&
         !entities.isEmpty()){

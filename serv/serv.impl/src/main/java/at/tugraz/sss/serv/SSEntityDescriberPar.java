@@ -48,6 +48,9 @@ public class SSEntityDescriberPar{
   public Boolean     setLocations        = false;
   public Boolean     setLikes            = false;
   public Boolean     setProfilePicture   = false;
+  public Boolean     setMessages         = false;
+  public Boolean     setActivities       = false;
+  public Boolean     setColls            = false;
   
   public List<SSEntityE> entityTypesToIncludeOnly = new ArrayList<>();
 

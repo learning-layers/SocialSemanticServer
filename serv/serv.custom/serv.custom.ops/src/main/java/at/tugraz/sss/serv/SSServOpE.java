@@ -194,9 +194,9 @@ public enum SSServOpE{
   userURIGet,
   userURIsGet,
   userExists                                          ,
-  userGet,
   usersGet,
   userAdd,
+  userProfilesGet,
   
   //user event
   userEventsGet                                              ,

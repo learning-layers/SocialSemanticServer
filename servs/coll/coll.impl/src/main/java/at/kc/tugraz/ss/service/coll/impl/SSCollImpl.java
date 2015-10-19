@@ -105,6 +105,44 @@ implements
     final SSEntityDescriberPar par) throws Exception{
     
     try{
+      
+      if(par.setColls){
+        
+        switch(entity.type){
+          
+          case user:{
+            
+            entity.collsPage = new SSQueryResultPage(null);
+            
+            final SSColl rootColl =
+              collRootGet(
+                new SSCollUserRootGetPar(
+                  entity.id,
+                  par.withUserRestriction,
+                  false));
+            
+            SSEntity collEntity;
+            
+            for(SSEntity coll : rootColl.entries){
+              
+              collEntity = 
+                sqlFct.getEntityTest(
+                  par.user, 
+                  coll.id, 
+                  par.withUserRestriction);
+              
+              if(collEntity == null){
+                continue;
+              }
+              
+              entity.collsPage.entities.add(collEntity);
+            }
+            
+            break;
+          }
+        }
+      }
+      
       switch(entity.type){
         
         case coll:{

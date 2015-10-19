@@ -111,6 +111,37 @@ implements
   }
   
   @Override
+  public SSEntity describeEntity(
+    final SSEntity             entity, 
+    final SSEntityDescriberPar par) throws Exception{
+    
+    try{
+      
+      if(par.setTags){
+        
+        entity.tags.addAll(
+          tagsGet(
+            new SSTagsGetPar(
+              par.user,
+              null, //forUser
+              SSUri.asListWithoutNullAndEmpty(entity.id), //entities
+              null, //labels
+              null, //labelSearchOp, 
+              SSSpaceE.asListWithoutNull(par.space), //spaces
+              SSUri.asListWithoutNullAndEmpty(par.circle), //circles
+              null, //startTime
+              par.withUserRestriction))); //withUserRestriction
+      }
+      
+      return entity;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  
+  @Override
   public void getUserRelations(
     final List<String>             allUsers,
     final Map<String, List<SSUri>> userRelations) throws Exception{
@@ -282,36 +313,6 @@ implements
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
-    }
-  }
-  
-  @Override
-  public SSEntity describeEntity(
-    final SSEntity             entity, 
-    final SSEntityDescriberPar par) throws Exception{
-    
-    try{
-      
-      if(par.setTags){
-        
-        entity.tags.addAll(
-          tagsGet(
-            new SSTagsGetPar(
-              par.user,
-              null, //forUser
-              SSUri.asListWithoutNullAndEmpty(entity.id), //entities
-              null, //labels
-              null, //labelSearchOp, 
-              SSSpaceE.asListWithoutNull(par.space), //spaces
-              SSUri.asListWithoutNullAndEmpty(par.circle), //circles
-              null, //startTime
-              par.withUserRestriction))); //withUserRestriction
-      }
-      
-      return entity;
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
     }
   }
   

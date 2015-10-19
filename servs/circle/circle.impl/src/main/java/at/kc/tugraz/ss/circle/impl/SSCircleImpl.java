@@ -70,7 +70,7 @@ import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUpdatePar;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.kc.tugraz.ss.service.user.api.SSUserServerI;
 import at.kc.tugraz.ss.service.user.datatypes.SSUser;
-import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserGetPar;
+import at.kc.tugraz.ss.service.user.datatypes.pars.SSUsersGetPar;
 import at.tugraz.sss.serv.SSCircleContentRemovedI;
 import at.tugraz.sss.serv.SSCircleContentRemovedPar;
 import at.tugraz.sss.serv.SSDBSQLI;
@@ -130,18 +130,44 @@ implements
       
       if(par.setCircles){
         
-        entity.circles.addAll(
-          circlesGet(
-            new SSCirclesGetPar(
-              par.user, //user
-              null, //forUser
-              entity.id, //entity
-              null, //entityTypesToIncludeOnly
-              true, //setEntities,
-              true, //setUsers,
-              par.withUserRestriction, //withUserRestriction
-              false,  //withSystemCircles
-              false))); //invokeEntityHandlers
+        switch(entity.type){
+          
+          case user:{
+            
+            entity.circles.addAll(
+              circlesGet(
+                new SSCirclesGetPar(
+                  par.user, //user
+                  entity.id, //forUser
+                  null, //entity
+                  null, //entityTypesToIncludeOnly
+                  true, //setEntities,
+                  true, //setUsers,
+                  par.withUserRestriction, //withUserRestriction
+                  false,  //withSystemCircles
+                  false))); //invokeEntityHandlers
+            
+            break;
+          }
+          
+          default:{
+            
+            entity.circles.addAll(
+              circlesGet(
+                new SSCirclesGetPar(
+                  par.user, //user
+                  null, //forUser
+                  entity.id, //entity
+                  null, //entityTypesToIncludeOnly
+                  true, //setEntities,
+                  true, //setUsers,
+                  par.withUserRestriction, //withUserRestriction
+                  false,  //withSystemCircles
+                  false))); //invokeEntityHandlers
+            
+            break;
+          }
+        }
       }
       
       if(par.setCircleTypes){
@@ -720,24 +746,17 @@ implements
           
         if(circle == null){
           
-          final SSUserServerI userServ   = (SSUserServerI) SSServReg.getServ(SSUserServerI.class);
-          final SSUserGetPar  userGetPar =
-            new SSUserGetPar(
+          final List<String>   invitedUsers = sqlFct.getInvitedUsers(par.circle);
+          final SSUserServerI  userServ     = (SSUserServerI) SSServReg.getServ(SSUserServerI.class);
+          final SSUsersGetPar  usersGetPar   =
+            new SSUsersGetPar(
               par.user,
-              null, //userToGet
+              par.users,
               false); //invokeEntityHandlers
             
-          SSUser userEntity;
-          
-          for(SSUri user : par.users){
+          for(SSEntity userEntity : userServ.usersGet(usersGetPar)){
             
-            userGetPar.userToGet = user;
-            
-            userEntity = userServ.userGet(userGetPar);
-            
-            if(
-              userEntity == null ||
-              !SSStrU.contains(sqlFct.getInvitedUsers(par.circle), userEntity.email)){
+            if(!SSStrU.contains(invitedUsers, ((SSUser) userEntity).email)){
               return null;
             }
           }
@@ -1098,17 +1117,20 @@ implements
         descPar = null;
       }
       
-      final List<SSEntity> circleEntities = 
-        entityServ.entitiesGet(
-          new SSEntitiesGetPar(
-            par.user,
-            SSUri.getDistinctNotNullFromEntities(circle.entities),
-            null, //types,
-            descPar, //descPar
-            par.withUserRestriction)); //withUserRestriction
-      
-      circle.entities.clear();
-      circle.entities.addAll(circleEntities);
+      if(!circle.entities.isEmpty()){
+        
+        final List<SSEntity> circleEntities = 
+          entityServ.entitiesGet(
+            new SSEntitiesGetPar(
+              par.user,
+              SSUri.getDistinctNotNullFromEntities(circle.entities),
+              null, //types,
+              descPar, //descPar
+              par.withUserRestriction)); //withUserRestriction
+
+        circle.entities.clear();
+        circle.entities.addAll(circleEntities);
+      }
       
       if(par.invokeEntityHandlers){
         descPar = new SSEntityDescriberPar(par.circle);
@@ -1116,17 +1138,20 @@ implements
         descPar = null;
       }
       
-      final List<SSEntity> circleUsers =
-        entityServ.entitiesGet(
-          new SSEntitiesGetPar(
-            par.user,
-            SSUri.getDistinctNotNullFromEntities(circle.users),
-            null, //types,
-            descPar, //descPar
-            par.withUserRestriction)); //withUserRestriction
-      
-      circle.users.clear();
-      circle.users.addAll(circleUsers);
+      if(!circle.users.isEmpty()){
+        
+        final List<SSEntity> circleUsers =
+          entityServ.entitiesGet(
+            new SSEntitiesGetPar(
+              par.user,
+              SSUri.getDistinctNotNullFromEntities(circle.users),
+              null, //types,
+              descPar, //descPar
+              par.withUserRestriction)); //withUserRestriction
+        
+        circle.users.clear();
+        circle.users.addAll(circleUsers);
+      }
       
       return circle;
       
@@ -1157,8 +1182,8 @@ implements
       if(par.withUserRestriction){
         
         if(
-          par.forUser != null &&
-          !SSStrU.equals(par.user,  par.forUser)){
+          par.forUser == null &&
+          par.entity  == null){
           throw new SSErr(SSErrE.parameterMissing);
         }
         

@@ -42,7 +42,6 @@ import at.kc.tugraz.ss.service.user.api.*;
 import at.kc.tugraz.ss.service.user.datatypes.SSUser;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserAddPar;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserExistsPar;
-import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserGetPar;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserURIGetPar;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserURIsGetPar;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUsersGetPar;
@@ -56,12 +55,9 @@ import at.tugraz.sss.serv.SSEntityDescriberPar;
 import at.tugraz.sss.serv.SSErr;
 import java.util.*;
 import at.tugraz.sss.serv.SSErrE;
-import at.tugraz.sss.serv.SSImageE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServReg;
-import at.tugraz.sss.servs.image.api.SSImageServerI;
-import at.tugraz.sss.servs.image.datatype.par.SSImagesGetPar;
 
 public class SSUserImpl 
 extends SSServImplWithDBA 
@@ -94,12 +90,16 @@ implements
         
         if(entity.author != null){
           
-          entity.author =
-            userGet(
-              new SSUserGetPar(
+          final List<SSEntity> authors =
+            usersGet(
+              new SSUsersGetPar(
                 par.user,
-                entity.author.id,
-                false));
+                SSUri.asListWithoutNullAndEmpty(entity.author.id),
+                false)); //invokeEntityHandlers))
+          
+          if(!authors.isEmpty()){
+            entity.author = authors.get(0);
+          }
         }
       }
       
@@ -111,13 +111,21 @@ implements
             return entity;
           }
           
-          return SSUser.get(
-            userGet(
-              new SSUserGetPar(
+          final List<SSEntity> users =
+            usersGet(
+              new SSUsersGetPar(
                 par.user,
-                entity.id,
-                false)),
-            entity);
+                SSUri.asListWithoutNullAndEmpty(entity.id),
+                false)); //invokeEntityHandlers))
+          
+          if(!users.isEmpty()){
+            
+            return SSUser.get(
+              (SSUser) users.get(0),
+              entity);
+          }else{
+            return entity;
+          }
         }
         
         default: return entity;
@@ -170,61 +178,6 @@ implements
     }
   }
   
-  @Override 
-  public SSUser userGet(final SSUserGetPar par) throws Exception{
-    
-    try{
-      
-      SSUser userToGet = sqlFct.getUser(par.userToGet);
-      
-      if(userToGet == null){
-        return null;
-      }
-      
-      SSEntityDescriberPar       descPar; 
-      
-      if(par.invokeEntityHandlers){
-        descPar = new SSEntityDescriberPar(userToGet.id);
-        
-        descPar.setFriends        = true;
-        descPar.setProfilePicture = par.setProfilePicture;
-      }else{
-        descPar = null;
-      }
-
-      final SSEntity userEntityToGet =
-        entityServ.entityGet(
-          new SSEntityGetPar(
-            par.user,
-            userToGet.id,
-            par.withUserRestriction,
-            descPar));
-      
-      if(userEntityToGet == null){
-        return null;
-      }
-      
-      userToGet =
-        SSUser.get(
-          userToGet,
-          userEntityToGet);
-      
-      setUserThumb(
-        par.user, 
-        userToGet, 
-        par.withUserRestriction);
-      
-      if(par.invokeEntityHandlers){
-        userToGet.friend = SSStrU.contains(userToGet.friends, par.user);
-      }
-      
-      return userToGet;
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
   @Override
   public void usersGet(SSSocketCon sSCon, SSServPar parA) throws Exception {
     
@@ -247,20 +200,60 @@ implements
       
       final List<SSUri>    userURIs   = sqlFct.getUserURIs(par.users);
       final List<SSEntity> users      = new ArrayList<>();
-      final SSUserGetPar   userGetPar = 
-          new SSUserGetPar(
-            par.user,
-            null, //userToGet
-            par.invokeEntityHandlers);
+      SSUser               userToGet;
+      SSEntity             userEntityToGet;
+      SSEntityDescriberPar descPar; 
       
       for(SSUri userURI : userURIs){
         
-        userGetPar.userToGet         = userURI;
-        userGetPar.setProfilePicture = par.setProfilePicture;
+        userToGet = sqlFct.getUser(userURI);
+        
+        if(userToGet == null){
+          continue;
+        }
+      
+        if(par.invokeEntityHandlers){
+          descPar = new SSEntityDescriberPar(userToGet.id);
           
-        SSEntity.addEntitiesDistinctWithoutNull(
-          users,
-          userGet(userGetPar));
+          descPar.setProfilePicture = par.setProfilePicture;
+          descPar.setFriends        = par.setFriends;
+          descPar.setThumb          = par.setThumb;
+          descPar.setMessages       = par.setMessages;
+          descPar.setActivities     = par.setActivities;
+          descPar.setCircles        = par.setCircles;
+          descPar.setDiscs          = par.setDiscs;
+          descPar.setColls          = par.setColls;
+          descPar.setTags           = par.setTags;
+          
+        }else{
+          descPar = null;
+        }
+
+        userEntityToGet =
+          entityServ.entityGet(
+            new SSEntityGetPar(
+              par.user,
+              userToGet.id,
+              par.withUserRestriction,
+              descPar));
+      
+        if(userEntityToGet == null){
+          continue;
+        }
+      
+        userToGet =
+          SSUser.get(
+            userToGet,
+            userEntityToGet);
+        
+        if(
+          par.invokeEntityHandlers &&
+          par.setFriends){
+          
+          userToGet.friend = SSStrU.contains(userToGet.friends, par.user);
+        }
+        
+        users.add(userToGet);
       }
       
       return users;
@@ -363,27 +356,27 @@ implements
     }
   }
   
-  private void setUserThumb(
-    final SSUri   callingUser,
-    final SSUser  user,
-    final Boolean withUserRestriction) throws Exception{
-    
-    try{
-      final SSImageServerI imageServ = (SSImageServerI) SSServReg.getServ(SSImageServerI.class);
-      
-      for(SSEntity thumb :
-        imageServ.imagesGet(
-          new SSImagesGetPar(
-            callingUser,
-            user.id,
-            SSImageE.thumb,
-            withUserRestriction))){
-        
-        user.thumb = thumb;
-        break;
-      }
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
+//  private void setUserThumb(
+//    final SSUri          callingUser,
+//    final SSUser         user,
+//    final SSImageServerI imageServ, 
+//    final Boolean        withUserRestriction) throws Exception{
+//    
+//    try{
+//      
+//      for(SSEntity thumb :
+//        imageServ.imagesGet(
+//          new SSImagesGetPar(
+//            callingUser,
+//            user.id,
+//            SSImageE.thumb,
+//            withUserRestriction))){
+//        
+//        user.thumb = thumb;
+//        break;
+//      }
+//    }catch(Exception error){
+//      SSServErrReg.regErrThrow(error);
+//    }
+//  }
 }

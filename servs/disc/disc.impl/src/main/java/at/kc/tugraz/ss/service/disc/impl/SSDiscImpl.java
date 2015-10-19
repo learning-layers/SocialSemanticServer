@@ -126,17 +126,40 @@ public class SSDiscImpl
       
       if(par.setDiscs){
         
-        SSEntity.addEntitiesDistinctWithoutNull(
-          entity.discs,
-          discsGet(
-            new SSDiscsGetPar(
-              par.user,
-              true, //setEntries
-              null, //forUser
-              null, //discs
-              SSUri.asListWithoutNullAndEmpty(entity.id), //targets
-              par.withUserRestriction,
-              false))); //invokeEntityHandlers
+        switch(entity.type){
+        
+          case user:{
+            
+            entity.discs.addAll(
+              discsGet(
+                new SSDiscsGetPar(
+                  par.user,
+                  true, //setEntries
+                  entity.id, //forUser
+                  null, //discs
+                  null, //targets
+                  par.withUserRestriction,
+                  false))); //invokeEntityHandlers
+            
+            break;
+          }
+          
+          default:{
+            
+            entity.discs.addAll(
+              discsGet(
+                new SSDiscsGetPar(
+                  par.user,
+                  true, //setEntries
+                  null, //forUser
+                  null, //discs
+                  SSUri.asListWithoutNullAndEmpty(entity.id), //targets
+                  par.withUserRestriction,
+                  false))); //invokeEntityHandlers
+            
+            break;
+          }
+        }
       }
       
       switch(entity.type){
@@ -1082,12 +1105,6 @@ public class SSDiscImpl
               return new ArrayList<>();
             }
           }
-        }
-        
-        if(
-          par.forUser != null &&
-          !SSStrU.equals(par.user,  par.forUser)){
-          return new ArrayList<>();
         }
       }
       

@@ -151,6 +151,21 @@ public class SSEntity extends SSEntityA{
     value = "profile picture for entity")
   public SSEntity       profilePicture = null;
   
+  @ApiModelProperty(
+    required = false,
+    value = "activities")
+  public SSQueryResultPage activityPage = null;
+  
+  @ApiModelProperty(
+    required = false,
+    value = "messages")
+  public SSQueryResultPage messagesPage = null;
+  
+  @ApiModelProperty(
+    required = false,
+    value = "colls")
+  public SSQueryResultPage collsPage = null;
+  
   public String getId() throws Exception{
     return SSStrU.removeTrailingSlash(id);
   }

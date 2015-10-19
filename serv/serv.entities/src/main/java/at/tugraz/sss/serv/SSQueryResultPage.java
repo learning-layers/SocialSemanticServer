@@ -18,37 +18,38 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
- package at.kc.tugraz.ss.service.user.datatypes.pars;
+package at.tugraz.sss.serv;
 
-import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.serv.SSStrU;
+import java.util.ArrayList;
+import java.util.List;
 
-public class SSUserGetPar extends SSServPar{
+public class SSQueryResultPage {
   
-  public SSUri   userToGet            = null;
-  public Boolean invokeEntityHandlers = false;
-  public Boolean setProfilePicture    = false;
-
-  public String getUserToGet() throws Exception{
-    return SSStrU.removeTrailingSlash(userToGet);
-  }
-
-  public void setUserToGet(final String userToGet) throws Exception{
-    this.userToGet = SSUri.get(userToGet);
-  }
+  public String         pagesID     = null;
+  public Integer        pageNumber  = null;
+  public Integer        pagesCount  = null;
+  public List<SSEntity> entities    = new ArrayList<>();
   
-  public SSUserGetPar(){}
-  
-  public SSUserGetPar(
-    final SSUri       user, 
-    final SSUri       userToGet,
-    final Boolean     invokeEntityHandlers){
-   
-    super(SSServOpE.userGet, null, user);
+   public SSQueryResultPage(
+    final List<SSEntity> entities){
     
-    this.userToGet            = userToGet;
-    this.invokeEntityHandlers = invokeEntityHandlers;
+    this.pagesID     = "1";
+    this.pageNumber  = 1;
+    this.pagesCount  = 1;
+    
+    SSEntity.addEntitiesDistinctWithoutNull(this.entities, entities);
+  }
+   
+  public SSQueryResultPage(
+    final String         pagesID,
+    final Integer        pageNumber,
+    final Integer        pagesCount,
+    final List<SSEntity> entities){
+    
+    this.pagesID     = pagesID;
+    this.pageNumber  = pageNumber;
+    this.pagesCount  = pagesCount;
+    
+    SSEntity.addEntitiesDistinctWithoutNull(this.entities, entities);
   }
 }

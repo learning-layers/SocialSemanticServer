@@ -58,6 +58,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import at.tugraz.sss.serv.SSErrE;
+import at.tugraz.sss.serv.SSQueryResultPage;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
 
@@ -82,37 +83,112 @@ implements
     final SSEntity             entity,
     final SSEntityDescriberPar par) throws Exception{
     
-    switch(entity.type){
+    try{
       
-      case activity:{
+      if(par.setActivities){
         
-        if(SSStrU.equals(entity, par.recursiveEntity)){
-          return entity;
+        switch(entity.type){
+          
+          case user:{
+            
+            entity.activityPage =
+              new SSQueryResultPage(
+                activitiesGet(
+                  new SSActivitiesGetPar(
+                    par.user,
+                    null, //activities
+                    null, //types
+                    SSUri.asListWithoutNullAndEmpty(entity.id), //users
+                    null, //entities
+                    null, //circles
+                    null, //startTime
+                    null, //endTime
+                    true, //includeOnlyLastActivities
+                    par.withUserRestriction,
+                    false))); //invokeEntityHandlers
+            
+            break;
+          }
+          
+          case circle:{
+            
+            entity.activityPage =
+              new SSQueryResultPage(
+                activitiesGet(
+                  new SSActivitiesGetPar(
+                    par.user,
+                    null, //activities
+                    null, //types
+                    null, //users
+                    null, //entities
+                    SSUri.asListWithoutNullAndEmpty(entity.id), //circles
+                    null, //startTime
+                    null, //endTime
+                    true, //includeOnlyLastActivities
+                    par.withUserRestriction,
+                    false))); //invokeEntityHandlers
+            
+            break;
+          }
+          
+          default:{
+            entity.activityPage =
+              new SSQueryResultPage(
+                activitiesGet(
+                  new SSActivitiesGetPar(
+                    par.user,
+                    null, //activities
+                    null, //types
+                    null, //users
+                    SSUri.asListWithoutNullAndEmpty(entity.id), //entities
+                    null, //circles
+                    null, //startTime
+                    null, //endTime
+                    true, //includeOnlyLastActivities
+                    par.withUserRestriction,
+                    false))); //invokeEntityHandlers
+            
+            break;
+          }
         }
-        
-        final List<SSEntity> activities =
-          activitiesGet(
-            new SSActivitiesGetPar(
-              par.user,
-              SSUri.asListWithoutNullAndEmpty(entity.id), //activities
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              null,
-              par.withUserRestriction,
-              false));
-        
-        if(activities.isEmpty()){
-          throw new Exception("activity doesnt exist");
-        }
-        
-        return SSActivity.get((SSActivity) activities.get(0), entity);
       }
       
-      default: return entity;
+      switch(entity.type){
+        
+        case activity:{
+          
+          if(SSStrU.equals(entity, par.recursiveEntity)){
+            return entity;
+          }
+          
+          final List<SSEntity> activities =
+            activitiesGet(
+              new SSActivitiesGetPar(
+                par.user,
+                SSUri.asListWithoutNullAndEmpty(entity.id), //activities
+                null, //types
+                null, //users
+                null, //entities
+                null, //circles
+                null, //startTime
+                null, //endTime
+                false, //includeOnlyLastActivities
+                par.withUserRestriction,
+                false)); //invokeEntityHandlers
+          
+          if(!activities.isEmpty()){
+            return SSActivity.get((SSActivity) activities.get(0), entity);
+          }else{
+            return entity;
+          }
+        }
+        
+        default: return entity;
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   

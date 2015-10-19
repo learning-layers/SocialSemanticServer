@@ -48,6 +48,7 @@ import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSErrE;
+import at.tugraz.sss.serv.SSQueryResultPage;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.SSServReg;
@@ -82,6 +83,22 @@ implements
     final SSEntityDescriberPar par) throws Exception{
     
     try{
+      
+      if(
+        par.setMessages &&
+        SSStrU.equals(par.user, entity)){
+        
+        entity.messagesPage =
+          new SSQueryResultPage(
+            messagesGet(
+              new SSMessagesGetPar(
+                par.user,
+                true, //includeRead,
+                null, //startTime,
+                par.withUserRestriction,
+                false))); //invokeEntityHandlers
+      }
+
       switch(entity.type){
         
         case message:{
@@ -184,6 +201,7 @@ implements
   @Override
   public List<SSEntity> messagesGet(final SSMessagesGetPar par) throws Exception{
     
+    //TODO implement including message the user sent
     try{
       
       if(par.user == null){
