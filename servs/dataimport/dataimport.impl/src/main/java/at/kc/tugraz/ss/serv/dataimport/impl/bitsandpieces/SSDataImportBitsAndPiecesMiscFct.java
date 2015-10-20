@@ -150,7 +150,7 @@ public class SSDataImportBitsAndPiecesMiscFct {
           SSEvalLogE.addNote,
           noteUri,
           null, //content
-          SSUri.asListWithoutNullAndEmpty(notebookUri), //entities
+SSUri.asListNotNull(notebookUri), //entities
           null, //users
           false)); //shouldCommit
       
@@ -433,7 +433,7 @@ public class SSDataImportBitsAndPiecesMiscFct {
         SSEvalLogE.addResource,
         resourceUri,
         null, //content
-        SSUri.asListWithoutNullAndEmpty(noteUri), //entitites
+SSUri.asListNotNull(noteUri), //entitites
         null,  //users
         false)); //shouldCommit
   }

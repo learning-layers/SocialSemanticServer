@@ -301,7 +301,7 @@ implements
         new SSEntitySharePar(
           par.user, 
           message, 
-          SSUri.asListWithoutNullAndEmpty(par.forUser),  //users
+          SSUri.asListNotNull(par.forUser),  //users
           null,  //circles
           false, //setPublic, 
           null, //comment, 

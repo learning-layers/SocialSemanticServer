@@ -692,7 +692,7 @@ implements
           new SSLearnEpVersionsGetPar(
             par.user,
             null, //learnEp
-            SSUri.asListWithoutNullAndEmpty(par.learnEpVersion), //learnEpVersions
+SSUri.asListNotNull(par.learnEpVersion), //learnEpVersions
             par.withUserRestriction,
             par.invokeEntityHandlers));
       
@@ -830,7 +830,7 @@ implements
         entityServ,
         par.user,
         par.learnEp,
-        SSUri.asListWithoutNullAndEmpty(learnEpVersion),
+        SSUri.asListNotNull(learnEpVersion),
         false, //withUserRestriction
         false); //invokeEntityHandlers
       
@@ -1030,7 +1030,7 @@ implements
         entityServ,
         par.user,
         par.learnEpVersion,
-        SSUri.asListWithoutNullAndEmpty(circle),
+        SSUri.asListNotNull(circle),
         false, //withUserRestriction
         false); //invokeEntityHandlers
       
@@ -1187,7 +1187,7 @@ implements
         entityServ,
         par.user, 
         par.learnEpVersion,
-        SSUri.asListWithoutNullAndEmpty(learnEpEntity), 
+        SSUri.asListNotNull(learnEpEntity), 
         false, //withUserRestriction,
         false); //invokeEntityHandlers);
      
@@ -1196,7 +1196,7 @@ implements
         entityServ,
         par.user, 
         par.learnEpVersion,
-        SSUri.asListWithoutNullAndEmpty(entity), 
+        SSUri.asListNotNull(entity), 
         par.withUserRestriction, //withUserRestriction
         true); //invokeEntityHandlers);
       
@@ -1726,7 +1726,7 @@ implements
         entityServ,
         par.user,
         par.learnEpVersion,
-        SSUri.asListWithoutNullAndEmpty(learnEpTimelineStateUri),
+        SSUri.asListNotNull(learnEpTimelineStateUri),
         false, //withUserRestriction
         false); //invokeEntityHandlers);
       

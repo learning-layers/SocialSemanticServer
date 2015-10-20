@@ -84,7 +84,7 @@ public class SSEntityShareWithUsers {
         new SSCircleEntitiesAddPar(
           user,
           circleUri, //circle
-          SSUri.asListWithoutNullAndEmpty(entity.id),  //entities
+SSUri.asListNotNull(entity.id),  //entities
           false, //withUserRestriction
           false)); //shouldCommit
 

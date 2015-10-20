@@ -46,8 +46,8 @@ public class SSFileActivityFct{
           user, 
           SSActivityE.shareFileWithUsers, 
           entity, 
-          SSUri.asListWithoutNullAndEmpty(usersToShareWith), 
-          SSUri.asListWithoutNullAndEmpty(), 
+          SSUri.asListNotNull(usersToShareWith), 
+          SSUri.asListNotNull(), 
           SSTextComment.asListWithoutNullAndEmpty(), 
           null, 
           false));

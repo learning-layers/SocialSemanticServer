@@ -50,7 +50,7 @@ public class SSMessageActivityFct{
             user,
             SSActivityE.messageSend,
             message,
-            SSUri.asListWithoutNullAndEmpty(forUser),
+            SSUri.asListNotNull(forUser),
             null,
             null,
             null,

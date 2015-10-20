@@ -132,7 +132,7 @@ implements
             new SSCategoriesGetPar(
               par.user,
               null, //forUser,
-              SSUri.asListWithoutNullAndEmpty(entity.id),
+SSUri.asListNotNull(entity.id),
               null, //labels,
               null, //labelSearchOp
               null, //spaces,
@@ -339,7 +339,7 @@ implements
         SSActivityE.addCategory,
         par.entity,
         null,
-        SSUri.asListWithoutNullAndEmpty(categoryUri),
+        SSUri.asListNotNull(categoryUri),
         null,
         null,
         par.shouldCommit));

@@ -124,11 +124,11 @@ implements
             new SSTagsGetPar(
               par.user,
               null, //forUser
-              SSUri.asListWithoutNullAndEmpty(entity.id), //entities
+SSUri.asListNotNull(entity.id), //entities
               null, //labels
               null, //labelSearchOp, 
               SSSpaceE.asListWithoutNull(par.space), //spaces
-              SSUri.asListWithoutNullAndEmpty(par.circle), //circles
+SSUri.asListNotNull(par.circle), //circles
               null, //startTime
               par.withUserRestriction))); //withUserRestriction
       }
@@ -398,8 +398,8 @@ implements
     
       actAndLogFct.tagsAdd(
         par.user, 
-        SSUri.asListWithoutNullAndEmpty(par.entity), 
-        SSUri.asListWithoutNullAndEmpty(tagURI), 
+        SSUri.asListNotNull(par.entity), 
+        SSUri.asListNotNull(tagURI), 
         SSTagLabel.asListWithoutNullAndEmpty(par.label), 
         par.shouldCommit);
     }
@@ -820,7 +820,7 @@ implements
         
         //TODO change: hack from bits and pieces
         final List<SSEntityE> types =
-          SSEntityE.asListWithoutNullAndEmpty(
+          SSEntityE.asListNotNull(
             SSEntityE.entity,
             SSEntityE.file,
             SSEntityE.evernoteResource,

@@ -49,7 +49,7 @@ public class SSDataExportFct{
           null, //labels
           null, //labelSearchOp
           SSSpaceE.asListWithoutNull(), //spaces
-          SSUri.asListWithoutNullAndEmpty(circle), //circles
+          SSUri.asListNotNull(circle), //circles
           null, //startTime
           false))); //withUserRestriction
   }
@@ -69,7 +69,7 @@ public class SSDataExportFct{
           null, //labels
           null, //labelSearchOp
           null, //spaces
-          SSUri.asListWithoutNullAndEmpty(circle), //circles
+          SSUri.asListNotNull(circle), //circles
           null, //startTime
           false))); //withUserRestriction
   }

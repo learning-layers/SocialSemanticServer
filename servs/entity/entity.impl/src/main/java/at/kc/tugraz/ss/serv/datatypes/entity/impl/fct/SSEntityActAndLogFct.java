@@ -160,7 +160,7 @@ public class SSEntityActAndLogFct {
           SSEvalLogE.entityCopy,
           entity,  //entity
           null, //content,
-          SSUri.asListWithoutNullAndEmpty(targetEntity), //entities
+SSUri.asListNotNull(targetEntity), //entities
           forUsers, //users
           shouldCommit));
       

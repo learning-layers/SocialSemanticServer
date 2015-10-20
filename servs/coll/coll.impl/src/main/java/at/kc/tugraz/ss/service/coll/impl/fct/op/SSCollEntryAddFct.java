@@ -86,7 +86,7 @@ public class SSCollEntryAddFct{
       entityServ,
       par.user,
       par.coll,
-      SSUri.asListWithoutNullAndEmpty(newColl), //entities
+      SSUri.asListNotNull(newColl), //entities
       par.withUserRestriction,
       false); //invokeEntityHandlers
     
@@ -168,7 +168,7 @@ public class SSCollEntryAddFct{
       entityServ,
       par.user,
       par.coll,
-      SSUri.asListWithoutNullAndEmpty(entry), //entities
+      SSUri.asListNotNull(entry), //entities
       par.withUserRestriction,
       true); //invokeEntityHandlers
     

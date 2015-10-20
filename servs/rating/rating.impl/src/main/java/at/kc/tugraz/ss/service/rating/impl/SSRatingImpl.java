@@ -94,7 +94,7 @@ implements
         
         for(SSEntity rating :
           sqlFct.getRatingAsss(
-            SSUri.asListWithoutNullAndEmpty(SSUri.get(user)),
+            SSUri.asListNotNull(SSUri.get(user)),
             null)){
           
           SSRatingUserRelationGathererFct.addUserForEntity((SSRating) rating, usersPerEntity);

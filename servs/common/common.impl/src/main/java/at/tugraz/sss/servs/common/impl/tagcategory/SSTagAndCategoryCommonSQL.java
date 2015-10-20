@@ -435,7 +435,7 @@ public class SSTagAndCategoryCommonSQL extends SSDBSQLFct{
 //      
 //      while(resultSet.next()){
 //        
-//        //TODO dtheiler: use db for date restriction here
+//        //dtheiler: use db for date restriction here
 //        if(
 //          startTime != null &&
 //          startTime != 0    &&
@@ -562,7 +562,7 @@ public class SSTagAndCategoryCommonSQL extends SSDBSQLFct{
 //      
 //      while(resultSet.next()){
 //        
-//        //TODO dtheiler: use db for date restriction here
+//        //dtheiler: use db for date restriction here
 //        if(
 //          startTime != null &&
 //          startTime != 0    &&
@@ -716,7 +716,7 @@ public class SSTagAndCategoryCommonSQL extends SSDBSQLFct{
 //      
 //      while(resultSet.next()){
 //        
-//        //TODO dtheiler: use db for date restriction here
+//        //dtheiler: use db for date restriction here
 //        if(
 //          startTime != null &&
 //          startTime != 0    &&

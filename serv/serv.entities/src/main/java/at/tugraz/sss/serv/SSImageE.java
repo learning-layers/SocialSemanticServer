@@ -63,7 +63,7 @@ public enum SSImageE implements SSJSONLDPropI{
     }
   }
   
-  public static void addDistinctWithoutNull(
+  public static void addDistinctNotNull(
     final List<SSImageE>     entities,
     final SSImageE           entity){
     
@@ -76,7 +76,7 @@ public enum SSImageE implements SSJSONLDPropI{
     entities.add(entity);
   }
   
-  public static void addDistinctWithoutNull(
+  public static void addDistinctNotNull(
     final List<SSImageE>  entities,
     final List<SSImageE>  toAddEntities){
     
@@ -96,8 +96,7 @@ public enum SSImageE implements SSJSONLDPropI{
     }
   }
   
-  //TODO rename to asListWithoutNull
-  public static List<SSImageE> asListWithoutNullAndEmpty(final SSImageE... types){
+  public static List<SSImageE> asListNotNull(final SSImageE... types){
    
     final List<SSImageE> result = new ArrayList<>();
     
@@ -117,8 +116,7 @@ public enum SSImageE implements SSJSONLDPropI{
     return result;
   }
   
-  //TODO rename to asListWithoutNull
-  public static List<SSImageE> asListWithoutNullAndEmpty(final List<SSImageE> types){
+  public static List<SSImageE> asListNotNull(final List<SSImageE> types){
    
     final List<SSImageE> result = new ArrayList<>();
     

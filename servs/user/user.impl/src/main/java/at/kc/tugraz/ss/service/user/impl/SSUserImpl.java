@@ -94,7 +94,7 @@ implements
             usersGet(
               new SSUsersGetPar(
                 par.user,
-                SSUri.asListWithoutNullAndEmpty(entity.author.id),
+                SSUri.asListNotNull(entity.author.id),
                 false)); //invokeEntityHandlers))
           
           if(!authors.isEmpty()){
@@ -115,7 +115,7 @@ implements
             usersGet(
               new SSUsersGetPar(
                 par.user,
-                SSUri.asListWithoutNullAndEmpty(entity.id),
+                SSUri.asListNotNull(entity.id),
                 false)); //invokeEntityHandlers))
           
           if(!users.isEmpty()){
@@ -320,7 +320,7 @@ implements
           new SSCircleUsersAddPar(
             SSVocConf.systemUserUri,
             publicCircleURI, //circle
-            SSUri.asListWithoutNullAndEmpty(userUri), //users
+SSUri.asListNotNull(userUri), //users
             par.withUserRestriction, //withUserRestriction
             false)); //shouldCommit
       

@@ -218,7 +218,7 @@ implements
           sqlFct.getEntityURIs(
             null, //entities, 
             types, //types, 
-            SSUri.asListWithoutNullAndEmpty(SSUri.get(user)))){ //authors
+SSUri.asListNotNull(SSUri.get(user)))){ //authors
           
           if(usersResources.containsKey(user)){
             usersResources.get(user).add(entity);

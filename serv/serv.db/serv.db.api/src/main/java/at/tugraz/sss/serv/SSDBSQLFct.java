@@ -829,4 +829,21 @@ public class SSDBSQLFct extends SSDBFct{
       return false;
     }
   }
+  
+  public void removeEntity(
+    final SSUri circle,
+    final SSUri entity) throws Exception{
+    
+    try{
+      
+      final Map<String, String> wheres = new HashMap<>();
+      
+      where(wheres, SSSQLVarNames.circleId, circle);
+      where(wheres, SSSQLVarNames.entityId, entity);
+      
+      dbSQL.delete(SSSQLVarNames.circleEntitiesTable, wheres);
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
 }

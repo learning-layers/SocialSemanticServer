@@ -61,7 +61,7 @@ public class SSEntitySetPublic {
         new SSCircleEntitiesAddPar(
           user,
           pubCircleURI,  //circle
-          SSUri.asListWithoutNullAndEmpty(entity.id),  //entities
+SSUri.asListNotNull(entity.id),  //entities
           false, //withUserRestriction
           false)); //shouldCommit
       

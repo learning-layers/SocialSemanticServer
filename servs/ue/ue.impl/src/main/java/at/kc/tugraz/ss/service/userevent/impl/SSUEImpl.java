@@ -203,7 +203,7 @@ implements
       final SSUEsGetPar uesGetPar =
         new SSUEsGetPar(
           par.user,
-          SSUri.asListWithoutNullAndEmpty(par.userEvent),  //userEvents
+          SSUri.asListNotNull(par.userEvent),  //userEvents
           null, //forUser,
           null, //entity,
           null, //types,

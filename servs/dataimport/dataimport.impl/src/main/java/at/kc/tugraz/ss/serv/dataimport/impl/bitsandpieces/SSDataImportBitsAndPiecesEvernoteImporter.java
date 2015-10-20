@@ -361,7 +361,7 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
         new SSTagsAddPar(
           userUri,
           SSTagLabel.get(noteTagNames), //labels
-          SSUri.asListWithoutNullAndEmpty(noteUri), //entities
+SSUri.asListNotNull(noteUri), //entities
           SSSpaceE.sharedSpace, //space
           null, //circles
           note.getUpdated(), //creationTime
@@ -377,7 +377,7 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
             SSEvalLogE.addTag, //type
             noteUri, //entity
             noteTag, //content
-            SSUri.asListWithoutNullAndEmpty(notebookUri), //entities
+SSUri.asListNotNull(notebookUri), //entities
             null, //users
             false)); //shouldCommit
       }

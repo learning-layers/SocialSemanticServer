@@ -858,7 +858,7 @@ implements
         par.user,
         SSActivityE.addEntitiesToCircle,
         par.circle,
-        SSUri.asListWithoutNullAndEmpty(),
+        SSUri.asListNotNull(),
         par.entities,
         null,
         null,

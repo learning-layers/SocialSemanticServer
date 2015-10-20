@@ -780,24 +780,6 @@ public class SSCircleSQLFct extends SSDBSQLFct{
     }
   }
 
-  //TODO remove duplication from entity service
-  public void removeEntity(
-    final SSUri circle,
-    final SSUri entity) throws Exception{
-    
-    try{
-      
-      final Map<String, String> wheres = new HashMap<>();
-      
-      where(wheres, SSSQLVarNames.circleId, circle);
-      where(wheres, SSSQLVarNames.entityId, entity);
-      
-      dbSQL.delete(SSSQLVarNames.circleEntitiesTable, wheres);
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
   public void removeUser(
     final SSUri circle,
     final SSUri user) throws Exception{

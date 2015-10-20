@@ -158,8 +158,7 @@ public enum SSEntityE implements SSJSONLDPropI{
     }
   }
   
-  //TODO rename to asListWithoutNull
-  public static List<SSEntityE> asListWithoutNullAndEmpty(final SSEntityE... types){
+  public static List<SSEntityE> asListNotNull(final SSEntityE... types){
    
     final List<SSEntityE> result = new ArrayList<>();
     
@@ -179,8 +178,7 @@ public enum SSEntityE implements SSJSONLDPropI{
     return result;
   }
   
-  //TODO rename to asListWithoutNull
-  public static List<SSEntityE> asListWithoutNullAndEmpty(final List<SSEntityE> types){
+  public static List<SSEntityE> asListNotNull(final List<SSEntityE> types){
    
     final List<SSEntityE> result = new ArrayList<>();
     

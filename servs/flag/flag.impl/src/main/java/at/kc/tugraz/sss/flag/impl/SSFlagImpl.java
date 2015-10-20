@@ -87,7 +87,7 @@ implements
            flagsGet(
              new SSFlagsGetPar(
                par.user,
-               SSUri.asListWithoutNullAndEmpty(entity.id), //entities,
+               SSUri.asListNotNull(entity.id), //entities,
                null, //types,
                null, //startTime,
                null, //endTime,
@@ -200,8 +200,8 @@ implements
               
               final List<SSUri> existingFlagUris =
                 sqlFct.getFlagURIs(
-                  SSUri.asListWithoutNullAndEmpty(par.user),
-                  SSUri.asListWithoutNullAndEmpty(entity),
+                  SSUri.asListNotNull(par.user),
+                  SSUri.asListNotNull(entity),
                   SSFlagE.asListWithoutNullAndEmpty(flagType),
                   null, //startTime,
                   null); //endTime
@@ -340,7 +340,7 @@ implements
       //TODO for flags which should be retrieved for user-entity combination and not only based on the entity, change here:
       final List<SSUri> flagURIs =
         sqlFct.getFlagURIs(
-          SSUri.asListWithoutNullAndEmpty(), //        SSUri.asListWithoutNullAndEmpty(par.user),
+          SSUri.asListNotNull(), //        SSUri.asListWithoutNullAndEmpty(par.user),
           par.entities,
           par.types,
           par.startTime,

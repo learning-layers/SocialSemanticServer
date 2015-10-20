@@ -75,7 +75,7 @@ public class SSDiscActAndLogFct{
               SSActivityE.discussEntity,
               target, //entity
               null, //users
-              SSUri.asListWithoutNullAndEmpty(disc), //entities
+SSUri.asListNotNull(disc), //entities
               null, //comments
               null,
               shouldCommit));
@@ -105,7 +105,7 @@ public class SSDiscActAndLogFct{
               SSEvalLogE.discussEntity,
               target, //entity
               null, //content
-              SSUri.asListWithoutNullAndEmpty(disc), //entities
+SSUri.asListNotNull(disc), //entities
               null, //users
               shouldCommit));
         }
@@ -147,7 +147,7 @@ public class SSDiscActAndLogFct{
             SSActivityE.addDiscEntry,
             disc,
             null, //users,
-            SSUri.asListWithoutNullAndEmpty(entry), //entities
+SSUri.asListNotNull(entry), //entities
             SSTextComment.asListWithoutNullAndEmpty(entryContent), //comment
             null,
             shouldCommit));
@@ -174,7 +174,7 @@ public class SSDiscActAndLogFct{
             SSEvalLogE.addDiscEntry,
             disc, //entity
             SSStrU.toStr(entryContent), //content
-            SSUri.asListWithoutNullAndEmpty(entry), //entities
+SSUri.asListNotNull(entry), //entities
             null, //users
             shouldCommit));
       }
@@ -212,7 +212,7 @@ public class SSDiscActAndLogFct{
             SSEvalLogE.discussEntity,
             target, //entity
             null, //content
-            SSUri.asListWithoutNullAndEmpty(disc), //entities
+SSUri.asListNotNull(disc), //entities
             null, //users
             shouldCommit));
       }

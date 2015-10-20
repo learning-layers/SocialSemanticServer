@@ -43,8 +43,8 @@ public class SSRatingActivityFct{
           par.user,
           SSActivityE.rateEntity,
           par.entity,
-          SSUri.asListWithoutNullAndEmpty(),
-          SSUri.asListWithoutNullAndEmpty(),
+          SSUri.asListNotNull(),
+          SSUri.asListNotNull(),
           SSTextComment.asListWithoutNullAndEmpty(),
           null,
           par.shouldCommit));

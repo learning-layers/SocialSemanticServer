@@ -214,8 +214,7 @@ public class SSUri extends SSEntityA{
     }
   }
   
-  //TODO rename to:  asListWithoutNull
-  public static List<SSUri> asListWithoutNullAndEmpty(final SSUri... entities){
+  public static List<SSUri> asListNotNull(final SSUri... entities){
    
     final List<SSUri> result = new ArrayList<>();
     
@@ -235,8 +234,7 @@ public class SSUri extends SSEntityA{
     return result;
   }
   
-  //TODO rename to:  asListWithoutNull
-  public static List<SSUri> asListWithoutNullAndEmpty(final List<SSUri> entities){
+  public static List<SSUri> asListNotNull(final List<SSUri> entities){
    
     final List<SSUri> result = new ArrayList<>();
     

@@ -180,34 +180,34 @@ public class SSCircleMiscFct{
     }
   }
   
-  public Boolean canUserForEntityType(
-    final SSUri          user,
-    final SSEntity       entity) throws Exception{
-    
-    try{
-      switch(entity.type){
-        case entity: return true; //TODO dtheiler: break down general entity types so that checks on e.g. videos will be present
-        case circle: {
-          
-          if(isUserInCircle       (user, entity.id)){
-//            &&
-//            hasCircleOfTypeRight (entity.id, accessRight)
-            return true;
-          }
-          
-          return false;
-        }
-        
-        default:{
-          return !sqlFct.getCirclesCommonForUserAndEntity(user, entity.id).isEmpty();
-//          return doesUserHaveRightInAnyCircleOfEntity(user, entity.id, accessRight);
-        }
-      }
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
+//  public Boolean canUserForEntityType(
+//    final SSUri          user,
+//    final SSEntity       entity) throws Exception{
+//    
+//    try{
+//      switch(entity.type){
+//        case entity: return true; //dtheiler: break down general entity types so that checks on e.g. videos will be present
+//        case circle: {
+//          
+//          if(isUserInCircle       (user, entity.id)){
+////            &&
+////            hasCircleOfTypeRight (entity.id, accessRight)
+//            return true;
+//          }
+//          
+//          return false;
+//        }
+//        
+//        default:{
+//          return !sqlFct.getCirclesCommonForUserAndEntity(user, entity.id).isEmpty();
+////          return doesUserHaveRightInAnyCircleOfEntity(user, entity.id, accessRight);
+//        }
+//      }
+//    }catch(Exception error){
+//      SSServErrReg.regErrThrow(error);
+//      return null;
+//    }
+//  }
   
   public void addCircle(
     final SSUri          circleUri,
@@ -320,7 +320,7 @@ public class SSCircleMiscFct{
             new SSCircleUsersAddPar(
               forUser,
               copyCircleURI,
-              SSUri.asListWithoutNullAndEmpty(par.user),
+              SSUri.asListNotNull(par.user),
               false, //withUserRestriction,
               false)); //shouldCommit
           
@@ -444,7 +444,7 @@ public class SSCircleMiscFct{
           new SSCircleUsersAddPar(
             par.user,
             par.targetEntity, //circle
-            SSUri.asListWithoutNullAndEmpty(par.user), //users
+SSUri.asListNotNull(par.user), //users
             false, //withUserRestriction,
             false)); //shouldCommit
         

@@ -103,7 +103,7 @@ public class SSTagAndCategoryCommonMisc {
       
         metadata.addAll(
           sqlFct.getMetadataAsss(
-            SSUri.asListWithoutNullAndEmpty(user), //user
+            SSUri.asListNotNull(user), //user
             entities, //entities
             SSSpaceE.asListWithoutNull(SSSpaceE.privateSpace), //spaces
             startTime, //startTime
@@ -112,7 +112,7 @@ public class SSTagAndCategoryCommonMisc {
 
         metadata.addAll(
           sqlFct.getMetadataAsss(
-            SSUri.asListWithoutNullAndEmpty(forUser), //user
+            SSUri.asListNotNull(forUser), //user
             entities, //entities
             SSSpaceE.asListWithoutNull(SSSpaceE.sharedSpace, SSSpaceE.circleSpace), //spaces
             startTime, //startTime
@@ -129,7 +129,7 @@ public class SSTagAndCategoryCommonMisc {
               
               metadata.addAll(
                 sqlFct.getMetadataAsss(
-                  SSUri.asListWithoutNullAndEmpty(user), //user
+                  SSUri.asListNotNull(user), //user
                   entities, //entities
                   SSSpaceE.asListWithoutNull(space), //spaces
                   startTime, //startTime
@@ -143,7 +143,7 @@ public class SSTagAndCategoryCommonMisc {
               
               metadata.addAll(
                 sqlFct.getMetadataAsss(
-                  SSUri.asListWithoutNullAndEmpty(forUser), //user
+                  SSUri.asListNotNull(forUser), //user
                   entities, //entities
                   SSSpaceE.asListWithoutNull(space), //spaces
                   startTime, //startTime
@@ -427,7 +427,7 @@ public class SSTagAndCategoryCommonMisc {
 //          null));
 //    }
 //    
-//    //TODO dtheiler: handle loop in db
+//    //dtheiler: handle loop in db
 //    for(SSTagLabel label : par.labels){
 //    
 //      slabel    = SSLabel.get(SSStrU.toStr(label));
@@ -787,7 +787,7 @@ public class SSTagAndCategoryCommonMisc {
 //          null));
 //    }
 //    
-//    //TODO dtheiler: handle loop in db
+//    //dtheiler: handle loop in db
 //    for(SSTagLabel label : par.labels){
 //      
 //      slabel    = SSLabel.get(SSStrU.toStr(label));
@@ -938,7 +938,7 @@ public class SSTagAndCategoryCommonMisc {
 //          null));
 //    }
 //    
-//    //TODO dtheiler: handle loop in db
+//    //dtheiler: handle loop in db
 //    for(String label : labels){
 //    
 //      metadataEntity =
@@ -988,7 +988,7 @@ public class SSTagAndCategoryCommonMisc {
 //          null));
 //    }
 //    
-//    //TODO dtheiler: handle loop in db
+//    //dtheiler: handle loop in db
 //    for(String label : labels){
 //      
 //      metadataEntity =

@@ -44,7 +44,7 @@ public class SSEntityActivityFct{
           SSActivityE.shareEntityWithUsers, 
           par.entity,
           par.users, 
-          SSUri.asListWithoutNullAndEmpty(), 
+          SSUri.asListNotNull(), 
           SSTextComment.asListWithoutNullAndEmpty(par.comment), 
           null, 
           par.shouldCommit));
@@ -72,7 +72,7 @@ public class SSEntityActivityFct{
           SSActivityE.shareEntityWithCircles, 
           par.entity,
           null,
-          SSUri.asListWithoutNullAndEmpty(par.circles),
+          SSUri.asListNotNull(par.circles),
           SSTextComment.asListWithoutNullAndEmpty(par.comment), 
           null, 
           par.shouldCommit));

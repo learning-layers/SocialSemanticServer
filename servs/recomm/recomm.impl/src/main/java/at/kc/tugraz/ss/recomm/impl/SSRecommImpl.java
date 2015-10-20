@@ -237,7 +237,7 @@ public class SSRecommImpl extends SSServImplWithDBA implements SSRecommClientI, 
         par.entity,
         SSStrU.toCommaSeparatedStrNotNull(par.categories),  //content
         null, //entities, 
-        SSUri.asListWithoutNullAndEmpty(par.forUser), //users, 
+SSUri.asListNotNull(par.forUser), //users, 
         par.shouldCommit));
     
     final List<SSTagLikelihood> result = recommTags(par);
@@ -562,7 +562,7 @@ public class SSRecommImpl extends SSServImplWithDBA implements SSRecommClientI, 
       
       SSServCaller.dataExportUsersEntitiesTagsCategoriesTimestampsFile(
         par.user,
-        SSUri.asListWithoutNullAndEmpty(),
+        SSUri.asListNotNull(),
         true,
         true,
         userRealmEngine.realm + SSStrU.dot + SSFileExtE.txt);
@@ -767,9 +767,9 @@ public class SSRecommImpl extends SSServImplWithDBA implements SSRecommClientI, 
           
           userRealmEngine =
             SSRecommUserRealmKeeper.checkAddAndGetUserRealmEngine(
-              (SSRecommConf) conf,
-              user,
-              usersForRealm.getKey(),
+              (SSRecommConf) conf, //conf
+              user, //user
+              usersForRealm.getKey(), //realm
               true, //checkForUpdate
               new TagRecommenderEvalEngine(), //engine
               sqlFct,

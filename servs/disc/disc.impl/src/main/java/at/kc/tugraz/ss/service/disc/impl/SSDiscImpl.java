@@ -153,7 +153,7 @@ public class SSDiscImpl
                   true, //setEntries
                   null, //forUser
                   null, //discs
-                  SSUri.asListWithoutNullAndEmpty(entity.id), //targets
+SSUri.asListNotNull(entity.id), //targets
                   par.withUserRestriction,
                   false))); //invokeEntityHandlers
             
@@ -1314,7 +1314,7 @@ public class SSDiscImpl
           entityServ,
           par.user,
           targetURI, //entity
-          SSUri.asListWithoutNullAndEmpty(par.discussion), //entities
+SSUri.asListNotNull(par.discussion), //entities
           par.withUserRestriction,
           true); //invokeEntityhandlers
       }

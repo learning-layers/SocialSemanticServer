@@ -145,7 +145,7 @@ public class SSDiscUserEntryAddFct{
         entityServ,
         userUri,
         discUri,
-        SSUri.asListWithoutNullAndEmpty(discEntry), //entities
+        SSUri.asListNotNull(discEntry), //entities
         withUserRestriction,
         false); //invokeEntityHandlers
       

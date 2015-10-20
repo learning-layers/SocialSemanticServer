@@ -122,7 +122,7 @@ public class SSEvalLogBNP {
                 ((SSActivityServerI) SSServReg.getServ(SSActivityServerI.class)).activitiesGet(
                   new SSActivitiesGetPar(
                     par.user, 
-                    SSUri.asListWithoutNullAndEmpty(targetEntity.id),
+                    SSUri.asListNotNull(targetEntity.id),
                     null, //types, 
                     null, //users, 
                     null, //entities, 

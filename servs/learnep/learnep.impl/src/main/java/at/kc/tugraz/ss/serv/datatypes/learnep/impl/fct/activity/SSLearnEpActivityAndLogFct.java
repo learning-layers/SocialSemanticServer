@@ -69,7 +69,7 @@ public class SSLearnEpActivityAndLogFct{
           SSActivityE.addCircleToLearnEpVersion,
           learnEpVersion,
           null,
-          SSUri.asListWithoutNullAndEmpty(circle, learnEp),
+          SSUri.asListNotNull(circle, learnEp),
           null,
           null,
           shouldCommit));
@@ -94,7 +94,7 @@ public class SSLearnEpActivityAndLogFct{
           SSEvalLogE.addCircleToLearnEpVersion,
           circle,
           null, //content
-          SSUri.asListWithoutNullAndEmpty(learnEp), //entities
+SSUri.asListNotNull(learnEp), //entities
           null, //users
           shouldCommit));
       
@@ -126,7 +126,7 @@ public class SSLearnEpActivityAndLogFct{
           SSActivityE.addEntityToLearnEpVersion,
           learnEpVersion,
           null,
-          SSUri.asListWithoutNullAndEmpty(learnEpEntity, entity, learnEp),
+          SSUri.asListNotNull(learnEpEntity, entity, learnEp),
           null,
           null,
           shouldCommit));
@@ -151,7 +151,7 @@ public class SSLearnEpActivityAndLogFct{
           SSEvalLogE.addEntityToLearnEpVersion,
           entity,
           null, //content
-          SSUri.asListWithoutNullAndEmpty(learnEp), //entities
+SSUri.asListNotNull(learnEp), //entities
           null, //users
           shouldCommit));
       
@@ -182,7 +182,7 @@ public class SSLearnEpActivityAndLogFct{
           SSActivityE.removeLearnEpVersionCircle,
           learnEpVersion,
           null,
-          SSUri.asListWithoutNullAndEmpty(learnEpCircle, learnEp),
+          SSUri.asListNotNull(learnEpCircle, learnEp),
           null,
           null,
           shouldCommit));
@@ -207,7 +207,7 @@ public class SSLearnEpActivityAndLogFct{
           SSEvalLogE.removeLearnEpVersionCircle,
           learnEpCircle,
           null, //content
-          SSUri.asListWithoutNullAndEmpty(learnEp), //entities
+SSUri.asListNotNull(learnEp), //entities
           null, //users
           shouldCommit));
       
@@ -351,7 +351,7 @@ public class SSLearnEpActivityAndLogFct{
           SSActivityE.removeLearnEpVersionEntity,
           learnEpVersion,
           null,
-          SSUri.asListWithoutNullAndEmpty(learnEpEntity, entity, learnEp),
+          SSUri.asListNotNull(learnEpEntity, entity, learnEp),
           null,
           null,
           shouldCommit));
@@ -376,7 +376,7 @@ public class SSLearnEpActivityAndLogFct{
           SSEvalLogE.removeLearnEpVersionEntity,
           entity,
           null, //content
-          SSUri.asListWithoutNullAndEmpty(learnEp), //entities
+SSUri.asListNotNull(learnEp), //entities
           null, //users
           shouldCommit));
       
@@ -461,7 +461,7 @@ public class SSLearnEpActivityAndLogFct{
           user,
           SSActivityE.copyLearnEpForUsers,
           learnEp,
-          SSUri.asListWithoutNullAndEmpty(usersToCopyFor), //users
+          SSUri.asListNotNull(usersToCopyFor), //users
           null,
           null,
           null,
@@ -488,7 +488,7 @@ public class SSLearnEpActivityAndLogFct{
           learnEp, 
           null, //content 
           includedEntities, //entities
-          SSUri.asListWithoutNullAndEmpty(usersToCopyFor), 
+SSUri.asListNotNull(usersToCopyFor), 
           shouldCommit));
       
     }catch(SSErr error){
@@ -525,7 +525,7 @@ public class SSLearnEpActivityAndLogFct{
             SSActivityE.changeLearnEpVersionCircleLabel,
             learnEpVersion,
             null,
-            SSUri.asListWithoutNullAndEmpty(learnEpCircle, learnEp),
+            SSUri.asListNotNull(learnEpCircle, learnEp),
             null,
             null,
             shouldCommit));
@@ -554,7 +554,7 @@ public class SSLearnEpActivityAndLogFct{
             SSActivityE.changeLearnEpVersionCircleDescription,
             learnEpVersion,
             null,
-            SSUri.asListWithoutNullAndEmpty(learnEpCircle, learnEp),
+            SSUri.asListNotNull(learnEpCircle, learnEp),
             null,
             null,
             shouldCommit));
@@ -589,7 +589,7 @@ public class SSLearnEpActivityAndLogFct{
           SSActivityE.removeEntityFromLearnEpCircle, //type
           learnEpVersion,
           null,
-          SSUri.asListWithoutNullAndEmpty(learnEpEntity, entity, circle, learnEp),
+          SSUri.asListNotNull(learnEpEntity, entity, circle, learnEp),
           null, //comments
           null, //creationTime
           shouldCommit));
@@ -614,7 +614,7 @@ public class SSLearnEpActivityAndLogFct{
           SSEvalLogE.removeEntityFromLearnEpCircle,
           entity,
           null, //content
-          SSUri.asListWithoutNullAndEmpty(learnEp, circle), //entities
+SSUri.asListNotNull(learnEp, circle), //entities
           null, //users
           shouldCommit));
       
@@ -647,7 +647,7 @@ public class SSLearnEpActivityAndLogFct{
           SSActivityE.addEntityToLearnEpCircle, //type
           learnEpVersion, //entity
           null, //users
-          SSUri.asListWithoutNullAndEmpty(circle, entity, learnEp), //entities
+SSUri.asListNotNull(circle, entity, learnEp), //entities
           null, //comments
           null, //creationTime
           shouldCommit));
@@ -672,7 +672,7 @@ public class SSLearnEpActivityAndLogFct{
           SSEvalLogE.addEntityToLearnEpCircle,
           entity,
           null, //content
-          SSUri.asListWithoutNullAndEmpty(learnEp, circle), //entities
+SSUri.asListNotNull(learnEp, circle), //entities
           null, //users
           shouldCommit));
       

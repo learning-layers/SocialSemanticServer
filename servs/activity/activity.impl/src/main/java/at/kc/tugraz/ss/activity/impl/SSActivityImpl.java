@@ -98,7 +98,7 @@ implements
                     par.user,
                     null, //activities
                     null, //types
-                    SSUri.asListWithoutNullAndEmpty(entity.id), //users
+SSUri.asListNotNull(entity.id), //users
                     null, //entities
                     null, //circles
                     null, //startTime
@@ -121,7 +121,7 @@ implements
                     null, //types
                     null, //users
                     null, //entities
-                    SSUri.asListWithoutNullAndEmpty(entity.id), //circles
+SSUri.asListNotNull(entity.id), //circles
                     null, //startTime
                     null, //endTime
                     true, //includeOnlyLastActivities
@@ -140,7 +140,7 @@ implements
                     null, //activities
                     null, //types
                     null, //users
-                    SSUri.asListWithoutNullAndEmpty(entity.id), //entities
+SSUri.asListNotNull(entity.id), //entities
                     null, //circles
                     null, //startTime
                     null, //endTime
@@ -165,7 +165,7 @@ implements
             activitiesGet(
               new SSActivitiesGetPar(
                 par.user,
-                SSUri.asListWithoutNullAndEmpty(entity.id), //activities
+                SSUri.asListNotNull(entity.id), //activities
                 null, //types
                 null, //users
                 null, //entities
