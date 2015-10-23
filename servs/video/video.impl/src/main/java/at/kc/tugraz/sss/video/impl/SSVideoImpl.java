@@ -483,9 +483,8 @@ implements
   public SSVideo videoGet(final SSVideoUserGetPar par) throws Exception{
     
     try{
-
       
-      SSVideo video = sqlFct.getVideo(par.user, par.video);
+      SSVideo video = sqlFct.getVideo(par.video);
       
       if(video == null){
         return null;
@@ -509,6 +508,10 @@ implements
             par.video,
             par.withUserRestriction,
             descPar)); //descPar
+      
+      if(videoEntity == null){
+        return null;
+      }
       
       video =
         SSVideo.get(

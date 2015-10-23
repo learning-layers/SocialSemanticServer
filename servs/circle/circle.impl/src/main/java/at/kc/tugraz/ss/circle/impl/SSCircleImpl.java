@@ -1184,7 +1184,8 @@ implements
         if(
           par.forUser == null &&
           par.entity  == null){
-          throw new SSErr(SSErrE.parameterMissing);
+          
+          par.forUser = par.user;
         }
         
         if(par.withSystemCircles){

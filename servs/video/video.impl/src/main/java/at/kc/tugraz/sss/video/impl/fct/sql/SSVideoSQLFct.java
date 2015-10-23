@@ -137,7 +137,6 @@ public class SSVideoSQLFct extends SSDBSQLFct{
   }
   
   public SSVideo getVideo(
-    final SSUri user, 
     final SSUri videoUri) throws Exception{
     
     ResultSet resultSet = null;
@@ -156,18 +155,26 @@ public class SSVideoSQLFct extends SSDBSQLFct{
 
       where(wheres, SSSQLVarNames.videoTable, SSSQLVarNames.videoId, videoUri);
       
-      table(tables, SSSQLVarNames.entityTable);
+//      table(tables, SSSQLVarNames.entityTable);
       table(tables, SSSQLVarNames.videoTable);
       
-      if(user != null){
-        where    (wheres, SSSQLVarNames.videoUsersTable, SSSQLVarNames.userId, user);
-        table    (tables, SSSQLVarNames.videoUsersTable);
-        tableCon (tableCons, SSSQLVarNames.entityTable, SSSQLVarNames.id, SSSQLVarNames.videoUsersTable, SSSQLVarNames.videoId);
-      }
+//      if(user != null){
+//        where    (wheres, SSSQLVarNames.videoUsersTable, SSSQLVarNames.userId, user);
+//        table    (tables, SSSQLVarNames.videoUsersTable);
+//        tableCon (tableCons, SSSQLVarNames.entityTable, SSSQLVarNames.id, SSSQLVarNames.videoUsersTable, SSSQLVarNames.videoId);
+//      }
       
-      tableCon(tableCons, SSSQLVarNames.entityTable, SSSQLVarNames.id, SSSQLVarNames.videoTable,      SSSQLVarNames.videoId);
+//      tableCon(tableCons, SSSQLVarNames.entityTable, SSSQLVarNames.id, SSSQLVarNames.videoTable,      SSSQLVarNames.videoId);
       
-      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
+      resultSet = 
+        dbSQL.select(
+          tables, 
+          columns, 
+          wheres, 
+          tableCons,
+          null, 
+          null, 
+          null);
       
       checkFirstResult(resultSet);
       
@@ -175,7 +182,7 @@ public class SSVideoSQLFct extends SSDBSQLFct{
         SSVideo.get(
           bindingStrToUri         (resultSet, SSSQLVarNames.videoId),
           bindingStr              (resultSet, SSSQLVarNames.genre),
-          new ArrayList<>(),
+          null,
           bindingStrToUri          (resultSet, SSSQLVarNames.link));
       
       return video;
