@@ -223,11 +223,11 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
         
       
       if(setCircles){
-        learnEpVersion.circles.addAll(getLearnEpVersionCircles      (learnEpVersionUri));
+        learnEpVersion.learnEpCircles.addAll(getLearnEpVersionCircles      (learnEpVersionUri));
       }
       
       if(setEntities){
-        learnEpVersion.entities.addAll(getLearnEpVersionEntities     (learnEpVersionUri));
+        learnEpVersion.learnEpEntities.addAll(getLearnEpVersionEntities     (learnEpVersionUri));
       }
       
       if(setTimelineState){
