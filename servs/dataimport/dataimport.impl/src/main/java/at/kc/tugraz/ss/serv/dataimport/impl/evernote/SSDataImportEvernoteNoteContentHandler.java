@@ -20,6 +20,7 @@
   */
 package at.kc.tugraz.ss.serv.dataimport.impl.evernote;
 
+import at.kc.tugraz.ss.serv.dataimport.conf.SSDataImportConf;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.kc.tugraz.ss.service.filerepo.api.SSFileRepoServerI;
 import at.tugraz.sss.serv.SSFileExtE;
@@ -46,7 +47,6 @@ public class SSDataImportEvernoteNoteContentHandler{
   private final SSUri             noteUri;
   private final Note              note;
   private final NoteStoreClient   noteStore;
-  private final String            localWorkPath;
   private final SSFileRepoServerI fileServ;
   
   public SSDataImportEvernoteNoteContentHandler(
@@ -54,15 +54,13 @@ public class SSDataImportEvernoteNoteContentHandler{
     final SSUri             user,
     final Note              note,
     final SSUri             noteUri,
-    final NoteStoreClient   noteStore,
-    final String            localWorkPath){
+    final NoteStoreClient   noteStore){
     
     this.fileServ      = fileServ;
     this.user          = user;
     this.note          = note;
     this.noteUri       = noteUri;
     this.noteStore     = noteStore;
-    this.localWorkPath = localWorkPath;
   }
   
   public void handleNoteContent() throws Exception{
@@ -73,9 +71,9 @@ public class SSDataImportEvernoteNoteContentHandler{
     
     try{
       
-      xhtmlFilePath    = localWorkPath + SSVocConf.fileIDFromSSSURI(SSServCaller.vocURICreate(SSFileExtE.xhtml));
+      xhtmlFilePath    = SSDataImportConf.getLocalWorkPath() + SSVocConf.fileIDFromSSSURI(SSServCaller.vocURICreate(SSFileExtE.xhtml));
       fileUri          = SSServCaller.vocURICreate                  (SSFileExtE.pdf);
-      pdfFilePath      = localWorkPath + SSVocConf.fileIDFromSSSURI (fileUri);
+      pdfFilePath      = SSDataImportConf.getLocalWorkPath() + SSVocConf.fileIDFromSSSURI (fileUri);
 
       SSFileU.writeStr(note.getContent(), xhtmlFilePath);
       
@@ -533,7 +531,7 @@ public class SSDataImportEvernoteNoteContentHandler{
                 hash);
             
             SSFileU.writeFileBytes(
-              new FileOutputStream(localWorkPath + fileID),
+              new FileOutputStream(SSDataImportConf.getLocalWorkPath() + fileID),
               resource.getData().getBody(),
               resource.getData().getSize());
           }
@@ -573,7 +571,7 @@ public class SSDataImportEvernoteNoteContentHandler{
               "\" height=\"" +
               resource.getHeight() +
               "\" class=\"xmyImagex\" src=\"" +
-              localWorkPath + fileID +
+              SSDataImportConf.getLocalWorkPath() + fileID +
               "\"/>";
           }
           

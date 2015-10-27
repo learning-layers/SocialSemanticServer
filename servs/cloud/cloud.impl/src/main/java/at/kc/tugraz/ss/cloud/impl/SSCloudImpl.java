@@ -60,13 +60,12 @@ public class SSCloudImpl extends SSServImplWithDBA implements SSCloudClientI, SS
 
     try{
       final SSCloudPublishServicePar par                  = new SSCloudPublishServicePar(parA);
-      final String                   localWorkTmpDirPath  = SSCloudPublishServiceFct.getLocalWorkTmpDirPath();
+      
         
       if(SSSystemU.isWindows()){
         
         SSCloudPublishServiceFct.publishServiceFromWindowsToWindowsLocally(
-          par.serv, 
-          localWorkTmpDirPath);
+          par.serv);
         
         return SSCloudPublishServiceRet.get(
           SSVocConf.serverNameLocalhost, 
@@ -76,8 +75,7 @@ public class SSCloudImpl extends SSServImplWithDBA implements SSCloudClientI, SS
       }else{
         
         SSCloudPublishServiceFct.publishServiceFromWindowsToUnixRemotely(
-          par.serv, 
-          localWorkTmpDirPath);
+          par.serv);
         
         return SSCloudPublishServiceRet.get(
           "1234", /* TODO dtheiler: add server name to conf */ 

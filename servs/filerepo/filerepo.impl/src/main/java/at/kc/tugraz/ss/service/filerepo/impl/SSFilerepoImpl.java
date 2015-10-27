@@ -83,7 +83,6 @@ implements
 
   private final SSFileSQLFct    sqlFct;
   private final SSEntityServerI entityServ;
-  private final String          localWorkPath;
   
   public SSFilerepoImpl(
     final SSFileRepoConf conf) throws Exception{
@@ -92,7 +91,6 @@ implements
     
     this.sqlFct         = new SSFileSQLFct   (this);
     this.entityServ     = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
-    this.localWorkPath  = SSCoreConf.instGet().getSss().getLocalWorkPath();
   }
   
   @Override
@@ -242,7 +240,10 @@ implements
         }
       }
       
-      new Thread(new SSFileDownloader((SSFileRepoConf)conf, par, this)).start();
+      new Thread(
+        new SSFileDownloader(
+          (SSFileRepoConf) conf, 
+          par)).start();
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -265,7 +266,11 @@ implements
   public void fileUpload(final SSFileUploadPar par) throws Exception{
     
     try{
-      new Thread(new SSFileUploader((SSFileRepoConf) conf, par)).start();
+      new Thread(
+        new SSFileUploader(
+          (SSFileRepoConf) conf, 
+          par)).start();
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
@@ -298,7 +303,7 @@ implements
         final String     fileId        = SSVocConf.fileIDFromSSSURI (par.file);
         
         SSFileU.writeFileBytes(
-          new FileOutputStream(localWorkPath + fileId),
+          new FileOutputStream(SSFileRepoConf.getLocalWorkPath() + fileId),
           par.fileBytes,
           par.fileLength);
       }
@@ -322,7 +327,7 @@ implements
           SSServCaller.entityRemove(file.id, false);
           
           try{
-            SSFileU.delFile(localWorkPath + SSVocConf.fileIDFromSSSURI(file.id));
+            SSFileU.delFile(SSFileRepoConf.getLocalWorkPath() + SSVocConf.fileIDFromSSSURI(file.id));
           }catch(Exception error){
             SSLogU.warn("file couldnt be removed from file system");
           }

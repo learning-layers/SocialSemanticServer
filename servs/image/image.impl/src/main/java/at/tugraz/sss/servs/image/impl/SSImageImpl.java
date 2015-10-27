@@ -22,7 +22,6 @@ package at.tugraz.sss.servs.image.impl;
 
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesAddPar;
-import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUpdatePar;
@@ -61,6 +60,7 @@ import at.tugraz.sss.servs.file.datatype.par.SSEntityFileAddPar;
 import at.tugraz.sss.servs.file.datatype.par.SSEntityFilesGetPar;
 import at.tugraz.sss.servs.image.api.SSImageClientI;
 import at.tugraz.sss.servs.image.api.SSImageServerI;
+import at.tugraz.sss.servs.image.conf.SSImageConf;
 import at.tugraz.sss.servs.image.datatype.par.SSImageProfilePictureSetPar;
 import at.tugraz.sss.servs.image.datatype.par.SSImageAddPar;
 import at.tugraz.sss.servs.image.datatype.par.SSImageGetPar;
@@ -82,14 +82,12 @@ implements
 
   private final SSImageSQLFct         sqlFct;
   private final SSEntityServerI       entityServ;
-  private final String                localWorkPath;
   
   public SSImageImpl(final SSConfA conf) throws Exception{
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
     
-     this.sqlFct         = new SSImageSQLFct   (this);
-     this.entityServ     = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
-     this.localWorkPath  = SSCoreConf.instGet().getSss().getLocalWorkPath();
+    this.sqlFct         = new SSImageSQLFct   (this);
+    this.entityServ     = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
   }
   
   @Override
@@ -363,7 +361,7 @@ implements
             SSServCaller.entityRemove(thumb.id, false);
             
             try{
-              SSFileU.delFile(localWorkPath + SSVocConf.fileIDFromSSSURI(thumb.file.id));
+              SSFileU.delFile(SSImageConf.getLocalWorkPath() + SSVocConf.fileIDFromSSSURI(thumb.file.id));
             }catch(Exception error){
               SSLogU.warn("couldnt remove thumbnail files from filesys");
             }
@@ -746,10 +744,10 @@ implements
     
     try{
     
-      final String      filePath          = localWorkPath + SSVocConf.fileIDFromSSSURI(fileURI);
+      final String      filePath          = SSImageConf.getLocalWorkPath() + SSVocConf.fileIDFromSSSURI(fileURI);
       final SSFileExtE  fileExt           = SSFileExtE.getFromStrToFormat(SSVocConf.fileIDFromSSSURI(fileURI));
       final SSUri       thumbFileURI      = SSServCaller.vocURICreate(SSFileExtE.png);
-      final String      thumbnailPath     = localWorkPath + SSVocConf.fileIDFromSSSURI(thumbFileURI);
+      final String      thumbnailPath     = SSImageConf.getLocalWorkPath() + SSVocConf.fileIDFromSSSURI(thumbFileURI);
 
       if(SSStrU.contains(SSFileExtE.imageFileExts, fileExt)){
         SSFileU.scalePNGAndWrite(ImageIO.read(new File(filePath)), thumbnailPath, width, width);
@@ -762,7 +760,7 @@ implements
           
           try{
             
-            final String pdfFilePath = localWorkPath + SSVocConf.fileIDFromSSSURI(SSServCaller.vocURICreate(SSFileExtE.pdf));
+            final String pdfFilePath = SSImageConf.getLocalWorkPath() + SSVocConf.fileIDFromSSSURI(SSServCaller.vocURICreate(SSFileExtE.pdf));
             
             SSFileU.writePDFFromText(
               pdfFilePath,
@@ -791,7 +789,7 @@ implements
         
         case doc:{
           
-          final String pdfFilePath  = localWorkPath + SSVocConf.fileIDFromSSSURI(SSServCaller.vocURICreate(SSFileExtE.pdf));
+          final String pdfFilePath  = SSImageConf.getLocalWorkPath() + SSVocConf.fileIDFromSSSURI(SSServCaller.vocURICreate(SSFileExtE.pdf));
           
           SSFileU.writePDFFromDoc       (filePath,    pdfFilePath);
           SSFileU.writeScaledPNGFromPDF (pdfFilePath, thumbnailPath, width, width, false);

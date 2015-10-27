@@ -66,7 +66,6 @@ import sss.serv.eval.datatypes.par.SSEvalLogPar;
 public class SSDataImportBitsAndPiecesEvernoteImporter {
   
   private final SSDataImportBitsAndPiecesPar     par;
-  private final String                           localWorkPath;
   private final SSFileRepoServerI                fileServ;
   private final SSEvernoteServerI                evernoteServ;
   private final SSUEServerI                      ueServ;
@@ -80,7 +79,6 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
   
   public SSDataImportBitsAndPiecesEvernoteImporter(
     final SSDataImportBitsAndPiecesPar par, 
-    final String                       localWorkPath, 
     final SSEntityServerI              entityServ,
     final SSFileRepoServerI            fileServ,
     final SSEvernoteServerI            evernoteServ,
@@ -90,7 +88,6 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
     final SSUri                        userUri) throws Exception{
     
     this.par             = par;
-    this.localWorkPath   = localWorkPath;
     this.fileServ        = fileServ;
     this.evernoteServ    = evernoteServ;
     this.ueServ          = ueServ;
@@ -393,8 +390,7 @@ SSUri.asListNotNull(notebookUri), //entities
         userUri,
         noteWithContent,
         noteUri,
-        evernoteInfo.noteStore,
-        localWorkPath).handleNoteContent();
+        evernoteInfo.noteStore).handleNoteContent();
     }
   }
   

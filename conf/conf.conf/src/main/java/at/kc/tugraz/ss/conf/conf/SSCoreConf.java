@@ -55,6 +55,7 @@ import at.kc.tugraz.sss.appstacklayout.conf.SSAppStackLayoutConf;
 import at.kc.tugraz.sss.comment.conf.SSCommentConf;
 import at.kc.tugraz.sss.flag.conf.SSFlagConf;
 import at.kc.tugraz.sss.video.conf.SSVideoConf;
+import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSDBNoSQLConf;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.servs.location.conf.SSLocationConf;
@@ -114,7 +115,7 @@ public class SSCoreConf extends SSCoreConfA {
   
   public static synchronized SSCoreConf instSet(final String pathToFile) throws Exception {
     
-    if (inst != null) {
+    if(inst != null){
       return inst;
     }
     

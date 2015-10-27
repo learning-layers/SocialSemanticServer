@@ -40,18 +40,15 @@ public class SSFileDownloader extends SSServImplStartA{
   private String                   fileId            = null;
   private int                      fileChunkLength   = -1;
   private SSFileDownloadPar        par               = null;
-  private SSFilerepoImpl           servImpl          = null;
 //  private InputStream webdavInputStream;
   
   public SSFileDownloader(
     final SSFileRepoConf    fileRepoConf, 
-    final SSFileDownloadPar par,
-    final SSFilerepoImpl    servImpl) throws Exception{
+    final SSFileDownloadPar par) throws Exception{
     
     super(fileRepoConf);
     
     this.par               = par;
-    this.servImpl          = servImpl;
     this.fileId            = SSVocConf.fileIDFromSSSURI(this.par.file);
   }
   
@@ -62,15 +59,15 @@ public class SSFileDownloader extends SSServImplStartA{
       
       par.sSCon.writeRetFullToClient(new SSFileDownloadRet(par.file));
       
-      switch(((SSFileRepoConf)conf).fileRepoType){
+//      switch(((SSFileRepoConf)conf).fileRepoType){
 //        case i5Cloud: downloadFromI5Cloud(); break;    
 //    if(SSFileRepoTypeEnum.isSame(fileRepoConf.fileRepoType, SSFileRepoTypeEnum.webdav)){
 //      this.webdavInputStream = SardineFactory.begin(fileRepoConf.getUser(), fileRepoConf.getPassword()).getInputStream(fileRepoConf.getPath() + fileId);
 ////      fileReader = new DataInputStream(SardineFactory.begin(fileRepoConf.getUser(), fileRepoConf.getPassword()).getInputStream(fileRepoConf.getPath() + fileId));
 //    }
-      }
+//      }
 
-      fileReader = new DataInputStream (new FileInputStream(new File(((SSFileRepoConf)conf).getPath() + fileId)));
+      fileReader = new DataInputStream (new FileInputStream(new File(SSFileRepoConf.getLocalWorkPath() + fileId)));
       
       par.sSCon.readMsgFullFromClient();
       

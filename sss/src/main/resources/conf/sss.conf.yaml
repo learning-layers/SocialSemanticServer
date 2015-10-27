@@ -5,7 +5,7 @@ sss:
   host: SSS_HOST
   port: SSS_PORT
   restAPIPath: SSS_REST_API_PATH
-  localWorkPath: #leave empty for workingDir/tmp
+  localWorkPath: SSS_LOCAL_WORK_PATH #leave empty for workingDir/tmp
 dbSQL: !!at.tugraz.sss.serv.SSDBSQLConf
   host: SSS_MYSQL_HOST
   port: SSS_MYSQL_PORT

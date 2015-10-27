@@ -25,6 +25,8 @@ import java.util.List;
 
 public abstract class SSConfA{
   
+  protected static String localWorkPath = null;
+    
   public Boolean         use                        = false;
   public Boolean         initAtStartUp              = false;
   public Boolean         schedule                   = false;
@@ -54,5 +56,9 @@ public abstract class SSConfA{
     }
     
     return copy;
+  }
+  
+  public static String getLocalWorkPath(){
+    return localWorkPath;
   }
 }

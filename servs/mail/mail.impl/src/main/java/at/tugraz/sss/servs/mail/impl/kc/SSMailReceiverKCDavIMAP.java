@@ -20,10 +20,8 @@
  */
 package at.tugraz.sss.servs.mail.impl.kc;
 
-import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
-import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSFileExtE;
@@ -53,21 +51,14 @@ import javax.mail.Store;
 
 public class SSMailReceiverKCDavIMAP {
   
-  private final SSMailConf       mailConf;
-  private final String           localWorkPath;
   private final List<SSEntity>   mails   = new ArrayList<>();
-  private final SSDBSQLI         dbSQL;
   private final SSMailSQLFct     sqlFct;
   private final SSEntityServerI  entityServ;
   
   public SSMailReceiverKCDavIMAP(
-    final SSDBSQLI      dbSQL,
-    final SSMailConf    mailConf) throws Exception{
+    final SSMailSQLFct  sqlFct) throws Exception{
     
-    this.mailConf        = mailConf;
-    this.localWorkPath   = SSCoreConf.instGet().getSss().getLocalWorkPath();
-    this.dbSQL           = dbSQL;
-    this.sqlFct          = new SSMailSQLFct(dbSQL);
+    this.sqlFct          = sqlFct;
     this.entityServ      = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
   }
 
@@ -228,7 +219,7 @@ public class SSMailReceiverKCDavIMAP {
       final SSEntity attachment = getAttachmentObj(bodyPart.getFileName());
       
       SSFileU.writeFileBytes(
-        SSFileU.openOrCreateFileWithPathForWrite(localWorkPath + SSVocConf.fileIDFromSSSURI(attachment.id)),
+        SSFileU.openOrCreateFileWithPathForWrite(SSMailConf.getLocalWorkPath() + SSVocConf.fileIDFromSSSURI(attachment.id)),
         bodyPart.getInputStream());
       
       if(isFirstLevel){

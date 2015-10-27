@@ -20,32 +20,15 @@
 */
  package at.kc.tugraz.ss.service.filerepo.datatypes.enums;
 
-import at.tugraz.sss.serv.*;
-
 public enum SSFileRepoTypeE {
   
   fileSys;
 //  webdav, 
 //  i5Cloud;
   
-  public static String toStr(final SSFileRepoTypeE value){
-    return SSStrU.toStr(value);
-  } 
-  
   public static SSFileRepoTypeE get(
     final String value){
     
     return SSFileRepoTypeE.valueOf(value);
-  }
-  
-  public static Boolean isSame(
-    final SSFileRepoTypeE type1, 
-    final SSFileRepoTypeE type2){
-    
-    if(SSObjU.isNull(type1, type2)){
-      return false;
-    }
-    
-    return type1.toString().equals(type2.toString());
   }
 }

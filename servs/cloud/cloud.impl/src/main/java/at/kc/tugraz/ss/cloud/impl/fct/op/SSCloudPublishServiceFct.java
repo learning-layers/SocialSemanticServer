@@ -21,7 +21,6 @@
 package at.kc.tugraz.ss.cloud.impl.fct.op;
 
 import at.tugraz.sss.serv.SSFileU;
-import at.tugraz.sss.serv.SSIDU;
 import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSStrU;
 import at.kc.tugraz.ss.cloud.conf.SSCloudConf;
@@ -47,25 +46,19 @@ import org.apache.commons.io.FileUtils;
 
 public class SSCloudPublishServiceFct{
 
-  public static String getLocalWorkTmpDirPath() throws Exception{
-    return SSCoreConf.instGet().getSss().getLocalWorkPath() + SSFileU.correctDirPath (SSIDU.uniqueID());
-  }
-  
   public static void publishServiceFromWindowsToWindowsLocally(
-    final SSServContainerI serv,
-    final String           localWorkTmpDirPath) throws Exception{
+    final SSServContainerI serv) throws Exception{
     
     try{
       
       setAndSaveServiceConf(
         serv,
-        localWorkTmpDirPath,
         "F:\\SSSInstance\\tmp\\",
         SSVocConf.serverNameLocalhost,
         7001);
       
       copyFilesLocally(
-        localWorkTmpDirPath,
+        SSCloudConf.getLocalWorkPath(),
         "F:\\SSSInstance\\");
       
       startServiceLocally();
@@ -75,20 +68,17 @@ public class SSCloudPublishServiceFct{
   }
   
   public static void publishServiceFromWindowsToUnixRemotely(
-    final SSServContainerI serv, 
-    final String           localWorkTmpDirPath) throws Exception{
+    final SSServContainerI serv) throws Exception{
     
     try{
       
       setAndSaveServiceConf(
         serv,
-        localWorkTmpDirPath,
         "/home/dtheiler/SSSService/tmp/",
         "1234", /* TODO dtheiler: add server name to conf */ 
         9000);
       
       copyFilesRemotely(
-        localWorkTmpDirPath,
         "/home/dtheiler/SSSService/",
         "1234", /* TODO dtheiler: add server name to conf */ 
         "adf",
@@ -175,7 +165,6 @@ public class SSCloudPublishServiceFct{
   }
 
   private static void copyFilesRemotely(
-    final String  localWorkTmpDirPath,
     final String  serviceDestDirPath,
     final String  host,
     final String  userName, 
@@ -211,7 +200,7 @@ public class SSCloudPublishServiceFct{
       
       channelSftp.cd(serviceDestDirPath);
       
-      in = SSFileU.openFileForRead(localWorkTmpDirPath + SSVocConf.fileNameSSSConf);
+      in = SSFileU.openFileForRead(SSCloudConf.getLocalWorkPath() + SSVocConf.fileNameSSSConf);
         
       channelSftp.put(
         in, 
@@ -278,17 +267,17 @@ public class SSCloudPublishServiceFct{
         session.disconnect();
       }
      
-      FileUtils.deleteDirectory(new File(localWorkTmpDirPath));
+      FileUtils.deleteDirectory(new File(SSCloudConf.getLocalWorkPath()));
     }
   }
 
   private static void copyFilesLocally(
-    final String localWorkTmpDirPath,
+    final String localWorkPath,
     final String serviceDestDirPath) throws Exception{
     
     try{
       FileUtils.copyFile(
-        new File(localWorkTmpDirPath  + SSVocConf.fileNameSSSConf),
+        new File(localWorkPath  + SSVocConf.fileNameSSSConf),
         new File(serviceDestDirPath + SSVocConf.fileNameSSSConf));
       
       FileUtils.copyFile(
@@ -310,14 +299,13 @@ public class SSCloudPublishServiceFct{
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }finally{
-      FileUtils.deleteDirectory(new File(localWorkTmpDirPath));
+      FileUtils.deleteDirectory(new File(localWorkPath));
     }
   }
 
   private static void setAndSaveServiceConf(
     final SSServContainerI       servToStart,
-    final String                 localWorkTmpDirPath,
-    final String                 serviceDestDirTmpPath,
+    final String                 serviceDestLocalWorkPath,
     final String                 host,
     final Integer                port) throws Exception{
     
@@ -336,9 +324,10 @@ public class SSCloudPublishServiceFct{
 //      sqlConf.host     = "localhost";
 //      sqlConf.schema   = "sss_cloud";
       
-      ssConf.setLocalWorkPath(serviceDestDirTmpPath);
+      //TODO re-introduce here
+//      ssConf.setLocalWorkPath(serviceDestLocalWorkPath);
       
-      confForServ.save(localWorkTmpDirPath + SSVocConf.fileNameSSSConf);
+      confForServ.save(SSCloudConf.getLocalWorkPath() + SSVocConf.fileNameSSSConf);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }

@@ -22,14 +22,11 @@ package at.tugraz.sss.serv;
 
 public class SSDBNoSQLAddDocPar{
   
-  public String  localWorkPath      = null;
   public String  id                 = null;
   
   public SSDBNoSQLAddDocPar(
-    final String localWorkPath, 
     final String id){
     
-    this.localWorkPath    = localWorkPath;
     this.id               = id;
   }
 }

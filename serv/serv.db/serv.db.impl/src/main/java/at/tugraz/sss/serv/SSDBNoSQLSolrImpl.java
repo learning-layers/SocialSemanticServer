@@ -83,7 +83,7 @@ implements SSDBNoSQLI{
       final ContentStreamUpdateRequest csur = new ContentStreamUpdateRequest("/update/extract");
       final NamedList<Object>          response;
 
-      csur.addContentStream(new ContentStreamBase.FileStream(new File(par.localWorkPath + par.id)));
+      csur.addContentStream(new ContentStreamBase.FileStream(new File(SSDBNoSQLConf.getLocalWorkPath() + par.id)));
 
       csur.setParam  ("literal.id",  par.id);
 //      csur.setParam  ("stream.type", "application/octet-stream");

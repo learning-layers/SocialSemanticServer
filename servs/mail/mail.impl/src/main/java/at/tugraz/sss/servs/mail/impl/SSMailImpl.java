@@ -46,13 +46,15 @@ implements
   SSMailClientI,
   SSMailServerI{
   
-  private   final SSMailConf    mailConf;
+  private final SSMailConf    mailConf;
+  private final SSMailSQLFct  sqlFct;
   
   public SSMailImpl(final SSConfA conf) throws Exception{
     
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
     
     this.mailConf       = (SSMailConf) conf;
+    this.sqlFct         = new SSMailSQLFct(dbSQL);
   }
   
   @Override
@@ -125,7 +127,7 @@ implements
         
         case kcDavMailIMAP:{
           
-          final SSMailReceiverKCDavIMAP kcReceive = new SSMailReceiverKCDavIMAP(dbSQL, mailConf);
+          final SSMailReceiverKCDavIMAP kcReceive = new SSMailReceiverKCDavIMAP(sqlFct);
           
           SSEntity.addEntitiesDistinctWithoutNull(
             mails, 

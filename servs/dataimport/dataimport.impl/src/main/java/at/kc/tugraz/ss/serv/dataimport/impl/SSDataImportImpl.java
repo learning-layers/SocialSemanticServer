@@ -26,7 +26,6 @@ import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSStrU;
 import at.kc.tugraz.ss.category.datatypes.SSCategoryLabel;
 import at.kc.tugraz.ss.category.datatypes.par.SSCategoriesAddPar;
-import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import at.kc.tugraz.ss.serv.auth.api.SSAuthServerI;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSSpaceE;
@@ -86,14 +85,14 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
   private static final Map<Thread, String>     bitsAndPiecesEvernoteImports        = new HashMap<>();
   private static final ReentrantReadWriteLock  bitsAndPiecesEmailsImportsLock      = new ReentrantReadWriteLock();
   private static final Map<Thread, String>     bitsAndPiecesEmailsImports          = new HashMap<>();
-  
+
   private final SSDataImportSQLFct sqlFct;
   
   public SSDataImportImpl(final SSConfA conf) throws Exception{
     
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
     
-    this.sqlFct = new SSDataImportSQLFct(dbSQL);
+    this.sqlFct        = new SSDataImportSQLFct(dbSQL);
   }
   
   private Boolean addBitsAndPiecesEvernoteImport(
@@ -211,7 +210,6 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
         return false;
       }
             
-      final String            localWorkPath   = SSCoreConf.instGet().getSss().getLocalWorkPath();
       final SSEntityServerI   entityServ      = (SSEntityServerI)   SSServReg.getServ(SSEntityServerI.class);
       final SSUEServerI       ueServ          = (SSUEServerI)       SSServReg.getServ(SSUEServerI.class);
       final SSFileRepoServerI fileServ        = (SSFileRepoServerI) SSServReg.getServ(SSFileRepoServerI.class);
@@ -259,7 +257,6 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
 
           new SSDataImportBitsAndPiecesEvernoteImporter(
             par,
-            localWorkPath,
             entityServ,
             fileServ,
             evernoteServ,
@@ -291,7 +288,6 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
 
           new SSDataImportBitsAndPiecesMailImporter(
             par,
-            localWorkPath,
             entityServ,
             fileServ, 
             evalServ, 

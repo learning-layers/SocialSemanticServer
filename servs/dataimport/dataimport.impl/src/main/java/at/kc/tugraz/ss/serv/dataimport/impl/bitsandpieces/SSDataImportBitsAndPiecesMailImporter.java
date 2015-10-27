@@ -20,6 +20,7 @@
  */
 package at.kc.tugraz.ss.serv.dataimport.impl.bitsandpieces;
 
+import at.kc.tugraz.ss.serv.dataimport.conf.SSDataImportConf;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportBitsAndPiecesPar;
 import at.kc.tugraz.ss.serv.dataimport.impl.SSDataImportImpl;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
@@ -51,7 +52,6 @@ import sss.serv.eval.api.SSEvalServerI;
 public class SSDataImportBitsAndPiecesMailImporter {
   
   private final SSDataImportBitsAndPiecesPar     par;
-  private final String                           localWorkPath;
   private final SSEntityServerI                  entityServ;
   private final SSFileRepoServerI                fileServ;
   private final SSUri                            userUri;
@@ -59,7 +59,6 @@ public class SSDataImportBitsAndPiecesMailImporter {
 
   public SSDataImportBitsAndPiecesMailImporter(
     final SSDataImportBitsAndPiecesPar par,
-    final String                       localWorkPath,
     final SSEntityServerI              entityServ,
     final SSFileRepoServerI            fileServ,
     final SSEvalServerI                evalServ,
@@ -67,7 +66,6 @@ public class SSDataImportBitsAndPiecesMailImporter {
     final SSUri                        userUri) throws Exception{
     
     this.par           = par;
-    this.localWorkPath = localWorkPath;
     this.entityServ    = entityServ;
     this.fileServ      = fileServ;
     this.userUri       = userUri;
@@ -170,9 +168,9 @@ public class SSDataImportBitsAndPiecesMailImporter {
         return;
       }
       
-      txtFilePath    = localWorkPath + SSVocConf.fileIDFromSSSURI(SSServCaller.vocURICreate(SSFileExtE.txt));
-      pdfFileUri       = SSServCaller.vocURICreate                  (SSFileExtE.pdf);
-      pdfFilePath      = localWorkPath + SSVocConf.fileIDFromSSSURI (pdfFileUri);
+      txtFilePath    = SSDataImportConf.getLocalWorkPath() + SSVocConf.fileIDFromSSSURI(SSServCaller.vocURICreate(SSFileExtE.txt));
+      pdfFileUri     = SSServCaller.vocURICreate                  (SSFileExtE.pdf);
+      pdfFilePath    = SSDataImportConf.getLocalWorkPath() + SSVocConf.fileIDFromSSSURI (pdfFileUri);
       
       SSFileU.writeStr(mail.content, txtFilePath);
       
@@ -331,7 +329,7 @@ public class SSDataImportBitsAndPiecesMailImporter {
         return true;
       }
               
-      final BufferedImage image = ImageIO.read(new File(localWorkPath + SSVocConf.fileIDFromSSSURI(resource)));
+      final BufferedImage image = ImageIO.read(new File(SSDataImportConf.getLocalWorkPath() + SSVocConf.fileIDFromSSSURI(resource)));
       
       if(
         image.getWidth()  <= SSDataImportImpl.bitsAndPiecesImageMinWidth ||

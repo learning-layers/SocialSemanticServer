@@ -20,40 +20,14 @@
 */
  package at.kc.tugraz.ss.service.filerepo.conf;
 
-import at.tugraz.sss.serv.SSFileU;
-import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSServConfA;
-import at.kc.tugraz.ss.service.filerepo.datatypes.enums.SSFileRepoTypeE;
 
 public class SSFileRepoConf extends SSServConfA{
   
-  private   String             path         = null; //keep this one private, because yaml loader isn't able to call setPath(...) for public variables
-  public    SSFileRepoTypeE    fileRepoType = null;
-  public    String             user         = null;
-  public    String             password     = null;
-
   public static SSFileRepoConf copy(final SSFileRepoConf orig){
     
     final SSFileRepoConf copy = (SSFileRepoConf) SSServConfA.copy(orig, new SSFileRepoConf());
     
-    copy.path          = orig.path;
-    copy.fileRepoType  = SSFileRepoTypeE.get(SSFileRepoTypeE.toStr(orig.fileRepoType));
-    copy.user          = orig.user;
-    copy.password      = orig.password;
-    
     return copy;
-  }
-  
-  public void setPath(final String path){
-    
-    this.path = path;
-    
-    if(SSStrU.isEmpty(this.path)){
-      this.path = SSFileU.dirWorkingTmp();
-    }
-  }
-  
-  public String getPath(){
-    return path;
   }
 }

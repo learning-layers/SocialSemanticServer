@@ -25,8 +25,6 @@ import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSFileU;
 import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSMimeTypeE;
-import at.tugraz.sss.serv.SSStrU;
-import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.kc.tugraz.ss.service.filerepo.api.SSFileRepoServerI;
 import at.tugraz.sss.serv.SSServImplStartA;
@@ -46,7 +44,6 @@ import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSToolContextE;
 import at.tugraz.sss.servs.file.datatype.par.SSEntityFileAddPar;
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import sss.serv.eval.api.SSEvalServerI;
@@ -56,8 +53,6 @@ import sss.serv.eval.datatypes.par.SSEvalLogPar;
 public class SSFileUploader extends SSServImplStartA{
   
   private final SSFileUploadPar       par;
-  private final String                localWorkPath;
-  private final SSFileRepoConf        fileConf;
   private final SSFileExtE            fileExt;
   private final SSUri                 fileUri;
   private final String                fileId;
@@ -70,8 +65,6 @@ public class SSFileUploader extends SSServImplStartA{
     super(fileConf);
     
     this.par               = par;
-    this.localWorkPath     = SSCoreConf.instGet().getSss().getLocalWorkPath();
-    this.fileConf          = fileConf;
     this.fileExt           = SSMimeTypeE.fileExtForMimeType             (par.mimeType);
     this.fileUri           = SSServCaller.vocURICreate                  (fileExt);
     this.fileId            = SSVocConf.fileIDFromSSSURI                 (fileUri);
@@ -87,7 +80,7 @@ public class SSFileUploader extends SSServImplStartA{
       
       sendAnswer();
       readFileFromStreamAndSave();
-      disposeUploadedFile      ();
+//      disposeUploadedFile      ();
       
       dbSQL.startTrans(par.shouldCommit);
       
@@ -98,7 +91,7 @@ public class SSFileUploader extends SSServImplStartA{
       sendAnswer();
       
       addFileContentsToNoSQLStore  ();
-      removeFileFromLocalWorkFolder();
+//      removeFileFromLocalWorkFolder();
       
       evalLogFileUpload();
       
@@ -121,19 +114,6 @@ public class SSFileUploader extends SSServImplStartA{
     }
   }
   
-  private void disposeUploadedFile() throws Exception{
-    
-    try{
-      
-      switch(fileConf.fileRepoType){
-        case fileSys: moveFileToLocalRepo(); break;
-      }
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
   private void readFileFromStreamAndSave() throws Exception{
     
     FileOutputStream fileOutputStream = null;
@@ -142,7 +122,7 @@ public class SSFileUploader extends SSServImplStartA{
       
       byte[] fileChunk = null;
       
-      fileOutputStream = SSFileU.openOrCreateFileWithPathForWrite   (localWorkPath + fileId);
+      fileOutputStream = SSFileU.openOrCreateFileWithPathForWrite   (SSFileRepoConf.getLocalWorkPath() + fileId);
 
       while(true){
         
@@ -178,10 +158,7 @@ public class SSFileUploader extends SSServImplStartA{
     
     try{
       
-      dbNoSQL.addDoc(
-        new SSDBNoSQLAddDocPar(
-          localWorkPath,
-          fileId));
+      dbNoSQL.addDoc(new SSDBNoSQLAddDocPar(fileId));
       
     }catch(Exception error){
       
@@ -202,36 +179,6 @@ public class SSFileUploader extends SSServImplStartA{
   
   private void sendAnswer() throws Exception{
     par.sSCon.writeRetFullToClient(SSFileUploadRet.get(fileUri, thumbUri));
-  }
-  
-  private void removeFileFromLocalWorkFolder() throws Exception{
-    
-    if(SSStrU.equals(localWorkPath, fileConf.getPath())){
-      return;
-    }
-    
-    try{
-      SSFileU.delFile(localWorkPath + fileId);
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
-  private void moveFileToLocalRepo() throws Exception{
-    
-    if(SSStrU.equals(localWorkPath, fileConf.getPath())){
-      return;
-    }
-    
-    try{
-      final File file = new File(localWorkPath + fileId);
-      
-      if(!file.renameTo(new File(fileConf.getPath() + fileId))){
-        throw new Exception("couldnt move file to local file repo");
-      }
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
   }
   
   private void registerFileAndCreateThumb() throws Exception{
@@ -304,6 +251,49 @@ public class SSFileUploader extends SSServImplStartA{
 //
 //    try{
 //      SSServCaller.i5CloudFileUpload(this.fileId, "private", SSServCaller.i5CloudAuth().get(SSHTMLU.xAuthToken));
+//    }catch(Exception error){
+//      SSServErrReg.regErrThrow(error);
+//    }
+//  }
+
+//private void disposeUploadedFile() throws Exception{
+//    
+//    try{
+//      
+//      switch(fileConf.fileRepoType){
+//        case fileSys: moveFileToLocalRepo(); break;
+//      }
+//      
+//    }catch(Exception error){
+//      SSServErrReg.regErrThrow(error);
+//    }
+//  }
+
+//  private void removeFileFromLocalWorkFolder() throws Exception{
+//    
+//    if(SSStrU.equals(localWorkPath, fileConf.getPath())){
+//      return;
+//    }
+//    
+//    try{
+//      SSFileU.delFile(localWorkPath + fileId);
+//    }catch(Exception error){
+//      SSServErrReg.regErrThrow(error);
+//    }
+//  }
+  
+//  private void moveFileToLocalRepo() throws Exception{
+//    
+//    if(SSStrU.equals(localWorkPath, fileConf.getPath())){
+//      return;
+//    }
+//    
+//    try{
+//      final File file = new File(localWorkPath + fileId);
+//      
+//      if(!file.renameTo(new File(fileConf.getPath() + fileId))){
+//        throw new Exception("couldnt move file to local file repo");
+//      }
 //    }catch(Exception error){
 //      SSServErrReg.regErrThrow(error);
 //    }

@@ -20,8 +20,6 @@
   */
 package at.tugraz.sss.servs.integrationtest;
 
-import at.kc.tugraz.ss.conf.conf.SSCoreConf;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEp;
 import at.tugraz.sss.serv.SSSearchOpE;
 import at.tugraz.sss.serv.SSDBNoSQLAddDocPar;
 import at.tugraz.sss.serv.SSDBNoSQL;
@@ -30,14 +28,11 @@ import at.tugraz.sss.serv.SSDBNoSQLRemoveDocPar;
 import at.tugraz.sss.serv.SSDBNoSQLSearchPar;
 import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSDBSQLI;
-import at.tugraz.sss.serv.SSEntity;
-import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.SSSolrKeywordLabel;
 import at.tugraz.sss.serv.SSSolrSearchFieldE;
-import at.tugraz.sss.serv.SSUri;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -61,10 +56,7 @@ implements
       
       SSLogU.info("start intgration test solr for search");
       
-      dbNoSQL.addDoc(
-        new SSDBNoSQLAddDocPar(
-          SSCoreConf.instGet().getSss().getLocalWorkPath(), 
-          "muell.pdf")); 
+      dbNoSQL.addDoc(new SSDBNoSQLAddDocPar("muell.pdf"));
       
       final Map<SSSolrSearchFieldE, List<SSSolrKeywordLabel>> wheres   = new HashMap<>();
       final List<String>                                      keywords = new ArrayList<>();
