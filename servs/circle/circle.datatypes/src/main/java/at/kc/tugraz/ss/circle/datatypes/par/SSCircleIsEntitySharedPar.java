@@ -22,24 +22,40 @@ package at.kc.tugraz.ss.circle.datatypes.par;
 
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSCircleRightE;
+import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSStrU;
 
-public class SSCircleCanAccessPar extends SSServPar{
+public class SSCircleIsEntitySharedPar extends SSServPar{
 
-  public SSUri           entityURI    = null;
-  public SSCircleRightE  accessRight  = null;
+  public SSUri forUser  = null;
+  public SSUri entity   = null;
+
+  public String getForUser(){
+    return SSStrU.removeTrailingSlash(forUser);
+  }
+
+  public void setForUser(final String forUser) throws Exception{
+    this.entity = SSUri.get(forUser);
+  }
   
-  public SSCircleCanAccessPar(){}
+  public String getEntity(){
+    return SSStrU.removeTrailingSlash(entity);
+  }
+
+  public void setEntity(final String entity) throws Exception{
+    this.entity = SSUri.get(entity);
+  }
   
-  public SSCircleCanAccessPar(
-    final SSUri           user,
-    final SSUri           entityURI,
-    final SSCircleRightE  accessRight){
+  public SSCircleIsEntitySharedPar(){}
     
-//    super(SSServOpE.circleCanAccess, null, user);
-    super(null, null, user);
+  public SSCircleIsEntitySharedPar(
+    final SSUri         user,
+    final SSUri         forUser,
+    final SSUri         entity){
     
-    this.entityURI       = entityURI;
-    this.accessRight     = accessRight;
+    super(SSServOpE.circleIsEntityShared, null, user);
+    
+    this.forUser             = forUser;
+    this.entity              = entity;
   }
 }

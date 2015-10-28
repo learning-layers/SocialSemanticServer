@@ -279,7 +279,7 @@ public class SSCollSQLFct extends SSDBSQLFct{
       table(tables, SSSQLVarNames.circleTable);
       table(tables, SSSQLVarNames.circleEntitiesTable);
       
-      where (wheres,  SSSQLVarNames.circleType, SSCircleE.toStr(SSCircleE.pub));
+      where (wheres,  SSSQLVarNames.circleType, SSCircleE.pub);
       
       tableCon(tableCons, SSSQLVarNames.entityTable,         SSSQLVarNames.id,       SSSQLVarNames.collTable,   SSSQLVarNames.collId);
       tableCon(tableCons, SSSQLVarNames.circleEntitiesTable, SSSQLVarNames.circleId, SSSQLVarNames.circleTable, SSSQLVarNames.circleId);

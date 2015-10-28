@@ -20,36 +20,31 @@
 */
 package at.kc.tugraz.ss.circle.datatypes.par;
 
-import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSStrU;
 
-public class SSCircleEntityUsersGetPar extends SSServPar{
-  
-  public SSUri        entity               = null;
-  public Boolean      invokeEntityHandlers = false;
-  
+public class SSCircleIsEntityPrivatePar extends SSServPar{
+
+  public SSUri entity   = null;
+
   public String getEntity(){
     return SSStrU.removeTrailingSlash(entity);
   }
-  
+
   public void setEntity(final String entity) throws Exception{
     this.entity = SSUri.get(entity);
   }
   
-  public SSCircleEntityUsersGetPar(){}
-  
-  public SSCircleEntityUsersGetPar(
-    final SSUri         user,
-    final SSUri         entity,
-    final Boolean       invokeEntityHandlers, 
-    final Boolean       withUserRestriction){
+  public SSCircleIsEntityPrivatePar(){}
     
-    super(SSServOpE.circleEntityUsersGet, null, user);
-  
-    this.entity               = entity;
-    this.invokeEntityHandlers = invokeEntityHandlers;
-    this.withUserRestriction  = withUserRestriction;
+  public SSCircleIsEntityPrivatePar(
+    final SSUri         user,
+    final SSUri         entity){
+    
+    super(SSServOpE.circleIsEntityPrivate, null, user);
+    
+    this.entity              = entity;
   }
 }

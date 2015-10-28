@@ -83,18 +83,18 @@ public class SSCircleMiscFct{
     }
   }
   
-  public void checkWhetherCircleIsGroupCircle(
-    final SSCircleE circleType) throws Exception{
-    
-    try{
-      
-      if(!SSCircleE.isGroupCircle(circleType)){
-        throw new Exception("circle is no group circle");
-      }
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
+//  public void checkWhetherCircleIsGroupCircle(
+//    final SSCircleE circleType) throws Exception{
+//    
+//    try{
+//      
+//      if(!SSCircleE.isGroupCircle(circleType)){
+//        throw new Exception("circle is no group circle");
+//      }
+//    }catch(Exception error){
+//      SSServErrReg.regErrThrow(error);
+//    }
+//  }
   
   
   //    public Boolean hasCircleOfTypeRight(

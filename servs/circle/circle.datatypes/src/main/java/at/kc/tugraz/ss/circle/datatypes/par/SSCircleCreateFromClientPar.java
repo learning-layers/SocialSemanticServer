@@ -62,7 +62,7 @@ public class SSCircleCreateFromClientPar extends SSCircleCreatePar{
     
     super(
       user,
-      SSCircleE.group,//circleType,
+      null, //SSCircleE.group,//circleType,
       label,
       description,
       false, //isSystemCircle

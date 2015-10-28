@@ -1,7 +1,22 @@
-/*
-* To change this license header, choose License Headers in Project Properties.
-* To change this template file, choose Tools | Templates
-* and open the template in the editor.
+/**
+* Code contributed to the Learning Layers project
+* http://www.learning-layers.eu
+* Development is partly funded by the FP7 Programme of the European Commission under
+* Grant Agreement FP7-ICT-318209.
+* Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
+* For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
 */
 package sss.serv.eval.impl;
 
@@ -9,7 +24,7 @@ import at.kc.tugraz.ss.activity.api.SSActivityServerI;
 import at.kc.tugraz.ss.activity.datatypes.SSActivity;
 import at.kc.tugraz.ss.activity.datatypes.par.SSActivitiesGetPar;
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCircleMostOpenCircleTypeGetPar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleTypesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.api.SSLearnEpServerI;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpVersion;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionCurrentGetPar;
@@ -87,7 +102,7 @@ public class SSEvalLogBNP {
       final List<SSEntity>   activities          = new ArrayList<>();
       String                 logText             = new String();
       String                 selectBitsMeasure   = SSStrU.empty;
-      SSCircleE              episodeSpace        = null;
+      final List<SSCircleE>  episodeSpaces       = new ArrayList<>();
       
       if(targetEntity != null){
         
@@ -95,12 +110,11 @@ public class SSEvalLogBNP {
           
           case learnEp:
             
-            episodeSpace =
-              ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleMostOpenCircleTypeGet(
-                new SSCircleMostOpenCircleTypeGetPar(
-                  originUser.id,
-                  targetEntity.id,
-                  true));
+            episodeSpaces.addAll(((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleTypesGet(
+              new SSCircleTypesGetPar(
+                originUser.id, 
+                targetEntity.id, 
+                true)));
             
             break;
         }
@@ -228,7 +242,7 @@ public class SSEvalLogBNP {
         logText += entity.id;
         logText += SSStrU.comma;
         
-        if(episodeSpace != null){
+        if(!episodeSpaces.isEmpty()){
           continue;
         }
         
@@ -236,12 +250,12 @@ public class SSEvalLogBNP {
           
           case learnEp:
             
-            episodeSpace =
-              ((SSCircleServerI)SSServReg.getServ(SSCircleServerI.class)).circleMostOpenCircleTypeGet(
-                new SSCircleMostOpenCircleTypeGetPar(
+            episodeSpaces.addAll(
+              ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleTypesGet(
+                new SSCircleTypesGetPar(
                   originUser.id,
                   targetEntity.id,
-                  true));
+                  true)));
             break;
         }
       }
@@ -265,8 +279,9 @@ public class SSEvalLogBNP {
       logText += SSStrU.semiColon;
       
       // episode space
-      if(episodeSpace != null){
-        logText += episodeSpace;
+      for(SSCircleE space : episodeSpaces){
+        logText += space.toString();
+        logText += SSStrU.comma;
       }
       
       logText += SSStrU.semiColon;
@@ -276,8 +291,8 @@ public class SSEvalLogBNP {
         case copyLearnEpForUser:{
           
           if(
-            episodeSpace  == null ||
-            targetEntity  == null ||
+            episodeSpaces.isEmpty() ||
+            targetEntity  == null   ||
             targetEntities.isEmpty()){
             break;
           }

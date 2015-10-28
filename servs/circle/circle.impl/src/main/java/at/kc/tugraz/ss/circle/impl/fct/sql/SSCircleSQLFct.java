@@ -643,7 +643,7 @@ public class SSCircleSQLFct extends SSDBSQLFct{
     final SSUri circleUri) throws Exception{
     
     try{
-      return SSCircleE.equals(getTypeForCircle(circleUri), SSCircleE.group);
+      return SSStrU.equals(getTypeForCircle(circleUri), SSCircleE.group1);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;

@@ -21,10 +21,9 @@ import java.util.List;
 public enum SSCircleE implements SSJSONLDPropI{
   
   priv,
-  group,
-  proj,
-  org,
-  clust,
+  //privCircle
+  group1,
+  //pubCircle
   pub;
   
 @Override
@@ -45,44 +44,6 @@ public enum SSCircleE implements SSJSONLDPropI{
   
   public static SSCircleE get(final String value) throws Exception{
     return SSCircleE.valueOf(value);
-  }
-  
-  public static String toStr(final SSCircleE circleType){
-    return SSStrU.toStr(circleType);
-  }
-  
-  public static Boolean equals(
-    final SSCircleE circleType1, 
-    final SSCircleE circleType2){
-
-    if(SSObjU.isNull(circleType1, circleType2)){
-      return false;
-    }
-    
-    return circleType1.toString().equals(circleType2.toString());
-  }
-  
-  public static Boolean isGroupCircle(
-    final SSCircleE circleType){
-
-    return SSCircleE.equals(circleType, SSCircleE.group);
-  }
-  
-  public static Boolean contains(
-    final List<SSCircleE> circleTypes, 
-    final SSCircleE       toContainCircleType) throws Exception{
-
-    if(circleTypes == null){
-      throw new Exception("pars null");
-    }
-    
-    for(SSCircleE circleType : circleTypes){
-      if(SSStrU.equals(toStr(circleType), toStr(toContainCircleType))){
-        return true;
-      }
-    }
-    
-    return false;
   }
   
   private SSCircleE(){}

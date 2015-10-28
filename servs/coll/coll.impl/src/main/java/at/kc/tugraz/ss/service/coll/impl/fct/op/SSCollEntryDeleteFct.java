@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.service.coll.impl.fct.op;
 
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCircleMostOpenCircleTypeGetPar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleIsEntityPrivatePar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntryDeletePar;
 import at.kc.tugraz.ss.service.coll.impl.fct.sql.SSCollSQLFct;
 import at.tugraz.sss.serv.SSServErrReg;
@@ -39,26 +39,14 @@ public class SSCollEntryDeleteFct{
         throw new Exception("cant delete special collection");
       }
       
-      switch(circleServ.circleMostOpenCircleTypeGet(
-        new SSCircleMostOpenCircleTypeGetPar(
-          par.user,
-          par.entry,
-          false))){
-        
-        case priv:{
-          
-          //TODO dtheiler: remove priv (sub) coll(s) from circle(s)/coll table if not linked anymore to a user in coll clean up timer task thread
+      if(circleServ.circleIsEntityPrivate(new SSCircleIsEntityPrivatePar(par.user, par.entry))){
+        //TODO dtheiler: remove priv (sub) coll(s) from circle(s)/coll table if not linked anymore to a user in coll clean up timer task thread
           sqlFct.removeCollAndUnlinkSubColls(par.user, par.entry);
-          break;
-        }
-        
-        default:{
-          
-          //TODO dtheiler: remove shared/pub (sub) coll(s) from circle(s)/coll table if not linked anymore to a user in coll clean up timer task thread
-          sqlFct.unlinkCollAndSubColls(par.user, par.coll, par.entry);
-        }
+      }else{
+        //TODO dtheiler: remove shared/pub (sub) coll(s) from circle(s)/coll table if not linked anymore to a user in coll clean up timer task thread
+        sqlFct.unlinkCollAndSubColls(par.user, par.coll, par.entry);
       }
-      
+
       return true;
       
     }catch(Exception error){

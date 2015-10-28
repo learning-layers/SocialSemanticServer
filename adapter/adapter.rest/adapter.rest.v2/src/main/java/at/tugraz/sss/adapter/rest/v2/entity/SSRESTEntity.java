@@ -21,9 +21,7 @@
 package at.tugraz.sss.adapter.rest.v2.entity;
 
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntitySharePar;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntityUsersGetPar;
 import at.tugraz.sss.servs.entity.datatypes.ret.SSEntityShareRet;
-import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleEntityUsersGetRet;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntitiesGetPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityTypesGetPar;
 import at.tugraz.sss.serv.SSEntityCopyPar;
@@ -35,6 +33,8 @@ import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.servs.entity.datatypes.ret.SSEntityUpdateRet;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserEntityUsersGetPar;
+import at.kc.tugraz.ss.service.user.datatypes.ret.SSUserEntityUsersGetRet;
 import at.kc.tugraz.sss.comment.datatypes.par.SSCommentsAddPar;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
 import at.tugraz.sss.serv.SSStrU;
@@ -324,7 +324,7 @@ public class SSRESTEntity {
   @Produces(MediaType.APPLICATION_JSON)
   @ApiOperation(
     value = "retrieve users who can access given entity",
-    response = SSCircleEntityUsersGetRet.class)
+    response = SSUserEntityUsersGetRet.class)
   @Path("/{entity}/users")
   public Response entityUsersGet(
     @Context
@@ -333,12 +333,12 @@ public class SSRESTEntity {
     @PathParam(SSVarNames.entity)
     final String entity){
     
-    final SSCircleEntityUsersGetPar par;
+    final SSUserEntityUsersGetPar par;
     
     try{
       
       par =
-        new SSCircleEntityUsersGetPar(
+        new SSUserEntityUsersGetPar(
           null,  //user
           SSUri.get(entity, SSVocConf.sssUri),  //entity
           false, //invokeEntityHandlers

@@ -127,11 +127,9 @@ public enum SSServOpE{
   circleCreate,
   circleEntitiesAdd,
   circleUsersAdd,
-  circleMostOpenCircleTypeGet,
   circleTypesGet,
   circleGet,
   circlesGet,
-  circleEntityUsersGet,
   circlePrivURIGet,
   circlePubURIGet,
 //  circleCanAccess,
@@ -139,6 +137,9 @@ public enum SSServOpE{
   circleUsersRemove,
   circleRemove,
   circleUsersInvite,
+  circleIsEntityPrivate,
+  circleIsEntityShared,
+  circleIsEntityPublic,
   
   //entity
   entitiesGet,
@@ -197,6 +198,7 @@ public enum SSServOpE{
   usersGet,
   userAdd,
   userProfilesGet,
+  userEntityUsersGet,
   
   //user event
   userEventsGet                                              ,

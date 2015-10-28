@@ -67,6 +67,7 @@ import at.kc.tugraz.ss.service.userevent.datatypes.SSUEE;
 import at.kc.tugraz.ss.service.userevent.datatypes.pars.SSUEAddPar;
 import at.tugraz.sss.serv.SSAddAffiliatedEntitiesToCircleI;
 import at.tugraz.sss.serv.SSAddAffiliatedEntitiesToCirclePar;
+import at.tugraz.sss.serv.SSCircleE;
 import at.tugraz.sss.serv.SSCopyEntityI;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
@@ -1049,6 +1050,7 @@ SSUri.asListNotNull(SSUri.get(user)))){ //authors
         
         new SSEntityShareWithUsers(circleServ).handle(
           par.user, 
+          SSCircleE.group1,
           entity,
           par.users, 
           par.withUserRestriction);

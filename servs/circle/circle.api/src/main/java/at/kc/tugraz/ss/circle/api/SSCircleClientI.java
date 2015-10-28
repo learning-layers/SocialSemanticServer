@@ -25,7 +25,6 @@ import at.tugraz.sss.serv.SSServPar;
 
 public interface SSCircleClientI{
 
-  public void circleEntityUsersGet  (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
   public void circleGet             (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
   public void circleEntitiesAdd     (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
   public void circleUsersAdd        (final SSSocketCon sSCon, final SSServPar parA) throws Exception;

@@ -18,7 +18,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.circle.datatypes.ret;
+package at.kc.tugraz.ss.service.user.datatypes.ret;
 
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
@@ -31,7 +31,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SSCircleEntityUsersGetRet extends SSServRetI{
+public class SSUserEntityUsersGetRet extends SSServRetI{
 
   public List<SSEntity> users = new ArrayList<>();
 
@@ -49,16 +49,16 @@ public class SSCircleEntityUsersGetRet extends SSServRetI{
     return ld;
   }
     
-  public static SSCircleEntityUsersGetRet get(
+  public static SSUserEntityUsersGetRet get(
     final List<SSEntity> users){
     
-    return new SSCircleEntityUsersGetRet(users);
+    return new SSUserEntityUsersGetRet(users);
   }
   
-  private SSCircleEntityUsersGetRet(
+  private SSUserEntityUsersGetRet(
     final List<SSEntity> users) {
 
-    super(SSServOpE.circleEntityUsersGet);
+    super(SSServOpE.userEntityUsersGet);
     
     if(users != null){
       this.users.addAll(users);

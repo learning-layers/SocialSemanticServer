@@ -21,11 +21,10 @@
 package at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.access;
 
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCircleTypesGetPar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleIsEntitySharedPar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.conf.SSLearnEpConf;
 import at.tugraz.sss.serv.SSDateU;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSCircleE;
 import at.tugraz.sss.serv.SSUri;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -150,15 +149,16 @@ public class SSLearnEpAccessController{
     
     try{
       
+      final SSCircleServerI           circleServ        = (SSCircleServerI) SSServReg.getServ(SSCircleServerI.class);
+      final SSCircleIsEntitySharedPar isEntitySharedPar =
+        new SSCircleIsEntitySharedPar(
+          user,
+          null, //forUser
+          learnEp); //entity
+      
       if(
         !learnEpConf.useEpisodeLocking ||
-        !SSStrU.contains(
-          ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleTypesGet(
-            new SSCircleTypesGetPar(
-              user,
-              learnEp,
-              true)),
-          SSCircleE.group)){
+        !circleServ.circleIsEntityShared(isEntitySharedPar)){
         return;
       }
       

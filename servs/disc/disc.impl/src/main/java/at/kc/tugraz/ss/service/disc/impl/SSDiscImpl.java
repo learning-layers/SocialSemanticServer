@@ -23,8 +23,8 @@ package at.kc.tugraz.ss.service.disc.impl;
 import at.kc.tugraz.ss.activity.api.SSActivityServerI;
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesAddPar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleIsEntityPrivatePar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntitySharePar;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCircleMostOpenCircleTypeGetPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntitiesGetPar;
@@ -1189,26 +1189,16 @@ SSUri.asListNotNull(entity.id), //targets
       
       dbSQL.startTrans(par.shouldCommit);
       
-      switch(
-        circleServ.circleMostOpenCircleTypeGet(
-          new SSCircleMostOpenCircleTypeGetPar(
-            par.user,
-            par.disc,
-            false))){ //withUserRestriction
+      if(circleServ.circleIsEntityPrivate(
+        new SSCircleIsEntityPrivatePar(
+          par.user, 
+          par.disc))){
         
-        case priv:{
-          sqlFct.deleteDisc(par.disc);
-          break;
-        }
-        
-        case group:
-        case pub:{
-          
-          sqlFct.unlinkDisc(par.user, par.disc);
-          break;
-        }
+        sqlFct.deleteDisc(par.disc);
+      }else{
+        sqlFct.unlinkDisc(par.user, par.disc);
       }
-      
+
       dbSQL.commit(par.shouldCommit);
       
       return par.disc;

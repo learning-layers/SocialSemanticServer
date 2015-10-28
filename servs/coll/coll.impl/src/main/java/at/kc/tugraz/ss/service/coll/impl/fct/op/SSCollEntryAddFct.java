@@ -21,12 +21,12 @@
 package at.kc.tugraz.ss.service.coll.impl.fct.op;
 
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCircleMostOpenCircleTypeGetPar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleIsEntityPrivatePar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleIsEntityPublicPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUpdatePar;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSCircleE;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntryAddPar;
 import at.kc.tugraz.ss.service.coll.impl.fct.misc.SSCollMiscFct;
@@ -43,14 +43,10 @@ public class SSCollEntryAddFct{
     
     final Boolean isParentCollSharedOrPublic;
     
-    switch(
-      circleServ.circleMostOpenCircleTypeGet(
-        new SSCircleMostOpenCircleTypeGetPar(
-          par.user,
-          par.coll,
-          false))){
-      case priv: isParentCollSharedOrPublic = false; break;
-      default:   isParentCollSharedOrPublic = true;
+    if(circleServ.circleIsEntityPrivate(new SSCircleIsEntityPrivatePar(par.user, par.coll))){
+      isParentCollSharedOrPublic = false;
+    }else{
+      isParentCollSharedOrPublic = true;
     }
     
     final SSUri newColl = 
@@ -98,24 +94,19 @@ public class SSCollEntryAddFct{
     final SSCircleServerI       circleServ,
     final SSCollUserEntryAddPar par) throws Exception{
     
-    if(!SSCircleE.equals(
-      circleServ.circleMostOpenCircleTypeGet(
-        new SSCircleMostOpenCircleTypeGetPar(
-          par.user,
-          par.entry,
-          false)), 
-      SSCircleE.pub)){
-      
+    if(!circleServ.circleIsEntityPublic(
+      new SSCircleIsEntityPublicPar(
+        par.user, 
+        par.entry))){
       throw new Exception("coll to add is not public");
     }
     
-    switch(circleServ.circleMostOpenCircleTypeGet(
-        new SSCircleMostOpenCircleTypeGetPar(
-          par.user,
-          par.coll,
-          false))){
-      case priv: break;
-      default:   throw new Exception("cannot add shared or public coll to shared / public parent coll");
+    if(!circleServ.circleIsEntityPrivate(
+      new SSCircleIsEntityPrivatePar(
+        par.user, 
+        par.entry))){
+      
+      throw new Exception("cannot add shared or public coll to shared / public parent coll");
     }
     
     if(sqlFct.ownsUserColl(par.user, par.entry)){

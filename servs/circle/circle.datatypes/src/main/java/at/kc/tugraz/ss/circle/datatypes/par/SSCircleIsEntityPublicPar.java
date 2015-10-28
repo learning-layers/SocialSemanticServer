@@ -25,9 +25,9 @@ import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 
-public class SSCircleMostOpenCircleTypeGetPar extends SSServPar{
+public class SSCircleIsEntityPublicPar extends SSServPar{
 
-  public SSUri entity  = null;
+  public SSUri entity   = null;
 
   public String getEntity(){
     return SSStrU.removeTrailingSlash(entity);
@@ -37,16 +37,14 @@ public class SSCircleMostOpenCircleTypeGetPar extends SSServPar{
     this.entity = SSUri.get(entity);
   }
   
-  public SSCircleMostOpenCircleTypeGetPar(){}
+  public SSCircleIsEntityPublicPar(){}
     
-  public SSCircleMostOpenCircleTypeGetPar(
+  public SSCircleIsEntityPublicPar(
     final SSUri         user,
-    final SSUri         entity,
-    final Boolean       withUserRestriction){
+    final SSUri         entity){
     
-    super(SSServOpE.circleMostOpenCircleTypeGet, null, user);
+    super(SSServOpE.circleIsEntityPublic, null, user);
     
     this.entity              = entity;
-    this.withUserRestriction = withUserRestriction;
   }
 }

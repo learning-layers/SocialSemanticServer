@@ -20,13 +20,13 @@
 */
 package at.kc.tugraz.ss.circle.api;
 
-import at.kc.tugraz.ss.circle.datatypes.par.SSCircleCanAccessPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleCreatePar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesAddPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesRemovePar;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntityUsersGetPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleGetPar;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCircleMostOpenCircleTypeGetPar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleIsEntityPrivatePar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleIsEntityPublicPar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleIsEntitySharedPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivURIGetPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePubURIGetPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleRemovePar;
@@ -47,16 +47,16 @@ public interface SSCircleServerI extends SSServServerI{
   public SSUri                           circleCreate                             (final SSCircleCreatePar                par) throws Exception;
   public SSUri                           circleUsersAdd                           (final SSCircleUsersAddPar              par) throws Exception;
   public SSUri                           circleEntitiesAdd                        (final SSCircleEntitiesAddPar           par) throws Exception;
-  public SSCircleE                       circleMostOpenCircleTypeGet              (final SSCircleMostOpenCircleTypeGetPar par) throws Exception;
   public List<SSCircleE>                 circleTypesGet                           (final SSCircleTypesGetPar              par) throws Exception;
   public SSEntityCircle                  circleGet                                (final SSCircleGetPar                   par) throws Exception;
   public List<SSEntity>                  circlesGet                               (final SSCirclesGetPar                  par) throws Exception;
-//  public void                            circleCanAccess                          (final SSCircleCanAccessPar             par) throws Exception;
   public SSUri                           circlePrivURIGet                         (final SSCirclePrivURIGetPar            par) throws Exception;
   public SSUri                           circlePubURIGet                          (final SSCirclePubURIGetPar             par) throws Exception;
-  public List<SSEntity>                  circleEntityUsersGet                     (final SSCircleEntityUsersGetPar        par) throws Exception;  
   public List<SSUri>                     circleEntitiesRemove                     (final SSCircleEntitiesRemovePar        par) throws Exception;
   public List<SSUri>                     circleUsersRemove                        (final SSCircleUsersRemovePar           par) throws Exception;
   public SSUri                           circleRemove                             (final SSCircleRemovePar                par) throws Exception;
   public SSUri                           circleUsersInvite                        (final SSCircleUsersInvitePar           par) throws Exception;
+  public Boolean                         circleIsEntityPrivate                    (final SSCircleIsEntityPrivatePar       par) throws Exception;
+  public Boolean                         circleIsEntityShared                     (final SSCircleIsEntitySharedPar        par) throws Exception;
+  public Boolean                         circleIsEntityPublic                     (final SSCircleIsEntityPublicPar        par) throws Exception;
 }

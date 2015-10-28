@@ -41,10 +41,12 @@ import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.kc.tugraz.ss.service.user.api.*;
 import at.kc.tugraz.ss.service.user.datatypes.SSUser;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserAddPar;
+import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserEntityUsersGetPar;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserExistsPar;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserURIGetPar;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserURIsGetPar;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUsersGetPar;
+import at.kc.tugraz.ss.service.user.datatypes.ret.SSUserEntityUsersGetRet;
 import at.kc.tugraz.ss.service.user.datatypes.ret.SSUsersGetRet;
 import at.kc.tugraz.ss.service.user.impl.functions.sql.SSUserSQLFct;
 import at.tugraz.sss.serv.SSDBNoSQL;
@@ -356,6 +358,70 @@ SSUri.asListNotNull(userUri), //users
     }
   }
   
+  @Override
+  public void userEntityUsersGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
+    
+    SSServCallerU.checkKey(parA);
+    
+    final SSUserEntityUsersGetPar par = (SSUserEntityUsersGetPar) parA.getFromJSON(SSUserEntityUsersGetPar.class);
+    
+    sSCon.writeRetFullToClient(SSUserEntityUsersGetRet.get(userEntityUsersGet(par)));
+  }
+  
+  @Override
+  public List<SSEntity> userEntityUsersGet(final SSUserEntityUsersGetPar par) throws Exception{
+    
+    try{
+      
+      final List<SSEntity> users = new ArrayList<>();
+      
+      if(!sqlFct.existsEntity(par.entity)){
+        return users;
+      }
+      
+      SSEntity entity;
+        
+      if(par.withUserRestriction){
+        
+        entity = 
+          sqlFct.getEntityTest(
+            par.user,
+            par.entity,
+            par.withUserRestriction);
+        
+        if(entity == null){
+          return users;
+        }
+      }
+
+      for(SSEntity user : 
+        usersGet(
+          new SSUsersGetPar(
+            par.user,
+            null, //users
+            false))){ //invokeEntityHandlers
+       
+        entity = 
+          sqlFct.getEntityTest(
+            user.id, 
+            par.entity, 
+            par.withUserRestriction);
+        
+        if(entity == null){
+          continue;
+        }
+        
+        users.add(user);
+      }
+
+      return users;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+}
+  
 //  private void setUserThumb(
 //    final SSUri          callingUser,
 //    final SSUser         user,
@@ -379,4 +445,3 @@ SSUri.asListNotNull(userUri), //users
 //      SSServErrReg.regErrThrow(error);
 //    }
 //  }
-}
