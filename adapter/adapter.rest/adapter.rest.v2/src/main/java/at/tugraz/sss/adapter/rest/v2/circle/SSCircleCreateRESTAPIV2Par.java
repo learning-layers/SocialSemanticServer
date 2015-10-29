@@ -24,6 +24,7 @@ import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.SSUri;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.tugraz.sss.serv.SSCircleE;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 import java.util.List;
@@ -42,6 +43,16 @@ public class SSCircleCreateRESTAPIV2Par{
   @XmlElement
   public void setLabel(final String label) throws Exception{
     this.label = SSLabel.get(label);
+  }
+  
+  @ApiModelProperty(
+    required = false,
+    value = "circle type (i.e., group or pubCircle")
+  public SSCircleE                type          = null;
+  
+  @XmlElement
+  public void setType(final String type) throws Exception{
+    this.type = SSCircleE.get(type);
   }
   
   @ApiModelProperty(

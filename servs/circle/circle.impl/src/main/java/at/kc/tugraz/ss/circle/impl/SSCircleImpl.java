@@ -519,7 +519,6 @@ implements
         
         switch(par.circleType){
           
-          case privCircle:
           case pubCircle:
           case group:{
             break;

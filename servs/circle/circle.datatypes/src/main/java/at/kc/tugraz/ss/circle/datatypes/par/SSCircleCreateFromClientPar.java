@@ -54,6 +54,7 @@ public class SSCircleCreateFromClientPar extends SSCircleCreatePar{
   
   public SSCircleCreateFromClientPar(
     final SSUri           user,
+    final SSCircleE       circleType,
     final SSLabel         label,
     final SSTextComment   description,
     final List<SSUri>     users,
@@ -62,7 +63,7 @@ public class SSCircleCreateFromClientPar extends SSCircleCreatePar{
     
     super(
       user,
-      null, //SSCircleE.group,//circleType,
+      circleType, 
       label,
       description,
       false, //isSystemCircle

@@ -44,6 +44,7 @@ import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleUsersRemoveRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCirclesGetRet;
 import at.tugraz.sss.serv.SSUri;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.tugraz.sss.serv.SSCircleE;
 import at.tugraz.sss.serv.SSStrU;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
@@ -433,9 +434,14 @@ public class SSRESTCircle{
     
     try{
       
+      if(input.type == null){
+        input.type = SSCircleE.group;
+      }
+      
       par =
         new SSCircleCreateFromClientPar(
           null,
+          input.type,
           input.label, //label
           input.description, //description
           input.users, //users
