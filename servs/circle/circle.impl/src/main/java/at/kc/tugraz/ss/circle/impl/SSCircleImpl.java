@@ -525,7 +525,7 @@ implements
 //        }
         
         switch(par.circleType){
-          case group1:{
+          case group:{
             break;
           }
           
@@ -1042,9 +1042,9 @@ implements
       }
       
       if(par.forUser == null){
-        return SSStrU.contains(sqlFct.getCircleTypesForEntity(par.entity), SSCircleE.group1);
+        return SSStrU.contains(sqlFct.getCircleTypesForEntity(par.entity), SSCircleE.group);
       }else{
-        return SSStrU.contains(sqlFct.getCircleTypesCommonForUserAndEntity(par.forUser, par.entity), SSCircleE.group1);
+        return SSStrU.contains(sqlFct.getCircleTypesCommonForUserAndEntity(par.forUser, par.entity), SSCircleE.group);
       }
       
     }catch(Exception error){

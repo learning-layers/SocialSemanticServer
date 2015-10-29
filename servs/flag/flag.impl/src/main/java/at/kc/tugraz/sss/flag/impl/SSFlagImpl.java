@@ -103,17 +103,21 @@ implements
              return entity;
            }
            
-           final SSFlag flagEntity =
-             SSFlag.get(
-               flagGet(
-                 new SSFlagGetPar(
-                   par.user,
-                   entity.id,
-                   par.withUserRestriction,
-                   false)),
-               entity);
+           final SSFlag flag =
+             flagGet(
+               new SSFlagGetPar(
+                 par.user,
+                 entity.id,
+                 par.withUserRestriction,
+                 false));
            
-           return flagEntity;
+           if(flag == null){
+             return entity;
+           }
+           
+           return SSFlag.get(
+               flag,
+               entity);
          }
        }
       

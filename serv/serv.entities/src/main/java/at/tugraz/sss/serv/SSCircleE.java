@@ -22,7 +22,7 @@ public enum SSCircleE implements SSJSONLDPropI{
   
   priv,
   //privCircle
-  group1,
+  group,
   //pubCircle
   pub;
   

@@ -26,9 +26,7 @@ import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSDBSQLFct;
 import at.tugraz.sss.serv.SSDBSQLI;
-
 import at.kc.tugraz.sss.app.datatypes.SSApp;
-import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
@@ -71,7 +69,9 @@ public class SSAppSQLFct extends SSDBSQLFct{
       
       resultSet = dbSQL.select(SSSQLVarNames.appTable, columns, wheres, null, null, null);
       
-      checkFirstResult(resultSet);
+      if(!existsFirstResult(resultSet)){
+        return null;
+      }
       
       return SSApp.get(
         bindingStrToUri         (resultSet, SSSQLVarNames.appId),

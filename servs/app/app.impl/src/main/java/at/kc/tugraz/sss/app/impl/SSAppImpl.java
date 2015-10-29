@@ -80,27 +80,40 @@ implements
   
   @Override
   public SSEntity describeEntity(
-    final SSEntity             entity, 
+    final SSEntity             entity,
     final SSEntityDescriberPar par) throws Exception{
     
-    switch(entity.type){
-      
-      case app:{
-
-        if(SSStrU.equals(entity, par.recursiveEntity)){
-          return entity;
+    try{
+      switch(entity.type){
+        
+        case app:{
+          
+          if(SSStrU.equals(entity, par.recursiveEntity)){
+            return entity;
+          }
+          
+          final SSApp app =
+            appGet(
+              new SSAppGetPar(
+                par.user,
+                entity.id,
+                false));  //invokeEntityHandlers
+          
+          if(app == null){
+            return entity;
+          }
+          
+          return SSApp.get(
+            app,
+            entity);
         }
         
-        return SSApp.get(
-          appGet(
-            new SSAppGetPar(
-              par.user,
-              entity.id, 
-              false)), //invokeEntityHandlers
-          entity);
+        default: return entity;
       }
       
-      default: return entity;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   

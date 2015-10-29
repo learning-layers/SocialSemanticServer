@@ -166,13 +166,20 @@ implements
             return entity;
           }
           
-          return SSUE.get(
+          final SSUE ue =
             userEventGet(
               new SSUEGetPar(
                 par.user,
                 entity.id,
                 par.withUserRestriction,
-                false)),
+                false));
+          
+          if(ue == null){
+            return entity;
+          }
+          
+          return SSUE.get(
+            ue,
             entity);
         }
         

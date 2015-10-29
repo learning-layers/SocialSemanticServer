@@ -295,6 +295,12 @@ public class SSDBSQLFct extends SSDBFct{
     }
   }
   
+  protected static Boolean existsFirstResult(
+    final ResultSet resultSet) throws Exception{
+    
+    return resultSet.first();
+  }
+  
   protected static List<String> getStringsFromResult(
     final ResultSet resultSet,
     final String    key) throws Exception{
@@ -620,6 +626,7 @@ public class SSDBSQLFct extends SSDBFct{
         
         query = "select DISTINCT id, type, label, description, author, creationTime from entity where ";
         query += "(id = '" + entityStr + "' AND type  = 'entity') OR ";
+        query += "(id = '" + entityStr + "' AND type  = 'circle' AND id = (select DISTINCT circleId from circle where circleId = '" + entityStr + "' and (circleType = 'pub' or circleType = 'pubCircle') OR ";
         query += "(id = '" + entityStr + "' AND type  = 'circle' AND id = (select DISTINCT circle.circleId from circle, circleusers where circle.circleId = '" + entityStr + "' and circleusers.userId = '" + userStr + "' and circle.circleId = circleusers.circleId)) OR ";
         query += "(id = '" + entityStr + "' AND type != 'entity' AND type != 'circle' AND id = (select DISTINCT circleentities.entityId from circle, circleentities, circleusers where entityId = '" + entityStr + "' and userId = '" + userStr + "' and circle.circleId = circleentities.circleId and circle.circleId = circleusers.circleId))";
   

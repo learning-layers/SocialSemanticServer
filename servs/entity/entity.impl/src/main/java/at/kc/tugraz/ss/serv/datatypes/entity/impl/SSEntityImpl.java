@@ -1050,7 +1050,7 @@ SSUri.asListNotNull(SSUri.get(user)))){ //authors
         
         new SSEntityShareWithUsers(circleServ).handle(
           par.user, 
-          SSCircleE.group1,
+          SSCircleE.group,
           entity,
           par.users, 
           par.withUserRestriction);

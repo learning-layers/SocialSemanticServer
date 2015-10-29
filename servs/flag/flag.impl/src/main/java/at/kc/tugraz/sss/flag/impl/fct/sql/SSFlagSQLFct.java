@@ -76,7 +76,9 @@ public class SSFlagSQLFct extends SSDBSQLFct{
       
       resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
       
-      checkFirstResult(resultSet);
+      if(!existsFirstResult(resultSet)){
+        return null; 
+      }
       
       try{
         endTimeForFlag = bindingStrToLong(resultSet, SSSQLVarNames.endTime);
