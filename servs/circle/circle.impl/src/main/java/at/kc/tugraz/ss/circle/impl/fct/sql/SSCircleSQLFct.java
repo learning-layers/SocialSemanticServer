@@ -639,11 +639,23 @@ public class SSCircleSQLFct extends SSDBSQLFct{
     }
   }
   
-  public Boolean isGroupCircle(
+  public Boolean isGroupOrPubCircleCircle(
     final SSUri circleUri) throws Exception{
     
     try{
-      return SSStrU.equals(getTypeForCircle(circleUri), SSCircleE.group);
+  
+      final SSCircleE circleType = getTypeForCircle(circleUri);
+      
+      switch(circleType){
+        
+        case pubCircle:
+        case group:{
+          return true;
+        }
+        
+        default: return false;
+      }
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;

@@ -227,13 +227,13 @@ implements
       
       if(par.withUserRestriction){
         
-        if(!sqlFct.isGroupCircle(entity.id)){
+        if(!sqlFct.isGroupOrPubCircleCircle(entity.id)){
           return;
         }
         
         if(par.targetEntity != null){
            
-          if(!sqlFct.isGroupCircle(par.targetEntity)){
+          if(!sqlFct.isGroupOrPubCircleCircle(par.targetEntity)){
             return;
           }
         }
@@ -271,7 +271,7 @@ implements
     final SSCircleEntitiesRemoveFromClientPar par    = (SSCircleEntitiesRemoveFromClientPar) parA.getFromJSON(SSCircleEntitiesRemoveFromClientPar.class);
     final List<SSUri>                         result;
     
-    if(!sqlFct.isGroupCircle(par.circle)){
+    if(!sqlFct.isGroupOrPubCircleCircle(par.circle)){
       result = new ArrayList<>();
     }else{
       result = circleEntitiesRemove(par);
@@ -359,7 +359,7 @@ implements
     final SSCircleUsersRemovePar par    = (SSCircleUsersRemovePar) parA.getFromJSON(SSCircleUsersRemovePar.class);
     final List<SSUri>            result;
     
-    if(!sqlFct.isGroupCircle(par.circle)){
+    if(!sqlFct.isGroupOrPubCircleCircle(par.circle)){
       result = new ArrayList<>();
     }else{
       result = circleUsersRemove(par);
@@ -517,14 +517,10 @@ implements
           throw new SSErr(SSErrE.notAllowedToCreateCircle);
         }
         
-//        if(
-//          par.forUser != null &&
-//          !SSStrU.equals(par.user,  par.forUser)){
-//          
-//          throw new SSErr(SSErrE.notAllowedToCreateCircle);
-//        }
-        
         switch(par.circleType){
+          
+          case privCircle:
+          case pubCircle:
           case group:{
             break;
           }
@@ -532,10 +528,6 @@ implements
           default: throw new SSErr(SSErrE.notAllowedToCreateCircle);
         }
       }
-      
-//      if(par.forUser == null){
-//        par.forUser = par.user;
-//      }
       
       final SSEntityServerI entityServ = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
       final SSUri           circleUri;
@@ -600,10 +592,12 @@ implements
     final SSCircleRemovePar par       = (SSCircleRemovePar) parA.getFromJSON(SSCircleRemovePar.class);
     final SSUri             circleURI;
     
-    if(!sqlFct.isGroupCircle(par.circle)){
-      circleURI = null;
-    }else{
+    if(
+      sqlFct.isGroupOrPubCircleCircle(par.circle) &&
+      sqlFct.isUserAuthor(par.user, par.circle, par.withUserRestriction)){
       circleURI = circleRemove(par);
+    }else{
+      circleURI = null;
     }
     
     sSCon.writeRetFullToClient(SSCircleRemoveRet.get(circleURI));
@@ -671,7 +665,7 @@ implements
     final SSCircleUsersAddPar par = (SSCircleUsersAddPar) parA.getFromJSON(SSCircleUsersAddPar.class);
     final SSUri               circleURI;
     
-    if(!sqlFct.isGroupCircle(par.circle)){
+    if(!sqlFct.isGroupOrPubCircleCircle(par.circle)){
       circleURI = null;
     }else{
       circleURI = circleUsersAdd(par);
@@ -730,7 +724,7 @@ implements
         sqlFct.getEntityTest(
           null,
           par.circle,
-          false);
+          false); //withUserRestriction
       
       if(circle == null){
         return null;
@@ -738,11 +732,11 @@ implements
       
       if(par.withUserRestriction){
         
-        circle =  
+        circle =
           sqlFct.getEntityTest(
-          par.user,
-          par.circle,
-          true); //withUserRestriction
+            par.user,
+            par.circle,
+            true); //withUserRestriction
           
         if(circle == null){
           
@@ -805,7 +799,7 @@ implements
     final SSCircleEntitiesAddPar par      = (SSCircleEntitiesAddPar) parA.getFromJSON(SSCircleEntitiesAddPar.class);
     final SSUri                  cicleURI;
     
-    if(!sqlFct.isGroupCircle(par.circle)){
+    if(!sqlFct.isGroupOrPubCircleCircle(par.circle)){
       cicleURI = null;
     }else{
       cicleURI = circleEntitiesAdd(par);

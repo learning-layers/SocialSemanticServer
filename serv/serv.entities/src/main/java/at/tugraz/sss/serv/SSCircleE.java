@@ -21,9 +21,8 @@ import java.util.List;
 public enum SSCircleE implements SSJSONLDPropI{
   
   priv,
-  //privCircle
   group,
-  //pubCircle
+  pubCircle,
   pub;
   
 @Override
