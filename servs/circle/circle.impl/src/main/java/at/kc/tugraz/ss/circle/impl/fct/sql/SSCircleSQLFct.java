@@ -978,4 +978,29 @@ public class SSCircleSQLFct extends SSDBSQLFct{
       dbSQL.closeStmt(resultSet);
     }
   }
+
+  public void changeCircleType(
+    final SSUri     circle,
+    final SSCircleE type) throws Exception{
+    
+    try{
+      final Map<String, String>  wheres   = new HashMap<>();
+      final Map<String, String>  updates  = new HashMap<>();
+      
+      where(wheres, SSSQLVarNames.circleId, circle);
+      
+      if(type != null){
+        update (updates, SSSQLVarNames.circleType, type);
+      }
+      
+      if(updates.isEmpty()){
+        return;
+      }
+      
+      dbSQL.update(SSSQLVarNames.circleTable, wheres, updates);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
 }

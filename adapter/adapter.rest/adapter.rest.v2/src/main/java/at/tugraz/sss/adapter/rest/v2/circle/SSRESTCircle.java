@@ -29,6 +29,7 @@ import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesRemoveFromClientPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesRemovePar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleGetPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleRemovePar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleTypeChangePar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleUsersAddPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleUsersInvitePar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleUsersRemovePar;
@@ -38,6 +39,7 @@ import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleEntitiesAddRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleEntitiesRemoveRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleGetRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleRemoveRet;
+import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleTypeChangeRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleUsersAddRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleUsersInviteRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleUsersRemoveRet;
@@ -52,6 +54,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -551,6 +554,42 @@ public class SSRESTCircle{
           SSStrU.splitDistinctWithoutEmptyAndNull(emails, SSStrU.comma), 
           true, 
           true);
+      
+    }catch(Exception error){
+      return Response.status(422).build();
+    }
+    
+    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+  }
+  
+  @PUT
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path("{circle}/type/{type}")
+  @ApiOperation(
+    value = "change circle's type",
+    response = SSCircleTypeChangeRet.class)
+  public Response circleTypeChange(
+    @Context
+    final HttpHeaders headers,
+    
+    @PathParam(SSVarNames.circle)
+    final String circle,
+    
+    @PathParam(SSVarNames.type)
+    final String type){
+    
+    final SSCircleTypeChangePar par;
+    
+    try{
+      
+      par =
+        new SSCircleTypeChangePar(
+          null, 
+          SSUri.get(circle, SSVocConf.sssUri), 
+          SSCircleE.get(type), 
+          true, //withUserRestriction
+          true); //shouldCommit
       
     }catch(Exception error){
       return Response.status(422).build();

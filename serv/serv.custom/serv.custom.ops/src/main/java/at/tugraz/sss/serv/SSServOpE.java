@@ -140,6 +140,7 @@ public enum SSServOpE{
   circleIsEntityPrivate,
   circleIsEntityShared,
   circleIsEntityPublic,
+  circleTypeChange,
   
   //entity
   entitiesGet,
