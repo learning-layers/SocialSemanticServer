@@ -41,6 +41,8 @@ public class SSMain{
     
 //    initJmx               ();
     
+    //new SSMediaWikiWithLDAP(null);
+      
     final Thread initializer = new Thread(new SSSInitializer());
     
     initializer.start();

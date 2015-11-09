@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
@@ -37,53 +38,161 @@ import org.json.JSONObject;
 
 public class SSMediaWikiWithLDAP{
 
-  public SSMediaWikiWithLDAP() throws Exception{
+  private final String     wikiURI;
+  private final String     userName;
+  private final String     password;
+  private final HttpClient httpclient;
+  private final String     token;
+  private final String     sessionID;
+  private final String     domain;
+  private final String     title;
+  
+  public SSMediaWikiWithLDAP(
+    final String wikiURI) throws Exception{
     
-    final HttpClient httpclient = HttpClients.createDefault();
-    final String     token      = loginFirstTime  (httpclient);
-    final String     sessionID  = loginSecondTime (httpclient, token);
-    String           content    = queryContent    (httpclient, sessionID, "MyFirstVorgang");
+    this.wikiURI    = "http://mint/projwiki_dieter/"; //wikiURI;
+    this.userName   = "";
+    this.password   = "";
+    this.domain     = "";
+    this.title      = "14-Non-K-WissServer-1-Vor";
+    this.httpclient = HttpClients.createDefault();
+    this.token      = loginFirstTime  ();
+    this.sessionID  = loginSecondTime ();
     
-    changeContent(httpclient, sessionID, "MyFirstVorgang");
+//    changeVorgangBasics   ("14-Non-K-WissServer-1-Vor");
+    changeVorgangResources();
     
-    content    = queryContent    (httpclient, sessionID, "MyFirstVorgang");
-    
-    logout(httpclient);
+    logout();
   }
   
-  private static String changeContent(
-    final HttpClient httpclient,
-    final String     cookie,
-    final String     title) throws Exception{
+  private String changeVorgangResources() throws Exception{
+    
+    String         content    = getContent();
+    final String   editToken  = getEditToken();
+    final HttpPost httppost   = new HttpPost(wikiURI + "api.php?action=edit");
+    Integer        firstIndex, secondIndex;
+    
+    httppost.addHeader("Cookie", sessionID);
+    
+    while(content.contains("{{Works In Vorgang")){
+    
+      firstIndex = content.indexOf("{{Works In Vorgang");
+    
+      if(firstIndex == -1){
+        continue;
+      }
+      
+      secondIndex = content.indexOf("}}", firstIndex);
+      content  = content.substring(0, firstIndex) + content.substring(secondIndex + 2);
+    }
+    
+    final List<NameValuePair> urlParameters = new ArrayList<>();
+    
+    urlParameters.add(new BasicNameValuePair("title", title));
+    urlParameters.add(new BasicNameValuePair("text",  content));
+    urlParameters.add(new BasicNameValuePair("token", editToken));
+    
+    httppost.setEntity(new UrlEncodedFormEntity(urlParameters));
+    
+    final HttpResponse response   = httpclient.execute(httppost);
+    final HttpEntity   entity     = response.getEntity();
+    
+    InputStream        in         = null;
+    
+    if(entity == null){
+      throw new Exception("changeContent error 1");
+    }
+    
+    try{
+      in        = entity.getContent();
+      System.out.println(SSFileU.readStreamText(in));
+      
+      return "";
+    }catch(Exception error){
+      throw new Exception("queryContent error 2");
+    }finally{
+      if(in != null){
+        in.close();
+      }
+    }
+  }
+  
+  private String getEditToken() throws Exception{
     
     final HttpGet httpget = 
-      new HttpGet("http://kcs-wmforum/knowiki/api.php?action=sfautoedit"
+      new HttpGet(wikiURI + "api.php?action=query"
+        + "&prop=info" 
+        + "&intoken=edit" 
+        + "&rvprp=timestamp"
+        + "&indexpageids"
+        + "&format=json"
+        + "&titles=" + title);
+    
+    final HttpResponse response   = httpclient.execute(httpget);
+    final HttpEntity   entity     = response.getEntity();
+    
+    InputStream        in         = null;
+
+    if(entity == null){
+      throw new Exception("getEditToken error 1");
+    }
+    
+    try{
+      in        = entity.getContent();
+      JSONObject json = new JSONObject(SSFileU.readStreamText(in));
+      JSONObject query = (JSONObject) json.get("query");
+      JSONArray pageids = (JSONArray) query.get("pageids");
+      String pageID = pageids.get(0).toString();
+      JSONObject pages = (JSONObject) query.get("pages");
+      JSONObject firstPage = (JSONObject) pages.get(pageID);
+      return ((JSONObject) firstPage).get("edittoken").toString();
+      
+      }catch(Exception error){
+      throw new Exception("getEditToken error 2");
+    }finally{
+      if(in != null){
+        in.close();
+      }
+    }
+  }
+  
+  
+  
+  private String changeVorgangBasics() throws Exception{
+    
+    final HttpGet httpget = 
+      new HttpGet(wikiURI + "api.php?action=sfautoedit"
         + "&form=Projekt-Vorgangsebene" 
         + "&target=" + title
-        + "&Projekt-Vorgangsebene[Project%20Number]="                   + "A13490adasf" 
-        + "&Projekt-Vorgangsebene[Project%20Number%20Business%20Plan]=" + "000bus"
-        + "&Projekt-Vorgangsebene[Project%20Name]="                     + "a%20name%20for%20the%20proj" 
-        + "&Projekt-Vorgangsebene[Workpackage]="                        + "WP5" 
-        + "&Projekt-Vorgangsebene[Project%20Type]="                     + "COMET" 
-        + "&Projekt-Vorgangsebene[Project%20Type%20Detail]="            + "some%20details" 
-        + "&Projekt-Vorgangsebene[Area]="                               + "KE" 
-        + "&Projekt-Vorgangsebene[Business%20Partner]="            + "BP1,BP2" 
-        + "&Projekt-Vorgangsebene[Scientific%20Partner]="          + "SP1,SP2" 
-        + "&Projekt-Vorgangsebene[Responsible%20TL]="              + "User:Dtheiler" 
-        + "&Projekt-Vorgangsebene[Responsible%20BM]="              + "User:Dtheiler" 
-        + "&Projekt-Vorgangsebene[Responsible%20PM]="                + "User:Dtheiler" 
-        + "&Projekt-Vorgangsebene[Start%20Overall%20Project]="       + "2012/02/16%2000:15:35"
-        + "&Projekt-Vorgangsebene[End%20Overall%20Project]="         + "2014/02/16%2000:15:35" 
-        + "&Projekt-Vorgangsebene[Export%20Date]="                   + "2014/10/16%2000:15:35"
-        + "&Projekt-Vorgangsebene[KC%20Personnel%20Involved]="       + "User:dtheiler,%20User:sdennerlein,%20User:dkowald" 
-        + "&Projekt-Vorgangsebene[Total%20Project%20Resources]="     + "300" 
-        + "&Projekt-Vorgangsebene[Resources%20Used%20Month%20End]="    + "100" 
-        + "&Projekt-Vorgangsebene[Project%20Progress]="            + "90" 
-        + "&Projekt-Vorgangsebene[Reisekosten%20Projekt%20Budget]="  + "1500" 
-        + "&Projekt-Vorgangsebene[Reisekosten%20Verbraucht]="      + "30" 
+//        + "&Projekt-Vorgangsebene[Project%20Number]="                   + "A13490adasf" 
+//        + "&Projekt-Vorgangsebene[Project%20Number%20Business%20Plan]=" + "000bus"
+//        + "&Projekt-Vorgangsebene[Project%20Name]="                     + "a%20name%20for%20the%20proj" 
+//        + "&Projekt-Vorgangsebene[Workpackage]="                        + "WP5" 
+//        + "&Projekt-Vorgangsebene[Project%20Type]="                     + "COMET" 
+//        + "&Projekt-Vorgangsebene[Project%20Type%20Detail]="            + "some%20details" 
+//        + "&Projekt-Vorgangsebene[Area]="                               + "KE" 
+//        + "&Projekt-Vorgangsebene[Business%20Partner]="            + "BP1,BP2" 
+//        + "&Projekt-Vorgangsebene[Scientific%20Partner]="          + "SP1,SP2" 
+//        + "&Projekt-Vorgangsebene[Responsible%20TL]="              + "User:Dtheiler" 
+//        + "&Projekt-Vorgangsebene[Responsible%20BM]="              + "User:Dtheiler" 
+//        + "&Projekt-Vorgangsebene[Responsible%20PM]="                + "User:Dtheiler" 
+//        + "&Projekt-Vorgangsebene[Start%20Overall%20Project]="       + "2012/02/16%2000:15:35"
+//        + "&Projekt-Vorgangsebene[End%20Overall%20Project]="         + "2014/02/16%2000:15:35" 
+//        + "&Projekt-Vorgangsebene[Export%20Date]="                   + "2014/10/16%2000:15:35"
+//        + "&Projekt-Vorgangsebene[KC%20Personnel%20Involved]="       + "User:dtheiler,%20User:sdennerlein,%20User:dkowald" 
+//        + "&Projekt-Vorgangsebene[Total%20Project%20Resources]="     + "300" 
+//        + "&Projekt-Vorgangsebene[Resources%20Used%20Month%20End]="    + "100" 
+//        + "&Projekt-Vorgangsebene[Project%20Progress]="            + "90" 
+//        + "&Projekt-Vorgangsebene[Reisekosten%20Projekt%20Budget]="  + "1500" 
+//        + "&Projekt-Vorgangsebene[Reisekosten%20Verbraucht]="      + "30" 
+        + "&Projekt-Vorgangsebene[Changes%20BMD]="           + "No"
       );
     
-    httpget.addHeader("Cookie", cookie);
+    
+//            + "&Works%20In%20Vorgang[Employee]="                 + "Oliver%20Pimas"  
+//        + "&Works%20In%20Vorgang[Spent%20Hours]="            + "111"
+//        + "&Works%20In%20Vorgang[Total%20Hours]="            + "10"
+    httpget.addHeader("Cookie", sessionID);
     
     final HttpResponse response   = httpclient.execute(httpget);
     final HttpEntity   entity     = response.getEntity();
@@ -94,7 +203,7 @@ public class SSMediaWikiWithLDAP{
     InputStream        in         = null;
 
     if(entity == null){
-      throw new Exception("changeContent error 1");
+      throw new Exception("changeVorgangBasics error 1");
     }
     
     try{
@@ -103,44 +212,40 @@ public class SSMediaWikiWithLDAP{
        
        return "";
     }catch(Exception error){
-      throw new Exception("queryContent error 2");
+      throw new Exception("changeVorgangBasics error 2");
     }finally{
       if(in != null){
         in.close();
       }
     }
-    
-//    
   }
   
-  private static List<BasicNameValuePair> getFirstLoginParams(){
+  private List<BasicNameValuePair> getFirstLoginParams(){
     
     final List<BasicNameValuePair> params = new ArrayList<>();
     
-    params.add(new BasicNameValuePair("lgname",     "test"));
-    params.add(new BasicNameValuePair("lgpassword", "test"));
-    params.add(new BasicNameValuePair("lgdomain",   "know"));
+    params.add(new BasicNameValuePair("lgname",     userName));
+    params.add(new BasicNameValuePair("lgpassword", password));
+    params.add(new BasicNameValuePair("lgdomain",   domain));
     
     return params;
   }
   
-  private static List<BasicNameValuePair> getSecondLoginParams(
-    final String token){
+  private List<BasicNameValuePair> getSecondLoginParams(){
     
     final List<BasicNameValuePair> params = new ArrayList<>();
     
-    params.add(new BasicNameValuePair("lgname",     "test"));
-    params.add(new BasicNameValuePair("lgpassword", "test"));
-    params.add(new BasicNameValuePair("lgdomain",   "know"));
+    params.add(new BasicNameValuePair("lgname",     userName));
+    params.add(new BasicNameValuePair("lgpassword", password));
+    params.add(new BasicNameValuePair("lgdomain",   domain));
     params.add(new BasicNameValuePair("lgtoken",    token));
     
     return params;
   }
   
-  private static String loginFirstTime(
-    final HttpClient httpclient) throws Exception{
+  private String loginFirstTime() throws Exception{
     
-    final HttpPost     post     = new HttpPost("http://kcs-wmforum/knowiki/api.php?action=login&format=json");
+    final HttpPost     post     = new HttpPost(wikiURI + "api.php?action=login&format=json");
     final HttpResponse response;
     final HttpEntity   entity;
     final JSONObject   json;
@@ -173,18 +278,16 @@ public class SSMediaWikiWithLDAP{
     }
   }
     
-  private static String loginSecondTime(
-    final HttpClient httpclient,
-    final String     token) throws Exception{
+  private String loginSecondTime() throws Exception{
     
-    final HttpPost     post     = new HttpPost("http://kcs-wmforum/knowiki/api.php?action=login&format=json");
+    final HttpPost     post     = new HttpPost(wikiURI + "api.php?action=login&format=json");
     final HttpResponse response;
     final HttpEntity   entity;
     final JSONObject   json;
     final String       sessionID;
     InputStream        in  = null;
     
-    post.setEntity(new UrlEncodedFormEntity(getSecondLoginParams(token), "UTF-8"));
+    post.setEntity(new UrlEncodedFormEntity(getSecondLoginParams(), "UTF-8"));
     
     response = httpclient.execute(post);
     entity   = response.getEntity();
@@ -210,10 +313,9 @@ public class SSMediaWikiWithLDAP{
     }
   }
   
-  private static void logout(
-    final HttpClient httpclient) throws Exception{
+  private void logout() throws Exception{
     
-    final HttpGet      httpget    = new HttpGet ("http://kcs-wmforum/knowiki/api.php?action=logout&format=json");
+    final HttpGet      httpget    = new HttpGet (wikiURI + "api.php?action=logout&format=json");
     final HttpResponse response   = httpclient.execute(httpget);
     final HttpEntity   entity     = response.getEntity();
     InputStream        in         = null;
@@ -235,14 +337,11 @@ public class SSMediaWikiWithLDAP{
     }
   }
   
-  private static String queryContent(
-    final HttpClient httpclient,
-    final String     cookie,
-    final String     title) throws Exception{
+  private String getContent() throws Exception{
     
-    final HttpGet      httpget    = new HttpGet("http://kcs-wmforum/knowiki/api.php?action=query&indexpageids&prop=revisions&rvlimit=1&rvprop=content&format=json&titles=" + title);
+    final HttpGet      httpget    = new HttpGet(wikiURI + "api.php?action=query&indexpageids&prop=revisions&rvlimit=1&rvprop=content&format=json&titles=" + title);
   
-    httpget.addHeader("Cookie", cookie);
+    httpget.addHeader("Cookie", sessionID);
     
     final HttpResponse response   = httpclient.execute(httpget);
     final HttpEntity   entity     = response.getEntity();
@@ -253,7 +352,7 @@ public class SSMediaWikiWithLDAP{
     InputStream        in         = null;
 
     if(entity == null){
-      throw new Exception("queryContent error 1");
+      throw new Exception("getContent error 1");
     }
     
     try{
@@ -267,11 +366,9 @@ public class SSMediaWikiWithLDAP{
        revisions = (JSONArray)  firstPage.get("revisions");
        content   = ((JSONObject) revisions.get(0)).get("*").toString();
       
-       System.out.println("content: " + content);
-       
        return content;
     }catch(Exception error){
-      throw new Exception("queryContent error 2");
+      throw new Exception("getContent error 2");
     }finally{
       if(in != null){
         in.close();
