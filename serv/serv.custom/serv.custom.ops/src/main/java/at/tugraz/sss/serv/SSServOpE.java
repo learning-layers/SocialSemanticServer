@@ -161,6 +161,7 @@ public enum SSServOpE{
   entityEntitiesAttach,
   entityEntitiesAttachedRemove,
   entityTypesGet,
+  entityUnpublicize,
   
   //learn ep
   learnEpsGet                                         ,

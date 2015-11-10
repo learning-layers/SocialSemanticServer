@@ -25,6 +25,7 @@ import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesAddPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntitySharePar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivURIGetPar;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePubURIGetPar;
 import at.tugraz.sss.servs.entity.datatypes.ret.SSEntityShareRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityClientI;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
@@ -85,7 +86,9 @@ import at.tugraz.sss.serv.SSObjU;
 import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityEntitiesAttachedRemovePar;
+import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUnpublicizePar;
 import at.tugraz.sss.servs.entity.datatypes.ret.SSEntityTypesGetRet;
+import at.tugraz.sss.servs.entity.datatypes.ret.SSEntityUnpublicizeRet;
 import java.util.Arrays;
 import sss.serv.eval.api.SSEvalServerI;
 
@@ -1085,6 +1088,80 @@ SSUri.asListNotNull(SSUri.get(user)))){ //authors
           SSServErrReg.reset();
           
           return entityShare(par);
+        }else{
+          SSServErrReg.regErrThrow(error);
+          return null;
+        }
+      }
+      
+      dbSQL.rollBack(par.shouldCommit);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public void entityUnpublicize(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
+    
+    SSServCallerU.checkKey(parA);
+    
+    final SSEntityUnpublicizePar par = (SSEntityUnpublicizePar) parA.getFromJSON(SSEntityUnpublicizePar.class);
+    
+    final SSUri entityURI = entityUnpublicize(par);
+      
+    sSCon.writeRetFullToClient(SSEntityUnpublicizeRet.get(entityURI));
+  }
+  
+  @Override  
+  public SSUri entityUnpublicize(final SSEntityUnpublicizePar par) throws Exception{
+    
+    try{
+      
+      if(par.withUserRestriction){
+        
+        if(par.user == null){
+          throw new SSErr(SSErrE.parameterMissing);
+        }
+        
+        if(!sqlFct.isUserAuthor(par.user, par.entity, par.withUserRestriction)){
+          return null;
+        }
+      }
+      
+      final SSEntity entity = 
+        sqlFct.getEntityTest(
+          par.user,
+          par.entity, 
+          par.withUserRestriction);
+      
+      if(entity == null){
+        return null;
+      }
+
+      final SSUri pubCircleURI = 
+        circleServ.circlePubURIGet(
+          new SSCirclePubURIGetPar(
+            par.user,
+            par.shouldCommit));
+      
+      dbSQL.startTrans(par.shouldCommit);
+      
+      sqlFct.removeEntityFromCircle(
+        pubCircleURI,
+        par.entity);
+      
+      dbSQL.commit(par.shouldCommit);
+      
+      return par.entity;
+    }catch(Exception error){
+      
+      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+        
+        if(dbSQL.rollBack(par.shouldCommit)){
+          
+          SSServErrReg.reset();
+          
+          return entityUnpublicize(par);
         }else{
           SSServErrReg.regErrThrow(error);
           return null;

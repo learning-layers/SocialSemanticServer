@@ -38,7 +38,9 @@ import at.kc.tugraz.ss.service.user.datatypes.ret.SSUserEntityUsersGetRet;
 import at.kc.tugraz.sss.comment.datatypes.par.SSCommentsAddPar;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
 import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUnpublicizePar;
 import at.tugraz.sss.servs.entity.datatypes.ret.SSEntityTypesGetRet;
+import at.tugraz.sss.servs.entity.datatypes.ret.SSEntityUnpublicizeRet;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import javax.ws.rs.Consumes;
@@ -265,6 +267,37 @@ public class SSRESTEntity {
           input.circles,
           input.setPublic, //setPublic,
           input.comment, //comment
+          true, //withUserRestriction,
+          true); //shouldCommit
+      
+    }catch(Exception error){
+      return Response.status(422).build();
+    }
+    
+    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+  }
+  
+  @PUT
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path("/{entity}/unpublicize")
+  @ApiOperation(
+    value = "remove an entity from public space",
+    response = SSEntityUnpublicizeRet.class)
+  public Response entityUnpublicize(
+    @Context
+    final HttpHeaders headers,
+    
+    @PathParam (SSVarNames.entity)
+    final String entity){
+    
+    final SSEntityUnpublicizePar par;
+    
+    try{
+      par =
+        new SSEntityUnpublicizePar(
+          null, //user
+          SSUri.get(entity, SSVocConf.sssUri), //entity
           true, //withUserRestriction,
           true); //shouldCommit
       

@@ -53,6 +53,7 @@ public class SSEntityShareRESTAPIV2Par{
     this.circles = SSUri.get(circles, SSVocConf.sssUri);
   }
   
+  @XmlElement
   @ApiModelProperty(
     required = false,
     value = "set the entity public")

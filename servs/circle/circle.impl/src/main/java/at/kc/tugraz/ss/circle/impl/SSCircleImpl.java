@@ -326,7 +326,7 @@ implements
       dbSQL.startTrans(par.shouldCommit);
       
       for(SSUri entity : par.entities){
-        sqlFct.removeEntity(par.circle, entity);
+        sqlFct.removeEntityFromCircle(par.circle, entity);
       }
       
       dbSQL.commit(par.shouldCommit);

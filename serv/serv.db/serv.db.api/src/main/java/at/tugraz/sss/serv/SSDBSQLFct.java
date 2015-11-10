@@ -849,7 +849,7 @@ public class SSDBSQLFct extends SSDBFct{
     }
   }
   
-  public void removeEntity(
+  public void removeEntityFromCircle(
     final SSUri circle,
     final SSUri entity) throws Exception{
     
