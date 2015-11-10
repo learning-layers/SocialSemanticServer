@@ -66,6 +66,7 @@ import at.tugraz.sss.servs.location.serv.SSLocationServ;
 import at.tugraz.sss.servs.ocd.service.SSOCDServ;
 import at.tugraz.sss.servs.image.serv.SSImageServ;
 import at.tugraz.sss.servs.integrationtest.SSIntegrationTestServ;
+import at.tugraz.sss.servs.kcprojwiki.serv.SSKCProjWikiServ;
 import at.tugraz.sss.servs.livingdocument.serv.SSLivingDocServ;
 import at.tugraz.sss.servs.mail.serv.SSMailServ;
 import sss.serv.eval.serv.SSEvalServ;
@@ -141,6 +142,7 @@ public class SSSInitializer extends SSServImplStartA{
         SSIntegrationTestServ.inst.regServ ();
         SSLivingDocServ.inst.regServ       ();
         SSMailServ.inst.regServ            ();
+        SSKCProjWikiServ.inst.regServ      ();
         
       }catch(Exception error1){
         SSServErrReg.regErr(error1);
@@ -173,6 +175,7 @@ public class SSSInitializer extends SSServImplStartA{
         SSDataImportServ.inst.schedule     ();
         SSModelUEServ.inst.schedule        ();
         SSRecommServ.inst.schedule         ();
+        SSKCProjWikiServ.inst.schedule     ();
       }catch(Exception error1){
         SSServErrReg.regErr(error1);
         return;

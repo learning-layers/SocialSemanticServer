@@ -1,26 +1,12 @@
-/**
-* Code contributed to the Learning Layers project
-* http://www.learning-layers.eu
-* Development is partly funded by the FP7 Programme of the European Commission under
-* Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
-* For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
-*
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-* http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
+/*
+* To change this license header, choose License Headers in Project Properties.
+* To change this template file, choose Tools | Templates
+* and open the template in the editor.
 */
-package at.kc.tugraz.ss.main;
+package at.tugraz.sss.servs.kcprojwiki.impl;
 
 import at.tugraz.sss.serv.SSFileU;
+import at.tugraz.sss.servs.kcprojwiki.conf.SSKCProjWikiConf;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,30 +22,23 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class SSMediaWikiWithLDAP{
-
-  private final String     wikiURI;
-  private final String     userName;
-  private final String     password;
-  private final HttpClient httpclient;
-  private final String     token;
-  private final String     sessionID;
-  private final String     domain;
-  private final String     title;
+public class SSKCProjWikiImportFct {
   
-  public SSMediaWikiWithLDAP(
-    final String wikiURI) throws Exception{
+  private final SSKCProjWikiConf conf;
+  private final HttpClient       httpclient;
+  private final String           token;
+  private final String           sessionID;
+  private final String           title;
+  
+  public SSKCProjWikiImportFct(final SSKCProjWikiConf conf) throws Exception{
     
-    this.wikiURI    = "http://mint/projwiki_dieter/"; //wikiURI;
-    this.userName   = "";
-    this.password   = "";
-    this.domain     = "";
-    this.title      = "14-Non-K-WissServer-1-Vor";
-    this.httpclient = HttpClients.createDefault();
-    this.token      = loginFirstTime  ();
-    this.sessionID  = loginSecondTime ();
+    this.conf          = conf;
+    this.title         = "14-Non-K-WissServer-1-Vor";
+    this.httpclient    = HttpClients.createDefault();
+    this.token         = loginFirstTime  ();
+    this.sessionID     = loginSecondTime ();
     
-//    changeVorgangBasics   ("14-Non-K-WissServer-1-Vor");
+    //    changeVorgangBasics   ("14-Non-K-WissServer-1-Vor");
     changeVorgangResources();
     
     logout();
@@ -69,7 +48,7 @@ public class SSMediaWikiWithLDAP{
     
     String         content    = getContent();
     final String   editToken  = getEditToken();
-    final HttpPost httppost   = new HttpPost(wikiURI + "api.php?action=edit");
+    final HttpPost httppost   = new HttpPost(conf.wikiURI + "api.php?action=edit");
     Integer        firstIndex, secondIndex;
     
     httppost.addHeader("Cookie", sessionID);
@@ -120,7 +99,7 @@ public class SSMediaWikiWithLDAP{
   private String getEditToken() throws Exception{
     
     final HttpGet httpget = 
-      new HttpGet(wikiURI + "api.php?action=query"
+      new HttpGet(conf.wikiURI + "api.php?action=query"
         + "&prop=info" 
         + "&intoken=edit" 
         + "&rvprp=timestamp"
@@ -156,12 +135,10 @@ public class SSMediaWikiWithLDAP{
     }
   }
   
-  
-  
   private String changeVorgangBasics() throws Exception{
     
     final HttpGet httpget = 
-      new HttpGet(wikiURI + "api.php?action=sfautoedit"
+      new HttpGet(conf.wikiURI + "api.php?action=sfautoedit"
         + "&form=Projekt-Vorgangsebene" 
         + "&target=" + title
 //        + "&Projekt-Vorgangsebene[Project%20Number]="                   + "A13490adasf" 
@@ -224,9 +201,9 @@ public class SSMediaWikiWithLDAP{
     
     final List<BasicNameValuePair> params = new ArrayList<>();
     
-    params.add(new BasicNameValuePair("lgname",     userName));
-    params.add(new BasicNameValuePair("lgpassword", password));
-    params.add(new BasicNameValuePair("lgdomain",   domain));
+    params.add(new BasicNameValuePair("lgname",     conf.userName));
+    params.add(new BasicNameValuePair("lgpassword", conf.password));
+    params.add(new BasicNameValuePair("lgdomain",   conf.domain));
     
     return params;
   }
@@ -235,9 +212,9 @@ public class SSMediaWikiWithLDAP{
     
     final List<BasicNameValuePair> params = new ArrayList<>();
     
-    params.add(new BasicNameValuePair("lgname",     userName));
-    params.add(new BasicNameValuePair("lgpassword", password));
-    params.add(new BasicNameValuePair("lgdomain",   domain));
+    params.add(new BasicNameValuePair("lgname",     conf.userName));
+    params.add(new BasicNameValuePair("lgpassword", conf.password));
+    params.add(new BasicNameValuePair("lgdomain",   conf.domain));
     params.add(new BasicNameValuePair("lgtoken",    token));
     
     return params;
@@ -245,7 +222,7 @@ public class SSMediaWikiWithLDAP{
   
   private String loginFirstTime() throws Exception{
     
-    final HttpPost     post     = new HttpPost(wikiURI + "api.php?action=login&format=json");
+    final HttpPost     post     = new HttpPost(conf.wikiURI + "api.php?action=login&format=json");
     final HttpResponse response;
     final HttpEntity   entity;
     final JSONObject   json;
@@ -280,7 +257,7 @@ public class SSMediaWikiWithLDAP{
     
   private String loginSecondTime() throws Exception{
     
-    final HttpPost     post     = new HttpPost(wikiURI + "api.php?action=login&format=json");
+    final HttpPost     post     = new HttpPost(conf.wikiURI + "api.php?action=login&format=json");
     final HttpResponse response;
     final HttpEntity   entity;
     final JSONObject   json;
@@ -315,7 +292,7 @@ public class SSMediaWikiWithLDAP{
   
   private void logout() throws Exception{
     
-    final HttpGet      httpget    = new HttpGet (wikiURI + "api.php?action=logout&format=json");
+    final HttpGet      httpget    = new HttpGet (conf.wikiURI + "api.php?action=logout&format=json");
     final HttpResponse response   = httpclient.execute(httpget);
     final HttpEntity   entity     = response.getEntity();
     InputStream        in         = null;
@@ -339,7 +316,7 @@ public class SSMediaWikiWithLDAP{
   
   private String getContent() throws Exception{
     
-    final HttpGet      httpget    = new HttpGet(wikiURI + "api.php?action=query&indexpageids&prop=revisions&rvlimit=1&rvprop=content&format=json&titles=" + title);
+    final HttpGet      httpget    = new HttpGet(conf.wikiURI + "api.php?action=query&indexpageids&prop=revisions&rvlimit=1&rvprop=content&format=json&titles=" + title);
   
     httpget.addHeader("Cookie", sessionID);
     

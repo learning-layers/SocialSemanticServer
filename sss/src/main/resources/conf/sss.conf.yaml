@@ -198,3 +198,15 @@ mail:
   sendUserName:
   sendPassword:
   receiveProvider:
+kcprojwiki:
+  use: true  
+  wikiURI: 
+  userName: 
+  password: 
+  domain: 
+  schedule: false
+  executeScheduleAtStartUp: false
+  scheduleOps:
+    #- kcprojwikiImport
+  scheduleIntervals:
+    #- 0    

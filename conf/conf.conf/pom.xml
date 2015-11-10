@@ -50,6 +50,12 @@
     
     <dependency>
       <groupId>sss.servs</groupId>
+      <artifactId>kcprojwiki.conf</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
       <artifactId>eval.conf</artifactId>
       <version>${project.version}</version>
     </dependency>

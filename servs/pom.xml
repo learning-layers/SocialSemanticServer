@@ -52,5 +52,6 @@
     <module>integrationtest</module>
     <module>livingdocument</module>
     <module>mail</module>
+    <module>kcprojwiki</module>
   </modules>
 </project>

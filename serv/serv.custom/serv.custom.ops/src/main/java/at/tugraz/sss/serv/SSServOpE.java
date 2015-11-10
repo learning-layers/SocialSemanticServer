@@ -22,6 +22,9 @@ package at.tugraz.sss.serv;
 
 public enum SSServOpE{
 
+  //kcprojwiki
+  kcprojwikiImport,
+  
   //mail
   mailSend,
   mailsReceive,

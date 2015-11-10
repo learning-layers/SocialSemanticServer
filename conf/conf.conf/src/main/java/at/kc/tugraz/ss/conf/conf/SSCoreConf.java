@@ -55,13 +55,13 @@ import at.kc.tugraz.sss.appstacklayout.conf.SSAppStackLayoutConf;
 import at.kc.tugraz.sss.comment.conf.SSCommentConf;
 import at.kc.tugraz.sss.flag.conf.SSFlagConf;
 import at.kc.tugraz.sss.video.conf.SSVideoConf;
-import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSDBNoSQLConf;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.servs.location.conf.SSLocationConf;
 import at.tugraz.sss.servs.ocd.conf.SSOCDConf;
 import at.tugraz.sss.servs.image.conf.SSImageConf;
 import at.tugraz.sss.servs.integrationtest.SSIntegrationTestConf;
+import at.tugraz.sss.servs.kcprojwiki.conf.SSKCProjWikiConf;
 import at.tugraz.sss.servs.livingdocument.conf.SSLivingDocConf;
 import at.tugraz.sss.servs.mail.conf.SSMailConf;
 
@@ -112,7 +112,8 @@ public class SSCoreConf extends SSCoreConfA {
   private SSIntegrationTestConf integrationTest = null;
   private SSLivingDocConf  livingDocument = null;
   private SSMailConf  mail = null;
-  
+  private SSKCProjWikiConf kcprojwiki = null;
+
   public static synchronized SSCoreConf instSet(final String pathToFile) throws Exception {
     
     if(inst != null){
@@ -190,6 +191,7 @@ public class SSCoreConf extends SSCoreConfA {
       copy.integrationTest = SSIntegrationTestConf.copy(inst.integrationTest);
       copy.livingDocument = SSLivingDocConf.copy(inst.livingDocument);
       copy.mail = SSMailConf.copy(inst.mail);
+      copy.kcprojwiki = SSKCProjWikiConf.copy(inst.kcprojwiki);
       
       return copy;
     } catch (Exception error) {
@@ -532,6 +534,14 @@ public class SSCoreConf extends SSCoreConfA {
   
   public void setMail(SSMailConf mail) {
     this.mail = mail;
+  }
+  
+  public SSKCProjWikiConf getKcprojwiki() {
+    return kcprojwiki;
+  }
+
+  public void setKcprojwiki(SSKCProjWikiConf kcprojwiki) {
+    this.kcprojwiki = kcprojwiki;
   }
 }
 
