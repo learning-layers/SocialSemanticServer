@@ -48,7 +48,14 @@ implements
     
     try{
       
-      new SSKCProjWikiImportFct(projWikiConf);
+      final SSKCProjWikiImportFct importFct = new SSKCProjWikiImportFct(projWikiConf);
+      
+      importFct.start();
+      
+      importFct.changeVorgangBasics   ("14-Non-K-WissServer-1-Vor");
+      importFct.changeVorgangResources("14-Non-K-WissServer-1-Vor");
+      
+      importFct.end();
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

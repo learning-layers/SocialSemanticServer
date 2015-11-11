@@ -1,11 +1,30 @@
-/*
-* To change this license header, choose License Headers in Project Properties.
-* To change this template file, choose Tools | Templates
-* and open the template in the editor.
+/**
+* Code contributed to the Learning Layers project
+* http://www.learning-layers.eu
+* Development is partly funded by the FP7 Programme of the European Commission under
+* Grant Agreement FP7-ICT-318209.
+* Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
+* For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
 */
 package at.tugraz.sss.servs.kcprojwiki.impl;
 
+import at.tugraz.sss.serv.SSEncodingU;
 import at.tugraz.sss.serv.SSFileU;
+import at.tugraz.sss.serv.SSLogU;
+import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.servs.kcprojwiki.conf.SSKCProjWikiConf;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -23,72 +42,92 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class SSKCProjWikiImportFct {
+
+  private static final String valueProjektVorgangsebene = "Projekt-Vorgangsebene";
+  private static final String valueWorksInVorgang       = "{{Works In Vorgang";
+  private static final String valueCookie               = "Cookie";
+  private static final String pathActionQuery           = "api.php?action=query";
+  private static final String pathActionLogin           = "api.php?action=login";
+  private static final String pathActionLogout          = "api.php?action=logout";
+  private static final String pathActionEdit            = "api.php?action=edit";
+  private static final String pathActionSFAutoEdit      = "api.php?action=sfautoedit";
+  private static final String valueForm                 = "form=";
+  private static final String valueTarget               = "target=";
+  private static final String valueChangesBMD           = "Changes%20BMD";
+  private static final String valueTitle                = "title";
+  private static final String valueText                 = "text";
+  private static final String valueLogin                = "login";
+  private static final String valueSessionId            = "sessionid";
+  private static final String valueToken                = "token";
+  private static final String valueLgname               = "lgname";
+  private static final String valueLgpassword           = "lgpassword";
+  private static final String valueLgdomain             = "lgdomain";
+  private static final String valueLgtoken              = "lgtoken";
+  private static final String valueFormatJson           = "format=json";
+  private static final String valueIndexPageIds         = "indexpageids";
+  private static final String valueProp                 = "prop";
+  private static final String valueRevisions            = "revisions";
+  private static final String valueRvlimit              = "rvlimit";
+  private static final String valueRvprop               = "rvprop";
+  private static final String valueContent              = "content";
+  private static final String valueTitles               = "titles";
+  private static final String valueQuery                = "query";
+  private static final String valuePageIds              = "pageids";
+  private static final String valuePages                = "pages";
+  private static final String valueEditToken            = "edittoken";
+  private static final String valueTimestamp            = "timestamp";
+  private static final String valueIntoken              = "intoken";
+  private static final String valueEdit                 = "edit";
+  private static final String valueInfo                 = "info";
   
   private final SSKCProjWikiConf conf;
   private final HttpClient       httpclient;
-  private final String           token;
-  private final String           sessionID;
-  private final String           title;
+  private String                 token;
+  private String                 sessionID;
   
   public SSKCProjWikiImportFct(final SSKCProjWikiConf conf) throws Exception{
     
     this.conf          = conf;
-    this.title         = "14-Non-K-WissServer-1-Vor";
     this.httpclient    = HttpClients.createDefault();
-    this.token         = loginFirstTime  ();
-    this.sessionID     = loginSecondTime ();
-    
-    //    changeVorgangBasics   ("14-Non-K-WissServer-1-Vor");
-    changeVorgangResources();
-    
-    logout();
   }
   
-  private String changeVorgangResources() throws Exception{
+  public void changeVorgangResources(final String title) throws Exception{
     
-    String         content    = getContent();
-    final String   editToken  = getEditToken();
-    final HttpPost httppost   = new HttpPost(conf.wikiURI + "api.php?action=edit");
-    Integer        firstIndex, secondIndex;
-    
-    httppost.addHeader("Cookie", sessionID);
-    
-    while(content.contains("{{Works In Vorgang")){
-    
-      firstIndex = content.indexOf("{{Works In Vorgang");
-    
-      if(firstIndex == -1){
-        continue;
-      }
-      
-      secondIndex = content.indexOf("}}", firstIndex);
-      content  = content.substring(0, firstIndex) + content.substring(secondIndex + 2);
-    }
-    
-    final List<NameValuePair> urlParameters = new ArrayList<>();
-    
-    urlParameters.add(new BasicNameValuePair("title", title));
-    urlParameters.add(new BasicNameValuePair("text",  content));
-    urlParameters.add(new BasicNameValuePair("token", editToken));
-    
-    httppost.setEntity(new UrlEncodedFormEntity(urlParameters));
-    
-    final HttpResponse response   = httpclient.execute(httppost);
-    final HttpEntity   entity     = response.getEntity();
-    
-    InputStream        in         = null;
-    
-    if(entity == null){
-      throw new Exception("changeContent error 1");
-    }
+    InputStream in = null;
     
     try{
-      in        = entity.getContent();
+      final String              editToken  = getEditToken      (title);
+      final HttpPost            httppost   = new HttpPost      (conf.wikiURI + pathActionEdit);
+      final List<NameValuePair> postPars   = new ArrayList<>();
+      String         content               = getWikiPageContent(title);
+      Integer        firstIndex, secondIndex;
+      
+      httppost.addHeader(valueCookie, sessionID);
+      
+      while(content.contains(valueWorksInVorgang)){
+        
+        firstIndex = content.indexOf(valueWorksInVorgang);
+        
+        if(firstIndex == -1){
+          continue;
+        }
+        
+        secondIndex = content.indexOf(SSStrU.curlyBracketClose + SSStrU.curlyBracketClose, firstIndex);
+        content     = content.substring(0, firstIndex) + content.substring(secondIndex + 2);
+      }
+      
+      postPars.add(new BasicNameValuePair(valueTitle, title));
+      postPars.add(new BasicNameValuePair(valueText,  content));
+      postPars.add(new BasicNameValuePair(valueToken, editToken));
+      
+      httppost.setEntity(new UrlEncodedFormEntity(postPars));
+      
+      in = httpclient.execute(httppost).getEntity().getContent();
+      
       System.out.println(SSFileU.readStreamText(in));
       
-      return "";
     }catch(Exception error){
-      throw new Exception("queryContent error 2");
+      SSServErrReg.regErrThrow(new Exception("changing vorgang resources failed"));
     }finally{
       if(in != null){
         in.close();
@@ -96,100 +135,54 @@ public class SSKCProjWikiImportFct {
     }
   }
   
-  private String getEditToken() throws Exception{
+  public void changeVorgangBasics(final String title) throws Exception{
     
-    final HttpGet httpget = 
-      new HttpGet(conf.wikiURI + "api.php?action=query"
-        + "&prop=info" 
-        + "&intoken=edit" 
-        + "&rvprp=timestamp"
-        + "&indexpageids"
-        + "&format=json"
-        + "&titles=" + title);
-    
-    final HttpResponse response   = httpclient.execute(httpget);
-    final HttpEntity   entity     = response.getEntity();
-    
-    InputStream        in         = null;
-
-    if(entity == null){
-      throw new Exception("getEditToken error 1");
-    }
+    InputStream in = null;
     
     try{
-      in        = entity.getContent();
-      JSONObject json = new JSONObject(SSFileU.readStreamText(in));
-      JSONObject query = (JSONObject) json.get("query");
-      JSONArray pageids = (JSONArray) query.get("pageids");
-      String pageID = pageids.get(0).toString();
-      JSONObject pages = (JSONObject) query.get("pages");
-      JSONObject firstPage = (JSONObject) pages.get(pageID);
-      return ((JSONObject) firstPage).get("edittoken").toString();
       
-      }catch(Exception error){
-      throw new Exception("getEditToken error 2");
-    }finally{
-      if(in != null){
-        in.close();
-      }
-    }
-  }
-  
-  private String changeVorgangBasics() throws Exception{
-    
-    final HttpGet httpget = 
-      new HttpGet(conf.wikiURI + "api.php?action=sfautoedit"
-        + "&form=Projekt-Vorgangsebene" 
-        + "&target=" + title
-//        + "&Projekt-Vorgangsebene[Project%20Number]="                   + "A13490adasf" 
+      final HttpGet httpget =
+        new HttpGet(
+          conf.wikiURI
+            + pathActionSFAutoEdit
+            + SSStrU.ampersand + valueForm                 + valueProjektVorgangsebene
+            + SSStrU.ampersand + valueTarget               + title
+            + SSStrU.ampersand + valueProjektVorgangsebene + SSStrU.squareBracketOpen + valueChangesBMD + SSStrU.squareBracketClose + SSStrU.equal + "No"
+//        + "&Projekt-Vorgangsebene[Project%20Number]="                   + "A13490adasf"
 //        + "&Projekt-Vorgangsebene[Project%20Number%20Business%20Plan]=" + "000bus"
-//        + "&Projekt-Vorgangsebene[Project%20Name]="                     + "a%20name%20for%20the%20proj" 
-//        + "&Projekt-Vorgangsebene[Workpackage]="                        + "WP5" 
-//        + "&Projekt-Vorgangsebene[Project%20Type]="                     + "COMET" 
-//        + "&Projekt-Vorgangsebene[Project%20Type%20Detail]="            + "some%20details" 
-//        + "&Projekt-Vorgangsebene[Area]="                               + "KE" 
-//        + "&Projekt-Vorgangsebene[Business%20Partner]="            + "BP1,BP2" 
-//        + "&Projekt-Vorgangsebene[Scientific%20Partner]="          + "SP1,SP2" 
-//        + "&Projekt-Vorgangsebene[Responsible%20TL]="              + "User:Dtheiler" 
-//        + "&Projekt-Vorgangsebene[Responsible%20BM]="              + "User:Dtheiler" 
-//        + "&Projekt-Vorgangsebene[Responsible%20PM]="                + "User:Dtheiler" 
+//        + "&Projekt-Vorgangsebene[Project%20Name]="                     + "a%20name%20for%20the%20proj"
+//        + "&Projekt-Vorgangsebene[Workpackage]="                        + "WP5"
+//        + "&Projekt-Vorgangsebene[Project%20Type]="                     + "COMET"
+//        + "&Projekt-Vorgangsebene[Project%20Type%20Detail]="            + "some%20details"
+//        + "&Projekt-Vorgangsebene[Area]="                               + "KE"
+//        + "&Projekt-Vorgangsebene[Business%20Partner]="            + "BP1,BP2"
+//        + "&Projekt-Vorgangsebene[Scientific%20Partner]="          + "SP1,SP2"
+//        + "&Projekt-Vorgangsebene[Responsible%20TL]="              + "User:Dtheiler"
+//        + "&Projekt-Vorgangsebene[Responsible%20BM]="              + "User:Dtheiler"
+//        + "&Projekt-Vorgangsebene[Responsible%20PM]="                + "User:Dtheiler"
 //        + "&Projekt-Vorgangsebene[Start%20Overall%20Project]="       + "2012/02/16%2000:15:35"
-//        + "&Projekt-Vorgangsebene[End%20Overall%20Project]="         + "2014/02/16%2000:15:35" 
+//        + "&Projekt-Vorgangsebene[End%20Overall%20Project]="         + "2014/02/16%2000:15:35"
 //        + "&Projekt-Vorgangsebene[Export%20Date]="                   + "2014/10/16%2000:15:35"
-//        + "&Projekt-Vorgangsebene[KC%20Personnel%20Involved]="       + "User:dtheiler,%20User:sdennerlein,%20User:dkowald" 
-//        + "&Projekt-Vorgangsebene[Total%20Project%20Resources]="     + "300" 
-//        + "&Projekt-Vorgangsebene[Resources%20Used%20Month%20End]="    + "100" 
-//        + "&Projekt-Vorgangsebene[Project%20Progress]="            + "90" 
-//        + "&Projekt-Vorgangsebene[Reisekosten%20Projekt%20Budget]="  + "1500" 
-//        + "&Projekt-Vorgangsebene[Reisekosten%20Verbraucht]="      + "30" 
-        + "&Projekt-Vorgangsebene[Changes%20BMD]="           + "No"
-      );
-    
-    
-//            + "&Works%20In%20Vorgang[Employee]="                 + "Oliver%20Pimas"  
+//        + "&Projekt-Vorgangsebene[KC%20Personnel%20Involved]="       + "User:dtheiler,%20User:sdennerlein,%20User:dkowald"
+//        + "&Projekt-Vorgangsebene[Total%20Project%20Resources]="     + "300"
+//        + "&Projekt-Vorgangsebene[Resources%20Used%20Month%20End]="    + "100"
+//        + "&Projekt-Vorgangsebene[Project%20Progress]="            + "90"
+//        + "&Projekt-Vorgangsebene[Reisekosten%20Projekt%20Budget]="  + "1500"
+//        + "&Projekt-Vorgangsebene[Reisekosten%20Verbraucht]="      + "30"
+        );
+      
+//            + "&Works%20In%20Vorgang[Employee]="                 + "Oliver%20Pimas"
 //        + "&Works%20In%20Vorgang[Spent%20Hours]="            + "111"
 //        + "&Works%20In%20Vorgang[Total%20Hours]="            + "10"
-    httpget.addHeader("Cookie", sessionID);
-    
-    final HttpResponse response   = httpclient.execute(httpget);
-    final HttpEntity   entity     = response.getEntity();
-    final JSONObject   json, query, pages, firstPage;
-    final JSONArray    revisions, pageids;
-    final String       content, pageID;
-    
-    InputStream        in         = null;
-
-    if(entity == null){
-      throw new Exception("changeVorgangBasics error 1");
-    }
-    
-    try{
-       in        = entity.getContent();
-       System.out.println(SSFileU.readStreamText(in));
-       
-       return "";
+      
+      httpget.addHeader(valueCookie, sessionID);
+      
+      in = httpclient.execute(httpget).getEntity().getContent();
+      
+      System.out.println(SSFileU.readStreamText(in));
+      
     }catch(Exception error){
-      throw new Exception("changeVorgangBasics error 2");
+      SSServErrReg.regErrThrow(new Exception("changing vorgang basics failed"));
     }finally{
       if(in != null){
         in.close();
@@ -197,57 +190,29 @@ public class SSKCProjWikiImportFct {
     }
   }
   
-  private List<BasicNameValuePair> getFirstLoginParams(){
+  private void loginFirstTime() throws Exception{
     
-    final List<BasicNameValuePair> params = new ArrayList<>();
-    
-    params.add(new BasicNameValuePair("lgname",     conf.userName));
-    params.add(new BasicNameValuePair("lgpassword", conf.password));
-    params.add(new BasicNameValuePair("lgdomain",   conf.domain));
-    
-    return params;
-  }
-  
-  private List<BasicNameValuePair> getSecondLoginParams(){
-    
-    final List<BasicNameValuePair> params = new ArrayList<>();
-    
-    params.add(new BasicNameValuePair("lgname",     conf.userName));
-    params.add(new BasicNameValuePair("lgpassword", conf.password));
-    params.add(new BasicNameValuePair("lgdomain",   conf.domain));
-    params.add(new BasicNameValuePair("lgtoken",    token));
-    
-    return params;
-  }
-  
-  private String loginFirstTime() throws Exception{
-    
-    final HttpPost     post     = new HttpPost(conf.wikiURI + "api.php?action=login&format=json");
-    final HttpResponse response;
-    final HttpEntity   entity;
-    final JSONObject   json;
-    final String       token;
-    InputStream        in = null;
-    
-    post.setEntity(new UrlEncodedFormEntity(getFirstLoginParams(), "UTF-8"));
-    
-    response = httpclient.execute(post);
-    entity   = response.getEntity();
-    
-    if(entity == null){
-      throw new Exception("loginFirstTime error 1");
-    }
+    InputStream in = null;
     
     try{
-      in    = entity.getContent();
-      json  = new JSONObject(SSFileU.readStreamText(in));
-      token = ((JSONObject)json.get("login")).get("token").toString();
       
-      System.out.println(token);
+      final HttpResponse response;
+      final JSONObject   json;
+      final HttpPost     post = 
+        new HttpPost(
+          conf.wikiURI 
+            + pathActionLogin 
+            + SSStrU.ampersand + valueFormatJson);
       
-      return token;
+      post.setEntity(new UrlEncodedFormEntity(getFirstLoginParams(), SSEncodingU.utf8.toString()));
+      
+      response = httpclient.execute(post);
+      in       = response.getEntity().getContent();
+      json     = new JSONObject(SSFileU.readStreamText(in));
+      token    = ((JSONObject)json.get(valueLogin)).get(valueToken).toString();
+      
     }catch(Exception error){
-      throw new Exception("loginFirstTime error 2");
+      SSServErrReg.regErrThrow(new Exception("first login failed"));
     }finally{
       if(in != null){
         in.close();
@@ -255,34 +220,29 @@ public class SSKCProjWikiImportFct {
     }
   }
     
-  private String loginSecondTime() throws Exception{
+  private void loginSecondTime() throws Exception{
     
-    final HttpPost     post     = new HttpPost(conf.wikiURI + "api.php?action=login&format=json");
-    final HttpResponse response;
-    final HttpEntity   entity;
-    final JSONObject   json;
-    final String       sessionID;
-    InputStream        in  = null;
-    
-    post.setEntity(new UrlEncodedFormEntity(getSecondLoginParams(), "UTF-8"));
-    
-    response = httpclient.execute(post);
-    entity   = response.getEntity();
-    
-    if(entity == null){
-      throw new Exception("loginSecondTime error 1");
-    }
+    InputStream in  = null;
     
     try{
-      in        = entity.getContent();
+      
+      final HttpResponse response;
+      final JSONObject   json;
+      final HttpPost     post =
+        new HttpPost(
+          conf.wikiURI
+            + pathActionLogin
+            + SSStrU.ampersand + valueFormatJson);
+      
+      post.setEntity(new UrlEncodedFormEntity(getSecondLoginParams(), SSEncodingU.utf8.toString()));
+      
+      response  = httpclient.execute(post);
+      in        = response.getEntity().getContent();
       json      = new JSONObject(SSFileU.readStreamText(in));
-      sessionID = ((JSONObject)json.get("login")).get("sessionid").toString();
+      sessionID = ((JSONObject)json.get(valueLogin)).get(valueSessionId).toString();
       
-      System.out.println(sessionID);
-      
-      return sessionID;
     }catch(Exception error){
-      throw new Exception("loginSecondTime error 2");
+      SSServErrReg.regErrThrow(new Exception("second login failed"));
     }finally{
       if(in != null){
         in.close();
@@ -291,22 +251,58 @@ public class SSKCProjWikiImportFct {
   }
   
   private void logout() throws Exception{
-    
-    final HttpGet      httpget    = new HttpGet (conf.wikiURI + "api.php?action=logout&format=json");
-    final HttpResponse response   = httpclient.execute(httpget);
-    final HttpEntity   entity     = response.getEntity();
-    InputStream        in         = null;
 
-    if(entity == null){
-      throw new Exception("logout error 1");
+    try{
+      httpclient.execute(
+        new HttpGet(
+          conf.wikiURI
+          + pathActionLogout 
+          + SSStrU.ampersand + valueFormatJson));
+      
+    }catch(Exception error){
+      SSLogU.warn("logout failed");
     }
+  }
+  
+  private String getWikiPageContent(final String title) throws Exception{
+
+    InputStream in = null;
     
     try{
-       in = entity.getContent();
-        
-       System.out.println("logout: " + SSFileU.readStreamText(in));
+//            &&prop=revisions&rvlimit=1&rvprop=content&format=json&titles=" + title);      
+      
+      final HttpGet httpget = 
+        new HttpGet(
+          conf.wikiURI 
+            + pathActionQuery
+            + SSStrU.ampersand + valueIndexPageIds
+            + SSStrU.ampersand + valueProp    + SSStrU.equal   + valueRevisions
+            + SSStrU.ampersand + valueRvlimit + SSStrU.equal   + "1"
+            + SSStrU.ampersand + valueRvprop  + SSStrU.equal   + valueContent
+            + SSStrU.ampersand + valueTitles  + SSStrU.equal   + title
+            + SSStrU.ampersand + valueFormatJson);
+      
+      httpget.addHeader(valueCookie, sessionID);
+      
+      final HttpResponse response   = httpclient.execute(httpget);
+      final JSONObject   json, query, pages, firstPage;
+      final JSONArray    revisions, pageids;
+      final String       content, pageID;
+      
+      in        = response.getEntity().getContent();
+      json      = new JSONObject(SSFileU.readStreamText(in));
+      query     = (JSONObject)  json.get(valueQuery);
+      pageids   = (JSONArray)   query.get(valuePageIds);
+      pageID    = pageids.get(0).toString();
+      pages     = (JSONObject)  query.get(valuePages);
+      firstPage = (JSONObject)  pages.get(pageID);
+      revisions = (JSONArray)   firstPage.get(valueRevisions);
+      content   = ((JSONObject) revisions.get(0)).get("*").toString();
+      
+      return content;
     }catch(Exception error){
-      throw new Exception("logout error 2");
+      SSServErrReg.regErrThrow(new Exception("content retrieval failed"));
+      return null;
     }finally{
       if(in != null){
         in.close();
@@ -314,42 +310,97 @@ public class SSKCProjWikiImportFct {
     }
   }
   
-  private String getContent() throws Exception{
+  private String getEditToken(final String title) throws Exception{
     
-    final HttpGet      httpget    = new HttpGet(conf.wikiURI + "api.php?action=query&indexpageids&prop=revisions&rvlimit=1&rvprop=content&format=json&titles=" + title);
-  
-    httpget.addHeader("Cookie", sessionID);
-    
-    final HttpResponse response   = httpclient.execute(httpget);
-    final HttpEntity   entity     = response.getEntity();
-    final JSONObject   json, query, pages, firstPage;
-    final JSONArray    revisions, pageids;
-    final String       content, pageID;
-    
-    InputStream        in         = null;
-
-    if(entity == null){
-      throw new Exception("getContent error 1");
-    }
+    InputStream in = null;
     
     try{
-       in        = entity.getContent();
-       json      = new JSONObject(SSFileU.readStreamText(in));
-       query     = (JSONObject) json.get("query");
-       pageids   = (JSONArray) query.get("pageids");
-       pageID    = pageids.get(0).toString();
-       pages     = (JSONObject) query.get("pages");
-       firstPage = (JSONObject) pages.get(pageID);
-       revisions = (JSONArray)  firstPage.get("revisions");
-       content   = ((JSONObject) revisions.get(0)).get("*").toString();
       
-       return content;
+      final HttpGet httpget =
+        new HttpGet(
+          conf.wikiURI 
+            + pathActionQuery
+            + SSStrU.ampersand + valueIndexPageIds
+            + SSStrU.ampersand + valueProp    + SSStrU.equal + valueInfo
+            + SSStrU.ampersand + valueIntoken + SSStrU.equal + valueEdit
+            + SSStrU.ampersand + valueRvprop  + SSStrU.equal + valueTimestamp//"&rvprp=timestamp"
+            + SSStrU.ampersand + valueTitles  + SSStrU.equal + title
+            + SSStrU.ampersand + valueFormatJson);
+      
+      final HttpResponse response   = httpclient.execute(httpget);
+      final HttpEntity   entity     = response.getEntity();
+      JSONObject json, query, pages, firstPage;
+      JSONArray pageids;
+      String pageID;
+        
+      in        = entity.getContent();
+      json      = new JSONObject(SSFileU.readStreamText(in));
+      query     = (JSONObject) json.get(valueQuery);
+      pageids   = (JSONArray)  query.get(valuePageIds);
+      pageID    = pageids.get(0).toString();
+      pages     = (JSONObject) query.get(valuePages);
+      firstPage = (JSONObject) pages.get(pageID);
+      
+      return firstPage.get(valueEditToken).toString();
+      
     }catch(Exception error){
-      throw new Exception("getContent error 2");
+      SSServErrReg.regErrThrow(new Exception("edit token retrieval failed"));
+      return null;
     }finally{
+      
       if(in != null){
         in.close();
       }
+    }
+  }
+
+  public void start() throws Exception{
+    
+    try{
+      loginFirstTime  ();
+      loginSecondTime ();
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  public void end() throws Exception{
+    
+    try{
+      logout();
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  private List<BasicNameValuePair> getFirstLoginParams() throws Exception{
+    
+    try{
+      final List<BasicNameValuePair> params = new ArrayList<>();
+      
+      params.add(new BasicNameValuePair(valueLgname,     conf.userName));
+      params.add(new BasicNameValuePair(valueLgpassword, conf.password));
+      params.add(new BasicNameValuePair(valueLgdomain,   conf.domain));
+      
+      return params;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(new Exception("first login failed"));
+      return null;
+    }
+  }
+  
+  private List<BasicNameValuePair> getSecondLoginParams() throws Exception{
+    
+    try{
+      final List<BasicNameValuePair> params = getFirstLoginParams();
+      
+      params.add(new BasicNameValuePair(valueLgtoken,    token));
+      
+      return params;
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(new Exception("second login failed"));
+      return null;
     }
   }
 }

@@ -95,6 +95,8 @@ public class SSStrU{
   public  static final String bracketClose                                    = ")";
   public  static final String curlyBracketOpen                                = "{";
   public  static final String curlyBracketClose                               = "}";
+  public  static final String squareBracketOpen                               = "[";
+  public  static final String squareBracketClose                              = "]";
   public  static final String lessThan                                        = "<";
   public  static final String greaterThan                                     = ">";
   public  static final String blank                                           = " ";
