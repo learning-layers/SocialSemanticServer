@@ -20,13 +20,17 @@
 */
 package at.tugraz.sss.servs.kcprojwiki.impl;
 
+import at.kc.tugraz.ss.serv.dataimport.api.SSDataImportServerI;
+import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportKCProjWikiVorgaengePar;
 import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServImplWithDBA;
+import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.servs.kcprojwiki.api.SSKCProjWikiClientI;
 import at.tugraz.sss.servs.kcprojwiki.api.SSKCProjWikiServerI;
 import at.tugraz.sss.servs.kcprojwiki.conf.SSKCProjWikiConf;
 import at.tugraz.sss.servs.kcprojwiki.datatype.SSKCProjWikiImportPar;
+import java.util.Map;
 
 public class SSKCProjWikiImpl
 extends SSServImplWithDBA
@@ -48,14 +52,25 @@ implements
     
     try{
       
-      final SSKCProjWikiImportFct importFct = new SSKCProjWikiImportFct(projWikiConf);
+      final SSDataImportServerI   dataImportServ = (SSDataImportServerI) SSServReg.getServ(SSDataImportServerI.class);
+      final SSKCProjWikiImportFct importFct      = new SSKCProjWikiImportFct(projWikiConf);
+      final Map<String, String>   vorgaenge      =
+        dataImportServ.dataImportKCProjWikiVorgaenge(
+          new SSDataImportKCProjWikiVorgaengePar(
+            par.user,
+            projWikiConf.vorgangFileName));
       
       importFct.start();
       
-      final String title = importFct.getPageTitleByProjectNumber   ("20143516");
+      String title;
       
-      importFct.changeVorgangBasics    (title);
-      importFct.changeVorgangResources (title);
+      for(Map.Entry<String, String> vorgang : vorgaenge.entrySet()){
+
+        title = importFct.getPageTitleByProjectNumber   ("20143516");
+        
+        importFct.changeVorgangBasics    (title);
+        importFct.changeVorgangResources (title);
+      }
       
       importFct.end();
       

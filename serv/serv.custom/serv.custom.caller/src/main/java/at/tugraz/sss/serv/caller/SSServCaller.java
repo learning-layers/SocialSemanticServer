@@ -22,7 +22,6 @@ package at.tugraz.sss.serv.caller;
 
 import at.kc.tugraz.socialserver.service.broadcast.datatypes.SSBroadcast;
 import at.kc.tugraz.socialserver.service.broadcast.datatypes.enums.SSBroadcastEnum;
-import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteInfo;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.tugraz.sss.serv.SSFileExtE;
 import at.tugraz.sss.serv.SSIDU;
@@ -343,18 +342,6 @@ public class SSServCaller {
     opPars.put(SSVarNames.user,             user);
     
     SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.dataImportAchso, opPars));
-  }
-  
-  public static void dataImportUserResourceTagFromWikipedia(
-    final SSUri   user, 
-    final Boolean shouldCommit) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.shouldCommit,     shouldCommit);
-    opPars.put(SSVarNames.user,             user);
-    
-    SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.dataImportUserResourceTagFromWikipedia, opPars));
   }
   
   public static Map<String, String> dataImportSSSUsersFromCSVFile( 

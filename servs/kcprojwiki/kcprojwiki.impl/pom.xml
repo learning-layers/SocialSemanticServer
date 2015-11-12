@@ -54,6 +54,12 @@
     </dependency>
     
     <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>dataimport.api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
       <groupId>org.json</groupId>
       <artifactId>json</artifactId>
       <version>20140107</version>

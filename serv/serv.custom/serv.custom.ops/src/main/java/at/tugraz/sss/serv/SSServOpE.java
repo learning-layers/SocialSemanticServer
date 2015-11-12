@@ -268,11 +268,11 @@ public enum SSServOpE{
   fileGet,
   
   //data import
-  dataImportUserResourceTagFromWikipedia              ,
   dataImportAchso,
   dataImportSSSUsersFromCSVFile                       ,
   dataImportBitsAndPieces                             ,
   dataImportMediaWikiUser,
+  dataImportKCProjWikiVorgaenge,
   
   //disc
   discRemove,

@@ -24,20 +24,22 @@ import at.tugraz.sss.serv.SSServConfA;
 
 public class SSKCProjWikiConf extends SSServConfA{
   
-  public String     wikiURI  = null;
-  public String     userName = null;
-  public String     password = null;
-  public String     domain   = null;
+  public String     wikiURI         = null;
+  public String     userName        = null;
+  public String     password        = null;
+  public String     domain          = null;
+  public String     vorgangFileName = null;
   
   public static SSKCProjWikiConf copy(final SSKCProjWikiConf orig){
     
     final SSKCProjWikiConf copy = (SSKCProjWikiConf) SSServConfA.copy(orig, new SSKCProjWikiConf());
     
-    copy.wikiURI  = orig.wikiURI;
-    copy.userName = orig.userName;
-    copy.password = orig.password;
-    copy.domain   = orig.domain;
-    
+    copy.wikiURI         = orig.wikiURI;
+    copy.userName        = orig.userName;
+    copy.password        = orig.password;
+    copy.domain          = orig.domain;
+    copy.vorgangFileName = orig.vorgangFileName;
+           
     return copy;
   }
 }

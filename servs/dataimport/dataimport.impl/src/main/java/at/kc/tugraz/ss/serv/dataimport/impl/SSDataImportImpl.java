@@ -35,9 +35,9 @@ import at.kc.tugraz.ss.serv.dataimport.api.SSDataImportClientI;
 import at.kc.tugraz.ss.serv.dataimport.api.SSDataImportServerI;
 import at.kc.tugraz.ss.serv.dataimport.conf.SSDataImportConf;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportAchsoPar;
-import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportUserResourceTagFromWikipediaPar;
 import at.tugraz.sss.serv.SSServPar;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportBitsAndPiecesPar;
+import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportKCProjWikiVorgaengePar;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportMediaWikiUserPar;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportSSSUsersFromCSVFilePar;
 import at.kc.tugraz.ss.serv.dataimport.impl.bitsandpieces.SSDataImportBitsAndPiecesEvernoteImporter;
@@ -58,16 +58,11 @@ import at.kc.tugraz.ss.service.filerepo.api.SSFileRepoServerI;
 import at.kc.tugraz.ss.service.tag.api.SSTagServerI;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsAddPar;
-import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsRemovePar;
 import at.kc.tugraz.ss.service.userevent.api.SSUEServerI;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -475,7 +470,7 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
           new SSTagsAddPar(
             authorUri,
             SSTagLabel.get(video.keywords), //labels,
-SSUri.asListNotNull(video.id), //entities
+            SSUri.asListNotNull(video.id), //entities
             SSSpaceE.sharedSpace, //space
             null, //circles
             video.creationTime,  //creationTime
@@ -515,127 +510,26 @@ SSUri.asListNotNull(video.id), //entities
   }
   
   @Override
-  public Boolean dataImportUserResourceTagFromWikipedia(final SSServPar parA) throws Exception {
-    
-    final SSAuthServerI                               authServ      = (SSAuthServerI) SSServReg.getServ(SSAuthServerI.class);
-    final SSDataImportUserResourceTagFromWikipediaPar par           = new SSDataImportUserResourceTagFromWikipediaPar(parA);
-    int                                               counter       = 1;
-    int                                               tagCounter    = 0;
-    BufferedReader                                    lineReader    = null;
-    List<String>                                      tagList;
-    FileInputStream                                   dataImportFileIn;
-    String                                            line;
-    List<String>                                      lineSplit;
-    String                                            userLabel;
-    SSUri                                             resource;
-    SSUri                                             user;
-    String                                            tags;
-    String                                            categories;
-    Long                                              timestamp;
+  public Map<String, String> dataImportKCProjWikiVorgaenge(final SSDataImportKCProjWikiVorgaengePar par) throws Exception{
     
     try{
-      ((SSTagServerI) SSServReg.getServ(SSTagServerI.class)).tagsRemove(
-        new SSTagsRemovePar(
-          parA.user,
-          null,
-          null,
-          null,
-          SSSpaceE.sharedSpace,
-          null, //circle
-          false,
-          par.shouldCommit));
+      final List<String[]>      lines;
+      final Map<String, String> passwordPerUser = new HashMap<>();
       
-      dataImportFileIn = SSFileU.openFileForRead   (SSFileU.dirWorkingDataCsv() + ((SSDataImportConf)conf).fileName);
-      lineReader       = new BufferedReader        (new InputStreamReader(dataImportFileIn));
-      line             = lineReader.readLine();
+      lines = SSDataImportReaderFct.readAllFromCSV(SSFileU.dirWorking(), par.fileName);
       
-      while(line != null){
-        
-        line       = SSStrU.removeDoubleQuotes(line); //        line       = SSStrU.replaceAll(line, SSStrU.dot,     SSStrU.empty);
-        line       = SSStrU.replaceAll        (line, SSStrU.percent, SSStrU.empty);
-        lineSplit  = SSStrU.split             (line, SSStrU.semiColon);
-        
-        if(
-          lineSplit == null ||
-          lineSplit.size() < 5){
-          
-          line = lineReader.readLine();
-          continue;
-        }
-        
-        categories = lineSplit.get(4);
-        
-//        if(!categories.contains("health")){
-//          line = lineReader.readLine();
-//          continue;
-//        }
+      for(String[] line : lines){
         
         try{
-          resource  = SSUri.get(lineSplit.get(1));
+          passwordPerUser.put(line[0].trim(), line[1].trim());
         }catch(Exception error){
-          line = lineReader.readLine();
-          continue;
         }
-        
-        userLabel   = lineSplit.get   (0);
-        timestamp   = Long.parseLong  (lineSplit.get(2)) * 1000;
-        tags        = lineSplit.get   (3);
-        
-        user=
-          authServ.authRegisterUser(
-            new SSAuthRegisterUserPar(
-              userLabel + SSStrU.at + SSVocConf.systemEmailPostFix, //email
-              "1234", //password
-              SSLabel.get(userLabel),
-              false, //updatePassword,
-              false, //isSystemUser,
-              false, //withUserRestriction,
-              false)); //shouldCommit
-        
-        tagList     = SSStrU.splitDistinctWithoutEmptyAndNull(tags, SSStrU.comma);
-        tagCounter += tagList.size();
-
-        ((SSTagServerI) SSServReg.getServ(SSTagServerI.class)).tagsAdd(
-          new SSTagsAddPar(
-            user,
-            SSTagLabel.get(tagList), //labels
-SSUri.asListNotNull(resource), //entities
-            SSSpaceE.sharedSpace, //space
-            null, //circles
-            timestamp, //creationTime
-            true, //withUserRestriction
-            par.shouldCommit)); //shouldCommit
-
-        SSLogU.info("line " + counter++ + " " + tagCounter + " time : " + new Date().getTime() + " user: " + user.toString() + " tags: " + tags);
-
-        line = lineReader.readLine();
       }
-
-      return true;
-
+      
+      return passwordPerUser;
     }catch(Exception error){
-      
-      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
-        
-        if(dbSQL.rollBack(parA.shouldCommit)){
-          
-          SSServErrReg.reset();
-          
-          return dataImportUserResourceTagFromWikipedia(parA);
-        }else{
-          SSServErrReg.regErrThrow(error);
-          return null;
-        }
-      }
-      
-      dbSQL.rollBack(parA.shouldCommit);
       SSServErrReg.regErrThrow(error);
       return null;
-    }finally{
-      
-      if(lineReader != null){
-        lineReader.close();
-      }
     }
   }
 }
@@ -694,3 +588,128 @@ SSUri.asListNotNull(resource), //entities
 //        }
 //      }
 //    }
+
+//@Override
+//  public Boolean dataImportUserResourceTagFromWikipedia(final SSServPar parA) throws Exception {
+//    
+//    final SSAuthServerI                               authServ      = (SSAuthServerI) SSServReg.getServ(SSAuthServerI.class);
+//    final SSDataImportUserResourceTagFromWikipediaPar par           = new SSDataImportUserResourceTagFromWikipediaPar(parA);
+//    int                                               counter       = 1;
+//    int                                               tagCounter    = 0;
+//    BufferedReader                                    lineReader    = null;
+//    List<String>                                      tagList;
+//    FileInputStream                                   dataImportFileIn;
+//    String                                            line;
+//    List<String>                                      lineSplit;
+//    String                                            userLabel;
+//    SSUri                                             resource;
+//    SSUri                                             user;
+//    String                                            tags;
+//    String                                            categories;
+//    Long                                              timestamp;
+//    
+//    try{
+//      ((SSTagServerI) SSServReg.getServ(SSTagServerI.class)).tagsRemove(
+//        new SSTagsRemovePar(
+//          parA.user,
+//          null,
+//          null,
+//          null,
+//          SSSpaceE.sharedSpace,
+//          null, //circle
+//          false,
+//          par.shouldCommit));
+//      
+//      dataImportFileIn = SSFileU.openFileForRead   (SSFileU.dirWorkingDataCsv() + ((SSDataImportConf)conf).fileName);
+//      lineReader       = new BufferedReader        (new InputStreamReader(dataImportFileIn));
+//      line             = lineReader.readLine();
+//      
+//      while(line != null){
+//        
+//        line       = SSStrU.removeDoubleQuotes(line); //        line       = SSStrU.replaceAll(line, SSStrU.dot,     SSStrU.empty);
+//        line       = SSStrU.replaceAll        (line, SSStrU.percent, SSStrU.empty);
+//        lineSplit  = SSStrU.split             (line, SSStrU.semiColon);
+//        
+//        if(
+//          lineSplit == null ||
+//          lineSplit.size() < 5){
+//          
+//          line = lineReader.readLine();
+//          continue;
+//        }
+//        
+//        categories = lineSplit.get(4);
+//        
+////        if(!categories.contains("health")){
+////          line = lineReader.readLine();
+////          continue;
+////        }
+//        
+//        try{
+//          resource  = SSUri.get(lineSplit.get(1));
+//        }catch(Exception error){
+//          line = lineReader.readLine();
+//          continue;
+//        }
+//        
+//        userLabel   = lineSplit.get   (0);
+//        timestamp   = Long.parseLong  (lineSplit.get(2)) * 1000;
+//        tags        = lineSplit.get   (3);
+//        
+//        user=
+//          authServ.authRegisterUser(
+//            new SSAuthRegisterUserPar(
+//              userLabel + SSStrU.at + SSVocConf.systemEmailPostFix, //email
+//              "1234", //password
+//              SSLabel.get(userLabel),
+//              false, //updatePassword,
+//              false, //isSystemUser,
+//              false, //withUserRestriction,
+//              false)); //shouldCommit
+//        
+//        tagList     = SSStrU.splitDistinctWithoutEmptyAndNull(tags, SSStrU.comma);
+//        tagCounter += tagList.size();
+//
+//        ((SSTagServerI) SSServReg.getServ(SSTagServerI.class)).tagsAdd(
+//          new SSTagsAddPar(
+//            user,
+//            SSTagLabel.get(tagList), //labels
+//            SSUri.asListNotNull(resource), //entities
+//            SSSpaceE.sharedSpace, //space
+//            null, //circles
+//            timestamp, //creationTime
+//            true, //withUserRestriction
+//            par.shouldCommit)); //shouldCommit
+//
+//        SSLogU.info("line " + counter++ + " " + tagCounter + " time : " + new Date().getTime() + " user: " + user.toString() + " tags: " + tags);
+//
+//        line = lineReader.readLine();
+//      }
+//
+//      return true;
+//
+//    }catch(Exception error){
+//      
+//      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+//        
+//        if(dbSQL.rollBack(parA.shouldCommit)){
+//          
+//          SSServErrReg.reset();
+//          
+//          return dataImportUserResourceTagFromWikipedia(parA);
+//        }else{
+//          SSServErrReg.regErrThrow(error);
+//          return null;
+//        }
+//      }
+//      
+//      dbSQL.rollBack(parA.shouldCommit);
+//      SSServErrReg.regErrThrow(error);
+//      return null;
+//    }finally{
+//      
+//      if(lineReader != null){
+//        lineReader.close();
+//      }
+//    }
+//  }
