@@ -21,6 +21,7 @@
 package at.tugraz.sss.servs.kcprojwiki.impl;
 
 import at.kc.tugraz.ss.serv.dataimport.api.SSDataImportServerI;
+import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportKCProjWikiProjectsPar;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportKCProjWikiVorgaengePar;
 import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSServErrReg;
@@ -30,6 +31,9 @@ import at.tugraz.sss.servs.kcprojwiki.api.SSKCProjWikiClientI;
 import at.tugraz.sss.servs.kcprojwiki.api.SSKCProjWikiServerI;
 import at.tugraz.sss.servs.kcprojwiki.conf.SSKCProjWikiConf;
 import at.tugraz.sss.servs.kcprojwiki.datatype.SSKCProjWikiImportPar;
+import at.tugraz.sss.servs.kcprojwiki.datatype.SSKCProjWikiPage;
+import at.tugraz.sss.servs.kcprojwiki.datatype.SSKCProjWikiProject;
+import at.tugraz.sss.servs.kcprojwiki.datatype.SSKCProjWikiVorgang;
 import java.util.Map;
 
 public class SSKCProjWikiImpl
@@ -52,24 +56,36 @@ implements
     
     try{
       
-      final SSDataImportServerI   dataImportServ = (SSDataImportServerI) SSServReg.getServ(SSDataImportServerI.class);
-      final SSKCProjWikiImportFct importFct      = new SSKCProjWikiImportFct(projWikiConf);
-      final Map<String, String>   vorgaenge      =
+      final SSDataImportServerI                dataImportServ = (SSDataImportServerI) SSServReg.getServ(SSDataImportServerI.class);
+      final SSKCProjWikiImportFct              importFct      = new SSKCProjWikiImportFct(projWikiConf);
+      final Map<String, SSKCProjWikiVorgang>   vorgaenge      =
         dataImportServ.dataImportKCProjWikiVorgaenge(
           new SSDataImportKCProjWikiVorgaengePar(
             par.user,
-            projWikiConf.vorgangFileName));
+            projWikiConf.vorgaengeFileName));
       
       importFct.start();
       
-      String title;
-      
-      for(Map.Entry<String, String> vorgang : vorgaenge.entrySet()){
+      for(Map.Entry<String, SSKCProjWikiVorgang> vorgang : vorgaenge.entrySet()){
 
-        title = importFct.getPageTitleByProjectNumber   ("20143516");
+        vorgang.getValue().title = importFct.getVorgangPageTitleByProjectNumber   (vorgang.getValue().projectNumber);
         
-        importFct.changeVorgangBasics    (title);
-        importFct.changeVorgangResources (title);
+        importFct.changeVorgangBasics    (vorgang.getValue().title);
+        importFct.changeVorgangResources (vorgang.getValue().title);
+      }
+      
+      final Map<String, SSKCProjWikiProject> projects =
+        dataImportServ.dataImportKCProjWikiProjects(
+          new SSDataImportKCProjWikiProjectsPar(
+            par.user,
+            projWikiConf.projectsFileName));
+      
+      for(Map.Entry<String, SSKCProjWikiProject> project : projects.entrySet()){
+        
+        project.getValue().title = importFct.getProjectPageTitleByProjectNumber   (project.getValue().projectNumber); //"20143516"
+        
+        importFct.changeVorgangBasics    (project.getValue().title);
+        importFct.changeVorgangResources (project.getValue().title);
       }
       
       importFct.end();

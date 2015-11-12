@@ -18,30 +18,24 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.tugraz.sss.servs.kcprojwiki.conf;
+package at.kc.tugraz.ss.serv.dataimport.datatypes.pars;
 
-import at.tugraz.sss.serv.SSServConfA;
+import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSUri;
 
-public class SSKCProjWikiConf extends SSServConfA{
+public class SSDataImportKCProjWikiProjectsPar extends SSServPar{
+
+  public String fileName = null;
   
-  public String     wikiURI           = null;
-  public String     userName          = null;
-  public String     password          = null;
-  public String     domain            = null;
-  public String     vorgaengeFileName = null;
-  public String     projectsFileName  = null;
+  public SSDataImportKCProjWikiProjectsPar(){}
   
-  public static SSKCProjWikiConf copy(final SSKCProjWikiConf orig){
+  public SSDataImportKCProjWikiProjectsPar(
+    final SSUri   user,
+    final String  fileName){
     
-    final SSKCProjWikiConf copy = (SSKCProjWikiConf) SSServConfA.copy(orig, new SSKCProjWikiConf());
+    super(SSServOpE.dataImportKCProjWikiProjects, null, user);
     
-    copy.wikiURI           = orig.wikiURI;
-    copy.userName          = orig.userName;
-    copy.password          = orig.password;
-    copy.domain            = orig.domain;
-    copy.vorgaengeFileName = orig.vorgaengeFileName;
-    copy.projectsFileName  = orig.projectsFileName;
-           
-    return copy;
+    this.fileName = fileName;
   }
 }

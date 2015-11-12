@@ -46,6 +46,7 @@ public class SSKCProjWikiImportFct {
   private static final String valueProjektVorgangsebene             = "Projekt-Vorgangsebene";
   private static final String valueWorksInVorgang                   = "{{Works In Vorgang";
   private static final String propertyCategoryProjektVorgangsebene  = "[[Category:Projekt-Vorgangsebene]]";
+  private static final String propertyCategoryProjekt               = "[[Category:Projekt]]";
   private static final String propertyStartProjectNumber            = "[[Project%20Number::";
   private static final String valueCookie                           = "Cookie";
   private static final String pathActionQuery                       = "api.php?action=query";
@@ -99,7 +100,7 @@ public class SSKCProjWikiImportFct {
     this.httpclient    = HttpClients.createDefault();
   }
   
-  public String getPageTitleByProjectNumber(final String projectNumber) throws Exception{
+  public String getVorgangPageTitleByProjectNumber(final Integer projectNumber) throws Exception{
     
     InputStream in = null;
     
@@ -122,11 +123,53 @@ public class SSKCProjWikiImportFct {
       
       in       = httpclient.execute(httpget).getEntity().getContent();
       json     = new JSONObject(SSFileU.readStreamText(in));
-      ask      = (JSONObject) json.get(valueAsk);
-      results  = (JSONObject) ask.get(valueResults);
-      items    = (JSONArray)  results.get(valueItems);
+      ask      = (JSONObject) json.get      (valueAsk);
+      results  = (JSONObject) ask.get       (valueResults);
+      items    = (JSONArray)  results.get   (valueItems);
       item     = (JSONObject) items.get(0);
-      title    = (JSONObject) item.get(valueTitle);
+      title    = (JSONObject) item.get      (valueTitle);
+      
+      return (String) title.get(valueMUrlform);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(new Exception("retrieving page title from project number failed"));
+      return null;
+    }finally{
+      
+      if(in != null){
+        in.close();
+      }
+    }
+  }
+  
+  public String getProjectPageTitleByProjectNumber(final Integer projectNumber) throws Exception{
+    
+    InputStream in = null;
+    
+    try{
+      
+      //      http://mint/projwiki_dieter/api.php?action=ask&q=[[Category:Projekt]][[Project%20Number::20143516]]
+      final JSONObject json, results, ask, item, title;
+      final JSONArray items;
+        
+      final HttpGet httpget =
+        new HttpGet(
+          conf.wikiURI
+            + pathActionAsk
+            + SSStrU.ampersand + valueQ + SSStrU.equal
+            + propertyCategoryProjekt
+            + propertyStartProjectNumber + projectNumber + SSStrU.squareBracketClose + SSStrU.squareBracketClose 
+            + SSStrU.ampersand + valueFormatJson);
+      
+      httpget.addHeader(valueCookie, sessionID);
+      
+      in       = httpclient.execute(httpget).getEntity().getContent();
+      json     = new JSONObject(SSFileU.readStreamText(in));
+      ask      = (JSONObject) json.get     (valueAsk);
+      results  = (JSONObject) ask.get      (valueResults);
+      items    = (JSONArray)  results.get  (valueItems);
+      item     = (JSONObject) items.get(0);
+      title    = (JSONObject) item.get     (valueTitle);
       
       return (String) title.get(valueMUrlform);
       

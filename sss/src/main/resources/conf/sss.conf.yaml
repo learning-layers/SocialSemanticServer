@@ -204,7 +204,8 @@ kcprojwiki:
   userName: 
   password: 
   domain: 
-  vorgangFileName: vorgaenge.csv
+  vorgaengeFileName: vorgaenge.csv
+  projectsFileName: projects.csv
   schedule: false
   executeScheduleAtStartUp: false
   scheduleOps:

@@ -39,6 +39,7 @@ public class SSDiscsGetPar extends SSServPar{
   public Boolean     setComments          = false;
   public Boolean     setTags              = false;
   public Boolean     setAttachedEntities  = false;
+  public Boolean     setReads             = false;
 
   public String getForUser() {
     return SSStrU.removeTrailingSlash(forUser);

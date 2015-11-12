@@ -153,7 +153,7 @@ public class SSDiscImpl
                   true, //setEntries
                   null, //forUser
                   null, //discs
-SSUri.asListNotNull(entity.id), //targets
+                  SSUri.asListNotNull(entity.id), //targets
                   par.withUserRestriction,
                   false))); //invokeEntityHandlers
             
@@ -1018,6 +1018,7 @@ SSUri.asListNotNull(entity.id), //targets
         descPar.setComments          = par.setComments;
         descPar.setTags              = par.setTags;
         descPar.setAttachedEntities  = par.setAttachedEntities;
+        descPar.setRead              = par.setReads;
       }else{
         descPar = null;
       }
@@ -1123,6 +1124,7 @@ SSUri.asListNotNull(entity.id), //targets
       discGetPar.setComments          = par.setComments;
       discGetPar.setTags              = par.setTags;
       discGetPar.setAttachedEntities  = par.setAttachedEntities;
+      discGetPar.setReads             = par.setReads;
       
       if(!par.targets.isEmpty()){
         

@@ -37,6 +37,7 @@ import at.kc.tugraz.ss.serv.dataimport.conf.SSDataImportConf;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportAchsoPar;
 import at.tugraz.sss.serv.SSServPar;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportBitsAndPiecesPar;
+import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportKCProjWikiProjectsPar;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportKCProjWikiVorgaengePar;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportMediaWikiUserPar;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportSSSUsersFromCSVFilePar;
@@ -69,6 +70,8 @@ import java.util.Map;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
+import at.tugraz.sss.servs.kcprojwiki.datatype.SSKCProjWikiProject;
+import at.tugraz.sss.servs.kcprojwiki.datatype.SSKCProjWikiVorgang;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import sss.serv.eval.api.SSEvalServerI;
 
@@ -510,18 +513,42 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
   }
   
   @Override
-  public Map<String, String> dataImportKCProjWikiVorgaenge(final SSDataImportKCProjWikiVorgaengePar par) throws Exception{
+  public Map<String, SSKCProjWikiVorgang> dataImportKCProjWikiVorgaenge(final SSDataImportKCProjWikiVorgaengePar par) throws Exception{
     
     try{
       final List<String[]>      lines;
-      final Map<String, String> passwordPerUser = new HashMap<>();
+      final Map<String, SSKCProjWikiVorgang> passwordPerUser = new HashMap<>();
       
       lines = SSDataImportReaderFct.readAllFromCSV(SSFileU.dirWorking(), par.fileName);
       
       for(String[] line : lines){
         
         try{
-          passwordPerUser.put(line[0].trim(), line[1].trim());
+          passwordPerUser.put(line[0].trim(), new SSKCProjWikiVorgang(Integer.valueOf(line[1].trim())));
+        }catch(Exception error){
+        }
+      }
+      
+      return passwordPerUser;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public Map<String, SSKCProjWikiProject> dataImportKCProjWikiProjects(final SSDataImportKCProjWikiProjectsPar par) throws Exception{
+    
+    try{
+      final List<String[]>      lines;
+      final Map<String, SSKCProjWikiProject> passwordPerUser = new HashMap<>();
+      
+      lines = SSDataImportReaderFct.readAllFromCSV(SSFileU.dirWorking(), par.fileName);
+      
+      for(String[] line : lines){
+        
+        try{
+          passwordPerUser.put(line[0].trim(), new SSKCProjWikiProject(Integer.valueOf(line[1].trim())));
         }catch(Exception error){
         }
       }

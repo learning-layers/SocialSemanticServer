@@ -64,4 +64,10 @@ public class SSDiscGetRESTAPIV2Par{
     required = false,
     value = "whether attached entities shall be set for disc and entries")
   public Boolean    setAttachedEntities   = null;
+  
+  @XmlElement
+  @ApiModelProperty(
+    required = false,
+    value = "whether information on whether querying user read given entries shall be provided")
+  public Boolean    setReads   = null;
 }

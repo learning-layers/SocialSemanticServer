@@ -90,6 +90,7 @@ public class SSRESTDisc{
       par.setLikes            = input.setLikes;
       par.setTags             = input.setTags;
       par.setAttachedEntities = input.setAttachedEntities;
+      par.setReads            = input.setReads;
       
     }catch(Exception error){
       return Response.status(422).build();
@@ -246,6 +247,7 @@ public class SSRESTDisc{
       par.setLikes            = input.setLikes;
       par.setTags             = input.setTags;
       par.setAttachedEntities = input.setAttachedEntities;
+      par.setReads            = input.setReads;
       
     }catch(Exception error){
       return Response.status(422).build();
@@ -324,6 +326,7 @@ public class SSRESTDisc{
       par.setLikes            = input.setLikes;
       par.setTags             = input.setTags;
       par.setAttachedEntities = input.setAttachedEntities;
+      par.setReads            = input.setReads;
       
     }catch(Exception error){
       return Response.status(422).build();

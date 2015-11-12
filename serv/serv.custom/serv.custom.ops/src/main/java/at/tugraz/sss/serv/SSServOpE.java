@@ -273,6 +273,7 @@ public enum SSServOpE{
   dataImportBitsAndPieces                             ,
   dataImportMediaWikiUser,
   dataImportKCProjWikiVorgaenge,
+  dataImportKCProjWikiProjects,
   
   //disc
   discRemove,

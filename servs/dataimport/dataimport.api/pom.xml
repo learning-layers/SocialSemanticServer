@@ -19,6 +19,12 @@
   
     <dependency>
       <groupId>sss.servs</groupId>
+      <artifactId>kcprojwiki.datatype</artifactId>
+      <version>${project.version}</version>
+    </dependency> 
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
       <artifactId>dataimport.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency> 

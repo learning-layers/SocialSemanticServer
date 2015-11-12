@@ -18,30 +18,13 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.tugraz.sss.servs.kcprojwiki.conf;
+package at.tugraz.sss.servs.kcprojwiki.datatype;
 
-import at.tugraz.sss.serv.SSServConfA;
+public class SSKCProjWikiProject extends SSKCProjWikiPage{
 
-public class SSKCProjWikiConf extends SSServConfA{
-  
-  public String     wikiURI           = null;
-  public String     userName          = null;
-  public String     password          = null;
-  public String     domain            = null;
-  public String     vorgaengeFileName = null;
-  public String     projectsFileName  = null;
-  
-  public static SSKCProjWikiConf copy(final SSKCProjWikiConf orig){
+  public SSKCProjWikiProject(
+   final Integer projectNumber){
     
-    final SSKCProjWikiConf copy = (SSKCProjWikiConf) SSServConfA.copy(orig, new SSKCProjWikiConf());
-    
-    copy.wikiURI           = orig.wikiURI;
-    copy.userName          = orig.userName;
-    copy.password          = orig.password;
-    copy.domain            = orig.domain;
-    copy.vorgaengeFileName = orig.vorgaengeFileName;
-    copy.projectsFileName  = orig.projectsFileName;
-           
-    return copy;
+    this.projectNumber = projectNumber;
   }
 }
