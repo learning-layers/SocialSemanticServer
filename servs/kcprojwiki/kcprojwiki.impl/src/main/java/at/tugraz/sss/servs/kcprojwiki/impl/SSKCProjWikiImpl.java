@@ -52,8 +52,10 @@ implements
       
       importFct.start();
       
-      importFct.changeVorgangBasics   ("14-Non-K-WissServer-1-Vor");
-      importFct.changeVorgangResources("14-Non-K-WissServer-1-Vor");
+      final String title = importFct.getPageTitleByProjectNumber   ("20143516");
+      
+      importFct.changeVorgangBasics    (title);
+      importFct.changeVorgangResources (title);
       
       importFct.end();
       

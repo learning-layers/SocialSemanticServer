@@ -43,42 +43,50 @@ import org.json.JSONObject;
 
 public class SSKCProjWikiImportFct {
 
-  private static final String valueProjektVorgangsebene = "Projekt-Vorgangsebene";
-  private static final String valueWorksInVorgang       = "{{Works In Vorgang";
-  private static final String valueCookie               = "Cookie";
-  private static final String pathActionQuery           = "api.php?action=query";
-  private static final String pathActionLogin           = "api.php?action=login";
-  private static final String pathActionLogout          = "api.php?action=logout";
-  private static final String pathActionEdit            = "api.php?action=edit";
-  private static final String pathActionSFAutoEdit      = "api.php?action=sfautoedit";
-  private static final String valueForm                 = "form=";
-  private static final String valueTarget               = "target=";
-  private static final String valueChangesBMD           = "Changes%20BMD";
-  private static final String valueTitle                = "title";
-  private static final String valueText                 = "text";
-  private static final String valueLogin                = "login";
-  private static final String valueSessionId            = "sessionid";
-  private static final String valueToken                = "token";
-  private static final String valueLgname               = "lgname";
-  private static final String valueLgpassword           = "lgpassword";
-  private static final String valueLgdomain             = "lgdomain";
-  private static final String valueLgtoken              = "lgtoken";
-  private static final String valueFormatJson           = "format=json";
-  private static final String valueIndexPageIds         = "indexpageids";
-  private static final String valueProp                 = "prop";
-  private static final String valueRevisions            = "revisions";
-  private static final String valueRvlimit              = "rvlimit";
-  private static final String valueRvprop               = "rvprop";
-  private static final String valueContent              = "content";
-  private static final String valueTitles               = "titles";
-  private static final String valueQuery                = "query";
-  private static final String valuePageIds              = "pageids";
-  private static final String valuePages                = "pages";
-  private static final String valueEditToken            = "edittoken";
-  private static final String valueTimestamp            = "timestamp";
-  private static final String valueIntoken              = "intoken";
-  private static final String valueEdit                 = "edit";
-  private static final String valueInfo                 = "info";
+  private static final String valueProjektVorgangsebene             = "Projekt-Vorgangsebene";
+  private static final String valueWorksInVorgang                   = "{{Works In Vorgang";
+  private static final String propertyCategoryProjektVorgangsebene  = "[[Category:Projekt-Vorgangsebene]]";
+  private static final String propertyStartProjectNumber            = "[[Project%20Number::";
+  private static final String valueCookie                           = "Cookie";
+  private static final String pathActionQuery                       = "api.php?action=query";
+  private static final String pathActionLogin                       = "api.php?action=login";
+  private static final String pathActionLogout                      = "api.php?action=logout";
+  private static final String pathActionEdit                        = "api.php?action=edit";
+  private static final String pathActionSFAutoEdit                  = "api.php?action=sfautoedit";
+  private static final String pathActionAsk                         = "api.php?action=ask";
+  private static final String valueForm                             = "form=";
+  private static final String valueTarget                           = "target=";
+  private static final String valueChangesBMD                       = "Changes%20BMD";
+  private static final String valueTitle                            = "title";
+  private static final String valueMUrlform                         = "mUrlform";
+  private static final String valueText                             = "text";
+  private static final String valueLogin                            = "login";
+  private static final String valueSessionId                        = "sessionid";
+  private static final String valueToken                            = "token";
+  private static final String valueLgname                           = "lgname";
+  private static final String valueLgpassword                       = "lgpassword";
+  private static final String valueLgdomain                         = "lgdomain";
+  private static final String valueLgtoken                          = "lgtoken";
+  private static final String valueFormatJson                       = "format=json";
+  private static final String valueIndexPageIds                     = "indexpageids";
+  private static final String valueProp                             = "prop";
+  private static final String valueRevisions                        = "revisions";
+  private static final String valueRvlimit                          = "rvlimit";
+  private static final String valueRvprop                           = "rvprop";
+  private static final String valueContent                          = "content";
+  private static final String valueTitles                           = "titles";
+  private static final String valueQuery                            = "query";
+  private static final String valuePageIds                          = "pageids";
+  private static final String valueResults                          = "results";
+  private static final String valueAsk                              = "ask";
+  private static final String valueItems                            = "items";
+  private static final String valuePages                            = "pages";
+  private static final String valueEditToken                        = "edittoken";
+  private static final String valueTimestamp                        = "timestamp";
+  private static final String valueIntoken                          = "intoken";
+  private static final String valueEdit                             = "edit";
+  private static final String valueInfo                             = "info";
+  private static final String valueQ                                = "q";
   
   private final SSKCProjWikiConf conf;
   private final HttpClient       httpclient;
@@ -91,6 +99,48 @@ public class SSKCProjWikiImportFct {
     this.httpclient    = HttpClients.createDefault();
   }
   
+  public String getPageTitleByProjectNumber(final String projectNumber) throws Exception{
+    
+    InputStream in = null;
+    
+    try{
+      
+      //      http://mint/projwiki_dieter/api.php?action=ask&q=[[Category:Projekt-Vorgangsebene]][[Project%20Number::20143516]]
+      final JSONObject json, results, ask, item, title;
+      final JSONArray items;
+        
+      final HttpGet httpget =
+        new HttpGet(
+          conf.wikiURI
+            + pathActionAsk
+            + SSStrU.ampersand + valueQ + SSStrU.equal
+            + propertyCategoryProjektVorgangsebene
+            + propertyStartProjectNumber + projectNumber + SSStrU.squareBracketClose + SSStrU.squareBracketClose 
+            + SSStrU.ampersand + valueFormatJson);
+      
+      httpget.addHeader(valueCookie, sessionID);
+      
+      in       = httpclient.execute(httpget).getEntity().getContent();
+      json     = new JSONObject(SSFileU.readStreamText(in));
+      ask      = (JSONObject) json.get(valueAsk);
+      results  = (JSONObject) ask.get(valueResults);
+      items    = (JSONArray)  results.get(valueItems);
+      item     = (JSONObject) items.get(0);
+      title    = (JSONObject) item.get(valueTitle);
+      
+      return (String) title.get(valueMUrlform);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(new Exception("retrieving page title from project number failed"));
+      return null;
+    }finally{
+      
+      if(in != null){
+        in.close();
+      }
+    }
+  }
+   
   public void changeVorgangResources(final String title) throws Exception{
     
     InputStream in = null;
