@@ -524,7 +524,7 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
       for(String[] line : lines){
         
         try{
-          passwordPerUser.put(line[0].trim(), new SSKCProjWikiVorgang(Integer.valueOf(line[1].trim())));
+          passwordPerUser.put(line[1].trim(), new SSKCProjWikiVorgang(line[1].trim(), line[2].trim()));
         }catch(Exception error){
         }
       }
@@ -548,7 +548,7 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
       for(String[] line : lines){
         
         try{
-          passwordPerUser.put(line[0].trim(), new SSKCProjWikiProject(Integer.valueOf(line[1].trim())));
+          passwordPerUser.put(line[0].trim(), new SSKCProjWikiProject(line[0].trim()));
         }catch(Exception error){
         }
       }

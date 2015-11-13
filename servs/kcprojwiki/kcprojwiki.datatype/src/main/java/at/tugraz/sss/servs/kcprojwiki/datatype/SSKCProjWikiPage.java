@@ -23,6 +23,6 @@ package at.tugraz.sss.servs.kcprojwiki.datatype;
 public class SSKCProjWikiPage {
   
   public String  title         = null;
-  public Integer projectNumber = null;
+  public String  projectNumber = null;
   
 }

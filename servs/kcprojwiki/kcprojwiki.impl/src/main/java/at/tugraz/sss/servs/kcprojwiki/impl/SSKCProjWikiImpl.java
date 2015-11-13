@@ -31,7 +31,6 @@ import at.tugraz.sss.servs.kcprojwiki.api.SSKCProjWikiClientI;
 import at.tugraz.sss.servs.kcprojwiki.api.SSKCProjWikiServerI;
 import at.tugraz.sss.servs.kcprojwiki.conf.SSKCProjWikiConf;
 import at.tugraz.sss.servs.kcprojwiki.datatype.SSKCProjWikiImportPar;
-import at.tugraz.sss.servs.kcprojwiki.datatype.SSKCProjWikiPage;
 import at.tugraz.sss.servs.kcprojwiki.datatype.SSKCProjWikiProject;
 import at.tugraz.sss.servs.kcprojwiki.datatype.SSKCProjWikiVorgang;
 import java.util.Map;
@@ -68,25 +67,25 @@ implements
       
       for(Map.Entry<String, SSKCProjWikiVorgang> vorgang : vorgaenge.entrySet()){
 
-        vorgang.getValue().title = importFct.getVorgangPageTitleByProjectNumber   (vorgang.getValue().projectNumber);
+        vorgang.getValue().title = importFct.getVorgangPageTitleByVorgangNumber   (vorgang.getValue().vorgangNumber);
         
         importFct.changeVorgangBasics    (vorgang.getValue().title);
         importFct.changeVorgangResources (vorgang.getValue().title);
       }
       
-      final Map<String, SSKCProjWikiProject> projects =
-        dataImportServ.dataImportKCProjWikiProjects(
-          new SSDataImportKCProjWikiProjectsPar(
-            par.user,
-            projWikiConf.projectsFileName));
-      
-      for(Map.Entry<String, SSKCProjWikiProject> project : projects.entrySet()){
-        
-        project.getValue().title = importFct.getProjectPageTitleByProjectNumber   (project.getValue().projectNumber); //"20143516"
-        
-        importFct.changeVorgangBasics    (project.getValue().title);
-        importFct.changeVorgangResources (project.getValue().title);
-      }
+//      final Map<String, SSKCProjWikiProject> projects =
+//        dataImportServ.dataImportKCProjWikiProjects(
+//          new SSDataImportKCProjWikiProjectsPar(
+//            par.user,
+//            projWikiConf.projectsFileName));
+//      
+//      for(Map.Entry<String, SSKCProjWikiProject> project : projects.entrySet()){
+//        
+//        project.getValue().title = importFct.getProjectPageTitleByProjectNumber   (project.getValue().projectNumber); //"20143516"
+//        
+//        importFct.changeVorgangBasics    (project.getValue().title);
+//        importFct.changeVorgangResources (project.getValue().title);
+//      }
       
       importFct.end();
       

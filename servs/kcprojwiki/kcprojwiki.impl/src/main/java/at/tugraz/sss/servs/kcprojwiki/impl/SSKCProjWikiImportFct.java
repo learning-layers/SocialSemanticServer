@@ -48,6 +48,7 @@ public class SSKCProjWikiImportFct {
   private static final String propertyCategoryProjektVorgangsebene  = "[[Category:Projekt-Vorgangsebene]]";
   private static final String propertyCategoryProjekt               = "[[Category:Projekt]]";
   private static final String propertyStartProjectNumber            = "[[Project%20Number::";
+  private static final String propertyStartVorgangNumber            = "[[Vorgang%20Number::";
   private static final String valueCookie                           = "Cookie";
   private static final String pathActionQuery                       = "api.php?action=query";
   private static final String pathActionLogin                       = "api.php?action=login";
@@ -100,7 +101,49 @@ public class SSKCProjWikiImportFct {
     this.httpclient    = HttpClients.createDefault();
   }
   
-  public String getVorgangPageTitleByProjectNumber(final Integer projectNumber) throws Exception{
+  public String getVorgangPageTitleByVorgangNumber(final String vorgangNumber) throws Exception{
+    
+    InputStream in = null;
+    
+    try{
+      
+      //      http://mint/projwiki_dieter/api.php?action=ask&q=[[Category:Projekt-Vorgangsebene]][[Project%20Number::20143516]]
+      final JSONObject json, results, ask, item, title;
+      final JSONArray items;
+        
+      final HttpGet httpget =
+        new HttpGet(
+          conf.wikiURI
+            + pathActionAsk
+            + SSStrU.ampersand + valueQ + SSStrU.equal
+            + propertyCategoryProjektVorgangsebene
+            + propertyStartVorgangNumber + vorgangNumber + SSStrU.squareBracketClose + SSStrU.squareBracketClose 
+            + SSStrU.ampersand + valueFormatJson);
+      
+      httpget.addHeader(valueCookie, sessionID);
+      
+      in       = httpclient.execute(httpget).getEntity().getContent();
+      json     = new JSONObject(SSFileU.readStreamText(in));
+      ask      = (JSONObject) json.get      (valueAsk);
+      results  = (JSONObject) ask.get       (valueResults);
+      items    = (JSONArray)  results.get   (valueItems);
+      item     = (JSONObject) items.get(0);
+      title    = (JSONObject) item.get      (valueTitle);
+      
+      return (String) title.get(valueMUrlform);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(new Exception("retrieving vorgang page title from vorgang number failed"));
+      return null;
+    }finally{
+      
+      if(in != null){
+        in.close();
+      }
+    }
+  }
+  
+  public String getVorgangPageTitleByProjectNumber(final String projectNumber) throws Exception{
     
     InputStream in = null;
     
@@ -132,7 +175,7 @@ public class SSKCProjWikiImportFct {
       return (String) title.get(valueMUrlform);
       
     }catch(Exception error){
-      SSServErrReg.regErrThrow(new Exception("retrieving page title from project number failed"));
+      SSServErrReg.regErrThrow(new Exception("retrieving vorgang title from project number failed"));
       return null;
     }finally{
       
@@ -174,7 +217,7 @@ public class SSKCProjWikiImportFct {
       return (String) title.get(valueMUrlform);
       
     }catch(Exception error){
-      SSServErrReg.regErrThrow(new Exception("retrieving page title from project number failed"));
+      SSServErrReg.regErrThrow(new Exception("retrieving project page title from project number failed"));
       return null;
     }finally{
       

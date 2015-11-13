@@ -22,9 +22,13 @@ package at.tugraz.sss.servs.kcprojwiki.datatype;
 
 public class SSKCProjWikiVorgang extends SSKCProjWikiPage{
   
+  public String vorgangNumber;
+  
   public SSKCProjWikiVorgang(
-    final Integer projectNumber){
+    final String projectNumber, 
+    final String vorgangNumber){
     
     this.projectNumber = projectNumber;
+    this.vorgangNumber = vorgangNumber;
   }
 }
