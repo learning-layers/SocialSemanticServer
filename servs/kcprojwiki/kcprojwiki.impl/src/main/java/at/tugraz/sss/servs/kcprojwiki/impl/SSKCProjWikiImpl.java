@@ -67,10 +67,10 @@ implements
       
       for(Map.Entry<String, SSKCProjWikiVorgang> vorgang : vorgaenge.entrySet()){
 
-        vorgang.getValue().title = importFct.getVorgangPageTitleByVorgangNumber   (vorgang.getValue().vorgangNumber);
+        vorgang.getValue().title = importFct.getVorgangPageTitleByVorgangNumber   (vorgang.getKey());
         
-        importFct.changeVorgangBasics    (vorgang.getValue().title);
-        importFct.changeVorgangResources (vorgang.getValue().title);
+        importFct.changeVorgangBasics            (vorgang.getValue());
+        importFct.changeVorgangEmployeeResources (vorgang.getValue());
       }
       
 //      final Map<String, SSKCProjWikiProject> projects =

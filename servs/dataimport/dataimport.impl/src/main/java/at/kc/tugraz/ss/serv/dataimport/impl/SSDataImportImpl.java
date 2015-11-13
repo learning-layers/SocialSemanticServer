@@ -72,6 +72,7 @@ import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.servs.kcprojwiki.datatype.SSKCProjWikiProject;
 import at.tugraz.sss.servs.kcprojwiki.datatype.SSKCProjWikiVorgang;
+import at.tugraz.sss.servs.kcprojwiki.datatype.SSKCProjWikiVorgangEmployeeResource;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import sss.serv.eval.api.SSEvalServerI;
 
@@ -516,20 +517,93 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
   public Map<String, SSKCProjWikiVorgang> dataImportKCProjWikiVorgaenge(final SSDataImportKCProjWikiVorgaengePar par) throws Exception{
     
     try{
-      final List<String[]>      lines;
-      final Map<String, SSKCProjWikiVorgang> passwordPerUser = new HashMap<>();
+      final Map<String, SSKCProjWikiVorgang> vorgaenge = new HashMap<>();
+      final List<String[]>                   lines;
+      String[]                               line;
+      SSKCProjWikiVorgang                    vorgang;
+      String                                 vorgangNumber;
+      String                                 projectNumber;
+      String                                 employee;
+      int                                    usedEmployeeHours;
+      int                                    totalEmployeeHours;
+      int                                    totalResources;
+      int                                    usedResources;
+      SSKCProjWikiVorgangEmployeeResource    employeeResource;
       
       lines = SSDataImportReaderFct.readAllFromCSV(SSFileU.dirWorking(), par.fileName);
       
-      for(String[] line : lines){
+//      Projekt;WP;Mitarbeiter;ZusArt ;SAnfang;SEnde;Plan-Std VG;verbrauchte Std. VG;Plan-Std. MA;Sum-h MA;
+      for(Integer lineCounter = 1; lineCounter < lines.size(); lineCounter++){
         
         try{
-          passwordPerUser.put(line[1].trim(), new SSKCProjWikiVorgang(line[1].trim(), line[2].trim()));
+        
+          line = lines.get(lineCounter);
+          
+          projectNumber      = line[0].trim();
+          vorgangNumber      = line[1].trim();
+          employee           = line[2].trim();
+          totalResources     = Integer.valueOf(line[6].trim());
+          usedResources      = Integer.valueOf(line[7].trim());
+          totalEmployeeHours = Integer.valueOf(line[8].trim());
+          usedEmployeeHours  = Integer.valueOf(line[9].trim());
+          
+          if(vorgaenge.containsKey(vorgangNumber)){
+            
+            vorgang = vorgaenge.get(vorgangNumber);
+            
+            if(!SSStrU.equals(vorgang.projectNumber, projectNumber)){
+              SSLogU.warn("line " + (lineCounter + 1) + " project number difference; wont be imported");
+              continue;
+            }
+          }else{
+            
+            vorgang = 
+              new SSKCProjWikiVorgang(
+                projectNumber,
+                vorgangNumber);
+            
+            vorgaenge.put(vorgangNumber, vorgang);
+          }
+
+          if(
+            vorgang.totalResources != null &&
+            vorgang.totalResources.compareTo(totalResources) != 0){
+           
+            SSLogU.warn("line " + (lineCounter + 1) + " total resources difference; wont be imported");
+            continue;
+          }
+          
+          if(
+            vorgang.usedResources != null &&
+            vorgang.usedResources.compareTo(usedResources) != 0){
+           
+            SSLogU.warn("line " + (lineCounter + 1) + " used resources difference; wont be imported");
+            continue;
+          }
+          
+          vorgang.totalResources = totalResources;
+          vorgang.usedResources  = usedResources;
+          employeeResource       = vorgang.employeeResources.get(employee);
+          
+          if(employeeResource != null){
+            SSLogU.warn("line " + (lineCounter + 1) + " employee resource already defined; wont be imported");
+            continue;
+          }
+          
+          vorgang.employeeResources.put(
+            employee,
+            new SSKCProjWikiVorgangEmployeeResource(
+              employee,
+              usedEmployeeHours,
+              totalEmployeeHours));
+          
+          vorgaenge.put(vorgangNumber, vorgang);
         }catch(Exception error){
+          SSLogU.warn("line " + (lineCounter + 1) + " reading from csv failed");
         }
       }
       
-      return passwordPerUser;
+      return vorgaenge;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;

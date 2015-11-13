@@ -26,9 +26,12 @@ import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.servs.kcprojwiki.conf.SSKCProjWikiConf;
+import at.tugraz.sss.servs.kcprojwiki.datatype.SSKCProjWikiVorgang;
+import at.tugraz.sss.servs.kcprojwiki.datatype.SSKCProjWikiVorgangEmployeeResource;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -49,6 +52,8 @@ public class SSKCProjWikiImportFct {
   private static final String propertyCategoryProjekt               = "[[Category:Projekt]]";
   private static final String propertyStartProjectNumber            = "[[Project%20Number::";
   private static final String propertyStartVorgangNumber            = "[[Vorgang%20Number::";
+  private static final String propertyTotalProjectResources         = "Total%20Project%20Resources";
+  private static final String propertyResourcesUsedMonthEnd         = "Resources%20Used%20Month%20End";
   private static final String valueCookie                           = "Cookie";
   private static final String pathActionQuery                       = "api.php?action=query";
   private static final String pathActionLogin                       = "api.php?action=login";
@@ -99,6 +104,128 @@ public class SSKCProjWikiImportFct {
     
     this.conf          = conf;
     this.httpclient    = HttpClients.createDefault();
+  }
+  
+  public void changeVorgangBasics(final SSKCProjWikiVorgang vorgang) throws Exception{
+    
+    InputStream in = null;
+    
+    try{
+      
+      final HttpGet httpget =
+        new HttpGet(
+          conf.wikiURI
+            + pathActionSFAutoEdit
+            + SSStrU.ampersand + valueForm                 + valueProjektVorgangsebene
+            + SSStrU.ampersand + valueTarget               + vorgang.title
+            + SSStrU.ampersand + valueProjektVorgangsebene + SSStrU.squareBracketOpen + propertyTotalProjectResources + SSStrU.squareBracketClose + SSStrU.equal + vorgang.totalResources
+            + SSStrU.ampersand + valueProjektVorgangsebene + SSStrU.squareBracketOpen + propertyResourcesUsedMonthEnd + SSStrU.squareBracketClose + SSStrU.equal + vorgang.usedResources
+          
+          //            + SSStrU.ampersand + valueProjektVorgangsebene + SSStrU.squareBracketOpen + valueChangesBMD + SSStrU.squareBracketClose + SSStrU.equal + "No"
+          
+//        + "&Projekt-Vorgangsebene[Project%20Number]="                   + "A13490adasf"
+//        + "&Projekt-Vorgangsebene[Project%20Number%20Business%20Plan]=" + "000bus"
+//        + "&Projekt-Vorgangsebene[Project%20Name]="                     + "a%20name%20for%20the%20proj"
+//        + "&Projekt-Vorgangsebene[Workpackage]="                        + "WP5"
+//        + "&Projekt-Vorgangsebene[Project%20Type]="                     + "COMET"
+//        + "&Projekt-Vorgangsebene[Project%20Type%20Detail]="            + "some%20details"
+//        + "&Projekt-Vorgangsebene[Area]="                               + "KE"
+//        + "&Projekt-Vorgangsebene[Business%20Partner]="            + "BP1,BP2"
+//        + "&Projekt-Vorgangsebene[Scientific%20Partner]="          + "SP1,SP2"
+//        + "&Projekt-Vorgangsebene[Responsible%20TL]="              + "User:Dtheiler"
+//        + "&Projekt-Vorgangsebene[Responsible%20BM]="              + "User:Dtheiler"
+//        + "&Projekt-Vorgangsebene[Responsible%20PM]="                + "User:Dtheiler"
+//        + "&Projekt-Vorgangsebene[Start%20Overall%20Project]="       + "2012/02/16%2000:15:35"
+//        + "&Projekt-Vorgangsebene[End%20Overall%20Project]="         + "2014/02/16%2000:15:35"
+//        + "&Projekt-Vorgangsebene[Export%20Date]="                   + "2014/10/16%2000:15:35"
+//        + "&Projekt-Vorgangsebene[KC%20Personnel%20Involved]="       + "User:dtheiler,%20User:sdennerlein,%20User:dkowald"
+//        + "&Projekt-Vorgangsebene[Total%20Project%20Resources]="     + "300"
+//        + "&Projekt-Vorgangsebene[Resources%20Used%20Month%20End]="    + "100"
+//        + "&Projekt-Vorgangsebene[Project%20Progress]="            + "90"
+//        + "&Projekt-Vorgangsebene[Reisekosten%20Projekt%20Budget]="  + "1500"
+//        + "&Projekt-Vorgangsebene[Reisekosten%20Verbraucht]="      + "30"
+        );
+      
+//            + "&Works%20In%20Vorgang[Employee]="                 + "Oliver%20Pimas"
+//        + "&Works%20In%20Vorgang[Spent%20Hours]="            + "111"
+//        + "&Works%20In%20Vorgang[Total%20Hours]="            + "10"
+      
+      httpget.addHeader(valueCookie, sessionID);
+      
+      in = httpclient.execute(httpget).getEntity().getContent();
+      
+      System.out.println(SSFileU.readStreamText(in));
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(new Exception("changing vorgang basics failed"));
+    }finally{
+      if(in != null){
+        in.close();
+      }
+    }
+  }
+  
+  public void changeVorgangEmployeeResources(final SSKCProjWikiVorgang vorgang) throws Exception{
+    
+    InputStream in = null;
+    
+    try{
+      final String              editToken  = getEditToken      (vorgang.title);
+      final HttpPost            httppost   = new HttpPost      (conf.wikiURI + pathActionEdit);
+      final List<NameValuePair> postPars   = new ArrayList<>();
+      String         content               = getWikiPageContent(vorgang.title);
+      Integer        firstIndex, secondIndex;
+      
+      httppost.addHeader(valueCookie, sessionID);
+
+      while(content.contains(valueWorksInVorgang)){
+        
+        firstIndex = content.indexOf(valueWorksInVorgang);
+        
+        if(firstIndex == -1){
+          continue;
+        }
+        
+        secondIndex = content.indexOf(SSStrU.curlyBracketClose + SSStrU.curlyBracketClose, firstIndex);
+        content     = content.substring(0, firstIndex) + content.substring(secondIndex + 2);
+      }
+      
+      content  = content.trim();
+      content += System.lineSeparator();
+        
+      for(SSKCProjWikiVorgangEmployeeResource employeeResource : vorgang.employeeResources.values()){
+       
+        content += 
+          valueWorksInVorgang 
+          + SSStrU.pipe
+          + employeeResource.employee 
+          + SSStrU.pipe 
+          + employeeResource.used 
+          + SSStrU.pipe 
+          + employeeResource.total
+          + SSStrU.curlyBracketClose + SSStrU.curlyBracketClose 
+          + System.lineSeparator();
+      }
+      
+      content = content.trim();
+      
+      postPars.add(new BasicNameValuePair(valueTitle, vorgang.title));
+      postPars.add(new BasicNameValuePair(valueText,  content));
+      postPars.add(new BasicNameValuePair(valueToken, editToken));
+      
+      httppost.setEntity(new UrlEncodedFormEntity(postPars));
+      
+      in = httpclient.execute(httppost).getEntity().getContent();
+      
+      System.out.println(SSFileU.readStreamText(in));
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(new Exception("changing vorgang resources failed"));
+    }finally{
+      if(in != null){
+        in.close();
+      }
+    }
   }
   
   public String getVorgangPageTitleByVorgangNumber(final String vorgangNumber) throws Exception{
@@ -221,105 +348,6 @@ public class SSKCProjWikiImportFct {
       return null;
     }finally{
       
-      if(in != null){
-        in.close();
-      }
-    }
-  }
-   
-  public void changeVorgangResources(final String title) throws Exception{
-    
-    InputStream in = null;
-    
-    try{
-      final String              editToken  = getEditToken      (title);
-      final HttpPost            httppost   = new HttpPost      (conf.wikiURI + pathActionEdit);
-      final List<NameValuePair> postPars   = new ArrayList<>();
-      String         content               = getWikiPageContent(title);
-      Integer        firstIndex, secondIndex;
-      
-      httppost.addHeader(valueCookie, sessionID);
-      
-      while(content.contains(valueWorksInVorgang)){
-        
-        firstIndex = content.indexOf(valueWorksInVorgang);
-        
-        if(firstIndex == -1){
-          continue;
-        }
-        
-        secondIndex = content.indexOf(SSStrU.curlyBracketClose + SSStrU.curlyBracketClose, firstIndex);
-        content     = content.substring(0, firstIndex) + content.substring(secondIndex + 2);
-      }
-      
-      postPars.add(new BasicNameValuePair(valueTitle, title));
-      postPars.add(new BasicNameValuePair(valueText,  content));
-      postPars.add(new BasicNameValuePair(valueToken, editToken));
-      
-      httppost.setEntity(new UrlEncodedFormEntity(postPars));
-      
-      in = httpclient.execute(httppost).getEntity().getContent();
-      
-      System.out.println(SSFileU.readStreamText(in));
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(new Exception("changing vorgang resources failed"));
-    }finally{
-      if(in != null){
-        in.close();
-      }
-    }
-  }
-  
-  public void changeVorgangBasics(final String title) throws Exception{
-    
-    InputStream in = null;
-    
-    try{
-      
-      final HttpGet httpget =
-        new HttpGet(
-          conf.wikiURI
-            + pathActionSFAutoEdit
-            + SSStrU.ampersand + valueForm                 + valueProjektVorgangsebene
-            + SSStrU.ampersand + valueTarget               + title
-            + SSStrU.ampersand + valueProjektVorgangsebene + SSStrU.squareBracketOpen + valueChangesBMD + SSStrU.squareBracketClose + SSStrU.equal + "No"
-//        + "&Projekt-Vorgangsebene[Project%20Number]="                   + "A13490adasf"
-//        + "&Projekt-Vorgangsebene[Project%20Number%20Business%20Plan]=" + "000bus"
-//        + "&Projekt-Vorgangsebene[Project%20Name]="                     + "a%20name%20for%20the%20proj"
-//        + "&Projekt-Vorgangsebene[Workpackage]="                        + "WP5"
-//        + "&Projekt-Vorgangsebene[Project%20Type]="                     + "COMET"
-//        + "&Projekt-Vorgangsebene[Project%20Type%20Detail]="            + "some%20details"
-//        + "&Projekt-Vorgangsebene[Area]="                               + "KE"
-//        + "&Projekt-Vorgangsebene[Business%20Partner]="            + "BP1,BP2"
-//        + "&Projekt-Vorgangsebene[Scientific%20Partner]="          + "SP1,SP2"
-//        + "&Projekt-Vorgangsebene[Responsible%20TL]="              + "User:Dtheiler"
-//        + "&Projekt-Vorgangsebene[Responsible%20BM]="              + "User:Dtheiler"
-//        + "&Projekt-Vorgangsebene[Responsible%20PM]="                + "User:Dtheiler"
-//        + "&Projekt-Vorgangsebene[Start%20Overall%20Project]="       + "2012/02/16%2000:15:35"
-//        + "&Projekt-Vorgangsebene[End%20Overall%20Project]="         + "2014/02/16%2000:15:35"
-//        + "&Projekt-Vorgangsebene[Export%20Date]="                   + "2014/10/16%2000:15:35"
-//        + "&Projekt-Vorgangsebene[KC%20Personnel%20Involved]="       + "User:dtheiler,%20User:sdennerlein,%20User:dkowald"
-//        + "&Projekt-Vorgangsebene[Total%20Project%20Resources]="     + "300"
-//        + "&Projekt-Vorgangsebene[Resources%20Used%20Month%20End]="    + "100"
-//        + "&Projekt-Vorgangsebene[Project%20Progress]="            + "90"
-//        + "&Projekt-Vorgangsebene[Reisekosten%20Projekt%20Budget]="  + "1500"
-//        + "&Projekt-Vorgangsebene[Reisekosten%20Verbraucht]="      + "30"
-        );
-      
-//            + "&Works%20In%20Vorgang[Employee]="                 + "Oliver%20Pimas"
-//        + "&Works%20In%20Vorgang[Spent%20Hours]="            + "111"
-//        + "&Works%20In%20Vorgang[Total%20Hours]="            + "10"
-      
-      httpget.addHeader(valueCookie, sessionID);
-      
-      in = httpclient.execute(httpget).getEntity().getContent();
-      
-      System.out.println(SSFileU.readStreamText(in));
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(new Exception("changing vorgang basics failed"));
-    }finally{
       if(in != null){
         in.close();
       }

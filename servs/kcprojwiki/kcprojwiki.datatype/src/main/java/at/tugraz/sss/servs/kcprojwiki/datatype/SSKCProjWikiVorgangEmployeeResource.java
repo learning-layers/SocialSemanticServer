@@ -20,21 +20,20 @@
 */
 package at.tugraz.sss.servs.kcprojwiki.datatype;
 
-import java.util.HashMap;
-import java.util.Map;
+public class SSKCProjWikiVorgangEmployeeResource {
 
-public class SSKCProjWikiVorgang extends SSKCProjWikiPage{
+  public String  employee;
+  public Integer used;
+  public Integer total;
   
-  public String                                           vorgangNumber     = null;
-  public Integer                                          totalResources    = null;
-  public Integer                                          usedResources     = null;
-  public Map<String, SSKCProjWikiVorgangEmployeeResource> employeeResources = new HashMap<>();
-  
-  public SSKCProjWikiVorgang(
-    final String projectNumber, 
-    final String vorgangNumber){
+  public SSKCProjWikiVorgangEmployeeResource(
+    final String  employee,
+    final Integer used,
+    final Integer total){
     
-    this.projectNumber = projectNumber;
-    this.vorgangNumber = vorgangNumber;
+    this.employee = employee;
+    this.used     = used;
+    this.total    = total;
   }
 }
+

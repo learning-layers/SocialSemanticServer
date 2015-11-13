@@ -114,12 +114,6 @@ recomm: #files have to be provided in sss's_working_dir/data/csv/
   recommTagsUsersToSetRealmsFromCircles: #provide user's emails
     #- userEmail1
     #- userEmail2
-#log:
-#  use: false
-#fileSysLocal:
-#  use: false
-#lomExtractor:
-#  use: false
 evernote:
   use: true
   companyName: TU Graz

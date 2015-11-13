@@ -522,3 +522,5 @@ org.eclipse.wst.jsdt.ui.superType.name
 /sss/src/main/resources/script/docker/solr/data/index/write.lock
 /sss/sss.log.1
 /sss/sss.conf_pjotr.yaml
+/sss/vorgaenge.csv
+/sss/vorgaenge.xlsx
