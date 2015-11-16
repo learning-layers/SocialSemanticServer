@@ -24,7 +24,6 @@ import at.tugraz.sss.serv.SSEncodingU;
 import at.tugraz.sss.serv.SSFileU;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSStrU;
-
 import au.com.bytecode.opencsv.CSVReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -35,16 +34,13 @@ import java.util.List;
 public class SSDataImportReaderFct {
 
   public static List<String[]> readAllFromCSV(
-    final String path,
-    final String fileName) throws Exception{
+    final String filePath) throws Exception{
     
     FileInputStream                    in          = null;
     InputStreamReader                  reader      = null;
     CSVReader                          csvReader   = null;
     
     try{
-      
-      final String filePath = SSFileU.correctDirPath(path) + fileName;
       
       try{
         in = SSFileU.openFileForRead (filePath);
@@ -73,6 +69,18 @@ public class SSDataImportReaderFct {
       if(csvReader != null){
         csvReader.close();
       }
+    }
+  }
+    
+  public static List<String[]> readAllFromCSV(
+    final String path,
+    final String fileName) throws Exception{
+    
+    try{
+      return readAllFromCSV(SSFileU.correctDirPath(path) + fileName);
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
 }

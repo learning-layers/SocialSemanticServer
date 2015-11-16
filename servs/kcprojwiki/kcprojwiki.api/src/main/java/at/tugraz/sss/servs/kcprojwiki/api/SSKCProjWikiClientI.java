@@ -20,6 +20,7 @@
 */
 package at.tugraz.sss.servs.kcprojwiki.api;
 
+
 public interface SSKCProjWikiClientI {
   
 }

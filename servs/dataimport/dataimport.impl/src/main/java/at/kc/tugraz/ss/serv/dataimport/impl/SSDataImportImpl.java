@@ -530,7 +530,7 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
       Float                                  usedResources;
       SSKCProjWikiVorgangEmployeeResource    employeeResource;
       
-      lines = SSDataImportReaderFct.readAllFromCSV(SSFileU.dirWorking(), par.fileName);
+      lines = SSDataImportReaderFct.readAllFromCSV(par.filePath);
       
 //      Projekt;WP;Mitarbeiter;ZusArt ;SAnfang;SEnde;Plan-Std VG;verbrauchte Std. VG;Plan-Std. MA;Sum-h MA;
       for(Integer lineCounter = 1; lineCounter < lines.size(); lineCounter++){

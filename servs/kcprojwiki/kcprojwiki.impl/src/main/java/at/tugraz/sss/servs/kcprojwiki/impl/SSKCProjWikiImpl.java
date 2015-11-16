@@ -21,19 +21,16 @@
 package at.tugraz.sss.servs.kcprojwiki.impl;
 
 import at.kc.tugraz.ss.serv.dataimport.api.SSDataImportServerI;
-import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportKCProjWikiProjectsPar;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportKCProjWikiVorgaengePar;
 import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.SSServReg;
-import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.servs.kcprojwiki.api.SSKCProjWikiClientI;
 import at.tugraz.sss.servs.kcprojwiki.api.SSKCProjWikiServerI;
 import at.tugraz.sss.servs.kcprojwiki.conf.SSKCProjWikiConf;
 import at.tugraz.sss.servs.kcprojwiki.datatype.SSKCProjWikiImportPar;
-import at.tugraz.sss.servs.kcprojwiki.datatype.SSKCProjWikiProject;
 import at.tugraz.sss.servs.kcprojwiki.datatype.SSKCProjWikiVorgang;
 import java.util.Map;
 
@@ -63,7 +60,7 @@ implements
         dataImportServ.dataImportKCProjWikiVorgaenge(
           new SSDataImportKCProjWikiVorgaengePar(
             par.user,
-            projWikiConf.vorgaengeFileName));
+            projWikiConf.vorgaengeFilePath));
       
       SSLogU.info("start vorgaenge update");
       

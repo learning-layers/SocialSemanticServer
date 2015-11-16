@@ -26,16 +26,16 @@ import at.tugraz.sss.serv.SSUri;
 
 public class SSDataImportKCProjWikiVorgaengePar extends SSServPar{
 
-  public String fileName = null;
+  public String filePath = null;
   
   public SSDataImportKCProjWikiVorgaengePar(){}
   
   public SSDataImportKCProjWikiVorgaengePar(
     final SSUri   user,
-    final String  fileName){
+    final String  filePath){
     
     super(SSServOpE.dataImportKCProjWikiVorgaenge, null, user);
     
-    this.fileName = fileName;
+    this.filePath = filePath;
   }
 }
