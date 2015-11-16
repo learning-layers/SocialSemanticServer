@@ -26,8 +26,8 @@ import java.util.Map;
 public class SSKCProjWikiVorgang extends SSKCProjWikiPage{
   
   public String                                           vorgangNumber     = null;
-  public Integer                                          totalResources    = null;
-  public Integer                                          usedResources     = null;
+  public Float                                            totalResources    = null;
+  public Float                                            usedResources     = null;
   public Map<String, SSKCProjWikiVorgangEmployeeResource> employeeResources = new HashMap<>();
   
   public SSKCProjWikiVorgang(

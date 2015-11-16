@@ -23,13 +23,13 @@ package at.tugraz.sss.servs.kcprojwiki.datatype;
 public class SSKCProjWikiVorgangEmployeeResource {
 
   public String  employee;
-  public Integer used;
-  public Integer total;
+  public Float   used;
+  public Float   total;
   
   public SSKCProjWikiVorgangEmployeeResource(
     final String  employee,
-    final Integer used,
-    final Integer total){
+    final Float   used,
+    final Float   total){
     
     this.employee = employee;
     this.used     = used;

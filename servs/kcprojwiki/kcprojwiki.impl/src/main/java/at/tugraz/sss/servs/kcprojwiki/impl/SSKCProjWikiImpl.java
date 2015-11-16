@@ -24,9 +24,11 @@ import at.kc.tugraz.ss.serv.dataimport.api.SSDataImportServerI;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportKCProjWikiProjectsPar;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportKCProjWikiVorgaengePar;
 import at.tugraz.sss.serv.SSConfA;
+import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.SSServReg;
+import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.servs.kcprojwiki.api.SSKCProjWikiClientI;
 import at.tugraz.sss.servs.kcprojwiki.api.SSKCProjWikiServerI;
 import at.tugraz.sss.servs.kcprojwiki.conf.SSKCProjWikiConf;
@@ -63,16 +65,48 @@ implements
             par.user,
             projWikiConf.vorgaengeFileName));
       
+      SSLogU.info("start vorgaenge update");
+      
       importFct.start();
       
-      for(Map.Entry<String, SSKCProjWikiVorgang> vorgang : vorgaenge.entrySet()){
-
-        vorgang.getValue().title = importFct.getVorgangPageTitleByVorgangNumber   (vorgang.getKey());
+      SSKCProjWikiVorgang vorgang = null;
+      
+      try{
         
-        importFct.changeVorgangBasics            (vorgang.getValue());
-        importFct.changeVorgangEmployeeResources (vorgang.getValue());
+        for(Map.Entry<String, SSKCProjWikiVorgang> vorgangEntry : vorgaenge.entrySet()){
+          
+          vorgang       = vorgangEntry.getValue();
+          vorgang.title = importFct.getVorgangPageTitleByVorgangNumber   (vorgang.vorgangNumber);
+          
+          if(vorgang.title == null){
+            continue;
+          }
+          
+          importFct.updateVorgangBasics            (vorgang);
+          importFct.updateVorgangEmployeeResources (vorgang);
+        }
+        
+      }catch(Exception error){
+        
+        SSServErrReg.reset();
+        
+        if(vorgang != null){
+          SSLogU.warn("import for vorgang (" + vorgang.title + ", " + vorgang.vorgangNumber + ") failed");
+        }else{
+          SSLogU.warn("import for unknown vorgang failed");
+        }
       }
       
+      importFct.end();
+      
+      SSLogU.info("end vorgaenge update");
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+}
+
 //      final Map<String, SSKCProjWikiProject> projects =
 //        dataImportServ.dataImportKCProjWikiProjects(
 //          new SSDataImportKCProjWikiProjectsPar(
@@ -86,11 +120,3 @@ implements
 //        importFct.changeVorgangBasics    (project.getValue().title);
 //        importFct.changeVorgangResources (project.getValue().title);
 //      }
-      
-      importFct.end();
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-}

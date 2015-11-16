@@ -31,7 +31,6 @@ import at.tugraz.sss.servs.kcprojwiki.datatype.SSKCProjWikiVorgangEmployeeResour
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -94,6 +93,9 @@ public class SSKCProjWikiImportFct {
   private static final String valueEdit                             = "edit";
   private static final String valueInfo                             = "info";
   private static final String valueQ                                = "q";
+  private static final String valueResult                           = "result";
+  private static final String valueSuccess                          = "Success";
+  private static final String valueCode                             = "code";
   
   private final SSKCProjWikiConf conf;
   private final HttpClient       httpclient;
@@ -106,13 +108,12 @@ public class SSKCProjWikiImportFct {
     this.httpclient    = HttpClients.createDefault();
   }
   
-  public void changeVorgangBasics(final SSKCProjWikiVorgang vorgang) throws Exception{
-    
-    InputStream in = null;
+  public void updateVorgangBasics(final SSKCProjWikiVorgang vorgang) throws Exception{
     
     try{
       
-      final HttpGet httpget =
+      final HttpResponse response;
+      final HttpGet      httpGet =
         new HttpGet(
           conf.wikiURI
             + pathActionSFAutoEdit
@@ -120,6 +121,7 @@ public class SSKCProjWikiImportFct {
             + SSStrU.ampersand + valueTarget               + vorgang.title
             + SSStrU.ampersand + valueProjektVorgangsebene + SSStrU.squareBracketOpen + propertyTotalProjectResources + SSStrU.squareBracketClose + SSStrU.equal + vorgang.totalResources
             + SSStrU.ampersand + valueProjektVorgangsebene + SSStrU.squareBracketOpen + propertyResourcesUsedMonthEnd + SSStrU.squareBracketClose + SSStrU.equal + vorgang.usedResources
+            + SSStrU.ampersand + valueFormatJson 
           
           //            + SSStrU.ampersand + valueProjektVorgangsebene + SSStrU.squareBracketOpen + valueChangesBMD + SSStrU.squareBracketClose + SSStrU.equal + "No"
           
@@ -130,101 +132,76 @@ public class SSKCProjWikiImportFct {
 //        + "&Projekt-Vorgangsebene[Project%20Type]="                     + "COMET"
 //        + "&Projekt-Vorgangsebene[Project%20Type%20Detail]="            + "some%20details"
 //        + "&Projekt-Vorgangsebene[Area]="                               + "KE"
-//        + "&Projekt-Vorgangsebene[Business%20Partner]="            + "BP1,BP2"
-//        + "&Projekt-Vorgangsebene[Scientific%20Partner]="          + "SP1,SP2"
-//        + "&Projekt-Vorgangsebene[Responsible%20TL]="              + "User:Dtheiler"
-//        + "&Projekt-Vorgangsebene[Responsible%20BM]="              + "User:Dtheiler"
-//        + "&Projekt-Vorgangsebene[Responsible%20PM]="                + "User:Dtheiler"
-//        + "&Projekt-Vorgangsebene[Start%20Overall%20Project]="       + "2012/02/16%2000:15:35"
-//        + "&Projekt-Vorgangsebene[End%20Overall%20Project]="         + "2014/02/16%2000:15:35"
-//        + "&Projekt-Vorgangsebene[Export%20Date]="                   + "2014/10/16%2000:15:35"
-//        + "&Projekt-Vorgangsebene[KC%20Personnel%20Involved]="       + "User:dtheiler,%20User:sdennerlein,%20User:dkowald"
-//        + "&Projekt-Vorgangsebene[Total%20Project%20Resources]="     + "300"
-//        + "&Projekt-Vorgangsebene[Resources%20Used%20Month%20End]="    + "100"
-//        + "&Projekt-Vorgangsebene[Project%20Progress]="            + "90"
-//        + "&Projekt-Vorgangsebene[Reisekosten%20Projekt%20Budget]="  + "1500"
-//        + "&Projekt-Vorgangsebene[Reisekosten%20Verbraucht]="      + "30"
+//        + "&Projekt-Vorgangsebene[Business%20Partner]="                 + "BP1,BP2"
+//        + "&Projekt-Vorgangsebene[Scientific%20Partner]="               + "SP1,SP2"
+//        + "&Projekt-Vorgangsebene[Responsible%20TL]="                   + "User:Dtheiler"
+//        + "&Projekt-Vorgangsebene[Responsible%20BM]="                   + "User:Dtheiler"
+//        + "&Projekt-Vorgangsebene[Responsible%20PM]="                   + "User:Dtheiler"
+//        + "&Projekt-Vorgangsebene[Start%20Overall%20Project]="          + "2012/02/16%2000:15:35"
+//        + "&Projekt-Vorgangsebene[End%20Overall%20Project]="            + "2014/02/16%2000:15:35"
+//        + "&Projekt-Vorgangsebene[Export%20Date]="                      + "2014/10/16%2000:15:35"
+//        + "&Projekt-Vorgangsebene[KC%20Personnel%20Involved]="          + "User:dtheiler,%20User:sdennerlein,%20User:dkowald"
+//        + "&Projekt-Vorgangsebene[Total%20Project%20Resources]="        + "300"
+//        + "&Projekt-Vorgangsebene[Resources%20Used%20Month%20End]="     + "100"
+//        + "&Projekt-Vorgangsebene[Project%20Progress]="                 + "90"
+//        + "&Projekt-Vorgangsebene[Reisekosten%20Projekt%20Budget]="     + "1500"
+//        + "&Projekt-Vorgangsebene[Reisekosten%20Verbraucht]="           + "30"
         );
       
-//            + "&Works%20In%20Vorgang[Employee]="                 + "Oliver%20Pimas"
-//        + "&Works%20In%20Vorgang[Spent%20Hours]="            + "111"
-//        + "&Works%20In%20Vorgang[Total%20Hours]="            + "10"
+      httpGet.addHeader(valueCookie, sessionID);
       
-      httpget.addHeader(valueCookie, sessionID);
-      
-      in = httpclient.execute(httpget).getEntity().getContent();
-      
-      System.out.println(SSFileU.readStreamText(in));
+      response = httpclient.execute(httpGet);
+
+      parseUpdateResponse(response, vorgang);
       
     }catch(Exception error){
-      SSServErrReg.regErrThrow(new Exception("changing vorgang basics failed"));
-    }finally{
-      if(in != null){
-        in.close();
-      }
+      SSServErrReg.regErrThrow(new Exception("updating vorgang basics failed"));
     }
   }
   
-  public void changeVorgangEmployeeResources(final SSKCProjWikiVorgang vorgang) throws Exception{
-    
-    InputStream in = null;
+  public void updateVorgangEmployeeResources(final SSKCProjWikiVorgang vorgang) throws Exception{
     
     try{
-      final String              editToken  = getEditToken      (vorgang.title);
-      final HttpPost            httppost   = new HttpPost      (conf.wikiURI + pathActionEdit);
-      final List<NameValuePair> postPars   = new ArrayList<>();
-      String         content               = getWikiPageContent(vorgang.title);
-      Integer        firstIndex, secondIndex;
+      final String              editToken             = getWikiPageEditToken      (vorgang.title);
+      final String              vorgangPageContent    = getWikiPageContent(vorgang.title);
+      final List<NameValuePair> postPars              = new ArrayList<>();
+      final HttpResponse        response;
+      final HttpPost            httpPost              = 
+        new HttpPost(
+          conf.wikiURI 
+            + pathActionEdit 
+            + SSStrU.ampersand + valueFormatJson);
       
-      httppost.addHeader(valueCookie, sessionID);
-
-      while(content.contains(valueWorksInVorgang)){
-        
-        firstIndex = content.indexOf(valueWorksInVorgang);
-        
-        if(firstIndex == -1){
-          continue;
-        }
-        
-        secondIndex = content.indexOf(SSStrU.curlyBracketClose + SSStrU.curlyBracketClose, firstIndex);
-        content     = content.substring(0, firstIndex) + content.substring(secondIndex + 2);
-      }
+      String content = removeEmployeeResourcesFromVorgangContent(vorgangPageContent) + System.lineSeparator();
       
-      content  = content.trim();
-      content += System.lineSeparator();
+      httpPost.addHeader(valueCookie, sessionID);
         
       for(SSKCProjWikiVorgangEmployeeResource employeeResource : vorgang.employeeResources.values()){
        
         content += 
           valueWorksInVorgang 
           + SSStrU.pipe
-          + employeeResource.employee 
+          + employeeResource.employee
           + SSStrU.pipe 
-          + employeeResource.used 
+          + employeeResource.used.toString()
           + SSStrU.pipe 
-          + employeeResource.total
+          + employeeResource.total.toString()
           + SSStrU.curlyBracketClose + SSStrU.curlyBracketClose 
           + System.lineSeparator();
       }
       
-      content = content.trim();
-      
       postPars.add(new BasicNameValuePair(valueTitle, vorgang.title));
-      postPars.add(new BasicNameValuePair(valueText,  content));
+      postPars.add(new BasicNameValuePair(valueText,  content.trim()));
       postPars.add(new BasicNameValuePair(valueToken, editToken));
       
-      httppost.setEntity(new UrlEncodedFormEntity(postPars));
+      httpPost.setEntity(new UrlEncodedFormEntity(postPars));
       
-      in = httpclient.execute(httppost).getEntity().getContent();
+      response = httpclient.execute(httpPost);
       
-      System.out.println(SSFileU.readStreamText(in));
+      parseUpdateResponse(response, vorgang);
       
     }catch(Exception error){
-      SSServErrReg.regErrThrow(new Exception("changing vorgang resources failed"));
-    }finally{
-      if(in != null){
-        in.close();
-      }
+      SSServErrReg.regErrThrow(new Exception("updating vorgang employee resources failed"));
     }
   }
   
@@ -252,7 +229,14 @@ public class SSKCProjWikiImportFct {
       in       = httpclient.execute(httpget).getEntity().getContent();
       json     = new JSONObject(SSFileU.readStreamText(in));
       ask      = (JSONObject) json.get      (valueAsk);
-      results  = (JSONObject) ask.get       (valueResults);
+      
+      try{
+        results  = (JSONObject) ask.get       (valueResults);
+      }catch(Exception error){
+        SSLogU.warn("vorgang for vorgang number " + vorgangNumber + " not available; vorgang wont be imported");
+        return null;
+      }
+      
       items    = (JSONArray)  results.get   (valueItems);
       item     = (JSONObject) items.get(0);
       title    = (JSONObject) item.get      (valueTitle);
@@ -449,9 +433,14 @@ public class SSKCProjWikiImportFct {
       httpget.addHeader(valueCookie, sessionID);
       
       final HttpResponse response   = httpclient.execute(httpget);
-      final JSONObject   json, query, pages, firstPage;
-      final JSONArray    revisions, pageids;
-      final String       content, pageID;
+      final JSONObject   json;
+      final JSONObject   query;
+      final JSONObject   pages;
+      final JSONObject   firstPage;
+      final JSONArray    revisions;
+      final JSONArray    pageids;
+      final String       content;
+      final String       pageID;
       
       in        = response.getEntity().getContent();
       json      = new JSONObject(SSFileU.readStreamText(in));
@@ -474,7 +463,7 @@ public class SSKCProjWikiImportFct {
     }
   }
   
-  private String getEditToken(final String title) throws Exception{
+  private String getWikiPageEditToken(final String title) throws Exception{
     
     InputStream in = null;
     
@@ -482,7 +471,7 @@ public class SSKCProjWikiImportFct {
       
       final HttpGet httpget =
         new HttpGet(
-          conf.wikiURI 
+          conf.wikiURI
             + pathActionQuery
             + SSStrU.ampersand + valueIndexPageIds
             + SSStrU.ampersand + valueProp    + SSStrU.equal + valueInfo
@@ -493,10 +482,13 @@ public class SSKCProjWikiImportFct {
       
       final HttpResponse response   = httpclient.execute(httpget);
       final HttpEntity   entity     = response.getEntity();
-      JSONObject json, query, pages, firstPage;
-      JSONArray pageids;
-      String pageID;
-        
+      final JSONObject   json;
+      final JSONObject   query;
+      final JSONObject   pages;
+      final JSONObject   firstPage;
+      final JSONArray    pageids;
+      final String       pageID;
+      
       in        = entity.getContent();
       json      = new JSONObject(SSFileU.readStreamText(in));
       query     = (JSONObject) json.get(valueQuery);
@@ -565,6 +557,77 @@ public class SSKCProjWikiImportFct {
     }catch(Exception error){
       SSServErrReg.regErrThrow(new Exception("second login failed"));
       return null;
+    }
+  }
+
+  private String removeEmployeeResourcesFromVorgangContent(
+    final String content) throws Exception{
+    
+    try{
+      String                    result = content;
+      Integer                   firstIndex;
+      Integer                   secondIndex;
+      
+      while(result.contains(valueWorksInVorgang)){
+        
+        firstIndex = result.indexOf(valueWorksInVorgang);
+        
+        if(firstIndex == -1){
+          continue;
+        }
+        
+        secondIndex = result.indexOf(SSStrU.curlyBracketClose + SSStrU.curlyBracketClose, firstIndex);
+        result      = result.substring(0, firstIndex) + result.substring(secondIndex + 2);
+      }
+      
+      return result.trim();
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(new Exception("second login failed"));
+      return null;
+    }
+  }
+  
+  private void parseUpdateResponse(
+    final HttpResponse            response,
+    final SSKCProjWikiVorgang     vorgang) throws Exception{
+    
+    InputStream in = null;
+    
+    try{
+      
+      JSONObject  json;
+      JSONObject  edit;
+      String      strResult;
+
+      in     = response.getEntity().getContent();
+      json   = new JSONObject(SSFileU.readStreamText(in));
+      
+      try{
+        edit = (JSONObject)             json.get          (valueEdit);
+      }catch(Exception error){
+        
+        JSONObject  jsonResult = (JSONObject)             json.get          (valueResult);
+        Integer     code       = Integer.valueOf((String) jsonResult.get    (valueCode));
+        
+        if(code.compareTo(200) != 0){
+          SSLogU.warn("vorgang import for " + vorgang.title + ", " + vorgang.vorgangNumber + " failed with http code " + code);
+        }
+        
+        return;
+      }
+      
+      strResult = (String) edit.get          (valueResult);
+      
+      if(!SSStrU.equals(strResult, valueSuccess)){
+        SSLogU.warn("vorgang import for " + vorgang.title + ", " + vorgang.vorgangNumber + " failed with result value " + strResult);
+      }
+
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(new Exception("parsing update response failed"));
+    }finally{
+      if(in != null){
+        in.close();
+      }
     }
   }
 }

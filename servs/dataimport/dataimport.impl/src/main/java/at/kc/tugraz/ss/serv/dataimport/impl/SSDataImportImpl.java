@@ -524,10 +524,10 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
       String                                 vorgangNumber;
       String                                 projectNumber;
       String                                 employee;
-      int                                    usedEmployeeHours;
-      int                                    totalEmployeeHours;
-      int                                    totalResources;
-      int                                    usedResources;
+      Float                                  usedEmployeeHours;
+      Float                                  totalEmployeeHours;
+      Float                                  totalResources;
+      Float                                  usedResources;
       SSKCProjWikiVorgangEmployeeResource    employeeResource;
       
       lines = SSDataImportReaderFct.readAllFromCSV(SSFileU.dirWorking(), par.fileName);
@@ -542,10 +542,10 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
           projectNumber      = line[0].trim();
           vorgangNumber      = line[1].trim();
           employee           = line[2].trim();
-          totalResources     = Integer.valueOf(line[6].trim());
-          usedResources      = Integer.valueOf(line[7].trim());
-          totalEmployeeHours = Integer.valueOf(line[8].trim());
-          usedEmployeeHours  = Integer.valueOf(line[9].trim());
+          totalResources     = Float.valueOf(SSStrU.replaceAll(line[6].trim(), SSStrU.comma, SSStrU.dot));
+          usedResources      = Float.valueOf(SSStrU.replaceAll(line[7].trim(), SSStrU.comma, SSStrU.dot));
+          totalEmployeeHours = Float.valueOf(SSStrU.replaceAll(line[8].trim(), SSStrU.comma, SSStrU.dot));
+          usedEmployeeHours  = Float.valueOf(SSStrU.replaceAll(line[9].trim(), SSStrU.comma, SSStrU.dot));
           
           if(vorgaenge.containsKey(vorgangNumber)){
             
