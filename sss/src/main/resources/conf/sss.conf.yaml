@@ -13,7 +13,7 @@ dbSQL: !!at.tugraz.sss.serv.SSDBSQLConf
   password: SSS_MYSQL_PASSWORD
   schema: SSS_MYSQL_SCHEME
 dbNoSQL: !!at.tugraz.sss.serv.SSDBNoSQLConf
-  uri: 
+  uri: SSS_SOLR_HOST
   username: 
   password: 
 voc:
@@ -104,8 +104,9 @@ recomm: #files have to be provided in sss's_working_dir/data/csv/
     #- circle1:BLL
     #- circle2:BLLacMPr
   recommTagsRandomAlgos:
-    #- BLLcoll
-    #- THREELcoll
+    - BLLcoll
+    - THREELcoll
+    - MP
   recommTagsUserPerRealm:
     #- circle1:userEmail1
     #- circle1:userEmail2
@@ -121,18 +122,20 @@ evernote:
   appVersion: 1.0
   evernoteEnvironment: production #sandbox, production
   authTokens:
+    - SSS_EVERNOTE_TEST_AUTH_TOKEN
   authEmails: 
+    - SSS_EVERNOTE_TEST_EMAIL
   emailInUsers:
   emailInPasswords:
   emailInEmails:
 dataImport:
   use: true
-  schedule: false
-  executeScheduleAtStartUp: false
+  schedule: true
+  executeScheduleAtStartUp: true
   scheduleOps:
     - dataImportBitsAndPieces #dataImportBitsAndPieces 
   scheduleIntervals:
-    - 60
+    - 10
   fileName: #ssRecommLanguageModelData.txt #file has to be provided in in SSS/ss/src/main/resources/data/csv/ or to be written in sss's_working_dir/data/csv/
 activity:
   use: true
@@ -183,13 +186,13 @@ location:
 livingDocument:
   use: true
 mail:
-  use: true
+  use: false
   sendProvider:
   sendUserName:
   sendPassword:
   receiveProvider:
 kcprojwiki:
-  use: true  
+  use: false  
   wikiURI: 
   userName: 
   password: 
@@ -201,4 +204,4 @@ kcprojwiki:
   scheduleOps:
     #- kcprojwikiImport
   scheduleIntervals:
-    #- 0    
+    #- 0
