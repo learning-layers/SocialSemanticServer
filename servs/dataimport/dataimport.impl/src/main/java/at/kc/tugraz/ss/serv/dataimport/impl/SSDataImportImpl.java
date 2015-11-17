@@ -540,12 +540,12 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
           line = lines.get(lineCounter);
           
           projectNumber      = line[0].trim();
-          vorgangNumber      = line[1].trim();
-          employee           = line[2].trim();
-          totalResources     = Float.valueOf(SSStrU.replaceAll(line[6].trim(), SSStrU.comma, SSStrU.dot));
-          usedResources      = Float.valueOf(SSStrU.replaceAll(line[7].trim(), SSStrU.comma, SSStrU.dot));
-          totalEmployeeHours = Float.valueOf(SSStrU.replaceAll(line[8].trim(), SSStrU.comma, SSStrU.dot));
-          usedEmployeeHours  = Float.valueOf(SSStrU.replaceAll(line[9].trim(), SSStrU.comma, SSStrU.dot));
+          vorgangNumber      = line[2].trim();
+          employee           = line[4].trim();
+          totalResources     = Float.valueOf(SSStrU.replaceAll(line[9].trim(), SSStrU.comma, SSStrU.dot));
+          usedResources      = Float.valueOf(SSStrU.replaceAll(line[10].trim(), SSStrU.comma, SSStrU.dot));
+          totalEmployeeHours = Float.valueOf(SSStrU.replaceAll(line[11].trim(), SSStrU.comma, SSStrU.dot));
+          usedEmployeeHours  = Float.valueOf(SSStrU.replaceAll(line[12].trim(), SSStrU.comma, SSStrU.dot));
           
           if(vorgaenge.containsKey(vorgangNumber)){
             
