@@ -23,6 +23,7 @@ package at.kc.tugraz.sss.video.impl;
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesAddPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityGetPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUpdatePar;
 import at.kc.tugraz.ss.service.filerepo.api.SSFileRepoServerI;
@@ -81,7 +82,7 @@ implements
   SSPushEntitiesToUsersI,
   SSAddAffiliatedEntitiesToCircleI{
   
-  private final SSVideoSQLFct     sqlFct;
+  private final SSVideoSQLFct     sql;
   private final SSEntityServerI   entityServ;
   private final SSCircleServerI   circleServ;
   private final SSLocationServerI locationServ;
@@ -90,7 +91,7 @@ implements
 
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
 
-    this.sqlFct       = new SSVideoSQLFct(dbSQL);
+    this.sql          = new SSVideoSQLFct(dbSQL, SSVocConf.systemUserUri);
     this.entityServ   = (SSEntityServerI)   SSServReg.getServ(SSEntityServerI.class);
     this.circleServ   = (SSCircleServerI)   SSServReg.getServ(SSCircleServerI.class);
     this.locationServ = (SSLocationServerI) SSServReg.getServ(SSLocationServerI.class);
@@ -191,7 +192,7 @@ implements
           case video: {
             
              for(SSUri userToPushTo : par.users){
-              sqlFct.addVideoToUser(userToPushTo, entityToPush.id);
+              sql.addVideoToUser(userToPushTo, entityToPush.id);
             }
             
             break;
@@ -304,7 +305,7 @@ implements
         return null;
       }
       
-      sqlFct.addVideo(
+      sql.addVideo(
         video,
         par.genre,
         par.link);
@@ -331,7 +332,7 @@ implements
           return null;
         }
         
-        sqlFct.addVideoToEntity(videoUri, par.forEntity);
+        sql.addVideoToEntity(videoUri, par.forEntity);
       }      
       
       if(par.file != null){
@@ -361,7 +362,7 @@ implements
         }
       }
       
-      sqlFct.addVideoToUser(
+      sql.addVideoToUser(
         par.user,
         video);
       
@@ -447,7 +448,7 @@ implements
         return null;
       }
       
-      sqlFct.createAnnotation(
+      sql.createAnnotation(
         par.video, 
         annotation, 
         par.x,
@@ -484,7 +485,7 @@ implements
     
     try{
       
-      SSVideo video = sqlFct.getVideo(par.video);
+      SSVideo video = sql.getVideo(par.video);
       
       if(video == null){
         return null;
@@ -552,7 +553,7 @@ implements
     try{
      
       final SSEntity annotation =
-        sqlFct.getEntityTest(
+        sql.getEntityTest(
           par.user,
           par.annotation,
           par.withUserRestriction);
@@ -561,7 +562,7 @@ implements
         return null;
       }
       
-      return sqlFct.getAnnotation(par.annotation);
+      return sql.getAnnotation(par.annotation);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -575,7 +576,7 @@ implements
     try{
      
       final SSEntity video =
-        sqlFct.getEntityTest(
+        sql.getEntityTest(
           par.user,
           par.video,
           par.withUserRestriction);
@@ -585,7 +586,7 @@ implements
       }
       
       final List<SSEntity>          annotations           = new ArrayList<>();
-      final List<SSUri>             annotationURIs        = sqlFct.getAnnotations(par.video);
+      final List<SSUri>             annotationURIs        = sql.getAnnotations(par.video);
       final SSVideoAnnotationGetPar videoAnnotationGetPar =
         new SSVideoAnnotationGetPar(
           par.user,
@@ -629,7 +630,7 @@ implements
         if(par.forEntity != null){
           
           final SSEntity forEntity = 
-            sqlFct.getEntityTest(
+            sql.getEntityTest(
               par.user, 
               par.forEntity, 
               par.withUserRestriction);
@@ -641,7 +642,7 @@ implements
       }
       
       final List<SSEntity>    videos      = new ArrayList<>();
-      final List<SSUri>       videoURIs   = sqlFct.getVideoURIs(par.user, par.forEntity);
+      final List<SSUri>       videoURIs   = sql.getVideoURIs(par.user, par.forEntity);
       final SSVideoUserGetPar videoGetPar =
         new SSVideoUserGetPar(
           par.user,

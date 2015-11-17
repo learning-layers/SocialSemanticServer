@@ -68,7 +68,7 @@ implements
   SSUserServerI, 
   SSDescribeEntityI{
   
-  private final SSUserSQLFct      sqlFct;
+  private final SSUserSQLFct      sql;
   private final SSEntityServerI   entityServ;
   private final SSCircleServerI   circleServ;
   
@@ -76,7 +76,7 @@ implements
     
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
     
-    this.sqlFct       = new SSUserSQLFct(this);
+    this.sql          = new SSUserSQLFct(dbSQL, SSVocConf.systemUserUri);
     this.entityServ   = (SSEntityServerI)   SSServReg.getServ(SSEntityServerI.class);
     this.circleServ   = (SSCircleServerI)   SSServReg.getServ(SSCircleServerI.class);
   }
@@ -143,7 +143,7 @@ implements
   public Boolean userExists(final SSUserExistsPar par) throws Exception{
     
     try{
-      return sqlFct.existsUser(par.email);
+      return sql.existsUser(par.email);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -154,7 +154,7 @@ implements
   public SSUri userURIGet(final SSUserURIGetPar par) throws Exception{
     
     try{
-      return sqlFct.getUserURIForEmail(par.email);
+      return sql.getUserURIForEmail(par.email);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -170,7 +170,7 @@ implements
       final List<SSUri> uris = new ArrayList<>();
       
       for(String email : par.emails){
-        uris.add(sqlFct.getUserURIForEmail(email));
+        uris.add(sql.getUserURIForEmail(email));
       }
 
       return uris;
@@ -200,7 +200,7 @@ implements
     
     try{
       
-      final List<SSUri>    userURIs   = sqlFct.getUserURIs(par.users);
+      final List<SSUri>    userURIs   = sql.getUserURIs(par.users);
       final List<SSEntity> users      = new ArrayList<>();
       SSUser               userToGet;
       SSEntity             userEntityToGet;
@@ -208,7 +208,7 @@ implements
       
       for(SSUri userURI : userURIs){
         
-        userToGet = sqlFct.getUser(userURI);
+        userToGet = sql.getUser(userURI);
         
         if(userToGet == null){
           continue;
@@ -331,7 +331,7 @@ SSUri.asListNotNull(userUri), //users
         return null;
       }
       
-      sqlFct.addUser(userUri, tmpEmail);
+      sql.addUser(userUri, tmpEmail);
       
       dbSQL.commit(par.shouldCommit);
       
@@ -375,7 +375,7 @@ SSUri.asListNotNull(userUri), //users
       
       final List<SSEntity> users = new ArrayList<>();
       
-      if(!sqlFct.existsEntity(par.entity)){
+      if(!sql.existsEntity(par.entity)){
         return users;
       }
       
@@ -384,7 +384,7 @@ SSUri.asListNotNull(userUri), //users
       if(par.withUserRestriction){
         
         entity = 
-          sqlFct.getEntityTest(
+          sql.getEntityTest(
             par.user,
             par.entity,
             par.withUserRestriction);
@@ -402,7 +402,7 @@ SSUri.asListNotNull(userUri), //users
             false))){ //invokeEntityHandlers
        
         entity = 
-          sqlFct.getEntityTest(
+          sql.getEntityTest(
             user.id, 
             par.entity, 
             par.withUserRestriction);

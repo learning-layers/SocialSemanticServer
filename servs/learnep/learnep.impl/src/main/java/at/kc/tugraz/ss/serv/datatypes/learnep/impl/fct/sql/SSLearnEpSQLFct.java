@@ -28,6 +28,7 @@ import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpVersion;
 import at.tugraz.sss.serv.SSSQLVarNames;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSDBSQLFct;
+import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSDBSQLSelectPar;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSLabel;
@@ -43,11 +44,15 @@ import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
+import sss.servs.entity.sql.SSEntitySQL;
 
-public class SSLearnEpSQLFct extends SSDBSQLFct{
+public class SSLearnEpSQLFct extends SSEntitySQL{
   
-  public SSLearnEpSQLFct(SSServImplWithDBA serv) throws Exception{
-    super(serv.dbSQL);
+  public SSLearnEpSQLFct(
+    final SSDBSQLI dbSQL, 
+    final SSUri    systemUserURI) throws Exception{
+    
+    super(dbSQL, systemUserURI);
   }
   
   public SSLearnEp getLearnEp(

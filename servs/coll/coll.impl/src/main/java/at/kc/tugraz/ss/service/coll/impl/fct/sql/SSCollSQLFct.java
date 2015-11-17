@@ -22,11 +22,9 @@ package at.kc.tugraz.ss.service.coll.impl.fct.sql;
 
 import at.tugraz.sss.serv.SSSQLVarNames;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSDBSQLFct;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSCircleE;
 import at.tugraz.sss.serv.SSDBSQLI;
-
 import at.kc.tugraz.ss.service.coll.datatypes.SSColl;
 import at.kc.tugraz.ss.service.coll.datatypes.SSCollEntry;
 import at.kc.tugraz.ss.service.coll.impl.fct.misc.SSCollMiscFct;
@@ -36,11 +34,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import sss.servs.entity.sql.SSEntitySQL;
 
-public class SSCollSQLFct extends SSDBSQLFct{
+public class SSCollSQLFct extends SSEntitySQL{
 
-  public SSCollSQLFct(final SSDBSQLI dbSQL) throws Exception{
-    super(dbSQL);
+  public SSCollSQLFct(
+    final SSDBSQLI dbSQL,
+    final SSUri    systemUserURI) throws Exception{
+    
+    super(dbSQL, systemUserURI);
   }
   
   public SSUri addColl(

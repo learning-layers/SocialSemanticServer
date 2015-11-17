@@ -30,7 +30,6 @@ import at.kc.tugraz.ss.circle.api.SSCircleClientI;
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.impl.fct.serv.SSCircleServFct;
 import at.kc.tugraz.ss.circle.impl.fct.misc.SSCircleMiscFct;
-import at.kc.tugraz.ss.circle.impl.fct.sql.SSCircleSQLFct;
 import at.tugraz.sss.serv.SSCircleE;
 import at.tugraz.sss.serv.SSEntityCircle;
 import at.tugraz.sss.serv.SSUri;
@@ -99,6 +98,7 @@ import at.tugraz.sss.serv.SSToolContextE;
 import sss.serv.eval.api.SSEvalServerI;
 import sss.serv.eval.datatypes.SSEvalLogE;
 import sss.serv.eval.datatypes.par.SSEvalLogPar;
+import sss.servs.entity.sql.SSEntitySQL;
 
 public class SSCircleImpl
 extends SSServImplWithDBA
@@ -109,7 +109,7 @@ implements
   SSCopyEntityI{
   
   private static SSUri             pubCircleUri = null;
-  private final  SSCircleSQLFct    sqlFct;
+  private final  SSEntitySQL       sql;
   private final  SSCircleMiscFct   miscFct;
   private final  SSActivityServerI activityServ;
   private final  SSEvalServerI     evalServ;
@@ -117,8 +117,8 @@ implements
   public SSCircleImpl(final SSConfA conf) throws Exception{
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
     
-    this.sqlFct       = new SSCircleSQLFct  (dbSQL);
-    this.miscFct      = new SSCircleMiscFct (this, sqlFct);
+    this.sql          = new SSEntitySQL     (dbSQL, SSVocConf.systemUserUri);
+    this.miscFct      = new SSCircleMiscFct (this, sql);
     this.activityServ = (SSActivityServerI) SSServReg.getServ(SSActivityServerI.class);
     this.evalServ     = (SSEvalServerI)     SSServReg.getServ(SSEvalServerI.class);
   }
@@ -229,13 +229,13 @@ implements
       
       if(par.withUserRestriction){
         
-        if(!sqlFct.isGroupOrPubCircleCircle(entity.id)){
+        if(!sql.isGroupOrPubCircleCircle(entity.id)){
           return;
         }
         
         if(par.targetEntity != null){
            
-          if(!sqlFct.isGroupOrPubCircleCircle(par.targetEntity)){
+          if(!sql.isGroupOrPubCircleCircle(par.targetEntity)){
             return;
           }
         }
@@ -273,7 +273,7 @@ implements
     final SSCircleEntitiesRemoveFromClientPar par    = (SSCircleEntitiesRemoveFromClientPar) parA.getFromJSON(SSCircleEntitiesRemoveFromClientPar.class);
     final List<SSUri>                         result;
     
-    if(!sqlFct.isGroupOrPubCircleCircle(par.circle)){
+    if(!sql.isGroupOrPubCircleCircle(par.circle)){
       result = new ArrayList<>();
     }else{
       result = circleEntitiesRemove(par);
@@ -314,7 +314,7 @@ implements
     try{
       
       final SSEntity circle =
-        sqlFct.getEntityTest(
+        sql.getEntityTest(
           par.user, 
           par.circle, 
           par.withUserRestriction);
@@ -326,7 +326,7 @@ implements
       dbSQL.startTrans(par.shouldCommit);
       
       for(SSUri entity : par.entities){
-        sqlFct.removeEntityFromCircle(par.circle, entity);
+        sql.removeEntityFromCircle(par.circle, entity);
       }
       
       dbSQL.commit(par.shouldCommit);
@@ -361,7 +361,7 @@ implements
     final SSCircleUsersRemovePar par    = (SSCircleUsersRemovePar) parA.getFromJSON(SSCircleUsersRemovePar.class);
     final List<SSUri>            result;
     
-    if(!sqlFct.isGroupOrPubCircleCircle(par.circle)){
+    if(!sql.isGroupOrPubCircleCircle(par.circle)){
       result = new ArrayList<>();
     }else{
       result = circleUsersRemove(par);
@@ -387,7 +387,7 @@ implements
     try{
       
       final SSEntity circle =
-        sqlFct.getEntityTest(
+        sql.getEntityTest(
           par.user, 
           par.circle, 
           par.withUserRestriction);
@@ -399,7 +399,7 @@ implements
       dbSQL.startTrans(par.shouldCommit);
       
       for(SSUri user : par.users){
-        sqlFct.removeUser(par.circle, user);
+        sql.removeUser(par.circle, user);
       }
       
       dbSQL.commit(par.shouldCommit);
@@ -594,8 +594,8 @@ implements
     final SSUri             circleURI;
     
     if(
-      sqlFct.isGroupOrPubCircleCircle(par.circle) &&
-      sqlFct.isUserAuthor(par.user, par.circle, par.withUserRestriction)){
+      sql.isGroupOrPubCircleCircle(par.circle) &&
+      sql.isUserAuthor(par.user, par.circle, par.withUserRestriction)){
       circleURI = circleRemove(par);
     }else{
       circleURI = null;
@@ -621,7 +621,7 @@ implements
     try{
       
       final SSEntity circle = 
-        sqlFct.getEntityTest(
+        sql.getEntityTest(
           par.user, 
           par.circle,
           par.withUserRestriction);
@@ -632,7 +632,7 @@ implements
       
       dbSQL.startTrans(par.shouldCommit);
       
-      sqlFct.removeCircle(par.circle);
+      sql.removeCircle(par.circle);
       
       dbSQL.commit(par.shouldCommit);
       
@@ -666,7 +666,7 @@ implements
     final SSCircleUsersAddPar par = (SSCircleUsersAddPar) parA.getFromJSON(SSCircleUsersAddPar.class);
     final SSUri               circleURI;
     
-    if(!sqlFct.isGroupOrPubCircleCircle(par.circle)){
+    if(!sql.isGroupOrPubCircleCircle(par.circle)){
       circleURI = null;
     }else{
       circleURI = circleUsersAdd(par);
@@ -722,7 +722,7 @@ implements
     try{
 
       SSEntity circle =
-        sqlFct.getEntityTest(
+        sql.getEntityTest(
           null,
           par.circle,
           false); //withUserRestriction
@@ -734,14 +734,14 @@ implements
       if(par.withUserRestriction){
         
         circle =
-          sqlFct.getEntityTest(
+          sql.getEntityTest(
             par.user,
             par.circle,
             true); //withUserRestriction
           
         if(circle == null){
           
-          final List<String>   invitedUsers = sqlFct.getInvitedUsers(par.circle);
+          final List<String>   invitedUsers = sql.getInvitedUsers(par.circle);
           final SSUserServerI  userServ     = (SSUserServerI) SSServReg.getServ(SSUserServerI.class);
           final SSUsersGetPar  usersGetPar   =
             new SSUsersGetPar(
@@ -765,7 +765,7 @@ implements
       dbSQL.startTrans(par.shouldCommit);
       
       for(SSUri userUri : par.users){
-        sqlFct.addUserToCircleIfNotExists(par.circle, userUri);
+        sql.addUserToCircleIfNotExists(par.circle, userUri);
       }
       
       dbSQL.commit(par.shouldCommit);
@@ -800,7 +800,7 @@ implements
     final SSCircleEntitiesAddPar par      = (SSCircleEntitiesAddPar) parA.getFromJSON(SSCircleEntitiesAddPar.class);
     final SSUri                  cicleURI;
     
-    if(!sqlFct.isGroupOrPubCircleCircle(par.circle)){
+    if(!sql.isGroupOrPubCircleCircle(par.circle)){
       cicleURI = null;
     }else{
       cicleURI = circleEntitiesAdd(par);
@@ -836,7 +836,6 @@ implements
         new SSEntitiesGetPar(
           par.user, 
           par.entities, 
-          null, //types, 
           null, //descPar, 
           par.withUserRestriction)); //withUserRestriction, 
     
@@ -899,7 +898,7 @@ implements
     try{
       
       SSEntity circle =
-        sqlFct.getEntityTest(
+        sql.getEntityTest(
           par.user,
           par.circle,
           par.withUserRestriction);
@@ -937,7 +936,7 @@ implements
           return null;
         }
         
-        sqlFct.addEntityToCircleIfNotExists(
+        sql.addEntityToCircleIfNotExists(
           par.circle, 
           entityToAdd);
       }
@@ -981,9 +980,9 @@ implements
           throw new SSErr(SSErrE.parameterMissing);
         }
         
-        return sqlFct.getCircleTypesCommonForUserAndEntity(par.user, par.entity);
+        return sql.getCircleTypesCommonForUserAndEntity(par.user, par.entity);
       }else{
-        return sqlFct.getCircleTypesForEntity(par.entity);
+        return sql.getCircleTypesForEntity(par.entity);
       }
     
     }catch(Exception error){
@@ -1002,7 +1001,7 @@ implements
       }
       
       SSEntity entity = 
-        sqlFct.getEntityTest(
+        sql.getEntityTest(
           par.user, 
           par.entity,
           false);
@@ -1011,7 +1010,7 @@ implements
         return false;
       }
       
-      final List<SSCircleE> circleTypes = sqlFct.getCircleTypesCommonForUserAndEntity(par.user, par.entity);
+      final List<SSCircleE> circleTypes = sql.getCircleTypesCommonForUserAndEntity(par.user, par.entity);
       
       if(
         circleTypes.size() < 1 ||
@@ -1037,9 +1036,9 @@ implements
       }
       
       if(par.forUser == null){
-        return SSStrU.contains(sqlFct.getCircleTypesForEntity(par.entity), SSCircleE.group);
+        return SSStrU.contains(sql.getCircleTypesForEntity(par.entity), SSCircleE.group);
       }else{
-        return SSStrU.contains(sqlFct.getCircleTypesCommonForUserAndEntity(par.forUser, par.entity), SSCircleE.group);
+        return SSStrU.contains(sql.getCircleTypesCommonForUserAndEntity(par.forUser, par.entity), SSCircleE.group);
       }
       
     }catch(Exception error){
@@ -1058,7 +1057,7 @@ implements
       }
       
       SSEntity entity = 
-        sqlFct.getEntityTest(
+        sql.getEntityTest(
           null, 
           par.entity,
           false);
@@ -1067,7 +1066,7 @@ implements
         return true;
       }
       
-      return SSStrU.contains(sqlFct.getCircleTypesForEntity(par.entity), SSCircleE.pub);
+      return SSStrU.contains(sql.getCircleTypesForEntity(par.entity), SSCircleE.pub);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -1093,7 +1092,7 @@ implements
       if(par.withUserRestriction){
         
         if(
-          sqlFct.isSystemCircle(par.circle) &&
+          sql.isSystemCircle(par.circle) &&
           !SSStrU.equals(par.circle, pubCircleUri)){
           
           SSLogU.warn(SSErrE.userNotAllowToAccessSystemCircle);
@@ -1105,7 +1104,7 @@ implements
       SSEntityDescriberPar descPar;
       
       circle =
-        sqlFct.getCircle(
+        sql.getCircle(
           par.circle,
           par.setUsers, //withUsers
           par.setEntities, //withEntities
@@ -1172,7 +1171,6 @@ implements
             new SSEntitiesGetPar(
               par.user,
               SSUri.getDistinctNotNullFromEntities(circle.entities),
-              null, //types,
               descPar, //descPar
               par.withUserRestriction)); //withUserRestriction
 
@@ -1193,7 +1191,6 @@ implements
             new SSEntitiesGetPar(
               par.user,
               SSUri.getDistinctNotNullFromEntities(circle.users),
-              null, //types,
               descPar, //descPar
               par.withUserRestriction)); //withUserRestriction
         
@@ -1244,7 +1241,7 @@ implements
         if(par.entity != null){
           
           final SSEntity entity = 
-            sqlFct.getEntityTest(
+            sql.getEntityTest(
               par.user, 
               par.entity,
               par.withUserRestriction);
@@ -1258,7 +1255,7 @@ implements
       if(!SSObjU.isNull(par.forUser, par.entity)){
         
         circleUris.addAll(
-          sqlFct.getCircleURIsCommonForUserAndEntity(
+          sql.getCircleURIsCommonForUserAndEntity(
             par.forUser,
             par.entity,
             par.withSystemCircles));
@@ -1268,15 +1265,15 @@ implements
           par.forUser   == null &&
           par.entity    == null){
           
-          circleUris.addAll(sqlFct.getCircleURIs(par.withSystemCircles));
+          circleUris.addAll(sql.getCircleURIs(par.withSystemCircles));
         }else{
           
           if(par.forUser != null){
-            circleUris.addAll(sqlFct.getCircleURIsForUser(par.forUser, par.withSystemCircles));
+            circleUris.addAll(sql.getCircleURIsForUser(par.forUser, par.withSystemCircles));
           }
           
           if(par.entity != null){
-            circleUris.addAll(sqlFct.getCircleURIsForEntity(par.entity, par.withSystemCircles));
+            circleUris.addAll(sql.getCircleURIsForEntity(par.entity, par.withSystemCircles));
           }
         }
       }
@@ -1322,7 +1319,7 @@ implements
       
       dbSQL.startTrans(par.shouldCommit);
       
-      circleURI = sqlFct.getPrivCircleURI(par.user);
+      circleURI = sql.getPrivCircleURI(par.user);
       
       if(circleURI != null){
         return circleURI;
@@ -1330,10 +1327,13 @@ implements
       
       circleURI = SSServCaller.vocURICreate();
       
-      sqlFct.addEntity(
-        circleURI, 
+      sql.addEntityIfNotExists(
+        circleURI,
         SSEntityE.circle, 
-        SSVocConf.systemUserUri);
+        null, //label
+        null, //description
+        SSVocConf.systemUserUri, //author
+        null);
       
       miscFct.addCircle(
         circleURI, 
@@ -1376,7 +1376,7 @@ implements
         return pubCircleUri;
       }
       
-      pubCircleUri = sqlFct.getPubCircleURI();
+      pubCircleUri = sql.getPubCircleURI();
       
       if(pubCircleUri != null){
         return pubCircleUri;
@@ -1386,10 +1386,13 @@ implements
       
       tmpPublicCircleURI = SSServCaller.vocURICreate();
       
-      sqlFct.addEntity(
+      sql.addEntityIfNotExists(
         tmpPublicCircleURI, 
         SSEntityE.circle, 
-        SSVocConf.systemUserUri);
+        null, //label, 
+        null, //description, 
+        SSVocConf.systemUserUri,
+        null);//creationTime);
       
       miscFct.addCircle(
         tmpPublicCircleURI,
@@ -1440,7 +1443,7 @@ implements
     try{
 
       final SSEntity circle =
-        sqlFct.getEntityTest(
+        sql.getEntityTest(
           par.user,
           par.circle,
           par.withUserRestriction);
@@ -1451,7 +1454,7 @@ implements
       
       dbSQL.startTrans(par.shouldCommit);
       
-      sqlFct.inviteUsers(par.circle, par.emails);
+      sql.inviteUsers(par.circle, par.emails);
       
       dbSQL.commit(par.shouldCommit);
     
@@ -1494,7 +1497,7 @@ implements
     try{
       
       final SSEntity circle =
-        sqlFct.getEntityTest(
+        sql.getEntityTest(
           par.user,
           par.circle,
           par.withUserRestriction);
@@ -1503,15 +1506,15 @@ implements
         return null;
       }
 
-      if(sqlFct.isSystemCircle(par.circle)){
+      if(sql.isSystemCircle(par.circle)){
         return null;
       }
       
       if(par.withUserRestriction){
         
         if(
-          !sqlFct.isGroupOrPubCircleCircle(par.circle) ||
-          !sqlFct.isUserAuthor(par.user, par.circle, par.withUserRestriction)){
+          !sql.isGroupOrPubCircleCircle(par.circle) ||
+          !sql.isUserAuthor(par.user, par.circle, par.withUserRestriction)){
           return null;
         }
         
@@ -1529,7 +1532,7 @@ implements
       
       dbSQL.startTrans(par.shouldCommit);
       
-      sqlFct.changeCircleType(par.circle, par.type);
+      sql.changeCircleType(par.circle, par.type);
       
       dbSQL.commit(par.shouldCommit);
       

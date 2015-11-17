@@ -20,7 +20,6 @@
 */
 package at.kc.tugraz.sss.video.impl.fct.sql;
 
-import at.tugraz.sss.serv.SSDBSQLFct;
 import at.tugraz.sss.serv.SSSQLVarNames;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
@@ -33,11 +32,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import sss.servs.entity.sql.SSEntitySQL;
 
-public class SSVideoSQLFct extends SSDBSQLFct{
+public class SSVideoSQLFct extends SSEntitySQL{
 
-  public SSVideoSQLFct(final SSDBSQLI dbSQL) throws Exception{
-    super(dbSQL);
+  public SSVideoSQLFct(
+    final SSDBSQLI dbSQL,
+    final SSUri    systemUserURI) throws Exception{
+    
+    super(dbSQL, systemUserURI);
   }
   
   public void addVideoToUser(

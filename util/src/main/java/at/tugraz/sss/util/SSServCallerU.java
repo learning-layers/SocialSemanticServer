@@ -97,7 +97,6 @@ public class SSServCallerU{
         new SSEntitiesGetPar(
           user,
           entities,
-          null, //types
           null, //descPar,
           withUserRestriction));
       
@@ -174,7 +173,6 @@ public class SSServCallerU{
             new SSEntitiesGetPar(
               user,
               entityURIs,
-              null,
               null,
               withUserRestriction)));
       }
@@ -367,7 +365,6 @@ public class SSServCallerU{
           new SSEntitiesGetPar(
             SSVocConf.systemUserUri,
             users, //entities
-            null, //types
             null,    //descPar
             false)); //withUserRestriction
       

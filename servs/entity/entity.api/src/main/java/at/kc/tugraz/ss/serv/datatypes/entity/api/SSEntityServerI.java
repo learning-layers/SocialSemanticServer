@@ -35,6 +35,7 @@ import at.tugraz.sss.servs.entity.datatypes.par.SSEntityFromTypeAndLabelGetPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityGetPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntitySharePar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityTypesGetPar;
+import at.tugraz.sss.servs.entity.datatypes.par.SSEntityURIsGetPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUnpublicizePar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUpdatePar;
 import java.util.List;
@@ -43,6 +44,7 @@ public interface SSEntityServerI extends SSServServerI{
 
   public List<SSEntityE> entityTypesGet                (final SSEntityTypesGetPar                par) throws Exception;
   public List<SSEntity>  entitiesGet                   (final SSEntitiesGetPar                   par) throws Exception;
+  public List<SSUri>     entityURIsGet                 (final SSEntityURIsGetPar                 par) throws Exception;
   public SSUri           entityUpdate                  (final SSEntityUpdatePar                  par) throws Exception;
   public Boolean         entityCopy                    (final SSEntityCopyPar                    par) throws Exception;
   public SSEntity        entityGet                     (final SSEntityGetPar                     par) throws Exception;

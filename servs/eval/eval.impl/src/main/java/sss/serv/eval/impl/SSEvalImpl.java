@@ -117,7 +117,6 @@ implements
             new SSEntitiesGetPar(
               par.user,
               par.entities,  //entities
-              null,  //types
               null,  //descPar
               false))); //withUserRestriction
       }
@@ -130,7 +129,6 @@ implements
             new SSEntitiesGetPar(
               par.user,
               par.users,  //entities
-              null,  //types
               null,  //descPar
               false))); //withUserRestriction
       }

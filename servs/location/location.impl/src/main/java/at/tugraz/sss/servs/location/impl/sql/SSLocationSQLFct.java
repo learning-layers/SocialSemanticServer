@@ -20,11 +20,10 @@
 */
 package at.tugraz.sss.servs.location.impl.sql;
 
-import at.tugraz.sss.serv.SSDBSQLFct;
+import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.servs.location.datatype.SSLocation;
 import at.tugraz.sss.serv.SSSQLVarNames;
 import at.tugraz.sss.serv.SSServErrReg;
-import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 import java.sql.ResultSet;
@@ -32,11 +31,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import sss.servs.entity.sql.SSEntitySQL;
 
-public class SSLocationSQLFct extends SSDBSQLFct{
+public class SSLocationSQLFct extends SSEntitySQL{
   
-  public SSLocationSQLFct(SSServImplWithDBA serv) throws Exception{
-    super(serv.dbSQL);
+  public SSLocationSQLFct(
+    final SSDBSQLI dbSQL,
+    final SSUri    systemUserURI) throws Exception{
+    
+    super(dbSQL, systemUserURI);
   }
   
   public void addLocation(

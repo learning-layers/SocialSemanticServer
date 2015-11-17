@@ -24,7 +24,6 @@ import at.kc.tugraz.ss.category.datatypes.SSCategory;
 import at.kc.tugraz.ss.category.datatypes.SSCategoryLabel;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTag;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
-import at.tugraz.sss.serv.SSDBSQLFct;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSDBSQLSelectPar;
 import at.tugraz.sss.serv.SSDateU;
@@ -41,8 +40,9 @@ import java.util.List;
 import java.util.Map;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
+import sss.servs.entity.sql.SSEntitySQL;
 
-public class SSTagAndCategoryCommonSQL extends SSDBSQLFct{
+public class SSTagAndCategoryCommonSQL extends SSEntitySQL{
   
   private final SSEntityE        metadataType;
   private final String           metadataIdSQLName;
@@ -52,9 +52,10 @@ public class SSTagAndCategoryCommonSQL extends SSDBSQLFct{
   
   public SSTagAndCategoryCommonSQL(
     final SSDBSQLI    dbSQL,
+    final SSUri       systemUserURI,
     final SSEntityE   metadataType) throws Exception{
     
-    super(dbSQL);
+    super(dbSQL, systemUserURI);
     
     this.metadataType = metadataType;
     

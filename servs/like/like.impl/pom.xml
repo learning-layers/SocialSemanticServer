@@ -26,6 +26,12 @@
     
     <dependency>
       <groupId>sss.servs</groupId>
+      <artifactId>entity.sql</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
       <artifactId>entity.api</artifactId>
       <version>${project.version}</version>
     </dependency>

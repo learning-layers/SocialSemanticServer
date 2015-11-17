@@ -48,8 +48,8 @@ import at.kc.tugraz.ss.category.impl.fct.userrelationgatherer.SSCategoryUserRela
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePubURIGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityFromTypeAndLabelGetPar;
-import at.tugraz.sss.servs.entity.datatypes.par.SSEntityGetPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUpdatePar;
 import at.tugraz.sss.serv.SSCircleContentRemovedI;
 import at.tugraz.sss.serv.SSCircleContentRemovedPar;
@@ -100,7 +100,7 @@ implements
   SSCircleContentRemovedI,
   SSUserRelationGathererI{
   
-  final SSTagAndCategoryCommonSQL  sqlFct;
+  final SSTagAndCategoryCommonSQL  sql;
   final SSTagAndCategoryCommonMisc commonMiscFct;
   final SSEntityServerI            entityServ;
   final SSActivityServerI          activityServ;
@@ -110,7 +110,7 @@ implements
     
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
     
-    this.sqlFct        = new SSTagAndCategoryCommonSQL (dbSQL, SSEntityE.category);
+    this.sql           = new SSTagAndCategoryCommonSQL (dbSQL, SSVocConf.systemUserUri, SSEntityE.category);
     this.commonMiscFct = new SSTagAndCategoryCommonMisc(dbSQL, SSEntityE.category);
     
     this.activityServ  = (SSActivityServerI) SSServReg.getServ (SSActivityServerI.class);
@@ -388,7 +388,7 @@ SSUri.asListNotNull(entity.id),
         case circleSpace:{
           
           final SSEntity circle = 
-            sqlFct.getEntityTest(
+            sql.getEntityTest(
               par.user, 
               par.circle, 
               par.withUserRestriction);
@@ -445,7 +445,7 @@ SSUri.asListNotNull(entity.id),
           return null;
         }
         
-        sqlFct.addMetadataIfNotExists(
+        sql.addMetadataIfNotExists(
           categoryUri, //metadataURI
           false); //isPredefined
         
@@ -453,7 +453,7 @@ SSUri.asListNotNull(entity.id),
         categoryUri = categoryEntity.id;
       }
       
-      sqlFct.addMetadataAssIfNotExists1(
+      sql.addMetadataAssIfNotExists1(
         categoryUri,
         par.user,
         par.entity,
@@ -530,7 +530,7 @@ SSUri.asListNotNull(entity.id),
       if(par.entity != null){
       
         final SSEntity entity = 
-          sqlFct.getEntityTest(
+          sql.getEntityTest(
             par.user, 
             par.entity, 
             par.withUserRestriction);
@@ -549,7 +549,7 @@ SSUri.asListNotNull(entity.id),
         if(par.circle != null){
           
           final SSEntity circle = 
-            sqlFct.getEntityTest(
+            sql.getEntityTest(
               par.user, 
               par.circle, 
               par.withUserRestriction);
@@ -587,7 +587,7 @@ SSUri.asListNotNull(entity.id),
         
         dbSQL.startTrans(par.shouldCommit);
         
-        sqlFct.removeMetadataAsss(
+        sql.removeMetadataAsss(
           par.forUser,
           par.entity,
           categoryUri,
@@ -604,9 +604,9 @@ SSUri.asListNotNull(entity.id),
 
         dbSQL.startTrans(par.shouldCommit);
         
-        sqlFct.removeMetadataAsss(par.user, null, categoryUri, SSSpaceE.privateSpace, par.circle);
-        sqlFct.removeMetadataAsss(par.user, null, categoryUri, SSSpaceE.sharedSpace,  par.circle);
-        sqlFct.removeMetadataAsss(par.user, null, categoryUri, SSSpaceE.circleSpace,  par.circle);
+        sql.removeMetadataAsss(par.user, null, categoryUri, SSSpaceE.privateSpace, par.circle);
+        sql.removeMetadataAsss(par.user, null, categoryUri, SSSpaceE.sharedSpace,  par.circle);
+        sql.removeMetadataAsss(par.user, null, categoryUri, SSSpaceE.circleSpace,  par.circle);
         
         dbSQL.commit(par.shouldCommit);
         return true;
@@ -618,7 +618,7 @@ SSUri.asListNotNull(entity.id),
          
          dbSQL.startTrans(par.shouldCommit);
          
-         sqlFct.removeMetadataAsss(par.user, null, categoryUri, par.space, par.circle);
+         sql.removeMetadataAsss(par.user, null, categoryUri, par.space, par.circle);
          
          dbSQL.commit(par.shouldCommit);
          return true;
@@ -630,9 +630,9 @@ SSUri.asListNotNull(entity.id),
         
         dbSQL.startTrans(par.shouldCommit);
         
-        sqlFct.removeMetadataAsss (par.user, par.entity, categoryUri, SSSpaceE.privateSpace, par.circle);
-        sqlFct.removeMetadataAsss (null,     par.entity, categoryUri, SSSpaceE.sharedSpace,  par.circle);
-        sqlFct.removeMetadataAsss (null,     par.entity, categoryUri, SSSpaceE.circleSpace,  par.circle);
+        sql.removeMetadataAsss (par.user, par.entity, categoryUri, SSSpaceE.privateSpace, par.circle);
+        sql.removeMetadataAsss (null,     par.entity, categoryUri, SSSpaceE.sharedSpace,  par.circle);
+        sql.removeMetadataAsss (null,     par.entity, categoryUri, SSSpaceE.circleSpace,  par.circle);
         
         dbSQL.commit(par.shouldCommit);
         return true;
@@ -644,7 +644,7 @@ SSUri.asListNotNull(entity.id),
         
         dbSQL.startTrans(par.shouldCommit);
       
-        sqlFct.removeMetadataAsss(null, par.entity, categoryUri, par.space, par.circle);
+        sql.removeMetadataAsss(null, par.entity, categoryUri, par.space, par.circle);
 
         dbSQL.commit(par.shouldCommit);
         return true;
@@ -687,7 +687,7 @@ SSUri.asListNotNull(entity.id),
   public List<String> categoriesPredefinedGet(final SSCategoriesPredefinedGetPar par) throws Exception {
     
     try{
-      return sqlFct.getMetadata(true);
+      return sql.getMetadata(true);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -738,7 +738,7 @@ SSUri.asListNotNull(entity.id),
           return false;
         }
         
-        sqlFct.addMetadataIfNotExists(
+        sql.addMetadataIfNotExists(
           categoryUri, //metadataURI
           true); //isPredefined
       }

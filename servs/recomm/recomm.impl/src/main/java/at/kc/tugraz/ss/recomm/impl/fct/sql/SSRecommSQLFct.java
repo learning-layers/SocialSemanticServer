@@ -20,23 +20,24 @@
 */
 package at.kc.tugraz.ss.recomm.impl.fct.sql;
 
-import at.tugraz.sss.serv.SSDBSQLFct;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSSQLVarNames;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSUri;
-
-import at.tugraz.sss.serv.SSServImplWithDBA;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import sss.servs.entity.sql.SSEntitySQL;
 
-public class SSRecommSQLFct extends SSDBSQLFct{
+public class SSRecommSQLFct extends SSEntitySQL{
   
-  public SSRecommSQLFct(final SSDBSQLI dbSQL) throws Exception{
-    super(dbSQL);
+  public SSRecommSQLFct(
+    final SSDBSQLI dbSQL,
+    final SSUri    systemUserURI) throws Exception{
+    
+    super(dbSQL, systemUserURI);
   }
   
   public Map<String, List<String>> getUserRealms() throws Exception{

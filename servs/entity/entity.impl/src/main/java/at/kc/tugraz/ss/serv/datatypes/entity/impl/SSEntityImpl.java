@@ -47,8 +47,8 @@ import at.tugraz.sss.servs.entity.datatypes.ret.SSEntityCopyRet;
 import at.tugraz.sss.servs.entity.datatypes.ret.SSEntityGetRet;
 import at.tugraz.sss.servs.entity.datatypes.ret.SSEntityUpdateRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.SSEntityActivityFct;
-import at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.SSEntitySQLFct;
 import at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.SSEntityUserRelationsGatherFct;
+import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.kc.tugraz.ss.service.userevent.api.SSUEServerI;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSSocketCon;
@@ -86,11 +86,13 @@ import at.tugraz.sss.serv.SSObjU;
 import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityEntitiesAttachedRemovePar;
+import at.tugraz.sss.servs.entity.datatypes.par.SSEntityURIsGetPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUnpublicizePar;
 import at.tugraz.sss.servs.entity.datatypes.ret.SSEntityTypesGetRet;
 import at.tugraz.sss.servs.entity.datatypes.ret.SSEntityUnpublicizeRet;
 import java.util.Arrays;
 import sss.serv.eval.api.SSEvalServerI;
+import sss.servs.entity.sql.SSEntitySQL;
 
 public class SSEntityImpl 
 extends SSServImplWithDBA
@@ -102,7 +104,7 @@ implements
   SSAddAffiliatedEntitiesToCircleI,
   SSUsersResourcesGathererI{
   
-  private final SSEntitySQLFct       sqlFct;
+  private final SSEntitySQL          sql;
   private final SSCircleServerI      circleServ;
   private final SSEntityActAndLogFct actAndLogFct;
   
@@ -110,8 +112,8 @@ implements
     
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
     
-    this.sqlFct          = new SSEntitySQLFct(this);
-    this.circleServ      = (SSCircleServerI)   SSServReg.getServ(SSCircleServerI.class);
+    this.sql             = new SSEntitySQL  (dbSQL, SSVocConf.systemUserUri);
+    this.circleServ      = (SSCircleServerI) SSServReg.getServ(SSCircleServerI.class);
     
     this.actAndLogFct = 
       new SSEntityActAndLogFct(
@@ -129,7 +131,7 @@ implements
       
       for(SSEntity entityAdded : par.entities){
         
-        for(SSUri attachedEntity : sqlFct.getAttachedEntities(entityAdded.id)){
+        for(SSUri attachedEntity : sql.getAttachedEntities(entityAdded.id)){
           
           if(SSStrU.contains(par.recursiveEntities, attachedEntity)){
             continue;
@@ -150,9 +152,8 @@ implements
         entitiesGet(
           new SSEntitiesGetPar(
             par.user, 
-            affiliatedURIs, 
-            null, 
-            null, 
+            affiliatedURIs, //entities
+            null, //descPar
             par.withUserRestriction)));
       
       circleServ.circleEntitiesAdd(
@@ -192,14 +193,13 @@ implements
         entitiesGet(
           new SSEntitiesGetPar(
             par.user,
-            sqlFct.getAttachedEntities(entity.id), //entities
-            null, //types,
+            sql.getAttachedEntities(entity.id), //entities
             null, //descPar,
             par.withUserRestriction)));
     }
     
     if(par.setRead){
-      entity.read = sqlFct.getEntityRead (par.user, entity.id);
+      entity.read = sql.getEntityRead (par.user, entity.id);
     }
     
     return entity;
@@ -219,7 +219,7 @@ implements
       for(String user : allUsers){
         
         for(SSUri entity : 
-          sqlFct.getEntityURIs(
+          sql.getEntityURIs(
             null, //entities, 
             types, //types, 
 SSUri.asListNotNull(SSUri.get(user)))){ //authors
@@ -252,7 +252,6 @@ SSUri.asListNotNull(SSUri.get(user)))){ //authors
     final Map<String, List<SSUri>> userRelations) throws Exception{
     
     SSEntityUserRelationsGatherFct.getUserRelations(
-      sqlFct, 
       allUsers, 
       userRelations);
   }
@@ -328,6 +327,36 @@ SSUri.asListNotNull(SSUri.get(user)))){ //authors
   }
   
   @Override
+  public List<SSUri> entityURIsGet (final SSEntityURIsGetPar par) throws Exception{
+    
+    try{
+      
+      if(par.getAccessible){
+        
+        return sql.getAccessibleURIs(
+          par.user,
+          par.types,
+          par.authors);
+      }
+      
+      if(
+        !par.types.isEmpty() ||
+        !par.authors.isEmpty()){
+        
+        return sql.getEntityURIs(
+          par.entities,
+          par.types,
+          par.authors);
+      }
+      
+      return par.entities;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+    
+  @Override
   public void entitiesGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
     
     SSServCallerU.checkKey(parA);
@@ -342,43 +371,34 @@ SSUri.asListNotNull(SSUri.get(user)))){ //authors
     
     try{
       
-      if(
-        (par.entities.isEmpty()) &&
-        (par.types.isEmpty())    &&
-        (par.authors.isEmpty())){
-        
-        return new ArrayList<>();
-      }
-      
-      final List<SSEntity> entities   = new ArrayList<>();
-      final List<SSUri>    entityURIs = new ArrayList<>();
-      
-      if(
-        !par.types.isEmpty() ||
-        !par.authors.isEmpty()){
-        
-        entityURIs.addAll(
-          sqlFct.getEntityURIs(
+      final List<SSUri> entityURIs =
+        entityURIsGet(
+          new SSEntityURIsGetPar(
+            par.user,
             par.entities,
+            false, //getAccessible
             par.types,
             par.authors));
-      }else{
-        entityURIs.addAll(par.entities);
-      }
+        
+      final SSEntityGetPar entityGetPar =
+        new SSEntityGetPar(
+          par.user,
+          null, //entity
+          par.withUserRestriction, //withUserRestriction
+          par.descPar); //descPar
+      
+      final List<SSEntity> result = new ArrayList<>();
       
       for(SSUri entityURI : entityURIs){
         
+        entityGetPar.entity = entityURI;
+        
         SSEntity.addEntitiesDistinctWithoutNull(
-          entities,
-          entityGet(
-            new SSEntityGetPar(
-              par.user,
-              entityURI,
-              par.withUserRestriction, //withUserRestriction
-              par.descPar))); //descPar
+          result,
+          entityGet(entityGetPar)); 
       }
       
-      return entities;
+      return result;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -401,7 +421,7 @@ SSUri.asListNotNull(SSUri.get(user)))){ //authors
     try{
       
       SSEntity entity =
-        sqlFct.getEntityTest(
+        sql.getEntityTest(
           par.user,
           par.entity,
           par.withUserRestriction);
@@ -413,7 +433,7 @@ SSUri.asListNotNull(SSUri.get(user)))){ //authors
       if(
         par.descPar   == null &&
         entity.author != null){
-        entity.author = sqlFct.getEntityTest(null, entity.author.id, false);
+        entity.author = sql.getEntityTest(null, entity.author.id, false);
       }
       
       if(par.descPar != null){
@@ -443,7 +463,7 @@ SSUri.asListNotNull(SSUri.get(user)))){ //authors
         throw new SSErr(SSErrE.parameterMissing);
       }
         
-      final SSEntity entity = sqlFct.getEntity(par.label, par.type);
+      final SSEntity entity = sql.getEntity(par.label, par.type);
       
       if(entity == null){
         return null;
@@ -453,7 +473,7 @@ SSUri.asListNotNull(SSUri.get(user)))){ //authors
         return entity;
       }
       
-      return sqlFct.getEntityTest(
+      return sql.getEntityTest(
         par.user,
         entity.id,
         par.withUserRestriction);
@@ -524,7 +544,7 @@ SSUri.asListNotNull(SSUri.get(user)))){ //authors
       }
       
       SSEntity entity = 
-        sqlFct.getEntityTest(
+        sql.getEntityTest(
           null, //user
           par.entity, //entity
           false); //withUserRestriction
@@ -534,7 +554,7 @@ SSUri.asListNotNull(SSUri.get(user)))){ //authors
         par.withUserRestriction){
         
         entity = 
-          sqlFct.getEntityTest(
+          sql.getEntityTest(
             par.user, //user
             par.entity, //entity
             true); //withUserRestriction
@@ -560,7 +580,7 @@ SSUri.asListNotNull(SSUri.get(user)))){ //authors
         }
       }
       
-      sqlFct.addEntityIfNotExists(
+      sql.addEntityIfNotExists(
         par.entity,
         par.type,
         par.label,
@@ -576,14 +596,14 @@ SSUri.asListNotNull(SSUri.get(user)))){ //authors
               par.user,
               false)); //shouldCommit
         
-        sqlFct.addEntityToCircleIfNotExists(
+        sql.addEntityToCircleIfNotExists(
           privateCircleURI,
           par.entity);
       }
       
       if(par.read != null){
         
-        sqlFct.setEntityRead(
+        sql.setEntityRead(
           par.user, 
           par.entity,
           par.read);
@@ -651,7 +671,7 @@ SSUri.asListNotNull(SSUri.get(user)))){ //authors
       
       final SSEntityRemovePar par = new SSEntityRemovePar(parA);
       
-      sqlFct.deleteEntityIfExists(par.entity);
+      sql.deleteEntityIfExists(par.entity);
       
       return par.entity;
     }catch(Exception error){
@@ -682,7 +702,7 @@ SSUri.asListNotNull(SSUri.get(user)))){ //authors
       final SSEntityUserParentEntitiesGetPar par = new SSEntityUserParentEntitiesGetPar(parA);
       final List<SSUri>  entities     = new ArrayList<>();
       final SSEntity     entity       = 
-        sqlFct.getEntityTest(
+        sql.getEntityTest(
           par.user, 
           par.entity, 
           par.withUserRestriction);
@@ -712,7 +732,7 @@ SSUri.asListNotNull(SSUri.get(user)))){ //authors
       final SSEntityUserSubEntitiesGetPar par         = new SSEntityUserSubEntitiesGetPar(parA);
       final List<SSUri>                   subEntities = new ArrayList<>();
       final SSEntity                      entity      =
-        sqlFct.getEntityTest(
+        sql.getEntityTest(
           par.user,
           par.entity,
           par.withUserRestriction);
@@ -755,7 +775,7 @@ SSUri.asListNotNull(SSUri.get(user)))){ //authors
     try{
 
       final SSEntity entity = 
-        sqlFct.getEntityTest(
+        sql.getEntityTest(
           par.user, 
           par.entity, 
           par.withUserRestriction);
@@ -791,7 +811,7 @@ SSUri.asListNotNull(SSUri.get(user)))){ //authors
         }
       }
       
-      sqlFct.attachEntities(par.entity, par.entities);
+      sql.attachEntities(par.entity, par.entities);
       
       SSServCallerU.handleCirclesFromEntityGetEntitiesAdd(
         circleServ, 
@@ -838,7 +858,7 @@ SSUri.asListNotNull(SSUri.get(user)))){ //authors
     try{
 
       final SSEntity entity =
-        sqlFct.getEntityTest(
+        sql.getEntityTest(
           par.user,
           par.entity,
           par.withUserRestriction);
@@ -849,7 +869,7 @@ SSUri.asListNotNull(SSUri.get(user)))){ //authors
 
       dbSQL.startTrans(par.shouldCommit);
       
-      sqlFct.removeAttachedEntities(par.entity, par.entities);
+      sql.removeAttachedEntities(par.entity, par.entities);
      
       dbSQL.commit(par.shouldCommit);
       
@@ -887,7 +907,7 @@ SSUri.asListNotNull(SSUri.get(user)))){ //authors
     try{
 
       final SSEntity entity =
-        sqlFct.getEntityTest(
+        sql.getEntityTest(
           par.user,
           par.entity,
           par.withUserRestriction);
@@ -923,7 +943,7 @@ SSUri.asListNotNull(SSUri.get(user)))){ //authors
         }
       }
       
-      sqlFct.addDownloads(par.entity, par.downloads);
+      sql.addDownloads(par.entity, par.downloads);
       
       dbSQL.commit(par.shouldCommit);
       
@@ -957,7 +977,7 @@ SSUri.asListNotNull(SSUri.get(user)))){ //authors
       final List<SSUri> downloads = new ArrayList<>();
       
       SSEntity entity =
-        sqlFct.getEntityTest(
+        sql.getEntityTest(
           par.user,
           par.entity,
           par.withUserRestriction);
@@ -968,10 +988,10 @@ SSUri.asListNotNull(SSUri.get(user)))){ //authors
       
       SSEntity downloadEntity;
       
-      for(SSUri download : sqlFct.getDownloads(par.entity)){
+      for(SSUri download : sql.getDownloads(par.entity)){
         
         downloadEntity = 
-          sqlFct.getEntityTest(
+          sql.getEntityTest(
             par.user, 
             download, 
             par.withUserRestriction);
@@ -1038,7 +1058,7 @@ SSUri.asListNotNull(SSUri.get(user)))){ //authors
       }
       
       final SSEntity entity = 
-        sqlFct.getEntityTest(
+        sql.getEntityTest(
           par.user,
           par.entity, 
           par.withUserRestriction);
@@ -1123,13 +1143,13 @@ SSUri.asListNotNull(SSUri.get(user)))){ //authors
           throw new SSErr(SSErrE.parameterMissing);
         }
         
-        if(!sqlFct.isUserAuthor(par.user, par.entity, par.withUserRestriction)){
+        if(!sql.isUserAuthor(par.user, par.entity, par.withUserRestriction)){
           return null;
         }
       }
       
       final SSEntity entity = 
-        sqlFct.getEntityTest(
+        sql.getEntityTest(
           par.user,
           par.entity, 
           par.withUserRestriction);
@@ -1146,7 +1166,7 @@ SSUri.asListNotNull(SSUri.get(user)))){ //authors
       
       dbSQL.startTrans(par.shouldCommit);
       
-      sqlFct.removeEntityFromCircle(
+      sql.removeEntityFromCircle(
         pubCircleURI,
         par.entity);
       

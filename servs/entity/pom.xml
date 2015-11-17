@@ -17,5 +17,6 @@
     <module>entity.api</module>
     <module>entity.impl</module>
     <module>entity.conf</module>
+    <module>entity.sql</module>
   </modules>
 </project>

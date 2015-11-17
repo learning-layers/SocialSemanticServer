@@ -22,11 +22,10 @@ package at.kc.tugraz.ss.service.rating.impl.fct.sql;
 
 import at.tugraz.sss.serv.SSObjU;
 import at.tugraz.sss.serv.SSSQLVarNames;
-import at.tugraz.sss.serv.SSDBSQLFct;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.kc.tugraz.ss.service.rating.datatypes.SSRating;
 import at.kc.tugraz.ss.service.rating.datatypes.SSRatingOverall;
+import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSDBSQLSelectPar;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSErr;
@@ -39,11 +38,15 @@ import java.util.List;
 import java.util.Map;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
+import sss.servs.entity.sql.SSEntitySQL;
 
-public class SSRatingSQLFct extends SSDBSQLFct{
+public class SSRatingSQLFct extends SSEntitySQL{
 
-  public SSRatingSQLFct(final SSServImplWithDBA serv) throws Exception{
-    super(serv.dbSQL);
+  public SSRatingSQLFct(
+    final SSDBSQLI dbSQL, 
+    final SSUri    systemUserURI) throws Exception{
+    
+    super(dbSQL, systemUserURI);
   }
   
   public Boolean hasUserRatedEntity(

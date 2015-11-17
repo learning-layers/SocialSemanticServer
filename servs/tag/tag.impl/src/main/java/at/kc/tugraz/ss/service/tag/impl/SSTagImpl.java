@@ -24,6 +24,7 @@ import at.kc.tugraz.ss.activity.api.SSActivityServerI;
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePubURIGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntitiesGetPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityFromTypeAndLabelGetPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUpdatePar;
@@ -91,7 +92,7 @@ implements
   SSUsersResourcesGathererI{
   
   private final SSTagActAndLogFct          actAndLogFct;
-  private final SSTagAndCategoryCommonSQL  sqlFct;
+  private final SSTagAndCategoryCommonSQL  sql;
   private final SSTagAndCategoryCommonMisc commonMiscFct;
   private final SSEntityServerI            entityServ;
   
@@ -99,7 +100,7 @@ implements
     
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
     
-    this.sqlFct        = new SSTagAndCategoryCommonSQL (dbSQL, SSEntityE.tag);
+    this.sql           = new SSTagAndCategoryCommonSQL (dbSQL, SSVocConf.systemUserUri, SSEntityE.tag);
     this.commonMiscFct = new SSTagAndCategoryCommonMisc(dbSQL, SSEntityE.tag);
 
     this.actAndLogFct = 
@@ -439,7 +440,7 @@ SSUri.asListNotNull(par.circle), //circles
         case circleSpace:{
           
           final SSEntity circle = 
-            sqlFct.getEntityTest(
+            sql.getEntityTest(
               par.user, 
               par.circle, 
               par.withUserRestriction);
@@ -499,7 +500,7 @@ SSUri.asListNotNull(par.circle), //circles
         tagUri = tagEntity.id;
       }
       
-      sqlFct.addMetadataAssIfNotExists1(
+      sql.addMetadataAssIfNotExists1(
         tagUri,
         par.user,
         par.entity,
@@ -564,7 +565,7 @@ SSUri.asListNotNull(par.circle), //circles
       if(par.entity != null){
       
         final SSEntity entity = 
-          sqlFct.getEntityTest(
+          sql.getEntityTest(
             par.user, 
             par.entity, 
             par.withUserRestriction);
@@ -583,7 +584,7 @@ SSUri.asListNotNull(par.circle), //circles
         if(par.circle != null){
           
           final SSEntity circle = 
-            sqlFct.getEntityTest(
+            sql.getEntityTest(
               par.user, 
               par.circle, 
               par.withUserRestriction);
@@ -621,7 +622,7 @@ SSUri.asListNotNull(par.circle), //circles
         
         dbSQL.startTrans(par.shouldCommit);
         
-        sqlFct.removeMetadataAsss(
+        sql.removeMetadataAsss(
           par.forUser,
           par.entity,
           tagUri,
@@ -639,9 +640,9 @@ SSUri.asListNotNull(par.circle), //circles
         
         dbSQL.startTrans(par.shouldCommit);
         
-        sqlFct.removeMetadataAsss(par.user, null, tagUri, SSSpaceE.privateSpace, par.circle);
-        sqlFct.removeMetadataAsss(par.user, null, tagUri, SSSpaceE.sharedSpace,  par.circle);
-        sqlFct.removeMetadataAsss(par.user, null, tagUri, SSSpaceE.circleSpace,  par.circle);
+        sql.removeMetadataAsss(par.user, null, tagUri, SSSpaceE.privateSpace, par.circle);
+        sql.removeMetadataAsss(par.user, null, tagUri, SSSpaceE.sharedSpace,  par.circle);
+        sql.removeMetadataAsss(par.user, null, tagUri, SSSpaceE.circleSpace,  par.circle);
         
         dbSQL.commit(par.shouldCommit);
         return true;
@@ -653,7 +654,7 @@ SSUri.asListNotNull(par.circle), //circles
         
         dbSQL.startTrans(par.shouldCommit);
         
-        sqlFct.removeMetadataAsss(par.user, null, tagUri, par.space, par.circle);
+        sql.removeMetadataAsss(par.user, null, tagUri, par.space, par.circle);
         
         dbSQL.commit(par.shouldCommit);
         return true;
@@ -665,9 +666,9 @@ SSUri.asListNotNull(par.circle), //circles
         
         dbSQL.startTrans(par.shouldCommit);
         
-        sqlFct.removeMetadataAsss (par.user, par.entity, tagUri, SSSpaceE.privateSpace, par.circle);
-        sqlFct.removeMetadataAsss (null,     par.entity, tagUri, SSSpaceE.sharedSpace,  par.circle);
-        sqlFct.removeMetadataAsss (null,     par.entity, tagUri, SSSpaceE.circleSpace,  par.circle);
+        sql.removeMetadataAsss (par.user, par.entity, tagUri, SSSpaceE.privateSpace, par.circle);
+        sql.removeMetadataAsss (null,     par.entity, tagUri, SSSpaceE.sharedSpace,  par.circle);
+        sql.removeMetadataAsss (null,     par.entity, tagUri, SSSpaceE.circleSpace,  par.circle);
         
         dbSQL.commit(par.shouldCommit);
         return true;
@@ -679,7 +680,7 @@ SSUri.asListNotNull(par.circle), //circles
         
         dbSQL.startTrans(par.shouldCommit);
         
-        sqlFct.removeMetadataAsss(null, par.entity, tagUri, par.space, par.circle);
+        sql.removeMetadataAsss(null, par.entity, tagUri, par.space, par.circle);
         
         dbSQL.commit(par.shouldCommit);
         return true;
@@ -828,15 +829,18 @@ SSUri.asListNotNull(par.circle), //circles
             SSEntityE.evernoteNotebook,
             SSEntityE.placeholder);
         
+        final SSEntitiesGetPar entitiesGetPar = 
+          new SSEntitiesGetPar(
+            par.user,
+            null, //entities
+            null, //descPar
+            par.withUserRestriction);
+        
+        entitiesGetPar.types.addAll(types);
+          
         par.entities.addAll(
           SSUri.getDistinctNotNullFromEntities(
-            entityServ.entitiesGet(
-              new SSEntitiesGetPar(
-                par.user,
-                null, //entities
-                types, //types
-                null, //descPar
-                par.withUserRestriction)))); //withUserRestriction
+            entityServ.entitiesGet(entitiesGetPar))); //withUserRestriction
       }
       
       final List<SSTagFrequ> tagFrequs = new ArrayList<>();

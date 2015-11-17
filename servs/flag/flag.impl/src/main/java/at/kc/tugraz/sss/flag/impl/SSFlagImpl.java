@@ -21,6 +21,7 @@
 package at.kc.tugraz.sss.flag.impl;
 
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityGetPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUpdatePar;
 import at.tugraz.sss.serv.SSSocketCon;
@@ -63,14 +64,14 @@ implements
   SSFlagServerI, 
   SSDescribeEntityI{
   
-  private final SSFlagSQLFct    sqlFct;
+  private final SSFlagSQLFct    sql;
   private final SSEntityServerI entityServ;
   
   public SSFlagImpl(final SSConfA conf) throws Exception{
 
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
 
-    this.sqlFct     = new SSFlagSQLFct(dbSQL);
+    this.sql        = new SSFlagSQLFct  (dbSQL, SSVocConf.systemUserUri);
     this.entityServ = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
   }
   
@@ -192,7 +193,7 @@ implements
             return false;
           }
           
-          sqlFct.createFlag(
+          sql.createFlag(
             flag,
             flagType,
             par.endTime,
@@ -203,7 +204,7 @@ implements
             case importance:
               
               final List<SSUri> existingFlagUris =
-                sqlFct.getFlagURIs(
+                sql.getFlagURIs(
                   SSUri.asListNotNull(par.user),
                   SSUri.asListNotNull(entity),
                   SSFlagE.asListWithoutNullAndEmpty(flagType),
@@ -212,7 +213,7 @@ implements
               
               for(SSUri existingFlagUri : existingFlagUris){
                 
-                sqlFct.deleteFlagAss(
+                sql.deleteFlagAss(
                   null,
                   existingFlagUri,
                   null,
@@ -222,7 +223,7 @@ implements
               break;
           }
           
-          sqlFct.addFlagAssIfNotExists(
+          sql.addFlagAssIfNotExists(
             par.user,
             flag,
             entity);
@@ -258,7 +259,7 @@ implements
   public SSFlag flagGet(final SSFlagGetPar par) throws Exception{
     
     try{
-      SSFlag                     flag    = sqlFct.getFlag(par.flag);
+      SSFlag                     flag    = sql.getFlag(par.flag);
       
       if(flag == null){
         return null;
@@ -328,7 +329,7 @@ implements
         for(SSUri entity : par.entities){
 
           enityEntity = 
-            sqlFct.getEntityTest(
+            sql.getEntityTest(
               par.user, 
               entity, 
               par.withUserRestriction);
@@ -343,7 +344,7 @@ implements
       
       //TODO for flags which should be retrieved for user-entity combination and not only based on the entity, change here:
       final List<SSUri> flagURIs =
-        sqlFct.getFlagURIs(
+        sql.getFlagURIs(
           SSUri.asListNotNull(), //        SSUri.asListWithoutNullAndEmpty(par.user),
           par.entities,
           par.types,

@@ -23,7 +23,6 @@ package at.kc.tugraz.ss.like.impl.fct.sql;
 import at.tugraz.sss.serv.SSSQLVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.kc.tugraz.ss.like.datatypes.SSLikes;
-import at.tugraz.sss.serv.SSDBSQLFct;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSServErrReg;
 import java.sql.ResultSet;
@@ -31,11 +30,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import sss.servs.entity.sql.SSEntitySQL;
 
-public class SSLikeSQLFct extends SSDBSQLFct{
+public class SSLikeSQLFct extends SSEntitySQL{
 
-  public SSLikeSQLFct(final SSDBSQLI dbSQL) throws Exception{
-    super(dbSQL);
+  public SSLikeSQLFct(
+    final SSDBSQLI dbSQL,
+    final SSUri    systemUserURI) throws Exception{
+    
+    super(dbSQL, systemUserURI);
   }
   
   public SSLikes getLikes(

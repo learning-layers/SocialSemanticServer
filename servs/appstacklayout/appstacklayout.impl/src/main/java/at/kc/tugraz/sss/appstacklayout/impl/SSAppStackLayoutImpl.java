@@ -21,6 +21,7 @@
 package at.kc.tugraz.sss.appstacklayout.impl;
 
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityGetPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUpdatePar;
 import at.tugraz.sss.serv.SSSocketCon;
@@ -65,13 +66,13 @@ implements
   SSAppStackLayoutServerI,
   SSDescribeEntityI{
   
-  private final SSAppStackLayoutSQLFct sqlFct;
+  private final SSAppStackLayoutSQLFct sql;
   
   public SSAppStackLayoutImpl(final SSConfA conf) throws Exception{
     
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
     
-    this.sqlFct = new SSAppStackLayoutSQLFct(dbSQL);
+    this.sql = new SSAppStackLayoutSQLFct(dbSQL, SSVocConf.systemUserUri);
   }
   
   @Override
@@ -148,7 +149,7 @@ implements
         return null;
       }
       
-      sqlFct.createAppStackLayout(
+      sql.createAppStackLayout(
         appStackLayout,
         par.app);
       
@@ -218,7 +219,7 @@ implements
       
       if(par.app != null){
         
-        sqlFct.updateAppStackLayout(
+        sql.updateAppStackLayout(
           appStackLayout,
           par.app);
       }
@@ -253,7 +254,7 @@ implements
     
     try{
       
-      final SSAppStackLayout appStackLayout = sqlFct.getAppStackLayout(par.stack);
+      final SSAppStackLayout appStackLayout = sql.getAppStackLayout(par.stack);
       
       if(appStackLayout == null){
         return null;
@@ -298,7 +299,7 @@ implements
     try{
       
       if(par.stacks.isEmpty()){
-        par.stacks.addAll(sqlFct.getStackURIs());
+        par.stacks.addAll(sql.getStackURIs());
       }
       
       final List<SSEntity>         stacks = new ArrayList<>();
@@ -342,7 +343,7 @@ implements
     try{
 
       final SSEntity appStackLayout = 
-        sqlFct.getEntityTest(
+        sql.getEntityTest(
           par.user, 
           par.stack, 
           par.withUserRestriction);
@@ -353,7 +354,7 @@ implements
       
       dbSQL.startTrans(par.shouldCommit);
       
-      sqlFct.deleteStack(par.stack);
+      sql.deleteStack(par.stack);
       
       dbSQL.commit(par.shouldCommit);
       

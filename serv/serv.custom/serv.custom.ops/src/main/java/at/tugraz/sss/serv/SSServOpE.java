@@ -162,6 +162,7 @@ public enum SSServOpE{
   entityEntitiesAttachedRemove,
   entityTypesGet,
   entityUnpublicize,
+  entityURIsGet,
   
   //learn ep
   learnEpsGet                                         ,
@@ -351,7 +352,7 @@ public enum SSServOpE{
     try{
       return SSServOpE.valueOf(value);
     }catch(Exception error){
-      throw new Exception("sss serv op '" + value + "' not defined: please add your op in SSOpE");
+      throw new Exception("sss serv op '" + value + "' not defined: please add your op in SSServOpE");
     }
   }
 }

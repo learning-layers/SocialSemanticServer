@@ -21,6 +21,7 @@
 package at.kc.tugraz.sss.comment.impl;
 
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntitiesGetPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUpdatePar;
 import at.tugraz.sss.serv.SSSocketCon;
@@ -65,13 +66,13 @@ implements
   SSDescribeEntityI,
   SSUserRelationGathererI{
   
-  private final SSCommentSQLFct sqlFct;
+  private final SSCommentSQLFct sql;
   
   public SSCommentImpl(final SSConfA conf) throws Exception{
 
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
 
-    this.sqlFct = new SSCommentSQLFct(dbSQL);
+    this.sql = new SSCommentSQLFct(dbSQL, SSVocConf.systemUserUri);
   }
   
   @Override
@@ -176,11 +177,11 @@ implements
           return null;
         }
         
-        sqlFct.createComment(
+        sql.createComment(
           commentUri, 
           content);
         
-        sqlFct.addComment(
+        sql.addComment(
           par.entity, 
           commentUri);
       }
@@ -231,7 +232,7 @@ implements
       if(par.withUserRestriction){
         
         final SSEntity entity = 
-          sqlFct.getEntityTest(
+          sql.getEntityTest(
             par.user, 
             par.entity, 
             par.withUserRestriction);
@@ -241,7 +242,7 @@ implements
         }
       }
       
-      return sqlFct.getComments(par.entity, null);
+      return sql.getComments(par.entity, null);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -258,7 +259,7 @@ implements
         throw new SSErr(SSErrE.parameterMissing);
       }
       
-      final List<SSUri> entityURIs = sqlFct.getEntityURIsCommented(par.user);
+      final List<SSUri> entityURIs = sql.getEntityURIsCommented(par.user);
       
       if(!par.withUserRestriction){
         return entityURIs;
@@ -273,7 +274,6 @@ implements
           new SSEntitiesGetPar(
             par.user,
             entityURIs, //entities
-            null, //types,
             null, //descPar,
             par.withUserRestriction)));
       

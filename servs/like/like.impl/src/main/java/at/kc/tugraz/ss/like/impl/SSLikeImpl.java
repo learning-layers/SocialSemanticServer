@@ -31,6 +31,7 @@ import at.kc.tugraz.ss.like.datatypes.par.SSLikesUserGetPar;
 import at.kc.tugraz.ss.like.datatypes.ret.SSLikeUserSetRet;
 import at.kc.tugraz.ss.like.impl.fct.sql.SSLikeSQLFct;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUpdatePar;
 import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSDBNoSQL;
@@ -55,13 +56,13 @@ implements
   SSLikeServerI,
   SSDescribeEntityI{
   
-  private final SSLikeSQLFct     sqlFct;
+  private final SSLikeSQLFct     sql;
   private final SSEntityServerI  entityServ;
    
   public SSLikeImpl(final SSConfA conf) throws Exception{
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
     
-    this.sqlFct     = new SSLikeSQLFct(dbSQL);
+    this.sql        = new SSLikeSQLFct(dbSQL, SSVocConf.systemUserUri);
     this.entityServ = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
   }
   
@@ -100,7 +101,7 @@ implements
       }
       
       final SSEntity entity = 
-        sqlFct.getEntityTest(
+        sql.getEntityTest(
           par.user, 
           par.entity, 
           par.withUserRestriction);
@@ -118,7 +119,7 @@ implements
         }
       }
       
-      return sqlFct.getLikes(
+      return sql.getLikes(
         par.user, 
         par.forUser, 
         par.entity);
@@ -166,7 +167,7 @@ implements
         return null;
       }
       
-      sqlFct.like(
+      sql.like(
         par.user, 
         par.entity, 
         par.value);

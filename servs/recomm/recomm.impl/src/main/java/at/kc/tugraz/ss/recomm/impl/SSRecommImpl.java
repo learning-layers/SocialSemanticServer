@@ -87,10 +87,15 @@ import sss.serv.eval.api.SSEvalServerI;
 import sss.serv.eval.datatypes.SSEvalLogE;
 import sss.serv.eval.datatypes.par.SSEvalLogPar;
 
-public class SSRecommImpl extends SSServImplWithDBA implements SSRecommClientI, SSRecommServerI{
+public class SSRecommImpl 
+extends 
+  SSServImplWithDBA
+implements 
+  SSRecommClientI, 
+  SSRecommServerI{
   
   private final SSRecommConf   recommConf;
-  private final SSRecommSQLFct sqlFct;
+  private final SSRecommSQLFct sql;
   private final SSEvalServerI  evalServ;
   
   public SSRecommImpl(final SSConfA conf) throws Exception{
@@ -98,7 +103,7 @@ public class SSRecommImpl extends SSServImplWithDBA implements SSRecommClientI, 
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
     
     this.recommConf = ((SSRecommConf)conf);
-    this.sqlFct     = new SSRecommSQLFct(dbSQL);
+    this.sql        = new SSRecommSQLFct(dbSQL, SSVocConf.systemUserUri);
     this.evalServ   = (SSEvalServerI) SSServReg.getServ(SSEvalServerI.class);
   }
   
@@ -123,7 +128,7 @@ public class SSRecommImpl extends SSServImplWithDBA implements SSRecommClientI, 
           par.realm, //realm
           false, //checkForUpdate
           null, //engine
-          sqlFct, //sqlFct
+          sql, //sqlFct
           false); //storeToDB
       
       if(!par.ignoreAccessRights){
@@ -139,7 +144,7 @@ public class SSRecommImpl extends SSServImplWithDBA implements SSRecommClientI, 
           if(par.entity != null){
             
             final SSEntity entity =
-              sqlFct.getEntityTest(
+              sql.getEntityTest(
                 par.user,
                 par.entity,
                 par.withUserRestriction);
@@ -294,7 +299,7 @@ SSUri.asListNotNull(par.forUser), //users,
           realmToUse, //realm
           false, //checkForUpdate
           null, //engine
-          sqlFct, //sqlFct
+          sql, //sqlFct
           false); //storeToDB
       
       if(par.ignoreAccessRights){
@@ -317,7 +322,7 @@ SSUri.asListNotNull(par.forUser), //users,
           if(par.entity != null){
             
             final SSEntity entity =
-              sqlFct.getEntityTest(
+              sql.getEntityTest(
                 par.user,
                 par.entity,
                 par.withUserRestriction);
@@ -405,7 +410,7 @@ SSUri.asListNotNull(par.forUser), //users,
           par.realm, //realm
           false, //checkForUpdate
           null, //engine
-          sqlFct, //sqlFct
+          sql, //sqlFct
           false); //storeToDB
         
       if(par.ignoreAccessRights){
@@ -428,7 +433,7 @@ SSUri.asListNotNull(par.forUser), //users,
           if(par.entity != null){
             
             final SSEntity entity =
-              sqlFct.getEntityTest(
+              sql.getEntityTest(
                 par.user,
                 par.entity,
                 par.withUserRestriction);
@@ -523,7 +528,7 @@ SSUri.asListNotNull(par.forUser), //users,
     try{
       
 //      SSRecommUserRealmKeeper.setUserRealmEnginesFromConf       (recommConf);
-      SSRecommUserRealmKeeper.setAndLoadUserRealmEnginesFromDB  (sqlFct.getUserRealms());
+      SSRecommUserRealmKeeper.setAndLoadUserRealmEnginesFromDB  (sql.getUserRealms());
 //      SSRecommUserRealmKeeper.setSSSRealmEngine                 (recommConf);
       
     }catch(Exception error){
@@ -557,7 +562,7 @@ SSUri.asListNotNull(par.forUser), //users,
           par.realm,//realm
           true, //checkForUpdate
           new EntityRecommenderEngine(), //engine
-          sqlFct, //sqlFct
+          sql, //sqlFct
           false); //storeToDB
       
       SSServCaller.dataExportUsersEntitiesTagsCategoriesTimestampsFile(
@@ -655,7 +660,7 @@ SSUri.asListNotNull(par.forUser), //users,
               usersForRealm.getKey(), //realm
               true, //checkForUpdate
               new EntityRecommenderEngine(), //engine
-              sqlFct, //sqlFct
+              sql, //sqlFct
               false); //storeToDB
           
           userRealmEngine.engine.loadFile(userRealmEngine.realm);
@@ -772,7 +777,7 @@ SSUri.asListNotNull(par.forUser), //users,
               usersForRealm.getKey(), //realm
               true, //checkForUpdate
               new TagRecommenderEvalEngine(), //engine
-              sqlFct,
+              sql,
               false);
           
           userRealmEngine.engine.loadFile(userRealmEngine.realm);
@@ -822,7 +827,7 @@ SSUri.asListNotNull(par.forUser), //users,
           par.realm, //realm
           true, //checkForUpdate
           new EntityRecommenderEngine(), //engine
-          sqlFct, //sqlFct
+          sql, //sqlFct
           true); //storeToDB
       
       SSServCaller.dataExportUserEntityTagsCategoriesTimestampsLine(
@@ -886,7 +891,7 @@ SSUri.asListNotNull(par.forUser), //users,
           par.realm,//realm
           true, //checkForUpdate
           new EntityRecommenderEngine(), //engine
-          sqlFct, //sqlFct
+          sql, //sqlFct
           true); //storeToDB
       
       if(

@@ -20,7 +20,6 @@
  */
 package at.tugraz.sss.servs.entity.datatypes.par;
 
-import at.tugraz.sss.serv.SSEntityDescriberPar;
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
@@ -29,13 +28,13 @@ import at.tugraz.sss.serv.SSServPar;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SSEntitiesGetPar extends SSServPar{
+public class SSEntityURIsGetPar extends SSServPar{
   
   public List<SSUri>          entities              = new ArrayList<>();
+  public Boolean              getAccessible         = false;
   public List<SSEntityE>      types                 = new ArrayList<>();
   public List<SSUri>          authors               = new ArrayList<>();
-  public SSEntityDescriberPar descPar               = null;
-
+  
   public List<String> getEntities(){
     return SSStrU.removeTrailingSlash(entities);
   }
@@ -60,19 +59,22 @@ public class SSEntitiesGetPar extends SSServPar{
     this.authors = SSUri.get(authors);
   }
   
-  public SSEntitiesGetPar(){}
+  public SSEntityURIsGetPar(){}
   
-  public SSEntitiesGetPar(
+  public SSEntityURIsGetPar(
     final SSUri                user,
-    final List<SSUri>          entities,
-    final SSEntityDescriberPar descPar,
-    final Boolean              withUserRestriction) throws Exception{
+    final List<SSUri>          entities, 
+    final Boolean              getAccessible, 
+    final List<SSEntityE>      types,
+    final List<SSUri>          authors) throws Exception{
     
     super(SSServOpE.entitiesGet, null, user);
     
-    SSUri.addDistinctWithoutNull     (this.entities, entities);
+    SSUri.addDistinctWithoutNull (this.entities, entities);
     
-    this.descPar              = descPar;
-    this.withUserRestriction  = withUserRestriction;
+    this.getAccessible = getAccessible;
+    
+    SSEntityE.addDistinctWithoutNull(this.types,   types);
+    SSUri.addDistinctWithoutNull    (this.authors, authors);
   }
 }

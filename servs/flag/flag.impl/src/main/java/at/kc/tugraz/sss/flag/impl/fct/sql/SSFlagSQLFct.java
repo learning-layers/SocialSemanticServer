@@ -24,7 +24,6 @@ import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSSQLVarNames;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSDBSQLFct;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.kc.tugraz.sss.flag.datatypes.SSFlag;
 import at.kc.tugraz.sss.flag.datatypes.SSFlagE;
@@ -39,11 +38,15 @@ import java.util.List;
 import java.util.Map;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
+import sss.servs.entity.sql.SSEntitySQL;
 
-public class SSFlagSQLFct extends SSDBSQLFct{
+public class SSFlagSQLFct extends SSEntitySQL{
 
-  public SSFlagSQLFct(final SSDBSQLI dbSQL) throws Exception{
-    super(dbSQL);
+  public SSFlagSQLFct(
+    final SSDBSQLI dbSQL,
+    final SSUri    systemUserURI) throws Exception{
+    
+    super(dbSQL, systemUserURI);
   }
   
   public SSFlag getFlag(

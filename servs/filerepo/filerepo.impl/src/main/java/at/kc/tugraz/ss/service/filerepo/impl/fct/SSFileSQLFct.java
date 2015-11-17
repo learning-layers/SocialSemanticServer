@@ -20,25 +20,28 @@
 */
 package at.kc.tugraz.ss.service.filerepo.impl.fct;
 
-import at.tugraz.sss.serv.SSDBSQLFct;
+import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSObjU;
 import at.tugraz.sss.serv.SSSQLVarNames;
 import at.tugraz.sss.serv.SSServErrReg;
-import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.SSUri;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import sss.servs.entity.sql.SSEntitySQL;
 
-public class SSFileSQLFct extends SSDBSQLFct{
+public class SSFileSQLFct extends SSEntitySQL{
 
-  public SSFileSQLFct(final SSServImplWithDBA serv) throws Exception{
-    super(serv.dbSQL);
+  public SSFileSQLFct(
+    final SSDBSQLI dbSQL, 
+    final SSUri systemUserURI) throws Exception{
+    
+    super(dbSQL, systemUserURI);
   }
   
   public void addFile(

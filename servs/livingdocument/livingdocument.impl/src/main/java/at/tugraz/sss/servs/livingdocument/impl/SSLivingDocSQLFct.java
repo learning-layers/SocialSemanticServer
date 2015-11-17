@@ -20,7 +20,6 @@
  */
 package at.tugraz.sss.servs.livingdocument.impl;
 
-import at.tugraz.sss.serv.SSDBSQLFct;
 import at.tugraz.sss.serv.SSSQLVarNames;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSUri;
@@ -30,11 +29,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import sss.servs.entity.sql.SSEntitySQL;
 
-public class SSLivingDocSQLFct extends SSDBSQLFct{
+public class SSLivingDocSQLFct extends SSEntitySQL{
 
-  public SSLivingDocSQLFct(final SSLivingDocImpl serv) throws Exception {
-    super(serv.dbSQL);
+  public SSLivingDocSQLFct(
+    final SSLivingDocImpl serv,
+    final SSUri           systemUserURI) throws Exception {
+    
+    super(serv.dbSQL, systemUserURI);
   }
   
   public SSLivingDocument getLivingDoc(

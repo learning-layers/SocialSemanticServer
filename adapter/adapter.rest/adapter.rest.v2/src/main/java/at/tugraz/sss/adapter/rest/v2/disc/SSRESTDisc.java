@@ -144,7 +144,7 @@ public class SSRESTDisc{
   @ApiOperation(
     value = "update discussion",
     response = SSDiscUpdateRet.class)
-  public Response discEntryUpdate(
+  public Response discUpdate(
     @Context
     final HttpHeaders headers,
     

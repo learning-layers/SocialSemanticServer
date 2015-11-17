@@ -23,6 +23,7 @@ package at.tugraz.sss.servs.common.impl.tagcategory;
 import at.kc.tugraz.ss.category.datatypes.SSCategory;
 import at.kc.tugraz.ss.category.datatypes.SSCategoryFrequ;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityFromTypeAndLabelGetPar;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTag;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagFrequ;
@@ -44,7 +45,7 @@ import java.util.Map;
 
 public class SSTagAndCategoryCommonMisc {
   
-  private final SSTagAndCategoryCommonSQL sqlFct;
+  private final SSTagAndCategoryCommonSQL sql;
   private final SSEntityE                 metadataType;
   
   public SSTagAndCategoryCommonMisc(
@@ -52,7 +53,7 @@ public class SSTagAndCategoryCommonMisc {
     final SSEntityE        metadataType) throws Exception{
 
     this.metadataType = metadataType;
-    this.sqlFct       = new SSTagAndCategoryCommonSQL(dbSQL, metadataType);
+    this.sql          = new SSTagAndCategoryCommonSQL(dbSQL, SSVocConf.systemUserUri, metadataType);
   }
   
   public List<SSEntity> getMetadata(
@@ -102,7 +103,7 @@ public class SSTagAndCategoryCommonMisc {
       if(spaces.isEmpty()){
       
         metadata.addAll(
-          sqlFct.getMetadataAsss(
+          sql.getMetadataAsss(
             SSUri.asListNotNull(user), //user
             entities, //entities
             SSSpaceE.asListWithoutNull(SSSpaceE.privateSpace), //spaces
@@ -111,7 +112,7 @@ public class SSTagAndCategoryCommonMisc {
             circles)); //circles
 
         metadata.addAll(
-          sqlFct.getMetadataAsss(
+          sql.getMetadataAsss(
             SSUri.asListNotNull(forUser), //user
             entities, //entities
             SSSpaceE.asListWithoutNull(SSSpaceE.sharedSpace, SSSpaceE.circleSpace), //spaces
@@ -128,7 +129,7 @@ public class SSTagAndCategoryCommonMisc {
             case privateSpace:{
               
               metadata.addAll(
-                sqlFct.getMetadataAsss(
+                sql.getMetadataAsss(
                   SSUri.asListNotNull(user), //user
                   entities, //entities
                   SSSpaceE.asListWithoutNull(space), //spaces
@@ -142,7 +143,7 @@ public class SSTagAndCategoryCommonMisc {
             case circleSpace:{
               
               metadata.addAll(
-                sqlFct.getMetadataAsss(
+                sql.getMetadataAsss(
                   SSUri.asListNotNull(forUser), //user
                   entities, //entities
                   SSSpaceE.asListWithoutNull(space), //spaces
@@ -263,7 +264,7 @@ public class SSTagAndCategoryCommonMisc {
           case tag:{
             
             entity =
-              sqlFct.getEntityTest(
+              sql.getEntityTest(
                 user,
                 ((SSTag) meta).entity,
                 withUserRestriction);
@@ -275,7 +276,7 @@ public class SSTagAndCategoryCommonMisc {
             if(((SSTag) meta).circle != null){
               
               circle =
-                sqlFct.getEntityTest(
+                sql.getEntityTest(
                   user,
                   ((SSTag) meta).circle,
                   withUserRestriction);
@@ -292,7 +293,7 @@ public class SSTagAndCategoryCommonMisc {
           case category:{
             
             entity =
-              sqlFct.getEntityTest(
+              sql.getEntityTest(
                 user,
                 ((SSCategory) meta).entity,
                 withUserRestriction);

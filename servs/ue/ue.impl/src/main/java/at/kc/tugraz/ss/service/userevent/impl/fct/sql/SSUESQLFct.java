@@ -22,14 +22,13 @@ package at.kc.tugraz.ss.service.userevent.impl.fct.sql;
 
 import at.tugraz.sss.serv.SSSQLVarNames;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSDBSQLFct;
 import at.tugraz.sss.serv.SSUri;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUE;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUEE;
+import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSDBSQLSelectPar;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSServErrReg;
-import at.tugraz.sss.serv.SSServImplWithDBA;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,11 +36,15 @@ import java.util.List;
 import java.util.Map;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
+import sss.servs.entity.sql.SSEntitySQL;
 
-public class SSUESQLFct extends SSDBSQLFct{
+public class SSUESQLFct extends SSEntitySQL{
 
-  public SSUESQLFct(final SSServImplWithDBA serv) throws Exception{
-    super(serv.dbSQL);
+  public SSUESQLFct(
+    final SSDBSQLI dbSQL,
+    final SSUri    systemUserURI) throws Exception{
+    
+    super(dbSQL, systemUserURI);
   }
 
   public SSUE getUE(

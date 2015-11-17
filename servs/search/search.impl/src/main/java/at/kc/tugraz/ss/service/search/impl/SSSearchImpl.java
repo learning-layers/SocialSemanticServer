@@ -47,7 +47,6 @@ import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagEntitiesForTagsGetPar;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
-import at.tugraz.sss.serv.SSDBNoSQLSearchPar;
 import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
@@ -58,9 +57,9 @@ import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.SSServReg;
-import at.tugraz.sss.serv.SSSolrKeywordLabel;
-import at.tugraz.sss.serv.SSSolrSearchFieldE;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntitiesGetPar;
+import at.tugraz.sss.servs.entity.datatypes.par.SSEntityURIsGetPar;
+import sss.servs.entity.sql.SSEntitySQL;
 
 public class SSSearchImpl 
 extends SSServImplWithDBA
@@ -69,12 +68,14 @@ implements
   SSSearchServerI{
   
   protected static final Map<String, SSSearchResultPages> searchResultPagesCache = new HashMap<>();
-  private          final SSSearchSQLFct                   sqlFct;
+  private          final SSEntitySQL                      sql;
+  private          final SSSearchNoSQLFct                 noSQLFct;
   
   public SSSearchImpl(final SSConfA conf) throws Exception{
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
     
-    this.sqlFct = new SSSearchSQLFct(dbSQL);
+    this.sql      = new SSEntitySQL     (dbSQL, SSVocConf.systemUserUri);
+    this.noSQLFct = new SSSearchNoSQLFct(dbNoSQL);
   }
   
   @Override
@@ -103,6 +104,22 @@ implements
         return handleSearchPageRequest(entityServ, par);
       }
       
+      final List<SSUri>        uris                   = new ArrayList<>();
+      final SSEntityURIsGetPar entityURIsGetPar         =
+        new SSEntityURIsGetPar(
+          par.user,
+          null, //entities
+          true, //getAccessible
+          par.typesToSearchOnlyFor, 
+          par.authorsToSearchFor);
+      
+      final List<SSUri>             accessibleEntityURIs  = entityServ.entityURIsGet(entityURIsGetPar);
+      final List<SSUri>             tagResults            = new ArrayList<>();
+      final List<SSUri>             labelResults          = new ArrayList<>();
+      final List<SSUri>             descriptionResults    = new ArrayList<>();
+      final List<SSUri>             contentResults        = new ArrayList<>();
+      final List<SSEntity>          recommendedResults    = new ArrayList<>();
+      
       if(
         par.documentContentsToSearchFor.isEmpty()  &&
         par.tagsToSearchFor.isEmpty()              &&
@@ -110,21 +127,24 @@ implements
         par.descriptionsToSearchFor.isEmpty()      &&
         !par.includeRecommendedResults){
        
-        //TODO
-        //1) use circle service to retrieve all entities the user can access (take into account typesToSearchOnlyFor)
-        //2) use solr service to retrieve a ranked list of entities taking into account the author, min / max rating, typesToSearchOnlyFor
-        //3) mix results from solr and circle service
-        SSLogU.warn("no search query input given");
+        SSLogU.info("no search query input given");
+        
+        uris.addAll(accessibleEntityURIs);
+      }else{
+        tagResults.addAll         (getTagResults            (par, accessibleEntityURIs));
+        labelResults.addAll       (getLabelResults          (par, accessibleEntityURIs));
+        descriptionResults.addAll (getDescriptionResults    (par, accessibleEntityURIs));
+        contentResults.addAll     (getTextualContentResults (par));
+        recommendedResults.addAll (getRecommendedResults    (par));
+        
+        uris.addAll                  (tagResults);
+        uris.addAll                  (labelResults);
+        uris.addAll                  (descriptionResults);
+        uris.addAll                  (contentResults);
+        
+        SSStrU.distinctWithoutNull2(uris);
       }
 
-      final List<SSEntity>          results                       = new ArrayList<>();
-      final List<SSUri>             uris                          = new ArrayList<>();
-      final List<SSUri>             initiallyFilteredResults      = filterResultsInitially   (par);
-      final List<SSUri>             tagResults                    = getTagResults            (par, initiallyFilteredResults);
-      final List<SSUri>             labelResults                  = getLabelResults          (par, initiallyFilteredResults);
-      final List<SSUri>             descriptionResults            = getDescriptionResults    (par, initiallyFilteredResults);
-      final List<SSUri>             contentResults                = getTextualContentResults (par);
-      final List<SSEntity>          recommendedResults            = getRecommendedResults    (par);
       final List<SSUri>             ratingResultUris              = new ArrayList<>();
       final List<SSUri>             resultsAfterGlobalSearchOp    = new ArrayList<>();
       final String                  pagesID                       = SSIDU.uniqueID();
@@ -132,23 +152,16 @@ implements
       final List<SSEntity>          page                          = new ArrayList<>();
       Integer                       recommendedEntityCounter      = 0;
       
-      uris.addAll                  (tagResults);
-      uris.addAll                  (contentResults);
-      uris.addAll                  (labelResults);
-      uris.addAll                  (descriptionResults);
-      
-      SSStrU.distinctWithoutNull2(uris);
-      
       ratingResultUris.addAll(getRatingResults(par, uris));
       
       resultsAfterGlobalSearchOp.addAll(
         filterSearchResultsRegardingGlobalSearchOp(
           par,
           uris,
-          tagResults, 
+          tagResults,
           contentResults,
           labelResults,
-          descriptionResults, 
+          descriptionResults,
           ratingResultUris));
       
       if(!resultsAfterGlobalSearchOp.isEmpty()){
@@ -156,7 +169,7 @@ implements
         final List<String> entities =
           SSStrU.retainAll(
             SSStrU.toStr(resultsAfterGlobalSearchOp),
-            SSStrU.toStr(initiallyFilteredResults));
+            SSStrU.toStr(accessibleEntityURIs));
           
         final List<SSUri> entityURIs = SSUri.get(entities);
         
@@ -185,8 +198,10 @@ implements
       
       SSSearchFct.fillPagesIfEmpty(
         par, 
-        pages, 
+        pages,
         recommendedResults);
+      
+      final List<SSEntity>     results                = new ArrayList<>();
       
       if(!pages.isEmpty()){
         
@@ -263,7 +278,6 @@ implements
             descriptionsThere   = false;
             contentThere        = false;
             ratingsThere        = false;
-            
             
             if(
               par.minRating == null &&
@@ -449,7 +463,7 @@ implements
           final List<SSUri> orResults = new ArrayList<>();
           
           orResults.addAll(
-            sqlFct.getEntitiesForDescriptionsWithMatch(
+            sql.getEntitiesForDescriptionsWithMatch(
               filteredResults,
               new ArrayList<>(), //requireds
               new ArrayList<>(), //absents
@@ -459,12 +473,12 @@ implements
             return orResults;
           }
           
-          return sqlFct.getEntitiesForDescriptionsWithLike(SSStrU.toStr(par.descriptionsToSearchFor));
+          return sql.getEntitiesForDescriptionsWithLike(SSStrU.toStr(par.descriptionsToSearchFor));
         }
         
         case and:{
           
-          return sqlFct.getEntitiesForDescriptionsWithMatch(
+          return sql.getEntitiesForDescriptionsWithMatch(
             filteredResults,
             SSStrU.toStr(par.descriptionsToSearchFor), //requireds
             new ArrayList<>(), //absents
@@ -504,7 +518,7 @@ implements
           final List<SSUri> orResults = new ArrayList<>();
           
           orResults.addAll(
-            sqlFct.getEntitiesForLabelsWithMatch(
+            sql.getEntitiesForLabelsWithMatch(
               filteredResults,
               new ArrayList<>(), //requireds
               new ArrayList<>(), //absents
@@ -514,12 +528,12 @@ implements
             return orResults;
           }
           
-          return sqlFct.getEntitiesForLabelsWithLike(SSStrU.toStr(par.labelsToSearchFor));
+          return sql.getEntitiesForLabelsWithLike(SSStrU.toStr(par.labelsToSearchFor));
         }
         
         case and:{
           
-          return sqlFct.getEntitiesForLabelsWithMatch(
+          return sql.getEntitiesForLabelsWithMatch(
             filteredResults,
             SSStrU.toStr(par.labelsToSearchFor), //requireds
             new ArrayList<>(), //absents
@@ -613,18 +627,10 @@ implements
         return new ArrayList<>();
       }
       
-      final Map<SSSolrSearchFieldE, List<SSSolrKeywordLabel>> wheres = new HashMap<>();
-      
-      wheres.put(SSSolrSearchFieldE.docText, SSSolrKeywordLabel.get(par.documentContentsToSearchFor));
-      
-      return SSUri.get(
-        dbNoSQL.search(
-          new SSDBNoSQLSearchPar(
-            par.globalSearchOp.toString(),
-            par.localSearchOp.toString(),
-            wheres,
-            100)),
-        SSVocConf.sssUri);
+      return noSQLFct.search(
+        par.globalSearchOp, 
+        par.localSearchOp, 
+        par.documentContentsToSearchFor);
       
     }catch(Exception error){
       
@@ -692,26 +698,8 @@ implements
         new SSEntitiesGetPar(
           par.user,
           SSUri.getDistinctNotNullFromEntities(results), //entities
-          null, //types
           null, //descPar,
           par.withUserRestriction));
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-
-  private List<SSUri> filterResultsInitially(final SSSearchPar par) throws Exception{
-    
-    try{
-      
-      return sqlFct.getEntityURIsUserCanAccess(
-        par.user, 
-        true, //withSystemCircles, 
-        null, //entities,
-        par.typesToSearchOnlyFor, 
-        par.authorsToSearchFor);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

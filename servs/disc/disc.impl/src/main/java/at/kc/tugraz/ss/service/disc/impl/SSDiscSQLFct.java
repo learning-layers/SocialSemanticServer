@@ -21,7 +21,6 @@
 package at.kc.tugraz.ss.service.disc.impl;
 
 import at.tugraz.sss.serv.SSSQLVarNames;
-import at.tugraz.sss.serv.SSDBSQLFct;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.kc.tugraz.ss.service.disc.datatypes.SSDisc;
@@ -37,11 +36,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import sss.servs.entity.sql.SSEntitySQL;
 
-public class SSDiscSQLFct extends SSDBSQLFct {
+public class SSDiscSQLFct extends SSEntitySQL {
 
-  public SSDiscSQLFct(final SSServImplWithDBA serv) throws Exception{
-    super(serv.dbSQL);
+  public SSDiscSQLFct(
+    final SSServImplWithDBA serv,
+    final SSUri             systemUserURI) throws Exception{
+    
+    super(serv.dbSQL, systemUserURI);
   }
 
 //  public List<SSUri> getDiscURIs() throws Exception{

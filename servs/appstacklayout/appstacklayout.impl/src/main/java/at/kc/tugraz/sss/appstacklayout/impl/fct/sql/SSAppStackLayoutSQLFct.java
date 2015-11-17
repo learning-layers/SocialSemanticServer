@@ -20,7 +20,6 @@
 */
 package at.kc.tugraz.sss.appstacklayout.impl.fct.sql;
 
-import at.tugraz.sss.serv.SSDBSQLFct;
 import at.tugraz.sss.serv.SSSQLVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSDBSQLI;
@@ -34,11 +33,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import sss.servs.entity.sql.SSEntitySQL;
 
-public class SSAppStackLayoutSQLFct extends SSDBSQLFct{
+public class SSAppStackLayoutSQLFct extends SSEntitySQL{
 
-  public SSAppStackLayoutSQLFct(final SSDBSQLI dbSQL) throws Exception{
-    super(dbSQL);
+  public SSAppStackLayoutSQLFct(
+    final SSDBSQLI dbSQL,
+    final SSUri    systemUserURI) throws Exception{
+    
+    super(dbSQL, systemUserURI);
   }
   
   public SSAppStackLayout getAppStackLayout(

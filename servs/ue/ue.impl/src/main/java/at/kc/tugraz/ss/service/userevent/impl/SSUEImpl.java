@@ -66,14 +66,14 @@ implements
   SSDescribeEntityI, 
   SSUsersResourcesGathererI{
   
-  private final SSUESQLFct        sqlFct;
+  private final SSUESQLFct        sql;
   private final SSEntityServerI   entityServ;
   
   public SSUEImpl(final SSConfA conf) throws Exception{
     
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
     
-    this.sqlFct       = new SSUESQLFct(this);
+    this.sql          = new SSUESQLFct(dbSQL, SSVocConf.systemUserUri);
     this.entityServ   = (SSEntityServerI)   SSServReg.getServ(SSEntityServerI.class);
   }
   
@@ -252,12 +252,12 @@ implements
     try{
       
       final List<SSEntity> ues    = new ArrayList<>();
-      final SSUEsGetFct    fct    = new SSUEsGetFct(entityServ, sqlFct);
+      final SSUEsGetFct    fct    = new SSUEsGetFct(entityServ, sql);
       SSUE                 ue;
       
       for(SSUri ueURI : fct.getUEsToFill(par)){
         
-        ue = sqlFct.getUE(ueURI);
+        ue = sql.getUE(ueURI);
         
         if(ue == null){
           continue;
@@ -306,7 +306,7 @@ implements
         }
         
         SSEntity entity =
-          sqlFct.getEntityTest(
+          sql.getEntityTest(
             par.user,
             par.entity,
             par.withUserRestriction);
@@ -316,7 +316,7 @@ implements
         }
       }
       
-      return sqlFct.getUEURIs(
+      return sql.getUEURIs(
         par.forUser,
         par.entity,
         SSUEE.asListWithoutEmptyAndNull(par.type),
@@ -390,7 +390,7 @@ implements
         return null;
       }
       
-      sqlFct.addUE(
+      sql.addUE(
         ueUri,
         par.user,
         par.entity,

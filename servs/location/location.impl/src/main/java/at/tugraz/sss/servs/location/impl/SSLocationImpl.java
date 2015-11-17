@@ -21,6 +21,7 @@
 package at.tugraz.sss.servs.location.impl;
 
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.tugraz.sss.servs.location.datatype.par.SSLocationAddPar;
 import at.tugraz.sss.servs.location.datatype.par.SSLocationsGetPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUpdatePar;
@@ -56,13 +57,13 @@ implements
   SSLocationServerI,
   SSDescribeEntityI{
 
-  private final SSLocationSQLFct sqlFct;
+  private final SSLocationSQLFct sql;
   private final SSEntityServerI  entityServ;
   
   public SSLocationImpl(final SSConfA conf) throws Exception{
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
     
-     sqlFct          = new SSLocationSQLFct   (this);
+     sql             = new SSLocationSQLFct   (dbSQL, SSVocConf.systemUserUri);
      this.entityServ = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
   }
 
@@ -119,7 +120,7 @@ implements
         throw new SSErr(SSErrE.parameterMissing);
       }
       
-      return sqlFct.getLocation(par.location);
+      return sql.getLocation(par.location);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -137,7 +138,7 @@ implements
       }
       
       final SSEntity entity = 
-        sqlFct.getEntityTest(
+        sql.getEntityTest(
           par.user, 
           par.entity, 
           par.withUserRestriction);
@@ -146,7 +147,7 @@ implements
         return new ArrayList<>();
       }
       
-     final List<SSUri>      locationURIs    = sqlFct.getLocationURIs(par.entity);
+     final List<SSUri>      locationURIs    = sql.getLocationURIs(par.entity);
      final List<SSEntity>   locations       = new ArrayList<>();
      final SSLocationGetPar locationsGetPar =
        new SSLocationGetPar(
@@ -230,7 +231,7 @@ implements
         return null;
       }
       
-      sqlFct.addLocation(
+      sql.addLocation(
         location.id,
         par.entity,
         location);

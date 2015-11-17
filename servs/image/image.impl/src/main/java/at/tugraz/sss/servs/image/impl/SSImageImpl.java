@@ -80,13 +80,13 @@ implements
   SSDescribeEntityI,
   SSAddAffiliatedEntitiesToCircleI{
 
-  private final SSImageSQLFct         sqlFct;
+  private final SSImageSQLFct         sql;
   private final SSEntityServerI       entityServ;
   
   public SSImageImpl(final SSConfA conf) throws Exception{
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
     
-    this.sqlFct         = new SSImageSQLFct   (this);
+    this.sql            = new SSImageSQLFct   (dbSQL, SSVocConf.systemUserUri);
     this.entityServ     = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
   }
   
@@ -114,7 +114,7 @@ implements
       
       if(par.setProfilePicture){
         
-        for(SSUri profilePicture : sqlFct.getProfilePictures(entity.id)){
+        for(SSUri profilePicture : sql.getProfilePictures(entity.id)){
           
           entity.profilePicture =
             imageGet(
@@ -213,7 +213,7 @@ implements
 
     try{
       
-      SSEntity image = sqlFct.getEntityTest(par.user, par.image, par.withUserRestriction);
+      SSEntity image = sql.getEntityTest(par.user, par.image, par.withUserRestriction);
       
       if(image == null){
         return null;
@@ -221,7 +221,7 @@ implements
       
       final SSFileRepoServerI fileServ = (SSFileRepoServerI) SSServReg.getServ(SSFileRepoServerI.class);
       
-      image = sqlFct.getImage(par.image);
+      image = sql.getImage(par.image);
       
       for(SSEntity file :
         fileServ.filesGet(
@@ -261,7 +261,7 @@ implements
         
         if(par.entity != null){
           
-          final SSEntity enity = sqlFct.getEntityTest(par.user, par.entity, par.withUserRestriction);
+          final SSEntity enity = sql.getEntityTest(par.user, par.entity, par.withUserRestriction);
             
           if(enity == null){
             return new ArrayList<>();
@@ -269,7 +269,7 @@ implements
         }
       }
       
-      final List<SSUri>    imageURIs = sqlFct.getImages(par.entity, par.imageType);
+      final List<SSUri>    imageURIs = sql.getImages(par.entity, par.imageType);
       final List<SSEntity> images    = new ArrayList<>();
       final SSImageGetPar  imageGetPar =
         new SSImageGetPar(
@@ -389,7 +389,7 @@ implements
         return new SSImageAddRet(null, null);
       }
       
-      sqlFct.addImage(
+      sql.addImage(
         imageUri, 
         par.imageType,
         par.link);
@@ -412,7 +412,7 @@ implements
               false)); //shouldCommit)
         
         if(entity != null){
-          sqlFct.addImageToEntity(imageUri, par.entity);
+          sql.addImageToEntity(imageUri, par.entity);
         }
       }
       
@@ -502,13 +502,13 @@ implements
       }
       
       SSEntity file = 
-        sqlFct.getEntityTest(
+        sql.getEntityTest(
           par.user, 
           par.file,   
           par.withUserRestriction);
       
       final SSEntity entity = 
-        sqlFct.getEntityTest(
+        sql.getEntityTest(
           par.user, 
           par.entity, 
           par.withUserRestriction);
@@ -579,8 +579,8 @@ implements
         return null;
       }
       
-      sqlFct.removeProfilePictures (par.entity);
-      sqlFct.addProfilePicture     (par.entity, profilePicture);
+      sql.removeProfilePictures (par.entity);
+      sql.addProfilePicture     (par.entity, profilePicture);
       
       removeThumbsFromEntity(
         par.user,
@@ -637,7 +637,7 @@ implements
             SSImageE.thumb,
             withUserRestriction));
       
-      sqlFct.removeImagesFromEntity(SSUri.getDistinctNotNullFromEntities(existingThumbs));
+      sql.removeImagesFromEntity(SSUri.getDistinctNotNullFromEntities(existingThumbs));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

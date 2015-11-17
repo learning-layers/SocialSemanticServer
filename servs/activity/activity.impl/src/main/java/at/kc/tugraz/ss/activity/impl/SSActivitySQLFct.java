@@ -29,7 +29,6 @@ import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
 import at.tugraz.sss.serv.SSAuthor;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSDBSQLFct;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSDBSQLSelectPar;
 import at.tugraz.sss.serv.SSServErrReg;
@@ -40,11 +39,15 @@ import java.util.List;
 import java.util.Map;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
+import sss.servs.entity.sql.SSEntitySQL;
 
-public class SSActivitySQLFct extends SSDBSQLFct{
+public class SSActivitySQLFct extends SSEntitySQL{
 
-  public SSActivitySQLFct(final SSDBSQLI dbSQL) throws Exception{
-    super(dbSQL);
+  public SSActivitySQLFct(
+    final SSDBSQLI dbSQL,
+    final SSUri    systemUserURI) throws Exception{
+    
+    super(dbSQL, systemUserURI);
   }
   
   public void addActivityContent(

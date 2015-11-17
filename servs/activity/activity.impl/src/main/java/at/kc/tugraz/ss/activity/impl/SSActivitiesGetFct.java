@@ -39,14 +39,14 @@ public class SSActivitiesGetFct {
 
   private final SSEntityFiller        entityFiller = new SSEntityFiller();
   private final SSEntityServerI       entityServ;
-  private final SSActivitySQLFct      sqlFct;
+  private final SSActivitySQLFct      sql;
   
   public SSActivitiesGetFct(
     final SSEntityServerI  entityServ, 
-    final SSActivitySQLFct sqlFct){
+    final SSActivitySQLFct sql){
     
     this.entityServ = entityServ;
-    this.sqlFct     = sqlFct;
+    this.sql        = sql;
   }
   
   public void setEntitiesToQuery(
@@ -64,7 +64,6 @@ public class SSActivitiesGetFct {
         new SSEntitiesGetPar(
           par.user,
           par.entities, //entities
-          null, //types,
           descPar, //descPar,
           par.withUserRestriction);
       
@@ -97,7 +96,6 @@ public class SSActivitiesGetFct {
         new SSEntitiesGetPar(
           par.user,
           par.circles, //entities
-          null, //types,
           descPar, //descPar,
           par.withUserRestriction);
       
@@ -149,7 +147,7 @@ public class SSActivitiesGetFct {
       //      entityURIsToQuery.addAll(sqlFct.getAccessibleURIs(par.user));
       
       activityURIsToQuery.addAll(
-        sqlFct.getActivityURIs(
+        sql.getActivityURIs(
           par.users,
           entityURIsToQuery,
           par.types,
@@ -218,7 +216,7 @@ public class SSActivitiesGetFct {
       
       SSEntity activityEntity;
       
-      for(SSUri entity : sqlFct.getActivityEntities (activity.id)){
+      for(SSUri entity : sql.getActivityEntities (activity.id)){
         
         if(entityFiller.containsFilledEntity(entity)){
           SSEntity.addEntitiesDistinctWithoutNull(activity.entities, entityFiller.getFilledEntity(entity));
@@ -254,7 +252,7 @@ public class SSActivitiesGetFct {
       
       SSEntity activityUser;
       
-      for(SSUri user : sqlFct.getActivityUsers (activity.id)){
+      for(SSUri user : sql.getActivityUsers (activity.id)){
         
         if(entityFiller.containsFilledEntity(user)){
           SSEntity.addEntitiesDistinctWithoutNull(activity.users, entityFiller.getFilledEntity(user));

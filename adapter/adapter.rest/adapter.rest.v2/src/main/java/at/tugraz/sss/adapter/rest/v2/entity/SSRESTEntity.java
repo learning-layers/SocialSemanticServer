@@ -74,9 +74,7 @@ public class SSRESTEntity {
     
     try{
       
-      par =
-        new SSEntityTypesGetPar(
-          null); 
+      par = new SSEntityTypesGetPar(null); 
       
     }catch(Exception error){
       return Response.status(422).build();
@@ -84,37 +82,6 @@ public class SSRESTEntity {
     
     return SSRestMainV2.handleRequest(headers, par, false, true).response;
   }
-  
-//  @GET
-//  @Consumes(MediaType.APPLICATION_JSON)
-//  @Produces(MediaType.APPLICATION_JSON)
-//  @ApiOperation(
-//    value = "retrieve entities",
-//    response = SSEntitiesGetRet.class)
-//  @Path("")
-//  @Deprecated
-//  public Response entitiesAccessibleGet(
-//    @Context
-//    final HttpHeaders headers){
-//    
-//    final SSEntitiesGetPar par;
-//    
-//    try{
-//      
-//      par =
-//        new SSEntitiesGetPar(
-//          null,  //user
-//          null,  //entities
-//          null, //types
-//          null, //descPar
-//          true); //withUserRestriction
-//      
-//    }catch(Exception error){
-//      return Response.status(422).build();
-//    }
-//    
-//    return SSRestMainV2.handleRequest(headers, par, false, true).response;
-//  }
   
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
@@ -152,7 +119,6 @@ public class SSRESTEntity {
         new SSEntitiesGetPar(
           null,
           SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(entities, SSStrU.comma), SSVocConf.sssUri), //entities
-          null, //types
           descPar, //descPar
           true); //withUserRestriction
       
@@ -163,6 +129,8 @@ public class SSRESTEntity {
     return SSRestMainV2.handleRequest(headers, par, false, true).response;
   }
   
+  //TODO replace this call by a service to be created for placeholder functionality (i.e., b&p placeholders)
+  @Deprecated
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
@@ -419,3 +387,34 @@ public class SSRESTEntity {
     return SSRestMainV2.handleRequest(headers, par, false, true).response;
   }
 }
+
+//  @GET
+//  @Consumes(MediaType.APPLICATION_JSON)
+//  @Produces(MediaType.APPLICATION_JSON)
+//  @ApiOperation(
+//    value = "retrieve entities",
+//    response = SSEntitiesGetRet.class)
+//  @Path("")
+//  @Deprecated
+//  public Response entitiesAccessibleGet(
+//    @Context
+//    final HttpHeaders headers){
+//    
+//    final SSEntitiesGetPar par;
+//    
+//    try{
+//      
+//      par =
+//        new SSEntitiesGetPar(
+//          null,  //user
+//          null,  //entities
+//          null, //types
+//          null, //descPar
+//          true); //withUserRestriction
+//      
+//    }catch(Exception error){
+//      return Response.status(422).build();
+//    }
+//    
+//    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+//  }

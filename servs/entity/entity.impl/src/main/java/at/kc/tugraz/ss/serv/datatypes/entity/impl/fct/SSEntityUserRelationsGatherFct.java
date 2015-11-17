@@ -25,7 +25,6 @@ import at.kc.tugraz.ss.circle.datatypes.par.SSCirclesGetPar;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
 import java.util.List;
@@ -34,7 +33,6 @@ import java.util.Map;
 public class SSEntityUserRelationsGatherFct{
   
   public static void getUserRelations(
-    final SSEntitySQLFct           sqlFct, 
     final List<String>             allUsers, 
     final Map<String, List<SSUri>> userRelations) throws Exception{
     

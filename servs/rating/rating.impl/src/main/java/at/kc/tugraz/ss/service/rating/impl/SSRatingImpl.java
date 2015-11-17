@@ -21,6 +21,7 @@
  package at.kc.tugraz.ss.service.rating.impl;
 
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUpdatePar;
 import at.kc.tugraz.ss.service.rating.impl.fct.userraltionsgathering.SSRatingUserRelationGathererFct;
 import at.tugraz.sss.serv.SSStrU;
@@ -70,14 +71,14 @@ implements
   SSDescribeEntityI, 
   SSUserRelationGathererI{
  
-  private final SSRatingSQLFct   sqlFct;
+  private final SSRatingSQLFct   sql;
   private final SSEntityServerI  entityServ;
     
   public SSRatingImpl(final SSConfA conf) throws Exception{
     
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
     
-    this.sqlFct     = new SSRatingSQLFct   (this);
+    this.sql        = new SSRatingSQLFct   (dbSQL, SSVocConf.systemUserUri);
     this.entityServ = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
   }
 
@@ -93,7 +94,7 @@ implements
       for(String user : allUsers){
         
         for(SSEntity rating :
-          sqlFct.getRatingAsss(
+          sql.getRatingAsss(
             SSUri.asListNotNull(SSUri.get(user)),
             null)){
           
@@ -153,7 +154,7 @@ implements
     
     try{
       
-      final Boolean userRatedEntityBefore = sqlFct.hasUserRatedEntity(par.user, par.entity);
+      final Boolean userRatedEntityBefore = sql.hasUserRatedEntity(par.user, par.entity);
         
       if(
         !par.allowToRateAgain &&
@@ -207,7 +208,7 @@ implements
           return null;
         }
         
-        sqlFct.rateEntityByUser(
+        sql.rateEntityByUser(
           ratingUri,
           par.user,
           par.entity,
@@ -216,7 +217,7 @@ implements
         
       }else{
         
-        sqlFct.rateEntityByUser(
+        sql.rateEntityByUser(
           null,
           par.user,
           par.entity,
@@ -266,7 +267,7 @@ implements
       if(par.withUserRestriction){
         
         final SSEntity entityEntity = 
-          sqlFct.getEntityTest(
+          sql.getEntityTest(
             par.user, 
             par.entity, 
             par.withUserRestriction);
@@ -276,7 +277,7 @@ implements
         }
       }
       
-      return sqlFct.getUserRating(par.user, par.entity);
+      return sql.getUserRating(par.user, par.entity);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -301,7 +302,7 @@ implements
       if(par.withUserRestriction){
         
         final SSEntity entityEntity = 
-          sqlFct.getEntityTest(
+          sql.getEntityTest(
             par.user, 
             par.entity, 
             par.withUserRestriction);
@@ -311,7 +312,7 @@ implements
         }
       }
       
-      return sqlFct.getOverallRating(par.entity);
+      return sql.getOverallRating(par.entity);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -335,7 +336,7 @@ implements
         for(SSUri entity : par.entities){
           
           entityEntity = 
-            sqlFct.getEntityTest(
+            sql.getEntityTest(
               par.user, 
               entity, 
               par.withUserRestriction);
@@ -351,7 +352,7 @@ implements
         par.entities.addAll(entitiesToQuery);
       }
       
-      final List<SSEntity>         ratings             = sqlFct.getRatingAsss(null, par.entities);
+      final List<SSEntity>         ratings             = sql.getRatingAsss(null, par.entities);
       final List<SSUri>            entityURIs          = new ArrayList<>();
       SSRatingOverall              overallRating;
 
@@ -405,7 +406,7 @@ implements
       if(par.withUserRestriction){
         
         final SSEntity entityEntity = 
-          sqlFct.getEntityTest(
+          sql.getEntityTest(
             par.user, 
             par.entity, 
             par.withUserRestriction);
@@ -417,7 +418,7 @@ implements
       
       dbSQL.startTrans(par.shouldCommit);
       
-      sqlFct.deleteRatingAss(par.user, par.entity);
+      sql.deleteRatingAss(par.user, par.entity);
       
       dbSQL.commit(par.shouldCommit);
       

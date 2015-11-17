@@ -20,7 +20,6 @@
   */
 package at.kc.tugraz.sss.comment.impl.fct.sql;
 
-import at.tugraz.sss.serv.SSDBSQLFct;
 import at.tugraz.sss.serv.SSSQLVarNames;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
@@ -33,11 +32,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import sss.servs.entity.sql.SSEntitySQL;
 
-public class SSCommentSQLFct extends SSDBSQLFct{
+public class SSCommentSQLFct extends SSEntitySQL{
   
-  public SSCommentSQLFct(final SSDBSQLI dbSQL) throws Exception{
-    super(dbSQL);
+  public SSCommentSQLFct(
+    final SSDBSQLI dbSQL,
+    final SSUri    systemUserURI) throws Exception{
+    
+    super(dbSQL, systemUserURI);
   }
   
   public List<SSUri> getEntityURIsCommented(

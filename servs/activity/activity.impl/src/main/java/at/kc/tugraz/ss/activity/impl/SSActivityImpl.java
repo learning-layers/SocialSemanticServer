@@ -36,6 +36,7 @@ import at.kc.tugraz.ss.activity.datatypes.ret.SSActivitiesGetRet;
 import at.kc.tugraz.ss.activity.datatypes.ret.SSActivityTypesGetRet;
 import at.kc.tugraz.ss.activity.datatypes.ret.SSActivityAddRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUpdatePar;
 import at.tugraz.sss.serv.SSSocketCon;
 import at.tugraz.sss.serv.SSEntity;
@@ -69,13 +70,13 @@ implements
   SSActivityServerI,
   SSDescribeEntityI{
   
-  private final SSActivitySQLFct sqlFct;
+  private final SSActivitySQLFct sql;
   
   public SSActivityImpl(final SSConfA conf) throws Exception{
     
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
     
-    this.sqlFct = new SSActivitySQLFct(dbSQL);
+    this.sql = new SSActivitySQLFct(dbSQL, SSVocConf.systemUserUri);
   }
   
   @Override
@@ -230,7 +231,7 @@ implements
       final List<SSEntity>             activities           = new ArrayList<>();
       final List<SSUri>                activityURIsToQuery  = new ArrayList<>();
       final SSEntityServerI            entityServ           = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
-      final SSActivitiesGetFct         fct                  = new SSActivitiesGetFct(entityServ, sqlFct);
+      final SSActivitiesGetFct         fct                  = new SSActivitiesGetFct(entityServ, sql);
       SSActivity                       activity;
       SSEntityDescriberPar             descPar;
       
@@ -247,7 +248,7 @@ implements
       
       for(SSUri activityURI : activityURIsToQuery){
         
-        activity = sqlFct.getActivity(activityURI);
+        activity = sql.getActivity(activityURI);
         
         if(activity == null){
           continue;
@@ -279,7 +280,7 @@ implements
           par,
           descPar);
         
-        activity.contents.addAll(sqlFct.getActivityContents(activity.id));
+        activity.contents.addAll(sql.getActivityContents(activity.id));
         
         activities.add(activity);
         
@@ -389,7 +390,7 @@ implements
         }
       }
       
-      sqlFct.addActivity(
+      sql.addActivity(
         par.user,
         activity,
         par.type,
@@ -428,7 +429,7 @@ implements
     try{
       
       final SSEntity activity =
-        sqlFct.getEntityTest(
+        sql.getEntityTest(
           par.user,
           par.activity,
           false); //withUserRestriction
@@ -437,7 +438,7 @@ implements
         return null;
       }
       
-      sqlFct.addActivityContent(
+      sql.addActivityContent(
         activity.id,
         par.contentType,
         par.content);

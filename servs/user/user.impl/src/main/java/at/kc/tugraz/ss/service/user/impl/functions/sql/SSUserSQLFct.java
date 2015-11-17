@@ -21,11 +21,10 @@
 package at.kc.tugraz.ss.service.user.impl.functions.sql;
 
 import at.tugraz.sss.serv.SSSQLVarNames;
-import at.tugraz.sss.serv.SSDBSQLFct;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.kc.tugraz.ss.service.user.datatypes.SSUser;
+import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSDBSQLSelectPar;
 import at.tugraz.sss.serv.SSServErrReg;
 import java.sql.ResultSet;
@@ -35,11 +34,15 @@ import java.util.List;
 import java.util.Map;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
+import sss.servs.entity.sql.SSEntitySQL;
 
-public class SSUserSQLFct extends SSDBSQLFct{
+public class SSUserSQLFct extends SSEntitySQL{
   
-  public SSUserSQLFct(SSServImplWithDBA serv) throws Exception{
-    super(serv.dbSQL);
+  public SSUserSQLFct(
+    final SSDBSQLI dbSQL,
+    final SSUri    systemUserURI) throws Exception{
+    
+    super(dbSQL, systemUserURI);
   }
   
   public Boolean existsUser(final String email) throws Exception{

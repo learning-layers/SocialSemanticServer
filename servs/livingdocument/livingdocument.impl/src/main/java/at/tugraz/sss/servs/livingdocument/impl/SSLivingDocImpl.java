@@ -21,6 +21,7 @@
 package at.tugraz.sss.servs.livingdocument.impl;
 
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntitiesGetPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityGetPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUpdatePar;
@@ -71,7 +72,7 @@ implements
   SSDescribeEntityI,
   SSPushEntitiesToUsersI{
   
-  private final SSLivingDocSQLFct  sqlFct;
+  private final SSLivingDocSQLFct  sql;
   private final SSLivingDocConf    livingDocConf;
   
   public SSLivingDocImpl(final SSConfA conf) throws Exception{
@@ -79,7 +80,7 @@ implements
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
     
     this.livingDocConf  = (SSLivingDocConf) conf;
-    this.sqlFct         = new SSLivingDocSQLFct(this);
+    this.sql            = new SSLivingDocSQLFct(this, SSVocConf.systemUserUri);
   }
   
   @Override
@@ -117,7 +118,7 @@ implements
           case livingDoc: {
             
             for(SSUri userToPushTo : par.users){
-              sqlFct.addLivingDoc(entityToPush.id, userToPushTo);
+              sql.addLivingDoc(entityToPush.id, userToPushTo);
             }
             
             break;
@@ -193,7 +194,7 @@ implements
         return null;
       }
       
-      sqlFct.createLivingDoc(par.uri, par.user);
+      sql.createLivingDoc(par.uri, par.user);
       
       dbSQL.commit(par.shouldCommit);
       
@@ -316,7 +317,7 @@ implements
     try{
       
       final SSEntity livingDoc = 
-        sqlFct.getEntityTest(
+        sql.getEntityTest(
           par.user, 
           par.livingDoc, 
           par.withUserRestriction);
@@ -327,7 +328,7 @@ implements
       
       dbSQL.startTrans(par.shouldCommit);
       
-      sqlFct.removeLivingDoc(par.livingDoc);
+      sql.removeLivingDoc(par.livingDoc);
       
       dbSQL.commit(par.shouldCommit);
       
@@ -369,7 +370,7 @@ implements
 
     try{
       
-      SSLivingDocument       livingDoc        = sqlFct.getLivingDoc(par.livingDoc);
+      SSLivingDocument       livingDoc        = sql.getLivingDoc(par.livingDoc);
       
       if(livingDoc == null){
         return null;
@@ -407,7 +408,7 @@ implements
         return livingDoc;
       }
 
-      final List<SSUri> userURIs = sqlFct.getLivingDocUserURIs(livingDoc.id);
+      final List<SSUri> userURIs = sql.getLivingDocUserURIs(livingDoc.id);
       
       descPar = new SSEntityDescriberPar(livingDoc.id);
       
@@ -416,7 +417,6 @@ implements
           new SSEntitiesGetPar(
             par.user,
             userURIs, //entities
-            null, //types
             descPar, //descpar
             par.withUserRestriction)));
       
@@ -453,7 +453,7 @@ implements
       livingDocGetPar.setUsers = par.setUsers;
       livingDocGetPar.setDiscs = par.setDiscs;
       
-      for(SSUri livingDocUri : sqlFct.getLivingDocURIsForUser(par.user)){
+      for(SSUri livingDocUri : sql.getLivingDocURIsForUser(par.user)){
       
         livingDocGetPar.livingDoc = livingDocUri;
         

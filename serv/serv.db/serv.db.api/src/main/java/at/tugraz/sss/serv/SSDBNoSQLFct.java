@@ -20,6 +20,14 @@
 */
 package at.tugraz.sss.serv;
 
-public class SSDBNoSQLFct{
+public class SSDBNoSQLFct extends SSDBFct{
+
+  protected final SSDBNoSQLI dbNoSQL;
   
+  public SSDBNoSQLFct(final SSDBNoSQLI dbNoSQL) throws Exception{
+    
+    super();
+    
+    this.dbNoSQL = dbNoSQL;
+  }
 }

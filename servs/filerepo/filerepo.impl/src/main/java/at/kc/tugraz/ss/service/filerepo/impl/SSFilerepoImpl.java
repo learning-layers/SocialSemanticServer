@@ -81,7 +81,7 @@ implements
   SSDescribeEntityI,
   SSAddAffiliatedEntitiesToCircleI{
 
-  private final SSFileSQLFct    sqlFct;
+  private final SSFileSQLFct    sql;
   private final SSEntityServerI entityServ;
   
   public SSFilerepoImpl(
@@ -89,7 +89,7 @@ implements
 
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
     
-    this.sqlFct         = new SSFileSQLFct   (this);
+    this.sql            = new SSFileSQLFct   (dbSQL, SSVocConf.systemUserUri);
     this.entityServ     = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
   }
   
@@ -230,7 +230,7 @@ implements
         par.withUserRestriction){
         
         final SSEntity file = 
-          sqlFct.getEntityTest(
+          sql.getEntityTest(
             par.user, 
             par.file, 
             par.withUserRestriction);
@@ -354,7 +354,7 @@ implements
         return null;
       }
       
-      sqlFct.addFile(par.file);
+      sql.addFile(par.file);
       
       if(par.entity != null){
         
@@ -378,7 +378,7 @@ implements
           return null;
         }
         
-        sqlFct.addFileToEntity(par.file, par.entity);
+        sql.addFileToEntity(par.file, par.entity);
       }
       
       SSUri thumbURI = null;
@@ -453,7 +453,7 @@ implements
             SSFileU.correctDirPath(SSVocConf.restAPIResourceFile)           +
             SSFileU.correctDirPath(SSVocConf.fileIDFromSSSURI(par.file))    +
             SSVocConf.restAPIPathFileDownloadPublic);
-      final SSEntityE fileType = sqlFct.getFileType(par.file);
+      final SSEntityE fileType = sql.getFileType(par.file);
       
       final SSFile file = 
         SSFile.get(
@@ -515,7 +515,7 @@ implements
       if(par.withUserRestriction){
         
         final SSEntity entity = 
-          sqlFct.getEntityTest(
+          sql.getEntityTest(
             par.user, 
             par.entity, 
             par.withUserRestriction);
@@ -532,7 +532,7 @@ implements
           par.withUserRestriction,
           par.invokeEntityHandlers);
 
-      for(SSUri file : sqlFct.getEntityFiles(par.entity)){
+      for(SSUri file : sql.getEntityFiles(par.entity)){
         
         fileGetPar.file = file;
         

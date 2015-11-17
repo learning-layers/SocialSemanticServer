@@ -20,7 +20,7 @@
 */
 package at.tugraz.sss.servs.image.impl.sql;
 
-import at.tugraz.sss.serv.SSDBSQLFct;
+import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSImage;
@@ -28,7 +28,6 @@ import at.tugraz.sss.serv.SSImageE;
 import at.tugraz.sss.serv.SSObjU;
 import at.tugraz.sss.serv.SSSQLVarNames;
 import at.tugraz.sss.serv.SSServErrReg;
-import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 import java.sql.ResultSet;
@@ -36,11 +35,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import sss.servs.entity.sql.SSEntitySQL;
 
-public class SSImageSQLFct extends SSDBSQLFct{
+public class SSImageSQLFct extends SSEntitySQL{
   
-  public SSImageSQLFct(SSServImplWithDBA serv) throws Exception{
-    super(serv.dbSQL);
+  public SSImageSQLFct(
+    final SSDBSQLI dbSQL, 
+    final SSUri    systemUserURI) throws Exception{
+    
+    super(dbSQL, systemUserURI);
   }
   
   public void addImage(
