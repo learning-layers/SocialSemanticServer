@@ -21,7 +21,6 @@
 package at.kc.tugraz.ss.serv.datatypes.entity.impl;
 
 import at.kc.tugraz.ss.activity.api.SSActivityServerI;
-import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesAddPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntitySharePar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePrivURIGetPar;
@@ -48,9 +47,7 @@ import at.tugraz.sss.servs.entity.datatypes.ret.SSEntityGetRet;
 import at.tugraz.sss.servs.entity.datatypes.ret.SSEntityUpdateRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.SSEntityActivityFct;
 import at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.SSEntityUserRelationsGatherFct;
-import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.kc.tugraz.ss.service.userevent.api.SSUEServerI;
-import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSSocketCon;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSServPar;
@@ -73,8 +70,10 @@ import at.tugraz.sss.serv.SSCopyEntityI;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
+import at.tugraz.sss.serv.SSDateU;
 import at.tugraz.sss.serv.SSDescribeEntityI;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
+import at.tugraz.sss.serv.SSEntityResultPages;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -82,17 +81,26 @@ import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSGetParentEntitiesI;
 import at.tugraz.sss.serv.SSGetSubEntitiesI;
+import at.tugraz.sss.serv.SSIDU;
 import at.tugraz.sss.serv.SSObjU;
 import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.servs.common.impl.tagcategory.SSEntityQueryCacheU;
+import at.tugraz.sss.servs.entity.datatypes.par.SSEntitiesAccessibleGetCleanUpPar;
+import at.tugraz.sss.servs.entity.datatypes.par.SSEntitiesAccessibleGetPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityEntitiesAttachedRemovePar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityURIsGetPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUnpublicizePar;
+import at.tugraz.sss.servs.entity.datatypes.ret.SSEntitiesAccessibleGetRet;
 import at.tugraz.sss.servs.entity.datatypes.ret.SSEntityTypesGetRet;
 import at.tugraz.sss.servs.entity.datatypes.ret.SSEntityUnpublicizeRet;
 import java.util.Arrays;
+import java.util.HashMap;
 import sss.serv.eval.api.SSEvalServerI;
 import sss.servs.entity.sql.SSEntitySQL;
+import at.kc.tugraz.ss.circle.api.SSCircleServerI;
+import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.tugraz.sss.serv.SSStrU;
 
 public class SSEntityImpl 
 extends SSServImplWithDBA
@@ -104,9 +112,12 @@ implements
   SSAddAffiliatedEntitiesToCircleI,
   SSUsersResourcesGathererI{
   
+  protected static final Map<String, SSEntityResultPages> accessibleEntitiesPagesCache = new HashMap<>();
+  
   private final SSEntitySQL          sql;
   private final SSCircleServerI      circleServ;
   private final SSEntityActAndLogFct actAndLogFct;
+  
   
   public SSEntityImpl(final SSConfA conf) throws Exception{
     
@@ -222,7 +233,7 @@ implements
           sql.getEntityURIs(
             null, //entities, 
             types, //types, 
-SSUri.asListNotNull(SSUri.get(user)))){ //authors
+            SSUri.asListNotNull(SSUri.get(user)))){ //authors
           
           if(usersResources.containsKey(user)){
             usersResources.get(user).add(entity);
@@ -321,6 +332,127 @@ SSUri.asListNotNull(SSUri.get(user)))){ //authors
       }
       
       dbSQL.rollBack(par.shouldCommit);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  private SSEntitiesAccessibleGetRet handleAccessibleEntitiesPageRequest(
+    final SSEntitiesAccessibleGetPar par) throws Exception{
+    
+    try{
+      final SSEntityResultPages     pages = accessibleEntitiesPagesCache.get(par.pagesID);
+      final List<SSUri>             page;
+      
+      if(pages == null){
+        throw new SSErr(SSErrE.queryResultOutDated);
+      }
+      
+      try{
+        page = pages.pages.get(par.pageNumber - 1);
+      }catch(Exception error){
+        throw new SSErr(SSErrE.queryPageUnavailable);
+      }
+      
+      return SSEntitiesAccessibleGetRet.get(
+        entitiesGet(
+          new SSEntitiesGetPar(
+            par.user,
+            page, //entities
+            par.descPar, //descPar,
+            par.withUserRestriction)),
+        par.pagesID,
+        par.pageNumber,
+        pages.pages.size());
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public void entitiesAccessibleGetCleanUp(final SSEntitiesAccessibleGetCleanUpPar par) throws Exception{
+    
+    try{
+      SSEntityQueryCacheU.entityQueryCacheClean(accessibleEntitiesPagesCache);
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  @Override
+  public void entitiesAccessibleGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
+    
+    SSServCallerU.checkKey(parA);
+    
+    final SSEntitiesAccessibleGetPar par = (SSEntitiesAccessibleGetPar) parA.getFromJSON(SSEntitiesAccessibleGetPar.class);
+    
+    sSCon.writeRetFullToClient(entitiesAccessibleGet(par));
+  }
+  
+  @Override
+  public SSEntitiesAccessibleGetRet entitiesAccessibleGet (final SSEntitiesAccessibleGetPar par) throws Exception{
+    
+    try{
+      
+      if(par.pagesID   != null &&
+        par.pageNumber != null){
+      
+        return handleAccessibleEntitiesPageRequest(par);
+      }
+
+      final List<List<SSUri>>       pages                         = new ArrayList<>();
+      final List<SSUri>             page                          = new ArrayList<>();
+      final String                  pagesID                       = SSIDU.uniqueID();
+      
+      final List<SSUri> entityURIs =
+        entityURIsGet(
+          new SSEntityURIsGetPar(
+            par.user, 
+            null, //entities
+            true, //getAccessible
+            par.types, //types
+            par.authors)); //authors
+      
+      if(entityURIs.isEmpty()){
+        
+        return SSEntitiesAccessibleGetRet.get(
+          new ArrayList<>(),
+          null,
+          0,
+          0);
+      }
+      
+      for(SSUri entityURI : entityURIs){//entityServ.entitiesGet(entitiesGetPar)){
+        
+        if(page.size() == 10){
+          pages.add(new ArrayList<>(page));
+          page.clear();
+        }
+        
+        page.add(entityURI);
+      }
+      
+      accessibleEntitiesPagesCache.put(
+        pagesID,
+        SSEntityResultPages.get(
+          pages,
+          SSDateU.dateAsLong(),
+          pagesID));
+      
+      return SSEntitiesAccessibleGetRet.get(
+        entitiesGet(
+          new SSEntitiesGetPar(
+            par.user,
+            pages.get(0),
+            par.descPar,
+            false)),
+        pagesID,
+        1,
+        pages.size());
+      
+    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }

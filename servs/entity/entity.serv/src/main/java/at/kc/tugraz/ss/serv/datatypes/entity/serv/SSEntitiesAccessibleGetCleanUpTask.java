@@ -18,33 +18,32 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.service.search.service.task;
+package at.kc.tugraz.ss.serv.datatypes.entity.serv;
 
-import at.kc.tugraz.ss.service.search.api.SSSearchServerI;
-import at.kc.tugraz.ss.service.search.datatypes.pars.SSSearchCleanUpPar;
+import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServImplStartA;
 import at.tugraz.sss.serv.SSServReg;
+import at.tugraz.sss.servs.entity.datatypes.par.SSEntitiesAccessibleGetCleanUpPar;
 import java.util.TimerTask;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 
-public class SSSearchResultPagesCacheCleanerTask extends TimerTask {
+public class SSEntitiesAccessibleGetCleanUpTask extends TimerTask {
   
   @Override
   public void run(){
     
     try{
-      new Thread(new SSSearchResultPagesCacheCleaner()).start();
+      new Thread(new SSEntitiesAccessibleGetCleaner()).start();
     }catch(Exception error){
-      SSServErrReg
-        .regErr(error);
+      SSServErrReg.regErr(error);
     }
   }
   
-  protected class SSSearchResultPagesCacheCleaner extends SSServImplStartA{
+  protected class SSEntitiesAccessibleGetCleaner extends SSServImplStartA{
     
-    public SSSearchResultPagesCacheCleaner() throws Exception{
+    public SSEntitiesAccessibleGetCleaner() throws Exception{
       super(null);
     }
     
@@ -53,9 +52,10 @@ public class SSSearchResultPagesCacheCleanerTask extends TimerTask {
       
       try{
         
-        final SSSearchServerI searchServ = (SSSearchServerI) SSServReg.getServ(SSSearchServerI.class);
-        
-        searchServ.searchCleanUp(new SSSearchCleanUpPar(SSVocConf.systemUserUri));
+      final SSEntityServerI entityServ = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
+      
+      entityServ.entitiesAccessibleGetCleanUp(new SSEntitiesAccessibleGetCleanUpPar(SSVocConf.systemUserUri));
+      
       }catch(Exception error1){
         SSServErrReg.regErr(error1);
       }finally{

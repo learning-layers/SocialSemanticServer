@@ -163,6 +163,8 @@ public enum SSServOpE{
   entityTypesGet,
   entityUnpublicize,
   entityURIsGet,
+  entitiesAccessibleGet,
+  entitiesAccessibleGetCleanUp,
   
   //learn ep
   learnEpsGet                                         ,
@@ -231,9 +233,8 @@ public enum SSServOpE{
   categoryEntitiesForCategoriesGet,
   
   //search
-  searchMIs                                           ,
   search,
-  searchResultPagesCacheClean,
+  searchCleanUp,
   
   //rating
   ratingGet                                           ,

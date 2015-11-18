@@ -25,6 +25,7 @@ import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityClientI;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.datatypes.entity.impl.SSEntityImpl;
 import at.tugraz.sss.serv.SSCoreConfA;
+import at.tugraz.sss.serv.SSDateU;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServImplA;
@@ -62,19 +63,25 @@ public class SSEntityServ extends SSServContainerI{
   
   @Override
   public void initServ() throws Exception{
+  }
+  
+  @Override
+  public void schedule() throws Exception{
     
+    if(!conf.use){
+      return;
+    }
     
+    SSDateU.scheduleAtFixedRate(
+      new SSEntitiesAccessibleGetCleanUpTask(),
+      SSDateU.getDatePlusMinutes(5),
+      5 * SSDateU.minuteInMilliSeconds);
   }
   
   @Override
   public SSCoreConfA getConfForCloudDeployment(
     final SSCoreConfA coreConfA,
     final List<Class> configuredServs) throws Exception{
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-  }
-  
-  @Override
-  public void schedule() throws Exception{
     throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
   }
 }

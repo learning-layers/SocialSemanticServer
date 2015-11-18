@@ -31,6 +31,12 @@
     
     <dependency>
       <groupId>sss.servs</groupId>
+      <artifactId>voc.conf</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
       <artifactId>search.impl</artifactId>
       <version>${project.version}</version>
     </dependency>

@@ -18,28 +18,27 @@
   * See the License for the specific language governing permissions and
   * limitations under the License.
   */
-package at.kc.tugraz.ss.service.search.datatypes;
+package at.tugraz.sss.serv;
 
-import at.tugraz.sss.serv.SSEntity;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SSSearchResultPages{
+public class SSEntityResultPages{
   
-  public List<List<SSEntity>> pages        = new ArrayList<>();
+  public List<List<SSUri>>    pages        = new ArrayList<>();
   public Long                 creationTime = null;
   public String               pagesID      = null;
   
-  public static SSSearchResultPages get(
-    final List<List<SSEntity>> pages,
+  public static SSEntityResultPages get(
+    final List<List<SSUri>>    pages,
     final Long                 creationTime,
     final String               pagesID){
     
-    return new SSSearchResultPages(pages, creationTime, pagesID);
+    return new SSEntityResultPages(pages, creationTime, pagesID);
   }
   
-  protected SSSearchResultPages(
-    final List<List<SSEntity>> pages,
+  protected SSEntityResultPages(
+    final List<List<SSUri>>    pages,
     final Long                 creationTime,
     final String               pagesID){
     

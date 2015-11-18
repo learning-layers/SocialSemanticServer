@@ -38,6 +38,7 @@ import at.kc.tugraz.ss.service.user.datatypes.ret.SSUserEntityUsersGetRet;
 import at.kc.tugraz.sss.comment.datatypes.par.SSCommentsAddPar;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
 import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.servs.entity.datatypes.par.SSEntitiesAccessibleGetPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUnpublicizePar;
 import at.tugraz.sss.servs.entity.datatypes.ret.SSEntityTypesGetRet;
 import at.tugraz.sss.servs.entity.datatypes.ret.SSEntityUnpublicizeRet;
@@ -58,6 +59,70 @@ import javax.ws.rs.core.Response;
 @Path("/entities")
 @Api( value = "/entities") //, basePath = "/entities"
 public class SSRESTEntity {
+  
+  @GET
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path("/accessible")
+  @ApiOperation(
+    value = "retrieve accessible entities",
+    response = SSEntityTypesGetRet.class)
+  public Response entitiesAccessibleGet(
+    @Context 
+      final HttpHeaders headers){
+    
+    final SSEntitiesAccessibleGetPar par;
+    
+    try{
+      
+      par = 
+        new SSEntitiesAccessibleGetPar(
+          null, //user
+          null, //types
+          null, //authors
+          new SSEntityDescriberPar(null), //descPar
+          true); //withUserRestriction
+      
+    }catch(Exception error){
+      return Response.status(422).build();
+    }
+    
+    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+  }
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path("/filtered/accessible")
+  @ApiOperation(
+    value = "retrieve accessible entities",
+    response = SSEntityTypesGetRet.class)
+  public Response entitiesAccessibleFilteredGet(
+    @Context
+    final HttpHeaders headers,
+    
+    final SSEntitiesAccessibleGetRESTAPIV2Par input){
+    
+    final SSEntitiesAccessibleGetPar par;
+    
+    try{
+      
+      final SSEntityDescriberPar descPar = new SSEntityDescriberPar(null);
+      
+      par =
+        new SSEntitiesAccessibleGetPar(
+          null, //user
+          input.types, //types
+          input.authors, //authors
+          descPar, //descPar
+          true); //withUserRestriction
+      
+    }catch(Exception error){
+      return Response.status(422).build();
+    }
+    
+    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+  }
   
   @GET
   @Consumes(MediaType.APPLICATION_JSON)

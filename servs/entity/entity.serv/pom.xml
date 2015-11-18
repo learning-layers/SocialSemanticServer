@@ -24,7 +24,6 @@
       <version>${project.version}</version>
     </dependency>
     
-    
     <dependency>
       <groupId>sss.servs</groupId>
       <artifactId>entity.impl</artifactId>
@@ -33,11 +32,15 @@
     
     <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>entity.api</artifactId>
+      <artifactId>voc.conf</artifactId>
       <version>${project.version}</version>
     </dependency> 
     
-    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>entity.api</artifactId>
+      <version>${project.version}</version>
+    </dependency> 
     
     <dependency>
       <groupId>junit</groupId>

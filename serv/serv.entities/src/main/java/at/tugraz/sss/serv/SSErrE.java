@@ -62,8 +62,8 @@ public enum SSErrE{
   sssReadFailed,
   sssResponseParsingFailed,
   sssResponseFailed,
-  searchResultPageUnavailable,
-  searchResultOutDated,
+  queryPageUnavailable,
+  queryResultOutDated,
   
   servAlreadyRegistered,
   

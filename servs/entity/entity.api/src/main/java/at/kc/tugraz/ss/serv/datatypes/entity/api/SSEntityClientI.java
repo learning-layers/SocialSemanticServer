@@ -25,11 +25,12 @@ import at.tugraz.sss.serv.SSServPar;
 
 public interface SSEntityClientI {
 
-  public void entityTypesGet      (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void entitiesGet         (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void entityUpdate        (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void entityGet           (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void entityCopy          (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void entityShare         (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void entityUnpublicize   (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void entityTypesGet        (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void entitiesGet           (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void entityUpdate          (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void entityGet             (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void entityCopy            (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void entityShare           (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void entityUnpublicize     (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void entitiesAccessibleGet (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
 }

@@ -230,12 +230,6 @@ public class SSServCaller {
     return SSUri.get(vocURIPrefixGet() + SSIDU.uniqueID() + SSStrU.dot + fileExt.toString());
   }
   
-  /* search */
-  
-  public static void searchResultPagesCacheClean() throws Exception{
-    SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.searchResultPagesCacheClean, new HashMap<>()));
-  }
-  
   /* entity */
   
   public static List<SSUri> entityUserParentEntitiesGet(

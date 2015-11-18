@@ -169,6 +169,7 @@ public class SSSInitializer extends SSServImplStartA{
       }
       
       try{ //scheduling
+        SSEntityServ.inst.schedule         ();
         SSSearchServ.inst.schedule         ();
         SSLearnEpServ.inst.schedule        ();
         SSBroadcasterServ.inst.schedule    ();

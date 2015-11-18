@@ -20,6 +20,7 @@
 */
 package at.kc.tugraz.ss.service.search.impl;
 
+import at.tugraz.sss.serv.SSEntityResultPages;
 import at.kc.tugraz.ss.recomm.api.SSRecommServerI;
 import at.kc.tugraz.ss.recomm.datatypes.SSResourceLikelihood;
 import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommResourcesPar;
@@ -38,7 +39,7 @@ import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.util.SSServCallerU;
 import at.kc.tugraz.ss.service.search.api.*;
-import at.kc.tugraz.ss.service.search.datatypes.*;
+import at.kc.tugraz.ss.service.search.datatypes.pars.SSSearchCleanUpPar;
 import at.kc.tugraz.ss.service.search.datatypes.pars.SSSearchPar;
 import at.kc.tugraz.ss.service.search.datatypes.ret.SSSearchRet;
 import at.kc.tugraz.ss.service.search.impl.fct.SSSearchFct;
@@ -50,13 +51,13 @@ import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
-import at.tugraz.sss.serv.SSEntityE;
 import java.util.*;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.SSServReg;
+import at.tugraz.sss.servs.common.impl.tagcategory.SSEntityQueryCacheU;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntitiesGetPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityURIsGetPar;
 import sss.servs.entity.sql.SSEntitySQL;
@@ -67,7 +68,7 @@ implements
   SSSearchClientI, 
   SSSearchServerI{
   
-  protected static final Map<String, SSSearchResultPages> searchResultPagesCache = new HashMap<>();
+  protected static final Map<String, SSEntityResultPages> searchResultPagesCache = new HashMap<>();
   private          final SSEntitySQL                      sql;
   private          final SSSearchNoSQLFct                 noSQLFct;
   
@@ -118,7 +119,7 @@ implements
       final List<SSUri>             labelResults          = new ArrayList<>();
       final List<SSUri>             descriptionResults    = new ArrayList<>();
       final List<SSUri>             contentResults        = new ArrayList<>();
-      final List<SSEntity>          recommendedResults    = new ArrayList<>();
+      final List<SSUri>             recommendedResults    = new ArrayList<>();
       
       if(
         par.documentContentsToSearchFor.isEmpty()  &&
@@ -135,7 +136,7 @@ implements
         labelResults.addAll       (getLabelResults          (par, accessibleEntityURIs));
         descriptionResults.addAll (getDescriptionResults    (par, accessibleEntityURIs));
         contentResults.addAll     (getTextualContentResults (par));
-        recommendedResults.addAll (getRecommendedResults    (par));
+        recommendedResults.addAll (SSUri.getDistinctNotNullFromEntities(getRecommendedResults    (par)));
         
         uris.addAll                  (tagResults);
         uris.addAll                  (labelResults);
@@ -148,8 +149,8 @@ implements
       final List<SSUri>             ratingResultUris              = new ArrayList<>();
       final List<SSUri>             resultsAfterGlobalSearchOp    = new ArrayList<>();
       final String                  pagesID                       = SSIDU.uniqueID();
-      final List<List<SSEntity>>    pages                         = new ArrayList<>();
-      final List<SSEntity>          page                          = new ArrayList<>();
+      final List<List<SSUri>>       pages                         = new ArrayList<>();
+      final List<SSUri>             page                          = new ArrayList<>();
       Integer                       recommendedEntityCounter      = 0;
       
       ratingResultUris.addAll(getRatingResults(par, uris));
@@ -180,7 +181,7 @@ implements
             page.clear();
           }
 
-          page.add(SSEntity.get(entityURI, SSEntityE.entity));
+          page.add(entityURI);
 
           recommendedEntityCounter =
             SSSearchFct.addRecommendedResult(
@@ -207,8 +208,8 @@ implements
         
         searchResultPagesCache.put(
           pagesID, 
-          SSSearchResultPages.get(
-            pages, 
+          SSEntityResultPages.get(
+            pages,
             SSDateU.dateAsLong(), 
             pagesID));
       
@@ -242,13 +243,23 @@ implements
     }
   }
   
+  @Override
+  public void searchCleanUp(final SSSearchCleanUpPar par) throws Exception{
+    
+    try{
+      SSEntityQueryCacheU.entityQueryCacheClean(searchResultPagesCache);
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
   private List<SSUri> filterSearchResultsRegardingGlobalSearchOp(
     final SSSearchPar par,
     final List<SSUri> currentResults,
-    final List<SSUri> tagResults, 
+    final List<SSUri> tagResults,
     final List<SSUri> documentResults,
-    final List<SSUri> labelResuls, 
-    final List<SSUri> descriptionResults, 
+    final List<SSUri> labelResuls,
+    final List<SSUri> descriptionResults,
     final List<SSUri> ratingResults) throws Exception{
     
     try{
@@ -366,19 +377,19 @@ implements
     final SSSearchPar     par) throws Exception{
     
     try{
-      final SSSearchResultPages     pages;
-      final List<SSEntity>          page;
+      final SSEntityResultPages     pages;
+      final List<SSUri>             page;
       
       pages = searchResultPagesCache.get(par.pagesID);
       
       if(pages == null){
-        throw new SSErr(SSErrE.searchResultOutDated);
+        throw new SSErr(SSErrE.queryResultOutDated);
       }
       
       try{
         page = pages.pages.get(par.pageNumber - 1);
       }catch(Exception error){
-        throw new SSErr(SSErrE.searchResultPageUnavailable);
+        throw new SSErr(SSErrE.queryPageUnavailable);
       }
       
       return SSSearchRet.get(
@@ -595,29 +606,6 @@ implements
     }
   }
 
-  @Override
-  public void searchResultPagesCacheClean(final SSServPar parA) throws Exception{
-    
-    try{
-      
-      final Long                             now            = SSDateU.dateAsLong();
-      final Long                             fiveMinutesAgo = now - SSDateU.minuteInMilliSeconds * 5;
-      Map.Entry<String, SSSearchResultPages> entry;
-      
-      for(Iterator<Map.Entry<String, SSSearchResultPages>> it = searchResultPagesCache.entrySet().iterator(); it.hasNext();){
-        
-        entry = it.next();
-        
-        if(fiveMinutesAgo > entry.getValue().creationTime){
-          it.remove();
-        }
-      }
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
   private List<SSUri> getTextualContentResults(
     final SSSearchPar par) throws Exception{
     
@@ -684,7 +672,7 @@ implements
   private List<SSEntity> fillSearchResults(
     final SSEntityServerI    entityServ,
     final SSSearchPar        par,
-    final List<SSEntity>     results) throws Exception{
+    final List<SSUri>        results) throws Exception{
     
     try{
       
@@ -697,7 +685,7 @@ implements
       return entityServ.entitiesGet(
         new SSEntitiesGetPar(
           par.user,
-          SSUri.getDistinctNotNullFromEntities(results), //entities
+          results, //entities
           null, //descPar,
           par.withUserRestriction));
       

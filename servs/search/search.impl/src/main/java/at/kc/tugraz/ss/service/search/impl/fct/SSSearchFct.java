@@ -20,7 +20,6 @@
 */
 package at.kc.tugraz.ss.service.search.impl.fct;
 
-import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSSearchOpE;
@@ -28,6 +27,7 @@ import at.kc.tugraz.ss.service.search.datatypes.pars.SSSearchPar;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import at.tugraz.sss.serv.SSStrU;
 
 public class SSSearchFct {
   
@@ -86,10 +86,10 @@ public class SSSearchFct {
   }
   
   public static Integer addRecommendedResult(
-    final List<SSEntity> page,
+    final List<SSUri>    page,
     final List<SSUri>    uris,
     final SSSearchPar    par,
-    final List<SSEntity> recommendedEntities,
+    final List<SSUri>    recommendedEntities,
     Integer              recommendedEntityCounter) throws Exception{
     
     if(
@@ -104,7 +104,7 @@ public class SSSearchFct {
       
     while(recommendedEntityCounter < recommendedEntities.size()){
       
-      if(SSStrU.contains(uris, recommendedEntities.get(recommendedEntityCounter).id)){
+      if(SSStrU.contains(uris, recommendedEntities.get(recommendedEntityCounter))){
         recommendedEntityCounter++;
         continue;
       }
@@ -119,8 +119,8 @@ public class SSSearchFct {
 
   public static void fillPagesIfEmpty(
     final SSSearchPar          par, 
-    final List<List<SSEntity>> pages, 
-    final List<SSEntity>       recommendedEntities){
+    final List<List<SSUri>>    pages, 
+    final List<SSUri>          recommendedEntities){
     
     if(
       !pages.isEmpty() ||

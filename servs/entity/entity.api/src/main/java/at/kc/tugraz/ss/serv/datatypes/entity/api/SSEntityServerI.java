@@ -26,6 +26,8 @@ import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSEntityCopyPar;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSServServerI;
+import at.tugraz.sss.servs.entity.datatypes.par.SSEntitiesAccessibleGetCleanUpPar;
+import at.tugraz.sss.servs.entity.datatypes.par.SSEntitiesAccessibleGetPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntitiesGetPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityAttachEntitiesPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityDownloadURIsGetPar;
@@ -38,23 +40,26 @@ import at.tugraz.sss.servs.entity.datatypes.par.SSEntityTypesGetPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityURIsGetPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUnpublicizePar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUpdatePar;
+import at.tugraz.sss.servs.entity.datatypes.ret.SSEntitiesAccessibleGetRet;
 import java.util.List;
 
 public interface SSEntityServerI extends SSServServerI{
 
-  public List<SSEntityE> entityTypesGet                (final SSEntityTypesGetPar                par) throws Exception;
-  public List<SSEntity>  entitiesGet                   (final SSEntitiesGetPar                   par) throws Exception;
-  public List<SSUri>     entityURIsGet                 (final SSEntityURIsGetPar                 par) throws Exception;
-  public SSUri           entityUpdate                  (final SSEntityUpdatePar                  par) throws Exception;
-  public Boolean         entityCopy                    (final SSEntityCopyPar                    par) throws Exception;
-  public SSEntity        entityGet                     (final SSEntityGetPar                     par) throws Exception;
-  public SSEntity        entityFromTypeAndLabelGet     (final SSEntityFromTypeAndLabelGetPar     par) throws Exception;
-  public SSUri           entityShare                   (final SSEntitySharePar                   par) throws Exception;
-  public List<SSUri>     entityDownloadsGet            (final SSEntityDownloadURIsGetPar         par) throws Exception;
-  public SSUri           entityDownloadsAdd            (final SSEntityDownloadsAddPar            par) throws Exception;
-  public SSUri           entityEntitiesAttach          (final SSEntityAttachEntitiesPar          par) throws Exception;
-  public SSUri           entityEntitiesAttachedRemove  (final SSEntityEntitiesAttachedRemovePar  par) throws Exception;
-  public SSUri           entityUnpublicize             (final SSEntityUnpublicizePar             par) throws Exception;
+  public List<SSEntityE>                 entityTypesGet                (final SSEntityTypesGetPar                par) throws Exception;
+  public List<SSEntity>                  entitiesGet                   (final SSEntitiesGetPar                   par) throws Exception;
+  public List<SSUri>                     entityURIsGet                 (final SSEntityURIsGetPar                 par) throws Exception;
+  public SSUri                           entityUpdate                  (final SSEntityUpdatePar                  par) throws Exception;
+  public Boolean                         entityCopy                    (final SSEntityCopyPar                    par) throws Exception;
+  public SSEntity                        entityGet                     (final SSEntityGetPar                     par) throws Exception;
+  public SSEntity                        entityFromTypeAndLabelGet     (final SSEntityFromTypeAndLabelGetPar     par) throws Exception;
+  public SSUri                           entityShare                   (final SSEntitySharePar                   par) throws Exception;
+  public List<SSUri>                     entityDownloadsGet            (final SSEntityDownloadURIsGetPar         par) throws Exception;
+  public SSUri                           entityDownloadsAdd            (final SSEntityDownloadsAddPar            par) throws Exception;
+  public SSUri                           entityEntitiesAttach          (final SSEntityAttachEntitiesPar          par) throws Exception;
+  public SSUri                           entityEntitiesAttachedRemove  (final SSEntityEntitiesAttachedRemovePar  par) throws Exception;
+  public SSUri                           entityUnpublicize             (final SSEntityUnpublicizePar             par) throws Exception;
+  public SSEntitiesAccessibleGetRet      entitiesAccessibleGet         (final SSEntitiesAccessibleGetPar         par) throws Exception;
+  public void                            entitiesAccessibleGetCleanUp  (final SSEntitiesAccessibleGetCleanUpPar  par) throws Exception;
   
   public List<SSUri>                     entityUserSubEntitiesGet                 (final SSServPar parA) throws Exception;
   public List<SSUri>                     entityUserParentEntitiesGet              (final SSServPar parA) throws Exception;
