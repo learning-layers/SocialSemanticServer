@@ -653,10 +653,15 @@ public class SSDiscImpl
     
     try{
       
+      Boolean isAuthor = true;
+      
       if(par.withUserRestriction){
         
-        if(!sqlFct.isUserAuthor(par.user, par.disc, par.withUserRestriction)){
-          return SSDiscUpdateRet.get(null);
+        isAuthor = sqlFct.isUserAuthor(par.user, par.disc, par.withUserRestriction);
+        
+        if(!isAuthor){
+          par.label   = null;
+          par.content = null;
         }
       }
       
@@ -708,29 +713,32 @@ public class SSDiscImpl
         }
       }
       
-      par.disc =
-        attachEntities(
-          par.user,
-          par.disc,
-          par.entitiesToAttach,
-          par.entityLabels,
-          par.withUserRestriction);
-      
-      if(par.disc == null){
-        dbSQL.rollBack(par.shouldCommit);
-        return SSDiscUpdateRet.get(null);
-      }
-      
-      par.disc =
-        removeAttachedEntities(
-          par.user,
-          par.disc,
-          par.entitiesToRemove,
-          par.withUserRestriction);
-
-      if(par.disc == null){
-        dbSQL.rollBack(par.shouldCommit);
-        return SSDiscUpdateRet.get(null);
+      if(isAuthor){
+        
+        par.disc =
+          attachEntities(
+            par.user,
+            par.disc,
+            par.entitiesToAttach,
+            par.entityLabels,
+            par.withUserRestriction);
+        
+        if(par.disc == null){
+          dbSQL.rollBack(par.shouldCommit);
+          return SSDiscUpdateRet.get(null);
+        }
+        
+        par.disc =
+          removeAttachedEntities(
+            par.user,
+            par.disc,
+            par.entitiesToRemove,
+            par.withUserRestriction);
+        
+        if(par.disc == null){
+          dbSQL.rollBack(par.shouldCommit);
+          return SSDiscUpdateRet.get(null);
+        }
       }
       
       dbSQL.commit(par.shouldCommit);
@@ -1021,6 +1029,7 @@ public class SSDiscImpl
         descPar.setComments          = par.setComments;
         descPar.setTags              = par.setTags;
         descPar.setAttachedEntities  = par.setAttachedEntities;
+        descPar.setRead              = par.setReads;
       }else{
         descPar = null;
       }
