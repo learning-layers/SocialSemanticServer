@@ -671,7 +671,7 @@ public class SSDiscImpl
             par.label,
             par.content,
             null, //creationTime
-            null, //read
+            par.read, //read
             false, //setPublic
             false, //createIfNotExists
             true, //withUserRestriction
@@ -680,6 +680,32 @@ public class SSDiscImpl
       if(par.disc == null){
         dbSQL.rollBack(par.shouldCommit);
         return SSDiscUpdateRet.get(null);
+      }
+      
+      if(
+        par.read != null &&
+        par.read){
+        
+        final SSEntityUpdatePar entityUpdatePar =
+          new SSEntityUpdatePar(
+            par.user,
+            null, //entity
+            null, //type
+            null, //label)
+            null, //description,
+            null, //creationTime,
+            par.read,
+            false, //setPublic,
+            false, //createIfNotExists,
+            par.withUserRestriction,
+            false); //shouldCommit)
+        
+        for(SSUri entry : sqlFct.getDiscEntryURIs(par.disc)){
+
+          entityUpdatePar.entity = entry;
+          
+          entityServ.entityUpdate(entityUpdatePar);
+        }
       }
       
       par.disc =
@@ -942,7 +968,7 @@ public class SSDiscImpl
         descPar.setComments          = par.setComments;
         descPar.setTags              = par.setTags;
         descPar.setAttachedEntities  = par.setAttachedEntities;
-        
+        descPar.setRead              = par.setReads;
       }else{
         descPar = null;
       }
@@ -1106,6 +1132,7 @@ public class SSDiscImpl
       discGetPar.setComments          = par.setComments;
       discGetPar.setTags              = par.setTags;
       discGetPar.setAttachedEntities  = par.setAttachedEntities;
+      discGetPar.setReads             = par.setReads;
       
       if(!par.targets.isEmpty()){
         

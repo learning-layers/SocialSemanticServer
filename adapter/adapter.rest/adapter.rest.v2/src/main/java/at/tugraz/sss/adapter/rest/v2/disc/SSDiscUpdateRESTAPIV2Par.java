@@ -83,4 +83,10 @@ public class SSDiscUpdateRESTAPIV2Par{
   public void setContent(final String content) throws Exception{
     this.content = SSTextComment.get(content);
   }
+  
+  @XmlElement
+  @ApiModelProperty(
+    required = false,
+    value = "whether the discussion with is entries is read by the user")
+  public Boolean          read    = null;
 }

@@ -37,6 +37,7 @@ public class SSDiscUpdatePar extends SSServPar{
   public List<SSUri>         entitiesToRemove       = new ArrayList<>();
   public List<SSUri>         entitiesToAttach       = new ArrayList<>();
   public List<SSLabel>       entityLabels           = new ArrayList<>();
+  public Boolean             read                   = null;
   
   public String getDisc() {
     return SSStrU.removeTrailingSlash(disc);
@@ -88,6 +89,7 @@ public class SSDiscUpdatePar extends SSServPar{
     final List<SSUri>         entitiesToRemove,
     final List<SSUri>         entitiesToAttach,
     final List<SSLabel>       entityLabels,
+    final Boolean             read,
     final Boolean             withUserRestriction,
     final Boolean             shouldCommit){
     
@@ -101,6 +103,7 @@ public class SSDiscUpdatePar extends SSServPar{
     SSUri.addDistinctWithoutNull   (this.entitiesToAttach, entitiesToAttach);
     SSLabel.addDistinctWithoutNull (this.entityLabels,     entityLabels);
       
+    this.read                = read;
     this.withUserRestriction = withUserRestriction;
     this.shouldCommit        = shouldCommit;
   }

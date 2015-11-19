@@ -90,7 +90,8 @@ public class SSRESTDisc{
       par.setLikes            = input.setLikes;
       par.setTags             = input.setTags;
       par.setAttachedEntities = input.setAttachedEntities;
-      
+      par.setReads            = input.setReads;
+        
     }catch(Exception error){
       return Response.status(422).build();
     }
@@ -143,7 +144,7 @@ public class SSRESTDisc{
   @ApiOperation(
     value = "update discussion",
     response = SSDiscUpdateRet.class)
-  public Response discEntryUpdate(
+  public Response discUpdate(
     @Context
     final HttpHeaders headers,
     
@@ -165,6 +166,7 @@ public class SSRESTDisc{
           input.entitiesToRemove,
           input.entitiesToAttach,
           input.entityLabels, 
+          input.read, //read
           true, //withUserRestriction,
           true);//shouldCommit);
       
@@ -246,6 +248,7 @@ public class SSRESTDisc{
       par.setLikes            = input.setLikes;
       par.setTags             = input.setTags;
       par.setAttachedEntities = input.setAttachedEntities;
+      par.setReads            = input.setReads;
       
     }catch(Exception error){
       return Response.status(422).build();
@@ -324,6 +327,7 @@ public class SSRESTDisc{
       par.setLikes            = input.setLikes;
       par.setTags             = input.setTags;
       par.setAttachedEntities = input.setAttachedEntities;
+      par.setReads            = input.setReads;
       
     }catch(Exception error){
       return Response.status(422).build();
