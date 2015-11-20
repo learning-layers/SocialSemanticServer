@@ -166,6 +166,7 @@ public class SSRESTDisc{
           input.entitiesToRemove,
           input.entitiesToAttach,
           input.entityLabels, 
+          input.read,
           true, //withUserRestriction,
           true);//shouldCommit);
       

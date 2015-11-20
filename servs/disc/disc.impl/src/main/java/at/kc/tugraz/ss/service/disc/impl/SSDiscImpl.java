@@ -676,10 +676,15 @@ public class SSDiscImpl
     
     try{
       
+      Boolean isAuthor = true;
+      
       if(par.withUserRestriction){
         
-        if(!sql.isUserAuthor(par.user, par.disc, par.withUserRestriction)){
-          return SSDiscUpdateRet.get(null);
+        isAuthor = sql.isUserAuthor(par.user, par.disc, par.withUserRestriction);
+        
+        if(!isAuthor){
+          par.label   = null;
+          par.content = null;
         }
       }
       
@@ -694,7 +699,7 @@ public class SSDiscImpl
             par.label,
             par.content,
             null, //creationTime
-            null, //read
+            par.read, //read
             false, //setPublic
             false, //createIfNotExists
             true, //withUserRestriction
@@ -705,29 +710,58 @@ public class SSDiscImpl
         return SSDiscUpdateRet.get(null);
       }
       
-      par.disc =
-        attachEntities(
-          par.user,
-          par.disc,
-          par.entitiesToAttach,
-          par.entityLabels,
-          par.withUserRestriction);
-      
-      if(par.disc == null){
-        dbSQL.rollBack(par.shouldCommit);
-        return SSDiscUpdateRet.get(null);
+      if(
+        par.read != null &&
+        par.read){
+        
+        final SSEntityUpdatePar entityUpdatePar =
+          new SSEntityUpdatePar(
+            par.user,
+            null, //entity
+            null, //type
+            null, //label)
+            null, //description,
+            null, //creationTime,
+            par.read, //read
+            false, //setPublic,
+            false, //createIfNotExists,
+            par.withUserRestriction,
+            false); //shouldCommit)
+        
+        for(SSUri entry : sql.getDiscEntryURIs(par.disc)){
+
+          entityUpdatePar.entity = entry;
+          
+          entityServ.entityUpdate(entityUpdatePar);
+        }
       }
       
-      par.disc =
-        removeAttachedEntities(
-          par.user,
-          par.disc,
-          par.entitiesToRemove,
-          par.withUserRestriction);
+      if(isAuthor){
+        
+        par.disc =
+          attachEntities(
+            par.user,
+            par.disc,
+            par.entitiesToAttach,
+            par.entityLabels,
+            par.withUserRestriction);
 
-      if(par.disc == null){
-        dbSQL.rollBack(par.shouldCommit);
-        return SSDiscUpdateRet.get(null);
+        if(par.disc == null){
+          dbSQL.rollBack(par.shouldCommit);
+          return SSDiscUpdateRet.get(null);
+        }
+      
+        par.disc =
+          removeAttachedEntities(
+            par.user,
+            par.disc,
+            par.entitiesToRemove,
+            par.withUserRestriction);
+
+        if(par.disc == null){
+          dbSQL.rollBack(par.shouldCommit);
+          return SSDiscUpdateRet.get(null);
+        }
       }
       
       dbSQL.commit(par.shouldCommit);
@@ -965,6 +999,7 @@ public class SSDiscImpl
         descPar.setComments          = par.setComments;
         descPar.setTags              = par.setTags;
         descPar.setAttachedEntities  = par.setAttachedEntities;
+        descPar.setRead              = par.setReads;
         
       }else{
         descPar = null;
@@ -1038,7 +1073,9 @@ public class SSDiscImpl
           
         SSEntity.addEntitiesDistinctWithoutNull(
           discEntryEntities,
-          SSDiscEntry.get((SSDiscEntry) entry, entityServ.entityGet(entityGetPar)));
+          SSDiscEntry.get(
+            (SSDiscEntry) entry,
+            entityServ.entityGet(entityGetPar)));
       }
 
       disc.entries.clear();
@@ -1135,7 +1172,7 @@ public class SSDiscImpl
           SSUri.addDistinctWithoutNull(
             par.discs,
             sql.getDiscURIsForTarget(
-              par.forUser, 
+              par.forUser,
               target));
         }
       }else{
