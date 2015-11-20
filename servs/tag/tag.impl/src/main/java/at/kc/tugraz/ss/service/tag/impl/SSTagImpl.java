@@ -65,6 +65,7 @@ import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSDescribeEntityI;
 import at.tugraz.sss.serv.SSEntityA;
+import at.tugraz.sss.serv.SSEntityContext;
 import at.tugraz.sss.serv.SSEntityCopiedI;
 import at.tugraz.sss.serv.SSEntityCopiedPar;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
@@ -113,7 +114,7 @@ implements
   
   @Override
   public SSEntity describeEntity(
-    final SSEntity             entity, 
+    final SSEntity             entity,
     final SSEntityDescriberPar par) throws Exception{
     
     try{
@@ -125,11 +126,11 @@ implements
             new SSTagsGetPar(
               par.user,
               null, //forUser
-SSUri.asListNotNull(entity.id), //entities
+              SSUri.asListNotNull(entity.id), //entities
               null, //labels
-              null, //labelSearchOp, 
+              null, //labelSearchOp,
               SSSpaceE.asListWithoutNull(par.space), //spaces
-SSUri.asListNotNull(par.circle), //circles
+              SSUri.asListNotNull(par.circle), //circles
               null, //startTime
               par.withUserRestriction))); //withUserRestriction
       }
@@ -189,13 +190,12 @@ SSUri.asListNotNull(par.circle), //circles
   
   @Override
   public void getUsersResources(
-    final List<String>             allUsers,
-    final Map<String, List<SSUri>> usersResources) throws Exception{
+    final Map<String, List<SSEntityContext>> usersEntities) throws Exception{
     
     try{
       SSUri userUri;
       
-      for(String user : allUsers){
+      for(String user : usersEntities.keySet()){
         
         userUri = SSUri.get(user);
         
@@ -212,21 +212,13 @@ SSUri.asListNotNull(par.circle), //circles
               null, //startTime,
               false))){ //withUserRestriction
           
-          if(usersResources.containsKey(user)){
-            usersResources.get(user).add(((SSTag)tagEntity).entity);
-          }else{
-            
-            final List<SSUri> resourceList = new ArrayList<>();
-            
-            resourceList.add(((SSTag)tagEntity).entity);
-            
-            usersResources.put(user, resourceList);
-          }
+            usersEntities.get(user).add(
+              new SSEntityContext(
+                ((SSTag) tagEntity).entity, 
+                SSEntityE.tag, 
+                SSStrU.toStr(((SSTag) tagEntity).tagLabel), 
+                ((SSTag) tagEntity).creationTime));
         }
-      }
-      
-      for(Map.Entry<String, List<SSUri>> resourcesPerUser : usersResources.entrySet()){
-        SSStrU.distinctWithoutNull2(resourcesPerUser.getValue());
       }
       
     }catch(Exception error){

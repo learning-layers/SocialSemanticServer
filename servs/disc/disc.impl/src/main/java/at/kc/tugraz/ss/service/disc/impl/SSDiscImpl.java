@@ -70,6 +70,7 @@ import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSDescribeEntityI;
+import at.tugraz.sss.serv.SSEntityContext;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
 import at.tugraz.sss.serv.SSErr;
 import java.util.*;
@@ -249,11 +250,10 @@ public class SSDiscImpl
 
   @Override
   public void getUsersResources(
-    final List<String> allUsers,
-    final Map<String, List<SSUri>> usersResources) throws Exception{
+    final Map<String, List<SSEntityContext>> usersEntities) throws Exception{
 
     try{
-      for(String user : allUsers){
+      for(String user : usersEntities.keySet()){
         
         for(SSEntity disc :
           discsGet(
@@ -266,21 +266,13 @@ public class SSDiscImpl
               true, //withUserRestriction,
               false))){ //invokeEntityHandlers)
           
-          if(usersResources.containsKey(user)){
-            usersResources.get(user).add(disc.id);
-          }else{
-            
-            final List<SSUri> resourceList = new ArrayList<>();
-            
-            resourceList.add(disc.id);
-            
-            usersResources.put(user, resourceList);
-          }
+            usersEntities.get(user).add(
+              new SSEntityContext(
+                disc.id, 
+                SSEntityE.disc, 
+                null, 
+                null));
         }
-      }
-      
-      for(Map.Entry<String, List<SSUri>> resourcesPerUser : usersResources.entrySet()){
-        SSStrU.distinctWithoutNull2(resourcesPerUser.getValue());
       }
       
     }catch(Exception error){

@@ -100,6 +100,7 @@ import sss.serv.eval.api.SSEvalServerI;
 import sss.servs.entity.sql.SSEntitySQL;
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.tugraz.sss.serv.SSEntityContext;
 import at.tugraz.sss.serv.SSStrU;
 
 public class SSEntityImpl 
@@ -218,8 +219,7 @@ implements
   
   @Override
   public void getUsersResources(
-    final List<String>             allUsers,
-    final Map<String, List<SSUri>> usersResources) throws Exception{
+    final Map<String, List<SSEntityContext>> usersEntities) throws Exception{
     
     try{
       final List<SSEntityE> types = new ArrayList<>();
@@ -227,30 +227,22 @@ implements
       types.add(SSEntityE.file);
       types.add(SSEntityE.entity);
       
-      for(String user : allUsers){
+      for(String user : usersEntities.keySet()){
         
         for(SSUri entity : 
           sql.getEntityURIs(
             null, //entities, 
-            types, //types, 
+            types, //types,
             SSUri.asListNotNull(SSUri.get(user)))){ //authors
           
-          if(usersResources.containsKey(user)){
-            usersResources.get(user).add(entity);
-          }else{
-            
-            final List<SSUri> resourceList = new ArrayList<>();
-            
-            resourceList.add(entity);
-            
-            usersResources.put(user, resourceList);
-          }
+          usersEntities.get(user).add(
+            new SSEntityContext(
+              entity, 
+              SSEntityE.entity,
+              null, 
+              null));
         }
-      }
-      
-      for(Map.Entry<String, List<SSUri>> resourcesPerUser : usersResources.entrySet()){
-        SSStrU.distinctWithoutNull2(resourcesPerUser.getValue());
-      }
+      }      
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

@@ -30,8 +30,6 @@ import java.util.List;
 public class SSDataExportUsersEntitiesTagsCategoriesTimestampsFilePar extends SSServPar{
   
   public String                      fileName               = null;
-  public Boolean                     exportTags             = false;
-  public Boolean                     exportCategories       = false;
   public List<SSUri>                 users                  = new ArrayList<>();
   
   public SSDataExportUsersEntitiesTagsCategoriesTimestampsFilePar(final SSServPar par) throws Exception{
@@ -42,8 +40,6 @@ public class SSDataExportUsersEntitiesTagsCategoriesTimestampsFilePar extends SS
       
       if(pars != null){
         fileName              = (String)                     pars.get(SSVarNames.fileName);
-        exportTags            = (Boolean)                    pars.get(SSVarNames.exportTags);
-        exportCategories      = (Boolean)                    pars.get(SSVarNames.exportCategories);
         users                 = (List<SSUri>)                pars.get(SSVarNames.users);
       }
       

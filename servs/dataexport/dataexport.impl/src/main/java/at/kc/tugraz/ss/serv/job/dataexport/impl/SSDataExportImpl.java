@@ -46,6 +46,8 @@ import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSEntityCircle;
+import at.tugraz.sss.serv.SSEntityContext;
+import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSUserRelationGathererI;
 import at.tugraz.sss.serv.SSUsersResourcesGathererI;
@@ -174,13 +176,10 @@ public class SSDataExportImpl extends SSServImplWithDBA implements SSDataExportC
     
     try{
       
-      final Map<String, List<SSUri>>            usersResources        = new HashMap<>();
-      final Map<String, List<String>>           tagsPerEntities       = new HashMap<>();
-      final Map<String, List<String>>           categoriesPerEntities = new HashMap<>();
+      final Map<String, List<SSEntityContext>>  usersEntities         = new HashMap<>();
       final List<String>                        lineParts             = new ArrayList<>();
       final List<String>                        allUsers;
       SSUri                                     user;
-      String                                    resourceString;
       
       out        = SSFileU.openOrCreateFileWithPathForWrite (SSFileU.dirWorkingDataCsv() + par.fileName);
       writer     = new OutputStreamWriter                   (out,    Charset.forName(SSEncodingU.utf8.toString()));
@@ -208,56 +207,39 @@ public class SSDataExportImpl extends SSServImplWithDBA implements SSDataExportC
         }
       }
       
-      for(SSServContainerI serv : SSServReg.inst.getServsGatheringUsersResources()){
-        ((SSUsersResourcesGathererI) serv.serv()).getUsersResources(allUsers, usersResources);
+      for(String userStr : allUsers){
+        usersEntities.put(userStr, new ArrayList<>());
       }
       
-      for(Map.Entry<String, List<SSUri>> resourcesForUser : usersResources.entrySet()){
+      for(SSServContainerI serv : SSServReg.inst.getServsGatheringUsersResources()){
+        ((SSUsersResourcesGathererI) serv.serv()).getUsersResources(usersEntities);
+      }
+      
+      for(Map.Entry<String, List<SSEntityContext>> resourcesForUser : usersEntities.entrySet()){
         
         user = SSUri.get(resourcesForUser.getKey());
         
-        tagsPerEntities.clear();
-        categoriesPerEntities.clear();
-        
-        if(par.exportTags){
-          
-          tagsPerEntities.putAll(
-            SSDataExportFct.getTagsOfUserPerEntities(
-              user,
-              user, //forUser
-              resourcesForUser.getValue(),
-              null)); //circle
-        }
-        
-        if(par.exportCategories){
-          categoriesPerEntities.putAll(
-            SSDataExportFct.getCategoriesPerEntities(
-              user,
-              user, //forUser
-              resourcesForUser.getValue(),
-              null)); //circle
-        }
-        
-        for(SSUri resource : resourcesForUser.getValue()){
-          
-          resourceString = SSStrU.toStr(resource);
+        for(SSEntityContext entity : resourcesForUser.getValue()){
           
           lineParts.clear();
           
           lineParts.add(SSStrU.toStr     (user));
-          lineParts.add(SSStrU.toStr     (resource));
-          lineParts.add(SSStrU.toStr     (SSDateU.dateAsLong() / 1000)); //TODO: provide tag time stamps for tags
+          lineParts.add(SSStrU.toStr     (entity.id));
           
-          if(
-            tagsPerEntities.containsKey(resourceString)){
-            lineParts.add(StringUtils.join(tagsPerEntities.get(resourceString),SSStrU.comma));
+          if(entity.timestamp != null){
+            lineParts.add(SSStrU.toStr     (entity.timestamp / 1000));
           }else{
             lineParts.add(SSStrU.empty);
           }
           
-          if(
-            categoriesPerEntities.containsKey(resourceString)){
-            lineParts.add(StringUtils.join(categoriesPerEntities.get(resourceString),SSStrU.comma));
+          if(SSStrU.equals(entity.context, SSEntityE.tag)){
+            lineParts.add(entity.content);
+          }else{
+            lineParts.add(SSStrU.empty);
+          }
+          
+          if(SSStrU.equals(entity.context, SSEntityE.category)){
+            lineParts.add(entity.content);
           }else{
             lineParts.add(SSStrU.empty);
           }

@@ -50,6 +50,7 @@ import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSDescribeEntityI;
+import at.tugraz.sss.serv.SSEntityContext;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
 import at.tugraz.sss.serv.SSErr;
 import java.util.*;
@@ -79,8 +80,7 @@ implements
   
   @Override
   public void getUsersResources(
-    final List<String>             allUsers,
-    final Map<String, List<SSUri>> usersResources) throws Exception{
+    final Map<String, List<SSEntityContext>> usersEntities) throws Exception{
     
     try{
       final List<SSUEE> ueTypes = new ArrayList<>();
@@ -97,7 +97,7 @@ implements
       ueTypes.add(SSUEE.evernoteResourceAdd);
       ueTypes.add(SSUEE.bnpPlaceholderAdd);
       
-      for(String user : allUsers){
+      for(String user : usersEntities.keySet()){
         
         userUri = SSUri.get(user);
         
@@ -114,21 +114,13 @@ implements
               false, //withUserRestriction
               false))){ //invokeEntityHandlers
           
-          if(usersResources.containsKey(user)){
-            usersResources.get(user).add(((SSUE)ue).entity.id);
-          }else{
-            
-            final List<SSUri> resourceList = new ArrayList<>();
-            
-            resourceList.add(((SSUE)ue).entity.id);
-            
-            usersResources.put(user, resourceList);
-          }
+            usersEntities.get(user).add(
+              new SSEntityContext(
+               ((SSUE)ue).entity.id, 
+                SSEntityE.userEvent, 
+                null, 
+                null));
         }
-      }
-      
-      for(Map.Entry<String, List<SSUri>> resourcesPerUser : usersResources.entrySet()){
-        SSStrU.distinctWithoutNull2(resourcesPerUser.getValue());
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
