@@ -52,5 +52,17 @@ public class SSEntitiesAccessibleGetRESTAPIV2Par{
      this.authors = SSUri.get(authors); 
   }
   
+  @XmlElement
+  @ApiModelProperty(
+    required = false,
+    value = "unique identifier for the pages of a previous query")
+  public String              pagesID             = null;
+  
+  @XmlElement
+  @ApiModelProperty(
+    required = false,
+    value = "number of the page to be requested from a previous query")
+  public Integer             pageNumber             = null;
+  
   public SSEntitiesAccessibleGetRESTAPIV2Par(){}
 }

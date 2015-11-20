@@ -106,7 +106,7 @@ implements
       }
       
       final List<SSUri>        uris                   = new ArrayList<>();
-      final SSEntityURIsGetPar entityURIsGetPar         =
+      final SSEntityURIsGetPar entityURIsGetPar       =
         new SSEntityURIsGetPar(
           par.user,
           null, //entities

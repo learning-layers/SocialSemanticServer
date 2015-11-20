@@ -117,6 +117,9 @@ public class SSRESTEntity {
           descPar, //descPar
           true); //withUserRestriction
       
+      par.pagesID    = input.pagesID;
+      par.pageNumber = input.pageNumber;
+      
     }catch(Exception error){
       return Response.status(422).build();
     }
