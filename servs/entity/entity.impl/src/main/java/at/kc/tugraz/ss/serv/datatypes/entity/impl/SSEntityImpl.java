@@ -503,7 +503,7 @@ implements
     
     try{
       
-      final List<SSUri> entityURIs =
+      final List<SSUri> entityURIs = 
         entityURIsGet(
           new SSEntityURIsGetPar(
             par.user,
