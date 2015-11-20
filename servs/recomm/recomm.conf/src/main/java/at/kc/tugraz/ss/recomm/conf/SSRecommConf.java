@@ -28,10 +28,8 @@ import java.util.List;
 public class SSRecommConf extends SSServConfA{
 
   public String        fileNameForRec                         = null;
-  public Algorithm     recommTagAlgorithm                     = null;
   public Algorithm     recommResourceAlgorithm                = null;
   public Algorithm     recommUserAlgorithm                    = null;
-  public List<String>  recommTagsAlgoPerRealm                 = new ArrayList<>();
   public List<String>  recommTagsRandomAlgos                  = new ArrayList<>();
   public List<String>  recommTagsUserPerRealm                 = new ArrayList<>();
   public List<String>  recommTagsUsersToSetRealmsFromCircles  = new ArrayList<>();
@@ -41,13 +39,8 @@ public class SSRecommConf extends SSServConfA{
     final SSRecommConf copy = (SSRecommConf) SSServConfA.copy(orig, new SSRecommConf());
     
     copy.fileNameForRec          = orig.fileNameForRec;
-    copy.recommTagAlgorithm      = orig.recommTagAlgorithm;
     copy.recommResourceAlgorithm = orig.recommResourceAlgorithm;
     copy.recommUserAlgorithm     = orig.recommUserAlgorithm;
-    
-    if(orig.recommTagsAlgoPerRealm != null){
-      copy.recommTagsAlgoPerRealm.addAll(orig.recommTagsAlgoPerRealm);
-    }
     
     if(orig.recommTagsRandomAlgos != null){
       copy.recommTagsRandomAlgos.addAll(orig.recommTagsRandomAlgos);

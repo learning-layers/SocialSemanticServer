@@ -97,13 +97,10 @@ recomm: #files have to be provided in sss's_working_dir/data/csv/
   scheduleIntervals:
     - 10
   fileNameForRec: sss_recomm
-  recommTagAlgorithm: BLL #BLL, BLLacMPr
   recommResourceAlgorithm: RESOURCETAGCB #RESOURCECF, RESOURCETAGCB
   recommUserAlgorithm: USERTAGCB #USERTAGCB
-  recommTagsAlgoPerRealm:
-    #- circle1:BLL
-    #- circle2:BLLacMPr
   recommTagsRandomAlgos:
+    - BLLacMPr
     - BLLcoll
     - THREELcoll
     - MP

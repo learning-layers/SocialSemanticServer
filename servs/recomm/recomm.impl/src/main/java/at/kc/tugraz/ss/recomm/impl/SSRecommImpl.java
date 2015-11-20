@@ -335,21 +335,8 @@ SSUri.asListNotNull(par.forUser), //users,
       }
       
       final List<SSTagLikelihood>  tags  = new ArrayList<>();
-      Algorithm                    algo = recommConf.recommTagAlgorithm;
+      Algorithm                    algo = null;
 
-      if(
-        recommConf.recommTagsAlgoPerRealm != null &&
-        !recommConf.recommTagsAlgoPerRealm.isEmpty()){
-       
-        for(String realmAndAlgo : recommConf.recommTagsAlgoPerRealm){
-          
-          if(SSStrU.equals(SSStrU.split(realmAndAlgo, SSStrU.colon).get(0), userRealmEngine.realm)){
-            algo = Algorithm.valueOf(SSStrU.split(realmAndAlgo, SSStrU.colon).get(1));
-            break;
-          }
-        }
-      }
-      
       if(
         recommConf.recommTagsRandomAlgos != null &&
         !recommConf.recommTagsRandomAlgos.isEmpty()){
