@@ -123,7 +123,30 @@ public class SSLearnEpSQLFct extends SSEntitySQL{
     }
   }
   
-  public List<SSUri> getLearnEpURIsForUser(
+  public List<SSUri> getLearnEpURIs() throws Exception{
+    
+    ResultSet resultSet  = null;
+    
+    try{
+      
+      final Map<String, String> wheres    = new HashMap<>();
+      final List<String>        columns   = new ArrayList<>();
+      
+      column(columns, SSSQLVarNames.learnEpId);
+      
+      resultSet = dbSQL.select(SSSQLVarNames.learnEpTable, columns, wheres, null, null, null);
+      
+      return getURIsFromResult(resultSet, SSSQLVarNames.learnEpId);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
+    }
+  }
+  
+  public List<SSUri> getLearnEpURIs(
     final SSUri           user) throws Exception{
     
     ResultSet resultSet  = null;

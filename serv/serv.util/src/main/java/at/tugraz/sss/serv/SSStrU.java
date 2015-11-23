@@ -288,6 +288,13 @@ public class SSStrU{
     return false;
   }
   
+  public static Boolean containsKey(
+    final Map<? extends Object, ? extends Object> map, 
+    final Object                                  key){
+    
+    return map.containsKey(key.toString());
+  }
+  
   public static void remove(
     final List<? extends Object>  objects,
     final Object                  objectToRemove) throws Exception{
@@ -531,6 +538,26 @@ public class SSStrU{
     }
     
     return object1.toString().trim().equals(object2.toString().trim());
+  }
+  
+  public static Boolean equalsOne(
+    final Object                 object1,
+    final List<? extends Object> objects) {
+    
+    if(
+      object1 == null ||
+      objects == null){
+      return false;
+    }
+    
+    for(Object object : objects){
+      
+      if(equals(object1, object)){
+        return true;
+      }
+    }
+    
+    return false;
   }
   
   public static List<String> distinctWithoutNull(

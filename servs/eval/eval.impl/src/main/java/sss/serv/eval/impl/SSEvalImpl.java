@@ -49,6 +49,7 @@ import sss.serv.eval.datatypes.SSEvalLogEntry;
 import sss.serv.eval.datatypes.par.SSEvalAnalyzePar;
 import sss.serv.eval.datatypes.par.SSEvalLogPar;
 import sss.serv.eval.datatypes.ret.SSEvalLogRet;
+import at.kc.tugraz.ss.serv.datatypes.learnep.api.SSLearnEpServerI;
 
 public class SSEvalImpl 
 extends SSServImplWithDBA 
@@ -68,27 +69,30 @@ implements
     evalLogKnowBrain = new SSEvalLogKnowBrain();
     evalLogBNP       = new SSEvalLogBNP();
   }
-
   
   @Override
   public void evalAnalyze(final SSEvalAnalyzePar par) throws Exception{
     
     try{
       final SSDataImportServerI dataImportServ = (SSDataImportServerI) SSServReg.getServ(SSDataImportServerI.class);
+      final SSLearnEpServerI    learnEpServ    = (SSLearnEpServerI)    SSServReg.getServ(SSLearnEpServerI.class);
+      final SSEntityServerI     entityServ     = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
+      final SSEvalLogAnalyzer   analyzer       = new SSEvalLogAnalyzer(learnEpServ, entityServ);
       
-      final List<SSEvalLogEntry> result =
+      final List<SSEvalLogEntry> logEntries =
         dataImportServ.dataImportEvalLogFile(
           new SSDataImportEvalLogFilePar(
             par.user,
             SSFileU.dirWorkingData() + "sss-eval.log"));
         
-      System.out.println("analyzing");
+      analyzer.setEpisodes ();
+      analyzer.analyzeUsers(logEntries);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
   }
-
+  
   @Override
   public void evalLog(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
 

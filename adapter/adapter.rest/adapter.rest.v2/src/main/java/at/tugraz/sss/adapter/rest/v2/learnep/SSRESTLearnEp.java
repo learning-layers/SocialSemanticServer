@@ -99,7 +99,8 @@ public class SSRESTLearnEp{
       
       par =
         new SSLearnEpsGetPar(
-          null, 
+          null,
+          null, //forUser
           true, 
           true);
       

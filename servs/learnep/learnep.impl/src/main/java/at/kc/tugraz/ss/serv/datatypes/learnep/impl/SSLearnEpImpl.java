@@ -180,7 +180,7 @@ implements
     try{
       for(String user : usersEntities.keySet()){
         
-        for(SSUri learnEp : sql.getLearnEpURIsForUser(SSUri.get(user))){
+        for(SSUri learnEp : sql.getLearnEpURIs(SSUri.get(user))){
           
           for(SSUri versionUri : sql.getLearnEpVersionURIs(learnEp)){
             
@@ -479,6 +479,21 @@ implements
         throw new SSErr(SSErrE.parameterMissing);
       }
       
+      if(par.withUserRestriction){
+        
+        if(par.forUser == null){
+          par.forUser = par.user;
+        }
+      }
+      
+      final List<SSUri> learnEpURIs   = new ArrayList<>();
+      
+      if(par.forUser == null){
+        learnEpURIs.addAll(sql.getLearnEpURIs());
+      }else{
+        learnEpURIs.addAll(sql.getLearnEpURIs(par.forUser));
+      }
+      
       final List<SSEntity>    learnEps      = new ArrayList<>();
       final SSLearnEpGetPar   learnEpGetPar = 
           new SSLearnEpGetPar(
@@ -490,12 +505,12 @@ implements
       learnEpGetPar.setRead        = par.setRead;
       learnEpGetPar.setCircleTypes = par.setCircleTypes;
       
-      for(SSUri learnEpURI : sql.getLearnEpURIsForUser(par.user)){
+      for(SSUri learnEpURI : learnEpURIs){
 
         learnEpGetPar.learnEp = learnEpURI;
         
         SSEntity.addEntitiesDistinctWithoutNull(
-          learnEps, 
+          learnEps,
           learnEpGet(learnEpGetPar));          
       }
 
@@ -1971,7 +1986,7 @@ SSUri.asListNotNull(par.learnEpVersion), //learnEpVersions
           }
         }else{
           
-          for(SSUri learnEp : sql.getLearnEpURIsForUser(par.user)){
+          for(SSUri learnEp : sql.getLearnEpURIs(par.user)){
             
             learnEpLockHoldPar.learnEp = learnEp;
             

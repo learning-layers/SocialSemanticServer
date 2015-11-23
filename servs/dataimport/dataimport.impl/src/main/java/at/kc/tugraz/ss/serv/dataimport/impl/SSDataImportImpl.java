@@ -76,6 +76,7 @@ import at.tugraz.sss.serv.SSToolContextE;
 import at.tugraz.sss.servs.kcprojwiki.datatype.SSKCProjWikiProject;
 import at.tugraz.sss.servs.kcprojwiki.datatype.SSKCProjWikiVorgang;
 import at.tugraz.sss.servs.kcprojwiki.datatype.SSKCProjWikiVorgangEmployeeResource;
+import java.util.Date;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import sss.serv.eval.api.SSEvalServerI;
 import sss.serv.eval.datatypes.SSEvalLogE;
@@ -629,7 +630,7 @@ implements
       String[]                               line;
       SSEvalLogEntry                         entry;
 
-      
+      final Date firstOfOct = new Date(Long.valueOf("1443679508904"));
       //timestamp;tool context;user label;log type;entity;entity type;entity label;content;tag type;entities' ids;entities' labels;users' labels;episodespace;selected bits measure;not selected entities' ids;not selected entities' labels
       lines = SSDataImportReaderFct.readAllFromCSV(par.filePath);
       
@@ -641,6 +642,10 @@ implements
           entry = new SSEvalLogEntry();
           
           entry.timestamp                 = Long.valueOf      (line[0].trim());
+          
+          if(firstOfOct.getTime() > entry.timestamp){
+            continue;
+          }
           
           try{
             entry.toolContext               = SSToolContextE.get(line[1].trim());

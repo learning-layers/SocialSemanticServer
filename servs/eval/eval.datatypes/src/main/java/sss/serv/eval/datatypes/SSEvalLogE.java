@@ -21,6 +21,7 @@
 package sss.serv.eval.datatypes;
 
 import at.tugraz.sss.serv.SSJSONLDPropI;
+import at.tugraz.sss.serv.SSObjU;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarNames;
 import java.util.ArrayList;
@@ -122,5 +123,18 @@ public enum SSEvalLogE implements SSJSONLDPropI{
     }
     
     return result;
+  }
+  
+  public static void addDistinctNotNull(
+    final List<SSEvalLogE>  logTypes,
+    final SSEvalLogE        logType){
+    
+    if(SSObjU.isNull(logTypes, logType)){
+      return;
+    }
+    
+    if(!SSStrU.contains(logTypes, logType)){
+      logTypes.add(logType);
+    }
   }
 }

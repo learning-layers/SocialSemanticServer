@@ -22,23 +22,35 @@ package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par;
 
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 
 public class SSLearnEpsGetPar extends SSServPar{
 
+  public SSUri   forUser              = null;
   public Boolean setRead              = false;
   public Boolean setCircleTypes       = false;
   public Boolean invokeEntityHandlers = false;
+
+  public String getForUser() {
+    return SSStrU.removeTrailingSlash(forUser);
+  }
+
+  public void setForUser(final String forUser) throws Exception {
+    this.forUser = SSUri.get(forUser);
+  }
   
   public SSLearnEpsGetPar(){}
     
   public SSLearnEpsGetPar(
     final SSUri         user,
+    final SSUri         forUser,
     final Boolean       withUserRestriction, 
     final Boolean       invokeEntityHandlers){
     
     super(SSServOpE.learnEpsGet, null, user);
     
+    this.forUser              = forUser;
     this.withUserRestriction  = withUserRestriction;
     this.invokeEntityHandlers = invokeEntityHandlers;
   }
