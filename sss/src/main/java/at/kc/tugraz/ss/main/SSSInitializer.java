@@ -177,6 +177,7 @@ public class SSSInitializer extends SSServImplStartA{
         SSModelUEServ.inst.schedule        ();
         SSRecommServ.inst.schedule         ();
         SSKCProjWikiServ.inst.schedule     ();
+        SSEvalServ.inst.schedule           ();
       }catch(Exception error1){
         SSServErrReg.regErr(error1);
         return;

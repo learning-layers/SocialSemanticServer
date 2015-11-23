@@ -20,6 +20,8 @@
 */
 package sss.serv.eval.impl;
 
+import at.kc.tugraz.ss.serv.dataimport.api.SSDataImportServerI;
+import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportEvalLogFilePar;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntitiesGetPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityGetPar;
@@ -31,6 +33,7 @@ import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSEntity;
+import at.tugraz.sss.serv.SSFileU;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.SSToolE;
@@ -42,6 +45,8 @@ import java.util.List;
 import sss.serv.eval.api.SSEvalClientI;
 import sss.serv.eval.api.SSEvalServerI;
 import sss.serv.eval.conf.SSEvalConf;
+import sss.serv.eval.datatypes.SSEvalLogEntry;
+import sss.serv.eval.datatypes.par.SSEvalAnalyzePar;
 import sss.serv.eval.datatypes.par.SSEvalLogPar;
 import sss.serv.eval.datatypes.ret.SSEvalLogRet;
 
@@ -62,6 +67,26 @@ implements
     evalConf         = (SSEvalConf) conf;
     evalLogKnowBrain = new SSEvalLogKnowBrain();
     evalLogBNP       = new SSEvalLogBNP();
+  }
+
+  
+  @Override
+  public void evalAnalyze(final SSEvalAnalyzePar par) throws Exception{
+    
+    try{
+      final SSDataImportServerI dataImportServ = (SSDataImportServerI) SSServReg.getServ(SSDataImportServerI.class);
+      
+      final List<SSEvalLogEntry> result =
+        dataImportServ.dataImportEvalLogFile(
+          new SSDataImportEvalLogFilePar(
+            par.user,
+            SSFileU.dirWorkingData() + "sss-eval.log"));
+        
+      System.out.println("analyzing");
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
   }
 
   @Override

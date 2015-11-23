@@ -22,12 +22,17 @@ package sss.serv.eval.serv;
 
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import at.tugraz.sss.serv.SSCoreConfA;
+import at.tugraz.sss.serv.SSDateU;
+import at.tugraz.sss.serv.SSLogU;
+import at.tugraz.sss.serv.SSObjU;
 import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSServImplA;
+import at.tugraz.sss.serv.SSServOpE;
 import java.util.List;
 import sss.serv.eval.api.SSEvalClientI;
 import sss.serv.eval.api.SSEvalServerI;
+import sss.serv.eval.conf.SSEvalConf;
 import sss.serv.eval.impl.SSEvalImpl;
 
 public class SSEvalServ extends SSServContainerI{
@@ -90,5 +95,41 @@ public class SSEvalServ extends SSServContainerI{
 
   @Override
   public void schedule() throws Exception{
+    
+    final SSEvalConf evalConf = (SSEvalConf)conf;
+    
+    if(
+      !evalConf.use ||
+      !evalConf.schedule){
+      return;
+    }
+    
+    if(
+      SSObjU.isNull(evalConf.scheduleOps, evalConf.scheduleIntervals) ||
+      evalConf.scheduleOps.isEmpty()                                        ||
+      evalConf.scheduleIntervals.isEmpty()                                  ||
+      evalConf.scheduleOps.size() != evalConf.scheduleIntervals.size()){
+      
+      SSLogU.warn("attempt to schedule with ops/intervals wrong");
+      return;
+    }
+    
+    if(evalConf.executeScheduleAtStartUp){
+      
+      for(SSServOpE scheduleOp : evalConf.scheduleOps){
+        
+        switch(scheduleOp){
+          
+          case evalAnalyze:{
+            SSDateU.scheduleNow(new SSEvalAnalyzeTask());
+            break;
+          }
+          
+          default:{
+            SSLogU.warn("attempt to schedule op at startup with no schedule task defined");
+          }
+        }
+      }
+    }
   }
 }

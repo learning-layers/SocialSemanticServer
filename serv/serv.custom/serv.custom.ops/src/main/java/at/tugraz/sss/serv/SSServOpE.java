@@ -52,6 +52,7 @@ public enum SSServOpE{
   
   //eval
   evalLog,
+  evalAnalyze,
   
   //like
   likesGet,
@@ -276,6 +277,7 @@ public enum SSServOpE{
   dataImportMediaWikiUser,
   dataImportKCProjWikiVorgaenge,
   dataImportKCProjWikiProjects,
+  dataImportEvalLogFile,
   
   //disc
   discRemove,

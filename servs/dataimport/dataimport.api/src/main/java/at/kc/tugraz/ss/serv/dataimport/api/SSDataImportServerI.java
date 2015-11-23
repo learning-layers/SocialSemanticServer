@@ -21,19 +21,23 @@
  package at.kc.tugraz.ss.serv.dataimport.api;
 
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportBitsAndPiecesPar;
+import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportEvalLogFilePar;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportKCProjWikiProjectsPar;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportKCProjWikiVorgaengePar;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServServerI;
 import at.tugraz.sss.servs.kcprojwiki.datatype.SSKCProjWikiProject;
 import at.tugraz.sss.servs.kcprojwiki.datatype.SSKCProjWikiVorgang;
+import java.util.List;
 import java.util.Map;
+import sss.serv.eval.datatypes.SSEvalLogEntry;
 
 public interface SSDataImportServerI extends SSServServerI{
   
   public Boolean                          dataImportBitsAndPieces                  (final SSDataImportBitsAndPiecesPar       par) throws Exception;
   public Map<String, SSKCProjWikiVorgang> dataImportKCProjWikiVorgaenge            (final SSDataImportKCProjWikiVorgaengePar par) throws Exception;
   public Map<String, SSKCProjWikiProject> dataImportKCProjWikiProjects             (final SSDataImportKCProjWikiProjectsPar  par) throws Exception;
+  public List<SSEvalLogEntry>             dataImportEvalLogFile                    (final SSDataImportEvalLogFilePar         par) throws Exception;
   
   public Map<String, String> dataImportSSSUsersFromCSVFile            (final SSServPar parA) throws Exception;
   public void                dataImportMediaWikiUser                  (final SSServPar parA) throws Exception;

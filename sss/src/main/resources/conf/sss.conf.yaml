@@ -32,6 +32,13 @@ jsonLD:
 eval:
   tools: #- leave empty for no tool usage to be traced
     #- bnp
+    #- knowbrain
+  schedule: false
+  executeScheduleAtStartUp: false
+  scheduleOps:
+    - evalAnalyze
+  scheduleIntervals:
+    - 0
 integrationTest: 
   tests:
     #- something

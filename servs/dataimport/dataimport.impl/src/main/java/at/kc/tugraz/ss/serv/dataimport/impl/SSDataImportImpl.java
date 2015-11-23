@@ -37,6 +37,7 @@ import at.kc.tugraz.ss.serv.dataimport.conf.SSDataImportConf;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportAchsoPar;
 import at.tugraz.sss.serv.SSServPar;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportBitsAndPiecesPar;
+import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportEvalLogFilePar;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportKCProjWikiProjectsPar;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportKCProjWikiVorgaengePar;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportMediaWikiUserPar;
@@ -63,6 +64,7 @@ import at.kc.tugraz.ss.service.userevent.api.SSUEServerI;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
+import at.tugraz.sss.serv.SSEntityE;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -70,13 +72,21 @@ import java.util.Map;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
+import at.tugraz.sss.serv.SSToolContextE;
 import at.tugraz.sss.servs.kcprojwiki.datatype.SSKCProjWikiProject;
 import at.tugraz.sss.servs.kcprojwiki.datatype.SSKCProjWikiVorgang;
 import at.tugraz.sss.servs.kcprojwiki.datatype.SSKCProjWikiVorgangEmployeeResource;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import sss.serv.eval.api.SSEvalServerI;
+import sss.serv.eval.datatypes.SSEvalLogE;
+import sss.serv.eval.datatypes.SSEvalLogEntry;
 
-public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportClientI, SSDataImportServerI{
+public class SSDataImportImpl 
+extends 
+  SSServImplWithDBA 
+implements 
+  SSDataImportClientI, 
+  SSDataImportServerI{
   
   public  static final Integer                 bitsAndPiecesImageMinWidth          = 250;
   public  static final Integer                 bitsAndPiecesImageMinHeight         = 250;
@@ -604,6 +614,79 @@ public class SSDataImportImpl extends SSServImplWithDBA implements SSDataImportC
       }
       
       return vorgaenge;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public List<SSEvalLogEntry> dataImportEvalLogFile(final SSDataImportEvalLogFilePar par) throws Exception{
+    
+    try{
+      final List<SSEvalLogEntry>             logEntries  = new ArrayList<>();
+      final List<String[]>                   lines;
+      String[]                               line;
+      SSEvalLogEntry                         entry;
+
+      
+      //timestamp;tool context;user label;log type;entity;entity type;entity label;content;tag type;entities' ids;entities' labels;users' labels;episodespace;selected bits measure;not selected entities' ids;not selected entities' labels
+      lines = SSDataImportReaderFct.readAllFromCSV(par.filePath);
+      
+      for(Integer lineCounter = 1; lineCounter < lines.size(); lineCounter++){
+        
+        try{
+        
+          line  = lines.get(lineCounter);
+          entry = new SSEvalLogEntry();
+          
+          entry.timestamp                 = Long.valueOf      (line[0].trim());
+          
+          try{
+            entry.toolContext               = SSToolContextE.get(line[1].trim());
+          }catch(Exception error){}
+          
+          entry.userLabel                 = SSLabel.get       (line[2].trim());
+          entry.logType                   = SSEvalLogE.get    (line[3].trim());
+          
+          try{
+            entry.entity                    = SSUri.get         (line[4].trim());
+          }catch(Exception error){}
+          
+          try{
+            entry.entityType                = SSEntityE.get     (line[5].trim());
+          }catch(Exception error){}
+          
+          entry.entityLabel               = SSLabel.get       (line[6].trim());
+          entry.content                   = line[7].trim();
+          entry.tagType                   = line[8].trim();
+          
+          try{
+            entry.entityIDs.addAll            (SSUri.get  (SSStrU.splitDistinctWithoutEmptyAndNull(line[9].trim(), SSStrU.comma)));
+          }catch(Exception error){}
+          
+          entry.entityLabels.addAll         (SSLabel.get(SSStrU.splitDistinctWithoutEmptyAndNull(line[10].trim(), SSStrU.comma)));
+          entry.userLabels.addAll           (SSLabel.get(SSStrU.splitDistinctWithoutEmptyAndNull(line[11].trim(), SSStrU.comma)));
+          
+          try{
+            entry.episodeSpace              = SSSpaceE.get(line[12].trim());
+          }catch(Exception error){}
+          
+          entry.selectedBitsMeasure       = line[13].trim();
+          
+          try{
+            entry.notSelectedEntityIds.addAll   (SSUri.get  (SSStrU.splitDistinctWithoutEmptyAndNull(line[14].trim(), SSStrU.comma)));
+          }catch(Exception error){}
+          
+          entry.notSelectedEntityLabels.addAll(SSLabel.get(SSStrU.splitDistinctWithoutEmptyAndNull(line[15].trim(), SSStrU.comma)));
+          
+          logEntries.add(entry);
+        }catch(Exception error){
+          SSLogU.warn("line " + (lineCounter + 1) + " reading from csv failed");
+        }
+      }
+      
+      return logEntries;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
