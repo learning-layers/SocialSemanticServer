@@ -176,7 +176,7 @@ implements
         
         for(SSUri entityURI : entityURIs){//entityServ.entitiesGet(entitiesGetPar)){
 
-          if(page.size() == par.pageSize){
+          if(page.size() == par.pageSize - 1){
             pages.add(new ArrayList<>(page));
             page.clear();
           }
@@ -208,25 +208,29 @@ implements
       
         if(par.orderByLabel){
           
-          pages.clear();
-          pages.addAll(
+          final List<List<SSUri>> newPages =
             orderPagesByLabel(
               entityServ,
               par.pageSize,
               par.user,
-              pages));
+              pages);
+          
+          pages.clear();
+          pages.addAll(newPages);
           
         }else{
           
           if(par.orderByCreationTime){
             
-            pages.clear();
-            pages.addAll(
+            final List<List<SSUri>> newPages =
               orderPagesByCreationTime(
                 entityServ,
                 par.pageSize,
                 par.user,
-                pages));
+                pages);
+            
+            pages.clear();
+            pages.addAll(newPages);
           }
         }
         
@@ -758,13 +762,17 @@ implements
         
         for(SSEntity entity : entitiesForLabels.get(label)){
           
-          if(page.size() == pageSize){
+          if(page.size() == pageSize - 1){
             pages.add(new ArrayList<>(page));
             page.clear();
           }
           
           page.add(entity.id);
         }
+      }
+      
+      if(!page.isEmpty()){
+        pages.add(page);
       }
       
       return pages;
@@ -813,13 +821,17 @@ implements
         
         for(SSEntity entity : entitiesForTimes.get(time)){
           
-          if(page.size() == pageSize){
+          if(page.size() == pageSize - 1){
             pages.add(new ArrayList<>(page));
             page.clear();
           }
           
           page.add(entity.id);
         }
+      }
+      
+      if(!page.isEmpty()){
+        pages.add(page);
       }
       
       return pages;
