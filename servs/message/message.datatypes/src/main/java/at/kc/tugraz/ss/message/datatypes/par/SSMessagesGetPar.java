@@ -22,18 +22,29 @@ package at.kc.tugraz.ss.message.datatypes.par;
 
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 
 public class SSMessagesGetPar extends SSServPar{
   
+  public SSUri   forUser              = null;
   public Boolean includeRead          = false;
   public Long    startTime            = null;
   public Boolean invokeEntityHandlers = false;
+
+  public String getForUser() {
+    return SSStrU.removeTrailingSlash(forUser);
+  }
+
+  public void setForUser(final String forUser) throws Exception{
+    this.forUser = SSUri.get(forUser);
+  }
   
   public SSMessagesGetPar(){}
   
   public SSMessagesGetPar(
     final SSUri     user, 
+    final SSUri     forUser, 
     final Boolean   includeRead, 
     final Long      startTime, 
     final Boolean   withUserRestriction, 
@@ -41,6 +52,7 @@ public class SSMessagesGetPar extends SSServPar{
     
     super(SSServOpE.messagesGet, null, user);
     
+    this.forUser              = forUser;
     this.includeRead          = includeRead;
     this.startTime            = startTime;
     this.withUserRestriction  = withUserRestriction;

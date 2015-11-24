@@ -93,6 +93,7 @@ implements
             messagesGet(
               new SSMessagesGetPar(
                 par.user,
+                par.user, //forUser
                 true, //includeRead,
                 null, //startTime,
                 par.withUserRestriction,
@@ -208,10 +209,17 @@ implements
         throw new SSErr(SSErrE.parameterMissing);
       }
       
+       if(par.withUserRestriction){
+        
+        if(!SSStrU.equals(par.forUser, par.user)){
+          par.forUser = par.user;
+        }
+      }
+      
       final List<SSEntity>   result      = new ArrayList<>();
       final List<SSEntity>   messages    = new ArrayList<>();
       
-      final List<SSUri>     messageURIs   = sqlFct.getMessageURIs(par.user, par.startTime);
+      final List<SSUri>     messageURIs   = sqlFct.getMessageURIs(par.forUser, par.startTime);
       final SSMessageGetPar messageGetPar =
         new SSMessageGetPar(
           par.user,

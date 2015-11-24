@@ -20,6 +20,7 @@
 */
 package sss.serv.eval.impl;
 
+import at.kc.tugraz.ss.message.api.SSMessageServerI;
 import at.kc.tugraz.ss.serv.dataimport.api.SSDataImportServerI;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportEvalLogFilePar;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
@@ -78,9 +79,14 @@ implements
       final SSDataImportServerI dataImportServ = (SSDataImportServerI) SSServReg.getServ(SSDataImportServerI.class);
       final SSLearnEpServerI    learnEpServ    = (SSLearnEpServerI)    SSServReg.getServ(SSLearnEpServerI.class);
       final SSEntityServerI     entityServ     = (SSEntityServerI)     SSServReg.getServ(SSEntityServerI.class);
+      final SSMessageServerI    messageServ    = (SSMessageServerI)    SSServReg.getServ(SSMessageServerI.class);
       final Date                firstOfOct     = new Date(Long.valueOf("1443679508904"));
-      final SSEvalLogAnalyzer   analyzer       = new SSEvalLogAnalyzer(learnEpServ, entityServ, firstOfOct.getTime());
-      
+      final SSEvalLogAnalyzer   analyzer       =
+        new SSEvalLogAnalyzer(
+          learnEpServ, 
+          entityServ, 
+          messageServ,
+          firstOfOct.getTime());
       
       final List<SSEvalLogEntry> logEntries =
         dataImportServ.dataImportEvalLogFile(

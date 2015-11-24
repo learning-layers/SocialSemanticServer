@@ -1,5 +1,8 @@
 package sss.serv.eval.impl;
 
+import at.kc.tugraz.ss.message.api.SSMessageServerI;
+import at.kc.tugraz.ss.message.datatypes.SSMessage;
+import at.kc.tugraz.ss.message.datatypes.par.SSMessagesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpsGetPar;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
@@ -26,6 +29,7 @@ import at.tugraz.sss.servs.entity.datatypes.par.SSEntityGetPar;
 import sss.serv.eval.impl.helpers.SSEpisodeCreationInfo;
 import sss.serv.eval.impl.helpers.SSEvalActionInfo;
 import sss.serv.eval.impl.helpers.SSImportInfo;
+import sss.serv.eval.impl.helpers.SSMessageSentInfo;
 import sss.serv.eval.impl.helpers.SSWorkedOnOwnBitInfo;
 import sss.serv.eval.impl.helpers.SSWorkedOnOwnEpisodeInfo;
 import sss.serv.eval.impl.helpers.SSWorkedOnReceivedSharedBitInfo;
@@ -34,17 +38,20 @@ public class SSEvalLogAnalyzer {
   
   private final SSLearnEpServerI       learnEpServ;
   private final SSEntityServerI        entityServ;
+  private final SSMessageServerI       messageServ;
   private final Long                   startTime;
   private final Map<String, SSEntity>  episodes     = new HashMap<>();
   private final List<String>           ignoredUsers = new ArrayList<>();
   
   public SSEvalLogAnalyzer(
     final SSLearnEpServerI learnEpServ,
-    final SSEntityServerI  entityServ, 
+    final SSEntityServerI  entityServ,
+    final SSMessageServerI messageServ,
     final Long             startTime){
     
     this.learnEpServ = learnEpServ;
     this.entityServ  = entityServ;
+    this.messageServ = messageServ;
     this.startTime   = startTime;
     
     ignoredUsers.add("t.treasure-jones@leeds.ac.uk");
@@ -107,6 +114,43 @@ public class SSEvalLogAnalyzer {
             episode.id, 
             episode.label, 
             episode.creationTime));
+      }
+      
+      SSMessage message;
+      
+      for(SSEntity messageEntity :
+        messageServ.messagesGet(
+          new SSMessagesGetPar(
+            SSVocConf.systemUserUri,
+            null, //forUser,
+            true, //includeRead,
+            startTime, //startTime,
+            false, //withUserRestriction,
+            false))){ //invokeEntityHandlers
+      
+        message = (SSMessage) messageEntity;
+        
+        if(
+          SSStrU.equalsOne(message.author.label,  ignoredUsers) ||
+          SSStrU.equalsOne(message.forUser.label, ignoredUsers)){
+          continue;
+        }
+        
+        if(!SSStrU.containsKey(userInfos, message.author.label)){
+          
+          userInfo = new SSUserInfo();
+          
+          userInfos.put(message.author.label.toString(), userInfo);
+        }else{
+          userInfo = userInfos.get(message.author.label.toString());
+        }
+        
+        userInfo.messageSentInfos.add(
+          new SSMessageSentInfo(
+            message.author.label, 
+            message.forUser.label, 
+            SSStrU.toStr(message.content), 
+            message.creationTime));
       }
       
       for(SSEvalLogEntry logEntry : logEntries){
@@ -172,12 +216,16 @@ public class SSEvalLogAnalyzer {
         System.out.println();
        
         printUserImports                          (user.getValue().importInfos);
+        
         printUserEpisodeCreated                   (user.getValue().createdEpisodeInfos);
         printUserWorkedOnOwnEpisode               (user.getValue().workedOnOwnEpisodeInfos);
         printUserWorkedOnOwnBit                   (user.getValue().workedOnOwnBitInfos);
+        
         printUserEpisodeShares                    (user.getValue().sharedEpisodeInfos);
         printUserWorkedOnReceivedSharedEpisode    (user.getValue().workedOnReceivedEpisodeInfos);
         printUserWorkedOnReceivedSharedBit        (user.getValue().workedOnReceivedBitInfos);
+        
+        printUserSentMessages                     (user.getValue().messageSentInfos);
         
       }
     }catch(Exception error){
@@ -764,6 +812,29 @@ public class SSEvalLogAnalyzer {
           }
         }
         
+        System.out.println();
+      }
+
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+
+  private void printUserSentMessages(List<SSMessageSentInfo> messageSentInfos) throws Exception {
+    
+    try{
+      
+      if(messageSentInfos.isEmpty()){
+        return;
+      }
+      
+      System.out.println("user sent messages");
+      System.out.println("#############");
+      System.out.println();
+      
+      for(SSMessageSentInfo info : messageSentInfos){
+        
+        System.out.println(info.targetLabel + " | " + info.timestamp + " | " + info.content);
         System.out.println();
       }
 

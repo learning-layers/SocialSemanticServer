@@ -116,10 +116,6 @@ public class SSMessageSQLFct extends SSDBSQLFct{
     
     try{
       
-      if(targetUserURI == null){
-        throw new SSErr(SSErrE.parameterMissing);
-      }
-      
       final List<String>                                           tables         = new ArrayList<>();
       final List<MultivaluedMap<String, String>>                   wheres         = new ArrayList<>();
       final MultivaluedMap<String, MultivaluedMap<String, String>> wheresNumeric  = new MultivaluedHashMap<>();
@@ -133,11 +129,14 @@ public class SSMessageSQLFct extends SSDBSQLFct{
       
       tableCon  (tableCons, SSSQLVarNames.messageTable, SSSQLVarNames.messageId, SSSQLVarNames.entityTable, SSSQLVarNames.id);
        
-      final MultivaluedMap<String, String> whereUsers = new MultivaluedHashMap<>();
-      
-      where(whereUsers, SSSQLVarNames.messageTable, SSSQLVarNames.forEntityId, targetUserURI);
-      
-      wheres.add(whereUsers);
+      if(targetUserURI != null){
+
+        final MultivaluedMap<String, String> whereUsers = new MultivaluedHashMap<>();
+        
+        where(whereUsers, SSSQLVarNames.messageTable, SSSQLVarNames.forEntityId, targetUserURI);
+        
+        wheres.add(whereUsers);
+      }
 
       if(
         startTime != null &&

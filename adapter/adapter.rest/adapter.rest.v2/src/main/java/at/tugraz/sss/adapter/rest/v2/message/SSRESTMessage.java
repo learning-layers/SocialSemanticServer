@@ -61,6 +61,7 @@ public class SSRESTMessage{
       par =
         new SSMessagesGetPar(
           null,  
+          null, //forUser
           input.includeRead,
           input.startTime, 
           true, //withUserRestriction
