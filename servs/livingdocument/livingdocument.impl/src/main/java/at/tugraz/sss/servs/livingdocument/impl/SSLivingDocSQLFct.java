@@ -66,6 +66,29 @@ public class SSLivingDocSQLFct extends SSEntitySQL{
     }
   }
 
+  public List<SSUri> getLivingDocURIs() throws Exception{
+    
+    ResultSet resultSet  = null;
+    
+    try{
+      
+      final Map<String, String> wheres    = new HashMap<>();
+      final List<String>        columns   = new ArrayList<>();
+      
+      column(columns, SSSQLVarNames.livingDocId);
+      
+      resultSet = dbSQL.select(SSSQLVarNames.livingDocTable, columns, wheres, null, null, null);
+      
+      return getURIsFromResult(resultSet, SSSQLVarNames.livingDocId);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
+    }
+  }
+   
   public List<SSUri> getLivingDocURIsForUser(
     final SSUri           user) throws Exception{
     

@@ -25,13 +25,21 @@ import sss.serv.eval.impl.helpers.SSEpisodeShareInfo;
 import sss.serv.eval.impl.helpers.SSUserInfo;
 import sss.serv.eval.impl.helpers.SSWorkedOnReceivedSharedEpisodeInfo;
 import at.kc.tugraz.ss.serv.datatypes.learnep.api.SSLearnEpServerI;
+import at.kc.tugraz.ss.service.disc.api.SSDiscServerI;
+import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscGetPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityGetPar;
+import at.tugraz.sss.servs.livingdocument.api.SSLivingDocServerI;
+import at.tugraz.sss.servs.livingdocument.conf.SSLivingDocConf;
+import at.tugraz.sss.servs.livingdocument.datatype.par.SSLivingDocsGetPar;
 import sss.serv.eval.impl.helpers.SSEpisodeCreationInfo;
 import sss.serv.eval.impl.helpers.SSEvalActionInfo;
 import sss.serv.eval.impl.helpers.SSImportInfo;
+import sss.serv.eval.impl.helpers.SSLDInfo;
 import sss.serv.eval.impl.helpers.SSMessageSentInfo;
+import sss.serv.eval.impl.helpers.SSStartDiscussionInfo;
 import sss.serv.eval.impl.helpers.SSWorkedOnOwnBitInfo;
 import sss.serv.eval.impl.helpers.SSWorkedOnOwnEpisodeInfo;
+import sss.serv.eval.impl.helpers.SSWorkedOnReceivedDiscussionInfo;
 import sss.serv.eval.impl.helpers.SSWorkedOnReceivedSharedBitInfo;
 
 public class SSEvalLogAnalyzer {
@@ -39,19 +47,25 @@ public class SSEvalLogAnalyzer {
   private final SSLearnEpServerI       learnEpServ;
   private final SSEntityServerI        entityServ;
   private final SSMessageServerI       messageServ;
+  private final SSDiscServerI          discServ;
+  private final SSLivingDocServerI     ldServ;
   private final Long                   startTime;
   private final Map<String, SSEntity>  episodes     = new HashMap<>();
   private final List<String>           ignoredUsers = new ArrayList<>();
   
   public SSEvalLogAnalyzer(
-    final SSLearnEpServerI learnEpServ,
-    final SSEntityServerI  entityServ,
-    final SSMessageServerI messageServ,
-    final Long             startTime){
+    final SSLearnEpServerI   learnEpServ,
+    final SSEntityServerI    entityServ,
+    final SSMessageServerI   messageServ,
+    final SSDiscServerI      discServ,
+    final SSLivingDocServerI ldServ,
+    final Long               startTime){
     
     this.learnEpServ = learnEpServ;
     this.entityServ  = entityServ;
     this.messageServ = messageServ;
+    this.ldServ      = ldServ;
+    this.discServ    = discServ;
     this.startTime   = startTime;
     
     ignoredUsers.add("t.treasure-jones@leeds.ac.uk");
@@ -63,19 +77,86 @@ public class SSEvalLogAnalyzer {
     ignoredUsers.add("mar7in.bachl@gmail.com");
   }
   
-  public void setEpisodes() throws Exception{
+  public void analyzeLDs(final List<SSEvalLogEntry> logEntries) throws Exception{
     
     try{
       
-      for(SSEntity learnEp :
-        learnEpServ.learnEpsGet(
-          new SSLearnEpsGetPar(
-            SSVocConf.systemUserUri,
-            null, //forUser
-            false,  //withUserRestriction
-            false))){ //invokeEntityHandlers
+      final Map<String, SSLDInfo> ldInfos = new HashMap<>();
+      
+      final SSLivingDocsGetPar ldDocsGetPar =
+        new SSLivingDocsGetPar(
+          SSVocConf.systemUserUri,
+          null, //forUser,
+          false, //withUserRestriction,
+          true); //invokeEntityHandlers
+      
+      ldDocsGetPar.setDiscs = true;
+      
+      final SSDiscGetPar discGetPar =
+        new SSDiscGetPar(
+          SSVocConf.systemUserUri,
+          null, //disc
+          true, //setEntries
+          false, //withUserRestriction
+          true); //invokeEntityHandlers
+      
+      discGetPar.setAttachedEntities = true;
+      
+      SSEntity disc;
+      SSLDInfo ldInfo;
+      
+      for(SSEntity doc : ldServ.livingDocsGet(ldDocsGetPar)){
         
-        episodes.put(learnEp.id.toString(), learnEp);
+        if(SSStrU.equalsOne(doc.author.label, ignoredUsers)){
+          continue;
+        }
+
+        if(startTime > doc.creationTime){
+          continue;
+        }
+        
+        ldInfo         = getOrCreateLDInfo(ldInfos, doc);
+        ldInfo.ldID    = doc.id;
+        ldInfo.ldLabel = doc.label;
+        
+        for(SSEntity discEntity : doc.discs){
+          
+          discGetPar.disc = discEntity.id;
+          disc            = discServ.discGet(discGetPar);
+          
+          for(SSEntity attachedEntity : disc.attachedEntities){
+            ldInfo.attachedBitsFromDT.add(attachedEntity);
+          }
+          
+          for(SSEntity discEntry : disc.entries){
+            
+            for(SSEntity attachedEntity : discEntry.attachedEntities){
+              ldInfo.attachedBitsFromDT.add(attachedEntity);
+            }
+          }
+        }
+      }
+      
+      for(SSLDInfo docInfo : ldInfos.values()){
+        
+        if(docInfo.attachedBitsFromDT.isEmpty()){
+          continue;
+        }
+        
+        System.out.println();
+        System.out.println();
+        System.out.println("##################################");
+        System.out.println("##################################");
+        System.out.println(docInfo.ldLabel);
+        System.out.println("##################################");
+        System.out.println("##################################");
+        System.out.println();
+        
+        for(SSEntity attachedEntity : docInfo.attachedBitsFromDT){
+          System.out.println("    " + attachedEntity.label + " | " + attachedEntity.type + " | (" + attachedEntity.id + ")");
+        }
+        
+        System.out.println();
       }
       
     }catch(Exception error){
@@ -172,6 +253,17 @@ public class SSEvalLogAnalyzer {
         
         switch(logEntry.logType){
           
+          case addDiscEntry:{
+          
+            addWorkedOnReceivedDiscussion(userInfos, logEntry);
+            break;
+          }
+          
+          case discussEntity:{
+            addStartedDiscussionInfos(userInfos, logEntry);
+            break;
+          }
+          
           case changeLabel:
           case changeDescription:
           case addTag:
@@ -226,6 +318,9 @@ public class SSEvalLogAnalyzer {
         printUserWorkedOnReceivedSharedBit        (user.getValue().workedOnReceivedBitInfos);
         
         printUserSentMessages                     (user.getValue().messageSentInfos);
+        
+        printUserStartedDiscussions               (user.getValue().startDiscussionInfos);
+        printUserWorkedOnReceivedDiscussions      (user.getValue().workedOnReceivedDiscussionInfos);
         
       }
     }catch(Exception error){
@@ -295,7 +390,7 @@ public class SSEvalLogAnalyzer {
     
     try{
       
-      final SSUserInfo                          userInfo      = userInfos.get(logEntry.userLabel.toString());
+      final SSUserInfo                          userInfo  = getOrCreateUserInfo(userInfos, logEntry);
       final SSWorkedOnReceivedSharedBitInfo     workedOnBit;
       
       final SSEntity entity =
@@ -345,6 +440,74 @@ public class SSEvalLogAnalyzer {
       SSServErrReg.regErrThrow(error);
     }
   }
+
+  private void addStartedDiscussionInfos(
+    final Map<String, SSUserInfo> userInfos,
+    final SSEvalLogEntry          logEntry) throws Exception{
+    
+    try{
+      
+      final SSUserInfo            userInfo  = getOrCreateUserInfo(userInfos, logEntry);
+      final SSStartDiscussionInfo info      = 
+        new SSStartDiscussionInfo(
+          logEntry.userLabel, 
+          SSLabel.get(SSStrU.toCommaSeparatedStrNotNull(logEntry.entityLabels)), 
+          logEntry.entityLabel); //targetLabel
+      
+      userInfo.startDiscussionInfos.add(info);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  private SSUserInfo getOrCreateUserInfo(
+    final Map<String, SSUserInfo> userInfos,
+    final SSEvalLogEntry          logEntry) throws Exception{
+    
+    try{
+      
+      final SSUserInfo userInfo;
+      
+      if(!SSStrU.containsKey(userInfos, logEntry.userLabel)){
+        
+        userInfo = new SSUserInfo();
+        
+        userInfos.put(logEntry.userLabel.toString(), userInfo);
+      }else{
+        userInfo = userInfos.get(logEntry.userLabel.toString());
+      }
+      
+      return userInfo;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+
+  private SSLDInfo getOrCreateLDInfo(
+    final Map<String, SSLDInfo> ldInfos, 
+    final SSEntity              doc) throws Exception{
+    
+    try{
+      
+      final SSLDInfo ldInfo;
+      
+      if(!SSStrU.containsKey(ldInfos, doc.id)){
+        
+        ldInfo = new SSLDInfo();
+        
+        ldInfos.put(doc.id.toString(), ldInfo);
+      }else{
+        ldInfo = ldInfos.get(doc.id.toString());
+      }
+      
+      return ldInfo;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
   
   private void addWorkedOnOwnBit(
     final Map<String, SSUserInfo> userInfos,
@@ -352,7 +515,7 @@ public class SSEvalLogAnalyzer {
     
     try{
       
-      final SSUserInfo                          userInfo      = userInfos.get(logEntry.userLabel.toString());
+      final SSUserInfo                          userInfo = getOrCreateUserInfo(userInfos, logEntry);
       final SSWorkedOnOwnBitInfo                workedOnBit;
       
       final SSEntity entity =
@@ -403,13 +566,70 @@ public class SSEvalLogAnalyzer {
     }
   }
   
+  private void addWorkedOnReceivedDiscussion(
+    final Map<String, SSUserInfo> userInfos,
+    final SSEvalLogEntry          logEntry) throws Exception{
+    
+    try{
+      
+      final SSUserInfo                       userInfo  = getOrCreateUserInfo(userInfos, logEntry);
+      final SSWorkedOnReceivedDiscussionInfo info;
+      
+      if(SSStrU.containsKey(userInfo.workedOnReceivedDiscussionInfos, logEntry.entity)){
+        info = userInfo.workedOnReceivedDiscussionInfos.get(logEntry.entity.toString());
+      }else{
+        
+        info = new SSWorkedOnReceivedDiscussionInfo();
+        
+        info.discussionLabel = logEntry.entityLabel;
+        
+        final SSEntity disc = 
+          discServ.discGet(
+            new SSDiscGetPar(
+              SSVocConf.systemUserUri, 
+              logEntry.entity, //disc
+              true, //setEntries
+              false, //withUserRestriction, 
+              false)); //invokeEntityHandlers
+        
+        if(SSStrU.equals(disc.author.label, logEntry.userLabel)){
+          return; 
+        }
+        
+        SSLabel.addDistinctWithoutNull(info.contributors, disc.author.label);
+        
+        for(SSEntity entry : disc.entries){
+          
+          if(!SSStrU.equals(entry.author.label, logEntry.userLabel)){
+            SSLabel.addDistinctWithoutNull(info.contributors, entry.author.label);
+          }
+        }
+          
+        userInfo.workedOnReceivedDiscussionInfos.put(logEntry.entity.toString(), info);
+      }
+      
+      info.totalActionsDone++;
+      
+      SSEvalLogE.addDistinctNotNull(info.actions, logEntry.logType);
+      
+      info.actionDetails.add(
+        new SSEvalActionInfo(
+          logEntry.logType,
+          logEntry.timestamp,
+          logEntry.content));
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
   private void addWorkedOnReceivedSharedEpisode(
     final Map<String, SSUserInfo> userInfos,
     final SSEvalLogEntry          logEntry) throws Exception{
     
     try{
       
-      final SSUserInfo                          userInfo            = userInfos.get(logEntry.userLabel.toString());
+      final SSUserInfo                          userInfo            = getOrCreateUserInfo(userInfos, logEntry);
       final SSWorkedOnReceivedSharedEpisodeInfo workedOnEpisode;
       SSUri                                     episodeID           = null;
       SSLabel                                   episodeLabel        = null;
@@ -485,7 +705,7 @@ public class SSEvalLogAnalyzer {
     
     try{
       
-      final SSUserInfo                          userInfo            = userInfos.get(logEntry.userLabel.toString());
+      final SSUserInfo                          userInfo            = getOrCreateUserInfo(userInfos, logEntry);
       final SSWorkedOnOwnEpisodeInfo            workedOnEpisode;
       SSUri                                     episodeID           = null;
       SSLabel                                   episodeLabel        = null;
@@ -560,7 +780,7 @@ public class SSEvalLogAnalyzer {
     final SSEvalLogEntry          logEntry) throws Exception{
     
     try{
-      
+      final SSUserInfo         userInfo  = getOrCreateUserInfo(userInfos, logEntry);
       final SSEpisodeShareInfo shareInfo = new SSEpisodeShareInfo();
       final SSEntity           episode   = episodes.get(logEntry.entity.toString());
       
@@ -580,7 +800,7 @@ public class SSEvalLogAnalyzer {
       
       SSLabel.addDistinctWithoutNull(shareInfo.targetUsers, logEntry.userLabels);
       
-      userInfos.get(logEntry.userLabel.toString()).sharedEpisodeInfos.add(shareInfo);
+      userInfo.sharedEpisodeInfos.add(shareInfo);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -669,6 +889,36 @@ public class SSEvalLogAnalyzer {
         
         for(SSEvalActionInfo actionDetail : workedOnEpisode.getValue().actionDetails){
           System.out.println("    " + actionDetail.type + " | " + new Date(actionDetail.timestamp).toString() + " | author: " + episode.author.label + " | " + actionDetail.content);
+        }
+        
+        System.out.println();
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  private void printUserWorkedOnReceivedDiscussions(
+    final Map<String, SSWorkedOnReceivedDiscussionInfo> workedOnReceivedDiscussionInfos) throws Exception{
+    
+    try{
+      
+      if(workedOnReceivedDiscussionInfos.isEmpty()){
+        return;
+      }
+      
+      System.out.println("worked on received discussions");
+      System.out.println("##############################");
+      System.out.println();
+      
+      for(SSWorkedOnReceivedDiscussionInfo workedOnDisc : workedOnReceivedDiscussionInfos.values()){
+      
+        System.out.println(workedOnDisc.discussionLabel + " | #actions " + workedOnDisc.totalActionsDone + " | types: " + workedOnDisc.actions);
+        System.out.println("    " + workedOnDisc.contributors);
+        
+        for(SSEvalActionInfo actionDetail : workedOnDisc.actionDetails){
+          System.out.println("    " + actionDetail.type + " | " + new Date(actionDetail.timestamp).toString() + " | " + actionDetail.content + " | ");
         }
         
         System.out.println();
@@ -829,7 +1079,7 @@ public class SSEvalLogAnalyzer {
       }
       
       System.out.println("user sent messages");
-      System.out.println("#############");
+      System.out.println("##################");
       System.out.println();
       
       for(SSMessageSentInfo info : messageSentInfos){
@@ -838,6 +1088,51 @@ public class SSEvalLogAnalyzer {
         System.out.println();
       }
 
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+
+  private void printUserStartedDiscussions(
+    final List<SSStartDiscussionInfo> startDiscussionInfos) throws Exception {
+    
+    try{
+      
+      if(startDiscussionInfos.isEmpty()){
+        return;
+      }
+      
+      System.out.println("user started discussions");
+      System.out.println("########################");
+      System.out.println();
+      
+      for(SSStartDiscussionInfo info : startDiscussionInfos){
+        
+        System.out.println(info.discussionLabel);
+        System.out.println("    " + info.targetLabel);
+        System.out.println();
+      }
+
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  public void setEpisodes() throws Exception{
+    
+    try{
+      
+      for(SSEntity learnEp :
+        learnEpServ.learnEpsGet(
+          new SSLearnEpsGetPar(
+            SSVocConf.systemUserUri,
+            null, //forUser
+            false,  //withUserRestriction
+            false))){ //invokeEntityHandlers
+        
+        episodes.put(learnEp.id.toString(), learnEp);
+      }
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }

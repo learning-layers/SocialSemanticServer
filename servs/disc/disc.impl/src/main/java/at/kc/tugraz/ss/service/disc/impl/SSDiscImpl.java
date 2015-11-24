@@ -1335,7 +1335,7 @@ public class SSDiscImpl
           entityServ,
           par.user,
           targetURI, //entity
-SSUri.asListNotNull(par.discussion), //entities
+          SSUri.asListNotNull(par.discussion), //entities
           par.withUserRestriction,
           true); //invokeEntityhandlers
       }

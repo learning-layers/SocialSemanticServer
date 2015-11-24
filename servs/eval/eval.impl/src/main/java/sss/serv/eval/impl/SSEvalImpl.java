@@ -51,6 +51,8 @@ import sss.serv.eval.datatypes.par.SSEvalAnalyzePar;
 import sss.serv.eval.datatypes.par.SSEvalLogPar;
 import sss.serv.eval.datatypes.ret.SSEvalLogRet;
 import at.kc.tugraz.ss.serv.datatypes.learnep.api.SSLearnEpServerI;
+import at.kc.tugraz.ss.service.disc.api.SSDiscServerI;
+import at.tugraz.sss.servs.livingdocument.api.SSLivingDocServerI;
 import java.util.Date;
 
 public class SSEvalImpl 
@@ -80,12 +82,16 @@ implements
       final SSLearnEpServerI    learnEpServ    = (SSLearnEpServerI)    SSServReg.getServ(SSLearnEpServerI.class);
       final SSEntityServerI     entityServ     = (SSEntityServerI)     SSServReg.getServ(SSEntityServerI.class);
       final SSMessageServerI    messageServ    = (SSMessageServerI)    SSServReg.getServ(SSMessageServerI.class);
+      final SSDiscServerI       discServ       = (SSDiscServerI)       SSServReg.getServ(SSDiscServerI.class);
+      final SSLivingDocServerI  ldServ         = (SSLivingDocServerI)  SSServReg.getServ(SSLivingDocServerI.class);
       final Date                firstOfOct     = new Date(Long.valueOf("1443679508904"));
       final SSEvalLogAnalyzer   analyzer       =
         new SSEvalLogAnalyzer(
           learnEpServ, 
           entityServ, 
           messageServ,
+          discServ,
+          ldServ,
           firstOfOct.getTime());
       
       final List<SSEvalLogEntry> logEntries =
@@ -96,7 +102,8 @@ implements
             firstOfOct.getTime()));
       
       analyzer.setEpisodes ();
-      analyzer.analyzeUsers(logEntries);
+      analyzer.analyzeUsers  (logEntries);
+//      analyzer.analyzeLDs(logEntries);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

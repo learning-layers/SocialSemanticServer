@@ -45,6 +45,7 @@ import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSSocketCon;
+import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.servs.livingdocument.api.SSLivingDocClientI;
 import at.tugraz.sss.servs.livingdocument.api.SSLivingDocServerI;
@@ -442,6 +443,25 @@ implements
 
     try{
       
+      if(par.user == null){
+        throw new SSErr(SSErrE.parameterMissing);
+      }
+      
+      if(par.withUserRestriction){
+        
+        if(!SSStrU.equals(par.forUser, par.user)){
+          par.forUser = par.user;
+        }
+      }
+      
+      final List<SSUri> livinDocURIs;
+      
+      if(par.forUser == null){
+        livinDocURIs = sql.getLivingDocURIs();
+      }else{
+        livinDocURIs = sql.getLivingDocURIsForUser(par.forUser);
+      }
+      
       final List<SSEntity>    docs            = new ArrayList<>();
       final SSLivingDocGetPar livingDocGetPar =
         new SSLivingDocGetPar(
@@ -453,7 +473,7 @@ implements
       livingDocGetPar.setUsers = par.setUsers;
       livingDocGetPar.setDiscs = par.setDiscs;
       
-      for(SSUri livingDocUri : sql.getLivingDocURIsForUser(par.user)){
+      for(SSUri livingDocUri : livinDocURIs){
       
         livingDocGetPar.livingDoc = livingDocUri;
         

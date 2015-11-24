@@ -71,6 +71,7 @@ public class SSRESTLivingDoc {
       par =
         new SSLivingDocsGetPar(
           null,
+          null, //forUser
           true,  //withUserRestriction
           true); //invokeEntityHandlers
       
@@ -138,6 +139,7 @@ public class SSRESTLivingDoc {
       par =
         new SSLivingDocsGetPar(
           null,
+          null, //forUser
           true,  //withUserRestriction
           true); //invokeEntityHandlers
       

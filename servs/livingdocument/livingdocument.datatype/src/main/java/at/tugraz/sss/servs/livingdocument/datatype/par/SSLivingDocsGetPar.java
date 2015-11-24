@@ -22,23 +22,35 @@ package at.tugraz.sss.servs.livingdocument.datatype.par;
 
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 
 public class SSLivingDocsGetPar extends SSServPar{
   
+  public SSUri   forUser              = null;
   public Boolean invokeEntityHandlers = false;
   public Boolean setUsers             = false;
   public Boolean setDiscs             = false;
+
+  public String getForUser(){
+    return SSStrU.removeTrailingSlash(forUser);
+  }
+
+  public void setForUser(final String forUser) throws Exception{
+    this.forUser = SSUri.get(forUser);
+  }
   
   public SSLivingDocsGetPar(){}
     
   public SSLivingDocsGetPar(
     final SSUri         user,
+    final SSUri         forUser,
     final Boolean       withUserRestriction,
     final Boolean       invokeEntityHandlers){
     
     super(SSServOpE.livingDocsGet, null, user);
     
+    this.forUser              = forUser;
     this.withUserRestriction  = withUserRestriction;
     this.invokeEntityHandlers = invokeEntityHandlers;
   }
