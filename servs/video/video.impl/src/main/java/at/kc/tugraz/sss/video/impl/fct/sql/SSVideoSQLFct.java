@@ -95,6 +95,21 @@ public class SSVideoSQLFct extends SSEntitySQL{
      }
   }
   
+  public void removeAnnotation(
+    final SSUri annotation) throws Exception{
+   
+    try{
+      final Map<String, String> wheres = new HashMap<>();
+      
+      where(wheres,    SSSQLVarNames.videoAnnotationId,   annotation);
+      
+      dbSQL.delete(SSSQLVarNames.videoAnnotationTable, wheres);
+      
+     }catch(Exception error){
+       SSServErrReg.regErrThrow(error);
+     }
+  }
+  
   public void createAnnotation(
     final SSUri video,
     final SSUri videoAnnotation,

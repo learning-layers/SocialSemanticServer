@@ -65,6 +65,7 @@ public enum SSServOpE{
   videoAnnotationAdd,
   videoAnnotationsGet,
   videoAnnotationGet,
+  videoAnnotationsSet,
   
   //friend
   friendGet,

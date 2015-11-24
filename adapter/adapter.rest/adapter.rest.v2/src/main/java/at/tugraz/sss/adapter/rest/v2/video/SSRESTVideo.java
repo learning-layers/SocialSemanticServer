@@ -20,15 +20,16 @@
 */
 package at.tugraz.sss.adapter.rest.v2.video;
 
-import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
 import at.tugraz.sss.serv.SSUri;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.kc.tugraz.sss.video.datatypes.par.SSVideoAnnotationsSetPar;
 import at.kc.tugraz.sss.video.datatypes.par.SSVideoUserAddFromClientPar;
 import at.kc.tugraz.sss.video.datatypes.par.SSVideoUserAddPar;
 import at.kc.tugraz.sss.video.datatypes.par.SSVideoUserAnnotationAddPar;
 import at.kc.tugraz.sss.video.datatypes.par.SSVideosUserGetPar;
+import at.kc.tugraz.sss.video.datatypes.ret.SSVideoAnnotationsSetRet;
 import at.kc.tugraz.sss.video.datatypes.ret.SSVideoUserAddRet;
 import at.kc.tugraz.sss.video.datatypes.ret.SSVideoUserAnnotationAddRet;
 import at.kc.tugraz.sss.video.datatypes.ret.SSVideosUserGetRet;
@@ -37,6 +38,7 @@ import com.wordnik.swagger.annotations.ApiOperation;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -104,6 +106,46 @@ public class SSRESTVideo{
           input.latitude,
           input.longitude,
           input.accuracy);
+      
+    }catch(Exception error){
+      return Response.status(422).build();
+    }
+    
+    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+  }
+  
+  @PUT
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path    ("/{video}/annotations")
+  @ApiOperation(
+    value = "set annotation to a video",
+    response = SSVideoAnnotationsSetRet.class)
+  public Response videoAnnotationsSet(
+    @Context 
+      final HttpHeaders headers,
+    
+    @PathParam(SSVarNames.video) 
+      final String video,
+    
+    final SSVideoAnnotationsSetRESTAPIV2Par input){
+    
+    final SSVideoAnnotationsSetPar par;
+    
+    try{
+      
+      par =
+        new SSVideoAnnotationsSetPar(
+          null,
+          SSUri.get(video, SSVocConf.sssUri),
+          input.timePoints,
+          input.x,
+          input.y,
+          input.labels,
+          input.descriptions, 
+          input.removeExisting,
+          true, //withUserRestriction, 
+          true); //shouldCommit);
       
     }catch(Exception error){
       return Response.status(422).build();

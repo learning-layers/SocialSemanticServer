@@ -28,4 +28,5 @@ public interface SSVideoClientI{
   public void videosGet              (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
   public void videoAdd               (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
   public void videoAnnotationAdd     (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void videoAnnotationsSet    (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
 }

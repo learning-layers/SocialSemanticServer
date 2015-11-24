@@ -43,11 +43,13 @@ import at.kc.tugraz.sss.video.datatypes.SSVideo;
 import at.kc.tugraz.sss.video.datatypes.SSVideoAnnotation;
 import at.kc.tugraz.sss.video.datatypes.par.SSVideoAnnotationGetPar;
 import at.kc.tugraz.sss.video.datatypes.par.SSVideoAnnotationsGetPar;
+import at.kc.tugraz.sss.video.datatypes.par.SSVideoAnnotationsSetPar;
 import at.kc.tugraz.sss.video.datatypes.par.SSVideoUserAddFromClientPar;
 import at.kc.tugraz.sss.video.datatypes.par.SSVideoUserAddPar;
 import at.kc.tugraz.sss.video.datatypes.par.SSVideoUserAnnotationAddPar;
 import at.kc.tugraz.sss.video.datatypes.par.SSVideoUserGetPar;
 import at.kc.tugraz.sss.video.datatypes.par.SSVideosUserGetPar;
+import at.kc.tugraz.sss.video.datatypes.ret.SSVideoAnnotationsSetRet;
 import at.kc.tugraz.sss.video.datatypes.ret.SSVideoUserAddRet;
 import at.kc.tugraz.sss.video.datatypes.ret.SSVideoUserAnnotationAddRet;
 import at.kc.tugraz.sss.video.datatypes.ret.SSVideosUserGetRet;
@@ -62,6 +64,7 @@ import at.tugraz.sss.serv.SSEntityDescriberPar;
 import java.util.ArrayList;
 import java.util.List;
 import at.tugraz.sss.serv.SSErrE;
+import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.SSPushEntitiesToUsersI;
 import at.tugraz.sss.serv.SSPushEntitiesToUsersPar;
 import at.tugraz.sss.serv.SSServErrReg;
@@ -379,6 +382,101 @@ implements
           SSServErrReg.reset();
           
           return videoAdd(par);
+        }else{
+          SSServErrReg.regErrThrow(error);
+          return null;
+        }
+      }
+      
+      dbSQL.rollBack(par.shouldCommit);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public void videoAnnotationsSet(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
+    
+    SSServCallerU.checkKey(parA);
+    
+    final SSVideoAnnotationsSetPar par = (SSVideoAnnotationsSetPar) parA.getFromJSON(SSVideoAnnotationsSetPar.class);
+    
+    sSCon.writeRetFullToClient(SSVideoAnnotationsSetRet.get(videoAnnotationsSet(par)));
+  }
+
+  @Override
+  public List<SSUri> videoAnnotationsSet(final SSVideoAnnotationsSetPar par) throws Exception{
+  
+    try{
+
+      final List<SSUri> annotations = new ArrayList<>();
+      
+      dbSQL.startTrans(par.shouldCommit);
+      
+      final SSUri video =
+        entityServ.entityUpdate(
+          new SSEntityUpdatePar(
+            par.user,
+            par.video,
+            null, //type,
+            null, //label
+            null,//description,
+            null, //creationTime,
+            null, //read,
+            false, //setPublic
+            false, //createIfNotExists
+            par.withUserRestriction, //withUserRestriction
+            false)); //shouldCommit)
+      
+      if(video == null){
+        dbSQL.rollBack(par.shouldCommit);
+        return null;
+      }
+      
+      if(
+        par.removeExisting &&
+        par.withUserRestriction){
+        
+        for(SSUri annotation : sql.getAnnotations(par.video)){
+          
+          if(!sql.isUserAuthor(par.user, annotation, par.withUserRestriction)){
+            continue;
+          }
+          
+          sql.removeAnnotation(annotation);
+        }
+      }
+
+      for(int counter = 0; counter < par.labels.size(); counter++){
+        
+        SSUri.addDistinctWithoutNull(
+          annotations,
+          videoAnnotationAdd(
+            new SSVideoUserAnnotationAddPar(
+              par.user,
+              par.video,
+              par.timePoints.get(counter),
+              par.x.get(counter),
+              par.y.get(counter),
+              par.labels.get(counter),
+              par.descriptions.get(counter),
+              par.withUserRestriction,
+              false))); //shouldCommit)
+      }
+      
+      dbSQL.commit(par.shouldCommit);
+      
+      return annotations;
+      
+    }catch(Exception error){
+      
+      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+        
+        if(dbSQL.rollBack(par.shouldCommit)){
+          
+          SSServErrReg.reset();
+          
+          return videoAnnotationsSet(par);
         }else{
           SSServErrReg.regErrThrow(error);
           return null;
