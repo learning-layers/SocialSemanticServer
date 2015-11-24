@@ -98,6 +98,7 @@ public class SSRESTVideo{
         new SSVideoUserAddFromClientPar(
           input.uuid,
           input.link,
+          input.type,
           input.forEntity, 
           input.genre,
           input.label, 

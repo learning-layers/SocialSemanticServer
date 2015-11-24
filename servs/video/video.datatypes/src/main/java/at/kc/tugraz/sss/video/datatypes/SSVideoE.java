@@ -28,11 +28,11 @@ import java.util.List;
 
 public enum SSVideoE implements SSJSONLDPropI{
 
-  hugo1,
-  hugo2;
+  achso,
+  other;
 
-   public static List<SSVideoE> get(final List<String> values){
-  
+  public static List<SSVideoE> get(final List<String> values){
+    
     final List<SSVideoE> result = new ArrayList<>();
     
     for(String value : values){
@@ -42,30 +42,15 @@ public enum SSVideoE implements SSJSONLDPropI{
     return result;
   }
   
-  public static SSVideoE get(final String value) {
+  public static SSVideoE get(final String value){
+    
+    if(SSStrU.isEmpty(value)){
+      return null;
+    }
+    
     return SSVideoE.valueOf(value);
   }
 
-  public static List<SSVideoE> asListWithoutNullAndEmpty(final SSVideoE... appStackLayouts){
-   
-    final List<SSVideoE> result = new ArrayList<>();
-    
-    if(appStackLayouts == null){
-      return result;
-    }
-    
-    for(SSVideoE appStackLayout : appStackLayouts){
-      
-      if(SSStrU.isEmpty(appStackLayout)){
-        continue;
-      }
-      
-      result.add(appStackLayout);
-    }
-    
-    return result;
-  }
-  
   @Override
   public Object jsonLDDesc(){
     return SSVarNames.xsd + SSStrU.colon + SSStrU.valueString;

@@ -64,7 +64,6 @@ import at.tugraz.sss.serv.SSEntityDescriberPar;
 import java.util.ArrayList;
 import java.util.List;
 import at.tugraz.sss.serv.SSErrE;
-import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.SSPushEntitiesToUsersI;
 import at.tugraz.sss.serv.SSPushEntitiesToUsersPar;
 import at.tugraz.sss.serv.SSServErrReg;
@@ -311,7 +310,8 @@ implements
       sql.addVideo(
         video,
         par.genre,
-        par.link);
+        par.link,
+        par.type);
       
       if(par.forEntity != null){
         

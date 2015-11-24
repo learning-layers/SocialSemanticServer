@@ -26,6 +26,7 @@ import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.kc.tugraz.sss.video.datatypes.SSVideo;
 import at.kc.tugraz.sss.video.datatypes.SSVideoAnnotation;
+import at.kc.tugraz.sss.video.datatypes.SSVideoE;
 import at.tugraz.sss.serv.SSServErrReg;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -66,7 +67,8 @@ public class SSVideoSQLFct extends SSEntitySQL{
   public void addVideo(
     final SSUri         video,
     final String        genre,
-    final SSUri         link) throws Exception{
+    final SSUri         link, 
+    final SSVideoE      type) throws Exception{
     
      try{
       final Map<String, String> inserts    = new HashMap<>();
@@ -82,6 +84,12 @@ public class SSVideoSQLFct extends SSEntitySQL{
         insert    (inserts,    SSSQLVarNames.link,     SSStrU.empty);
       }else{
         insert    (inserts,    SSSQLVarNames.link,     link);
+      }
+      
+      if(type == null){
+        insert    (inserts,    SSSQLVarNames.videoType,     SSVideoE.other);
+      }else{
+        insert    (inserts,    SSSQLVarNames.videoType,     type);
       }
       
       insert    (inserts,    SSSQLVarNames.videoId,     video);
@@ -170,6 +178,7 @@ public class SSVideoSQLFct extends SSEntitySQL{
       column(columns, SSSQLVarNames.videoTable,          SSSQLVarNames.videoId);
       column(columns, SSSQLVarNames.videoTable,          SSSQLVarNames.genre);
       column(columns, SSSQLVarNames.videoTable,          SSSQLVarNames.link);
+      column(columns, SSSQLVarNames.videoTable,          SSSQLVarNames.videoType);
 
       where(wheres, SSSQLVarNames.videoTable, SSSQLVarNames.videoId, videoUri);
       
@@ -201,7 +210,8 @@ public class SSVideoSQLFct extends SSEntitySQL{
           bindingStrToUri         (resultSet, SSSQLVarNames.videoId),
           bindingStr              (resultSet, SSSQLVarNames.genre),
           null,
-          bindingStrToUri          (resultSet, SSSQLVarNames.link));
+          bindingStrToUri         (resultSet, SSSQLVarNames.link),
+          SSVideoE.get(bindingStr (resultSet, SSSQLVarNames.videoType)));
       
       return video;
     }catch(Exception error){

@@ -24,6 +24,7 @@ import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSLabel;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.kc.tugraz.sss.video.datatypes.SSVideoE;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 import javax.xml.bind.annotation.XmlElement;
@@ -51,6 +52,16 @@ public class SSVideoAddRESTAPIV2Par{
   
   @ApiModelProperty(
     required = false,
+    value = "video type, e.g., achso")
+  public SSVideoE               type = null;
+  
+  @XmlElement
+  public void setType(final String type) throws Exception{
+    this.type = SSVideoE.get(type);
+  }
+  
+  @ApiModelProperty(
+    required = false,
     value = "entity for which to attach this video")
   public SSUri                forEntity        = null;
   
@@ -64,7 +75,6 @@ public class SSVideoAddRESTAPIV2Par{
     required = false,
     value = "video's genre")
   public String                genre        = null;
-  
   
   @ApiModelProperty(
     required = false,

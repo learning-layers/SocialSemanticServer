@@ -162,6 +162,7 @@ implements
           par.user,
           null, //uuid
           video, //link
+		  null, //videoType
           app,  //forEntity
           null, //genre
           null, //label

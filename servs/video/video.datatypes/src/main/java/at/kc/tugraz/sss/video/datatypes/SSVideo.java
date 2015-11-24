@@ -24,7 +24,6 @@ import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
-import at.tugraz.sss.serv.SSImage;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,9 +32,14 @@ public class SSVideo extends SSEntity{
   public String                   genre         = null;
   public List<SSEntity>           annotations   = new ArrayList<>();
   public SSUri                    link          = null;
+  public SSVideoE                 videoType     = null;
  
   public String getLink(){
     return SSStrU.removeTrailingSlash(link);
+  }
+  
+   public String getVideoType(){
+    return SSStrU.toStr(videoType);
   }
      
   @Override
@@ -73,6 +77,15 @@ public class SSVideo extends SSEntity{
         this.link = ((SSVideo) entity).link;
       }
     }
+    
+    if(video.videoType != null){
+      this.videoType = video.videoType;
+    }else{
+      
+      if(entity instanceof SSVideo){
+        this.videoType = ((SSVideo) entity).videoType;
+      }
+    }
    
     SSEntity.addEntitiesDistinctWithoutNull(this.annotations, video.annotations);
     
@@ -85,28 +98,33 @@ public class SSVideo extends SSEntity{
     final SSUri                   id,
     final String                  genre, 
     final List<SSVideoAnnotation> annotations,
-    final SSUri                   link) throws Exception{
+    final SSUri                   link, 
+    final SSVideoE                videoType) throws Exception{
     
     return new SSVideo(
       id,
       genre,
       annotations,
-      link);
+      link, 
+      videoType);
   }
   
   protected SSVideo(
     final SSUri                   id,
     final String                  genre,
     final List<SSVideoAnnotation> annotations,
-    final SSUri                   link) throws Exception{
+    final SSUri                   link, 
+    final SSVideoE                videoType) throws Exception{
     
     super(id, SSEntityE.video);
     
     this.genre               = genre;
-    this.link                = link;
     
     if(annotations != null){
       this.annotations.addAll(annotations);
     }
+    
+    this.link                = link;
+    this.videoType           = videoType;
   }
 }

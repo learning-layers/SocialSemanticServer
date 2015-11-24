@@ -22,6 +22,7 @@ package at.tugraz.sss.serv;
 
 public class SSSQLVarNames{
 
+  public static final String videoType                                      = "videoType";
   public static final String livingDocId                                    = "livingDocId";
   public static final String attachedEntityId                               = "attachedEntityId";
   public static final String realm                                          = "realm";

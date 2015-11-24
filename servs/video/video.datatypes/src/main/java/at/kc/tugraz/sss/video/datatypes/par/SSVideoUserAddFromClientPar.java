@@ -20,6 +20,7 @@
 */
 package at.kc.tugraz.sss.video.datatypes.par;
 
+import at.kc.tugraz.sss.video.datatypes.SSVideoE;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSLabel;
@@ -35,6 +36,7 @@ public class SSVideoUserAddFromClientPar extends SSVideoUserAddPar{
   public SSVideoUserAddFromClientPar(
     final String         uuid,
     final SSUri          link,
+    final SSVideoE       type, 
     final SSUri          forEntity,
     final String         genre,
     final SSLabel        label,
@@ -46,17 +48,18 @@ public class SSVideoUserAddFromClientPar extends SSVideoUserAddPar{
     
     super(
       null,
-      uuid, 
-      link, 
-      forEntity, 
-      genre, 
-      label, 
-      description, 
-      creationTime, 
+      uuid,
+      link,
+      type,
+      forEntity,
+      genre,
+      label,
+      description,
+      creationTime,
       null, //file
-      true, 
+      true,
       true);
-      
+    
     this.latitude  = latitude;
     this.longitude = longitude;
     this.accuracy  = accuracy;

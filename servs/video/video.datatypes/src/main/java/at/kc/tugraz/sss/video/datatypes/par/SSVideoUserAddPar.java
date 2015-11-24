@@ -21,6 +21,7 @@
 */
 package at.kc.tugraz.sss.video.datatypes.par;
 
+import at.kc.tugraz.sss.video.datatypes.SSVideoE;
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSTextComment;
@@ -32,6 +33,7 @@ public class SSVideoUserAddPar extends SSServPar{
   
   public String                uuid             = null;
   public SSUri                 link             = null;
+  public SSVideoE              type             = null;
   public SSUri                 forEntity        = null;
   public String                genre            = null;
   public SSLabel               label            = null;
@@ -45,6 +47,14 @@ public class SSVideoUserAddPar extends SSServPar{
 
   public String getLink(){
     return SSStrU.removeTrailingSlash(link);
+  }
+  
+  public void setType(final String type) throws Exception{
+    this.type = SSVideoE.get(type);
+  }
+
+  public String getType(){
+    return SSStrU.toStr(type);
   }
   
   public void setForEntity(final String forEntity) throws Exception{
@@ -85,6 +95,7 @@ public class SSVideoUserAddPar extends SSServPar{
     final SSUri          user,
     final String         uuid,
     final SSUri          link,
+    final SSVideoE       type,
     final SSUri          forEntity,
     final String         genre,
     final SSLabel        label,
@@ -98,6 +109,7 @@ public class SSVideoUserAddPar extends SSServPar{
     
     this.uuid                = uuid;
     this.link                = link;
+    this.type                = type;
     this.forEntity           = forEntity;
     this.genre               = genre;
     this.label               = label;
