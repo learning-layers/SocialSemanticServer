@@ -73,6 +73,8 @@ public class SSRESTSearch{
           input.maxRating,
           input.localSearchOp,
           input.globalSearchOp, 
+          input.orderByLabel, 
+          input.orderByCreationTime,
           true,  //withUserRestriction
           true); //invokeEntityHandlers
       

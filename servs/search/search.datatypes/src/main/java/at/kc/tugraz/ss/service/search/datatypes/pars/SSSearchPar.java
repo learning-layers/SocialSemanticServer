@@ -47,6 +47,8 @@ public class SSSearchPar extends SSServPar{
   public Integer             maxRating                                     = null;
   public SSSearchOpE         localSearchOp                                 = SSSearchOpE.or;
   public SSSearchOpE         globalSearchOp                                = SSSearchOpE.or;
+  public Boolean             orderByLabel                                  = false;
+  public Boolean             orderByCreationTime                           = false;
   public Boolean             invokeEntityHandlers                          = false;
 
   public void setAuthorsToSearchFor(final List<String> authorsToSearchFor) throws Exception{
@@ -116,6 +118,8 @@ public class SSSearchPar extends SSServPar{
     final Integer             maxRating                  ,
     final SSSearchOpE         localSearchOp              ,
     final SSSearchOpE         globalSearchOp             , 
+    final Boolean             orderByLabel       , 
+    final Boolean             orderByCreationTime       , 
     final Boolean             withUserRestriction, 
     final Boolean             invokeEntityHandlers){
     
@@ -155,6 +159,8 @@ public class SSSearchPar extends SSServPar{
     this.maxRating                  = maxRating;
     this.localSearchOp              = localSearchOp;
     this.globalSearchOp             = globalSearchOp;
+    this.orderByLabel               = orderByLabel;
+    this.orderByCreationTime        = orderByCreationTime;
     this.withUserRestriction        = withUserRestriction;
     this.invokeEntityHandlers       = invokeEntityHandlers;
   }

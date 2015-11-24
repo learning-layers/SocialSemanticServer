@@ -205,6 +205,30 @@ implements
       final List<SSEntity>     results                = new ArrayList<>();
       
       if(!pages.isEmpty()){
+      
+        if(par.orderByLabel){
+          
+          pages.clear();
+          pages.addAll(
+            orderPagesByLabel(
+              entityServ,
+              par.pageSize,
+              par.user,
+              pages));
+          
+        }else{
+          
+          if(par.orderByCreationTime){
+            
+            pages.clear();
+            pages.addAll(
+              orderPagesByCreationTime(
+                entityServ,
+                par.pageSize,
+                par.user,
+                pages));
+          }
+        }
         
         searchResultPagesCache.put(
           pagesID, 
@@ -689,6 +713,116 @@ implements
           null, //descPar,
           par.withUserRestriction));
       
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+
+  private List<List<SSUri>> orderPagesByLabel(
+    final SSEntityServerI   entityServ,
+    final Integer           pageSize,
+    final SSUri             user, 
+    final List<List<SSUri>> originalPages) throws Exception{
+    
+    try{
+      final List<List<SSUri>>           pages             = new ArrayList<>();
+      final Map<String, List<SSEntity>> entitiesForLabels = new HashMap<>();
+      final List<SSUri>                 page              = new ArrayList<>();
+      final List<String>                labels            = new ArrayList<>();
+      final SSEntitiesGetPar            entitiesGetPar    = 
+        new SSEntitiesGetPar(
+          user, 
+          null, //entities 
+          null, //descPar, 
+          false); //withUserRestriction)
+      
+      for(List<SSUri> origPage : originalPages){
+        entitiesGetPar.entities.addAll(origPage);
+      }
+      
+      for(SSEntity entity : entityServ.entitiesGet(entitiesGetPar)){
+        
+        if(!SSStrU.containsKey(entitiesForLabels, entity.label)){
+          entitiesForLabels.put(entity.label.toString(), new ArrayList<>());
+        }
+        
+        entitiesForLabels.get(entity.label.toString()).add(entity);
+      }
+
+      labels.addAll(entitiesForLabels.keySet());
+      
+      Collections.sort(labels);
+      
+      for(String label : labels){
+        
+        for(SSEntity entity : entitiesForLabels.get(label)){
+          
+          if(page.size() == pageSize){
+            pages.add(new ArrayList<>(page));
+            page.clear();
+          }
+          
+          page.add(entity.id);
+        }
+      }
+      
+      return pages;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  private List<List<SSUri>> orderPagesByCreationTime(
+    final SSEntityServerI   entityServ,
+    final Integer           pageSize,
+    final SSUri             user, 
+    final List<List<SSUri>> originalPages) throws Exception{
+    
+    try{
+      final List<List<SSUri>>             pages             = new ArrayList<>();
+      final Map<Long, List<SSEntity>>     entitiesForTimes  = new HashMap<>();
+      final List<SSUri>                   page              = new ArrayList<>();
+      final List<Long>                    times             = new ArrayList<>();
+      final SSEntitiesGetPar              entitiesGetPar    = 
+        new SSEntitiesGetPar(
+          user, 
+          null, //entities 
+          null, //descPar, 
+          false); //withUserRestriction)
+      
+      for(List<SSUri> origPage : originalPages){
+        entitiesGetPar.entities.addAll(origPage);
+      }
+      
+      for(SSEntity entity : entityServ.entitiesGet(entitiesGetPar)){
+        
+        if(!SSStrU.containsKey(entitiesForTimes, entity.creationTime)){
+          entitiesForTimes.put(entity.creationTime, new ArrayList<>());
+        }
+        
+        entitiesForTimes.get(entity.creationTime).add(entity);
+      }
+
+      times.addAll(entitiesForTimes.keySet());
+      
+      Collections.sort(times);
+      
+      for(Long time : times){
+        
+        for(SSEntity entity : entitiesForTimes.get(time)){
+          
+          if(page.size() == pageSize){
+            pages.add(new ArrayList<>(page));
+            page.clear();
+          }
+          
+          page.add(entity.id);
+        }
+      }
+      
+      return pages;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;

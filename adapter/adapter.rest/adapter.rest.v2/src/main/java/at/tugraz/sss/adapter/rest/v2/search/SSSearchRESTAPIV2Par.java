@@ -103,7 +103,7 @@ public class SSSearchRESTAPIV2Par{
   @ApiModelProperty(
     required = false,
     value = "size of the resulting pages")
-  public Integer              pageSize             = 10;
+  public Integer              pageSize             = null;
   
   @XmlElement
   @ApiModelProperty(
@@ -148,6 +148,19 @@ public class SSSearchRESTAPIV2Par{
   public void setGlobalSearchOp(final String globalSearchOp) throws Exception{
     this.globalSearchOp = SSSearchOpE.get(globalSearchOp);
   }
-    
+  
+  @XmlElement
+  @ApiModelProperty(
+    required = false,
+    value = "" )
+  public Boolean             orderByLabel  = null;
+  
+  
+  @XmlElement
+  @ApiModelProperty(
+    required = false,
+    value = "" )
+  public Boolean             orderByCreationTime  = null;
+  
   public SSSearchRESTAPIV2Par(){}
 }
