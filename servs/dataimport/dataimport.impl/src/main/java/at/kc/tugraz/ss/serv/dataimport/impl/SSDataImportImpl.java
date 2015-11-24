@@ -630,7 +630,6 @@ implements
       String[]                               line;
       SSEvalLogEntry                         entry;
 
-      final Date firstOfOct = new Date(Long.valueOf("1443679508904"));
       //timestamp;tool context;user label;log type;entity;entity type;entity label;content;tag type;entities' ids;entities' labels;users' labels;episodespace;selected bits measure;not selected entities' ids;not selected entities' labels
       lines = SSDataImportReaderFct.readAllFromCSV(par.filePath);
       
@@ -643,7 +642,7 @@ implements
           
           entry.timestamp                 = Long.valueOf      (line[0].trim());
           
-          if(firstOfOct.getTime() > entry.timestamp){
+          if(par.startTime > entry.timestamp){
             continue;
           }
           

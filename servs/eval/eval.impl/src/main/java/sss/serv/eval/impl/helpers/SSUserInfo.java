@@ -9,7 +9,7 @@ import java.util.Map;
 public class SSUserInfo {
   
   public SSLabel                                            label                        = null;
-  public List<SSImportInfo>                                 importInfos                  = new ArrayList<>();
+  public Map<String, List<SSImportInfo>>                    importInfos                  = new HashMap<>();
   public Map<String, SSWorkedOnOwnBitInfo>                  workedOnOwnBitInfos          = new HashMap<>();
   public Map<String, SSWorkedOnOwnEpisodeInfo>              workedOnOwnEpisodeInfos      = new HashMap<>();
   public List<SSEpisodeCreationInfo>                        createdEpisodeInfos          = new ArrayList<>();

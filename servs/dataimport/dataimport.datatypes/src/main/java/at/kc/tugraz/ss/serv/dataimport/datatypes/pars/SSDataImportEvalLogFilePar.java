@@ -26,16 +26,19 @@ import at.tugraz.sss.serv.SSUri;
 
 public class SSDataImportEvalLogFilePar extends SSServPar{
 
-  public String filePath = null;
+  public String filePath  = null;
+  public Long   startTime = null;
   
   public SSDataImportEvalLogFilePar(){}
   
   public SSDataImportEvalLogFilePar(
     final SSUri   user,
-    final String  filePath){
+    final String  filePath, 
+    final Long    startTime){
     
     super(SSServOpE.dataImportEvalLogFile, null, user);
     
-    this.filePath = filePath;
+    this.filePath  = filePath;
+    this.startTime = startTime;
   }
 }

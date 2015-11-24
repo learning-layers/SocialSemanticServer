@@ -50,6 +50,7 @@ import sss.serv.eval.datatypes.par.SSEvalAnalyzePar;
 import sss.serv.eval.datatypes.par.SSEvalLogPar;
 import sss.serv.eval.datatypes.ret.SSEvalLogRet;
 import at.kc.tugraz.ss.serv.datatypes.learnep.api.SSLearnEpServerI;
+import java.util.Date;
 
 public class SSEvalImpl 
 extends SSServImplWithDBA 
@@ -76,15 +77,18 @@ implements
     try{
       final SSDataImportServerI dataImportServ = (SSDataImportServerI) SSServReg.getServ(SSDataImportServerI.class);
       final SSLearnEpServerI    learnEpServ    = (SSLearnEpServerI)    SSServReg.getServ(SSLearnEpServerI.class);
-      final SSEntityServerI     entityServ     = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
-      final SSEvalLogAnalyzer   analyzer       = new SSEvalLogAnalyzer(learnEpServ, entityServ);
+      final SSEntityServerI     entityServ     = (SSEntityServerI)     SSServReg.getServ(SSEntityServerI.class);
+      final Date                firstOfOct     = new Date(Long.valueOf("1443679508904"));
+      final SSEvalLogAnalyzer   analyzer       = new SSEvalLogAnalyzer(learnEpServ, entityServ, firstOfOct.getTime());
+      
       
       final List<SSEvalLogEntry> logEntries =
         dataImportServ.dataImportEvalLogFile(
           new SSDataImportEvalLogFilePar(
             par.user,
-            SSFileU.dirWorkingData() + "sss-eval.log"));
-        
+            SSFileU.dirWorkingData() + "sss-eval.log",
+            firstOfOct.getTime()));
+      
       analyzer.setEpisodes ();
       analyzer.analyzeUsers(logEntries);
       
