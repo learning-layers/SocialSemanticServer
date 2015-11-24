@@ -42,6 +42,7 @@ public class SSSearchPar extends SSServPar{
   public Boolean             includeRecommendedResults                     = false;
   public String              pagesID                                       = null;
   public Integer             pageNumber                                    = null;
+  public Integer             pageSize                                      = 10;
   public Integer             minRating                                     = null;
   public Integer             maxRating                                     = null;
   public SSSearchOpE         localSearchOp                                 = SSSearchOpE.or;
@@ -108,6 +109,7 @@ public class SSSearchPar extends SSServPar{
     final Boolean             applyGlobalSearchOpBetweenLabelAndDescription,
     final List<SSEntityE>     typesToSearchOnlyFor       ,
     final Boolean             includeRecommendedResults  ,
+    final Integer             pageSize,  
     final String              pagesID                    ,
     final Integer             pageNumber                 ,
     final Integer             minRating                  ,
@@ -146,6 +148,7 @@ public class SSSearchPar extends SSServPar{
     }    
     
     this.includeRecommendedResults  = includeRecommendedResults;
+    this.pageSize                   = pageSize;
     this.pagesID                    = pagesID;
     this.pageNumber                 = pageNumber;
     this.minRating                  = minRating;

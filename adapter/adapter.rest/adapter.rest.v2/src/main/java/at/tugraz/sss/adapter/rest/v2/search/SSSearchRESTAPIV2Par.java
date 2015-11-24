@@ -102,6 +102,12 @@ public class SSSearchRESTAPIV2Par{
   @XmlElement
   @ApiModelProperty(
     required = false,
+    value = "size of the resulting pages")
+  public Integer              pageSize             = 10;
+  
+  @XmlElement
+  @ApiModelProperty(
+    required = false,
     value = "unique identifier for the pages of a previous search result")
   public String              pagesID             = null;
   

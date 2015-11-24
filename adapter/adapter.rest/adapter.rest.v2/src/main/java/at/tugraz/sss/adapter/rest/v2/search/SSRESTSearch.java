@@ -66,6 +66,7 @@ public class SSRESTSearch{
           input.applyGlobalSearchOpBetweenLabelAndDescription,
           input.typesToSearchOnlyFor,
           input.includeRecommendedResults,
+          input.pageSize,
           input.pagesID,
           input.pageNumber,
           input.minRating,

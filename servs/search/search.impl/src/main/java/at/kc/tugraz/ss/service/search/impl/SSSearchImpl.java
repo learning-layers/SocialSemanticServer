@@ -176,7 +176,7 @@ implements
         
         for(SSUri entityURI : entityURIs){//entityServ.entitiesGet(entitiesGetPar)){
 
-          if(page.size() == 10){
+          if(page.size() == par.pageSize){
             pages.add(new ArrayList<>(page));
             page.clear();
           }

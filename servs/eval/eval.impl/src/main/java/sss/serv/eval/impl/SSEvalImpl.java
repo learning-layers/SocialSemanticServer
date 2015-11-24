@@ -73,7 +73,7 @@ implements
     evalLogKnowBrain = new SSEvalLogKnowBrain();
     evalLogBNP       = new SSEvalLogBNP();
   }
-  
+
   @Override
   public void evalAnalyze(final SSEvalAnalyzePar par) throws Exception{
     
