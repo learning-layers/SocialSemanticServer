@@ -85,7 +85,8 @@ implements
   SSGetSubEntitiesI,
   SSAddAffiliatedEntitiesToCircleI,
   SSPushEntitiesToUsersI,
-  SSUserRelationGathererI{
+  SSUserRelationGathererI,
+  SSUsersResourcesGathererI{
 
   private final SSCollSQLFct    sql;
   private final SSEntityServerI entityServ;
@@ -99,7 +100,7 @@ implements
     this.entityServ = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
     this.circleServ = (SSCircleServerI) SSServReg.getServ(SSCircleServerI.class);
   }
-
+  
   @Override
   public SSEntity describeEntity(
     final SSEntity             entity, 
@@ -167,6 +168,54 @@ implements
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
+    }
+  }
+  
+  @Override
+  public void getUsersResources(
+    final Map<String, List<SSEntityContext>> usersEntities) throws Exception{
+    
+    try{
+      
+      final SSCollsGetPar collsGetPar = 
+        new SSCollsGetPar(
+          null, //user
+          false, //withUserRestriction, 
+          false); //invokeEntityHandlers)
+      
+      SSUri userID;
+        
+      for(String user : usersEntities.keySet()){
+        
+        userID = SSUri.get(user);
+        
+        collsGetPar.user = userID;
+        
+        for(SSEntity coll : collsGet(collsGetPar)){
+          
+          usersEntities.get(user).add(
+            new SSEntityContext(
+              coll.id,
+              SSEntityE.coll,
+              null,
+              null));
+          
+          for(SSEntity collEntry : coll.entries){
+            
+            usersEntities.get(user).add(
+              new SSEntityContext(
+                collEntry.id,
+                SSEntityE.coll,
+                null,
+                null));
+          }
+        }
+      }
+      
+    }catch(Exception error){
+      
+      SSLogU.err(error);
+      SSServErrReg.reset();
     }
   }
   

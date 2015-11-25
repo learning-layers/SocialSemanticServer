@@ -119,7 +119,6 @@ implements
   private final SSCircleServerI      circleServ;
   private final SSEntityActAndLogFct actAndLogFct;
   
-  
   public SSEntityImpl(final SSConfA conf) throws Exception{
     
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
@@ -224,16 +223,22 @@ implements
     try{
       final List<SSEntityE> types = new ArrayList<>();
       
+      types.add(SSEntityE.placeholder);
       types.add(SSEntityE.file);
+      types.add(SSEntityE.uploadedFile);
       types.add(SSEntityE.entity);
+      
+      SSUri userID;
       
       for(String user : usersEntities.keySet()){
         
+        userID = SSUri.get(user);
+        
         for(SSUri entity : 
-          sql.getEntityURIs(
-            null, //entities, 
-            types, //types,
-            SSUri.asListNotNull(SSUri.get(user)))){ //authors
+          sql.getAccessibleURIs(
+            userID, 
+            types, 
+            null)){ //authors
           
           usersEntities.get(user).add(
             new SSEntityContext(

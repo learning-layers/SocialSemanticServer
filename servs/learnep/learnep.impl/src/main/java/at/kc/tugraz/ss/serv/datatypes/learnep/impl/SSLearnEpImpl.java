@@ -178,25 +178,35 @@ implements
     final Map<String, List<SSEntityContext>> usersEntities) throws Exception{
     
     try{
+      
+      final SSLearnEpsGetPar learnEpsGetPar = 
+        new SSLearnEpsGetPar(
+          null, //user
+          null, //forUser
+          false, //withUserRestriction, 
+          false); //invokeEntityHandlers)
+      
+      SSUri userID;
+        
       for(String user : usersEntities.keySet()){
         
-        for(SSUri learnEp : sql.getLearnEpURIs(SSUri.get(user))){
+        userID = SSUri.get(user);
+        
+        learnEpsGetPar.user    = userID;
+        learnEpsGetPar.forUser = userID;
+        
+        for(SSEntity learnEpEntity : learnEpsGet(learnEpsGetPar)){
           
-          for(SSUri versionUri : sql.getLearnEpVersionURIs(learnEp)){
+          for(SSEntity versionEntity : ((SSLearnEp) learnEpEntity).entries){
             
-            for(SSEntity entity : 
-              sql.getLearnEpVersion(
-                versionUri, 
-                false, //setCircles
-                true, //setEntities
-                false).learnEpEntities){ //setTimelineState
+            for(SSEntity entity : ((SSLearnEpVersion) versionEntity).learnEpEntities){
               
-                usersEntities.get(user).add(
-                  new SSEntityContext(
-                    entity.id, 
-                    SSEntityE.learnEp, 
-                    null, 
-                    null));
+              usersEntities.get(user).add(
+                new SSEntityContext(
+                  ((SSLearnEpEntity) entity).entity.id,
+                  SSEntityE.learnEp,
+                  null,
+                  null));
             }
           }
         }

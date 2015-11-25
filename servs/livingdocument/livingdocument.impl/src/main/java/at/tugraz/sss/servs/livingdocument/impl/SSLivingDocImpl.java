@@ -34,10 +34,12 @@ import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSDescribeEntityI;
 import at.tugraz.sss.serv.SSEntity;
+import at.tugraz.sss.serv.SSEntityContext;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSErrE;
+import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSPushEntitiesToUsersI;
 import at.tugraz.sss.serv.SSPushEntitiesToUsersPar;
 import at.tugraz.sss.serv.SSServErrReg;
@@ -47,6 +49,7 @@ import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSSocketCon;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.SSUsersResourcesGathererI;
 import at.tugraz.sss.servs.livingdocument.api.SSLivingDocClientI;
 import at.tugraz.sss.servs.livingdocument.api.SSLivingDocServerI;
 import at.tugraz.sss.servs.livingdocument.conf.SSLivingDocConf;
@@ -64,6 +67,7 @@ import at.tugraz.sss.servs.livingdocument.datatype.ret.SSLivingDocsGetRet;
 import at.tugraz.sss.util.SSServCallerU;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class SSLivingDocImpl 
 extends SSServImplWithDBA
@@ -71,7 +75,8 @@ implements
   SSLivingDocClientI,
   SSLivingDocServerI,
   SSDescribeEntityI,
-  SSPushEntitiesToUsersI{
+  SSPushEntitiesToUsersI, 
+  SSUsersResourcesGathererI{
   
   private final SSLivingDocSQLFct  sql;
   private final SSLivingDocConf    livingDocConf;
@@ -82,6 +87,45 @@ implements
     
     this.livingDocConf  = (SSLivingDocConf) conf;
     this.sql            = new SSLivingDocSQLFct(this, SSVocConf.systemUserUri);
+  }
+  
+  @Override
+  public void getUsersResources(
+    final Map<String, List<SSEntityContext>> usersEntities) throws Exception{
+    
+    try{
+      
+      final SSLivingDocsGetPar ldsGetPar =
+        new SSLivingDocsGetPar(
+          null, //user
+          null, //forUser
+          false, //withUserRestriction
+          false); //invokeEntityHandlers
+      
+      SSUri userID;
+      
+      for(String user : usersEntities.keySet()){
+        
+        userID = SSUri.get(user);
+        
+        ldsGetPar.user    = userID;
+        ldsGetPar.forUser = userID;
+        
+        for(SSEntity doc : livingDocsGet(ldsGetPar)){
+          
+          usersEntities.get(user).add(
+            new SSEntityContext(
+              doc.id,
+              SSEntityE.livingDoc,
+              null,
+              null));
+        }
+      }
+      
+    }catch(Exception error){
+      SSLogU.err(error);
+      SSServErrReg.reset();
+    }
   }
   
   @Override

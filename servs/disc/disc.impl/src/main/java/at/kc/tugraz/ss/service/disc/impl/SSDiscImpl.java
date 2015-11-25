@@ -253,25 +253,34 @@ public class SSDiscImpl
     final Map<String, List<SSEntityContext>> usersEntities) throws Exception{
 
     try{
+      
+      final SSDiscsGetPar discsGetPar =
+        new SSDiscsGetPar(
+          null,
+          false, //setEntries,
+          null, //forUser,
+          null, //discs,
+          null, //target,
+          true, //withUserRestriction,
+          false); //invokeEntityHandlers
+      
+      SSUri userID;
+      
       for(String user : usersEntities.keySet()){
         
-        for(SSEntity disc :
-          discsGet(
-            new SSDiscsGetPar(
-              SSUri.get(user),
-              false, //setEntries,
-              SSUri.get(user), //forUser,
-              null, //discs,
-              null, //target,
-              true, //withUserRestriction,
-              false))){ //invokeEntityHandlers)
+        userID = SSUri.get(user);
+        
+        discsGetPar.user    = userID;
+        discsGetPar.forUser = userID;
+        
+        for(SSEntity disc : discsGet(discsGetPar)){
           
-            usersEntities.get(user).add(
-              new SSEntityContext(
-                disc.id, 
-                SSEntityE.disc, 
-                null, 
-                null));
+          usersEntities.get(user).add(
+            new SSEntityContext(
+              disc.id,
+              SSEntityE.disc,
+              null,
+              null));
         }
       }
       

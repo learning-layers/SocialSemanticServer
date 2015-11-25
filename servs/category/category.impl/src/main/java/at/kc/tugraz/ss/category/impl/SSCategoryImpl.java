@@ -198,31 +198,36 @@ implements
     final Map<String, List<SSEntityContext>> usersEntities) throws Exception{
     
     try{
-      SSUri userUri;
+      
+      final SSCategoriesGetPar categoriesGetPar =
+        new SSCategoriesGetPar(
+          null, //user
+          null, //forUser
+          null, //entities
+          null, //labels
+          null, //labelSearchOp,
+          null, //spaces
+          null, //circles
+          null, //startTime,
+          false);  //withUserRestriction
+      
+      SSUri userID;
       
       for(String user : usersEntities.keySet()){
         
-        userUri = SSUri.get(user);
+        userID = SSUri.get(user);
+
+        categoriesGetPar.user    = userID;
+        categoriesGetPar.forUser = userID;
         
-        for(SSEntity categoryEntity :
-          categoriesGet(
-            new SSCategoriesGetPar(
-              userUri,
-              userUri, //forUser
-              null, //entities
-              null, //labels
-              null, //labelSearchOp, 
-              null, //spaces
-              null, //circles
-              null, //startTime,
-              false))){ //withUserRestriction
+        for(SSEntity categoryEntity : categoriesGet(categoriesGetPar)){
           
-            usersEntities.get(user).add(
-              new SSEntityContext(
-                ((SSCategory) categoryEntity).entity, 
-                SSEntityE.category, 
-                SSStrU.toStr(((SSCategory) categoryEntity).categoryLabel), 
-                ((SSCategory) categoryEntity).creationTime));
+          usersEntities.get(user).add(
+            new SSEntityContext(
+              ((SSCategory) categoryEntity).entity,
+              SSEntityE.category,
+              SSStrU.toStr(((SSCategory) categoryEntity).categoryLabel),
+              ((SSCategory) categoryEntity).creationTime));
         }
       }
       

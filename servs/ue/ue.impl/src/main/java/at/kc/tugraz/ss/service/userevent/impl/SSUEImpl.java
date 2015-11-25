@@ -83,9 +83,8 @@ implements
     final Map<String, List<SSEntityContext>> usersEntities) throws Exception{
     
     try{
-      final List<SSUEE> ueTypes = new ArrayList<>();
       
-      SSUri userUri;
+      final List<SSUEE> ueTypes = new ArrayList<>();
       
       ueTypes.add(SSUEE.evernoteNotebookUpdate);
       ueTypes.add(SSUEE.evernoteNotebookFollow);
@@ -97,29 +96,35 @@ implements
       ueTypes.add(SSUEE.evernoteResourceAdd);
       ueTypes.add(SSUEE.bnpPlaceholderAdd);
       
+      final SSUEsGetPar uesGetPar =
+        new SSUEsGetPar(
+          null, //user
+          null, //userEvents,
+          null, //forUser
+          null, //entity
+          ueTypes, //types
+          null, //startTime
+          null, //endTime
+          false, //withUserRestriction
+          false); //invokeEntityHandlers
+      
+      SSUri userID;
+      
       for(String user : usersEntities.keySet()){
         
-        userUri = SSUri.get(user);
+        userID = SSUri.get(user);
         
-        for(SSEntity ue :
-          userEventsGet(
-            new SSUEsGetPar(
-              userUri, //user
-              null, //userEvents,
-              userUri, //forUser
-              null, //entity
-              ueTypes, //types
-              null, //startTime
-              null, //endTime
-              false, //withUserRestriction
-              false))){ //invokeEntityHandlers
+        uesGetPar.user    = userID;
+        uesGetPar.forUser = userID;
+        
+        for(SSEntity ue : userEventsGet(uesGetPar)){
           
-            usersEntities.get(user).add(
-              new SSEntityContext(
-               ((SSUE)ue).entity.id, 
-                SSEntityE.userEvent, 
-                null, 
-                null));
+          usersEntities.get(user).add(
+            new SSEntityContext(
+              ((SSUE) ue).entity.id,
+              SSEntityE.userEvent,
+              null,
+              null));
         }
       }
     }catch(Exception error){

@@ -55,6 +55,7 @@ public class SSImageServ extends SSServContainerI{
     
     SSServReg.inst.regServForHandlingDescribeEntity(this);
     SSServReg.inst.regServForHandlingAddAffiliatedEntitiesToCircle(this);
+    SSServReg.inst.regServForGatheringUsersResources(this);
     
     return this;
   }

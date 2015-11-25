@@ -50,6 +50,7 @@ import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSDescribeEntityI;
+import at.tugraz.sss.serv.SSEntityContext;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSServImplWithDBA;
@@ -59,16 +60,20 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import at.tugraz.sss.serv.SSErrE;
+import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSQueryResultPage;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
+import at.tugraz.sss.serv.SSUsersResourcesGathererI;
+import java.util.Map;
 
 public class SSActivityImpl
 extends SSServImplWithDBA
 implements
   SSActivityClientI,
   SSActivityServerI,
-  SSDescribeEntityI{
+  SSDescribeEntityI,
+  SSUsersResourcesGathererI{
   
   private final SSActivitySQLFct sql;
   
@@ -77,6 +82,62 @@ implements
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
     
     this.sql = new SSActivitySQLFct(dbSQL, SSVocConf.systemUserUri);
+  }
+  
+  @Override
+  public void getUsersResources(
+    final Map<String, List<SSEntityContext>> usersEntities) throws Exception{
+    
+    try{
+      
+      final SSActivitiesGetPar activitiesGetPar =
+        new SSActivitiesGetPar(
+          null, //user
+          null, //activities,
+          null, //types,
+          null, //users,
+          null, //entities,
+          null, //circles,
+          null, //startTime,
+          null, //endTime,
+          false, //includeOnlyLastActivities,
+          false, //withUserRestriction,
+          false); //invokeEntityHandlers);
+      
+      SSUri userID;
+      
+      for(String user : usersEntities.keySet()){
+        
+        userID = SSUri.get(user);
+        
+        activitiesGetPar.user = userID;
+        activitiesGetPar.users.add(userID);
+        
+        for(SSEntity activity : activitiesGet(activitiesGetPar)){
+          
+          usersEntities.get(user).add(
+            new SSEntityContext(
+              ((SSActivity) activity).entity.id,
+              SSEntityE.activity,
+              null,
+              null));
+          
+          for(SSEntity entity : activity.entities){
+            
+            usersEntities.get(user).add(
+              new SSEntityContext(
+                entity.id,
+                SSEntityE.activity,
+                null,
+                null));
+          }
+        }
+      }
+      
+    }catch(Exception error){
+      SSLogU.err(error);
+      SSServErrReg.reset();
+    }
   }
   
   @Override
