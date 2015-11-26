@@ -40,6 +40,7 @@ import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSDescribeEntityI;
 import at.tugraz.sss.serv.SSEntity;
+import at.tugraz.sss.serv.SSEntityContext;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSServImplWithDBA;
@@ -56,6 +57,7 @@ import at.tugraz.sss.serv.SSObjU;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.SSUsersResourcesGathererI;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.tugraz.sss.servs.file.datatype.par.SSEntityFileAddPar;
 import at.tugraz.sss.servs.file.datatype.par.SSEntityFilesGetPar;
@@ -70,6 +72,7 @@ import at.tugraz.sss.servs.image.datatype.ret.SSImageProfilePictureSetRet;
 import at.tugraz.sss.servs.image.datatype.ret.SSImagesGetRet;
 import at.tugraz.sss.servs.image.impl.sql.SSImageSQLFct;
 import java.io.File;
+import java.util.Map;
 import javax.imageio.ImageIO;
 
 public class SSImageImpl 
@@ -78,7 +81,8 @@ implements
   SSImageClientI, 
   SSImageServerI,
   SSDescribeEntityI,
-  SSAddAffiliatedEntitiesToCircleI{
+  SSAddAffiliatedEntitiesToCircleI, 
+  SSUsersResourcesGathererI{
 
   private final SSImageSQLFct         sqlFct;
   private final SSEntityServerI       entityServ;
@@ -155,6 +159,44 @@ implements
     }
   }
 
+  @Override
+  public void getUsersResources(
+    final Map<String, List<SSEntityContext>> usersEntities) throws Exception{
+    
+    try{
+      
+      final SSImagesGetPar imagesGetPar =
+        new SSImagesGetPar(
+          null, //user
+          null, //entity,
+          null, //imageType
+          true); //withUserRestriction
+      
+      SSUri userID;
+      
+      for(String user : usersEntities.keySet()){
+        
+        userID = SSUri.get(user);
+        
+        imagesGetPar.user = userID;
+        
+        for(SSEntity image : imagesGet(imagesGetPar)){
+          
+          usersEntities.get(user).add(
+            new SSEntityContext(
+              image.id,
+              SSEntityE.image,
+              null,
+              null));
+        }
+      }
+      
+    }catch(Exception error){
+      SSLogU.err(error);
+      SSServErrReg.reset();
+    }
+  }
+  
   @Override
   public List<SSEntity> addAffiliatedEntitiesToCircle(final SSAddAffiliatedEntitiesToCirclePar par) throws Exception{
     

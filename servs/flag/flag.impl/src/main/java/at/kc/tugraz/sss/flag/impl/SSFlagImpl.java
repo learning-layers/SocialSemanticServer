@@ -46,14 +46,18 @@ import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSDescribeEntityI;
+import at.tugraz.sss.serv.SSEntityContext;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
 import java.util.List;
 import at.tugraz.sss.serv.SSErrE;
+import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.SSUsersResourcesGathererI;
 import java.util.ArrayList;
+import java.util.Map;
 
 public class SSFlagImpl 
 extends 
@@ -61,7 +65,8 @@ extends
 implements 
   SSFlagClientI, 
   SSFlagServerI, 
-  SSDescribeEntityI{
+  SSDescribeEntityI, 
+  SSUsersResourcesGathererI{
   
   private final SSFlagSQLFct    sqlFct;
   private final SSEntityServerI entityServ;
@@ -121,6 +126,47 @@ implements
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
+    }
+  }
+  
+  @Override
+  public void getUsersResources(
+    final Map<String, List<SSEntityContext>> usersEntities) throws Exception{
+    
+    try{
+      
+      final SSFlagsGetPar flagsGetPar =
+        new SSFlagsGetPar(
+          null, //user
+          null, //entities,
+          null, //types,
+          null, //startTime,
+          null, //endTime,
+          true, //withUserRestriction, //because flagsGet doesnt consider the user yet
+          false);//invokeEntityHandlers
+      
+      SSUri userID;
+      
+      for(String user : usersEntities.keySet()){
+        
+        userID = SSUri.get(user);
+        
+        flagsGetPar.user = userID;
+        
+        for(SSEntity flag : flagsGet(flagsGetPar)){
+          
+          usersEntities.get(user).add(
+            new SSEntityContext(
+              ((SSFlag) flag).entity.id,
+              SSEntityE.flag,
+              null,
+              null));
+        }
+      }
+      
+    }catch(Exception error){
+      SSLogU.err(error);
+      SSServErrReg.reset();
     }
   }
   

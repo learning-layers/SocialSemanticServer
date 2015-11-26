@@ -1,0 +1,1 @@
+docker inspect –format ‘{{ .NetworkSettings.IPAddress }}’ demoservice

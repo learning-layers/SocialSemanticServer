@@ -54,6 +54,7 @@ public class SSFlagServ extends SSServContainerI{
     SSServReg.inst.regServ(this);
     
     SSServReg.inst.regServForHandlingDescribeEntity(this);
+    SSServReg.inst.regServForGatheringUsersResources (this);
     
     return this;
   }

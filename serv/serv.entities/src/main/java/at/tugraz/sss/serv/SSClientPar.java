@@ -20,11 +20,6 @@
 */
 package at.tugraz.sss.serv;
 
-import at.tugraz.sss.serv.SSJSONU;
-import at.tugraz.sss.serv.SSObjU;
-import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarNames;
 import org.codehaus.jackson.JsonParser;
 
 public class SSClientPar{

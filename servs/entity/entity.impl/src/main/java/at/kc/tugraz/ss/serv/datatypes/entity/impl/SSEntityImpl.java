@@ -72,6 +72,7 @@ import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSDescribeEntityI;
+import at.tugraz.sss.serv.SSEntityContext;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
 import java.util.ArrayList;
 import java.util.List;
@@ -203,8 +204,7 @@ implements
   
   @Override
   public void getUsersResources(
-    final List<String>             allUsers,
-    final Map<String, List<SSUri>> usersResources) throws Exception{
+    final Map<String, List<SSEntityContext>> usersEntities) throws Exception{
     
     try{
       final List<SSEntityE> types = new ArrayList<>();
@@ -212,30 +212,22 @@ implements
       types.add(SSEntityE.file);
       types.add(SSEntityE.entity);
       
-      for(String user : allUsers){
+      for(String user : usersEntities.keySet()){
         
         for(SSUri entity : 
           sqlFct.getEntityURIs(
             null, //entities, 
-            types, //types, 
+            types, //types,
             SSUri.asListWithoutNullAndEmpty(SSUri.get(user)))){ //authors
           
-          if(usersResources.containsKey(user)){
-            usersResources.get(user).add(entity);
-          }else{
-            
-            final List<SSUri> resourceList = new ArrayList<>();
-            
-            resourceList.add(entity);
-            
-            usersResources.put(user, resourceList);
-          }
+          usersEntities.get(user).add(
+            new SSEntityContext(
+              entity, 
+              SSEntityE.entity,
+              null, 
+              null));
         }
-      }
-      
-      for(Map.Entry<String, List<SSUri>> resourcesPerUser : usersResources.entrySet()){
-        SSStrU.distinctWithoutNull2(resourcesPerUser.getValue());
-      }
+      }      
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

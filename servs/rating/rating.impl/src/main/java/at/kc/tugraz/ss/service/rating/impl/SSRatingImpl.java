@@ -51,15 +51,18 @@ import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSDescribeEntityI;
+import at.tugraz.sss.serv.SSEntityContext;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
 import at.tugraz.sss.serv.SSErr;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import at.tugraz.sss.serv.SSErrE;
+import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServReg;
+import at.tugraz.sss.serv.SSUsersResourcesGathererI;
 import java.util.ArrayList;
 
 public class SSRatingImpl 
@@ -68,7 +71,8 @@ implements
   SSRatingClientI, 
   SSRatingServerI, 
   SSDescribeEntityI, 
-  SSUserRelationGathererI{
+  SSUserRelationGathererI,
+  SSUsersResourcesGathererI{
  
   private final SSRatingSQLFct   sqlFct;
   private final SSEntityServerI  entityServ;
@@ -81,6 +85,35 @@ implements
     this.entityServ = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
   }
 
+  @Override
+  public void getUsersResources(
+    final Map<String, List<SSEntityContext>> usersEntities) throws Exception{
+    
+    try{
+      
+      SSUri userID;
+      
+      for(String user : usersEntities.keySet()){
+        
+        userID = SSUri.get(user);
+        
+        for(SSUri entity : sqlFct.getEntitiesRatedByUser(userID)){
+          
+          usersEntities.get(user).add(
+            new SSEntityContext(
+              entity,
+              SSEntityE.rating,
+              null,
+              null));
+        }
+      }
+      
+    }catch(Exception error){
+      SSLogU.err(error);
+      SSServErrReg.reset();
+    }
+  }
+  
   @Override
   public void getUserRelations(
     final List<String>             allUsers,

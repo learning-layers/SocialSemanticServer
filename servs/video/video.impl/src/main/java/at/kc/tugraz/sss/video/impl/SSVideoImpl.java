@@ -57,20 +57,24 @@ import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSDescribeEntityI;
+import at.tugraz.sss.serv.SSEntityContext;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
 import java.util.ArrayList;
 import java.util.List;
 import at.tugraz.sss.serv.SSErrE;
+import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSPushEntitiesToUsersI;
 import at.tugraz.sss.serv.SSPushEntitiesToUsersPar;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.SSUsersResourcesGathererI;
 import at.tugraz.sss.servs.file.datatype.par.SSEntityFileAddPar;
 import at.tugraz.sss.servs.file.datatype.par.SSEntityFilesGetPar;
 import at.tugraz.sss.servs.location.api.SSLocationServerI;
 import at.tugraz.sss.servs.location.datatype.par.SSLocationAddPar;
+import java.util.Map;
 
 public class SSVideoImpl 
 extends SSServImplWithDBA 
@@ -79,7 +83,8 @@ implements
   SSVideoServerI, 
   SSDescribeEntityI, 
   SSPushEntitiesToUsersI,
-  SSAddAffiliatedEntitiesToCircleI{
+  SSAddAffiliatedEntitiesToCircleI, 
+  SSUsersResourcesGathererI{
   
   private final SSVideoSQLFct     sqlFct;
   private final SSEntityServerI   entityServ;
@@ -94,6 +99,44 @@ implements
     this.entityServ   = (SSEntityServerI)   SSServReg.getServ(SSEntityServerI.class);
     this.circleServ   = (SSCircleServerI)   SSServReg.getServ(SSCircleServerI.class);
     this.locationServ = (SSLocationServerI) SSServReg.getServ(SSLocationServerI.class);
+  }
+  
+  @Override
+  public void getUsersResources(
+    final Map<String, List<SSEntityContext>> usersEntities) throws Exception{
+    
+    try{
+      
+      final SSVideosUserGetPar videosGetPar =
+        new SSVideosUserGetPar(
+          null, //user
+          null, //forEntity,
+          true, //withUserRestriction
+          false);//invokeEntityHandlers
+      
+      SSUri userID;
+      
+      for(String user : usersEntities.keySet()){
+        
+        userID = SSUri.get(user);
+        
+        videosGetPar.user = userID;
+        
+        for(SSEntity video : videosGet(videosGetPar)){
+          
+          usersEntities.get(user).add(
+            new SSEntityContext(
+              video.id,
+              SSEntityE.video,
+              null,
+              null));
+        }
+      }
+      
+    }catch(Exception error){
+      SSLogU.err(error);
+      SSServErrReg.reset();
+    }
   }
   
   @Override

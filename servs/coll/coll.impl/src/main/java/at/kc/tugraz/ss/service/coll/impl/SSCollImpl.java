@@ -84,7 +84,8 @@ implements
   SSGetSubEntitiesI,
   SSAddAffiliatedEntitiesToCircleI,
   SSPushEntitiesToUsersI,
-  SSUserRelationGathererI{
+  SSUserRelationGathererI,
+  SSUsersResourcesGathererI{
 
   private final SSCollSQLFct    sqlFct;
   private final SSEntityServerI entityServ;
@@ -207,6 +208,54 @@ implements
     
     for(Map.Entry<String, List<SSUri>> usersPerUser : userRelations.entrySet()){
       SSStrU.distinctWithoutNull2(usersPerUser.getValue());
+    }
+  }
+  
+  @Override
+  public void getUsersResources(
+    final Map<String, List<SSEntityContext>> usersEntities) throws Exception{
+    
+    try{
+      
+      final SSCollsGetPar collsGetPar = 
+        new SSCollsGetPar(
+          null, //user
+          false, //withUserRestriction, 
+          false); //invokeEntityHandlers)
+      
+      SSUri userID;
+        
+      for(String user : usersEntities.keySet()){
+        
+        userID = SSUri.get(user);
+        
+        collsGetPar.user = userID;
+        
+        for(SSEntity coll : collsGet(collsGetPar)){
+          
+          usersEntities.get(user).add(
+            new SSEntityContext(
+              coll.id,
+              SSEntityE.coll,
+              null,
+              null));
+          
+          for(SSEntity collEntry : coll.entries){
+            
+            usersEntities.get(user).add(
+              new SSEntityContext(
+                collEntry.id,
+                SSEntityE.coll,
+                null,
+                null));
+          }
+        }
+      }
+      
+    }catch(Exception error){
+      
+      SSLogU.err(error);
+      SSServErrReg.reset();
     }
   }
   

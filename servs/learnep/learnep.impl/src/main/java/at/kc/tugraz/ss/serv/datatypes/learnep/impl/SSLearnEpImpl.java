@@ -97,6 +97,7 @@ import at.tugraz.sss.serv.SSDescribeEntityI;
 import at.tugraz.sss.serv.SSEntitiesSharedWithUsersI;
 import at.tugraz.sss.serv.SSEntitiesSharedWithUsersPar;
 import at.tugraz.sss.serv.SSEntity;
+import at.tugraz.sss.serv.SSEntityContext;
 import at.tugraz.sss.serv.SSEntityCopyPar;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
 import at.tugraz.sss.serv.SSErr;
@@ -173,41 +174,41 @@ implements
   
   @Override
   public void getUsersResources(
-    final List<String>             allUsers,
-    final Map<String, List<SSUri>> usersResources) throws Exception{
+    final Map<String, List<SSEntityContext>> usersEntities) throws Exception{
     
     try{
-      for(String user : allUsers){
+      
+      final SSLearnEpsGetPar learnEpsGetPar = 
+        new SSLearnEpsGetPar(
+          null, //user
+          false, //withUserRestriction, 
+          false); //invokeEntityHandlers)
+      
+      SSUri userID;
         
-        for(SSUri learnEp : sqlFct.getLearnEpURIsForUser(SSUri.get(user))){
+      for(String user : usersEntities.keySet()){
+        
+        userID = SSUri.get(user);
+        
+        learnEpsGetPar.user    = userID;
+        
+        for(SSEntity learnEpEntity : learnEpsGet(learnEpsGetPar)){
           
-          for(SSUri versionUri : sqlFct.getLearnEpVersionURIs(learnEp)){
+          for(SSEntity versionEntity : ((SSLearnEp) learnEpEntity).entries){
             
-            for(SSEntity entity : 
-              sqlFct.getLearnEpVersion(
-                versionUri, 
-                false, //setCircles
-                true, //setEntities
-                false).learnEpEntities){ //setTimelineState
+            for(SSEntity entity : ((SSLearnEpVersion) versionEntity).learnEpEntities){
               
-              if(usersResources.containsKey(user)){
-                usersResources.get(user).add(((SSLearnEpEntity)entity).entity.id);
-              }else{
-                
-                final List<SSUri> resourceList = new ArrayList<>();
-                
-                resourceList.add(((SSLearnEpEntity)entity).entity.id);
-                
-                usersResources.put(user, resourceList);
-              }
+              usersEntities.get(user).add(
+                new SSEntityContext(
+                  ((SSLearnEpEntity) entity).entity.id,
+                  SSEntityE.learnEp,
+                  null,
+                  null));
             }
           }
         }
       }
       
-      for(Map.Entry<String, List<SSUri>> resourcesPerUser : usersResources.entrySet()){
-        SSStrU.distinctWithoutNull2(resourcesPerUser.getValue());
-      }
     }catch(Exception error){
       
       SSLogU.err(error);

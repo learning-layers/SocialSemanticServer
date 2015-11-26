@@ -55,6 +55,8 @@ public class SSLivingDocServ extends SSServContainerI{
     
     SSServReg.inst.regServForHandlingDescribeEntity(this);
     SSServReg.inst.regServForHandlingPushEntitiesToUsers(this);
+    SSServReg.inst.regServForGatheringUsersResources(this);
+    
     return this;
   }
   

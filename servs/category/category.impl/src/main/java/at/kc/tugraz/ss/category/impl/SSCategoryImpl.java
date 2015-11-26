@@ -66,6 +66,7 @@ import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSDescribeEntityI;
 import at.tugraz.sss.serv.SSEntityA;
+import at.tugraz.sss.serv.SSEntityContext;
 import at.tugraz.sss.serv.SSEntityCopiedI;
 import at.tugraz.sss.serv.SSEntityCopiedPar;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
@@ -84,6 +85,7 @@ import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSToolContextE;
+import at.tugraz.sss.serv.SSUsersResourcesGathererI;
 import at.tugraz.sss.servs.common.impl.tagcategory.SSTagAndCategoryCommonMisc;
 import at.tugraz.sss.servs.common.impl.tagcategory.SSTagAndCategoryCommonSQL;
 import sss.serv.eval.api.SSEvalServerI;
@@ -98,7 +100,8 @@ implements
   SSDescribeEntityI, 
   SSEntityCopiedI,
   SSCircleContentRemovedI,
-  SSUserRelationGathererI{
+  SSUserRelationGathererI,
+  SSUsersResourcesGathererI{
   
   final SSTagAndCategoryCommonSQL  sqlFct;
   final SSTagAndCategoryCommonMisc commonMiscFct;
@@ -185,6 +188,49 @@ implements
       for(Map.Entry<String, List<SSUri>> usersPerUser : userRelations.entrySet()){
         SSStrU.distinctWithoutNull2(usersPerUser.getValue());
       }
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  @Override
+  public void getUsersResources(
+    final Map<String, List<SSEntityContext>> usersEntities) throws Exception{
+    
+    try{
+      
+      final SSCategoriesGetPar categoriesGetPar =
+        new SSCategoriesGetPar(
+          null, //user
+          null, //forUser
+          null, //entities
+          null, //labels
+          null, //labelSearchOp,
+          null, //spaces
+          null, //circles
+          null, //startTime,
+          false);  //withUserRestriction
+      
+      SSUri userID;
+      
+      for(String user : usersEntities.keySet()){
+        
+        userID = SSUri.get(user);
+
+        categoriesGetPar.user    = userID;
+        categoriesGetPar.forUser = userID;
+        
+        for(SSEntity categoryEntity : categoriesGet(categoriesGetPar)){
+          
+          usersEntities.get(user).add(
+            new SSEntityContext(
+              ((SSCategory) categoryEntity).entity,
+              SSEntityE.category,
+              SSStrU.toStr(((SSCategory) categoryEntity).categoryLabel),
+              ((SSCategory) categoryEntity).creationTime));
+        }
+      }
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }

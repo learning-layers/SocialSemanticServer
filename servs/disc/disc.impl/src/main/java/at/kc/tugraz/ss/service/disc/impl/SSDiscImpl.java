@@ -69,6 +69,7 @@ import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSDescribeEntityI;
+import at.tugraz.sss.serv.SSEntityContext;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
 import at.tugraz.sss.serv.SSErr;
 import java.util.*;
@@ -225,38 +226,38 @@ public class SSDiscImpl
 
   @Override
   public void getUsersResources(
-    final List<String> allUsers,
-    final Map<String, List<SSUri>> usersResources) throws Exception{
+    final Map<String, List<SSEntityContext>> usersEntities) throws Exception{
 
     try{
-      for(String user : allUsers){
-        
-        for(SSEntity disc :
-          discsGet(
-            new SSDiscsGetPar(
-              SSUri.get(user),
-              false, //setEntries,
-              SSUri.get(user), //forUser,
-              null, //discs,
-              null, //target,
-              true, //withUserRestriction,
-              false))){ //invokeEntityHandlers)
-          
-          if(usersResources.containsKey(user)){
-            usersResources.get(user).add(disc.id);
-          }else{
-            
-            final List<SSUri> resourceList = new ArrayList<>();
-            
-            resourceList.add(disc.id);
-            
-            usersResources.put(user, resourceList);
-          }
-        }
-      }
       
-      for(Map.Entry<String, List<SSUri>> resourcesPerUser : usersResources.entrySet()){
-        SSStrU.distinctWithoutNull2(resourcesPerUser.getValue());
+      final SSDiscsGetPar discsGetPar =
+        new SSDiscsGetPar(
+          null,
+          false, //setEntries,
+          null, //forUser,
+          null, //discs,
+          null, //target,
+          true, //withUserRestriction,
+          false); //invokeEntityHandlers
+      
+      SSUri userID;
+      
+      for(String user : usersEntities.keySet()){
+        
+        userID = SSUri.get(user);
+        
+        discsGetPar.user    = userID;
+        discsGetPar.forUser = userID;
+        
+        for(SSEntity disc : discsGet(discsGetPar)){
+          
+          usersEntities.get(user).add(
+            new SSEntityContext(
+              disc.id,
+              SSEntityE.disc,
+              null,
+              null));
+        }
       }
       
     }catch(Exception error){

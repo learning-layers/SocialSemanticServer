@@ -26,6 +26,5 @@ import java.util.Map;
 public interface SSUsersResourcesGathererI{
   
   public void getUsersResources(
-    final List<String>             allUsers,
-    final Map<String, List<SSUri>> usersResources) throws Exception;
+    final Map<String, List<SSEntityContext>> usersEntities) throws Exception;
 }

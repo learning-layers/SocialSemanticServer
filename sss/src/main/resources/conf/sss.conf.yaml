@@ -99,17 +99,15 @@ recomm: #files have to be provided in sss's_working_dir/data/csv/
   scheduleOps:
     - recommUpdate
   scheduleIntervals:
-    - 10
+    - 5
   fileNameForRec: sss_recomm
-  recommTagAlgorithm: BLL #BLL, BLLacMPr
   recommResourceAlgorithm: RESOURCETAGCB #RESOURCECF, RESOURCETAGCB
   recommUserAlgorithm: USERTAGCB #USERTAGCB
-  recommTagsAlgoPerRealm:
-    #- circle1:BLL
-    #- circle2:BLLacMPr
   recommTagsRandomAlgos:
-    #- BLLcoll
-    #- THREELcoll
+    - BLLacMPr
+    - BLLcoll		     
+    - THREELcoll		     
+    - MP
   recommTagsUserPerRealm:
     #- circle1:userEmail1
     #- circle1:userEmail2
