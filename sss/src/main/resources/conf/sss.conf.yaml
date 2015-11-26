@@ -102,15 +102,15 @@ recomm: #files have to be provided in sss's_working_dir/data/csv/
   scheduleOps:
     - recommUpdate
   scheduleIntervals:
-    - 10
+    - 5
   fileNameForRec: sss_recomm
   recommResourceAlgorithm: RESOURCETAGCB #RESOURCECF, RESOURCETAGCB
   recommUserAlgorithm: USERTAGCB #USERTAGCB
   recommTagsRandomAlgos:
     - BLLacMPr
-    - BLLcoll
-    - THREELcoll
-    - MP
+    #- BLLcoll
+    #- THREELcoll
+    #- MP
   recommTagsUserPerRealm:
     #- circle1:userEmail1
     #- circle1:userEmail2
@@ -134,7 +134,7 @@ evernote:
   emailInEmails:
 dataImport:
   use: true
-  schedule: true
+  schedule: false
   executeScheduleAtStartUp: true
   scheduleOps:
     - dataImportBitsAndPieces #dataImportBitsAndPieces 
