@@ -693,17 +693,23 @@ implements
     
     try{
      
-      final SSEntity annotation =
+      final SSEntity annotationEntity =
         sql.getEntityTest(
           par.user,
           par.annotation,
           par.withUserRestriction);
       
+      if(annotationEntity == null){
+        return null;
+      }
+      
+      final SSVideoAnnotation annotation = sql.getAnnotation(par.annotation);
+      
       if(annotation == null){
         return null;
       }
       
-      return sql.getAnnotation(par.annotation);
+      return SSVideoAnnotation.get(annotation, annotationEntity);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
