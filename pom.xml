@@ -4,7 +4,7 @@
   <groupId>sss</groupId>
   <artifactId>root</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <name>root</name>
+  <name>SocialSemanticServer</name>
   <packaging>pom</packaging>
   <!-- <url>http://maven.apache.org</url> -->
   
@@ -174,5 +174,5 @@
     <module>serv</module>
     <module>util</module>
   </modules>
-  
+    <description>service framework to support informal learning (tools)</description>
 </project>
