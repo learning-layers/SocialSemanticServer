@@ -1,6 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `SSS_MYSQL_SCHEME` /*!40100 DEFAULT CHARACTER SET utf8 */;
-USE `SSS_MYSQL_SCHEME`;
-
 -- MySQL dump 10.13  Distrib 5.6.24, for Win64 (x86_64)
 --
 -- Host: localhost    Database: sss
@@ -1740,6 +1737,7 @@ CREATE TABLE `video` (
   `videoId` varchar(200) NOT NULL,
   `genre` varchar(200) NOT NULL,
   `link` varchar(255) NOT NULL,
+  `videoType` varchar(200) NOT NULL,
   PRIMARY KEY (`videoId`),
   CONSTRAINT `videoIdFKvideo` FOREIGN KEY (`videoId`) REFERENCES `entity` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -1841,4 +1839,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-09-25 12:22:22
+-- Dump completed on 2015-11-27  7:51:32
