@@ -1,3 +1,6 @@
+CREATE DATABASE  IF NOT EXISTS `SSS_MYSQL_SCHEME` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `SSS_MYSQL_SCHEME`;
+
 -- MySQL dump 10.13  Distrib 5.6.24, for Win64 (x86_64)
 --
 -- Host: localhost    Database: sss
