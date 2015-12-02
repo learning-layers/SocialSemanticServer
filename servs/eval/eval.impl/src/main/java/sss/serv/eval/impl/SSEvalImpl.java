@@ -84,7 +84,8 @@ implements
       final SSMessageServerI    messageServ    = (SSMessageServerI)    SSServReg.getServ(SSMessageServerI.class);
       final SSDiscServerI       discServ       = (SSDiscServerI)       SSServReg.getServ(SSDiscServerI.class);
       final SSLivingDocServerI  ldServ         = (SSLivingDocServerI)  SSServReg.getServ(SSLivingDocServerI.class);
-      final Date                firstOfOct     = new Date(Long.valueOf("1443679508904"));
+      final Date                oct1           = new Date(Long.valueOf("1443679508904"));
+      final Date                nov17          = new Date(Long.valueOf("1447752600000"));
       final SSEvalLogAnalyzer   analyzer       =
         new SSEvalLogAnalyzer(
           learnEpServ, 
@@ -92,18 +93,19 @@ implements
           messageServ,
           discServ,
           ldServ,
-          firstOfOct.getTime());
+          oct1.getTime(),
+          nov17.getTime());
       
       final List<SSEvalLogEntry> logEntries =
         dataImportServ.dataImportEvalLogFile(
           new SSDataImportEvalLogFilePar(
             par.user,
             SSFileU.dirWorkingData() + "sss-eval.log",
-            firstOfOct.getTime()));
+            nov17.getTime()));
       
       analyzer.setEpisodes ();
       analyzer.analyzeUsers  (logEntries);
-//      analyzer.analyzeLDs(logEntries);
+      analyzer.analyzeLDs(logEntries);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

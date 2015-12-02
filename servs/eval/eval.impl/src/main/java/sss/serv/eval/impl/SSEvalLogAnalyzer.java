@@ -27,9 +27,9 @@ import sss.serv.eval.impl.helpers.SSWorkedOnReceivedSharedEpisodeInfo;
 import at.kc.tugraz.ss.serv.datatypes.learnep.api.SSLearnEpServerI;
 import at.kc.tugraz.ss.service.disc.api.SSDiscServerI;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscGetPar;
+import at.tugraz.sss.servs.entity.datatypes.par.SSEntitiesGetPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityGetPar;
 import at.tugraz.sss.servs.livingdocument.api.SSLivingDocServerI;
-import at.tugraz.sss.servs.livingdocument.conf.SSLivingDocConf;
 import at.tugraz.sss.servs.livingdocument.datatype.par.SSLivingDocsGetPar;
 import sss.serv.eval.impl.helpers.SSEpisodeCreationInfo;
 import sss.serv.eval.impl.helpers.SSEvalActionInfo;
@@ -37,6 +37,7 @@ import sss.serv.eval.impl.helpers.SSImportInfo;
 import sss.serv.eval.impl.helpers.SSLDInfo;
 import sss.serv.eval.impl.helpers.SSMessageSentInfo;
 import sss.serv.eval.impl.helpers.SSStartDiscussionInfo;
+import sss.serv.eval.impl.helpers.SSWorkedOnEpisodeInfo;
 import sss.serv.eval.impl.helpers.SSWorkedOnOwnBitInfo;
 import sss.serv.eval.impl.helpers.SSWorkedOnOwnEpisodeInfo;
 import sss.serv.eval.impl.helpers.SSWorkedOnReceivedDiscussionInfo;
@@ -49,7 +50,8 @@ public class SSEvalLogAnalyzer {
   private final SSMessageServerI       messageServ;
   private final SSDiscServerI          discServ;
   private final SSLivingDocServerI     ldServ;
-  private final Long                   startTime;
+  private final Long                   timeBeginStudy;
+  private final Long                   timeBeginLogAnalyze;
   private final Map<String, SSEntity>  episodes     = new HashMap<>();
   private final List<String>           ignoredUsers = new ArrayList<>();
   
@@ -59,15 +61,17 @@ public class SSEvalLogAnalyzer {
     final SSMessageServerI   messageServ,
     final SSDiscServerI      discServ,
     final SSLivingDocServerI ldServ,
-    final Long               startTime){
+    final Long               timeBeginStudy,
+    final Long               timeBeginLogAnalyze){
     
-    this.learnEpServ = learnEpServ;
-    this.entityServ  = entityServ;
-    this.messageServ = messageServ;
-    this.ldServ      = ldServ;
-    this.discServ    = discServ;
-    this.startTime   = startTime;
-    
+    this.learnEpServ          = learnEpServ;
+    this.entityServ           = entityServ;
+    this.messageServ          = messageServ;
+    this.ldServ               = ldServ;
+    this.discServ             = discServ;
+    this.timeBeginStudy       = timeBeginStudy;
+    this.timeBeginLogAnalyze  = timeBeginLogAnalyze;
+      
     ignoredUsers.add("t.treasure-jones@leeds.ac.uk");
     ignoredUsers.add("bn-testuser7@know-center.at");
     ignoredUsers.add("bn-testuser8@know-center.at");
@@ -75,6 +79,7 @@ public class SSEvalLogAnalyzer {
     ignoredUsers.add("m.p.kerr@leeds.ac.uk");
     ignoredUsers.add("david.zaki@hotmail.com");
     ignoredUsers.add("mar7in.bachl@gmail.com");
+    ignoredUsers.add("mar7in.bachl@hotmail.com");
   }
   
   public void analyzeLDs(final List<SSEvalLogEntry> logEntries) throws Exception{
@@ -111,7 +116,7 @@ public class SSEvalLogAnalyzer {
           continue;
         }
 
-        if(startTime > doc.creationTime){
+        if(doc.creationTime < timeBeginStudy){
           continue;
         }
         
@@ -186,7 +191,7 @@ public class SSEvalLogAnalyzer {
           userInfo = userInfos.get(episode.author.label.toString());
         }
         
-        if(episode.creationTime < startTime){
+        if(episode.creationTime < timeBeginLogAnalyze){
           continue;
         }
         
@@ -205,7 +210,7 @@ public class SSEvalLogAnalyzer {
             SSVocConf.systemUserUri,
             null, //forUser,
             true, //includeRead,
-            startTime, //startTime,
+            timeBeginLogAnalyze, //startTime,
             false, //withUserRestriction,
             false))){ //invokeEntityHandlers
       
@@ -670,7 +675,7 @@ public class SSEvalLogAnalyzer {
         return;
       }
       
-      if(episodeCreationTime < startTime){
+      if(episodeCreationTime < timeBeginStudy){
         return;
       }
       
@@ -688,12 +693,8 @@ public class SSEvalLogAnalyzer {
       
       SSEvalLogE.addDistinctNotNull(workedOnEpisode.actions, logEntry.logType);
       
-      workedOnEpisode.actionDetails.add(
-        new SSEvalActionInfo(
-          logEntry.logType, 
-          logEntry.timestamp,
-          "entity: " + logEntry.entityLabel + " | entities: " + SSStrU.toCommaSeparatedStrNotNull(logEntry.entityLabels) + " | " + logEntry.content));
-      
+      addActionDetails(workedOnEpisode, logEntry);
+          
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
@@ -746,7 +747,7 @@ public class SSEvalLogAnalyzer {
         return;
       }
       
-      if(episodeCreationTime < startTime){
+      if(episodeCreationTime < timeBeginStudy){
         return;
       }
       
@@ -764,11 +765,55 @@ public class SSEvalLogAnalyzer {
       
       SSEvalLogE.addDistinctNotNull(workedOnEpisode.actions, logEntry.logType);
       
-      workedOnEpisode.actionDetails.add(
+      addActionDetails(workedOnEpisode, logEntry);
+        
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  private void addActionDetails(
+    final SSWorkedOnEpisodeInfo    workedOnEpisodeInfo,
+    final SSEvalLogEntry           logEntry) throws Exception{
+    
+    try{
+      
+      final SSEntityGetPar entityGetPar =
+        new SSEntityGetPar(
+          SSVocConf.systemUserUri,
+          null, //entity,
+          false, //withUserRestriction,
+          null);
+      
+      final SSEntitiesGetPar entitiesGetPar = 
+        new SSEntitiesGetPar(
+          SSVocConf.systemUserUri, 
+          null, //entities, 
+          null, //descPar, 
+          false); //withUserRestriction); 
+      
+      entityGetPar.entity = logEntry.entity;
+      
+      entitiesGetPar.entities.addAll(logEntry.entityIDs);
+        
+      final SSEntity       entity      = entityServ.entityGet  (entityGetPar);
+      final List<SSEntity> entities    = entityServ.entitiesGet(entitiesGetPar);
+      final String         entityStr   = "entity: " + entity.label + " (" + entity.type + ")";
+      String               entitiesStr = "entities: ";
+      
+      for(SSEntity entity1 : entities){
+        entitiesStr += entity1.label + " (" + entity1.type + "), ";
+      }
+      
+      workedOnEpisodeInfo.actionDetails.add(
         new SSEvalActionInfo(
-          logEntry.logType, 
+          logEntry.logType,
           logEntry.timestamp,
-          "entity: " + logEntry.entityLabel + " | entities: " + SSStrU.toCommaSeparatedStrNotNull(logEntry.entityLabels) + " | " + logEntry.content));
+          entityStr
+            + " | "
+            + entitiesStr
+            + " | "
+            + logEntry.content));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
