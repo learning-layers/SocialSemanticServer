@@ -841,13 +841,13 @@ implements
           return recommUpdate(parA);
         }else{
           SSServErrReg.regErrThrow(error);
-          return null;
+          return false;
         }
       }
       
       dbSQL.rollBack(parA.shouldCommit);
       SSServErrReg.regErrThrow(error);
-      return null;
+      return false;
     }
   }
   
@@ -934,13 +934,13 @@ implements
           return recommUpdateBulkEntities(parA);
         }else{
           SSServErrReg.regErrThrow(error);
-          return null;
+          return false;
         }
       }
       
       dbSQL.rollBack(parA.shouldCommit);
       SSServErrReg.regErrThrow(error);
-      return null;
+      return false;
     }
   }
 }

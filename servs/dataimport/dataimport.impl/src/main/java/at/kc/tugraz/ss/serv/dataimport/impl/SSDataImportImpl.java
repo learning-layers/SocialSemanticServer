@@ -325,7 +325,7 @@ implements
       }
       
       SSServErrReg.regErrThrow(error);
-      return null;
+      return false;
     }finally{
       
       try{

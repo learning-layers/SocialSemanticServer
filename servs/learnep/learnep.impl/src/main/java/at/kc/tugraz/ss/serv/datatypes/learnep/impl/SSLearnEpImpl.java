@@ -1401,13 +1401,13 @@ SSUri.asListNotNull(par.learnEpVersion), //learnEpVersions
           return learnEpVersionCircleUpdate(par);
         }else{
           SSServErrReg.regErrThrow(error);
-          return null;
+          return false;
         }
       }
       
       dbSQL.rollBack(par.shouldCommit);
       SSServErrReg.regErrThrow(error);
-      return null;
+      return false;
     }
   }
 
@@ -1494,13 +1494,13 @@ SSUri.asListNotNull(par.learnEpVersion), //learnEpVersions
           return learnEpVersionEntityUpdate(par);
         }else{
           SSServErrReg.regErrThrow(error);
-          return null;
+          return false;
         }
       }
       
       dbSQL.rollBack(par.shouldCommit);
       SSServErrReg.regErrThrow(error);
-      return null;
+      return false;
     }
   }
 
@@ -1586,13 +1586,13 @@ SSUri.asListNotNull(par.learnEpVersion), //learnEpVersions
           return learnEpVersionCircleRemove(par);
         }else{
           SSServErrReg.regErrThrow(error);
-          return null;
+          return false;
         }
       }
       
       dbSQL.rollBack(par.shouldCommit);
       SSServErrReg.regErrThrow(error);
-      return null;
+      return false;
     }
   }
 
@@ -1675,13 +1675,13 @@ SSUri.asListNotNull(par.learnEpVersion), //learnEpVersions
           return learnEpVersionEntityRemove(par);
         }else{
           SSServErrReg.regErrThrow(error);
-          return null;
+          return false;
         }
       }
       
       dbSQL.rollBack(par.shouldCommit);
       SSServErrReg.regErrThrow(error);
-      return null;
+      return false;
     }
   }
 
@@ -2117,7 +2117,7 @@ SSUri.asListNotNull(par.learnEpVersion), //learnEpVersions
 
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
-      return null;
+      return false;
     }
   }
   
@@ -2187,7 +2187,7 @@ SSUri.asListNotNull(par.learnEpVersion), //learnEpVersions
 
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
-      return null;
+      return false;
     }
   }
   

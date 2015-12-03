@@ -93,7 +93,7 @@ public class SSBroadcasterImpl extends SSServImplWithDBA implements SSBroadcaste
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
-      return null;
+      return false;
     }finally{
       updateListLock.writeLock().unlock();
     }

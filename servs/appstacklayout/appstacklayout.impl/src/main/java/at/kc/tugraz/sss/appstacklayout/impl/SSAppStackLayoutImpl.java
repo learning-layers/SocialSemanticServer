@@ -371,13 +371,13 @@ implements
           return appStackLayoutDelete(par);
         }else{
           SSServErrReg.regErrThrow(error);
-          return null;
+          return false;
         }
       }
       
       dbSQL.rollBack(par.shouldCommit);
       SSServErrReg.regErrThrow(error);
-      return null;
+      return false;
     }
   }
 }

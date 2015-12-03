@@ -1022,7 +1022,7 @@ implements
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
-      return null;
+      return false;
     }
   }
   
@@ -1043,7 +1043,7 @@ implements
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
-      return null;
+      return false;
     }
   }
   
@@ -1070,7 +1070,7 @@ implements
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
-      return null;
+      return false;
     }
   }
   

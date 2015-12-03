@@ -453,12 +453,13 @@ implements
           return evernoteUserAdd(parA);
         }else{
           SSServErrReg.regErrThrow(error);
+          return false;
         }
       }
       
       dbSQL.rollBack(parA.shouldCommit);
       SSServErrReg.regErrThrow(error);
-      return null;
+      return false;
     }
   }
   
@@ -487,6 +488,7 @@ implements
           return evernoteNoteAdd(parA);
         }else{
           SSServErrReg.regErrThrow(error);
+          return false;
         }
       }
       
@@ -521,12 +523,13 @@ implements
           return evernoteResourceAdd(parA);
         }else{
           SSServErrReg.regErrThrow(error);
+          return false;
         }
       }
       
       dbSQL.rollBack(parA.shouldCommit);
       SSServErrReg.regErrThrow(error);
-      return null;
+      return false;
     }
   }
   
@@ -555,12 +558,13 @@ implements
           return evernoteUSNSet(parA);
         }else{
           SSServErrReg.regErrThrow(error);
+          return false;
         }
       }
       
       dbSQL.rollBack(parA.shouldCommit);
       SSServErrReg.regErrThrow(error);
-      return null;
+      return false;
     }
   }
   

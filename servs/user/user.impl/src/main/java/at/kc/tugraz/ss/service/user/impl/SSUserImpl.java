@@ -146,7 +146,7 @@ implements
       return sql.existsUser(par.email);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
-      return null;
+      return false;
     }
   }
   

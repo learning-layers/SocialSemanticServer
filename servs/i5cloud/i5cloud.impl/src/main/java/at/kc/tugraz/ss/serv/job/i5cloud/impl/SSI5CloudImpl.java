@@ -124,7 +124,7 @@ implements
       return true;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
-      return null;
+      return false;
     }
   }
   
@@ -147,7 +147,7 @@ implements
       return true;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
-      return null;
+      return false;
     }
   }
   

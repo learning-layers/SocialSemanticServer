@@ -30,7 +30,7 @@ import java.util.List;
 
 public interface SSFlagServerI extends SSServServerI{
   
-  public SSFlag       flagGet      (final SSFlagGetPar  par) throws Exception;
+  public SSFlag         flagGet      (final SSFlagGetPar  par) throws Exception;
   public List<SSEntity> flagsGet     (final SSFlagsGetPar par) throws Exception;
-  public Boolean      flagsSet     (final SSFlagsSetPar par) throws Exception;
+  public Boolean        flagsSet     (final SSFlagsSetPar par) throws Exception;
 }
