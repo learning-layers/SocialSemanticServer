@@ -67,47 +67,33 @@ public class SSLabel extends SSEntityA{
     super(string);
   }
   
-  public static void addDistinctWithoutNull(
-    final List<SSLabel>     entities,
-    final SSLabel...        toAddEntities){
+  public static void addDistinctNotNull(
+    final List<SSLabel>  labels,
+    final List<SSLabel>  toAddLabels){
+
+    addDistinctNotNull(labels, toAddLabels.toArray(new SSLabel[toAddLabels.size()]));
+  }
+  
+  public static void addDistinctNotNull(
+    final List<SSLabel>     labels,
+    final SSLabel...        toAddLabels){
     
-    if(SSObjU.isNull  (entities, toAddEntities)){
+    if(SSObjU.isNull(labels, toAddLabels)){
       return;
     }
     
-    for(SSLabel entity : toAddEntities){
+    for(SSLabel label : toAddLabels){
       
-      if(entity == null){
-        continue;
-      }
-      
-      if(!SSStrU.contains(entities, entity)){
-        entities.add(entity);
+      if(
+        label != null &&
+        !labels.contains(label)){
+        
+        labels.add(label);
       }
     }
   }
   
-  public static void addDistinctWithoutNull(
-    final List<SSLabel>  entities,
-    final List<SSLabel>  toAddEntities){
-    
-    if(SSObjU.isNull(entities, toAddEntities)){
-      return;
-    }
-    
-    for(SSLabel entity : toAddEntities){
-      
-      if(entity == null){
-        continue;
-      }
-      
-      if(!SSStrU.contains(entities, entity)){
-        entities.add(entity);
-      }
-    }
-  }
-  
-  public static List<SSLabel> asListWithoutNull(final SSLabel... labels){
+  public static List<SSLabel> asListNotNull(final SSLabel... labels){
    
     final List<SSLabel> result = new ArrayList<>();
     
@@ -117,14 +103,11 @@ public class SSLabel extends SSEntityA{
     
     for(SSLabel label : labels){
       
-      if(label == null){
-        continue;
+      if(label != null){
+        result.add(label);
       }
-      
-      result.add(label);
     }
     
     return result;
   }
 }
-

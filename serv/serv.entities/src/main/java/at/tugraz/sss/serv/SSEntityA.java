@@ -20,8 +20,6 @@
 */
 package at.tugraz.sss.serv;
 
-import java.util.List;
-
 public abstract class SSEntityA implements SSJSONLDPropI{
   
   protected String val = null;
@@ -31,10 +29,10 @@ public abstract class SSEntityA implements SSJSONLDPropI{
     return val;
   }
   
-  protected SSEntityA(final Object value) throws Exception{
+  protected SSEntityA(final Object value) throws SSErr{
     
     if(value == null){
-      throw new Exception("entity cannot be created from null");
+      throw new SSErr(SSErrE.entityCreationFailedOnNull);
     }
     
     this.val = value.toString();

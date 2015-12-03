@@ -88,7 +88,7 @@ public class SSDiscEntryUpdatePar extends SSServPar{
     
     SSUri.addDistinctWithoutNull   (this.entitiesToRemove, entitiesToRemove);
     SSUri.addDistinctWithoutNull   (this.entitiesToAttach, entitiesToAttach);
-    SSLabel.addDistinctWithoutNull (this.entityLabels,     entityLabels);
+    SSLabel.addDistinctNotNull     (this.entityLabels,     entityLabels);
       
     this.withUserRestriction = withUserRestriction;
     this.shouldCommit        = shouldCommit;

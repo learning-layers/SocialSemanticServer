@@ -97,7 +97,7 @@ public class SSTagFrequsGetPar extends SSServPar{
     this.forUser = forUser;
     
     SSUri.addDistinctWithoutNull      (this.entities, entities);
-    SSTagLabel.addDistinctWithoutNull (this.labels,   labels);
+    SSTagLabel.addDistinctNotEmpty    (this.labels,   labels);
     SSSpaceE.addDistinctWithoutNull   (this.spaces,   spaces);
     SSUri.addDistinctWithoutNull      (this.circles,  circles);
     

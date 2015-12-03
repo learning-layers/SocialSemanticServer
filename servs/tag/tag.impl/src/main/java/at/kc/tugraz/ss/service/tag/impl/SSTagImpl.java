@@ -398,7 +398,7 @@ implements
         par.user, 
         SSUri.asListNotNull(par.entity), 
         SSUri.asListNotNull(tagURI), 
-        SSTagLabel.asListWithoutNullAndEmpty(par.label), 
+        SSTagLabel.asListNotEmpty(par.label), 
         par.shouldCommit);
     }
   }

@@ -78,7 +78,7 @@ public class SSCategoryServ extends SSServContainerI{
       ((SSCategoryServerI) this.serv()).categoriesPredefinedAdd(
         new SSCategoriesPredefinedAddPar(
           SSVocConf.systemUserUri, 
-          SSCategoryLabel.asListWithoutNullAndEmpty(SSCategoryLabel.get(((SSCategoryConf)conf).predefinedCategories)), 
+          SSCategoryLabel.asListNotEmpty(SSCategoryLabel.get(((SSCategoryConf) conf).predefinedCategories)), 
           true));
     }
   }

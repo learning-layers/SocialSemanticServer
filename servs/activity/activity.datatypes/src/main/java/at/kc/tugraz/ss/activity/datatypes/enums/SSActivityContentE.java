@@ -20,6 +20,8 @@
 */
 package at.kc.tugraz.ss.activity.datatypes.enums;
 
+import at.tugraz.sss.serv.SSErr;
+import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSJSONLDPropI;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarNames;
@@ -27,6 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public enum SSActivityContentE implements SSJSONLDPropI{
+  
   keyword, 
   text;
   
@@ -35,7 +38,7 @@ public enum SSActivityContentE implements SSJSONLDPropI{
     return SSVarNames.xsd + SSStrU.colon + SSStrU.valueString;
   }
   
-  public static SSActivityContentE get(final String contentType) throws Exception{
+  public static SSActivityContentE get(final String contentType) throws SSErr{
     
     try{
       
@@ -45,11 +48,11 @@ public enum SSActivityContentE implements SSJSONLDPropI{
       
       return SSActivityContentE.valueOf(contentType);
     }catch(Exception error){
-      throw new Exception("contentType invalid");
+      throw new SSErr(SSErrE.activityContentTypeInvalid, error.getMessage());
     }
   }
   
-  public static List<SSActivityContentE> get(final List<String> strings) throws Exception{
+  public static List<SSActivityContentE> get(final List<String> strings) throws SSErr{
 
     final List<SSActivityContentE> result = new ArrayList<>();
     

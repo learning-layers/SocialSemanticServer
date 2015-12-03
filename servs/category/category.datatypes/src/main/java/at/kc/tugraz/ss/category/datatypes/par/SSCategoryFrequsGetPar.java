@@ -95,7 +95,7 @@ public class SSCategoryFrequsGetPar extends SSServPar{
     this.forUser = forUser;
     
     SSUri.addDistinctWithoutNull           (this.entities, entities);
-    SSCategoryLabel.addDistinctWithoutNull (this.labels,   labels);
+    SSCategoryLabel.addDistinctNotEmpty    (this.labels,   labels);
     SSSpaceE.addDistinctWithoutNull        (this.spaces,   spaces);
     SSUri.addDistinctWithoutNull           (this.circles,  circles);
     

@@ -134,7 +134,7 @@ public class SSDiscEntryAddPar extends SSServPar{
     this.description = description;
 
     SSUri.addDistinctWithoutNull   (this.entities,     entities);
-    SSLabel.addDistinctWithoutNull (this.entityLabels, entityLabels);
+    SSLabel.addDistinctNotNull     (this.entityLabels, entityLabels);
     
     this.shouldCommit = shouldCommit;
   }

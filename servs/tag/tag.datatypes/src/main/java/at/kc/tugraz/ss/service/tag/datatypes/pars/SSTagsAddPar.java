@@ -83,8 +83,8 @@ public class SSTagsAddPar extends SSServPar{
     
     super(SSServOpE.tagsAdd, null, user);
     
-    SSTagLabel.addDistinctWithoutNull (this.labels,   labels);
-    SSUri.addDistinctWithoutNull      (this.entities, entities);
+    SSTagLabel.addDistinctNotEmpty (this.labels,   labels);
+    SSUri.addDistinctWithoutNull   (this.entities, entities);
 
     this.space               = space;
     this.circle              = circle;

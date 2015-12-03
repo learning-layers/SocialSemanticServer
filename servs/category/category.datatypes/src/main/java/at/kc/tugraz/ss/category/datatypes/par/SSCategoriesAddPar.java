@@ -83,7 +83,7 @@ public class SSCategoriesAddPar extends SSServPar{
     
     super(SSServOpE.categoriesAdd, null, user);
     
-    SSCategoryLabel.addDistinctWithoutNull(this.labels, labels);
+    SSCategoryLabel.addDistinctNotEmpty(this.labels, labels);
     
     this.entity              = entity;
     this.space               = space;

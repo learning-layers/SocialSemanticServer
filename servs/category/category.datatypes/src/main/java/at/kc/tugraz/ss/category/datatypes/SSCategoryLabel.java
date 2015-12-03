@@ -27,6 +27,11 @@ import java.util.List;
 
 public class SSCategoryLabel extends SSEntityA{
 
+  @Override
+  public Object jsonLDDesc() {
+    return SSVarNames.xsd + SSStrU.colon + SSStrU.valueString;
+  }
+  
   public static SSCategoryLabel get(
     final String string) throws Exception{
     
@@ -53,74 +58,51 @@ public class SSCategoryLabel extends SSEntityA{
     return result;
   }
   
-  public static void addDistinctWithoutNull(
-    final List<SSCategoryLabel>     entities,
-    final SSCategoryLabel           entity){
+  public static void addDistinctNotEmpty(
+    final List<SSCategoryLabel>     labels,
+    final SSCategoryLabel           label){
     
     if(
-      SSObjU.isNull  (entities, entity) ||
-      SSStrU.contains(entities, entity)){
+      SSStrU.isEmpty (labels, label) ||
+      labels.contains(label)){
+      return;
+    }
+
+    labels.add(label);
+  }
+  
+  public static void addDistinctNotEmpty(
+    final List<SSCategoryLabel>  labels,
+    final List<SSCategoryLabel>  toAddLabels){
+    
+    if(SSObjU.isNull(labels, toAddLabels)){
       return;
     }
     
-    entities.add(entity);
+    toAddLabels.stream().filter((label) -> (
+      !SSStrU.isEmpty (label) &&
+        !labels.contains(label))).forEach((label) -> {
+          labels.add(label);
+        });
   }
   
-  public static void addDistinctWithoutNull(
-    final List<SSCategoryLabel>  entities,
-    final List<SSCategoryLabel>  toAddEntities){
-    
-    if(SSObjU.isNull(entities, toAddEntities)){
-      return;
-    }
-    
-    for(SSCategoryLabel entity : toAddEntities){
-      
-      if(entity == null){
-        continue;
-      }
-      
-      if(!SSStrU.contains(entities, entity)){
-        entities.add(entity);
-      }
-    }
+  public static List<SSCategoryLabel> asListNotEmpty(final List<SSCategoryLabel> labels){
+    return asListNotEmpty(labels.toArray(new SSCategoryLabel[labels.size()]));
   }
   
-  public static List<SSCategoryLabel> asListWithoutNullAndEmpty(final SSCategoryLabel... categoryLabels){
+  public static List<SSCategoryLabel> asListNotEmpty(final SSCategoryLabel... labels){
    
     final List<SSCategoryLabel> result = new ArrayList<>();
     
-    if(categoryLabels == null){
+    if(labels == null){
       return result;
     }
     
-    for(SSCategoryLabel categoryLabel : categoryLabels){
+    for(SSCategoryLabel label : labels){
       
-      if(SSStrU.isEmpty(categoryLabel)){
-        continue;
+      if(!SSStrU.isEmpty(label)){
+        result.add(label);
       }
-      
-      result.add(categoryLabel);
-    }
-    
-    return result;
-  }
-  
-  public static List<SSCategoryLabel> asListWithoutNullAndEmpty(final List<SSCategoryLabel> categoryLabels){
-   
-    final List<SSCategoryLabel> result = new ArrayList<>();
-    
-    if(categoryLabels == null){
-      return result;
-    }
-    
-    for(SSCategoryLabel categoryLabel : categoryLabels){
-      
-      if(SSStrU.isEmpty(categoryLabel)){
-        continue;
-      }
-      
-      result.add(categoryLabel);
     }
     
     return result;
@@ -139,19 +121,20 @@ public class SSCategoryLabel extends SSEntityA{
     try{
       
 //previously replaced blanks with underlines automatically SSStrU.replaceAll(label, SSStrU.blank, SSStrU.underline);
-      
 //previously accepted only latin letters, numbers and underline return tmpLabel.replaceAll("[^a-zA-Z0-9_]+", SSStrU.empty);
       
       //accept unicode letters, blank, numbers, underline, hyphen
-      return label.replaceAll("[^\\p{L}\\p{Zs}0-9_-]+", SSStrU.empty);
       
+      final String tmpLabel = label.replaceAll("[^\\p{L}\\p{Zs}0-9_-]+", SSStrU.empty);
+      
+      if(SSStrU.isEmpty(tmpLabel)){
+        throw new SSErr(SSErrE.categoryLabelInvalid, tmpLabel);
+      }
+      
+      return tmpLabel;
     }catch(Exception error){
-      throw new Exception("category: " + label + "is not valid");
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
-  }
-  
-  @Override
-  public Object jsonLDDesc() {
-    return SSVarNames.xsd + SSStrU.colon + SSStrU.valueString;
   }
 }

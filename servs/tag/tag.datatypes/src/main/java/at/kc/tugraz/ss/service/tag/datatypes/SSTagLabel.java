@@ -22,12 +22,16 @@ package at.kc.tugraz.ss.service.tag.datatypes;
 
 import at.tugraz.sss.serv.*;
 import at.tugraz.sss.serv.SSEntityA;
-import at.kc.tugraz.ss.service.tag.datatypes.pars.err.SSTagInvalidTagErr;
 import java.util.ArrayList;
 import java.util.List;
 
 public class SSTagLabel extends SSEntityA{
 
+  @Override
+  public Object jsonLDDesc() {
+    return SSVarNames.xsd + SSStrU.colon + SSStrU.valueString;
+  }
+  
   public static SSTagLabel get(
     final String string) throws Exception{
     
@@ -54,77 +58,54 @@ public class SSTagLabel extends SSEntityA{
     return result;
   }
   
-  public static void addDistinctWithoutNull(
-    final List<SSTagLabel>     entities,
-    final SSTagLabel           entity){
+  public static void addDistinctNotEmpty(
+    final List<SSTagLabel>     labels,
+    final SSTagLabel           label){
     
     if(
-      SSObjU.isNull  (entities, entity) ||
-      SSStrU.contains(entities, entity)){
+      SSStrU.isEmpty (labels, label) ||
+      labels.contains(label)){
       return;
     }
     
-    entities.add(entity);
+    labels.add(label);
   }
   
-  public static void addDistinctWithoutNull(
-    final List<SSTagLabel>  entities,
-    final List<SSTagLabel>  toAddEntities){
+  public static void addDistinctNotEmpty(
+    final List<SSTagLabel>  labels,
+    final List<SSTagLabel>  toAddLabels){
     
-    if(SSObjU.isNull(entities, toAddEntities)){
+    if(SSObjU.isNull(labels, toAddLabels)){
       return;
     }
     
-    for(SSTagLabel entity : toAddEntities){
-      
-      if(entity == null){
-        continue;
-      }
-      
-      if(!SSStrU.contains(entities, entity)){
-        entities.add(entity);
-      }
-    }
+    toAddLabels.stream().filter((label) -> (
+      !SSStrU.isEmpty   (label) &&
+        !labels.contains(label))).forEach((label) -> {
+          labels.add(label);
+        });
   }
   
-  public static List<SSTagLabel> asListWithoutNullAndEmpty(final SSTagLabel... tagLabels){
+  public static List<SSTagLabel> asListNotEmpty(final SSTagLabel... labels){
    
     final List<SSTagLabel> result = new ArrayList<>();
     
-    if(tagLabels == null){
+    if(labels == null){
       return result;
     }
     
-    for(SSTagLabel tagLabel : tagLabels){
+    for(SSTagLabel label : labels){
       
-      if(SSStrU.isEmpty(tagLabel)){
-        continue;
+      if(!SSStrU.isEmpty(label)){
+        result.add(label);
       }
-      
-      result.add(tagLabel);
     }
     
     return result;
   }
 
-  public static List<SSTagLabel> asListWithoutNullAndEmpty(final List<SSTagLabel> tagLabels){
-   
-    final List<SSTagLabel> result = new ArrayList<>();
-    
-    if(tagLabels == null){
-      return result;
-    }
-    
-    for(SSTagLabel tagLabel : tagLabels){
-      
-      if(SSStrU.isEmpty(tagLabel)){
-        continue;
-      }
-      
-      result.add(tagLabel);
-    }
-    
-    return result;
+  public static List<SSTagLabel> asListNotEmpty(final List<SSTagLabel> labels){
+    return asListNotEmpty(labels.toArray(new SSTagLabel[labels.size()]));
   }
   
   protected SSTagLabel(final String label) throws Exception{
@@ -140,20 +121,20 @@ public class SSTagLabel extends SSEntityA{
     try{
       
 //previously replaced blanks with underlines automatically SSStrU.replaceAll(label, SSStrU.blank, SSStrU.underline);
-      
 //previously accepted only latin letters, numbers and underline return tmpLabel.replaceAll("[^a-zA-Z0-9_]+", SSStrU.empty);
       
       //accept unicode letters, blank, numbers, underline, hyphen
-      return label.replaceAll("[^\\p{L}\\p{Zs}0-9_-]+", SSStrU.empty);
+      final String tmpLabel = label.replaceAll("[^\\p{L}\\p{Zs}0-9_-]+", SSStrU.empty);
       
+      if(SSStrU.isEmpty(tmpLabel)){
+        throw new SSErr(SSErrE.tagLabelInvalid, tmpLabel);
+      }
+      
+      return tmpLabel;
     }catch(Exception error){
-      throw new SSTagInvalidTagErr("tag: " + label + "is not valid");
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
-  }
-  
-  @Override
-  public Object jsonLDDesc() {
-    return SSVarNames.xsd + SSStrU.colon + SSStrU.valueString;
   }
 }
 

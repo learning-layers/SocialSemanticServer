@@ -70,9 +70,9 @@ public class SSCollUserEntriesAddPar extends SSServPar{
     
     super(SSServOpE.collEntriesAdd, null, user);
     
-    this.coll           = coll;
+    this.coll = coll;
     
     SSUri.addDistinctWithoutNull  (this.entries, entries);
-    SSLabel.addDistinctWithoutNull(this.labels,  labels);
+    SSLabel.addDistinctNotNull    (this.labels,  labels);
   }
 }

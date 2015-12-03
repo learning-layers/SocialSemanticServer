@@ -93,7 +93,7 @@ public class SSVideoAnnotationsSetPar extends SSServPar{
       this.y.addAll(y);
     }
     
-    SSLabel.addDistinctWithoutNull       (this.labels, labels);
+    SSLabel.addDistinctNotNull           (this.labels, labels);
     SSTextComment.addDistinctWithoutNull (this.descriptions, descriptions);
     
     this.removeExisting      = removeExisting;

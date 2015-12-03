@@ -601,12 +601,12 @@ public class SSEvalLogAnalyzer {
           return; 
         }
         
-        SSLabel.addDistinctWithoutNull(info.contributors, disc.author.label);
+        SSLabel.addDistinctNotNull(info.contributors, disc.author.label);
         
         for(SSEntity entry : disc.entries){
           
           if(!SSStrU.equals(entry.author.label, logEntry.userLabel)){
-            SSLabel.addDistinctWithoutNull(info.contributors, entry.author.label);
+            SSLabel.addDistinctNotNull(info.contributors, entry.author.label);
           }
         }
           
@@ -843,7 +843,7 @@ public class SSEvalLogAnalyzer {
       
       removeIgnoredUsers(logEntry.userLabels);
       
-      SSLabel.addDistinctWithoutNull(shareInfo.targetUsers, logEntry.userLabels);
+      SSLabel.addDistinctNotNull(shareInfo.targetUsers, logEntry.userLabels);
       
       userInfo.sharedEpisodeInfos.add(shareInfo);
       

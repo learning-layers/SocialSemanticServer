@@ -22,6 +22,18 @@ package at.tugraz.sss.serv;
 
 public enum SSErrE{
 
+  //tag
+  tagLabelInvalid,
+  
+  //category
+  categoryLabelInvalid, 
+  
+  //entity
+  entityCreationFailedOnNull,
+  
+  //activity
+  activityContentTypeInvalid,
+  
   //collection
   cannotSetSpecialCollectionPublic,
   cannotShareSpecialCollection,

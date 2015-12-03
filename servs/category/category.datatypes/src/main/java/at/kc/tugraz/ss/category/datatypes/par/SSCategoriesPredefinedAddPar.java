@@ -49,7 +49,7 @@ public class SSCategoriesPredefinedAddPar extends SSServPar{
     
     super(SSServOpE.categoriesPredefinedAdd, null, user);
     
-    SSCategoryLabel.addDistinctWithoutNull(this.labels, labels);
+    SSCategoryLabel.addDistinctNotEmpty(this.labels, labels);
     
     this.shouldCommit = shouldCommit;
   }

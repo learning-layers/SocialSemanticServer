@@ -76,7 +76,6 @@ import at.tugraz.sss.serv.SSToolContextE;
 import at.tugraz.sss.servs.kcprojwiki.datatype.SSKCProjWikiProject;
 import at.tugraz.sss.servs.kcprojwiki.datatype.SSKCProjWikiVorgang;
 import at.tugraz.sss.servs.kcprojwiki.datatype.SSKCProjWikiVorgangEmployeeResource;
-import java.util.Date;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import sss.serv.eval.api.SSEvalServerI;
 import sss.serv.eval.datatypes.SSEvalLogE;
@@ -508,7 +507,7 @@ implements
         ((SSCategoryServerI) SSServReg.getServ(SSCategoryServerI.class)).categoriesAdd(
           new SSCategoriesAddPar(
             authorUri,
-            SSCategoryLabel.asListWithoutNullAndEmpty(SSCategoryLabel.get(categoryLabels)),
+            SSCategoryLabel.asListNotEmpty(SSCategoryLabel.get(categoryLabels)),
             video.id,
             SSSpaceE.sharedSpace,
             null, //circle

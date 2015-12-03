@@ -105,8 +105,8 @@ public class SSTagsGetPar extends SSServPar{
     
     this.forUser    = forUser;
     
-    SSUri.addDistinctWithoutNull      (this.entities, entities);
-    SSTagLabel.addDistinctWithoutNull (this.labels,   labels);
+    SSUri.addDistinctWithoutNull   (this.entities, entities);
+    SSTagLabel.addDistinctNotEmpty (this.labels,   labels);
     
     if(labelSearchOp != null){
       this.labelSearchOp = labelSearchOp;
