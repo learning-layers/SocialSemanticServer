@@ -73,7 +73,7 @@ public abstract class SSServImplStartA extends SSServImplA implements Runnable{
       SSServErrReg.regErr(error);
 //      SSLogU.err(error);
     }finally{
-      SSServErrReg.logServImplErrors();
+      SSServErrReg.logAndReset(true);
     }
   }
   

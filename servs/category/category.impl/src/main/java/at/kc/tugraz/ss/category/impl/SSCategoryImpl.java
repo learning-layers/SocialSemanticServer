@@ -709,7 +709,7 @@ implements
           return categoriesRemove(par);
         }else{
           SSServErrReg.regErrThrow(error);
-          return null;
+          return false;
         }
       }
       

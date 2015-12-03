@@ -242,7 +242,7 @@ implements
         par.entity,
         SSStrU.toCommaSeparatedStrNotNull(par.categories),  //content
         null, //entities, 
-SSUri.asListNotNull(par.forUser), //users, 
+        SSUri.asListNotNull(par.forUser), //users, 
         par.shouldCommit));
     
     final List<SSTagLikelihood> result = recommTags(par);

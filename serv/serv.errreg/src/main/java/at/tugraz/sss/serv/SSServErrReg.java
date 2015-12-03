@@ -25,10 +25,10 @@ import java.util.List;
 
 public class SSServErrReg {
   
-  private static final ThreadLocal<List<SSErrForClient>> servImplErrors  = new ThreadLocal<List<SSErrForClient>>(){
+  private static final ThreadLocal<List<SSErrForClient>> servImplErrors = new ThreadLocal<List<SSErrForClient>>(){
     
     @Override
-    protected List<SSErrForClient> initialValue() {
+    protected List<SSErrForClient> initialValue(){
       
       try{
         return new ArrayList<>();
@@ -41,28 +41,18 @@ public class SSServErrReg {
   
   public static Boolean containsErr(final SSErrE code){
     
-    for(SSErrForClient error : servImplErrors.get()){
-      
-      if(
-        error.exception.getClass() == SSErr.class &&
-        SSStrU.equals(((SSErr)error.exception).code, code)){
-        return true;
-      }
-    }
-    
-    return false;
+    return servImplErrors.get().stream().anyMatch((error) ->
+      (error.exception.getClass() == SSErr.class &&
+        SSStrU.equals(((SSErr) error.exception).code, code)));
   }
   
-  public static Boolean containsErr(final Class errClass){
+  public static Boolean containsErr(final Exception exception){
     
-    for(SSErrForClient error : servImplErrors.get()){
-      
-      if(error.exception.getClass() == errClass){
-        return true;
-      }
+    if(exception instanceof SSErr){
+      return containsErr(((SSErr) exception).code);
     }
     
-    return false;
+    return servImplErrors.get().stream().anyMatch((error) -> (error.exception.getClass() == exception.getClass()));
   }
   
   public static List<SSErrForClient> getServiceImplErrors(){
@@ -71,16 +61,49 @@ public class SSServErrReg {
   
   public static void regErr(final Exception error){
     
-    if(error == null){
-      SSLogU.err(new Exception("error null"));
-      return;
+    try{
+      
+      if(error == null){
+        SSLogU.err(new Exception("error null"));
+        return;
+      }
+      
+      if(!SSStrU.contains(servImplErrors.get(), error)){
+        SSLogU.err(error);
+      }
+      
+      servImplErrors.get().add(SSErrForClient.get(error));
+      
+    }catch(Exception error1){
+      
+      SSLogU.err(error1);
+      
+      try{
+        servImplErrors.get().add(SSErrForClient.get(error1));
+      }catch(Exception error2){
+        SSLogU.err(error2);
+      }
     }
-    
-    if(!SSStrU.contains(servImplErrors.get(), error)){
-      SSLogU.err(error);
-    }
+  }
+  
+  public static void regErr(
+    final Exception error, 
+    final Boolean   log){
     
     try{
+      
+      if(error == null){
+        SSLogU.err(new Exception("error null"));
+        return;
+      }
+      
+      if(
+        log &&
+        !SSStrU.contains(servImplErrors.get(), error)){
+        
+        SSLogU.err(error);
+      }
+      
       servImplErrors.get().add(SSErrForClient.get(error));
     }catch(Exception error1){
       
@@ -94,43 +117,21 @@ public class SSServErrReg {
     }
   }
   
-  public static void regErr(final Exception error, final Boolean log){
-    
-    if(error == null){
-      SSLogU.err(new Exception("error null"));
-      return;
-    }
-    
-    if(log){
-      SSLogU.err(error);
-    }
+  public static void regErr(
+    final Exception error, 
+    final String    logText){
     
     try{
-      servImplErrors.get().add(SSErrForClient.get(error));
-    }catch(Exception error1){
       
-      SSLogU.err(error1);
-      
-      try{
-        servImplErrors.get().add(SSErrForClient.get(error1));
-      }catch(Exception error2){
-        SSLogU.err(error2);
+      if(error == null){
+        SSLogU.err(new Exception("error null"));
+        return;
       }
-    }
-  }
-  
-  public static void regErr(final Exception error, final String logText){
-    
-    if(error == null){
-      SSLogU.err(new Exception("error null"));
-      return;
-    }
-    
-    if(!containsErr(error.getClass())){
-      SSLogU.err(error, logText);
-    }
-    
-    try{
+      
+      if(!containsErr(error)){
+        SSLogU.err(error, logText);
+      }
+      
       servImplErrors.get().add(SSErrForClient.get(error));
     }catch(Exception error1){
       
@@ -146,18 +147,22 @@ public class SSServErrReg {
   
   public static void regErrThrow(
     final Exception error,
-    final Boolean   logErr) throws Exception{
-    
-    if(error == null){
-      SSLogU.err(new Exception("error null"));
-      return;
-    }
-    
-    if(logErr){
-      SSLogU.err(error);
-    }
+    final Boolean   log) throws Exception{
     
     try{
+      
+      if(error == null){
+        SSLogU.err(new Exception("error null"));
+        return;
+      }
+      
+      if(
+        log &&
+        !containsErr(error)){
+        
+        SSLogU.err(error);
+      }
+      
       servImplErrors.get().add(SSErrForClient.get(error));
     }catch(Exception error1){
       
@@ -175,16 +180,16 @@ public class SSServErrReg {
   
   public static void regErrThrow(final Exception error) throws Exception{
     
-    if(error == null){
-      SSLogU.err(new Exception("error null"));
-      return;
-    }
-    
-    if(!containsErr(error.getClass())){
-      SSLogU.err(error);
-    }
-    
     try{
+      
+      if(error == null){
+        SSLogU.err(new Exception("error null"));
+      }
+      
+      if(!containsErr(error)){
+        SSLogU.err(error);
+      }
+      
       servImplErrors.get().add(SSErrForClient.get(error));
     }catch(Exception error1){
       
@@ -200,7 +205,7 @@ public class SSServErrReg {
     throw error;
   }
   
-  public static void logServImplErrors(final Boolean log){
+  public static void logAndReset(final Boolean log){
     
     if(!log){
       
@@ -208,32 +213,15 @@ public class SSServErrReg {
       return;
     }
     
-    for(SSErrForClient error : servImplErrors.get()){
-      
+    servImplErrors.get().stream().forEach((error) -> {
       SSLogU.err(
-        error.threadWhereThrown + SSStrU.blank   +
-          error.classWhereThrown  + SSStrU.blank   +
-          error.methodWhereThrown + SSStrU.blank   +
-          error.lineWhereThrown   + SSStrU.blank   +
-          error.className         + SSStrU.blank   +
-          error.message);
-    }
-    
-    reset();
-  }
-  
-  public static void logServImplErrors(){
-    
-    for(SSErrForClient error : servImplErrors.get()){
-      
-      SSLogU.err(
-        error.threadWhereThrown + SSStrU.blank   +
-          error.classWhereThrown  + SSStrU.blank   +
-          error.methodWhereThrown + SSStrU.blank   +
-          error.lineWhereThrown   + SSStrU.blank   +
-          error.className         + SSStrU.blank   +
-          error.message);
-    }
+        error.threadWhereThrown + SSStrU.blank
+          +  error.classWhereThrown  + SSStrU.blank
+          +  error.methodWhereThrown + SSStrU.blank
+          +  error.lineWhereThrown   + SSStrU.blank
+          +  error.className         + SSStrU.blank
+          +  error.message);
+    });
     
     reset();
   }

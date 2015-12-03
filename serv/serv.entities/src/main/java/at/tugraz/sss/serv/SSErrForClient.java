@@ -20,8 +20,6 @@
 */
 package at.tugraz.sss.serv;
 
-import at.tugraz.sss.serv.SSErr;
-import at.tugraz.sss.serv.SSStrU;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,7 +47,7 @@ public class SSErrForClient extends Exception{
     }
     
     if(error instanceof SSErr){
-      this.id        = ((SSErr)error).code.toString();
+      this.id        = ((SSErr) error).code.toString();
     }else{
       this.id        = null;
     }
