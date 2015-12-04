@@ -49,8 +49,8 @@ public class SSCircleGetPar extends SSServPar{
     return SSStrU.removeTrailingSlash(circle);
   }
   
-  public void setEntityTypesToIncludeOnly(final List<String> entityTypesToIncludeOnly){
-    try{ this.entityTypesToIncludeOnly = SSEntityE.get(entityTypesToIncludeOnly); }catch(Exception error){}
+  public void setEntityTypesToIncludeOnly(final List<String> entityTypesToIncludeOnly) throws Exception{
+    this.entityTypesToIncludeOnly = SSEntityE.get(entityTypesToIncludeOnly); 
   }
   
   public List<String> getEntityTypesToIncludeOnly() throws Exception{
@@ -76,7 +76,7 @@ public class SSCircleGetPar extends SSServPar{
     final Boolean         setEntities,
     final Boolean         setUsers,
     final Boolean         withUserRestriction,
-    final Boolean         invokeEntityHandlers) throws Exception{
+    final Boolean         invokeEntityHandlers){
     
     super(SSServOpE.circleGet, null, user);
 

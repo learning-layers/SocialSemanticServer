@@ -22,7 +22,6 @@ package at.kc.tugraz.ss.conf.conf;
 
 import sss.serv.eval.conf.SSEvalConf;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
-import at.kc.tugraz.ss.serv.modeling.ue.conf.SSModelUEConf;
 import at.kc.tugraz.ss.serv.auth.conf.SSAuthConf;
 import at.kc.tugraz.socialserver.service.broadcast.conf.SSBroadcasterConf;
 import at.kc.tugraz.ss.activity.conf.SSActivityConf;
@@ -74,7 +73,6 @@ public class SSCoreConf extends SSCoreConfA {
   private SSJSONLDConf jsonLD = null;
   private SSDBSQLConf dbSQL = null;
   private SSDBNoSQLConf dbNoSQL = null;
-  private SSModelUEConf model = null;
   private SSFileRepoConf filerepo = null;
   private SSVocConf voc = null;
   private SSBroadcasterConf broadcaster = null;
@@ -153,7 +151,6 @@ public class SSCoreConf extends SSCoreConfA {
       copy.sss = SSConf.copy(inst.sss);
       copy.jsonLD = SSJSONLDConf.copy(inst.jsonLD);
       copy.dbSQL = SSDBSQLConf.copy(inst.dbSQL);
-      copy.model = SSModelUEConf.copy(inst.model);
       copy.filerepo = SSFileRepoConf.copy(inst.filerepo);
       copy.voc = SSVocConf.copy(inst.voc);
       copy.broadcaster = SSBroadcasterConf.copy(inst.broadcaster);
@@ -230,14 +227,6 @@ public class SSCoreConf extends SSCoreConfA {
   
   public void setDbNoSQL(SSDBNoSQLConf dbNoSQL) {
     this.dbNoSQL = dbNoSQL;
-  }
-  
-  public SSModelUEConf getModel() {
-    return model;
-  }
-  
-  public void setModel(SSModelUEConf model) {
-    this.model = model;
   }
   
   public SSFileRepoConf getFilerepo() {

@@ -43,7 +43,6 @@ import at.kc.tugraz.ss.serv.datatypes.entity.serv.SSEntityServ;
 import at.kc.tugraz.ss.serv.datatypes.learnep.serv.SSLearnEpServ;
 import at.kc.tugraz.ss.serv.jobs.evernote.serv.SSEvernoteServ;
 import at.tugraz.sss.serv.SSJSONLDU;
-import at.kc.tugraz.ss.serv.modeling.ue.serv.SSModelUEServ;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.tugraz.sss.serv.SSServImplStartA;
 import at.kc.tugraz.ss.service.broadcast.service.SSBroadcasterServ;
@@ -122,7 +121,6 @@ public class SSSInitializer extends SSServImplStartA{
         SSActivityServ.inst.regServ        ();
         SSSearchServ.inst.regServ          ();
         SSDataExportServ.inst.regServ      ();
-        SSModelUEServ.inst.regServ         ();
         SSBroadcasterServ.inst.regServ     ();
         SSRecommServ.inst.regServ          ();
         SSI5CloudServ.inst.regServ         ();
@@ -154,7 +152,6 @@ public class SSSInitializer extends SSServImplStartA{
         SSCircleServ.inst.initServ();
         SSDataImportServ.inst.initServ();
         SSCategoryServ.inst.initServ();
-        SSModelUEServ.inst.initServ();
         SSRecommServ.inst.initServ();
       }catch(Exception error1){
         SSServErrReg.regErr(error1);
@@ -174,7 +171,6 @@ public class SSSInitializer extends SSServImplStartA{
         SSLearnEpServ.inst.schedule        ();
         SSBroadcasterServ.inst.schedule    ();
         SSDataImportServ.inst.schedule     ();
-        SSModelUEServ.inst.schedule        ();
         SSRecommServ.inst.schedule         ();
         SSKCProjWikiServ.inst.schedule     ();
         SSEvalServ.inst.schedule           ();

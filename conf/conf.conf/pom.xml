@@ -242,12 +242,6 @@
     
     <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>modeling.ue.conf</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>sss.servs</groupId>
       <artifactId>voc.conf</artifactId>
       <version>${project.version}</version>
     </dependency>

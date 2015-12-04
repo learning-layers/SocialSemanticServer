@@ -16,7 +16,6 @@
     <module>jsonld</module>
     <module>filerepo</module>
     <module>broadcast</module>
-    <module>modeling</module>
     <module>search</module>
     <module>auth</module>
     <module>dataimport</module>

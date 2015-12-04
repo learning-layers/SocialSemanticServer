@@ -151,7 +151,7 @@
   </build>
   
   <properties>
-    <ssVersion>8.2.4-alpha</ssVersion>
+    <sssVersion>11.10.0-alpha</sssVersion>
     <ssSwaggerVersion>1.3.12</ssSwaggerVersion>
     <ssSwaggerMavenPluginVersion>2.3.4</ssSwaggerMavenPluginVersion>
     <ssLog4JVersion>1.2.17</ssLog4JVersion>

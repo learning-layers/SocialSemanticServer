@@ -80,12 +80,6 @@
 
     <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>modeling.ue.datatypes</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>sss.servs</groupId>
       <artifactId>search.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>

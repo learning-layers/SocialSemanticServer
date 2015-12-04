@@ -35,6 +35,7 @@ import at.kc.tugraz.ss.recomm.conf.SSRecommConf;
 import at.kc.tugraz.ss.recomm.datatypes.SSRecommUserRealmEngine;
 import at.kc.tugraz.ss.recomm.datatypes.SSResourceLikelihood;
 import at.kc.tugraz.ss.recomm.datatypes.SSUserLikelihood;
+import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommLoadUserRealmsPar;
 import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommResourcesPar;
 import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommTagsPar;
 import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommUpdateBulkEntitiesPar;
@@ -76,6 +77,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import at.tugraz.sss.serv.SSErrE;
+import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSToolContextE;
@@ -289,6 +291,9 @@ implements
         realmToUse = realmStr.substring(realmStr.lastIndexOf(SSStrU.slash) + 1, realmStr.length());
         
       }catch(Exception error){
+        
+        SSLogU.warn("realm " + par.realm + " invalid; set to default", error);
+        
         realmToUse = par.realm;
       }
       
@@ -510,7 +515,7 @@ implements
   }
   
   @Override
-  public void recommLoadUserRealms (final SSServPar parA) throws Exception{
+  public void recommLoadUserRealms (final SSRecommLoadUserRealmsPar par) throws Exception{
     
     try{
       
@@ -795,15 +800,15 @@ implements
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSRecommUpdateRet.get(recommUpdate(parA), parA.op));
+    final SSRecommUpdatePar par = (SSRecommUpdatePar) parA.getFromJSON(SSRecommUpdatePar.class);
+    
+    sSCon.writeRetFullToClient(SSRecommUpdateRet.get(recommUpdate(par), parA.op));
   }
   
   @Override
-  public Boolean recommUpdate(final SSServPar parA) throws Exception{
+  public Boolean recommUpdate(final SSRecommUpdatePar par) throws Exception{
     
     try{
-      
-      final SSRecommUpdatePar par = new SSRecommUpdatePar(parA);
       
       dbSQL.startTrans(par.shouldCommit);
       
@@ -834,18 +839,18 @@ implements
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(dbSQL.rollBack(parA.shouldCommit)){
+        if(dbSQL.rollBack(par.shouldCommit)){
           
           SSServErrReg.reset();
           
-          return recommUpdate(parA);
+          return recommUpdate(par);
         }else{
           SSServErrReg.regErrThrow(error);
           return false;
         }
       }
       
-      dbSQL.rollBack(parA.shouldCommit);
+      dbSQL.rollBack(par.shouldCommit);
       SSServErrReg.regErrThrow(error);
       return false;
     }
@@ -856,16 +861,16 @@ implements
     
     SSServCallerU.checkKey(parA);
     
-    sSCon.writeRetFullToClient(SSRecommUpdateRet.get(recommUpdateBulkEntities(parA), parA.op));
+    final SSRecommUpdateBulkEntitiesPar par = (SSRecommUpdateBulkEntitiesPar) parA.getFromJSON(SSRecommUpdateBulkEntitiesPar.class);
+    
+    sSCon.writeRetFullToClient(SSRecommUpdateRet.get(recommUpdateBulkEntities(par), parA.op));
   }
   
   @Override
-  public Boolean recommUpdateBulkEntities(final SSServPar parA) throws Exception{
+  public Boolean recommUpdateBulkEntities(final SSRecommUpdateBulkEntitiesPar par) throws Exception{
     
     try{
       
-      final SSRecommUpdateBulkEntitiesPar par = new SSRecommUpdateBulkEntitiesPar(parA);
-
       List<String> tags;
       List<String> categories;
       
@@ -927,18 +932,18 @@ implements
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(dbSQL.rollBack(parA.shouldCommit)){
+        if(dbSQL.rollBack(par.shouldCommit)){
           
           SSServErrReg.reset();
           
-          return recommUpdateBulkEntities(parA);
+          return recommUpdateBulkEntities(par);
         }else{
           SSServErrReg.regErrThrow(error);
           return false;
         }
       }
       
-      dbSQL.rollBack(parA.shouldCommit);
+      dbSQL.rollBack(par.shouldCommit);
       SSServErrReg.regErrThrow(error);
       return false;
     }

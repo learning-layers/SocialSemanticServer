@@ -22,13 +22,10 @@ package at.kc.tugraz.ss.recomm.datatypes.par;
 
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServErrReg;
 import java.util.ArrayList;
 import java.util.List;
-import org.codehaus.jackson.JsonNode;
 
 public class SSRecommUpdatePar extends SSServPar{
   
@@ -37,6 +34,14 @@ public class SSRecommUpdatePar extends SSServPar{
   public SSUri          entity      = null;
   public List<String>   tags        = new ArrayList<>();
   public List<String>   categories  = new ArrayList<>();
+  
+  public String getForUser(){
+    return SSStrU.removeTrailingSlash(forUser);
+  }
+  
+  public String getEntity(){
+    return SSStrU.removeTrailingSlash(entity);
+  }
   
   public SSRecommUpdatePar(
     final SSUri               user,
@@ -52,58 +57,7 @@ public class SSRecommUpdatePar extends SSServPar{
     this.forUser = forUser;
     this.entity  = entity;
     
-    if(tags != null){
-      this.tags.addAll(tags);
-    }
-    
-    if(categories != null){
-      this.categories.addAll(categories);
-    }
-  }
-   
-  public SSRecommUpdatePar(final SSServPar par) throws Exception{
-    
-    super(par);
-    
-    try{
-      
-      if(pars != null){
-        realm       = (String)       pars.get(SSVarNames.realm);
-        forUser     = (SSUri)        pars.get(SSVarNames.forUser);
-        entity      = (SSUri)        pars.get(SSVarNames.entity);
-        tags        = (List<String>) pars.get(SSVarNames.tags);
-        categories  = (List<String>) pars.get(SSVarNames.categories);
-      }
-      
-      if(par.clientJSONObj != null){
-        
-        realm      = par.clientJSONObj.get(SSVarNames.realm).getTextValue();
-        forUser    = SSUri.get  (par.clientJSONObj.get(SSVarNames.forUser).getTextValue());
-        entity     = SSUri.get  (par.clientJSONObj.get(SSVarNames.entity).getTextValue());
-        
-        try{
-          for (final JsonNode objNode : par.clientJSONObj.get(SSVarNames.tags)) {
-            tags.add(objNode.getTextValue());
-          }
-        }catch(Exception error){}
-        
-        try{
-          for (final JsonNode objNode : par.clientJSONObj.get(SSVarNames.categories)) {
-            categories.add(objNode.getTextValue());
-          }
-        }catch(Exception error){}
-      }   
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
-  /* json getters */
-  public String getForUser(){
-    return SSStrU.removeTrailingSlash(forUser);
-  }
-  
-  public String getEntity(){
-    return SSStrU.removeTrailingSlash(entity);
+    SSStrU.addDistinctNotNull(this.tags,       tags);
+    SSStrU.addDistinctNotNull(this.categories, categories);
   }
 }
