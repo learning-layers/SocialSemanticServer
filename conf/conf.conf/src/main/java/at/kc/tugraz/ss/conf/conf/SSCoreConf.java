@@ -23,7 +23,6 @@ package at.kc.tugraz.ss.conf.conf;
 import sss.serv.eval.conf.SSEvalConf;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.kc.tugraz.ss.serv.auth.conf.SSAuthConf;
-import at.kc.tugraz.socialserver.service.broadcast.conf.SSBroadcasterConf;
 import at.kc.tugraz.ss.activity.conf.SSActivityConf;
 import at.kc.tugraz.ss.category.conf.SSCategoryConf;
 import at.kc.tugraz.ss.circle.conf.SSCircleConf;
@@ -75,7 +74,6 @@ public class SSCoreConf extends SSCoreConfA {
   private SSDBNoSQLConf dbNoSQL = null;
   private SSFileRepoConf filerepo = null;
   private SSVocConf voc = null;
-  private SSBroadcasterConf broadcaster = null;
   private SSRecommConf recomm = null;
   private SSEvernoteConf evernote = null;
   private SSI5CloudConf i5Cloud = null;
@@ -153,7 +151,6 @@ public class SSCoreConf extends SSCoreConfA {
       copy.dbSQL = SSDBSQLConf.copy(inst.dbSQL);
       copy.filerepo = SSFileRepoConf.copy(inst.filerepo);
       copy.voc = SSVocConf.copy(inst.voc);
-      copy.broadcaster = SSBroadcasterConf.copy(inst.broadcaster);
       copy.recomm = SSRecommConf.copy(inst.recomm);
       copy.evernote = SSEvernoteConf.copy(inst.evernote);
       copy.i5Cloud = SSI5CloudConf.copy(inst.i5Cloud);
@@ -243,14 +240,6 @@ public class SSCoreConf extends SSCoreConfA {
   
   public void setVoc(SSVocConf voc) {
     this.voc = voc;
-  }
-  
-  public SSBroadcasterConf getBroadcaster() {
-    return broadcaster;
-  }
-  
-  public void setBroadcaster(SSBroadcasterConf broadcaster) {
-    this.broadcaster = broadcaster;
   }
   
   public SSRecommConf getRecomm() {

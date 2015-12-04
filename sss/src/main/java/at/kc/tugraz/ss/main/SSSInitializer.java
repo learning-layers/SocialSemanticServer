@@ -45,7 +45,6 @@ import at.kc.tugraz.ss.serv.jobs.evernote.serv.SSEvernoteServ;
 import at.tugraz.sss.serv.SSJSONLDU;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.tugraz.sss.serv.SSServImplStartA;
-import at.kc.tugraz.ss.service.broadcast.service.SSBroadcasterServ;
 import at.kc.tugraz.ss.service.coll.service.SSCollServ;
 import at.kc.tugraz.ss.service.disc.service.SSDiscServ;
 import at.kc.tugraz.ss.service.filerepo.service.SSFilerepoServ;
@@ -121,7 +120,6 @@ public class SSSInitializer extends SSServImplStartA{
         SSActivityServ.inst.regServ        ();
         SSSearchServ.inst.regServ          ();
         SSDataExportServ.inst.regServ      ();
-        SSBroadcasterServ.inst.regServ     ();
         SSRecommServ.inst.regServ          ();
         SSI5CloudServ.inst.regServ         ();
         SSCloudServ.inst.regServ           ();
@@ -169,7 +167,6 @@ public class SSSInitializer extends SSServImplStartA{
         SSEntityServ.inst.schedule         ();
         SSSearchServ.inst.schedule         ();
         SSLearnEpServ.inst.schedule        ();
-        SSBroadcasterServ.inst.schedule    ();
         SSDataImportServ.inst.schedule     ();
         SSRecommServ.inst.schedule         ();
         SSKCProjWikiServ.inst.schedule     ();

@@ -22,6 +22,9 @@ package at.tugraz.sss.serv;
 
 public enum SSErrE{
 
+  //default
+  defaultErr,
+  
   //tag
   tagLabelInvalid,
   

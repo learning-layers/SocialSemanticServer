@@ -77,12 +77,10 @@ public class SSMain{
 //    
 //    try{
 //      mBeanServer.registerMBean(SSMainConf.inst().getLogConf(),           new ObjectName("SS:log=conflog"));
-//      mBeanServer.registerMBean(SSMainConf.inst().getModelConf(),         new ObjectName("SS:conf=confmodel"));
 //      mBeanServer.registerMBean(SSMainConf.inst().getsSConf(),            new ObjectName("SS:conf=confss"));
 //      mBeanServer.registerMBean(SSMainConf.inst().getDbGraphConf(),       new ObjectName("SS:conf=confts"));
 //      mBeanServer.registerMBean(SSMainConf.inst().getFilerepoConf(),      new ObjectName("SS:conf=confrepo"));
 //      mBeanServer.registerMBean(SSMainConf.inst().getSolrConf(),          new ObjectName("SS:conf=confsolr"));
-//      mBeanServer.registerMBean(SSMainConf.inst().getBroadcasterConf(),   new ObjectName("SS:conf=confbroadcaster"));
 //      mBeanServer.registerMBean(SSMainConf.inst().getAuthConf(),          new ObjectName("SS:conf=confauth"));
 //      mBeanServer.registerMBean(SSMainConf.inst().getLomExtractorConf(),  new ObjectName("SS:conf=conflomextractor"));
 //    }catch (Exception error){

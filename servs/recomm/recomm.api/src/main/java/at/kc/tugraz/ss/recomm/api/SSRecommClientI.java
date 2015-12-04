@@ -20,14 +20,15 @@
 */
 package at.kc.tugraz.ss.recomm.api;
 
+import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSSocketCon;
 import at.tugraz.sss.serv.SSServPar;
 
 public interface SSRecommClientI{
-  public void recommTags               (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void recommResources          (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void recommUsers              (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void recommUpdateBulk         (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void recommUpdate             (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void recommUpdateBulkEntities (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public void recommTags               (final SSSocketCon sSCon, final SSServPar parA) throws SSErr;
+  public void recommResources          (final SSSocketCon sSCon, final SSServPar parA) throws SSErr;
+  public void recommUsers              (final SSSocketCon sSCon, final SSServPar parA) throws SSErr;
+  public void recommUpdateBulk         (final SSSocketCon sSCon, final SSServPar parA) throws SSErr;
+  public void recommUpdate             (final SSSocketCon sSCon, final SSServPar parA) throws SSErr;
+  public void recommUpdateBulkEntities (final SSSocketCon sSCon, final SSServPar parA) throws SSErr;
 }

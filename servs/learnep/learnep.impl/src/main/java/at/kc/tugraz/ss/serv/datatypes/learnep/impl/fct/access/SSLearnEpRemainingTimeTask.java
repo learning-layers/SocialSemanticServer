@@ -20,7 +20,6 @@
   */
 package at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.access;
 
-import at.kc.tugraz.socialserver.service.broadcast.datatypes.enums.SSBroadcastEnum;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpLockRemovePar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.impl.SSLearnEpImpl;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
@@ -66,15 +65,7 @@ public class SSLearnEpRemainingTimeTask extends TimerTask {
           
           remainingTime = SSLearnEpAccessController.getRemainingTime(SSUri.get(learnEp));
             
-          if(remainingTime > 0){
-            
-            SSServCaller.broadcastAdd(
-              null,
-              SSUri.get(learnEp),
-              SSBroadcastEnum.learnEpRemainingLockTime,
-              remainingTime);
-            
-          }else{
+          if(remainingTime <= 0){
             
             serv.learnEpLockRemove(
               new SSLearnEpLockRemovePar(

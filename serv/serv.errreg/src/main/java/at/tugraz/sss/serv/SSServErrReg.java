@@ -175,15 +175,20 @@ public class SSServErrReg {
       }
     }
     
-    throw error;
+    if(error instanceof SSErr){
+      throw (SSErr) error;
+    }else{
+      throw new SSErr(SSErrE.defaultErr, error.getMessage());
+    }
   }
   
-  public static void regErrThrow(final Exception error) throws Exception{
+  public static void regErrThrow(final Exception error) throws SSErr{
     
     try{
       
       if(error == null){
-        SSLogU.err(new Exception("error null"));
+        SSLogU.err("error null");
+        return;
       }
       
       if(!containsErr(error)){
@@ -202,7 +207,11 @@ public class SSServErrReg {
       }
     }
     
-    throw error;
+    if(error instanceof SSErr){
+      throw (SSErr) error;
+    }else{
+      throw new SSErr(SSErrE.defaultErr, error.getMessage());
+    }
   }
   
   public static void logAndReset(final Boolean log){

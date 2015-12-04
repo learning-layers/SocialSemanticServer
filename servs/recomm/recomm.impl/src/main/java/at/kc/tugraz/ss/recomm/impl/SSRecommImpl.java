@@ -110,17 +110,22 @@ implements
   }
   
   @Override
-  public void recommUsers(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
+  public void recommUsers(final SSSocketCon sSCon, final SSServPar parA) throws SSErr{
     
-    SSServCallerU.checkKey(parA);
-    
-    final SSRecommUsersPar par = (SSRecommUsersPar) parA.getFromJSON(SSRecommUsersPar.class);
-    
-    sSCon.writeRetFullToClient(SSRecommUsersRet.get(recommUsers(par)));
+    try{
+      SSServCallerU.checkKey(parA);
+
+      final SSRecommUsersPar par = (SSRecommUsersPar) parA.getFromJSON(SSRecommUsersPar.class);
+
+      sSCon.writeRetFullToClient(SSRecommUsersRet.get(recommUsers(par)));
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
   }
   
   @Override
-  public List<SSUserLikelihood> recommUsers(final SSRecommUsersPar par) throws Exception{
+  public List<SSUserLikelihood> recommUsers(final SSRecommUsersPar par) throws SSErr{
     
     try{
       final SSRecommUserRealmEngine userRealmEngine =
@@ -230,53 +235,58 @@ implements
   }
   
   @Override
-  public void recommTags(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
+  public void recommTags(final SSSocketCon sSCon, final SSServPar parA) throws SSErr{
     
-    SSServCallerU.checkKey(parA);
-    
-    final SSRecommTagsPar par = (SSRecommTagsPar) parA.getFromJSON(SSRecommTagsPar.class);
-    
-    evalServ.evalLog(
-      new SSEvalLogPar(
-        par.user, 
-        SSToolContextE.sss, 
-        SSEvalLogE.recommTagsQuery, 
-        par.entity,
-        SSStrU.toCommaSeparatedStrNotNull(par.categories),  //content
-        null, //entities, 
-        SSUri.asListNotNull(par.forUser), //users, 
-        par.shouldCommit));
-    
-    final List<SSTagLikelihood> result = recommTags(par);
-    
-    sSCon.writeRetFullToClient(SSRecommTagsRet.get(result));
-    
-    String tagRecommStrResult = new String();
-    
-    tagRecommStrResult += result.stream().map((tagLikelihood) ->
-      tagLikelihood.getLabel()        +
-        SSStrU.colon                  +
-        tagLikelihood.getLikelihood() +
-        SSStrU.comma).reduce(
-          tagRecommStrResult,
-          String::concat);
-    
-    tagRecommStrResult = SSStrU.removeTrailingString(tagRecommStrResult, SSStrU.comma);
-    
-    evalServ.evalLog(
-      new SSEvalLogPar(
-        par.user, 
-        SSToolContextE.sss, 
-        SSEvalLogE.recommTagsResult, 
-        par.entity,
-        tagRecommStrResult,  //content
-        null, //entities, 
-        null, //users, 
-        par.shouldCommit));
+    try{
+      SSServCallerU.checkKey(parA);
+      
+      final SSRecommTagsPar par = (SSRecommTagsPar) parA.getFromJSON(SSRecommTagsPar.class);
+      
+      evalServ.evalLog(
+        new SSEvalLogPar(
+          par.user,
+          SSToolContextE.sss,
+          SSEvalLogE.recommTagsQuery,
+          par.entity,
+          SSStrU.toCommaSeparatedStrNotNull(par.categories),  //content
+          null, //entities,
+          SSUri.asListNotNull(par.forUser), //users,
+          par.shouldCommit));
+      
+      final List<SSTagLikelihood> result = recommTags(par);
+      
+      sSCon.writeRetFullToClient(SSRecommTagsRet.get(result));
+      
+      String tagRecommStrResult = new String();
+      
+      tagRecommStrResult += result.stream().map((tagLikelihood) ->
+        tagLikelihood.getLabel()        +
+          SSStrU.colon                  +
+          tagLikelihood.getLikelihood() +
+          SSStrU.comma).reduce(
+            tagRecommStrResult,
+            String::concat);
+      
+      tagRecommStrResult = SSStrU.removeTrailingString(tagRecommStrResult, SSStrU.comma);
+      
+      evalServ.evalLog(
+        new SSEvalLogPar(
+          par.user,
+          SSToolContextE.sss,
+          SSEvalLogE.recommTagsResult,
+          par.entity,
+          tagRecommStrResult,  //content
+          null, //entities,
+          null, //users,
+          par.shouldCommit));
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
   }
   
   @Override
-  public List<SSTagLikelihood> recommTags(final SSRecommTagsPar par) throws Exception{
+  public List<SSTagLikelihood> recommTags(final SSRecommTagsPar par) throws SSErr{
     
     try{
       
@@ -381,17 +391,22 @@ implements
   }
   
   @Override
-  public void recommResources(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
+  public void recommResources(final SSSocketCon sSCon, final SSServPar parA) throws SSErr {
     
-    SSServCallerU.checkKey(parA);
-    
-    final SSRecommResourcesPar par = (SSRecommResourcesPar) parA.getFromJSON(SSRecommResourcesPar.class);
-    
-    sSCon.writeRetFullToClient(SSRecommResourcesRet.get(recommResources(par)));
+    try{
+      SSServCallerU.checkKey(parA);
+      
+      final SSRecommResourcesPar par = (SSRecommResourcesPar) parA.getFromJSON(SSRecommResourcesPar.class);
+      
+      sSCon.writeRetFullToClient(SSRecommResourcesRet.get(recommResources(par)));
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
   }
   
   @Override
-  public List<SSResourceLikelihood> recommResources(final SSRecommResourcesPar par) throws Exception{
+  public List<SSResourceLikelihood> recommResources(final SSRecommResourcesPar par) throws SSErr{
     
     try{
       
@@ -515,7 +530,7 @@ implements
   }
   
   @Override
-  public void recommLoadUserRealms (final SSRecommLoadUserRealmsPar par) throws Exception{
+  public void recommLoadUserRealms (final SSRecommLoadUserRealmsPar par) throws SSErr{
     
     try{
       
@@ -529,19 +544,24 @@ implements
   }
   
   @Override
-  public void recommUpdateBulk(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
-
-    SSServCallerU.checkKey(parA);
-
-    final SSRecommUpdateBulkPar par = (SSRecommUpdateBulkPar) parA.getFromJSON(SSRecommUpdateBulkPar.class);
+  public void recommUpdateBulk(final SSSocketCon sSCon, final SSServPar parA) throws SSErr{
     
-    par.sSCon = sSCon;
-    
-    new Thread(new SSRecommUpdateBulkUploader(recommConf, par)).start();
+    try{
+      SSServCallerU.checkKey(parA);
+      
+      final SSRecommUpdateBulkPar par = (SSRecommUpdateBulkPar) parA.getFromJSON(SSRecommUpdateBulkPar.class);
+      
+      par.sSCon = sSCon;
+      
+      new Thread(new SSRecommUpdateBulkUploader(recommConf, par)).start();
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
   }
   
   @Override
-  public void recommUpdateBulk(final SSRecommUpdateBulkPar par) throws Exception{
+  public void recommUpdateBulk(final SSRecommUpdateBulkPar par) throws SSErr{
     
     try{
       
@@ -588,7 +608,7 @@ implements
   }
   
   @Override
-  public void recommUpdateBulkUserRealmsFromConf(final SSRecommUpdateBulkUserRealmsFromConfPar par) throws Exception{
+  public void recommUpdateBulkUserRealmsFromConf(final SSRecommUpdateBulkUserRealmsFromConfPar par) throws SSErr{
     
     try{
       
@@ -681,7 +701,7 @@ implements
   }
   
   @Override
-  public void recommUpdateBulkUserRealmsFromCircles(final SSRecommUpdateBulkUserRealmsFromCirclesPar par) throws Exception{
+  public void recommUpdateBulkUserRealmsFromCircles(final SSRecommUpdateBulkUserRealmsFromCirclesPar par) throws SSErr{
     
     //TODO works for tag recommendations only
     try{
@@ -796,17 +816,22 @@ implements
   }
   
   @Override
-  public void recommUpdate(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
+  public void recommUpdate(final SSSocketCon sSCon, final SSServPar parA) throws SSErr {
     
-    SSServCallerU.checkKey(parA);
-    
-    final SSRecommUpdatePar par = (SSRecommUpdatePar) parA.getFromJSON(SSRecommUpdatePar.class);
-    
-    sSCon.writeRetFullToClient(SSRecommUpdateRet.get(recommUpdate(par), parA.op));
+    try{
+      SSServCallerU.checkKey(parA);
+      
+      final SSRecommUpdatePar par = (SSRecommUpdatePar) parA.getFromJSON(SSRecommUpdatePar.class);
+      
+      sSCon.writeRetFullToClient(SSRecommUpdateRet.get(recommUpdate(par), parA.op));
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
   }
   
   @Override
-  public Boolean recommUpdate(final SSRecommUpdatePar par) throws Exception{
+  public Boolean recommUpdate(final SSRecommUpdatePar par) throws SSErr{
     
     try{
       
@@ -856,18 +881,23 @@ implements
     }
   }
   
-    @Override
-  public void recommUpdateBulkEntities(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
+  @Override
+  public void recommUpdateBulkEntities(final SSSocketCon sSCon, final SSServPar parA) throws SSErr {
     
-    SSServCallerU.checkKey(parA);
-    
-    final SSRecommUpdateBulkEntitiesPar par = (SSRecommUpdateBulkEntitiesPar) parA.getFromJSON(SSRecommUpdateBulkEntitiesPar.class);
-    
-    sSCon.writeRetFullToClient(SSRecommUpdateRet.get(recommUpdateBulkEntities(par), parA.op));
+    try{
+      SSServCallerU.checkKey(parA);
+      
+      final SSRecommUpdateBulkEntitiesPar par = (SSRecommUpdateBulkEntitiesPar) parA.getFromJSON(SSRecommUpdateBulkEntitiesPar.class);
+      
+      sSCon.writeRetFullToClient(SSRecommUpdateRet.get(recommUpdateBulkEntities(par), parA.op));
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
   }
   
   @Override
-  public Boolean recommUpdateBulkEntities(final SSRecommUpdateBulkEntitiesPar par) throws Exception{
+  public Boolean recommUpdateBulkEntities(final SSRecommUpdateBulkEntitiesPar par) throws SSErr{
     
     try{
       

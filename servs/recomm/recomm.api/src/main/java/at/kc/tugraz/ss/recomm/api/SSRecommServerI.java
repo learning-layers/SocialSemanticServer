@@ -32,18 +32,19 @@ import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommUpdateBulkUserRealmsFromConf
 import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommUpdatePar;
 import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommUsersPar;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLikelihood;
+import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSServServerI;
 import java.util.List;
 
 public interface SSRecommServerI extends SSServServerI{
 
-  public List<SSUserLikelihood>     recommUsers                             (final SSRecommUsersPar                           par) throws Exception;
-  public List<SSTagLikelihood>      recommTags                              (final SSRecommTagsPar                            par) throws Exception;
-  public List<SSResourceLikelihood> recommResources                         (final SSRecommResourcesPar                       par) throws Exception;
-  public void                       recommUpdateBulk                        (final SSRecommUpdateBulkPar                      par) throws Exception;
-  public void                       recommUpdateBulkUserRealmsFromConf      (final SSRecommUpdateBulkUserRealmsFromConfPar    par) throws Exception;
-  public void                       recommUpdateBulkUserRealmsFromCircles   (final SSRecommUpdateBulkUserRealmsFromCirclesPar par) throws Exception;
-  public Boolean                    recommUpdate                            (final SSRecommUpdatePar                          par) throws Exception;
-  public Boolean                    recommUpdateBulkEntities                (final SSRecommUpdateBulkEntitiesPar              par) throws Exception;
-  public void                       recommLoadUserRealms                    (final SSRecommLoadUserRealmsPar                  par) throws Exception;
+  public List<SSUserLikelihood>     recommUsers                             (final SSRecommUsersPar                           par) throws SSErr;
+  public List<SSTagLikelihood>      recommTags                              (final SSRecommTagsPar                            par) throws SSErr;
+  public List<SSResourceLikelihood> recommResources                         (final SSRecommResourcesPar                       par) throws SSErr;
+  public void                       recommUpdateBulk                        (final SSRecommUpdateBulkPar                      par) throws SSErr;
+  public void                       recommUpdateBulkUserRealmsFromConf      (final SSRecommUpdateBulkUserRealmsFromConfPar    par) throws SSErr;
+  public void                       recommUpdateBulkUserRealmsFromCircles   (final SSRecommUpdateBulkUserRealmsFromCirclesPar par) throws SSErr;
+  public Boolean                    recommUpdate                            (final SSRecommUpdatePar                          par) throws SSErr;
+  public Boolean                    recommUpdateBulkEntities                (final SSRecommUpdateBulkEntitiesPar              par) throws SSErr;
+  public void                       recommLoadUserRealms                    (final SSRecommLoadUserRealmsPar                  par) throws SSErr;
 }

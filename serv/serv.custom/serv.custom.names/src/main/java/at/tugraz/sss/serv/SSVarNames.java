@@ -315,7 +315,6 @@ public class SSVarNames{
   public static final String isSystemCircle                                 = "isSystemCircle";
   public static final String circleType                                     = "circleType";
   public static final String overallRating                                  = "overallRating";
-  public static final String broadcasts                                     = "broadcasts";
   public static final String sss                                            = "sss";
   public static final String xsd                                            = "xsd";
   public static final String set                                            = "set";

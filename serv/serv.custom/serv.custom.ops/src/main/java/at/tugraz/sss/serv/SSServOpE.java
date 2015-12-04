@@ -245,21 +245,6 @@ public enum SSServOpE{
   ratingsRemove,
   ratingEntityURIsGet,
   
-  //model ue
-  modelUEUpdate                                       ,
-  modelUETopicScores                                  ,
-  modelUETopicRecent                                  ,
-  modelUEEntitiesForMiGet                             ,
-  modelUEResourcesContributed                         ,
-  modelUEResourcesAll                                 ,
-  modelUEResourceRecent                               ,
-  modelUEResourceDetails                              ,
-  modelUERelatedPersons                               ,
-  modelUEModelRelations                               ,
-  modelUEMIsForEntityGet                              ,
-  modelUEEditors                                      ,
-  modelUEAuthor                                       ,
-  
   //lom
   lomExtractFromDir                                   ,
   
@@ -289,12 +274,6 @@ public enum SSServOpE{
   discTargetsAdd,
   discUpdate,
   discEntryUpdate,
-  
-  //broadcast
-  broadcastServerTime                                 ,
-  broadcastAdd                                     ,
-  broadcastsGet                                       ,
-  broadcastUpdate,
   
   //auth
   authUsersFromCSVFileAdd                             ,

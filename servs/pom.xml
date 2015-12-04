@@ -15,7 +15,6 @@
     <module>voc</module>
     <module>jsonld</module>
     <module>filerepo</module>
-    <module>broadcast</module>
     <module>search</module>
     <module>auth</module>
     <module>dataimport</module>

@@ -81,12 +81,6 @@
     
     <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>broadcast.datatypes</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>sss.servs</groupId>
       <artifactId>like.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>

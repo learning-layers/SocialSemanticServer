@@ -20,8 +20,6 @@
 */
 package at.tugraz.sss.serv.caller;
 
-import at.kc.tugraz.socialserver.service.broadcast.datatypes.SSBroadcast;
-import at.kc.tugraz.socialserver.service.broadcast.datatypes.enums.SSBroadcastEnum;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.tugraz.sss.serv.SSFileExtE;
 import at.tugraz.sss.serv.SSIDU;
@@ -184,36 +182,6 @@ public class SSServCaller {
     return (List<String>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.evernoteNoteTagNamesGet, opPars));
   }
    
-  public static Boolean broadcastAdd(
-    final SSUri           user,
-    final SSUri           entity,
-    final SSBroadcastEnum type,
-    final Object          content) throws Exception{
-    
-    final  Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.user,         user);
-    opPars.put(SSVarNames.entity,       entity);
-    opPars.put(SSVarNames.type,         type);
-    opPars.put(SSVarNames.content,      content);
-    
-    return (Boolean) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.broadcastAdd, opPars));
-  }
-  
-  public static void broadcastUpdate() throws Exception{
-    SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.broadcastUpdate, new HashMap<>()));
-  } 
-  
-  public static List<SSBroadcast> broadcastsGet(
-    final SSUri           user) throws Exception{
-    
-    final  Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.user,         user);
-    
-    return (List<SSBroadcast>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.broadcastsGet, opPars));
-  }
-
   private static SSUri vocURIPrefixGet() throws Exception{
     return (SSUri) SSUri.get(SSVocConf.sssUri);
   }
@@ -266,12 +234,6 @@ public class SSServCaller {
     opPars.put(SSVarNames.shouldCommit, shouldCommit);
     
     SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entityRemove, opPars));
-  }
-  
-  /* modeling user event */
-
-  public static void modelUEUpdate() throws Exception{
-    SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.modelUEUpdate, new HashMap<>()));
   }
   
   /* data export */

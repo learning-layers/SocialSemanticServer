@@ -2092,25 +2092,6 @@ SSUri.asListNotNull(par.learnEpVersion), //learnEpVersions
       if(learnEpConf.useEpisodeLocking){
       
         lockResult = SSLearnEpAccessController.lock(par.forUser, par.learnEp);
-        
-        if(lockResult){
-          
-//          try{
-            
-//            SSServCaller.broadcastAdd(
-//              null,
-//              par.learnEp,
-//              SSBroadcastEnum.learnEpLockSet,
-//              SSDateU.dateAsLong());
-            
-//          }catch(SSErr error){
-//            
-//            switch(error.code){
-//              case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
-//              default: SSServErrReg.regErrThrow(error);
-//            }
-//          }
-        }
       }
 
       return lockResult;
@@ -2164,25 +2145,6 @@ SSUri.asListNotNull(par.learnEpVersion), //learnEpVersions
 
       unLockResult = SSLearnEpAccessController.unLock(par.learnEp);
 
-      if(unLockResult){
-        
-//        try{
-          
-//          SSServCaller.broadcastAdd(
-//            null,
-//            par.learnEp,
-//            SSBroadcastEnum.learnEpLockRemoved,
-//            null);
-          
-//        }catch(SSErr error){
-//          
-//          switch(error.code){
-//            case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
-//            default: SSServErrReg.regErrThrow(error);
-//          }
-//        }
-      }
-      
       return unLockResult;
 
     }catch(Exception error){

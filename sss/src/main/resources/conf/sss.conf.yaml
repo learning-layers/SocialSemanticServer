@@ -69,11 +69,7 @@ i5Cloud:
   lasPass: SSS_TETHYS_LAS_PASSWORD
   oidcConfURI: LAYERS_API_URIo/oauth2/.well-known/openid-configuration #https://api.learning-layers.eu/o/oauth2/.well-known/openid-configuration #http://10.255.255.17/o/oauth2/.well-known/openid-configuration
   oidcUserEndPointURI: LAYERS_API_URIo/oauth2/userinfo #https://api.learning-layers.eu/o/oauth2/userinfo #http://10.255.255.17/o/oauth2/userinfo
-model:
-  use: false
 filerepo: 
-  use: true
-broadcaster:
   use: true
 dataExport:
   use: true
