@@ -23,8 +23,8 @@ package at.tugraz.sss.servs.ocd.service;
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import at.tugraz.sss.servs.ocd.api.SSOCDClientI;
 import at.tugraz.sss.servs.ocd.impl.SSOCDImpl;
-import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSCoreConfA;
+import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServImplA;
 import at.tugraz.sss.serv.SSServReg;
@@ -43,7 +43,7 @@ public class SSOCDServ extends SSServContainerI{
   }
   
   @Override
-  protected SSServImplA createServImplForThread() throws Exception {
+  protected SSServImplA createServImplForThread() throws SSErr {
     return new SSOCDImpl(conf);
   }
   

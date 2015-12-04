@@ -51,6 +51,7 @@ import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSDescribeEntityI;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
+import at.tugraz.sss.serv.SSErr;
 import java.util.ArrayList;
 import java.util.List;
 import at.tugraz.sss.serv.SSErrE;
@@ -71,7 +72,7 @@ implements
   
   private final SSAppSQLFct sqlFct;
   
-  public SSAppImpl(final SSConfA conf) throws Exception{
+  public SSAppImpl(final SSConfA conf) throws SSErr{
 
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
 

@@ -72,7 +72,7 @@ implements
   private          final SSEntitySQL                      sql;
   private          final SSSearchNoSQLFct                 noSQLFct;
   
-  public SSSearchImpl(final SSConfA conf) throws Exception{
+  public SSSearchImpl(final SSConfA conf) throws SSErr{
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
     
     this.sql      = new SSEntitySQL     (dbSQL, SSVocConf.systemUserUri);
@@ -411,13 +411,13 @@ implements
       pages = searchResultPagesCache.get(par.pagesID);
       
       if(pages == null){
-        throw new SSErr(SSErrE.queryResultOutDated);
+        throw SSErr.get(SSErrE.queryResultOutDated);
       }
       
       try{
         page = pages.pages.get(par.pageNumber - 1);
       }catch(Exception error){
-        throw new SSErr(SSErrE.queryPageUnavailable);
+        throw SSErr.get(SSErrE.queryPageUnavailable);
       }
       
       return SSSearchRet.get(
@@ -461,8 +461,8 @@ implements
       
     }catch(Exception error){
       
-      if(SSServErrReg.containsErr(SSErrE.notServerServiceForOpAvailable)){
-        SSLogU.warn(SSErrE.notServerServiceForOpAvailable.toString());
+      if(SSServErrReg.containsErr(SSErrE.servServerOpNotAvailable)){
+        SSLogU.warn(SSErrE.servServerOpNotAvailable.toString());
       }else{
         SSLogU.warn(error.getMessage());
       }
@@ -623,8 +623,8 @@ implements
 
     }catch(Exception error){
       
-      if(SSServErrReg.containsErr(SSErrE.notServerServiceForOpAvailable)){
-        SSLogU.warn(SSErrE.notServerServiceForOpAvailable.toString());
+      if(SSServErrReg.containsErr(SSErrE.servServerOpNotAvailable)){
+        SSLogU.warn(SSErrE.servServerOpNotAvailable.toString());
       }else{
         SSLogU.warn(error.getMessage());
       }
@@ -650,8 +650,8 @@ implements
       
     }catch(Exception error){
       
-      if(SSServErrReg.containsErr(SSErrE.notServerServiceForOpAvailable)){
-        SSLogU.warn(SSErrE.notServerServiceForOpAvailable.toString());
+      if(SSServErrReg.containsErr(SSErrE.servServerOpNotAvailable)){
+        SSLogU.warn(SSErrE.servServerOpNotAvailable.toString());
       }else{
         SSLogU.warn(error.getMessage());
       }
@@ -686,8 +686,8 @@ implements
       
     }catch(Exception error){
       
-      if(SSServErrReg.containsErr(SSErrE.notServerServiceForOpAvailable)){
-        SSLogU.warn(SSErrE.notServerServiceForOpAvailable.toString());
+      if(SSServErrReg.containsErr(SSErrE.servServerOpNotAvailable)){
+        SSLogU.warn(SSErrE.servServerOpNotAvailable.toString());
       }else{
         SSLogU.warn(error.getMessage());
       }

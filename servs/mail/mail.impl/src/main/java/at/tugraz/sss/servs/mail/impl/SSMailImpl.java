@@ -27,6 +27,7 @@ import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSEntity;
+import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServImplWithDBA;
@@ -49,7 +50,7 @@ implements
   private final SSMailConf    mailConf;
   private final SSMailSQLFct  sqlFct;
   
-  public SSMailImpl(final SSConfA conf) throws Exception{
+  public SSMailImpl(final SSConfA conf) throws SSErr{
     
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
     

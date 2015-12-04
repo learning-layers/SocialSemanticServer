@@ -30,7 +30,7 @@ public class SSLabel extends SSEntityA{
     return SSVarNames.xsd + SSStrU.colon + SSStrU.valueString;
   }
   
-  public static SSLabel get(final String label) throws Exception{
+  public static SSLabel get(final String label) throws SSErr {
     
     if(label == null){
       return null;
@@ -39,7 +39,7 @@ public class SSLabel extends SSEntityA{
     return new SSLabel(label);
   }
   
-  public static SSLabel get(final SSEntityA entity) throws Exception{
+  public static SSLabel get(final SSEntityA entity) throws SSErr {
     
     if(entity == null){
       return null;
@@ -48,7 +48,7 @@ public class SSLabel extends SSEntityA{
     return new SSLabel(SSStrU.toStr(entity));
   }
   
-  public static List<SSLabel> get(final List<String> strings) throws Exception{
+  public static List<SSLabel> get(final List<String> strings) throws SSErr {
     
     final List<SSLabel> result = new ArrayList<>();
     
@@ -63,7 +63,7 @@ public class SSLabel extends SSEntityA{
     return result;
   }
   
-  protected SSLabel(final String string) throws Exception{
+  protected SSLabel(final String string) throws SSErr {
     super(string);
   }
   

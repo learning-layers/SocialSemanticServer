@@ -23,6 +23,7 @@ package sss.serv.eval.serv;
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import at.tugraz.sss.serv.SSCoreConfA;
 import at.tugraz.sss.serv.SSDateU;
+import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSObjU;
 import at.tugraz.sss.serv.SSServContainerI;
@@ -47,7 +48,7 @@ public class SSEvalServ extends SSServContainerI{
   }
   
   @Override
-  protected SSServImplA createServImplForThread() throws Exception{
+  protected SSServImplA createServImplForThread() throws SSErr{
     return new SSEvalImpl(conf);
   }
 

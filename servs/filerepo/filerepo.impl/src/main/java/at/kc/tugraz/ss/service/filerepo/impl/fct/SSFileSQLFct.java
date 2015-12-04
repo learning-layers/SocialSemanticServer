@@ -39,7 +39,7 @@ public class SSFileSQLFct extends SSEntitySQL{
 
   public SSFileSQLFct(
     final SSDBSQLI dbSQL, 
-    final SSUri systemUserURI) throws Exception{
+    final SSUri systemUserURI) {
     
     super(dbSQL, systemUserURI);
   }
@@ -50,7 +50,7 @@ public class SSFileSQLFct extends SSEntitySQL{
     try{
 
       if(SSObjU.isNull(file)){
-        throw new SSErr(SSErrE.parameterMissing);
+        throw SSErr.get(SSErrE.parameterMissing);
       }
       
       final Map<String, String> inserts    = new HashMap<>();

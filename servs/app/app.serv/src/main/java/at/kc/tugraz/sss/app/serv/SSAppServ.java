@@ -27,6 +27,7 @@ import at.tugraz.sss.serv.SSServImplA;
 import at.kc.tugraz.sss.app.api.SSAppClientI;
 import at.kc.tugraz.sss.app.api.SSAppServerI;
 import at.kc.tugraz.sss.app.impl.SSAppImpl;
+import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSServContainerI;
 import java.util.List;
 
@@ -42,7 +43,7 @@ public class SSAppServ extends SSServContainerI{
   }
   
   @Override
-  protected SSServImplA createServImplForThread() throws Exception{
+  protected SSServImplA createServImplForThread() throws SSErr{
     return new SSAppImpl(conf);
   }
 

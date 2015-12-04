@@ -35,7 +35,7 @@ public class SSDBSQL extends SSServContainerI{
   }
   
   @Override
-  protected SSServImplA createServImplForThread() throws Exception{
+  protected SSServImplA createServImplForThread() throws SSErr {
     return new SSDBSQLMySQLImpl((SSDBSQLConf) conf);
   }
 

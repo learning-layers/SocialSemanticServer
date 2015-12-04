@@ -85,7 +85,7 @@ implements
   private final SSEntityServerI entityServ;
   
   public SSFilerepoImpl(
-    final SSFileRepoConf conf) throws Exception{
+    final SSFileRepoConf conf) throws SSErr{
 
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
     
@@ -236,7 +236,7 @@ implements
             par.withUserRestriction);
         
         if(file == null){
-          throw new SSErr(SSErrE.userNotAllowedToAccessEntity);
+          throw SSErr.get(SSErrE.userNotAllowedToAccessEntity);
         }
       }
       
@@ -284,7 +284,7 @@ implements
       if(
         par.file == null &&
         par.type == null){
-        throw new SSErr(SSErrE.parameterMissing);
+        throw SSErr.get(SSErrE.parameterMissing);
       }
       
       if(par.type == null){
@@ -309,7 +309,7 @@ implements
       }
       
       if(par.file == null){
-        throw new SSErr(SSErrE.parameterMissing);
+        throw SSErr.get(SSErrE.parameterMissing);
       }
       
       if(
@@ -507,7 +507,7 @@ implements
     try{
     
       if(par.entity == null){
-        throw new SSErr(SSErrE.parameterMissing);
+        throw SSErr.get(SSErrE.parameterMissing);
       }
       
       final List<SSEntity> files = new ArrayList<>();

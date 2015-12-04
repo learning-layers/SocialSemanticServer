@@ -28,6 +28,7 @@ import at.kc.tugraz.ss.service.search.api.SSSearchClientI;
 import at.kc.tugraz.ss.service.search.api.SSSearchServerI;
 import at.kc.tugraz.ss.service.search.impl.SSSearchImpl;
 import at.kc.tugraz.ss.service.search.service.task.SSSearchResultPagesCacheCleanerTask;
+import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSServContainerI;
 import java.util.List;
@@ -44,7 +45,7 @@ public class SSSearchServ extends SSServContainerI{
   }
   
   @Override
-  protected SSServImplA createServImplForThread() throws Exception{
+  protected SSServImplA createServImplForThread() throws SSErr{
     return new SSSearchImpl(conf);
   }
 

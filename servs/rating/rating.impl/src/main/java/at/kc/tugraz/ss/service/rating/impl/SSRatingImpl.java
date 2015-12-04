@@ -78,7 +78,7 @@ implements
   private final SSRatingSQLFct   sql;
   private final SSEntityServerI  entityServ;
     
-  public SSRatingImpl(final SSConfA conf) throws Exception{
+  public SSRatingImpl(final SSConfA conf) throws SSErr{
     
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
     
@@ -358,7 +358,7 @@ implements
     try{
       
       if(par.entities.isEmpty()){
-        throw new SSErr(SSErrE.parameterMissing);
+        throw SSErr.get(SSErrE.parameterMissing);
       }
       
       if(par.withUserRestriction){
@@ -433,7 +433,7 @@ implements
     try{
       
       if(par.user == null){
-        throw new SSErr(SSErrE.parameterMissing);
+        throw SSErr.get(SSErrE.parameterMissing);
       }
       
       if(par.withUserRestriction){

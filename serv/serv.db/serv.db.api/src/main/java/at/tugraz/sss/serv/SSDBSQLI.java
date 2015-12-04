@@ -30,19 +30,19 @@ public interface SSDBSQLI{
 
   public static final Integer entityLabelLength        = 255;
   
-  public Integer    getMaxActive() throws Exception;
-  public Integer    getActive()    throws Exception;
+  public Integer    getMaxActive();
+  public Integer    getActive();
   public Connection getConnection();
-  public void       closeCon  ()   throws Exception;
+  public void       closeCon  ()   throws SSErr;
   
   public Boolean rollBack(
     final Boolean shouldCommit);
 
   public ResultSet select(
-    final String query) throws Exception;
+    final String query) throws SSErr;
   
   public ResultSet select(
-    final SSDBSQLSelectPar par) throws Exception;
+    final SSDBSQLSelectPar par) throws SSErr;
   
   public ResultSet select(
     final List<String>        tables, 
@@ -51,7 +51,7 @@ public interface SSDBSQLI{
     final List<String>        tableCons,
     final String              orderByColumn, 
     final String              sortType, 
-    final Integer             limit) throws Exception;
+    final Integer             limit) throws SSErr;
   
   public ResultSet select(
     final String              table, 
@@ -59,7 +59,7 @@ public interface SSDBSQLI{
     final Map<String, String> wheres,
     final String              orderByColumn, 
     final String              sortType, 
-    final Integer             limit) throws Exception;
+    final Integer             limit) throws SSErr;
   
   public ResultSet selectLike(
     final List<String>                         tables,
@@ -68,50 +68,50 @@ public interface SSDBSQLI{
     final List<String>                         tableCons,
     final String                               orderByColumn, 
     final String                               sortType, 
-    final Integer                              limit) throws Exception;
+    final Integer                              limit) throws SSErr;
   
   public void insert(
     final String              table, 
-    final Map<String, String> inserts) throws Exception;
+    final Map<String, String> inserts) throws SSErr;
   
   public void insertIfNotExists(
     final String              table, 
     final Map<String, String> inserts,
-    final Map<String, String> uniqueKeys) throws Exception;
+    final Map<String, String> uniqueKeys) throws SSErr;
   
   public void delete(
     final String table) throws Exception;
   
   public void delete(
     final String              table, 
-    final Map<String, String> wheres) throws Exception;
+    final Map<String, String> wheres) throws SSErr;
   
   public void deleteIgnore(
     final String              table, 
-    final Map<String, String> wheres) throws Exception;
+    final Map<String, String> wheres) throws SSErr;
 
   public void deleteIgnore(
     final String                               table, 
-    final List<MultivaluedMap<String, String>> wheres) throws Exception;
+    final List<MultivaluedMap<String, String>> wheres) throws SSErr;
   
   public void update(
     final String              table, 
     final Map<String, String> wheres, 
-    final Map<String, String> updates) throws Exception;
+    final Map<String, String> updates) throws SSErr;
   
   public void updateIgnore(
     final String              table, 
     final Map<String, String> wheres, 
-    final Map<String, String> updates) throws Exception;
+    final Map<String, String> updates) throws SSErr;
   
   public void closeStmt(
-    final ResultSet resultSet) throws Exception;
+    final ResultSet resultSet) throws SSErr;
  
   public void startTrans(
-    final Boolean shouldCommit) throws Exception;
+    final Boolean shouldCommit) throws SSErr;
   
   public void commit(
-    final Boolean shouldCommit) throws Exception;
+    final Boolean shouldCommit) throws SSErr;
 }
 
 //  public void       insert         (String tableName, Map<String, String> parNamesWithValues)  throws Exception;

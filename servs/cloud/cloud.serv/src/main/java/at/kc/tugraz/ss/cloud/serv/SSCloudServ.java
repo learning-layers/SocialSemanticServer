@@ -24,8 +24,8 @@ import at.kc.tugraz.ss.cloud.api.SSCloudClientI;
 import at.kc.tugraz.ss.cloud.api.SSCloudServerI;
 import at.kc.tugraz.ss.cloud.impl.SSCloudImpl;
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
-import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSCoreConfA;
+import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServImplA;
@@ -43,7 +43,7 @@ public class SSCloudServ extends SSServContainerI{
   }
   
   @Override
-  protected SSServImplA createServImplForThread() throws Exception{
+  protected SSServImplA createServImplForThread() throws SSErr{
     return new SSCloudImpl(conf);
   }
 

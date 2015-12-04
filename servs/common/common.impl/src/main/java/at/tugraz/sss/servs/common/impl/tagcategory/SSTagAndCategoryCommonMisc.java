@@ -50,7 +50,7 @@ public class SSTagAndCategoryCommonMisc {
   
   public SSTagAndCategoryCommonMisc(
     final SSDBSQLI         dbSQL,
-    final SSEntityE        metadataType) throws Exception{
+    final SSEntityE        metadataType){
 
     this.metadataType = metadataType;
     this.sql          = new SSTagAndCategoryCommonSQL(dbSQL, SSVocConf.systemUserUri, metadataType);

@@ -63,7 +63,7 @@ implements
   private final SSFriendSQLFct  sqlFct;
   private final SSEntityServerI entityServ;
   
-  public SSFriendImpl(final SSConfA conf) throws Exception{
+  public SSFriendImpl(final SSConfA conf) throws SSErr{
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
     
     this.sqlFct     = new SSFriendSQLFct(dbSQL);
@@ -110,7 +110,7 @@ implements
     try{
       
       if(par.friend == null){
-        throw new SSErr(SSErrE.parameterMissing);
+        throw SSErr.get(SSErrE.parameterMissing);
       }
       
       return SSFriend.get(

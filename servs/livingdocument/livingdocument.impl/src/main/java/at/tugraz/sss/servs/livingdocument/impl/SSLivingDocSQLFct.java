@@ -35,7 +35,7 @@ public class SSLivingDocSQLFct extends SSEntitySQL{
 
   public SSLivingDocSQLFct(
     final SSLivingDocImpl serv,
-    final SSUri           systemUserURI) throws Exception {
+    final SSUri           systemUserURI) {
     
     super(serv.dbSQL, systemUserURI);
   }

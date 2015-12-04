@@ -44,7 +44,7 @@ public class SSRatingSQLFct extends SSEntitySQL{
 
   public SSRatingSQLFct(
     final SSDBSQLI dbSQL, 
-    final SSUri    systemUserURI) throws Exception{
+    final SSUri    systemUserURI){
     
     super(dbSQL, systemUserURI);
   }
@@ -54,7 +54,7 @@ public class SSRatingSQLFct extends SSEntitySQL{
     final SSUri   entityUri) throws Exception{
     
     if(SSObjU.isNull(userUri, entityUri)){
-      throw new SSErr(SSErrE.parameterMissing);
+      throw SSErr.get(SSErrE.parameterMissing);
     }
     
     ResultSet                 resultSet   = null;
@@ -95,7 +95,7 @@ public class SSRatingSQLFct extends SSEntitySQL{
     try{
     
       if(user == null){
-        throw new SSErr(SSErrE.parameterMissing);
+        throw SSErr.get(SSErrE.parameterMissing);
       }
       
       final List<String>        columns = new ArrayList<>();
@@ -178,7 +178,7 @@ public class SSRatingSQLFct extends SSEntitySQL{
     final SSUri entityUri) throws Exception{
     
     if(SSObjU.isNull(userUri, entityUri)){
-      throw new SSErr(SSErrE.parameterMissing);
+      throw SSErr.get(SSErrE.parameterMissing);
     }
     
     ResultSet               resultSet   = null;
@@ -223,7 +223,7 @@ public class SSRatingSQLFct extends SSEntitySQL{
     try{
       
       if(SSObjU.isNull(entityUri)){
-        throw new SSErr(SSErrE.parameterMissing);
+        throw SSErr.get(SSErrE.parameterMissing);
       }
       
       final List<String>        columns      = new ArrayList<>();
@@ -269,7 +269,7 @@ public class SSRatingSQLFct extends SSEntitySQL{
         (users    == null || users.isEmpty()) &&
         (entities == null || entities.isEmpty())){
         
-        throw new SSErr(SSErrE.parameterMissing);
+        throw SSErr.get(SSErrE.parameterMissing);
       }
       
       final List<MultivaluedMap<String, String>> orWheres       = new ArrayList<>();

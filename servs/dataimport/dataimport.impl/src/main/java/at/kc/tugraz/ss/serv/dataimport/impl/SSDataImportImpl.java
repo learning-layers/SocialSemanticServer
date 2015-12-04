@@ -65,6 +65,7 @@ import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSEntityE;
+import at.tugraz.sss.serv.SSErr;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -97,7 +98,7 @@ implements
 
   private final SSDataImportSQLFct sqlFct;
   
-  public SSDataImportImpl(final SSConfA conf) throws Exception{
+  public SSDataImportImpl(final SSConfA conf) throws SSErr{
     
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
     

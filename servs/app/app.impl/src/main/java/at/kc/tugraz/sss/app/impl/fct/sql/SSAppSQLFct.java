@@ -38,7 +38,7 @@ import java.util.Map;
 
 public class SSAppSQLFct extends SSDBSQLFct{
 
-  public SSAppSQLFct(final SSDBSQLI dbSQL) throws Exception{
+  public SSAppSQLFct(final SSDBSQLI dbSQL) throws SSErr{
     super(dbSQL);
   }
   
@@ -50,7 +50,7 @@ public class SSAppSQLFct extends SSDBSQLFct{
     try{
       
       if(app == null){
-        throw new SSErr(SSErrE.parameterMissing);
+        throw SSErr.get(SSErrE.parameterMissing);
       }
       
       final List<String>        columns = new ArrayList<>();

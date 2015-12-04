@@ -27,13 +27,11 @@ import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpTimelineState;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpVersion;
 import at.tugraz.sss.serv.SSSQLVarNames;
 import at.tugraz.sss.serv.SSEntity;
-import at.tugraz.sss.serv.SSDBSQLFct;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSDBSQLSelectPar;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServImplWithDBA;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -50,7 +48,7 @@ public class SSLearnEpSQLFct extends SSEntitySQL{
   
   public SSLearnEpSQLFct(
     final SSDBSQLI dbSQL, 
-    final SSUri    systemUserURI) throws Exception{
+    final SSUri    systemUserURI){
     
     super(dbSQL, systemUserURI);
   }
@@ -189,7 +187,7 @@ public class SSLearnEpSQLFct extends SSEntitySQL{
       resultSet = dbSQL.select(SSSQLVarNames.learnEpVersionCurrentTable, columns, wheres, null, null, null);
       
       if(!resultSet.first()){
-        throw new SSErr(SSErrE.learnEpCurrentVersionNotSet);
+        throw SSErr.get(SSErrE.learnEpCurrentVersionNotSet);
       }
       
       return bindingStrToUri(resultSet, SSSQLVarNames.learnEpVersionId);

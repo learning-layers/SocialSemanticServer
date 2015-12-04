@@ -127,7 +127,7 @@ public class SSTagLabel extends SSEntityA{
       final String tmpLabel = label.replaceAll("[^\\p{L}\\p{Zs}0-9_-]+", SSStrU.empty);
       
       if(SSStrU.isEmpty(tmpLabel)){
-        throw new SSErr(SSErrE.tagLabelInvalid, tmpLabel);
+        throw SSErr.get(SSErrE.tagLabelInvalid);
       }
       
       return tmpLabel;

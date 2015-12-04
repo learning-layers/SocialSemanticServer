@@ -27,6 +27,7 @@ import at.tugraz.sss.serv.SSServImplA;
 import at.kc.tugraz.sss.video.api.SSVideoClientI;
 import at.kc.tugraz.sss.video.api.SSVideoServerI;
 import at.kc.tugraz.sss.video.impl.SSVideoImpl;
+import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSServContainerI;
 import java.util.List;
 
@@ -42,7 +43,7 @@ public class SSVideoServ extends SSServContainerI{
   }
   
   @Override
-  protected SSServImplA createServImplForThread() throws Exception{
+  protected SSServImplA createServImplForThread() throws SSErr{
     return new SSVideoImpl(conf);
   }
 

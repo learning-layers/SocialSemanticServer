@@ -42,7 +42,7 @@ public class SSUESQLFct extends SSEntitySQL{
 
   public SSUESQLFct(
     final SSDBSQLI dbSQL,
-    final SSUri    systemUserURI) throws Exception{
+    final SSUri    systemUserURI){
     
     super(dbSQL, systemUserURI);
   }

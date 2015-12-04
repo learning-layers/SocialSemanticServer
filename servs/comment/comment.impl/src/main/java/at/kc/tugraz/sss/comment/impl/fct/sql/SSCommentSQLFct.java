@@ -38,7 +38,7 @@ public class SSCommentSQLFct extends SSEntitySQL{
   
   public SSCommentSQLFct(
     final SSDBSQLI dbSQL,
-    final SSUri    systemUserURI) throws Exception{
+    final SSUri    systemUserURI){
     
     super(dbSQL, systemUserURI);
   }
@@ -51,7 +51,7 @@ public class SSCommentSQLFct extends SSEntitySQL{
     try{
       
       if(forUser == null){
-        throw new SSErr(SSErrE.parameterMissing);
+        throw SSErr.get(SSErrE.parameterMissing);
       }
       
       final List<String>        tables            = new ArrayList<>();

@@ -77,7 +77,7 @@ implements
   
   private final SSActivitySQLFct sql;
   
-  public SSActivityImpl(final SSConfA conf) throws Exception{
+  public SSActivityImpl(final SSConfA conf) throws SSErr{
     
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
     
@@ -374,13 +374,13 @@ implements
     try{
       
       if(par.entity == null){
-        throw new SSErr(SSErrE.parameterMissing);
+        throw SSErr.get(SSErrE.parameterMissing);
         
 //        par.entity = SSUri.get(SSVocConf.sssUri);
       }
       
       if(!SSServCallerU.areUsersUsers(par.users)){
-        throw new SSErr(SSErrE.parameterMissing);
+        throw SSErr.get(SSErrE.parameterMissing);
       }
       
       final SSEntityServerI entityServ = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);

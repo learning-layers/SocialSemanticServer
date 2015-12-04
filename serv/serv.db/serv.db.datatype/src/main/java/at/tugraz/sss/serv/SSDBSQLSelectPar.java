@@ -51,7 +51,7 @@ public class SSDBSQLSelectPar {
     final List<String>                                           tableCons) throws Exception{
     
     if(tables.isEmpty()){
-      throw new SSErr(SSErrE.parameterMissing);
+      throw SSErr.get(SSErrE.parameterMissing);
     }
     
     this.tables.addAll(tables);

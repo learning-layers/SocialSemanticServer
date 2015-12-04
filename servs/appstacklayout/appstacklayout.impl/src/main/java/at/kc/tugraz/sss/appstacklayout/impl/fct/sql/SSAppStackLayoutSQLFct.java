@@ -39,7 +39,7 @@ public class SSAppStackLayoutSQLFct extends SSEntitySQL{
 
   public SSAppStackLayoutSQLFct(
     final SSDBSQLI dbSQL,
-    final SSUri    systemUserURI) throws Exception{
+    final SSUri    systemUserURI) {
     
     super(dbSQL, systemUserURI);
   }
@@ -52,7 +52,7 @@ public class SSAppStackLayoutSQLFct extends SSEntitySQL{
     try{
       
       if(stack == null){
-        throw new SSErr(SSErrE.parameterMissing);
+        throw SSErr.get(SSErrE.parameterMissing);
       }
       
       final List<String>           columns         = new ArrayList<>();

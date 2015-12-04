@@ -49,6 +49,7 @@ import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSDescribeEntityI;
 import at.tugraz.sss.serv.SSEntityContext;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
+import at.tugraz.sss.serv.SSErr;
 import java.util.List;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSLogU;
@@ -72,7 +73,7 @@ implements
   private final SSFlagSQLFct    sql;
   private final SSEntityServerI entityServ;
   
-  public SSFlagImpl(final SSConfA conf) throws Exception{
+  public SSFlagImpl(final SSConfA conf) throws SSErr{
 
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
 

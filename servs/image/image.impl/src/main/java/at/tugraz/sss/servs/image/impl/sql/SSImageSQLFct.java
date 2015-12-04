@@ -41,7 +41,7 @@ public class SSImageSQLFct extends SSEntitySQL{
   
   public SSImageSQLFct(
     final SSDBSQLI dbSQL, 
-    final SSUri    systemUserURI) throws Exception{
+    final SSUri    systemUserURI){
     
     super(dbSQL, systemUserURI);
   }
@@ -54,7 +54,7 @@ public class SSImageSQLFct extends SSEntitySQL{
     try{
 
       if(SSObjU.isNull(image, imageType)){
-        throw new SSErr(SSErrE.parameterMissing);
+        throw SSErr.get(SSErrE.parameterMissing);
       }
       
       final Map<String, String> inserts    = new HashMap<>();
@@ -82,7 +82,7 @@ public class SSImageSQLFct extends SSEntitySQL{
     final SSUri    image) throws Exception{
     
     if(image == null){
-      throw new SSErr(SSErrE.parameterMissing);
+      throw SSErr.get(SSErrE.parameterMissing);
     }
     
     ResultSet resultSet = null;

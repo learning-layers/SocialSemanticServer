@@ -28,7 +28,6 @@ import at.tugraz.sss.serv.SSDBSQLI;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteNote;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteResource;
 import at.tugraz.sss.serv.SSServErrReg;
-import at.tugraz.sss.serv.SSStrU;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,7 +36,7 @@ import java.util.Map;
 
 public class SSEvernoteSQLFct extends SSDBSQLFct {
   
-  public SSEvernoteSQLFct(final SSDBSQLI dbSQL) throws Exception{
+  public SSEvernoteSQLFct(final SSDBSQLI dbSQL){
     super(dbSQL);
   }
   

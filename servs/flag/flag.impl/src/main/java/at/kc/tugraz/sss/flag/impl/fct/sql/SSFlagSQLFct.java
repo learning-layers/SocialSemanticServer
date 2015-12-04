@@ -44,7 +44,7 @@ public class SSFlagSQLFct extends SSEntitySQL{
 
   public SSFlagSQLFct(
     final SSDBSQLI dbSQL,
-    final SSUri    systemUserURI) throws Exception{
+    final SSUri    systemUserURI){
     
     super(dbSQL, systemUserURI);
   }

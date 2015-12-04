@@ -31,6 +31,7 @@ import at.kc.tugraz.ss.serv.dataimport.api.SSDataImportServerI;
 import at.kc.tugraz.ss.serv.dataimport.conf.SSDataImportConf;
 import at.kc.tugraz.ss.serv.dataimport.impl.SSDataImportImpl;
 import at.kc.tugraz.ss.serv.dataimport.serv.task.SSDataImportBitsAndPiecesTask;
+import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServImplA;
@@ -48,7 +49,7 @@ public class SSDataImportServ extends SSServContainerI{
   }
   
   @Override
-  protected SSServImplA createServImplForThread() throws Exception{
+  protected SSServImplA createServImplForThread() throws SSErr{
     return new SSDataImportImpl(conf);
   }
   

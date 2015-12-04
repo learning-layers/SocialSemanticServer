@@ -25,6 +25,7 @@ import at.tugraz.sss.serv.SSCoreConfA;
 import at.kc.tugraz.ss.serv.jobs.evernote.api.SSEvernoteClientI;
 import at.kc.tugraz.ss.serv.jobs.evernote.api.SSEvernoteServerI;
 import at.kc.tugraz.ss.serv.jobs.evernote.impl.SSEvernoteImpl;
+import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServImplA;
@@ -42,7 +43,7 @@ public class SSEvernoteServ extends SSServContainerI{
   }
   
   @Override
-  protected SSServImplA createServImplForThread() throws Exception{
+  protected SSServImplA createServImplForThread() throws SSErr{
     return new SSEvernoteImpl(conf);
   }
 

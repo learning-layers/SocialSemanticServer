@@ -35,7 +35,7 @@ import at.tugraz.sss.serv.SSServErrReg;
 
 public class SSAuthSQLFct extends SSDBSQLFct{
   
-  public SSAuthSQLFct(final SSDBSQLI dbSQL) throws Exception{
+  public SSAuthSQLFct(final SSDBSQLI dbSQL){
     super(dbSQL);
   }
 

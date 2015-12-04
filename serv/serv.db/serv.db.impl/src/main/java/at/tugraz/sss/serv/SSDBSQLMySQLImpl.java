@@ -20,8 +20,6 @@
   */
 package at.tugraz.sss.serv;
 
-import com.mysql.jdbc.exceptions.jdbc4.CommunicationsException;
-import com.mysql.jdbc.exceptions.jdbc4.MySQLNonTransientConnectionException;
 import com.mysql.jdbc.exceptions.jdbc4.MySQLTransactionRollbackException;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -31,6 +29,8 @@ import java.sql.Statement;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ws.rs.core.MultivaluedMap;
 import org.apache.tomcat.jdbc.pool.DataSource;
 import org.apache.tomcat.jdbc.pool.PoolProperties;
@@ -42,7 +42,7 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
   private        Boolean      gotCon                   = false;
   private        Integer      numberTimesTriedToGetCon = 0;
   
-  public SSDBSQLMySQLImpl(final SSConfA conf) throws Exception{
+  public SSDBSQLMySQLImpl(final SSConfA conf) throws SSErr {
     
     super(conf);
     
@@ -50,33 +50,31 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
   }
   
   @Override
-  public Integer getActive() throws Exception{
+  public Integer getActive() {
     return connectionPool.getActive();
   }
   
   @Override
-  public Integer getMaxActive() throws Exception {
+  public Integer getMaxActive(){
     return connectionPool.getMaxActive();
   }
   
   @Override
-  public ResultSet select(final String query) throws Exception{
+  public ResultSet select(final String query) throws SSErr {
     
-    Statement stmt = null;
-      
     try{
-      stmt = connector.createStatement();
+      final Statement stmt = connector.createStatement();
       
       return stmt.executeQuery(query);
       
-    }catch (Exception error){
-      SSServErrReg.regErrThrow(error);
+    }catch(SQLException sqlError){
+      SSServErrReg.regErrThrow(SSErrE.sqlDefaultErr, sqlError);
       return null;
     }
   }
 
   @Override
-  public ResultSet select(final SSDBSQLSelectPar par) throws Exception{
+  public ResultSet select(final SSDBSQLSelectPar par) throws SSErr{
     
     try{
       String                                    query   = "SELECT DISTINCT "; //caution do not remove distinct here without checks
@@ -150,7 +148,7 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
           par.requireds.isEmpty() &&
           par.absents.isEmpty()   &&
           par.eithers.isEmpty()){
-          throw new SSErr(SSErrE.parameterMissing);
+          throw SSErr.get(SSErrE.parameterMissing);
         }
         
         //      SELECT * FROM articles
@@ -277,8 +275,10 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
       }
       
       return stmt.executeQuery();
-    }catch(Exception error){
-      throw error;
+    
+    }catch(SQLException sqlError){
+      SSServErrReg.regErrThrow(SSErrE.sqlDefaultErr, sqlError);
+      return null;
     }
   }
   
@@ -290,81 +290,82 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
     final List<String>        tableCons,
     final String              orderByColumn,
     final String              sortType,
-    final Integer             limit) throws Exception{
+    final Integer             limit) throws SSErr{
     
     try{
-    String                              query   = "SELECT DISTINCT "; //caution do not remove distinct here without checks
-    PreparedStatement                   stmt;
-    Iterator<Map.Entry<String, String>> iterator;
-    int                                 counter = 1;
-    
-    for(String columnName : columns){
-      query += columnName + SSStrU.comma;
-    }
-    
-    if(
-      columns == null ||
-      columns.isEmpty()){
+      String                              query   = "SELECT DISTINCT "; //caution do not remove distinct here without checks
+      PreparedStatement                   stmt;
+      Iterator<Map.Entry<String, String>> iterator;
+      int                                 counter = 1;
       
-      query += "*";
-    }
-    
-    query = SSStrU.removeTrailingString(query, SSStrU.comma) + " FROM ";
-    
-    for(String tableName : tables){
-      query += tableName + SSStrU.comma;
-    }
-    
-    query         = SSStrU.removeTrailingString(query, SSStrU.comma) + " WHERE ";
-    
-    if(
-      wheres != null &&
-      !wheres.isEmpty()){
+      for(String columnName : columns){
+        query += columnName + SSStrU.comma;
+      }
       
-      iterator      = wheres.entrySet().iterator();
+      if(
+        columns == null ||
+        columns.isEmpty()){
+        
+        query += "*";
+      }
       
-      while(iterator.hasNext()){
-        query += iterator.next().getKey() + SSStrU.equal + SSStrU.questionMark + " AND ";
+      query = SSStrU.removeTrailingString(query, SSStrU.comma) + " FROM ";
+      
+      for(String tableName : tables){
+        query += tableName + SSStrU.comma;
+      }
+      
+      query         = SSStrU.removeTrailingString(query, SSStrU.comma) + " WHERE ";
+      
+      if(
+        wheres != null &&
+        !wheres.isEmpty()){
+        
+        iterator      = wheres.entrySet().iterator();
+        
+        while(iterator.hasNext()){
+          query += iterator.next().getKey() + SSStrU.equal + SSStrU.questionMark + " AND ";
+        }
+        
+        query          = SSStrU.removeTrailingString(query, " AND ");
+      }
+      
+      if(!wheres.isEmpty()){
+        query += " AND ";
+      }
+      
+      for(String tableCon : tableCons){
+        query += tableCon + " AND ";
       }
       
       query          = SSStrU.removeTrailingString(query, " AND ");
-    }
-    
-    if(!wheres.isEmpty()){
-      query += " AND ";
-    }
-    
-    for(String tableCon : tableCons){
-      query += tableCon + " AND ";
-    }
-    
-    query          = SSStrU.removeTrailingString(query, " AND ");
-    
-    if(
-      orderByColumn != null &&
-      sortType      != null){
-      query         += " ORDER BY " + orderByColumn + SSStrU.blank + sortType;
-    }
-    
-    if(limit != null){
-      query += " LIMIT " + limit;
-    }
-    
-    stmt           = connector.prepareStatement(query);
-    
-    if(
-      wheres != null &&
-      !wheres.isEmpty()){
-      iterator       = wheres.entrySet().iterator();
       
-      while(iterator.hasNext()){
-        stmt.setObject(counter++, iterator.next().getValue());
+      if(
+        orderByColumn != null &&
+        sortType      != null){
+        query         += " ORDER BY " + orderByColumn + SSStrU.blank + sortType;
       }
-    }
-    
-    return stmt.executeQuery();
-    }catch(Exception error){
-      throw error;
+      
+      if(limit != null){
+        query += " LIMIT " + limit;
+      }
+      
+      stmt           = connector.prepareStatement(query);
+      
+      if(
+        wheres != null &&
+        !wheres.isEmpty()){
+        iterator       = wheres.entrySet().iterator();
+        
+        while(iterator.hasNext()){
+          stmt.setObject(counter++, iterator.next().getValue());
+        }
+      }
+      
+      return stmt.executeQuery();
+    }catch(SQLException sqlError){
+      SSServErrReg.regErrThrow(SSErrE.sqlDefaultErr, sqlError);
+      return null;
     }
   }
   
@@ -375,68 +376,69 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
     final Map<String, String> wheres,
     final String              orderByColumn,
     final String              sortType,
-    final Integer             limit) throws Exception{
+    final Integer             limit) throws SSErr{
     
     try{
-    String                              query   = "SELECT DISTINCT ";
-    int                                 counter = 1;
-    PreparedStatement                   stmt;
-    Iterator<Map.Entry<String, String>> iterator;
-    
-    for(String certain : columns){
-      query += certain + SSStrU.comma + SSStrU.blank;
-    }
-    
-    if(
-      columns == null ||
-      columns.isEmpty()){
+      String                              query   = "SELECT DISTINCT ";
+      int                                 counter = 1;
+      PreparedStatement                   stmt;
+      Iterator<Map.Entry<String, String>> iterator;
       
-      query += "*";
-    }
-    
-    query          = SSStrU.removeTrailingString(query, SSStrU.comma + SSStrU.blank) + " FROM " + table;
-    
-    if(
-      wheres != null &&
-      !wheres.isEmpty()){
-      
-      query += " WHERE ";
-      
-      iterator      = wheres.entrySet().iterator();
-      
-      while(iterator.hasNext()){
-        query += iterator.next().getKey() + SSStrU.equal + SSStrU.questionMark + " AND ";
+      for(String certain : columns){
+        query += certain + SSStrU.comma + SSStrU.blank;
       }
       
-      query          = SSStrU.removeTrailingString(query, " AND ");
-    }
-    
-    if(
-      orderByColumn != null &&
-      sortType      != null){
-      query         += " ORDER BY " + orderByColumn + SSStrU.blank + sortType;
-    }
-    
-    if(limit != null){
-      query += " LIMIT " + limit;
-    }
-    
-    stmt           = connector.prepareStatement(query);
-    
-    if(
-      wheres != null &&
-      !wheres.isEmpty()){
-      
-      iterator       = wheres.entrySet().iterator();
-      
-      while(iterator.hasNext()){
-        stmt.setObject(counter++, iterator.next().getValue());
+      if(
+        columns == null ||
+        columns.isEmpty()){
+        
+        query += "*";
       }
-    }
-    
-    return stmt.executeQuery();
-    }catch(Exception error){
-      throw error;
+      
+      query          = SSStrU.removeTrailingString(query, SSStrU.comma + SSStrU.blank) + " FROM " + table;
+      
+      if(
+        wheres != null &&
+        !wheres.isEmpty()){
+        
+        query += " WHERE ";
+        
+        iterator      = wheres.entrySet().iterator();
+        
+        while(iterator.hasNext()){
+          query += iterator.next().getKey() + SSStrU.equal + SSStrU.questionMark + " AND ";
+        }
+        
+        query          = SSStrU.removeTrailingString(query, " AND ");
+      }
+      
+      if(
+        orderByColumn != null &&
+        sortType      != null){
+        query         += " ORDER BY " + orderByColumn + SSStrU.blank + sortType;
+      }
+      
+      if(limit != null){
+        query += " LIMIT " + limit;
+      }
+      
+      stmt           = connector.prepareStatement(query);
+      
+      if(
+        wheres != null &&
+        !wheres.isEmpty()){
+        
+        iterator       = wheres.entrySet().iterator();
+        
+        while(iterator.hasNext()){
+          stmt.setObject(counter++, iterator.next().getValue());
+        }
+      }
+      
+      return stmt.executeQuery();
+    }catch(SQLException sqlError){
+      SSServErrReg.regErrThrow(SSErrE.sqlDefaultErr, sqlError);
+      return null;
     }
   }
   
@@ -448,102 +450,103 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
     final List<String>                         tableCons,
     final String                               orderByColumn,
     final String                               sortType,
-    final Integer                              limit) throws Exception{
+    final Integer                              limit) throws SSErr{
     
     try{
-    String                                    query   = "SELECT DISTINCT "; //caution do not remove distinct here without checks
-    int                                       counter = 1;
-    PreparedStatement                         stmt;
-    Iterator<Map.Entry<String, List<String>>> iteratorMultiValue;
-    Map.Entry<String, List<String>>           entrySet;
-    
-    for(String columnName : columns){
-      query += columnName + SSStrU.comma;
-    }
-    
-    if(
-      columns == null ||
-      columns.isEmpty()){
+      String                                    query   = "SELECT DISTINCT "; //caution do not remove distinct here without checks
+      int                                       counter = 1;
+      PreparedStatement                         stmt;
+      Iterator<Map.Entry<String, List<String>>> iteratorMultiValue;
+      Map.Entry<String, List<String>>           entrySet;
       
-      query += "*";
-    }
-    
-    query = SSStrU.removeTrailingString(query, SSStrU.comma) + " FROM ";
-    
-    for(String tableName : tables){
-      query += tableName + SSStrU.comma;
-    }
-    
-    if(
-      likes.isEmpty() &&
-      tableCons.isEmpty()){
-      query = SSStrU.removeTrailingString(query, SSStrU.comma);
-    }else{
-      query = SSStrU.removeTrailingString(query, SSStrU.comma) + " WHERE ";
-    }
-    
-    for(MultivaluedMap<String, String> like : likes){
+      for(String columnName : columns){
+        query += columnName + SSStrU.comma;
+      }
       
-      query += "(";
-      
-      iteratorMultiValue = like.entrySet().iterator();
-      
-      while(iteratorMultiValue.hasNext()){
+      if(
+        columns == null ||
+        columns.isEmpty()){
         
-        entrySet = iteratorMultiValue.next();
+        query += "*";
+      }
+      
+      query = SSStrU.removeTrailingString(query, SSStrU.comma) + " FROM ";
+      
+      for(String tableName : tables){
+        query += tableName + SSStrU.comma;
+      }
+      
+      if(
+        likes.isEmpty() &&
+        tableCons.isEmpty()){
+        query = SSStrU.removeTrailingString(query, SSStrU.comma);
+      }else{
+        query = SSStrU.removeTrailingString(query, SSStrU.comma) + " WHERE ";
+      }
+      
+      for(MultivaluedMap<String, String> like : likes){
         
-        for(String value : entrySet.getValue()){
-          query += entrySet.getKey() + " LIKE " + SSStrU.questionMark + " OR ";
+        query += "(";
+        
+        iteratorMultiValue = like.entrySet().iterator();
+        
+        while(iteratorMultiValue.hasNext()){
+          
+          entrySet = iteratorMultiValue.next();
+          
+          for(String value : entrySet.getValue()){
+            query += entrySet.getKey() + " LIKE " + SSStrU.questionMark + " OR ";
+          }
+        }
+        
+        query = SSStrU.removeTrailingString(query, " OR ") + ") AND ";
+      }
+      
+      query = SSStrU.removeTrailingString(query, " AND ");
+      
+      if(
+        !likes.isEmpty() &&
+        !tableCons.isEmpty()){
+        
+        query += " AND ";
+      }
+      
+      for(String tableCon : tableCons){
+        query += tableCon + " AND ";
+      }
+      
+      query          = SSStrU.removeTrailingString(query, " AND ");
+      
+      if(
+        orderByColumn != null &&
+        sortType      != null){
+        query         += " ORDER BY " + orderByColumn + SSStrU.blank + sortType;
+      }
+      
+      if(limit != null){
+        query += " LIMIT " + limit;
+      }
+      
+      stmt           = connector.prepareStatement(query);
+      
+      for(MultivaluedMap<String, String> like : likes){
+        
+        iteratorMultiValue = like.entrySet().iterator();
+        
+        while(iteratorMultiValue.hasNext()){
+          
+          entrySet = iteratorMultiValue.next();
+          
+          for(String value : entrySet.getValue()){
+            stmt.setObject(counter++, "%" + value + "%");
+          }
         }
       }
       
-      query = SSStrU.removeTrailingString(query, " OR ") + ") AND ";
-    }
-    
-    query = SSStrU.removeTrailingString(query, " AND ");
-    
-    if(
-      !likes.isEmpty() &&
-      !tableCons.isEmpty()){
-      
-      query += " AND ";
-    }
-    
-    for(String tableCon : tableCons){
-      query += tableCon + " AND ";
-    }
-    
-    query          = SSStrU.removeTrailingString(query, " AND ");
-    
-    if(
-      orderByColumn != null &&
-      sortType      != null){
-      query         += " ORDER BY " + orderByColumn + SSStrU.blank + sortType;
-    }
-    
-    if(limit != null){
-      query += " LIMIT " + limit;
-    }
-    
-    stmt           = connector.prepareStatement(query);
-    
-    for(MultivaluedMap<String, String> like : likes){
-      
-      iteratorMultiValue = like.entrySet().iterator();
-      
-      while(iteratorMultiValue.hasNext()){
-        
-        entrySet = iteratorMultiValue.next();
-        
-        for(String value : entrySet.getValue()){
-          stmt.setObject(counter++, "%" + value + "%");
-        }
-      }
-    }
-    
-    return stmt.executeQuery();
-    }catch(Exception error){
-      throw error;
+      return stmt.executeQuery();
+    }catch(SQLException sqlError){
+      SSServErrReg.regErrThrow(SSErrE.sqlDefaultErr, sqlError);
+      return null;
     }
   }
   
@@ -551,7 +554,7 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
   public void insertIfNotExists(
     final String              table,
     final Map<String, String> inserts,
-    final Map<String, String> uniqueKeys) throws Exception{
+    final Map<String, String> uniqueKeys) throws SSErr{
     
     PreparedStatement stmt = null;
     
@@ -600,20 +603,26 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
       }
       
       stmt.executeUpdate();
-    }catch(MySQLTransactionRollbackException error){
-      SSServErrReg.regErrThrow(new SSErr(SSErrE.sqlDeadLock));
-    }catch(Exception error1){
-      throw error1;
+    }catch(MySQLTransactionRollbackException deadLockError){
+      SSServErrReg.regErrThrow(SSErrE.sqlDeadLock, deadLockError);
+    }catch(SQLException sqlError){
+      SSServErrReg.regErrThrow(SSErrE.sqlDefaultErr, sqlError);
     }finally{
+      
       if(stmt != null){
-        stmt.close();
+        
+        try{
+          stmt.close();
+        }catch(SQLException sqlError) {
+          SSLogU.warn(SSWarnE.sqlCloseStatementFailed, sqlError);
+        }
       }
     }
   }
   
   @Override
   public void delete(
-    final String table) throws Exception{
+    final String table) throws SSErr{
     
     PreparedStatement   stmt  = null;
     
@@ -623,14 +632,19 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
       
       stmt.executeUpdate();
       
-    }catch(MySQLTransactionRollbackException error){
-      SSServErrReg.regErrThrow(new SSErr(SSErrE.sqlDeadLock));
-    }catch(Exception error1){
-      throw error1;
+    }catch(MySQLTransactionRollbackException deadLockError){
+      SSServErrReg.regErrThrow(SSErrE.sqlDeadLock, deadLockError);
+    }catch(SQLException sqlError){
+      SSServErrReg.regErrThrow(SSErrE.sqlDefaultErr, sqlError);
     }finally{
       
       if(stmt != null){
-        stmt.close();
+        
+        try{
+          stmt.close();
+        }catch(SQLException sqlError) {
+          SSLogU.warn(SSWarnE.sqlCloseStatementFailed, sqlError);
+        }
       }
     }
   }
@@ -639,7 +653,7 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
   public void updateIgnore(
     final String              table,
     final Map<String, String> wheres,
-    final Map<String, String> values) throws Exception{
+    final Map<String, String> values) throws SSErr{
     
     PreparedStatement stmt    = null;
     
@@ -675,14 +689,19 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
       
       stmt.executeUpdate();
       
-    }catch(MySQLTransactionRollbackException error){
-      SSServErrReg.regErrThrow(new SSErr(SSErrE.sqlDeadLock));
-    }catch(Exception error1){
-      throw error1;
+    }catch(MySQLTransactionRollbackException deadLockError){
+      SSServErrReg.regErrThrow(SSErrE.sqlDeadLock, deadLockError);
+    }catch(SQLException sqlError){
+      SSServErrReg.regErrThrow(SSErrE.sqlDefaultErr, sqlError);
     }finally{
       
       if(stmt != null){
-        stmt.close();
+        
+        try{
+          stmt.close();
+        }catch(SQLException sqlError) {
+          SSLogU.warn(SSWarnE.sqlCloseStatementFailed, sqlError);
+        }
       }
     }
   }
@@ -691,7 +710,7 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
   public void update(
     final String              table,
     final Map<String, String> wheres,
-    final Map<String, String> updates) throws Exception{
+    final Map<String, String> updates) throws SSErr{
     
     PreparedStatement stmt    = null;
     
@@ -728,14 +747,19 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
       
       stmt.executeUpdate();
       
-    }catch(MySQLTransactionRollbackException error){
-      SSServErrReg.regErrThrow(new SSErr(SSErrE.sqlDeadLock));
-    }catch(Exception error1){
-      throw error1;
+    }catch(MySQLTransactionRollbackException deadLockError){
+      SSServErrReg.regErrThrow(SSErrE.sqlDeadLock, deadLockError);
+    }catch(SQLException sqlError){
+      SSServErrReg.regErrThrow(SSErrE.sqlDefaultErr, sqlError);
     }finally{
       
       if(stmt != null){
-        stmt.close();
+        
+        try{
+          stmt.close();
+        }catch(SQLException sqlError) {
+          SSLogU.warn(SSWarnE.sqlCloseStatementFailed, sqlError);
+        }
       }
     }
   }
@@ -743,7 +767,7 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
   @Override
   public void insert(
     final String              table,
-    final Map<String, String> inserts) throws Exception{
+    final Map<String, String> inserts) throws SSErr{
     
     PreparedStatement stmt    = null;
     
@@ -773,13 +797,19 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
       }
       
       stmt.executeUpdate();
-    }catch(MySQLTransactionRollbackException error){
-      SSServErrReg.regErrThrow(new SSErr(SSErrE.sqlDeadLock));
-    }catch(Exception error1){
-      throw error1;
+    }catch(MySQLTransactionRollbackException deadLockError){
+      SSServErrReg.regErrThrow(SSErrE.sqlDeadLock, deadLockError);
+    }catch(SQLException sqlError){
+      SSServErrReg.regErrThrow(SSErrE.sqlDefaultErr, sqlError);
     }finally{
+      
       if(stmt != null){
-        stmt.close();
+        
+        try{
+          stmt.close();
+        }catch(SQLException sqlError) {
+          SSLogU.warn(SSWarnE.sqlCloseStatementFailed, sqlError);
+        }
       }
     }
   }
@@ -787,7 +817,7 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
   @Override
   public void delete(
     final String              table,
-    final Map<String, String> wheres) throws Exception{
+    final Map<String, String> wheres) throws SSErr{
     
     PreparedStatement stmt    = null;
     
@@ -810,12 +840,19 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
       
       stmt.executeUpdate();
       
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
+    }catch(MySQLTransactionRollbackException deadLockError){
+      SSServErrReg.regErrThrow(SSErrE.sqlDeadLock, deadLockError);
+    }catch(SQLException sqlError){
+      SSServErrReg.regErrThrow(SSErrE.sqlDefaultErr, sqlError);
     }finally{
       
       if(stmt != null){
-        stmt.close();
+        
+        try{
+          stmt.close();
+        }catch(SQLException sqlError) {
+          SSLogU.warn(SSWarnE.sqlCloseStatementFailed, sqlError);
+        }
       }
     }
   }
@@ -823,7 +860,7 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
   @Override
   public void deleteIgnore(
     final String              table,
-    final Map<String, String> deletes) throws Exception{
+    final Map<String, String> deletes) throws SSErr{
     
     PreparedStatement stmt = null;
     
@@ -846,11 +883,19 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
       
       stmt.executeUpdate();
       
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
+    }catch(MySQLTransactionRollbackException deadLockError){
+      SSServErrReg.regErrThrow(SSErrE.sqlDeadLock, deadLockError);
+    }catch(SQLException sqlError){
+      SSServErrReg.regErrThrow(SSErrE.sqlDefaultErr, sqlError);
     }finally{
+      
       if(stmt != null){
-        stmt.close();
+        
+        try{
+          stmt.close();
+        }catch(SQLException sqlError) {
+          SSLogU.warn(SSWarnE.sqlCloseStatementFailed, sqlError);
+        }
       }
     }
   }
@@ -858,67 +903,80 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
   @Override
   public void deleteIgnore(
     final String                               table,
-    final List<MultivaluedMap<String, String>> wheres) throws Exception{
+    final List<MultivaluedMap<String, String>> wheres) throws SSErr{
+    
+    PreparedStatement stmt = null;
     
     try{
-    String                                    query   = "DELETE IGNORE FROM " + table + " WHERE ";
-    int                                       counter = 1;
-    PreparedStatement                         stmt;
-    Iterator<Map.Entry<String, List<String>>> iteratorMultiValue;
-    Map.Entry<String, List<String>>           entrySet;
-    
-    if(wheres.isEmpty()){
-      throw new SSErr(SSErrE.parameterMissing);
-    }
-    
-    for(MultivaluedMap<String, String> where : wheres){
+      String                                    query   = "DELETE IGNORE FROM " + table + " WHERE ";
+      int                                       counter = 1;
+      Iterator<Map.Entry<String, List<String>>> iteratorMultiValue;
+      Map.Entry<String, List<String>>           entrySet;
       
-      query += "(";
+      if(wheres.isEmpty()){
+        throw SSErr.get(SSErrE.parameterMissing);
+      }
       
-      iteratorMultiValue = where.entrySet().iterator();
-      
-      while(iteratorMultiValue.hasNext()){
+      for(MultivaluedMap<String, String> where : wheres){
         
-        entrySet = iteratorMultiValue.next();
+        query += "(";
         
-        for(String value : entrySet.getValue()){
-          query += entrySet.getKey() + SSStrU.equal + SSStrU.questionMark + " OR ";
+        iteratorMultiValue = where.entrySet().iterator();
+        
+        while(iteratorMultiValue.hasNext()){
+          
+          entrySet = iteratorMultiValue.next();
+          
+          for(String value : entrySet.getValue()){
+            query += entrySet.getKey() + SSStrU.equal + SSStrU.questionMark + " OR ";
+          }
+        }
+        
+        query = SSStrU.removeTrailingString(query, " OR ") + ") AND ";
+      }
+      
+      query = SSStrU.removeTrailingString(query, " AND ");
+      stmt  = connector.prepareStatement(query);
+      
+      for(MultivaluedMap<String, String> where : wheres){
+        
+        iteratorMultiValue = where.entrySet().iterator();
+        
+        while(iteratorMultiValue.hasNext()){
+          
+          entrySet = iteratorMultiValue.next();
+          
+          for(String value : entrySet.getValue()){
+            stmt.setObject(counter++, value);
+          }
         }
       }
       
-      query = SSStrU.removeTrailingString(query, " OR ") + ") AND ";
-    }
-    
-    query = SSStrU.removeTrailingString(query, " AND ");
-    stmt  = connector.prepareStatement(query);
-    
-    for(MultivaluedMap<String, String> where : wheres){
+      stmt.executeUpdate();
+    }catch(MySQLTransactionRollbackException deadLockError){
+      SSServErrReg.regErrThrow(SSErrE.sqlDeadLock, deadLockError);
+    }catch(SQLException sqlError){
+      SSServErrReg.regErrThrow(SSErrE.sqlDefaultErr, sqlError);
+    }finally{
       
-      iteratorMultiValue = where.entrySet().iterator();
-      
-      while(iteratorMultiValue.hasNext()){
+      if(stmt != null){
         
-        entrySet = iteratorMultiValue.next();
-        
-        for(String value : entrySet.getValue()){
-          stmt.setObject(counter++, value);
+        try{
+          stmt.close();
+        }catch(SQLException sqlError) {
+          SSLogU.warn(SSWarnE.sqlCloseStatementFailed, sqlError);
         }
       }
-    }
-    
-    stmt.executeUpdate();
-    }catch(Exception error){
-      throw error;
     }
   }
   
-  
+  @Override
   public Connection getConnection(){
     return connector;
   }
   
   @Override
-  protected void finalizeImpl() throws Exception{
+  protected void finalizeImpl() throws SSErr{
     
     try{
       closeCon();
@@ -929,7 +987,7 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
   
   @Override
   public void startTrans(
-    Boolean shouldCommit) throws Exception{
+    Boolean shouldCommit) throws SSErr{
     
     if(!shouldCommit){
       return;
@@ -948,7 +1006,7 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
     }
   }
   @Override
-  public void closeCon() throws Exception{
+  public void closeCon() throws SSErr{
     
     try{
       if(connector == null){
@@ -967,7 +1025,7 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
   }
   
   @Override
-  public void closeStmt(final ResultSet resultSet) throws Exception{
+  public void closeStmt(final ResultSet resultSet) throws SSErr{
     
     try{
       
@@ -1009,7 +1067,7 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
   }
   
   @Override
-  public void commit(Boolean shouldCommit) throws Exception{
+  public void commit(Boolean shouldCommit) throws SSErr{
     
     if(!shouldCommit){
       return;
@@ -1023,38 +1081,47 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
     }
   }
   
-  private void connectToMYSQL() throws Exception{
+  private void connectToMYSQL() throws SSErr{
     
-    if(SSObjU.isNull(connectionPool)){
-      connectToMYSQLConnectionPool();
-    }
-    
-    while(!gotCon && numberTimesTriedToGetCon < 5){
+    try{
       
-      try{
-        connector = connectionPool.getConnection();
-        connector.setAutoCommit(true);
-        
-        gotCon = true;
-        
-      }catch(CommunicationsException error){
-        throw error;
-      }catch(MySQLNonTransientConnectionException error){
-        
-        SSLogU.info("no db conn available anymore... going to sleep for 3000 ms");
-        
-        numberTimesTriedToGetCon++;
-        Thread.sleep(3000);
+      if(SSObjU.isNull(connectionPool)){
+        connectToMYSQLConnectionPool();
       }
+      
+      while(!gotCon && numberTimesTriedToGetCon < 5){
+        
+        try{
+          connector = connectionPool.getConnection();
+          connector.setAutoCommit(true);
+          
+          gotCon = true;
+          
+        }catch(SQLException sqlError){
+          
+          SSLogU.warn("no db conn available anymore... going to sleep for 3000 ms", sqlError);
+          
+          numberTimesTriedToGetCon++;
+          
+          try{
+            Thread.sleep(3000);
+          }catch (InterruptedException threadError) {
+            throw SSErr.get(SSErrE.mySQLGetConnectionFromPoolFailed, threadError);
+          }
+        }
+      }
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
     }
   }
   
-  private void connectToMYSQLConnectionPool() throws Exception{
+  private void connectToMYSQLConnectionPool()throws SSErr{
     
-    Class.forName("com.mysql.jdbc.Driver");
-    
-    //    private static BoneCP     connectionPool   = null;
-    //    BoneCPConfig config = new BoneCPConfig();
+    try{
+      Class.forName("com.mysql.jdbc.Driver");
+      
+      //    private static BoneCP     connectionPool   = null;
+      //    BoneCPConfig config = new BoneCPConfig();
 //    config.setJdbcUrl  ("jdbc:mysql://" + ((SSDBSQLConf)conf).host + SSStrU.colon + ((SSDBSQLConf)conf).port + SSStrU.slash + ((SSDBSQLConf)conf).schema); // jdbc url specific to your database, eg jdbc:mysql://127.0.0.1/yourdb
 //    config.setUsername (((SSDBSQLConf)conf).username);
 //    config.setPassword (((SSDBSQLConf)conf).password);
@@ -1070,31 +1137,35 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
 //    config.setTransactionRecoveryEnabled(false);
 //
 //    connectionPool = new BoneCP(config);
-    
-    
-    PoolProperties prop = new PoolProperties();
-    prop.setUrl             ("jdbc:mysql://" + ((SSDBSQLConf)conf).host + SSStrU.colon + ((SSDBSQLConf)conf).port + SSStrU.slash + ((SSDBSQLConf)conf).schema + "?autoReconnect=true");
-    prop.setDriverClassName ("com.mysql.jdbc.Driver");
-    prop.setUsername        (((SSDBSQLConf)conf).username);
-    prop.setPassword        (((SSDBSQLConf)conf).password);
-    prop.setFairQueue(true);
-    prop.setTestWhileIdle(true);
-    prop.setValidationInterval(30000);
-    prop.setMaxActive(100);
-    prop.setInitialSize(10);
-    prop.setMinIdle(10);
-    prop.setMaxWait(10000);
-    prop.setRemoveAbandoned(false);
-    prop.setMinEvictableIdleTimeMillis(30000);
-    prop.setTestOnBorrow(true);
-    prop.setValidationQuery("select 1");
-    
-    connectionPool = new DataSource(prop);
+      
+      
+      PoolProperties prop = new PoolProperties();
+      prop.setUrl             ("jdbc:mysql://" + ((SSDBSQLConf)conf).host + SSStrU.colon + ((SSDBSQLConf)conf).port + SSStrU.slash + ((SSDBSQLConf)conf).schema + "?autoReconnect=true");
+      prop.setDriverClassName ("com.mysql.jdbc.Driver");
+      prop.setUsername        (((SSDBSQLConf)conf).username);
+      prop.setPassword        (((SSDBSQLConf)conf).password);
+      prop.setFairQueue(true);
+      prop.setTestWhileIdle(true);
+      prop.setValidationInterval(30000);
+      prop.setMaxActive(100);
+      prop.setInitialSize(10);
+      prop.setMinIdle(10);
+      prop.setMaxWait(10000);
+      prop.setRemoveAbandoned(false);
+      prop.setMinEvictableIdleTimeMillis(30000);
+      prop.setTestOnBorrow(true);
+      prop.setValidationQuery("select 1");
+      
+      connectionPool = new DataSource(prop);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(SSErrE.mySQLConnectionFailed, error);
+    }
   }
 }
 
 //  @Override
-//  public void insertIgnore(String tableName, Map<String, String> parNamesWithValues) throws Exception {
+//  public void insertIgnore(String tableName, Map<String, String> parNamesWithValues) throws SSErr {
 //
 //    String                              query   = "INSERT IGNORE INTO ";
 //    int                                 counter = 1;
@@ -1139,7 +1210,7 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
 //  }
 
 //@Override
-//  public ResultSet query(String query) throws Exception{
+//  public ResultSet query(String query) throws SSErr{
 //
 //    Statement   stmt    = connector.createStatement();
 //    ResultSet   results = stmt.executeQuery(query);
@@ -1171,7 +1242,7 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
 //    final List<String>        tables,
 //    final List<String>        columns,
 //    final Map<String, String> wheres,
-//    final String              tableConnection) throws Exception{
+//    final String              tableConnection) throws SSErr{
 //
 //    String                              query   = "SELECT ";
 //    int                                 counter = 1;
@@ -1209,7 +1280,7 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
 //  @Override
 //  public ResultSet select(
 //    final String              table,
-//    final Map<String, String> wheres) throws Exception{
+//    final Map<String, String> wheres) throws SSErr{
 //
 //    String                              query    = "SELECT * FROM " + table + " WHERE ";
 //    Iterator<Map.Entry<String, String>> iterator = wheres.entrySet().iterator();
@@ -1233,7 +1304,7 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
 
 //  @Override
 //  public ResultSet select(
-//    final String table) throws Exception{
+//    final String table) throws SSErr{
 //    return connector.prepareStatement("SELECT * FROM " + table).executeQuery();
 //  }
 
@@ -1242,7 +1313,7 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
 //    String              table,
 //    Map<String, String> wheres,
 //    String              orderByColumn,
-//    String              sortType) throws Exception{
+//    String              sortType) throws SSErr{
 //
 //    String                              query    = "SELECT * FROM " + table + " WHERE ";
 //    Iterator<Map.Entry<String, String>> iterator = wheres.entrySet().iterator();
@@ -1272,7 +1343,7 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
 //    final Map<String, String> wheres,
 //    final String              tableCon,
 //    final String              orderByColumn,
-//    final String              sortType) throws Exception{
+//    final String              sortType) throws SSErr{
 //
 //    String                              query   = "SELECT ";
 //    int                                 counter = 1;
@@ -1323,7 +1394,7 @@ public class SSDBSQLMySQLImpl extends SSServImplDBA implements SSDBSQLI{
 //    final List<String>                                           tableCons,
 //    final String                                                 orderByColumn,
 //    final String                                                 sortType,
-//    final Integer                                                limit) throws Exception{
+//    final Integer                                                limit) throws SSErr{
 //
 //    String                                    query   = "SELECT DISTINCT "; //caution do not remove distinct here without checks
 //    int                                       counter = 1;

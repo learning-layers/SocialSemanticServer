@@ -77,7 +77,7 @@ public class SSLearnEpActivityAndLogFct{
     }catch(SSErr error){
       
       switch(error.code){
-        case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
+        case servServerOpNotAvailable: SSLogU.warn(error.getMessage()); break;
         default: SSServErrReg.regErrThrow(error);
       }
       
@@ -101,7 +101,7 @@ SSUri.asListNotNull(learnEp), //entities
     }catch(SSErr error){
       
       switch(error.code){
-        case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
+        case servServerOpNotAvailable: SSLogU.warn(error.getMessage()); break;
         default: SSServErrReg.regErrThrow(error);
       }
       
@@ -134,7 +134,7 @@ SSUri.asListNotNull(learnEp), //entities
     }catch(SSErr error){
       
       switch(error.code){
-        case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
+        case servServerOpNotAvailable: SSLogU.warn(error.getMessage()); break;
         default: SSServErrReg.regErrThrow(error);
       }
       
@@ -158,7 +158,7 @@ SSUri.asListNotNull(learnEp), //entities
     }catch(SSErr error){
       
       switch(error.code){
-        case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
+        case servServerOpNotAvailable: SSLogU.warn(error.getMessage()); break;
         default: SSServErrReg.regErrThrow(error);
       }
       
@@ -190,7 +190,7 @@ SSUri.asListNotNull(learnEp), //entities
     }catch(SSErr error){
       
       switch(error.code){
-        case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
+        case servServerOpNotAvailable: SSLogU.warn(error.getMessage()); break;
         default: SSServErrReg.regErrThrow(error);
       }
       
@@ -214,7 +214,7 @@ SSUri.asListNotNull(learnEp), //entities
     }catch(SSErr error){
       
       switch(error.code){
-        case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
+        case servServerOpNotAvailable: SSLogU.warn(error.getMessage()); break;
         default: SSServErrReg.regErrThrow(error);
       }
       
@@ -254,7 +254,7 @@ SSUri.asListNotNull(learnEp), //entities
     }catch(SSErr error){
       
       switch(error.code){
-        case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
+        case servServerOpNotAvailable: SSLogU.warn(error.getMessage()); break;
         default: SSServErrReg.regErrThrow(error);
       }
       
@@ -302,7 +302,7 @@ SSUri.asListNotNull(learnEp), //entities
     }catch(SSErr error){
       
       switch(error.code){
-        case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
+        case servServerOpNotAvailable: SSLogU.warn(error.getMessage()); break;
         default: SSServErrReg.regErrThrow(error);
       }
       
@@ -326,7 +326,7 @@ SSUri.asListNotNull(learnEp), //entities
     }catch(SSErr error){
       
       switch(error.code){
-        case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
+        case servServerOpNotAvailable: SSLogU.warn(error.getMessage()); break;
         default: SSServErrReg.regErrThrow(error);
       }
       
@@ -359,7 +359,7 @@ SSUri.asListNotNull(learnEp), //entities
     }catch(SSErr error){
       
       switch(error.code){
-        case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
+        case servServerOpNotAvailable: SSLogU.warn(error.getMessage()); break;
         default: SSServErrReg.regErrThrow(error);
       }
       
@@ -383,7 +383,7 @@ SSUri.asListNotNull(learnEp), //entities
     }catch(SSErr error){
       
       switch(error.code){
-        case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
+        case servServerOpNotAvailable: SSLogU.warn(error.getMessage()); break;
         default: SSServErrReg.regErrThrow(error);
       }
       
@@ -414,7 +414,7 @@ SSUri.asListNotNull(learnEp), //entities
     }catch(SSErr error){
       
       switch(error.code){
-        case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
+        case servServerOpNotAvailable: SSLogU.warn(error.getMessage()); break;
         default: SSServErrReg.regErrThrow(error);
       }
       
@@ -438,7 +438,7 @@ SSUri.asListNotNull(learnEp), //entities
     }catch(SSErr error){
       
       switch(error.code){
-        case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
+        case servServerOpNotAvailable: SSLogU.warn(error.getMessage()); break;
         default: SSServErrReg.regErrThrow(error);
       }
       
@@ -470,7 +470,7 @@ SSUri.asListNotNull(learnEp), //entities
     }catch(SSErr error){
       
       switch(error.code){
-        case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
+        case servServerOpNotAvailable: SSLogU.warn(error.getMessage()); break;
         default: SSServErrReg.regErrThrow(error);
       }
       
@@ -494,7 +494,7 @@ SSUri.asListNotNull(usersToCopyFor),
     }catch(SSErr error){
       
       switch(error.code){
-        case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
+        case servServerOpNotAvailable: SSLogU.warn(error.getMessage()); break;
         default: SSServErrReg.regErrThrow(error);
       }
       
@@ -534,7 +534,7 @@ SSUri.asListNotNull(usersToCopyFor),
     }catch(SSErr error){
       
       switch(error.code){
-        case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
+        case servServerOpNotAvailable: SSLogU.warn(error.getMessage()); break;
         default: SSServErrReg.regErrThrow(error);
       }
       
@@ -563,7 +563,7 @@ SSUri.asListNotNull(usersToCopyFor),
     }catch(SSErr error){
       
       switch(error.code){
-        case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
+        case servServerOpNotAvailable: SSLogU.warn(error.getMessage()); break;
         default: SSServErrReg.regErrThrow(error);
       }
       
@@ -597,7 +597,7 @@ SSUri.asListNotNull(usersToCopyFor),
     }catch(SSErr error){
       
       switch(error.code){
-        case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
+        case servServerOpNotAvailable: SSLogU.warn(error.getMessage()); break;
         default: SSServErrReg.regErrThrow(error);
       }
       
@@ -621,7 +621,7 @@ SSUri.asListNotNull(learnEp, circle), //entities
     }catch(SSErr error){
       
       switch(error.code){
-        case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
+        case servServerOpNotAvailable: SSLogU.warn(error.getMessage()); break;
         default: SSServErrReg.regErrThrow(error);
       }
       
@@ -655,7 +655,7 @@ SSUri.asListNotNull(circle, entity, learnEp), //entities
     }catch(SSErr error){
       
       switch(error.code){
-        case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
+        case servServerOpNotAvailable: SSLogU.warn(error.getMessage()); break;
         default: SSServErrReg.regErrThrow(error);
       }
       
@@ -679,7 +679,7 @@ SSUri.asListNotNull(learnEp, circle), //entities
     }catch(SSErr error){
       
       switch(error.code){
-        case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
+        case servServerOpNotAvailable: SSLogU.warn(error.getMessage()); break;
         default: SSServErrReg.regErrThrow(error);
       }
       

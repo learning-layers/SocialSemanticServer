@@ -27,6 +27,7 @@ import at.tugraz.sss.serv.SSServImplA;
 import at.kc.tugraz.sss.appstacklayout.api.SSAppStackLayoutClientI;
 import at.kc.tugraz.sss.appstacklayout.api.SSAppStackLayoutServerI;
 import at.kc.tugraz.sss.appstacklayout.impl.SSAppStackLayoutImpl;
+import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSServContainerI;
 import java.util.List;
 
@@ -42,7 +43,7 @@ public class SSAppStackLayoutServ extends SSServContainerI{
   }
   
   @Override
-  protected SSServImplA createServImplForThread() throws Exception{
+  protected SSServImplA createServImplForThread() throws SSErr{
     return new SSAppStackLayoutImpl(conf);
   }
 

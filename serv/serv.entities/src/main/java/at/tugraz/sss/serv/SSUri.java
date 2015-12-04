@@ -20,11 +20,11 @@
 */
 package at.tugraz.sss.serv;
 
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.*;
-//import org.apache.commons.httpclient.URIException;
-//import org.apache.commons.httpclient.util.URIUtil;
 
 public class SSUri extends SSEntityA{
   
@@ -33,36 +33,37 @@ public class SSUri extends SSEntityA{
     return SSLinkU.schemaOrgUrl;
   }
   
-  public static Boolean isURI(final String string) throws Exception{
+  public static Boolean isURI(final String string){
     
+    //import org.apache.commons.httpclient.URIException;
+//import org.apache.commons.httpclient.util.URIUtil;
 //    URIUtil.encodeQuery(string)
     //    new URL(uriString); //import java.net.URL;
+    if(string == null){
+      return false;
+    }
+    
     try{
-      if(string == null){
-        return false;
-      }
+      new URL(string);
       
-      try{
-        new URL(string);
-        java.net.URI.create (string);
-        URLEncoder.encode   (string, SSEncodingU.utf8.toString());
-        
-        if(string.length() > 250){
-          SSLogU.warn("uri too long (> 250 chars) to be stored in sss");
-          return false;
-        }
-        
-      }catch(Exception error){
+      java.net.URI.create (string);
+      
+      URLEncoder.encode   (string, SSEncodingU.utf8.toString());
+      
+      if(string.length() > 250){
+        SSLogU.warn("uri too long (> 250 chars) to be stored in sss");
         return false;
       }
       
       return true;
-    }catch(Exception error){
-      throw error;
+      
+    }catch(MalformedURLException | UnsupportedEncodingException error){
+      SSLogU.warn(SSWarnE.uriInvalid);
+      return false;
     }
   }
   
-  public static List<SSUri> get(final List<String> strings) throws Exception{
+  public static List<SSUri> get(final List<String> strings) throws SSErr{
 
     final List<SSUri> result = new ArrayList<>();
     
@@ -79,7 +80,7 @@ public class SSUri extends SSEntityA{
   
   public static List<SSUri> get(
     final List<String> strings, 
-    final String       uriPrefix) throws Exception{
+    final String       uriPrefix) throws SSErr{
     
     final List<SSUri> uris = new ArrayList<>();
     
@@ -96,7 +97,7 @@ public class SSUri extends SSEntityA{
   
   public static SSUri get(
     final String string, 
-    final String uriPrefix) throws Exception{
+    final String uriPrefix) throws SSErr{
     
     String decodedURI;
     
@@ -117,7 +118,7 @@ public class SSUri extends SSEntityA{
     }
   }
   
-  public static SSUri get(final String string) throws Exception{
+  public static SSUri get(final String string) throws SSErr{
     
     if(string == null){
       return null;
@@ -128,7 +129,7 @@ public class SSUri extends SSEntityA{
   
   public static SSUri get(
     final SSUri  uri,
-    final String append) throws Exception{
+    final String append) throws SSErr{
     
     if(SSObjU.isNull(uri, append)){
       return null;
@@ -254,12 +255,12 @@ public class SSUri extends SSEntityA{
     return result;
   }
 
-  private SSUri(final String string) throws Exception{
+  private SSUri(final String string) throws SSErr{
    
     super(SSStrU.addTrailingSlash(string));
     
     if(!isURI(val)){
-      throw new Exception("invalid uri " + val);
+      throw SSErr.get(SSErrE.uriInvalid);
     }
   }
 }

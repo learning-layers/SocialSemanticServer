@@ -42,7 +42,7 @@ implements
   
   private final SSKCProjWikiConf projWikiConf;
   
-  public SSKCProjWikiImpl(final SSConfA conf) throws Exception{
+  public SSKCProjWikiImpl(final SSConfA conf){
     
     super(conf, null, null);
     

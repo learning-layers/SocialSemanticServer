@@ -28,6 +28,7 @@ import at.kc.tugraz.ss.serv.datatypes.learnep.impl.SSLearnEpImpl;
 import at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.access.SSLearnEpRemainingTimeTask;
 import at.tugraz.sss.serv.SSDateU;
 import at.tugraz.sss.serv.SSCoreConfA;
+import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServImplA;
@@ -45,7 +46,7 @@ public class SSLearnEpServ extends SSServContainerI{
   }
   
   @Override
-  protected SSServImplA createServImplForThread() throws Exception{
+  protected SSServImplA createServImplForThread() throws SSErr{
     return new SSLearnEpImpl(conf);
   }
 

@@ -96,7 +96,7 @@ public enum SSEntityE implements SSJSONLDPropI{
     return SSVarNames.xsd + SSStrU.colon + SSStrU.valueString;
   }
   
-  public static List<SSEntityE> get(final List<String> values) throws Exception{
+  public static List<SSEntityE> get(final List<String> values) throws SSErr{
   
     final List<SSEntityE> result = new ArrayList<>();
     
@@ -111,7 +111,7 @@ public enum SSEntityE implements SSJSONLDPropI{
     return result;
   }
   
-  public static SSEntityE get(final String value) throws Exception{
+  public static SSEntityE get(final String value) throws SSErr{
     
     try{
     
@@ -121,7 +121,7 @@ public enum SSEntityE implements SSJSONLDPropI{
       
       return SSEntityE.valueOf(value);
     }catch(Exception error){
-      throw new Exception("entity type not available: " + value);
+      throw SSErr.get(SSErrE.entityTypeInvalid);
     }
   }
   
@@ -196,43 +196,5 @@ public enum SSEntityE implements SSJSONLDPropI{
     }
     
     return result;
-  }
-  
-  public static Boolean isColl(final SSEntityE resourceType){
-   
-    if(resourceType == null){
-      return false;
-    }
-    
-    return SSStrU.equals(resourceType.toString(), SSEntityE.coll.toString());
-  }
-
-  public static Boolean isResourceOrFile(final SSEntityE resourceType){
-    
-    if(resourceType == null){
-      return false;
-    }
-    
-    return 
-      SSStrU.equals (SSEntityE.file.toString(),   resourceType.toString()) || 
-      SSStrU.equals (SSEntityE.entity.toString(), resourceType.toString());
-  }
-
-  public static Boolean isDisc(final SSEntityE resourceType){
-   
-    if(resourceType == null){
-      return false;
-    }
-    
-    return SSStrU.equals(SSEntityE.disc.toString(), resourceType.toString());
-  }
-  
-  public static Boolean isUser(final SSEntityE resourceType){
-    
-    if(resourceType == null){
-      return false;
-    }
-    
-    return SSStrU.equals(SSEntityE.user.toString(), resourceType.toString());
   }
 }

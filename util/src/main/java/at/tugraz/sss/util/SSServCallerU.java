@@ -39,6 +39,7 @@ import at.tugraz.sss.serv.SSEntityCopiedPar;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSErrE;
+import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSPushEntitiesToUsersI;
 import at.tugraz.sss.serv.SSPushEntitiesToUsersPar;
 import at.tugraz.sss.serv.SSServContainerI;
@@ -46,6 +47,7 @@ import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.SSWarnE;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntitiesGetPar;
 import java.util.ArrayList;
 import java.util.List;
@@ -352,7 +354,7 @@ public class SSServCallerU{
   }
   
   public static Boolean areUsersUsers(
-      final List<SSUri> users) throws Exception{
+    final List<SSUri> users){
     
     try{
       
@@ -360,8 +362,10 @@ public class SSServCallerU{
         return true;
       }
       
+      final SSEntityServerI entityServ = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
+      
       final List<SSEntity> entities =
-        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entitiesGet(
+        entityServ.entitiesGet(
           new SSEntitiesGetPar(
             SSVocConf.systemUserUri,
             users, //entities
@@ -373,32 +377,39 @@ public class SSServCallerU{
         switch(entity.type){
           
           case user: continue;
-          default:   throw new SSErr(SSErrE.userNotRegistered);
+          default:   throw new Exception();
         }
       }
       
       return true;
     }catch(Exception error){
+      SSLogU.warn(SSWarnE.userNotRegistered, error);
       SSServErrReg.reset();
       return false;
     }
   }
   
-  public static void checkKey(final SSServPar parA) throws Exception{
+  public static void checkKey(final SSServPar parA) throws SSErr{
     
-    final SSUri user = 
-      ((SSAuthServerI) SSServReg.getServ(SSAuthServerI.class)).authCheckKey(
-        new SSAuthCheckKeyPar(
-          parA.key));
-    
-    if(user != null){
-      parA.user = user;
-    }
-    
-    if(
-      user      == null &&
-      parA.user == null){
-      SSServErrReg.regErrThrow(new SSErr(SSErrE.authNoUserForKey));
+    try{
+      final SSAuthServerI authServ = (SSAuthServerI) SSServReg.getServ(SSAuthServerI.class);
+      final SSUri         user     =
+        authServ.authCheckKey(
+          new SSAuthCheckKeyPar(
+            parA.key));
+      
+      if(user != null){
+        parA.user = user;
+      }
+      
+      if(
+        user      == null &&
+        parA.user == null){
+        throw new Exception();
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(SSErrE.authNoUserForKey, error);
     }
   }
   

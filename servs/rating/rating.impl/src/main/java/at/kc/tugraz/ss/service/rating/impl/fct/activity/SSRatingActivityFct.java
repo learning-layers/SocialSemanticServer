@@ -52,7 +52,7 @@ public class SSRatingActivityFct{
     }catch(SSErr error){
       
       switch(error.code){
-        case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
+        case servServerOpNotAvailable: SSLogU.warn(error.getMessage()); break;
         default: SSServErrReg.regErrThrow(error);
       }
     }catch(Exception error){

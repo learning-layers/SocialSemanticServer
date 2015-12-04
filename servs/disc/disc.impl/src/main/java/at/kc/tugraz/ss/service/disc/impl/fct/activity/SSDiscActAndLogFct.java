@@ -85,7 +85,7 @@ SSUri.asListNotNull(disc), //entities
     }catch(SSErr error){
       
       switch(error.code){
-        case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
+        case servServerOpNotAvailable: SSLogU.warn(error.getMessage()); break;
         default: SSServErrReg.regErrThrow(error);
       }
     }catch(Exception error){
@@ -130,7 +130,7 @@ SSUri.asListNotNull(disc), //entities
     }catch(SSErr error){
       
       switch(error.code){
-        case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
+        case servServerOpNotAvailable: SSLogU.warn(error.getMessage()); break;
         default: SSServErrReg.regErrThrow(error);
       }
       
@@ -156,7 +156,7 @@ SSUri.asListNotNull(entry), //entities
     }catch(SSErr error){
       
       switch(error.code){
-        case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
+        case servServerOpNotAvailable: SSLogU.warn(error.getMessage()); break;
         default: SSServErrReg.regErrThrow(error);
       }
     }catch(Exception error){
@@ -182,7 +182,7 @@ SSUri.asListNotNull(entry), //entities
     }catch(SSErr error){
       
       switch(error.code){
-        case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
+        case servServerOpNotAvailable: SSLogU.warn(error.getMessage()); break;
         default: SSServErrReg.regErrThrow(error);
       }
       
@@ -220,7 +220,7 @@ SSUri.asListNotNull(disc), //entities
     }catch(SSErr error){
       
       switch(error.code){
-        case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
+        case servServerOpNotAvailable: SSLogU.warn(error.getMessage()); break;
         default: SSServErrReg.regErrThrow(error);
       }
       
@@ -275,7 +275,7 @@ SSUri.asListNotNull(disc), //entities
     }catch(SSErr error){
       
       switch(error.code){
-        case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
+        case servServerOpNotAvailable: SSLogU.warn(error.getMessage()); break;
         default: SSServErrReg.regErrThrow(error);
       }
       
@@ -309,7 +309,7 @@ SSUri.asListNotNull(disc), //entities
     }catch(SSErr error){
       
       switch(error.code){
-        case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
+        case servServerOpNotAvailable: SSLogU.warn(error.getMessage()); break;
         default: SSServErrReg.regErrThrow(error);
       }
       

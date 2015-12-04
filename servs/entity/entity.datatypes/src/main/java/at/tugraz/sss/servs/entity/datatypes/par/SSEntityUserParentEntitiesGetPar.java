@@ -20,29 +20,30 @@
 */
 package at.tugraz.sss.servs.entity.datatypes.par;
 
-import at.tugraz.sss.serv.SSVarNames;
+import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSErr;
-import at.tugraz.sss.serv.SSErrE;
-import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSStrU;
 
 public class SSEntityUserParentEntitiesGetPar extends SSServPar{
   
   public SSUri     entity    = null;
-    
-  public SSEntityUserParentEntitiesGetPar(SSServPar par) throws Exception{
+  
+  public String getEntity() {
+    return SSStrU.removeTrailingSlash(entity);
+  }
+
+  public void setEntity(final String entity) throws SSErr {
+    this.entity = SSUri.get(entity);
+  }
+  
+  public SSEntityUserParentEntitiesGetPar(
+    final SSUri user, 
+    final SSUri entity){
       
-    super(par);
-    
-    try{
-      
-      if(pars != null){
-        entity      = (SSUri)  pars.get(SSVarNames.entity);
-      }
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(new SSErr(SSErrE.servParCreationFailed));
-    }
+    super(SSServOpE.entityUserParentEntitiesGet, null, user);
+
+    this.entity = entity;
   }
 }

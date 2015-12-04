@@ -22,6 +22,7 @@ package at.tugraz.sss.servs.integrationtest;
 
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import at.tugraz.sss.serv.SSCoreConfA;
+import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServImplA;
 import at.tugraz.sss.serv.SSServReg;
@@ -39,7 +40,7 @@ public class SSIntegrationTestServ extends SSServContainerI{
   }
   
   @Override
-  protected SSServImplA createServImplForThread() throws Exception{
+  protected SSServImplA createServImplForThread() throws SSErr{
     return new SSIntegrationTestImpl((SSIntegrationTestConf) conf);
   }
   

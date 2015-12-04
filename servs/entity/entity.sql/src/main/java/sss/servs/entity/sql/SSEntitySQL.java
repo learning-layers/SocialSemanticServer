@@ -45,6 +45,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 
@@ -54,23 +56,23 @@ public class SSEntitySQL extends SSDBSQLFct{
   
   public SSEntitySQL(
     final SSDBSQLI  dbSQL,
-    final SSUri     systemUserURI) throws Exception{
+    final SSUri     systemUserURI){
     
     super(dbSQL);
     
-    this.systemUserURI= systemUserURI;
+    this.systemUserURI = systemUserURI;
   }
   
   public SSEntity getEntity(
     final SSLabel   label,
-    final SSEntityE type) throws Exception{
+    final SSEntityE type) throws SSErr{
     
     ResultSet resultSet  = null;
     
     try{
       
       if(SSObjU.isNull(label, type)){
-        throw new SSErr(SSErrE.parameterMissing);
+        throw SSErr.get(SSErrE.parameterMissing);
       }
       
       final List<String>        columns = new ArrayList<>();
@@ -111,14 +113,19 @@ public class SSEntitySQL extends SSDBSQLFct{
       SSServErrReg.regErrThrow(error);
       return null;
     }finally{
-      dbSQL.closeStmt(resultSet);
+      
+      try{
+        dbSQL.closeStmt(resultSet);
+      }catch(Exception sqlError){
+        SSServErrReg.regErrThrow(sqlError);
+      }
     }
   }
   
   public List<SSUri> getEntityURIs(
     final List<SSUri>     entities, 
     final List<SSEntityE> types, 
-    final List<SSUri>     authors) throws Exception{
+    final List<SSUri>     authors) throws SSErr{
     
     ResultSet resultSet = null;
     
@@ -129,7 +136,7 @@ public class SSEntitySQL extends SSDBSQLFct{
         (types    == null || types.isEmpty())    &&
         (authors  == null || authors.isEmpty())){
         
-        throw new SSErr(SSErrE.parameterMissing);
+        throw SSErr.get(SSErrE.parameterMissing);
       }
       
       final List<MultivaluedMap<String, String>> wheres         = new ArrayList<>();
@@ -195,13 +202,18 @@ public class SSEntitySQL extends SSDBSQLFct{
       SSServErrReg.regErrThrow(error);
       return null;
     }finally{
-      dbSQL.closeStmt(resultSet);
+      
+      try{
+        dbSQL.closeStmt(resultSet);
+      }catch(Exception sqlError){
+        SSServErrReg.regErrThrow(sqlError);
+      }
     }
   }
   
   public List<SSEntity> getEntities(
     final List<SSUri>     entityURIs,
-    final List<SSEntityE> types) throws Exception{
+    final List<SSEntityE> types) throws SSErr{
     
     ResultSet resultSet = null;
     
@@ -211,7 +223,7 @@ public class SSEntitySQL extends SSDBSQLFct{
         (entityURIs == null || entityURIs.isEmpty()) &&
         (types      == null || types.isEmpty())){
         
-        throw new SSErr(SSErrE.parameterMissing);
+        throw SSErr.get(SSErrE.parameterMissing);
       }
       
       final List<String>                         columns    = new ArrayList<>();
@@ -286,13 +298,18 @@ public class SSEntitySQL extends SSDBSQLFct{
       SSServErrReg.regErrThrow(error);
       return null;
     }finally{
-      dbSQL.closeStmt(resultSet);
+      
+      try{
+        dbSQL.closeStmt(resultSet);
+      }catch(Exception sqlError){
+        SSServErrReg.regErrThrow(sqlError);
+      }
     }
   }
   
   public void addEntityToCircleIfNotExists(
     final SSUri circleUri,
-    final SSUri entityUri) throws Exception{
+    final SSUri entityUri) throws SSErr{
     
     try{
       
@@ -318,50 +335,51 @@ public class SSEntitySQL extends SSDBSQLFct{
     final SSEntityA     label,
     final SSTextComment description,
     final SSUri         author,
-    final Long          creationTime) throws Exception{
+    final Long          creationTime) throws SSErr{
     
-    if(!existsEntity(entity)){
+    try{
       
-      final Map<String, String> inserts    = new HashMap<>();
-      
-      insert    (inserts,     SSSQLVarNames.id, entity);
-      
-      if(
-        creationTime == null ||
-        creationTime == 0){
-        insert(inserts, SSSQLVarNames.creationTime, SSDateU.dateAsLong());
+      if(!existsEntity(entity)){
+        
+        final Map<String, String> inserts = new HashMap<>();
+        
+        insert    (inserts,     SSSQLVarNames.id, entity);
+        
+        if(
+          creationTime == null ||
+          creationTime == 0){
+          insert(inserts, SSSQLVarNames.creationTime, SSDateU.dateAsLong());
+        }else{
+          insert(inserts, SSSQLVarNames.creationTime, creationTime);
+        }
+        
+        if(label == null){
+          insert(inserts, SSSQLVarNames.label, SSStrU.empty);
+        }else{
+          insert(inserts, SSSQLVarNames.label, SSStrU.trim(label, SSDBSQLI.entityLabelLength));
+        }
+        
+        if(entityType == null){
+          insert(inserts, SSSQLVarNames.type, SSEntityE.entity);
+        }else{
+          insert(inserts, SSSQLVarNames.type, entityType);
+        }
+        
+        if(author == null){
+          insert(inserts, SSSQLVarNames.author, SSStrU.empty);
+        }else{
+          insert(inserts, SSSQLVarNames.author, author);
+        }
+        
+        if(description == null){
+          insert(inserts, SSSQLVarNames.description, SSStrU.empty);
+        }else{
+          insert(inserts, SSSQLVarNames.description, description);
+        }
+        
+        dbSQL.insert(SSSQLVarNames.entityTable, inserts);
       }else{
-        insert(inserts, SSSQLVarNames.creationTime, creationTime);
-      }
-      
-      if(label == null){
-        insert(inserts, SSSQLVarNames.label, SSStrU.empty);
-      }else{
-        insert(inserts, SSSQLVarNames.label, SSStrU.trim(label, SSDBSQLI.entityLabelLength));
-      }
-      
-      if(entityType == null){
-        insert(inserts, SSSQLVarNames.type, SSEntityE.entity);
-      }else{
-        insert(inserts, SSSQLVarNames.type, entityType);
-      }
-      
-      if(author == null){
-        insert(inserts, SSSQLVarNames.author, SSStrU.empty);
-      }else{
-        insert(inserts, SSSQLVarNames.author, author);
-      }
-      
-      if(description == null){
-        insert(inserts, SSSQLVarNames.description, SSStrU.empty);
-      }else{
-        insert(inserts, SSSQLVarNames.description, description);
-      }
-      
-      dbSQL.insert(SSSQLVarNames.entityTable, inserts);
-    }else{
-      
-      try{
+        
         final Map<String, String>  wheres   = new HashMap<>();
         final Map<String, String>  updates  = new HashMap<>();
         
@@ -386,15 +404,14 @@ public class SSEntitySQL extends SSDBSQLFct{
         }
         
         dbSQL.update(SSSQLVarNames.entityTable, wheres, updates);
-        
-      }catch(Exception error){
-        SSServErrReg.regErrThrow(error);
       }
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
     }
   }
   
   public void deleteEntityIfExists(
-    final SSUri entityUri) throws Exception{
+    final SSUri entityUri) throws SSErr{
     
     try{
       final Map<String, String> wheres = new HashMap<>();
@@ -407,7 +424,7 @@ public class SSEntitySQL extends SSDBSQLFct{
     }
   }
 
-  public void removeAllEntities() throws Exception {
+  public void removeAllEntities() throws SSErr {
     
     try{
       dbSQL.delete(SSSQLVarNames.entityTable);
@@ -418,7 +435,7 @@ public class SSEntitySQL extends SSDBSQLFct{
   
   public void removeAttachedEntities(
     final SSUri       entity,
-    final List<SSUri> attachments) throws Exception{
+    final List<SSUri> attachments) throws SSErr{
     
     try{
       
@@ -445,7 +462,7 @@ public class SSEntitySQL extends SSDBSQLFct{
   
   public void attachEntities(
     final SSUri       entity,
-    final List<SSUri> entitiesToAttach) throws Exception{
+    final List<SSUri> entitiesToAttach) throws SSErr{
     
     try{
 
@@ -472,12 +489,12 @@ public class SSEntitySQL extends SSDBSQLFct{
   }
   
   public List<SSUri> getAttachedEntities(
-    final SSUri entity) throws Exception{
+    final SSUri entity) throws SSErr{
     
     ResultSet resultSet = null;
     
     if(entity == null){
-      throw new SSErr(SSErrE.parameterMissing);
+      throw SSErr.get(SSErrE.parameterMissing);
     }
     
     try{
@@ -503,13 +520,18 @@ public class SSEntitySQL extends SSDBSQLFct{
       SSServErrReg.regErrThrow(error);
       return null;
     }finally{
-      dbSQL.closeStmt(resultSet);
+      
+      try{
+        dbSQL.closeStmt(resultSet);
+      }catch(Exception sqlError){
+        SSServErrReg.regErrThrow(sqlError);
+      }
     }
   }
   
   public Boolean getEntityRead(
     final SSUri user, 
-    final SSUri entity) throws Exception{
+    final SSUri entity) throws SSErr{
     
     ResultSet resultSet = null;
     
@@ -530,14 +552,19 @@ public class SSEntitySQL extends SSDBSQLFct{
       SSServErrReg.regErrThrow(error);
       return null;
     }finally{
-      dbSQL.closeStmt(resultSet);
+      
+      try{
+        dbSQL.closeStmt(resultSet);
+      }catch(Exception sqlError){
+        SSServErrReg.regErrThrow(sqlError);
+      }
     }
   }
 
   public void setEntityRead(
     final SSUri   user, 
     final SSUri   entity,
-    final Boolean read) throws Exception{
+    final Boolean read) throws SSErr{
     
     try{
 
@@ -573,7 +600,7 @@ public class SSEntitySQL extends SSDBSQLFct{
 
   public void addDownloads(
     final SSUri         entity,
-    final List<SSUri>   downloads) throws Exception{
+    final List<SSUri>   downloads) throws SSErr{
     
     try{
       
@@ -599,7 +626,7 @@ public class SSEntitySQL extends SSDBSQLFct{
   }
   
   public List<SSUri> getDownloads(
-    final SSUri entity) throws Exception{
+    final SSUri entity) throws SSErr{
     
     ResultSet resultSet = null;
     
@@ -620,14 +647,19 @@ public class SSEntitySQL extends SSDBSQLFct{
       SSServErrReg.regErrThrow(error);
       return null;
     }finally{
-      dbSQL.closeStmt(resultSet);
+      
+      try{
+        dbSQL.closeStmt(resultSet);
+      }catch(Exception sqlError){
+        SSServErrReg.regErrThrow(sqlError);
+      }
     }
   }
   
   public SSEntity getEntityTest(
     final SSUri   user,
     final SSUri   entity,
-    final Boolean withUserRestriction) throws Exception{
+    final Boolean withUserRestriction) throws SSErr{
     
     ResultSet resultSet  = null;
     
@@ -637,11 +669,11 @@ public class SSEntitySQL extends SSDBSQLFct{
         user == null &&
         withUserRestriction){
         
-        throw new SSErr(SSErrE.parameterMissing);
+        throw SSErr.get(SSErrE.parameterMissing);
       }
       
       if(entity == null){
-        throw new SSErr(SSErrE.parameterMissing);
+        throw SSErr.get(SSErrE.parameterMissing);
       }
       
       final String entityStr = entity.toString();
@@ -684,14 +716,19 @@ public class SSEntitySQL extends SSDBSQLFct{
       SSServErrReg.regErrThrow(error);
       return null;
     }finally{
-      dbSQL.closeStmt(resultSet);
+      
+      try{
+        dbSQL.closeStmt(resultSet);
+      }catch(Exception sqlError){
+        SSServErrReg.regErrThrow(sqlError);
+      }
     }
   }
   
   public Boolean isUserAuthor(
     final SSUri   user, 
     final SSUri   entityURI,
-    final Boolean withUserRestriction) throws Exception{
+    final Boolean withUserRestriction) throws SSErr{
     
     try{
       
@@ -721,7 +758,7 @@ public class SSEntitySQL extends SSDBSQLFct{
   public List<SSUri> getAccessibleURIs(
     final SSUri           user,
     final List<SSEntityE> types,
-    final List<SSUri>     authors) throws Exception{
+    final List<SSUri>     authors) throws SSErr{
     
     ResultSet resultSet  = null;
     
@@ -731,7 +768,7 @@ public class SSEntitySQL extends SSDBSQLFct{
         user == null ||
         SSStrU.equals(user, systemUserURI)){
         
-        throw new SSErr(SSErrE.parameterMissing);
+        throw SSErr.get(SSErrE.parameterMissing);
       }
       
       final String userStr          = SSStrU.toStr(user);
@@ -806,12 +843,17 @@ public class SSEntitySQL extends SSDBSQLFct{
       SSServErrReg.regErrThrow(error);
       return null;
     }finally{
-      dbSQL.closeStmt(resultSet);
+      
+      try{
+        dbSQL.closeStmt(resultSet);
+      }catch(Exception sqlError){
+        SSServErrReg.regErrThrow(sqlError);
+      }
     }
   }
   
   public void setEntityColumns(
-    final List<String> columns) throws Exception{
+    final List<String> columns) throws SSErr{
     
     try{
       column(columns, SSSQLVarNames.entityTable, SSSQLVarNames.id);
@@ -826,7 +868,7 @@ public class SSEntitySQL extends SSDBSQLFct{
   }
   
   public void setEntityTable(
-    final List<String> tables) throws Exception{
+    final List<String> tables) throws SSErr{
     
     try{
       table(tables, SSSQLVarNames.entityTable);
@@ -836,7 +878,7 @@ public class SSEntitySQL extends SSDBSQLFct{
   }
   
   public Boolean existsEntity(
-    final SSUri entity) throws Exception{
+    final SSUri entity) throws SSErr{
     
     ResultSet resultSet  = null;
     
@@ -876,14 +918,19 @@ public class SSEntitySQL extends SSDBSQLFct{
       SSServErrReg.regErrThrow(error);
       return null;
     }finally{
-      dbSQL.closeStmt(resultSet);
+      
+      try{
+        dbSQL.closeStmt(resultSet);
+      }catch(Exception sqlError){
+        SSServErrReg.regErrThrow(sqlError);
+      }
     }
   }
   
   public List<SSEntity> getEntitiesForLabelsAndDescriptionsWithSQLLike(
     final List<String> labelStrings,
     final List<String> descStrings,
-    final SSSearchOpE  searchOp) throws Exception{
+    final SSSearchOpE  searchOp) throws SSErr{
   
     ResultSet resultSet = null;
     
@@ -979,12 +1026,17 @@ public class SSEntitySQL extends SSDBSQLFct{
       SSServErrReg.regErrThrow(error);
       return null;
     }finally{
-      dbSQL.closeStmt(resultSet);
+      
+      try{
+        dbSQL.closeStmt(resultSet);
+      }catch(Exception sqlError){
+        SSServErrReg.regErrThrow(sqlError);
+      }
     }
   }
   
   public List<SSUri> getEntitiesForLabelsWithLike(
-    final List<String> labels) throws Exception{
+    final List<String> labels) throws SSErr{
   
     ResultSet resultSet = null;
     
@@ -994,7 +1046,7 @@ public class SSEntitySQL extends SSDBSQLFct{
         labels       == null ||
         labels.isEmpty()){
         
-        throw new SSErr(SSErrE.parameterMissing);
+        throw SSErr.get(SSErrE.parameterMissing);
       }
       
       final List<MultivaluedMap<String, String>> likes        = new ArrayList<>();
@@ -1029,12 +1081,17 @@ public class SSEntitySQL extends SSDBSQLFct{
       SSServErrReg.regErrThrow(error);
       return null;
     }finally{
-      dbSQL.closeStmt(resultSet);
+      
+      try{
+        dbSQL.closeStmt(resultSet);
+      }catch(Exception sqlError){
+        SSServErrReg.regErrThrow(sqlError);
+      }
     }
   }
   
   public List<SSUri> getEntitiesForDescriptionsWithLike(
-    final List<String> descs) throws Exception{
+    final List<String> descs) throws SSErr{
   
     ResultSet resultSet = null;
     
@@ -1044,7 +1101,7 @@ public class SSEntitySQL extends SSDBSQLFct{
         descs       == null ||
         descs.isEmpty()){
         
-        throw new SSErr(SSErrE.parameterMissing);
+        throw SSErr.get(SSErrE.parameterMissing);
       }
       
       final List<MultivaluedMap<String, String>> likes        = new ArrayList<>();
@@ -1079,7 +1136,12 @@ public class SSEntitySQL extends SSDBSQLFct{
       SSServErrReg.regErrThrow(error);
       return null;
     }finally{
-      dbSQL.closeStmt(resultSet);
+      
+      try{
+        dbSQL.closeStmt(resultSet);
+      }catch(Exception sqlError){
+        SSServErrReg.regErrThrow(sqlError);
+      }
     }
   }
   
@@ -1087,7 +1149,7 @@ public class SSEntitySQL extends SSDBSQLFct{
     final List<SSUri>  entities,
     final List<String> requireds,
     final List<String> absents,
-    final List<String> eithers) throws Exception{
+    final List<String> eithers) throws SSErr{
     
     ResultSet resultSet = null;
     
@@ -1137,7 +1199,12 @@ public class SSEntitySQL extends SSDBSQLFct{
       SSServErrReg.regErrThrow(error);
       return null;
     }finally{
-      dbSQL.closeStmt(resultSet);
+      
+      try{
+        dbSQL.closeStmt(resultSet);
+      }catch(Exception sqlError){
+        SSServErrReg.regErrThrow(sqlError);
+      }
     }
   }
   
@@ -1145,7 +1212,7 @@ public class SSEntitySQL extends SSDBSQLFct{
     final List<SSUri>  entities,
     final List<String> requireds,
     final List<String> absents,
-    final List<String> eithers) throws Exception{
+    final List<String> eithers) throws SSErr{
     
     ResultSet resultSet = null;
     
@@ -1195,11 +1262,16 @@ public class SSEntitySQL extends SSDBSQLFct{
       SSServErrReg.regErrThrow(error);
       return null;
     }finally{
-      dbSQL.closeStmt(resultSet);
+      
+      try{
+        dbSQL.closeStmt(resultSet);
+      }catch(Exception sqlError){
+        SSServErrReg.regErrThrow(sqlError);
+      }
     }
   }
 public List<SSUri> getCircleURIs(
-    final Boolean withSystemCircles) throws Exception{
+    final Boolean withSystemCircles) throws SSErr{
     
     ResultSet resultSet = null;
     
@@ -1220,14 +1292,19 @@ public List<SSUri> getCircleURIs(
       SSServErrReg.regErrThrow(error);
       return null;
     }finally{
-      dbSQL.closeStmt(resultSet);
+      
+      try{
+        dbSQL.closeStmt(resultSet);
+      }catch(Exception sqlError){
+        SSServErrReg.regErrThrow(sqlError);
+      }
     }
   }
   
   public void addCircle(
     final SSUri     circleUri,
     final SSCircleE circleType,
-    final Boolean   isSystemCircle) throws Exception{
+    final Boolean   isSystemCircle) throws SSErr{
     
     try{
       
@@ -1246,7 +1323,7 @@ public List<SSUri> getCircleURIs(
   
   public void addUserToCircleIfNotExists(
     final SSUri circleUri,
-    final SSUri userUri) throws Exception{
+    final SSUri userUri) throws SSErr{
     
     try{
       
@@ -1267,7 +1344,7 @@ public List<SSUri> getCircleURIs(
   }
   
   public List<SSEntity> getUsersForCircle(
-    final SSUri circleUri) throws Exception{
+    final SSUri circleUri) throws SSErr{
     
     try{
       return SSEntity.get(getUserURIsForCircle(circleUri), SSEntityE.user);
@@ -1278,7 +1355,7 @@ public List<SSUri> getCircleURIs(
   }
   
   public List<SSUri> getUserURIsForCircle(
-    final SSUri circleUri) throws Exception{
+    final SSUri circleUri) throws SSErr{
     
     ResultSet resultSet = null;
     
@@ -1300,12 +1377,17 @@ public List<SSUri> getCircleURIs(
       SSServErrReg.regErrThrow(error);
       return null;
     }finally{
-      dbSQL.closeStmt(resultSet);
+      
+      try{
+        dbSQL.closeStmt(resultSet);
+      }catch(Exception sqlError){
+        SSServErrReg.regErrThrow(sqlError);
+      }
     }
   }
   
   public List<SSCircleE> getCircleTypesForEntity(
-    final SSUri entityUri) throws Exception{
+    final SSUri entityUri) throws SSErr{
     
     ResultSet resultSet = null;
     
@@ -1334,20 +1416,25 @@ public List<SSUri> getCircleURIs(
       SSServErrReg.regErrThrow(error);
       return null;
     }finally{
-      dbSQL.closeStmt(resultSet);
+      
+      try{
+        dbSQL.closeStmt(resultSet);
+      }catch(Exception sqlError){
+        SSServErrReg.regErrThrow(sqlError);
+      }
     }
   }
   
   public List<SSUri> getCirclesCommonForUserAndEntity(
     final SSUri userUri,
-    final SSUri entityUri) throws Exception{
+    final SSUri entityUri) throws SSErr{
     
     ResultSet resultSet = null;
     
     try{
       
       if(SSObjU.isNull(userUri, entityUri)){
-        throw new SSErr(SSErrE.parameterMissing);
+        throw SSErr.get(SSErrE.parameterMissing);
       }
       
       final List<String>              tables       = new ArrayList<>();
@@ -1383,13 +1470,18 @@ public List<SSUri> getCircleURIs(
       SSServErrReg.regErrThrow(error);
       return null;
     }finally{
-      dbSQL.closeStmt(resultSet);
+      
+      try{
+        dbSQL.closeStmt(resultSet);
+      }catch(Exception sqlError){
+        SSServErrReg.regErrThrow(sqlError);
+      }
     }
   }
   
   public List<SSCircleE> getCircleTypesCommonForUserAndEntity(
     final SSUri userUri,
-    final SSUri entityUri) throws Exception{
+    final SSUri entityUri) throws SSErr{
     
     ResultSet resultSet = null;
     
@@ -1428,14 +1520,19 @@ public List<SSUri> getCircleURIs(
       SSServErrReg.regErrThrow(error);
       return null;
     }finally{
-      dbSQL.closeStmt(resultSet);
+      
+      try{
+        dbSQL.closeStmt(resultSet);
+      }catch(Exception sqlError){
+        SSServErrReg.regErrThrow(sqlError);
+      }
     }
   }
   
   public List<SSUri> getCircleURIsCommonForUserAndEntity(
     final SSUri   userUri,
     final SSUri   entityUri,
-    final Boolean withSystemCircles) throws Exception{
+    final Boolean withSystemCircles) throws SSErr{
     
     ResultSet resultSet = null;
     
@@ -1472,12 +1569,17 @@ public List<SSUri> getCircleURIs(
       SSServErrReg.regErrThrow(error);
       return null;
     }finally{
-      dbSQL.closeStmt(resultSet);
+      
+      try{
+        dbSQL.closeStmt(resultSet);
+      }catch(Exception sqlError){
+        SSServErrReg.regErrThrow(sqlError);
+      }
     }
   }
   
   public Boolean isSystemCircle(
-    final SSUri circleUri) throws Exception{
+    final SSUri circleUri) throws SSErr{
     
     ResultSet resultSet = null;
     
@@ -1499,7 +1601,12 @@ public List<SSUri> getCircleURIs(
       SSServErrReg.regErrThrow(error);
       return null;
     }finally{
-      dbSQL.closeStmt(resultSet);
+      
+      try{
+        dbSQL.closeStmt(resultSet);
+      }catch(Exception sqlError){
+        SSServErrReg.regErrThrow(sqlError);
+      }
     }
   }
   
@@ -1508,7 +1615,7 @@ public List<SSUri> getCircleURIs(
     final Boolean              withUsers,
     final Boolean              withEntities,
     final Boolean              withCircleRights,
-    final List<SSEntityE>      entityTypesToIncludeOnly) throws Exception{
+    final List<SSEntityE>      entityTypesToIncludeOnly) throws SSErr{
     
     ResultSet resultSet = null;
     
@@ -1563,13 +1670,18 @@ public List<SSUri> getCircleURIs(
       SSServErrReg.regErrThrow(error);
       return null;
     }finally{
-      dbSQL.closeStmt(resultSet);
+      
+      try{
+        dbSQL.closeStmt(resultSet);
+      }catch(Exception sqlError){
+        SSServErrReg.regErrThrow(sqlError);
+      }
     }
   }
   
   public List<SSUri> getCircleURIsForEntity(
     final SSUri   entityUri,
-    final Boolean withSystemCircles) throws Exception{
+    final Boolean withSystemCircles) throws SSErr{
     
     ResultSet resultSet = null;
     
@@ -1605,12 +1717,17 @@ public List<SSUri> getCircleURIs(
       SSServErrReg.regErrThrow(error);
       return null;
     }finally{
-      dbSQL.closeStmt(resultSet);
+      
+      try{
+        dbSQL.closeStmt(resultSet);
+      }catch(Exception sqlError){
+        SSServErrReg.regErrThrow(sqlError);
+      }
     }
   }
   
   public SSCircleE getTypeForCircle(
-    final SSUri circleUri) throws Exception{
+    final SSUri circleUri) throws SSErr{
     
     ResultSet resultSet = null;
     
@@ -1634,13 +1751,18 @@ public List<SSUri> getCircleURIs(
       SSServErrReg.regErrThrow(error);
       return null;
     }finally{
-      dbSQL.closeStmt(resultSet);
+      
+      try{
+        dbSQL.closeStmt(resultSet);
+      }catch(Exception sqlError){
+        SSServErrReg.regErrThrow(sqlError);
+      }
     }
   }
   
   public Boolean isUserInCircle(
     final SSUri          userUri,
-    final SSUri          circleUri) throws Exception{
+    final SSUri          circleUri) throws SSErr{
     
     try{
       return SSStrU.contains(getCircleURIsForUser(userUri, true), circleUri);
@@ -1651,7 +1773,7 @@ public List<SSUri> getCircleURIs(
   }
   
   public Boolean isGroupOrPubCircleCircle(
-    final SSUri circleUri) throws Exception{
+    final SSUri circleUri) throws SSErr{
     
     try{
       
@@ -1675,7 +1797,7 @@ public List<SSUri> getCircleURIs(
   
   private Boolean hasCircleUser(
     final SSUri circleUri,
-    final SSUri userUri) throws Exception{
+    final SSUri userUri) throws SSErr{
     
     ResultSet resultSet = null;
     
@@ -1697,12 +1819,17 @@ public List<SSUri> getCircleURIs(
       SSServErrReg.regErrThrow(error);
       return null;
     }finally{
-      dbSQL.closeStmt(resultSet);
+      
+      try{
+        dbSQL.closeStmt(resultSet);
+      }catch(Exception sqlError){
+        SSServErrReg.regErrThrow(sqlError);
+      }
     }
   }
   
   public SSUri getPrivCircleURI(
-    final SSUri     user) throws Exception{
+    final SSUri     user) throws SSErr{
     
     ResultSet resultSet = null;
     
@@ -1738,11 +1865,16 @@ public List<SSUri> getCircleURIs(
       SSServErrReg.regErrThrow(error);
       return null;
     }finally{
-      dbSQL.closeStmt(resultSet);
+      
+      try{
+        dbSQL.closeStmt(resultSet);
+      }catch(Exception sqlError){
+        SSServErrReg.regErrThrow(sqlError);
+      }
     }
   }
   
-  public SSUri getPubCircleURI() throws Exception{
+  public SSUri getPubCircleURI() throws SSErr{
     
     ResultSet resultSet = null;
     
@@ -1771,13 +1903,18 @@ public List<SSUri> getCircleURIs(
       SSServErrReg.regErrThrow(error);
       return null;
     }finally{
-      dbSQL.closeStmt(resultSet);
+      
+      try{
+        dbSQL.closeStmt(resultSet);
+      }catch(Exception sqlError){
+        SSServErrReg.regErrThrow(sqlError);
+      }
     }
   }
   
   public void removeUser(
     final SSUri circle,
-    final SSUri user) throws Exception{
+    final SSUri user) throws SSErr{
     
     try{
       
@@ -1793,7 +1930,7 @@ public List<SSUri> getCircleURIs(
   }
   
   public void removeCircle(
-    final SSUri circle) throws Exception{
+    final SSUri circle) throws SSErr{
     
     try{
       
@@ -1809,7 +1946,7 @@ public List<SSUri> getCircleURIs(
   
   public List<SSUri> getCircleURIsForUser(
     final SSUri   userUri,
-    final Boolean withSystemCircles) throws Exception{
+    final Boolean withSystemCircles) throws SSErr{
     
     ResultSet resultSet = null;
     
@@ -1846,13 +1983,18 @@ public List<SSUri> getCircleURIs(
       SSServErrReg.regErrThrow(error);
       return null;
     }finally{
-      dbSQL.closeStmt(resultSet);
+      
+      try{
+        dbSQL.closeStmt(resultSet);
+      }catch(Exception sqlError){
+        SSServErrReg.regErrThrow(sqlError);
+      }
     }
   }
   
   public List<SSEntity> getEntitiesForCircle(
     final SSUri           circleUri,
-    final List<SSEntityE> types) throws Exception{
+    final List<SSEntityE> types) throws SSErr{
     
     ResultSet resultSet = null;
     
@@ -1910,34 +2052,43 @@ public List<SSUri> getCircleURIs(
       SSServErrReg.regErrThrow(error);
       return null;
     }finally{
-      dbSQL.closeStmt(resultSet);
+      
+      try{
+        dbSQL.closeStmt(resultSet);
+      }catch(Exception sqlError){
+        SSServErrReg.regErrThrow(sqlError);
+      }
     }
   }
   
   public void inviteUsers(
     final SSUri        circle,
-    final List<String> emails) throws Exception{
+    final List<String> emails) throws SSErr {
     
-    final Map<String, String> inserts    = new HashMap<>();
-    final Map<String, String> uniqueKeys = new HashMap<>();
-    
-    for(String email : emails){
+//    try{
+      final Map<String, String> inserts    = new HashMap<>();
+      final Map<String, String> uniqueKeys = new HashMap<>();
       
-      inserts.clear();
-      uniqueKeys.clear();
-      
-      insert    (inserts, SSSQLVarNames.circleId,  circle);
-      insert    (inserts, SSSQLVarNames.inviteeId, email);
-      
-      uniqueKey(uniqueKeys, SSSQLVarNames.circleId,   circle);
-      uniqueKey(uniqueKeys, SSSQLVarNames.inviteeId,  email);
-      
-      dbSQL.insertIfNotExists(SSSQLVarNames.circleInviteesTable, inserts, uniqueKeys);
-    }
+      for(String email : emails){
+        
+        inserts.clear();
+        uniqueKeys.clear();
+        
+        insert    (inserts, SSSQLVarNames.circleId,  circle);
+        insert    (inserts, SSSQLVarNames.inviteeId, email);
+        
+        uniqueKey(uniqueKeys, SSSQLVarNames.circleId,   circle);
+        uniqueKey(uniqueKeys, SSSQLVarNames.inviteeId,  email);
+        
+        dbSQL.insertIfNotExists(SSSQLVarNames.circleInviteesTable, inserts, uniqueKeys);
+      }
+//    }catch(Exception sqlError){
+//      SSServErrReg.regErrThrow(sqlError);
+//    }
   }
   
   public List<String> getInvitedUsers(
-    final SSUri circle) throws Exception{
+    final SSUri circle) throws SSErr{
     
     ResultSet resultSet = null;
     
@@ -1958,13 +2109,18 @@ public List<SSUri> getCircleURIs(
       SSServErrReg.regErrThrow(error);
       return null;
     }finally{
-      dbSQL.closeStmt(resultSet);
+      
+      try{
+        dbSQL.closeStmt(resultSet);
+      }catch(Exception sqlError){
+        SSServErrReg.regErrThrow(sqlError);
+      }
     }
   }
   
   public void changeCircleType(
     final SSUri     circle,
-    final SSCircleE type) throws Exception{
+    final SSCircleE type) throws SSErr{
     
     try{
       final Map<String, String>  wheres   = new HashMap<>();
@@ -1989,7 +2145,7 @@ public List<SSUri> getCircleURIs(
   
   public void removeEntityFromCircle(
     final SSUri circle,
-    final SSUri entity) throws Exception{
+    final SSUri entity) throws SSErr{
     
     try{
       
@@ -2005,7 +2161,7 @@ public List<SSUri> getCircleURIs(
   }
   
   public static List<SSCircleRightE> getCircleRights(
-    final SSCircleE circleType) throws Exception{
+    final SSCircleE circleType) throws SSErr{
     
     try{
       
@@ -2031,7 +2187,7 @@ public List<SSUri> getCircleURIs(
 
 //private Boolean hasCircleEntity(
 //    final SSUri circleUri,
-//    final SSUri entityUri) throws Exception{
+//    final SSUri entityUri) throws SSErr{
 //
 //    ResultSet resultSet = null;
 //
@@ -2058,7 +2214,7 @@ public List<SSUri> getCircleURIs(
 //  }
 
 //  public List<SSEntity> getCircles(
-//    final List<SSUri> circleURIs) throws Exception{
+//    final List<SSUri> circleURIs) throws SSErr{
 //
 //    ResultSet resultSet = null;
 //
@@ -2067,7 +2223,7 @@ public List<SSUri> getCircleURIs(
 //      final List<SSEntity> result = new ArrayList<>();
 //
 //      if(circleURIs == null){
-//        throw new SSErr(SSErrE.parameterMissing);
+//        throw SSErr.get(SSErrE.parameterMissing);
 //      }
 //
 //      if(circleURIs.isEmpty()){
@@ -2113,7 +2269,7 @@ public List<SSUri> getCircleURIs(
 //    }
 //  }
 
-//  public void entityAddOrUpdateLabel(SSUri entity, SSEntityA label) throws Exception {
+//  public void entityAddOrUpdateLabel(SSUri entity, SSEntityA label) throws SSErr {
 //
 //    Map<String, String>      parNamesAndValues;
 //    HashMap<String, String>  newValues;
@@ -2139,7 +2295,7 @@ public List<SSUri> getCircleURIs(
 //    }
 //  }
 
-//  public Boolean existsEntity(SSUri entityUri) throws Exception{
+//  public Boolean existsEntity(SSUri entityUri) throws SSErr{
 //    
 //    if(entityUri == null){
 //      SSServErrReg.regErrThrow(new Exception("entity null"));
@@ -2171,14 +2327,14 @@ public List<SSUri> getCircleURIs(
 //    final Boolean         withSystemCircles,
 //    final List<SSUri>     entities,
 //    final List<SSEntityE> types,
-//    final List<SSUri>     authors) throws Exception{
+//    final List<SSUri>     authors) throws SSErr{
 //    
 //    ResultSet resultSet = null;
 //    
 //    try{
 //     
 //      if(user == null){
-//        throw new SSErr(SSErrE.parameterMissing);
+//        throw SSErr.get(SSErrE.parameterMissing);
 //      }
 //      
 //      final List<MultivaluedMap<String, String>> wheres         = new ArrayList<>();
@@ -2277,7 +2433,7 @@ public List<SSUri> getCircleURIs(
 //  public void addEntity(
 //    final SSUri         entity,
 //    final SSEntityE     entityType,
-//    final SSUri         authorUri) throws Exception{
+//    final SSUri         authorUri) throws SSErr{
 //    
 //    final Map<String, String> inserts    = new HashMap<>();
 //    
@@ -2305,7 +2461,7 @@ public List<SSUri> getCircleURIs(
 //  }
 
 //  public List<SSEntity> getEntitiesForCircle(
-//    final SSUri circleUri) throws Exception{
+//    final SSUri circleUri) throws SSErr{
 //
 //    ResultSet resultSet = null;
 //
@@ -2335,7 +2491,7 @@ public List<SSUri> getCircleURIs(
 //public List<SSEntity> getEntitiesForLabelsAndDescriptions(
 //    final List<String> requireds,
 //    final List<String> absents,
-//    final List<String> eithers) throws Exception{
+//    final List<String> eithers) throws SSErr{
 //    
 //    ResultSet resultSet = null;
 //    

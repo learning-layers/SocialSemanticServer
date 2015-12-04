@@ -166,7 +166,7 @@ public class SSEntity extends SSEntityA{
     value = "colls")
   public SSQueryResultPage collsPage = null;
   
-  public String getId() throws Exception{
+  public String getId() {
     return SSStrU.removeTrailingSlash(id);
   }
   
@@ -178,7 +178,7 @@ public class SSEntity extends SSEntityA{
     return SSStrU.toStr(type);
   }
   
-  public String getDescription() throws Exception{
+  public String getDescription() {
     return SSStrU.toStr(description);
   }
   
@@ -186,20 +186,20 @@ public class SSEntity extends SSEntityA{
     return SSStrU.toStr(circleTypes);
   }
   
-  public List<String> getComments() throws Exception{
+  public List<String> getComments() {
     return SSStrU.toStr(comments);
   }
   
   public static SSEntity get(
     final SSUri     id,
-    final SSEntityE type) throws Exception{
+    final SSEntityE type) throws SSErr {
     
     return new SSEntity(id, type);
   }
   
   public static List<SSEntity> get(
     final List<SSUri> ids,
-    final SSEntityE   type) throws Exception{
+    final SSEntityE   type) throws SSErr {
     
     final List<SSEntity> entities = new ArrayList<>();
     
@@ -213,7 +213,7 @@ public class SSEntity extends SSEntityA{
   public static SSEntity get(
     final SSUri     id,
     final SSEntityE type,
-    final SSLabel   label) throws Exception{
+    final SSLabel   label) throws SSErr {
     
     return new SSEntity(id, type, label);
   }
@@ -224,7 +224,7 @@ public class SSEntity extends SSEntityA{
     final SSLabel       label,
     final SSTextComment description,
     final Long          creationTime,
-    final SSEntity      author) throws Exception{
+    final SSEntity      author) throws SSErr {
     
     return new SSEntity(id, type, label, description, creationTime, author);
   }
@@ -235,7 +235,7 @@ public class SSEntity extends SSEntityA{
     final SSLabel       label,
     final SSTextComment description,
     final Long          creationTime,
-    final SSEntity      author) throws Exception{
+    final SSEntity      author) throws SSErr {
     
     super(id);
     
@@ -249,7 +249,7 @@ public class SSEntity extends SSEntityA{
   
   protected SSEntity(
     final SSUri     id,
-    final SSEntityE type) throws Exception{
+    final SSEntityE type) throws SSErr{
     
     super(id);
     
@@ -260,7 +260,7 @@ public class SSEntity extends SSEntityA{
   protected SSEntity(
     final SSUri     id,
     final SSEntityE type,
-    final SSLabel   label) throws Exception{
+    final SSLabel   label) throws SSErr {
     
     super(id);
     
@@ -270,7 +270,7 @@ public class SSEntity extends SSEntityA{
   }
   
   protected SSEntity(
-    final SSEntity entity) throws Exception{
+    final SSEntity entity) throws SSErr {
     
     super(entity.id);
     
@@ -339,7 +339,7 @@ public class SSEntity extends SSEntityA{
   
   protected SSEntity(
     final SSEntity specificEntity, 
-    final SSEntity entity) throws Exception{
+    final SSEntity entity) throws SSErr {
     
     super(specificEntity.id);
     
@@ -549,7 +549,7 @@ public class SSEntity extends SSEntityA{
 //    final List<SSEntityA>            uEs,  //new
 //    final String                     thumb,//new
 //    final SSUri                      file, //new
-//    final List<SSEntityA>            flags) throws Exception{
+//    final List<SSEntityA>            flags) {
 //    
 //    return new SSEntity(
 //      id, 
@@ -588,7 +588,7 @@ public class SSEntity extends SSEntityA{
 //    final List<SSEntityA>        uEs,  //new
 //    final String                 thumb,//new
 //    final SSUri                  file, //new
-//    final List<SSEntityA>        flags) throws Exception{ //new
+//    final List<SSEntityA>        flags) { //new
 //    
 //    super(id);
 //    

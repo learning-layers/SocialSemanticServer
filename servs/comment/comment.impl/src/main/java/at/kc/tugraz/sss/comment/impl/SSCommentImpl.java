@@ -68,7 +68,7 @@ implements
   
   private final SSCommentSQLFct sql;
   
-  public SSCommentImpl(final SSConfA conf) throws Exception{
+  public SSCommentImpl(final SSConfA conf) throws SSErr{
 
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
 
@@ -126,7 +126,7 @@ implements
     try{
       
       if(par.entity == null){
-        throw new SSErr(SSErrE.parameterMissing);
+        throw SSErr.get(SSErrE.parameterMissing);
       }
       
       final SSEntityServerI entityServ = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
@@ -226,7 +226,7 @@ implements
     try{
       
       if(par.entity == null){
-        throw new SSErr(SSErrE.parameterMissing);
+        throw SSErr.get(SSErrE.parameterMissing);
       }
       
       if(par.withUserRestriction){
@@ -256,7 +256,7 @@ implements
     try{
       
       if(par.user == null){
-        throw new SSErr(SSErrE.parameterMissing);
+        throw SSErr.get(SSErrE.parameterMissing);
       }
       
       final List<SSUri> entityURIs = sql.getEntityURIsCommented(par.user);

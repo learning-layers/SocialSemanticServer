@@ -44,7 +44,7 @@ implements SSDBNoSQLI{
   
   protected static ConcurrentUpdateSolrClient solrServer = null;
   
-  public SSDBNoSQLSolrImpl(final SSConfA conf) throws Exception{
+  public SSDBNoSQLSolrImpl(final SSConfA conf){
     
     super(conf);
     

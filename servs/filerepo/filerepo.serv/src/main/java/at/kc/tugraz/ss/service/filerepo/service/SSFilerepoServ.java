@@ -28,6 +28,7 @@ import at.kc.tugraz.ss.service.filerepo.impl.SSFilerepoImpl;
 import at.tugraz.sss.serv.SSServImplA;
 import at.kc.tugraz.ss.service.filerepo.api.SSFileRepoClientI;
 import at.kc.tugraz.ss.service.filerepo.api.SSFileRepoServerI;
+import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSServContainerI;
 import java.util.List;
 
@@ -43,7 +44,7 @@ public class SSFilerepoServ extends SSServContainerI{
   }
   
   @Override
-  protected SSServImplA createServImplForThread() throws Exception{
+  protected SSServImplA createServImplForThread() throws SSErr{
     return new SSFilerepoImpl((SSFileRepoConf)conf);
   }
   

@@ -172,7 +172,7 @@ public class SSLearnEpAccessController{
       learnEpsLock.readLock().lock();
       
       if(!hasLock(user, learnEp)){
-        throw new SSErr(SSErrE.userNeedsLockOnEntity);
+        throw SSErr.get(SSErrE.userNeedsLockOnEntity);
       }
       
     }catch(Exception error){

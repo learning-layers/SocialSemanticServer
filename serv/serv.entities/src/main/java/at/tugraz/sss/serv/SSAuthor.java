@@ -29,40 +29,40 @@ public class SSAuthor extends SSEntity{
   
   public static SSAuthor get(
     final SSAuthor         author,
-    final SSEntity         entity) throws Exception{
+    final SSEntity         entity) throws SSErr {
     
     return new SSAuthor(author, entity);
   }
   
   protected SSAuthor(
     final SSAuthor         author,
-    final SSEntity         entity) throws Exception{
+    final SSEntity         entity) throws SSErr {
     
     super(author, entity);
   }
   
   public static SSAuthor get(
     final SSUri    id,
-    final SSLabel  label) throws Exception{
+    final SSLabel  label) throws SSErr {
     
     return new SSAuthor(id, label);
   }
   
   public static SSAuthor get(
-    final SSUri    id) throws Exception{
+    final SSUri    id) throws SSErr {
     
     return new SSAuthor(id);
   }
   
   protected SSAuthor(
     final SSUri   id,
-    final SSLabel label) throws Exception{
+    final SSLabel label) throws SSErr {
     
     super(id, SSEntityE.user, label);
   }
   
   protected SSAuthor(
-    final SSUri   id) throws Exception{
+    final SSUri   id) throws SSErr {
     
     super(id, SSEntityE.user);
   }

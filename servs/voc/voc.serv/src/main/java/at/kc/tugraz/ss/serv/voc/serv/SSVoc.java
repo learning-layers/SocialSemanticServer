@@ -28,6 +28,7 @@ import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSServImplA;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.voc.api.SSVocI;
+import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSServContainerI;
 import java.util.List;
 
@@ -43,7 +44,7 @@ public class SSVoc extends SSServContainerI{
   }
   
   @Override
-  protected SSServImplA createServImplForThread() throws Exception{
+  protected SSServImplA createServImplForThread() throws SSErr{
     return new SSVocImpl((SSVocConf) conf);
   }
   

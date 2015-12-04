@@ -40,7 +40,7 @@ public class SSCollSQLFct extends SSEntitySQL{
 
   public SSCollSQLFct(
     final SSDBSQLI dbSQL,
-    final SSUri    systemUserURI) throws Exception{
+    final SSUri    systemUserURI){
     
     super(dbSQL, systemUserURI);
   }

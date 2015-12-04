@@ -64,7 +64,7 @@ public class SSRecommUserRealmKeeper{
       engineLock.readLock().lock();
       
       if(user == null){
-        throw new SSErr(SSErrE.parameterMissing);
+        throw SSErr.get(SSErrE.parameterMissing);
       }
       
       if(realm == null){
@@ -79,7 +79,7 @@ public class SSRecommUserRealmKeeper{
           SSStrU.equals  (realm,   conf.fileNameForRec) &&
           !SSStrU.equals (userStr, SSVocConf.systemUserUri)){
           
-          throw new SSErr(SSErrE.userNotAllowedToRetrieveForOtherUser);
+          throw SSErr.get(SSErrE.userNotAllowedToRetrieveForOtherUser);
         }
       }else{
         

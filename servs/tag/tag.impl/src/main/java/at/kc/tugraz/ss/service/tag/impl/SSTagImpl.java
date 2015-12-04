@@ -97,7 +97,7 @@ implements
   private final SSTagAndCategoryCommonMisc commonMiscFct;
   private final SSEntityServerI            entityServ;
   
-  public SSTagImpl(final SSConfA conf) throws Exception{
+  public SSTagImpl(final SSConfA conf) throws SSErr{
     
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
     
@@ -556,7 +556,7 @@ implements
     try{
       
       if(SSObjU.isNull(par.user)){
-         throw new SSErr(SSErrE.parameterMissing);
+         throw SSErr.get(SSErrE.parameterMissing);
       }
       
       if(par.entity != null){
@@ -575,7 +575,7 @@ implements
       if(par.withUserRestriction){
         
         if(SSObjU.isNull(par.entity)){
-          throw new SSErr(SSErrE.parameterMissing);
+          throw SSErr.get(SSErrE.parameterMissing);
         }
         
         if(par.circle != null){
@@ -758,7 +758,7 @@ implements
     try{
       
       if(par.user == null){
-        throw new SSErr(SSErrE.parameterMissing);
+        throw SSErr.get(SSErrE.parameterMissing);
       }
       
       if(par.withUserRestriction){
@@ -766,7 +766,7 @@ implements
         if(
           par.forUser != null &&
           !SSStrU.equals(par.user, par.forUser)){
-          throw new SSErr(SSErrE.userNotAllowedToRetrieveForOtherUser);
+          throw SSErr.get(SSErrE.userNotAllowedToRetrieveForOtherUser);
         }
       }
       
@@ -977,7 +977,7 @@ implements
 //      final List<SSUri> entityURIs = new ArrayList<>();
 //      
 //      if(par.user == null){
-//        throw new SSErr(SSErrE.parameterMissing);
+//        throw SSErr.get(SSErrE.parameterMissing);
 //      }
 //      
 //      if(par.withUserRestriction){

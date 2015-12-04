@@ -114,7 +114,8 @@ implements
   private final  SSActivityServerI activityServ;
   private final  SSEvalServerI     evalServ;
   
-  public SSCircleImpl(final SSConfA conf) throws Exception{
+  public SSCircleImpl(final SSConfA conf) throws SSErr{
+    
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
     
     this.sql          = new SSEntitySQL     (dbSQL, SSVocConf.systemUserUri);
@@ -516,7 +517,7 @@ implements
       if(par.withUserRestriction){
         
         if(par.isSystemCircle){
-          throw new SSErr(SSErrE.notAllowedToCreateCircle);
+          throw SSErr.get(SSErrE.notAllowedToCreateCircle);
         }
         
         switch(par.circleType){
@@ -526,7 +527,7 @@ implements
             break;
           }
           
-          default: throw new SSErr(SSErrE.notAllowedToCreateCircle);
+          default: throw SSErr.get(SSErrE.notAllowedToCreateCircle);
         }
       }
       
@@ -971,13 +972,13 @@ implements
     try{
       
       if(par.entity == null){
-        throw new SSErr(SSErrE.parameterMissing);
+        throw SSErr.get(SSErrE.parameterMissing);
       }
       
       if(par.withUserRestriction){
         
         if(par.user == null){
-          throw new SSErr(SSErrE.parameterMissing);
+          throw SSErr.get(SSErrE.parameterMissing);
         }
         
         return sql.getCircleTypesCommonForUserAndEntity(par.user, par.entity);
@@ -997,7 +998,7 @@ implements
     try{
       
       if(par.entity == null){
-        throw new SSErr(SSErrE.parameterMissing);
+        throw SSErr.get(SSErrE.parameterMissing);
       }
       
       SSEntity entity = 
@@ -1032,7 +1033,7 @@ implements
     try{
       
       if(par.entity == null){
-        throw new SSErr(SSErrE.parameterMissing);
+        throw SSErr.get(SSErrE.parameterMissing);
       }
       
       if(par.forUser == null){
@@ -1053,7 +1054,7 @@ implements
     try{
       
       if(par.entity == null){
-        throw new SSErr(SSErrE.parameterMissing);
+        throw SSErr.get(SSErrE.parameterMissing);
       }
       
       SSEntity entity = 
@@ -1566,7 +1567,7 @@ implements
 //    try{
 //
 //      if(par.entityURI == null){
-//        throw new SSErr(SSErrE.parameterMissing);
+//        throw SSErr.get(SSErrE.parameterMissing);
 //      }
 //
 //      if(!sqlFct.existsEntity(par.entityURI)){

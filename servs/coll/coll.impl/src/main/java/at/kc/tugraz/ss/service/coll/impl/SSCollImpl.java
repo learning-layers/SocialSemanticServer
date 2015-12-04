@@ -92,7 +92,7 @@ implements
   private final SSEntityServerI entityServ;
   private final SSCircleServerI circleServ;
   
-  public SSCollImpl(final SSConfA conf) throws Exception{
+  public SSCollImpl(final SSConfA conf) throws SSErr{
 
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
 
@@ -375,10 +375,10 @@ implements
                       par.user,
                       false)))){
               
-                throw new SSErr(SSErrE.cannotSetSpecialCollectionPublic);
+                throw SSErr.get(SSErrE.cannotSetSpecialCollectionPublic);
               }
               
-              throw new SSErr(SSErrE.cannotShareSpecialCollection);
+              throw SSErr.get(SSErrE.cannotShareSpecialCollection);
             }
             
             for(SSUri collContentURI : SSCollMiscFct.getCollSubCollAndEntryURIs(sql, sql.getCollWithEntries(entityAdded.id))){
@@ -539,7 +539,7 @@ implements
     try{
       
       if(par.coll == null){
-        throw new SSErr(SSErrE.parameterMissing);
+        throw SSErr.get(SSErrE.parameterMissing);
       }
       
       SSColl coll = sql.getCollWithEntries(par.coll);
@@ -600,11 +600,11 @@ implements
     try{
       
       if(SSObjU.isNull(par.user, par.coll)){
-        throw new SSErr(SSErrE.parameterMissing);
+        throw SSErr.get(SSErrE.parameterMissing);
       }
       
       if(!sql.ownsUserColl(par.user, par.coll)){
-        throw new SSErr(SSErrE.userDoesntOwnColl);
+        throw SSErr.get(SSErrE.userDoesntOwnColl);
       }
       
       return collGet(
@@ -639,7 +639,7 @@ implements
     try{
 
       if(SSObjU.isNull(par.user)){
-        throw new SSErr(SSErrE.parameterMissing);
+        throw SSErr.get(SSErrE.parameterMissing);
       }
       
       return collGet(
@@ -661,7 +661,7 @@ implements
     try{
       
       if(par.user == null){
-        throw new SSErr(SSErrE.parameterMissing);
+        throw SSErr.get(SSErrE.parameterMissing);
       }
       
       final List<SSEntity> colls      = new ArrayList<>();
@@ -704,7 +704,7 @@ implements
     try{
       
       if(SSObjU.isNull(par.user, par.coll)){
-        throw new SSErr(SSErrE.parameterMissing);
+        throw SSErr.get(SSErrE.parameterMissing);
       }
             
       final List<SSEntity> colls = new ArrayList<>();      
@@ -832,7 +832,7 @@ implements
     try{
 
       if(SSObjU.isNull(par.user)){
-        throw new SSErr(SSErrE.parameterMissing);
+        throw SSErr.get(SSErrE.parameterMissing);
       }
       
       if(sql.existsCollRootForUser(par.forUser)){
@@ -929,7 +929,7 @@ implements
     try{
 
       if(SSObjU.isNull(par.coll)){
-        throw new SSErr(SSErrE.parameterMissing);
+        throw SSErr.get(SSErrE.parameterMissing);
       }
       
       if(par.withUserRestriction){
@@ -958,7 +958,7 @@ implements
       if(par.addNewColl){
         
         if(par.label == null){
-          throw new SSErr(SSErrE.parameterMissing);
+          throw SSErr.get(SSErrE.parameterMissing);
         }
         
         dbSQL.startTrans(par.shouldCommit);
@@ -1108,7 +1108,7 @@ implements
     try{
 
       if(SSObjU.isNull(par.coll, par.entry)){
-        throw new SSErr(SSErrE.parameterMissing);
+        throw SSErr.get(SSErrE.parameterMissing);
       }
       
       if(par.withUserRestriction){
@@ -1240,7 +1240,7 @@ implements
     try{
 
       if(par.coll == null){
-        throw new SSErr(SSErrE.parameterMissing);
+        throw SSErr.get(SSErrE.parameterMissing);
       }
       
       if(par.withUserRestriction){

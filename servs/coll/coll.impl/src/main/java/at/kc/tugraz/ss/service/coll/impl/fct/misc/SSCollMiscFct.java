@@ -127,7 +127,7 @@ public class SSCollMiscFct{
         }
       }
       
-      throw new SSErr(SSErrE.userDoesntOwnColl);
+      throw SSErr.get(SSErrE.userDoesntOwnColl);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

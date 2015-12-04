@@ -53,7 +53,7 @@ public class SSTagAndCategoryCommonSQL extends SSEntitySQL{
   public SSTagAndCategoryCommonSQL(
     final SSDBSQLI    dbSQL,
     final SSUri       systemUserURI,
-    final SSEntityE   metadataType) throws Exception{
+    final SSEntityE   metadataType){
     
     super(dbSQL, systemUserURI);
     

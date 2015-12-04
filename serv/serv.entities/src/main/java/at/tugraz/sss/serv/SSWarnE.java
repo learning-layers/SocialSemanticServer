@@ -21,6 +21,15 @@
 package at.tugraz.sss.serv;
 
 public enum SSWarnE{
+  
+  //sql
+  sqlCloseStatementFailed,
+  
+  //user
+  userNotRegistered,
+  
+  
+  uriInvalid,
   userNotAllowedToAccessEntity,
   entityAlreadySharedWithUser,
   subCollAlreadySharedWithUser,

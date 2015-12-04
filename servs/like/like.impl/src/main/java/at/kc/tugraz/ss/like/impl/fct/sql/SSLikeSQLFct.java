@@ -36,7 +36,7 @@ public class SSLikeSQLFct extends SSEntitySQL{
 
   public SSLikeSQLFct(
     final SSDBSQLI dbSQL,
-    final SSUri    systemUserURI) throws Exception{
+    final SSUri    systemUserURI){
     
     super(dbSQL, systemUserURI);
   }

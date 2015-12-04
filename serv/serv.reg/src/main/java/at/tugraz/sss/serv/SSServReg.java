@@ -432,7 +432,7 @@ public class SSServReg{
     }
   }
   
-  public static SSServImplA getServ(final Class servServerI) throws Exception{
+  public static SSServImplA getServ(final Class servServerI) throws SSErr{
     
     SSServContainerI serv;
     
@@ -441,15 +441,16 @@ public class SSServReg{
       serv = servsForServerI.get(servServerI);
       
       if(serv == null){
-        throw new SSErr(SSErrE.notServerServiceForOpAvailable);
+        throw new SSErr(SSErrE.servServerOpNotAvailable);
       }
       
       return serv.serv();
+      
     }catch(SSErr error){
       
       switch(error.code){
         
-        case notServerServiceForOpAvailable:{
+        case servServerOpNotAvailable:{ 
           throw error;
         }
         
@@ -459,8 +460,6 @@ public class SSServReg{
       }
       
       return null;
-    }catch(Exception error){
-      throw error;
     }
   }
   
@@ -473,7 +472,7 @@ public class SSServReg{
       serv = servsForServerOps.get(par.op);
       
       if(serv == null){
-        throw new SSErr(SSErrE.notServerServiceForOpAvailable);
+        throw new SSErr(SSErrE.servServerOpNotAvailable);
       }
       
       return serv.serv().handleServerOp(serv.servImplServerInteraceClass, par);
@@ -481,7 +480,7 @@ public class SSServReg{
       
       switch(error.code){
         
-        case notServerServiceForOpAvailable:{
+        case servServerOpNotAvailable:{
           throw error;
         }
         

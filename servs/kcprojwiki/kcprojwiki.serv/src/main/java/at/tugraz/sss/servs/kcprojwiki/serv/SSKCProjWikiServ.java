@@ -47,7 +47,7 @@ public class SSKCProjWikiServ extends SSServContainerI{
   }
   
   @Override
-  protected SSServImplA createServImplForThread() throws Exception{
+  protected SSServImplA createServImplForThread(){
     return new SSKCProjWikiImpl(conf);
   }
   

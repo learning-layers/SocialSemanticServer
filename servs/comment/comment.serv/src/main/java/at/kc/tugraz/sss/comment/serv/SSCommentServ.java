@@ -27,6 +27,7 @@ import at.tugraz.sss.serv.SSServImplA;
 import at.kc.tugraz.sss.comment.api.SSCommentClientI;
 import at.kc.tugraz.sss.comment.api.SSCommentServerI;
 import at.kc.tugraz.sss.comment.impl.SSCommentImpl;
+import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSServContainerI;
 import java.util.List;
 
@@ -42,7 +43,7 @@ public class SSCommentServ extends SSServContainerI{
   }
   
   @Override
-  protected SSServImplA createServImplForThread() throws Exception{
+  protected SSServImplA createServImplForThread() throws SSErr{
     return new SSCommentImpl(conf);
   }
 

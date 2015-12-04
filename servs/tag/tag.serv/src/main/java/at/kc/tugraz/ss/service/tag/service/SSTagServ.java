@@ -28,6 +28,7 @@ import at.kc.tugraz.ss.serv.tag.conf.SSTagConf;
 import at.kc.tugraz.ss.service.tag.api.SSTagClientI;
 import at.kc.tugraz.ss.service.tag.api.SSTagServerI;
 import at.kc.tugraz.ss.service.tag.impl.*;
+import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSServContainerI;
 import java.util.List;
 
@@ -43,7 +44,7 @@ public class SSTagServ extends SSServContainerI{
   }
   
   @Override
-  protected SSServImplA createServImplForThread() throws Exception{
+  protected SSServImplA createServImplForThread() throws SSErr{
     return new SSTagImpl(conf);
   }
 

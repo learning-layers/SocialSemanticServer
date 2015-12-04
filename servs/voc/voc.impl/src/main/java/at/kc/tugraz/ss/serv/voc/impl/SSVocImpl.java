@@ -26,11 +26,12 @@ import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSDBSQLI;
+import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 
 public class SSVocImpl extends SSServImplWithDBA implements SSVocI{
  
-  public SSVocImpl(final SSVocConf conf) throws Exception{
+  public SSVocImpl(final SSVocConf conf) throws SSErr{
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
   }
 }

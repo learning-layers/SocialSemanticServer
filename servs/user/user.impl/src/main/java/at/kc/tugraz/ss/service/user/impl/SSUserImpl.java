@@ -72,7 +72,7 @@ implements
   private final SSEntityServerI   entityServ;
   private final SSCircleServerI   circleServ;
   
-  public SSUserImpl(final SSConfA conf) throws Exception{
+  public SSUserImpl(final SSConfA conf) throws SSErr{
     
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
     
@@ -271,7 +271,7 @@ implements
     try{
       
       if(par.withUserRestriction){
-        throw new SSErr(SSErrE.userCannotAddUser);
+        throw SSErr.get(SSErrE.userCannotAddUser);
       }
       
       final SSLabel       tmpLabel;

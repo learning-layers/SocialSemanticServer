@@ -23,6 +23,7 @@ package at.kc.tugraz.ss.serv.datatypes.entity.impl.fct;
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclesGetPar;
 import at.tugraz.sss.serv.SSEntity;
+import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServErrReg;
@@ -34,7 +35,7 @@ public class SSEntityUserRelationsGatherFct{
   
   public static void getUserRelations(
     final List<String>             allUsers, 
-    final Map<String, List<SSUri>> userRelations) throws Exception{
+    final Map<String, List<SSUri>> userRelations) throws SSErr{
     
     try{
       

@@ -27,6 +27,7 @@ import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSServImplA;
 import at.kc.tugraz.ss.service.disc.api.SSDiscClientI;
 import at.kc.tugraz.ss.service.disc.api.SSDiscServerI;
+import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSServContainerI;
 import java.util.List;
 
@@ -42,7 +43,7 @@ public class SSDiscServ extends SSServContainerI{
   }
   
   @Override
-  protected SSServImplA createServImplForThread() throws Exception{
+  protected SSServImplA createServImplForThread() throws SSErr{
     return new SSDiscImpl(conf);
   } 
 

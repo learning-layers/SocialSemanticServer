@@ -60,7 +60,7 @@ implements
   private final SSLocationSQLFct sql;
   private final SSEntityServerI  entityServ;
   
-  public SSLocationImpl(final SSConfA conf) throws Exception{
+  public SSLocationImpl(final SSConfA conf) throws SSErr{
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
     
      sql             = new SSLocationSQLFct   (dbSQL, SSVocConf.systemUserUri);
@@ -117,7 +117,7 @@ implements
     try{
       
       if(par.location == null){
-        throw new SSErr(SSErrE.parameterMissing);
+        throw SSErr.get(SSErrE.parameterMissing);
       }
       
       return sql.getLocation(par.location);
@@ -134,7 +134,7 @@ implements
     try{
       
       if(par.entity == null){
-        throw new SSErr(SSErrE.parameterMissing);
+        throw SSErr.get(SSErrE.parameterMissing);
       }
       
       final SSEntity entity = 

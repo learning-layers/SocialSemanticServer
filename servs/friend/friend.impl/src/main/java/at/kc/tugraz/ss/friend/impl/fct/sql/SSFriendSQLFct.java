@@ -36,7 +36,7 @@ import java.util.Map;
 
 public class SSFriendSQLFct extends SSDBSQLFct{
 
-  public SSFriendSQLFct(final SSDBSQLI dbSQL) throws Exception{
+  public SSFriendSQLFct(final SSDBSQLI dbSQL) {
     super(dbSQL);
   }
 
@@ -80,7 +80,7 @@ public class SSFriendSQLFct extends SSDBSQLFct{
     try{
 
       if(friend == null){
-        throw new SSErr(SSErrE.parameterMissing);
+        throw SSErr.get(SSErrE.parameterMissing);
       }
       
       final List<String>        columns   = new ArrayList<>();
@@ -113,7 +113,7 @@ public class SSFriendSQLFct extends SSDBSQLFct{
     try{
 
       if(user == null){
-        throw new SSErr(SSErrE.parameterMissing);
+        throw SSErr.get(SSErrE.parameterMissing);
       }
       
       final List<String>        columns   = new ArrayList<>();

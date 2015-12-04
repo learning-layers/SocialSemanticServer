@@ -71,13 +71,13 @@ public class SSAuthMiscFct{
     try{
       
       if(!sqlFct.hasKey(userUri)){
-        throw new SSErr(SSErrE.userNotRegistered);
+        throw SSErr.get(SSErrE.userNotRegistered);
       }
        
       final String key = sqlFct.getKey(userUri);
       
       if(!key.equals(genKey(email, pass))){
-        throw new SSErr(SSErrE.userKeyWrong);
+        throw SSErr.get(SSErrE.userKeyWrong);
       }
       
       return key;

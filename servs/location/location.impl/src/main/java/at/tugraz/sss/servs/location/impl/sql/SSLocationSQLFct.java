@@ -37,7 +37,7 @@ public class SSLocationSQLFct extends SSEntitySQL{
   
   public SSLocationSQLFct(
     final SSDBSQLI dbSQL,
-    final SSUri    systemUserURI) throws Exception{
+    final SSUri    systemUserURI){
     
     super(dbSQL, systemUserURI);
   }

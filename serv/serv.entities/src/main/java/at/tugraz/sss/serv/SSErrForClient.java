@@ -34,32 +34,38 @@ public class SSErrForClient extends Exception{
   public final Integer   lineWhereThrown;
   public final Exception exception;
   
-  public static SSErrForClient get(Exception error) throws Exception{
-    return new SSErrForClient(error);
+  public static SSErrForClient get(final Exception originalError) throws SSErr{
+    return new SSErrForClient(originalError);
   }
   
-  private SSErrForClient(Exception error) throws Exception{
+  private SSErrForClient(final Exception originalError) throws SSErr{
     
-    if(
-      error            == null ||
-      error.getClass() == null){
-      throw new Exception("client error cannot be set");
+    try{
+      
+      if(
+        originalError            == null ||
+        originalError.getClass() == null){
+        throw new Exception();
+      }
+      
+      if(originalError instanceof SSErr){
+        this.id        = ((SSErr) originalError).code.toString();
+      }else{
+        this.id        = null;
+      }
+      
+      this.exception = originalError;
+      this.className = originalError.getClass().getName();
+      this.message   = originalError.getMessage();
+      
+      threadWhereThrown  = Thread.currentThread().getId();
+      classWhereThrown   = Thread.currentThread().getStackTrace()[4].getClassName();
+      methodWhereThrown  = Thread.currentThread().getStackTrace()[4].getMethodName();
+      lineWhereThrown    = Thread.currentThread().getStackTrace()[4].getLineNumber();
+    
+    }catch(Exception error){
+      throw new SSErr(SSErrE.clientErrorCreationFailed);
     }
-    
-    if(error instanceof SSErr){
-      this.id        = ((SSErr) error).code.toString();
-    }else{
-      this.id        = null;
-    }
-    
-    this.exception = error;
-    this.className = error.getClass().getName();
-    this.message   = error.getMessage();
-    
-    threadWhereThrown  = Thread.currentThread().getId();
-    classWhereThrown   = Thread.currentThread().getStackTrace()[4].getClassName();
-    methodWhereThrown  = Thread.currentThread().getStackTrace()[4].getMethodName();
-    lineWhereThrown    = Thread.currentThread().getStackTrace()[4].getLineNumber();
   }
   
   public static List<String> linesWhereThrown(List<SSErrForClient> errors) {

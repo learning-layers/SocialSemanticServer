@@ -73,7 +73,7 @@ implements
   SSDataExportClientI, 
   SSDataExportServerI{
   
-  public SSDataExportImpl(final SSConfA conf) throws Exception{
+  public SSDataExportImpl(final SSConfA conf) throws SSErr{
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
   }
   
@@ -209,7 +209,7 @@ implements
         }catch(SSErr error){
           
           switch(error.code){
-            case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); return;
+            case servServerOpNotAvailable: SSLogU.warn(error.getMessage()); return;
             default: SSServErrReg.regErrThrow(error); return;
           }
         }
@@ -353,7 +353,7 @@ implements
       }catch(SSErr error){
         
         switch(error.code){
-          case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); return;
+          case servServerOpNotAvailable: SSLogU.warn(error.getMessage()); return;
           default: SSServErrReg.regErrThrow(error); return;
         }
       }

@@ -22,6 +22,20 @@ package at.tugraz.sss.serv;
 
 public enum SSErrE{
 
+  //service
+  servNotRunning,
+  servImplCreationFailed,
+  
+  //sql
+  sqlNoResultFound,
+  sqlDeadLock,
+  sqlDefaultErr,
+  mySQLConnectionFailed,
+  mySQLGetConnectionFromPoolFailed,
+  
+  //error
+  clientErrorCreationFailed,
+
   //default
   defaultErr,
   
@@ -32,7 +46,10 @@ public enum SSErrE{
   categoryLabelInvalid, 
   
   //entity
+  uriInvalid,
   entityCreationFailedOnNull,
+  spaceInvalid,
+  entityTypeInvalid,
   
   //activity
   activityContentTypeInvalid,
@@ -49,9 +66,7 @@ public enum SSErrE{
   circleDoesntHaveQueriedRight,
   userCannotShareWithHimself,
   
-  //sql
-  sqlNoResultFound,
-  sqlDeadLock,
+  
   
   //user //auth
   userNotRegistered,
@@ -66,7 +81,6 @@ public enum SSErrE{
   userCannotAddUser,
   
   parameterMissing,
-  servParCreationFailed,
   restAdapterInternalError,
   
   realmIncorrectForUser,
@@ -87,7 +101,7 @@ public enum SSErrE{
   learnEpCurrentVersionNotSet,
   deployingServiceOnNodeFailed,           //could not deploy requested service on new node
   noClientServiceForOpAvailableOnNodes,   //no service found on nodes to handle client op
-  notServerServiceForOpAvailable,         //no service found on machine to handle server op
+  servServerOpNotAvailable,         //no service found on machine to handle server op
   noClientServiceForOpAvailableOnMachine, //no service found on machine to handle client op
   userNotAllowedToAccessEntity,           //user is not allowed to access requested entity
   userNotAllowedToRetrieveForOtherUser,   //user is not allowed to access entity for other user

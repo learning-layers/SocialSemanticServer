@@ -135,7 +135,7 @@ implements
   private final SSCircleServerI            circleServ;
   private final SSLearnEpActivityAndLogFct actAndLogFct;
   
-  public SSLearnEpImpl(final SSConfA conf) throws Exception{
+  public SSLearnEpImpl(final SSConfA conf) throws SSErr{
     
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
     
@@ -486,7 +486,7 @@ implements
     try{
       
       if(par.user == null){
-        throw new SSErr(SSErrE.parameterMissing);
+        throw SSErr.get(SSErrE.parameterMissing);
       }
       
       if(par.withUserRestriction){
@@ -2083,7 +2083,7 @@ SSUri.asListNotNull(par.learnEpVersion), //learnEpVersions
       }else{
         
         if(par.forUser == null){
-          throw new SSErr(SSErrE.parameterMissing);
+          throw SSErr.get(SSErrE.parameterMissing);
         }
       }
       

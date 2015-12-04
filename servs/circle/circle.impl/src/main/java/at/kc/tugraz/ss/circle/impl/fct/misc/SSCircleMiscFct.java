@@ -67,7 +67,7 @@ public class SSCircleMiscFct{
       return SSStrU.contains(usersForCircle, user);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
-      return null;
+      return false;
     }
   }
   

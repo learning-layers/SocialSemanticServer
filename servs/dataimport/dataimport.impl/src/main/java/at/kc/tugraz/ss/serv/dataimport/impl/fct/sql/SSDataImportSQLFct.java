@@ -33,7 +33,7 @@ import java.util.Map;
 
 public class SSDataImportSQLFct extends SSDBSQLFct{
   
-  public SSDataImportSQLFct(final SSDBSQLI dbSQL) throws Exception{
+  public SSDataImportSQLFct(final SSDBSQLI dbSQL) {
     super(dbSQL);
   }
   

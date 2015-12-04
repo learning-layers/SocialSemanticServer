@@ -70,7 +70,7 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
   
   private static final Map<String, String> oidcAuthTokens = new HashMap<>();
   
-  public SSAuthImpl(final SSAuthConf conf) throws Exception {
+  public SSAuthImpl(final SSAuthConf conf) throws SSErr {
     
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
     
@@ -93,7 +93,7 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
       }catch(SSErr error){
         
         switch(error.code){
-          case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); return;
+          case servServerOpNotAvailable: SSLogU.warn(error.getMessage()); return;
           default: SSServErrReg.regErrThrow(error);
         }
       }      
@@ -142,7 +142,7 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
     try{
       
       if(par.email == null){
-        throw new SSErr(SSErrE.parameterMissing);
+        throw SSErr.get(SSErrE.parameterMissing);
       }
       
       final SSUri     userUri;
@@ -203,7 +203,7 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
       }catch(SSErr error){
         
         switch(error.code){
-          case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
+          case servServerOpNotAvailable: SSLogU.warn(error.getMessage()); break;
           default: SSServErrReg.regErrThrow(error);
         }
       }
@@ -315,7 +315,7 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
                 SSVocConf.systemUserUri,
                 email))){
               
-              throw new SSErr(SSErrE.userNotRegistered);
+              throw SSErr.get(SSErrE.userNotRegistered);
             }
             
             userUri = 
@@ -370,7 +370,7 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
               }catch(SSErr error){
 
                 switch(error.code){
-                  case notServerServiceForOpAvailable: SSLogU.warn(error.getMessage()); break;
+                  case servServerOpNotAvailable: SSLogU.warn(error.getMessage()); break;
                   default: SSServErrReg.regErrThrow(error);
                 }
               }
@@ -448,7 +448,7 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
           }
           
           if(!csvFileAuthKeys.contains(par.key)){
-            throw new SSErr(SSErrE.userKeyWrong);
+            throw SSErr.get(SSErrE.userKeyWrong);
           }
           
           return authCheckCred(new SSAuthCheckCredPar(par.key)).user;
@@ -458,7 +458,7 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
           return authCheckCred(new SSAuthCheckCredPar(par.key)).user;
         }
         
-        default: throw new SSErr(SSErrE.authNoUserForKey);
+        default: throw SSErr.get(SSErrE.authNoUserForKey);
       }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

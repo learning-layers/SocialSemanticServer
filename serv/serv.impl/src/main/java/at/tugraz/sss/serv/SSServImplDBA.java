@@ -22,7 +22,7 @@ package at.tugraz.sss.serv;
 
 public abstract class SSServImplDBA extends SSServImplA{
   
-  public SSServImplDBA(final SSConfA conf) throws Exception{
+  public SSServImplDBA(final SSConfA conf){
     super(conf);
   }
   

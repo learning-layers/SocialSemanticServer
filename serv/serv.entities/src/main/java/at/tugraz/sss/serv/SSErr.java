@@ -22,25 +22,38 @@ package at.tugraz.sss.serv;
 
 public class SSErr extends Exception{
   
-  public SSErrE code = null;
+  public SSErrE    code      = null;
+  public Exception exception = null;
   
   public String getCode(){
     return SSStrU.toStr(code);
   }
   
-  public SSErr(final SSErrE code){
+  public static SSErr get(final SSErrE code){
+    return new SSErr(code);
+  }
+  
+  public static SSErr get(
+    final SSErrE    code,
+    final Exception exception){
+    
+    return new SSErr(code, exception);
+  }
+    
+  protected SSErr(final SSErrE code){
     
     super(SSStrU.toStr(code));
     
     this.code = code;
   }
   
-  public SSErr(
-    final SSErrE code,
-    final String message){
+  protected SSErr(
+    final SSErrE    code,
+    final Exception exception){
     
-    super(code + SSStrU.colon + SSStrU.blank + message);
+    super(code + SSStrU.colon + SSStrU.blank + exception.getMessage());
     
-    this.code = code;
+    this.code      = code;
+    this.exception = exception;
   }
 }

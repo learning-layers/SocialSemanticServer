@@ -35,7 +35,7 @@ public class SSDBNoSQL extends SSServContainerI{
   }
   
   @Override
-  protected SSServImplA createServImplForThread() throws Exception{
+  protected SSServImplA createServImplForThread() {
     return new SSDBNoSQLSolrImpl((SSDBNoSQLConf) conf);
   }
 

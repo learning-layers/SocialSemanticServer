@@ -29,6 +29,7 @@ import at.kc.tugraz.ss.category.impl.SSCategoryImpl;
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.tugraz.sss.serv.SSCoreConfA;
+import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSServImplA;
 import at.tugraz.sss.serv.SSServContainerI;
@@ -46,7 +47,7 @@ public class SSCategoryServ extends SSServContainerI{
   }
   
   @Override
-  protected SSServImplA createServImplForThread() throws Exception{
+  protected SSServImplA createServImplForThread() throws SSErr{
     return new SSCategoryImpl(conf);
   }
   

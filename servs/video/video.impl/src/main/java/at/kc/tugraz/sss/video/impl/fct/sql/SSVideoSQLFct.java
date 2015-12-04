@@ -39,7 +39,7 @@ public class SSVideoSQLFct extends SSEntitySQL{
 
   public SSVideoSQLFct(
     final SSDBSQLI dbSQL,
-    final SSUri    systemUserURI) throws Exception{
+    final SSUri    systemUserURI){
     
     super(dbSQL, systemUserURI);
   }

@@ -162,8 +162,8 @@ public class SSFileUploader extends SSServImplStartA{
       
     }catch(Exception error){
       
-      if(SSServErrReg.containsErr(SSErrE.notServerServiceForOpAvailable)){
-        SSLogU.warn(SSErrE.notServerServiceForOpAvailable.toString());
+      if(SSServErrReg.containsErr(SSErrE.servServerOpNotAvailable)){
+        SSLogU.warn(SSErrE.servServerOpNotAvailable.toString());
       }else{
         SSLogU.warn(error.getMessage());
       }

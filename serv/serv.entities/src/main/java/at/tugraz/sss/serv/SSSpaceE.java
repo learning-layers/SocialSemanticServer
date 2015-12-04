@@ -34,7 +34,7 @@ public enum SSSpaceE implements SSJSONLDPropI{
     return SSVarNames.xsd + SSStrU.colon + SSStrU.valueString;
   }
   
-  public static SSSpaceE get(final String space) throws Exception{
+  public static SSSpaceE get(final String space) throws SSErr{
     
     try{
       
@@ -44,11 +44,11 @@ public enum SSSpaceE implements SSJSONLDPropI{
       
       return SSSpaceE.valueOf(space);
     }catch(Exception error){
-      throw new Exception("space invalid");
+      throw new SSErr(SSErrE.spaceInvalid);
     }
   }
   
-  public static List<SSSpaceE> get(final List<String> strings) throws Exception{
+  public static List<SSSpaceE> get(final List<String> strings) throws SSErr {
 
     final List<SSSpaceE> result = new ArrayList<>();
     

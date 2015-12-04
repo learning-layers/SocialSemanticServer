@@ -32,6 +32,7 @@ import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSDBSQLI;
+import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSJSONLDPropI;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServImplWithDBA;
@@ -45,7 +46,7 @@ implements
   SSJSONLDClientI, 
   SSJSONLDServerI{
 
-  public SSJSONLDImpl(final SSJSONLDConf conf) throws Exception{
+  public SSJSONLDImpl(final SSJSONLDConf conf) throws SSErr{
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
   }
   

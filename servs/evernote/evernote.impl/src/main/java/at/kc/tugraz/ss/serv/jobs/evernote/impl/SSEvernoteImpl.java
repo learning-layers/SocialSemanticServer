@@ -50,6 +50,7 @@ import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSDescribeEntityI;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
+import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import com.evernote.auth.EvernoteAuth;
 import com.evernote.auth.EvernoteService;
@@ -80,7 +81,7 @@ implements
   
   private final SSEvernoteSQLFct sqlFct;
   
-  public SSEvernoteImpl(final SSConfA conf) throws Exception{
+  public SSEvernoteImpl(final SSConfA conf) throws SSErr{
     
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
     

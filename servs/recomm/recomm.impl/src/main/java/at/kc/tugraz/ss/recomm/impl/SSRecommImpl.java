@@ -100,7 +100,7 @@ implements
   private final SSRecommSQLFct sql;
   private final SSEvalServerI  evalServ;
   
-  public SSRecommImpl(final SSConfA conf) throws Exception{
+  public SSRecommImpl(final SSConfA conf) throws SSErr{
     
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
     
@@ -145,7 +145,7 @@ implements
           if(
             par.forUser != null &&
             !SSStrU.equals(par.user, par.forUser)){
-            throw new SSErr(SSErrE.userNotAllowedToRetrieveForOtherUser);
+            throw SSErr.get(SSErrE.userNotAllowedToRetrieveForOtherUser);
           }
           
           if(par.entity != null){
@@ -320,7 +320,7 @@ implements
       if(par.ignoreAccessRights){
         
         if(SSStrU.equals(realmToUse, ((SSRecommConf)conf).fileNameForRec)){
-          throw new SSErr(SSErrE.parameterMissing);
+          throw SSErr.get(SSErrE.parameterMissing);
         }
       }
       
@@ -331,7 +331,7 @@ implements
           if(
             par.forUser != null &&
             !SSStrU.equals(par.user, par.forUser)){
-            throw new SSErr(SSErrE.userNotAllowedToRetrieveForOtherUser);
+            throw SSErr.get(SSErrE.userNotAllowedToRetrieveForOtherUser);
           }
           
           if(par.entity != null){
@@ -423,7 +423,7 @@ implements
       if(par.ignoreAccessRights){
         
         if(SSStrU.equals(par.realm, ((SSRecommConf)conf).fileNameForRec)){
-          throw new SSErr(SSErrE.parameterMissing);
+          throw SSErr.get(SSErrE.parameterMissing);
         }
       }
       
@@ -434,7 +434,7 @@ implements
           if(
             par.forUser != null &&
             !SSStrU.equals(par.user, par.forUser)){
-            throw new SSErr(SSErrE.userNotAllowedToRetrieveForOtherUser);
+            throw SSErr.get(SSErrE.userNotAllowedToRetrieveForOtherUser);
           }
           
           if(par.entity != null){

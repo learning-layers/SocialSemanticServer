@@ -62,6 +62,7 @@ import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSDescribeEntityI;
 import at.tugraz.sss.serv.SSEntityContext;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
+import at.tugraz.sss.serv.SSErr;
 import java.util.ArrayList;
 import java.util.List;
 import at.tugraz.sss.serv.SSErrE;
@@ -94,7 +95,7 @@ implements
   private final SSCircleServerI   circleServ;
   private final SSLocationServerI locationServ;
   
-  public SSVideoImpl(final SSConfA conf) throws Exception{
+  public SSVideoImpl(final SSConfA conf) throws SSErr{
 
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
 

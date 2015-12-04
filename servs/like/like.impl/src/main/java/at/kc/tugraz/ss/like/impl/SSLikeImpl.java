@@ -59,7 +59,7 @@ implements
   private final SSLikeSQLFct     sql;
   private final SSEntityServerI  entityServ;
    
-  public SSLikeImpl(final SSConfA conf) throws Exception{
+  public SSLikeImpl(final SSConfA conf) throws SSErr{
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
     
     this.sql        = new SSLikeSQLFct(dbSQL, SSVocConf.systemUserUri);
@@ -97,7 +97,7 @@ implements
     try{
       
       if(par.entity == null){
-        throw new SSErr(SSErrE.parameterMissing);
+        throw SSErr.get(SSErrE.parameterMissing);
       }
       
       final SSEntity entity = 
@@ -115,7 +115,7 @@ implements
         if(
           par.forUser != null &&
           !SSStrU.equals(par.forUser, par.user)){
-          throw new SSErr(SSErrE.userNotAllowedToRetrieveForOtherUser);
+          throw SSErr.get(SSErrE.userNotAllowedToRetrieveForOtherUser);
         }
       }
       

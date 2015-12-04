@@ -24,7 +24,7 @@ public class SSDBNoSQLFct extends SSDBFct{
 
   protected final SSDBNoSQLI dbNoSQL;
   
-  public SSDBNoSQLFct(final SSDBNoSQLI dbNoSQL) throws Exception{
+  public SSDBNoSQLFct(final SSDBNoSQLI dbNoSQL){
     
     super();
     

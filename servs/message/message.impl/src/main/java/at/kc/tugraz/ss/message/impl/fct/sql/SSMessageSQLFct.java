@@ -44,7 +44,7 @@ import javax.ws.rs.core.MultivaluedMap;
 
 public class SSMessageSQLFct extends SSDBSQLFct{
 
-  public SSMessageSQLFct(final SSDBSQLI dbSQL) throws Exception{
+  public SSMessageSQLFct(final SSDBSQLI dbSQL) {
     super(dbSQL);
   }
 
@@ -77,7 +77,7 @@ public class SSMessageSQLFct extends SSDBSQLFct{
     try{
       
       if(messageURI == null){
-        throw new SSErr(SSErrE.parameterMissing);
+        throw SSErr.get(SSErrE.parameterMissing);
       }
       
       final Map<String, String>                                    wheres         = new HashMap<>();

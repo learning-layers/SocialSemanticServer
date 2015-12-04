@@ -28,6 +28,7 @@ import at.tugraz.sss.serv.SSServImplA;
 import at.kc.tugraz.ss.service.coll.api.SSCollClientI;
 import at.kc.tugraz.ss.service.coll.api.SSCollServerI;
 import at.kc.tugraz.ss.service.tag.api.SSTagServerI;
+import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSServContainerI;
 import java.util.List;
 
@@ -43,7 +44,7 @@ public class SSCollServ extends SSServContainerI{
   }
   
   @Override
-  protected SSServImplA createServImplForThread() throws Exception{
+  protected SSServImplA createServImplForThread() throws SSErr{
     return new SSCollImpl(conf);
   }
 

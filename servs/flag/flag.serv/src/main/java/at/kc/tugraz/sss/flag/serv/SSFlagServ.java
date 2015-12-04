@@ -27,6 +27,7 @@ import at.tugraz.sss.serv.SSServImplA;
 import at.kc.tugraz.sss.flag.api.SSFlagClientI;
 import at.kc.tugraz.sss.flag.api.SSFlagServerI;
 import at.kc.tugraz.sss.flag.impl.SSFlagImpl;
+import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSServContainerI;
 import java.util.List;
 
@@ -42,7 +43,7 @@ public class SSFlagServ extends SSServContainerI{
   }
   
   @Override
-  protected SSServImplA createServImplForThread() throws Exception{
+  protected SSServImplA createServImplForThread() throws SSErr{
     return new SSFlagImpl(conf);
   }
 

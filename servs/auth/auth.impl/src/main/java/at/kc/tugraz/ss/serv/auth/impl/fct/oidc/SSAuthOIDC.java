@@ -58,7 +58,7 @@ public class SSAuthOIDC{
         hrs = hrq.send();
         
       } catch (IOException|URISyntaxException error) {
-        throw new SSErr(SSErrE.authCouldntConnectToOIDC);
+        throw SSErr.get(SSErrE.authCouldntConnectToOIDC);
       }
       
       // process response from OpenID Connect user info endpoint
@@ -66,7 +66,7 @@ public class SSAuthOIDC{
       try {
         userInfoResponse = UserInfoResponse.parse(hrs);
       } catch (ParseException error) {
-        throw new SSErr(SSErrE.authCouldntParseOIDCUserInfoResponse);
+        throw SSErr.get(SSErrE.authCouldntParseOIDCUserInfoResponse);
       }
       
       // failed request for OpenID Connect user info will result in no agent being returned.
@@ -76,9 +76,9 @@ public class SSAuthOIDC{
           ((UserInfoErrorResponse) userInfoResponse).getErrorObject()                  != null &&
           ((UserInfoErrorResponse) userInfoResponse).getErrorObject().getDescription() != null){
           
-          throw new SSErr(SSErrE.authOIDCUserInfoRequestFailed, "Cause: " + ((UserInfoErrorResponse) userInfoResponse).getErrorObject().getDescription());
+          throw SSErr.get(SSErrE.authOIDCUserInfoRequestFailed); // "Cause: " + ((UserInfoErrorResponse) userInfoResponse).getErrorObject().getDescription());
         }else{
-          throw new SSErr(SSErrE.authOIDCUserInfoRequestFailed);
+          throw SSErr.get(SSErrE.authOIDCUserInfoRequestFailed);
         }
       }
       

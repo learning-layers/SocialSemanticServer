@@ -35,7 +35,7 @@ import java.util.Map;
 
 public class SSSearchNoSQLFct extends SSDBNoSQLFct{
 
-  public SSSearchNoSQLFct(final SSDBNoSQLI dbNoSQL) throws Exception{
+  public SSSearchNoSQLFct(final SSDBNoSQLI dbNoSQL){
     super(dbNoSQL);
   }
   

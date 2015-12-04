@@ -70,7 +70,7 @@ implements
   private final SSMessageSQLFct  sqlFct;
   private final SSEntityServerI  entityServ;
 
-  public SSMessageImpl(final SSConfA conf) throws Exception{
+  public SSMessageImpl(final SSConfA conf) throws SSErr{
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
     
     this.sqlFct     = new SSMessageSQLFct(dbSQL);
@@ -206,7 +206,7 @@ implements
     try{
       
       if(par.user == null){
-        throw new SSErr(SSErrE.parameterMissing);
+        throw SSErr.get(SSErrE.parameterMissing);
       }
       
        if(par.withUserRestriction){

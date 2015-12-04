@@ -27,6 +27,7 @@ import at.tugraz.sss.serv.SSServImplA;
 import at.kc.tugraz.ss.service.userevent.api.SSUEClientI;
 import at.kc.tugraz.ss.service.userevent.api.SSUEServerI;
 import at.kc.tugraz.ss.service.userevent.impl.SSUEImpl;
+import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSServContainerI;
 import java.util.List;
 
@@ -42,7 +43,7 @@ public class SSUEServ extends SSServContainerI{
   }
   
   @Override
-  protected SSServImplA createServImplForThread() throws Exception{
+  protected SSServImplA createServImplForThread() throws SSErr{
     return new SSUEImpl(conf);
   }
   

@@ -23,6 +23,7 @@ package at.kc.tugraz.ss.activity.datatypes.enums;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSJSONLDPropI;
+import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarNames;
 import java.util.ArrayList;
@@ -48,7 +49,8 @@ public enum SSActivityContentE implements SSJSONLDPropI{
       
       return SSActivityContentE.valueOf(contentType);
     }catch(Exception error){
-      throw new SSErr(SSErrE.activityContentTypeInvalid, error.getMessage());
+      SSServErrReg.regErrThrow(SSErrE.activityContentTypeInvalid, error);
+      return null;
     }
   }
   

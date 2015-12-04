@@ -30,7 +30,7 @@ public class SSTextComment extends SSEntityA {
     return SSVarNames.xsd + SSStrU.colon + SSStrU.valueString;
   }
   
-  public static SSTextComment get(final String comment) throws Exception{
+  public static SSTextComment get(final String comment) throws SSErr {
     
     if(comment == null){
       return null;
@@ -39,7 +39,7 @@ public class SSTextComment extends SSEntityA {
     return new SSTextComment(SSStrU.replaceAllLineFeedsWithTextualRepr(comment));
   }
   
-  public static List<SSTextComment> get(final List<String> strings) throws Exception{
+  public static List<SSTextComment> get(final List<String> strings) throws SSErr {
     
     final List<SSTextComment> result = new ArrayList<>();
     
@@ -94,7 +94,7 @@ public class SSTextComment extends SSEntityA {
     }
   }
   
-  private SSTextComment(final String value) throws Exception{
+  private SSTextComment(final String value) throws SSErr {
     super(value);
   }
 }

@@ -45,7 +45,7 @@ public class SSActivitySQLFct extends SSEntitySQL{
 
   public SSActivitySQLFct(
     final SSDBSQLI dbSQL,
-    final SSUri    systemUserURI) throws Exception{
+    final SSUri    systemUserURI){
     
     super(dbSQL, systemUserURI);
   }

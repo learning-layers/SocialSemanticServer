@@ -9,17 +9,18 @@ public abstract class SSServContainerI{
   public        SSConfA                                         conf                        = null;
   public        final Class                                     servImplClientInteraceClass;
   public        final Class                                     servImplServerInteraceClass;
-  protected     Exception                                       servImplCreationError           = null;
+  protected     SSErr                                           servImplCreationError           = null;
   
   private final ThreadLocal<SSServImplA> servImplsByServByThread = new ThreadLocal<SSServImplA>(){
     
-    @Override protected SSServImplA initialValue() {
+    @Override 
+    protected SSServImplA initialValue() {
       
       try{
         return createServImplForThread();
       }catch (Exception error){
         SSLogU.err(error);
-        servImplCreationError = error;
+        servImplCreationError = SSErr.get(SSErrE.servImplCreationFailed, error);
         return null;
       }
     }
@@ -33,7 +34,7 @@ public abstract class SSServContainerI{
     this.servImplServerInteraceClass = servImplServerInteraceClass;
   }
   
-  protected abstract SSServImplA      createServImplForThread   () throws Exception;
+  protected abstract SSServImplA      createServImplForThread   () throws SSErr;
   public    abstract SSCoreConfA      getConfForCloudDeployment (final SSCoreConfA coreConfA, final List<Class> configuredServs) throws Exception;
   public    abstract void             initServ                  () throws Exception;
   public    abstract void             schedule                  () throws Exception;
@@ -96,12 +97,12 @@ public abstract class SSServContainerI{
     return serverOps;
   }
   
-  public SSServImplA serv() throws Exception{
+  public SSServImplA serv() throws SSErr{
     
-    try{
+//    try{
       
       if(!conf.use){
-        throw new Exception("service not running");
+        throw SSErr.get(SSErrE.servNotRunning);
       }
       
       final SSServImplA servTmp = servImplsByServByThread.get();
@@ -113,9 +114,7 @@ public abstract class SSServContainerI{
       SSServImplStartA.regServImplUsedByThread (servTmp);
       
       return servTmp;
-    }catch(Exception error){
-      SSLogU.err(error);
-      throw error;
-    }
+//      SSLogU.err(error);
+//      throw error;
   }
 }

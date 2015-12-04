@@ -28,6 +28,7 @@ import at.tugraz.sss.serv.SSDBNoSQLRemoveDocPar;
 import at.tugraz.sss.serv.SSDBNoSQLSearchPar;
 import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSDBSQLI;
+import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServImplWithDBA;
@@ -45,7 +46,7 @@ implements
   SSIntegrationTestClientI,
   SSIntegrationTestServerI{
   
-  public SSIntegrationTestImpl(final SSIntegrationTestConf conf) throws Exception{
+  public SSIntegrationTestImpl(final SSIntegrationTestConf conf) throws SSErr {
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
   }
   

@@ -105,7 +105,7 @@ public class SSDiscImpl
   private final SSCircleServerI    circleServ;
   private final SSDiscActAndLogFct actAndLogFct;
 
-  public SSDiscImpl(final SSConfA conf) throws Exception{
+  public SSDiscImpl(final SSConfA conf) throws SSErr{
 
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
 
@@ -525,7 +525,7 @@ public class SSDiscImpl
       if(par.addNewDisc){
         
         if(SSObjU.isNull(par.label, par.type)){
-          throw new SSErr(SSErrE.parameterMissing);
+          throw SSErr.get(SSErrE.parameterMissing);
         }
         
         switch(par.type){
@@ -539,7 +539,7 @@ public class SSDiscImpl
       if(!par.addNewDisc){
         
         if(SSObjU.isNull(par.entry)){
-          throw new SSErr(SSErrE.parameterMissing);
+          throw SSErr.get(SSErrE.parameterMissing);
         }
         
         final SSEntity disc = 
@@ -1105,7 +1105,7 @@ public class SSDiscImpl
     try{
       
       if(par.user == null){
-        throw new SSErr(SSErrE.parameterMissing);
+        throw SSErr.get(SSErrE.parameterMissing);
       }
       
       if(par.withUserRestriction){

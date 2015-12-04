@@ -42,7 +42,7 @@ public class SSDiscSQLFct extends SSEntitySQL {
 
   public SSDiscSQLFct(
     final SSServImplWithDBA serv,
-    final SSUri             systemUserURI) throws Exception{
+    final SSUri             systemUserURI){
     
     super(serv.dbSQL, systemUserURI);
   }
@@ -146,7 +146,7 @@ public class SSDiscSQLFct extends SSEntitySQL {
     try{
       
       if(target == null){
-        throw new SSErr(SSErrE.parameterMissing);
+        throw SSErr.get(SSErrE.parameterMissing);
       }
       
       final Map<String, String> wheres    = new HashMap<>();

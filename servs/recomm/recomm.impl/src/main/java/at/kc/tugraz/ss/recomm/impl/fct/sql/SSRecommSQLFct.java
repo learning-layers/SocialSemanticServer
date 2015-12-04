@@ -35,7 +35,7 @@ public class SSRecommSQLFct extends SSEntitySQL{
   
   public SSRecommSQLFct(
     final SSDBSQLI dbSQL,
-    final SSUri    systemUserURI) throws Exception{
+    final SSUri    systemUserURI) {
     
     super(dbSQL, systemUserURI);
   }

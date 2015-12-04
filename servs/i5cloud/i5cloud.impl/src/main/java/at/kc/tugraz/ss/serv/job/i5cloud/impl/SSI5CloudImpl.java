@@ -41,6 +41,7 @@ import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSDBSQLI;
+import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import i5.las.httpConnector.client.TimeoutException;
@@ -58,7 +59,7 @@ implements
 
   private SSI5CloudLASConnector lasCon = null;
   
-  public SSI5CloudImpl(final SSConfA conf) throws Exception{
+  public SSI5CloudImpl(final SSConfA conf) throws SSErr{
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
   }
   

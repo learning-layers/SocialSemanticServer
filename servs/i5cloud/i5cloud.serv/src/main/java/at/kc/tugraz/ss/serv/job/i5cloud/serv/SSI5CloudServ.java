@@ -25,6 +25,7 @@ import at.tugraz.sss.serv.SSCoreConfA;
 import at.kc.tugraz.ss.serv.job.i5cloud.api.SSI5CloudClientI;
 import at.kc.tugraz.ss.serv.job.i5cloud.api.SSI5CloudServerI;
 import at.kc.tugraz.ss.serv.job.i5cloud.impl.SSI5CloudImpl;
+import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServImplA;
@@ -42,7 +43,7 @@ public class SSI5CloudServ extends SSServContainerI{
   }
   
   @Override
-  protected SSServImplA createServImplForThread() throws Exception{
+  protected SSServImplA createServImplForThread() throws SSErr{
     return new SSI5CloudImpl(conf);
   }
   

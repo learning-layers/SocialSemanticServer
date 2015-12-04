@@ -52,6 +52,7 @@ import sss.serv.eval.datatypes.par.SSEvalLogPar;
 import sss.serv.eval.datatypes.ret.SSEvalLogRet;
 import at.kc.tugraz.ss.serv.datatypes.learnep.api.SSLearnEpServerI;
 import at.kc.tugraz.ss.service.disc.api.SSDiscServerI;
+import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.servs.livingdocument.api.SSLivingDocServerI;
 import java.util.Date;
 
@@ -65,7 +66,7 @@ implements
   private final SSEvalLogKnowBrain        evalLogKnowBrain;
   private final SSEvalLogBNP              evalLogBNP;
 
-  public SSEvalImpl(final SSConfA conf) throws Exception{
+  public SSEvalImpl(final SSConfA conf) throws SSErr{
 
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
 

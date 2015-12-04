@@ -55,7 +55,7 @@ public class SSEntityShareWithUsers {
     try{
       
       if(SSStrU.contains(users, user)){
-        throw new SSErr(SSErrE.userCannotShareWithHimself);
+        throw SSErr.get(SSErrE.userCannotShareWithHimself);
       }
       
       if(!SSServCallerU.areUsersUsers(users)){

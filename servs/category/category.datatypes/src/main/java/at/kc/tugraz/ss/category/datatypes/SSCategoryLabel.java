@@ -128,7 +128,7 @@ public class SSCategoryLabel extends SSEntityA{
       final String tmpLabel = label.replaceAll("[^\\p{L}\\p{Zs}0-9_-]+", SSStrU.empty);
       
       if(SSStrU.isEmpty(tmpLabel)){
-        throw new SSErr(SSErrE.categoryLabelInvalid, tmpLabel);
+        throw SSErr.get(SSErrE.categoryLabelInvalid);
       }
       
       return tmpLabel;

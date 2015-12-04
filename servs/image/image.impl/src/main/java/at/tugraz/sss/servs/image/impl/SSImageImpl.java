@@ -87,7 +87,7 @@ implements
   private final SSImageSQLFct         sql;
   private final SSEntityServerI       entityServ;
   
-  public SSImageImpl(final SSConfA conf) throws Exception{
+  public SSImageImpl(final SSConfA conf) throws SSErr {
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
     
     this.sql            = new SSImageSQLFct   (dbSQL, SSVocConf.systemUserUri);
@@ -342,14 +342,14 @@ implements
     try{
       
       if(par.imageType == null){
-        throw new SSErr(SSErrE.parameterMissing);
+        throw SSErr.get(SSErrE.parameterMissing);
       }
       
       if(
         par.createThumb &&
         par.file == null){
         
-        throw new SSErr(SSErrE.parameterMissing);
+        throw SSErr.get(SSErrE.parameterMissing);
       }
       
       final SSFileRepoServerI fileServ = (SSFileRepoServerI) SSServReg.getServ(SSFileRepoServerI.class);
@@ -540,7 +540,7 @@ implements
     try{
       
       if(SSObjU.isNull(par.file, par.entity)){
-        throw new SSErr(SSErrE.parameterMissing);
+        throw SSErr.get(SSErrE.parameterMissing);
       }
       
       SSEntity file = 

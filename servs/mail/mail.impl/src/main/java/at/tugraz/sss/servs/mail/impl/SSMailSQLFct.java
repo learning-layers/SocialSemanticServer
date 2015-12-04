@@ -36,7 +36,7 @@ import java.util.Map;
 
 public class SSMailSQLFct extends SSDBSQLFct{
 
-  public SSMailSQLFct(final SSDBSQLI dbSQL) throws Exception {
+  public SSMailSQLFct(final SSDBSQLI dbSQL){
     super(dbSQL);
   }
   
@@ -52,7 +52,7 @@ public class SSMailSQLFct extends SSDBSQLFct{
       if(
         mail == null &&
         hash == null){
-        throw new SSErr(SSErrE.parameterMissing);
+        throw SSErr.get(SSErrE.parameterMissing);
       }
       
       final List<String>        columns = new ArrayList<>();
@@ -130,7 +130,7 @@ public class SSMailSQLFct extends SSDBSQLFct{
     }else{
       
       if(mail == null){
-        throw new SSErr(SSErrE.parameterMissing);
+        throw SSErr.get(SSErrE.parameterMissing);
       }
       
       try{
