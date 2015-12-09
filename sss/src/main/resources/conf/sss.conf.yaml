@@ -56,8 +56,6 @@ app:
   use: true
 message:
   use: true
-cloud:
-  use: false
 comment:
   use: true  
 i5Cloud:

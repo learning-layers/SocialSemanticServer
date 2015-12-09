@@ -18,9 +18,36 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
+package at.kc.tugraz.ss.cloud.datatypes.ret;
 
-package at.kc.tugraz.ss.cloud.api;
+import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSServRetI;
+import java.util.Map;
 
-public interface SSCloudClientI{
+public class SSCloudPublishServiceRet extends SSServRetI{
+
+  public       String  sssNodeHost             = null;
+  public       Integer sssNodePort             = null;
+
+  @Override
+  public Map<String, Object> jsonLDDesc(){
+    throw new UnsupportedOperationException();
+  }
   
+  public static SSCloudPublishServiceRet get(
+    final String  sssNodeHost,
+    final Integer sssNodePort){
+    
+    return new SSCloudPublishServiceRet(sssNodeHost, sssNodePort);
+  }
+  
+  private SSCloudPublishServiceRet(
+    final String  sssNodeHost,
+    final Integer sssNodePort){
+
+    super(SSServOpE.cloudPublishService);
+    
+    this.sssNodeHost = sssNodeHost;
+    this.sssNodePort = sssNodePort;
+  }
 }

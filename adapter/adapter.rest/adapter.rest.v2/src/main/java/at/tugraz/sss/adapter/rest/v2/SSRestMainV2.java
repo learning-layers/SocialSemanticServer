@@ -469,38 +469,3 @@ public class SSRestMainV2 extends Application {
     }
   }
 }
-
-//  private static String checkAndHandleSSSNodeSwitch(
-//    final String msgFullFromSS,
-//    final String clientJSONRequ) throws Exception{
-//    
-//    SSSocketCon sssNodeSocketCon = null;
-//    
-//    try{
-//      
-//      final SSClientPar clientPar = new SSClientPar (msgFullFromSS);
-//      
-//      if(!clientPar.useDifferentServiceNode){
-//        return msgFullFromSS;
-//      }
-//      
-//      sssNodeSocketCon =
-//        new SSSocketCon(
-//          clientPar.sssNodeHost,
-//          clientPar.sssNodePort,
-//          clientJSONRequ);
-//      
-//      sssNodeSocketCon.writeRequFullToSS();
-//      
-//      return sssNodeSocketCon.readMsgFullFromSS ();
-//      
-//    }catch(Exception error){
-//      SSServErrReg.regErr     (error);
-//      SSServErrReg.regErrThrow(new SSErr(SSErrE.deployingServiceOnNodeFailed));
-//      return null;
-//    }finally{
-//      if(sssNodeSocketCon != null){
-//        sssNodeSocketCon.closeCon();
-//      }
-//    }
-//  }

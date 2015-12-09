@@ -61,8 +61,7 @@ public class SSMain{
         while(true){
           new Thread(
             new SSServImplClient(
-              server.accept(),
-              SSCoreConf.instGet().getCloud().use)).start();
+              server.accept())).start();    //SSCoreConf.instGet().getCloud().use));
         }
       }catch(Exception error){
         SSLogU.err(error);

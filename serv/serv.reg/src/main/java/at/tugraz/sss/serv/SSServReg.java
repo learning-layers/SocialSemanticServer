@@ -49,8 +49,7 @@ public class SSServReg{
   public static final Map<SSServOpE, Map<String, List<SSServImplA>>>  currentRequsForClientOpsPerUser = new EnumMap<>(SSServOpE.class);
   
   public SSServImplA callServViaClient(
-    final SSServPar    par,
-    final Boolean      useCloud) throws Exception{
+    final SSServPar    par) throws Exception{
     
     try{
       
@@ -98,14 +97,14 @@ public class SSServReg{
         throw error;
       }
       
-      if(useCloud){
-        
-        deployServNode(
-          par,
-          getClientServAvailableOnNodes(par));
-        
-        return null; //TODO to be tested
-      }
+//      if(useCloud){
+//        
+//        deployServNode(
+//          par,
+//          getClientServAvailableOnNodes(par));
+//        
+//        return null; //TODO to be tested
+//      }
       
       throw error;
     }
@@ -539,17 +538,17 @@ public class SSServReg{
     return new ArrayList<>(servsForGatheringUsersResources);
   }
   
-  private void deployServNode(
-    final SSServPar          par,
-    final SSServContainerI   serv) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.user, par.user);
-    opPars.put(SSVarNames.serv, serv);
-    
-    par.clientCon.writeRetFullToClient((SSServRetI) callServViaServer(new SSServPar(SSServOpE.cloudPublishService, opPars)));
-  }
+//  private void deployServNode(
+//    final SSServPar          par,
+//    final SSServContainerI   serv) throws Exception{
+//    
+//    final Map<String, Object> opPars = new HashMap<>();
+//    
+//    opPars.put(SSVarNames.user, par.user);
+//    opPars.put(SSVarNames.serv, serv);
+//    
+//    par.clientCon.writeRetFullToClient((SSServRetI) callServViaServer(new SSServPar(SSServOpE.cloudPublishService, opPars)));
+//  }
   
   private SSServContainerI getClientServAvailableOnNodes(
     final SSServPar par) throws Exception{

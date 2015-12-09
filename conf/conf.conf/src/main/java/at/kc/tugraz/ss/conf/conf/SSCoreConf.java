@@ -26,7 +26,6 @@ import at.kc.tugraz.ss.serv.auth.conf.SSAuthConf;
 import at.kc.tugraz.ss.activity.conf.SSActivityConf;
 import at.kc.tugraz.ss.category.conf.SSCategoryConf;
 import at.kc.tugraz.ss.circle.conf.SSCircleConf;
-import at.kc.tugraz.ss.cloud.conf.SSCloudConf;
 import at.tugraz.sss.serv.SSCoreConfA;
 import at.kc.tugraz.ss.like.conf.SSLikeConf;
 import at.kc.tugraz.ss.message.conf.SSMessageConf;
@@ -77,7 +76,6 @@ public class SSCoreConf extends SSCoreConfA {
   private SSRecommConf recomm = null;
   private SSEvernoteConf evernote = null;
   private SSI5CloudConf i5Cloud = null;
-  private SSCloudConf cloud = null;
   private SSAuthConf auth = null;
   private SSDataImportConf dataImport = null;
   private SSDataExportConf dataExport = null;
@@ -154,7 +152,6 @@ public class SSCoreConf extends SSCoreConfA {
       copy.recomm = SSRecommConf.copy(inst.recomm);
       copy.evernote = SSEvernoteConf.copy(inst.evernote);
       copy.i5Cloud = SSI5CloudConf.copy(inst.i5Cloud);
-      copy.cloud = SSCloudConf.copy(inst.cloud);
       copy.auth = SSAuthConf.copy(inst.auth);
       copy.dataImport = SSDataImportConf.copy(inst.dataImport);
       copy.dataExport = SSDataExportConf.copy(inst.dataExport);
@@ -264,14 +261,6 @@ public class SSCoreConf extends SSCoreConfA {
   
   public void setI5Cloud(SSI5CloudConf i5Cloud) {
     this.i5Cloud = i5Cloud;
-  }
-  
-  public SSCloudConf getCloud() {
-    return cloud;
-  }
-  
-  public void setCloud(SSCloudConf cloud) {
-    this.cloud = cloud;
   }
   
   public SSAuthConf getAuth() {

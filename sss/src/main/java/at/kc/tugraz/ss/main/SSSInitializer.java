@@ -26,7 +26,6 @@ import at.tugraz.sss.serv.SSMimeTypeE;
 import at.kc.tugraz.ss.activity.serv.SSActivityServ;
 import at.kc.tugraz.ss.category.ss.category.serv.SSCategoryServ;
 import at.kc.tugraz.ss.circle.serv.SSCircleServ;
-import at.kc.tugraz.ss.cloud.serv.SSCloudServ;
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import at.kc.tugraz.ss.friend.serv.SSFriendServ;
 import at.kc.tugraz.ss.like.serv.SSLikeServ;
@@ -122,7 +121,6 @@ public class SSSInitializer extends SSServImplStartA{
         SSDataExportServ.inst.regServ      ();
         SSRecommServ.inst.regServ          ();
         SSI5CloudServ.inst.regServ         ();
-        SSCloudServ.inst.regServ           ();
         SSFlagServ.inst.regServ            ();
         SSCommentServ.inst.regServ         ();
         SSMessageServ.inst.regServ         ();

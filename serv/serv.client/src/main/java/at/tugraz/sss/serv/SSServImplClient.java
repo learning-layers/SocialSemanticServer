@@ -25,19 +25,16 @@ import java.util.List;
 
 public class SSServImplClient extends SSServImplStartA implements Runnable{
 
-  private final Boolean     useCloud;
   private final SSSocketCon clientCon;
   private SSServPar         par         = null;
   private SSServImplA       servImpl    = null;
   
   public SSServImplClient(
-    final Socket  clientSocket,
-    final Boolean useCloud) throws Exception{
+    final Socket  clientSocket) throws Exception{
     
     super(null);
     
     clientCon          = new SSSocketCon(clientSocket);
-    this.useCloud      = useCloud;
   }
   
   @Override
@@ -52,10 +49,7 @@ public class SSServImplClient extends SSServImplStartA implements Runnable{
       
       SSLogU.info(par.op + " start with " + par.clientJSONRequ);
       
-      servImpl = 
-        SSServReg.inst.callServViaClient(
-          par,
-          useCloud);
+      servImpl = SSServReg.inst.callServViaClient(par); //useCloud
       
     }catch(Exception error){
       

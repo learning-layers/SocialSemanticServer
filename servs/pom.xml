@@ -23,7 +23,6 @@
     <module>dataexport</module>
     <module>evernote</module>
     <module>i5cloud</module>
-    <module>cloud</module>
     <module>friend</module>
     <module>like</module>
     <module>eval</module>

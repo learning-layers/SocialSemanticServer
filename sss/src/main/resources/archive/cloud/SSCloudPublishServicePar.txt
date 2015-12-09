@@ -20,27 +20,23 @@
 */
 package at.kc.tugraz.ss.cloud.datatypes.par;
 
-import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServContainerI;
+import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSUri;
 
 public class SSCloudPublishServicePar extends SSServPar{
 
-  public SSServContainerI    serv   = null;
+  public SSServContainerI serv = null;
   
-  public SSCloudPublishServicePar(final SSServPar par) throws Exception{
+  public SSCloudPublishServicePar(){}
+  
+  public SSCloudPublishServicePar(
+    final SSUri            user, 
+    final SSServContainerI serv){
     
-    super(par);
+    super(SSServOpE.cloudPublishService, null, user);
     
-    try{
-    
-      if(pars != null){
-        serv    = (SSServContainerI) pars.get(SSVarNames.serv);
-      }
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
+    this.serv = serv;
   }
 }

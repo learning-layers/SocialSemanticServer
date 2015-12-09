@@ -18,19 +18,33 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.cloud.impl.fct.op;
+package at.kc.tugraz.ss.cloud.impl;
 
-import at.tugraz.sss.serv.SSFileU;
-import at.tugraz.sss.serv.SSLogU;
-import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.SSSystemU;
+import at.kc.tugraz.ss.cloud.api.SSCloudClientI;
+import at.kc.tugraz.ss.cloud.api.SSCloudServerI;
 import at.kc.tugraz.ss.cloud.conf.SSCloudConf;
-import at.tugraz.sss.serv.SSCoreConfA;
+import at.kc.tugraz.ss.cloud.datatypes.par.SSCloudPublishServicePar;
+import at.kc.tugraz.ss.cloud.datatypes.ret.SSCloudPublishServiceRet;
+import at.kc.tugraz.ss.cloud.impl.fct.op.SSCloudPublishServiceFct;
 import at.kc.tugraz.ss.conf.conf.SSConf;
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import at.kc.tugraz.ss.serv.auth.conf.SSAuthConf;
+import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSConfA;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.tugraz.sss.serv.SSCoreConfA;
+import at.tugraz.sss.serv.SSDBNoSQL;
+import at.tugraz.sss.serv.SSDBNoSQLI;
+import at.tugraz.sss.serv.SSDBSQL;
+import at.tugraz.sss.serv.SSDBSQLI;
+import at.tugraz.sss.serv.SSErr;
+import at.tugraz.sss.serv.SSFileU;
+import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSServImplWithDBA;
+import at.tugraz.sss.serv.SSStrU;
 import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.ChannelSftp;
@@ -44,8 +58,44 @@ import java.util.ArrayList;
 import java.util.Properties;
 import org.apache.commons.io.FileUtils;
 
-public class SSCloudPublishServiceFct{
+public class SSCloudImpl extends SSServImplWithDBA implements SSCloudClientI, SSCloudServerI{
 
+  public SSCloudImpl(final SSConfA conf) throws SSErr{
+    super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
+  }
+  
+  /* SSCloudServerI */
+  @Override
+  public SSCloudPublishServiceRet cloudPublishService(final SSServPar parA) throws Exception{
+
+    try{
+      final SSCloudPublishServicePar par = new SSCloudPublishServicePar(parA);
+      
+      if(SSSystemU.isWindows()){
+        
+        SSCloudPublishServiceFct.publishServiceFromWindowsToWindowsLocally(
+          par.serv);
+        
+        return SSCloudPublishServiceRet.get(
+          SSVocConf.serverNameLocalhost, 
+          7001);
+          
+      }else{
+        
+        SSCloudPublishServiceFct.publishServiceFromWindowsToUnixRemotely(
+          par.serv);
+        
+        return SSCloudPublishServiceRet.get(
+          "1234", /* TODO dtheiler: add server name to conf */ 
+          9000);
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
   public static void publishServiceFromWindowsToWindowsLocally(
     final SSServContainerI serv) throws Exception{
     
@@ -332,4 +382,6 @@ public class SSCloudPublishServiceFct{
       SSServErrReg.regErrThrow(error);
     }
   }
+  
+  
 }
