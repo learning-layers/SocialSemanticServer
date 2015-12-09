@@ -179,8 +179,7 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
   public SSLearnEpVersion getLearnEpVersion(
     final SSUri   learnEpVersionUri,
     final Boolean setCircles,
-    final Boolean setEntities, 
-    final Boolean setTimelineState) throws Exception {
+    final Boolean setEntities) throws Exception {
     
     ResultSet                  resultSet       = null;
     
@@ -218,8 +217,7 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
           null,
           bindingStrToUri               (resultSet, SSSQLVarNames.learnEpId),
           null, //entities, 
-          null, //circles, 
-          null); //timelineState
+          null); //circles, 
         
       
       if(setCircles){
@@ -230,9 +228,9 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
         learnEpVersion.learnEpEntities.addAll(getLearnEpVersionEntities     (learnEpVersionUri));
       }
       
-      if(setTimelineState){
-        learnEpVersion.learnEpTimelineState = getLearnEpVersionTimelineState(learnEpVersionUri);
-      }
+//      if(setTimelineState){
+//        learnEpVersion.learnEpTimelineState = getLearnEpVersionTimelineState(learnEpVersionUri);
+//      }
       
       return learnEpVersion;
       
@@ -637,43 +635,50 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
     }
   }
   
-  //TODO improve
-  public SSUri setLearnEpVersionTimelineState(
-    final SSUri learnEpTimelineStateUri, 
-    final SSUri learnEpVersionUri, 
+  public void createTimelineState(
+    final SSUri user,
+    final SSUri timelineStateURI,
     final Long  startTime, 
     final Long  endTime) throws Exception {
     
     try{
       final Map<String, String> inserts = new HashMap<>();
-      final Map<String, String> wheres = new HashMap<>();
       
-      insert(inserts, SSSQLVarNames.learnEpTimelineStateId, learnEpTimelineStateUri);
-      insert(inserts, SSSQLVarNames.startTime,              startTime);
-      insert(inserts, SSSQLVarNames.endTime,                endTime);
+      insert(inserts, SSSQLVarNames.userId,                  user);
+      insert(inserts, SSSQLVarNames.learnEpTimelineStateId,  timelineStateURI);
+      insert(inserts, SSSQLVarNames.startTime,               startTime);
+      insert(inserts, SSSQLVarNames.endTime,                 endTime);
       
       dbSQL.insert(SSSQLVarNames.learnEpTimelineStateTable, inserts);
       
-      where(wheres, SSSQLVarNames.learnEpVersionId, learnEpVersionUri);
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+    
+  public void updateTimelineState(
+    final SSUri timelineStateURI,
+    final Long  startTime, 
+    final Long  endTime) throws Exception {
+    
+    try{
+      final Map<String, String> updates = new HashMap<>();
+      final Map<String, String> wheres  = new HashMap<>();
       
-      dbSQL.delete(SSSQLVarNames.learnEpVersionTimelineStatesTable, wheres);
+      update(updates, SSSQLVarNames.startTime,              startTime);
+      update(updates, SSSQLVarNames.endTime,                endTime);
       
-      inserts.clear();
-      insert(inserts, SSSQLVarNames.learnEpVersionId,       learnEpVersionUri);
-      insert(inserts, SSSQLVarNames.learnEpTimelineStateId, learnEpTimelineStateUri);
+      where(wheres, SSSQLVarNames.learnEpTimelineStateId, timelineStateURI);
       
-      dbSQL.insert(SSSQLVarNames.learnEpVersionTimelineStatesTable, inserts);
-      
-      return learnEpTimelineStateUri;
+      dbSQL.update(SSSQLVarNames.learnEpTimelineStateTable, wheres, updates);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
-      return null;
     }
   }
   
-  public SSLearnEpTimelineState getLearnEpVersionTimelineState(
-    final SSUri learnEpVersionUri) throws Exception{
+  public SSLearnEpTimelineState getTimelineState(
+    final SSUri user) throws Exception{
     
     ResultSet resultSet        = null;
     
@@ -681,39 +686,38 @@ public class SSLearnEpSQLFct extends SSDBSQLFct{
       
       final Map<String, String>    wheres      = new HashMap<>();
       final List<String>           columns     = new ArrayList<>();
-      final List<String>           tables      = new ArrayList<>();
-      final List<String>           tableCons   = new ArrayList<>();
       
-      column(columns, SSSQLVarNames.learnEpVersionTimelineStatesTable, SSSQLVarNames.learnEpTimelineStateId);
+      column(columns, SSSQLVarNames.learnEpTimelineStateId);
       column(columns, SSSQLVarNames.startTime);
       column(columns, SSSQLVarNames.endTime);
       
-      table(tables, SSSQLVarNames.learnEpTimelineStateTable);
-      table(tables, SSSQLVarNames.learnEpVersionTimelineStatesTable);
+      where(wheres, SSSQLVarNames.userId, user);
       
-      where(wheres, SSSQLVarNames.learnEpVersionId, learnEpVersionUri);
-      
-      tableCon(tableCons, SSSQLVarNames.learnEpTimelineStateTable, SSSQLVarNames.learnEpTimelineStateId, SSSQLVarNames.learnEpVersionTimelineStatesTable, SSSQLVarNames.learnEpTimelineStateId);
-      
-      resultSet = dbSQL.select(tables, columns, wheres, tableCons, null, null, null);
-      
+      resultSet = 
+        dbSQL.select(
+          SSSQLVarNames.learnEpTimelineStateTable,
+          columns, 
+          wheres, 
+          null, 
+          null, 
+          null);
+
       if(!resultSet.first()){
-//        SSLogU.warn("no timeline state set for version " + learnEpVersionUri);
         return null;
       }
       
       return SSLearnEpTimelineState.get(
-bindingStrToUri (resultSet, SSSQLVarNames.learnEpTimelineStateId),
-        learnEpVersionUri,
+        bindingStrToUri (resultSet, SSSQLVarNames.learnEpTimelineStateId),
+        user,
         bindingStrToLong(resultSet, SSSQLVarNames.startTime),
         bindingStrToLong(resultSet, SSSQLVarNames.endTime));
-        
-      }catch(Exception error){
-        SSServErrReg.regErrThrow(error);
-        return null;
-      }finally{
-        dbSQL.closeStmt(resultSet);
-      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      dbSQL.closeStmt(resultSet);
+    }
   }
 
   public SSUri getLearnEpForVersion(

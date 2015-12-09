@@ -21,7 +21,6 @@
 package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes;
 
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
@@ -29,47 +28,38 @@ import java.util.Map;
 
 public class SSLearnEpTimelineState extends SSEntity {
 
-  public SSUri learnEpVersion          = null;
+  public SSUri user                    = null;
   public Long  startTime               = null;
   public Long  endTime                 = null;
+
+  @Override
+  public Map<String, Object> jsonLDDesc(){
+    throw new UnsupportedOperationException();
+  }
+  
+  public String getUser() throws Exception {
+    return SSStrU.removeTrailingSlash(user);
+  }
   
   public static SSLearnEpTimelineState get(
     final SSUri id, 
-    final SSUri learnEpVersion, 
+    final SSUri user, 
     final Long  startTime, 
     final Long  endTime) throws Exception{
     
-    return new SSLearnEpTimelineState(id, learnEpVersion, startTime, endTime);
+    return new SSLearnEpTimelineState(id, user, startTime, endTime);
   }
   
   protected SSLearnEpTimelineState(
     final SSUri id,
-    final SSUri learnEpVersion,
+    final SSUri user,
     final Long  startTime,
     final Long  endTime)throws Exception{
     
     super(id, SSEntityE.learnEpTimelineState);
     
-    this.learnEpVersion          = learnEpVersion;
-    this.startTime               = startTime;
-    this.endTime                 = endTime;
-  }
-  
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    
-    final Map<String, Object> ld             = (Map<String, Object>) super.jsonLDDesc();
-    
-    ld.put(SSVarNames.learnEpVersion,          SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarNames.startTime,               SSVarNames.xsd + SSStrU.colon + SSStrU.valueLong);
-    ld.put(SSVarNames.endTime,                 SSVarNames.sss + SSStrU.colon + SSStrU.valueLong);
-    
-    return ld;
-  }
-  
-  /* json getters  */
-  
-   public String getLearnEpVersion() throws Exception {
-    return SSStrU.removeTrailingSlash(learnEpVersion);
+    this.user          = user;
+    this.startTime     = startTime;
+    this.endTime       = endTime;
   }
 }

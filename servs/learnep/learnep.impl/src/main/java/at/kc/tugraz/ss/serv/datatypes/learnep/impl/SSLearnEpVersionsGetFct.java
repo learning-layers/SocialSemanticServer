@@ -57,16 +57,6 @@ public class SSLearnEpVersionsGetFct {
     }
   }
   
-  public void setLearnEpVersionTimelineState(
-    final SSLearnEpVersion       learnEpVersion) throws Exception{
-    
-    try{
-      learnEpVersion.learnEpTimelineState = sqlFct.getLearnEpVersionTimelineState(learnEpVersion.id);
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
   public void setLearnEpVersionEntities(
     final SSLearnEpVersionsGetPar par,
     final SSLearnEpVersion        learnEpVersion) throws Exception{

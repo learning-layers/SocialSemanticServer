@@ -28,7 +28,7 @@ import at.tugraz.sss.serv.SSServRetI;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SSLearnEpVersionTimelineStateGetRet extends SSServRetI{
+public class SSLearnEpTimelineStateGetRet extends SSServRetI{
 
   public SSLearnEpTimelineState learnEpTimelineState = null;
 
@@ -42,13 +42,13 @@ public class SSLearnEpVersionTimelineStateGetRet extends SSServRetI{
     return ld;
   }
   
-  public static SSLearnEpVersionTimelineStateGetRet get(SSLearnEpTimelineState learnEpTimelineState){
-    return new SSLearnEpVersionTimelineStateGetRet(learnEpTimelineState);
+  public static SSLearnEpTimelineStateGetRet get(SSLearnEpTimelineState learnEpTimelineState){
+    return new SSLearnEpTimelineStateGetRet(learnEpTimelineState);
   }
   
-  private SSLearnEpVersionTimelineStateGetRet(SSLearnEpTimelineState learnEpTimelineState){
+  private SSLearnEpTimelineStateGetRet(SSLearnEpTimelineState learnEpTimelineState){
     
-    super(SSServOpE.learnEpVersionTimelineStateGet);
+    super(SSServOpE.learnEpTimelineStateGet);
     
     this.learnEpTimelineState = learnEpTimelineState;
   }

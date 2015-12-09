@@ -38,7 +38,6 @@ public class SSLearnEpVersion extends SSEntity{
   public SSUri                  learnEp              = null;
   public List<SSEntity>         learnEpEntities      = new ArrayList<>();
   public List<SSEntity>         learnEpCircles       = new ArrayList<>();
-  public SSLearnEpTimelineState learnEpTimelineState = null;
 
   public String getLearnEp() throws Exception {
     return SSStrU.removeTrailingSlash(learnEp);
@@ -82,8 +81,7 @@ public class SSLearnEpVersion extends SSEntity{
     final SSEntity               author,
     final SSUri                  learnEp,
     final List<SSEntity>         learnEpEntities,
-    final List<SSEntity>         learnEpCircles,
-    final SSLearnEpTimelineState learnEpTimelineState) throws Exception{
+    final List<SSEntity>         learnEpCircles) throws Exception{
     
     return new SSLearnEpVersion(
       id,
@@ -93,8 +91,7 @@ public class SSLearnEpVersion extends SSEntity{
       author,
       learnEp,
       learnEpEntities, 
-      learnEpCircles, 
-      learnEpTimelineState);
+      learnEpCircles);
   }
   
   protected SSLearnEpVersion(
@@ -112,15 +109,6 @@ public class SSLearnEpVersion extends SSEntity{
       }
     }
     
-    if(learnEpVersion.learnEpTimelineState != null){
-      this.learnEpTimelineState               = learnEpVersion.learnEpTimelineState;
-    }else{
-      
-      if(entity instanceof SSLearnEpVersion){
-        this.learnEpTimelineState               = ((SSLearnEpVersion)entity).learnEpTimelineState;
-      }
-    }
-
     SSEntity.addEntitiesDistinctWithoutNull(this.learnEpEntities, learnEpVersion.learnEpEntities);
     SSEntity.addEntitiesDistinctWithoutNull(this.learnEpCircles,  learnEpVersion.learnEpCircles);
     
@@ -138,8 +126,7 @@ public class SSLearnEpVersion extends SSEntity{
     final SSEntity               author,
     final SSUri                  learnEp,
     final List<SSEntity>         learnEpEntities,
-    final List<SSEntity>         learnEpCircles,
-    final SSLearnEpTimelineState learnEpTimelineState) throws Exception{
+    final List<SSEntity>         learnEpCircles) throws Exception{
     
     super(
       id, 
@@ -150,7 +137,6 @@ public class SSLearnEpVersion extends SSEntity{
       author);
     
     this.learnEp               = learnEp;
-    this.learnEpTimelineState  = learnEpTimelineState;
     
     SSEntity.addEntitiesDistinctWithoutNull(this.learnEpEntities, learnEpEntities);
     SSEntity.addEntitiesDistinctWithoutNull(this.learnEpCircles,  learnEpCircles);

@@ -34,8 +34,8 @@ import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionCirc
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionEntityUpdatePar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionCircleRemovePar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionEntityRemovePar;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionTimelineStateGetPar;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionTimelineStateSetPar;
+import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpTimelineStateGetPar;
+import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpTimelineStateSetPar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionsGetPar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpsGetPar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpsLockHoldPar;
@@ -53,8 +53,8 @@ import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpVersionCirc
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpVersionEntityUpdateRet;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpVersionCircleRemoveRet;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpVersionEntityRemoveRet;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpVersionTimelineStateGetRet;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpVersionTimelineStateSetRet;
+import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpTimelineStateGetRet;
+import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpTimelineStateSetRet;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpVersionsGetRet;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpsGetRet;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpsLockHoldRet;
@@ -557,27 +557,23 @@ public class SSRESTLearnEp{
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    ("/versions/{learnEpVersion}/timeline/state")
+  @Path    ("/timeline/state")
   @ApiOperation(
-    value = "set timeline state for learning episode version",
-    response = SSLearnEpVersionTimelineStateSetRet.class)
+    value = "set timeline state for user",
+    response = SSLearnEpTimelineStateSetRet.class)
   public Response learnEpVersionTimelineStateSet(
     @Context  
       final HttpHeaders headers,
     
-    @PathParam(SSVarNames.learnEpVersion) 
-      final String learnEpVersion, 
+    final SSLearnEpTimelineStateSetRESTAPIV2Par input){
     
-    final SSLearnEpVersionTimelineStateSetRESTAPIV2Par input){
-    
-    final SSLearnEpVersionTimelineStateSetPar par;
+    final SSLearnEpTimelineStateSetPar par;
     
     try{
       
       par =
-        new SSLearnEpVersionTimelineStateSetPar(
-          null, 
-          SSUri.get(learnEpVersion, SSVocConf.sssUri),
+        new SSLearnEpTimelineStateSetPar(
+          null, //user
           input.startTime, 
           input.endTime,
           true,
@@ -593,25 +589,21 @@ public class SSRESTLearnEp{
   @GET
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Path    ("/versions/{learnEpVersion}/timeline/state")
+  @Path    ("/timeline/state")
   @ApiOperation(
     value = "get timeline state for learning episode version",
-    response = SSLearnEpVersionTimelineStateGetRet.class)
+    response = SSLearnEpTimelineStateGetRet.class)
   public Response learnEpVersionTimelineStateGet(
     @Context  
-      final HttpHeaders headers,
+      final HttpHeaders headers){
     
-    @PathParam(SSVarNames.learnEpVersion) 
-      final String learnEpVersion){
-    
-    final SSLearnEpVersionTimelineStateGetPar par;
+    final SSLearnEpTimelineStateGetPar par;
     
     try{
       
       par =
-        new SSLearnEpVersionTimelineStateGetPar(
-          null, 
-          SSUri.get(learnEpVersion, SSVocConf.sssUri),
+        new SSLearnEpTimelineStateGetPar(
+          null, //user
           true);
       
     }catch(Exception error){

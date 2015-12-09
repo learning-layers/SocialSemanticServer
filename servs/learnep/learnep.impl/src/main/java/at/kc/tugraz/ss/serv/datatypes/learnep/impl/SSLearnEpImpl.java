@@ -46,10 +46,10 @@ import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionEnti
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionCreatePar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionCurrentGetPar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionCurrentSetPar;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionTimelineStateGetPar;
+import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpTimelineStateGetPar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionCircleRemovePar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionEntityRemovePar;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionTimelineStateSetPar;
+import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpTimelineStateSetPar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionCircleUpdatePar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionCirclesWithEntriesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionEntityUpdatePar;
@@ -68,10 +68,10 @@ import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpVersionCrea
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpVersionCurrentGetRet;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpVersionCurrentSetRet;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpVersionGetRet;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpVersionTimelineStateGetRet;
+import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpTimelineStateGetRet;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpVersionCircleRemoveRet;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpVersionEntityRemoveRet;
-import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpVersionTimelineStateSetRet;
+import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpTimelineStateSetRet;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpVersionCircleUpdateRet;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpVersionEntityUpdateRet;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpVersionsGetRet;
@@ -423,19 +423,7 @@ implements
                 false));
             
             copiedEntities.add(((SSLearnEpEntity) learnEpEntity).entity);
-          }
-          
-          if(((SSLearnEpVersion) version).learnEpTimelineState != null){
-            
-            learnEpVersionTimelineStateSet(
-              new SSLearnEpVersionTimelineStateSetPar(
-                forUser,
-                copyVersionUri,
-                ((SSLearnEpVersion) version).learnEpTimelineState.startTime,
-                ((SSLearnEpVersion) version).learnEpTimelineState.endTime,
-                false,
-                false));
-          }
+          }          
         }
         
         SSServCallerU.handleEntityCopied(
@@ -632,8 +620,7 @@ implements
           sqlFct.getLearnEpVersion(
             versionUri,
             false, //setCircles
-            false, //setEntities
-            false); //setTimelineState
+            false); //setEntities
         
         if(version == null){
           continue;
@@ -661,7 +648,6 @@ implements
         
         fct.setLearnEpVersionCircles       (version);
         fct.setLearnEpVersionEntities      (par, version);
-        fct.setLearnEpVersionTimelineState (version);
         
         versions.add(version);
       }
@@ -1670,93 +1656,6 @@ implements
   }
 
   @Override
-  public void learnEpVersionTimelineStateSet(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
-
-    SSServCallerU.checkKey(parA);
-
-    final SSLearnEpVersionTimelineStateSetPar par = (SSLearnEpVersionTimelineStateSetPar) parA.getFromJSON(SSLearnEpVersionTimelineStateSetPar.class);
-      
-    sSCon.writeRetFullToClient(SSLearnEpVersionTimelineStateSetRet.get(learnEpVersionTimelineStateSet(par)));
-  }
-  
-  @Override
-  public SSUri learnEpVersionTimelineStateSet(final SSLearnEpVersionTimelineStateSetPar par) throws Exception{
-
-    try{
-
-      final SSEntity learnEpVerison = 
-        sqlFct.getEntityTest(
-          par.user, 
-          par.learnEpVersion,
-          par.withUserRestriction);
-      
-      if(learnEpVerison == null){
-        return null;
-      }
-      
-      dbSQL.startTrans(par.shouldCommit);
-      
-      final SSUri learnEpTimelineStateUri =
-        entityServ.entityUpdate(
-          new SSEntityUpdatePar(
-            par.user,
-            SSServCaller.vocURICreate(),
-            SSEntityE.learnEpTimelineState, //type,
-            null, //label
-            null,//description,
-            null, //creationTime,
-            null, //read,
-            false, //setPublic
-            true, //createIfNotExists
-            false, //withUserRestriction
-            false)); //shouldCommit)
-      
-      if(learnEpTimelineStateUri == null){
-        dbSQL.rollBack(par.shouldCommit);
-        return null;
-      }
-      
-      sqlFct.setLearnEpVersionTimelineState(
-        learnEpTimelineStateUri,
-        par.learnEpVersion,
-        par.startTime,
-        par.endTime);
-      
-      SSServCallerU.handleCirclesFromEntityGetEntitiesAdd(
-        circleServ, 
-        entityServ,
-        par.user,
-        par.learnEpVersion,
-        SSUri.asListWithoutNullAndEmpty(learnEpTimelineStateUri),
-        false, //withUserRestriction
-        false); //invokeEntityHandlers);
-      
-      dbSQL.commit(par.shouldCommit);
-      
-      return learnEpTimelineStateUri;
-
-    }catch(Exception error){
-      
-      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
-        
-        if(dbSQL.rollBack(par.shouldCommit)){
-          
-          SSServErrReg.reset();
-          
-          return learnEpVersionTimelineStateSet(par);
-        }else{
-          SSServErrReg.regErrThrow(error);
-          return null;
-        }
-      }
-      
-      dbSQL.rollBack(par.shouldCommit);
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
-  @Override
   public List<SSEntity> learnEpVersionCirclesWithEntriesGet(final SSLearnEpVersionCirclesWithEntriesGetPar par) throws Exception{
     
     try{
@@ -1825,31 +1724,107 @@ implements
   }
   
   @Override
-  public void learnEpVersionTimelineStateGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
-    
+  public void learnEpTimelineStateSet(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
+
     SSServCallerU.checkKey(parA);
 
-    final SSLearnEpVersionTimelineStateGetPar par = (SSLearnEpVersionTimelineStateGetPar) parA.getFromJSON(SSLearnEpVersionTimelineStateGetPar.class);
-    
-    sSCon.writeRetFullToClient(SSLearnEpVersionTimelineStateGetRet.get(learnEpVersionTimelineStateGet(par)));
+    final SSLearnEpTimelineStateSetPar par = (SSLearnEpTimelineStateSetPar) parA.getFromJSON(SSLearnEpTimelineStateSetPar.class);
+      
+    sSCon.writeRetFullToClient(SSLearnEpTimelineStateSetRet.get(learnEpTimelineStateSet(par)));
   }
   
   @Override
-  public SSLearnEpTimelineState learnEpVersionTimelineStateGet(final SSLearnEpVersionTimelineStateGetPar par) throws Exception{
-   
+  public SSUri learnEpTimelineStateSet(final SSLearnEpTimelineStateSetPar par) throws Exception{
+
     try{
+
+      final SSLearnEpTimelineState timelineState = 
+        learnEpTimelineStateGet(
+          new SSLearnEpTimelineStateGetPar(
+            par.user, 
+            par.withUserRestriction));
       
-      final SSEntity learnEpVerison =
-        sqlFct.getEntityTest(
+      final SSUri timelineStateURI;
+      
+      dbSQL.startTrans(par.shouldCommit);
+      
+      if(timelineState == null){
+        
+        timelineStateURI =
+          entityServ.entityUpdate(
+            new SSEntityUpdatePar(
+              par.user,
+              SSServCaller.vocURICreate(),
+              SSEntityE.learnEpTimelineState, //type,
+              null, //label
+              null,//description,
+              null, //creationTime,
+              null, //read,
+              false, //setPublic
+              true, //createIfNotExists
+              false, //withUserRestriction
+              false)); //shouldCommit)
+        
+        if(timelineStateURI == null){
+          dbSQL.rollBack(par.shouldCommit);
+          return null;
+        }
+        
+        sqlFct.createTimelineState(
           par.user,
-          par.learnEpVersion,
-          par.withUserRestriction);
-      
-      if(learnEpVerison == null){
-        return null;
+          timelineStateURI, 
+          par.startTime, 
+          par.endTime);
+        
+      }else{
+        timelineStateURI = timelineState.id;
+        
+        sqlFct.updateTimelineState(
+          timelineStateURI,
+          par.startTime,
+          par.endTime);
       }
       
-      return sqlFct.getLearnEpVersionTimelineState(learnEpVerison.id);
+      dbSQL.commit(par.shouldCommit);
+      
+      return timelineStateURI;
+
+    }catch(Exception error){
+      
+      if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
+        
+        if(dbSQL.rollBack(par.shouldCommit)){
+          
+          SSServErrReg.reset();
+          
+          return learnEpTimelineStateSet(par);
+        }else{
+          SSServErrReg.regErrThrow(error);
+          return null;
+        }
+      }
+      
+      dbSQL.rollBack(par.shouldCommit);
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public void learnEpTimelineStateGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
+    
+    SSServCallerU.checkKey(parA);
+
+    final SSLearnEpTimelineStateGetPar par = (SSLearnEpTimelineStateGetPar) parA.getFromJSON(SSLearnEpTimelineStateGetPar.class);
+    
+    sSCon.writeRetFullToClient(SSLearnEpTimelineStateGetRet.get(learnEpTimelineStateGet(par)));
+  }
+  
+  @Override
+  public SSLearnEpTimelineState learnEpTimelineStateGet(final SSLearnEpTimelineStateGetPar par) throws Exception{
+   
+    try{
+      return sqlFct.getTimelineState(par.user);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -2193,8 +2168,7 @@ implements
           sqlFct.getLearnEpVersion(
             learnEpVersionUri,
             true, //setCircles, 
-            true, //setEntities, 
-            true); //setTimeLineState
+            true); //setEntities, 
           
         for(SSEntity circle : learnEpVersion.learnEpCircles){
           learnEpContentUris.add(circle.id);
@@ -2210,10 +2184,6 @@ implements
 //              user,
 //              ((SSLearnEpEntity) learnEpEntity).entity.id,
 //              withUserRestriction));
-        }
-        
-        if(learnEpVersion.learnEpTimelineState != null){
-          learnEpContentUris.add(learnEpVersion.learnEpTimelineState.id);
         }
       }
       

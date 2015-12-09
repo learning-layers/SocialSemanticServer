@@ -23,35 +23,23 @@ package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.serv.SSStrU;
 
-public class SSLearnEpVersionTimelineStateSetPar extends SSServPar{
+public class SSLearnEpTimelineStateSetPar extends SSServPar{
   
-  public SSUri    learnEpVersion    = null;
   public Long     startTime         = null;
   public Long     endTime           = null;
 
-  public String getLearnEpVersion(){
-    return SSStrU.removeTrailingSlash(learnEpVersion);
-  }
-
-  public void setLearnEpVersion(final String learnEpVersion) throws Exception{
-    this.learnEpVersion = SSUri.get(learnEpVersion);
-  }
+  public SSLearnEpTimelineStateSetPar(){}
   
-  public SSLearnEpVersionTimelineStateSetPar(){}
-  
-  public SSLearnEpVersionTimelineStateSetPar(
+  public SSLearnEpTimelineStateSetPar(
     final SSUri         user,
-    final SSUri         learnEpVersion, 
     final Long          startTime,
     final Long          endTime,
     final Boolean       withUserRestriction,
     final Boolean       shouldCommit){
     
-    super(SSServOpE.learnEpVersionTimelineStateSet, null, user);
+    super(SSServOpE.learnEpTimelineStateSet, null, user);
     
-    this.learnEpVersion      = learnEpVersion;
     this.startTime           = startTime;
     this.endTime             = endTime;
     this.withUserRestriction = withUserRestriction;

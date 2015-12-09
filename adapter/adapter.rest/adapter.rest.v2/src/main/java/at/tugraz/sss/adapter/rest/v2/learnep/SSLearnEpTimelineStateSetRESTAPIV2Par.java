@@ -26,7 +26,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 @ApiModel(value = "learnEpVersionTimelineStateSet request parameter")
-public class SSLearnEpVersionTimelineStateSetRESTAPIV2Par{
+public class SSLearnEpTimelineStateSetRESTAPIV2Par{
   
   @ApiModelProperty(
     required = true,
@@ -38,5 +38,5 @@ public class SSLearnEpVersionTimelineStateSetRESTAPIV2Par{
     value = "")
   public Long    endTime              = null;
   
-  public SSLearnEpVersionTimelineStateSetRESTAPIV2Par(){}
+  public SSLearnEpTimelineStateSetRESTAPIV2Par(){}
 }
