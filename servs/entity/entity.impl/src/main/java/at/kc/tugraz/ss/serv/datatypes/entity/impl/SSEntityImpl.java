@@ -84,7 +84,10 @@ import at.tugraz.sss.serv.SSGetSubEntitiesI;
 import at.tugraz.sss.serv.SSObjU;
 import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.servs.entity.datatypes.par.SSEntitiesAccessibleGetPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityEntitiesAttachedRemovePar;
+import at.tugraz.sss.servs.entity.datatypes.par.SSEntityURIsGetPar;
+import at.tugraz.sss.servs.entity.datatypes.ret.SSEntitiesAccessibleGetRet;
 import at.tugraz.sss.servs.entity.datatypes.ret.SSEntityTypesGetRet;
 import java.util.Arrays;
 import sss.serv.eval.api.SSEvalServerI;
@@ -114,6 +117,97 @@ implements
       new SSEntityActAndLogFct(
         (SSActivityServerI) SSServReg.getServ(SSActivityServerI.class), 
         (SSEvalServerI)     SSServReg.getServ(SSEvalServerI.class));
+  }
+  
+  @Override
+  public void entitiesAccessibleGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
+    
+    try{
+      SSServCallerU.checkKey(parA);
+      
+      final SSEntitiesAccessibleGetPar par = (SSEntitiesAccessibleGetPar) parA.getFromJSON(SSEntitiesAccessibleGetPar.class);
+      
+      sSCon.writeRetFullToClient(entitiesAccessibleGet(par));
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  private List<SSUri> entityURIsGet (final SSEntityURIsGetPar par) throws Exception{
+    
+    try{
+      
+      if(par.getAccessible){
+        
+        return sqlFct.getAccessibleURIs(
+          par.user,
+          par.types,
+          par.authors,
+          par.startTime,
+          par.endTime);
+      }
+      
+      if(
+        !par.types.isEmpty() ||
+        !par.authors.isEmpty()){
+        
+        return sqlFct.getEntityURIs(
+          par.entities,
+          par.types,
+          par.authors, 
+          par.startTime, 
+          par.endTime);
+      }
+      
+      return par.entities;
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
+  }
+  
+  @Override
+  public SSEntitiesAccessibleGetRet entitiesAccessibleGet (final SSEntitiesAccessibleGetPar par) throws Exception{
+    
+    try{
+      
+      final List<SSUri> entityURIs =
+        entityURIsGet(
+          new SSEntityURIsGetPar(
+            par.user, 
+            null, //entities
+            true, //getAccessible
+            par.types, //types
+            par.authors, //authors
+            par.startTime, //startTime
+            par.endTime)); //endTime
+      
+      if(entityURIs.isEmpty()){
+        
+        return SSEntitiesAccessibleGetRet.get(
+          new ArrayList<>(),
+          null,
+          0,
+          0);
+      }
+      
+      return SSEntitiesAccessibleGetRet.get(
+        entitiesGet(
+          new SSEntitiesGetPar(
+            par.user,
+            entityURIs,
+            null, //types
+            par.descPar,
+            false)),
+        "12345678",
+        1,
+        1);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
   }
   
   @Override
@@ -218,7 +312,9 @@ implements
           sqlFct.getEntityURIs(
             null, //entities, 
             types, //types,
-            SSUri.asListWithoutNullAndEmpty(SSUri.get(user)))){ //authors
+            SSUri.asListWithoutNullAndEmpty(SSUri.get(user)), //authors
+            null, //startTime
+            null)){ //endTime
           
           usersEntities.get(user).add(
             new SSEntityContext(
@@ -349,7 +445,9 @@ implements
           sqlFct.getEntityURIs(
             par.entities,
             par.types,
-            par.authors));
+            par.authors, 
+            null, //starTime
+            null));  //endTime
       }else{
         entityURIs.addAll(par.entities);
       }

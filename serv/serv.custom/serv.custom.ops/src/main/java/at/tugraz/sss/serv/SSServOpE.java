@@ -22,6 +22,8 @@ package at.tugraz.sss.serv;
 
 public enum SSServOpE{
 
+  entitiesAccessibleGet,
+  
   //mail
   mailSend,
   mailsReceive,

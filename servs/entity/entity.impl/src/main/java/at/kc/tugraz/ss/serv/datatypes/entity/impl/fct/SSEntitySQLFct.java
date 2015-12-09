@@ -51,6 +51,139 @@ public class SSEntitySQLFct extends SSDBSQLFct{
     super(serv.dbSQL);
   }
   
+  public List<SSUri> getAccessibleURIs(
+    final SSUri           user,
+    final List<SSEntityE> types,
+    final List<SSUri>     authors,
+    final Long            startTime,
+    final Long            endTime) throws Exception{
+    
+    ResultSet resultSet  = null;
+    
+    try{
+      
+      if(
+        user == null ||
+        SSStrU.equals(user, "http://sss.eu/system/")){
+        
+        throw new SSErr(SSErrE.parameterMissing);
+      }
+      
+      final String userStr                 = SSStrU.toStr(user);
+      String       query                   = "select DISTINCT id from entity where ";
+      String       authorsQueryPart        = SSStrU.empty;
+      String       typesQueryPart          = SSStrU.empty;
+      String       creationTimeQueryPart   = SSStrU.empty;
+      
+      if(
+        authors != null &&
+        !authors.isEmpty()){
+        
+        authorsQueryPart += SSStrU.bracketOpen;
+        
+        for(SSUri author : authors){
+          authorsQueryPart += "author = '" + author.toString() + "' OR ";
+        }
+        
+        authorsQueryPart  = SSStrU.removeTrailingString(authorsQueryPart, " OR ") + SSStrU.bracketClose;
+      }
+      
+      if(
+        types != null &&
+        !types.isEmpty()){
+        
+        typesQueryPart += SSStrU.bracketOpen;
+          
+        for(SSEntityE type : types){
+          typesQueryPart += "type = '" + type.toString() + "' OR ";
+        }
+        
+        typesQueryPart  = SSStrU.removeTrailingString(typesQueryPart, " OR ") + SSStrU.bracketClose;
+      }
+      
+      if(
+        startTime != null &&
+        startTime != 0){
+
+        creationTimeQueryPart += SSStrU.bracketOpen;
+        
+        creationTimeQueryPart += "creationTime > " + startTime;
+      }
+      
+      if(
+        endTime != null &&
+        endTime != 0){
+
+        if(!creationTimeQueryPart.isEmpty()){
+          creationTimeQueryPart += " AND ";
+        }else{
+          creationTimeQueryPart += SSStrU.bracketOpen;
+        }
+        
+        creationTimeQueryPart += "creationTime < " + endTime + SSStrU.bracketClose;
+      }else{
+        
+        if(!creationTimeQueryPart.isEmpty()){
+          creationTimeQueryPart += SSStrU.bracketClose;
+        }
+      }
+      
+      if(
+        !authorsQueryPart.isEmpty()  ||
+        !typesQueryPart.isEmpty()    ||
+        !creationTimeQueryPart.isEmpty()){
+        
+        if(!authorsQueryPart.isEmpty()){
+          query += authorsQueryPart + " AND ";
+        }
+        
+        if(!typesQueryPart.isEmpty()){
+          query += typesQueryPart + " AND ";
+        }
+        
+        if(!creationTimeQueryPart.isEmpty()){
+          query += creationTimeQueryPart + " AND ";
+        }
+        
+        query += SSStrU.bracketOpen;
+      }
+      
+      query += "(type  = 'entity') OR ";
+      query += "(type  = 'circle' AND id IN (select DISTINCT circleId from circle where circleType = 'pub' or circleType = 'pubCircle')) OR ";
+      query += "(type  = 'circle' AND id IN (select DISTINCT circle.circleId from circle, circleusers where circleusers.userId = '" + userStr + "' and circle.circleId = circleusers.circleId)) OR ";
+      query += "(type != 'entity' AND type != 'circle' AND id IN (select DISTINCT circleentities.entityId from circle, circleentities, circleusers where userId = '" + userStr + "' and circle.circleId = circleentities.circleId and circle.circleId = circleusers.circleId))";
+      
+      if(
+        !authorsQueryPart.isEmpty()   ||
+        !typesQueryPart.isEmpty()     ||
+        !creationTimeQueryPart.isEmpty()){
+        
+        query += SSStrU.bracketClose;
+      }
+      
+      resultSet = dbSQL.select(query);
+      
+      return getURIsFromResult(resultSet, SSSQLVarNames.id);
+      
+    }catch(Exception error){
+      
+      if(SSServErrReg.containsErr(SSErrE.sqlNoResultFound)){
+        SSServErrReg.reset();
+        return null;
+      }
+        
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }finally{
+      
+      try{
+        dbSQL.closeStmt(resultSet);
+      }catch(Exception sqlError){
+        SSServErrReg.regErrThrow(sqlError);
+      }
+    }
+  }
+  
   public SSEntity getEntity(
     final SSLabel   label,
     final SSEntityE type) throws Exception{
@@ -108,7 +241,9 @@ public class SSEntitySQLFct extends SSDBSQLFct{
   public List<SSUri> getEntityURIs(
     final List<SSUri>     entities, 
     final List<SSEntityE> types, 
-    final List<SSUri>     authors) throws Exception{
+    final List<SSUri>     authors,
+    final Long            startTime, 
+    final Long            endTime) throws Exception{
     
     ResultSet resultSet = null;
     
@@ -122,10 +257,11 @@ public class SSEntitySQLFct extends SSDBSQLFct{
         throw new SSErr(SSErrE.parameterMissing);
       }
       
-      final List<MultivaluedMap<String, String>> wheres         = new ArrayList<>();
-      final List<String>                         tables         = new ArrayList<>();
-      final List<String>                         columns        = new ArrayList<>();
-      final List<String>                         tableCons      = new ArrayList<>();
+      final List<MultivaluedMap<String, String>>                   wheres         = new ArrayList<>();
+      final MultivaluedMap<String, MultivaluedMap<String, String>> wheresNumeric  = new MultivaluedHashMap<>();
+      final List<String>                                           tables         = new ArrayList<>();
+      final List<String>                                           columns        = new ArrayList<>();
+      final List<String>                                           tableCons      = new ArrayList<>();
       
       column(columns, SSSQLVarNames.entityTable, SSSQLVarNames.id);
       
@@ -170,14 +306,42 @@ public class SSEntitySQLFct extends SSDBSQLFct{
         wheres.add(whereAuthors);
       }
       
+      if(
+        startTime != null &&
+        startTime != 0){
+        
+        final List<MultivaluedMap<String, String>> greaterWheres           = new ArrayList<>();
+        final MultivaluedMap<String, String>       whereNumbericStartTimes = new MultivaluedHashMap<>();
+        
+        wheresNumeric.put(SSStrU.greaterThan, greaterWheres);
+        
+        where(whereNumbericStartTimes, SSSQLVarNames.entityTable, SSSQLVarNames.creationTime, startTime);
+        
+        greaterWheres.add(whereNumbericStartTimes);
+      }
+      
+      if(
+        endTime != null &&
+        endTime != 0){
+        
+        final List<MultivaluedMap<String, String>> lessWheres            = new ArrayList<>();
+        final MultivaluedMap<String, String>       whereNumbericEndTimes = new MultivaluedHashMap<>();
+        
+        wheresNumeric.put(SSStrU.lessThan, lessWheres);
+        
+        where(whereNumbericEndTimes, SSSQLVarNames.entityTable, SSSQLVarNames.creationTime, endTime);
+        
+        lessWheres.add(whereNumbericEndTimes);
+      }
+      
       resultSet =
         dbSQL.select(
           new SSDBSQLSelectPar(
-            tables,
+            tables, 
             columns,
-            wheres,
-            null,
-            null,
+            wheres, //orWheres
+            null, //andWheres
+            wheresNumeric, //numericWheres
             tableCons));
       
       return getURIsFromResult(resultSet, SSSQLVarNames.id);
@@ -185,7 +349,12 @@ public class SSEntitySQLFct extends SSDBSQLFct{
       SSServErrReg.regErrThrow(error);
       return null;
     }finally{
-      dbSQL.closeStmt(resultSet);
+      
+      try{
+        dbSQL.closeStmt(resultSet);
+      }catch(Exception sqlError){
+        SSServErrReg.regErrThrow(sqlError);
+      }
     }
   }
   

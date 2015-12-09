@@ -38,6 +38,7 @@ import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.kc.tugraz.sss.comment.datatypes.par.SSCommentsAddPar;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
 import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.servs.entity.datatypes.par.SSEntitiesAccessibleGetPar;
 import at.tugraz.sss.servs.entity.datatypes.ret.SSEntityTypesGetRet;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
@@ -56,6 +57,45 @@ import javax.ws.rs.core.Response;
 @Path("/entities")
 @Api( value = "/entities") //, basePath = "/entities"
 public class SSRESTEntity {
+  
+  @POST
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Path("/filtered/accessible")
+  @ApiOperation(
+    value = "retrieve accessible entities",
+    response = SSEntityTypesGetRet.class)
+  public Response entitiesAccessibleFilteredGet(
+    @Context
+    final HttpHeaders headers,
+    
+    final SSEntitiesAccessibleGetRESTAPIV2Par input){
+    
+    final SSEntitiesAccessibleGetPar par;
+    
+    try{
+      
+      final SSEntityDescriberPar descPar = new SSEntityDescriberPar(null);
+      
+      par =
+        new SSEntitiesAccessibleGetPar(
+          null, //user
+          input.types, //types
+          input.authors, //authors
+          input.startTime, //startTime
+          input.endTime, //endTime
+          descPar, //descPar
+          true); //withUserRestriction
+      
+      par.pagesID    = input.pagesID;
+      par.pageNumber = input.pageNumber;
+      
+    }catch(Exception error){
+      return Response.status(422).build();
+    }
+    
+    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+  }
   
   @GET
   @Consumes(MediaType.APPLICATION_JSON)
