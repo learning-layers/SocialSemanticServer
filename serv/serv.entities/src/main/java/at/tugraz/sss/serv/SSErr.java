@@ -20,7 +20,18 @@
 */
 package at.tugraz.sss.serv;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SSErr extends Exception{
+  
+  public String          id        = null;
+  public final String    className;
+  public final String    message;
+  public final Long      threadWhereThrown;
+  public final String    classWhereThrown;
+  public final String    methodWhereThrown;
+  public final Integer   lineWhereThrown;
   
   public SSErrE    code      = null;
   public Exception exception = null;
@@ -40,20 +51,124 @@ public class SSErr extends Exception{
     return new SSErr(code, exception);
   }
     
-  protected SSErr(final SSErrE code){
+  private SSErr(final SSErrE code){
     
     super(SSStrU.toStr(code));
     
-    this.code = code;
+    this.code               = code;
+    this.id                 = code.toString();
+    this.className          = getClass().getName();
+    this.message            = code.toString();
+    this.threadWhereThrown  = Thread.currentThread().getId();
+    this.classWhereThrown   = Thread.currentThread().getStackTrace()[2].getClassName();
+    this.methodWhereThrown  = Thread.currentThread().getStackTrace()[2].getMethodName();
+    this.lineWhereThrown    = Thread.currentThread().getStackTrace()[2].getLineNumber();
   }
   
-  protected SSErr(
+  private SSErr(
     final SSErrE    code,
-    final Exception exception){
+    final Exception originalError){
     
-    super(code + SSStrU.colon + SSStrU.blank + exception.getMessage());
+    super(code + SSStrU.colon + SSStrU.blank + originalError.getMessage());
     
-    this.code      = code;
-    this.exception = exception;
+    this.code               = code;
+    this.id                 = code.toString();
+    this.exception          = originalError;
+    this.className          = originalError.getClass().getName();
+    this.message            = originalError.getMessage();
+    this.threadWhereThrown  = Thread.currentThread().getId();
+    this.classWhereThrown   = Thread.currentThread().getStackTrace()[4].getClassName();
+    this.methodWhereThrown  = Thread.currentThread().getStackTrace()[4].getMethodName();
+    this.lineWhereThrown    = Thread.currentThread().getStackTrace()[4].getLineNumber();
+  }
+  
+  public static List<String> linesWhereThrown(List<SSErr> errors) {
+    
+    List<String> linesWhereThrown = new ArrayList<>();
+    
+    if(errors == null){
+      return linesWhereThrown;
+    }
+    
+    for(SSErr error: errors){
+      linesWhereThrown.add(SSStrU.toStr(error.lineWhereThrown));
+    }
+    
+    return linesWhereThrown;
+  }
+  
+  public static List<String> methodsWhereThrown(List<SSErr> errors) {
+    
+    List<String> methodsWhereThrown = new ArrayList<>();
+    
+    if(errors == null){
+      return methodsWhereThrown;
+    }
+    
+    for(SSErr error: errors){
+      methodsWhereThrown.add(SSStrU.toStr(error.methodWhereThrown));
+    }
+    
+    return methodsWhereThrown;
+  }
+  
+  public static List<String> classesWhereThrown(List<SSErr> errors) {
+    
+    List<String> classesWhereThrown = new ArrayList<>();
+    
+    if(errors == null){
+      return classesWhereThrown;
+    }
+    
+    for(SSErr error: errors){
+      classesWhereThrown.add(SSStrU.toStr(error.classWhereThrown));
+    }
+    
+    return classesWhereThrown;
+  }
+  
+  public static List<String> threadsWhereThrown(List<SSErr> errors) {
+    
+    List<String> threadsWhereThrown = new ArrayList<>();
+    
+    if(errors == null){
+      return threadsWhereThrown;
+    }
+    
+    for(SSErr error: errors){
+      threadsWhereThrown.add(SSStrU.toStr(error.threadWhereThrown));
+    }
+    
+    return threadsWhereThrown;
+  }
+  
+  public static List<String> messages(List<SSErr> errors) {
+    
+    List<String> messages = new ArrayList<>();
+    
+    if(errors == null){
+      return messages;
+    }
+    
+    for(SSErr error: errors){
+      messages.add(error.message);
+    }
+    
+    return messages;
+  }
+  
+  public static List<String> classNames(List<SSErr> errors) {
+    
+    List<String> classNames = new ArrayList<>();
+    
+    if(errors == null){
+      return classNames;
+    }
+    
+    for(SSErr error : errors){
+      classNames.add(error.className);
+    }
+    
+    return classNames;
   }
 }

@@ -111,8 +111,10 @@ implements
           par.user,
           null, //entities
           true, //getAccessible
-          par.typesToSearchOnlyFor, 
-          par.authorsToSearchFor);
+          par.typesToSearchOnlyFor,
+          par.authorsToSearchFor,
+          par.startTime,
+          par.endTime);
       
       final List<SSUri>             accessibleEntityURIs  = entityServ.entityURIsGet(entityURIsGetPar);
       final List<SSUri>             tagResults            = new ArrayList<>();

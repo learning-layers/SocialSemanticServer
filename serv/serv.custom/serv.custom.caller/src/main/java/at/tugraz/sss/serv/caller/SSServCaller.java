@@ -353,14 +353,4 @@ public class SSServCaller {
   public static Map<String, String> i5CloudAuth() throws Exception{
     return (Map<String, String>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.i5CloudAuth, new HashMap<>()));
   }
-  
-  public static void recommLoadUserRealms(
-    final SSUri user) throws Exception{
-    
-    final Map<String, Object>  opPars           = new HashMap<>();
-    
-    opPars.put(SSVarNames.user,             user);
-    
-    SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.recommLoadUserRealms, opPars));
-  }
 }

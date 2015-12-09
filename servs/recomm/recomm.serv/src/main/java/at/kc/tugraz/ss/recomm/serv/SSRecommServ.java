@@ -29,6 +29,7 @@ import at.tugraz.sss.serv.SSCoreConfA;
 import at.kc.tugraz.ss.recomm.api.SSRecommClientI;
 import at.kc.tugraz.ss.recomm.api.SSRecommServerI;
 import at.kc.tugraz.ss.recomm.conf.SSRecommConf;
+import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommLoadUserRealmsPar;
 import at.kc.tugraz.ss.recomm.impl.SSRecommImpl;
 import at.kc.tugraz.ss.recomm.serv.task.SSRecommUpdateBulkTask;
 import at.kc.tugraz.ss.recomm.serv.task.SSRecommUpdateBulkUserRealmsFromCirclesTask;
@@ -76,7 +77,7 @@ public class SSRecommServ extends SSServContainerI{
       return;
     }
     
-    SSServCaller.recommLoadUserRealms(SSVocConf.systemUserUri);
+    ((SSRecommServerI) serv()).recommLoadUserRealms(new SSRecommLoadUserRealmsPar(SSVocConf.systemUserUri));
     
     if(!recommConf.initAtStartUp){
       return;

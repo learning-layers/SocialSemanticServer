@@ -210,16 +210,18 @@ public class SSDBSQLFct extends SSDBFct{
   }
   
   protected static void checkFirstResult(
-    final ResultSet resultSet) throws SSErr {
+    final ResultSet resultSet) throws SSErr{
     
     try{
       
       if(!resultSet.first()){
-        throw new SSErr(SSErrE.sqlNoResultFound);
+        throw SSErr.get(SSErrE.sqlNoResultFound);
       }
       
-    }catch(SQLException error){
-      SSServErrReg.regErrThrow(SSErrE.sqlDefaultErr, error);
+    }catch(SQLException sqlError){
+      SSServErrReg.regErrThrow(SSErrE.sqlDefaultErr, sqlError);
+    }catch(SSErr error){
+      SSServErrReg.regErrThrow(error, false);
     }
   }
   

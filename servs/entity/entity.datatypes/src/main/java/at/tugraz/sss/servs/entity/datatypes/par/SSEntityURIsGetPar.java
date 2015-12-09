@@ -34,6 +34,8 @@ public class SSEntityURIsGetPar extends SSServPar{
   public Boolean              getAccessible         = false;
   public List<SSEntityE>      types                 = new ArrayList<>();
   public List<SSUri>          authors               = new ArrayList<>();
+  public Long                 startTime             = null;
+  public Long                 endTime               = null;
   
   public List<String> getEntities(){
     return SSStrU.removeTrailingSlash(entities);
@@ -66,7 +68,9 @@ public class SSEntityURIsGetPar extends SSServPar{
     final List<SSUri>          entities, 
     final Boolean              getAccessible, 
     final List<SSEntityE>      types,
-    final List<SSUri>          authors) throws Exception{
+    final List<SSUri>          authors,
+    final Long                 startTime,
+    final Long                 endTime) throws Exception{
     
     super(SSServOpE.entitiesGet, null, user);
     
@@ -76,5 +80,8 @@ public class SSEntityURIsGetPar extends SSServPar{
     
     SSEntityE.addDistinctWithoutNull(this.types,   types);
     SSUri.addDistinctWithoutNull    (this.authors, authors);
+    
+    this.startTime = startTime;
+    this.endTime   = endTime;
   }
 }

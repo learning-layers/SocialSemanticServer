@@ -65,7 +65,7 @@ public class SSServErrReg {
       }
       
       if(originalError instanceof SSErr){
-        servImplErrors.get().add((SSErr) originalError);
+        servImplErrors.get().add(SSErr.get(((SSErr) originalError).code, originalError));
       }else{
         servImplErrors.get().add(SSErr.get(SSErrE.defaultErr, originalError));
       }
@@ -96,7 +96,7 @@ public class SSServErrReg {
       }
       
       if(originalError instanceof SSErr){
-        servImplErrors.get().add((SSErr) originalError);
+        servImplErrors.get().add(SSErr.get(((SSErr) originalError).code, originalError));
       }else{
         servImplErrors.get().add(SSErr.get(SSErrE.defaultErr, originalError));
       }
@@ -124,7 +124,7 @@ public class SSServErrReg {
       }
       
       if(originalError instanceof SSErr){
-        servImplErrors.get().add((SSErr) originalError);
+        servImplErrors.get().add(SSErr.get(((SSErr) originalError).code, originalError));
       }else{
         servImplErrors.get().add(SSErr.get(SSErrE.defaultErr, originalError));
       }
@@ -143,7 +143,7 @@ public class SSServErrReg {
   
   public static void regErrThrow(
     final Exception originalError,
-    final Boolean   log) throws Exception{
+    final Boolean   log) throws SSErr{
     
     SSErr errorToThrow = null;
     
@@ -158,11 +158,15 @@ public class SSServErrReg {
       
       if(originalError instanceof SSErr){
         errorToThrow = (SSErr) originalError;
+        
+        servImplErrors.get().add(SSErr.get(errorToThrow.code, errorToThrow));
+        
       }else{
         errorToThrow = SSErr.get(SSErrE.defaultErr, originalError);
+        
+        servImplErrors.get().add(errorToThrow);
       }
       
-      servImplErrors.get().add(errorToThrow);
     }catch(Exception error1){
       
       SSLogU.err(error1);
@@ -190,9 +194,9 @@ public class SSServErrReg {
       }
       
       if(originalError == null){
-        errorToThrow = new SSErr(code);
+        errorToThrow = SSErr.get(code);
       }else{
-        errorToThrow = new SSErr(code, originalError);
+        errorToThrow = SSErr.get(code, originalError);
       }
       
       servImplErrors.get().add(errorToThrow);
@@ -222,11 +226,14 @@ public class SSServErrReg {
       
       if(originalError instanceof SSErr){
         errorToThrow = (SSErr) originalError;
+        
+        servImplErrors.get().add(SSErr.get(errorToThrow.code, errorToThrow));
       }else{
         errorToThrow = SSErr.get(SSErrE.defaultErr, originalError);
-      }
         
-      servImplErrors.get().add(errorToThrow);
+        servImplErrors.get().add(errorToThrow);
+      }
+      
     }catch(Exception error1){
       
       SSLogU.err(error1);
@@ -251,19 +258,15 @@ public class SSServErrReg {
         return;
       }
       
-      SSErrForClient errorForClient;
-      
       for(SSErr error : servImplErrors.get()){
         
-        errorForClient = SSErrForClient.get(error);
-        
         SSLogU.err(
-          errorForClient.threadWhereThrown + SSStrU.blank
-            +  errorForClient.classWhereThrown  + SSStrU.blank
-            +  errorForClient.methodWhereThrown + SSStrU.blank
-            +  errorForClient.lineWhereThrown   + SSStrU.blank
-            +  errorForClient.className         + SSStrU.blank
-            +  errorForClient.message);
+          error.threadWhereThrown + SSStrU.blank
+            +  error.classWhereThrown  + SSStrU.blank
+            +  error.methodWhereThrown + SSStrU.blank
+            +  error.lineWhereThrown   + SSStrU.blank
+            +  error.className         + SSStrU.blank
+            +  error.message);
       }
       
       reset();

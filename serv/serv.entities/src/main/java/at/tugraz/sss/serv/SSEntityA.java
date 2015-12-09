@@ -32,7 +32,7 @@ public abstract class SSEntityA implements SSJSONLDPropI{
   protected SSEntityA(final Object value) throws SSErr{
     
     if(value == null){
-      throw new SSErr(SSErrE.entityCreationFailedOnNull);
+      throw SSErr.get(SSErrE.entityCreationFailedOnNull);
     }
     
     this.val = value.toString();

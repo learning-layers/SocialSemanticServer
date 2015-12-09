@@ -35,6 +35,8 @@ public class SSEntitiesAccessibleGetPar extends SSServPar{
   public List<SSUri>          authors               = new ArrayList<>();
   public String               pagesID               = null;
   public Integer              pageNumber            = null;
+  public Long                 startTime             = null;
+  public Long                 endTime               = null;
   public SSEntityDescriberPar descPar               = null;
    
   public List<String> getTypes(){
@@ -59,6 +61,8 @@ public class SSEntitiesAccessibleGetPar extends SSServPar{
     final SSUri                user, 
     final List<SSEntityE>      types,
     final List<SSUri>          authors,
+    final Long                 startTime, 
+    final Long                 endTime,
     final SSEntityDescriberPar descPar,
     final Boolean              withUserRestriction) throws Exception{
     
@@ -67,6 +71,8 @@ public class SSEntitiesAccessibleGetPar extends SSServPar{
     SSEntityE.addDistinctWithoutNull(this.types,   types);
     SSUri.addDistinctWithoutNull    (this.authors, authors);
     
+    this.startTime            = startTime;
+    this.endTime              = endTime;
     this.descPar              = descPar;
     this.withUserRestriction  = withUserRestriction;
   }

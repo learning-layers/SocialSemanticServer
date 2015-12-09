@@ -315,11 +315,11 @@ public class SSSocketCon{
       
       for(Exception error : errors){
         
-        if(error instanceof SSErrForClient)
+        if(error instanceof SSErr)
         
-        if(((SSErrForClient)error).id != null){
-          ret.put(SSVarNames.id,      ((SSErrForClient) error).id);
-          ret.put(SSVarNames.message, ((SSErrForClient) error).message);
+        if(((SSErr)error).id != null){
+          ret.put(SSVarNames.id,      ((SSErr) error).id);
+          ret.put(SSVarNames.message, ((SSErr) error).message);
           break;
         }
       }

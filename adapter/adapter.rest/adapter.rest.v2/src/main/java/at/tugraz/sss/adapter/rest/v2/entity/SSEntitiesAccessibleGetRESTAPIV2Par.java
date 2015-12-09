@@ -64,5 +64,17 @@ public class SSEntitiesAccessibleGetRESTAPIV2Par{
     value = "number of the page to be requested from a previous query")
   public Integer             pageNumber             = null;
   
+  @XmlElement
+  @ApiModelProperty(
+    required = false,
+    value = "start timestamp")
+  public Long            startTime      = null;
+  
+  @XmlElement
+  @ApiModelProperty(
+    required = false,
+    value = "end timestamp")
+  public Long            endTime        = null;
+  
   public SSEntitiesAccessibleGetRESTAPIV2Par(){}
 }

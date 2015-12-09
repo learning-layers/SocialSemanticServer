@@ -71,6 +71,8 @@ public class SSRESTSearch{
           input.pageNumber,
           input.minRating,
           input.maxRating,
+          input.startTime,
+          input.endTime,
           input.localSearchOp,
           input.globalSearchOp, 
           input.orderByLabel, 

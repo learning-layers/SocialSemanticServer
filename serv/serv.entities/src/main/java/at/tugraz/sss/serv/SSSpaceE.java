@@ -44,7 +44,7 @@ public enum SSSpaceE implements SSJSONLDPropI{
       
       return SSSpaceE.valueOf(space);
     }catch(Exception error){
-      throw new SSErr(SSErrE.spaceInvalid);
+      throw SSErr.get(SSErrE.spaceInvalid);
     }
   }
   

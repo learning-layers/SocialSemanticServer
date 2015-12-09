@@ -238,7 +238,9 @@ implements
           sql.getAccessibleURIs(
             userID, 
             types, 
-            null)){ //authors
+            null,//authors
+            null, //startTime
+            null)){ //endTime
           
           usersEntities.get(user).add(
             new SSEntityContext(
@@ -427,7 +429,9 @@ implements
             null, //entities
             true, //getAccessible
             par.types, //types
-            par.authors)); //authors
+            par.authors, //authors
+            par.startTime, //startTime
+            par.endTime)); //endTime
       
       if(entityURIs.isEmpty()){
         
@@ -482,7 +486,9 @@ implements
         return sql.getAccessibleURIs(
           par.user,
           par.types,
-          par.authors);
+          par.authors,
+          par.startTime,
+          par.endTime);
       }
       
       if(
@@ -492,7 +498,9 @@ implements
         return sql.getEntityURIs(
           par.entities,
           par.types,
-          par.authors);
+          par.authors, 
+          par.startTime, 
+          par.endTime);
       }
       
       return par.entities;
@@ -529,7 +537,9 @@ implements
             par.entities,
             false, //getAccessible
             par.types,
-            par.authors));
+            par.authors, 
+            null, //startTime
+            null)); //endTime
         
       final SSEntityGetPar entityGetPar =
         new SSEntityGetPar(

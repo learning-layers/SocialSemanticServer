@@ -128,6 +128,18 @@ public class SSSearchRESTAPIV2Par{
     required = false,
     value = "maximum overall star rating the entity must have to be returned")
   public Integer              maxRating             = null;
+  
+    @XmlElement
+  @ApiModelProperty(
+    required = false,
+    value = "start timestamp")
+  public Long            startTime      = null;
+  
+  @XmlElement
+  @ApiModelProperty(
+    required = false,
+    value = "end timestamp")
+  public Long            endTime        = null;
     
   @ApiModelProperty(
     required = false,

@@ -79,7 +79,7 @@ public class SSServReg{
           
           if(
             servImpls.size() == requsLimitsForClientOpsPerUser.get(par.op)){
-            throw new SSErr(SSErrE.maxNumClientConsForOpReached);
+            throw SSErr.get(SSErrE.maxNumClientConsForOpReached);
           }
           
           servImpls.add(servImpl);
@@ -171,7 +171,7 @@ public class SSServReg{
       synchronized(servsHandlingDescribeEntity){
         
         if(servsHandlingDescribeEntity.contains(servContainer)){
-          throw new SSErr(SSErrE.servAlreadyRegistered);
+          throw SSErr.get(SSErrE.servAlreadyRegistered);
         }
         
         servsHandlingDescribeEntity.add(servContainer);
@@ -193,7 +193,7 @@ public class SSServReg{
       synchronized(servsHandlingPushEntitiesToUsers){
         
         if(servsHandlingPushEntitiesToUsers.contains(servContainer)){
-          throw new SSErr(SSErrE.servAlreadyRegistered);
+          throw SSErr.get(SSErrE.servAlreadyRegistered);
         }
         
         servsHandlingPushEntitiesToUsers.add(servContainer);
@@ -215,7 +215,7 @@ public class SSServReg{
       synchronized(servsHandlingEntitiesSharedWithUsers){
         
         if(servsHandlingEntitiesSharedWithUsers.contains(servContainer)){
-          throw new SSErr(SSErrE.servAlreadyRegistered);
+          throw SSErr.get(SSErrE.servAlreadyRegistered);
         }
         
         servsHandlingEntitiesSharedWithUsers.add(servContainer);
@@ -237,7 +237,7 @@ public class SSServReg{
       synchronized(servsHandlingAddAffiliatedEntitiesToCircle){
         
         if(servsHandlingAddAffiliatedEntitiesToCircle.contains(servContainer)){
-          throw new SSErr(SSErrE.servAlreadyRegistered);
+          throw SSErr.get(SSErrE.servAlreadyRegistered);
         }
         
         servsHandlingAddAffiliatedEntitiesToCircle.add(servContainer);
@@ -259,7 +259,7 @@ public class SSServReg{
       synchronized(servsHandlingCopyEntity){
         
         if(servsHandlingCopyEntity.contains(servContainer)){
-          throw new SSErr(SSErrE.servAlreadyRegistered);
+          throw SSErr.get(SSErrE.servAlreadyRegistered);
         }
         
         servsHandlingCopyEntity.add(servContainer);
@@ -281,7 +281,7 @@ public class SSServReg{
       synchronized(servsHandlingGetParentEntities){
         
         if(servsHandlingGetParentEntities.contains(servContainer)){
-          throw new SSErr(SSErrE.servAlreadyRegistered);
+          throw SSErr.get(SSErrE.servAlreadyRegistered);
         }
         
         servsHandlingGetParentEntities.add(servContainer);
@@ -303,7 +303,7 @@ public class SSServReg{
       synchronized(servsHandlingGetSubEntities){
         
         if(servsHandlingGetSubEntities.contains(servContainer)){
-          throw new SSErr(SSErrE.servAlreadyRegistered);
+          throw SSErr.get(SSErrE.servAlreadyRegistered);
         }
         
         servsHandlingGetSubEntities.add(servContainer);
@@ -325,7 +325,7 @@ public class SSServReg{
       synchronized(servsHandlingEntityCopied){
         
         if(servsHandlingEntityCopied.contains(servContainer)){
-          throw new SSErr(SSErrE.servAlreadyRegistered);
+          throw SSErr.get(SSErrE.servAlreadyRegistered);
         }
         
         servsHandlingEntityCopied.add(servContainer);
@@ -347,7 +347,7 @@ public class SSServReg{
       synchronized(servsHandlingCircleContentRemoved){
         
         if(servsHandlingCircleContentRemoved.contains(servContainer)){
-          throw new SSErr(SSErrE.servAlreadyRegistered);
+          throw SSErr.get(SSErrE.servAlreadyRegistered);
         }
         
         servsHandlingCircleContentRemoved.add(servContainer);
@@ -369,7 +369,7 @@ public class SSServReg{
       synchronized(servsForGatheringUserRelations){
         
         if(servsForGatheringUserRelations.contains(servContainer)){
-          throw new SSErr(SSErrE.servAlreadyRegistered);
+          throw SSErr.get(SSErrE.servAlreadyRegistered);
         }
         
         servsForGatheringUserRelations.add(servContainer);
@@ -391,7 +391,7 @@ public class SSServReg{
       synchronized(servsForGatheringUsersResources){
         
         if(servsForGatheringUsersResources.contains(servContainer)){
-          throw new SSErr(SSErrE.servAlreadyRegistered);
+          throw SSErr.get(SSErrE.servAlreadyRegistered);
         }
         
         servsForGatheringUsersResources.add(servContainer);
@@ -441,7 +441,7 @@ public class SSServReg{
       serv = servsForServerI.get(servServerI);
       
       if(serv == null){
-        throw new SSErr(SSErrE.servServerOpNotAvailable);
+        throw SSErr.get(SSErrE.servServerOpNotAvailable);
       }
       
       return serv.serv();
@@ -472,7 +472,7 @@ public class SSServReg{
       serv = servsForServerOps.get(par.op);
       
       if(serv == null){
-        throw new SSErr(SSErrE.servServerOpNotAvailable);
+        throw SSErr.get(SSErrE.servServerOpNotAvailable);
       }
       
       return serv.serv().handleServerOp(serv.servImplServerInteraceClass, par);
@@ -558,7 +558,7 @@ public class SSServReg{
       final SSServContainerI serv = servs.get(par.op);
       
       if(serv == null){
-        throw new SSErr(SSErrE.noClientServiceForOpAvailableOnNodes);
+        throw SSErr.get(SSErrE.noClientServiceForOpAvailableOnNodes);
       }
       
       return serv;
@@ -583,7 +583,7 @@ public class SSServReg{
       final SSServContainerI serv = servsForClientOps.get(par.op);
       
       if(serv == null){
-        throw new SSErr(SSErrE.noClientServiceForOpAvailableOnMachine);
+        throw SSErr.get(SSErrE.noClientServiceForOpAvailableOnMachine);
       }
       
       return serv;
@@ -681,6 +681,6 @@ public class SSServReg{
 //      if(servImpl instanceof SSServImplWithDBA){
 //
 //        if(((SSServImplWithDBA)servImpl).dbSQL.getActive() > ((SSServImplWithDBA)servImpl).dbSQL.getMaxActive() - 30){
-//          SSServErrReg.regErrThrow(new SSErr(SSErrE.maxNumDBConsReached);
+//          SSServErrReg.regErrThrow(SSErr.get(SSErrE.maxNumDBConsReached);
 //        }
 //      }

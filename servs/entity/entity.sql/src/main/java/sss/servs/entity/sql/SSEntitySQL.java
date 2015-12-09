@@ -45,8 +45,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 
@@ -125,7 +123,9 @@ public class SSEntitySQL extends SSDBSQLFct{
   public List<SSUri> getEntityURIs(
     final List<SSUri>     entities, 
     final List<SSEntityE> types, 
-    final List<SSUri>     authors) throws SSErr{
+    final List<SSUri>     authors,
+    final Long            startTime, 
+    final Long            endTime) throws SSErr{
     
     ResultSet resultSet = null;
     
@@ -139,10 +139,11 @@ public class SSEntitySQL extends SSDBSQLFct{
         throw SSErr.get(SSErrE.parameterMissing);
       }
       
-      final List<MultivaluedMap<String, String>> wheres         = new ArrayList<>();
-      final List<String>                         tables         = new ArrayList<>();
-      final List<String>                         columns        = new ArrayList<>();
-      final List<String>                         tableCons      = new ArrayList<>();
+      final List<MultivaluedMap<String, String>>                   wheres         = new ArrayList<>();
+      final MultivaluedMap<String, MultivaluedMap<String, String>> wheresNumeric  = new MultivaluedHashMap<>();
+      final List<String>                                           tables         = new ArrayList<>();
+      final List<String>                                           columns        = new ArrayList<>();
+      final List<String>                                           tableCons      = new ArrayList<>();
       
       column(columns, SSSQLVarNames.entityTable, SSSQLVarNames.id);
       
@@ -187,14 +188,42 @@ public class SSEntitySQL extends SSDBSQLFct{
         wheres.add(whereAuthors);
       }
       
+      if(
+        startTime != null &&
+        startTime != 0){
+        
+        final List<MultivaluedMap<String, String>> greaterWheres           = new ArrayList<>();
+        final MultivaluedMap<String, String>       whereNumbericStartTimes = new MultivaluedHashMap<>();
+        
+        wheresNumeric.put(SSStrU.greaterThan, greaterWheres);
+        
+        where(whereNumbericStartTimes, SSSQLVarNames.entityTable, SSSQLVarNames.creationTime, startTime);
+        
+        greaterWheres.add(whereNumbericStartTimes);
+      }
+      
+      if(
+        endTime != null &&
+        endTime != 0){
+        
+        final List<MultivaluedMap<String, String>> lessWheres            = new ArrayList<>();
+        final MultivaluedMap<String, String>       whereNumbericEndTimes = new MultivaluedHashMap<>();
+        
+        wheresNumeric.put(SSStrU.lessThan, lessWheres);
+        
+        where(whereNumbericEndTimes, SSSQLVarNames.entityTable, SSSQLVarNames.creationTime, endTime);
+        
+        lessWheres.add(whereNumbericEndTimes);
+      }
+      
       resultSet =
         dbSQL.select(
           new SSDBSQLSelectPar(
-            tables,
+            tables, 
             columns,
-            wheres,
-            null,
-            null,
+            wheres, //orWheres
+            null, //andWheres
+            wheresNumeric, //numericWheres
             tableCons));
       
       return getURIsFromResult(resultSet, SSSQLVarNames.id);
@@ -758,7 +787,9 @@ public class SSEntitySQL extends SSDBSQLFct{
   public List<SSUri> getAccessibleURIs(
     final SSUri           user,
     final List<SSEntityE> types,
-    final List<SSUri>     authors) throws SSErr{
+    final List<SSUri>     authors,
+    final Long            startTime,
+    final Long            endTime) throws SSErr{
     
     ResultSet resultSet  = null;
     
@@ -771,10 +802,11 @@ public class SSEntitySQL extends SSDBSQLFct{
         throw SSErr.get(SSErrE.parameterMissing);
       }
       
-      final String userStr          = SSStrU.toStr(user);
-      String       query            = "select DISTINCT id from entity where ";
-      String       authorsQueryPart = SSStrU.empty;
-      String       typesQueryPart   = SSStrU.empty;
+      final String userStr                 = SSStrU.toStr(user);
+      String       query                   = "select DISTINCT id from entity where ";
+      String       authorsQueryPart        = SSStrU.empty;
+      String       typesQueryPart          = SSStrU.empty;
+      String       creationTimeQueryPart   = SSStrU.empty;
       
       if(
         authors != null &&
@@ -803,15 +835,47 @@ public class SSEntitySQL extends SSDBSQLFct{
       }
       
       if(
-        !SSStrU.isEmpty(authorsQueryPart) ||
-        !SSStrU.isEmpty(typesQueryPart)){
+        startTime != null &&
+        startTime != 0){
+
+        creationTimeQueryPart += SSStrU.bracketOpen;
         
-        if(!SSStrU.isEmpty(authorsQueryPart)){
+        creationTimeQueryPart += "creationTime > " + startTime;
+      }
+      
+      if(
+        endTime != null &&
+        endTime != 0){
+
+        if(!creationTimeQueryPart.isEmpty()){
+          creationTimeQueryPart += " AND ";
+        }else{
+          creationTimeQueryPart += SSStrU.bracketOpen;
+        }
+        
+        creationTimeQueryPart += "creationTime < " + endTime + SSStrU.bracketClose;
+      }else{
+        
+        if(!creationTimeQueryPart.isEmpty()){
+          creationTimeQueryPart += SSStrU.bracketClose;
+        }
+      }
+      
+      if(
+        !authorsQueryPart.isEmpty()  ||
+        !typesQueryPart.isEmpty()    ||
+        !creationTimeQueryPart.isEmpty()){
+        
+        if(!authorsQueryPart.isEmpty()){
           query += authorsQueryPart + " AND ";
         }
         
-        if(!SSStrU.isEmpty(typesQueryPart)){
+        if(!typesQueryPart.isEmpty()){
           query += typesQueryPart + " AND ";
+        }
+        
+        if(!creationTimeQueryPart.isEmpty()){
+          query += creationTimeQueryPart + " AND ";
         }
         
         query += SSStrU.bracketOpen;
@@ -823,8 +887,9 @@ public class SSEntitySQL extends SSDBSQLFct{
       query += "(type != 'entity' AND type != 'circle' AND id IN (select DISTINCT circleentities.entityId from circle, circleentities, circleusers where userId = '" + userStr + "' and circle.circleId = circleentities.circleId and circle.circleId = circleusers.circleId))";
       
       if(
-        !SSStrU.isEmpty(authorsQueryPart) ||
-        !SSStrU.isEmpty(typesQueryPart)){
+        !authorsQueryPart.isEmpty()   ||
+        !typesQueryPart.isEmpty()     ||
+        !creationTimeQueryPart.isEmpty()){
         
         query += SSStrU.bracketClose;
       }

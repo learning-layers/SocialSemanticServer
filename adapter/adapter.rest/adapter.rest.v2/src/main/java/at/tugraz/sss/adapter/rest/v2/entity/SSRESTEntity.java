@@ -80,6 +80,8 @@ public class SSRESTEntity {
           null, //user
           null, //types
           null, //authors
+          null, //startTime
+          null, //endTime
           new SSEntityDescriberPar(null), //descPar
           true); //withUserRestriction
       
@@ -114,6 +116,8 @@ public class SSRESTEntity {
           null, //user
           input.types, //types
           input.authors, //authors
+          input.startTime, //startTime
+          input.endTime, //endTime
           descPar, //descPar
           true); //withUserRestriction
       

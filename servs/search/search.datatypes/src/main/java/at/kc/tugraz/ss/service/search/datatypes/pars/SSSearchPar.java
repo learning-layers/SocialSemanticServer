@@ -45,6 +45,8 @@ public class SSSearchPar extends SSServPar{
   public Integer             pageSize                                      = 10;
   public Integer             minRating                                     = null;
   public Integer             maxRating                                     = null;
+  public Long                startTime                                     = null;
+  public Long                endTime                                       = null;
   public SSSearchOpE         localSearchOp                                 = SSSearchOpE.or;
   public SSSearchOpE         globalSearchOp                                = SSSearchOpE.or;
   public Boolean             orderByLabel                                  = false;
@@ -116,6 +118,8 @@ public class SSSearchPar extends SSServPar{
     final Integer             pageNumber                 ,
     final Integer             minRating                  ,
     final Integer             maxRating                  ,
+    final Long                startTime,
+    final Long                endTime,
     final SSSearchOpE         localSearchOp              ,
     final SSSearchOpE         globalSearchOp             , 
     final Boolean             orderByLabel       , 
@@ -157,6 +161,8 @@ public class SSSearchPar extends SSServPar{
     this.pageNumber                 = pageNumber;
     this.minRating                  = minRating;
     this.maxRating                  = maxRating;
+    this.startTime                  = startTime;
+    this.endTime                    = endTime;
     this.localSearchOp              = localSearchOp;
     this.globalSearchOp             = globalSearchOp;
     this.orderByLabel               = orderByLabel;
