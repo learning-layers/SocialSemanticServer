@@ -290,21 +290,24 @@ implements
     
     try{
       
-      String realmToUse;
+      String realmToUse = null;
       
       try{
         
-        SSUri.get(par.realm);
+        if(par.realm != null){
         
-        final String realmStr = SSStrU.removeTrailingSlash(par.realm);
-        
-        realmToUse = realmStr.substring(realmStr.lastIndexOf(SSStrU.slash) + 1, realmStr.length());
+          SSUri.get(par.realm);
+
+          final String realmStr = SSStrU.removeTrailingSlash(par.realm);
+
+          realmToUse = realmStr.substring(realmStr.lastIndexOf(SSStrU.slash) + 1, realmStr.length());
+        }
         
       }catch(Exception error){
         
-        SSLogU.warn("realm " + par.realm + " invalid; set to default", error);
+        SSLogU.trace("realm " + par.realm + " invalid; set to default", false);
         
-        realmToUse = par.realm;
+        realmToUse = null;
       }
       
       final SSRecommUserRealmEngine userRealmEngine =
