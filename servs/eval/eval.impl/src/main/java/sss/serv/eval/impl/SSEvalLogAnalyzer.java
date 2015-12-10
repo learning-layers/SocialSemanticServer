@@ -847,11 +847,11 @@ public class SSEvalLogAnalyzer {
         
       final SSEntity       entity      = entityServ.entityGet  (entityGetPar);
       final List<SSEntity> entities    = entityServ.entitiesGet(entitiesGetPar);
-      final String         entityStr   = "entity: " + entity.label + " (" + entity.type + ")";
+      final String         entityStr   = "entity: " + SSStrU.trim(entity.label, 1000) + " (" + entity.type + ")";
       String               entitiesStr = "entities: ";
       
       for(SSEntity entity1 : entities){
-        entitiesStr += entity1.label + " (" + entity1.type + "), ";
+        entitiesStr += SSStrU.trim(entity1.label, 1000) + " (" + entity1.type + "), ";
       }
       
       workedOnBitInfo.actionDetails.add(
@@ -895,11 +895,11 @@ public class SSEvalLogAnalyzer {
         
       final SSEntity       entity      = entityServ.entityGet  (entityGetPar);
       final List<SSEntity> entities    = entityServ.entitiesGet(entitiesGetPar);
-      final String         entityStr   = "entity: " + entity.label + " (" + entity.type + ")";
+      final String         entityStr   = "entity: " + SSStrU.trim(entity.label, 1000) + " (" + entity.type + ")";
       String               entitiesStr = "entities: ";
       
       for(SSEntity entity1 : entities){
-        entitiesStr += entity1.label + " (" + entity1.type + "), ";
+        entitiesStr += SSStrU.trim(entity1.label, 1000) + " (" + entity1.type + "), ";
       }
       
       workedOnEpisodeInfo.actionDetails.add(
@@ -1027,7 +1027,7 @@ public class SSEvalLogAnalyzer {
         
         episode = episodes.get(workedOnEpisode.getValue().episodeID.toString());
         
-        System.out.println(episode.label + " | #actions " + workedOnEpisode.getValue().totalActionsDone + " | types: " + workedOnEpisode.getValue().actions);
+        System.out.println(episode.label + " (" + new Date(episode.creationTime) + " " + episode.id + ") | #actions " + workedOnEpisode.getValue().totalActionsDone + " | types: " + workedOnEpisode.getValue().actions);
         
         for(SSEvalActionInfo actionDetail : workedOnEpisode.getValue().actionDetails){
           System.out.println("    " + actionDetail.type + " | " + new Date(actionDetail.timestamp).toString() + " | author: " + episode.author.label + " | " + actionDetail.content);
@@ -1090,7 +1090,7 @@ public class SSEvalLogAnalyzer {
         
         episode = episodes.get(workedOnEpisode.getValue().episodeID.toString());
         
-        System.out.println(episode.label + " | #actions " + workedOnEpisode.getValue().totalActionsDone + " | types: " + workedOnEpisode.getValue().actions);
+        System.out.println(episode.label + " (" + new Date(episode.creationTime) + " " + episode.id + ") | #actions " + workedOnEpisode.getValue().totalActionsDone + " | types: " + workedOnEpisode.getValue().actions);
         
         for(SSEvalActionInfo actionDetail : workedOnEpisode.getValue().actionDetails){
           System.out.println("    " + actionDetail.type + " | " + new Date(actionDetail.timestamp).toString() + " | " + actionDetail.content);
@@ -1118,7 +1118,7 @@ public class SSEvalLogAnalyzer {
       System.out.println();
       
       for(SSEpisodeShareInfo share : sharedEpisodeInfos){
-        System.out.println(share.label + " (" + new Date(share.creationTime) + ")");
+        System.out.println(share.label + " (" + new Date(share.creationTime) + " " + share.id + ")");
         System.out.println("    " + new Date(share.timestamp) + " | " + share.shareType + " (" + share.selectedBitsMeasure + ") | " + share.targetUsers);
         System.out.println();
       }
@@ -1153,7 +1153,7 @@ public class SSEvalLogAnalyzer {
       
       for(SSEpisodeCreationInfo created : createdEpisodeInfos){
         System.out.println(created.episodeLabel);
-        System.out.println("    " + new Date(created.timestamp));
+        System.out.println("    " + new Date(created.timestamp) + " " + created.episodeID);
         System.out.println();
       }
       
