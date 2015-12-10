@@ -54,7 +54,7 @@ public interface SSEntityServerI extends SSServServerI{
   public SSUri                           entityUpdate                  (final SSEntityUpdatePar                  par) throws SSErr;
   public Boolean                         entityCopy                    (final SSEntityCopyPar                    par) throws SSErr;
   public SSEntity                        entityGet                     (final SSEntityGetPar                     par) throws SSErr;
-  public SSEntity                        entityFromTypeAndLabelGet     (final SSEntityFromTypeAndLabelGetPar     par) throws SSErr;
+  public List<SSEntity>                  entityFromTypeAndLabelGet     (final SSEntityFromTypeAndLabelGetPar     par) throws SSErr;
   public SSUri                           entityShare                   (final SSEntitySharePar                   par) throws SSErr;
   public List<SSUri>                     entityDownloadsGet            (final SSEntityDownloadURIsGetPar         par) throws SSErr;
   public SSUri                           entityDownloadsAdd            (final SSEntityDownloadsAddPar            par) throws SSErr;

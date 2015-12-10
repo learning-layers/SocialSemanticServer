@@ -94,18 +94,38 @@ implements
           messageServ,
           discServ,
           ldServ,
-          oct1.getTime(),
-          nov17.getTime());
+          oct1.getTime(), //timeBeginStudy
+          oct1.getTime()); //timeBeginLogAnalyze
       
       final List<SSEvalLogEntry> logEntries =
         dataImportServ.dataImportEvalLogFile(
           new SSDataImportEvalLogFilePar(
             par.user,
             SSFileU.dirWorkingData() + "sss-eval.log",
-            nov17.getTime()));
+            oct1.getTime())); //startTime
       
       analyzer.setEpisodes ();
+      
+      System.out.println();
+      System.out.println();
+      System.out.println("##################################");
+      System.out.println("##################################");
+      System.out.println("Users");
+      System.out.println("##################################");
+      System.out.println("##################################");
+      System.out.println();
+        
       analyzer.analyzeUsers  (logEntries);
+      
+      System.out.println();
+      System.out.println();
+      System.out.println("##################################");
+      System.out.println("##################################");
+      System.out.println("Living Docs");
+      System.out.println("##################################");
+      System.out.println("##################################");
+      System.out.println();
+      
       analyzer.analyzeLDs(logEntries);
       
     }catch(Exception error){

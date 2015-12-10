@@ -535,10 +535,10 @@ implements
           projectNumber      = line[0].trim();
           vorgangNumber      = line[2].trim();
           employee           = line[4].trim();
-          totalResources     = Float.valueOf(SSStrU.replaceAll(line[9].trim(), SSStrU.comma, SSStrU.dot));
+          totalResources     = Float.valueOf(SSStrU.replaceAll(line[9].trim(),  SSStrU.comma, SSStrU.dot));
           usedResources      = Float.valueOf(SSStrU.replaceAll(line[10].trim(), SSStrU.comma, SSStrU.dot));
-          totalEmployeeHours = Float.valueOf(SSStrU.replaceAll(line[11].trim(), SSStrU.comma, SSStrU.dot));
-          usedEmployeeHours  = Float.valueOf(SSStrU.replaceAll(line[12].trim(), SSStrU.comma, SSStrU.dot));
+          totalEmployeeHours = Float.valueOf(SSStrU.replaceAll(line[12].trim(), SSStrU.comma, SSStrU.dot));
+          usedEmployeeHours  = Float.valueOf(SSStrU.replaceAll(line[13].trim(), SSStrU.comma, SSStrU.dot));
           
           if(vorgaenge.containsKey(vorgangNumber)){
             
@@ -576,6 +576,7 @@ implements
           
           vorgang.totalResources = totalResources;
           vorgang.usedResources  = usedResources;
+          
           employeeResource       = vorgang.employeeResources.get(employee);
           
           if(employeeResource != null){

@@ -28,6 +28,7 @@ import at.kc.tugraz.ss.serv.datatypes.learnep.api.SSLearnEpServerI;
 import at.kc.tugraz.ss.service.disc.api.SSDiscServerI;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscGetPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntitiesGetPar;
+import at.tugraz.sss.servs.entity.datatypes.par.SSEntityFromTypeAndLabelGetPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityGetPar;
 import at.tugraz.sss.servs.livingdocument.api.SSLivingDocServerI;
 import at.tugraz.sss.servs.livingdocument.datatype.par.SSLivingDocsGetPar;
@@ -37,6 +38,7 @@ import sss.serv.eval.impl.helpers.SSImportInfo;
 import sss.serv.eval.impl.helpers.SSLDInfo;
 import sss.serv.eval.impl.helpers.SSMessageSentInfo;
 import sss.serv.eval.impl.helpers.SSStartDiscussionInfo;
+import sss.serv.eval.impl.helpers.SSWorkedOnBitInfo;
 import sss.serv.eval.impl.helpers.SSWorkedOnEpisodeInfo;
 import sss.serv.eval.impl.helpers.SSWorkedOnOwnBitInfo;
 import sss.serv.eval.impl.helpers.SSWorkedOnOwnEpisodeInfo;
@@ -150,10 +152,7 @@ public class SSEvalLogAnalyzer {
         
         System.out.println();
         System.out.println();
-        System.out.println("##################################");
-        System.out.println("##################################");
         System.out.println(docInfo.ldLabel);
-        System.out.println("##################################");
         System.out.println("##################################");
         System.out.println();
         
@@ -173,8 +172,44 @@ public class SSEvalLogAnalyzer {
     
     try{
       
+      final Map<String, SSEntity> originalEpisodes    = new HashMap<>();
+      final List<SSEntity>        episodesForLabel    = new ArrayList<>();
+      
+      for(SSEvalLogEntry logEntry : logEntries){
+        
+        episodesForLabel.clear();
+        
+        switch(logEntry.logType){
+          
+          case copyLearnEpForUser:{
+            
+            episodesForLabel.addAll(
+              entityServ.entityFromTypeAndLabelGet(
+                new SSEntityFromTypeAndLabelGetPar(
+                  SSVocConf.systemUserUri,
+                  logEntry.entityLabel,
+                  SSEntityE.learnEp,
+                  false)));
+            
+            for(SSEntity episode : episodesForLabel){
+              
+              if(!SSStrU.containsKey(originalEpisodes, episode.label)){
+                originalEpisodes.put(episode.label.toString(), episode);
+              }
+              
+              if(episode.creationTime < originalEpisodes.get(episode.label.toString()).creationTime){
+                originalEpisodes.put(episode.label.toString(), episode);
+              }
+            }
+            
+            break;
+          }
+        }
+      }
+      
       final Map<String, SSUserInfo> userInfos = new HashMap<>();
       SSUserInfo                    userInfo;
+      SSEntity                      originalEpisode;
       
       for(SSEntity episode : episodes.values()){
         
@@ -192,13 +227,24 @@ public class SSEvalLogAnalyzer {
         }
         
         if(episode.creationTime < timeBeginLogAnalyze){
+          System.out.println(episode.label);
+          continue;
+        }
+        
+        originalEpisode = originalEpisodes.get(episode.label.toString());
+        
+        if(originalEpisode == null){
+          continue;
+        }
+        
+        if(!SSStrU.equals(originalEpisode.author.label, episode.author.label)){
           continue;
         }
         
         userInfo.createdEpisodeInfos.add(
           new SSEpisodeCreationInfo(
-            episode.id, 
-            episode.label, 
+            episode.id,
+            episode.label,
             episode.creationTime));
       }
       
@@ -259,12 +305,13 @@ public class SSEvalLogAnalyzer {
         switch(logEntry.logType){
           
           case addDiscEntry:{
-          
+            
             addWorkedOnReceivedDiscussion(userInfos, logEntry);
             break;
           }
           
           case discussEntity:{
+            
             addStartedDiscussionInfos(userInfos, logEntry);
             break;
           }
@@ -435,11 +482,13 @@ public class SSEvalLogAnalyzer {
       
       SSEvalLogE.addDistinctNotNull(workedOnBit.actions, logEntry.logType);
 
-      workedOnBit.actionDetails.add(
-        new SSEvalActionInfo(
-          logEntry.logType, 
-          logEntry.timestamp,
-          logEntry.content));
+//      workedOnBit.actionDetails.add(
+//        new SSEvalActionInfo(
+//          logEntry.logType, 
+//          logEntry.timestamp,
+//          logEntry.content));
+      
+      addBitActionDetails(workedOnBit, logEntry);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -560,11 +609,14 @@ public class SSEvalLogAnalyzer {
       
       SSEvalLogE.addDistinctNotNull(workedOnBit.actions, logEntry.logType);
 
-      workedOnBit.actionDetails.add(
-        new SSEvalActionInfo(
-          logEntry.logType, 
-          logEntry.timestamp,
-          logEntry.content));
+//      workedOnBit.actionDetails.add(
+//        new SSEvalActionInfo(
+//          logEntry.logType, 
+//          logEntry.timestamp,
+//          logEntry.content));
+      
+      
+      addBitActionDetails(workedOnBit, logEntry);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -693,7 +745,7 @@ public class SSEvalLogAnalyzer {
       
       SSEvalLogE.addDistinctNotNull(workedOnEpisode.actions, logEntry.logType);
       
-      addActionDetails(workedOnEpisode, logEntry);
+      addEpisodeActionDetails(workedOnEpisode, logEntry);
           
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -765,14 +817,61 @@ public class SSEvalLogAnalyzer {
       
       SSEvalLogE.addDistinctNotNull(workedOnEpisode.actions, logEntry.logType);
       
-      addActionDetails(workedOnEpisode, logEntry);
+      addEpisodeActionDetails(workedOnEpisode, logEntry);
         
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
   }
+  private void addBitActionDetails(
+    final SSWorkedOnBitInfo        workedOnBitInfo,
+    final SSEvalLogEntry           logEntry) throws Exception{
+    
+    try{
+      
+      final SSEntityGetPar entityGetPar =
+        new SSEntityGetPar(
+          SSVocConf.systemUserUri,
+          null, //entity,
+          false, //withUserRestriction,
+          null);
+      
+      final SSEntitiesGetPar entitiesGetPar = 
+        new SSEntitiesGetPar(
+          SSVocConf.systemUserUri, 
+          null, //entities, 
+          null, //descPar, 
+          false); //withUserRestriction); 
+      
+      entityGetPar.entity = logEntry.entity;
+      
+      entitiesGetPar.entities.addAll(logEntry.entityIDs);
+        
+      final SSEntity       entity      = entityServ.entityGet  (entityGetPar);
+      final List<SSEntity> entities    = entityServ.entitiesGet(entitiesGetPar);
+      final String         entityStr   = "entity: " + entity.label + " (" + entity.type + ")";
+      String               entitiesStr = "entities: ";
+      
+      for(SSEntity entity1 : entities){
+        entitiesStr += entity1.label + " (" + entity1.type + "), ";
+      }
+      
+      workedOnBitInfo.actionDetails.add(
+        new SSEvalActionInfo(
+          logEntry.logType,
+          logEntry.timestamp,
+          entityStr
+            + " | "
+            + entitiesStr
+            + " | "
+            + logEntry.content));
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
   
-  private void addActionDetails(
+  private void addEpisodeActionDetails(
     final SSWorkedOnEpisodeInfo    workedOnEpisodeInfo,
     final SSEvalLogEntry           logEntry) throws Exception{
     

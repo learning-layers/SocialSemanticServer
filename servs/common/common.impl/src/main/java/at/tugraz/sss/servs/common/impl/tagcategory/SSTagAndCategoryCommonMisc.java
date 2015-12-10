@@ -70,19 +70,21 @@ public class SSTagAndCategoryCommonMisc {
       final SSEntityServerI entityServ   = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
       final List<SSEntity>  metadata     = new ArrayList<>();
       final List<SSUri>     metadataURIs = new ArrayList<>();
-      SSEntity              metadataEntity;
+      final List<SSEntity>  metadataEntities = new ArrayList<>();
       
       for(String label : labels){
         
-        metadataEntity =
+        metadataEntities.clear();
+        
+        metadataEntities.addAll(
           entityServ.entityFromTypeAndLabelGet(
             new SSEntityFromTypeAndLabelGetPar(
               user,
               SSLabel.get(label), //label,
               metadataType, //type,
-              false)); //withUserRestriction
+              false))); //withUserRestriction
         
-        if(metadataEntity == null){
+        if(metadataEntities.isEmpty()){
           
           if(labelSearchOp != null){
             
@@ -97,7 +99,7 @@ public class SSTagAndCategoryCommonMisc {
           continue;
         }
         
-        metadataURIs.add(metadataEntity.id);
+        metadataURIs.addAll(SSUri.getDistinctNotNullFromEntities(metadataEntities));
       }
       
       if(spaces.isEmpty()){

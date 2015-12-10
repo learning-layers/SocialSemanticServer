@@ -621,7 +621,7 @@ implements
   }
   
   @Override
-  public SSEntity entityFromTypeAndLabelGet(final SSEntityFromTypeAndLabelGetPar par) throws SSErr{
+  public List<SSEntity> entityFromTypeAndLabelGet(final SSEntityFromTypeAndLabelGetPar par) throws SSErr{
     
     try{
       
@@ -629,20 +629,12 @@ implements
         throw SSErr.get(SSErrE.parameterMissing);
       }
         
-      final SSEntity entity = sql.getEntity(par.label, par.type);
-      
-      if(entity == null){
-        return null;
-      }
-      
-      if(!par.withUserRestriction){
-        return entity;
-      }
-      
-      return sql.getEntityTest(
-        par.user,
-        entity.id,
-        par.withUserRestriction);
+      return entitiesGet(
+        new SSEntitiesGetPar(
+          par.user, 
+          SSUri.getDistinctNotNullFromEntities(sql.getEntities(par.label, par.type)), 
+          null, // descPar, 
+          par.withUserRestriction));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

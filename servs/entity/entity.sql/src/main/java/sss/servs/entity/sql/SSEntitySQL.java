@@ -40,6 +40,7 @@ import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.SSVarNames;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -61,7 +62,7 @@ public class SSEntitySQL extends SSDBSQLFct{
     this.systemUserURI = systemUserURI;
   }
   
-  public SSEntity getEntity(
+  public List<SSEntity> getEntities(
     final SSLabel   label,
     final SSEntityE type) throws SSErr{
     
@@ -73,9 +74,9 @@ public class SSEntitySQL extends SSDBSQLFct{
         throw SSErr.get(SSErrE.parameterMissing);
       }
       
-      final List<String>        columns = new ArrayList<>();
-      final Map<String, String> where   = new HashMap<>();
-      final SSEntity            entityObj;
+      final List<String>        columns  = new ArrayList<>();
+      final Map<String, String> where    = new HashMap<>();
+      final List<SSEntity>      entities = new ArrayList<>();
       
       column(columns, SSSQLVarNames.id);
       column(columns, SSSQLVarNames.label);
@@ -87,20 +88,28 @@ public class SSEntitySQL extends SSDBSQLFct{
       where(where, SSSQLVarNames.label, label);
       where(where, SSSQLVarNames.type,  type);
       
-      resultSet = dbSQL.select(SSSQLVarNames.entityTable, columns, where, null, null, null);
+      resultSet = 
+        dbSQL.select(
+          SSSQLVarNames.entityTable, 
+          columns, 
+          where, 
+          null, 
+          null, 
+          null);
       
-      checkFirstResult(resultSet);
+      while(resultSet.next()){
+        
+        entities.add(
+          SSEntity.get(
+            bindingStrToUri        (resultSet, SSSQLVarNames.id),
+            type,
+            label, 
+            bindingStrToTextComment   (resultSet, SSSQLVarNames.description),
+            bindingStrToLong          (resultSet, SSSQLVarNames.creationTime), 
+            bindingStrToAuthor        (resultSet, SSSQLVarNames.author)));
+      }
       
-      entityObj =
-        SSEntity.get(
-          bindingStrToUri        (resultSet, SSSQLVarNames.id),
-          type,
-          label, 
-          bindingStrToTextComment   (resultSet, SSSQLVarNames.description),
-          bindingStrToLong          (resultSet, SSSQLVarNames.creationTime), 
-          bindingStrToAuthor        (resultSet, SSSQLVarNames.author));
-      
-      return entityObj;
+      return entities;
     }catch(Exception error){
       
       if(SSServErrReg.containsErr(SSErrE.sqlNoResultFound)){

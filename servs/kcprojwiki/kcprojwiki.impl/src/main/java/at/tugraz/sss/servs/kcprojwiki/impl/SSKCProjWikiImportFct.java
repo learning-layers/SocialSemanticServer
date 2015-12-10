@@ -53,6 +53,8 @@ public class SSKCProjWikiImportFct {
   private static final String propertyStartVorgangNumber            = "[[Vorgang%20Number::";
   private static final String propertyTotalProjectResources         = "Total%20Project%20Resources";
   private static final String propertyResourcesUsedMonthEnd         = "Resources%20Used%20Month%20End";
+  private static final String propertyExportDate                    = "Export%20Date";
+  private static final String propertyProjectProgress               = "Project%20Progress";
   private static final String valueCookie                           = "Cookie";
   private static final String pathActionQuery                       = "api.php?action=query";
   private static final String pathActionLogin                       = "api.php?action=login";
@@ -121,6 +123,8 @@ public class SSKCProjWikiImportFct {
             + SSStrU.ampersand + valueTarget               + vorgang.title
             + SSStrU.ampersand + valueProjektVorgangsebene + SSStrU.squareBracketOpen + propertyTotalProjectResources + SSStrU.squareBracketClose + SSStrU.equal + vorgang.totalResources
             + SSStrU.ampersand + valueProjektVorgangsebene + SSStrU.squareBracketOpen + propertyResourcesUsedMonthEnd + SSStrU.squareBracketClose + SSStrU.equal + vorgang.usedResources
+            + SSStrU.ampersand + valueProjektVorgangsebene + SSStrU.squareBracketOpen + propertyExportDate            + SSStrU.squareBracketClose + SSStrU.equal + vorgang.exportDate
+            + SSStrU.ampersand + valueProjektVorgangsebene + SSStrU.squareBracketOpen + propertyProjectProgress       + SSStrU.squareBracketClose + SSStrU.equal + vorgang.progress
             + SSStrU.ampersand + valueFormatJson 
           
           //            + SSStrU.ampersand + valueProjektVorgangsebene + SSStrU.squareBracketOpen + valueChangesBMD + SSStrU.squareBracketClose + SSStrU.equal + "No"
@@ -233,7 +237,7 @@ public class SSKCProjWikiImportFct {
       try{
         results  = (JSONObject) ask.get       (valueResults);
       }catch(Exception error){
-        SSLogU.warn("vorgang for vorgang number " + vorgangNumber + " not available; vorgang wont be imported");
+        System.out.println("vorgang for vorgang number " + vorgangNumber + " not available; vorgang wont be imported");
         return null;
       }
       

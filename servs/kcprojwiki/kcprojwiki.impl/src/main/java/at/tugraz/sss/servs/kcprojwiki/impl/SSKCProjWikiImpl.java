@@ -32,6 +32,9 @@ import at.tugraz.sss.servs.kcprojwiki.api.SSKCProjWikiServerI;
 import at.tugraz.sss.servs.kcprojwiki.conf.SSKCProjWikiConf;
 import at.tugraz.sss.servs.kcprojwiki.datatype.SSKCProjWikiImportPar;
 import at.tugraz.sss.servs.kcprojwiki.datatype.SSKCProjWikiVorgang;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
 
 public class SSKCProjWikiImpl
@@ -61,7 +64,11 @@ implements
           new SSDataImportKCProjWikiVorgaengePar(
             par.user,
             projWikiConf.vorgaengeFilePath));
-      
+
+      final DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+      final Long       now        = new Date().getTime();
+      final String     exportDate = dateFormat.format(now);
+        
       SSLogU.info("start vorgaenge update");
       
       importFct.start();
@@ -79,8 +86,18 @@ implements
             continue;
           }
           
+          vorgang.exportDate = exportDate;
+          
+          if(vorgang.totalResources == 0){
+            vorgang.progress = 0F;
+          }else{
+            vorgang.progress       = (vorgang.usedResources / vorgang.totalResources) * 100;
+          }
+          
           importFct.updateVorgangBasics            (vorgang);
           importFct.updateVorgangEmployeeResources (vorgang);
+          
+          System.out.println("vorgang " + vorgang.title + " imported");
         }
         
       }catch(Exception error){
@@ -88,9 +105,9 @@ implements
         SSServErrReg.reset();
         
         if(vorgang != null){
-          SSLogU.warn("import for vorgang (" + vorgang.title + ", " + vorgang.vorgangNumber + ") failed");
+          System.out.println("import for vorgang (" + vorgang.title + ", " + vorgang.vorgangNumber + ") failed");
         }else{
-          SSLogU.warn("import for unknown vorgang failed");
+          System.out.println("import for unknown vorgang failed");
         }
       }
       

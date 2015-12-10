@@ -433,7 +433,7 @@ SSUri.asListNotNull(notebookUri), //entities
         SSEvalLogE.addResource,
         resourceUri,
         null, //content
-SSUri.asListNotNull(noteUri), //entitites
+        SSUri.asListNotNull(noteUri), //entitites
         null,  //users
         false)); //shouldCommit
   }

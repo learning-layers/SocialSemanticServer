@@ -418,8 +418,8 @@ implements
     
     try{
       
-      final SSUri       tagUri;
-      final SSEntity    tagEntity =
+      final SSUri             tagUri;
+      final List<SSEntity>    tagEntities =
         entityServ.entityFromTypeAndLabelGet(
           new SSEntityFromTypeAndLabelGetPar(
             par.user,
@@ -482,7 +482,7 @@ implements
         return null;
       }
       
-      if(tagEntity == null){
+      if(tagEntities.isEmpty()){
         
         tagUri =
           entityServ.entityUpdate(
@@ -504,7 +504,7 @@ implements
           return null;
         }
       }else{
-        tagUri = tagEntity.id;
+        tagUri = tagEntities.get(0).id;
       }
       
       sql.addMetadataAssIfNotExists1(
@@ -615,7 +615,7 @@ implements
       
       if(par.label != null){
         
-        final SSEntity tagEntity =
+        final List<SSEntity> tagEntities =
           entityServ.entityFromTypeAndLabelGet(
             new SSEntityFromTypeAndLabelGetPar(
               par.user,
@@ -623,10 +623,10 @@ implements
               SSEntityE.tag, //type,
               par.withUserRestriction)); //withUserRestriction
         
-        if(tagEntity == null){
+        if(tagEntities.isEmpty()){
           return true;
         }else{
-          tagUri = tagEntity.id;
+          tagUri = tagEntities.get(0).id;
         }
       }
       

@@ -29,6 +29,8 @@ public class SSKCProjWikiVorgang extends SSKCProjWikiPage{
   public Float                                            totalResources    = null;
   public Float                                            usedResources     = null;
   public Map<String, SSKCProjWikiVorgangEmployeeResource> employeeResources = new HashMap<>();
+  public String                                           exportDate        = null;
+  public Float                                            progress          = null;
   
   public SSKCProjWikiVorgang(
     final String projectNumber, 

@@ -412,7 +412,7 @@ implements
     
     try{
       final SSUri            categoryUri;
-      final SSEntity         categoryEntity =
+      final List<SSEntity>   categoryEntities =
         entityServ.entityFromTypeAndLabelGet(
           new SSEntityFromTypeAndLabelGetPar(
             par.user,
@@ -474,7 +474,7 @@ implements
         return null;
       }
       
-      if(categoryEntity == null){
+      if(categoryEntities.isEmpty()){
         
         categoryUri =
           entityServ.entityUpdate(
@@ -501,7 +501,7 @@ implements
           false); //isPredefined
         
       }else{
-        categoryUri = categoryEntity.id;
+        categoryUri = categoryEntities.get(0).id;
       }
       
       sql.addMetadataAssIfNotExists1(
@@ -623,7 +623,7 @@ implements
       
       if(par.label != null){
         
-        final SSEntity categoryEntity =
+        final List<SSEntity> categoryEntities =
           entityServ.entityFromTypeAndLabelGet(
             new SSEntityFromTypeAndLabelGetPar(
               par.user,
@@ -631,10 +631,10 @@ implements
               SSEntityE.category, //type,
               par.withUserRestriction)); //withUserRestriction
         
-        if(categoryEntity == null){
+        if(categoryEntities.isEmpty()){
           return true;
         }else{
-          categoryUri = categoryEntity.id;
+          categoryUri = categoryEntities.get(0).id;
         }
       }
       
@@ -758,22 +758,24 @@ implements
     
     try{
       
-      SSEntity categoryEntity;
-      SSUri    categoryUri;
+      final List<SSEntity> categoryEntities = new ArrayList<>();
+      SSUri                categoryUri;
       
       dbSQL.startTrans(par.shouldCommit);
       
       for(SSCategoryLabel label : par.labels){
         
-        categoryEntity =
+        categoryEntities.clear();
+        
+        categoryEntities.addAll(
           entityServ.entityFromTypeAndLabelGet(
             new SSEntityFromTypeAndLabelGetPar(
               par.user,
               SSLabel.get(SSStrU.toStr(label)), //label,
               SSEntityE.category, //type,
-              par.withUserRestriction)); //withUserRestriction
+              par.withUserRestriction))); //withUserRestriction
         
-        if(categoryEntity != null){
+        if(!categoryEntities.isEmpty()){
           continue;
         }
         
