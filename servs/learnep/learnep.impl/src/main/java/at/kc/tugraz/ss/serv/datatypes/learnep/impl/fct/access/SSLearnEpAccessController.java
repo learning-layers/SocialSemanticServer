@@ -66,7 +66,7 @@ public class SSLearnEpAccessController{
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
-      return null;
+      return false;
     }finally{
       
       if(learnEpsLock.isWriteLockedByCurrentThread()){
@@ -94,7 +94,7 @@ public class SSLearnEpAccessController{
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
-      return null;
+      return false;
     }finally{
       if(learnEpsLock.isWriteLockedByCurrentThread()){
         learnEpsLock.writeLock().unlock();
@@ -112,7 +112,7 @@ public class SSLearnEpAccessController{
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
-      return null;
+      return false;
     }finally{
       learnEpsLock.readLock().unlock();
     }
@@ -136,7 +136,7 @@ public class SSLearnEpAccessController{
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
-      return null;
+      return false;
     }finally{
       learnEpsLock.readLock().unlock();
     }

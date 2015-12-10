@@ -396,7 +396,7 @@ SSUri.asListNotNull(learnEp), //entities
     final SSUri       user,
     final SSUri       learnEp,
     final List<SSUri> usersToShareWith,
-    final Boolean     shouldCommit) throws Exception{
+    final Boolean     shouldCommit) throws SSErr {
     
     try{
       

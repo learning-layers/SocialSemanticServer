@@ -21,6 +21,12 @@
 package at.tugraz.sss.serv;
 
 public enum SSWarnE{
+
+  //thread
+  threadInterrupted,
+  
+  //stream
+  outputStreamCloseFailed,
   
   //sql
   sqlCloseStatementFailed,

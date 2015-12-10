@@ -1,23 +1,23 @@
-/**
-* Code contributed to the Learning Layers project
-* http://www.learning-layers.eu
-* Development is partly funded by the FP7 Programme of the European Commission under
-* Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
-* For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
-*
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-* http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*/
+ /**
+  * Code contributed to the Learning Layers project
+  * http://www.learning-layers.eu
+  * Development is partly funded by the FP7 Programme of the European Commission under
+  * Grant Agreement FP7-ICT-318209.
+  * Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+  * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
+  *
+  * Licensed under the Apache License, Version 2.0 (the "License");
+  * you may not use this file except in compliance with the License.
+  * You may obtain a copy of the License at
+  *
+  * http://www.apache.org/licenses/LICENSE-2.0
+  *
+  * Unless required by applicable law or agreed to in writing, software
+  * distributed under the License is distributed on an "AS IS" BASIS,
+  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  * See the License for the specific language governing permissions and
+  * limitations under the License.
+  */
 package at.kc.tugraz.ss.service.search.impl;
 
 import at.tugraz.sss.serv.SSEntityResultPages;
@@ -62,10 +62,10 @@ import at.tugraz.sss.servs.entity.datatypes.par.SSEntitiesGetPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityURIsGetPar;
 import sss.servs.entity.sql.SSEntitySQL;
 
-public class SSSearchImpl 
+public class SSSearchImpl
 extends SSServImplWithDBA
-implements 
-  SSSearchClientI, 
+implements
+  SSSearchClientI,
   SSSearchServerI{
   
   protected static final Map<String, SSEntityResultPages> searchResultPagesCache = new HashMap<>();
@@ -80,19 +80,24 @@ implements
   }
   
   @Override
-  public void search(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
+  public void search(final SSSocketCon sSCon, final SSServPar parA) throws SSErr{
     
-    SSServCallerU.checkKey(parA);
-    
-    final SSSearchPar par = (SSSearchPar) parA.getFromJSON(SSSearchPar.class);
+    try{
+      SSServCallerU.checkKey(parA);
       
-    sSCon.writeRetFullToClient(search(par));
+      final SSSearchPar par = (SSSearchPar) parA.getFromJSON(SSSearchPar.class);
+      
+      sSCon.writeRetFullToClient(search(par));
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
     
 //    SSSearchActivityFct.search(new SSSearchPar((parA)));
   }
-
+  
   @Override
-  public SSSearchRet search(final SSSearchPar par) throws Exception{
+  public SSSearchRet search(final SSSearchPar par) throws SSErr{
     
     try{
       
@@ -129,7 +134,7 @@ implements
         par.labelsToSearchFor.isEmpty()            &&
         par.descriptionsToSearchFor.isEmpty()      &&
         !par.includeRecommendedResults){
-       
+        
         SSLogU.info("no search query input given");
         
         uris.addAll(accessibleEntityURIs);
@@ -147,7 +152,7 @@ implements
         
         SSStrU.distinctWithoutNull2(uris);
       }
-
+      
       final List<SSUri>             ratingResultUris              = new ArrayList<>();
       final List<SSUri>             resultsAfterGlobalSearchOp    = new ArrayList<>();
       final String                  pagesID                       = SSIDU.uniqueID();
@@ -173,18 +178,18 @@ implements
           SSStrU.retainAll(
             SSStrU.toStr(resultsAfterGlobalSearchOp),
             SSStrU.toStr(accessibleEntityURIs));
-          
+        
         final List<SSUri> entityURIs = SSUri.get(entities);
         
         for(SSUri entityURI : entityURIs){//entityServ.entitiesGet(entitiesGetPar)){
-
+          
           if(page.size() == par.pageSize - 1){
             pages.add(new ArrayList<>(page));
             page.clear();
           }
-
+          
           page.add(entityURI);
-
+          
           recommendedEntityCounter =
             SSSearchFct.addRecommendedResult(
               page,
@@ -200,14 +205,14 @@ implements
       }
       
       SSSearchFct.fillPagesIfEmpty(
-        par, 
+        par,
         pages,
         recommendedResults);
       
       final List<SSEntity>     results                = new ArrayList<>();
       
       if(!pages.isEmpty()){
-      
+        
         if(par.orderByLabel){
           
           final List<List<SSUri>> newPages =
@@ -237,16 +242,16 @@ implements
         }
         
         searchResultPagesCache.put(
-          pagesID, 
+          pagesID,
           SSEntityResultPages.get(
             pages,
-            SSDateU.dateAsLong(), 
+            SSDateU.dateAsLong(),
             pagesID));
-      
+        
         results.addAll(
           fillSearchResults(
-            entityServ, 
-            par, 
+            entityServ,
+            par,
             pages.get(0)));
       }
       
@@ -274,7 +279,7 @@ implements
   }
   
   @Override
-  public void searchCleanUp(final SSSearchCleanUpPar par) throws Exception{
+  public void searchCleanUp(final SSSearchCleanUpPar par) throws SSErr{
     
     try{
       SSEntityQueryCacheU.entityQueryCacheClean(searchResultPagesCache);
@@ -290,7 +295,7 @@ implements
     final List<SSUri> documentResults,
     final List<SSUri> labelResuls,
     final List<SSUri> descriptionResults,
-    final List<SSUri> ratingResults) throws Exception{
+    final List<SSUri> ratingResults) throws SSErr{
     
     try{
       
@@ -403,8 +408,8 @@ implements
   }
   
   private SSSearchRet handleSearchPageRequest(
-    final SSEntityServerI entityServ, 
-    final SSSearchPar     par) throws Exception{
+    final SSEntityServerI entityServ,
+    final SSSearchPar     par) throws SSErr{
     
     try{
       final SSEntityResultPages     pages;
@@ -439,7 +444,7 @@ implements
   
   private List<SSUri> getTagResults(
     final SSSearchPar par,
-    final List<SSUri> filteredResults) throws Exception{
+    final List<SSUri> filteredResults) throws SSErr{
     
     try{
       
@@ -476,13 +481,13 @@ implements
   
   private List<SSUri> getDescriptionResults(
     final SSSearchPar par,
-    final List<SSUri> filteredResults) throws Exception{
+    final List<SSUri> filteredResults) throws SSErr{
     
     try{
       
-        //search with "match against" depends on the innodb_ft_min_token_size setting for InnoDB MYSQL tables, stopwords, etc.
-        //http://dba.stackexchange.com/questions/51144/mysql-match-against-boolean-mode and http://dev.mysql.com/doc/refman/5.6/en/fulltext-stopwords.html
-        //please consider that MYSQL LIKE doesnt exploit MYSQL indexes on labels and descriptions
+      //search with "match against" depends on the innodb_ft_min_token_size setting for InnoDB MYSQL tables, stopwords, etc.
+      //http://dba.stackexchange.com/questions/51144/mysql-match-against-boolean-mode and http://dev.mysql.com/doc/refman/5.6/en/fulltext-stopwords.html
+      //please consider that MYSQL LIKE doesnt exploit MYSQL indexes on labels and descriptions
 //        return sqlFct.getEntitiesForLabelsAndDescriptionsWithSQLLike(par.requireds, new ArrayList<>(), SSSearchOpE.and);
 //        return sqlFct.getEntitiesForLabelsAndDescriptionsWithSQLLike(par.eithers, new ArrayList<>(), SSSearchOpE.or);
       
@@ -536,8 +541,8 @@ implements
   }
   
   private List<SSUri> getLabelResults(
-    final SSSearchPar par, 
-    final List<SSUri> filteredResults) throws Exception{
+    final SSSearchPar par,
+    final List<SSUri> filteredResults) throws SSErr{
     
     try{
       
@@ -591,14 +596,14 @@ implements
   }
   
   private List<SSEntity> getRecommendedResults(
-    final SSSearchPar par) throws Exception{
+    final SSSearchPar par) throws SSErr{
     
     try{
       
       if(!par.includeRecommendedResults){
         return new ArrayList<>();
       }
-
+      
       final List<SSEntity>             result               = new ArrayList<>();
       final SSRecommServerI            recommServ           = (SSRecommServerI) SSServReg.getServ(SSRecommServerI.class);
       final List<SSResourceLikelihood> recommendedResources =
@@ -616,13 +621,13 @@ implements
             false, //ignoreAccessRights
             false, //withUserRestriction
             false)); //invokeEntityHandlers
-          
+      
       for(SSResourceLikelihood reommendedResource : recommendedResources){
         result.add(reommendedResource.resource);
       }
       
       return result;
-
+      
     }catch(Exception error){
       
       if(SSServErrReg.containsErr(SSErrE.servServerOpNotAvailable)){
@@ -635,9 +640,9 @@ implements
       return new ArrayList<>();
     }
   }
-
+  
   private List<SSUri> getTextualContentResults(
-    final SSSearchPar par) throws Exception{
+    final SSSearchPar par) throws SSErr{
     
     try{
       
@@ -646,8 +651,8 @@ implements
       }
       
       return noSQLFct.search(
-        par.globalSearchOp, 
-        par.localSearchOp, 
+        par.globalSearchOp,
+        par.localSearchOp,
         par.documentContentsToSearchFor);
       
     }catch(Exception error){
@@ -658,21 +663,21 @@ implements
         SSLogU.warn(error.getMessage());
       }
       
-       SSServErrReg.reset();
-       return new ArrayList<>();
+      SSServErrReg.reset();
+      return new ArrayList<>();
     }
   }
-      
+  
   private List<SSUri> getRatingResults(
     final SSSearchPar par,
-    final List<SSUri> searchResults) throws Exception{
+    final List<SSUri> searchResults) throws SSErr{
     
     try{
       
       if(
         par.minRating == null &&
         par.maxRating == null){
-       
+        
         return searchResults;
       }
       
@@ -681,9 +686,9 @@ implements
       return ratingServ.ratingEntityURIsGet(
         new SSRatingEntityURIsGetPar(
           par.user,
-          searchResults, 
-          par.minRating, 
-          par.maxRating, 
+          searchResults,
+          par.minRating,
+          par.maxRating,
           false));
       
     }catch(Exception error){
@@ -702,7 +707,7 @@ implements
   private List<SSEntity> fillSearchResults(
     final SSEntityServerI    entityServ,
     final SSSearchPar        par,
-    final List<SSUri>        results) throws Exception{
+    final List<SSUri>        results) throws SSErr{
     
     try{
       
@@ -724,23 +729,23 @@ implements
       return null;
     }
   }
-
+  
   private List<List<SSUri>> orderPagesByLabel(
     final SSEntityServerI   entityServ,
     final Integer           pageSize,
-    final SSUri             user, 
-    final List<List<SSUri>> originalPages) throws Exception{
+    final SSUri             user,
+    final List<List<SSUri>> originalPages) throws SSErr{
     
     try{
       final List<List<SSUri>>           pages             = new ArrayList<>();
       final Map<String, List<SSEntity>> entitiesForLabels = new HashMap<>();
       final List<SSUri>                 page              = new ArrayList<>();
       final List<String>                labels            = new ArrayList<>();
-      final SSEntitiesGetPar            entitiesGetPar    = 
+      final SSEntitiesGetPar            entitiesGetPar    =
         new SSEntitiesGetPar(
-          user, 
-          null, //entities 
-          null, //descPar, 
+          user,
+          null, //entities
+          null, //descPar,
           false); //withUserRestriction)
       
       for(List<SSUri> origPage : originalPages){
@@ -755,7 +760,7 @@ implements
         
         entitiesForLabels.get(entity.label.toString()).add(entity);
       }
-
+      
       labels.addAll(entitiesForLabels.keySet());
       
       Collections.sort(labels);
@@ -787,19 +792,19 @@ implements
   private List<List<SSUri>> orderPagesByCreationTime(
     final SSEntityServerI   entityServ,
     final Integer           pageSize,
-    final SSUri             user, 
-    final List<List<SSUri>> originalPages) throws Exception{
+    final SSUri             user,
+    final List<List<SSUri>> originalPages) throws SSErr{
     
     try{
       final List<List<SSUri>>             pages             = new ArrayList<>();
       final Map<Long, List<SSEntity>>     entitiesForTimes  = new HashMap<>();
       final List<SSUri>                   page              = new ArrayList<>();
       final List<Long>                    times             = new ArrayList<>();
-      final SSEntitiesGetPar              entitiesGetPar    = 
+      final SSEntitiesGetPar              entitiesGetPar    =
         new SSEntitiesGetPar(
-          user, 
-          null, //entities 
-          null, //descPar, 
+          user,
+          null, //entities
+          null, //descPar,
           false); //withUserRestriction)
       
       for(List<SSUri> origPage : originalPages){
@@ -814,7 +819,7 @@ implements
         
         entitiesForTimes.get(entity.creationTime).add(entity);
       }
-
+      
       times.addAll(entitiesForTimes.keySet());
       
       Collections.sort(times);
@@ -845,19 +850,19 @@ implements
 }
 
 //private List<SSUri> getSubEntities(
-//    final SSUri       user, 
-//    final List<SSUri> entities) throws Exception{
-//    
+//    final SSUri       user,
+//    final List<SSUri> entities) throws SSErr{
+//
 //    try{
-//    
+//
 //      final List<SSUri> subEntities  = new ArrayList<>();
-//      
+//
 //      for(SSUri entity : entities){
 //        subEntities.addAll(SSServCaller.entityUserSubEntitiesGet(user, entity));
 //      }
-//      
+//
 //      SSStrU.distinctWithoutNull2(subEntities);
-//      
+//
 //      return subEntities;
 //    }catch(Exception error){
 //      SSServErrReg.regErrThrow(error);
@@ -868,27 +873,27 @@ implements
 //  private List<SSEntity> filterSearchResultsForSubEntitySearch(
 //    final List<SSEntity> searchResults,
 //    final Boolean        onlySubEntities,
-//    final List<SSUri>    subEntities) throws Exception{
-//    
+//    final List<SSUri>    subEntities) throws SSErr{
+//
 //    try{
-//      
+//
 //      if(!onlySubEntities){
 //        return searchResults;
 //      }
-//      
+//
 //      final List<SSEntity> filteredResults = new ArrayList<>();
-//      
+//
 //      for(SSEntity mIResult : searchResults){
-//        
+//
 //        if(!SSStrU.contains(subEntities, mIResult.id)){
 //          continue;
 //        }
-//        
+//
 //        filteredResults.add(mIResult);
 //      }
-//      
+//
 //      return filteredResults;
-//    
+//
 //    }catch(Exception error){
 //      SSServErrReg.regErrThrow(error);
 //      return null;
@@ -897,15 +902,15 @@ implements
 //
 //private List<SSUri> filterForSubEntities(
 //    final SSSearchPar    par,
-//    final List<SSUri>    results) throws Exception{
-//    
+//    final List<SSUri>    results) throws SSErr{
+//
 //    if(
 //      !par.includeOnlySubEntities ||
 //      par.entitiesToSearchWithin.isEmpty()){
 //
 //      return results;
 //    }
-//    
+//
 //    return
 //      SSUri.get(
 //        SSStrU.retainAll(
@@ -916,32 +921,32 @@ implements
 //              par.user,
 //              par.entitiesToSearchWithin))));
 //  }
-//  
+//
 //  private List<SSUri> extendToParentEntities(
 //    final SSSearchPar par,
-//    final List<SSUri> results) throws Exception{
-//    
+//    final List<SSUri> results) throws SSErr{
+//
 //    if(!par.extendToParents){
 //      return results;
 //    }
-//    
+//
 //    try{
-//    
+//
 //      final List<SSUri> parentEntities  = new ArrayList<>();
-//      
+//
 //      for(SSUri entity : results){
-//        
+//
 //        try{
 //          parentEntities.addAll(SSServCaller.entityUserParentEntitiesGet(par.user, entity));
 //        }catch(Exception error){
 //          SSServErrReg.reset();
 //        }
 //      }
-//      
+//
 //      results.addAll(parentEntities);
-//      
+//
 //      SSStrU.distinctWithoutNull2(results);
-//      
+//
 //      return results;
 //    }catch(Exception error){
 //      SSServErrReg.regErrThrow(error);

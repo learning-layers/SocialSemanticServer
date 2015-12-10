@@ -31,16 +31,17 @@ import at.kc.tugraz.sss.video.datatypes.par.SSVideoUserAnnotationAddPar;
 import at.kc.tugraz.sss.video.datatypes.par.SSVideoUserGetPar;
 import at.kc.tugraz.sss.video.datatypes.par.SSVideosUserGetPar;
 import at.tugraz.sss.serv.SSEntity;
+import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSServServerI;
 import java.util.List;
 
 public interface SSVideoServerI extends SSServServerI{
   
-  public SSUri                   videoAdd            (final SSVideoUserAddPar            par) throws Exception;
-  public SSVideo                 videoGet            (final SSVideoUserGetPar            par) throws Exception;
-  public List<SSEntity>          videosGet           (final SSVideosUserGetPar           par) throws Exception;
-  public SSUri                   videoAnnotationAdd  (final SSVideoUserAnnotationAddPar  par) throws Exception;
-  public SSVideoAnnotation       videoAnnotationGet  (final SSVideoAnnotationGetPar      par) throws Exception;
-  public List<SSEntity>          videoAnnotationsGet (final SSVideoAnnotationsGetPar     par) throws Exception;
-  public List<SSUri>             videoAnnotationsSet (final SSVideoAnnotationsSetPar     par) throws Exception;
+  public SSUri                   videoAdd            (final SSVideoUserAddPar            par) throws SSErr;
+  public SSVideo                 videoGet            (final SSVideoUserGetPar            par) throws SSErr;
+  public List<SSEntity>          videosGet           (final SSVideosUserGetPar           par) throws SSErr;
+  public SSUri                   videoAnnotationAdd  (final SSVideoUserAnnotationAddPar  par) throws SSErr;
+  public SSVideoAnnotation       videoAnnotationGet  (final SSVideoAnnotationGetPar      par) throws SSErr;
+  public List<SSEntity>          videoAnnotationsGet (final SSVideoAnnotationsGetPar     par) throws SSErr;
+  public List<SSUri>             videoAnnotationsSet (final SSVideoAnnotationsSetPar     par) throws SSErr;
 }

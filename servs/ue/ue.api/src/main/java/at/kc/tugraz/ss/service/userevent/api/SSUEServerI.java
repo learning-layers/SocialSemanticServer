@@ -26,16 +26,17 @@ import at.kc.tugraz.ss.service.userevent.datatypes.pars.SSUECountGetPar;
 import at.kc.tugraz.ss.service.userevent.datatypes.pars.SSUEGetPar;
 import at.kc.tugraz.ss.service.userevent.datatypes.pars.SSUEsGetPar;
 import at.tugraz.sss.serv.SSEntity;
+import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSServServerI;
 import at.tugraz.sss.serv.SSUri;
 import java.util.List;
 
 public interface SSUEServerI extends SSServServerI{
 
-  public SSUE            userEventGet               (final SSUEGetPar      par) throws Exception;
-  public SSUri           userEventAdd               (final SSUEAddPar      par) throws Exception;
-  public Integer         userEventCountGet          (final SSUECountGetPar par) throws Exception;
-  public List<SSEntity>  userEventsGet              (final SSUEsGetPar     par) throws Exception;
+  public SSUE            userEventGet               (final SSUEGetPar      par) throws SSErr;
+  public SSUri           userEventAdd               (final SSUEAddPar      par) throws SSErr;
+  public Integer         userEventCountGet          (final SSUECountGetPar par) throws SSErr;
+  public List<SSEntity>  userEventsGet              (final SSUEsGetPar     par) throws SSErr;
   
 //  addUserEvent(shouldCommit, user, SSUserEventEnum.appearsInSearchResult, resource, strU.empty);
 //  addUserEvent(shouldCommit, user, SSUserEventEnum.shareCollection, coll, strU.empty);

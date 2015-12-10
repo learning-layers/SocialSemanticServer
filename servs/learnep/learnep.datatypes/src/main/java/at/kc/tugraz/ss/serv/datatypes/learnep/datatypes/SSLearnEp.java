@@ -23,6 +23,7 @@ package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSEntityE;
+import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.SSTextComment;
 import java.util.List;
@@ -43,27 +44,27 @@ public class SSLearnEp extends SSEntity {
   
   public static SSLearnEp get(
     final SSLearnEp learnEp, 
-    final SSEntity  entity) throws Exception{
+    final SSEntity  entity) throws SSErr{
     
     return new SSLearnEp(learnEp, entity);
   }
    
   public static SSLearnEp get(
-    final SSUri           id) throws Exception{
+    final SSUri           id) throws SSErr{
     
     return new SSLearnEp(id);
   }
   
   public static SSLearnEp get(
     final SSUri           id,
-    final List<SSEntity>  versions) throws Exception{
+    final List<SSEntity>  versions) throws SSErr {
     
     return new SSLearnEp(id, versions);
   }
   
   protected SSLearnEp(
     final SSUri                  id,
-    final List<SSEntity>         versions) throws Exception{
+    final List<SSEntity>         versions) throws SSErr {
     
     super(id, SSEntityE.learnEp);
     
@@ -72,13 +73,13 @@ public class SSLearnEp extends SSEntity {
   
   protected SSLearnEp(
     final SSLearnEp   learnEp,
-    final SSEntity    entity) throws Exception{
+    final SSEntity    entity) throws SSErr {
     
     super(learnEp, entity);
   }
   
   protected SSLearnEp(
-    final SSUri id) throws Exception{
+    final SSUri id) throws SSErr{
     
     super(id, SSEntityE.learnEp);
   }
@@ -88,7 +89,7 @@ public class SSLearnEp extends SSEntity {
     final SSLabel       label,
     final SSTextComment description,
     final Long          creationTime,
-    final SSEntity      author) throws Exception{
+    final SSEntity      author) throws SSErr{
     
     return new SSLearnEp(
       id,
@@ -103,7 +104,7 @@ public class SSLearnEp extends SSEntity {
     final SSLabel       label,
     final SSTextComment description,
     final Long          creationTime,
-    final SSEntity      author) throws Exception{
+    final SSEntity      author) throws SSErr{
     
     super(
       id,

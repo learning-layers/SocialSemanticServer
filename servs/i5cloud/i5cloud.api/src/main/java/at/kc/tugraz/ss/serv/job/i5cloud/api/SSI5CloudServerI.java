@@ -20,15 +20,16 @@
 */
 package at.kc.tugraz.ss.serv.job.i5cloud.api;
 
+import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServServerI;
 import java.util.List;
 import java.util.Map;
 
 public interface SSI5CloudServerI extends SSServServerI{
-  public Map<String, String> i5CloudAuth                            (final SSServPar parA) throws Exception;
-  public Boolean             i5CloudFileUpload                      (final SSServPar parA) throws Exception;
-  public Boolean             i5CloudFileDownload                    (final SSServPar parA) throws Exception;
-  public String              i5CloudAchsoVideoInformationGet        (final SSServPar parA) throws Exception;
-  public List<String>        i5CloudAchsoSemanticAnnotationsSetGet  (final SSServPar parA) throws Exception;
+  public Map<String, String> i5CloudAuth                            (final SSServPar parA) throws SSErr;
+  public Boolean             i5CloudFileUpload                      (final SSServPar parA) throws SSErr;
+  public Boolean             i5CloudFileDownload                    (final SSServPar parA) throws SSErr;
+  public String              i5CloudAchsoVideoInformationGet        (final SSServPar parA) throws SSErr;
+  public List<String>        i5CloudAchsoSemanticAnnotationsSetGet  (final SSServPar parA) throws SSErr;
 }

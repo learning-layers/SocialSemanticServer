@@ -1,23 +1,23 @@
-/**
-* Code contributed to the Learning Layers project
-* http://www.learning-layers.eu
-* Development is partly funded by the FP7 Programme of the European Commission under
-* Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
-* For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
-*
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-* http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*/
+ /**
+  * Code contributed to the Learning Layers project
+  * http://www.learning-layers.eu
+  * Development is partly funded by the FP7 Programme of the European Commission under
+  * Grant Agreement FP7-ICT-318209.
+  * Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+  * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
+  *
+  * Licensed under the Apache License, Version 2.0 (the "License");
+  * you may not use this file except in compliance with the License.
+  * You may obtain a copy of the License at
+  *
+  * http://www.apache.org/licenses/LICENSE-2.0
+  *
+  * Unless required by applicable law or agreed to in writing, software
+  * distributed under the License is distributed on an "AS IS" BASIS,
+  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  * See the License for the specific language governing permissions and
+  * limitations under the License.
+  */
 package at.kc.tugraz.ss.message.impl;
 
 import at.tugraz.sss.serv.SSDateU;
@@ -59,17 +59,17 @@ import at.tugraz.sss.util.SSServCallerU;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SSMessageImpl 
-extends 
-  SSServImplWithDBA 
-implements 
-  SSMessageClientI, 
-  SSMessageServerI, 
+public class SSMessageImpl
+extends
+  SSServImplWithDBA
+implements
+  SSMessageClientI,
+  SSMessageServerI,
   SSDescribeEntityI{
   
   private final SSMessageSQLFct  sqlFct;
   private final SSEntityServerI  entityServ;
-
+  
   public SSMessageImpl(final SSConfA conf) throws SSErr{
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
     
@@ -79,8 +79,8 @@ implements
   
   @Override
   public SSEntity describeEntity(
-    final SSEntity             entity, 
-    final SSEntityDescriberPar par) throws Exception{
+    final SSEntity             entity,
+    final SSEntityDescriberPar par) throws SSErr{
     
     try{
       
@@ -99,7 +99,7 @@ implements
                 par.withUserRestriction,
                 false))); //invokeEntityHandlers
       }
-
+      
       switch(entity.type){
         
         case message:{
@@ -127,7 +127,7 @@ implements
   }
   
   @Override
-  public SSMessage messageGet(final SSMessageGetPar par) throws Exception{
+  public SSMessage messageGet(final SSMessageGetPar par) throws SSErr{
     
     try{
       
@@ -144,8 +144,8 @@ implements
         descPar.setRead = true;
       }else{
         descPar = null;
-      }      
-
+      }
+      
       final SSEntity messageEntity =
         entityServ.entityGet(
           new SSEntityGetPar(
@@ -154,7 +154,7 @@ implements
             par.withUserRestriction,
             descPar));
       
-      message = 
+      message =
         SSMessage.get(
           message,
           messageEntity);
@@ -188,19 +188,25 @@ implements
       return null;
     }
   }
-    
+  
   @Override
-  public void messagesGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
+  public void messagesGet(final SSSocketCon sSCon, final SSServPar parA) throws SSErr {
     
-    SSServCallerU.checkKey(parA);
-    
-    final SSMessagesGetPar par = (SSMessagesGetPar) parA.getFromJSON(SSMessagesGetPar.class);
-    
-    sSCon.writeRetFullToClient(SSMessagesGetRet.get(messagesGet(par), SSDateU.dateAsLong()));
+    try{
+      
+      SSServCallerU.checkKey(parA);
+      
+      final SSMessagesGetPar par = (SSMessagesGetPar) parA.getFromJSON(SSMessagesGetPar.class);
+      
+      sSCon.writeRetFullToClient(SSMessagesGetRet.get(messagesGet(par), SSDateU.dateAsLong()));
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
   }
   
   @Override
-  public List<SSEntity> messagesGet(final SSMessagesGetPar par) throws Exception{
+  public List<SSEntity> messagesGet(final SSMessagesGetPar par) throws SSErr{
     
     //TODO implement including message the user sent
     try{
@@ -209,7 +215,7 @@ implements
         throw SSErr.get(SSErrE.parameterMissing);
       }
       
-       if(par.withUserRestriction){
+      if(par.withUserRestriction){
         
         if(!SSStrU.equals(par.forUser, par.user)){
           par.forUser = par.user;
@@ -245,7 +251,7 @@ implements
       messages.stream().filter((message)->(message.read == false)).forEach((message)->{
         result.add(message);
       });
-
+      
       return result;
       
     }catch(Exception error){
@@ -255,25 +261,31 @@ implements
   }
   
   @Override
-  public void messageSend(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
+  public void messageSend(final SSSocketCon sSCon, final SSServPar parA) throws SSErr {
     
-    SSServCallerU.checkKey(parA);
-    
-    final SSMessageSendPar par        = (SSMessageSendPar) parA.getFromJSON(SSMessageSendPar.class);
-    final SSUri            messageURI = messageSend(par);
+    try{
       
-    sSCon.writeRetFullToClient(SSMessageSendRet.get(messageURI));
-    
-    SSMessageActivityFct.messageSend(
-      par.user, 
-      par.forUser, 
-      messageURI, 
-      par.message,
-      par.shouldCommit);
+      SSServCallerU.checkKey(parA);
+      
+      final SSMessageSendPar par        = (SSMessageSendPar) parA.getFromJSON(SSMessageSendPar.class);
+      final SSUri            messageURI = messageSend(par);
+      
+      sSCon.writeRetFullToClient(SSMessageSendRet.get(messageURI));
+      
+      SSMessageActivityFct.messageSend(
+        par.user,
+        par.forUser,
+        messageURI,
+        par.message,
+        par.shouldCommit);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
   }
   
   @Override
-  public SSUri messageSend(final SSMessageSendPar par) throws Exception{
+  public SSUri messageSend(final SSMessageSendPar par) throws SSErr{
     
     try{
       
@@ -307,13 +319,13 @@ implements
       
       entityServ.entityShare(
         new SSEntitySharePar(
-          par.user, 
-          message, 
+          par.user,
+          message,
           SSUri.asListNotNull(par.forUser),  //users
           null,  //circles
-          false, //setPublic, 
-          null, //comment, 
-          par.withUserRestriction, //withUserRestriction, 
+          false, //setPublic,
+          null, //comment,
+          par.withUserRestriction, //withUserRestriction,
           false)); //shouldCommit));
       
       dbSQL.commit(par.shouldCommit);

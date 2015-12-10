@@ -107,7 +107,7 @@ implements
   
   private Boolean addBitsAndPiecesEvernoteImport(
     final String authToken,
-    final String authEmail) throws Exception{
+    final String authEmail) throws SSErr{
     
     try{
       
@@ -135,7 +135,7 @@ implements
     }
   }
   
-  private void removeBitsAndPiecesEvernoteImport(final String authToken) throws Exception{
+  private void removeBitsAndPiecesEvernoteImport(final String authToken) throws SSErr{
     
     try{
       bitsAndPiecesEvernoteImportsLock.writeLock().lock();
@@ -156,7 +156,7 @@ implements
   
   private Boolean addBitsAndPiecesEmailImport(
     final String authToken,
-    final String authEmail) throws Exception{
+    final String authEmail) throws SSErr{
     
     try{
       
@@ -184,7 +184,7 @@ implements
     }
   }
   
-  private void removeBitsAndPiecesEmailImport(final String authToken) throws Exception{
+  private void removeBitsAndPiecesEmailImport(final String authToken) throws SSErr{
     
     try{
       bitsAndPiecesEmailsImportsLock.writeLock().lock();
@@ -204,7 +204,7 @@ implements
   }
   
   @Override
-  public Boolean dataImportBitsAndPieces(final SSDataImportBitsAndPiecesPar par) throws Exception{
+  public Boolean dataImportBitsAndPieces(final SSDataImportBitsAndPiecesPar par) throws SSErr{
     
     try{
       
@@ -345,24 +345,15 @@ implements
   }
   
   @Override
-  public Map<String, String> dataImportSSSUsersFromCSVFile(final SSServPar parA) throws Exception{
-    
-    final SSDataImportSSSUsersFromCSVFilePar par = new SSDataImportSSSUsersFromCSVFilePar(parA);
-    final List<String[]>                     lines;
+  public Map<String, String> dataImportSSSUsersFromCSVFile(final SSServPar parA) throws SSErr{
     
     try{
-      lines = SSDataImportReaderFct.readAllFromCSV(SSFileU.dirWorking(), par.fileName);
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-      
-    final Map<String, String> passwordPerUser = new HashMap<>();
-    
-    try{
+      final SSDataImportSSSUsersFromCSVFilePar par             = new SSDataImportSSSUsersFromCSVFilePar(parA);
+      final List<String[]>                     lines           = SSDataImportReaderFct.readAllFromCSV(SSFileU.dirWorking(), par.fileName);
+      final Map<String, String>                passwordPerUser = new HashMap<>();
       
       for(String[] line : lines){
-
+        
         try{
           passwordPerUser.put(line[0].trim(), line[1].trim());
         }catch(Exception error){
@@ -377,50 +368,41 @@ implements
   }
   
   @Override
-  public void dataImportMediaWikiUser(final SSServPar parA) throws Exception{
+  public void dataImportMediaWikiUser(final SSServPar parA) throws SSErr{
 
-    final SSDataImportMediaWikiUserPar par         = new SSDataImportMediaWikiUserPar(parA);
-    final List<String[]>               lines;
-    
     try{
-      lines = SSDataImportReaderFct.readAllFromCSV(SSFileU.dirWorkingDataCsv(), ((SSDataImportConf)conf).fileName);
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return;
-    }
-    
-    String firstName;
-    String familyName;
-    String password;
-    String userName;
-    
-    try{
+      
+      final SSDataImportMediaWikiUserPar par   = new SSDataImportMediaWikiUserPar(parA);
+      final List<String[]>               lines = SSDataImportReaderFct.readAllFromCSV(SSFileU.dirWorkingDataCsv(), ((SSDataImportConf)conf).fileName);
+      String firstName;
+      String familyName;
+      String password;
+      String userName;
       
       dbSQL.startTrans(par.shouldCommit);
       
       for(String[] line : lines){
-
+        
         try{
           firstName  = line[0].trim();
           familyName = line[1].trim();
           password   = line[2].trim();
           userName   = firstName + familyName;
           
-          userName = userName.replaceAll("[^a-zA-Z0-9]+", SSStrU.empty); 
+          userName = userName.replaceAll("[^a-zA-Z0-9]+", SSStrU.empty);
           
           System.out.println(userName);
           
         }catch(Exception error){
           continue;
         }
-
+        
         sqlFct.addUserWithGroup(userName, password);
       }
       
       dbSQL.commit(par.shouldCommit);
       
-      
-      }catch(Exception error){
+    }catch(Exception error){
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
@@ -442,7 +424,7 @@ implements
   
   //TODO dtheiler: add transactions here
   @Override
-  public void dataImportAchso(final SSServPar parA) throws Exception {
+  public void dataImportAchso(final SSServPar parA) throws SSErr {
     
     try{
       final SSAuthServerI             authServ     = (SSAuthServerI) SSServReg.getServ(SSAuthServerI.class);
@@ -525,7 +507,7 @@ implements
   }
   
   @Override
-  public Map<String, SSKCProjWikiVorgang> dataImportKCProjWikiVorgaenge(final SSDataImportKCProjWikiVorgaengePar par) throws Exception{
+  public Map<String, SSKCProjWikiVorgang> dataImportKCProjWikiVorgaenge(final SSDataImportKCProjWikiVorgaengePar par) throws SSErr{
     
     try{
       final Map<String, SSKCProjWikiVorgang> vorgaenge = new HashMap<>();
@@ -622,7 +604,7 @@ implements
   }
   
   @Override
-  public List<SSEvalLogEntry> dataImportEvalLogFile(final SSDataImportEvalLogFilePar par) throws Exception{
+  public List<SSEvalLogEntry> dataImportEvalLogFile(final SSDataImportEvalLogFilePar par) throws SSErr{
     
     try{
       final List<SSEvalLogEntry>             logEntries  = new ArrayList<>();
@@ -698,7 +680,7 @@ implements
   }
   
   @Override
-  public Map<String, SSKCProjWikiProject> dataImportKCProjWikiProjects(final SSDataImportKCProjWikiProjectsPar par) throws Exception{
+  public Map<String, SSKCProjWikiProject> dataImportKCProjWikiProjects(final SSDataImportKCProjWikiProjectsPar par) throws SSErr{
     
     try{
       final List<String[]>      lines;
@@ -778,7 +760,7 @@ implements
 //    }
 
 //@Override
-//  public Boolean dataImportUserResourceTagFromWikipedia(final SSServPar parA) throws Exception {
+//  public Boolean dataImportUserResourceTagFromWikipedia(final SSServPar parA) throws SSErr {
 //    
 //    final SSAuthServerI                               authServ      = (SSAuthServerI) SSServReg.getServ(SSAuthServerI.class);
 //    final SSDataImportUserResourceTagFromWikipediaPar par           = new SSDataImportUserResourceTagFromWikipediaPar(parA);

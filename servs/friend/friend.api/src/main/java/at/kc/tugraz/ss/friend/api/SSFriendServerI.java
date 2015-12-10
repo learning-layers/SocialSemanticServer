@@ -26,12 +26,13 @@ import at.kc.tugraz.ss.friend.datatypes.par.SSFriendAddPar;
 import at.tugraz.sss.serv.SSUri;
 import at.kc.tugraz.ss.friend.datatypes.par.SSFriendsGetPar;
 import at.tugraz.sss.serv.SSEntity;
+import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSServServerI;
 import java.util.List;
 
 public interface SSFriendServerI extends SSServServerI{
 
-  public SSFriend           friendGet             (final SSFriendGetPar     par) throws Exception;
-  public SSUri              friendAdd             (final SSFriendAddPar     par) throws Exception;
-  public List<SSEntity>     friendsGet            (final SSFriendsGetPar    par) throws Exception;
+  public SSFriend           friendGet             (final SSFriendGetPar     par) throws SSErr;
+  public SSUri              friendAdd             (final SSFriendAddPar     par) throws SSErr;
+  public List<SSEntity>     friendsGet            (final SSFriendsGetPar    par) throws SSErr;
 }

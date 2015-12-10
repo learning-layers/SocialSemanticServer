@@ -25,6 +25,7 @@ import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileDownloadPar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileUploadPar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileAddRet;
 import at.tugraz.sss.serv.SSEntity;
+import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSServServerI;
 import at.tugraz.sss.servs.file.datatype.par.SSEntityFileAddPar;
 import at.tugraz.sss.servs.file.datatype.par.SSFileGetPar;
@@ -33,9 +34,9 @@ import java.util.List;
 
 public interface SSFileRepoServerI extends SSServServerI{
 
-  public SSFileAddRet   fileAdd                  (final SSEntityFileAddPar      par) throws Exception;
-  public SSFile         fileGet                  (final SSFileGetPar            par) throws Exception;
-  public List<SSEntity> filesGet                 (final SSEntityFilesGetPar     par) throws Exception;
-  public void           fileDownload             (final SSFileDownloadPar       par) throws Exception;
-  public void           fileUpload               (final SSFileUploadPar         par) throws Exception;
+  public SSFileAddRet   fileAdd                  (final SSEntityFileAddPar      par) throws SSErr;
+  public SSFile         fileGet                  (final SSFileGetPar            par) throws SSErr;
+  public List<SSEntity> filesGet                 (final SSEntityFilesGetPar     par) throws SSErr;
+  public void           fileDownload             (final SSFileDownloadPar       par) throws SSErr;
+  public void           fileUpload               (final SSFileUploadPar         par) throws SSErr;
 }

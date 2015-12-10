@@ -26,14 +26,15 @@ import at.kc.tugraz.sss.app.datatypes.par.SSAppGetPar;
 import at.kc.tugraz.sss.app.datatypes.par.SSAppsDeletePar;
 import at.kc.tugraz.sss.app.datatypes.par.SSAppsGetPar;
 import at.tugraz.sss.serv.SSEntity;
+import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServServerI;
 import java.util.List;
 
 public interface SSAppServerI extends SSServServerI{
   
-  public SSApp           appGet      (final SSAppGetPar     par) throws Exception;
-  public List<SSEntity>  appsGet     (final SSAppsGetPar    par) throws Exception;
-  public List<SSUri>     appsDelete  (final SSAppsDeletePar par) throws Exception;
-  public SSUri           appAdd      (final SSAppAddPar     par) throws Exception;
+  public SSApp           appGet      (final SSAppGetPar     par) throws SSErr;
+  public List<SSEntity>  appsGet     (final SSAppsGetPar    par) throws SSErr;
+  public List<SSUri>     appsDelete  (final SSAppsDeletePar par) throws SSErr;
+  public SSUri           appAdd      (final SSAppAddPar     par) throws SSErr;
 }

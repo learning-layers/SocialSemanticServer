@@ -23,6 +23,7 @@ package at.kc.tugraz.sss.comment.api;
 import at.kc.tugraz.sss.comment.datatypes.par.SSCommentEntitiesGetPar;
 import at.kc.tugraz.sss.comment.datatypes.par.SSCommentsAddPar;
 import at.kc.tugraz.sss.comment.datatypes.par.SSCommentsGetPar;
+import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServServerI;
@@ -30,7 +31,7 @@ import java.util.List;
 
 public interface SSCommentServerI extends SSServServerI{
 
-  public List<SSTextComment> commentsGet          (final SSCommentsGetPar        par) throws Exception;
-  public List<SSUri>         commentEntitiesGet   (final SSCommentEntitiesGetPar par) throws Exception;
-  public SSUri               commentsAdd          (final SSCommentsAddPar        par) throws Exception;
+  public List<SSTextComment> commentsGet          (final SSCommentsGetPar        par) throws SSErr;
+  public List<SSUri>         commentEntitiesGet   (final SSCommentEntitiesGetPar par) throws SSErr;
+  public SSUri               commentsAdd          (final SSCommentsAddPar        par) throws SSErr;
 }

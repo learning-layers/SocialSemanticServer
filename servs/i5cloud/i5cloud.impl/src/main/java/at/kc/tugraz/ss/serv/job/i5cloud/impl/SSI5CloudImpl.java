@@ -42,9 +42,12 @@ import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSErr;
+import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServImplWithDBA;
+import at.tugraz.sss.serv.SSWarnE;
 import i5.las.httpConnector.client.TimeoutException;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -64,14 +67,16 @@ implements
   }
   
   @Override
-  public Map<String, String> i5CloudAuth(final SSServPar parA) throws Exception{
-    
-    final SSI5CloudAuthPar    par         = new SSI5CloudAuthPar(parA);
-    final Map<String, String> messageBody = new HashMap<>();
-    final HttpURLConnection   con;
-    OutputStream              out         = null;
+  public Map<String, String> i5CloudAuth(final SSServPar parA) throws SSErr{
+
+    OutputStream out = null;
     
     try{
+      
+      final SSI5CloudAuthPar    par         = new SSI5CloudAuthPar(parA);
+      final Map<String, String> messageBody = new HashMap<>();
+      final HttpURLConnection   con;
+      
       messageBody.put(SSVarNames.username, ((SSI5CloudConf)conf).userLabel);
       messageBody.put(SSVarNames.password, ((SSI5CloudConf)conf).pass);
       
@@ -91,15 +96,20 @@ implements
       SSServErrReg.regErrThrow(error);
       return null;
     }finally{
-     
+      
       if(out != null){
-        out.close();
+        
+        try {
+          out.close();
+        } catch (IOException ioError) {
+          SSLogU.warn(SSWarnE.outputStreamCloseFailed, ioError);
+        }
       }
     }
   }
   
   @Override
-  public Boolean i5CloudFileUpload(final SSServPar parA) throws Exception{
+  public Boolean i5CloudFileUpload(final SSServPar parA) throws SSErr{
     
     try{
       final SSI5CloudFileUploadPar par        = new SSI5CloudFileUploadPar(parA);
@@ -130,21 +140,20 @@ implements
   }
   
   @Override
-  public Boolean i5CloudFileDownload(final SSServPar parA) throws Exception{
-    
-    final SSI5CloudFileDownloadPar par   = new SSI5CloudFileDownloadPar(parA);
-    final HttpURLConnection        i5CloudCon;     
+  public Boolean i5CloudFileDownload(final SSServPar parA) throws SSErr{
     
     try{
+      final SSI5CloudFileDownloadPar par   = new SSI5CloudFileDownloadPar(parA);
+      final HttpURLConnection        i5CloudCon;
       
       i5CloudCon = (HttpURLConnection) new URL(SSFileU.correctDirPath(((SSI5CloudConf)conf).uri) + "storage/" + par.space + SSStrU.slash + par.label).openConnection();
-
+      
       i5CloudCon.setRequestProperty  (SSHTMLU.xAuthToken,  par.authToken);
-    
+      
       SSFileU.writeFileBytes(
-        SSFileU.openOrCreateFileWithPathForWrite(SSFileU.dirWorkingTmp() + par.label), 
+        SSFileU.openOrCreateFileWithPathForWrite(SSFileU.dirWorkingTmp() + par.label),
         i5CloudCon.getInputStream());
-
+      
       return true;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -153,7 +162,7 @@ implements
   }
   
   @Override
-  public String i5CloudAchsoVideoInformationGet(final SSServPar parA) throws Exception{
+  public String i5CloudAchsoVideoInformationGet(final SSServPar parA) throws SSErr{
     
     try{
       if(
@@ -176,7 +185,7 @@ implements
   }
   
   @Override
-  public List<String> i5CloudAchsoSemanticAnnotationsSetGet(final SSServPar parA) throws Exception{
+  public List<String> i5CloudAchsoSemanticAnnotationsSetGet(final SSServPar parA) throws SSErr{
     
     try{
       final SSI5CloudAchsoSemanticAnnotationsSetGetPar par                     = new SSI5CloudAchsoSemanticAnnotationsSetGetPar(parA);

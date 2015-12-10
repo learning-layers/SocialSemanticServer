@@ -1,23 +1,23 @@
-/**
-* Code contributed to the Learning Layers project
-* http://www.learning-layers.eu
-* Development is partly funded by the FP7 Programme of the European Commission under
-* Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
-* For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
-*
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-* http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*/
+ /**
+  * Code contributed to the Learning Layers project
+  * http://www.learning-layers.eu
+  * Development is partly funded by the FP7 Programme of the European Commission under
+  * Grant Agreement FP7-ICT-318209.
+  * Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+  * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
+  *
+  * Licensed under the Apache License, Version 2.0 (the "License");
+  * you may not use this file except in compliance with the License.
+  * You may obtain a copy of the License at
+  *
+  * http://www.apache.org/licenses/LICENSE-2.0
+  *
+  * Unless required by applicable law or agreed to in writing, software
+  * distributed under the License is distributed on an "AS IS" BASIS,
+  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  * See the License for the specific language governing permissions and
+  * limitations under the License.
+  */
 package at.kc.tugraz.sss.app.impl;
 
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
@@ -63,26 +63,26 @@ import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.servs.image.api.SSImageServerI;
 import at.tugraz.sss.servs.image.datatype.par.SSImageAddPar;
 
-public class SSAppImpl 
-extends SSServImplWithDBA 
-implements 
-  SSAppClientI, 
-  SSAppServerI, 
+public class SSAppImpl
+extends SSServImplWithDBA
+implements
+  SSAppClientI,
+  SSAppServerI,
   SSDescribeEntityI{
   
   private final SSAppSQLFct sqlFct;
   
   public SSAppImpl(final SSConfA conf) throws SSErr{
-
+    
     super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
-
+    
     this.sqlFct = new SSAppSQLFct(dbSQL);
   }
   
   @Override
   public SSEntity describeEntity(
     final SSEntity             entity,
-    final SSEntityDescriberPar par) throws Exception{
+    final SSEntityDescriberPar par) throws SSErr{
     
     try{
       switch(entity.type){
@@ -119,73 +119,78 @@ implements
   }
   
   @Override
-  public void appAdd(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
-    
-    SSServCallerU.checkKey(parA);
-    
-    final SSAppAddPar         par       = (SSAppAddPar) parA.getFromJSON(SSAppAddPar.class);
-    final SSUri               app       = appAdd(par);
-    final SSImageServerI      imageServ = (SSImageServerI) SSServReg.getServ(SSImageServerI.class);
-    final SSVideoServerI      videoServ = (SSVideoServerI) SSServReg.getServ(SSVideoServerI.class);
-    
-    if(!par.downloads.isEmpty()){
-      
-      ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityDownloadsAdd(
-        new SSEntityDownloadsAddPar(
-          par.user,
-          app,
-          par.downloads,
-          par.withUserRestriction,
-          par.shouldCommit));
-    }
-    
-    for(SSUri screenshot : par.screenShots){
-      
-      imageServ.imageAdd(
-        new SSImageAddPar(
-          par.user,
-          null,  //uuid
-          screenshot, //link
-          SSImageE.screenShot, //image type
-          app, //forEntity
-          null, //file
-          false, //createThumb
-          false, //isImageToAddTheThumb
-          false, //removeThumbsFromEntity
-          par.withUserRestriction,
-          par.shouldCommit));
-    }
-    
-    for(SSUri video : par.videos){
-      
-      videoServ.videoAdd(
-        new SSVideoUserAddPar(
-          par.user,
-          null, //uuid
-          video, //link
-		  null, //videoType
-          app,  //forEntity
-          null, //genre
-          null, //label
-          null, //description
-          null, //creationTime
-          null, //file
-          par.withUserRestriction,
-          par.shouldCommit));
-    }
-    
-    sSCon.writeRetFullToClient(SSAppAddRet.get(app));
-  }
-
-  @Override
-  public SSUri appAdd(final SSAppAddPar par) throws Exception{
+  public void appAdd(final SSSocketCon sSCon, final SSServPar parA) throws SSErr{
     
     try{
-
+      SSServCallerU.checkKey(parA);
+      
+      final SSAppAddPar         par       = (SSAppAddPar) parA.getFromJSON(SSAppAddPar.class);
+      final SSUri               app       = appAdd(par);
+      final SSImageServerI      imageServ = (SSImageServerI) SSServReg.getServ(SSImageServerI.class);
+      final SSVideoServerI      videoServ = (SSVideoServerI) SSServReg.getServ(SSVideoServerI.class);
+      
+      if(!par.downloads.isEmpty()){
+        
+        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityDownloadsAdd(
+          new SSEntityDownloadsAddPar(
+            par.user,
+            app,
+            par.downloads,
+            par.withUserRestriction,
+            par.shouldCommit));
+      }
+      
+      for(SSUri screenshot : par.screenShots){
+        
+        imageServ.imageAdd(
+          new SSImageAddPar(
+            par.user,
+            null,  //uuid
+            screenshot, //link
+            SSImageE.screenShot, //image type
+            app, //forEntity
+            null, //file
+            false, //createThumb
+            false, //isImageToAddTheThumb
+            false, //removeThumbsFromEntity
+            par.withUserRestriction,
+            par.shouldCommit));
+      }
+      
+      for(SSUri video : par.videos){
+        
+        videoServ.videoAdd(
+          new SSVideoUserAddPar(
+            par.user,
+            null, //uuid
+            video, //link
+            null, //videoType
+            app,  //forEntity
+            null, //genre
+            null, //label
+            null, //description
+            null, //creationTime
+            null, //file
+            par.withUserRestriction,
+            par.shouldCommit));
+      }
+      
+      sSCon.writeRetFullToClient(SSAppAddRet.get(app));
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  @Override
+  public SSUri appAdd(final SSAppAddPar par) throws SSErr{
+    
+    try{
+      
       final SSEntityServerI  entityServ = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
       
       dbSQL.startTrans(par.shouldCommit);
-
+      
       final SSUri app =
         entityServ.entityUpdate(
           new SSEntityUpdatePar(
@@ -208,10 +213,10 @@ implements
       
       sqlFct.createApp(
         app,
-        par.descriptionShort, 
-        par.descriptionFunctional, 
-        par.descriptionTechnical, 
-        par.descriptionInstall, 
+        par.descriptionShort,
+        par.descriptionFunctional,
+        par.descriptionTechnical,
+        par.descriptionInstall,
         par.downloadIOS,
         par.downloadAndroid,
         par.fork);
@@ -242,7 +247,7 @@ implements
   }
   
   @Override
-  public SSApp appGet(final SSAppGetPar par) throws Exception{
+  public SSApp appGet(final SSAppGetPar par) throws SSErr{
     
     try{
       
@@ -255,7 +260,7 @@ implements
       }else{
         descPar = null;
       }
-
+      
       final SSApp app = sqlFct.getApp(par.app);
       
       if(app == null){
@@ -276,7 +281,7 @@ implements
         appEntity); //descPar)));
       
 //      if(par.invokeEntityHandlers)
-            //TODO handle
+      //TODO handle
 //        entity.downloads.addAll(
 //          SSServCaller.entityDownloadURIsGet(
 //            par.user,
@@ -305,17 +310,22 @@ implements
   }
   
   @Override
-  public void appsGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
+  public void appsGet(final SSSocketCon sSCon, final SSServPar parA) throws SSErr{
     
-    SSServCallerU.checkKey(parA);
-    
-    final SSAppsGetPar par = (SSAppsGetPar) parA.getFromJSON(SSAppsGetPar.class);
+    try{
+      SSServCallerU.checkKey(parA);
       
-    sSCon.writeRetFullToClient(SSAppsGetRet.get(appsGet(par)));
+      final SSAppsGetPar par = (SSAppsGetPar) parA.getFromJSON(SSAppsGetPar.class);
+      
+      sSCon.writeRetFullToClient(SSAppsGetRet.get(appsGet(par)));
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
   }
   
   @Override
-  public List<SSEntity> appsGet(final SSAppsGetPar par) throws Exception{
+  public List<SSEntity> appsGet(final SSAppsGetPar par) throws SSErr{
     
     try{
       final List<SSEntity>       apps     = new ArrayList<>();
@@ -344,23 +354,26 @@ implements
   }
   
   @Override
-  public void appsDelete(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
+  public void appsDelete(final SSSocketCon sSCon, final SSServPar parA) throws SSErr {
     
-    SSServCallerU.checkKey(parA);
-    
-    final SSAppsDeletePar par = (SSAppsDeletePar) parA.getFromJSON(SSAppsDeletePar.class);
+    try{
+      SSServCallerU.checkKey(parA);
       
-    sSCon.writeRetFullToClient(SSAppsDeleteRet.get(appsDelete(par)));
-    
+      final SSAppsDeletePar par = (SSAppsDeletePar) parA.getFromJSON(SSAppsDeletePar.class);
+      
+      sSCon.writeRetFullToClient(SSAppsDeleteRet.get(appsDelete(par)));
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
   }
-
+  
   @Override
-  public List<SSUri> appsDelete(final SSAppsDeletePar par) throws Exception {
+  public List<SSUri> appsDelete(final SSAppsDeletePar par) throws SSErr {
     
     try{
       
       dbSQL.startTrans(par.shouldCommit);
-
+      
       sqlFct.removeApps(par.apps);
       
       dbSQL.commit(par.shouldCommit);

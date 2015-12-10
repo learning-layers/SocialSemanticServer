@@ -76,7 +76,7 @@ implements
   }
 
   @Override
-  public void evalAnalyze(final SSEvalAnalyzePar par) throws Exception{
+  public void evalAnalyze(final SSEvalAnalyzePar par) throws SSErr{
     
     try{
       final SSDataImportServerI dataImportServ = (SSDataImportServerI) SSServReg.getServ(SSDataImportServerI.class);
@@ -114,17 +114,21 @@ implements
   }
   
   @Override
-  public void evalLog(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
+  public void evalLog(final SSSocketCon sSCon, final SSServPar parA) throws SSErr{
 
-    SSServCallerU.checkKey(parA);
+    try{
+      SSServCallerU.checkKey(parA);
 
-    final SSEvalLogPar par = (SSEvalLogPar) parA.getFromJSON(SSEvalLogPar.class);
-    
-    sSCon.writeRetFullToClient(SSEvalLogRet.get(evalLog(par)));
+      final SSEvalLogPar par = (SSEvalLogPar) parA.getFromJSON(SSEvalLogPar.class);
+
+      sSCon.writeRetFullToClient(SSEvalLogRet.get(evalLog(par)));
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
   }
 
   @Override
-  public Boolean evalLog(final SSEvalLogPar par) throws Exception{
+  public Boolean evalLog(final SSEvalLogPar par) throws SSErr{
     
     try{
       

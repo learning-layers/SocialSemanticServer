@@ -69,7 +69,7 @@ implements
   @Override
   public SSEntity describeEntity(
     final SSEntity             entity, 
-    final SSEntityDescriberPar par) throws Exception{
+    final SSEntityDescriberPar par) throws SSErr{
     
     try{
       
@@ -92,7 +92,7 @@ implements
   }
   
   @Override
-  public SSLikes likesGet(final SSLikesUserGetPar par) throws Exception{
+  public SSLikes likesGet(final SSLikesUserGetPar par) throws SSErr{
     
     try{
       
@@ -131,17 +131,22 @@ implements
   }
   
   @Override
-  public void likeSet(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
+  public void likeSet(final SSSocketCon sSCon, final SSServPar parA) throws SSErr {
     
-    SSServCallerU.checkKey(parA);
-    
-    final SSLikeUserSetPar par = (SSLikeUserSetPar) parA.getFromJSON(SSLikeUserSetPar.class);
+    try{
+      SSServCallerU.checkKey(parA);
       
-    sSCon.writeRetFullToClient(SSLikeUserSetRet.get(likeSet(par)));
+      final SSLikeUserSetPar par = (SSLikeUserSetPar) parA.getFromJSON(SSLikeUserSetPar.class);
+      
+      sSCon.writeRetFullToClient(SSLikeUserSetRet.get(likeSet(par)));
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
   }
    
   @Override
-  public SSUri likeSet(final SSLikeUserSetPar par) throws Exception{
+  public SSUri likeSet(final SSLikeUserSetPar par) throws SSErr{
     
     try{
 

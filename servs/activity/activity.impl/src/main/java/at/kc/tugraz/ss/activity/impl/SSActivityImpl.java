@@ -1,23 +1,23 @@
-/**
- * Code contributed to the Learning Layers project
- * http://www.learning-layers.eu
- * Development is partly funded by the FP7 Programme of the European Commission under
- * Grant Agreement FP7-ICT-318209.
- * Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
- * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+ /**
+  * Code contributed to the Learning Layers project
+  * http://www.learning-layers.eu
+  * Development is partly funded by the FP7 Programme of the European Commission under
+  * Grant Agreement FP7-ICT-318209.
+  * Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+  * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
+  *
+  * Licensed under the Apache License, Version 2.0 (the "License");
+  * you may not use this file except in compliance with the License.
+  * You may obtain a copy of the License at
+  *
+  * http://www.apache.org/licenses/LICENSE-2.0
+  *
+  * Unless required by applicable law or agreed to in writing, software
+  * distributed under the License is distributed on an "AS IS" BASIS,
+  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  * See the License for the specific language governing permissions and
+  * limitations under the License.
+  */
 package at.kc.tugraz.ss.activity.impl;
 
 import at.tugraz.sss.serv.SSDateU;
@@ -86,7 +86,7 @@ implements
   
   @Override
   public void getUsersResources(
-    final Map<String, List<SSEntityContext>> usersEntities) throws Exception{
+    final Map<String, List<SSEntityContext>> usersEntities) throws SSErr{
     
     try{
       
@@ -143,7 +143,7 @@ implements
   @Override
   public SSEntity describeEntity(
     final SSEntity             entity,
-    final SSEntityDescriberPar par) throws Exception{
+    final SSEntityDescriberPar par) throws SSErr{
     
     try{
       
@@ -255,17 +255,23 @@ implements
   }
   
   @Override
-  public void activityTypesGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
+  public void activityTypesGet(final SSSocketCon sSCon, final SSServPar parA) throws SSErr{
     
-    SSServCallerU.checkKey(parA);
-    
-    final SSActivityTypesGetPar par = (SSActivityTypesGetPar) parA.getFromJSON(SSActivityTypesGetPar.class);
-    
-    sSCon.writeRetFullToClient(SSActivityTypesGetRet.get(activityTypesGet(par)));
+    try{
+      
+      SSServCallerU.checkKey(parA);
+      
+      final SSActivityTypesGetPar par = (SSActivityTypesGetPar) parA.getFromJSON(SSActivityTypesGetPar.class);
+      
+      sSCon.writeRetFullToClient(SSActivityTypesGetRet.get(activityTypesGet(par)));
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
   }
   
   @Override
-  public List<SSActivityE> activityTypesGet(final SSActivityTypesGetPar parA) throws Exception{
+  public List<SSActivityE> activityTypesGet(final SSActivityTypesGetPar parA) throws SSErr{
     
     try{
       return Arrays.asList(SSActivityE.values());
@@ -276,17 +282,23 @@ implements
   }
   
   @Override
-  public void activitiesGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
+  public void activitiesGet(final SSSocketCon sSCon, final SSServPar parA) throws SSErr{
     
-    SSServCallerU.checkKey(parA);
-    
-    final SSActivitiesGetPar par = (SSActivitiesGetPar) parA.getFromJSON(SSActivitiesGetPar.class);
-    
-    sSCon.writeRetFullToClient(SSActivitiesGetRet.get(activitiesGet(par), SSDateU.dateAsLong()));
+    try{
+      
+      SSServCallerU.checkKey(parA);
+      
+      final SSActivitiesGetPar par = (SSActivitiesGetPar) parA.getFromJSON(SSActivitiesGetPar.class);
+      
+      sSCon.writeRetFullToClient(SSActivitiesGetRet.get(activitiesGet(par), SSDateU.dateAsLong()));
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
   }
   
   @Override
-  public List<SSEntity> activitiesGet(final SSActivitiesGetPar par) throws Exception{
+  public List<SSEntity> activitiesGet(final SSActivitiesGetPar par) throws SSErr{
     
     try{
       final List<SSEntity>             activities           = new ArrayList<>();
@@ -359,17 +371,23 @@ implements
   }
   
   @Override
-  public void activityAdd(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
+  public void activityAdd(final SSSocketCon sSCon, final SSServPar parA) throws SSErr{
     
-    SSServCallerU.checkKey(parA);
-    
-    final SSActivityAddPar par = (SSActivityAddPar) parA.getFromJSON(SSActivityAddPar.class);
-    
-    sSCon.writeRetFullToClient(SSActivityAddRet.get(activityAdd(par)));
+    try{
+      
+      SSServCallerU.checkKey(parA);
+      
+      final SSActivityAddPar par = (SSActivityAddPar) parA.getFromJSON(SSActivityAddPar.class);
+      
+      sSCon.writeRetFullToClient(SSActivityAddRet.get(activityAdd(par)));
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
   }
   
   @Override
-  public SSUri activityAdd(final SSActivityAddPar par) throws Exception{
+  public SSUri activityAdd(final SSActivityAddPar par) throws SSErr{
     
     try{
       
@@ -485,7 +503,7 @@ implements
   }
   
   @Override
-  public SSUri activityContentAdd(final SSActivityContentAddPar par) throws Exception{
+  public SSUri activityContentAdd(final SSActivityContentAddPar par) throws SSErr{
     
     try{
       
@@ -527,7 +545,7 @@ implements
   }
   
   @Override
-  public void activityContentsAdd(final SSActivityContentsAddPar par) throws Exception{
+  public void activityContentsAdd(final SSActivityContentsAddPar par) throws SSErr{
     
     try{
       

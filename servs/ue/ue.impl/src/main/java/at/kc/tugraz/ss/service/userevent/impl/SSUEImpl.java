@@ -80,7 +80,7 @@ implements
   
   @Override
   public void getUsersResources(
-    final Map<String, List<SSEntityContext>> usersEntities) throws Exception{
+    final Map<String, List<SSEntityContext>> usersEntities) throws SSErr{
     
     try{
       
@@ -135,7 +135,7 @@ implements
   @Override
   public SSEntity describeEntity(
     final SSEntity             entity, 
-    final SSEntityDescriberPar par) throws Exception{
+    final SSEntityDescriberPar par) throws SSErr{
     
     try{
       
@@ -190,17 +190,22 @@ implements
   }
   
   @Override
-  public void userEventGet(SSSocketCon sSCon, SSServPar parA) throws Exception {
+  public void userEventGet(SSSocketCon sSCon, SSServPar parA) throws SSErr {
     
-    SSServCallerU.checkKey(parA);
-    
-    final SSUEGetPar par = (SSUEGetPar) parA.getFromJSON(SSUEGetPar.class);
-    
-    sSCon.writeRetFullToClient(SSUEGetRet.get(userEventGet(par)));
+    try{
+      SSServCallerU.checkKey(parA);
+      
+      final SSUEGetPar par = (SSUEGetPar) parA.getFromJSON(SSUEGetPar.class);
+      
+      sSCon.writeRetFullToClient(SSUEGetRet.get(userEventGet(par)));
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
   }
     
   @Override
-  public SSUE userEventGet(final SSUEGetPar par) throws Exception {
+  public SSUE userEventGet(final SSUEGetPar par) throws SSErr {
     
     try{
       
@@ -234,17 +239,22 @@ implements
   }
   
   @Override
-  public void userEventsGet(SSSocketCon sSCon, SSServPar parA) throws Exception {
+  public void userEventsGet(SSSocketCon sSCon, SSServPar parA) throws SSErr {
     
-    SSServCallerU.checkKey(parA);
-    
-    final SSUEsGetPar par = (SSUEsGetPar) parA.getFromJSON(SSUEsGetPar.class);
+    try{
+      SSServCallerU.checkKey(parA);
       
-    sSCon.writeRetFullToClient(SSUEsGetRet.get(userEventsGet(par)));
+      final SSUEsGetPar par = (SSUEsGetPar) parA.getFromJSON(SSUEsGetPar.class);
+      
+      sSCon.writeRetFullToClient(SSUEsGetRet.get(userEventsGet(par)));
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
   }
   
   @Override
-  public List<SSEntity> userEventsGet(final SSUEsGetPar par) throws Exception{
+  public List<SSEntity> userEventsGet(final SSUEsGetPar par) throws SSErr{
 
     try{
       
@@ -280,17 +290,23 @@ implements
   }
   
   @Override
-  public void userEventCountGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
+  public void userEventCountGet(final SSSocketCon sSCon, final SSServPar parA) throws SSErr {
     
+    try{
+      
     SSServCallerU.checkKey(parA);
     
     final SSUECountGetPar par = (SSUECountGetPar) parA.getFromJSON(SSUECountGetPar.class);
     
     sSCon.writeRetFullToClient(SSUECountGetRet.get(userEventCountGet(par)));
+    
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
   }
   
   @Override
-  public Integer userEventCountGet(final SSUECountGetPar par) throws Exception {
+  public Integer userEventCountGet(final SSUECountGetPar par) throws SSErr {
 
     //TODO dtheiler: count via db then: count(p.catId) as the_count 
     
@@ -327,17 +343,21 @@ implements
   }
   
   @Override
-  public void userEventAdd(SSSocketCon sSCon, SSServPar parA) throws Exception {
+  public void userEventAdd(SSSocketCon sSCon, SSServPar parA) throws SSErr {
     
-    SSServCallerU.checkKey(parA);
-    
-    final SSUEAddPar par = (SSUEAddPar) parA.getFromJSON(SSUEAddPar.class);
-    
-    sSCon.writeRetFullToClient(SSUEAddRet.get(userEventAdd(par)));
+    try{
+      SSServCallerU.checkKey(parA);
+      
+      final SSUEAddPar par = (SSUEAddPar) parA.getFromJSON(SSUEAddPar.class);
+      
+      sSCon.writeRetFullToClient(SSUEAddRet.get(userEventAdd(par)));
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
   }
   
   @Override
-  public SSUri userEventAdd(final SSUEAddPar par) throws Exception{
+  public SSUri userEventAdd(final SSUEAddPar par) throws SSErr{
     
     try{
 

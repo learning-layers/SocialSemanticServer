@@ -73,7 +73,7 @@ implements
   @Override
   public SSEntity describeEntity(
     final SSEntity             entity,
-    final SSEntityDescriberPar par) throws Exception{
+    final SSEntityDescriberPar par) throws SSErr{
     
     try{
       
@@ -105,7 +105,7 @@ implements
   }
   
   @Override
-  public SSFriend friendGet(final SSFriendGetPar par) throws Exception{
+  public SSFriend friendGet(final SSFriendGetPar par) throws SSErr{
     
     try{
       
@@ -129,17 +129,23 @@ implements
   }
   
   @Override
-  public void friendsGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
+  public void friendsGet(final SSSocketCon sSCon, final SSServPar parA) throws SSErr {
     
-    SSServCallerU.checkKey(parA);
+    try{
+
+      SSServCallerU.checkKey(parA);
     
     final SSFriendsGetPar par = (SSFriendsGetPar) parA.getFromJSON(SSFriendsGetPar.class);
     
     sSCon.writeRetFullToClient(SSFriendsGetRet.get(friendsGet(par)));
+    
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
   }
   
   @Override
-  public List<SSEntity> friendsGet(final SSFriendsGetPar par) throws Exception{
+  public List<SSEntity> friendsGet(final SSFriendsGetPar par) throws SSErr{
     
     try{
       
@@ -164,17 +170,23 @@ implements
   }
   
   @Override
-  public void friendAdd(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
+  public void friendAdd(final SSSocketCon sSCon, final SSServPar parA) throws SSErr {
     
-    SSServCallerU.checkKey(parA);
-    
-    final SSFriendAddPar par = (SSFriendAddPar) parA.getFromJSON(SSFriendAddPar.class);
-    
-    sSCon.writeRetFullToClient(SSFriendAddRet.get(friendAdd(par)));
+    try{
+      
+      SSServCallerU.checkKey(parA);
+      
+      final SSFriendAddPar par = (SSFriendAddPar) parA.getFromJSON(SSFriendAddPar.class);
+      
+      sSCon.writeRetFullToClient(SSFriendAddRet.get(friendAdd(par)));
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
   }
   
   @Override
-  public SSUri friendAdd(final SSFriendAddPar par) throws Exception{
+  public SSUri friendAdd(final SSFriendAddPar par) throws SSErr{
     
     try{
       

@@ -20,6 +20,7 @@
  */
 package at.tugraz.sss.servs.ocd.api;
 
+import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSServServerI;
 import at.tugraz.sss.servs.ocd.datatypes.pars.SSOCDCreateCoverPar;
 import at.tugraz.sss.servs.ocd.datatypes.pars.SSOCDCreateGraphPar;
@@ -31,12 +32,12 @@ import at.tugraz.sss.servs.ocd.datatypes.pars.SSOCDGetGraphsPar;
 
 public interface SSOCDServerI extends SSServServerI{
   
-  public String             ocdCreateGraph              (final SSOCDCreateGraphPar par) throws Exception;
-  public String             ocdGetGraphs                (final SSOCDGetGraphsPar   par) throws Exception;
-  public String             ocdGetGraph                 (final SSOCDGetGraphPar    par) throws Exception;
-  public String             ocdDeleteGraph              (final SSOCDDeleteGraphPar par) throws Exception;
-  public String             ocdCreateCover              (final SSOCDCreateCoverPar par) throws Exception;
-  public String             ocdGetCovers                (final SSOCDGetCoversPar   par) throws Exception;
-  public String             ocdDeleteCover              (final SSOCDDeleteCoverPar par) throws Exception;
+  public String             ocdCreateGraph              (final SSOCDCreateGraphPar par) throws SSErr;
+  public String             ocdGetGraphs                (final SSOCDGetGraphsPar   par) throws SSErr;
+  public String             ocdGetGraph                 (final SSOCDGetGraphPar    par) throws SSErr;
+  public String             ocdDeleteGraph              (final SSOCDDeleteGraphPar par) throws SSErr;
+  public String             ocdCreateCover              (final SSOCDCreateCoverPar par) throws SSErr;
+  public String             ocdGetCovers                (final SSOCDGetCoversPar   par) throws SSErr;
+  public String             ocdDeleteCover              (final SSOCDDeleteCoverPar par) throws SSErr;
   public String             ocdGetAlgorithmNames        () throws Exception;
 }

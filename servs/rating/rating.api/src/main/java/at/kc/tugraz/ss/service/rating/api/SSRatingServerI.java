@@ -26,15 +26,16 @@ import at.kc.tugraz.ss.service.rating.datatypes.pars.SSRatingSetPar;
 import at.kc.tugraz.ss.service.rating.datatypes.pars.SSRatingGetPar;
 import at.kc.tugraz.ss.service.rating.datatypes.pars.SSRatingOverallGetPar;
 import at.kc.tugraz.ss.service.rating.datatypes.pars.SSRatingsRemovePar;
+import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSServServerI;
 import at.tugraz.sss.serv.SSUri;
 import java.util.List;
 
 public interface SSRatingServerI extends SSServServerI{
   
-  public Boolean               ratingSet           (final SSRatingSetPar           par)     throws Exception;
-  public Integer               ratingGet           (final SSRatingGetPar           par)     throws Exception;
-  public SSRatingOverall       ratingOverallGet    (final SSRatingOverallGetPar    par)     throws Exception;
-  public Boolean               ratingsRemove       (final SSRatingsRemovePar       par)     throws Exception;
-  public List<SSUri>           ratingEntityURIsGet (final SSRatingEntityURIsGetPar par)     throws Exception;
+  public Boolean               ratingSet           (final SSRatingSetPar           par)     throws SSErr;
+  public Integer               ratingGet           (final SSRatingGetPar           par)     throws SSErr;
+  public SSRatingOverall       ratingOverallGet    (final SSRatingOverallGetPar    par)     throws SSErr;
+  public Boolean               ratingsRemove       (final SSRatingsRemovePar       par)     throws SSErr;
+  public List<SSUri>           ratingEntityURIsGet (final SSRatingEntityURIsGetPar par)     throws SSErr;
 }

@@ -20,12 +20,13 @@
 */
 package sss.serv.eval.api;
 
+import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSServServerI;
 import sss.serv.eval.datatypes.par.SSEvalAnalyzePar;
 import sss.serv.eval.datatypes.par.SSEvalLogPar;
 
 public interface SSEvalServerI extends SSServServerI{
   
-  public Boolean evalLog      (final SSEvalLogPar     par) throws Exception;
-  public void    evalAnalyze  (final SSEvalAnalyzePar par) throws Exception;
+  public Boolean evalLog      (final SSEvalLogPar     par) throws SSErr;
+  public void    evalAnalyze  (final SSEvalAnalyzePar par) throws SSErr;
 }

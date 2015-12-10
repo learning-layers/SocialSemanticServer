@@ -1,23 +1,23 @@
-/**
-* Code contributed to the Learning Layers project
-* http://www.learning-layers.eu
-* Development is partly funded by the FP7 Programme of the European Commission under
-* Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
-* For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
-*
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-* http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*/
+ /**
+  * Code contributed to the Learning Layers project
+  * http://www.learning-layers.eu
+  * Development is partly funded by the FP7 Programme of the European Commission under
+  * Grant Agreement FP7-ICT-318209.
+  * Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+  * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
+  *
+  * Licensed under the Apache License, Version 2.0 (the "License");
+  * you may not use this file except in compliance with the License.
+  * You may obtain a copy of the License at
+  *
+  * http://www.apache.org/licenses/LICENSE-2.0
+  *
+  * Unless required by applicable law or agreed to in writing, software
+  * distributed under the License is distributed on an "AS IS" BASIS,
+  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  * See the License for the specific language governing permissions and
+  * limitations under the License.
+  */
 package at.kc.tugraz.ss.service.user.impl;
 
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
@@ -61,11 +61,11 @@ import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServReg;
 
-public class SSUserImpl 
-extends SSServImplWithDBA 
-implements 
-  SSUserClientI, 
-  SSUserServerI, 
+public class SSUserImpl
+extends SSServImplWithDBA
+implements
+  SSUserClientI,
+  SSUserServerI,
   SSDescribeEntityI{
   
   private final SSUserSQLFct      sql;
@@ -83,8 +83,8 @@ implements
   
   @Override
   public SSEntity describeEntity(
-    final SSEntity             entity, 
-    final SSEntityDescriberPar par) throws Exception{
+    final SSEntity             entity,
+    final SSEntityDescriberPar par) throws SSErr{
     
     try{
       
@@ -140,7 +140,7 @@ implements
   }
   
   @Override
-  public Boolean userExists(final SSUserExistsPar par) throws Exception{
+  public Boolean userExists(final SSUserExistsPar par) throws SSErr{
     
     try{
       return sql.existsUser(par.email);
@@ -151,7 +151,7 @@ implements
   }
   
   @Override
-  public SSUri userURIGet(final SSUserURIGetPar par) throws Exception{
+  public SSUri userURIGet(final SSUserURIGetPar par) throws SSErr{
     
     try{
       return sql.getUserURIForEmail(par.email);
@@ -163,7 +163,7 @@ implements
   
   
   @Override
-  public List<SSUri> userURIsGet(final SSUserURIsGetPar par) throws Exception{
+  public List<SSUri> userURIsGet(final SSUserURIsGetPar par) throws SSErr{
     
     try{
       
@@ -172,7 +172,7 @@ implements
       for(String email : par.emails){
         uris.add(sql.getUserURIForEmail(email));
       }
-
+      
       return uris;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -181,22 +181,27 @@ implements
   }
   
   @Override
-  public void usersGet(SSSocketCon sSCon, SSServPar parA) throws Exception {
+  public void usersGet(SSSocketCon sSCon, SSServPar parA) throws SSErr {
     
 //      if(SSAuthEnum.isSame(SSAuthServ.inst().getAuthType(), SSAuthEnum.wikiAuth)){
 //        returnObj.object =  new SSAuthWikiDbCon(new SSAuthWikiConf()).getUserList(); //TODO remove new SSAuthWikiConf() --> take it from config
 //      }else{
-        
-    SSServCallerU.checkKey(parA);
-
-    final SSUsersGetPar par = (SSUsersGetPar) parA.getFromJSON(SSUsersGetPar.class);
     
-    sSCon.writeRetFullToClient(new SSUsersGetRet(usersGet(par)));
+    try{
+      SSServCallerU.checkKey(parA);
+      
+      final SSUsersGetPar par = (SSUsersGetPar) parA.getFromJSON(SSUsersGetPar.class);
+      
+      sSCon.writeRetFullToClient(new SSUsersGetRet(usersGet(par)));
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
 //      }
   }
   
-  @Override 
-  public List<SSEntity> usersGet(final SSUsersGetPar par) throws Exception{
+  @Override
+  public List<SSEntity> usersGet(final SSUsersGetPar par) throws SSErr{
     
     try{
       
@@ -204,7 +209,7 @@ implements
       final List<SSEntity> users      = new ArrayList<>();
       SSUser               userToGet;
       SSEntity             userEntityToGet;
-      SSEntityDescriberPar descPar; 
+      SSEntityDescriberPar descPar;
       
       for(SSUri userURI : userURIs){
         
@@ -213,7 +218,7 @@ implements
         if(userToGet == null){
           continue;
         }
-      
+        
         if(par.invokeEntityHandlers){
           descPar = new SSEntityDescriberPar(userToGet.id);
           
@@ -230,7 +235,7 @@ implements
         }else{
           descPar = null;
         }
-
+        
         userEntityToGet =
           entityServ.entityGet(
             new SSEntityGetPar(
@@ -238,11 +243,11 @@ implements
               userToGet.id,
               par.withUserRestriction,
               descPar));
-      
+        
         if(userEntityToGet == null){
           continue;
         }
-      
+        
         userToGet =
           SSUser.get(
             userToGet,
@@ -264,9 +269,9 @@ implements
       return null;
     }
   }
-
+  
   @Override
-  public SSUri userAdd(final SSUserAddPar par) throws Exception{
+  public SSUri userAdd(final SSUserAddPar par) throws SSErr{
     
     try{
       
@@ -282,11 +287,11 @@ implements
       if(par.isSystemUser){
         userUri  = SSVocConf.systemUserUri;
         tmpLabel = SSLabel.get(SSVocConf.systemUserLabel);
-        tmpEmail = SSVocConf.systemUserEmail; 
+        tmpEmail = SSVocConf.systemUserEmail;
       }else{
         userUri  = SSServCaller.vocURICreate();
         tmpLabel = par.label;
-        tmpEmail = par.email;        
+        tmpEmail = par.email;
       }
       
       dbSQL.startTrans(par.shouldCommit);
@@ -311,7 +316,7 @@ implements
         return null;
       }
       
-      publicCircleURI = 
+      publicCircleURI =
         circleServ.circlePubURIGet(
           new SSCirclePubURIGetPar(
             par.user,
@@ -322,7 +327,7 @@ implements
           new SSCircleUsersAddPar(
             SSVocConf.systemUserUri,
             publicCircleURI, //circle
-SSUri.asListNotNull(userUri), //users
+            SSUri.asListNotNull(userUri), //users
             par.withUserRestriction, //withUserRestriction
             false)); //shouldCommit
       
@@ -359,17 +364,23 @@ SSUri.asListNotNull(userUri), //users
   }
   
   @Override
-  public void userEntityUsersGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
+  public void userEntityUsersGet(final SSSocketCon sSCon, final SSServPar parA) throws SSErr{
     
-    SSServCallerU.checkKey(parA);
-    
-    final SSUserEntityUsersGetPar par = (SSUserEntityUsersGetPar) parA.getFromJSON(SSUserEntityUsersGetPar.class);
-    
-    sSCon.writeRetFullToClient(SSUserEntityUsersGetRet.get(userEntityUsersGet(par)));
+    try{
+      
+      SSServCallerU.checkKey(parA);
+      
+      final SSUserEntityUsersGetPar par = (SSUserEntityUsersGetPar) parA.getFromJSON(SSUserEntityUsersGetPar.class);
+      
+      sSCon.writeRetFullToClient(SSUserEntityUsersGetRet.get(userEntityUsersGet(par)));
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
   }
   
   @Override
-  public List<SSEntity> userEntityUsersGet(final SSUserEntityUsersGetPar par) throws Exception{
+  public List<SSEntity> userEntityUsersGet(final SSUserEntityUsersGetPar par) throws SSErr{
     
     try{
       
@@ -380,10 +391,10 @@ SSUri.asListNotNull(userUri), //users
       }
       
       SSEntity entity;
-        
+      
       if(par.withUserRestriction){
         
-        entity = 
+        entity =
           sql.getEntityTest(
             par.user,
             par.entity,
@@ -393,18 +404,18 @@ SSUri.asListNotNull(userUri), //users
           return users;
         }
       }
-
-      for(SSEntity user : 
+      
+      for(SSEntity user :
         usersGet(
           new SSUsersGetPar(
             par.user,
             null, //users
             false))){ //invokeEntityHandlers
-       
-        entity = 
+        
+        entity =
           sql.getEntityTest(
-            user.id, 
-            par.entity, 
+            user.id,
+            par.entity,
             par.withUserRestriction);
         
         if(entity == null){
@@ -413,7 +424,7 @@ SSUri.asListNotNull(userUri), //users
         
         users.add(user);
       }
-
+      
       return users;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -421,15 +432,15 @@ SSUri.asListNotNull(userUri), //users
     }
   }
 }
-  
+
 //  private void setUserThumb(
 //    final SSUri          callingUser,
 //    final SSUser         user,
-//    final SSImageServerI imageServ, 
-//    final Boolean        withUserRestriction) throws Exception{
-//    
+//    final SSImageServerI imageServ,
+//    final Boolean        withUserRestriction) throws SSErr{
+//
 //    try{
-//      
+//
 //      for(SSEntity thumb :
 //        imageServ.imagesGet(
 //          new SSImagesGetPar(
@@ -437,7 +448,7 @@ SSUri.asListNotNull(userUri), //users
 //            user.id,
 //            SSImageE.thumb,
 //            withUserRestriction))){
-//        
+//
 //        user.thumb = thumb;
 //        break;
 //      }

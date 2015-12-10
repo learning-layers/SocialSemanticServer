@@ -79,7 +79,7 @@ implements
   @Override
   public SSEntity describeEntity(
     final SSEntity             entity,
-    final SSEntityDescriberPar par) throws Exception{
+    final SSEntityDescriberPar par) throws SSErr{
     
     switch(entity.type){
       
@@ -104,17 +104,22 @@ implements
   }
   
   @Override
-  public void appStackLayoutCreate(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
+  public void appStackLayoutCreate(final SSSocketCon sSCon, final SSServPar parA) throws SSErr{
     
+    try{
     SSServCallerU.checkKey(parA);
     
     final SSAppStackLayoutCreatePar par = (SSAppStackLayoutCreatePar) parA.getFromJSON(SSAppStackLayoutCreatePar.class);
      
     sSCon.writeRetFullToClient(SSAppStackLayoutCreateRet.get(appStackLayoutCreate(par)));
+    
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
   }
   
   @Override
-  public SSUri appStackLayoutCreate(final SSAppStackLayoutCreatePar par) throws Exception{
+  public SSUri appStackLayoutCreate(final SSAppStackLayoutCreatePar par) throws SSErr{
     
     try{
       
@@ -180,17 +185,22 @@ implements
   }
   
   @Override
-  public void appStackLayoutUpdate(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
+  public void appStackLayoutUpdate(final SSSocketCon sSCon, final SSServPar parA) throws SSErr{
     
+    try{
     SSServCallerU.checkKey(parA);
     
     final SSAppStackLayoutUpdatePar par = (SSAppStackLayoutUpdatePar) parA.getFromJSON(SSAppStackLayoutUpdatePar.class);
     
     sSCon.writeRetFullToClient(SSAppStackLayoutUpdateRet.get(appStackLayoutUpdate(par)));
+    
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
   }
   
   @Override
-  public SSUri appStackLayoutUpdate(final SSAppStackLayoutUpdatePar par) throws Exception{
+  public SSUri appStackLayoutUpdate(final SSAppStackLayoutUpdatePar par) throws SSErr{
     
     try{
       
@@ -251,7 +261,7 @@ implements
   }
   
   @Override
-  public SSAppStackLayout appStackLayoutGet(final SSAppStackLayoutGetPar par) throws Exception{
+  public SSAppStackLayout appStackLayoutGet(final SSAppStackLayoutGetPar par) throws SSErr{
     
     try{
       
@@ -285,17 +295,22 @@ implements
   }
   
   @Override
-  public void appStackLayoutsGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
+  public void appStackLayoutsGet(final SSSocketCon sSCon, final SSServPar parA) throws SSErr{
     
+    try{
     SSServCallerU.checkKey(parA);
     
     final SSAppStackLayoutsGetPar par = (SSAppStackLayoutsGetPar) parA.getFromJSON(SSAppStackLayoutsGetPar.class);
     
     sSCon.writeRetFullToClient(SSAppStackLayoutsGetRet.get(appStackLayoutsGet(par)));
+
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
   }
   
   @Override
-  public List<SSEntity> appStackLayoutsGet(final SSAppStackLayoutsGetPar par) throws Exception{
+  public List<SSEntity> appStackLayoutsGet(final SSAppStackLayoutsGetPar par) throws SSErr{
     
     try{
       
@@ -329,17 +344,23 @@ implements
   }
   
   @Override
-  public void appStackLayoutDelete(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
+  public void appStackLayoutDelete(final SSSocketCon sSCon, final SSServPar parA) throws SSErr{
     
+    try{
+      
     SSServCallerU.checkKey(parA);
     
     final SSAppStackLayoutDeletePar par = (SSAppStackLayoutDeletePar) parA.getFromJSON(SSAppStackLayoutDeletePar.class);
     
     sSCon.writeRetFullToClient(SSAppStackLayoutDeleteRet.get(appStackLayoutDelete(par)));
+    
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
   }
   
   @Override
-  public Boolean appStackLayoutDelete(final SSAppStackLayoutDeletePar par) throws Exception{
+  public Boolean appStackLayoutDelete(final SSAppStackLayoutDeletePar par) throws SSErr{
     
     try{
 

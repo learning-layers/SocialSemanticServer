@@ -21,6 +21,7 @@
 package at.kc.tugraz.ss.serv.dataimport.impl.fct.reader;
 
 import at.tugraz.sss.serv.SSEncodingU;
+import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSFileU;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSStrU;
@@ -74,7 +75,7 @@ public class SSDataImportReaderFct {
     
   public static List<String[]> readAllFromCSV(
     final String path,
-    final String fileName) throws Exception{
+    final String fileName) throws SSErr{
     
     try{
       return readAllFromCSV(SSFileU.correctDirPath(path) + fileName);

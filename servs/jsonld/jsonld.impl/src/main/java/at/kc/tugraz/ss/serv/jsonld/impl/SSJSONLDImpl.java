@@ -51,17 +51,22 @@ implements
   }
   
   @Override
-  public void jsonLD(SSSocketCon sSCon, SSServPar parA) throws Exception{
+  public void jsonLD(SSSocketCon sSCon, SSServPar parA) throws SSErr{
     
-    SSServCallerU.checkKey(parA);
-    
-    final SSJSONLDPar par = (SSJSONLDPar) parA.getFromJSON(SSJSONLDPar.class);
-    
-    sSCon.writeRetFullToClient(SSJSONLDRet.get(jsonLD(par)));
+    try{
+      SSServCallerU.checkKey(parA);
+      
+      final SSJSONLDPar par = (SSJSONLDPar) parA.getFromJSON(SSJSONLDPar.class);
+      
+      sSCon.writeRetFullToClient(SSJSONLDRet.get(jsonLD(par)));
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
   }
 
   @Override
-  public Object jsonLD(final SSJSONLDPar par) throws Exception{
+  public Object jsonLD(final SSJSONLDPar par) throws SSErr{
     
     try{
       

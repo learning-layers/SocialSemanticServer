@@ -24,6 +24,7 @@ import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
+import at.tugraz.sss.serv.SSErr;
 
 public class SSAppStackLayout extends SSEntity{
   
@@ -40,14 +41,14 @@ public class SSAppStackLayout extends SSEntity{
   
   public static SSAppStackLayout get(
     final SSAppStackLayout     appStackLayout,
-    final SSEntity             entity) throws Exception{
+    final SSEntity             entity) throws SSErr {
     
     return new SSAppStackLayout(appStackLayout, entity);
   }
   
   protected SSAppStackLayout(
     final SSAppStackLayout     appStackLayout,
-    final SSEntity             entity) throws Exception{
+    final SSEntity             entity) throws SSErr{
     
     super(appStackLayout, entity);
     
@@ -56,7 +57,7 @@ public class SSAppStackLayout extends SSEntity{
   
   public static SSAppStackLayout get(
     final SSUri           id,
-    final SSUri           app) throws Exception{
+    final SSUri           app) throws SSErr {
     
     return new SSAppStackLayout(
       id,
@@ -65,7 +66,7 @@ public class SSAppStackLayout extends SSEntity{
   
   protected SSAppStackLayout(
     final SSUri           id,
-    final SSUri           app) throws Exception{
+    final SSUri           app) throws SSErr {
     
     super(id, SSEntityE.appStackLayout);
     

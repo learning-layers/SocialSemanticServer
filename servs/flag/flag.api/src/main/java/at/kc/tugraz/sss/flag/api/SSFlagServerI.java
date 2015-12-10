@@ -25,12 +25,13 @@ import at.kc.tugraz.sss.flag.datatypes.par.SSFlagGetPar;
 import at.kc.tugraz.sss.flag.datatypes.par.SSFlagsGetPar;
 import at.kc.tugraz.sss.flag.datatypes.par.SSFlagsSetPar;
 import at.tugraz.sss.serv.SSEntity;
+import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSServServerI;
 import java.util.List;
 
 public interface SSFlagServerI extends SSServServerI{
   
-  public SSFlag         flagGet      (final SSFlagGetPar  par) throws Exception;
-  public List<SSEntity> flagsGet     (final SSFlagsGetPar par) throws Exception;
-  public Boolean        flagsSet     (final SSFlagsSetPar par) throws Exception;
+  public SSFlag         flagGet      (final SSFlagGetPar  par) throws SSErr;
+  public List<SSEntity> flagsGet     (final SSFlagsGetPar par) throws SSErr;
+  public Boolean        flagsSet     (final SSFlagsSetPar par) throws SSErr;
 }

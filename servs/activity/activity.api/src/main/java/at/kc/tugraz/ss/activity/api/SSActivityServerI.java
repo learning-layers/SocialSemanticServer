@@ -27,15 +27,16 @@ import at.kc.tugraz.ss.activity.datatypes.par.SSActivityContentAddPar;
 import at.kc.tugraz.ss.activity.datatypes.par.SSActivityContentsAddPar;
 import at.kc.tugraz.ss.activity.datatypes.par.SSActivityTypesGetPar;
 import at.tugraz.sss.serv.SSEntity;
+import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSServServerI;
 import at.tugraz.sss.serv.SSUri;
 import java.util.List;
 
 public interface SSActivityServerI extends SSServServerI{
   
-  public SSUri             activityAdd            (final SSActivityAddPar         par) throws Exception;
-  public SSUri             activityContentAdd     (final SSActivityContentAddPar  par) throws Exception;
-  public void              activityContentsAdd    (final SSActivityContentsAddPar par) throws Exception;
-  public List<SSEntity>    activitiesGet          (final SSActivitiesGetPar       par) throws Exception;
-  public List<SSActivityE> activityTypesGet       (final SSActivityTypesGetPar    par) throws Exception;
+  public SSUri             activityAdd            (final SSActivityAddPar         par) throws SSErr;
+  public SSUri             activityContentAdd     (final SSActivityContentAddPar  par) throws SSErr;
+  public void              activityContentsAdd    (final SSActivityContentsAddPar par) throws SSErr;
+  public List<SSEntity>    activitiesGet          (final SSActivitiesGetPar       par) throws SSErr;
+  public List<SSActivityE> activityTypesGet       (final SSActivityTypesGetPar    par) throws SSErr;
 }

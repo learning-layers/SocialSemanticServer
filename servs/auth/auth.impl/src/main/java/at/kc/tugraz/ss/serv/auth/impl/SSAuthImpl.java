@@ -82,7 +82,7 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
   }
   
   @Override
-  public void authUsersFromCSVFileAdd(final SSServPar parA) throws Exception {
+  public void authUsersFromCSVFileAdd(final SSServPar parA) throws SSErr {
     
     try{
       final SSAuthUsersFromCSVFileAddPar par                          = new SSAuthUsersFromCSVFileAddPar(parA);
@@ -129,15 +129,20 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
   }
   
   @Override
-  public void authRegisterUser(SSSocketCon sSCon, SSServPar parA) throws Exception {
+  public void authRegisterUser(SSSocketCon sSCon, SSServPar parA) throws SSErr {
     
-    final SSAuthRegisterUserPar par = (SSAuthRegisterUserPar) parA.getFromJSON(SSAuthRegisterUserPar.class);
-    
-    sSCon.writeRetFullToClient(SSAuthRegisterUserRet.get(authRegisterUser(par)));
+    try{
+      final SSAuthRegisterUserPar par = (SSAuthRegisterUserPar) parA.getFromJSON(SSAuthRegisterUserPar.class);
+      
+      sSCon.writeRetFullToClient(SSAuthRegisterUserRet.get(authRegisterUser(par)));
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
   }
   
   @Override 
-  public SSUri authRegisterUser(final SSAuthRegisterUserPar par) throws Exception{
+  public SSUri authRegisterUser(final SSAuthRegisterUserPar par) throws SSErr{
     
     try{
       
@@ -219,15 +224,21 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
   }
  
   @Override
-  public void authCheckCred(SSSocketCon sSCon, SSServPar parA) throws Exception {
+  public void authCheckCred(SSSocketCon sSCon, SSServPar parA) throws SSErr {
     
-    final SSAuthCheckCredPar par = (SSAuthCheckCredPar) parA.getFromJSON(SSAuthCheckCredPar.class);
-    
-    sSCon.writeRetFullToClient(authCheckCred(par));
+    try{
+      
+      final SSAuthCheckCredPar par = (SSAuthCheckCredPar) parA.getFromJSON(SSAuthCheckCredPar.class);
+      
+      sSCon.writeRetFullToClient(authCheckCred(par));
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
   }
   
   @Override
-  public SSAuthCheckCredRet authCheckCred(final SSAuthCheckCredPar par) throws Exception {
+  public SSAuthCheckCredRet authCheckCred(final SSAuthCheckCredPar par) throws SSErr {
     
     try{
 
@@ -433,7 +444,7 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
   }
   
   @Override
-  public SSUri authCheckKey(final SSAuthCheckKeyPar par) throws Exception {
+  public SSUri authCheckKey(final SSAuthCheckKeyPar par) throws SSErr {
     
     try{
       
@@ -469,12 +480,12 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
 
 
 //  @Override
-//  public List<String> authKeyList(SSServerPar par) throws Exception {
+//  public List<String> authKeyList(SSServerPar par) throws SSErr {
 //    return keylist;
 //  }
 //
 //  @Override
-//  public SSAuthEnum authAuthType(SSServerPar par) throws Exception {
+//  public SSAuthEnum authAuthType(SSServerPar par) throws SSErr {
 //    return conf.getAuthTypeEnum();
 //  }
 

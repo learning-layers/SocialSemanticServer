@@ -65,6 +65,8 @@ import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServImplWithDBA;
+import at.tugraz.sss.serv.SSWarnE;
+import java.io.IOException;
 
 public class SSDataExportImpl 
 extends 
@@ -79,7 +81,7 @@ implements
   
   @Override
   public void dataExportUsersEntitiesTagsCategoriesTimestampsFileFromCircle(
-    final SSDataExportUsersEntitiesTagsCategoriesTimestampsFileFromCirclePar par) throws Exception{
+    final SSDataExportUsersEntitiesTagsCategoriesTimestampsFileFromCirclePar par) throws SSErr{
     
     CSVWriter                                           fileWriter = null;
     FileOutputStream                                    out        = null;
@@ -157,15 +159,31 @@ implements
     }finally{
       
       if(fileWriter != null){
-        fileWriter.close();
+        
+        try{
+          fileWriter.close();
+        }catch(IOException ioError) {
+          SSLogU.warn(SSWarnE.outputStreamCloseFailed, ioError);
+        }
+        
       }else{
         
         if(writer != null){
-          writer.close();
+          
+          try {
+            writer.close();
+          } catch (IOException ioError) {
+            SSLogU.warn(SSWarnE.outputStreamCloseFailed, ioError);
+          }
         }else{
           
           if(out != null){
-            out.close();
+            
+            try {
+              out.close();
+            } catch (IOException ioError) {
+              SSLogU.warn(SSWarnE.outputStreamCloseFailed, ioError);
+            }
           }
         }
       }
@@ -173,15 +191,14 @@ implements
   }
   
   @Override
-  public void dataExportUsersEntitiesTagsCategoriesTimestampsFile(final SSServPar parA) throws Exception{
+  public void dataExportUsersEntitiesTagsCategoriesTimestampsFile(final SSServPar parA) throws SSErr{
     
-    final SSDataExportUsersEntitiesTagsCategoriesTimestampsFilePar par        = new SSDataExportUsersEntitiesTagsCategoriesTimestampsFilePar(parA);
     CSVWriter                                           fileWriter = null;
     FileOutputStream                                    out        = null;
     OutputStreamWriter                                  writer     = null;
     
     try{
-      
+      final SSDataExportUsersEntitiesTagsCategoriesTimestampsFilePar par        = new SSDataExportUsersEntitiesTagsCategoriesTimestampsFilePar(parA);
       final Map<String, List<SSEntityContext>>  usersEntities         = new HashMap<>();
       final List<String>                        lineParts             = new ArrayList<>();
       final List<String>                        allUsers;
@@ -260,15 +277,31 @@ implements
     }finally{
       
       if(fileWriter != null){
-        fileWriter.close();
+        
+        try{
+          fileWriter.close();
+        }catch(IOException ioError) {
+          SSLogU.warn(SSWarnE.outputStreamCloseFailed, ioError);
+        }
+        
       }else{
         
         if(writer != null){
-          writer.close();
+          
+          try {
+            writer.close();
+          } catch (IOException ioError) {
+            SSLogU.warn(SSWarnE.outputStreamCloseFailed, ioError);
+          }
         }else{
           
           if(out != null){
-            out.close();
+            
+            try {
+              out.close();
+            } catch (IOException ioError) {
+              SSLogU.warn(SSWarnE.outputStreamCloseFailed, ioError);
+            }
           }
         }
       }
@@ -276,15 +309,15 @@ implements
   }
   
   @Override
-  public void dataExportUserEntityTagsCategoriesTimestampsLine(final SSServPar parA) throws Exception{
+  public void dataExportUserEntityTagsCategoriesTimestampsLine(final SSServPar parA) throws SSErr{
     
-    final SSDataExportUserEntityTagsCategoriesTimestampsLinePar par        = new SSDataExportUserEntityTagsCategoriesTimestampsLinePar(parA);
     CSVWriter                                           fileWriter = null;
     FileOutputStream                                    out        = null;
     OutputStreamWriter                                  writer     = null;
     
     try{
-      
+
+      final SSDataExportUserEntityTagsCategoriesTimestampsLinePar par        = new SSDataExportUserEntityTagsCategoriesTimestampsLinePar(parA);
       final List<String> lineParts = new ArrayList<>();
       
       out        = SSFileU.openOrCreateFileWithPathForAppend  (SSFileU.dirWorkingDataCsv() + par.fileName);
@@ -313,15 +346,31 @@ implements
     }finally{
       
       if(fileWriter != null){
-        fileWriter.close();
+        
+        try{
+          fileWriter.close();
+        }catch(IOException ioError) {
+          SSLogU.warn(SSWarnE.outputStreamCloseFailed, ioError);
+        }
+        
       }else{
         
         if(writer != null){
-          writer.close();
+          
+          try {
+            writer.close();
+          } catch (IOException ioError) {
+            SSLogU.warn(SSWarnE.outputStreamCloseFailed, ioError);
+          }
         }else{
           
           if(out != null){
-            out.close();
+            
+            try {
+              out.close();
+            } catch (IOException ioError) {
+              SSLogU.warn(SSWarnE.outputStreamCloseFailed, ioError);
+            }
           }
         }
       }
@@ -329,9 +378,11 @@ implements
   }
   
   @Override
-  public void dataExportUserRelations(final SSServPar parA) throws Exception{
+  public void dataExportUserRelations(final SSServPar parA) throws SSErr{
     
-    CSVWriter fileWriter = null;
+    CSVWriter           fileWriter = null;
+    FileOutputStream    out        = null;
+    OutputStreamWriter  writer     = null;
     
     try{
       
@@ -362,11 +413,11 @@ implements
         ((SSUserRelationGathererI) serv.serv()).getUserRelations(allUsers, userRelations);
       }
       
-      final FileOutputStream out =
+      out =
         SSFileU.openOrCreateFileWithPathForWrite (
           SSFileU.dirWorkingDataCsv() + ((SSDataExportConf)conf).fileNameForUserRelationsExport);
       
-      final OutputStreamWriter writer =
+      writer =
         new OutputStreamWriter(
           out,
           Charset.forName(SSEncodingU.utf8.toString()));
@@ -395,10 +446,34 @@ implements
     }finally{
       
       if(fileWriter != null){
-        fileWriter.close();
+        
+        try{
+          fileWriter.close();
+        }catch(IOException ioError) {
+          SSLogU.warn(SSWarnE.outputStreamCloseFailed, ioError);
+        }
+        
+      }else{
+        
+        if(writer != null){
+          
+          try {
+            writer.close();
+          } catch (IOException ioError) {
+            SSLogU.warn(SSWarnE.outputStreamCloseFailed, ioError);
+          }
+        }else{
+          
+          if(out != null){
+            
+            try {
+              out.close();
+            } catch (IOException ioError) {
+              SSLogU.warn(SSWarnE.outputStreamCloseFailed, ioError);
+            }
+          }
+        }
       }
     }
   }
-  
-  
 }

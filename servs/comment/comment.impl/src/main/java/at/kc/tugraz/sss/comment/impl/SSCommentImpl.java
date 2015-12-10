@@ -77,18 +77,23 @@ implements
   
   @Override
   public void getUserRelations(
-    final List<String>             allUsers, 
-    final Map<String, List<SSUri>> userRelations) throws Exception{
+    final List<String>             allUsers,
+    final Map<String, List<SSUri>> userRelations) throws SSErr{
     
-    SSCommentUserRelationGatherFct.getUserRelations(
-      allUsers, 
-      userRelations);
+    try{
+      SSCommentUserRelationGatherFct.getUserRelations(
+        allUsers,
+        userRelations);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
   }
   
   @Override
   public SSEntity describeEntity(
     final SSEntity             entity, 
-    final SSEntityDescriberPar par) throws Exception{
+    final SSEntityDescriberPar par) throws SSErr{
 
     try{
       
@@ -111,17 +116,22 @@ implements
   }
   
   @Override
-  public void commentsAdd(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
+  public void commentsAdd(final SSSocketCon sSCon, final SSServPar parA) throws SSErr{
     
-    SSServCallerU.checkKey(parA);
-    
-    final SSCommentsAddPar par = (SSCommentsAddPar) parA.getFromJSON(SSCommentsAddPar.class);
-    
-    sSCon.writeRetFullToClient(SSCommentsAddRet.get(commentsAdd(par)));
+    try{
+      SSServCallerU.checkKey(parA);
+      
+      final SSCommentsAddPar par = (SSCommentsAddPar) parA.getFromJSON(SSCommentsAddPar.class);
+      
+      sSCon.writeRetFullToClient(SSCommentsAddRet.get(commentsAdd(par)));
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
   }
   
   @Override
-  public SSUri commentsAdd(final SSCommentsAddPar par) throws Exception{
+  public SSUri commentsAdd(final SSCommentsAddPar par) throws SSErr{
     
     try{
       
@@ -211,17 +221,23 @@ implements
   }
   
   @Override
-  public void commentsGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
+  public void commentsGet(final SSSocketCon sSCon, final SSServPar parA) throws SSErr{
     
-    SSServCallerU.checkKey(parA);
-    
-    final SSCommentsGetPar par = (SSCommentsGetPar) parA.getFromJSON(SSCommentsGetPar.class);
-    
-    sSCon.writeRetFullToClient(SSCommentsGetRet.get(commentsGet(par)));
+    try{
+      
+      SSServCallerU.checkKey(parA);
+      
+      final SSCommentsGetPar par = (SSCommentsGetPar) parA.getFromJSON(SSCommentsGetPar.class);
+      
+      sSCon.writeRetFullToClient(SSCommentsGetRet.get(commentsGet(par)));
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
   }
   
   @Override
-  public List<SSTextComment> commentsGet(final SSCommentsGetPar par) throws Exception{
+  public List<SSTextComment> commentsGet(final SSCommentsGetPar par) throws SSErr{
     
     try{
       
@@ -251,7 +267,7 @@ implements
   }
   
   @Override
-  public List<SSUri> commentEntitiesGet(final SSCommentEntitiesGetPar par) throws Exception{
+  public List<SSUri> commentEntitiesGet(final SSCommentEntitiesGetPar par) throws SSErr{
     
     try{
       

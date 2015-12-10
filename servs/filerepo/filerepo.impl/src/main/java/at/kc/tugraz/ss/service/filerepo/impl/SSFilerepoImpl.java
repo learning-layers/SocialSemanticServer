@@ -96,7 +96,7 @@ implements
   @Override
   public SSEntity describeEntity(
     final SSEntity             entity, 
-    final SSEntityDescriberPar par) throws Exception{
+    final SSEntityDescriberPar par) throws SSErr{
     
     try{
       
@@ -144,7 +144,7 @@ implements
   }
   
   @Override
-  public List<SSEntity> addAffiliatedEntitiesToCircle(final SSAddAffiliatedEntitiesToCirclePar par) throws Exception{
+  public List<SSEntity> addAffiliatedEntitiesToCircle(final SSAddAffiliatedEntitiesToCirclePar par) throws SSErr{
     
     try{
       final List<SSUri>     affiliatedURIs  = new ArrayList<>();
@@ -190,38 +190,42 @@ implements
   }
   
   @Override
-  public void fileDownload(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
+  public void fileDownload(final SSSocketCon sSCon, final SSServPar parA) throws SSErr{
     
-    SSFileDownloadPar par = (SSFileDownloadPar) parA.getFromJSON(SSFileDownloadPar.class);
-    
-    //TODO fix this public download: get user and check whether he can read
-    if(!par.isPublicDownload){
-      SSServCallerU.checkKey(parA);
-    }
-    
-    par = (SSFileDownloadPar) parA.getFromJSON(SSFileDownloadPar.class);
-    
-    par.sSCon = sSCon;
-    
-    fileDownload(par);
-    
-    if(!par.isPublicDownload){
+    try{
+      SSFileDownloadPar par = (SSFileDownloadPar) parA.getFromJSON(SSFileDownloadPar.class);
       
-      ((SSEvalServerI) SSServReg.getServ(SSEvalServerI.class)).evalLog(
-        new SSEvalLogPar(
-          par.user,
-          SSToolContextE.sss,
-          SSEvalLogE.fileDowload,
-          par.file,  //entity
-          null, //content,
-          null, //entities
-          null, //users
-          par.shouldCommit));
+      //TODO fix this public download: get user and check whether he can read
+      if(!par.isPublicDownload){
+        SSServCallerU.checkKey(parA);
+      }
+      
+      par = (SSFileDownloadPar) parA.getFromJSON(SSFileDownloadPar.class);
+      
+      par.sSCon = sSCon;
+      
+      fileDownload(par);
+      
+      if(!par.isPublicDownload){
+        
+        ((SSEvalServerI) SSServReg.getServ(SSEvalServerI.class)).evalLog(
+          new SSEvalLogPar(
+            par.user,
+            SSToolContextE.sss,
+            SSEvalLogE.fileDowload,
+            par.file,  //entity
+            null, //content,
+            null, //entities
+            null, //users
+            par.shouldCommit));
+      }
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
     }
   }
 
   @Override
-  public void fileDownload(final SSFileDownloadPar par) throws Exception{
+  public void fileDownload(final SSFileDownloadPar par) throws SSErr{
     
     try{
 
@@ -251,19 +255,24 @@ implements
   }
 
   @Override
-  public void fileUpload(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
-
-    SSServCallerU.checkKey(parA);
-
-    final SSFileUploadPar par = (SSFileUploadPar) parA.getFromJSON(SSFileUploadPar.class);
+  public void fileUpload(final SSSocketCon sSCon, final SSServPar parA) throws SSErr{
     
-    par.sSCon = sSCon;
-    
-    fileUpload(par);
+    try{
+      SSServCallerU.checkKey(parA);
+      
+      final SSFileUploadPar par = (SSFileUploadPar) parA.getFromJSON(SSFileUploadPar.class);
+      
+      par.sSCon = sSCon;
+      
+      fileUpload(par);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
   }
   
   @Override
-  public void fileUpload(final SSFileUploadPar par) throws Exception{
+  public void fileUpload(final SSFileUploadPar par) throws SSErr{
     
     try{
       new Thread(
@@ -277,7 +286,7 @@ implements
   }
 
   @Override
-  public SSFileAddRet fileAdd(final SSEntityFileAddPar par) throws Exception{
+  public SSFileAddRet fileAdd(final SSEntityFileAddPar par) throws SSErr{
     
     try{
       
@@ -441,7 +450,7 @@ implements
   }
 
   @Override
-  public SSFile fileGet(final SSFileGetPar par) throws Exception{
+  public SSFile fileGet(final SSFileGetPar par) throws SSErr{
     
     try{
     
@@ -502,7 +511,7 @@ implements
   }
   
   @Override
-  public List<SSEntity> filesGet(final SSEntityFilesGetPar par) throws Exception{
+  public List<SSEntity> filesGet(final SSEntityFilesGetPar par) throws SSErr{
     
     try{
     
@@ -550,7 +559,7 @@ implements
 }
   
 //  public static SSUri getFileDefaultUri(
-//     String fileId) throws Exception{
+//     String fileId) throws SSErr{
 //    
 //    if(SSObjectUtils.isNull (fileId)){
 //      throw new MalformedURLException("Cannot get default file uri for null id");
@@ -559,7 +568,7 @@ implements
 //    return SSUri.get(SSVocServ.inst().serv().getUriDefaultFile() + fileId);
 //  }
 //  public static SSUri getFileDefaultUri(
-//     SSUri fileUri) throws Exception{
+//     SSUri fileUri) throws SSErr{
 //    
 //    String fileAsString;
 //    
@@ -572,7 +581,7 @@ implements
 //    return SSUri.get(SSVocServ.inst().serv().getUriDefaultFile() + fileAsString.substring(fileAsString.lastIndexOf(strU.slash) + 1));
 //  }
 //  public static SSUri getFileUriInDomain(
-//     SSUri fileUri) throws Exception{
+//     SSUri fileUri) throws SSErr{
 //    
 //    return SSUri.get(getFileUri() + getIdFromFileUri(fileUri));
 //  }

@@ -1,23 +1,23 @@
-/**
-* Code contributed to the Learning Layers project
-* http://www.learning-layers.eu
-* Development is partly funded by the FP7 Programme of the European Commission under
-* Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
-* For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
-*
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-* http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*/
+ /**
+  * Code contributed to the Learning Layers project
+  * http://www.learning-layers.eu
+  * Development is partly funded by the FP7 Programme of the European Commission under
+  * Grant Agreement FP7-ICT-318209.
+  * Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+  * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
+  *
+  * Licensed under the Apache License, Version 2.0 (the "License");
+  * you may not use this file except in compliance with the License.
+  * You may obtain a copy of the License at
+  *
+  * http://www.apache.org/licenses/LICENSE-2.0
+  *
+  * Unless required by applicable law or agreed to in writing, software
+  * distributed under the License is distributed on an "AS IS" BASIS,
+  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  * See the License for the specific language governing permissions and
+  * limitations under the License.
+  */
 package at.kc.tugraz.ss.serv.jobs.evernote.impl;
 
 import at.tugraz.sss.serv.SSDateU;
@@ -70,13 +70,16 @@ import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServReg;
+import at.tugraz.sss.serv.SSWarnE;
 import at.tugraz.sss.servs.file.datatype.par.SSEntityFilesGetPar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-public class SSEvernoteImpl 
+public class SSEvernoteImpl
 extends SSServImplWithDBA
-implements 
-  SSEvernoteClientI, 
-  SSEvernoteServerI, 
+implements
+  SSEvernoteClientI,
+  SSEvernoteServerI,
   SSDescribeEntityI{
   
   private final SSEvernoteSQLFct sqlFct;
@@ -91,7 +94,7 @@ implements
   @Override
   public SSEntity describeEntity(
     final SSEntity             entity,
-    final SSEntityDescriberPar par) throws Exception{
+    final SSEntityDescriberPar par) throws SSErr{
     
     try{
       
@@ -109,14 +112,14 @@ implements
               sqlFct.getNote(entity.id),
               entity);
           
-          for(SSEntity file : 
+          for(SSEntity file :
             ((SSFileRepoServerI) SSServReg.getServ(SSFileRepoServerI.class)).filesGet(
               new SSEntityFilesGetPar(
                 par.user,
                 evernoteNote.id,
                 par.withUserRestriction,
                 false))){ //invokeEntityHandlers
-
+            
             evernoteNote.file = file;
             break;
           }
@@ -161,7 +164,7 @@ implements
   }
   
   @Override
-  public SSEvernoteInfo evernoteNoteStoreGet(final SSEvernoteNoteStoreGetPar par) throws Exception {
+  public SSEvernoteInfo evernoteNoteStoreGet(final SSEvernoteNoteStoreGetPar par) throws SSErr {
     
     try{
       final EvernoteAuth              evernoteAuth       = new EvernoteAuth   (EvernoteService.PRODUCTION, par.authToken);
@@ -199,8 +202,8 @@ implements
       }
       
       if(
-        !noteStoreSyncChunk.isSetUpdateCount()  || 
-        !noteStoreSyncChunk.isSetChunkHighUSN() || 
+        !noteStoreSyncChunk.isSetUpdateCount()  ||
+        !noteStoreSyncChunk.isSetChunkHighUSN() ||
         (lastUSN >= noteStoreSyncChunk.getUpdateCount()) && lastUSN >= sqlFct.getUSN(par.authToken)){
         
         SSLogU.debug(par.authEmail + " received full evernote content");
@@ -213,7 +216,7 @@ implements
 //      }
       
       return SSEvernoteInfo.get(
-        userStore, 
+        userStore,
         noteStore,
         shardUri,
         noteStoreSyncChunk,
@@ -221,56 +224,66 @@ implements
       
 //      https://sandbox.evernote.com/shard/s1/sh/72ddd50f-5d13-46e3-b32d-d2b314ced5c1/ea77ae0587d735f39a94868ce3ddab5f
       
-    }catch(Exception error){
+    }catch(EDAMSystemException edamError){
       
-      if(
-        error instanceof EDAMSystemException &&
-        ((EDAMSystemException)error).getErrorCode().compareTo(EDAMErrorCode.RATE_LIMIT_REACHED) == 0){
+      if(edamError.getErrorCode().compareTo(EDAMErrorCode.RATE_LIMIT_REACHED) == 0){
         
         SSServErrReg.reset();
         
-        SSLogU.info("evernoteNoteStoreGet goes to sleep for " + ((EDAMSystemException)error).getRateLimitDuration() + " seconds for RATE EXCEPTION for " + par.authEmail);
+        SSLogU.info("evernoteNoteStoreGet goes to sleep for " + edamError.getRateLimitDuration() + " seconds for RATE EXCEPTION for " + par.authEmail);
         
-        Thread.sleep(((EDAMSystemException)error).getRateLimitDuration() * SSDateU.secondInMilliseconds  + SSDateU.secondInMilliseconds * 10) ;
+        try{
+          Thread.sleep(edamError.getRateLimitDuration() * SSDateU.secondInMilliseconds  + SSDateU.secondInMilliseconds * 10) ;
+        }catch (InterruptedException threadError){
+          SSLogU.warn(SSWarnE.threadInterrupted, threadError);
+        }
         
-        return evernoteNoteStoreGet (par);
+        return evernoteNoteStoreGet(par);
       }
       
+      SSServErrReg.regErrThrow(edamError);
+      return null;
+    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }
   }
   
   @Override
-  public Notebook evernoteNotebookGet(final SSServPar parA) throws Exception {
+  public Notebook evernoteNotebookGet(final SSServPar parA) throws SSErr {
     
     try{
       
       final SSEvernoteNotebookGetPar par       = new SSEvernoteNotebookGetPar(parA);
       
       return par.noteStore.getNotebook(par.notebookGUID);
-    }catch(Exception error){
+    }catch(EDAMSystemException edamError){
       
-      if(
-        error instanceof EDAMSystemException &&
-        ((EDAMSystemException)error).getErrorCode().compareTo(EDAMErrorCode.RATE_LIMIT_REACHED) == 0){
+      if(edamError.getErrorCode().compareTo(EDAMErrorCode.RATE_LIMIT_REACHED) == 0){
         
         SSServErrReg.reset();
         
-        SSLogU.info("evernoteNotebookGet goes to sleep for " + ((EDAMSystemException)error).getRateLimitDuration() + " seconds for RATE EXCEPTION");
+        SSLogU.info("evernoteNotebookGet goes to sleep for " + edamError.getRateLimitDuration() + " seconds for RATE EXCEPTION");
         
-        Thread.sleep(((EDAMSystemException)error).getRateLimitDuration() * SSDateU.secondInMilliseconds  + SSDateU.secondInMilliseconds * 10) ;
+        try{
+          Thread.sleep(edamError.getRateLimitDuration() * SSDateU.secondInMilliseconds  + SSDateU.secondInMilliseconds * 10) ;
+        }catch (InterruptedException threadError){
+          SSLogU.warn(SSWarnE.threadInterrupted, threadError);
+        }
         
         return evernoteNotebookGet (parA);
       }
       
+      SSServErrReg.regErrThrow(edamError);
+      return null;
+    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }
   }
   
   @Override
-  public Resource evernoteResourceByHashGet(final SSServPar parA) throws Exception {
+  public Resource evernoteResourceByHashGet(final SSServPar parA) throws SSErr {
     
     try{
       
@@ -281,12 +294,12 @@ implements
 //      byte[] array =  par.resourceHash.getBytes();
       
 //      ByteBuffer bytes = ByteBuffer.wrap(array);
-        
-        //allocate(2).putShort(a);
+      
+      //allocate(2).putShort(a);
       
 //      int numberChars = par.resourceHash.length();
 //      byte[] bytes = new byte[numberChars / 2];
-//      
+//
 //      for (int i = 0; i < numberChars; i += 2){
 //        bytes[i / 2] = Byte.parseByte(par.resourceHash.substring(i, i + 1), 16);
 //      }
@@ -298,140 +311,165 @@ implements
       }
       
       return par.noteStore.getResourceByHash(par.noteGUID, result, true, false, false);
-    }catch(Exception error){
+    }catch(EDAMSystemException edamError){
       
-      if(
-        error instanceof EDAMSystemException &&
-        ((EDAMSystemException)error).getErrorCode().compareTo(EDAMErrorCode.RATE_LIMIT_REACHED) == 0){
+      if(edamError.getErrorCode().compareTo(EDAMErrorCode.RATE_LIMIT_REACHED) == 0){
         
         SSServErrReg.reset();
         
-        SSLogU.info("evernoteResourceByHashGet goes to sleep for " + ((EDAMSystemException)error).getRateLimitDuration() + " seconds for RATE EXCEPTION");
+        SSLogU.info("evernoteResourceByHashGet goes to sleep for " + edamError.getRateLimitDuration() + " seconds for RATE EXCEPTION");
         
-        Thread.sleep(((EDAMSystemException)error).getRateLimitDuration() * SSDateU.secondInMilliseconds  + SSDateU.secondInMilliseconds * 10) ;
+        try{
+          Thread.sleep(edamError.getRateLimitDuration() * SSDateU.secondInMilliseconds  + SSDateU.secondInMilliseconds * 10);
+        }catch (InterruptedException threadError){
+          SSLogU.warn(SSWarnE.threadInterrupted, threadError);
+        }
         
         return evernoteResourceByHashGet (parA);
       }
       
+      SSServErrReg.regErrThrow(edamError);
+      return null;
+    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }
   }
   
   @Override
-  public List<SharedNotebook> evernoteNotebooksSharedGet(SSServPar parA) throws Exception {
+  public List<SharedNotebook> evernoteNotebooksSharedGet(SSServPar parA) throws SSErr {
     
     try{
       SSEvernoteNotebooksSharedGetPar par             = new SSEvernoteNotebooksSharedGetPar(parA);
       
-			return par.noteStore.listSharedNotebooks();
-    }catch(Exception error){
+      return par.noteStore.listSharedNotebooks();
+    }catch(EDAMSystemException edamError){
       
-      if(
-        error instanceof EDAMSystemException &&
-        ((EDAMSystemException)error).getErrorCode().compareTo(EDAMErrorCode.RATE_LIMIT_REACHED) == 0){
+      if(edamError.getErrorCode().compareTo(EDAMErrorCode.RATE_LIMIT_REACHED) == 0){
         
         SSServErrReg.reset();
         
-        SSLogU.info("evernoteNotebooksSharedGet goes to sleep for " + ((EDAMSystemException)error).getRateLimitDuration() + " seconds for RATE EXCEPTION");
+        SSLogU.info("evernoteNotebooksSharedGet goes to sleep for " + edamError.getRateLimitDuration() + " seconds for RATE EXCEPTION");
         
-        Thread.sleep(((EDAMSystemException)error).getRateLimitDuration() * SSDateU.secondInMilliseconds  + SSDateU.secondInMilliseconds * 10) ;
+        try{
+          Thread.sleep(edamError.getRateLimitDuration() * SSDateU.secondInMilliseconds  + SSDateU.secondInMilliseconds * 10);
+        }catch (InterruptedException threadError){
+          SSLogU.warn(SSWarnE.threadInterrupted, threadError);
+        }
         
         return evernoteNotebooksSharedGet(parA);
       }
       
+      SSServErrReg.regErrThrow(edamError);
+      return null;
+    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }
   }
   
   @Override
-  public List<String> evernoteNoteTagNamesGet(final SSServPar parA) throws Exception{
+  public List<String> evernoteNoteTagNamesGet(final SSServPar parA) throws SSErr{
     
     try{
       final SSEvernoteNoteTagNamesGetPar par       = new SSEvernoteNoteTagNamesGetPar(parA);
       
       return SSStrU.distinctWithoutEmptyAndNull(par.noteStore.getNoteTagNames(par.noteGUID));
       
-    }catch(Exception error){
+    }catch(EDAMSystemException edamError){
       
-      if(
-        error instanceof EDAMSystemException &&
-        ((EDAMSystemException)error).getErrorCode().compareTo(EDAMErrorCode.RATE_LIMIT_REACHED) == 0){
+      if(edamError.getErrorCode().compareTo(EDAMErrorCode.RATE_LIMIT_REACHED) == 0){
         
         SSServErrReg.reset();
         
-        SSLogU.info("evernoteNoteTagNamesGet goes to sleep for " + ((EDAMSystemException)error).getRateLimitDuration() + " seconds for RATE EXCEPTION");
+        SSLogU.info("evernoteNoteTagNamesGet goes to sleep for " + edamError.getRateLimitDuration() + " seconds for RATE EXCEPTION");
         
-        Thread.sleep(((EDAMSystemException)error).getRateLimitDuration() * SSDateU.secondInMilliseconds  + SSDateU.secondInMilliseconds * 10) ;
+        try{
+          Thread.sleep(edamError.getRateLimitDuration() * SSDateU.secondInMilliseconds  + SSDateU.secondInMilliseconds * 10);
+        }catch (InterruptedException threadError){
+          SSLogU.warn(SSWarnE.threadInterrupted, threadError);
+        }
         
         return evernoteNoteTagNamesGet (parA);
       }
       
+      SSServErrReg.regErrThrow(edamError);
+      return null;
+    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }
   }
   
   @Override
-  public Note evernoteNoteGet(final SSServPar parA) throws Exception{
+  public Note evernoteNoteGet(final SSServPar parA) throws SSErr{
     
     try{
       final SSEvernoteNoteGetPar par = new SSEvernoteNoteGetPar(parA);
       
       return par.noteStore.getNote(par.noteGUID, par.includeContent, false, false, false);
       
-    }catch(Exception error){
+    }catch(EDAMSystemException edamError){
       
-      if(
-        error instanceof EDAMSystemException &&
-        ((EDAMSystemException)error).getErrorCode().compareTo(EDAMErrorCode.RATE_LIMIT_REACHED) == 0){
+      if(edamError.getErrorCode().compareTo(EDAMErrorCode.RATE_LIMIT_REACHED) == 0){
         
         SSServErrReg.reset();
         
-        SSLogU.info("evernoteNoteGet goes to sleep for " + ((EDAMSystemException)error).getRateLimitDuration() + " seconds for RATE EXCEPTION");
+        SSLogU.info("evernoteNoteGet goes to sleep for " + edamError.getRateLimitDuration() + " seconds for RATE EXCEPTION");
         
-        Thread.sleep(((EDAMSystemException)error).getRateLimitDuration() * SSDateU.secondInMilliseconds  + SSDateU.secondInMilliseconds * 10) ;
+        try{
+          Thread.sleep(edamError.getRateLimitDuration() * SSDateU.secondInMilliseconds  + SSDateU.secondInMilliseconds * 10);
+        }catch (InterruptedException threadError){
+          SSLogU.warn(SSWarnE.threadInterrupted, threadError);
+        }
         
         return evernoteNoteGet (parA);
       }
       
+      SSServErrReg.regErrThrow(edamError);
+      return null;
+    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }
   }
   
   @Override
-  public Resource evernoteResourceGet(final SSServPar parA) throws Exception{
+  public Resource evernoteResourceGet(final SSServPar parA) throws SSErr{
     
     try{
       final SSEvernoteResourceGetPar par = new SSEvernoteResourceGetPar(parA);
       
       return par.noteStore.getResource(par.resourceGUID, par.includeContent, false, true, false);
       
-    }catch(Exception error){
+    }catch(EDAMSystemException edamError){
       
-      if(
-        error instanceof EDAMSystemException &&
-        ((EDAMSystemException)error).getErrorCode().compareTo(EDAMErrorCode.RATE_LIMIT_REACHED) == 0){
+      if(edamError.getErrorCode().compareTo(EDAMErrorCode.RATE_LIMIT_REACHED) == 0){
         
         SSServErrReg.reset();
         
-        SSLogU.info("evernoteResourceGet goes to sleep for " + ((EDAMSystemException)error).getRateLimitDuration() + " seconds for RATE EXCEPTION");
+        SSLogU.info("evernoteResourceGet goes to sleep for " + edamError.getRateLimitDuration() + " seconds for RATE EXCEPTION");
         
-        Thread.sleep(((EDAMSystemException)error).getRateLimitDuration() * SSDateU.secondInMilliseconds  + SSDateU.secondInMilliseconds * 10) ;
+        try{
+          Thread.sleep(edamError.getRateLimitDuration() * SSDateU.secondInMilliseconds  + SSDateU.secondInMilliseconds * 10);
+        }catch (InterruptedException threadError){
+          SSLogU.warn(SSWarnE.threadInterrupted, threadError);
+        }
         
         return evernoteResourceGet (parA);
       }
       
+      SSServErrReg.regErrThrow(edamError);
+      return null;
+    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }
   }
   
   @Override
-  public Boolean evernoteUserAdd(final SSServPar parA) throws Exception{
-     
+  public Boolean evernoteUserAdd(final SSServPar parA) throws SSErr{
+    
     try{
       final SSEvernoteUserAddPar par = new SSEvernoteUserAddPar(parA);
       
@@ -465,8 +503,8 @@ implements
   }
   
   @Override
-  public Boolean evernoteNoteAdd(final SSServPar parA) throws Exception{
-     
+  public Boolean evernoteNoteAdd(final SSServPar parA) throws SSErr{
+    
     try{
       final SSEvernoteNoteAddPar par = new SSEvernoteNoteAddPar(parA);
       
@@ -500,8 +538,8 @@ implements
   }
   
   @Override
-  public Boolean evernoteResourceAdd(final SSServPar parA) throws Exception{
-     
+  public Boolean evernoteResourceAdd(final SSServPar parA) throws SSErr{
+    
     try{
       final SSEvernoteResourceAddPar par = new SSEvernoteResourceAddPar(parA);
       
@@ -535,8 +573,8 @@ implements
   }
   
   @Override
-  public Boolean evernoteUSNSet(final SSServPar parA) throws Exception{
-     
+  public Boolean evernoteUSNSet(final SSServPar parA) throws SSErr{
+    
     try{
       final SSEvernoteUSNSetPar par = new SSEvernoteUSNSetPar(parA);
       
@@ -569,12 +607,12 @@ implements
     }
   }
   
-//    @Override 
-//  public List<LinkedNotebook> evernoteNotebooksLinkedGet(SSServPar parA) throws Exception{
-//    
+//    @Override
+//  public List<LinkedNotebook> evernoteNotebooksLinkedGet(SSServPar parA) throws SSErr{
+//
 //    try{
 //      SSEvernoteNotebooksLinkedGetPar par             = new SSEvernoteNotebooksLinkedGetPar(parA);
-//      
+//
 //			return par.noteStore.listLinkedNotebooks();
 //    }catch (Exception error){
 //			SSServErrReg.regErrThrow(error);
@@ -583,12 +621,12 @@ implements
 //  }
   
   //  @Override
-//  public List<Notebook> evernoteNotebooksGet(SSServPar parA) throws Exception {
-//    
+//  public List<Notebook> evernoteNotebooksGet(SSServPar parA) throws SSErr {
+//
 //    try{
-//      
+//
 //      SSEvernoteNotebooksGetPar par       = new SSEvernoteNotebooksGetPar(parA);
-//      
+//
 //      return par.noteStore.listNotebooks();
 //    }catch (Exception error){
 //      SSServErrReg.regErrThrow(error);
@@ -597,63 +635,63 @@ implements
 //  }
   
 //  @Override
-//  public List<Note> evernoteNotesGet(SSServPar parA) throws Exception {
-//    
+//  public List<Note> evernoteNotesGet(SSServPar parA) throws SSErr {
+//
 //    try{
-//      
+//
 //      SSEvernoteNotesGetPar   par        = new SSEvernoteNotesGetPar(parA);
 //      List<Note>              notes      = new ArrayList<>();
 //      NotesMetadataResultSpec resultSpec = new NotesMetadataResultSpec();
 //      NoteFilter              noteFilter = new NoteFilter();
 //      NotesMetadataList       noteList;
 ////    NoteCollectionCounts    noteCount;
-//      
+//
 //      resultSpec.setIncludeAttributes(true);
 //      resultSpec.setIncludeCreated(true);
 //      resultSpec.setIncludeDeleted(true);
 //      resultSpec.setIncludeNotebookGuid(true);
 //      resultSpec.setIncludeTitle(true);
 //      resultSpec.setIncludeUpdated(true);
-//      
+//
 //      noteFilter.setNotebookGuid(par.notebookGuid);
-//      
+//
 ////      noteCount = par.noteStore.findNoteCounts    (noteFilter, false);
 //      noteList  = par.noteStore.findNotesMetadata (noteFilter, 0, 100, resultSpec);
-//      
+//
 //      for (NoteMetadata note : noteList.getNotes()) {
 //        notes.add(par.noteStore.getNote(note.getGuid(), true, true, false, false));
 //      }
-//      
+//
 //      return notes;
 //    }catch(Exception error){
-//      
+//
 //      if(
 //        error instanceof EDAMSystemException &&
 //        ((EDAMSystemException)error).getErrorCode().compareTo(EDAMErrorCode.RATE_LIMIT_REACHED) == 0){
-//        
+//
 //        SSServErrReg.reset();
-//        
+//
 //        SSLogU.info("evernoteNotesGet goes to sleep for " + ((EDAMSystemException)error).getRateLimitDuration() + " seconds for RATE EXCEPTION");
-//        
+//
 //        Thread.sleep(((EDAMSystemException)error).getRateLimitDuration() * SSDateU.secondInMilliseconds  + SSDateU.secondInMilliseconds * 10) ;
-//        
+//
 //        return evernoteNotesGet (parA);
 //      }
-//      
+//
 //      SSServErrReg.regErrThrow(error);
 //      return null;
 //    }
 //  }
-//  
+//
 //  @Override
-//  public List<Note> evernoteNotesLinkedGet(final SSServPar parA) throws Exception{
-//    
+//  public List<Note> evernoteNotesLinkedGet(final SSServPar parA) throws SSErr{
+//
 //    try{
 //      final SSEvernoteNotesLinkedGetPar par       = new SSEvernoteNotesLinkedGetPar(parA);
 //      final SyncChunk                   synChunk  = par.noteStore.getLinkedNotebookSyncChunk(par.linkedNotebook, 0, 256, true);
-//      
+//
 //      return synChunk.getNotes();
-//      
+//
 //    }catch (Exception error){
 //      SSServErrReg.regErrThrow(error);
 //      return null;
@@ -662,13 +700,13 @@ implements
 }
 
 // @Override
-//  public String evernoteUsersAuthTokenGet(final SSServPar parA) throws Exception{
-//     
+//  public String evernoteUsersAuthTokenGet(final SSServPar parA) throws SSErr{
+//
 //    try{
 //      final SSEvernoteUsersAuthTokenGetPar par = new SSEvernoteUsersAuthTokenGetPar(parA);
-//      
+//
 //      return sqlFct.getAuthToken(par.user);
-//      
+//
 //    }catch(Exception error){
 //      SSServErrReg.regErrThrow(error);
 //      return null;

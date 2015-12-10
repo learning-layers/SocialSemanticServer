@@ -23,10 +23,11 @@
 import at.kc.tugraz.ss.service.search.datatypes.pars.SSSearchCleanUpPar;
 import at.kc.tugraz.ss.service.search.datatypes.pars.SSSearchPar;
 import at.kc.tugraz.ss.service.search.datatypes.ret.SSSearchRet;
+import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSServServerI;
 
 public interface SSSearchServerI extends SSServServerI{
 
-  public SSSearchRet    search          (final SSSearchPar        par)  throws Exception;
-  public void           searchCleanUp   (final SSSearchCleanUpPar par)  throws Exception;
+  public SSSearchRet    search          (final SSSearchPar        par)  throws SSErr;
+  public void           searchCleanUp   (final SSSearchCleanUpPar par)  throws SSErr;
 }

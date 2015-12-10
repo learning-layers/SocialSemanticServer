@@ -25,6 +25,7 @@ import at.kc.tugraz.ss.circle.datatypes.par.SSCirclesGetPar;
 import at.kc.tugraz.sss.comment.api.SSCommentServerI;
 import at.kc.tugraz.sss.comment.datatypes.par.SSCommentEntitiesGetPar;
 import at.tugraz.sss.serv.SSEntity;
+import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSUri;
 import java.util.List;
 import java.util.Map;
@@ -36,7 +37,7 @@ public class SSCommentUserRelationGatherFct{
   
   public static void getUserRelations(
     final List<String>              allUsers,
-    final Map<String, List<SSUri>>  userRelations) throws Exception{
+    final Map<String, List<SSUri>>  userRelations) throws SSErr{
     
     try{
       
@@ -60,35 +61,39 @@ public class SSCommentUserRelationGatherFct{
   
   private static void addRelationsForCommentedEntities(
     final Map<String, List<SSUri>>  userRelations,
-    final SSUri                     userUri) throws Exception{
+    final SSUri                     userUri) throws SSErr{
     
-    final String userStr = SSStrU.toStr(userUri);
-    
-    for(SSUri entity : 
-      ((SSCommentServerI) SSServReg.getServ(SSCommentServerI.class)).commentEntitiesGet(
-        new SSCommentEntitiesGetPar(
-          userUri, 
-          false))){ //withUserRestriction
+    try{
+      final String userStr = SSStrU.toStr(userUri);
       
-      for(SSEntity entityCircle : 
-        ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlesGet(
-          new SSCirclesGetPar(
+      for(SSUri entity :
+        ((SSCommentServerI) SSServReg.getServ(SSCommentServerI.class)).commentEntitiesGet(
+          new SSCommentEntitiesGetPar(
             userUri,
-            userUri,
-            entity,
-            null, //entityTypesToIncludeOnly
-            false, //setEntities,
-            true, //setUsers
-            false, //withUserRestriction
-            true, //withSystemCircles
-            false))){ //invokeEntityHandlers
-
-        if(userRelations.containsKey(userStr)){
-          userRelations.get(userStr).addAll(SSUri.getDistinctNotNullFromEntities(entityCircle.users));
-        }else{
-          userRelations.put(userStr, SSUri.getDistinctNotNullFromEntities(entityCircle.users));
+            false))){ //withUserRestriction
+        
+        for(SSEntity entityCircle :
+          ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlesGet(
+            new SSCirclesGetPar(
+              userUri,
+              userUri,
+              entity,
+              null, //entityTypesToIncludeOnly
+              false, //setEntities,
+              true, //setUsers
+              false, //withUserRestriction
+              true, //withSystemCircles
+              false))){ //invokeEntityHandlers
+          
+          if(userRelations.containsKey(userStr)){
+            userRelations.get(userStr).addAll(SSUri.getDistinctNotNullFromEntities(entityCircle.users));
+          }else{
+            userRelations.put(userStr, SSUri.getDistinctNotNullFromEntities(entityCircle.users));
+          }
         }
       }
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
     }
   }
 }

@@ -34,17 +34,18 @@ import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscEntryAddRet;
 import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscEntryUpdateRet;
 import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscUpdateRet;
 import at.tugraz.sss.serv.SSEntity;
+import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSServServerI;
 import java.util.List;
 
 public interface SSDiscServerI extends SSServServerI{
   
-  public SSDisc               discGet                   (final SSDiscGetPar              par) throws Exception;
-  public List<SSEntity>       discsGet                  (final SSDiscsGetPar             par) throws Exception;
-  public SSUri                discRemove                (final SSDiscRemovePar           par) throws Exception;
-  public SSDiscEntryAddRet    discEntryAdd              (final SSDiscEntryAddPar         par) throws Exception;
-  public SSUri                discEntryAccept           (final SSDiscEntryAcceptPar      par) throws Exception;
-  public SSUri                discTargetsAdd            (final SSDiscTargetsAddPar       par) throws Exception;
-  public SSDiscUpdateRet      discUpdate                (final SSDiscUpdatePar           par) throws Exception;
-  public SSDiscEntryUpdateRet discEntryUpdate           (final SSDiscEntryUpdatePar      par) throws Exception;
+  public SSDisc               discGet                   (final SSDiscGetPar              par) throws SSErr;
+  public List<SSEntity>       discsGet                  (final SSDiscsGetPar             par) throws SSErr;
+  public SSUri                discRemove                (final SSDiscRemovePar           par) throws SSErr;
+  public SSDiscEntryAddRet    discEntryAdd              (final SSDiscEntryAddPar         par) throws SSErr;
+  public SSUri                discEntryAccept           (final SSDiscEntryAcceptPar      par) throws SSErr;
+  public SSUri                discTargetsAdd            (final SSDiscTargetsAddPar       par) throws SSErr;
+  public SSDiscUpdateRet      discUpdate                (final SSDiscUpdatePar           par) throws SSErr;
+  public SSDiscEntryUpdateRet discEntryUpdate           (final SSDiscEntryUpdatePar      par) throws SSErr;
 }

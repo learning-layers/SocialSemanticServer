@@ -28,14 +28,15 @@ import at.kc.tugraz.sss.appstacklayout.datatypes.par.SSAppStackLayoutGetPar;
 import at.kc.tugraz.sss.appstacklayout.datatypes.par.SSAppStackLayoutUpdatePar;
 import at.kc.tugraz.sss.appstacklayout.datatypes.par.SSAppStackLayoutsGetPar;
 import at.tugraz.sss.serv.SSEntity;
+import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSServServerI;
 import java.util.List;
 
 public interface SSAppStackLayoutServerI extends SSServServerI{
   
-  public SSUri            appStackLayoutCreate   (final SSAppStackLayoutCreatePar par) throws Exception;
-  public SSUri            appStackLayoutUpdate   (final SSAppStackLayoutUpdatePar par) throws Exception;
-  public List<SSEntity>   appStackLayoutsGet     (final SSAppStackLayoutsGetPar   par) throws Exception;
-  public SSAppStackLayout appStackLayoutGet      (final SSAppStackLayoutGetPar    par) throws Exception;
-  public Boolean          appStackLayoutDelete   (final SSAppStackLayoutDeletePar par) throws Exception;
+  public SSUri            appStackLayoutCreate   (final SSAppStackLayoutCreatePar par) throws SSErr;
+  public SSUri            appStackLayoutUpdate   (final SSAppStackLayoutUpdatePar par) throws SSErr;
+  public List<SSEntity>   appStackLayoutsGet     (final SSAppStackLayoutsGetPar   par) throws SSErr;
+  public SSAppStackLayout appStackLayoutGet      (final SSAppStackLayoutGetPar    par) throws SSErr;
+  public Boolean          appStackLayoutDelete   (final SSAppStackLayoutDeletePar par) throws SSErr;
 }

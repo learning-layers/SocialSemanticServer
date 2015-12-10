@@ -26,13 +26,14 @@ import at.kc.tugraz.ss.message.datatypes.par.SSMessageGetPar;
 import at.kc.tugraz.ss.message.datatypes.par.SSMessageSendPar;
 import at.kc.tugraz.ss.message.datatypes.par.SSMessagesGetPar;
 import at.tugraz.sss.serv.SSEntity;
+import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSServServerI;
 import java.util.List;
 
 public interface SSMessageServerI extends SSServServerI{
 
-  public SSMessage      messageGet      (final SSMessageGetPar  par)  throws Exception;
-  public List<SSEntity> messagesGet     (final SSMessagesGetPar par)  throws Exception;
-  public SSUri          messageSend     (final SSMessageSendPar par)  throws Exception;
+  public SSMessage      messageGet      (final SSMessageGetPar  par)  throws SSErr;
+  public List<SSEntity> messagesGet     (final SSMessagesGetPar par)  throws SSErr;
+  public SSUri          messageSend     (final SSMessageSendPar par)  throws SSErr;
   
 }

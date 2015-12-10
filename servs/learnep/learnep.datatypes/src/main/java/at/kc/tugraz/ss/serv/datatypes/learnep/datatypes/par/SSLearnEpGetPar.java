@@ -20,6 +20,7 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par;
 
+import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSStrU;
@@ -32,7 +33,7 @@ public class SSLearnEpGetPar extends SSServPar{
   public Boolean setRead              = false;
   public Boolean setCircleTypes       = false;
   
-  public void setLearnEp(final String learnEp) throws Exception{
+  public void setLearnEp(final String learnEp) throws SSErr{
     this.learnEp = SSUri.get(learnEp);
   }
   

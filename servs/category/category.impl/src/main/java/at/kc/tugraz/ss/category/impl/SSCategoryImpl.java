@@ -1,23 +1,23 @@
-/**
-* Code contributed to the Learning Layers project
-* http://www.learning-layers.eu
-* Development is partly funded by the FP7 Programme of the European Commission under
-* Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
-* For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
-*
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-* http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*/
+ /**
+  * Code contributed to the Learning Layers project
+  * http://www.learning-layers.eu
+  * Development is partly funded by the FP7 Programme of the European Commission under
+  * Grant Agreement FP7-ICT-318209.
+  * Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
+  * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
+  *
+  * Licensed under the Apache License, Version 2.0 (the "License");
+  * you may not use this file except in compliance with the License.
+  * You may obtain a copy of the License at
+  *
+  * http://www.apache.org/licenses/LICENSE-2.0
+  *
+  * Unless required by applicable law or agreed to in writing, software
+  * distributed under the License is distributed on an "AS IS" BASIS,
+  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  * See the License for the specific language governing permissions and
+  * limitations under the License.
+  */
 package at.kc.tugraz.ss.category.impl;
 
 import at.kc.tugraz.ss.activity.api.SSActivityServerI;
@@ -92,12 +92,12 @@ import sss.serv.eval.api.SSEvalServerI;
 import sss.serv.eval.datatypes.SSEvalLogE;
 import sss.serv.eval.datatypes.par.SSEvalLogPar;
 
-public class SSCategoryImpl 
-extends SSServImplWithDBA 
-implements 
-  SSCategoryClientI, 
-  SSCategoryServerI, 
-  SSDescribeEntityI, 
+public class SSCategoryImpl
+extends SSServImplWithDBA
+implements
+  SSCategoryClientI,
+  SSCategoryServerI,
+  SSDescribeEntityI,
   SSEntityCopiedI,
   SSCircleContentRemovedI,
   SSUserRelationGathererI,
@@ -124,7 +124,7 @@ implements
   @Override
   public SSEntity describeEntity(
     final SSEntity             entity,
-    final SSEntityDescriberPar par) throws Exception{
+    final SSEntityDescriberPar par) throws SSErr{
     
     try{
       
@@ -153,8 +153,8 @@ implements
   
   @Override
   public void getUserRelations(
-    final List<String>             allUsers, 
-    final Map<String, List<SSUri>> userRelations) throws Exception{
+    final List<String>             allUsers,
+    final Map<String, List<SSUri>> userRelations) throws SSErr{
     
     try{
       final Map<String, List<SSUri>> usersPerCategory = new HashMap<>();
@@ -195,7 +195,7 @@ implements
   
   @Override
   public void getUsersResources(
-    final Map<String, List<SSEntityContext>> usersEntities) throws Exception{
+    final Map<String, List<SSEntityContext>> usersEntities) throws SSErr{
     
     try{
       
@@ -216,7 +216,7 @@ implements
       for(String user : usersEntities.keySet()){
         
         userID = SSUri.get(user);
-
+        
         categoriesGetPar.user    = userID;
         categoriesGetPar.forUser = userID;
         
@@ -238,7 +238,7 @@ implements
   
   @Override
   public void circleContentRemoved(
-    final SSCircleContentRemovedPar par) throws Exception {
+    final SSCircleContentRemovedPar par) throws SSErr {
     
     if(!par.removeCircleSpecificMetadata){
       return;
@@ -250,18 +250,18 @@ implements
         new SSCategoriesRemovePar(
           par.user,
           null, //forUser
-          entity, 
-          null, //label, 
-          SSSpaceE.circleSpace, //space, 
-          par.circle, 
-          par.withUserRestriction, 
+          entity,
+          null, //label,
+          SSSpaceE.circleSpace, //space,
+          par.circle,
+          par.withUserRestriction,
           false));
     }
     
   }
   
   @Override
-  public void entityCopied(final SSEntityCopiedPar par) throws Exception{
+  public void entityCopied(final SSEntityCopiedPar par) throws SSErr{
     
     try{
       if(!par.includeMetadataSpecificToEntityAndItsEntities){
@@ -323,10 +323,10 @@ implements
   }
   
   @Override
-  public List<SSUri> categoriesAdd(final SSCategoriesAddPar par) throws Exception {
+  public List<SSUri> categoriesAdd(final SSCategoriesAddPar par) throws SSErr {
     
     try{
-
+      
       final List<SSUri>      categories     = new ArrayList<>();
       final SSCategoryAddPar categoryAddPar =
         new SSCategoryAddPar(
@@ -369,41 +369,46 @@ implements
   }
   
   @Override
-  public void categoryAdd(SSSocketCon sSCon, SSServPar parA) throws Exception {
+  public void categoryAdd(SSSocketCon sSCon, SSServPar parA) throws SSErr {
     
-    SSServCallerU.checkKey(parA);
-    
-    final SSCategoryAddPar par = (SSCategoryAddPar) parA.getFromJSON(SSCategoryAddPar.class);
-    
-    final SSUri categoryUri = categoryAdd(par);
-    
-    sSCon.writeRetFullToClient(SSCategoryAddRet.get(categoryUri));
-    
-    activityServ.activityAdd(
-      new SSActivityAddPar(
-        par.user,
-        SSActivityE.addCategory,
-        par.entity,
-        null,
-        SSUri.asListNotNull(categoryUri),
-        null,
-        null,
-        par.shouldCommit));
-    
-    evalServ.evalLog(
-      new SSEvalLogPar(
-        par.user,
-        SSToolContextE.sss,
-        SSEvalLogE.categoryAdd,
-        par.entity,  //entity
-        SSStrU.toStr(par.label), //content,
-        null, //entities
-        null, //users
-        par.shouldCommit));
+    try{
+      SSServCallerU.checkKey(parA);
+      
+      final SSCategoryAddPar par = (SSCategoryAddPar) parA.getFromJSON(SSCategoryAddPar.class);
+      
+      final SSUri categoryUri = categoryAdd(par);
+      
+      sSCon.writeRetFullToClient(SSCategoryAddRet.get(categoryUri));
+      
+      activityServ.activityAdd(
+        new SSActivityAddPar(
+          par.user,
+          SSActivityE.addCategory,
+          par.entity,
+          null,
+          SSUri.asListNotNull(categoryUri),
+          null,
+          null,
+          par.shouldCommit));
+      
+      evalServ.evalLog(
+        new SSEvalLogPar(
+          par.user,
+          SSToolContextE.sss,
+          SSEvalLogE.categoryAdd,
+          par.entity,  //entity
+          SSStrU.toStr(par.label), //content,
+          null, //entities
+          null, //users
+          par.shouldCommit));
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
   }
   
   @Override
-  public SSUri categoryAdd(final SSCategoryAddPar par) throws Exception {
+  public SSUri categoryAdd(final SSCategoryAddPar par) throws SSErr {
     
     try{
       final SSUri            categoryUri;
@@ -433,10 +438,10 @@ implements
         
         case circleSpace:{
           
-          final SSEntity circle = 
+          final SSEntity circle =
             sql.getEntityTest(
-              par.user, 
-              par.circle, 
+              par.user,
+              par.circle,
               par.withUserRestriction);
           
           if(circle == null){
@@ -470,7 +475,7 @@ implements
       }
       
       if(categoryEntity == null){
-
+        
         categoryUri =
           entityServ.entityUpdate(
             new SSEntityUpdatePar(
@@ -533,54 +538,58 @@ implements
   }
   
   @Override
-  public void categoriesRemove(SSSocketCon sSCon, SSServPar parA) throws Exception {
+  public void categoriesRemove(SSSocketCon sSCon, SSServPar parA) throws SSErr {
     
-    SSServCallerU.checkKey(parA);
-    
-    final SSCategoriesRemovePar par = (SSCategoriesRemovePar) parA.getFromJSON(SSCategoriesRemovePar.class);
-    
-    sSCon.writeRetFullToClient(SSCategoriesRemoveRet.get(categoriesRemove(par)));
-    
-    activityServ.activityAdd(
-      new SSActivityAddPar(
-        par.user,
-        SSActivityE.removeCategories,
-        par.entity,
-        null,
-        null,
-        null,
-        null,
-        par.shouldCommit));
-    
-    evalServ.evalLog(
-      new SSEvalLogPar(
-        par.user,
-        SSToolContextE.sss,
-        SSEvalLogE.categoriesRemove,
-        par.entity,  //entity
-        SSStrU.toStr(par.label), //content,
-        null, //entities
-        null, //users
-        par.shouldCommit));
+    try{
+      SSServCallerU.checkKey(parA);
+      
+      final SSCategoriesRemovePar par = (SSCategoriesRemovePar) parA.getFromJSON(SSCategoriesRemovePar.class);
+      
+      sSCon.writeRetFullToClient(SSCategoriesRemoveRet.get(categoriesRemove(par)));
+      
+      activityServ.activityAdd(
+        new SSActivityAddPar(
+          par.user,
+          SSActivityE.removeCategories,
+          par.entity,
+          null,
+          null,
+          null,
+          null,
+          par.shouldCommit));
+      
+      evalServ.evalLog(
+        new SSEvalLogPar(
+          par.user,
+          SSToolContextE.sss,
+          SSEvalLogE.categoriesRemove,
+          par.entity,  //entity
+          SSStrU.toStr(par.label), //content,
+          null, //entities
+          null, //users
+          par.shouldCommit));
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
   }
   
   @Override
-  public Boolean categoriesRemove(final SSCategoriesRemovePar par) throws Exception {
+  public Boolean categoriesRemove(final SSCategoriesRemovePar par) throws SSErr {
     
     try{
       
       if(SSObjU.isNull(par.user)){
         throw SSErr.get(SSErrE.parameterMissing);
       }
-
-      if(par.entity != null){
       
-        final SSEntity entity = 
+      if(par.entity != null){
+        
+        final SSEntity entity =
           sql.getEntityTest(
-            par.user, 
-            par.entity, 
+            par.user,
+            par.entity,
             par.withUserRestriction);
-
+        
         if(entity == null){
           return false;
         }
@@ -594,10 +603,10 @@ implements
         
         if(par.circle != null){
           
-          final SSEntity circle = 
+          final SSEntity circle =
             sql.getEntityTest(
-              par.user, 
-              par.circle, 
+              par.user,
+              par.circle,
               par.withUserRestriction);
           
           if(circle == null){
@@ -647,7 +656,7 @@ implements
       if(
         par.space  == null &&
         par.entity == null){
-
+        
         dbSQL.startTrans(par.shouldCommit);
         
         sql.removeMetadataAsss(par.user, null, categoryUri, SSSpaceE.privateSpace, par.circle);
@@ -658,17 +667,17 @@ implements
         return true;
       }
       
-       if(
-         par.space  != null &&
-         par.entity == null){
-         
-         dbSQL.startTrans(par.shouldCommit);
-         
-         sql.removeMetadataAsss(par.user, null, categoryUri, par.space, par.circle);
-         
-         dbSQL.commit(par.shouldCommit);
-         return true;
-       }
+      if(
+        par.space  != null &&
+        par.entity == null){
+        
+        dbSQL.startTrans(par.shouldCommit);
+        
+        sql.removeMetadataAsss(par.user, null, categoryUri, par.space, par.circle);
+        
+        dbSQL.commit(par.shouldCommit);
+        return true;
+      }
       
       if(
         par.space    == null &&
@@ -689,9 +698,9 @@ implements
         par.entity   != null){
         
         dbSQL.startTrans(par.shouldCommit);
-      
+        
         sql.removeMetadataAsss(null, par.entity, categoryUri, par.space, par.circle);
-
+        
         dbSQL.commit(par.shouldCommit);
         return true;
       }
@@ -720,17 +729,21 @@ implements
   }
   
   @Override
-  public void categoriesPredefinedGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
+  public void categoriesPredefinedGet(final SSSocketCon sSCon, final SSServPar parA) throws SSErr {
     
-    SSServCallerU.checkKey(parA);
-    
-    final SSCategoriesPredefinedGetPar par = (SSCategoriesPredefinedGetPar) parA.getFromJSON(SSCategoriesPredefinedGetPar.class);
-    
-    sSCon.writeRetFullToClient(SSCategoriesPredefinedGetRet.get(categoriesPredefinedGet(par)));
-  }  
+    try{
+      SSServCallerU.checkKey(parA);
+      
+      final SSCategoriesPredefinedGetPar par = (SSCategoriesPredefinedGetPar) parA.getFromJSON(SSCategoriesPredefinedGetPar.class);
+      
+      sSCon.writeRetFullToClient(SSCategoriesPredefinedGetRet.get(categoriesPredefinedGet(par)));
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
   
-  @Override 
-  public List<String> categoriesPredefinedGet(final SSCategoriesPredefinedGetPar par) throws Exception {
+  @Override
+  public List<String> categoriesPredefinedGet(final SSCategoriesPredefinedGetPar par) throws SSErr {
     
     try{
       return sql.getMetadata(true);
@@ -741,7 +754,7 @@ implements
   }
   
   @Override
-  public Boolean categoriesPredefinedAdd(final SSCategoriesPredefinedAddPar par) throws Exception {
+  public Boolean categoriesPredefinedAdd(final SSCategoriesPredefinedAddPar par) throws SSErr {
     
     try{
       
@@ -751,7 +764,7 @@ implements
       dbSQL.startTrans(par.shouldCommit);
       
       for(SSCategoryLabel label : par.labels){
-      
+        
         categoryEntity =
           entityServ.entityFromTypeAndLabelGet(
             new SSEntityFromTypeAndLabelGetPar(
@@ -763,7 +776,7 @@ implements
         if(categoryEntity != null){
           continue;
         }
-          
+        
         categoryUri =
           entityServ.entityUpdate(
             new SSEntityUpdatePar(
@@ -778,7 +791,7 @@ implements
               true, //createIfNotExists
               par.withUserRestriction, //withUserRestriction
               false)); //shouldCommit)
-
+        
         if(categoryUri == null){
           dbSQL.rollBack(par.shouldCommit);
           return false;
@@ -814,20 +827,24 @@ implements
   }
   
   @Override
-  public void categoryEntitiesForCategoriesGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
-    
-    SSServCallerU.checkKey(parA);
-    
-    final SSCategoryEntitiesForCategoriesGetPar par = (SSCategoryEntitiesForCategoriesGetPar) parA.getFromJSON(SSCategoryEntitiesForCategoriesGetPar.class);
-    
-    sSCon.writeRetFullToClient(SSCategoryEntitiesForCategoriesGetRet.get(categoryEntitiesForCategoriesGet(par)));
-  }
-
-  @Override
-  public List<SSUri> categoryEntitiesForCategoriesGet(final SSCategoryEntitiesForCategoriesGetPar par) throws Exception{
+  public void categoryEntitiesForCategoriesGet(final SSSocketCon sSCon, final SSServPar parA) throws SSErr{
     
     try{
-
+      SSServCallerU.checkKey(parA);
+      
+      final SSCategoryEntitiesForCategoriesGetPar par = (SSCategoryEntitiesForCategoriesGetPar) parA.getFromJSON(SSCategoryEntitiesForCategoriesGetPar.class);
+      
+      sSCon.writeRetFullToClient(SSCategoryEntitiesForCategoriesGetRet.get(categoryEntitiesForCategoriesGet(par)));
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  @Override
+  public List<SSUri> categoryEntitiesForCategoriesGet(final SSCategoryEntitiesForCategoriesGetPar par) throws SSErr{
+    
+    try{
+      
       final List<SSEntity> categoryAsss =
         categoriesGet(
           new SSCategoriesGetPar(
@@ -842,7 +859,7 @@ implements
             par.withUserRestriction));
       
       return commonMiscFct.getEntitiesFromMetadataDistinctNotNull(categoryAsss);
-
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
@@ -850,20 +867,24 @@ implements
   }
   
   @Override
-  public void categoriesGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception {
+  public void categoriesGet(final SSSocketCon sSCon, final SSServPar parA) throws SSErr {
     
-    SSServCallerU.checkKey(parA);
-    
-    final SSCategoriesGetPar par = (SSCategoriesGetPar) parA.getFromJSON(SSCategoriesGetPar.class);
-     
-    sSCon.writeRetFullToClient(SSCategoriesGetRet.get(categoriesGet(par)));
+    try{
+      SSServCallerU.checkKey(parA);
+      
+      final SSCategoriesGetPar par = (SSCategoriesGetPar) parA.getFromJSON(SSCategoriesGetPar.class);
+      
+      sSCon.writeRetFullToClient(SSCategoriesGetRet.get(categoriesGet(par)));
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
   }
   
   @Override
-  public List<SSEntity> categoriesGet(final SSCategoriesGetPar par) throws Exception {
+  public List<SSEntity> categoriesGet(final SSCategoriesGetPar par) throws SSErr {
     
     try{
-
+      
       if(par.user == null){
         throw SSErr.get(SSErrE.parameterMissing);
       }
@@ -877,7 +898,7 @@ implements
         }
       }
       
-      final List<SSEntity> categories = 
+      final List<SSEntity> categories =
         commonMiscFct.getMetadata(
           par.user,
           par.forUser,
@@ -890,8 +911,8 @@ implements
       
       return commonMiscFct.filterMetadataByEntitiesUserCanAccess(
         categories,
-        par.withUserRestriction, 
-        par.user, 
+        par.withUserRestriction,
+        par.user,
         par.forUser);
       
     }catch(Exception error){
@@ -901,17 +922,21 @@ implements
   }
   
   @Override
-  public void categoryFrequsGet(SSSocketCon sSCon, SSServPar parA) throws Exception {
-       
-    SSServCallerU.checkKey(parA);
+  public void categoryFrequsGet(SSSocketCon sSCon, SSServPar parA) throws SSErr {
     
-    final SSCategoryFrequsGetPar par = (SSCategoryFrequsGetPar) parA.getFromJSON(SSCategoryFrequsGetPar.class);
-    
-    sSCon.writeRetFullToClient(SSCategoryFrequsGetRet.get(categoryFrequsGet(par)));
+    try{
+      SSServCallerU.checkKey(parA);
+      
+      final SSCategoryFrequsGetPar par = (SSCategoryFrequsGetPar) parA.getFromJSON(SSCategoryFrequsGetPar.class);
+      
+      sSCon.writeRetFullToClient(SSCategoryFrequsGetRet.get(categoryFrequsGet(par)));
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
   }
   
   @Override
-  public List<SSCategoryFrequ> categoryFrequsGet(final SSCategoryFrequsGetPar par) throws Exception{
+  public List<SSCategoryFrequ> categoryFrequsGet(final SSCategoryFrequsGetPar par) throws SSErr{
     
     try{
       

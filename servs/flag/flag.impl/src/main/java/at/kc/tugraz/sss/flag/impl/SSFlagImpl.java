@@ -83,7 +83,7 @@ implements
   
   @Override
   public void getUsersResources(
-    final Map<String, List<SSEntityContext>> usersEntities) throws Exception{
+    final Map<String, List<SSEntityContext>> usersEntities) throws SSErr{
     
     try{
       
@@ -125,7 +125,7 @@ implements
   @Override
   public SSEntity describeEntity(
     final SSEntity             entity, 
-    final SSEntityDescriberPar par) throws Exception{
+    final SSEntityDescriberPar par) throws SSErr{
     
      try{
 
@@ -177,17 +177,22 @@ implements
   }
   
   @Override
-  public void flagsSet(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
+  public void flagsSet(final SSSocketCon sSCon, final SSServPar parA) throws SSErr{
     
-    SSServCallerU.checkKey(parA);
-    
-    final SSFlagsSetPar par = (SSFlagsSetPar) parA.getFromJSON(SSFlagsSetPar.class);
-    
-    sSCon.writeRetFullToClient(SSFlagsSetRet.get(flagsSet(par)));
+    try{
+      SSServCallerU.checkKey(parA);
+      
+      final SSFlagsSetPar par = (SSFlagsSetPar) parA.getFromJSON(SSFlagsSetPar.class);
+      
+      sSCon.writeRetFullToClient(SSFlagsSetRet.get(flagsSet(par)));
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
   }
 
   @Override
-  public Boolean flagsSet(final SSFlagsSetPar par) throws Exception{
+  public Boolean flagsSet(final SSFlagsSetPar par) throws SSErr{
     
     try{
       
@@ -303,7 +308,7 @@ implements
   }
   
   @Override
-  public SSFlag flagGet(final SSFlagGetPar par) throws Exception{
+  public SSFlag flagGet(final SSFlagGetPar par) throws SSErr{
     
     try{
       SSFlag                     flag    = sql.getFlag(par.flag);
@@ -355,17 +360,21 @@ implements
   }
   
   @Override
-  public void flagsGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
+  public void flagsGet(final SSSocketCon sSCon, final SSServPar parA) throws SSErr{
     
-    SSServCallerU.checkKey(parA);
-    
-    final SSFlagsGetPar par = (SSFlagsGetPar) parA.getFromJSON(SSFlagsGetPar.class);
-    
-    sSCon.writeRetFullToClient(SSFlagsGetRet.get(flagsGet(par)));
+    try{
+      SSServCallerU.checkKey(parA);
+      
+      final SSFlagsGetPar par = (SSFlagsGetPar) parA.getFromJSON(SSFlagsGetPar.class);
+      
+      sSCon.writeRetFullToClient(SSFlagsGetRet.get(flagsGet(par)));
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
   }
   
   @Override
-  public List<SSEntity> flagsGet(final SSFlagsGetPar par) throws Exception{
+  public List<SSEntity> flagsGet(final SSFlagsGetPar par) throws SSErr{
     
     try{
       

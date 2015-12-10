@@ -21,6 +21,7 @@
 package at.kc.tugraz.ss.serv.job.dataexport.api;
 
 import at.kc.tugraz.ss.serv.job.dataexport.datatypes.par.SSDataExportUsersEntitiesTagsCategoriesTimestampsFileFromCirclePar;
+import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServServerI;
 
@@ -29,7 +30,7 @@ public interface SSDataExportServerI extends SSServServerI{
   public void dataExportUsersEntitiesTagsCategoriesTimestampsFileFromCircle(
     final SSDataExportUsersEntitiesTagsCategoriesTimestampsFileFromCirclePar par) throws Exception;
   
-  public void dataExportUsersEntitiesTagsCategoriesTimestampsFile  (final SSServPar parA) throws Exception;
-  public void dataExportUserEntityTagsCategoriesTimestampsLine     (final SSServPar parA) throws Exception;
-  public void dataExportUserRelations                              (final SSServPar parA) throws Exception;
+  public void dataExportUsersEntitiesTagsCategoriesTimestampsFile  (final SSServPar parA) throws SSErr;
+  public void dataExportUserEntityTagsCategoriesTimestampsLine     (final SSServPar parA) throws SSErr;
+  public void dataExportUserRelations                              (final SSServPar parA) throws SSErr;
 }
