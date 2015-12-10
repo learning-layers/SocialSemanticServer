@@ -233,11 +233,9 @@ public class SSEvalLogAnalyzer {
         
         originalEpisode = originalEpisodes.get(episode.label.toString());
         
-        if(originalEpisode == null){
-          continue;
-        }
-        
-        if(!SSStrU.equals(originalEpisode.author.label, episode.author.label)){
+        if(
+          originalEpisode != null &&
+          !SSStrU.equals(originalEpisode.author.label, episode.author.label)){
           continue;
         }
         
