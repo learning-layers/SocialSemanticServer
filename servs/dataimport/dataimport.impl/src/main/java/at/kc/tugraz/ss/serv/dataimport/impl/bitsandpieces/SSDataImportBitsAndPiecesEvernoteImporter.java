@@ -35,7 +35,14 @@ import at.kc.tugraz.ss.serv.dataimport.impl.evernote.SSDataImportEvernoteNoteCon
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.jobs.evernote.api.SSEvernoteServerI;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteInfo;
+import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteNoteGetPar;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteNoteStoreGetPar;
+import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteNoteTagNamesGetPar;
+import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteNotebookGetPar;
+import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteNotebooksSharedGetPar;
+import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteResourceGetPar;
+import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteUSNSetPar;
+import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteUserAddPar;
 import at.kc.tugraz.ss.service.filerepo.api.SSFileRepoServerI;
 import at.kc.tugraz.ss.service.tag.api.SSTagServerI;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
@@ -99,6 +106,7 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
       new SSDataImportBitsAndPiecesMiscFct(
         par,
         entityServ,
+        evernoteServ,
         ueServ,
         evalServ,
         userUri);
@@ -139,10 +147,11 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
     
     evernoteInfo.userName = SSLabel.get(evernoteInfo.userStore.getUser().getUsername());
     
-    SSServCaller.evernoteUserAdd(
-      this.userUri,
-      par.authToken,
-      false);
+    evernoteServ.evernoteUserAdd(
+      new SSEvernoteUserAddPar(
+        this.userUri,
+        par.authToken, 
+        false));
   }
   
   private void setUSN() throws Exception{
@@ -159,17 +168,22 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
         usn = 0;
       }
     }
-      
-    SSServCaller.evernoteUSNSet(
-      this.userUri,
-      evernoteInfo.authToken,
-      usn,
-      false);
+    
+    evernoteServ.evernoteUSNSet(
+      new SSEvernoteUSNSetPar(
+        this.userUri,
+        evernoteInfo.authToken,
+        usn,
+        false));
   }
   
   private void setSharedNotebooks() throws Exception{
     
-    sharedNotebooks     = SSServCaller.evernoteNotebooksSharedGet (evernoteInfo.noteStore);
+    sharedNotebooks     = 
+      evernoteServ.evernoteNotebooksSharedGet (
+        new SSEvernoteNotebooksSharedGetPar(
+          userUri, 
+          evernoteInfo.noteStore));
     
     sharedNotebookGuids.clear();
 
@@ -342,9 +356,26 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
     for(Note note : notes){
       
       noteUri          = getNormalOrSharedNoteUri        (evernoteInfo,           note);
-      notebook         = SSServCaller.evernoteNotebookGet                         (evernoteInfo.noteStore, note.getNotebookGuid());
-      noteWithContent  = SSServCaller.evernoteNoteGet                             (evernoteInfo.noteStore, note.getGuid(), true);
-      notebookUri      = getNormalOrSharedNotebookUri    (evernoteInfo.userName,  notebook, sharedNotebookGuids);
+      notebook         =
+        evernoteServ.evernoteNotebookGet(
+          new SSEvernoteNotebookGetPar(
+            userUri,
+            evernoteInfo.noteStore,
+            note.getNotebookGuid()));
+        
+      noteWithContent  = 
+        evernoteServ.evernoteNoteGet(
+          new SSEvernoteNoteGetPar(
+            userUri, 
+            evernoteInfo.noteStore, 
+            note.getGuid(), 
+            true));
+        
+      notebookUri      = 
+        getNormalOrSharedNotebookUri(
+          evernoteInfo.userName,  
+          notebook, 
+          sharedNotebookGuids);
       
       miscFct.addNote(
         noteUri,
@@ -352,7 +383,12 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
         notebookUri,
         note.getCreated());
       
-      noteTagNames = SSServCaller.evernoteNoteTagNamesGet(evernoteInfo.noteStore, note.getGuid());
+      noteTagNames = 
+        evernoteServ.evernoteNoteTagNamesGet(
+          new SSEvernoteNoteTagNamesGetPar(
+            userUri, 
+            evernoteInfo.noteStore, 
+            note.getGuid()));
       
       tagServ.tagsAdd(
         new SSTagsAddPar(
@@ -387,6 +423,7 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
       
       new SSDataImportEvernoteNoteContentHandler(
         fileServ,
+        evernoteServ,
         userUri,
         noteWithContent,
         noteUri,
@@ -409,8 +446,14 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
     
     for(Resource resource : resources){
       
-      resourceWithContent = SSServCaller.evernoteResourceGet                  (evernoteInfo.noteStore, resource.getGuid(), false);
-      
+      resourceWithContent = 
+        evernoteServ.evernoteResourceGet(
+          new SSEvernoteResourceGetPar(
+            userUri, 
+            evernoteInfo.noteStore, 
+            resource.getGuid(), 
+            false));
+        
       try{
         fileExt = SSMimeTypeE.fileExtForMimeType1(resourceWithContent.getMime());
       }catch(Exception error){
@@ -448,9 +491,23 @@ public class SSDataImportBitsAndPiecesEvernoteImporter {
       }catch(Exception error){
       }
       
-      resourceWithContent = SSServCaller.evernoteResourceGet                  (evernoteInfo.noteStore, resource.getGuid(), true);
+      resourceWithContent = 
+        evernoteServ.evernoteResourceGet(
+          new SSEvernoteResourceGetPar(
+            userUri, 
+            evernoteInfo.noteStore, 
+            resource.getGuid(), 
+            true));
+        
       resourceUri         = getResourceUri           (evernoteInfo, resource);
-      note                = SSServCaller.evernoteNoteGet                      (evernoteInfo.noteStore, resource.getNoteGuid(), false);
+      note                = 
+        evernoteServ.evernoteNoteGet(
+          new SSEvernoteNoteGetPar(
+            userUri, 
+            evernoteInfo.noteStore, 
+            resource.getNoteGuid(), 
+            false));
+      
       noteUri             = getNormalOrSharedNoteUri (evernoteInfo, note);
       
       miscFct.addResource(

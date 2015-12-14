@@ -24,6 +24,7 @@ import at.kc.tugraz.ss.serv.dataimport.conf.SSDataImportConf;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportBitsAndPiecesPar;
 import at.kc.tugraz.ss.serv.dataimport.impl.SSDataImportImpl;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.kc.tugraz.ss.serv.jobs.evernote.api.SSEvernoteServerI;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.kc.tugraz.ss.service.filerepo.api.SSFileRepoServerI;
 import at.kc.tugraz.ss.service.userevent.api.SSUEServerI;
@@ -44,6 +45,7 @@ import at.tugraz.sss.servs.file.datatype.par.SSEntityFileAddPar;
 import at.tugraz.sss.servs.mail.SSMailServerI;
 import at.tugraz.sss.servs.mail.datatype.SSMail;
 import at.tugraz.sss.servs.mail.datatype.par.SSMailsReceivePar;
+import com.evernote.auth.EvernoteService;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import javax.imageio.ImageIO;
@@ -54,6 +56,7 @@ public class SSDataImportBitsAndPiecesMailImporter {
   private final SSDataImportBitsAndPiecesPar     par;
   private final SSEntityServerI                  entityServ;
   private final SSFileRepoServerI                fileServ;
+  private final SSEvernoteServerI                evernoteServ;
   private final SSUri                            userUri;
   private final SSDataImportBitsAndPiecesMiscFct miscFct;
 
@@ -63,17 +66,20 @@ public class SSDataImportBitsAndPiecesMailImporter {
     final SSFileRepoServerI            fileServ,
     final SSEvalServerI                evalServ,
     final SSUEServerI                  ueServ,
+    final SSEvernoteServerI            evernoteServ,
     final SSUri                        userUri) throws Exception{
     
     this.par           = par;
     this.entityServ    = entityServ;
     this.fileServ      = fileServ;
     this.userUri       = userUri;
+    this.evernoteServ  = evernoteServ;
     
     this.miscFct = 
       new SSDataImportBitsAndPiecesMiscFct(
         par,
         entityServ, //entityServ
+        evernoteServ, //evernoteServ
         ueServ, //ueServ
         evalServ, //evalServ
         userUri);

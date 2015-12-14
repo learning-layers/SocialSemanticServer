@@ -250,12 +250,9 @@ implements
   }
   
   @Override
-  public Notebook evernoteNotebookGet(final SSServPar parA) throws SSErr {
+  public Notebook evernoteNotebookGet(final SSEvernoteNotebookGetPar par) throws SSErr {
     
     try{
-      
-      final SSEvernoteNotebookGetPar par       = new SSEvernoteNotebookGetPar(parA);
-      
       return par.noteStore.getNotebook(par.notebookGUID);
     }catch(EDAMSystemException edamError){
       
@@ -271,7 +268,7 @@ implements
           SSLogU.warn(SSWarnE.threadInterrupted, threadError);
         }
         
-        return evernoteNotebookGet (parA);
+        return evernoteNotebookGet (par);
       }
       
       SSServErrReg.regErrThrow(edamError);
@@ -283,11 +280,9 @@ implements
   }
   
   @Override
-  public Resource evernoteResourceByHashGet(final SSServPar parA) throws SSErr {
+  public Resource evernoteResourceByHashGet(final SSEvernoteResourceByHashGetPar par) throws SSErr {
     
     try{
-      
-      final SSEvernoteResourceByHashGetPar par       = new SSEvernoteResourceByHashGetPar(parA);
       
 //      short      a     = Short.parseShort  (par.resourceHash, 2);
       
@@ -325,7 +320,7 @@ implements
           SSLogU.warn(SSWarnE.threadInterrupted, threadError);
         }
         
-        return evernoteResourceByHashGet (parA);
+        return evernoteResourceByHashGet (par);
       }
       
       SSServErrReg.regErrThrow(edamError);
@@ -337,11 +332,9 @@ implements
   }
   
   @Override
-  public List<SharedNotebook> evernoteNotebooksSharedGet(SSServPar parA) throws SSErr {
+  public List<SharedNotebook> evernoteNotebooksSharedGet(final SSEvernoteNotebooksSharedGetPar par) throws SSErr {
     
     try{
-      SSEvernoteNotebooksSharedGetPar par             = new SSEvernoteNotebooksSharedGetPar(parA);
-      
       return par.noteStore.listSharedNotebooks();
     }catch(EDAMSystemException edamError){
       
@@ -357,7 +350,7 @@ implements
           SSLogU.warn(SSWarnE.threadInterrupted, threadError);
         }
         
-        return evernoteNotebooksSharedGet(parA);
+        return evernoteNotebooksSharedGet(par);
       }
       
       SSServErrReg.regErrThrow(edamError);
@@ -369,11 +362,9 @@ implements
   }
   
   @Override
-  public List<String> evernoteNoteTagNamesGet(final SSServPar parA) throws SSErr{
+  public List<String> evernoteNoteTagNamesGet(final SSEvernoteNoteTagNamesGetPar par) throws SSErr{
     
     try{
-      final SSEvernoteNoteTagNamesGetPar par       = new SSEvernoteNoteTagNamesGetPar(parA);
-      
       return SSStrU.distinctWithoutEmptyAndNull(par.noteStore.getNoteTagNames(par.noteGUID));
       
     }catch(EDAMSystemException edamError){
@@ -390,7 +381,7 @@ implements
           SSLogU.warn(SSWarnE.threadInterrupted, threadError);
         }
         
-        return evernoteNoteTagNamesGet (parA);
+        return evernoteNoteTagNamesGet (par);
       }
       
       SSServErrReg.regErrThrow(edamError);
@@ -402,11 +393,9 @@ implements
   }
   
   @Override
-  public Note evernoteNoteGet(final SSServPar parA) throws SSErr{
+  public Note evernoteNoteGet(final SSEvernoteNoteGetPar par) throws SSErr{
     
     try{
-      final SSEvernoteNoteGetPar par = new SSEvernoteNoteGetPar(parA);
-      
       return par.noteStore.getNote(par.noteGUID, par.includeContent, false, false, false);
       
     }catch(EDAMSystemException edamError){
@@ -423,7 +412,7 @@ implements
           SSLogU.warn(SSWarnE.threadInterrupted, threadError);
         }
         
-        return evernoteNoteGet (parA);
+        return evernoteNoteGet (par);
       }
       
       SSServErrReg.regErrThrow(edamError);
@@ -435,11 +424,9 @@ implements
   }
   
   @Override
-  public Resource evernoteResourceGet(final SSServPar parA) throws SSErr{
+  public Resource evernoteResourceGet(final SSEvernoteResourceGetPar par) throws SSErr{
     
     try{
-      final SSEvernoteResourceGetPar par = new SSEvernoteResourceGetPar(parA);
-      
       return par.noteStore.getResource(par.resourceGUID, par.includeContent, false, true, false);
       
     }catch(EDAMSystemException edamError){
@@ -456,7 +443,7 @@ implements
           SSLogU.warn(SSWarnE.threadInterrupted, threadError);
         }
         
-        return evernoteResourceGet (parA);
+        return evernoteResourceGet (par);
       }
       
       SSServErrReg.regErrThrow(edamError);
@@ -468,11 +455,9 @@ implements
   }
   
   @Override
-  public Boolean evernoteUserAdd(final SSServPar parA) throws SSErr{
+  public Boolean evernoteUserAdd(final SSEvernoteUserAddPar par) throws SSErr{
     
     try{
-      final SSEvernoteUserAddPar par = new SSEvernoteUserAddPar(parA);
-      
       dbSQL.startTrans(par.shouldCommit);
       
       sqlFct.addUserIfNotExists(par.user, par.authToken);
@@ -485,29 +470,27 @@ implements
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(dbSQL.rollBack(parA.shouldCommit)){
+        if(dbSQL.rollBack(par.shouldCommit)){
           
           SSServErrReg.reset();
           
-          return evernoteUserAdd(parA);
+          return evernoteUserAdd(par);
         }else{
           SSServErrReg.regErrThrow(error);
           return false;
         }
       }
       
-      dbSQL.rollBack(parA.shouldCommit);
+      dbSQL.rollBack(par.shouldCommit);
       SSServErrReg.regErrThrow(error);
       return false;
     }
   }
   
   @Override
-  public Boolean evernoteNoteAdd(final SSServPar parA) throws SSErr{
+  public Boolean evernoteNoteAdd(final SSEvernoteNoteAddPar par) throws SSErr{
     
     try{
-      final SSEvernoteNoteAddPar par = new SSEvernoteNoteAddPar(parA);
-      
       dbSQL.startTrans(par.shouldCommit);
       
       sqlFct.addNoteIfNotExists(par.notebook, par.note);
@@ -520,29 +503,27 @@ implements
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(dbSQL.rollBack(parA.shouldCommit)){
+        if(dbSQL.rollBack(par.shouldCommit)){
           
           SSServErrReg.reset();
           
-          return evernoteNoteAdd(parA);
+          return evernoteNoteAdd(par);
         }else{
           SSServErrReg.regErrThrow(error);
           return false;
         }
       }
       
-      dbSQL.rollBack(parA.shouldCommit);
+      dbSQL.rollBack(par.shouldCommit);
       SSServErrReg.regErrThrow(error);
       return null;
     }
   }
   
   @Override
-  public Boolean evernoteResourceAdd(final SSServPar parA) throws SSErr{
+  public Boolean evernoteResourceAdd(final SSEvernoteResourceAddPar par) throws SSErr{
     
     try{
-      final SSEvernoteResourceAddPar par = new SSEvernoteResourceAddPar(parA);
-      
       dbSQL.startTrans(par.shouldCommit);
       
       sqlFct.addResourceIfNotExists(par.note, par.resource);
@@ -555,29 +536,27 @@ implements
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(dbSQL.rollBack(parA.shouldCommit)){
+        if(dbSQL.rollBack(par.shouldCommit)){
           
           SSServErrReg.reset();
           
-          return evernoteResourceAdd(parA);
+          return evernoteResourceAdd(par);
         }else{
           SSServErrReg.regErrThrow(error);
           return false;
         }
       }
       
-      dbSQL.rollBack(parA.shouldCommit);
+      dbSQL.rollBack(par.shouldCommit);
       SSServErrReg.regErrThrow(error);
       return false;
     }
   }
   
   @Override
-  public Boolean evernoteUSNSet(final SSServPar parA) throws SSErr{
+  public Boolean evernoteUSNSet(final SSEvernoteUSNSetPar par) throws SSErr{
     
     try{
-      final SSEvernoteUSNSetPar par = new SSEvernoteUSNSetPar(parA);
-      
       dbSQL.startTrans(par.shouldCommit);
       
       sqlFct.setUSN(par.authToken, par.usn);
@@ -590,18 +569,18 @@ implements
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(dbSQL.rollBack(parA.shouldCommit)){
+        if(dbSQL.rollBack(par.shouldCommit)){
           
           SSServErrReg.reset();
           
-          return evernoteUSNSet(parA);
+          return evernoteUSNSet(par);
         }else{
           SSServErrReg.regErrThrow(error);
           return false;
         }
       }
       
-      dbSQL.rollBack(parA.shouldCommit);
+      dbSQL.rollBack(par.shouldCommit);
       SSServErrReg.regErrThrow(error);
       return false;
     }

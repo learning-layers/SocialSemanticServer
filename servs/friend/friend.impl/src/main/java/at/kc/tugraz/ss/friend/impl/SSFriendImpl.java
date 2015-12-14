@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.friend.impl;
 
-import at.tugraz.sss.serv.SSSocketCon;
+import at.tugraz.sss.adapter.socket.SSSocketCon;
 import at.tugraz.sss.serv.SSUri;
 import at.kc.tugraz.ss.friend.api.SSFriendClientI;
 import at.kc.tugraz.ss.friend.api.SSFriendServerI;

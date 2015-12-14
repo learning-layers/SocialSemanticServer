@@ -28,7 +28,7 @@ import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUpdatePar;
 import at.kc.tugraz.ss.service.filerepo.api.SSFileRepoServerI;
 import at.tugraz.sss.serv.SSAddAffiliatedEntitiesToCircleI;
 import at.tugraz.sss.serv.SSAddAffiliatedEntitiesToCirclePar;
-import at.tugraz.sss.serv.SSSocketCon;
+import at.tugraz.sss.adapter.socket.SSSocketCon;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSServPar;

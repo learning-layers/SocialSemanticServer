@@ -22,7 +22,7 @@ package at.kc.tugraz.ss.serv.jsonld.impl;
 
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSObjU;
-import at.tugraz.sss.serv.SSSocketCon;
+import at.tugraz.sss.adapter.socket.SSSocketCon;
 import at.kc.tugraz.ss.serv.jsonld.api.SSJSONLDClientI;
 import at.kc.tugraz.ss.serv.jsonld.api.SSJSONLDServerI;
 import at.kc.tugraz.ss.serv.jsonld.conf.SSJSONLDConf;

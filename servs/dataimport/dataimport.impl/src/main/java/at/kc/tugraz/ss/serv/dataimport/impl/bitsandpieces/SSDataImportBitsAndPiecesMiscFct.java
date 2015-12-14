@@ -1,4 +1,4 @@
-/**
+ /**
   * Code contributed to the Learning Layers project
   * http://www.learning-layers.eu
   * Development is partly funded by the FP7 Programme of the European Commission under
@@ -22,6 +22,9 @@ package at.kc.tugraz.ss.serv.dataimport.impl.bitsandpieces;
 
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportBitsAndPiecesPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.kc.tugraz.ss.serv.jobs.evernote.api.SSEvernoteServerI;
+import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteNoteAddPar;
+import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteResourceAddPar;
 import at.kc.tugraz.ss.service.userevent.api.SSUEServerI;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUEE;
 import at.kc.tugraz.ss.service.userevent.datatypes.pars.SSUEAddPar;
@@ -33,7 +36,6 @@ import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSToolContextE;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.caller.SSServCaller;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityGetPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUpdatePar;
 import com.evernote.edam.type.Note;
@@ -44,22 +46,25 @@ import sss.serv.eval.datatypes.SSEvalLogE;
 import sss.serv.eval.datatypes.par.SSEvalLogPar;
 
 public class SSDataImportBitsAndPiecesMiscFct {
- 
+  
   private final SSDataImportBitsAndPiecesPar par;
   private final SSEntityServerI              entityServ;
+  private final SSEvernoteServerI            evernoteServ;
   private final SSUEServerI                  ueServ;
   private final SSEvalServerI                evalServ;
   private final SSUri                        userUri;
   
   public SSDataImportBitsAndPiecesMiscFct(
-    final SSDataImportBitsAndPiecesPar par, 
+    final SSDataImportBitsAndPiecesPar par,
     final SSEntityServerI              entityServ,
+    final SSEvernoteServerI            evernoteServ,
     final SSUEServerI                  ueServ,
     final SSEvalServerI                evalServ,
     final SSUri                        userUri) throws Exception{
     
     this.par             = par;
     this.entityServ      = entityServ;
+    this.evernoteServ    = evernoteServ;
     this.ueServ          = ueServ;
     this.evalServ        = evalServ;
     this.userUri         = userUri;
@@ -86,10 +91,10 @@ public class SSDataImportBitsAndPiecesMiscFct {
     
     evalServ.evalLog(
       new SSEvalLogPar(
-        userUri, 
-        SSToolContextE.evernoteImport, 
-        SSEvalLogE.addNotebook, 
-        notebookUri, 
+        userUri,
+        SSToolContextE.evernoteImport,
+        SSEvalLogE.addNotebook,
+        notebookUri,
         null,  //content
         null, //entities
         null,  //users
@@ -137,11 +142,11 @@ public class SSDataImportBitsAndPiecesMiscFct {
         }
       }
       
-      SSServCaller.evernoteNoteAdd(
-        this.userUri,
-        notebookUri,
-        noteUri,
-        false);
+      evernoteServ.evernoteNoteAdd(
+        new SSEvernoteNoteAddPar(
+          this.userUri,
+          notebookUri,
+          noteUri));
       
       evalServ.evalLog(
         new SSEvalLogPar(
@@ -150,7 +155,7 @@ public class SSDataImportBitsAndPiecesMiscFct {
           SSEvalLogE.addNote,
           noteUri,
           null, //content
-SSUri.asListNotNull(notebookUri), //entities
+          SSUri.asListNotNull(notebookUri), //entities
           null, //users
           false)); //shouldCommit
       
@@ -162,7 +167,7 @@ SSUri.asListNotNull(notebookUri), //entities
   public void addNoteUEs(
     final Note         note,
     final SSUri        noteUri,
-    final Long         creationTime, 
+    final Long         creationTime,
     final Long         updateTime) throws Exception {
     
     final List<SSEntity> existingCreationUEs =
@@ -220,7 +225,7 @@ SSUri.asListNotNull(notebookUri), //entities
     if(note != null){
       
       if(note.getDeleted() != 0L){
-
+        
         final List<SSEntity> existingDeleteUEs =
           ueServ.userEventsGet(
             new SSUEsGetPar(
@@ -233,9 +238,9 @@ SSUri.asListNotNull(notebookUri), //entities
               null,
               true, //withUserRestriction,
               false)); //invokeEntityHandlers
-
+        
         if(existingDeleteUEs.isEmpty()){
-
+          
           ueServ.userEventAdd(
             new SSUEAddPar(
               userUri,
@@ -247,15 +252,15 @@ SSUri.asListNotNull(notebookUri), //entities
               false)); //shouldCommit
         }
       }
-
+      
       final NoteAttributes noteAttr = note.getAttributes();
-
+      
       if(noteAttr == null){
         return;
       }
-
+      
       if(noteAttr.getShareDate() != 0L){
-
+        
         final List<SSEntity> existingShareUEs =
           ueServ.userEventsGet(
             new SSUEsGetPar(
@@ -268,9 +273,9 @@ SSUri.asListNotNull(notebookUri), //entities
               noteAttr.getShareDate(),
               true, //withUserRestriction,
               false)); //invokeEntityHandlers
-
+        
         if(existingShareUEs.isEmpty()){
-
+          
           ueServ.userEventAdd(
             new SSUEAddPar(
               userUri,
@@ -282,9 +287,9 @@ SSUri.asListNotNull(notebookUri), //entities
               false)); //shouldCommit
         }
       }
-
+      
       if(noteAttr.getReminderDoneTime() != 0L){
-
+        
         final List<SSEntity> existingReminderUEs =
           ueServ.userEventsGet(
             new SSUEsGetPar(
@@ -297,9 +302,9 @@ SSUri.asListNotNull(notebookUri), //entities
               noteAttr.getReminderDoneTime(),
               true, //withUserRestriction,
               false)); //invokeEntityHandlers
-
+        
         if(existingReminderUEs.isEmpty()){
-
+          
           ueServ.userEventAdd(
             new SSUEAddPar(
               userUri,
@@ -311,9 +316,9 @@ SSUri.asListNotNull(notebookUri), //entities
               false)); //shouldCommit
         }
       }
-
+      
       if(noteAttr.getReminderTime() != 0L){
-
+        
         final List<SSEntity> existingReminder2UEs =
           ueServ.userEventsGet(
             new SSUEsGetPar(
@@ -326,9 +331,9 @@ SSUri.asListNotNull(notebookUri), //entities
               noteAttr.getReminderTime(),
               true, //withUserRestriction,
               false)); //invokeEntityHandlers
-
+        
         if(existingReminder2UEs.isEmpty()){
-
+          
           ueServ.userEventAdd(
             new SSUEAddPar(
               userUri,
@@ -397,11 +402,12 @@ SSUri.asListNotNull(notebookUri), //entities
     //TODO fix this hack
     try{
       
-      SSServCaller.evernoteResourceAdd(
-        this.userUri,
-        noteUri,
-        resourceUri,
-        false);
+      evernoteServ.evernoteResourceAdd(
+        new SSEvernoteResourceAddPar(
+          this.userUri,
+          noteUri,
+          resourceUri,
+          false));
       
     }catch(Exception error){
       
@@ -419,11 +425,12 @@ SSUri.asListNotNull(notebookUri), //entities
           true, //withUserRestriction
           false)); //shouldCommit)
       
-      SSServCaller.evernoteResourceAdd(
-        this.userUri,
-        noteUri,
-        resourceUri,
-        false);
+      evernoteServ.evernoteResourceAdd(
+        new SSEvernoteResourceAddPar(
+          this.userUri,
+          noteUri,
+          resourceUri, 
+          false));
     }
     
     evalServ.evalLog(

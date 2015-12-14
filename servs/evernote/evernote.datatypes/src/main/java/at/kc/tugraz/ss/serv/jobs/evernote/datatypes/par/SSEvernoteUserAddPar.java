@@ -20,26 +20,22 @@
 */
 package at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par;
 
-import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSUri;
 
 public class SSEvernoteUserAddPar extends SSServPar{
   
   public String          authToken = null;
   
-  public SSEvernoteUserAddPar(SSServPar par) throws Exception{
+  public SSEvernoteUserAddPar(
+    final SSUri   user, 
+    final String  authToken,
+    final Boolean shouldCommit){
     
-    super(par);
+    super(SSServOpE.evernoteUserAdd, null, user);
     
-    try{
-      
-      if(pars != null){
-        authToken        = (String)  pars.get(SSVarNames.authToken);
-      }
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
+    this.authToken    = authToken;
+    this.shouldCommit = shouldCommit;
   }
 }

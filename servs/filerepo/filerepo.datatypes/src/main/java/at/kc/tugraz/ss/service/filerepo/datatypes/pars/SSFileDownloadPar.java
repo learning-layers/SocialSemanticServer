@@ -24,7 +24,7 @@ import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.serv.SSSocketCon;
+import at.tugraz.sss.adapter.socket.SSSocketCon;
 
 public class SSFileDownloadPar extends SSServPar{
   

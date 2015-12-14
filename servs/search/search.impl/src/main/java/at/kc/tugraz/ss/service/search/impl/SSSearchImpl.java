@@ -32,7 +32,7 @@ import at.tugraz.sss.serv.SSDateU;
 import at.tugraz.sss.serv.SSIDU;
 import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSSocketCon;
+import at.tugraz.sss.adapter.socket.SSSocketCon;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSEntity;

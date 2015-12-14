@@ -20,17 +20,18 @@
 */
 package at.kc.tugraz.ss.service.coll.api;
 
-import at.tugraz.sss.serv.SSSocketCon;
+import at.tugraz.sss.serv.SSClientE;
 import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServRetI;
 
 public interface SSCollClientI{
   
-  public void collRootGet           (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void collEntriesDelete     (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void collEntryAdd          (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void collEntriesAdd        (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void collGet               (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void collHierarchyGet      (final SSSocketCon sSCon, final SSServPar parA) throws Exception; 
-  public void collCumulatedTagsGet  (final SSSocketCon sSCon, final SSServPar parA) throws Exception; 
-  public void collsEntityIsInGet    (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public SSServRetI collRootGet           (final SSClientE clientType, final SSServPar parA) throws Exception;
+  public SSServRetI collEntriesDelete     (final SSClientE clientType, final SSServPar parA) throws Exception;
+  public SSServRetI collEntryAdd          (final SSClientE clientType, final SSServPar parA) throws Exception;
+  public SSServRetI collEntriesAdd        (final SSClientE clientType, final SSServPar parA) throws Exception;
+  public SSServRetI collGet               (final SSClientE clientType, final SSServPar parA) throws Exception;
+  public SSServRetI collHierarchyGet      (final SSClientE clientType, final SSServPar parA) throws Exception; 
+  public SSServRetI collCumulatedTagsGet  (final SSClientE clientType, final SSServPar parA) throws Exception; 
+  public SSServRetI collsEntityIsInGet    (final SSClientE clientType, final SSServPar parA) throws Exception;
 }

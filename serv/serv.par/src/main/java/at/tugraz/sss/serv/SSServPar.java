@@ -26,7 +26,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.map.ObjectMapper;
-
+import at.tugraz.sss.adapter.socket.SSSocketCon;
+  
 @XmlRootElement
 public class SSServPar{
   

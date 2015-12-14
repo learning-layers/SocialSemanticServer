@@ -37,7 +37,7 @@ import at.tugraz.sss.serv.SSUri;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscsGetPar;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscGetPar;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscEntryAddPar;
-import at.tugraz.sss.serv.SSSocketCon;
+import at.tugraz.sss.adapter.socket.SSSocketCon;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSServImplWithDBA;

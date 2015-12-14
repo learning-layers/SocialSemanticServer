@@ -33,7 +33,7 @@ import at.tugraz.sss.serv.SSFileExtE;
 import at.tugraz.sss.serv.SSMimeTypeE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSSocketCon;
+import at.tugraz.sss.adapter.socket.SSSocketCon;
 import at.tugraz.sss.serv.SSEntityE;
 import at.kc.tugraz.ss.service.filerepo.api.*;
 import at.kc.tugraz.ss.service.filerepo.conf.*;

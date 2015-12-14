@@ -21,8 +21,8 @@
 package at.kc.tugraz.ss.serv.job.dataexport.datatypes.par;
 
 import at.tugraz.sss.serv.SSVarNames;
+import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSUri;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,19 +32,15 @@ public class SSDataExportUsersEntitiesTagsCategoriesTimestampsFilePar extends SS
   public String                      fileName               = null;
   public List<SSUri>                 users                  = new ArrayList<>();
   
-  public SSDataExportUsersEntitiesTagsCategoriesTimestampsFilePar(final SSServPar par) throws Exception{
+  public SSDataExportUsersEntitiesTagsCategoriesTimestampsFilePar(
+    final SSUri user, 
+    final List<SSUri> users, 
+    final String fileName){
     
-    super(par);
+    super(SSServOpE.dataExportUsersEntitiesTagsCategoriesTimestampsFile, null, user);
     
-    try{
-      
-      if(pars != null){
-        fileName              = (String)                     pars.get(SSVarNames.fileName);
-        users                 = (List<SSUri>)                pars.get(SSVarNames.users);
-      }
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
+    SSUri.addDistinctWithoutNull(this.users, users);
+        
+    this.fileName = (String) pars.get(SSVarNames.fileName);
   }
 }

@@ -20,32 +20,28 @@
 */
 package at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par;
 
-import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSUri;
 import com.evernote.clients.NoteStoreClient;
 
 public class SSEvernoteResourceGetPar extends SSServPar{
-
+  
   public NoteStoreClient  noteStore      = null;
   public String           resourceGUID   = null;
   public Boolean          includeContent = null;
   
-  public SSEvernoteResourceGetPar(SSServPar par) throws Exception{
+  public SSEvernoteResourceGetPar(
+    final SSUri user,
+    final NoteStoreClient  noteStore,
+    final String           resourceGUID,
+    final Boolean          includeContent){
     
-    super(par);
+    super(SSServOpE.evernoteResourceGet, null, user);
     
-    try{
-      
-      if(pars != null){
-        noteStore        = (NoteStoreClient)  pars.get(SSVarNames.noteStore);
-        resourceGUID     = (String)           pars.get(SSVarNames.resourceGUID);
-        includeContent   = (Boolean)          pars.get(SSVarNames.includeContent);
-      }
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
+    this.noteStore        = noteStore;
+    this.resourceGUID     = resourceGUID;
+    this.includeContent   = includeContent;
   }
 }
 

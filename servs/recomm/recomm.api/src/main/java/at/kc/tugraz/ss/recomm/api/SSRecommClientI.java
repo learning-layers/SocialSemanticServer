@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.recomm.api;
 
 import at.tugraz.sss.serv.SSErr;
-import at.tugraz.sss.serv.SSSocketCon;
+import at.tugraz.sss.adapter.socket.SSSocketCon;
 import at.tugraz.sss.serv.SSServPar;
 
 public interface SSRecommClientI{

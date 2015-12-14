@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.sss.appstacklayout.api;
 
-import at.tugraz.sss.serv.SSSocketCon;
+import at.tugraz.sss.adapter.socket.SSSocketCon;
 import at.tugraz.sss.serv.SSServPar;
 
 public interface SSAppStackLayoutClientI{

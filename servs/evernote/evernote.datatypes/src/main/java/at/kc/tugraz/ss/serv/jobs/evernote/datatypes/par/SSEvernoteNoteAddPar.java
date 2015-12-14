@@ -20,29 +20,23 @@
 */
 package at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par;
 
-import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServOpE;
 
-import at.tugraz.sss.serv.SSServErrReg;
 public class SSEvernoteNoteAddPar extends SSServPar{
   
   public SSUri     notebook   = null;
   public SSUri     note       = null;
 
-  public SSEvernoteNoteAddPar(SSServPar par) throws Exception{
+  public SSEvernoteNoteAddPar(
+    final SSUri user, 
+    final SSUri notebook, 
+    final SSUri note){
     
-    super(par);
+    super(SSServOpE.evernoteNoteAdd, null, user);
     
-    try{
-      
-      if(pars != null){
-        notebook     = (SSUri)     pars.get(SSVarNames.notebook);
-        note         = (SSUri)     pars.get(SSVarNames.note);
-      }
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
+    this.notebook     = notebook;
+    this.note         = note;
   }
 }

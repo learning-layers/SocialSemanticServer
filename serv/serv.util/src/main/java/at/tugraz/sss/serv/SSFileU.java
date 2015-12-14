@@ -252,13 +252,14 @@ public class SSFileU{
   
   public static void readFileBytes(
     final OutputStream    outStream,
-    final FileInputStream fileIn) throws Exception{
+    final FileInputStream fileIn,
+    final Integer         transmissionSize) throws Exception{
     
     if(SSObjU.isNull(outStream, fileIn)){
       throw new Exception("pars not okay");
     }
     
-    final byte[] fileBytes   = new byte[SSSocketU.socketTranmissionSize];
+    final byte[] fileBytes   = new byte[transmissionSize];
     int          read;
     
     try{
@@ -325,13 +326,14 @@ public class SSFileU{
   
   public static void writeFileBytes(
     final FileOutputStream fileOut,
-    final InputStream      streamIn) throws Exception{
+    final InputStream      streamIn, 
+    final Integer          transmissionSize) throws Exception{
     
     if(SSObjU.isNull(fileOut, streamIn)){
       throw new Exception("pars not okay");
     }
     
-    final byte[] fileBytes   = new byte[SSSocketU.socketTranmissionSize];
+    final byte[] fileBytes   = new byte[transmissionSize];
     int          read;
     
     try{
@@ -586,11 +588,12 @@ public class SSFileU{
   }
   
   public static String readImageToBase64Str(
-    final String filePath) throws Exception{
+    final String  filePath, 
+    final Integer transmissionSize) throws Exception{
     
     final DataInputStream fileReader = new DataInputStream (new FileInputStream(new File(filePath)));
     final List<Byte>      bytes      = new ArrayList<>();
-    byte[]                chunk      = new byte[SSSocketU.socketTranmissionSize];
+    byte[]                chunk      = new byte[transmissionSize];
     int                   fileChunkLength;
     
     while(true){

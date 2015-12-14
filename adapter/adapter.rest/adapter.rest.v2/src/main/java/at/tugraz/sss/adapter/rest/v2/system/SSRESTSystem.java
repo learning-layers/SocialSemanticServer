@@ -27,7 +27,7 @@ import static at.tugraz.sss.adapter.rest.v2.SSRestMainV2.getJSONStrForError;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSJSONU;
 import at.tugraz.sss.serv.SSLogU;
-import at.tugraz.sss.serv.SSSocketCon;
+import at.tugraz.sss.adapter.socket.SSSocketCon;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import javax.ws.rs.Consumes;

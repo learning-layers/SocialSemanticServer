@@ -25,6 +25,8 @@ public enum SSErrE{
   //service
   servNotRunning,
   servImplCreationFailed,
+  servClientOpNotAvailable,
+  servServerOpNotAvailable,
   
   //sql
   sqlNoResultFound,
@@ -101,7 +103,6 @@ public enum SSErrE{
   learnEpCurrentVersionNotSet,
   deployingServiceOnNodeFailed,           //could not deploy requested service on new node
   noClientServiceForOpAvailableOnNodes,   //no service found on nodes to handle client op
-  servServerOpNotAvailable,         //no service found on machine to handle server op
   noClientServiceForOpAvailableOnMachine, //no service found on machine to handle client op
   userNotAllowedToAccessEntity,           //user is not allowed to access requested entity
   userNotAllowedToRetrieveForOtherUser,   //user is not allowed to access entity for other user

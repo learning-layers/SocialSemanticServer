@@ -191,14 +191,13 @@ implements
   }
   
   @Override
-  public void dataExportUsersEntitiesTagsCategoriesTimestampsFile(final SSServPar parA) throws SSErr{
+  public void dataExportUsersEntitiesTagsCategoriesTimestampsFile(final SSDataExportUsersEntitiesTagsCategoriesTimestampsFilePar par) throws SSErr{
     
     CSVWriter                                           fileWriter = null;
     FileOutputStream                                    out        = null;
     OutputStreamWriter                                  writer     = null;
     
     try{
-      final SSDataExportUsersEntitiesTagsCategoriesTimestampsFilePar par        = new SSDataExportUsersEntitiesTagsCategoriesTimestampsFilePar(parA);
       final Map<String, List<SSEntityContext>>  usersEntities         = new HashMap<>();
       final List<String>                        lineParts             = new ArrayList<>();
       final List<String>                        allUsers;
@@ -309,7 +308,7 @@ implements
   }
   
   @Override
-  public void dataExportUserEntityTagsCategoriesTimestampsLine(final SSServPar parA) throws SSErr{
+  public void dataExportUserEntityTagsCategoriesTimestampsLine(final SSDataExportUserEntityTagsCategoriesTimestampsLinePar par) throws SSErr{
     
     CSVWriter                                           fileWriter = null;
     FileOutputStream                                    out        = null;
@@ -317,7 +316,6 @@ implements
     
     try{
 
-      final SSDataExportUserEntityTagsCategoriesTimestampsLinePar par        = new SSDataExportUserEntityTagsCategoriesTimestampsLinePar(parA);
       final List<String> lineParts = new ArrayList<>();
       
       out        = SSFileU.openOrCreateFileWithPathForAppend  (SSFileU.dirWorkingDataCsv() + par.fileName);
@@ -378,7 +376,7 @@ implements
   }
   
   @Override
-  public void dataExportUserRelations(final SSServPar parA) throws SSErr{
+  public void dataExportUserRelations(final SSDataExportUserRelationsPar par) throws SSErr{
     
     CSVWriter           fileWriter = null;
     FileOutputStream    out        = null;
@@ -386,7 +384,6 @@ implements
     
     try{
       
-      final SSDataExportUserRelationsPar par           = new SSDataExportUserRelationsPar(parA);
       final Map<String, List<SSUri>>     userRelations = new HashMap<>();
       final List<String>                 lineParts     = new ArrayList<>();
       final List<String>                 allUsers;

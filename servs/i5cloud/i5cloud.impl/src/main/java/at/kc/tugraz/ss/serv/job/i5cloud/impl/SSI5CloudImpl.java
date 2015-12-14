@@ -128,7 +128,8 @@ implements
       
       SSFileU.readFileBytes(
         i5CloudCon.getOutputStream(),
-        SSFileU.openFileForRead(SSFileU.dirWorkingTmp() + par.label));
+        SSFileU.openFileForRead(SSFileU.dirWorkingTmp() + par.label),
+        10000);
       
       SSFileU.readStreamText(i5CloudCon.getInputStream());
       
@@ -152,7 +153,8 @@ implements
       
       SSFileU.writeFileBytes(
         SSFileU.openOrCreateFileWithPathForWrite(SSFileU.dirWorkingTmp() + par.label),
-        i5CloudCon.getInputStream());
+        i5CloudCon.getInputStream(),
+        10000);
       
       return true;
     }catch(Exception error){

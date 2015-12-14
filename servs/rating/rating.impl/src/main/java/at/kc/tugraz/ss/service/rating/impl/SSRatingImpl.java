@@ -25,7 +25,7 @@ import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUpdatePar;
 import at.kc.tugraz.ss.service.rating.impl.fct.userraltionsgathering.SSRatingUserRelationGathererFct;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSSocketCon;
+import at.tugraz.sss.adapter.socket.SSSocketCon;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSEntityE;
 import at.kc.tugraz.ss.service.rating.datatypes.pars.SSRatingOverallGetPar;

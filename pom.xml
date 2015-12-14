@@ -167,7 +167,6 @@
   </properties>
 
   <modules>
-    <module>sss</module>
     <module>adapter</module>
     <module>conf</module>
     <module>servs</module>

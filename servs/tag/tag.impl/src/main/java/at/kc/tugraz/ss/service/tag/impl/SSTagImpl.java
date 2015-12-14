@@ -31,7 +31,7 @@ import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUpdatePar;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSSpaceE;
-import at.tugraz.sss.serv.SSSocketCon;
+import at.tugraz.sss.adapter.socket.SSSocketCon;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSLabel;

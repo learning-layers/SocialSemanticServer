@@ -220,7 +220,8 @@ public class SSMailReceiverKCDavIMAP {
       
       SSFileU.writeFileBytes(
         SSFileU.openOrCreateFileWithPathForWrite(SSMailConf.getLocalWorkPath() + SSVocConf.fileIDFromSSSURI(attachment.id)),
-        bodyPart.getInputStream());
+        bodyPart.getInputStream(),
+        10000);
       
       if(isFirstLevel){
         mail.attachments.add(attachment);

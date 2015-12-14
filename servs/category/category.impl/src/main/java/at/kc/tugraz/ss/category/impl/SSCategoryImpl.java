@@ -24,7 +24,7 @@ import at.kc.tugraz.ss.activity.api.SSActivityServerI;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
 import at.kc.tugraz.ss.activity.datatypes.par.SSActivityAddPar;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSSocketCon;
+import at.tugraz.sss.adapter.socket.SSSocketCon;
 import at.kc.tugraz.ss.category.api.SSCategoryClientI;
 import at.kc.tugraz.ss.category.api.SSCategoryServerI;
 import at.kc.tugraz.ss.category.datatypes.SSCategory;

@@ -20,9 +20,9 @@
  */
 package at.tugraz.sss.adapter.rest.v2;
 
-import at.tugraz.sss.serv.SSSocketCon;
 import at.tugraz.sss.serv.SSServPar;
 import javax.ws.rs.core.Response;
+import at.tugraz.sss.adapter.socket.SSSocketCon;
 
 public class SSRESTObject{
   

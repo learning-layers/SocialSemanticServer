@@ -19,8 +19,8 @@
     </dependency>
     
     <dependency>
-      <groupId>sss.serv</groupId>
-      <artifactId>serv.socket</artifactId>
+      <groupId>sss.adapter.socket</groupId>
+      <artifactId>adapter.socket.datatype</artifactId>
       <version>${project.version}</version>
     </dependency>
     

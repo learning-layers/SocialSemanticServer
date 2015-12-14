@@ -21,6 +21,7 @@
 package at.tugraz.sss.adapter.rest.v2.coll;
 
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.kc.tugraz.ss.service.coll.api.SSCollClientI;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollCumulatedTagsGetPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollGetPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntriesAddPar;
@@ -38,6 +39,8 @@ import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollUserHierarchyGetRet;
 import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollUserRootGetRet;
 import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollsUserEntityIsInGetRet;
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
+import at.tugraz.sss.serv.SSClientE;
+import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSVarNames;
@@ -83,12 +86,25 @@ public class SSRESTColl{
           SSUri.get(coll, SSVocConf.sssUri), //entity
           true, //withUserRestriction
           true); //invokeEntityHandlers
-      
+
     }catch(Exception error){
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+    try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+      
+    try{
+      final SSCollClientI collServ = (SSCollClientI) SSServReg.getClientServ(SSCollClientI.class);
+      
+      return Response.status(200).entity(collServ.collGet(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
   
   @GET
@@ -116,7 +132,20 @@ public class SSRESTColl{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+    try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+      
+    try{
+      final SSCollClientI collServ = (SSCollClientI) SSServReg.getClientServ(SSCollClientI.class);
+      
+      return Response.status(200).entity(collServ.collRootGet(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
   
   @GET
@@ -148,7 +177,20 @@ public class SSRESTColl{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+    try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+      
+    try{
+      final SSCollClientI collServ = (SSCollClientI) SSServReg.getClientServ(SSCollClientI.class);
+      
+      return Response.status(200).entity(collServ.collHierarchyGet(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
   
   @POST
@@ -185,7 +227,20 @@ public class SSRESTColl{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+    try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+      
+    try{
+      final SSCollClientI collServ = (SSCollClientI) SSServReg.getClientServ(SSCollClientI.class);
+      
+      return Response.status(200).entity(collServ.collEntryAdd(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
   
   @POST
@@ -221,7 +276,20 @@ public class SSRESTColl{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+    try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+      
+    try{
+      final SSCollClientI collServ = (SSCollClientI) SSServReg.getClientServ(SSCollClientI.class);
+      
+      return Response.status(200).entity(collServ.collEntriesAdd(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
   
   @GET
@@ -253,7 +321,20 @@ public class SSRESTColl{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+    try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+      
+    try{
+      final SSCollClientI collServ = (SSCollClientI) SSServReg.getClientServ(SSCollClientI.class);
+      
+      return Response.status(200).entity(collServ.collsEntityIsInGet(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
     
   @GET
@@ -284,7 +365,20 @@ public class SSRESTColl{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+    try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+      
+    try{
+      final SSCollClientI collServ = (SSCollClientI) SSServReg.getClientServ(SSCollClientI.class);
+      
+      return Response.status(200).entity(collServ.collCumulatedTagsGet(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
   
   @DELETE
@@ -320,6 +414,19 @@ public class SSRESTColl{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+    try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+      
+    try{
+      final SSCollClientI collServ = (SSCollClientI) SSServReg.getClientServ(SSCollClientI.class);
+      
+      return Response.status(200).entity(collServ.collEntriesDelete(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
 }

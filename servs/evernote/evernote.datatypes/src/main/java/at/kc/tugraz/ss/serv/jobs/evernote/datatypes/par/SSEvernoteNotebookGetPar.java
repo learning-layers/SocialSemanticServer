@@ -20,9 +20,9 @@
 */
 package at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par;
 
-import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSUri;
 import com.evernote.clients.NoteStoreClient;
 
 public class SSEvernoteNotebookGetPar extends SSServPar{
@@ -30,19 +30,14 @@ public class SSEvernoteNotebookGetPar extends SSServPar{
   public NoteStoreClient noteStore    = null;
   public String          notebookGUID = null;
   
-  public SSEvernoteNotebookGetPar(SSServPar par) throws Exception{
+  public SSEvernoteNotebookGetPar(
+    final SSUri           user,
+    final NoteStoreClient noteStore,
+    final String          notebookGUID){
     
-    super(par);
+    super(SSServOpE.evernoteNotebookGet, null, user);
     
-    try{
-      
-      if(pars != null){
-        noteStore        = (NoteStoreClient)  pars.get(SSVarNames.noteStore);
-        notebookGUID     = (String)           pars.get(SSVarNames.notebookGUID);
-      }
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
+    this.noteStore        = noteStore;
+    this.notebookGUID     = notebookGUID;
   }
 }

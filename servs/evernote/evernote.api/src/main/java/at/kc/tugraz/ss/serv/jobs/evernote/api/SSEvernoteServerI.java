@@ -22,7 +22,17 @@ package at.kc.tugraz.ss.serv.jobs.evernote.api;
 
 import at.tugraz.sss.serv.SSServPar;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteInfo;
+import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteNoteAddPar;
+import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteNoteGetPar;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteNoteStoreGetPar;
+import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteNoteTagNamesGetPar;
+import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteNotebookGetPar;
+import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteNotebooksSharedGetPar;
+import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteResourceAddPar;
+import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteResourceByHashGetPar;
+import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteResourceGetPar;
+import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteUSNSetPar;
+import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteUserAddPar;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSServServerI;
 import com.evernote.edam.type.Note;
@@ -35,16 +45,16 @@ public interface SSEvernoteServerI extends SSServServerI{
   
   public SSEvernoteInfo evernoteNoteStoreGet(final SSEvernoteNoteStoreGetPar par) throws SSErr;
   
-  public Resource             evernoteResourceGet        (final SSServPar parA) throws SSErr;
-  public Note                 evernoteNoteGet            (final SSServPar parA) throws SSErr;
-  public List<String>         evernoteNoteTagNamesGet    (final SSServPar parA) throws SSErr;
-  public Notebook             evernoteNotebookGet        (final SSServPar parA) throws SSErr;
-  public Resource             evernoteResourceByHashGet  (final SSServPar parA) throws SSErr;
-  public List<SharedNotebook> evernoteNotebooksSharedGet (final SSServPar parA) throws SSErr;
-  public Boolean              evernoteUserAdd            (final SSServPar parA) throws SSErr;
-  public Boolean              evernoteNoteAdd            (final SSServPar parA) throws SSErr;
-  public Boolean              evernoteUSNSet             (final SSServPar parA) throws SSErr;
-  public Boolean              evernoteResourceAdd        (final SSServPar parA) throws SSErr;
+  public Resource             evernoteResourceGet        (final SSEvernoteResourceGetPar        par) throws SSErr;
+  public Note                 evernoteNoteGet            (final SSEvernoteNoteGetPar            par) throws SSErr;
+  public List<String>         evernoteNoteTagNamesGet    (final SSEvernoteNoteTagNamesGetPar    par) throws SSErr;
+  public Notebook             evernoteNotebookGet        (final SSEvernoteNotebookGetPar        par) throws SSErr;
+  public Resource             evernoteResourceByHashGet  (final SSEvernoteResourceByHashGetPar  par) throws SSErr;
+  public List<SharedNotebook> evernoteNotebooksSharedGet (final SSEvernoteNotebooksSharedGetPar par) throws SSErr;
+  public Boolean              evernoteUserAdd            (final SSEvernoteUserAddPar            par) throws SSErr;
+  public Boolean              evernoteNoteAdd            (final SSEvernoteNoteAddPar            par) throws SSErr;
+  public Boolean              evernoteUSNSet             (final SSEvernoteUSNSetPar             par) throws SSErr;
+  public Boolean              evernoteResourceAdd        (final SSEvernoteResourceAddPar        par) throws SSErr;
 
   //  public String               evernoteUsersAuthTokenGet  (final SSServPar parA) throws Exception;
 //  public List<Note>           evernoteNotesLinkedGet     (final SSServPar parA) throws Exception;

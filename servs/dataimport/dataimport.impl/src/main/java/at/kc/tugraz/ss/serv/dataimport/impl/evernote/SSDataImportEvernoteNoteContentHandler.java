@@ -21,6 +21,8 @@
 package at.kc.tugraz.ss.serv.dataimport.impl.evernote;
 
 import at.kc.tugraz.ss.serv.dataimport.conf.SSDataImportConf;
+import at.kc.tugraz.ss.serv.jobs.evernote.api.SSEvernoteServerI;
+import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteResourceByHashGetPar;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.kc.tugraz.ss.service.filerepo.api.SSFileRepoServerI;
 import at.tugraz.sss.serv.SSFileExtE;
@@ -48,15 +50,18 @@ public class SSDataImportEvernoteNoteContentHandler{
   private final Note              note;
   private final NoteStoreClient   noteStore;
   private final SSFileRepoServerI fileServ;
+  private final SSEvernoteServerI evernoteServ;
   
   public SSDataImportEvernoteNoteContentHandler(
     final SSFileRepoServerI fileServ,
+    final SSEvernoteServerI evernoteServ,
     final SSUri             user,
     final Note              note,
     final SSUri             noteUri,
     final NoteStoreClient   noteStore){
     
     this.fileServ      = fileServ;
+    this.evernoteServ  = evernoteServ;
     this.user          = user;
     this.note          = note;
     this.noteUri       = noteUri;
@@ -524,11 +529,12 @@ public class SSDataImportEvernoteNoteContentHandler{
             fileID       = SSVocConf.fileIDFromSSSURI (fileURI);
             
             resource =
-              SSServCaller.evernoteResourceByHashGet(
-                user,
-                noteStore,
-                note.getGuid(),
-                hash);
+              evernoteServ.evernoteResourceByHashGet(
+                new SSEvernoteResourceByHashGetPar(
+                  user,
+                  noteStore,
+                  note.getGuid(),
+                  hash));
             
             SSFileU.writeFileBytes(
               new FileOutputStream(SSDataImportConf.getLocalWorkPath() + fileID),

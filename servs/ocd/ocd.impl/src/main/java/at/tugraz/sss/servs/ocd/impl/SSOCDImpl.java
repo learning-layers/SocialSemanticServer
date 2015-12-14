@@ -31,7 +31,7 @@ import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSSocketCon;
+import at.tugraz.sss.adapter.socket.SSSocketCon;
 import at.tugraz.sss.servs.ocd.conf.SSOCDConf;
 import at.tugraz.sss.servs.ocd.datatypes.pars.SSOCDCreateCoverPar;
 import at.tugraz.sss.servs.ocd.datatypes.pars.SSOCDCreateGraphPar;

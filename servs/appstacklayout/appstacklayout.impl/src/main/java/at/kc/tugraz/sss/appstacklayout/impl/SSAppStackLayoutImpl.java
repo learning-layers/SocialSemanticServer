@@ -24,7 +24,7 @@ import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityGetPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUpdatePar;
-import at.tugraz.sss.serv.SSSocketCon;
+import at.tugraz.sss.adapter.socket.SSSocketCon;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;

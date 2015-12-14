@@ -42,7 +42,7 @@ public interface SSDataImportServerI extends SSServServerI{
   
   public Map<String, String> dataImportSSSUsersFromCSVFile            (final SSServPar parA) throws SSErr;
   public void                dataImportMediaWikiUser                  (final SSServPar parA) throws SSErr;
-  public void                dataImportAchso                          (final SSServPar parA) throws SSErr;
-  
+
+//  public void                dataImportAchso                          (final SSServPar parA) throws SSErr;
 //  public Boolean             dataImportUserResourceTagFromWikipedia   (final SSServPar parA) throws Exception;
 }

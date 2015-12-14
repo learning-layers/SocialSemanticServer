@@ -1,0 +1,461 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>sss.adapter.socket</groupId>
+    <artifactId>adapter.socket</artifactId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
+  <artifactId>adapter.socket.v2</artifactId>
+  <packaging>jar</packaging>
+    
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>2.3.2</version>
+        <configuration>
+          <source>1.8</source>
+          <target>1.8</target>
+          <encoding>${project.build.sourceEncoding}</encoding>
+        </configuration>
+      </plugin>
+          
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <version>2.6</version>
+        <executions>
+          <execution>
+            <id>copy-dependencies</id>
+            <phase>install</phase>
+            <goals>
+              <goal>copy-dependencies</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${project.build.directory}/sss.app/lib</outputDirectory>
+              <overWriteReleases>false</overWriteReleases>
+              <overWriteSnapshots>false</overWriteSnapshots>
+              <overWriteIfNewer>true</overWriteIfNewer>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>2.4</version>
+        <configuration>
+          <outputDirectory>${project.build.directory}/sss.app/</outputDirectory>
+          <finalName>sss</finalName>
+          <archive>
+            <manifest>
+              <addClasspath>true</addClasspath>
+              <classpathPrefix>lib/</classpathPrefix>
+              <mainClass>at.tugraz.sss.adapter.socket.SSSocketMainV2</mainClass>
+            </manifest>
+          </archive>
+        </configuration>
+      </plugin>
+      
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>2.5</version>
+        <configuration>
+          <encoding>${project.build.sourceEncoding}</encoding>
+        </configuration>
+        
+        <executions>
+        
+          <execution>
+            <id>copy-resources-conf</id>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${project.build.directory}/sss.app/</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>${basedir}/src/main/resources/conf</directory>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+            
+          <!--          <execution>
+            <id>copy-resources-data-csv</id>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${project.build.directory}/sss.app/data/csv/</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>${basedir}/src/main/resources/data/csv</directory>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>-->
+          
+          <!--          <execution>
+            <id>copy-resources-script</id>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${project.build.directory}/sss.app/script/</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>${basedir}/src/main/resources/script</directory>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>-->
+          
+          <!--          <execution>
+            <id>copy-resources-tmp</id>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${project.build.directory}/sss.app/tmp/</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>${basedir}/src/main/resources/tmp</directory>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>-->
+          
+        </executions>
+      </plugin>
+    </plugins>
+  
+  </build>
+  
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+  
+  <dependencies>
+    
+    <dependency>
+      <groupId>sss.serv</groupId>
+      <artifactId>serv.client</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>kcprojwiki.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>mail.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>livingdocument.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>location.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>integrationtest.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>image.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>eval.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>like.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>circle.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>video.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>appstacklayout.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>friend.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>app.conf</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>app.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>message.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>activity.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>i5cloud.conf</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>i5cloud.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>evernote.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>entity.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>learnep.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>dataexport.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>recomm.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>comment.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>flag.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>recomm.datatypes</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>user.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>ue.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss</groupId>
+      <artifactId>conf.conf</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>dataimport.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>coll.datatypes</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>coll.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.serv</groupId>
+      <artifactId>serv.custom.caller</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>dataimport.conf</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>voc.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+      
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>jsonld.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>jsonld.conf</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+      
+    <dependency>
+      <groupId>sss.serv</groupId>
+      <artifactId>serv.db.conf</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>auth.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>auth.conf</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>filerepo.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>disc.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>rating.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>category.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>tag.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>search.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>filerepo.conf</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>ocd.serv</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>ocd.conf</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>ocd.datatypes</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>com.evernote</groupId>
+      <artifactId>evernote-api</artifactId>
+      <version>1.25.1</version>
+    </dependency>
+  </dependencies>
+</project>

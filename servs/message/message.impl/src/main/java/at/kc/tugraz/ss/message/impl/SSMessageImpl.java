@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.message.impl;
 
 import at.tugraz.sss.serv.SSDateU;
-import at.tugraz.sss.serv.SSSocketCon;
+import at.tugraz.sss.adapter.socket.SSSocketCon;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
 import at.kc.tugraz.ss.message.api.SSMessageClientI;

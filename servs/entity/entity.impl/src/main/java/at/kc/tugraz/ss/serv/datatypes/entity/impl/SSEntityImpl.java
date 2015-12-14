@@ -48,7 +48,7 @@ import at.tugraz.sss.servs.entity.datatypes.ret.SSEntityUpdateRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.SSEntityActivityFct;
 import at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.SSEntityUserRelationsGatherFct;
 import at.kc.tugraz.ss.service.userevent.api.SSUEServerI;
-import at.tugraz.sss.serv.SSSocketCon;
+import at.tugraz.sss.adapter.socket.SSSocketCon;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSUri;

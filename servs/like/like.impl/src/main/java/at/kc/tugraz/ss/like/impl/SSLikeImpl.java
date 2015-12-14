@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.like.impl;
 
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSSocketCon;
+import at.tugraz.sss.adapter.socket.SSSocketCon;
 import at.tugraz.sss.serv.SSUri;
 import at.kc.tugraz.ss.like.api.SSLikeClientI;
 import at.kc.tugraz.ss.like.api.SSLikeServerI;

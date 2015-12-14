@@ -16,6 +16,7 @@
   
   <modules>
     <module>adapter.rest</module>
+    <module>adapter.socket</module>
   </modules>
   
 </project>

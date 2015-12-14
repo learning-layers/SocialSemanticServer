@@ -24,7 +24,7 @@ import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclesGetPar;
 import at.tugraz.sss.serv.SSFileExtE;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSSocketCon;
+import at.tugraz.sss.adapter.socket.SSSocketCon;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
@@ -55,7 +55,9 @@ import at.kc.tugraz.ss.recomm.impl.fct.sql.SSRecommSQLFct;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityGetPar;
 import at.kc.tugraz.ss.serv.job.dataexport.api.SSDataExportServerI;
+import at.kc.tugraz.ss.serv.job.dataexport.datatypes.par.SSDataExportUserEntityTagsCategoriesTimestampsLinePar;
 import at.kc.tugraz.ss.serv.job.dataexport.datatypes.par.SSDataExportUsersEntitiesTagsCategoriesTimestampsFileFromCirclePar;
+import at.kc.tugraz.ss.serv.job.dataexport.datatypes.par.SSDataExportUsersEntitiesTagsCategoriesTimestampsFilePar;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLikelihood;
@@ -580,13 +582,15 @@ implements
           sql, //sqlFct
           false); //storeToDB
       
-      SSServCaller.dataExportUsersEntitiesTagsCategoriesTimestampsFile(
-        par.user,
-        SSUri.asListNotNull(),
-        true,
-        true,
-        userRealmEngine.realm + SSStrU.dot + SSFileExtE.txt);
-      
+      final SSDataExportServerI                                      dataExportServ = (SSDataExportServerI) SSServReg.getServ(SSDataExportServerI.class);
+      final SSDataExportUsersEntitiesTagsCategoriesTimestampsFilePar dataExportPar  =
+        new SSDataExportUsersEntitiesTagsCategoriesTimestampsFilePar(
+          par.user,
+          SSUri.asListNotNull(),
+          userRealmEngine.realm + SSStrU.dot + SSFileExtE.txt);
+     
+        dataExportServ.dataExportUsersEntitiesTagsCategoriesTimestampsFile(dataExportPar);
+     
       userRealmEngine.engine.loadFile(userRealmEngine.realm);
       
       dbSQL.commit(par.shouldCommit);
@@ -646,6 +650,10 @@ implements
         usersForRealms.get(realm).add(userEmail);
       }
       
+      final SSDataExportServerI dataExportServ = (SSDataExportServerI) SSServReg.getServ(SSDataExportServerI.class);
+      
+      
+      
       for(Map.Entry<String, List<String>> usersForRealm : usersForRealms.entrySet()){
         
         userURIs.clear();
@@ -659,12 +667,11 @@ implements
                 user)));
         }
           
-        SSServCaller.dataExportUsersEntitiesTagsCategoriesTimestampsFile(
-          par.user,
-          userURIs,
-          true, //exportTags
-          true, //exportCategories
-          usersForRealm.getKey() + SSStrU.dot + SSFileExtE.txt); //fileName
+        dataExportServ.dataExportUsersEntitiesTagsCategoriesTimestampsFile(
+          new SSDataExportUsersEntitiesTagsCategoriesTimestampsFilePar(
+            par.user,
+            userURIs,
+            usersForRealm.getKey() + SSStrU.dot + SSFileExtE.txt)); //fileName
         
         for(SSUri userURI : userURIs){
           
@@ -849,14 +856,17 @@ implements
           new EntityRecommenderEngine(), //engine
           sql, //sqlFct
           true); //storeToDB
+  
+      final SSDataExportServerI dataExportServ = (SSDataExportServerI) SSServReg.getServ(SSDataExportServerI.class);
       
-      SSServCaller.dataExportUserEntityTagsCategoriesTimestampsLine(
-        par.user,
-        par.forUser,
-        par.entity,
-        par.tags,
-        par.categories,
-        userRealmEngine.realm + SSStrU.dot + SSFileExtE.txt);
+      dataExportServ.dataExportUserEntityTagsCategoriesTimestampsLine(
+        new SSDataExportUserEntityTagsCategoriesTimestampsLinePar(
+          par.user,
+          par.forUser,
+          par.entity,
+          par.tags,
+          par.categories,
+          userRealmEngine.realm + SSStrU.dot + SSFileExtE.txt));
       
       userRealmEngine.engine.loadFile(userRealmEngine.realm);
       
@@ -933,6 +943,8 @@ implements
         throw new Exception("category list size differs from entity list size");
       }
       
+      final SSDataExportServerI dataExportServ = (SSDataExportServerI) SSServReg.getServ(SSDataExportServerI.class);
+        
       for(int counter = 0; counter < par.entities.size(); counter++){
 
         if(!par.tags.isEmpty()){
@@ -947,13 +959,14 @@ implements
           categories = new ArrayList<>();
         }
         
-        SSServCaller.dataExportUserEntityTagsCategoriesTimestampsLine(
-          par.user,
-          par.forUser,
-          par.entities.get(counter),
-          tags,
-          categories,
-          userRealmEngine.realm + SSStrU.dot + SSFileExtE.txt);
+        dataExportServ.dataExportUserEntityTagsCategoriesTimestampsLine(
+          new SSDataExportUserEntityTagsCategoriesTimestampsLinePar(
+            par.user,
+            par.forUser,
+            par.entities.get(counter),
+            tags,
+            categories,
+            userRealmEngine.realm + SSStrU.dot + SSFileExtE.txt));
       }
       
       userRealmEngine.engine.loadFile(userRealmEngine.realm);

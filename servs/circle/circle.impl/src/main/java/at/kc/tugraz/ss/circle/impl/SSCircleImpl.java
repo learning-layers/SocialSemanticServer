@@ -25,7 +25,7 @@ import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
 import at.kc.tugraz.ss.activity.datatypes.par.SSActivityAddPar;
 import at.tugraz.sss.serv.SSObjU;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSSocketCon;
+import at.tugraz.sss.adapter.socket.SSSocketCon;
 import at.kc.tugraz.ss.circle.api.SSCircleClientI;
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.impl.fct.serv.SSCircleServFct;

@@ -20,12 +20,9 @@
 */
 package at.kc.tugraz.ss.serv.dataimport.impl;
 
-import at.kc.tugraz.ss.category.api.SSCategoryServerI;
 import at.tugraz.sss.serv.SSFileU;
 import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSStrU;
-import at.kc.tugraz.ss.category.datatypes.SSCategoryLabel;
-import at.kc.tugraz.ss.category.datatypes.par.SSCategoriesAddPar;
 import at.kc.tugraz.ss.serv.auth.api.SSAuthServerI;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSSpaceE;
@@ -34,7 +31,6 @@ import at.tugraz.sss.serv.SSLabel;
 import at.kc.tugraz.ss.serv.dataimport.api.SSDataImportClientI;
 import at.kc.tugraz.ss.serv.dataimport.api.SSDataImportServerI;
 import at.kc.tugraz.ss.serv.dataimport.conf.SSDataImportConf;
-import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportAchsoPar;
 import at.tugraz.sss.serv.SSServPar;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportBitsAndPiecesPar;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportEvalLogFilePar;
@@ -44,22 +40,15 @@ import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportMediaWikiUserP
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportSSSUsersFromCSVFilePar;
 import at.kc.tugraz.ss.serv.dataimport.impl.bitsandpieces.SSDataImportBitsAndPiecesEvernoteImporter;
 import at.kc.tugraz.ss.serv.dataimport.impl.bitsandpieces.SSDataImportBitsAndPiecesMailImporter;
-import at.kc.tugraz.ss.serv.dataimport.impl.fct.op.SSDataImportAchsoFct;
 import at.kc.tugraz.ss.serv.dataimport.impl.fct.reader.SSDataImportReaderFct;
 import at.kc.tugraz.ss.serv.dataimport.impl.fct.sql.SSDataImportSQLFct;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
-import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUpdatePar;
-import at.kc.tugraz.ss.serv.job.i5cloud.datatypes.SSi5CloudAchsoVideo;
 import at.kc.tugraz.ss.serv.jobs.evernote.api.SSEvernoteServerI;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthRegisterUserPar;
 import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSServImplWithDBA;
-import at.tugraz.sss.serv.caller.SSServCaller;
-import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.kc.tugraz.ss.service.filerepo.api.SSFileRepoServerI;
 import at.kc.tugraz.ss.service.tag.api.SSTagServerI;
-import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
-import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsAddPar;
 import at.kc.tugraz.ss.service.userevent.api.SSUEServerI;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
@@ -302,6 +291,7 @@ implements
             fileServ, 
             evalServ, 
             ueServ,
+            evernoteServ,
             userUri).handle();
 
           dbSQL.commit(par.shouldCommit);
@@ -418,90 +408,6 @@ implements
       }
       
       dbSQL.rollBack(parA.shouldCommit);
-      SSServErrReg.regErrThrow(error);
-    }
-  }
-  
-  //TODO dtheiler: add transactions here
-  @Override
-  public void dataImportAchso(final SSServPar parA) throws SSErr {
-    
-    try{
-      final SSAuthServerI             authServ     = (SSAuthServerI) SSServReg.getServ(SSAuthServerI.class);
-      final SSDataImportAchsoPar      par          = new SSDataImportAchsoPar(parA);
-      final List<SSi5CloudAchsoVideo> videoObjs    = 
-        SSDataImportAchsoFct.getVideoObjs(
-          par.user, 
-          SSServCaller.i5CloudAchsoVideoInformationGet());
-      
-      SSUri authorUri;
-
-      for(SSi5CloudAchsoVideo video : videoObjs){
-        
-        authorUri=
-          authServ.authRegisterUser(
-            new SSAuthRegisterUserPar(
-              video.authorLabel + SSStrU.at + SSVocConf.systemEmailPostFix, //email
-              "1234", //password
-              video.authorLabel,//evernoteInfo.userName,
-              false, //updatePassword,
-              false, //isSystemUser,
-              false, //withUserRestriction,
-              true)); //shouldCommit
-        
-        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).entityUpdate(
-          new SSEntityUpdatePar(
-            authorUri,
-            video.id,
-            null, //type,
-            video.label, //label
-            null, //description,
-            video.creationTime, //creationTime,
-            null, //read,
-            false, //setPublic
-            true, //createIfNotExists
-            true, //withUserRestriction
-            true)); //shouldCommit)
-                
-        ((SSTagServerI) SSServReg.getServ(SSTagServerI.class)).tagsAdd(
-          new SSTagsAddPar(
-            authorUri,
-            SSTagLabel.get(video.keywords), //labels,
-            SSUri.asListNotNull(video.id), //entities
-            SSSpaceE.sharedSpace, //space
-            null, //circles
-            video.creationTime,  //creationTime
-            true, //withUserRestriction
-            true)); //shouldCommit
-        
-        final List<String> categoryLabels = new ArrayList<>();
-        
-        for(String annotation : video.annotations){
-          
-          try{
-            SSCategoryLabel.get(annotation);
-          }catch(Exception error){
-            continue;            
-          }
-          
-          categoryLabels.add(annotation);
-        }
-
-        ((SSCategoryServerI) SSServReg.getServ(SSCategoryServerI.class)).categoriesAdd(
-          new SSCategoriesAddPar(
-            authorUri,
-            SSCategoryLabel.asListNotEmpty(SSCategoryLabel.get(categoryLabels)),
-            video.id,
-            SSSpaceE.sharedSpace,
-            null, //circle
-            video.creationTime,
-            false,
-            true));
-      }
-      
-      System.out.println();
-      
-    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
   }

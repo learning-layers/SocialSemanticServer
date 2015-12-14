@@ -25,7 +25,7 @@ import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.serv.SSSocketCon;
+import at.tugraz.sss.adapter.socket.SSSocketCon;
 import at.tugraz.sss.serv.SSUri;
 
 public class SSFileUploadPar extends SSServPar{

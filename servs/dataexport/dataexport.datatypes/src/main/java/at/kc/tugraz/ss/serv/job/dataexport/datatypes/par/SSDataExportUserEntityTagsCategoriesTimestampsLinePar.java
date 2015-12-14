@@ -20,37 +20,37 @@
 */
 package at.kc.tugraz.ss.serv.job.dataexport.datatypes.par;
 
-import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSStrU;
 import java.util.ArrayList;
 import java.util.List;
 
 public class SSDataExportUserEntityTagsCategoriesTimestampsLinePar extends SSServPar{
   
-  public String       fileName   = null;
   public SSUri        forUser    = null;
   public SSUri        entity     = null;
   public List<String> tags       = new ArrayList<>();
   public List<String> categories = new ArrayList<>();
+  public String       fileName   = null;
   
-  public SSDataExportUserEntityTagsCategoriesTimestampsLinePar(final SSServPar par) throws Exception{
+  public SSDataExportUserEntityTagsCategoriesTimestampsLinePar(
+    final SSUri        user,
+    final SSUri        forUser    ,
+    final SSUri        entity     ,
+    final List<String> tags       ,
+    final List<String> categories,
+    final String       fileName){
     
-    super(par);
+    super(SSServOpE.dataExportUserEntityTagsCategoriesTimestampsLine, null, user);
     
-    try{
-      
-      if(pars != null){
-        fileName              = (String)                   pars.get(SSVarNames.fileName);
-        forUser               = (SSUri)                    pars.get(SSVarNames.forUser);
-        entity                = (SSUri)                    pars.get(SSVarNames.entity);
-        tags                  = (List<String>)             pars.get(SSVarNames.tags);
-        categories            = (List<String>)             pars.get(SSVarNames.categories);
-      }
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
+    this.forUser               = forUser;
+    this.entity                = entity;
+    
+    SSStrU.addDistinctNotNull(this.tags,       tags);
+    SSStrU.addDistinctNotNull(this.categories, categories);
+        
+    this.fileName              = fileName;
   }
 }

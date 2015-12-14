@@ -84,7 +84,7 @@ import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.tugraz.sss.serv.SSAddAffiliatedEntitiesToCircleI;
 import at.tugraz.sss.serv.SSAddAffiliatedEntitiesToCirclePar;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSSocketCon;
+import at.tugraz.sss.adapter.socket.SSSocketCon;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSServPar;

@@ -34,7 +34,6 @@ import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserRootAddPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntryAddPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntryDeletePar;
 import at.tugraz.sss.serv.*;
-import at.tugraz.sss.serv.SSSocketCon;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSLabel;
@@ -529,17 +528,18 @@ implements
 //  }
   
   @Override
-  public void collGet(SSSocketCon sSCon, SSServPar parA) throws SSErr{
+  public SSServRetI collGet(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
       SSServCallerU.checkKey(parA);
       
       final SSCollGetPar par = (SSCollGetPar) parA.getFromJSON(SSCollGetPar.class);
+      final SSCollGetRet ret = SSCollGetRet.get(collGet(par));
       
-      sSCon.writeRetFullToClient(SSCollGetRet.get(collGet(par)));
-      
+      return ret;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -634,17 +634,18 @@ implements
   }
   
   @Override
-  public void collRootGet(SSSocketCon sSCon, SSServPar parA) throws SSErr{
+  public SSServRetI collRootGet(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
       SSServCallerU.checkKey(parA);
       
       final SSCollUserRootGetPar par = (SSCollUserRootGetPar) parA.getFromJSON(SSCollUserRootGetPar.class);
       
-      sSCon.writeRetFullToClient(SSCollUserRootGetRet.get(collRootGet(par)));
+      return SSCollUserRootGetRet.get(collRootGet(par));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -704,7 +705,7 @@ implements
   }
   
   @Override
-  public void collHierarchyGet(SSSocketCon sSCon, SSServPar parA) throws SSErr{
+  public SSServRetI collHierarchyGet(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
       
@@ -712,10 +713,11 @@ implements
       
       final SSCollUserHierarchyGetPar par = (SSCollUserHierarchyGetPar) parA.getFromJSON(SSCollUserHierarchyGetPar.class);
       
-      sSCon.writeRetFullToClient(SSCollUserHierarchyGetRet.get(collHierarchyGet(par)));
+      return SSCollUserHierarchyGetRet.get(collHierarchyGet(par));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -792,7 +794,7 @@ implements
   }
   
   @Override
-  public void collsEntityIsInGet(final SSSocketCon sSCon, final SSServPar parA) throws SSErr{
+  public SSServRetI collsEntityIsInGet(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
       
@@ -800,10 +802,11 @@ implements
       
       final SSCollsUserEntityIsInGetPar par = (SSCollsUserEntityIsInGetPar) parA.getFromJSON(SSCollsUserEntityIsInGetPar.class);
       
-      sSCon.writeRetFullToClient(SSCollsUserEntityIsInGetRet.get(collsEntityIsInGet(par)));
+      return SSCollsUserEntityIsInGetRet.get(collsEntityIsInGet(par));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -939,19 +942,21 @@ implements
   }
   
   @Override
-  public void collEntryAdd(SSSocketCon sSCon, SSServPar parA) throws SSErr{
+  public SSServRetI collEntryAdd(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
       SSServCallerU.checkKey(parA);
       
       final SSCollUserEntryAddPar par = (SSCollUserEntryAddPar) parA.getFromJSON(SSCollUserEntryAddPar.class);
-      
-      sSCon.writeRetFullToClient(SSCollUserEntryAddRet.get(collEntryAdd(par)));
+      final SSServRetI            ret = SSCollUserEntryAddRet.get(collEntryAdd(par));
       
       SSCollActivityFct.addCollEntry(par);
       
+      return ret;
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -1070,20 +1075,21 @@ implements
   }
   
   @Override
-  public void collEntriesAdd(SSSocketCon sSCon, SSServPar parA) throws SSErr{
+  public SSServRetI collEntriesAdd(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
       
       SSServCallerU.checkKey(parA);
       
       final SSCollUserEntriesAddPar par = (SSCollUserEntriesAddPar) parA.getFromJSON(SSCollUserEntriesAddPar.class);
-      
-      sSCon.writeRetFullToClient(SSCollUserEntriesAddRet.get(collEntriesAdd(par)));
+      final SSServRetI              ret = SSCollUserEntriesAddRet.get(collEntriesAdd(par));
       
       SSCollActivityFct.addCollEntries(par);
       
+      return ret;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -1200,19 +1206,20 @@ implements
   }
   
   @Override
-  public void collEntriesDelete(final SSSocketCon sSCon, final SSServPar parA) throws SSErr{
+  public SSServRetI collEntriesDelete(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
       SSServCallerU.checkKey(parA);
       
       final SSCollUserEntriesDeletePar par = (SSCollUserEntriesDeletePar) parA.getFromJSON(SSCollUserEntriesDeletePar.class);
-      
-      sSCon.writeRetFullToClient(SSCollUserEntriesDeleteRet.get(collEntriesDelete(par)));
+      final SSServRetI                 ret = SSCollUserEntriesDeleteRet.get(collEntriesDelete(par));
       
       SSCollActivityFct.removeCollEntries(par);
       
+      return ret;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -1268,7 +1275,7 @@ implements
   }
   
   @Override
-  public void collCumulatedTagsGet(final SSSocketCon sSCon, final SSServPar parA) throws SSErr{
+  public SSServRetI collCumulatedTagsGet(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
       
@@ -1276,10 +1283,11 @@ implements
       
       final SSCollCumulatedTagsGetPar par = (SSCollCumulatedTagsGetPar) parA.getFromJSON(SSCollCumulatedTagsGetPar.class);
       
-      sSCon.writeRetFullToClient(SSCollUserCumulatedTagsGetRet.get(collCumulatedTagsGet(par)));
+      return SSCollUserCumulatedTagsGetRet.get(collCumulatedTagsGet(par));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   

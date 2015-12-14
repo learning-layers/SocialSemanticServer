@@ -20,17 +20,17 @@
 */
 package at.kc.tugraz.ss.serv.job.dataexport.api;
 
+import at.kc.tugraz.ss.serv.job.dataexport.datatypes.par.SSDataExportUserEntityTagsCategoriesTimestampsLinePar;
+import at.kc.tugraz.ss.serv.job.dataexport.datatypes.par.SSDataExportUserRelationsPar;
 import at.kc.tugraz.ss.serv.job.dataexport.datatypes.par.SSDataExportUsersEntitiesTagsCategoriesTimestampsFileFromCirclePar;
+import at.kc.tugraz.ss.serv.job.dataexport.datatypes.par.SSDataExportUsersEntitiesTagsCategoriesTimestampsFilePar;
 import at.tugraz.sss.serv.SSErr;
-import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServServerI;
 
 public interface SSDataExportServerI extends SSServServerI{
 
-  public void dataExportUsersEntitiesTagsCategoriesTimestampsFileFromCircle(
-    final SSDataExportUsersEntitiesTagsCategoriesTimestampsFileFromCirclePar par) throws Exception;
-  
-  public void dataExportUsersEntitiesTagsCategoriesTimestampsFile  (final SSServPar parA) throws SSErr;
-  public void dataExportUserEntityTagsCategoriesTimestampsLine     (final SSServPar parA) throws SSErr;
-  public void dataExportUserRelations                              (final SSServPar parA) throws SSErr;
+  public void dataExportUsersEntitiesTagsCategoriesTimestampsFileFromCircle(final SSDataExportUsersEntitiesTagsCategoriesTimestampsFileFromCirclePar par) throws SSErr;
+  public void dataExportUsersEntitiesTagsCategoriesTimestampsFile          (final SSDataExportUsersEntitiesTagsCategoriesTimestampsFilePar           par) throws SSErr;
+  public void dataExportUserEntityTagsCategoriesTimestampsLine             (final SSDataExportUserEntityTagsCategoriesTimestampsLinePar              par) throws SSErr;
+  public void dataExportUserRelations                                      (final SSDataExportUserRelationsPar                                       par) throws SSErr;
 }
