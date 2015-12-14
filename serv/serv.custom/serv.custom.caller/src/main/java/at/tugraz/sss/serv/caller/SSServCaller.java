@@ -224,18 +224,6 @@ public class SSServCaller {
     return (List<SSUri>) SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entityUserSubEntitiesGet, opPars));
   }
   
-  public static void entityRemove(
-    final SSUri   entity, 
-    final Boolean shouldCommit) throws Exception{
-    
-    final Map<String, Object> opPars = new HashMap<>();
-    
-    opPars.put(SSVarNames.entity,       entity);
-    opPars.put(SSVarNames.shouldCommit, shouldCommit);
-    
-    SSServReg.inst.callServViaServer(new SSServPar(SSServOpE.entityRemove, opPars));
-  }
-  
   /* data export */
   
   public static void dataExportUserRelations(

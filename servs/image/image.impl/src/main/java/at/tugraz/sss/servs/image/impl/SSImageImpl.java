@@ -58,6 +58,7 @@ import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUsersResourcesGathererI;
 import at.tugraz.sss.serv.caller.SSServCaller;
+import at.tugraz.sss.servs.entity.datatypes.par.SSEntityRemovePar;
 import at.tugraz.sss.servs.file.datatype.par.SSEntityFileAddPar;
 import at.tugraz.sss.servs.file.datatype.par.SSEntityFilesGetPar;
 import at.tugraz.sss.servs.image.api.SSImageClientI;
@@ -400,7 +401,7 @@ implements
                 SSImageE.thumb,
                 par.withUserRestriction))){
             
-            SSServCaller.entityRemove(thumb.id, false);
+            entityServ.entityRemove(new SSEntityRemovePar(par.user, thumb.id));
             
             try{
               SSFileU.delFile(SSImageConf.getLocalWorkPath() + SSVocConf.fileIDFromSSSURI(thumb.file.id));

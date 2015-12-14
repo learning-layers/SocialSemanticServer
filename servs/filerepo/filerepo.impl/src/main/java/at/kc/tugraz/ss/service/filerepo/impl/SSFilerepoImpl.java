@@ -63,6 +63,7 @@ import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSToolContextE;
 import at.tugraz.sss.serv.caller.SSServCaller;
+import at.tugraz.sss.servs.entity.datatypes.par.SSEntityRemovePar;
 import at.tugraz.sss.servs.file.datatype.par.SSFileGetPar;
 import at.tugraz.sss.servs.image.api.SSImageServerI;
 import at.tugraz.sss.servs.image.datatype.par.SSImageAddPar;
@@ -333,7 +334,7 @@ implements
               par.withUserRestriction, //withUserRestriction
               false))){  //invokeEntityHandlers
           
-          SSServCaller.entityRemove(file.id, false);
+          entityServ.entityRemove(new SSEntityRemovePar(par.user, file.id));
           
           try{
             SSFileU.delFile(SSFileRepoConf.getLocalWorkPath() + SSVocConf.fileIDFromSSSURI(file.id));
