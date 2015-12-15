@@ -24,7 +24,6 @@ public enum SSFileRepoTypeE {
   
   fileSys;
 //  webdav, 
-//  i5Cloud;
   
   public static SSFileRepoTypeE get(
     final String value){

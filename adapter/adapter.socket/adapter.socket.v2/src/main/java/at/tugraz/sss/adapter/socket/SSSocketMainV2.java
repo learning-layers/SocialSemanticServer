@@ -33,7 +33,6 @@ import at.kc.tugraz.ss.serv.dataimport.serv.SSDataImportServ;
 import at.kc.tugraz.ss.serv.datatypes.entity.serv.SSEntityServ;
 import at.kc.tugraz.ss.serv.datatypes.learnep.serv.SSLearnEpServ;
 import at.kc.tugraz.ss.serv.job.dataexport.serv.SSDataExportServ;
-import at.kc.tugraz.ss.serv.job.i5cloud.serv.SSI5CloudServ;
 import at.kc.tugraz.ss.serv.jobs.evernote.serv.SSEvernoteServ;
 import at.kc.tugraz.ss.serv.jsonld.serv.SSJSONLD;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
@@ -269,7 +268,6 @@ public class SSSocketMainV2{
           SSSearchServ.inst.regServ          ();
           SSDataExportServ.inst.regServ      ();
           SSRecommServ.inst.regServ          ();
-          SSI5CloudServ.inst.regServ         ();
           SSFlagServ.inst.regServ            ();
           SSCommentServ.inst.regServ         ();
           SSMessageServ.inst.regServ         ();

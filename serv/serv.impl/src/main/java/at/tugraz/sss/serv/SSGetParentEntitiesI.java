@@ -29,3 +29,32 @@ public interface SSGetParentEntitiesI{
     final SSUri         entity,
     final SSEntityE     type) throws Exception;
 }
+
+
+//  public List<SSUri> getParentEntities(final SSEntityUserParentEntitiesGetPar par) throws SSErr{
+//    
+//    try{
+//      final List<SSUri>  entities     = new ArrayList<>();
+//      final SSEntity     entity       = 
+//        sql.getEntityTest(
+//          par.user, 
+//          par.entity, 
+//          par.withUserRestriction);
+//      
+//      if(entity == null){
+//        return entities;
+//      }
+//      
+//      for(SSServContainerI serv : SSServReg.inst.getServsHandlingGetParentEntities()){
+//        entities.addAll(((SSGetParentEntitiesI) serv.serv()).getParentEntities(par.user, par.entity, entity.type));
+//      }
+//      
+//      SSStrU.distinctWithoutNull2(entities);
+//      
+//      return entities;
+//      
+//    }catch(Exception error){
+//      SSServErrReg.regErrThrow(error);
+//      return null;
+//    }
+//  }

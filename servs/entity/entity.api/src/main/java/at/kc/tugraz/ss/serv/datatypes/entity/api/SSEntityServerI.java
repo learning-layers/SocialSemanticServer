@@ -41,8 +41,6 @@ import at.tugraz.sss.servs.entity.datatypes.par.SSEntityTypesGetPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityURIsGetPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUnpublicizePar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUpdatePar;
-import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUserParentEntitiesGetPar;
-import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUserSubEntitiesGetPar;
 import at.tugraz.sss.servs.entity.datatypes.ret.SSEntitiesAccessibleGetRet;
 import java.util.List;
 
@@ -64,6 +62,4 @@ public interface SSEntityServerI extends SSServServerI{
   public SSEntitiesAccessibleGetRet      entitiesAccessibleGet         (final SSEntitiesAccessibleGetPar         par) throws SSErr;
   public void                            entitiesAccessibleGetCleanUp  (final SSEntitiesAccessibleGetCleanUpPar  par) throws SSErr;
   public SSUri                           entityRemove                  (final SSEntityRemovePar                  par) throws SSErr;
-  public List<SSUri>                     entityUserSubEntitiesGet      (final SSEntityUserSubEntitiesGetPar      par) throws SSErr;
-  public List<SSUri>                     entityUserParentEntitiesGet   (final SSEntityUserParentEntitiesGetPar   par) throws SSErr;
 }

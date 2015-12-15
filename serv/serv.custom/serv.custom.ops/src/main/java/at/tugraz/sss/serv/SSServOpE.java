@@ -152,8 +152,6 @@ public enum SSServOpE{
   entityAdd                                           ,
   entityGet                                           ,
   entityFromTypeAndLabelGet,
-  entityUserSubEntitiesGet                            ,
-  entityUserParentEntitiesGet,
   entityRemove                                        ,
   entityUpdate,
   entityCopy,
@@ -257,7 +255,6 @@ public enum SSServOpE{
   fileGet,
   
   //data import
-//  dataImportAchso,
   dataImportSSSUsersFromCSVFile                       ,
   dataImportBitsAndPieces                             ,
   dataImportMediaWikiUser,
@@ -305,13 +302,6 @@ public enum SSServOpE{
   recommUpdateBulk,
   recommUpdateBulkUserRealmsFromConf,
   recommUpdateBulkUserRealmsFromCircles,
-  
-  //i5cloud
-  i5CloudAuth,
-  i5CloudAchsoVideoInformationGet,
-  i5CloudFileUpload,
-  i5CloudFileDownload,
-  i5CloudAchsoSemanticAnnotationsSetGet,
   
   //activity
   activityAdd,

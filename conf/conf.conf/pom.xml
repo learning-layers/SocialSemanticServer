@@ -128,12 +128,6 @@
     
     <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>i5cloud.conf</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>sss.servs</groupId>
       <artifactId>jsonld.conf</artifactId>
       <version>${project.version}</version>
     </dependency>

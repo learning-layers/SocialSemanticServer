@@ -36,7 +36,6 @@ import at.kc.tugraz.ss.serv.dataimport.conf.SSDataImportConf;
 import at.kc.tugraz.ss.serv.serv.datatypes.entity.conf.SSEntityConf;
 import at.kc.tugraz.ss.serv.disc.conf.SSDiscConf;
 import at.kc.tugraz.ss.serv.job.dataexport.conf.SSDataExportConf;
-import at.kc.tugraz.ss.serv.job.i5cloud.conf.SSI5CloudConf;
 import at.kc.tugraz.ss.recomm.conf.SSRecommConf;
 import at.kc.tugraz.ss.serv.datatypes.learnep.conf.SSLearnEpConf;
 import at.kc.tugraz.ss.serv.jobs.evernote.conf.SSEvernoteConf;
@@ -75,7 +74,6 @@ public class SSCoreConf extends SSCoreConfA {
   private SSVocConf voc = null;
   private SSRecommConf recomm = null;
   private SSEvernoteConf evernote = null;
-  private SSI5CloudConf i5Cloud = null;
   private SSAuthConf auth = null;
   private SSDataImportConf dataImport = null;
   private SSDataExportConf dataExport = null;
@@ -151,7 +149,6 @@ public class SSCoreConf extends SSCoreConfA {
       copy.voc = SSVocConf.copy(inst.voc);
       copy.recomm = SSRecommConf.copy(inst.recomm);
       copy.evernote = SSEvernoteConf.copy(inst.evernote);
-      copy.i5Cloud = SSI5CloudConf.copy(inst.i5Cloud);
       copy.auth = SSAuthConf.copy(inst.auth);
       copy.dataImport = SSDataImportConf.copy(inst.dataImport);
       copy.dataExport = SSDataExportConf.copy(inst.dataExport);
@@ -253,14 +250,6 @@ public class SSCoreConf extends SSCoreConfA {
   
   public void setEvernote(SSEvernoteConf evernote) {
     this.evernote = evernote;
-  }
-  
-  public SSI5CloudConf getI5Cloud() {
-    return i5Cloud;
-  }
-  
-  public void setI5Cloud(SSI5CloudConf i5Cloud) {
-    this.i5Cloud = i5Cloud;
   }
   
   public SSAuthConf getAuth() {

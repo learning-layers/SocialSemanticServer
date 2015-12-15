@@ -27,6 +27,8 @@ public class SSAuthConf extends SSCoreServConfA{
   
 //  public static final String   noAuthKey              = "1234";
   public SSAuthEnum            authType               = null;
+  public String                oidcUserEndPointURI    = null;
+  public String                oidcConfURI            = null;
   public String                fileName               = null;
   public String                systemUserPassword     = null;
   
@@ -35,6 +37,8 @@ public class SSAuthConf extends SSCoreServConfA{
     final SSAuthConf copy = (SSAuthConf) SSCoreServConfA.copy(orig, new SSAuthConf());
     
     copy.authType               = SSAuthEnum.get(SSAuthEnum.toStr(orig.authType));
+    copy.oidcUserEndPointURI    = orig.oidcUserEndPointURI;
+    copy.oidcConfURI            = orig.oidcConfURI;
     copy.fileName               = orig.fileName;
     copy.systemUserPassword     = orig.systemUserPassword;
     

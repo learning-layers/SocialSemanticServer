@@ -23,6 +23,8 @@ auth:
   initAtStartUp: true
   fileName: users.csv
   systemUserPassword: 1234
+  oidcConfURI: https://api.learning-layers.eu/o/oauth2/.well-known/openid-configuration #http://10.255.255.17/o/oauth2/.well-known/openid-configuration
+  oidcUserEndPointURI: https://api.learning-layers.eu/o/oauth2/userinfo #http://10.255.255.17/o/oauth2/userinfo
 entity:
   use: true
 circle:
@@ -58,15 +60,6 @@ message:
   use: true
 comment:
   use: true  
-i5Cloud:
-  use: true
-  uri: #http://137.226.58.11:8081/i5Cloud/services/4/
-  userLabel: SSS_TETHYS_USER
-  pass: SSS_TETHYS_PASSSWORD
-  lasUser: SSS_TETHYS_LAS_USER
-  lasPass: SSS_TETHYS_LAS_PASSWORD
-  oidcConfURI: LAYERS_API_URIo/oauth2/.well-known/openid-configuration #https://api.learning-layers.eu/o/oauth2/.well-known/openid-configuration #http://10.255.255.17/o/oauth2/.well-known/openid-configuration
-  oidcUserEndPointURI: LAYERS_API_URIo/oauth2/userinfo #https://api.learning-layers.eu/o/oauth2/userinfo #http://10.255.255.17/o/oauth2/userinfo
 filerepo: 
   use: true
 dataExport:

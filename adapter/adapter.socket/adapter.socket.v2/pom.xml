@@ -250,18 +250,6 @@
     
     <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>i5cloud.conf</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>sss.servs</groupId>
-      <artifactId>i5cloud.serv</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>sss.servs</groupId>
       <artifactId>evernote.serv</artifactId>
       <version>${project.version}</version>
     </dependency>

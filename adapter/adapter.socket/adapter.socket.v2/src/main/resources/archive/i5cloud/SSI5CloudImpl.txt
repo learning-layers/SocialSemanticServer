@@ -60,6 +60,7 @@ implements
   SSI5CloudClientI, 
   SSI5CloudServerI{
 
+public static final String achsoDateFormat = "yyyy-MM-dd'T'HH:mm:ss:SSSXXX";
   private SSI5CloudLASConnector lasCon = null;
   
   public SSI5CloudImpl(final SSConfA conf) throws SSErr{

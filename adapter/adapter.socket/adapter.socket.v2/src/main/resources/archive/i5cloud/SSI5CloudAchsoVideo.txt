@@ -21,16 +21,12 @@
 package at.kc.tugraz.ss.serv.job.i5cloud.datatypes;
 
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSLabel;
-import at.tugraz.sss.serv.SSJSONLDU;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class SSi5CloudAchsoVideo extends SSEntity{
   
@@ -75,27 +71,9 @@ public class SSi5CloudAchsoVideo extends SSEntity{
 
   @Override
   public Object jsonLDDesc(){
-    
-    final Map<String, Object> ld             = (Map<String, Object>) super.jsonLDDesc();
-    final Map<String, Object> keywordsObj    = new HashMap<>();
-    final Map<String, Object> annotationsObj = new HashMap<>();
-    
-    keywordsObj.put(SSJSONLDU.id,        SSVarNames.xsd + SSStrU.colon + SSStrU.valueString);
-    keywordsObj.put(SSJSONLDU.container, SSJSONLDU.set);
-    
-    ld.put(SSVarNames.keywords, keywordsObj);
-    
-    annotationsObj.put(SSJSONLDU.id,        SSVarNames.xsd + SSStrU.colon + SSStrU.valueString);
-    annotationsObj.put(SSJSONLDU.container, SSJSONLDU.set);
-    
-    ld.put(SSVarNames.annotations, annotationsObj);
-    
-    ld.put(SSVarNames.authorLabel, SSVarNames.sss + SSStrU.colon + SSLabel.class.getName());
-    
-    return ld;
+    throw new UnsupportedOperationException();
   }
   
-  /* json getters */
   public String getAuthorLabel(){
     return SSStrU.toStr(authorLabel);
   }

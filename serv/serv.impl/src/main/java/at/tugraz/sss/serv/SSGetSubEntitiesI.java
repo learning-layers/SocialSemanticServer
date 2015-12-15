@@ -29,3 +29,45 @@ public interface SSGetSubEntitiesI{
     final SSUri         entity,
     final SSEntityE     type) throws Exception;
 }
+
+//  public List<SSUri> getSubEntities(final SSEntityUserSubEntitiesGetPar par) throws SSErr{
+//    
+//    try{
+//      final List<SSUri>                   subEntities = new ArrayList<>();
+//      final SSEntity                      entity      =
+//        sql.getEntityTest(
+//          par.user,
+//          par.entity,
+//          par.withUserRestriction);
+//      
+//      if(entity == null){
+//        return subEntities;
+//      }
+//      
+//      
+//      switch(entity.type){
+//        
+//        case entity: {
+//          return subEntities;
+//        }
+//        
+//        default: {
+//          
+//          for(SSServContainerI serv : SSServReg.inst.getServsHandlingGetSubEntities()){
+//            
+//            subEntities.addAll(
+//              ((SSGetSubEntitiesI) serv.serv()).getSubEntities(
+//                par.user, 
+//                par.entity, 
+//                entity.type));
+//          }
+//          
+//          return subEntities;
+//        }
+//      }
+//      
+//    }catch(Exception error){
+//      SSServErrReg.regErrThrow(error);
+//      return null;
+//    }
+//  }

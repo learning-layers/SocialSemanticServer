@@ -39,8 +39,6 @@ import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUpdatePar;
 import at.tugraz.sss.serv.SSEntityCopyPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityFromTypeAndLabelGetPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityTypesGetPar;
-import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUserParentEntitiesGetPar;
-import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUserSubEntitiesGetPar;
 import at.tugraz.sss.servs.entity.datatypes.ret.SSEntitiesGetRet;
 import at.tugraz.sss.servs.entity.datatypes.ret.SSEntityCopyRet;
 import at.tugraz.sss.servs.entity.datatypes.ret.SSEntityGetRet;
@@ -859,78 +857,6 @@ implements
       }
       
       dbSQL.rollBack(par.shouldCommit);
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
-  @Override
-  public List<SSUri> entityUserParentEntitiesGet(final SSEntityUserParentEntitiesGetPar par) throws SSErr{
-    
-    try{
-      final List<SSUri>  entities     = new ArrayList<>();
-      final SSEntity     entity       = 
-        sql.getEntityTest(
-          par.user, 
-          par.entity, 
-          par.withUserRestriction);
-      
-      if(entity == null){
-        return entities;
-      }
-      
-      for(SSServContainerI serv : SSServReg.inst.getServsHandlingGetParentEntities()){
-        entities.addAll(((SSGetParentEntitiesI) serv.serv()).getParentEntities(par.user, par.entity, entity.type));
-      }
-      
-      SSStrU.distinctWithoutNull2(entities);
-      
-      return entities;
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-      return null;
-    }
-  }
-  
-  @Override
-  public List<SSUri> entityUserSubEntitiesGet(final SSEntityUserSubEntitiesGetPar par) throws SSErr{
-    
-    try{
-      final List<SSUri>                   subEntities = new ArrayList<>();
-      final SSEntity                      entity      =
-        sql.getEntityTest(
-          par.user,
-          par.entity,
-          par.withUserRestriction);
-      
-      if(entity == null){
-        return subEntities;
-      }
-      
-      
-      switch(entity.type){
-        
-        case entity: {
-          return subEntities;
-        }
-        
-        default: {
-          
-          for(SSServContainerI serv : SSServReg.inst.getServsHandlingGetSubEntities()){
-            
-            subEntities.addAll(
-              ((SSGetSubEntitiesI) serv.serv()).getSubEntities(
-                par.user, 
-                par.entity, 
-                entity.type));
-          }
-          
-          return subEntities;
-        }
-      }
-      
-    }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;
     }

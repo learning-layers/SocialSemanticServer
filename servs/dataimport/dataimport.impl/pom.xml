@@ -85,18 +85,6 @@
     </dependency>
     
     <dependency>
-      <groupId>sss.servs</groupId>
-      <artifactId>i5cloud.util</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>sss.servs</groupId>
-      <artifactId>i5cloud.datatypes</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    
-    <dependency>
       <groupId>sss</groupId>
       <artifactId>conf.conf</artifactId>
       <version>${project.version}</version>

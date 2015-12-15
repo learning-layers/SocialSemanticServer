@@ -49,23 +49,6 @@
             </configuration>
           </execution>-->
           
-          <!-- Apache licensed -->
-           <execution>
-            <id>i5Cloud-http-connector-client</id>
-            <inherited>false</inherited>
-            <phase>clean</phase>
-            <goals>
-              <goal>install-file</goal>
-            </goals>
-            <configuration>
-              <file>./3rdpartylibs/libs/i5Cloud-http-connector-client.jar</file>
-              <groupId>i5Cloud</groupId>
-              <artifactId>i5Cloud-http-connector-client</artifactId>
-              <version>1</version>
-              <packaging>jar</packaging>
-            </configuration>
-          </execution>
-          
           <!-- GNU AFFERO GENERAL PUBLIC LICENSE -->
           <execution>
             <id>install_tagrec</id>
