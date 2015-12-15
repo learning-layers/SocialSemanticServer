@@ -23,7 +23,6 @@
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUpdatePar;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.adapter.socket.SSSocketCon;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSUri;
@@ -46,6 +45,7 @@ import at.kc.tugraz.ss.service.userevent.datatypes.ret.SSUECountGetRet;
 import at.kc.tugraz.ss.service.userevent.datatypes.ret.SSUEGetRet;
 import at.kc.tugraz.ss.service.userevent.datatypes.ret.SSUEsGetRet;
 import at.kc.tugraz.ss.service.userevent.impl.fct.sql.SSUESQLFct;
+import at.tugraz.sss.serv.SSClientE;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
@@ -58,6 +58,7 @@ import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServReg;
+import at.tugraz.sss.serv.SSServRetI;
 
 public class SSUEImpl 
 extends SSServImplWithDBA 
@@ -190,17 +191,18 @@ implements
   }
   
   @Override
-  public void userEventGet(SSSocketCon sSCon, SSServPar parA) throws SSErr {
+  public SSServRetI userEventGet(SSClientE clientType, SSServPar parA) throws SSErr {
     
     try{
       SSServCallerU.checkKey(parA);
       
       final SSUEGetPar par = (SSUEGetPar) parA.getFromJSON(SSUEGetPar.class);
       
-      sSCon.writeRetFullToClient(SSUEGetRet.get(userEventGet(par)));
+      return SSUEGetRet.get(userEventGet(par));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
     
@@ -239,17 +241,18 @@ implements
   }
   
   @Override
-  public void userEventsGet(SSSocketCon sSCon, SSServPar parA) throws SSErr {
+  public SSServRetI userEventsGet(SSClientE clientType, SSServPar parA) throws SSErr {
     
     try{
       SSServCallerU.checkKey(parA);
       
       final SSUEsGetPar par = (SSUEsGetPar) parA.getFromJSON(SSUEsGetPar.class);
       
-      sSCon.writeRetFullToClient(SSUEsGetRet.get(userEventsGet(par)));
+      return SSUEsGetRet.get(userEventsGet(par));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -290,7 +293,7 @@ implements
   }
   
   @Override
-  public void userEventCountGet(final SSSocketCon sSCon, final SSServPar parA) throws SSErr {
+  public SSServRetI userEventCountGet(final SSClientE clientType, final SSServPar parA) throws SSErr {
     
     try{
       
@@ -298,10 +301,11 @@ implements
     
     final SSUECountGetPar par = (SSUECountGetPar) parA.getFromJSON(SSUECountGetPar.class);
     
-    sSCon.writeRetFullToClient(SSUECountGetRet.get(userEventCountGet(par)));
+    return SSUECountGetRet.get(userEventCountGet(par));
     
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -343,16 +347,17 @@ implements
   }
   
   @Override
-  public void userEventAdd(SSSocketCon sSCon, SSServPar parA) throws SSErr {
+  public SSServRetI userEventAdd(SSClientE clientType, SSServPar parA) throws SSErr {
     
     try{
       SSServCallerU.checkKey(parA);
       
       final SSUEAddPar par = (SSUEAddPar) parA.getFromJSON(SSUEAddPar.class);
       
-      sSCon.writeRetFullToClient(SSUEAddRet.get(userEventAdd(par)));
+      return SSUEAddRet.get(userEventAdd(par));
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   

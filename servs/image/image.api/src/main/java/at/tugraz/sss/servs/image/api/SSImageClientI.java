@@ -21,9 +21,11 @@
 package at.tugraz.sss.servs.image.api;
 
 import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.adapter.socket.SSSocketCon;
+import at.tugraz.sss.serv.SSClientE;
+import at.tugraz.sss.serv.SSServRetI;
 
 public interface SSImageClientI{
-  public void imagesGet              (SSSocketCon sSCon, SSServPar parA) throws Exception;
-  public void imageProfilePictureSet (SSSocketCon sSCon, SSServPar parA) throws Exception;
+  
+  public SSServRetI imagesGet              (SSClientE clientType, SSServPar parA) throws Exception;
+  public SSServRetI imageProfilePictureSet (SSClientE clientType, SSServPar parA) throws Exception;
 }

@@ -20,15 +20,17 @@
 */
 package at.kc.tugraz.ss.recomm.api;
 
+import at.tugraz.sss.serv.SSClientE;
 import at.tugraz.sss.serv.SSErr;
-import at.tugraz.sss.adapter.socket.SSSocketCon;
 import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServRetI;
 
 public interface SSRecommClientI{
-  public void recommTags               (final SSSocketCon sSCon, final SSServPar parA) throws SSErr;
-  public void recommResources          (final SSSocketCon sSCon, final SSServPar parA) throws SSErr;
-  public void recommUsers              (final SSSocketCon sSCon, final SSServPar parA) throws SSErr;
-  public void recommUpdateBulk         (final SSSocketCon sSCon, final SSServPar parA) throws SSErr;
-  public void recommUpdate             (final SSSocketCon sSCon, final SSServPar parA) throws SSErr;
-  public void recommUpdateBulkEntities (final SSSocketCon sSCon, final SSServPar parA) throws SSErr;
+  
+  public SSServRetI recommTags               (final SSClientE clientType, final SSServPar parA) throws SSErr;
+  public SSServRetI recommResources          (final SSClientE clientType, final SSServPar parA) throws SSErr;
+  public SSServRetI recommUsers              (final SSClientE clientType, final SSServPar parA) throws SSErr;
+  public SSServRetI recommUpdateBulk         (final SSClientE clientType, final SSServPar parA) throws SSErr;
+  public SSServRetI recommUpdate             (final SSClientE clientType, final SSServPar parA) throws SSErr;
+  public SSServRetI recommUpdateBulkEntities (final SSClientE clientType, final SSServPar parA) throws SSErr;
 }

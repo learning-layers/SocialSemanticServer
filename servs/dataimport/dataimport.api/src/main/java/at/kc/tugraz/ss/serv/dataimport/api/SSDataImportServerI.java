@@ -24,8 +24,9 @@ import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportBitsAndPiecesP
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportEvalLogFilePar;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportKCProjWikiProjectsPar;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportKCProjWikiVorgaengePar;
+import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportMediaWikiUserPar;
+import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportSSSUsersFromCSVFilePar;
 import at.tugraz.sss.serv.SSErr;
-import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServServerI;
 import at.tugraz.sss.servs.kcprojwiki.datatype.SSKCProjWikiProject;
 import at.tugraz.sss.servs.kcprojwiki.datatype.SSKCProjWikiVorgang;
@@ -39,9 +40,8 @@ public interface SSDataImportServerI extends SSServServerI{
   public Map<String, SSKCProjWikiVorgang> dataImportKCProjWikiVorgaenge            (final SSDataImportKCProjWikiVorgaengePar par) throws SSErr;
   public Map<String, SSKCProjWikiProject> dataImportKCProjWikiProjects             (final SSDataImportKCProjWikiProjectsPar  par) throws SSErr;
   public List<SSEvalLogEntry>             dataImportEvalLogFile                    (final SSDataImportEvalLogFilePar         par) throws SSErr;
-  
-  public Map<String, String> dataImportSSSUsersFromCSVFile            (final SSServPar parA) throws SSErr;
-  public void                dataImportMediaWikiUser                  (final SSServPar parA) throws SSErr;
+  public Map<String, String>              dataImportSSSUsersFromCSVFile            (final SSDataImportSSSUsersFromCSVFilePar par) throws SSErr;
+  public void                             dataImportMediaWikiUser                  (final SSDataImportMediaWikiUserPar       par) throws SSErr;
 
 //  public void                dataImportAchso                          (final SSServPar parA) throws SSErr;
 //  public Boolean             dataImportUserResourceTagFromWikipedia   (final SSServPar parA) throws Exception;

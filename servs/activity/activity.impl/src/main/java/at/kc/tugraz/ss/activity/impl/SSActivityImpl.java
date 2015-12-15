@@ -37,8 +37,8 @@ import at.kc.tugraz.ss.activity.datatypes.ret.SSActivityTypesGetRet;
 import at.kc.tugraz.ss.activity.datatypes.ret.SSActivityAddRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.tugraz.sss.serv.SSClientE;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUpdatePar;
-import at.tugraz.sss.adapter.socket.SSSocketCon;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
@@ -64,6 +64,7 @@ import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSQueryResultPage;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
+import at.tugraz.sss.serv.SSServRetI;
 import at.tugraz.sss.serv.SSUsersResourcesGathererI;
 import java.util.Map;
 
@@ -255,7 +256,7 @@ implements
   }
   
   @Override
-  public void activityTypesGet(final SSSocketCon sSCon, final SSServPar parA) throws SSErr{
+  public SSServRetI activityTypesGet(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
       
@@ -263,10 +264,11 @@ implements
       
       final SSActivityTypesGetPar par = (SSActivityTypesGetPar) parA.getFromJSON(SSActivityTypesGetPar.class);
       
-      sSCon.writeRetFullToClient(SSActivityTypesGetRet.get(activityTypesGet(par)));
+      return SSActivityTypesGetRet.get(activityTypesGet(par));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -282,7 +284,7 @@ implements
   }
   
   @Override
-  public void activitiesGet(final SSSocketCon sSCon, final SSServPar parA) throws SSErr{
+  public SSServRetI activitiesGet(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
       
@@ -290,10 +292,11 @@ implements
       
       final SSActivitiesGetPar par = (SSActivitiesGetPar) parA.getFromJSON(SSActivitiesGetPar.class);
       
-      sSCon.writeRetFullToClient(SSActivitiesGetRet.get(activitiesGet(par), SSDateU.dateAsLong()));
+      return SSActivitiesGetRet.get(activitiesGet(par), SSDateU.dateAsLong());
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -371,7 +374,7 @@ implements
   }
   
   @Override
-  public void activityAdd(final SSSocketCon sSCon, final SSServPar parA) throws SSErr{
+  public SSServRetI activityAdd(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
       
@@ -379,10 +382,11 @@ implements
       
       final SSActivityAddPar par = (SSActivityAddPar) parA.getFromJSON(SSActivityAddPar.class);
       
-      sSCon.writeRetFullToClient(SSActivityAddRet.get(activityAdd(par)));
+      return SSActivityAddRet.get(activityAdd(par));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   

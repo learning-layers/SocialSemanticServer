@@ -21,13 +21,14 @@
 package at.tugraz.sss.servs.livingdocument.api;
 
 import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.adapter.socket.SSSocketCon;
+import at.tugraz.sss.serv.SSClientE;
+import at.tugraz.sss.serv.SSServRetI;
 
 public interface SSLivingDocClientI {
   
-  public void livingDocGet    (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void livingDocAdd    (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void livingDocUpdate (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void livingDocsGet   (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void livingDocRemove (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public SSServRetI livingDocGet    (final SSClientE clientType, final SSServPar parA) throws Exception;
+  public SSServRetI livingDocAdd    (final SSClientE clientType, final SSServPar parA) throws Exception;
+  public SSServRetI livingDocUpdate (final SSClientE clientType, final SSServPar parA) throws Exception;
+  public SSServRetI livingDocsGet   (final SSClientE clientType, final SSServPar parA) throws Exception;
+  public SSServRetI livingDocRemove (final SSClientE clientType, final SSServPar parA) throws Exception;
 }

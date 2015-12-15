@@ -33,7 +33,6 @@ import at.tugraz.sss.serv.SSFileExtE;
 import at.tugraz.sss.serv.SSMimeTypeE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.adapter.socket.SSSocketCon;
 import at.tugraz.sss.serv.SSEntityE;
 import at.kc.tugraz.ss.service.filerepo.api.*;
 import at.kc.tugraz.ss.service.filerepo.conf.*;
@@ -46,6 +45,7 @@ import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileAddRet;
 import at.kc.tugraz.ss.service.filerepo.impl.fct.SSFileSQLFct;
 import at.tugraz.sss.serv.SSAddAffiliatedEntitiesToCircleI;
 import at.tugraz.sss.serv.SSAddAffiliatedEntitiesToCirclePar;
+import at.tugraz.sss.serv.SSClientE;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
@@ -61,6 +61,7 @@ import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServReg;
+import at.tugraz.sss.serv.SSServRetI;
 import at.tugraz.sss.serv.SSToolContextE;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityRemovePar;
@@ -191,7 +192,7 @@ implements
   }
   
   @Override
-  public void fileDownload(final SSSocketCon sSCon, final SSServPar parA) throws SSErr{
+  public SSServRetI fileDownload(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
       SSFileDownloadPar par = (SSFileDownloadPar) parA.getFromJSON(SSFileDownloadPar.class);
@@ -202,8 +203,6 @@ implements
       }
       
       par = (SSFileDownloadPar) parA.getFromJSON(SSFileDownloadPar.class);
-      
-      par.sSCon = sSCon;
       
       fileDownload(par);
       
@@ -220,8 +219,11 @@ implements
             null, //users
             par.shouldCommit));
       }
+      
+      return null;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
 
@@ -229,15 +231,15 @@ implements
   public void fileDownload(final SSFileDownloadPar par) throws SSErr{
     
     try{
-
+      
       if(
         !par.isPublicDownload &&
         par.withUserRestriction){
         
-        final SSEntity file = 
+        final SSEntity file =
           sql.getEntityTest(
-            par.user, 
-            par.file, 
+            par.user,
+            par.file,
             par.withUserRestriction);
         
         if(file == null){
@@ -245,10 +247,7 @@ implements
         }
       }
       
-      new Thread(
-        new SSFileDownloader(
-          (SSFileRepoConf) conf, 
-          par)).start();
+      new Thread(new SSFileDownloader((SSFileRepoConf) conf, par)).start();
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -256,19 +255,19 @@ implements
   }
 
   @Override
-  public void fileUpload(final SSSocketCon sSCon, final SSServPar parA) throws SSErr{
+  public SSServRetI fileUpload(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
       SSServCallerU.checkKey(parA);
       
       final SSFileUploadPar par = (SSFileUploadPar) parA.getFromJSON(SSFileUploadPar.class);
       
-      par.sSCon = sSCon;
-      
       fileUpload(par);
       
+      return null;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -276,10 +275,8 @@ implements
   public void fileUpload(final SSFileUploadPar par) throws SSErr{
     
     try{
-      new Thread(
-        new SSFileUploader(
-          (SSFileRepoConf) conf, 
-          par)).start();
+      
+      new Thread(new SSFileUploader((SSFileRepoConf) conf, par)).start();
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);

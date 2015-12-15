@@ -20,11 +20,12 @@
 */
  package at.kc.tugraz.ss.serv.auth.api;
 
-import at.tugraz.sss.adapter.socket.SSSocketCon;
+import at.tugraz.sss.serv.SSClientE;
 import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServRetI;
 
 public interface SSAuthClientI {
   
-  public void authCheckCred    (final SSSocketCon sSCon, final SSServPar par) throws Exception;
-  public void authRegisterUser (final SSSocketCon sSCon, final SSServPar par) throws Exception;
+  public SSServRetI authCheckCred    (final SSClientE clientType, final SSServPar par) throws Exception;
+  public SSServRetI authRegisterUser (final SSClientE clientType, final SSServPar par) throws Exception;
 }

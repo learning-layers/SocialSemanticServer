@@ -31,7 +31,6 @@ import at.tugraz.sss.serv.SSLabel;
 import at.kc.tugraz.ss.serv.dataimport.api.SSDataImportClientI;
 import at.kc.tugraz.ss.serv.dataimport.api.SSDataImportServerI;
 import at.kc.tugraz.ss.serv.dataimport.conf.SSDataImportConf;
-import at.tugraz.sss.serv.SSServPar;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportBitsAndPiecesPar;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportEvalLogFilePar;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportKCProjWikiProjectsPar;
@@ -335,10 +334,9 @@ implements
   }
   
   @Override
-  public Map<String, String> dataImportSSSUsersFromCSVFile(final SSServPar parA) throws SSErr{
+  public Map<String, String> dataImportSSSUsersFromCSVFile(final SSDataImportSSSUsersFromCSVFilePar par) throws SSErr{
     
     try{
-      final SSDataImportSSSUsersFromCSVFilePar par             = new SSDataImportSSSUsersFromCSVFilePar(parA);
       final List<String[]>                     lines           = SSDataImportReaderFct.readAllFromCSV(SSFileU.dirWorking(), par.fileName);
       final Map<String, String>                passwordPerUser = new HashMap<>();
       
@@ -358,12 +356,11 @@ implements
   }
   
   @Override
-  public void dataImportMediaWikiUser(final SSServPar parA) throws SSErr{
+  public void dataImportMediaWikiUser(final SSDataImportMediaWikiUserPar par) throws SSErr{
 
     try{
       
-      final SSDataImportMediaWikiUserPar par   = new SSDataImportMediaWikiUserPar(parA);
-      final List<String[]>               lines = SSDataImportReaderFct.readAllFromCSV(SSFileU.dirWorkingDataCsv(), ((SSDataImportConf)conf).fileName);
+      final List<String[]> lines = SSDataImportReaderFct.readAllFromCSV(SSFileU.dirWorkingDataCsv(), ((SSDataImportConf)conf).fileName);
       String firstName;
       String familyName;
       String password;
@@ -396,18 +393,18 @@ implements
       
       if(SSServErrReg.containsErr(SSErrE.sqlDeadLock)){
         
-        if(dbSQL.rollBack(parA.shouldCommit)){
+        if(dbSQL.rollBack(par.shouldCommit)){
           
           SSServErrReg.reset();
           
-          dataImportMediaWikiUser(parA);
+          dataImportMediaWikiUser(par);
         }else{
           SSServErrReg.regErrThrow(error);
           return;
         }
       }
       
-      dbSQL.rollBack(parA.shouldCommit);
+      dbSQL.rollBack(par.shouldCommit);
       SSServErrReg.regErrThrow(error);
     }
   }

@@ -20,10 +20,12 @@
 */
 package at.kc.tugraz.ss.message.api;
 
-import at.tugraz.sss.adapter.socket.SSSocketCon;
+import at.tugraz.sss.serv.SSClientE;
 import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServRetI;
 
 public interface SSMessageClientI{
-  public void messageSend (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void messagesGet (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  
+  public SSServRetI messageSend (final SSClientE clientType, final SSServPar parA) throws Exception;
+  public SSServRetI messagesGet (final SSClientE clientType, final SSServPar parA) throws Exception;
 }

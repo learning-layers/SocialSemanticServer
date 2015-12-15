@@ -20,16 +20,16 @@
 */
 package at.kc.tugraz.ss.category.api;
 
-import at.tugraz.sss.adapter.socket.SSSocketCon;
+import at.tugraz.sss.serv.SSClientE;
 import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServRetI;
 
 public interface SSCategoryClientI{
 
-  public void categoriesPredefinedGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  
-  public void categoryAdd                       (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void categoriesRemove                  (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void categoriesGet                     (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void categoryEntitiesForCategoriesGet  (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void categoryFrequsGet                 (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public SSServRetI categoriesPredefinedGet           (final SSClientE clientType, final SSServPar parA) throws Exception;
+  public SSServRetI categoryAdd                       (final SSClientE clientType, final SSServPar parA) throws Exception;
+  public SSServRetI categoriesRemove                  (final SSClientE clientType, final SSServPar parA) throws Exception;
+  public SSServRetI categoriesGet                     (final SSClientE clientType, final SSServPar parA) throws Exception;
+  public SSServRetI categoryEntitiesForCategoriesGet  (final SSClientE clientType, final SSServPar parA) throws Exception;
+  public SSServRetI categoryFrequsGet                 (final SSClientE clientType, final SSServPar parA) throws Exception;
 }

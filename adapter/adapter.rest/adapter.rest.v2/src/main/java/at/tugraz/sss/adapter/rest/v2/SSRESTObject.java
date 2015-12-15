@@ -22,12 +22,11 @@ package at.tugraz.sss.adapter.rest.v2;
 
 import at.tugraz.sss.serv.SSServPar;
 import javax.ws.rs.core.Response;
-import at.tugraz.sss.adapter.socket.SSSocketCon;
 
 public class SSRESTObject{
   
   public SSServPar    par                = null;
-  public SSSocketCon  sssCon             = null;
+//  public SSSocketCon  sssCon             = null;
   public String       sssRequestMessage  = null;
   public String       sssResponseMessage = null;
   public Response     response           = null;

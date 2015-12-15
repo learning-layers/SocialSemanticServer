@@ -30,7 +30,7 @@ public abstract class SSServImplA{
     this.conf = conf;
   }
   
-  public SSServRetI handleSocketeClientOp(
+  public SSServRetI invokeClientServOp(
     final Class        clientInterfaceClass,
     final SSServPar    par) throws Exception{
     
@@ -40,18 +40,6 @@ public abstract class SSServImplA{
     }
     
     return (SSServRetI) clientInterfaceClass.getMethod(SSStrU.toStr(par.op), SSClientE.class, SSServPar.class).invoke(this, SSClientE.socket, par);
-  }
-  
-  public Object handleServerOp(
-    final Class         servServerI, 
-    final SSServPar     par) throws Exception{
-    
-    if(servServerI == null){
-      SSLogU.err(new Exception("service op shouldnt be instantiated this way"));
-      return null;
-    }
-    
-    return servServerI.getMethod(SSStrU.toStr(par.op), SSServPar.class).invoke(this, par);
   }
 }
 
@@ -126,3 +114,15 @@ public abstract class SSServImplA{
   //
   //    return (List<String>) SSServReg.callServServer(new SSServPar(SSServOpE.recommLanguageModel, opPars));
   //  }
+
+//  public Object handleServerOp(
+//    final Class         servServerI, 
+//    final SSServPar     par) throws Exception{
+//    
+//    if(servServerI == null){
+//      SSLogU.err(new Exception("service op shouldnt be instantiated this way"));
+//      return null;
+//    }
+//    
+//    return servServerI.getMethod(SSStrU.toStr(par.op), SSServPar.class).invoke(this, par);
+//  }

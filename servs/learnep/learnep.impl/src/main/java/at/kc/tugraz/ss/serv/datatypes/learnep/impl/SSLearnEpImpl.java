@@ -83,8 +83,8 @@ import at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.sql.SSLearnEpSQLFct;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.tugraz.sss.serv.SSAddAffiliatedEntitiesToCircleI;
 import at.tugraz.sss.serv.SSAddAffiliatedEntitiesToCirclePar;
+import at.tugraz.sss.serv.SSClientE;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.adapter.socket.SSSocketCon;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSServPar;
@@ -114,6 +114,7 @@ import at.tugraz.sss.serv.SSPushEntitiesToUsersI;
 import at.tugraz.sss.serv.SSPushEntitiesToUsersPar;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
+import at.tugraz.sss.serv.SSServRetI;
 import at.tugraz.sss.serv.SSUsersResourcesGathererI;
 import sss.serv.eval.api.SSEvalServerI;
 
@@ -471,7 +472,7 @@ implements
   }
   
   @Override
-  public void learnEpsGet(SSSocketCon sSCon, SSServPar parA) throws SSErr{
+  public SSServRetI learnEpsGet(SSClientE clientType, SSServPar parA) throws SSErr{
     
     try{
       
@@ -479,9 +480,10 @@ implements
       
       final SSLearnEpsGetPar par = (SSLearnEpsGetPar) parA.getFromJSON(SSLearnEpsGetPar.class);
       
-      sSCon.writeRetFullToClient(SSLearnEpsGetRet.get(learnEpsGet(par)));
+      return SSLearnEpsGetRet.get(learnEpsGet(par));
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -620,17 +622,18 @@ implements
   }
   
   @Override
-  public void learnEpVersionsGet(SSSocketCon sSCon, SSServPar parA) throws SSErr{
+  public SSServRetI learnEpVersionsGet(SSClientE clientType, SSServPar parA) throws SSErr{
     
     try{
       SSServCallerU.checkKey(parA);
       
       final SSLearnEpVersionsGetPar par = (SSLearnEpVersionsGetPar) parA.getFromJSON(SSLearnEpVersionsGetPar.class);
       
-      sSCon.writeRetFullToClient(SSLearnEpVersionsGetRet.get(learnEpVersionsGet(par)));
+      return SSLearnEpVersionsGetRet.get(learnEpVersionsGet(par));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -700,16 +703,17 @@ implements
   }
   
   @Override
-  public void learnEpVersionGet(SSSocketCon sSCon, SSServPar parA) throws SSErr{
+  public SSServRetI learnEpVersionGet(SSClientE clientType, SSServPar parA) throws SSErr{
     
     try{
       SSServCallerU.checkKey(parA);
       
       final SSLearnEpVersionGetPar par = (SSLearnEpVersionGetPar) parA.getFromJSON(SSLearnEpVersionGetPar.class);
       
-      sSCon.writeRetFullToClient(SSLearnEpVersionGetRet.get(learnEpVersionGet(par)));
+      return SSLearnEpVersionGetRet.get(learnEpVersionGet(par));
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -740,7 +744,7 @@ implements
   }
   
   @Override
-  public void learnEpRemove(SSSocketCon sSCon, SSServPar parA) throws SSErr{
+  public SSServRetI learnEpRemove(SSClientE clientType, SSServPar parA) throws SSErr{
     
     try{
       
@@ -748,10 +752,11 @@ implements
       
       final SSLearnEpRemovePar par = (SSLearnEpRemovePar) parA.getFromJSON(SSLearnEpRemovePar.class);
       
-      sSCon.writeRetFullToClient(SSLearnEpRemoveRet.get(learnEpRemove(par)));
+      return SSLearnEpRemoveRet.get(learnEpRemove(par));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -803,7 +808,7 @@ implements
   }
   
   @Override
-  public void learnEpVersionCreate(SSSocketCon sSCon, SSServPar parA) throws SSErr{
+  public SSServRetI learnEpVersionCreate(SSClientE clientType, SSServPar parA) throws SSErr{
     
     try{
       
@@ -818,10 +823,11 @@ implements
       
       final SSUri result = learnEpVersionCreate(par);
       
-      sSCon.writeRetFullToClient(SSLearnEpVersionCreateRet.get(result));
+      return SSLearnEpVersionCreateRet.get(result);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
 //    SSLearnEpActivityFct.createLearnEpVersion(new SSLearnEpVersionCreatePar(parA), result);
   }
@@ -901,7 +907,7 @@ implements
   }
   
   @Override
-  public void learnEpVersionCircleAdd(SSSocketCon sSCon, SSServPar parA) throws SSErr{
+  public SSServRetI learnEpVersionCircleAdd(SSClientE clientType, SSServPar parA) throws SSErr{
     
     try{
       
@@ -941,7 +947,7 @@ implements
       
       newCircle = learnEpVersionCircleAdd(par);
       
-      sSCon.writeRetFullToClient(SSLearnEpVersionCircleAddRet.get(newCircle));
+      final SSLearnEpVersionCircleAddRet ret = SSLearnEpVersionCircleAddRet.get(newCircle);
       
       if(newCircle != null){
         
@@ -960,7 +966,7 @@ implements
           par.xC      == null &&
           par.yC      == null){
           
-          return;
+          return ret;
         }
         
         versionCirclesAfter.addAll(
@@ -1020,8 +1026,10 @@ implements
         }
       }
       
+      return ret;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -1107,7 +1115,7 @@ implements
   }
   
   @Override
-  public void learnEpVersionEntityAdd(SSSocketCon sSCon, SSServPar parA) throws SSErr{
+  public SSServRetI learnEpVersionEntityAdd(SSClientE clientType, SSServPar parA) throws SSErr{
     
     try{
       
@@ -1131,9 +1139,8 @@ implements
             false, //withUserRestriction
             false))); //invokeEntityHandlers
       
-      final SSUri learnEpEntity = learnEpVersionEntityAdd(par);
-      
-      sSCon.writeRetFullToClient(SSLearnEpVersionEntityAddRet.get(learnEpEntity));
+      final SSUri                        learnEpEntity = learnEpVersionEntityAdd(par);
+      final SSLearnEpVersionEntityAddRet ret           = SSLearnEpVersionEntityAddRet.get(learnEpEntity);
       
       if(learnEpEntity != null){
         
@@ -1150,8 +1157,10 @@ implements
           par.shouldCommit);
       }
       
+      return ret;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -1280,7 +1289,7 @@ implements
   }
   
   @Override
-  public void learnEpCreate(SSSocketCon sSCon, SSServPar parA) throws SSErr{
+  public SSServRetI learnEpCreate(SSClientE clientType, SSServPar parA) throws SSErr{
     
     try{
       
@@ -1289,11 +1298,12 @@ implements
       final SSLearnEpCreatePar par = (SSLearnEpCreatePar) parA.getFromJSON(SSLearnEpCreatePar.class);
       
       final SSUri learnEp = learnEpCreate(par);
-      
-      sSCon.writeRetFullToClient(SSLearnEpCreateRet.get(learnEp));
+
+      return SSLearnEpCreateRet.get(learnEp);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
     
 //    SSLearnEpActivityFct.createLearnEp(new SSLearnEpCreatePar(parA), learnEp);
@@ -1353,7 +1363,7 @@ implements
   }
   
   @Override
-  public void learnEpVersionCircleUpdate(SSSocketCon sSCon, SSServPar parA) throws SSErr{
+  public SSServRetI learnEpVersionCircleUpdate(SSClientE clientType, SSServPar parA) throws SSErr{
     
     try{
       
@@ -1379,10 +1389,10 @@ implements
       
       worked = learnEpVersionCircleUpdate(par);
       
-      sSCon.writeRetFullToClient(SSLearnEpVersionCircleUpdateRet.get(worked));
+      final SSLearnEpVersionCircleUpdateRet ret = SSLearnEpVersionCircleUpdateRet.get(worked);
       
       if(!worked){
-        return;
+        return ret;
       }
       
       actAndLogFct.changeLearnEpVersionCircleLabelAndDescription(
@@ -1395,8 +1405,10 @@ implements
         learnEp,
         par.shouldCommit);
       
+      return ret;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -1461,7 +1473,7 @@ implements
   }
   
   @Override
-  public void learnEpVersionEntityUpdate(SSSocketCon sSCon, SSServPar parA) throws SSErr{
+  public SSServRetI learnEpVersionEntityUpdate(SSClientE clientType, SSServPar parA) throws SSErr{
     
     try{
       
@@ -1490,10 +1502,10 @@ implements
       
       worked = learnEpVersionEntityUpdate(par);
       
-      sSCon.writeRetFullToClient(SSLearnEpVersionEntityUpdateRet.get(worked));
+      final SSLearnEpVersionEntityUpdateRet ret = SSLearnEpVersionEntityUpdateRet.get(worked);
       
       if(!worked){
-        return;
+        return ret;
       }
       
       actAndLogFct.handleEntityAddToOrRemoveFromLearnEpCircle(
@@ -1507,8 +1519,11 @@ implements
         false, //calledFromRemove
         false, //calledFromAdd
         par.shouldCommit);
+      
+      return ret;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -1559,7 +1574,7 @@ implements
   }
   
   @Override
-  public void learnEpVersionCircleRemove(SSSocketCon sSCon, SSServPar parA) throws SSErr{
+  public SSServRetI learnEpVersionCircleRemove(SSClientE clientType, SSServPar parA) throws SSErr{
     
     try{
       
@@ -1587,7 +1602,7 @@ implements
       
       worked = learnEpVersionCircleRemove(par);
       
-      sSCon.writeRetFullToClient(SSLearnEpVersionCircleRemoveRet.get(worked));
+      final SSLearnEpVersionCircleRemoveRet ret = SSLearnEpVersionCircleRemoveRet.get(worked);
       
       if(worked){
         
@@ -1607,8 +1622,11 @@ implements
           break;
         }
       }
+      
+      return ret;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -1656,7 +1674,7 @@ implements
   }
   
   @Override
-  public void learnEpVersionEntityRemove(SSSocketCon sSCon, SSServPar parA) throws SSErr{
+  public SSServRetI learnEpVersionEntityRemove(SSClientE clientType, SSServPar parA) throws SSErr{
     
     try{
       SSServCallerU.checkKey(parA);
@@ -1684,7 +1702,7 @@ implements
       
       worked = learnEpVersionEntityRemove(par);
       
-      sSCon.writeRetFullToClient(SSLearnEpVersionEntityRemoveRet.get(worked));
+      final SSLearnEpVersionEntityRemoveRet ret = SSLearnEpVersionEntityRemoveRet.get(worked);
       
       if(worked){
         
@@ -1701,8 +1719,10 @@ implements
           par.shouldCommit);
       }
       
+      return ret;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -1750,7 +1770,7 @@ implements
   }
   
   @Override
-  public void learnEpVersionTimelineStateSet(final SSSocketCon sSCon, final SSServPar parA) throws SSErr{
+  public SSServRetI learnEpVersionTimelineStateSet(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
       
@@ -1758,10 +1778,11 @@ implements
       
       final SSLearnEpVersionTimelineStateSetPar par = (SSLearnEpVersionTimelineStateSetPar) parA.getFromJSON(SSLearnEpVersionTimelineStateSetPar.class);
       
-      sSCon.writeRetFullToClient(SSLearnEpVersionTimelineStateSetRet.get(learnEpVersionTimelineStateSet(par)));
+      return SSLearnEpVersionTimelineStateSetRet.get(learnEpVersionTimelineStateSet(par));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -1911,17 +1932,18 @@ implements
   }
   
   @Override
-  public void learnEpVersionTimelineStateGet(final SSSocketCon sSCon, final SSServPar parA) throws SSErr{
+  public SSServRetI learnEpVersionTimelineStateGet(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
       SSServCallerU.checkKey(parA);
       
       final SSLearnEpVersionTimelineStateGetPar par = (SSLearnEpVersionTimelineStateGetPar) parA.getFromJSON(SSLearnEpVersionTimelineStateGetPar.class);
       
-      sSCon.writeRetFullToClient(SSLearnEpVersionTimelineStateGetRet.get(learnEpVersionTimelineStateGet(par)));
+      return SSLearnEpVersionTimelineStateGetRet.get(learnEpVersionTimelineStateGet(par));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -1948,17 +1970,18 @@ implements
   }
   
   @Override
-  public void learnEpVersionCurrentGet(SSSocketCon sSCon, SSServPar parA) throws SSErr{
+  public SSServRetI learnEpVersionCurrentGet(SSClientE clientType, SSServPar parA) throws SSErr{
     
     try{
       SSServCallerU.checkKey(parA);
       
       final SSLearnEpVersionCurrentGetPar par = (SSLearnEpVersionCurrentGetPar) parA.getFromJSON(SSLearnEpVersionCurrentGetPar.class);
       
-      sSCon.writeRetFullToClient(SSLearnEpVersionCurrentGetRet.get(learnEpVersionCurrentGet(par)));
+      return SSLearnEpVersionCurrentGetRet.get(learnEpVersionCurrentGet(par));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -1987,17 +2010,18 @@ implements
   }
   
   @Override
-  public void learnEpVersionCurrentSet(SSSocketCon sSCon, SSServPar parA) throws SSErr{
+  public SSServRetI learnEpVersionCurrentSet(SSClientE clientType, SSServPar parA) throws SSErr{
     
     try{
       SSServCallerU.checkKey(parA);
       
       final SSLearnEpVersionCurrentSetPar par = (SSLearnEpVersionCurrentSetPar) parA.getFromJSON(SSLearnEpVersionCurrentSetPar.class);
       
-      sSCon.writeRetFullToClient(SSLearnEpVersionCurrentSetRet.get(learnEpVersionCurrentSet(par)));
+      return SSLearnEpVersionCurrentSetRet.get(learnEpVersionCurrentSet(par));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
 //    SSLearnEpActivityFct.setCurrentLearnEpVersion(new SSLearnEpVersionCurrentSetPar(parA));
   }
@@ -2046,17 +2070,18 @@ implements
   }
   
   @Override
-  public void learnEpsLockHold(SSSocketCon sSCon, SSServPar parA) throws SSErr{
+  public SSServRetI learnEpsLockHold(SSClientE clientType, SSServPar parA) throws SSErr{
     
     try{
       SSServCallerU.checkKey(parA);
       
       final SSLearnEpsLockHoldPar par = (SSLearnEpsLockHoldPar) parA.getFromJSON(SSLearnEpsLockHoldPar.class);
       
-      sSCon.writeRetFullToClient(SSLearnEpsLockHoldRet.get(learnEpsLockHold(par)));
+      return SSLearnEpsLockHoldRet.get(learnEpsLockHold(par));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -2141,17 +2166,18 @@ implements
   }
   
   @Override
-  public void learnEpLockSet(SSSocketCon sSCon, SSServPar parA) throws SSErr{
+  public SSServRetI learnEpLockSet(SSClientE clientType, SSServPar parA) throws SSErr{
     
     try{
       SSServCallerU.checkKey(parA);
       
       final SSLearnEpLockSetPar par = (SSLearnEpLockSetPar) parA.getFromJSON(SSLearnEpLockSetPar.class);
       
-      sSCon.writeRetFullToClient(SSLearnEpLockSetRet.get(learnEpLockSet(par)));
+      return SSLearnEpLockSetRet.get(learnEpLockSet(par));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -2197,17 +2223,18 @@ implements
   }
   
   @Override
-  public void learnEpLockRemove(SSSocketCon sSCon, SSServPar parA) throws SSErr{
+  public SSServRetI learnEpLockRemove(SSClientE clientType, SSServPar parA) throws SSErr{
     
     try{
       SSServCallerU.checkKey(parA);
       
       final SSLearnEpLockRemovePar par = (SSLearnEpLockRemovePar) parA.getFromJSON(SSLearnEpLockRemovePar.class);
       
-      sSCon.writeRetFullToClient(SSLearnEpLockRemoveRet.get(learnEpLockRemove(par)));
+      return SSLearnEpLockRemoveRet.get(learnEpLockRemove(par));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   

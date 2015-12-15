@@ -20,26 +20,20 @@
 */
 package at.kc.tugraz.ss.serv.dataimport.datatypes.pars;
 
-import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSUri;
 
 public class SSDataImportSSSUsersFromCSVFilePar extends SSServPar{
 
   public String fileName = null;
   
-  public SSDataImportSSSUsersFromCSVFilePar(final SSServPar par) throws Exception{
+  public SSDataImportSSSUsersFromCSVFilePar(
+    final SSUri  user, 
+    final String fileName) throws Exception{
     
-    super(par);
+    super(SSServOpE.dataImportSSSUsersFromCSVFile, null, user);
     
-    try{
-      
-      if(pars != null){
-        fileName  = (String)pars.get(SSVarNames.fileName);
-      }
-      
-    }catch(Exception error){
-      SSServErrReg.regErrThrow(error);
-    }
+    this.fileName = fileName;
   }
 }

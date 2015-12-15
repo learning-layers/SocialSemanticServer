@@ -28,10 +28,9 @@ import at.kc.tugraz.ss.serv.auth.api.SSAuthServerI;
 import at.kc.tugraz.ss.serv.auth.conf.SSAuthConf;
 import at.kc.tugraz.ss.serv.auth.impl.SSAuthImpl;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthRegisterUserPar;
-import at.tugraz.sss.serv.SSConfA;
+import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthUsersFromCSVFileAddPar;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSServImplA;
-import at.tugraz.sss.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSServContainerI;
@@ -71,7 +70,9 @@ public class SSAuthServ extends SSServContainerI{
       return;
     }
     
-    ((SSAuthImpl)inst.serv()).authRegisterUser(
+    final SSAuthImpl authServ = (SSAuthImpl) inst.serv();
+    
+    authServ.authRegisterUser(
       new SSAuthRegisterUserPar(
         SSVocConf.systemUserEmail,
         ((SSAuthConf)conf).systemUserPassword,
@@ -84,7 +85,10 @@ public class SSAuthServ extends SSServContainerI{
     if(((SSAuthConf)conf).initAtStartUp){
       
       switch(((SSAuthConf)conf).authType){
-        case csvFileAuth: SSServCaller.authUsersFromCSVFileAdd(true); break;
+        case csvFileAuth:{
+          authServ.authUsersFromCSVFileAdd(new SSAuthUsersFromCSVFileAddPar(SSVocConf.systemUserUri));
+          break;
+        } 
       }
     }
   }

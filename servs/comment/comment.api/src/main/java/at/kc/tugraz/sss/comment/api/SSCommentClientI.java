@@ -20,11 +20,12 @@
 */
 package at.kc.tugraz.sss.comment.api;
 
-import at.tugraz.sss.adapter.socket.SSSocketCon;
+import at.tugraz.sss.serv.SSClientE;
 import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServRetI;
 
 public interface SSCommentClientI{
   
-  public void commentsAdd  (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void commentsGet  (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public SSServRetI commentsAdd  (final SSClientE clientType, final SSServPar parA) throws Exception;
+  public SSServRetI commentsGet  (final SSClientE clientType, final SSServPar parA) throws Exception;
 }

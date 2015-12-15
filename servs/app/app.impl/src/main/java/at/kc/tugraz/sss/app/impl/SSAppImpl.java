@@ -24,7 +24,6 @@ import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityDownloadsAddPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityGetPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUpdatePar;
-import at.tugraz.sss.adapter.socket.SSSocketCon;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
@@ -46,6 +45,7 @@ import at.kc.tugraz.sss.app.datatypes.ret.SSAppsGetRet;
 import at.kc.tugraz.sss.app.impl.fct.sql.SSAppSQLFct;
 import at.kc.tugraz.sss.video.api.SSVideoServerI;
 import at.kc.tugraz.sss.video.datatypes.par.SSVideoUserAddPar;
+import at.tugraz.sss.serv.SSClientE;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
@@ -59,6 +59,7 @@ import at.tugraz.sss.serv.SSImageE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServReg;
+import at.tugraz.sss.serv.SSServRetI;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.servs.image.api.SSImageServerI;
 import at.tugraz.sss.servs.image.datatype.par.SSImageAddPar;
@@ -119,7 +120,7 @@ implements
   }
   
   @Override
-  public void appAdd(final SSSocketCon sSCon, final SSServPar parA) throws SSErr{
+  public SSServRetI appAdd(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
       SSServCallerU.checkKey(parA);
@@ -175,10 +176,11 @@ implements
             par.shouldCommit));
       }
       
-      sSCon.writeRetFullToClient(SSAppAddRet.get(app));
+      return SSAppAddRet.get(app);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -310,17 +312,18 @@ implements
   }
   
   @Override
-  public void appsGet(final SSSocketCon sSCon, final SSServPar parA) throws SSErr{
+  public SSServRetI appsGet(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
       SSServCallerU.checkKey(parA);
       
       final SSAppsGetPar par = (SSAppsGetPar) parA.getFromJSON(SSAppsGetPar.class);
       
-      sSCon.writeRetFullToClient(SSAppsGetRet.get(appsGet(par)));
+      return SSAppsGetRet.get(appsGet(par));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -354,16 +357,17 @@ implements
   }
   
   @Override
-  public void appsDelete(final SSSocketCon sSCon, final SSServPar parA) throws SSErr {
+  public SSServRetI appsDelete(final SSClientE clientType, final SSServPar parA) throws SSErr {
     
     try{
       SSServCallerU.checkKey(parA);
       
       final SSAppsDeletePar par = (SSAppsDeletePar) parA.getFromJSON(SSAppsDeletePar.class);
       
-      sSCon.writeRetFullToClient(SSAppsDeleteRet.get(appsDelete(par)));
+      return SSAppsDeleteRet.get(appsDelete(par));
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   

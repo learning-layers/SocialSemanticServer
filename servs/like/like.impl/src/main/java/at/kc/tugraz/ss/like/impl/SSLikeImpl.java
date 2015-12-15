@@ -21,7 +21,6 @@
 package at.kc.tugraz.ss.like.impl;
 
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.adapter.socket.SSSocketCon;
 import at.tugraz.sss.serv.SSUri;
 import at.kc.tugraz.ss.like.api.SSLikeClientI;
 import at.kc.tugraz.ss.like.api.SSLikeServerI;
@@ -32,6 +31,7 @@ import at.kc.tugraz.ss.like.datatypes.ret.SSLikeUserSetRet;
 import at.kc.tugraz.ss.like.impl.fct.sql.SSLikeSQLFct;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.tugraz.sss.serv.SSClientE;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUpdatePar;
 import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSDBNoSQL;
@@ -47,6 +47,7 @@ import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServReg;
+import at.tugraz.sss.serv.SSServRetI;
 import at.tugraz.sss.util.SSServCallerU;
 
 public class SSLikeImpl 
@@ -131,17 +132,18 @@ implements
   }
   
   @Override
-  public void likeSet(final SSSocketCon sSCon, final SSServPar parA) throws SSErr {
+  public SSServRetI likeSet(final SSClientE clientType, final SSServPar parA) throws SSErr {
     
     try{
       SSServCallerU.checkKey(parA);
       
       final SSLikeUserSetPar par = (SSLikeUserSetPar) parA.getFromJSON(SSLikeUserSetPar.class);
       
-      sSCon.writeRetFullToClient(SSLikeUserSetRet.get(likeSet(par)));
+      return SSLikeUserSetRet.get(likeSet(par));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
    

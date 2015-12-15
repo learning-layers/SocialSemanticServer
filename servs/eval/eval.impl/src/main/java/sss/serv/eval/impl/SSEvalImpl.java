@@ -27,7 +27,6 @@ import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntitiesGetPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityGetPar;
 import at.tugraz.sss.serv.SSLogU;
-import at.tugraz.sss.adapter.socket.SSSocketCon;
 import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
@@ -52,7 +51,9 @@ import sss.serv.eval.datatypes.par.SSEvalLogPar;
 import sss.serv.eval.datatypes.ret.SSEvalLogRet;
 import at.kc.tugraz.ss.serv.datatypes.learnep.api.SSLearnEpServerI;
 import at.kc.tugraz.ss.service.disc.api.SSDiscServerI;
+import at.tugraz.sss.serv.SSClientE;
 import at.tugraz.sss.serv.SSErr;
+import at.tugraz.sss.serv.SSServRetI;
 import at.tugraz.sss.servs.livingdocument.api.SSLivingDocServerI;
 import java.util.Date;
 
@@ -134,16 +135,17 @@ implements
   }
   
   @Override
-  public void evalLog(final SSSocketCon sSCon, final SSServPar parA) throws SSErr{
+  public SSServRetI evalLog(final SSClientE clientType, final SSServPar parA) throws SSErr{
 
     try{
       SSServCallerU.checkKey(parA);
 
       final SSEvalLogPar par = (SSEvalLogPar) parA.getFromJSON(SSEvalLogPar.class);
 
-      sSCon.writeRetFullToClient(SSEvalLogRet.get(evalLog(par)));
+      return SSEvalLogRet.get(evalLog(par));
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
 

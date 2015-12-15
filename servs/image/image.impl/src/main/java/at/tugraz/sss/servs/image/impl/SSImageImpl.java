@@ -28,7 +28,7 @@ import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUpdatePar;
 import at.kc.tugraz.ss.service.filerepo.api.SSFileRepoServerI;
 import at.tugraz.sss.serv.SSAddAffiliatedEntitiesToCircleI;
 import at.tugraz.sss.serv.SSAddAffiliatedEntitiesToCirclePar;
-import at.tugraz.sss.adapter.socket.SSSocketCon;
+import at.tugraz.sss.serv.SSClientE;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSServPar;
@@ -55,6 +55,7 @@ import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSObjU;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
+import at.tugraz.sss.serv.SSServRetI;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUsersResourcesGathererI;
 import at.tugraz.sss.serv.caller.SSServCaller;
@@ -286,13 +287,13 @@ implements
   }
   
   @Override
-  public void imagesGet(SSSocketCon sSCon, SSServPar parA) throws Exception{
+  public SSServRetI imagesGet(SSClientE clientType, SSServPar parA) throws Exception{
 
     SSServCallerU.checkKey(parA);
 
     final SSImagesGetPar par = (SSImagesGetPar) parA.getFromJSON(SSImagesGetPar.class);
       
-    sSCon.writeRetFullToClient(SSImagesGetRet.get(imagesGet(par)));
+    return SSImagesGetRet.get(imagesGet(par));
   }
 
   @Override
@@ -526,13 +527,13 @@ implements
   }
   
   @Override
-  public void imageProfilePictureSet(SSSocketCon sSCon, SSServPar parA) throws Exception {
+  public SSServRetI imageProfilePictureSet(SSClientE clientType, SSServPar parA) throws Exception {
     
     SSServCallerU.checkKey(parA);
 
     final SSImageProfilePictureSetPar par = (SSImageProfilePictureSetPar) parA.getFromJSON(SSImageProfilePictureSetPar.class);
     
-    sSCon.writeRetFullToClient(new SSImageProfilePictureSetRet(imageProfilePictureSet(par)));
+    return new SSImageProfilePictureSetRet(imageProfilePictureSet(par));
   }
   
   @Override 

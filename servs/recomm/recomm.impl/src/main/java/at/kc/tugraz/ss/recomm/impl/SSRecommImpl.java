@@ -24,7 +24,6 @@ import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclesGetPar;
 import at.tugraz.sss.serv.SSFileExtE;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.adapter.socket.SSSocketCon;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
@@ -63,6 +62,7 @@ import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLikelihood;
 import at.kc.tugraz.ss.service.user.api.SSUserServerI;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserURIGetPar;
+import at.tugraz.sss.serv.SSClientE;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSDBNoSQL;
@@ -82,6 +82,7 @@ import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
+import at.tugraz.sss.serv.SSServRetI;
 import at.tugraz.sss.serv.SSToolContextE;
 import engine.EntityRecommenderEngine;
 import engine.TagRecommenderEvalEngine;
@@ -112,17 +113,18 @@ implements
   }
   
   @Override
-  public void recommUsers(final SSSocketCon sSCon, final SSServPar parA) throws SSErr{
+  public SSServRetI recommUsers(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
       SSServCallerU.checkKey(parA);
 
       final SSRecommUsersPar par = (SSRecommUsersPar) parA.getFromJSON(SSRecommUsersPar.class);
 
-      sSCon.writeRetFullToClient(SSRecommUsersRet.get(recommUsers(par)));
+      return SSRecommUsersRet.get(recommUsers(par));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -237,7 +239,7 @@ implements
   }
   
   @Override
-  public void recommTags(final SSSocketCon sSCon, final SSServPar parA) throws SSErr{
+  public SSServRetI recommTags(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
       SSServCallerU.checkKey(parA);
@@ -256,8 +258,7 @@ implements
           par.shouldCommit));
       
       final List<SSTagLikelihood> result = recommTags(par);
-      
-      sSCon.writeRetFullToClient(SSRecommTagsRet.get(result));
+      final SSRecommTagsRet       ret    = SSRecommTagsRet.get(result);
       
       String tagRecommStrResult = new String();
       
@@ -282,8 +283,10 @@ implements
           null, //users,
           par.shouldCommit));
       
+      return ret;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -396,17 +399,18 @@ implements
   }
   
   @Override
-  public void recommResources(final SSSocketCon sSCon, final SSServPar parA) throws SSErr {
+  public SSServRetI recommResources(final SSClientE clientType, final SSServPar parA) throws SSErr {
     
     try{
       SSServCallerU.checkKey(parA);
       
       final SSRecommResourcesPar par = (SSRecommResourcesPar) parA.getFromJSON(SSRecommResourcesPar.class);
       
-      sSCon.writeRetFullToClient(SSRecommResourcesRet.get(recommResources(par)));
+      return SSRecommResourcesRet.get(recommResources(par));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -549,19 +553,20 @@ implements
   }
   
   @Override
-  public void recommUpdateBulk(final SSSocketCon sSCon, final SSServPar parA) throws SSErr{
+  public SSServRetI recommUpdateBulk(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
       SSServCallerU.checkKey(parA);
       
       final SSRecommUpdateBulkPar par = (SSRecommUpdateBulkPar) parA.getFromJSON(SSRecommUpdateBulkPar.class);
       
-      par.sSCon = sSCon;
-      
       new Thread(new SSRecommUpdateBulkUploader(recommConf, par)).start();
       
+      //TODO fix this behavior
+      return null;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -826,17 +831,18 @@ implements
   }
   
   @Override
-  public void recommUpdate(final SSSocketCon sSCon, final SSServPar parA) throws SSErr {
+  public SSServRetI recommUpdate(final SSClientE clientType, final SSServPar parA) throws SSErr {
     
     try{
       SSServCallerU.checkKey(parA);
       
       final SSRecommUpdatePar par = (SSRecommUpdatePar) parA.getFromJSON(SSRecommUpdatePar.class);
       
-      sSCon.writeRetFullToClient(SSRecommUpdateRet.get(recommUpdate(par), parA.op));
+      return SSRecommUpdateRet.get(recommUpdate(par), parA.op);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -895,17 +901,18 @@ implements
   }
   
   @Override
-  public void recommUpdateBulkEntities(final SSSocketCon sSCon, final SSServPar parA) throws SSErr {
+  public SSServRetI recommUpdateBulkEntities(final SSClientE clientType, final SSServPar parA) throws SSErr {
     
     try{
       SSServCallerU.checkKey(parA);
       
       final SSRecommUpdateBulkEntitiesPar par = (SSRecommUpdateBulkEntitiesPar) parA.getFromJSON(SSRecommUpdateBulkEntitiesPar.class);
       
-      sSCon.writeRetFullToClient(SSRecommUpdateRet.get(recommUpdateBulkEntities(par), parA.op));
+      return SSRecommUpdateRet.get(recommUpdateBulkEntities(par), parA.op);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   

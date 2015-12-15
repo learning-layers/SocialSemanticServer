@@ -20,13 +20,14 @@
 */
 package at.kc.tugraz.sss.video.api;
 
-import at.tugraz.sss.adapter.socket.SSSocketCon;
+import at.tugraz.sss.serv.SSClientE;
 import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServRetI;
 
 public interface SSVideoClientI{
   
-  public void videosGet              (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void videoAdd               (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void videoAnnotationAdd     (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void videoAnnotationsSet    (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public SSServRetI videosGet              (final SSClientE clientType, final SSServPar parA) throws Exception;
+  public SSServRetI videoAdd               (final SSClientE clientType, final SSServPar parA) throws Exception;
+  public SSServRetI videoAnnotationAdd     (final SSClientE clientType, final SSServPar parA) throws Exception;
+  public SSServRetI videoAnnotationsSet    (final SSClientE clientType, final SSServPar parA) throws Exception;
 }

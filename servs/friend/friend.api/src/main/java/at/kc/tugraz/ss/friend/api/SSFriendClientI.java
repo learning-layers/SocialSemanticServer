@@ -20,10 +20,12 @@
 */
 package at.kc.tugraz.ss.friend.api;
 
-import at.tugraz.sss.adapter.socket.SSSocketCon;
+import at.tugraz.sss.serv.SSClientE;
 import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServRetI;
 
 public interface SSFriendClientI{
-  public void friendAdd   (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void friendsGet  (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  
+  public SSServRetI friendAdd   (final SSClientE clientType, final SSServPar parA) throws Exception;
+  public SSServRetI friendsGet  (final SSClientE clientType, final SSServPar parA) throws Exception;
 }

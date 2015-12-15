@@ -52,7 +52,7 @@ public class SSFriendActivityFct{
     }catch(SSErr error){
       
       switch(error.code){
-        case servServerOpNotAvailable: SSLogU.warn(error.getMessage()); break;
+        case servServerNotAvailable: SSLogU.warn(error.getMessage()); break;
         default: SSServErrReg.regErrThrow(error);
       }
       

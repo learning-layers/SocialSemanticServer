@@ -26,7 +26,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.map.ObjectMapper;
-import at.tugraz.sss.adapter.socket.SSSocketCon;
+import java.net.Socket;
   
 @XmlRootElement
 public class SSServPar{
@@ -39,7 +39,7 @@ public class SSServPar{
   public Boolean              withUserRestriction = true;
 
   @JsonIgnore
-  public SSSocketCon          clientCon           = null;
+  public Socket               clientSocket           = null;
   
   @JsonIgnore
   public Map<String, Object>  pars                = null;
@@ -74,11 +74,11 @@ public class SSServPar{
   public SSServPar(){}
   
   public SSServPar(
-    final SSSocketCon clientCon,
-    final String      clientJSONRequ) throws Exception{
+    final Socket    clientSocket,
+    final String    clientJSONRequ) throws Exception{
     
-    this.clientCon      = clientCon;
-    this.clientJSONRequ = clientJSONRequ;
+    this.clientSocket      = clientSocket;
+    this.clientJSONRequ    = clientJSONRequ;
     
     this.op  = SSServOpE.get(SSJSONU.getValueFromJSON(clientJSONRequ, SSVarNames.op));
     this.key = SSJSONU.getValueFromJSON(clientJSONRequ, SSVarNames.key);

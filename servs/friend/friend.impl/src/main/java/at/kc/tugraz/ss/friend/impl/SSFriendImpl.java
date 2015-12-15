@@ -20,7 +20,6 @@
 */
 package at.kc.tugraz.ss.friend.impl;
 
-import at.tugraz.sss.adapter.socket.SSSocketCon;
 import at.tugraz.sss.serv.SSUri;
 import at.kc.tugraz.ss.friend.api.SSFriendClientI;
 import at.kc.tugraz.ss.friend.api.SSFriendServerI;
@@ -34,6 +33,7 @@ import at.kc.tugraz.ss.friend.impl.fct.sql.SSFriendSQLFct;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityGetPar;
 import at.kc.tugraz.ss.service.user.datatypes.SSUser;
+import at.tugraz.sss.serv.SSClientE;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSConfA;
@@ -48,6 +48,7 @@ import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.SSServReg;
+import at.tugraz.sss.serv.SSServRetI;
 import at.tugraz.sss.util.SSServCallerU;
 import java.util.ArrayList;
 import java.util.List;
@@ -129,7 +130,7 @@ implements
   }
   
   @Override
-  public void friendsGet(final SSSocketCon sSCon, final SSServPar parA) throws SSErr {
+  public SSServRetI friendsGet(final SSClientE clientType, final SSServPar parA) throws SSErr {
     
     try{
 
@@ -137,10 +138,11 @@ implements
     
     final SSFriendsGetPar par = (SSFriendsGetPar) parA.getFromJSON(SSFriendsGetPar.class);
     
-    sSCon.writeRetFullToClient(SSFriendsGetRet.get(friendsGet(par)));
+    return SSFriendsGetRet.get(friendsGet(par));
     
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -170,7 +172,7 @@ implements
   }
   
   @Override
-  public void friendAdd(final SSSocketCon sSCon, final SSServPar parA) throws SSErr {
+  public SSServRetI friendAdd(final SSClientE clientType, final SSServPar parA) throws SSErr {
     
     try{
       
@@ -178,10 +180,11 @@ implements
       
       final SSFriendAddPar par = (SSFriendAddPar) parA.getFromJSON(SSFriendAddPar.class);
       
-      sSCon.writeRetFullToClient(SSFriendAddRet.get(friendAdd(par)));
+      return SSFriendAddRet.get(friendAdd(par));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   

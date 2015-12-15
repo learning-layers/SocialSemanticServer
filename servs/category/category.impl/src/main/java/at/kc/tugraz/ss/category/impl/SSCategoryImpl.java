@@ -24,7 +24,6 @@ import at.kc.tugraz.ss.activity.api.SSActivityServerI;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
 import at.kc.tugraz.ss.activity.datatypes.par.SSActivityAddPar;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.adapter.socket.SSSocketCon;
 import at.kc.tugraz.ss.category.api.SSCategoryClientI;
 import at.kc.tugraz.ss.category.api.SSCategoryServerI;
 import at.kc.tugraz.ss.category.datatypes.SSCategory;
@@ -53,6 +52,7 @@ import at.tugraz.sss.servs.entity.datatypes.par.SSEntityFromTypeAndLabelGetPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUpdatePar;
 import at.tugraz.sss.serv.SSCircleContentRemovedI;
 import at.tugraz.sss.serv.SSCircleContentRemovedPar;
+import at.tugraz.sss.serv.SSClientE;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
@@ -84,6 +84,7 @@ import at.tugraz.sss.serv.SSSearchOpE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServReg;
+import at.tugraz.sss.serv.SSServRetI;
 import at.tugraz.sss.serv.SSToolContextE;
 import at.tugraz.sss.serv.SSUsersResourcesGathererI;
 import at.tugraz.sss.servs.common.impl.tagcategory.SSTagAndCategoryCommonMisc;
@@ -369,16 +370,15 @@ implements
   }
   
   @Override
-  public void categoryAdd(SSSocketCon sSCon, SSServPar parA) throws SSErr {
+  public SSServRetI categoryAdd(SSClientE clientType, SSServPar parA) throws SSErr {
     
     try{
       SSServCallerU.checkKey(parA);
       
       final SSCategoryAddPar par = (SSCategoryAddPar) parA.getFromJSON(SSCategoryAddPar.class);
       
-      final SSUri categoryUri = categoryAdd(par);
-      
-      sSCon.writeRetFullToClient(SSCategoryAddRet.get(categoryUri));
+      final SSUri            categoryUri = categoryAdd(par);
+      final SSCategoryAddRet ret         = SSCategoryAddRet.get(categoryUri);
       
       activityServ.activityAdd(
         new SSActivityAddPar(
@@ -402,8 +402,10 @@ implements
           null, //users
           par.shouldCommit));
       
+      return ret;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -538,14 +540,13 @@ implements
   }
   
   @Override
-  public void categoriesRemove(SSSocketCon sSCon, SSServPar parA) throws SSErr {
+  public SSServRetI categoriesRemove(SSClientE clientType, SSServPar parA) throws SSErr {
     
     try{
       SSServCallerU.checkKey(parA);
       
       final SSCategoriesRemovePar par = (SSCategoriesRemovePar) parA.getFromJSON(SSCategoriesRemovePar.class);
-      
-      sSCon.writeRetFullToClient(SSCategoriesRemoveRet.get(categoriesRemove(par)));
+      final SSCategoriesRemoveRet ret = SSCategoriesRemoveRet.get(categoriesRemove(par));
       
       activityServ.activityAdd(
         new SSActivityAddPar(
@@ -568,8 +569,11 @@ implements
           null, //entities
           null, //users
           par.shouldCommit));
+      
+      return ret;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -729,16 +733,17 @@ implements
   }
   
   @Override
-  public void categoriesPredefinedGet(final SSSocketCon sSCon, final SSServPar parA) throws SSErr {
+  public SSServRetI categoriesPredefinedGet(final SSClientE clientType, final SSServPar parA) throws SSErr {
     
     try{
       SSServCallerU.checkKey(parA);
       
       final SSCategoriesPredefinedGetPar par = (SSCategoriesPredefinedGetPar) parA.getFromJSON(SSCategoriesPredefinedGetPar.class);
-      
-      sSCon.writeRetFullToClient(SSCategoriesPredefinedGetRet.get(categoriesPredefinedGet(par)));
+
+      return SSCategoriesPredefinedGetRet.get(categoriesPredefinedGet(par));
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -829,16 +834,17 @@ implements
   }
   
   @Override
-  public void categoryEntitiesForCategoriesGet(final SSSocketCon sSCon, final SSServPar parA) throws SSErr{
+  public SSServRetI categoryEntitiesForCategoriesGet(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
       SSServCallerU.checkKey(parA);
       
       final SSCategoryEntitiesForCategoriesGetPar par = (SSCategoryEntitiesForCategoriesGetPar) parA.getFromJSON(SSCategoryEntitiesForCategoriesGetPar.class);
       
-      sSCon.writeRetFullToClient(SSCategoryEntitiesForCategoriesGetRet.get(categoryEntitiesForCategoriesGet(par)));
+      return SSCategoryEntitiesForCategoriesGetRet.get(categoryEntitiesForCategoriesGet(par));
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -869,16 +875,17 @@ implements
   }
   
   @Override
-  public void categoriesGet(final SSSocketCon sSCon, final SSServPar parA) throws SSErr {
+  public SSServRetI categoriesGet(final SSClientE clientType, final SSServPar parA) throws SSErr {
     
     try{
       SSServCallerU.checkKey(parA);
       
       final SSCategoriesGetPar par = (SSCategoriesGetPar) parA.getFromJSON(SSCategoriesGetPar.class);
       
-      sSCon.writeRetFullToClient(SSCategoriesGetRet.get(categoriesGet(par)));
+      return SSCategoriesGetRet.get(categoriesGet(par));
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -924,16 +931,17 @@ implements
   }
   
   @Override
-  public void categoryFrequsGet(SSSocketCon sSCon, SSServPar parA) throws SSErr {
+  public SSServRetI categoryFrequsGet(SSClientE clientType, SSServPar parA) throws SSErr {
     
     try{
       SSServCallerU.checkKey(parA);
       
       final SSCategoryFrequsGetPar par = (SSCategoryFrequsGetPar) parA.getFromJSON(SSCategoryFrequsGetPar.class);
       
-      sSCon.writeRetFullToClient(SSCategoryFrequsGetRet.get(categoryFrequsGet(par)));
+      return SSCategoryFrequsGetRet.get(categoryFrequsGet(par));
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   

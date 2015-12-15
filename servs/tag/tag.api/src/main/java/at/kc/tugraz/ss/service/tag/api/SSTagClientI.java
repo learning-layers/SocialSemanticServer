@@ -20,17 +20,18 @@
 */
  package at.kc.tugraz.ss.service.tag.api;
 
-import at.tugraz.sss.adapter.socket.SSSocketCon;
+import at.tugraz.sss.serv.SSClientE;
 import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServRetI;
 
 public interface SSTagClientI {
 
-  public void tagAdd                       (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void tagsAdd                      (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void tagsRemove                   (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void tagsGet                      (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void tagEntitiesForTagsGet        (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void tagFrequsGet                 (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public SSServRetI tagAdd                       (final SSClientE clientType, final SSServPar parA) throws Exception;
+  public SSServRetI tagsAdd                      (final SSClientE clientType, final SSServPar parA) throws Exception;
+  public SSServRetI tagsRemove                   (final SSClientE clientType, final SSServPar parA) throws Exception;
+  public SSServRetI tagsGet                      (final SSClientE clientType, final SSServPar parA) throws Exception;
+  public SSServRetI tagEntitiesForTagsGet        (final SSClientE clientType, final SSServPar parA) throws Exception;
+  public SSServRetI tagFrequsGet                 (final SSClientE clientType, final SSServPar parA) throws Exception;
 }
 
 

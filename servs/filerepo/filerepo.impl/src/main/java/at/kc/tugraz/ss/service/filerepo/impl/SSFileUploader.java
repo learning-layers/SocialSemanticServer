@@ -33,6 +33,7 @@ import at.kc.tugraz.ss.service.filerepo.conf.SSFileRepoConf;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileUploadPar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileAddRet;
 import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileUploadRet;
+import at.tugraz.sss.adapter.socket.SSSocketU;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLAddDocPar;
 import at.tugraz.sss.serv.SSDBNoSQLI;
@@ -44,8 +45,10 @@ import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSToolContextE;
 import at.tugraz.sss.servs.file.datatype.par.SSEntityFileAddPar;
+import java.io.DataInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import sss.serv.eval.api.SSEvalServerI;
 import sss.serv.eval.datatypes.SSEvalLogE;
 import sss.serv.eval.datatypes.par.SSEvalLogPar;
@@ -53,10 +56,13 @@ import sss.serv.eval.datatypes.par.SSEvalLogPar;
 public class SSFileUploader extends SSServImplStartA{
   
   private final SSFileUploadPar       par;
+  private final DataInputStream       dataInputStream;
+  private final OutputStreamWriter          outputStreamWriter;
   private final SSFileExtE            fileExt;
   private final SSUri                 fileUri;
   private final String                fileId;
   private       SSUri                 thumbUri          = null;
+  
 
   public SSFileUploader(
     final SSFileRepoConf     fileConf, 
@@ -64,10 +70,12 @@ public class SSFileUploader extends SSServImplStartA{
     
     super(fileConf);
     
-    this.par               = par;
-    this.fileExt           = SSMimeTypeE.fileExtForMimeType             (par.mimeType);
-    this.fileUri           = SSServCaller.vocURICreate                  (fileExt);
-    this.fileId            = SSVocConf.fileIDFromSSSURI                 (fileUri);
+    this.par                = par;
+    this.dataInputStream    = new DataInputStream    (par.clientSocket.getInputStream());
+    this.outputStreamWriter = new OutputStreamWriter (par.clientSocket.getOutputStream());
+    this.fileExt            = SSMimeTypeE.fileExtForMimeType             (par.mimeType);
+    this.fileUri            = SSServCaller.vocURICreate                  (fileExt);
+    this.fileId             = SSVocConf.fileIDFromSSSURI                 (fileUri);
   }
   
   @Override
@@ -78,7 +86,8 @@ public class SSFileUploader extends SSServImplStartA{
       this.dbSQL   = (SSDBSQLI)   SSDBSQL.inst.serv();
       this.dbNoSQL = (SSDBNoSQLI) SSDBNoSQL.inst.serv();
       
-      sendAnswer();
+      SSSocketU.writeRetFullToClient(outputStreamWriter, SSFileUploadRet.get(fileUri, thumbUri));
+      
       readFileFromStreamAndSave();
 //      disposeUploadedFile      ();
       
@@ -87,8 +96,8 @@ public class SSFileUploader extends SSServImplStartA{
       registerFileAndCreateThumb();
       
       dbSQL.commit(par.shouldCommit);
-
-      sendAnswer();
+      
+      SSSocketU.writeRetFullToClient(outputStreamWriter, SSFileUploadRet.get(fileUri, thumbUri));
       
       addFileContentsToNoSQLStore  ();
 //      removeFileFromLocalWorkFolder();
@@ -100,7 +109,7 @@ public class SSFileUploader extends SSServImplStartA{
       SSServErrReg.regErr(error1);
       
       try{
-        par.sSCon.writeErrorFullToClient(SSServErrReg.getServiceImplErrors(), par.op);
+        SSSocketU.writeErrorFullToClient(outputStreamWriter, SSServErrReg.getServiceImplErrors(), par.op);
       }catch(Exception error2){
         SSServErrReg.regErr(error2);
       }
@@ -126,7 +135,7 @@ public class SSFileUploader extends SSServImplStartA{
 
       while(true){
         
-        fileChunk = par.sSCon.readFileChunkFromClient();
+        fileChunk = SSSocketU.readFileChunkFromClient(dataInputStream);
         
         if(fileChunk.length != 0){
           
@@ -162,8 +171,8 @@ public class SSFileUploader extends SSServImplStartA{
       
     }catch(Exception error){
       
-      if(SSServErrReg.containsErr(SSErrE.servServerOpNotAvailable)){
-        SSLogU.warn(SSErrE.servServerOpNotAvailable.toString());
+      if(SSServErrReg.containsErr(SSErrE.servServerNotAvailable)){
+        SSLogU.warn(SSErrE.servServerNotAvailable.toString());
       }else{
         SSLogU.warn(error.getMessage());
       }
@@ -175,10 +184,6 @@ public class SSFileUploader extends SSServImplStartA{
   @Override
   protected void finalizeImpl() throws Exception{
     finalizeThread(true);
-  }
-  
-  private void sendAnswer() throws Exception{
-    par.sSCon.writeRetFullToClient(SSFileUploadRet.get(fileUri, thumbUri));
   }
   
   private void registerFileAndCreateThumb() throws Exception{

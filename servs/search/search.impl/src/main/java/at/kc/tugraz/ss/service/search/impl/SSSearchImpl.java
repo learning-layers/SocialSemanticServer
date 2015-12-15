@@ -32,7 +32,6 @@ import at.tugraz.sss.serv.SSDateU;
 import at.tugraz.sss.serv.SSIDU;
 import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.adapter.socket.SSSocketCon;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSEntity;
@@ -46,6 +45,7 @@ import at.kc.tugraz.ss.service.search.impl.fct.SSSearchFct;
 import at.kc.tugraz.ss.service.tag.api.SSTagServerI;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagEntitiesForTagsGetPar;
+import at.tugraz.sss.serv.SSClientE;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
@@ -57,6 +57,7 @@ import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.SSServReg;
+import at.tugraz.sss.serv.SSServRetI;
 import at.tugraz.sss.servs.common.impl.tagcategory.SSEntityQueryCacheU;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntitiesGetPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityURIsGetPar;
@@ -80,17 +81,18 @@ implements
   }
   
   @Override
-  public void search(final SSSocketCon sSCon, final SSServPar parA) throws SSErr{
+  public SSServRetI search(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
       SSServCallerU.checkKey(parA);
       
       final SSSearchPar par = (SSSearchPar) parA.getFromJSON(SSSearchPar.class);
       
-      sSCon.writeRetFullToClient(search(par));
+      return search(par);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
     
 //    SSSearchActivityFct.search(new SSSearchPar((parA)));
@@ -468,8 +470,8 @@ implements
       
     }catch(Exception error){
       
-      if(SSServErrReg.containsErr(SSErrE.servServerOpNotAvailable)){
-        SSLogU.warn(SSErrE.servServerOpNotAvailable.toString());
+      if(SSServErrReg.containsErr(SSErrE.servServerNotAvailable)){
+        SSLogU.warn(SSErrE.servServerNotAvailable.toString());
       }else{
         SSLogU.warn(error.getMessage());
       }
@@ -630,8 +632,8 @@ implements
       
     }catch(Exception error){
       
-      if(SSServErrReg.containsErr(SSErrE.servServerOpNotAvailable)){
-        SSLogU.warn(SSErrE.servServerOpNotAvailable.toString());
+      if(SSServErrReg.containsErr(SSErrE.servServerNotAvailable)){
+        SSLogU.warn(SSErrE.servServerNotAvailable.toString());
       }else{
         SSLogU.warn(error.getMessage());
       }
@@ -657,8 +659,8 @@ implements
       
     }catch(Exception error){
       
-      if(SSServErrReg.containsErr(SSErrE.servServerOpNotAvailable)){
-        SSLogU.warn(SSErrE.servServerOpNotAvailable.toString());
+      if(SSServErrReg.containsErr(SSErrE.servServerNotAvailable)){
+        SSLogU.warn(SSErrE.servServerNotAvailable.toString());
       }else{
         SSLogU.warn(error.getMessage());
       }
@@ -693,8 +695,8 @@ implements
       
     }catch(Exception error){
       
-      if(SSServErrReg.containsErr(SSErrE.servServerOpNotAvailable)){
-        SSLogU.warn(SSErrE.servServerOpNotAvailable.toString());
+      if(SSServErrReg.containsErr(SSErrE.servServerNotAvailable)){
+        SSLogU.warn(SSErrE.servServerNotAvailable.toString());
       }else{
         SSLogU.warn(error.getMessage());
       }

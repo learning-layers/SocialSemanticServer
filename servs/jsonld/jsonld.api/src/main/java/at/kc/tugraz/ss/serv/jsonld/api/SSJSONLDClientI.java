@@ -20,9 +20,11 @@
 */
 package at.kc.tugraz.ss.serv.jsonld.api;
 
-import at.tugraz.sss.adapter.socket.SSSocketCon;
+import at.tugraz.sss.serv.SSClientE;
 import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServRetI;
 
 public interface SSJSONLDClientI {
-  public void jsonLD(final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  
+  public SSServRetI jsonLD(final SSClientE clientType, final SSServPar parA) throws Exception;
 }

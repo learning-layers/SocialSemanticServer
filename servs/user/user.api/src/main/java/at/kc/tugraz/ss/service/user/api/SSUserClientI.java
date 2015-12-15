@@ -20,10 +20,12 @@
 */
  package at.kc.tugraz.ss.service.user.api;
 
-import at.tugraz.sss.adapter.socket.SSSocketCon;
+import at.tugraz.sss.serv.SSClientE;
 import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServRetI;
 
 public interface SSUserClientI {
-  public void usersGet             (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void userEntityUsersGet   (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  
+  public SSServRetI usersGet             (final SSClientE clientType, final SSServPar parA) throws Exception;
+  public SSServRetI userEntityUsersGet   (final SSClientE clientType, final SSServPar parA) throws Exception;
 }

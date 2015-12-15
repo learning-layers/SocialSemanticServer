@@ -28,7 +28,6 @@ import at.tugraz.sss.servs.entity.datatypes.par.SSEntityGetPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUpdatePar;
 import at.kc.tugraz.ss.service.filerepo.api.SSFileRepoServerI;
 import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileAddRet;
-import at.tugraz.sss.adapter.socket.SSSocketCon;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
@@ -56,6 +55,7 @@ import at.kc.tugraz.sss.video.datatypes.ret.SSVideosUserGetRet;
 import at.kc.tugraz.sss.video.impl.fct.sql.SSVideoSQLFct;
 import at.tugraz.sss.serv.SSAddAffiliatedEntitiesToCircleI;
 import at.tugraz.sss.serv.SSAddAffiliatedEntitiesToCirclePar;
+import at.tugraz.sss.serv.SSClientE;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
@@ -72,6 +72,7 @@ import at.tugraz.sss.serv.SSPushEntitiesToUsersPar;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServReg;
+import at.tugraz.sss.serv.SSServRetI;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUsersResourcesGathererI;
 import at.tugraz.sss.servs.file.datatype.par.SSEntityFileAddPar;
@@ -284,7 +285,7 @@ implements
   }
   
   @Override
-  public void videoAdd(final SSSocketCon sSCon, final SSServPar parA) throws SSErr{
+  public SSServRetI videoAdd(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
       
@@ -308,11 +309,11 @@ implements
             par.shouldCommit)); //shouldCommit
       }
       
-      sSCon.writeRetFullToClient(SSVideoUserAddRet.get(videoURI));
+      return SSVideoUserAddRet.get(videoURI);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
-    
   }
   
   @Override
@@ -445,7 +446,7 @@ implements
   }
   
   @Override
-  public void videoAnnotationsSet(final SSSocketCon sSCon, final SSServPar parA) throws SSErr{
+  public SSServRetI videoAnnotationsSet(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
       
@@ -453,10 +454,11 @@ implements
       
       final SSVideoAnnotationsSetPar par = (SSVideoAnnotationsSetPar) parA.getFromJSON(SSVideoAnnotationsSetPar.class);
       
-      sSCon.writeRetFullToClient(SSVideoAnnotationsSetRet.get(videoAnnotationsSet(par)));
+      return SSVideoAnnotationsSetRet.get(videoAnnotationsSet(par));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -546,7 +548,7 @@ implements
   }
   
   @Override
-  public void videoAnnotationAdd(final SSSocketCon sSCon, final SSServPar parA) throws SSErr{
+  public SSServRetI videoAnnotationAdd(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
       
@@ -554,10 +556,11 @@ implements
       
       final SSVideoUserAnnotationAddPar par = (SSVideoUserAnnotationAddPar) parA.getFromJSON(SSVideoUserAnnotationAddPar.class);
       
-      sSCon.writeRetFullToClient(SSVideoUserAnnotationAddRet.get(videoAnnotationAdd(par)));
+      return SSVideoUserAnnotationAddRet.get(videoAnnotationAdd(par));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -777,7 +780,7 @@ implements
   }
   
   @Override
-  public void videosGet(final SSSocketCon sSCon, final SSServPar parA) throws SSErr{
+  public SSServRetI videosGet(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
       
@@ -785,10 +788,11 @@ implements
       
       final SSVideosUserGetPar par = (SSVideosUserGetPar) parA.getFromJSON(SSVideosUserGetPar.class);
       
-      sSCon.writeRetFullToClient(SSVideosUserGetRet.get(videosGet(par)));
+      return SSVideosUserGetRet.get(videosGet(par));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   

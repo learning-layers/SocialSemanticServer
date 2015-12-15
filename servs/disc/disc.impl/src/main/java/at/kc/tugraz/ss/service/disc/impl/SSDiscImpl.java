@@ -37,7 +37,6 @@ import at.tugraz.sss.serv.SSUri;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscsGetPar;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscGetPar;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscEntryAddPar;
-import at.tugraz.sss.adapter.socket.SSSocketCon;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSServImplWithDBA;
@@ -66,6 +65,7 @@ import at.kc.tugraz.ss.service.disc.impl.fct.activity.SSDiscActAndLogFct;
 import at.kc.tugraz.ss.service.disc.impl.fct.op.SSDiscUserEntryAddFct;
 import at.tugraz.sss.serv.SSAddAffiliatedEntitiesToCircleI;
 import at.tugraz.sss.serv.SSAddAffiliatedEntitiesToCirclePar;
+import at.tugraz.sss.serv.SSClientE;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
@@ -84,6 +84,7 @@ import at.tugraz.sss.serv.SSPushEntitiesToUsersPar;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServReg;
+import at.tugraz.sss.serv.SSServRetI;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityEntitiesAttachedRemovePar;
 import sss.serv.eval.api.SSEvalServerI;
 
@@ -478,7 +479,7 @@ implements
   }
   
   @Override
-  public void discEntryAdd(final SSSocketCon sSCon, final SSServPar parA) throws SSErr{
+  public SSServRetI discEntryAdd(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
       SSServCallerU.checkKey(parA);
@@ -504,8 +505,6 @@ implements
               par.shouldCommit)); //shouldCommit
       }
       
-      sSCon.writeRetFullToClient(ret);
-      
       actAndLogFct.discEntryAdd(
         par.user,
         par.addNewDisc,
@@ -519,8 +518,10 @@ implements
         par.entityLabels,
         par.shouldCommit);
       
+      return ret;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -662,15 +663,13 @@ implements
   }
   
   @Override
-  public void discUpdate(final SSSocketCon sSCon, final SSServPar parA) throws SSErr {
+  public SSServRetI discUpdate(final SSClientE clientType, final SSServPar parA) throws SSErr {
     
     try{
       SSServCallerU.checkKey(parA);
       
       final SSDiscUpdatePar par = (SSDiscUpdatePar) parA.getFromJSON(SSDiscUpdatePar.class);
       final SSDiscUpdateRet ret = discUpdate(par);
-      
-      sSCon.writeRetFullToClient(ret);
       
       if(ret.disc != null){
         
@@ -681,8 +680,11 @@ implements
           par.content,
           par.shouldCommit);
       }
+      
+      return ret;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -805,15 +807,13 @@ implements
   }
   
   @Override
-  public void discEntryUpdate(final SSSocketCon sSCon, final SSServPar parA) throws SSErr {
+  public SSServRetI discEntryUpdate(final SSClientE clientType, final SSServPar parA) throws SSErr {
     
     try{
       SSServCallerU.checkKey(parA);
       
       final SSDiscEntryUpdatePar par = (SSDiscEntryUpdatePar) parA.getFromJSON(SSDiscEntryUpdatePar.class);
       final SSDiscEntryUpdateRet ret = discEntryUpdate(par);
-      
-      sSCon.writeRetFullToClient(ret);
       
       if(ret.entry != null){
         
@@ -824,8 +824,10 @@ implements
           par.shouldCommit);
       }
       
+      return ret;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -906,17 +908,18 @@ implements
   }
   
   @Override
-  public void discEntryAccept(final SSSocketCon sSCon, final SSServPar parA) throws SSErr{
+  public SSServRetI discEntryAccept(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
       SSServCallerU.checkKey(parA);
       
       final SSDiscEntryAcceptPar par = (SSDiscEntryAcceptPar) parA.getFromJSON(SSDiscEntryAcceptPar.class);
       
-      sSCon.writeRetFullToClient(SSDiscEntryAcceptRet.get(discEntryAccept(par)));
+      return SSDiscEntryAcceptRet.get(discEntryAccept(par));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -993,17 +996,18 @@ implements
   }
   
   @Override
-  public void discGet(final SSSocketCon sSCon, final SSServPar parA) throws SSErr{
+  public SSServRetI discGet(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
       SSServCallerU.checkKey(parA);
       
       final SSDiscGetPar par = (SSDiscGetPar) parA.getFromJSON(SSDiscGetPar.class);
       
-      sSCon.writeRetFullToClient(SSDiscGetRet.get(discGet(par)));
+      return SSDiscGetRet.get(discGet(par));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -1119,17 +1123,18 @@ implements
   }
   
   @Override
-  public void discsGet(final SSSocketCon sSCon, final SSServPar parA) throws SSErr{
+  public SSServRetI discsGet(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
       SSServCallerU.checkKey(parA);
       
       final SSDiscsGetPar par = (SSDiscsGetPar) parA.getFromJSON(SSDiscsGetPar.class);
       
-      sSCon.writeRetFullToClient(SSDiscsGetRet.get(discsGet(par)));
+      return SSDiscsGetRet.get(discsGet(par));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -1235,17 +1240,18 @@ implements
   }
   
   @Override
-  public void discRemove(final SSSocketCon sSCon, final SSServPar parA) throws SSErr{
+  public SSServRetI discRemove(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
       SSServCallerU.checkKey(parA);
       
       final SSDiscRemovePar par = (SSDiscRemovePar) parA.getFromJSON(SSDiscRemovePar.class);
       
-      sSCon.writeRetFullToClient(SSDiscRemoveRet.get(discRemove(par)));
+      return SSDiscRemoveRet.get(discRemove(par));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
 //    SSDiscActivityFct.removeDisc(new SSDiscUserRemovePar(parA));
   }
@@ -1302,15 +1308,14 @@ implements
   }
   
   @Override
-  public void discTargetsAdd(final SSSocketCon sSCon, final SSServPar parA) throws SSErr{
+  public SSServRetI discTargetsAdd(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
       SSServCallerU.checkKey(parA);
       
       final SSDiscTargetsAddPar par        = (SSDiscTargetsAddPar) parA.getFromJSON(SSDiscTargetsAddPar.class);
       final SSUri               discussion = discTargetsAdd(par);
-      
-      sSCon.writeRetFullToClient(SSDiscTargetsAddRet.get(discussion));
+      final SSDiscTargetsAddRet ret        = SSDiscTargetsAddRet.get(discussion);
       
       actAndLogFct.discTargetsAdd(
         par.user,
@@ -1318,8 +1323,10 @@ implements
         par.targets,
         par.shouldCommit);
       
+      return ret;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   

@@ -22,12 +22,12 @@ package at.kc.tugraz.ss.serv.jsonld.impl;
 
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSObjU;
-import at.tugraz.sss.adapter.socket.SSSocketCon;
 import at.kc.tugraz.ss.serv.jsonld.api.SSJSONLDClientI;
 import at.kc.tugraz.ss.serv.jsonld.api.SSJSONLDServerI;
 import at.kc.tugraz.ss.serv.jsonld.conf.SSJSONLDConf;
 import at.kc.tugraz.ss.serv.jsonld.datatypes.par.SSJSONLDPar;
 import at.kc.tugraz.ss.serv.jsonld.datatypes.par.ret.SSJSONLDRet;
+import at.tugraz.sss.serv.SSClientE;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
@@ -37,6 +37,7 @@ import at.tugraz.sss.serv.SSJSONLDPropI;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServRetI;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.util.SSServCallerU;
 
@@ -51,17 +52,18 @@ implements
   }
   
   @Override
-  public void jsonLD(SSSocketCon sSCon, SSServPar parA) throws SSErr{
+  public SSServRetI jsonLD(SSClientE clientType, SSServPar parA) throws SSErr{
     
     try{
       SSServCallerU.checkKey(parA);
       
       final SSJSONLDPar par = (SSJSONLDPar) parA.getFromJSON(SSJSONLDPar.class);
       
-      sSCon.writeRetFullToClient(SSJSONLDRet.get(jsonLD(par)));
+      return SSJSONLDRet.get(jsonLD(par));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
 

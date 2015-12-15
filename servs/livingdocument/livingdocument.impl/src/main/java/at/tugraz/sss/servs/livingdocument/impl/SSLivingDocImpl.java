@@ -27,6 +27,7 @@ import at.tugraz.sss.servs.entity.datatypes.par.SSEntityGetPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUpdatePar;
 import at.kc.tugraz.ss.service.disc.api.SSDiscServerI;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscTargetsAddPar;
+import at.tugraz.sss.serv.SSClientE;
 import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
@@ -46,7 +47,7 @@ import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServReg;
-import at.tugraz.sss.adapter.socket.SSSocketCon;
+import at.tugraz.sss.serv.SSServRetI;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSUsersResourcesGathererI;
@@ -176,33 +177,39 @@ implements
   }
   
   @Override
-  public void livingDocAdd(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
+  public SSServRetI livingDocAdd(final SSClientE clientType, final SSServPar parA) throws Exception{
     
-    SSServCallerU.checkKey(parA);
-    
-    final SSLivingDocAddPar par          = (SSLivingDocAddPar) parA.getFromJSON(SSLivingDocAddPar.class);
-    final SSUri             livingDocURI = livingDocAdd(par);
-    
-    if(livingDocURI != null){
+    try{
+      SSServCallerU.checkKey(parA);
       
-      if(par.discussion != null){
+      final SSLivingDocAddPar par          = (SSLivingDocAddPar) parA.getFromJSON(SSLivingDocAddPar.class);
+      final SSUri             livingDocURI = livingDocAdd(par);
+      
+      if(livingDocURI != null){
         
-        final SSDiscServerI discServ = (SSDiscServerI) SSServReg.getServ(SSDiscServerI.class);
-        final List<SSUri>   targets  = new ArrayList<>();
-        
-        targets.add(livingDocURI);
-        
-        discServ.discTargetsAdd(
-          new SSDiscTargetsAddPar(
-            par.user, 
-            par.discussion, 
-            targets, 
-            par.withUserRestriction, 
-            par.shouldCommit));
+        if(par.discussion != null){
+          
+          final SSDiscServerI discServ = (SSDiscServerI) SSServReg.getServ(SSDiscServerI.class);
+          final List<SSUri>   targets  = new ArrayList<>();
+          
+          targets.add(livingDocURI);
+          
+          discServ.discTargetsAdd(
+            new SSDiscTargetsAddPar(
+              par.user,
+              par.discussion,
+              targets,
+              par.withUserRestriction,
+              par.shouldCommit));
+        }
       }
+      
+      return SSLivingDocAddRet.get(livingDocURI);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
-    
-    sSCon.writeRetFullToClient(SSLivingDocAddRet.get(livingDocURI));
   }
   
   @Override
@@ -267,33 +274,39 @@ implements
   }
   
   @Override
-  public void livingDocUpdate(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
+  public SSServRetI livingDocUpdate(final SSClientE clientType, final SSServPar parA) throws Exception{
     
-    SSServCallerU.checkKey(parA);
-    
-    final SSLivingDocUpdatePar par          = (SSLivingDocUpdatePar) parA.getFromJSON(SSLivingDocUpdatePar.class);
-    final SSUri                livingDocURI = livingDocUpdate(par);
-    
-    if(livingDocURI != null){
+    try{
+      SSServCallerU.checkKey(parA);
       
-      if(par.discussion != null){
+      final SSLivingDocUpdatePar par          = (SSLivingDocUpdatePar) parA.getFromJSON(SSLivingDocUpdatePar.class);
+      final SSUri                livingDocURI = livingDocUpdate(par);
+      
+      if(livingDocURI != null){
         
-        final SSDiscServerI discServ = (SSDiscServerI) SSServReg.getServ(SSDiscServerI.class);
-        final List<SSUri>   targets  = new ArrayList<>();
-        
-        targets.add(livingDocURI);
-        
-        discServ.discTargetsAdd(
-          new SSDiscTargetsAddPar(
-            par.user, 
-            par.discussion, 
-            targets, 
-            par.withUserRestriction, 
-            par.shouldCommit));
+        if(par.discussion != null){
+          
+          final SSDiscServerI discServ = (SSDiscServerI) SSServReg.getServ(SSDiscServerI.class);
+          final List<SSUri>   targets  = new ArrayList<>();
+          
+          targets.add(livingDocURI);
+          
+          discServ.discTargetsAdd(
+            new SSDiscTargetsAddPar(
+              par.user,
+              par.discussion,
+              targets,
+              par.withUserRestriction,
+              par.shouldCommit));
+        }
       }
+      
+      return SSLivingDocUpdateRet.get(livingDocURI);
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
     }
-    
-    sSCon.writeRetFullToClient(SSLivingDocUpdateRet.get(livingDocURI));
   }
   
   @Override
@@ -347,13 +360,13 @@ implements
   }
   
   @Override
-  public void livingDocRemove(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
+  public SSServRetI livingDocRemove(final SSClientE clientType, final SSServPar parA) throws Exception{
     
     SSServCallerU.checkKey(parA);
     
     final SSLivingDocRemovePar par = (SSLivingDocRemovePar) parA.getFromJSON(SSLivingDocRemovePar.class);
     
-    sSCon.writeRetFullToClient(SSLivingDocRemoveRet.get(livingDocRemove(par)));
+    return SSLivingDocRemoveRet.get(livingDocRemove(par));
   }
   
   @Override
@@ -401,13 +414,13 @@ implements
   }
   
   @Override
-  public void livingDocGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
+  public SSServRetI livingDocGet(final SSClientE clientType, final SSServPar parA) throws Exception{
     
     SSServCallerU.checkKey(parA);
     
     final SSLivingDocGetPar par = (SSLivingDocGetPar) parA.getFromJSON(SSLivingDocGetPar.class);
     
-    sSCon.writeRetFullToClient(SSLivingDocGetRet.get(livingDocGet(par)));
+    return SSLivingDocGetRet.get(livingDocGet(par));
   }
   
   @Override
@@ -473,13 +486,13 @@ implements
   }
   
   @Override
-  public void livingDocsGet(final SSSocketCon sSCon, final SSServPar parA) throws Exception{
+  public SSServRetI livingDocsGet(final SSClientE clientType, final SSServPar parA) throws Exception{
     
     SSServCallerU.checkKey(parA);
     
     final SSLivingDocsGetPar par = (SSLivingDocsGetPar) parA.getFromJSON(SSLivingDocsGetPar.class);
     
-    sSCon.writeRetFullToClient(SSLivingDocsGetRet.get(livingDocsGet(par)));
+    return SSLivingDocsGetRet.get(livingDocsGet(par));
   }
   
   @Override

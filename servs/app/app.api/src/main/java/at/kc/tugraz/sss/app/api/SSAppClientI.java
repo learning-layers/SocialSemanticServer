@@ -20,12 +20,13 @@
 */
 package at.kc.tugraz.sss.app.api;
 
-import at.tugraz.sss.adapter.socket.SSSocketCon;
+import at.tugraz.sss.serv.SSClientE;
 import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServRetI;
 
 public interface SSAppClientI{
   
-  public void appsGet    (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void appsDelete (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void appAdd     (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public SSServRetI appsGet    (final SSClientE clientType, final SSServPar parA) throws Exception;
+  public SSServRetI appsDelete (final SSClientE clientType, final SSServPar parA) throws Exception;
+  public SSServRetI appAdd     (final SSClientE clientType, final SSServPar parA) throws Exception;
 }

@@ -23,7 +23,6 @@ package at.kc.tugraz.ss.serv.auth.impl;
 import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.adapter.socket.SSSocketCon;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSLabel;
 import at.kc.tugraz.ss.serv.auth.api.SSAuthClientI;
@@ -32,10 +31,11 @@ import at.kc.tugraz.ss.serv.auth.conf.SSAuthConf;
 import at.kc.tugraz.ss.serv.auth.impl.fct.csv.SSAuthMiscFct;
 import at.kc.tugraz.ss.serv.auth.impl.fct.oidc.SSAuthOIDC;
 import at.kc.tugraz.ss.serv.auth.impl.fct.sql.SSAuthSQLFct;
+import at.kc.tugraz.ss.serv.dataimport.api.SSDataImportServerI;
+import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportSSSUsersFromCSVFilePar;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSServImplWithDBA;
-import at.tugraz.sss.serv.caller.SSServCaller;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthCheckCredPar;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthCheckKeyPar;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthRegisterUserPar;
@@ -49,6 +49,7 @@ import at.kc.tugraz.ss.service.user.api.SSUserServerI;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserAddPar;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserExistsPar;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserURIGetPar;
+import at.tugraz.sss.serv.SSClientE;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
@@ -60,6 +61,7 @@ import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
+import at.tugraz.sss.serv.SSServRetI;
 
 public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAuthServerI{
   
@@ -82,18 +84,24 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
   }
   
   @Override
-  public void authUsersFromCSVFileAdd(final SSServPar parA) throws SSErr {
+  public void authUsersFromCSVFileAdd(final SSAuthUsersFromCSVFileAddPar par) throws SSErr {
     
     try{
-      final SSAuthUsersFromCSVFileAddPar par                          = new SSAuthUsersFromCSVFileAddPar(parA);
       final Map<String, String>          passwordsForUsersFromCSVFile = new HashMap<>();
+      final SSDataImportServerI          dataImportServ               = (SSDataImportServerI) SSServReg.getServ(SSDataImportServerI.class);
       
       try{
-        passwordsForUsersFromCSVFile.putAll(SSServCaller.dataImportSSSUsersFromCSVFile(((SSAuthConf)conf).fileName));
+        
+        passwordsForUsersFromCSVFile.putAll(
+          dataImportServ.dataImportSSSUsersFromCSVFile(
+            new SSDataImportSSSUsersFromCSVFilePar(
+              par.user,
+              ((SSAuthConf)conf).fileName)));
+        
       }catch(SSErr error){
         
         switch(error.code){
-          case servServerOpNotAvailable: SSLogU.warn(error.getMessage()); return;
+          case servServerNotAvailable: SSLogU.warn(error.getMessage()); return;
           default: SSServErrReg.regErrThrow(error);
         }
       }      
@@ -129,15 +137,16 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
   }
   
   @Override
-  public void authRegisterUser(SSSocketCon sSCon, SSServPar parA) throws SSErr {
+  public SSServRetI authRegisterUser(SSClientE clientType, SSServPar parA) throws SSErr {
     
     try{
       final SSAuthRegisterUserPar par = (SSAuthRegisterUserPar) parA.getFromJSON(SSAuthRegisterUserPar.class);
       
-      sSCon.writeRetFullToClient(SSAuthRegisterUserRet.get(authRegisterUser(par)));
+      return SSAuthRegisterUserRet.get(authRegisterUser(par));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -208,7 +217,7 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
       }catch(SSErr error){
         
         switch(error.code){
-          case servServerOpNotAvailable: SSLogU.warn(error.getMessage()); break;
+          case servServerNotAvailable: SSLogU.warn(error.getMessage()); break;
           default: SSServErrReg.regErrThrow(error);
         }
       }
@@ -224,16 +233,17 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
   }
  
   @Override
-  public void authCheckCred(SSSocketCon sSCon, SSServPar parA) throws SSErr {
+  public SSServRetI authCheckCred(SSClientE clientType, SSServPar parA) throws SSErr {
     
     try{
       
       final SSAuthCheckCredPar par = (SSAuthCheckCredPar) parA.getFromJSON(SSAuthCheckCredPar.class);
       
-      sSCon.writeRetFullToClient(authCheckCred(par));
+      return authCheckCred(par);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -381,7 +391,7 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
               }catch(SSErr error){
 
                 switch(error.code){
-                  case servServerOpNotAvailable: SSLogU.warn(error.getMessage()); break;
+                  case servServerNotAvailable: SSLogU.warn(error.getMessage()); break;
                   default: SSServErrReg.regErrThrow(error);
                 }
               }

@@ -19,12 +19,6 @@
     </dependency>
     
     <dependency>
-      <groupId>sss.adapter.socket</groupId>
-      <artifactId>adapter.socket.datatype</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    
-    <dependency>
       <groupId>sss.serv</groupId>
       <artifactId>serv.custom.ops</artifactId>
       <version>${project.version}</version>

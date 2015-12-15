@@ -48,7 +48,6 @@ import at.tugraz.sss.servs.entity.datatypes.ret.SSEntityUpdateRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.SSEntityActivityFct;
 import at.kc.tugraz.ss.serv.datatypes.entity.impl.fct.SSEntityUserRelationsGatherFct;
 import at.kc.tugraz.ss.service.userevent.api.SSUEServerI;
-import at.tugraz.sss.adapter.socket.SSSocketCon;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSUri;
@@ -100,7 +99,9 @@ import sss.serv.eval.api.SSEvalServerI;
 import sss.servs.entity.sql.SSEntitySQL;
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.tugraz.sss.serv.SSClientE;
 import at.tugraz.sss.serv.SSEntityContext;
+import at.tugraz.sss.serv.SSServRetI;
 import at.tugraz.sss.serv.SSStrU;
 
 public class SSEntityImpl 
@@ -272,7 +273,7 @@ implements
   }
   
   @Override
-  public void entityCopy(final SSSocketCon sSCon, final SSServPar parA) throws SSErr{
+  public SSServRetI entityCopy(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
       
@@ -280,8 +281,7 @@ implements
       
       final SSEntityCopyPar par    = (SSEntityCopyPar) parA.getFromJSON(SSEntityCopyPar.class);
       final Boolean         worked = entityCopy(par);
-      
-      sSCon.writeRetFullToClient(SSEntityCopyRet.get(worked));
+      final SSEntityCopyRet ret    = SSEntityCopyRet.get(worked);
       
       if(worked){
         
@@ -294,8 +294,11 @@ implements
           par.shouldCommit);
       }
       
+      return ret;
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -393,17 +396,18 @@ implements
   }
   
   @Override
-  public void entitiesAccessibleGet(final SSSocketCon sSCon, final SSServPar parA) throws SSErr{
+  public SSServRetI entitiesAccessibleGet(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
       SSServCallerU.checkKey(parA);
       
       final SSEntitiesAccessibleGetPar par = (SSEntitiesAccessibleGetPar) parA.getFromJSON(SSEntitiesAccessibleGetPar.class);
       
-      sSCon.writeRetFullToClient(entitiesAccessibleGet(par));
+      return entitiesAccessibleGet(par);
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -511,17 +515,18 @@ implements
   }
     
   @Override
-  public void entitiesGet(final SSSocketCon sSCon, final SSServPar parA) throws SSErr {
+  public SSServRetI entitiesGet(final SSClientE clientType, final SSServPar parA) throws SSErr {
     
     try{
       SSServCallerU.checkKey(parA);
       
       final SSEntitiesGetPar par = (SSEntitiesGetPar) parA.getFromJSON(SSEntitiesGetPar.class);
       
-      sSCon.writeRetFullToClient(SSEntitiesGetRet.get(entitiesGet(par)));
+      return SSEntitiesGetRet.get(entitiesGet(par));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -567,17 +572,18 @@ implements
   }
   
   @Override
-  public void entityGet(final SSSocketCon sSCon, final SSServPar parA) throws SSErr {
+  public SSServRetI entityGet(final SSClientE clientType, final SSServPar parA) throws SSErr {
     
     try{
       SSServCallerU.checkKey(parA);
       
       final SSEntityGetPar par = (SSEntityGetPar) parA.getFromJSON(SSEntityGetPar.class);
       
-      sSCon.writeRetFullToClient(SSEntityGetRet.get(entityGet(par)));
+      return SSEntityGetRet.get(entityGet(par));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -643,7 +649,7 @@ implements
   }
   
   @Override
-  public void entityUpdate(final SSSocketCon sSCon, final SSServPar parA) throws SSErr{
+  public SSServRetI entityUpdate(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
       SSServCallerU.checkKey(parA);
@@ -677,7 +683,7 @@ implements
       
       entityURI = entityUpdate(par);
       
-      sSCon.writeRetFullToClient(SSEntityUpdateRet.get(entityURI));
+      final SSEntityUpdateRet ret = SSEntityUpdateRet.get(entityURI);
       
       if(isPlaceholderAdd){
         
@@ -692,8 +698,10 @@ implements
             par.shouldCommit)); //shouldCommit
       }
       
+      return ret;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -1173,16 +1181,14 @@ implements
   }
   
   @Override
-  public void entityShare(final SSSocketCon sSCon, final SSServPar parA) throws SSErr {
+  public SSServRetI entityShare(final SSClientE clientType, final SSServPar parA) throws SSErr {
     
     try{
       SSServCallerU.checkKey(parA);
       
-      final SSEntitySharePar par = (SSEntitySharePar) parA.getFromJSON(SSEntitySharePar.class);
-      
-      final SSUri entityURI = entityShare(par);
-      
-      sSCon.writeRetFullToClient(SSEntityShareRet.get(entityURI));
+      final SSEntitySharePar par       = (SSEntitySharePar) parA.getFromJSON(SSEntitySharePar.class);
+      final SSUri            entityURI = entityShare(par);
+      final SSEntityShareRet ret       = SSEntityShareRet.get(entityURI);
       
       if(!par.users.isEmpty()){
         SSEntityActivityFct.shareEntityWithUsers(par);
@@ -1196,8 +1202,10 @@ implements
         SSEntityActivityFct.setEntityPublic(par);
       }
       
+      return ret;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -1285,7 +1293,7 @@ implements
   }
   
   @Override
-  public void entityUnpublicize(final SSSocketCon sSCon, final SSServPar parA) throws SSErr {
+  public SSServRetI entityUnpublicize(final SSClientE clientType, final SSServPar parA) throws SSErr {
     
     try{
       SSServCallerU.checkKey(parA);
@@ -1294,9 +1302,11 @@ implements
       
       final SSUri entityURI = entityUnpublicize(par);
       
-      sSCon.writeRetFullToClient(SSEntityUnpublicizeRet.get(entityURI));
+      return SSEntityUnpublicizeRet.get(entityURI);
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -1363,17 +1373,18 @@ implements
   }
   
   @Override
-  public void entityTypesGet(final SSSocketCon sSCon, final SSServPar parA) throws SSErr{
+  public SSServRetI entityTypesGet(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
       SSServCallerU.checkKey(parA);
       
       final SSEntityTypesGetPar par = (SSEntityTypesGetPar) parA.getFromJSON(SSEntityTypesGetPar.class);
       
-      sSCon.writeRetFullToClient(SSEntityTypesGetRet.get(entityTypesGet(par)));
+      return SSEntityTypesGetRet.get(entityTypesGet(par));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   

@@ -24,12 +24,11 @@ import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.adapter.socket.SSSocketCon;
+import java.net.Socket;
 
 public class SSFileDownloadPar extends SSServPar{
   
   public SSUri        file             = null;
-  public SSSocketCon  sSCon            = null;
   public Boolean      isPublicDownload = false;
   
   public String getFile(){
@@ -45,13 +44,13 @@ public class SSFileDownloadPar extends SSServPar{
   public SSFileDownloadPar(
     final SSUri         user,
     final SSUri         file, 
-    final SSSocketCon   sSCon, 
+    final Socket        clientSocket, 
     final Boolean       isPublicDownload){
     
     super(SSServOpE.fileDownload, null, user);
     
     this.file             = file;
-    this.sSCon            = sSCon;
+    this.clientSocket     = clientSocket;
     this.isPublicDownload = isPublicDownload;
   }  
 }

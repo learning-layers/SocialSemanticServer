@@ -49,114 +49,41 @@ public class SSServReg{
   public static final Map<SSServOpE, Integer>                         requsLimitsForClientOpsPerUser  = new EnumMap<>(SSServOpE.class);
   public static final Map<SSServOpE, Map<String, List<SSServImplA>>>  currentRequsForClientOpsPerUser = new EnumMap<>(SSServOpE.class);
   
-  public static SSServImplA getClientServ(final Class clientServClass) throws SSErr{
+  public static SSServContainerI getClientServ(final Class clientServClass) throws SSErr{
     
     try{
       
       final SSServContainerI serv = servsForClientI.get(clientServClass);
       
       if(serv == null){
-        throw SSErr.get(SSErrE.noClientServiceForOpAvailableOnMachine);
+        throw SSErr.get(SSErrE.servClientNotAvailable);
       }
       
-      return serv.serv();
-    
-    }catch(SSErr error){
+      return serv;
       
-      switch(error.code){
-        
-        case servClientOpNotAvailable:{
-          throw error;
-        }
-        
-        default: {
-          SSServErrReg.regErrThrow(error);
-        }
-      }
-        
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
       return null;
-      
-      
-//      if(!SSServErrReg.containsErr(SSErrE.noClientServiceForOpAvailableOnMachine)){
-//        throw error;
-//      }
-      
-//      if(useCloud){
-//
-//        deployServNode(
-//          par,
-//          getClientServAvailableOnNodes(par));
-//
-//        return null; //TODO to be tested
-//      }
     }
   }
   
-  public SSServRetI getAndCallClientServForSocketClient(
-    final SSServPar    par) throws Exception{
+  public SSServContainerI getClientServ(
+    final SSServOpE op) throws SSErr{
     
     try{
       
-      final SSServContainerI serv = servsForClientOps.get(par.op);
+      final SSServContainerI serv = servsForClientOps.get(op);
       
       if(serv == null){
-        throw SSErr.get(SSErrE.noClientServiceForOpAvailableOnMachine);
+        throw SSErr.get(SSErrE.servClientNotAvailable);
       }
       
-      final SSServImplA servImpl = serv.serv();
-      
-      if(requsLimitsForClientOpsPerUser.containsKey(par.op)){
-        
-        Map<String, List<SSServImplA>> servImplsForUser;
-        List<SSServImplA>              servImpls;
-        
-        synchronized(currentRequsForClientOpsPerUser){
-          
-          if(!currentRequsForClientOpsPerUser.containsKey(par.op)){
-            
-            servImplsForUser = new HashMap<>();
-            
-            currentRequsForClientOpsPerUser.put(par.op, servImplsForUser);
-          }
-          
-          if(currentRequsForClientOpsPerUser.get(par.op).get(SSStrU.toStr(par.user)) == null){
-            currentRequsForClientOpsPerUser.get(par.op).put(SSStrU.toStr(par.user), new ArrayList<>());
-          }
-          
-          servImpls = currentRequsForClientOpsPerUser.get(par.op).get(SSStrU.toStr(par.user));
-          
-          if(
-            servImpls.size() == requsLimitsForClientOpsPerUser.get(par.op)){
-            throw SSErr.get(SSErrE.maxNumClientConsForOpReached);
-          }
-          
-          servImpls.add(servImpl);
-        }
-      }
-      
-      return servImpl.handleSocketeClientOp(
-        serv.servImplClientInteraceClass,
-        par);
+      return serv;
       
     }catch(Exception error){
-      
-      if(error instanceof SSErr){
-        
-        switch(((SSErr)error).code){
-          
-          case servClientOpNotAvailable:{
-            throw error;
-          }
-          
-          default: {
-            SSServErrReg.regErrThrow(error);
-          }
-        }
-        
-        return null;
-      }else{
-        throw error;
-      }
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
       
 //      if(!SSServErrReg.containsErr(SSErrE.noClientServiceForOpAvailableOnMachine)){
 //        throw error;
@@ -168,9 +95,49 @@ public class SSServReg{
 //          par,
 //          getClientServAvailableOnNodes(par));
 //
-//        return null; //TODO to be tested
+//        return null;
 //      }
+  }
       
+  public void regClientRequest(
+    final SSUri       user, 
+    final SSServImplA servImpl,
+    final SSServOpE   op) throws SSErr{
+    
+    try{
+    
+      if(!requsLimitsForClientOpsPerUser.containsKey(op)){
+        return;
+      }
+        
+      Map<String, List<SSServImplA>> servImplsForUser;
+      List<SSServImplA>              servImpls;
+      
+      synchronized(currentRequsForClientOpsPerUser){
+        
+        if(!currentRequsForClientOpsPerUser.containsKey(op)){
+          
+          servImplsForUser = new HashMap<>();
+          
+          currentRequsForClientOpsPerUser.put(op, servImplsForUser);
+        }
+        
+        if(currentRequsForClientOpsPerUser.get(op).get(SSStrU.toStr(user)) == null){
+          currentRequsForClientOpsPerUser.get(op).put(SSStrU.toStr(user), new ArrayList<>());
+        }
+        
+        servImpls = currentRequsForClientOpsPerUser.get(op).get(SSStrU.toStr(user));
+        
+        if(
+          servImpls.size() == requsLimitsForClientOpsPerUser.get(op)){
+          throw SSErr.get(SSErrE.maxNumClientConsForOpReached);
+        }
+        
+        servImpls.add(servImpl);
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
     }
   }
   
@@ -505,24 +472,13 @@ public class SSServReg{
       serv = servsForServerI.get(servServerI);
       
       if(serv == null){
-        throw SSErr.get(SSErrE.servServerOpNotAvailable);
+        throw SSErr.get(SSErrE.servServerNotAvailable);
       }
       
       return serv.serv();
       
-    }catch(SSErr error){
-      
-      switch(error.code){
-        
-        case servServerOpNotAvailable:{ 
-          throw error;
-        }
-        
-        default: {
-          SSServErrReg.regErrThrow(error);
-        }
-      }
-      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
       return null;
     }
   }

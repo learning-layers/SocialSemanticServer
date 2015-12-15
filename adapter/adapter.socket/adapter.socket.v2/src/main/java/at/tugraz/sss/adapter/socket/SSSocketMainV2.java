@@ -53,15 +53,18 @@ import at.kc.tugraz.sss.flag.serv.SSFlagServ;
 import at.kc.tugraz.sss.video.serv.SSVideoServ;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBSQL;
+import at.tugraz.sss.serv.SSEncodingU;
 import at.tugraz.sss.serv.SSFileExtE;
 import at.tugraz.sss.serv.SSJSONLDU;
 import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSMimeTypeE;
+import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServImplA;
 import at.tugraz.sss.serv.SSServImplStartA;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServReg;
+import at.tugraz.sss.serv.SSServRetI;
 import at.tugraz.sss.servs.image.serv.SSImageServ;
 import at.tugraz.sss.servs.integrationtest.SSIntegrationTestServ;
 import at.tugraz.sss.servs.kcprojwiki.serv.SSKCProjWikiServ;
@@ -69,6 +72,8 @@ import at.tugraz.sss.servs.livingdocument.serv.SSLivingDocServ;
 import at.tugraz.sss.servs.location.serv.SSLocationServ;
 import at.tugraz.sss.servs.mail.serv.SSMailServ;
 import at.tugraz.sss.servs.ocd.service.SSOCDServ;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import sss.serv.eval.serv.SSEvalServ;
@@ -113,16 +118,30 @@ public class SSSocketMainV2{
   
   public class SSSocketMain extends SSServImplStartA implements Runnable{
     
-    private final SSSocketCon clientCon;
-    private SSServPar         par         = null;
-    private SSServImplA       servImpl    = null;
+    private final Socket             clientSocket;
+    private final OutputStreamWriter outputStreamWriter;
+    private final InputStreamReader  inputStreamReader;
+    private SSServContainerI         serv        = null;
+    private SSServImplA              servImpl    = null;
+    private SSServPar                par         = null;
+    private SSServRetI               ret         = null;
     
     public SSSocketMain(
       final Socket  clientSocket) throws Exception{
       
       super(null);
       
-      clientCon          = new SSSocketCon(clientSocket);
+      this.clientSocket      = clientSocket;
+      
+      this.inputStreamReader =
+        new InputStreamReader(
+          clientSocket.getInputStream(),
+          SSEncodingU.utf8.toString());
+      
+      this.outputStreamWriter =
+        new OutputStreamWriter(
+          clientSocket.getOutputStream(),
+          SSEncodingU.utf8.toString());
     }
     
     @Override
@@ -130,14 +149,22 @@ public class SSSocketMainV2{
       
       try{
         
-        par =
-          new SSServPar(
-            clientCon,
-            clientCon.readMsgFullFromClient());
+        final String clientMsg = SSSocketU.readMsgFullFromClient(inputStreamReader);
+              
+        par = new SSServPar(clientSocket,clientMsg);
         
         SSLogU.info(par.op + " start with " + par.clientJSONRequ);
         
-        par.clientCon.writeRetFullToClient(SSServReg.inst.getAndCallClientServForSocketClient(par)); //useCloud
+        serv     = SSServReg.inst.getClientServ(par.op);
+        servImpl = serv.serv();
+        
+        SSServReg.inst.regClientRequest(par.user, servImpl, par.op);
+        
+        ret = servImpl.invokeClientServOp(serv.servImplClientInteraceClass, par);
+              
+        if(ret != null){
+          SSSocketU.writeRetFullToClient(outputStreamWriter, ret); 
+        }
         
       }catch(Exception error){
         
@@ -148,7 +175,11 @@ public class SSSocketMainV2{
         }
         
         try{
-          par.clientCon.writeErrorFullToClient(SSServErrReg.getServiceImplErrors(), par.op);
+          SSSocketU.writeErrorFullToClient(
+            outputStreamWriter, 
+            SSServErrReg.getServiceImplErrors(), 
+            par.op);
+          
         }catch(Exception error2){
           SSServErrReg.regErr(error2, true);
         }

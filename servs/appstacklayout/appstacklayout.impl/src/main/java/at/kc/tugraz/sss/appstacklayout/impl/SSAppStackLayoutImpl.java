@@ -24,7 +24,6 @@ import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityGetPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUpdatePar;
-import at.tugraz.sss.adapter.socket.SSSocketCon;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
@@ -46,6 +45,7 @@ import at.kc.tugraz.sss.appstacklayout.datatypes.ret.SSAppStackLayoutDeleteRet;
 import at.kc.tugraz.sss.appstacklayout.datatypes.ret.SSAppStackLayoutUpdateRet;
 import at.kc.tugraz.sss.appstacklayout.datatypes.ret.SSAppStackLayoutsGetRet;
 import at.kc.tugraz.sss.appstacklayout.impl.fct.sql.SSAppStackLayoutSQLFct;
+import at.tugraz.sss.serv.SSClientE;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
@@ -58,6 +58,7 @@ import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServReg;
+import at.tugraz.sss.serv.SSServRetI;
 import at.tugraz.sss.serv.SSStrU;
 
 public class SSAppStackLayoutImpl
@@ -104,17 +105,18 @@ implements
   }
   
   @Override
-  public void appStackLayoutCreate(final SSSocketCon sSCon, final SSServPar parA) throws SSErr{
+  public SSServRetI appStackLayoutCreate(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
     SSServCallerU.checkKey(parA);
     
     final SSAppStackLayoutCreatePar par = (SSAppStackLayoutCreatePar) parA.getFromJSON(SSAppStackLayoutCreatePar.class);
      
-    sSCon.writeRetFullToClient(SSAppStackLayoutCreateRet.get(appStackLayoutCreate(par)));
+    return SSAppStackLayoutCreateRet.get(appStackLayoutCreate(par));
     
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -185,17 +187,18 @@ implements
   }
   
   @Override
-  public void appStackLayoutUpdate(final SSSocketCon sSCon, final SSServPar parA) throws SSErr{
+  public SSServRetI appStackLayoutUpdate(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
     SSServCallerU.checkKey(parA);
     
     final SSAppStackLayoutUpdatePar par = (SSAppStackLayoutUpdatePar) parA.getFromJSON(SSAppStackLayoutUpdatePar.class);
     
-    sSCon.writeRetFullToClient(SSAppStackLayoutUpdateRet.get(appStackLayoutUpdate(par)));
+    return SSAppStackLayoutUpdateRet.get(appStackLayoutUpdate(par));
     
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -295,17 +298,18 @@ implements
   }
   
   @Override
-  public void appStackLayoutsGet(final SSSocketCon sSCon, final SSServPar parA) throws SSErr{
+  public SSServRetI appStackLayoutsGet(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
     SSServCallerU.checkKey(parA);
     
     final SSAppStackLayoutsGetPar par = (SSAppStackLayoutsGetPar) parA.getFromJSON(SSAppStackLayoutsGetPar.class);
     
-    sSCon.writeRetFullToClient(SSAppStackLayoutsGetRet.get(appStackLayoutsGet(par)));
+    return SSAppStackLayoutsGetRet.get(appStackLayoutsGet(par));
 
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -344,7 +348,7 @@ implements
   }
   
   @Override
-  public void appStackLayoutDelete(final SSSocketCon sSCon, final SSServPar parA) throws SSErr{
+  public SSServRetI appStackLayoutDelete(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
       
@@ -352,10 +356,11 @@ implements
     
     final SSAppStackLayoutDeletePar par = (SSAppStackLayoutDeletePar) parA.getFromJSON(SSAppStackLayoutDeletePar.class);
     
-    sSCon.writeRetFullToClient(SSAppStackLayoutDeleteRet.get(appStackLayoutDelete(par)));
+    return SSAppStackLayoutDeleteRet.get(appStackLayoutDelete(par));
     
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   

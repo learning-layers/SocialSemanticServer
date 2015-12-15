@@ -20,17 +20,18 @@
 */
  package at.kc.tugraz.ss.service.disc.api;
 
-import at.tugraz.sss.adapter.socket.SSSocketCon;
+import at.tugraz.sss.serv.SSClientE;
 import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServRetI;
 
 public interface SSDiscClientI {
   
-  public void discRemove            (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void discGet               (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void discEntryAdd          (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void discsGet              (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void discEntryAccept       (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void discTargetsAdd        (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void discUpdate            (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void discEntryUpdate       (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public SSServRetI discRemove            (final SSClientE clientType, final SSServPar parA) throws Exception;
+  public SSServRetI discGet               (final SSClientE clientType, final SSServPar parA) throws Exception;
+  public SSServRetI discEntryAdd          (final SSClientE clientType, final SSServPar parA) throws Exception;
+  public SSServRetI discsGet              (final SSClientE clientType, final SSServPar parA) throws Exception;
+  public SSServRetI discEntryAccept       (final SSClientE clientType, final SSServPar parA) throws Exception;
+  public SSServRetI discTargetsAdd        (final SSClientE clientType, final SSServPar parA) throws Exception;
+  public SSServRetI discUpdate            (final SSClientE clientType, final SSServPar parA) throws Exception;
+  public SSServRetI discEntryUpdate       (final SSClientE clientType, final SSServPar parA) throws Exception;
 }

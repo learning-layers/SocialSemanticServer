@@ -20,13 +20,14 @@
 */
 package at.kc.tugraz.sss.appstacklayout.api;
 
-import at.tugraz.sss.adapter.socket.SSSocketCon;
+import at.tugraz.sss.serv.SSClientE;
 import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServRetI;
 
 public interface SSAppStackLayoutClientI{
   
-  public void appStackLayoutsGet     (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void appStackLayoutCreate   (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void appStackLayoutUpdate   (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void appStackLayoutDelete   (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public SSServRetI appStackLayoutsGet     (final SSClientE clientType, final SSServPar parA) throws Exception;
+  public SSServRetI appStackLayoutCreate   (final SSClientE clientType, final SSServPar parA) throws Exception;
+  public SSServRetI appStackLayoutUpdate   (final SSClientE clientType, final SSServPar parA) throws Exception;
+  public SSServRetI appStackLayoutDelete   (final SSClientE clientType, final SSServPar parA) throws Exception;
 }

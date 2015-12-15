@@ -25,7 +25,6 @@ import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
 import at.kc.tugraz.ss.activity.datatypes.par.SSActivityAddPar;
 import at.tugraz.sss.serv.SSObjU;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.adapter.socket.SSSocketCon;
 import at.kc.tugraz.ss.circle.api.SSCircleClientI;
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.impl.fct.serv.SSCircleServFct;
@@ -74,6 +73,7 @@ import at.kc.tugraz.ss.service.user.datatypes.SSUser;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUsersGetPar;
 import at.tugraz.sss.serv.SSCircleContentRemovedI;
 import at.tugraz.sss.serv.SSCircleContentRemovedPar;
+import at.tugraz.sss.serv.SSClientE;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSCopyEntityI;
@@ -94,6 +94,7 @@ import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
+import at.tugraz.sss.serv.SSServRetI;
 import at.tugraz.sss.serv.SSToolContextE;
 import sss.serv.eval.api.SSEvalServerI;
 import sss.serv.eval.datatypes.SSEvalLogE;
@@ -267,7 +268,7 @@ implements
   }
   
   @Override
-  public void circleEntitiesRemove(final SSSocketCon sSCon, final SSServPar parA) throws SSErr{
+  public SSServRetI circleEntitiesRemove(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
       SSServCallerU.checkKey(parA);
@@ -296,7 +297,7 @@ implements
         }
       }
       
-      sSCon.writeRetFullToClient(SSCircleEntitiesRemoveRet.get(result));
+      final SSCircleEntitiesRemoveRet ret = SSCircleEntitiesRemoveRet.get(result);
       
       evalServ.evalLog(
         new SSEvalLogPar(
@@ -309,8 +310,10 @@ implements
           null, //users
           par.shouldCommit));
       
+      return ret;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -360,7 +363,7 @@ implements
   }
   
   @Override
-  public void circleUsersRemove(final SSSocketCon sSCon, final SSServPar parA) throws SSErr{
+  public SSServRetI circleUsersRemove(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
       
@@ -375,7 +378,7 @@ implements
         result = circleUsersRemove(par);
       }
       
-      sSCon.writeRetFullToClient(SSCircleUsersRemoveRet.get(result));
+      final SSCircleUsersRemoveRet ret = SSCircleUsersRemoveRet.get(result);
       
       evalServ.evalLog(
         new SSEvalLogPar(
@@ -388,8 +391,10 @@ implements
           par.users, //users
           par.shouldCommit));
       
+      return ret;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -439,7 +444,7 @@ implements
   }
   
   @Override
-  public void circleCreate(final SSSocketCon sSCon, final SSServPar parA) throws SSErr{
+  public SSServRetI circleCreate(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
       
@@ -497,7 +502,7 @@ implements
         circle.entities,
         par.withUserRestriction);
       
-      sSCon.writeRetFullToClient(SSCircleCreateRet.get(circleURI));
+      final SSCircleCreateRet ret = SSCircleCreateRet.get(circleURI);
       
       activityServ.activityAdd(
         new SSActivityAddPar(
@@ -521,8 +526,10 @@ implements
           par.users,
           par.shouldCommit));
       
+      return ret;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -604,7 +611,7 @@ implements
   }
   
   @Override
-  public void circleRemove(final SSSocketCon sSCon, final SSServPar parA) throws SSErr{
+  public SSServRetI circleRemove(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
       
@@ -621,7 +628,7 @@ implements
         circleURI = null;
       }
       
-      sSCon.writeRetFullToClient(SSCircleRemoveRet.get(circleURI));
+      final SSCircleRemoveRet ret = SSCircleRemoveRet.get(circleURI);
       
       evalServ.evalLog(
         new SSEvalLogPar(
@@ -634,8 +641,10 @@ implements
           null, //users
           par.shouldCommit));
       
+      return ret;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -683,7 +692,7 @@ implements
   }
   
   @Override
-  public void circleUsersAdd(final SSSocketCon sSCon, final SSServPar parA) throws SSErr{
+  public SSServRetI circleUsersAdd(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
       
@@ -717,7 +726,7 @@ implements
         par.users,
         par.withUserRestriction);
       
-      sSCon.writeRetFullToClient(SSCircleUsersAddRet.get(circleURI));
+      final SSCircleUsersAddRet ret = SSCircleUsersAddRet.get(circleURI);
       
       activityServ.activityAdd(
         new SSActivityAddPar(
@@ -741,8 +750,10 @@ implements
           par.users, //users
           par.shouldCommit));
       
+      return ret;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -823,7 +834,7 @@ implements
   }
   
   @Override
-  public void circleEntitiesAdd(final SSSocketCon sSCon, final SSServPar parA) throws SSErr{
+  public SSServRetI circleEntitiesAdd(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
       SSServCallerU.checkKey(parA);
@@ -876,7 +887,7 @@ implements
         entities,
         par.withUserRestriction);
       
-      sSCon.writeRetFullToClient(SSCircleEntitiesAddRet.get(cicleURI));
+      final SSCircleEntitiesAddRet ret = SSCircleEntitiesAddRet.get(cicleURI);
       
       activityServ.activityAdd(
         new SSActivityAddPar(
@@ -922,8 +933,10 @@ implements
           null, //users
           par.shouldCommit));
       
+      return ret;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -1110,17 +1123,18 @@ implements
   }
   
   @Override
-  public void circleGet(final SSSocketCon sSCon, final SSServPar parA) throws SSErr{
+  public SSServRetI circleGet(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
       SSServCallerU.checkKey(parA);
       
       final SSCircleGetPar par = (SSCircleGetPar) parA.getFromJSON(SSCircleGetPar.class);
       
-      sSCon.writeRetFullToClient(SSCircleGetRet.get(circleGet(par)));
+      return SSCircleGetRet.get(circleGet(par));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -1247,17 +1261,18 @@ implements
   }
   
   @Override
-  public void circlesGet(final SSSocketCon sSCon, final SSServPar parA) throws SSErr{
+  public SSServRetI circlesGet(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
       SSServCallerU.checkKey(parA);
       
       final SSCirclesGetPar par = (SSCirclesGetPar) parA.getFromJSON(SSCirclesGetPar.class);
       
-      sSCon.writeRetFullToClient(SSCirclesGetRet.get(circlesGet(par)));
+      return SSCirclesGetRet.get(circlesGet(par));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -1473,7 +1488,7 @@ implements
   }
   
   @Override
-  public void circleUsersInvite(final SSSocketCon sSCon, final SSServPar parA) throws SSErr{
+  public SSServRetI circleUsersInvite(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
       
@@ -1481,10 +1496,11 @@ implements
       
       final SSCircleUsersInvitePar par = (SSCircleUsersInvitePar) parA.getFromJSON(SSCircleUsersInvitePar.class);
       
-      sSCon.writeRetFullToClient(SSCircleUsersInviteRet.get(circleUsersInvite(par)));
+      return SSCircleUsersInviteRet.get(circleUsersInvite(par));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -1533,17 +1549,18 @@ implements
   }
   
   @Override
-  public void circleTypeChange(final SSSocketCon sSCon, final SSServPar parA) throws SSErr {
+  public SSServRetI circleTypeChange(final SSClientE clientType, final SSServPar parA) throws SSErr {
     
     try{
       SSServCallerU.checkKey(parA);
       
       final SSCircleTypeChangePar par = (SSCircleTypeChangePar) parA.getFromJSON(SSCircleTypeChangePar.class);
       
-      sSCon.writeRetFullToClient(SSCircleTypeChangeRet.get(circleTypeChange(par)));
+      return SSCircleTypeChangeRet.get(circleTypeChange(par));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   

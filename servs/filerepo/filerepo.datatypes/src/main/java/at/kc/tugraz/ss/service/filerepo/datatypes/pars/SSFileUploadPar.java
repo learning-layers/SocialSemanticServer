@@ -25,15 +25,14 @@ import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.adapter.socket.SSSocketCon;
 import at.tugraz.sss.serv.SSUri;
+import java.net.Socket;
 
 public class SSFileUploadPar extends SSServPar{
   
   public SSLabel       label       = null;
   public SSMimeTypeE   mimeType    = null;
   public SSUri         circle      = null;
-  public SSSocketCon   sSCon       = null;
   
   public String getCircle(){
     return SSStrU.removeTrailingSlash(circle);
@@ -66,7 +65,7 @@ public class SSFileUploadPar extends SSServPar{
     final SSMimeTypeE   mimeType,
     final SSLabel       label,
     final SSUri         circle,
-    final SSSocketCon   sSCon,
+    final Socket        clientSocket,
     final Boolean       shouldCommit){
     
     super (SSServOpE.fileUpload, null, user);
@@ -74,7 +73,7 @@ public class SSFileUploadPar extends SSServPar{
     this.mimeType     = mimeType;
     this.label        = label;
     this.circle       = circle;
-    this.sSCon        = sSCon;
+    this.clientSocket = clientSocket;
     this.shouldCommit = shouldCommit;
   }
 }

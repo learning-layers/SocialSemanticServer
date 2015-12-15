@@ -24,7 +24,6 @@ import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntitiesGetPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUpdatePar;
-import at.tugraz.sss.adapter.socket.SSSocketCon;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
@@ -43,6 +42,7 @@ import at.kc.tugraz.sss.comment.datatypes.ret.SSCommentsAddRet;
 import at.kc.tugraz.sss.comment.datatypes.ret.SSCommentsGetRet;
 import at.kc.tugraz.sss.comment.impl.fct.sql.SSCommentSQLFct;
 import at.kc.tugraz.sss.comment.impl.fct.userrelationgather.SSCommentUserRelationGatherFct;
+import at.tugraz.sss.serv.SSClientE;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
@@ -53,6 +53,7 @@ import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServReg;
+import at.tugraz.sss.serv.SSServRetI;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import java.util.ArrayList;
 import java.util.List;
@@ -116,17 +117,18 @@ implements
   }
   
   @Override
-  public void commentsAdd(final SSSocketCon sSCon, final SSServPar parA) throws SSErr{
+  public SSServRetI commentsAdd(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
       SSServCallerU.checkKey(parA);
       
       final SSCommentsAddPar par = (SSCommentsAddPar) parA.getFromJSON(SSCommentsAddPar.class);
       
-      sSCon.writeRetFullToClient(SSCommentsAddRet.get(commentsAdd(par)));
+      return SSCommentsAddRet.get(commentsAdd(par));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -221,7 +223,7 @@ implements
   }
   
   @Override
-  public void commentsGet(final SSSocketCon sSCon, final SSServPar parA) throws SSErr{
+  public SSServRetI commentsGet(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
       
@@ -229,10 +231,11 @@ implements
       
       final SSCommentsGetPar par = (SSCommentsGetPar) parA.getFromJSON(SSCommentsGetPar.class);
       
-      sSCon.writeRetFullToClient(SSCommentsGetRet.get(commentsGet(par)));
+      return SSCommentsGetRet.get(commentsGet(par));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   

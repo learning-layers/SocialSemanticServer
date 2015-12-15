@@ -25,7 +25,6 @@ import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUpdatePar;
 import at.kc.tugraz.ss.service.rating.impl.fct.userraltionsgathering.SSRatingUserRelationGathererFct;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.adapter.socket.SSSocketCon;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSEntityE;
 import at.kc.tugraz.ss.service.rating.datatypes.pars.SSRatingOverallGetPar;
@@ -48,6 +47,7 @@ import at.kc.tugraz.ss.service.rating.datatypes.ret.SSRatingSetRet;
 import at.kc.tugraz.ss.service.rating.impl.fct.sql.SSRatingSQLFct;
 import at.kc.tugraz.ss.service.rating.datatypes.pars.SSRatingsRemovePar;
 import at.kc.tugraz.ss.service.rating.impl.fct.activity.SSRatingActivityFct;
+import at.tugraz.sss.serv.SSClientE;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
@@ -63,6 +63,7 @@ import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServReg;
+import at.tugraz.sss.serv.SSServRetI;
 import at.tugraz.sss.serv.SSUsersResourcesGathererI;
 import java.util.ArrayList;
 
@@ -171,19 +172,20 @@ implements
   }
   
   @Override
-  public void ratingSet(SSSocketCon sSCon, SSServPar parA) throws SSErr {
+  public SSServRetI ratingSet(SSClientE clientType, SSServPar parA) throws SSErr {
     
     try{
       SSServCallerU.checkKey(parA);
       
       final SSRatingSetPar par = (SSRatingSetPar) parA.getFromJSON(SSRatingSetPar.class);
-      
-      sSCon.writeRetFullToClient(SSRatingSetRet.get(ratingSet(par)));
+      final SSRatingSetRet ret = SSRatingSetRet.get(ratingSet(par));
       
       SSRatingActivityFct.rateEntity(par);
       
+      return ret;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -288,17 +290,18 @@ implements
   }
   
   @Override
-  public void ratingGet(SSSocketCon sSCon, SSServPar parA) throws SSErr {
+  public SSServRetI ratingGet(SSClientE clientType, SSServPar parA) throws SSErr {
     
     try{
       SSServCallerU.checkKey(parA);
       
       final SSRatingGetPar par = (SSRatingGetPar) parA.getFromJSON(SSRatingGetPar.class);
       
-      sSCon.writeRetFullToClient(SSRatingGetRet.get(ratingGet(par)));
+      return SSRatingGetRet.get(ratingGet(par));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -328,17 +331,18 @@ implements
   }
   
   @Override
-  public void ratingOverallGet(SSSocketCon sSCon, SSServPar parA) throws SSErr {
+  public SSServRetI ratingOverallGet(SSClientE clientType, SSServPar parA) throws SSErr {
     
     try{
       SSServCallerU.checkKey(parA);
       
       final SSRatingOverallGetPar par = (SSRatingOverallGetPar) parA.getFromJSON(SSRatingOverallGetPar.class);
       
-      sSCon.writeRetFullToClient(SSRatingOverallGetRet.get(ratingOverallGet(par)));
+      return SSRatingOverallGetRet.get(ratingOverallGet(par));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   

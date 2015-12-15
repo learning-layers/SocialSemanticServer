@@ -22,24 +22,31 @@ package at.kc.tugraz.ss.service.filerepo.impl;
 
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.tugraz.sss.serv.SSLogU;
-import at.tugraz.sss.serv.SSSocketU;
 import at.tugraz.sss.serv.SSServImplStartA;
 import at.kc.tugraz.ss.service.filerepo.conf.SSFileRepoConf;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileDownloadPar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileDownloadRet;
+import at.tugraz.sss.adapter.socket.SSSocketU;
+import at.tugraz.sss.serv.SSEncodingU;
 import at.tugraz.sss.serv.SSServErrReg;
 import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 
 public class SSFileDownloader extends SSServImplStartA{
-  
-  private DataInputStream          fileReader;
-  private byte[]                   chunk             = new byte[SSSocketU.socketTranmissionSize];
-  private String                   fileId            = null;
-  private int                      fileChunkLength   = -1;
-  private SSFileDownloadPar        par               = null;
+
+  private final DataOutputStream    dataOutputStream; 
+  private final InputStreamReader   inputStreamReader;   
+  private final OutputStreamWriter  outputStreamWriter;
+  private DataInputStream           fileReader;
+  private byte[]                    chunk             = new byte[SSSocketU.socketTranmissionSize];
+  private String                    fileId            = null;
+  private int                       fileChunkLength   = -1;
+  private SSFileDownloadPar         par               = null;
 //  private InputStream webdavInputStream;
   
   public SSFileDownloader(
@@ -48,8 +55,11 @@ public class SSFileDownloader extends SSServImplStartA{
     
     super(fileRepoConf);
     
-    this.par               = par;
-    this.fileId            = SSVocConf.fileIDFromSSSURI(this.par.file);
+    this.par                  = par;
+    this.inputStreamReader    = new InputStreamReader  (par.clientSocket.getInputStream(), SSEncodingU.utf8.toString());
+    this.outputStreamWriter   = new OutputStreamWriter (par.clientSocket.getOutputStream());
+    this.dataOutputStream     = new DataOutputStream   (par.clientSocket.getOutputStream());
+    this.fileId               = SSVocConf.fileIDFromSSSURI(this.par.file);
   }
   
   @Override
@@ -57,7 +67,7 @@ public class SSFileDownloader extends SSServImplStartA{
     
     try{
       
-      par.sSCon.writeRetFullToClient(new SSFileDownloadRet(par.file));
+      SSSocketU.writeRetFullToClient(outputStreamWriter, new SSFileDownloadRet(par.file));
       
 //      switch(((SSFileRepoConf)conf).fileRepoType){
 //        case i5Cloud: downloadFromI5Cloud(); break;    
@@ -69,7 +79,7 @@ public class SSFileDownloader extends SSServImplStartA{
 
       fileReader = new DataInputStream (new FileInputStream(new File(SSFileRepoConf.getLocalWorkPath() + fileId)));
       
-      par.sSCon.readMsgFullFromClient();
+      SSSocketU.readMsgFullFromClient(inputStreamReader);
       
       while(true){
         
@@ -78,13 +88,15 @@ public class SSFileDownloader extends SSServImplStartA{
         fileChunkLength = fileReader.read(chunk);
         
         if(fileChunkLength == -1){
-          par.sSCon.writeFileChunkToClient(new byte[0], fileChunkLength);
+          
+          SSSocketU.writeFileChunkToClient(dataOutputStream, new byte[0], fileChunkLength);
+          
           fileReader.close();
           
           return;
         }
         
-        par.sSCon.writeFileChunkToClient(chunk, fileChunkLength);
+        SSSocketU.writeFileChunkToClient(dataOutputStream, chunk, fileChunkLength);
       }
       
     }catch(Exception error1){
@@ -92,7 +104,7 @@ public class SSFileDownloader extends SSServImplStartA{
       SSServErrReg.regErr(error1);
       
       try{
-        par.sSCon.writeErrorFullToClient(SSServErrReg.getServiceImplErrors(), par.op);
+        SSSocketU.writeErrorFullToClient(outputStreamWriter, SSServErrReg.getServiceImplErrors(), par.op);
       }catch(Exception error2){
         SSServErrReg.regErr(error2);
       }

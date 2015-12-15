@@ -31,7 +31,6 @@ import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUpdatePar;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSSpaceE;
-import at.tugraz.sss.adapter.socket.SSSocketCon;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSLabel;
@@ -60,6 +59,7 @@ import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagsRemoveRet;
 import at.kc.tugraz.ss.service.tag.impl.fct.userrelationgatherer.SSTagUserRelationGathererFct;
 import at.tugraz.sss.serv.SSCircleContentRemovedI;
 import at.tugraz.sss.serv.SSCircleContentRemovedPar;
+import at.tugraz.sss.serv.SSClientE;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
@@ -77,6 +77,7 @@ import at.tugraz.sss.serv.SSSearchOpE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServReg;
+import at.tugraz.sss.serv.SSServRetI;
 import at.tugraz.sss.servs.common.impl.tagcategory.SSTagAndCategoryCommonMisc;
 import at.tugraz.sss.servs.common.impl.tagcategory.SSTagAndCategoryCommonSQL;
 import sss.serv.eval.api.SSEvalServerI;
@@ -315,15 +316,14 @@ implements
   }
   
   @Override
-  public void tagsAdd(final SSSocketCon sSCon, final SSServPar parA) throws SSErr {
+  public SSServRetI tagsAdd(final SSClientE clientType, final SSServPar parA) throws SSErr {
     
     try{
       SSServCallerU.checkKey(parA);
       
       final SSTagsAddPar par     = (SSTagsAddPar) parA.getFromJSON(SSTagsAddPar.class);
       final List<SSUri>  tagURIs = tagsAdd(par);
-      
-      sSCon.writeRetFullToClient(SSTagsAddRet.get(tagURIs));
+      final SSTagsAddRet ret     = SSTagsAddRet.get(tagURIs);
       
       actAndLogFct.tagsAdd(
         par.user,
@@ -332,8 +332,10 @@ implements
         par.labels,
         par.shouldCommit);
       
+      return ret;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -388,15 +390,14 @@ implements
   }
   
   @Override
-  public void tagAdd(SSSocketCon sSCon, SSServPar parA) throws SSErr {
+  public SSServRetI tagAdd(SSClientE clientType, SSServPar parA) throws SSErr {
     
     try{
       SSServCallerU.checkKey(parA);
       
       final SSTagAddPar par    = (SSTagAddPar) parA.getFromJSON(SSTagAddPar.class);
       final SSUri       tagURI = tagAdd(par);
-      
-      sSCon.writeRetFullToClient(SSTagAddRet.get(tagURI));
+      final SSTagAddRet ret    = SSTagAddRet.get(tagURI);
       
       if(tagURI != null){
         
@@ -408,8 +409,10 @@ implements
           par.shouldCommit);
       }
       
+      return ret;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -541,15 +544,14 @@ implements
   }
   
   @Override
-  public void tagsRemove(SSSocketCon sSCon, SSServPar parA) throws SSErr {
+  public SSServRetI tagsRemove(SSClientE clientType, SSServPar parA) throws SSErr {
     
     try{
       SSServCallerU.checkKey(parA);
       
       final SSTagsRemovePar par    = (SSTagsRemovePar) parA.getFromJSON(SSTagsRemovePar.class);
       final Boolean         worked = tagsRemove(par);
-      
-      sSCon.writeRetFullToClient(SSTagsRemoveRet.get(worked));
+      final SSTagsRemoveRet ret    = SSTagsRemoveRet.get(worked);
       
       if(worked){
         
@@ -560,8 +562,11 @@ implements
           par.shouldCommit);
       }
       
+      return ret;
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -722,17 +727,18 @@ implements
   }
   
   @Override
-  public void tagEntitiesForTagsGet(final SSSocketCon sSCon, final SSServPar parA) throws SSErr{
+  public SSServRetI tagEntitiesForTagsGet(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
       SSServCallerU.checkKey(parA);
       
       final SSTagEntitiesForTagsGetPar par = (SSTagEntitiesForTagsGetPar) parA.getFromJSON(SSTagEntitiesForTagsGetPar.class);
       
-      sSCon.writeRetFullToClient(SSTagEntitiesForTagsGetRet.get(tagEntitiesForTagsGet(par)));
+      return SSTagEntitiesForTagsGetRet.get(tagEntitiesForTagsGet(par));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -763,17 +769,18 @@ implements
   }
   
   @Override
-  public void tagsGet(final SSSocketCon sSCon, final SSServPar parA) throws SSErr {
+  public SSServRetI tagsGet(final SSClientE clientType, final SSServPar parA) throws SSErr {
     
     try{
       SSServCallerU.checkKey(parA);
       
       final SSTagsGetPar par = (SSTagsGetPar) parA.getFromJSON(SSTagsGetPar.class);
       
-      sSCon.writeRetFullToClient(SSTagsGetRet.get(tagsGet(par)));
+      return SSTagsGetRet.get(tagsGet(par));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -819,17 +826,18 @@ implements
   }
   
   @Override
-  public void tagFrequsGet(SSSocketCon sSCon, SSServPar parA) throws SSErr {
+  public SSServRetI tagFrequsGet(SSClientE clientType, SSServPar parA) throws SSErr {
     
     try{
       SSServCallerU.checkKey(parA);
       
       final SSTagFrequsGetPar par = (SSTagFrequsGetPar) parA.getFromJSON(SSTagFrequsGetPar.class);
       
-      sSCon.writeRetFullToClient(SSTagFrequsGetRet.get(tagFrequsGet(par)));
+      return SSTagFrequsGetRet.get(tagFrequsGet(par));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   

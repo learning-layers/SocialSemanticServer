@@ -23,21 +23,20 @@ package at.kc.tugraz.ss.recomm.datatypes.par;
 import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.adapter.socket.SSSocketCon;
+import java.net.Socket;
 
 public class SSRecommUpdateBulkPar extends SSServPar{
   
-  public String      realm     = null;
-  public SSSocketCon sSCon     = null;
+  public String      realm         = null;
   
   public SSRecommUpdateBulkPar(
     final SSUri               user,
     final String              realm,
-    final SSSocketCon         sSCon){
+    final Socket              clientSocket){
     
     super(SSServOpE.recommUpdateBulk, null, user);
     
-    this.realm = realm;
-    this.sSCon = sSCon;
+    this.realm        = realm;
+    this.clientSocket = clientSocket;
   }
 }

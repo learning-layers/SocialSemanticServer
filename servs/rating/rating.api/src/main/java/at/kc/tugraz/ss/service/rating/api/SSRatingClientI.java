@@ -20,12 +20,13 @@
 */
  package at.kc.tugraz.ss.service.rating.api;
 
-import at.tugraz.sss.adapter.socket.SSSocketCon;
+import at.tugraz.sss.serv.SSClientE;
 import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServRetI;
 
 public interface SSRatingClientI {
   
-  public void ratingSet         (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void ratingGet         (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void ratingOverallGet  (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public SSServRetI ratingSet         (final SSClientE clientType, final SSServPar parA) throws Exception;
+  public SSServRetI ratingGet         (final SSClientE clientType, final SSServPar parA) throws Exception;
+  public SSServRetI ratingOverallGet  (final SSClientE clientType, final SSServPar parA) throws Exception;
 }

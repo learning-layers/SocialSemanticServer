@@ -28,7 +28,6 @@ import at.tugraz.sss.servs.entity.datatypes.par.SSEntityGetPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUpdatePar;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.adapter.socket.SSSocketCon;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSEntityE;
@@ -49,6 +48,7 @@ import at.kc.tugraz.ss.service.user.datatypes.pars.SSUsersGetPar;
 import at.kc.tugraz.ss.service.user.datatypes.ret.SSUserEntityUsersGetRet;
 import at.kc.tugraz.ss.service.user.datatypes.ret.SSUsersGetRet;
 import at.kc.tugraz.ss.service.user.impl.functions.sql.SSUserSQLFct;
+import at.tugraz.sss.serv.SSClientE;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBSQL;
@@ -60,6 +60,7 @@ import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServReg;
+import at.tugraz.sss.serv.SSServRetI;
 
 public class SSUserImpl
 extends SSServImplWithDBA
@@ -181,7 +182,7 @@ implements
   }
   
   @Override
-  public void usersGet(SSSocketCon sSCon, SSServPar parA) throws SSErr {
+  public SSServRetI usersGet(SSClientE clientType, SSServPar parA) throws SSErr {
     
 //      if(SSAuthEnum.isSame(SSAuthServ.inst().getAuthType(), SSAuthEnum.wikiAuth)){
 //        returnObj.object =  new SSAuthWikiDbCon(new SSAuthWikiConf()).getUserList(); //TODO remove new SSAuthWikiConf() --> take it from config
@@ -192,10 +193,11 @@ implements
       
       final SSUsersGetPar par = (SSUsersGetPar) parA.getFromJSON(SSUsersGetPar.class);
       
-      sSCon.writeRetFullToClient(new SSUsersGetRet(usersGet(par)));
+      return new SSUsersGetRet(usersGet(par));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
 //      }
   }
@@ -364,7 +366,7 @@ implements
   }
   
   @Override
-  public void userEntityUsersGet(final SSSocketCon sSCon, final SSServPar parA) throws SSErr{
+  public SSServRetI userEntityUsersGet(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
       
@@ -372,10 +374,11 @@ implements
       
       final SSUserEntityUsersGetPar par = (SSUserEntityUsersGetPar) parA.getFromJSON(SSUserEntityUsersGetPar.class);
       
-      sSCon.writeRetFullToClient(SSUserEntityUsersGetRet.get(userEntityUsersGet(par)));
+      return SSUserEntityUsersGetRet.get(userEntityUsersGet(par));
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   

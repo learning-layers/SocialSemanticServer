@@ -20,8 +20,5 @@
 */
  package at.kc.tugraz.ss.serv.dataimport.api;
 
-import at.tugraz.sss.adapter.socket.SSSocketCon;
-import at.tugraz.sss.serv.SSServPar;
-
 public interface SSDataImportClientI {
 }

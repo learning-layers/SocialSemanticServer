@@ -20,11 +20,12 @@
 */
  package at.kc.tugraz.ss.service.filerepo.api;
 
-import at.tugraz.sss.adapter.socket.SSSocketCon;
+import at.tugraz.sss.serv.SSClientE;
 import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServRetI;
 
 public interface SSFileRepoClientI{
   
-  public void fileDownload              (final SSSocketCon sSCon, final SSServPar par) throws Exception;
-  public void fileUpload                (final SSSocketCon sSCon, final SSServPar par) throws Exception;
+  public SSServRetI fileDownload              (final SSClientE clientType, final SSServPar par) throws Exception;
+  public SSServRetI fileUpload                (final SSClientE clientType, final SSServPar par) throws Exception;
 }

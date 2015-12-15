@@ -20,9 +20,11 @@
 */
 package sss.serv.eval.api;
 
-import at.tugraz.sss.adapter.socket.SSSocketCon;
+import at.tugraz.sss.serv.SSClientE;
 import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServRetI;
 
 public interface SSEvalClientI {
-  public void evalLog(final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  
+  public SSServRetI evalLog(final SSClientE clientType, final SSServPar parA) throws Exception;
 }

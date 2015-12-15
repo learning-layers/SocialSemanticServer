@@ -20,6 +20,7 @@
  */
 package at.tugraz.sss.servs.ocd.impl;
 
+import at.tugraz.sss.serv.SSClientE;
 import at.tugraz.sss.servs.ocd.api.SSOCDClientI;
 import at.tugraz.sss.servs.ocd.api.SSOCDServerI;
 import at.tugraz.sss.serv.SSConfA;
@@ -31,7 +32,7 @@ import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.adapter.socket.SSSocketCon;
+import at.tugraz.sss.serv.SSServRetI;
 import at.tugraz.sss.servs.ocd.conf.SSOCDConf;
 import at.tugraz.sss.servs.ocd.datatypes.pars.SSOCDCreateCoverPar;
 import at.tugraz.sss.servs.ocd.datatypes.pars.SSOCDCreateGraphPar;
@@ -58,16 +59,20 @@ implements
   }
   
   @Override
-  public void ocdCreateGraph(SSSocketCon sSCon, SSServPar parA) throws SSErr {
+  public SSServRetI ocdCreateGraph(SSClientE clientType, SSServPar parA) throws SSErr {
     try{
       
 //TODO uncomment to turn on user authorization
       //SSServCallerU.checkKey(parA);
       final SSOCDCreateGraphPar par    = (SSOCDCreateGraphPar) parA.getFromJSON(SSOCDCreateGraphPar.class);
+      
       String response = ocdCreateGraph(par);
-      //sSCon.writeRetFullToClient(response, parA.op);
+      
+      return null;
+      
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -77,15 +82,17 @@ implements
   }
   
   @Override
-  public void ocdGetGraphs(SSSocketCon sSCon, SSServPar parA) throws SSErr {
+  public SSServRetI ocdGetGraphs(SSClientE clientType, SSServPar parA) throws SSErr {
     
     try{
       final SSOCDGetGraphsPar par = (SSOCDGetGraphsPar) parA.getFromJSON(SSOCDGetGraphsPar.class);
-      String response = ocdGetGraphs(par);
-      //sSCon.writeRetFullToClient(response, parA.op);
       
+      String response = ocdGetGraphs(par);
+      
+      return null;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -95,15 +102,18 @@ implements
   }
   
   @Override
-  public void ocdGetGraph(SSSocketCon sSCon, SSServPar parA) throws SSErr {
+  public SSServRetI ocdGetGraph(SSClientE clientType, SSServPar parA) throws SSErr {
     
     try{
       final SSOCDGetGraphPar par = (SSOCDGetGraphPar) parA.getFromJSON(SSOCDGetGraphPar.class);
+      
       String response = ocdGetGraph(par);
-      //sSCon.writeRetFullToClient(response, parA.op);
+      
+      return null;
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -113,16 +123,18 @@ implements
   }
   
   @Override
-  public void ocdDeleteGraph(SSSocketCon sSCon, SSServPar parA) throws SSErr {
+  public SSServRetI ocdDeleteGraph(SSClientE clientType, SSServPar parA) throws SSErr {
     
     try{
       
       final SSOCDDeleteGraphPar par = (SSOCDDeleteGraphPar) parA.getFromJSON(SSOCDDeleteGraphPar.class);
-      String response = ocdDeleteGraph(par);
-      //sSCon.writeRetFullToClient(response, parA.op);
       
+      String response = ocdDeleteGraph(par);
+      
+      return null;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -132,17 +144,20 @@ implements
   }
   
   @Override
-  public void ocdCreateCover(SSSocketCon sSCon, SSServPar parA) throws SSErr {
+  public SSServRetI ocdCreateCover(SSClientE clientType, SSServPar parA) throws SSErr {
     
     try{
       //TODO uncomment to turn on user authorization
       //SSServCallerU.checkKey(parA);
       final SSOCDCreateCoverPar par = (SSOCDCreateCoverPar) parA.getFromJSON(SSOCDCreateCoverPar.class);
+      
       String response = ocdCreateCover(par);
-      //sSCon.writeRetFullToClient(response, parA.op);
+      
+      return null;
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -153,7 +168,7 @@ implements
   }
   
   @Override
-  public void ocdGetCovers(SSSocketCon sSCon, SSServPar parA) throws SSErr {
+  public SSServRetI ocdGetCovers(SSClientE clientType, SSServPar parA) throws SSErr {
     throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
   }
   
@@ -163,7 +178,7 @@ implements
   }
   
   @Override
-  public void ocdDeleteCover(SSSocketCon sSCon, SSServPar parA) throws SSErr {
+  public SSServRetI ocdDeleteCover(SSClientE clientType, SSServPar parA) throws SSErr {
     throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
   }
   

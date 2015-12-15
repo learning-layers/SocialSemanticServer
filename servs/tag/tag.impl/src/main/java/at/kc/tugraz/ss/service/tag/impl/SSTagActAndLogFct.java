@@ -78,7 +78,7 @@ public class SSTagActAndLogFct {
     }catch(SSErr error){
       
       switch(error.code){
-        case servServerOpNotAvailable: SSLogU.warn(error.getMessage()); break;
+        case servServerNotAvailable: SSLogU.warn(error.getMessage()); break;
         default: SSServErrReg.regErrThrow(error);
       }
       
@@ -112,7 +112,7 @@ public class SSTagActAndLogFct {
     }catch(SSErr error){
       
       switch(error.code){
-        case servServerOpNotAvailable: SSLogU.warn(error.getMessage()); break;
+        case servServerNotAvailable: SSLogU.warn(error.getMessage()); break;
         default: SSServErrReg.regErrThrow(error);
       }
       
@@ -143,7 +143,7 @@ public class SSTagActAndLogFct {
     }catch(SSErr error){
       
       switch(error.code){
-        case servServerOpNotAvailable: SSLogU.warn(error.getMessage()); break;
+        case servServerNotAvailable: SSLogU.warn(error.getMessage()); break;
         default: SSServErrReg.regErrThrow(error);
       }
       
@@ -166,7 +166,7 @@ public class SSTagActAndLogFct {
     }catch(SSErr error){
       
       switch(error.code){
-        case servServerOpNotAvailable: SSLogU.warn(error.getMessage()); break;
+        case servServerNotAvailable: SSLogU.warn(error.getMessage()); break;
         default: SSServErrReg.regErrThrow(error);
       }
       

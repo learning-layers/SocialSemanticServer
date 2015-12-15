@@ -20,19 +20,20 @@
 */
 package at.kc.tugraz.ss.circle.api;
 
-import at.tugraz.sss.adapter.socket.SSSocketCon;
+import at.tugraz.sss.serv.SSClientE;
 import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServRetI;
 
 public interface SSCircleClientI{
 
-  public void circleGet             (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void circleEntitiesAdd     (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void circleUsersAdd        (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void circlesGet            (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void circleCreate          (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void circleEntitiesRemove  (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void circleUsersRemove     (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void circleRemove          (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void circleUsersInvite     (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void circleTypeChange      (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public SSServRetI circleGet             (final SSClientE clientType, final SSServPar parA) throws Exception;
+  public SSServRetI circleEntitiesAdd     (final SSClientE clientType, final SSServPar parA) throws Exception;
+  public SSServRetI circleUsersAdd        (final SSClientE clientType, final SSServPar parA) throws Exception;
+  public SSServRetI circlesGet            (final SSClientE clientType, final SSServPar parA) throws Exception;
+  public SSServRetI circleCreate          (final SSClientE clientType, final SSServPar parA) throws Exception;
+  public SSServRetI circleEntitiesRemove  (final SSClientE clientType, final SSServPar parA) throws Exception;
+  public SSServRetI circleUsersRemove     (final SSClientE clientType, final SSServPar parA) throws Exception;
+  public SSServRetI circleRemove          (final SSClientE clientType, final SSServPar parA) throws Exception;
+  public SSServRetI circleUsersInvite     (final SSClientE clientType, final SSServPar parA) throws Exception;
+  public SSServRetI circleTypeChange      (final SSClientE clientType, final SSServPar parA) throws Exception;
 }

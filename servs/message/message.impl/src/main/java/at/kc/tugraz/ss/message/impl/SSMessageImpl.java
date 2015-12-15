@@ -21,7 +21,6 @@
 package at.kc.tugraz.ss.message.impl;
 
 import at.tugraz.sss.serv.SSDateU;
-import at.tugraz.sss.adapter.socket.SSSocketCon;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
 import at.kc.tugraz.ss.message.api.SSMessageClientI;
@@ -35,6 +34,7 @@ import at.kc.tugraz.ss.message.datatypes.ret.SSMessagesGetRet;
 import at.kc.tugraz.ss.message.impl.fct.activity.SSMessageActivityFct;
 import at.kc.tugraz.ss.message.impl.fct.sql.SSMessageSQLFct;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.tugraz.sss.serv.SSClientE;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityGetPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUpdatePar;
 import at.tugraz.sss.serv.SSServPar;
@@ -52,6 +52,7 @@ import at.tugraz.sss.serv.SSQueryResultPage;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.SSServReg;
+import at.tugraz.sss.serv.SSServRetI;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.caller.SSServCaller;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntitySharePar;
@@ -190,7 +191,7 @@ implements
   }
   
   @Override
-  public void messagesGet(final SSSocketCon sSCon, final SSServPar parA) throws SSErr {
+  public SSServRetI messagesGet(final SSClientE clientType, final SSServPar parA) throws SSErr {
     
     try{
       
@@ -198,10 +199,11 @@ implements
       
       final SSMessagesGetPar par = (SSMessagesGetPar) parA.getFromJSON(SSMessagesGetPar.class);
       
-      sSCon.writeRetFullToClient(SSMessagesGetRet.get(messagesGet(par), SSDateU.dateAsLong()));
+      return SSMessagesGetRet.get(messagesGet(par), SSDateU.dateAsLong());
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   
@@ -261,7 +263,7 @@ implements
   }
   
   @Override
-  public void messageSend(final SSSocketCon sSCon, final SSServPar parA) throws SSErr {
+  public SSServRetI messageSend(final SSClientE clientType, final SSServPar parA) throws SSErr {
     
     try{
       
@@ -270,7 +272,7 @@ implements
       final SSMessageSendPar par        = (SSMessageSendPar) parA.getFromJSON(SSMessageSendPar.class);
       final SSUri            messageURI = messageSend(par);
       
-      sSCon.writeRetFullToClient(SSMessageSendRet.get(messageURI));
+      final SSMessageSendRet ret = SSMessageSendRet.get(messageURI);
       
       SSMessageActivityFct.messageSend(
         par.user,
@@ -279,8 +281,10 @@ implements
         par.message,
         par.shouldCommit);
       
+      return ret;
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
+      return null;
     }
   }
   

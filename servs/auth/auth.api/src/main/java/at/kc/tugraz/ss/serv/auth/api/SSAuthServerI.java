@@ -23,18 +23,16 @@
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthCheckCredPar;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthCheckKeyPar;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthRegisterUserPar;
+import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthUsersFromCSVFileAddPar;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServPar;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.ret.SSAuthCheckCredRet;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSServServerI;
 
 public interface SSAuthServerI extends SSServServerI{
 
-  public SSAuthCheckCredRet  authCheckCred           (final SSAuthCheckCredPar    par) throws SSErr;
-  public SSUri               authCheckKey            (final SSAuthCheckKeyPar     par) throws SSErr;
-  public SSUri               authRegisterUser        (final SSAuthRegisterUserPar par) throws SSErr;
-  
-  public void                authUsersFromCSVFileAdd (final SSServPar parA) throws SSErr;
-  
+  public SSAuthCheckCredRet  authCheckCred           (final SSAuthCheckCredPar           par) throws SSErr;
+  public SSUri               authCheckKey            (final SSAuthCheckKeyPar            par) throws SSErr;
+  public SSUri               authRegisterUser        (final SSAuthRegisterUserPar        par) throws SSErr;
+  public void                authUsersFromCSVFileAdd (final SSAuthUsersFromCSVFileAddPar par) throws SSErr;
 }

@@ -20,17 +20,18 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.entity.api;
 
-import at.tugraz.sss.adapter.socket.SSSocketCon;
+import at.tugraz.sss.serv.SSClientE;
 import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServRetI;
 
 public interface SSEntityClientI {
 
-  public void entityTypesGet        (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void entitiesGet           (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void entityUpdate          (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void entityGet             (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void entityCopy            (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void entityShare           (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void entityUnpublicize     (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void entitiesAccessibleGet (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public SSServRetI entityTypesGet        (final SSClientE clientType, final SSServPar parA) throws Exception;
+  public SSServRetI entitiesGet           (final SSClientE clientType, final SSServPar parA) throws Exception;
+  public SSServRetI entityUpdate          (final SSClientE clientType, final SSServPar parA) throws Exception;
+  public SSServRetI entityGet             (final SSClientE clientType, final SSServPar parA) throws Exception;
+  public SSServRetI entityCopy            (final SSClientE clientType, final SSServPar parA) throws Exception;
+  public SSServRetI entityShare           (final SSClientE clientType, final SSServPar parA) throws Exception;
+  public SSServRetI entityUnpublicize     (final SSClientE clientType, final SSServPar parA) throws Exception;
+  public SSServRetI entitiesAccessibleGet (final SSClientE clientType, final SSServPar parA) throws Exception;
 }

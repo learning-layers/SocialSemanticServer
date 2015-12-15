@@ -20,12 +20,13 @@
 */
 package at.kc.tugraz.ss.activity.api;
 
-import at.tugraz.sss.adapter.socket.SSSocketCon;
+import at.tugraz.sss.serv.SSClientE;
 import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServRetI;
 
 public interface SSActivityClientI{
 
-  public void activityAdd      (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void activitiesGet    (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
-  public void activityTypesGet (final SSSocketCon sSCon, final SSServPar parA) throws Exception;
+  public SSServRetI activityAdd      (final SSClientE clientType, final SSServPar parA) throws Exception;
+  public SSServRetI activitiesGet    (final SSClientE clientType, final SSServPar parA) throws Exception;
+  public SSServRetI activityTypesGet (final SSClientE clientType, final SSServPar parA) throws Exception;
 }

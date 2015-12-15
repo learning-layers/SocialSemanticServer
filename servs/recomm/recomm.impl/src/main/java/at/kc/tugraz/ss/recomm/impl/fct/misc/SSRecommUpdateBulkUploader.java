@@ -30,17 +30,22 @@ import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommUpdateBulkPar;
 import at.kc.tugraz.ss.recomm.datatypes.ret.SSRecommUpdateBulkRet;
 import at.kc.tugraz.ss.recomm.impl.fct.sql.SSRecommSQLFct;
 import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.tugraz.sss.adapter.socket.SSSocketU;
 import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServImplStartA;
 import engine.EntityRecommenderEngine;
+import java.io.DataInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 
 public class SSRecommUpdateBulkUploader extends SSServImplStartA{
   
   private final SSRecommUpdateBulkPar       par;
+  private final DataInputStream             dataInputStream;   
+  private final OutputStreamWriter          outputStreamWriter;
   private       SSRecommSQLFct              sqlFct;
   private       FileOutputStream            fileOutputStream  = null;
   private       byte[]                      fileChunk         = null;
@@ -52,8 +57,10 @@ public class SSRecommUpdateBulkUploader extends SSServImplStartA{
     
     super(recommConf);
     
-    this.par               = par;
-    this.dataCSVPath       = SSFileU.dirWorkingDataCsv();
+    this.par                = par;
+    this.dataCSVPath        = SSFileU.dirWorkingDataCsv();
+    this.dataInputStream    = new DataInputStream   (par.clientSocket.getInputStream());
+    this.outputStreamWriter = new OutputStreamWriter(par.clientSocket.getOutputStream());
   }
   
   @Override
@@ -78,11 +85,11 @@ public class SSRecommUpdateBulkUploader extends SSServImplStartA{
       
       this.fileOutputStream = SSFileU.openOrCreateFileWithPathForWrite (dataCSVPath + userRealmEngine.realm + SSStrU.dot + SSFileExtE.txt);
       
-      sendAnswer();
+      SSSocketU.writeRetFullToClient(outputStreamWriter, SSRecommUpdateBulkRet.get(true));
       
       while(true){
         
-        fileChunk = par.sSCon.readFileChunkFromClient();
+        fileChunk = SSSocketU.readFileChunkFromClient(dataInputStream);
         
         if(fileChunk.length != 0){
           
@@ -93,7 +100,7 @@ public class SSRecommUpdateBulkUploader extends SSServImplStartA{
         
         fileOutputStream.close();
         
-        sendAnswer();
+        SSSocketU.writeRetFullToClient(outputStreamWriter, SSRecommUpdateBulkRet.get(true));
         
         dbSQL.commit(par.shouldCommit);
         return;
@@ -103,7 +110,7 @@ public class SSRecommUpdateBulkUploader extends SSServImplStartA{
       SSServErrReg.regErr(error1);
       
       try{
-        par.sSCon.writeErrorFullToClient(SSServErrReg.getServiceImplErrors(), par.op);
+        SSSocketU.writeErrorFullToClient(outputStreamWriter, SSServErrReg.getServiceImplErrors(), par.op);
       }catch(Exception error2){
         SSServErrReg.regErr(error2);
       }
@@ -129,9 +136,5 @@ public class SSRecommUpdateBulkUploader extends SSServImplStartA{
   @Override
   protected void finalizeImpl() throws Exception{
     finalizeThread(true);
-  }
-  
-  private void sendAnswer() throws Exception{
-    par.sSCon.writeRetFullToClient(SSRecommUpdateBulkRet.get(true));
   }
 }
