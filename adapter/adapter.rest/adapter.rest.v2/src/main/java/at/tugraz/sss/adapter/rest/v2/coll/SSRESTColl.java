@@ -20,7 +20,7 @@
  */
 package at.tugraz.sss.adapter.rest.v2.coll;
 
-import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.kc.tugraz.ss.conf.conf.SSVocConf;
 import at.kc.tugraz.ss.service.coll.api.SSCollClientI;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollCumulatedTagsGetPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollGetPar;

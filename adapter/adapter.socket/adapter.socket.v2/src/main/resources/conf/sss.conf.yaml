@@ -16,8 +16,6 @@ dbNoSQL: !!at.tugraz.sss.serv.SSDBNoSQLConf
   uri: SSS_SOLR_HOST
   username: 
   password: 
-voc:
-  use: true
 auth: 
   authType: SSS_AUTH_TYPE #noAuth, csvFileAuth, oidc
   initAtStartUp: true

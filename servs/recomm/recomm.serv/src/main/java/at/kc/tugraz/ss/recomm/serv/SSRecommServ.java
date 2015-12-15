@@ -34,10 +34,10 @@ import at.kc.tugraz.ss.recomm.impl.SSRecommImpl;
 import at.kc.tugraz.ss.recomm.serv.task.SSRecommUpdateBulkTask;
 import at.kc.tugraz.ss.recomm.serv.task.SSRecommUpdateBulkUserRealmsFromCirclesTask;
 import at.kc.tugraz.ss.recomm.serv.task.SSRecommUpdateBulkUserRealmsFromConfTask;
-import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.kc.tugraz.ss.conf.conf.SSVocConf;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSServImplA;
-import at.tugraz.sss.serv.caller.SSServCaller;
+
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSServContainerI;
 import java.util.List;

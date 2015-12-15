@@ -5,7 +5,7 @@
  */
 package at.tugraz.sss.adapter.rest.v2.image;
 
-import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.kc.tugraz.ss.conf.conf.SSVocConf;
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSVarNames;

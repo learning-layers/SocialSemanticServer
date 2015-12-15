@@ -18,7 +18,11 @@
   
   <dependencies>
       
-    
+    <dependency>
+      <groupId>sss.serv</groupId>
+      <artifactId>serv.conf</artifactId>
+      <version>${project.version}</version>
+    </dependency>
     
     <dependency>
       <groupId>sss.servs</groupId>

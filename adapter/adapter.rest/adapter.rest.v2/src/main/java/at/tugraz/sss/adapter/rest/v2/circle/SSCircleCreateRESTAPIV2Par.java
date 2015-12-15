@@ -23,7 +23,7 @@ package at.tugraz.sss.adapter.rest.v2.circle;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.SSUri;
-import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.kc.tugraz.ss.conf.conf.SSVocConf;
 import at.tugraz.sss.serv.SSCircleE;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;

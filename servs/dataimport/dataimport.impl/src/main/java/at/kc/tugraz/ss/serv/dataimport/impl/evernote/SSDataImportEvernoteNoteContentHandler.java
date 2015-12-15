@@ -23,7 +23,7 @@ package at.kc.tugraz.ss.serv.dataimport.impl.evernote;
 import at.kc.tugraz.ss.serv.dataimport.conf.SSDataImportConf;
 import at.kc.tugraz.ss.serv.jobs.evernote.api.SSEvernoteServerI;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteResourceByHashGetPar;
-import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.kc.tugraz.ss.conf.conf.SSVocConf;
 import at.kc.tugraz.ss.service.filerepo.api.SSFileRepoServerI;
 import at.tugraz.sss.serv.SSFileExtE;
 import at.tugraz.sss.serv.SSFileU;
@@ -33,7 +33,7 @@ import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSServErrReg;
-import at.tugraz.sss.serv.caller.SSServCaller;
+
 import at.tugraz.sss.servs.file.datatype.par.SSEntityFileAddPar;
 import com.evernote.clients.NoteStoreClient;
 import com.evernote.edam.type.Note;
@@ -76,8 +76,8 @@ public class SSDataImportEvernoteNoteContentHandler{
     
     try{
       
-      xhtmlFilePath    = SSDataImportConf.getLocalWorkPath() + SSVocConf.fileIDFromSSSURI(SSServCaller.vocURICreate(SSFileExtE.xhtml));
-      fileUri          = SSServCaller.vocURICreate                  (SSFileExtE.pdf);
+      xhtmlFilePath    = SSDataImportConf.getLocalWorkPath() + SSVocConf.fileIDFromSSSURI(SSVocConf.vocURICreate(SSFileExtE.xhtml));
+      fileUri          = SSVocConf.vocURICreate                  (SSFileExtE.pdf);
       pdfFilePath      = SSDataImportConf.getLocalWorkPath() + SSVocConf.fileIDFromSSSURI (fileUri);
 
       SSFileU.writeStr(note.getContent(), xhtmlFilePath);
@@ -525,7 +525,7 @@ public class SSDataImportEvernoteNoteContentHandler{
 
             hashEndIndex = tmpLine.indexOf            ("\"", hashIndex + 6);
             hash         = tmpLine.substring          (hashIndex + 6, hashEndIndex);
-            fileURI      = SSServCaller.vocURICreate  (SSMimeTypeE.fileExtForMimeType(mimeType));
+            fileURI      = SSVocConf.vocURICreate  (SSMimeTypeE.fileExtForMimeType(mimeType));
             fileID       = SSVocConf.fileIDFromSSSURI (fileURI);
             
             resource =

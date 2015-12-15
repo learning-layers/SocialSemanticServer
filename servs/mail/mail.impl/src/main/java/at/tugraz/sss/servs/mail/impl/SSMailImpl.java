@@ -31,6 +31,7 @@ import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServImplWithDBA;
+import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.servs.mail.SSMailClientI;
 import at.tugraz.sss.servs.mail.SSMailServerI;
 import at.tugraz.sss.servs.mail.conf.SSMailConf;

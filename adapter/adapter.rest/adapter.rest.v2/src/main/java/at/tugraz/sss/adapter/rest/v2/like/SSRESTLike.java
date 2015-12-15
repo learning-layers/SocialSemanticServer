@@ -23,7 +23,7 @@ package at.tugraz.sss.adapter.rest.v2.like;
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
 import at.kc.tugraz.ss.like.datatypes.par.SSLikeUserSetPar;
 import at.kc.tugraz.ss.like.datatypes.ret.SSLikeUserSetRet;
-import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.kc.tugraz.ss.conf.conf.SSVocConf;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSVarNames;
 import com.wordnik.swagger.annotations.Api;

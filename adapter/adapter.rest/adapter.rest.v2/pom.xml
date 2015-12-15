@@ -150,67 +150,91 @@
     
     <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>livingdocument.datatype</artifactId>
+      <artifactId>learnep.api</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>image.datatype</artifactId>
+      <artifactId>livingdocument.api</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>comment.datatypes</artifactId>
+      <artifactId>rating.api</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>entity.datatypes</artifactId>
+      <artifactId>flag.api</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>circle.datatypes</artifactId>
+      <artifactId>image.api</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>like.datatypes</artifactId>
+      <artifactId>comment.api</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>video.datatypes</artifactId>
+      <artifactId>activity.api</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>appstacklayout.datatypes</artifactId>
+      <artifactId>entity.api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>circle.api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>like.api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>video.api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>appstacklayout.api</artifactId>
       <version>${project.version}</version>
     </dependency>
     
      <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>app.datatypes</artifactId>
+      <artifactId>app.api</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>message.datatypes</artifactId>
+      <artifactId>message.api</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>dataimport.datatypes</artifactId>
+      <artifactId>dataimport.api</artifactId>
       <version>${project.version}</version>
     </dependency>
   
@@ -233,17 +257,22 @@
     </dependency>
     
     <dependency>
-      <groupId>sss.adapter.rest</groupId>
-      <artifactId>adapter.rest.conf</artifactId>
+      <groupId>sss.servs</groupId>
+      <artifactId>eval.api</artifactId>
       <version>${project.version}</version>
     </dependency> 
     
     <dependency>
-      <groupId>sss.serv</groupId>
-      <artifactId>serv.custom.caller</artifactId>
+      <groupId>sss.servs</groupId>
+      <artifactId>category.api</artifactId>
       <version>${project.version}</version>
     </dependency> 
     
+    <dependency>
+      <groupId>sss.adapter.rest</groupId>
+      <artifactId>adapter.rest.conf</artifactId>
+      <version>${project.version}</version>
+    </dependency> 
     
     
     <!-- TOMCAT start --> 

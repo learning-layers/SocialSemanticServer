@@ -21,7 +21,7 @@
 package at.tugraz.sss.adapter.rest.v2.disc;
 
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
-import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.kc.tugraz.ss.conf.conf.SSVocConf;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscEntryAcceptPar;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscEntryAddFromClientPar;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscEntryAddPar;

@@ -25,7 +25,6 @@ import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
 import at.kc.tugraz.sss.flag.datatypes.par.SSFlagsSetPar;
 import at.kc.tugraz.sss.flag.datatypes.ret.SSFlagsGetRet;
 import at.kc.tugraz.sss.flag.datatypes.ret.SSFlagsSetRet;
-import at.tugraz.sss.serv.SSServOpE;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import javax.ws.rs.Consumes;

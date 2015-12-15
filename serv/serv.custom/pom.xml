@@ -9,7 +9,6 @@
     <artifactId>serv.custom</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>serv.custom.caller</module>
         <module>serv.custom.names</module>
         <module>serv.custom.ops</module>
     </modules>

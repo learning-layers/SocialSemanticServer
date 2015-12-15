@@ -36,7 +36,7 @@ import at.kc.tugraz.ss.activity.datatypes.ret.SSActivitiesGetRet;
 import at.kc.tugraz.ss.activity.datatypes.ret.SSActivityTypesGetRet;
 import at.kc.tugraz.ss.activity.datatypes.ret.SSActivityAddRet;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
-import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.kc.tugraz.ss.conf.conf.SSVocConf;
 import at.tugraz.sss.serv.SSClientE;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUpdatePar;
 import at.tugraz.sss.serv.SSEntity;
@@ -54,7 +54,7 @@ import at.tugraz.sss.serv.SSEntityContext;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSServImplWithDBA;
-import at.tugraz.sss.serv.caller.SSServCaller;
+
 import at.tugraz.sss.util.SSServCallerU;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -414,7 +414,7 @@ implements
         entityServ.entityUpdate(
           new SSEntityUpdatePar(
             par.user,
-            SSServCaller.vocURICreate(),
+            SSVocConf.vocURICreate(),
             SSEntityE.activity,
             SSLabel.get(SSStrU.toStr(par.type)), //label,
             null, //description,

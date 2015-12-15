@@ -32,7 +32,7 @@ import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.servs.entity.datatypes.ret.SSEntityUpdateRet;
-import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.kc.tugraz.ss.conf.conf.SSVocConf;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserEntityUsersGetPar;
 import at.kc.tugraz.ss.service.user.datatypes.ret.SSUserEntityUsersGetRet;
 import at.kc.tugraz.sss.comment.datatypes.par.SSCommentsAddPar;

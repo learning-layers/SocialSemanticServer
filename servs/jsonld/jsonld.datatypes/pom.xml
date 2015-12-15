@@ -16,12 +16,11 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
   
-  
   <dependencies>
   
-     <dependency>
+    <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>serv.reg</artifactId>
+      <artifactId>serv.entities</artifactId>
       <version>${project.version}</version>
     </dependency>
 

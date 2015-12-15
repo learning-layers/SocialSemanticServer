@@ -22,11 +22,11 @@ package at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.access;
 
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpLockRemovePar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.impl.SSLearnEpImpl;
-import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.kc.tugraz.ss.conf.conf.SSVocConf;
 import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServImplStartA;
-import at.tugraz.sss.serv.caller.SSServCaller;
+
 import at.tugraz.sss.serv.SSServErrReg;
 import java.util.TimerTask;
 

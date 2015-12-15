@@ -23,7 +23,7 @@ package at.tugraz.sss.adapter.rest.v2.video;
 import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
 import at.tugraz.sss.serv.SSUri;
-import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.kc.tugraz.ss.conf.conf.SSVocConf;
 import at.kc.tugraz.sss.video.datatypes.par.SSVideoAnnotationsSetPar;
 import at.kc.tugraz.sss.video.datatypes.par.SSVideoUserAddFromClientPar;
 import at.kc.tugraz.sss.video.datatypes.par.SSVideoUserAddPar;

@@ -12,8 +12,14 @@
   <dependencies>
     
     <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>eval.datatypes</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>serv.custom.caller</artifactId>
+      <artifactId>serv.impl</artifactId>
       <version>${project.version}</version>
     </dependency>
     

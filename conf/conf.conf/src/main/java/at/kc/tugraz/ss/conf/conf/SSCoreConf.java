@@ -21,7 +21,6 @@
 package at.kc.tugraz.ss.conf.conf;
 
 import sss.serv.eval.conf.SSEvalConf;
-import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
 import at.kc.tugraz.ss.serv.auth.conf.SSAuthConf;
 import at.kc.tugraz.ss.activity.conf.SSActivityConf;
 import at.kc.tugraz.ss.category.conf.SSCategoryConf;

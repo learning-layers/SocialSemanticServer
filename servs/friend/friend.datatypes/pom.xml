@@ -23,14 +23,7 @@
       <artifactId>tag.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>
-   
-    
-    <dependency>
-      <groupId>sss.serv</groupId>
-      <artifactId>serv.reg</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    
+
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>

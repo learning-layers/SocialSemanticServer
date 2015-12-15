@@ -13,11 +13,11 @@
     
   <dependencies>
     
-<!--    <dependency>
+    <dependency>
       <groupId>sss.serv</groupId>
       <artifactId>serv.db.serv</artifactId>
       <version>${project.version}</version>
-    </dependency>-->
+    </dependency>
     
     <dependency>
       <groupId>sss.serv</groupId>

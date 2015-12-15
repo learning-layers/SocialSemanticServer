@@ -21,15 +21,8 @@
 package at.tugraz.sss.adapter.socket;
 
 import at.tugraz.sss.serv.SSEncodingU;
-import at.tugraz.sss.serv.SSErr;
-import at.tugraz.sss.serv.SSJSONU;
 import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSObjU;
-import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.serv.SSServRetI;
-import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.adapter.socket.SSSocketU;
-import at.tugraz.sss.serv.SSVarNames;
 import java.io.BufferedWriter;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -38,9 +31,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class SSSocketCon{
   

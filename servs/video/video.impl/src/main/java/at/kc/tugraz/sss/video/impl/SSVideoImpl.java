@@ -23,7 +23,7 @@ package at.kc.tugraz.sss.video.impl;
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesAddPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
-import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.kc.tugraz.ss.conf.conf.SSVocConf;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityGetPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUpdatePar;
 import at.kc.tugraz.ss.service.filerepo.api.SSFileRepoServerI;
@@ -34,7 +34,7 @@ import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSServImplWithDBA;
-import at.tugraz.sss.serv.caller.SSServCaller;
+
 import at.tugraz.sss.util.SSServCallerU;
 import at.kc.tugraz.sss.video.api.SSVideoClientI;
 import at.kc.tugraz.sss.video.api.SSVideoServerI;
@@ -324,13 +324,13 @@ implements
       final SSUri videoUri;
       
       if(par.uuid != null){
-        videoUri = SSServCaller.vocURICreateFromId(par.uuid);
+        videoUri = SSVocConf.vocURICreateFromId(par.uuid);
       }else{
         
         if(par.link != null){
           videoUri = par.link;
         }else{
-          videoUri = SSServCaller.vocURICreate();
+          videoUri = SSVocConf.vocURICreate();
         }
       }
       
@@ -595,7 +595,7 @@ implements
         entityServ.entityUpdate(
           new SSEntityUpdatePar(
             par.user,
-            SSServCaller.vocURICreate(), //entity
+            SSVocConf.vocURICreate(), //entity
             SSEntityE.videoAnnotation, //type,
             par.label, //label
             par.description,//description,

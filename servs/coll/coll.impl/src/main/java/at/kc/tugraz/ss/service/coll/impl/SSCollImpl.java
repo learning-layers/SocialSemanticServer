@@ -25,7 +25,7 @@ import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesAddPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePubURIGetPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
-import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.kc.tugraz.ss.conf.conf.SSVocConf;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntitiesGetPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityGetPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUpdatePar;
@@ -53,7 +53,7 @@ import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntriesDeletePar;
 import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollUserEntriesAddRet;
 import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollUserEntriesDeleteRet;
 import at.tugraz.sss.serv.SSUserRelationGathererI;
-import at.tugraz.sss.serv.caller.SSServCaller;
+
 import at.tugraz.sss.util.SSServCallerU;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollCumulatedTagsGetPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserHierarchyGetPar;
@@ -875,7 +875,7 @@ implements
         entityServ.entityUpdate(
           new SSEntityUpdatePar(
             par.forUser,
-            SSServCaller.vocURICreate(), //entity
+            SSVocConf.vocURICreate(), //entity
             SSEntityE.coll, //type,
             SSLabel.get(SSStrU.valueRoot), //label
             null, //description,

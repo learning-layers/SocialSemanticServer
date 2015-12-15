@@ -67,7 +67,7 @@ import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntitiesGetPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityGetPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUpdatePar;
-import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.kc.tugraz.ss.conf.conf.SSVocConf;
 import at.kc.tugraz.ss.service.user.api.SSUserServerI;
 import at.kc.tugraz.ss.service.user.datatypes.SSUser;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUsersGetPar;
@@ -84,7 +84,6 @@ import at.tugraz.sss.serv.SSDescribeEntityI;
 import at.tugraz.sss.serv.SSEntityCopyPar;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
 import at.tugraz.sss.serv.SSServImplWithDBA;
-import at.tugraz.sss.serv.caller.SSServCaller;
 import at.tugraz.sss.util.SSServCallerU;
 import java.util.ArrayList;
 import java.util.List;
@@ -564,7 +563,7 @@ implements
         entityServ.entityUpdate(
           new SSEntityUpdatePar(
             par.user,
-            SSServCaller.vocURICreate(),
+            SSVocConf.vocURICreate(),
             SSEntityE.circle,
             par.label,
             par.description,
@@ -1385,7 +1384,7 @@ implements
         return circleURI;
       }
       
-      circleURI = SSServCaller.vocURICreate();
+      circleURI = SSVocConf.vocURICreate();
       
       sql.addEntityIfNotExists(
         circleURI,
@@ -1444,7 +1443,7 @@ implements
       
       dbSQL.startTrans(par.shouldCommit);
       
-      tmpPublicCircleURI = SSServCaller.vocURICreate();
+      tmpPublicCircleURI = SSVocConf.vocURICreate();
       
       sql.addEntityIfNotExists(
         tmpPublicCircleURI,

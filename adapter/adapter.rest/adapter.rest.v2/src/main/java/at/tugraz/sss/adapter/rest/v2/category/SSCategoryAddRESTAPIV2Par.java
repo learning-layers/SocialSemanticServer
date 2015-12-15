@@ -21,7 +21,7 @@
 package at.tugraz.sss.adapter.rest.v2.category;
 
 import at.kc.tugraz.ss.category.datatypes.SSCategoryLabel;
-import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.kc.tugraz.ss.conf.conf.SSVocConf;
 import at.tugraz.sss.serv.SSSpaceE;
 import at.tugraz.sss.serv.SSUri;
 import com.wordnik.swagger.annotations.ApiModel;

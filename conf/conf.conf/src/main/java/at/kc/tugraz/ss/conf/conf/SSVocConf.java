@@ -18,14 +18,20 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.serv.voc.conf;
+package at.kc.tugraz.ss.conf.conf;
 
 import at.tugraz.sss.serv.SSCoreServConfA;
+import at.tugraz.sss.serv.SSErr;
+import at.tugraz.sss.serv.SSFileExtE;
+import at.tugraz.sss.serv.SSIDU;
+import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 
 public class SSVocConf extends SSCoreServConfA{
 
+  public static final SSVocConf inst = new SSVocConf();
+  
   public static final String sssUri                         = "http://sss.eu/";
   public static final String systemUserLabel                = "system";
   public static final String systemEmailPostFix             = "know-center.at";
@@ -42,13 +48,34 @@ public class SSVocConf extends SSCoreServConfA{
   public static final String restAPIResourceFile            = "files/files/";
   public static final String restAPIPathFileDownloadPublic  = "download/public/";
   
-  public static       SSUri systemUserUri                   = null;
+  public static SSUri systemUserUri = null;
   
-  public static SSVocConf copy(final SSVocConf orig){
+  public SSVocConf(){
+    
+    try{
+      systemUserUri = SSUri.get(vocURIPrefixGet() + systemUserLabel);
+    }catch(SSErr error){
+      SSLogU.err(error);
+    }
+  }
+  
+  public static SSVocConf copy(final SSVocConf orig) throws SSErr{
     
     final SSVocConf copy = (SSVocConf) SSCoreServConfA.copy(orig, new SSVocConf());
     
     return copy;
+  }
+  
+  private static SSUri vocURIPrefixGet() throws SSErr{
+    return (SSUri) SSUri.get(SSVocConf.sssUri);
+  }
+  
+  public static SSUri vocURICreate() throws SSErr{
+    return SSUri.get(vocURIPrefixGet() + SSIDU.uniqueID());
+  }
+  
+  public static SSUri vocURICreate(final SSFileExtE fileExt) throws SSErr{
+    return SSUri.get(vocURIPrefixGet() + SSIDU.uniqueID() + SSStrU.dot + fileExt.toString());
   }
   
   public static String fileIDFromSSSURI(final SSUri uri){
@@ -60,5 +87,9 @@ public class SSVocConf extends SSCoreServConfA{
     }
     
     return result.substring(result.lastIndexOf(SSStrU.slash) + 1);
+  }
+  
+  public static SSUri vocURICreateFromId(final String id) throws Exception{
+    return SSUri.get(vocURIPrefixGet() + id);
   }
 }

@@ -25,5 +25,6 @@ import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSServServerI;
 
 public interface SSJSONLDServerI extends SSServServerI{
+  
   public Object jsonLD(final SSJSONLDPar par) throws SSErr;
 }

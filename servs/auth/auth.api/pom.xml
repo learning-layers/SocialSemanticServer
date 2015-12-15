@@ -18,16 +18,16 @@
   <dependencies>
     
     <dependency>
-      <groupId>sss.servs</groupId>
-      <artifactId>auth.datatypes</artifactId>
+      <groupId>sss.serv</groupId>
+      <artifactId>serv.impl</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
-      <groupId>sss.serv</groupId>
-      <artifactId>serv.custom.caller</artifactId>
+      <groupId>sss.servs</groupId>
+      <artifactId>auth.datatypes</artifactId>
       <version>${project.version}</version>
-    </dependency> 
+    </dependency>
     
     <dependency>
       <groupId>junit</groupId>

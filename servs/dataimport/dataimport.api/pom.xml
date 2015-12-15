@@ -30,8 +30,8 @@
     </dependency> 
       
     <dependency>
-      <groupId>sss.serv</groupId>
-      <artifactId>serv.custom.caller</artifactId>
+      <groupId>sss.servs</groupId>
+      <artifactId>eval.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency> 
     

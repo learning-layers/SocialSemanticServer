@@ -44,7 +44,7 @@ public class SSDBSQL extends SSServContainerI{
     
     this.conf = SSCoreConf.instGet().getDbSQL();
     
-    SSServReg.inst.regServ(this);
+//    SSServReg.inst.regServ(this);
     
     return this;
   }

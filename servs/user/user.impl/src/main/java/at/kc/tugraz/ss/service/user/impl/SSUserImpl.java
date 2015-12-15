@@ -34,9 +34,9 @@ import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSServImplWithDBA;
-import at.tugraz.sss.serv.caller.SSServCaller;
+
 import at.tugraz.sss.util.SSServCallerU;
-import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.kc.tugraz.ss.conf.conf.SSVocConf;
 import at.kc.tugraz.ss.service.user.api.*;
 import at.kc.tugraz.ss.service.user.datatypes.SSUser;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserAddPar;
@@ -291,7 +291,7 @@ implements
         tmpLabel = SSLabel.get(SSVocConf.systemUserLabel);
         tmpEmail = SSVocConf.systemUserEmail;
       }else{
-        userUri  = SSServCaller.vocURICreate();
+        userUri  = SSVocConf.vocURICreate();
         tmpLabel = par.label;
         tmpEmail = par.email;
       }

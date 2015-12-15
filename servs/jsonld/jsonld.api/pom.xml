@@ -19,14 +19,14 @@
   <dependencies>
     
     <dependency>
-      <groupId>sss.servs</groupId>
-      <artifactId>jsonld.datatypes</artifactId>
+      <groupId>sss.serv</groupId>
+      <artifactId>serv.impl</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
-      <groupId>sss.serv</groupId>
-      <artifactId>serv.reg</artifactId>
+      <groupId>sss.servs</groupId>
+      <artifactId>jsonld.datatypes</artifactId>
       <version>${project.version}</version>
     </dependency>
     

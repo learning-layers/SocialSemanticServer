@@ -21,12 +21,11 @@
 package at.tugraz.sss.adapter.rest.v2.rating;
 
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
-import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.kc.tugraz.ss.conf.conf.SSVocConf;
 import at.kc.tugraz.ss.service.rating.datatypes.pars.SSRatingOverallGetPar;
 import at.kc.tugraz.ss.service.rating.datatypes.pars.SSRatingSetPar;
 import at.kc.tugraz.ss.service.rating.datatypes.ret.SSRatingOverallGetRet;
 import at.kc.tugraz.ss.service.rating.datatypes.ret.SSRatingSetRet;
-import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSVarNames;
 import com.wordnik.swagger.annotations.Api;

@@ -21,6 +21,7 @@
 package at.kc.tugraz.ss.service.disc.impl.fct.op;
 
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
+import at.kc.tugraz.ss.conf.conf.SSVocConf;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityGetPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUpdatePar;
@@ -29,7 +30,7 @@ import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSLabel;
-import at.tugraz.sss.serv.caller.SSServCaller;
+
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscEntryAddPar;
 import at.kc.tugraz.ss.service.disc.impl.SSDiscSQLFct;
 import at.tugraz.sss.serv.SSErr;
@@ -65,7 +66,7 @@ public class SSDiscUserEntryAddFct{
         entityServ.entityUpdate(
           new SSEntityUpdatePar(
             userUri,
-            SSServCaller.vocURICreate(),
+            SSVocConf.vocURICreate(),
             discType, //type,
             discLabel, //label
             description, //description,
@@ -120,7 +121,7 @@ public class SSDiscUserEntryAddFct{
         entityServ.entityUpdate(
           new SSEntityUpdatePar(
             userUri,
-            SSServCaller.vocURICreate(),
+            SSVocConf.vocURICreate(),
             discEntryType, //type,
             null, //label
             null, //description,

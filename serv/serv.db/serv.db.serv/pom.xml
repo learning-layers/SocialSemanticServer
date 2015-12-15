@@ -25,13 +25,13 @@
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>serv.impl</artifactId>
+      <artifactId>serv.container</artifactId>
       <version>${project.version}</version>
     </dependency> 
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>serv.reg</artifactId>
+      <artifactId>serv.entities</artifactId>
       <version>${project.version}</version>
     </dependency> 
     
@@ -41,6 +41,12 @@
       <version>${project.version}</version>
     </dependency>
     
+    <dependency>
+      <groupId>sss.serv</groupId>
+      <artifactId>serv.db.api</artifactId>
+      <version>${project.version}</version>
+    </dependency> 
+
     <dependency>
       <groupId>sss.serv</groupId>
       <artifactId>serv.db.conf</artifactId>

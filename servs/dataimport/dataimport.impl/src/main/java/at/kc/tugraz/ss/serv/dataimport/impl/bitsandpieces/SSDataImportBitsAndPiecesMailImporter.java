@@ -25,7 +25,7 @@ import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportBitsAndPiecesP
 import at.kc.tugraz.ss.serv.dataimport.impl.SSDataImportImpl;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.jobs.evernote.api.SSEvernoteServerI;
-import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.kc.tugraz.ss.conf.conf.SSVocConf;
 import at.kc.tugraz.ss.service.filerepo.api.SSFileRepoServerI;
 import at.kc.tugraz.ss.service.userevent.api.SSUEServerI;
 import at.tugraz.sss.serv.SSDateU;
@@ -39,7 +39,7 @@ import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.caller.SSServCaller;
+
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityGetPar;
 import at.tugraz.sss.servs.file.datatype.par.SSEntityFileAddPar;
 import at.tugraz.sss.servs.mail.SSMailServerI;
@@ -114,7 +114,7 @@ public class SSDataImportBitsAndPiecesMailImporter {
             false))){
         
         mail    = (SSMail) mailEntity;
-        noteUri = SSServCaller.vocURICreate();
+        noteUri = SSVocConf.vocURICreate();
         
         handleMailContent          (mail, notebookUri, noteUri);
         handleMailContentMultimedia(mail, noteUri);
@@ -174,8 +174,8 @@ public class SSDataImportBitsAndPiecesMailImporter {
         return;
       }
       
-      txtFilePath    = SSDataImportConf.getLocalWorkPath() + SSVocConf.fileIDFromSSSURI(SSServCaller.vocURICreate(SSFileExtE.txt));
-      pdfFileUri     = SSServCaller.vocURICreate                  (SSFileExtE.pdf);
+      txtFilePath    = SSDataImportConf.getLocalWorkPath() + SSVocConf.fileIDFromSSSURI(SSVocConf.vocURICreate(SSFileExtE.txt));
+      pdfFileUri     = SSVocConf.vocURICreate                  (SSFileExtE.pdf);
       pdfFilePath    = SSDataImportConf.getLocalWorkPath() + SSVocConf.fileIDFromSSSURI (pdfFileUri);
       
       SSFileU.writeStr(mail.content, txtFilePath);
@@ -245,7 +245,7 @@ public class SSDataImportBitsAndPiecesMailImporter {
           continue;
         }
           
-        resourceUri = SSServCaller.vocURICreate();
+        resourceUri = SSVocConf.vocURICreate();
           
         miscFct.addResource(
           resourceUri, 
@@ -293,7 +293,7 @@ public class SSDataImportBitsAndPiecesMailImporter {
           continue;
         }
         
-        resourceUri = SSServCaller.vocURICreate();
+        resourceUri = SSVocConf.vocURICreate();
           
         miscFct.addResource(
           resourceUri, 

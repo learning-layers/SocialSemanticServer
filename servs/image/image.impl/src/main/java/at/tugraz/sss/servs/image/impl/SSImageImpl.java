@@ -23,7 +23,7 @@ package at.tugraz.sss.servs.image.impl;
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesAddPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
-import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.kc.tugraz.ss.conf.conf.SSVocConf;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUpdatePar;
 import at.kc.tugraz.ss.service.filerepo.api.SSFileRepoServerI;
 import at.tugraz.sss.serv.SSAddAffiliatedEntitiesToCircleI;
@@ -58,7 +58,6 @@ import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSServRetI;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUsersResourcesGathererI;
-import at.tugraz.sss.serv.caller.SSServCaller;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityRemovePar;
 import at.tugraz.sss.servs.file.datatype.par.SSEntityFileAddPar;
 import at.tugraz.sss.servs.file.datatype.par.SSEntityFilesGetPar;
@@ -359,13 +358,13 @@ implements
       SSUri                   imageUri;
 
       if(par.uuid != null){
-        imageUri = SSServCaller.vocURICreateFromId(par.uuid);
+        imageUri = SSVocConf.vocURICreateFromId(par.uuid);
       }else{
         
         if(par.link != null){
           imageUri = par.link;
         }else{
-          imageUri = SSServCaller.vocURICreate();
+          imageUri = SSVocConf.vocURICreate();
         }
       }
       
@@ -790,7 +789,7 @@ implements
     
       final String      filePath          = SSImageConf.getLocalWorkPath() + SSVocConf.fileIDFromSSSURI(fileURI);
       final SSFileExtE  fileExt           = SSFileExtE.getFromStrToFormat(SSVocConf.fileIDFromSSSURI(fileURI));
-      final SSUri       thumbFileURI      = SSServCaller.vocURICreate(SSFileExtE.png);
+      final SSUri       thumbFileURI      = SSVocConf.vocURICreate(SSFileExtE.png);
       final String      thumbnailPath     = SSImageConf.getLocalWorkPath() + SSVocConf.fileIDFromSSSURI(thumbFileURI);
 
       if(SSStrU.contains(SSFileExtE.imageFileExts, fileExt)){
@@ -804,7 +803,7 @@ implements
           
           try{
             
-            final String pdfFilePath = SSImageConf.getLocalWorkPath() + SSVocConf.fileIDFromSSSURI(SSServCaller.vocURICreate(SSFileExtE.pdf));
+            final String pdfFilePath = SSImageConf.getLocalWorkPath() + SSVocConf.fileIDFromSSSURI(SSVocConf.vocURICreate(SSFileExtE.pdf));
             
             SSFileU.writePDFFromText(
               pdfFilePath,
@@ -833,7 +832,7 @@ implements
         
         case doc:{
           
-          final String pdfFilePath  = SSImageConf.getLocalWorkPath() + SSVocConf.fileIDFromSSSURI(SSServCaller.vocURICreate(SSFileExtE.pdf));
+          final String pdfFilePath  = SSImageConf.getLocalWorkPath() + SSVocConf.fileIDFromSSSURI(SSVocConf.vocURICreate(SSFileExtE.pdf));
           
           SSFileU.writePDFFromDoc       (filePath,    pdfFilePath);
           SSFileU.writeScaledPNGFromPDF (pdfFilePath, thumbnailPath, width, width, false);

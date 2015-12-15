@@ -23,11 +23,12 @@ package at.kc.tugraz.ss.service.coll.impl.fct.op;
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleIsEntityPrivatePar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleIsEntityPublicPar;
+import at.kc.tugraz.ss.conf.conf.SSVocConf;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUpdatePar;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.caller.SSServCaller;
+
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntryAddPar;
 import at.kc.tugraz.ss.service.coll.impl.fct.misc.SSCollMiscFct;
 import at.kc.tugraz.ss.service.coll.impl.fct.sql.SSCollSQLFct;
@@ -53,7 +54,7 @@ public class SSCollEntryAddFct{
       entityServ.entityUpdate(
       new SSEntityUpdatePar(
         par.user,
-        SSServCaller.vocURICreate(),
+          SSVocConf.vocURICreate(),
         SSEntityE.coll, //type,
         par.label, //label
         null, //description,

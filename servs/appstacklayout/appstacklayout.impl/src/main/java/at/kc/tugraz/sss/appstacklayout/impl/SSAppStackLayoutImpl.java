@@ -21,7 +21,7 @@
 package at.kc.tugraz.sss.appstacklayout.impl;
 
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
-import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.kc.tugraz.ss.conf.conf.SSVocConf;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityGetPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUpdatePar;
 import at.tugraz.sss.serv.SSEntity;
@@ -30,7 +30,7 @@ import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSServImplWithDBA;
-import at.tugraz.sss.serv.caller.SSServCaller;
+
 import at.tugraz.sss.util.SSServCallerU;
 import at.kc.tugraz.sss.appstacklayout.api.SSAppStackLayoutClientI;
 import at.kc.tugraz.sss.appstacklayout.api.SSAppStackLayoutServerI;
@@ -128,9 +128,9 @@ implements
       final SSUri appStackLayoutUri;
       
       if(par.uuid != null){
-        appStackLayoutUri = SSServCaller.vocURICreateFromId(par.uuid);
+        appStackLayoutUri = SSVocConf.vocURICreateFromId(par.uuid);
       }else{
-        appStackLayoutUri = SSServCaller.vocURICreate();
+        appStackLayoutUri = SSVocConf.vocURICreate();
       }
       
       final SSEntityServerI entityServ = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);

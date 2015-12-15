@@ -25,10 +25,10 @@ import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSFileU;
 import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSMimeTypeE;
-import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.kc.tugraz.ss.conf.conf.SSVocConf;
 import at.kc.tugraz.ss.service.filerepo.api.SSFileRepoServerI;
 import at.tugraz.sss.serv.SSServImplStartA;
-import at.tugraz.sss.serv.caller.SSServCaller;
+
 import at.kc.tugraz.ss.service.filerepo.conf.SSFileRepoConf;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileUploadPar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileAddRet;
@@ -74,7 +74,7 @@ public class SSFileUploader extends SSServImplStartA{
     this.dataInputStream    = new DataInputStream    (par.clientSocket.getInputStream());
     this.outputStreamWriter = new OutputStreamWriter (par.clientSocket.getOutputStream());
     this.fileExt            = SSMimeTypeE.fileExtForMimeType             (par.mimeType);
-    this.fileUri            = SSServCaller.vocURICreate                  (fileExt);
+    this.fileUri            = SSVocConf.vocURICreate                  (fileExt);
     this.fileId             = SSVocConf.fileIDFromSSSURI                 (fileUri);
   }
   

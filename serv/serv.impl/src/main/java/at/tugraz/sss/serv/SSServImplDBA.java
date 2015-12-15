@@ -28,7 +28,7 @@ public abstract class SSServImplDBA extends SSServImplA{
   
   @Override
   public SSServRetI invokeClientServOp(
-    final Class       servImplClientInteraceClass, 
+    final Class      servImplClientInteraceClass, 
     final SSServPar  par) throws Exception{
     
     throw new UnsupportedOperationException(SSStrU.empty);

@@ -26,7 +26,7 @@ import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityGetPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUpdatePar;
-import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.kc.tugraz.ss.conf.conf.SSVocConf;
 import at.tugraz.sss.servs.file.datatype.par.SSEntityFileAddPar;
 import at.tugraz.sss.servs.file.datatype.par.SSEntityFilesGetPar;
 import at.tugraz.sss.serv.SSFileExtE;
@@ -63,7 +63,7 @@ import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSServRetI;
 import at.tugraz.sss.serv.SSToolContextE;
-import at.tugraz.sss.serv.caller.SSServCaller;
+
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityRemovePar;
 import at.tugraz.sss.servs.file.datatype.par.SSFileGetPar;
 import at.tugraz.sss.servs.image.api.SSImageServerI;
@@ -306,7 +306,7 @@ implements
         par.fileLength != null &&
         par.fileExt    != null){
 
-        par.file                       = SSServCaller.vocURICreate  (par.fileExt);
+        par.file                       = SSVocConf.vocURICreate  (par.fileExt);
         final String     fileId        = SSVocConf.fileIDFromSSSURI (par.file);
         
         SSFileU.writeFileBytes(

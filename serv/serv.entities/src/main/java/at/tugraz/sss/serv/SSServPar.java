@@ -20,6 +20,11 @@
 */
 package at.tugraz.sss.serv;
 
+import at.tugraz.sss.serv.SSJSONU;
+import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.SSVarNames;
 import java.util.Map;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;

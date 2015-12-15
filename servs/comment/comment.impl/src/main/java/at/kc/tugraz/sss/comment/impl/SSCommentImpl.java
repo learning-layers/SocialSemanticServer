@@ -21,7 +21,7 @@
 package at.kc.tugraz.sss.comment.impl;
 
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
-import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.kc.tugraz.ss.conf.conf.SSVocConf;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntitiesGetPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUpdatePar;
 import at.tugraz.sss.serv.SSTextComment;
@@ -54,7 +54,7 @@ import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSServRetI;
-import at.tugraz.sss.serv.caller.SSServCaller;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -173,7 +173,7 @@ implements
           entityServ.entityUpdate(
             new SSEntityUpdatePar(
               par.user,
-              SSServCaller.vocURICreate(),
+              SSVocConf.vocURICreate(),
               SSEntityE.comment, //type,
               null, //label
               null, //description,

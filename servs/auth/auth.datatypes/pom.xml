@@ -17,14 +17,12 @@
   </properties>
   <dependencies>
    
-   
-    
-    <dependency>
+        <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>serv.reg</artifactId>
+      <artifactId>serv.entities</artifactId>
       <version>${project.version}</version>
-    </dependency> 
-     
+    </dependency>
+   
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>

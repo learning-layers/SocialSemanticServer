@@ -35,8 +35,7 @@ import at.kc.tugraz.ss.serv.datatypes.learnep.serv.SSLearnEpServ;
 import at.kc.tugraz.ss.serv.job.dataexport.serv.SSDataExportServ;
 import at.kc.tugraz.ss.serv.jobs.evernote.serv.SSEvernoteServ;
 import at.kc.tugraz.ss.serv.jsonld.serv.SSJSONLD;
-import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
-import at.kc.tugraz.ss.serv.voc.serv.SSVoc;
+import at.kc.tugraz.ss.conf.conf.SSVocConf;
 import at.kc.tugraz.ss.service.coll.service.SSCollServ;
 import at.kc.tugraz.ss.service.disc.service.SSDiscServ;
 import at.kc.tugraz.ss.service.filerepo.service.SSFilerepoServ;
@@ -232,8 +231,6 @@ public class SSSocketMainV2{
         SSCoreConf.instSet(SSVocConf.fileNameSSSConf);
         
         try{
-          SSVoc.inst.regServ               ();
-          
           SSFileExtE.init    ();
           SSMimeTypeE.init   ();
           SSJSONLDU.init(SSCoreConf.instGet().getJsonLD().uri);

@@ -20,7 +20,7 @@
  */
 package at.tugraz.sss.adapter.rest.v2.app;
 
-import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.kc.tugraz.ss.conf.conf.SSVocConf;
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
 import at.kc.tugraz.sss.app.datatypes.par.SSAppAddPar;
 import at.kc.tugraz.sss.app.datatypes.par.SSAppsDeletePar;

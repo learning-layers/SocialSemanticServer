@@ -47,7 +47,7 @@ import at.kc.tugraz.ss.category.impl.fct.userrelationgatherer.SSCategoryUserRela
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePubURIGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
-import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.kc.tugraz.ss.conf.conf.SSVocConf;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityFromTypeAndLabelGetPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUpdatePar;
 import at.tugraz.sss.serv.SSCircleContentRemovedI;
@@ -72,7 +72,7 @@ import at.tugraz.sss.serv.SSEntityCopiedPar;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSUserRelationGathererI;
-import at.tugraz.sss.serv.caller.SSServCaller;
+
 import at.tugraz.sss.util.SSServCallerU;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -482,7 +482,7 @@ implements
           entityServ.entityUpdate(
             new SSEntityUpdatePar(
               par.user,
-              SSServCaller.vocURICreate(),
+              SSVocConf.vocURICreate(),
               SSEntityE.category, //type,
               SSLabel.get(SSStrU.toStr(par.label)), //label
               null, //description,
@@ -788,7 +788,7 @@ implements
           entityServ.entityUpdate(
             new SSEntityUpdatePar(
               par.user,
-              SSServCaller.vocURICreate(),
+              SSVocConf.vocURICreate(),
               SSEntityE.category, //type,
               SSLabel.get(SSStrU.toStr(label)), //label
               null, //description,

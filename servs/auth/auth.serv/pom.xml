@@ -19,20 +19,6 @@
    
     <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>voc.serv</artifactId>
-      <version>${project.version}</version>
-    </dependency> 
-    
-    <dependency>
-      <groupId>sss.serv</groupId>
-      <artifactId>serv.custom.caller</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    
-   
-    
-    <dependency>
-      <groupId>sss.servs</groupId>
       <artifactId>auth.impl</artifactId>
       <version>${project.version}</version>
     </dependency>
@@ -42,8 +28,6 @@
       <artifactId>auth.conf</artifactId>
       <version>${project.version}</version>
     </dependency>
-    
-   
     
     <dependency>
       <groupId>junit</groupId>

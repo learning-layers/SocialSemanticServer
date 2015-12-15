@@ -20,6 +20,7 @@
   */
 package at.kc.tugraz.ss.message.impl;
 
+import at.kc.tugraz.ss.conf.conf.SSVocConf;
 import at.tugraz.sss.serv.SSDateU;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
@@ -54,7 +55,7 @@ import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSServRetI;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.caller.SSServCaller;
+
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntitySharePar;
 import at.tugraz.sss.util.SSServCallerU;
 import java.util.ArrayList;
@@ -299,7 +300,7 @@ implements
         entityServ.entityUpdate(
           new SSEntityUpdatePar(
             par.user,
-            SSServCaller.vocURICreate(),
+            SSVocConf.vocURICreate(),
             SSEntityE.message, //type,
             null, //label
             null,//description,

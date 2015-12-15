@@ -45,7 +45,7 @@ import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleUsersInviteRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleUsersRemoveRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCirclesGetRet;
 import at.tugraz.sss.serv.SSUri;
-import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.kc.tugraz.ss.conf.conf.SSVocConf;
 import at.tugraz.sss.serv.SSCircleE;
 import at.tugraz.sss.serv.SSStrU;
 import com.wordnik.swagger.annotations.Api;

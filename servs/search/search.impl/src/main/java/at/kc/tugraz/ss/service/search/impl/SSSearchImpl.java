@@ -25,7 +25,7 @@ import at.kc.tugraz.ss.recomm.api.SSRecommServerI;
 import at.kc.tugraz.ss.recomm.datatypes.SSResourceLikelihood;
 import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommResourcesPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
-import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.kc.tugraz.ss.conf.conf.SSVocConf;
 import at.kc.tugraz.ss.service.rating.api.SSRatingServerI;
 import at.kc.tugraz.ss.service.rating.datatypes.pars.SSRatingEntityURIsGetPar;
 import at.tugraz.sss.serv.SSDateU;

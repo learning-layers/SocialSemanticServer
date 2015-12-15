@@ -28,7 +28,7 @@ import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarNames;
 import at.kc.tugraz.ss.adapter.rest.conf.SSAdapterRestConf;
 import at.tugraz.sss.serv.SSJSONLDU;
-import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.kc.tugraz.ss.conf.conf.SSVocConf;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;

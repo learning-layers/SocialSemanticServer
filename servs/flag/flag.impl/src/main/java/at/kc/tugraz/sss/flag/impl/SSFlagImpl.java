@@ -21,7 +21,7 @@
 package at.kc.tugraz.sss.flag.impl;
 
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
-import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.kc.tugraz.ss.conf.conf.SSVocConf;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityGetPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUpdatePar;
 import at.tugraz.sss.serv.SSUri;
@@ -30,7 +30,7 @@ import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSServImplWithDBA;
-import at.tugraz.sss.serv.caller.SSServCaller;
+
 import at.tugraz.sss.util.SSServCallerU;
 import at.kc.tugraz.sss.flag.api.SSFlagClientI;
 import at.kc.tugraz.sss.flag.api.SSFlagServerI;
@@ -231,7 +231,7 @@ implements
             entityServ.entityUpdate(
               new SSEntityUpdatePar(
                 par.user,
-                SSServCaller.vocURICreate(),
+                SSVocConf.vocURICreate(),
                 SSEntityE.flag, //type,
                 null, //label
                 null, //description,

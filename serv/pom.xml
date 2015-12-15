@@ -16,12 +16,9 @@
     <module>serv.conf</module>
     <module>serv.errreg</module>
     <module>serv.reg</module>
-    <module>serv.client</module>
     <module>serv.db</module>
-    <module>serv.par</module>
     <module>serv.impl</module>
     <module>serv.container</module>
-    <module>serv.ret</module>
     <module>serv.custom</module>
   </modules>
 </project>

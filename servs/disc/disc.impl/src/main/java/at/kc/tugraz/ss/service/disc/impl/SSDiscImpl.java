@@ -27,7 +27,7 @@ import at.kc.tugraz.ss.circle.datatypes.par.SSCircleIsEntityPrivatePar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntitySharePar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
-import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.kc.tugraz.ss.conf.conf.SSVocConf;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntitiesGetPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityAttachEntitiesPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityGetPar;

@@ -52,7 +52,7 @@ import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSServImplWithDBA;
-import at.tugraz.sss.serv.caller.SSServCaller;
+
 import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSUserRelationGathererI;
@@ -96,7 +96,7 @@ import java.util.HashMap;
 import sss.serv.eval.api.SSEvalServerI;
 import sss.servs.entity.sql.SSEntitySQL;
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
-import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.kc.tugraz.ss.conf.conf.SSVocConf;
 import at.tugraz.sss.serv.SSClientE;
 import at.tugraz.sss.serv.SSEntityContext;
 import at.tugraz.sss.serv.SSServRetI;
@@ -669,7 +669,7 @@ implements
         switch(par.type){
           case placeholder:{
             
-            par.entity = SSServCaller.vocURICreate();
+            par.entity = SSVocConf.vocURICreate();
             
             isPlaceholderAdd = true;
             break;

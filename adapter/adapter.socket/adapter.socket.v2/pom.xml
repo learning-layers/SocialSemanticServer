@@ -333,23 +333,11 @@
     </dependency>
     
     <dependency>
-      <groupId>sss.serv</groupId>
-      <artifactId>serv.custom.caller</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    
-    <dependency>
       <groupId>sss.servs</groupId>
       <artifactId>dataimport.conf</artifactId>
       <version>${project.version}</version>
     </dependency>
     
-    <dependency>
-      <groupId>sss.servs</groupId>
-      <artifactId>voc.serv</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-      
     <dependency>
       <groupId>sss.servs</groupId>
       <artifactId>jsonld.serv</artifactId>

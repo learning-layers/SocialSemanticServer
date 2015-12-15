@@ -24,7 +24,7 @@ import at.kc.tugraz.ss.activity.api.SSActivityServerI;
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePubURIGetPar;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
-import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.kc.tugraz.ss.conf.conf.SSVocConf;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntitiesGetPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityFromTypeAndLabelGetPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUpdatePar;
@@ -40,7 +40,7 @@ import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSUserRelationGathererI;
 import at.tugraz.sss.serv.SSUsersResourcesGathererI;
-import at.tugraz.sss.serv.caller.SSServCaller;
+
 import at.tugraz.sss.util.SSServCallerU;
 import at.kc.tugraz.ss.service.tag.api.*;
 import at.kc.tugraz.ss.service.tag.datatypes.*;
@@ -491,7 +491,7 @@ implements
           entityServ.entityUpdate(
             new SSEntityUpdatePar(
               par.user,
-              SSServCaller.vocURICreate(),
+              SSVocConf.vocURICreate(),
               SSEntityE.tag, //type,
               SSLabel.get(SSStrU.toStr(par.label)), //label
               null, //description,
@@ -937,7 +937,7 @@ implements
 //      if(tagEntity != null){
 //        tagUri = tagEntity.id;
 //      }else{
-//        tagUri = SSServCaller.vocURICreate();
+//        tagUri = SSVocConf.vocURICreate();
 //      }
 //
 //      final List<SSTag> tags =

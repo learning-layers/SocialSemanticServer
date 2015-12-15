@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.service.rating.impl;
 
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
-import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.kc.tugraz.ss.conf.conf.SSVocConf;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUpdatePar;
 import at.kc.tugraz.ss.service.rating.impl.fct.userraltionsgathering.SSRatingUserRelationGathererFct;
 import at.tugraz.sss.serv.SSStrU;
@@ -36,7 +36,7 @@ import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSUserRelationGathererI;
-import at.tugraz.sss.serv.caller.SSServCaller;
+
 import at.tugraz.sss.util.SSServCallerU;
 import at.kc.tugraz.ss.service.rating.datatypes.SSRating;
 import at.kc.tugraz.ss.service.rating.datatypes.SSRatingOverall;
@@ -232,7 +232,7 @@ implements
           entityServ.entityUpdate(
             new SSEntityUpdatePar(
               par.user,
-              SSServCaller.vocURICreate(),
+              SSVocConf.vocURICreate(),
               SSEntityE.rating, //type,
               null, //label,
               null, //description,

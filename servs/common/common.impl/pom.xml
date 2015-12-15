@@ -20,6 +20,18 @@
     
     <dependency>
       <groupId>sss.servs</groupId>
+      <artifactId>tag.datatypes</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>category.datatypes</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
       <artifactId>entity.api</artifactId>
       <version>${project.version}</version>
     </dependency>

@@ -21,7 +21,7 @@
 package at.tugraz.sss.adapter.rest.v2.appstacklayout;
 
 import at.tugraz.sss.serv.SSUri;
-import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.kc.tugraz.ss.conf.conf.SSVocConf;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 import javax.xml.bind.annotation.XmlElement;

@@ -21,7 +21,7 @@
 package at.tugraz.sss.adapter.rest.v2.ue;
 
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
-import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.kc.tugraz.ss.conf.conf.SSVocConf;
 import at.kc.tugraz.ss.service.userevent.datatypes.pars.SSUEAddPar;
 import at.kc.tugraz.ss.service.userevent.datatypes.pars.SSUECountGetPar;
 import at.kc.tugraz.ss.service.userevent.datatypes.pars.SSUEGetPar;

@@ -21,7 +21,7 @@
 package at.tugraz.sss.servs.location.impl;
 
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
-import at.kc.tugraz.ss.serv.voc.conf.SSVocConf;
+import at.kc.tugraz.ss.conf.conf.SSVocConf;
 import at.tugraz.sss.servs.location.datatype.par.SSLocationAddPar;
 import at.tugraz.sss.servs.location.datatype.par.SSLocationsGetPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUpdatePar;
@@ -44,7 +44,6 @@ import at.tugraz.sss.servs.location.datatype.SSLocation;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.caller.SSServCaller;
 import at.tugraz.sss.servs.location.api.SSLocationClientI;
 import at.tugraz.sss.servs.location.api.SSLocationServerI;
 import at.tugraz.sss.servs.location.datatype.par.SSLocationGetPar;
@@ -206,7 +205,7 @@ implements
         
       location =
         SSLocation.get(
-          SSServCaller.vocURICreate(),
+          SSVocConf.vocURICreate(),
           par.latitude,
           par.longitude,
           par.accuracy);

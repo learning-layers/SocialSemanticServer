@@ -17,14 +17,6 @@
   </properties>
   <dependencies>
   
-    
-    
-    <dependency>
-      <groupId>sss.serv</groupId>
-      <artifactId>serv.custom.caller</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    
     <dependency>
       <groupId>sss.servs</groupId>
       <artifactId>evernote.impl</artifactId>
@@ -36,8 +28,6 @@
       <artifactId>evernote.api</artifactId>
       <version>${project.version}</version>
     </dependency> 
-    
-    
     
     <dependency>
       <groupId>junit</groupId>
