@@ -528,3 +528,10 @@ org.eclipse.wst.jsdt.ui.superType.name
 /sss/data
 /sss/src/main/resources/data/csv/2015Dez9.csv
 /sss/src/main/resources/data/csv/Auswertung 2015Dez9.xlsx
+/adapter/adapter.socket/adapter.socket.v2/data/csv
+/adapter/adapter.socket/adapter.socket.v2/data
+/adapter/adapter.socket/adapter.socket.v2/sss.log
+/adapter/adapter.socket/adapter.socket.v2/users.csv
+/adapter/adapter.socket/adapter.socket.v2/log4j.properties
+/adapter/adapter.socket/adapter.socket.v2/sss-eval.log
+/adapter/adapter.socket/adapter.socket.v2/sss.conf.yaml
