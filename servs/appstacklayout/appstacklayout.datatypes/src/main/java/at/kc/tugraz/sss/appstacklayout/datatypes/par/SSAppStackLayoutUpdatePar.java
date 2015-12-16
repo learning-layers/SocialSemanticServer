@@ -20,12 +20,12 @@
 */
 package at.kc.tugraz.sss.appstacklayout.datatypes.par;
 
-import at.tugraz.sss.serv.SSServOpE;
+
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSLabel;
-import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
 
 public class SSAppStackLayoutUpdatePar extends SSServPar{
   
@@ -77,7 +77,7 @@ public class SSAppStackLayoutUpdatePar extends SSServPar{
     final Boolean        withUserDescription, 
     final Boolean        shouldCommit){
     
-    super(SSServOpE.appStackLayoutUpdate, null, user);
+    super(SSVarNames.appStackLayoutUpdate, null, user);
     
     this.stack               = stack;
     this.app                 = app;

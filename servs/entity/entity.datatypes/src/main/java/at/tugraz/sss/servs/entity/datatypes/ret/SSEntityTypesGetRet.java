@@ -20,10 +20,10 @@
 */
 package at.tugraz.sss.servs.entity.datatypes.ret;
 
-import at.tugraz.sss.serv.SSServOpE;
+
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSEntityE;
-import at.tugraz.sss.serv.SSServRetI;
+import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -50,7 +50,7 @@ public class SSEntityTypesGetRet extends SSServRetI{
   private SSEntityTypesGetRet(
     final List<SSEntityE> types){
 
-    super(SSServOpE.entityTypesGet);
+    super(SSVarNames.entityTypesGet);
     
     if(types != null){
       this.types.addAll(types);

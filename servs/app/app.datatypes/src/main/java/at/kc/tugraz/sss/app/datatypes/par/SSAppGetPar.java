@@ -20,9 +20,9 @@
 */
 package at.kc.tugraz.sss.app.datatypes.par;
 
-import at.tugraz.sss.serv.SSServOpE;
+
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSStrU;
 
 public class SSAppGetPar extends SSServPar{
@@ -45,7 +45,7 @@ public class SSAppGetPar extends SSServPar{
     final SSUri     app, 
     final Boolean   invokeEntityHandlers){
     
-    super(SSServOpE.appGet, null, user);
+    super(SSVarNames.appGet, null, user);
     
     this.app                  = app;
     this.invokeEntityHandlers = invokeEntityHandlers;

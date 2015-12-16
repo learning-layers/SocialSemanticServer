@@ -21,8 +21,8 @@
 package at.kc.tugraz.ss.serv.datatypes.learnep.api;
 
 import at.tugraz.sss.serv.SSClientE;
-import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServRetI;
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
+import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
 
 public interface SSLearnEpClientI {
 

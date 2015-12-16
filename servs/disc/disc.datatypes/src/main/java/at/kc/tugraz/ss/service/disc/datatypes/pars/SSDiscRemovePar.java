@@ -22,8 +22,8 @@ package at.kc.tugraz.ss.service.disc.datatypes.pars;
 
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
+
 
 public class SSDiscRemovePar extends SSServPar{
   
@@ -44,7 +44,7 @@ public class SSDiscRemovePar extends SSServPar{
     final SSUri     disc,
     final Boolean   shouldCommit){
     
-    super(SSServOpE.discRemove, null, user);
+    super(SSVarNames.discRemove, null, user);
     
     this.shouldCommit = shouldCommit;
   }

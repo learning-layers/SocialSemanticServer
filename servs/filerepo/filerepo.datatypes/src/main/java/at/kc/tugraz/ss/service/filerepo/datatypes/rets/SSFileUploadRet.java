@@ -20,9 +20,9 @@
  */
 package at.kc.tugraz.ss.service.filerepo.datatypes.rets;
 
-import at.tugraz.sss.serv.SSServOpE;
+
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSServRetI;
+import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import java.util.Map;
 
@@ -55,7 +55,7 @@ public class SSFileUploadRet extends SSServRetI{
     final SSUri            uri,
     final SSUri            thumb){
     
-    super(SSServOpE.fileUpload);
+    super(SSVarNames.fileUpload);
     
     this.file  = uri;
     this.thumb = thumb;

@@ -20,8 +20,8 @@
 */
 package at.kc.tugraz.ss.serv.dataimport.datatypes.pars;
 
-import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
+
 import at.tugraz.sss.serv.SSUri;
 
 public class SSDataImportSSSUsersFromCSVFilePar extends SSServPar{
@@ -32,7 +32,7 @@ public class SSDataImportSSSUsersFromCSVFilePar extends SSServPar{
     final SSUri  user, 
     final String fileName) throws Exception{
     
-    super(SSServOpE.dataImportSSSUsersFromCSVFile, null, user);
+    super(SSVarNames.dataImportSSSUsersFromCSVFile, null, user);
     
     this.fileName = fileName;
   }

@@ -20,20 +20,18 @@
 */
 package at.kc.tugraz.ss.recomm.datatypes.ret;
 
-import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.serv.SSServRetI;
-import java.util.HashMap;
+import at.tugraz.sss.serv.SSServRetI; 
 import java.util.Map;
 
 public class SSRecommUpdateRet extends SSServRetI{
 
   public boolean worked = false;
 
-  public static SSRecommUpdateRet get(boolean worked, SSServOpE op){
+  public static SSRecommUpdateRet get(boolean worked, final String op){
     return new SSRecommUpdateRet(worked, op);
   }
   
-  private SSRecommUpdateRet(boolean worked, SSServOpE op) {
+  private SSRecommUpdateRet(boolean worked, String op) {
 
     super(op);
     
@@ -42,11 +40,6 @@ public class SSRecommUpdateRet extends SSServRetI{
 
   @Override
   public Map<String, Object> jsonLDDesc(){
-    
-    final Map<String, Object> ld  = new HashMap<>();
-    
-//    ld.put(SSVarU.worked, SSVarU.xsd + SSStrU.valueBoolean);
-    
-    return ld;
+    throw new UnsupportedOperationException();
   }
 }

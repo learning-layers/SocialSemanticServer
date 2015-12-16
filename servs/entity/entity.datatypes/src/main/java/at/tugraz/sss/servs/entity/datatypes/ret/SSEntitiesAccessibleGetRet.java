@@ -21,8 +21,8 @@
 package at.tugraz.sss.servs.entity.datatypes.ret;
 
 import at.tugraz.sss.serv.SSEntity;
-import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.serv.SSServRetI;
+
+import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -55,7 +55,7 @@ public class SSEntitiesAccessibleGetRet extends SSServRetI{
     final Integer        pageNumber,
     final Integer        pageNumbers){
     
-    super(SSServOpE.entitiesAccessibleGet);
+    super(SSVarNames.entitiesAccessibleGet);
     
     SSEntity.addEntitiesDistinctWithoutNull(this.entities, entities);
     

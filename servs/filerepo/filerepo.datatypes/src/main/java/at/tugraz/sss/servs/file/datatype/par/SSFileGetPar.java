@@ -21,8 +21,8 @@
 package at.tugraz.sss.servs.file.datatype.par;
 
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
+
 import at.tugraz.sss.serv.SSStrU;
 
 public class SSFileGetPar extends SSServPar{
@@ -46,7 +46,7 @@ public class SSFileGetPar extends SSServPar{
     final Boolean       withUserRestriction, 
     final Boolean       invokeEntityHandlers){
       
-    super(SSServOpE.fileGet, null, user);
+    super(SSVarNames.fileGet, null, user);
     
     this.file                = file;
     this.withUserRestriction   = withUserRestriction;

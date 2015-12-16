@@ -20,11 +20,11 @@
 */
 package at.kc.tugraz.ss.category.datatypes.ret;
 
-import at.tugraz.sss.serv.SSServOpE;
+
 import at.tugraz.sss.serv.SSJSONLDU;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarNames;
-import at.tugraz.sss.serv.SSServRetI;
+import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -43,7 +43,7 @@ public class SSCategoriesPredefinedGetRet extends SSServRetI{
   private SSCategoriesPredefinedGetRet(
     final List<String> categories){
     
-    super(SSServOpE.categoriesPredefinedGet);
+    super(SSVarNames.categoriesPredefinedGet);
     
     if(categories != null){
       this.categories.addAll(categories);

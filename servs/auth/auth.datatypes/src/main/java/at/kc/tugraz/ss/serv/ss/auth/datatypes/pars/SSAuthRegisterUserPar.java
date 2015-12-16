@@ -21,8 +21,8 @@
 package at.kc.tugraz.ss.serv.ss.auth.datatypes.pars;
 
 import at.tugraz.sss.serv.SSLabel;
-import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
+
 import at.tugraz.sss.serv.SSStrU;
 
 public class SSAuthRegisterUserPar extends SSServPar{
@@ -52,7 +52,7 @@ public class SSAuthRegisterUserPar extends SSServPar{
     final Boolean    withUserRestriction, 
     final Boolean    shouldCommit){
     
-    super(SSServOpE.authRegisterUser, null, null);
+    super(SSVarNames.authRegisterUser, null, null);
     
     this.email                 = email;
     this.password              = password;

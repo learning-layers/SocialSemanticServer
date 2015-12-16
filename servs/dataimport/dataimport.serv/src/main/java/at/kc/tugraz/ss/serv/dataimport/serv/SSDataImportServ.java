@@ -23,7 +23,7 @@ package at.kc.tugraz.ss.serv.dataimport.serv;
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import at.tugraz.sss.serv.SSDateU;
 import at.tugraz.sss.serv.SSLogU;
-import at.tugraz.sss.serv.SSServOpE;
+
 import at.tugraz.sss.serv.SSObjU;
 import at.tugraz.sss.serv.SSCoreConfA;
 import at.kc.tugraz.ss.serv.dataimport.api.SSDataImportClientI;
@@ -35,6 +35,8 @@ import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServImplA;
+import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.SSVarNames;
 import java.util.List;
 
 public class SSDataImportServ extends SSServContainerI{
@@ -100,39 +102,29 @@ public class SSDataImportServ extends SSServContainerI{
     
     if(dataImportConf.executeScheduleAtStartUp){
       
-      for(SSServOpE scheduleOp : dataImportConf.scheduleOps){
+      for(String scheduleOp : dataImportConf.scheduleOps){
         
-        switch(scheduleOp){
-          
-          case dataImportBitsAndPieces:{
-            SSDateU.scheduleNow(new SSDataImportBitsAndPiecesTask());
-            break;
-          }
-          
-          default:{
-            SSLogU.warn("attempt to schedule op at startup with no schedule task defined");
-          }
+        if(SSStrU.equals(scheduleOp, SSVarNames.dataImportBitsAndPieces)){
+          SSDateU.scheduleNow(new SSDataImportBitsAndPiecesTask());
+          continue;
         }
+        
+        SSLogU.warn("attempt to schedule op at startup with no schedule task defined");
       }
     }
     
     for(int counter = 0; counter < dataImportConf.scheduleOps.size(); counter++){
       
-      switch(dataImportConf.scheduleOps.get(counter)){
+      if(SSStrU.equals(dataImportConf.scheduleOps.get(counter), SSVarNames.dataImportBitsAndPieces)){
         
-        case dataImportBitsAndPieces:{
-          
-          SSDateU.scheduleAtFixedRate(
-            new SSDataImportBitsAndPiecesTask(),
-            SSDateU.getDatePlusMinutes(dataImportConf.scheduleIntervals.get(counter)),
-            dataImportConf.scheduleIntervals.get(counter) * SSDateU.minuteInMilliSeconds);
-          break;
-        }
-        
-        default:{
-          SSLogU.warn("attempt to schedule op with no schedule task defined");
-        }
+        SSDateU.scheduleAtFixedRate(
+          new SSDataImportBitsAndPiecesTask(),
+          SSDateU.getDatePlusMinutes(dataImportConf.scheduleIntervals.get(counter)),
+          dataImportConf.scheduleIntervals.get(counter) * SSDateU.minuteInMilliSeconds);
+        continue;
       }
+      
+      SSLogU.warn("attempt to schedule op with no schedule task defined");
     }
   }
   

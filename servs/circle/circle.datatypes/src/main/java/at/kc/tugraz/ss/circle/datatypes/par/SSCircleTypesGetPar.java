@@ -20,9 +20,9 @@
 */
 package at.kc.tugraz.ss.circle.datatypes.par;
 
-import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServOpE;
+
 import at.tugraz.sss.serv.SSStrU;
 
 public class SSCircleTypesGetPar extends SSServPar{
@@ -44,7 +44,7 @@ public class SSCircleTypesGetPar extends SSServPar{
     final SSUri         entity,
     final Boolean       withUserRestriction){
     
-    super(SSServOpE.circleTypesGet, null, user);
+    super(SSVarNames.circleTypesGet, null, user);
     
     this.entity              = entity;
     this.withUserRestriction = withUserRestriction;

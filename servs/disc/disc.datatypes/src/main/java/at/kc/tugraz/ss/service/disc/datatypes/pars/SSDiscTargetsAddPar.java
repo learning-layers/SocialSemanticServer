@@ -20,8 +20,8 @@
 */
 package at.kc.tugraz.ss.service.disc.datatypes.pars;
 
-import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.serv.SSServPar;
+
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 import java.util.ArrayList;
@@ -57,7 +57,7 @@ public class SSDiscTargetsAddPar extends SSServPar{
     final Boolean     withUserRestriction,
     final Boolean     shouldCommit){
     
-    super(SSServOpE.discTargetsAdd, null, user);
+    super(SSVarNames.discTargetsAdd, null, user);
     
     this.discussion = discussion;
 

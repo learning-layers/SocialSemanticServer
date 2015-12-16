@@ -21,9 +21,9 @@
 package at.kc.tugraz.ss.service.userevent.datatypes.pars;
 
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUEE;
-import at.tugraz.sss.serv.SSServOpE;
+
 import at.tugraz.sss.serv.SSStrU;
 
 public class SSUEAddPar extends SSServPar{
@@ -60,7 +60,7 @@ public class SSUEAddPar extends SSServPar{
     final Boolean     withUserRestriction, 
     final Boolean     shouldCommit){
     
-    super(SSServOpE.userEventAdd, null, user);
+    super(SSVarNames.userEventAdd, null, user);
     
     this.entity              = entity;
     this.type                = type;

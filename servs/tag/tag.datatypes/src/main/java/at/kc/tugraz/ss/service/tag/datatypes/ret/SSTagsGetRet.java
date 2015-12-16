@@ -20,11 +20,11 @@
 */
 package at.kc.tugraz.ss.service.tag.datatypes.ret;
 
-import at.tugraz.sss.serv.SSServOpE;
+
 import at.tugraz.sss.serv.SSJSONLDU;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarNames;
-import at.tugraz.sss.serv.SSServRetI;
+import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTag;
 import at.tugraz.sss.serv.SSEntity;
 import java.util.ArrayList;
@@ -45,7 +45,7 @@ public class SSTagsGetRet extends SSServRetI{
   private SSTagsGetRet(
     final List<SSEntity> tags){
     
-    super(SSServOpE.tagsGet);
+    super(SSVarNames.tagsGet);
     
     SSEntity.addEntitiesDistinctWithoutNull(this.tags, tags);
   }

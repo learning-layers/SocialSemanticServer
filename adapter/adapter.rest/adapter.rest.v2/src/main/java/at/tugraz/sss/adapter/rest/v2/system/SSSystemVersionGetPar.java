@@ -20,16 +20,16 @@
 */
 package at.tugraz.sss.adapter.rest.v2.system;
 
-import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
+import at.tugraz.sss.serv.SSVarNames;
 import com.wordnik.swagger.annotations.ApiModel;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-@ApiModel(value = "systemVersionGet request parameter")
+@ApiModel(value = SSVarNames.jsonLD + "systemVersionGet"  + "request parameter")
 public class SSSystemVersionGetPar extends SSServPar{
   
   public SSSystemVersionGetPar(){
-    super(SSServOpE.systemVersionGet, null, null);
+    super(SSVarNames.systemVersionGet, null, null);
   }
 }

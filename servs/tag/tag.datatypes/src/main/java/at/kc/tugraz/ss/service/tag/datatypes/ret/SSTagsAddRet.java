@@ -20,10 +20,10 @@
 */
 package at.kc.tugraz.ss.service.tag.datatypes.ret;
 
-import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSServRetI;
+import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.SSVarNames;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -50,7 +50,7 @@ public class SSTagsAddRet extends SSServRetI{
   private SSTagsAddRet(
     final List<SSUri> tags){
     
-    super(SSServOpE.tagsAdd);
+    super(SSVarNames.tagsAdd);
     
     SSUri.addDistinctWithoutNull(this.tags, tags);
   }

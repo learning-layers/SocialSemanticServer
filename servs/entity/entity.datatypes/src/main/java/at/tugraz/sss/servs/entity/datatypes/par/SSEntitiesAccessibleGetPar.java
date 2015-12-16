@@ -22,8 +22,8 @@ package at.tugraz.sss.servs.entity.datatypes.par;
 
 import at.tugraz.sss.serv.SSEntityDescriberPar;
 import at.tugraz.sss.serv.SSEntityE;
-import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.serv.SSServPar;
+
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import java.util.ArrayList;
 import java.util.List;
@@ -66,7 +66,7 @@ public class SSEntitiesAccessibleGetPar extends SSServPar{
     final SSEntityDescriberPar descPar,
     final Boolean              withUserRestriction) throws Exception{
     
-    super(SSServOpE.entitiesAccessibleGet, null, user);
+    super(SSVarNames.entitiesAccessibleGet, null, user);
 
     SSEntityE.addDistinctWithoutNull(this.types,   types);
     SSUri.addDistinctWithoutNull    (this.authors, authors);

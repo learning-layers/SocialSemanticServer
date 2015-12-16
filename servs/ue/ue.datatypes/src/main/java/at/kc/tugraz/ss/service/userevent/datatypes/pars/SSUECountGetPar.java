@@ -23,10 +23,10 @@ package at.kc.tugraz.ss.service.userevent.datatypes.pars;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUEE;
 import at.tugraz.sss.serv.SSServErrReg;
-import at.tugraz.sss.serv.SSServOpE;
+
 
 public class SSUECountGetPar extends SSServPar{
   
@@ -71,7 +71,7 @@ public class SSUECountGetPar extends SSServPar{
     final Long      endTime, 
     final Boolean   withUserRestriction){
     
-    super(SSServOpE.userEventCountGet, null, user);
+    super(SSVarNames.userEventCountGet, null, user);
   
     this.forUser             = forUser;
     this.entity              = entity;

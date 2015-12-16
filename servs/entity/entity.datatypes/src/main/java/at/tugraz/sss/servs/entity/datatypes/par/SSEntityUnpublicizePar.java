@@ -20,8 +20,8 @@
   */
 package at.tugraz.sss.servs.entity.datatypes.par;
 
-import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.serv.SSServPar;
+
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 
@@ -45,7 +45,7 @@ public class SSEntityUnpublicizePar extends SSServPar{
     final Boolean       withUserRestriction,
     final Boolean       shouldCommit){
     
-    super(SSServOpE.entityUnpublicize, null, user);
+    super(SSVarNames.entityUnpublicize, null, user);
     
     this.entity              = entity;
     this.withUserRestriction = withUserRestriction;

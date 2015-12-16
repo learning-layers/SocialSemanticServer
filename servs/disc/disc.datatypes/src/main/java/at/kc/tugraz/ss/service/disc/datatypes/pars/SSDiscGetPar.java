@@ -22,8 +22,8 @@ package at.kc.tugraz.ss.service.disc.datatypes.pars;
 
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
+
 
 public class SSDiscGetPar extends SSServPar{
   
@@ -54,7 +54,7 @@ public class SSDiscGetPar extends SSServPar{
     final Boolean   withUserRestriction,
     final Boolean   invokeEntityHandlers){
     
-    super(SSServOpE.discGet, null, user);
+    super(SSVarNames.discGet, null, user);
     
     this.disc                 = disc;
     this.setEntries           = setEntries;

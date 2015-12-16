@@ -21,8 +21,8 @@
 package at.kc.tugraz.sss.comment.datatypes.par;
 
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
+
 
 public class SSCommentEntitiesGetPar extends SSServPar{
   
@@ -32,7 +32,7 @@ public class SSCommentEntitiesGetPar extends SSServPar{
     final SSUri                user,
     final Boolean              withUserRestriction){
     
-    super(SSServOpE.commentEntitiesGet, null, user);
+    super(SSVarNames.commentEntitiesGet, null, user);
     
     this.withUserRestriction = withUserRestriction;
   }

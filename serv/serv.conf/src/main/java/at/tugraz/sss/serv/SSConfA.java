@@ -31,7 +31,7 @@ public abstract class SSConfA{
   public Boolean         initAtStartUp              = false;
   public Boolean         schedule                   = false;
   public Boolean         executeScheduleAtStartUp   = false;
-  public List<SSServOpE> scheduleOps                = new ArrayList<>();
+  public List<String>    scheduleOps                = new ArrayList<>();
   public List<Integer>   scheduleIntervals          = new ArrayList<>();
 
   public static SSConfA copy(

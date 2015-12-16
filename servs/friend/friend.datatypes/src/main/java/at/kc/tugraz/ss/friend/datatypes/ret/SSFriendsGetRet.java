@@ -20,12 +20,12 @@
 */
 package at.kc.tugraz.ss.friend.datatypes.ret;
 
-import at.tugraz.sss.serv.SSServOpE;
+
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarNames;
 import at.kc.tugraz.ss.friend.datatypes.SSFriend;
 import at.tugraz.sss.serv.SSEntity;
-import at.tugraz.sss.serv.SSServRetI;
+import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSJSONLDU;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -59,7 +59,7 @@ public class SSFriendsGetRet extends SSServRetI{
   private SSFriendsGetRet(
     final List<SSEntity>  friends){
     
-    super(SSServOpE.friendsGet);
+    super(SSVarNames.friendsGet);
     
     SSEntity.addEntitiesDistinctWithoutNull(this.friends, friends);
   }

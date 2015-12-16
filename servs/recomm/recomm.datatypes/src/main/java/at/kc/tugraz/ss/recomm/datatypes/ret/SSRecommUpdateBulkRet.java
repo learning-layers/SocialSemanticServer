@@ -20,8 +20,8 @@
 */
 package at.kc.tugraz.ss.recomm.datatypes.ret;
 
-import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.serv.SSServRetI;
+
+import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
 import java.util.Map;
 
 public class SSRecommUpdateBulkRet extends SSServRetI{
@@ -39,7 +39,7 @@ public class SSRecommUpdateBulkRet extends SSServRetI{
   
   private SSRecommUpdateBulkRet(Boolean worked) {
 
-    super(SSServOpE.recommUpdateBulk);
+    super(SSVarNames.recommUpdateBulk);
     
     this.worked = worked;
   }

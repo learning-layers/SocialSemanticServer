@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.serv.dataimport.datatypes.pars;
 
-import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
 
 public class SSDataImportMediaWikiUserPar extends SSServPar{
   

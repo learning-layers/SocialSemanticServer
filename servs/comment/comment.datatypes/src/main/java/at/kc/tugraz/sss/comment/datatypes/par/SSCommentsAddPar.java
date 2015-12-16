@@ -20,8 +20,8 @@
 */
 package at.kc.tugraz.sss.comment.datatypes.par;
 
-import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.serv.SSServPar;
+
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
@@ -58,7 +58,7 @@ public class SSCommentsAddPar extends SSServPar{
     final Boolean              withUserRestriction,
     final Boolean              shouldCommit){
     
-    super(SSServOpE.commentsAdd, null, user);
+    super(SSVarNames.commentsAdd, null, user);
     
     this.entity = entity;
     

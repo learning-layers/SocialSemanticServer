@@ -20,10 +20,10 @@
 */
 package at.kc.tugraz.ss.service.user.datatypes.ret;
 
-import at.tugraz.sss.serv.SSServOpE;
+
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarNames;
-import at.tugraz.sss.serv.SSServRetI;
+import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSJSONLDU;
 import java.util.ArrayList;
@@ -58,7 +58,7 @@ public class SSUserEntityUsersGetRet extends SSServRetI{
   private SSUserEntityUsersGetRet(
     final List<SSEntity> users) {
 
-    super(SSServOpE.userEntityUsersGet);
+    super(SSVarNames.userEntityUsersGet);
     
     if(users != null){
       this.users.addAll(users);

@@ -22,10 +22,10 @@ package sss.serv.eval.datatypes.par;
 
 import at.tugraz.sss.serv.SSStrU;
 import sss.serv.eval.datatypes.SSEvalLogE;
-import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSToolContextE;
-import at.tugraz.sss.serv.SSServOpE;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -90,7 +90,7 @@ public class SSEvalLogPar extends SSServPar{
     final List<SSUri>    users, 
     final Boolean        shouldCommit){
     
-    super(SSServOpE.evalLog, null, user);
+    super(SSVarNames.evalLog, null, user);
     
     this.toolContext  = toolContext;
     this.type         = type;

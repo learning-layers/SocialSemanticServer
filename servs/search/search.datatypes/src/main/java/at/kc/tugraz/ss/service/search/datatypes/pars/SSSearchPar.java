@@ -20,11 +20,11 @@
  */
 package at.kc.tugraz.ss.service.search.datatypes.pars;
 
-import at.tugraz.sss.serv.SSServOpE;
+
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
-import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
 import at.kc.tugraz.ss.service.search.datatypes.SSSearchLabel;
 import at.tugraz.sss.serv.SSSearchOpE;
 import java.util.ArrayList;
@@ -127,7 +127,7 @@ public class SSSearchPar extends SSServPar{
     final Boolean             withUserRestriction, 
     final Boolean             invokeEntityHandlers){
     
-    super(SSServOpE.search, null, user);
+    super(SSVarNames.search, null, user);
     
     if(documentContentsToSearchFor != null){
       this.documentContentsToSearchFor.addAll(documentContentsToSearchFor);

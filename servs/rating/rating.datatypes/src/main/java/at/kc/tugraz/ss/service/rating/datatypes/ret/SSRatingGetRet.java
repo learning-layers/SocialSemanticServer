@@ -20,10 +20,10 @@
 */
 package at.kc.tugraz.ss.service.rating.datatypes.ret;
 
-import at.tugraz.sss.serv.SSServOpE;
+
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarNames;
-import at.tugraz.sss.serv.SSServRetI;
+import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,7 +37,7 @@ public class SSRatingGetRet extends SSServRetI{
   
   private SSRatingGetRet(Integer rating){
     
-    super(SSServOpE.ratingGet);
+    super(SSVarNames.ratingGet);
     
     this.rating = rating;
   }

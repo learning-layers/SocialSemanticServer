@@ -9,8 +9,8 @@
  */
 package at.tugraz.sss.servs.ocd.datatypes.pars;
 
-import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.serv.SSServPar;
+
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.servs.ocd.datatypes.SSOCDCreationTypeE;
 import at.tugraz.sss.servs.ocd.datatypes.SSOCDGraphInputE;
@@ -35,7 +35,7 @@ public class SSOCDCreateGraphPar extends SSServPar {
     final String content,
     final Boolean shouldCommit) {
 
-      super(SSServOpE.ocdCreateGraph, null, user);
+      super(SSVarNames.ocdCreateGraph, null, user);
 
   }
 

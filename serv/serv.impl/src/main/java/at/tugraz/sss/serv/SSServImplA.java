@@ -112,7 +112,7 @@ public abstract class SSServImplA{
   //    opPars.put(SSVarU.resource,       entityUri);
   //    opPars.put(SSVarU.numTags,        maxTags);
   //
-  //    return (List<String>) SSServReg.callServServer(new SSServPar(SSServOpE.recommLanguageModel, opPars));
+  //    return (List<String>) SSServReg.callServServer(new SSServPar(SSVarNames.recommLanguageModel, opPars));
   //  }
 
 //  public Object handleServerOp(

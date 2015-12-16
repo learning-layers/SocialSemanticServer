@@ -20,10 +20,10 @@
 */
 package at.kc.tugraz.ss.friend.datatypes.ret;
 
-import at.tugraz.sss.serv.SSServOpE;
+
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarNames;
-import at.tugraz.sss.serv.SSServRetI;
+import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import java.util.HashMap;
 import java.util.Map;
@@ -55,7 +55,7 @@ public class SSFriendAddRet extends SSServRetI{
   private SSFriendAddRet(
     final SSUri   friend){
     
-    super(SSServOpE.friendAdd);
+    super(SSVarNames.friendAdd);
     
     this.friend = friend;
   }

@@ -21,9 +21,9 @@
 package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par;
 
 import at.tugraz.sss.serv.SSLabel;
-import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServOpE;
+
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSTextComment;
 
@@ -79,7 +79,7 @@ public class SSLearnEpVersionCircleUpdatePar extends SSServPar{
     final Boolean       withUserRestriction,
     final Boolean       shouldCommit){
     
-    super(SSServOpE.learnEpVersionCircleUpdate, null, user);
+    super(SSVarNames.learnEpVersionCircleUpdate, null, user);
     
     this.learnEpCircle       = learnEpCircle;
     this.label               = label;

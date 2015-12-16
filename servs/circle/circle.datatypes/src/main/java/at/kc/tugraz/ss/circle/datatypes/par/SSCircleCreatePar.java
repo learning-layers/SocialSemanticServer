@@ -21,12 +21,13 @@
 package at.kc.tugraz.ss.circle.datatypes.par;
 
 import at.tugraz.sss.serv.SSCircleE;
-import at.tugraz.sss.serv.SSServOpE;
+
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSLabel;
-import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.SSVarNames;
 
 public class SSCircleCreatePar extends SSServPar{
   
@@ -70,7 +71,7 @@ public class SSCircleCreatePar extends SSServPar{
     final Boolean         withUserRestriction, 
     final Boolean         shouldCommit){
     
-    super(SSServOpE.circleCreate, null, user);
+    super(SSVarNames.circleCreate, null, user);
     
     this.circleType               = circleType;
     this.label                    = label;

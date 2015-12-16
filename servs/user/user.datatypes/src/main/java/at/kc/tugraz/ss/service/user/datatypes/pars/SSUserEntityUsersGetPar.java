@@ -22,8 +22,8 @@ package at.kc.tugraz.ss.service.user.datatypes.pars;
 
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
+
 
 public class SSUserEntityUsersGetPar extends SSServPar{
   
@@ -46,7 +46,7 @@ public class SSUserEntityUsersGetPar extends SSServPar{
     final Boolean       invokeEntityHandlers, 
     final Boolean       withUserRestriction){
     
-    super(SSServOpE.userEntityUsersGet, null, user);
+    super(SSVarNames.userEntityUsersGet, null, user);
   
     this.entity               = entity;
     this.invokeEntityHandlers = invokeEntityHandlers;

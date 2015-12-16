@@ -20,8 +20,8 @@
 */
 package at.tugraz.sss.servs.image.datatype.par;
 
-import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.serv.SSServPar;
+
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 
@@ -44,7 +44,7 @@ public class SSImageGetPar extends SSServPar{
     final SSUri         image,
     final Boolean       withUserRestriction){
     
-    super(SSServOpE.imageGet, null, user);
+    super(SSVarNames.imageGet, null, user);
     
     this.image               = image;
     this.withUserRestriction = withUserRestriction;

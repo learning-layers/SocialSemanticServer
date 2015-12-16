@@ -20,8 +20,8 @@
 */
 package at.kc.tugraz.ss.friend.datatypes.par;
 
-import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.serv.SSServPar;
+
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 
@@ -43,7 +43,7 @@ public class SSFriendGetPar extends SSServPar{
     final SSUri      user, 
     final SSUri      friend){
     
-    super(SSServOpE.friendGet, null, user);
+    super(SSVarNames.friendGet, null, user);
     
     this.friend = friend;
   }

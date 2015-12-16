@@ -20,10 +20,10 @@
 */
 package at.kc.tugraz.ss.recomm.datatypes.par;
 
-import at.tugraz.sss.serv.SSServOpE;
+
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,7 +66,7 @@ public class SSRecommUsersPar extends SSServPar{
     final Boolean      withUserRestriction, 
     final Boolean      invokeEntityHandlers){
   
-    super(SSServOpE.recommUsers, null, user);
+    super(SSVarNames.recommUsers, null, user);
     
     this.realm   = realm;
     this.forUser = forUser;

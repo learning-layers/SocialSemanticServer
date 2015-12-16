@@ -20,10 +20,10 @@
 */
 package at.kc.tugraz.ss.service.userevent.datatypes.ret;
 
-import at.tugraz.sss.serv.SSServOpE;
+
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarNames;
-import at.tugraz.sss.serv.SSServRetI;
+import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUE;
 import java.util.HashMap;
 import java.util.Map;
@@ -43,7 +43,7 @@ public class SSUEGetRet extends SSServRetI{
   
   private SSUEGetRet(SSUE userEvent){
     
-    super(SSServOpE.userEventGet);
+    super(SSVarNames.userEventGet);
     
     this.userEvent = userEvent;
   }

@@ -21,8 +21,8 @@
  package at.kc.tugraz.sss.flag.datatypes.par;
 
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
+
 import at.tugraz.sss.serv.SSStrU;
 
 public class SSFlagGetPar extends SSServPar{
@@ -46,7 +46,7 @@ public class SSFlagGetPar extends SSServPar{
     final Boolean       withUserRestriction,
     final Boolean       invokeEntityHandlers){
     
-    super(SSServOpE.flagGet, null, user);
+    super(SSVarNames.flagGet, null, user);
      
     this.flag                = flag;
     this.withUserRestriction = withUserRestriction;

@@ -21,8 +21,8 @@
 package at.tugraz.sss.servs.image.datatype.par;
 
 import at.tugraz.sss.serv.SSImageE;
-import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.serv.SSServPar;
+
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 
@@ -55,7 +55,7 @@ public class SSImagesGetPar extends SSServPar{
     final SSImageE      imageType,
     final Boolean       withUserRestriction){
     
-    super(SSServOpE.imagesGet, null, user);
+    super(SSVarNames.imagesGet, null, user);
     
     this.entity              = entity;
     this.imageType           = imageType;

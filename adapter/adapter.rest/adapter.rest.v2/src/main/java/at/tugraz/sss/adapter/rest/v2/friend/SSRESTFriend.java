@@ -20,7 +20,7 @@
 */
 package at.tugraz.sss.adapter.rest.v2.friend;
 
-import at.tugraz.sss.serv.SSServOpE;
+
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
 import at.kc.tugraz.ss.friend.datatypes.par.SSFriendAddPar;
 import at.kc.tugraz.ss.friend.datatypes.par.SSFriendsGetPar;

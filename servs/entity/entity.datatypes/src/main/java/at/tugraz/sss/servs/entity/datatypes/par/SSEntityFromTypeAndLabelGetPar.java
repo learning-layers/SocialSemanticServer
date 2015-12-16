@@ -22,8 +22,8 @@ package at.tugraz.sss.servs.entity.datatypes.par;
 
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSLabel;
-import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.serv.SSServPar;
+
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 
@@ -56,7 +56,7 @@ public class SSEntityFromTypeAndLabelGetPar extends SSServPar{
     final SSEntityE            type,
     final Boolean              withUserRestriction){
     
-    super(SSServOpE.entityFromTypeAndLabelGet, null, user);
+    super(SSVarNames.entityFromTypeAndLabelGet, null, user);
     
     this.label               = label;
     this.type                = type;

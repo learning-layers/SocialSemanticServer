@@ -21,10 +21,10 @@
 package at.kc.tugraz.ss.service.disc.datatypes.pars;
 
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSLabel;
-import at.tugraz.sss.serv.SSServOpE;
+
 import at.tugraz.sss.serv.SSStrU;
 import java.util.ArrayList;
 import java.util.List;
@@ -93,7 +93,7 @@ public class SSDiscUpdatePar extends SSServPar{
     final Boolean             withUserRestriction,
     final Boolean             shouldCommit){
     
-    super(SSServOpE.discUpdate, null, user);
+    super(SSVarNames.discUpdate, null, user);
     
     this.disc           = disc;
     this.label          = label;

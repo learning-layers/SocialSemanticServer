@@ -21,11 +21,11 @@
 package at.kc.tugraz.ss.category.datatypes.par;
 
 import at.kc.tugraz.ss.category.datatypes.SSCategoryLabel;
-import at.tugraz.sss.serv.SSServOpE;
+
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSSpaceE;
-import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
 
 public class SSCategoriesRemovePar extends SSServPar{
   
@@ -87,7 +87,7 @@ public class SSCategoriesRemovePar extends SSServPar{
     final Boolean         withUserRestriction,
     final Boolean         shouldCommit){
     
-    super(SSServOpE.categoriesRemove, null, user);
+    super(SSVarNames.categoriesRemove, null, user);
     
     this.forUser             = forUser;
     this.entity              = entity;

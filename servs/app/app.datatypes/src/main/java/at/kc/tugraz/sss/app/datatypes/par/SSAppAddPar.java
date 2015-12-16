@@ -20,12 +20,12 @@
  */
 package at.kc.tugraz.sss.app.datatypes.par;
 
-import at.tugraz.sss.serv.SSServOpE;
+
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSLabel;
-import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -149,7 +149,7 @@ public class SSAppAddPar extends SSServPar{
     final Boolean             withUserRestriction, 
     final Boolean             shouldCommmit){
     
-    super(SSServOpE.appAdd, null, user);
+    super(SSVarNames.appAdd, null, user);
     
     this.label                  = label;
     this.descriptionShort       = descriptionShort;

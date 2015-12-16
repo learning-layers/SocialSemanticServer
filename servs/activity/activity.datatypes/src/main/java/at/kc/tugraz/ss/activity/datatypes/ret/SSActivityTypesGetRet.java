@@ -20,11 +20,11 @@
 */
 package at.kc.tugraz.ss.activity.datatypes.ret;
 
-import at.tugraz.sss.serv.SSServOpE;
+
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarNames;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
-import at.tugraz.sss.serv.SSServRetI;
+import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSJSONLDU;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -62,7 +62,7 @@ public class SSActivityTypesGetRet extends SSServRetI{
   private SSActivityTypesGetRet(
     final List<SSActivityE> types){
 
-    super(SSServOpE.activityTypesGet);
+    super(SSVarNames.activityTypesGet);
     
     if(types != null){
       this.types.addAll(types);

@@ -20,8 +20,8 @@
  */
 package at.kc.tugraz.ss.activity.datatypes.par;
 
-import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.serv.SSServPar;
+
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 
 public class SSActivityTypesGetPar extends SSServPar{
@@ -31,6 +31,6 @@ public class SSActivityTypesGetPar extends SSServPar{
   public SSActivityTypesGetPar(
     final SSUri                 user){
     
-    super(SSServOpE.activityTypesGet, null, user);
+    super(SSVarNames.activityTypesGet, null, user);
   }
 }

@@ -20,9 +20,9 @@
  */
 package at.tugraz.sss.servs.entity.datatypes.par;
 
-import at.tugraz.sss.serv.SSServOpE;
+
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
 
 public class SSEntitiesAccessibleGetCleanUpPar extends SSServPar{
   
@@ -31,6 +31,6 @@ public class SSEntitiesAccessibleGetCleanUpPar extends SSServPar{
   public SSEntitiesAccessibleGetCleanUpPar(
     final SSUri                user) throws Exception{
     
-    super(SSServOpE.entitiesAccessibleGetCleanUp, null, user);
+    super(SSVarNames.entitiesAccessibleGetCleanUp, null, user);
   }
 }

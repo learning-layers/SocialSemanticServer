@@ -10,6 +10,5 @@
     <packaging>pom</packaging>
     <modules>
         <module>serv.custom.names</module>
-        <module>serv.custom.ops</module>
     </modules>
 </project>

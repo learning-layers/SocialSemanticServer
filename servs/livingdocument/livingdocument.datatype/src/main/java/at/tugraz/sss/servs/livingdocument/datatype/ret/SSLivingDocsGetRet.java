@@ -21,8 +21,8 @@
 package at.tugraz.sss.servs.livingdocument.datatype.ret;
 
 import at.tugraz.sss.serv.SSEntity;
-import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.serv.SSServRetI;
+
+import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -43,7 +43,7 @@ public class SSLivingDocsGetRet extends SSServRetI{
   private SSLivingDocsGetRet(
     final List<SSEntity> livingDocs){
     
-    super(SSServOpE.livingDocsGet);
+    super(SSVarNames.livingDocsGet);
     
     SSEntity.addEntitiesDistinctWithoutNull(this.livingDocs, livingDocs);
   }

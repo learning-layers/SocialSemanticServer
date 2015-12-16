@@ -20,10 +20,10 @@
  */
 package at.kc.tugraz.sss.video.datatypes.ret;
 
-import at.tugraz.sss.serv.SSServOpE;
+
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarNames;
-import at.tugraz.sss.serv.SSServRetI;
+import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSJSONLDU;
 import at.kc.tugraz.sss.video.datatypes.SSVideo;
 import at.tugraz.sss.serv.SSEntity;
@@ -59,7 +59,7 @@ public class SSVideosUserGetRet extends SSServRetI{
   private SSVideosUserGetRet(
     final List<SSEntity>    videos) {
     
-    super(SSServOpE.videosGet);
+    super(SSVarNames.videosGet);
     
     SSEntity.addEntitiesDistinctWithoutNull(this.videos, videos);
   }

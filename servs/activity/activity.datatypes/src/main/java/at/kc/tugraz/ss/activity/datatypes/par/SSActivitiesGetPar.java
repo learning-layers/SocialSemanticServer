@@ -23,10 +23,10 @@ package at.kc.tugraz.ss.activity.datatypes.par;
 import at.tugraz.sss.serv.SSStrU;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
 import java.util.ArrayList;
 import java.util.List;
-import at.tugraz.sss.serv.SSServOpE;
+
 
 public class SSActivitiesGetPar extends SSServPar{
   
@@ -95,7 +95,7 @@ public class SSActivitiesGetPar extends SSServPar{
     final Boolean               withUserRestriction,
     final Boolean               invokeEntityHandlers){
     
-    super(SSServOpE.activitiesGet, null, user);
+    super(SSVarNames.activitiesGet, null, user);
 
     SSUri.addDistinctWithoutNull(this.activities, activities);
     

@@ -20,8 +20,8 @@
 */
 package at.kc.tugraz.ss.serv.dataimport.datatypes.pars;
 
-import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.serv.SSServRetI;
+
+import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
 import java.util.Map;
 
 public class SSDataImportBitsAndPiecesRet extends SSServRetI{
@@ -42,7 +42,7 @@ public class SSDataImportBitsAndPiecesRet extends SSServRetI{
   private SSDataImportBitsAndPiecesRet(
     final Boolean   worked){
     
-    super(SSServOpE.dataImportBitsAndPieces);
+    super(SSVarNames.dataImportBitsAndPieces);
     
     this.worked  = worked;
   }

@@ -22,8 +22,8 @@ package at.kc.tugraz.ss.like.datatypes.par;
 
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
+
 
 public class SSLikesUserGetPar extends SSServPar{
   
@@ -54,7 +54,7 @@ public class SSLikesUserGetPar extends SSServPar{
     final SSUri   forUser,
     final Boolean withUserRestriction){
     
-    super(SSServOpE.likesGet, null, user);
+    super(SSVarNames.likesGet, null, user);
     
     this.entity              = entity;
     this.forUser             = forUser;

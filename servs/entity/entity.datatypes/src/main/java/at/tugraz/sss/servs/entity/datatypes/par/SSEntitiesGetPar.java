@@ -21,11 +21,11 @@
 package at.tugraz.sss.servs.entity.datatypes.par;
 
 import at.tugraz.sss.serv.SSEntityDescriberPar;
-import at.tugraz.sss.serv.SSServOpE;
+
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
-import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -68,7 +68,7 @@ public class SSEntitiesGetPar extends SSServPar{
     final SSEntityDescriberPar descPar,
     final Boolean              withUserRestriction){
     
-    super(SSServOpE.entitiesGet, null, user);
+    super(SSVarNames.entitiesGet, null, user);
     
     SSUri.addDistinctWithoutNull     (this.entities, entities);
     

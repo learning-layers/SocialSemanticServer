@@ -20,14 +20,14 @@
 */
  package at.kc.tugraz.ss.serv.ss.auth.datatypes.pars;
 
-import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.serv.SSServPar;
+
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
 
 public class SSAuthCheckKeyPar extends SSServPar{
   
   public SSAuthCheckKeyPar(
     final String key){
     
-    super(SSServOpE.authCheckKey, key, null);
+    super(SSVarNames.authCheckKey, key, null);
   }
 }

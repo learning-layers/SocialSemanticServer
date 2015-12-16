@@ -20,8 +20,8 @@
  */
 package at.tugraz.sss.servs.livingdocument.datatype.ret;
 
-import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.serv.SSServRetI;
+
+import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 import java.util.Map;
@@ -48,7 +48,7 @@ public class SSLivingDocRemoveRet extends SSServRetI{
   private SSLivingDocRemoveRet(
     final SSUri livingDoc){
     
-    super(SSServOpE.livingDocRemove);
+    super(SSVarNames.livingDocRemove);
     
     this.livingDoc = livingDoc;
   }

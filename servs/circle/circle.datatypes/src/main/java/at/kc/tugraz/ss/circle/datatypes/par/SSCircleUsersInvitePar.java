@@ -20,10 +20,11 @@
 */
 package at.kc.tugraz.ss.circle.datatypes.par;
 
-import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.serv.SSServPar;
+
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.SSVarNames;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,7 +50,7 @@ public class SSCircleUsersInvitePar extends SSServPar{
     final Boolean        withUserRestriction,
     final Boolean        shouldCommit) throws Exception{
     
-    super(SSServOpE.circleUsersInvite, null, user);
+    super(SSVarNames.circleUsersInvite, null, user);
     
     this.circle  = circle;
     

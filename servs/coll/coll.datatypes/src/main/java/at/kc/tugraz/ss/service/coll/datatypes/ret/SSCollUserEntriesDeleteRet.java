@@ -20,8 +20,8 @@
 */
 package at.kc.tugraz.ss.service.coll.datatypes.ret;
 
-import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.serv.SSServRetI;
+
+import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 import java.util.ArrayList;
@@ -47,7 +47,7 @@ public class SSCollUserEntriesDeleteRet extends SSServRetI{
   
   private SSCollUserEntriesDeleteRet(List<SSUri> entries) {
 
-    super(SSServOpE.collEntriesDelete);
+    super(SSVarNames.collEntriesDelete);
     
     SSUri.addDistinctWithoutNull(this.entries, entries);
   }

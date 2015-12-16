@@ -849,7 +849,7 @@ public class SSTagAndCategoryCommonMisc {
 //    opPars.put(SSVarU.eventType,    SSUEEnum.useTag);
 //    opPars.put(SSVarU.content,      SSStrU.toStr(par.tagString));
 //    
-//    SSServReg.callServServer(new SSServPar(SSServOpE.uEAdd, opPars));
+//    SSServReg.callServServer(new SSServPar(SSVarNames.uEAdd, opPars));
 //    
 //    opPars = new HashMap<>();
 //    opPars.put(SSVarU.shouldCommit, true);
@@ -863,7 +863,7 @@ public class SSTagAndCategoryCommonMisc {
 //      opPars.put(SSVarU.eventType,    SSUEEnum.addPrivateTag);
 //    }
 //    
-//    SSServReg.callServServer(new SSServPar(SSServOpE.uEAdd, opPars));
+//    SSServReg.callServServer(new SSServPar(SSVarNames.uEAdd, opPars));
 //  }
   
 //  private void saveUETagDelete(SSServPar parA) throws Exception{
@@ -882,7 +882,7 @@ public class SSTagAndCategoryCommonMisc {
 //      opPars.put(SSVarU.eventType,    SSUEEnum.removePrivateTag);
 //    }
 //    
-//    SSServReg.callServServer(new SSServPar(SSServOpE.uEAdd, opPars));
+//    SSServReg.callServServer(new SSServPar(SSVarNames.uEAdd, opPars));
 //  }
 //  public static String[] getStringArrayFromList(
 //          List    list,

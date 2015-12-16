@@ -102,7 +102,7 @@ public class SSEntityCopyPar extends SSServPar{
     final Boolean       withUserRestriction,
     final Boolean       shouldCommit){
     
-    super(SSServOpE.entityCopy, null, user);
+    super(SSVarNames.entityCopy, null, user);
     
     this.entity       = entity;
     this.targetEntity = targetEntity;

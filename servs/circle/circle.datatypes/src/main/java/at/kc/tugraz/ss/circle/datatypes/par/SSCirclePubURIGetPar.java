@@ -20,8 +20,8 @@
 */
  package at.kc.tugraz.ss.circle.datatypes.par;
 
-import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
+
 import at.tugraz.sss.serv.SSUri;
 
 public class SSCirclePubURIGetPar extends SSServPar{
@@ -32,7 +32,7 @@ public class SSCirclePubURIGetPar extends SSServPar{
     final SSUri         user, 
     final Boolean       shouldCommit) throws Exception{
       
-    super(SSServOpE.circlePubURIGet, null, user);
+    super(SSVarNames.circlePubURIGet, null, user);
     
     this.shouldCommit = shouldCommit;
   }

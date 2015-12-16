@@ -22,8 +22,8 @@ package at.kc.tugraz.ss.service.disc.datatypes.pars;
 
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
+
 
 public class SSDiscEntryAcceptPar extends SSServPar{
   
@@ -45,7 +45,7 @@ public class SSDiscEntryAcceptPar extends SSServPar{
     final Boolean   withUserRestriction,
     final Boolean   shouldCommit){
     
-    super(SSServOpE.discEntryAccept, null, user);
+    super(SSVarNames.discEntryAccept, null, user);
     
     this.entry                 = entry;
     this.withUserRestriction   = withUserRestriction;

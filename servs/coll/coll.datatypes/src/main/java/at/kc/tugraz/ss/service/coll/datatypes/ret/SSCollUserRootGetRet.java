@@ -22,9 +22,9 @@ package at.kc.tugraz.ss.service.coll.datatypes.ret;
 
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarNames;
-import at.tugraz.sss.serv.SSServRetI;
+import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
 import at.kc.tugraz.ss.service.coll.datatypes.SSColl;
-import at.tugraz.sss.serv.SSServOpE;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -48,7 +48,7 @@ public class SSCollUserRootGetRet extends SSServRetI{
   
   private SSCollUserRootGetRet(SSColl coll) {
     
-    super(SSServOpE.collRootGet);
+    super(SSVarNames.collRootGet);
     
     this.coll = coll;
   }

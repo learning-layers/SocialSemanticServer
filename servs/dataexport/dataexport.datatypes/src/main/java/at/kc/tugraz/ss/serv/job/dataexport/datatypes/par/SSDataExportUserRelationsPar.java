@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.serv.job.dataexport.datatypes.par;
 
-import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
 
 public class SSDataExportUserRelationsPar extends SSServPar{
   

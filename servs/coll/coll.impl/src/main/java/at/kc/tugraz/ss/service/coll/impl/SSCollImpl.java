@@ -41,7 +41,7 @@ import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.kc.tugraz.ss.service.coll.api.*;
 import at.kc.tugraz.ss.service.coll.datatypes.*;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollGetPar;
-import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSConfA;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserParentGetPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserRootGetPar;

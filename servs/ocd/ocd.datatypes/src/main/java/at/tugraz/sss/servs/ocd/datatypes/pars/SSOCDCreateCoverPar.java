@@ -20,12 +20,11 @@
 */
 package at.tugraz.sss.servs.ocd.datatypes.pars;
 
-import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.servs.ocd.datatypes.SSOCDAlgoE;
 import at.tugraz.sss.servs.ocd.datatypes.SSOCDCreationTypeE;
-import at.tugraz.sss.servs.ocd.datatypes.SSOCDGraphInputE;
 
 public class SSOCDCreateCoverPar extends SSServPar {
   
@@ -40,7 +39,7 @@ public class SSOCDCreateCoverPar extends SSServPar {
     final byte[]                      content,
     final Boolean                     shouldCommit) {
     
-    super(SSServOpE.ocdCreateCover, null, user);
+    super(SSVarNames.ocdCreateCover, null, user);
     
   }
 }

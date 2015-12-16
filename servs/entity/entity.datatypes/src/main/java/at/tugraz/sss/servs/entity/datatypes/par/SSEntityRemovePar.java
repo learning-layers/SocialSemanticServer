@@ -22,8 +22,8 @@
 
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
+
 import at.tugraz.sss.serv.SSStrU;
  
 public class SSEntityRemovePar extends SSServPar{
@@ -42,7 +42,7 @@ public class SSEntityRemovePar extends SSServPar{
     final SSUri user, 
     final SSUri entity){
       
-    super(SSServOpE.entityRemove, null, user);
+    super(SSVarNames.entityRemove, null, user);
       
     this.entity = entity;
   }

@@ -27,9 +27,9 @@ public abstract class SSServRetI implements SSServRetJSONLDI{
   @ApiModelProperty(
     required = true,
     value = "service operation executed")
-  public final SSServOpE op;
+  public final String op;
 
-  public SSServRetI(SSServOpE op){
+  public SSServRetI(final String op){
     this.op = op;
   }
 }

@@ -22,8 +22,8 @@
 
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
+
 
 public class SSCollUserEntryDeletePar extends SSServPar{
   
@@ -55,7 +55,7 @@ public class SSCollUserEntryDeletePar extends SSServPar{
     final Boolean        withUserRestriction, 
     final Boolean        shouldCommit){
     
-    super(SSServOpE.collEntryDelete, null, user);
+    super(SSVarNames.collEntryDelete, null, user);
     
     this.coll                = coll;
     this.entry               = entry;

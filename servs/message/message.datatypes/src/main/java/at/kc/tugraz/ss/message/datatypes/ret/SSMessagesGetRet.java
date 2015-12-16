@@ -20,8 +20,8 @@
   */
 package at.kc.tugraz.ss.message.datatypes.ret;
 
-import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.serv.SSServRetI;
+
+import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSEntity;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +48,7 @@ public class SSMessagesGetRet extends SSServRetI{
     final List<SSEntity> messages,
     final Long           queryTime){
     
-    super(SSServOpE.messagesGet);
+    super(SSVarNames.messagesGet);
     
     SSEntity.addEntitiesDistinctWithoutNull(this.messages, messages);
       

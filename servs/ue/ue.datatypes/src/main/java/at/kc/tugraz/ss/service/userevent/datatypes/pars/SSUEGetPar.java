@@ -21,8 +21,8 @@
 package at.kc.tugraz.ss.service.userevent.datatypes.pars;
 
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
+
 import at.tugraz.sss.serv.SSStrU;
 
 public class SSUEGetPar extends SSServPar{
@@ -48,7 +48,7 @@ public class SSUEGetPar extends SSServPar{
     final Boolean   withUserRestriction, 
     final Boolean   invokeEntityHandlers){
     
-    super(SSServOpE.userEventGet, null, user);
+    super(SSVarNames.userEventGet, null, user);
     
     this.userEvent            = userEvent;
     this.withUserRestriction  = withUserRestriction;

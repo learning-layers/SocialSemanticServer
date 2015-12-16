@@ -23,8 +23,8 @@ package at.kc.tugraz.ss.service.filerepo.datatypes.pars;
 import at.tugraz.sss.serv.SSMimeTypeE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSLabel;
-import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
+
 import at.tugraz.sss.serv.SSUri;
 import java.net.Socket;
 
@@ -68,7 +68,7 @@ public class SSFileUploadPar extends SSServPar{
     final Socket        clientSocket,
     final Boolean       shouldCommit){
     
-    super (SSServOpE.fileUpload, null, user);
+    super (SSVarNames.fileUpload, null, user);
     
     this.mimeType     = mimeType;
     this.label        = label;

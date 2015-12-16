@@ -55,7 +55,7 @@ public class SSLinkU{
 //    opPars.put(SSVarU.user, par.user);
 //opPars.put(SSVarU.resource, par.user);
 //    
-//     userLabel = (String) SSServReg.callServServer(new SSServPar(SSServOpE.labelGet, opPars));
+//     userLabel = (String) SSServReg.callServServer(new SSServPar(SSVarNames.labelGet, opPars));
 //recommUri      = new URL(SSStrU.addTrailingSlash(((SSScaffConf)conf).getPath()) + userLabel + SSStrU.slash + resourceString);
 //recommCon      = recommUri.openConnection();
 //recommIn       = new BufferedReader(new InputStreamReader(recommCon.getInputStream()));

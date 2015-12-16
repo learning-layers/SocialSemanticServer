@@ -60,9 +60,9 @@ import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServImplA;
 import at.tugraz.sss.serv.SSServImplStartA;
-import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServReg;
-import at.tugraz.sss.serv.SSServRetI;
+import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.servs.image.serv.SSImageServ;
 import at.tugraz.sss.servs.integrationtest.SSIntegrationTestServ;
 import at.tugraz.sss.servs.kcprojwiki.serv.SSKCProjWikiServ;
@@ -373,7 +373,7 @@ public class SSSocketMainV2{
 
 //  private void checkAndExecScaffServTests(String[] args) throws Exception{
 //
-//    if(SSStrU.equals(args[0], SSServOpE.scaffRecommTags)){
+//    if(SSStrU.equals(args[0], SSVarNames.scaffRecommTags)){
 //
 //      SSUri user;
 //      SSUri resource;
@@ -381,7 +381,7 @@ public class SSSocketMainV2{
 //      opPars = new HashMap<>();
 //      opPars.put(SSVarU.userLabel,  SSLabelStr.get("833086"));
 //
-//      user     = (SSUri) SSServReg.callServServer(new SSServPar(SSServOpE.userCreateUri, opPars));
+//      user     = (SSUri) SSServReg.callServServer(new SSServPar(SSVarNames.userCreateUri, opPars));
 //      resource = SSUri.get(SSStrU.addAtBegin("Technological_singularity", SSLinkU.wikipediaEn.toString()));
 //
 //      opPars = new HashMap<>();
@@ -389,37 +389,37 @@ public class SSSocketMainV2{
 //      opPars.put(SSVarU.resource, resource);
 //      opPars.put(SSVarU.maxTags,  10);
 //
-//      System.out.println(SSServReg.callServServer(new SSServPar(SSServOpE.scaffRecommTags, opPars)));
+//      System.out.println(SSServReg.callServServer(new SSServPar(SSVarNames.scaffRecommTags, opPars)));
 //    }
 //  }
 //
 //  private void checkAndExecDataImportServTests(String[] args) throws Exception{
 //
-//    if(SSStrU.equals(args[0], SSServOpE.dataImportUserResourceTagFromWikipedia)){
+//    if(SSStrU.equals(args[0], SSVarNames.dataImportUserResourceTagFromWikipedia)){
 //
 //      opPars = new HashMap<>();
 //
-//      SSServReg.callServServer(new SSServPar(SSServOpE.dataImportUserResourceTagFromWikipedia, opPars));
+//      SSServReg.callServServer(new SSServPar(SSVarNames.dataImportUserResourceTagFromWikipedia, opPars));
 //    }
 //  }
 //
 //  private void checkAndExecLomExtractFromDirServTests(String[] args) throws Exception{
 //
-//    if(SSStrU.equals(args[0], SSServOpE.lomExtractFromDir)){
+//    if(SSStrU.equals(args[0], SSVarNames.lomExtractFromDir)){
 //
 //      opPars = new HashMap<>();
 //
-//      SSServReg.callServServer(new SSServPar(SSServOpE.lomExtractFromDir, opPars));
+//      SSServReg.callServServer(new SSServPar(SSVarNames.lomExtractFromDir, opPars));
 //    }
 //  }
 //
 //  private void checkAndExecSolrServTests(String[] args) throws Exception{
 //
-//    if(SSStrU.equals(args[0], SSServOpE.solrRemoveDocsAll)){
+//    if(SSStrU.equals(args[0], SSVarNames.solrRemoveDocsAll)){
 //
 //      opPars = new HashMap<>();
 //
-//      SSServReg.callServServer(new SSServPar(SSServOpE.solrRemoveDocsAll, opPars));
+//      SSServReg.callServServer(new SSServPar(SSVarNames.solrRemoveDocsAll, opPars));
 //    }
 //  }
 

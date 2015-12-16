@@ -21,8 +21,8 @@
 package at.tugraz.sss.servs.image.datatype.par;
 
 import at.tugraz.sss.serv.SSImageE;
-import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.serv.SSServPar;
+
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 
@@ -84,7 +84,7 @@ public class SSImageAddPar extends SSServPar{
     final Boolean       withUserRestriction,
     final Boolean       shouldCommit){
     
-    super(SSServOpE.imageAdd, null, user);
+    super(SSVarNames.imageAdd, null, user);
     
     this.uuid                                 = uuid;
     this.link                                 = link;

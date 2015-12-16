@@ -20,10 +20,10 @@
 */
 package at.kc.tugraz.ss.serv.jsonld.datatypes.par.ret;
 
-import at.tugraz.sss.serv.SSServOpE;
+
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarNames;
-import at.tugraz.sss.serv.SSServRetI;
+import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -50,7 +50,7 @@ public class SSJSONLDRet extends SSServRetI{
   private SSJSONLDRet(
     final Object jsonLD) {
 
-    super(SSServOpE.jsonLD);
+    super(SSVarNames.jsonLD);
     
     this.desc = jsonLD;
   }

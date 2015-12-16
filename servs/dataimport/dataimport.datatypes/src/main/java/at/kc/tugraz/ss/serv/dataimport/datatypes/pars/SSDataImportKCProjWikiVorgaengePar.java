@@ -20,8 +20,8 @@
 */
 package at.kc.tugraz.ss.serv.dataimport.datatypes.pars;
 
-import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.serv.SSServPar;
+
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 
 public class SSDataImportKCProjWikiVorgaengePar extends SSServPar{
@@ -34,7 +34,7 @@ public class SSDataImportKCProjWikiVorgaengePar extends SSServPar{
     final SSUri   user,
     final String  filePath){
     
-    super(SSServOpE.dataImportKCProjWikiVorgaenge, null, user);
+    super(SSVarNames.dataImportKCProjWikiVorgaenge, null, user);
     
     this.filePath = filePath;
   }

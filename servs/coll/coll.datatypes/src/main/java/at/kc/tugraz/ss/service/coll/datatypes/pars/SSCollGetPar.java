@@ -21,9 +21,9 @@
 package at.kc.tugraz.ss.service.coll.datatypes.pars;
 
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServOpE;
+
 
 public class SSCollGetPar extends SSServPar{
 
@@ -46,7 +46,7 @@ public class SSCollGetPar extends SSServPar{
     final Boolean       withUserRestriction, 
     final Boolean       invokeEntityHandlers){
     
-    super(SSServOpE.collGet, null, user);
+    super(SSVarNames.collGet, null, user);
      
     this.coll                 = coll;
     this.withUserRestriction  = withUserRestriction;

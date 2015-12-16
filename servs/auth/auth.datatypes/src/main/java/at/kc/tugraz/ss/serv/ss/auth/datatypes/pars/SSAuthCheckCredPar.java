@@ -20,9 +20,9 @@
 */
 package at.kc.tugraz.ss.serv.ss.auth.datatypes.pars;
 
-import at.tugraz.sss.serv.SSServOpE;
+
 import at.tugraz.sss.serv.SSLabel;
-import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSStrU;
 
 public class SSAuthCheckCredPar extends SSServPar{
@@ -44,7 +44,7 @@ public class SSAuthCheckCredPar extends SSServPar{
     final SSLabel   label, 
     final String    password){
     
-    super(SSServOpE.authCheckCred, null, null);
+    super(SSVarNames.authCheckCred, null, null);
     
     this.label    = label;
     this.password = password;
@@ -53,6 +53,6 @@ public class SSAuthCheckCredPar extends SSServPar{
   public SSAuthCheckCredPar(
     final String   key){
     
-    super(SSServOpE.authCheckCred, key, null);
+    super(SSVarNames.authCheckCred, key, null);
   }
 }

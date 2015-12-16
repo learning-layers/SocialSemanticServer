@@ -20,8 +20,8 @@
  */
 package at.tugraz.sss.servs.entity.datatypes.par;
 
-import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.serv.SSServPar;
+
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 
 public class SSEntityTypesGetPar extends SSServPar{
@@ -31,6 +31,6 @@ public class SSEntityTypesGetPar extends SSServPar{
   public SSEntityTypesGetPar(
     final SSUri                 user){
     
-    super(SSServOpE.entityTypesGet, null, user);
+    super(SSVarNames.entityTypesGet, null, user);
   }
 }

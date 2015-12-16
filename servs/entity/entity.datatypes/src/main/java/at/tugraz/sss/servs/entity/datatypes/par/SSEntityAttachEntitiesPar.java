@@ -20,9 +20,9 @@
 */
 package at.tugraz.sss.servs.entity.datatypes.par;
 
-import at.tugraz.sss.serv.SSServOpE;
+
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
 import java.util.ArrayList;
 import java.util.List;
 import at.tugraz.sss.serv.SSStrU;
@@ -57,7 +57,7 @@ public class SSEntityAttachEntitiesPar extends SSServPar{
     final Boolean             withUserRestriction, 
     final Boolean             shouldCommit){
 
-    super(SSServOpE.entityEntitiesAttach, null, user);
+    super(SSVarNames.entityEntitiesAttach, null, user);
   
     this.entity         = entity;
     

@@ -21,8 +21,8 @@
  package at.kc.tugraz.ss.service.rating.datatypes.pars;
 
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
+
 import at.tugraz.sss.serv.SSStrU;
 
 public class SSRatingGetPar extends SSServPar{
@@ -44,7 +44,7 @@ public class SSRatingGetPar extends SSServPar{
     final SSUri     entity, 
     final Boolean   withUserRestriction){
         
-    super(SSServOpE.ratingGet, null, user);
+    super(SSVarNames.ratingGet, null, user);
     
     this.entity = entity;
   }

@@ -20,8 +20,8 @@
 */
 package at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par;
 
-import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
+
 import at.tugraz.sss.serv.SSUri;
 
 public class SSEvernoteNoteStoreGetPar extends SSServPar{
@@ -36,7 +36,7 @@ public class SSEvernoteNoteStoreGetPar extends SSServPar{
     final String authToken, 
     final String authEmail){
     
-    super(SSServOpE.evernoteNoteStoreGet, null, user);
+    super(SSVarNames.evernoteNoteStoreGet, null, user);
     
     this.authToken     = authToken;
     this.authEmail     = authEmail;

@@ -20,9 +20,9 @@
  */
 package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par;
 
-import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServOpE;
+
 import at.tugraz.sss.serv.SSStrU;
 
 public class SSLearnEpVersionCurrentSetPar extends SSServPar{
@@ -45,7 +45,7 @@ public class SSLearnEpVersionCurrentSetPar extends SSServPar{
     final Boolean       withUserRestriction,
     final Boolean       shouldCommit){
     
-    super(SSServOpE.learnEpVersionCurrentSet, null, user);
+    super(SSVarNames.learnEpVersionCurrentSet, null, user);
     
     this.learnEpVersion      = learnEpVersion;
     this.withUserRestriction = withUserRestriction;

@@ -20,8 +20,8 @@
  */
 package at.kc.tugraz.sss.app.datatypes.ret;
 
-import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.serv.SSServRetI;
+
+import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 import java.util.ArrayList;
@@ -50,7 +50,7 @@ public class SSAppsDeleteRet extends SSServRetI{
   private SSAppsDeleteRet(
     final List<SSUri>     apps) {
     
-    super(SSServOpE.appsDelete);
+    super(SSVarNames.appsDelete);
     
     SSUri.addDistinctWithoutNull(this.apps, apps);
   }

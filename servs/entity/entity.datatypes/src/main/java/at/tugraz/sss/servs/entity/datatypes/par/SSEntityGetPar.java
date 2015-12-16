@@ -22,8 +22,8 @@
 
 import at.tugraz.sss.serv.SSEntityDescriberPar;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
+
 import at.tugraz.sss.serv.SSStrU;
  
 public class SSEntityGetPar extends SSServPar{
@@ -47,7 +47,7 @@ public class SSEntityGetPar extends SSServPar{
     final Boolean              withUserRestriction,
     final SSEntityDescriberPar descPar){
     
-    super(SSServOpE.entityGet, null, user);
+    super(SSVarNames.entityGet, null, user);
     
     this.entity               = entity;
     this.withUserRestriction  = withUserRestriction;

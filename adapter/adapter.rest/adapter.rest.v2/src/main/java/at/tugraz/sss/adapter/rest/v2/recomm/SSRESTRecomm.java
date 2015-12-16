@@ -21,7 +21,7 @@
 package at.tugraz.sss.adapter.rest.v2.recomm;
 
 import at.tugraz.sss.adapter.rest.v2.SSRESTObject;
-import at.tugraz.sss.serv.SSServOpE;
+
 import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
 import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommResourcesPar;

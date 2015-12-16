@@ -20,10 +20,10 @@
 */
 package at.kc.tugraz.ss.service.coll.datatypes.ret;
 
-import at.tugraz.sss.serv.SSServOpE;
+
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarNames;
-import at.tugraz.sss.serv.SSServRetI;
+import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -49,7 +49,7 @@ public class SSCollUserEntriesAddRet extends SSServRetI{
   
   private SSCollUserEntriesAddRet(List<SSUri> entries ) {
 
-    super(SSServOpE.collEntriesAdd);
+    super(SSVarNames.collEntriesAdd);
     
     SSUri.addDistinctWithoutNull(this.entries, entries);
   }

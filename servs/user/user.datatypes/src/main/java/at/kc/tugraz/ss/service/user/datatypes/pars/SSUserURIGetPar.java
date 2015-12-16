@@ -20,8 +20,8 @@
 */
  package at.kc.tugraz.ss.service.user.datatypes.pars;
 
-import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
+
 import at.tugraz.sss.serv.SSUri;
 
 public class SSUserURIGetPar extends SSServPar{
@@ -34,7 +34,7 @@ public class SSUserURIGetPar extends SSServPar{
     final SSUri     user,
     final String    email){
    
-    super(SSServOpE.userURIGet, null, user);
+    super(SSVarNames.userURIGet, null, user);
 
     this.email = email;
   }

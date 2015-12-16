@@ -23,10 +23,10 @@ package at.kc.tugraz.ss.category.datatypes.par;
 import at.kc.tugraz.ss.category.datatypes.SSCategoryLabel;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSSpaceE;
-import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
 import java.util.ArrayList;
 import java.util.List;
-import at.tugraz.sss.serv.SSServOpE;
+
 import at.tugraz.sss.serv.SSStrU;
 
 public class SSCategoriesAddPar extends SSServPar{
@@ -81,7 +81,7 @@ public class SSCategoriesAddPar extends SSServPar{
     final Boolean               withUserRestriction,
     final Boolean               shouldCommit){
     
-    super(SSServOpE.categoriesAdd, null, user);
+    super(SSVarNames.categoriesAdd, null, user);
     
     SSCategoryLabel.addDistinctNotEmpty(this.labels, labels);
     

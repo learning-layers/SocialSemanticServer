@@ -20,11 +20,11 @@
 */
 package at.kc.tugraz.ss.service.userevent.datatypes.ret;
 
-import at.tugraz.sss.serv.SSServOpE;
+
 import at.tugraz.sss.serv.SSJSONLDU;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarNames;
-import at.tugraz.sss.serv.SSServRetI;
+import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUE;
 import at.tugraz.sss.serv.SSEntity;
 import java.util.ArrayList;
@@ -50,7 +50,7 @@ public class SSUEsGetRet extends SSServRetI{
   private SSUEsGetRet(
     final List<SSEntity> userEvents){
     
-    super(SSServOpE.userEventsGet);
+    super(SSVarNames.userEventsGet);
     
     SSEntity.addEntitiesDistinctWithoutNull(this.userEvents, userEvents);
   }

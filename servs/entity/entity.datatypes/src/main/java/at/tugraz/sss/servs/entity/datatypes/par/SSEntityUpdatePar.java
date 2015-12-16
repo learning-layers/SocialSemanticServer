@@ -23,9 +23,9 @@ package at.tugraz.sss.servs.entity.datatypes.par;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSLabel;
-import at.tugraz.sss.serv.SSServOpE;
+
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSStrU;
 
 public class SSEntityUpdatePar extends SSServPar{
@@ -88,7 +88,7 @@ public class SSEntityUpdatePar extends SSServPar{
     final Boolean             withUserRestriction, 
     final Boolean             shouldCommit){
 
-    super(SSServOpE.entityUpdate, null, user);
+    super(SSVarNames.entityUpdate, null, user);
   
     this.entity              = entity;
     this.type                = type;

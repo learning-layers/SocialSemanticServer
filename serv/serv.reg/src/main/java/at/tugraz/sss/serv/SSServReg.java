@@ -21,7 +21,6 @@
 package at.tugraz.sss.serv;
 
 import java.util.ArrayList;
-import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,9 +28,9 @@ import java.util.Map;
 public class SSServReg{
   
   public static final SSServReg                            inst                                         = new SSServReg();
-  public static final Map<SSServOpE,     SSServContainerI> servs                                        = new EnumMap<>(SSServOpE.class);
-  public static final Map<SSServOpE,     SSServContainerI> servsForClientOps                            = new EnumMap<>(SSServOpE.class);
-  public static final Map<SSServOpE,     SSServContainerI> servsForServerOps                            = new EnumMap<>(SSServOpE.class);
+  public static final Map<String,     SSServContainerI>    servs                                        = new HashMap<>();
+  public static final Map<String,     SSServContainerI>    servsForClientOps                            = new HashMap<>();
+  public static final Map<String,     SSServContainerI>    servsForServerOps                            = new HashMap<>();
   public static final Map<Class,         SSServContainerI> servsForServerI                              = new HashMap<>();
   public static final Map<Class,         SSServContainerI> servsForClientI                              = new HashMap<>();
   public static final List<SSServContainerI>               servsForGatheringUsersResources              = new ArrayList<>();
@@ -46,8 +45,8 @@ public class SSServReg{
   public static final List<SSServContainerI>               servsHandlingPushEntitiesToUsers             = new ArrayList<>();
   public static final List<SSServContainerI>               servsHandlingEntitiesSharedWithUsers         = new ArrayList<>();
   
-  public static final Map<SSServOpE, Integer>                         requsLimitsForClientOpsPerUser  = new EnumMap<>(SSServOpE.class);
-  public static final Map<SSServOpE, Map<String, List<SSServImplA>>>  currentRequsForClientOpsPerUser = new EnumMap<>(SSServOpE.class);
+  public static final Map<String, Integer>                         requsLimitsForClientOpsPerUser  = new HashMap<>();
+  public static final Map<String, Map<String, List<SSServImplA>>>  currentRequsForClientOpsPerUser = new HashMap<>();
   
   public static SSServContainerI getClientServ(final Class clientServClass) throws SSErr{
     
@@ -68,7 +67,7 @@ public class SSServReg{
   }
   
   public SSServContainerI getClientServ(
-    final SSServOpE op) throws SSErr{
+    final String op) throws SSErr{
     
     try{
       
@@ -102,7 +101,7 @@ public class SSServReg{
   public void regClientRequest(
     final SSUri       user, 
     final SSServImplA servImpl,
-    final SSServOpE   op) throws SSErr{
+    final String      op) throws SSErr{
     
     try{
     
@@ -142,7 +141,7 @@ public class SSServReg{
   }
   
   public void unregClientRequest(
-    final SSServOpE     op,
+    final String        op,
     final SSUri         user,
     final SSServImplA   servImpl) throws Exception{
     
@@ -168,10 +167,10 @@ public class SSServReg{
   }
   
   public void regClientRequestLimit(
-    final Class                   servImplClientInteraceClass,
-    final Map<SSServOpE, Integer> maxRequsPerOps) throws Exception{
+    final Class                servImplClientInteraceClass,
+    final Map<String, Integer> maxRequsPerOps) throws Exception{
     
-    for(Map.Entry<SSServOpE, Integer> maxRequestPerOp : maxRequsPerOps.entrySet()){
+    for(Map.Entry<String, Integer> maxRequestPerOp : maxRequsPerOps.entrySet()){
       
       try{
         servImplClientInteraceClass.getMethod(SSStrU.toStr(maxRequestPerOp.getKey()), SSClientE.class, SSServPar.class);
@@ -438,7 +437,7 @@ public class SSServReg{
       
       synchronized(servs){
         
-        for(SSServOpE op : servContainer.publishClientOps()){
+        for(String op : servContainer.publishClientOps()){
           
           if(servs.containsKey(op)){
             throw new Exception("op for service already registered");
@@ -490,7 +489,7 @@ public class SSServReg{
       
       synchronized(servsForClientOps){
         
-        for(SSServOpE op : servContainer.publishClientOps()){
+        for(String op : servContainer.publishClientOps()){
           
           if(servsForClientOps.containsKey(op)){
             throw new Exception("op for client service already registered");
@@ -502,7 +501,7 @@ public class SSServReg{
       
       synchronized(servsForServerOps){
         
-        for(SSServOpE op : servContainer.publishServerOps()){
+        for(String op : servContainer.publishServerOps()){
           
           if(servsForServerOps.containsKey(op)){
             throw new Exception("op for server service already registered");
@@ -623,7 +622,7 @@ public class SSServReg{
 //  }
 
 //          if(SSStrU.contains(requestBuffer.toString(), SSRegistryServ.policyFile)){
-//            SSServOpE.toStr(op)"policy file serving not supported anymore"); //sScon.writeStringToClient("<?xml version=\"1.0\" ?><cross-domain-policy><allow-access-from domain=\"*\" to-ports=\"" + sScon.port + "\"/></cross-domain-policy>");
+//            SSVarNames.toStr(op)"policy file serving not supported anymore"); //sScon.writeStringToClient("<?xml version=\"1.0\" ?><cross-domain-policy><allow-access-from domain=\"*\" to-ports=\"" + sScon.port + "\"/></cross-domain-policy>");
 //          }
 
 
@@ -645,7 +644,7 @@ public class SSServReg{
 //    opPars.put(SSVarNames.user, par.user);
 //    opPars.put(SSVarNames.serv, serv);
 //    
-//    par.clientCon.writeRetFullToClient((SSServRetI) callServViaServer(new SSServPar(SSServOpE.cloudPublishService, opPars)));
+//    par.clientCon.writeRetFullToClient((SSServRetI) callServViaServer(new SSServPar(SSVarNames.cloudPublishService, opPars)));
 //  }
   
 //  private SSServContainerI getClientServAvailableOnNodes(

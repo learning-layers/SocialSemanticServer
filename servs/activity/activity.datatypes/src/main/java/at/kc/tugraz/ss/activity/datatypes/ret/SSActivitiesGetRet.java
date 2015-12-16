@@ -20,9 +20,9 @@
 */
 package at.kc.tugraz.ss.activity.datatypes.ret;
 
-import at.tugraz.sss.serv.SSServOpE;
+
 import at.tugraz.sss.serv.SSEntity;
-import at.tugraz.sss.serv.SSServRetI;
+import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -48,7 +48,7 @@ public class SSActivitiesGetRet extends SSServRetI{
     final List<SSEntity> activities, 
     final Long           queryTime) {
 
-    super(SSServOpE.activitiesGet);
+    super(SSVarNames.activitiesGet);
     
     SSEntity.addEntitiesDistinctWithoutNull(this.activities, activities);
     

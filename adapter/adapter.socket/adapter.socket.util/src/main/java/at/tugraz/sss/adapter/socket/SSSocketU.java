@@ -23,8 +23,7 @@ package at.tugraz.sss.adapter.socket;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSJSONU;
 import at.tugraz.sss.serv.SSObjU;
-import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.serv.SSServRetI;
+import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarNames;
 import java.io.DataInputStream;
@@ -68,18 +67,17 @@ public class SSSocketU {
 //      ret.put(SSJSONLDU.context, SSJSONLDU.jsonLDContext(result.jsonLDDesc()));
 //    }
     
-    writeMsgFullToClient(streamWriter, prepRetFullToClient(result, result.op));
+    writeMsgFullToClient(streamWriter, prepRetFullToClient(result));
   }
   
   public static String prepRetFullToClient(
-    final Object    result, 
-    final SSServOpE op) throws Exception{
+    final SSServRetI    result) throws Exception{
     
     final Map<String, Object> ret       = new HashMap<>();
     
-    ret.put(SSVarNames.op,    SSStrU.toStr(op));
+    ret.put(SSVarNames.op,    SSStrU.toStr(result.op));
     ret.put(SSVarNames.error, false);
-    ret.put(SSStrU.toStr(op), result);
+    ret.put(SSStrU.toStr(result.op), result);
     
     return SSJSONU.jsonStr(ret) + endOfRequest;
 }
@@ -119,20 +117,20 @@ public class SSSocketU {
   public static void writeErrorFullToClient(
     final OutputStreamWriter        streamWriter,
     final List<? extends Exception> errors, 
-    final SSServOpE                 op) throws Exception{
+    final String                    op) throws Exception{
     
     writeMsgFullToClient(streamWriter, prepErrorToClient(errors, op));
   }
   
   public static String prepErrorToClient(
     final List<? extends Exception> errors, 
-    final SSServOpE                 op) throws Exception{
+    final String                    op) throws Exception{
     
     final Map<String, Object> ret           = new HashMap<>();
 //    final List<String>        errorMessages = SSErrForClient.messages           (errors);
     
-    ret.put(SSVarNames.op,                      SSStrU.toStr(op));
-    ret.put(SSVarNames.error,                   true);
+    ret.put(SSVarNames.op,                    op);
+    ret.put(SSVarNames.error,                 true);
 //    ret.put(SSVarU.errorMsg,                errorMessages);
 //    ret.put(SSVarU.errorClassNames,         SSErrForClient.classNames         (errors));
 //    ret.put(SSVarU.errorClassesWhereThrown, SSErrForClient.classesWhereThrown (errors));
@@ -207,6 +205,25 @@ public class SSSocketU {
   }
 }
 
+//  public void writeRetFullToClient(
+//    final Object    result, 
+//    final SSServOpE op) throws Exception{
+//  
+////    if(sendJSONLD){
+////      ret.put(SSJSONLDU.context, SSJSONLDU.jsonLDContext(result.jsonLDDesc()));
+////    }
+//    
+//    writeMsgFullToClient(prepRetFullToClient(result, op));
+//  }
+
+//    this.sSSocket             = new Socket           (InetAddress.getByName(host), port);
+//    this.sSInFileChunk        = new DataInputStream  (sSSocket.getInputStream());
+//    this.sSOutFileChunk       = new DataOutputStream (sSSocket.getOutputStream());
+//    this.sSOutRequFull        = new BufferedWriter   (new OutputStreamWriter(sSSocket.getOutputStream(), SSEncodingU.utf8.toString()));
+//    this.testIn               = new InputStreamReader (sSSocket.getInputStream(),  SSEncodingU.utf8.toString());
+//    this.clientInMsgFull     = new InputStreamReader  (clientSocket.getInputStream(), SSEncodingU.utf8.toString());
+//    this.clientOutFileChunk  = new DataOutputStream   (clientSocket.getOutputStream ());
+//    this.clientInFileChunk   = new DataInputStream    (clientSocket.getInputStream());
 
 //public void writeRequFullToSS(final String jsonRequest) throws IOException{
 //    
@@ -231,4 +248,75 @@ public class SSSocketU {
 //    }
 //    
 //    return string;
+//  }
+
+//public boolean writeFileChunkToSS(byte[] chunk) throws Exception{
+//    
+//    if(SSObjU.isNull(chunk)){
+//      throw new Exception("chunk to send to SSS is null");
+//    }
+//    
+//    if(chunk.length == 0){
+//      sSOutFileChunk.writeInt  (-1);
+//      sSOutFileChunk.write     (chunk);
+//      sSOutFileChunk.flush     ();
+//      return false;
+//    }
+//    
+//    sSOutFileChunk.writeInt  (chunk.length);
+//    sSOutFileChunk.write     (chunk);
+//    sSOutFileChunk.flush     ();
+//    return true;  
+//  }
+//public boolean writeFileChunkToSS(byte[] chunk, int length) throws Exception{
+//    
+//    if(SSObjU.isNull(chunk)){
+//      throw new Exception("chunk to send to SSS is null");
+//    }
+//    
+//    if(
+//      chunk.length == 0 ||
+//      length      <= 0){
+//      
+//      sSOutFileChunk.writeInt  (-1);
+//      sSOutFileChunk.write     (new byte[0]);
+//      sSOutFileChunk.flush     (); 
+//      return false;
+//    }
+//    
+//    sSOutFileChunk.writeInt  (length);
+//    sSOutFileChunk.write     (chunk, 0, length);
+//    sSOutFileChunk.flush     ();
+//    
+//    return true;    
+//  }
+//  
+//  public byte[] readFileChunkFromSS() throws IOException{
+//    
+//    int chunkSize = sSInFileChunk.readInt();
+//    
+//    if(chunkSize == -1){
+//      return new byte[0];
+//    }
+//    
+//    byte[] chunk = new byte[chunkSize];
+//    
+//    sSInFileChunk.readFully(chunk);
+//    
+//    return chunk;
+//  }
+
+//public void closeCon(){
+//    
+//    if(
+//      sSSocket == null ||
+//      sSSocket.isClosed()){
+//      return;
+//    }
+//    
+//    try{
+//      sSSocket.close();
+//    }catch(Exception error){
+//      SSLogU.err("server data input stream close failed");
+//    }
 //  }

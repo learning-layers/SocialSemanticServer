@@ -20,8 +20,8 @@
 */
  package at.kc.tugraz.ss.service.coll.datatypes.pars;
 
-import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.serv.SSServPar;
+
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 
@@ -44,7 +44,7 @@ public class SSCollUserRootAddPar extends SSServPar{
     final SSUri     forUser,
     final Boolean   shouldCommit){
 
-    super(SSServOpE.collRootAdd, null, user);
+    super(SSVarNames.collRootAdd, null, user);
     
     this.forUser      = forUser;
     this.shouldCommit = shouldCommit;

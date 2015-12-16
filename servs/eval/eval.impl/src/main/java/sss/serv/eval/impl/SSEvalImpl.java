@@ -37,7 +37,7 @@ import at.tugraz.sss.serv.SSFileU;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.SSToolE;
-import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.util.SSServCallerU;
 import java.util.ArrayList;
@@ -53,7 +53,7 @@ import at.kc.tugraz.ss.serv.datatypes.learnep.api.SSLearnEpServerI;
 import at.kc.tugraz.ss.service.disc.api.SSDiscServerI;
 import at.tugraz.sss.serv.SSClientE;
 import at.tugraz.sss.serv.SSErr;
-import at.tugraz.sss.serv.SSServRetI;
+import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.servs.livingdocument.api.SSLivingDocServerI;
 import java.util.Date;
 

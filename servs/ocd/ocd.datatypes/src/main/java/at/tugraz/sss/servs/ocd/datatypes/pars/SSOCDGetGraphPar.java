@@ -20,8 +20,8 @@
 */
 package at.tugraz.sss.servs.ocd.datatypes.pars;
 
-import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.serv.SSServPar;
+
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.servs.ocd.datatypes.SSOCDGraphOutputE;
 
@@ -40,7 +40,7 @@ public class SSOCDGetGraphPar extends SSServPar{
     final String graphId,
     final SSOCDGraphOutputE graphOutput) {
       
-      super(SSServOpE.ocdGetGraph, null, user);
+      super(SSVarNames.ocdGetGraph, null, user);
   }
   
   public String getGraphId() {

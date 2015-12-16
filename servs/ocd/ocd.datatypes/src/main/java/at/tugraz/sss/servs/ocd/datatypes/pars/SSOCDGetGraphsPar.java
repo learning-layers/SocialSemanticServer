@@ -21,8 +21,8 @@
 
 package at.tugraz.sss.servs.ocd.datatypes.pars;
 
-import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.serv.SSServPar;
+
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 
 
@@ -44,7 +44,7 @@ public class SSOCDGetGraphsPar extends SSServPar{
     final Boolean includeMeta,
     final String executionStatuses) {
     
-       super(SSServOpE.ocdGetGraphs, null, user);
+       super(SSVarNames.ocdGetGraphs, null, user);
   }
   public String getFirstIndex() {
     return firstIndex;

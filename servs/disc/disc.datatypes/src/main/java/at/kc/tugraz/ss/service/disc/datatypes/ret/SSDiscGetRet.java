@@ -20,10 +20,10 @@
 */
 package at.kc.tugraz.ss.service.disc.datatypes.ret;
 
-import at.tugraz.sss.serv.SSServOpE;
+
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarNames;
-import at.tugraz.sss.serv.SSServRetI;
+import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
 import at.kc.tugraz.ss.service.disc.datatypes.SSDisc;
 import java.util.HashMap;
 import java.util.Map;
@@ -50,7 +50,7 @@ public class SSDiscGetRet extends SSServRetI{
   private SSDiscGetRet(
     final SSDisc disc){
     
-    super(SSServOpE.discGet);
+    super(SSVarNames.discGet);
     
     this.disc = disc;
   }

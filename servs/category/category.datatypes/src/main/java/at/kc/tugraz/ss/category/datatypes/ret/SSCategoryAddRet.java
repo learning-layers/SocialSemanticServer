@@ -20,11 +20,11 @@
 */
 package at.kc.tugraz.ss.category.datatypes.ret;
 
-import at.tugraz.sss.serv.SSServOpE;
+
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServRetI;
+import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -45,7 +45,7 @@ public class SSCategoryAddRet extends SSServRetI{
   private SSCategoryAddRet(
     final SSUri   category){
     
-    super(SSServOpE.categoryAdd);
+    super(SSVarNames.categoryAdd);
     
     this.category = category;
   }

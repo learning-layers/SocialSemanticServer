@@ -20,8 +20,8 @@
 */
  package at.kc.tugraz.ss.service.user.datatypes.pars;
 
-import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
+
 import at.tugraz.sss.serv.SSUri;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +36,7 @@ public class SSUserURIsGetPar extends SSServPar{
     final SSUri         user,
     final List<String>  emails){
    
-    super(SSServOpE.userURIsGet, null, user);
+    super(SSVarNames.userURIsGet, null, user);
 
     if(emails != null){
       this.emails.addAll(emails);

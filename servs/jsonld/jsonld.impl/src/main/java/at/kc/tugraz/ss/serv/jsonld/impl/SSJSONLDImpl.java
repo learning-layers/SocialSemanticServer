@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.serv.jsonld.impl;
 
-import at.tugraz.sss.serv.SSServOpE;
+
 import at.tugraz.sss.serv.SSObjU;
 import at.kc.tugraz.ss.serv.jsonld.api.SSJSONLDClientI;
 import at.kc.tugraz.ss.serv.jsonld.api.SSJSONLDServerI;
@@ -32,8 +32,8 @@ import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSJSONLDPropI;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServImplWithDBA;
-import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServRetI;
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
+import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.util.SSServCallerU;
 
@@ -72,7 +72,7 @@ implements
       Object[] consts = clz.getEnumConstants();
       
       if(!SSObjU.isNull(consts)){
-        return consts[0].getClass().getDeclaredMethod(SSStrU.toStr(SSServOpE.jsonLD)).invoke(consts[0]);
+        return consts[0].getClass().getDeclaredMethod(SSStrU.toStr(SSVarNames.jsonLD)).invoke(consts[0]);
       }
       
       return ((SSJSONLDPropI) clz.newInstance()).jsonLDDesc();

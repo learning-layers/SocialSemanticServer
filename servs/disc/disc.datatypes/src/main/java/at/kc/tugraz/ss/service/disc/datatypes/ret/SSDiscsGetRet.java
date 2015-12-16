@@ -21,11 +21,11 @@
 
 package at.kc.tugraz.ss.service.disc.datatypes.ret;
 
-import at.tugraz.sss.serv.SSServOpE;
+
 import at.tugraz.sss.serv.SSJSONLDU;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarNames;
-import at.tugraz.sss.serv.SSServRetI;
+import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
 import at.kc.tugraz.ss.service.disc.datatypes.SSDisc;
 import at.tugraz.sss.serv.SSEntity;
 import java.util.ArrayList;
@@ -57,7 +57,7 @@ public class SSDiscsGetRet extends SSServRetI{
   
   private SSDiscsGetRet(final List<SSEntity> discs){
     
-    super(SSServOpE.discsGet);
+    super(SSVarNames.discsGet);
     
     SSEntity.addEntitiesDistinctWithoutNull(this.discs, discs);
   }

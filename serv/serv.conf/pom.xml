@@ -20,12 +20,6 @@
     </dependency>
     
     <dependency>
-      <groupId>sss.serv</groupId>
-      <artifactId>serv.custom.ops</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    
-    <dependency>
       <groupId>org.yaml</groupId>
       <artifactId>snakeyaml</artifactId>
       <version>1.10</version> <!-- ${snakeyamlVersion} -->

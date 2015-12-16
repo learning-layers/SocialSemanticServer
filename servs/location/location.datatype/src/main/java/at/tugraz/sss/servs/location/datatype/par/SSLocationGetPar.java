@@ -21,8 +21,8 @@
 package at.tugraz.sss.servs.location.datatype.par;
 
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
+
 import at.tugraz.sss.serv.SSStrU;
 
 public class SSLocationGetPar extends SSServPar{
@@ -46,7 +46,7 @@ public class SSLocationGetPar extends SSServPar{
     final Boolean       withUserRestriction, 
     final Boolean       invokeEntityHandlers){
       
-    super(SSServOpE.locationGet, null, user);
+    super(SSVarNames.locationGet, null, user);
     
     this.location             = location;
     this.withUserRestriction  = withUserRestriction;

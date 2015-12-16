@@ -22,9 +22,9 @@ package at.kc.tugraz.ss.activity.datatypes.par;
 
 import at.kc.tugraz.ss.activity.datatypes.SSActivityContent;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityContentE;
-import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServOpE;
+
 import at.tugraz.sss.serv.SSStrU;
 import java.util.ArrayList;
 import java.util.List;
@@ -66,7 +66,7 @@ public class SSActivityContentsAddPar extends SSServPar{
     final List<SSActivityContent> contents,
     final Boolean                 shouldCommit){
     
-    super(SSServOpE.activityContentsAdd, null, user);
+    super(SSVarNames.activityContentsAdd, null, user);
     
     this.activity      = activity;
     this.contentType   = contentType;

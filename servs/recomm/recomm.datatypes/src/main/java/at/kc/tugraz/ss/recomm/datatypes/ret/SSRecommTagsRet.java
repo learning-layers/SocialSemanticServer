@@ -20,11 +20,11 @@
 */
 package at.kc.tugraz.ss.recomm.datatypes.ret;
 
-import at.tugraz.sss.serv.SSServOpE;
+
 import at.tugraz.sss.serv.SSJSONLDU;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarNames;
-import at.tugraz.sss.serv.SSServRetI;
+import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLikelihood;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,7 +44,7 @@ public class SSRecommTagsRet extends SSServRetI{
   private SSRecommTagsRet(
     final List<SSTagLikelihood> tags) throws Exception{
     
-    super(SSServOpE.recommTags);
+    super(SSVarNames.recommTags);
     
     if(tags != null){
       this.tags.addAll(tags);

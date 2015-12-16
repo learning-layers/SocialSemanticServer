@@ -20,15 +20,15 @@
  */
 package at.kc.tugraz.ss.recomm.datatypes.par;
 
-import at.tugraz.sss.serv.SSServOpE;
+
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
 
 public class SSRecommUpdateBulkUserRealmsFromCirclesPar extends SSServPar{
   
   public SSRecommUpdateBulkUserRealmsFromCirclesPar(
     final SSUri               user){
     
-    super(SSServOpE.recommUpdateBulkUserRealmsFromCircles, null, user);
+    super(SSVarNames.recommUpdateBulkUserRealmsFromCircles, null, user);
   }
 }

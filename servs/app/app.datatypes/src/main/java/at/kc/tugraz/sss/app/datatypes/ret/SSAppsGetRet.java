@@ -20,10 +20,10 @@
   */
 package at.kc.tugraz.sss.app.datatypes.ret;
 
-import at.tugraz.sss.serv.SSServOpE;
+
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarNames;
-import at.tugraz.sss.serv.SSServRetI;
+import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSJSONLDU;
 import at.kc.tugraz.sss.app.datatypes.SSApp;
 import at.tugraz.sss.serv.SSEntity;
@@ -59,7 +59,7 @@ public class SSAppsGetRet extends SSServRetI{
   private SSAppsGetRet(
     final List<SSEntity>     apps) {
     
-    super(SSServOpE.appsGet);
+    super(SSVarNames.appsGet);
     
     SSEntity.addEntitiesDistinctWithoutNull(this.apps, apps);
   }

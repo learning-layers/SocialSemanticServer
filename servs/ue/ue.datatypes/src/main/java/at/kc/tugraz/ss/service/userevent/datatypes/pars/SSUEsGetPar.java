@@ -22,9 +22,9 @@ package at.kc.tugraz.ss.service.userevent.datatypes.pars;
 
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUEE;
-import at.tugraz.sss.serv.SSServOpE;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -85,7 +85,7 @@ public class SSUEsGetPar extends SSServPar{
     final Boolean     withUserRestriction, 
     final Boolean     invokeEntityHandlers){
     
-    super(SSServOpE.userEventsGet, null, user);
+    super(SSVarNames.userEventsGet, null, user);
 
     SSUri.addDistinctWithoutNull(this.userEvents, userEvents);
     

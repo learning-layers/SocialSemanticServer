@@ -20,10 +20,10 @@
 */
 package at.kc.tugraz.sss.video.datatypes.par;
 
-import at.tugraz.sss.serv.SSServOpE;
+
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
 
 public class SSVideosUserGetPar extends SSServPar{
   
@@ -46,7 +46,7 @@ public class SSVideosUserGetPar extends SSServPar{
     final Boolean   withUserRestriction, 
     final Boolean   invokeEntityHandlers){
     
-    super(SSServOpE.videosGet, null, user);
+    super(SSVarNames.videosGet, null, user);
     
     this.forEntity            = forEntity;
     this.withUserRestriction  = withUserRestriction;

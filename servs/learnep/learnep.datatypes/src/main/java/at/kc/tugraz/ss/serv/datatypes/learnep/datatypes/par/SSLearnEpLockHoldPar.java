@@ -20,9 +20,9 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par;
 
-import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServOpE;
+
 import at.tugraz.sss.serv.SSStrU;
 
 public class SSLearnEpLockHoldPar extends SSServPar{
@@ -44,7 +44,7 @@ public class SSLearnEpLockHoldPar extends SSServPar{
     final SSUri       learnEp, 
     final Boolean     withUserRestriction){
       
-    super(SSServOpE.learnEpLockHold, null, user);
+    super(SSVarNames.learnEpLockHold, null, user);
     
     this.learnEp             = learnEp;
     this.withUserRestriction = withUserRestriction;

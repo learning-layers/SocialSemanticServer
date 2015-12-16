@@ -22,8 +22,8 @@ package at.kc.tugraz.ss.message.datatypes.par;
 
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
+
 
 public class SSMessageGetPar extends SSServPar{
   
@@ -46,7 +46,7 @@ public class SSMessageGetPar extends SSServPar{
     final Boolean       withUserRestriction, 
     final Boolean       invokeEntityHandlers){
     
-    super(SSServOpE.messageGet, null, user);
+    super(SSVarNames.messageGet, null, user);
     
     this.message              = message;
     this.withUserRestriction  = withUserRestriction;

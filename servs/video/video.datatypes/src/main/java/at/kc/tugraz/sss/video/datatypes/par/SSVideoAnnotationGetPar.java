@@ -20,10 +20,10 @@
 */
 package at.kc.tugraz.sss.video.datatypes.par;
 
-import at.tugraz.sss.serv.SSServOpE;
+
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
 
 public class SSVideoAnnotationGetPar extends SSServPar{
   
@@ -44,7 +44,7 @@ public class SSVideoAnnotationGetPar extends SSServPar{
     final SSUri     annotation,
     final Boolean   withUserRestriction){
     
-    super(SSServOpE.videoAnnotationGet, null, user);
+    super(SSVarNames.videoAnnotationGet, null, user);
     
     this.annotation           = annotation;
     this.withUserRestriction  = withUserRestriction;

@@ -20,9 +20,9 @@
   */
 package at.kc.tugraz.sss.appstacklayout.datatypes.par;
 
-import at.tugraz.sss.serv.SSServOpE;
+
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSStrU;
 
 public class SSAppStackLayoutGetPar extends SSServPar{
@@ -46,7 +46,7 @@ public class SSAppStackLayoutGetPar extends SSServPar{
     final Boolean   withUserRestriction, 
     final Boolean   invokeEntityHandlers){
     
-    super(SSServOpE.appStackLayoutGet, null, user);
+    super(SSVarNames.appStackLayoutGet, null, user);
     
     this.stack                = stack;
     this.withUserRestriction  = withUserRestriction;

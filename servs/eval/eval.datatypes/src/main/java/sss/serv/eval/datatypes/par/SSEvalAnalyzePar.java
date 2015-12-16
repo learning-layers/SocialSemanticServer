@@ -20,8 +20,8 @@
 */
 package sss.serv.eval.datatypes.par;
 
-import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.serv.SSServPar;
+
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 
 public class SSEvalAnalyzePar extends SSServPar{
@@ -31,6 +31,6 @@ public class SSEvalAnalyzePar extends SSServPar{
   public SSEvalAnalyzePar(
     final SSUri          user){
     
-    super(SSServOpE.evalAnalyze, null, user);
+    super(SSVarNames.evalAnalyze, null, user);
   }
 }

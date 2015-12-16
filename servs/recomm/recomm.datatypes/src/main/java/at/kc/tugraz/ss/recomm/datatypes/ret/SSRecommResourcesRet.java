@@ -24,8 +24,8 @@ import at.tugraz.sss.serv.SSJSONLDU;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarNames;
 import at.kc.tugraz.ss.recomm.datatypes.SSResourceLikelihood;
-import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.serv.SSServRetI;
+
+import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -48,7 +48,7 @@ public class SSRecommResourcesRet extends SSServRetI{
   private SSRecommResourcesRet(
     final List<SSResourceLikelihood> resourcesWithLikelihood) throws Exception{
     
-    super(SSServOpE.recommResources);
+    super(SSVarNames.recommResources);
     
     if(resourcesWithLikelihood != null){
       this.resources.addAll(resourcesWithLikelihood);

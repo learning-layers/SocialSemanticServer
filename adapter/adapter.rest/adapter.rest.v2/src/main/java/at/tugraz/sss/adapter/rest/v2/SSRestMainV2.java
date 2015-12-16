@@ -37,7 +37,7 @@ import javax.ws.rs.core.Application;
 import javax.ws.rs.core.HttpHeaders;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import at.tugraz.sss.serv.SSErrE;
-import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
 import java.io.InputStream;
 
 public class SSRestMainV2 extends Application {

@@ -20,8 +20,8 @@
 */
 package at.tugraz.sss.servs.mail.datatype.ret;
 
-import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.serv.SSServRetI;
+import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
+import at.tugraz.sss.serv.SSVarNames;
 import java.util.Map;
 
 public class SSMailSendRet extends SSServRetI{
@@ -42,7 +42,7 @@ public class SSMailSendRet extends SSServRetI{
   private SSMailSendRet(
     final Boolean worked){
     
-    super(SSServOpE.mailSend);
+    super(SSVarNames.mailSend);
     
     this.worked = worked;
   }

@@ -22,12 +22,12 @@
 package at.kc.tugraz.sss.video.datatypes.par;
 
 import at.kc.tugraz.sss.video.datatypes.SSVideoE;
-import at.tugraz.sss.serv.SSServOpE;
+
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSLabel;
-import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
 
 public class SSVideoUserAddPar extends SSServPar{
   
@@ -105,7 +105,7 @@ public class SSVideoUserAddPar extends SSServPar{
     final Boolean        withUserRestriction, 
     final Boolean        shouldCommit){
     
-    super(SSServOpE.videoAdd, null, user);
+    super(SSVarNames.videoAdd, null, user);
     
     this.uuid                = uuid;
     this.link                = link;

@@ -21,8 +21,8 @@
 package at.kc.tugraz.ss.service.user.datatypes.pars;
 
 import at.tugraz.sss.serv.SSLabel;
-import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
+
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 
@@ -50,7 +50,7 @@ public class SSUserAddPar extends SSServPar{
     final Boolean   isSystemUser,
     final Boolean   withUserRestriction){
     
-    super(SSServOpE.userAdd, null, user);
+    super(SSVarNames.userAdd, null, user);
     
     this.shouldCommit        = shouldCommit;
     this.label               = label;

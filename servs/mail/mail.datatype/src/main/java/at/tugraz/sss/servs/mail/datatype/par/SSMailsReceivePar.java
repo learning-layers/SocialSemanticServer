@@ -20,9 +20,9 @@
  */
 package at.tugraz.sss.servs.mail.datatype.par;
 
-import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.SSVarNames;
 
 public class SSMailsReceivePar extends SSServPar{
   
@@ -40,7 +40,7 @@ public class SSMailsReceivePar extends SSServPar{
     final Boolean   withUserRestriction,
     final Boolean   shouldCommit){
     
-    super(SSServOpE.mailsReceive, null, user);
+    super(SSVarNames.mailsReceive, null, user);
     
     this.fromUser             = fromUser;
     this.fromPassword         = fromPassword;

@@ -22,8 +22,8 @@ package at.kc.tugraz.ss.recomm.datatypes.par;
 
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,7 +66,7 @@ public class SSRecommTagsPar extends SSServPar{
     final Boolean       ignoreAccessRights,
     final Boolean       withUserRestriction){
     
-    super(SSServOpE.recommTags, null, user);
+    super(SSVarNames.recommTags, null, user);
     
     this.realm   = realm;
     this.forUser = forUser;

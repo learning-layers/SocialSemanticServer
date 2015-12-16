@@ -29,7 +29,9 @@ import at.tugraz.sss.serv.SSObjU;
 import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSServImplA;
-import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.SSVarNames;
+
 import java.util.List;
 import sss.serv.eval.api.SSEvalClientI;
 import sss.serv.eval.api.SSEvalServerI;
@@ -85,7 +87,7 @@ public class SSEvalServ extends SSServContainerI{
 //      
 //    for(Method method : servImplClientInteraceClass.getMethods()){
 //      
-//      op = SSServOpE.get(method.getName());
+//      op = SSVarNames.get(method.getName());
 //
 //      switch(op){
 //        case learnEpVersionGetTimelineState: maxRequsForClientOpsPerUser.put(op, 10);
@@ -117,19 +119,14 @@ public class SSEvalServ extends SSServContainerI{
     
     if(evalConf.executeScheduleAtStartUp){
       
-      for(SSServOpE scheduleOp : evalConf.scheduleOps){
+      for(String scheduleOp : evalConf.scheduleOps){
         
-        switch(scheduleOp){
-          
-          case evalAnalyze:{
-            SSDateU.scheduleNow(new SSEvalAnalyzeTask());
-            break;
-          }
-          
-          default:{
-            SSLogU.warn("attempt to schedule op at startup with no schedule task defined");
-          }
+        if(SSStrU.equals(scheduleOp, SSVarNames.evalAnalyze)){
+          SSDateU.scheduleNow(new SSEvalAnalyzeTask());
+          continue;
         }
+        
+        SSLogU.warn("attempt to schedule op at startup with no schedule task defined");
       }
     }
   }

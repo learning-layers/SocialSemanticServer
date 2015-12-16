@@ -20,10 +20,10 @@
 */
 package at.kc.tugraz.sss.appstacklayout.datatypes.par;
 
-import at.tugraz.sss.serv.SSServOpE;
+
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
 
 public class SSAppStackLayoutDeletePar extends SSServPar{
   
@@ -45,7 +45,7 @@ public class SSAppStackLayoutDeletePar extends SSServPar{
     final Boolean          withUserRestriction, 
     final Boolean          shouldCommit){
     
-    super(SSServOpE.appStackLayoutDelete, null, user);
+    super(SSVarNames.appStackLayoutDelete, null, user);
     
     this.stack               = stack;
     this.withUserRestriction = withUserRestriction;

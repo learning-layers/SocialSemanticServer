@@ -20,10 +20,10 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret;
 
-import at.tugraz.sss.serv.SSServOpE;
+
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarNames;
-import at.tugraz.sss.serv.SSServRetI;
+import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import java.util.HashMap;
 import java.util.Map;
@@ -52,7 +52,7 @@ public class SSLearnEpVersionEntityAddRet extends SSServRetI{
   
   private SSLearnEpVersionEntityAddRet(SSUri learnEpEntityUri){
     
-    super(SSServOpE.learnEpVersionEntityAdd);
+    super(SSVarNames.learnEpVersionEntityAdd);
     
     this.learnEpEntity = learnEpEntityUri;
   }

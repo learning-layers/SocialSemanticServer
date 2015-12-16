@@ -20,8 +20,8 @@
 */
 package at.kc.tugraz.ss.serv.dataimport.datatypes.pars;
 
-import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.serv.SSServPar;
+
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 
 public class SSDataImportEvalLogFilePar extends SSServPar{
@@ -36,7 +36,7 @@ public class SSDataImportEvalLogFilePar extends SSServPar{
     final String  filePath, 
     final Long    startTime){
     
-    super(SSServOpE.dataImportEvalLogFile, null, user);
+    super(SSVarNames.dataImportEvalLogFile, null, user);
     
     this.filePath  = filePath;
     this.startTime = startTime;

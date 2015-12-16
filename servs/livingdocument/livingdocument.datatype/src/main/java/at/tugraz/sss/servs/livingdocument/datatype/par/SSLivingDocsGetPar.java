@@ -20,8 +20,8 @@
  */
 package at.tugraz.sss.servs.livingdocument.datatype.par;
 
-import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.serv.SSServPar;
+
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 
@@ -48,7 +48,7 @@ public class SSLivingDocsGetPar extends SSServPar{
     final Boolean       withUserRestriction,
     final Boolean       invokeEntityHandlers){
     
-    super(SSServOpE.livingDocsGet, null, user);
+    super(SSVarNames.livingDocsGet, null, user);
     
     this.forUser              = forUser;
     this.withUserRestriction  = withUserRestriction;

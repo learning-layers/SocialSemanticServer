@@ -20,10 +20,10 @@
 */
 package at.tugraz.sss.servs.entity.datatypes.ret;
 
-import at.tugraz.sss.serv.SSServOpE;
+
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarNames;
-import at.tugraz.sss.serv.SSServRetI;
+import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import java.util.HashMap;
 import java.util.Map;
@@ -55,7 +55,7 @@ public class SSEntityUnpublicizeRet extends SSServRetI{
   private SSEntityUnpublicizeRet(
     final SSUri   entity){
     
-    super(SSServOpE.entityUnpublicize);
+    super(SSVarNames.entityUnpublicize);
     
     this.entity = entity;
   }

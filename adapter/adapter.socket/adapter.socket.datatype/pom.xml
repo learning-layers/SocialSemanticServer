@@ -13,12 +13,6 @@
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>serv.ret</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>sss.serv</groupId>
       <artifactId>serv.custom.names</artifactId>
       <version>${project.version}</version>
     </dependency>
@@ -38,12 +32,6 @@
     <dependency>
       <groupId>sss.serv</groupId>
       <artifactId>serv.entities</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>sss.serv</groupId>
-      <artifactId>serv.custom.ops</artifactId>
       <version>${project.version}</version>
     </dependency>
     

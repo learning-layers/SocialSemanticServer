@@ -23,8 +23,8 @@ package at.tugraz.sss.servs.entity.datatypes.ret;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSEntity;
-import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.serv.SSServRetI;
+
+import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -51,7 +51,7 @@ public class SSEntityGetRet extends SSServRetI{
   private SSEntityGetRet(
     final SSEntity     entity){
     
-    super(SSServOpE.entityGet);
+    super(SSVarNames.entityGet);
     
     this.entity = entity;
   }

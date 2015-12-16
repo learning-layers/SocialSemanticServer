@@ -20,9 +20,9 @@
 */
 package at.kc.tugraz.ss.recomm.datatypes.ret;
 
-import at.tugraz.sss.serv.SSServOpE;
+
 import at.kc.tugraz.ss.recomm.datatypes.SSUserLikelihood;
-import at.tugraz.sss.serv.SSServRetI;
+import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -41,7 +41,7 @@ public class SSRecommUsersRet extends SSServRetI{
   private SSRecommUsersRet(
     final List<SSUserLikelihood> usersWithLikelihood) throws Exception{
     
-    super(SSServOpE.recommUsers);
+    super(SSVarNames.recommUsers);
     
     if(usersWithLikelihood != null){
       this.users.addAll(usersWithLikelihood);

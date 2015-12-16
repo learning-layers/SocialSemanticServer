@@ -20,10 +20,10 @@
   */
 package at.kc.tugraz.sss.video.datatypes.ret;
 
-import at.tugraz.sss.serv.SSServOpE;
+
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServRetI;
+import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -50,7 +50,7 @@ public class SSVideoAnnotationsSetRet extends SSServRetI{
   private SSVideoAnnotationsSetRet(
     final List<SSUri>    annotations){
     
-    super(SSServOpE.videoAnnotationsSet);
+    super(SSVarNames.videoAnnotationsSet);
     
     SSUri.addDistinctWithoutNull(this.annotations, annotations);
   }

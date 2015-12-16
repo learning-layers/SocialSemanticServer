@@ -20,10 +20,10 @@
  */
 package at.kc.tugraz.sss.appstacklayout.datatypes.ret;
 
-import at.tugraz.sss.serv.SSServOpE;
+
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarNames;
-import at.tugraz.sss.serv.SSServRetI;
+import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSJSONLDU;
 import at.kc.tugraz.sss.appstacklayout.datatypes.SSAppStackLayout;
 import at.tugraz.sss.serv.SSEntity;
@@ -59,7 +59,7 @@ public class SSAppStackLayoutsGetRet extends SSServRetI{
   private SSAppStackLayoutsGetRet(
     final List<SSEntity>    stacks) {
     
-    super(SSServOpE.appStackLayoutsGet);
+    super(SSVarNames.appStackLayoutsGet);
     
     SSEntity.addEntitiesDistinctWithoutNull(this.stacks, stacks);
   }

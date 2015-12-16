@@ -22,8 +22,8 @@
 
 import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
+
 import at.tugraz.sss.serv.SSStrU;
 
 public class SSCollUserEntryAddPar extends SSServPar{
@@ -68,7 +68,7 @@ public class SSCollUserEntryAddPar extends SSServPar{
     final Boolean       withUserRestriction, 
     final Boolean       shouldCommit){
   
-    super(SSServOpE.collEntryAdd, null, user);
+    super(SSVarNames.collEntryAdd, null, user);
     
     this.coll                = coll;
     this.entry               = entry;

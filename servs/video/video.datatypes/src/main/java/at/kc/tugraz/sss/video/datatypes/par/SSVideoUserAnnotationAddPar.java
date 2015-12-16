@@ -20,13 +20,13 @@
 */
 package at.kc.tugraz.sss.video.datatypes.par;
 
-import at.tugraz.sss.serv.SSServOpE;
+
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSLabel;
-import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServErrReg;
 
 public class SSVideoUserAnnotationAddPar extends SSServPar{
@@ -75,7 +75,7 @@ public class SSVideoUserAnnotationAddPar extends SSServPar{
     final Boolean              withUserRestriction, 
     final Boolean              shouldCommit){
     
-    super(SSServOpE.videoAnnotationAdd, null, user);
+    super(SSVarNames.videoAnnotationAdd, null, user);
     
     this.video               = video;
     this.timePoint           = timePoint;

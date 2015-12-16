@@ -20,10 +20,10 @@
 */
 package at.kc.tugraz.ss.like.datatypes.par;
 
-import at.tugraz.sss.serv.SSServOpE;
+
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
 
 public class SSLikeUserSetPar extends SSServPar{
   
@@ -47,7 +47,7 @@ public class SSLikeUserSetPar extends SSServPar{
     final Boolean    withUserRestriction, 
     final Boolean    shouldCommit){
     
-    super(SSServOpE.likeSet, null, user);
+    super(SSVarNames.likeSet, null, user);
     
     this.entity              = entity;
     this.value               = value;

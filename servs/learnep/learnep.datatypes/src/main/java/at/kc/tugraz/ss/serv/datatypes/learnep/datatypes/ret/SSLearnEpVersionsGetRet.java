@@ -25,8 +25,8 @@ import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSJSONLDU;
-import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.serv.SSServRetI;
+
+import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -59,7 +59,7 @@ public class SSLearnEpVersionsGetRet extends SSServRetI{
   private SSLearnEpVersionsGetRet(
     final List<SSEntity> learnEpVersions){
     
-    super(SSServOpE.learnEpVersionsGet);
+    super(SSVarNames.learnEpVersionsGet);
     
     SSEntity.addEntitiesDistinctWithoutNull(this.learnEpVersions, learnEpVersions);
   }

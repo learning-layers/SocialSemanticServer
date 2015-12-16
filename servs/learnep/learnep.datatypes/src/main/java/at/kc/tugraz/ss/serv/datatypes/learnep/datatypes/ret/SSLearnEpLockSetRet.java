@@ -20,10 +20,10 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret;
 
-import at.tugraz.sss.serv.SSServOpE;
+
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarNames;
-import at.tugraz.sss.serv.SSServRetI;
+import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -50,7 +50,7 @@ public class SSLearnEpLockSetRet extends SSServRetI{
   private SSLearnEpLockSetRet(
     final Boolean worked){
     
-    super(SSServOpE.learnEpLockSet);
+    super(SSVarNames.learnEpLockSet);
     
     this.worked = worked;
   }

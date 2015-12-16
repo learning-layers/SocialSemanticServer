@@ -21,11 +21,11 @@
 package at.kc.tugraz.ss.category.datatypes.par;
 
 import at.kc.tugraz.ss.category.datatypes.SSCategoryLabel;
-import at.tugraz.sss.serv.SSServOpE;
+
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSSpaceE;
-import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -90,7 +90,7 @@ public class SSCategoryFrequsGetPar extends SSServPar{
     final Long                    startTime,
     final Boolean                 withUserRestriction){
     
-    super(SSServOpE.categoryFrequsGet, null, user);
+    super(SSVarNames.categoryFrequsGet, null, user);
     
     this.forUser = forUser;
     

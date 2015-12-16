@@ -23,7 +23,7 @@ package at.kc.tugraz.ss.recomm.serv;
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import at.tugraz.sss.serv.SSDateU;
 import at.tugraz.sss.serv.SSLogU;
-import at.tugraz.sss.serv.SSServOpE;
+
 import at.tugraz.sss.serv.SSObjU;
 import at.tugraz.sss.serv.SSCoreConfA;
 import at.kc.tugraz.ss.recomm.api.SSRecommClientI;
@@ -40,6 +40,8 @@ import at.tugraz.sss.serv.SSServImplA;
 
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSServContainerI;
+import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.SSVarNames;
 import java.util.List;
 
 public class SSRecommServ extends SSServContainerI{
@@ -107,48 +109,38 @@ public class SSRecommServ extends SSServContainerI{
     
     if(recommConf.executeScheduleAtStartUp){
       
-      for(SSServOpE scheduleOp : recommConf.scheduleOps){
+      for(String scheduleOp : recommConf.scheduleOps){
         
-        switch(scheduleOp){
-          
-          case recommUpdate:{
-            SSDateU.scheduleNow(new SSRecommUpdateBulkTask                     (recommConf));
-            SSDateU.scheduleNow(new SSRecommUpdateBulkUserRealmsFromConfTask   (recommConf));
-            SSDateU.scheduleNow(new SSRecommUpdateBulkUserRealmsFromCirclesTask(recommConf));
-            break;
-          }
-          
-          default:{
-            SSLogU.warn("attempt to schedule op at startup with no schedule task defined");
-          }
+        if(SSStrU.equals(scheduleOp, SSVarNames.recommUpdate)){
+          SSDateU.scheduleNow(new SSRecommUpdateBulkTask                     (recommConf));
+          SSDateU.scheduleNow(new SSRecommUpdateBulkUserRealmsFromConfTask   (recommConf));
+          SSDateU.scheduleNow(new SSRecommUpdateBulkUserRealmsFromCirclesTask(recommConf));
+          continue;
         }
+        
+        SSLogU.warn("attempt to schedule op at startup with no schedule task defined");
       }
     }
     
     for(int counter = 0; counter < recommConf.scheduleOps.size(); counter++){
       
-      switch(recommConf.scheduleOps.get(counter)){
+      if(SSStrU.equals(recommConf.scheduleOps.get(counter), SSVarNames.recommUpdate)){
         
-        case recommUpdate:{
-          
-          SSDateU.scheduleAtFixedRate(new SSRecommUpdateBulkTask(recommConf),
-            SSDateU.getDatePlusMinutes(recommConf.scheduleIntervals.get(counter)),
-            recommConf.scheduleIntervals.get(counter) * SSDateU.minuteInMilliSeconds);
-          
-          SSDateU.scheduleAtFixedRate(new SSRecommUpdateBulkUserRealmsFromConfTask(recommConf),
-            SSDateU.getDatePlusMinutes(recommConf.scheduleIntervals.get(counter)),
-            recommConf.scheduleIntervals.get(counter) * SSDateU.minuteInMilliSeconds);
-          
-          SSDateU.scheduleAtFixedRate(new SSRecommUpdateBulkUserRealmsFromCirclesTask(recommConf),
-            SSDateU.getDatePlusMinutes(recommConf.scheduleIntervals.get(counter)),
-            recommConf.scheduleIntervals.get(counter) * SSDateU.minuteInMilliSeconds);
-          break;
-        }
+        SSDateU.scheduleAtFixedRate(new SSRecommUpdateBulkTask(recommConf),
+          SSDateU.getDatePlusMinutes(recommConf.scheduleIntervals.get(counter)),
+          recommConf.scheduleIntervals.get(counter) * SSDateU.minuteInMilliSeconds);
         
-        default:{
-            SSLogU.warn("attempt to schedule op with no schedule task defined");
-          }
+        SSDateU.scheduleAtFixedRate(new SSRecommUpdateBulkUserRealmsFromConfTask(recommConf),
+          SSDateU.getDatePlusMinutes(recommConf.scheduleIntervals.get(counter)),
+          recommConf.scheduleIntervals.get(counter) * SSDateU.minuteInMilliSeconds);
+        
+        SSDateU.scheduleAtFixedRate(new SSRecommUpdateBulkUserRealmsFromCirclesTask(recommConf),
+          SSDateU.getDatePlusMinutes(recommConf.scheduleIntervals.get(counter)),
+          recommConf.scheduleIntervals.get(counter) * SSDateU.minuteInMilliSeconds);
+        continue;
       }
+      
+      SSLogU.warn("attempt to schedule op with no schedule task defined");
     }
   }
   

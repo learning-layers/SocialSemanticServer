@@ -18,13 +18,11 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-
 package at.kc.tugraz.ss.service.coll.datatypes.ret;
 
-import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.SSServRetI; 
 import at.tugraz.sss.serv.SSVarNames;
-import at.tugraz.sss.serv.SSServRetI;
 import at.kc.tugraz.ss.service.coll.datatypes.SSColl;
 import java.util.HashMap;
 import java.util.Map;
@@ -33,11 +31,11 @@ public class SSCollUserParentGetRet extends SSServRetI{
 
   public SSColl coll = null;
 
-  public static SSCollUserParentGetRet get(SSColl coll, SSServOpE op){
+  public static SSCollUserParentGetRet get(SSColl coll, String op){
     return new SSCollUserParentGetRet(coll, op);
   }
   
-  private SSCollUserParentGetRet(SSColl coll, SSServOpE op) {
+  private SSCollUserParentGetRet(SSColl coll, String op) {
 
     super(op);
     

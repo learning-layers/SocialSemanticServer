@@ -20,8 +20,8 @@
  */
 package at.tugraz.sss.servs.livingdocument.datatype.par;
 
-import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.serv.SSServPar;
+
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 
@@ -45,7 +45,7 @@ public class SSLivingDocRemovePar extends SSServPar{
     final Boolean       withUserRestriction,
     final Boolean       shouldCommit){
     
-    super(SSServOpE.livingDocRemove, null, user);
+    super(SSVarNames.livingDocRemove, null, user);
     
     this.livingDoc            = livingDoc;
     this.withUserRestriction  = withUserRestriction;

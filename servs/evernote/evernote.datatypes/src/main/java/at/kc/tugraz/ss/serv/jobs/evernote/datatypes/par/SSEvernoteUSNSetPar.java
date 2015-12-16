@@ -20,8 +20,8 @@
 */
 package at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par;
 
-import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
+
 import at.tugraz.sss.serv.SSUri;
 
 public class SSEvernoteUSNSetPar extends SSServPar{
@@ -35,7 +35,7 @@ public class SSEvernoteUSNSetPar extends SSServPar{
     final Integer  usn,
     final Boolean  shouldCommit){
     
-    super(SSServOpE.evernoteUSNSet, null, user);
+    super(SSVarNames.evernoteUSNSet, null, user);
     
     this.authToken     = authToken;
     this.usn           = usn;

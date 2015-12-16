@@ -27,8 +27,10 @@ import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSObjU;
 import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServImplA;
-import at.tugraz.sss.serv.SSServOpE;
+
 import at.tugraz.sss.serv.SSServReg;
+import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.servs.kcprojwiki.api.SSKCProjWikiClientI;
 import at.tugraz.sss.servs.kcprojwiki.api.SSKCProjWikiServerI;
 import at.tugraz.sss.servs.kcprojwiki.conf.SSKCProjWikiConf;
@@ -98,19 +100,14 @@ public class SSKCProjWikiServ extends SSServContainerI{
     
     if(projWikiConf.executeScheduleAtStartUp){
       
-      for(SSServOpE scheduleOp : projWikiConf.scheduleOps){
+      for(String scheduleOp : projWikiConf.scheduleOps){
         
-        switch(scheduleOp){
-          
-          case kcprojwikiImport:{
-            SSDateU.scheduleNow(new SSKCProjWikiImportTask());
-            break;
-          }
-          
-          default:{
-            SSLogU.warn("attempt to schedule op at startup with no schedule task defined");
-          }
+        if(SSStrU.equals(scheduleOp, SSVarNames.kcprojwikiImport)){
+          SSDateU.scheduleNow(new SSKCProjWikiImportTask());
+          continue;
         }
+        
+        SSLogU.warn("attempt to schedule op at startup with no schedule task defined");
       }
     }
   }

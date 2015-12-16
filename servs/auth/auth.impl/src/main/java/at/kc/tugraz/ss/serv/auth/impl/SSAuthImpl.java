@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.serv.auth.impl;
 
 import at.tugraz.sss.serv.SSLogU;
-import at.tugraz.sss.serv.SSServOpE;
+
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSLabel;
@@ -33,7 +33,7 @@ import at.kc.tugraz.ss.serv.auth.impl.fct.oidc.SSAuthOIDC;
 import at.kc.tugraz.ss.serv.auth.impl.fct.sql.SSAuthSQLFct;
 import at.kc.tugraz.ss.serv.dataimport.api.SSDataImportServerI;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportSSSUsersFromCSVFilePar;
-import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthCheckCredPar;
@@ -61,7 +61,7 @@ import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
-import at.tugraz.sss.serv.SSServRetI;
+import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
 
 public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAuthServerI{
   
@@ -307,7 +307,7 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
 //          return SSAuthCheckCredRet.get(
 //            SSAuthConf.noAuthKey,
 //            userUri,
-//            SSServOpE.authCheckCred);
+//            SSVarNames.authCheckCred);
 //        }
 
         case csvFileAuth:{
@@ -321,7 +321,7 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
             return SSAuthCheckCredRet.get(
               par.key,
               userUri,
-              SSServOpE.authCheckCred);
+              SSVarNames.authCheckCred);
             
           }else{
 
@@ -352,7 +352,7 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
                 email,
                 par.password),
               userUri,
-              SSServOpE.authCheckCred);
+              SSVarNames.authCheckCred);
           }
         }
         
@@ -423,7 +423,7 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
           return SSAuthCheckCredRet.get(
             par.key,
             userUri,
-            SSServOpE.authCheckCred);
+            SSVarNames.authCheckCred);
         }
 
         default: 

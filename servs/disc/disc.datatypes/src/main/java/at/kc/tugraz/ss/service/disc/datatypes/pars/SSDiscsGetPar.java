@@ -20,8 +20,8 @@
 */
 package at.kc.tugraz.ss.service.disc.datatypes.pars;
 
-import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.serv.SSServPar;
+
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 import java.util.ArrayList;
@@ -76,7 +76,7 @@ public class SSDiscsGetPar extends SSServPar{
     final Boolean     withUserRestriction,
     final Boolean     invokeEntityHandlers){
     
-    super(SSServOpE.discsGet, null, user);
+    super(SSVarNames.discsGet, null, user);
     
     this.setEntries           = setEntries;
     this.forUser              = forUser;

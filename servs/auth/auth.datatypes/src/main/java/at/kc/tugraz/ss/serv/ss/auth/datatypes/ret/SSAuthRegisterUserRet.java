@@ -20,8 +20,8 @@
 */
 package at.kc.tugraz.ss.serv.ss.auth.datatypes.ret;
 
-import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.serv.SSServRetI;
+
+import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 import java.util.Map;
@@ -48,7 +48,7 @@ public class SSAuthRegisterUserRet extends SSServRetI{
   private SSAuthRegisterUserRet(
     final SSUri user){
     
-    super(SSServOpE.authRegisterUser);
+    super(SSVarNames.authRegisterUser);
     
     this.user = user;
   }

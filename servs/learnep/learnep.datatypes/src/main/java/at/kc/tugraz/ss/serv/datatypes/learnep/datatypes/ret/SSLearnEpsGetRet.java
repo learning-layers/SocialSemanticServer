@@ -22,11 +22,11 @@ package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret;
 
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEp;
 import at.tugraz.sss.serv.SSEntity;
-import at.tugraz.sss.serv.SSServOpE;
+
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSJSONLDU;
-import at.tugraz.sss.serv.SSServRetI;
+import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -57,7 +57,7 @@ public class SSLearnEpsGetRet extends SSServRetI{
   private SSLearnEpsGetRet(
     final List<SSEntity> learnEps){
     
-    super(SSServOpE.learnEpsGet);
+    super(SSVarNames.learnEpsGet);
     
     SSEntity.addEntitiesDistinctWithoutNull(this.learnEps, learnEps);
   }

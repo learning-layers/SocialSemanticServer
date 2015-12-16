@@ -23,8 +23,8 @@ package at.kc.tugraz.ss.message.datatypes.par;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
+
 
 public class SSMessageSendPar extends SSServPar{
   
@@ -55,7 +55,7 @@ public class SSMessageSendPar extends SSServPar{
     final SSTextComment message, 
     final Boolean       shouldCommit){
     
-    super(SSServOpE.messageSend, null, user);
+    super(SSVarNames.messageSend, null, user);
     
     this.forUser      = forUser;
     this.message      = message;

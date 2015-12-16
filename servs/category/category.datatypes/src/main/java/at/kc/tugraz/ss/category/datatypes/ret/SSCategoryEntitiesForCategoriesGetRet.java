@@ -20,12 +20,12 @@
 */
 package at.kc.tugraz.ss.category.datatypes.ret;
 
-import at.tugraz.sss.serv.SSServOpE;
+
 import at.tugraz.sss.serv.SSJSONLDU;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServRetI;
+import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -48,7 +48,7 @@ public class SSCategoryEntitiesForCategoriesGetRet extends SSServRetI{
   private SSCategoryEntitiesForCategoriesGetRet(
     final List<SSUri> entities){
     
-    super(SSServOpE.categoryEntitiesForCategoriesGet);
+    super(SSVarNames.categoryEntitiesForCategoriesGet);
     
     SSUri.addDistinctWithoutNull(this.entities, entities);
   }

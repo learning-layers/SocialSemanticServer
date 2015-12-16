@@ -21,8 +21,8 @@
 package at.kc.tugraz.ss.serv.job.dataexport.datatypes.par;
 
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
+
 import at.tugraz.sss.serv.SSStrU;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +43,7 @@ public class SSDataExportUserEntityTagsCategoriesTimestampsLinePar extends SSSer
     final List<String> categories,
     final String       fileName){
     
-    super(SSServOpE.dataExportUserEntityTagsCategoriesTimestampsLine, null, user);
+    super(SSVarNames.dataExportUserEntityTagsCategoriesTimestampsLine, null, user);
     
     this.forUser               = forUser;
     this.entity                = entity;

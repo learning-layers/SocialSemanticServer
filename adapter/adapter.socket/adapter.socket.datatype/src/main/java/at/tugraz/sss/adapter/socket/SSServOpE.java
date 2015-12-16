@@ -18,7 +18,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package at.tugraz.sss.serv;
+package at.tugraz.sss.adapter.socket;
 
 public enum SSServOpE{
 
@@ -123,10 +123,6 @@ public enum SSServOpE{
   evernoteUSNSet,
   evernoteResourceAdd,
   evernoteResourceByHashGet,
-  //  evernoteNotebooksLinkedGet                          ,
-  //  evernoteNotebooksGet                                ,
-//  evernoteNotesGet                                    ,
-  //  evernoteNotesLinkedGet                              ,
   
   //circle
   circleCreate,

@@ -13,12 +13,6 @@
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>serv.ret</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>sss.serv</groupId>
       <artifactId>serv.util</artifactId>
       <version>${project.version}</version>
     </dependency>
@@ -29,12 +23,6 @@
       <version>${project.version}</version>
     </dependency>
 
-    <dependency>
-      <groupId>sss.serv</groupId>
-      <artifactId>serv.par</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    
     <dependency>
       <groupId>sss.serv</groupId>
       <artifactId>serv.conf</artifactId>

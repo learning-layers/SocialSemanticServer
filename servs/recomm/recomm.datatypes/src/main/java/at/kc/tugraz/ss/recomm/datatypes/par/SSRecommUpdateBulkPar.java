@@ -20,9 +20,9 @@
  */
 package at.kc.tugraz.ss.recomm.datatypes.par;
 
-import at.tugraz.sss.serv.SSServOpE;
+
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
 import java.net.Socket;
 
 public class SSRecommUpdateBulkPar extends SSServPar{
@@ -34,7 +34,7 @@ public class SSRecommUpdateBulkPar extends SSServPar{
     final String              realm,
     final Socket              clientSocket){
     
-    super(SSServOpE.recommUpdateBulk, null, user);
+    super(SSVarNames.recommUpdateBulk, null, user);
     
     this.realm        = realm;
     this.clientSocket = clientSocket;

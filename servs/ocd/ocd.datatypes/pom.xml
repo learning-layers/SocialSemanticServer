@@ -11,9 +11,10 @@
   <name>ocd.datatypes</name>
     
   <dependencies>
+    
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>serv.par</artifactId>
+      <artifactId>serv.entities</artifactId>
       <version>${project.version}</version>
     </dependency>
   </dependencies>

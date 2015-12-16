@@ -21,9 +21,9 @@
  package at.kc.tugraz.sss.flag.datatypes.par;
 
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
 import at.kc.tugraz.sss.flag.datatypes.SSFlagE;
-import at.tugraz.sss.serv.SSServOpE;
+
 import at.tugraz.sss.serv.SSStrU;
 import java.util.ArrayList;
 import java.util.List;
@@ -63,7 +63,7 @@ public class SSFlagsGetPar extends SSServPar{
     final Boolean       withUserRestriction, 
     final Boolean       invokeEntityHandlers){
     
-    super(SSServOpE.flagsGet, null, user);
+    super(SSVarNames.flagsGet, null, user);
      
     SSUri.addDistinctWithoutNull   (this.entities, entities);
     SSFlagE.addDistinctWithoutNull (this.types,    types);

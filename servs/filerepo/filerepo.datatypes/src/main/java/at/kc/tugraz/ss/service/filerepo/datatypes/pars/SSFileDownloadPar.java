@@ -22,8 +22,8 @@ package at.kc.tugraz.ss.service.filerepo.datatypes.pars;
 
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
+
 import java.net.Socket;
 
 public class SSFileDownloadPar extends SSServPar{
@@ -47,7 +47,7 @@ public class SSFileDownloadPar extends SSServPar{
     final Socket        clientSocket, 
     final Boolean       isPublicDownload){
     
-    super(SSServOpE.fileDownload, null, user);
+    super(SSVarNames.fileDownload, null, user);
     
     this.file             = file;
     this.clientSocket     = clientSocket;

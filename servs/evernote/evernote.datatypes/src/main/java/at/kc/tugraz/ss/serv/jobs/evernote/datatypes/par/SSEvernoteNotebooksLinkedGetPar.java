@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par;
 
 import at.tugraz.sss.serv.SSVarNames;
-import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServErrReg;
 import com.evernote.clients.NoteStoreClient;
 

@@ -21,8 +21,8 @@
 package at.kc.tugraz.ss.service.coll.datatypes.pars;
 
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
+
 import at.tugraz.sss.serv.SSStrU;
 import java.util.ArrayList;
 import java.util.List;
@@ -57,7 +57,7 @@ public class SSCollUserEntriesDeletePar extends SSServPar{
     final Boolean        withUserRestriction,
     final Boolean        shouldCommit){
     
-    super(SSServOpE.collEntriesDelete, null, user);
+    super(SSVarNames.collEntriesDelete, null, user);
     
     this.coll     = coll;
     

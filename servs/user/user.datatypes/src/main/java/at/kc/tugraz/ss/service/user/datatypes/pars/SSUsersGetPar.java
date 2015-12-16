@@ -21,8 +21,8 @@
  package at.kc.tugraz.ss.service.user.datatypes.pars;
 
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
+
 import at.tugraz.sss.serv.SSStrU;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,7 +56,7 @@ public class SSUsersGetPar extends SSServPar{
     final List<SSUri> users, 
     final Boolean     invokeEntityHandlers){
    
-    super(SSServOpE.usersGet, null, user);
+    super(SSVarNames.usersGet, null, user);
     
     SSUri.addDistinctWithoutNull(this.users, users);
     

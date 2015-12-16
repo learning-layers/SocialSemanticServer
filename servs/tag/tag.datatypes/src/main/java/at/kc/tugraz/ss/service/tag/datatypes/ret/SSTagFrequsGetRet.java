@@ -20,11 +20,11 @@
 */
 package at.kc.tugraz.ss.service.tag.datatypes.ret;
 
-import at.tugraz.sss.serv.SSServOpE;
+
 import at.tugraz.sss.serv.SSJSONLDU;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarNames;
-import at.tugraz.sss.serv.SSServRetI;
+import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagFrequ;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -48,7 +48,7 @@ public class SSTagFrequsGetRet extends SSServRetI{
   private SSTagFrequsGetRet(
     final List<SSTagFrequ> tagFrequs){
     
-    super(SSServOpE.tagFrequsGet);
+    super(SSVarNames.tagFrequsGet);
     
     SSTagFrequ.addDistinctWithoutNull(this.tagFrequs, tagFrequs);
   }

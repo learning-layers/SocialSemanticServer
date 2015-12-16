@@ -24,8 +24,8 @@ import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSFileExtE;
 import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
+
 import at.tugraz.sss.serv.SSStrU;
 
 public class SSEntityFileAddPar extends SSServPar{
@@ -106,7 +106,7 @@ public class SSEntityFileAddPar extends SSServPar{
     final Boolean    withUserRestriction, 
     final Boolean    shouldCommit) {
     
-    super(SSServOpE.fileAdd, null, user);
+    super(SSVarNames.fileAdd, null, user);
     
     this.fileBytes                    = fileBytes;
     this.fileLength                   = fileLength;

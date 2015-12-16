@@ -21,10 +21,10 @@
 
 package at.kc.tugraz.ss.service.tag.datatypes.ret;
 
-import at.tugraz.sss.serv.SSServOpE;
+
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarNames;
-import at.tugraz.sss.serv.SSServRetI;
+import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,7 +40,7 @@ public class SSTagsRemoveRet extends SSServRetI{
   private SSTagsRemoveRet(
     final Boolean worked){
     
-    super(SSServOpE.tagsRemove);
+    super(SSVarNames.tagsRemove);
     
     this.worked = worked;
   }

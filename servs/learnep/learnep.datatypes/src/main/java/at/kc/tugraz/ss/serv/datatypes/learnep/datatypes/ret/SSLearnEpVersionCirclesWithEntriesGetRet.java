@@ -21,8 +21,8 @@
 package at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret;
 
 import at.tugraz.sss.serv.SSEntity;
-import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.serv.SSServRetI;
+
+import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -45,7 +45,7 @@ public class SSLearnEpVersionCirclesWithEntriesGetRet extends SSServRetI{
   private SSLearnEpVersionCirclesWithEntriesGetRet(
     final List<SSEntity> circles){
     
-    super(SSServOpE.learnEpVersionCirclesWithEntriesGet);
+    super(SSVarNames.learnEpVersionCirclesWithEntriesGet);
     
     SSEntity.addEntitiesDistinctWithoutNull(this.circles, circles);
   }

@@ -61,9 +61,9 @@ import java.util.Map;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSServErrReg;
-import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServReg;
-import at.tugraz.sss.serv.SSServRetI;
+import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUsersResourcesGathererI;
 import java.util.ArrayList;
 
@@ -507,6 +507,6 @@ implements
 //    opPars.put(SSVarU.eventType,    SSUEEnum.rateEntity);
 //    opPars.put(SSVarU.content,      String.valueOf(par.value));
 //
-//    SSServReg.callServServer(new SSServPar(SSServOpE.uEAdd, opPars));
+//    SSServReg.callServServer(new SSServPar(SSVarNames.uEAdd, opPars));
 //  }
 }

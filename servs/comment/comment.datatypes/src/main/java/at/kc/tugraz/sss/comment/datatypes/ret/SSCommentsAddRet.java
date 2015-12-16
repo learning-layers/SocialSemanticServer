@@ -20,9 +20,9 @@
   */
 package at.kc.tugraz.sss.comment.datatypes.ret;
 
-import at.tugraz.sss.serv.SSServOpE;
+
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSServRetI;
+import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import java.util.Map;
 
@@ -48,7 +48,7 @@ public class SSCommentsAddRet extends SSServRetI{
   private SSCommentsAddRet(
     final SSUri entity) {
     
-    super(SSServOpE.commentsAdd);
+    super(SSVarNames.commentsAdd);
     
     this.entity = entity;
   }

@@ -20,8 +20,8 @@
 */
 package at.tugraz.sss.adapter.rest.v2.system;
 
-import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.serv.SSServRetI;
+
+import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarNames;
 import java.util.HashMap;
@@ -44,7 +44,7 @@ public class SSSystemVersionGetRet extends SSServRetI{
   public SSSystemVersionGetRet(
     final String  version){
     
-    super(SSServOpE.systemVersionGet);
+    super(SSVarNames.systemVersionGet);
     
     this.version = version;
   }

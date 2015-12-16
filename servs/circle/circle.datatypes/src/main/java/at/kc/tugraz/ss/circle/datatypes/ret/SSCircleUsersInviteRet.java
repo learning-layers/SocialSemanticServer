@@ -20,10 +20,10 @@
 */
 package at.kc.tugraz.ss.circle.datatypes.ret;
 
-import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServRetI;
+import at.tugraz.sss.serv.SSServRetI; 
+import at.tugraz.sss.serv.SSVarNames;
 import java.util.Map;
 
 public class SSCircleUsersInviteRet extends SSServRetI{
@@ -48,7 +48,7 @@ public class SSCircleUsersInviteRet extends SSServRetI{
   private SSCircleUsersInviteRet(
     final SSUri   circleUri){
 
-    super(SSServOpE.circleUsersInvite);
+    super(SSVarNames.circleUsersInvite);
     
     this.circle = circleUri;
   }

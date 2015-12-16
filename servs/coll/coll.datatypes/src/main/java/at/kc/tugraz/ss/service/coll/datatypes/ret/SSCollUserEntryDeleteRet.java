@@ -21,10 +21,9 @@
 
 package at.kc.tugraz.ss.service.coll.datatypes.ret;
 
-import at.tugraz.sss.serv.SSServOpE;
 import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.SSServRetI; 
 import at.tugraz.sss.serv.SSVarNames;
-import at.tugraz.sss.serv.SSServRetI;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,11 +31,11 @@ public class SSCollUserEntryDeleteRet extends SSServRetI{
 
   public boolean worked = false;
 
-  public static SSCollUserEntryDeleteRet get(boolean worked, SSServOpE op){
+  public static SSCollUserEntryDeleteRet get(boolean worked, String op){
     return new SSCollUserEntryDeleteRet(worked, op);
   }
   
-  private SSCollUserEntryDeleteRet(boolean worked, SSServOpE op) {
+  private SSCollUserEntryDeleteRet(boolean worked, String op) {
 
     super(op);
     

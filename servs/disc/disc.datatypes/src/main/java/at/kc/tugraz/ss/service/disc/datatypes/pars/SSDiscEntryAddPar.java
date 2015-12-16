@@ -22,11 +22,11 @@
 
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSLabel;
-import at.tugraz.sss.serv.SSServOpE;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -121,7 +121,7 @@ public class SSDiscEntryAddPar extends SSServPar{
     final List<SSLabel> entityLabels,
     final Boolean       shouldCommit){
     
-    super(SSServOpE.discEntryAdd, null, user);
+    super(SSVarNames.discEntryAdd, null, user);
   
     this.disc        = disc;
     

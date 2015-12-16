@@ -20,8 +20,8 @@
 */
 package at.kc.tugraz.ss.category.datatypes.par;
 
-import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.serv.SSServPar;
+
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 
 public class SSCategoriesPredefinedGetPar extends SSServPar{
@@ -31,6 +31,6 @@ public class SSCategoriesPredefinedGetPar extends SSServPar{
   public SSCategoriesPredefinedGetPar(
     final SSUri     user){
     
-    super(SSServOpE.categoriesPredefinedGet, null, user);
+    super(SSVarNames.categoriesPredefinedGet, null, user);
   }
 }

@@ -20,11 +20,11 @@
  */
 package at.kc.tugraz.sss.appstacklayout.datatypes.ret;
 
-import at.tugraz.sss.serv.SSServOpE;
+
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServRetI;
+import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -55,7 +55,7 @@ public class SSAppStackLayoutCreateRet extends SSServRetI{
   private SSAppStackLayoutCreateRet(
     final SSUri    stack) {
     
-    super(SSServOpE.appStackLayoutCreate);
+    super(SSVarNames.appStackLayoutCreate);
     
     this.stack = stack;
   }

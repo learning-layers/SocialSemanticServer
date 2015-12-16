@@ -20,9 +20,9 @@
 */
 package at.tugraz.sss.servs.entity.datatypes.par;
 
-import at.tugraz.sss.serv.SSServOpE;
+
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
 import java.util.ArrayList;
 import java.util.List;
 import at.tugraz.sss.serv.SSStrU;
@@ -57,7 +57,7 @@ public class SSEntityEntitiesAttachedRemovePar extends SSServPar{
     final Boolean             withUserRestriction, 
     final Boolean             shouldCommit){
 
-    super(SSServOpE.entityEntitiesAttachedRemove, null, user);
+    super(SSVarNames.entityEntitiesAttachedRemove, null, user);
   
     this.entity         = entity;
     

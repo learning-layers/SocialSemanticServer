@@ -20,9 +20,10 @@
 */
 package at.kc.tugraz.ss.serv.jsonld.datatypes.par;
 
-import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
+
 import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.SSVarNames;
 
 public class SSJSONLDPar extends SSServPar{
   
@@ -34,7 +35,7 @@ public class SSJSONLDPar extends SSServPar{
     final SSUri         user,
     final String        type){
     
-    super(SSServOpE.jsonLD, null, user);
+    super(SSVarNames.jsonLD, null, user);
     
     this.type = type;
   }

@@ -20,10 +20,10 @@
  */
 package at.kc.tugraz.sss.flag.datatypes.ret;
 
-import at.tugraz.sss.serv.SSServOpE;
+
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarNames;
-import at.tugraz.sss.serv.SSServRetI;
+import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSJSONLDU;
 import at.kc.tugraz.sss.flag.datatypes.SSFlag;
 import at.tugraz.sss.serv.SSEntity;
@@ -59,7 +59,7 @@ public class SSFlagsGetRet extends SSServRetI{
   private SSFlagsGetRet(
     final List<SSEntity>   flags) {
     
-    super(SSServOpE.flagsGet);
+    super(SSVarNames.flagsGet);
     
     SSEntity.addEntitiesDistinctWithoutNull(this.flags, flags);
   }

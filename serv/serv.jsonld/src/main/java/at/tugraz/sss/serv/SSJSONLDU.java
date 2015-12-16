@@ -63,7 +63,7 @@ public class SSJSONLDU {
    
     final Map<String, Object> jsonLDContext = new HashMap<>();
       
-    jsonLDContext.put(SSVarNames.sss,      jsonLDUri + SSServOpE.jsonLD.toString() + SSStrU.slash);
+    jsonLDContext.put(SSVarNames.sss,      jsonLDUri + SSVarNames.jsonLD + SSStrU.slash);
     jsonLDContext.put(SSVarNames.xsd,      SSLinkU.xsd);
     jsonLDContext.put(SSVarNames.op,       SSVarNames.xsd + SSStrU.colon + SSStrU.valueString);
     jsonLDContext.put(SSVarNames.error,    SSVarNames.xsd + SSStrU.colon + SSStrU.valueBoolean);

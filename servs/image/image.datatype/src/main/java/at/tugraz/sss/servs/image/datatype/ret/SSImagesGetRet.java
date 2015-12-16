@@ -21,8 +21,8 @@
 package at.tugraz.sss.servs.image.datatype.ret;
 
 import at.tugraz.sss.serv.SSEntity;
-import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.serv.SSServRetI;
+
+import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -45,7 +45,7 @@ public class SSImagesGetRet extends SSServRetI{
   private SSImagesGetRet(
     final List<SSEntity> images) {
 
-    super(SSServOpE.imagesGet);
+    super(SSVarNames.imagesGet);
     
     SSEntity.addEntitiesDistinctWithoutNull(this.images, images);
   }

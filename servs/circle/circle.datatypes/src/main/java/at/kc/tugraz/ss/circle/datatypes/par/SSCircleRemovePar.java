@@ -20,10 +20,11 @@
 */
 package at.kc.tugraz.ss.circle.datatypes.par;
 
-import at.tugraz.sss.serv.SSServOpE;
+
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
+import at.tugraz.sss.serv.SSVarNames;
 
 public class SSCircleRemovePar extends SSServPar{
   
@@ -45,7 +46,7 @@ public class SSCircleRemovePar extends SSServPar{
     final Boolean        withUserRestriction,
     final Boolean        shouldCommit) throws Exception{
     
-    super(SSServOpE.circleRemove, null, user);
+    super(SSVarNames.circleRemove, null, user);
     
     this.circle  = circle;
     

@@ -20,11 +20,11 @@
   */
 package at.kc.tugraz.sss.video.datatypes.ret;
 
-import at.tugraz.sss.serv.SSServOpE;
+
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServRetI;
+import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -55,7 +55,7 @@ public class SSVideoUserAnnotationAddRet extends SSServRetI{
   private SSVideoUserAnnotationAddRet(
     final SSUri    annotation) {
     
-    super(SSServOpE.videoAnnotationAdd);
+    super(SSVarNames.videoAnnotationAdd);
     
     this.annotation = annotation;
   }

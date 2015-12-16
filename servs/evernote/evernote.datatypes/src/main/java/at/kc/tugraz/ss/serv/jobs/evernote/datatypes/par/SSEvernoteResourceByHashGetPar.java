@@ -20,8 +20,8 @@
 */
 package at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par;
 
-import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
+
 import at.tugraz.sss.serv.SSUri;
 import com.evernote.clients.NoteStoreClient;
 
@@ -37,7 +37,7 @@ public class SSEvernoteResourceByHashGetPar extends SSServPar{
     final String          noteGUID,
     final String          resourceHash){
     
-    super(SSServOpE.evernoteResourceByHashGet, null, user);
+    super(SSVarNames.evernoteResourceByHashGet, null, user);
     
     this.noteStore        = noteStore;
     this.noteGUID         = noteGUID;

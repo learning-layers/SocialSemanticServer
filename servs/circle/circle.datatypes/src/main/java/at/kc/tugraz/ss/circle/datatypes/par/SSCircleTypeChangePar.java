@@ -21,9 +21,9 @@
 package at.kc.tugraz.ss.circle.datatypes.par;
 
 import at.tugraz.sss.serv.SSCircleE;
-import at.tugraz.sss.serv.SSServOpE;
+
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 
 public class SSCircleTypeChangePar extends SSServPar{
@@ -56,7 +56,7 @@ public class SSCircleTypeChangePar extends SSServPar{
     final Boolean        withUserRestriction,
     final Boolean        shouldCommit) throws Exception{
     
-    super(SSServOpE.circleTypeChange, null, user);
+    super(SSVarNames.circleTypeChange, null, user);
     
     this.circle                 = circle;
     this.type                   = type;

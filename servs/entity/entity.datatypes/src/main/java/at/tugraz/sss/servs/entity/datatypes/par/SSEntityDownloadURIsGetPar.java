@@ -21,8 +21,8 @@
 package at.tugraz.sss.servs.entity.datatypes.par;
 
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
+
 
 public class SSEntityDownloadURIsGetPar extends SSServPar{
   
@@ -33,7 +33,7 @@ public class SSEntityDownloadURIsGetPar extends SSServPar{
     final SSUri   entity, 
     final Boolean withUserRestriction){
       
-    super(SSServOpE.entityDownloadsGet, null, user);
+    super(SSVarNames.entityDownloadsGet, null, user);
     
     this.entity              = entity;
     this.withUserRestriction = withUserRestriction;

@@ -63,9 +63,9 @@ public abstract class SSServContainerI{
     throw new Exception("service not registered");
   }
   
-  public List<SSServOpE> publishClientOps() throws Exception{
+  public List<String> publishClientOps() throws Exception{
     
-    final List<SSServOpE> clientOps = new ArrayList<>();
+    final List<String> clientOps = new ArrayList<>();
     
     if(servImplClientInteraceClass == null){
       return clientOps;
@@ -74,15 +74,15 @@ public abstract class SSServContainerI{
     final Method[]      methods   = servImplClientInteraceClass.getMethods();
     
     for(Method method : methods){
-      clientOps.add(SSServOpE.get(method.getName()));
+      clientOps.add(method.getName());
     }
     
     return clientOps;
   }
   
-  public List<SSServOpE> publishServerOps() throws Exception{
+  public List<String> publishServerOps() throws Exception{
     
-    final List<SSServOpE> serverOps = new ArrayList<>();
+    final List<String> serverOps = new ArrayList<>();
     
     if(servImplServerInteraceClass == null){
       return serverOps;
@@ -91,7 +91,7 @@ public abstract class SSServContainerI{
     final Method[]      methods   = servImplServerInteraceClass.getMethods();
     
     for(Method method : methods){
-      serverOps.add(SSServOpE.get(method.getName()));
+      serverOps.add(method.getName());
     }
     
     return serverOps;

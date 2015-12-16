@@ -20,11 +20,6 @@
 */
 package at.tugraz.sss.serv;
 
-import at.tugraz.sss.serv.SSJSONU;
-import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSVarNames;
 import java.util.Map;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -36,7 +31,7 @@ import java.net.Socket;
 @XmlRootElement
 public class SSServPar{
   
-  public SSServOpE            op                  = null;
+  public String               op                  = null;
   public SSUri                user                = null;
   public String               key                 = null;
   
@@ -57,11 +52,6 @@ public class SSServPar{
   
   @JsonIgnore
   public JsonNode             clientJSONObj       = null;
-  
-  @XmlElement
-  public void setOp(final String op) throws Exception{
-    this.op = SSServOpE.get(op);
-  }
   
   @XmlElement
   public void setUser(final String user) throws Exception{
@@ -85,7 +75,7 @@ public class SSServPar{
     this.clientSocket      = clientSocket;
     this.clientJSONRequ    = clientJSONRequ;
     
-    this.op  = SSServOpE.get(SSJSONU.getValueFromJSON(clientJSONRequ, SSVarNames.op));
+    this.op  = SSJSONU.getValueFromJSON(clientJSONRequ, SSVarNames.op);
     this.key = SSJSONU.getValueFromJSON(clientJSONRequ, SSVarNames.key);
     
     //TODO for anchient use of serv par
@@ -98,7 +88,7 @@ public class SSServPar{
   }
 
   public SSServPar(
-    final SSServOpE            op,
+    final String               op,
     final Map<String, Object>  pars) throws Exception{
     
     this.op            = op;
@@ -129,7 +119,7 @@ public class SSServPar{
   }
   
   protected SSServPar(
-    final SSServOpE op,
+    final String    op,
     final String    key,
     final SSUri     user){
     
@@ -240,7 +230,7 @@ public class SSServPar{
 //        jValue = jp.getText();
 //        
 //        if(SSStrU.equals(jKey, SSVarU.op)){
-//          op = SSServOpE.get(jValue);
+//          op = SSVarNames.get(jValue);
 //          continue;
 //        }
 //        

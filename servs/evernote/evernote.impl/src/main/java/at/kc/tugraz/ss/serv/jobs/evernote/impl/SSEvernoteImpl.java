@@ -68,7 +68,7 @@ import com.evernote.edam.type.SharedNotebook;
 import java.util.List;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
-import at.tugraz.sss.serv.SSServPar;
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSWarnE;
 import at.tugraz.sss.servs.file.datatype.par.SSEntityFilesGetPar;

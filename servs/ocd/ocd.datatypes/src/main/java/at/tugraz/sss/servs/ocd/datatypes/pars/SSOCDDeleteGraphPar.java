@@ -20,8 +20,8 @@
 */
 package at.tugraz.sss.servs.ocd.datatypes.pars;
 
-import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.serv.SSServPar;
+
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 
 public class SSOCDDeleteGraphPar extends SSServPar {
@@ -35,7 +35,7 @@ public class SSOCDDeleteGraphPar extends SSServPar {
     final SSUri user,
     final String graphId ) {
     
-      super(SSServOpE.ocdDeleteGraph, null, user);
+      super(SSVarNames.ocdDeleteGraph, null, user);
   }
 
   public String getGraphId() {

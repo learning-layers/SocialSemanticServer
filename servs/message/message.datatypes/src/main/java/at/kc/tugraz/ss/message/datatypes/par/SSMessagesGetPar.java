@@ -20,8 +20,8 @@
 */
 package at.kc.tugraz.ss.message.datatypes.par;
 
-import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
+
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 
@@ -50,7 +50,7 @@ public class SSMessagesGetPar extends SSServPar{
     final Boolean   withUserRestriction, 
     final Boolean   invokeEntityHandlers){
     
-    super(SSServOpE.messagesGet, null, user);
+    super(SSVarNames.messagesGet, null, user);
     
     this.forUser              = forUser;
     this.includeRead          = includeRead;

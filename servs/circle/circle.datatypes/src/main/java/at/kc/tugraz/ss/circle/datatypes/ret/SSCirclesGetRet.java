@@ -16,10 +16,10 @@
 package at.kc.tugraz.ss.circle.datatypes.ret;
 
 import at.tugraz.sss.serv.SSEntity;
-import at.tugraz.sss.serv.SSServOpE;
+
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarNames;
-import at.tugraz.sss.serv.SSServRetI;
+import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSEntityCircle;
 import at.tugraz.sss.serv.SSJSONLDU;
 import java.util.ArrayList;
@@ -54,7 +54,7 @@ public class SSCirclesGetRet extends SSServRetI{
   private SSCirclesGetRet(
     final List<SSEntity> circles){
 
-    super(SSServOpE.circlesGet);
+    super(SSVarNames.circlesGet);
     
     SSEntity.addEntitiesDistinctWithoutNull(this.circles, circles);
   }

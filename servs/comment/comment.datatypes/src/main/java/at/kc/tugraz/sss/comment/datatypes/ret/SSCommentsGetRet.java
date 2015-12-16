@@ -20,11 +20,11 @@
   */
 package at.kc.tugraz.sss.comment.datatypes.ret;
 
-import at.tugraz.sss.serv.SSServOpE;
+
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSTextComment;
-import at.tugraz.sss.serv.SSServRetI;
+import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSJSONLDU;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -62,7 +62,7 @@ public class SSCommentsGetRet extends SSServRetI{
   private SSCommentsGetRet(
     final List<SSTextComment> comments) {
     
-    super(SSServOpE.commentsGet);
+    super(SSVarNames.commentsGet);
     
     if(comments != null){
       this.comments.addAll(comments);

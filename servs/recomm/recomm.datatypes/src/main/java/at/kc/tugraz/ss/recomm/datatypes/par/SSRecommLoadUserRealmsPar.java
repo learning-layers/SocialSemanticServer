@@ -21,8 +21,8 @@
 package at.kc.tugraz.ss.recomm.datatypes.par;
 
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServPar;
-import at.tugraz.sss.serv.SSServOpE;
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
+
 
 public class SSRecommLoadUserRealmsPar extends SSServPar{
   
@@ -31,6 +31,6 @@ public class SSRecommLoadUserRealmsPar extends SSServPar{
   public SSRecommLoadUserRealmsPar(
     final SSUri         user){
     
-    super(SSServOpE.recommLoadUserRealms, null, user);
+    super(SSVarNames.recommLoadUserRealms, null, user);
   }
 }

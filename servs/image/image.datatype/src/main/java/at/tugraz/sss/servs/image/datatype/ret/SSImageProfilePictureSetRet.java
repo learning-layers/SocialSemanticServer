@@ -20,8 +20,8 @@
 */
 package at.tugraz.sss.servs.image.datatype.ret;
 
-import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.serv.SSServRetI;
+
+import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 import java.util.Map;
@@ -42,7 +42,7 @@ public class SSImageProfilePictureSetRet extends SSServRetI{
   public SSImageProfilePictureSetRet(
     final SSUri user){
     
-    super(SSServOpE.imageProfilePictureSet);
+    super(SSVarNames.imageProfilePictureSet);
     
     this.user = user;
   }

@@ -21,8 +21,8 @@
 package at.tugraz.sss.servs.livingdocument.datatype.par;
 
 import at.tugraz.sss.serv.SSLabel;
-import at.tugraz.sss.serv.SSServOpE;
-import at.tugraz.sss.serv.SSServPar;
+
+import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
@@ -77,7 +77,7 @@ public class SSLivingDocAddPar extends SSServPar{
     final Boolean       withUserRestriction,
     final Boolean       shouldCommit){
     
-    super(SSServOpE.livingDocAdd, null, user);
+    super(SSVarNames.livingDocAdd, null, user);
     
     this.uri                  = uri;
     this.label                = label;
