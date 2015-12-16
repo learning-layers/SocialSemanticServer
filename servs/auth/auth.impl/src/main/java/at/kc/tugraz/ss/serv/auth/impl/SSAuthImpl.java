@@ -115,7 +115,7 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
             email, 
             passwordForUser.getValue(), 
             SSLabel.get(passwordForUser.getKey()), 
-            false, //updatePassword, 
+            true, //updatePassword, 
             false, //isSystemUser, 
             false, //withUserRestriction, 
             false)); //shouldCommit)
