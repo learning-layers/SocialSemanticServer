@@ -26,11 +26,6 @@ import at.tugraz.sss.serv.SSUri;
 
 public class SSLivingDocument extends SSEntity{
 
-  @Override
-  public Object jsonLDDesc(){
-    throw new UnsupportedOperationException();
-  }
-  
   public static SSLivingDocument get(
     final SSLivingDocument livingDocument, 
     final SSEntity         entity) throws Exception{

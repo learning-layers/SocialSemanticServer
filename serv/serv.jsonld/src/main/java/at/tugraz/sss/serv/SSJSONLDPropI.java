@@ -23,3 +23,59 @@ package at.tugraz.sss.serv;
 public interface SSJSONLDPropI{
   public Object jsonLDDesc();
 }
+
+//e.g. 
+//@Override
+//  public Object jsonLDDesc(){
+//    
+//    return super.jsonLDDesc();
+//  }
+
+//e.g.
+//@Override
+//  public Object jsonLDDesc(){
+//    return SSVarNames.xsd + SSStrU.colon + SSStrU.valueString;
+//  }
+
+//e.g.
+//@Override
+//  public Object jsonLDDesc(){
+//    return SSLinkU.schemaOrgUrl;
+//  }
+
+//e.g.
+//  @Override
+//  public Object jsonLDDesc() {
+//  
+//    final Map<String, Object> ld = new HashMap<>();
+//    
+//    ld.put(SSVarNames.label,   SSVarNames.sss + SSStrU.colon + SSCategoryLabel.class.getName());
+//    ld.put(SSVarNames.space,   SSVarNames.sss + SSStrU.colon + SSSpaceE.class.getName());
+//    ld.put(SSVarNames.frequ,   SSVarNames.xsd + SSStrU.colon + SSStrU.valueInteger);
+//    
+//    return ld;
+//  }  
+
+//e.g.
+//@Override
+//  public Object jsonLDDesc(){
+//    
+//    final Map<String, Object> ld                 = (Map<String, Object>) super.jsonLDDesc();
+//    final Map<String, Object> learnEpCirclesObj  = new HashMap<>();
+//    final Map<String, Object> learnEpEntitiesObj = new HashMap<>();
+//    
+//    ld.put(SSVarNames.learnEp,                SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
+//    ld.put(SSVarNames.learnEpTimelineState,   SSVarNames.sss + SSStrU.colon + SSLearnEpTimelineState.class.getName());
+//    
+//    learnEpEntitiesObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSLearnEpEntity.class.getName());
+//    learnEpEntitiesObj.put(SSJSONLDU.container, SSJSONLDU.set);
+//    
+//    ld.put(SSVarNames.learnEpEntities, learnEpEntitiesObj);
+//    
+//    learnEpCirclesObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSLearnEpCircle.class.getName());
+//    learnEpCirclesObj.put(SSJSONLDU.container, SSJSONLDU.set);
+//    
+//    ld.put(SSVarNames.learnEpCircles, learnEpCirclesObj);
+//    
+//    return ld;
+//  }

@@ -23,17 +23,12 @@ package at.tugraz.sss.serv;
 import java.util.ArrayList;
 import java.util.List;
 
-public enum SSImageE implements SSJSONLDPropI{
+public enum SSImageE{
   
   image,
   thumb,
   screenShot;
 
-  @Override
-  public Object jsonLDDesc(){
-    return SSVarNames.xsd + SSStrU.colon + SSStrU.valueString;
-  }
-  
   public static List<SSImageE> get(final List<String> values) throws Exception{
   
     final List<SSImageE> result = new ArrayList<>();

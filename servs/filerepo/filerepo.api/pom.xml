@@ -19,14 +19,14 @@
   <dependencies>
 
     <dependency>
+      <groupId>sss.serv</groupId>
+      <artifactId>serv.impl.api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
       <groupId>sss.servs</groupId>
       <artifactId>filerepo.datatypes</artifactId>
-      <version>${project.version}</version>
-    </dependency> 
-    
-     <dependency>
-      <groupId>sss.serv</groupId>
-      <artifactId>serv.impl</artifactId>
       <version>${project.version}</version>
     </dependency> 
     

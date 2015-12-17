@@ -42,11 +42,6 @@ public class SSVideo extends SSEntity{
     return SSStrU.toStr(videoType);
   }
      
-  @Override
-  public Object jsonLDDesc(){
-    throw new UnsupportedOperationException();
-  }
-
   public static SSVideo get(
     final SSVideo      video,
     final SSEntity     entity) throws Exception{

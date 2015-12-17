@@ -36,11 +36,6 @@ public class SSUEAddRet extends SSServRetI{
     return SSStrU.removeTrailingSlash(userEvent);
   }
   
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    throw new UnsupportedOperationException();
-  }
-  
   public static SSUEAddRet get(SSUri userEvent){
     return new SSUEAddRet(userEvent);
   }

@@ -31,16 +31,6 @@ public class SSUECountGetRet extends SSServRetI{
 
   public Integer count = null;
 
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    
-    final Map<String, Object> ld = new HashMap<>();
-    
-    ld.put(SSVarNames.count, SSVarNames.xsd + SSStrU.colon + SSStrU.valueInteger);
-    
-    return ld;
-  }
-
   public static SSUECountGetRet get(
     final Integer count){
     

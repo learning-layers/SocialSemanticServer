@@ -28,11 +28,6 @@ public class SSDataImportBitsAndPiecesRet extends SSServRetI{
   
   public Boolean worked   = null; 
   
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    throw new UnsupportedOperationException();
-  }
-  
   public static SSDataImportBitsAndPiecesRet get(
     final Boolean   worked){
     

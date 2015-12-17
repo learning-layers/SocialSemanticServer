@@ -125,20 +125,6 @@ public class SSTag extends SSEntity{
     
     return tagsPerEntity;
   }
-  
-  @Override
-  public Object jsonLDDesc() {
-  
-    final Map<String, Object> ld = (Map<String, Object>)super.jsonLDDesc();
-    
-    ld.put(SSVarNames.entity,     SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarNames.user,       SSVarNames.sss + SSStrU.colon + SSUri.class.getName());    
-    ld.put(SSVarNames.space,      SSVarNames.sss + SSStrU.colon + SSSpaceE.class.getName());    
-    ld.put(SSVarNames.label,      SSVarNames.sss + SSStrU.colon + SSTagLabel.class.getName());    
-    ld.put(SSVarNames.circle,     SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
-    
-    return ld;
-  } 
 }
 
 //  public static List<SSUri> getDistinctResources(

@@ -41,11 +41,6 @@ public class SSFile extends SSEntity{
     return SSStrU.removeTrailingSlash(downloadLink);
   }
   
-  @Override
-  public Object jsonLDDesc(){
-    throw new UnsupportedOperationException();
-  }
-  
   public static SSFile get(
     final SSFile           file,
     final SSEntity         entity) throws Exception{

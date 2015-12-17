@@ -41,14 +41,4 @@ public class SSRatingGetRet extends SSServRetI{
     
     this.rating = rating;
   }
-
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    
-    Map<String, Object> ld         = new HashMap<>();
-    
-    ld.put(SSVarNames.rating, SSVarNames.xsd + SSStrU.colon + SSStrU.valueInteger);
-    
-    return ld;
-  }
 }

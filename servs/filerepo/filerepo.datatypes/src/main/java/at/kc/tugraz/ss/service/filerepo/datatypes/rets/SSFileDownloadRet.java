@@ -36,16 +36,6 @@ public class SSFileDownloadRet extends SSServRetI{
     return SSStrU.removeTrailingSlash(file);
   }
    
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    
-    Map<String, Object> ld           = new HashMap<>();
-    
-    ld.put(SSVarNames.file,  SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
-    
-    return ld;
-  }
-  
   public SSFileDownloadRet(SSUri uri){
     
     super(SSVarNames.fileDownload);

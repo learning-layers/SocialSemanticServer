@@ -76,7 +76,7 @@ implements
   SSDataExportServerI{
   
   public SSDataExportImpl(final SSConfA conf) throws SSErr{
-    super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
+    super(conf, (SSDBSQLI) SSDBSQL.inst.getServImpl(), (SSDBNoSQLI) SSDBNoSQL.inst.getServImpl());
   }
   
   @Override
@@ -198,7 +198,7 @@ implements
     OutputStreamWriter                                  writer     = null;
     
     try{
-      final Map<String, List<SSEntityContext>>  usersEntities         = new HashMap<>();
+      final Map<String, List<SSEntityContext>>  usersEntities         = new HashMap<>(); 
       final List<String>                        lineParts             = new ArrayList<>();
       final List<String>                        allUsers;
       SSUri                                     user;
@@ -235,9 +235,7 @@ implements
         usersEntities.put(userStr, new ArrayList<>());
       }
       
-      for(SSServContainerI serv : SSServReg.inst.getServsGatheringUsersResources()){
-        ((SSUsersResourcesGathererI) serv.serv()).getUsersResources(usersEntities);
-      }
+      SSServReg.inst.getUsersResources(usersEntities);
       
       for(Map.Entry<String, List<SSEntityContext>> resourcesForUser : usersEntities.entrySet()){
         
@@ -406,9 +404,7 @@ implements
         }
       }
       
-      for(SSServContainerI serv : SSServReg.inst.getServsGatheringUserRelations()){
-        ((SSUserRelationGathererI) serv.serv()).getUserRelations(allUsers, userRelations);
-      }
+      SSServReg.inst.getUserRelations(allUsers, userRelations);
       
       out =
         SSFileU.openOrCreateFileWithPathForWrite (

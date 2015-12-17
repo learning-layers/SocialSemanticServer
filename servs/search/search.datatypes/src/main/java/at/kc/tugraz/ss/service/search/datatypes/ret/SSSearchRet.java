@@ -61,22 +61,4 @@ public class SSSearchRet extends SSServRetI{
     this.pageNumber  = pageNumber;
     this.pageNumbers = pageNumbers;
   }
-  
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    
-    final Map<String, Object> ld          = new HashMap<>();
-    final Map<String, Object> entitiesObj = new HashMap<>();
-    
-    entitiesObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSEntity.class.getName());
-    entitiesObj.put(SSJSONLDU.container, SSJSONLDU.set);
-    
-    ld.put(SSVarNames.entities, entitiesObj);
-    
-    ld.put(SSVarNames.pagesID,     SSVarNames.xsd + SSStrU.colon + SSStrU.valueString);
-    ld.put(SSVarNames.pageNumber,  SSVarNames.xsd + SSStrU.colon + SSStrU.valueInteger);
-    ld.put(SSVarNames.pageNumbers, SSVarNames.xsd + SSStrU.colon + SSStrU.valueInteger);
-    
-    return ld;
-  }
 }

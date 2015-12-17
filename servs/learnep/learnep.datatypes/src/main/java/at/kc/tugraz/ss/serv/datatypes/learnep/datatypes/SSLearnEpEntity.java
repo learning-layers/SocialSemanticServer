@@ -33,18 +33,6 @@ public class SSLearnEpEntity extends SSEntity {
   public Float     x        = null;
   public Float     y        = null;
   
-  @Override
-  public Object jsonLDDesc(){
-    
-    final Map<String, Object> ld = (Map<String, Object>) super.jsonLDDesc();
-    
-    ld.put(SSVarNames.entity,  SSVarNames.sss + SSStrU.colon + SSEntity.class.getName());
-    ld.put(SSVarNames.x,       SSVarNames.xsd + SSStrU.colon + SSStrU.valueFloat);
-    ld.put(SSVarNames.y,       SSVarNames.xsd + SSStrU.colon + SSStrU.valueFloat);
-    
-    return ld;
-  }
-  
   public static SSLearnEpEntity get(
     final SSLearnEpEntity learnEpEntity, 
     final SSEntity        entity) throws Exception{

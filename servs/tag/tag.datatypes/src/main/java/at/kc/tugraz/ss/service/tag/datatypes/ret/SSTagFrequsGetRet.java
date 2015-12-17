@@ -52,18 +52,4 @@ public class SSTagFrequsGetRet extends SSServRetI{
     
     SSTagFrequ.addDistinctWithoutNull(this.tagFrequs, tagFrequs);
   }
-  
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    
-    Map<String, Object> ld               = new HashMap<>();
-    Map<String, Object> tagFrequsObj     = new HashMap<>();
-    
-    tagFrequsObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSTagFrequ.class.getName());
-    tagFrequsObj.put(SSJSONLDU.container, SSJSONLDU.set);
-    
-    ld.put(SSVarNames.tagFrequs, tagFrequsObj);
-    
-    return ld;
-  }
 }

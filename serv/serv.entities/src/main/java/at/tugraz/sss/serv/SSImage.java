@@ -43,11 +43,6 @@ public class SSImage extends SSEntity{
     this.link = SSUri.get(link);
   }
   
-  @Override
-  public Object jsonLDDesc(){
-    throw new UnsupportedOperationException();
-  }
-  
   public static SSImage get(
     final SSImage         image,
     final SSEntity        entity) throws Exception{

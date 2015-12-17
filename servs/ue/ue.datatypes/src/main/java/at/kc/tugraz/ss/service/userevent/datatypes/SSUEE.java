@@ -21,10 +21,9 @@
 package at.kc.tugraz.ss.service.userevent.datatypes;
 
 import at.tugraz.sss.serv.*;
-import at.tugraz.sss.serv.SSJSONLDPropI;
 import java.util.*;
 
-public enum SSUEE implements SSJSONLDPropI{
+public enum SSUEE{
   
   /* user events maybe to delete as they are not stored on client-side by bits and pieces tool anymore */
 //  timelineChangeTimelineRange,
@@ -116,11 +115,4 @@ public enum SSUEE implements SSJSONLDPropI{
     
     return result;
   }
-  
-  @Override
-  public Object jsonLDDesc(){
-    return SSVarNames.xsd + SSStrU.colon + SSStrU.valueString;
-  }
-  
-  
 }

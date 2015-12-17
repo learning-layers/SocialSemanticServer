@@ -23,15 +23,10 @@ package at.tugraz.sss.serv;
 import java.util.ArrayList;
 import java.util.List;
 
-public enum SSToolE implements SSJSONLDPropI{
+public enum SSToolE{
   
   bnp,
   knowbrain;
-  
-  @Override
-  public Object jsonLDDesc() {
-    return SSVarNames.xsd + SSStrU.colon + SSStrU.valueString;
-  }
   
   public static SSToolE get(final String space) throws Exception{
     

@@ -70,17 +70,6 @@ public class SSEvernoteNote extends SSEntity{
     this.notebook = notebook;
   }
 
-  @Override
-  public Object jsonLDDesc(){
-    
-    final Map<String, Object> ld = (Map<String, Object>) super.jsonLDDesc();
-    
-    ld.put(SSVarNames.notebook, SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
-    
-    return ld;
-  }
-  
-  /* json getters */
   public String getNotebook(){
     return SSStrU.removeTrailingSlash(notebook);
   }

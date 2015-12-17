@@ -21,6 +21,7 @@
 package at.kc.tugraz.ss.service.coll.impl.fct.op;
 
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleAddEntitiesToCircleOfEntityPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleIsEntityPrivatePar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleIsEntityPublicPar;
 import at.kc.tugraz.ss.conf.conf.SSVocConf;
@@ -78,15 +79,15 @@ public class SSCollEntryAddFct{
       isParentCollSharedOrPublic,
       false);
     
-    SSServCallerU.handleCirclesFromEntityGetEntitiesAdd(
-      circleServ,
-      entityServ,
-      par.user,
-      par.coll,
-      SSUri.asListNotNull(newColl), //entities
-      par.withUserRestriction,
-      false); //invokeEntityHandlers
-    
+    circleServ.circleAddEntitiesToCirclesOfEntity(
+      new SSCircleAddEntitiesToCircleOfEntityPar(
+        par.user,
+        par.coll,
+        SSUri.asListNotNull(newColl), //entities
+        par.withUserRestriction,
+        false, //invokeEntityHandlers,
+        false)); //shouldCommit
+      
     return newColl;
   }
   
@@ -155,14 +156,14 @@ public class SSCollEntryAddFct{
     
     sqlFct.addCollEntry(par.coll, entry);
     
-    SSServCallerU.handleCirclesFromEntityGetEntitiesAdd(
-      circleServ,
-      entityServ,
-      par.user,
-      par.coll,
-      SSUri.asListNotNull(entry), //entities
-      par.withUserRestriction,
-      true); //invokeEntityHandlers
+    circleServ.circleAddEntitiesToCirclesOfEntity(
+      new SSCircleAddEntitiesToCircleOfEntityPar(
+        par.user,
+        par.coll,
+        SSUri.asListNotNull(entry), //entities
+        par.withUserRestriction,
+        true, //invokeEntityHandlers,
+        false)); //shouldCommit
     
     return entry;
   }

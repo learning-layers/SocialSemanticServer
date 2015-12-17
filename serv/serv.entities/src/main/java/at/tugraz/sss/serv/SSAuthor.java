@@ -22,11 +22,6 @@ package at.tugraz.sss.serv;
 
 public class SSAuthor extends SSEntity{
 
-  @Override
-  public Object jsonLDDesc(){
-    return super.jsonLDDesc();
-  }
-  
   public static SSAuthor get(
     final SSAuthor         author,
     final SSEntity         entity) throws SSErr {

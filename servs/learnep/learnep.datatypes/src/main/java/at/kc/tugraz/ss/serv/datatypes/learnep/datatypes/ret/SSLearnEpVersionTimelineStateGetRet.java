@@ -32,16 +32,6 @@ public class SSLearnEpVersionTimelineStateGetRet extends SSServRetI{
 
   public SSLearnEpTimelineState learnEpTimelineState = null;
 
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    
-    Map<String, Object> ld = new HashMap<>();
-    
-    ld.put(SSVarNames.learnEpTimelineState, SSVarNames.sss + SSStrU.colon + SSLearnEpTimelineState.class.getName());
-    
-    return ld;
-  }
-  
   public static SSLearnEpVersionTimelineStateGetRet get(SSLearnEpTimelineState learnEpTimelineState){
     return new SSLearnEpVersionTimelineStateGetRet(learnEpTimelineState);
   }

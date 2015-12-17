@@ -71,11 +71,6 @@ public class SSApp extends SSEntity{
     return  SSStrU.removeTrailingSlash(fork);
   }
   
-  @Override
-  public Object jsonLDDesc(){
-    throw new UnsupportedOperationException();
-  }
-  
   public static SSApp get(
     final SSApp     app,
     final SSEntity  entity) throws Exception{

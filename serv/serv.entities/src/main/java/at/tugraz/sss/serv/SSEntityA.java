@@ -24,6 +24,11 @@ public abstract class SSEntityA implements SSJSONLDPropI{
   
   protected String val = null;
 
+  @Override
+  public Object jsonLDDesc() {
+    throw new UnsupportedOperationException();
+  }
+  
   @Override 
   public String toString(){
     return val;

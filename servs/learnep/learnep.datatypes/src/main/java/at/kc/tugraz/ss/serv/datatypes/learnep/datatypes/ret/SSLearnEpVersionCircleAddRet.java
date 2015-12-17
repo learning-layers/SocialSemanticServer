@@ -36,16 +36,6 @@ public class SSLearnEpVersionCircleAddRet extends SSServRetI{
     return SSStrU.removeTrailingSlash(learnEpCircle);
   }
   
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    
-    Map<String, Object> ld = new HashMap<>();
-    
-    ld.put(SSVarNames.learnEpCircle, SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
-    
-    return ld;
-  }
-  
   public static SSLearnEpVersionCircleAddRet get(SSUri learnEpCircleUri){
     return new SSLearnEpVersionCircleAddRet(learnEpCircleUri);
   }

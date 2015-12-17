@@ -18,30 +18,21 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.tugraz.sss.adapter.socket;
+package at.tugraz.sss.serv;
 
-import at.tugraz.sss.serv.SSErr;
-import at.tugraz.sss.serv.SSJSONU;
-import at.tugraz.sss.serv.SSObjU;
-import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
-import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarNames;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class SSSocketU {
 
   public static final Integer socketTranmissionSize = 10000;
   public static final char    endOfRequest          = '\0';
   
-  public static String readMsgFullFromClient(
-    final InputStreamReader streamReader) throws Exception{
+  public static String readFullString(
+    final InputStreamReader streamReader) throws IOException {
     
     char[]      buffer   = new char[1];
     String      string   = new String();
@@ -52,47 +43,23 @@ public class SSSocketU {
       
       string += buffer[0];
       
-       streamReader.read(buffer);
+      streamReader.read(buffer);
     }
     
     return string;
   }
   
-  public static void writeRetFullToClient(
-    final OutputStreamWriter   streamWriter,
-    final SSServRetI           result) throws Exception{
-  
-    //TODO fix when to send JSON LD Context back to client 
-//    if(sendJSONLD){
-//      ret.put(SSJSONLDU.context, SSJSONLDU.jsonLDContext(result.jsonLDDesc()));
-//    }
-    
-    writeMsgFullToClient(streamWriter, prepRetFullToClient(result));
-  }
-  
-  public static String prepRetFullToClient(
-    final SSServRetI    result) throws Exception{
-    
-    final Map<String, Object> ret       = new HashMap<>();
-    
-    ret.put(SSVarNames.op,    SSStrU.toStr(result.op));
-    ret.put(SSVarNames.error, false);
-    ret.put(SSStrU.toStr(result.op), result);
-    
-    return SSJSONU.jsonStr(ret) + endOfRequest;
-}
-  
-  public static void writeMsgFullToClient(
+  public static void writeFullString(
     final OutputStreamWriter streamWriter,
-    final String             stringJSON) throws Exception{
+    final String             string) throws IOException {
     
     char[] chars    = new char[socketTranmissionSize];
     int    index    = 0;
-    int    length   = stringJSON.length();
+    int    length   = string.length();
     
     while(index + socketTranmissionSize < length){
       
-      stringJSON.getChars(index, index + socketTranmissionSize, chars, 0);
+      string.getChars(index, index + socketTranmissionSize, chars, 0);
       
       streamWriter.write(chars);
       streamWriter.flush();
@@ -104,7 +71,7 @@ public class SSSocketU {
       
       chars = new char[length - index];
       
-      stringJSON.getChars(index, length, chars, 0);
+      string.getChars(index, length, chars, 0);
       
       streamWriter.write(chars);
       streamWriter.flush();
@@ -114,56 +81,7 @@ public class SSSocketU {
     }
 	}
   
-  public static void writeErrorFullToClient(
-    final OutputStreamWriter        streamWriter,
-    final List<? extends Exception> errors, 
-    final String                    op) throws Exception{
-    
-    writeMsgFullToClient(streamWriter, prepErrorToClient(errors, op));
-  }
-  
-  public static String prepErrorToClient(
-    final List<? extends Exception> errors, 
-    final String                    op) throws Exception{
-    
-    final Map<String, Object> ret           = new HashMap<>();
-//    final List<String>        errorMessages = SSErrForClient.messages           (errors);
-    
-    ret.put(SSVarNames.op,                    op);
-    ret.put(SSVarNames.error,                 true);
-//    ret.put(SSVarU.errorMsg,                errorMessages);
-//    ret.put(SSVarU.errorClassNames,         SSErrForClient.classNames         (errors));
-//    ret.put(SSVarU.errorClassesWhereThrown, SSErrForClient.classesWhereThrown (errors));
-//    ret.put(SSVarU.errorMethodsWhereThrown, SSErrForClient.methodsWhereThrown (errors));
-//    ret.put(SSVarU.errorLinesWhereThrown,   SSErrForClient.linesWhereThrown   (errors));
-//    ret.put(SSVarU.errorThreadsWhereThrown, SSErrForClient.threadsWhereThrown (errors));
-    
-//    ret.put(SSJSONLDU.context, SSJSONLDU.jsonLDContext());
-//    ret.put(SSStrU.toStr(op), null);
-
-    ret.put(SSVarNames.id, null);
-    
-    if(!errors.isEmpty()){
-      
-      ret.put(SSVarNames.id,      errors.get(0).getMessage());
-      ret.put(SSVarNames.message, errors.get(0).getMessage());
-      
-      for(Exception error : errors){
-        
-        if(error instanceof SSErr)
-        
-        if(((SSErr)error).id != null){
-          ret.put(SSVarNames.id,      ((SSErr) error).id);
-          ret.put(SSVarNames.message, ((SSErr) error).message);
-          break;
-        }
-      }
-    }
-    
-    return SSJSONU.jsonStr(ret) + endOfRequest;
-  }
-  
-  public static byte[] readFileChunkFromClient(
+  public static byte[] readByteChunk(
     final DataInputStream    dataInputStream) throws IOException{
     
     int chunkLength = dataInputStream.readInt();
@@ -179,14 +97,10 @@ public class SSSocketU {
     return chunk;
   }
   
-  public static boolean writeFileChunkToClient(
+  public static boolean writeByteChunk(
     final DataOutputStream dataOutputStream,
     final byte[]           chunk, 
-    final int              chunkLength) throws Exception{
-    
-    if(SSObjU.isNull(chunk)){
-      throw new Exception("chunk to send to client is null");
-    }
+    final int              chunkLength) throws IOException{
     
     if(
       chunk.length == 0 ||

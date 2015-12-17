@@ -27,11 +27,6 @@ import java.util.List;
 
 public class SSTagLabel extends SSEntityA{
 
-  @Override
-  public Object jsonLDDesc() {
-    return SSVarNames.xsd + SSStrU.colon + SSStrU.valueString;
-  }
-  
   public static SSTagLabel get(
     final String string) throws Exception{
     

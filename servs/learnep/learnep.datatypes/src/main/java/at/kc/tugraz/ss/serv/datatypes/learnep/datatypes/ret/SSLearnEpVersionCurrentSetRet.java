@@ -36,16 +36,6 @@ public class SSLearnEpVersionCurrentSetRet extends SSServRetI{
     return SSStrU.removeTrailingSlash(learnEpVersion);
   }
   
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    
-    Map<String, Object> ld = new HashMap<>();
-    
-    ld.put(SSVarNames.learnEpVersion, SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
-    
-    return ld;
-  }
-  
   public static SSLearnEpVersionCurrentSetRet get(SSUri learnEpVersionUri){
     return new SSLearnEpVersionCurrentSetRet(learnEpVersionUri);
   }

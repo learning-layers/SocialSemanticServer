@@ -29,11 +29,6 @@ public class SSDisc extends SSEntity {
   
   public List<SSEntity> targets = new ArrayList<>();
   
-  @Override
-  public Object jsonLDDesc() {
-    throw new UnsupportedOperationException();
-  }
-    
   public static SSDisc get(
     final SSUri                  id,
     final SSEntityE              type,

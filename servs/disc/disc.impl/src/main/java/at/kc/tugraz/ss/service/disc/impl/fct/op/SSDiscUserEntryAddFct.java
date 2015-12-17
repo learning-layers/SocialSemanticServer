@@ -21,6 +21,7 @@
 package at.kc.tugraz.ss.service.disc.impl.fct.op;
 
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleAddEntitiesToCircleOfEntityPar;
 import at.kc.tugraz.ss.conf.conf.SSVocConf;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityGetPar;
@@ -137,18 +138,18 @@ public class SSDiscUserEntryAddFct{
       }
       
       sqlFct.addDiscEntry(
-        discEntry, 
-        discUri, 
+        discEntry,
+        discUri,
         content);
       
-      SSServCallerU.handleCirclesFromEntityGetEntitiesAdd(
-        circleServ,
-        entityServ,
-        userUri,
-        discUri,
-        SSUri.asListNotNull(discEntry), //entities
-        withUserRestriction,
-        false); //invokeEntityHandlers
+      circleServ.circleAddEntitiesToCirclesOfEntity(
+        new SSCircleAddEntitiesToCircleOfEntityPar(
+          userUri,
+          discUri,
+          SSUri.asListNotNull(discEntry), //entities
+          withUserRestriction,
+          false, //invokeEntityHandlers,
+          false)); //shouldCommit
       
       return discEntry;
       

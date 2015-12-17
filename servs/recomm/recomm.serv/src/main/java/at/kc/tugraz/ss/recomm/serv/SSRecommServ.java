@@ -79,7 +79,7 @@ public class SSRecommServ extends SSServContainerI{
       return;
     }
     
-    ((SSRecommServerI) serv()).recommLoadUserRealms(new SSRecommLoadUserRealmsPar(SSVocConf.systemUserUri));
+    ((SSRecommServerI) getServImpl()).recommLoadUserRealms(new SSRecommLoadUserRealmsPar(SSVocConf.systemUserUri));
     
     if(!recommConf.initAtStartUp){
       return;

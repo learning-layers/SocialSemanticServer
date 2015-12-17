@@ -34,11 +34,6 @@ public class SSDiscEntryAcceptRet extends SSServRetI{
     return SSStrU.removeTrailingSlash(entry);
   }
   
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    throw new UnsupportedOperationException();
-  }
-  
   public static SSDiscEntryAcceptRet get(
     final SSUri entry){
     

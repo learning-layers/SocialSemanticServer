@@ -32,16 +32,6 @@ public class SSLearnEpVersionCurrentGetRet extends SSServRetI{
   
   public SSLearnEpVersion learnEpVersion = null;
   
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    
-    Map<String, Object> ld = new HashMap<>();
-    
-    ld.put(SSVarNames.learnEpVersion, SSVarNames.sss + SSStrU.colon + SSLearnEpVersion.class.getName());
-    
-    return ld;
-  }
-  
   public static SSLearnEpVersionCurrentGetRet get(SSLearnEpVersion learnEpVersion){
     return new SSLearnEpVersionCurrentGetRet(learnEpVersion);
   }

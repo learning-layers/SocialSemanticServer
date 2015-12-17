@@ -32,11 +32,6 @@ public class SSActivitiesGetRet extends SSServRetI{
   public List<SSEntity>   activities = new ArrayList<>();
   public Long             queryTime  = null;
 
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    throw new UnsupportedOperationException();
-  }
-  
   public static SSActivitiesGetRet get(
     final List<SSEntity> activities, 
     final Long             queryTime){

@@ -33,11 +33,6 @@ public class SSMail extends SSEntity{
   public List<SSEntity> contentMultimedia = new ArrayList<>();
   public List<SSEntity> attachments       = new ArrayList<>();
 
-  @Override
-  public Object jsonLDDesc(){
-    throw new UnsupportedOperationException();
-  }
-  
   public static SSMail get(
     final SSMail     mail, 
     final SSEntity   entity) throws Exception{

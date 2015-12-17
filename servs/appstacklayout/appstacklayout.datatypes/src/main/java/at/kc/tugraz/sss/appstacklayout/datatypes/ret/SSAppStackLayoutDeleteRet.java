@@ -20,26 +20,13 @@
  */
 package at.kc.tugraz.sss.appstacklayout.datatypes.ret;
 
-
-import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.SSServRetI; 
 import at.tugraz.sss.serv.SSVarNames;
-import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
-import java.util.HashMap;
 import java.util.Map;
 
 public class SSAppStackLayoutDeleteRet extends SSServRetI{
   
   public Boolean worked = null;
-  
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    
-    final Map<String, Object> ld         = new HashMap<>();
-    
-    ld.put(SSVarNames.worked, SSVarNames.xsd + SSStrU.colon + SSStrU.valueBoolean);
-    
-    return ld;
-  }
   
   public static SSAppStackLayoutDeleteRet get(
     final Boolean  worked){

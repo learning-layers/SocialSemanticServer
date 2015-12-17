@@ -41,14 +41,4 @@ public class SSRatingSetRet extends SSServRetI{
     
     this.worked = worked;
   }
-  
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    
-    Map<String, Object> ld         = new HashMap<>();
-    
-    ld.put(SSVarNames.worked, SSVarNames.xsd + SSStrU.colon + SSStrU.valueBoolean);
-    
-    return ld;
-  }
 }

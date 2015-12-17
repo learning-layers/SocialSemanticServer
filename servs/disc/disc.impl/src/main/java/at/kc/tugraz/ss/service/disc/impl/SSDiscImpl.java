@@ -22,6 +22,7 @@ package at.kc.tugraz.ss.service.disc.impl;
 
 import at.kc.tugraz.ss.activity.api.SSActivityServerI;
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleAddEntitiesToCircleOfEntityPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesAddPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleIsEntityPrivatePar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntitySharePar;
@@ -108,7 +109,7 @@ implements
   
   public SSDiscImpl(final SSConfA conf) throws SSErr{
     
-    super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
+    super(conf, (SSDBSQLI) SSDBSQL.inst.getServImpl(), (SSDBNoSQLI) SSDBNoSQL.inst.getServImpl());
     
     this.sql          = new SSDiscSQLFct(this, SSVocConf.systemUserUri);
     this.entityServ   = (SSEntityServerI)   SSServReg.getServ(SSEntityServerI.class);
@@ -433,7 +434,7 @@ implements
       
       SSEntity.addEntitiesDistinctWithoutNull(
         affiliatedEntities,
-        SSServCallerU.handleAddAffiliatedEntitiesToCircle(
+        SSServReg.inst.addAffiliatedEntitiesToCircle(
           par.user,
           par.circle,
           affiliatedEntities,
@@ -1377,26 +1378,26 @@ implements
       }
       
       sql.addDiscTargets(par.discussion, par.targets);
-      
-      SSServCallerU.handleCirclesFromEntityGetEntitiesAdd(
-        circleServ,
-        entityServ,
-        par.user,
-        par.discussion, //entity
-        par.targets, //entities
-        par.withUserRestriction,
-        true); //invokeEntityhandlers
+            
+      circleServ.circleAddEntitiesToCirclesOfEntity(
+        new SSCircleAddEntitiesToCircleOfEntityPar(
+          par.user,
+          par.discussion, //entity
+          par.targets, //entities
+          par.withUserRestriction,
+          true, //invokeEntityHandlers,
+          false)); //shouldCommit
       
       for(SSUri targetURI : par.targets){
         
-        SSServCallerU.handleCirclesFromEntityGetEntitiesAdd(
-          circleServ,
-          entityServ,
-          par.user,
-          targetURI, //entity
-          SSUri.asListNotNull(par.discussion), //entities
-          par.withUserRestriction,
-          true); //invokeEntityhandlers
+        circleServ.circleAddEntitiesToCirclesOfEntity(
+          new SSCircleAddEntitiesToCircleOfEntityPar(
+            par.user,
+            targetURI, //entity
+            SSUri.asListNotNull(par.discussion), //entities
+            par.withUserRestriction,
+            true, //invokeEntityHandlers,
+            false)); //shouldCommit
       }
       
       dbSQL.commit(par.shouldCommit);

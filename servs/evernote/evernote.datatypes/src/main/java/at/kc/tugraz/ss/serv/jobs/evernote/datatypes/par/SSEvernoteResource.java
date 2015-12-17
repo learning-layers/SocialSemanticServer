@@ -33,11 +33,6 @@ public class SSEvernoteResource extends SSEntity{
     return SSStrU.removeTrailingSlash(note);
   }
 
-  @Override
-  public Object jsonLDDesc(){
-    throw new UnsupportedOperationException();
-  }
-  
   public static SSEvernoteResource get(
     final SSEvernoteResource      resource,
     final SSEntity                entity) throws Exception{

@@ -31,11 +31,6 @@ public class SSLearnEpVersionCirclesWithEntriesGetRet extends SSServRetI{
 
   public List<SSEntity> circles = new ArrayList<>();
 
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    throw new UnsupportedOperationException();
-  }
-  
   public static SSLearnEpVersionCirclesWithEntriesGetRet get(
     final List<SSEntity> circles){
     

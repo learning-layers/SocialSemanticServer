@@ -34,11 +34,6 @@ public class SSCommentsAddRet extends SSServRetI{
     return SSStrU.removeTrailingSlash(entity);
   }
   
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    throw new UnsupportedOperationException();
-  }
-  
   public static SSCommentsAddRet get(
     final SSUri entity){
     

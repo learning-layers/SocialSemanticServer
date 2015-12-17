@@ -34,11 +34,6 @@ public class SSImageProfilePictureSetRet extends SSServRetI{
     return SSStrU.removeTrailingSlash(user);
   }
   
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    throw new UnsupportedOperationException();
-  }
-  
   public SSImageProfilePictureSetRet(
     final SSUri user){
     

@@ -39,11 +39,6 @@ public class SSImageAddRet extends SSServRetI{
     return SSStrU.removeTrailingSlash(thumb);
   }
     
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    throw new UnsupportedOperationException();
-  }
-  
   public SSImageAddRet(
     final SSUri image,
     final SSUri thumb){

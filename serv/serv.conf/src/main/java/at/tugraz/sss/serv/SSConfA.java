@@ -43,11 +43,7 @@ public abstract class SSConfA{
     copy.schedule                 = orig.schedule;
     copy.executeScheduleAtStartUp = orig.executeScheduleAtStartUp;
     
-    if(orig.scheduleOps == null){
-      copy.scheduleOps = new ArrayList<>();
-    }else{
-      copy.scheduleOps.addAll(orig.scheduleOps);
-    }
+    SSStrU.addDistinctNotNull(copy.scheduleOps, orig.scheduleOps);
     
     if(orig.scheduleIntervals == null){
       copy.scheduleIntervals = new ArrayList<>();

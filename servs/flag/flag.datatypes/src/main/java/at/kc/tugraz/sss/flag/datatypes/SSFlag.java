@@ -39,20 +39,6 @@ public class SSFlag extends SSEntity{
     return SSStrU.toStr(flagType);
   }
   
-  @Override
-  public Object jsonLDDesc(){
-  
-    final Map<String, Object> ld = (Map<String, Object>) super.jsonLDDesc();
-    
-    ld.put(SSVarNames.user,         SSVarNames.sss + SSStrU.colon + SSEntity.class.getName());
-    ld.put(SSVarNames.entity,       SSVarNames.sss + SSStrU.colon + SSEntity.class.getName());
-    ld.put(SSVarNames.flagType,     SSVarNames.sss + SSStrU.colon + SSFlagE.class.getName());
-    ld.put(SSVarNames.endTime,      SSVarNames.xsd + SSStrU.colon + SSStrU.valueLong);
-    ld.put(SSVarNames.value,        SSVarNames.xsd + SSStrU.colon + SSStrU.valueInteger);
-    
-    return ld;
-  }
-  
   public static SSFlag get(
     final SSFlag     flag,
     final SSEntity   entity) throws Exception{

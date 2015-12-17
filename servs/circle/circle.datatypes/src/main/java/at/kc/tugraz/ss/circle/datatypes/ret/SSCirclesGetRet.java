@@ -31,20 +31,6 @@ public class SSCirclesGetRet extends SSServRetI{
 
   public List<SSEntity> circles = new ArrayList<>();
 
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    
-    final Map<String, Object> ld           = new HashMap<>();
-    final Map<String, Object> circlesObj   = new HashMap<>();
-    
-    circlesObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSEntityCircle.class.getName());
-    circlesObj.put(SSJSONLDU.container, SSJSONLDU.set);
-    
-    ld.put(SSVarNames.circles, circlesObj);
-    
-    return ld;
-  }
-   
   public static SSCirclesGetRet get(
     final List<SSEntity> circles){
     

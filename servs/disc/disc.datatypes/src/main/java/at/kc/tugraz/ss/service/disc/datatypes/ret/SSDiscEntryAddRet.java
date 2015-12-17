@@ -57,15 +57,4 @@ public class SSDiscEntryAddRet extends SSServRetI{
     this.disc  = disc;
     this.entry = discEntry;
   }
-  
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    
-    final Map<String, Object> ld         = new HashMap<>();
-    
-    ld.put(SSVarNames.disc,  SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarNames.entry, SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
-    
-    return ld;
-  }
 }

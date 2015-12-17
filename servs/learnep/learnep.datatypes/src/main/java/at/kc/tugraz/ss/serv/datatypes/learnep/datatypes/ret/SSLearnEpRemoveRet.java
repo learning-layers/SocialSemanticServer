@@ -34,11 +34,6 @@ public class SSLearnEpRemoveRet extends SSServRetI{
     return SSStrU.removeTrailingSlash(learnEp);
   }
     
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    throw new UnsupportedOperationException();
-  }
-  
   public static SSLearnEpRemoveRet get(SSUri learnEpUri){
     return new SSLearnEpRemoveRet(learnEpUri);
   }

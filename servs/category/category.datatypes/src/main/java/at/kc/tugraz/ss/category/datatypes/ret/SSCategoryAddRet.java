@@ -49,14 +49,4 @@ public class SSCategoryAddRet extends SSServRetI{
     
     this.category = category;
   }
-
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    
-    final Map<String, Object> ld         = new HashMap<>();
-    
-    ld.put(SSVarNames.category, SSVarNames.xsd + SSStrU.colon + SSUri.class.getName());
-    
-    return ld;
-  }
 }

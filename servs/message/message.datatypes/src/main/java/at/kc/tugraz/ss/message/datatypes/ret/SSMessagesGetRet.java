@@ -32,11 +32,6 @@ public class SSMessagesGetRet extends SSServRetI{
   public List<SSEntity> messages  = new ArrayList<>();
   public Long           queryTime = null;
   
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    throw new UnsupportedOperationException();
-  }
-  
   public static SSMessagesGetRet get(
     final List<SSEntity> messages,
     final Long           queryTime){

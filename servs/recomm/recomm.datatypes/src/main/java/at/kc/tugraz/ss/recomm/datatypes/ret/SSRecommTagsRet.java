@@ -50,18 +50,4 @@ public class SSRecommTagsRet extends SSServRetI{
       this.tags.addAll(tags);
     }
   }
-
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    
-    final Map<String, Object> ld         = new HashMap<>();
-    final Map<String, Object> tagsObj    = new HashMap<>();
-    
-    tagsObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSTagLikelihood.class.getName());
-    tagsObj.put(SSJSONLDU.container, SSJSONLDU.set);
-    
-    ld.put(SSVarNames.tags, tagsObj);
-    
-    return ld;
-  }
 }

@@ -20,7 +20,6 @@
 */
 package at.kc.tugraz.ss.friend.datatypes.ret;
 
-
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarNames;
 import at.kc.tugraz.ss.friend.datatypes.SSFriend;
@@ -35,20 +34,6 @@ import java.util.Map;
 public class SSFriendsGetRet extends SSServRetI{
   
   public List<SSEntity> friends = new ArrayList<>();
-  
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    
-    final Map<String, Object> ld            = new HashMap<>();
-    final Map<String, Object> friendsObj    = new HashMap<>();
-    
-    friendsObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSFriend.class.getName());
-    friendsObj.put(SSJSONLDU.container, SSJSONLDU.set);
-    
-    ld.put(SSVarNames.friends, friendsObj);
-    
-    return ld;
-  }
   
   public static SSFriendsGetRet get(
     final List<SSEntity> friends){

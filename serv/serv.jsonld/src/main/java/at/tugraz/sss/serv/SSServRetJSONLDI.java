@@ -25,3 +25,20 @@ import java.util.Map;
 public interface SSServRetJSONLDI {
   public Map<String, Object> jsonLDDesc();
 }
+
+//e.g.
+//@Override
+//  public Map<String, Object> jsonLDDesc(){
+//    
+//    final Map<String, Object> ld                = new HashMap<>();
+//    final Map<String, Object> categoriesObj     = new HashMap<>();
+//    
+//    ld.put(SSVarNames.activity,  SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
+//
+//    categoriesObj.put(SSJSONLDU.id,        SSVarNames.xsd + SSStrU.colon + SSStrU.valueString);
+//    categoriesObj.put(SSJSONLDU.container, SSJSONLDU.set);
+//
+//    ld.put(SSVarNames.categories, categoriesObj);
+//
+//    return ld;
+//  }

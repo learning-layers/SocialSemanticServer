@@ -17,8 +17,7 @@
     <module>serv.errreg</module>
     <module>serv.reg</module>
     <module>serv.db</module>
-    <module>serv.impl</module>
     <module>serv.container</module>
-    <module>serv.custom</module>
+    <module>serv.impl.api</module>
   </modules>
 </project>

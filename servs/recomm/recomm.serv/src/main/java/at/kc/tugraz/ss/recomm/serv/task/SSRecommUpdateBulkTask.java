@@ -66,7 +66,7 @@ public class SSRecommUpdateBulkTask extends TimerTask {
     public void run() {
       
       try{
-        ((SSRecommServerI)SSRecommServ.inst.serv()).recommUpdateBulk(
+        ((SSRecommServerI)SSRecommServ.inst.getServImpl()).recommUpdateBulk(
           new SSRecommUpdateBulkPar(
             SSVocConf.systemUserUri, 
             recommConf.fileNameForRec, 

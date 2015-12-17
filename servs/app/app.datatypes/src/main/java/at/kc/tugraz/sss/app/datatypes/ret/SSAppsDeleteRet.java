@@ -36,11 +36,6 @@ public class SSAppsDeleteRet extends SSServRetI{
     return SSStrU.removeTrailingSlash(apps);
   }
   
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    throw new UnsupportedOperationException();
-  }
-  
   public static SSAppsDeleteRet get(
     final List<SSUri>    apps){
     

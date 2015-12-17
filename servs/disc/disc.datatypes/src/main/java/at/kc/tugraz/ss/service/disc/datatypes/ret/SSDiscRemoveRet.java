@@ -49,14 +49,4 @@ public class SSDiscRemoveRet extends SSServRetI{
     
     this.disc = discUri;
   }
-
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    
-    final Map<String, Object> ld = new HashMap<>();
-    
-    ld.put(SSVarNames.disc, SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
-    
-    return ld;
-  }
 }

@@ -54,7 +54,7 @@ implements
   //TODO remove SQL/NoSQL services; are not needed since OCD uses JPA/EntityManager for DB access.
   
   public SSOCDImpl(final SSConfA conf) throws SSErr {
-    super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
+    super(conf, (SSDBSQLI) SSDBSQL.inst.getServImpl(), (SSDBNoSQLI) SSDBNoSQL.inst.getServImpl());
     ocdConf = (SSOCDConf) conf;
   }
   

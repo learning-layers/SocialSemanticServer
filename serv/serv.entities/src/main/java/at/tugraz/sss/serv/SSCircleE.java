@@ -18,17 +18,12 @@ package at.tugraz.sss.serv;
 import java.util.ArrayList;
 import java.util.List;
 
-public enum SSCircleE implements SSJSONLDPropI{
+public enum SSCircleE{
   
   priv,
   group,
   pubCircle,
   pub;
-  
-@Override
-  public Object jsonLDDesc(){
-    return SSVarNames.xsd + SSStrU.colon + SSStrU.valueString;
-  }
   
   public static List<SSCircleE> get(final List<String> values) throws Exception{
     

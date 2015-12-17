@@ -49,14 +49,4 @@ public class SSVideoUserAddRet extends SSServRetI{
     
     this.video = video;
   }
-  
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    
-    final Map<String, Object> ld         = new HashMap<>();
-    
-    ld.put(SSVarNames.video, SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
-    
-    return ld;
-  }
 }

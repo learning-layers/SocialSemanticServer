@@ -13,7 +13,7 @@
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>serv.entities</artifactId>
+      <artifactId>serv.errreg</artifactId>
       <version>${project.version}</version>
     </dependency>
     

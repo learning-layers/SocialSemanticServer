@@ -23,16 +23,11 @@ package at.tugraz.sss.serv;
 import java.util.ArrayList;
 import java.util.List;
 
-public enum SSSpaceE implements SSJSONLDPropI{
+public enum SSSpaceE{
   
   sharedSpace,
   circleSpace,
   privateSpace;
-  
-  @Override
-  public Object jsonLDDesc() {
-    return SSVarNames.xsd + SSStrU.colon + SSStrU.valueString;
-  }
   
   public static SSSpaceE get(final String space) throws SSErr{
     

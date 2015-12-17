@@ -20,12 +20,10 @@
  */
 package at.kc.tugraz.sss.appstacklayout.datatypes.ret;
 
-
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
-import java.util.HashMap;
+import at.tugraz.sss.serv.SSServRetI; 
+import at.tugraz.sss.serv.SSVarNames;
 import java.util.Map;
 
 public class SSAppStackLayoutUpdateRet extends SSServRetI{
@@ -34,16 +32,6 @@ public class SSAppStackLayoutUpdateRet extends SSServRetI{
   
   public String getStack() {
     return SSStrU.removeTrailingSlash(stack);
-  }
-  
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    
-    final Map<String, Object> ld         = new HashMap<>();
-    
-    ld.put(SSVarNames.stack, SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
-    
-    return ld;
   }
   
   public static SSAppStackLayoutUpdateRet get(

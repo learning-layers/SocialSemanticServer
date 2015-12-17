@@ -20,12 +20,9 @@
 */
 package at.kc.tugraz.ss.activity.datatypes.ret;
 
-
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
-import java.util.HashMap;
 import java.util.Map;
 
 public class SSActivityAddRet extends SSServRetI{
@@ -34,16 +31,6 @@ public class SSActivityAddRet extends SSServRetI{
 
   public String getActivity() {
     return SSStrU.removeTrailingSlash(activity);
-  }
-  
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    
-    final Map<String, Object> ld = new HashMap<>();
-    
-    ld.put(SSVarNames.activity,  SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
-    
-    return ld;
   }
   
   public static SSActivityAddRet get(

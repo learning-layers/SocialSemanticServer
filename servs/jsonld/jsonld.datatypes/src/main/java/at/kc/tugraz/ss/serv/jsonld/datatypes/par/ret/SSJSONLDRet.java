@@ -31,16 +31,6 @@ public class SSJSONLDRet extends SSServRetI{
 
   public Object desc = null;
 
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    
-    final Map<String, Object> ld = new HashMap<>();
-    
-    ld.put(SSVarNames.desc, SSVarNames.xsd + SSStrU.colon + SSStrU.valueObject);
-    
-    return ld;
-  }
-  
   public static SSJSONLDRet get(
     final Object jsonLD){
     

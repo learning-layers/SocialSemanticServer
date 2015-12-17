@@ -52,15 +52,4 @@ public class SSLikes extends SSEntityA{
     this.like     = like;
   }
   
-  @Override
-  public Object jsonLDDesc(){
-    
-    final Map<String, Object> ld = new HashMap<>();
-    
-    ld.put(SSVarNames.likes,            SSVarNames.xsd + SSStrU.colon + SSStrU.valueInteger);
-    ld.put(SSVarNames.dislikes,         SSVarNames.xsd + SSStrU.colon + SSStrU.valueInteger);
-    ld.put(SSVarNames.like,             SSVarNames.xsd + SSStrU.colon + SSStrU.valueInteger);
-    
-    return ld;
-  }
 }

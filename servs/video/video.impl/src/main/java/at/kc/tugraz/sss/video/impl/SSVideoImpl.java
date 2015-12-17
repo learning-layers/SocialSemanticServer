@@ -98,7 +98,7 @@ implements
   
   public SSVideoImpl(final SSConfA conf) throws SSErr{
     
-    super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
+    super(conf, (SSDBSQLI) SSDBSQL.inst.getServImpl(), (SSDBNoSQLI) SSDBNoSQL.inst.getServImpl());
     
     this.sql          = new SSVideoSQLFct(dbSQL, SSVocConf.systemUserUri);
     this.entityServ   = (SSEntityServerI)   SSServReg.getServ(SSEntityServerI.class);
@@ -213,7 +213,7 @@ implements
       
       SSEntity.addEntitiesDistinctWithoutNull(
         affiliatedEntities,
-        SSServCallerU.handleAddAffiliatedEntitiesToCircle(
+        SSServReg.inst.addAffiliatedEntitiesToCircle(
           par.user,
           par.circle,
           affiliatedEntities, //entities

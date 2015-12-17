@@ -23,7 +23,7 @@ package at.tugraz.sss.serv;
 import java.util.ArrayList;
 import java.util.List;
 
-public enum SSToolContextE implements SSJSONLDPropI{
+public enum SSToolContextE{
   
   timelineArea,
   help,
@@ -34,11 +34,6 @@ public enum SSToolContextE implements SSJSONLDPropI{
   notificationTab,
   evernoteImport,
   sss;
-  
-  @Override
-  public Object jsonLDDesc() {
-    return SSVarNames.xsd + SSStrU.colon + SSStrU.valueString;
-  }
   
   public static SSToolContextE get(final String space) throws Exception{
     

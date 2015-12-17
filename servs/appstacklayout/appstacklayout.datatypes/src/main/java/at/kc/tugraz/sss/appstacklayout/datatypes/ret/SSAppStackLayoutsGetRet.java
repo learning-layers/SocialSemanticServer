@@ -20,35 +20,16 @@
  */
 package at.kc.tugraz.sss.appstacklayout.datatypes.ret;
 
-
-import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.SSServRetI; 
 import at.tugraz.sss.serv.SSVarNames;
-import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
-import at.tugraz.sss.serv.SSJSONLDU;
-import at.kc.tugraz.sss.appstacklayout.datatypes.SSAppStackLayout;
 import at.tugraz.sss.serv.SSEntity;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class SSAppStackLayoutsGetRet extends SSServRetI{
   
   public List<SSEntity> stacks = new ArrayList<>();
-  
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    
-    final Map<String, Object> ld           = new HashMap<>();
-    final Map<String, Object> stacksObj    = new HashMap<>();
-    
-    stacksObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSAppStackLayout.class.getName());
-    stacksObj.put(SSJSONLDU.container, SSJSONLDU.set);
-    
-    ld.put(SSVarNames.stacks, stacksObj);
-    
-    return ld;
-  }
   
   public static SSAppStackLayoutsGetRet get(
     final List<SSEntity>    stacks){

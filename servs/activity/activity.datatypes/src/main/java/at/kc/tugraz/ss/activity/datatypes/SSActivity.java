@@ -44,11 +44,6 @@ public class SSActivity extends SSEntity{
     return SSStrU.toStr(contents);
   }
   
-  @Override
-  public Object jsonLDDesc(){
-    throw new UnsupportedOperationException();
-  }
-  
   public static SSActivity get(
     final SSActivity              activity,
     final SSEntity                entity) throws Exception{

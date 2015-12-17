@@ -36,16 +36,6 @@ public class SSLearnEpCreateRet extends SSServRetI{
     return SSStrU.removeTrailingSlash(learnEp);
   }
   
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    
-    Map<String, Object> ld = new HashMap<>();
-    
-    ld.put(SSVarNames.learnEp, SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
-    
-    return ld;
-  }
-  
   public static SSLearnEpCreateRet get(SSUri learnEpUri){
     return new SSLearnEpCreateRet(learnEpUri);
   }

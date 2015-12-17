@@ -70,7 +70,7 @@ public class SSAuthServ extends SSServContainerI{
       return;
     }
     
-    final SSAuthImpl authServ = (SSAuthImpl) inst.serv();
+    final SSAuthImpl authServ = (SSAuthImpl) inst.getServImpl();
     
     authServ.authRegisterUser(
       new SSAuthRegisterUserPar(

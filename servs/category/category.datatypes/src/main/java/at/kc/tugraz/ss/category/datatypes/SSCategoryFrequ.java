@@ -95,16 +95,4 @@ public class SSCategoryFrequ extends SSEntityA{
       }
     }
   }
-  
-  @Override
-  public Object jsonLDDesc() {
-  
-    final Map<String, Object> ld = new HashMap<>();
-    
-    ld.put(SSVarNames.label,   SSVarNames.sss + SSStrU.colon + SSCategoryLabel.class.getName());
-    ld.put(SSVarNames.space,   SSVarNames.sss + SSStrU.colon + SSSpaceE.class.getName());
-    ld.put(SSVarNames.frequ,   SSVarNames.xsd + SSStrU.colon + SSStrU.valueInteger);
-    
-    return ld;
-  }  
 }

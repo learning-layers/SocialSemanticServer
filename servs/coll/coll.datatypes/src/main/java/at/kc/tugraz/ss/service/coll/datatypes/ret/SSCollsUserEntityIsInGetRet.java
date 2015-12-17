@@ -36,20 +36,6 @@ public class SSCollsUserEntityIsInGetRet extends SSServRetI{
 
   public List<SSEntity> colls = new ArrayList<>();
 
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    
-    Map<String, Object> ld         = new HashMap<>();
-    Map<String, Object> collsObj   = new HashMap<>();
-    
-    collsObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSColl.class.getName());
-    collsObj.put(SSJSONLDU.container, SSJSONLDU.set);
-    
-    ld.put(SSVarNames.colls, collsObj);
-    
-    return ld;
-  }
-  
   public static SSCollsUserEntityIsInGetRet get(
     final List<SSEntity> colls){
     

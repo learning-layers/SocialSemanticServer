@@ -36,16 +36,6 @@ public class SSFriendAddRet extends SSServRetI{
     return SSStrU.removeTrailingSlash(friend);
   }
   
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    
-    final Map<String, Object> ld         = new HashMap<>();
-    
-    ld.put(SSVarNames.friend,        SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
-    
-    return ld;
-  }
-  
   public static SSFriendAddRet get(
     final SSUri   friend){
     

@@ -21,20 +21,13 @@
 package at.kc.tugraz.sss.app.datatypes;
 
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarNames;
-import at.tugraz.sss.serv.SSJSONLDPropI;
 import java.util.ArrayList;
 import java.util.List;
 
-public enum SSAppE implements SSJSONLDPropI{
+public enum SSAppE{
   
   ltb,
   bnp;
-  
-  @Override
-  public Object jsonLDDesc(){
-    return SSVarNames.xsd + SSStrU.colon + SSStrU.valueString;
-  }
   
   public static List<SSAppE> get(final List<String> values){
     

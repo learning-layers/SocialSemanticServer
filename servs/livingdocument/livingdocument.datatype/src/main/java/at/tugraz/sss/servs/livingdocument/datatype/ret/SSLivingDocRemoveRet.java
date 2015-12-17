@@ -34,11 +34,6 @@ public class SSLivingDocRemoveRet extends SSServRetI{
     return SSStrU.removeTrailingSlash(livingDoc);
   }
   
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    throw new UnsupportedOperationException();
-  }
-  
   public static SSLivingDocRemoveRet get(
     final SSUri livingDoc){
     

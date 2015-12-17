@@ -25,11 +25,6 @@ import java.util.List;
 
 public class SSTextComment extends SSEntityA {
 
-  @Override
-  public Object jsonLDDesc() {
-    return SSVarNames.xsd + SSStrU.colon + SSStrU.valueString;
-  }
-  
   public static SSTextComment get(final String comment) throws SSErr {
     
     if(comment == null){

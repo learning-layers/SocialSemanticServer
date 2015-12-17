@@ -26,15 +26,10 @@ import at.tugraz.sss.serv.SSVarNames;
 import java.util.ArrayList;
 import java.util.List;
 
-public enum SSMailReceiveE implements SSJSONLDPropI{
+public enum SSMailReceiveE{
   
   gmailIMAP,
   kcDavMailIMAP;
-  
-  @Override
-  public Object jsonLDDesc() {
-    return SSVarNames.xsd + SSStrU.colon + SSStrU.valueString;
-  }
   
   public static SSMailReceiveE get(final String mailSend) throws Exception{
     

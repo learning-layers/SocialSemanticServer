@@ -69,11 +69,6 @@ public class SSSolrKeywordLabel extends SSEntityA{
       throw new Exception("invalid solr keyword " + label);
     }
   }
-
-  @Override
-  public Object jsonLDDesc() {
-    throw new UnsupportedOperationException();
-  }
 }
 
 //public static Collection<String> toString(

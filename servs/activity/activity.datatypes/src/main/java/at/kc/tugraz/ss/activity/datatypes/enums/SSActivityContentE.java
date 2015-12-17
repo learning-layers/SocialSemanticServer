@@ -22,22 +22,14 @@ package at.kc.tugraz.ss.activity.datatypes.enums;
 
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSErrE;
-import at.tugraz.sss.serv.SSJSONLDPropI;
 import at.tugraz.sss.serv.SSServErrReg;
-import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarNames;
 import java.util.ArrayList;
 import java.util.List;
 
-public enum SSActivityContentE implements SSJSONLDPropI{
+public enum SSActivityContentE{
   
   keyword, 
   text;
-  
-  @Override
-  public Object jsonLDDesc() {
-    return SSVarNames.xsd + SSStrU.colon + SSStrU.valueString;
-  }
   
   public static SSActivityContentE get(final String contentType) throws SSErr{
     

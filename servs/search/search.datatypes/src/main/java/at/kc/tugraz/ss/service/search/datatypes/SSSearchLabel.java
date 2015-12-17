@@ -74,11 +74,6 @@ public class SSSearchLabel extends SSEntityA{
 //    }
 //  }
   
-  @Override
-  public Object jsonLDDesc() {
-    return SSVarNames.xsd + SSStrU.colon + SSStrU.valueString;
-  }
-  
   protected SSSearchLabel(final String label) throws Exception{
     super(getSearchLabel(label));
   }

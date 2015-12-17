@@ -36,16 +36,6 @@ public class SSVideoUserAnnotationAddRet extends SSServRetI{
     return SSStrU.removeTrailingSlash(annotation);
   }
   
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    
-    final Map<String, Object> ld         = new HashMap<>();
-    
-    ld.put(SSVarNames.annotation, SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
-    
-    return ld;
-  }
-  
   public static SSVideoUserAnnotationAddRet get(
     final SSUri    annotation){
     

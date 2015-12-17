@@ -29,11 +29,6 @@ public class SSLivingDocGetRet extends SSServRetI{
 
   public SSEntity livingDoc = null;
 
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    throw new UnsupportedOperationException();
-  }
-  
   public static SSLivingDocGetRet get(
     final SSEntity livingDoc){
     

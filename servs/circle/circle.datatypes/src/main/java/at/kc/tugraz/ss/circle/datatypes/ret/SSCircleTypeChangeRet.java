@@ -36,16 +36,6 @@ public class SSCircleTypeChangeRet extends SSServRetI{
     return SSStrU.removeTrailingSlash(circle);
   }
 
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    
-    final Map<String, Object> ld = new HashMap<>();
-    
-    ld.put(SSVarNames.circle, SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
-    
-    return ld;
-  }
-    
   public static SSCircleTypeChangeRet get(
     final SSUri circleUri){
     

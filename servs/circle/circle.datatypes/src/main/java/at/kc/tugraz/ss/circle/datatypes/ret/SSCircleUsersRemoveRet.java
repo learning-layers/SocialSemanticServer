@@ -20,9 +20,9 @@
 */
 package at.kc.tugraz.ss.circle.datatypes.ret;
 
-
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
+import at.tugraz.sss.serv.SSServRetI; 
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSVarNames;
 import java.util.ArrayList;
@@ -37,11 +37,6 @@ public class SSCircleUsersRemoveRet extends SSServRetI{
     return SSStrU.removeTrailingSlash(users);
   }
 
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    throw new UnsupportedOperationException();
-  }
-  
   public static SSCircleUsersRemoveRet get(
     final List<SSUri>    users){
     

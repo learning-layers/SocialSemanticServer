@@ -42,16 +42,6 @@ public class SSCollUserEntryDeleteRet extends SSServRetI{
     this.worked = worked;
   }
 
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    
-    Map<String, Object> ld  = new HashMap<>();
-    
-    ld.put(SSVarNames.worked, SSVarNames.xsd + SSStrU.valueBoolean);
-    
-    return ld;
-  }
-  
   public boolean isWorked() {
     return worked;
   }

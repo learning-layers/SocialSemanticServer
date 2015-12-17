@@ -12,17 +12,17 @@
   <dependencies>
       
     <dependency>
+      <groupId>sss.serv</groupId>
+      <artifactId>serv.impl.api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
       <groupId>sss.servs</groupId>
       <artifactId>integrationtest.datatype</artifactId>
       <version>${project.version}</version>
     </dependency>
     
-    <dependency>
-      <groupId>sss.serv</groupId>
-      <artifactId>serv.impl</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-      
   </dependencies>
 </project>
 

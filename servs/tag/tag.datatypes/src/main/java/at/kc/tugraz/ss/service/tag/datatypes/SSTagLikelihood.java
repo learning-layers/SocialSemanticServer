@@ -21,12 +21,8 @@
  package at.kc.tugraz.ss.service.tag.datatypes;
 
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarNames;
-import at.tugraz.sss.serv.SSJSONLDPropI;
-import java.util.HashMap;
-import java.util.Map;
 
-public class SSTagLikelihood implements SSJSONLDPropI{
+public class SSTagLikelihood{
   
   public SSTagLabel    label       = null;
 	public Double        likelihood  = 0D;
@@ -45,19 +41,6 @@ public class SSTagLikelihood implements SSJSONLDPropI{
 		this.label           = label;
 		this.likelihood      = likelihood;
 	}
-  
-  @Override
-  public Object jsonLDDesc() {
-  
-    final Map<String, Object> ld = new HashMap<>();
-    
-    ld.put(SSVarNames.label,        SSVarNames.sss + SSStrU.colon + SSTagLabel.class.getName());
-    ld.put(SSVarNames.likelihood,   SSVarNames.xsd + SSStrU.colon + SSStrU.valueDouble);
-    
-    return ld;
-  }  
-  
-  /* json getters*/
   
   public String getLabel() {
 		return SSStrU.toStr(label);

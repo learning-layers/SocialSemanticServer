@@ -36,11 +36,6 @@ public class SSCircleEntitiesRemoveRet extends SSServRetI{
     return SSStrU.removeTrailingSlash(entities);
   }
 
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    throw new UnsupportedOperationException();
-  }
-  
   public static SSCircleEntitiesRemoveRet get(
     final List<SSUri>    entities){
     

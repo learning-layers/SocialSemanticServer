@@ -36,11 +36,6 @@ public class SSTagsAddRet extends SSServRetI{
     return SSStrU.removeTrailingSlash(tags);
   }
   
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    throw new UnsupportedOperationException();
-  }
-  
   public static SSTagsAddRet get(
     final List<SSUri> tags){
     

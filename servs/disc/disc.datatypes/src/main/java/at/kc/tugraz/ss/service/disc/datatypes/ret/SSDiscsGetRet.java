@@ -37,20 +37,6 @@ public class SSDiscsGetRet extends SSServRetI{
 
   public List<SSEntity> discs = new ArrayList<>();
 
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    
-    final Map<String, Object> ld         = new HashMap<>();
-    final Map<String, Object> discsObj   = new HashMap<>();
-    
-    discsObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSDisc.class.getName());
-    discsObj.put(SSJSONLDU.container, SSJSONLDU.set);
-    
-    ld.put(SSVarNames.discs, discsObj);
-    
-    return ld;
-  }  
-  
   public static SSDiscsGetRet get(final List<SSEntity> discs){
     return new SSDiscsGetRet(discs);
   }

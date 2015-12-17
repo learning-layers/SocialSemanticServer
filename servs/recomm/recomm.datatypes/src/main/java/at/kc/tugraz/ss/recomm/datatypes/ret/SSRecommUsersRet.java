@@ -47,18 +47,4 @@ public class SSRecommUsersRet extends SSServRetI{
       this.users.addAll(usersWithLikelihood);
     }
   }
-
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    
-    final Map<String, Object> ld              = new HashMap<>();
-//    final Map<String, Object> resourcesObj    = new HashMap<>();
-    
-//    resourcesObj.put(SSJSONLDU.id,        SSVarU.sss + SSStrU.colon + SSResourceLikelihood.class.getName());
-//    resourcesObj.put(SSJSONLDU.container, SSJSONLDU.set);
-//    
-//    ld.put(SSVarU.resources, resourcesObj);
-    
-    return ld;
-  }
 }

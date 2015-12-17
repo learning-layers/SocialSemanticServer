@@ -20,14 +20,12 @@
 */
 package sss.serv.eval.datatypes;
 
-import at.tugraz.sss.serv.SSJSONLDPropI;
 import at.tugraz.sss.serv.SSObjU;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarNames;
 import java.util.ArrayList;
 import java.util.List;
 
-public enum SSEvalLogE implements SSJSONLDPropI{
+public enum SSEvalLogE{
   
   //knowbrain
   circleCreate,
@@ -88,13 +86,7 @@ public enum SSEvalLogE implements SSJSONLDPropI{
   
   //knowbrain && bits and pieces
   tagAdd //server
-  
   ;
-  
-  @Override
-  public Object jsonLDDesc() {
-    return SSVarNames.xsd + SSStrU.colon + SSStrU.valueString;
-  }
   
   public static SSEvalLogE get(final String space) throws Exception{
     

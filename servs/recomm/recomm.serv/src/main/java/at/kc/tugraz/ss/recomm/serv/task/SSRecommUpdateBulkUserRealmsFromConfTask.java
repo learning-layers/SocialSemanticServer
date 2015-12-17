@@ -67,7 +67,7 @@ public class SSRecommUpdateBulkUserRealmsFromConfTask extends TimerTask {
       
       try{
         
-        ((SSRecommServerI) SSRecommServ.inst.serv()).recommUpdateBulkUserRealmsFromConf(
+        ((SSRecommServerI) SSRecommServ.inst.getServImpl()).recommUpdateBulkUserRealmsFromConf(
           new SSRecommUpdateBulkUserRealmsFromConfPar(
             SSVocConf.systemUserUri));
         

@@ -60,7 +60,7 @@ implements
   private final SSEntityServerI  entityServ;
   
   public SSLocationImpl(final SSConfA conf) throws SSErr{
-    super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
+    super(conf, (SSDBSQLI) SSDBSQL.inst.getServImpl(), (SSDBNoSQLI) SSDBNoSQL.inst.getServImpl());
     
      sql             = new SSLocationSQLFct   (dbSQL, SSVocConf.systemUserUri);
      this.entityServ = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);

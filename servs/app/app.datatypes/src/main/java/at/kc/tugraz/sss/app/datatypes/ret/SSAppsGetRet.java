@@ -20,35 +20,16 @@
   */
 package at.kc.tugraz.sss.app.datatypes.ret;
 
-
-import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.SSServRetI; 
 import at.tugraz.sss.serv.SSVarNames;
-import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
-import at.tugraz.sss.serv.SSJSONLDU;
-import at.kc.tugraz.sss.app.datatypes.SSApp;
 import at.tugraz.sss.serv.SSEntity;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class SSAppsGetRet extends SSServRetI{
   
   public List<SSEntity> apps = new ArrayList<>();
-  
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    
-    final Map<String, Object> ld         = new HashMap<>();
-    final Map<String, Object> appsObj    = new HashMap<>();
-    
-    appsObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSApp.class.getName());
-    appsObj.put(SSJSONLDU.container, SSJSONLDU.set);
-    
-    ld.put(SSVarNames.apps, appsObj);
-    
-    return ld;
-  }
   
   public static SSAppsGetRet get(
     final List<SSEntity>    apps){

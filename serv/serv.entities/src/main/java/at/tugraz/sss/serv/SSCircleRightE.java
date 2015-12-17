@@ -22,16 +22,11 @@ package at.tugraz.sss.serv;
 
 import java.util.List;
 
-public enum SSCircleRightE implements SSJSONLDPropI{
+public enum SSCircleRightE{
 
   all,
   read,
   edit;
-  
-@Override
-  public Object jsonLDDesc(){
-    return SSVarNames.xsd + SSStrU.colon + SSStrU.valueString;
-  }
   
   public static SSCircleRightE get(final String value) throws Exception{
     return SSCircleRightE.valueOf(value);

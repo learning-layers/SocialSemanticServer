@@ -36,20 +36,6 @@ public class SSLearnEpsGetRet extends SSServRetI{
 
   public List<SSEntity> learnEps = new ArrayList<>();
 
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    
-    Map<String, Object> ld           = new HashMap<>();
-    Map<String, Object> learnEpsObj  = new HashMap<>();
-    
-    learnEpsObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSLearnEp.class.getName());
-    learnEpsObj.put(SSJSONLDU.container, SSJSONLDU.set);
-    
-    ld.put(SSVarNames.learnEps, learnEpsObj);
-    
-    return ld;
-  }
-  
   public static SSLearnEpsGetRet get(final List<SSEntity> learnEp){
     return new SSLearnEpsGetRet(learnEp);
   }

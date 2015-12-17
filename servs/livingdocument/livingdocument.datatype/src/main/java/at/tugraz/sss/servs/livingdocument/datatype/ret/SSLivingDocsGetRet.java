@@ -31,11 +31,6 @@ public class SSLivingDocsGetRet extends SSServRetI{
 
   public List<SSEntity> livingDocs = new ArrayList<>();
 
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    throw new UnsupportedOperationException();
-  }
-  
   public static SSLivingDocsGetRet get(final List<SSEntity> livingDocs){
     return new SSLivingDocsGetRet(livingDocs);
   }

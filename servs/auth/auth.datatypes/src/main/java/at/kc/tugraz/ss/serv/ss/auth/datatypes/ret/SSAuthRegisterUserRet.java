@@ -34,11 +34,6 @@ public class SSAuthRegisterUserRet extends SSServRetI{
     return SSStrU.removeTrailingSlash(user);
   } 
   
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-   throw new UnsupportedOperationException();
-  }
-  
   public static SSAuthRegisterUserRet get(
     final SSUri   user){
 

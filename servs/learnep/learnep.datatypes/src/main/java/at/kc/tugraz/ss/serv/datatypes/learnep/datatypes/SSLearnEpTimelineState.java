@@ -55,20 +55,6 @@ public class SSLearnEpTimelineState extends SSEntity {
     this.endTime                 = endTime;
   }
   
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    
-    final Map<String, Object> ld             = (Map<String, Object>) super.jsonLDDesc();
-    
-    ld.put(SSVarNames.learnEpVersion,          SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarNames.startTime,               SSVarNames.xsd + SSStrU.colon + SSStrU.valueLong);
-    ld.put(SSVarNames.endTime,                 SSVarNames.sss + SSStrU.colon + SSStrU.valueLong);
-    
-    return ld;
-  }
-  
-  /* json getters  */
-  
    public String getLearnEpVersion() throws Exception {
     return SSStrU.removeTrailingSlash(learnEpVersion);
   }

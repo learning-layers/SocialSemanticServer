@@ -35,10 +35,6 @@ public class SSRecommResourcesRet extends SSServRetI{
 
   public List<SSResourceLikelihood> resources = new ArrayList<>();
 
-//  public List<SSResourceLikelihood> getResources(){
-//    return resources;
-//  }
-  
   public static SSRecommResourcesRet get(
     final List<SSResourceLikelihood> resourcesWithLikelihood) throws Exception{
     
@@ -53,19 +49,5 @@ public class SSRecommResourcesRet extends SSServRetI{
     if(resourcesWithLikelihood != null){
       this.resources.addAll(resourcesWithLikelihood);
     }
-  }
-
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    
-    final Map<String, Object> ld              = new HashMap<>();
-    final Map<String, Object> resourcesObj    = new HashMap<>();
-    
-    resourcesObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSResourceLikelihood.class.getName());
-    resourcesObj.put(SSJSONLDU.container, SSJSONLDU.set);
-    
-    ld.put(SSVarNames.resources, resourcesObj);
-    
-    return ld;
   }
 }

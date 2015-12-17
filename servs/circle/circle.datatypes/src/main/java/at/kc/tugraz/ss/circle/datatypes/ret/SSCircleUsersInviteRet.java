@@ -34,11 +34,6 @@ public class SSCircleUsersInviteRet extends SSServRetI{
     return SSStrU.removeTrailingSlash(circle);
   }
 
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    throw new UnsupportedOperationException();
-  }
-    
   public static SSCircleUsersInviteRet get(
     final SSUri circleUri){
     

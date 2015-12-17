@@ -36,11 +36,6 @@ public class SSMessage extends SSEntity{
     return SSStrU.toStr(content);
   }
   
-  @Override
-  public Object jsonLDDesc() {
-    throw new UnsupportedOperationException();
-  }
-  
   public static SSMessage get(
     final SSMessage        message,
     final SSEntity         entity) throws Exception{

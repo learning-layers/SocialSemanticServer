@@ -61,11 +61,6 @@ public class SSCategory extends SSEntity{
     return SSStrU.toStr(categoryLabel);
   }
   
-  @Override
-  public Object jsonLDDesc() {
-    throw new UnsupportedOperationException();
-  } 
-  
    public static SSCategory get(
     final SSCategory            category,
     final SSEntity              entity) throws Exception{

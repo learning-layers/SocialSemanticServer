@@ -20,6 +20,7 @@
   */
 package at.tugraz.sss.adapter.socket;
 
+import at.tugraz.sss.serv.SSSocketU;
 import at.kc.tugraz.ss.activity.serv.SSActivityServ;
 import at.kc.tugraz.ss.category.ss.category.serv.SSCategoryServ;
 import at.kc.tugraz.ss.circle.serv.SSCircleServ;
@@ -60,9 +61,9 @@ import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServImplA;
 import at.tugraz.sss.serv.SSServImplStartA;
-import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
+import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServReg;
-import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
+import at.tugraz.sss.serv.SSServRetI;
 import at.tugraz.sss.servs.image.serv.SSImageServ;
 import at.tugraz.sss.servs.integrationtest.SSIntegrationTestServ;
 import at.tugraz.sss.servs.kcprojwiki.serv.SSKCProjWikiServ;
@@ -119,6 +120,7 @@ public class SSSocketMainV2{
     private final Socket             clientSocket;
     private final OutputStreamWriter outputStreamWriter;
     private final InputStreamReader  inputStreamReader;
+    private final SSSocketAdapterU   socketAdapterU;
     private SSServContainerI         serv        = null;
     private SSServImplA              servImpl    = null;
     private SSServPar                par         = null;
@@ -140,6 +142,8 @@ public class SSSocketMainV2{
         new OutputStreamWriter(
           clientSocket.getOutputStream(),
           SSEncodingU.utf8.toString());
+      
+      this.socketAdapterU = new SSSocketAdapterU();
     }
     
     @Override
@@ -147,21 +151,21 @@ public class SSSocketMainV2{
       
       try{
         
-        final String clientMsg = SSSocketU.readMsgFullFromClient(inputStreamReader);
+        final String clientMsg = SSSocketU.readFullString(inputStreamReader);
               
         par = new SSServPar(clientSocket,clientMsg);
         
         SSLogU.info(par.op + " start with " + par.clientJSONRequ);
         
         serv     = SSServReg.inst.getClientServ(par.op);
-        servImpl = serv.serv();
+        servImpl = serv.getServImpl();
         
         SSServReg.inst.regClientRequest(par.user, servImpl, par.op);
         
         ret = servImpl.invokeClientServOp(serv.servImplClientInteraceClass, par);
               
         if(ret != null){
-          SSSocketU.writeRetFullToClient(outputStreamWriter, ret); 
+          socketAdapterU.writeRetFullToClient(outputStreamWriter, ret); 
         }
         
       }catch(Exception error){
@@ -173,9 +177,8 @@ public class SSSocketMainV2{
         }
         
         try{
-          SSSocketU.writeErrorFullToClient(
+          socketAdapterU.writeError(
             outputStreamWriter, 
-            SSServErrReg.getServiceImplErrors(), 
             par.op);
           
         }catch(Exception error2){

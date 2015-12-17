@@ -35,20 +35,6 @@ public class SSUserEntityUsersGetRet extends SSServRetI{
 
   public List<SSEntity> users = new ArrayList<>();
 
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    
-    final Map<String, Object> ld         = new HashMap<>();
-    final Map<String, Object> usersObj   = new HashMap<>();
-    
-    usersObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSEntity.class.getName());
-    usersObj.put(SSJSONLDU.container, SSJSONLDU.set);
-    
-    ld.put(SSVarNames.users, usersObj);
-    
-    return ld;
-  }
-    
   public static SSUserEntityUsersGetRet get(
     final List<SSEntity> users){
     

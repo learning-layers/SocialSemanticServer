@@ -26,11 +26,6 @@ import at.tugraz.sss.serv.SSEntity;
 
 public class SSColl extends SSEntity{
 
-  @Override
-  public Object jsonLDDesc(){
-    return super.jsonLDDesc();
-  }
-  
   public static SSColl get(
     final SSColl   coll,
     final SSEntity entity) throws Exception{

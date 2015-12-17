@@ -39,20 +39,6 @@ public class SSCommentsGetRet extends SSServRetI{
     return SSStrU.toStr(comments);
   }
   
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    
-    final Map<String, Object> ld         = new HashMap<>();
-    final Map<String, Object> commentsObj   = new HashMap<>();
-    
-    commentsObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSTextComment.class.getName());
-    commentsObj.put(SSJSONLDU.container, SSJSONLDU.set);
-    
-    ld.put(SSVarNames.comments, commentsObj);
-    
-    return ld;
-  }
-  
   public static SSCommentsGetRet get(
     final List<SSTextComment> comments){
     

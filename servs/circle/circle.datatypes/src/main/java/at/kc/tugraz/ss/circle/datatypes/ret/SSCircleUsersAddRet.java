@@ -15,7 +15,6 @@
  */
 package at.kc.tugraz.ss.circle.datatypes.ret;
 
-
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSUri;
@@ -43,15 +42,5 @@ public class SSCircleUsersAddRet extends SSServRetI{
     super(SSVarNames.circleUsersAdd);
     
     this.circle = circleUri;
-  }
-
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    
-    final Map<String, Object> ld = new HashMap<>();
-    
-    ld.put(SSVarNames.circle, SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
-    
-    return ld;
   }
 }

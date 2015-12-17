@@ -22,22 +22,12 @@
 
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSJSONLDPropI;
-import java.util.HashMap;
-import java.util.Map;
 
-public class SSResourceLikelihood implements SSJSONLDPropI{
+public class SSResourceLikelihood{
   
   public SSEntity      resource       = null;
 	public Double        likelihood     = 0D;
 
-//  public SSEntity getResource(){
-//    return resource;
-//  }
-  
-//  public Double getLikelihood(){
-//    return likelihood;
-//  }
-  
   public static SSResourceLikelihood get(
     final SSEntity    resource,
     final Double      likelihood){
@@ -52,15 +42,4 @@ public class SSResourceLikelihood implements SSJSONLDPropI{
 		this.resource           = resource;
 		this.likelihood         = likelihood;
 	}
-  
-  @Override
-  public Object jsonLDDesc() {
-  
-    final Map<String, Object> ld = new HashMap<>();
-    
-//    ld.put(SSVarU.resource,     SSVarU.sss + SSStrU.colon + SSEntity.class.getName());
-//    ld.put(SSVarU.likelihood,   SSVarU.xsd + SSStrU.colon + SSStrU.valueDouble);
-    
-    return ld;
-  }  
 }

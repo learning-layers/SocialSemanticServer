@@ -44,29 +44,6 @@ public class SSLearnEpVersion extends SSEntity{
     return SSStrU.removeTrailingSlash(learnEp);
   }
   
-  @Override
-  public Object jsonLDDesc(){
-    
-    final Map<String, Object> ld                 = (Map<String, Object>) super.jsonLDDesc();
-    final Map<String, Object> learnEpCirclesObj  = new HashMap<>();
-    final Map<String, Object> learnEpEntitiesObj = new HashMap<>();
-    
-    ld.put(SSVarNames.learnEp,                SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarNames.learnEpTimelineState,   SSVarNames.sss + SSStrU.colon + SSLearnEpTimelineState.class.getName());
-    
-    learnEpEntitiesObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSLearnEpEntity.class.getName());
-    learnEpEntitiesObj.put(SSJSONLDU.container, SSJSONLDU.set);
-    
-    ld.put(SSVarNames.learnEpEntities, learnEpEntitiesObj);
-    
-    learnEpCirclesObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSLearnEpCircle.class.getName());
-    learnEpCirclesObj.put(SSJSONLDU.container, SSJSONLDU.set);
-    
-    ld.put(SSVarNames.learnEpCircles, learnEpCirclesObj);
-    
-    return ld;
-  }
-  
   public static SSLearnEpVersion get(
     final SSLearnEpVersion learnEpVersion,
     final SSEntity         entity) throws Exception{

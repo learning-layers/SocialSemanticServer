@@ -20,7 +20,7 @@
 */
 package at.tugraz.sss.servs.mail.datatype.ret;
 
-import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
+import at.tugraz.sss.serv.SSServRetI; 
 import at.tugraz.sss.serv.SSVarNames;
 import java.util.Map;
 
@@ -28,11 +28,6 @@ public class SSMailSendRet extends SSServRetI{
 
   public Boolean worked = null;
 
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    throw new UnsupportedOperationException();
-  }
-  
   public static SSMailSendRet get(
     final Boolean worked){
     

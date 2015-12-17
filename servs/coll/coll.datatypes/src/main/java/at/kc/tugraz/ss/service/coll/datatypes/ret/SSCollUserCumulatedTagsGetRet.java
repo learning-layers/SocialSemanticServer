@@ -35,20 +35,6 @@ public class SSCollUserCumulatedTagsGetRet extends SSServRetI{
 
   public final List<SSTagFrequ> tagFrequs = new ArrayList<>();
 
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    
-    Map<String, Object> ld           = new HashMap<>();
-    Map<String, Object> tagFrequsObj = new HashMap<>();
-    
-    tagFrequsObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSTagFrequ.class.getName());
-    tagFrequsObj.put(SSJSONLDU.container, SSJSONLDU.set);
-    
-    ld.put(SSVarNames.tagFrequs, tagFrequsObj);
-    
-    return ld;
-  }
-  
   public static SSCollUserCumulatedTagsGetRet get(final List<SSTagFrequ> tagFrequs){
     return new SSCollUserCumulatedTagsGetRet(tagFrequs);
   }

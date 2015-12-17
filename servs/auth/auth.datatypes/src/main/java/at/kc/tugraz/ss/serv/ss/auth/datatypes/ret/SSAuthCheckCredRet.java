@@ -20,13 +20,9 @@
 */
 package at.kc.tugraz.ss.serv.ss.auth.datatypes.ret;
 
-import at.tugraz.sss.serv.SSLinkU;
-
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSServRetI; 
-import at.tugraz.sss.serv.SSVarNames;
-import java.util.HashMap;
 import java.util.Map;
 
 public class SSAuthCheckCredRet extends SSServRetI{
@@ -37,17 +33,6 @@ public class SSAuthCheckCredRet extends SSServRetI{
   public String getUser() {
     return SSStrU.removeTrailingSlash(user);
   } 
-  
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    
-    final Map<String, Object> ld = new HashMap<>();
-    
-    ld.put(SSVarNames.key,  SSLinkU.xsd     + SSStrU.valueString);
-    ld.put(SSVarNames.user, SSVarNames.sss  + SSStrU.colon + SSUri.class.getName());
-    
-    return ld;
-  }
   
   public static SSAuthCheckCredRet get(
     final String  key, 

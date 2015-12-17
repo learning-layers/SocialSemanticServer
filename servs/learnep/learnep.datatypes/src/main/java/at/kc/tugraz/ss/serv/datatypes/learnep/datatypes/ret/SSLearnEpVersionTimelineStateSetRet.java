@@ -36,16 +36,6 @@ public class SSLearnEpVersionTimelineStateSetRet extends SSServRetI{
     return SSStrU.removeTrailingSlash(learnEpTimelineState);
   }
   
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    
-    Map<String, Object> ld = new HashMap<>();
-    
-    ld.put(SSVarNames.learnEpTimelineState, SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
-    
-    return ld;
-  }
-  
   public static SSLearnEpVersionTimelineStateSetRet get(SSUri learnEpTimelineStateUri){
     return new SSLearnEpVersionTimelineStateSetRet(learnEpTimelineStateUri);
   }

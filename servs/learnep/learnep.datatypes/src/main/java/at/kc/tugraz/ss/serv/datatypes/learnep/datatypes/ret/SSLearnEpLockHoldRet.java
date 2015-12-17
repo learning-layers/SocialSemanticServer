@@ -39,19 +39,6 @@ public class SSLearnEpLockHoldRet extends SSServRetI{
     return SSStrU.removeTrailingSlash(learnEp);
   }
   
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    
-    Map<String, Object> ld = new HashMap<>();
-    
-    ld.put(SSVarNames.learnEp,       SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
-    ld.put(SSVarNames.locked,        SSVarNames.xsd + SSStrU.colon + SSStrU.valueBoolean);
-    ld.put(SSVarNames.lockedByUser,  SSVarNames.xsd + SSStrU.colon + SSStrU.valueBoolean);
-    ld.put(SSVarNames.remainingTime, SSVarNames.xsd + SSStrU.colon + SSStrU.valueLong);
-    
-    return ld;
-  }
-  
   public static SSLearnEpLockHoldRet get(
     final SSUri   learnEp,
     final Boolean locked,

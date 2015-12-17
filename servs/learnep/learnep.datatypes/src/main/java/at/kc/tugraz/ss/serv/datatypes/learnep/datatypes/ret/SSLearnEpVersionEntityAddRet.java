@@ -36,16 +36,6 @@ public class SSLearnEpVersionEntityAddRet extends SSServRetI{
     return SSStrU.removeTrailingSlash(learnEpEntity);
   }
    
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    
-    Map<String, Object> ld = new HashMap<>();
-    
-    ld.put(SSVarNames.learnEpEntity, SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
-    
-    return ld;
-  }
-
   public static SSLearnEpVersionEntityAddRet get(SSUri learnEpEntityUri){
     return new SSLearnEpVersionEntityAddRet(learnEpEntityUri);
   }

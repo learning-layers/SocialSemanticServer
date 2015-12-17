@@ -46,14 +46,4 @@ public class SSCircleCreateRet extends SSServRetI{
     
     this.circle = circleUri;
   }
-
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    
-    Map<String, Object> ld = new HashMap<>();
-    
-    ld.put(SSVarNames.circle, SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
-    
-    return ld;
-  }
 }

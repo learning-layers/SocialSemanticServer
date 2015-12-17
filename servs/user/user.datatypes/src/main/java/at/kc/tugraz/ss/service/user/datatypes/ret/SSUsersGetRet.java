@@ -31,11 +31,6 @@ public class SSUsersGetRet extends SSServRetI{
   
   public List<SSEntity> users = new ArrayList<>();
   
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    throw new UnsupportedOperationException();
-  }
-  
   public SSUsersGetRet(
     final List<SSEntity> users){
     

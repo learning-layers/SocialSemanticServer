@@ -21,6 +21,7 @@
 package at.tugraz.sss.serv;
 
 import com.wordnik.swagger.annotations.ApiModelProperty;
+import java.util.Map;
 
 public abstract class SSServRetI implements SSServRetJSONLDI{
   
@@ -31,5 +32,10 @@ public abstract class SSServRetI implements SSServRetJSONLDI{
 
   public SSServRetI(final String op){
     this.op = op;
+  }
+  
+  @Override
+  public Map<String, Object> jsonLDDesc(){
+    throw new UnsupportedOperationException();
   }
 }

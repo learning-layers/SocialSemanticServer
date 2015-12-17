@@ -112,11 +112,6 @@ public class SSUE extends SSEntity {
     this.content           = content;
   }
   
-  @Override
-  public Object jsonLDDesc(){
-    throw new UnsupportedOperationException();
-  }
-
   /* sorts SSUserEventEnum array ascending according to time */
   public static List<SSUE> sort(final List<SSEntity> toSortUserEvents) {
 

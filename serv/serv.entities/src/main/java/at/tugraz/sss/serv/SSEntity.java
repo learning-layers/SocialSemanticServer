@@ -499,11 +499,6 @@ public class SSEntity extends SSEntityA{
     }
   }
   
-  @Override 
-  public Object jsonLDDesc() {
-    throw new UnsupportedOperationException();
-  }
-
   public static void addEntitiesDistinctWithoutNull(
     final List<SSEntity>   entities,
     final SSEntity         entity){

@@ -28,11 +28,6 @@ import java.util.*;
 
 public class SSUri extends SSEntityA{
   
-  @Override
-  public Object jsonLDDesc(){
-    return SSLinkU.schemaOrgUrl;
-  }
-  
   public static Boolean isURI(final String string){
     
     //import org.apache.commons.httpclient.URIException;

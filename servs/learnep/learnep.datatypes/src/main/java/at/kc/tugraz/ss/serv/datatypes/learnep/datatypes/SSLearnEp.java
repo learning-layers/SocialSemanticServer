@@ -37,11 +37,6 @@ public class SSLearnEp extends SSEntity {
     return entries;
   }
   
-  @Override
-  public Object jsonLDDesc(){
-    throw new UnsupportedOperationException();
-  }
-  
   public static SSLearnEp get(
     final SSLearnEp learnEp, 
     final SSEntity  entity) throws SSErr{

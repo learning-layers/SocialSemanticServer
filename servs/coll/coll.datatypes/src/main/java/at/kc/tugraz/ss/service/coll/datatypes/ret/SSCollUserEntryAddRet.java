@@ -18,9 +18,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-
 package at.kc.tugraz.ss.service.coll.datatypes.ret;
-
 
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarNames;
@@ -35,16 +33,6 @@ public class SSCollUserEntryAddRet extends SSServRetI{
   
   public String getEntity() throws Exception {
     return SSStrU.removeTrailingSlash(entity);
-  }
-  
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    
-    Map<String, Object> ld         = new HashMap<>();
-    
-    ld.put(SSVarNames.entity, SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
-    
-    return ld;
   }
   
   public static SSCollUserEntryAddRet get(SSUri uri){

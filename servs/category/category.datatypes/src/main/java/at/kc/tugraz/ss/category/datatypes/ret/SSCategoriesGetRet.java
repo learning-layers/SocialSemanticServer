@@ -20,15 +20,10 @@
 */
 package at.kc.tugraz.ss.category.datatypes.ret;
 
-import at.kc.tugraz.ss.category.datatypes.SSCategory;
 import at.tugraz.sss.serv.SSEntity;
-
-import at.tugraz.sss.serv.SSJSONLDU;
-import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.SSServRetI; 
 import at.tugraz.sss.serv.SSVarNames;
-import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -48,19 +43,5 @@ public class SSCategoriesGetRet extends SSServRetI{
     super(SSVarNames.categoriesGet);
     
     SSEntity.addEntitiesDistinctWithoutNull(this.categories, categories);
-  }
-  
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    
-    final Map<String, Object> ld          = new HashMap<>();
-    final Map<String, Object> categoriesObj     = new HashMap<>();
-    
-    categoriesObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSCategory.class.getName());
-    categoriesObj.put(SSJSONLDU.container, SSJSONLDU.set);
-    
-    ld.put(SSVarNames.categories, categoriesObj);
-    
-    return ld;
   }
 }

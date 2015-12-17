@@ -37,15 +37,15 @@
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>serv.db.impl</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>sss.serv</groupId>
       <artifactId>serv.db.api</artifactId>
       <version>${project.version}</version>
     </dependency> 
+
+    <dependency>
+      <groupId>sss.serv</groupId>
+      <artifactId>serv.db.impl</artifactId>
+      <version>${project.version}</version>
+    </dependency>
 
     <dependency>
       <groupId>sss.serv</groupId>

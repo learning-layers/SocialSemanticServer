@@ -28,11 +28,6 @@ public class SSCollEntry extends SSEntity {
 
   public  Integer   pos = -1;
   
-  @Override
-  public Object jsonLDDesc(){
-    throw new UnsupportedOperationException();
-  }
-  
   public static SSCollEntry get(
     final SSUri           id,
     final SSEntityE       type,

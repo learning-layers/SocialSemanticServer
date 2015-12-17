@@ -48,18 +48,4 @@ public class SSCategoryFrequsGetRet extends SSServRetI{
     
     SSCategoryFrequ.addDistinctWithoutNull(this.categoryFrequs, categoryFrequs);
   }
-  
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    
-    Map<String, Object> ld                    = new HashMap<>();
-    Map<String, Object> categoryFrequsObj     = new HashMap<>();
-    
-    categoryFrequsObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSCategoryFrequ.class.getName());
-    categoryFrequsObj.put(SSJSONLDU.container, SSJSONLDU.set);
-    
-    ld.put(SSVarNames.categoryFrequs, categoryFrequsObj);
-    
-    return ld;
-  }
 }

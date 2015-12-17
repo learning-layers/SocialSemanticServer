@@ -32,11 +32,6 @@ public class SSUEGetRet extends SSServRetI{
   
   public SSUE userEvent = null;
  
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    throw new UnsupportedOperationException();
-  }
-  
   public static SSUEGetRet get(SSUE userEvent){
     return new SSUEGetRet(userEvent);
   }

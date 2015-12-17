@@ -20,7 +20,6 @@
 */
 package at.tugraz.sss.servs.entity.datatypes.ret;
 
-
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
@@ -31,16 +30,6 @@ public class SSEntityCopyRet extends SSServRetI{
 
   public Boolean worked = null;
 
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    
-    final Map<String, Object> ld = new HashMap<>();
-    
-    ld.put(SSVarNames.worked, SSVarNames.sss + SSStrU.colon + SSStrU.valueBoolean);
-    
-    return ld;
-  }
-  
   public static SSEntityCopyRet get(
     final Boolean  worked){
     

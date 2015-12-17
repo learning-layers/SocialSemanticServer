@@ -23,22 +23,11 @@
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSJSONLDPropI;
 
-public class SSUserLikelihood implements SSJSONLDPropI{
+public class SSUserLikelihood{
   
   public SSEntity      user           = null;
 	public Double        likelihood     = 0D;
 
-  @Override
-  public Object jsonLDDesc() {
-  
-    throw new UnsupportedOperationException();
-    
-//    ld.put(SSVarU.resource,     SSVarU.sss + SSStrU.colon + SSEntity.class.getName());
-//    ld.put(SSVarU.likelihood,   SSVarU.xsd + SSStrU.colon + SSStrU.valueDouble);
-    
-//    return ld;
-  }  
-  
   public static SSUserLikelihood get(
     final SSEntity    user,
     final Double      likelihood){

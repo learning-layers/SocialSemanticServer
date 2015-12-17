@@ -23,7 +23,7 @@ package at.tugraz.sss.serv;
 import java.util.ArrayList;
 import java.util.List;
 
-public enum SSEntityE implements SSJSONLDPropI{
+public enum SSEntityE{
   entity,
   coll,
   disc,
@@ -91,11 +91,6 @@ public enum SSEntityE implements SSJSONLDPropI{
   //FAVORITES ("_favorites"),
   //EVENTS    ("_events"),
     
-  @Override
-  public Object jsonLDDesc(){
-    return SSVarNames.xsd + SSStrU.colon + SSStrU.valueString;
-  }
-  
   public static List<SSEntityE> get(final List<String> values) throws SSErr{
   
     final List<SSEntityE> result = new ArrayList<>();

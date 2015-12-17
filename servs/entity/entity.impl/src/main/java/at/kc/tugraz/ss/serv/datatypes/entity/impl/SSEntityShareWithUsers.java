@@ -32,6 +32,7 @@ import at.tugraz.sss.serv.SSEntityCircle;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
+import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.util.SSServCallerU;
@@ -102,13 +103,13 @@ public class SSEntityShareWithUsers {
             false, //withUserRestriction,  //as it is a system circle
             false)); //invokeEntityHandlers));
       
-      SSServCallerU.handleCircleEntitiesAdded(
+      SSServReg.inst.circleEntitiesAdded(
         user,
         circle,
         circle.entities,
         withUserRestriction);
       
-      SSServCallerU.handleEntitiesSharedWithUsers(
+      SSServReg.inst.entitiesSharedWithUsers(
         new SSEntitiesSharedWithUsersPar(
           user,
           circle,

@@ -32,11 +32,6 @@ public class SSUser extends SSEntity{
   public Boolean        friend         = null;
   public String         email          = null;
   
-  @Override
-  public Object jsonLDDesc(){
-    throw new UnsupportedOperationException();
-  }
-  
   public static SSUser get(
     final SSEntity       entity) throws Exception{
     

@@ -98,7 +98,7 @@ public class SSLearnEpServ extends SSServContainerI{
       if(((SSLearnEpConf)conf).useEpisodeLocking){
         
         SSDateU.scheduleAtFixedRate(
-          new SSLearnEpRemainingTimeTask((SSLearnEpImpl) serv()),
+          new SSLearnEpRemainingTimeTask((SSLearnEpImpl) getServImpl()),
           SSDateU.getDateForNextHalfMinute(),
           SSDateU.minuteInMilliSeconds / 2);
       }

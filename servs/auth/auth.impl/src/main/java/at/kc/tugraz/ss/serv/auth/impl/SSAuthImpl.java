@@ -74,7 +74,7 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
   
   public SSAuthImpl(final SSAuthConf conf) throws SSErr {
     
-    super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
+    super(conf, (SSDBSQLI) SSDBSQL.inst.getServImpl(), (SSDBNoSQLI) SSDBNoSQL.inst.getServImpl());
     
     this.sqlFct   = new SSAuthSQLFct(dbSQL);
     this.userServ = (SSUserServerI) SSServReg.getServ(SSUserServerI.class);

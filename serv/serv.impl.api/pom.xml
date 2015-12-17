@@ -6,14 +6,15 @@
     <artifactId>serv</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
-  <artifactId>serv.impl</artifactId>
+  <artifactId>serv.impl.api</artifactId>
+  <name>serv.impl.api</name>
   <packaging>jar</packaging>
     
   <dependencies>
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>serv.util</artifactId>
+      <artifactId>serv.conf</artifactId>
       <version>${project.version}</version>
     </dependency>
     
@@ -22,13 +23,7 @@
       <artifactId>serv.db.api</artifactId>
       <version>${project.version}</version>
     </dependency>
-
-    <dependency>
-      <groupId>sss.serv</groupId>
-      <artifactId>serv.conf</artifactId>
-      <version>${project.version}</version>
-    </dependency>
     
   </dependencies>
-  
+    
 </project>

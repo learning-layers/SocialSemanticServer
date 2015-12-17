@@ -6,7 +6,7 @@ import java.util.List;
 
 public abstract class SSServContainerI{
  
-  public        SSConfA                                         conf                        = null;
+  public        SSConfA                                         conf                            = null;
   public        final Class                                     servImplClientInteraceClass;
   public        final Class                                     servImplServerInteraceClass;
   protected     SSErr                                           servImplCreationError           = null;
@@ -80,24 +80,7 @@ public abstract class SSServContainerI{
     return clientOps;
   }
   
-  public List<String> publishServerOps() throws Exception{
-    
-    final List<String> serverOps = new ArrayList<>();
-    
-    if(servImplServerInteraceClass == null){
-      return serverOps;
-    }
-    
-    final Method[]      methods   = servImplServerInteraceClass.getMethods();
-    
-    for(Method method : methods){
-      serverOps.add(method.getName());
-    }
-    
-    return serverOps;
-  }
-  
-  public SSServImplA serv() throws SSErr{
+  public SSServImplA getServImpl() throws SSErr{
     
 //    try{
       

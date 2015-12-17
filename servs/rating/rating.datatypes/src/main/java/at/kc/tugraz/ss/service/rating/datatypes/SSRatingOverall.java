@@ -47,15 +47,4 @@ public class SSRatingOverall extends SSEntityA{
     this.score      = score;
     this.frequ      = frequency;
   }
-  
-  @Override
-  public Object jsonLDDesc(){
-    
-    Map<String, Object> ld = new HashMap<>();
-    
-    ld.put(SSVarNames.score,     SSVarNames.xsd + SSStrU.colon + SSStrU.valueDouble);
-    ld.put(SSVarNames.frequ,     SSVarNames.xsd + SSStrU.colon + SSStrU.valueInteger);
-    
-    return ld;
-  }
 }

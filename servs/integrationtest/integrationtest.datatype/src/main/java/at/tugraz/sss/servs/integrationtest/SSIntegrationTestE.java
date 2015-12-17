@@ -26,14 +26,9 @@ import at.tugraz.sss.serv.SSVarNames;
 import java.util.ArrayList;
 import java.util.List;
 
-public enum SSIntegrationTestE implements SSJSONLDPropI{
+public enum SSIntegrationTestE{
   
   solrForSearch;
-  
-  @Override
-  public Object jsonLDDesc() {
-    return SSVarNames.xsd + SSStrU.colon + SSStrU.valueString;
-  }
   
   public static SSIntegrationTestE get(final String space) throws Exception{
     

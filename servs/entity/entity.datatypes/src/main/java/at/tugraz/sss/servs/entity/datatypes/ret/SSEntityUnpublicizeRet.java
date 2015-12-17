@@ -32,16 +32,6 @@ public class SSEntityUnpublicizeRet extends SSServRetI{
   
   public SSUri entity = null;
 
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    
-    final Map<String, Object> ld         = new HashMap<>();
-    
-    ld.put(SSVarNames.entity, SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
-    
-    return ld;
-  }
-  
   public String getEntity() throws Exception {
     return SSStrU.removeTrailingSlash(entity);
   }

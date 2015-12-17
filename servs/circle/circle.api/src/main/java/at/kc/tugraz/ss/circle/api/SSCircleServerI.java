@@ -20,6 +20,7 @@
 */
 package at.kc.tugraz.ss.circle.api;
 
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleAddEntitiesToCircleOfEntityPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleCreatePar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesAddPar;
 import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesRemovePar;
@@ -46,20 +47,21 @@ import java.util.List;
 
 public interface SSCircleServerI extends SSServServerI{
 
-  public SSUri                           circleCreate                             (final SSCircleCreatePar                par) throws SSErr;
-  public SSUri                           circleUsersAdd                           (final SSCircleUsersAddPar              par) throws SSErr;
-  public SSUri                           circleEntitiesAdd                        (final SSCircleEntitiesAddPar           par) throws SSErr;
-  public List<SSCircleE>                 circleTypesGet                           (final SSCircleTypesGetPar              par) throws SSErr;
-  public SSEntityCircle                  circleGet                                (final SSCircleGetPar                   par) throws SSErr;
-  public List<SSEntity>                  circlesGet                               (final SSCirclesGetPar                  par) throws SSErr;
-  public SSUri                           circlePrivURIGet                         (final SSCirclePrivURIGetPar            par) throws SSErr;
-  public SSUri                           circlePubURIGet                          (final SSCirclePubURIGetPar             par) throws SSErr;
-  public List<SSUri>                     circleEntitiesRemove                     (final SSCircleEntitiesRemovePar        par) throws SSErr;
-  public List<SSUri>                     circleUsersRemove                        (final SSCircleUsersRemovePar           par) throws SSErr;
-  public SSUri                           circleRemove                             (final SSCircleRemovePar                par) throws SSErr;
-  public SSUri                           circleUsersInvite                        (final SSCircleUsersInvitePar           par) throws SSErr;
-  public Boolean                         circleIsEntityPrivate                    (final SSCircleIsEntityPrivatePar       par) throws SSErr;
-  public Boolean                         circleIsEntityShared                     (final SSCircleIsEntitySharedPar        par) throws SSErr;
-  public Boolean                         circleIsEntityPublic                     (final SSCircleIsEntityPublicPar        par) throws SSErr;
-  public SSUri                           circleTypeChange                         (final SSCircleTypeChangePar            par) throws SSErr;
+  public SSUri                           circleCreate                             (final SSCircleCreatePar                      par) throws SSErr;
+  public SSUri                           circleUsersAdd                           (final SSCircleUsersAddPar                    par) throws SSErr;
+  public SSUri                           circleEntitiesAdd                        (final SSCircleEntitiesAddPar                 par) throws SSErr;
+  public List<SSCircleE>                 circleTypesGet                           (final SSCircleTypesGetPar                    par) throws SSErr;
+  public SSEntityCircle                  circleGet                                (final SSCircleGetPar                         par) throws SSErr;
+  public List<SSEntity>                  circlesGet                               (final SSCirclesGetPar                        par) throws SSErr;
+  public SSUri                           circlePrivURIGet                         (final SSCirclePrivURIGetPar                  par) throws SSErr;
+  public SSUri                           circlePubURIGet                          (final SSCirclePubURIGetPar                   par) throws SSErr;
+  public List<SSUri>                     circleEntitiesRemove                     (final SSCircleEntitiesRemovePar              par) throws SSErr;
+  public List<SSUri>                     circleUsersRemove                        (final SSCircleUsersRemovePar                 par) throws SSErr;
+  public SSUri                           circleRemove                             (final SSCircleRemovePar                      par) throws SSErr;
+  public SSUri                           circleUsersInvite                        (final SSCircleUsersInvitePar                 par) throws SSErr;
+  public Boolean                         circleIsEntityPrivate                    (final SSCircleIsEntityPrivatePar             par) throws SSErr;
+  public Boolean                         circleIsEntityShared                     (final SSCircleIsEntitySharedPar              par) throws SSErr;
+  public Boolean                         circleIsEntityPublic                     (final SSCircleIsEntityPublicPar              par) throws SSErr;
+  public SSUri                           circleTypeChange                         (final SSCircleTypeChangePar                  par) throws SSErr;
+  public void                            circleAddEntitiesToCirclesOfEntity       (final SSCircleAddEntitiesToCircleOfEntityPar par) throws SSErr;
 }

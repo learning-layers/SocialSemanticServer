@@ -20,14 +20,11 @@
 */
 package at.kc.tugraz.ss.activity.datatypes.ret;
 
-
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarNames;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
-import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
-import at.tugraz.sss.serv.SSJSONLDU;
+import at.tugraz.sss.serv.SSServRetI; 
+import at.tugraz.sss.serv.SSVarNames;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -37,20 +34,6 @@ public class SSActivityTypesGetRet extends SSServRetI{
 
   public List<String> getTypes() throws Exception {
     return SSStrU.toStr(types);
-  }
-  
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    
-    final Map<String, Object> ld                 = new HashMap<>();
-    final Map<String, Object> activityTpyesObj   = new HashMap<>();
-    
-    activityTpyesObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSActivityE.class.getName());
-    activityTpyesObj.put(SSJSONLDU.container, SSJSONLDU.set);
-    
-    ld.put(SSVarNames.types, activityTpyesObj);
-    
-    return ld;
   }
   
   public static SSActivityTypesGetRet get(

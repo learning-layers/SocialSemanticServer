@@ -38,21 +38,6 @@ public class SSLearnEpCircle extends SSEntity{
   public Float         xC               = null;
   public Float         yC               = null;
   
-  @Override
-  public Object jsonLDDesc(){
-    
-    final Map<String, Object> ld = (Map<String, Object>) super.jsonLDDesc();
-    
-    ld.put(SSVarNames.xLabel,           SSVarNames.xsd + SSStrU.colon + SSStrU.valueFloat);
-    ld.put(SSVarNames.yLabel,           SSVarNames.xsd + SSStrU.colon + SSStrU.valueFloat);
-    ld.put(SSVarNames.xR,               SSVarNames.xsd + SSStrU.colon + SSStrU.valueFloat);
-    ld.put(SSVarNames.yR,               SSVarNames.xsd + SSStrU.colon + SSStrU.valueFloat);
-    ld.put(SSVarNames.xC,               SSVarNames.xsd + SSStrU.colon + SSStrU.valueFloat);
-    ld.put(SSVarNames.yC,               SSVarNames.xsd + SSStrU.colon + SSStrU.valueFloat);
-    
-    return ld;
-  }
-  
   public static SSLearnEpCircle get(
     final SSLearnEpCircle learnEpCircle, 
     final SSEntity        entity) throws Exception{

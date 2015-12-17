@@ -15,13 +15,13 @@
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>serv.db.serv</artifactId>
+      <artifactId>serv.container</artifactId>
       <version>${project.version}</version>
     </dependency>
-    
+
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>serv.db.api</artifactId>
+      <artifactId>serv.db.serv</artifactId>
       <version>${project.version}</version>
     </dependency>
     
@@ -31,45 +31,9 @@
       <version>${project.version}</version>
     </dependency>
     
-<!--    <dependency>
-      <groupId>sss.serv</groupId>
-      <artifactId>serv.api</artifactId>
-      <version>${project.version}</version>
-    </dependency>-->
-    
-    <dependency>
-      <groupId>sss.serv</groupId>
-      <artifactId>serv.container</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>sss.serv</groupId>
-      <artifactId>serv.conf</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>sss.serv</groupId>
-      <artifactId>serv.custom.names</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    
     <dependency>
       <groupId>sss.serv</groupId>
       <artifactId>serv.jsonld</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>sss.serv</groupId>
-      <artifactId>serv.entities</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>sss.serv</groupId>
-      <artifactId>serv.util</artifactId>
       <version>${project.version}</version>
     </dependency>
     

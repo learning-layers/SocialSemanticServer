@@ -96,6 +96,7 @@ import java.util.HashMap;
 import sss.serv.eval.api.SSEvalServerI;
 import sss.servs.entity.sql.SSEntitySQL;
 import at.kc.tugraz.ss.circle.api.SSCircleServerI;
+import at.kc.tugraz.ss.circle.datatypes.par.SSCircleAddEntitiesToCircleOfEntityPar;
 import at.kc.tugraz.ss.conf.conf.SSVocConf;
 import at.tugraz.sss.serv.SSClientE;
 import at.tugraz.sss.serv.SSEntityContext;
@@ -120,7 +121,7 @@ implements
   
   public SSEntityImpl(final SSConfA conf) throws SSErr{
     
-    super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
+    super(conf, (SSDBSQLI) SSDBSQL.inst.getServImpl(), (SSDBNoSQLI) SSDBNoSQL.inst.getServImpl());
     
     this.sql             = new SSEntitySQL  (dbSQL, SSVocConf.systemUserUri);
     this.circleServ      = (SSCircleServerI) SSServReg.getServ(SSCircleServerI.class);
@@ -176,7 +177,7 @@ implements
       
       SSEntity.addEntitiesDistinctWithoutNull(
         affiliatedEntities,
-        SSServCallerU.handleAddAffiliatedEntitiesToCircle(
+        SSServReg.inst.addAffiliatedEntitiesToCircle(
           par.user,
           par.circle,
           affiliatedEntities, //entities
@@ -318,10 +319,8 @@ implements
       if(entity == null){
         return false;
       }
-      
-      for(SSServContainerI serv : SSServReg.inst.getServsHandlingCopyEntity()){
-        ((SSCopyEntityI) serv.serv()).copyEntity(entity, par);
-      }
+
+      SSServReg.inst.copyEntity(entity, par);
       
       dbSQL.commit(par.shouldCommit);
       
@@ -611,9 +610,10 @@ implements
         par.descPar.user                = par.user;
         par.descPar.withUserRestriction = par.withUserRestriction;
         
-        for(SSServContainerI serv : SSServReg.inst.getServsHandlingDescribeEntity()){
-          entity = ((SSDescribeEntityI) serv.serv()).describeEntity(entity, par.descPar);
-        }
+        SSServReg.inst.describeEntity(par.user, entity, par.descPar, par.withUserRestriction);
+//        for(SSServContainerI serv : SSServReg.inst.getServsHandlingDescribeEntity()){
+//          entity = ((SSDescribeEntityI) serv.getServImpl()).describeEntity(entity, par.descPar);
+//        }
       }
       
       return entity;
@@ -906,15 +906,17 @@ implements
       
       sql.attachEntities(par.entity, par.entities);
       
-      SSServCallerU.handleCirclesFromEntityGetEntitiesAdd(
-        circleServ, 
-        this,
-        par.user,
-        par.entity,
-        par.entities, //entities
-        par.withUserRestriction,
-        true); //invokeEntityHandlers);
+      final SSCircleServerI circleServ = (SSCircleServerI) SSServReg.getServ(SSCircleServerI.class);
       
+      circleServ.circleAddEntitiesToCirclesOfEntity(
+        new SSCircleAddEntitiesToCircleOfEntityPar(
+          par.user, 
+          par.entity, 
+          par.entities, 
+          par.withUserRestriction, 
+          true, //invokeEntityHandlers, 
+          false)); //shouldCommit
+        
       dbSQL.commit(par.shouldCommit);
       
       actAndLogFct.attachEntities(

@@ -36,11 +36,6 @@ public class SSCollUserEntriesDeleteRet extends SSServRetI{
     return SSStrU.removeTrailingSlash(entries);
   }
   
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    throw new UnsupportedOperationException();
-  }
-
   public static SSCollUserEntriesDeleteRet get(List<SSUri> entries){
     return new SSCollUserEntriesDeleteRet(entries);
   }

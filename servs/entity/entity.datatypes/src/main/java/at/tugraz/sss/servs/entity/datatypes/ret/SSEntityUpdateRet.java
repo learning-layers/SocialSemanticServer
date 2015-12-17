@@ -36,16 +36,6 @@ public class SSEntityUpdateRet extends SSServRetI{
     return SSStrU.removeTrailingSlash(entity);
   }
   
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    
-    final Map<String, Object> ld         = new HashMap<>();
-    
-    ld.put(SSVarNames.entity, SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
-    
-    return ld;
-  }
-  
   public static SSEntityUpdateRet get(
     final SSUri   entity){
     

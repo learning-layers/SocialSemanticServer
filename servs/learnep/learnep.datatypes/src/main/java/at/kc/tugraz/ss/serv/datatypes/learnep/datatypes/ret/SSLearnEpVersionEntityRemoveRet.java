@@ -31,16 +31,6 @@ public class SSLearnEpVersionEntityRemoveRet extends SSServRetI{
 
   public Boolean worked = null;
 
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    
-    Map<String, Object> ld = new HashMap<>();
-    
-    ld.put(SSVarNames.worked, SSVarNames.xsd + SSStrU.colon + SSStrU.valueBoolean);
-    
-    return ld;
-  }
-  
   public static SSLearnEpVersionEntityRemoveRet get(Boolean worked){
     return new SSLearnEpVersionEntityRemoveRet(worked);
   }

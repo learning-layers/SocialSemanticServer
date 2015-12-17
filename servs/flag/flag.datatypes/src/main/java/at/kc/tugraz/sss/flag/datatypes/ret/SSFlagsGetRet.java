@@ -36,20 +36,6 @@ public class SSFlagsGetRet extends SSServRetI{
   
   public List<SSEntity> flags = new ArrayList<>();
   
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    
-    final Map<String, Object> ld         = new HashMap<>();
-    final Map<String, Object> flagsObj   = new HashMap<>();
-    
-    flagsObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSFlag.class.getName());
-    flagsObj.put(SSJSONLDU.container, SSJSONLDU.set);
-    
-    ld.put(SSVarNames.flags, flagsObj);
-    
-    return ld;
-  }
-  
   public static SSFlagsGetRet get(
     final List<SSEntity>   flags){
     

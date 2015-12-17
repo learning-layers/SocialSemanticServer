@@ -52,18 +52,4 @@ public class SSCategoryEntitiesForCategoriesGetRet extends SSServRetI{
     
     SSUri.addDistinctWithoutNull(this.entities, entities);
   }
-  
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    
-    final Map<String, Object> ld               = new HashMap<>();
-    final Map<String, Object> enititesObj      = new HashMap<>();
-    
-    enititesObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
-    enititesObj.put(SSJSONLDU.container, SSJSONLDU.set);
-    
-    ld.put(SSVarNames.entities, enititesObj);
-    
-    return ld;
-  }
 }

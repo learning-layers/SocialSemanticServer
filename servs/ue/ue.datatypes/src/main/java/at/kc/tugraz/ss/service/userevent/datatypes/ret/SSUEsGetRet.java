@@ -36,11 +36,6 @@ public class SSUEsGetRet extends SSServRetI{
   
   public List<SSEntity> userEvents = new ArrayList<>();
 
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    throw new UnsupportedOperationException();
-  }
-  
   public static SSUEsGetRet get(
     final List<SSEntity> userEvents){
     

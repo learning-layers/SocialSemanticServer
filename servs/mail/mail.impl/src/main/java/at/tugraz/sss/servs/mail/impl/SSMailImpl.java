@@ -53,7 +53,7 @@ implements
   
   public SSMailImpl(final SSConfA conf) throws SSErr{
     
-    super(conf, (SSDBSQLI) SSDBSQL.inst.serv(), (SSDBNoSQLI) SSDBNoSQL.inst.serv());
+    super(conf, (SSDBSQLI) SSDBSQL.inst.getServImpl(), (SSDBNoSQLI) SSDBNoSQL.inst.getServImpl());
     
     this.mailConf       = (SSMailConf) conf;
     this.sqlFct         = new SSMailSQLFct(dbSQL);

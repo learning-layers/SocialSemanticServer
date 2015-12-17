@@ -35,20 +35,6 @@ public class SSEntitiesGetRet extends SSServRetI{
 
   public List<SSEntity> entities = new ArrayList<>();
 
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-        
-    final Map<String, Object> ld         = new HashMap<>();
-    final Map<String, Object> descsObj   = new HashMap<>();
-    
-    descsObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSEntity.class.getName());
-    descsObj.put(SSJSONLDU.container, SSJSONLDU.set);
-    
-    ld.put(SSVarNames.entities, descsObj);
-    
-    return ld;
-  }
-  
   public static SSEntitiesGetRet get(
     final List<SSEntity> entities){
     

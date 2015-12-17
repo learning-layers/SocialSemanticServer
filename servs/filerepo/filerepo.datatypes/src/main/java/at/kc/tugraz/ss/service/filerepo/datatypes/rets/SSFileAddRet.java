@@ -39,11 +39,6 @@ public class SSFileAddRet extends SSServRetI{
     return SSStrU.removeTrailingSlash(thumb);
   }
     
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    throw new UnsupportedOperationException();
-  }
-  
   public SSFileAddRet(
     final SSUri file,
     final SSUri thumb){

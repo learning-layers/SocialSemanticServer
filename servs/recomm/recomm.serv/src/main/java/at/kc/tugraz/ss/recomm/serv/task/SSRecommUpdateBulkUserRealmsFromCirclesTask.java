@@ -67,7 +67,7 @@ public class SSRecommUpdateBulkUserRealmsFromCirclesTask extends TimerTask {
       
       try{
         
-        ((SSRecommServerI) SSRecommServ.inst.serv()).recommUpdateBulkUserRealmsFromCircles(
+        ((SSRecommServerI) SSRecommServ.inst.getServImpl()).recommUpdateBulkUserRealmsFromCircles(
           new SSRecommUpdateBulkUserRealmsFromCirclesPar(
             SSVocConf.systemUserUri));
         

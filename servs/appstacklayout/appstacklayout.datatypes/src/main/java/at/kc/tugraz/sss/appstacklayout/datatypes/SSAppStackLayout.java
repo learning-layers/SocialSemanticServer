@@ -34,11 +34,6 @@ public class SSAppStackLayout extends SSEntity{
     return SSStrU.removeTrailingSlash(app);
   }
   
-  @Override
-  public Object jsonLDDesc(){
-    throw new UnsupportedOperationException();
-  }
-  
   public static SSAppStackLayout get(
     final SSAppStackLayout     appStackLayout,
     final SSEntity             entity) throws SSErr {

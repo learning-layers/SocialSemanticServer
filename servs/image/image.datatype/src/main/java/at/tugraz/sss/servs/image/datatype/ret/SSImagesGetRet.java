@@ -31,11 +31,6 @@ public class SSImagesGetRet extends SSServRetI{
 
   public List<SSEntity> images = new ArrayList<>();
 
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    throw new UnsupportedOperationException();
-  }
-  
   public static SSImagesGetRet get(
     final List<SSEntity> images){
     

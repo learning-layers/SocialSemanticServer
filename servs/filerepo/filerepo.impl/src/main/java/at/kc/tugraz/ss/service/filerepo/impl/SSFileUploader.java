@@ -28,12 +28,12 @@ import at.tugraz.sss.serv.SSMimeTypeE;
 import at.kc.tugraz.ss.conf.conf.SSVocConf;
 import at.kc.tugraz.ss.service.filerepo.api.SSFileRepoServerI;
 import at.tugraz.sss.serv.SSServImplStartA;
-
 import at.kc.tugraz.ss.service.filerepo.conf.SSFileRepoConf;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileUploadPar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileAddRet;
 import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileUploadRet;
-import at.tugraz.sss.adapter.socket.SSSocketU;
+import at.tugraz.sss.adapter.socket.SSSocketAdapterU;
+import at.tugraz.sss.serv.SSSocketU;
 import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLAddDocPar;
 import at.tugraz.sss.serv.SSDBNoSQLI;
@@ -57,13 +57,13 @@ public class SSFileUploader extends SSServImplStartA{
   
   private final SSFileUploadPar       par;
   private final DataInputStream       dataInputStream;
-  private final OutputStreamWriter          outputStreamWriter;
+  private final OutputStreamWriter    outputStreamWriter;
+  private final SSSocketAdapterU      socketAdapterU;
   private final SSFileExtE            fileExt;
   private final SSUri                 fileUri;
   private final String                fileId;
   private       SSUri                 thumbUri          = null;
   
-
   public SSFileUploader(
     final SSFileRepoConf     fileConf, 
     final SSFileUploadPar    par) throws Exception{
@@ -73,9 +73,10 @@ public class SSFileUploader extends SSServImplStartA{
     this.par                = par;
     this.dataInputStream    = new DataInputStream    (par.clientSocket.getInputStream());
     this.outputStreamWriter = new OutputStreamWriter (par.clientSocket.getOutputStream());
-    this.fileExt            = SSMimeTypeE.fileExtForMimeType             (par.mimeType);
+    this.socketAdapterU     = new SSSocketAdapterU();
+    this.fileExt            = SSMimeTypeE.fileExtForMimeType          (par.mimeType);
     this.fileUri            = SSVocConf.vocURICreate                  (fileExt);
-    this.fileId             = SSVocConf.fileIDFromSSSURI                 (fileUri);
+    this.fileId             = SSVocConf.fileIDFromSSSURI              (fileUri);
   }
   
   @Override
@@ -83,10 +84,12 @@ public class SSFileUploader extends SSServImplStartA{
     
     try{
       
-      this.dbSQL   = (SSDBSQLI)   SSDBSQL.inst.serv();
-      this.dbNoSQL = (SSDBNoSQLI) SSDBNoSQL.inst.serv();
+      this.dbSQL   = (SSDBSQLI)   SSDBSQL.inst.getServImpl();
+      this.dbNoSQL = (SSDBNoSQLI) SSDBNoSQL.inst.getServImpl();
       
-      SSSocketU.writeRetFullToClient(outputStreamWriter, SSFileUploadRet.get(fileUri, thumbUri));
+      socketAdapterU.writeRetFullToClient(
+        outputStreamWriter, 
+        SSFileUploadRet.get(fileUri, thumbUri));
       
       readFileFromStreamAndSave();
 //      disposeUploadedFile      ();
@@ -97,7 +100,9 @@ public class SSFileUploader extends SSServImplStartA{
       
       dbSQL.commit(par.shouldCommit);
       
-      SSSocketU.writeRetFullToClient(outputStreamWriter, SSFileUploadRet.get(fileUri, thumbUri));
+      socketAdapterU.writeRetFullToClient(
+        outputStreamWriter, 
+        SSFileUploadRet.get(fileUri, thumbUri));
       
       addFileContentsToNoSQLStore  ();
 //      removeFileFromLocalWorkFolder();
@@ -109,7 +114,7 @@ public class SSFileUploader extends SSServImplStartA{
       SSServErrReg.regErr(error1);
       
       try{
-        SSSocketU.writeErrorFullToClient(outputStreamWriter, SSServErrReg.getServiceImplErrors(), par.op);
+        socketAdapterU.writeError(outputStreamWriter, par.op);
       }catch(Exception error2){
         SSServErrReg.regErr(error2);
       }
@@ -135,7 +140,7 @@ public class SSFileUploader extends SSServImplStartA{
 
       while(true){
         
-        fileChunk = SSSocketU.readFileChunkFromClient(dataInputStream);
+        fileChunk = SSSocketU.readByteChunk(dataInputStream);
         
         if(fileChunk.length != 0){
           

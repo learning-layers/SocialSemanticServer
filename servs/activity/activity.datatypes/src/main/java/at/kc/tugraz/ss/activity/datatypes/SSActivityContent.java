@@ -27,11 +27,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SSActivityContent extends SSEntityA{
-
-  @Override
-  public Object jsonLDDesc() {
-    return SSVarNames.xsd + SSStrU.colon + SSStrU.valueString;
-  }
   
   public static SSActivityContent get(final String str) throws Exception{
     return new SSActivityContent(SSStrU.trim(str, 199));

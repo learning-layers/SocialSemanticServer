@@ -30,11 +30,6 @@ public class SSVideoAnnotation extends SSEntity{
   public Float x         = null;
   public Float y         = null;
   
-  @Override
-  public Object jsonLDDesc(){
-    throw new UnsupportedOperationException();
-  }
-  
   public static SSVideoAnnotation get(
     final SSVideoAnnotation     annotation,
     final SSEntity              entity) throws Exception{

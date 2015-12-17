@@ -30,11 +30,6 @@ public class SSLearnEpsLockHoldRet extends SSServRetI{
 
   public List<SSLearnEpLockHoldRet> learnEpLocks = new ArrayList<>();
 
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    throw new UnsupportedOperationException();
-  }
-  
   public static SSLearnEpsLockHoldRet get(
     final List<SSLearnEpLockHoldRet> learnEpLocks){
 

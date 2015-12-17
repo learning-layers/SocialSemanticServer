@@ -34,12 +34,6 @@ public class SSEntitiesAccessibleGetRet extends SSServRetI{
   public Integer        pageNumbers = null;
   public List<SSEntity> entities    = new ArrayList<>();
 
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-        
-    throw new UnsupportedOperationException();
-  }
-  
    public static SSEntitiesAccessibleGetRet get(
     final List<SSEntity> entities,
     final String         pagesID,

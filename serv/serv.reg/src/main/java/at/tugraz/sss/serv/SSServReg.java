@@ -30,7 +30,6 @@ public class SSServReg{
   public static final SSServReg                            inst                                         = new SSServReg();
   public static final Map<String,     SSServContainerI>    servs                                        = new HashMap<>();
   public static final Map<String,     SSServContainerI>    servsForClientOps                            = new HashMap<>();
-  public static final Map<String,     SSServContainerI>    servsForServerOps                            = new HashMap<>();
   public static final Map<Class,         SSServContainerI> servsForServerI                              = new HashMap<>();
   public static final Map<Class,         SSServContainerI> servsForClientI                              = new HashMap<>();
   public static final List<SSServContainerI>               servsForGatheringUsersResources              = new ArrayList<>();
@@ -474,7 +473,7 @@ public class SSServReg{
         throw SSErr.get(SSErrE.servServerNotAvailable);
       }
       
-      return serv.serv();
+      return serv.getServImpl();
       
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
@@ -499,17 +498,6 @@ public class SSServReg{
         }
       }
       
-      synchronized(servsForServerOps){
-        
-        for(String op : servContainer.publishServerOps()){
-          
-          if(servsForServerOps.containsKey(op)){
-            throw new Exception("op for server service already registered");
-          }
-          
-          servsForServerOps.put(op, servContainer);
-        }
-      }
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
     }
@@ -563,50 +551,303 @@ public class SSServReg{
     }
   }
   
-  public List<SSServContainerI> getServsHandlingAddAffiliatedEntitiesToCircle(){
-    return new ArrayList<>(servsHandlingAddAffiliatedEntitiesToCircle);
-  }
-  
-  public List<SSServContainerI> getServsHandlingEntitiesSharedWithUsers(){
-    return new ArrayList<>(servsHandlingEntitiesSharedWithUsers);
-  }
+  public List<SSEntity> addAffiliatedEntitiesToCircle(
+    final SSUri             user,
+    final SSUri             circle,
+    final List<SSEntity>    entities,
+    final List<SSUri>       recursiveEntities,
+    final Boolean           withUserRestriction) throws Exception{
     
-  public List<SSServContainerI> getServsHandlingPushEntitiesToUsers(){
-    return new ArrayList<>(servsHandlingPushEntitiesToUsers);
+    try{
+      final List<SSEntity> addedAffiliatedEntities = new ArrayList<>();
+      
+      if(
+        entities == null || 
+        entities.isEmpty()){
+        return addedAffiliatedEntities;
+      }
+      
+      final SSAddAffiliatedEntitiesToCirclePar par =
+        new SSAddAffiliatedEntitiesToCirclePar(
+          user,
+          circle,
+          entities,
+          recursiveEntities,
+          withUserRestriction);
+      
+      for(SSServContainerI serv : servsHandlingAddAffiliatedEntitiesToCircle){
+        
+        SSEntity.addEntitiesDistinctWithoutNull(
+          addedAffiliatedEntities,
+          ((SSAddAffiliatedEntitiesToCircleI) serv.getServImpl()).addAffiliatedEntitiesToCircle(par));
+      }
+      
+      return addedAffiliatedEntities;
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
   }
   
-  public List<SSServContainerI> getServsHandlingDescribeEntity(){
-    return new ArrayList<>(servsHandlingDescribeEntity);
-  }
+  public void circleUsersAdded(
+    final SSUri          user, 
+    final SSEntityCircle circle,
+    final List<SSUri>    users, 
+    final Boolean        withUserRestriction) throws Exception {
     
-  public List<SSServContainerI> getServsHandlingCopyEntity(){
-    return new ArrayList<>(servsHandlingCopyEntity);
+    try{
+      
+      if(
+        users == null ||
+        users.isEmpty()){
+        return;
+      }
+      
+      final List<SSEntity>  entitiesToPushToUsers   = new ArrayList<>();
+      final List<SSEntity>  addedAffiliatedEntities =
+        addAffiliatedEntitiesToCircle(
+            user,
+            circle.id,
+            circle.entities,
+            new ArrayList<>(),
+            withUserRestriction);
+      
+      SSEntity.addEntitiesDistinctWithoutNull(
+        entitiesToPushToUsers,
+        circle.entities);
+      
+      SSEntity.addEntitiesDistinctWithoutNull(
+        entitiesToPushToUsers,
+        addedAffiliatedEntities);
+      
+      pushEntitiesToUsers(
+        new SSPushEntitiesToUsersPar(
+          user,
+          entitiesToPushToUsers,
+          users,
+          withUserRestriction));
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
   }
   
-  public List<SSServContainerI> getServsHandlingGetParentEntities(){
-    return new ArrayList<>(servsHandlingGetParentEntities);
-  }
-  
-  public List<SSServContainerI> getServsHandlingGetSubEntities(){
-    return new ArrayList<>(servsHandlingGetSubEntities);
-  }
-  
-  public List<SSServContainerI> getServsHandlingEntityCopied(){
-    return new ArrayList<>(servsHandlingEntityCopied);
-  }
-  
-  public List<SSServContainerI> getServsHandlingCircleContentRemoved(){
-    return new ArrayList<>(servsHandlingCircleContentRemoved);
-  }
+  public void pushEntitiesToUsers(final SSPushEntitiesToUsersPar par) throws SSErr{
     
-  public List<SSServContainerI> getServsGatheringUserRelations(){
-    return new ArrayList<>(servsForGatheringUserRelations);
+    try{
+      
+      for(SSServContainerI serv : servsHandlingPushEntitiesToUsers){
+        ((SSPushEntitiesToUsersI) serv.getServImpl()).pushEntitiesToUsers(par);
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
   }
   
-  public List<SSServContainerI> getServsGatheringUsersResources(){
-    return new ArrayList<>(servsForGatheringUsersResources);
+  public void entitiesSharedWithUsers(final SSEntitiesSharedWithUsersPar par) throws SSErr{  
+        
+    try{
+      
+      for(SSServContainerI serv : servsHandlingEntitiesSharedWithUsers){
+        ((SSEntitiesSharedWithUsersI) serv.getServImpl()).entitiesSharedWithUsers(par);
+      }      
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  public void entityCopied(
+    final SSEntityCopiedPar entityCopiedPar) throws SSErr{
+    
+    try{
+      
+      for(SSServContainerI entityHandler : servsHandlingEntityCopied){
+        ((SSEntityCopiedI) entityHandler.getServImpl()).entityCopied(entityCopiedPar);
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  public void getUsersResources(final Map<String, List<SSEntityContext>> usersEntities) throws SSErr{
+    
+    try{
+      
+      for(SSServContainerI serv : servsForGatheringUsersResources){
+        ((SSUsersResourcesGathererI) serv.getServImpl()).getUsersResources(usersEntities);
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  public void getUserRelations(
+    final List<String>                 allUsers,
+    final Map<String, List<SSUri>>     userRelations) throws SSErr{
+    
+    try{
+      for(SSServContainerI serv : servsForGatheringUserRelations){
+        ((SSUserRelationGathererI) serv.getServImpl()).getUserRelations(allUsers, userRelations);
+      }
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  public void circleContentRemoved(
+    final SSCircleContentRemovedPar circleContentRemovedPar) throws SSErr{
+    
+    try{
+      
+      for(SSServContainerI serv : servsHandlingCircleContentRemoved){
+        ((SSCircleContentRemovedI) serv.getServImpl()).circleContentRemoved(circleContentRemovedPar);
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  public void copyEntity(
+    final SSEntity        entity,
+    final SSEntityCopyPar entityCopyPar) throws SSErr{
+    
+    try{
+      
+      for(SSServContainerI serv : servsHandlingCopyEntity){
+        ((SSCopyEntityI) serv.getServImpl()).copyEntity(entity, entityCopyPar);
+      }
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+  
+  public void circleEntitiesAdded(
+    final SSUri          user, 
+    final SSEntityCircle circle,
+    final List<SSEntity> entities,
+    final Boolean        withUserRestriction) throws Exception{
+    
+    try{
+      
+      if(
+        entities == null ||
+        entities.isEmpty()){
+        return;
+      }
+      
+      final List<SSEntity>  entitiesToPushToUsers   = new ArrayList<>();
+      final List<SSEntity>  addedAffiliatedEntities =
+        addAffiliatedEntitiesToCircle(
+          user,
+          circle.id,
+          entities,
+          new ArrayList<>(),
+          withUserRestriction);
+      
+      SSEntity.addEntitiesDistinctWithoutNull(
+        entitiesToPushToUsers,
+        entities);
+      
+      SSEntity.addEntitiesDistinctWithoutNull(
+        entitiesToPushToUsers,
+        addedAffiliatedEntities);
+      
+      pushEntitiesToUsers(
+        new SSPushEntitiesToUsersPar(
+          user,
+          entitiesToPushToUsers,
+          SSUri.getDistinctNotNullFromEntities(circle.users),
+          withUserRestriction));
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+    }
+  }
+   
+  public SSEntity describeEntity(
+    final SSUri                user,
+    final SSEntity             entity,
+    final SSEntityDescriberPar descPar,
+    final Boolean              withUserRestriction) throws SSErr{
+    
+    try{
+      
+      if(entity == null){
+        return null;
+      }
+      
+      if(descPar == null){
+        return entity;
+      }
+        
+      descPar.user                = user;
+      descPar.withUserRestriction = withUserRestriction;
+      
+      SSEntity describedEntity = entity;
+      
+      for(SSServContainerI serv : servsHandlingDescribeEntity){
+        describedEntity = ((SSDescribeEntityI) serv.getServImpl()).describeEntity(describedEntity, descPar);
+      }
+
+      return describedEntity;
+      
+    }catch(Exception error){
+      SSServErrReg.regErrThrow(error);
+      return null;
+    }
   }
 }
+
+//  public List<SSServContainerI> getServsHandlingAddAffiliatedEntitiesToCircle(){
+//    return new ArrayList<>(servsHandlingAddAffiliatedEntitiesToCircle);
+//  }
+//  
+//  public List<SSServContainerI> getServsHandlingEntitiesSharedWithUsers(){
+//    return new ArrayList<>(servsHandlingEntitiesSharedWithUsers);
+//  }
+//    
+//  public List<SSServContainerI> getServsHandlingPushEntitiesToUsers(){
+//    return new ArrayList<>(servsHandlingPushEntitiesToUsers);
+//  }
+//  
+//  public List<SSServContainerI> getServsHandlingDescribeEntity(){
+//    return new ArrayList<>(servsHandlingDescribeEntity);
+//  }
+//    
+//  public List<SSServContainerI> getServsHandlingCopyEntity(){
+//    return new ArrayList<>(servsHandlingCopyEntity);
+//  }
+//  
+//  public List<SSServContainerI> getServsHandlingGetParentEntities(){
+//    return new ArrayList<>(servsHandlingGetParentEntities);
+//  }
+//  
+//  public List<SSServContainerI> getServsHandlingGetSubEntities(){
+//    return new ArrayList<>(servsHandlingGetSubEntities);
+//  }
+//  
+//  public List<SSServContainerI> getServsHandlingEntityCopied(){
+//    return new ArrayList<>(servsHandlingEntityCopied);
+//  }
+//  
+//  public List<SSServContainerI> getServsHandlingCircleContentRemoved(){
+//    return new ArrayList<>(servsHandlingCircleContentRemoved);
+//  }
+//    
+//  public List<SSServContainerI> getServsGatheringUserRelations(){
+//    return new ArrayList<>(servsForGatheringUserRelations);
+//  }
+//  
+//  public List<SSServContainerI> getServsGatheringUsersResources(){
+//    return new ArrayList<>(servsForGatheringUsersResources);
+//  }
 
 //  public static SSServA servForEntityType(SSEntityEnum entityType) throws Exception{
 //
@@ -669,37 +910,5 @@ public class SSServReg{
 //    }catch(Exception error){
 //      SSServErrReg.regErrThrow(error);
 //      return null;
-//    }
-//  }
-
-//  public Object callServViaServer(final SSServPar par) throws Exception{
-//    
-//    SSServContainerI serv;
-//    
-//    try{
-//      
-//      serv = servsForServerOps.get(par.op);
-//      
-//      if(serv == null){
-//        throw SSErr.get(SSErrE.servServerOpNotAvailable);
-//      }
-//      
-//      return serv.serv().handleServerOp(serv.servImplServerInteraceClass, par);
-//    }catch(SSErr error){
-//      
-//      switch(error.code){
-//        
-//        case servServerOpNotAvailable:{
-//          throw error;
-//        }
-//        
-//        default: {
-//          SSServErrReg.regErrThrow(error);
-//        }
-//      }
-//      
-//      return null;
-//    }catch(Exception error){
-//      throw error;
 //    }
 //  }

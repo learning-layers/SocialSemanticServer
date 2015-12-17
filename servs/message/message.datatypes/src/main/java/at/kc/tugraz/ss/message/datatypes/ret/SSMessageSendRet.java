@@ -36,16 +36,6 @@ public class SSMessageSendRet extends SSServRetI{
     return SSStrU.removeTrailingSlash(message);
   }
   
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    
-    final Map<String, Object> ld         = new HashMap<>();
-    
-    ld.put(SSVarNames.message,        SSVarNames.sss + SSStrU.colon + SSUri.class.getName());
-    
-    return ld;
-  }
-  
   public static SSMessageSendRet get(
     final SSUri   message){
     

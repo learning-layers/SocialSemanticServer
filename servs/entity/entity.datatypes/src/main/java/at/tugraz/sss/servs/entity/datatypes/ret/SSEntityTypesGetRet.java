@@ -36,11 +36,6 @@ public class SSEntityTypesGetRet extends SSServRetI{
     return SSStrU.toStr(types);
   }
   
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    throw new UnsupportedOperationException();
-  }
-  
   public static SSEntityTypesGetRet get(
     final List<SSEntityE> types){
     

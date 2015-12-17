@@ -36,20 +36,6 @@ public class SSLearnEpVersionsGetRet extends SSServRetI{
 
   public List<SSEntity> learnEpVersions = new ArrayList<>();
 
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    
-    Map<String, Object> ld                  = new HashMap<>();
-    Map<String, Object> learnEpVersionsObj  = new HashMap<>();
-    
-    learnEpVersionsObj.put(SSJSONLDU.id,        SSVarNames.sss + SSStrU.colon + SSLearnEpVersion.class.getName());
-    learnEpVersionsObj.put(SSJSONLDU.container, SSJSONLDU.set);
-    
-    ld.put(SSVarNames.learnEpVersions, learnEpVersionsObj);
-    
-    return ld;
-  }
-  
   public static SSLearnEpVersionsGetRet get(
     final List<SSEntity> learnEpVersions){
     

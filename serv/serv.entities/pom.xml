@@ -14,12 +14,6 @@
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>serv.custom.names</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>sss.serv</groupId>
       <artifactId>serv.jsonld</artifactId>
       <version>${project.version}</version>
     </dependency>

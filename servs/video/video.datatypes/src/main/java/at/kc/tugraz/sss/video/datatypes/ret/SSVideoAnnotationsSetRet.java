@@ -36,11 +36,6 @@ public class SSVideoAnnotationsSetRet extends SSServRetI{
     return SSStrU.removeTrailingSlash(annotations);
   }
   
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    throw new UnsupportedOperationException();
-  }
-  
   public static SSVideoAnnotationsSetRet get(
     final List<SSUri>    annotations){
     

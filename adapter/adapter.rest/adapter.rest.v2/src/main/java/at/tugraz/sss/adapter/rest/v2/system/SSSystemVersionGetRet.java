@@ -20,26 +20,13 @@
 */
 package at.tugraz.sss.adapter.rest.v2.system;
 
-
-import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
-import at.tugraz.sss.serv.SSStrU;
+import at.tugraz.sss.serv.SSServRetI; 
 import at.tugraz.sss.serv.SSVarNames;
-import java.util.HashMap;
 import java.util.Map;
 
 public class SSSystemVersionGetRet extends SSServRetI{
   
   public String version = null;
-  
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    
-    final Map<String, Object> ld              = new HashMap<>();
-    
-    ld.put(SSVarNames.version,      SSVarNames.xsd + SSStrU.colon + SSStrU.valueString);
-    
-    return ld;
-  }
   
   public SSSystemVersionGetRet(
     final String  version){

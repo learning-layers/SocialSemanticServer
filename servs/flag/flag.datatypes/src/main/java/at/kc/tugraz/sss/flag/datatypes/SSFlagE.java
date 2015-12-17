@@ -21,13 +21,11 @@
 package at.kc.tugraz.sss.flag.datatypes;
 
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarNames;
-import at.tugraz.sss.serv.SSJSONLDPropI;
 import at.tugraz.sss.serv.SSObjU;
 import java.util.ArrayList;
 import java.util.List;
 
-public enum SSFlagE implements SSJSONLDPropI{
+public enum SSFlagE{
 
   importance,
   deadline;
@@ -85,10 +83,5 @@ public enum SSFlagE implements SSJSONLDPropI{
         flags.add(flag);
       }
     }
-  }
-  
-  @Override
-  public Object jsonLDDesc(){
-    return SSVarNames.xsd + SSStrU.colon + SSStrU.valueString;
   }
 }

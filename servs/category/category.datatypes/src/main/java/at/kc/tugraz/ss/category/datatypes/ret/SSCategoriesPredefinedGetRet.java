@@ -20,10 +20,8 @@
 */
 package at.kc.tugraz.ss.category.datatypes.ret;
 
-
 import at.tugraz.sss.serv.SSJSONLDU;
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -45,22 +43,7 @@ public class SSCategoriesPredefinedGetRet extends SSServRetI{
     
     super(SSVarNames.categoriesPredefinedGet);
     
-    if(categories != null){
-      this.categories.addAll(categories);
-    }
+    SSStrU.addDistinctNotNull(this.categories, categories);
   }
   
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    
-    final Map<String, Object> ld                = new HashMap<>();
-    final Map<String, Object> categoriesObj     = new HashMap<>();
-    
-    categoriesObj.put(SSJSONLDU.id,        SSVarNames.xsd + SSStrU.colon + SSStrU.valueString);
-    categoriesObj.put(SSJSONLDU.container, SSJSONLDU.set);
-    
-    ld.put(SSVarNames.categories, categoriesObj);
-    
-    return ld;
-  }
 }

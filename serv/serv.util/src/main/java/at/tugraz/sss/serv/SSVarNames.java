@@ -24,6 +24,7 @@ public class SSVarNames{
   
   private SSVarNames(){}
 
+  public static final String circleAddEntitiesToCircleOfEntity           = "circleAddEntitiesToCircleOfEntity";
   public static final String kcprojwikiImport                            = "kcprojwikiImport";
   public static final String mailSend                                    = "mailSend";
   public static final String mailsReceive                            = "mailsReceive";

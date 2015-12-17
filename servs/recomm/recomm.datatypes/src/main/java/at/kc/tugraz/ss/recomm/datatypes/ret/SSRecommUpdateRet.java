@@ -37,9 +37,4 @@ public class SSRecommUpdateRet extends SSServRetI{
     
     this.worked = worked;
   }
-
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    throw new UnsupportedOperationException();
-  }
 }

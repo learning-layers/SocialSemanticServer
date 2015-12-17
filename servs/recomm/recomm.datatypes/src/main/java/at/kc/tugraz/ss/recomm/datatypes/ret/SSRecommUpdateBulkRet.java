@@ -28,11 +28,6 @@ public class SSRecommUpdateBulkRet extends SSServRetI{
 
   public Boolean worked = false;
 
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    throw new UnsupportedOperationException();
-  }
-  
   public static SSRecommUpdateBulkRet get(Boolean worked){
     return new SSRecommUpdateBulkRet(worked);
   }

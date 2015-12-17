@@ -114,15 +114,3 @@ public abstract class SSServImplA{
   //
   //    return (List<String>) SSServReg.callServServer(new SSServPar(SSVarNames.recommLanguageModel, opPars));
   //  }
-
-//  public Object handleServerOp(
-//    final Class         servServerI, 
-//    final SSServPar     par) throws Exception{
-//    
-//    if(servServerI == null){
-//      SSLogU.err(new Exception("service op shouldnt be instantiated this way"));
-//      return null;
-//    }
-//    
-//    return servServerI.getMethod(SSStrU.toStr(par.op), SSServPar.class).invoke(this, par);
-//  }

@@ -36,11 +36,6 @@ public class SSDiscEntry extends SSEntity{
     return SSStrU.toStr(content);
   }
   
-  @Override
-  public Object jsonLDDesc(){
-    throw new UnsupportedOperationException();
-  }
-  
   public static SSDiscEntry get(
     final SSUri                  id,
     final SSEntityE              type,

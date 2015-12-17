@@ -32,16 +32,6 @@ public class SSCollUserRootGetRet extends SSServRetI{
   
   public SSColl coll = null;
   
-  @Override
-  public Map<String, Object> jsonLDDesc(){
-    
-    Map<String, Object> ld = new HashMap<>();
-    
-    ld.put(SSVarNames.coll, SSVarNames.sss + SSStrU.colon + SSColl.class.getName());
-    
-    return ld;
-  }
-  
   public static SSCollUserRootGetRet get(SSColl coll){
     return new SSCollUserRootGetRet(coll);
   }

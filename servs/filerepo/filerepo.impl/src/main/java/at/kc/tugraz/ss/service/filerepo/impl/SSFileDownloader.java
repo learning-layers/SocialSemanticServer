@@ -26,7 +26,8 @@ import at.tugraz.sss.serv.SSServImplStartA;
 import at.kc.tugraz.ss.service.filerepo.conf.SSFileRepoConf;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileDownloadPar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileDownloadRet;
-import at.tugraz.sss.adapter.socket.SSSocketU;
+import at.tugraz.sss.adapter.socket.SSSocketAdapterU;
+import at.tugraz.sss.serv.SSSocketU;
 import at.tugraz.sss.serv.SSEncodingU;
 import at.tugraz.sss.serv.SSServErrReg;
 import java.io.DataInputStream;
@@ -42,6 +43,7 @@ public class SSFileDownloader extends SSServImplStartA{
   private final DataOutputStream    dataOutputStream; 
   private final InputStreamReader   inputStreamReader;   
   private final OutputStreamWriter  outputStreamWriter;
+  private final SSSocketAdapterU    socketAdapterU;
   private DataInputStream           fileReader;
   private byte[]                    chunk             = new byte[SSSocketU.socketTranmissionSize];
   private String                    fileId            = null;
@@ -59,6 +61,7 @@ public class SSFileDownloader extends SSServImplStartA{
     this.inputStreamReader    = new InputStreamReader  (par.clientSocket.getInputStream(), SSEncodingU.utf8.toString());
     this.outputStreamWriter   = new OutputStreamWriter (par.clientSocket.getOutputStream());
     this.dataOutputStream     = new DataOutputStream   (par.clientSocket.getOutputStream());
+    this.socketAdapterU       = new SSSocketAdapterU   ();
     this.fileId               = SSVocConf.fileIDFromSSSURI(this.par.file);
   }
   
@@ -67,7 +70,9 @@ public class SSFileDownloader extends SSServImplStartA{
     
     try{
       
-      SSSocketU.writeRetFullToClient(outputStreamWriter, new SSFileDownloadRet(par.file));
+      socketAdapterU.writeRetFullToClient(
+        outputStreamWriter, 
+        new SSFileDownloadRet(par.file));
       
 //      switch(((SSFileRepoConf)conf).fileRepoType){
 //        case i5Cloud: downloadFromI5Cloud(); break;    
@@ -79,7 +84,7 @@ public class SSFileDownloader extends SSServImplStartA{
 
       fileReader = new DataInputStream (new FileInputStream(new File(SSFileRepoConf.getLocalWorkPath() + fileId)));
       
-      SSSocketU.readMsgFullFromClient(inputStreamReader);
+      SSSocketU.readFullString(inputStreamReader);
       
       while(true){
         
@@ -89,14 +94,14 @@ public class SSFileDownloader extends SSServImplStartA{
         
         if(fileChunkLength == -1){
           
-          SSSocketU.writeFileChunkToClient(dataOutputStream, new byte[0], fileChunkLength);
+          SSSocketU.writeByteChunk(dataOutputStream, new byte[0], fileChunkLength);
           
           fileReader.close();
           
           return;
         }
         
-        SSSocketU.writeFileChunkToClient(dataOutputStream, chunk, fileChunkLength);
+        SSSocketU.writeByteChunk(dataOutputStream, chunk, fileChunkLength);
       }
       
     }catch(Exception error1){
@@ -104,7 +109,7 @@ public class SSFileDownloader extends SSServImplStartA{
       SSServErrReg.regErr(error1);
       
       try{
-        SSSocketU.writeErrorFullToClient(outputStreamWriter, SSServErrReg.getServiceImplErrors(), par.op);
+        socketAdapterU.writeError(outputStreamWriter, par.op);
       }catch(Exception error2){
         SSServErrReg.regErr(error2);
       }
