@@ -15,16 +15,10 @@
     
     <dependency>
       <groupId>sss.serv</groupId>
-      <artifactId>serv.container</artifactId>
+      <artifactId>serv.core.api</artifactId>
       <version>${project.version}</version>
     </dependency>
 
-    <dependency>
-      <groupId>sss.serv</groupId>
-      <artifactId>serv.db.serv</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    
     <dependency>
       <groupId>sss.serv</groupId>
       <artifactId>serv.errreg</artifactId>

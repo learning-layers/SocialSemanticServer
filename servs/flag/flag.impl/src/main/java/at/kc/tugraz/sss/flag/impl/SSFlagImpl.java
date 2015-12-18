@@ -20,10 +20,10 @@
 */
 package at.kc.tugraz.sss.flag.impl;
 
-import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.tugraz.sss.serv.SSEntityServerI;
 import at.kc.tugraz.ss.conf.conf.SSVocConf;
-import at.tugraz.sss.servs.entity.datatypes.par.SSEntityGetPar;
-import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUpdatePar;
+import at.tugraz.sss.serv.SSEntityGetPar;
+import at.tugraz.sss.serv.SSEntityUpdatePar;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSEntity;
@@ -43,9 +43,9 @@ import at.kc.tugraz.sss.flag.datatypes.par.SSFlagsSetPar;
 import at.kc.tugraz.sss.flag.datatypes.ret.SSFlagsSetRet;
 import at.kc.tugraz.sss.flag.impl.fct.sql.SSFlagSQLFct;
 import at.tugraz.sss.serv.SSClientE;
-import at.tugraz.sss.serv.SSDBNoSQL;
+
 import at.tugraz.sss.serv.SSDBNoSQLI;
-import at.tugraz.sss.serv.SSDBSQL;
+
 import at.tugraz.sss.serv.SSDescribeEntityI;
 import at.tugraz.sss.serv.SSEntityContext;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
@@ -77,7 +77,7 @@ implements
   
   public SSFlagImpl(final SSConfA conf) throws SSErr{
 
-    super(conf, (SSDBSQLI) SSDBSQL.inst.getServImpl(), (SSDBNoSQLI) SSDBNoSQL.inst.getServImpl());
+    super(conf, (SSDBSQLI) SSServReg.getServ(SSDBSQLI.class), (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class));
 
     this.sql         = new SSFlagSQLFct  (dbSQL, SSVocConf.systemUserUri);
     this.entityServ  = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);

@@ -44,14 +44,13 @@ import at.kc.tugraz.ss.category.datatypes.ret.SSCategoryAddRet;
 import at.kc.tugraz.ss.category.datatypes.ret.SSCategoryEntitiesForCategoriesGetRet;
 import at.kc.tugraz.ss.category.datatypes.ret.SSCategoryFrequsGetRet;
 import at.kc.tugraz.ss.category.impl.fct.userrelationgatherer.SSCategoryUserRelationGathererFct;
-import at.kc.tugraz.ss.circle.api.SSCircleServerI;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCirclePubURIGetPar;
-import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.tugraz.sss.serv.SSEntityServerI;
 import at.kc.tugraz.ss.conf.conf.SSVocConf;
-import at.tugraz.sss.servs.entity.datatypes.par.SSEntityFromTypeAndLabelGetPar;
-import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUpdatePar;
+import at.tugraz.sss.serv.SSEntityFromTypeAndLabelGetPar;
+import at.tugraz.sss.serv.SSEntityUpdatePar;
 import at.tugraz.sss.serv.SSCircleContentRemovedI;
 import at.tugraz.sss.serv.SSCircleContentRemovedPar;
+import at.tugraz.sss.serv.SSCirclePubURIGetPar;
 import at.tugraz.sss.serv.SSClientE;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSUri;
@@ -61,9 +60,7 @@ import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.SSConfA;
-import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
-import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSDescribeEntityI;
 import at.tugraz.sss.serv.SSEntityA;
 import at.tugraz.sss.serv.SSEntityContext;
@@ -72,7 +69,6 @@ import at.tugraz.sss.serv.SSEntityCopiedPar;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSUserRelationGathererI;
-
 import at.tugraz.sss.servs.common.impl.user.SSUserCommons;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -82,9 +78,9 @@ import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSObjU;
 import at.tugraz.sss.serv.SSSearchOpE;
 import at.tugraz.sss.serv.SSServErrReg;
-import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
+import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServReg;
-import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
+import at.tugraz.sss.serv.SSServRetI;
 import at.tugraz.sss.serv.SSToolContextE;
 import at.tugraz.sss.serv.SSUsersResourcesGathererI;
 import at.tugraz.sss.servs.common.impl.metadata.SSTagAndCategoryCommonMisc;
@@ -113,7 +109,7 @@ implements
   
   public SSCategoryImpl(final SSConfA conf) throws SSErr{
     
-    super(conf, (SSDBSQLI) SSDBSQL.inst.getServImpl(), (SSDBNoSQLI) SSDBNoSQL.inst.getServImpl());
+    super(conf, (SSDBSQLI) SSServReg.getServ(SSDBSQLI.class), (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class));
     
     this.sql           = new SSTagAndCategoryCommonSQL (dbSQL, SSVocConf.systemUserUri, SSEntityE.category);
     this.commonMiscFct = new SSTagAndCategoryCommonMisc(dbSQL, SSEntityE.category);
@@ -426,7 +422,7 @@ implements
       
       if(par.circle == null){
         par.circle =
-          ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlePubURIGet(
+          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).circlePubURIGet(
             new SSCirclePubURIGetPar(
               null,
               false));

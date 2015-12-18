@@ -21,9 +21,7 @@
 package at.tugraz.sss.serv;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class SSEntityCircle extends SSEntity{
  
@@ -41,7 +39,7 @@ public class SSEntityCircle extends SSEntity{
   
   public static SSEntityCircle get(
     final SSEntityCircle      circle,
-    final SSEntity            entity) throws Exception{
+    final SSEntity            entity) throws SSErr {
     
     return new SSEntityCircle(circle, entity);
   }
@@ -56,7 +54,7 @@ public class SSEntityCircle extends SSEntity{
   
   protected SSEntityCircle(
     final SSEntityCircle     circle,
-    final SSEntity           entity) throws Exception{
+    final SSEntity           entity) throws SSErr{
     
     super(circle, entity);
     

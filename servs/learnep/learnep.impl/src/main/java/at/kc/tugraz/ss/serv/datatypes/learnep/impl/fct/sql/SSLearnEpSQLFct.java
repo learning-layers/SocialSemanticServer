@@ -42,9 +42,9 @@ import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
-import sss.servs.entity.sql.SSEntitySQL;
+import at.tugraz.sss.serv.SSCoreSQL;
 
-public class SSLearnEpSQLFct extends SSEntitySQL{
+public class SSLearnEpSQLFct extends SSCoreSQL{
   
   public SSLearnEpSQLFct(
     final SSDBSQLI dbSQL, 

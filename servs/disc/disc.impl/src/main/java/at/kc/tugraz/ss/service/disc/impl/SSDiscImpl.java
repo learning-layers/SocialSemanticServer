@@ -21,18 +21,14 @@
 package at.kc.tugraz.ss.service.disc.impl;
 
 import at.kc.tugraz.ss.activity.api.SSActivityServerI;
-import at.kc.tugraz.ss.circle.api.SSCircleServerI;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCircleAddEntitiesToCircleOfEntityPar;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesAddPar;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCircleIsEntityPrivatePar;
-import at.tugraz.sss.servs.entity.datatypes.par.SSEntitySharePar;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCirclesGetPar;
-import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.tugraz.sss.serv.SSCircleAddEntitiesToCircleOfEntityPar;
+import at.tugraz.sss.serv.SSCircleEntitiesAddPar;
+import at.tugraz.sss.serv.SSEntitySharePar;
+import at.tugraz.sss.serv.SSEntityServerI;
 import at.kc.tugraz.ss.conf.conf.SSVocConf;
-import at.tugraz.sss.servs.entity.datatypes.par.SSEntitiesGetPar;
-import at.tugraz.sss.servs.entity.datatypes.par.SSEntityAttachEntitiesPar;
-import at.tugraz.sss.servs.entity.datatypes.par.SSEntityGetPar;
-import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUpdatePar;
+import at.tugraz.sss.serv.SSEntitiesGetPar;
+import at.tugraz.sss.serv.SSEntityGetPar;
+import at.tugraz.sss.serv.SSEntityUpdatePar;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscsGetPar;
@@ -66,13 +62,15 @@ import at.kc.tugraz.ss.service.disc.impl.fct.activity.SSDiscActAndLogFct;
 import at.kc.tugraz.ss.service.disc.impl.fct.op.SSDiscUserEntryAddFct;
 import at.tugraz.sss.serv.SSAddAffiliatedEntitiesToCircleI;
 import at.tugraz.sss.serv.SSAddAffiliatedEntitiesToCirclePar;
+import at.tugraz.sss.serv.SSCircleIsEntityPrivatePar;
+import at.tugraz.sss.serv.SSCirclesGetPar;
 import at.tugraz.sss.serv.SSClientE;
-import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
-import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSDescribeEntityI;
+import at.tugraz.sss.serv.SSEntityAttachEntitiesPar;
 import at.tugraz.sss.serv.SSEntityContext;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
+import at.tugraz.sss.serv.SSEntityEntitiesAttachedRemovePar;
 import at.tugraz.sss.serv.SSErr;
 import java.util.*;
 import at.tugraz.sss.serv.SSErrE;
@@ -83,10 +81,9 @@ import at.tugraz.sss.serv.SSObjU;
 import at.tugraz.sss.serv.SSPushEntitiesToUsersI;
 import at.tugraz.sss.serv.SSPushEntitiesToUsersPar;
 import at.tugraz.sss.serv.SSServErrReg;
-import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
+import at.tugraz.sss.serv.SSServPar; 
 import at.tugraz.sss.serv.SSServReg;
-import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
-import at.tugraz.sss.servs.entity.datatypes.par.SSEntityEntitiesAttachedRemovePar;
+import at.tugraz.sss.serv.SSServRetI;
 import sss.serv.eval.api.SSEvalServerI;
 
 public class SSDiscImpl
@@ -104,17 +101,17 @@ implements
   
   private final SSDiscSQLFct       sql;
   private final SSEntityServerI    entityServ;
-  private final SSCircleServerI    circleServ;
+  private final SSEntityServerI    circleServ;
   private final SSDiscActAndLogFct actAndLogFct;
   private final SSUserCommons   userCommons;
   
   public SSDiscImpl(final SSConfA conf) throws SSErr{
     
-    super(conf, (SSDBSQLI) SSDBSQL.inst.getServImpl(), (SSDBNoSQLI) SSDBNoSQL.inst.getServImpl());
+    super(conf, (SSDBSQLI) SSServReg.getServ(SSDBSQLI.class), (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class));
     
     this.sql          = new SSDiscSQLFct(this, SSVocConf.systemUserUri);
     this.entityServ   = (SSEntityServerI)   SSServReg.getServ(SSEntityServerI.class);
-    this.circleServ   = (SSCircleServerI)   SSServReg.getServ(SSCircleServerI.class);
+    this.circleServ   = (SSEntityServerI)   SSServReg.getServ(SSEntityServerI.class);
     
     this.actAndLogFct =
       new SSDiscActAndLogFct(

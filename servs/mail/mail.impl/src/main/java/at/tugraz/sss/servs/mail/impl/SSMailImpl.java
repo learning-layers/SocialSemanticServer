@@ -22,9 +22,7 @@ package at.tugraz.sss.servs.mail.impl;
 
 import at.tugraz.sss.servs.mail.impl.kc.SSMailReceiverKCDavIMAP;
 import at.tugraz.sss.serv.SSConfA;
-import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
-import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSErr;
@@ -53,7 +51,7 @@ implements
   
   public SSMailImpl(final SSConfA conf) throws SSErr{
     
-    super(conf, (SSDBSQLI) SSDBSQL.inst.getServImpl(), (SSDBNoSQLI) SSDBNoSQL.inst.getServImpl());
+    super(conf, (SSDBSQLI) SSServReg.getServ(SSDBSQLI.class), (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class));
     
     this.mailConf       = (SSMailConf) conf;
     this.sqlFct         = new SSMailSQLFct(dbSQL);

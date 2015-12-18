@@ -25,8 +25,8 @@
     </dependency>
     
     <dependency>
-      <groupId>sss.servs</groupId>
-      <artifactId>entity.sql</artifactId>
+      <groupId>sss.serv</groupId>
+      <artifactId>serv.core.api</artifactId>
       <version>${project.version}</version>
     </dependency> 
     
@@ -63,12 +63,6 @@
     <dependency>
       <groupId>sss.servs</groupId>
       <artifactId>activity.api</artifactId>
-      <version>${project.version}</version>
-    </dependency> 
-    
-    <dependency>
-      <groupId>sss.servs</groupId>
-      <artifactId>circle.api</artifactId>
       <version>${project.version}</version>
     </dependency> 
     

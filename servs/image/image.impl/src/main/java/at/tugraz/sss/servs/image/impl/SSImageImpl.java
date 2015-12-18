@@ -20,11 +20,10 @@
 */
 package at.tugraz.sss.servs.image.impl;
 
-import at.kc.tugraz.ss.circle.api.SSCircleServerI;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesAddPar;
-import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.tugraz.sss.serv.SSCircleEntitiesAddPar;
+import at.tugraz.sss.serv.SSEntityServerI;
 import at.kc.tugraz.ss.conf.conf.SSVocConf;
-import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUpdatePar;
+import at.tugraz.sss.serv.SSEntityUpdatePar;
 import at.kc.tugraz.ss.service.filerepo.api.SSFileRepoServerI;
 import at.tugraz.sss.serv.SSAddAffiliatedEntitiesToCircleI;
 import at.tugraz.sss.serv.SSAddAffiliatedEntitiesToCirclePar;
@@ -34,9 +33,7 @@ import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSServPar; 
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSConfA;
-import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
-import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSDescribeEntityI;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSEntityContext;
@@ -56,10 +53,9 @@ import at.tugraz.sss.serv.SSObjU;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSServRetI; 
-import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUsersResourcesGathererI;
-import at.tugraz.sss.servs.entity.datatypes.par.SSEntityRemovePar;
+import at.tugraz.sss.serv.SSEntityRemovePar;
 import at.tugraz.sss.servs.file.datatype.par.SSEntityFileAddPar;
 import at.tugraz.sss.servs.file.datatype.par.SSEntityFilesGetPar;
 import at.tugraz.sss.servs.image.api.SSImageClientI;
@@ -91,7 +87,7 @@ implements
   private final SSUserCommons      userCommons;
   
   public SSImageImpl(final SSConfA conf) throws SSErr {
-    super(conf, (SSDBSQLI) SSDBSQL.inst.getServImpl(), (SSDBNoSQLI) SSDBNoSQL.inst.getServImpl());
+    super(conf, (SSDBSQLI) SSServReg.getServ(SSDBSQLI.class), (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class));
     
     this.sql            = new SSImageSQLFct   (dbSQL, SSVocConf.systemUserUri);
     this.entityServ     = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
@@ -203,7 +199,7 @@ implements
   public List<SSEntity> addAffiliatedEntitiesToCircle(final SSAddAffiliatedEntitiesToCirclePar par) throws Exception{
     
     try{
-      final SSCircleServerI circleServ         = (SSCircleServerI) SSServReg.getServ(SSCircleServerI.class);
+      final SSEntityServerI circleServ         = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
       final List<SSEntity>  affiliatedEntities = new ArrayList<>();
       
       for(SSEntity entityAdded : par.entities){

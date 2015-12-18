@@ -10,8 +10,6 @@
     <packaging>pom</packaging>
     <modules>
         <module>serv.core.api</module>
-        <module>serv.core.impl</module>
-        <module>serv.core.serv</module>
         <module>serv.core.conf</module>
         <module>serv.core.datatype</module>
     </modules>

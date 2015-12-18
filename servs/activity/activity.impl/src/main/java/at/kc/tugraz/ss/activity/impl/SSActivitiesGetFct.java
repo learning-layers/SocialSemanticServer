@@ -22,7 +22,7 @@ package at.kc.tugraz.ss.activity.impl;
 
 import at.kc.tugraz.ss.activity.datatypes.SSActivity;
 import at.kc.tugraz.ss.activity.datatypes.par.SSActivitiesGetPar;
-import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.tugraz.sss.serv.SSEntityServerI;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
 import at.tugraz.sss.serv.SSEntityFiller;
@@ -30,8 +30,8 @@ import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.servs.entity.datatypes.par.SSEntitiesGetPar;
-import at.tugraz.sss.servs.entity.datatypes.par.SSEntityGetPar;
+import at.tugraz.sss.serv.SSEntitiesGetPar;
+import at.tugraz.sss.serv.SSEntityGetPar;
 import java.util.ArrayList;
 import java.util.List;
 

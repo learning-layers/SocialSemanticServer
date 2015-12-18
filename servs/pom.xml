@@ -39,7 +39,6 @@
     <module>app</module>
     <module>appstacklayout</module>
     <module>video</module>
-    <module>circle</module>
     <module>ocd</module>
     <module>location</module>
     <module>image</module>
@@ -48,5 +47,6 @@
     <module>livingdocument</module>
     <module>mail</module>
     <module>kcprojwiki</module>
+    <module>db</module>
   </modules>
 </project>

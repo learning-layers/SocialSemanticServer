@@ -30,16 +30,16 @@ import at.kc.tugraz.ss.friend.datatypes.par.SSFriendsGetPar;
 import at.kc.tugraz.ss.friend.datatypes.ret.SSFriendAddRet;
 import at.kc.tugraz.ss.friend.datatypes.ret.SSFriendsGetRet;
 import at.kc.tugraz.ss.friend.impl.fct.sql.SSFriendSQLFct;
-import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
-import at.tugraz.sss.servs.entity.datatypes.par.SSEntityGetPar;
+import at.tugraz.sss.serv.SSEntityServerI;
+import at.tugraz.sss.serv.SSEntityGetPar;
 import at.kc.tugraz.ss.service.user.datatypes.SSUser;
 import at.tugraz.sss.serv.SSClientE;
 import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSConfA;
-import at.tugraz.sss.serv.SSDBNoSQL;
+
 import at.tugraz.sss.serv.SSDBNoSQLI;
-import at.tugraz.sss.serv.SSDBSQL;
+
 import at.tugraz.sss.serv.SSDescribeEntityI;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
@@ -67,7 +67,7 @@ implements
   private final SSUserCommons userCommons;
   
   public SSFriendImpl(final SSConfA conf) throws SSErr{
-    super(conf, (SSDBSQLI) SSDBSQL.inst.getServImpl(), (SSDBNoSQLI) SSDBNoSQL.inst.getServImpl());
+    super(conf, (SSDBSQLI) SSServReg.getServ(SSDBSQLI.class), (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class));
     
     this.sqlFct      = new SSFriendSQLFct(dbSQL);
     this.entityServ  = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);

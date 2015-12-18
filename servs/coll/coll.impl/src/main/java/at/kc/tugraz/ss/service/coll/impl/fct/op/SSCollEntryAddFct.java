@@ -20,25 +20,22 @@
 */
 package at.kc.tugraz.ss.service.coll.impl.fct.op;
 
-import at.kc.tugraz.ss.circle.api.SSCircleServerI;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCircleAddEntitiesToCircleOfEntityPar;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCircleIsEntityPrivatePar;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCircleIsEntityPublicPar;
+import at.tugraz.sss.serv.SSCircleAddEntitiesToCircleOfEntityPar;
+import at.tugraz.sss.serv.SSCircleIsEntityPrivatePar;
+import at.tugraz.sss.serv.SSCircleIsEntityPublicPar;
 import at.kc.tugraz.ss.conf.conf.SSVocConf;
-import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
-import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUpdatePar;
+import at.tugraz.sss.serv.SSEntityServerI;
+import at.tugraz.sss.serv.SSEntityUpdatePar;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSUri;
-
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntryAddPar;
 import at.kc.tugraz.ss.service.coll.impl.fct.misc.SSCollMiscFct;
 import at.kc.tugraz.ss.service.coll.impl.fct.sql.SSCollSQLFct;
-import at.tugraz.sss.servs.common.impl.user.SSUserCommons;
 
 public class SSCollEntryAddFct{
   
   public static SSUri addNewColl(
-    final SSCircleServerI       circleServ,
+    final SSEntityServerI       circleServ,
     final SSEntityServerI       entityServ,
     final SSCollSQLFct          sqlFct,
     final SSCollUserEntryAddPar par) throws Exception{
@@ -93,7 +90,7 @@ public class SSCollEntryAddFct{
   
   public static SSUri addPublicColl(
     final SSCollSQLFct          sqlFct,
-    final SSCircleServerI       circleServ,
+    final SSEntityServerI       circleServ,
     final SSCollUserEntryAddPar par) throws Exception{
     
     if(!circleServ.circleIsEntityPublic(
@@ -130,7 +127,7 @@ public class SSCollEntryAddFct{
   }
   
   public static SSUri addCollEntry(
-    final SSCircleServerI       circleServ, 
+    final SSEntityServerI       circleServ, 
     final SSEntityServerI       entityServ,
     final SSCollSQLFct          sqlFct, 
     final SSCollUserEntryAddPar par) throws Exception{

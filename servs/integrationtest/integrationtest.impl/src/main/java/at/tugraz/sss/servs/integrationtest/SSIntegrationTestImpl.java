@@ -22,16 +22,15 @@ package at.tugraz.sss.servs.integrationtest;
 
 import at.tugraz.sss.serv.SSSearchOpE;
 import at.tugraz.sss.serv.SSDBNoSQLAddDocPar;
-import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBNoSQLRemoveDocPar;
 import at.tugraz.sss.serv.SSDBNoSQLSearchPar;
-import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServImplWithDBA;
+import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSSolrKeywordLabel;
 import at.tugraz.sss.serv.SSSolrSearchFieldE;
 import java.util.ArrayList;
@@ -47,7 +46,7 @@ implements
   SSIntegrationTestServerI{
   
   public SSIntegrationTestImpl(final SSIntegrationTestConf conf) throws SSErr {
-    super(conf, (SSDBSQLI) SSDBSQL.inst.getServImpl(), (SSDBNoSQLI) SSDBNoSQL.inst.getServImpl());
+    super(conf, (SSDBSQLI) SSServReg.getServ(SSDBSQLI.class), (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class));
   }
   
   @Override

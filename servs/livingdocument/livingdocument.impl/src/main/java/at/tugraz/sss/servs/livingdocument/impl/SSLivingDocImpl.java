@@ -20,24 +20,22 @@
  */
 package at.tugraz.sss.servs.livingdocument.impl;
 
-import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.conf.conf.SSVocConf;
-import at.tugraz.sss.servs.entity.datatypes.par.SSEntitiesGetPar;
-import at.tugraz.sss.servs.entity.datatypes.par.SSEntityGetPar;
-import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUpdatePar;
 import at.kc.tugraz.ss.service.disc.api.SSDiscServerI;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscTargetsAddPar;
 import at.tugraz.sss.serv.SSClientE;
 import at.tugraz.sss.serv.SSConfA;
-import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
-import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSDescribeEntityI;
+import at.tugraz.sss.serv.SSEntitiesGetPar;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSEntityContext;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
 import at.tugraz.sss.serv.SSEntityE;
+import at.tugraz.sss.serv.SSEntityGetPar;
+import at.tugraz.sss.serv.SSEntityServerI;
+import at.tugraz.sss.serv.SSEntityUpdatePar;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSLogU;
@@ -48,7 +46,6 @@ import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.SSServPar; 
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSServRetI; 
-import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSUsersResourcesGathererI;
@@ -86,7 +83,7 @@ implements
   
   public SSLivingDocImpl(final SSConfA conf) throws SSErr{
     
-    super(conf, (SSDBSQLI) SSDBSQL.inst.getServImpl(), (SSDBNoSQLI) SSDBNoSQL.inst.getServImpl());
+    super(conf, (SSDBSQLI) SSServReg.getServ(SSDBSQLI.class), (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class));
     
     this.livingDocConf  = (SSLivingDocConf) conf;
     this.sql            = new SSLivingDocSQLFct(this, SSVocConf.systemUserUri);

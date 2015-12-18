@@ -23,8 +23,8 @@ package sss.serv.eval.impl;
 import at.kc.tugraz.ss.activity.api.SSActivityServerI;
 import at.kc.tugraz.ss.activity.datatypes.SSActivity;
 import at.kc.tugraz.ss.activity.datatypes.par.SSActivitiesGetPar;
-import at.kc.tugraz.ss.circle.api.SSCircleServerI;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCircleTypesGetPar;
+import at.tugraz.sss.serv.SSEntityServerI;
+import at.tugraz.sss.serv.SSCircleTypesGetPar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.api.SSLearnEpServerI;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpVersion;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionCurrentGetPar;
@@ -110,7 +110,7 @@ public class SSEvalLogBNP {
           
           case learnEp:
             
-            episodeSpaces.addAll(((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleTypesGet(
+            episodeSpaces.addAll(((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).circleTypesGet(
               new SSCircleTypesGetPar(
                 originUser.id, 
                 targetEntity.id, 
@@ -251,7 +251,7 @@ public class SSEvalLogBNP {
           case learnEp:
             
             episodeSpaces.addAll(
-              ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleTypesGet(
+              ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).circleTypesGet(
                 new SSCircleTypesGetPar(
                   originUser.id,
                   targetEntity.id,

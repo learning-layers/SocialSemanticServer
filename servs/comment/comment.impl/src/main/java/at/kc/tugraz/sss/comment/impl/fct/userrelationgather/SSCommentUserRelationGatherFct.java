@@ -20,10 +20,10 @@
 */
 package at.kc.tugraz.sss.comment.impl.fct.userrelationgather;
 
-import at.kc.tugraz.ss.circle.api.SSCircleServerI;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCirclesGetPar;
+import at.tugraz.sss.serv.SSEntityServerI;
 import at.kc.tugraz.sss.comment.api.SSCommentServerI;
 import at.kc.tugraz.sss.comment.datatypes.par.SSCommentEntitiesGetPar;
+import at.tugraz.sss.serv.SSCirclesGetPar;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSUri;
@@ -73,7 +73,7 @@ public class SSCommentUserRelationGatherFct{
             false))){ //withUserRestriction
         
         for(SSEntity entityCircle :
-          ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circlesGet(
+          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).circlesGet(
             new SSCirclesGetPar(
               userUri,
               userUri,

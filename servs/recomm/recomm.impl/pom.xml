@@ -32,12 +32,6 @@
     
     <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>entity.sql</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>sss.servs</groupId>
       <artifactId>eval.api</artifactId>
       <version>${project.version}</version>
     </dependency>
@@ -67,8 +61,8 @@
     </dependency>
     
     <dependency>
-      <groupId>sss.servs</groupId>
-      <artifactId>circle.api</artifactId>
+      <groupId>sss.serv</groupId>
+      <artifactId>serv.core.api</artifactId>
       <version>${project.version}</version>
     </dependency>
     

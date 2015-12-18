@@ -31,10 +31,11 @@ import at.kc.tugraz.ss.recomm.datatypes.ret.SSRecommUpdateBulkRet;
 import at.kc.tugraz.ss.recomm.impl.fct.sql.SSRecommSQLFct;
 import at.kc.tugraz.ss.conf.conf.SSVocConf;
 import at.tugraz.sss.adapter.socket.SSSocketAdapterU;
-import at.tugraz.sss.serv.SSDBSQL;
+
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServImplStartA;
+import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSSocketU;
 import engine.EntityRecommenderEngine;
 import java.io.DataInputStream;
@@ -71,7 +72,7 @@ public class SSRecommUpdateBulkUploader extends SSServImplStartA{
     
     try{
       
-      dbSQL  = (SSDBSQLI) SSDBSQL.inst.getServImpl();
+      dbSQL  = (SSDBSQLI) SSServReg.getServ(SSDBSQLI.class);
       sqlFct = new SSRecommSQLFct(dbSQL, SSVocConf.systemUserUri);
       
       dbSQL.startTrans(par.shouldCommit);

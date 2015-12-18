@@ -21,8 +21,8 @@
 package at.kc.tugraz.ss.serv.datatypes.entity.api;
 
 import at.tugraz.sss.serv.SSClientE;
-import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
-import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
+import at.tugraz.sss.serv.SSServPar; 
+import at.tugraz.sss.serv.SSServRetI;
 
 public interface SSEntityClientI {
 
@@ -34,4 +34,15 @@ public interface SSEntityClientI {
   public SSServRetI entityShare           (final SSClientE clientType, final SSServPar parA) throws Exception;
   public SSServRetI entityUnpublicize     (final SSClientE clientType, final SSServPar parA) throws Exception;
   public SSServRetI entitiesAccessibleGet (final SSClientE clientType, final SSServPar parA) throws Exception;
+  
+  public SSServRetI circleGet             (final SSClientE clientType, final SSServPar parA) throws Exception;
+  public SSServRetI circleEntitiesAdd     (final SSClientE clientType, final SSServPar parA) throws Exception;
+  public SSServRetI circleUsersAdd        (final SSClientE clientType, final SSServPar parA) throws Exception;
+  public SSServRetI circlesGet            (final SSClientE clientType, final SSServPar parA) throws Exception;
+  public SSServRetI circleCreate          (final SSClientE clientType, final SSServPar parA) throws Exception;
+  public SSServRetI circleEntitiesRemove  (final SSClientE clientType, final SSServPar parA) throws Exception;
+  public SSServRetI circleUsersRemove     (final SSClientE clientType, final SSServPar parA) throws Exception;
+  public SSServRetI circleRemove          (final SSClientE clientType, final SSServPar parA) throws Exception;
+  public SSServRetI circleUsersInvite     (final SSClientE clientType, final SSServPar parA) throws Exception;
+  public SSServRetI circleTypeChange      (final SSClientE clientType, final SSServPar parA) throws Exception;
 }

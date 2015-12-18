@@ -31,9 +31,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import sss.servs.entity.sql.SSEntitySQL;
+import at.tugraz.sss.serv.SSCoreSQL;
 
-public class SSLocationSQLFct extends SSEntitySQL{
+public class SSLocationSQLFct extends SSCoreSQL{
   
   public SSLocationSQLFct(
     final SSDBSQLI dbSQL,

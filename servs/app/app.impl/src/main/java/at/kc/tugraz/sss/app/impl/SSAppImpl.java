@@ -21,10 +21,10 @@
 package at.kc.tugraz.sss.app.impl;
 
 import at.kc.tugraz.ss.conf.conf.SSVocConf;
-import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
-import at.tugraz.sss.servs.entity.datatypes.par.SSEntityDownloadsAddPar;
-import at.tugraz.sss.servs.entity.datatypes.par.SSEntityGetPar;
-import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUpdatePar;
+import at.tugraz.sss.serv.SSEntityServerI;
+import at.tugraz.sss.serv.SSEntityDownloadsAddPar;
+import at.tugraz.sss.serv.SSEntityGetPar;
+import at.tugraz.sss.serv.SSEntityUpdatePar;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSEntityE;
@@ -46,9 +46,9 @@ import at.kc.tugraz.sss.app.impl.fct.sql.SSAppSQLFct;
 import at.kc.tugraz.sss.video.api.SSVideoServerI;
 import at.kc.tugraz.sss.video.datatypes.par.SSVideoUserAddPar;
 import at.tugraz.sss.serv.SSClientE;
-import at.tugraz.sss.serv.SSDBNoSQL;
+
 import at.tugraz.sss.serv.SSDBNoSQLI;
-import at.tugraz.sss.serv.SSDBSQL;
+
 import at.tugraz.sss.serv.SSDescribeEntityI;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
 import at.tugraz.sss.serv.SSErr;
@@ -77,7 +77,7 @@ implements
   
   public SSAppImpl(final SSConfA conf) throws SSErr{
     
-    super(conf, (SSDBSQLI) SSDBSQL.inst.getServImpl(), (SSDBNoSQLI) SSDBNoSQL.inst.getServImpl());
+    super(conf, (SSDBSQLI) SSServReg.getServ(SSDBSQLI.class), (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class));
     
     this.sqlFct      = new SSAppSQLFct(dbSQL);
     this.userCommons = new SSUserCommons();

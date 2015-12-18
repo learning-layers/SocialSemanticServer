@@ -32,9 +32,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import sss.servs.entity.sql.SSEntitySQL;
+import at.tugraz.sss.serv.SSCoreSQL;
 
-public class SSCommentSQLFct extends SSEntitySQL{
+public class SSCommentSQLFct extends SSCoreSQL{
   
   public SSCommentSQLFct(
     final SSDBSQLI dbSQL,

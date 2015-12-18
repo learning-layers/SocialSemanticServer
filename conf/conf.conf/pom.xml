@@ -62,12 +62,6 @@
     
     <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>circle.conf</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>sss.servs</groupId>
       <artifactId>like.conf</artifactId>
       <version>${project.version}</version>
     </dependency>
@@ -139,8 +133,8 @@
     </dependency>
     
     <dependency>
-      <groupId>sss.servs</groupId>
-      <artifactId>entity.conf</artifactId>
+      <groupId>sss.serv</groupId>
+      <artifactId>serv.core.conf</artifactId>
       <version>${project.version}</version>
     </dependency>
     
@@ -207,12 +201,6 @@
     <dependency>
       <groupId>sss.servs</groupId>
       <artifactId>dataimport.conf</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>sss.serv</groupId>
-      <artifactId>serv.db.conf</artifactId>
       <version>${project.version}</version>
     </dependency>
     

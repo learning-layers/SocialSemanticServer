@@ -34,10 +34,10 @@ import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileAddRet;
 import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileUploadRet;
 import at.tugraz.sss.adapter.socket.SSSocketAdapterU;
 import at.tugraz.sss.serv.SSSocketU;
-import at.tugraz.sss.serv.SSDBNoSQL;
+
 import at.tugraz.sss.serv.SSDBNoSQLAddDocPar;
 import at.tugraz.sss.serv.SSDBNoSQLI;
-import at.tugraz.sss.serv.SSDBSQL;
+
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSErrE;
@@ -84,8 +84,8 @@ public class SSFileUploader extends SSServImplStartA{
     
     try{
       
-      this.dbSQL   = (SSDBSQLI)   SSDBSQL.inst.getServImpl();
-      this.dbNoSQL = (SSDBNoSQLI) SSDBNoSQL.inst.getServImpl();
+      this.dbSQL   = (SSDBSQLI)   SSServReg.getServ(SSDBSQLI.class);
+      this.dbNoSQL = (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class);
       
       socketAdapterU.writeRetFullToClient(
         outputStreamWriter, 

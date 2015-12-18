@@ -24,7 +24,6 @@ import sss.serv.eval.conf.SSEvalConf;
 import at.kc.tugraz.ss.serv.auth.conf.SSAuthConf;
 import at.kc.tugraz.ss.activity.conf.SSActivityConf;
 import at.kc.tugraz.ss.category.conf.SSCategoryConf;
-import at.kc.tugraz.ss.circle.conf.SSCircleConf;
 import at.tugraz.sss.serv.SSCoreConfA;
 import at.kc.tugraz.ss.like.conf.SSLikeConf;
 import at.kc.tugraz.ss.message.conf.SSMessageConf;
@@ -95,7 +94,6 @@ public class SSCoreConf extends SSCoreConfA {
   private SSAppStackLayoutConf appStackLayout = null;
   private SSVideoConf video = null;
   private SSLikeConf like = null;
-  private SSCircleConf circle = null;
   private SSEvalConf eval = null;
   private SSOCDConf ocd = null;
   private SSImageConf image = null;
@@ -170,7 +168,6 @@ public class SSCoreConf extends SSCoreConfA {
       copy.appStackLayout = SSAppStackLayoutConf.copy(inst.appStackLayout);
       copy.video = SSVideoConf.copy(inst.video);
       copy.like = SSLikeConf.copy(inst.like);
-      copy.circle = SSCircleConf.copy(inst.circle);
       copy.eval = SSEvalConf.copy(inst.eval);
       copy.ocd = SSOCDConf.copy(inst.ocd);
       copy.image = SSImageConf.copy(inst.image);
@@ -425,14 +422,6 @@ public class SSCoreConf extends SSCoreConfA {
   
   public void setLike(SSLikeConf like) {
     this.like = like;
-  }
-  
-  public SSCircleConf getCircle() {
-    return circle;
-  }
-  
-  public void setCircle(SSCircleConf circle) {
-    this.circle = circle;
   }
   
   public SSEvalConf getEval() {

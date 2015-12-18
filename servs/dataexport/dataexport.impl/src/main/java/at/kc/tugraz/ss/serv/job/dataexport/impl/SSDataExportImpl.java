@@ -20,15 +20,15 @@
   */
 package at.kc.tugraz.ss.serv.job.dataexport.impl;
 
-import at.kc.tugraz.ss.circle.api.SSCircleServerI;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCircleGetPar;
+import at.kc.tugraz.ss.conf.conf.SSVocConf;
+import at.tugraz.sss.serv.SSEntityServerI;
+import at.tugraz.sss.serv.SSCircleGetPar;
 import at.tugraz.sss.serv.SSDateU;
 import at.tugraz.sss.serv.SSEncodingU;
 import at.tugraz.sss.serv.SSFileU;
 import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
 import at.kc.tugraz.ss.serv.job.dataexport.api.SSDataExportClientI;
 import at.kc.tugraz.ss.serv.job.dataexport.api.SSDataExportServerI;
 import at.kc.tugraz.ss.serv.job.dataexport.conf.SSDataExportConf;
@@ -37,21 +37,16 @@ import at.kc.tugraz.ss.serv.job.dataexport.datatypes.par.SSDataExportUsersEntiti
 import at.kc.tugraz.ss.serv.job.dataexport.datatypes.par.SSDataExportUserRelationsPar;
 import at.kc.tugraz.ss.serv.job.dataexport.datatypes.par.SSDataExportUsersEntitiesTagsCategoriesTimestampsFileFromCirclePar;
 import at.kc.tugraz.ss.serv.job.dataexport.impl.fct.SSDataExportFct;
-import at.kc.tugraz.ss.conf.conf.SSVocConf;
 import at.kc.tugraz.ss.service.user.api.SSUserServerI;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUsersGetPar;
 import at.tugraz.sss.serv.SSConfA;
-import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
-import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSEntityCircle;
 import at.tugraz.sss.serv.SSEntityContext;
 import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSServReg;
-import at.tugraz.sss.serv.SSUserRelationGathererI;
-import at.tugraz.sss.serv.SSUsersResourcesGathererI;
 import au.com.bytecode.opencsv.CSVWriter;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
@@ -62,7 +57,6 @@ import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import at.tugraz.sss.serv.SSErr;
-import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.SSWarnE;
@@ -76,7 +70,7 @@ implements
   SSDataExportServerI{
   
   public SSDataExportImpl(final SSConfA conf) throws SSErr{
-    super(conf, (SSDBSQLI) SSDBSQL.inst.getServImpl(), (SSDBNoSQLI) SSDBNoSQL.inst.getServImpl());
+    super(conf, (SSDBSQLI) SSServReg.getServ(SSDBSQLI.class), (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class));
   }
   
   @Override
@@ -99,7 +93,7 @@ implements
       fileWriter = new CSVWriter                            (writer, SSStrU.semiColon.charAt(0));
       
       final SSEntityCircle circle =
-        ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleGet(
+        ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).circleGet(
           new SSCircleGetPar(
             par.user,
             par.circle,

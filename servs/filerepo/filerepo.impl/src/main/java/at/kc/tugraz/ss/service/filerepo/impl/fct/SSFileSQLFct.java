@@ -33,9 +33,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import sss.servs.entity.sql.SSEntitySQL;
+import at.tugraz.sss.serv.SSCoreSQL;
 
-public class SSFileSQLFct extends SSEntitySQL{
+public class SSFileSQLFct extends SSCoreSQL{
 
   public SSFileSQLFct(
     final SSDBSQLI dbSQL, 

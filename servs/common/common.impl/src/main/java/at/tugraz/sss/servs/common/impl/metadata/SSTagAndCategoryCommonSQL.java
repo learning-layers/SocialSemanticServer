@@ -24,6 +24,7 @@ import at.kc.tugraz.ss.category.datatypes.SSCategory;
 import at.kc.tugraz.ss.category.datatypes.SSCategoryLabel;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTag;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
+import at.tugraz.sss.serv.SSCoreSQL;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSDBSQLSelectPar;
 import at.tugraz.sss.serv.SSDateU;
@@ -40,9 +41,8 @@ import java.util.List;
 import java.util.Map;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
-import sss.servs.entity.sql.SSEntitySQL;
 
-public class SSTagAndCategoryCommonSQL extends SSEntitySQL{
+public class SSTagAndCategoryCommonSQL extends SSCoreSQL{
   
   private final SSEntityE        metadataType;
   private final String           metadataIdSQLName;

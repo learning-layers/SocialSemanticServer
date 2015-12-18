@@ -21,9 +21,9 @@
 package at.kc.tugraz.ss.service.rating.impl.fct.activity;
 
 import at.kc.tugraz.ss.activity.api.SSActivityServerI;
-import at.tugraz.sss.serv.SSLogU;
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
 import at.kc.tugraz.ss.activity.datatypes.par.SSActivityAddPar;
+import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
 import at.kc.tugraz.ss.service.rating.datatypes.pars.SSRatingSetPar;

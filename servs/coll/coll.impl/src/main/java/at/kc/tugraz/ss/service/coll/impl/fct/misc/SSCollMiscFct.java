@@ -214,7 +214,7 @@ public class SSCollMiscFct{
 //      final SSColl coll =
 //        sqlFct.getCollWithEntries(
 //          collUri,
-//          ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleTypesGet(
+//          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).circleTypesGet(
 //            new SSCircleTypesGetPar(
 //              null,
 //              null,
@@ -229,7 +229,7 @@ public class SSCollMiscFct{
 //        
 //        collEntry.circleTypes.clear();
 //        collEntry.circleTypes.addAll(
-//          ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleTypesGet(
+//          ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).circleTypesGet(
 //            new SSCircleTypesGetPar(
 //              null,
 //              null,

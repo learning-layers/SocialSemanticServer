@@ -20,17 +20,17 @@
 */
 package at.kc.tugraz.ss.service.coll.impl.fct.op;
 
-import at.kc.tugraz.ss.circle.api.SSCircleServerI;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCircleIsEntityPrivatePar;
+import at.tugraz.sss.serv.SSEntityServerI;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserEntryDeletePar;
 import at.kc.tugraz.ss.service.coll.impl.fct.sql.SSCollSQLFct;
+import at.tugraz.sss.serv.SSCircleIsEntityPrivatePar;
 import at.tugraz.sss.serv.SSServErrReg;
 
 public class SSCollEntryDeleteFct{
   
   public static Boolean removeColl(
     final SSCollSQLFct             sqlFct,
-    final SSCircleServerI          circleServ,
+    final SSEntityServerI          circleServ,
     final SSCollUserEntryDeletePar par) throws Exception{
     
     try{

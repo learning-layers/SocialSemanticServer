@@ -29,9 +29,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import sss.servs.entity.sql.SSEntitySQL;
+import at.tugraz.sss.serv.SSCoreSQL;
 
-public class SSRecommSQLFct extends SSEntitySQL{
+public class SSRecommSQLFct extends SSCoreSQL{
   
   public SSRecommSQLFct(
     final SSDBSQLI dbSQL,

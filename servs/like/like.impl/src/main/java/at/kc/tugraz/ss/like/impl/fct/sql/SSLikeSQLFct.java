@@ -30,9 +30,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import sss.servs.entity.sql.SSEntitySQL;
+import at.tugraz.sss.serv.SSCoreSQL;
 
-public class SSLikeSQLFct extends SSEntitySQL{
+public class SSLikeSQLFct extends SSCoreSQL{
 
   public SSLikeSQLFct(
     final SSDBSQLI dbSQL,

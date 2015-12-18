@@ -24,7 +24,7 @@ import at.tugraz.sss.serv.SSEntityResultPages;
 import at.kc.tugraz.ss.recomm.api.SSRecommServerI;
 import at.kc.tugraz.ss.recomm.datatypes.SSResourceLikelihood;
 import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommResourcesPar;
-import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.tugraz.sss.serv.SSEntityServerI;
 import at.kc.tugraz.ss.conf.conf.SSVocConf;
 import at.kc.tugraz.ss.service.rating.api.SSRatingServerI;
 import at.kc.tugraz.ss.service.rating.datatypes.pars.SSRatingEntityURIsGetPar;
@@ -46,9 +46,7 @@ import at.kc.tugraz.ss.service.tag.api.SSTagServerI;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagEntitiesForTagsGetPar;
 import at.tugraz.sss.serv.SSClientE;
-import at.tugraz.sss.serv.SSDBNoSQL;
 import at.tugraz.sss.serv.SSDBNoSQLI;
-import at.tugraz.sss.serv.SSDBSQL;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
 import java.util.*;
@@ -57,11 +55,11 @@ import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.SSServReg;
-import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
+import at.tugraz.sss.serv.SSServRetI; 
 import at.tugraz.sss.servs.common.impl.entity.SSEntityQueryCacheU;
-import at.tugraz.sss.servs.entity.datatypes.par.SSEntitiesGetPar;
-import at.tugraz.sss.servs.entity.datatypes.par.SSEntityURIsGetPar;
-import sss.servs.entity.sql.SSEntitySQL;
+import at.tugraz.sss.serv.SSEntitiesGetPar;
+import at.tugraz.sss.serv.SSCoreSQL;
+import at.tugraz.sss.serv.SSEntityURIsGetPar;
 
 public class SSSearchImpl
 extends SSServImplWithDBA
@@ -70,14 +68,14 @@ implements
   SSSearchServerI{
   
   protected static final Map<String, SSEntityResultPages> searchResultPagesCache = new HashMap<>();
-  private          final SSEntitySQL                      sql;
+  private          final SSCoreSQL                      sql;
   private          final SSSearchNoSQLFct                 noSQLFct;
   private          final SSUserCommons                 userCommons;
   
   public SSSearchImpl(final SSConfA conf) throws SSErr{
-    super(conf, (SSDBSQLI) SSDBSQL.inst.getServImpl(), (SSDBNoSQLI) SSDBNoSQL.inst.getServImpl());
+    super(conf, (SSDBSQLI) SSServReg.getServ(SSDBSQLI.class), (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class));
     
-    this.sql         = new SSEntitySQL     (dbSQL, SSVocConf.systemUserUri);
+    this.sql         = new SSCoreSQL     (dbSQL, SSVocConf.systemUserUri);
     this.noSQLFct    = new SSSearchNoSQLFct(dbNoSQL);
     this.userCommons = new SSUserCommons();
   }

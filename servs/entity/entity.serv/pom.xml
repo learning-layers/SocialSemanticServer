@@ -19,6 +19,12 @@
   <dependencies>
   
     <dependency>
+      <groupId>sss</groupId>
+      <artifactId>conf.conf</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
       <groupId>sss.servs</groupId>
       <artifactId>entity.impl</artifactId>
       <version>${project.version}</version>

@@ -21,13 +21,11 @@
 package at.kc.tugraz.ss.serv.datatypes.learnep.impl;
 
 import at.kc.tugraz.ss.activity.api.SSActivityServerI;
-import at.kc.tugraz.ss.circle.api.SSCircleServerI;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCircleAddEntitiesToCircleOfEntityPar;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCircleEntitiesAddPar;
-import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
-import at.tugraz.sss.servs.entity.datatypes.par.SSEntitiesGetPar;
-import at.tugraz.sss.servs.entity.datatypes.par.SSEntityGetPar;
-import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUpdatePar;
+import at.tugraz.sss.serv.SSCircleEntitiesAddPar;
+import at.tugraz.sss.serv.SSEntityServerI;
+import at.tugraz.sss.serv.SSEntitiesGetPar;
+import at.tugraz.sss.serv.SSEntityGetPar;
+import at.tugraz.sss.serv.SSEntityUpdatePar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.api.SSLearnEpClientI;
 import at.kc.tugraz.ss.serv.datatypes.learnep.api.SSLearnEpServerI;
 import at.kc.tugraz.ss.serv.datatypes.learnep.conf.SSLearnEpConf;
@@ -84,6 +82,7 @@ import at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.sql.SSLearnEpSQLFct;
 import at.kc.tugraz.ss.conf.conf.SSVocConf;
 import at.tugraz.sss.serv.SSAddAffiliatedEntitiesToCircleI;
 import at.tugraz.sss.serv.SSAddAffiliatedEntitiesToCirclePar;
+import at.tugraz.sss.serv.SSCircleAddEntitiesToCircleOfEntityPar;
 import at.tugraz.sss.serv.SSClientE;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSDBSQLI;
@@ -92,9 +91,9 @@ import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSCopyEntityI;
-import at.tugraz.sss.serv.SSDBNoSQL;
+
 import at.tugraz.sss.serv.SSDBNoSQLI;
-import at.tugraz.sss.serv.SSDBSQL;
+
 import at.tugraz.sss.serv.SSDescribeEntityI;
 import at.tugraz.sss.serv.SSEntitiesSharedWithUsersI;
 import at.tugraz.sss.serv.SSEntitiesSharedWithUsersPar;
@@ -134,18 +133,18 @@ implements
   private final SSLearnEpSQLFct            sql;
   private final SSLearnEpConf              learnEpConf;
   private final SSEntityServerI            entityServ;
-  private final SSCircleServerI            circleServ;
+  private final SSEntityServerI            circleServ;
   private final SSLearnEpActivityAndLogFct actAndLogFct;
   private final SSUserCommons           userCommons;
   
   public SSLearnEpImpl(final SSConfA conf) throws SSErr{
     
-    super(conf, (SSDBSQLI) SSDBSQL.inst.getServImpl(), (SSDBNoSQLI) SSDBNoSQL.inst.getServImpl());
+    super(conf, (SSDBSQLI) SSServReg.getServ(SSDBSQLI.class), (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class));
     
     this.learnEpConf  = (SSLearnEpConf) conf;
     this.sql          = new SSLearnEpSQLFct(dbSQL, SSVocConf.systemUserUri);
     this.entityServ   = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
-    this.circleServ   = (SSCircleServerI) SSServReg.getServ(SSCircleServerI.class);
+    this.circleServ   = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
     
     this.actAndLogFct =
       new SSLearnEpActivityAndLogFct(
@@ -350,7 +349,7 @@ implements
         return;
       }
       
-      final SSCircleServerI circleServ       = (SSCircleServerI) SSServReg.getServ(SSCircleServerI.class);
+      final SSEntityServerI circleServ       = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
       final List<SSEntity>  copiedEntities   = new ArrayList<>();
       final List<SSEntity>  entitiesIncluded = new ArrayList<>();
       SSUri                 copyVersionUri;

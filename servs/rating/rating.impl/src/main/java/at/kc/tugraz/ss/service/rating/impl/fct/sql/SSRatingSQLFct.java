@@ -38,9 +38,9 @@ import java.util.List;
 import java.util.Map;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
-import sss.servs.entity.sql.SSEntitySQL;
+import at.tugraz.sss.serv.SSCoreSQL;
 
-public class SSRatingSQLFct extends SSEntitySQL{
+public class SSRatingSQLFct extends SSCoreSQL{
 
   public SSRatingSQLFct(
     final SSDBSQLI dbSQL, 

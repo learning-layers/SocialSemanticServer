@@ -23,7 +23,6 @@ package at.tugraz.sss.adapter.socket;
 import at.tugraz.sss.serv.SSSocketU;
 import at.kc.tugraz.ss.activity.serv.SSActivityServ;
 import at.kc.tugraz.ss.category.ss.category.serv.SSCategoryServ;
-import at.kc.tugraz.ss.circle.serv.SSCircleServ;
 import at.kc.tugraz.ss.conf.conf.SSCoreConf;
 import at.kc.tugraz.ss.friend.serv.SSFriendServ;
 import at.kc.tugraz.ss.like.serv.SSLikeServ;
@@ -50,8 +49,8 @@ import at.kc.tugraz.sss.appstacklayout.serv.SSAppStackLayoutServ;
 import at.kc.tugraz.sss.comment.serv.SSCommentServ;
 import at.kc.tugraz.sss.flag.serv.SSFlagServ;
 import at.kc.tugraz.sss.video.serv.SSVideoServ;
-import at.tugraz.sss.serv.SSDBNoSQL;
-import at.tugraz.sss.serv.SSDBSQL;
+
+
 import at.tugraz.sss.serv.SSEncodingU;
 import at.tugraz.sss.serv.SSFileExtE;
 import at.tugraz.sss.serv.SSJSONLDU;
@@ -64,6 +63,8 @@ import at.tugraz.sss.serv.SSServImplStartA;
 import at.tugraz.sss.serv.SSServPar;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSServRetI;
+import at.tugraz.sss.serv.db.serv.SSDBNoSQL;
+import at.tugraz.sss.serv.db.serv.SSDBSQL;
 import at.tugraz.sss.servs.image.serv.SSImageServ;
 import at.tugraz.sss.servs.integrationtest.SSIntegrationTestServ;
 import at.tugraz.sss.servs.kcprojwiki.serv.SSKCProjWikiServ;
@@ -250,7 +251,6 @@ public class SSSocketMainV2{
           SSDBSQL.inst.regServ               ();
           SSDBNoSQL.inst.regServ             ();
           SSEntityServ.inst.regServ          ();
-          SSCircleServ.inst.regServ          ();
           SSUserServ.inst.regServ            ();
           SSCollServ.inst.regServ            ();
           SSUEServ.inst.regServ              ();
@@ -292,7 +292,7 @@ public class SSSocketMainV2{
         
         try{ //initializing
           SSAuthServ.inst.initServ();
-          SSCircleServ.inst.initServ();
+          SSEntityServ.inst.initServ();
           SSDataImportServ.inst.initServ();
           SSCategoryServ.inst.initServ();
           SSRecommServ.inst.initServ();

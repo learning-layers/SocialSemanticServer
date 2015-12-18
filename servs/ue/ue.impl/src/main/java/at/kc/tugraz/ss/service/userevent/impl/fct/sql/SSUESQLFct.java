@@ -36,9 +36,9 @@ import java.util.List;
 import java.util.Map;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
-import sss.servs.entity.sql.SSEntitySQL;
+import at.tugraz.sss.serv.SSCoreSQL;
 
-public class SSUESQLFct extends SSEntitySQL{
+public class SSUESQLFct extends SSCoreSQL{
 
   public SSUESQLFct(
     final SSDBSQLI dbSQL,

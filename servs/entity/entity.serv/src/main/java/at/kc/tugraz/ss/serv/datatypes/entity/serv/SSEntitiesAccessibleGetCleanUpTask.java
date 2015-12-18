@@ -20,12 +20,12 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.entity.serv;
 
-import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
+import at.tugraz.sss.serv.SSEntityServerI;
 import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServImplStartA;
 import at.tugraz.sss.serv.SSServReg;
-import at.tugraz.sss.servs.entity.datatypes.par.SSEntitiesAccessibleGetCleanUpPar;
+import at.tugraz.sss.serv.SSEntitiesAccessibleGetCleanUpPar;
 import java.util.TimerTask;
 import at.kc.tugraz.ss.conf.conf.SSVocConf;
 

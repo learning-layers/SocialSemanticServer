@@ -13,12 +13,8 @@
     <module>serv.util</module>
     <module>serv.entities</module>
     <module>serv.jsonld</module>
-    <module>serv.conf</module>
     <module>serv.errreg</module>
     <module>serv.reg</module>
-    <module>serv.db</module>
-    <module>serv.container</module>
-    <module>serv.impl.api</module>
     <module>serv.core</module>
   </modules>
 </project>

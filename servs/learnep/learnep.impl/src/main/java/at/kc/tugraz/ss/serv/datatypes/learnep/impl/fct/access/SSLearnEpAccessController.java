@@ -20,9 +20,9 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.access;
 
-import at.kc.tugraz.ss.circle.api.SSCircleServerI;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCircleIsEntitySharedPar;
+import at.tugraz.sss.serv.SSEntityServerI;
 import at.kc.tugraz.ss.serv.datatypes.learnep.conf.SSLearnEpConf;
+import at.tugraz.sss.serv.SSCircleIsEntitySharedPar;
 import at.tugraz.sss.serv.SSDateU;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
@@ -149,7 +149,7 @@ public class SSLearnEpAccessController{
     
     try{
       
-      final SSCircleServerI           circleServ        = (SSCircleServerI) SSServReg.getServ(SSCircleServerI.class);
+      final SSEntityServerI           circleServ        = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
       final SSCircleIsEntitySharedPar isEntitySharedPar =
         new SSCircleIsEntitySharedPar(
           user,

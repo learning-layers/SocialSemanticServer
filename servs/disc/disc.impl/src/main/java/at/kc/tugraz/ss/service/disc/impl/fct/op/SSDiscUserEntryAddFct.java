@@ -20,12 +20,12 @@
 */
 package at.kc.tugraz.ss.service.disc.impl.fct.op;
 
-import at.kc.tugraz.ss.circle.api.SSCircleServerI;
-import at.kc.tugraz.ss.circle.datatypes.par.SSCircleAddEntitiesToCircleOfEntityPar;
+import at.tugraz.sss.serv.SSEntityServerI;
+import at.tugraz.sss.serv.SSCircleAddEntitiesToCircleOfEntityPar;
 import at.kc.tugraz.ss.conf.conf.SSVocConf;
-import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityServerI;
-import at.tugraz.sss.servs.entity.datatypes.par.SSEntityGetPar;
-import at.tugraz.sss.servs.entity.datatypes.par.SSEntityUpdatePar;
+import at.tugraz.sss.serv.SSEntityServerI;
+import at.tugraz.sss.serv.SSEntityGetPar;
+import at.tugraz.sss.serv.SSEntityUpdatePar;
 import at.tugraz.sss.serv.SSObjU;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
@@ -42,11 +42,11 @@ import java.util.List;
 
 public class SSDiscUserEntryAddFct{
   
-  private final SSCircleServerI circleServ;
+  private final SSEntityServerI circleServ;
   private final SSEntityServerI entityServ;
   
   public SSDiscUserEntryAddFct(
-    final SSCircleServerI circleServ,
+    final SSEntityServerI circleServ,
     final SSEntityServerI entityServ){
     
     this.circleServ = circleServ;
