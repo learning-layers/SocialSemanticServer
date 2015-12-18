@@ -48,8 +48,9 @@ import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.SSServReg;
-import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
-import at.tugraz.sss.util.SSServCallerU;
+import at.tugraz.sss.serv.SSServRetI; 
+import at.tugraz.sss.serv.SSVarNames;
+import at.tugraz.sss.servs.common.impl.user.SSUserCommons;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,14 +62,16 @@ implements
   SSFriendServerI,
   SSDescribeEntityI{
   
-  private final SSFriendSQLFct  sqlFct;
-  private final SSEntityServerI entityServ;
+  private final SSFriendSQLFct   sqlFct;
+  private final SSEntityServerI  entityServ;
+  private final SSUserCommons userCommons;
   
   public SSFriendImpl(final SSConfA conf) throws SSErr{
     super(conf, (SSDBSQLI) SSDBSQL.inst.getServImpl(), (SSDBNoSQLI) SSDBNoSQL.inst.getServImpl());
     
-    this.sqlFct     = new SSFriendSQLFct(dbSQL);
-    this.entityServ = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
+    this.sqlFct      = new SSFriendSQLFct(dbSQL);
+    this.entityServ  = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
+    this.userCommons = new SSUserCommons();
   }
   
   @Override
@@ -134,7 +137,7 @@ implements
     
     try{
 
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
     
     final SSFriendsGetPar par = (SSFriendsGetPar) parA.getFromJSON(SSFriendsGetPar.class);
     
@@ -176,7 +179,7 @@ implements
     
     try{
       
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSFriendAddPar par = (SSFriendAddPar) parA.getFromJSON(SSFriendAddPar.class);
       

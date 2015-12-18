@@ -19,5 +19,6 @@
     <module>serv.db</module>
     <module>serv.container</module>
     <module>serv.impl.api</module>
+    <module>serv.core</module>
   </modules>
 </project>

@@ -22,7 +22,7 @@ package at.kc.tugraz.ss.serv.auth.impl.fct.sql;
 
 import at.tugraz.sss.serv.SSSQLVarNames;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSDBSQLFct;
+import at.tugraz.sss.serv.SSDBSQLFctA;
 import at.tugraz.sss.serv.SSDBSQLI;
 
 import java.sql.ResultSet;
@@ -33,7 +33,7 @@ import java.util.Map;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
 
-public class SSAuthSQLFct extends SSDBSQLFct{
+public class SSAuthSQLFct extends SSDBSQLFctA{
   
   public SSAuthSQLFct(final SSDBSQLI dbSQL){
     super(dbSQL);

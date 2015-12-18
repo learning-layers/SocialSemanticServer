@@ -37,7 +37,7 @@ import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSUserRelationGathererI;
 
-import at.tugraz.sss.util.SSServCallerU;
+import at.tugraz.sss.servs.common.impl.user.SSUserCommons;
 import at.kc.tugraz.ss.service.rating.datatypes.SSRating;
 import at.kc.tugraz.ss.service.rating.datatypes.SSRatingOverall;
 import at.kc.tugraz.ss.service.rating.datatypes.pars.SSRatingEntityURIsGetPar;
@@ -78,6 +78,7 @@ implements
   
   private final SSRatingSQLFct   sql;
   private final SSEntityServerI  entityServ;
+  private final SSUserCommons  userCommons;
   
   public SSRatingImpl(final SSConfA conf) throws SSErr{
     
@@ -85,6 +86,7 @@ implements
     
     this.sql        = new SSRatingSQLFct   (dbSQL, SSVocConf.systemUserUri);
     this.entityServ = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
+    this.userCommons = new SSUserCommons();
   }
   
   @Override
@@ -175,7 +177,7 @@ implements
   public SSServRetI ratingSet(SSClientE clientType, SSServPar parA) throws SSErr {
     
     try{
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSRatingSetPar par = (SSRatingSetPar) parA.getFromJSON(SSRatingSetPar.class);
       final SSRatingSetRet ret = SSRatingSetRet.get(ratingSet(par));
@@ -293,7 +295,7 @@ implements
   public SSServRetI ratingGet(SSClientE clientType, SSServPar parA) throws SSErr {
     
     try{
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSRatingGetPar par = (SSRatingGetPar) parA.getFromJSON(SSRatingGetPar.class);
       
@@ -334,7 +336,7 @@ implements
   public SSServRetI ratingOverallGet(SSClientE clientType, SSServPar parA) throws SSErr {
     
     try{
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSRatingOverallGetPar par = (SSRatingOverallGetPar) parA.getFromJSON(SSRatingOverallGetPar.class);
       

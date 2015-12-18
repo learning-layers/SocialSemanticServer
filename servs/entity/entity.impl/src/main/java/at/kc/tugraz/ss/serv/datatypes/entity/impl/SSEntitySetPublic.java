@@ -29,7 +29,7 @@ import at.tugraz.sss.serv.SSEntityCircle;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.util.SSServCallerU;
+import at.tugraz.sss.servs.common.impl.user.SSUserCommons;
 import java.util.ArrayList;
 import java.util.List;
 

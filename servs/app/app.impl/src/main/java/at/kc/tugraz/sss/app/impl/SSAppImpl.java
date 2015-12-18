@@ -31,8 +31,7 @@ import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSServImplWithDBA;
-
-import at.tugraz.sss.util.SSServCallerU;
+import at.tugraz.sss.servs.common.impl.user.SSUserCommons;
 import at.kc.tugraz.sss.app.api.SSAppServerI;
 import at.kc.tugraz.sss.app.api.SSAppClientI;
 import at.kc.tugraz.sss.app.datatypes.SSApp;
@@ -58,9 +57,10 @@ import java.util.List;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSImageE;
 import at.tugraz.sss.serv.SSServErrReg;
-import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
+import at.tugraz.sss.serv.SSServPar; 
 import at.tugraz.sss.serv.SSServReg;
-import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
+import at.tugraz.sss.serv.SSServRetI; 
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.servs.image.api.SSImageServerI;
 import at.tugraz.sss.servs.image.datatype.par.SSImageAddPar;
@@ -72,13 +72,15 @@ implements
   SSAppServerI,
   SSDescribeEntityI{
   
-  private final SSAppSQLFct sqlFct;
+  private final SSAppSQLFct      sqlFct;
+  private final SSUserCommons userCommons;
   
   public SSAppImpl(final SSConfA conf) throws SSErr{
     
     super(conf, (SSDBSQLI) SSDBSQL.inst.getServImpl(), (SSDBNoSQLI) SSDBNoSQL.inst.getServImpl());
     
-    this.sqlFct = new SSAppSQLFct(dbSQL);
+    this.sqlFct      = new SSAppSQLFct(dbSQL);
+    this.userCommons = new SSUserCommons();
   }
   
   @Override
@@ -124,7 +126,7 @@ implements
   public SSServRetI appAdd(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSAppAddPar         par       = (SSAppAddPar) parA.getFromJSON(SSAppAddPar.class);
       final SSUri               app       = appAdd(par);
@@ -316,7 +318,7 @@ implements
   public SSServRetI appsGet(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSAppsGetPar par = (SSAppsGetPar) parA.getFromJSON(SSAppsGetPar.class);
       
@@ -361,7 +363,7 @@ implements
   public SSServRetI appsDelete(final SSClientE clientType, final SSServPar parA) throws SSErr {
     
     try{
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSAppsDeletePar par = (SSAppsDeletePar) parA.getFromJSON(SSAppsDeletePar.class);
       

@@ -49,7 +49,7 @@ import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSUserRelationGathererI;
 import at.tugraz.sss.serv.SSUsersResourcesGathererI;
-import at.tugraz.sss.util.SSServCallerU;
+import at.tugraz.sss.servs.common.impl.user.SSUserCommons;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscEntryUpdatePar;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscRemovePar;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscTargetsAddPar;
@@ -106,6 +106,7 @@ implements
   private final SSEntityServerI    entityServ;
   private final SSCircleServerI    circleServ;
   private final SSDiscActAndLogFct actAndLogFct;
+  private final SSUserCommons   userCommons;
   
   public SSDiscImpl(final SSConfA conf) throws SSErr{
     
@@ -119,6 +120,8 @@ implements
       new SSDiscActAndLogFct(
         (SSActivityServerI) SSServReg.getServ(SSActivityServerI.class),
         (SSEvalServerI)     SSServReg.getServ(SSEvalServerI.class));
+    
+    this.userCommons = new SSUserCommons();
   }
   
   @Override
@@ -483,7 +486,7 @@ implements
   public SSServRetI discEntryAdd(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSDiscEntryAddFromClientPar par = (SSDiscEntryAddFromClientPar) parA.getFromJSON(SSDiscEntryAddFromClientPar.class);
       final SSDiscEntryAddRet           ret = discEntryAdd(par);
@@ -667,7 +670,7 @@ implements
   public SSServRetI discUpdate(final SSClientE clientType, final SSServPar parA) throws SSErr {
     
     try{
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSDiscUpdatePar par = (SSDiscUpdatePar) parA.getFromJSON(SSDiscUpdatePar.class);
       final SSDiscUpdateRet ret = discUpdate(par);
@@ -811,7 +814,7 @@ implements
   public SSServRetI discEntryUpdate(final SSClientE clientType, final SSServPar parA) throws SSErr {
     
     try{
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSDiscEntryUpdatePar par = (SSDiscEntryUpdatePar) parA.getFromJSON(SSDiscEntryUpdatePar.class);
       final SSDiscEntryUpdateRet ret = discEntryUpdate(par);
@@ -912,7 +915,7 @@ implements
   public SSServRetI discEntryAccept(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSDiscEntryAcceptPar par = (SSDiscEntryAcceptPar) parA.getFromJSON(SSDiscEntryAcceptPar.class);
       
@@ -1000,7 +1003,7 @@ implements
   public SSServRetI discGet(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSDiscGetPar par = (SSDiscGetPar) parA.getFromJSON(SSDiscGetPar.class);
       
@@ -1127,7 +1130,7 @@ implements
   public SSServRetI discsGet(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSDiscsGetPar par = (SSDiscsGetPar) parA.getFromJSON(SSDiscsGetPar.class);
       
@@ -1244,7 +1247,7 @@ implements
   public SSServRetI discRemove(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSDiscRemovePar par = (SSDiscRemovePar) parA.getFromJSON(SSDiscRemovePar.class);
       
@@ -1312,7 +1315,7 @@ implements
   public SSServRetI discTargetsAdd(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSDiscTargetsAddPar par        = (SSDiscTargetsAddPar) parA.getFromJSON(SSDiscTargetsAddPar.class);
       final SSUri               discussion = discTargetsAdd(par);

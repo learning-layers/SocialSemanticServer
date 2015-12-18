@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.serv.dataimport.impl.fct.sql;
 
-import at.tugraz.sss.serv.SSDBSQLFct;
+import at.tugraz.sss.serv.SSDBSQLFctA;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSServErrReg;
 
@@ -31,7 +31,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SSDataImportSQLFct extends SSDBSQLFct{
+public class SSDataImportSQLFct extends SSDBSQLFctA{
   
   public SSDataImportSQLFct(final SSDBSQLI dbSQL) {
     super(dbSQL);

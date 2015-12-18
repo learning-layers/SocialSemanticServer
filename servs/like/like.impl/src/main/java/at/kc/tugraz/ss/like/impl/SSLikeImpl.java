@@ -45,10 +45,11 @@ import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServImplWithDBA;
-import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
+import at.tugraz.sss.serv.SSServPar; 
 import at.tugraz.sss.serv.SSServReg;
-import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
-import at.tugraz.sss.util.SSServCallerU;
+import at.tugraz.sss.serv.SSServRetI; 
+import at.tugraz.sss.serv.SSVarNames;
+import at.tugraz.sss.servs.common.impl.user.SSUserCommons;
 
 public class SSLikeImpl 
 extends SSServImplWithDBA 
@@ -59,12 +60,14 @@ implements
   
   private final SSLikeSQLFct     sql;
   private final SSEntityServerI  entityServ;
+  private final SSUserCommons userCommons;
    
   public SSLikeImpl(final SSConfA conf) throws SSErr{
     super(conf, (SSDBSQLI) SSDBSQL.inst.getServImpl(), (SSDBNoSQLI) SSDBNoSQL.inst.getServImpl());
     
-    this.sql        = new SSLikeSQLFct(dbSQL, SSVocConf.systemUserUri);
-    this.entityServ = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
+    this.sql          = new SSLikeSQLFct(dbSQL, SSVocConf.systemUserUri);
+    this.entityServ   = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
+    this.userCommons  = new SSUserCommons();
   }
   
   @Override
@@ -135,7 +138,7 @@ implements
   public SSServRetI likeSet(final SSClientE clientType, final SSServPar parA) throws SSErr {
     
     try{
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSLikeUserSetPar par = (SSLikeUserSetPar) parA.getFromJSON(SSLikeUserSetPar.class);
       

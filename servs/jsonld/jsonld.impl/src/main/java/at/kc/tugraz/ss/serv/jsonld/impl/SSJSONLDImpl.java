@@ -32,10 +32,11 @@ import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSJSONLDPropI;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServImplWithDBA;
-import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
-import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
+import at.tugraz.sss.serv.SSServPar; 
+import at.tugraz.sss.serv.SSServRetI; 
 import at.tugraz.sss.serv.SSStrU;
-import at.tugraz.sss.util.SSServCallerU;
+import at.tugraz.sss.serv.SSVarNames;
+import at.tugraz.sss.servs.common.impl.user.SSUserCommons;
 
 public class SSJSONLDImpl 
 extends SSServImplWithDBA 
@@ -43,15 +44,19 @@ implements
   SSJSONLDClientI, 
   SSJSONLDServerI{
 
+  final SSUserCommons userCommons;
+  
   public SSJSONLDImpl(final SSJSONLDConf conf) throws SSErr{
     super(conf, null, null);
+    
+    this.userCommons = new SSUserCommons();
   }
   
   @Override
   public SSServRetI jsonLD(SSClientE clientType, SSServPar parA) throws SSErr{
     
     try{
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSJSONLDPar par = (SSJSONLDPar) parA.getFromJSON(SSJSONLDPar.class);
       

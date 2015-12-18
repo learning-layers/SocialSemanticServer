@@ -104,7 +104,7 @@ import at.tugraz.sss.serv.SSEntityCopyPar;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSServImplWithDBA;
-import at.tugraz.sss.util.SSServCallerU;
+import at.tugraz.sss.servs.common.impl.user.SSUserCommons;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -136,6 +136,7 @@ implements
   private final SSEntityServerI            entityServ;
   private final SSCircleServerI            circleServ;
   private final SSLearnEpActivityAndLogFct actAndLogFct;
+  private final SSUserCommons           userCommons;
   
   public SSLearnEpImpl(final SSConfA conf) throws SSErr{
     
@@ -150,6 +151,8 @@ implements
       new SSLearnEpActivityAndLogFct(
         (SSActivityServerI) SSServReg.getServ(SSActivityServerI.class),
         (SSEvalServerI)     SSServReg.getServ(SSEvalServerI.class));
+    
+    this.userCommons = new SSUserCommons();
   }
   
   @Override
@@ -482,7 +485,7 @@ implements
     
     try{
       
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSLearnEpsGetPar par = (SSLearnEpsGetPar) parA.getFromJSON(SSLearnEpsGetPar.class);
       
@@ -631,7 +634,7 @@ implements
   public SSServRetI learnEpVersionsGet(SSClientE clientType, SSServPar parA) throws SSErr{
     
     try{
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSLearnEpVersionsGetPar par = (SSLearnEpVersionsGetPar) parA.getFromJSON(SSLearnEpVersionsGetPar.class);
       
@@ -712,7 +715,7 @@ implements
   public SSServRetI learnEpVersionGet(SSClientE clientType, SSServPar parA) throws SSErr{
     
     try{
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSLearnEpVersionGetPar par = (SSLearnEpVersionGetPar) parA.getFromJSON(SSLearnEpVersionGetPar.class);
       
@@ -754,7 +757,7 @@ implements
     
     try{
       
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSLearnEpRemovePar par = (SSLearnEpRemovePar) parA.getFromJSON(SSLearnEpRemovePar.class);
       
@@ -818,7 +821,7 @@ implements
     
     try{
       
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSLearnEpVersionCreatePar par = (SSLearnEpVersionCreatePar) parA.getFromJSON(SSLearnEpVersionCreatePar.class);
       
@@ -917,7 +920,7 @@ implements
     
     try{
       
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSLearnEpVersionCircleAddPar par     = (SSLearnEpVersionCircleAddPar) parA.getFromJSON(SSLearnEpVersionCircleAddPar.class);
       final SSUri                        learnEp = sql.getLearnEpForVersion(par.learnEpVersion);
@@ -1125,7 +1128,7 @@ implements
     
     try{
       
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSLearnEpVersionEntityAddPar par     = (SSLearnEpVersionEntityAddPar) parA.getFromJSON(SSLearnEpVersionEntityAddPar.class);
       final SSUri                        learnEp = sql.getLearnEpForVersion(par.learnEpVersion);
@@ -1299,7 +1302,7 @@ implements
     
     try{
       
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSLearnEpCreatePar par = (SSLearnEpCreatePar) parA.getFromJSON(SSLearnEpCreatePar.class);
       
@@ -1373,7 +1376,7 @@ implements
     
     try{
       
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSLearnEpVersionCircleUpdatePar par             = (SSLearnEpVersionCircleUpdatePar) parA.getFromJSON(SSLearnEpVersionCircleUpdatePar.class);
       final SSUri                           learnEp         = sql.getLearnEpForCircle       (par.learnEpCircle);
@@ -1483,7 +1486,7 @@ implements
     
     try{
       
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSLearnEpVersionEntityUpdatePar par            = (SSLearnEpVersionEntityUpdatePar) parA.getFromJSON(SSLearnEpVersionEntityUpdatePar.class);
       final SSUri                           learnEp        = sql.getLearnEpForEntity        (par.learnEpEntity);
@@ -1584,7 +1587,7 @@ implements
     
     try{
       
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSLearnEpVersionCircleRemovePar par              = (SSLearnEpVersionCircleRemovePar) parA.getFromJSON(SSLearnEpVersionCircleRemovePar.class);
       final SSUri                           learnEp          = sql.getLearnEpForCircle        (par.learnEpCircle);
@@ -1683,7 +1686,7 @@ implements
   public SSServRetI learnEpVersionEntityRemove(SSClientE clientType, SSServPar parA) throws SSErr{
     
     try{
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSLearnEpVersionEntityRemovePar par            = (SSLearnEpVersionEntityRemovePar) parA.getFromJSON(SSLearnEpVersionEntityRemovePar.class);
       final SSUri                           learnEpVersion = sql.getLearnEpVersionForEntity       (par.learnEpEntity);
@@ -1780,7 +1783,7 @@ implements
     
     try{
       
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSLearnEpVersionTimelineStateSetPar par = (SSLearnEpVersionTimelineStateSetPar) parA.getFromJSON(SSLearnEpVersionTimelineStateSetPar.class);
       
@@ -1941,7 +1944,7 @@ implements
   public SSServRetI learnEpVersionTimelineStateGet(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSLearnEpVersionTimelineStateGetPar par = (SSLearnEpVersionTimelineStateGetPar) parA.getFromJSON(SSLearnEpVersionTimelineStateGetPar.class);
       
@@ -1979,7 +1982,7 @@ implements
   public SSServRetI learnEpVersionCurrentGet(SSClientE clientType, SSServPar parA) throws SSErr{
     
     try{
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSLearnEpVersionCurrentGetPar par = (SSLearnEpVersionCurrentGetPar) parA.getFromJSON(SSLearnEpVersionCurrentGetPar.class);
       
@@ -2019,7 +2022,7 @@ implements
   public SSServRetI learnEpVersionCurrentSet(SSClientE clientType, SSServPar parA) throws SSErr{
     
     try{
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSLearnEpVersionCurrentSetPar par = (SSLearnEpVersionCurrentSetPar) parA.getFromJSON(SSLearnEpVersionCurrentSetPar.class);
       
@@ -2079,7 +2082,7 @@ implements
   public SSServRetI learnEpsLockHold(SSClientE clientType, SSServPar parA) throws SSErr{
     
     try{
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSLearnEpsLockHoldPar par = (SSLearnEpsLockHoldPar) parA.getFromJSON(SSLearnEpsLockHoldPar.class);
       
@@ -2175,7 +2178,7 @@ implements
   public SSServRetI learnEpLockSet(SSClientE clientType, SSServPar parA) throws SSErr{
     
     try{
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSLearnEpLockSetPar par = (SSLearnEpLockSetPar) parA.getFromJSON(SSLearnEpLockSetPar.class);
       
@@ -2232,7 +2235,7 @@ implements
   public SSServRetI learnEpLockRemove(SSClientE clientType, SSServPar parA) throws SSErr{
     
     try{
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSLearnEpLockRemovePar par = (SSLearnEpLockRemovePar) parA.getFromJSON(SSLearnEpLockRemovePar.class);
       

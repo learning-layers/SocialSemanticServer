@@ -25,7 +25,7 @@ import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
 import at.kc.tugraz.ss.message.datatypes.SSMessage;
-import at.tugraz.sss.serv.SSDBSQLFct;
+import at.tugraz.sss.serv.SSDBSQLFctA;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSDBSQLSelectPar;
 import at.tugraz.sss.serv.SSEntity;
@@ -42,7 +42,7 @@ import java.util.Map;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 
-public class SSMessageSQLFct extends SSDBSQLFct{
+public class SSMessageSQLFct extends SSDBSQLFctA{
 
   public SSMessageSQLFct(final SSDBSQLI dbSQL) {
     super(dbSQL);

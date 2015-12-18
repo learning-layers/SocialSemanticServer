@@ -20,7 +20,7 @@
  */
 package at.tugraz.sss.servs.mail.impl;
 
-import at.tugraz.sss.serv.SSDBSQLFct;
+import at.tugraz.sss.serv.SSDBSQLFctA;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSErrE;
@@ -34,7 +34,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SSMailSQLFct extends SSDBSQLFct{
+public class SSMailSQLFct extends SSDBSQLFctA{
 
   public SSMailSQLFct(final SSDBSQLI dbSQL){
     super(dbSQL);

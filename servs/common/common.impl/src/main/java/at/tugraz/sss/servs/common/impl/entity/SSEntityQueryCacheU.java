@@ -18,7 +18,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package at.tugraz.sss.servs.common.impl.tagcategory;
+package at.tugraz.sss.servs.common.impl.entity;
 
 import at.tugraz.sss.serv.SSDateU;
 import at.tugraz.sss.serv.SSEntityResultPages;

@@ -33,7 +33,7 @@ import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.SSUserRelationGathererI;
-import at.tugraz.sss.util.SSServCallerU;
+import at.tugraz.sss.servs.common.impl.user.SSUserCommons;
 import at.kc.tugraz.sss.comment.api.SSCommentClientI;
 import at.kc.tugraz.sss.comment.api.SSCommentServerI;
 import at.kc.tugraz.sss.comment.datatypes.par.SSCommentsAddPar;
@@ -67,13 +67,15 @@ implements
   SSDescribeEntityI,
   SSUserRelationGathererI{
   
-  private final SSCommentSQLFct sql;
+  private final SSCommentSQLFct  sql;
+  private final SSUserCommons userCommons;
   
   public SSCommentImpl(final SSConfA conf) throws SSErr{
 
     super(conf, (SSDBSQLI) SSDBSQL.inst.getServImpl(), (SSDBNoSQLI) SSDBNoSQL.inst.getServImpl());
 
-    this.sql = new SSCommentSQLFct(dbSQL, SSVocConf.systemUserUri);
+    this.sql         = new SSCommentSQLFct(dbSQL, SSVocConf.systemUserUri);
+    this.userCommons = new SSUserCommons();
   }
   
   @Override
@@ -120,7 +122,7 @@ implements
   public SSServRetI commentsAdd(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSCommentsAddPar par = (SSCommentsAddPar) parA.getFromJSON(SSCommentsAddPar.class);
       
@@ -227,7 +229,7 @@ implements
     
     try{
       
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSCommentsGetPar par = (SSCommentsGetPar) parA.getFromJSON(SSCommentsGetPar.class);
       

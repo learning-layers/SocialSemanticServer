@@ -41,7 +41,7 @@ import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSUserRelationGathererI;
 import at.tugraz.sss.serv.SSUsersResourcesGathererI;
 
-import at.tugraz.sss.util.SSServCallerU;
+import at.tugraz.sss.servs.common.impl.user.SSUserCommons;
 import at.kc.tugraz.ss.service.tag.api.*;
 import at.kc.tugraz.ss.service.tag.datatypes.*;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagAddPar;
@@ -78,8 +78,8 @@ import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
-import at.tugraz.sss.servs.common.impl.tagcategory.SSTagAndCategoryCommonMisc;
-import at.tugraz.sss.servs.common.impl.tagcategory.SSTagAndCategoryCommonSQL;
+import at.tugraz.sss.servs.common.impl.metadata.SSTagAndCategoryCommonMisc;
+import at.tugraz.sss.servs.common.impl.metadata.SSTagAndCategoryCommonSQL;
 import sss.serv.eval.api.SSEvalServerI;
 
 public class SSTagImpl
@@ -97,6 +97,7 @@ implements
   private final SSTagAndCategoryCommonSQL  sql;
   private final SSTagAndCategoryCommonMisc commonMiscFct;
   private final SSEntityServerI            entityServ;
+  private final SSUserCommons           userCommons;
   
   public SSTagImpl(final SSConfA conf) throws SSErr{
     
@@ -110,7 +111,8 @@ implements
         (SSActivityServerI) SSServReg.getServ (SSActivityServerI.class),
         (SSEvalServerI)     SSServReg.getServ (SSEvalServerI.class));
     
-    this.entityServ = (SSEntityServerI)   SSServReg.getServ (SSEntityServerI.class);
+    this.entityServ  = (SSEntityServerI)   SSServReg.getServ (SSEntityServerI.class);
+    this.userCommons = new SSUserCommons();
   }
   
   @Override
@@ -319,7 +321,7 @@ implements
   public SSServRetI tagsAdd(final SSClientE clientType, final SSServPar parA) throws SSErr {
     
     try{
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSTagsAddPar par     = (SSTagsAddPar) parA.getFromJSON(SSTagsAddPar.class);
       final List<SSUri>  tagURIs = tagsAdd(par);
@@ -393,7 +395,7 @@ implements
   public SSServRetI tagAdd(SSClientE clientType, SSServPar parA) throws SSErr {
     
     try{
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSTagAddPar par    = (SSTagAddPar) parA.getFromJSON(SSTagAddPar.class);
       final SSUri       tagURI = tagAdd(par);
@@ -547,7 +549,7 @@ implements
   public SSServRetI tagsRemove(SSClientE clientType, SSServPar parA) throws SSErr {
     
     try{
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSTagsRemovePar par    = (SSTagsRemovePar) parA.getFromJSON(SSTagsRemovePar.class);
       final Boolean         worked = tagsRemove(par);
@@ -730,7 +732,7 @@ implements
   public SSServRetI tagEntitiesForTagsGet(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSTagEntitiesForTagsGetPar par = (SSTagEntitiesForTagsGetPar) parA.getFromJSON(SSTagEntitiesForTagsGetPar.class);
       
@@ -772,7 +774,7 @@ implements
   public SSServRetI tagsGet(final SSClientE clientType, final SSServPar parA) throws SSErr {
     
     try{
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSTagsGetPar par = (SSTagsGetPar) parA.getFromJSON(SSTagsGetPar.class);
       
@@ -829,7 +831,7 @@ implements
   public SSServRetI tagFrequsGet(SSClientE clientType, SSServPar parA) throws SSErr {
     
     try{
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSTagFrequsGetPar par = (SSTagFrequsGetPar) parA.getFromJSON(SSTagFrequsGetPar.class);
       

@@ -24,7 +24,7 @@ import at.tugraz.sss.serv.SSSQLVarNames;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSTextComment;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSDBSQLFct;
+import at.tugraz.sss.serv.SSDBSQLFctA;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.kc.tugraz.sss.app.datatypes.SSApp;
 import at.tugraz.sss.serv.SSErr;
@@ -36,7 +36,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SSAppSQLFct extends SSDBSQLFct{
+public class SSAppSQLFct extends SSDBSQLFctA{
 
   public SSAppSQLFct(final SSDBSQLI dbSQL) throws SSErr{
     super(dbSQL);

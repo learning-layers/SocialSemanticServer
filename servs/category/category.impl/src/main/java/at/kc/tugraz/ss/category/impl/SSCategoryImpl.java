@@ -73,7 +73,7 @@ import at.tugraz.sss.serv.SSEntityDescriberPar;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSUserRelationGathererI;
 
-import at.tugraz.sss.util.SSServCallerU;
+import at.tugraz.sss.servs.common.impl.user.SSUserCommons;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -87,8 +87,8 @@ import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSToolContextE;
 import at.tugraz.sss.serv.SSUsersResourcesGathererI;
-import at.tugraz.sss.servs.common.impl.tagcategory.SSTagAndCategoryCommonMisc;
-import at.tugraz.sss.servs.common.impl.tagcategory.SSTagAndCategoryCommonSQL;
+import at.tugraz.sss.servs.common.impl.metadata.SSTagAndCategoryCommonMisc;
+import at.tugraz.sss.servs.common.impl.metadata.SSTagAndCategoryCommonSQL;
 import sss.serv.eval.api.SSEvalServerI;
 import sss.serv.eval.datatypes.SSEvalLogE;
 import sss.serv.eval.datatypes.par.SSEvalLogPar;
@@ -109,6 +109,7 @@ implements
   final SSEntityServerI            entityServ;
   final SSActivityServerI          activityServ;
   final SSEvalServerI              evalServ;
+  final SSUserCommons           userCommons;
   
   public SSCategoryImpl(final SSConfA conf) throws SSErr{
     
@@ -120,6 +121,7 @@ implements
     this.activityServ  = (SSActivityServerI) SSServReg.getServ (SSActivityServerI.class);
     this.evalServ      = (SSEvalServerI)     SSServReg.getServ (SSEvalServerI.class);
     this.entityServ    = (SSEntityServerI)   SSServReg.getServ (SSEntityServerI.class);
+    this.userCommons   = new SSUserCommons();
   }
   
   @Override
@@ -373,7 +375,7 @@ implements
   public SSServRetI categoryAdd(SSClientE clientType, SSServPar parA) throws SSErr {
     
     try{
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSCategoryAddPar par = (SSCategoryAddPar) parA.getFromJSON(SSCategoryAddPar.class);
       
@@ -543,7 +545,7 @@ implements
   public SSServRetI categoriesRemove(SSClientE clientType, SSServPar parA) throws SSErr {
     
     try{
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSCategoriesRemovePar par = (SSCategoriesRemovePar) parA.getFromJSON(SSCategoriesRemovePar.class);
       final SSCategoriesRemoveRet ret = SSCategoriesRemoveRet.get(categoriesRemove(par));
@@ -736,7 +738,7 @@ implements
   public SSServRetI categoriesPredefinedGet(final SSClientE clientType, final SSServPar parA) throws SSErr {
     
     try{
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSCategoriesPredefinedGetPar par = (SSCategoriesPredefinedGetPar) parA.getFromJSON(SSCategoriesPredefinedGetPar.class);
 
@@ -837,7 +839,7 @@ implements
   public SSServRetI categoryEntitiesForCategoriesGet(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSCategoryEntitiesForCategoriesGetPar par = (SSCategoryEntitiesForCategoriesGetPar) parA.getFromJSON(SSCategoryEntitiesForCategoriesGetPar.class);
       
@@ -878,7 +880,7 @@ implements
   public SSServRetI categoriesGet(final SSClientE clientType, final SSServPar parA) throws SSErr {
     
     try{
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSCategoriesGetPar par = (SSCategoriesGetPar) parA.getFromJSON(SSCategoriesGetPar.class);
       
@@ -934,7 +936,7 @@ implements
   public SSServRetI categoryFrequsGet(SSClientE clientType, SSServPar parA) throws SSErr {
     
     try{
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSCategoryFrequsGetPar par = (SSCategoryFrequsGetPar) parA.getFromJSON(SSCategoryFrequsGetPar.class);
       

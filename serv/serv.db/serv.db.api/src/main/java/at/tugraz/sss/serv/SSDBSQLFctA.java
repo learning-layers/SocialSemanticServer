@@ -27,11 +27,11 @@ import java.util.List;
 import java.util.Map;
 import javax.ws.rs.core.MultivaluedMap;
 
-public class SSDBSQLFct extends SSDBFct{
+public abstract class SSDBSQLFctA extends SSDBFctA{
   
   protected final SSDBSQLI dbSQL;
   
-  public SSDBSQLFct(final SSDBSQLI dbSQL){
+  public SSDBSQLFctA(final SSDBSQLI dbSQL){
     
     super();
     

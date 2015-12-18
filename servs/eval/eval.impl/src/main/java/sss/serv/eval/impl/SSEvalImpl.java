@@ -37,9 +37,10 @@ import at.tugraz.sss.serv.SSFileU;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.SSToolE;
-import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
+import at.tugraz.sss.serv.SSServPar; 
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSServReg;
-import at.tugraz.sss.util.SSServCallerU;
+import at.tugraz.sss.servs.common.impl.user.SSUserCommons;
 import java.util.ArrayList;
 import java.util.List;
 import sss.serv.eval.api.SSEvalClientI;
@@ -53,7 +54,7 @@ import at.kc.tugraz.ss.serv.datatypes.learnep.api.SSLearnEpServerI;
 import at.kc.tugraz.ss.service.disc.api.SSDiscServerI;
 import at.tugraz.sss.serv.SSClientE;
 import at.tugraz.sss.serv.SSErr;
-import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
+import at.tugraz.sss.serv.SSServRetI; 
 import at.tugraz.sss.servs.livingdocument.api.SSLivingDocServerI;
 import java.util.Date;
 
@@ -66,6 +67,7 @@ implements
   private final SSEvalConf                evalConf;
   private final SSEvalLogKnowBrain        evalLogKnowBrain;
   private final SSEvalLogBNP              evalLogBNP;
+  private final SSUserCommons          userCommons;
 
   public SSEvalImpl(final SSConfA conf) throws SSErr{
 
@@ -74,6 +76,8 @@ implements
     evalConf         = (SSEvalConf) conf;
     evalLogKnowBrain = new SSEvalLogKnowBrain();
     evalLogBNP       = new SSEvalLogBNP();
+    userCommons      = new SSUserCommons();
+    
   }
 
   @Override
@@ -138,7 +142,7 @@ implements
   public SSServRetI evalLog(final SSClientE clientType, final SSServPar parA) throws SSErr{
 
     try{
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
 
       final SSEvalLogPar par = (SSEvalLogPar) parA.getFromJSON(SSEvalLogPar.class);
 

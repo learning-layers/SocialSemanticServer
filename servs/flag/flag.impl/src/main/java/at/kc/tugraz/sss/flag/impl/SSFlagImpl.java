@@ -31,7 +31,7 @@ import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 
-import at.tugraz.sss.util.SSServCallerU;
+import at.tugraz.sss.servs.common.impl.user.SSUserCommons;
 import at.kc.tugraz.sss.flag.api.SSFlagClientI;
 import at.kc.tugraz.sss.flag.api.SSFlagServerI;
 import at.kc.tugraz.sss.flag.datatypes.ret.SSFlagsGetRet;
@@ -71,15 +71,17 @@ implements
   SSDescribeEntityI, 
   SSUsersResourcesGathererI{
   
-  private final SSFlagSQLFct    sql;
-  private final SSEntityServerI entityServ;
+  private final SSFlagSQLFct     sql;
+  private final SSEntityServerI  entityServ;
+  private final SSUserCommons userCommons;
   
   public SSFlagImpl(final SSConfA conf) throws SSErr{
 
     super(conf, (SSDBSQLI) SSDBSQL.inst.getServImpl(), (SSDBNoSQLI) SSDBNoSQL.inst.getServImpl());
 
-    this.sql        = new SSFlagSQLFct  (dbSQL, SSVocConf.systemUserUri);
-    this.entityServ = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
+    this.sql         = new SSFlagSQLFct  (dbSQL, SSVocConf.systemUserUri);
+    this.entityServ  = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
+    this.userCommons = new SSUserCommons();
   }
   
   @Override
@@ -181,7 +183,7 @@ implements
   public SSServRetI flagsSet(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSFlagsSetPar par = (SSFlagsSetPar) parA.getFromJSON(SSFlagsSetPar.class);
       
@@ -365,7 +367,7 @@ implements
   public SSServRetI flagsGet(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSFlagsGetPar par = (SSFlagsGetPar) parA.getFromJSON(SSFlagsGetPar.class);
       

@@ -35,15 +35,17 @@ import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.util.SSServCallerU;
+import at.tugraz.sss.servs.common.impl.user.SSUserCommons;
 import java.util.List;
 
 public class SSEntityShareWithUsers {
   
-  private final SSCircleServerI circleServ;
+  private final SSCircleServerI  circleServ;
+  private final SSUserCommons userCommons;
   
   public SSEntityShareWithUsers(final SSCircleServerI circleServ){
-    this.circleServ = circleServ;
+    this.circleServ  = circleServ;
+    this.userCommons = new SSUserCommons();
   }
   
   public void handle(
@@ -59,7 +61,7 @@ public class SSEntityShareWithUsers {
         throw SSErr.get(SSErrE.userCannotShareWithHimself);
       }
       
-      if(!SSServCallerU.areUsersUsers(users)){
+      if(!userCommons.areUsersUsers(users)){
         return;
       }
       

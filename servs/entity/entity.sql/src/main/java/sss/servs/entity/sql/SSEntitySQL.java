@@ -22,7 +22,7 @@ package sss.servs.entity.sql;
 
 import at.tugraz.sss.serv.SSCircleE;
 import at.tugraz.sss.serv.SSCircleRightE;
-import at.tugraz.sss.serv.SSDBSQLFct;
+import at.tugraz.sss.serv.SSDBSQLFctA;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSDBSQLSelectPar;
 import at.tugraz.sss.serv.SSDateU;
@@ -49,7 +49,7 @@ import java.util.Map;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 
-public class SSEntitySQL extends SSDBSQLFct{
+public class SSEntitySQL extends SSDBSQLFctA{
 
   private final SSUri systemUserURI;
   

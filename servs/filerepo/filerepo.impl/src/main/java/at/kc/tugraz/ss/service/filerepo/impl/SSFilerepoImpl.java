@@ -38,7 +38,7 @@ import at.kc.tugraz.ss.service.filerepo.api.*;
 import at.kc.tugraz.ss.service.filerepo.conf.*;
 import at.kc.tugraz.ss.service.filerepo.datatypes.*;
 import at.tugraz.sss.serv.SSEntity;
-import at.tugraz.sss.util.SSServCallerU;
+import at.tugraz.sss.servs.common.impl.user.SSUserCommons;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileDownloadPar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileUploadPar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileAddRet;
@@ -84,6 +84,7 @@ implements
 
   private final SSFileSQLFct    sql;
   private final SSEntityServerI entityServ;
+  private final SSUserCommons  userCommons;
   
   public SSFilerepoImpl(
     final SSFileRepoConf conf) throws SSErr{
@@ -92,6 +93,7 @@ implements
     
     this.sql            = new SSFileSQLFct   (dbSQL, SSVocConf.systemUserUri);
     this.entityServ     = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
+    this.userCommons    = new SSUserCommons();
   }
   
   @Override
@@ -198,7 +200,7 @@ implements
       
       //TODO fix this public download: get user and check whether he can read
       if(!par.isPublicDownload){
-        SSServCallerU.checkKey(parA);
+        userCommons.checkKeyAndSetUser(parA);
       }
       
       par = (SSFileDownloadPar) parA.getFromJSON(SSFileDownloadPar.class);
@@ -257,7 +259,7 @@ implements
   public SSServRetI fileUpload(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSFileUploadPar par = (SSFileUploadPar) parA.getFromJSON(SSFileUploadPar.class);
       

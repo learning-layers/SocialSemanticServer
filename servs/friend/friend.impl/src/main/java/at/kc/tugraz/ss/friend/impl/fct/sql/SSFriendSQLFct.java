@@ -23,7 +23,7 @@ package at.kc.tugraz.ss.friend.impl.fct.sql;
 import at.kc.tugraz.ss.friend.datatypes.SSFriend;
 import at.tugraz.sss.serv.SSSQLVarNames;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSDBSQLFct;
+import at.tugraz.sss.serv.SSDBSQLFctA;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSErrE;
@@ -34,7 +34,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SSFriendSQLFct extends SSDBSQLFct{
+public class SSFriendSQLFct extends SSDBSQLFctA{
 
   public SSFriendSQLFct(final SSDBSQLI dbSQL) {
     super(dbSQL);

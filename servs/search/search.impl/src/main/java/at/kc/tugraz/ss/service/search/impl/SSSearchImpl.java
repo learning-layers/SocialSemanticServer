@@ -33,10 +33,10 @@ import at.tugraz.sss.serv.SSIDU;
 import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
+import at.tugraz.sss.serv.SSServPar; 
 import at.tugraz.sss.serv.SSEntity;
 import at.tugraz.sss.serv.SSConfA;
-import at.tugraz.sss.util.SSServCallerU;
+import at.tugraz.sss.servs.common.impl.user.SSUserCommons;
 import at.kc.tugraz.ss.service.search.api.*;
 import at.kc.tugraz.ss.service.search.datatypes.pars.SSSearchCleanUpPar;
 import at.kc.tugraz.ss.service.search.datatypes.pars.SSSearchPar;
@@ -58,7 +58,7 @@ import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
-import at.tugraz.sss.servs.common.impl.tagcategory.SSEntityQueryCacheU;
+import at.tugraz.sss.servs.common.impl.entity.SSEntityQueryCacheU;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntitiesGetPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityURIsGetPar;
 import sss.servs.entity.sql.SSEntitySQL;
@@ -72,19 +72,21 @@ implements
   protected static final Map<String, SSEntityResultPages> searchResultPagesCache = new HashMap<>();
   private          final SSEntitySQL                      sql;
   private          final SSSearchNoSQLFct                 noSQLFct;
+  private          final SSUserCommons                 userCommons;
   
   public SSSearchImpl(final SSConfA conf) throws SSErr{
     super(conf, (SSDBSQLI) SSDBSQL.inst.getServImpl(), (SSDBNoSQLI) SSDBNoSQL.inst.getServImpl());
     
-    this.sql      = new SSEntitySQL     (dbSQL, SSVocConf.systemUserUri);
-    this.noSQLFct = new SSSearchNoSQLFct(dbNoSQL);
+    this.sql         = new SSEntitySQL     (dbSQL, SSVocConf.systemUserUri);
+    this.noSQLFct    = new SSSearchNoSQLFct(dbNoSQL);
+    this.userCommons = new SSUserCommons();
   }
   
   @Override
   public SSServRetI search(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSSearchPar par = (SSSearchPar) parA.getFromJSON(SSSearchPar.class);
       

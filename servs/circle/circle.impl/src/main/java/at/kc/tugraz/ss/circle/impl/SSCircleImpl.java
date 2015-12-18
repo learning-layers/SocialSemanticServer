@@ -85,7 +85,7 @@ import at.tugraz.sss.serv.SSDescribeEntityI;
 import at.tugraz.sss.serv.SSEntityCopyPar;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
 import at.tugraz.sss.serv.SSServImplWithDBA;
-import at.tugraz.sss.util.SSServCallerU;
+import at.tugraz.sss.servs.common.impl.user.SSUserCommons;
 import java.util.ArrayList;
 import java.util.List;
 import at.tugraz.sss.serv.SSErr;
@@ -113,6 +113,7 @@ implements
   private final  SSCircleMiscFct   miscFct;
   private final  SSActivityServerI activityServ;
   private final  SSEvalServerI     evalServ;
+  private final  SSUserCommons  userCommons;
   
   public SSCircleImpl(final SSConfA conf) throws SSErr{
     
@@ -122,6 +123,7 @@ implements
     this.miscFct      = new SSCircleMiscFct (this, sql);
     this.activityServ = (SSActivityServerI) SSServReg.getServ(SSActivityServerI.class);
     this.evalServ     = (SSEvalServerI)     SSServReg.getServ(SSEvalServerI.class);
+    this.userCommons  = new SSUserCommons();
   }
   
   @Override
@@ -270,7 +272,7 @@ implements
   public SSServRetI circleEntitiesRemove(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSCircleEntitiesRemoveFromClientPar par    = (SSCircleEntitiesRemoveFromClientPar) parA.getFromJSON(SSCircleEntitiesRemoveFromClientPar.class);
       final List<SSUri>                         result;
@@ -365,7 +367,7 @@ implements
     
     try{
       
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSCircleUsersRemovePar par    = (SSCircleUsersRemovePar) parA.getFromJSON(SSCircleUsersRemovePar.class);
       final List<SSUri>            result;
@@ -446,7 +448,7 @@ implements
     
     try{
       
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSCircleCreateFromClientPar par       = (SSCircleCreateFromClientPar) parA.getFromJSON(SSCircleCreateFromClientPar.class);
       final SSUri                       circleURI = circleCreate(par);
@@ -613,7 +615,7 @@ implements
     
     try{
       
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSCircleRemovePar par       = (SSCircleRemovePar) parA.getFromJSON(SSCircleRemovePar.class);
       final SSUri             circleURI;
@@ -694,7 +696,7 @@ implements
     
     try{
       
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSCircleUsersAddPar par = (SSCircleUsersAddPar) parA.getFromJSON(SSCircleUsersAddPar.class);
       final SSUri               circleURI;
@@ -797,7 +799,7 @@ implements
         }
       }
       
-      if(!SSServCallerU.areUsersUsers(par.users)){
+      if(userCommons.areUsersUsers(par.users)){
         return null;
       }
       
@@ -835,7 +837,7 @@ implements
   public SSServRetI circleEntitiesAdd(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSCircleEntitiesAddPar par      = (SSCircleEntitiesAddPar) parA.getFromJSON(SSCircleEntitiesAddPar.class);
       final SSUri                  cicleURI;
@@ -1124,7 +1126,7 @@ implements
   public SSServRetI circleGet(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSCircleGetPar par = (SSCircleGetPar) parA.getFromJSON(SSCircleGetPar.class);
       
@@ -1262,7 +1264,7 @@ implements
   public SSServRetI circlesGet(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSCirclesGetPar par = (SSCirclesGetPar) parA.getFromJSON(SSCirclesGetPar.class);
       
@@ -1490,7 +1492,7 @@ implements
     
     try{
       
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSCircleUsersInvitePar par = (SSCircleUsersInvitePar) parA.getFromJSON(SSCircleUsersInvitePar.class);
       
@@ -1550,7 +1552,7 @@ implements
   public SSServRetI circleTypeChange(final SSClientE clientType, final SSServPar parA) throws SSErr {
     
     try{
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSCircleTypeChangePar par = (SSCircleTypeChangePar) parA.getFromJSON(SSCircleTypeChangePar.class);
       
@@ -1851,4 +1853,119 @@ implements
 //      SSServErrReg.regErrThrow(error);
 //      return null;
 //    }
+//  }
+
+//  public static Boolean canUserRead(
+//    final SSUri user, 
+//    final SSUri entityURI) throws Exception{
+//    
+//    try{
+//      ((SSCircleServerI)SSServReg.getServ(SSCircleServerI.class)).circleCanAccess(
+//        new SSCircleCanAccessPar(
+//          user, 
+//          entityURI, 
+//          SSCircleRightE.read));
+//      
+//      return true;
+//    }catch(Exception error){
+//      
+//      if(SSServErrReg.containsErr(SSErrE.userNotAllowedToAccessEntity)){
+//        SSServErrReg.reset();
+//        return false;
+//      }
+//
+//      throw error;
+//    }
+//  }
+//  
+//  public static Boolean canUserRead(
+//    final SSUri       user, 
+//    final List<SSUri> entityURIs) throws Exception{
+//    
+//    try{
+//      
+//      for(SSUri entityURI : entityURIs){
+//      
+//        ((SSCircleServerI)SSServReg.getServ(SSCircleServerI.class)).circleCanAccess(
+//          new SSCircleCanAccessPar(
+//            user, 
+//            entityURI, 
+//            SSCircleRightE.read));
+//      }
+//      
+//      return true;
+//    }catch(Exception error){
+//      
+//      if(SSServErrReg.containsErr(SSErrE.userNotAllowedToAccessEntity)){
+//        SSServErrReg.reset();
+//        return false;
+//      }
+//
+//      throw error;
+//    }
+//  }
+  
+//  public static Boolean canUserAll(
+//    final SSUri   user,
+//    final SSUri   entityURI) throws Exception{
+//    
+//   try{
+//      ((SSCircleServerI)SSServReg.getServ(SSCircleServerI.class)).circleCanAccess(
+//        new SSCircleCanAccessPar(
+//          user, 
+//          entityURI, 
+//          SSCircleRightE.all));
+//      
+//      return true;
+//    }catch(Exception error){
+//      
+//      if(SSServErrReg.containsErr(SSErrE.userNotAllowedToAccessEntity)){
+//        SSServErrReg.reset();
+//        return false;
+//      }
+//
+//      throw error;
+//    }
+//  }
+
+//  public static void canUserReadEntity(
+//    final SSUri user,
+//    final SSUri entityURI) throws Exception{
+//    
+//    ((SSCircleServerI)SSServReg.getServ(SSCircleServerI.class)).circleCanAccess(
+//      new SSCircleCanAccessPar(
+//        null, 
+//        null, 
+//        user, 
+//        entityURI, 
+//        SSCircleRightE.read));
+//  }
+//  
+//  public static void canUserReadEntities(
+//    final SSUri       user,
+//    final List<SSUri> entityURIs) throws Exception{
+//    
+//    for(SSUri entityURI : entityURIs){
+//      
+//      ((SSCircleServerI)SSServReg.getServ(SSCircleServerI.class)).circleCanAccess(
+//        new SSCircleCanAccessPar(
+//          null,
+//          null,
+//          user,
+//          entityURI,
+//          SSCircleRightE.read));
+//    }
+//  }
+  
+//  public static void canUserAllEntity(
+//    final SSUri   user,
+//    final SSUri   entityURI) throws Exception{
+//    
+//    ((SSCircleServerI) SSServReg.getServ(SSCircleServerI.class)).circleCanAccess(
+//      new SSCircleCanAccessPar(
+//        null,
+//        null,
+//        user,
+//        entityURI,
+//        SSCircleRightE.all));
 //  }

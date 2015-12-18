@@ -57,7 +57,7 @@ import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSServReg;
 import at.tugraz.sss.serv.SSUserRelationGathererI;
 import at.tugraz.sss.serv.SSUsersResourcesGathererI;
-import at.tugraz.sss.util.SSServCallerU;
+import at.tugraz.sss.servs.common.impl.user.SSUserCommons;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUEE;
 import at.kc.tugraz.ss.service.userevent.datatypes.pars.SSUEAddPar;
 import at.tugraz.sss.serv.SSAddAffiliatedEntitiesToCircleI;
@@ -82,7 +82,7 @@ import at.tugraz.sss.serv.SSIDU;
 import at.tugraz.sss.serv.SSObjU;
 import at.tugraz.sss.serv.SSServContainerI;
 import at.tugraz.sss.serv.SSServErrReg;
-import at.tugraz.sss.servs.common.impl.tagcategory.SSEntityQueryCacheU;
+import at.tugraz.sss.servs.common.impl.entity.SSEntityQueryCacheU;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntitiesAccessibleGetCleanUpPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntitiesAccessibleGetPar;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityEntitiesAttachedRemovePar;
@@ -118,6 +118,7 @@ implements
   private final SSEntitySQL          sql;
   private final SSCircleServerI      circleServ;
   private final SSEntityActAndLogFct actAndLogFct;
+  private final SSUserCommons     userCommons;
   
   public SSEntityImpl(final SSConfA conf) throws SSErr{
     
@@ -130,6 +131,8 @@ implements
       new SSEntityActAndLogFct(
         (SSActivityServerI) SSServReg.getServ(SSActivityServerI.class), 
         (SSEvalServerI)     SSServReg.getServ(SSEvalServerI.class));
+    
+    this.userCommons = new SSUserCommons();
   }
   
   @Override
@@ -276,7 +279,7 @@ implements
     
     try{
       
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSEntityCopyPar par    = (SSEntityCopyPar) parA.getFromJSON(SSEntityCopyPar.class);
       final Boolean         worked = entityCopy(par);
@@ -396,7 +399,7 @@ implements
   public SSServRetI entitiesAccessibleGet(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSEntitiesAccessibleGetPar par = (SSEntitiesAccessibleGetPar) parA.getFromJSON(SSEntitiesAccessibleGetPar.class);
       
@@ -515,7 +518,7 @@ implements
   public SSServRetI entitiesGet(final SSClientE clientType, final SSServPar parA) throws SSErr {
     
     try{
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSEntitiesGetPar par = (SSEntitiesGetPar) parA.getFromJSON(SSEntitiesGetPar.class);
       
@@ -572,7 +575,7 @@ implements
   public SSServRetI entityGet(final SSClientE clientType, final SSServPar parA) throws SSErr {
     
     try{
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSEntityGetPar par = (SSEntityGetPar) parA.getFromJSON(SSEntityGetPar.class);
       
@@ -650,7 +653,7 @@ implements
   public SSServRetI entityUpdate(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSEntityUpdatePar par = (SSEntityUpdatePar) parA.getFromJSON(SSEntityUpdatePar.class);
       final SSUri             entityURI;
@@ -1112,7 +1115,7 @@ implements
   public SSServRetI entityShare(final SSClientE clientType, final SSServPar parA) throws SSErr {
     
     try{
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSEntitySharePar par       = (SSEntitySharePar) parA.getFromJSON(SSEntitySharePar.class);
       final SSUri            entityURI = entityShare(par);
@@ -1224,7 +1227,7 @@ implements
   public SSServRetI entityUnpublicize(final SSClientE clientType, final SSServPar parA) throws SSErr {
     
     try{
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSEntityUnpublicizePar par = (SSEntityUnpublicizePar) parA.getFromJSON(SSEntityUnpublicizePar.class);
       
@@ -1304,7 +1307,7 @@ implements
   public SSServRetI entityTypesGet(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSEntityTypesGetPar par = (SSEntityTypesGetPar) parA.getFromJSON(SSEntityTypesGetPar.class);
       

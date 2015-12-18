@@ -17,9 +17,9 @@
   </properties>
   <dependencies>
     
-    <dependency>
-      <groupId>sss</groupId>
-      <artifactId>util</artifactId>
+<dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>common.impl</artifactId>
       <version>${project.version}</version>
     </dependency>
     

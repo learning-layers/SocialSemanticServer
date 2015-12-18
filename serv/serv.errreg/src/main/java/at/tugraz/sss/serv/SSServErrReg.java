@@ -210,22 +210,22 @@ public class SSServErrReg {
     throw errorToThrow;
   }
   
-  public static void regErrThrow(final Exception originalError) throws SSErr{
+  public static void regErrThrow(final Exception error) throws SSErr{
     
     SSErr errorToThrow = null;
     
     try{
       
-      if(!containsErr(originalError)){
-        SSLogU.err(originalError);
+      if(!containsErr(error)){
+        SSLogU.err(error);
       }
       
-      if(originalError instanceof SSErr){
-        errorToThrow = (SSErr) originalError;
+      if(error instanceof SSErr){
+        errorToThrow = (SSErr) error;
         
         servImplErrors.get().add(SSErr.get(errorToThrow.code, errorToThrow));
       }else{
-        errorToThrow = SSErr.get(SSErrE.defaultErr, originalError);
+        errorToThrow = SSErr.get(SSErrE.defaultErr, error);
         
         servImplErrors.get().add(errorToThrow);
       }

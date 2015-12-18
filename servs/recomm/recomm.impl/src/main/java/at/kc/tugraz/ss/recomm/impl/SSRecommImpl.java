@@ -72,7 +72,7 @@ import at.tugraz.sss.serv.SSEntityDescriberPar;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 
-import at.tugraz.sss.util.SSServCallerU;
+import at.tugraz.sss.servs.common.impl.user.SSUserCommons;
 import engine.Algorithm;
 import engine.EntityType;
 import java.util.ArrayList;
@@ -99,24 +99,26 @@ implements
   SSRecommClientI, 
   SSRecommServerI{
   
-  private final SSRecommConf   recommConf;
-  private final SSRecommSQLFct sql;
-  private final SSEvalServerI  evalServ;
+  private final SSRecommConf     recommConf;
+  private final SSRecommSQLFct   sql;
+  private final SSEvalServerI    evalServ;
+  private final SSUserCommons userCommons;
   
   public SSRecommImpl(final SSConfA conf) throws SSErr{
     
     super(conf, (SSDBSQLI) SSDBSQL.inst.getServImpl(), (SSDBNoSQLI) SSDBNoSQL.inst.getServImpl());
     
-    this.recommConf = ((SSRecommConf)conf);
-    this.sql        = new SSRecommSQLFct(dbSQL, SSVocConf.systemUserUri);
-    this.evalServ   = (SSEvalServerI) SSServReg.getServ(SSEvalServerI.class);
+    this.recommConf  = ((SSRecommConf)conf);
+    this.sql         = new SSRecommSQLFct(dbSQL, SSVocConf.systemUserUri);
+    this.evalServ    = (SSEvalServerI) SSServReg.getServ(SSEvalServerI.class);
+    this.userCommons = new SSUserCommons();
   }
   
   @Override
   public SSServRetI recommUsers(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
 
       final SSRecommUsersPar par = (SSRecommUsersPar) parA.getFromJSON(SSRecommUsersPar.class);
 
@@ -242,7 +244,7 @@ implements
   public SSServRetI recommTags(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSRecommTagsPar par = (SSRecommTagsPar) parA.getFromJSON(SSRecommTagsPar.class);
       
@@ -402,7 +404,7 @@ implements
   public SSServRetI recommResources(final SSClientE clientType, final SSServPar parA) throws SSErr {
     
     try{
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSRecommResourcesPar par = (SSRecommResourcesPar) parA.getFromJSON(SSRecommResourcesPar.class);
       
@@ -556,7 +558,7 @@ implements
   public SSServRetI recommUpdateBulk(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSRecommUpdateBulkPar par = (SSRecommUpdateBulkPar) parA.getFromJSON(SSRecommUpdateBulkPar.class);
       
@@ -834,7 +836,7 @@ implements
   public SSServRetI recommUpdate(final SSClientE clientType, final SSServPar parA) throws SSErr {
     
     try{
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSRecommUpdatePar par = (SSRecommUpdatePar) parA.getFromJSON(SSRecommUpdatePar.class);
       
@@ -904,7 +906,7 @@ implements
   public SSServRetI recommUpdateBulkEntities(final SSClientE clientType, final SSServPar parA) throws SSErr {
     
     try{
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSRecommUpdateBulkEntitiesPar par = (SSRecommUpdateBulkEntitiesPar) parA.getFromJSON(SSRecommUpdateBulkEntitiesPar.class);
       

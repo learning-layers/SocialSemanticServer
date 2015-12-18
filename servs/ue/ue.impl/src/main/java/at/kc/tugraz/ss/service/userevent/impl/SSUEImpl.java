@@ -31,7 +31,7 @@ import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 import at.tugraz.sss.serv.SSUsersResourcesGathererI;
 
-import at.tugraz.sss.util.SSServCallerU;
+import at.tugraz.sss.servs.common.impl.user.SSUserCommons;
 import at.kc.tugraz.ss.conf.conf.SSVocConf;
 import at.kc.tugraz.ss.service.userevent.api.*;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUE;
@@ -70,6 +70,7 @@ implements
   
   private final SSUESQLFct        sql;
   private final SSEntityServerI   entityServ;
+  private final SSUserCommons  userCommons;
   
   public SSUEImpl(final SSConfA conf) throws SSErr{
     
@@ -77,6 +78,7 @@ implements
     
     this.sql          = new SSUESQLFct(dbSQL, SSVocConf.systemUserUri);
     this.entityServ   = (SSEntityServerI)   SSServReg.getServ(SSEntityServerI.class);
+    this.userCommons  = new SSUserCommons();
   }
   
   @Override
@@ -194,7 +196,7 @@ implements
   public SSServRetI userEventGet(SSClientE clientType, SSServPar parA) throws SSErr {
     
     try{
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSUEGetPar par = (SSUEGetPar) parA.getFromJSON(SSUEGetPar.class);
       
@@ -244,7 +246,7 @@ implements
   public SSServRetI userEventsGet(SSClientE clientType, SSServPar parA) throws SSErr {
     
     try{
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSUEsGetPar par = (SSUEsGetPar) parA.getFromJSON(SSUEsGetPar.class);
       
@@ -297,7 +299,7 @@ implements
     
     try{
       
-    SSServCallerU.checkKey(parA);
+    userCommons.checkKeyAndSetUser(parA);
     
     final SSUECountGetPar par = (SSUECountGetPar) parA.getFromJSON(SSUECountGetPar.class);
     
@@ -350,7 +352,7 @@ implements
   public SSServRetI userEventAdd(SSClientE clientType, SSServPar parA) throws SSErr {
     
     try{
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSUEAddPar par = (SSUEAddPar) parA.getFromJSON(SSUEAddPar.class);
       

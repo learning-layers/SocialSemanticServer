@@ -22,7 +22,7 @@ package at.kc.tugraz.ss.serv.jobs.evernote.impl.fct.sql;
 
 import at.tugraz.sss.serv.SSSQLVarNames;
 import at.tugraz.sss.serv.SSUri;
-import at.tugraz.sss.serv.SSDBSQLFct;
+import at.tugraz.sss.serv.SSDBSQLFctA;
 import at.tugraz.sss.serv.SSDBSQLI;
 
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteNote;
@@ -34,7 +34,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SSEvernoteSQLFct extends SSDBSQLFct {
+public class SSEvernoteSQLFct extends SSDBSQLFctA {
   
   public SSEvernoteSQLFct(final SSDBSQLI dbSQL){
     super(dbSQL);

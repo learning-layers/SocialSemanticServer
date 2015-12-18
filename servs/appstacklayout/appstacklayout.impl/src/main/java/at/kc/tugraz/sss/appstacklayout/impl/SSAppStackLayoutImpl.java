@@ -30,8 +30,7 @@ import at.tugraz.sss.serv.SSEntityE;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSServImplWithDBA;
-
-import at.tugraz.sss.util.SSServCallerU;
+import at.tugraz.sss.servs.common.impl.user.SSUserCommons;
 import at.kc.tugraz.sss.appstacklayout.api.SSAppStackLayoutClientI;
 import at.kc.tugraz.sss.appstacklayout.api.SSAppStackLayoutServerI;
 import at.kc.tugraz.sss.appstacklayout.datatypes.SSAppStackLayout;
@@ -56,9 +55,10 @@ import java.util.ArrayList;
 import java.util.List;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
-import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
+import at.tugraz.sss.serv.SSServPar; 
 import at.tugraz.sss.serv.SSServReg;
-import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
+import at.tugraz.sss.serv.SSServRetI; 
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSStrU;
 
 public class SSAppStackLayoutImpl
@@ -69,12 +69,14 @@ implements
   SSDescribeEntityI{
   
   private final SSAppStackLayoutSQLFct sql;
+  private final SSUserCommons       userCommons;
   
   public SSAppStackLayoutImpl(final SSConfA conf) throws SSErr{
     
     super(conf, (SSDBSQLI) SSDBSQL.inst.getServImpl(), (SSDBNoSQLI) SSDBNoSQL.inst.getServImpl());
     
-    this.sql = new SSAppStackLayoutSQLFct(dbSQL, SSVocConf.systemUserUri);
+    this.sql         = new SSAppStackLayoutSQLFct(dbSQL, SSVocConf.systemUserUri);
+    this.userCommons = new SSUserCommons();
   }
   
   @Override
@@ -108,7 +110,7 @@ implements
   public SSServRetI appStackLayoutCreate(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
-    SSServCallerU.checkKey(parA);
+    userCommons.checkKeyAndSetUser(parA);
     
     final SSAppStackLayoutCreatePar par = (SSAppStackLayoutCreatePar) parA.getFromJSON(SSAppStackLayoutCreatePar.class);
      
@@ -190,7 +192,7 @@ implements
   public SSServRetI appStackLayoutUpdate(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
-    SSServCallerU.checkKey(parA);
+    userCommons.checkKeyAndSetUser(parA);
     
     final SSAppStackLayoutUpdatePar par = (SSAppStackLayoutUpdatePar) parA.getFromJSON(SSAppStackLayoutUpdatePar.class);
     
@@ -301,7 +303,7 @@ implements
   public SSServRetI appStackLayoutsGet(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
-    SSServCallerU.checkKey(parA);
+    userCommons.checkKeyAndSetUser(parA);
     
     final SSAppStackLayoutsGetPar par = (SSAppStackLayoutsGetPar) parA.getFromJSON(SSAppStackLayoutsGetPar.class);
     
@@ -352,7 +354,7 @@ implements
     
     try{
       
-    SSServCallerU.checkKey(parA);
+    userCommons.checkKeyAndSetUser(parA);
     
     final SSAppStackLayoutDeletePar par = (SSAppStackLayoutDeletePar) parA.getFromJSON(SSAppStackLayoutDeletePar.class);
     

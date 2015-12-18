@@ -37,7 +37,7 @@ import at.kc.tugraz.ss.service.disc.impl.SSDiscSQLFct;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSErrE;
 import at.tugraz.sss.serv.SSServErrReg;
-import at.tugraz.sss.util.SSServCallerU;
+import at.tugraz.sss.servs.common.impl.user.SSUserCommons;
 import java.util.List;
 
 public class SSDiscUserEntryAddFct{

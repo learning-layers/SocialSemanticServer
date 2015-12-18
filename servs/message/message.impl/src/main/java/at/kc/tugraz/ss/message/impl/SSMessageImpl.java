@@ -57,7 +57,7 @@ import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSStrU;
 
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntitySharePar;
-import at.tugraz.sss.util.SSServCallerU;
+import at.tugraz.sss.servs.common.impl.user.SSUserCommons;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -71,12 +71,14 @@ implements
   
   private final SSMessageSQLFct  sqlFct;
   private final SSEntityServerI  entityServ;
+  private final SSUserCommons userCommons;
   
   public SSMessageImpl(final SSConfA conf) throws SSErr{
     super(conf, (SSDBSQLI) SSDBSQL.inst.getServImpl(), (SSDBNoSQLI) SSDBNoSQL.inst.getServImpl());
     
-    this.sqlFct     = new SSMessageSQLFct(dbSQL);
-    this.entityServ = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
+    this.sqlFct      = new SSMessageSQLFct(dbSQL);
+    this.entityServ  = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
+    this.userCommons = new SSUserCommons();
   }
   
   @Override
@@ -196,7 +198,7 @@ implements
     
     try{
       
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSMessagesGetPar par = (SSMessagesGetPar) parA.getFromJSON(SSMessagesGetPar.class);
       
@@ -268,7 +270,7 @@ implements
     
     try{
       
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSMessageSendPar par        = (SSMessageSendPar) parA.getFromJSON(SSMessageSendPar.class);
       final SSUri            messageURI = messageSend(par);

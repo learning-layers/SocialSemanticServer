@@ -32,8 +32,8 @@
   <dependencies>
     
     <dependency>
-      <groupId>sss</groupId>
-      <artifactId>util</artifactId>
+      <groupId>sss.servs</groupId>
+      <artifactId>common.impl</artifactId>
       <version>${project.version}</version>
     </dependency>
     

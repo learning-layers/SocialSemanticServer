@@ -20,8 +20,5 @@
 */
 package at.tugraz.sss.serv;
 
-public class SSDBFct{
-  
-  public SSDBFct(){
-  }
+public abstract class SSDBFctA{
 }

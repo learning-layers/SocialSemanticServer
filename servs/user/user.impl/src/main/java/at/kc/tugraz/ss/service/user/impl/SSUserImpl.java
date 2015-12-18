@@ -35,7 +35,7 @@ import at.tugraz.sss.serv.SSLabel;
 import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 
-import at.tugraz.sss.util.SSServCallerU;
+import at.tugraz.sss.servs.common.impl.user.SSUserCommons;
 import at.kc.tugraz.ss.conf.conf.SSVocConf;
 import at.kc.tugraz.ss.service.user.api.*;
 import at.kc.tugraz.ss.service.user.datatypes.SSUser;
@@ -72,6 +72,7 @@ implements
   private final SSUserSQLFct      sql;
   private final SSEntityServerI   entityServ;
   private final SSCircleServerI   circleServ;
+  private final SSUserCommons  userCommons;
   
   public SSUserImpl(final SSConfA conf) throws SSErr{
     
@@ -80,6 +81,7 @@ implements
     this.sql          = new SSUserSQLFct(dbSQL, SSVocConf.systemUserUri);
     this.entityServ   = (SSEntityServerI)   SSServReg.getServ(SSEntityServerI.class);
     this.circleServ   = (SSCircleServerI)   SSServReg.getServ(SSCircleServerI.class);
+    this.userCommons  = new SSUserCommons();
   }
   
   @Override
@@ -189,7 +191,7 @@ implements
 //      }else{
     
     try{
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSUsersGetPar par = (SSUsersGetPar) parA.getFromJSON(SSUsersGetPar.class);
       
@@ -370,7 +372,7 @@ implements
     
     try{
       
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSUserEntityUsersGetPar par = (SSUserEntityUsersGetPar) parA.getFromJSON(SSUserEntityUsersGetPar.class);
       

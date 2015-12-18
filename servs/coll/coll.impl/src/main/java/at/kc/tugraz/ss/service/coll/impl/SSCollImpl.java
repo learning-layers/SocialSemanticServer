@@ -54,7 +54,7 @@ import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollUserEntriesAddRet;
 import at.kc.tugraz.ss.service.coll.datatypes.ret.SSCollUserEntriesDeleteRet;
 import at.tugraz.sss.serv.SSUserRelationGathererI;
 
-import at.tugraz.sss.util.SSServCallerU;
+import at.tugraz.sss.servs.common.impl.user.SSUserCommons;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollCumulatedTagsGetPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserHierarchyGetPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollsGetPar;
@@ -87,17 +87,19 @@ implements
   SSUserRelationGathererI,
   SSUsersResourcesGathererI{
   
-  private final SSCollSQLFct    sql;
-  private final SSEntityServerI entityServ;
-  private final SSCircleServerI circleServ;
+  private final SSCollSQLFct     sql;
+  private final SSEntityServerI  entityServ;
+  private final SSCircleServerI  circleServ;
+  private final SSUserCommons userCommons;
   
   public SSCollImpl(final SSConfA conf) throws SSErr{
     
     super(conf, (SSDBSQLI) SSDBSQL.inst.getServImpl(), (SSDBNoSQLI) SSDBNoSQL.inst.getServImpl());
     
-    this.sql        = new SSCollSQLFct(dbSQL, SSVocConf.systemUserUri);
-    this.entityServ = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
-    this.circleServ = (SSCircleServerI) SSServReg.getServ(SSCircleServerI.class);
+    this.sql         = new SSCollSQLFct(dbSQL, SSVocConf.systemUserUri);
+    this.entityServ  = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
+    this.circleServ  = (SSCircleServerI) SSServReg.getServ(SSCircleServerI.class);
+    this.userCommons = new SSUserCommons();
   }
   
   @Override
@@ -531,7 +533,7 @@ implements
   public SSServRetI collGet(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSCollGetPar par = (SSCollGetPar) parA.getFromJSON(SSCollGetPar.class);
       final SSCollGetRet ret = SSCollGetRet.get(collGet(par));
@@ -637,7 +639,7 @@ implements
   public SSServRetI collRootGet(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSCollUserRootGetPar par = (SSCollUserRootGetPar) parA.getFromJSON(SSCollUserRootGetPar.class);
       
@@ -709,7 +711,7 @@ implements
     
     try{
       
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSCollUserHierarchyGetPar par = (SSCollUserHierarchyGetPar) parA.getFromJSON(SSCollUserHierarchyGetPar.class);
       
@@ -798,7 +800,7 @@ implements
     
     try{
       
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSCollsUserEntityIsInGetPar par = (SSCollsUserEntityIsInGetPar) parA.getFromJSON(SSCollsUserEntityIsInGetPar.class);
       
@@ -945,7 +947,7 @@ implements
   public SSServRetI collEntryAdd(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSCollUserEntryAddPar par = (SSCollUserEntryAddPar) parA.getFromJSON(SSCollUserEntryAddPar.class);
       final SSServRetI            ret = SSCollUserEntryAddRet.get(collEntryAdd(par));
@@ -1079,7 +1081,7 @@ implements
     
     try{
       
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSCollUserEntriesAddPar par = (SSCollUserEntriesAddPar) parA.getFromJSON(SSCollUserEntriesAddPar.class);
       final SSServRetI              ret = SSCollUserEntriesAddRet.get(collEntriesAdd(par));
@@ -1209,7 +1211,7 @@ implements
   public SSServRetI collEntriesDelete(final SSClientE clientType, final SSServPar parA) throws SSErr{
     
     try{
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSCollUserEntriesDeletePar par = (SSCollUserEntriesDeletePar) parA.getFromJSON(SSCollUserEntriesDeletePar.class);
       final SSServRetI                 ret = SSCollUserEntriesDeleteRet.get(collEntriesDelete(par));
@@ -1279,7 +1281,7 @@ implements
     
     try{
       
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSCollCumulatedTagsGetPar par = (SSCollCumulatedTagsGetPar) parA.getFromJSON(SSCollCumulatedTagsGetPar.class);
       

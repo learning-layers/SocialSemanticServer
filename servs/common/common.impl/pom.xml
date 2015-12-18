@@ -13,20 +13,26 @@
   <dependencies>
      
     <dependency>
-      <groupId>sss</groupId>
-      <artifactId>util</artifactId>
+      <groupId>sss.servs</groupId>
+      <artifactId>auth.api</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>tag.datatypes</artifactId>
+      <artifactId>user.api</artifactId>
       <version>${project.version}</version>
     </dependency>
     
     <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>category.datatypes</artifactId>
+      <artifactId>tag.api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>category.api</artifactId>
       <version>${project.version}</version>
     </dependency>
     

@@ -31,7 +31,7 @@ import at.tugraz.sss.serv.SSAddAffiliatedEntitiesToCirclePar;
 import at.tugraz.sss.serv.SSClientE;
 import at.tugraz.sss.serv.SSDBSQLI;
 import at.tugraz.sss.serv.SSEntityE;
-import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
+import at.tugraz.sss.serv.SSServPar; 
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSConfA;
 import at.tugraz.sss.serv.SSDBNoSQL;
@@ -43,7 +43,7 @@ import at.tugraz.sss.serv.SSEntityContext;
 import at.tugraz.sss.serv.SSEntityDescriberPar;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSServImplWithDBA;
-import at.tugraz.sss.util.SSServCallerU;
+import at.tugraz.sss.servs.common.impl.user.SSUserCommons;
 import java.util.ArrayList;
 import java.util.List;
 import at.tugraz.sss.serv.SSErrE;
@@ -55,7 +55,8 @@ import at.tugraz.sss.serv.SSLogU;
 import at.tugraz.sss.serv.SSObjU;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServReg;
-import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
+import at.tugraz.sss.serv.SSServRetI; 
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUsersResourcesGathererI;
 import at.tugraz.sss.servs.entity.datatypes.par.SSEntityRemovePar;
@@ -87,12 +88,14 @@ implements
 
   private final SSImageSQLFct         sql;
   private final SSEntityServerI       entityServ;
+  private final SSUserCommons      userCommons;
   
   public SSImageImpl(final SSConfA conf) throws SSErr {
     super(conf, (SSDBSQLI) SSDBSQL.inst.getServImpl(), (SSDBNoSQLI) SSDBNoSQL.inst.getServImpl());
     
     this.sql            = new SSImageSQLFct   (dbSQL, SSVocConf.systemUserUri);
     this.entityServ     = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
+    this.userCommons    = new SSUserCommons();
   }
   
   @Override
@@ -288,7 +291,7 @@ implements
   @Override
   public SSServRetI imagesGet(SSClientE clientType, SSServPar parA) throws Exception{
 
-    SSServCallerU.checkKey(parA);
+    userCommons.checkKeyAndSetUser(parA);
 
     final SSImagesGetPar par = (SSImagesGetPar) parA.getFromJSON(SSImagesGetPar.class);
       
@@ -528,7 +531,7 @@ implements
   @Override
   public SSServRetI imageProfilePictureSet(SSClientE clientType, SSServPar parA) throws Exception {
     
-    SSServCallerU.checkKey(parA);
+    userCommons.checkKeyAndSetUser(parA);
 
     final SSImageProfilePictureSetPar par = (SSImageProfilePictureSetPar) parA.getFromJSON(SSImageProfilePictureSetPar.class);
     

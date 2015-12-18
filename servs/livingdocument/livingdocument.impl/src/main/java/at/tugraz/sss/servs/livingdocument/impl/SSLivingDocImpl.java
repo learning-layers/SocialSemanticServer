@@ -45,9 +45,10 @@ import at.tugraz.sss.serv.SSPushEntitiesToUsersI;
 import at.tugraz.sss.serv.SSPushEntitiesToUsersPar;
 import at.tugraz.sss.serv.SSServErrReg;
 import at.tugraz.sss.serv.SSServImplWithDBA;
-import at.tugraz.sss.serv.SSServPar; import at.tugraz.sss.serv.SSVarNames;
+import at.tugraz.sss.serv.SSServPar; 
 import at.tugraz.sss.serv.SSServReg;
-import at.tugraz.sss.serv.SSServRetI; import at.tugraz.sss.serv.SSVarNames;
+import at.tugraz.sss.serv.SSServRetI; 
+import at.tugraz.sss.serv.SSVarNames;
 import at.tugraz.sss.serv.SSStrU;
 import at.tugraz.sss.serv.SSUri;
 import at.tugraz.sss.serv.SSUsersResourcesGathererI;
@@ -65,7 +66,7 @@ import at.tugraz.sss.servs.livingdocument.datatype.ret.SSLivingDocGetRet;
 import at.tugraz.sss.servs.livingdocument.datatype.ret.SSLivingDocRemoveRet;
 import at.tugraz.sss.servs.livingdocument.datatype.ret.SSLivingDocUpdateRet;
 import at.tugraz.sss.servs.livingdocument.datatype.ret.SSLivingDocsGetRet;
-import at.tugraz.sss.util.SSServCallerU;
+import at.tugraz.sss.servs.common.impl.user.SSUserCommons;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -81,6 +82,7 @@ implements
   
   private final SSLivingDocSQLFct  sql;
   private final SSLivingDocConf    livingDocConf;
+  private final SSUserCommons   userCommons;
   
   public SSLivingDocImpl(final SSConfA conf) throws SSErr{
     
@@ -88,6 +90,7 @@ implements
     
     this.livingDocConf  = (SSLivingDocConf) conf;
     this.sql            = new SSLivingDocSQLFct(this, SSVocConf.systemUserUri);
+    this.userCommons    = new SSUserCommons();
   }
   
   @Override
@@ -180,7 +183,7 @@ implements
   public SSServRetI livingDocAdd(final SSClientE clientType, final SSServPar parA) throws Exception{
     
     try{
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSLivingDocAddPar par          = (SSLivingDocAddPar) parA.getFromJSON(SSLivingDocAddPar.class);
       final SSUri             livingDocURI = livingDocAdd(par);
@@ -277,7 +280,7 @@ implements
   public SSServRetI livingDocUpdate(final SSClientE clientType, final SSServPar parA) throws Exception{
     
     try{
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSLivingDocUpdatePar par          = (SSLivingDocUpdatePar) parA.getFromJSON(SSLivingDocUpdatePar.class);
       final SSUri                livingDocURI = livingDocUpdate(par);
@@ -362,7 +365,7 @@ implements
   @Override
   public SSServRetI livingDocRemove(final SSClientE clientType, final SSServPar parA) throws Exception{
     
-    SSServCallerU.checkKey(parA);
+    userCommons.checkKeyAndSetUser(parA);
     
     final SSLivingDocRemovePar par = (SSLivingDocRemovePar) parA.getFromJSON(SSLivingDocRemovePar.class);
     
@@ -416,7 +419,7 @@ implements
   @Override
   public SSServRetI livingDocGet(final SSClientE clientType, final SSServPar parA) throws Exception{
     
-    SSServCallerU.checkKey(parA);
+    userCommons.checkKeyAndSetUser(parA);
     
     final SSLivingDocGetPar par = (SSLivingDocGetPar) parA.getFromJSON(SSLivingDocGetPar.class);
     
@@ -488,7 +491,7 @@ implements
   @Override
   public SSServRetI livingDocsGet(final SSClientE clientType, final SSServPar parA) throws Exception{
     
-    SSServCallerU.checkKey(parA);
+    userCommons.checkKeyAndSetUser(parA);
     
     final SSLivingDocsGetPar par = (SSLivingDocsGetPar) parA.getFromJSON(SSLivingDocsGetPar.class);
     

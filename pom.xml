@@ -154,7 +154,6 @@
     <module>conf</module>
     <module>servs</module>
     <module>serv</module>
-    <module>util</module>
   </modules>
     <description>service framework to support informal learning (tools)</description>
 </project>

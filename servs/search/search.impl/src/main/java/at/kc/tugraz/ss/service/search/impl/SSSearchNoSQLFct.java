@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.service.search.impl;
 
 import at.kc.tugraz.ss.conf.conf.SSVocConf;
-import at.tugraz.sss.serv.SSDBNoSQLFct;
+import at.tugraz.sss.serv.SSDBNoSQLFctA;
 import at.tugraz.sss.serv.SSDBNoSQLI;
 import at.tugraz.sss.serv.SSDBNoSQLSearchPar;
 import at.tugraz.sss.serv.SSSearchOpE;
@@ -33,7 +33,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SSSearchNoSQLFct extends SSDBNoSQLFct{
+public class SSSearchNoSQLFct extends SSDBNoSQLFctA{
 
   public SSSearchNoSQLFct(final SSDBNoSQLI dbNoSQL){
     super(dbNoSQL);

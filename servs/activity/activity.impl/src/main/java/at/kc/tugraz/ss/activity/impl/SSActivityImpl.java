@@ -55,7 +55,7 @@ import at.tugraz.sss.serv.SSEntityDescriberPar;
 import at.tugraz.sss.serv.SSErr;
 import at.tugraz.sss.serv.SSServImplWithDBA;
 
-import at.tugraz.sss.util.SSServCallerU;
+import at.tugraz.sss.servs.common.impl.user.SSUserCommons;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -77,12 +77,14 @@ implements
   SSUsersResourcesGathererI{
   
   private final SSActivitySQLFct sql;
+  private final SSUserCommons userCommons;
   
   public SSActivityImpl(final SSConfA conf) throws SSErr{
     
     super(conf, (SSDBSQLI) SSDBSQL.inst.getServImpl(), (SSDBNoSQLI) SSDBNoSQL.inst.getServImpl());
     
-    this.sql = new SSActivitySQLFct(dbSQL, SSVocConf.systemUserUri);
+    this.sql         = new SSActivitySQLFct(dbSQL, SSVocConf.systemUserUri);
+    this.userCommons = new SSUserCommons();
   }
   
   @Override
@@ -260,7 +262,7 @@ implements
     
     try{
       
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSActivityTypesGetPar par = (SSActivityTypesGetPar) parA.getFromJSON(SSActivityTypesGetPar.class);
       
@@ -288,7 +290,7 @@ implements
     
     try{
       
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSActivitiesGetPar par = (SSActivitiesGetPar) parA.getFromJSON(SSActivitiesGetPar.class);
       
@@ -378,7 +380,7 @@ implements
     
     try{
       
-      SSServCallerU.checkKey(parA);
+      userCommons.checkKeyAndSetUser(parA);
       
       final SSActivityAddPar par = (SSActivityAddPar) parA.getFromJSON(SSActivityAddPar.class);
       
@@ -401,7 +403,7 @@ implements
 //        par.entity = SSUri.get(SSVocConf.sssUri);
       }
       
-      if(!SSServCallerU.areUsersUsers(par.users)){
+      if(!userCommons.areUsersUsers(par.users)){
         throw SSErr.get(SSErrE.parameterMissing);
       }
       
