@@ -1,25 +1,26 @@
-/**
- * Code contributed to the Learning Layers project
- * http://www.learning-layers.eu
- * Development is partly funded by the FP7 Programme of the European Commission under
- * Grant Agreement FP7-ICT-318209.
- * Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
- * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+ /**
+  * Code contributed to the Learning Layers project
+  * http://www.learning-layers.eu
+  * Development is partly funded by the FP7 Programme of the European Commission under
+  * Grant Agreement FP7-ICT-318209.
+  * Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
+  * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
+  *
+  * Licensed under the Apache License, Version 2.0 (the "License");
+  * you may not use this file except in compliance with the License.
+  * You may obtain a copy of the License at
+  *
+  * http://www.apache.org/licenses/LICENSE-2.0
+  *
+  * Unless required by applicable law or agreed to in writing, software
+  * distributed under the License is distributed on an "AS IS" BASIS,
+  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  * See the License for the specific language governing permissions and
+  * limitations under the License.
+  */
 package at.tugraz.sss.adapter.rest.v2.circle;
 
+import at.kc.tugraz.ss.category.api.*;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleCreateRet;
@@ -32,11 +33,12 @@ import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleUsersAddRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleUsersInviteRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleUsersRemoveRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCirclesGetRet;
+import at.kc.tugraz.ss.serv.datatypes.entity.api.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.conf.SSConf;
+import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.par.SSCircleCreateFromClientPar;
 import at.tugraz.sss.serv.datatype.par.SSCircleCreatePar;
-import at.tugraz.sss.serv.datatype.enums.SSCircleE;
 import at.tugraz.sss.serv.datatype.par.SSCircleEntitiesAddPar;
 import at.tugraz.sss.serv.datatype.par.SSCircleEntitiesRemoveFromClientPar;
 import at.tugraz.sss.serv.datatype.par.SSCircleEntitiesRemovePar;
@@ -47,7 +49,7 @@ import at.tugraz.sss.serv.datatype.par.SSCircleUsersAddPar;
 import at.tugraz.sss.serv.datatype.par.SSCircleUsersInvitePar;
 import at.tugraz.sss.serv.datatype.par.SSCircleUsersRemovePar;
 import at.tugraz.sss.serv.datatype.par.SSCirclesGetPar;
-import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.reg.*;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import javax.ws.rs.Consumes;
@@ -76,7 +78,7 @@ public class SSRESTCircle{
     response = SSCirclesGetRet.class)
   public Response circlesGet(
     @Context
-      final HttpHeaders headers){
+    final HttpHeaders headers){
     
     final SSCirclesGetPar par;
     
@@ -101,7 +103,20 @@ public class SSRESTCircle{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+    try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
+      
+      return Response.status(200).entity(entityServ.circlesGet(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
   
   @GET
@@ -113,10 +128,10 @@ public class SSRESTCircle{
     response = SSCirclesGetRet.class)
   public Response circlesForUsersGet(
     @Context
-      final HttpHeaders headers,
+    final HttpHeaders headers,
     
-    @PathParam (SSVarNames.forUser)  
-      final String forUser){
+    @PathParam (SSVarNames.forUser)
+    final String forUser){
     
     final SSCirclesGetPar par;
     
@@ -138,7 +153,20 @@ public class SSRESTCircle{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+    try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
+      
+      return Response.status(200).entity(entityServ.circlesGet(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
   
   @POST
@@ -150,7 +178,7 @@ public class SSRESTCircle{
     response = SSCirclesGetRet.class)
   public Response circlesFilteredGet(
     @Context
-      final HttpHeaders headers,
+    final HttpHeaders headers,
     
     final SSCirclesGetRESTAPIV2Par input){
     
@@ -178,7 +206,20 @@ public class SSRESTCircle{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+    try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
+      
+      return Response.status(200).entity(entityServ.circlesGet(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
   
   @POST
@@ -190,10 +231,10 @@ public class SSRESTCircle{
     response = SSCirclesGetRet.class)
   public Response circlesFilteredForUserGet(
     @Context
-      final HttpHeaders headers,
+    final HttpHeaders headers,
     
-    @PathParam (SSVarNames.forUser)  
-      final String forUser,
+    @PathParam (SSVarNames.forUser)
+    final String forUser,
     
     final SSCirclesFilteredForUserGetRESTAPIV2Par input){
     
@@ -221,7 +262,20 @@ public class SSRESTCircle{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+    try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
+      
+      return Response.status(200).entity(entityServ.circlesGet(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
   
   @GET
@@ -232,11 +286,11 @@ public class SSRESTCircle{
     value = "retrieve a circle",
     response = SSCircleGetRet.class)
   public Response circleGet(
-    @Context                    
-      final HttpHeaders  headers,
+    @Context
+    final HttpHeaders  headers,
     
-    @PathParam (SSVarNames.circle)  
-      final String circle){
+    @PathParam (SSVarNames.circle)
+    final String circle){
     
     final SSCircleGetPar par;
     
@@ -258,7 +312,20 @@ public class SSRESTCircle{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+    try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
+      
+      return Response.status(200).entity(entityServ.circleGet(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
   
   @POST
@@ -300,7 +367,20 @@ public class SSRESTCircle{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+    try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
+      
+      return Response.status(200).entity(entityServ.circleGet(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
   
   @POST
@@ -311,14 +391,14 @@ public class SSRESTCircle{
     value = "add given users to a circle",
     response = SSCircleUsersAddRet.class)
   public Response circleUsersAdd(
-    @Context 
-      final HttpHeaders headers,
+    @Context
+    final HttpHeaders headers,
     
-    @PathParam (SSVarNames.circle) 
-      final String circle,
+    @PathParam (SSVarNames.circle)
+    final String circle,
     
-    @PathParam (SSVarNames.users) 
-      final String users){
+    @PathParam (SSVarNames.users)
+    final String users){
     
     final SSCircleUsersAddPar par;
     
@@ -335,7 +415,20 @@ public class SSRESTCircle{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+    try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
+      
+      return Response.status(200).entity(entityServ.circleUsersAdd(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
   
   @POST
@@ -346,14 +439,14 @@ public class SSRESTCircle{
     value = "add given entities to a circle",
     response = SSCircleEntitiesAddRet.class)
   public Response circleEntitiesAdd(
-    @Context 
-      final HttpHeaders headers,
+    @Context
+    final HttpHeaders headers,
     
-    @PathParam (SSVarNames.circle) 
-      final String circle,
+    @PathParam (SSVarNames.circle)
+    final String circle,
     
-    @PathParam (SSVarNames.entities) 
-      final String entities, 
+    @PathParam (SSVarNames.entities)
+    final String entities,
     
     final SSCircleEntitiesAddRESTAPIV2Par input){
     
@@ -381,7 +474,20 @@ public class SSRESTCircle{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+    try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
+      
+      return Response.status(200).entity(entityServ.circleEntitiesAdd(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
   
   @DELETE
@@ -392,17 +498,17 @@ public class SSRESTCircle{
     value = "remove given entities from circle",
     response = SSCircleEntitiesRemoveRet.class)
   public Response circleEntitiesRemove(
-    @Context 
-      final HttpHeaders headers,
+    @Context
+    final HttpHeaders headers,
     
-    @PathParam(SSVarNames.circle) 
-      final String circle,
+    @PathParam(SSVarNames.circle)
+    final String circle,
     
-    @PathParam(SSVarNames.entities) 
-      final String entities, 
+    @PathParam(SSVarNames.entities)
+    final String entities,
     
     final SSCircleEntitiesRemoveRESTAPIV2Par input){
-
+    
     final SSCircleEntitiesRemovePar par;
     
     try{
@@ -417,7 +523,20 @@ public class SSRESTCircle{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+    try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
+      
+      return Response.status(200).entity(entityServ.circleEntitiesRemove(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
   
   @POST
@@ -428,8 +547,8 @@ public class SSRESTCircle{
     value = "create a circle and add users / entities",
     response = SSCircleCreateRet.class)
   public Response circleCreate(
-    @Context 
-      final HttpHeaders headers,
+    @Context
+    final HttpHeaders headers,
     
     final SSCircleCreateRESTAPIV2Par input){
     
@@ -455,7 +574,20 @@ public class SSRESTCircle{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+    try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
+      
+      return Response.status(200).entity(entityServ.circleCreate(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
   
   @DELETE
@@ -484,14 +616,27 @@ public class SSRESTCircle{
           null,
           SSUri.get(circle, SSConf.sssUri), //circle
           SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(users, SSStrU.comma), SSConf.sssUri), //users
-          true, //withUserRestriction 
+          true, //withUserRestriction
           true); //shouldCommit
-
+      
     }catch(Exception error){
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+    try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
+      
+      return Response.status(200).entity(entityServ.circleUsersRemove(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
   
   @DELETE
@@ -516,14 +661,27 @@ public class SSRESTCircle{
         new SSCircleRemovePar(
           null,
           SSUri.get(circle, SSConf.sssUri), //circle
-          true, //withUserRestriction 
+          true, //withUserRestriction
           true); //shouldCommit
-
+      
     }catch(Exception error){
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+    try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
+      
+      return Response.status(200).entity(entityServ.circleRemove(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
   
   @POST
@@ -549,17 +707,30 @@ public class SSRESTCircle{
       
       par =
         new SSCircleUsersInvitePar(
-          null, 
-          SSUri.get(circle, SSConf.sssUri), 
-          SSStrU.splitDistinctWithoutEmptyAndNull(emails, SSStrU.comma), 
-          true, 
+          null,
+          SSUri.get(circle, SSConf.sssUri),
+          SSStrU.splitDistinctWithoutEmptyAndNull(emails, SSStrU.comma),
+          true,
           true);
       
     }catch(Exception error){
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+    try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
+      
+      return Response.status(200).entity(entityServ.circleUsersInvite(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
   
   @PUT
@@ -585,9 +756,9 @@ public class SSRESTCircle{
       
       par =
         new SSCircleTypeChangePar(
-          null, 
-          SSUri.get(circle, SSConf.sssUri), 
-          SSCircleE.get(type), 
+          null,
+          SSUri.get(circle, SSConf.sssUri),
+          SSCircleE.get(type),
           true, //withUserRestriction
           true); //shouldCommit
       
@@ -595,6 +766,19 @@ public class SSRESTCircle{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+    try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
+      
+      return Response.status(200).entity(entityServ.circleTypeChange(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
 }

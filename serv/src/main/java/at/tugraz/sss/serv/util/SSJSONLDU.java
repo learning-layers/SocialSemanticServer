@@ -74,3 +74,32 @@ public class SSJSONLDU {
     return jsonLDContext;
   }
 }
+
+//@GET
+//  @Consumes(MediaType.APPLICATION_JSON)
+//  @Produces(MediaType.APPLICATION_JSON)
+//  @Path    ("/{type}")
+//  @ApiOperation(
+//    value = "retrieve json ld description for given type",
+//    response = SSJSONLDRet.class)
+//  public Response jsonLDGet(
+//    @Context  
+//      final HttpHeaders headers,
+//    @PathParam(SSVarNames.type) 
+//      final String type){
+//    
+//    final SSJSONLDPar par;
+//    
+//    try{
+//      
+//      par =
+//        new SSJSONLDPar(
+//          null,
+//          type);
+//      
+//    }catch(Exception error){
+//      return Response.status(422).build();
+//    }
+//    
+//    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+//  }

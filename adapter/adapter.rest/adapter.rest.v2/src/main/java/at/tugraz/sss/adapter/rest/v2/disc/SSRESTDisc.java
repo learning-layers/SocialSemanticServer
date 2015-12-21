@@ -20,6 +20,8 @@
  */
 package at.tugraz.sss.adapter.rest.v2.disc;
 
+import at.kc.tugraz.ss.serv.datatypes.entity.api.*;
+import at.kc.tugraz.ss.service.disc.api.*;
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
 import at.tugraz.sss.conf.SSConf;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscEntryAcceptPar;
@@ -39,7 +41,8 @@ import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscUpdateRet;
 import at.kc.tugraz.ss.service.disc.datatypes.ret.SSDiscsGetRet;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.enums.*;
+import at.tugraz.sss.serv.reg.*;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import javax.ws.rs.Consumes;
@@ -96,7 +99,20 @@ public class SSRESTDisc{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+    try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSDiscClientI discServ = (SSDiscClientI) SSServReg.getClientServ(SSDiscClientI.class);
+      
+      return Response.status(200).entity(discServ.discsGet(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
   
   @POST
@@ -134,7 +150,20 @@ public class SSRESTDisc{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+    try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSDiscClientI discServ = (SSDiscClientI) SSServReg.getClientServ(SSDiscClientI.class);
+      
+      return Response.status(200).entity(discServ.discEntryAdd(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
   
   @PUT
@@ -174,7 +203,20 @@ public class SSRESTDisc{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+     try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSDiscClientI discServ = (SSDiscClientI) SSServReg.getClientServ(SSDiscClientI.class);
+      
+      return Response.status(200).entity(discServ.discUpdate(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
   
   @PUT
@@ -212,7 +254,20 @@ public class SSRESTDisc{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+     try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSDiscClientI discServ = (SSDiscClientI) SSServReg.getClientServ(SSDiscClientI.class);
+      
+      return Response.status(200).entity(discServ.discEntryUpdate(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
   
   @POST
@@ -254,7 +309,20 @@ public class SSRESTDisc{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+     try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSDiscClientI discServ = (SSDiscClientI) SSServReg.getClientServ(SSDiscClientI.class);
+      
+      return Response.status(200).entity(discServ.discsGet(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
   
   @GET
@@ -289,7 +357,20 @@ public class SSRESTDisc{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+    try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSDiscClientI discServ = (SSDiscClientI) SSServReg.getClientServ(SSDiscClientI.class);
+      
+      return Response.status(200).entity(discServ.discsGet(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
   
   @POST
@@ -333,7 +414,20 @@ public class SSRESTDisc{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+    try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSDiscClientI discServ = (SSDiscClientI) SSServReg.getClientServ(SSDiscClientI.class);
+      
+      return Response.status(200).entity(discServ.discsGet(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
   
   @PUT
@@ -365,7 +459,20 @@ public class SSRESTDisc{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+    try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSDiscClientI discServ = (SSDiscClientI) SSServReg.getClientServ(SSDiscClientI.class);
+      
+      return Response.status(200).entity(discServ.discEntryAccept(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
   
   @PUT
@@ -401,6 +508,19 @@ public class SSRESTDisc{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+    try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSDiscClientI discServ = (SSDiscClientI) SSServReg.getClientServ(SSDiscClientI.class);
+      
+      return Response.status(200).entity(discServ.discTargetsAdd(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
 }

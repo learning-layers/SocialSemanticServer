@@ -20,6 +20,8 @@
 */
 package at.tugraz.sss.adapter.rest.v2.video;
 
+import at.kc.tugraz.ss.service.user.api.*;
+import at.kc.tugraz.sss.video.api.*;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
 import at.tugraz.sss.serv.datatype.*;
@@ -33,6 +35,8 @@ import at.kc.tugraz.sss.video.datatypes.ret.SSVideoAnnotationsSetRet;
 import at.kc.tugraz.sss.video.datatypes.ret.SSVideoUserAddRet;
 import at.kc.tugraz.sss.video.datatypes.ret.SSVideoUserAnnotationAddRet;
 import at.kc.tugraz.sss.video.datatypes.ret.SSVideosUserGetRet;
+import at.tugraz.sss.serv.datatype.enums.*;
+import at.tugraz.sss.serv.reg.*;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import javax.ws.rs.Consumes;
@@ -76,7 +80,20 @@ public class SSRESTVideo{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+    try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSVideoClientI videoServ = (SSVideoClientI) SSServReg.getClientServ(SSVideoClientI.class);
+      
+      return Response.status(200).entity(videoServ.videosGet(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
   
   @POST
@@ -112,7 +129,20 @@ public class SSRESTVideo{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+     try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSVideoClientI videoServ = (SSVideoClientI) SSServReg.getClientServ(SSVideoClientI.class);
+      
+      return Response.status(200).entity(videoServ.videoAdd(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
   
   @PUT
@@ -152,7 +182,20 @@ public class SSRESTVideo{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+     try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSVideoClientI videoServ = (SSVideoClientI) SSServReg.getClientServ(SSVideoClientI.class);
+      
+      return Response.status(200).entity(videoServ.videoAnnotationsSet(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
   
   @POST
@@ -191,6 +234,19 @@ public class SSRESTVideo{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+     try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSVideoClientI videoServ = (SSVideoClientI) SSServReg.getClientServ(SSVideoClientI.class);
+      
+      return Response.status(200).entity(videoServ.videoAnnotationAdd(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
 }

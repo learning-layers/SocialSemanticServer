@@ -35,7 +35,6 @@ import at.tugraz.sss.serv.impl.api.SSServImplWithDBA;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.conf.api.SSConfA;
-
 import at.tugraz.sss.servs.common.impl.user.SSUserCommons;
 import at.kc.tugraz.ss.service.rating.datatypes.SSRating;
 import at.kc.tugraz.ss.service.rating.datatypes.SSRatingOverall;
@@ -48,7 +47,6 @@ import at.kc.tugraz.ss.service.rating.datatypes.pars.SSRatingsRemovePar;
 import at.kc.tugraz.ss.service.rating.impl.fct.activity.SSRatingActivityFct;
 import at.tugraz.sss.serv.datatype.enums.SSClientE;
 import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
-
 import at.tugraz.sss.serv.datatype.SSEntityContext;
 import at.tugraz.sss.serv.datatype.par.SSEntityDescriberPar;
 import at.tugraz.sss.serv.datatype.SSErr;

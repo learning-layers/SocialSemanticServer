@@ -20,9 +20,13 @@
  */
 package at.tugraz.sss.adapter.rest.v2.search;
 
+import at.kc.tugraz.ss.recomm.api.*;
+import at.kc.tugraz.ss.service.search.api.*;
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
 import at.kc.tugraz.ss.service.search.datatypes.pars.SSSearchPar;
 import at.kc.tugraz.ss.service.search.datatypes.ret.SSSearchRet;
+import at.tugraz.sss.serv.datatype.enums.*;
+import at.tugraz.sss.serv.reg.*;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import javax.ws.rs.Consumes;
@@ -84,6 +88,19 @@ public class SSRESTSearch{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+    try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSSearchClientI searchServ = (SSSearchClientI) SSServReg.getClientServ(SSSearchClientI.class);
+      
+      return Response.status(200).entity(searchServ.search(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
 }

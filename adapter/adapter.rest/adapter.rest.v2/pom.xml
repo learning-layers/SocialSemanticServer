@@ -150,6 +150,36 @@
     
     <dependency>
       <groupId>sss.servs</groupId>
+      <artifactId>ue.api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+     <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>disc.api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>friend.api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>search.api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
+      <artifactId>recomm.api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>sss.servs</groupId>
       <artifactId>learnep.api</artifactId>
       <version>${project.version}</version>
     </dependency>
@@ -241,12 +271,6 @@
     <dependency>
       <groupId>sss</groupId>
       <artifactId>conf</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>sss.servs</groupId>
-      <artifactId>serv</artifactId>
       <version>${project.version}</version>
     </dependency>
     

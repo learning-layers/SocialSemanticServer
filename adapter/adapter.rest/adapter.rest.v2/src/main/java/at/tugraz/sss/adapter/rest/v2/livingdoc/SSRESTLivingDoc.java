@@ -20,10 +20,14 @@
  */
 package at.tugraz.sss.adapter.rest.v2.livingdoc;
 
+import at.kc.tugraz.ss.like.api.*;
 import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
 import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.datatype.enums.*;
+import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.servs.livingdocument.api.*;
 import at.tugraz.sss.servs.livingdocument.datatype.par.SSLivingDocAddPar;
 import at.tugraz.sss.servs.livingdocument.datatype.par.SSLivingDocGetPar;
 import at.tugraz.sss.servs.livingdocument.datatype.par.SSLivingDocRemovePar;
@@ -79,7 +83,20 @@ public class SSRESTLivingDoc {
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+    try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSLivingDocClientI ldServ = (SSLivingDocClientI) SSServReg.getClientServ(SSLivingDocClientI.class);
+      
+      return Response.status(200).entity(ldServ.livingDocsGet(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
   
   @POST
@@ -116,7 +133,20 @@ public class SSRESTLivingDoc {
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+    try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSLivingDocClientI ldServ = (SSLivingDocClientI) SSServReg.getClientServ(SSLivingDocClientI.class);
+      
+      return Response.status(200).entity(ldServ.livingDocGet(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
   
   @POST
@@ -150,7 +180,20 @@ public class SSRESTLivingDoc {
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+    try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSLivingDocClientI ldServ = (SSLivingDocClientI) SSServReg.getClientServ(SSLivingDocClientI.class);
+      
+      return Response.status(200).entity(ldServ.livingDocsGet(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
   
   @GET
@@ -182,7 +225,20 @@ public class SSRESTLivingDoc {
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+    try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSLivingDocClientI ldServ = (SSLivingDocClientI) SSServReg.getClientServ(SSLivingDocClientI.class);
+      
+      return Response.status(200).entity(ldServ.livingDocsGet(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
   
   @POST
@@ -216,7 +272,20 @@ public class SSRESTLivingDoc {
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+    try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSLivingDocClientI ldServ = (SSLivingDocClientI) SSServReg.getClientServ(SSLivingDocClientI.class);
+      
+      return Response.status(200).entity(ldServ.livingDocAdd(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
   
   @DELETE
@@ -248,7 +317,20 @@ public class SSRESTLivingDoc {
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+    try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSLivingDocClientI ldServ = (SSLivingDocClientI) SSServReg.getClientServ(SSLivingDocClientI.class);
+      
+      return Response.status(200).entity(ldServ.livingDocRemove(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
   
   @PUT
@@ -285,6 +367,19 @@ public class SSRESTLivingDoc {
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+    try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSLivingDocClientI ldServ = (SSLivingDocClientI) SSServReg.getClientServ(SSLivingDocClientI.class);
+      
+      return Response.status(200).entity(ldServ.livingDocUpdate(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
 }

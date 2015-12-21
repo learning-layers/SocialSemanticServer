@@ -20,14 +20,17 @@
 */
 package at.tugraz.sss.adapter.rest.v2.friend;
 
-
+import at.kc.tugraz.ss.friend.api.*;
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
 import at.kc.tugraz.ss.friend.datatypes.par.SSFriendAddPar;
 import at.kc.tugraz.ss.friend.datatypes.par.SSFriendsGetPar;
 import at.kc.tugraz.ss.friend.datatypes.ret.SSFriendAddRet;
 import at.kc.tugraz.ss.friend.datatypes.ret.SSFriendsGetRet;
+import at.kc.tugraz.sss.flag.api.*;
 import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.datatype.enums.*;
+import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.util.*;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
@@ -69,7 +72,20 @@ public class SSRESTFriend{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+    try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSFriendClientI friendServ = (SSFriendClientI) SSServReg.getClientServ(SSFriendClientI.class);
+      
+      return Response.status(200).entity(friendServ.friendsGet(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
   
   @POST
@@ -100,6 +116,19 @@ public class SSRESTFriend{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+    try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSFriendClientI friendServ = (SSFriendClientI) SSServReg.getClientServ(SSFriendClientI.class);
+      
+      return Response.status(200).entity(friendServ.friendAdd(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
 }

@@ -20,13 +20,16 @@
   */
 package at.tugraz.sss.adapter.rest.v2.user;
 
+import at.kc.tugraz.ss.service.user.api.*;
 import at.tugraz.sss.conf.SSConf;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUsersGetPar;
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
 import at.kc.tugraz.ss.service.user.datatypes.ret.SSUsersGetRet;
-import at.tugraz.sss.serv.util.*;
+import at.kc.tugraz.ss.service.userevent.api.*;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.datatype.enums.*;
+import at.tugraz.sss.serv.reg.*;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import javax.ws.rs.Consumes;
@@ -69,7 +72,20 @@ public class SSRESTUser{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+    try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSUserClientI userServ = (SSUserClientI) SSServReg.getClientServ(SSUserClientI.class);
+      
+      return Response.status(200).entity(userServ.usersGet(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
   
   @GET
@@ -100,7 +116,20 @@ public class SSRESTUser{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+   try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSUserClientI userServ = (SSUserClientI) SSServReg.getClientServ(SSUserClientI.class);
+      
+      return Response.status(200).entity(userServ.usersGet(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
   
   @POST
@@ -143,6 +172,19 @@ public class SSRESTUser{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+    try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSUserClientI userServ = (SSUserClientI) SSServReg.getClientServ(SSUserClientI.class);
+      
+      return Response.status(200).entity(userServ.usersGet(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
 }

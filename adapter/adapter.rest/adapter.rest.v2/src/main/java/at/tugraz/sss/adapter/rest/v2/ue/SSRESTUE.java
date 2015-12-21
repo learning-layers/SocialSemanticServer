@@ -20,6 +20,8 @@
  */
 package at.tugraz.sss.adapter.rest.v2.ue;
 
+import at.kc.tugraz.ss.service.tag.api.*;
+import at.kc.tugraz.ss.service.userevent.api.*;
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
 import at.tugraz.sss.conf.SSConf;
 import at.kc.tugraz.ss.service.userevent.datatypes.pars.SSUEAddPar;
@@ -31,6 +33,8 @@ import at.kc.tugraz.ss.service.userevent.datatypes.ret.SSUECountGetRet;
 import at.kc.tugraz.ss.service.userevent.datatypes.ret.SSUEGetRet;
 import at.kc.tugraz.ss.service.userevent.datatypes.ret.SSUEsGetRet;
 import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.datatype.enums.*;
+import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.util.*;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
@@ -82,7 +86,20 @@ public class SSRESTUE{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+    try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSUEClientI ueServ = (SSUEClientI) SSServReg.getClientServ(SSUEClientI.class);
+      
+      return Response.status(200).entity(ueServ.userEventsGet(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
   
   @GET
@@ -114,7 +131,20 @@ public class SSRESTUE{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+    try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSUEClientI ueServ = (SSUEClientI) SSServReg.getClientServ(SSUEClientI.class);
+      
+      return Response.status(200).entity(ueServ.userEventGet(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
   
   @POST
@@ -148,7 +178,20 @@ public class SSRESTUE{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+     try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSUEClientI ueServ = (SSUEClientI) SSServReg.getClientServ(SSUEClientI.class);
+      
+      return Response.status(200).entity(ueServ.userEventCountGet(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
   
   @POST
@@ -182,6 +225,19 @@ public class SSRESTUE{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+    try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSUEClientI ueServ = (SSUEClientI) SSServReg.getClientServ(SSUEClientI.class);
+      
+      return Response.status(200).entity(ueServ.userEventAdd(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
 }

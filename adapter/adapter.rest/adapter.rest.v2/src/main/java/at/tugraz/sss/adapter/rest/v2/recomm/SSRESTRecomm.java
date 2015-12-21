@@ -20,6 +20,7 @@
 */
 package at.tugraz.sss.adapter.rest.v2.recomm;
 
+import at.kc.tugraz.ss.recomm.api.*;
 import at.tugraz.sss.adapter.rest.v2.SSRESTObject;
 
 import at.tugraz.sss.serv.util.*;
@@ -36,7 +37,10 @@ import at.kc.tugraz.ss.recomm.datatypes.ret.SSRecommTagsRet;
 import at.kc.tugraz.ss.recomm.datatypes.ret.SSRecommUpdateBulkRet;
 import at.kc.tugraz.ss.recomm.datatypes.ret.SSRecommUpdateRet;
 import at.kc.tugraz.ss.recomm.datatypes.ret.SSRecommUsersRet;
+import at.kc.tugraz.ss.service.rating.api.*;
 import at.tugraz.sss.conf.SSConf;
+import at.tugraz.sss.serv.datatype.enums.*;
+import at.tugraz.sss.serv.reg.*;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import com.wordnik.swagger.annotations.ApiParam;
@@ -88,7 +92,20 @@ public class SSRESTRecomm{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+     try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSRecommClientI recommServ = (SSRecommClientI) SSServReg.getClientServ(SSRecommClientI.class);
+      
+      return Response.status(200).entity(recommServ.recommUpdate(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
   
   @POST
@@ -164,7 +181,20 @@ public class SSRESTRecomm{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+    try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSRecommClientI recommServ = (SSRecommClientI) SSServReg.getClientServ(SSRecommClientI.class);
+      
+      return Response.status(200).entity(recommServ.recommUpdateBulkEntities(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
   
   @GET
@@ -198,7 +228,20 @@ public class SSRESTRecomm{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+    try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSRecommClientI recommServ = (SSRecommClientI) SSServReg.getClientServ(SSRecommClientI.class);
+      
+      return Response.status(200).entity(recommServ.recommUsers(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
 
   @GET
@@ -238,7 +281,20 @@ public class SSRESTRecomm{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+    try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSRecommClientI recommServ = (SSRecommClientI) SSServReg.getClientServ(SSRecommClientI.class);
+      
+      return Response.status(200).entity(recommServ.recommUsers(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
   
   @GET
@@ -278,7 +334,20 @@ public class SSRESTRecomm{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+    try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSRecommClientI recommServ = (SSRecommClientI) SSServReg.getClientServ(SSRecommClientI.class);
+      
+      return Response.status(200).entity(recommServ.recommUsers(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
   
   @GET
@@ -324,7 +393,20 @@ public class SSRESTRecomm{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+    try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSRecommClientI recommServ = (SSRecommClientI) SSServReg.getClientServ(SSRecommClientI.class);
+      
+      return Response.status(200).entity(recommServ.recommUsers(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
   
   @GET
@@ -376,7 +458,20 @@ public class SSRESTRecomm{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+    try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSRecommClientI recommServ = (SSRecommClientI) SSServReg.getClientServ(SSRecommClientI.class);
+      
+      return Response.status(200).entity(recommServ.recommUsers(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
  
   @GET
@@ -428,7 +523,20 @@ public class SSRESTRecomm{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+    try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSRecommClientI recommServ = (SSRecommClientI) SSServReg.getClientServ(SSRecommClientI.class);
+      
+      return Response.status(200).entity(recommServ.recommUsers(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
   
   @GET
@@ -468,7 +576,20 @@ public class SSRESTRecomm{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+    try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSRecommClientI recommServ = (SSRecommClientI) SSServReg.getClientServ(SSRecommClientI.class);
+      
+      return Response.status(200).entity(recommServ.recommUsers(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
   
   @GET
@@ -515,7 +636,20 @@ public class SSRESTRecomm{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+    try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSRecommClientI recommServ = (SSRecommClientI) SSServReg.getClientServ(SSRecommClientI.class);
+      
+      return Response.status(200).entity(recommServ.recommUsers(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
   
   @GET
@@ -561,7 +695,20 @@ public class SSRESTRecomm{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+    try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSRecommClientI recommServ = (SSRecommClientI) SSServReg.getClientServ(SSRecommClientI.class);
+      
+      return Response.status(200).entity(recommServ.recommUsers(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
   
   @GET
@@ -601,7 +748,20 @@ public class SSRESTRecomm{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+    try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSRecommClientI recommServ = (SSRecommClientI) SSServReg.getClientServ(SSRecommClientI.class);
+      
+      return Response.status(200).entity(recommServ.recommUsers(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
   
   @GET
@@ -647,7 +807,20 @@ public class SSRESTRecomm{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+    try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSRecommClientI recommServ = (SSRecommClientI) SSServReg.getClientServ(SSRecommClientI.class);
+      
+      return Response.status(200).entity(recommServ.recommUsers(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
   
   @GET
@@ -693,7 +866,20 @@ public class SSRESTRecomm{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+    try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSRecommClientI recommServ = (SSRecommClientI) SSServReg.getClientServ(SSRecommClientI.class);
+      
+      return Response.status(200).entity(recommServ.recommUsers(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
   
   @POST
@@ -732,7 +918,20 @@ public class SSRESTRecomm{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+    try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSRecommClientI recommServ = (SSRecommClientI) SSServReg.getClientServ(SSRecommClientI.class);
+      
+      return Response.status(200).entity(recommServ.recommResources(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
   
   @POST
@@ -768,6 +967,19 @@ public class SSRESTRecomm{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+    try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSRecommClientI recommServ = (SSRecommClientI) SSServReg.getClientServ(SSRecommClientI.class);
+      
+      return Response.status(200).entity(recommServ.recommTags(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
 }

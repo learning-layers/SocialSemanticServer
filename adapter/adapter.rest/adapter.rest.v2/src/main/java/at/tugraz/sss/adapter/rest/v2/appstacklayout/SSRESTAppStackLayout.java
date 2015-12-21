@@ -20,6 +20,7 @@
   */
 package at.tugraz.sss.adapter.rest.v2.appstacklayout;
 
+import at.kc.tugraz.sss.appstacklayout.api.*;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
 import at.tugraz.sss.serv.datatype.*;
@@ -32,7 +33,8 @@ import at.kc.tugraz.sss.appstacklayout.datatypes.ret.SSAppStackLayoutCreateRet;
 import at.kc.tugraz.sss.appstacklayout.datatypes.ret.SSAppStackLayoutDeleteRet;
 import at.kc.tugraz.sss.appstacklayout.datatypes.ret.SSAppStackLayoutUpdateRet;
 import at.kc.tugraz.sss.appstacklayout.datatypes.ret.SSAppStackLayoutsGetRet;
-import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.enums.*;
+import at.tugraz.sss.serv.reg.*;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import javax.ws.rs.Consumes;
@@ -77,7 +79,20 @@ public class SSRESTAppStackLayout{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+     try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+     
+    try{
+      final SSAppStackLayoutClientI appStackLayoutServ = (SSAppStackLayoutClientI) SSServReg.getClientServ(SSAppStackLayoutClientI.class);
+      
+      return Response.status(200).entity(appStackLayoutServ.appStackLayoutsGet(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
   
   @GET
@@ -108,7 +123,20 @@ public class SSRESTAppStackLayout{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+     try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+     
+   try{
+      final SSAppStackLayoutClientI appStackLayoutServ = (SSAppStackLayoutClientI) SSServReg.getClientServ(SSAppStackLayoutClientI.class);
+      
+      return Response.status(200).entity(appStackLayoutServ.appStackLayoutsGet(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
   
   @POST
@@ -139,7 +167,20 @@ public class SSRESTAppStackLayout{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+     try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+     
+    try{
+      final SSAppStackLayoutClientI appStackLayoutServ = (SSAppStackLayoutClientI) SSServReg.getClientServ(SSAppStackLayoutClientI.class);
+      
+      return Response.status(200).entity(appStackLayoutServ.appStackLayoutCreate(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
   
   @DELETE
@@ -170,7 +211,20 @@ public class SSRESTAppStackLayout{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+     try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+     
+    try{
+      final SSAppStackLayoutClientI appStackLayoutServ = (SSAppStackLayoutClientI) SSServReg.getClientServ(SSAppStackLayoutClientI.class);
+      
+      return Response.status(200).entity(appStackLayoutServ.appStackLayoutDelete(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
   
   @PUT
@@ -206,6 +260,19 @@ public class SSRESTAppStackLayout{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+     try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+     
+    try{
+      final SSAppStackLayoutClientI appStackLayoutServ = (SSAppStackLayoutClientI) SSServReg.getClientServ(SSAppStackLayoutClientI.class);
+      
+      return Response.status(200).entity(appStackLayoutServ.appStackLayoutUpdate(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
 }

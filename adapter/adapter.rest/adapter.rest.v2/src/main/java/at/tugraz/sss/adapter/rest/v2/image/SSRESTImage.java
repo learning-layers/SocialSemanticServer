@@ -5,10 +5,14 @@
  */
 package at.tugraz.sss.adapter.rest.v2.image;
 
+import at.kc.tugraz.ss.friend.api.*;
 import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
 import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.datatype.enums.*;
+import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.servs.image.api.*;
 import at.tugraz.sss.servs.image.datatype.par.SSImageProfilePictureSetPar;
 import at.tugraz.sss.servs.image.datatype.ret.SSImageProfilePictureSetRet;
 import com.wordnik.swagger.annotations.Api;
@@ -60,6 +64,19 @@ public class SSRESTImage {
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+    try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSImageClientI imageServ = (SSImageClientI) SSServReg.getClientServ(SSImageClientI.class);
+      
+      return Response.status(200).entity(imageServ.imageProfilePictureSet(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
 }

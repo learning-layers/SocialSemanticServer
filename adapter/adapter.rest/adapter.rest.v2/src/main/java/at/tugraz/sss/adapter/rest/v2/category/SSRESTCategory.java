@@ -20,6 +20,7 @@
 */
 package at.tugraz.sss.adapter.rest.v2.category;
 
+import at.kc.tugraz.ss.category.api.*;
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
 import at.kc.tugraz.ss.category.datatypes.par.SSCategoriesPredefinedGetPar;
 import at.kc.tugraz.ss.category.datatypes.par.SSCategoryAddPar;
@@ -27,7 +28,8 @@ import at.kc.tugraz.ss.category.datatypes.par.SSCategoryFrequsGetPar;
 import at.kc.tugraz.ss.category.datatypes.ret.SSCategoriesPredefinedGetRet;
 import at.kc.tugraz.ss.category.datatypes.ret.SSCategoryAddRet;
 import at.kc.tugraz.ss.category.datatypes.ret.SSCategoryFrequsGetRet;
-import at.tugraz.sss.serv.datatype.enums.SSSpaceE;
+import at.tugraz.sss.serv.datatype.enums.*;
+import at.tugraz.sss.serv.reg.*;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import javax.ws.rs.Consumes;
@@ -67,7 +69,20 @@ public class SSRESTCategory{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+    try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSCategoryClientI categoryServ = (SSCategoryClientI) SSServReg.getClientServ(SSCategoryClientI.class);
+      
+      return Response.status(200).entity(categoryServ.categoriesPredefinedGet(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
   
   @POST
@@ -101,7 +116,20 @@ public class SSRESTCategory{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+    try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSCategoryClientI categoryServ = (SSCategoryClientI) SSServReg.getClientServ(SSCategoryClientI.class);
+      
+      return Response.status(200).entity(categoryServ.categoryAdd(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
   
   @GET
@@ -133,7 +161,20 @@ public class SSRESTCategory{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+    try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSCategoryClientI categoryServ = (SSCategoryClientI) SSServReg.getClientServ(SSCategoryClientI.class);
+      
+      return Response.status(200).entity(categoryServ.categoryFrequsGet(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
   
   @POST
@@ -167,6 +208,19 @@ public class SSRESTCategory{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+    try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSCategoryClientI categoryServ = (SSCategoryClientI) SSServReg.getClientServ(SSCategoryClientI.class);
+      
+      return Response.status(200).entity(categoryServ.categoryFrequsGet(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
 }

@@ -20,6 +20,8 @@
 */
 package at.tugraz.sss.adapter.rest.v2.rating;
 
+import at.kc.tugraz.ss.message.api.*;
+import at.kc.tugraz.ss.service.rating.api.*;
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
 import at.tugraz.sss.conf.SSConf;
 import at.kc.tugraz.ss.service.rating.datatypes.pars.SSRatingOverallGetPar;
@@ -27,6 +29,8 @@ import at.kc.tugraz.ss.service.rating.datatypes.pars.SSRatingSetPar;
 import at.kc.tugraz.ss.service.rating.datatypes.ret.SSRatingOverallGetRet;
 import at.kc.tugraz.ss.service.rating.datatypes.ret.SSRatingSetRet;
 import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.datatype.enums.*;
+import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.util.*;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
@@ -73,7 +77,20 @@ public class SSRESTRating{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+    try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSRatingClientI ratingServ = (SSRatingClientI) SSServReg.getClientServ(SSRatingClientI.class);
+      
+      return Response.status(200).entity(ratingServ.ratingOverallGet(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
   
   @POST
@@ -110,6 +127,19 @@ public class SSRESTRating{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+     try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSRatingClientI ratingServ = (SSRatingClientI) SSServReg.getClientServ(SSRatingClientI.class);
+      
+      return Response.status(200).entity(ratingServ.ratingSet(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
 }

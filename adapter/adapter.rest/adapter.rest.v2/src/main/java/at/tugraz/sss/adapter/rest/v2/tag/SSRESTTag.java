@@ -20,6 +20,8 @@
 */
 package at.tugraz.sss.adapter.rest.v2.tag;
 
+import at.kc.tugraz.ss.service.search.api.*;
+import at.kc.tugraz.ss.service.tag.api.*;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
 import at.tugraz.sss.serv.datatype.*;
@@ -36,9 +38,8 @@ import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagFrequsGetRet;
 import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagsAddRet;
 import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagsGetRet;
 import at.kc.tugraz.ss.service.tag.datatypes.ret.SSTagsRemoveRet;
-import at.tugraz.sss.serv.datatype.enums.SSSearchOpE;
-import at.tugraz.sss.serv.datatype.enums.SSSpaceE;
-import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.enums.*;
+import at.tugraz.sss.serv.reg.*;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import javax.ws.rs.Consumes;
@@ -87,7 +88,20 @@ public class SSRESTTag{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+    try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSTagClientI tagServ = (SSTagClientI) SSServReg.getClientServ(SSTagClientI.class);
+      
+      return Response.status(200).entity(tagServ.tagsGet(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
   
   @POST
@@ -122,7 +136,20 @@ public class SSRESTTag{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+     try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSTagClientI tagServ = (SSTagClientI) SSServReg.getClientServ(SSTagClientI.class);
+      
+      return Response.status(200).entity(tagServ.tagsGet(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
   
   @GET
@@ -156,7 +183,20 @@ public class SSRESTTag{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+     try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSTagClientI tagServ = (SSTagClientI) SSServReg.getClientServ(SSTagClientI.class);
+      
+      return Response.status(200).entity(tagServ.tagFrequsGet(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
   
   @POST
@@ -191,7 +231,20 @@ public class SSRESTTag{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+     try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSTagClientI tagServ = (SSTagClientI) SSServReg.getClientServ(SSTagClientI.class);
+      
+      return Response.status(200).entity(tagServ.tagFrequsGet(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
   
   @POST
@@ -226,7 +279,20 @@ public class SSRESTTag{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+     try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSTagClientI tagServ = (SSTagClientI) SSServReg.getClientServ(SSTagClientI.class);
+      
+      return Response.status(200).entity(tagServ.tagEntitiesForTagsGet(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
   
   @POST
@@ -263,7 +329,20 @@ public class SSRESTTag{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+    try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSTagClientI tagServ = (SSTagClientI) SSServReg.getClientServ(SSTagClientI.class);
+      
+      return Response.status(200).entity(tagServ.tagsAdd(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
   
   @DELETE
@@ -300,7 +379,20 @@ public class SSRESTTag{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+    try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSTagClientI tagServ = (SSTagClientI) SSServReg.getClientServ(SSTagClientI.class);
+      
+      return Response.status(200).entity(tagServ.tagsRemove(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
   
   @POST
@@ -334,6 +426,19 @@ public class SSRESTTag{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+    try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSTagClientI tagServ = (SSTagClientI) SSServReg.getClientServ(SSTagClientI.class);
+      
+      return Response.status(200).entity(tagServ.tagAdd(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
 }

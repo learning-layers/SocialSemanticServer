@@ -20,6 +20,8 @@
   */
 package at.tugraz.sss.adapter.rest.v2.entity;
 
+import at.kc.tugraz.ss.serv.datatypes.entity.api.*;
+import at.kc.tugraz.ss.service.user.api.*;
 import at.tugraz.sss.serv.datatype.par.SSEntityCopyPar;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
@@ -27,7 +29,10 @@ import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.conf.SSConf;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserEntityUsersGetPar;
 import at.kc.tugraz.ss.service.user.datatypes.ret.SSUserEntityUsersGetRet;
+import at.kc.tugraz.sss.app.api.*;
+import at.kc.tugraz.sss.comment.api.*;
 import at.kc.tugraz.sss.comment.datatypes.par.SSCommentsAddPar;
+import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.par.SSEntitiesAccessibleGetPar;
 import at.tugraz.sss.serv.datatype.par.SSEntitiesGetPar;
 import at.tugraz.sss.serv.datatype.par.SSEntityDescriberPar;
@@ -35,6 +40,7 @@ import at.tugraz.sss.serv.datatype.par.SSEntitySharePar;
 import at.tugraz.sss.serv.datatype.par.SSEntityTypesGetPar;
 import at.tugraz.sss.serv.datatype.par.SSEntityUnpublicizePar;
 import at.tugraz.sss.serv.datatype.par.SSEntityUpdatePar;
+import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.servs.entity.datatypes.ret.SSEntitiesGetRet;
 import at.tugraz.sss.servs.entity.datatypes.ret.SSEntityCopyRet;
@@ -89,7 +95,20 @@ public class SSRESTEntity {
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+    try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
+      
+      return Response.status(200).entity(entityServ.entitiesAccessibleGet(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
   
   @POST
@@ -128,7 +147,20 @@ public class SSRESTEntity {
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+    try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
+      
+      return Response.status(200).entity(entityServ.entitiesAccessibleGet(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
   
   @GET
@@ -152,7 +184,20 @@ public class SSRESTEntity {
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+    try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
+      
+      return Response.status(200).entity(entityServ.entityTypesGet(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
   
   @POST
@@ -198,7 +243,20 @@ public class SSRESTEntity {
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+    try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
+      
+      return Response.status(200).entity(entityServ.entitiesGet(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
   
   //TODO replace this call by a service to be created for placeholder functionality (i.e., b&p placeholders)
@@ -237,7 +295,20 @@ public class SSRESTEntity {
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+    try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
+      
+      return Response.status(200).entity(entityServ.entityUpdate(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
   
   @PUT
@@ -277,7 +348,20 @@ public class SSRESTEntity {
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+    try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
+      
+      return Response.status(200).entity(entityServ.entityUpdate(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
   
   @PUT
@@ -314,7 +398,20 @@ public class SSRESTEntity {
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+    try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
+      
+      return Response.status(200).entity(entityServ.entityShare(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
   
   @PUT
@@ -345,7 +442,20 @@ public class SSRESTEntity {
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+    try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
+      
+      return Response.status(200).entity(entityServ.entityUnpublicize(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
   
   @PUT
@@ -389,7 +499,20 @@ public class SSRESTEntity {
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+    try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSEntityClientI entityServ = (SSEntityClientI) SSServReg.getClientServ(SSEntityClientI.class);
+      
+      return Response.status(200).entity(entityServ.entityCopy(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
   
   @GET
@@ -421,7 +544,20 @@ public class SSRESTEntity {
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+    try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSUserClientI userServ = (SSUserClientI) SSServReg.getClientServ(SSUserClientI.class);
+      
+      return Response.status(200).entity(userServ.userEntityUsersGet(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
   
   @POST
@@ -456,7 +592,20 @@ public class SSRESTEntity {
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+    try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSCommentClientI commentServ = (SSCommentClientI) SSServReg.getClientServ(SSCommentClientI.class);
+      
+      return Response.status(200).entity(commentServ.commentsAdd(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
 }
 

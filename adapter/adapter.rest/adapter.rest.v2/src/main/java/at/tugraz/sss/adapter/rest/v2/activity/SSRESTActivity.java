@@ -20,12 +20,15 @@
  */
 package at.tugraz.sss.adapter.rest.v2.activity;
 
+import at.kc.tugraz.ss.activity.api.*;
 import at.kc.tugraz.ss.activity.datatypes.par.SSActivitiesGetPar;
 import at.kc.tugraz.ss.activity.datatypes.par.SSActivityAddPar;
 import at.kc.tugraz.ss.activity.datatypes.par.SSActivityTypesGetPar;
 import at.kc.tugraz.ss.activity.datatypes.ret.SSActivitiesGetRet;
 import at.kc.tugraz.ss.activity.datatypes.ret.SSActivityTypesGetRet;
-import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
+import at.tugraz.sss.adapter.rest.v2.*;
+import at.tugraz.sss.serv.datatype.enums.*;
+import at.tugraz.sss.serv.reg.*;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import javax.ws.rs.Consumes;
@@ -80,7 +83,20 @@ public class SSRESTActivity{
     }
 //    System.out.println("activity end " + new Date().getTime());
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+    try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSActivityClientI activityServ = (SSActivityClientI) SSServReg.getClientServ(SSActivityClientI.class);
+      
+      return Response.status(200).entity(activityServ.activitiesGet(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
   
   @GET
@@ -106,7 +122,20 @@ public class SSRESTActivity{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+    try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSActivityClientI activityServ = (SSActivityClientI) SSServReg.getClientServ(SSActivityClientI.class);
+      
+      return Response.status(200).entity(activityServ.activityTypesGet(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
   
   @POST
@@ -141,6 +170,19 @@ public class SSRESTActivity{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+    try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSActivityClientI activityServ = (SSActivityClientI) SSServReg.getClientServ(SSActivityClientI.class);
+      
+      return Response.status(200).entity(activityServ.activityAdd(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
 }

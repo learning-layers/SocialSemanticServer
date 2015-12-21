@@ -20,7 +20,10 @@
 */
 package at.tugraz.sss.adapter.rest.v2.evallog;
 
+import at.kc.tugraz.sss.comment.api.*;
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
+import at.tugraz.sss.serv.datatype.enums.*;
+import at.tugraz.sss.serv.reg.*;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import javax.ws.rs.Consumes;
@@ -31,6 +34,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import sss.serv.eval.api.*;
 import sss.serv.eval.datatypes.par.SSEvalLogPar;
 import sss.serv.eval.datatypes.ret.SSEvalLogRet;
 
@@ -70,6 +74,19 @@ public class SSRESTEval {
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+    try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSEvalClientI evalServ = (SSEvalClientI) SSServReg.getClientServ(SSEvalClientI.class);
+      
+      return Response.status(200).entity(evalServ.evalLog(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
 }

@@ -20,11 +20,15 @@
 */
 package at.tugraz.sss.adapter.rest.v2.message;
 
+import at.kc.tugraz.ss.message.api.*;
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
 import at.kc.tugraz.ss.message.datatypes.par.SSMessageSendPar;
 import at.kc.tugraz.ss.message.datatypes.par.SSMessagesGetPar;
 import at.kc.tugraz.ss.message.datatypes.ret.SSMessageSendRet;
 import at.kc.tugraz.ss.message.datatypes.ret.SSMessagesGetRet;
+import at.tugraz.sss.serv.datatype.enums.*;
+import at.tugraz.sss.serv.reg.*;
+import at.tugraz.sss.servs.livingdocument.api.*;
 
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
@@ -71,7 +75,20 @@ public class SSRESTMessage{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+    try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSMessageClientI messageServ = (SSMessageClientI) SSServReg.getClientServ(SSMessageClientI.class);
+      
+      return Response.status(200).entity(messageServ.messagesGet(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
   
   @POST
@@ -102,6 +119,19 @@ public class SSRESTMessage{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+    try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSMessageClientI messageServ = (SSMessageClientI) SSServReg.getClientServ(SSMessageClientI.class);
+      
+      return Response.status(200).entity(messageServ.messageSend(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
 }

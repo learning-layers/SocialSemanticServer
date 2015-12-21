@@ -20,11 +20,15 @@
  */
 package at.tugraz.sss.adapter.rest.v2.like;
 
+import at.kc.tugraz.ss.like.api.*;
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
 import at.kc.tugraz.ss.like.datatypes.par.SSLikeUserSetPar;
 import at.kc.tugraz.ss.like.datatypes.ret.SSLikeUserSetRet;
+import at.kc.tugraz.ss.serv.datatypes.learnep.api.*;
 import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.datatype.enums.*;
+import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.util.*;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
@@ -75,6 +79,19 @@ public class SSRESTLike{
       return Response.status(422).build();
     }
     
-    return SSRestMainV2.handleRequest(headers, par, false, true).response;
+    try{
+      par.key = SSRestMainV2.getBearer(headers);
+    }catch(Exception error){
+      return Response.status(401).build();
+    }
+    
+    try{
+      final SSLikeClientI likeServ = (SSLikeClientI) SSServReg.getClientServ(SSLikeClientI.class);
+      
+      return Response.status(200).entity(likeServ.likeSet(SSClientE.rest, par)).build();
+      
+    }catch(Exception error){
+      return Response.status(500).build();
+    }
   }
 }
