@@ -20,7 +20,7 @@
  */
 package at.tugraz.sss.adapter.rest.v2.ue;
 
-import at.kc.tugraz.ss.conf.conf.SSVocConf;
+import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.serv.datatype.*;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUEE;
 import com.wordnik.swagger.annotations.ApiModel;
@@ -39,7 +39,7 @@ public class SSUECountGetRESTAPIV2Par{
   
   @XmlElement
   public void setForUser(final String forUser) throws Exception{
-    this.forUser = SSUri.get(forUser, SSVocConf.sssUri);
+    this.forUser = SSUri.get(forUser, SSConf.sssUri);
   }
   
   @ApiModelProperty(
@@ -49,7 +49,7 @@ public class SSUECountGetRESTAPIV2Par{
   
   @XmlElement
   public void setEntity(final String entity) throws Exception{
-    this.entity = SSUri.get(entity, SSVocConf.sssUri);
+    this.entity = SSUri.get(entity, SSConf.sssUri);
   }
   
   @ApiModelProperty(

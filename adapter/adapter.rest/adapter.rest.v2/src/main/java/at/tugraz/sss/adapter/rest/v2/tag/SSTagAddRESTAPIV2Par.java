@@ -20,7 +20,7 @@
  */
 package at.tugraz.sss.adapter.rest.v2.tag;
 
-import at.kc.tugraz.ss.conf.conf.SSVocConf;
+import at.tugraz.sss.conf.SSConf;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.tugraz.sss.serv.datatype.enums.SSSpaceE;
 import at.tugraz.sss.serv.datatype.*;
@@ -50,7 +50,7 @@ public class SSTagAddRESTAPIV2Par{
   
   @XmlElement
   public void setEntity(final String entity) throws Exception{
-    this.entity = SSUri.get(entity, SSVocConf.sssUri);
+    this.entity = SSUri.get(entity, SSConf.sssUri);
   }
   
   @ApiModelProperty(
@@ -70,7 +70,7 @@ public class SSTagAddRESTAPIV2Par{
   
   @XmlElement
   public void setCircle(final String circle) throws Exception{
-    this.circle = SSUri.get(circle, SSVocConf.sssUri);
+    this.circle = SSUri.get(circle, SSConf.sssUri);
   }
   
   @XmlElement

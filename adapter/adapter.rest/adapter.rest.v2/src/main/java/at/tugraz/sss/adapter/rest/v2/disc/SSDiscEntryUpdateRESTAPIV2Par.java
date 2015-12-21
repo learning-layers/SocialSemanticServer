@@ -20,7 +20,7 @@
  */
 package at.tugraz.sss.adapter.rest.v2.disc;
 
-import at.kc.tugraz.ss.conf.conf.SSVocConf;
+import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.SSTextComment;
 import at.tugraz.sss.serv.datatype.*;
@@ -41,7 +41,7 @@ public class SSDiscEntryUpdateRESTAPIV2Par{
   
   @XmlElement
   public void setEntitiesToRemove(final List<String> entitiesToRemove) throws Exception{
-    this.entitiesToRemove = SSUri.get(entitiesToRemove, SSVocConf.sssUri);
+    this.entitiesToRemove = SSUri.get(entitiesToRemove, SSConf.sssUri);
   }
   
   @ApiModelProperty(
@@ -51,7 +51,7 @@ public class SSDiscEntryUpdateRESTAPIV2Par{
   
   @XmlElement
   public void setEntitiesToAttach(final List<String> entitiesToAttach) throws Exception{
-    this.entitiesToAttach = SSUri.get(entitiesToAttach, SSVocConf.sssUri);
+    this.entitiesToAttach = SSUri.get(entitiesToAttach, SSConf.sssUri);
   }
   
   @ApiModelProperty(

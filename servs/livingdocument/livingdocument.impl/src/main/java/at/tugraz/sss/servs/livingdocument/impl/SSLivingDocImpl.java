@@ -20,7 +20,7 @@
  */
 package at.tugraz.sss.servs.livingdocument.impl;
 
-import at.kc.tugraz.ss.conf.conf.SSVocConf;
+import at.tugraz.sss.conf.SSConf;
 import at.kc.tugraz.ss.service.disc.api.SSDiscServerI;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscTargetsAddPar;
 import at.tugraz.sss.serv.datatype.enums.SSClientE;
@@ -86,7 +86,7 @@ implements
     super(conf, (SSDBSQLI) SSServReg.getServ(SSDBSQLI.class), (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class));
     
     this.livingDocConf  = (SSLivingDocConf) conf;
-    this.sql            = new SSLivingDocSQLFct(this, SSVocConf.systemUserUri);
+    this.sql            = new SSLivingDocSQLFct(this, SSConf.systemUserUri);
     this.userCommons    = new SSUserCommons();
   }
   

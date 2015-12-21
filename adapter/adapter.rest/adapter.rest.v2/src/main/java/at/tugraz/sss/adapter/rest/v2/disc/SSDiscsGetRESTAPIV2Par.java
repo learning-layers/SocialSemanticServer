@@ -20,7 +20,7 @@
 */
 package at.tugraz.sss.adapter.rest.v2.disc;
 
-import at.kc.tugraz.ss.conf.conf.SSVocConf;
+import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.serv.datatype.*;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
@@ -38,7 +38,7 @@ public class SSDiscsGetRESTAPIV2Par{
 
   @XmlElement
   public void setForUser(final String forUser) throws Exception{
-    this.forUser = SSUri.get(forUser, SSVocConf.sssUri);
+    this.forUser = SSUri.get(forUser, SSConf.sssUri);
   }
   
   @XmlElement

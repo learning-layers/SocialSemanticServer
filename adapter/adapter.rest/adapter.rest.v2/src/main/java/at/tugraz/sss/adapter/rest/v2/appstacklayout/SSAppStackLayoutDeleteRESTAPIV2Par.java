@@ -21,7 +21,7 @@
 package at.tugraz.sss.adapter.rest.v2.appstacklayout;
 
 import at.tugraz.sss.serv.datatype.*;
-import at.kc.tugraz.ss.conf.conf.SSVocConf;
+import at.tugraz.sss.conf.SSConf;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 import javax.xml.bind.annotation.XmlElement;
@@ -38,7 +38,7 @@ public class SSAppStackLayoutDeleteRESTAPIV2Par{
   
   @XmlElement
   public void setStack(final String stack) throws Exception{
-    this.stack = SSUri.get(stack, SSVocConf.sssUri);
+    this.stack = SSUri.get(stack, SSConf.sssUri);
   }
   
   public SSAppStackLayoutDeleteRESTAPIV2Par(){

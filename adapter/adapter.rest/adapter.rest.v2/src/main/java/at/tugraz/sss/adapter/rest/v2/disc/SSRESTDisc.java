@@ -21,7 +21,7 @@
 package at.tugraz.sss.adapter.rest.v2.disc;
 
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
-import at.kc.tugraz.ss.conf.conf.SSVocConf;
+import at.tugraz.sss.conf.SSConf;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscEntryAcceptPar;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscEntryAddFromClientPar;
 import at.kc.tugraz.ss.service.disc.datatypes.pars.SSDiscEntryAddPar;
@@ -160,7 +160,7 @@ public class SSRESTDisc{
       par =
         new SSDiscUpdatePar(
           null,
-          SSUri.get(disc, SSVocConf.sssUri),
+          SSUri.get(disc, SSConf.sssUri),
           input.label,
           input.content,
           input.entitiesToRemove,
@@ -200,7 +200,7 @@ public class SSRESTDisc{
       par =
         new SSDiscEntryUpdatePar(
           null,
-          SSUri.get(entry, SSVocConf.sssUri),
+          SSUri.get(entry, SSConf.sssUri),
           input.content,
           input.entitiesToRemove,
           input.entitiesToAttach,
@@ -238,7 +238,7 @@ public class SSRESTDisc{
       par =
         new SSDiscGetPar(
           null, //user
-          SSUri.get(disc, SSVocConf.sssUri), //disc
+          SSUri.get(disc, SSConf.sssUri), //disc
           input.setEntries, //setEntries
           true, //withUserRestriction
           true); //invokeEntityHandlers
@@ -281,7 +281,7 @@ public class SSRESTDisc{
           true, //setEntries
           null, //forUser
           null, //discs
-          SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(targets, SSStrU.comma), SSVocConf.sssUri), //targets
+          SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(targets, SSStrU.comma), SSConf.sssUri), //targets
           true, //withUserRestriction
           true); //invokeEntityHandlers
       
@@ -318,7 +318,7 @@ public class SSRESTDisc{
           true, //setEntries
           input.forUser, //forUser
           null, //discs
-          SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(targets, SSStrU.comma), SSVocConf.sssUri), //targets
+          SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(targets, SSStrU.comma), SSConf.sssUri), //targets
           true, //withUserRestriction
           true); //invokeEntityHandlers
       
@@ -357,7 +357,7 @@ public class SSRESTDisc{
       par =
         new SSDiscEntryAcceptPar(
           null, //user
-          SSUri.get(entry, SSVocConf.sssUri), //entry
+          SSUri.get(entry, SSConf.sssUri), //entry
           true, //withUserRestriction,
           true); //shouldComit
       
@@ -392,8 +392,8 @@ public class SSRESTDisc{
       par =
         new SSDiscTargetsAddPar(
           null, //user,
-          SSUri.get(disc, SSVocConf.sssUri),
-          SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(targets, SSStrU.comma), SSVocConf.sssUri),
+          SSUri.get(disc, SSConf.sssUri),
+          SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(targets, SSStrU.comma), SSConf.sssUri),
           true, //withUserRestriction,
           true); //shouldCommit
           

@@ -22,7 +22,7 @@ package at.tugraz.sss.servs.image.impl;
 
 import at.tugraz.sss.serv.datatype.par.SSCircleEntitiesAddPar;
 import at.tugraz.sss.serv.impl.api.SSEntityServerI;
-import at.kc.tugraz.ss.conf.conf.SSVocConf;
+import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.serv.datatype.par.SSEntityUpdatePar;
 import at.kc.tugraz.ss.service.filerepo.api.SSFileRepoServerI;
 import at.tugraz.sss.serv.impl.api.SSAddAffiliatedEntitiesToCircleI;
@@ -89,7 +89,7 @@ implements
   public SSImageImpl(final SSConfA conf) throws SSErr {
     super(conf, (SSDBSQLI) SSServReg.getServ(SSDBSQLI.class), (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class));
     
-    this.sql            = new SSImageSQLFct   (dbSQL, SSVocConf.systemUserUri);
+    this.sql            = new SSImageSQLFct   (dbSQL, SSConf.systemUserUri);
     this.entityServ     = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
     this.userCommons    = new SSUserCommons();
   }
@@ -357,13 +357,13 @@ implements
       SSUri                   imageUri;
 
       if(par.uuid != null){
-        imageUri = SSVocConf.vocURICreateFromId(par.uuid);
+        imageUri = SSConf.vocURICreateFromId(par.uuid);
       }else{
         
         if(par.link != null){
           imageUri = par.link;
         }else{
-          imageUri = SSVocConf.vocURICreate();
+          imageUri = SSConf.vocURICreate();
         }
       }
       
@@ -403,7 +403,7 @@ implements
             entityServ.entityRemove(new SSEntityRemovePar(par.user, thumb.id));
             
             try{
-              SSFileU.delFile(SSImageConf.getLocalWorkPath() + SSVocConf.fileIDFromSSSURI(thumb.file.id));
+              SSFileU.delFile(SSImageConf.getLocalWorkPath() + SSConf.fileIDFromSSSURI(thumb.file.id));
             }catch(Exception error){
               SSLogU.warn("couldnt remove thumbnail files from filesys");
             }
@@ -786,10 +786,10 @@ implements
     
     try{
     
-      final String      filePath          = SSImageConf.getLocalWorkPath() + SSVocConf.fileIDFromSSSURI(fileURI);
-      final SSFileExtE  fileExt           = SSFileExtE.getFromStrToFormat(SSVocConf.fileIDFromSSSURI(fileURI));
-      final SSUri       thumbFileURI      = SSVocConf.vocURICreate(SSFileExtE.png);
-      final String      thumbnailPath     = SSImageConf.getLocalWorkPath() + SSVocConf.fileIDFromSSSURI(thumbFileURI);
+      final String      filePath          = SSImageConf.getLocalWorkPath() + SSConf.fileIDFromSSSURI(fileURI);
+      final SSFileExtE  fileExt           = SSFileExtE.getFromStrToFormat(SSConf.fileIDFromSSSURI(fileURI));
+      final SSUri       thumbFileURI      = SSConf.vocURICreate(SSFileExtE.png);
+      final String      thumbnailPath     = SSImageConf.getLocalWorkPath() + SSConf.fileIDFromSSSURI(thumbFileURI);
 
       if(SSStrU.contains(SSFileExtE.imageFileExts, fileExt)){
         SSFileU.scalePNGAndWrite(ImageIO.read(new File(filePath)), thumbnailPath, width, width);
@@ -802,7 +802,7 @@ implements
           
           try{
             
-            final String pdfFilePath = SSImageConf.getLocalWorkPath() + SSVocConf.fileIDFromSSSURI(SSVocConf.vocURICreate(SSFileExtE.pdf));
+            final String pdfFilePath = SSImageConf.getLocalWorkPath() + SSConf.fileIDFromSSSURI(SSConf.vocURICreate(SSFileExtE.pdf));
             
             SSFileU.writePDFFromText(
               pdfFilePath,
@@ -831,7 +831,7 @@ implements
         
         case doc:{
           
-          final String pdfFilePath  = SSImageConf.getLocalWorkPath() + SSVocConf.fileIDFromSSSURI(SSVocConf.vocURICreate(SSFileExtE.pdf));
+          final String pdfFilePath  = SSImageConf.getLocalWorkPath() + SSConf.fileIDFromSSSURI(SSConf.vocURICreate(SSFileExtE.pdf));
           
           SSFileU.writePDFFromDoc       (filePath,    pdfFilePath);
           SSFileU.writeScaledPNGFromPDF (pdfFilePath, thumbnailPath, width, width, false);
@@ -867,7 +867,7 @@ implements
 //
 //      final String pngFilePath =
 //        SSCoreConf.instGet().getSss().getLocalWorkPath() +
-//        SSVocConf.fileIDFromSSSURI(images.get(0).file.id);
+//        SSConf.fileIDFromSSSURI(images.get(0).file.id);
 //
 //      return SSFileU.readImageToBase64Str(pngFilePath);
 //      

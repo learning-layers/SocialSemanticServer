@@ -22,7 +22,7 @@ package at.tugraz.sss.adapter.rest.v2.tag;
 
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.SSSpaceE;
-import at.kc.tugraz.ss.conf.conf.SSVocConf;
+import at.tugraz.sss.conf.SSConf;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
@@ -41,7 +41,7 @@ public class SSTagFrequsGetRESTAPIV2Par{
   
   @XmlElement
   public void setForUser(final String forUser) throws Exception{
-    this.forUser = SSUri.get(forUser, SSVocConf.sssUri);
+    this.forUser = SSUri.get(forUser, SSConf.sssUri);
   }
   
   @ApiModelProperty(
@@ -51,7 +51,7 @@ public class SSTagFrequsGetRESTAPIV2Par{
   
   @XmlElement
   public void setEntities(final List<String> entities) throws Exception{
-    this.entities = SSUri.get(entities, SSVocConf.sssUri);
+    this.entities = SSUri.get(entities, SSConf.sssUri);
   }
   
   @ApiModelProperty(
@@ -77,7 +77,7 @@ public class SSTagFrequsGetRESTAPIV2Par{
   
   @XmlElement
   public void setCircles(final List<String> circles) throws Exception {
-    this.circles = SSUri.get(circles, SSVocConf.sssUri);
+    this.circles = SSUri.get(circles, SSConf.sssUri);
   }
   
   @XmlElement

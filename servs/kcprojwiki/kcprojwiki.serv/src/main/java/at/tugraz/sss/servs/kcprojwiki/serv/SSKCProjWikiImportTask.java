@@ -20,7 +20,7 @@
 */
 package at.tugraz.sss.servs.kcprojwiki.serv;
 
-import at.kc.tugraz.ss.conf.conf.SSVocConf;
+import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.serv.util.SSLogU;
 import at.tugraz.sss.serv.impl.api.SSServImplStartA;
 import java.util.TimerTask;
@@ -57,7 +57,7 @@ public class SSKCProjWikiImportTask extends TimerTask {
       
       try{
         
-        ((SSKCProjWikiServerI) SSServReg.getServ(SSKCProjWikiServerI.class)).kcprojwikiImport(new SSKCProjWikiImportPar(SSVocConf.systemUserUri));
+        ((SSKCProjWikiServerI) SSServReg.getServ(SSKCProjWikiServerI.class)).kcprojwikiImport(new SSKCProjWikiImportPar(SSConf.systemUserUri));
         
       }catch(Exception error){
         SSServErrReg.regErr(error);

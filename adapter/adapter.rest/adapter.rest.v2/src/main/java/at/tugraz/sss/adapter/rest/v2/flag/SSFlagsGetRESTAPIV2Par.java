@@ -20,7 +20,7 @@
  */
 package at.tugraz.sss.adapter.rest.v2.flag;
 
-import at.kc.tugraz.ss.conf.conf.SSVocConf;
+import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.serv.datatype.*;
 import at.kc.tugraz.sss.flag.datatypes.SSFlagE;
 import com.wordnik.swagger.annotations.ApiModel;
@@ -40,7 +40,7 @@ public class SSFlagsGetRESTAPIV2Par{
   
   @XmlElement
   public void setEntities(final List<String> entities) throws Exception{
-    this.entities = SSUri.get(entities, SSVocConf.sssUri);
+    this.entities = SSUri.get(entities, SSConf.sssUri);
   }
   
   @ApiModelProperty(

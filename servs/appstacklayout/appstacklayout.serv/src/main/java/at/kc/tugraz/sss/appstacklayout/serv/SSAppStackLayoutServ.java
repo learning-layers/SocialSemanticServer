@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.sss.appstacklayout.serv;
 
-import at.kc.tugraz.ss.conf.conf.SSCoreConf;
+import at.tugraz.sss.conf.SSCoreConf;
 import at.tugraz.sss.serv.conf.SSCoreConfA;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.impl.api.SSServImplA;

@@ -20,7 +20,7 @@
 */
 package at.tugraz.sss.adapter.rest.v2.entity;
 
-import at.kc.tugraz.ss.conf.conf.SSVocConf;
+import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.SSTextComment;
 import at.tugraz.sss.serv.datatype.*;
@@ -41,7 +41,7 @@ public class SSEntityCopyRESTAPIV2Par{
   
   @XmlElement
   public void setTargetEntity(final String targetEntity) throws Exception{
-    this.targetEntity = SSUri.get(targetEntity, SSVocConf.sssUri);
+    this.targetEntity = SSUri.get(targetEntity, SSConf.sssUri);
   }
     
   @ApiModelProperty(
@@ -51,7 +51,7 @@ public class SSEntityCopyRESTAPIV2Par{
   
   @XmlElement
   public void setForUsers(final List<String> forUsers) throws Exception{
-    this.forUsers = SSUri.get(forUsers, SSVocConf.sssUri);
+    this.forUsers = SSUri.get(forUsers, SSConf.sssUri);
   }
   
   @ApiModelProperty(
@@ -102,7 +102,7 @@ public class SSEntityCopyRESTAPIV2Par{
   
   @XmlElement
   public void setEntitiesToExclude(final List<String> entitiesToExclude) throws Exception{
-    this.entitiesToExclude = SSUri.get(entitiesToExclude, SSVocConf.sssUri);
+    this.entitiesToExclude = SSUri.get(entitiesToExclude, SSConf.sssUri);
   }
   
   @ApiModelProperty(

@@ -18,7 +18,7 @@
   * License for the specific language governing permissions and limitations under
   * the License.
   */
-package at.kc.tugraz.ss.conf.conf;
+package at.tugraz.sss.conf;
 
 import sss.serv.eval.conf.SSEvalConf;
 import at.kc.tugraz.ss.serv.auth.conf.SSAuthConf;
@@ -69,7 +69,6 @@ public class SSCoreConf extends SSCoreConfA {
   private SSDBSQLConf dbSQL = null;
   private SSDBNoSQLConf dbNoSQL = null;
   private SSFileRepoConf filerepo = null;
-  private SSVocConf voc = null;
   private SSRecommConf recomm = null;
   private SSEvernoteConf evernote = null;
   private SSAuthConf auth = null;
@@ -143,7 +142,6 @@ public class SSCoreConf extends SSCoreConfA {
       copy.jsonLD = SSJSONLDConf.copy(inst.jsonLD);
       copy.dbSQL = SSDBSQLConf.copy(inst.dbSQL);
       copy.filerepo = SSFileRepoConf.copy(inst.filerepo);
-      copy.voc = SSVocConf.copy(inst.voc);
       copy.recomm = SSRecommConf.copy(inst.recomm);
       copy.evernote = SSEvernoteConf.copy(inst.evernote);
       copy.auth = SSAuthConf.copy(inst.auth);
@@ -222,14 +220,6 @@ public class SSCoreConf extends SSCoreConfA {
   
   public void setFilerepo(SSFileRepoConf filerepo) {
     this.filerepo = filerepo;
-  }
-  
-  public SSVocConf getVoc() {
-    return voc;
-  }
-  
-  public void setVoc(SSVocConf voc) {
-    this.voc = voc;
   }
   
   public SSRecommConf getRecomm() {

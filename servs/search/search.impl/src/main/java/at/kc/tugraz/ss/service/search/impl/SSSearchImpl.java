@@ -25,7 +25,7 @@ import at.kc.tugraz.ss.recomm.api.SSRecommServerI;
 import at.kc.tugraz.ss.recomm.datatypes.SSResourceLikelihood;
 import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommResourcesPar;
 import at.tugraz.sss.serv.impl.api.SSEntityServerI;
-import at.kc.tugraz.ss.conf.conf.SSVocConf;
+import at.tugraz.sss.conf.SSConf;
 import at.kc.tugraz.ss.service.rating.api.SSRatingServerI;
 import at.kc.tugraz.ss.service.rating.datatypes.pars.SSRatingEntityURIsGetPar;
 import at.tugraz.sss.serv.util.SSDateU;
@@ -75,7 +75,7 @@ implements
   public SSSearchImpl(final SSConfA conf) throws SSErr{
     super(conf, (SSDBSQLI) SSServReg.getServ(SSDBSQLI.class), (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class));
     
-    this.sql         = new SSCoreSQL     (dbSQL, SSVocConf.systemUserUri);
+    this.sql         = new SSCoreSQL     (dbSQL, SSConf.systemUserUri);
     this.noSQLFct    = new SSSearchNoSQLFct(dbNoSQL);
     this.userCommons = new SSUserCommons();
   }

@@ -22,7 +22,7 @@ package at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.access;
 
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpLockRemovePar;
 import at.kc.tugraz.ss.serv.datatypes.learnep.impl.SSLearnEpImpl;
-import at.kc.tugraz.ss.conf.conf.SSVocConf;
+import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.serv.util.SSLogU;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.impl.api.SSServImplStartA;
@@ -69,7 +69,7 @@ public class SSLearnEpRemainingTimeTask extends TimerTask {
             
             serv.learnEpLockRemove(
               new SSLearnEpLockRemovePar(
-                SSVocConf.systemUserUri, 
+                SSConf.systemUserUri, 
                 null, 
                 SSUri.get(learnEp), 
                 false, 

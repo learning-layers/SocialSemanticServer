@@ -5,7 +5,7 @@ import at.kc.tugraz.ss.message.datatypes.SSMessage;
 import at.kc.tugraz.ss.message.datatypes.par.SSMessagesGetPar;
 import at.tugraz.sss.serv.impl.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpsGetPar;
-import at.kc.tugraz.ss.conf.conf.SSVocConf;
+import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.*;
@@ -92,7 +92,7 @@ public class SSEvalLogAnalyzer {
       
       final SSLivingDocsGetPar ldDocsGetPar =
         new SSLivingDocsGetPar(
-          SSVocConf.systemUserUri,
+          SSConf.systemUserUri,
           null, //forUser,
           false, //withUserRestriction,
           true); //invokeEntityHandlers
@@ -101,7 +101,7 @@ public class SSEvalLogAnalyzer {
       
       final SSDiscGetPar discGetPar =
         new SSDiscGetPar(
-          SSVocConf.systemUserUri,
+          SSConf.systemUserUri,
           null, //disc
           true, //setEntries
           false, //withUserRestriction
@@ -186,7 +186,7 @@ public class SSEvalLogAnalyzer {
             episodesForLabel.addAll(
               entityServ.entityFromTypeAndLabelGet(
                 new SSEntityFromTypeAndLabelGetPar(
-                  SSVocConf.systemUserUri,
+                  SSConf.systemUserUri,
                   logEntry.entityLabel,
                   SSEntityE.learnEp,
                   false)));
@@ -251,7 +251,7 @@ public class SSEvalLogAnalyzer {
       for(SSEntity messageEntity :
         messageServ.messagesGet(
           new SSMessagesGetPar(
-            SSVocConf.systemUserUri,
+            SSConf.systemUserUri,
             null, //forUser,
             true, //includeRead,
             timeBeginLogAnalyze, //startTime,
@@ -446,7 +446,7 @@ public class SSEvalLogAnalyzer {
       final SSEntity entity =
         entityServ.entityGet(
           new SSEntityGetPar(
-            SSVocConf.systemUserUri,
+            SSConf.systemUserUri,
             logEntry.entity,
             false, //withUserRestriction
             null)); //descPar
@@ -573,7 +573,7 @@ public class SSEvalLogAnalyzer {
       final SSEntity entity =
         entityServ.entityGet(
           new SSEntityGetPar(
-            SSVocConf.systemUserUri,
+            SSConf.systemUserUri,
             logEntry.entity,
             false, //withUserRestriction
             null)); //descPar
@@ -641,7 +641,7 @@ public class SSEvalLogAnalyzer {
         final SSEntity disc = 
           discServ.discGet(
             new SSDiscGetPar(
-              SSVocConf.systemUserUri, 
+              SSConf.systemUserUri, 
               logEntry.entity, //disc
               true, //setEntries
               false, //withUserRestriction, 
@@ -829,14 +829,14 @@ public class SSEvalLogAnalyzer {
       
       final SSEntityGetPar entityGetPar =
         new SSEntityGetPar(
-          SSVocConf.systemUserUri,
+          SSConf.systemUserUri,
           null, //entity,
           false, //withUserRestriction,
           null);
       
       final SSEntitiesGetPar entitiesGetPar = 
         new SSEntitiesGetPar(
-          SSVocConf.systemUserUri, 
+          SSConf.systemUserUri, 
           null, //entities, 
           null, //descPar, 
           false); //withUserRestriction); 
@@ -877,14 +877,14 @@ public class SSEvalLogAnalyzer {
       
       final SSEntityGetPar entityGetPar =
         new SSEntityGetPar(
-          SSVocConf.systemUserUri,
+          SSConf.systemUserUri,
           null, //entity,
           false, //withUserRestriction,
           null);
       
       final SSEntitiesGetPar entitiesGetPar = 
         new SSEntitiesGetPar(
-          SSVocConf.systemUserUri, 
+          SSConf.systemUserUri, 
           null, //entities, 
           null, //descPar, 
           false); //withUserRestriction); 
@@ -1267,7 +1267,7 @@ public class SSEvalLogAnalyzer {
       for(SSEntity learnEp :
         learnEpServ.learnEpsGet(
           new SSLearnEpsGetPar(
-            SSVocConf.systemUserUri,
+            SSConf.systemUserUri,
             null, //forUser
             false,  //withUserRestriction
             false))){ //invokeEntityHandlers

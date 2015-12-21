@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.recomm.serv;
 
-import at.kc.tugraz.ss.conf.conf.SSCoreConf;
+import at.tugraz.sss.conf.SSCoreConf;
 import at.tugraz.sss.serv.util.SSDateU;
 import at.tugraz.sss.serv.util.SSLogU;
 import at.tugraz.sss.serv.util.*;
@@ -33,7 +33,7 @@ import at.kc.tugraz.ss.recomm.impl.SSRecommImpl;
 import at.kc.tugraz.ss.recomm.serv.task.SSRecommUpdateBulkTask;
 import at.kc.tugraz.ss.recomm.serv.task.SSRecommUpdateBulkUserRealmsFromCirclesTask;
 import at.kc.tugraz.ss.recomm.serv.task.SSRecommUpdateBulkUserRealmsFromConfTask;
-import at.kc.tugraz.ss.conf.conf.SSVocConf;
+import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.impl.api.SSServImplA;
 
@@ -78,7 +78,7 @@ public class SSRecommServ extends SSServContainerI{
       return;
     }
     
-    ((SSRecommServerI) getServImpl()).recommLoadUserRealms(new SSRecommLoadUserRealmsPar(SSVocConf.systemUserUri));
+    ((SSRecommServerI) getServImpl()).recommLoadUserRealms(new SSRecommLoadUserRealmsPar(SSConf.systemUserUri));
     
     if(!recommConf.initAtStartUp){
       return;

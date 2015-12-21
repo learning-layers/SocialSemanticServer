@@ -26,7 +26,7 @@ import at.kc.tugraz.ss.friend.datatypes.par.SSFriendAddPar;
 import at.kc.tugraz.ss.friend.datatypes.par.SSFriendsGetPar;
 import at.kc.tugraz.ss.friend.datatypes.ret.SSFriendAddRet;
 import at.kc.tugraz.ss.friend.datatypes.ret.SSFriendsGetRet;
-import at.kc.tugraz.ss.conf.conf.SSVocConf;
+import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.util.*;
 import com.wordnik.swagger.annotations.Api;
@@ -93,7 +93,7 @@ public class SSRESTFriend{
       par =
         new SSFriendAddPar(
           null,
-          SSUri.get(friend, SSVocConf.sssUri),  //friend
+          SSUri.get(friend, SSConf.sssUri),  //friend
           true);
       
     }catch(Exception error){

@@ -21,7 +21,7 @@
 package at.kc.tugraz.sss.appstacklayout.impl;
 
 import at.tugraz.sss.serv.impl.api.SSEntityServerI;
-import at.kc.tugraz.ss.conf.conf.SSVocConf;
+import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.serv.datatype.par.SSEntityGetPar;
 import at.tugraz.sss.serv.datatype.par.SSEntityUpdatePar;
 import at.tugraz.sss.serv.datatype.SSEntity;
@@ -75,7 +75,7 @@ implements
     
     super(conf, (SSDBSQLI) SSServReg.getServ(SSDBSQLI.class), (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class));
     
-    this.sql         = new SSAppStackLayoutSQLFct(dbSQL, SSVocConf.systemUserUri);
+    this.sql         = new SSAppStackLayoutSQLFct(dbSQL, SSConf.systemUserUri);
     this.userCommons = new SSUserCommons();
   }
   
@@ -130,9 +130,9 @@ implements
       final SSUri appStackLayoutUri;
       
       if(par.uuid != null){
-        appStackLayoutUri = SSVocConf.vocURICreateFromId(par.uuid);
+        appStackLayoutUri = SSConf.vocURICreateFromId(par.uuid);
       }else{
-        appStackLayoutUri = SSVocConf.vocURICreate();
+        appStackLayoutUri = SSConf.vocURICreate();
       }
       
       final SSEntityServerI entityServ = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);

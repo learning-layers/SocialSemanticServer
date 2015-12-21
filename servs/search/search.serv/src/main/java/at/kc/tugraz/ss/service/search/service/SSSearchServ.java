@@ -20,7 +20,7 @@
 */
  package at.kc.tugraz.ss.service.search.service;
 
-import at.kc.tugraz.ss.conf.conf.SSCoreConf;
+import at.tugraz.sss.conf.SSCoreConf;
 import at.tugraz.sss.serv.util.SSDateU;
 import at.tugraz.sss.serv.conf.SSCoreConfA;
 import at.tugraz.sss.serv.impl.api.SSServImplA;

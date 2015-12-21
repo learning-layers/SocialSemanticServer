@@ -23,7 +23,7 @@ package at.tugraz.sss.adapter.rest.v2.appstacklayout;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
 import at.tugraz.sss.serv.datatype.*;
-import at.kc.tugraz.ss.conf.conf.SSVocConf;
+import at.tugraz.sss.conf.SSConf;
 import at.kc.tugraz.sss.appstacklayout.datatypes.par.SSAppStackLayoutCreatePar;
 import at.kc.tugraz.sss.appstacklayout.datatypes.par.SSAppStackLayoutDeletePar;
 import at.kc.tugraz.sss.appstacklayout.datatypes.par.SSAppStackLayoutUpdatePar;
@@ -100,7 +100,7 @@ public class SSRESTAppStackLayout{
       par =
         new SSAppStackLayoutsGetPar(
           null,
-          SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(stacks, SSStrU.comma), SSVocConf.sssUri), //stacks
+          SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(stacks, SSStrU.comma), SSConf.sssUri), //stacks
           true, //withUserRestriction
           true); //invokeEntityHandlers
       
@@ -162,7 +162,7 @@ public class SSRESTAppStackLayout{
       par =
         new SSAppStackLayoutDeletePar(
           null,
-          SSUri.get(stack, SSVocConf.sssUri), //stack,
+          SSUri.get(stack, SSConf.sssUri), //stack,
           true, //withUserRestriction
           true); //shouldCommit
       
@@ -195,7 +195,7 @@ public class SSRESTAppStackLayout{
       par =
         new SSAppStackLayoutUpdatePar(
           null,
-          SSUri.get(stack, SSVocConf.sssUri),
+          SSUri.get(stack, SSConf.sssUri),
           input.app,
           input.label,
           input.description,

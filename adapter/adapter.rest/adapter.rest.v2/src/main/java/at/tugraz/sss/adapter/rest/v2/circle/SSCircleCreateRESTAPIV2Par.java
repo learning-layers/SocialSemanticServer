@@ -23,7 +23,7 @@ package at.tugraz.sss.adapter.rest.v2.circle;
 import at.tugraz.sss.serv.datatype.SSTextComment;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.*;
-import at.kc.tugraz.ss.conf.conf.SSVocConf;
+import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.serv.datatype.enums.SSCircleE;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
@@ -62,7 +62,7 @@ public class SSCircleCreateRESTAPIV2Par{
   
   @XmlElement
   public void setEntities(final List<String> entities) throws Exception{
-    this.entities = SSUri.get(entities, SSVocConf.sssUri);
+    this.entities = SSUri.get(entities, SSConf.sssUri);
   }
   
   @ApiModelProperty(
@@ -72,7 +72,7 @@ public class SSCircleCreateRESTAPIV2Par{
   
   @XmlElement
   public void setUsers(final List<String> users) throws Exception{
-    this.users = SSUri.get(users, SSVocConf.sssUri);
+    this.users = SSUri.get(users, SSConf.sssUri);
   }
   
   @ApiModelProperty(

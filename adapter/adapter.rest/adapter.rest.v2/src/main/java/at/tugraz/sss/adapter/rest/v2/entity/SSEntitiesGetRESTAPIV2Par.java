@@ -20,7 +20,7 @@
 */
 package at.tugraz.sss.adapter.rest.v2.entity;
 
-import at.kc.tugraz.ss.conf.conf.SSVocConf;
+import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.serv.datatype.enums.SSSpaceE;
 import at.tugraz.sss.serv.datatype.*;
 import com.wordnik.swagger.annotations.ApiModel;
@@ -39,7 +39,7 @@ public class SSEntitiesGetRESTAPIV2Par{
   
   @XmlElement
   public void setCircle(final String circle) throws Exception{
-    this.circle = SSUri.get(circle, SSVocConf.sssUri);
+    this.circle = SSUri.get(circle, SSConf.sssUri);
   }
   
   @XmlElement

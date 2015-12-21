@@ -20,7 +20,7 @@
 */
  package at.kc.tugraz.ss.service.rating.service;
 
-import at.kc.tugraz.ss.conf.conf.SSCoreConf;
+import at.tugraz.sss.conf.SSCoreConf;
 import at.tugraz.sss.serv.conf.SSCoreConfA;
 import at.kc.tugraz.ss.service.rating.impl.*;
 import at.tugraz.sss.serv.reg.*;

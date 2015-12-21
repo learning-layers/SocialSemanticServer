@@ -21,7 +21,7 @@
 package at.tugraz.sss.adapter.rest.v2.rating;
 
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
-import at.kc.tugraz.ss.conf.conf.SSVocConf;
+import at.tugraz.sss.conf.SSConf;
 import at.kc.tugraz.ss.service.rating.datatypes.pars.SSRatingOverallGetPar;
 import at.kc.tugraz.ss.service.rating.datatypes.pars.SSRatingSetPar;
 import at.kc.tugraz.ss.service.rating.datatypes.ret.SSRatingOverallGetRet;
@@ -66,7 +66,7 @@ public class SSRESTRating{
       par =
         new SSRatingOverallGetPar(
           null,
-          SSUri.get(entity, SSVocConf.sssUri), 
+          SSUri.get(entity, SSConf.sssUri), 
           true); //withUserRestriction
       
     }catch(Exception error){
@@ -100,7 +100,7 @@ public class SSRESTRating{
       par =
         new SSRatingSetPar(
           null,
-          SSUri.get(entity, SSVocConf.sssUri),
+          SSUri.get(entity, SSConf.sssUri),
           Integer.valueOf(value),
           true, //allowToRateAgain
           true, //withUserRestriction

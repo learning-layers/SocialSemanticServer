@@ -22,7 +22,7 @@ package at.tugraz.sss.adapter.rest.v2.file;
 
 import at.tugraz.sss.adapter.rest.v2.SSRESTObject;
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
-import at.kc.tugraz.ss.conf.conf.SSVocConf;
+import at.tugraz.sss.conf.SSConf;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileDownloadPar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.pars.SSFileUploadPar;
 import at.kc.tugraz.ss.service.filerepo.datatypes.rets.SSFileUploadRet;
@@ -97,7 +97,7 @@ public class SSRESTFile{
           null,
           SSMimeTypeE.get(mimeType),  //mimeType
           SSLabel.get    (label),  //label
-          SSUri.get(circle, SSVocConf.sssUri), //circle
+          SSUri.get(circle, SSConf.sssUri), //circle
           null, //sSCon
           true); //shouldCommit
 
@@ -136,7 +136,7 @@ public class SSRESTFile{
       par =
         new SSFileDownloadPar(
           null,
-          SSUri.get(file, SSVocConf.sssUri), //entity
+          SSUri.get(file, SSConf.sssUri), //entity
           null, //sScon
           false); //isPublicDownload
       
@@ -184,7 +184,7 @@ public class SSRESTFile{
       par =
         new SSFileDownloadPar(
           null,
-          SSUri.get(file, SSVocConf.sssUri), //entity
+          SSUri.get(file, SSConf.sssUri), //entity
           null, //sSCon
           false); //isPublicDownload
       
@@ -225,7 +225,7 @@ public class SSRESTFile{
       par =
         new SSFileDownloadPar(
           null,
-          SSUri.get(file, SSVocConf.sssUri), //entity
+          SSUri.get(file, SSConf.sssUri), //entity
           null, //sSCon
           true); 
       
@@ -288,7 +288,7 @@ public class SSRESTFile{
 //      par =
 //        new SSFileReplacePar(
 //          null,
-//          SSUri.get(file, SSVocConf.sssUri), //entity
+//          SSUri.get(file, SSConf.sssUri), //entity
 //          null, //sSCon
 //          true); //shouldCommit
 //      

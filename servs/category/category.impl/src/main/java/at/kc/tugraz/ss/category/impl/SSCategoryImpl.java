@@ -45,7 +45,7 @@ import at.kc.tugraz.ss.category.datatypes.ret.SSCategoryEntitiesForCategoriesGet
 import at.kc.tugraz.ss.category.datatypes.ret.SSCategoryFrequsGetRet;
 import at.kc.tugraz.ss.category.impl.fct.userrelationgatherer.SSCategoryUserRelationGathererFct;
 import at.tugraz.sss.serv.impl.api.SSEntityServerI;
-import at.kc.tugraz.ss.conf.conf.SSVocConf;
+import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.serv.datatype.par.SSEntityFromTypeAndLabelGetPar;
 import at.tugraz.sss.serv.datatype.par.SSEntityUpdatePar;
 import at.tugraz.sss.serv.impl.api.SSCircleContentRemovedI;
@@ -111,7 +111,7 @@ implements
     
     super(conf, (SSDBSQLI) SSServReg.getServ(SSDBSQLI.class), (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class));
     
-    this.sql           = new SSTagAndCategoryCommonSQL (dbSQL, SSVocConf.systemUserUri, SSEntityE.category);
+    this.sql           = new SSTagAndCategoryCommonSQL (dbSQL, SSConf.systemUserUri, SSEntityE.category);
     this.commonMiscFct = new SSTagAndCategoryCommonMisc(dbSQL, SSEntityE.category);
     
     this.activityServ  = (SSActivityServerI) SSServReg.getServ (SSActivityServerI.class);
@@ -480,7 +480,7 @@ implements
           entityServ.entityUpdate(
             new SSEntityUpdatePar(
               par.user,
-              SSVocConf.vocURICreate(),
+              SSConf.vocURICreate(),
               SSEntityE.category, //type,
               SSLabel.get(SSStrU.toStr(par.label)), //label
               null, //description,
@@ -786,7 +786,7 @@ implements
           entityServ.entityUpdate(
             new SSEntityUpdatePar(
               par.user,
-              SSVocConf.vocURICreate(),
+              SSConf.vocURICreate(),
               SSEntityE.category, //type,
               SSLabel.get(SSStrU.toStr(label)), //label
               null, //description,

@@ -20,7 +20,7 @@
   */
 package at.tugraz.sss.adapter.rest.v2.user;
 
-import at.kc.tugraz.ss.conf.conf.SSVocConf;
+import at.tugraz.sss.conf.SSConf;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUsersGetPar;
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
 import at.kc.tugraz.ss.service.user.datatypes.ret.SSUsersGetRet;
@@ -93,7 +93,7 @@ public class SSRESTUser{
       par =
         new SSUsersGetPar(
           null,
-          SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(users, SSStrU.comma), SSVocConf.sssUri), //users
+          SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(users, SSStrU.comma), SSConf.sssUri), //users
           true); //invokeEntityHandlers
       
     }catch(Exception error){
@@ -126,7 +126,7 @@ public class SSRESTUser{
       par =
         new SSUsersGetPar(
           null,
-          SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(users, SSStrU.comma), SSVocConf.sssUri), //users
+          SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(users, SSStrU.comma), SSConf.sssUri), //users
           true); //invokeEntityHandlers
       
       par.setFriends        = input.setFriends;

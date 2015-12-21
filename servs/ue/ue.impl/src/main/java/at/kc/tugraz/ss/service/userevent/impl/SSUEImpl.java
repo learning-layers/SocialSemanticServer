@@ -32,7 +32,7 @@ import at.tugraz.sss.serv.impl.api.SSServImplWithDBA;
 import at.tugraz.sss.serv.impl.api.SSUsersResourcesGathererI;
 
 import at.tugraz.sss.servs.common.impl.user.SSUserCommons;
-import at.kc.tugraz.ss.conf.conf.SSVocConf;
+import at.tugraz.sss.conf.SSConf;
 import at.kc.tugraz.ss.service.userevent.api.*;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUE;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUEE;
@@ -76,7 +76,7 @@ implements
     
     super(conf, (SSDBSQLI) SSServReg.getServ(SSDBSQLI.class), (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class));
     
-    this.sql          = new SSUESQLFct(dbSQL, SSVocConf.systemUserUri);
+    this.sql          = new SSUESQLFct(dbSQL, SSConf.systemUserUri);
     this.entityServ   = (SSEntityServerI)   SSServReg.getServ(SSEntityServerI.class);
     this.userCommons  = new SSUserCommons();
   }
@@ -369,7 +369,7 @@ implements
     try{
 
       if(par.entity == null){
-        par.entity = SSUri.get(SSVocConf.sssUri);
+        par.entity = SSUri.get(SSConf.sssUri);
       }
       
       dbSQL.startTrans(par.shouldCommit);
@@ -398,7 +398,7 @@ implements
         entityServ.entityUpdate(
           new SSEntityUpdatePar(
             par.user,
-            SSVocConf.vocURICreate(),
+            SSConf.vocURICreate(),
             SSEntityE.userEvent, //type,
             null, //label
             null,//description,

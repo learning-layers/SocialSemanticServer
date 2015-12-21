@@ -23,7 +23,7 @@ package at.tugraz.sss.adapter.rest.v2.tag;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
 import at.tugraz.sss.serv.datatype.*;
-import at.kc.tugraz.ss.conf.conf.SSVocConf;
+import at.tugraz.sss.conf.SSConf;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagAddPar;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagEntitiesForTagsGetPar;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagFrequsGetPar;
@@ -252,7 +252,7 @@ public class SSRESTTag{
         new SSTagsAddPar(
           null,
           input.labels, //labels
-          SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(entities, SSStrU.comma), SSVocConf.sssUri), //entities
+          SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(entities, SSStrU.comma), SSConf.sssUri), //entities
           input.space, //space
           input.circle, //circle
           input.creationTime,
@@ -289,7 +289,7 @@ public class SSRESTTag{
         new SSTagsRemovePar(
           null,
           null,
-          SSUri.get(entity, SSVocConf.sssUri), //entity
+          SSUri.get(entity, SSConf.sssUri), //entity
           input.label, //label
           input.space, //space
           input.circle, //circle

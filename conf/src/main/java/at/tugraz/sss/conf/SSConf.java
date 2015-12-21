@@ -18,19 +18,14 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.kc.tugraz.ss.conf.conf;
+package at.tugraz.sss.conf;
 
 import at.tugraz.sss.serv.conf.SSCoreServConfA;
-import at.tugraz.sss.serv.datatype.SSErr;
-import at.tugraz.sss.serv.util.SSFileExtE;
-import at.tugraz.sss.serv.util.SSIDU;
-import at.tugraz.sss.serv.util.SSLogU;
-import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
+import at.tugraz.sss.serv.util.SSFileU;
+import at.tugraz.sss.serv.util.*;
 
-public class SSVocConf extends SSCoreServConfA{
-
-  public static final SSVocConf inst = new SSVocConf();
+public class SSConf extends SSCoreServConfA{
   
   public static final String sssUri                         = "http://sss.eu/";
   public static final String systemUserLabel                = "system";
@@ -50,24 +45,34 @@ public class SSVocConf extends SSCoreServConfA{
   
   public static SSUri systemUserUri = null;
   
-  public SSVocConf(){
+  public  String    host           = null;
+  public  Integer   port           = null;
+  public  String    version        = null;
+  public  String    restAPIPath    = null;
+  
+  public SSConf(){
     
     try{
-      systemUserUri = SSUri.get(vocURIPrefixGet() + systemUserLabel);
+      SSConf.systemUserUri = SSUri.get(vocURIPrefixGet() + systemUserLabel);
     }catch(SSErr error){
       SSLogU.err(error);
     }
   }
   
-  public static SSVocConf copy(final SSVocConf orig) throws SSErr{
+  public static SSConf copy(final SSConf orig){
     
-    final SSVocConf copy = (SSVocConf) SSCoreServConfA.copy(orig, new SSVocConf());
+    final SSConf copy = (SSConf) SSCoreServConfA.copy(orig, new SSConf());
+    
+    copy.host          = orig.host;
+    copy.port          = orig.port;
+    copy.version       = orig.version;
+    copy.restAPIPath   = orig.restAPIPath;
     
     return copy;
   }
   
   private static SSUri vocURIPrefixGet() throws SSErr{
-    return (SSUri) SSUri.get(SSVocConf.sssUri);
+    return (SSUri) SSUri.get(sssUri);
   }
   
   public static SSUri vocURICreate() throws SSErr{
@@ -91,5 +96,14 @@ public class SSVocConf extends SSCoreServConfA{
   
   public static SSUri vocURICreateFromId(final String id) throws Exception{
     return SSUri.get(vocURIPrefixGet() + id);
+  }
+  
+  public void setLocalWorkPath(final String value){
+    
+    localWorkPath = SSFileU.correctDirPath (value);
+    
+    if(SSStrU.isEmpty(localWorkPath)){
+      localWorkPath = SSFileU.dirWorkingTmp();
+    }
   }
 }

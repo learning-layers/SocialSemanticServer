@@ -20,7 +20,7 @@
 */
 package at.tugraz.sss.serv.db.serv;
 
-import at.kc.tugraz.ss.conf.conf.SSCoreConf;
+import at.tugraz.sss.conf.SSCoreConf;
 import at.tugraz.sss.serv.conf.SSCoreConfA;
 import at.tugraz.sss.serv.conf.SSDBNoSQLConf;
 import at.tugraz.sss.serv.container.api.*;

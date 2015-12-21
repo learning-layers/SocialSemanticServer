@@ -41,7 +41,7 @@ import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthRegisterUserPar;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthUsersFromCSVFileAddPar;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.ret.SSAuthCheckCredRet;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.ret.SSAuthRegisterUserRet;
-import at.kc.tugraz.ss.conf.conf.SSVocConf;
+import at.tugraz.sss.conf.SSConf;
 import at.kc.tugraz.ss.service.coll.api.SSCollServerI;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollUserRootAddPar;
 import at.kc.tugraz.ss.service.user.api.SSUserServerI;
@@ -114,7 +114,7 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
         if(passwordForUser.getKey().contains("@")){
           email = passwordForUser.getKey();
         }else{
-          email = passwordForUser.getKey() + SSStrU.at + SSVocConf.systemEmailPostFix;
+          email = passwordForUser.getKey() + SSStrU.at + SSConf.systemEmailPostFix;
         }
         
         authRegisterUser(
@@ -164,7 +164,7 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
       userExists = 
         userServ.userExists(
           new SSUserExistsPar(
-            SSVocConf.systemUserUri,
+            SSConf.systemUserUri,
             par.email));
         
       dbSQL.startTrans(par.shouldCommit);
@@ -174,7 +174,7 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
         userUri = 
           userServ.userAdd(
             new SSUserAddPar(
-              SSVocConf.systemUserUri,
+              SSConf.systemUserUri,
               false,
               par.label,
               par.email,
@@ -192,7 +192,7 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
         userUri =
           userServ.userURIGet(
             new SSUserURIGetPar(
-              SSVocConf.systemUserUri,
+              SSConf.systemUserUri,
               par.email));
         
         if(par.updatePassword){
@@ -209,7 +209,7 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
         
         collServ.collRootAdd(
           new SSCollUserRootAddPar(
-            SSVocConf.systemUserUri,
+            SSConf.systemUserUri,
             userUri, 
             false));
         
@@ -255,14 +255,14 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
 
 //        case noAuth:{
 //
-//          final String email = SSStrU.toStr(par.label) + SSStrU.at + SSVocConf.systemEmailPostFix;
+//          final String email = SSStrU.toStr(par.label) + SSStrU.at + SSConf.systemEmailPostFix;
 //          final SSUri  userUri;
 //          
 //          if(!userServ.userExists(
 //            new SSUserExistsPar(
 //              null,
 //              null,
-//              SSVocConf.systemUserUri,
+//              SSConf.systemUserUri,
 //              email))){
 //                
 //            userUri =
@@ -270,7 +270,7 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
 //                new SSUserAddPar(
 //                  null, 
 //                  null, 
-//                  SSVocConf.systemUserUri, 
+//                  SSConf.systemUserUri, 
 //                  true, 
 //                  par.label, 
 //                  email, 
@@ -281,7 +281,7 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
 //              
 //              collServ.collRootAdd(
 //                new SSCollUserRootAddPar(
-//                  SSVocConf.systemUserUri,
+//                  SSConf.systemUserUri,
 //                  userUri,
 //                  true));
 //              
@@ -299,7 +299,7 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
 //               new SSUserURIGetPar(
 //                 null, 
 //                 null, 
-//                 SSVocConf.systemUserUri, 
+//                 SSConf.systemUserUri, 
 //                 email));
 //          }
 //          
@@ -327,12 +327,12 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
             String email = SSStrU.toStr(par.label);
 
             if(!email.contains("@")){
-             email = email + SSStrU.at + SSVocConf.systemEmailPostFix;
+             email = email + SSStrU.at + SSConf.systemEmailPostFix;
             }
 
             if(!userServ.userExists(
               new SSUserExistsPar(
-                SSVocConf.systemUserUri,
+                SSConf.systemUserUri,
                 email))){
               
               throw SSErr.get(SSErrE.userNotRegistered);
@@ -341,7 +341,7 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
             userUri = 
              userServ.userURIGet(
                new SSUserURIGetPar(
-                 SSVocConf.systemUserUri, 
+                 SSConf.systemUserUri, 
                  email));
             
             return SSAuthCheckCredRet.get(
@@ -367,14 +367,14 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
           
             if(!userServ.userExists(
               new SSUserExistsPar(
-                SSVocConf.systemUserUri,
+                SSConf.systemUserUri,
                 email))){
 
               //TODO use authRegisterUser
               userUri = 
                 userServ.userAdd(
                   new SSUserAddPar(
-                    SSVocConf.systemUserUri, 
+                    SSConf.systemUserUri, 
                     true, 
                     SSLabel.get(email), 
                     email, 
@@ -384,7 +384,7 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
               try{
                 collServ.collRootAdd(
                   new SSCollUserRootAddPar(
-                    SSVocConf.systemUserUri,
+                    SSConf.systemUserUri,
                     userUri,
                     true));
               }catch(SSErr error){
@@ -399,7 +399,7 @@ public class SSAuthImpl extends SSServImplWithDBA implements SSAuthClientI, SSAu
               userUri = 
                userServ.userURIGet(
                  new SSUserURIGetPar(
-                   SSVocConf.systemUserUri, 
+                   SSConf.systemUserUri, 
                    email));
             }
             

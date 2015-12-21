@@ -20,7 +20,7 @@
 */
 package sss.serv.eval.serv;
 
-import at.kc.tugraz.ss.conf.conf.SSCoreConf;
+import at.tugraz.sss.conf.SSCoreConf;
 import at.tugraz.sss.serv.conf.SSCoreConfA;
 import at.tugraz.sss.serv.util.SSDateU;
 import at.tugraz.sss.serv.datatype.SSErr;

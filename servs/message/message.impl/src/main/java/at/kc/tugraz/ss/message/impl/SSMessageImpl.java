@@ -20,7 +20,7 @@
   */
 package at.kc.tugraz.ss.message.impl;
 
-import at.kc.tugraz.ss.conf.conf.SSVocConf;
+import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.serv.util.SSDateU;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
@@ -299,7 +299,7 @@ implements
         entityServ.entityUpdate(
           new SSEntityUpdatePar(
             par.user,
-            SSVocConf.vocURICreate(),
+            SSConf.vocURICreate(),
             SSEntityE.message, //type,
             null, //label
             null,//description,

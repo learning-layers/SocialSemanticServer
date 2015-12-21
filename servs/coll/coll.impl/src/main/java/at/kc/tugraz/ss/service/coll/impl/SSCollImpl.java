@@ -45,7 +45,7 @@ import at.tugraz.sss.serv.datatype.par.SSCirclesGetPar;
 import at.tugraz.sss.serv.datatype.enums.SSClientE;
 import at.tugraz.sss.serv.datatype.par.SSCircleEntitiesAddPar;
 import at.tugraz.sss.serv.impl.api.SSEntityServerI;
-import at.kc.tugraz.ss.conf.conf.SSVocConf;
+import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.serv.datatype.par.SSEntitiesGetPar;
 import at.tugraz.sss.serv.datatype.par.SSEntityGetPar;
 import at.tugraz.sss.serv.datatype.par.SSEntityUpdatePar;
@@ -116,7 +116,7 @@ implements
     
     super(conf, (SSDBSQLI) SSServReg.getServ(SSDBSQLI.class), (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class));
     
-    this.sql         = new SSCollSQLFct(dbSQL, SSVocConf.systemUserUri);
+    this.sql         = new SSCollSQLFct(dbSQL, SSConf.systemUserUri);
     this.entityServ  = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
     this.circleServ  = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
     this.userCommons = new SSUserCommons();
@@ -897,7 +897,7 @@ implements
         entityServ.entityUpdate(
           new SSEntityUpdatePar(
             par.forUser,
-            SSVocConf.vocURICreate(), //entity
+            SSConf.vocURICreate(), //entity
             SSEntityE.coll, //type,
             SSLabel.get(SSStrU.valueRoot), //label
             null, //description,

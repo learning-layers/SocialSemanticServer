@@ -23,7 +23,7 @@ package at.tugraz.sss.adapter.rest.v2.video;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
 import at.tugraz.sss.serv.datatype.*;
-import at.kc.tugraz.ss.conf.conf.SSVocConf;
+import at.tugraz.sss.conf.SSConf;
 import at.kc.tugraz.sss.video.datatypes.par.SSVideoAnnotationsSetPar;
 import at.kc.tugraz.sss.video.datatypes.par.SSVideoUserAddFromClientPar;
 import at.kc.tugraz.sss.video.datatypes.par.SSVideoUserAddPar;
@@ -138,7 +138,7 @@ public class SSRESTVideo{
       par =
         new SSVideoAnnotationsSetPar(
           null,
-          SSUri.get(video, SSVocConf.sssUri),
+          SSUri.get(video, SSConf.sssUri),
           input.timePoints,
           input.x,
           input.y,
@@ -178,7 +178,7 @@ public class SSRESTVideo{
       par =
         new SSVideoUserAnnotationAddPar(
           null,
-          SSUri.get(video, SSVocConf.sssUri),
+          SSUri.get(video, SSConf.sssUri),
           input.timePoint,
           input.x,
           input.y,

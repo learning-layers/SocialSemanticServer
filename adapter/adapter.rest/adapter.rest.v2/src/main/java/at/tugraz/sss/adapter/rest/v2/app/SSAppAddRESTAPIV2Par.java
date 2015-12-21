@@ -22,8 +22,7 @@ package at.tugraz.sss.adapter.rest.v2.app;
 
 import at.tugraz.sss.serv.datatype.SSTextComment;
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.datatype.*;
-import at.kc.tugraz.ss.conf.conf.SSVocConf;
+import at.tugraz.sss.conf.SSConf;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 import java.util.List;
@@ -91,7 +90,7 @@ public class SSAppAddRESTAPIV2Par{
   
   @XmlElement
   public void setDownloads(final List<String> downloads) throws Exception{
-    this.downloads = SSUri.get(downloads, SSVocConf.sssUri);
+    this.downloads = SSUri.get(downloads, SSConf.sssUri);
   }
   
   @ApiModelProperty(
@@ -101,7 +100,7 @@ public class SSAppAddRESTAPIV2Par{
   
   @XmlElement
   public void setDownloadIOS(final String downloadIOS) throws Exception{
-    this.downloadIOS = SSUri.get(downloadIOS, SSVocConf.sssUri);
+    this.downloadIOS = SSUri.get(downloadIOS, SSConf.sssUri);
   }
   
   @ApiModelProperty(
@@ -111,7 +110,7 @@ public class SSAppAddRESTAPIV2Par{
   
   @XmlElement
   public void setDownloadAndroid(final String downloadAndroid) throws Exception{
-    this.downloadAndroid = SSUri.get(downloadAndroid, SSVocConf.sssUri);
+    this.downloadAndroid = SSUri.get(downloadAndroid, SSConf.sssUri);
   } 
   
   @ApiModelProperty(
@@ -121,7 +120,7 @@ public class SSAppAddRESTAPIV2Par{
   
   @XmlElement
   public void setFork(final String fork) throws Exception{
-    this.fork = SSUri.get(fork, SSVocConf.sssUri);
+    this.fork = SSUri.get(fork, SSConf.sssUri);
   }
   
   @ApiModelProperty(
@@ -131,7 +130,7 @@ public class SSAppAddRESTAPIV2Par{
   
   @XmlElement
   public void setScreenShots(final List<String> screenShots) throws Exception{
-    this.screenShots = SSUri.get(screenShots, SSVocConf.sssUri);
+    this.screenShots = SSUri.get(screenShots, SSConf.sssUri);
   }
   
   @ApiModelProperty(
@@ -141,7 +140,7 @@ public class SSAppAddRESTAPIV2Par{
   
   @XmlElement
   public void setVideos(final List<String> videos) throws Exception{
-    this.videos = SSUri.get(videos, SSVocConf.sssUri);
+    this.videos = SSUri.get(videos, SSConf.sssUri);
   }
   
   public SSAppAddRESTAPIV2Par(){}

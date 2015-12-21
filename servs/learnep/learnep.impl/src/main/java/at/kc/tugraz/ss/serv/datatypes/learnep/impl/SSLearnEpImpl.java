@@ -79,7 +79,7 @@ import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpsLockHoldRe
 import at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.access.SSLearnEpAccessController;
 import at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.activity.SSLearnEpActivityAndLogFct;
 import at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.sql.SSLearnEpSQLFct;
-import at.kc.tugraz.ss.conf.conf.SSVocConf;
+import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.serv.impl.api.SSAddAffiliatedEntitiesToCircleI;
 import at.tugraz.sss.serv.datatype.par.SSAddAffiliatedEntitiesToCirclePar;
 import at.tugraz.sss.serv.datatype.par.SSCircleAddEntitiesToCircleOfEntityPar;
@@ -142,7 +142,7 @@ implements
     super(conf, (SSDBSQLI) SSServReg.getServ(SSDBSQLI.class), (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class));
     
     this.learnEpConf  = (SSLearnEpConf) conf;
-    this.sql          = new SSLearnEpSQLFct(dbSQL, SSVocConf.systemUserUri);
+    this.sql          = new SSLearnEpSQLFct(dbSQL, SSConf.systemUserUri);
     this.entityServ   = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
     this.circleServ   = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
     
@@ -861,7 +861,7 @@ implements
         entityServ.entityUpdate(
           new SSEntityUpdatePar(
             par.user,
-            SSVocConf.vocURICreate(),
+            SSConf.vocURICreate(),
             SSEntityE.learnEpVersion, //type,
             null, //label
             null, //description,
@@ -1062,7 +1062,7 @@ implements
         entityServ.entityUpdate(
           new SSEntityUpdatePar(
             par.user,
-            SSVocConf.vocURICreate(),
+            SSConf.vocURICreate(),
             SSEntityE.learnEpCircle, //type,
             par.label, //label
             null, //description,
@@ -1213,7 +1213,7 @@ implements
         entityServ.entityUpdate(
           new SSEntityUpdatePar(
             par.user,
-            SSVocConf.vocURICreate(),
+            SSConf.vocURICreate(),
             SSEntityE.learnEpEntity, //type,
             null, //label
             null, //description,
@@ -1328,7 +1328,7 @@ implements
         entityServ.entityUpdate(
           new SSEntityUpdatePar(
             par.user,
-            SSVocConf.vocURICreate(),
+            SSConf.vocURICreate(),
             SSEntityE.learnEp, //type,
             par.label, //label
             par.description,//description,
@@ -1815,7 +1815,7 @@ implements
         entityServ.entityUpdate(
           new SSEntityUpdatePar(
             par.user,
-            SSVocConf.vocURICreate(),
+            SSConf.vocURICreate(),
             SSEntityE.learnEpTimelineState, //type,
             null, //label
             null,//description,

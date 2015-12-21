@@ -20,7 +20,7 @@
  */
 package at.tugraz.sss.adapter.rest.v2.app;
 
-import at.kc.tugraz.ss.conf.conf.SSVocConf;
+import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
 import at.kc.tugraz.sss.app.datatypes.par.SSAppAddPar;
 import at.kc.tugraz.sss.app.datatypes.par.SSAppsDeletePar;
@@ -135,7 +135,7 @@ public class SSRESTApp{
       par =
         new SSAppsDeletePar(
           null,
-          SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(apps, SSStrU.comma), SSVocConf.sssUri),
+          SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(apps, SSStrU.comma), SSConf.sssUri),
           true, //withUserRestriction
           true); //shouldCommit
       

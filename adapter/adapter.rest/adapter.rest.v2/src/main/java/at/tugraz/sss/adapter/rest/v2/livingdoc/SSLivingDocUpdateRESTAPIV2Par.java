@@ -20,7 +20,7 @@
  */
 package at.tugraz.sss.adapter.rest.v2.livingdoc;
 
-import at.kc.tugraz.ss.conf.conf.SSVocConf;
+import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.SSTextComment;
 import at.tugraz.sss.serv.datatype.*;
@@ -60,7 +60,7 @@ public class SSLivingDocUpdateRESTAPIV2Par{
   
   @XmlElement
   public void setDiscussion(final String discussion) throws Exception{
-    this.discussion = SSUri.get(discussion, SSVocConf.sssUri);
+    this.discussion = SSUri.get(discussion, SSConf.sssUri);
   }
   
   public SSLivingDocUpdateRESTAPIV2Par(){}

@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.serv.auth.impl.fct.oidc;
 
 import at.tugraz.sss.serv.util.*;
-import at.kc.tugraz.ss.conf.conf.SSCoreConf;
+import at.tugraz.sss.conf.SSCoreConf;
 
 import com.nimbusds.oauth2.sdk.ParseException;
 import com.nimbusds.oauth2.sdk.http.HTTPRequest;

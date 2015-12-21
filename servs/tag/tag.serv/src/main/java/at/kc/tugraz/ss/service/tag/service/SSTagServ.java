@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.service.tag.service;
 
 import at.tugraz.sss.serv.conf.SSCoreConfA;
-import at.kc.tugraz.ss.conf.conf.SSCoreConf;
+import at.tugraz.sss.conf.SSCoreConf;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.impl.api.SSServImplA;
 import at.kc.tugraz.ss.serv.tag.conf.SSTagConf;

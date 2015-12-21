@@ -20,7 +20,7 @@
  */
 package at.tugraz.sss.servs.mail.impl.gmail;
 
-import at.kc.tugraz.ss.conf.conf.SSVocConf;
+import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.util.*;
@@ -85,7 +85,7 @@ public class SSMailReceiverGMAILIMAP {
         
         mail =
           SSMail.get(
-            SSVocConf.vocURICreate(),
+            SSConf.vocURICreate(),
             messages[counter].getSubject(),
             messages[counter].getSentDate().getTime());
         

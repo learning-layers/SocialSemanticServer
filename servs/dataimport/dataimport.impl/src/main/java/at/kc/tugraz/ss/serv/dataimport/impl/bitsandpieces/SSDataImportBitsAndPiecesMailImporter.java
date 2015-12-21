@@ -25,7 +25,7 @@ import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportBitsAndPiecesP
 import at.kc.tugraz.ss.serv.dataimport.impl.SSDataImportImpl;
 import at.tugraz.sss.serv.impl.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.jobs.evernote.api.SSEvernoteServerI;
-import at.kc.tugraz.ss.conf.conf.SSVocConf;
+import at.tugraz.sss.conf.SSConf;
 import at.kc.tugraz.ss.service.filerepo.api.SSFileRepoServerI;
 import at.kc.tugraz.ss.service.userevent.api.SSUEServerI;
 import at.tugraz.sss.serv.util.SSDateU;
@@ -106,7 +106,7 @@ public class SSDataImportBitsAndPiecesMailImporter {
       for(SSEntity mailEntity : 
         mailServ.mailsReceive(
           new SSMailsReceivePar(
-            SSVocConf.systemUserUri,
+            SSConf.systemUserUri,
             par.emailInUser,
             par.emailInPassword,
             par.emailInEmail, 
@@ -114,7 +114,7 @@ public class SSDataImportBitsAndPiecesMailImporter {
             false))){
         
         mail    = (SSMail) mailEntity;
-        noteUri = SSVocConf.vocURICreate();
+        noteUri = SSConf.vocURICreate();
         
         handleMailContent          (mail, notebookUri, noteUri);
         handleMailContentMultimedia(mail, noteUri);
@@ -133,7 +133,7 @@ public class SSDataImportBitsAndPiecesMailImporter {
     
     try{
       
-      final SSUri notebookUri = SSUri.get(par.emailInUser + "_email_inbox", SSVocConf.sssUri);
+      final SSUri notebookUri = SSUri.get(par.emailInUser + "_email_inbox", SSConf.sssUri);
       
       final SSEntity notebook =
         entityServ.entityGet(
@@ -174,9 +174,9 @@ public class SSDataImportBitsAndPiecesMailImporter {
         return;
       }
       
-      txtFilePath    = SSDataImportConf.getLocalWorkPath() + SSVocConf.fileIDFromSSSURI(SSVocConf.vocURICreate(SSFileExtE.txt));
-      pdfFileUri     = SSVocConf.vocURICreate                  (SSFileExtE.pdf);
-      pdfFilePath    = SSDataImportConf.getLocalWorkPath() + SSVocConf.fileIDFromSSSURI (pdfFileUri);
+      txtFilePath    = SSDataImportConf.getLocalWorkPath() + SSConf.fileIDFromSSSURI(SSConf.vocURICreate(SSFileExtE.txt));
+      pdfFileUri     = SSConf.vocURICreate                  (SSFileExtE.pdf);
+      pdfFilePath    = SSDataImportConf.getLocalWorkPath() + SSConf.fileIDFromSSSURI (pdfFileUri);
       
       SSFileU.writeStr(mail.content, txtFilePath);
       
@@ -245,7 +245,7 @@ public class SSDataImportBitsAndPiecesMailImporter {
           continue;
         }
           
-        resourceUri = SSVocConf.vocURICreate();
+        resourceUri = SSConf.vocURICreate();
           
         miscFct.addResource(
           resourceUri, 
@@ -293,7 +293,7 @@ public class SSDataImportBitsAndPiecesMailImporter {
           continue;
         }
         
-        resourceUri = SSVocConf.vocURICreate();
+        resourceUri = SSConf.vocURICreate();
           
         miscFct.addResource(
           resourceUri, 
@@ -335,7 +335,7 @@ public class SSDataImportBitsAndPiecesMailImporter {
         return true;
       }
               
-      final BufferedImage image = ImageIO.read(new File(SSDataImportConf.getLocalWorkPath() + SSVocConf.fileIDFromSSSURI(resource)));
+      final BufferedImage image = ImageIO.read(new File(SSDataImportConf.getLocalWorkPath() + SSConf.fileIDFromSSSURI(resource)));
       
       if(
         image.getWidth()  <= SSDataImportImpl.bitsAndPiecesImageMinWidth ||

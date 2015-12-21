@@ -21,7 +21,7 @@
 package at.tugraz.sss.adapter.rest.v2.activity;
 
 import at.kc.tugraz.ss.activity.datatypes.enums.SSActivityE;
-import at.kc.tugraz.ss.conf.conf.SSVocConf;
+import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.serv.datatype.*;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
@@ -50,7 +50,7 @@ public class SSActivitiesGetRESTAPIV2Par{
   
    @XmlElement
   public void setUsers(final List<String> users) throws Exception{
-    this.users = SSUri.get(users, SSVocConf.sssUri);
+    this.users = SSUri.get(users, SSConf.sssUri);
   }
   
   @ApiModelProperty(
@@ -60,7 +60,7 @@ public class SSActivitiesGetRESTAPIV2Par{
   
   @XmlElement
   public void setEntities(final List<String> entities) throws Exception{
-    this.entities = SSUri.get(entities, SSVocConf.sssUri);
+    this.entities = SSUri.get(entities, SSConf.sssUri);
   }
   
   @ApiModelProperty(
@@ -70,7 +70,7 @@ public class SSActivitiesGetRESTAPIV2Par{
   
   @XmlElement
   public void setCircles(final List<String> circles) throws Exception{
-    this.circles = SSUri.get(circles, SSVocConf.sssUri);
+    this.circles = SSUri.get(circles, SSConf.sssUri);
   }
   
   @XmlElement

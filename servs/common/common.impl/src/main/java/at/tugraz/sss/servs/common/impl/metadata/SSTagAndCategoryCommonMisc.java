@@ -22,7 +22,7 @@ package at.tugraz.sss.servs.common.impl.metadata;
 
 import at.kc.tugraz.ss.category.datatypes.SSCategory;
 import at.kc.tugraz.ss.category.datatypes.SSCategoryFrequ;
-import at.kc.tugraz.ss.conf.conf.SSVocConf;
+import at.tugraz.sss.conf.SSConf;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTag;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagFrequ;
 import at.tugraz.sss.serv.db.api.SSDBSQLI;
@@ -37,7 +37,6 @@ import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.datatype.enums.SSSpaceE;
 import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.datatype.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -53,7 +52,7 @@ public class SSTagAndCategoryCommonMisc {
     final SSEntityE        metadataType){
 
     this.metadataType = metadataType;
-    this.sql          = new SSTagAndCategoryCommonSQL(dbSQL, SSVocConf.systemUserUri, metadataType);
+    this.sql          = new SSTagAndCategoryCommonSQL(dbSQL, SSConf.systemUserUri, metadataType);
   }
   
   public List<SSEntity> getMetadata(

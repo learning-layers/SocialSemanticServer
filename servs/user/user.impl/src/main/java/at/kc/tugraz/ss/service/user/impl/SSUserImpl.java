@@ -33,7 +33,7 @@ import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.conf.SSConfA;
 import at.tugraz.sss.serv.impl.api.SSServImplWithDBA;
 import at.tugraz.sss.servs.common.impl.user.SSUserCommons;
-import at.kc.tugraz.ss.conf.conf.SSVocConf;
+import at.tugraz.sss.conf.SSConf;
 import at.kc.tugraz.ss.service.user.api.*;
 import at.kc.tugraz.ss.service.user.datatypes.SSUser;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserAddPar;
@@ -74,7 +74,7 @@ implements
     
     super(conf, (SSDBSQLI) SSServReg.getServ(SSDBSQLI.class), (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class));
     
-    this.sql          = new SSUserSQLFct(dbSQL, SSVocConf.systemUserUri);
+    this.sql          = new SSUserSQLFct(dbSQL, SSConf.systemUserUri);
     this.entityServ   = (SSEntityServerI)   SSServReg.getServ(SSEntityServerI.class);
     this.circleServ   = (SSEntityServerI)   SSServReg.getServ(SSEntityServerI.class);
     this.userCommons  = new SSUserCommons();
@@ -87,7 +87,7 @@ implements
     
     try{
       
-      if(!SSStrU.equals(entity.author, SSVocConf.systemUserUri)){
+      if(!SSStrU.equals(entity.author, SSConf.systemUserUri)){
         
         if(entity.author != null){
           
@@ -285,11 +285,11 @@ implements
       SSUri               userUri;
       
       if(par.isSystemUser){
-        userUri  = SSVocConf.systemUserUri;
-        tmpLabel = SSLabel.get(SSVocConf.systemUserLabel);
-        tmpEmail = SSVocConf.systemUserEmail;
+        userUri  = SSConf.systemUserUri;
+        tmpLabel = SSLabel.get(SSConf.systemUserLabel);
+        tmpEmail = SSConf.systemUserEmail;
       }else{
-        userUri  = SSVocConf.vocURICreate();
+        userUri  = SSConf.vocURICreate();
         tmpLabel = par.label;
         tmpEmail = par.email;
       }
@@ -299,7 +299,7 @@ implements
       userUri =
         entityServ.entityUpdate(
           new SSEntityUpdatePar(
-            SSVocConf.systemUserUri,
+            SSConf.systemUserUri,
             userUri,
             SSEntityE.user, //type,
             tmpLabel, //label
@@ -325,7 +325,7 @@ implements
       publicCircleURI =
         circleServ.circleUsersAdd(
           new SSCircleUsersAddPar(
-            SSVocConf.systemUserUri,
+            SSConf.systemUserUri,
             publicCircleURI, //circle
             SSUri.asListNotNull(userUri), //users
             par.withUserRestriction, //withUserRestriction

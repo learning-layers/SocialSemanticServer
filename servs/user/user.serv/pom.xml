@@ -19,7 +19,7 @@
    
     <dependency>
       <groupId>sss</groupId>
-      <artifactId>conf.conf</artifactId>
+      <artifactId>conf</artifactId>
       <version>${project.version}</version>
     </dependency>
     

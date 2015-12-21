@@ -22,11 +22,11 @@ package at.kc.tugraz.ss.service.filerepo.impl;
 
 import at.tugraz.sss.serv.impl.api.SSEntityServerI;
 import at.tugraz.sss.serv.datatype.par.SSCircleEntitiesAddPar;
-import at.kc.tugraz.ss.conf.conf.SSCoreConf;
+import at.tugraz.sss.conf.SSCoreConf;
 import at.tugraz.sss.serv.impl.api.SSEntityServerI;
 import at.tugraz.sss.serv.datatype.par.SSEntityGetPar;
 import at.tugraz.sss.serv.datatype.par.SSEntityUpdatePar;
-import at.kc.tugraz.ss.conf.conf.SSVocConf;
+import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.servs.file.datatype.par.SSEntityFileAddPar;
 import at.tugraz.sss.servs.file.datatype.par.SSEntityFilesGetPar;
 import at.tugraz.sss.serv.util.SSFileExtE;
@@ -90,7 +90,7 @@ implements
 
     super(conf, (SSDBSQLI) SSServReg.getServ(SSDBSQLI.class), (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class));
     
-    this.sql            = new SSFileSQLFct   (dbSQL, SSVocConf.systemUserUri);
+    this.sql            = new SSFileSQLFct   (dbSQL, SSConf.systemUserUri);
     this.entityServ     = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
     this.userCommons    = new SSUserCommons();
   }
@@ -306,8 +306,8 @@ implements
         par.fileLength != null &&
         par.fileExt    != null){
 
-        par.file                       = SSVocConf.vocURICreate  (par.fileExt);
-        final String     fileId        = SSVocConf.fileIDFromSSSURI (par.file);
+        par.file                       = SSConf.vocURICreate  (par.fileExt);
+        final String     fileId        = SSConf.fileIDFromSSSURI (par.file);
         
         SSFileU.writeFileBytes(
           new FileOutputStream(SSFileRepoConf.getLocalWorkPath() + fileId),
@@ -334,7 +334,7 @@ implements
           entityServ.entityRemove(new SSEntityRemovePar(par.user, file.id));
           
           try{
-            SSFileU.delFile(SSFileRepoConf.getLocalWorkPath() + SSVocConf.fileIDFromSSSURI(file.id));
+            SSFileU.delFile(SSFileRepoConf.getLocalWorkPath() + SSConf.fileIDFromSSSURI(file.id));
           }catch(Exception error){
             SSLogU.warn("file couldnt be removed from file system");
           }
@@ -457,9 +457,9 @@ implements
       final SSUri       downloadLink  =
         SSUri.get(
           SSFileU.correctDirPath(SSCoreConf.instGet().getSss().restAPIPath) +
-            SSFileU.correctDirPath(SSVocConf.restAPIResourceFile)           +
-            SSFileU.correctDirPath(SSVocConf.fileIDFromSSSURI(par.file))    +
-            SSVocConf.restAPIPathFileDownloadPublic);
+            SSFileU.correctDirPath(SSConf.restAPIResourceFile)           +
+            SSFileU.correctDirPath(SSConf.fileIDFromSSSURI(par.file))    +
+            SSConf.restAPIPathFileDownloadPublic);
       final SSEntityE fileType = sql.getFileType(par.file);
       
       final SSFile file = 

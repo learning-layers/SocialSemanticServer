@@ -23,7 +23,7 @@ package at.tugraz.sss.adapter.rest.v2.video;
 import at.tugraz.sss.serv.datatype.SSTextComment;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.*;
-import at.kc.tugraz.ss.conf.conf.SSVocConf;
+import at.tugraz.sss.conf.SSConf;
 import at.kc.tugraz.sss.video.datatypes.SSVideoE;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
@@ -47,7 +47,7 @@ public class SSVideoAddRESTAPIV2Par{
   
   @XmlElement
   public void setLink(final String link) throws Exception{
-    this.link = SSUri.get(link, SSVocConf.sssUri);
+    this.link = SSUri.get(link, SSConf.sssUri);
   }
   
   @ApiModelProperty(
@@ -67,7 +67,7 @@ public class SSVideoAddRESTAPIV2Par{
   
   @XmlElement
   public void setForEntity(final String forEntity) throws Exception{
-    this.forEntity = SSUri.get(forEntity, SSVocConf.sssUri);
+    this.forEntity = SSUri.get(forEntity, SSConf.sssUri);
   }
   
   @XmlElement

@@ -29,7 +29,7 @@ import at.kc.tugraz.ss.recomm.datatypes.SSRecommUserRealmEngine;
 import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommUpdateBulkPar;
 import at.kc.tugraz.ss.recomm.datatypes.ret.SSRecommUpdateBulkRet;
 import at.kc.tugraz.ss.recomm.impl.fct.sql.SSRecommSQLFct;
-import at.kc.tugraz.ss.conf.conf.SSVocConf;
+import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.adapter.socket.SSSocketAdapterU;
 
 import at.tugraz.sss.serv.db.api.SSDBSQLI;
@@ -73,7 +73,7 @@ public class SSRecommUpdateBulkUploader extends SSServImplStartA{
     try{
       
       dbSQL  = (SSDBSQLI) SSServReg.getServ(SSDBSQLI.class);
-      sqlFct = new SSRecommSQLFct(dbSQL, SSVocConf.systemUserUri);
+      sqlFct = new SSRecommSQLFct(dbSQL, SSConf.systemUserUri);
       
       dbSQL.startTrans(par.shouldCommit);
       

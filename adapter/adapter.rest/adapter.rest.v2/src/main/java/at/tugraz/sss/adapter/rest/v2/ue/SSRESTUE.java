@@ -21,7 +21,7 @@
 package at.tugraz.sss.adapter.rest.v2.ue;
 
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
-import at.kc.tugraz.ss.conf.conf.SSVocConf;
+import at.tugraz.sss.conf.SSConf;
 import at.kc.tugraz.ss.service.userevent.datatypes.pars.SSUEAddPar;
 import at.kc.tugraz.ss.service.userevent.datatypes.pars.SSUECountGetPar;
 import at.kc.tugraz.ss.service.userevent.datatypes.pars.SSUEGetPar;
@@ -106,7 +106,7 @@ public class SSRESTUE{
       par =
         new SSUEGetPar(
           null,  
-          SSUri.get(uE, SSVocConf.sssUri), 
+          SSUri.get(uE, SSConf.sssUri), 
           true, // withUserRestriction
           true); //invokeEntityHandlers
       

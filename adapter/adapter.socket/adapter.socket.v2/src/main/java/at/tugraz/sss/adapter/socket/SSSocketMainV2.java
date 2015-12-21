@@ -23,7 +23,7 @@ package at.tugraz.sss.adapter.socket;
 import at.tugraz.sss.serv.util.SSSocketU;
 import at.kc.tugraz.ss.activity.serv.SSActivityServ;
 import at.kc.tugraz.ss.category.ss.category.serv.SSCategoryServ;
-import at.kc.tugraz.ss.conf.conf.SSCoreConf;
+import at.tugraz.sss.conf.SSCoreConf;
 import at.kc.tugraz.ss.friend.serv.SSFriendServ;
 import at.kc.tugraz.ss.like.serv.SSLikeServ;
 import at.kc.tugraz.ss.message.serv.SSMessageServ;
@@ -35,7 +35,7 @@ import at.kc.tugraz.ss.serv.datatypes.learnep.serv.SSLearnEpServ;
 import at.kc.tugraz.ss.serv.job.dataexport.serv.SSDataExportServ;
 import at.kc.tugraz.ss.serv.jobs.evernote.serv.SSEvernoteServ;
 import at.kc.tugraz.ss.serv.jsonld.serv.SSJSONLD;
-import at.kc.tugraz.ss.conf.conf.SSVocConf;
+import at.tugraz.sss.conf.SSConf;
 import at.kc.tugraz.ss.service.coll.service.SSCollServ;
 import at.kc.tugraz.ss.service.disc.service.SSDiscServ;
 import at.kc.tugraz.ss.service.filerepo.service.SSFilerepoServ;
@@ -232,7 +232,7 @@ public class SSSocketMainV2{
       
       try{
         
-        SSCoreConf.instSet(SSVocConf.fileNameSSSConf);
+        SSCoreConf.instSet(SSConf.fileNameSSSConf);
         
         try{
           SSFileExtE.init    ();

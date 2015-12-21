@@ -36,7 +36,7 @@ import at.kc.tugraz.ss.activity.datatypes.ret.SSActivitiesGetRet;
 import at.kc.tugraz.ss.activity.datatypes.ret.SSActivityTypesGetRet;
 import at.kc.tugraz.ss.activity.datatypes.ret.SSActivityAddRet;
 import at.tugraz.sss.serv.impl.api.SSEntityServerI;
-import at.kc.tugraz.ss.conf.conf.SSVocConf;
+import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.serv.datatype.enums.SSClientE;
 import at.tugraz.sss.serv.datatype.par.SSEntityUpdatePar;
 import at.tugraz.sss.serv.datatype.SSEntity;
@@ -83,7 +83,7 @@ implements
     
     super(conf, (SSDBSQLI) SSServReg.getServ(SSDBSQLI.class), (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class));
     
-    this.sql         = new SSActivitySQLFct(dbSQL, SSVocConf.systemUserUri);
+    this.sql         = new SSActivitySQLFct(dbSQL, SSConf.systemUserUri);
     this.userCommons = new SSUserCommons();
   }
   
@@ -400,7 +400,7 @@ implements
       if(par.entity == null){
         throw SSErr.get(SSErrE.parameterMissing);
         
-//        par.entity = SSUri.get(SSVocConf.sssUri);
+//        par.entity = SSUri.get(SSConf.sssUri);
       }
       
       if(!userCommons.areUsersUsers(par.users)){
@@ -416,7 +416,7 @@ implements
         entityServ.entityUpdate(
           new SSEntityUpdatePar(
             par.user,
-            SSVocConf.vocURICreate(),
+            SSConf.vocURICreate(),
             SSEntityE.activity,
             SSLabel.get(SSStrU.toStr(par.type)), //label,
             null, //description,

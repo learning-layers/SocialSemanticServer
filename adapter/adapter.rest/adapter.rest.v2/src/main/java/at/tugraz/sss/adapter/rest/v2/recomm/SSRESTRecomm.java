@@ -36,7 +36,7 @@ import at.kc.tugraz.ss.recomm.datatypes.ret.SSRecommTagsRet;
 import at.kc.tugraz.ss.recomm.datatypes.ret.SSRecommUpdateBulkRet;
 import at.kc.tugraz.ss.recomm.datatypes.ret.SSRecommUpdateRet;
 import at.kc.tugraz.ss.recomm.datatypes.ret.SSRecommUsersRet;
-import at.kc.tugraz.ss.conf.conf.SSVocConf;
+import at.tugraz.sss.conf.SSConf;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import com.wordnik.swagger.annotations.ApiParam;
@@ -312,8 +312,8 @@ public class SSRESTRecomm{
         new SSRecommUsersPar(
           null, 
           null,                                //realm
-          SSUri.get(forUser, SSVocConf.sssUri), //forUser
-          SSUri.get(entity,  SSVocConf.sssUri), //entity
+          SSUri.get(forUser, SSConf.sssUri), //forUser
+          SSUri.get(entity,  SSConf.sssUri), //entity
           null, //categories
           10, //maxUsers
           false, //ignoreAccessRights
@@ -364,8 +364,8 @@ public class SSRESTRecomm{
         new SSRecommUsersPar(
           null, 
           realm,                                //realm
-          SSUri.get(forUser, SSVocConf.sssUri), //forUser
-          SSUri.get(entity,  SSVocConf.sssUri), //entity
+          SSUri.get(forUser, SSConf.sssUri), //forUser
+          SSUri.get(entity,  SSConf.sssUri), //entity
           null, //categories
           10, //maxUsers
           false, //ignoreAccessRights
@@ -416,8 +416,8 @@ public class SSRESTRecomm{
         new SSRecommUsersPar(
           null, 
           realm,                                //realm
-          SSUri.get(forUser, SSVocConf.sssUri), //forUser
-          SSUri.get(entity,  SSVocConf.sssUri), //entity
+          SSUri.get(forUser, SSConf.sssUri), //forUser
+          SSUri.get(entity,  SSConf.sssUri), //entity
           null, //categories
           10, //maxUsers
           true, //ignoreAccessRights
@@ -456,7 +456,7 @@ public class SSRESTRecomm{
         new SSRecommUsersPar(
           null, 
           null,                                //realm
-          SSUri.get(forUser, SSVocConf.sssUri), //forUser
+          SSUri.get(forUser, SSConf.sssUri), //forUser
           null, //entity
           null, //categories
           10,  //maxUsers
@@ -502,7 +502,7 @@ public class SSRESTRecomm{
         new SSRecommUsersPar(
           null, 
           realm,                                //realm
-          SSUri.get(forUser, SSVocConf.sssUri), //forUser
+          SSUri.get(forUser, SSConf.sssUri), //forUser
           null, //entity
           null, //categories
           10, //maxUsers, 
@@ -549,7 +549,7 @@ public class SSRESTRecomm{
         new SSRecommUsersPar(
           null, 
           realm,                                //realm
-          SSUri.get(forUser, SSVocConf.sssUri), //forUser
+          SSUri.get(forUser, SSConf.sssUri), //forUser
           null, //entity
           null, //categories
           10, //maxUsers, 
@@ -590,7 +590,7 @@ public class SSRESTRecomm{
           null, 
           null, //realm
           null, //forUser
-          SSUri.get(entity, SSVocConf.sssUri), //entity
+          SSUri.get(entity, SSConf.sssUri), //entity
           null, //categories
           10, //maxUsers
           false, //ignoreAccessRights
@@ -636,7 +636,7 @@ public class SSRESTRecomm{
           null, 
           realm, //realm
           null, //forUser
-          SSUri.get(entity, SSVocConf.sssUri), //entity
+          SSUri.get(entity, SSConf.sssUri), //entity
           null, //categories
           10, //maxUsers
           false,  //ignoreAccessRights
@@ -682,7 +682,7 @@ public class SSRESTRecomm{
           null, 
           realm, //realm
           null, //forUser
-          SSUri.get(entity, SSVocConf.sssUri), //entity
+          SSUri.get(entity, SSConf.sssUri), //entity
           null, //categories
           10, //maxUsers
           true,  //ignoreAccessRights

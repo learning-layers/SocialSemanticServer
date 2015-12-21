@@ -22,7 +22,7 @@ package at.kc.tugraz.ss.service.disc.impl.fct.op;
 
 import at.tugraz.sss.serv.impl.api.SSEntityServerI;
 import at.tugraz.sss.serv.datatype.par.SSCircleAddEntitiesToCircleOfEntityPar;
-import at.kc.tugraz.ss.conf.conf.SSVocConf;
+import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.serv.impl.api.SSEntityServerI;
 import at.tugraz.sss.serv.datatype.par.SSEntityGetPar;
 import at.tugraz.sss.serv.datatype.par.SSEntityUpdatePar;
@@ -67,7 +67,7 @@ public class SSDiscUserEntryAddFct{
         entityServ.entityUpdate(
           new SSEntityUpdatePar(
             userUri,
-            SSVocConf.vocURICreate(),
+            SSConf.vocURICreate(),
             discType, //type,
             discLabel, //label
             description, //description,
@@ -122,7 +122,7 @@ public class SSDiscUserEntryAddFct{
         entityServ.entityUpdate(
           new SSEntityUpdatePar(
             userUri,
-            SSVocConf.vocURICreate(),
+            SSConf.vocURICreate(),
             discEntryType, //type,
             null, //label
             null, //description,

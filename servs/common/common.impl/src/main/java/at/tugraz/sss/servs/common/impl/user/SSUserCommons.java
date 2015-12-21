@@ -20,7 +20,7 @@
  */
 package at.tugraz.sss.servs.common.impl.user;
 
-import at.kc.tugraz.ss.conf.conf.SSVocConf;
+import at.tugraz.sss.conf.SSConf;
 import at.kc.tugraz.ss.serv.auth.api.SSAuthServerI;
 import at.kc.tugraz.ss.serv.ss.auth.datatypes.pars.SSAuthCheckKeyPar;
 import at.kc.tugraz.ss.service.user.api.SSUserServerI;
@@ -73,7 +73,7 @@ public class SSUserCommons {
       final List<SSEntity> users =
         userServ.usersGet(
           new SSUsersGetPar(
-            SSVocConf.systemUserUri, 
+            SSConf.systemUserUri, 
             userURIs,  //userURIs
             false)); //invokeEntityHandlers
       

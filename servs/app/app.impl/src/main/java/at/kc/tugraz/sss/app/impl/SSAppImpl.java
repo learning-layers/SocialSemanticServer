@@ -20,7 +20,7 @@
   */
 package at.kc.tugraz.sss.app.impl;
 
-import at.kc.tugraz.ss.conf.conf.SSVocConf;
+import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.serv.impl.api.SSEntityServerI;
 import at.tugraz.sss.serv.datatype.par.SSEntityDownloadsAddPar;
 import at.tugraz.sss.serv.datatype.par.SSEntityGetPar;
@@ -200,7 +200,7 @@ implements
         entityServ.entityUpdate(
           new SSEntityUpdatePar(
             par.user,
-            SSVocConf.vocURICreate(), //entity,
+            SSConf.vocURICreate(), //entity,
             SSEntityE.app, //type,
             par.label, //label,
             null, //description,

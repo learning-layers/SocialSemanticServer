@@ -30,7 +30,7 @@ import at.kc.tugraz.ss.like.datatypes.par.SSLikesUserGetPar;
 import at.kc.tugraz.ss.like.datatypes.ret.SSLikeUserSetRet;
 import at.kc.tugraz.ss.like.impl.fct.sql.SSLikeSQLFct;
 import at.tugraz.sss.serv.impl.api.SSEntityServerI;
-import at.kc.tugraz.ss.conf.conf.SSVocConf;
+import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.serv.datatype.enums.SSClientE;
 import at.tugraz.sss.serv.datatype.par.SSEntityUpdatePar;
 import at.tugraz.sss.serv.conf.SSConfA;
@@ -64,7 +64,7 @@ implements
   public SSLikeImpl(final SSConfA conf) throws SSErr{
     super(conf, (SSDBSQLI) SSServReg.getServ(SSDBSQLI.class), (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class));
     
-    this.sql          = new SSLikeSQLFct(dbSQL, SSVocConf.systemUserUri);
+    this.sql          = new SSLikeSQLFct(dbSQL, SSConf.systemUserUri);
     this.entityServ   = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
     this.userCommons  = new SSUserCommons();
   }

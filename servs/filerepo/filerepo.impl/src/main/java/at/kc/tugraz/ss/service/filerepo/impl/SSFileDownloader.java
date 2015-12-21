@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.service.filerepo.impl;
 
-import at.kc.tugraz.ss.conf.conf.SSVocConf;
+import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.serv.util.SSLogU;
 import at.tugraz.sss.serv.impl.api.SSServImplStartA;
 import at.kc.tugraz.ss.service.filerepo.conf.SSFileRepoConf;
@@ -62,7 +62,7 @@ public class SSFileDownloader extends SSServImplStartA{
     this.outputStreamWriter   = new OutputStreamWriter (par.clientSocket.getOutputStream());
     this.dataOutputStream     = new DataOutputStream   (par.clientSocket.getOutputStream());
     this.socketAdapterU       = new SSSocketAdapterU   ();
-    this.fileId               = SSVocConf.fileIDFromSSSURI(this.par.file);
+    this.fileId               = SSConf.fileIDFromSSSURI(this.par.file);
   }
   
   @Override

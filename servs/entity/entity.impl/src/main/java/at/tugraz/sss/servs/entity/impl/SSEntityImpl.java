@@ -110,7 +110,7 @@ import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleUsersAddRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleUsersInviteRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCircleUsersRemoveRet;
 import at.kc.tugraz.ss.circle.datatypes.ret.SSCirclesGetRet;
-import at.kc.tugraz.ss.conf.conf.SSVocConf;
+import at.tugraz.sss.conf.SSConf;
 import at.kc.tugraz.ss.service.tag.api.SSTagServerI;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.kc.tugraz.ss.service.tag.datatypes.pars.SSTagsAddPar;
@@ -161,7 +161,7 @@ implements
     
     super(conf, (SSDBSQLI) SSServReg.getServ(SSDBSQLI.class), (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class));
     
-    this.sql          = new SSCoreSQL  (dbSQL, SSVocConf.systemUserUri);
+    this.sql          = new SSCoreSQL  (dbSQL, SSConf.systemUserUri);
     this.activityServ = (SSActivityServerI) SSServReg.getServ(SSActivityServerI.class);
     this.evalServ     = (SSEvalServerI)     SSServReg.getServ(SSEvalServerI.class);
     
@@ -837,7 +837,7 @@ implements
         switch(par.type){
           case placeholder:{
             
-            par.entity = SSVocConf.vocURICreate();
+            par.entity = SSConf.vocURICreate();
             
             isPlaceholderAdd = true;
             break;
@@ -1789,7 +1789,7 @@ implements
         entityServ.entityUpdate(
           new SSEntityUpdatePar(
             par.user,
-            SSVocConf.vocURICreate(),
+            SSConf.vocURICreate(),
             SSEntityE.circle,
             par.label,
             par.description,
@@ -2610,14 +2610,14 @@ implements
         return circleURI;
       }
       
-      circleURI = SSVocConf.vocURICreate();
+      circleURI = SSConf.vocURICreate();
       
       sql.addEntityIfNotExists(
         circleURI,
         SSEntityE.circle,
         null, //label
         null, //description
-        SSVocConf.systemUserUri, //author
+        SSConf.systemUserUri, //author
         null);
       
       addCircle(
@@ -2669,21 +2669,21 @@ implements
       
       dbSQL.startTrans(par.shouldCommit);
       
-      tmpPublicCircleURI = SSVocConf.vocURICreate();
+      tmpPublicCircleURI = SSConf.vocURICreate();
       
       sql.addEntityIfNotExists(
         tmpPublicCircleURI,
         SSEntityE.circle,
         null, //label,
         null, //description,
-        SSVocConf.systemUserUri,
+        SSConf.systemUserUri,
         null);//creationTime);
       
       addCircle(
         tmpPublicCircleURI,
         SSCircleE.pub,
         true,
-        SSVocConf.systemUserUri);
+        SSConf.systemUserUri);
       
       dbSQL.commit(par.shouldCommit);
       
@@ -3426,7 +3426,7 @@ implements
 //        return;
 //      }
 //
-//      if(SSStrU.equals(par.user, SSVocConf.systemUserUri)){
+//      if(SSStrU.equals(par.user, SSConf.systemUserUri)){
 //        return;
 //      }
 //

@@ -55,7 +55,7 @@ import at.kc.tugraz.ss.serv.job.dataexport.api.SSDataExportServerI;
 import at.kc.tugraz.ss.serv.job.dataexport.datatypes.par.SSDataExportUserEntityTagsCategoriesTimestampsLinePar;
 import at.kc.tugraz.ss.serv.job.dataexport.datatypes.par.SSDataExportUsersEntitiesTagsCategoriesTimestampsFileFromCirclePar;
 import at.kc.tugraz.ss.serv.job.dataexport.datatypes.par.SSDataExportUsersEntitiesTagsCategoriesTimestampsFilePar;
-import at.kc.tugraz.ss.conf.conf.SSVocConf;
+import at.tugraz.sss.conf.SSConf;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLabel;
 import at.kc.tugraz.ss.service.tag.datatypes.SSTagLikelihood;
 import at.kc.tugraz.ss.service.user.api.SSUserServerI;
@@ -108,7 +108,7 @@ implements
     super(conf, (SSDBSQLI) SSServReg.getServ(SSDBSQLI.class), (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class));
     
     this.recommConf  = ((SSRecommConf)conf);
-    this.sql         = new SSRecommSQLFct(dbSQL, SSVocConf.systemUserUri);
+    this.sql         = new SSRecommSQLFct(dbSQL, SSConf.systemUserUri);
     this.evalServ    = (SSEvalServerI) SSServReg.getServ(SSEvalServerI.class);
     this.userCommons = new SSUserCommons();
   }
@@ -791,7 +791,7 @@ implements
       
       for(Map.Entry<String, List<String>> usersForRealm : usersForRealms.entrySet()){
 
-        dataExportPar.circle   = SSUri.get(usersForRealm.getKey(), SSVocConf.sssUri);
+        dataExportPar.circle   = SSUri.get(usersForRealm.getKey(), SSConf.sssUri);
         dataExportPar.fileName = usersForRealm.getKey() + SSStrU.dot + SSFileExtE.txt;
         
         dataExportServ.dataExportUsersEntitiesTagsCategoriesTimestampsFileFromCircle(dataExportPar);

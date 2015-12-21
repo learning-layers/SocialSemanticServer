@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.service.search.impl;
 
-import at.kc.tugraz.ss.conf.conf.SSVocConf;
+import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.serv.db.api.SSDBNoSQLFctA;
 import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
 import at.tugraz.sss.serv.datatype.par.SSDBNoSQLSearchPar;
@@ -56,7 +56,7 @@ public class SSSearchNoSQLFct extends SSDBNoSQLFctA{
             localSearchOp.toString(),
             wheres,
             100)),
-        SSVocConf.sssUri);
+        SSConf.sssUri);
     }catch(Exception error){
       SSServErrReg.regErrThrow(error);
       return null;

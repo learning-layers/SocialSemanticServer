@@ -733,7 +733,7 @@ implements
 //        user=
 //          authServ.authRegisterUser(
 //            new SSAuthRegisterUserPar(
-//              userLabel + SSStrU.at + SSVocConf.systemEmailPostFix, //email
+//              userLabel + SSStrU.at + SSConf.systemEmailPostFix, //email
 //              "1234", //password
 //              SSLabel.get(userLabel),
 //              false, //updatePassword,

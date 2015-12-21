@@ -25,7 +25,7 @@ import at.tugraz.sss.serv.util.SSLogU;
 import at.kc.tugraz.ss.recomm.conf.SSRecommConf;
 import at.kc.tugraz.ss.recomm.datatypes.par.SSRecommUpdateBulkPar;
 import at.kc.tugraz.ss.recomm.serv.SSRecommServ;
-import at.kc.tugraz.ss.conf.conf.SSVocConf;
+import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.impl.api.SSServImplStartA;
 import java.util.TimerTask;
@@ -68,7 +68,7 @@ public class SSRecommUpdateBulkTask extends TimerTask {
       try{
         ((SSRecommServerI)SSRecommServ.inst.getServImpl()).recommUpdateBulk(
           new SSRecommUpdateBulkPar(
-            SSVocConf.systemUserUri, 
+            SSConf.systemUserUri, 
             recommConf.fileNameForRec, 
             null));
         

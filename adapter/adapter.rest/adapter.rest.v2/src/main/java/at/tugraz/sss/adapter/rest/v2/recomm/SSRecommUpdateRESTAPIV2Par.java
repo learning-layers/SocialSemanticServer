@@ -21,7 +21,7 @@
 package at.tugraz.sss.adapter.rest.v2.recomm;
 
 import at.tugraz.sss.serv.datatype.*;
-import at.kc.tugraz.ss.conf.conf.SSVocConf;
+import at.tugraz.sss.conf.SSConf;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 import java.util.List;
@@ -45,7 +45,7 @@ public class SSRecommUpdateRESTAPIV2Par{
   
   @XmlElement
   public void setForUser(final String forUser) throws Exception{
-    this.forUser = SSUri.get(forUser, SSVocConf.sssUri);
+    this.forUser = SSUri.get(forUser, SSConf.sssUri);
   }
   
   @ApiModelProperty(
@@ -55,7 +55,7 @@ public class SSRecommUpdateRESTAPIV2Par{
   
   @XmlElement
   public void setEntity(final String entity) throws Exception{
-    this.entity = SSUri.get(entity, SSVocConf.sssUri);
+    this.entity = SSUri.get(entity, SSConf.sssUri);
   }
   
   @XmlElement

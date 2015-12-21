@@ -21,11 +21,11 @@
 package at.kc.tugraz.ss.serv.dataimport.serv.task;
 
 import at.tugraz.sss.serv.util.SSLogU;
-import at.kc.tugraz.ss.conf.conf.SSCoreConf;
+import at.tugraz.sss.conf.SSCoreConf;
 import at.kc.tugraz.ss.serv.dataimport.api.SSDataImportServerI;
 import at.kc.tugraz.ss.serv.dataimport.datatypes.pars.SSDataImportBitsAndPiecesPar;
 import at.kc.tugraz.ss.serv.jobs.evernote.conf.SSEvernoteConf;
-import at.kc.tugraz.ss.conf.conf.SSVocConf;
+import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.serv.impl.api.SSServImplStartA;
 import java.util.TimerTask;
 import at.tugraz.sss.serv.reg.SSServErrReg;
@@ -52,7 +52,7 @@ public class SSDataImportBitsAndPiecesTask extends TimerTask {
         new Thread(
           new SSDataImportBitsAndPiecesUpdater(
             new SSDataImportBitsAndPiecesPar(
-              SSVocConf.systemUserUri,
+              SSConf.systemUserUri,
               evernoteConf.getAuthTokens().get(counter),
               evernoteConf.getAuthEmails().get(counter),
               null,
@@ -101,7 +101,7 @@ public class SSDataImportBitsAndPiecesTask extends TimerTask {
           try{
             ((SSDataImportServerI) SSServReg.getServ(SSDataImportServerI.class)).dataImportBitsAndPieces(
               new SSDataImportBitsAndPiecesPar(
-                SSVocConf.systemUserUri,
+                SSConf.systemUserUri,
                 evernoteConf.getAuthTokens().get(counter),
                 evernoteConf.getAuthEmails().get(counter),
                 emailInUser,

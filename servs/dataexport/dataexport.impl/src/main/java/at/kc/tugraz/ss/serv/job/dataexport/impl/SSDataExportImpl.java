@@ -20,7 +20,7 @@
   */
 package at.kc.tugraz.ss.serv.job.dataexport.impl;
 
-import at.kc.tugraz.ss.conf.conf.SSVocConf;
+import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.serv.impl.api.SSEntityServerI;
 import at.tugraz.sss.serv.datatype.par.SSCircleGetPar;
 import at.tugraz.sss.serv.util.SSDateU;
@@ -214,7 +214,7 @@ implements
                   null, //users
                   false))); //invokeEntityHandlers
           
-          SSStrU.remove(allUsers, SSVocConf.systemUserUri);
+          SSStrU.remove(allUsers, SSConf.systemUserUri);
           
         }catch(SSErr error){
           

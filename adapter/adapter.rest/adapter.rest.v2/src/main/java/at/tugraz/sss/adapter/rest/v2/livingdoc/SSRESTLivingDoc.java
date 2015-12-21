@@ -20,7 +20,7 @@
  */
 package at.tugraz.sss.adapter.rest.v2.livingdoc;
 
-import at.kc.tugraz.ss.conf.conf.SSVocConf;
+import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.util.*;
@@ -105,7 +105,7 @@ public class SSRESTLivingDoc {
       par =
         new SSLivingDocGetPar(
           null,
-          SSUri.get(livingDoc, SSVocConf.sssUri),
+          SSUri.get(livingDoc, SSConf.sssUri),
           true,  //withUserRestriction
           true); //invokeEntityHandlers
       
@@ -174,7 +174,7 @@ public class SSRESTLivingDoc {
       par =
         new SSLivingDocGetPar(
           null,
-          SSUri.get(livingDoc, SSVocConf.sssUri),
+          SSUri.get(livingDoc, SSConf.sssUri),
           true,  //withUserRestriction
           true); //invokeEntityHandlers
       
@@ -240,7 +240,7 @@ public class SSRESTLivingDoc {
       par =
         new SSLivingDocRemovePar(
           null,
-          SSUri.get(livingDoc, SSVocConf.sssUri),
+          SSUri.get(livingDoc, SSConf.sssUri),
           true,  //withUserRestriction
           true); //shouldCommit
       
@@ -274,7 +274,7 @@ public class SSRESTLivingDoc {
       par =
         new SSLivingDocUpdatePar(
           null,
-          SSUri.get(livingDoc, SSVocConf.sssUri),
+          SSUri.get(livingDoc, SSConf.sssUri),
           input.label,
           input.description,
           input.discussion,

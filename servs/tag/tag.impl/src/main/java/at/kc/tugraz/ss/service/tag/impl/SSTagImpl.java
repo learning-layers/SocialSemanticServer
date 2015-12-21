@@ -22,7 +22,7 @@ package at.kc.tugraz.ss.service.tag.impl;
 
 import at.kc.tugraz.ss.activity.api.SSActivityServerI;
 import at.tugraz.sss.serv.impl.api.SSEntityServerI;
-import at.kc.tugraz.ss.conf.conf.SSVocConf;
+import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.serv.datatype.par.SSEntitiesGetPar;
 import at.tugraz.sss.serv.datatype.par.SSEntityFromTypeAndLabelGetPar;
 import at.tugraz.sss.serv.datatype.par.SSEntityUpdatePar;
@@ -99,7 +99,7 @@ implements
     
     super(conf, (SSDBSQLI) SSServReg.getServ(SSDBSQLI.class), (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class));
     
-    this.sql           = new SSTagAndCategoryCommonSQL (dbSQL, SSVocConf.systemUserUri, SSEntityE.tag);
+    this.sql           = new SSTagAndCategoryCommonSQL (dbSQL, SSConf.systemUserUri, SSEntityE.tag);
     this.commonMiscFct = new SSTagAndCategoryCommonMisc(dbSQL, SSEntityE.tag);
     
     this.actAndLogFct =
@@ -489,7 +489,7 @@ implements
           entityServ.entityUpdate(
             new SSEntityUpdatePar(
               par.user,
-              SSVocConf.vocURICreate(),
+              SSConf.vocURICreate(),
               SSEntityE.tag, //type,
               SSLabel.get(SSStrU.toStr(par.label)), //label
               null, //description,
@@ -935,7 +935,7 @@ implements
 //      if(tagEntity != null){
 //        tagUri = tagEntity.id;
 //      }else{
-//        tagUri = SSVocConf.vocURICreate();
+//        tagUri = SSConf.vocURICreate();
 //      }
 //
 //      final List<SSTag> tags =

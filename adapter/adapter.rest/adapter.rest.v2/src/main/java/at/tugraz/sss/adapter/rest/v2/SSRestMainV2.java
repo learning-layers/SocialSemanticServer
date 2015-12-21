@@ -28,7 +28,7 @@ import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.util.*;
 import at.kc.tugraz.ss.adapter.rest.conf.SSAdapterRestConf;
 import at.tugraz.sss.serv.util.SSJSONLDU;
-import at.kc.tugraz.ss.conf.conf.SSVocConf;
+import at.tugraz.sss.conf.SSConf;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -48,7 +48,7 @@ public class SSRestMainV2 extends Application {
    
     //sss.adapter.rest.v2.conf
     //layers.test
-    SSAdapterRestConf.instSet (SSFileU.dirCatalinaBase() + SSVocConf.dirNameConf + "sss.adapter.rest.v2.conf.yaml");
+    SSAdapterRestConf.instSet (SSFileU.dirCatalinaBase() + SSConf.dirNameConf + "sss.adapter.rest.v2.conf.yaml");
     
     conf = SSAdapterRestConf.instGet();
     

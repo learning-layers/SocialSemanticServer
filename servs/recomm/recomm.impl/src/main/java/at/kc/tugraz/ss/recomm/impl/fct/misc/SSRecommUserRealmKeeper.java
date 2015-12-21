@@ -25,7 +25,7 @@ import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.kc.tugraz.ss.recomm.datatypes.SSRecommUserRealmEngine;
 import at.kc.tugraz.ss.recomm.impl.fct.sql.SSRecommSQLFct;
-import at.kc.tugraz.ss.conf.conf.SSVocConf;
+import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.datatype.enums.SSErrE;
 import at.tugraz.sss.serv.util.SSFileExtE;
@@ -77,14 +77,14 @@ public class SSRecommUserRealmKeeper{
         
         if(
           SSStrU.equals  (realm,   conf.fileNameForRec) &&
-          !SSStrU.equals (userStr, SSVocConf.systemUserUri)){
+          !SSStrU.equals (userStr, SSConf.systemUserUri)){
           
           throw SSErr.get(SSErrE.userNotAllowedToRetrieveForOtherUser);
         }
       }else{
         
         if(SSStrU.equals(realm, conf.fileNameForRec)){
-          final List<SSRecommUserRealmEngine> systemUserRealmEngines = userRealmEngines.get(SSStrU.toStr(SSVocConf.systemUserUri));
+          final List<SSRecommUserRealmEngine> systemUserRealmEngines = userRealmEngines.get(SSStrU.toStr(SSConf.systemUserUri));
           
           return systemUserRealmEngines.get(0);
         }
@@ -224,7 +224,7 @@ public class SSRecommUserRealmKeeper{
 //            new SSUserURIGetPar(
 //              null, 
 //              null, 
-//              SSVocConf.systemUserUri, 
+//              SSConf.systemUserUri, 
 //              userEmail));
 //        
 //        if(!userRealmEngines.containsKey(SSStrU.toStr(userURI))){
@@ -274,16 +274,16 @@ public class SSRecommUserRealmKeeper{
 //      
 //      engineLock.writeLock().lock();
 //      
-//      if(!userRealmEngines.containsKey(SSStrU.toStr(SSVocConf.systemUserUri))){
+//      if(!userRealmEngines.containsKey(SSStrU.toStr(SSConf.systemUserUri))){
 //        
-//        userRealmEngines.put(SSStrU.toStr(SSVocConf.systemUserUri), new ArrayList());
+//        userRealmEngines.put(SSStrU.toStr(SSConf.systemUserUri), new ArrayList());
 //        
 //        sssRealmFileOut =
 //          SSFileU.openOrCreateFileWithPathForWrite(
 //            SSFileU.dirWorkingDataCsv() + conf.fileNameForRec + SSStrU.dot + SSFileExtE.txt);
 //        
 //        userRealmEngines.get(
-//          SSStrU.toStr(SSVocConf.systemUserUri)).add(
+//          SSStrU.toStr(SSConf.systemUserUri)).add(
 //          SSRecommUserRealmEngine.get(
 //            new EntityRecommenderEngine(),
 //            conf.fileNameForRec));

@@ -27,7 +27,7 @@ import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.impl.api.SSServImplStartA;
 import at.tugraz.sss.serv.reg.*;
 import java.util.TimerTask;
-import at.kc.tugraz.ss.conf.conf.SSVocConf;
+import at.tugraz.sss.conf.SSConf;
 
 public class SSSearchResultPagesCacheCleanerTask extends TimerTask {
   
@@ -55,7 +55,7 @@ public class SSSearchResultPagesCacheCleanerTask extends TimerTask {
         
         final SSSearchServerI searchServ = (SSSearchServerI) SSServReg.getServ(SSSearchServerI.class);
         
-        searchServ.searchCleanUp(new SSSearchCleanUpPar(SSVocConf.systemUserUri));
+        searchServ.searchCleanUp(new SSSearchCleanUpPar(SSConf.systemUserUri));
       }catch(Exception error1){
         SSServErrReg.regErr(error1);
       }finally{

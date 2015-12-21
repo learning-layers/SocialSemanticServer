@@ -27,7 +27,7 @@ import at.tugraz.sss.serv.impl.api.SSServImplStartA;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.datatype.par.SSEntitiesAccessibleGetCleanUpPar;
 import java.util.TimerTask;
-import at.kc.tugraz.ss.conf.conf.SSVocConf;
+import at.tugraz.sss.conf.SSConf;
 
 public class SSEntitiesAccessibleGetCleanUpTask extends TimerTask {
   
@@ -54,7 +54,7 @@ public class SSEntitiesAccessibleGetCleanUpTask extends TimerTask {
         
       final SSEntityServerI entityServ = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
       
-      entityServ.entitiesAccessibleGetCleanUp(new SSEntitiesAccessibleGetCleanUpPar(SSVocConf.systemUserUri));
+      entityServ.entitiesAccessibleGetCleanUp(new SSEntitiesAccessibleGetCleanUpPar(SSConf.systemUserUri));
       
       }catch(Exception error1){
         SSServErrReg.regErr(error1);

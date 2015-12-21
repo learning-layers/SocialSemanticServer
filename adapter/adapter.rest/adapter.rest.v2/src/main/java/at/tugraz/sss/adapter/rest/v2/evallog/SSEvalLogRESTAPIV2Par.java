@@ -20,7 +20,7 @@
 */
 package at.tugraz.sss.adapter.rest.v2.evallog;
 
-import at.kc.tugraz.ss.conf.conf.SSVocConf;
+import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.serv.datatype.enums.SSToolContextE;
 import at.tugraz.sss.serv.datatype.*;
 import com.wordnik.swagger.annotations.ApiModel;
@@ -62,7 +62,7 @@ public class SSEvalLogRESTAPIV2Par {
   
   @XmlElement
   public void setEntity(final String entity) throws Exception{
-   this.entity = SSUri.get(entity, SSVocConf.sssUri);
+   this.entity = SSUri.get(entity, SSConf.sssUri);
   }
 
   @ApiModelProperty(
@@ -72,7 +72,7 @@ public class SSEvalLogRESTAPIV2Par {
   
   @XmlElement
   public void setEntities(final List<String> entities) throws Exception{
-    this.entities = SSUri.get(entities, SSVocConf.sssUri);
+    this.entities = SSUri.get(entities, SSConf.sssUri);
   }
 
   @ApiModelProperty(
@@ -82,7 +82,7 @@ public class SSEvalLogRESTAPIV2Par {
   
   @XmlElement
   public void setUsers(final List<String> users)throws Exception{
-    this.users = SSUri.get(users, SSVocConf.sssUri);
+    this.users = SSUri.get(users, SSConf.sssUri);
   }
   
   @XmlElement

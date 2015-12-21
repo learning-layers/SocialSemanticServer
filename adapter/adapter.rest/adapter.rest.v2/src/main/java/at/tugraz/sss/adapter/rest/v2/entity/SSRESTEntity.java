@@ -24,7 +24,7 @@ import at.tugraz.sss.serv.datatype.par.SSEntityCopyPar;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
 import at.tugraz.sss.serv.datatype.*;
-import at.kc.tugraz.ss.conf.conf.SSVocConf;
+import at.tugraz.sss.conf.SSConf;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUserEntityUsersGetPar;
 import at.kc.tugraz.ss.service.user.datatypes.ret.SSUserEntityUsersGetRet;
 import at.kc.tugraz.sss.comment.datatypes.par.SSCommentsAddPar;
@@ -190,7 +190,7 @@ public class SSRESTEntity {
       par =
         new SSEntitiesGetPar(
           null,
-          SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(entities, SSStrU.comma), SSVocConf.sssUri), //entities
+          SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(entities, SSStrU.comma), SSConf.sssUri), //entities
           descPar, //descPar
           true); //withUserRestriction
       
@@ -262,7 +262,7 @@ public class SSRESTEntity {
       par =
         new SSEntityUpdatePar(
           null, //user
-          SSUri.get(entity, SSVocConf.sssUri), //entity
+          SSUri.get(entity, SSConf.sssUri), //entity
           input.type, //type
           input.label,       //label
           input.description, //description
@@ -302,7 +302,7 @@ public class SSRESTEntity {
       par =
         new SSEntitySharePar(
           null, //user
-          SSUri.get(entity, SSVocConf.sssUri), //entity
+          SSUri.get(entity, SSConf.sssUri), //entity
           input.users,
           input.circles,
           input.setPublic, //setPublic,
@@ -337,7 +337,7 @@ public class SSRESTEntity {
       par =
         new SSEntityUnpublicizePar(
           null, //user
-          SSUri.get(entity, SSVocConf.sssUri), //entity
+          SSUri.get(entity, SSConf.sssUri), //entity
           true, //withUserRestriction,
           true); //shouldCommit
       
@@ -370,7 +370,7 @@ public class SSRESTEntity {
       par =
         new SSEntityCopyPar(
           null, //user
-          SSUri.get(entity, SSVocConf.sssUri), //entity
+          SSUri.get(entity, SSConf.sssUri), //entity
           input.targetEntity, //targetEntity
           input.forUsers,
           input.label,
@@ -413,7 +413,7 @@ public class SSRESTEntity {
       par =
         new SSUserEntityUsersGetPar(
           null,  //user
-          SSUri.get(entity, SSVocConf.sssUri),  //entity
+          SSUri.get(entity, SSConf.sssUri),  //entity
           false, //invokeEntityHandlers
           true); //withUserRestriction
       
@@ -447,7 +447,7 @@ public class SSRESTEntity {
       par =
         new SSCommentsAddPar(
           null,
-          SSUri.get(entity, SSVocConf.sssUri), //entity
+          SSUri.get(entity, SSConf.sssUri), //entity
           input.comments, //comments
           true, //withUserRestriction
           true);  //shouldCommit

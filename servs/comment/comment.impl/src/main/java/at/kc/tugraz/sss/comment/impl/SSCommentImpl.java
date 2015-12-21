@@ -21,7 +21,7 @@
 package at.kc.tugraz.sss.comment.impl;
 
 import at.tugraz.sss.serv.impl.api.SSEntityServerI;
-import at.kc.tugraz.ss.conf.conf.SSVocConf;
+import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.serv.datatype.par.SSEntitiesGetPar;
 import at.tugraz.sss.serv.datatype.par.SSEntityUpdatePar;
 import at.tugraz.sss.serv.datatype.SSTextComment;
@@ -74,7 +74,7 @@ implements
 
     super(conf, (SSDBSQLI) SSServReg.getServ(SSDBSQLI.class), (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class));
 
-    this.sql         = new SSCommentSQLFct(dbSQL, SSVocConf.systemUserUri);
+    this.sql         = new SSCommentSQLFct(dbSQL, SSConf.systemUserUri);
     this.userCommons = new SSUserCommons();
   }
   
@@ -175,7 +175,7 @@ implements
           entityServ.entityUpdate(
             new SSEntityUpdatePar(
               par.user,
-              SSVocConf.vocURICreate(),
+              SSConf.vocURICreate(),
               SSEntityE.comment, //type,
               null, //label
               null, //description,

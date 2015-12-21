@@ -25,7 +25,7 @@ import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.util.SSFileU;
 import at.tugraz.sss.serv.util.SSLogU;
 import at.tugraz.sss.serv.util.SSMimeTypeE;
-import at.kc.tugraz.ss.conf.conf.SSVocConf;
+import at.tugraz.sss.conf.SSConf;
 import at.kc.tugraz.ss.service.filerepo.api.SSFileRepoServerI;
 import at.tugraz.sss.serv.impl.api.SSServImplStartA;
 import at.kc.tugraz.ss.service.filerepo.conf.SSFileRepoConf;
@@ -74,8 +74,8 @@ public class SSFileUploader extends SSServImplStartA{
     this.outputStreamWriter = new OutputStreamWriter (par.clientSocket.getOutputStream());
     this.socketAdapterU     = new SSSocketAdapterU();
     this.fileExt            = SSMimeTypeE.fileExtForMimeType          (par.mimeType);
-    this.fileUri            = SSVocConf.vocURICreate                  (fileExt);
-    this.fileId             = SSVocConf.fileIDFromSSSURI              (fileUri);
+    this.fileUri            = SSConf.vocURICreate                  (fileExt);
+    this.fileId             = SSConf.fileIDFromSSSURI              (fileUri);
   }
   
   @Override

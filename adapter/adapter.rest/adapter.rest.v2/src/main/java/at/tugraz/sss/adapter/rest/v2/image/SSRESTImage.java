@@ -5,7 +5,7 @@
  */
 package at.tugraz.sss.adapter.rest.v2.image;
 
-import at.kc.tugraz.ss.conf.conf.SSVocConf;
+import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.util.*;
@@ -51,8 +51,8 @@ public class SSRESTImage {
       par =
         new SSImageProfilePictureSetPar(
           null, 
-          SSUri.get(entity,  SSVocConf.sssUri),
-          SSUri.get(file,    SSVocConf.sssUri), 
+          SSUri.get(entity,  SSConf.sssUri),
+          SSUri.get(file,    SSConf.sssUri), 
           true, 
           true);
       

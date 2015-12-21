@@ -20,8 +20,8 @@
   */
 package at.kc.tugraz.ss.serv.datatypes.entity.serv;
 
-import at.kc.tugraz.ss.conf.conf.SSCoreConf;
-import at.kc.tugraz.ss.conf.conf.SSVocConf;
+import at.tugraz.sss.conf.SSCoreConf;
+import at.tugraz.sss.conf.SSConf;
 import at.kc.tugraz.ss.serv.datatypes.entity.api.SSEntityClientI;
 import at.tugraz.sss.serv.datatype.par.SSCirclePubURIGetPar;
 import at.tugraz.sss.serv.conf.SSCoreConfA;
@@ -74,7 +74,7 @@ public class SSEntityServ extends SSServContainerI{
     
     ((SSEntityServerI) SSServReg.getServ(SSEntityServerI.class)).circlePubURIGet(
       new SSCirclePubURIGetPar(
-        SSVocConf.systemUserUri, 
+        SSConf.systemUserUri, 
         true));
   }
   

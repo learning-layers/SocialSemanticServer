@@ -20,7 +20,7 @@
  */
 package at.tugraz.sss.servs.mail.impl.kc;
 
-import at.kc.tugraz.ss.conf.conf.SSVocConf;
+import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.impl.api.SSEntityServerI;
@@ -95,7 +95,7 @@ public class SSMailReceiverKCDavIMAP {
         message = (IMAPMessage) messages[counter];
         mail    =
           SSMail.get(
-            SSVocConf.vocURICreate(),
+            SSConf.vocURICreate(),
             messages[counter].getSubject(),
             messages[counter].getSentDate().getTime());
 
@@ -196,7 +196,7 @@ public class SSMailReceiverKCDavIMAP {
       
       result = 
         SSEntity.get(
-          SSVocConf.vocURICreate(SSFileExtE.getFromStrToFormat(fileName)), 
+          SSConf.vocURICreate(SSFileExtE.getFromStrToFormat(fileName)), 
           SSEntityE.file);
       
       result.label = SSLabel.get(fileName);
@@ -218,7 +218,7 @@ public class SSMailReceiverKCDavIMAP {
       final SSEntity attachment = getAttachmentObj(bodyPart.getFileName());
       
       SSFileU.writeFileBytes(
-        SSFileU.openOrCreateFileWithPathForWrite(SSMailConf.getLocalWorkPath() + SSVocConf.fileIDFromSSSURI(attachment.id)),
+        SSFileU.openOrCreateFileWithPathForWrite(SSMailConf.getLocalWorkPath() + SSConf.fileIDFromSSSURI(attachment.id)),
         bodyPart.getInputStream(),
         10000);
       

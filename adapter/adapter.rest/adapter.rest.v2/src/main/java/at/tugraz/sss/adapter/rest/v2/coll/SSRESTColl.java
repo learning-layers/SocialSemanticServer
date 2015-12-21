@@ -20,7 +20,7 @@
  */
 package at.tugraz.sss.adapter.rest.v2.coll;
 
-import at.kc.tugraz.ss.conf.conf.SSVocConf;
+import at.tugraz.sss.conf.SSConf;
 import at.kc.tugraz.ss.service.coll.api.SSCollClientI;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollCumulatedTagsGetPar;
 import at.kc.tugraz.ss.service.coll.datatypes.pars.SSCollGetPar;
@@ -83,7 +83,7 @@ public class SSRESTColl{
       par =
         new SSCollGetPar(
           null,  //user
-          SSUri.get(coll, SSVocConf.sssUri), //entity
+          SSUri.get(coll, SSConf.sssUri), //entity
           true, //withUserRestriction
           true); //invokeEntityHandlers
 
@@ -169,7 +169,7 @@ public class SSRESTColl{
       par =
         new SSCollUserHierarchyGetPar(
           null,  //user, 
-          SSUri.get(coll, SSVocConf.sssUri),
+          SSUri.get(coll, SSConf.sssUri),
           true, //withUserRestriction
           true); //invokeEntityHandlers
       
@@ -216,7 +216,7 @@ public class SSRESTColl{
       par =
         new SSCollUserEntryAddPar(
           null,  //user, 
-          SSUri.get(coll, SSVocConf.sssUri),
+          SSUri.get(coll, SSConf.sssUri),
           input.entry, 
           input.label, 
           input.addNewColl, 
@@ -266,7 +266,7 @@ public class SSRESTColl{
       par =
         new SSCollUserEntriesAddPar(
           null,  //user, 
-          SSUri.get(coll, SSVocConf.sssUri),
+          SSUri.get(coll, SSConf.sssUri),
           input.entries, 
           input.labels, 
           true, //withUserRestriction
@@ -313,7 +313,7 @@ public class SSRESTColl{
       par =
         new SSCollsUserEntityIsInGetPar(
           null,  //user, 
-          SSUri.get(entity, SSVocConf.sssUri),
+          SSUri.get(entity, SSConf.sssUri),
           true, //withUserRestriction
           true); //invokeEntityHandlers
       
@@ -358,7 +358,7 @@ public class SSRESTColl{
       par =
         new SSCollCumulatedTagsGetPar(
           null,  //user,
-          SSUri.get(coll, SSVocConf.sssUri),
+          SSUri.get(coll, SSConf.sssUri),
           true); //withUserRestriction
       
     }catch(Exception error){
@@ -405,8 +405,8 @@ public class SSRESTColl{
       par =
         new SSCollUserEntriesDeletePar(
           null,  //user,
-          SSUri.get(coll, SSVocConf.sssUri),
-          SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(entries, SSStrU.comma), SSVocConf.sssUri),
+          SSUri.get(coll, SSConf.sssUri),
+          SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(entries, SSStrU.comma), SSConf.sssUri),
           true, //withUserRestriction 
           true); // shouldCommit
       

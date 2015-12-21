@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.service.rating.impl;
 
 import at.tugraz.sss.serv.impl.api.SSEntityServerI;
-import at.kc.tugraz.ss.conf.conf.SSVocConf;
+import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.serv.datatype.par.SSEntityUpdatePar;
 import at.kc.tugraz.ss.service.rating.impl.fct.userraltionsgathering.SSRatingUserRelationGathererFct;
 import at.tugraz.sss.serv.util.*;
@@ -81,7 +81,7 @@ implements
     
     super(conf, (SSDBSQLI) SSServReg.getServ(SSDBSQLI.class), (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class));
     
-    this.sql        = new SSRatingSQLFct   (dbSQL, SSVocConf.systemUserUri);
+    this.sql        = new SSRatingSQLFct   (dbSQL, SSConf.systemUserUri);
     this.entityServ = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
     this.userCommons = new SSUserCommons();
   }
@@ -231,7 +231,7 @@ implements
           entityServ.entityUpdate(
             new SSEntityUpdatePar(
               par.user,
-              SSVocConf.vocURICreate(),
+              SSConf.vocURICreate(),
               SSEntityE.rating, //type,
               null, //label,
               null, //description,

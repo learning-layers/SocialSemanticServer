@@ -20,7 +20,7 @@
  */
 package at.tugraz.sss.adapter.rest.v2.disc;
 
-import at.kc.tugraz.ss.conf.conf.SSVocConf;
+import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.SSTextComment;
@@ -62,7 +62,7 @@ public class SSDiscEntryAddRESTAPIV2Par{
   
   @XmlElement
   public void setEntities(final List<String> entities) throws Exception{
-    this.entities = SSUri.get(entities, SSVocConf.sssUri);
+    this.entities = SSUri.get(entities, SSConf.sssUri);
   }
   
   @ApiModelProperty(
@@ -82,7 +82,7 @@ public class SSDiscEntryAddRESTAPIV2Par{
   
   @XmlElement
   public void setUsers(final List<String> users) throws Exception{
-    this.users = SSUri.get(users, SSVocConf.sssUri);
+    this.users = SSUri.get(users, SSConf.sssUri);
   }
  
   @ApiModelProperty(
@@ -92,7 +92,7 @@ public class SSDiscEntryAddRESTAPIV2Par{
   
   @XmlElement
   public void setCircles(final List<String> circles) throws Exception{
-    this.circles = SSUri.get(circles, SSVocConf.sssUri);
+    this.circles = SSUri.get(circles, SSConf.sssUri);
   }
   
   @ApiModelProperty(
@@ -112,7 +112,7 @@ public class SSDiscEntryAddRESTAPIV2Par{
   
   @XmlElement
   public void setDisc(final String disc) throws Exception{
-    this.disc = SSUri.get(disc, SSVocConf.sssUri);
+    this.disc = SSUri.get(disc, SSConf.sssUri);
   }
   
   @ApiModelProperty(
@@ -122,7 +122,7 @@ public class SSDiscEntryAddRESTAPIV2Par{
   
   @XmlElement
   public void setTargets(final List<String> targets) throws Exception{
-    this.targets = SSUri.get(targets, SSVocConf.sssUri);
+    this.targets = SSUri.get(targets, SSConf.sssUri);
   }
   
   @ApiModelProperty(

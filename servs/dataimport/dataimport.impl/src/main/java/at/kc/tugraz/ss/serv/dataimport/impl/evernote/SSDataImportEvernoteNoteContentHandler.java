@@ -23,7 +23,7 @@ package at.kc.tugraz.ss.serv.dataimport.impl.evernote;
 import at.kc.tugraz.ss.serv.dataimport.conf.SSDataImportConf;
 import at.kc.tugraz.ss.serv.jobs.evernote.api.SSEvernoteServerI;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteResourceByHashGetPar;
-import at.kc.tugraz.ss.conf.conf.SSVocConf;
+import at.tugraz.sss.conf.SSConf;
 import at.kc.tugraz.ss.service.filerepo.api.SSFileRepoServerI;
 import at.tugraz.sss.serv.util.SSFileExtE;
 import at.tugraz.sss.serv.util.SSFileU;
@@ -76,9 +76,9 @@ public class SSDataImportEvernoteNoteContentHandler{
     
     try{
       
-      xhtmlFilePath    = SSDataImportConf.getLocalWorkPath() + SSVocConf.fileIDFromSSSURI(SSVocConf.vocURICreate(SSFileExtE.xhtml));
-      fileUri          = SSVocConf.vocURICreate                  (SSFileExtE.pdf);
-      pdfFilePath      = SSDataImportConf.getLocalWorkPath() + SSVocConf.fileIDFromSSSURI (fileUri);
+      xhtmlFilePath    = SSDataImportConf.getLocalWorkPath() + SSConf.fileIDFromSSSURI(SSConf.vocURICreate(SSFileExtE.xhtml));
+      fileUri          = SSConf.vocURICreate                  (SSFileExtE.pdf);
+      pdfFilePath      = SSDataImportConf.getLocalWorkPath() + SSConf.fileIDFromSSSURI (fileUri);
 
       SSFileU.writeStr(note.getContent(), xhtmlFilePath);
       
@@ -525,8 +525,8 @@ public class SSDataImportEvernoteNoteContentHandler{
 
             hashEndIndex = tmpLine.indexOf            ("\"", hashIndex + 6);
             hash         = tmpLine.substring          (hashIndex + 6, hashEndIndex);
-            fileURI      = SSVocConf.vocURICreate  (SSMimeTypeE.fileExtForMimeType(mimeType));
-            fileID       = SSVocConf.fileIDFromSSSURI (fileURI);
+            fileURI      = SSConf.vocURICreate  (SSMimeTypeE.fileExtForMimeType(mimeType));
+            fileID       = SSConf.fileIDFromSSSURI (fileURI);
             
             resource =
               evernoteServ.evernoteResourceByHashGet(
@@ -554,7 +554,7 @@ public class SSDataImportEvernoteNoteContentHandler{
 //                500, 
 //                500);
             
-//            fileID = SSVocConf.fileIDFromSSSURI(thumbnailURI);
+//            fileID = SSConf.fileIDFromSSSURI(thumbnailURI);
             
 //            result += "<div>PDF Included here (please see for resoruces)</div>";
 //              +

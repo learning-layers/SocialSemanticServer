@@ -58,7 +58,7 @@ import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpVersionTime
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpVersionsGetRet;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpsGetRet;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.ret.SSLearnEpsLockHoldRet;
-import at.kc.tugraz.ss.conf.conf.SSVocConf;
+import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
 import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.datatype.*;
@@ -134,7 +134,7 @@ public class SSRESTLearnEp{
       par =
         new SSLearnEpVersionsGetPar(
           null, 
-          SSUri.get(learnEp, SSVocConf.sssUri),  //learnEp
+          SSUri.get(learnEp, SSConf.sssUri),  //learnEp
           null, //learnEpVersions
           true, 
           true);
@@ -167,7 +167,7 @@ public class SSRESTLearnEp{
       par =
         new SSLearnEpVersionGetPar(
           null, 
-          SSUri.get(learnEpVersion, SSVocConf.sssUri),
+          SSUri.get(learnEpVersion, SSConf.sssUri),
           true, 
           true);
       
@@ -227,7 +227,7 @@ public class SSRESTLearnEp{
       par =
         new SSLearnEpVersionCurrentSetPar(
           null, 
-          SSUri.get(learnEpVersion, SSVocConf.sssUri), 
+          SSUri.get(learnEpVersion, SSConf.sssUri), 
           true,
           true);
       
@@ -291,7 +291,7 @@ public class SSRESTLearnEp{
       par =
         new SSLearnEpVersionCreatePar(
           null, 
-          SSUri.get(learnEp, SSVocConf.sssUri), 
+          SSUri.get(learnEp, SSConf.sssUri), 
           true,
           true);
       
@@ -323,7 +323,7 @@ public class SSRESTLearnEp{
       par =
         new SSLearnEpRemovePar(
           null, 
-          SSUri.get(learnEp, SSVocConf.sssUri), 
+          SSUri.get(learnEp, SSConf.sssUri), 
           true,
           true);
       
@@ -357,7 +357,7 @@ public class SSRESTLearnEp{
       par =
         new SSLearnEpVersionCircleAddPar(
           null, 
-          SSUri.get(learnEpVersion, SSVocConf.sssUri),
+          SSUri.get(learnEpVersion, SSConf.sssUri),
           input.label, 
           input.xLabel, 
           input.yLabel, 
@@ -398,7 +398,7 @@ public class SSRESTLearnEp{
       par =
         new SSLearnEpVersionEntityAddPar(
           null, 
-          SSUri.get(learnEpVersion, SSVocConf.sssUri),
+          SSUri.get(learnEpVersion, SSConf.sssUri),
           input.entity, 
           input.x, 
           input.y, 
@@ -435,7 +435,7 @@ public class SSRESTLearnEp{
       par =
         new SSLearnEpVersionCircleUpdatePar(
           null, 
-          SSUri.get(learnEpCircle, SSVocConf.sssUri),
+          SSUri.get(learnEpCircle, SSConf.sssUri),
           input.label, 
           input.description, 
           input.xLabel, 
@@ -477,7 +477,7 @@ public class SSRESTLearnEp{
       par =
         new SSLearnEpVersionEntityUpdatePar(
           null, 
-          SSUri.get(learnEpEntity, SSVocConf.sssUri),
+          SSUri.get(learnEpEntity, SSConf.sssUri),
           input.entity, 
           input.x, 
           input.y, 
@@ -512,7 +512,7 @@ public class SSRESTLearnEp{
       par =
         new SSLearnEpVersionCircleRemovePar(
           null, 
-          SSUri.get(learnEpCircle, SSVocConf.sssUri),
+          SSUri.get(learnEpCircle, SSConf.sssUri),
           true,
           true);
       
@@ -544,7 +544,7 @@ public class SSRESTLearnEp{
       par =
         new SSLearnEpVersionEntityRemovePar(
           null, 
-          SSUri.get(learnEpEntity, SSVocConf.sssUri),
+          SSUri.get(learnEpEntity, SSConf.sssUri),
           true,
           true);
       
@@ -578,7 +578,7 @@ public class SSRESTLearnEp{
       par =
         new SSLearnEpVersionTimelineStateSetPar(
           null, 
-          SSUri.get(learnEpVersion, SSVocConf.sssUri),
+          SSUri.get(learnEpVersion, SSConf.sssUri),
           input.startTime, 
           input.endTime,
           true,
@@ -612,7 +612,7 @@ public class SSRESTLearnEp{
       par =
         new SSLearnEpVersionTimelineStateGetPar(
           null, 
-          SSUri.get(learnEpVersion, SSVocConf.sssUri),
+          SSUri.get(learnEpVersion, SSConf.sssUri),
           true);
       
     }catch(Exception error){
@@ -643,7 +643,7 @@ public class SSRESTLearnEp{
       par =
         new SSLearnEpsLockHoldPar(
           null, 
-          SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(learnEps, SSStrU.comma), SSVocConf.sssUri), 
+          SSUri.get(SSStrU.splitDistinctWithoutEmptyAndNull(learnEps, SSStrU.comma), SSConf.sssUri), 
           true);
       
     }catch(Exception error){
@@ -675,7 +675,7 @@ public class SSRESTLearnEp{
         new SSLearnEpLockSetPar(
           null,
           null, //forUser
-          SSUri.get(learnEp, SSVocConf.sssUri), 
+          SSUri.get(learnEp, SSConf.sssUri), 
           true, 
           true);
       
@@ -708,7 +708,7 @@ public class SSRESTLearnEp{
         new SSLearnEpLockRemovePar(
           null,
           null, //forUser
-          SSUri.get(learnEp, SSVocConf.sssUri), 
+          SSUri.get(learnEp, SSConf.sssUri), 
           true, 
           true);
       

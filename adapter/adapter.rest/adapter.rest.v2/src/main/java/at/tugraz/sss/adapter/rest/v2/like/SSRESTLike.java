@@ -23,7 +23,7 @@ package at.tugraz.sss.adapter.rest.v2.like;
 import at.tugraz.sss.adapter.rest.v2.SSRestMainV2;
 import at.kc.tugraz.ss.like.datatypes.par.SSLikeUserSetPar;
 import at.kc.tugraz.ss.like.datatypes.ret.SSLikeUserSetRet;
-import at.kc.tugraz.ss.conf.conf.SSVocConf;
+import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.util.*;
 import com.wordnik.swagger.annotations.Api;
@@ -66,7 +66,7 @@ public class SSRESTLike{
       par =
         new SSLikeUserSetPar(
           null, //user
-          SSUri.get(entity, SSVocConf.sssUri), //entity
+          SSUri.get(entity, SSConf.sssUri), //entity
           value, //value
           true, //withUserRestriction
           true);  //shouldCommit

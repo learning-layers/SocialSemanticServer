@@ -21,7 +21,7 @@
 package at.tugraz.sss.servs.location.impl;
 
 import at.tugraz.sss.serv.impl.api.SSEntityServerI;
-import at.kc.tugraz.ss.conf.conf.SSVocConf;
+import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.servs.location.datatype.par.SSLocationAddPar;
 import at.tugraz.sss.servs.location.datatype.par.SSLocationsGetPar;
 import at.tugraz.sss.serv.datatype.par.SSEntityUpdatePar;
@@ -60,7 +60,7 @@ implements
   public SSLocationImpl(final SSConfA conf) throws SSErr{
     super(conf, (SSDBSQLI) SSServReg.getServ(SSDBSQLI.class), (SSDBNoSQLI) SSServReg.getServ(SSDBNoSQLI.class));
     
-     sql             = new SSLocationSQLFct   (dbSQL, SSVocConf.systemUserUri);
+     sql             = new SSLocationSQLFct   (dbSQL, SSConf.systemUserUri);
      this.entityServ = (SSEntityServerI) SSServReg.getServ(SSEntityServerI.class);
   }
 
@@ -203,7 +203,7 @@ implements
         
       location =
         SSLocation.get(
-          SSVocConf.vocURICreate(),
+          SSConf.vocURICreate(),
           par.latitude,
           par.longitude,
           par.accuracy);

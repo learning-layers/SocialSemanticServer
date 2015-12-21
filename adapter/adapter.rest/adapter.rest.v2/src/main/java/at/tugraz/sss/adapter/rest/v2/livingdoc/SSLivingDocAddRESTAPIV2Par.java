@@ -20,7 +20,7 @@
  */
 package at.tugraz.sss.adapter.rest.v2.livingdoc;
 
-import at.kc.tugraz.ss.conf.conf.SSVocConf;
+import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.SSTextComment;
 import at.tugraz.sss.serv.datatype.*;
@@ -40,7 +40,7 @@ public class SSLivingDocAddRESTAPIV2Par{
   
   @XmlElement
   public void setUri(final String uri) throws Exception{
-    this.uri = SSUri.get(uri, SSVocConf.sssUri);
+    this.uri = SSUri.get(uri, SSConf.sssUri);
   }
   
   @ApiModelProperty(
@@ -70,7 +70,7 @@ public class SSLivingDocAddRESTAPIV2Par{
   
   @XmlElement
   public void setDiscussion(final String discussion) throws Exception{
-    this.discussion = SSUri.get(discussion, SSVocConf.sssUri);
+    this.discussion = SSUri.get(discussion, SSConf.sssUri);
   }
   
   public SSLivingDocAddRESTAPIV2Par(){}
