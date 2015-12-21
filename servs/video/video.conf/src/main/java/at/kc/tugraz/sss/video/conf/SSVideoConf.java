@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.sss.video.conf;
 
-import at.tugraz.sss.serv.conf.SSServConfA;
+import at.tugraz.sss.serv.conf.api.SSServConfA;
 
 public class SSVideoConf extends SSServConfA{
   

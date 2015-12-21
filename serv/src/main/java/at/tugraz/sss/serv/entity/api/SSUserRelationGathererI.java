@@ -18,11 +18,15 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.tugraz.sss.serv.impl.api;
+package at.tugraz.sss.serv.entity.api;
 
-import at.tugraz.sss.serv.datatype.SSEntity;
-import at.tugraz.sss.serv.datatype.par.SSEntityCopyPar;
+import at.tugraz.sss.serv.datatype.*;
+import java.util.List;
+import java.util.Map;
 
-public interface SSCopyEntityI {
-  public void copyEntity(final SSEntity entity, final SSEntityCopyPar par) throws Exception;
+public interface SSUserRelationGathererI{
+  
+  public void getUserRelations(
+    final List<String>             allUsers,
+    final Map<String, List<SSUri>> userRelations) throws Exception;
 }

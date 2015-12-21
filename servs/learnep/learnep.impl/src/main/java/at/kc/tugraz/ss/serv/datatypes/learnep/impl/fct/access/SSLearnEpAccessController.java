@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.access;
 
-import at.tugraz.sss.serv.impl.api.SSEntityServerI;
+import at.tugraz.sss.serv.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.datatypes.learnep.conf.SSLearnEpConf;
 import at.tugraz.sss.serv.datatype.par.SSCircleIsEntitySharedPar;
 import at.tugraz.sss.serv.util.SSDateU;

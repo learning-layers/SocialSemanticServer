@@ -15,7 +15,7 @@
   */
 package at.kc.tugraz.ss.adapter.rest.conf;
 
-import at.tugraz.sss.serv.conf.SSCoreConfA;
+import at.tugraz.sss.serv.conf.api.SSCoreConfA;
 import at.tugraz.sss.conf.SSConf;
 
 import at.kc.tugraz.ss.serv.jsonld.conf.SSJSONLDConf;

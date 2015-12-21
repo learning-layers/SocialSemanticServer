@@ -20,7 +20,7 @@
   */
 package at.kc.tugraz.ss.serv.datatypes.learnep.impl;
 
-import at.tugraz.sss.serv.impl.api.SSEntityServerI;
+import at.tugraz.sss.serv.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpEntity;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.SSLearnEpVersion;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpVersionsGetPar;

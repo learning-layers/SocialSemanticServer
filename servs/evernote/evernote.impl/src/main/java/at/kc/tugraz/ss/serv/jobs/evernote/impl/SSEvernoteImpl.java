@@ -44,11 +44,11 @@ import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteUSNSetPar;
 import at.kc.tugraz.ss.serv.jobs.evernote.datatypes.par.SSEvernoteUserAddPar;
 import at.kc.tugraz.ss.serv.jobs.evernote.impl.fct.sql.SSEvernoteSQLFct;
 import at.kc.tugraz.ss.service.filerepo.api.SSFileRepoServerI;
-import at.tugraz.sss.serv.conf.SSConfA;
+import at.tugraz.sss.serv.conf.api.SSConfA;
 
 import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
 
-import at.tugraz.sss.serv.impl.api.SSDescribeEntityI;
+import at.tugraz.sss.serv.entity.api.SSDescribeEntityI;
 import at.tugraz.sss.serv.datatype.par.SSEntityDescriberPar;
 import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.impl.api.SSServImplWithDBA;

@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.message.serv;
 
 import at.tugraz.sss.conf.SSCoreConf;
-import at.tugraz.sss.serv.conf.SSCoreConfA;
+import at.tugraz.sss.serv.conf.api.SSCoreConfA;
 import at.kc.tugraz.ss.message.api.SSMessageClientI;
 import at.kc.tugraz.ss.message.api.SSMessageServerI;
 import at.kc.tugraz.ss.message.impl.SSMessageImpl;

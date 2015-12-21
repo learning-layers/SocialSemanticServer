@@ -3,7 +3,7 @@
 * http://www.learning-layers.eu
 * Development is partly funded by the FP7 Programme of the European Commission under
 * Grant Agreement FP7-ICT-318209.
-* Copyright (c) 2015, Graz University of Technology - KTI (Knowledge Technologies Institute).
+* Copyright (c) 2014, Graz University of Technology - KTI (Knowledge Technologies Institute).
 * For a list of contributors see the AUTHORS file at the top-level directory of this distribution.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,10 +18,16 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.tugraz.sss.serv.impl.api;
+package at.tugraz.sss.serv.entity.conf;
 
-import at.tugraz.sss.serv.datatype.par.SSEntityCopiedPar;
+import at.tugraz.sss.serv.conf.api.SSCoreServConfA;
 
-public interface SSEntityCopiedI {
-  public void entityCopied        (final SSEntityCopiedPar         par) throws Exception;
+public class SSEntityConf extends SSCoreServConfA{
+  
+  public static SSEntityConf copy(final SSEntityConf orig){
+    
+    final SSEntityConf copy = (SSEntityConf) SSCoreServConfA.copy(orig, new SSEntityConf());
+    
+    return copy;
+  }
 }

@@ -20,8 +20,8 @@
   */
 package at.tugraz.sss.servs.db.impl;
 
-import at.tugraz.sss.serv.conf.SSConfA;
-import at.tugraz.sss.serv.conf.SSDBSQLConf;
+import at.tugraz.sss.serv.conf.api.SSConfA;
+import at.tugraz.sss.serv.db.conf.SSDBSQLConf;
 import at.tugraz.sss.serv.db.api.SSDBSQLI;
 import at.tugraz.sss.serv.datatype.par.SSDBSQLSelectPar;
 import at.tugraz.sss.serv.datatype.SSErr;

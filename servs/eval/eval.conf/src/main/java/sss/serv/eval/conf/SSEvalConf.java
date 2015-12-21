@@ -20,7 +20,7 @@
 */
 package sss.serv.eval.conf;
 
-import at.tugraz.sss.serv.conf.SSCoreServConfA;
+import at.tugraz.sss.serv.conf.api.SSCoreServConfA;
 import at.tugraz.sss.serv.datatype.enums.SSToolE;
 import java.util.ArrayList;
 import java.util.List;

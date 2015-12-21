@@ -20,9 +20,9 @@
 */
 package at.tugraz.sss.servs.db.impl;
 
-import at.tugraz.sss.serv.conf.SSConfA;
+import at.tugraz.sss.serv.conf.api.SSConfA;
 import at.tugraz.sss.serv.datatype.par.SSDBNoSQLAddDocPar;
-import at.tugraz.sss.serv.conf.SSDBNoSQLConf;
+import at.tugraz.sss.serv.db.conf.SSDBNoSQLConf;
 import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
 import at.tugraz.sss.serv.datatype.par.SSDBNoSQLRemoveDocPar;
 import at.tugraz.sss.serv.datatype.par.SSDBNoSQLSearchPar;

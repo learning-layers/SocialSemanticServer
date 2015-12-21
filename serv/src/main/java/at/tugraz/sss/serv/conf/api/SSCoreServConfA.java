@@ -18,16 +18,18 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.tugraz.sss.serv.conf;
+package at.tugraz.sss.serv.conf.api;
 
-import at.tugraz.sss.serv.conf.SSCoreServConfA;
-
-public class SSEntityConf extends SSCoreServConfA{
+public abstract class SSCoreServConfA extends SSConfA{
   
-  public static SSEntityConf copy(final SSEntityConf orig){
-    
-    final SSEntityConf copy = (SSEntityConf) SSCoreServConfA.copy(orig, new SSEntityConf());
-    
-    return copy;
+  public SSCoreServConfA(){
+    use = true;
+  }
+  
+  public static SSConfA copy(
+    final SSConfA orig, 
+    final SSConfA copy){
+
+    return (SSConfA) SSConfA.copy(orig, copy);
   }
 }

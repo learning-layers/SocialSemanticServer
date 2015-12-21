@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.recomm.conf;
 
-import at.tugraz.sss.serv.conf.SSServConfA;
+import at.tugraz.sss.serv.conf.api.SSServConfA;
 import engine.Algorithm;
 import java.util.ArrayList;
 import java.util.List;

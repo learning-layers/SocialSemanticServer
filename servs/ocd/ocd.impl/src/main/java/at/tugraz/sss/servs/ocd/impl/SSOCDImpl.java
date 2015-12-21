@@ -23,7 +23,7 @@ package at.tugraz.sss.servs.ocd.impl;
 import at.tugraz.sss.serv.datatype.enums.SSClientE;
 import at.tugraz.sss.servs.ocd.api.SSOCDClientI;
 import at.tugraz.sss.servs.ocd.api.SSOCDServerI;
-import at.tugraz.sss.serv.conf.SSConfA;
+import at.tugraz.sss.serv.conf.api.SSConfA;
 
 import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
 import at.tugraz.sss.serv.db.api.SSDBSQLI;

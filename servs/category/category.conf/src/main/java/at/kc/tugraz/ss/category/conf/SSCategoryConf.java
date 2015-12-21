@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.category.conf;
 
-import at.tugraz.sss.serv.conf.SSServConfA;
+import at.tugraz.sss.serv.conf.api.SSServConfA;
 import java.util.ArrayList;
 import java.util.List;
 

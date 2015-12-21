@@ -19,7 +19,7 @@
 * limitations under the License.
 */
 package at.kc.tugraz.sss.app.conf;
-import at.tugraz.sss.serv.conf.SSServConfA;
+import at.tugraz.sss.serv.conf.api.SSServConfA;
 
 public class SSAppConf extends SSServConfA{
   

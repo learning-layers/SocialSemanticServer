@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.friend.serv;
 
 import at.tugraz.sss.conf.SSCoreConf;
-import at.tugraz.sss.serv.conf.SSCoreConfA;
+import at.tugraz.sss.serv.conf.api.SSCoreConfA;
 import at.kc.tugraz.ss.friend.api.SSFriendClientI;
 import at.kc.tugraz.ss.friend.api.SSFriendServerI;
 import at.kc.tugraz.ss.friend.impl.SSFriendImpl;

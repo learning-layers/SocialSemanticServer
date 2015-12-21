@@ -22,7 +22,7 @@ package at.tugraz.sss.serv.impl.api;
 
 import at.tugraz.sss.serv.db.api.SSDBSQLI;
 import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
-import at.tugraz.sss.serv.conf.SSConfA;
+import at.tugraz.sss.serv.conf.api.SSConfA;
 
 public abstract class SSServImplWithDBA extends SSServImplA{
   

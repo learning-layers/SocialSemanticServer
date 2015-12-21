@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.serv.coll.conf;
 
-import at.tugraz.sss.serv.conf.SSServConfA;
+import at.tugraz.sss.serv.conf.api.SSServConfA;
 
 public class SSCollConf extends SSServConfA{
   

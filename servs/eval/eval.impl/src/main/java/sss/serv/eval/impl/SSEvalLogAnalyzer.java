@@ -3,7 +3,7 @@ package sss.serv.eval.impl;
 import at.kc.tugraz.ss.message.api.SSMessageServerI;
 import at.kc.tugraz.ss.message.datatypes.SSMessage;
 import at.kc.tugraz.ss.message.datatypes.par.SSMessagesGetPar;
-import at.tugraz.sss.serv.impl.api.SSEntityServerI;
+import at.tugraz.sss.serv.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.serv.datatypes.learnep.datatypes.par.SSLearnEpsGetPar;
 import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.serv.datatype.SSEntity;

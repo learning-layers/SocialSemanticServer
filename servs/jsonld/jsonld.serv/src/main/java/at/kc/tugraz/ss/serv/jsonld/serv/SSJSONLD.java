@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.serv.jsonld.serv;
 
 import at.tugraz.sss.conf.SSCoreConf;
-import at.tugraz.sss.serv.conf.SSCoreConfA;
+import at.tugraz.sss.serv.conf.api.SSCoreConfA;
 import at.kc.tugraz.ss.serv.jsonld.api.SSJSONLDClientI;
 import at.kc.tugraz.ss.serv.jsonld.api.SSJSONLDServerI;
 import at.kc.tugraz.ss.serv.jsonld.conf.SSJSONLDConf;

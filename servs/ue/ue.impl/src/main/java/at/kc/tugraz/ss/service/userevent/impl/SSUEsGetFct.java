@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.ss.service.userevent.impl;
 
-import at.tugraz.sss.serv.impl.api.SSEntityServerI;
+import at.tugraz.sss.serv.entity.api.SSEntityServerI;
 import at.kc.tugraz.ss.service.userevent.datatypes.SSUE;
 import at.kc.tugraz.ss.service.userevent.datatypes.pars.SSUEsGetPar;
 import at.kc.tugraz.ss.service.userevent.impl.fct.sql.SSUESQLFct;

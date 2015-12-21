@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.sss.flag.impl;
 
-import at.tugraz.sss.serv.impl.api.SSEntityServerI;
+import at.tugraz.sss.serv.entity.api.SSEntityServerI;
 import at.tugraz.sss.conf.SSConf;
 import at.tugraz.sss.serv.datatype.par.SSEntityGetPar;
 import at.tugraz.sss.serv.datatype.par.SSEntityUpdatePar;
@@ -28,7 +28,7 @@ import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.db.api.SSDBSQLI;
-import at.tugraz.sss.serv.conf.SSConfA;
+import at.tugraz.sss.serv.conf.api.SSConfA;
 import at.tugraz.sss.serv.impl.api.SSServImplWithDBA;
 
 import at.tugraz.sss.servs.common.impl.user.SSUserCommons;
@@ -46,7 +46,7 @@ import at.tugraz.sss.serv.datatype.enums.SSClientE;
 
 import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
 
-import at.tugraz.sss.serv.impl.api.SSDescribeEntityI;
+import at.tugraz.sss.serv.entity.api.SSDescribeEntityI;
 import at.tugraz.sss.serv.datatype.SSEntityContext;
 import at.tugraz.sss.serv.datatype.par.SSEntityDescriberPar;
 import at.tugraz.sss.serv.datatype.SSErr;
@@ -58,7 +58,7 @@ import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.datatype.ret.SSServRetI; import at.tugraz.sss.serv.util.*;
 import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.impl.api.SSUsersResourcesGathererI;
+import at.tugraz.sss.serv.entity.api.SSUsersResourcesGathererI;
 import java.util.ArrayList;
 import java.util.Map;
 

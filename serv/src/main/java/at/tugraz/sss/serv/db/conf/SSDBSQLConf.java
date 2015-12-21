@@ -18,15 +18,28 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.tugraz.sss.serv.impl.api;
+ package at.tugraz.sss.serv.db.conf;
 
-import at.tugraz.sss.serv.datatype.*;
-import java.util.List;
-import java.util.Map;
+import at.tugraz.sss.serv.conf.api.SSCoreServConfA;
 
-public interface SSUserRelationGathererI{
+public class SSDBSQLConf extends SSCoreServConfA{
   
-  public void getUserRelations(
-    final List<String>             allUsers,
-    final Map<String, List<SSUri>> userRelations) throws Exception;
+  public       String         host        = null;
+  public       Integer        port        = null;
+  public       String         username    = null;
+  public       String         password    = null;
+  public       String         schema      = null;
+  
+  public static SSDBSQLConf copy(final SSDBSQLConf orig){
+    
+    final SSDBSQLConf copy = (SSDBSQLConf) SSCoreServConfA.copy(orig, new SSDBSQLConf());
+    
+    copy.host     = orig.host;
+    copy.port     = orig.port;
+    copy.username = orig.username;
+    copy.password = orig.password;
+    copy.schema   = orig.schema;
+    
+    return copy;
+  }
 }

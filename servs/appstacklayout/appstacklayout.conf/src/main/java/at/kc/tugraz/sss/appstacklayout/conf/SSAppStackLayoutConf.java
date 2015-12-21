@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.sss.appstacklayout.conf;
 
-import at.tugraz.sss.serv.conf.SSServConfA;
+import at.tugraz.sss.serv.conf.api.SSServConfA;
 
 public class SSAppStackLayoutConf extends SSServConfA{
   

@@ -21,7 +21,7 @@
 package at.tugraz.sss.servs.mail.impl;
 
 import at.tugraz.sss.servs.mail.impl.kc.SSMailReceiverKCDavIMAP;
-import at.tugraz.sss.serv.conf.SSConfA;
+import at.tugraz.sss.serv.conf.api.SSConfA;
 import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
 import at.tugraz.sss.serv.db.api.SSDBSQLI;
 import at.tugraz.sss.serv.datatype.SSEntity;

@@ -21,8 +21,8 @@
 package at.tugraz.sss.serv.db.serv;
 
 import at.tugraz.sss.conf.SSCoreConf;
-import at.tugraz.sss.serv.conf.SSCoreConfA;
-import at.tugraz.sss.serv.conf.SSDBNoSQLConf;
+import at.tugraz.sss.serv.conf.api.SSCoreConfA;
+import at.tugraz.sss.serv.db.conf.SSDBNoSQLConf;
 import at.tugraz.sss.serv.container.api.*;
 import at.tugraz.sss.serv.impl.api.SSServImplA;
 import at.tugraz.sss.serv.reg.*;

@@ -21,7 +21,7 @@
 package at.kc.tugraz.sss.flag.serv;
 
 import at.tugraz.sss.conf.SSCoreConf;
-import at.tugraz.sss.serv.conf.SSCoreConfA;
+import at.tugraz.sss.serv.conf.api.SSCoreConfA;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.impl.api.SSServImplA;
 import at.kc.tugraz.sss.flag.api.SSFlagClientI;

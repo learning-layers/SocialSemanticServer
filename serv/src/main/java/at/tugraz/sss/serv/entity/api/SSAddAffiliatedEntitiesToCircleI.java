@@ -18,22 +18,12 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
- package at.tugraz.sss.serv.conf;
+package at.tugraz.sss.serv.entity.api;
 
-public class SSDBNoSQLConf extends SSCoreServConfA{
-  
-  public       String         uri         = null;
-  public       String         username    = null;
-  public       String         password    = null;
-  
-  public static SSDBNoSQLConf copy(final SSDBNoSQLConf orig){
-    
-    final SSDBNoSQLConf copy = (SSDBNoSQLConf) SSCoreServConfA.copy(orig, new SSDBNoSQLConf());
-    
-    copy.uri      = orig.uri;
-    copy.username = orig.username;
-    copy.password = orig.password;
-    
-    return copy;
-  }
+import at.tugraz.sss.serv.datatype.SSEntity;
+import at.tugraz.sss.serv.datatype.par.SSAddAffiliatedEntitiesToCirclePar;
+import java.util.List;
+
+public interface SSAddAffiliatedEntitiesToCircleI {
+  public List<SSEntity> addAffiliatedEntitiesToCircle(final SSAddAffiliatedEntitiesToCirclePar par) throws Exception;
 }

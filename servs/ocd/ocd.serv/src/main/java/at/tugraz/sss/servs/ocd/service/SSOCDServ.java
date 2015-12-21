@@ -23,7 +23,7 @@ package at.tugraz.sss.servs.ocd.service;
 import at.tugraz.sss.conf.SSCoreConf;
 import at.tugraz.sss.servs.ocd.api.SSOCDClientI;
 import at.tugraz.sss.servs.ocd.impl.SSOCDImpl;
-import at.tugraz.sss.serv.conf.SSCoreConfA;
+import at.tugraz.sss.serv.conf.api.SSCoreConfA;
 import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.container.api.*;
 import at.tugraz.sss.serv.impl.api.SSServImplA;

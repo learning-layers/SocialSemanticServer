@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.sss.comment.impl.fct.userrelationgather;
 
-import at.tugraz.sss.serv.impl.api.SSEntityServerI;
+import at.tugraz.sss.serv.entity.api.*;
 import at.kc.tugraz.sss.comment.api.SSCommentServerI;
 import at.kc.tugraz.sss.comment.datatypes.par.SSCommentEntitiesGetPar;
 import at.tugraz.sss.serv.datatype.par.SSCirclesGetPar;

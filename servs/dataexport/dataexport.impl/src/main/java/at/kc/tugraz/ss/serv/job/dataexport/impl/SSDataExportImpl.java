@@ -21,7 +21,7 @@
 package at.kc.tugraz.ss.serv.job.dataexport.impl;
 
 import at.tugraz.sss.conf.SSConf;
-import at.tugraz.sss.serv.impl.api.SSEntityServerI;
+import at.tugraz.sss.serv.entity.api.SSEntityServerI;
 import at.tugraz.sss.serv.datatype.par.SSCircleGetPar;
 import at.tugraz.sss.serv.util.SSDateU;
 import at.tugraz.sss.serv.util.SSEncodingU;
@@ -39,7 +39,7 @@ import at.kc.tugraz.ss.serv.job.dataexport.datatypes.par.SSDataExportUsersEntiti
 import at.kc.tugraz.ss.serv.job.dataexport.impl.fct.SSDataExportFct;
 import at.kc.tugraz.ss.service.user.api.SSUserServerI;
 import at.kc.tugraz.ss.service.user.datatypes.pars.SSUsersGetPar;
-import at.tugraz.sss.serv.conf.SSConfA;
+import at.tugraz.sss.serv.conf.api.SSConfA;
 import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
 import at.tugraz.sss.serv.db.api.SSDBSQLI;
 import at.tugraz.sss.serv.datatype.SSEntity;

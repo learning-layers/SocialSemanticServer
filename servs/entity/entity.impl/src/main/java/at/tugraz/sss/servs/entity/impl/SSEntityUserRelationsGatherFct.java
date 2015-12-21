@@ -21,7 +21,7 @@
 package at.tugraz.sss.servs.entity.impl;
 
 import at.tugraz.sss.serv.datatype.par.SSCirclesGetPar;
-import at.tugraz.sss.serv.impl.api.SSEntityServerI;
+import at.tugraz.sss.serv.entity.api.SSEntityServerI;
 import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.datatype.SSErr;
 import at.tugraz.sss.serv.util.*;

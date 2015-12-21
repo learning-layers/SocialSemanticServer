@@ -20,7 +20,7 @@
 */
 package at.kc.tugraz.sss.flag.conf;
 
-import at.tugraz.sss.serv.conf.SSServConfA;
+import at.tugraz.sss.serv.conf.api.SSServConfA;
 
 public class SSFlagConf extends SSServConfA{
   

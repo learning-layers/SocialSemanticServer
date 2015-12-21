@@ -18,18 +18,14 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.tugraz.sss.serv.conf;
+package at.tugraz.sss.serv.conf.api;
 
-public abstract class SSCoreServConfA extends SSConfA{
-  
-  public SSCoreServConfA(){
-    use = true;
-  }
+public abstract class SSServConfA extends SSConfA{
   
   public static SSConfA copy(
     final SSConfA orig, 
     final SSConfA copy){
-
-    return (SSConfA) SSConfA.copy(orig, copy);
+   
+    return SSConfA.copy(orig, copy);
   }
 }

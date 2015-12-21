@@ -20,7 +20,7 @@
 */
 package at.tugraz.sss.conf;
 
-import at.tugraz.sss.serv.conf.SSCoreServConfA;
+import at.tugraz.sss.serv.conf.api.SSCoreServConfA;
 import at.tugraz.sss.serv.datatype.*;
 import at.tugraz.sss.serv.util.SSFileU;
 import at.tugraz.sss.serv.util.*;

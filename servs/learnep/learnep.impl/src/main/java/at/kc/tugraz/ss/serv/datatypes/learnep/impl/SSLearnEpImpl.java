@@ -22,7 +22,7 @@ package at.kc.tugraz.ss.serv.datatypes.learnep.impl;
 
 import at.kc.tugraz.ss.activity.api.SSActivityServerI;
 import at.tugraz.sss.serv.datatype.par.SSCircleEntitiesAddPar;
-import at.tugraz.sss.serv.impl.api.SSEntityServerI;
+import at.tugraz.sss.serv.entity.api.SSEntityServerI;
 import at.tugraz.sss.serv.datatype.par.SSEntitiesGetPar;
 import at.tugraz.sss.serv.datatype.par.SSEntityGetPar;
 import at.tugraz.sss.serv.datatype.par.SSEntityUpdatePar;
@@ -80,7 +80,7 @@ import at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.access.SSLearnEpAccessCon
 import at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.activity.SSLearnEpActivityAndLogFct;
 import at.kc.tugraz.ss.serv.datatypes.learnep.impl.fct.sql.SSLearnEpSQLFct;
 import at.tugraz.sss.conf.SSConf;
-import at.tugraz.sss.serv.impl.api.SSAddAffiliatedEntitiesToCircleI;
+import at.tugraz.sss.serv.entity.api.SSAddAffiliatedEntitiesToCircleI;
 import at.tugraz.sss.serv.datatype.par.SSAddAffiliatedEntitiesToCirclePar;
 import at.tugraz.sss.serv.datatype.par.SSCircleAddEntitiesToCircleOfEntityPar;
 import at.tugraz.sss.serv.datatype.enums.SSClientE;
@@ -89,13 +89,13 @@ import at.tugraz.sss.serv.db.api.SSDBSQLI;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import at.tugraz.sss.serv.datatype.*;
-import at.tugraz.sss.serv.conf.SSConfA;
-import at.tugraz.sss.serv.impl.api.SSCopyEntityI;
+import at.tugraz.sss.serv.conf.api.SSConfA;
+import at.tugraz.sss.serv.entity.api.SSCopyEntityI;
 
 import at.tugraz.sss.serv.db.api.SSDBNoSQLI;
 
-import at.tugraz.sss.serv.impl.api.SSDescribeEntityI;
-import at.tugraz.sss.serv.impl.api.SSEntitiesSharedWithUsersI;
+import at.tugraz.sss.serv.entity.api.SSDescribeEntityI;
+import at.tugraz.sss.serv.entity.api.SSEntitiesSharedWithUsersI;
 import at.tugraz.sss.serv.datatype.par.SSEntitiesSharedWithUsersPar;
 import at.tugraz.sss.serv.datatype.SSEntity;
 import at.tugraz.sss.serv.datatype.SSEntityContext;
@@ -109,12 +109,12 @@ import java.util.List;
 import java.util.Map;
 import at.tugraz.sss.serv.datatype.enums.SSErrE;
 import at.tugraz.sss.serv.util.SSLogU;
-import at.tugraz.sss.serv.impl.api.SSPushEntitiesToUsersI;
+import at.tugraz.sss.serv.entity.api.SSPushEntitiesToUsersI;
 import at.tugraz.sss.serv.datatype.par.SSPushEntitiesToUsersPar;
 import at.tugraz.sss.serv.reg.SSServErrReg;
 import at.tugraz.sss.serv.reg.*;
 import at.tugraz.sss.serv.datatype.ret.SSServRetI; 
-import at.tugraz.sss.serv.impl.api.SSUsersResourcesGathererI;
+import at.tugraz.sss.serv.entity.api.SSUsersResourcesGathererI;
 import sss.serv.eval.api.SSEvalServerI;
 import at.tugraz.sss.serv.datatype.par.SSEntityCopiedPar;
 

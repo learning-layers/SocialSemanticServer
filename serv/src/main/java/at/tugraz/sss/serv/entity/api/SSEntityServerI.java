@@ -18,7 +18,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.tugraz.sss.serv.impl.api;
+package at.tugraz.sss.serv.entity.api;
 
 import at.tugraz.sss.serv.impl.api.SSServServerI;
 import at.tugraz.sss.serv.datatype.SSEntityCircle;
@@ -61,6 +61,7 @@ import at.tugraz.sss.serv.datatype.par.SSCircleUsersRemovePar;
 import at.tugraz.sss.serv.datatype.par.SSEntitiesAccessibleGetCleanUpPar;
 import at.tugraz.sss.serv.datatype.enums.*;
 import at.tugraz.sss.serv.datatype.enums.SSCircleE;
+import at.tugraz.sss.serv.impl.api.SSServServerI;
 import java.util.List;
 
 public interface SSEntityServerI extends SSServServerI{

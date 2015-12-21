@@ -18,11 +18,10 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package at.tugraz.sss.serv.impl.api;
+package at.tugraz.sss.serv.entity.api;
 
-import at.tugraz.sss.serv.datatype.par.SSPushEntitiesToUsersPar;
+import at.tugraz.sss.serv.datatype.par.SSEntityCopiedPar;
 
-public interface SSPushEntitiesToUsersI {
-  
-  public void pushEntitiesToUsers(final SSPushEntitiesToUsersPar par) throws Exception;
+public interface SSEntityCopiedI {
+  public void entityCopied        (final SSEntityCopiedPar         par) throws Exception;
 }
