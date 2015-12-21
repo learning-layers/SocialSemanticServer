@@ -197,8 +197,8 @@
     </dependency>
     
     <dependency>
-      <groupId>sss.serv</groupId>
-      <artifactId>serv1</artifactId>
+      <groupId>sss</groupId>
+      <artifactId>serv</artifactId>
       <version>${project.version}</version>
     </dependency>
     
@@ -246,7 +246,7 @@
     
     <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>serv1</artifactId>
+      <artifactId>serv</artifactId>
       <version>${project.version}</version>
     </dependency>
     

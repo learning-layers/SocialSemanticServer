@@ -8,7 +8,7 @@
     <version>1.0-SNAPSHOT</version>
   </parent>
   <groupId>sss.servs</groupId>
-  <artifactId>serv1</artifactId>
+  <artifactId>serv</artifactId>
   <version>1.0-SNAPSHOT</version>
   <name>jsonld.api</name>
   <url>http://maven.apache.org</url>
@@ -19,8 +19,8 @@
   <dependencies>
     
     <dependency>
-      <groupId>sss.serv</groupId>
-      <artifactId>serv1</artifactId>
+      <groupId>sss</groupId>
+      <artifactId>serv</artifactId>
       <version>${project.version}</version>
     </dependency>
     

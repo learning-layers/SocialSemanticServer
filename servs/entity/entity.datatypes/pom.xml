@@ -33,7 +33,7 @@
 
     <dependency>
       <groupId>sss.servs</groupId>
-      <artifactId>serv1</artifactId>
+      <artifactId>serv</artifactId>
       <version>${project.version}</version>
     </dependency>
         
