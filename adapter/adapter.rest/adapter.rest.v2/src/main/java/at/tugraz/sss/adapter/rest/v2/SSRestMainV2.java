@@ -25,7 +25,6 @@ import at.tugraz.sss.serv.util.SSFileU;
 import at.tugraz.sss.serv.util.SSJSONU;
 import at.tugraz.sss.serv.util.SSMimeTypeE;
 import at.tugraz.sss.serv.util.*;
-import at.tugraz.sss.serv.util.*;
 import at.kc.tugraz.ss.adapter.rest.conf.SSAdapterRestConf;
 import at.tugraz.sss.serv.util.SSJSONLDU;
 import at.tugraz.sss.conf.SSConf;
@@ -37,7 +36,7 @@ import javax.ws.rs.core.Application;
 import javax.ws.rs.core.HttpHeaders;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import at.tugraz.sss.serv.datatype.enums.SSErrE;
-import at.tugraz.sss.serv.datatype.par.SSServPar; import at.tugraz.sss.serv.util.*;
+import at.tugraz.sss.serv.datatype.par.SSServPar; 
 import java.io.InputStream;
 
 public class SSRestMainV2 extends Application {

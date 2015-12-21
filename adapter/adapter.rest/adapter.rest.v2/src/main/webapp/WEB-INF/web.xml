@@ -7,7 +7,11 @@
   </welcome-file-list>
   
   <display-name>SSAdapterRestV2</display-name>
-  
+
+  <listener>
+    <listener-class>at.tugraz.sss.adapter.rest.v2.SSRestMainV2Initializer</listener-class>
+  </listener>
+      
   <servlet>
     <servlet-name>SSRESTLivingDoc</servlet-name>
     <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>  
